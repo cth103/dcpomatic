@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-18 15:09+0100\n"
-"PO-Revision-Date: 2019-05-05 23:21+0200\n"
+"PO-Revision-Date: 2021-03-30 01:23+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:444
@@ -543,12 +543,11 @@ msgstr "Kopieer DCP naar TMS"
 
 #: src/lib/reel_writer.cc:188
 msgid "Copying old video file"
-msgstr ""
+msgstr "Kopiëren oud video-bestand"
 
 #: src/lib/reel_writer.cc:312
-#, fuzzy
 msgid "Copying video file into DCP"
-msgstr "Ongelijke beeldgroottes in DCP"
+msgstr "Kopiëren video-bestand naar DCP"
 
 #: src/lib/scp_uploader.cc:51
 msgid "Could not connect to server %1 (%2)"
@@ -1300,7 +1299,7 @@ msgstr "Tekst-ondertitels"
 
 #: src/lib/film.cc:317
 msgid "The DCP is empty, perhaps because all the content has zero length."
-msgstr ""
+msgstr "De DCP is leeg, misschien omdat alle content lengte nul heeft."
 
 #: src/lib/exceptions.cc:81
 msgid "The certificate chain for signing is invalid"
@@ -1316,6 +1315,9 @@ msgid ""
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
+"Het content-bestand %1 is ingesteld als 3D, maar lijkt geen 3D-beelden te "
+"bevatten.  Stel het in op 2D.  U kunt nog steeds een 3D-DCP van deze content "
+"maken door in het DCP/Video-tabblad de 3D-optie aan te vinken."
 
 #: src/lib/job.cc:119
 msgid ""
@@ -1430,9 +1432,8 @@ msgid "Unexpected image type received by server"
 msgstr "Onverwacht beeldtype ontvangen door server"
 
 #: src/lib/dcp_examiner.cc:184
-#, fuzzy
 msgid "Unknown"
-msgstr "onbekend"
+msgstr "Onbekend"
 
 #: src/lib/job.cc:222
 msgid "Unknown error"
@@ -1673,17 +1674,14 @@ msgid "could not move audio asset into the DCP (%1)"
 msgstr "kan audio asset niet naar de DCP verplaatsen (%1)"
 
 #: src/lib/exceptions.cc:34
-#, fuzzy
 msgid "could not open file %1 for read (%2)"
 msgstr "kan bestand %1 niet openen om te lezen (%2)"
 
 #: src/lib/exceptions.cc:33
-#, fuzzy
 msgid "could not open file %1 for read/write (%2)"
-msgstr "kan bestand %1 niet openen om te lezen (%2)"
+msgstr "kan bestand %1 niet openen om te lezen/schrijven (%2)"
 
 #: src/lib/exceptions.cc:34
-#, fuzzy
 msgid "could not open file %1 for write (%2)"
 msgstr "kan bestand %1 niet openen om te schrijven (%2)"
 

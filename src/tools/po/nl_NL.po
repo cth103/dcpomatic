@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-03-18 15:09+0100\n"
-"PO-Revision-Date: 2019-05-05 23:24+0200\n"
+"PO-Revision-Date: 2021-03-30 01:31+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:360
@@ -246,7 +246,7 @@ msgstr "Kan DCP niet laden van %s"
 
 #: src/tools/dcpomatic_batch.cc:450
 msgid "Could not load film %1"
-msgstr "Kan film %1 niet laden."
+msgstr "Kan film %1 niet laden"
 
 #: src/tools/dcpomatic.cc:1550
 msgid "Could not load film %1 (%2)"
@@ -260,11 +260,11 @@ msgstr "Kan DCP niet maken."
 #: src/tools/dcpomatic_batch.cc:214
 #, c-format
 msgid "Could not open film at %s"
-msgstr "Kan film niet openen op %s."
+msgstr "Kan film niet openen op %s"
 
 #: src/tools/dcpomatic.cc:449
 msgid "Could not open this folder as a DCP-o-matic project."
-msgstr ""
+msgstr "Kan deze map niet als DCP-o-matic project openen."
 
 #: src/tools/dcpomatic_kdm.cc:448
 msgid ""
@@ -284,11 +284,11 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:978
 msgid "Could not run konqueror"
-msgstr "Kan konqueror niet starten."
+msgstr "Kan konqueror niet starten"
 
 #: src/tools/dcpomatic.cc:971
 msgid "Could not run nautilus"
-msgstr "Kan nautilus niet starten."
+msgstr "Kan nautilus niet starten"
 
 #: src/tools/dcpomatic.cc:978 src/tools/dcpomatic.cc:987
 msgid "Could not show DCP"
@@ -362,7 +362,7 @@ msgstr "DCP-o-matic Playlist Editor"
 
 #: src/tools/dcpomatic_kdm.cc:624 src/tools/dcpomatic_playlist.cc:398
 msgid "DCP-o-matic could not start"
-msgstr "Kan DCP-o-matic niet starten."
+msgstr "Kan DCP-o-matic niet starten"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "DKDM"
@@ -470,6 +470,9 @@ msgid ""
 "o-matic projects, not DCPs.  To import a DCP, create a new project with File "
 "-> New and then click the \"Add DCP...\" button."
 msgstr ""
+"Het lijkt erop dat u een DCP probeert te openen.  \"Bestand -> Open\" is "
+"voor het laden van DCP-o-matic projecten.  Gebruik om een DCP te importeren "
+"\"Bestand -> Nieuw\" en klik daarna op de \"Voeg DCP toe...\" knop."
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:141
@@ -533,6 +536,8 @@ msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for DCP-o-matic."
 msgstr ""
+"Controleer a.u.b. of u geen door Windows gecontroleerde maptoegang heeft "
+"ingeschakeld voor DCP-o-matic."
 
 #: src/tools/dcpomatic_playlist.cc:183
 msgid "Question|N"
