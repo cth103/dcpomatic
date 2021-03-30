@@ -234,6 +234,7 @@ DCPOMATIC_DISABLE_WARNINGS
 		0, stream->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (stream), 1
 		);
 DCPOMATIC_ENABLE_WARNINGS
+	DCPOMATIC_ASSERT (size >= 0);
 
 	/* XXX: can't we just use _frame->nb_samples directly here? */
 	/* XXX: can't we use swr_convert() to do the format conversion? */
