@@ -307,7 +307,7 @@ void
 Butler::prepare (weak_ptr<PlayerVideo> weak_video)
 try
 {
-	shared_ptr<PlayerVideo> video = weak_video.lock ();
+	auto video = weak_video.lock ();
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
 		LOG_TIMING("start-prepare in %1", thread_id());
@@ -363,7 +363,7 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
 optional<DCPTime>
 Butler::get_audio (float* out, Frame frames)
 {
-	optional<DCPTime> t = _audio.get (out, _audio_channels, frames);
+	auto t = _audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
 	return t;
 }

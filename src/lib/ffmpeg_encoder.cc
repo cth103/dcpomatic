@@ -181,7 +181,7 @@ FFmpegEncoder::go ()
 			if (!v.first) {
 				throw DecodeError(String::compose("Error during decoding: %1", e.summary()));
 			}
-			shared_ptr<FFmpegFileEncoder> fe = encoder->get (v.first->eyes());
+			auto fe = encoder->get (v.first->eyes());
 			if (fe) {
 				fe->video(v.first, v.second);
 			}
@@ -194,7 +194,7 @@ FFmpegEncoder::go ()
 			_last_time = i;
 		}
 
-		shared_ptr<Job> job = _job.lock ();
+		auto job = _job.lock ();
 		if (job) {
 			job->set_progress (float(i.get()) / _film->length().get());
 		}
