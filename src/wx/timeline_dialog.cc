@@ -67,6 +67,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 
 	_toolbar = new wxToolBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
 	_toolbar->SetMargins (4, 4);
+	_toolbar->SetToolBitmapSize (wxSize(32, 32));
 	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
 	_toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
 	_toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom all"), zoom_all, _("Zoom out to whole film"));
