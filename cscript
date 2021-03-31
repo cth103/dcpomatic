@@ -589,6 +589,7 @@ def package_debian(target, cpu, version, options):
     shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
     target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
     os.chdir('dcpomatic-%s' % version)
+    target.set('EMAIL', 'carl@dcpomatic.com')
     target.command('dch -b -v %s-1 "New upstream release."' % version)
     target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
     target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
