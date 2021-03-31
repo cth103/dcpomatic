@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -115,6 +115,8 @@ private:
 	std::vector<NamedChannel> _input_channels;
 	std::vector<NamedChannel> _output_channels;
 	std::vector<Group> _input_groups;
+	std::vector<int> _column_widths;
+	int _column_widths_total = 0;
 
 	boost::optional<std::pair<NamedChannel, NamedChannel>> _last_tooltip_channels;
 };

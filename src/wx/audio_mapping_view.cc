@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -54,9 +54,12 @@ using namespace boost::placeholders;
 using dcp::locale_convert;
 
 static constexpr auto INDICATOR_SIZE = 20;
-static constexpr auto GRID_SPACING = 32;
-static constexpr auto LEFT_WIDTH = GRID_SPACING * 3;
-static constexpr auto TOP_HEIGHT = GRID_SPACING * 2;
+static constexpr auto ROW_HEIGHT = 32;
+static constexpr auto MINIMUM_COLUMN_WIDTH = 32;
+static constexpr auto LEFT_WIDTH = MINIMUM_COLUMN_WIDTH * 3;
+static constexpr auto TOP_HEIGHT = ROW_HEIGHT * 2;
+static constexpr auto COLUMN_PADDING = 16;
+static constexpr auto HORIZONTAL_PAGE_SIZE = 32;
 
 enum {
 	ID_off = 1,
@@ -144,16 +147,32 @@ AudioMappingView::setup ()
 	_vertical_scroll->SetScrollbar (
 		_vertical_scroll->GetThumbPosition(),
 		s.GetHeight() - h - 8,
-		GRID_SPACING * (2 + _input_channels.size()),
-		GRID_SPACING,
+		ROW_HEIGHT * (2 + _input_channels.size()),
+		ROW_HEIGHT,
 		true
 		);
+
+	wxClientDC dc (GetParent());
+	dc.SetFont (wxSWISS_FONT->Bold());
+
+	_column_widths.clear ();
+	_column_widths.reserve (_output_channels.size());
+	_column_widths_total = 0;
+
+	for (auto const& i: _output_channels) {
+		wxCoord width;
+		wxCoord height;
+		dc.GetTextExtent (std_to_wx(i.name), &width, &height);
+		auto const this_width = max(width + COLUMN_PADDING, MINIMUM_COLUMN_WIDTH);
+		_column_widths.push_back (this_width);
+		_column_widths_total += this_width;
+	}
 
 	_horizontal_scroll->SetScrollbar (
 		_horizontal_scroll->GetThumbPosition(),
 		s.GetWidth() - w - 8,
-		GRID_SPACING * (3 + _output_channels.size()),
-		GRID_SPACING,
+		LEFT_WIDTH + _column_widths_total,
+		HORIZONTAL_PAGE_SIZE,
 		true);
 }
 
@@ -171,13 +190,13 @@ AudioMappingView::paint_static (wxDC& dc)
 	wxCoord label_height;
 
 	dc.GetTextExtent (_top_label, &label_width, &label_height);
-	dc.DrawText (_top_label, LEFT_WIDTH + (_output_channels.size() * GRID_SPACING - label_width) / 2, (GRID_SPACING - label_height) / 2);
+	dc.DrawText (_top_label, LEFT_WIDTH + (_column_widths_total - label_width) / 2, (ROW_HEIGHT - label_height) / 2);
 
 	dc.GetTextExtent (_left_label, &label_width, &label_height);
 	dc.DrawRotatedText (
 		_left_label,
-		(GRID_SPACING - label_height) / 2,
-		TOP_HEIGHT + (_input_channels.size() * GRID_SPACING + label_width) / 2,
+		(ROW_HEIGHT - label_height) / 2,
+		TOP_HEIGHT + (_input_channels.size() * ROW_HEIGHT + label_width) / 2,
 		90
 		);
 
@@ -189,30 +208,33 @@ AudioMappingView::paint_column_labels (wxDC& dc)
 {
 	wxCoord label_width;
 	wxCoord label_height;
-	int N = 0;
-	for (auto const& i: _output_channels) {
-		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
-		dc.DrawText (std_to_wx(i.name), LEFT_WIDTH + GRID_SPACING * N + (GRID_SPACING - label_width) / 2, GRID_SPACING + (GRID_SPACING - label_height) / 2);
-		++N;
+	int x = LEFT_WIDTH;
+	for (auto i = 0U; i < _output_channels.size(); ++i) {
+		auto const name = std_to_wx(_output_channels[i].name);
+		dc.GetTextExtent (name, &label_width, &label_height);
+		dc.DrawText (name, x + (_column_widths[i] - label_width) / 2, ROW_HEIGHT + (ROW_HEIGHT - label_height) / 2);
+		x += _column_widths[i];
 	}
 
-	dc.DrawLine(wxPoint(LEFT_WIDTH, GRID_SPACING), wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, GRID_SPACING));
-	dc.DrawLine(wxPoint(LEFT_WIDTH, GRID_SPACING * 2), wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, GRID_SPACING * 2));
+	dc.DrawLine(wxPoint(LEFT_WIDTH, ROW_HEIGHT), wxPoint(LEFT_WIDTH + _column_widths_total, ROW_HEIGHT));
+	dc.DrawLine(wxPoint(LEFT_WIDTH, ROW_HEIGHT * 2), wxPoint(LEFT_WIDTH + _column_widths_total, ROW_HEIGHT * 2));
 }
 
 void
 AudioMappingView::paint_column_lines (wxDC& dc)
 {
+	int x = LEFT_WIDTH;
 	for (size_t i = 0; i < _output_channels.size(); ++i) {
 		dc.DrawLine (
-			wxPoint(LEFT_WIDTH + GRID_SPACING * i, GRID_SPACING),
-			wxPoint(LEFT_WIDTH + GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING)
+			wxPoint(x, ROW_HEIGHT),
+			wxPoint(x, TOP_HEIGHT + _input_channels.size() * ROW_HEIGHT)
 			);
+		x += _column_widths[i];
 	}
 
 	dc.DrawLine (
-		wxPoint(LEFT_WIDTH + GRID_SPACING * _output_channels.size(), GRID_SPACING),
-		wxPoint(LEFT_WIDTH + GRID_SPACING * _output_channels.size(), TOP_HEIGHT + _input_channels.size() * GRID_SPACING)
+		wxPoint(LEFT_WIDTH + _column_widths_total, ROW_HEIGHT),
+		wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + _input_channels.size() * ROW_HEIGHT)
 		);
 }
 
@@ -224,19 +246,18 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 
 	/* Row channel labels */
 
-	int N = 0;
-	for (auto const& i: _input_channels) {
-		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
-		dc.DrawText (std_to_wx(i.name), GRID_SPACING * 2 + (GRID_SPACING - label_width) / 2, TOP_HEIGHT + GRID_SPACING * N + (GRID_SPACING - label_height) / 2);
-		++N;
+	for (auto i = 0U; i < _input_channels.size(); ++i) {
+		auto const name = std_to_wx(_input_channels[i].name);
+		dc.GetTextExtent (name, &label_width, &label_height);
+		dc.DrawText (name, LEFT_WIDTH - MINIMUM_COLUMN_WIDTH + (MINIMUM_COLUMN_WIDTH - label_width) / 2, TOP_HEIGHT + ROW_HEIGHT * i + (ROW_HEIGHT - label_height) / 2);
 	}
 
 	/* Vertical lines on the left */
 
 	for (int i = 1; i < 3; ++i) {
 		dc.DrawLine (
-			wxPoint(GRID_SPACING * i, TOP_HEIGHT),
-			wxPoint(GRID_SPACING * i, TOP_HEIGHT + _input_channels.size() * GRID_SPACING)
+			wxPoint(MINIMUM_COLUMN_WIDTH * i, TOP_HEIGHT),
+			wxPoint(MINIMUM_COLUMN_WIDTH * i, TOP_HEIGHT + _input_channels.size() * ROW_HEIGHT)
 			);
 	}
 
@@ -244,32 +265,32 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 
 	int y = TOP_HEIGHT;
 	for (auto i: _input_groups) {
-		int const height = (i.to - i.from + 1) * GRID_SPACING;
+		int const height = (i.to - i.from + 1) * ROW_HEIGHT;
 		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
 		if (label_width > height) {
 			label_width = height - 8;
 		}
 
 		{
-			wxDCClipper clip (dc, wxRect(GRID_SPACING, y, GRID_SPACING, height));
+			wxDCClipper clip (dc, wxRect(MINIMUM_COLUMN_WIDTH, y, ROW_HEIGHT, height));
 			int yp = y;
-			if ((yp - 2 * GRID_SPACING) < dc.GetLogicalOrigin().y) {
+			if ((yp - 2 * ROW_HEIGHT) < dc.GetLogicalOrigin().y) {
 				yp += dc.GetLogicalOrigin().y;
 			}
 
 			dc.DrawRotatedText (
 				std_to_wx(i.name),
-				GRID_SPACING + (GRID_SPACING - label_height) / 2,
+				ROW_HEIGHT + (ROW_HEIGHT - label_height) / 2,
 				y + (height + label_width) / 2,
 				90
 				);
 		}
 
-		dc.DrawLine (wxPoint(GRID_SPACING, y), wxPoint(GRID_SPACING * 2, y));
+		dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
 		y += height;
 	}
 
-	dc.DrawLine (wxPoint(GRID_SPACING, y), wxPoint(GRID_SPACING * 2, y));
+	dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
 }
 
 void
@@ -277,13 +298,13 @@ AudioMappingView::paint_row_lines (wxDC& dc)
 {
 	for (size_t i = 0; i < _input_channels.size(); ++i) {
 		dc.DrawLine (
-			wxPoint(GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * i),
-			wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + GRID_SPACING * i)
+			wxPoint(MINIMUM_COLUMN_WIDTH * 2, TOP_HEIGHT + ROW_HEIGHT * i),
+			wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + ROW_HEIGHT * i)
 			);
 	}
 	dc.DrawLine (
-		wxPoint(GRID_SPACING * 2, TOP_HEIGHT + GRID_SPACING * _input_channels.size()),
-		wxPoint(LEFT_WIDTH + _output_channels.size() * GRID_SPACING, TOP_HEIGHT + GRID_SPACING * _input_channels.size())
+		wxPoint(MINIMUM_COLUMN_WIDTH * 2, TOP_HEIGHT + ROW_HEIGHT * _input_channels.size()),
+		wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + ROW_HEIGHT * _input_channels.size())
 		);
 }
 
@@ -294,19 +315,20 @@ AudioMappingView::paint_indicators (wxDC& dc)
 	size_t const output = min(_output_channels.size(), size_t(_map.output_channels()));
 	size_t const input = min(_input_channels.size(), size_t(_map.input_channels()));
 
+	int xp = LEFT_WIDTH;
 	for (size_t x = 0; x < output; ++x) {
 		for (size_t y = 0; y < input; ++y) {
 			dc.SetBrush (*wxWHITE_BRUSH);
 			dc.DrawRectangle (
 				wxRect(
-					LEFT_WIDTH + x * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
-					TOP_HEIGHT + y * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
+					xp + (_column_widths[x] - INDICATOR_SIZE) / 2,
+					TOP_HEIGHT + y * ROW_HEIGHT + (ROW_HEIGHT - INDICATOR_SIZE) / 2,
 					INDICATOR_SIZE, INDICATOR_SIZE
 					)
 				);
 
 			float const value_dB = linear_to_db(_map.get(_input_channels[y].index, _output_channels[x].index));
-			wxColour const colour = value_dB <= 0 ? wxColour(0, 255, 0) : wxColour(255, 150, 0);
+			auto const colour = value_dB <= 0 ? wxColour(0, 255, 0) : wxColour(255, 150, 0);
 			int const range = 18;
 			int height = 0;
 			if (value_dB > -range) {
@@ -316,12 +338,14 @@ AudioMappingView::paint_indicators (wxDC& dc)
 			dc.SetBrush (*wxTheBrushList->FindOrCreateBrush(colour, wxBRUSHSTYLE_SOLID));
 			dc.DrawRectangle (
 				wxRect(
-					LEFT_WIDTH + x * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2,
-					TOP_HEIGHT + y * GRID_SPACING + (GRID_SPACING - INDICATOR_SIZE) / 2 + INDICATOR_SIZE - height,
+					xp + (_column_widths[x] - INDICATOR_SIZE) / 2,
+					TOP_HEIGHT + y * ROW_HEIGHT + (ROW_HEIGHT - INDICATOR_SIZE) / 2 + INDICATOR_SIZE - height,
 					INDICATOR_SIZE, height
 					)
 				);
+
 		}
+		xp += _column_widths[x];
 	}
 }
 
@@ -358,8 +382,8 @@ AudioMappingView::paint ()
 		dc,
 		LEFT_WIDTH,
 		0,
-		GRID_SPACING * _output_channels.size(),
-		GRID_SPACING * (2 + _input_channels.size())
+		_column_widths_total,
+		ROW_HEIGHT * (2 + _input_channels.size())
 	     );
 	translate (dc, hs, 0);
 	paint_column_labels (dc);
@@ -369,8 +393,8 @@ AudioMappingView::paint ()
 		dc,
 		0,
 		TOP_HEIGHT,
-		GRID_SPACING * 3,
-		min(int(GRID_SPACING * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
+		LEFT_WIDTH,
+		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
 	translate (dc, 0, vs);
 	paint_row_labels (dc);
@@ -378,10 +402,10 @@ AudioMappingView::paint ()
 
 	clip (
 		dc,
-		GRID_SPACING * 2,
+		MINIMUM_COLUMN_WIDTH * 2,
 		TOP_HEIGHT,
-		GRID_SPACING * (1 + _output_channels.size()),
-		min(int(GRID_SPACING * (2 + _input_channels.size())), GetSize().GetHeight() - TOP_HEIGHT)
+		MINIMUM_COLUMN_WIDTH + _column_widths_total,
+		min(int(ROW_HEIGHT * (2 + _input_channels.size())), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
 	translate (dc, hs, vs);
 	paint_row_lines (dc);
@@ -390,9 +414,9 @@ AudioMappingView::paint ()
 	clip (
 		dc,
 		LEFT_WIDTH,
-		GRID_SPACING,
-		GRID_SPACING * (1 + _output_channels.size()),
-		min(int(GRID_SPACING * (1 + _input_channels.size())), GetSize().GetHeight() - GRID_SPACING)
+		MINIMUM_COLUMN_WIDTH,
+		MINIMUM_COLUMN_WIDTH + _column_widths_total,
+		min(int(ROW_HEIGHT * (1 + _input_channels.size())), GetSize().GetHeight() - ROW_HEIGHT)
 	     );
 	translate (dc, hs, vs);
 	paint_column_lines (dc);
@@ -402,8 +426,8 @@ AudioMappingView::paint ()
 		dc,
 		LEFT_WIDTH,
 		TOP_HEIGHT,
-		GRID_SPACING * _output_channels.size(),
-		min(int(GRID_SPACING * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
+		_column_widths_total,
+		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
 	translate (dc, hs, vs);
 	paint_indicators (dc);
@@ -413,15 +437,24 @@ AudioMappingView::paint ()
 optional<pair<NamedChannel, NamedChannel>>
 AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 {
-	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
+	int x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
 	int const y = ev.GetY() + _vertical_scroll->GetThumbPosition();
 
 	if (x <= LEFT_WIDTH || y < TOP_HEIGHT) {
 		return {};
 	}
 
-	int const input = (y - TOP_HEIGHT) / GRID_SPACING;
-	int const output = (x - LEFT_WIDTH) / GRID_SPACING;
+	int const input = (y - TOP_HEIGHT) / ROW_HEIGHT;
+
+	x -= LEFT_WIDTH;
+	int output = 0;
+	for (auto const i: _column_widths) {
+		x -= i;
+		if (x < 0) {
+			break;
+		}
+		++output;
+	}
 
 	if (input >= int(_input_channels.size()) || output >= int(_output_channels.size())) {
 		return {};
@@ -434,11 +467,11 @@ optional<string>
 AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
 {
 	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
-	if (x < GRID_SPACING || x > (2 * GRID_SPACING)) {
+	if (x < MINIMUM_COLUMN_WIDTH || x > (2 * MINIMUM_COLUMN_WIDTH)) {
 		return {};
 	}
 
-	int y = (ev.GetY() + _vertical_scroll->GetThumbPosition() - (GRID_SPACING * 2)) / GRID_SPACING;
+	int const y = (ev.GetY() + _vertical_scroll->GetThumbPosition() - TOP_HEIGHT) / ROW_HEIGHT;
 	for (auto i: _input_groups) {
 		if (i.from <= y && y <= i.to) {
 			return i.name;
@@ -483,12 +516,12 @@ AudioMappingView::mouse_wheel (wxMouseEvent& ev)
 {
 	if (ev.ShiftDown()) {
 		_horizontal_scroll->SetThumbPosition (
-			_horizontal_scroll->GetThumbPosition() + (ev.GetWheelRotation() > 0 ? -GRID_SPACING : GRID_SPACING)
+			_horizontal_scroll->GetThumbPosition() + (ev.GetWheelRotation() > 0 ? -HORIZONTAL_PAGE_SIZE : HORIZONTAL_PAGE_SIZE)
 			);
 
 	} else {
 		_vertical_scroll->SetThumbPosition (
-			_vertical_scroll->GetThumbPosition() + (ev.GetWheelRotation() > 0 ? -GRID_SPACING : GRID_SPACING)
+			_vertical_scroll->GetThumbPosition() + (ev.GetWheelRotation() > 0 ? -ROW_HEIGHT : ROW_HEIGHT)
 			);
 	}
 	Refresh ();
@@ -571,7 +604,7 @@ AudioMappingView::motion (wxMouseEvent& ev)
 	if (channels) {
 		if (channels != _last_tooltip_channels) {
 			wxString s;
-			float const gain = _map.get(channels->first.index, channels->second.index);
+			auto const gain = _map.get(channels->first.index, channels->second.index);
 			if (gain == 0) {
 				s = wxString::Format (
 					_("No audio will be passed from %s channel '%s' to %s channel '%s'."),
@@ -589,7 +622,7 @@ AudioMappingView::motion (wxMouseEvent& ev)
 					std_to_wx(channels->second.name)
 					);
 			} else {
-				float const dB = linear_to_db(gain);
+				auto const dB = linear_to_db(gain);
 				s = wxString::Format (
 					_("Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."),
 					_from,
