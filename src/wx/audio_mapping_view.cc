@@ -53,10 +53,10 @@ using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
 
-#define INDICATOR_SIZE 20
-#define GRID_SPACING 32
-#define LEFT_WIDTH (GRID_SPACING * 3)
-#define TOP_HEIGHT (GRID_SPACING * 2)
+static constexpr auto INDICATOR_SIZE = 20;
+static constexpr auto GRID_SPACING = 32;
+static constexpr auto LEFT_WIDTH = GRID_SPACING * 3;
+static constexpr auto TOP_HEIGHT = GRID_SPACING * 2;
 
 enum {
 	ID_off = 1,
@@ -129,7 +129,7 @@ AudioMappingView::size (wxSizeEvent& ev)
 void
 AudioMappingView::setup ()
 {
-	wxSize const s = GetSize();
+	auto const s = GetSize();
 	int const w = _vertical_scroll->GetSize().GetWidth();
 	int const h = _horizontal_scroll->GetSize().GetHeight();
 
@@ -410,24 +410,24 @@ AudioMappingView::paint ()
 	restore (dc);
 }
 
-optional<pair<NamedChannel, NamedChannel> >
+optional<pair<NamedChannel, NamedChannel>>
 AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 {
 	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
 	int const y = ev.GetY() + _vertical_scroll->GetThumbPosition();
 
 	if (x <= LEFT_WIDTH || y < TOP_HEIGHT) {
-		return optional<pair<NamedChannel, NamedChannel> >();
+		return {};
 	}
 
 	int const input = (y - TOP_HEIGHT) / GRID_SPACING;
 	int const output = (x - LEFT_WIDTH) / GRID_SPACING;
 
 	if (input >= int(_input_channels.size()) || output >= int(_output_channels.size())) {
-		return optional<pair<NamedChannel, NamedChannel> >();
+		return {};
 	}
 
-	return make_pair (_input_channels[input], _output_channels[output]);
+	return make_pair(_input_channels[input], _output_channels[output]);
 }
 
 optional<string>
@@ -435,7 +435,7 @@ AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
 {
 	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
 	if (x < GRID_SPACING || x > (2 * GRID_SPACING)) {
-		return optional<string>();
+		return {};
 	}
 
 	int y = (ev.GetY() + _vertical_scroll->GetThumbPosition() - (GRID_SPACING * 2)) / GRID_SPACING;
@@ -445,13 +445,13 @@ AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
 		}
 	}
 
-	return optional<string>();
+	return {};
 }
 
 void
 AudioMappingView::left_down (wxMouseEvent& ev)
 {
-	optional<pair<NamedChannel, NamedChannel> > channels = mouse_event_to_channels (ev);
+	auto channels = mouse_event_to_channels (ev);
 	if (!channels) {
 		return;
 	}
@@ -468,7 +468,7 @@ AudioMappingView::left_down (wxMouseEvent& ev)
 void
 AudioMappingView::right_down (wxMouseEvent& ev)
 {
-	optional<pair<NamedChannel, NamedChannel> > channels = mouse_event_to_channels (ev);
+	auto channels = mouse_event_to_channels (ev);
 	if (!channels) {
 		return;
 	}
@@ -499,7 +499,7 @@ void
 AudioMappingView::map_values_changed ()
 {
 	Changed (_map);
-	_last_tooltip_channels = optional<pair<NamedChannel, NamedChannel> >();
+	_last_tooltip_channels = boost::none;
 	Refresh ();
 }
 
@@ -513,7 +513,7 @@ AudioMappingView::set_gain_from_menu (double linear)
 void
 AudioMappingView::edit ()
 {
-	AudioGainDialog* dialog = new AudioGainDialog (this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
+	auto dialog = new AudioGainDialog (this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
 	if (dialog->ShowModal() == wxID_OK) {
 		_map.set (_menu_input, _menu_output, dialog->value ());
 		map_values_changed ();
@@ -567,7 +567,7 @@ AudioMappingView::input_channel_name_with_group (NamedChannel const& n) const
 void
 AudioMappingView::motion (wxMouseEvent& ev)
 {
-	optional<pair<NamedChannel, NamedChannel> > channels = mouse_event_to_channels (ev);
+	auto channels = mouse_event_to_channels (ev);
 	if (channels) {
 		if (channels != _last_tooltip_channels) {
 			wxString s;
@@ -603,7 +603,7 @@ AudioMappingView::motion (wxMouseEvent& ev)
 			SetToolTip (s + " " + _("Right click to change gain."));
 		}
 	} else {
-		optional<string> group = mouse_event_to_input_group_name (ev);
+		auto group = mouse_event_to_input_group_name (ev);
 		if (group) {
 			SetToolTip (std_to_wx(*group));
 		} else {

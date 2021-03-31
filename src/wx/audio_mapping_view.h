@@ -101,10 +101,10 @@ private:
 
 	AudioMapping _map;
 
-	wxMenu* _menu;
-	wxPanel* _body;
-	wxScrollBar* _vertical_scroll;
-	wxScrollBar* _horizontal_scroll;
+	wxMenu* _menu = nullptr;
+	wxPanel* _body = nullptr;
+	wxScrollBar* _vertical_scroll = nullptr;
+	wxScrollBar* _horizontal_scroll = nullptr;
 	int _menu_input;
 	int _menu_output;
 
@@ -117,5 +117,5 @@ private:
 	std::vector<NamedChannel> _output_channels;
 	std::vector<Group> _input_groups;
 
-	boost::optional<std::pair<NamedChannel, NamedChannel> > _last_tooltip_channels;
+	boost::optional<std::pair<NamedChannel, NamedChannel>> _last_tooltip_channels;
 };
