@@ -77,7 +77,6 @@ public:
 
 private:
 	void map_values_changed ();
-	void setup_sizes ();
 	void paint ();
 	void paint_static (wxDC& dc);
 	void paint_column_labels (wxDC& dc);
