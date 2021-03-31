@@ -331,6 +331,18 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 
 
 /** Test export of a 3D DCP in a 2D project */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_3d_dcp_to_h264)
+{
+	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "XMenDarkPhoenix_TLR-12-3D_F_DE-XX_DE_51_2K_TCFG_20190227_TM_IOP-3D_OV");
+	auto film2 = new_test_film2 ("ffmpeg_encoder_3d_dcp_to_h264_export", {dcp});
+
+	auto job = make_shared<TranscodeJob> (film2);
+	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_3d_dcp_to_h264.mp4", ExportFormat::H264_AAC, true, false, false, 23);
+	encoder.go ();
+}
+
+
+/** Test export of a 3D DCP in a 2D project */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 {
 	auto L = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
