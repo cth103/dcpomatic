@@ -29,18 +29,12 @@ deb_build_depends = dict()
 
 deb_build_depends_base = ['debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev', 'libx264-dev']
 
-deb_build_depends['16.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['16.04'].extend(['libssh-dev'])
-deb_build_depends['18.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['18.04'].extend(['libssh-dev'])
-deb_build_depends['20.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['20.04'].extend(['libssh-dev'])
-deb_build_depends['20.10'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['20.10'].extend(['libssh-dev'])
-deb_build_depends['9'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['9'].extend(['libssh-gcrypt-dev'])
-deb_build_depends['10'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['10'].extend(['libssh-gcrypt-dev'])
+for v in ['16.04', '18.04', '20.04', '20.10', '21.04']: 
+    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
+    deb_build_depends[v].extend(['libssh-dev'])
+for v in ['9', '10']:
+    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
+    deb_build_depends[v].extend(['libssh-gcrypt-dev'])
 deb_build_depends['unstable'] = copy.deepcopy(deb_build_depends_base)
 
 deb_depends = dict()
@@ -119,6 +113,25 @@ deb_depends['20.10'].extend(['libboost-filesystem1.71.0',
                              'libpulse0',
                              'libxerces-c3.2',
                              'libnanomsg5'])
+
+deb_depends['21.04'] = copy.deepcopy(deb_depends_base)
+deb_depends['21.04'].extend(['libboost-filesystem1.74.0',
+                             'libboost-thread1.74.0',
+                             'libboost-regex1.74.0',
+                             'libboost-date-time1.74.0',
+                             'libcairomm-1.0-1v5',
+                             'libpangomm-1.4-1v5',
+                             'libxml++2.6-2v5',
+                             'libzip4',
+                             'libicu67',
+                             'libnettle8',
+                             'libssh-4',
+                             'libx264-160',
+                             'libcurl4',
+                             'libpulse0',
+                             'libxerces-c3.2',
+                             'libnanomsg5'])
+
 
 deb_depends['9'] = copy.deepcopy(deb_depends_base)
 deb_depends['9'].extend(['libboost-filesystem1.62.0',
