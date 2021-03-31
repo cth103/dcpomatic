@@ -261,10 +261,18 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 			);
 	}
 
-	/* Group labels and lines */
-
 	int y = TOP_HEIGHT;
-	for (auto i: _input_groups) {
+	for (auto const& i: _input_groups) {
+		dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
+		y += (i.to - i.from + 1) * ROW_HEIGHT;
+	}
+	dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
+
+	/* Group labels and lines; be careful here as wxDCClipper does not restore the old
+	 * clipping rectangle after it is destroyed
+	 */
+	y = TOP_HEIGHT;
+	for (auto const& i: _input_groups) {
 		int const height = (i.to - i.from + 1) * ROW_HEIGHT;
 		dc.GetTextExtent (std_to_wx(i.name), &label_width, &label_height);
 		if (label_width > height) {
@@ -286,11 +294,8 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 				);
 		}
 
-		dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
 		y += height;
 	}
-
-	dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
 }
 
 void
