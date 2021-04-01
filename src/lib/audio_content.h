@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,20 @@
 
 */
 
+
 /** @file  src/lib/audio_content.h
  *  @brief AudioContent and AudioContentProperty classes.
  */
 
+
 #ifndef DCPOMATIC_AUDIO_CONTENT_H
 #define DCPOMATIC_AUDIO_CONTENT_H
+
 
 #include "content_part.h"
 #include "audio_stream.h"
 #include "audio_mapping.h"
+
 
 /** @class AudioContentProperty
  *  @brief Names for properties of AudioContent.
@@ -40,11 +44,13 @@ public:
 	static int const DELAY;
 };
 
+
 class AudioContent : public ContentPart
 {
 public:
 	explicit AudioContent (Content* parent);
-	AudioContent (Content* parent, std::vector<std::shared_ptr<Content> >);
+	AudioContent (Content* parent, std::vector<std::shared_ptr<Content>>);
+	AudioContent (Content* parent, cxml::ConstNodePtr);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
@@ -89,12 +95,10 @@ public:
 
 private:
 
-	AudioContent (Content* parent, cxml::ConstNodePtr);
-
 	/** Gain to apply to audio in dB */
-	double _gain;
+	double _gain = 0;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
-	int _delay;
+	int _delay = 0;
 	std::vector<AudioStreamPtr> _streams;
 };
 

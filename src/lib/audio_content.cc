@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,13 @@
 
 */
 
+
 #include "audio_content.h"
-#include "film.h"
-#include "exceptions.h"
-#include "config.h"
-#include "frame_rate_change.h"
 #include "compose.hpp"
+#include "config.h"
+#include "exceptions.h"
+#include "film.h"
+#include "frame_rate_change.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -31,31 +32,35 @@
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
-using std::vector;
+using std::dynamic_pointer_cast;
 using std::fixed;
 using std::list;
+using std::make_shared;
 using std::pair;
 using std::setprecision;
 using std::shared_ptr;
-using std::dynamic_pointer_cast;
+using std::string;
+using std::vector;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 /** Something stream-related has changed */
 int const AudioContentProperty::STREAMS = 200;
 int const AudioContentProperty::GAIN = 201;
 int const AudioContentProperty::DELAY = 202;
 
+
 AudioContent::AudioContent (Content* parent)
 	: ContentPart (parent)
-	, _gain (0)
-	, _delay (Config::instance()->default_audio_delay ())
+	, _delay (Config::instance()->default_audio_delay())
 {
 
 }
+
 
 shared_ptr<AudioContent>
 AudioContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
@@ -65,18 +70,19 @@ AudioContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		   audio streams, so check for that.
 		*/
 		if (node->string_child("Type") == "FFmpeg" && node->node_children("AudioStream").empty()) {
-			return shared_ptr<AudioContent> ();
+			return {};
 		}
 
 		/* Otherwise we can drop through to the newer logic */
 	}
 
 	if (!node->optional_number_child<double> ("AudioGain")) {
-		return shared_ptr<AudioContent> ();
+		return {};
 	}
 
-	return shared_ptr<AudioContent> (new AudioContent (parent, node));
+	return make_shared<AudioContent>(parent, node);
 }
+
 
 AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 	: ContentPart (parent)
@@ -85,16 +91,17 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 	_delay = node->number_child<int> ("AudioDelay");
 
 	/* Backwards compatibility */
-	optional<double> r = node->optional_number_child<double> ("AudioVideoFrameRate");
+	auto r = node->optional_number_child<double>("AudioVideoFrameRate");
 	if (r) {
-		_parent->set_video_frame_rate (r.get ());
+		_parent->set_video_frame_rate (r.get());
 	}
 }
+
 
 AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content> > c)
 	: ContentPart (parent)
 {
-	shared_ptr<AudioContent> ref = c[0]->audio;
+	auto ref = c[0]->audio;
 	DCPOMATIC_ASSERT (ref);
 
 	for (size_t i = 1; i < c.size(); ++i) {
@@ -112,13 +119,15 @@ AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content> > c)
 	_streams = ref->streams ();
 }
 
+
 void
 AudioContent::as_xml (xmlpp::Node* node) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("AudioGain")->add_child_text (raw_convert<string> (_gain));
-	node->add_child("AudioDelay")->add_child_text (raw_convert<string> (_delay));
+	node->add_child("AudioGain")->add_child_text(raw_convert<string>(_gain));
+	node->add_child("AudioDelay")->add_child_text(raw_convert<string>(_delay));
 }
+
 
 void
 AudioContent::set_gain (double g)
@@ -126,11 +135,13 @@ AudioContent::set_gain (double g)
 	maybe_set (_gain, g, AudioContentProperty::GAIN);
 }
 
+
 void
 AudioContent::set_delay (int d)
 {
 	maybe_set (_delay, d, AudioContentProperty::DELAY);
 }
+
 
 string
 AudioContent::technical_summary () const
@@ -143,6 +154,7 @@ AudioContent::technical_summary () const
 	return s;
 }
 
+
 void
 AudioContent::set_mapping (AudioMapping mapping)
 {
@@ -150,16 +162,17 @@ AudioContent::set_mapping (AudioMapping mapping)
 
 	int c = 0;
 	for (auto i: streams()) {
-		AudioMapping stream_mapping (i->channels (), MAX_DCP_AUDIO_CHANNELS);
+		AudioMapping stream_mapping (i->channels(), MAX_DCP_AUDIO_CHANNELS);
 		for (int j = 0; j < i->channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
-				stream_mapping.set (j, k, mapping.get (c, k));
+				stream_mapping.set (j, k, mapping.get(c, k));
 			}
 			++c;
 		}
 		i->set_mapping (stream_mapping);
 	}
 }
+
 
 AudioMapping
 AudioContent::mapping () const
@@ -175,11 +188,11 @@ AudioContent::mapping () const
 	int c = 0;
 	int s = 0;
 	for (auto i: streams()) {
-		AudioMapping mapping = i->mapping ();
+		auto mapping = i->mapping ();
 		for (int j = 0; j < mapping.input_channels(); ++j) {
 			for (int k = 0; k < MAX_DCP_AUDIO_CHANNELS; ++k) {
 				if (k < mapping.output_channels()) {
-					merged.set (c, k, mapping.get (j, k));
+					merged.set (c, k, mapping.get(j, k));
 				}
 			}
 			++c;
@@ -189,6 +202,7 @@ AudioContent::mapping () const
 
 	return merged;
 }
+
 
 /** @return the frame rate that this content should be resampled to in order
  *  that it is in sync with the active video content at its start time.
@@ -215,7 +229,7 @@ AudioContent::resampled_frame_rate (shared_ptr<const Film> film) const
 string
 AudioContent::processing_description (shared_ptr<const Film> film) const
 {
-	if (streams().empty ()) {
+	if (streams().empty()) {
 		return "";
 	}
 
@@ -263,6 +277,7 @@ AudioContent::processing_description (shared_ptr<const Film> film) const
 	return "";
 }
 
+
 /** @return User-visible names of each of our audio channels */
 vector<NamedChannel>
 AudioContent::channel_names () const
@@ -281,17 +296,18 @@ AudioContent::channel_names () const
 	return n;
 }
 
+
 void
 AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
 {
 	shared_ptr<const AudioStream> stream;
 	if (streams().size() == 1) {
-		stream = streams().front ();
+		stream = streams().front();
 	}
 
 	if (stream) {
-		p.push_back (UserProperty (UserProperty::AUDIO, _("Channels"), stream->channels ()));
-		p.push_back (UserProperty (UserProperty::AUDIO, _("Content audio sample rate"), stream->frame_rate(), _("Hz")));
+		p.push_back (UserProperty(UserProperty::AUDIO, _("Channels"), stream->channels()));
+		p.push_back (UserProperty(UserProperty::AUDIO, _("Content audio sample rate"), stream->frame_rate(), _("Hz")));
 	}
 
 	FrameRateChange const frc (_parent->active_video_frame_rate(film), film->video_frame_rate());
@@ -311,8 +327,8 @@ AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p
 			);
 	}
 
-	p.push_back (UserProperty (UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate(film), _("Hz")));
-	p.push_back (UserProperty (UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round (frc.dcp)));
+	p.push_back (UserProperty(UserProperty::AUDIO, _("DCP sample rate"), resampled_frame_rate(film), _("Hz")));
+	p.push_back (UserProperty(UserProperty::LENGTH, _("Full length in video frames at DCP rate"), c.frames_round (frc.dcp)));
 
 	if (stream) {
 		p.push_back (
@@ -325,6 +341,7 @@ AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p
 	}
 }
 
+
 void
 AudioContent::set_streams (vector<AudioStreamPtr> streams)
 {
@@ -336,6 +353,7 @@ AudioContent::set_streams (vector<AudioStreamPtr> streams)
 	}
 }
 
+
 AudioStreamPtr
 AudioContent::stream () const
 {
@@ -343,6 +361,7 @@ AudioContent::stream () const
 	DCPOMATIC_ASSERT (_streams.size() == 1);
 	return _streams.front ();
 }
+
 
 void
 AudioContent::add_stream (AudioStreamPtr stream)
@@ -355,6 +374,7 @@ AudioContent::add_stream (AudioStreamPtr stream)
 	}
 }
 
+
 void
 AudioContent::set_stream (AudioStreamPtr stream)
 {
@@ -366,6 +386,7 @@ AudioContent::set_stream (AudioStreamPtr stream)
 		_streams.push_back (stream);
 	}
 }
+
 
 void
 AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
@@ -383,11 +404,13 @@ AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 	}
 }
 
+
 void
 AudioContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
 {
 	pos = pos.round (film->audio_frame_rate());
 }
+
 
 void
 AudioContent::modify_trim_start (ContentTime& trim) const
