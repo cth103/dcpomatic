@@ -43,13 +43,6 @@ using namespace boost::placeholders;
 
 
 static string
-additional_subtitle_language_column (dcp::LanguageTag r, int)
-{
-	return r.to_string();
-}
-
-
-static string
 ratings_column (dcp::Rating r, int c)
 {
 	if (c == 0) {
