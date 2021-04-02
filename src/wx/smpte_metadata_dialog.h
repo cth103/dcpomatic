@@ -21,6 +21,7 @@
 
 #include "editable_list.h"
 #include "full_language_tag_dialog.h"
+#include "metadata_dialog.h"
 #include "lib/film.h"
 #include "lib/weak_film.h"
 #include <dcp/language_tag.h>
@@ -36,14 +37,17 @@ class LanguageTagWidget;
 class LanguageTagDialog;
 
 
-class SMPTEMetadataDialog : public wxDialog, public WeakFilm
+class SMPTEMetadataDialog : public MetadataDialog
 {
 public:
 	SMPTEMetadataDialog (wxWindow* parent, std::weak_ptr<Film> film);
 
+	void setup () override;
+
 private:
-	wxPanel* main_panel (wxWindow* parent);
-	wxPanel* advanced_panel (wxWindow* parent);
+	void setup_standard (wxPanel* parent, wxSizer* sizer) override;
+	void setup_advanced (wxPanel* parent, wxSizer* sizer) override;
+
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
 	std::vector<std::string> content_versions () const;

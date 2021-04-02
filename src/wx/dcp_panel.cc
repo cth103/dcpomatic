@@ -331,6 +331,7 @@ DCPPanel::metadata_clicked ()
 		}
 
 		_smpte_metadata_dialog = new SMPTEMetadataDialog (_panel, _film);
+		_smpte_metadata_dialog->setup ();
 		_smpte_metadata_dialog->Show ();
 	}
 }

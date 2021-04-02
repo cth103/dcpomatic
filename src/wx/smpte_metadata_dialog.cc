@@ -28,7 +28,6 @@
 #include "lib/film.h"
 #include <dcp/types.h>
 #include <wx/gbsizer.h>
-#include <wx/notebook.h>
 #include <wx/spinctrl.h>
 
 
@@ -60,13 +59,10 @@ content_versions_column (string v, int)
 }
 
 
-wxPanel *
-SMPTEMetadataDialog::main_panel (wxWindow* parent)
+void
+SMPTEMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 {
-	auto panel = new wxPanel (parent, wxID_ANY);
-
-	auto sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	sizer->AddGrowableCol (1, 1);
+	MetadataDialog::setup_standard (panel, sizer);
 
 	add_label_to_sizer (sizer, panel, _("Title language"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_name_language = new LanguageTagWidget(
@@ -98,22 +94,13 @@ SMPTEMetadataDialog::main_panel (wxWindow* parent)
 		false
 		);
 	sizer->Add (_ratings, 1, wxEXPAND);
-
-	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-	panel->SetSizer (overall_sizer);
-
-	return panel;
 }
 
 
-wxPanel *
-SMPTEMetadataDialog::advanced_panel (wxWindow* parent)
+void
+SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 {
-	auto panel = new wxPanel (parent, wxID_ANY);
-
-	auto sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	sizer->AddGrowableCol (1, 1);
+	MetadataDialog::setup_advanced (panel, sizer);
 
 	_enable_release_territory = new wxCheckBox (panel, wxID_ANY, _("Release territory"));
 	sizer->Add (_enable_release_territory, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
@@ -182,34 +169,20 @@ SMPTEMetadataDialog::advanced_panel (wxWindow* parent)
 		false
 		);
 	sizer->Add (_content_versions, 1, wxEXPAND);
-
-	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
-	panel->SetSizer (overall_sizer);
-
-	return panel;
 }
 
 
 SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_film)
-	: wxDialog (parent, wxID_ANY, _("Metadata"))
-	, WeakFilm (weak_film)
+	: MetadataDialog (parent, weak_film)
 {
-	auto notebook = new wxNotebook (this, wxID_ANY);
-	notebook->AddPage (main_panel(notebook), _("Standard"));
-	notebook->AddPage (advanced_panel(notebook), _("Advanced"));
 
-	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
-	overall_sizer->Add (notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+}
 
-	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
-	if (buttons) {
-		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
 
-	SetSizer (overall_sizer);
-	overall_sizer->Layout ();
-	overall_sizer->SetSizeHints (this);
+void
+SMPTEMetadataDialog::setup ()
+{
+	MetadataDialog::setup ();
 
 	_status->Append (_("Temporary"));
 	_status->Append (_("Pre-release"));
@@ -231,8 +204,6 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_release_territory_changed, this));
-
-	_version_number->SetFocus ();
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&SMPTEMetadataDialog::film_changed, this, _1, _2));
 
