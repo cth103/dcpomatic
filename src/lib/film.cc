@@ -961,10 +961,10 @@ Film::isdcf_name (bool if_created_now) const
 		auto territory = _release_territory->subtag();
 		transform (territory.begin(), territory.end(), territory.begin(), ::toupper);
 		d += "_" + territory;
-		if (dm.rating.empty ()) {
+		if (_ratings.empty ()) {
 			d += "-NR";
 		} else {
-			d += "-" + dm.rating;
+			d += "-" + _ratings[0].label;
 		}
 	}
 

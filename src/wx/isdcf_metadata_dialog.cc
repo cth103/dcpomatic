@@ -35,9 +35,6 @@ using std::shared_ptr;
 ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bool threed)
 	: TableDialog (parent, _("ISDCF name"), 2, 1, true)
 {
-	add (_("Rating (e.g. 15)"), true);
-	_rating = add (new wxTextCtrl (this, wxID_ANY));
-
 	add (_("Studio (e.g. TCF)"), true);
 	_studio = add (new wxTextCtrl (this, wxID_ANY));
 
@@ -66,7 +63,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
 
-	_rating->SetValue (std_to_wx (dm.rating));
 	_studio->SetValue (std_to_wx (dm.studio));
 	_facility->SetValue (std_to_wx (dm.facility));
 	_temp_version->SetValue (dm.temp_version);
@@ -85,7 +81,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 {
 	ISDCFMetadata dm;
 
-	dm.rating = wx_to_std (_rating->GetValue ());
 	dm.studio = wx_to_std (_studio->GetValue ());
 	dm.facility = wx_to_std (_facility->GetValue ());
 	dm.temp_version = _temp_version->GetValue ();

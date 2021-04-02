@@ -62,8 +62,8 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	audio->audio->set_language(dcp::LanguageTag("en-US"));
 	film->set_content_versions({"1"});
 	film->set_release_territory(dcp::LanguageTag::RegionSubtag("GB"));
+	film->set_ratings({dcp::Rating("BBFC", "PG")});
 	ISDCFMetadata m;
-	m.rating = "PG";
 	m.studio = "ST";
 	m.facility = "FA";
 	film->set_isdcf_metadata (m);
@@ -90,13 +90,13 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->examine_and_add_content (text);
 	film->set_version_number(2);
 	film->set_release_territory(dcp::LanguageTag::RegionSubtag("US"));
+	film->set_ratings({dcp::Rating("MPA", "R")});
 	BOOST_REQUIRE (!wait_for_jobs());
 	audio = content_factory("test/data/sine_440.wav").front();
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_REQUIRE (audio->audio);
 	audio->audio->set_language (dcp::LanguageTag("de-DE"));
-	m.rating = "R";
 	m.studio = "DI";
 	m.facility = "PP";
 	film->set_isdcf_metadata (m);
@@ -104,11 +104,9 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PP_SMPTE_OV");
 
 	/* Test to see that RU ratings like 6+ survive */
-	m.rating = "6+";
-	film->set_isdcf_metadata (m);
+	film->set_ratings({dcp::Rating("RARS", "6+")});
 	BOOST_CHECK_EQUAL (film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_MOS_4K_DI_20140704_PP_SMPTE_OV");
-	m.rating = "R";
-	film->set_isdcf_metadata (m);
+	film->set_ratings({dcp::Rating("MPA", "R")});
 
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
 

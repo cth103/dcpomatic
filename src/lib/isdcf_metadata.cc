@@ -34,8 +34,7 @@ using std::shared_ptr;
 using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
-	: rating (node->string_child ("Rating"))
-	, studio (node->string_child ("Studio"))
+	: studio (node->string_child ("Studio"))
 	, facility (node->string_child ("Facility"))
 	/* This stuff was added later */
 	, temp_version (node->optional_bool_child ("TempVersion").get_value_or (false))
@@ -51,7 +50,6 @@ ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 void
 ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("Rating")->add_child_text (rating);
 	root->add_child("Studio")->add_child_text (studio);
 	root->add_child("Facility")->add_child_text (facility);
 	root->add_child("TempVersion")->add_child_text (temp_version ? "1" : "0");
@@ -65,8 +63,7 @@ ISDCFMetadata::as_xml (xmlpp::Node* root) const
 bool
 operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
 {
-        return a.rating == b.rating &&
-               a.studio == b.studio &&
+        return a.studio == b.studio &&
                a.facility == b.facility &&
                a.temp_version == b.temp_version &&
                a.pre_release == b.pre_release &&
