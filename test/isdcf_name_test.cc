@@ -61,19 +61,19 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_REQUIRE (audio->audio);
 	audio->audio->set_language(dcp::LanguageTag("en-US"));
 	film->set_content_versions({"1"});
+	film->set_release_territory(dcp::LanguageTag::RegionSubtag("GB"));
 	ISDCFMetadata m;
-	m.territory = "UK";
 	m.rating = "PG";
 	m.studio = "ST";
 	m.facility = "FA";
 	film->set_isdcf_metadata (m);
 	film->set_interop (true);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_UK-PG_10_2K_ST_20140704_FA_IOP_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_GB-PG_10_2K_ST_20140704_FA_IOP_OV");
 
 	/* Check that specifying no audio language writes XX */
 	audio->audio->set_language (boost::none);
 	film->set_isdcf_metadata (m);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_XX-XX_UK-PG_10_2K_ST_20140704_FA_IOP_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_XX-XX_GB-PG_10_2K_ST_20140704_FA_IOP_OV");
 
 	/* Test a long name and some different data */
 
@@ -89,13 +89,13 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	text->text.front()->set_language (dcp::LanguageTag("fr-FR"));
 	film->examine_and_add_content (text);
 	film->set_version_number(2);
+	film->set_release_territory(dcp::LanguageTag::RegionSubtag("US"));
 	BOOST_REQUIRE (!wait_for_jobs());
 	audio = content_factory("test/data/sine_440.wav").front();
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_REQUIRE (audio->audio);
 	audio->audio->set_language (dcp::LanguageTag("de-DE"));
-	m.territory = "US";
 	m.rating = "R";
 	m.studio = "DI";
 	m.facility = "PP";

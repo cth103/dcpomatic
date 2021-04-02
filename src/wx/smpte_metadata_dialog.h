@@ -47,35 +47,25 @@ public:
 private:
 	void setup_standard (wxPanel* parent, wxSizer* sizer) override;
 	void setup_advanced (wxPanel* parent, wxSizer* sizer) override;
+	void film_changed (ChangeType type, Film::Property property) override;
+	void setup_sensitivity () override;
 
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
 	std::vector<std::string> content_versions () const;
 	void set_content_versions (std::vector<std::string> v);
 	void name_language_changed (dcp::LanguageTag tag);
-	void edit_release_territory ();
 	void version_number_changed ();
 	void status_changed ();
 	void chain_changed ();
 	void distributor_changed ();
 	void facility_changed ();
 	void luminance_changed ();
-	void film_changed (ChangeType type, Film::Property property);
-	void setup_sensitivity ();
-	void enable_release_territory_changed ();
 	void enable_chain_changed ();
 	void enable_distributor_changed ();
 	void enable_facility_changed ();
 
 	LanguageTagWidget* _name_language;
-	wxCheckBox* _enable_release_territory;
-	/** The current release territory displayed in the UI; since we can't easily convert
-	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag
-	 *  alongside.
-	 */
-	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
-	wxStaticText* _release_territory_text;
-	Button* _edit_release_territory;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;
 	wxCheckBox* _enable_chain;
@@ -88,6 +78,4 @@ private:
 	wxChoice* _luminance_unit;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
 	EditableList<std::string, ContentVersionDialog>* _content_versions;
-
-	boost::signals2::scoped_connection _film_changed_connection;
 };

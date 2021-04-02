@@ -102,17 +102,6 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 {
 	MetadataDialog::setup_advanced (panel, sizer);
 
-	_enable_release_territory = new wxCheckBox (panel, wxID_ANY, _("Release territory"));
-	sizer->Add (_enable_release_territory, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	{
-		auto s = new wxBoxSizer (wxHORIZONTAL);
-		_release_territory_text = new wxStaticText (panel, wxID_ANY, wxT(""));
-		s->Add (_release_territory_text, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-		_edit_release_territory = new Button (panel, _("Edit..."));
-		s->Add (_edit_release_territory, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
-		sizer->Add (s, 0, wxEXPAND);
-	}
-
 	add_label_to_sizer (sizer, panel, _("Version number"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_version_number = new wxSpinCtrl (panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 1000);
 	sizer->Add (_version_number, 0);
@@ -192,7 +181,6 @@ SMPTEMetadataDialog::setup ()
 	_luminance_unit->Append (_("foot lambert"));
 
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
-	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_release_territory, this));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
 	_enable_chain->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_chain_changed, this));
@@ -203,12 +191,8 @@ SMPTEMetadataDialog::setup ()
 	_facility->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::facility_changed, this));
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
-	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_release_territory_changed, this));
-
-	_film_changed_connection = film()->Change.connect(boost::bind(&SMPTEMetadataDialog::film_changed, this, _1, _2));
 
 	film_changed (ChangeType::DONE, Film::Property::NAME_LANGUAGE);
-	film_changed (ChangeType::DONE, Film::Property::RELEASE_TERRITORY);
 	film_changed (ChangeType::DONE, Film::Property::VERSION_NUMBER);
 	film_changed (ChangeType::DONE, Film::Property::STATUS);
 	film_changed (ChangeType::DONE, Film::Property::CHAIN);
@@ -224,19 +208,14 @@ SMPTEMetadataDialog::setup ()
 void
 SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 {
+	MetadataDialog::film_changed (type, property);
+
 	if (type != ChangeType::DONE || film()->interop()) {
 		return;
 	}
 
 	if (property == Film::Property::NAME_LANGUAGE) {
 		_name_language->set (film()->name_language());
-	} else if (property == Film::Property::RELEASE_TERRITORY) {
-		auto rt = film()->release_territory();
-		checked_set (_enable_release_territory, static_cast<bool>(rt));
-		if (rt) {
-			_release_territory = *rt;
-			checked_set (_release_territory_text, std_to_wx(*dcp::LanguageTag::get_subtag_description(*_release_territory)));
-		}
 	} else if (property == Film::Property::VERSION_NUMBER) {
 		checked_set (_version_number, film()->version_number());
 	} else if (property == Film::Property::STATUS) {
@@ -322,21 +301,6 @@ SMPTEMetadataDialog::name_language_changed (dcp::LanguageTag tag)
 
 
 void
-SMPTEMetadataDialog::edit_release_territory ()
-{
-	DCPOMATIC_ASSERT (film()->release_territory());
-	auto d = new RegionSubtagDialog(this, *film()->release_territory());
-	d->ShowModal ();
-	auto tag = d->get();
-	if (tag) {
-		_release_territory = *tag;
-		film()->set_release_territory(*tag);
-	}
-	d->Destroy ();
-}
-
-
-void
 SMPTEMetadataDialog::version_number_changed ()
 {
 	film()->set_version_number (_version_number->GetValue());
@@ -403,27 +367,11 @@ SMPTEMetadataDialog::luminance_changed ()
 void
 SMPTEMetadataDialog::setup_sensitivity ()
 {
-	{
-		auto const enabled = _enable_release_territory->GetValue();
-		_release_territory_text->Enable (enabled);
-		_edit_release_territory->Enable (enabled);
-	}
+	MetadataDialog::setup_sensitivity ();
 
 	_chain->Enable (_enable_chain->GetValue());
 	_distributor->Enable (_enable_distributor->GetValue());
 	_facility->Enable (_enable_facility->GetValue());
-}
-
-
-void
-SMPTEMetadataDialog::enable_release_territory_changed ()
-{
-	setup_sensitivity ();
-	if (_enable_release_territory->GetValue()) {
-		film()->set_release_territory (_release_territory.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
-	} else {
-		film()->set_release_territory ();
-	}
 }
 
 

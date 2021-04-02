@@ -43,7 +43,6 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);
 
-	std::string territory;
 	std::string rating;
 	std::string studio;
 	std::string facility;

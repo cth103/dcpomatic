@@ -957,8 +957,10 @@ Film::isdcf_name (bool if_created_now) const
 		d += "-XX";
 	}
 
-	if (!dm.territory.empty ()) {
-		d += "_" + dm.territory;
+	if (_release_territory) {
+		auto territory = _release_territory->subtag();
+		transform (territory.begin(), territory.end(), territory.begin(), ::toupper);
+		d += "_" + territory;
 		if (dm.rating.empty ()) {
 			d += "-NR";
 		} else {

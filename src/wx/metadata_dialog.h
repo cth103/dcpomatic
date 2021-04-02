@@ -19,11 +19,20 @@
 */
 
 
+#ifndef DCPOMATIC_METADATA_DIALOG_H
+#define DCPOMATIC_METADATA_DIALOG_H
+
+
+#include "lib/change_signaller.h"
+#include "lib/film.h"
 #include "lib/warnings.h"
 #include "lib/weak_film.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
+
+
+class Button;
 
 
 class MetadataDialog : public wxDialog, public WeakFilm
@@ -34,6 +43,27 @@ public:
 	virtual void setup ();
 
 protected:
-	virtual void setup_standard (wxPanel*, wxSizer*) {}
+	virtual void setup_standard (wxPanel*, wxSizer*);
 	virtual void setup_advanced (wxPanel*, wxSizer*) {}
+	virtual void film_changed (ChangeType type, Film::Property property);
+	virtual void setup_sensitivity ();
+
+private:
+	void edit_release_territory ();
+	void enable_release_territory_changed ();
+
+	wxCheckBox* _enable_release_territory;
+	/** The current release territory displayed in the UI; since we can't easily convert
+	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag
+	 *  alongside.
+	 */
+	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
+	wxStaticText* _release_territory_text;
+	Button* _edit_release_territory;
+
+	boost::signals2::scoped_connection _film_changed_connection;
 };
+
+
+#endif
+

@@ -323,6 +323,7 @@ DCPPanel::metadata_clicked ()
 		}
 
 		_interop_metadata_dialog = new InteropMetadataDialog (_panel, _film);
+		_interop_metadata_dialog->setup ();
 		_interop_metadata_dialog->Show ();
 	} else {
 		if (_smpte_metadata_dialog) {
@@ -447,6 +448,7 @@ DCPPanel::film_changed (Film::Property p)
 		break;
 	case Film::Property::CONTENT_VERSIONS:
 	case Film::Property::VERSION_NUMBER:
+	case Film::Property::RELEASE_TERRITORY:
 		setup_dcp_name ();
 		break;
 	default:

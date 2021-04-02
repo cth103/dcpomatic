@@ -20,6 +20,7 @@
 
 
 #include "editable_list.h"
+#include "metadata_dialog.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <wx/wx.h>
@@ -31,17 +32,19 @@ class LanguageTagWidget;
 class RatingDialog;
 
 
-class InteropMetadataDialog : public wxDialog
+class InteropMetadataDialog : public MetadataDialog
 {
 public:
 	InteropMetadataDialog (wxWindow* parent, std::weak_ptr<Film> film);
 
 private:
-	std::vector<dcp::Rating> ratings () const;
+	void setup_standard (wxPanel* panel, wxSizer* sizer) override;
+
 	void set_ratings (std::vector<dcp::Rating> r);
 	void content_version_changed ();
 
-	std::weak_ptr<Film> _film;
+	std::vector<dcp::Rating> ratings () const;
+
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
 	wxTextCtrl* _content_version;
 };
