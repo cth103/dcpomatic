@@ -343,25 +343,18 @@ AudioPanel::setup_sensitivity ()
 	}
 	setup_refer_button (_reference, _reference_note, dcp, can_reference, cannot);
 
-	if (_reference->GetValue ()) {
-		_gain->wrapped()->Enable (false);
-		_gain_calculate_button->Enable (false);
-		_show->Enable (true);
-		_peak->Enable (false);
-		_delay->wrapped()->Enable (false);
-		_mapping->Enable (false);
-		_description->Enable (false);
-	} else {
-		_gain->wrapped()->Enable (sel.size() == 1);
-		_gain_calculate_button->Enable (sel.size() == 1);
-		_show->Enable (sel.size() == 1);
-		_peak->Enable (sel.size() == 1);
-		_delay->wrapped()->Enable (sel.size() == 1);
-		_mapping->Enable (sel.size() == 1);
-		_description->Enable (sel.size() == 1);
-	}
+	auto const ref = _reference->GetValue();
+	auto const single = sel.size() == 1;
 
-	_language->enable (_enable_language->GetValue());
+	_gain->wrapped()->Enable (!ref);
+	_gain_calculate_button->Enable (!ref && single);
+	_show->Enable (single);
+	_peak->Enable (!ref && single);
+	_delay->wrapped()->Enable (!ref);
+	_mapping->Enable (!ref && single);
+	_description->Enable (!ref && single);
+	_enable_language->Enable (!ref && single);
+	_language->enable (!ref && single && _enable_language->GetValue());
 }
 
 void
