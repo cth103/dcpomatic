@@ -122,6 +122,7 @@ extern void copy_in_bits (boost::filesystem::path from, boost::filesystem::path 
 extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container);
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
+extern std::string to_upper (std::string s);
 
 template <class T>
 std::list<T>

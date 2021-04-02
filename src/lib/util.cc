@@ -1167,3 +1167,12 @@ default_font_file ()
 
 	return liberation_normal;
 }
+
+
+string
+to_upper (string s)
+{
+	transform (s.begin(), s.end(), s.begin(), ::toupper);
+	return s;
+}
+

@@ -919,9 +919,8 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto audio_langs = audio_languages();
 	auto audio_language = (audio_langs.empty() || !audio_langs.front().language()) ? "XX" : audio_langs.front().language()->subtag();
-	transform (audio_language.begin(), audio_language.end(), audio_language.begin(), ::toupper);
 
-	d += "_" + audio_language;
+	d += "_" + to_upper (audio_language);
 
 	/* I'm not clear on the precise details of the convention for CCAP labelling;
 	   for now I'm just appending -CCAP if we have any closed captions.
@@ -945,7 +944,7 @@ Film::isdcf_name (bool if_created_now) const
 		if (burnt_in) {
 			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
-			transform (lang.begin(), lang.end(), lang.begin(), ::toupper);
+			lang = to_upper (lang);
 		}
 
 		d += "-" + lang;
@@ -959,8 +958,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	if (_release_territory) {
 		auto territory = _release_territory->subtag();
-		transform (territory.begin(), territory.end(), territory.begin(), ::toupper);
-		d += "_" + territory;
+		d += "_" + to_upper (territory);
 		if (_ratings.empty ()) {
 			d += "-NR";
 		} else {
