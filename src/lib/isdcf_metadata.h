@@ -32,8 +32,7 @@ class ISDCFMetadata
 {
 public:
 	ISDCFMetadata ()
-		: content_version (1)
-		, temp_version (false)
+		: temp_version (false)
 		, pre_release (false)
 		, red_band (false)
 		, two_d_version_of_three_d (false)
@@ -44,7 +43,6 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);
 
-	int content_version;
 	std::string territory;
 	std::string rating;
 	std::string studio;

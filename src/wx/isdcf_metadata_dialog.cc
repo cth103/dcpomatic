@@ -35,9 +35,6 @@ using std::shared_ptr;
 ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bool threed)
 	: TableDialog (parent, _("ISDCF name"), 2, 1, true)
 {
-	add (_("Content version"), true);
-	_content_version = add (new wxSpinCtrl (this, wxID_ANY));
-
 	add (_("Territory (e.g. UK)"), true);
 	_territory = add (new wxTextCtrl (this, wxID_ANY));
 
@@ -72,9 +69,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
 
-	_content_version->SetRange (1, 1024);
-
-	_content_version->SetValue (dm.content_version);
 	_territory->SetValue (std_to_wx (dm.territory));
 	_rating->SetValue (std_to_wx (dm.rating));
 	_studio->SetValue (std_to_wx (dm.studio));
@@ -87,8 +81,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	_mastered_luminance->SetValue (std_to_wx (dm.mastered_luminance));
 
 	layout ();
-
-	_content_version->SetFocus ();
 }
 
 
@@ -97,7 +89,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 {
 	ISDCFMetadata dm;
 
-	dm.content_version = _content_version->GetValue ();
 	dm.territory = wx_to_std (_territory->GetValue ());
 	dm.rating = wx_to_std (_rating->GetValue ());
 	dm.studio = wx_to_std (_studio->GetValue ());

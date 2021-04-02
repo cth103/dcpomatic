@@ -60,8 +60,8 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_REQUIRE (audio->audio);
 	audio->audio->set_language(dcp::LanguageTag("en-US"));
+	film->set_content_versions({"1"});
 	ISDCFMetadata m;
-	m.content_version = 1;
 	m.territory = "UK";
 	m.rating = "PG";
 	m.studio = "ST";
@@ -88,8 +88,8 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	text->text.front()->set_burn (true);
 	text->text.front()->set_language (dcp::LanguageTag("fr-FR"));
 	film->examine_and_add_content (text);
+	film->set_version_number(2);
 	BOOST_REQUIRE (!wait_for_jobs());
-	m.content_version = 2;
 	audio = content_factory("test/data/sine_440.wav").front();
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());

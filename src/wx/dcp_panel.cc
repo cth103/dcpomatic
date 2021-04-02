@@ -444,6 +444,10 @@ DCPPanel::film_changed (Film::Property p)
 		setup_dcp_name ();
 		setup_sensitivity ();
 		break;
+	case Film::Property::CONTENT_VERSIONS:
+	case Film::Property::VERSION_NUMBER:
+		setup_dcp_name ();
+		break;
 	default:
 		break;
 	}

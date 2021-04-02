@@ -33,7 +33,6 @@ public:
 	ISDCFMetadata isdcf_metadata () const;
 
 private:
-	wxSpinCtrl* _content_version;
 	wxTextCtrl* _territory;
 	wxTextCtrl* _rating;
 	wxTextCtrl* _studio;

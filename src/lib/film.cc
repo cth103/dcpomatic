@@ -846,7 +846,18 @@ Film::isdcf_name (bool if_created_now) const
 
 	if (dcp_content_type()) {
 		d += "_" + dcp_content_type()->isdcf_name();
-		d += "-" + raw_convert<string>(isdcf_metadata().content_version);
+		string version = "1";
+		if (_interop) {
+			if (!_content_versions.empty()) {
+				auto cv = _content_versions[0];
+				if (!cv.empty() && std::all_of(cv.begin(), cv.end(), isdigit)) {
+					version = cv;
+				}
+			}
+		} else {
+			version = dcp::raw_convert<string>(_version_number);
+		}
+		d += "-" + version;
 	}
 
 	auto const dm = isdcf_metadata ();
