@@ -34,11 +34,7 @@ using std::shared_ptr;
 using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
-	: temp_version (node->optional_bool_child ("TempVersion").get_value_or (false))
-	, pre_release (node->optional_bool_child ("PreRelease").get_value_or (false))
-	, red_band (node->optional_bool_child ("RedBand").get_value_or (false))
-	, chain (node->optional_string_child ("Chain").get_value_or (""))
-	, two_d_version_of_three_d (node->optional_bool_child ("TwoDVersionOfThreeD").get_value_or (false))
+	: chain (node->optional_string_child ("Chain").get_value_or (""))
 	, mastered_luminance (node->optional_string_child ("MasteredLuminance").get_value_or (""))
 {
 
@@ -47,21 +43,13 @@ ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 void
 ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("TempVersion")->add_child_text (temp_version ? "1" : "0");
-	root->add_child("PreRelease")->add_child_text (pre_release ? "1" : "0");
-	root->add_child("RedBand")->add_child_text (red_band ? "1" : "0");
 	root->add_child("Chain")->add_child_text (chain);
-	root->add_child("TwoDVersionOfThreeD")->add_child_text (two_d_version_of_three_d ? "1" : "0");
 	root->add_child("MasteredLuminance")->add_child_text (mastered_luminance);
 }
 
 bool
 operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
 {
-        return a.temp_version == b.temp_version &&
-               a.pre_release == b.pre_release &&
-               a.red_band == b.red_band &&
-               a.chain == b.chain &&
-               a.two_d_version_of_three_d == b.two_d_version_of_three_d &&
+        return a.chain == b.chain &&
                a.mastered_luminance == b.mastered_luminance;
 }

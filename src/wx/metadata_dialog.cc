@@ -72,16 +72,26 @@ MetadataDialog::setup ()
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
+	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&MetadataDialog::edit_release_territory, this));
+	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_release_territory_changed, this));
 	_enable_facility->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_facility_changed, this));
 	_facility->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::facility_changed, this));
 	_enable_studio->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_studio_changed, this));
 	_studio->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::studio_changed, this));
+	_temp_version->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::temp_version_changed, this));
+	_pre_release->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::pre_release_changed, this));
+	_red_band->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::red_band_changed, this));
+	_two_d_version_of_three_d->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::two_d_version_of_three_d_changed, this));
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&MetadataDialog::film_changed, this, _1, _2));
 
 	film_changed (ChangeType::DONE, Film::Property::RELEASE_TERRITORY);
 	film_changed (ChangeType::DONE, Film::Property::FACILITY);
 	film_changed (ChangeType::DONE, Film::Property::STUDIO);
+	film_changed (ChangeType::DONE, Film::Property::TEMP_VERSION);
+	film_changed (ChangeType::DONE, Film::Property::PRE_RELEASE);
+	film_changed (ChangeType::DONE, Film::Property::RED_BAND);
+	film_changed (ChangeType::DONE, Film::Property::TWO_D_VERSION_OF_THREE_D);
 
 	setup_sensitivity ();
 }
@@ -111,6 +121,14 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 		if (film()->studio()) {
 			checked_set (_studio, *film()->studio());
 		}
+	} else if (property == Film::Property::TEMP_VERSION) {
+		checked_set (_temp_version, film()->temp_version());
+	} else if (property == Film::Property::PRE_RELEASE) {
+		checked_set (_pre_release, film()->pre_release());
+	} else if (property == Film::Property::RED_BAND) {
+		checked_set (_red_band, film()->red_band());
+	} else if (property == Film::Property::TWO_D_VERSION_OF_THREE_D) {
+		checked_set (_two_d_version_of_three_d, film()->two_d_version_of_three_d());
 	}
 }
 
@@ -128,9 +146,6 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		s->Add (_edit_release_territory, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
 		sizer->Add (s, 0, wxEXPAND);
 	}
-
-	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&MetadataDialog::edit_release_territory, this));
-	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_release_territory_changed, this));
 }
 
 
@@ -184,6 +199,22 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	sizer->Add (_enable_studio, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_studio = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_studio, 1, wxEXPAND);
+
+	_temp_version = new wxCheckBox (panel, wxID_ANY, _("Temporary version"));
+	sizer->Add (_temp_version, 0, wxALIGN_CENTER_VERTICAL);
+	sizer->AddSpacer (0);
+
+	_pre_release = new wxCheckBox (panel, wxID_ANY, _("Pre-release"));
+	sizer->Add (_pre_release, 0, wxALIGN_CENTER_VERTICAL);
+	sizer->AddSpacer (0);
+
+	_red_band = new wxCheckBox (panel, wxID_ANY, _("Red band"));
+	sizer->Add (_red_band, 0, wxALIGN_CENTER_VERTICAL);
+	sizer->AddSpacer (0);
+
+	_two_d_version_of_three_d = new wxCheckBox (panel, wxID_ANY, _("2D version of 3D DCP"));
+	sizer->Add (_two_d_version_of_three_d, 0, wxALIGN_CENTER_VERTICAL);
+	sizer->AddSpacer (0);
 }
 
 
@@ -224,4 +255,31 @@ MetadataDialog::enable_studio_changed ()
 	}
 }
 
+
+void
+MetadataDialog::temp_version_changed ()
+{
+	film()->set_temp_version(_temp_version->GetValue());
+}
+
+
+void
+MetadataDialog::pre_release_changed ()
+{
+	film()->set_pre_release(_pre_release->GetValue());
+}
+
+
+void
+MetadataDialog::red_band_changed ()
+{
+	film()->set_red_band(_red_band->GetValue());
+}
+
+
+void
+MetadataDialog::two_d_version_of_three_d_changed ()
+{
+	film()->set_two_d_version_of_three_d(_two_d_version_of_three_d->GetValue());
+}
 

@@ -452,6 +452,10 @@ DCPPanel::film_changed (Film::Property p)
 	case Film::Property::RATINGS:
 	case Film::Property::FACILITY:
 	case Film::Property::STUDIO:
+	case Film::Property::TEMP_VERSION:
+	case Film::Property::PRE_RELEASE:
+	case Film::Property::RED_BAND:
+	case Film::Property::TWO_D_VERSION_OF_THREE_D:
 		setup_dcp_name ();
 		break;
 	default:
@@ -649,7 +653,7 @@ DCPPanel::edit_isdcf_button_clicked ()
 		return;
 	}
 
-	auto d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata (), _film->three_d ());
+	auto d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata ());
 	d->ShowModal ();
 	_film->set_isdcf_metadata (d->isdcf_metadata ());
 	d->Destroy ();

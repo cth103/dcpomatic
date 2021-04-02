@@ -139,11 +139,11 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test content type modifiers */
 
 	film->set_three_d (false);
-	m.temp_version = true;
-	m.pre_release = true;
-	m.red_band = true;
+	film->set_temp_version (true);
+	film->set_pre_release (true);
+	film->set_red_band (true);
+	film->set_two_d_version_of_three_d (true);
 	m.chain = "MyChain";
-	m.two_d_version_of_three_d = true;
 	m.mastered_luminance = "4fl";
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (48);
@@ -152,11 +152,11 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test a name which is already in camelCase */
 
 	film->set_three_d (false);
-	m.temp_version = false;
-	m.pre_release = false;
-	m.red_band = false;
+	film->set_temp_version (false);
+	film->set_pre_release (false);
+	film->set_red_band (false);
+	film->set_two_d_version_of_three_d (false);
 	m.chain = "";
-	m.two_d_version_of_three_d = false;
 	m.mastered_luminance = "";
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (24);

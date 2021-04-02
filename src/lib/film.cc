@@ -493,6 +493,10 @@ Film::metadata (bool with_content_paths) const
 	if (_studio) {
 		root->add_child("Studio")->add_child_text(*_studio);
 	}
+	root->add_child("TempVersion")->add_child_text(_temp_version ? "1" : "0");
+	root->add_child("PreRelease")->add_child_text(_pre_release ? "1" : "0");
+	root->add_child("RedBand")->add_child_text(_red_band ? "1" : "0");
+	root->add_child("TwoDVersionOfThreeD")->add_child_text(_two_d_version_of_three_d ? "1" : "0");
 	if (_luminance) {
 		root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance->value()));
 		root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance->unit()));
@@ -670,6 +674,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_distributor = f.optional_string_child("Distributor");
 	_facility = f.optional_string_child("Facility");
 	_studio = f.optional_string_child("Studio");
+	_temp_version = f.optional_bool_child("TempVersion").get_value_or(false);
+	_pre_release = f.optional_bool_child("PreRelease").get_value_or(false);
+	_red_band = f.optional_bool_child("RedBand").get_value_or(false);
+	_two_d_version_of_three_d = f.optional_bool_child("TwoDVersionOfThreeD").get_value_or(false);
 
 	auto value = f.optional_number_child<float>("LuminanceValue");
 	auto unit = f.optional_string_child("LuminanceUnit");
@@ -866,15 +874,15 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto const dm = isdcf_metadata ();
 
-	if (dm.temp_version) {
+	if (_temp_version) {
 		d += "-Temp";
 	}
 
-	if (dm.pre_release) {
+	if (_pre_release) {
 		d += "-Pre";
 	}
 
-	if (dm.red_band) {
+	if (_red_band) {
 		d += "-RedBand";
 	}
 
@@ -886,7 +894,7 @@ Film::isdcf_name (bool if_created_now) const
 		d += "-3D";
 	}
 
-	if (dm.two_d_version_of_three_d) {
+	if (_two_d_version_of_three_d) {
 		d += "-2D";
 	}
 
@@ -1155,9 +1163,8 @@ Film::set_three_d (bool t)
 	FilmChangeSignaller ch (this, Property::THREE_D);
 	_three_d = t;
 
-	if (_three_d && _isdcf_metadata.two_d_version_of_three_d) {
-		FilmChangeSignaller ch (this, Property::ISDCF_METADATA);
-		_isdcf_metadata.two_d_version_of_three_d = false;
+	if (_three_d && _two_d_version_of_three_d) {
+		set_two_d_version_of_three_d (false);
 	}
 }
 
@@ -2130,3 +2137,36 @@ Film::add_ffoc_lfoc (Markers& markers) const
 		markers[dcp::Marker::LFOC] = length() - DCPTime::from_frames(1, video_frame_rate());
 	}
 }
+
+
+void
+Film::set_temp_version (bool t)
+{
+	FilmChangeSignaller ch (this, Property::TEMP_VERSION);
+	_temp_version = t;
+}
+
+
+void
+Film::set_pre_release (bool p)
+{
+	FilmChangeSignaller ch (this, Property::PRE_RELEASE);
+	_pre_release = p;
+}
+
+
+void
+Film::set_red_band (bool r)
+{
+	FilmChangeSignaller ch (this, Property::RED_BAND);
+	_red_band = r;
+}
+
+
+void
+Film::set_two_d_version_of_three_d (bool t)
+{
+	FilmChangeSignaller ch (this, Property::TWO_D_VERSION_OF_THREE_D);
+	_two_d_version_of_three_d = t;
+}
+

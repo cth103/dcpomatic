@@ -240,6 +240,10 @@ public:
 		DISTRIBUTOR,
 		FACILITY,
 		STUDIO,
+		TEMP_VERSION,
+		PRE_RELEASE,
+		RED_BAND,
+		TWO_D_VERSION_OF_THREE_D,
 		LUMINANCE,
 	};
 
@@ -378,6 +382,22 @@ public:
 		return _studio;
 	}
 
+	bool temp_version () const {
+		return _temp_version;
+	}
+
+	bool pre_release () const {
+		return _pre_release;
+	}
+
+	bool red_band () const {
+		return _red_band;
+	}
+
+	bool two_d_version_of_three_d () const {
+		return _two_d_version_of_three_d;
+	}
+
 	boost::optional<dcp::Luminance> luminance () const {
 		return _luminance;
 	}
@@ -422,6 +442,10 @@ public:
 	void set_chain (boost::optional<std::string> c = boost::none);
 	void set_facility (boost::optional<std::string> f = boost::none);
 	void set_studio (boost::optional<std::string> s = boost::none);
+	void set_temp_version (bool t);
+	void set_pre_release (bool p);
+	void set_red_band (bool r);
+	void set_two_d_version_of_three_d (bool t);
 	void set_distributor (boost::optional<std::string> d = boost::none);
 	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
 
@@ -529,6 +553,10 @@ private:
 	boost::optional<std::string> _distributor;
 	boost::optional<std::string> _facility;
 	boost::optional<std::string> _studio;
+	bool _temp_version = false;
+	bool _pre_release = false;
+	bool _red_band = false;
+	bool _two_d_version_of_three_d = false;
 	boost::optional<dcp::Luminance> _luminance;
 
 	int _state_version;

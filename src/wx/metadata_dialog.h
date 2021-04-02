@@ -55,6 +55,10 @@ private:
 	void enable_facility_changed ();
 	void studio_changed ();
 	void enable_studio_changed ();
+	void temp_version_changed ();
+	void pre_release_changed ();
+	void red_band_changed ();
+	void two_d_version_of_three_d_changed ();
 
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
@@ -68,6 +72,10 @@ private:
 	wxTextCtrl* _facility;
 	wxCheckBox* _enable_studio;
 	wxTextCtrl* _studio;
+	wxCheckBox* _temp_version;
+	wxCheckBox* _pre_release;
+	wxCheckBox* _red_band;
+	wxCheckBox* _two_d_version_of_three_d;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 };

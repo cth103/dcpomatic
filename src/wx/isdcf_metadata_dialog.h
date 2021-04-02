@@ -28,15 +28,11 @@ class Film;
 class ISDCFMetadataDialog : public TableDialog
 {
 public:
-	ISDCFMetadataDialog (wxWindow *, ISDCFMetadata, bool threed);
+	ISDCFMetadataDialog (wxWindow *, ISDCFMetadata);
 
 	ISDCFMetadata isdcf_metadata () const;
 
 private:
-	wxCheckBox* _temp_version;
-	wxCheckBox* _pre_release;
-	wxCheckBox* _red_band;
 	wxTextCtrl* _chain;
-	wxCheckBox* _two_d_version_of_three_d;
 	wxTextCtrl* _mastered_luminance;
 };

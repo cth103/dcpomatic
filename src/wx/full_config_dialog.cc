@@ -416,7 +416,7 @@ private:
 
 	void edit_isdcf_metadata_clicked ()
 	{
-		ISDCFMetadataDialog* d = new ISDCFMetadataDialog (_panel, Config::instance()->default_isdcf_metadata (), false);
+		auto d = new ISDCFMetadataDialog (_panel, Config::instance()->default_isdcf_metadata ());
 		d->ShowModal ();
 		Config::instance()->set_default_isdcf_metadata (d->isdcf_metadata ());
 		d->Destroy ();
