@@ -399,7 +399,7 @@ AudioMappingView::paint ()
 		0,
 		TOP_HEIGHT,
 		LEFT_WIDTH,
-		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
+		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT) + 1
 	     );
 	translate (dc, 0, vs);
 	paint_row_labels (dc);
