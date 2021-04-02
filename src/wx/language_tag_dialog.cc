@@ -116,7 +116,9 @@ LanguageTagDialog::set (dcp::LanguageTag tag)
 			_custom.push_back (tag);
 			selection = _presets.size() + _custom.size() - 1;
 			populate_list ();
-			_list->EnsureVisible (_list->GetItemCount() - 1);
+			if (_list->GetItemCount() > 0) {
+				_list->EnsureVisible (_list->GetItemCount() - 1);
+			}
 		} else {
 			selection = _presets.size() + std::distance(_custom.begin(), iter);
 		}
@@ -125,7 +127,9 @@ LanguageTagDialog::set (dcp::LanguageTag tag)
 	}
 
 	_list->SetItemState (selection, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-	_list->EnsureVisible (selection);
+	if (static_cast<int>(selection) < _list->GetItemCount()) {
+		_list->EnsureVisible (selection);
+	}
 }
 
 
