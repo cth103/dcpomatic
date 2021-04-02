@@ -35,12 +35,6 @@ using std::shared_ptr;
 ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bool threed)
 	: TableDialog (parent, _("ISDCF name"), 2, 1, true)
 {
-	add (_("Studio (e.g. TCF)"), true);
-	_studio = add (new wxTextCtrl (this, wxID_ANY));
-
-	add (_("Facility (e.g. DLA)"), true);
-	_facility = add (new wxTextCtrl (this, wxID_ANY));
-
 	_temp_version = add (new CheckBox(this, _("Temp version")));
 	add_spacer ();
 
@@ -63,8 +57,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
 
-	_studio->SetValue (std_to_wx (dm.studio));
-	_facility->SetValue (std_to_wx (dm.facility));
 	_temp_version->SetValue (dm.temp_version);
 	_pre_release->SetValue (dm.pre_release);
 	_red_band->SetValue (dm.red_band);
@@ -81,8 +73,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 {
 	ISDCFMetadata dm;
 
-	dm.studio = wx_to_std (_studio->GetValue ());
-	dm.facility = wx_to_std (_facility->GetValue ());
 	dm.temp_version = _temp_version->GetValue ();
 	dm.pre_release = _pre_release->GetValue ();
 	dm.red_band = _red_band->GetValue ();

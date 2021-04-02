@@ -450,6 +450,8 @@ DCPPanel::film_changed (Film::Property p)
 	case Film::Property::VERSION_NUMBER:
 	case Film::Property::RELEASE_TERRITORY:
 	case Film::Property::RATINGS:
+	case Film::Property::FACILITY:
+	case Film::Property::STUDIO:
 		setup_dcp_name ();
 		break;
 	default:

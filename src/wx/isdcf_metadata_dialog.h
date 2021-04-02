@@ -33,8 +33,6 @@ public:
 	ISDCFMetadata isdcf_metadata () const;
 
 private:
-	wxTextCtrl* _studio;
-	wxTextCtrl* _facility;
 	wxCheckBox* _temp_version;
 	wxCheckBox* _pre_release;
 	wxCheckBox* _red_band;

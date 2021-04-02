@@ -120,11 +120,6 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	_distributor = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_distributor, 1, wxEXPAND);
 
-	_enable_facility = new wxCheckBox (panel, wxID_ANY, _("Facility"));
-	sizer->Add (_enable_facility, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	_facility = new wxTextCtrl (panel, wxID_ANY);
-	sizer->Add (_facility, 1, wxEXPAND);
-
 	add_label_to_sizer (sizer, panel, _("Luminance"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
@@ -187,8 +182,6 @@ SMPTEMetadataDialog::setup ()
 	_chain->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::chain_changed, this));
 	_enable_distributor->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_distributor_changed, this));
 	_distributor->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::distributor_changed, this));
-	_enable_facility->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_facility_changed, this));
-	_facility->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::facility_changed, this));
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 
@@ -197,7 +190,6 @@ SMPTEMetadataDialog::setup ()
 	film_changed (ChangeType::DONE, Film::Property::STATUS);
 	film_changed (ChangeType::DONE, Film::Property::CHAIN);
 	film_changed (ChangeType::DONE, Film::Property::DISTRIBUTOR);
-	film_changed (ChangeType::DONE, Film::Property::FACILITY);
 	film_changed (ChangeType::DONE, Film::Property::CONTENT_VERSIONS);
 	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
 
@@ -239,11 +231,6 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 		checked_set (_enable_distributor, static_cast<bool>(film()->distributor()));
 		if (film()->distributor()) {
 			checked_set (_distributor, *film()->distributor());
-		}
-	} else if (property == Film::Property::FACILITY) {
-		checked_set (_enable_facility, static_cast<bool>(film()->facility()));
-		if (film()->facility()) {
-			checked_set (_facility, *film()->facility());
 		}
 	} else if (property == Film::Property::LUMINANCE) {
 		auto lum = film()->luminance();
@@ -339,13 +326,6 @@ SMPTEMetadataDialog::distributor_changed ()
 
 
 void
-SMPTEMetadataDialog::facility_changed ()
-{
-	film()->set_facility (wx_to_std(_facility->GetValue()));
-}
-
-
-void
 SMPTEMetadataDialog::luminance_changed ()
 {
 	dcp::Luminance::Unit unit;
@@ -371,7 +351,6 @@ SMPTEMetadataDialog::setup_sensitivity ()
 
 	_chain->Enable (_enable_chain->GetValue());
 	_distributor->Enable (_enable_distributor->GetValue());
-	_facility->Enable (_enable_facility->GetValue());
 }
 
 
@@ -395,18 +374,6 @@ SMPTEMetadataDialog::enable_distributor_changed ()
 		film()->set_distributor (wx_to_std(_distributor->GetValue()));
 	} else {
 		film()->set_distributor ();
-	}
-}
-
-
-void
-SMPTEMetadataDialog::enable_facility_changed ()
-{
-	setup_sensitivity ();
-	if (_enable_facility->GetValue()) {
-		film()->set_facility (wx_to_std(_facility->GetValue()));
-	} else {
-		film()->set_facility ();
 	}
 }
 

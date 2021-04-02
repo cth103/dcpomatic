@@ -44,13 +44,17 @@ public:
 
 protected:
 	virtual void setup_standard (wxPanel*, wxSizer*);
-	virtual void setup_advanced (wxPanel*, wxSizer*) {}
+	virtual void setup_advanced (wxPanel*, wxSizer*);
 	virtual void film_changed (ChangeType type, Film::Property property);
 	virtual void setup_sensitivity ();
 
 private:
 	void edit_release_territory ();
 	void enable_release_territory_changed ();
+	void facility_changed ();
+	void enable_facility_changed ();
+	void studio_changed ();
+	void enable_studio_changed ();
 
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
@@ -60,6 +64,10 @@ private:
 	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
 	wxStaticText* _release_territory_text;
 	Button* _edit_release_territory;
+	wxCheckBox* _enable_facility;
+	wxTextCtrl* _facility;
+	wxCheckBox* _enable_studio;
+	wxTextCtrl* _studio;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 };

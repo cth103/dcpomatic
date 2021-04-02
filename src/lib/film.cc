@@ -490,6 +490,9 @@ Film::metadata (bool with_content_paths) const
 	if (_facility) {
 		root->add_child("Facility")->add_child_text(*_facility);
 	}
+	if (_studio) {
+		root->add_child("Studio")->add_child_text(*_studio);
+	}
 	if (_luminance) {
 		root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance->value()));
 		root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance->unit()));
@@ -666,6 +669,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_chain = f.optional_string_child("Chain");
 	_distributor = f.optional_string_child("Distributor");
 	_facility = f.optional_string_child("Facility");
+	_studio = f.optional_string_child("Studio");
 
 	auto value = f.optional_number_child<float>("LuminanceValue");
 	auto unit = f.optional_string_child("LuminanceUnit");
@@ -986,8 +990,8 @@ Film::isdcf_name (bool if_created_now) const
 
 	d += "_" + resolution_to_string (_resolution);
 
-	if (!dm.studio.empty ()) {
-		d += "_" + dm.studio;
+	if (_studio && _studio->length() >= 2) {
+		d += "_" + to_upper (_studio->substr(0, 4));
 	}
 
 	if (if_created_now) {
@@ -996,8 +1000,8 @@ Film::isdcf_name (bool if_created_now) const
 		d += "_" + boost::gregorian::to_iso_string (_isdcf_date);
 	}
 
-	if (!dm.facility.empty ()) {
-		d += "_" + dm.facility;
+	if (_facility && _facility->length() >= 3) {
+		d += "_" + to_upper(_facility->substr(0, 3));
 	}
 
 	if (_interop) {
@@ -2058,6 +2062,14 @@ Film::set_facility (optional<string> f)
 {
 	FilmChangeSignaller ch (this, Property::FACILITY);
 	_facility = f;
+}
+
+
+void
+Film::set_studio (optional<string> s)
+{
+	FilmChangeSignaller ch (this, Property::STUDIO);
+	_studio = s;
 }
 
 

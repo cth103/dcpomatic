@@ -34,10 +34,7 @@ using std::shared_ptr;
 using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
-	: studio (node->string_child ("Studio"))
-	, facility (node->string_child ("Facility"))
-	/* This stuff was added later */
-	, temp_version (node->optional_bool_child ("TempVersion").get_value_or (false))
+	: temp_version (node->optional_bool_child ("TempVersion").get_value_or (false))
 	, pre_release (node->optional_bool_child ("PreRelease").get_value_or (false))
 	, red_band (node->optional_bool_child ("RedBand").get_value_or (false))
 	, chain (node->optional_string_child ("Chain").get_value_or (""))
@@ -50,8 +47,6 @@ ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 void
 ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("Studio")->add_child_text (studio);
-	root->add_child("Facility")->add_child_text (facility);
 	root->add_child("TempVersion")->add_child_text (temp_version ? "1" : "0");
 	root->add_child("PreRelease")->add_child_text (pre_release ? "1" : "0");
 	root->add_child("RedBand")->add_child_text (red_band ? "1" : "0");
@@ -63,9 +58,7 @@ ISDCFMetadata::as_xml (xmlpp::Node* root) const
 bool
 operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
 {
-        return a.studio == b.studio &&
-               a.facility == b.facility &&
-               a.temp_version == b.temp_version &&
+        return a.temp_version == b.temp_version &&
                a.pre_release == b.pre_release &&
                a.red_band == b.red_band &&
                a.chain == b.chain &&

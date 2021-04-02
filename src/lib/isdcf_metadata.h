@@ -43,8 +43,6 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);
 
-	std::string studio;
-	std::string facility;
 	/** true if this is a temporary version (without final picture or sound) */
 	bool temp_version;
 	/** true if this is a pre-release version (final picture and sound, but without accessibility features) */

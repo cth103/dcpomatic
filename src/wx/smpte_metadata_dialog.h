@@ -59,11 +59,9 @@ private:
 	void status_changed ();
 	void chain_changed ();
 	void distributor_changed ();
-	void facility_changed ();
 	void luminance_changed ();
 	void enable_chain_changed ();
 	void enable_distributor_changed ();
-	void enable_facility_changed ();
 
 	LanguageTagWidget* _name_language;
 	wxSpinCtrl* _version_number;
@@ -72,8 +70,6 @@ private:
 	wxTextCtrl* _chain;
 	wxCheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
-	wxCheckBox* _enable_facility;
-	wxTextCtrl* _facility;
 	wxSpinCtrlDouble* _luminance_value;
 	wxChoice* _luminance_unit;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;

@@ -239,6 +239,7 @@ public:
 		CHAIN,
 		DISTRIBUTOR,
 		FACILITY,
+		STUDIO,
 		LUMINANCE,
 	};
 
@@ -373,6 +374,10 @@ public:
 		return _facility;
 	}
 
+	boost::optional<std::string> studio () const {
+		return _studio;
+	}
+
 	boost::optional<dcp::Luminance> luminance () const {
 		return _luminance;
 	}
@@ -416,6 +421,7 @@ public:
 	void set_status (dcp::Status s);
 	void set_chain (boost::optional<std::string> c = boost::none);
 	void set_facility (boost::optional<std::string> f = boost::none);
+	void set_studio (boost::optional<std::string> s = boost::none);
 	void set_distributor (boost::optional<std::string> d = boost::none);
 	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
 
@@ -522,6 +528,7 @@ private:
 	boost::optional<std::string> _chain;
 	boost::optional<std::string> _distributor;
 	boost::optional<std::string> _facility;
+	boost::optional<std::string> _studio;
 	boost::optional<dcp::Luminance> _luminance;
 
 	int _state_version;
