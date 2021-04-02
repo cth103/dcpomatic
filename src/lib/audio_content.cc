@@ -52,6 +52,7 @@ using namespace dcpomatic;
 int const AudioContentProperty::STREAMS = 200;
 int const AudioContentProperty::GAIN = 201;
 int const AudioContentProperty::DELAY = 202;
+int const AudioContentProperty::LANGUAGE = 203;
 
 
 AudioContent::AudioContent (Content* parent)
@@ -89,6 +90,10 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 {
 	_gain = node->number_child<double> ("AudioGain");
 	_delay = node->number_child<int> ("AudioDelay");
+	auto lang = node->optional_node_child ("Language");
+	if (lang) {
+		_language = dcp::LanguageTag (lang->content());
+	}
 
 	/* Backwards compatibility */
 	auto r = node->optional_number_child<double>("AudioVideoFrameRate");
@@ -112,11 +117,16 @@ AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content> > c)
 		if (c[i]->audio->delay() != ref->delay()) {
 			throw JoinError (_("Content to be joined must have the same audio delay."));
 		}
+
+		if (c[i]->audio->language() != ref->language()) {
+			throw JoinError (_("Content to be joined must have the same audio language."));
+		}
 	}
 
 	_gain = ref->gain ();
 	_delay = ref->delay ();
 	_streams = ref->streams ();
+	_language = ref->language ();
 }
 
 
@@ -126,6 +136,9 @@ AudioContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("AudioGain")->add_child_text(raw_convert<string>(_gain));
 	node->add_child("AudioDelay")->add_child_text(raw_convert<string>(_delay));
+	if (_language) {
+		node->add_child("Language")->add_child_text(_language->to_string());
+	}
 }
 
 
@@ -140,6 +153,13 @@ void
 AudioContent::set_delay (int d)
 {
 	maybe_set (_delay, d, AudioContentProperty::DELAY);
+}
+
+
+void
+AudioContent::set_language (optional<dcp::LanguageTag> language)
+{
+	maybe_set (_language, language, AudioContentProperty::LANGUAGE);
 }
 
 

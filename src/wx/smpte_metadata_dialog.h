@@ -49,7 +49,6 @@ private:
 	std::vector<std::string> content_versions () const;
 	void set_content_versions (std::vector<std::string> v);
 	void name_language_changed (dcp::LanguageTag tag);
-	void audio_language_changed (dcp::LanguageTag tag);
 	void edit_release_territory ();
 	void version_number_changed ();
 	void status_changed ();
@@ -65,7 +64,6 @@ private:
 	void enable_facility_changed ();
 
 	LanguageTagWidget* _name_language;
-	LanguageTagWidget* _audio_language;
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
 	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag

@@ -76,14 +76,6 @@ SMPTEMetadataDialog::main_panel (wxWindow* parent)
 		);
 	sizer->Add (_name_language->sizer(), 0, wxEXPAND);
 
-	add_label_to_sizer (sizer, panel, _("Audio language"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	_audio_language = new LanguageTagWidget(
-		panel,
-		_("The main language that is spoken in the film's soundtrack"),
-		film()->audio_language()
-		);
-	sizer->Add (_audio_language->sizer(), 0, wxEXPAND);
-
 	{
 		int flags = wxALIGN_TOP | wxRIGHT | wxTOP;
 #ifdef __WXOSX__
@@ -227,7 +219,6 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	_luminance_unit->Append (_("foot lambert"));
 
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
-	_audio_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::audio_language_changed, this, _1));
 	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&SMPTEMetadataDialog::edit_release_territory, this));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
@@ -254,7 +245,6 @@ SMPTEMetadataDialog::SMPTEMetadataDialog (wxWindow* parent, weak_ptr<Film> weak_
 	film_changed (ChangeType::DONE, Film::Property::FACILITY);
 	film_changed (ChangeType::DONE, Film::Property::CONTENT_VERSIONS);
 	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
-	film_changed (ChangeType::DONE, Film::Property::SUBTITLE_LANGUAGES);
 
 	setup_sensitivity ();
 }
@@ -357,13 +347,6 @@ void
 SMPTEMetadataDialog::name_language_changed (dcp::LanguageTag tag)
 {
 	film()->set_name_language (tag);
-}
-
-
-void
-SMPTEMetadataDialog::audio_language_changed (dcp::LanguageTag tag)
-{
-	film()->set_audio_language (tag);
 }
 
 

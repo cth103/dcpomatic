@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 #include "lib/audio_mapping.h"
 #include "content_sub_panel.h"
 #include "content_widget.h"
+
 
 class wxSpinCtrlDouble;
 class wxButton;
@@ -28,6 +30,8 @@ class wxChoice;
 class wxStaticText;
 class AudioMappingView;
 class AudioDialog;
+class LanguageTagWidget;
+
 
 class AudioPanel : public ContentSubPanel
 {
@@ -50,6 +54,8 @@ private:
 	void setup_sensitivity ();
 	void reference_clicked ();
 	void add_to_grid ();
+	void enable_language_clicked ();
+	void language_changed ();
 	boost::optional<float> peak () const;
 
 	wxCheckBox* _reference;
@@ -63,6 +69,8 @@ private:
 	wxStaticText* _delay_label;
 	wxStaticText* _delay_ms_label;
 	ContentSpinCtrl<AudioContent>* _delay;
+	wxCheckBox* _enable_language = nullptr;
+	LanguageTagWidget* _language = nullptr;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
 	AudioDialog* _audio_dialog;

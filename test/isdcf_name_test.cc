@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/isdcf_name_test.cc
  *  @brief Test creation of ISDCF names.
  *  @ingroup feature
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
@@ -37,8 +39,11 @@
 #include "test.h"
 #include <iostream>
 
+
 using std::cout;
 using std::shared_ptr;
+using std::make_shared;
+
 
 BOOST_AUTO_TEST_CASE (isdcf_name_test)
 {
@@ -50,21 +55,25 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
+	auto audio = content_factory("test/data/sine_440.wav").front();
+	film->examine_and_add_content (audio);
+	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE (audio->audio);
+	audio->audio->set_language(dcp::LanguageTag("en-US"));
 	ISDCFMetadata m;
 	m.content_version = 1;
-	m.audio_language = "EN";
 	m.territory = "UK";
 	m.rating = "PG";
 	m.studio = "ST";
 	m.facility = "FA";
 	film->set_isdcf_metadata (m);
 	film->set_interop (true);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_UK-PG_MOS_2K_ST_20140704_FA_IOP_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_UK-PG_10_2K_ST_20140704_FA_IOP_OV");
 
 	/* Check that specifying no audio language writes XX */
-	m.audio_language = "";
+	audio->audio->set_language (boost::none);
 	film->set_isdcf_metadata (m);
-	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_XX-XX_UK-PG_MOS_2K_ST_20140704_FA_IOP_OV");
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_XX-XX_UK-PG_10_2K_ST_20140704_FA_IOP_OV");
 
 	/* Test a long name and some different data */
 
@@ -74,14 +83,18 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
 	film->set_audio_channels (1);
 	film->set_resolution (Resolution::FOUR_K);
-	shared_ptr<Content> text = content_factory("test/data/subrip.srt").front();
+	auto text = content_factory("test/data/subrip.srt").front();
 	BOOST_REQUIRE_EQUAL (text->text.size(), 1U);
 	text->text.front()->set_burn (true);
 	text->text.front()->set_language (dcp::LanguageTag("fr-FR"));
 	film->examine_and_add_content (text);
 	BOOST_REQUIRE (!wait_for_jobs());
 	m.content_version = 2;
-	m.audio_language = "DE";
+	audio = content_factory("test/data/sine_440.wav").front();
+	film->examine_and_add_content (audio);
+	BOOST_REQUIRE (!wait_for_jobs());
+	BOOST_REQUIRE (audio->audio);
+	audio->audio->set_language (dcp::LanguageTag("de-DE"));
 	m.territory = "US";
 	m.rating = "R";
 	m.studio = "DI";
@@ -160,7 +173,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Test audio channel markup */
 
 	film->set_audio_channels (6);
-	shared_ptr<FFmpegContent> sound (new FFmpegContent("test/data/sine_440.wav"));
+	auto sound = make_shared<FFmpegContent>("test/data/sine_440.wav");
 	film->examine_and_add_content (sound);
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_DE-fr_US-R_10_4K_DI_20140704_PP_SMPTE_OV");

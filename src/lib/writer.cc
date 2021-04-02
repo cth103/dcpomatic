@@ -706,13 +706,19 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 	boost::algorithm::replace_all (text, "$CPL_NAME", film()->name());
 	boost::algorithm::replace_all (text, "$TYPE", film()->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all (text, "$CONTAINER", film()->container()->container_nickname());
-	boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", film()->isdcf_metadata().audio_language);
+
+	auto audio_languages = film()->audio_languages();
+	if (!audio_languages.empty()) {
+		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", audio_languages.front().description());
+	} else {
+		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _("None"));
+	}
 
 	auto subtitle_languages = film()->subtitle_languages();
 	if (subtitle_languages.first) {
 		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_languages.first->description());
 	} else {
-		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", "None");
+		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", _("None"));
 	}
 
 	boost::uintmax_t size = 0;

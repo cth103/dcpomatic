@@ -18,15 +18,17 @@
 
 */
 
-#include "audio_panel.h"
-#include "audio_mapping_view.h"
-#include "wx_util.h"
-#include "gain_calculator_dialog.h"
-#include "content_panel.h"
+
 #include "audio_dialog.h"
-#include "static_text.h"
+#include "audio_mapping_view.h"
+#include "audio_panel.h"
 #include "check_box.h"
+#include "content_panel.h"
 #include "dcpomatic_button.h"
+#include "gain_calculator_dialog.h"
+#include "language_tag_widget.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/config.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/ffmpeg_content.h"
@@ -36,6 +38,7 @@
 #include "lib/audio_content.h"
 #include <wx/spinctrl.h>
 #include <iostream>
+
 
 using std::vector;
 using std::cout;
@@ -49,6 +52,7 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
@@ -91,6 +95,9 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	_delay_ms_label = create_label (this, _("ms"), false);
 
+	_enable_language = new wxCheckBox (this, wxID_ANY, _("Language"));
+	_language = new LanguageTagWidget (this, _("Language used for the dialogue in this content"), boost::none);
+
 	_mapping = new AudioMappingView (this, _("Content"), _("content"), _("DCP"), _("DCP"));
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
@@ -111,6 +118,8 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_reference->Bind             (wxEVT_CHECKBOX, boost::bind (&AudioPanel::reference_clicked, this));
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
 	_gain_calculate_button->Bind (wxEVT_BUTTON,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
+	_enable_language->Bind       (wxEVT_CHECKBOX, boost::bind (&AudioPanel::enable_language_clicked, this));
+	_language->Changed.connect (boost::bind(&AudioPanel::language_changed, this));
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 	_active_jobs_connection = JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));
@@ -136,7 +145,7 @@ AudioPanel::add_to_grid ()
 	add_label_to_sizer (_grid, _gain_label, true, wxGBPosition(r, 0));
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (_gain->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+		s->Add (_gain->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		s->Add (_gain_db_label, 0, wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition(r, 1));
 	}
@@ -146,9 +155,15 @@ AudioPanel::add_to_grid ()
 
 	add_label_to_sizer (_grid, _delay_label, true, wxGBPosition(r, 0));
 	auto s = new wxBoxSizer (wxHORIZONTAL);
-	s->Add (_delay->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
+	s->Add (_delay->wrapped(), 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
 	s->Add (_delay_ms_label, 0, wxALIGN_CENTER_VERTICAL);
 	_grid->Add (s, wxGBPosition(r, 1));
+	++r;
+
+	s = new wxBoxSizer (wxHORIZONTAL);
+	s->Add (_enable_language, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
+	s->Add (_language->sizer(), 1, wxALIGN_CENTER_VERTICAL | wxRIGHT);
+	_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);
 	++r;
 }
 
@@ -229,6 +244,14 @@ AudioPanel::film_content_changed (int property)
 		setup_sensitivity ();
 	} else if (property == ContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
+	} else if (property == AudioContentProperty::LANGUAGE) {
+		if (ac.size() == 1 && ac.front()->audio->language()) {
+			_enable_language->SetValue (true);
+			_language->set (ac.front()->audio->language());
+		} else {
+			_enable_language->SetValue (false);
+			_language->set (boost::none);
+		}
 	}
 }
 
@@ -294,6 +317,7 @@ AudioPanel::content_selection_changed ()
 
 	film_content_changed (AudioContentProperty::STREAMS);
 	film_content_changed (AudioContentProperty::GAIN);
+	film_content_changed (AudioContentProperty::LANGUAGE);
 	film_content_changed (DCPContentProperty::REFERENCE_AUDIO);
 
 	setup_sensitivity ();
@@ -336,6 +360,8 @@ AudioPanel::setup_sensitivity ()
 		_mapping->Enable (sel.size() == 1);
 		_description->Enable (sel.size() == 1);
 	}
+
+	_language->enable (_enable_language->GetValue());
 }
 
 void
@@ -440,3 +466,25 @@ AudioPanel::set_film (shared_ptr<Film>)
 		_audio_dialog = nullptr;
 	}
 }
+
+
+void
+AudioPanel::enable_language_clicked ()
+{
+	setup_sensitivity ();
+	auto sel = _parent->selected_audio ();
+	if (sel.size() == 1) {
+		sel.front()->audio->set_language (_enable_language->GetValue() ? _language->get() : boost::none);
+	}
+}
+
+
+void
+AudioPanel::language_changed ()
+{
+	auto sel = _parent->selected_audio ();
+	if (sel.size() == 1) {
+		sel.front()->audio->set_language (_language->get());
+	}
+}
+

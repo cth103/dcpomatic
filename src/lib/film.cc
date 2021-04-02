@@ -752,6 +752,23 @@ Film::mapped_audio_channels () const
 }
 
 
+vector<dcp::LanguageTag>
+Film::audio_languages () const
+{
+	vector<dcp::LanguageTag> result;
+	for (auto i: content()) {
+		if (i->audio && !i->audio->mapping().mapped_output_channels().empty() && i->audio->language()) {
+			result.push_back (i->audio->language().get());
+		}
+	}
+
+	std::sort (result.begin(), result.end());
+	auto last = std::unique (result.begin(), result.end());
+	result.erase (last, result.end());
+	return result;
+}
+
+
 pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>>
 Film::subtitle_languages () const
 {
@@ -889,7 +906,9 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	auto const audio_language = dm.audio_language.empty() ? "XX" : dm.audio_language;
+	auto audio_langs = audio_languages();
+	auto audio_language = (audio_langs.empty() || !audio_langs.front().language()) ? "XX" : audio_langs.front().language()->subtag();
+	transform (audio_language.begin(), audio_language.end(), audio_language.begin(), ::toupper);
 
 	d += "_" + audio_language;
 
@@ -909,9 +928,9 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	auto sublangs = subtitle_languages();
-	if (sublangs.first && sublangs.first->language()) {
-		auto lang = sublangs.first->language()->subtag();
+	auto sub_langs = subtitle_languages();
+	if (sub_langs.first && sub_langs.first->language()) {
+		auto lang = sub_langs.first->language()->subtag();
 		if (burnt_in) {
 			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {

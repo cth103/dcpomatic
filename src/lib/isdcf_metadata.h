@@ -45,7 +45,6 @@ public:
 	void read_old_metadata (std::string, std::string);
 
 	int content_version;
-	std::string audio_language;
 	std::string territory;
 	std::string rating;
 	std::string studio;

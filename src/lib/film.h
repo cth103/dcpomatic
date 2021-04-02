@@ -184,6 +184,7 @@ public:
 
 	std::list<dcpomatic::DCPTimePeriod> reels () const;
 	std::list<int> mapped_audio_channels () const;
+	std::vector<dcp::LanguageTag> audio_languages () const;
 	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> subtitle_languages () const;
 
 	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
@@ -239,7 +240,6 @@ public:
 		DISTRIBUTOR,
 		FACILITY,
 		LUMINANCE,
-		SUBTITLE_LANGUAGES
 	};
 
 

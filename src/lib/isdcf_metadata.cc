@@ -35,7 +35,6 @@ using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 	: content_version (node->number_child<int> ("ContentVersion"))
-	, audio_language (node->string_child ("AudioLanguage"))
 	, territory (node->string_child ("Territory"))
 	, rating (node->string_child ("Rating"))
 	, studio (node->string_child ("Studio"))
@@ -55,7 +54,6 @@ void
 ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
 	root->add_child("ContentVersion")->add_child_text (raw_convert<string> (content_version));
-	root->add_child("AudioLanguage")->add_child_text (audio_language);
 	root->add_child("Territory")->add_child_text (territory);
 	root->add_child("Rating")->add_child_text (rating);
 	root->add_child("Studio")->add_child_text (studio);
@@ -72,7 +70,6 @@ bool
 operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
 {
        return a.content_version == b.content_version &&
-               a.audio_language == b.audio_language &&
                a.territory == b.territory &&
                a.rating == b.rating &&
                a.studio == b.studio &&

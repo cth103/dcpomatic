@@ -31,6 +31,7 @@
 #include "content_part.h"
 #include "audio_stream.h"
 #include "audio_mapping.h"
+#include <dcp/language_tag.h>
 
 
 /** @class AudioContentProperty
@@ -42,6 +43,7 @@ public:
 	static int const STREAMS;
 	static int const GAIN;
 	static int const DELAY;
+	static int const LANGUAGE;
 };
 
 
@@ -63,6 +65,7 @@ public:
 
 	void set_gain (double);
 	void set_delay (int);
+	void set_language (boost::optional<dcp::LanguageTag> langauge);
 
 	double gain () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -72,6 +75,11 @@ public:
 	int delay () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _delay;
+	}
+
+	boost::optional<dcp::LanguageTag> language () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _language;
 	}
 
 	std::string processing_description (std::shared_ptr<const Film> film) const;
@@ -100,6 +108,7 @@ private:
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _delay = 0;
 	std::vector<AudioStreamPtr> _streams;
+	boost::optional<dcp::LanguageTag> _language;
 };
 
 #endif

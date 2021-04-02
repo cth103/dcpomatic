@@ -381,7 +381,6 @@ DCPPanel::film_changed (Film::Property p)
 		break;
 	}
 	case Film::Property::ISDCF_METADATA:
-	case Film::Property::SUBTITLE_LANGUAGES:
 		setup_dcp_name ();
 		break;
 	case Film::Property::VIDEO_FRAME_RATE:
@@ -454,6 +453,7 @@ void
 DCPPanel::film_content_changed (int property)
 {
 	if (property == AudioContentProperty::STREAMS ||
+	    property == AudioContentProperty::LANGUAGE ||
 	    property == TextContentProperty::USE ||
 	    property == TextContentProperty::BURN ||
 	    property == TextContentProperty::LANGUAGE ||

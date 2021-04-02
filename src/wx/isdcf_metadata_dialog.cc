@@ -38,9 +38,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	add (_("Content version"), true);
 	_content_version = add (new wxSpinCtrl (this, wxID_ANY));
 
-	add (_("Audio Language (e.g. EN)"), true);
-	_audio_language = add (new wxTextCtrl (this, wxID_ANY));
-
 	add (_("Territory (e.g. UK)"), true);
 	_territory = add (new wxTextCtrl (this, wxID_ANY));
 
@@ -78,7 +75,6 @@ ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm, bo
 	_content_version->SetRange (1, 1024);
 
 	_content_version->SetValue (dm.content_version);
-	_audio_language->SetValue (std_to_wx (dm.audio_language));
 	_territory->SetValue (std_to_wx (dm.territory));
 	_rating->SetValue (std_to_wx (dm.rating));
 	_studio->SetValue (std_to_wx (dm.studio));
@@ -102,7 +98,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 	ISDCFMetadata dm;
 
 	dm.content_version = _content_version->GetValue ();
-	dm.audio_language = wx_to_std (_audio_language->GetValue ());
 	dm.territory = wx_to_std (_territory->GetValue ());
 	dm.rating = wx_to_std (_rating->GetValue ());
 	dm.studio = wx_to_std (_studio->GetValue ());

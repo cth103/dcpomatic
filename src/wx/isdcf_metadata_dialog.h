@@ -34,7 +34,6 @@ public:
 
 private:
 	wxSpinCtrl* _content_version;
-	wxTextCtrl* _audio_language;
 	wxTextCtrl* _territory;
 	wxTextCtrl* _rating;
 	wxTextCtrl* _studio;
