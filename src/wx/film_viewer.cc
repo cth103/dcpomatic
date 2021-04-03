@@ -742,7 +742,7 @@ FilmViewer::too_many_frames_dropped ()
 		stop ();
 	}
 
-	bool shown = NagDialog::maybe_nag (
+	NagDialog::maybe_nag (
 		panel(),
 		Config::NAG_TOO_MANY_DROPPED_FRAMES,
 		_("The player is dropping a lot of frames, so playback may not be accurate.\n\n"
