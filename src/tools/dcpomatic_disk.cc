@@ -49,11 +49,12 @@ DCPOMATIC_ENABLE_WARNINGS
 #endif
 
 
-using std::string;
-using std::exception;
-using std::cout;
 using std::cerr;
+using std::cout;
+using std::exception;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -281,7 +282,7 @@ private:
 			if (!_nanomsg.send(drive.as_xml(), 2000)) {
 				throw CommunicationFailedError ();
 			}
-			auto <string> reply = _nanomsg.receive (2000);
+			auto reply = _nanomsg.receive (2000);
 			if (!reply || *reply != DISK_WRITER_OK) {
 				auto * m = new MessageDialog (
 						this,
