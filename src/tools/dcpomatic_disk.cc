@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
@@ -47,6 +48,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <notify.h>
 #endif
 
+
 using std::string;
 using std::exception;
 using std::cout;
@@ -69,13 +71,13 @@ class DOMFrame : public wxFrame
 {
 public:
 	explicit DOMFrame (wxString const & title)
-		: wxFrame (0, -1, title)
+		: wxFrame (nullptr, wxID_ANY, title)
 		, _nanomsg (true)
 		, _sizer (new wxBoxSizer(wxVERTICAL))
 	{
 #ifdef DCPOMATIC_OSX
-		wxMenuBar* bar = new wxMenuBar;
-		wxMenu* tools = new wxMenu;
+		auto bar = new wxMenuBar;
+		auto tools = new wxMenu;
 		tools->Append(ID_tools_uninstall, _("Uninstall..."));
 		bar->Append(tools, _("Tools"));
 		SetMenuBar (bar);
@@ -85,16 +87,16 @@ public:
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
-		wxPanel* overall_panel = new wxPanel (this);
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto overall_panel = new wxPanel (this);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (overall_panel, 1, wxEXPAND);
 		SetSizer (s);
 
-		wxGridBagSizer* grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 		int r = 0;
 		add_label_to_sizer (grid, overall_panel, _("DCP"), true, wxGBPosition(r, 0));
-		wxBoxSizer* dcp_name_sizer = new wxBoxSizer (wxHORIZONTAL);
+		auto dcp_name_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_dcp_name = new wxStaticText (overall_panel, wxID_ANY, wxEmptyString);
 		dcp_name_sizer->Add (_dcp_name, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 		_dcp_open = new wxButton (overall_panel, wxID_ANY, _("Open..."));
@@ -103,7 +105,7 @@ public:
 		++r;
 
 		add_label_to_sizer (grid, overall_panel, _("Drive"), true, wxGBPosition(r, 0));
-		wxBoxSizer* drive_sizer = new wxBoxSizer (wxHORIZONTAL);
+		auto drive_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_drive = new wxChoice (overall_panel, wxID_ANY);
 		drive_sizer->Add (_drive, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 		_drive_refresh = new wxButton (overall_panel, wxID_ANY, _("Refresh"));
@@ -193,7 +195,7 @@ private:
 			return true;
 		}
 
-		wxMessageDialog* d = new wxMessageDialog (
+		auto d = new wxMessageDialog (
 			0,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
@@ -219,7 +221,7 @@ private:
 
 	void open ()
 	{
-		wxDirDialog* d = new wxDirDialog (this, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+		auto d = new wxDirDialog (this, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
 		int r = d->ShowModal ();
 		boost::filesystem::path const path (wx_to_std(d->GetPath()));
 		d->Destroy ();
@@ -242,7 +244,7 @@ private:
 		if (!_nanomsg.send(DISK_WRITER_PING "\n", 2000)) {
 			have_writer = false;
 		} else {
-			optional<string> reply = _nanomsg.receive (2000);
+			auto reply = _nanomsg.receive (2000);
 			if (!reply || *reply != DISK_WRITER_PONG) {
 				have_writer = false;
 			}
@@ -250,7 +252,7 @@ private:
 
 		if (!have_writer) {
 #ifdef DCPOMATIC_WINDOWS
-			MessageDialog* m = new MessageDialog (
+			auto m = new MessageDialog (
 				this,
 				_("DCP-o-matic Disk Writer"),
 				_("Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again.")
@@ -263,9 +265,9 @@ private:
 #endif
 		}
 
-		Drive const& drive = _drives[_drive->GetSelection()];
+		auto const& drive = _drives[_drive->GetSelection()];
 		if (drive.mounted()) {
-			TryUnmountDialog* d = new TryUnmountDialog(this, drive.description());
+			auto d = new TryUnmountDialog(this, drive.description());
 			int const r = d->ShowModal ();
 			d->Destroy ();
 			if (r != wxID_OK) {
@@ -279,9 +281,9 @@ private:
 			if (!_nanomsg.send(drive.as_xml(), 2000)) {
 				throw CommunicationFailedError ();
 			}
-			optional<string> reply = _nanomsg.receive (2000);
+			auto <string> reply = _nanomsg.receive (2000);
 			if (!reply || *reply != DISK_WRITER_OK) {
-				MessageDialog* m = new MessageDialog (
+				auto * m = new MessageDialog (
 						this,
 						_("DCP-o-matic Disk Writer"),
 						wxString::Format(_("The drive %s could not be unmounted.\nClose any application that is using it, then try again."), std_to_wx(drive.description()))
@@ -293,7 +295,7 @@ private:
 		}
 
 
-		DriveWipeWarningDialog* d = new DriveWipeWarningDialog (this, _drive->GetString(_drive->GetSelection()));
+		auto * d = new DriveWipeWarningDialog (this, _drive->GetString(_drive->GetSelection()));
 		int const r = d->ShowModal ();
 		bool ok = r == wxID_OK && d->confirmed();
 		d->Destroy ();
@@ -302,7 +304,7 @@ private:
 			return;
 		}
 
-		JobManager::instance()->add(shared_ptr<Job>(new CopyToDriveJob(*_dcp_path, _drives[_drive->GetSelection()], _nanomsg)));
+		JobManager::instance()->add(make_shared<CopyToDriveJob>(*_dcp_path, _drives[_drive->GetSelection()], _nanomsg));
 		setup_sensitivity ();
 	}
 
@@ -318,7 +320,7 @@ private:
 		int j = 0;
 		_drives = Drive::get ();
 		for (auto i: _drives) {
-			wxString const s = std_to_wx(i.description());
+			auto const s = std_to_wx(i.description();
 			if (s == current) {
 				re_select = j;
 			}
@@ -348,6 +350,7 @@ private:
 	Nanomsg _nanomsg;
 	wxSizer* _sizer;
 };
+
 
 class App : public wxApp
 {
@@ -397,7 +400,7 @@ public:
 			*/
 			Config::drop ();
 
-			DiskWarningDialog* warning = new DiskWarningDialog ();
+			auto warning = new DiskWarningDialog ();
 			warning->ShowModal ();
 			if (!warning->confirmed()) {
 				return false;
