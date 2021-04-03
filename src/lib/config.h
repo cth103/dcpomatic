@@ -392,6 +392,9 @@ public:
 		return _jump_to_selected;
 	}
 
+	/* This could be an enum class but we use the enum a lot to index _nagged
+	 * so it means a lot of casts.
+	 */
 	enum Nag {
 		NAG_DKDM_CONFIG,
 		NAG_ENCRYPTED_METADATA,
@@ -400,6 +403,7 @@ public:
 		NAG_IMPORT_DECRYPTION_CHAIN,
 		NAG_DELETE_DKDM,
 		NAG_32_ON_64,
+		NAG_TOO_MANY_DROPPED_FRAMES,
 		NAG_COUNT
 	};
 

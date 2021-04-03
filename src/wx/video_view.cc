@@ -25,10 +25,16 @@
 #include "lib/butler.h"
 #include "lib/dcpomatic_log.h"
 #include <boost/optional.hpp>
+#include <sys/time.h>
+
 
 using std::pair;
 using std::shared_ptr;
 using boost::optional;
+
+
+static constexpr int TOO_MANY_DROPPED_FRAMES = 20;
+static constexpr int TOO_MANY_DROPPED_PERIOD = 5.0;
 
 
 VideoView::VideoView (FilmViewer* viewer)
@@ -124,6 +130,7 @@ VideoView::start ()
 	boost::mutex::scoped_lock lm (_mutex);
 	_dropped = 0;
 	_errored = 0;
+	gettimeofday(&_dropped_check_period_start, nullptr);
 }
 
 
@@ -143,3 +150,26 @@ VideoView::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_c
 	return true;
 }
 
+
+void
+VideoView::add_dropped ()
+{
+	bool too_many = false;
+
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		++_dropped;
+		if (_dropped > TOO_MANY_DROPPED_FRAMES) {
+			struct timeval now;
+			gettimeofday (&now, nullptr);
+			double const elapsed = seconds(now) - seconds(_dropped_check_period_start);
+			too_many = elapsed < TOO_MANY_DROPPED_PERIOD;
+			_dropped = 0;
+			_dropped_check_period_start = now;
+		}
+	}
+
+	if (too_many) {
+		emit (boost::bind(boost::ref(TooManyDropped)));
+	}
+}

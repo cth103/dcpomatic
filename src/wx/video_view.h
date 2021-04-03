@@ -24,9 +24,10 @@
 
 
 #include "lib/dcpomatic_time.h"
+#include "lib/exception_store.h"
+#include "lib/signaller.h"
 #include "lib/timer.h"
 #include "lib/types.h"
-#include "lib/exception_store.h"
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 
@@ -38,7 +39,7 @@ class Player;
 class PlayerVideo;
 
 
-class VideoView : public ExceptionStore
+class VideoView : public ExceptionStore, public Signaller
 {
 public:
 	VideoView (FilmViewer* viewer);
@@ -70,6 +71,8 @@ public:
 
 	/** Emitted from the GUI thread when our display changes in size */
 	boost::signals2::signal<void()> Sized;
+	/** Emitted from the GUI thread when a lot of frames are being dropped */
+	boost::signals2::signal<void()> TooManyDropped;
 
 
 	/* Accessors for FilmViewer */
@@ -143,10 +146,7 @@ protected:
 		return _player_video;
 	}
 
-	void add_dropped () {
-		boost::mutex::scoped_lock lm (_mutex);
-		++_dropped;
-	}
+	void add_dropped ();
 
 	void add_get () {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -169,6 +169,7 @@ private:
 	bool _three_d = false;
 
 	int _dropped = 0;
+	struct timeval _dropped_check_period_start;
 	int _errored = 0;
 	int _gets = 0;
 };

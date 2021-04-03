@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,20 @@
 
 */
 
+
 /** @file  src/film_viewer.cc
  *  @brief A wx widget to view a preview of a Film.
  */
 
-#include "film_viewer.h"
-#include "playhead_to_timecode_dialog.h"
-#include "playhead_to_frame_dialog.h"
-#include "wx_util.h"
+
 #include "closed_captions_dialog.h"
+#include "film_viewer.h"
 #include "gl_video_view.h"
+#include "nag_dialog.h"
+#include "playhead_to_frame_dialog.h"
+#include "playhead_to_timecode_dialog.h"
 #include "simple_video_view.h"
+#include "wx_util.h"
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
@@ -106,6 +109,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	}
 
 	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
+	_video_view->TooManyDropped.connect (boost::bind(&FilmViewer::too_many_frames_dropped, this));
 
 	set_film (shared_ptr<Film> ());
 
@@ -730,3 +734,22 @@ FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
 	emit (boost::bind(boost::ref(ImageChanged), pv));
 }
 
+
+void
+FilmViewer::too_many_frames_dropped ()
+{
+	if (!Config::instance()->nagged(Config::NAG_TOO_MANY_DROPPED_FRAMES)) {
+		stop ();
+	}
+
+	bool shown = NagDialog::maybe_nag (
+		panel(),
+		Config::NAG_TOO_MANY_DROPPED_FRAMES,
+		_("The player is dropping a lot of frames, so playback may not be accurate.\n\n"
+		  "<b>This does not necessarily mean that the DCP you are playing is defective!</b>\n\n"
+		  "You may be able to improve player performance by:\n"
+		  "• choosing 'decode at half resolution' or 'decode at quarter resolution' from the View menu\n"
+		  "• using a more powerful computer.\n"
+		 )
+		);
+}
