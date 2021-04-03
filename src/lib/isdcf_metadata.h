@@ -37,8 +37,6 @@ public:
 	void as_xml (xmlpp::Node *) const;
 	void read_old_metadata (std::string, std::string);
 
-	/** specific theatre chain or event */
-	std::string chain;
 	/** mastered luminance if there are multiple versions distributed (e.g. 35, 4fl, 6fl etc.) */
 	std::string mastered_luminance;
 };

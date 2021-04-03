@@ -886,8 +886,8 @@ Film::isdcf_name (bool if_created_now) const
 		d += "-RedBand";
 	}
 
-	if (!dm.chain.empty ()) {
-		d += "-" + dm.chain;
+	if (_chain && !_chain->empty()) {
+		d += "-" + *_chain;
 	}
 
 	if (three_d ()) {

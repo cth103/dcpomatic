@@ -456,6 +456,7 @@ DCPPanel::film_changed (Film::Property p)
 	case Film::Property::PRE_RELEASE:
 	case Film::Property::RED_BAND:
 	case Film::Property::TWO_D_VERSION_OF_THREE_D:
+	case Film::Property::CHAIN:
 		setup_dcp_name ();
 		break;
 	default:

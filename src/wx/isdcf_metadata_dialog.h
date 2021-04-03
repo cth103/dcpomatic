@@ -33,6 +33,5 @@ public:
 	ISDCFMetadata isdcf_metadata () const;
 
 private:
-	wxTextCtrl* _chain;
 	wxTextCtrl* _mastered_luminance;
 };

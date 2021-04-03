@@ -78,6 +78,8 @@ MetadataDialog::setup ()
 	_facility->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::facility_changed, this));
 	_enable_studio->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_studio_changed, this));
 	_studio->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::studio_changed, this));
+	_enable_chain->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_chain_changed, this));
+	_chain->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::chain_changed, this));
 	_temp_version->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::temp_version_changed, this));
 	_pre_release->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::pre_release_changed, this));
 	_red_band->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::red_band_changed, this));
@@ -92,6 +94,7 @@ MetadataDialog::setup ()
 	film_changed (ChangeType::DONE, Film::Property::PRE_RELEASE);
 	film_changed (ChangeType::DONE, Film::Property::RED_BAND);
 	film_changed (ChangeType::DONE, Film::Property::TWO_D_VERSION_OF_THREE_D);
+	film_changed (ChangeType::DONE, Film::Property::CHAIN);
 
 	setup_sensitivity ();
 }
@@ -120,6 +123,11 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 		checked_set (_enable_studio, static_cast<bool>(film()->studio()));
 		if (film()->studio()) {
 			checked_set (_studio, *film()->studio());
+		}
+	} else if (property == Film::Property::CHAIN) {
+		checked_set (_enable_chain, static_cast<bool>(film()->chain()));
+		if (film()->chain()) {
+			checked_set (_chain, *film()->chain());
 		}
 	} else if (property == Film::Property::TEMP_VERSION) {
 		checked_set (_temp_version, film()->temp_version());
@@ -171,6 +179,7 @@ MetadataDialog::setup_sensitivity ()
 	_release_territory_text->Enable (enabled);
 	_edit_release_territory->Enable (enabled);
 	_facility->Enable (_enable_facility->GetValue());
+	_chain->Enable (_enable_chain->GetValue());
 	_studio->Enable (_enable_studio->GetValue());
 }
 
@@ -199,6 +208,11 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	sizer->Add (_enable_studio, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_studio = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_studio, 1, wxEXPAND);
+
+	_enable_chain = new wxCheckBox (panel, wxID_ANY, _("Chain"));
+	sizer->Add (_enable_chain, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	_chain = new wxTextCtrl (panel, wxID_ANY);
+	sizer->Add (_chain, 1, wxEXPAND);
 
 	_temp_version = new wxCheckBox (panel, wxID_ANY, _("Temporary version"));
 	sizer->Add (_temp_version, 0, wxALIGN_CENTER_VERTICAL);
@@ -282,4 +296,24 @@ MetadataDialog::two_d_version_of_three_d_changed ()
 {
 	film()->set_two_d_version_of_three_d(_two_d_version_of_three_d->GetValue());
 }
+
+
+void
+MetadataDialog::chain_changed ()
+{
+	film()->set_chain (wx_to_std(_chain->GetValue()));
+}
+
+
+void
+MetadataDialog::enable_chain_changed ()
+{
+	setup_sensitivity ();
+	if (_enable_chain->GetValue()) {
+		film()->set_chain (wx_to_std(_chain->GetValue()));
+	} else {
+		film()->set_chain ();
+	}
+}
+
 

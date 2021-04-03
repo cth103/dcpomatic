@@ -34,8 +34,7 @@ using std::shared_ptr;
 using dcp::raw_convert;
 
 ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
-	: chain (node->optional_string_child ("Chain").get_value_or (""))
-	, mastered_luminance (node->optional_string_child ("MasteredLuminance").get_value_or (""))
+	: mastered_luminance (node->optional_string_child ("MasteredLuminance").get_value_or (""))
 {
 
 }
@@ -43,13 +42,11 @@ ISDCFMetadata::ISDCFMetadata (cxml::ConstNodePtr node)
 void
 ISDCFMetadata::as_xml (xmlpp::Node* root) const
 {
-	root->add_child("Chain")->add_child_text (chain);
 	root->add_child("MasteredLuminance")->add_child_text (mastered_luminance);
 }
 
 bool
 operator== (ISDCFMetadata const & a, ISDCFMetadata const & b)
 {
-        return a.chain == b.chain &&
-               a.mastered_luminance == b.mastered_luminance;
+        return a.mastered_luminance == b.mastered_luminance;
 }

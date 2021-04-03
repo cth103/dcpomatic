@@ -59,6 +59,8 @@ private:
 	void pre_release_changed ();
 	void red_band_changed ();
 	void two_d_version_of_three_d_changed ();
+	void chain_changed ();
+	void enable_chain_changed ();
 
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
@@ -70,6 +72,8 @@ private:
 	Button* _edit_release_territory;
 	wxCheckBox* _enable_facility;
 	wxTextCtrl* _facility;
+	wxCheckBox* _enable_chain;
+	wxTextCtrl* _chain;
 	wxCheckBox* _enable_studio;
 	wxTextCtrl* _studio;
 	wxCheckBox* _temp_version;

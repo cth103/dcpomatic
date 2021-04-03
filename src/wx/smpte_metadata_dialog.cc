@@ -110,11 +110,6 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	_status = new wxChoice (panel, wxID_ANY);
 	sizer->Add (_status, 0);
 
-	_enable_chain = new wxCheckBox (panel, wxID_ANY, _("Chain"));
-	sizer->Add (_enable_chain, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	_chain = new wxTextCtrl (panel, wxID_ANY);
-	sizer->Add (_chain, 1, wxEXPAND);
-
 	_enable_distributor = new wxCheckBox (panel, wxID_ANY, _("Distributor"));
 	sizer->Add (_enable_distributor, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_distributor = new wxTextCtrl (panel, wxID_ANY);
@@ -178,8 +173,6 @@ SMPTEMetadataDialog::setup ()
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
-	_enable_chain->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_chain_changed, this));
-	_chain->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::chain_changed, this));
 	_enable_distributor->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_distributor_changed, this));
 	_distributor->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::distributor_changed, this));
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
@@ -188,7 +181,6 @@ SMPTEMetadataDialog::setup ()
 	film_changed (ChangeType::DONE, Film::Property::NAME_LANGUAGE);
 	film_changed (ChangeType::DONE, Film::Property::VERSION_NUMBER);
 	film_changed (ChangeType::DONE, Film::Property::STATUS);
-	film_changed (ChangeType::DONE, Film::Property::CHAIN);
 	film_changed (ChangeType::DONE, Film::Property::DISTRIBUTOR);
 	film_changed (ChangeType::DONE, Film::Property::CONTENT_VERSIONS);
 	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
@@ -221,11 +213,6 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 		case dcp::Status::FINAL:
 			checked_set (_status, 2);
 			break;
-		}
-	} else if (property == Film::Property::CHAIN) {
-		checked_set (_enable_chain, static_cast<bool>(film()->chain()));
-		if (film()->chain()) {
-			checked_set (_chain, *film()->chain());
 		}
 	} else if (property == Film::Property::DISTRIBUTOR) {
 		checked_set (_enable_distributor, static_cast<bool>(film()->distributor()));
@@ -312,13 +299,6 @@ SMPTEMetadataDialog::status_changed ()
 
 
 void
-SMPTEMetadataDialog::chain_changed ()
-{
-	film()->set_chain (wx_to_std(_chain->GetValue()));
-}
-
-
-void
 SMPTEMetadataDialog::distributor_changed ()
 {
 	film()->set_distributor (wx_to_std(_distributor->GetValue()));
@@ -349,20 +329,7 @@ SMPTEMetadataDialog::setup_sensitivity ()
 {
 	MetadataDialog::setup_sensitivity ();
 
-	_chain->Enable (_enable_chain->GetValue());
 	_distributor->Enable (_enable_distributor->GetValue());
-}
-
-
-void
-SMPTEMetadataDialog::enable_chain_changed ()
-{
-	setup_sensitivity ();
-	if (_enable_chain->GetValue()) {
-		film()->set_chain (wx_to_std(_chain->GetValue()));
-	} else {
-		film()->set_chain ();
-	}
 }
 
 

@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_pre_release (true);
 	film->set_red_band (true);
 	film->set_two_d_version_of_three_d (true);
-	m.chain = "MyChain";
+	film->set_chain (string("MyChain"));
 	m.mastered_luminance = "4fl";
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (48);
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_pre_release (false);
 	film->set_red_band (false);
 	film->set_two_d_version_of_three_d (false);
-	m.chain = "";
+	film->set_chain (string(""));
 	m.mastered_luminance = "";
 	film->set_isdcf_metadata (m);
 	film->set_video_frame_rate (24);

@@ -35,13 +35,9 @@ using std::shared_ptr;
 ISDCFMetadataDialog::ISDCFMetadataDialog (wxWindow* parent, ISDCFMetadata dm)
 	: TableDialog (parent, _("ISDCF name"), 2, 1, true)
 {
-	add (_("Chain"), true);
-	_chain = add (new wxTextCtrl (this, wxID_ANY));
-
 	add (_("Mastered luminance (e.g. 14fl)"), true);
 	_mastered_luminance = add (new wxTextCtrl (this, wxID_ANY));
 
-	_chain->SetValue (std_to_wx (dm.chain));
 	_mastered_luminance->SetValue (std_to_wx (dm.mastered_luminance));
 
 	layout ();
@@ -53,7 +49,6 @@ ISDCFMetadataDialog::isdcf_metadata () const
 {
 	ISDCFMetadata dm;
 
-	dm.chain = wx_to_std (_chain->GetValue ());
 	dm.mastered_luminance = wx_to_std (_mastered_luminance->GetValue ());
 
 	return dm;

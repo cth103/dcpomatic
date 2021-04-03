@@ -57,17 +57,13 @@ private:
 	void name_language_changed (dcp::LanguageTag tag);
 	void version_number_changed ();
 	void status_changed ();
-	void chain_changed ();
 	void distributor_changed ();
 	void luminance_changed ();
-	void enable_chain_changed ();
 	void enable_distributor_changed ();
 
 	LanguageTagWidget* _name_language;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;
-	wxCheckBox* _enable_chain;
-	wxTextCtrl* _chain;
 	wxCheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
 	wxSpinCtrlDouble* _luminance_value;
