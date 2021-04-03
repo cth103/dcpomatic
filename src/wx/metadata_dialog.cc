@@ -27,6 +27,7 @@
 #include <boost/bind.hpp>
 #include <boost/weak_ptr.hpp>
 #include <wx/notebook.h>
+#include <wx/spinctrl.h>
 #include <wx/wx.h>
 
 
@@ -84,6 +85,9 @@ MetadataDialog::setup ()
 	_pre_release->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::pre_release_changed, this));
 	_red_band->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::red_band_changed, this));
 	_two_d_version_of_three_d->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::two_d_version_of_three_d_changed, this));
+	_enable_luminance->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_luminance_changed, this));
+	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&MetadataDialog::luminance_changed, this));
+	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&MetadataDialog::luminance_changed, this));
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&MetadataDialog::film_changed, this, _1, _2));
 
@@ -95,6 +99,7 @@ MetadataDialog::setup ()
 	film_changed (ChangeType::DONE, Film::Property::RED_BAND);
 	film_changed (ChangeType::DONE, Film::Property::TWO_D_VERSION_OF_THREE_D);
 	film_changed (ChangeType::DONE, Film::Property::CHAIN);
+	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
 
 	setup_sensitivity ();
 }
@@ -137,6 +142,20 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 		checked_set (_red_band, film()->red_band());
 	} else if (property == Film::Property::TWO_D_VERSION_OF_THREE_D) {
 		checked_set (_two_d_version_of_three_d, film()->two_d_version_of_three_d());
+	} else if (property == Film::Property::LUMINANCE) {
+		auto lum = film()->luminance();
+		checked_set (_enable_luminance, static_cast<bool>(lum));
+		if (lum) {
+			checked_set (_luminance_value, lum->value());
+			switch (lum->unit()) {
+			case dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE:
+				checked_set (_luminance_unit, 0);
+				break;
+			case dcp::Luminance::Unit::FOOT_LAMBERT:
+				checked_set (_luminance_unit, 1);
+				break;
+			}
+		}
 	}
 }
 
@@ -181,6 +200,8 @@ MetadataDialog::setup_sensitivity ()
 	_facility->Enable (_enable_facility->GetValue());
 	_chain->Enable (_enable_chain->GetValue());
 	_studio->Enable (_enable_studio->GetValue());
+	_luminance_value->Enable (_enable_luminance->GetValue());
+	_luminance_unit->Enable (_enable_luminance->GetValue());
 }
 
 
@@ -229,6 +250,23 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	_two_d_version_of_three_d = new wxCheckBox (panel, wxID_ANY, _("2D version of 3D DCP"));
 	sizer->Add (_two_d_version_of_three_d, 0, wxALIGN_CENTER_VERTICAL);
 	sizer->AddSpacer (0);
+
+	_enable_luminance = new wxCheckBox (panel, wxID_ANY, _("Luminance"));
+	sizer->Add (_enable_luminance, 0, wxALIGN_CENTER_VERTICAL);
+	{
+		auto s = new wxBoxSizer (wxHORIZONTAL);
+		_luminance_value = new wxSpinCtrlDouble (panel, wxID_ANY);
+		_luminance_value->SetDigits (1);
+		_luminance_value->SetIncrement (0.1);
+		s->Add (_luminance_value, 0);
+		_luminance_unit = new wxChoice (panel, wxID_ANY);
+		s->Add (_luminance_unit, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
+		sizer->Add (s, 1, wxEXPAND);
+	}
+
+	_luminance_unit->Append (wxString::FromUTF8(_("candela per m²")));
+	_luminance_unit->Append (_("foot lambert"));
+
 }
 
 
@@ -310,10 +348,40 @@ MetadataDialog::enable_chain_changed ()
 {
 	setup_sensitivity ();
 	if (_enable_chain->GetValue()) {
-		film()->set_chain (wx_to_std(_chain->GetValue()));
+		chain_changed ();
 	} else {
 		film()->set_chain ();
 	}
 }
 
+
+void
+MetadataDialog::enable_luminance_changed ()
+{
+	setup_sensitivity ();
+	if (_enable_luminance->GetValue()) {
+		luminance_changed ();
+	} else {
+		film()->set_luminance ();
+	}
+}
+
+
+void
+MetadataDialog::luminance_changed ()
+{
+	dcp::Luminance::Unit unit;
+	switch (_luminance_unit->GetSelection()) {
+	case 0:
+		unit = dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE;
+		break;
+	case 1:
+		unit = dcp::Luminance::Unit::FOOT_LAMBERT;
+		break;
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+
+	film()->set_luminance (dcp::Luminance(_luminance_value->GetValue(), unit));
+}
 

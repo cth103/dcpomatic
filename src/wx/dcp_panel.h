@@ -64,7 +64,6 @@ public:
 private:
 	void name_changed ();
 	void use_isdcf_name_toggled ();
-	void edit_isdcf_button_clicked ();
 	void copy_isdcf_name_button_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
@@ -118,7 +117,6 @@ private:
 	wxStaticText* _container_label;
 	wxChoice* _container;
 	wxStaticText* _container_size;
-	wxButton* _edit_isdcf_button;
 	wxButton* _copy_isdcf_name_button;
 	wxStaticText* _j2k_bandwidth_label;
 	wxStaticText* _mbits_label;

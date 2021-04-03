@@ -33,6 +33,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 
 class Button;
+class wxSpinCtrlDouble;
 
 
 class MetadataDialog : public wxDialog, public WeakFilm
@@ -61,6 +62,8 @@ private:
 	void two_d_version_of_three_d_changed ();
 	void chain_changed ();
 	void enable_chain_changed ();
+	void enable_luminance_changed ();
+	void luminance_changed ();
 
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
@@ -80,6 +83,9 @@ private:
 	wxCheckBox* _pre_release;
 	wxCheckBox* _red_band;
 	wxCheckBox* _two_d_version_of_three_d;
+	wxCheckBox* _enable_luminance;
+	wxSpinCtrlDouble* _luminance_value;
+	wxChoice* _luminance_unit;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 };

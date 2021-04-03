@@ -25,7 +25,6 @@
 #ifndef DCPOMATIC_CONFIG_H
 #define DCPOMATIC_CONFIG_H
 
-#include "isdcf_metadata.h"
 #include "types.h"
 #include "state.h"
 #include "edid.h"
@@ -164,10 +163,6 @@ public:
 
 	bool show_experimental_audio_processors () const {
 		return _show_experimental_audio_processors;
-	}
-
-	ISDCFMetadata default_isdcf_metadata () const {
-		return _default_isdcf_metadata;
 	}
 
 	boost::optional<std::string> language () const {
@@ -634,10 +629,6 @@ public:
 
 	void set_show_experimental_audio_processors (bool e) {
 		maybe_set (_show_experimental_audio_processors, e, SHOW_EXPERIMENTAL_AUDIO_PROCESSORS);
-	}
-
-	void set_default_isdcf_metadata (ISDCFMetadata d) {
-		maybe_set (_default_isdcf_metadata, d);
 	}
 
 	void set_language (std::string l) {
@@ -1174,8 +1165,6 @@ private:
 	bool _allow_any_container;
 	/** Offer the upmixers in the audio processor settings */
 	bool _show_experimental_audio_processors;
-	/** Default ISDCF metadata for newly-created Films */
-	ISDCFMetadata _default_isdcf_metadata;
 	boost::optional<std::string> _language;
  	/** Default length of still image content (seconds) */
 	int _default_still_length;

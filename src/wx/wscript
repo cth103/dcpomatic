@@ -85,7 +85,6 @@ sources = """
           image_sequence_dialog.cc
           instant_i18n_dialog.cc
           interop_metadata_dialog.cc
-          isdcf_metadata_dialog.cc
           job_manager_view.cc
           job_view.cc
           job_view_dialog.cc

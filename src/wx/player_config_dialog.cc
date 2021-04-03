@@ -28,7 +28,6 @@
 #include "filter_dialog.h"
 #include "file_picker_ctrl.h"
 #include "dir_picker_ctrl.h"
-#include "isdcf_metadata_dialog.h"
 #include "server_dialog.h"
 #include "make_chain_dialog.h"
 #include "email_dialog.h"

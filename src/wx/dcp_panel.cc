@@ -20,7 +20,6 @@
 
 #include "dcp_panel.h"
 #include "wx_util.h"
-#include "isdcf_metadata_dialog.h"
 #include "audio_dialog.h"
 #include "focus_manager.h"
 #include "check_box.h"
@@ -85,7 +84,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	FocusManager::instance()->add(_name);
 
 	_use_isdcf_name = new CheckBox (_panel, _("Use ISDCF name"));
-	_edit_isdcf_button = new Button (_panel, _("Details..."));
 	_copy_isdcf_name_button = new Button (_panel, _("Copy as name"));
 
 	/* wxST_ELLIPSIZE_MIDDLE works around a bug in GTK2 and/or wxWidgets, see
@@ -126,7 +124,6 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 
 	_name->Bind		     (wxEVT_TEXT,     boost::bind (&DCPPanel::name_changed, this));
 	_use_isdcf_name->Bind	     (wxEVT_CHECKBOX, boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
-	_edit_isdcf_button->Bind     (wxEVT_BUTTON,   boost::bind (&DCPPanel::edit_isdcf_button_clicked, this));
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
 	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind (&DCPPanel::dcp_content_type_changed, this));
 	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind (&DCPPanel::encrypted_toggled, this));
@@ -162,8 +159,8 @@ DCPPanel::add_to_grid ()
 
 	auto name_sizer = new wxBoxSizer (wxHORIZONTAL);
 	name_sizer->Add (_name_label, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	name_sizer->Add (_name, 1, wxALIGN_CENTER_VERTICAL);
-	_grid->Add (name_sizer, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);
+	name_sizer->Add (_name, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	_grid->Add (name_sizer, wxGBPosition(r, 0), wxGBSpan(1, 2), wxRIGHT | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
 	++r;
 
 	int flags = wxALIGN_CENTER_VERTICAL;
@@ -173,14 +170,13 @@ DCPPanel::add_to_grid ()
 
 	_grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (_edit_isdcf_button, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-		s->Add (_copy_isdcf_name_button, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_copy_isdcf_name_button, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
 	}
 	++r;
 
-	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
+	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition (r, 0));
@@ -379,12 +375,8 @@ DCPPanel::film_changed (Film::Property p)
 			}
 		}
 		setup_dcp_name ();
-		_edit_isdcf_button->Enable (_film->use_isdcf_name ());
 		break;
 	}
-	case Film::Property::ISDCF_METADATA:
-		setup_dcp_name ();
-		break;
 	case Film::Property::VIDEO_FRAME_RATE:
 	{
 		bool done = false;
@@ -457,6 +449,7 @@ DCPPanel::film_changed (Film::Property p)
 	case Film::Property::RED_BAND:
 	case Film::Property::TWO_D_VERSION_OF_THREE_D:
 	case Film::Property::CHAIN:
+	case Film::Property::LUMINANCE:
 		setup_dcp_name ();
 		break;
 	default:
@@ -575,7 +568,6 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::Property::RESOLUTION);
 	film_changed (Film::Property::ENCRYPTED);
 	film_changed (Film::Property::J2K_BANDWIDTH);
-	film_changed (Film::Property::ISDCF_METADATA);
 	film_changed (Film::Property::VIDEO_FRAME_RATE);
 	film_changed (Film::Property::AUDIO_CHANNELS);
 	film_changed (Film::Property::SEQUENCE);
@@ -601,7 +593,6 @@ DCPPanel::setup_sensitivity ()
 {
 	_name->Enable                   (_generally_sensitive);
 	_use_isdcf_name->Enable         (_generally_sensitive);
-	_edit_isdcf_button->Enable      (_generally_sensitive);
 	_dcp_content_type->Enable       (_generally_sensitive);
 	_copy_isdcf_name_button->Enable (_generally_sensitive);
 	_encrypted->Enable              (_generally_sensitive);
@@ -645,19 +636,6 @@ DCPPanel::use_isdcf_name_toggled ()
 	}
 
 	_film->set_use_isdcf_name (_use_isdcf_name->GetValue ());
-}
-
-void
-DCPPanel::edit_isdcf_button_clicked ()
-{
-	if (!_film) {
-		return;
-	}
-
-	auto d = new ISDCFMetadataDialog (_panel, _film->isdcf_metadata ());
-	d->ShowModal ();
-	_film->set_isdcf_metadata (d->isdcf_metadata ());
-	d->Destroy ();
 }
 
 void

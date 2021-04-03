@@ -58,7 +58,6 @@ private:
 	void version_number_changed ();
 	void status_changed ();
 	void distributor_changed ();
-	void luminance_changed ();
 	void enable_distributor_changed ();
 
 	LanguageTagWidget* _name_language;
@@ -66,8 +65,6 @@ private:
 	wxChoice* _status;
 	wxCheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
-	wxSpinCtrlDouble* _luminance_value;
-	wxChoice* _luminance_unit;
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
 	EditableList<std::string, ContentVersionDialog>* _content_versions;
 };

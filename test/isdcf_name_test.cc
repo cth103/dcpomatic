@@ -66,8 +66,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_ratings({dcp::Rating("BBFC", "PG")});
 	film->set_studio (string("ST"));
 	film->set_facility (string("FAC"));
-	ISDCFMetadata m;
-	film->set_isdcf_metadata (m);
 	film->set_interop (true);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilm_FTR-1_F_EN-XX_GB-PG_10_2K_ST_20140704_FAC_IOP_OV");
 
@@ -99,7 +97,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_REQUIRE (audio->audio);
 	audio->audio->set_language (dcp::LanguageTag("de-DE"));
-	film->set_isdcf_metadata (m);
 	film->set_interop (false);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
@@ -144,8 +141,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_red_band (true);
 	film->set_two_d_version_of_three_d (true);
 	film->set_chain (string("MyChain"));
-	m.mastered_luminance = "4fl";
-	film->set_isdcf_metadata (m);
+	film->set_luminance (dcp::Luminance(4.5, dcp::Luminance::Unit::FOOT_LAMBERT));
 	film->set_video_frame_rate (48);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2-Temp-Pre-RedBand-MyChain-2D-4fl-48_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
@@ -157,8 +153,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_red_band (false);
 	film->set_two_d_version_of_three_d (false);
 	film->set_chain (string(""));
-	m.mastered_luminance = "";
-	film->set_isdcf_metadata (m);
+	film->set_luminance (boost::none);
 	film->set_video_frame_rate (24);
 	film->set_name ("IKnowCamels");
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "IKnowCamels_XSN-2_F-133_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");

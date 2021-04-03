@@ -155,7 +155,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _encrypted (false)
 	, _context_id (dcp::make_uuid ())
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
-	, _isdcf_metadata (Config::instance()->default_isdcf_metadata ())
 	, _video_frame_rate (24)
 	, _audio_channels (Config::instance()->default_dcp_audio_channels ())
 	, _three_d (false)
@@ -446,7 +445,6 @@ Film::metadata (bool with_content_paths) const
 
 	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
 	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
-	_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
 	root->add_child("ISDCFDate")->add_child_text (boost::gregorian::to_iso_string (_isdcf_date));
 	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
@@ -572,11 +570,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_name = f.string_child ("Name");
 	if (_state_version >= 9) {
 		_use_isdcf_name = f.bool_child ("UseISDCFName");
-		_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
 		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("ISDCFDate"));
 	} else {
 		_use_isdcf_name = f.bool_child ("UseDCIName");
-		_isdcf_metadata = ISDCFMetadata (f.node_child ("DCIMetadata"));
 		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	}
 
@@ -872,8 +868,6 @@ Film::isdcf_name (bool if_created_now) const
 		d += "-" + version;
 	}
 
-	auto const dm = isdcf_metadata ();
-
 	if (_temp_version) {
 		d += "-Temp";
 	}
@@ -898,8 +892,11 @@ Film::isdcf_name (bool if_created_now) const
 		d += "-2D";
 	}
 
-	if (!dm.mastered_luminance.empty ()) {
-		d += "-" + dm.mastered_luminance;
+	if (_luminance) {
+		auto fl = _luminance->value_in_foot_lamberts();
+		char buffer[64];
+		snprintf (buffer, sizeof(buffer), "%.1f", fl);
+		d += String::compose("-%1fl", buffer);
 	}
 
 	if (video_frame_rate() != 24) {
@@ -1127,13 +1124,6 @@ Film::set_j2k_bandwidth (int b)
 {
 	FilmChangeSignaller ch (this, Property::J2K_BANDWIDTH);
 	_j2k_bandwidth = b;
-}
-
-void
-Film::set_isdcf_metadata (ISDCFMetadata m)
-{
-	FilmChangeSignaller ch (this, Property::ISDCF_METADATA);
-	_isdcf_metadata = m;
 }
 
 /** @param f New frame rate.
@@ -1889,7 +1879,6 @@ Film::use_template (string name)
 	_audio_processor = _template_film->_audio_processor;
 	_reel_type = _template_film->_reel_type;
 	_reel_length = _template_film->_reel_length;
-	_isdcf_metadata = _template_film->_isdcf_metadata;
 }
 
 pair<double, double>

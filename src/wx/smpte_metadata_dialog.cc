@@ -115,18 +115,6 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	_distributor = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_distributor, 1, wxEXPAND);
 
-	add_label_to_sizer (sizer, panel, _("Luminance"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	{
-		auto s = new wxBoxSizer (wxHORIZONTAL);
-		_luminance_value = new wxSpinCtrlDouble (panel, wxID_ANY);
-		_luminance_value->SetDigits (1);
-		_luminance_value->SetIncrement (0.1);
-		s->Add (_luminance_value, 0);
-		_luminance_unit = new wxChoice (panel, wxID_ANY);
-		s->Add (_luminance_unit, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
-		sizer->Add (s, 1, wxEXPAND);
-	}
-
 	{
 		int flags = wxALIGN_TOP | wxRIGHT | wxTOP;
 #ifdef __WXOSX__
@@ -167,23 +155,17 @@ SMPTEMetadataDialog::setup ()
 	_status->Append (_("Pre-release"));
 	_status->Append (_("Final"));
 
-	_luminance_unit->Append (wxString::FromUTF8(_("candela per m²")));
-	_luminance_unit->Append (_("foot lambert"));
-
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
 	_enable_distributor->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_distributor_changed, this));
 	_distributor->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::distributor_changed, this));
-	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
-	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::luminance_changed, this));
 
 	film_changed (ChangeType::DONE, Film::Property::NAME_LANGUAGE);
 	film_changed (ChangeType::DONE, Film::Property::VERSION_NUMBER);
 	film_changed (ChangeType::DONE, Film::Property::STATUS);
 	film_changed (ChangeType::DONE, Film::Property::DISTRIBUTOR);
 	film_changed (ChangeType::DONE, Film::Property::CONTENT_VERSIONS);
-	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
 
 	setup_sensitivity ();
 }
@@ -218,22 +200,6 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 		checked_set (_enable_distributor, static_cast<bool>(film()->distributor()));
 		if (film()->distributor()) {
 			checked_set (_distributor, *film()->distributor());
-		}
-	} else if (property == Film::Property::LUMINANCE) {
-		auto lum = film()->luminance();
-		if (lum) {
-			checked_set (_luminance_value, lum->value());
-			switch (lum->unit()) {
-			case dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE:
-				checked_set (_luminance_unit, 0);
-				break;
-			case dcp::Luminance::Unit::FOOT_LAMBERT:
-				checked_set (_luminance_unit, 1);
-				break;
-			}
-		} else {
-			checked_set (_luminance_value, 4.5);
-			checked_set (_luminance_unit, 1);
 		}
 	}
 }
@@ -302,25 +268,6 @@ void
 SMPTEMetadataDialog::distributor_changed ()
 {
 	film()->set_distributor (wx_to_std(_distributor->GetValue()));
-}
-
-
-void
-SMPTEMetadataDialog::luminance_changed ()
-{
-	dcp::Luminance::Unit unit;
-	switch (_luminance_unit->GetSelection()) {
-	case 0:
-		unit = dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE;
-		break;
-	case 1:
-		unit = dcp::Luminance::Unit::FOOT_LAMBERT;
-		break;
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-
-	film()->set_luminance (dcp::Luminance(_luminance_value->GetValue(), unit));
 }
 
 

@@ -29,7 +29,6 @@
 #include "change_signaller.h"
 #include "dcp_text_track.h"
 #include "frame_rate_change.h"
-#include "isdcf_metadata.h"
 #include "signaller.h"
 #include "types.h"
 #include "util.h"
@@ -217,7 +216,6 @@ public:
 		RESOLUTION,
 		ENCRYPTED,
 		J2K_BANDWIDTH,
-		ISDCF_METADATA,
 		VIDEO_FRAME_RATE,
 		AUDIO_CHANNELS,
 		/** The setting of _three_d has changed */
@@ -284,10 +282,6 @@ public:
 
 	int j2k_bandwidth () const {
 		return _j2k_bandwidth;
-	}
-
-	ISDCFMetadata isdcf_metadata () const {
-		return _isdcf_metadata;
 	}
 
 	/** @return The frame rate of the DCP */
@@ -418,7 +412,6 @@ public:
 	void set_resolution (Resolution, bool user_explicit = true);
 	void set_encrypted (bool);
 	void set_j2k_bandwidth (int);
-	void set_isdcf_metadata (ISDCFMetadata);
 	void set_video_frame_rate (int rate, bool user_explicit = false);
 	void set_audio_channels (int);
 	void set_three_d (bool);
@@ -518,8 +511,6 @@ private:
 	std::string _context_id;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
-	/** ISDCF naming stuff */
-	ISDCFMetadata _isdcf_metadata;
 	/** Frames per second to run our DCP at */
 	int _video_frame_rate;
 	/** The date that we should use in a ISDCF name */

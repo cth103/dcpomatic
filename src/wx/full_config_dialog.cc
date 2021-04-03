@@ -28,7 +28,6 @@
 #include "filter_dialog.h"
 #include "dir_picker_ctrl.h"
 #include "file_picker_ctrl.h"
-#include "isdcf_metadata_dialog.h"
 #include "server_dialog.h"
 #include "make_chain_dialog.h"
 #include "email_dialog.h"
@@ -275,10 +274,6 @@ private:
 #endif
 		table->Add (_directory, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Default ISDCF name details"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_isdcf_metadata_button = new Button (_panel, _("Edit..."));
-		table->Add (_isdcf_metadata_button);
-
 		add_label_to_sizer (table, _panel, _("Default container"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_container = new wxChoice (_panel, wxID_ANY);
 		table->Add (_container);
@@ -327,8 +322,6 @@ private:
 
 		_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::kdm_directory_changed, this));
-
-		_isdcf_metadata_button->Bind (wxEVT_BUTTON, boost::bind (&DefaultsPage::edit_isdcf_metadata_clicked, this));
 
 		for (auto i: Ratio::containers()) {
 			_container->Append (std_to_wx(i->container_nickname()));
@@ -414,14 +407,6 @@ private:
 		Config::instance()->set_default_kdm_directory (wx_to_std (_kdm_directory->GetPath ()));
 	}
 
-	void edit_isdcf_metadata_clicked ()
-	{
-		auto d = new ISDCFMetadataDialog (_panel, Config::instance()->default_isdcf_metadata ());
-		d->ShowModal ();
-		Config::instance()->set_default_isdcf_metadata (d->isdcf_metadata ());
-		d->Destroy ();
-	}
-
 	void still_length_changed ()
 	{
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
@@ -446,7 +431,6 @@ private:
 
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
-	wxButton* _isdcf_metadata_button;
 	wxSpinCtrl* _still_length;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _directory;
