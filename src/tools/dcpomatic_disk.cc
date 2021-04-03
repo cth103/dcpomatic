@@ -320,7 +320,7 @@ private:
 		int j = 0;
 		_drives = Drive::get ();
 		for (auto i: _drives) {
-			auto const s = std_to_wx(i.description();
+			auto const s = std_to_wx(i.description());
 			if (s == current) {
 				re_select = j;
 			}
