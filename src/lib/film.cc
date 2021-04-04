@@ -155,7 +155,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _encrypted (false)
 	, _context_id (dcp::make_uuid ())
 	, _j2k_bandwidth (Config::instance()->default_j2k_bandwidth ())
-	, _isdcf_metadata (Config::instance()->default_isdcf_metadata ())
 	, _video_frame_rate (24)
 	, _audio_channels (Config::instance()->default_dcp_audio_channels ())
 	, _three_d (false)
@@ -446,7 +445,6 @@ Film::metadata (bool with_content_paths) const
 
 	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
 	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
-	_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
 	root->add_child("ISDCFDate")->add_child_text (boost::gregorian::to_iso_string (_isdcf_date));
 	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
@@ -490,6 +488,13 @@ Film::metadata (bool with_content_paths) const
 	if (_facility) {
 		root->add_child("Facility")->add_child_text(*_facility);
 	}
+	if (_studio) {
+		root->add_child("Studio")->add_child_text(*_studio);
+	}
+	root->add_child("TempVersion")->add_child_text(_temp_version ? "1" : "0");
+	root->add_child("PreRelease")->add_child_text(_pre_release ? "1" : "0");
+	root->add_child("RedBand")->add_child_text(_red_band ? "1" : "0");
+	root->add_child("TwoDVersionOfThreeD")->add_child_text(_two_d_version_of_three_d ? "1" : "0");
 	if (_luminance) {
 		root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance->value()));
 		root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance->unit()));
@@ -565,11 +570,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_name = f.string_child ("Name");
 	if (_state_version >= 9) {
 		_use_isdcf_name = f.bool_child ("UseISDCFName");
-		_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
 		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("ISDCFDate"));
 	} else {
 		_use_isdcf_name = f.bool_child ("UseDCIName");
-		_isdcf_metadata = ISDCFMetadata (f.node_child ("DCIMetadata"));
 		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
 	}
 
@@ -666,6 +669,11 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_chain = f.optional_string_child("Chain");
 	_distributor = f.optional_string_child("Distributor");
 	_facility = f.optional_string_child("Facility");
+	_studio = f.optional_string_child("Studio");
+	_temp_version = f.optional_bool_child("TempVersion").get_value_or(false);
+	_pre_release = f.optional_bool_child("PreRelease").get_value_or(false);
+	_red_band = f.optional_bool_child("RedBand").get_value_or(false);
+	_two_d_version_of_three_d = f.optional_bool_child("TwoDVersionOfThreeD").get_value_or(false);
 
 	auto value = f.optional_number_child<float>("LuminanceValue");
 	auto unit = f.optional_string_child("LuminanceUnit");
@@ -846,37 +854,49 @@ Film::isdcf_name (bool if_created_now) const
 
 	if (dcp_content_type()) {
 		d += "_" + dcp_content_type()->isdcf_name();
-		d += "-" + raw_convert<string>(isdcf_metadata().content_version);
+		string version = "1";
+		if (_interop) {
+			if (!_content_versions.empty()) {
+				auto cv = _content_versions[0];
+				if (!cv.empty() && std::all_of(cv.begin(), cv.end(), isdigit)) {
+					version = cv;
+				}
+			}
+		} else {
+			version = dcp::raw_convert<string>(_version_number);
+		}
+		d += "-" + version;
 	}
 
-	auto const dm = isdcf_metadata ();
-
-	if (dm.temp_version) {
+	if (_temp_version) {
 		d += "-Temp";
 	}
 
-	if (dm.pre_release) {
+	if (_pre_release) {
 		d += "-Pre";
 	}
 
-	if (dm.red_band) {
+	if (_red_band) {
 		d += "-RedBand";
 	}
 
-	if (!dm.chain.empty ()) {
-		d += "-" + dm.chain;
+	if (_chain && !_chain->empty()) {
+		d += "-" + *_chain;
 	}
 
 	if (three_d ()) {
 		d += "-3D";
 	}
 
-	if (dm.two_d_version_of_three_d) {
+	if (_two_d_version_of_three_d) {
 		d += "-2D";
 	}
 
-	if (!dm.mastered_luminance.empty ()) {
-		d += "-" + dm.mastered_luminance;
+	if (_luminance) {
+		auto fl = _luminance->value_in_foot_lamberts();
+		char buffer[64];
+		snprintf (buffer, sizeof(buffer), "%.1f", fl);
+		d += String::compose("-%1fl", buffer);
 	}
 
 	if (video_frame_rate() != 24) {
@@ -908,9 +928,8 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto audio_langs = audio_languages();
 	auto audio_language = (audio_langs.empty() || !audio_langs.front().language()) ? "XX" : audio_langs.front().language()->subtag();
-	transform (audio_language.begin(), audio_language.end(), audio_language.begin(), ::toupper);
 
-	d += "_" + audio_language;
+	d += "_" + to_upper (audio_language);
 
 	/* I'm not clear on the precise details of the convention for CCAP labelling;
 	   for now I'm just appending -CCAP if we have any closed captions.
@@ -934,7 +953,7 @@ Film::isdcf_name (bool if_created_now) const
 		if (burnt_in) {
 			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
-			transform (lang.begin(), lang.end(), lang.begin(), ::toupper);
+			lang = to_upper (lang);
 		}
 
 		d += "-" + lang;
@@ -946,12 +965,13 @@ Film::isdcf_name (bool if_created_now) const
 		d += "-XX";
 	}
 
-	if (!dm.territory.empty ()) {
-		d += "_" + dm.territory;
-		if (dm.rating.empty ()) {
+	if (_release_territory) {
+		auto territory = _release_territory->subtag();
+		d += "_" + to_upper (territory);
+		if (_ratings.empty ()) {
 			d += "-NR";
 		} else {
-			d += "-" + dm.rating;
+			d += "-" + _ratings[0].label;
 		}
 	}
 
@@ -975,8 +995,8 @@ Film::isdcf_name (bool if_created_now) const
 
 	d += "_" + resolution_to_string (_resolution);
 
-	if (!dm.studio.empty ()) {
-		d += "_" + dm.studio;
+	if (_studio && _studio->length() >= 2) {
+		d += "_" + to_upper (_studio->substr(0, 4));
 	}
 
 	if (if_created_now) {
@@ -985,8 +1005,8 @@ Film::isdcf_name (bool if_created_now) const
 		d += "_" + boost::gregorian::to_iso_string (_isdcf_date);
 	}
 
-	if (!dm.facility.empty ()) {
-		d += "_" + dm.facility;
+	if (_facility && _facility->length() >= 3) {
+		d += "_" + to_upper(_facility->substr(0, 3));
 	}
 
 	if (_interop) {
@@ -1106,13 +1126,6 @@ Film::set_j2k_bandwidth (int b)
 	_j2k_bandwidth = b;
 }
 
-void
-Film::set_isdcf_metadata (ISDCFMetadata m)
-{
-	FilmChangeSignaller ch (this, Property::ISDCF_METADATA);
-	_isdcf_metadata = m;
-}
-
 /** @param f New frame rate.
  *  @param user_explicit true if this comes from a direct user instruction, false if it is from
  *  DCP-o-matic being helpful.
@@ -1140,9 +1153,8 @@ Film::set_three_d (bool t)
 	FilmChangeSignaller ch (this, Property::THREE_D);
 	_three_d = t;
 
-	if (_three_d && _isdcf_metadata.two_d_version_of_three_d) {
-		FilmChangeSignaller ch (this, Property::ISDCF_METADATA);
-		_isdcf_metadata.two_d_version_of_three_d = false;
+	if (_three_d && _two_d_version_of_three_d) {
+		set_two_d_version_of_three_d (false);
 	}
 }
 
@@ -1867,7 +1879,6 @@ Film::use_template (string name)
 	_audio_processor = _template_film->_audio_processor;
 	_reel_type = _template_film->_reel_type;
 	_reel_length = _template_film->_reel_length;
-	_isdcf_metadata = _template_film->_isdcf_metadata;
 }
 
 pair<double, double>
@@ -2050,6 +2061,14 @@ Film::set_facility (optional<string> f)
 }
 
 
+void
+Film::set_studio (optional<string> s)
+{
+	FilmChangeSignaller ch (this, Property::STUDIO);
+	_studio = s;
+}
+
+
 optional<DCPTime>
 Film::marker (dcp::Marker type) const
 {
@@ -2107,3 +2126,36 @@ Film::add_ffoc_lfoc (Markers& markers) const
 		markers[dcp::Marker::LFOC] = length() - DCPTime::from_frames(1, video_frame_rate());
 	}
 }
+
+
+void
+Film::set_temp_version (bool t)
+{
+	FilmChangeSignaller ch (this, Property::TEMP_VERSION);
+	_temp_version = t;
+}
+
+
+void
+Film::set_pre_release (bool p)
+{
+	FilmChangeSignaller ch (this, Property::PRE_RELEASE);
+	_pre_release = p;
+}
+
+
+void
+Film::set_red_band (bool r)
+{
+	FilmChangeSignaller ch (this, Property::RED_BAND);
+	_red_band = r;
+}
+
+
+void
+Film::set_two_d_version_of_three_d (bool t)
+{
+	FilmChangeSignaller ch (this, Property::TWO_D_VERSION_OF_THREE_D);
+	_two_d_version_of_three_d = t;
+}
+

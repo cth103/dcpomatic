@@ -173,7 +173,7 @@ private:
 	{
 		auto search = _search->GetValue();
 		_list->set_search (search.ToStdString());
-		if (search.Length() > 0) {
+		if (search.Length() > 0 && _list->GetItemCount() > 0) {
 			_list->EnsureVisible (0);
 		}
 		SearchChanged (_search->GetValue().ToStdString());

@@ -29,7 +29,6 @@
 #include "change_signaller.h"
 #include "dcp_text_track.h"
 #include "frame_rate_change.h"
-#include "isdcf_metadata.h"
 #include "signaller.h"
 #include "types.h"
 #include "util.h"
@@ -217,7 +216,6 @@ public:
 		RESOLUTION,
 		ENCRYPTED,
 		J2K_BANDWIDTH,
-		ISDCF_METADATA,
 		VIDEO_FRAME_RATE,
 		AUDIO_CHANNELS,
 		/** The setting of _three_d has changed */
@@ -239,6 +237,11 @@ public:
 		CHAIN,
 		DISTRIBUTOR,
 		FACILITY,
+		STUDIO,
+		TEMP_VERSION,
+		PRE_RELEASE,
+		RED_BAND,
+		TWO_D_VERSION_OF_THREE_D,
 		LUMINANCE,
 	};
 
@@ -279,10 +282,6 @@ public:
 
 	int j2k_bandwidth () const {
 		return _j2k_bandwidth;
-	}
-
-	ISDCFMetadata isdcf_metadata () const {
-		return _isdcf_metadata;
 	}
 
 	/** @return The frame rate of the DCP */
@@ -373,6 +372,26 @@ public:
 		return _facility;
 	}
 
+	boost::optional<std::string> studio () const {
+		return _studio;
+	}
+
+	bool temp_version () const {
+		return _temp_version;
+	}
+
+	bool pre_release () const {
+		return _pre_release;
+	}
+
+	bool red_band () const {
+		return _red_band;
+	}
+
+	bool two_d_version_of_three_d () const {
+		return _two_d_version_of_three_d;
+	}
+
 	boost::optional<dcp::Luminance> luminance () const {
 		return _luminance;
 	}
@@ -393,7 +412,6 @@ public:
 	void set_resolution (Resolution, bool user_explicit = true);
 	void set_encrypted (bool);
 	void set_j2k_bandwidth (int);
-	void set_isdcf_metadata (ISDCFMetadata);
 	void set_video_frame_rate (int rate, bool user_explicit = false);
 	void set_audio_channels (int);
 	void set_three_d (bool);
@@ -416,6 +434,11 @@ public:
 	void set_status (dcp::Status s);
 	void set_chain (boost::optional<std::string> c = boost::none);
 	void set_facility (boost::optional<std::string> f = boost::none);
+	void set_studio (boost::optional<std::string> s = boost::none);
+	void set_temp_version (bool t);
+	void set_pre_release (bool p);
+	void set_red_band (bool r);
+	void set_two_d_version_of_three_d (bool t);
 	void set_distributor (boost::optional<std::string> d = boost::none);
 	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
 
@@ -488,8 +511,6 @@ private:
 	std::string _context_id;
 	/** bandwidth for J2K files in bits per second */
 	int _j2k_bandwidth;
-	/** ISDCF naming stuff */
-	ISDCFMetadata _isdcf_metadata;
 	/** Frames per second to run our DCP at */
 	int _video_frame_rate;
 	/** The date that we should use in a ISDCF name */
@@ -522,6 +543,11 @@ private:
 	boost::optional<std::string> _chain;
 	boost::optional<std::string> _distributor;
 	boost::optional<std::string> _facility;
+	boost::optional<std::string> _studio;
+	bool _temp_version = false;
+	bool _pre_release = false;
+	bool _red_band = false;
+	bool _two_d_version_of_three_d = false;
 	boost::optional<dcp::Luminance> _luminance;
 
 	int _state_version;

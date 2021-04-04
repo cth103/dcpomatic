@@ -309,12 +309,6 @@ try
 	_dcp_product_version = f.optional_string_child("DCPProductVersion").get_value_or("");
 	_dcp_j2k_comment = f.optional_string_child("DCPJ2KComment").get_value_or("");
 
-	if (version && version.get() >= 2) {
-		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("ISDCFMetadata"));
-	} else {
-		_default_isdcf_metadata = ISDCFMetadata (f.node_child ("DCIMetadata"));
-	}
-
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
@@ -687,14 +681,6 @@ Config::write_config () const
 	root->add_child("DCPJ2KComment")->add_child_text (_dcp_j2k_comment);
 	/* [XML] UploadAfterMakeDCP 1 to upload to a TMS after making a DCP, 0 for no upload. */
 	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
-
-	/* [XML] ISDCFMetadata Default ISDCF metadata to use for new films; child tags are <code>&lt;ContentVersion&gt;</code>,
-	   <code>&lt;AudioLanguage&gt;</code>, <code>&lt;SubtitleLanguage&gt;</code>, <code>&lt;Territory&gt;</code>,
-	   <code>&lt;Rating&gt;</code>, <code>&lt;Studio&gt;</code>, <code>&lt;Facility&gt;</code>, <code>&lt;TempVersion&gt;</code>,
-	   <code>&lt;PreRelease&gt;</code>, <code>&lt;RedBand&gt;</code>, <code>&lt;Chain&gt;</code>, <code>&lt;TwoDVersionOFThreeD&gt;</code>,
-	   <code>&lt;MasteredLuminance&gt;</code>.
-	*/
-	_default_isdcf_metadata.as_xml (root->add_child ("ISDCFMetadata"));
 
 	/* [XML] DefaultStillLength Default length (in seconds) for still images in new films. */
 	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
