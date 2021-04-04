@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,31 +18,32 @@
 
 */
 
-#include "content_panel.h"
-#include "wx_util.h"
-#include "video_panel.h"
+
 #include "audio_panel.h"
-#include "text_panel.h"
-#include "timing_panel.h"
-#include "timeline_dialog.h"
-#include "image_sequence_dialog.h"
-#include "film_viewer.h"
+#include "content_panel.h"
 #include "dcpomatic_button.h"
+#include "film_viewer.h"
+#include "image_sequence_dialog.h"
+#include "text_panel.h"
+#include "timeline_dialog.h"
+#include "timing_panel.h"
+#include "video_panel.h"
+#include "wx_util.h"
 #include "lib/audio_content.h"
+#include "lib/case_insensitive_sorter.h"
+#include "lib/compose.hpp"
+#include "lib/config.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/image_content.h"
+#include "lib/log.h"
+#include "lib/playlist.h"
+#include "lib/string_text_file.h"
+#include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/content_factory.h"
-#include "lib/image_content.h"
-#include "lib/dcp_content.h"
-#include "lib/case_insensitive_sorter.h"
-#include "lib/playlist.h"
-#include "lib/config.h"
-#include "lib/log.h"
-#include "lib/compose.hpp"
-#include "lib/string_text_file_content.h"
-#include "lib/string_text_file.h"
-#include "lib/dcpomatic_log.h"
 #include <wx/wx.h>
 #include <wx/notebook.h>
 #include <wx/listctrl.h>
@@ -50,15 +51,17 @@
 #include <boost/filesystem.hpp>
 #include <iostream>
 
-using std::list;
-using std::string;
+
 using std::cout;
-using std::vector;
-using std::max;
-using std::exception;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::list;
+using std::make_shared;
+using std::max;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
@@ -67,11 +70,7 @@ using namespace boost::placeholders;
 
 
 ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
-	: _video_panel (0)
-	, _audio_panel (0)
-	, _timeline_dialog (0)
-	, _parent (n)
-	, _last_selected_tab (0)
+	: _parent (n)
 	, _film (film)
 	, _film_viewer (viewer)
 	, _generally_sensitive (true)
@@ -177,6 +176,7 @@ ContentPanel::selected ()
 	return sel;
 }
 
+
 ContentList
 ContentPanel::selected_video ()
 {
@@ -190,6 +190,7 @@ ContentPanel::selected_video ()
 
 	return vc;
 }
+
 
 ContentList
 ContentPanel::selected_audio ()
@@ -205,6 +206,7 @@ ContentPanel::selected_audio ()
 	return ac;
 }
 
+
 ContentList
 ContentPanel::selected_text ()
 {
@@ -218,6 +220,7 @@ ContentPanel::selected_text ()
 
 	return sc;
 }
+
 
 FFmpegContentList
 ContentPanel::selected_ffmpeg ()
@@ -233,6 +236,7 @@ ContentPanel::selected_ffmpeg ()
 
 	return sc;
 }
+
 
 void
 ContentPanel::film_changed (Film::Property p)
@@ -251,6 +255,7 @@ ContentPanel::film_changed (Film::Property p)
 	}
 }
 
+
 void
 ContentPanel::item_deselected ()
 {
@@ -261,6 +266,7 @@ ContentPanel::item_deselected ()
 	signal_manager->when_idle (boost::bind (&ContentPanel::item_deselected_idle, this));
 }
 
+
 void
 ContentPanel::item_deselected_idle ()
 {
@@ -269,12 +275,14 @@ ContentPanel::item_deselected_idle ()
 	}
 }
 
+
 void
 ContentPanel::item_selected ()
 {
 	_ignore_deselect = true;
 	check_selection ();
 }
+
 
 void
 ContentPanel::check_selection ()
@@ -401,6 +409,7 @@ ContentPanel::check_selection ()
 	SelectionChanged ();
 }
 
+
 void
 ContentPanel::add_file_clicked ()
 {
@@ -440,6 +449,7 @@ ContentPanel::add_file_clicked ()
 
 	d->Destroy ();
 }
+
 
 void
 ContentPanel::add_folder_clicked ()
@@ -486,6 +496,7 @@ ContentPanel::add_folder_clicked ()
 	}
 }
 
+
 void
 ContentPanel::add_dcp_clicked ()
 {
@@ -499,11 +510,12 @@ ContentPanel::add_dcp_clicked ()
 	}
 
 	try {
-		_film->examine_and_add_content (shared_ptr<Content> (new DCPContent (path)));
+		_film->examine_and_add_content (make_shared<DCPContent>(path));
 	} catch (exception& e) {
 		error_dialog (_parent, e.what());
 	}
 }
+
 
 /** @return true if this remove "click" should be ignored */
 bool
@@ -524,6 +536,7 @@ ContentPanel::remove_clicked (bool hotkey)
 	return false;
 }
 
+
 void
 ContentPanel::timeline_clicked ()
 {
@@ -541,11 +554,13 @@ ContentPanel::timeline_clicked ()
 	_timeline_dialog->Show ();
 }
 
+
 void
 ContentPanel::right_click (wxListEvent& ev)
 {
 	_menu->popup (_film, selected (), TimelineContentViewList (), ev.GetPoint ());
 }
+
 
 /** Set up broad sensitivity based on the type of content that is selected */
 void
@@ -578,6 +593,7 @@ ContentPanel::setup_sensitivity ()
 	_timing_panel->Enable (_generally_sensitive);
 }
 
+
 void
 ContentPanel::set_film (shared_ptr<Film> film)
 {
@@ -597,12 +613,14 @@ ContentPanel::set_film (shared_ptr<Film> film)
 	setup_sensitivity ();
 }
 
+
 void
 ContentPanel::set_general_sensitivity (bool s)
 {
 	_generally_sensitive = s;
 	setup_sensitivity ();
 }
+
 
 void
 ContentPanel::earlier_clicked ()
@@ -614,6 +632,7 @@ ContentPanel::earlier_clicked ()
 	}
 }
 
+
 void
 ContentPanel::later_clicked ()
 {
@@ -623,6 +642,7 @@ ContentPanel::later_clicked ()
 		check_selection ();
 	}
 }
+
 
 void
 ContentPanel::set_selection (weak_ptr<Content> wc)
@@ -636,6 +656,7 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 		}
 	}
 }
+
 
 void
 ContentPanel::set_selection (ContentList cl)
@@ -680,6 +701,7 @@ ContentPanel::film_content_changed (int property)
 		i->film_content_changed (property);
 	}
 }
+
 
 void
 ContentPanel::setup ()
@@ -749,6 +771,7 @@ ContentPanel::setup ()
 	setup_sensitivity ();
 }
 
+
 void
 ContentPanel::files_dropped (wxDropFilesEvent& event)
 {
@@ -764,6 +787,7 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 
 	add_files (path_list);
 }
+
 
 void
 ContentPanel::add_files (list<boost::filesystem::path> paths)
@@ -787,6 +811,7 @@ ContentPanel::add_files (list<boost::filesystem::path> paths)
 		error_dialog (_parent, e.what());
 	}
 }
+
 
 list<ContentSubPanel*>
 ContentPanel::panels () const

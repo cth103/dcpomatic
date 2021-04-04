@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "content_menu.h"
-#include "lib/types.h"
 #include "lib/film.h"
+#include "lib/types.h"
 #include <wx/splitter.h>
 #include <list>
+
 
 class wxNotebook;
 class wxPanel;
@@ -135,14 +137,14 @@ private:
 	wxButton* _earlier;
 	wxButton* _later;
 	wxButton* _timeline;
-	VideoPanel* _video_panel;
-	AudioPanel* _audio_panel;
+	VideoPanel* _video_panel = nullptr;
+	AudioPanel* _audio_panel = nullptr;
 	TextPanel* _text_panel[static_cast<int>(TextType::COUNT)];
 	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
-	TimelineDialog* _timeline_dialog;
+	TimelineDialog* _timeline_dialog = nullptr;
 	wxNotebook* _parent;
-	wxWindow* _last_selected_tab;
+	wxWindow* _last_selected_tab = nullptr;
 
 	std::shared_ptr<Film> _film;
 	std::weak_ptr<FilmViewer> _film_viewer;
