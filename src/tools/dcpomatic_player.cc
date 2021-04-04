@@ -352,6 +352,7 @@ public:
 		reset_film ();
 		try {
 			_stress.set_suspended (true);
+			// here
 			auto dcp = make_shared<DCPContent>(dir);
 			auto job = make_shared<ExamineContentJob>(_film, dcp);
 			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
@@ -361,6 +362,15 @@ public:
 				return;
 			}
 			Config::instance()->add_to_player_history (dir);
+		} catch (ProjectFolderError &) {
+			error_dialog (
+				this,
+				wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())),
+				_(
+					"This looks like a DCP-o-matic project folder, which cannot be loaded into the player.  "
+					"Choose the DCP directory inside the DCP-o-matic project folder if that's what you want to play."
+				 )
+				);
 		} catch (dcp::ReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		} catch (DCPError& e) {

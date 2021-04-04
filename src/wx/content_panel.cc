@@ -511,6 +511,14 @@ ContentPanel::add_dcp_clicked ()
 
 	try {
 		_film->examine_and_add_content (make_shared<DCPContent>(path));
+	} catch (ProjectFolderError &) {
+		error_dialog (
+			_parent,
+			_(
+				"This looks like a DCP-o-matic project folder, which cannot be added to a different project.  "
+				"Choose the DCP directory inside the DCP-o-matic project folder if that's what you want to import."
+			 )
+			);
 	} catch (exception& e) {
 		error_dialog (_parent, e.what());
 	}

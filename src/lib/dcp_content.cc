@@ -186,10 +186,7 @@ DCPContent::read_directory (boost::filesystem::path p)
 		if (!have_metadata) {
 			throw DCPError ("No ASSETMAP or ASSETMAP.xml file found: is this a DCP?");
 		} else {
-			throw DCPError (
-				"This looks like a DCP-o-matic project folder, which cannot be added to a different project.  "
-				"Choose the DCP directory inside the DCP-o-matic project folder if that's what you want to import."
-				);
+			throw ProjectFolderError ();
 		}
 	}
 

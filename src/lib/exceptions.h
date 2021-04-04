@@ -266,6 +266,21 @@ public:
 	{}
 };
 
+
+/** @class ProjectFolderError
+ *  @brief An attempt has been made to read a DCP from a directory, but it looks
+ *  like the directory actually contains a DCP-o-matic project.
+ */
+class ProjectFolderError : public DCPError
+{
+public:
+	/* Code which catches this exception will provide their own message */
+	ProjectFolderError ()
+		: DCPError ("dummy")
+	{}
+};
+
+
 class InvalidSignerError : public std::runtime_error
 {
 public:
