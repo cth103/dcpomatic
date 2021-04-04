@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 09:51+0100\n"
+"POT-Creation-Date: 2021-04-05 00:51+0200\n"
 "PO-Revision-Date: 2019-04-21 22:30+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: src/lib/video_content.cc:469
+#: src/lib/video_content.cc:486
 #, c-format
 msgid ""
 "\n"
@@ -28,7 +28,7 @@ msgstr ""
 "\n"
 "源视频帧率 %.4f\n"
 
-#: src/lib/video_content.cc:434
+#: src/lib/video_content.cc:451
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -36,7 +36,7 @@ msgstr ""
 "\n"
 "裁剪为%1x%2"
 
-#: src/lib/video_content.cc:427
+#: src/lib/video_content.cc:444
 #, c-format
 msgid ""
 "\n"
@@ -45,7 +45,7 @@ msgstr ""
 "\n"
 "显示宽高比 %.2f:1"
 
-#: src/lib/video_content.cc:457
+#: src/lib/video_content.cc:474
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -53,7 +53,7 @@ msgstr ""
 "\n"
 "填充为黑色，以适应打包宽高比 %1 (%2x%3)"
 
-#: src/lib/video_content.cc:447
+#: src/lib/video_content.cc:464
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -61,7 +61,7 @@ msgstr ""
 "\n"
 "缩放到 %1x%2"
 
-#: src/lib/video_content.cc:451 src/lib/video_content.cc:462
+#: src/lib/video_content.cc:468 src/lib/video_content.cc:479
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1139
+#: src/lib/config.cc:1125
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1117
+#: src/lib/config.cc:1103
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "%1 [Atmos]"
 msgstr "%1 [全景声]"
 
-#: src/lib/dcp_content.cc:318
+#: src/lib/dcp_content.cc:315
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -122,7 +122,7 @@ msgstr "%1 [影片]"
 msgid "%1 [video]"
 msgstr "%1 [视频]"
 
-#: src/lib/video_content.cc:422
+#: src/lib/video_content.cc:439
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", 像素宽高比 %.2f:1"
@@ -287,15 +287,15 @@ msgid ""
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 
-#: src/lib/audio_content.cc:257
+#: src/lib/audio_content.cc:291
 msgid "Audio will be resampled from %1Hz to %2Hz"
 msgstr "音频重新采样频率设置为 %1Hz 到 %2Hz"
 
-#: src/lib/audio_content.cc:259
+#: src/lib/audio_content.cc:293
 msgid "Audio will be resampled to %1Hz"
 msgstr "音频将被重新采样至 %1Hz"
 
-#: src/lib/audio_content.cc:248
+#: src/lib/audio_content.cc:282
 msgid "Audio will not be resampled"
 msgstr "音频不能被重新采样"
 
@@ -369,7 +369,7 @@ msgstr "中置"
 msgid "Cancelled"
 msgstr "取消"
 
-#: src/lib/film.cc:359
+#: src/lib/film.cc:358
 msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
@@ -377,7 +377,7 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2 不能处理图片格式 %1"
 
-#: src/lib/film.cc:1637
+#: src/lib/film.cc:1654
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
@@ -385,7 +385,7 @@ msgstr "不能生成KDM，因为项目没有被加密."
 msgid "Centre"
 msgstr "居中对齐"
 
-#: src/lib/audio_content.cc:293
+#: src/lib/audio_content.cc:329
 msgid "Channels"
 msgstr "声音通道"
 
@@ -393,7 +393,7 @@ msgstr "声音通道"
 msgid "Checking content for changes"
 msgstr "检查媒体内容是否有改变"
 
-#: src/lib/reel_writer.cc:249
+#: src/lib/reel_writer.cc:243
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
 
@@ -463,7 +463,7 @@ msgstr ""
 msgid "Content and DCP have the same rate.\n"
 msgstr "源内容和DCP设定帧率需要一致。\n"
 
-#: src/lib/audio_content.cc:294
+#: src/lib/audio_content.cc:330
 msgid "Content audio sample rate"
 msgstr "源音频采样率"
 
@@ -479,78 +479,94 @@ msgstr "要加入的内容必须都有或都没有隐藏式字幕"
 msgid "Content to be joined must all have or not have video"
 msgstr "要加入的内容必须都有或都没有视频"
 
-#: src/lib/video_content.cc:199
+#: src/lib/text_content.cc:310
+#, fuzzy
+msgid ""
+"Content to be joined must both be main subtitle languages or both additional."
+msgstr "字幕行距必须相同."
+
+#: src/lib/video_content.cc:207
 #, fuzzy
 msgid "Content to be joined must have all its video used or not used."
 msgstr "内容帧率必须相同"
 
-#: src/lib/text_content.cc:253
+#: src/lib/text_content.cc:265
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "所有要添加“刻录字幕”设置必须具有相同。"
 
-#: src/lib/text_content.cc:249
+#: src/lib/text_content.cc:261
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "所有要添加“use 字幕”设置必须具有相同。"
 
-#: src/lib/audio_content.cc:106
+#: src/lib/audio_content.cc:118
 msgid "Content to be joined must have the same audio delay."
 msgstr "视频和音频的延迟必须相同。"
 
-#: src/lib/audio_content.cc:102
+#: src/lib/audio_content.cc:114
 msgid "Content to be joined must have the same audio gain."
 msgstr "视频和音频增益必须相同。"
 
-#: src/lib/video_content.cc:223
+#: src/lib/audio_content.cc:122
+#, fuzzy
+msgid "Content to be joined must have the same audio language."
+msgstr "视频和音频增益必须相同。"
+
+#: src/lib/video_content.cc:239
+#, fuzzy
+msgid "Content to be joined must have the same burnt subtitle language."
+msgstr "所有要添加“刻录字幕”设置必须具有相同。"
+
+#: src/lib/video_content.cc:231
 msgid "Content to be joined must have the same colour conversion."
 msgstr "视频颜色转换必须相同。"
 
-#: src/lib/video_content.cc:211
+#: src/lib/video_content.cc:219
 msgid "Content to be joined must have the same crop."
 msgstr "视频裁剪设置必须相同。"
 
-#: src/lib/video_content.cc:215
+#: src/lib/video_content.cc:223
 #, fuzzy
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr "视频比例设置必须相同。"
 
-#: src/lib/video_content.cc:219
+#: src/lib/video_content.cc:227
 #, fuzzy
 msgid "Content to be joined must have the same custom size setting."
 msgstr "视频比例设置必须相同。"
 
-#: src/lib/video_content.cc:227
+#: src/lib/video_content.cc:235
 msgid "Content to be joined must have the same fades."
 msgstr "视频淡入淡出效果必须相同。"
 
-#: src/lib/text_content.cc:281
+#: src/lib/text_content.cc:293
 msgid "Content to be joined must have the same outline width."
 msgstr "字幕宽度尺寸必须相同。"
 
-#: src/lib/video_content.cc:203
+#: src/lib/video_content.cc:211
 msgid "Content to be joined must have the same picture size."
 msgstr "视频图像尺寸必须相同。"
 
-#: src/lib/text_content.cc:257
+#: src/lib/text_content.cc:269
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "字幕X轴偏移必须相同。"
 
-#: src/lib/text_content.cc:265
+#: src/lib/text_content.cc:277
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "字幕X轴缩放大小必须相同。"
 
-#: src/lib/text_content.cc:261
+#: src/lib/text_content.cc:273
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "字幕Y轴偏移必须相同。"
 
-#: src/lib/text_content.cc:269
+#: src/lib/text_content.cc:281
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "字幕Y轴缩放大小必须相同。"
 
-#: src/lib/text_content.cc:277
+#: src/lib/text_content.cc:289
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "字幕淡入淡出效果必须相同。"
 
-#: src/lib/text_content.cc:273
+#: src/lib/text_content.cc:285
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "字幕行距必须相同."
 
@@ -558,15 +574,15 @@ msgstr "字幕行距必须相同."
 msgid "Content to be joined must have the same video frame rate"
 msgstr "内容帧率必须相同"
 
-#: src/lib/video_content.cc:207
+#: src/lib/video_content.cc:215
 msgid "Content to be joined must have the same video frame type."
 msgstr "视频帧率必须相同。"
 
-#: src/lib/text_content.cc:290
+#: src/lib/text_content.cc:302
 msgid "Content to be joined must use the same DCP track."
 msgstr "DCP轨道必须相同。"
 
-#: src/lib/text_content.cc:286 src/lib/text_content.cc:298
+#: src/lib/text_content.cc:298 src/lib/text_content.cc:318
 msgid "Content to be joined must use the same fonts."
 msgstr "字幕字体必须相同。"
 
@@ -574,7 +590,12 @@ msgstr "字幕字体必须相同。"
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "字幕流必须相同。"
 
-#: src/lib/video_content.cc:413
+#: src/lib/text_content.cc:306
+#, fuzzy
+msgid "Content to be joined must use the same text language."
+msgstr "字幕字体必须相同。"
+
+#: src/lib/video_content.cc:430
 msgid "Content video is %1x%2"
 msgstr "源视频分辨率是 %1x%2"
 
@@ -586,7 +607,7 @@ msgstr "复制DCP到TMS（影院内容管理系统）"
 msgid "Copying old video file"
 msgstr ""
 
-#: src/lib/reel_writer.cc:388
+#: src/lib/reel_writer.cc:382
 #, fuzzy
 msgid "Copying video file into DCP"
 msgstr "DCP中的视频分辨率不匹配"
@@ -629,7 +650,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
-#: src/lib/config.cc:1003
+#: src/lib/config.cc:989
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -677,7 +698,7 @@ msgstr "DCI Scope(宽银幕/2.35/2.39) "
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
-#: src/lib/audio_content.cc:314
+#: src/lib/audio_content.cc:350
 msgid "DCP sample rate"
 msgstr "DCP 采样率"
 
@@ -696,7 +717,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1540
+#: src/lib/film.cc:1557
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -704,7 +725,7 @@ msgstr ""
 "DCP-o-matic必须把您DCP的设置更改为OV（原创）。请重新检查设置确认设置内容是否"
 "为您的期望值。"
 
-#: src/lib/film.cc:1508
+#: src/lib/film.cc:1525
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -718,7 +739,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:359 src/lib/config.cc:1114
+#: src/lib/config.cc:353 src/lib/config.cc:1100
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic提醒"
 
@@ -731,7 +752,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1102
+#: src/lib/config.cc:1088
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -880,19 +901,19 @@ msgstr "全幅 (0-%1)"
 msgid "Full frame"
 msgstr "Full(全幅/1.90)"
 
-#: src/lib/audio_content.cc:321
+#: src/lib/audio_content.cc:357
 msgid "Full length in audio samples at DCP rate"
 msgstr "DCP中音频采样率总时长"
 
-#: src/lib/audio_content.cc:308
+#: src/lib/audio_content.cc:344
 msgid "Full length in audio samples at content rate"
 msgstr "源音频内容采样总时长"
 
-#: src/lib/audio_content.cc:315
+#: src/lib/audio_content.cc:351
 msgid "Full length in video frames at DCP rate"
 msgstr "DCP中视频总时长"
 
-#: src/lib/audio_content.cc:301
+#: src/lib/audio_content.cc:337
 msgid "Full length in video frames at content rate"
 msgstr "源视频时长"
 
@@ -924,7 +945,7 @@ msgstr "高品质的3D降噪"
 msgid "Horizontal flip"
 msgstr "水平翻转"
 
-#: src/lib/audio_content.cc:294 src/lib/audio_content.cc:314
+#: src/lib/audio_content.cc:330 src/lib/audio_content.cc:350
 msgid "Hz"
 msgstr "Hz（赫兹）"
 
@@ -954,7 +975,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:349 src/lib/config.cc:1099
+#: src/lib/config.cc:343 src/lib/config.cc:1085
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -986,7 +1007,7 @@ msgstr "左后环绕"
 msgid "Left surround"
 msgstr "左环绕"
 
-#: src/lib/video_content.cc:482
+#: src/lib/video_content.cc:499
 msgid "Length"
 msgstr "长度"
 
@@ -1058,7 +1079,7 @@ msgstr "缺少必需的设置 %1"
 msgid "Monday"
 msgstr "星期一"
 
-#: src/lib/writer.cc:740
+#: src/lib/writer.cc:746
 msgid "Mono"
 msgstr "单声道"
 
@@ -1082,7 +1103,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:738
+#: src/lib/writer.cc:714 src/lib/writer.cc:721 src/lib/writer.cc:744
 msgid "None"
 msgstr "无"
 
@@ -1274,11 +1295,11 @@ msgstr "发送电子邮件"
 msgid "Short"
 msgstr "短片"
 
-#: src/lib/video_content.cc:483
+#: src/lib/video_content.cc:500
 msgid "Size"
 msgstr "大小"
 
-#: src/lib/audio_content.cc:252
+#: src/lib/audio_content.cc:286
 msgid "Some audio will be resampled to %1Hz"
 msgstr "部分音频将被重新采样到%1Hz"
 
@@ -1301,15 +1322,15 @@ msgid ""
 "truncated."
 msgstr ""
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:387
 msgid "Some of your content needs a KDM"
 msgstr "一些内容需要KDM密匙"
 
-#: src/lib/film.cc:391
+#: src/lib/film.cc:390
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV（声明原创）"
 
-#: src/lib/writer.cc:742
+#: src/lib/writer.cc:748
 msgid "Stereo"
 msgstr "双声道"
 
@@ -1341,7 +1362,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "文本字幕"
 
-#: src/lib/film.cc:371
+#: src/lib/film.cc:370
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1391,7 +1412,7 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 
-#: src/lib/dcp_content.cc:657
+#: src/lib/dcp_content.cc:654
 msgid "There is no video in this DCP"
 msgstr "DCP中不包含画面"
 
@@ -1435,13 +1456,13 @@ msgstr ""
 "这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
 "加到DCP中。"
 
-#: src/lib/film.cc:555
+#: src/lib/film.cc:557
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件!"
 
-#: src/lib/film.cc:540
+#: src/lib/film.cc:542
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1493,7 +1514,7 @@ msgstr "未知"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:358
+#: src/lib/ffmpeg_decoder.cc:359
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1614,7 +1635,7 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/film.cc:1504
+#: src/lib/film.cc:1521
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1632,7 +1653,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/film.cc:367
+#: src/lib/film.cc:366
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容"
@@ -1701,11 +1722,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:362
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:374
 msgid "content type"
 msgstr "打包类型"
 
@@ -1717,12 +1738,12 @@ msgstr "复制中... %1"
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
-#: src/lib/reel_writer.cc:434
+#: src/lib/reel_writer.cc:428
 #, fuzzy
 msgid "could not move atmos asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
-#: src/lib/reel_writer.cc:417
+#: src/lib/reel_writer.cc:411
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法移动的音频文件 (%1)"
 
@@ -1779,79 +1800,79 @@ msgid "h"
 msgstr "小时"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:750
+#: src/lib/dcp_content.cc:747
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:739
+#: src/lib/dcp_content.cc:736
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "该DCP的所有分卷无字幕。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:706
+#: src/lib/dcp_content.cc:703
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:610
+#: src/lib/dcp_content.cc:607
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "影片与DCP的帧速率不一致."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:762
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:667
+#: src/lib/dcp_content.cc:664
 #, fuzzy
 msgid "it is 2K and the film is 4K."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:664
+#: src/lib/dcp_content.cc:661
 #, fuzzy
 msgid "it is 4K and the film is 2K."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:598
+#: src/lib/dcp_content.cc:595
 #, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:602
+#: src/lib/dcp_content.cc:599
 #, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际打包类型是 Interop。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:712
+#: src/lib/dcp_content.cc:709
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "音频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:770
+#: src/lib/dcp_content.cc:767
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:677
+#: src/lib/dcp_content.cc:674
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:633
+#: src/lib/dcp_content.cc:630
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1859,7 +1880,7 @@ msgid ""
 msgstr "影片时长与DCP中的分卷时长不一致，请设置 【 分卷模式 】 来分割该内容。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:672
+#: src/lib/dcp_content.cc:669
 #, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与DCP不一致。"
@@ -1873,19 +1894,19 @@ msgstr "分"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:359
+#: src/lib/film.cc:358
 msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:756
+#: src/lib/dcp_content.cc:753
 msgid ""
 "one if its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:743
+#: src/lib/dcp_content.cc:740
 msgid ""
 "one if its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -1900,7 +1921,7 @@ msgstr "秒"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:384
+#: src/lib/film.cc:383
 msgid "some of your content is missing"
 msgstr "内容不完整"
 
@@ -1912,7 +1933,7 @@ msgstr "静止图像"
 msgid "unknown"
 msgstr "未知"
 
-#: src/lib/video_content.cc:482
+#: src/lib/video_content.cc:499
 msgid "video frames"
 msgstr "视频帧"
 

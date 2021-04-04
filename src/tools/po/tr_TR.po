@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 09:51+0100\n"
+"POT-Creation-Date: 2021-04-05 00:51+0200\n"
 "PO-Revision-Date: 2019-03-27 13:18+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -32,11 +32,11 @@ msgstr ""
 msgid "&Add Film...\tCtrl-A"
 msgstr "Filmi ekle"
 
-#: src/tools/dcpomatic_player.cc:507
+#: src/tools/dcpomatic_player.cc:517
 msgid "&Add OV..."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:513
+#: src/tools/dcpomatic_player.cc:523
 msgid "&Close"
 msgstr "Kapat"
 
@@ -45,25 +45,25 @@ msgid "&Close\tCtrl-W"
 msgstr ""
 
 #: src/tools/dcpomatic.cc:1395 src/tools/dcpomatic_batch.cc:93
-#: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:565
+#: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:575
 #: src/tools/dcpomatic_playlist.cc:547
 msgid "&Edit"
 msgstr "Düzenle"
 
 #: src/tools/dcpomatic.cc:1331 src/tools/dcpomatic_batch.cc:73
-#: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:517
+#: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:527
 #: src/tools/dcpomatic_playlist.cc:528
 msgid "&Exit"
 msgstr "Çıkış"
 
 #: src/tools/dcpomatic.cc:1394 src/tools/dcpomatic_batch.cc:91
-#: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:563
+#: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:573
 #: src/tools/dcpomatic_playlist.cc:545
 msgid "&File"
 msgstr "Dosya"
 
 #: src/tools/dcpomatic.cc:1399 src/tools/dcpomatic_batch.cc:96
-#: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:569
+#: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:579
 #: src/tools/dcpomatic_playlist.cc:549
 msgid "&Help"
 msgstr "Yardım"
@@ -76,20 +76,20 @@ msgstr "Görevler"
 msgid "&Make DCP\tCtrl-M"
 msgstr "DCP Yap"
 
-#: src/tools/dcpomatic.cc:1313 src/tools/dcpomatic_player.cc:506
+#: src/tools/dcpomatic.cc:1313 src/tools/dcpomatic_player.cc:516
 msgid "&Open...\tCtrl-O"
 msgstr "Aç"
 
 #: src/tools/dcpomatic.cc:1343 src/tools/dcpomatic.cc:1346
 #: src/tools/dcpomatic_batch.cc:79 src/tools/dcpomatic_batch.cc:82
 #: src/tools/dcpomatic_kdm.cc:250 src/tools/dcpomatic_kdm.cc:253
-#: src/tools/dcpomatic_player.cc:523 src/tools/dcpomatic_player.cc:526
+#: src/tools/dcpomatic_player.cc:533 src/tools/dcpomatic_player.cc:536
 #: src/tools/dcpomatic_playlist.cc:535
 msgid "&Preferences...\tCtrl-P"
 msgstr "Seçenekler"
 
 #: src/tools/dcpomatic.cc:1333 src/tools/dcpomatic_batch.cc:75
-#: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:519
+#: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:529
 #: src/tools/dcpomatic_playlist.cc:530
 msgid "&Quit"
 msgstr "Çıkış"
@@ -103,11 +103,11 @@ msgid "&Send DCP to TMS"
 msgstr "DCP'yi TMS'e gönder"
 
 #: src/tools/dcpomatic.cc:1398 src/tools/dcpomatic_batch.cc:95
-#: src/tools/dcpomatic_player.cc:568
+#: src/tools/dcpomatic_player.cc:578
 msgid "&Tools"
 msgstr "Araçlar"
 
-#: src/tools/dcpomatic.cc:1397 src/tools/dcpomatic_player.cc:567
+#: src/tools/dcpomatic.cc:1397 src/tools/dcpomatic_player.cc:577
 msgid "&View"
 msgstr "Görüntüle"
 
@@ -120,13 +120,13 @@ msgid "<b>Playlists</b>"
 msgstr ""
 
 #: src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_batch.cc:89
-#: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:559
+#: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:569
 #: src/tools/dcpomatic_playlist.cc:542
 msgid "About"
 msgstr "Hakkında"
 
 #: src/tools/dcpomatic.cc:1388 src/tools/dcpomatic_kdm.cc:258
-#: src/tools/dcpomatic_player.cc:557 src/tools/dcpomatic_playlist.cc:540
+#: src/tools/dcpomatic_player.cc:567 src/tools/dcpomatic_playlist.cc:540
 msgid "About DCP-o-matic"
 msgstr "DCP-o-matic Hakkında"
 
@@ -134,7 +134,7 @@ msgstr "DCP-o-matic Hakkında"
 msgid "Add"
 msgstr "Ekle"
 
-#: src/tools/dcpomatic_player.cc:508
+#: src/tools/dcpomatic_player.cc:518
 #, fuzzy
 msgid "Add &KDM..."
 msgstr "KDM ekle."
@@ -156,7 +156,7 @@ msgid "Add..."
 msgstr "Ekle..."
 
 #: src/tools/dcpomatic.cc:1731 src/tools/dcpomatic_kdm.cc:704
-#: src/tools/dcpomatic_player.cc:1202 src/tools/dcpomatic_playlist.cc:652
+#: src/tools/dcpomatic_player.cc:1212 src/tools/dcpomatic_playlist.cc:652
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -171,7 +171,7 @@ msgid ""
 msgstr ""
 
 #: src/tools/dcpomatic.cc:1750 src/tools/dcpomatic_kdm.cc:713
-#: src/tools/dcpomatic_player.cc:1211 src/tools/dcpomatic_playlist.cc:661
+#: src/tools/dcpomatic_player.cc:1221 src/tools/dcpomatic_playlist.cc:661
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -184,7 +184,7 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:964 src/tools/dcpomatic.cc:1755
 #: src/tools/dcpomatic_kdm.cc:403 src/tools/dcpomatic_kdm.cc:718
-#: src/tools/dcpomatic_kdm.cc:727 src/tools/dcpomatic_player.cc:1216
+#: src/tools/dcpomatic_kdm.cc:727 src/tools/dcpomatic_player.cc:1226
 #: src/tools/dcpomatic_playlist.cc:666 src/tools/dcpomatic_playlist.cc:675
 msgid "An unknown exception occurred."
 msgstr ""
@@ -200,7 +200,7 @@ msgstr ""
 msgid "Bad setting for %s."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:535 src/tools/dcpomatic_playlist.cc:271
+#: src/tools/dcpomatic_player.cc:545 src/tools/dcpomatic_playlist.cc:271
 msgid "CPL"
 msgstr ""
 
@@ -208,7 +208,7 @@ msgstr ""
 msgid "CPL's content is not encrypted."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1380 src/tools/dcpomatic_player.cc:551
+#: src/tools/dcpomatic.cc:1380 src/tools/dcpomatic_player.cc:561
 msgid "Check for updates"
 msgstr ""
 
@@ -221,7 +221,7 @@ msgstr "DCP-o-matic"
 msgid "Close without saving film"
 msgstr "Filmi kaydetmeden kapat"
 
-#: src/tools/dcpomatic.cc:1373 src/tools/dcpomatic_player.cc:541
+#: src/tools/dcpomatic.cc:1373 src/tools/dcpomatic_player.cc:551
 msgid "Closed captions..."
 msgstr "Closed captions..."
 
@@ -247,11 +247,11 @@ msgstr ""
 msgid "Could not find player."
 msgstr "Oynatıcı bulunamıyor."
 
-#: src/tools/dcpomatic_player.cc:678 src/tools/dcpomatic_player.cc:1141
+#: src/tools/dcpomatic_player.cc:688 src/tools/dcpomatic_player.cc:1151
 msgid "Could not load DCP %1."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:496
+#: src/tools/dcpomatic_player.cc:506
 #, fuzzy, c-format
 msgid ""
 "Could not load DCP.\n"
@@ -259,11 +259,12 @@ msgid ""
 "%s."
 msgstr "KDM yüklenemedi."
 
-#: src/tools/dcpomatic_player.cc:660
+#: src/tools/dcpomatic_player.cc:670
 msgid "Could not load KDM."
 msgstr "KDM yüklenemedi."
 
-#: src/tools/dcpomatic_player.cc:365 src/tools/dcpomatic_player.cc:367
+#: src/tools/dcpomatic_player.cc:368 src/tools/dcpomatic_player.cc:375
+#: src/tools/dcpomatic_player.cc:377
 #, c-format
 msgid "Could not load a DCP from %s"
 msgstr ""
@@ -336,13 +337,13 @@ msgid ""
 msgstr ""
 
 #: src/tools/dcpomatic.cc:1424 src/tools/dcpomatic_batch.cc:336
-#: src/tools/dcpomatic_player.cc:899 src/tools/dcpomatic_playlist.cc:561
+#: src/tools/dcpomatic_player.cc:909 src/tools/dcpomatic_playlist.cc:561
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:907
+#: src/tools/dcpomatic_player.cc:917
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
 
@@ -367,13 +368,13 @@ msgstr ""
 msgid "DCP-o-matic KDM Creator"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:140 src/tools/dcpomatic_player.cc:359
-#: src/tools/dcpomatic_player.cc:625 src/tools/dcpomatic_player.cc:811
-#: src/tools/dcpomatic_player.cc:1089
+#: src/tools/dcpomatic_player.cc:140 src/tools/dcpomatic_player.cc:360
+#: src/tools/dcpomatic_player.cc:635 src/tools/dcpomatic_player.cc:821
+#: src/tools/dcpomatic_player.cc:1099
 msgid "DCP-o-matic Player"
 msgstr "DCP-o-matic Oynatıcı"
 
-#: src/tools/dcpomatic_player.cc:1164
+#: src/tools/dcpomatic_player.cc:1174
 msgid "DCP-o-matic Player could not start."
 msgstr "DCP-o-matic Player başlayamadı."
 
@@ -389,15 +390,15 @@ msgstr "DCP-o-matic başlayamadı"
 msgid "DKDM"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:544
+#: src/tools/dcpomatic_player.cc:554
 msgid "Decode at full resolution"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:545
+#: src/tools/dcpomatic_player.cc:555
 msgid "Decode at half resolution"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:546
+#: src/tools/dcpomatic_player.cc:556
 msgid "Decode at quarter resolution"
 msgstr ""
 
@@ -426,7 +427,7 @@ msgstr "Çiftleme"
 msgid "Down"
 msgstr "Aşağı"
 
-#: src/tools/dcpomatic_player.cc:538
+#: src/tools/dcpomatic_player.cc:548
 msgid "Dual screen\tShift+F11"
 msgstr "Çift ekran"
 
@@ -484,7 +485,7 @@ msgstr "Film değişti"
 msgid "Frames per second"
 msgstr "Saniye başına kare"
 
-#: src/tools/dcpomatic_player.cc:537
+#: src/tools/dcpomatic_player.cc:547
 msgid "Full screen\tF11"
 msgstr "Tam ekran"
 
@@ -508,7 +509,7 @@ msgstr "KDM|Zamanlama"
 msgid "Length"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:359 src/tools/dcpomatic_player.cc:625
+#: src/tools/dcpomatic_player.cc:360 src/tools/dcpomatic_player.cc:635
 msgid "Loading content"
 msgstr "İçerik yükleniyor"
 
@@ -603,7 +604,7 @@ msgid "Remove"
 msgstr "Kaldır"
 
 #: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_kdm.cc:262
-#: src/tools/dcpomatic_player.cc:561
+#: src/tools/dcpomatic_player.cc:571
 msgid "Report a problem..."
 msgstr ""
 
@@ -656,11 +657,11 @@ msgstr ""
 msgid "Screens"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:579
+#: src/tools/dcpomatic_player.cc:589
 msgid "Select DCP to open"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:604
+#: src/tools/dcpomatic_player.cc:614
 msgid "Select DCP to open as OV"
 msgstr ""
 
@@ -672,7 +673,7 @@ msgstr ""
 msgid "Select DKDM file"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:646
+#: src/tools/dcpomatic_player.cc:656
 msgid "Select KDM"
 msgstr ""
 
@@ -692,11 +693,11 @@ msgstr "KDM'i e-posta gönder"
 msgid "Send translations..."
 msgstr "Çeviriye gönder..."
 
-#: src/tools/dcpomatic_player.cc:543
+#: src/tools/dcpomatic_player.cc:553
 msgid "Set decode resolution to match display"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1382 src/tools/dcpomatic_player.cc:553
+#: src/tools/dcpomatic.cc:1382 src/tools/dcpomatic_player.cc:563
 msgid "System information..."
 msgstr ""
 
@@ -716,7 +717,7 @@ msgid ""
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1486 src/tools/dcpomatic_player.cc:881
+#: src/tools/dcpomatic.cc:1486 src/tools/dcpomatic_player.cc:891
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr ""
 
@@ -763,13 +764,13 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:1797 src/tools/dcpomatic_batch.cc:481
 #: src/tools/dcpomatic_kdm.cc:737 src/tools/dcpomatic_server.cc:353
-#: src/tools/dcpomatic_player.cc:1240
+#: src/tools/dcpomatic_player.cc:1250
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1488 src/tools/dcpomatic_player.cc:883
+#: src/tools/dcpomatic.cc:1488 src/tools/dcpomatic_player.cc:893
 msgid "There are no new versions of DCP-o-matic available."
 msgstr ""
 
@@ -786,7 +787,14 @@ msgstr ""
 "versiyonda doğru yüklenmemiş olabilir. Lütfen filmin ayarlarını dikkatlice "
 "kontrol ediniz."
 
-#: src/tools/dcpomatic_player.cc:552
+#: src/tools/dcpomatic_player.cc:370
+msgid ""
+"This looks like a DCP-o-matic project folder, which cannot be loaded into "
+"the player.  Choose the DCP directory inside the DCP-o-matic project folder "
+"if that's what you want to play."
+msgstr ""
+
+#: src/tools/dcpomatic_player.cc:562
 #, fuzzy
 msgid "Timing..."
 msgstr "KDM|Zamanlama"
@@ -808,7 +816,7 @@ msgstr "Bitmemiş görevler"
 msgid "Up"
 msgstr "Yukarı"
 
-#: src/tools/dcpomatic_player.cc:549
+#: src/tools/dcpomatic_player.cc:559
 msgid "Verify DCP..."
 msgstr ""
 
@@ -853,7 +861,7 @@ msgid ""
 msgstr ""
 
 #: src/tools/dcpomatic.cc:586 src/tools/dcpomatic_batch.cc:299
-#: src/tools/dcpomatic_player.cc:585 src/tools/dcpomatic_player.cc:613
+#: src/tools/dcpomatic_player.cc:595 src/tools/dcpomatic_player.cc:623
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
