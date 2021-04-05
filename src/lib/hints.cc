@@ -68,6 +68,11 @@ using namespace boost::placeholders;
 #define SIZE_SLACK 4096
 
 
+/* When writing hints:
+ * - put quotation marks around the name of a GUI tab that you are referring to (e.g. "DCP" or "DCP→Video" tab)
+ */
+
+
 Hints::Hints (weak_ptr<const Film> film)
 	: WeakConstFilm (film)
 	, _writer (new Writer(film, weak_ptr<Job>(), true))
@@ -235,7 +240,7 @@ void
 Hints::check_interop ()
 {
 	if (film()->interop()) {
-		hint (_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  You are advised to set your DCP to use the SMPTE standard in the DCP tab."));
+		hint (_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  You are advised to set your DCP to use the SMPTE standard in the \"DCP\" tab."));
 	}
 }
 
@@ -559,7 +564,7 @@ Hints::check_ffec_and_ffmc_in_smpte_feature ()
 {
 	auto f = film();
 	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::ContentKind::FEATURE && (!f->marker(dcp::Marker::FFEC) || !f->marker(dcp::Marker::FFMC))) {
-		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the DCP tab."));
+		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the \"DCP\" tab."));
 	}
 }
 
