@@ -158,7 +158,7 @@ void
 Hints::check_unusual_container ()
 {
 	auto const film_container = film()->container()->id();
-	if (film_container != "185" && film_container != "239" && film_container != "190") {
+	if (film_container != "185" && film_container != "239") {
 		hint (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio"));
 	}
 }
