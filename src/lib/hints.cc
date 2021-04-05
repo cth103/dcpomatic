@@ -232,6 +232,15 @@ Hints::check_speed_up ()
 
 
 void
+Hints::check_interop ()
+{
+	if (film()->interop()) {
+		hint (_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  You are advised to set your DCP to use the SMPTE standard in the DCP tab."));
+	}
+}
+
+
+void
 Hints::check_big_font_files ()
 {
 	bool big_font_files = false;
@@ -355,6 +364,7 @@ Hints::thread ()
 
 	auto content = film->content ();
 
+	check_interop ();
 	check_big_font_files ();
 	check_few_audio_channels ();
 	check_upmixers ();
