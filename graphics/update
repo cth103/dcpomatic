@@ -16,7 +16,9 @@ fi
 
 function required_font()
 {
+    set +e
     check=$(fc-list | grep "$1")
+    set -e
     if [ "$check" == "" ]; then
         echo "Missing font $1"
         exit 1
@@ -41,7 +43,7 @@ else
         fi
     done
 
-    INKSCAPE="inkscape -C --export-type=png"
+    INKSCAPE="$HOME/Applications/inkscape -C --export-type=png"
 
     # OS X application icons
     mkdir -p osx
