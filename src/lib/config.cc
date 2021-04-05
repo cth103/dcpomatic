@@ -103,7 +103,7 @@ Config::set_defaults ()
 	_default_dcp_audio_channels = 6;
 	_default_j2k_bandwidth = 150000000;
 	_default_audio_delay = 0;
-	_default_interop = true;
+	_default_interop = false;
 	_upload_after_make_dcp = false;
 	_mail_server = "";
 	_mail_port = 25;
