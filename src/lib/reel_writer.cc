@@ -166,8 +166,13 @@ ReelWriter::ReelWriter (
 	}
 
 	if (film()->audio_channels()) {
+		auto langs = film()->audio_languages();
 		_sound_asset = make_shared<dcp::SoundAsset> (
-			dcp::Fraction(film()->video_frame_rate(), 1), film()->audio_frame_rate(), film()->audio_channels(), film()->audio_language(), standard
+			dcp::Fraction(film()->video_frame_rate(), 1),
+			film()->audio_frame_rate(),
+			film()->audio_channels(),
+			langs.empty() ? dcp::LanguageTag("en-US") : langs.front(),
+			standard
 			);
 
 		_sound_asset->set_metadata (mxf_metadata());

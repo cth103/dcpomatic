@@ -168,7 +168,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _user_explicit_container (false)
 	, _user_explicit_resolution (false)
 	, _name_language (dcp::LanguageTag("en-US"))
-	, _audio_language (dcp::LanguageTag("en-US"))
 	, _version_number (1)
 	, _status (dcp::Status::FINAL)
 	, _luminance (dcp::Luminance(4.5, dcp::Luminance::Unit::FOOT_LAMBERT))
@@ -473,7 +472,6 @@ Film::metadata (bool with_content_paths) const
 		root->add_child("ContentVersion")->add_child_text(i);
 	}
 	root->add_child("NameLanguage")->add_child_text(_name_language.to_string());
-	root->add_child("AudioLanguage")->add_child_text(_audio_language.to_string());
 	if (_release_territory) {
 		root->add_child("ReleaseTerritory")->add_child_text(_release_territory->subtag());
 	}
@@ -649,10 +647,6 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	auto name_language = f.optional_string_child("NameLanguage");
 	if (name_language) {
 		_name_language = dcp::LanguageTag (*name_language);
-	}
-	auto audio_language = f.optional_string_child("AudioLanguage");
-	if (audio_language) {
-		_audio_language = dcp::LanguageTag (*audio_language);
 	}
 	auto release_territory = f.optional_string_child("ReleaseTerritory");
 	if (release_territory) {
@@ -1994,14 +1988,6 @@ Film::set_name_language (dcp::LanguageTag lang)
 {
 	FilmChangeSignaller ch (this, Property::NAME_LANGUAGE);
 	_name_language = lang;
-}
-
-
-void
-Film::set_audio_language (dcp::LanguageTag lang)
-{
-	FilmChangeSignaller ch (this, Property::AUDIO_LANGUAGE);
-	_audio_language = lang;
 }
 
 
