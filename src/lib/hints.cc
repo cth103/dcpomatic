@@ -394,6 +394,7 @@ Hints::thread ()
 	check_loudness ();
 	check_ffec_and_ffmc_in_smpte_feature ();
 	check_out_of_range_markers ();
+	check_text_languages ();
 
 	emit (bind(boost::ref(Progress), _("Examining closed captions")));
 
@@ -584,4 +585,19 @@ void
 Hints::join ()
 {
 	_thread.join ();
+}
+
+
+void
+Hints::check_text_languages ()
+{
+	for (auto i: film()->content()) {
+		for (auto j: i->text) {
+			if (j->use() && !j->language()) {
+				hint (_("At least one piece of subtitle or closed caption content has no specified language.  "
+					"It is advisable to set the language for each piece of subtitle or closed caption content in the \"Content→Timed Text\" tab"));
+				return;
+			}
+		}
+	}
 }

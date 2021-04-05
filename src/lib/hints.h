@@ -74,6 +74,7 @@ private:
 	void check_loudness ();
 	void check_ffec_and_ffmc_in_smpte_feature ();
 	void check_out_of_range_markers ();
+	void check_text_languages ();
 
 	boost::thread _thread;
 	/** This is used to make a partial DCP containing only the subtitles and closed captions that
