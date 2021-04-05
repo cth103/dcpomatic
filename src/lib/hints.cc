@@ -207,6 +207,16 @@ Hints::check_frame_rate ()
 
 
 void
+Hints::check_4k_3d ()
+{
+	auto f = film();
+	if (f->resolution() == Resolution::FOUR_K && f->three_d()) {
+		hint (_("4K 3D is only supported by a very limited number of projectors.  Unless you know that you will play this DCP back on a capable projector, it is advisable to set the DCP to be 2K in the \"DCP→Video\" tab."));
+	}
+}
+
+
+void
 Hints::check_speed_up ()
 {
 	optional<double> lowest_speed_up;
@@ -377,6 +387,7 @@ Hints::thread ()
 	check_unusual_container ();
 	check_high_j2k_bandwidth ();
 	check_frame_rate ();
+	check_4k_3d ();
 	check_speed_up ();
 	check_vob ();
 	check_3d_in_2d ();

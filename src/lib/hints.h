@@ -67,6 +67,7 @@ private:
 	void check_unusual_container ();
 	void check_high_j2k_bandwidth ();
 	void check_frame_rate ();
+	void check_4k_3d ();
 	void check_speed_up ();
 	void check_vob ();
 	void check_3d_in_2d ();
