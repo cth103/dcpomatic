@@ -176,7 +176,7 @@ DCPPanel::add_to_grid ()
 	}
 	++r;
 
-	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL);
+	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
 	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition (r, 0));
