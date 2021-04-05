@@ -128,7 +128,6 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 	, _outline_width (node->optional_number_child<int>("OutlineWidth").get_value_or(4))
 	, _type (TextType::OPEN_SUBTITLE)
 	, _original_type (TextType::OPEN_SUBTITLE)
-	, _language ("en-US")
 {
 	if (version >= 37) {
 		_use = node->bool_child ("Use");
