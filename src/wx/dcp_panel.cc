@@ -18,17 +18,18 @@
 
 */
 
-#include "dcp_panel.h"
-#include "wx_util.h"
 #include "audio_dialog.h"
-#include "focus_manager.h"
 #include "check_box.h"
-#include "static_text.h"
 #include "check_box.h"
+#include "dcp_panel.h"
 #include "dcpomatic_button.h"
-#include "markers_dialog.h"
+#include "dcpomatic_spin_ctrl.h"
+#include "focus_manager.h"
 #include "interop_metadata_dialog.h"
+#include "markers_dialog.h"
 #include "smpte_metadata_dialog.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/ratio.h"
 #include "lib/config.h"
 #include "lib/dcp_content_type.h"
@@ -727,7 +728,12 @@ DCPPanel::make_video_panel ()
 	_three_d = new CheckBox (panel, _("3D"));
 
 	_j2k_bandwidth_label = create_label (panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true);
-	_j2k_bandwidth = new wxSpinCtrl (panel, wxID_ANY);
+#ifdef __WXGTK3__
+	int const spin_width = 118;
+#else
+	int const spin_width = 56;
+#endif
+	_j2k_bandwidth = new SpinCtrl (panel, spin_width);
 	_mbits_label = create_label (panel, _("Mbit/s"), false);
 
 	_reencode_j2k = new CheckBox (panel, _("Re-encode JPEG2000 data from input"));
@@ -797,7 +803,7 @@ DCPPanel::add_video_panel_to_grid ()
 	auto s = new wxBoxSizer (wxHORIZONTAL);
 	s->Add (_j2k_bandwidth, 0, wxALIGN_CENTER_VERTICAL);
 	add_label_to_sizer (s, _mbits_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
-	_video_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+	_video_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan);
 	++r;
 	_video_grid->Add (_reencode_j2k, wxGBPosition(r, 0), wxGBSpan(1, 2));
 }
