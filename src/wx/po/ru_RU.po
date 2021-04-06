@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 00:51+0200\n"
+"POT-Creation-Date: 2021-04-06 19:22+0200\n"
 "PO-Revision-Date: 2019-03-27 00:14+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -143,11 +143,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:763
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:195
+#: src/wx/dcp_panel.cc:728 src/wx/video_panel.cc:195
 msgid "3D"
 msgstr "3D"
 
@@ -175,7 +175,7 @@ msgstr "3D верх/низ"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
-#: src/wx/dcp_panel.cc:758
+#: src/wx/dcp_panel.cc:764
 msgid "4K"
 msgstr "4K"
 
@@ -187,11 +187,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
-#: src/wx/subtitle_appearance_dialog.cc:114
+#: src/wx/subtitle_appearance_dialog.cc:117
 msgid "<b>New colour</b>"
 msgstr "<b>Новый цвет</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:111
+#: src/wx/subtitle_appearance_dialog.cc:114
 msgid "<b>Original colour</b>"
 msgstr "<b>Исходный цвет</b>"
 
@@ -520,7 +520,7 @@ msgid "Atmos"
 msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:59 src/wx/audio_panel.cc:58
-#: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:123
+#: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:83
 msgid "Audio"
 msgstr "Аудио"
@@ -653,10 +653,6 @@ msgstr "Нельзя ссылаться на этот DCP: "
 msgid "Caption"
 msgstr "Титр"
 
-#: src/wx/subtitle_appearance_dialog.cc:56
-msgid "Caption appearance"
-msgstr "Внешний вид титров"
-
 #: src/wx/text_view.cc:46
 msgid "Captions"
 msgstr "Титры"
@@ -680,7 +676,7 @@ msgstr "Цепочка"
 msgid "Channel gain"
 msgstr "Усиление канала"
 
-#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:829
+#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:835
 msgid "Channels"
 msgstr "Каналы"
 
@@ -743,7 +739,7 @@ msgstr ""
 msgid "Closed captions"
 msgstr "Скрытые титры"
 
-#: src/wx/subtitle_appearance_dialog.cc:81
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Colour"
 msgstr "Цвет"
 
@@ -778,7 +774,7 @@ msgstr "Тайминг"
 msgid "Confirm KDM email"
 msgstr "Подтверждение email KDM"
 
-#: src/wx/dcp_panel.cc:714
+#: src/wx/dcp_panel.cc:715
 msgid "Container"
 msgstr "Контейнер"
 
@@ -790,7 +786,7 @@ msgstr "Контент"
 msgid "Content Properties"
 msgstr "Свойства контента"
 
-#: src/wx/dcp_panel.cc:97
+#: src/wx/dcp_panel.cc:98
 msgid "Content Type"
 msgstr "Тип контента"
 
@@ -817,7 +813,7 @@ msgstr "Контраст"
 msgid "Coord|Y"
 msgstr "Координата|Y"
 
-#: src/wx/dcp_panel.cc:87
+#: src/wx/dcp_panel.cc:88
 msgid "Copy as name"
 msgstr "Копировать в название"
 
@@ -1156,11 +1152,11 @@ msgstr "Редактировать экран"
 msgid "Edit..."
 msgstr "Редактировать..."
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:87
 msgid "Effect"
 msgstr "Эффект"
 
-#: src/wx/subtitle_appearance_dialog.cc:87
+#: src/wx/subtitle_appearance_dialog.cc:90
 msgid "Effect colour"
 msgstr "Цвет эффекта"
 
@@ -1180,7 +1176,7 @@ msgstr "Email адреса для доставки KDM"
 msgid "Encoding Servers"
 msgstr "Сервера кодирования"
 
-#: src/wx/dcp_panel.cc:100
+#: src/wx/dcp_panel.cc:101
 msgid "Encrypted"
 msgstr "Зашифрованный"
 
@@ -1243,7 +1239,7 @@ msgstr "Качество"
 msgid "Fade in"
 msgstr "Постепенное появление"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:98
 msgid "Fade in time"
 msgstr "Время постепенного появления"
 
@@ -1251,7 +1247,7 @@ msgstr "Время постепенного появления"
 msgid "Fade out"
 msgstr "Постепенное затухание"
 
-#: src/wx/subtitle_appearance_dialog.cc:98
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "Fade out time"
 msgstr "Время постепенного затухания"
 
@@ -1291,7 +1287,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Найти отсутствующее..."
 
-#: src/wx/subtitle_appearance_dialog.cc:126
+#: src/wx/subtitle_appearance_dialog.cc:129
 msgid "Finding the colours in these subtitles..."
 msgstr "Поиск цветов в данных субтитрах…"
 
@@ -1343,7 +1339,7 @@ msgstr "Форензик-метка видео"
 msgid "Format"
 msgstr "Формат"
 
-#: src/wx/dcp_panel.cc:721
+#: src/wx/dcp_panel.cc:722
 msgid "Frame Rate"
 msgstr "Частота Кадров"
 
@@ -1382,7 +1378,7 @@ msgstr ""
 msgid "Full length"
 msgstr "Полная длительность"
 
-#: src/wx/dcp_panel.cc:111
+#: src/wx/dcp_panel.cc:112
 msgid "GB"
 msgstr "ГБ"
 
@@ -1577,7 +1573,7 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/dcp_panel.cc:148 src/wx/full_config_dialog.cc:348
+#: src/wx/dcp_panel.cc:149 src/wx/full_config_dialog.cc:348
 msgid "Interop"
 msgstr "Interop"
 
@@ -1603,7 +1599,7 @@ msgstr ""
 msgid "JACK"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:729
+#: src/wx/dcp_panel.cc:730
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1833,7 +1829,7 @@ msgstr ""
 msgid "Markers"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:116
+#: src/wx/dcp_panel.cc:117
 #, fuzzy
 msgid "Markers..."
 msgstr "Свойства..."
@@ -1850,7 +1846,7 @@ msgstr "Максимальная пропускная способность JPE
 msgid "Maximum number of frames to store per thread"
 msgstr "Максимальное число хранимых кадров на поток"
 
-#: src/wx/dcp_panel.cc:731 src/wx/full_config_dialog.cc:294
+#: src/wx/dcp_panel.cc:737 src/wx/full_config_dialog.cc:294
 #: src/wx/full_config_dialog.cc:1285
 msgid "Mbit/s"
 msgstr "МБит/с"
@@ -1863,7 +1859,7 @@ msgstr "Диалоговое окно"
 msgid "Metadata"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:117
+#: src/wx/dcp_panel.cc:118
 msgid "Metadata..."
 msgstr ""
 
@@ -1919,7 +1915,7 @@ msgstr "НЕОБХОДИМ KDM: "
 msgid "NEEDS OV: "
 msgstr "НЕОБХОДИМ OV: "
 
-#: src/wx/cinema_dialog.cc:52 src/wx/dcp_panel.cc:82
+#: src/wx/cinema_dialog.cc:52 src/wx/dcp_panel.cc:83
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:69
 #: src/wx/screen_dialog.cc:119
 msgid "Name"
@@ -1972,8 +1968,8 @@ msgstr ""
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:72 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:922
-#: src/wx/subtitle_appearance_dialog.cc:147 src/wx/video_panel.cc:172
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:928
+#: src/wx/subtitle_appearance_dialog.cc:150 src/wx/video_panel.cc:172
 msgid "None"
 msgstr "Ничего"
 
@@ -2054,7 +2050,7 @@ msgstr "Иные доверенные устройства"
 msgid "Outgoing mail server"
 msgstr "Исходящий почтовый сервер"
 
-#: src/wx/subtitle_appearance_dialog.cc:148
+#: src/wx/subtitle_appearance_dialog.cc:151
 msgid "Outline"
 msgstr "Контур"
 
@@ -2062,12 +2058,13 @@ msgstr "Контур"
 msgid "Outline content"
 msgstr "Очертить контент"
 
-#: src/wx/subtitle_appearance_dialog.cc:90
+#: src/wx/subtitle_appearance_dialog.cc:93
 msgid "Outline width"
 msgstr "Ширина обводки"
 
-#: src/wx/subtitle_appearance_dialog.cc:312
-msgid "Outline width cannot be set unless you are burning in captions"
+#: src/wx/subtitle_appearance_dialog.cc:315
+#, fuzzy
+msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
 "Ширина обводки не может быть установлена, если вы не делаете вшитые титры"
 
@@ -2195,7 +2192,7 @@ msgstr "Пре-релиз"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:833
+#: src/wx/dcp_panel.cc:839
 msgid "Processor"
 msgstr "Обработка"
 
@@ -2247,7 +2244,7 @@ msgstr ""
 msgid "Ratings"
 msgstr "Предупреждения"
 
-#: src/wx/dcp_panel.cc:733
+#: src/wx/dcp_panel.cc:739
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Перекодировать данные JPEG2000"
 
@@ -2292,16 +2289,16 @@ msgstr "Красная цветность"
 msgid "Reel %d"
 msgstr "Бобина %d"
 
-#: src/wx/dcp_panel.cc:109
+#: src/wx/dcp_panel.cc:110
 msgid "Reel length"
 msgstr "Длительность бобины"
 
-#: src/wx/dcp_panel.cc:106
+#: src/wx/dcp_panel.cc:107
 msgid "Reels"
 msgstr "Бобины"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-#: src/wx/dcp_panel.cc:143
+#: src/wx/dcp_panel.cc:144
 msgid "Reel|Custom"
 msgstr "Пользовательское"
 
@@ -2368,7 +2365,7 @@ msgstr "Сбросить по умолчанию тему и текст"
 msgid "Reset to default text"
 msgstr "Сбросить по умолчанию текст"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:719
 msgid "Resolution"
 msgstr "Разрешение"
 
@@ -2376,7 +2373,7 @@ msgstr "Разрешение"
 msgid "Respect KDM validity periods"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:133
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Restore to original colours"
 msgstr "Восстановить исходные цвета"
 
@@ -2408,7 +2405,7 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (для AAM и Doremi)"
 
-#: src/wx/dcp_panel.cc:147 src/wx/full_config_dialog.cc:347
+#: src/wx/dcp_panel.cc:148 src/wx/full_config_dialog.cc:347
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -2572,11 +2569,11 @@ msgstr ""
 msgid "Set size"
 msgstr ""
 
-#: src/wx/subtitle_appearance_dialog.cc:226
+#: src/wx/subtitle_appearance_dialog.cc:229
 msgid "Set to"
 msgstr "Назначить"
 
-#: src/wx/subtitle_appearance_dialog.cc:149
+#: src/wx/subtitle_appearance_dialog.cc:152
 msgid "Shadow"
 msgstr "Тень"
 
@@ -2584,7 +2581,7 @@ msgstr "Тень"
 msgid "Show"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:837
+#: src/wx/dcp_panel.cc:843
 msgid "Show audio..."
 msgstr "Показать аудио..."
 
@@ -2618,7 +2615,7 @@ msgstr "Простая гамма"
 msgid "Simple gamma, linearised for small values"
 msgstr "Простая гамма, выровненная для малых значений"
 
-#: src/wx/dcp_panel.cc:140
+#: src/wx/dcp_panel.cc:141
 msgid "Single reel"
 msgstr "Одна бобина"
 
@@ -2644,7 +2641,7 @@ msgstr ""
 msgid "Sound processor"
 msgstr "Обработка"
 
-#: src/wx/dcp_panel.cc:141
+#: src/wx/dcp_panel.cc:142
 msgid "Split by video content"
 msgstr "Разделять по видео-контенту"
 
@@ -2652,7 +2649,7 @@ msgstr "Разделять по видео-контенту"
 msgid "Stable version "
 msgstr "Стабильная версия "
 
-#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:61
+#: src/wx/dcp_panel.cc:114 src/wx/metadata_dialog.cc:61
 msgid "Standard"
 msgstr "Стандарт"
 
@@ -2692,6 +2689,11 @@ msgstr "Тема"
 #: src/wx/about_dialog.cc:156
 msgid "Subscribers"
 msgstr "Подписчики"
+
+#: src/wx/subtitle_appearance_dialog.cc:60
+#, fuzzy
+msgid "Subtitle appearance"
+msgstr "Внешний вид титров"
 
 #: src/wx/verify_dcp_dialog.cc:246
 #, c-format
@@ -3433,7 +3435,7 @@ msgstr "Обновление"
 msgid "Upload DCP to TMS after creation"
 msgstr "Загрузить DCP на TMS после окончания конвертации"
 
-#: src/wx/dcp_panel.cc:86
+#: src/wx/dcp_panel.cc:87
 msgid "Use ISDCF name"
 msgstr "Использовать ISDCF"
 
@@ -3441,7 +3443,7 @@ msgstr "Использовать ISDCF"
 msgid "Use as"
 msgstr "Использовать как"
 
-#: src/wx/dcp_panel.cc:725
+#: src/wx/dcp_panel.cc:726
 msgid "Use best"
 msgstr "Использовать лучшее"
 
@@ -3479,7 +3481,7 @@ msgstr "Имя пользователя"
 msgid "Version number"
 msgstr "Серийный номер"
 
-#: src/wx/content_properties_dialog.cc:73 src/wx/dcp_panel.cc:122
+#: src/wx/content_properties_dialog.cc:73 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:65
 #: src/wx/video_panel.cc:64
 msgid "Video"

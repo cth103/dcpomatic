@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-05 00:51+0200\n"
+"POT-Creation-Date: 2021-04-06 19:22+0200\n"
 "PO-Revision-Date: 2019-05-10 02:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -151,11 +151,11 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:757
+#: src/wx/dcp_panel.cc:763
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:727 src/wx/video_panel.cc:195
+#: src/wx/dcp_panel.cc:728 src/wx/video_panel.cc:195
 msgid "3D"
 msgstr "3D DCP"
 
@@ -183,7 +183,7 @@ msgstr "3D Oben/Unten (OU)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/SUB"
 
-#: src/wx/dcp_panel.cc:758
+#: src/wx/dcp_panel.cc:764
 msgid "4K"
 msgstr "4K"
 
@@ -195,11 +195,11 @@ msgstr "6 - 5.1"
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI-N"
 
-#: src/wx/subtitle_appearance_dialog.cc:114
+#: src/wx/subtitle_appearance_dialog.cc:117
 msgid "<b>New colour</b>"
 msgstr "<b>Neue Farbe</b>"
 
-#: src/wx/subtitle_appearance_dialog.cc:111
+#: src/wx/subtitle_appearance_dialog.cc:114
 msgid "<b>Original colour</b>"
 msgstr "<b>Originalfarbe</b>"
 
@@ -532,7 +532,7 @@ msgid "Atmos"
 msgstr "Atmos"
 
 #: src/wx/audio_dialog.cc:59 src/wx/audio_panel.cc:58
-#: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:123
+#: src/wx/content_properties_dialog.cc:76 src/wx/dcp_panel.cc:124
 #: src/wx/timeline_labels_view.cc:36 src/wx/timeline_labels_view.cc:83
 msgid "Audio"
 msgstr "Ton"
@@ -672,10 +672,6 @@ msgstr ""
 msgid "Caption"
 msgstr "Caption"
 
-#: src/wx/subtitle_appearance_dialog.cc:56
-msgid "Caption appearance"
-msgstr "Untertitel Darstellung"
-
 #: src/wx/text_view.cc:46
 msgid "Captions"
 msgstr "Captions"
@@ -699,7 +695,7 @@ msgstr "Kinokette"
 msgid "Channel gain"
 msgstr "Kanal Verstärkung (+/-)"
 
-#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:829
+#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:835
 msgid "Channels"
 msgstr "Kanäle"
 
@@ -760,7 +756,7 @@ msgstr ""
 msgid "Closed captions"
 msgstr "Closed Captions/CCAP"
 
-#: src/wx/subtitle_appearance_dialog.cc:81
+#: src/wx/subtitle_appearance_dialog.cc:84
 msgid "Colour"
 msgstr "Farbe"
 
@@ -795,7 +791,7 @@ msgstr "Timing"
 msgid "Confirm KDM email"
 msgstr "KDM Emailversand bestätigen"
 
-#: src/wx/dcp_panel.cc:714
+#: src/wx/dcp_panel.cc:715
 msgid "Container"
 msgstr "DCI Containertyp"
 
@@ -807,7 +803,7 @@ msgstr "Inhalt(e)"
 msgid "Content Properties"
 msgstr "Eigenschaften"
 
-#: src/wx/dcp_panel.cc:97
+#: src/wx/dcp_panel.cc:98
 msgid "Content Type"
 msgstr "Inhalt Typ"
 
@@ -833,7 +829,7 @@ msgstr "Kontrast"
 msgid "Coord|Y"
 msgstr "Coord|Y"
 
-#: src/wx/dcp_panel.cc:87
+#: src/wx/dcp_panel.cc:88
 msgid "Copy as name"
 msgstr "ISDCF Name statisch kopieren"
 
@@ -1175,11 +1171,11 @@ msgstr "Leinwandstammdaten bearbeiten"
 msgid "Edit..."
 msgstr "Bearbeiten..."
 
-#: src/wx/subtitle_appearance_dialog.cc:84
+#: src/wx/subtitle_appearance_dialog.cc:87
 msgid "Effect"
 msgstr "Schrifteffekt"
 
-#: src/wx/subtitle_appearance_dialog.cc:87
+#: src/wx/subtitle_appearance_dialog.cc:90
 msgid "Effect colour"
 msgstr "Effektfarbe"
 
@@ -1199,7 +1195,7 @@ msgstr "KDM Empfänger Email-Adressen"
 msgid "Encoding Servers"
 msgstr "Encoding Server"
 
-#: src/wx/dcp_panel.cc:100
+#: src/wx/dcp_panel.cc:101
 msgid "Encrypted"
 msgstr "Verschlüsselt (->für KDM Erstellung)"
 
@@ -1262,7 +1258,7 @@ msgstr "Qualität"
 msgid "Fade in"
 msgstr "Einblenden"
 
-#: src/wx/subtitle_appearance_dialog.cc:95
+#: src/wx/subtitle_appearance_dialog.cc:98
 msgid "Fade in time"
 msgstr "Einblenden"
 
@@ -1270,7 +1266,7 @@ msgstr "Einblenden"
 msgid "Fade out"
 msgstr "Ausblenden"
 
-#: src/wx/subtitle_appearance_dialog.cc:98
+#: src/wx/subtitle_appearance_dialog.cc:101
 msgid "Fade out time"
 msgstr "Ausblenden"
 
@@ -1309,7 +1305,7 @@ msgstr ""
 msgid "Find missing..."
 msgstr "Suche fehlende..."
 
-#: src/wx/subtitle_appearance_dialog.cc:126
+#: src/wx/subtitle_appearance_dialog.cc:129
 msgid "Finding the colours in these subtitles..."
 msgstr "Analysiere Farbpalette in Untertiteln..."
 
@@ -1361,7 +1357,7 @@ msgstr "Videowassermarke hinzufügen"
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/dcp_panel.cc:721
+#: src/wx/dcp_panel.cc:722
 msgid "Frame Rate"
 msgstr "DCP Bildrate"
 
@@ -1400,7 +1396,7 @@ msgstr ""
 msgid "Full length"
 msgstr "Gesamtlänge"
 
-#: src/wx/dcp_panel.cc:111
+#: src/wx/dcp_panel.cc:112
 msgid "GB"
 msgstr "GB"
 
@@ -1603,7 +1599,7 @@ msgstr "Intermediate"
 msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
-#: src/wx/dcp_panel.cc:148 src/wx/full_config_dialog.cc:348
+#: src/wx/dcp_panel.cc:149 src/wx/full_config_dialog.cc:348
 msgid "Interop"
 msgstr "Interop"
 
@@ -1629,7 +1625,7 @@ msgstr ""
 msgid "JACK"
 msgstr "JACK"
 
-#: src/wx/dcp_panel.cc:729
+#: src/wx/dcp_panel.cc:730
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1861,7 +1857,7 @@ msgstr ""
 msgid "Markers"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:116
+#: src/wx/dcp_panel.cc:117
 #, fuzzy
 msgid "Markers..."
 msgstr "Eigenschaften..."
@@ -1878,7 +1874,7 @@ msgstr "Maximale JPEG2000 Datenrate (>240MBit/s - Vorsicht!)"
 msgid "Maximum number of frames to store per thread"
 msgstr "Bildzwischenspeicher pro Thread"
 
-#: src/wx/dcp_panel.cc:731 src/wx/full_config_dialog.cc:294
+#: src/wx/dcp_panel.cc:737 src/wx/full_config_dialog.cc:294
 #: src/wx/full_config_dialog.cc:1285
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1891,7 +1887,7 @@ msgstr "Hinweisfenster"
 msgid "Metadata"
 msgstr "Metadata"
 
-#: src/wx/dcp_panel.cc:117
+#: src/wx/dcp_panel.cc:118
 #, fuzzy
 msgid "Metadata..."
 msgstr "Metadata"
@@ -1948,7 +1944,7 @@ msgstr "Benötigt KDM:"
 msgid "NEEDS OV: "
 msgstr "Benötigt OV:"
 
-#: src/wx/cinema_dialog.cc:52 src/wx/dcp_panel.cc:82
+#: src/wx/cinema_dialog.cc:52 src/wx/dcp_panel.cc:83
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:69
 #: src/wx/screen_dialog.cc:119
 msgid "Name"
@@ -2002,8 +1998,8 @@ msgstr ""
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:72 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:922
-#: src/wx/subtitle_appearance_dialog.cc:147 src/wx/video_panel.cc:172
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:928
+#: src/wx/subtitle_appearance_dialog.cc:150 src/wx/video_panel.cc:172
 msgid "None"
 msgstr "Ohne"
 
@@ -2087,7 +2083,7 @@ msgstr "Andere 'trusted devices'"
 msgid "Outgoing mail server"
 msgstr "Ausgehender/ SMTP Mail Server"
 
-#: src/wx/subtitle_appearance_dialog.cc:148
+#: src/wx/subtitle_appearance_dialog.cc:151
 msgid "Outline"
 msgstr "Umrissdarstellung"
 
@@ -2095,12 +2091,13 @@ msgstr "Umrissdarstellung"
 msgid "Outline content"
 msgstr "Inhalt hervorheben"
 
-#: src/wx/subtitle_appearance_dialog.cc:90
+#: src/wx/subtitle_appearance_dialog.cc:93
 msgid "Outline width"
 msgstr "Stärke Umrissdarstellung (nur bei 'Burn-In')"
 
-#: src/wx/subtitle_appearance_dialog.cc:312
-msgid "Outline width cannot be set unless you are burning in captions"
+#: src/wx/subtitle_appearance_dialog.cc:315
+#, fuzzy
+msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
 "Die Stärke der Umrissdarstellung kann nur bei fest eingerechneten "
 "Untertiteln ('Burn-In') gewählt werden."
@@ -2229,7 +2226,7 @@ msgstr "Vorabversion"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:833
+#: src/wx/dcp_panel.cc:839
 msgid "Processor"
 msgstr "Prozessor"
 
@@ -2281,7 +2278,7 @@ msgstr ""
 msgid "Ratings"
 msgstr "Warnungen"
 
-#: src/wx/dcp_panel.cc:733
+#: src/wx/dcp_panel.cc:739
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Alle Inhalte vollständig/erneut J2C komprimieren"
 
@@ -2328,16 +2325,16 @@ msgstr "Rot Chromatizität"
 msgid "Reel %d"
 msgstr "Akt ('Reel') %d"
 
-#: src/wx/dcp_panel.cc:109
+#: src/wx/dcp_panel.cc:110
 msgid "Reel length"
 msgstr "Aktgröße"
 
-#: src/wx/dcp_panel.cc:106
+#: src/wx/dcp_panel.cc:107
 msgid "Reels"
 msgstr "Aktaufteilung ('Reels')"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-#: src/wx/dcp_panel.cc:143
+#: src/wx/dcp_panel.cc:144
 msgid "Reel|Custom"
 msgstr "Nach MXF Dateigröße"
 
@@ -2404,7 +2401,7 @@ msgstr "Auf Standardtext zurücksetzen"
 msgid "Reset to default text"
 msgstr "Auf Standardtext zurücksetzen"
 
-#: src/wx/dcp_panel.cc:718
+#: src/wx/dcp_panel.cc:719
 msgid "Resolution"
 msgstr "Auflösung"
 
@@ -2412,7 +2409,7 @@ msgstr "Auflösung"
 msgid "Respect KDM validity periods"
 msgstr "KDM Zeitfenster auswerten"
 
-#: src/wx/subtitle_appearance_dialog.cc:133
+#: src/wx/subtitle_appearance_dialog.cc:136
 msgid "Restore to original colours"
 msgstr "Originalfarben wiederherstellen"
 
@@ -2444,7 +2441,7 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (AAM und Doremi)"
 
-#: src/wx/dcp_panel.cc:147 src/wx/full_config_dialog.cc:347
+#: src/wx/dcp_panel.cc:148 src/wx/full_config_dialog.cc:347
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -2609,11 +2606,11 @@ msgstr ""
 msgid "Set size"
 msgstr "Bild"
 
-#: src/wx/subtitle_appearance_dialog.cc:226
+#: src/wx/subtitle_appearance_dialog.cc:229
 msgid "Set to"
 msgstr "Setzen auf"
 
-#: src/wx/subtitle_appearance_dialog.cc:149
+#: src/wx/subtitle_appearance_dialog.cc:152
 msgid "Shadow"
 msgstr "Schattendarstellung"
 
@@ -2621,7 +2618,7 @@ msgstr "Schattendarstellung"
 msgid "Show"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:837
+#: src/wx/dcp_panel.cc:843
 msgid "Show audio..."
 msgstr "Audiopegel anzeigen..."
 
@@ -2655,7 +2652,7 @@ msgstr "Gammafunktion"
 msgid "Simple gamma, linearised for small values"
 msgstr "Gammafunktion, lineares Segment für niedrige Helligkeitswerte"
 
-#: src/wx/dcp_panel.cc:140
+#: src/wx/dcp_panel.cc:141
 msgid "Single reel"
 msgstr "Einzelakt (nur eine MXF Datei)"
 
@@ -2681,7 +2678,7 @@ msgstr ""
 msgid "Sound processor"
 msgstr "Prozessor"
 
-#: src/wx/dcp_panel.cc:141
+#: src/wx/dcp_panel.cc:142
 msgid "Split by video content"
 msgstr "An Inhaltsgrenzen aufteilen"
 
@@ -2689,7 +2686,7 @@ msgstr "An Inhaltsgrenzen aufteilen"
 msgid "Stable version "
 msgstr "Stabile Version"
 
-#: src/wx/dcp_panel.cc:113 src/wx/metadata_dialog.cc:61
+#: src/wx/dcp_panel.cc:114 src/wx/metadata_dialog.cc:61
 msgid "Standard"
 msgstr "DCP Standard"
 
@@ -2729,6 +2726,11 @@ msgstr "Betreff"
 #: src/wx/about_dialog.cc:156
 msgid "Subscribers"
 msgstr "Regelmäßige Zahler"
+
+#: src/wx/subtitle_appearance_dialog.cc:60
+#, fuzzy
+msgid "Subtitle appearance"
+msgstr "Untertitel Darstellung"
 
 #: src/wx/verify_dcp_dialog.cc:246
 #, c-format
@@ -3478,7 +3480,7 @@ msgstr "Update"
 msgid "Upload DCP to TMS after creation"
 msgstr "Nach Fertigstellung DCP auf TMS kopieren"
 
-#: src/wx/dcp_panel.cc:86
+#: src/wx/dcp_panel.cc:87
 msgid "Use ISDCF name"
 msgstr "ISDCF Name erzeugen"
 
@@ -3486,7 +3488,7 @@ msgstr "ISDCF Name erzeugen"
 msgid "Use as"
 msgstr "Verwenden als"
 
-#: src/wx/dcp_panel.cc:725
+#: src/wx/dcp_panel.cc:726
 msgid "Use best"
 msgstr "Beste wählen"
 
@@ -3527,7 +3529,7 @@ msgstr "Benutzer Name"
 msgid "Version number"
 msgstr "Seriennummer"
 
-#: src/wx/content_properties_dialog.cc:73 src/wx/dcp_panel.cc:122
+#: src/wx/content_properties_dialog.cc:73 src/wx/dcp_panel.cc:123
 #: src/wx/timeline_labels_view.cc:35 src/wx/timeline_labels_view.cc:65
 #: src/wx/video_panel.cc:64
 msgid "Video"
