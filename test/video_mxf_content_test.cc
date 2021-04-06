@@ -63,7 +63,13 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	BOOST_REQUIRE (check);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_2K
+		});
 
 	auto ref = make_shared<dcp::MonoPictureAsset>(ref_mxf);
 	boost::filesystem::directory_iterator i ("build/test/video_mxf_content_test/video");
