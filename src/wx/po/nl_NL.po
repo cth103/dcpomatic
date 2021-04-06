@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-05 00:51+0200\n"
-"PO-Revision-Date: 2021-03-24 03:20+0100\n"
+"PO-Revision-Date: 2021-04-06 02:52+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -76,13 +75,12 @@ msgid "%d channels on %s"
 msgstr "%d kanalen via %s"
 
 #: src/wx/about_dialog.cc:87
-#, fuzzy
 msgid ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Brecht Sanders"
+" Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:48 src/wx/file_picker_ctrl.cc:63
 msgid "(None)"
@@ -144,7 +142,7 @@ msgstr "2D"
 
 #: src/wx/metadata_dialog.cc:250
 msgid "2D version of 3D DCP"
-msgstr ""
+msgstr "2D-versie van 3D-DCP"
 
 #: src/wx/dcp_panel.cc:757
 msgid "2K"
@@ -393,7 +391,7 @@ msgstr ""
 
 #: src/wx/text_panel.cc:178
 msgid "Additional"
-msgstr ""
+msgstr "Aanvullend"
 
 #: src/wx/cinema_dialog.cc:73 src/wx/full_config_dialog.cc:795
 #: src/wx/full_config_dialog.cc:927 src/wx/recipient_dialog.cc:90
@@ -1668,16 +1666,15 @@ msgstr "Language Tag"
 
 #: src/wx/content_advanced_dialog.cc:97
 msgid "Language of burnt-in subtitles in this content"
-msgstr ""
+msgstr "Taal van ingebrande ondertitels in deze content"
 
 #: src/wx/text_panel.cc:171
-#, fuzzy
 msgid "Language of these subtitles"
-msgstr "Zoeken van de kleuren in deze ondertitels..."
+msgstr "Taal van deze ondertitels"
 
 #: src/wx/audio_panel.cc:99
 msgid "Language used for the dialogue in this content"
-msgstr ""
+msgstr "Taal die wordt gebruikt voor de dialoog in deze content"
 
 #: src/wx/markers_dialog.cc:124
 msgid "Last frame of composition"
@@ -1780,7 +1777,7 @@ msgstr "MP4-bestanden (*.mp4)|*.mp4"
 #. / film or an "additional" language.
 #: src/wx/text_panel.cc:177
 msgid "Main"
-msgstr ""
+msgstr "Hoofd"
 
 #: src/wx/hints_dialog.cc:72
 msgid "Make DCP"
@@ -2062,7 +2059,8 @@ msgstr "Omlijnings-breedte"
 
 #: src/wx/subtitle_appearance_dialog.cc:312
 msgid "Outline width cannot be set unless you are burning in captions"
-msgstr "Omlijnings-breedte kan alleen bij ingebrande captions ingesteld worden"
+msgstr ""
+"Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden"
 
 #: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:104
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:73
@@ -2666,9 +2664,8 @@ msgid "Stream"
 msgstr "Stream"
 
 #: src/wx/metadata_dialog.cc:228
-#, fuzzy
 msgid "Studio"
-msgstr "Audio"
+msgstr "Studio"
 
 #: src/wx/full_config_dialog.cc:786 src/wx/full_config_dialog.cc:914
 msgid "Subject"
@@ -2736,7 +2733,6 @@ msgid "Temporary"
 msgstr "Tijdelijk"
 
 #: src/wx/metadata_dialog.cc:238
-#, fuzzy
 msgid "Temporary version"
 msgstr "Tijdelijke versie"
 
@@ -3078,6 +3074,15 @@ msgid ""
 "from the View menu\n"
 "• using a more powerful computer.\n"
 msgstr ""
+"De player heeft veel frame drops, dus het afspelen is mogelijk niet "
+"nauwkeurig.\n"
+"\n"
+"<b>Dit betekent niet noodzakelijk dat de DCP die u afspeelt defect is!</b>\n"
+"\n"
+"Mogelijk kunt u de prestaties van de player verbeteren door:\n"
+"• het kiezen van 'Decodeer op halve resolutie' of 'Decodeer op kwart "
+"resolutie' in het Toon-menu\n"
+"• een krachtigere computer te gebruiken.\n"
 
 #: src/wx/verify_dcp_dialog.cc:225
 #, c-format
@@ -3223,6 +3228,9 @@ msgid ""
 "different project.  Choose the DCP directory inside the DCP-o-matic project "
 "folder if that's what you want to import."
 msgstr ""
+"Dit ziet eruit als een DCP-o-matic-projectmap, die niet aan een ander "
+"project kan worden toegevoegd.  Kies de DCP-map in de DCP-o-matic-projectmap "
+"als u die wilt importeren."
 
 #: src/wx/full_config_dialog.cc:1162
 msgid ""
@@ -3562,9 +3570,8 @@ msgstr "Video frame rate waarvoor de content is voorbereid"
 #. / TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. / "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:95
-#, fuzzy
 msgid "Video has burnt-in subtitles in the language"
-msgstr "Hoofdtaal ondertitels"
+msgstr "Video heeft ingebrande ondertitels in de taal"
 
 #: src/wx/text_panel.cc:120
 msgid "View..."
