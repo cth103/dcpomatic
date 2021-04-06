@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,10 +31,11 @@
 #include <boost/test/unit_test.hpp>
 
 
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
-using std::shared_ptr;
 
 
 vector<string> current_hints;
@@ -66,12 +67,13 @@ static
 void
 check (TextType type, string name, optional<string> expected_hint = optional<string>())
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<Content> content = content_factory("test/data/" + name + ".srt").front();
+	auto film = new_test_film2 (name);
+	auto content = content_factory("test/data/" + name + ".srt").front();
 	content->text.front()->set_type (type);
+	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	vector<string> hints = get_hints (film);
+	auto hints = get_hints (film);
 
 	if (expected_hint) {
 		BOOST_REQUIRE_EQUAL (hints.size(), 1U);
@@ -156,17 +158,18 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 {
 	string const name = "hint_subtitle_mxf_too_big";
 
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<Content> content = content_factory("test/data/" + name + ".srt").front();
+	auto film = new_test_film2 (name);
+	auto content = content_factory("test/data/" + name + ".srt").front();
 	content->text.front()->set_type (TextType::OPEN_SUBTITLE);
+	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	for (int i = 1; i < 512; ++i) {
-		shared_ptr<dcpomatic::Font> font(new dcpomatic::Font(String::compose("font_%1", i)));
+		auto font = make_shared<dcpomatic::Font>(String::compose("font_%1", i));
 		font->set_file ("test/data/LiberationSans-Regular.ttf");
 		content->text.front()->add_font(font);
 	}
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	vector<string> hints = get_hints (film);
+	auto hints = get_hints (film);
 
 	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 	BOOST_CHECK_EQUAL (
@@ -181,9 +184,9 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 {
 	string const name = "hint_closed_caption_xml_too_big";
 
-	shared_ptr<Film> film = new_test_film2 (name);
+	auto film = new_test_film2 (name);
 
-	FILE* ccap = fopen_boost (String::compose("build/test/%1.srt", name), "w");
+	auto ccap = fopen_boost (String::compose("build/test/%1.srt", name), "w");
 	BOOST_REQUIRE (ccap);
 	for (int i = 0; i < 2048; ++i) {
 		fprintf(ccap, "%d\n", i + 1);
@@ -194,11 +197,12 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	}
 	fclose (ccap);
 
-	shared_ptr<Content> content = content_factory("build/test/" + name + ".srt").front();
+	auto content = content_factory("build/test/" + name + ".srt").front();
 	content->text.front()->set_type (TextType::CLOSED_CAPTION);
+	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	vector<string> hints = get_hints (film);
+	auto hints = get_hints (film);
 
 	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 	BOOST_CHECK_EQUAL (
