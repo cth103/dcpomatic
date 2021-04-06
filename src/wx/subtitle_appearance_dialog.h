@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "timecode.h"
 #include "lib/change_signaller.h"
 #include "lib/rgba.h"
@@ -26,6 +27,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 class wxRadioButton;
 class wxColourPickerCtrl;
@@ -37,6 +39,7 @@ class wxCheckBox;
 class wxWidget;
 class Film;
 class Job;
+
 
 class SubtitleAppearanceDialog : public wxDialog
 {
@@ -70,11 +73,11 @@ private:
 
 	wxBoxSizer* _overall_sizer;
 	wxScrolled<wxPanel>* _colours_panel;
-	wxStaticText* _finding;
+	wxStaticText* _finding = nullptr;
 	wxFlexGridSizer* _colour_table;
 
 	std::shared_ptr<Content> _content;
-	std::shared_ptr<TextContent> _caption;
+	std::shared_ptr<TextContent> _text;
 	std::shared_ptr<FFmpegSubtitleStream> _stream;
 
 	boost::signals2::scoped_connection _content_connection;

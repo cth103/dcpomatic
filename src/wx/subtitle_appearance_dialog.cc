@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "subtitle_appearance_dialog.h"
 #include "rgba_colour_picker.h"
@@ -37,6 +38,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 using std::map;
 using std::string;
 using std::shared_ptr;
@@ -48,16 +50,17 @@ using namespace dcpomatic;
 using namespace boost::placeholders;
 #endif
 
+
 int const SubtitleAppearanceDialog::NONE = 0;
 int const SubtitleAppearanceDialog::OUTLINE = 1;
 int const SubtitleAppearanceDialog::SHADOW = 2;
 
-SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content, shared_ptr<TextContent> caption)
-	: wxDialog (parent, wxID_ANY, _("Caption appearance"))
+
+SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text)
+	: wxDialog (parent, wxID_ANY, _("Subtitle appearance"))
 	, _film (film)
-	, _finding (0)
 	, _content (content)
-	, _caption (caption)
+	, _text (text)
 {
 	auto ff = dynamic_pointer_cast<FFmpegContent> (content);
 	if (ff) {
@@ -78,24 +81,24 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 
 	int r = 0;
 
-	add_label_to_sizer (_table, this, _("Colour"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_table, this, _("Colour"), true, wxGBPosition(r, 0));
 	_force_colour = set_to (_colour = new wxColourPickerCtrl (this, wxID_ANY), r);
 
-	add_label_to_sizer (_table, this, _("Effect"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_table, this, _("Effect"), true, wxGBPosition(r, 0));
 	_force_effect = set_to (_effect = new wxChoice (this, wxID_ANY), r);
 
-	add_label_to_sizer (_table, this, _("Effect colour"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_table, this, _("Effect colour"), true, wxGBPosition(r, 0));
 	_force_effect_colour = set_to (_effect_colour = new wxColourPickerCtrl (this, wxID_ANY), r);
 
-	add_label_to_sizer (_table, this, _("Outline width"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_table, this, _("Outline width"), true, wxGBPosition(r, 0));
 	_outline_width = new wxSpinCtrl (this, wxID_ANY);
-	_table->Add (_outline_width, wxGBPosition (r, 1));
+	_table->Add (_outline_width, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (_table, this, _("Fade in time"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_table, this, _("Fade in time"), true, wxGBPosition(r, 0));
 	_force_fade_in = set_to (_fade_in = new Timecode<ContentTime> (this), r);
 
-	add_label_to_sizer (_table, this, _("Fade out time"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_table, this, _("Fade out time"), true, wxGBPosition(r, 0));
 	_force_fade_out = set_to (_fade_out = new Timecode<ContentTime> (this), r);
 
 	if (_stream) {
@@ -148,7 +151,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 	_effect->Append (_("Outline"));
 	_effect->Append (_("Shadow"));;
 
-	optional<dcp::Colour> colour = _caption->colour();
+	auto colour = _text->colour();
 	_force_colour->SetValue (static_cast<bool>(colour));
 	if (colour) {
 		_colour->SetColour (wxColour (colour->r, colour->g, colour->b));
@@ -156,7 +159,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_colour->SetColour (wxColour (255, 255, 255));
 	}
 
-	optional<dcp::Effect> effect = _caption->effect();
+	auto effect = _text->effect();
 	_force_effect->SetValue (static_cast<bool>(effect));
 	if (effect) {
 		switch (*effect) {
@@ -174,7 +177,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_effect->SetSelection (NONE);
 	}
 
-	auto effect_colour = _caption->effect_colour();
+	auto effect_colour = _text->effect_colour();
 	_force_effect_colour->SetValue (static_cast<bool>(effect_colour));
 	if (effect_colour) {
 		_effect_colour->SetColour (wxColour (effect_colour->r, effect_colour->g, effect_colour->b));
@@ -182,7 +185,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_effect_colour->SetColour (wxColour (0, 0, 0));
 	}
 
-	auto fade_in = _caption->fade_in();
+	auto fade_in = _text->fade_in();
 	_force_fade_in->SetValue (static_cast<bool>(fade_in));
 	if (fade_in) {
 		_fade_in->set (*fade_in, _content->active_video_frame_rate(film));
@@ -190,7 +193,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_fade_in->set (ContentTime(), _content->active_video_frame_rate(film));
 	}
 
-	auto fade_out = _caption->fade_out();
+	auto fade_out = _text->fade_out();
 	_force_fade_out->SetValue (static_cast<bool>(fade_out));
 	if (fade_out) {
 		_fade_out->set (*fade_out, _content->active_video_frame_rate(film));
@@ -198,7 +201,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_fade_out->set (ContentTime(), _content->active_video_frame_rate(film));
 	}
 
-	_outline_width->SetValue (_caption->outline_width ());
+	_outline_width->SetValue (_text->outline_width ());
 
 	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
@@ -226,7 +229,7 @@ SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 	auto set_to = new CheckBox (this, _("Set to"));
 	s->Add (set_to, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
 	s->Add (w, 0, wxALIGN_CENTER_VERTICAL);
-	_table->Add (s, wxGBPosition (r, 1));
+	_table->Add (s, wxGBPosition(r, 1));
 	++r;
 	return set_to;
 }
@@ -238,42 +241,42 @@ SubtitleAppearanceDialog::apply ()
 
 	if (_force_colour->GetValue ()) {
 		auto const c = _colour->GetColour ();
-		_caption->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
+		_text->set_colour (dcp::Colour (c.Red(), c.Green(), c.Blue()));
 	} else {
-		_caption->unset_colour ();
+		_text->unset_colour ();
 	}
 	if (_force_effect->GetValue()) {
 		switch (_effect->GetSelection()) {
 		case NONE:
-			_caption->set_effect (dcp::Effect::NONE);
+			_text->set_effect (dcp::Effect::NONE);
 			break;
 		case OUTLINE:
-			_caption->set_effect (dcp::Effect::BORDER);
+			_text->set_effect (dcp::Effect::BORDER);
 			break;
 		case SHADOW:
-			_caption->set_effect (dcp::Effect::SHADOW);
+			_text->set_effect (dcp::Effect::SHADOW);
 			break;
 		}
 	} else {
-		_caption->unset_effect ();
+		_text->unset_effect ();
 	}
 	if (_force_effect_colour->GetValue ()) {
 		auto const ec = _effect_colour->GetColour ();
-		_caption->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
+		_text->set_effect_colour (dcp::Colour (ec.Red(), ec.Green(), ec.Blue()));
 	} else {
-		_caption->unset_effect_colour ();
+		_text->unset_effect_colour ();
 	}
 	if (_force_fade_in->GetValue ()) {
-		_caption->set_fade_in (_fade_in->get(_content->active_video_frame_rate(film)));
+		_text->set_fade_in (_fade_in->get(_content->active_video_frame_rate(film)));
 	} else {
-		_caption->unset_fade_in ();
+		_text->unset_fade_in ();
 	}
 	if (_force_fade_out->GetValue ()) {
-		_caption->set_fade_out (_fade_out->get(_content->active_video_frame_rate(film)));
+		_text->set_fade_out (_fade_out->get(_content->active_video_frame_rate(film)));
 	} else {
-		_caption->unset_fade_out ();
+		_text->unset_fade_out ();
 	}
-	_caption->set_outline_width (_outline_width->GetValue ());
+	_text->set_outline_width (_outline_width->GetValue ());
 
 	if (_stream) {
 		for (auto const& i: _pickers) {
@@ -304,12 +307,12 @@ SubtitleAppearanceDialog::setup_sensitivity ()
 	_fade_in->Enable (_force_fade_in->GetValue ());
 	_fade_out->Enable (_force_fade_out->GetValue ());
 
-	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _caption->burn ();
+	bool const can_outline_width = _effect->GetSelection() == OUTLINE && _text->burn ();
 	_outline_width->Enable (can_outline_width);
 	if (can_outline_width) {
 		_outline_width->UnsetToolTip ();
 	} else {
-		_outline_width->SetToolTip (_("Outline width cannot be set unless you are burning in captions"));
+		_outline_width->SetToolTip (_("Outline width cannot be set unless you are burning in subtitles."));
 	}
 }
 
