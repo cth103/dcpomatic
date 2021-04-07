@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "content_view.h"
 #include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
@@ -32,14 +33,17 @@
 #include <boost/optional.hpp>
 #include <wx/progdlg.h>
 
-using std::string;
+
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
 using boost::optional;
-using std::dynamic_pointer_cast;
 using namespace dcpomatic;
+
 
 ContentView::ContentView (wxWindow* parent)
 	: wxListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER)
@@ -51,17 +55,19 @@ ContentView::ContentView (wxWindow* parent)
 	AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
 }
 
+
 shared_ptr<Content>
 ContentView::selected () const
 {
 	long int s = GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
-		return shared_ptr<Content>();
+		return {};
 	}
 
 	DCPOMATIC_ASSERT (s < int(_content.size()));
 	return _content[s];
 }
+
 
 void
 ContentView::update ()
@@ -70,29 +76,29 @@ ContentView::update ()
 
 	DeleteAllItems ();
 	_content.clear ();
-	optional<path> dir = Config::instance()->player_content_directory();
+	auto dir = Config::instance()->player_content_directory();
 	if (!dir || !boost::filesystem::is_directory(*dir)) {
 		dir = home_directory ();
 	}
 
 	wxProgressDialog progress (_("DCP-o-matic"), _("Reading content directory"));
-	JobManager* jm = JobManager::instance ();
+	auto jm = JobManager::instance ();
 
-	list<shared_ptr<ExamineContentJob> > jobs;
+	list<shared_ptr<ExamineContentJob>> jobs;
 
-	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
+	for (auto i: directory_iterator(*dir)) {
 		try {
 			progress.Pulse ();
 
 			shared_ptr<Content> content;
-			if (is_directory(*i) && (is_regular_file(*i / "ASSETMAP") || is_regular_file(*i / "ASSETMAP.xml"))) {
-				content.reset (new DCPContent(*i));
-			} else if (i->path().extension() == ".mp4" || i->path().extension() == ".ecinema") {
-				content = content_factory(*i).front();
+			if (is_directory(i) && (is_regular_file(i / "ASSETMAP") || is_regular_file(i / "ASSETMAP.xml"))) {
+				content.reset (new DCPContent(i));
+			} else if (i.path().extension() == ".mp4" || i.path().extension() == ".ecinema") {
+				content = content_factory(i).front();
 			}
 
 			if (content) {
-				shared_ptr<ExamineContentJob> job(new ExamineContentJob(shared_ptr<Film>(), content));
+				auto job = make_shared<ExamineContentJob>(shared_ptr<Film>(), content);
 				jm->add (job);
 				jobs.push_back (job);
 			}
@@ -125,6 +131,7 @@ ContentView::update ()
 	}
 }
 
+
 void
 ContentView::add (shared_ptr<Content> content)
 {
@@ -152,6 +159,7 @@ ContentView::add (shared_ptr<Content> content)
 	SetItem(it);
 }
 
+
 shared_ptr<Content>
 ContentView::get (string digest) const
 {
@@ -161,5 +169,5 @@ ContentView::get (string digest) const
 		}
 	}
 
-	return shared_ptr<Content>();
+	return {};
 }

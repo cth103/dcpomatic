@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,13 +17,16 @@
 
 */
 
+
 /** @file  src/audio_merger.h
  *  @brief AudioMerger class.
  */
 
+
 #include "audio_buffers.h"
 #include "dcpomatic_time.h"
 #include "util.h"
+
 
 /** @class AudioMerger.
  *  @brief A class that can merge audio data from many sources.
@@ -33,7 +36,7 @@ class AudioMerger
 public:
 	explicit AudioMerger (int frame_rate);
 
-	std::list<std::pair<std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> > pull (dcpomatic::DCPTime time);
+	std::list<std::pair<std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime>> pull (dcpomatic::DCPTime time);
 	void push (std::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time);
 	void clear ();
 
@@ -66,15 +69,6 @@ private:
 
 		dcpomatic::DCPTimePeriod period () const {
 			return dcpomatic::DCPTimePeriod (time, time + dcpomatic::DCPTime::from_frames (audio->frames(), frame_rate));
-		}
-	};
-
-	class BufferComparator
-	{
-	public:
-		bool operator() (AudioMerger::Buffer const & a, AudioMerger::Buffer const & b)
-		{
-			return a.time < b.time;
 		}
 	};
 

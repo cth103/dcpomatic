@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "ffmpeg.h"
 #include "ffmpeg_content.h"
@@ -41,6 +42,7 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using std::string;
 using std::cout;
 using std::cerr;
@@ -50,19 +52,17 @@ using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 boost::mutex FFmpeg::_mutex;
+
 
 FFmpeg::FFmpeg (std::shared_ptr<const FFmpegContent> c)
 	: _ffmpeg_content (c)
-	, _avio_buffer (0)
-	, _avio_buffer_size (4096)
-	, _avio_context (0)
-	, _format_context (0)
-	, _frame (0)
 {
 	setup_general ();
 	setup_decoders ();
 }
+
 
 FFmpeg::~FFmpeg ()
 {
@@ -78,17 +78,20 @@ DCPOMATIC_ENABLE_WARNINGS
 	avformat_close_input (&_format_context);
 }
 
+
 static int
 avio_read_wrapper (void* data, uint8_t* buffer, int amount)
 {
 	return reinterpret_cast<FFmpeg*>(data)->avio_read (buffer, amount);
 }
 
+
 static int64_t
 avio_seek_wrapper (void* data, int64_t offset, int whence)
 {
 	return reinterpret_cast<FFmpeg*>(data)->avio_seek (offset, whence);
 }
+
 
 void
 FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
@@ -105,6 +108,7 @@ FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
 	dcpomatic_log->log (String::compose ("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
 }
 
+
 void
 FFmpeg::setup_general ()
 {
@@ -114,7 +118,7 @@ FFmpeg::setup_general ()
 	av_log_set_callback (FFmpeg::ffmpeg_log_callback);
 
 	_file_group.set_paths (_ffmpeg_content->paths ());
-	_avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc (_avio_buffer_size));
+	_avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc(_avio_buffer_size));
 	_avio_context = avio_alloc_context (_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
 	if (!_avio_context) {
 		throw std::bad_alloc ();
@@ -194,6 +198,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	}
 }
 
+
 void
 FFmpeg::setup_decoders ()
 {
@@ -232,6 +237,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 }
 
+
 DCPOMATIC_DISABLE_WARNINGS
 AVCodecContext *
 FFmpeg::video_codec_context () const
@@ -243,10 +249,11 @@ FFmpeg::video_codec_context () const
 	return _format_context->streams[_video_stream.get()]->codec;
 }
 
+
 AVCodecContext *
 FFmpeg::subtitle_codec_context () const
 {
-	if (!_ffmpeg_content->subtitle_stream ()) {
+	if (!_ffmpeg_content->subtitle_stream()) {
 		return nullptr;
 	}
 
@@ -254,11 +261,13 @@ FFmpeg::subtitle_codec_context () const
 }
 DCPOMATIC_ENABLE_WARNINGS
 
+
 int
 FFmpeg::avio_read (uint8_t* buffer, int const amount)
 {
 	return _file_group.read (buffer, amount);
 }
+
 
 int64_t
 FFmpeg::avio_seek (int64_t const pos, int whence)
@@ -269,6 +278,7 @@ FFmpeg::avio_seek (int64_t const pos, int whence)
 
 	return _file_group.seek (pos, whence);
 }
+
 
 FFmpegSubtitlePeriod
 FFmpeg::subtitle_period (AVSubtitle const & sub)
@@ -285,6 +295,7 @@ FFmpeg::subtitle_period (AVSubtitle const & sub)
 		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
 		);
 }
+
 
 /** Compute the pts offset to use given a set of audio streams and some video details.
  *  Sometimes these parameters will have just been determined by an Examiner, sometimes

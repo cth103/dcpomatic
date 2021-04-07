@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file src/encode_server.cc
  *  @brief Class to describe a server to which we can send
  *  encoding work, and a class to implement such a server.
  */
+
 
 #include "encode_server.h"
 #include "util.h"
@@ -53,6 +55,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
+
 using std::string;
 using std::vector;
 using std::list;
@@ -69,6 +72,7 @@ using dcp::ArrayData;
 using dcp::Size;
 using dcp::raw_convert;
 
+
 EncodeServer::EncodeServer (bool verbose, int num_threads)
 #if !defined(RUNNING_ON_VALGRIND) || RUNNING_ON_VALGRIND == 0
 	: Server (ENCODE_FRAME_PORT)
@@ -80,6 +84,7 @@ EncodeServer::EncodeServer (bool verbose, int num_threads)
 {
 
 }
+
 
 EncodeServer::~EncodeServer ()
 {
@@ -111,6 +116,7 @@ EncodeServer::~EncodeServer ()
 	} catch (...) {}
 }
 
+
 /** @param after_read Filled in with gettimeofday() after reading the input from the network.
  *  @param after_encode Filled in with gettimeofday() after encoding the image.
  */
@@ -119,9 +125,9 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 {
 	Socket::ReadDigestScope ds (socket);
 
-	uint32_t length = socket->read_uint32 ();
+	auto length = socket->read_uint32 ();
 	scoped_array<char> buffer (new char[length]);
-	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+	socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
 
 	string s (buffer.get());
 	auto xml = make_shared<cxml::Document>("EncodingRequest");
@@ -161,6 +167,7 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 
 	return dcp_video_frame.index ();
 }
+
 
 void
 EncodeServer::worker_thread ()
@@ -226,6 +233,7 @@ EncodeServer::worker_thread ()
 	}
 }
 
+
 void
 EncodeServer::run ()
 {
@@ -251,6 +259,7 @@ EncodeServer::run ()
 	Server::run ();
 }
 
+
 void
 EncodeServer::broadcast_thread ()
 try
@@ -274,6 +283,7 @@ catch (...)
 {
 	store_current ();
 }
+
 
 void
 EncodeServer::broadcast_received ()
@@ -319,6 +329,7 @@ EncodeServer::broadcast_received ()
 			);
 	}
 }
+
 
 void
 EncodeServer::handle (shared_ptr<Socket> socket)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,18 @@
 
 */
 
+
 /** @file  src/lib/content_factory.h
  *  @brief Methods to create content objects.
  */
 
+
 #include <libcxml/cxml.h>
+
 
 class Film;
 class Content;
 
+
 extern std::shared_ptr<Content> content_factory (cxml::ConstNodePtr, int, std::list<std::string> &);
-extern std::list<std::shared_ptr<Content> > content_factory (boost::filesystem::path);
+extern std::list<std::shared_ptr<Content>> content_factory (boost::filesystem::path);

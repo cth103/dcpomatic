@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file  src/lib/upmixer_a.h
  *  @brief UpmixerA class.
  */
 
+
 #include "audio_processor.h"
 #include "audio_filter.h"
+
 
 /** @class UpmixerA
  *  @brief Stereo to 5.1 upmixer algorithm by Gérald Maruccia.

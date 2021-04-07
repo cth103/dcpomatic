@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,23 +17,28 @@
 
 */
 
+
 /** @file  src/audio_merger.cc
  *  @brief AudioMerger class.
  */
+
 
 #include "audio_merger.h"
 #include "dcpomatic_time.h"
 #include <iostream>
 
-using std::pair;
-using std::min;
-using std::max;
-using std::list;
+
 using std::cout;
+using std::list;
 using std::make_pair;
+using std::make_shared;
+using std::max;
+using std::min;
+using std::pair;
 using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
+
 
 AudioMerger::AudioMerger (int frame_rate)
 	: _frame_rate (frame_rate)
@@ -41,25 +46,30 @@ AudioMerger::AudioMerger (int frame_rate)
 
 }
 
+
 Frame
 AudioMerger::frames (DCPTime t) const
 {
 	return t.frames_floor (_frame_rate);
 }
 
+
 /** Pull audio up to a given time; after this call, no more data can be pushed
  *  before the specified time.
  *  @param time Time to pull up to.
  *  @return Blocks of merged audio up to `time'.
  */
-list<pair<shared_ptr<AudioBuffers>, DCPTime> >
+list<pair<shared_ptr<AudioBuffers>, DCPTime>>
 AudioMerger::pull (DCPTime time)
 {
-	list<pair<shared_ptr<AudioBuffers>, DCPTime> > out;
+	list<pair<shared_ptr<AudioBuffers>, DCPTime>> out;
 
 	list<Buffer> new_buffers;
 
-	_buffers.sort (AudioMerger::BufferComparator());
+	_buffers.sort ([](Buffer const& a, Buffer const& b) {
+		return a.time < b.time;
+	});
+
 	for (auto i: _buffers) {
 		if (i.period().to <= time) {
 			/* Completely within the pull period */
@@ -70,7 +80,7 @@ AudioMerger::pull (DCPTime time)
 			int32_t const overlap = frames(DCPTime(time - i.time));
 			/* Though time > i.time, overlap could be 0 if the difference in time is less than one frame */
 			if (overlap > 0) {
-				shared_ptr<AudioBuffers> audio(new AudioBuffers(i.audio, overlap, 0));
+				auto audio = make_shared<AudioBuffers>(i.audio, overlap, 0);
 				out.push_back (make_pair(audio, i.time));
 				i.audio->trim_start (overlap);
 				i.time += DCPTime::from_frames(overlap, _frame_rate);
@@ -86,12 +96,13 @@ AudioMerger::pull (DCPTime time)
 
 	_buffers = new_buffers;
 
-	for (list<pair<shared_ptr<AudioBuffers>, DCPTime> >::const_iterator i = out.begin(); i != out.end(); ++i) {
-		DCPOMATIC_ASSERT (i->first->frames() > 0);
+	for (auto const& i: out) {
+		DCPOMATIC_ASSERT (i.first->frames() > 0);
 	}
 
 	return out;
 }
+
 
 /** Push some data into the merger at a given time */
 void
@@ -103,7 +114,7 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 
 	/* Mix any overlapping parts of this new block with existing ones */
 	for (auto i: _buffers) {
-		optional<DCPTimePeriod> overlap = i.period().overlap (period);
+		auto overlap = i.period().overlap(period);
 		if (overlap) {
 			int32_t const offset = frames(DCPTime(overlap->from - i.time));
 			int32_t const frames_to_mix = frames(overlap->duration());
@@ -117,14 +128,14 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 
 	list<DCPTimePeriod> periods;
 	for (auto i: _buffers) {
-		periods.push_back (i.period ());
+		periods.push_back (i.period());
 	}
 
 	/* Add the non-overlapping parts */
 	for (auto i: subtract(period, periods)) {
-		list<Buffer>::iterator before = _buffers.end();
-		list<Buffer>::iterator after = _buffers.end();
-		for (list<Buffer>::iterator j = _buffers.begin(); j != _buffers.end(); ++j) {
+		auto before = _buffers.end();
+		auto after = _buffers.end();
+		for (auto j = _buffers.begin(); j != _buffers.end(); ++j) {
 			if (j->period().to == i.from) {
 				before = j;
 			}
@@ -134,7 +145,7 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		}
 
 		/* Get the part of audio that we want to use */
-		shared_ptr<AudioBuffers> part (new AudioBuffers(audio, frames(i.to) - frames(i.from), frames(DCPTime(i.from - time))));
+		auto part = make_shared<AudioBuffers>(audio, frames(i.to) - frames(i.from), frames(DCPTime(i.from - time)));
 
 		if (before == _buffers.end() && after == _buffers.end()) {
 			if (part->frames() > 0) {
@@ -157,6 +168,7 @@ AudioMerger::push (std::shared_ptr<const AudioBuffers> audio, DCPTime time)
 		}
 	}
 }
+
 
 void
 AudioMerger::clear ()

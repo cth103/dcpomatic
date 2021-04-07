@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_FFMPEG_H
 #define DCPOMATIC_FFMPEG_H
+
 
 #include "file_group.h"
 #include "ffmpeg_subtitle_period.h"
@@ -31,6 +33,7 @@ extern "C" {
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread/mutex.hpp>
 
+
 struct AVFormatContext;
 struct AVFrame;
 struct AVIOContext;
@@ -38,6 +41,7 @@ struct AVIOContext;
 class FFmpegContent;
 class FFmpegAudioStream;
 class Log;
+
 
 class FFmpeg
 {
@@ -56,20 +60,20 @@ protected:
 	AVCodecContext* video_codec_context () const;
 	AVCodecContext* subtitle_codec_context () const;
 	dcpomatic::ContentTime pts_offset (
-		std::vector<std::shared_ptr<FFmpegAudioStream> > audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
+		std::vector<std::shared_ptr<FFmpegAudioStream>> audio_streams, boost::optional<dcpomatic::ContentTime> first_video, double video_frame_rate
 		) const;
 
 	static FFmpegSubtitlePeriod subtitle_period (AVSubtitle const & sub);
 
 	std::shared_ptr<const FFmpegContent> _ffmpeg_content;
 
-	uint8_t* _avio_buffer;
-	int _avio_buffer_size;
-	AVIOContext* _avio_context;
+	uint8_t* _avio_buffer = nullptr;
+	int _avio_buffer_size = 4096;
+	AVIOContext* _avio_context = nullptr;
 	FileGroup _file_group;
 
-	AVFormatContext* _format_context;
-	AVFrame* _frame;
+	AVFormatContext* _format_context = nullptr;
+	AVFrame* _frame = nullptr;
 
 	/** Index of video stream within AVFormatContext */
 	boost::optional<int> _video_stream;
@@ -87,5 +91,6 @@ private:
 	static void ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl);
 	static std::weak_ptr<Log> _ffmpeg_log;
 };
+
 
 #endif

@@ -18,16 +18,20 @@
 
 */
 
+
 /** @file  src/lib/audio_mapping.h
  *  @brief AudioMapping class.
  */
 
+
 #ifndef DCPOMATIC_AUDIO_MAPPING_H
 #define DCPOMATIC_AUDIO_MAPPING_H
+
 
 #include <dcp/types.h>
 #include <libcxml/cxml.h>
 #include <vector>
+
 
 namespace xmlpp {
 	class Node;
@@ -35,13 +39,14 @@ namespace xmlpp {
 
 class AudioProcessor;
 
+
 /** @class AudioMapping.
  *  @brief A many-to-many mapping of audio channels.
  */
 class AudioMapping
 {
 public:
-	AudioMapping ();
+	AudioMapping () {}
 	AudioMapping (int input_channels, int output_channels);
 	AudioMapping (cxml::ConstNodePtr, int);
 
@@ -74,9 +79,10 @@ public:
 private:
 	void setup (int input_channels, int output_channels);
 
-	int _input_channels;
-	int _output_channels;
-	std::vector<std::vector<float> > _gain;
+	int _input_channels = 0;
+	int _output_channels = 0;
+	std::vector<std::vector<float>> _gain;
 };
+
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,20 @@
 
 */
 
+
 #include "upmixer_a.h"
 #include "audio_buffers.h"
 #include "audio_mapping.h"
 
 #include "i18n.h"
 
-using std::string;
+
+using std::make_shared;
 using std::min;
-using std::vector;
 using std::shared_ptr;
+using std::string;
+using std::vector;
+
 
 UpmixerA::UpmixerA (int sampling_rate)
 	: _left (0.02, 1900.0 / sampling_rate, 4800.0 / sampling_rate)
@@ -40,11 +44,13 @@ UpmixerA::UpmixerA (int sampling_rate)
 
 }
 
+
 string
 UpmixerA::name () const
 {
 	return _("Stereo to 5.1 up-mixer A");
 }
+
 
 string
 UpmixerA::id () const
@@ -52,40 +58,43 @@ UpmixerA::id () const
 	return N_("stereo-5.1-upmix-a");
 }
 
+
 int
 UpmixerA::out_channels () const
 {
 	return 6;
 }
 
+
 shared_ptr<AudioProcessor>
 UpmixerA::clone (int sampling_rate) const
 {
-	return shared_ptr<AudioProcessor> (new UpmixerA (sampling_rate));
+	return make_shared<UpmixerA>(sampling_rate);
 }
+
 
 shared_ptr<AudioBuffers>
 UpmixerA::run (shared_ptr<const AudioBuffers> in, int channels)
 {
 	/* Input L and R */
-	shared_ptr<AudioBuffers> in_L = in->channel (0);
-	shared_ptr<AudioBuffers> in_R = in->channel (1);
+	auto in_L = in->channel (0);
+	auto in_R = in->channel (1);
 
 	/* Mix of L and R; -6dB down in amplitude (3dB in terms of power) */
-	shared_ptr<AudioBuffers> in_LR = in_L->clone ();
+	auto in_LR = in_L->clone ();
 	in_LR->accumulate_frames (in_R.get(), in_R->frames(), 0, 0);
 	in_LR->apply_gain (-6);
 
 	/* Run filters */
-	vector<shared_ptr<AudioBuffers> > all_out;
-	all_out.push_back (_left.run (in_L));
-	all_out.push_back (_right.run (in_R));
-	all_out.push_back (_centre.run (in_LR));
-	all_out.push_back (_lfe.run (in_LR));
-	all_out.push_back (_ls.run (in_L));
-	all_out.push_back (_rs.run (in_R));
+	vector<shared_ptr<AudioBuffers>> all_out;
+	all_out.push_back (_left.run(in_L));
+	all_out.push_back (_right.run(in_R));
+	all_out.push_back (_centre.run(in_LR));
+	all_out.push_back (_lfe.run(in_LR));
+	all_out.push_back (_ls.run(in_L));
+	all_out.push_back (_rs.run(in_R));
 
-	shared_ptr<AudioBuffers> out (new AudioBuffers (channels, in->frames ()));
+	auto out = make_shared<AudioBuffers>(channels, in->frames());
 	int const N = min (channels, 6);
 
 	for (int i = 0; i < N; ++i) {
@@ -110,6 +119,7 @@ UpmixerA::flush ()
 	_rs.flush ();
 }
 
+
 void
 UpmixerA::make_audio_mapping_default (AudioMapping& mapping) const
 {
@@ -120,11 +130,12 @@ UpmixerA::make_audio_mapping_default (AudioMapping& mapping) const
 	}
 }
 
+
 vector<NamedChannel>
 UpmixerA::input_names () const
 {
-	vector<NamedChannel> n;
-	n.push_back (NamedChannel(_("Upmix L"), 0));
-	n.push_back (NamedChannel(_("Upmix R"), 1));
-	return n;
+	return {
+		NamedChannel(_("Upmix L"), 0),
+		NamedChannel(_("Upmix R"), 1)
+	};
 }

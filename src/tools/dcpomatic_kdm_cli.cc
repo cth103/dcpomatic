@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,19 @@
 
 */
 
+
 /** @file  src/tools/dcpomatic_kdm_cli.cc
  *  @brief Command-line program to generate KDMs.
  */
 
-#include "lib/film.h"
+
 #include "lib/cinema.h"
-#include "lib/kdm_with_metadata.h"
 #include "lib/config.h"
-#include "lib/exceptions.h"
-#include "lib/emailer.h"
 #include "lib/dkdm_wrapper.h"
+#include "lib/emailer.h"
+#include "lib/exceptions.h"
+#include "lib/film.h"
+#include "lib/kdm_with_metadata.h"
 #include "lib/screen.h"
 #include <dcp/certificate.h>
 #include <dcp/decrypted_kdm.h>
@@ -36,16 +38,18 @@
 #include <getopt.h>
 #include <iostream>
 
-using std::string;
-using std::cout;
+
 using std::cerr;
+using std::cout;
+using std::dynamic_pointer_cast;
 using std::list;
-using std::vector;
+using std::make_shared;
 using std::runtime_error;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 using boost::bind;
-using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -81,12 +85,14 @@ help ()
 		"\t" << program_name << " -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie\n\n";
 }
 
+
 static void
 error (string m)
 {
 	cerr << program_name << ": " << m << "\n";
 	exit (EXIT_FAILURE);
 }
+
 
 static boost::posix_time::ptime
 time_from_string (string t)
@@ -97,6 +103,7 @@ time_from_string (string t)
 
 	return boost::posix_time::time_from_string (t);
 }
+
 
 static boost::posix_time::time_duration
 duration_from_string (string d)
@@ -125,11 +132,13 @@ duration_from_string (string d)
 	exit (EXIT_FAILURE);
 }
 
+
 static bool
 always_overwrite ()
 {
 	return true;
 }
+
 
 void
 write_files (
@@ -165,11 +174,12 @@ write_files (
 	}
 }
 
+
 shared_ptr<Cinema>
 find_cinema (string cinema_name)
 {
-	list<shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
-	list<shared_ptr<Cinema> >::const_iterator i = cinemas.begin();
+	auto cinemas = Config::instance()->cinemas ();
+	auto i = cinemas.begin();
 	while (
 		i != cinemas.end() &&
 		(*i)->name != cinema_name &&
@@ -186,9 +196,10 @@ find_cinema (string cinema_name)
 	return *i;
 }
 
+
 void
 from_film (
-	list<shared_ptr<Screen> > screens,
+	list<shared_ptr<Screen>> screens,
 	boost::filesystem::path film_dir,
 	bool verbose,
 	boost::filesystem::path output,
@@ -204,7 +215,7 @@ from_film (
 {
 	shared_ptr<Film> film;
 	try {
-		film.reset (new Film (film_dir));
+		film = make_shared<Film>(film_dir);
 		film->read_metadata ();
 		if (verbose) {
 			cout << "Read film " << film->name () << "\n";
@@ -222,12 +233,12 @@ from_film (
 		error ("more than one CPL found in film");
 	}
 
-	boost::filesystem::path cpl = cpls.front().cpl_file;
+	auto cpl = cpls.front().cpl_file;
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
 		for (auto i: screens) {
-			KDMWithMetadataPtr p = kdm_for_screen (film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+			auto p = kdm_for_screen (film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 			if (p) {
 				kdms.push_back (p);
 			}
@@ -245,18 +256,19 @@ from_film (
 	}
 }
 
+
 optional<dcp::EncryptedKDM>
 sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
 {
 	for (auto i: group->children()) {
-		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup>(i);
+		auto g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
-			optional<dcp::EncryptedKDM> dkdm = sub_find_dkdm (g, cpl_id);
+			auto dkdm = sub_find_dkdm (g, cpl_id);
 			if (dkdm) {
 				return dkdm;
 			}
 		} else {
-			shared_ptr<DKDM> d = dynamic_pointer_cast<DKDM>(i);
+			auto d = dynamic_pointer_cast<DKDM>(i);
 			assert (d);
 			if (d->dkdm().cpl_id() == cpl_id) {
 				return d->dkdm();
@@ -267,11 +279,13 @@ sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
 	return optional<dcp::EncryptedKDM>();
 }
 
+
 optional<dcp::EncryptedKDM>
 find_dkdm (string cpl_id)
 {
 	return sub_find_dkdm (Config::instance()->dkdms(), cpl_id);
 }
+
 
 dcp::EncryptedKDM
 kdm_from_dkdm (
@@ -286,7 +300,7 @@ kdm_from_dkdm (
 	)
 {
 	/* Signer for new KDM */
-	shared_ptr<const dcp::CertificateChain> signer = Config::instance()->signer_chain ();
+	auto signer = Config::instance()->signer_chain ();
 	if (!signer->valid ()) {
 		error ("signing certificate chain is invalid.");
 	}
@@ -307,9 +321,10 @@ kdm_from_dkdm (
 	return kdm.encrypt (signer, target, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 }
 
+
 void
 from_dkdm (
-	list<shared_ptr<Screen> > screens,
+	list<shared_ptr<Screen>> screens,
 	dcp::DecryptedKDM dkdm,
 	bool verbose,
  	boost::filesystem::path output,
@@ -335,7 +350,7 @@ from_dkdm (
 			dcp::LocalTime begin(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
 			dcp::LocalTime end(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
 
-			dcp::EncryptedKDM const kdm = kdm_from_dkdm(
+			auto const kdm = kdm_from_dkdm(
 							dkdm,
 							i->recipient.get(),
 							i->trusted_device_thumbprints(),
@@ -354,7 +369,7 @@ from_dkdm (
 			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();
 
-			kdms.push_back (KDMWithMetadataPtr(new KDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, kdm)));
+			kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, kdm));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
 	} catch (FileError& e) {
@@ -366,6 +381,7 @@ from_dkdm (
 	}
 }
 
+
 void
 dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
 {
@@ -376,29 +392,30 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
 		cout << group->name() << "\n";
 	}
 	for (auto i: group->children()) {
-		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup>(i);
+		auto g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
 			dump_dkdm_group (g, indent + 2);
 		} else {
 			for (int j = 0; j < indent; ++j) {
 				cout << " ";
 			}
-			shared_ptr<DKDM> d = dynamic_pointer_cast<DKDM>(i);
+			auto d = dynamic_pointer_cast<DKDM>(i);
 			assert(d);
 			cout << d->dkdm().cpl_id() << "\n";
 		}
 	}
 }
 
+
 int main (int argc, char* argv[])
 {
 	boost::filesystem::path output = ".";
-	dcp::NameFormat container_name_format = Config::instance()->kdm_container_name_format();
-	dcp::NameFormat filename_format = Config::instance()->kdm_filename_format();
+	auto container_name_format = Config::instance()->kdm_container_name_format();
+	auto filename_format = Config::instance()->kdm_filename_format();
 	optional<string> cinema_name;
 	shared_ptr<Cinema> cinema;
-	string screen_description = "";
-	list<shared_ptr<Screen> > screens;
+	string screen_description;
+	list<shared_ptr<Screen>> screens;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<boost::posix_time::ptime> valid_from;
 	optional<boost::posix_time::ptime> valid_to;
@@ -466,13 +483,13 @@ int main (int argc, char* argv[])
 			duration_string = optarg;
 			break;
 		case 'F':
-			if (string (optarg) == "modified-transitional-1") {
+			if (string(optarg) == "modified-transitional-1") {
 				formulation = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
-			} else if (string (optarg) == "multiple-modified-transitional-1") {
+			} else if (string(optarg) == "multiple-modified-transitional-1") {
 				formulation = dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1;
-			} else if (string (optarg) == "dci-any") {
+			} else if (string(optarg) == "dci-any") {
 				formulation = dcp::Formulation::DCI_ANY;
-			} else if (string (optarg) == "dci-specific") {
+			} else if (string(optarg) == "dci-specific") {
 				formulation = dcp::Formulation::DCI_SPECIFIC;
 			} else {
 				error ("unrecognised KDM formulation " + string (optarg));
@@ -501,7 +518,7 @@ int main (int argc, char* argv[])
 			   (for lookup) and by creating a Cinema which the next Screen will be added to.
 			*/
 			cinema_name = optarg;
-			cinema = shared_ptr<Cinema> (new Cinema (optarg, list<string>(), "", 0, 0));
+			cinema = make_shared<Cinema>(optarg, list<string>(), "", 0, 0);
 			break;
 		case 'S':
 			screen_description = optarg;
@@ -510,7 +527,7 @@ int main (int argc, char* argv[])
 		{
 			/* Make a new screen and add it to the current cinema */
 			dcp::CertificateChain chain (dcp::file_to_string(optarg));
-			shared_ptr<Screen> screen (new Screen (screen_description, "", chain.leaf(), vector<TrustedDevice>()));
+			auto screen = make_shared<Screen>(screen_description, "", chain.leaf(), vector<TrustedDevice>());
 			if (cinema) {
 				cinema->add_screen (screen);
 			}
@@ -533,9 +550,9 @@ int main (int argc, char* argv[])
 	}
 
 	if (list_cinemas) {
-		list<std::shared_ptr<Cinema> > cinemas = Config::instance()->cinemas ();
-		for (list<std::shared_ptr<Cinema> >::const_iterator i = cinemas.begin(); i != cinemas.end(); ++i) {
-			cout << (*i)->name << " (" << Emailer::address_list ((*i)->emails) << ")\n";
+		auto cinemas = Config::instance()->cinemas ();
+		for (auto i: cinemas) {
+			cout << i->name << " (" << Emailer::address_list (i->emails) << ")\n";
 		}
 		exit (EXIT_SUCCESS);
 	}

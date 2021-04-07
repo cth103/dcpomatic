@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "compose.hpp"
 #include "image.h"
 #include "video_filter_graph.h"
@@ -29,12 +30,15 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using std::list;
-using std::pair;
-using std::vector;
-using std::string;
 using std::make_pair;
+using std::make_shared;
+using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
+
 
 VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction r)
 	: _size (s)
@@ -44,21 +48,22 @@ VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction 
 
 }
 
+
 /** Take an AVFrame and process it using our configured filters, returning a
  *  set of Images.  Caller handles memory management of the input frame.
  */
-list<pair<shared_ptr<Image>, int64_t> >
+list<pair<shared_ptr<Image>, int64_t>>
 VideoFilterGraph::process (AVFrame* frame)
 {
-	list<pair<shared_ptr<Image>, int64_t> > images;
+	list<pair<shared_ptr<Image>, int64_t>> images;
 
 DCPOMATIC_DISABLE_WARNINGS
 	if (_copy) {
-		images.push_back (make_pair (shared_ptr<Image> (new Image (frame)), av_frame_get_best_effort_timestamp (frame)));
+		images.push_back (make_pair(make_shared<Image>(frame), av_frame_get_best_effort_timestamp (frame)));
 	} else {
 		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
 		if (r < 0) {
-			throw DecodeError (String::compose (N_("could not push buffer into filter chain (%1)."), r));
+			throw DecodeError (String::compose(N_("could not push buffer into filter chain (%1)."), r));
 		}
 
 		while (true) {
@@ -66,7 +71,7 @@ DCPOMATIC_DISABLE_WARNINGS
 				break;
 			}
 
-			images.push_back (make_pair (shared_ptr<Image> (new Image (_frame)), av_frame_get_best_effort_timestamp (_frame)));
+			images.push_back (make_pair(make_shared<Image>(_frame), av_frame_get_best_effort_timestamp (_frame)));
 			av_frame_unref (_frame);
 		}
 	}
@@ -74,6 +79,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	return images;
 }
+
 
 /** @param s Image size.
  *  @param p Pixel format.
@@ -84,6 +90,7 @@ VideoFilterGraph::can_process (dcp::Size s, AVPixelFormat p) const
 {
 	return (_size == s && _pixel_format == p);
 }
+
 
 string
 VideoFilterGraph::src_parameters () const
@@ -99,22 +106,25 @@ VideoFilterGraph::src_parameters () const
 	return buffer;
 }
 
+
 void *
 VideoFilterGraph::sink_parameters () const
 {
-	AVBufferSinkParams* sink_params = av_buffersink_params_alloc ();
-	AVPixelFormat* pixel_fmts = new AVPixelFormat[2];
+	auto sink_params = av_buffersink_params_alloc ();
+	auto pixel_fmts = new AVPixelFormat[2];
 	pixel_fmts[0] = _pixel_format;
 	pixel_fmts[1] = AV_PIX_FMT_NONE;
 	sink_params->pixel_fmts = pixel_fmts;
 	return sink_params;
 }
 
+
 string
 VideoFilterGraph::src_name () const
 {
 	return "buffer";
 }
+
 
 string
 VideoFilterGraph::sink_name () const

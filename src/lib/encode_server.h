@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_ENCODE_SERVER_H
 #define DCPOMATIC_ENCODE_SERVER_H
+
 
 /** @file src/encode_server.h
  *  @brief EncodeServer class.
  */
+
 
 #include "server.h"
 #include "exception_store.h"
@@ -32,8 +35,10 @@
 #include <boost/thread/condition.hpp>
 #include <string>
 
+
 class Socket;
 class Log;
+
 
 /** @class EncodeServer
  *  @brief A class to run a server which can accept requests to perform JPEG2000
@@ -55,7 +60,7 @@ private:
 	void broadcast_received ();
 
 	boost::thread_group _worker_threads;
-	std::list<std::shared_ptr<Socket> > _queue;
+	std::list<std::shared_ptr<Socket>> _queue;
 	boost::condition _full_condition;
 	boost::condition _empty_condition;
 	bool _verbose;
@@ -76,5 +81,6 @@ private:
 
 	} _broadcast;
 };
+
 
 #endif

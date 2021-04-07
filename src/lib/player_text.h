@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,27 +18,32 @@
 
 */
 
+
 #ifndef DCPOMATIC_PLAYER_CAPTION_H
 #define DCPOMATIC_PLAYER_CAPTION_H
+
 
 #include "bitmap_text.h"
 #include "dcpomatic_time.h"
 #include "string_text.h"
 
+
 namespace dcpomatic {
 	class Font;
 }
+
 
 /** A set of text (subtitle/CCAP) which span the same time period */
 class PlayerText
 {
 public:
-	void add_fonts (std::list<std::shared_ptr<dcpomatic::Font> > fonts_);
+	void add_fonts (std::list<std::shared_ptr<dcpomatic::Font>> fonts_);
 	std::list<std::shared_ptr<dcpomatic::Font> > fonts;
 
 	/** BitmapTexts, with their rectangles transformed as specified by their content */
 	std::list<BitmapText> bitmap;
 	std::list<StringText> string;
 };
+
 
 #endif

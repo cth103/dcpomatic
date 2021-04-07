@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,18 @@
 
 */
 
+
 #include "player_text.h"
 #include "font.h"
+
 
 using std::list;
 using std::shared_ptr;
 using namespace dcpomatic;
 
+
 void
-PlayerText::add_fonts (list<shared_ptr<Font> > fonts_)
+PlayerText::add_fonts (list<shared_ptr<Font>> fonts_)
 {
 	for (auto i: fonts_) {
 		bool got = false;

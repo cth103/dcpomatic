@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,12 @@
 
 */
 
+
 #include "timeline_view.h"
 
+
 class wxWindow;
+
 
 class TimelineLabelsView : public TimelineView
 {
@@ -35,7 +38,7 @@ public:
 	void set_atmos (bool s);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps);
 
 	int _width = 0;
 	int _video_tracks = 0;

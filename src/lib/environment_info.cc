@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "log.h"
 #include "compose.hpp"
 #include "version.h"
@@ -35,10 +36,12 @@ extern "C" {
 
 #include "i18n.h"
 
-using std::string;
+
 using std::list;
 using std::pair;
 using std::shared_ptr;
+using std::string;
+
 
 /** @param v Version as used by FFmpeg.
  *  @return A string representation of v.
@@ -51,6 +54,7 @@ ffmpeg_version_to_string (int v)
 	snprintf (buffer, sizeof(buffer), "%d.%d.%d", ((v & 0xff0000) >> 16), ((v & 0xff00) >> 8), (v & 0xff));
 	return buffer;
 }
+
 
 /** Return a user-readable string summarising the versions of our dependencies */
 static
@@ -71,6 +75,7 @@ dependency_version_summary ()
 
 	return buffer;
 }
+
 
 list<string>
 environment_info ()
@@ -133,10 +138,9 @@ environment_info ()
 #endif
 #endif
 
-	info.push_back (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency ()));
-	list<pair<string, string> > const m = mount_info ();
-	for (list<pair<string, string> >::const_iterator i = m.begin(); i != m.end(); ++i) {
-		info.push_back (String::compose ("Mount: %1 %2", i->first, i->second));
+	info.push_back (String::compose ("CPU: %1, %2 processors", cpu_info(), boost::thread::hardware_concurrency()));
+	for (auto const& i: mount_info()) {
+		info.push_back (String::compose("Mount: %1 %2", i.first, i.second));
 	}
 
 	return info;

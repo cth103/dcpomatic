@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/lib/content_factory.cc
  *  @brief Methods to create content objects.
  */
+
 
 #include "ffmpeg_content.h"
 #include "audio_content.h"
@@ -43,10 +45,13 @@
 
 #include "i18n.h"
 
-using std::string;
+
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
+
 
 /** Create a Content object from an XML node.
  *  @param node XML description.
@@ -57,7 +62,7 @@ using boost::optional;
 shared_ptr<Content>
 content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 {
-	string const type = node->string_child ("Type");
+	auto const type = node->string_child ("Type");
 
 	std::shared_ptr<Content> content;
 
@@ -65,49 +70,48 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content.reset (new FFmpegContent (node, version, notes));
+		content.reset (new FFmpegContent(node, version, notes));
 	} else if (type == "Image") {
-		content.reset (new ImageContent (node, version));
+		content.reset (new ImageContent(node, version));
 	} else if (type == "Sndfile") {
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content.reset (new FFmpegContent (node, version, notes));
+		content.reset (new FFmpegContent(node, version, notes));
 
 		content->audio->set_stream (
-			AudioStreamPtr (
-				new FFmpegAudioStream (
-					"Stream", 0,
-					node->number_child<int> ("AudioFrameRate"),
-					node->number_child<Frame> ("AudioLength"),
-					AudioMapping (node->node_child ("AudioMapping"), version)
-					)
+			make_shared<FFmpegAudioStream>(
+				"Stream", 0,
+				node->number_child<int> ("AudioFrameRate"),
+				node->number_child<Frame> ("AudioLength"),
+				AudioMapping (node->node_child ("AudioMapping"), version)
 				)
 			);
 
 	} else if (type == "SubRip" || type == "TextSubtitle") {
-		content.reset (new StringTextFileContent (node, version));
+		content.reset (new StringTextFileContent(node, version));
 	} else if (type == "DCP") {
-		content.reset (new DCPContent (node, version));
+		content.reset (new DCPContent(node, version));
 	} else if (type == "DCPSubtitle") {
-		content.reset (new DCPSubtitleContent (node, version));
+		content.reset (new DCPSubtitleContent(node, version));
 	} else if (type == "VideoMXF") {
-		content.reset (new VideoMXFContent (node, version));
+		content.reset (new VideoMXFContent(node, version));
 	} else if (type == "AtmosMXF") {
-		content.reset (new AtmosMXFContent (node, version));
+		content.reset (new AtmosMXFContent(node, version));
 	}
 
 	return content;
 }
 
+
 /** Create some Content objects from a file or directory.
  *  @param path File or directory.
  *  @return Content objects.
  */
-list<shared_ptr<Content> >
+list<shared_ptr<Content>>
 content_factory (boost::filesystem::path path)
 {
-	list<shared_ptr<Content> > content;
+	list<shared_ptr<Content>> content;
 
 	if (boost::filesystem::is_directory (path)) {
 
@@ -138,11 +142,11 @@ content_factory (boost::filesystem::path path)
 				continue;
 			}
 
-			if (valid_image_file (i->path ())) {
+			if (valid_image_file(i->path())) {
 				++image_files;
 			}
 
-			if (valid_sound_file (i->path ())) {
+			if (valid_sound_file(i->path())) {
 				++sound_files;
 			}
 
@@ -150,10 +154,10 @@ content_factory (boost::filesystem::path path)
 		}
 
 		if (image_files > 0 && sound_files == 0)  {
-			content.push_back (shared_ptr<Content> (new ImageContent(path)));
+			content.push_back (make_shared<ImageContent>(path));
 		} else if (image_files == 0 && sound_files > 0) {
-			for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator(); ++i) {
-				content.push_back (shared_ptr<FFmpegContent> (new FFmpegContent(i->path())));
+			for (auto i: boost::filesystem::directory_iterator(path)) {
+				content.push_back (make_shared<FFmpegContent>(i.path()));
 			}
 		}
 
@@ -161,7 +165,7 @@ content_factory (boost::filesystem::path path)
 
 		shared_ptr<Content> single;
 
-		string ext = path.extension().string ();
+		auto ext = path.extension().string();
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (valid_image_file (path)) {
@@ -175,11 +179,11 @@ content_factory (boost::filesystem::path path)
 				throw KDMAsContentError ();
 			}
 			single.reset (new DCPSubtitleContent(path));
-		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf (path)) {
+		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf(path)) {
 			single.reset (new DCPSubtitleContent(path));
-		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf (path)) {
+		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf(path)) {
 			single.reset (new VideoMXFContent(path));
-		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf (path)) {
+		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf(path)) {
 			single.reset (new AtmosMXFContent(path));
 		}
 

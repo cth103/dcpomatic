@@ -16,6 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
+
 */
 
 #include "ffmpeg_content.h"
@@ -45,6 +46,7 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using std::string;
 using std::vector;
 using std::list;
@@ -59,16 +61,19 @@ using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 int const FFmpegContentProperty::SUBTITLE_STREAMS = 100;
 int const FFmpegContentProperty::SUBTITLE_STREAM = 101;
 int const FFmpegContentProperty::FILTERS = 102;
 int const FFmpegContentProperty::KDM = 103;
+
 
 FFmpegContent::FFmpegContent (boost::filesystem::path p)
 	: Content (p)
 {
 
 }
+
 
 template <class T>
 optional<T>
@@ -80,6 +85,7 @@ get_optional_enum (cxml::ConstNodePtr node, string name)
 	}
 	return static_cast<T>(*v);
 }
+
 
 FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (node)
@@ -125,7 +131,8 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 	_bits_per_pixel = node->optional_number_child<int> ("BitsPerPixel");
 }
 
-FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
+
+FFmpegContent::FFmpegContent (vector<shared_ptr<Content>> c)
 	: Content (c)
 {
 	auto i = c.begin ();
@@ -186,10 +193,11 @@ FFmpegContent::FFmpegContent (vector<shared_ptr<Content> > c)
 	_bits_per_pixel = ref->_bits_per_pixel;
 }
 
+
 void
 FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text ("FFmpeg");
+	node->add_child("Type")->add_child_text("FFmpeg");
 	Content::as_xml (node, with_paths);
 
 	if (video) {
@@ -199,7 +207,7 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	if (audio) {
 		audio->as_xml (node);
 
-		for (auto i: audio->streams ()) {
+		for (auto i: audio->streams()) {
 			auto f = dynamic_pointer_cast<FFmpegAudioStream> (i);
 			DCPOMATIC_ASSERT (f);
 			f->as_xml (node->add_child("AudioStream"));
@@ -225,25 +233,26 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 
 	if (_first_video) {
-		node->add_child("FirstVideo")->add_child_text (raw_convert<string> (_first_video.get().get()));
+		node->add_child("FirstVideo")->add_child_text(raw_convert<string>(_first_video.get().get()));
 	}
 
 	if (_color_range) {
-		node->add_child("ColorRange")->add_child_text (raw_convert<string> (static_cast<int> (*_color_range)));
+		node->add_child("ColorRange")->add_child_text(raw_convert<string>(static_cast<int>(*_color_range)));
 	}
 	if (_color_primaries) {
-		node->add_child("ColorPrimaries")->add_child_text (raw_convert<string> (static_cast<int> (*_color_primaries)));
+		node->add_child("ColorPrimaries")->add_child_text(raw_convert<string>(static_cast<int>(*_color_primaries)));
 	}
 	if (_color_trc) {
-		node->add_child("ColorTransferCharacteristic")->add_child_text (raw_convert<string> (static_cast<int> (*_color_trc)));
+		node->add_child("ColorTransferCharacteristic")->add_child_text(raw_convert<string>(static_cast<int>(*_color_trc)));
 	}
 	if (_colorspace) {
-		node->add_child("Colorspace")->add_child_text (raw_convert<string> (static_cast<int> (*_colorspace)));
+		node->add_child("Colorspace")->add_child_text(raw_convert<string>(static_cast<int>(*_colorspace)));
 	}
 	if (_bits_per_pixel) {
-		node->add_child("BitsPerPixel")->add_child_text (raw_convert<string> (*_bits_per_pixel));
+		node->add_child("BitsPerPixel")->add_child_text(raw_convert<string>(*_bits_per_pixel));
 	}
 }
+
 
 void
 FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
@@ -290,7 +299,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			}
 		}
 
-		if (!examiner->audio_streams().empty ()) {
+		if (!examiner->audio_streams().empty()) {
 			audio = make_shared<AudioContent>(this);
 
 			for (auto i: examiner->audio_streams()) {
@@ -324,19 +333,21 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 }
 
+
 string
 FFmpegContent::summary () const
 {
 	if (video && audio) {
-		return String::compose (_("%1 [movie]"), path_summary ());
+		return String::compose (_("%1 [movie]"), path_summary());
 	} else if (video) {
-		return String::compose (_("%1 [video]"), path_summary ());
+		return String::compose (_("%1 [video]"), path_summary());
 	} else if (audio) {
-		return String::compose (_("%1 [audio]"), path_summary ());
+		return String::compose (_("%1 [audio]"), path_summary());
 	}
 
 	return path_summary ();
 }
+
 
 string
 FFmpegContent::technical_summary () const
@@ -372,6 +383,7 @@ FFmpegContent::technical_summary () const
 		);
 }
 
+
 void
 FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 {
@@ -383,17 +395,20 @@ FFmpegContent::set_subtitle_stream (shared_ptr<FFmpegSubtitleStream> s)
 	}
 }
 
+
 bool
 operator== (FFmpegStream const & a, FFmpegStream const & b)
 {
 	return a._id == b._id;
 }
 
+
 bool
 operator!= (FFmpegStream const & a, FFmpegStream const & b)
 {
 	return a._id != b._id;
 }
+
 
 DCPTime
 FFmpegContent::full_length (shared_ptr<const Film> film) const
@@ -413,8 +428,9 @@ FFmpegContent::full_length (shared_ptr<const Film> film) const
 
 	/* XXX: subtitle content? */
 
-	return DCPTime();
+	return {};
 }
+
 
 DCPTime
 FFmpegContent::approximate_length () const
@@ -433,6 +449,7 @@ FFmpegContent::approximate_length () const
 	return DCPTime::from_frames (longest, 24);
 }
 
+
 void
 FFmpegContent::set_filters (vector<Filter const *> const & filters)
 {
@@ -443,6 +460,7 @@ FFmpegContent::set_filters (vector<Filter const *> const & filters)
 		_filters = filters;
 	}
 }
+
 
 string
 FFmpegContent::identifier () const
@@ -469,6 +487,7 @@ FFmpegContent::identifier () const
 
 	return s;
 }
+
 
 void
 FFmpegContent::set_default_colour_conversion ()
@@ -504,6 +523,7 @@ FFmpegContent::set_default_colour_conversion ()
 		break;
 	}
 }
+
 
 void
 FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const
@@ -649,6 +669,7 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 	}
 }
 
+
 /** Our subtitle streams have colour maps, which can be changed, but
  *  they have no way of signalling that change.  As a hack, we have this
  *  method which callers can use when they've modified one of our subtitle
@@ -661,19 +682,21 @@ FFmpegContent::signal_subtitle_stream_changed ()
 	ContentChangeSignaller cc (this, FFmpegContentProperty::SUBTITLE_STREAM);
 }
 
-vector<shared_ptr<FFmpegAudioStream> >
+
+vector<shared_ptr<FFmpegAudioStream>>
 FFmpegContent::ffmpeg_audio_streams () const
 {
-	vector<shared_ptr<FFmpegAudioStream> > fa;
+	vector<shared_ptr<FFmpegAudioStream>> fa;
 
 	if (audio) {
 		for (auto i: audio->streams()) {
-			fa.push_back (dynamic_pointer_cast<FFmpegAudioStream> (i));
+			fa.push_back (dynamic_pointer_cast<FFmpegAudioStream>(i));
 		}
 	}
 
 	return fa;
 }
+
 
 void
 FFmpegContent::take_settings_from (shared_ptr<const Content> c)

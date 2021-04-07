@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "lib/content_store.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
@@ -25,8 +26,10 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <vector>
 
+
 class Content;
 class Film;
+
 
 class ContentView : public wxListCtrl, public ContentStore
 {
@@ -42,5 +45,5 @@ private:
 	void add (std::shared_ptr<Content> content);
 
 	std::weak_ptr<Film> _film;
-	std::vector<std::shared_ptr<Content> > _content;
+	std::vector<std::shared_ptr<Content>> _content;
 };

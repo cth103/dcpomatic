@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "lib/dkdm_recipient.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
@@ -29,7 +30,9 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <list>
 #include <map>
 
+
 class DKDMRecipient;
+
 
 class RecipientsPanel : public wxPanel
 {
@@ -39,7 +42,7 @@ public:
 
 	void setup_sensitivity ();
 
-	std::list<std::shared_ptr<DKDMRecipient> > recipients () const;
+	std::list<std::shared_ptr<DKDMRecipient>> recipients () const;
 	boost::signals2::signal<void ()> RecipientsChanged;
 
 private:
@@ -59,7 +62,7 @@ private:
 	wxButton* _remove_recipient;
 	wxTreeItemId _root;
 
-	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMRecipient> > RecipientMap;
+	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMRecipient>> RecipientMap;
 	RecipientMap _recipients;
 	RecipientMap _selected;
 

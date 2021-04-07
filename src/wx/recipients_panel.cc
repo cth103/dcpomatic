@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "recipients_panel.h"
 #include "wx_util.h"
 #include "recipient_dialog.h"
@@ -26,21 +27,23 @@
 #include <list>
 #include <iostream>
 
-using std::list;
-using std::pair;
+
 using std::cout;
-using std::map;
-using std::string;
+using std::list;
 using std::make_pair;
+using std::map;
+using std::pair;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using namespace dcpomatic;
+
 
 RecipientsPanel::RecipientsPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 	, _ignore_selection_change (false)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 #ifdef __WXGTK3__
 	int const height = 30;
@@ -55,13 +58,13 @@ RecipientsPanel::RecipientsPanel (wxWindow* parent)
 #endif
 	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
-	wxBoxSizer* targets = new wxBoxSizer (wxHORIZONTAL);
+	auto targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT);
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	add_recipients ();
 
-	wxBoxSizer* target_buttons = new wxBoxSizer (wxVERTICAL);
+	auto target_buttons = new wxBoxSizer (wxVERTICAL);
 
 	_add_recipient = new Button (this, _("Add..."));
 	target_buttons->Add (_add_recipient, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
@@ -122,9 +125,9 @@ RecipientsPanel::add_recipient (shared_ptr<DKDMRecipient> r)
 void
 RecipientsPanel::add_recipient_clicked ()
 {
-	RecipientDialog* d = new RecipientDialog (GetParent(), _("Add recipient"));
+	auto d = new RecipientDialog (GetParent(), _("Add recipient"));
 	if (d->ShowModal() == wxID_OK) {
-		shared_ptr<DKDMRecipient> r (new DKDMRecipient(d->name(), d->notes(), d->recipient(), d->emails(), d->utc_offset_hour(), d->utc_offset_minute()));
+		auto r = std::make_shared<DKDMRecipient>(d->name(), d->notes(), d->recipient(), d->emails(), d->utc_offset_hour(), d->utc_offset_minute());
 		Config::instance()->add_dkdm_recipient (r);
 		add_recipient (r);
 	}
@@ -140,9 +143,9 @@ RecipientsPanel::edit_recipient_clicked ()
 		return;
 	}
 
-	pair<wxTreeItemId, shared_ptr<DKDMRecipient> > c = *_selected.begin();
+	auto c = *_selected.begin();
 
-	RecipientDialog* d = new RecipientDialog (
+	auto d = new RecipientDialog (
 		GetParent(), _("Edit recipient"), c.second->name, c.second->notes, c.second->emails, c.second->utc_offset_hour, c.second->utc_offset_minute, c.second->recipient
 		);
 
@@ -163,22 +166,22 @@ RecipientsPanel::edit_recipient_clicked ()
 void
 RecipientsPanel::remove_recipient_clicked ()
 {
-	for (RecipientMap::iterator i = _selected.begin(); i != _selected.end(); ++i) {
-		Config::instance()->remove_dkdm_recipient (i->second);
-		_targets->Delete (i->first);
+	for (auto const& i: _selected) {
+		Config::instance()->remove_dkdm_recipient (i.second);
+		_targets->Delete (i.first);
 	}
 
 	selection_changed ();
 }
 
 
-list<shared_ptr<DKDMRecipient> >
+list<shared_ptr<DKDMRecipient>>
 RecipientsPanel::recipients () const
 {
-	list<shared_ptr<DKDMRecipient> > r;
+	list<shared_ptr<DKDMRecipient>> r;
 
-	for (RecipientMap::const_iterator i = _selected.begin(); i != _selected.end(); ++i) {
-		r.push_back (i->second);
+	for (auto const& i: _selected) {
+		r.push_back (i.second);
 	}
 
 	r.sort ();
@@ -240,10 +243,10 @@ RecipientsPanel::search_changed ()
 
 	_ignore_selection_change = true;
 
-	for (RecipientMap::const_iterator i = _selected.begin(); i != _selected.end(); ++i) {
+	for (auto const& i: _selected) {
 		/* The wxTreeItemIds will now be different, so we must search by recipient */
-		RecipientMap::const_iterator j = _recipients.begin ();
-		while (j != _recipients.end() && j->second != i->second) {
+		auto j = _recipients.begin ();
+		while (j != _recipients.end() && j->second != i.second) {
 			++j;
 		}
 

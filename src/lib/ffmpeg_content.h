@@ -49,7 +49,7 @@ class FFmpegContent : public Content
 public:
 	FFmpegContent (boost::filesystem::path);
 	FFmpegContent (cxml::ConstNodePtr, int version, std::list<std::string> &);
-	FFmpegContent (std::vector<std::shared_ptr<Content> >);
+	FFmpegContent (std::vector<std::shared_ptr<Content>>);
 
 	std::shared_ptr<FFmpegContent> shared_from_this () {
 		return std::dynamic_pointer_cast<FFmpegContent> (Content::shared_from_this ());
@@ -73,7 +73,7 @@ public:
 
 	void set_filters (std::vector<Filter const *> const &);
 
-	std::vector<std::shared_ptr<FFmpegSubtitleStream> > subtitle_streams () const {
+	std::vector<std::shared_ptr<FFmpegSubtitleStream>> subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _subtitle_streams;
 	}
@@ -83,7 +83,7 @@ public:
 		return _subtitle_stream;
 	}
 
-	std::vector<std::shared_ptr<FFmpegAudioStream> > ffmpeg_audio_streams () const;
+	std::vector<std::shared_ptr<FFmpegAudioStream>> ffmpeg_audio_streams () const;
 
 	std::vector<Filter const *> filters () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -105,7 +105,7 @@ private:
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;
 
-	std::vector<std::shared_ptr<FFmpegSubtitleStream> > _subtitle_streams;
+	std::vector<std::shared_ptr<FFmpegSubtitleStream>> _subtitle_streams;
 	std::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	boost::optional<dcpomatic::ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */

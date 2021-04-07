@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_mapping.h"
 #include "audio_processor.h"
 #include "digester.h"
@@ -30,6 +31,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/regex.hpp>
 #include <iostream>
+
 
 using std::list;
 using std::cout;
@@ -44,12 +46,6 @@ using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 
-AudioMapping::AudioMapping ()
-	: _input_channels (0)
-	, _output_channels (0)
-{
-
-}
 
 /** Create an empty AudioMapping.
  *  @param input_channels Number of input channels.
@@ -59,6 +55,7 @@ AudioMapping::AudioMapping (int input_channels, int output_channels)
 {
 	setup (input_channels, output_channels);
 }
+
 
 void
 AudioMapping::setup (int input_channels, int output_channels)
@@ -74,6 +71,7 @@ AudioMapping::setup (int input_channels, int output_channels)
 	make_zero ();
 }
 
+
 void
 AudioMapping::make_zero ()
 {
@@ -83,6 +81,7 @@ AudioMapping::make_zero ()
 		}
 	}
 }
+
 
 struct ChannelRegex
 {
@@ -94,6 +93,7 @@ struct ChannelRegex
 	string regex;
 	int channel;
 };
+
 
 void
 AudioMapping::make_default (AudioProcessor const * processor, optional<boost::filesystem::path> filename)
@@ -145,12 +145,13 @@ AudioMapping::make_default (AudioProcessor const * processor, optional<boost::fi
 	}
 }
 
+
 AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 {
 	if (state_version < 32) {
-		setup (node->number_child<int> ("ContentChannels"), MAX_DCP_AUDIO_CHANNELS);
+		setup (node->number_child<int>("ContentChannels"), MAX_DCP_AUDIO_CHANNELS);
 	} else {
-		setup (node->number_child<int> ("InputChannels"), node->number_child<int> ("OutputChannels"));
+		setup (node->number_child<int>("InputChannels"), node->number_child<int>("OutputChannels"));
 	}
 
 	if (state_version <= 5) {
@@ -216,6 +217,7 @@ AudioMapping::get (int input_channel, int output_channel) const
 	return _gain[input_channel][output_channel];
 }
 
+
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
@@ -231,6 +233,7 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 		}
 	}
 }
+
 
 /** @return a string which is unique for a given AudioMapping configuration, for
  *  differentiation between different AudioMappings.
@@ -249,6 +252,7 @@ AudioMapping::digest () const
 
 	return digester.get ();
 }
+
 
 list<int>
 AudioMapping::mapped_output_channels () const
@@ -270,6 +274,7 @@ AudioMapping::mapped_output_channels () const
 
 	return mapped;
 }
+
 
 void
 AudioMapping::unmap_all ()

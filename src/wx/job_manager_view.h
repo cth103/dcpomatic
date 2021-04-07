@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file src/job_manager_view.h
  *  @brief Class which is a wxPanel for showing the progress of jobs.
  */
@@ -54,5 +55,5 @@ private:
 	std::shared_ptr<wxTimer> _timer;
 	bool _batch;
 
-	std::list<std::shared_ptr<JobView> > _job_records;
+	std::list<std::shared_ptr<JobView>> _job_records;
 };

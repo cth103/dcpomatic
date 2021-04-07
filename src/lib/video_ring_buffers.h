@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "dcpomatic_time.h"
 #include "player_video.h"
@@ -46,5 +47,5 @@ public:
 
 private:
 	mutable boost::mutex _mutex;
-	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _data;
+	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime>> _data;
 };

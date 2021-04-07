@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,9 +24,11 @@
 #include <wx/wx.h>
 #include <wx/graphics.h>
 
+
 using std::list;
-using std::min;
 using std::max;
+using std::min;
+
 
 TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 	: TimelineView (tl)
@@ -47,17 +49,19 @@ TimelineLabelsView::TimelineLabelsView (Timeline& tl)
 	_width += 24;
 }
 
+
 dcpomatic::Rect<int>
 TimelineLabelsView::bbox () const
 {
 	return dcpomatic::Rect<int> (0, 0, _width, _timeline.tracks() * _timeline.pixels_per_track());
 }
 
+
 void
-TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
+TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>>)
 {
 	int const h = _timeline.pixels_per_track ();
-	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour (0, 0, 0)));
+	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour(0, 0, 0)));
 
 	int fy = 0;
 	if (_video_tracks) {
@@ -84,11 +88,13 @@ TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >
 	}
 }
 
+
 void
 TimelineLabelsView::set_video_tracks (int n)
 {
 	_video_tracks = n;
 }
+
 
 void
 TimelineLabelsView::set_audio_tracks (int n)
@@ -96,11 +102,13 @@ TimelineLabelsView::set_audio_tracks (int n)
 	_audio_tracks = n;
 }
 
+
 void
 TimelineLabelsView::set_text_tracks (int n)
 {
 	_text_tracks = n;
 }
+
 
 void
 TimelineLabelsView::set_atmos (bool s)

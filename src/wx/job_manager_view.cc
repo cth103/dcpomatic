@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -16,11 +16,14 @@
     You should have received a copy of the GNU General Public License
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
+
 */
+
 
 /** @file src/job_manager_view.cc
  *  @brief Class generating a GTK widget to show the progress of jobs.
  */
+
 
 #include "job_manager_view.h"
 #include "batch_job_view.h"
@@ -32,6 +35,7 @@
 #include "lib/exceptions.h"
 #include "lib/compose.hpp"
 #include <iostream>
+
 
 using std::string;
 using std::list;
@@ -45,6 +49,7 @@ using boost::bind;
 using namespace boost::placeholders;
 #endif
 
+
 /** @param parent Parent window.
  *  @param batch true to use BatchJobView, false to use NormalJobView.
  *
@@ -55,7 +60,7 @@ JobManagerView::JobManagerView (wxWindow* parent, bool batch)
 	, _batch (batch)
 {
 	_panel = new wxPanel (this);
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_panel, 1, wxEXPAND);
 	SetSizer (sizer);
 
@@ -66,24 +71,25 @@ JobManagerView::JobManagerView (wxWindow* parent, bool batch)
 	SetScrollRate (0, 32);
 	EnableScrolling (false, true);
 
-	Bind (wxEVT_TIMER, boost::bind (&JobManagerView::periodic, this));
+	Bind (wxEVT_TIMER, boost::bind(&JobManagerView::periodic, this));
 	_timer.reset (new wxTimer (this));
 	_timer->Start (1000);
 
-	JobManager::instance()->JobAdded.connect (bind (&JobManagerView::job_added, this, _1));
-	JobManager::instance()->JobsReordered.connect (bind (&JobManagerView::replace, this));
+	JobManager::instance()->JobAdded.connect (bind(&JobManagerView::job_added, this, _1));
+	JobManager::instance()->JobsReordered.connect (bind(&JobManagerView::replace, this));
 }
+
 
 void
 JobManagerView::job_added (weak_ptr<Job> j)
 {
-	shared_ptr<Job> job = j.lock ();
+	auto job = j.lock ();
 	if (job) {
 		shared_ptr<JobView> v;
 		if (_batch) {
-			v.reset (new BatchJobView (job, this, _panel, _table));
+			v.reset (new BatchJobView(job, this, _panel, _table));
 		} else {
-			v.reset (new NormalJobView (job, this, _panel, _table));
+			v.reset (new NormalJobView(job, this, _panel, _table));
 		}
 		v->setup ();
 		_job_records.push_back (v);
@@ -93,20 +99,22 @@ JobManagerView::job_added (weak_ptr<Job> j)
 	job_list_changed ();
 }
 
+
 void
 JobManagerView::periodic ()
 {
-	for (list<shared_ptr<JobView> >::iterator i = _job_records.begin(); i != _job_records.end(); ++i) {
-		(*i)->maybe_pulse ();
+	for (auto i: _job_records) {
+		i->maybe_pulse ();
 	}
 }
+
 
 void
 JobManagerView::replace ()
 {
 	/* Make a new version of _job_records which reflects the order in JobManager's job list */
 
-	list<shared_ptr<JobView> > new_job_records;
+	list<shared_ptr<JobView>> new_job_records;
 
 	for (auto i: JobManager::instance()->get()) {
 		/* Find this job's JobView */
@@ -130,6 +138,7 @@ JobManagerView::replace ()
 
 	job_list_changed ();
 }
+
 
 void
 JobManagerView::job_list_changed ()
