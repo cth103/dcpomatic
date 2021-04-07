@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-06 19:22+0200\n"
-"PO-Revision-Date: 2021-04-06 02:57+0200\n"
+"PO-Revision-Date: 2021-04-06 23:40+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -176,6 +176,9 @@ msgid ""
 "know that you will play this DCP back on a capable projector, it is "
 "advisable to set the DCP to be 2K in the \"DCP→Video\" tab."
 msgstr ""
+"4K-3D wordt alleen ondersteund door een zeer beperkt aantal projectoren.  "
+"Tenzij u weet dat u deze DCP gaat afspelen op een geschikte projector, is "
+"het raadzaam om de DCP in te stellen op 2K in het DCP/Video-tabblad."
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:145
@@ -325,6 +328,9 @@ msgid ""
 "language.  It is advisable to set the language for each piece of subtitle or "
 "closed caption content in the \"Content→Timed Text\" tab"
 msgstr ""
+"Ten minste één deel van de ondertitel of closed caption content heeft geen "
+"gespecificeerde taal.  Het is raadzaam om de taal voor elk stuk ondertitel "
+"of closed caption content in te stellen in het Content/Timed text-tabblad."
 
 #: src/lib/audio_content.cc:291
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -1025,6 +1031,9 @@ msgid ""
 "particular reason to use Interop.  You are advised to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
+"Over het algemeen is het nu raadzaam om SMPTE-DCP's te maken, tenzij u een "
+"bepaalde reden heeft om Interop te gebruiken.  U wordt geadviseerd om de DCP-"
+"standaard op SMPTE in te stellen in het DCP-tabblad."
 
 #: src/lib/hints.cc:540
 msgid ""
@@ -1321,13 +1330,12 @@ msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
 #: src/lib/hints.cc:579
-#, fuzzy
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
 "You should add these markers using the 'Markers' button in the \"DCP\" tab."
 msgstr ""
-"SMPTE DCP's met het type FTR (feature) moeten markers hebben voor het eerste "
+"SMPTE-DCP's met het type FTR (feature) moeten markers hebben voor het eerste "
 "frame van de aftiteling (FFEC: first frame of end credits) en het eerste "
 "frame van de bewegende aftiteling (FFMC: first frame of moving credits).  U "
 "moet deze markers toevoegen met de knop 'Markers' in het DCP-tabblad."

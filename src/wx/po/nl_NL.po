@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-06 19:22+0200\n"
-"PO-Revision-Date: 2021-04-06 02:52+0200\n"
+"PO-Revision-Date: 2021-04-06 23:17+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -2055,10 +2054,9 @@ msgid "Outline width"
 msgstr "Omlijnings-breedte"
 
 #: src/wx/subtitle_appearance_dialog.cc:315
-#, fuzzy
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
-"Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden"
+"Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden."
 
 #: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:104
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:73
@@ -2674,9 +2672,8 @@ msgid "Subscribers"
 msgstr "Abonnees"
 
 #: src/wx/subtitle_appearance_dialog.cc:60
-#, fuzzy
 msgid "Subtitle appearance"
-msgstr "Caption-uiterlijk"
+msgstr "Ondertitel-uiterlijk"
 
 #: src/wx/verify_dcp_dialog.cc:246
 #, c-format
