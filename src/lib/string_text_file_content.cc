@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "string_text_file_content.h"
 #include "util.h"
 #include "string_text_file.h"
@@ -28,34 +29,39 @@
 #include <libxml++/libxml++.h>
 #include <iostream>
 
+
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 StringTextFileContent::StringTextFileContent (boost::filesystem::path path)
 	: Content (path)
 {
-	text.push_back (shared_ptr<TextContent> (new TextContent (this, TextType::OPEN_SUBTITLE, TextType::UNKNOWN)));
+	text.push_back (make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::UNKNOWN));
 }
+
 
 StringTextFileContent::StringTextFileContent (cxml::ConstNodePtr node, int version)
 	: Content (node)
-	, _length (node->number_child<ContentTime::Type> ("Length"))
+	, _length (node->number_child<ContentTime::Type>("Length"))
 {
 	text = TextContent::from_xml (this, node, version);
 }
+
 
 void
 StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	Content::examine (film, job);
-	StringTextFile s (shared_from_this ());
+	StringTextFile s (shared_from_this());
 
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
@@ -65,30 +71,35 @@ StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job
 	only_text()->add_font (make_shared<Font>(TEXT_FONT_ID));
 }
 
+
 string
 StringTextFileContent::summary () const
 {
 	return path_summary() + " " + _("[subtitles]");
 }
 
+
 string
 StringTextFileContent::technical_summary () const
 {
 	return Content::technical_summary() + " - " + _("Text subtitles");
+
 }
+
 
 void
 StringTextFileContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text ("TextSubtitle");
+	node->add_child("Type")->add_child_text("TextSubtitle");
 	Content::as_xml (node, with_paths);
 
 	if (only_text()) {
-		only_text()->as_xml (node);
+		only_text()->as_xml(node);
 	}
 
-	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
+	node->add_child("Length")->add_child_text(raw_convert<string>(_length.get ()));
 }
+
 
 DCPTime
 StringTextFileContent::full_length (shared_ptr<const Film> film) const
@@ -97,16 +108,18 @@ StringTextFileContent::full_length (shared_ptr<const Film> film) const
 	return DCPTime (_length, frc);
 }
 
+
 DCPTime
 StringTextFileContent::approximate_length () const
 {
 	return DCPTime (_length, FrameRateChange());
 }
 
+
 string
 StringTextFileContent::identifier () const
 {
-	string s = Content::identifier ();
+	auto s = Content::identifier ();
 	s += "_" + only_text()->identifier();
 	return s;
 }
