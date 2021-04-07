@@ -595,7 +595,7 @@ Hints::check_text_languages ()
 		for (auto j: i->text) {
 			if (j->use() && !j->language()) {
 				hint (_("At least one piece of subtitle or closed caption content has no specified language.  "
-					"It is advisable to set the language for each piece of subtitle or closed caption content in the \"Content→Timed Text\" tab"));
+					"It is advisable to set the language for each piece of subtitle or closed caption content in the \"Content→Timed Text\" tab."));
 				return;
 			}
 		}
