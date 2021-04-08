@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 #include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
+
 
 class Zipper : public boost::noncopyable
 {
@@ -33,6 +35,6 @@ public:
 
 private:
 	struct zip* _zip;
-	std::vector<std::shared_ptr<std::string> > _store;
+	std::vector<std::shared_ptr<std::string>> _store;
 };
 

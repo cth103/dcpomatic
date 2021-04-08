@@ -59,17 +59,19 @@ extern "C" {
 #include <iostream>
 #include <iomanip>
 
-using std::string;
-using std::pair;
-using std::min;
-using std::max;
-using std::cout;
-using std::list;
+
 using std::bad_alloc;
-using std::make_pair;
-using std::exception;
-using std::shared_ptr;
+using std::cout;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::list;
+using std::make_pair;
+using std::make_shared;
+using std::max;
+using std::min;
+using std::pair;
+using std::shared_ptr;
+using std::string;
 using std::vector;
 using std::weak_ptr;
 using boost::optional;
@@ -79,6 +81,7 @@ using namespace boost::placeholders;
 using dcp::Size;
 using namespace dcpomatic;
 
+
 static
 int
 rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamStatus, void* data)
@@ -86,18 +89,10 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 	return reinterpret_cast<FilmViewer*>(data)->audio_callback (out, frames);
 }
 
+
 FilmViewer::FilmViewer (wxWindow* p)
-	: _coalesce_player_changes (false)
-	, _audio (DCPOMATIC_RTAUDIO_API)
-	, _audio_channels (0)
-	, _audio_block_size (1024)
-	, _playing (false)
-	, _suspended (0)
-	, _latency_history_count (0)
+	: _audio (DCPOMATIC_RTAUDIO_API)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
-	, _outline_content (false)
-	, _pad_black (false)
-	, _idle_get (false)
 {
 	switch (Config::instance()->video_view_type()) {
 	case Config::VIDEO_VIEW_OPENGL:
@@ -111,16 +106,18 @@ FilmViewer::FilmViewer (wxWindow* p)
 	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
 	_video_view->TooManyDropped.connect (boost::bind(&FilmViewer::too_many_frames_dropped, this));
 
-	set_film (shared_ptr<Film> ());
+	set_film (shared_ptr<Film>());
 
-	_config_changed_connection = Config::instance()->Changed.connect (bind (&FilmViewer::config_changed, this, _1));
+	_config_changed_connection = Config::instance()->Changed.connect(bind(&FilmViewer::config_changed, this, _1));
 	config_changed (Config::SOUND_OUTPUT);
 }
+
 
 FilmViewer::~FilmViewer ()
 {
 	stop ();
 }
+
 
 /** Ask for ::get() to be called next time we are idle */
 void
@@ -134,6 +131,7 @@ FilmViewer::request_idle_display_next_frame ()
 	DCPOMATIC_ASSERT (signal_manager);
 	signal_manager->when_idle (boost::bind(&FilmViewer::idle_handler, this));
 }
+
 
 void
 FilmViewer::idle_handler ()
@@ -149,6 +147,7 @@ FilmViewer::idle_handler ()
 		_idle_get = false;
 	}
 }
+
 
 void
 FilmViewer::set_film (shared_ptr<Film> film)
@@ -170,7 +169,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player.reset (new Player(_film));
+		_player = make_shared<Player>(_film);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -203,6 +202,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	slow_refresh ();
 }
 
+
 void
 FilmViewer::recreate_butler ()
 {
@@ -214,17 +214,15 @@ FilmViewer::recreate_butler ()
 		return;
 	}
 
-	_butler.reset(
-		new Butler(
-			_film,
-			_player,
-			Config::instance()->audio_mapping(_audio_channels),
-			_audio_channels,
-			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
-			VideoRange::FULL,
-			false,
-			true
-			)
+	_butler = std::make_shared<Butler>(
+		_film,
+		_player,
+		Config::instance()->audio_mapping(_audio_channels),
+		_audio_channels,
+		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+		VideoRange::FULL,
+		false,
+		true
 		);
 
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
@@ -236,6 +234,7 @@ FilmViewer::recreate_butler ()
 	resume ();
 }
 
+
 void
 FilmViewer::set_outline_content (bool o)
 {
@@ -245,7 +244,7 @@ FilmViewer::set_outline_content (bool o)
 
 
 void
-FilmViewer::set_outline_subtitles (optional<dcpomatic::Rect<double> > rect)
+FilmViewer::set_outline_subtitles (optional<dcpomatic::Rect<double>> rect)
 {
 	_outline_subtitles = rect;
 	_video_view->update ();
@@ -259,6 +258,7 @@ FilmViewer::set_eyes (Eyes e)
 	slow_refresh ();
 }
 
+
 void
 FilmViewer::video_view_sized ()
 {
@@ -268,6 +268,7 @@ FilmViewer::video_view_sized ()
 	}
 }
 
+
 void
 FilmViewer::calculate_sizes ()
 {
@@ -275,10 +276,10 @@ FilmViewer::calculate_sizes ()
 		return;
 	}
 
-	Ratio const * container = _film->container ();
+	auto const container = _film->container ();
 
-	float const view_ratio = float(_video_view->get()->GetSize().x) / _video_view->get()->GetSize().y;
-	float const film_ratio = container ? container->ratio () : 1.78;
+	auto const view_ratio = float(_video_view->get()->GetSize().x) / _video_view->get()->GetSize().y;
+	auto const film_ratio = container ? container->ratio () : 1.78;
 
 	if (view_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
@@ -297,6 +298,7 @@ FilmViewer::calculate_sizes ()
 	_player->set_video_container_size (_out_size);
 }
 
+
 void
 FilmViewer::suspend ()
 {
@@ -305,6 +307,7 @@ FilmViewer::suspend ()
 		_audio.abortStream();
 	}
 }
+
 
 void
 FilmViewer::resume ()
@@ -320,6 +323,7 @@ FilmViewer::resume ()
 	}
 }
 
+
 void
 FilmViewer::start ()
 {
@@ -327,7 +331,7 @@ FilmViewer::start ()
 		return;
 	}
 
-	optional<bool> v = PlaybackPermitted ();
+	auto v = PlaybackPermitted ();
 	if (v && !*v) {
 		/* Computer says no */
 		return;
@@ -357,6 +361,7 @@ FilmViewer::start ()
 	_video_view->start ();
 }
 
+
 bool
 FilmViewer::stop ()
 {
@@ -377,6 +382,7 @@ FilmViewer::stop ()
 	return true;
 }
 
+
 void
 FilmViewer::player_change (ChangeType type, int property, bool frequent)
 {
@@ -391,6 +397,7 @@ FilmViewer::player_change (ChangeType type, int property, bool frequent)
 
 	player_change ({property});
 }
+
 
 void
 FilmViewer::player_change (vector<int> properties)
@@ -427,6 +434,7 @@ FilmViewer::player_change (vector<int> properties)
 	}
 }
 
+
 void
 FilmViewer::film_change (ChangeType type, Film::Property p)
 {
@@ -445,11 +453,13 @@ FilmViewer::film_change (ChangeType type, Film::Property p)
 	}
 }
 
+
 void
 FilmViewer::film_length_change ()
 {
 	_video_view->set_length (_film->length());
 }
+
 
 /** Re-get the current frame slowly by seeking */
 void
@@ -457,6 +467,7 @@ FilmViewer::slow_refresh ()
 {
 	seek (_video_view->position(), true);
 }
+
 
 /** Try to re-get the current frame quickly by resetting the metadata
  *  in the PlayerVideo that we used last time.
@@ -471,14 +482,16 @@ FilmViewer::quick_refresh ()
 	return _video_view->reset_metadata (_film, _player->video_container_size());
 }
 
+
 void
 FilmViewer::seek (shared_ptr<Content> content, ContentTime t, bool accurate)
 {
-	optional<DCPTime> dt = _player->content_time_to_dcp (content, t);
+	auto dt = _player->content_time_to_dcp (content, t);
 	if (dt) {
 		seek (*dt, accurate);
 	}
 }
+
 
 void
 FilmViewer::set_coalesce_player_changes (bool c)
@@ -491,6 +504,7 @@ FilmViewer::set_coalesce_player_changes (bool c)
 	}
 }
 
+
 void
 FilmViewer::seek (DCPTime t, bool accurate)
 {
@@ -498,11 +512,11 @@ FilmViewer::seek (DCPTime t, bool accurate)
 		return;
 	}
 
-	if (t < DCPTime ()) {
+	if (t < DCPTime()) {
 		t = DCPTime ();
 	}
 
-	if (t >= _film->length ()) {
+	if (t >= _film->length()) {
 		t = _film->length() - one_video_frame();
 	}
 
@@ -525,6 +539,7 @@ FilmViewer::seek (DCPTime t, bool accurate)
 
 	resume ();
 }
+
 
 void
 FilmViewer::config_changed (Config::Property p)
@@ -584,26 +599,29 @@ FilmViewer::config_changed (Config::Property p)
 	}
 }
 
+
 DCPTime
 FilmViewer::uncorrected_time () const
 {
-	if (_audio.isStreamRunning ()) {
+	if (_audio.isStreamRunning()) {
 		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime());
 	}
 
 	return _video_view->position();
 }
 
+
 optional<DCPTime>
 FilmViewer::audio_time () const
 {
 	if (!_audio.isStreamRunning()) {
-		return optional<DCPTime>();
+		return {};
 	}
 
 	return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
 		DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
 }
+
 
 DCPTime
 FilmViewer::time () const
@@ -611,11 +629,12 @@ FilmViewer::time () const
 	return audio_time().get_value_or(_video_view->position());
 }
 
+
 int
 FilmViewer::audio_callback (void* out_p, unsigned int frames)
 {
 	while (true) {
-		optional<DCPTime> t = _butler->get_audio (reinterpret_cast<float*> (out_p), frames);
+		auto t = _butler->get_audio (reinterpret_cast<float*> (out_p), frames);
 		if (!t || DCPTime(uncorrected_time() - *t) < one_video_frame()) {
 			/* There was an underrun or this audio is on time; carry on */
 			break;
@@ -634,6 +653,7 @@ FilmViewer::audio_callback (void* out_p, unsigned int frames)
 	return 0;
 }
 
+
 Frame
 FilmViewer::average_latency () const
 {
@@ -650,6 +670,7 @@ FilmViewer::average_latency () const
         return total / _latency_history.size();
 }
 
+
 void
 FilmViewer::set_dcp_decode_reduction (optional<int> reduction)
 {
@@ -659,17 +680,20 @@ FilmViewer::set_dcp_decode_reduction (optional<int> reduction)
 	}
 }
 
+
 optional<int>
 FilmViewer::dcp_decode_reduction () const
 {
 	return _dcp_decode_reduction;
 }
 
+
 DCPTime
 FilmViewer::one_video_frame () const
 {
 	return DCPTime::from_frames (1, _film ? _film->video_frame_rate() : 24);
 }
+
 
 /** Open a dialog box showing our film's closed captions */
 void
@@ -678,17 +702,20 @@ FilmViewer::show_closed_captions ()
 	_closed_captions_dialog->Show();
 }
 
+
 void
 FilmViewer::seek_by (DCPTime by, bool accurate)
 {
 	seek (_video_view->position() + by, accurate);
 }
 
+
 void
 FilmViewer::set_pad_black (bool p)
 {
 	_pad_black = p;
 }
+
 
 /** Called when a player has finished the current film.
  *  May be called from a non-UI thread.
@@ -699,6 +726,7 @@ FilmViewer::finished ()
 	emit (boost::bind(&FilmViewer::ui_finished, this));
 }
 
+
 /** Called by finished() in the UI thread */
 void
 FilmViewer::ui_finished ()
@@ -706,6 +734,7 @@ FilmViewer::ui_finished ()
 	stop ();
 	Finished ();
 }
+
 
 int
 FilmViewer::dropped () const

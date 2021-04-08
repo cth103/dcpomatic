@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file  src/lib/dcpomatic_time.h
  *  @brief Types to describe time.
  */
 
+
 #ifndef DCPOMATIC_TIME_H
 #define DCPOMATIC_TIME_H
+
 
 #include "frame_rate_change.h"
 #include "dcpomatic_assert.h"
@@ -34,8 +37,10 @@
 #include <iomanip>
 #include <cstdio>
 
+
 struct dcpomatic_time_ceil_test;
 struct dcpomatic_time_floor_test;
+
 
 namespace dcpomatic {
 
@@ -156,15 +161,15 @@ public:
 	 *  @param r Sampling rate.
 	 */
 	Time<S, O> ceil (double r) const {
-		return Time<S, O> (llrint (HZ * frames_ceil(r) / r));
+		return Time<S, O> (llrint(HZ * frames_ceil(r) / r));
 	}
 
 	Time<S, O> floor (double r) const {
-		return Time<S, O> (llrint (HZ * frames_floor(r) / r));
+		return Time<S, O> (llrint(HZ * frames_floor(r) / r));
 	}
 
 	Time<S, O> round (double r) const {
-		return Time<S, O> (llrint (HZ * frames_round(r) / r));
+		return Time<S, O> (llrint(HZ * frames_round(r) / r));
 	}
 
 	double seconds () const {
@@ -172,7 +177,7 @@ public:
 	}
 
 	Time<S, O> abs () const {
-		return Time<S, O> (std::abs (_t));
+		return Time<S, O> (std::abs(_t));
 	}
 
 	template <typename T>
@@ -231,7 +236,6 @@ public:
 		return buffer;
 	}
 
-
 	static Time<S, O> from_seconds (double s) {
 		return Time<S, O> (llrint (s * HZ));
 	}
@@ -263,8 +267,10 @@ private:
 	Type _t;
 };
 
+
 class ContentTimeDifferentiator {};
 class DCPTimeDifferentiator {};
+
 
 /* Specializations for the two allowed explicit conversions */
 
@@ -273,6 +279,7 @@ Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (Time<DCPTimeDiffer
 
 template<>
 Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (Time<ContentTimeDifferentiator, DCPTimeDifferentiator> d, FrameRateChange f);
+
 
 /** Time relative to the start or position of a piece of content in its native frame rate */
 typedef Time<ContentTimeDifferentiator, DCPTimeDifferentiator> ContentTime;
@@ -303,12 +310,12 @@ public:
 		return TimePeriod<T> (from + o, to + o);
 	}
 
-	boost::optional<TimePeriod<T> > overlap (TimePeriod<T> const & other) const {
+	boost::optional<TimePeriod<T>> overlap (TimePeriod<T> const & other) const {
 		T const max_from = std::max (from, other.from);
 		T const min_to = std::min (to, other.to);
 
 		if (max_from >= min_to) {
-			return boost::optional<TimePeriod<T> > ();
+			return {};
 		}
 
 		return TimePeriod<T> (max_from, min_to);
@@ -334,36 +341,37 @@ public:
 	}
 };
 
+
 /** @param A Period which is subtracted from.
  *  @param B Periods to subtract from `A', must be in ascending order of start time and must not overlap.
  */
 template <class T>
-std::list<TimePeriod<T> > subtract (TimePeriod<T> A, std::list<TimePeriod<T> > const & B)
+std::list<TimePeriod<T>> subtract (TimePeriod<T> A, std::list<TimePeriod<T>> const & B)
 {
-	std::list<TimePeriod<T> > result;
+	std::list<TimePeriod<T>> result;
 	result.push_back (A);
 
 	for (auto i: B) {
-		std::list<TimePeriod<T> > new_result;
+		std::list<TimePeriod<T>> new_result;
 		for (auto j: result) {
-			boost::optional<TimePeriod<T> > ov = i.overlap (j);
+			auto ov = i.overlap (j);
 			if (ov) {
 				if (*ov == i) {
 					/* A contains all of B */
 					if (i.from != j.from) {
-						new_result.push_back (TimePeriod<T> (j.from, i.from));
+						new_result.push_back (TimePeriod<T>(j.from, i.from));
 					}
 					if (i.to != j.to) {
-						new_result.push_back (TimePeriod<T> (i.to, j.to));
+						new_result.push_back (TimePeriod<T>(i.to, j.to));
 					}
 				} else if (*ov == j) {
 					/* B contains all of A */
 				} else if (i.from < j.from) {
 					/* B overlaps start of A */
-					new_result.push_back (TimePeriod<T> (i.to, j.to));
+					new_result.push_back (TimePeriod<T>(i.to, j.to));
 				} else if (i.to > j.to) {
 					/* B overlaps end of A */
-					new_result.push_back (TimePeriod<T> (j.from, i.from));
+					new_result.push_back (TimePeriod<T>(j.from, i.from));
 				}
 			} else {
 				new_result.push_back (j);
@@ -375,8 +383,10 @@ std::list<TimePeriod<T> > subtract (TimePeriod<T> A, std::list<TimePeriod<T> > c
 	return result;
 }
 
+
 typedef TimePeriod<ContentTime> ContentTimePeriod;
 typedef TimePeriod<DCPTime> DCPTimePeriod;
+
 
 DCPTime min (DCPTime a, DCPTime b);
 DCPTime max (DCPTime a, DCPTime b);
@@ -386,6 +396,8 @@ std::string to_string (ContentTime t);
 std::string to_string (DCPTime t);
 std::string to_string (DCPTimePeriod p);
 
+
 }
+
 
 #endif

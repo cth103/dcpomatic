@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,19 @@
 
 */
 
-#include "dcp.h"
-#include "config.h"
-#include "film.h"
-#include "log.h"
-#include "dcpomatic_log.h"
+
 #include "compose.hpp"
+#include "dcp.h"
 #include "dcp_content.h"
+#include "dcpomatic_log.h"
+#include "log.h"
+#include "util.h"
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
 
 #include "i18n.h"
+
 
 using std::list;
 using std::string;
@@ -40,7 +41,7 @@ using std::vector;
 
 
 /** Find all the CPLs in our directories, cross-add assets and return the CPLs */
-list<shared_ptr<dcp::CPL> >
+list<shared_ptr<dcp::CPL>>
 DCP::cpls () const
 {
 	list<shared_ptr<dcp::DCP>> dcps;
@@ -77,7 +78,7 @@ DCP::cpls () const
 	}
 
 	if (_dcp_content->kdm ()) {
-		dcp::DecryptedKDM k = decrypt_kdm_with_helpful_error (_dcp_content->kdm().get());
+		auto k = decrypt_kdm_with_helpful_error (_dcp_content->kdm().get());
 		for (auto i: dcps) {
 			i->add (k);
 		}

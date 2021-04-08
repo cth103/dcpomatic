@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,28 @@
 
 */
 
+
 /** @file src/timer.cc
  *  @brief Some timing classes for debugging and profiling.
  */
 
+
+#include "compose.hpp"
 #include "timer.h"
 #include "util.h"
-#include "compose.hpp"
-#include <iostream>
 #include <sys/time.h>
+#include <iostream>
 
 #include "i18n.h"
 
-using namespace std;
+
+using std::cout;
+using std::list;
+using std::max;
+using std::pair;
+using std::string;
 using boost::optional;
+
 
 /** @param n Name to use when giving output */
 PeriodTimer::PeriodTimer (string n)
@@ -40,6 +48,7 @@ PeriodTimer::PeriodTimer (string n)
 	gettimeofday (&_start, 0);
 }
 
+
 /** Destroy PeriodTimer and output the time elapsed since its construction */
 PeriodTimer::~PeriodTimer ()
 {
@@ -47,6 +56,7 @@ PeriodTimer::~PeriodTimer ()
 	gettimeofday (&stop, 0);
 	cout << N_("T: ") << _name << N_(": ") << (seconds (stop) - seconds (_start)) << N_("\n");
 }
+
 
 StateTimer::StateTimer (string n, string s)
 	: _name (n)
@@ -57,17 +67,20 @@ StateTimer::StateTimer (string n, string s)
 	_state = s;
 }
 
+
 StateTimer::StateTimer (string n)
 	: _name (n)
 {
 
 }
 
+
 void
 StateTimer::set (string s)
 {
 	set_internal (s);
 }
+
 
 void
 StateTimer::set_internal (optional<string> s)
@@ -88,16 +101,13 @@ StateTimer::set_internal (optional<string> s)
 	_state = s;
 }
 
+
 void
 StateTimer::unset ()
 {
 	set_internal (optional<string>());
 }
 
-bool compare (pair<double, string> a, pair<double, string> b)
-{
-	return a.first > b.first;
-}
 
 /** Destroy StateTimer and generate a summary of the state timings on cout */
 StateTimer::~StateTimer ()
@@ -113,7 +123,7 @@ StateTimer::~StateTimer ()
 		longest = max (longest, int(i.first.length()));
 	}
 
-	list<pair<double, string> > sorted;
+	list<pair<double, string>> sorted;
 
 	for (auto const& i: _counts) {
 		string name = i.first + string(longest + 1 - i.first.size(), ' ');
@@ -123,7 +133,10 @@ StateTimer::~StateTimer ()
 		sorted.push_back (make_pair(i.second.total_time, String::compose("\t%1%2 %3 %4", name, total_time, i.second.number, (i.second.total_time / i.second.number))));
 	}
 
-	sorted.sort (compare);
+	sorted.sort ([](pair<double, string> const& a, pair<double, string> const& b) {
+		return a.first > b.first;
+	});
+
 
 	cout << _name << N_(":\n");
 	for (auto const& i: sorted) {

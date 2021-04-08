@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,21 @@
 
 */
 
+
 #ifndef DCPOMATIC_RECT_H
 #define DCPOMATIC_RECT_H
+
 
 #include "position.h"
 #include <boost/optional.hpp>
 #include <algorithm>
 
+
 /* Put this inside a namespace as Apple put a Rect in the global namespace */
 
 namespace dcpomatic
 {
+
 
 /** @struct Rect
  *  @brief A rectangle.
@@ -69,7 +73,7 @@ public:
 		return Position<T> (x, y);
 	}
 
-	boost::optional<Rect<T> > intersection (Rect<T> const & other) const
+	boost::optional<Rect<T>> intersection (Rect<T> const & other) const
 	{
 		/* This isn't exactly the paragon of mathematical precision */
 
@@ -83,7 +87,7 @@ public:
 			);
 
 		if (r.width < 0 || r.height < 0) {
-			return boost::optional<Rect<T> > ();
+			return {};
 		}
 
 		return r;
@@ -114,6 +118,8 @@ public:
 	}
 };
 
+
 }
+
 
 #endif

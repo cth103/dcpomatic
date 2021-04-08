@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,39 +18,43 @@
 
 */
 
-#include "../wx/wx_util.h"
-#include "../wx/wx_signal_manager.h"
-#include "../wx/content_view.h"
-#include "../wx/dcpomatic_button.h"
-#include "../wx/about_dialog.h"
-#include "../wx/playlist_editor_config_dialog.h"
-#include "../lib/util.h"
-#include "../lib/config.h"
-#include "../lib/cross.h"
-#include "../lib/film.h"
-#include "../lib/dcp_content.h"
-#include "../lib/spl_entry.h"
-#include "../lib/spl.h"
+
+#include "wx/wx_util.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/content_view.h"
+#include "wx/dcpomatic_button.h"
+#include "wx/about_dialog.h"
+#include "wx/playlist_editor_config_dialog.h"
+#include "lib/config.h"
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/film.h"
+#include "lib/spl.h"
+#include "lib/spl_entry.h"
+#include "lib/util.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 #include <wx/imaglist.h>
 #include <wx/spinctrl.h>
 #include <wx/preferences.h>
 
-using std::exception;
+
 using std::cout;
-using std::string;
-using std::map;
+using std::exception;
 using std::make_pair;
-using std::vector;
-using boost::optional;
+using std::make_shared;
+using std::map;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using std::weak_ptr;
 using boost::bind;
+using boost::optional;
 using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 class ContentDialog : public wxDialog, public ContentStore
 {
@@ -61,12 +65,12 @@ public:
 	{
 		_content_view->update ();
 
-		wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+		auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 		SetSizer (overall_sizer);
 
 		overall_sizer->Add (_content_view, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-		wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+		auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 		if (buttons) {
 			overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 		}
@@ -100,7 +104,7 @@ public:
 		: _sizer (new wxBoxSizer(wxVERTICAL))
 		, _content_store (content_store)
 	{
-		wxStaticText* label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
+		auto label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
 		label->SetLabelMarkup (_("<b>Playlists</b>"));
 		_sizer->Add (label, 0, wxTOP | wxLEFT, DCPOMATIC_SIZER_GAP * 2);
 
@@ -111,13 +115,13 @@ public:
 		_list->AppendColumn (_("Name"), wxLIST_FORMAT_LEFT, 840);
 		_list->AppendColumn (_("Length"), wxLIST_FORMAT_LEFT, 100);
 
-		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
+		auto button_sizer = new wxBoxSizer (wxVERTICAL);
 		_new = new Button (parent, _("New"));
 		button_sizer->Add (_new, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 		_delete = new Button (parent, _("Delete"));
 		button_sizer->Add (_delete, 0, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-		wxSizer* list = new wxBoxSizer (wxHORIZONTAL);
+		auto list = new wxBoxSizer (wxHORIZONTAL);
 		list->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 		list->Add (button_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
@@ -139,7 +143,7 @@ public:
 	shared_ptr<SignalSPL> first_playlist () const
 	{
 		if (_playlists.empty()) {
-			return shared_ptr<SignalSPL>();
+			return {};
 		}
 
 		return _playlists.front ();
@@ -164,7 +168,7 @@ private:
 
 	void name_changed (weak_ptr<SignalSPL> wp)
 	{
-		shared_ptr<SignalSPL> playlist = wp.lock ();
+		auto playlist = wp.lock ();
 		if (!playlist) {
 			return;
 		}
@@ -180,17 +184,17 @@ private:
 
 	void load_playlists ()
 	{
-		optional<boost::filesystem::path> path = Config::instance()->player_playlist_directory();
+		auto path = Config::instance()->player_playlist_directory();
 		if (!path) {
 			return;
 		}
 
 		_list->DeleteAllItems ();
 		_playlists.clear ();
-		for (boost::filesystem::directory_iterator i(*path); i != boost::filesystem::directory_iterator(); ++i) {
-			shared_ptr<SignalSPL> spl(new SignalSPL);
+		for (auto i: boost::filesystem::directory_iterator(*path)) {
+			auto spl = make_shared<SignalSPL>();
 			try {
-				spl->read (*i, _content_store);
+				spl->read (i, _content_store);
 				add_playlist_to_model (spl);
 			} catch (...) {}
 		}
@@ -215,7 +219,7 @@ private:
 			return;
 		}
 
-		optional<boost::filesystem::path> dir = Config::instance()->player_playlist_directory();
+		auto dir = Config::instance()->player_playlist_directory();
 		if (!dir) {
 			return;
 		}
@@ -241,7 +245,7 @@ private:
 	wxListCtrl* _list;
 	wxButton* _new;
 	wxButton* _delete;
-	vector<shared_ptr<SignalSPL> > _playlists;
+	vector<shared_ptr<SignalSPL>> _playlists;
 	ContentStore* _content_store;
 };
 
@@ -253,15 +257,15 @@ public:
 		: _content_dialog (content_dialog)
 		, _sizer (new wxBoxSizer(wxVERTICAL))
 	{
-		wxBoxSizer* title = new wxBoxSizer (wxHORIZONTAL);
-		wxStaticText* label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
+		auto title = new wxBoxSizer (wxHORIZONTAL);
+		auto label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
 		label->SetLabelMarkup (_("<b>Playlist:</b>"));
 		title->Add (label, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		_name = new wxTextCtrl (parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		title->Add (_name, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
 		_sizer->Add (title, 0, wxTOP | wxLEFT, DCPOMATIC_SIZER_GAP * 2);
 
-		wxBoxSizer* list = new wxBoxSizer (wxHORIZONTAL);
+		auto list = new wxBoxSizer (wxHORIZONTAL);
 
 		_list = new wxListCtrl (
 			parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL
@@ -272,7 +276,7 @@ public:
 		_list->AppendColumn (_("Type"), wxLIST_FORMAT_LEFT, 100);
 		_list->AppendColumn (_("Encrypted"), wxLIST_FORMAT_CENTRE, 90);
 
-		wxImageList* images = new wxImageList (16, 16);
+		auto images = new wxImageList (16, 16);
 		wxIcon tick_icon;
 		wxIcon no_tick_icon;
 		tick_icon.LoadFile (bitmap_path("tick"), wxBITMAP_TYPE_PNG);
@@ -284,7 +288,7 @@ public:
 
 		list->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
-		wxBoxSizer* button_sizer = new wxBoxSizer (wxVERTICAL);
+		auto button_sizer = new wxBoxSizer (wxVERTICAL);
 		_up = new Button (parent, _("Up"));
 		_down = new Button (parent, _("Down"));
 		_add = new Button (parent, _("Add"));
@@ -374,7 +378,7 @@ private:
 	{
 		int const r = _content_dialog->ShowModal ();
 		if (r == wxID_OK) {
-			shared_ptr<Content> content = _content_dialog->selected ();
+			auto content = _content_dialog->selected ();
 			if (content) {
 				SPLEntry e (content);
 				add (e);
@@ -393,7 +397,7 @@ private:
 
 		DCPOMATIC_ASSERT (_playlist);
 
-		SPLEntry tmp = (*_playlist)[s];
+		auto tmp = (*_playlist)[s];
 		(*_playlist)[s] = (*_playlist)[s-1];
 		(*_playlist)[s-1] = tmp;
 
@@ -410,7 +414,7 @@ private:
 
 		DCPOMATIC_ASSERT (_playlist);
 
-		SPLEntry tmp = (*_playlist)[s];
+		auto tmp = (*_playlist)[s];
 		(*_playlist)[s] = (*_playlist)[s+1];
 		(*_playlist)[s+1] = tmp;
 
@@ -446,19 +450,19 @@ class DOMFrame : public wxFrame
 {
 public:
 	explicit DOMFrame (wxString const & title)
-		: wxFrame (0, -1, title)
+		: wxFrame (nullptr, wxID_ANY, title)
 		, _content_dialog (new ContentDialog(this))
-		, _config_dialog (0)
+		, _config_dialog (nullptr)
 	{
-		wxMenuBar* bar = new wxMenuBar;
+		auto bar = new wxMenuBar;
 		setup_menu (bar);
 		SetMenuBar (bar);
 
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
-		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
-		wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+		auto overall_panel = new wxPanel (this, wxID_ANY);
+		auto sizer = new wxBoxSizer (wxVERTICAL);
 
 		_playlist_list = new PlaylistList (overall_panel, _content_dialog);
 		_playlist_content = new PlaylistContent (overall_panel, _content_dialog);
@@ -489,7 +493,7 @@ private:
 
 	void help_about ()
 	{
-		AboutDialog* d = new AboutDialog (this);
+		auto d = new AboutDialog (this);
 		d->ShowModal ();
 		d->Destroy ();
 	}
@@ -504,7 +508,7 @@ private:
 
 	void change_playlist (shared_ptr<SignalSPL> playlist)
 	{
-		shared_ptr<SignalSPL> old = _playlist_content->playlist ();
+		auto old = _playlist_content->playlist ();
 		if (old) {
 			save_playlist (old);
 		}
@@ -513,7 +517,7 @@ private:
 
 	void save_playlist (shared_ptr<SignalSPL> playlist)
 	{
-		optional<boost::filesystem::path> dir = Config::instance()->player_playlist_directory();
+		auto dir = Config::instance()->player_playlist_directory();
 		if (!dir) {
 			error_dialog (this, _("No playlist folder is specified in preferences.  Please set one and then try again."));
 			return;
@@ -523,7 +527,7 @@ private:
 
 	void setup_menu (wxMenuBar* m)
 	{
-		wxMenu* file = new wxMenu;
+		auto file = new wxMenu;
 #ifdef __WXOSX__
 		file->Append (wxID_EXIT, _("&Exit"));
 #else
@@ -531,11 +535,11 @@ private:
 #endif
 
 #ifndef __WXOSX__
-		wxMenu* edit = new wxMenu;
+		auto edit = new wxMenu;
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
-		wxMenu* help = new wxMenu;
+		auto help = new wxMenu;
 #ifdef __WXOSX__
 		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
 #else
@@ -565,13 +569,13 @@ private:
 		}
 	}
 
-
 	ContentDialog* _content_dialog;
 	PlaylistList* _playlist_list;
 	PlaylistContent* _playlist_content;
 	wxPreferencesEditor* _config_dialog;
 	boost::signals2::scoped_connection _config_changed_connection;
 };
+
 
 /** @class App
  *  @brief The magic App class for wxWidgets.
@@ -581,7 +585,7 @@ class App : public wxApp
 public:
 	App ()
 		: wxApp ()
-		, _frame (0)
+		, _frame (nullptr)
 	{}
 
 private:

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_J2K_ENCODER_H
 #define DCPOMATIC_J2K_ENCODER_H
+
 
 /** @file  src/j2k_encoder.h
  *  @brief J2KEncoder class.
  */
+
 
 #include "util.h"
 #include "cross.h"
@@ -37,6 +40,7 @@
 #include <list>
 #include <stdint.h>
 
+
 class Film;
 class EncodeServerDescription;
 class DCPVideo;
@@ -44,13 +48,13 @@ class Writer;
 class Job;
 class PlayerVideo;
 
+
 /** @class J2KEncoder
  *  @brief Class to manage encoding to J2K.
  *
  *  This class keeps a queue of frames to be encoded and distributes
  *  the work around threads and encoding servers.
  */
-
 class J2KEncoder : public boost::noncopyable, public ExceptionStore, public std::enable_shared_from_this<J2KEncoder>
 {
 public:
@@ -89,7 +93,7 @@ private:
 	std::shared_ptr<boost::thread_group> _threads;
 
 	mutable boost::mutex _queue_mutex;
-	std::list<std::shared_ptr<DCPVideo> > _queue;
+	std::list<std::shared_ptr<DCPVideo>> _queue;
 	/** condition to manage thread wakeups when we have nothing to do */
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */
@@ -103,5 +107,6 @@ private:
 
 	boost::signals2::scoped_connection _server_found_connection;
 };
+
 
 #endif

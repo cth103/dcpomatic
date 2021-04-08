@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "rect.h"
 #include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
@@ -26,14 +27,13 @@
 /** @class SubtitleAnalysis
  *  @brief Class to store the results of a SubtitleAnalysisJob.
  */
-
 class SubtitleAnalysis : public boost::noncopyable
 {
 public:
 	explicit SubtitleAnalysis (boost::filesystem::path path);
 
 	SubtitleAnalysis (
-			boost::optional<dcpomatic::Rect<double> > bounding_box,
+			boost::optional<dcpomatic::Rect<double>> bounding_box,
 			double analysis_x_offset_,
 			double analysis_y_offset_
 			)
@@ -44,7 +44,7 @@ public:
 
 	void write (boost::filesystem::path path) const;
 
-	boost::optional<dcpomatic::Rect<double> > bounding_box () const {
+	boost::optional<dcpomatic::Rect<double>> bounding_box () const {
 		return _bounding_box;
 	}
 
@@ -61,7 +61,7 @@ private:
 	 *  expressed as a proportion of screen size (i.e. 0 is left hand side/top,
 	 *  1 is right hand side/bottom), or empty if no subtitles were found.
 	 */
-	boost::optional<dcpomatic::Rect<double> > _bounding_box;
+	boost::optional<dcpomatic::Rect<double>> _bounding_box;
 	double _analysis_x_offset;
 	double _analysis_y_offset;
 

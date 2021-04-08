@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "dcpomatic_log.h"
 #include "ffmpeg_examiner.h"
@@ -40,11 +41,13 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
+using std::make_shared;
 using std::max;
-using std::vector;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -65,7 +68,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	/* Find audio and subtitle streams */
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		AVStream* s = _format_context->streams[i];
+		auto s = _format_context->streams[i];
 DCPOMATIC_DISABLE_WARNINGS
 		if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
 
@@ -82,15 +85,13 @@ DCPOMATIC_DISABLE_WARNINGS
 			DCPOMATIC_ASSERT (s->codec->codec->name);
 
 			_audio_streams.push_back (
-				shared_ptr<FFmpegAudioStream> (
-					new FFmpegAudioStream (
-						stream_name (s),
-						s->codec->codec->name,
-						s->id,
-						s->codec->sample_rate,
-						llrint ((double (_format_context->duration) / AV_TIME_BASE) * s->codec->sample_rate),
-						s->codec->channels
-						)
+				make_shared<FFmpegAudioStream>(
+					stream_name (s),
+					s->codec->codec->name,
+					s->id,
+					s->codec->sample_rate,
+					llrint ((double(_format_context->duration) / AV_TIME_BASE) * s->codec->sample_rate),
+					s->codec->channels
 					)
 				);
 
@@ -295,11 +296,13 @@ FFmpegExaminer::video_frame_rate () const
 	return av_q2d(av_guess_frame_rate(_format_context, _format_context->streams[_video_stream.get()], 0));
 }
 
+
 dcp::Size
 FFmpegExaminer::video_size () const
 {
 	return dcp::Size (video_codec_context()->width, video_codec_context()->height);
 }
+
 
 /** @return Length according to our content's header */
 Frame
@@ -308,17 +311,19 @@ FFmpegExaminer::video_length () const
 	return max (Frame (1), _video_length);
 }
 
+
 optional<double>
 FFmpegExaminer::sample_aspect_ratio () const
 {
 	DCPOMATIC_ASSERT (_video_stream);
-	AVRational sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream.get()], 0);
+	auto sar = av_guess_sample_aspect_ratio (_format_context, _format_context->streams[_video_stream.get()], 0);
 	if (sar.num == 0) {
 		/* I assume this means that we don't know */
 		return {};
 	}
 	return double (sar.num) / sar.den;
 }
+
 
 string
 FFmpegExaminer::subtitle_stream_name (AVStream* s) const
@@ -332,18 +337,19 @@ FFmpegExaminer::subtitle_stream_name (AVStream* s) const
 	return n;
 }
 
+
 string
 FFmpegExaminer::stream_name (AVStream* s) const
 {
 	string n;
 
 	if (s->metadata) {
-		AVDictionaryEntry const * lang = av_dict_get (s->metadata, "language", 0, 0);
+		auto const lang = av_dict_get (s->metadata, "language", 0, 0);
 		if (lang) {
 			n = lang->value;
 		}
 
-		AVDictionaryEntry const * title = av_dict_get (s->metadata, "title", 0, 0);
+		auto const title = av_dict_get (s->metadata, "title", 0, 0);
 		if (title) {
 			if (!n.empty()) {
 				n += " ";
@@ -355,17 +361,19 @@ FFmpegExaminer::stream_name (AVStream* s) const
 	return n;
 }
 
+
 optional<int>
 FFmpegExaminer::bits_per_pixel () const
 {
 	if (video_codec_context()->pix_fmt == -1) {
-		return optional<int>();
+		return {};
 	}
 
-	AVPixFmtDescriptor const * d = av_pix_fmt_desc_get (video_codec_context()->pix_fmt);
+	auto const d = av_pix_fmt_desc_get (video_codec_context()->pix_fmt);
 	DCPOMATIC_ASSERT (d);
 	return av_get_bits_per_pixel (d);
 }
+
 
 bool
 FFmpegExaminer::yuv () const
@@ -448,11 +456,13 @@ FFmpegExaminer::yuv () const
 	}
 }
 
+
 bool
 FFmpegExaminer::has_video () const
 {
-	return static_cast<bool> (_video_stream);
+	return static_cast<bool>(_video_stream);
 }
+
 
 VideoRange
 FFmpegExaminer::range () const

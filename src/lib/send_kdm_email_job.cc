@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "send_kdm_email_job.h"
 #include "compose.hpp"
 #include "kdm_with_metadata.h"
@@ -26,10 +27,12 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::list;
 using std::shared_ptr;
 using boost::optional;
+
 
 SendKDMEmailJob::SendKDMEmailJob (
 	list<KDMWithMetadataPtr> kdms,
@@ -48,6 +51,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 		_kdms.push_back (s);
 	}
 }
+
 
 /** @param kdms KDMs to email.
  *  @param container_name_format Format to ues for folders / ZIP files.
@@ -70,15 +74,17 @@ SendKDMEmailJob::SendKDMEmailJob (
 
 }
 
+
 SendKDMEmailJob::~SendKDMEmailJob ()
 {
 	stop_thread ();
 }
 
+
 string
 SendKDMEmailJob::name () const
 {
-	optional<string> f = _kdms.front().front()->get('f');
+	auto f = _kdms.front().front()->get('f');
 	if (!f || f->empty()) {
 		return _("Email KDMs");
 	}
@@ -86,11 +92,13 @@ SendKDMEmailJob::name () const
 	return String::compose (_("Email KDMs for %2"), *f);
 }
 
+
 string
 SendKDMEmailJob::json_name () const
 {
 	return N_("send_kdm_email");
 }
+
 
 void
 SendKDMEmailJob::run ()

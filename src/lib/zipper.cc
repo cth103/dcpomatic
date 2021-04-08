@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,14 @@
 
 */
 
+
 #include "zipper.h"
 #include "exceptions.h"
 #include "dcpomatic_assert.h"
 #include <zip.h>
 #include <boost/filesystem.hpp>
 #include <stdexcept>
+
 
 using std::string;
 using std::runtime_error;
@@ -49,7 +51,7 @@ Zipper::add (string name, string content)
 	shared_ptr<string> copy(new string(content));
 	_store.push_back (copy);
 
-	struct zip_source* source = zip_source_buffer (_zip, copy->c_str(), copy->length(), 0);
+	auto source = zip_source_buffer (_zip, copy->c_str(), copy->length(), 0);
 	if (!source) {
 		throw runtime_error ("could not create ZIP source");
 	}

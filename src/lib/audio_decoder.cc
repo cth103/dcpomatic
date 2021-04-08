@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_decoder.h"
 #include "audio_buffers.h"
 #include "audio_content.h"
@@ -29,6 +30,7 @@
 
 #include "i18n.h"
 
+
 using std::cout;
 using std::map;
 using std::pair;
@@ -36,6 +38,7 @@ using std::shared_ptr;
 using std::make_shared;
 using boost::optional;
 using namespace dcpomatic;
+
 
 AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> content, bool fast)
 	: DecoderPart (parent)
@@ -47,6 +50,7 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 		_positions[i] = 0;
 	}
 }
+
 
 /** @param time_already_delayed true if the delay should not be added to time */
 void
@@ -97,7 +101,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 
 	shared_ptr<Resampler> resampler;
 	auto i = _resamplers.find(stream);
-	if (i != _resamplers.end ()) {
+	if (i != _resamplers.end()) {
 		resampler = i->second;
 	} else {
 		if (stream->frame_rate() != resampled_rate) {
@@ -128,6 +132,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 	_positions[stream] += data->frames();
 }
 
+
 /** @return Time just after the last thing that was emitted from a given stream */
 ContentTime
 AudioDecoder::stream_position (shared_ptr<const Film> film, AudioStreamPtr stream) const
@@ -136,6 +141,7 @@ AudioDecoder::stream_position (shared_ptr<const Film> film, AudioStreamPtr strea
 	DCPOMATIC_ASSERT (i != _positions.end ());
 	return ContentTime::from_frames (i->second, _content->resampled_frame_rate(film));
 }
+
 
 boost::optional<ContentTime>
 AudioDecoder::position (shared_ptr<const Film> film) const
@@ -151,6 +157,7 @@ AudioDecoder::position (shared_ptr<const Film> film) const
 	return p;
 }
 
+
 void
 AudioDecoder::seek ()
 {
@@ -163,6 +170,7 @@ AudioDecoder::seek ()
 		i.second = 0;
 	}
 }
+
 
 void
 AudioDecoder::flush ()
@@ -180,6 +188,7 @@ AudioDecoder::flush ()
 		silence (-_content->delay ());
 	}
 }
+
 
 void
 AudioDecoder::silence (int milliseconds)

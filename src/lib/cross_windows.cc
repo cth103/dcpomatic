@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "cross.h"
 #include "compose.hpp"
@@ -47,21 +48,24 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using std::pair;
-using std::list;
-using std::ifstream;
-using std::string;
-using std::wstring;
-using std::make_pair;
-using std::vector;
 using std::cerr;
 using std::cout;
-using std::runtime_error;
+using std::ifstream;
+using std::list;
+using std::make_pair;
 using std::map;
+using std::runtime_error;
 using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::wstring;
 using boost::optional;
 
-static std::vector<pair<HANDLE, string> > locked_volumes;
+
+static std::vector<pair<HANDLE, string>> locked_volumes;
+
 
 /** @param s Number of seconds to sleep for */
 void
@@ -70,11 +74,13 @@ dcpomatic_sleep_seconds (int s)
 	Sleep (s * 1000);
 }
 
+
 void
 dcpomatic_sleep_milliseconds (int ms)
 {
 	Sleep (ms);
 }
+
 
 /** @return A string of CPU information (model name etc.) */
 string
@@ -109,6 +115,7 @@ cpu_info ()
 
 	return info;
 }
+
 
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
@@ -150,7 +157,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 		return;
 	}
 
-	FILE* o = fopen_boost (out, "w");
+	auto o = fopen_boost (out, "w");
 	if (!o) {
 		LOG_ERROR_NC (N_("ffprobe call failed (could not create output file)"));
 		return;
@@ -175,11 +182,11 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 	CloseHandle (child_stderr_read);
 }
 
-list<pair<string, string> >
+
+list<pair<string, string>>
 mount_info ()
 {
-	list<pair<string, string> > m;
-	return m;
+	return {};
 }
 
 
@@ -239,11 +246,13 @@ fopen_boost (boost::filesystem::path p, string t)
         return _wfopen (p.c_str(), w.c_str ());
 }
 
+
 int
 dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
 {
 	return _fseeki64 (stream, offset, whence);
 }
+
 
 void
 Waker::nudge ()
@@ -252,10 +261,12 @@ Waker::nudge ()
 	SetThreadExecutionState (ES_SYSTEM_REQUIRED);
 }
 
+
 Waker::Waker ()
 {
 
 }
+
 
 Waker::~Waker ()
 {
@@ -266,7 +277,7 @@ Waker::~Waker ()
 void
 start_tool (string executable)
 {
-	boost::filesystem::path batch = directory_containing_executable() / executable;
+	auto batch = directory_containing_executable() / executable;
 
 	STARTUPINFO startup_info;
 	ZeroMemory (&startup_info, sizeof (startup_info));
@@ -301,6 +312,7 @@ thread_id ()
 	return (uint64_t) GetCurrentThreadId ();
 }
 
+
 static string
 wchar_to_utf8 (wchar_t const * s)
 {
@@ -312,11 +324,13 @@ wchar_to_utf8 (wchar_t const * s)
 	return u;
 }
 
+
 int
 avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
 {
 	return avio_open (s, wchar_to_utf8(file.c_str()).c_str(), flags);
 }
+
 
 void
 maybe_open_console ()
@@ -324,25 +338,27 @@ maybe_open_console ()
 	if (Config::instance()->win32_console ()) {
 		AllocConsole();
 
-		HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+		auto handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
 		int hCrt = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
-		FILE* hf_out = _fdopen(hCrt, "w");
+		auto hf_out = _fdopen(hCrt, "w");
 		setvbuf(hf_out, NULL, _IONBF, 1);
 		*stdout = *hf_out;
 
-		HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+		auto handle_in = GetStdHandle(STD_INPUT_HANDLE);
 		hCrt = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
-		FILE* hf_in = _fdopen(hCrt, "r");
+		auto hf_in = _fdopen(hCrt, "r");
 		setvbuf(hf_in, NULL, _IONBF, 128);
 		*stdin = *hf_in;
 	}
 }
+
 
 boost::filesystem::path
 home_directory ()
 {
 	return boost::filesystem::path(getenv("HOMEDRIVE")) / boost::filesystem::path(getenv("HOMEPATH"));
 }
+
 
 /** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
 bool
@@ -352,6 +368,7 @@ running_32_on_64 ()
 	IsWow64Process (GetCurrentProcess(), &p);
 	return p;
 }
+
 
 static optional<string>
 get_friendly_name (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
@@ -367,9 +384,11 @@ get_friendly_name (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	return wchar_to_utf8 (buffer);
 }
 
+
 static const GUID GUID_DEVICE_INTERFACE_DISK = {
 	0x53F56307L, 0xB6BF, 0x11D0, { 0x94, 0xF2, 0x00, 0xA0, 0xC9, 0x1E, 0xFB, 0x8B }
 };
+
 
 static optional<int>
 get_device_number (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
@@ -379,7 +398,7 @@ get_device_number (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	SP_DEVICE_INTERFACE_DATA device_interface_data;
 	device_interface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
 
-	BOOL r = SetupDiEnumDeviceInterfaces (device_info, device_info_data, &GUID_DEVICE_INTERFACE_DISK, 0, &device_interface_data);
+	auto r = SetupDiEnumDeviceInterfaces (device_info, device_info_data, &GUID_DEVICE_INTERFACE_DISK, 0, &device_interface_data);
 	if (!r) {
 		LOG_DISK("SetupDiEnumDeviceInterfaces failed (%1)", GetLastError());
 		return optional<int>();
@@ -407,7 +426,7 @@ get_device_number (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	/* Open it.  We would not be allowed GENERIC_READ access here but specifying 0 for
 	   dwDesiredAccess allows us to query some metadata.
 	*/
-	HANDLE device = CreateFileW (
+	auto device = CreateFileW (
 			device_detail_data->DevicePath, 0,
 			FILE_SHARE_READ | FILE_SHARE_WRITE, 0,
 			OPEN_EXISTING, 0, 0
@@ -430,13 +449,15 @@ get_device_number (HDEVINFO device_info, SP_DEVINFO_DATA* device_info_data)
 	CloseHandle (device);
 
 	if (!r) {
-		return optional<int>();
+		return {};
 	}
 
 	return device_number.DeviceNumber;
 }
 
-typedef map<int, vector<boost::filesystem::path> > MountPoints;
+
+typedef map<int, vector<boost::filesystem::path>> MountPoints;
+
 
 /** Take a volume path (with a trailing \) and add any disk numbers related to that volume
  *  to @ref disks.
@@ -463,7 +484,7 @@ add_volume_mount_points (wchar_t* volume, MountPoints& mount_points)
 	DCPOMATIC_ASSERT (len > 0);
 	volume[len - 1] = L'\0';
 
-	HANDLE handle = CreateFileW (
+	auto handle = CreateFileW (
 			volume, 0,
 			FILE_SHARE_READ | FILE_SHARE_WRITE, 0,
 			OPEN_EXISTING, 0, 0
@@ -483,13 +504,14 @@ add_volume_mount_points (wchar_t* volume, MountPoints& mount_points)
 	mount_points[extents.Extents[0].DiskNumber] = mp;
 }
 
+
 MountPoints
 find_mount_points ()
 {
 	MountPoints mount_points;
 
 	wchar_t volume_name[512];
-	HANDLE volume = FindFirstVolumeW (volume_name, sizeof(volume_name) / sizeof(wchar_t));
+	auto volume = FindFirstVolumeW (volume_name, sizeof(volume_name) / sizeof(wchar_t));
 	if (volume == INVALID_HANDLE_VALUE) {
 		return MountPoints();
 	}
@@ -506,15 +528,16 @@ find_mount_points ()
 	return mount_points;
 }
 
+
 vector<Drive>
 Drive::get ()
 {
 	vector<Drive> drives;
 
-	MountPoints mount_points = find_mount_points ();
+	auto mount_points = find_mount_points ();
 
 	/* Get a `device information set' containing information about all disks */
-	HDEVINFO device_info = SetupDiGetClassDevsA (&GUID_DEVICE_INTERFACE_DISK, 0, 0, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
+	auto device_info = SetupDiGetClassDevsA (&GUID_DEVICE_INTERFACE_DISK, 0, 0, DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
 	if (device_info == INVALID_HANDLE_VALUE) {
 		LOG_DISK_NC ("SetupDiClassDevsA failed");
 		return drives;
@@ -534,8 +557,8 @@ Drive::get ()
 		}
 		++i;
 
-		optional<string> const friendly_name = get_friendly_name (device_info, &device_info_data);
-		optional<int> device_number = get_device_number (device_info, &device_info_data);
+		auto const friendly_name = get_friendly_name (device_info, &device_info_data);
+		auto device_number = get_device_number (device_info, &device_info_data);
 		if (!device_number) {
 			continue;
 		}
@@ -562,8 +585,8 @@ Drive::get ()
 
 		LOG_DISK("Having a look through %1 locked volumes", locked_volumes.size());
 		bool locked = false;
-		for (vector<pair<HANDLE, string> >::const_iterator i = locked_volumes.begin(); i != locked_volumes.end(); ++i) {
-			if (i->second == physical_drive) {
+		for (auto const& i: locked_volumes) {
+			if (i.second == physical_drive) {
 				locked = true;
 			}
 		}
@@ -619,11 +642,12 @@ config_path ()
 	return p;
 }
 
+
 void
 disk_write_finished ()
 {
-	for (vector<pair<HANDLE, string> >::const_iterator i = locked_volumes.begin(); i != locked_volumes.end(); ++i) {
-		CloseHandle (i->first);
+	for (auto const& i: locked_volumes) {
+		CloseHandle (i.first);
 	}
 }
 

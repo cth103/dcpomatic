@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "kdm_with_metadata.h"
 #include "cinema.h"
 #include "screen.h"
@@ -31,12 +32,14 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::cout;
 using std::list;
 using std::shared_ptr;
 using boost::optional;
 using boost::function;
+
 
 int
 write_files (
@@ -64,7 +67,7 @@ write_files (
 
 	/* Write KDMs to the specified directory */
 	for (auto i: kdms) {
-		boost::filesystem::path out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
+		auto out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
 			i->kdm_as_xml (out);
 			++written;
@@ -78,9 +81,9 @@ write_files (
 optional<string>
 KDMWithMetadata::get (char k) const
 {
-	dcp::NameFormat::Map::const_iterator i = _name_values.find (k);
+	auto i = _name_values.find (k);
 	if (i == _name_values.end()) {
-		return optional<string>();
+		return {};
 	}
 
 	return i->second;
@@ -93,7 +96,7 @@ make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, 
 	Zipper zipper (zip_file);
 
 	for (auto i: kdms) {
-		string const name = careful_string_filter(name_format.get(i->name_values(), ".xml"));
+		auto const name = careful_string_filter(name_format.get(i->name_values(), ".xml"));
 		zipper.add (name, i->kdm_as_xml());
 	}
 
@@ -104,14 +107,14 @@ make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, 
 /** Collect a list of KDMWithMetadatas into a list of lists so that
  *  each list contains the KDMs for one list.
  */
-list<list<KDMWithMetadataPtr> >
+list<list<KDMWithMetadataPtr>>
 collect (list<KDMWithMetadataPtr> kdms)
 {
-	list<list<KDMWithMetadataPtr> > grouped;
+	list<list<KDMWithMetadataPtr>> grouped;
 
 	for (auto i: kdms) {
 
-		list<list<KDMWithMetadataPtr> >::iterator j = grouped.begin ();
+		auto j = grouped.begin ();
 
 		while (j != grouped.end()) {
 			if (j->front()->group() == i->group()) {
@@ -134,7 +137,7 @@ collect (list<KDMWithMetadataPtr> kdms)
 /** Write one directory per list into another directory */
 int
 write_directories (
-	list<list<KDMWithMetadataPtr> > kdms,
+	list<list<KDMWithMetadataPtr>> kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -160,7 +163,7 @@ write_directories (
 /** Write one ZIP file per cinema into a directory */
 int
 write_zip_files (
-	list<list<KDMWithMetadataPtr> > kdms,
+	list<list<KDMWithMetadataPtr>> kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -170,7 +173,7 @@ write_zip_files (
 	int written = 0;
 
 	for (auto const& i: kdms) {
-		boost::filesystem::path path = directory;
+		auto path = directory;
 		path /= container_name_format.get(i.front()->name_values(), ".zip", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			if (boost::filesystem::exists (path)) {
@@ -195,13 +198,13 @@ write_zip_files (
  */
 void
 email (
-	list<list<KDMWithMetadataPtr> > kdms,
+	list<list<KDMWithMetadataPtr>> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	string cpl_name
 	)
 {
-	Config* config = Config::instance ();
+	auto config = Config::instance ();
 
 	if (config->mail_server().empty()) {
 		throw NetworkError (_("No mail server configured in preferences"));
@@ -213,18 +216,18 @@ email (
 			continue;
 		}
 
-		boost::filesystem::path zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+		auto zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		boost::filesystem::create_directories (zip_file);
 		zip_file /= container_name_format.get(i.front()->name_values(), ".zip");
 		make_zip_file (i, zip_file, filename_format);
 
-		string subject = config->kdm_subject();
+		auto subject = config->kdm_subject();
 		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (subject, "$START_TIME", i.front()->get('b').get_value_or(""));
 		boost::algorithm::replace_all (subject, "$END_TIME", i.front()->get('e').get_value_or(""));
 		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
 
-		string body = config->kdm_email().c_str();
+		auto body = config->kdm_email();
 		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
 		boost::algorithm::replace_all (body, "$START_TIME", i.front()->get('b').get_value_or(""));
 		boost::algorithm::replace_all (body, "$END_TIME", i.front()->get('e').get_value_or(""));
@@ -232,7 +235,7 @@ email (
 
 		string screens;
 		for (auto j: i) {
-			optional<string> screen_name = j->get('n');
+			auto screen_name = j->get('n');
 			if (screen_name) {
 				screens += *screen_name + ", ";
 			}
@@ -244,16 +247,14 @@ email (
 		for (auto i: config->kdm_cc()) {
 			email.add_cc (i);
 		}
-		if (!config->kdm_bcc().empty ()) {
-			email.add_bcc (config->kdm_bcc ());
+		if (!config->kdm_bcc().empty()) {
+			email.add_bcc (config->kdm_bcc());
 		}
 
 		email.add_attachment (zip_file, container_name_format.get(i.front()->name_values(), ".zip"), "application/zip");
 
-		Config* c = Config::instance ();
-
 		try {
-			email.send (c->mail_server(), c->mail_port(), c->mail_protocol(), c->mail_user(), c->mail_password());
+			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (...) {
 			boost::filesystem::remove (zip_file);
 			dcpomatic_log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);

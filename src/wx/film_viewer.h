@@ -95,7 +95,7 @@ public:
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 	boost::optional<int> dcp_decode_reduction () const;
 	void set_outline_content (bool o);
-	void set_outline_subtitles (boost::optional<dcpomatic::Rect<double> >);
+	void set_outline_subtitles (boost::optional<dcpomatic::Rect<double>>);
 	void set_eyes (Eyes e);
 	void set_pad_black (bool p);
 
@@ -121,7 +121,7 @@ public:
 	bool outline_content () const {
 		return _outline_content;
 	}
-	boost::optional<dcpomatic::Rect<double> > outline_subtitles () const {
+	boost::optional<dcpomatic::Rect<double>> outline_subtitles () const {
 		return _outline_subtitles;
 	}
 	bool pad_black () const {
@@ -171,38 +171,38 @@ private:
 	std::shared_ptr<Film> _film;
 	std::shared_ptr<Player> _player;
 
-	VideoView* _video_view;
-	bool _coalesce_player_changes;
+	VideoView* _video_view = nullptr;
+	bool _coalesce_player_changes = false;
 	std::vector<int> _pending_player_changes;
 
 	/** Size of our output (including padding if we have any) */
 	dcp::Size _out_size;
 
 	RtAudio _audio;
-	int _audio_channels;
-	unsigned int _audio_block_size;
-	bool _playing;
-	int _suspended;
+	int _audio_channels = 0;
+	unsigned int _audio_block_size = 1024;
+	bool _playing = false;
+	int _suspended = 0;
 	std::shared_ptr<Butler> _butler;
 
 	std::list<Frame> _latency_history;
 	/** Mutex to protect _latency_history */
 	mutable boost::mutex _latency_history_mutex;
-	int _latency_history_count;
+	int _latency_history_count = 0;
 
 	boost::optional<int> _dcp_decode_reduction;
 
-	ClosedCaptionsDialog* _closed_captions_dialog;
+	ClosedCaptionsDialog* _closed_captions_dialog = nullptr;
 
-	bool _outline_content;
-	boost::optional<dcpomatic::Rect<double> > _outline_subtitles;
+	bool _outline_content = false;
+	boost::optional<dcpomatic::Rect<double>> _outline_subtitles;
 	/** true to pad the viewer panel with black, false to use
 	    the normal window background colour.
 	*/
-	bool _pad_black;
+	bool _pad_black = false;
 
 	/** true if an get() is required next time we are idle */
-	bool _idle_get;
+	bool _idle_get = false;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

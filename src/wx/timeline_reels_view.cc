@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #include "timeline_reels_view.h"
 #include "timeline.h"
 #include <wx/wx.h>
 #include <wx/graphics.h>
 
+
 using std::min;
 using std::list;
 using namespace dcpomatic;
+
 
 TimelineReelsView::TimelineReelsView (Timeline& tl, int y)
 	: TimelineView (tl)
@@ -34,11 +37,13 @@ TimelineReelsView::TimelineReelsView (Timeline& tl, int y)
 
 }
 
+
 dcpomatic::Rect<int>
 TimelineReelsView::bbox () const
 {
 	return dcpomatic::Rect<int> (0, _y - 4, _timeline.width(), 24);
 }
+
 
 void
 TimelineReelsView::set_y (int y)
@@ -47,8 +52,9 @@ TimelineReelsView::set_y (int y)
 	force_redraw ();
 }
 
+
 void
-TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
+TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>>)
 {
 	if (!_timeline.pixels_per_second()) {
 		return;
@@ -58,7 +64,7 @@ TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 
 	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 255), 1, wxPENSTYLE_SOLID));
 
-	wxGraphicsPath path = gc->CreatePath ();
+	auto path = gc->CreatePath ();
 	path.MoveToPoint (time_x (DCPTime (0)), _y);
 	path.AddLineToPoint (time_x (_timeline.film()->length()), _y);
 	gc->StrokePath (path);
@@ -69,7 +75,7 @@ TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 	for (auto i: _timeline.film()->reels()) {
 		int const size = min (8.0, i.duration().seconds() * pps / 2);
 
-		wxGraphicsPath path = gc->CreatePath ();
+		auto path = gc->CreatePath ();
 		path.MoveToPoint (time_x (i.from) + size, _y + size / 2);
 		path.AddLineToPoint (time_x (i.from), _y);
 		path.AddLineToPoint (time_x (i.from) + size, _y - size / 2);
@@ -81,17 +87,17 @@ TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
 		path.AddLineToPoint (time_x (i.to) - size, _y - size / 2);
 		gc->StrokePath (path);
 
-		wxString str = wxString::Format (_("Reel %d"), reel++);
+		auto str = wxString::Format (_("Reel %d"), reel++);
 		wxDouble str_width;
 		wxDouble str_height;
 		wxDouble str_descent;
 		wxDouble str_leading;
 		gc->GetTextExtent (str, &str_width, &str_height, &str_descent, &str_leading);
 
-		int const available_width = time_x (DCPTime (i.to.get())) - time_x (DCPTime (i.from.get()));
+		int const available_width = time_x(DCPTime(i.to.get())) - time_x(DCPTime(i.from.get()));
 
 		if (available_width > str_width) {
-			gc->DrawText (str, time_x (DCPTime (i.from.get())) + (available_width - str_width) / 2, _y + 4);
+			gc->DrawText (str, time_x(DCPTime(i.from.get())) + (available_width - str_width) / 2, _y + 4);
 		}
 	}
 }

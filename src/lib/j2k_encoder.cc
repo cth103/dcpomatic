@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/j2k_encoder.cc
  *  @brief J2K encoder class.
  */
+
 
 #include "j2k_encoder.h"
 #include "util.h"
@@ -41,6 +43,7 @@
 
 #include "i18n.h"
 
+
 using std::list;
 using std::cout;
 using std::exception;
@@ -50,6 +53,7 @@ using std::make_shared;
 using boost::optional;
 using dcp::Data;
 using namespace dcpomatic;
+
 
 /** @param film Film that we are encoding.
  *  @param writer Writer that we are using.
@@ -62,20 +66,23 @@ J2KEncoder::J2KEncoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 	servers_list_changed ();
 }
 
+
 J2KEncoder::~J2KEncoder ()
 {
 	boost::mutex::scoped_lock lm (_threads_mutex);
 	terminate_threads ();
 }
 
+
 void
 J2KEncoder::begin ()
 {
-	weak_ptr<J2KEncoder> wp = shared_from_this ();
+	auto wp = shared_from_this ();
 	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
 		boost::bind (&J2KEncoder::call_servers_list_changed, wp)
 		);
 }
+
 
 /* We don't want the servers-list-changed callback trying to do things
    during destruction of J2KEncoder, and I think this is the neatest way
@@ -89,6 +96,7 @@ J2KEncoder::call_servers_list_changed (weak_ptr<J2KEncoder> encoder)
 		e->servers_list_changed ();
 	}
 }
+
 
 void
 J2KEncoder::end ()
@@ -142,6 +150,7 @@ J2KEncoder::end ()
 	}
 }
 
+
 /** @return an estimate of the current number of frames we are encoding per second,
  *  if known.
  */
@@ -150,6 +159,7 @@ J2KEncoder::current_encoding_rate () const
 {
 	return _history.rate ();
 }
+
 
 /** @return Number of video frames that have been queued for encoding */
 int
@@ -162,12 +172,14 @@ J2KEncoder::video_frames_enqueued () const
 	return _last_player_video_time->frames_floor (_film->video_frame_rate ());
 }
 
+
 /** Should be called when a frame has been encoded successfully */
 void
 J2KEncoder::frame_done ()
 {
 	_history.event ();
 }
+
 
 /** Called to request encoding of the next video frame in the DCP.  This is called in order,
  *  so each time the supplied frame is the one after the previous one.
@@ -265,6 +277,7 @@ J2KEncoder::terminate_threads ()
 
 	_threads.reset ();
 }
+
 
 void
 J2KEncoder::encoder_thread (optional<EncodeServerDescription> server)
@@ -372,6 +385,7 @@ catch (...)
 	/* Wake anything waiting on _full_condition so it can see the exception */
 	_full_condition.notify_all ();
 }
+
 
 void
 J2KEncoder::servers_list_changed ()

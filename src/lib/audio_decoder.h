@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file src/lib/audio_decoder.h
  *  @brief Parent class for audio decoders.
  */
 
+
 #ifndef DCPOMATIC_AUDIO_DECODER_H
 #define DCPOMATIC_AUDIO_DECODER_H
+
 
 #include "decoder.h"
 #include "content_audio.h"
@@ -31,12 +34,14 @@
 #include "decoder_part.h"
 #include <boost/signals2.hpp>
 
+
 class AudioBuffers;
 class AudioContent;
 class AudioDecoderStream;
 class Log;
 class Film;
 class Resampler;
+
 
 /** @class AudioDecoder.
  *  @brief Parent class for audio decoders.
@@ -64,10 +69,11 @@ private:
 	 */
 	typedef std::map<AudioStreamPtr, Frame> PositionMap;
 	PositionMap _positions;
-	typedef std::map<AudioStreamPtr, std::shared_ptr<Resampler> > ResamplerMap;
+	typedef std::map<AudioStreamPtr, std::shared_ptr<Resampler>> ResamplerMap;
 	ResamplerMap _resamplers;
 
 	bool _fast;
 };
+
 
 #endif

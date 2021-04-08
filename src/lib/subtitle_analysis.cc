@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "subtitle_analysis.h"
 #include "exceptions.h"
 #include "warnings.h"
@@ -27,9 +28,12 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using dcp::raw_convert;
-using std::shared_ptr;
+
 
 int const SubtitleAnalysis::_current_state_version = 1;
 
@@ -62,13 +66,13 @@ SubtitleAnalysis::SubtitleAnalysis (boost::filesystem::path path)
 void
 SubtitleAnalysis::write (boost::filesystem::path path) const
 {
-	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
+	auto doc = make_shared<xmlpp::Document>();
 	xmlpp::Element* root = doc->create_root_node ("SubtitleAnalysis");
 
 	root->add_child("Version")->add_child_text (raw_convert<string>(_current_state_version));
 
 	if (_bounding_box) {
-		xmlpp::Element* bounding_box = root->add_child("BoundingBox");
+		auto bounding_box = root->add_child("BoundingBox");
 		bounding_box->add_child("X")->add_child_text(raw_convert<string>(_bounding_box->x));
 		bounding_box->add_child("Y")->add_child_text(raw_convert<string>(_bounding_box->y));
 		bounding_box->add_child("Width")->add_child_text(raw_convert<string>(_bounding_box->width));
@@ -80,5 +84,4 @@ SubtitleAnalysis::write (boost::filesystem::path path) const
 
 	doc->write_to_file_formatted (path.string());
 }
-
 

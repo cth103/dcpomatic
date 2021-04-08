@@ -18,19 +18,27 @@
 
 */
 
+
 #ifndef DCPOMATIC_DCP_H
 #define DCPOMATIC_DCP_H
 
-#include <dcp/cpl.h>
+
 #include <list>
-#include <iostream>
+#include <memory>
+
+
+namespace dcp {
+	class CPL;
+}
+
 
 class DCPContent;
+
 
 class DCP
 {
 public:
-	std::list<std::shared_ptr<dcp::CPL> > cpls () const;
+	std::list<std::shared_ptr<dcp::CPL>> cpls () const;
 
 protected:
 	explicit DCP (std::shared_ptr<const DCPContent> content, bool tolerant)
@@ -43,5 +51,6 @@ protected:
 private:
 	bool _tolerant;
 };
+
 
 #endif

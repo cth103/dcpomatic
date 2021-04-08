@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,20 @@
 
 */
 
+
 #include "dcpomatic_time.h"
 #include <iostream>
 
+
 namespace dcpomatic {
+
 
 /** @param periods Set of periods in ascending order of from time */
 template <class T>
-std::list<TimePeriod<T> > coalesce (std::list<TimePeriod<T> > periods)
+std::list<TimePeriod<T>> coalesce (std::list<TimePeriod<T>> periods)
 {
 	bool did_something;
-	std::list<TimePeriod<T> > coalesced;
+	std::list<TimePeriod<T>> coalesced;
 	do {
 		coalesced.clear ();
 		did_something = false;
@@ -48,5 +51,6 @@ std::list<TimePeriod<T> > coalesce (std::list<TimePeriod<T> > periods)
 
 	return periods;
 }
+
 
 }

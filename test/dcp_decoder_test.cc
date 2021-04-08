@@ -34,6 +34,7 @@
 #include "lib/job_manager.h"
 #include "lib/config.h"
 #include "test.h"
+#include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>

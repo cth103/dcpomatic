@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,21 @@
 
 */
 
+
 /** @file src/timer.h
  *  @brief Some timing classes for debugging and profiling.
  */
 
+
 #ifndef DCPOMATIC_TIMER_H
 #define DCPOMATIC_TIMER_H
+
 
 #include <sys/time.h>
 #include <boost/optional.hpp>
 #include <string>
 #include <map>
+
 
 /** @class PeriodTimer
  *  @brief A class to allow timing of a period within the caller.

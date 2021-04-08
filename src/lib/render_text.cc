@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,15 @@
 
 */
 
+
+#include "cross.h"
+#include "dcpomatic_assert.h"
+#include "font.h"
+#include "image.h"
 #include "render_text.h"
 #include "types.h"
-#include "image.h"
-#include "cross.h"
-#include "font.h"
-#include "dcpomatic_assert.h"
-#include "warnings.h"
 #include "util.h"
+#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
@@ -39,21 +40,25 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
-using std::list;
-using std::cout;
-using std::string;
-using std::min;
-using std::max;
-using std::pair;
+
 using std::cerr;
+using std::cout;
+using std::list;
 using std::make_pair;
+using std::make_shared;
+using std::max;
+using std::min;
+using std::pair;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using boost::algorithm::replace_all;
 using namespace dcpomatic;
 
-static FcConfig* fc_config = 0;
-static list<pair<boost::filesystem::path, string> > fc_config_fonts;
+
+static FcConfig* fc_config = nullptr;
+static list<pair<boost::filesystem::path, string>> fc_config_fonts;
+
 
 string
 marked_up (list<StringText> subtitles, int target_height, float fade_factor)
@@ -86,6 +91,7 @@ marked_up (list<StringText> subtitles, int target_height, float fade_factor)
 	return out;
 }
 
+
 static void
 set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, float fade_factor)
 {
@@ -97,7 +103,7 @@ static shared_ptr<Image>
 create_image (dcp::Size size)
 {
 	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha */
-	shared_ptr<Image> image (new Image(AV_PIX_FMT_BGRA, size, false));
+	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, size, false);
 	image->make_black ();
 	return image;
 }
@@ -107,7 +113,7 @@ static Cairo::RefPtr<Cairo::ImageSurface>
 create_surface (shared_ptr<Image> image)
 {
 #ifdef DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH
-	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
+	auto surface = Cairo::ImageSurface::create (
 		image->data()[0],
 		Cairo::FORMAT_ARGB32,
 		image->size().width,
@@ -119,7 +125,7 @@ create_surface (shared_ptr<Image> image)
 	/* Centos 5 does not have Cairo::ImageSurface::format_stride_for_width, so just use width * 4
 	   which I hope is safe (if slow)
 	*/
-	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
+	auto surface = Cairo::ImageSurface::create (
 		image->data()[0],
 		Cairo::FORMAT_ARGB32,
 		image->size().width,
@@ -133,22 +139,22 @@ create_surface (shared_ptr<Image> image)
 
 
 static string
-setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
+setup_font (StringText const& subtitle, list<shared_ptr<Font>> const& fonts)
 {
 	if (!fc_config) {
 		fc_config = FcInitLoadConfig ();
 	}
 
-	optional<boost::filesystem::path> font_file = default_font_file ();
+	auto font_file = default_font_file ();
 
 	for (auto i: fonts) {
 		if (i->id() == subtitle.font() && i->file()) {
-			font_file = i->file ();
+			font_file = i->file().get();
 		}
 	}
 
-	list<pair<boost::filesystem::path, string> >::const_iterator existing = fc_config_fonts.begin ();
-	while (existing != fc_config_fonts.end() && existing->first != *font_file) {
+	auto existing = fc_config_fonts.cbegin ();
+	while (existing != fc_config_fonts.end() && existing->first != font_file) {
 		++existing;
 	}
 
@@ -157,12 +163,12 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
 		font_name = existing->second;
 	} else {
 		/* Make this font available to DCP-o-matic */
-		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *>(font_file->string().c_str()));
-		FcPattern* pattern = FcPatternBuild (
-			0, FC_FILE, FcTypeString, font_file->string().c_str(), static_cast<char *> (0)
+		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *>(font_file.string().c_str()));
+		auto pattern = FcPatternBuild (
+			0, FC_FILE, FcTypeString, font_file.string().c_str(), static_cast<char *>(0)
 			);
-		FcObjectSet* object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
-		FcFontSet* font_set = FcFontList (fc_config, pattern, object_set);
+		auto object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
+		auto font_set = FcFontList (fc_config, pattern, object_set);
 		if (font_set) {
 			for (int i = 0; i < font_set->nfont; ++i) {
 				FcPattern* font = font_set->fonts[i];
@@ -184,7 +190,7 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font> > const& fonts)
 		FcObjectSetDestroy (object_set);
 		FcPatternDestroy (pattern);
 
-		fc_config_fonts.push_back (make_pair(*font_file, font_name));
+		fc_config_fonts.push_back (make_pair(font_file, font_name));
 	}
 
 	FcConfigSetCurrent (fc_config);
@@ -200,10 +206,10 @@ calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
 	/* Round the fade start/end to the nearest frame start.  Otherwise if a subtitle starts just after
 	   the start of a frame it will be faded out.
 	*/
-	DCPTime const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
-	DCPTime const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
-	DCPTime const fade_out_end =  DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
-	DCPTime const fade_out_start = fade_out_end - DCPTime::from_seconds (first.fade_down_time().as_seconds ());
+	auto const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
+	auto const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
+	auto const fade_out_end =  DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
+	auto const fade_out_start = fade_out_end - DCPTime::from_seconds (first.fade_down_time().as_seconds ());
 
 	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
 		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
@@ -223,7 +229,7 @@ static int
 x_position (StringText const& first, int target_width, int layout_width)
 {
 	int x = 0;
-	switch (first.h_align ()) {
+	switch (first.h_align()) {
 	case dcp::HAlign::LEFT:
 		/* h_position is distance between left of frame and left of subtitle */
 		x = first.h_position() * target_width;
@@ -242,12 +248,11 @@ x_position (StringText const& first, int target_width, int layout_width)
 }
 
 
-
 static int
 y_position (StringText const& first, int target_height, int layout_height)
 {
 	int y = 0;
-	switch (first.v_align ()) {
+	switch (first.v_align()) {
 	case dcp::VAlign::TOP:
 		/* SMPTE says that v_position is the distance between top
 		   of frame and top of subtitle, but this doesn't always seem to be
@@ -280,6 +285,7 @@ setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string marku
 	layout->set_markup (markup);
 }
 
+
 /** Create a Pango layout using a dummy context which we can use to calculate the size
  *  of the text we will render.  Then we can transfer the layout over to the real context
  *  for the actual render.
@@ -287,12 +293,12 @@ setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string marku
 static Glib::RefPtr<Pango::Layout>
 create_layout()
 {
-	PangoFontMap* c_font_map = pango_cairo_font_map_new ();
+	auto c_font_map = pango_cairo_font_map_new ();
 	DCPOMATIC_ASSERT (c_font_map);
-	Glib::RefPtr<Pango::FontMap> font_map = Glib::wrap (c_font_map);
-	PangoContext* c_context = pango_font_map_create_context (c_font_map);
+	auto font_map = Glib::wrap (c_font_map);
+	auto c_context = pango_font_map_create_context (c_font_map);
 	DCPOMATIC_ASSERT (c_context);
-	Glib::RefPtr<Pango::Context> context = Glib::wrap (c_context);
+	auto context = Glib::wrap (c_context);
 	return Pango::Layout::create (context);
 }
 
@@ -301,19 +307,19 @@ create_layout()
  *  at the same time and with the same fade in/out.
  */
 static PositionImage
-render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_line (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
 	*/
 
 	DCPOMATIC_ASSERT (!subtitles.empty ());
-	StringText const& first = subtitles.front ();
+	auto const& first = subtitles.front ();
 
-	string const font_name = setup_font (first, fonts);
-	float const fade_factor = calculate_fade_factor (first, time, frame_rate);
-	string const markup = marked_up (subtitles, target.height, fade_factor);
-	Glib::RefPtr<Pango::Layout> layout = create_layout ();
+	auto const font_name = setup_font (first, fonts);
+	auto const fade_factor = calculate_fade_factor (first, time, frame_rate);
+	auto const markup = marked_up (subtitles, target.height, fade_factor);
+	auto layout = create_layout ();
 	setup_layout (layout, font_name, markup);
 	dcp::Size size;
 	layout->get_pixel_size (size.width, size.height);
@@ -333,7 +339,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		}
 	}
 
-	float const border_width = first.effect() == dcp::Effect::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
+	auto const border_width = first.effect() == dcp::Effect::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
 	size.width += 2 * ceil (border_width);
 	size.height += 2 * ceil (border_width);
 
@@ -348,9 +354,9 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 	size.width += x_offset;
 	size.height += y_offset;
 
-	shared_ptr<Image> image = create_image (size);
-	Cairo::RefPtr<Cairo::Surface> surface = create_surface (image);
-	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
+	auto image = create_image (size);
+	auto surface = create_surface (image);
+	auto context = Cairo::Context::create (surface);
 
 	context->set_line_width (1);
 	context->scale (x_scale, y_scale);
@@ -398,7 +404,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
  *  @param frame_rate DCP frame rate.
  */
 list<PositionImage>
-render_text (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_text (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size target, DCPTime time, int frame_rate)
 {
 	list<StringText> pending;
 	list<PositionImage> images;
@@ -411,7 +417,7 @@ render_text (list<StringText> subtitles, list<shared_ptr<Font> > fonts, dcp::Siz
 		pending.push_back (i);
 	}
 
-	if (!pending.empty ()) {
+	if (!pending.empty()) {
 		images.push_back (render_line (pending, fonts, target, time, frame_rate));
 	}
 

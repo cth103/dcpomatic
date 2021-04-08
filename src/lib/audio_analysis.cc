@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_analysis.h"
 #include "cross.h"
 #include "util.h"
@@ -35,27 +36,32 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 #include <inttypes.h>
 
-using std::ostream;
+
+using std::cout;
+using std::dynamic_pointer_cast;
 using std::istream;
+using std::list;
+using std::make_pair;
+using std::make_shared;
+using std::max;
+using std::ostream;
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::cout;
-using std::max;
-using std::pair;
-using std::make_pair;
-using std::list;
-using std::shared_ptr;
 using boost::optional;
-using std::dynamic_pointer_cast;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 int const AudioAnalysis::_current_state_version = 3;
+
 
 AudioAnalysis::AudioAnalysis (int channels)
 {
 	_data.resize (channels);
 }
+
 
 AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
@@ -79,25 +85,26 @@ AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 
 	for (auto i: f.node_children ("SamplePeak")) {
 		_sample_peak.push_back (
-			PeakTime (
+			PeakTime(
 				dcp::raw_convert<float>(i->content()), DCPTime(i->number_attribute<Frame>("Time"))
 				)
 			);
 	}
 
-	for (auto i: f.node_children ("TruePeak")) {
-		_true_peak.push_back (dcp::raw_convert<float> (i->content ()));
+	for (auto i: f.node_children("TruePeak")) {
+		_true_peak.push_back (dcp::raw_convert<float>(i->content()));
 	}
 
-	_integrated_loudness = f.optional_number_child<float> ("IntegratedLoudness");
-	_loudness_range = f.optional_number_child<float> ("LoudnessRange");
+	_integrated_loudness = f.optional_number_child<float>("IntegratedLoudness");
+	_loudness_range = f.optional_number_child<float>("LoudnessRange");
 
-	_analysis_gain = f.optional_number_child<double> ("AnalysisGain");
-	_samples_per_point = f.number_child<int64_t> ("SamplesPerPoint");
-	_sample_rate = f.number_child<int64_t> ("SampleRate");
+	_analysis_gain = f.optional_number_child<double>("AnalysisGain");
+	_samples_per_point = f.number_child<int64_t>("SamplesPerPoint");
+	_sample_rate = f.number_child<int64_t>("SampleRate");
 
 	_leqm = f.optional_number_child<double>("Leqm");
 }
+
 
 void
 AudioAnalysis::add_point (int c, AudioPoint const & p)
@@ -106,12 +113,14 @@ AudioAnalysis::add_point (int c, AudioPoint const & p)
 	_data[c].push_back (p);
 }
 
+
 AudioPoint
 AudioAnalysis::get_point (int c, int p) const
 {
-	DCPOMATIC_ASSERT (p < points (c));
+	DCPOMATIC_ASSERT (p < points(c));
 	return _data[c][p];
 }
+
 
 int
 AudioAnalysis::channels () const
@@ -119,30 +128,32 @@ AudioAnalysis::channels () const
 	return _data.size ();
 }
 
+
 int
 AudioAnalysis::points (int c) const
 {
-	DCPOMATIC_ASSERT (c < channels ());
+	DCPOMATIC_ASSERT (c < channels());
 	return _data[c].size ();
 }
+
 
 void
 AudioAnalysis::write (boost::filesystem::path filename)
 {
-	shared_ptr<xmlpp::Document> doc (new xmlpp::Document);
+	auto doc = make_shared<xmlpp::Document>();
 	xmlpp::Element* root = doc->create_root_node ("AudioAnalysis");
 
-	root->add_child("Version")->add_child_text (raw_convert<string> (_current_state_version));
+	root->add_child("Version")->add_child_text(raw_convert<string>(_current_state_version));
 
 	for (auto& i: _data) {
-		xmlpp::Element* channel = root->add_child ("Channel");
+		auto channel = root->add_child ("Channel");
 		for (auto& j: i) {
 			j.as_xml (channel->add_child ("Point"));
 		}
 	}
 
 	for (size_t i = 0; i < _sample_peak.size(); ++i) {
-		xmlpp::Element* n = root->add_child("SamplePeak");
+		auto n = root->add_child("SamplePeak");
 		n->add_child_text (raw_convert<string> (_sample_peak[i].peak));
 		n->set_attribute ("Time", raw_convert<string> (_sample_peak[i].time.get()));
 	}
@@ -173,6 +184,7 @@ AudioAnalysis::write (boost::filesystem::path filename)
 	doc->write_to_file_formatted (filename.string ());
 }
 
+
 float
 AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
 {
@@ -182,17 +194,18 @@ AudioAnalysis::gain_correction (shared_ptr<const Playlist> playlist)
 		   what correction is now needed to make it look `right'.
 		*/
 		DCPOMATIC_ASSERT (playlist->content().front()->audio);
-		return playlist->content().front()->audio->gain() - analysis_gain().get ();
+		return playlist->content().front()->audio->gain() - analysis_gain().get();
 	}
 
 	return 0.0f;
 }
 
+
 /** @return Peak across all channels, and the channel number it is on */
 pair<AudioAnalysis::PeakTime, int>
 AudioAnalysis::overall_sample_peak () const
 {
-	DCPOMATIC_ASSERT (!_sample_peak.empty ());
+	DCPOMATIC_ASSERT (!_sample_peak.empty());
 
 	optional<PeakTime> pt;
 	int c = 0;
@@ -206,6 +219,7 @@ AudioAnalysis::overall_sample_peak () const
 
 	return make_pair (pt.get(), c);
 }
+
 
 optional<float>
 AudioAnalysis::overall_true_peak () const

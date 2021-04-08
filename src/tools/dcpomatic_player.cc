@@ -56,6 +56,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/file_log.h"
+#include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>

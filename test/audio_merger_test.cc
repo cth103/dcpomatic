@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/audio_merger_test.cc
  *  @brief Test AudioMerger class.
  *  @ingroup selfcontained
  */
+
 
 #include "lib/cross.h"
 #include "lib/audio_merger.h"
@@ -35,7 +37,9 @@
 #include <boost/signals2.hpp>
 #include <iostream>
 
+
 using std::pair;
+using std::make_shared;
 using std::list;
 using std::cout;
 using std::string;
@@ -43,19 +47,23 @@ using std::shared_ptr;
 using boost::bind;
 using namespace dcpomatic;
 
+
 static shared_ptr<const AudioBuffers> last_audio;
 
+
 int const sampling_rate = 48000;
+
 
 static void
 push (AudioMerger& merger, int from, int to, int at)
 {
-	shared_ptr<AudioBuffers> buffers (new AudioBuffers (1, to - from));
+	auto buffers = make_shared<AudioBuffers>(1, to - from);
 	for (int i = 0; i < (to - from); ++i) {
 		buffers->data()[0][i] = from + i;
 	}
 	merger.push (buffers, DCPTime(at, sampling_rate));
 }
+
 
 /* Basic mixing, 2 overlapping pushes */
 BOOST_AUTO_TEST_CASE (audio_merger_test1)
@@ -65,7 +73,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 	push (merger, 0, 64, 0);
 	push (merger, 0, 64, 22);
 
-	list<pair<shared_ptr<AudioBuffers>, DCPTime> > tb = merger.pull (DCPTime::from_frames (22, sampling_rate));
+	auto tb = merger.pull (DCPTime::from_frames (22, sampling_rate));
 	BOOST_REQUIRE (tb.size() == 1U);
 	BOOST_CHECK (tb.front().first != shared_ptr<const AudioBuffers> ());
 	BOOST_CHECK_EQUAL (tb.front().first->frames(), 22);
@@ -91,6 +99,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test1)
 	}
 }
 
+
 /* Push at non-zero time */
 BOOST_AUTO_TEST_CASE (audio_merger_test2)
 {
@@ -99,7 +108,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test2)
 	push (merger, 0, 64, 9);
 
 	/* There's nothing from 0 to 9 */
-	list<pair<shared_ptr<AudioBuffers>, DCPTime> > tb = merger.pull (DCPTime::from_frames (9, sampling_rate));
+	auto tb = merger.pull (DCPTime::from_frames (9, sampling_rate));
 	BOOST_CHECK_EQUAL (tb.size(), 0U);
 
 	/* Then there's our data at 9 */
@@ -114,6 +123,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test2)
 	}
 }
 
+
 /* Push two non contiguous blocks */
 BOOST_AUTO_TEST_CASE (audio_merger_test3)
 {
@@ -124,7 +134,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test3)
 
 	/* Get them back */
 
-	list<pair<shared_ptr<AudioBuffers>, DCPTime> > tb = merger.pull (DCPTime::from_frames (100, sampling_rate));
+	auto tb = merger.pull (DCPTime::from_frames (100, sampling_rate));
 	BOOST_REQUIRE (tb.size() == 1U);
 	BOOST_CHECK_EQUAL (tb.front().first->frames(), 64);
 	BOOST_CHECK_EQUAL (tb.front().second.get(), DCPTime::from_frames(17, sampling_rate).get());
@@ -141,10 +151,11 @@ BOOST_AUTO_TEST_CASE (audio_merger_test3)
 	}
 }
 
+
 /* Reply a sequence of calls to AudioMerger that resulted in a crash */
 BOOST_AUTO_TEST_CASE (audio_merger_test4)
 {
-	FILE* f = fopen_boost("test/data/audio_merger_bug1.log", "r");
+	auto f = fopen_boost("test/data/audio_merger_bug1.log", "r");
 	BOOST_REQUIRE (f);
 	list<string> tokens;
 	char buf[64];
@@ -153,7 +164,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test4)
 	}
 
 	shared_ptr<AudioMerger> merger;
-	list<string>::const_iterator i = tokens.begin ();
+	auto i = tokens.begin ();
 	while (i != tokens.end()) {
 		BOOST_CHECK (*i++ == "I/AM");
 		string const cmd = *i++;
@@ -167,7 +178,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test4)
 			DCPTime time(dcp::raw_convert<DCPTime::Type>(*i++));
 			BOOST_REQUIRE (i != tokens.end());
 			int const frames = dcp::raw_convert<int>(*i++);
-			shared_ptr<AudioBuffers> buffers(new AudioBuffers(1, frames));
+			auto buffers = make_shared<AudioBuffers>(1, frames);
 			BOOST_REQUIRE (merger);
 			merger->push (buffers, time);
 		} else if (cmd == "pull") {
@@ -177,5 +188,4 @@ BOOST_AUTO_TEST_CASE (audio_merger_test4)
 		}
 	}
 }
-
 

@@ -38,7 +38,7 @@ class PlayerText
 {
 public:
 	void add_fonts (std::list<std::shared_ptr<dcpomatic::Font>> fonts_);
-	std::list<std::shared_ptr<dcpomatic::Font> > fonts;
+	std::list<std::shared_ptr<dcpomatic::Font>> fonts;
 
 	/** BitmapTexts, with their rectangles transformed as specified by their content */
 	std::list<BitmapText> bitmap;

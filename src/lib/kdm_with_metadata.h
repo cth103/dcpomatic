@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,17 @@
 
 */
 
+
 #ifndef DCPOMATIC_KDM_WITH_METADATA_H
 #define DCPOMATIC_KDM_WITH_METADATA_H
+
 
 #include <dcp/encrypted_kdm.h>
 #include <dcp/name_format.h>
 
+
 class Cinema;
+
 
 class KDMWithMetadata
 {
@@ -78,11 +82,11 @@ int write_files (
 void make_zip_file (std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format);
 
 
-std::list<std::list<KDMWithMetadataPtr> > collect (std::list<KDMWithMetadataPtr> kdms);
+std::list<std::list<KDMWithMetadataPtr>> collect (std::list<KDMWithMetadataPtr> kdms);
 
 
 int write_directories (
-		std::list<std::list<KDMWithMetadataPtr> > kdms,
+		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -91,7 +95,7 @@ int write_directories (
 
 
 int write_zip_files (
-		std::list<std::list<KDMWithMetadataPtr> > kdms,
+		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -100,7 +104,7 @@ int write_zip_files (
 
 
 void email (
-		std::list<std::list<KDMWithMetadataPtr> > kdms,
+		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
 		std::string cpl_name

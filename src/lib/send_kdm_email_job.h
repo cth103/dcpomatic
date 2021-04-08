@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,21 @@
 
 */
 
+
 #include "job.h"
 #include "kdm_with_metadata.h"
 #include <dcp/types.h>
 #include <dcp/name_format.h>
 #include <boost/filesystem.hpp>
 
+
 namespace dcpomatic {
 	class Screen;
 }
 
+
 class Log;
+
 
 class SendKDMEmailJob : public Job
 {
@@ -41,7 +45,7 @@ public:
 		);
 
 	SendKDMEmailJob (
-		std::list<std::list<KDMWithMetadataPtr> > kdms,
+		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
 		std::string cpl_name
@@ -57,5 +61,5 @@ private:
 	dcp::NameFormat _container_name_format;
 	dcp::NameFormat _filename_format;
 	std::string _cpl_name;
-	std::list<std::list<KDMWithMetadataPtr> > _kdms;
+	std::list<std::list<KDMWithMetadataPtr>> _kdms;
 };

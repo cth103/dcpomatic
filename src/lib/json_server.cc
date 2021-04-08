@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "json_server.h"
 #include "job_manager.h"
 #include "job.h"
@@ -30,6 +31,7 @@
 #include <boost/thread.hpp>
 #include <iostream>
 
+
 using std::string;
 using std::cout;
 using std::map;
@@ -40,7 +42,9 @@ using std::dynamic_pointer_cast;
 using boost::asio::ip::tcp;
 using dcp::raw_convert;
 
+
 #define MAX_LENGTH 512
+
 
 enum State {
 	AWAITING_G,
@@ -50,15 +54,17 @@ enum State {
 	READING_URL,
 };
 
+
 JSONServer::JSONServer (int port)
 {
 #ifdef DCPOMATIC_LINUX
-	thread* t = new thread (boost::bind (&JSONServer::run, this, port));
+	auto t = new thread (boost::bind (&JSONServer::run, this, port));
 	pthread_setname_np (t->native_handle(), "json-server");
 #else
 	new thread (boost::bind (&JSONServer::run, this, port));
 #endif
 }
+
 
 void
 JSONServer::run (int port)
@@ -82,6 +88,7 @@ catch (...)
 
 }
 
+
 void
 JSONServer::handle (shared_ptr<tcp::socket> socket)
 {
@@ -97,11 +104,11 @@ JSONServer::handle (shared_ptr<tcp::socket> socket)
 			break;
 		}
 
-		char* p = data;
-		char* e = data + len;
+		auto p = data;
+		auto e = data + len;
 		while (p != e) {
 
-			State old_state = state;
+			auto old_state = state;
 			switch (state) {
 			case AWAITING_G:
 				if (*p == 'G') {
@@ -143,14 +150,15 @@ JSONServer::handle (shared_ptr<tcp::socket> socket)
 	}
 }
 
+
 void
 JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 {
 	cout << "request: " << url << "\n";
 
-	map<string, string> r = split_get_request (url);
-	for (map<string, string>::iterator i = r.begin(); i != r.end(); ++i) {
-		cout << i->first << " => " << i->second << "\n";
+	auto r = split_get_request (url);
+	for (auto const& i: r) {
+		cout << i.first << " => " << i.second << "\n";
 	}
 
 	string action;
@@ -161,11 +169,10 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 	string json;
 	if (action == "status") {
 
-		list<shared_ptr<Job> > jobs = JobManager::instance()->get ();
+		auto jobs = JobManager::instance()->get();
 
 		json += "{ \"jobs\": [";
-		for (list<shared_ptr<Job> >::iterator i = jobs.begin(); i != jobs.end(); ++i) {
-
+		for (auto i = jobs.cbegin(); i != jobs.cend(); ++i) {
 			json += "{ ";
 
 			if ((*i)->film()) {
@@ -173,7 +180,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 			}
 
 			json += "\"name\": \"" + (*i)->json_name() + "\", ";
-			if ((*i)->progress ()) {
+			if ((*i)->progress()) {
 				json += "\"progress\": " + raw_convert<string>((*i)->progress().get()) + ", ";
 			} else {
 				json += "\"progress\": unknown, ";
@@ -181,7 +188,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 			json += "\"status\": \"" + (*i)->json_status() + "\"";
 			json += " }";
 
-			list<shared_ptr<Job> >::iterator j = i;
+			auto j = i;
 			++j;
 			if (j != jobs.end ()) {
 				json += ", ";
@@ -196,5 +203,5 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 		"\r\n"
 		+ json + "\r\n";
 	cout << "reply: " << json << "\n";
-	boost::asio::write (*socket, boost::asio::buffer (reply.c_str(), reply.length()));
+	boost::asio::write (*socket, boost::asio::buffer(reply.c_str(), reply.length()));
 }

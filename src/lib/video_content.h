@@ -61,7 +61,7 @@ class VideoContent : public ContentPart, public std::enable_shared_from_this<Vid
 public:
 	explicit VideoContent (Content* parent);
 	VideoContent (Content* parent, cxml::ConstNodePtr, int);
-	VideoContent (Content* parent, std::vector<std::shared_ptr<Content> >);
+	VideoContent (Content* parent, std::vector<std::shared_ptr<Content>>);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string technical_summary () const;
@@ -248,5 +248,6 @@ private:
 	VideoRange _range;
 	boost::optional<dcp::LanguageTag> _burnt_subtitle_language;
 };
+
 
 #endif

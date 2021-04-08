@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_AUDIO_ANALYSIS_H
 #define DCPOMATIC_AUDIO_ANALYSIS_H
+
 
 #include "dcpomatic_time.h"
 #include "audio_point.h"
@@ -28,11 +30,14 @@
 #include <boost/filesystem.hpp>
 #include <vector>
 
+
 namespace xmlpp {
 	class Element;
 }
 
+
 class Playlist;
+
 
 class AudioAnalysis : public boost::noncopyable
 {
@@ -129,7 +134,7 @@ public:
 	float gain_correction (std::shared_ptr<const Playlist> playlist);
 
 private:
-	std::vector<std::vector<AudioPoint> > _data;
+	std::vector<std::vector<AudioPoint>> _data;
 	std::vector<PeakTime> _sample_peak;
 	std::vector<float> _true_peak;
 	boost::optional<float> _integrated_loudness;
@@ -140,10 +145,11 @@ private:
 	 *  happened.
 	 */
 	boost::optional<double> _analysis_gain;
-	int64_t _samples_per_point;
-	int _sample_rate;
+	int64_t _samples_per_point = 0;
+	int _sample_rate = 0;
 
 	static int const _current_state_version;
 };
+
 
 #endif

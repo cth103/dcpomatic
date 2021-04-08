@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 #include "timeline_view.h"
+
 
 class TimelineReelsView : public TimelineView
 {
@@ -29,7 +31,7 @@ public:
 	void set_y (int y);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps);
 
 	int _y;
 };
