@@ -338,6 +338,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::SUBTITLE_OVERLAPS_REEL_BOUNDARY:
 			add(i, _("A subtitle lasts longer than the reel it is in."));
 			break;
+		case dcp::VerificationNote::Code::MISMATCHED_TIMED_TEXT_RESOURCE_ID:
+			add(i, _("The Resource ID in a timed text MXF did not match the ID of the contained XML."));
+			break;
+		case dcp::VerificationNote::Code::INCORRECT_TIMED_TEXT_ASSET_ID:
+			add(i, _("The Asset ID in a timed text MXF is the same as the Resource ID or that of the contained XML."));
+			break;
 		}
 	}
 
