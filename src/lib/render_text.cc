@@ -34,9 +34,6 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <pangomm.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <pango/pangocairo.h>
-#ifndef DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT
-#include <pango/pangocairo.h>
-#endif
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -112,8 +109,7 @@ create_image (dcp::Size size)
 static Cairo::RefPtr<Cairo::ImageSurface>
 create_surface (shared_ptr<Image> image)
 {
-#ifdef DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH
-	auto surface = Cairo::ImageSurface::create (
+	return Cairo::ImageSurface::create (
 		image->data()[0],
 		Cairo::FORMAT_ARGB32,
 		image->size().width,
@@ -121,20 +117,6 @@ create_surface (shared_ptr<Image> image)
 		/* Cairo ARGB32 means first byte blue, second byte green, third byte red, fourth byte alpha */
 		Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, image->size().width)
 		);
-#else
-	/* Centos 5 does not have Cairo::ImageSurface::format_stride_for_width, so just use width * 4
-	   which I hope is safe (if slow)
-	*/
-	auto surface = Cairo::ImageSurface::create (
-		image->data()[0],
-		Cairo::FORMAT_ARGB32,
-		image->size().width,
-		image->size().height,
-		image->size().width * 4
-		);
-#endif
-
-	return surface;
 }
 
 

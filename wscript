@@ -276,37 +276,6 @@ def configure(conf):
     # leqm_nrt
     conf.check_cfg(package='leqm_nrt', args='--cflags --libs', uselib_store='LEQM_NRT', mandatory=True)
 
-    # See if we have Cairo::ImageSurface::format_stride_for_width; Centos 5 does not
-    conf.check_cxx(fragment="""
-                            #include <cairomm/cairomm.h>
-                            int main(void) {
-                                Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, 1024);\n
-                                return 0; }\n
-                            """,
-                       mandatory=False,
-                       msg='Checking for format_stride_for_width',
-                       okmsg='yes',
-                       includes=conf.env['INCLUDES_CAIROMM'],
-                       uselib='CAIROMM',
-                       define_name='DCPOMATIC_HAVE_FORMAT_STRIDE_FOR_WIDTH')
-
-    # See if we have Pango::Layout::show_in_cairo_context; Centos 5 does not
-    conf.check_cxx(fragment="""
-                            #include <pangomm.h>
-                            int main(void) {
-                                Cairo::RefPtr<Cairo::Context> context;
-                                Glib::RefPtr<Pango::Layout> layout;
-                                layout->show_in_cairo_context (context);
-                                return 0; }\n
-                            """,
-                       mandatory=False,
-                       msg='Checking for show_in_cairo_context',
-                       okmsg='yes',
-                       includes=conf.env['INCLUDES_PANGOMM'],
-                       uselib='PANGOMM',
-                       define_name='DCPOMATIC_HAVE_SHOW_IN_CAIRO_CONTEXT')
-
-
     # libcxml
     if conf.options.static_cxml:
         conf.check_cfg(package='libcxml', atleast_version='0.17.0', args='--cflags', uselib_store='CXML', mandatory=True)
