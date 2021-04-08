@@ -288,9 +288,9 @@ TextPanel::add_to_grid ()
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
 
-		s->Add (_text_view_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
-		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
-		s->Add (_appearance_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
+		s->Add (_text_view_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		s->Add (_fonts_dialog_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		s->Add (_appearance_dialog_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
 		_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
