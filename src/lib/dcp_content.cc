@@ -242,6 +242,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			boost::mutex::scoped_lock lm (_mutex);
 			audio = make_shared<AudioContent>(this);
 		}
+		audio->set_language (examiner->audio_language());
 		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels());
 		audio->set_stream (as);
 		auto m = as->mapping ();
@@ -262,14 +263,17 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	}
 
 	list<shared_ptr<TextContent>> new_text;
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		for (int j = 0; j < examiner->text_count(static_cast<TextType>(i)); ++j) {
-			auto c = make_shared<TextContent>(this, static_cast<TextType>(i), static_cast<TextType>(i));
-			if (i == static_cast<int>(TextType::CLOSED_CAPTION)) {
-				c->set_dcp_track (examiner->dcp_text_track(j));
-			}
-			new_text.push_back (c);
-		}
+
+	for (int i = 0; i < examiner->text_count(TextType::OPEN_SUBTITLE); ++i) {
+		auto c = make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE);
+		c->set_language (examiner->open_subtitle_language());
+		new_text.push_back (c);
+	}
+
+	for (int i = 0; i < examiner->text_count(TextType::CLOSED_CAPTION); ++i) {
+		auto c = make_shared<TextContent>(this, TextType::CLOSED_CAPTION, TextType::CLOSED_CAPTION);
+		c->set_dcp_track (examiner->dcp_text_track(i));
+		new_text.push_back (c);
 	}
 
 	{

@@ -53,7 +53,10 @@ using std::cout;
 using std::runtime_error;
 using std::map;
 using std::shared_ptr;
+using std::string;
 using std::dynamic_pointer_cast;
+using boost::optional;
+
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	: DCP (content, tolerant)
@@ -108,6 +111,15 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_name = cpl->content_title_text ();
 	_content_kind = cpl->content_kind ();
 
+	auto try_to_parse_language = [](optional<string> lang) -> boost::optional<dcp::LanguageTag> {
+		try {
+			if (lang) {
+				return dcp::LanguageTag (*lang);
+			}
+		} catch (...) {}
+		return boost::none;
+	};
+
 	for (auto i: cpl->reels()) {
 
 		if (i->main_picture ()) {
@@ -159,6 +171,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			_audio_length += i->main_sound()->actual_duration();
+			_audio_language = try_to_parse_language (asset->language());
 		}
 
 		if (i->main_subtitle ()) {
@@ -169,6 +182,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			_text_count[static_cast<int>(TextType::OPEN_SUBTITLE)] = 1;
+			_open_subtitle_language = try_to_parse_language (i->main_subtitle()->language());
 		}
 
 		for (auto j: i->closed_captions()) {
@@ -183,7 +197,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		}
 
 		if (i->main_markers ()) {
-			map<dcp::Marker, dcp::Time> rm = i->main_markers()->get();
+			auto rm = i->main_markers()->get();
 			_markers.insert (rm.begin(), rm.end());
 		}
 

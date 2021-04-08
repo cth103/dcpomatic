@@ -90,11 +90,19 @@ public:
 		return _audio_frame_rate.get_value_or (48000);
 	}
 
+	boost::optional<dcp::LanguageTag> audio_language () const {
+		return _audio_language;
+	}
+
 	/** @param type TEXT_OPEN_SUBTITLE or TEXT_CLOSED_CAPTION.
 	 *  @return Number of assets of this type in this DCP.
 	 */
 	int text_count (TextType type) const {
 		return _text_count[static_cast<int>(type)];
+	}
+
+	boost::optional<dcp::LanguageTag> open_subtitle_language () const {
+		return _open_subtitle_language;
 	}
 
 	DCPTextTrack dcp_text_track (int i) const {
@@ -162,8 +170,10 @@ private:
 	bool _has_video = false;
 	/** true if this DCP has audio content (but false if it has unresolved references to audio content) */
 	bool _has_audio = false;
+	boost::optional<dcp::LanguageTag> _audio_language;
 	/** number of different assets of each type (OCAP/CCAP) */
 	int _text_count[static_cast<int>(TextType::COUNT)];
+	boost::optional<dcp::LanguageTag> _open_subtitle_language;
 	/** the DCPTextTracks for each of our CCAPs */
 	std::vector<DCPTextTrack> _dcp_text_tracks;
 	bool _encrypted = false;
