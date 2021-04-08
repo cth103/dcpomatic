@@ -73,7 +73,7 @@ private:
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
-	wxCheckBox* _outline_subtitles;
+	wxCheckBox* _outline_subtitles = nullptr;
 	wxCheckBox* _use;
 	wxChoice* _type;
 	wxCheckBox* _burn;
@@ -94,14 +94,14 @@ private:
 	wxStaticText* _line_spacing_label;
 	wxStaticText* _line_spacing_pc_label;
 	SpinCtrl* _line_spacing;
-	wxStaticText* _dcp_track_label;
-	wxChoice* _dcp_track;
+	wxStaticText* _dcp_track_label = nullptr;
+	wxChoice* _dcp_track = nullptr;
 	wxStaticText* _stream_label;
 	wxChoice* _stream;
 	wxButton* _text_view_button;
-	TextView* _text_view;
+	TextView* _text_view = nullptr;
 	wxButton* _fonts_dialog_button;
-	FontsDialog* _fonts_dialog;
+	FontsDialog* _fonts_dialog = nullptr;
 	wxButton* _appearance_dialog_button;
 	TextType _original_type;
 	wxStaticText* _language_label = nullptr;
@@ -115,5 +115,5 @@ private:
 	std::weak_ptr<Content> _analysis_content;
 	boost::signals2::scoped_connection _analysis_finished_connection;
 	std::shared_ptr<SubtitleAnalysis> _analysis;
-	bool _loading_analysis;
+	bool _loading_analysis = false;
 };

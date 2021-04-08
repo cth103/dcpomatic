@@ -60,13 +60,7 @@ using boost::bind;
 /** @param t Original text type of the content, if known */
 TextPanel::TextPanel (ContentPanel* p, TextType t)
 	: ContentSubPanel (p, std_to_wx(text_type_to_name(t)))
-	, _outline_subtitles (0)
-	, _dcp_track_label (0)
-	, _dcp_track (0)
-	, _text_view (0)
-	, _fonts_dialog (0)
 	, _original_type (t)
-	, _loading_analysis (false)
 {
 	wxString refer = _("Use this DCP's subtitle as OV and make VF");
 	if (t == TextType::CLOSED_CAPTION) {
@@ -298,7 +292,7 @@ TextPanel::add_to_grid ()
 		s->Add (_fonts_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 		s->Add (_appearance_dialog_button, 1, wxALL, DCPOMATIC_SIZER_GAP);
 
-		_grid->Add (s, wxGBPosition (r, 0), wxGBSpan (1, 2));
+		_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 	}
 
