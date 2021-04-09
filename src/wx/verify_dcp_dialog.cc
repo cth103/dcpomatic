@@ -18,21 +18,26 @@
 
 */
 
+
 #include "verify_dcp_dialog.h"
 #include "wx_util.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/warnings.h"
 #include <dcp/verify.h>
 #include <dcp/raw_convert.h>
+#include <boost/algorithm/string.hpp>
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
 #include <wx/notebook.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 using std::list;
 using std::map;
 using std::shared_ptr;
 using std::string;
+using std::vector;
+
 
 VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job)
 	: wxDialog (parent, wxID_ANY, _("DCP verification"), wxDefaultPosition, {600, 400})
@@ -344,6 +349,13 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INCORRECT_TIMED_TEXT_ASSET_ID:
 			add(i, _("The Asset ID in a timed text MXF is the same as the Resource ID or that of the contained XML."));
 			break;
+		case dcp::VerificationNote::Code::MISMATCHED_TIMED_TEXT_DURATION:
+		{
+			vector<string> parts;
+			boost::split (parts, i.note().get(), boost::is_any_of(" "));
+			add(i, wxString::Format(_("The reel duration (%s) of some timed text is not the same as the ContainerDuration (%s) of its MXF."), std_to_wx(parts[0]), std_to_wx(parts[1])));
+			break;
+		}
 		}
 	}
 
