@@ -83,16 +83,17 @@ private:
 	 */
 	std::shared_ptr<Writer> _writer;
 
-	bool _long_ccap;
-	bool _overlap_ccap;
-	bool _too_many_ccap_lines;
+	bool _long_ccap = false;
+	bool _overlap_ccap = false;
+	bool _too_many_ccap_lines = false;
 	boost::optional<dcpomatic::DCPTimePeriod> _last_ccap;
 
-	bool _early_subtitle;
-	bool _short_subtitle;
-	bool _subtitles_too_close;
-	bool _too_many_subtitle_lines;
-	bool _long_subtitle;
+	bool _early_subtitle = false;
+	bool _short_subtitle = false;
+	bool _subtitles_too_close = false;
+	bool _too_many_subtitle_lines = false;
+	bool _long_subtitle = false;
+	bool _very_long_subtitle = false;
 	boost::optional<dcpomatic::DCPTimePeriod> _last_subtitle;
 
 	boost::atomic<bool> _stop;

@@ -76,14 +76,6 @@ using namespace boost::placeholders;
 Hints::Hints (weak_ptr<const Film> film)
 	: WeakConstFilm (film)
 	, _writer (new Writer(film, weak_ptr<Job>(), true))
-	, _long_ccap (false)
-	, _overlap_ccap (false)
-	, _too_many_ccap_lines (false)
-	, _early_subtitle (false)
-	, _short_subtitle (false)
-	, _subtitles_too_close (false)
-	, _too_many_subtitle_lines (false)
-	, _long_subtitle (false)
 	, _stop (false)
 {
 
@@ -564,7 +556,12 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 
 	if (longest_line > 52 && !_long_subtitle) {
 		_long_subtitle = true;
-		hint (_("At least one of your subtitle lines has more than 52 characters.  It is advisable to make each line 52 characters at most in length."));
+		hint (_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));
+	}
+
+	if (longest_line > 79 && !_very_long_subtitle) {
+		_very_long_subtitle = true;
+		hint (_("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length."));
 	}
 
 	_last_subtitle = period;
