@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "dolby_doremi_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
@@ -30,6 +31,7 @@
 #include <zip.h>
 #include <iostream>
 
+
 using std::string;
 using std::cout;
 using std::list;
@@ -40,38 +42,43 @@ using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 
+
 DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog)
 	: DownloadCertificatePanel (dialog)
 {
 
 }
 
+
 static void
 try_dcp2000 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	urls.push_back (String::compose ("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
-	files.push_back (String::compose ("dcp2000-%1.cert.sha256.pem", serial));
+	urls.push_back (String::compose("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back (String::compose("dcp2000-%1.cert.sha256.pem", serial));
 
-	urls.push_back (String::compose ("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
-	files.push_back (String::compose ("dcp2000-%1.cert.sha256.pem", serial));
+	urls.push_back (String::compose("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back (String::compose("dcp2000-%1.cert.sha256.pem", serial));
 
-	urls.push_back (String::compose ("%1%2xxx/dcp2000-%3.certs.zip", prefix, serial.substr(0, 3), serial));
-	files.push_back (String::compose ("dcp2000-%1.cert.sha256.pem", serial));
+	urls.push_back (String::compose("%1%2xxx/dcp2000-%3.certs.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back (String::compose("dcp2000-%1.cert.sha256.pem", serial));
 }
+
 
 static void
 try_imb (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	urls.push_back (String::compose ("%1%2xxx/imb-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
-	files.push_back (String::compose ("imb-%1.cert.sha256.pem", serial));
+	urls.push_back (String::compose("%1%2xxx/imb-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back (String::compose("imb-%1.cert.sha256.pem", serial));
 }
+
 
 static void
 try_ims (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	urls.push_back (String::compose ("%1%2xxx/ims-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
-	files.push_back (String::compose ("ims-%1.cert.sha256.pem", serial));
+	urls.push_back (String::compose("%1%2xxx/ims-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back (String::compose("ims-%1.cert.sha256.pem", serial));
 }
+
 
 static void
 try_cat862 (list<string>& urls, list<string>& files, string prefix, string serial)
@@ -88,14 +95,15 @@ try_cat862 (list<string>& urls, list<string>& files, string prefix, string seria
 		cat862 = String::compose ("CAT862_%1-%2", lower, lower + 999);
 	}
 
-	urls.push_back (String::compose ("%1%2/cert_Dolby256-CAT862-%3.zip", prefix, cat862, serial_int));
-	files.push_back (String::compose ("cert_Dolby256-CAT862-%1.pem.crt", serial_int));
+	urls.push_back (String::compose("%1%2/cert_Dolby256-CAT862-%3.zip", prefix, cat862, serial_int));
+	files.push_back (String::compose("cert_Dolby256-CAT862-%1.pem.crt", serial_int));
 }
+
 
 static void
 try_dsp100 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	int const serial_int = raw_convert<int> (serial);
+	int const serial_int = raw_convert<int>(serial);
 
 	string dsp100;
 	if (serial_int <= 999) {
@@ -107,14 +115,15 @@ try_dsp100 (list<string>& urls, list<string>& files, string prefix, string seria
 		dsp100 = String::compose ("DSP100_%1_thru_%2", lower, lower + 999);
 	}
 
-	urls.push_back (String::compose ("%1%2/cert_Dolby256-DSP100-%3.zip", prefix, dsp100, serial_int));
-	files.push_back (String::compose ("cert_Dolby256-DSP100-%1.pem.crt", serial_int));
+	urls.push_back (String::compose("%1%2/cert_Dolby256-DSP100-%3.zip", prefix, dsp100, serial_int));
+	files.push_back (String::compose("cert_Dolby256-DSP100-%1.pem.crt", serial_int));
 }
+
 
 static void
 try_cat745 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
-	int const serial_int = raw_convert<int> (serial.substr (1));
+	int const serial_int = raw_convert<int>(serial.substr (1));
 
 	string cat745;
 	if (serial_int <= 999) {
@@ -123,12 +132,13 @@ try_cat745 (list<string>& urls, list<string>& files, string prefix, string seria
 		cat745 = "CAT745_6000_and_higher";
 	} else {
 		int const lower = serial_int - (serial_int % 1000);
-		cat745 = String::compose ("CAT745_%1_thru_%2", lower, lower + 999);
+		cat745 = String::compose("CAT745_%1_thru_%2", lower, lower + 999);
 	}
 
-	urls.push_back (String::compose ("%1%2/cert_Dolby-CAT745-%3.zip", prefix, cat745, serial_int));
-	files.push_back (String::compose ("cert_Dolby-CAT745-%1.pem.crt", serial_int));
+	urls.push_back (String::compose("%1%2/cert_Dolby-CAT745-%3.zip", prefix, cat745, serial_int));
+	files.push_back (String::compose("cert_Dolby-CAT745-%1.pem.crt", serial_int));
 }
+
 
 static void
 try_cp850 (list<string>& urls, list<string>& files, string prefix, string serial)
@@ -139,6 +149,15 @@ try_cp850 (list<string>& urls, list<string>& files, string prefix, string serial
 	urls.push_back (String::compose ("%1CP850_CAT1600_F%2-F%3/cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%4.zip", prefix, lower, lower + 999, serial_int));
 	files.push_back (String::compose ("cert_RMB_SPB_MDE_FMA.Dolby-CP850-F%1.pem.crt", serial_int));
 }
+
+
+static void
+try_ims3000 (list<string>& urls, list<string>& files, string prefix, string serial)
+{
+	urls.push_back (String::compose ("%1%2xxx/cert_Dolby-IMS3000-%3-SMPTE.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back (String::compose("cert_Dolby-IMS3000-%1-SMPTE.pem", serial));
+}
+
 
 void
 DolbyDoremiCertificatePanel::do_download ()
@@ -168,6 +187,7 @@ DolbyDoremiCertificatePanel::do_download ()
 		try_ims (urls, files, prefix, serial);
 		try_cat862 (urls, files, prefix, serial);
 		try_dsp100 (urls, files, prefix, serial);
+		try_ims3000 (urls, files, prefix, serial);
 	} else if (starting_char == 'H') {
 		try_cat745 (urls, files, prefix, serial);
 	} else if (starting_char == 'F') {
@@ -176,10 +196,10 @@ DolbyDoremiCertificatePanel::do_download ()
 
 	list<string> errors;
 	bool ok = false;
-	list<string>::const_iterator i = urls.begin ();
-	list<string>::const_iterator j = files.begin ();
+	auto i = urls.begin ();
+	auto j = files.begin ();
 	while (!ok && i != urls.end ()) {
-		optional<string> error = get_from_zip_url (*i++, *j++, true, true, boost::bind (&DownloadCertificatePanel::load_certificate, this, _1));
+		auto error = get_from_zip_url (*i++, *j++, true, true, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1));
 		if (error) {
 			errors.push_back (error.get ());
 		} else {
@@ -201,6 +221,7 @@ DolbyDoremiCertificatePanel::do_download ()
 		error_dialog (this, std_to_wx (s));
 	}
 }
+
 
 wxString
 DolbyDoremiCertificatePanel::name () const
