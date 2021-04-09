@@ -653,8 +653,8 @@ ReelWriter::create_reel_text (
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.first.name);
-		if (!i.first.language.empty()) {
-			a->set_language (dcp::LanguageTag(i.first.language));
+		if (i.first.language) {
+			a->set_language (i.first.language.get());
 		}
 
 		ensure_closed_captions.erase (i.first);
@@ -667,8 +667,8 @@ ReelWriter::create_reel_text (
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.name);
-		if (!i.language.empty()) {
-			a->set_language (dcp::LanguageTag(i.language));
+		if (i.language) {
+			a->set_language (i.language.get());
 		}
 	}
 }
@@ -782,8 +782,8 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		s->set_movie_title (film()->name());
 		if (type == TextType::OPEN_SUBTITLE) {
 			s->set_language (lang.first ? lang.first->to_string() : "Unknown");
-		} else if (!track->language.empty()) {
-			s->set_language (track->language);
+		} else if (track->language) {
+			s->set_language (track->language->to_string());
 		}
 		s->set_reel_number (raw_convert<string> (_reel_index + 1));
 		asset = s;
@@ -793,8 +793,8 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		s->set_metadata (mxf_metadata());
 		if (type == TextType::OPEN_SUBTITLE && lang.first) {
 			s->set_language (*lang.first);
-		} else if (track && !track->language.empty()) {
-			s->set_language (dcp::LanguageTag(track->language));
+		} else if (track && track->language) {
+			s->set_language (dcp::LanguageTag(track->language->to_string()));
 		}
 		s->set_edit_rate (dcp::Fraction (film()->video_frame_rate(), 1));
 		s->set_reel_number (_reel_index + 1);

@@ -157,13 +157,13 @@ BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 	film->examine_and_add_content (ccap1);
 	BOOST_REQUIRE (!wait_for_jobs());
 	ccap1->text.front()->set_type (TextType::CLOSED_CAPTION);
-	ccap1->text.front()->set_dcp_track (DCPTextTrack("Test", "de-DE"));
+	ccap1->text.front()->set_dcp_track (DCPTextTrack("Test", dcp::LanguageTag("de-DE")));
 
 	auto ccap2 = content_factory("test/data/15s.srt").front();
 	film->examine_and_add_content (ccap2);
 	BOOST_REQUIRE (!wait_for_jobs());
 	ccap2->text.front()->set_type (TextType::CLOSED_CAPTION);
-	ccap2->text.front()->set_dcp_track (DCPTextTrack("Other", "en-GB"));
+	ccap2->text.front()->set_dcp_track (DCPTextTrack("Other", dcp::LanguageTag("en-GB")));
 
 	make_and_verify_dcp (
 		film,

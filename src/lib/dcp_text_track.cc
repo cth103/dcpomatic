@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,37 +18,50 @@
 
 */
 
+
 #include "dcp_text_track.h"
 #include "compose.hpp"
 #include <string>
 
+#include "i18n.h"
+
+
 using std::string;
+using boost::optional;
+
 
 DCPTextTrack::DCPTextTrack (cxml::ConstNodePtr node)
 {
 	name = node->string_child("Name");
-	language = node->string_child("Language");
+	if (auto lang = node->optional_string_child("Language")) {
+		language = dcp::LanguageTag(*lang);
+	}
 }
 
-DCPTextTrack::DCPTextTrack (string name_, string language_)
+
+DCPTextTrack::DCPTextTrack (string name_, optional<dcp::LanguageTag> language_)
 	: name (name_)
 	, language (language_)
 {
 
 }
 
+
 string
 DCPTextTrack::summary () const
 {
-	return String::compose("%1 (%2)", name, language);
+	return String::compose("%1 (%2)", name, language ? language->to_string() : _("Unknown"));
 }
 
 void
 DCPTextTrack::as_xml (xmlpp::Element* parent) const
 {
 	parent->add_child("Name")->add_child_text(name);
-	parent->add_child("Language")->add_child_text(language);
+	if (language) {
+		parent->add_child("Language")->add_child_text(language->to_string());
+	}
 }
+
 
 bool
 operator== (DCPTextTrack const & a, DCPTextTrack const & b)
@@ -56,11 +69,13 @@ operator== (DCPTextTrack const & a, DCPTextTrack const & b)
 	return a.name == b.name && a.language == b.language;
 }
 
+
 bool
 operator!= (DCPTextTrack const & a, DCPTextTrack const & b)
 {
 	return !(a == b);
 }
+
 
 bool
 operator< (DCPTextTrack const & a, DCPTextTrack const & b)

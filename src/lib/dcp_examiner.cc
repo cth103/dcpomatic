@@ -193,7 +193,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			_text_count[static_cast<int>(TextType::CLOSED_CAPTION)]++;
-			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text(), j->language().get_value_or(_("Unknown"))));
+			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text(), try_to_parse_language(j->language())));
 		}
 
 		if (i->main_markers ()) {

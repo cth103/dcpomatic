@@ -343,7 +343,7 @@ TextPanel::update_dcp_tracks ()
 		/* XXX: don't display the "magic" track which has empty name and language;
 		   this is a nasty hack (see also Film::closed_caption_tracks)
 		*/
-		if (!i.name.empty() || !i.language.empty()) {
+		if (!i.name.empty() || i.language) {
 			_dcp_track->Append (std_to_wx(i.summary()));
 		}
 	}

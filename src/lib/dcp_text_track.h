@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,24 +18,28 @@
 
 */
 
+
 #ifndef DCPOMATIC_DCP_TEXT_TRACK_H
 #define DCPOMATIC_DCP_TEXT_TRACK_H
 
+
 #include "warnings.h"
+#include <dcp/language_tag.h>
 #include <libcxml/cxml.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
+
 
 class DCPTextTrack
 {
 public:
 	DCPTextTrack () {}
 	DCPTextTrack (cxml::ConstNodePtr node);
-	DCPTextTrack (std::string name_, std::string language_);
+	DCPTextTrack (std::string name_, boost::optional<dcp::LanguageTag> language_);
 
 	std::string name;
-	std::string language;
+	boost::optional<dcp::LanguageTag> language;
 
 	std::string summary () const;
 	void as_xml (xmlpp::Element* parent) const;
@@ -44,5 +48,6 @@ public:
 bool operator== (DCPTextTrack const & a, DCPTextTrack const & b);
 bool operator!= (DCPTextTrack const & a, DCPTextTrack const & b);
 bool operator< (DCPTextTrack const & a, DCPTextTrack const & b);
+
 
 #endif

@@ -75,11 +75,11 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	auto film = new_test_film2 ("closed_caption_test2", { content1, content2, content3 }, &cl);
 
 	content1->only_text()->set_type (TextType::CLOSED_CAPTION);
-	content1->only_text()->set_dcp_track (DCPTextTrack("First track", "fr-FR"));
+	content1->only_text()->set_dcp_track (DCPTextTrack("First track", dcp::LanguageTag("fr-FR")));
 	content2->only_text()->set_type (TextType::CLOSED_CAPTION);
-	content2->only_text()->set_dcp_track (DCPTextTrack("Second track", "de-DE"));
+	content2->only_text()->set_dcp_track (DCPTextTrack("Second track", dcp::LanguageTag("de-DE")));
 	content3->only_text()->set_type (TextType::CLOSED_CAPTION);
-	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", "it-IT"));
+	content3->only_text()->set_dcp_track (DCPTextTrack("Third track", dcp::LanguageTag("it-IT")));
 
 	make_and_verify_dcp (
 		film,

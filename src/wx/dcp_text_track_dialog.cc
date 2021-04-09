@@ -33,7 +33,7 @@ DCPTextTrackDialog::DCPTextTrackDialog (wxWindow* parent)
 	add (_("Name"), true);
 	add (_name = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1)));
 	add (_("Language"), true);
-	_language = new LanguageTagWidget (this, wxT(""), dcp::LanguageTag("en-US"));
+	_language = new LanguageTagWidget (this, wxT(""), boost::none);
 	add (_language->sizer());
 
 	layout ();
@@ -44,5 +44,5 @@ DCPTextTrack
 DCPTextTrackDialog::get () const
 {
 	DCPOMATIC_ASSERT (_language->get());
-	return DCPTextTrack(wx_to_std(_name->GetValue()), _language->get()->to_string());
+	return DCPTextTrack(wx_to_std(_name->GetValue()), _language->get());
 }

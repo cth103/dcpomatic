@@ -149,8 +149,8 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 			s->set_content_title_text (_film->name());
 			if (lang.first) {
 				s->set_language (*lang.first);
-			} else if (!track->language.empty()) {
-				s->set_language (dcp::LanguageTag(track->language));
+			} else if (track->language) {
+				s->set_language (track->language.get());
 			}
 			s->set_edit_rate (dcp::Fraction (_film->video_frame_rate(), 1));
 			s->set_reel_number (_reel_index + 1);
