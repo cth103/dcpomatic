@@ -149,7 +149,17 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_too_long)
 	check (
 		TextType::OPEN_SUBTITLE,
 		"hint_subtitle_too_long",
-		string("At least one of your subtitle lines has more than 52 characters.  It is advisable to make each line 52 characters at most in length.")
+		string("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length.")
+	      );
+}
+
+
+BOOST_AUTO_TEST_CASE (hint_subtitle_much_too_long)
+{
+	check (
+		TextType::OPEN_SUBTITLE,
+		"hint_subtitle_much_too_long",
+		string("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length.")
 	      );
 }
 

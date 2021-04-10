@@ -417,6 +417,12 @@ Hints::thread ()
 
 	_writer->write (player->get_subtitle_fonts());
 
+	if (_long_subtitle && !_very_long_subtitle) {
+		hint (_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));
+	} else if (_very_long_subtitle) {
+		hint (_("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length."));
+	}
+
 	bool ccap_xml_too_big = false;
 	bool ccap_mxf_too_big = false;
 	bool subs_mxf_too_big = false;
@@ -554,14 +560,12 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 		longest_line = max (longest_line, i.text().length());
 	}
 
-	if (longest_line > 52 && !_long_subtitle) {
+	if (longest_line > 52) {
 		_long_subtitle = true;
-		hint (_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));
 	}
 
-	if (longest_line > 79 && !_very_long_subtitle) {
+	if (longest_line > 79) {
 		_very_long_subtitle = true;
-		hint (_("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length."));
 	}
 
 	_last_subtitle = period;
