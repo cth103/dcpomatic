@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-10 02:17+0200\n"
-"PO-Revision-Date: 2021-04-06 23:40+0200\n"
+"PO-Revision-Date: 2021-04-12 00:16+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -168,7 +168,7 @@ msgstr "2,39:1 (Scope)"
 
 #: src/lib/filter.cc:77
 msgid "3D denoiser"
-msgstr "3D ruisonderdrukking"
+msgstr "3D-ruisonderdrukking"
 
 #: src/lib/hints.cc:206
 msgid ""
@@ -178,7 +178,7 @@ msgid ""
 msgstr ""
 "4K-3D wordt alleen ondersteund door een zeer beperkt aantal projectoren.  "
 "Tenzij u weet dat u deze DCP gaat afspelen op een geschikte projector, is "
-"het raadzaam om de DCP in te stellen op 2K in het DCP/Video-tabblad."
+"het raadzaam om de DCP in te stellen op 2K in het \"DCP/Video\"-tabblad."
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:145
@@ -291,22 +291,20 @@ msgid "At least one of your subtitle files is larger than "
 msgstr "Ten minste één van uw ondertitelbestanden is groter dan "
 
 #: src/lib/hints.cc:559
-#, fuzzy
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr ""
-"Ten minste één van uw ondertitel-regels heeft meer dan 52 tekens.  Het is "
-"verstandig om niet meer dan 52 tekens in een regel te gebruiken."
+"Ten minste één van uw ondertitel-regels heeft meer dan 52 tekens.  Het wordt "
+"aanbevolen om niet meer dan 52 tekens in een regel te gebruiken."
 
 #: src/lib/hints.cc:564
-#, fuzzy
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr ""
-"Ten minste één van uw ondertitel-regels heeft meer dan 52 tekens.  Het is "
-"verstandig om niet meer dan 52 tekens in een regel te gebruiken."
+"Ten minste één van uw ondertitel-regels heeft meer dan 79 tekens.  U moet "
+"elke regel maximaal 79 tekens lang maken."
 
 #: src/lib/hints.cc:549
 msgid ""
@@ -333,7 +331,6 @@ msgstr ""
 "Het is verstandig om minstens 2 frames tussen ondertitels te laten."
 
 #: src/lib/hints.cc:594
-#, fuzzy
 msgid ""
 "At least one piece of subtitle or closed caption content has no specified "
 "language.  It is advisable to set the language for each piece of subtitle or "
@@ -342,7 +339,8 @@ msgid ""
 msgstr ""
 "Ten minste één deel van de ondertitel of closed caption content heeft geen "
 "gespecificeerde taal.  Het is raadzaam om de taal voor elk stuk ondertitel "
-"of closed caption content in te stellen in het Content/Timed text-tabblad."
+"of closed caption content in te stellen in het \"Content/Timed text\"-, "
+"\"Content/Open ondertitels\"- of \"Content/Closed captions\"-tabblad."
 
 #: src/lib/audio_content.cc:291
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -1013,7 +1011,7 @@ msgstr "Slechthorenden (HI)"
 
 #: src/lib/filter.cc:78
 msgid "High quality 3D denoiser"
-msgstr "Hoge kwaliteit 3D ruisonderdrukking"
+msgstr "Hoge kwaliteit 3D-ruisonderdrukking"
 
 #: src/lib/filter.cc:67
 msgid "Horizontal flip"
@@ -1045,7 +1043,7 @@ msgid ""
 msgstr ""
 "Over het algemeen is het nu raadzaam om SMPTE-DCP's te maken, tenzij u een "
 "bepaalde reden heeft om Interop te gebruiken.  U wordt geadviseerd om de DCP-"
-"standaard op SMPTE in te stellen in het DCP-tabblad."
+"standaard op SMPTE in te stellen in het \"DCP\"-tabblad."
 
 #: src/lib/hints.cc:532
 msgid ""
@@ -1350,7 +1348,7 @@ msgstr ""
 "SMPTE-DCP's met het type FTR (feature) moeten markers hebben voor het eerste "
 "frame van de aftiteling (FFEC: first frame of end credits) en het eerste "
 "frame van de bewegende aftiteling (FFMC: first frame of moving credits).  U "
-"moet deze markers toevoegen met de knop 'Markers' in het DCP-tabblad."
+"moet deze markers toevoegen met de knop 'Markers' in het \"DCP\"-tabblad."
 
 #: src/lib/ffmpeg_content.cc:633
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
@@ -1488,7 +1486,7 @@ msgid ""
 msgstr ""
 "Het content-bestand %1 is ingesteld als 3D, maar lijkt geen 3D-beelden te "
 "bevatten.  Stel het in op 2D.  U kunt nog steeds een 3D-DCP van deze content "
-"maken door in het DCP/Video-tabblad de 3D-optie aan te vinken."
+"maken door in het \"DCP/Video\"-tabblad de 3D-optie aan te vinken."
 
 #: src/lib/job.cc:110
 msgid ""
@@ -1540,8 +1538,8 @@ msgid ""
 "tab of Preferences."
 msgstr ""
 "Er was niet genoeg geheugen om dit te doen.  Probeer het aantal encodeer-"
-"threads te verminderen in het Algemeen-tabblad bij Voorkeuren als u een 32-"
-"bit operating system draait."
+"threads te verminderen in het \"Algemeen\"-tabblad bij Voorkeuren als u een "
+"32-bit operating system draait."
 
 #: src/lib/util.cc:1142
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
@@ -1563,7 +1561,7 @@ msgstr ""
 "Deze fout is waarschijnlijk opgetreden omdat u de 32-bits versie van DCP-o-"
 "matic gebruikt en probeert te veel encoderings-threads te gebruiken.  "
 "Verminder het 'Aantal threads dat DCP-o-matic moet gebruiken' in het "
-"Algemeen-tabblad bij Voorkeuren en probeer het opnieuw."
+"\"Algemeen\"-tabblad bij Voorkeuren en probeer het opnieuw."
 
 #: src/lib/job.cc:139
 msgid ""

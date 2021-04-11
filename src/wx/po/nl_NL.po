@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-10 02:17+0200\n"
-"PO-Revision-Date: 2021-04-06 23:17+0200\n"
+"PO-Revision-Date: 2021-04-12 00:08+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -2788,6 +2787,8 @@ msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
 msgstr ""
+"De Asset ID in een timed text MXF is hetzelfde als de Resource ID of die van "
+"de ingesloten XML."
 
 #: src/wx/verify_dcp_dialog.cc:290
 #, c-format
@@ -2929,6 +2930,8 @@ msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr ""
+"De Resource ID in een timed text MXF is niet hetzelfde als de ID van de "
+"ingesloten XML."
 
 #: src/wx/verify_dcp_dialog.cc:145
 #, c-format
@@ -3103,6 +3106,8 @@ msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr ""
+"De reel-duur (%s) van sommige timed text is niet hetzelfde als de "
+"ContainerDuration (%s) van zijn MXF."
 
 #: src/wx/verify_dcp_dialog.cc:230
 #, c-format
@@ -3509,9 +3514,8 @@ msgid "UTC-9"
 msgstr "UTC-9"
 
 #: src/wx/closed_captions_dialog.cc:252
-#, fuzzy
 msgid "Unknown"
-msgstr "onbekend"
+msgstr "Onbekend"
 
 #: src/wx/update_dialog.cc:33
 msgid "Update"
