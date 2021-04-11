@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  src/wx/audio_mapping_view.h
  *  @brief AudioMappingView class.
  *
  */
+
 
 #include "lib/audio_mapping.h"
 #include "lib/types.h"
@@ -30,6 +32,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 /** @class AudioMappingView
  *  @brief This class displays the mapping of one set of audio channels to another,
@@ -45,7 +48,6 @@ DCPOMATIC_ENABLE_WARNINGS
  *  hidden from view.  Thus input channels are never hidden but output channels
  *  might be.
  */
-
 class AudioMappingView : public wxPanel
 {
 public:
@@ -90,7 +92,7 @@ private:
 	void right_down (wxMouseEvent &);
 	void motion (wxMouseEvent &);
 	void mouse_wheel (wxMouseEvent &);
-	boost::optional<std::pair<NamedChannel, NamedChannel> > mouse_event_to_channels (wxMouseEvent& ev) const;
+	boost::optional<std::pair<NamedChannel, NamedChannel>> mouse_event_to_channels (wxMouseEvent& ev) const;
 	boost::optional<std::string> mouse_event_to_input_group_name (wxMouseEvent& ev) const;
 	void setup ();
 	wxString input_channel_name_with_group (NamedChannel const& n) const;
