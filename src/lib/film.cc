@@ -65,6 +65,7 @@
 #include <dcp/decrypted_kdm.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel_file_asset.h>
+#include <dcp/reel_encryptable_asset.h>
 #include <dcp/reel_asset.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
@@ -1664,9 +1665,9 @@ Film::make_kdm (
 		}
 	}
 
-	map<shared_ptr<const dcp::ReelFileAsset>, dcp::Key> keys;
+	map<shared_ptr<const dcp::ReelEncryptableAsset>, dcp::Key> keys;
 
-	for (auto i: cpl->reel_file_assets()) {
+	for (auto i: cpl->reel_encryptable_assets()) {
 		if (!i->key_id()) {
 			continue;
 		}

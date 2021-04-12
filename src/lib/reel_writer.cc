@@ -32,24 +32,26 @@
 #include "image.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_writer.h>
+#include <dcp/certificate_chain.h>
+#include <dcp/cpl.h>
+#include <dcp/dcp.h>
+#include <dcp/interop_subtitle_asset.h>
 #include <dcp/mono_picture_asset.h>
-#include <dcp/stereo_picture_asset.h>
-#include <dcp/sound_asset.h>
-#include <dcp/sound_asset_writer.h>
+#include <dcp/raw_convert.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
-#include <dcp/reel_mono_picture_asset.h>
-#include <dcp/reel_stereo_picture_asset.h>
-#include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_interop_closed_caption_asset.h>
+#include <dcp/reel_interop_subtitle_asset.h>
 #include <dcp/reel_markers_asset.h>
-#include <dcp/dcp.h>
-#include <dcp/cpl.h>
-#include <dcp/certificate_chain.h>
-#include <dcp/interop_subtitle_asset.h>
+#include <dcp/reel_mono_picture_asset.h>
+#include <dcp/reel_smpte_closed_caption_asset.h>
+#include <dcp/reel_smpte_subtitle_asset.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/reel_stereo_picture_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
-#include <dcp/raw_convert.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset_writer.h>
+#include <dcp/stereo_picture_asset.h>
 #include <dcp/subtitle_image.h>
 
 #include "i18n.h"
@@ -438,8 +440,8 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 	}
 }
 
-template <class T>
-shared_ptr<T>
+template <class Interop, class SMPTE, class Result>
+shared_ptr<Result>
 maybe_add_text (
 	shared_ptr<dcp::SubtitleAsset> asset,
 	int64_t picture_duration,
@@ -455,7 +457,7 @@ maybe_add_text (
 {
 	Frame const period_duration = period.duration().frames_round(film->video_frame_rate());
 
-	shared_ptr<T> reel_asset;
+	shared_ptr<Result> reel_asset;
 
 	if (asset) {
 		/* Add the font to the subtitle content */
@@ -463,33 +465,38 @@ maybe_add_text (
 			asset->add_font (j.id, j.data.get_value_or(default_font));
 		}
 
-		if (dynamic_pointer_cast<dcp::InteropSubtitleAsset> (asset)) {
-			auto directory = output_dcp / asset->id ();
+		if (auto interop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(asset)) {
+			auto directory = output_dcp / interop->id ();
 			boost::filesystem::create_directories (directory);
-			asset->write (directory / ("sub_" + asset->id() + ".xml"));
-		} else {
+			interop->write (directory / ("sub_" + interop->id() + ".xml"));
+			reel_asset = make_shared<Interop> (
+				interop,
+				dcp::Fraction(film->video_frame_rate(), 1),
+				picture_duration,
+				0
+				);
+		} else if (auto smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(asset)) {
 			/* All our assets should be the same length; use the picture asset length here
 			   as a reference to set the subtitle one.  We'll use the duration rather than
 			   the intrinsic duration; we don't care if the picture asset has been trimmed, we're
 			   just interested in its presentation length.
 			*/
-			dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(asset)->set_intrinsic_duration (picture_duration);
-
-			asset->write (
+			smpte->set_intrinsic_duration(picture_duration);
+			smpte->write (
 				output_dcp / ("sub_" + asset->id() + ".mxf")
+				);
+			reel_asset = make_shared<SMPTE> (
+				smpte,
+				dcp::Fraction(film->video_frame_rate(), 1),
+				picture_duration,
+				0
 				);
 		}
 
-		reel_asset = make_shared<T> (
-			asset,
-			dcp::Fraction(film->video_frame_rate(), 1),
-			picture_duration,
-			0
-			);
 	} else {
 		/* We don't have a subtitle asset of our own; hopefully we have one to reference */
 		for (auto j: refs) {
-			auto k = dynamic_pointer_cast<T> (j.asset);
+			auto k = dynamic_pointer_cast<Result> (j.asset);
 			if (k && j.period == period) {
 				reel_asset = k;
 				/* If we have a hash for this asset in the CPL, assume that it is correct */
@@ -622,7 +629,7 @@ ReelWriter::create_reel_text (
 	set<DCPTextTrack> ensure_closed_captions
 	) const
 {
-	auto subtitle = maybe_add_text<dcp::ReelSubtitleAsset> (
+	auto subtitle = maybe_add_text<dcp::ReelInteropSubtitleAsset, dcp::ReelSMPTESubtitleAsset, dcp::ReelSubtitleAsset> (
 		_subtitle_asset, duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 		);
 
@@ -633,7 +640,7 @@ ReelWriter::create_reel_text (
 		}
 	} else if (ensure_subtitles) {
 		/* We had no subtitle asset, but we've been asked to make sure there is one */
-		subtitle = maybe_add_text<dcp::ReelSubtitleAsset>(
+		subtitle = maybe_add_text<dcp::ReelInteropSubtitleAsset, dcp::ReelSMPTESubtitleAsset, dcp::ReelSubtitleAsset> (
 			empty_text_asset(TextType::OPEN_SUBTITLE, optional<DCPTextTrack>()),
 			duration,
 			reel,
@@ -648,7 +655,7 @@ ReelWriter::create_reel_text (
 	}
 
 	for (auto const& i: _closed_caption_assets) {
-		auto a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
+		auto a = maybe_add_text<dcp::ReelInteropClosedCaptionAsset, dcp::ReelSMPTEClosedCaptionAsset, dcp::ReelClosedCaptionAsset> (
 			i.second, duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);
@@ -662,7 +669,7 @@ ReelWriter::create_reel_text (
 
 	/* Make empty tracks for anything we've been asked to ensure but that we haven't added */
 	for (auto i: ensure_closed_captions) {
-		auto a = maybe_add_text<dcp::ReelClosedCaptionAsset> (
+		auto a = maybe_add_text<dcp::ReelInteropClosedCaptionAsset, dcp::ReelSMPTEClosedCaptionAsset, dcp::ReelClosedCaptionAsset> (
 			empty_text_asset(TextType::CLOSED_CAPTION, i), duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);

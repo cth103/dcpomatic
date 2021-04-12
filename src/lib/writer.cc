@@ -555,7 +555,8 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	auto cpl = make_shared<dcp::CPL>(
 		film()->dcp_name(),
-		film()->dcp_content_type()->libdcp_kind()
+		film()->dcp_content_type()->libdcp_kind(),
+		film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE
 		);
 
 	dcp.add (cpl);
@@ -676,7 +677,6 @@ Writer::finish (boost::filesystem::path output_dcp)
 	}
 
 	dcp.write_xml (
-		film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE,
 		issuer,
 		creator,
 		dcp::LocalTime().as_string(),
