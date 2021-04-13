@@ -26,7 +26,6 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel_file_asset.h>
-#include <dcp/reel_encryptable_asset.h>
 #include <dcp/reel_asset.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
@@ -214,8 +213,8 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 
 	encrypted = false;
 	for (auto j: dcp.cpls()) {
-		for (auto k: j->reel_encryptable_assets()) {
-			if (k->key_id()) {
+		for (auto k: j->reel_file_assets()) {
+			if (k->encrypted()) {
 				encrypted = true;
 			}
 		}

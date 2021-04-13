@@ -72,7 +72,7 @@ DCP::cpls () const
 	for (auto i: dcps) {
 		for (auto j: dcps) {
 			if (i != j) {
-				i->resolve_refs (j->assets (true));
+				i->resolve_refs(j->assets());
 			}
 		}
 	}
