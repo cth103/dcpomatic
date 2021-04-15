@@ -350,7 +350,15 @@ FilmViewer::start ()
          */
 	if (_audio.isStreamOpen()) {
 		_audio.setStreamTime (_video_view->position().seconds());
-		_audio.startStream ();
+		try {
+			_audio.startStream ();
+		} catch (RtAudioError& e) {
+			_audio_channels = 0;
+			error_dialog (
+				_video_view->get(),
+				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(e.what())
+				);
+		}
 	}
 
 	_playing = true;
