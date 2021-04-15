@@ -161,7 +161,11 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<Film
 	_film_connection = film->Change.connect (boost::bind(&AudioDialog::film_change, this, _1, _2));
 	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _3));
 	DCPOMATIC_ASSERT (film->directory());
-	SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
+	if (content) {
+		SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(content->path(0).string())));
+	} else {
+		SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
+	}
 
 	if (content) {
 		_playlist = make_shared<Playlist>();
