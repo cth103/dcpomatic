@@ -18,6 +18,7 @@
 
 */
 
+
 #include "markers_dialog.h"
 #include "wx_util.h"
 #include "timecode.h"
@@ -31,6 +32,7 @@
 #include <boost/bind/bind.hpp>
 #include <iostream>
 
+
 using std::cout;
 using std::shared_ptr;
 using std::weak_ptr;
@@ -38,6 +40,7 @@ using std::make_shared;
 using boost::optional;
 using boost::bind;
 using dcpomatic::DCPTime;
+
 
 class Marker
 {
@@ -111,6 +114,7 @@ private:
 	Timecode<dcpomatic::DCPTime>* timecode;
 	Button* set_button;
 };
+
 
 MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: wxDialog (parent, wxID_ANY, _("Markers"))

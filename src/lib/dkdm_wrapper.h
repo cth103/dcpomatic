@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include <dcp/encrypted_kdm.h>
 #include <libcxml/cxml.h>
 #include <memory>
@@ -27,7 +28,9 @@ namespace xmlpp {
 	class Element;
 }
 
+
 class DKDMGroup;
+
 
 class DKDMBase : public std::enable_shared_from_this<DKDMBase>
 {
@@ -50,6 +53,7 @@ private:
 	std::shared_ptr<DKDMGroup> _parent;
 };
 
+
 class DKDM : public DKDMBase
 {
 public:
@@ -68,6 +72,7 @@ private:
 	dcp::EncryptedKDM _dkdm;
 };
 
+
 class DKDMGroup : public DKDMBase
 {
 public:
@@ -81,14 +86,14 @@ public:
 
 	void as_xml (xmlpp::Element *) const;
 
-	std::list<std::shared_ptr<DKDMBase> > children () const {
+	std::list<std::shared_ptr<DKDMBase>> children () const {
 		return _children;
 	}
 
-	void add (std::shared_ptr<DKDMBase> child, std::shared_ptr<DKDM> previous = std::shared_ptr<DKDM> ());
+	void add (std::shared_ptr<DKDMBase> child, std::shared_ptr<DKDM> previous = std::shared_ptr<DKDM>());
         void remove (std::shared_ptr<DKDMBase> child);
 
 private:
 	std::string _name;
-	std::list<std::shared_ptr<DKDMBase> > _children;
+	std::list<std::shared_ptr<DKDMBase>> _children;
 };

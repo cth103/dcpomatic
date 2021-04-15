@@ -895,7 +895,7 @@ DCPPanel::show_audio_clicked ()
 
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
-		_audio_dialog = 0;
+		_audio_dialog = nullptr;
 	}
 
 	auto d = new AudioDialog (_panel, _film, _viewer);

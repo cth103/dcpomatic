@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "compose.hpp"
 #include "dkdm_wrapper.h"
 #include "dcpomatic_assert.h"
@@ -26,29 +27,32 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 using std::string;
 using std::list;
 using std::shared_ptr;
+using std::make_shared;
 using std::dynamic_pointer_cast;
+
 
 shared_ptr<DKDMBase>
 DKDMBase::read (cxml::ConstNodePtr node)
 {
 	if (node->name() == "DKDM") {
-		return shared_ptr<DKDM> (new DKDM (dcp::EncryptedKDM (node->content ())));
+		return make_shared<DKDM>(dcp::EncryptedKDM(node->content()));
 	} else if (node->name() == "DKDMGroup") {
-		shared_ptr<DKDMGroup> group (new DKDMGroup (node->string_attribute ("Name")));
+		auto group = make_shared<DKDMGroup>(node->string_attribute("Name"));
 		for (auto i: node->node_children()) {
-			shared_ptr<DKDMBase> c = read (i);
-			if (c) {
+			if (auto c = read(i)) {
 				group->add (c);
 			}
 		}
 		return group;
 	}
 
-	return shared_ptr<DKDMBase> ();
+	return {};
 }
+
 
 string
 DKDM::name () const
@@ -56,48 +60,52 @@ DKDM::name () const
 	return String::compose ("%1 (%2)", _dkdm.content_title_text(), _dkdm.cpl_id());
 }
 
+
 void
 DKDM::as_xml (xmlpp::Element* node) const
 {
 	node->add_child("DKDM")->add_child_text (_dkdm.as_xml ());
 }
 
+
 void
 DKDMGroup::as_xml (xmlpp::Element* node) const
 {
-	xmlpp::Element* f = node->add_child("DKDMGroup");
+	auto f = node->add_child("DKDMGroup");
 	f->set_attribute ("Name", _name);
 	for (auto i: _children) {
 		i->as_xml (f);
 	}
 }
 
+
 void
 DKDMGroup::add (shared_ptr<DKDMBase> child, shared_ptr<DKDM> previous)
 {
 	DCPOMATIC_ASSERT (child);
 	if (previous) {
-		list<shared_ptr<DKDMBase> >::iterator i = find (_children.begin(), _children.end(), previous);
-		if (i != _children.end ()) {
+		auto i = find (_children.begin(), _children.end(), previous);
+		if (i != _children.end()) {
 			++i;
 		}
 		_children.insert (i, child);
 	} else {
 		_children.push_back (child);
 	}
-	child->set_parent (dynamic_pointer_cast<DKDMGroup> (shared_from_this ()));
+	child->set_parent (dynamic_pointer_cast<DKDMGroup>(shared_from_this()));
 }
+
 
 void
 DKDMGroup::remove (shared_ptr<DKDMBase> child)
 {
-	for (list<shared_ptr<DKDMBase> >::iterator i = _children.begin(); i != _children.end(); ++i) {
+	for (auto i = _children.begin(); i != _children.end(); ++i) {
 		if (*i == child) {
 			_children.erase (i);
-			child->set_parent (shared_ptr<DKDMGroup> ());
+			child->set_parent (shared_ptr<DKDMGroup>());
 			return;
 		}
-		shared_ptr<DKDMGroup> g = dynamic_pointer_cast<DKDMGroup> (*i);
+		auto g = dynamic_pointer_cast<DKDMGroup> (*i);
 		if (g) {
 			g->remove (child);
 		}

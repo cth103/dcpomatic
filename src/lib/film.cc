@@ -284,13 +284,13 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 	auto p = dir ("analysis");
 
 	Digester digester;
-	for (auto i: playlist->content ()) {
+	for (auto i: playlist->content()) {
 		if (!i->audio) {
 			continue;
 		}
 
-		digester.add (i->digest ());
-		digester.add (i->audio->mapping().digest ());
+		digester.add (i->digest());
+		digester.add (i->audio->mapping().digest());
 		if (playlist->content().size() != 1) {
 			/* Analyses should be considered equal regardless of gain
 			   if they were made from just one piece of content.  This
@@ -298,7 +298,7 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 			   analysis at the plotting stage rather than having to
 			   recompute it.
 			*/
-			digester.add (i->audio->gain ());
+			digester.add (i->audio->gain());
 		}
 	}
 

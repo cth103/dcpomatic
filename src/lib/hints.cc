@@ -125,7 +125,7 @@ Hints::check_incorrect_container ()
 	int scope = 0;
 	for (auto i: film()->content()) {
 		if (i->video) {
-			Ratio const * r = Ratio::nearest_from_ratio(i->video->scaled_size(film()->frame_size()).ratio());
+			auto const r = Ratio::nearest_from_ratio(i->video->scaled_size(film()->frame_size()).ratio());
 			if (r && r->id() == "239") {
 				++scope;
 			} else if (r && r->id() != "239" && r->id() != "235" && r->id() != "190") {

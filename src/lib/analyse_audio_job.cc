@@ -205,8 +205,7 @@ AnalyseAudioJob::run ()
 		/* If there was only one piece of content in this analysis we may later need to know what its
 		   gain was when we analysed it.
 		*/
-		shared_ptr<const AudioContent> ac = _playlist->content().front()->audio;
-		if (ac) {
+		if (auto ac = _playlist->content().front()->audio) {
 			_analysis->set_analysis_gain (ac->gain());
 		}
 	}

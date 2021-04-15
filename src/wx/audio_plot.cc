@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_plot.h"
 #include "wx_util.h"
 #include "film_viewer.h"
@@ -28,6 +29,7 @@
 #include <boost/bind/bind.hpp>
 #include <iostream>
 #include <cfloat>
+
 
 using std::cout;
 using std::vector;
@@ -44,9 +46,11 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 int const AudioPlot::_minimum = -70;
 int const AudioPlot::_cursor_size = 8;
 int const AudioPlot::max_smoothing = 128;
+
 
 AudioPlot::AudioPlot (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
@@ -98,6 +102,7 @@ AudioPlot::AudioPlot (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	SetMinSize (wxSize (640, 512));
 }
 
+
 void
 AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
 {
@@ -110,12 +115,14 @@ AudioPlot::set_analysis (shared_ptr<AudioAnalysis> a)
 	Refresh ();
 }
 
+
 void
 AudioPlot::set_channel_visible (int c, bool v)
 {
 	_channel_visible[c] = v;
 	Refresh ();
 }
+
 
 void
 AudioPlot::set_type_visible (int t, bool v)
@@ -124,12 +131,14 @@ AudioPlot::set_type_visible (int t, bool v)
 	Refresh ();
 }
 
+
 void
 AudioPlot::set_message (wxString s)
 {
 	_message = s;
 	Refresh ();
 }
+
 
 struct Metrics
 {
@@ -140,12 +149,13 @@ struct Metrics
 	float y_scale;
 };
 
+
 void
 AudioPlot::paint ()
 {
 	wxPaintDC dc (this);
 
-	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
+	auto gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
 	}
@@ -157,7 +167,7 @@ AudioPlot::paint ()
 		return;
 	}
 
-	wxGraphicsPath h_grid = gc->CreatePath ();
+	auto h_grid = gc->CreatePath ();
 	gc->SetFont (gc->CreateFont (*wxSMALL_FONT));
 	wxDouble db_label_height;
 	wxDouble db_label_descent;
@@ -186,7 +196,7 @@ AudioPlot::paint ()
 
 	/* Draw an x axis with marks */
 
-	wxGraphicsPath v_grid = gc->CreatePath ();
+	auto v_grid = gc->CreatePath ();
 
 	DCPOMATIC_ASSERT (_analysis->samples_per_point() != 0.0);
 	double const pps = _analysis->sample_rate() * metrics.x_scale / _analysis->samples_per_point();
@@ -195,7 +205,7 @@ AudioPlot::paint ()
 
 	double const mark_interval = calculate_mark_interval (rint (128 / pps));
 
-	DCPTime t = DCPTime::from_seconds (mark_interval);
+	auto t = DCPTime::from_seconds (mark_interval);
 	while ((t.seconds() * pps) < data_width) {
 		double tc = t.seconds ();
 		int const h = tc / 3600;
@@ -204,7 +214,7 @@ AudioPlot::paint ()
 		tc -= m * 60;
 		int const s = tc;
 
-		wxString str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
+		auto str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
 		wxDouble str_width;
 		wxDouble str_height;
 		wxDouble str_descent;
@@ -225,11 +235,11 @@ AudioPlot::paint ()
 
 	if (_type_visible[AudioPoint::PEAK]) {
 		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
-			wxGraphicsPath p = gc->CreatePath ();
+			auto p = gc->CreatePath ();
 			if (_channel_visible[c] && c < _analysis->channels()) {
 				plot_peak (p, c, metrics);
 			}
-			wxColour const col = _colours[c];
+			auto const col = _colours[c];
 			gc->SetPen (wxPen (wxColour (col.Red(), col.Green(), col.Blue(), col.Alpha() / 2), 1, wxPENSTYLE_SOLID));
 			gc->StrokePath (p);
 		}
@@ -237,17 +247,17 @@ AudioPlot::paint ()
 
 	if (_type_visible[AudioPoint::RMS]) {
 		for (int c = 0; c < MAX_DCP_AUDIO_CHANNELS; ++c) {
-			wxGraphicsPath p = gc->CreatePath ();
+			auto p = gc->CreatePath ();
 			if (_channel_visible[c] && c < _analysis->channels()) {
 				plot_rms (p, c, metrics);
 			}
-			wxColour const col = _colours[c];
+			auto const col = _colours[c];
 			gc->SetPen (wxPen (col, 1, wxPENSTYLE_SOLID));
 			gc->StrokePath (p);
 		}
 	}
 
-	wxGraphicsPath axes = gc->CreatePath ();
+	auto axes = gc->CreatePath ();
 	axes.MoveToPoint (metrics.db_label_width, 0);
 	axes.AddLineToPoint (metrics.db_label_width, metrics.height - metrics.y_origin);
 	axes.AddLineToPoint (metrics.db_label_width + data_width, metrics.height - metrics.y_origin);
@@ -255,18 +265,17 @@ AudioPlot::paint ()
 	gc->StrokePath (axes);
 
 	if (_cursor) {
-		wxGraphicsPath cursor = gc->CreatePath ();
+		auto cursor = gc->CreatePath ();
 		cursor.MoveToPoint (_cursor->draw.x - _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
 		cursor.AddLineToPoint (_cursor->draw.x + _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
 		cursor.MoveToPoint (_cursor->draw.x + _cursor_size / 2, _cursor->draw.y - _cursor_size / 2);
 		cursor.AddLineToPoint (_cursor->draw.x - _cursor_size / 2, _cursor->draw.y + _cursor_size / 2);
 		gc->StrokePath (cursor);
-
-
 	}
 
 	delete gc;
 }
+
 
 float
 AudioPlot::y_for_linear (float p, Metrics const & metrics) const
@@ -277,6 +286,7 @@ AudioPlot::y_for_linear (float p, Metrics const & metrics) const
 
 	return metrics.height - (linear_to_db(p) - _minimum) * metrics.y_scale - metrics.y_origin;
 }
+
 
 void
 AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics) const
@@ -314,6 +324,7 @@ AudioPlot::plot_peak (wxGraphicsPath& path, int channel, Metrics const & metrics
 		path.AddLineToPoint (i.draw);
 	}
 }
+
 
 void
 AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics) const
@@ -384,6 +395,7 @@ AudioPlot::plot_rms (wxGraphicsPath& path, int channel, Metrics const & metrics)
 	}
 }
 
+
 void
 AudioPlot::set_smoothing (int s)
 {
@@ -393,6 +405,7 @@ AudioPlot::set_smoothing (int s)
 	Refresh ();
 }
 
+
 void
 AudioPlot::set_gain_correction (double gain)
 {
@@ -400,16 +413,18 @@ AudioPlot::set_gain_correction (double gain)
 	Refresh ();
 }
 
+
 AudioPoint
 AudioPlot::get_point (int channel, int point) const
 {
-	AudioPoint p = _analysis->get_point (channel, point);
+	auto p = _analysis->get_point (channel, point);
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		p[i] *= db_to_linear(_gain_correction);
 	}
 
 	return p;
 }
+
 
 /** @param n Channel index.
  *  @return Colour used by that channel in the plot.
@@ -421,11 +436,12 @@ AudioPlot::colour (int n) const
 	return _colours[n];
 }
 
+
 void
 AudioPlot::search (map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const
 {
-	for (map<int, PointList>::const_iterator i = search.begin(); i != search.end(); ++i) {
-		for (auto const& j: i->second) {
+	for (auto const& i: search) {
+		for (auto const& j: i.second) {
 			double const dist = pow(ev.GetX() - j.draw.x, 2) + pow(ev.GetY() - j.draw.y, 2);
 			if (dist < min_dist) {
 				min_dist = dist;
@@ -440,8 +456,7 @@ void
 AudioPlot::left_down ()
 {
 	if (_cursor) {
-		shared_ptr<FilmViewer> fv = _viewer.lock ();
-		if (fv) {
+		if (auto fv = _viewer.lock()) {
 			fv->seek (_cursor->time, true);
 		}
 	}
@@ -457,7 +472,7 @@ AudioPlot::mouse_moved (wxMouseEvent& ev)
 	search (_rms, ev, min_dist, min_point);
 	search (_peak, ev, min_dist, min_point);
 
-	_cursor = optional<Point> ();
+	_cursor = {};
 
 	if (min_dist < DBL_MAX) {
 		wxRect before (min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
@@ -469,10 +484,11 @@ AudioPlot::mouse_moved (wxMouseEvent& ev)
 	}
 }
 
+
 void
 AudioPlot::mouse_leave (wxMouseEvent &)
 {
-	_cursor = optional<Point> ();
+	_cursor = {};
 	Refresh ();
 	Cursor (optional<DCPTime>(), optional<float>());
 }

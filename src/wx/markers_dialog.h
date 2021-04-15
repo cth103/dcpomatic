@@ -37,6 +37,6 @@ public:
 	MarkersDialog (wxWindow* parent, std::weak_ptr<Film> film, std::weak_ptr<FilmViewer> viewer);
 
 private:
-	std::list<std::shared_ptr<Marker> > _markers;
+	std::list<std::shared_ptr<Marker>> _markers;
 	std::weak_ptr<Film> _film;
 };
