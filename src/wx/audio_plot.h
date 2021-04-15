@@ -76,7 +76,6 @@ private:
 	void left_down ();
 	void mouse_moved (wxMouseEvent& ev);
 	void mouse_leave (wxMouseEvent& ev);
-	void search (std::map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const;
 
 	std::weak_ptr<FilmViewer> _viewer;
 	std::shared_ptr<AudioAnalysis> _analysis;
@@ -87,7 +86,9 @@ private:
 	wxString _message;
 	float _gain_correction;
 
+	/** peak values keyed by channel */
 	mutable std::map<int, PointList> _peak;
+	/** RMS values keyed by channel */
 	mutable std::map<int, PointList> _rms;
 
 	boost::optional<Point> _cursor;

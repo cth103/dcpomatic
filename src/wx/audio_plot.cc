@@ -440,21 +440,6 @@ AudioPlot::colour (int n) const
 
 
 void
-AudioPlot::search (map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) const
-{
-	for (auto const& i: search) {
-		for (auto const& j: i.second) {
-			double const dist = pow(ev.GetX() - j.draw.x, 2) + pow(ev.GetY() - j.draw.y, 2);
-			if (dist < min_dist) {
-				min_dist = dist;
-				min_point = j;
-			}
-		}
-	}
-}
-
-
-void
 AudioPlot::left_down ()
 {
 	if (_cursor) {
@@ -471,8 +456,26 @@ AudioPlot::mouse_moved (wxMouseEvent& ev)
 	double min_dist = DBL_MAX;
 	Point min_point;
 
-	search (_rms, ev, min_dist, min_point);
-	search (_peak, ev, min_dist, min_point);
+	auto search = [this](map<int, PointList> const & search, wxMouseEvent const & ev, double& min_dist, Point& min_point) {
+		for (auto const& i: search) {
+			if (_channel_visible[i.first]) {
+				for (auto const& j: i.second) {
+					double const dist = pow(ev.GetX() - j.draw.x, 2) + pow(ev.GetY() - j.draw.y, 2);
+					if (dist < min_dist) {
+						min_dist = dist;
+						min_point = j;
+					}
+				}
+			}
+		}
+	};
+
+	if (_type_visible[AudioPoint::RMS]) {
+		search (_rms, ev, min_dist, min_point);
+	}
+	if (_type_visible[AudioPoint::PEAK]) {
+		search (_peak, ev, min_dist, min_point);
+	}
 
 	_cursor = {};
 
