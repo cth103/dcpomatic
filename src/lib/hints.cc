@@ -388,7 +388,7 @@ Hints::thread ()
 	check_out_of_range_markers ();
 	check_text_languages ();
 
-	emit (bind(boost::ref(Progress), _("Examining closed captions")));
+	emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
 
 	auto player = make_shared<Player>(film);
 	player->set_ignore_video ();
