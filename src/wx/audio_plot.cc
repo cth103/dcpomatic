@@ -160,6 +160,8 @@ AudioPlot::paint ()
 		return;
 	}
 
+	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
+
 	if (!_analysis || _analysis->channels() == 0) {
 		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
 		gc->DrawText (_message, 32, 32);
