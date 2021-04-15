@@ -840,7 +840,7 @@ DCPPanel::make_audio_panel ()
 	_audio_processor = new wxChoice (panel, wxID_ANY);
 	add_audio_processors ();
 
-	_show_audio = new Button (panel, _("Show audio..."));
+	_show_audio = new Button (panel, _("Show graph of audio levels..."));
 
 	_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_channels_changed, this));
 	_audio_processor->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_processor_changed, this));
