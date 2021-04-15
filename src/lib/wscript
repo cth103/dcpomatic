@@ -30,6 +30,7 @@ sources = """
           atmos_decoder.cc
           atmos_metadata.cc
           atmos_mxf_decoder.cc
+          audio_analyser.cc
           audio_analysis.cc
           audio_buffers.cc
           audio_content.cc

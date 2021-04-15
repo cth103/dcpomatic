@@ -18,10 +18,13 @@
 
 */
 
+
 /** @file  src/lib/analyse_audio_job.h
  *  @brief AnalyseAudioJob class.
  */
 
+
+#include "audio_analyser.h"
 #include "job.h"
 #include "audio_point.h"
 #include "types.h"
@@ -29,12 +32,14 @@
 #include <leqm_nrt.h>
 #include <boost/scoped_ptr.hpp>
 
+
 class AudioBuffers;
 class AudioAnalysis;
 class Playlist;
 class AudioPoint;
 class AudioFilterGraph;
 class Filter;
+
 
 /** @class AnalyseAudioJob
  *  @brief A job to analyse the audio of a film and make a note of its
@@ -58,27 +63,11 @@ public:
 	}
 
 private:
-	void analyse (std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
+	AudioAnalyser _analyser;
 
 	std::shared_ptr<const Playlist> _playlist;
 	/** playlist's audio analysis path when the job was created */
 	boost::filesystem::path _path;
-	dcpomatic::DCPTime _start;
-	bool _from_zero;
-
-	Frame _done;
-	Frame _samples_per_point;
-	AudioPoint* _current;
-
-	float* _sample_peak;
-	Frame* _sample_peak_frame;
-
-	std::shared_ptr<AudioAnalysis> _analysis;
-
-	std::shared_ptr<AudioFilterGraph> _ebur128;
-	std::vector<Filter const *> _filters;
-
-	boost::scoped_ptr<leqm_nrt::Calculator> _leqm;
 
 	static const int _num_points;
 };

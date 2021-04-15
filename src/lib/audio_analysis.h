@@ -39,7 +39,7 @@ namespace xmlpp {
 class Playlist;
 
 
-class AudioAnalysis : public boost::noncopyable
+class AudioAnalysis
 {
 public:
 	explicit AudioAnalysis (int c);
