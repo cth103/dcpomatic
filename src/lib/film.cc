@@ -299,6 +299,13 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 			   recompute it.
 			*/
 			digester.add (i->audio->gain());
+
+			/* Likewise we only care about position if we're looking at a
+			 * whole-project view.
+			 */
+			digester.add (i->position().get());
+			digester.add (i->trim_start().get());
+			digester.add (i->trim_end().get());
 		}
 	}
 
