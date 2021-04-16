@@ -325,8 +325,8 @@ def dependencies(target):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', 'v1.6.17'))
-    deps.append(('libsub', 'v1.4.24'))
+    deps.append(('libdcp', 'b2ccdee'))
+    deps.append(('libsub', 'b081365'))
     deps.append(('rtaudio-cdist', 'bf0fc23'))
 
     return deps
