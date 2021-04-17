@@ -1,0 +1,17 @@
+4.3 with compute shaders "came out in 2012"
+Anything before 3.0 is deprecated (especially anything with glBegin/glEnd)
+
+https://stackoverflow.com/questions/14300569/opengl-glbegin-glend
+"The direct mode API with glBegin and glEnd is deprecated, largely for performance reasons."
+"Using VBOs scales better"
+
+OpenGL 3.3 tutorials (written 2012)
+http://www.opengl-tutorial.org/
+
+An intro to modern OpenGL (written 2010)
+https://duriansoftware.com/joe/an-intro-to-modern-opengl.-table-of-contents
+
+Learning Modern 3D Graphics Programming (written 2012)
+https://web.archive.org/web/20140209181347/http://www.arcsynthesis.org/gltut/
+
+"Since OpenGL3.3 most old stuff was moved to compatibility profile, while modern features are core profile; the latter requires self-written shaders, but they should be pretty simple for your case).
