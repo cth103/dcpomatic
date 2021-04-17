@@ -63,13 +63,14 @@ private:
 	void check_for_butler_errors ();
 	void ensure_context ();
 	void size_changed (wxSizeEvent const &);
+	void setup_shaders ();
+	void set_border_colour (GLuint program);
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
 
 	boost::atomic<wxSize> _canvas_size;
-
-	GLuint _id;
+	GLuint _texture;
 	boost::optional<dcp::Size> _size;
 	bool _have_storage;
 	bool _vsync_enabled;
@@ -79,6 +80,10 @@ private:
 	boost::condition _thread_work_condition;
 	boost::atomic<bool> _playing;
 	boost::atomic<bool> _one_shot;
+
+	GLuint _vao;
+	GLint _draw_border;
+	bool _setup_shaders_done = false;
 
 	std::shared_ptr<wxTimer> _timer;
 };

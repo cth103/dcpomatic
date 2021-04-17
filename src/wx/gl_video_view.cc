@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,11 @@
 
 */
 
+
+#ifdef DCPOMATIC_WINDOWS
+#include <GL/glew.h>
+#endif
+
 #include "gl_video_view.h"
 #include "film_viewer.h"
 #include "wx_util.h"
@@ -31,10 +36,9 @@
 #include <iostream>
 
 #ifdef DCPOMATIC_OSX
-#include <OpenGL/glu.h>
-#include <OpenGL/glext.h>
-#include <OpenGL/CGLTypes.h>
+#define GL_DO_NOT_WARN_IF_MULTI_GL_VERSION_HEADERS_INCLUDED
 #include <OpenGL/OpenGL.h>
+#include <OpenGL/gl3.h>
 #endif
 
 #ifdef DCPOMATIC_LINUX
@@ -44,12 +48,13 @@
 
 #ifdef DCPOMATIC_WINDOWS
 #include <GL/glu.h>
-#include <GL/glext.h>
 #include <GL/wglext.h>
 #endif
 
+
 using std::cout;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -74,7 +79,15 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	, _playing (false)
 	, _one_shot (false)
 {
-	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+	wxGLAttributes attributes;
+	/* We don't need a depth buffer, and indeed there is apparently a bug with Windows/Intel HD 630
+	 * which puts green lines over the OpenGL display if you have a non-zero depth buffer size.
+	 * https://community.intel.com/t5/Graphics/Request-for-details-on-Intel-HD-630-green-lines-in-OpenGL-apps/m-p/1202179
+	 */
+	attributes.PlatformDefaults().MinRGBA(8, 8, 8, 8).DoubleBuffer().Depth(0).EndList();
+	_canvas = new wxGLCanvas (
+		parent, attributes, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE
+	);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::update, this));
 	_canvas->Bind (wxEVT_SIZE, boost::bind(&GLVideoView::size_changed, this, _1));
 
@@ -102,7 +115,7 @@ GLVideoView::~GLVideoView ()
 		_thread.join ();
 	} catch (...) {}
 
-	glDeleteTextures (1, &_id);
+	glDeleteTextures (1, &_texture);
 }
 
 void
@@ -130,9 +143,18 @@ GLVideoView::update ()
 		return;
 	}
 
+	/* It appears important to do this from the GUI thread; if we do it from the GL thread
+	 * on Linux we get strange failures to create the context for any version of GL higher
+	 * than 3.2.
+	 */
+	ensure_context ();
+
 #ifdef DCPOMATIC_OSX
 	/* macOS gives errors if we don't do this (and therefore [NSOpenGLContext setView:]) from the main thread */
-	ensure_context ();
+	if (!_setup_shaders_done) {
+		setup_shaders ();
+		_setup_shaders_done = true;
+	}
 #endif
 
 	if (!_thread.joinable()) {
@@ -140,33 +162,241 @@ GLVideoView::update ()
 	}
 
 	request_one_shot ();
+
+	rethrow ();
 }
+
+
+static constexpr char vertex_source[] =
+"#version 330 core\n"
+"\n"
+"layout (location = 0) in vec3 in_pos;\n"
+"layout (location = 1) in vec2 in_tex_coord;\n"
+"\n"
+"out vec2 TexCoord;\n"
+"\n"
+"void main()\n"
+"{\n"
+"	gl_Position = vec4(in_pos, 1.0);\n"
+"	TexCoord = in_tex_coord;\n"
+"}\n";
+
+
+/* Bicubic interpolation stolen from https://stackoverflow.com/questions/13501081/efficient-bicubic-filtering-code-in-glsl */
+static constexpr char fragment_source[] =
+"#version 330 core\n"
+"\n"
+"in vec2 TexCoord;\n"
+"\n"
+"uniform sampler2D texture_sampler;\n"
+"uniform int draw_border;\n"
+"uniform vec4 border_colour;\n"
+"\n"
+"out vec4 FragColor;\n"
+"\n"
+"vec4 cubic(float x)\n"
+"{\n"
+"    float x2 = x * x;\n"
+"    float x3 = x2 * x;\n"
+"    vec4 w;\n"
+"    w.x =     -x3 + 3 * x2 - 3 * x + 1;\n"
+"    w.y =  3 * x3 - 6 * x2         + 4;\n"
+"    w.z = -3 * x3 + 3 * x2 + 3 * x + 1;\n"
+"    w.w =  x3;\n"
+"    return w / 6.f;\n"
+"}\n"
+"\n"
+"vec4 texture_bicubic(sampler2D sampler, vec2 tex_coords)\n"
+"{\n"
+"   vec2 tex_size = textureSize(sampler, 0);\n"
+"   vec2 inv_tex_size = 1.0 / tex_size;\n"
+"\n"
+"   tex_coords = tex_coords * tex_size - 0.5;\n"
+"\n"
+"   vec2 fxy = fract(tex_coords);\n"
+"   tex_coords -= fxy;\n"
+"\n"
+"   vec4 xcubic = cubic(fxy.x);\n"
+"   vec4 ycubic = cubic(fxy.y);\n"
+"\n"
+"   vec4 c = tex_coords.xxyy + vec2 (-0.5, +1.5).xyxy;\n"
+"\n"
+"   vec4 s = vec4(xcubic.xz + xcubic.yw, ycubic.xz + ycubic.yw);\n"
+"   vec4 offset = c + vec4 (xcubic.yw, ycubic.yw) / s;\n"
+"\n"
+"   offset *= inv_tex_size.xxyy;\n"
+"\n"
+"   vec4 sample0 = texture(sampler, offset.xz);\n"
+"   vec4 sample1 = texture(sampler, offset.yz);\n"
+"   vec4 sample2 = texture(sampler, offset.xw);\n"
+"   vec4 sample3 = texture(sampler, offset.yw);\n"
+"\n"
+"   float sx = s.x / (s.x + s.y);\n"
+"   float sy = s.z / (s.z + s.w);\n"
+"\n"
+"   return mix(\n"
+"	   mix(sample3, sample2, sx), mix(sample1, sample0, sx)\n"
+"	   , sy);\n"
+"}\n"
+"\n"
+"void main()\n"
+"{\n"
+"	if (draw_border == 1) {\n"
+"		FragColor = border_colour;\n"
+"	} else {\n"
+"		FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"	}\n"
+"}\n";
 
 
 void
 GLVideoView::ensure_context ()
 {
 	if (!_context) {
-		_context = new wxGLContext (_canvas);
-		_canvas->SetCurrent (*_context);
+		wxGLContextAttrs attrs;
+		attrs.PlatformDefaults().CoreProfile().OGLVersion(4, 1).EndList();
+		_context = new wxGLContext (_canvas, nullptr, &attrs);
+		if (!_context->IsOK()) {
+			throw GLError ("Making GL context", -1);
+		}
 	}
 }
 
 void
-GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
+GLVideoView::setup_shaders ()
 {
-	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	check_gl_error ("glClear");
+	DCPOMATIC_ASSERT (_canvas);
+	DCPOMATIC_ASSERT (_context);
+	auto r = _canvas->SetCurrent (*_context);
+	DCPOMATIC_ASSERT (r);
 
-	glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
-	check_gl_error ("glClearColor");
-	glEnable (GL_TEXTURE_2D);
-	check_gl_error ("glEnable GL_TEXTURE_2D");
-	glEnable (GL_BLEND);
-	check_gl_error ("glEnable GL_BLEND");
-	glDisable (GL_DEPTH_TEST);
-	check_gl_error ("glDisable GL_DEPTH_TEST");
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+#ifdef DCPOMATIC_WINDOWS
+	r = glewInit();
+	if (r != GLEW_OK) {
+		throw GLError(reinterpret_cast<char const*>(glewGetErrorString(r)));
+	}
+#endif
+
+	unsigned int indices[] = {
+		0, 1, 3, // texture triangle #1
+		1, 2, 3, // texture triangle #2
+		4, 5,    // border line #1
+		5, 6,    // border line #2
+		6, 7,    // border line #3
+		7, 4,    // border line #4
+	};
+
+	glGenVertexArrays(1, &_vao);
+	check_gl_error ("glGenVertexArrays");
+	GLuint vbo;
+	glGenBuffers(1, &vbo);
+	check_gl_error ("glGenBuffers");
+	GLuint ebo;
+	glGenBuffers(1, &ebo);
+	check_gl_error ("glGenBuffers");
+
+	glBindVertexArray(_vao);
+	check_gl_error ("glBindVertexArray");
+
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	check_gl_error ("glBindBuffer");
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	check_gl_error ("glBindBuffer");
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+	check_gl_error ("glBufferData");
+
+	/* position attribute to vertex shader (location = 0) */
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), nullptr);
+	glEnableVertexAttribArray(0);
+	/* texture coord attribute to vertex shader (location = 1) */
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+	check_gl_error ("glEnableVertexAttribArray");
+
+	auto compile = [](GLenum type, char const* source) -> GLuint {
+		auto shader = glCreateShader(type);
+		DCPOMATIC_ASSERT (shader);
+		GLchar const * src[] = { static_cast<GLchar const *>(source) };
+		glShaderSource(shader, 1, src, nullptr);
+		check_gl_error ("glShaderSource");
+		glCompileShader(shader);
+		check_gl_error ("glCompileShader");
+		GLint ok;
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &ok);
+		if (!ok) {
+			GLint log_length;
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
+			string log;
+			if (log_length > 0) {
+				char* log_char = new char[log_length];
+				glGetShaderInfoLog(shader, log_length, nullptr, log_char);
+				log = string(log_char);
+				delete[] log_char;
+			}
+			glDeleteShader(shader);
+			throw GLError(String::compose("Could not compile shader (%1)", log).c_str(), -1);
+		}
+		return shader;
+	};
+
+	auto vertex_shader = compile (GL_VERTEX_SHADER, vertex_source);
+	auto fragment_shader = compile (GL_FRAGMENT_SHADER, fragment_source);
+
+	auto program = glCreateProgram();
+	check_gl_error ("glCreateProgram");
+	glAttachShader (program, vertex_shader);
+	check_gl_error ("glAttachShader");
+	glAttachShader (program, fragment_shader);
+	check_gl_error ("glAttachShader");
+	glLinkProgram (program);
+	check_gl_error ("glLinkProgram");
+	GLint ok;
+	glGetProgramiv (program, GL_LINK_STATUS, &ok);
+	if (!ok) {
+		GLint log_length;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
+		string log;
+		if (log_length > 0) {
+			char* log_char = new char[log_length];
+			glGetProgramInfoLog(program, log_length, nullptr, log_char);
+			log = string(log_char);
+			delete[] log_char;
+		}
+		glDeleteProgram (program);
+		throw GLError(String::compose("Could not link shader (%1)", log).c_str(), -1);
+	}
+	glDeleteShader (vertex_shader);
+	glDeleteShader (fragment_shader);
+
+	glUseProgram (program);
+
+	_draw_border = glGetUniformLocation (program, "draw_border");
+	check_gl_error ("glGetUniformLocation");
+	set_border_colour (program);
+
+	glLineWidth (2.0f);
+}
+
+
+void
+GLVideoView::set_border_colour (GLuint program)
+{
+	auto uniform = glGetUniformLocation (program, "border_colour");
+	check_gl_error ("glGetUniformLocation");
+	auto colour = outline_content_colour ();
+	glUniform4f (uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
+	check_gl_error ("glUniform4f");
+}
+
+
+void
+GLVideoView::draw (Position<int>, dcp::Size)
+{
+	auto pad = pad_colour();
+	glClearColor(pad.Red() / 255.0, pad.Green() / 255.0, pad.Blue() / 255.0, 1.0);
+	glClear (GL_COLOR_BUFFER_BIT);
+	check_gl_error ("glClear");
 
 	auto const size = _canvas_size.load();
 	int const width = size.GetWidth();
@@ -178,83 +408,16 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 
 	glViewport (0, 0, width, height);
 	check_gl_error ("glViewport");
-	glMatrixMode (GL_PROJECTION);
-	glLoadIdentity ();
 
-DCPOMATIC_DISABLE_WARNINGS
-	gluOrtho2D (0, width, height, 0);
-DCPOMATIC_ENABLE_WARNINGS
-	check_gl_error ("gluOrtho2d");
-	glMatrixMode (GL_MODELVIEW);
-	glLoadIdentity ();
-
-	glTranslatef (0, 0, 0);
-
-	dcp::Size const out_size = _viewer->out_size ();
-
-	if (_size) {
-		/* Render our image (texture) */
-		glBegin (GL_QUADS);
-		glTexCoord2f (0, 1);
-		glVertex2f (0, _size->height);
-		glTexCoord2f (1, 1);
-		glVertex2f (_size->width, _size->height);
-		glTexCoord2f (1, 0);
-		glVertex2f (_size->width, 0);
-		glTexCoord2f (0, 0);
-		glVertex2f (0, 0);
-		glEnd ();
-	} else {
-		/* No image, so just fill with black */
-		glBegin (GL_QUADS);
-		glColor3ub (0, 0, 0);
-		glVertex2f (0, 0);
-		glVertex2f (out_size.width, 0);
-		glVertex2f (out_size.width, out_size.height);
-		glVertex2f (0, out_size.height);
-		glVertex2f (0, 0);
-		glEnd ();
-	}
-
-	if (!_viewer->pad_black() && out_size.width < width) {
-		glBegin (GL_QUADS);
-		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
-		glColor3ub (240, 240, 240);
-		glVertex2f (out_size.width, 0);
-		glVertex2f (width, 0);
-		glVertex2f (width, height);
-		glVertex2f (out_size.width, height);
-		glEnd ();
-		glColor3ub (255, 255, 255);
-	}
-
-	if (!_viewer->pad_black() && out_size.height < height) {
-		glColor3ub (240, 240, 240);
-		int const gap = (height - out_size.height) / 2;
-		glBegin (GL_QUADS);
-		glVertex2f (0, 0);
-		glVertex2f (width, 0);
-		glVertex2f (width, gap);
-		glVertex2f (0, gap);
-		glEnd ();
-		glBegin (GL_QUADS);
-		glVertex2f (0, gap + out_size.height + 1);
-		glVertex2f (width, gap + out_size.height + 1);
-		glVertex2f (width, 2 * gap + out_size.height + 2);
-		glVertex2f (0, 2 * gap + out_size.height + 2);
-		glEnd ();
-		glColor3ub (255, 255, 255);
-	}
-
+	glBindTexture(GL_TEXTURE_2D, _texture);
+	glBindVertexArray(_vao);
+	check_gl_error ("glBindVertexArray");
+	glUniform1i(_draw_border, 0);
+	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	if (_viewer->outline_content()) {
-		glColor3ub (255, 0, 0);
-		glBegin (GL_LINE_LOOP);
-		glVertex2f (inter_position.x, inter_position.y + (height - out_size.height) / 2);
-		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (height - out_size.height) / 2);
-		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (height - out_size.height) / 2 + inter_size.height);
-		glVertex2f (inter_position.x, inter_position.y + (height - out_size.height) / 2 + inter_size.height);
-		glEnd ();
-		glColor3ub (255, 255, 255);
+		glUniform1i(_draw_border, 1);
+		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(6 * sizeof(int)));
+		check_gl_error ("glDrawElements");
 	}
 
 	glFlush();
@@ -263,6 +426,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	_canvas->SwapBuffers();
 }
 
+
 void
 GLVideoView::set_image (shared_ptr<const Image> image)
 {
@@ -270,6 +434,7 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 		_size = optional<dcp::Size>();
 		return;
 	}
+
 
 	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_RGB24);
 	DCPOMATIC_ASSERT (!image->aligned());
@@ -281,13 +446,54 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 	_size = image->size ();
 	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
 	check_gl_error ("glPixelStorei");
+
 	if (_have_storage) {
 		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
 		check_gl_error ("glTexSubImage2D");
 	} else {
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGB8, _size->width, _size->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
-		_have_storage = true;
+		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, _size->width, _size->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
 		check_gl_error ("glTexImage2D");
+
+		auto const canvas_size = _canvas_size.load();
+		int const canvas_width = canvas_size.GetWidth();
+		int const canvas_height = canvas_size.GetHeight();
+
+		float const image_x = float(_size->width) / canvas_width;
+		float const image_y = float(_size->height) / canvas_height;
+
+		auto x_pixels_to_gl = [canvas_width](int x) {
+			return (x * 2.0f / canvas_width) - 1.0f;
+		};
+
+		auto y_pixels_to_gl = [canvas_height](int y) {
+			return (y * 2.0f / canvas_height) - 1.0f;
+		};
+
+		auto inter_position = player_video().first->inter_position();
+		auto inter_size = player_video().first->inter_size();
+
+		float const border_x1 = x_pixels_to_gl (inter_position.x) + 1.0f - image_x;
+		float const border_y1 = y_pixels_to_gl (inter_position.y) + 1.0f - image_y;
+		float const border_x2 = x_pixels_to_gl (inter_position.x + inter_size.width) + 1.0f - image_x;
+		float const border_y2 = y_pixels_to_gl (inter_position.y + inter_size.height) + 1.0f - image_y;
+
+		float vertices[] = {
+			// positions                  // texture coords
+			 image_x,   image_y,   0.0f,  1.0f, 0.0f,   // top right           (index 0)
+			 image_x,  -image_y,   0.0f,  1.0f, 1.0f,   // bottom right        (index 1)
+			-image_x,  -image_y,   0.0f,  0.0f, 1.0f,   // bottom left         (index 2)
+			-image_x,   image_y,   0.0f,  0.0f, 0.0f,   // top left            (index 3)
+			 border_x1, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom left  (index 4)
+			 border_x1, border_y2, 0.0f,  0.0f, 0.0f,   // border top left     (index 5)
+			 border_x2, border_y2, 0.0f,  0.0f, 0.0f,   // border top right    (index 6)
+			 border_x2, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom right (index 7)
+		};
+
+		/* Set the vertex shader's input data (GL_ARRAY_BUFFER) */
+		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		check_gl_error ("glBufferData");
+
+		_have_storage = true;
 	}
 
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -321,7 +527,7 @@ void
 GLVideoView::thread_playing ()
 {
 	if (length() != dcpomatic::DCPTime()) {
-		dcpomatic::DCPTime const next = position() + one_video_frame();
+		auto const next = position() + one_video_frame();
 
 		if (next >= length()) {
 			_viewer->finished ();
@@ -346,7 +552,7 @@ GLVideoView::thread_playing ()
 void
 GLVideoView::set_image_and_draw ()
 {
-	shared_ptr<PlayerVideo> pv = player_video().first;
+	auto pv = player_video().first;
 	if (pv) {
 		set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true));
 		draw (pv->inter_position(), pv->inter_size());
@@ -367,12 +573,10 @@ try
 	 */
 	WXGLSetCurrentContext (_context->GetWXGLContext());
 #else
-	/* We must call this here on Linux otherwise we get no image (for reasons
-	 * that aren't clear).  However, doing ensure_context() from this thread
-	 * on macOS gives
-	 * "[NSOpenGLContext setView:] must be called from the main thread".
-	 */
-	ensure_context ();
+	if (!_setup_shaders_done) {
+		setup_shaders ();
+		_setup_shaders_done = true;
+	}
 #endif
 
 #if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
@@ -403,12 +607,10 @@ try
 	_vsync_enabled = true;
 #endif
 
-	glGenTextures (1, &_id);
+	glGenTextures (1, &_texture);
 	check_gl_error ("glGenTextures");
-	glBindTexture (GL_TEXTURE_2D, _id);
+	glBindTexture (GL_TEXTURE_2D, _texture);
 	check_gl_error ("glBindTexture");
-	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
-	check_gl_error ("glPixelStorei");
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
@@ -432,7 +634,7 @@ try
 	 * without also deleting the wxGLCanvas.
 	 */
 }
-catch (boost::thread_interrupted& e)
+catch (...)
 {
 	store_current ();
 }

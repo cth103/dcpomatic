@@ -209,7 +209,7 @@ def configure(conf):
                                mandatory=True)
 
     if conf.env.TARGET_LINUX:
-        conf.env.append_value('CXXFLAGS', ['-DGLX_GLXEXT_PROTOTYPES'])
+        conf.env.append_value('CXXFLAGS', ['-DGL_GLEXT_PROTOTYPES', '-DGLX_GLXEXT_PROTOTYPES'])
     if conf.env.TARGET_WINDOWS:
         conf.env.append_value('CXXFLAGS', ['-DWGL_WGLEXT_PROTOTYPES'])
 
@@ -277,6 +277,8 @@ def configure(conf):
     if conf.env.TARGET_WINDOWS or conf.env.TARGET_LINUX:
         conf.check_cfg(package='gl', args='--cflags --libs', uselib_store='GL', mandatory=True)
         conf.check_cfg(package='glu', args='--cflags --libs', uselib_store='GLU', mandatory=True)
+        if conf.env.TARGET_WINDOWS:
+            conf.check_cfg(package='glew', args='--cflags --libs', uselib_store='GLEW', mandatory=True)
     else:
         conf.env.STLIB_GL = 'gl'
         conf.env.STLIB_GLU = 'glu'
@@ -311,7 +313,7 @@ def build(bld):
     if bld.env.TARGET_LINUX:
         obj.uselib += 'GTK GL GLU '
     if bld.env.TARGET_WINDOWS:
-        obj.uselib += 'WINSOCK2 OLE32 DSOUND WINMM KSUSER GL GLU '
+        obj.uselib += 'WINSOCK2 OLE32 DSOUND WINMM KSUSER GL GLU GLEW '
     if bld.env.TARGET_OSX:
         obj.framework = ['CoreAudio', 'OpenGL']
     obj.use = 'libdcpomatic2'
