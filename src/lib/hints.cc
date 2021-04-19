@@ -73,9 +73,10 @@ using namespace boost::placeholders;
  */
 
 
-Hints::Hints (weak_ptr<const Film> film)
-	: WeakConstFilm (film)
-	, _writer (new Writer(film, weak_ptr<Job>(), true))
+Hints::Hints (weak_ptr<const Film> weak_film)
+	: WeakConstFilm (weak_film)
+	, _writer (new Writer(weak_film, weak_ptr<Job>(), true))
+	, _analyser (film(), film()->playlist(), true, [](float) {})
 	, _stop (false)
 {
 
@@ -302,42 +303,46 @@ Hints::check_3d_in_2d ()
 }
 
 
-void
+/** @return true if the loudness could be checked, false if it could not because no analysis was available */
+bool
 Hints::check_loudness ()
 {
 	auto path = film()->audio_analysis_path(film()->playlist());
-	if (boost::filesystem::exists (path)) {
-		try {
-			auto an = make_shared<AudioAnalysis>(path);
-
-			string ch;
-
-			auto sample_peak = an->sample_peak ();
-			auto true_peak = an->true_peak ();
-
-			for (size_t i = 0; i < sample_peak.size(); ++i) {
-				float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
-				float const peak_dB = linear_to_db(peak) + an->gain_correction(film()->playlist());
-				if (peak_dB > -3) {
-					ch += dcp::raw_convert<string> (short_audio_channel_name (i)) + ", ";
-				}
-			}
-
-			ch = ch.substr (0, ch.length() - 2);
-
-			if (!ch.empty ()) {
-				hint (String::compose (
-					      _("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
-					      ch
-					      )
-					);
-			}
-		} catch (OldFormatError& e) {
-			/* The audio analysis is too old to load in; just skip this hint as if
-			   it had never been run.
-			*/
-		}
+	if (!boost::filesystem::exists(path)) {
+		return false;
 	}
+
+	try {
+		auto an = make_shared<AudioAnalysis>(path);
+
+		string ch;
+
+		auto sample_peak = an->sample_peak ();
+		auto true_peak = an->true_peak ();
+
+		for (size_t i = 0; i < sample_peak.size(); ++i) {
+			float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
+			float const peak_dB = linear_to_db(peak) + an->gain_correction(film()->playlist());
+			if (peak_dB > -3) {
+				ch += dcp::raw_convert<string>(short_audio_channel_name(i)) + ", ";
+			}
+		}
+
+		ch = ch.substr (0, ch.length() - 2);
+
+		if (!ch.empty ()) {
+			hint (String::compose (
+					_("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
+					ch
+					)
+			     );
+		}
+	} catch (OldFormatError& e) {
+		/* The audio analysis is too old to load in */
+		return false;
+	}
+
+	return true;
 }
 
 
@@ -383,16 +388,24 @@ Hints::thread ()
 	check_speed_up ();
 	check_vob ();
 	check_3d_in_2d ();
-	check_loudness ();
+	auto const check_loudness_done = check_loudness ();
 	check_ffec_and_ffmc_in_smpte_feature ();
 	check_out_of_range_markers ();
 	check_text_languages ();
 
-	emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
+	if (check_loudness_done) {
+		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
+	} else {
+		emit (bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
+	}
 
 	auto player = make_shared<Player>(film);
 	player->set_ignore_video ();
-	player->set_ignore_audio ();
+	if (check_loudness_done) {
+		/* We don't need to analyse audio because we already loaded a suitable analysis */
+		player->set_ignore_audio ();
+	}
+	player->Audio.connect (bind(&Hints::audio, this, _1, _2));
 	player->Text.connect (bind(&Hints::text, this, _1, _2, _3, _4));
 
 	struct timeval last_pulse;
@@ -413,6 +426,12 @@ Hints::thread ()
 		}
 	} catch (...) {
 		store_current ();
+	}
+
+	if (!check_loudness_done) {
+		_analyser.finish ();
+		_analyser.get().write(film->audio_analysis_path(film->playlist()));
+		check_loudness ();
 	}
 
 	_writer->write (player->get_subtitle_fonts());
@@ -476,6 +495,14 @@ Hints::hint (string h)
 {
 	emit(bind(boost::ref(Hint), h));
 }
+
+
+void
+Hints::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+{
+	_analyser.analyse (audio, time);
+}
+
 
 void
 Hints::text (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)

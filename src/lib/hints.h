@@ -18,6 +18,7 @@
 
 */
 
+#include "audio_analyser.h"
 #include "signaller.h"
 #include "player_text.h"
 #include "types.h"
@@ -55,6 +56,7 @@ private:
 
 	void thread ();
 	void hint (std::string h);
+	void audio (std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time);
 	void text (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
 	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
@@ -71,7 +73,7 @@ private:
 	void check_speed_up ();
 	void check_vob ();
 	void check_3d_in_2d ();
-	void check_loudness ();
+	bool check_loudness ();
 	void check_ffec_and_ffmc_in_smpte_feature ();
 	void check_out_of_range_markers ();
 	void check_text_languages ();
@@ -82,6 +84,8 @@ private:
 	 *  will be too big.
 	 */
 	std::shared_ptr<Writer> _writer;
+
+	AudioAnalyser _analyser;
 
 	bool _long_ccap = false;
 	bool _overlap_ccap = false;
