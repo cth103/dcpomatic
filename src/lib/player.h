@@ -102,6 +102,9 @@ public:
 
 	/** Emitted when a video frame is ready.  These emissions happen in the correct order. */
 	boost::signals2::signal<void (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime)> Video;
+	/** Emitted when audio data is ready.  First parameter is the audio data, second its time,
+	 *  third the frame rate.
+	 */
 	boost::signals2::signal<void (std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime, int)> Audio;
 	/** Emitted when a text is ready.  This signal may be emitted considerably
 	 *  after the corresponding Video.
