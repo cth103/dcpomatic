@@ -331,6 +331,18 @@ try
 	file_windows_partition_set (bdevs.partitions[0].part_offset, bdevs.partitions[0].part_size);
 #else
 	file_dev_name_set (posix_partition.c_str());
+
+	/* On macOS (at least) if you try to write to a drive that is sleeping the ext4_mkfs call
+	 * below is liable to return EIO because it can't open the device.  Try to work around that
+	 * here by opening and closing the device, waiting 5 seconds if it fails.
+	 */
+	int wake = open(posix_partition.c_str(), O_RDWR);
+	if (wake == -1) {
+		dcpomatic_sleep_seconds (5);
+	} else {
+		close(wake);
+	}
+
 	bd = file_dev_get ();
 #endif
 
