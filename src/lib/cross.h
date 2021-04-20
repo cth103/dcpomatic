@@ -67,6 +67,7 @@ extern bool running_32_on_64 ();
 extern void unprivileged ();
 extern boost::filesystem::path config_path ();
 extern boost::filesystem::path directory_containing_executable ();
+extern boost::filesystem::path fix_long_path (boost::filesystem::path path);
 namespace dcpomatic {
 	std::string get_process_id ();
 }

@@ -26,6 +26,7 @@
 #include "config.h"
 #include "exceptions.h"
 #include "dcpomatic_assert.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
@@ -234,6 +235,36 @@ disk_writer_path ()
 #endif
 
 
+/** Windows can't "by default" cope with paths longer than 260 characters, so if you pass such a path to
+ *  any boost::filesystem method it will fail.  There is a "fix" for this, which is to prepend
+ *  the string \\?\ to the path.  This will make it work, so long as:
+ *  - the path is absolute.
+ *  - the path only uses backslashes.
+ *  - individual path components are "short enough" (probably less than 255 characters)
+ *
+ *  See https://www.boost.org/doc/libs/1_57_0/libs/filesystem/doc/reference.html under
+ *  "Warning: Long paths on Windows" for some details.
+ *
+ *  Our fopen_boost uses this method to get this fix, but any other calls to boost::filesystem
+ *  will not unless this method is explicitly called to pre-process the pathname.
+ */
+boost::filesystem::path
+fix_long_path (boost::filesystem::path long_path)
+{
+	using namespace boost::filesystem;
+	path fixed = "\\\\?\\";
+	/* We have to make the path canonical but we can't call canonical() on the long path
+	 * as it will fail.  So we'll sort of do it ourselves (possibly badly).
+	 */
+	if (long_path.is_absolute()) {
+		fixed += long_path.make_preferred();
+	} else {
+		fixed += boost::filesystem::current_path() / long_path.make_preferred();
+	}
+	return fixed;
+}
+
+
 /* Apparently there is no way to create an ofstream using a UTF-8
    filename under Windows.  We are hence reduced to using fopen
    with this wrapper.
@@ -242,8 +273,8 @@ FILE *
 fopen_boost (boost::filesystem::path p, string t)
 {
         wstring w (t.begin(), t.end());
-	/* c_str() here should give a UTF-16 string */
-        return _wfopen (p.c_str(), w.c_str ());
+	/* c_str() on fixed here should give a UTF-16 string */
+	return _wfopen (fix_long_path(p).c_str(), w.c_str());
 }
 
 

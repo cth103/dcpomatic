@@ -607,3 +607,10 @@ dcpomatic::get_process_id ()
 {
 	return dcp::raw_convert<string>(getpid());
 }
+
+
+boost::filesystem::path
+fix_long_path (boost::filesystem::path path)
+{
+	return path;
+}
