@@ -745,6 +745,7 @@ ReelWriter::create_reel (
 
 void
 ReelWriter::calculate_digests (boost::function<void (float)> set_progress)
+try
 {
 	if (_picture_asset) {
 		_picture_asset->hash (set_progress);
@@ -757,6 +758,10 @@ ReelWriter::calculate_digests (boost::function<void (float)> set_progress)
 	if (_atmos_asset) {
 		_atmos_asset->hash (set_progress);
 	}
+} catch (boost::thread_interrupted) {
+	/* set_progress contains an interruption_point, so any of these methods
+	 * may throw thread_interrupted, at which point we just give up.
+	 */
 }
 
 Frame

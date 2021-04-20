@@ -22,11 +22,14 @@
 #include "lib/audio_buffers.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
 #include "lib/film.h"
 #include "lib/job.h"
 #include "lib/video_content.h"
 #include "lib/writer.h"
 #include "test.h"
+#include <dcp/openjpeg_image.h>
+#include <dcp/j2k_transcode.h>
 #include <boost/test/unit_test.hpp>
 #include <memory>
 
@@ -45,5 +48,52 @@ BOOST_AUTO_TEST_CASE (test_write_odd_amount_of_silence)
 	auto audio = make_shared<AudioBuffers>(6, 48000);
 	audio->make_silent ();
 	writer->write (audio, dcpomatic::DCPTime(1));
+}
+
+
+BOOST_AUTO_TEST_CASE (interrupt_writer)
+{
+	auto film = new_test_film2 ("test_interrupt_writer");
+
+	auto content = content_factory("test/data/check_image0.png").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	/* Add some dummy content to the film so that it has a reel of the right length */
+	auto constexpr frames = 24 * 60 * 60;
+	content->video->set_length (frames);
+
+	/* Make a random J2K image */
+	auto size = dcp::Size(1998, 1080);
+	auto image = make_shared<dcp::OpenJPEGImage>(size);
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < (size.width * size.height); ++j) {
+			image->data(i)[j] = rand();
+		}
+	}
+
+	/* Write some data */
+	auto video = dcp::compress_j2k(image, 100000000, 24, false, false);
+	auto video_ptr = make_shared<dcp::ArrayData>(video.data(), video.size());
+	auto audio = make_shared<AudioBuffers>(6, 48000 / 24);
+
+	auto writer = make_shared<Writer>(film, shared_ptr<Job>());
+	writer->start ();
+
+	for (int i = 0; i < frames; ++i) {
+		writer->write (video_ptr, i, Eyes::BOTH);
+		writer->write (audio, dcpomatic::DCPTime::from_frames(i, 24));
+	}
+
+	/* Start digest calculations then abort them; there should be no crash or error */
+	boost::thread thread([film, writer]() {
+		writer->finish(film->dir(film->dcp_name()));
+	});
+
+	dcpomatic_sleep_seconds	(1);
+
+	thread.interrupt ();
+
+	dcpomatic_sleep_seconds (1);
 }
 

@@ -74,14 +74,6 @@ using dcp::ArrayData;
 using namespace dcpomatic;
 
 
-static
-void
-ignore_progress (float)
-{
-
-}
-
-
 /** @param j Job to report progress to, or 0.
  *  @param text_only true to enable only the text (subtitle/ccap) parts of the writer.
  */
@@ -558,7 +550,9 @@ Writer::calculate_digests ()
 	if (job) {
 		set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
 	} else {
-		set_progress = &ignore_progress;
+		set_progress = [](float) {
+			boost::this_thread::interruption_point();
+		};
 	}
 
 	for (auto& i: _reels) {
@@ -568,7 +562,13 @@ Writer::calculate_digests ()
 
 	work.reset ();
 
-	{
+	try {
+		pool.join_all ();
+	} catch (boost::thread_interrupted) {
+		/* join_all was interrupted, so we need to interrupt the threads
+		 * in our pool then try again to join them.
+		 */
+		pool.interrupt_all ();
 		pool.join_all ();
 	}
 
@@ -941,12 +941,15 @@ Writer::set_digest_progress (Job* job, float progress)
 
 	Waker waker;
 	waker.nudge ();
+
+	boost::this_thread::interruption_point();
 }
 
 
 /** Calculate hashes for any referenced MXF assets which do not already have one */
 void
 Writer::calculate_referenced_digests (boost::function<void (float)> set_progress)
+try
 {
 	for (auto const& i: _reel_assets) {
 		auto file = dynamic_pointer_cast<dcp::ReelFileAsset>(i.asset);
@@ -955,6 +958,10 @@ Writer::calculate_referenced_digests (boost::function<void (float)> set_progress
 			file->set_hash (file->asset_ref().asset()->hash());
 		}
 	}
+} catch (boost::thread_interrupted) {
+	/* set_progress contains an interruption_point, so any of these methods
+	 * may throw thread_interrupted, at which point we just give up.
+	 */
 }
 
 
