@@ -370,6 +370,8 @@ void
 Hints::thread ()
 try
 {
+	start_of_thread ("Hints");
+
 	auto film = _film.lock ();
 	if (!film) {
 		return;

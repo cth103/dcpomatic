@@ -1176,3 +1176,20 @@ to_upper (string s)
 	return s;
 }
 
+
+/* Set to 1 to print the IDs of some of our threads to stdout on creation */
+#define DCPOMATIC_DEBUG_THREADS 0
+
+#if DCPOMATIC_DEBUG_THREADS
+void
+start_of_thread (string name)
+{
+	std::cout << "THREAD:" << name << ":" << std::hex << pthread_self() << "\n";
+}
+#else
+void
+start_of_thread (string)
+{
+
+}
+#endif

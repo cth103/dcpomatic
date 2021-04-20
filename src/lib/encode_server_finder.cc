@@ -96,6 +96,8 @@ void
 EncodeServerFinder::search_thread ()
 try
 {
+	start_of_thread ("EncodeServerFinder-search");
+
 	boost::system::error_code error;
 	boost::asio::io_service io_service;
 	boost::asio::ip::udp::socket socket (io_service);
@@ -168,6 +170,8 @@ catch (...)
 void
 EncodeServerFinder::listen_thread ()
 try {
+	start_of_thread ("EncodeServerFinder-listen");
+
 	using namespace boost::asio::ip;
 
 	try {

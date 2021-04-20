@@ -356,6 +356,8 @@ void
 GLVideoView::thread ()
 try
 {
+	start_of_thread ("GLVideoView");
+
 	{
 		boost::mutex::scoped_lock lm (_canvas_mutex);
 

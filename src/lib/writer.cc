@@ -393,6 +393,8 @@ void
 Writer::thread ()
 try
 {
+	start_of_thread ("Writer");
+
 	while (true)
 	{
 		boost::mutex::scoped_lock lock (_state_mutex);

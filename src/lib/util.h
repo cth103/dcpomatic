@@ -123,6 +123,7 @@ extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dc
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
 extern std::string to_upper (std::string s);
+extern void start_of_thread (std::string name);
 
 template <class T>
 std::list<T>

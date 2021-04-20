@@ -153,6 +153,8 @@ JobManager::errors () const
 void
 JobManager::scheduler ()
 {
+	start_of_thread ("JobManager");
+
 	while (true) {
 
 		boost::mutex::scoped_lock lm (_mutex);

@@ -179,6 +179,8 @@ void
 Butler::thread ()
 try
 {
+	start_of_thread ("Butler");
+
 	while (true) {
 		boost::mutex::scoped_lock lm (_mutex);
 

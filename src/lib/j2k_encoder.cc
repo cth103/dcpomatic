@@ -283,6 +283,8 @@ void
 J2KEncoder::encoder_thread (optional<EncodeServerDescription> server)
 try
 {
+	start_of_thread ("J2KEncoder");
+
 	if (server) {
 		LOG_TIMING ("start-encoder-thread thread=%1 server=%2", thread_id (), server->host_name ());
 	} else {
