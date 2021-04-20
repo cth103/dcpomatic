@@ -368,6 +368,7 @@ Hints::check_out_of_range_markers ()
 
 void
 Hints::thread ()
+try
 {
 	auto film = _film.lock ();
 	if (!film) {
@@ -411,21 +412,17 @@ Hints::thread ()
 	struct timeval last_pulse;
 	gettimeofday (&last_pulse, 0);
 
-	try {
-		while (!player->pass()) {
+	while (!player->pass()) {
 
-			struct timeval now;
-			gettimeofday (&now, 0);
-			if ((seconds(now) - seconds(last_pulse)) > 1) {
-				if (_stop) {
-					break;
-				}
-				emit (bind (boost::ref(Pulse)));
-				last_pulse = now;
+		struct timeval now;
+		gettimeofday (&now, 0);
+		if ((seconds(now) - seconds(last_pulse)) > 1) {
+			if (_stop) {
+				return;
 			}
+			emit (bind (boost::ref(Pulse)));
+			last_pulse = now;
 		}
-	} catch (...) {
-		store_current ();
 	}
 
 	if (!check_loudness_done) {
@@ -449,13 +446,7 @@ Hints::thread ()
 	boost::filesystem::path dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
 	boost::filesystem::remove_all (dcp_dir);
 
-	try {
-		_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
-	} catch (...) {
-		store_current ();
-		emit (bind(boost::ref(Finished)));
-		return;
-	}
+	_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
 
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
@@ -488,6 +479,14 @@ Hints::thread ()
 	boost::filesystem::remove_all (dcp_dir);
 
 	emit (bind(boost::ref(Finished)));
+}
+catch (boost::thread_interrupted)
+{
+	/* The Hints object is being destroyed before it has finished, so just give up */
+}
+catch (...)
+{
+	store_current ();
 }
 
 void
