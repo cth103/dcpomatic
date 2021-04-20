@@ -222,3 +222,18 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 		);
 }
 
+
+BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
+{
+	auto film = new_test_film2 ("hints_destroyed_while_running");
+	auto content = content_factory(TestPaths::private_data() / "boon_telly.mkv").front();
+	film->examine_and_add_content (content);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	auto hints = make_shared<Hints>(film);
+	hints->start ();
+	dcpomatic_sleep_seconds (1);
+	hints.reset ();
+	dcpomatic_sleep_seconds (1);
+}
+
