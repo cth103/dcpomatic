@@ -535,6 +535,47 @@ Writer::terminate_thread (bool can_throw)
 }
 
 
+void
+Writer::calculate_digests ()
+{
+	auto job = _job.lock ();
+	if (job) {
+		job->sub (_("Computing digests"));
+	}
+
+	boost::asio::io_service service;
+	boost::thread_group pool;
+
+	auto work = make_shared<boost::asio::io_service::work>(service);
+
+	int const threads = max (1, Config::instance()->master_encoding_threads());
+
+	for (int i = 0; i < threads; ++i) {
+		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
+	}
+
+	boost::function<void (float)> set_progress;
+	if (job) {
+		set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
+	} else {
+		set_progress = &ignore_progress;
+	}
+
+	for (auto& i: _reels) {
+		service.post (boost::bind (&ReelWriter::calculate_digests, &i, set_progress));
+	}
+	service.post (boost::bind (&Writer::calculate_referenced_digests, this, set_progress));
+
+	work.reset ();
+
+	{
+		pool.join_all ();
+	}
+
+	service.stop ();
+}
+
+
 /** @param output_dcp Path to DCP folder to write */
 void
 Writer::finish (boost::filesystem::path output_dcp)
@@ -563,39 +604,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	dcp.add (cpl);
 
-	/* Calculate digests for each reel in parallel */
-
-	auto job = _job.lock ();
-	if (job) {
-		job->sub (_("Computing digests"));
-	}
-
-	boost::asio::io_service service;
-	boost::thread_group pool;
-
-	auto work = make_shared<boost::asio::io_service::work>(service);
-
-	int const threads = max (1, Config::instance()->master_encoding_threads ());
-
-	for (int i = 0; i < threads; ++i) {
-		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
-	}
-
-	boost::function<void (float)> set_progress;
-	if (job) {
-		set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
-	} else {
-		set_progress = &ignore_progress;
-	}
-
-	for (auto& i: _reels) {
-		service.post (boost::bind (&ReelWriter::calculate_digests, &i, set_progress));
-	}
-	service.post (boost::bind (&Writer::calculate_referenced_digests, this, set_progress));
-
-	work.reset ();
-	pool.join_all ();
-	service.stop ();
+	calculate_digests ();
 
 	/* Add reels */
 

@@ -130,6 +130,7 @@ private:
 	void write_cover_sheet (boost::filesystem::path output_dcp);
 	void calculate_referenced_digests (boost::function<void (float)> set_progress);
 	void write_hanging_text (ReelWriter& reel);
+	void calculate_digests ();
 
 	std::weak_ptr<Job> _job;
 	std::vector<ReelWriter> _reels;
