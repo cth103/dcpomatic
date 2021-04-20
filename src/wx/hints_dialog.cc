@@ -117,10 +117,10 @@ HintsDialog::film_change (ChangeType type)
 	_finished = false;
 
 	_hints.reset (new Hints (_film));
-	_hints->Hint.connect (bind (&HintsDialog::hint, this, _1));
-	_hints->Progress.connect (bind (&HintsDialog::progress, this, _1));
-	_hints->Pulse.connect (bind (&HintsDialog::pulse, this));
-	_hints->Finished.connect (bind (&HintsDialog::finished, this));
+	_hints_hint_connection = _hints->Hint.connect(bind(&HintsDialog::hint, this, _1));
+	_hints_progress_connection = _hints->Progress.connect(bind(&HintsDialog::progress, this, _1));
+	_hints_pulse_connection = _hints->Pulse.connect(bind(&HintsDialog::pulse, this));
+	_hints_finished_connection = _hints->Finished.connect(bind(&HintsDialog::finished, this));
 	_hints->start ();
 }
 
