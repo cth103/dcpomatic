@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "hints_dialog.h"
 #include "wx_util.h"
 #include "static_text.h"
@@ -29,6 +30,7 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
 DCPOMATIC_ENABLE_WARNINGS
+
 
 using std::max;
 using std::vector;
@@ -42,13 +44,14 @@ using std::dynamic_pointer_cast;
 using namespace boost::placeholders;
 #endif
 
+
 HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 	: wxDialog (parent, wxID_ANY, _("Hints"))
 	, _film (film)
 	, _hints (0)
 	, _finished (false)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	_gauge = new wxGauge (this, wxID_ANY, 100);
 	sizer->Add (_gauge, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
@@ -64,7 +67,7 @@ HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 		b->Bind (wxEVT_CHECKBOX, bind (&HintsDialog::shut_up, this, _1));
 	}
 
-	wxStdDialogButtonSizer* buttons = CreateStdDialogButtonSizer (0);
+	auto buttons = CreateStdDialogButtonSizer (0);
 	sizer->Add (CreateSeparatedSizer(buttons), wxSizerFlags().Expand().DoubleBorder());
 	if (ok) {
 		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK));
@@ -81,7 +84,7 @@ HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 
 	_text->GetCaret()->Hide ();
 
-	std::shared_ptr<Film> locked_film = _film.lock ();
+	auto locked_film = _film.lock ();
 	if (locked_film) {
 		_film_change_connection = locked_film->Change.connect (boost::bind (&HintsDialog::film_change, this, _1));
 		_film_content_change_connection = locked_film->ContentChange.connect (boost::bind (&HintsDialog::film_content_change, this, _1));
@@ -89,6 +92,7 @@ HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 
 	film_change (ChangeType::DONE);
 }
+
 
 void
 HintsDialog::film_change (ChangeType type)
