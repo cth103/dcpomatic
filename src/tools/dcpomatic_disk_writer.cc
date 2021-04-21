@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -66,6 +66,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
+
 using std::cin;
 using std::min;
 using std::string;
@@ -96,12 +97,33 @@ static
 void
 polkit_callback (GObject *, GAsyncResult* res, gpointer data)
 {
-	Parameters* parameters = reinterpret_cast<Parameters*> (data);
-	PolkitAuthorizationResult* result = polkit_authority_check_authorization_finish (polkit_authority, res, 0);
-	if (result && polkit_authorization_result_get_is_authorized(result)) {
-		dcpomatic::write (parameters->dcp_path, parameters->device, parameters->posix_partition, nanomsg);
+	auto parameters = reinterpret_cast<Parameters*> (data);
+	GError* error = nullptr;
+	auto result = polkit_authority_check_authorization_finish (polkit_authority, res, &error);
+	bool failed = false;
+
+	if (error) {
+		LOG_DISK("polkit authority check failed (check_authorization_finish failed with %1)", error->message);
+		failed = true;
+	} else {
+		if (polkit_authorization_result_get_is_authorized(result)) {
+			dcpomatic::write (parameters->dcp_path, parameters->device, parameters->posix_partition, nanomsg);
+		} else {
+			failed = true;
+			if (polkit_authorization_result_get_is_challenge(result)) {
+				LOG_DISK_NC("polkit authority check failed (challenge)");
+			} else {
+				LOG_DISK_NC("polkit authority check failed (not authorized)");
+			}
+		}
 	}
+
+	if (failed && nanomsg) {
+		nanomsg->send(DISK_WRITER_ERROR "\nCould not obtain authorization to write to the drive\n", LONG_TIMEOUT);
+	}
+
 	delete parameters;
+
 	if (result) {
 		g_object_unref (result);
 	}
@@ -207,8 +229,8 @@ try
 			parameters->posix_partition += "1";
 		}
 		polkit_authority_check_authorization (
-				polkit_authority, subject, "com.dcpomatic.write-drive", 0, POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, 0, polkit_callback, parameters
-				);
+			polkit_authority, subject, "com.dcpomatic.write-drive", 0, POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, 0, polkit_callback, parameters
+			);
 #elif defined(DCPOMATIC_OSX)
 		string fast_device = boost::algorithm::replace_first_copy (*device, "/dev/disk", "/dev/rdisk");
 		dcpomatic::write (*dcp_path, fast_device, fast_device + "s1", nanomsg);
