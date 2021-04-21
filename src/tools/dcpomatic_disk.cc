@@ -290,7 +290,8 @@ private:
 			if (!_nanomsg.send(drive.as_xml(), 2000)) {
 				throw CommunicationFailedError ();
 			}
-			auto reply = _nanomsg.receive (2000);
+			/* The reply may have to wait for the user to authenticate, so let's wait a while */
+			auto reply = _nanomsg.receive (30000);
 			if (!reply || *reply != DISK_WRITER_OK) {
 				auto * m = new MessageDialog (
 						this,
