@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN" "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
+<policyconfig>
+  <vendor>DCP-o-matic</vendor>
+  <vendor_url>https://dcpomatic.com</vendor_url>
+  <action id="com.dcpomatic.write-drive">
+    <description gettext-domain="dcpomatic">Format a drive and write a DCP to it</description>
+    <message gettext-domain="dcpomatic">Authentication is required to format the drive and write the DCP</message>
+    <defaults>
+       <allow_any>no</allow_any>
+       <allow_inactive>no</allow_inactive>
+       <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+  </action>
+</policyconfig>

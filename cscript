@@ -341,6 +341,7 @@ def make_spec(filename, version, target, options, requires=None):
         print('%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l, file=f)
     print('%{_datadir}/libdcp/tags/*', file=f)
     print('%{_datadir}/libdcp/xsd/*', file=f)
+    print('%{_datadir}/polkit-1/actions/com.dcpomatic.write-drive.policy', file=f)
     print('', file=f)
     print('%prep', file=f)
     print('rm -rf $RPM_BUILD_DIR/dcpomatic-%s' % version, file=f)
@@ -651,6 +652,10 @@ def make_appimage(target, nice_name, internal_name, version):
     target.command('cp -r %s/share/dcpomatic2 build/%s.AppDir/usr/share/' % (target.directory, nice_filename))
     target.command('cp -r %s/share/libdcp/xsd build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
     target.command('cp -r %s/share/libdcp/tags build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
+    if internal_name == 'dcpomatic2_disk':
+        target.command('mkdir -p build/%s.AppDir/usr/share/polkit-1/actions', nice_filename)
+        target.command('cp %s/share/polkit-1/actions/com.dcpomatic.write-drive.policy build/%s.AppDir/usr/share/polkit-1/actions' % (target.directory, nice_filename))
+
     with open('build/%s.AppDir/AppRun' % nice_filename, 'w') as f:
         print('#!/bin/bash', file=f)
         print('export PATH=$APPDIR/usr/bin:$PATH', file=f)
