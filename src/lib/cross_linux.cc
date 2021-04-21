@@ -311,10 +311,10 @@ Drive::get ()
 	vector<Drive> drives;
 
 	using namespace boost::filesystem;
-	vector<pair<string, string> > mounted_devices = get_mounts("/dev/");
+	auto mounted_devices = get_mounts("/dev/");
 
-	for (directory_iterator i = directory_iterator("/sys/block"); i != directory_iterator(); ++i) {
-		string const name = i->path().filename().string();
+	for (auto i: directory_iterator("/sys/block")) {
+		string const name = i.path().filename().string();
 		path device_type_file("/sys/block/" + name + "/device/type");
 		optional<string> device_type;
 		if (exists(device_type_file)) {
@@ -323,7 +323,7 @@ Drive::get ()
 		}
 		/* Device type 5 is "SCSI_TYPE_ROM" in blkdev.h; seems usually to be a CD/DVD drive */
 		if (!boost::algorithm::starts_with(name, "loop") && (!device_type || *device_type != "5")) {
-			uint64_t const size = dcp::raw_convert<uint64_t>(dcp::file_to_string(*i / "size")) * 512;
+			uint64_t const size = dcp::raw_convert<uint64_t>(dcp::file_to_string(i / "size")) * 512;
 			if (size == 0) {
 				continue;
 			}
@@ -338,9 +338,9 @@ Drive::get ()
 				boost::trim(*model);
 			} catch (...) {}
 			vector<boost::filesystem::path> mount_points;
-			for (vector<pair<string, string> >::const_iterator j = mounted_devices.begin(); j != mounted_devices.end(); ++j) {
-				if (boost::algorithm::starts_with(j->first, "/dev/" + name)) {
-					mount_points.push_back (j->second);
+			for (auto const& j: mounted_devices) {
+				if (boost::algorithm::starts_with(j.first, "/dev/" + name)) {
+					mount_points.push_back (j.second);
 				}
 			}
 			drives.push_back(Drive("/dev/" + name, mount_points, size, vendor, model));
