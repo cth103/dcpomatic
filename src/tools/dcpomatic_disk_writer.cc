@@ -18,6 +18,7 @@
 
 */
 
+
 #include "lib/compose.hpp"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
@@ -81,9 +82,10 @@ using boost::optional;
 
 
 #ifdef DCPOMATIC_LINUX
-static PolkitAuthority* polkit_authority = 0;
+static PolkitAuthority* polkit_authority = nullptr;
 #endif
-static Nanomsg* nanomsg = 0;
+static Nanomsg* nanomsg = nullptr;
+
 
 struct Parameters
 {
@@ -91,6 +93,7 @@ struct Parameters
 	std::string device;
 	std::string posix_partition;
 };
+
 
 #ifdef DCPOMATIC_LINUX
 static
@@ -137,7 +140,7 @@ try
 {
 	using namespace boost::algorithm;
 
-	optional<string> s = nanomsg->receive (0);
+	auto s = nanomsg->receive (0);
 	if (!s) {
 		return true;
 	}
@@ -150,8 +153,8 @@ try
 		nanomsg->send(DISK_WRITER_PONG "\n", LONG_TIMEOUT);
 	} else if (*s == DISK_WRITER_UNMOUNT) {
 		/* XXX: should do Linux polkit stuff here */
-		optional<string> xml_head = nanomsg->receive (LONG_TIMEOUT);
-		optional<string> xml_body = nanomsg->receive (LONG_TIMEOUT);
+		auto xml_head = nanomsg->receive (LONG_TIMEOUT);
+		auto xml_body = nanomsg->receive (LONG_TIMEOUT);
 		if (!xml_head || !xml_body) {
 			LOG_DISK_NC("Failed to receive unmount request");
 			throw CommunicationFailedError ();
@@ -162,8 +165,8 @@ try
 			throw CommunicationFailedError ();
 		}
 	} else if (*s == DISK_WRITER_WRITE) {
-		optional<string> dcp_path = nanomsg->receive (LONG_TIMEOUT);
-		optional<string> device = nanomsg->receive (LONG_TIMEOUT);
+		auto dcp_path = nanomsg->receive (LONG_TIMEOUT);
+		auto device = nanomsg->receive (LONG_TIMEOUT);
 		if (!dcp_path || !device) {
 			LOG_DISK_NC("Failed to receive write request");
 			throw CommunicationFailedError();
@@ -217,8 +220,8 @@ try
 
 #if defined(DCPOMATIC_LINUX)
 		polkit_authority = polkit_authority_get_sync (0, 0);
-		PolkitSubject* subject = polkit_unix_process_new_for_owner (getppid(), 0, -1);
-		Parameters* parameters = new Parameters;
+		auto subject = polkit_unix_process_new_for_owner (getppid(), 0, -1);
+		auto parameters = new Parameters;
 		parameters->dcp_path = *dcp_path;
 		parameters->device = *device;
 		parameters->posix_partition = *device;
@@ -232,7 +235,7 @@ try
 			polkit_authority, subject, "com.dcpomatic.write-drive", 0, POLKIT_CHECK_AUTHORIZATION_FLAGS_ALLOW_USER_INTERACTION, 0, polkit_callback, parameters
 			);
 #elif defined(DCPOMATIC_OSX)
-		string fast_device = boost::algorithm::replace_first_copy (*device, "/dev/disk", "/dev/rdisk");
+		auto fast_device = boost::algorithm::replace_first_copy (*device, "/dev/disk", "/dev/rdisk");
 		dcpomatic::write (*dcp_path, fast_device, fast_device + "s1", nanomsg);
 #elif defined(DCPOMATIC_WINDOWS)
 		dcpomatic::write (*dcp_path, *device, "", nanomsg);
@@ -277,7 +280,7 @@ main ()
 		exit (EXIT_FAILURE);
 	}
 
-	Glib::RefPtr<Glib::MainLoop> ml = Glib::MainLoop::create ();
+	auto ml = Glib::MainLoop::create ();
 	Glib::signal_timeout().connect(sigc::ptr_fun(&idle), 500);
 	ml->run ();
 }
