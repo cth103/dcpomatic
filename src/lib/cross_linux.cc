@@ -356,6 +356,7 @@ bool
 Drive::unmount ()
 {
 	for (auto i: _mount_points) {
+		PrivilegeEscalator esc;
 		int const r = umount(i.string().c_str());
 		LOG_DISK("Tried to unmount %1 and got %2 and %3", i.string(), r, errno);
 		if (r == -1) {
