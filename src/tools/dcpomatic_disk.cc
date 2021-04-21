@@ -19,22 +19,23 @@
 */
 
 
+#include "wx/disk_warning_dialog.h"
+#include "wx/drive_wipe_warning_dialog.h"
+#include "wx/job_manager_view.h"
+#include "wx/message_dialog.h"
+#include "wx/try_unmount_dialog.h"
+#include "wx/wx_util.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
-#include "wx/job_manager_view.h"
-#include "wx/drive_wipe_warning_dialog.h"
-#include "wx/try_unmount_dialog.h"
-#include "wx/message_dialog.h"
-#include "wx/disk_warning_dialog.h"
-#include "lib/file_log.h"
-#include "lib/dcpomatic_log.h"
-#include "lib/util.h"
 #include "lib/config.h"
-#include "lib/signal_manager.h"
-#include "lib/cross.h"
 #include "lib/copy_to_drive_job.h"
-#include "lib/job_manager.h"
+#include "lib/cross.h"
+#include "lib/dcpomatic_log.h"
 #include "lib/disk_writer_messages.h"
+#include "lib/file_log.h"
+#include "lib/job_manager.h"
+#include "lib/signal_manager.h"
+#include "lib/util.h"
 #include "lib/version.h"
 #include "lib/warnings.h"
 #include <wx/wx.h>
@@ -238,6 +239,13 @@ private:
 
 	void copy ()
 	{
+		/* Check that the selected drive still exists and update its properties if so */
+		drive_refresh ();
+		if (_drive->GetSelection() == wxNOT_FOUND) {
+			error_dialog (this, _("The disk you selected is no longer available.  Please choose another."));
+			return;
+		}
+
 		DCPOMATIC_ASSERT (_drive->GetSelection() != wxNOT_FOUND);
 		DCPOMATIC_ASSERT (static_cast<bool>(_dcp_path));
 
