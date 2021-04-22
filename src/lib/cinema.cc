@@ -18,6 +18,7 @@
 
 */
 
+
 #include "cinema.h"
 #include "screen.h"
 #include "dcpomatic_assert.h"
@@ -26,11 +27,14 @@
 #include <libxml++/libxml++.h>
 #include <iostream>
 
+
 using std::list;
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
 using dcp::raw_convert;
 using dcpomatic::Screen;
+
 
 Cinema::Cinema (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
@@ -56,7 +60,7 @@ void
 Cinema::read_screens (cxml::ConstNodePtr node)
 {
 	for (auto i: node->node_children("Screen")) {
-		add_screen (shared_ptr<Screen>(new Screen(i)));
+		add_screen (make_shared<Screen>(i));
 	}
 }
 

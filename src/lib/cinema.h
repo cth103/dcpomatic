@@ -81,7 +81,7 @@ public:
 	}
 
 private:
-	std::list<std::shared_ptr<dcpomatic::Screen> > _screens;
+	std::list<std::shared_ptr<dcpomatic::Screen>> _screens;
 	/** Offset such that the equivalent time in UTC can be determined
 	    by subtracting the offset from the local time.
 	*/
