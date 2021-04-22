@@ -719,20 +719,21 @@ DCPPanel::make_video_panel ()
 	_resolution_label = create_label (panel, _("Resolution"), true);
 	_resolution = new wxChoice (panel, wxID_ANY);
 
+#ifdef __WXGTK3__
+	int const spin_width = 118;
+#else
+	int const spin_width = 56;
+#endif
+
 	_frame_rate_label = create_label (panel, _("Frame Rate"), true);
 	_frame_rate_choice = new wxChoice (panel, wxID_ANY);
-	_frame_rate_spin = new wxSpinCtrl (panel, wxID_ANY);
+	_frame_rate_spin = new SpinCtrl (panel, spin_width);
 	setup_frame_rate_widget ();
 	_best_frame_rate = new Button (panel, _("Use best"));
 
 	_three_d = new CheckBox (panel, _("3D"));
 
 	_j2k_bandwidth_label = create_label (panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true);
-#ifdef __WXGTK3__
-	int const spin_width = 118;
-#else
-	int const spin_width = 56;
-#endif
 	_j2k_bandwidth = new SpinCtrl (panel, spin_width);
 	_mbits_label = create_label (panel, _("Mbit/s"), false);
 
