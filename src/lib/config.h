@@ -536,10 +536,6 @@ public:
 
 	AudioMapping audio_mapping (int output_channels);
 
-	int minimum_frame_size () const {
-		return _minimum_frame_size;
-	}
-
 	std::vector<dcp::LanguageTag> custom_languages () const {
 		return _custom_languages;
 	}
@@ -1051,10 +1047,6 @@ public:
 	void set_audio_mapping (AudioMapping m);
 	void set_audio_mapping_to_default ();
 
-	void set_minimum_frame_size (int size) {
-		maybe_set (_minimum_frame_size, size);
-	}
-
 	void add_custom_language (dcp::LanguageTag tag);
 
 	void changed (Property p = OTHER);
@@ -1268,7 +1260,6 @@ private:
 	boost::optional<boost::filesystem::path> _player_playlist_directory;
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
-	int _minimum_frame_size;
 	std::vector<dcp::LanguageTag> _custom_languages;
 
 	static int const _current_version;

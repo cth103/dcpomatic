@@ -175,7 +175,6 @@ Config::set_defaults ()
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
 	_audio_mapping = boost::none;
-	_minimum_frame_size = 65536;
 	_custom_languages.clear ();
 
 	_allowed_dcp_frame_rates.clear ();
@@ -544,8 +543,6 @@ try
 	if (f.optional_node_child("AudioMapping")) {
 		_audio_mapping = AudioMapping (f.node_child("AudioMapping"), Film::current_state_version);
 	}
-
-	_minimum_frame_size = f.optional_number_child<int>("MinimumFrameSize").get_value_or(65536);
 
 	for (auto i: f.node_children("CustomLanguage")) {
 		try {
@@ -976,7 +973,6 @@ Config::write_config () const
 	if (_audio_mapping) {
 		_audio_mapping->as_xml (root->add_child("AudioMapping"));
 	}
-	root->add_child("MinimumFrameSize")->add_child_text(raw_convert<string>(_minimum_frame_size));
 	for (auto const& i: _custom_languages) {
 		root->add_child("CustomLanguage")->add_child_text(i.to_string());
 	}
