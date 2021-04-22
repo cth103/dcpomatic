@@ -29,14 +29,14 @@ using namespace boost::placeholders;
 #endif
 
 NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel)
-	: wxDialog (parent, wxID_ANY, _("Important notice"))
+	: wxDialog (parent, wxID_ANY, _("Important notice"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _nag (nag)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 	_text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize (400, 300));
 	sizer->Add (_text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxCheckBox* b = new CheckBox (this, _("Don't show this message again"));
+	auto b = new CheckBox (this, _("Don't show this message again"));
 	sizer->Add (b, 0, wxALL, 6);
 	b->Bind (wxEVT_CHECKBOX, bind (&NagDialog::shut_up, this, _1));
 
@@ -54,6 +54,11 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 	sizer->SetSizeHints (this);
 
 	_text->SetLabelMarkup (message);
+
+	Bind (wxEVT_SIZE, [this](wxSizeEvent& ev) {
+		Layout();
+		ev.Skip();
+	});
 }
 
 void
