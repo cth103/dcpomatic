@@ -78,12 +78,14 @@ static
 void
 count (boost::filesystem::path dir, uint64_t& total_bytes)
 {
+	dir = fix_long_path (dir);
+
 	using namespace boost::filesystem;
-	for (directory_iterator i = directory_iterator(dir); i != directory_iterator(); ++i) {
-		if (is_directory(*i)) {
-			count (*i, total_bytes);
+	for (auto i: directory_iterator(dir)) {
+		if (is_directory(i)) {
+			count (i, total_bytes);
 		} else {
-			total_bytes += file_size (*i);
+			total_bytes += file_size (i);
 		}
 	}
 }
@@ -218,6 +220,8 @@ void
 copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total, vector<CopiedFile>& copied_files, Nanomsg* nanomsg)
 {
 	LOG_DISK ("Copy %1 -> %2", from.string(), to.generic_string());
+	from = fix_long_path (from);
+	to = fix_long_path (to);
 
 	using namespace boost::filesystem;
 
