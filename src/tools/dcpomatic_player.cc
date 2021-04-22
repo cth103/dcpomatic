@@ -259,6 +259,14 @@ public:
 		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
 	}
 
+	~DOMFrame ()
+	{
+		/* It's important that this is stopped before our frame starts destroying its children,
+		 * otherwise UI elements that it depends on will disappear from under it.
+		 */
+		_viewer.reset ();
+	}
+
 	void setup_main_sizer (Config::PlayerMode mode)
 	{
 		_main_sizer->Detach (_viewer->panel());
