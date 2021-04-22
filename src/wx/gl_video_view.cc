@@ -122,20 +122,18 @@ GLVideoView::check_for_butler_errors ()
 }
 
 
+/** Called from the UI thread */
 void
 GLVideoView::update ()
 {
-	{
-		boost::mutex::scoped_lock lm (_canvas_mutex);
-		if (!_canvas->IsShownOnScreen()) {
-			return;
-		}
+	if (!_canvas->IsShownOnScreen()) {
+		return;
+	}
 
 #ifdef DCPOMATIC_OSX
-		/* macOS gives errors if we don't do this (and therefore [NSOpenGLContext setView:]) from the main thread */
-		ensure_context ();
+	/* macOS gives errors if we don't do this (and therefore [NSOpenGLContext setView:]) from the main thread */
+	ensure_context ();
 #endif
-	}
 
 	if (!_thread.joinable()) {
 		_thread = boost::thread (boost::bind(&GLVideoView::thread, this));
@@ -262,7 +260,6 @@ DCPOMATIC_ENABLE_WARNINGS
 	glFlush();
 	check_gl_error ("glFlush");
 
-	boost::mutex::scoped_lock lm (_canvas_mutex);
 	_canvas->SwapBuffers();
 }
 
@@ -364,23 +361,19 @@ try
 {
 	start_of_thread ("GLVideoView");
 
-	{
-		boost::mutex::scoped_lock lm (_canvas_mutex);
-
 #if defined(DCPOMATIC_OSX)
-		/* Without this we see errors like
-		 * ../src/osx/cocoa/glcanvas.mm(194): assert ""context"" failed in SwapBuffers(): should have current context [in thread 700006970000]
-		 */
-		WXGLSetCurrentContext (_context->GetWXGLContext());
+	/* Without this we see errors like
+	 * ../src/osx/cocoa/glcanvas.mm(194): assert ""context"" failed in SwapBuffers(): should have current context [in thread 700006970000]
+	 */
+	WXGLSetCurrentContext (_context->GetWXGLContext());
 #else
-		/* We must call this here on Linux otherwise we get no image (for reasons
-		 * that aren't clear).  However, doing ensure_context() from this thread
-		 * on macOS gives
-		 * "[NSOpenGLContext setView:] must be called from the main thread".
-		 */
-		ensure_context ();
+	/* We must call this here on Linux otherwise we get no image (for reasons
+	 * that aren't clear).  However, doing ensure_context() from this thread
+	 * on macOS gives
+	 * "[NSOpenGLContext setView:] must be called from the main thread".
+	 */
+	ensure_context ();
 #endif
-	}
 
 #if defined(DCPOMATIC_LINUX) && defined(DCPOMATIC_HAVE_GLX_SWAP_INTERVAL_EXT)
 	if (_canvas->IsExtensionSupported("GLX_EXT_swap_control")) {

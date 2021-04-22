@@ -64,10 +64,6 @@ private:
 	void ensure_context ();
 	void size_changed (wxSizeEvent const &);
 
-	/* Mutex for use of _canvas; it's only contended when our ::thread
-	   is started up so this may be overkill.
-	 */
-	boost::mutex _canvas_mutex;
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
 
