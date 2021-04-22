@@ -214,7 +214,7 @@ def can_build_disk(target):
             return True
         if target.detail == 'appimage':
             return True 
-        if target.distro == 'fedora' and target.version == '31':
+        if target.distro == 'fedora' and int(target.version) >= 31:
             return True
         if target.distro == 'centos' and target.version == '8':
             return True
