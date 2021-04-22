@@ -62,6 +62,7 @@ private:
 	void request_one_shot ();
 	void check_for_butler_errors ();
 	void ensure_context ();
+	void size_changed (wxSizeEvent const &);
 
 	/* Mutex for use of _canvas; it's only contended when our ::thread
 	   is started up so this may be overkill.
@@ -69,6 +70,8 @@ private:
 	boost::mutex _canvas_mutex;
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
+
+	boost::atomic<wxSize> _canvas_size;
 
 	GLuint _id;
 	boost::optional<dcp::Size> _size;

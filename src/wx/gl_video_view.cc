@@ -76,12 +76,22 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 {
 	_canvas = new wxGLCanvas (parent, wxID_ANY, 0, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
 	_canvas->Bind (wxEVT_PAINT, boost::bind(&GLVideoView::update, this));
-	_canvas->Bind (wxEVT_SIZE, boost::bind(boost::ref(Sized)));
+	_canvas->Bind (wxEVT_SIZE, boost::bind(&GLVideoView::size_changed, this, _1));
 
 	_canvas->Bind (wxEVT_TIMER, boost::bind(&GLVideoView::check_for_butler_errors, this));
 	_timer.reset (new wxTimer(_canvas));
 	_timer->Start (2000);
 }
+
+
+void
+GLVideoView::size_changed (wxSizeEvent const& ev)
+{
+	_canvas_size = ev.GetSize ();
+	Sized ();
+}
+
+
 
 GLVideoView::~GLVideoView ()
 {
@@ -160,25 +170,21 @@ GLVideoView::draw (Position<int> inter_position, dcp::Size inter_size)
 	check_gl_error ("glDisable GL_DEPTH_TEST");
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	wxSize canvas_size;
-	{
-		boost::mutex::scoped_lock lm (_canvas_mutex);
-		if (_canvas) {
-			canvas_size = _canvas->GetSize ();
-		}
-	}
+	auto const size = _canvas_size.load();
+	int const width = size.GetWidth();
+	int const height = size.GetHeight();
 
-	if (canvas_size.GetWidth() < 64 || canvas_size.GetHeight() < 0) {
+	if (width < 64 || height < 0) {
 		return;
 	}
 
-	glViewport (0, 0, canvas_size.GetWidth(), canvas_size.GetHeight());
+	glViewport (0, 0, width, height);
 	check_gl_error ("glViewport");
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 
 DCPOMATIC_DISABLE_WARNINGS
-	gluOrtho2D (0, canvas_size.GetWidth(), canvas_size.GetHeight(), 0);
+	gluOrtho2D (0, width, height, 0);
 DCPOMATIC_ENABLE_WARNINGS
 	check_gl_error ("gluOrtho2d");
 	glMatrixMode (GL_MODELVIEW);
@@ -212,31 +218,31 @@ DCPOMATIC_ENABLE_WARNINGS
 		glEnd ();
 	}
 
-	if (!_viewer->pad_black() && out_size.width < canvas_size.GetWidth()) {
+	if (!_viewer->pad_black() && out_size.width < width) {
 		glBegin (GL_QUADS);
 		/* XXX: these colours are right for GNOME; may need adjusting for other OS */
 		glColor3ub (240, 240, 240);
 		glVertex2f (out_size.width, 0);
-		glVertex2f (canvas_size.GetWidth(), 0);
-		glVertex2f (canvas_size.GetWidth(), canvas_size.GetHeight());
-		glVertex2f (out_size.width, canvas_size.GetHeight());
+		glVertex2f (width, 0);
+		glVertex2f (width, height);
+		glVertex2f (out_size.width, height);
 		glEnd ();
 		glColor3ub (255, 255, 255);
 	}
 
-	if (!_viewer->pad_black() && out_size.height < canvas_size.GetHeight()) {
+	if (!_viewer->pad_black() && out_size.height < height) {
 		glColor3ub (240, 240, 240);
-		int const gap = (canvas_size.GetHeight() - out_size.height) / 2;
+		int const gap = (height - out_size.height) / 2;
 		glBegin (GL_QUADS);
 		glVertex2f (0, 0);
-		glVertex2f (canvas_size.GetWidth(), 0);
-		glVertex2f (canvas_size.GetWidth(), gap);
+		glVertex2f (width, 0);
+		glVertex2f (width, gap);
 		glVertex2f (0, gap);
 		glEnd ();
 		glBegin (GL_QUADS);
 		glVertex2f (0, gap + out_size.height + 1);
-		glVertex2f (canvas_size.GetWidth(), gap + out_size.height + 1);
-		glVertex2f (canvas_size.GetWidth(), 2 * gap + out_size.height + 2);
+		glVertex2f (width, gap + out_size.height + 1);
+		glVertex2f (width, 2 * gap + out_size.height + 2);
 		glVertex2f (0, 2 * gap + out_size.height + 2);
 		glEnd ();
 		glColor3ub (255, 255, 255);
@@ -245,10 +251,10 @@ DCPOMATIC_ENABLE_WARNINGS
 	if (_viewer->outline_content()) {
 		glColor3ub (255, 0, 0);
 		glBegin (GL_LINE_LOOP);
-		glVertex2f (inter_position.x, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2);
-		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2);
-		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2 + inter_size.height);
-		glVertex2f (inter_position.x, inter_position.y + (canvas_size.GetHeight() - out_size.height) / 2 + inter_size.height);
+		glVertex2f (inter_position.x, inter_position.y + (height - out_size.height) / 2);
+		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (height - out_size.height) / 2);
+		glVertex2f (inter_position.x + inter_size.width, inter_position.y + (height - out_size.height) / 2 + inter_size.height);
+		glVertex2f (inter_position.x, inter_position.y + (height - out_size.height) / 2 + inter_size.height);
 		glEnd ();
 		glColor3ub (255, 255, 255);
 	}
