@@ -163,6 +163,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::EXTERNAL_ASSET:
 			add(i, _("This DCP refers to at the asset %n in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
 			break;
+		case dcp::VerificationNote::Code::THREED_ASSET_MARKED_AS_TWOD:
+			add(i, _("The asset %f is 3D but its MXF is marked as 2D."));
+			break;
 		case dcp::VerificationNote::Code::INVALID_STANDARD:
 			add(i, _("This DCP uses the Interop standard, but it should be made with SMPTE."));
 			break;
