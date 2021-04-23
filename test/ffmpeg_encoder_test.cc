@@ -333,7 +333,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 /** Test export of a 3D DCP in a 2D project */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_3d_dcp_to_h264)
 {
-	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "XMenDarkPhoenix_TLR-12-3D_F_DE-XX_DE_51_2K_TCFG_20190227_TM_IOP-3D_OV");
+	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "xm");
 	auto film2 = new_test_film2 ("ffmpeg_encoder_3d_dcp_to_h264_export", {dcp});
 
 	auto job = make_shared<TranscodeJob> (film2);
