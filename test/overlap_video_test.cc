@@ -83,28 +83,32 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 	BOOST_CHECK_EQUAL (asset->intrinsic_duration(), 72);
 	auto reader = asset->start_read ();
 
+	auto close = [](int a, int b, int d) {
+		BOOST_CHECK (std::abs(a - b) < d);
+	};
+
 	for (int i = 0; i < 24; ++i) {
 		auto frame = reader->get_frame (i);
 		auto image = dcp::decompress_j2k(*frame.get(), 0);
-		BOOST_CHECK_EQUAL (image->data(0)[0], 2808);
-		BOOST_CHECK_EQUAL (image->data(1)[0], 2176);
-		BOOST_CHECK_EQUAL (image->data(2)[0], 865);
+		close (image->data(0)[0], 2808, 2);
+		close (image->data(1)[0], 2176, 2);
+		close (image->data(2)[0], 865, 2);
 	}
 
 	for (int i = 24; i < 48; ++i) {
 		auto frame = reader->get_frame (i);
 		auto image = dcp::decompress_j2k(*frame.get(), 0);
-		BOOST_CHECK_EQUAL (image->data(0)[0], 2657);
-		BOOST_CHECK_EQUAL (image->data(1)[0], 3470);
-		BOOST_CHECK_EQUAL (image->data(2)[0], 1742);
+		close (image->data(0)[0], 2657, 2);
+		close (image->data(1)[0], 3470, 2);
+		close (image->data(2)[0], 1742, 2);
 	}
 
 	for (int i = 48; i < 72; ++i) {
 		auto frame = reader->get_frame (i);
 		auto image = dcp::decompress_j2k(*frame.get(), 0);
-		BOOST_CHECK_EQUAL (image->data(0)[0], 2808);
-		BOOST_CHECK_EQUAL (image->data(1)[0], 2176);
-		BOOST_CHECK_EQUAL (image->data(2)[0], 865);
+		close (image->data(0)[0], 2808, 2);
+		close (image->data(1)[0], 2176, 2);
+		close (image->data(2)[0], 865, 2);
 	}
 }
 
