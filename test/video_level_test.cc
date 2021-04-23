@@ -469,7 +469,7 @@ BOOST_AUTO_TEST_CASE (video_FoV_to_dcp)
 BOOST_AUTO_TEST_CASE (image_F_to_dcp)
 {
 	auto range = dcp_range (image_F("image_F_to_dcp"));
-	check_int_close (range, {0, 4083}, 2);
+	check_int_close (range, {0, 4083}, 3);
 }
 
 

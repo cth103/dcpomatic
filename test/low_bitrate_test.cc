@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (low_bitrate_test)
 	auto frame = make_shared<PlayerVideo>(proxy, Crop(), boost::optional<double>(), dcp::Size(1998, 1080), dcp::Size(1998, 1080), Eyes::BOTH, Part::WHOLE, boost::optional<ColourConversion>(), VideoRange::FULL, std::weak_ptr<Content>(), boost::optional<Frame>(), false);
 	auto dcp_video = make_shared<DCPVideo>(frame, 0, 24, 100000000, Resolution::TWO_K);
 	auto j2k = dcp_video->encode_locally();
-	BOOST_REQUIRE (j2k.size() >= 65536);
+	BOOST_REQUIRE (j2k.size() >= 16536);
 }
 
 
