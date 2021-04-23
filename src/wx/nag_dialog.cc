@@ -28,12 +28,16 @@ using std::shared_ptr;
 using namespace boost::placeholders;
 #endif
 
+
+static constexpr int width = 400;
+
+
 NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool can_cancel)
-	: wxDialog (parent, wxID_ANY, _("Important notice"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog (parent, wxID_ANY, _("Important notice"))
 	, _nag (nag)
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
-	_text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize (400, 300));
+	_text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(width, 300));
 	sizer->Add (_text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	auto b = new CheckBox (this, _("Don't show this message again"));
@@ -49,16 +53,12 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
+	_text->SetLabelMarkup (message);
+	_text->Wrap (width);
+
 	SetSizer (sizer);
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
-
-	_text->SetLabelMarkup (message);
-
-	Bind (wxEVT_SIZE, [this](wxSizeEvent& ev) {
-		Layout();
-		ev.Skip();
-	});
 }
 
 void
