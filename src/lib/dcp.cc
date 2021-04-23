@@ -47,16 +47,22 @@ DCP::cpls () const
 	list<shared_ptr<dcp::DCP>> dcps;
 	list<shared_ptr<dcp::CPL>> cpls;
 
+	/** We accept and ignore some warnings / errors but everything else is bad */
+	vector<dcp::VerificationNote::Code> ignore = {
+		dcp::VerificationNote::Code::EMPTY_ASSET_PATH,
+		dcp::VerificationNote::Code::EXTERNAL_ASSET,
+		dcp::VerificationNote::Code::THREED_ASSET_MARKED_AS_TWOD,
+	};
+
 	LOG_GENERAL ("Reading %1 DCP directories", _dcp_content->directories().size());
 	for (auto i: _dcp_content->directories()) {
 		auto dcp = make_shared<dcp::DCP>(i);
 		vector<dcp::VerificationNote> notes;
 		dcp->read (&notes, true);
 		if (!_tolerant) {
-			/** We accept and ignore EMPTY_ASSET_PATH and EXTERNAL_ASSET but everything else is bad */
 			for (auto j: notes) {
-				if (j.code() == dcp::VerificationNote::Code::EMPTY_ASSET_PATH || j.code() == dcp::VerificationNote::Code::EXTERNAL_ASSET) {
-					LOG_WARNING("Empty path in ASSETMAP of %1", i.string());
+				if (std::find(ignore.begin(), ignore.end(), j.code()) != ignore.end()) {
+					LOG_WARNING("Ignoring: %1", dcp::note_to_string(j));
 				} else {
 					boost::throw_exception(dcp::ReadError(dcp::note_to_string(j)));
 				}
