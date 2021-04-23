@@ -273,7 +273,7 @@ movie_V (string name)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	pair<int, int> range = pixel_range (film, content);
+	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 15);
 	BOOST_CHECK_EQUAL (range.second, 243);
 
@@ -292,7 +292,7 @@ movie_VoF (string name)
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_range (VideoRange::FULL);
 
-	pair<int, int> range = pixel_range (film, content);
+	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 15);
 	BOOST_CHECK_EQUAL (range.second, 243);
 
@@ -310,7 +310,7 @@ movie_F (string name)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	pair<int, int> range = pixel_range (film, content);
+	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 0);
 	BOOST_CHECK_EQUAL (range.second, 1023);
 
@@ -329,7 +329,7 @@ movie_FoV (string name)
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_range (VideoRange::VIDEO);
 
-	pair<int, int> range = pixel_range (film, content);
+	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 0);
 	BOOST_CHECK_EQUAL (range.second, 1023);
 
@@ -347,7 +347,7 @@ image_F (string name)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	pair<int, int> range = pixel_range (film, content);
+	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 0);
 	BOOST_CHECK_EQUAL (range.second, 255);
 
@@ -366,7 +366,7 @@ image_FoV (string name)
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_range (VideoRange::VIDEO);
 
-	pair<int, int> range = pixel_range (film, content);
+	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 11);
 	BOOST_CHECK_EQUAL (range.second, 250);
 
@@ -384,7 +384,7 @@ dcp_F (string name)
 	film->examine_and_add_content (shared_ptr<DCPContent>(new DCPContent(dcp)));
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	pair<int, int> range = pixel_range (dcp);
+	auto range = pixel_range (dcp);
 	BOOST_CHECK_EQUAL (range.first, 0);
 	BOOST_CHECK_EQUAL (range.second, 4081);
 
@@ -434,61 +434,55 @@ V_movie_range (shared_ptr<Film> film)
 
 BOOST_AUTO_TEST_CASE (movie_V_to_dcp)
 {
-	pair<int, int> range = dcp_range (movie_V("movie_V_to_dcp"));
+	auto range = dcp_range (movie_V("movie_V_to_dcp"));
 	/* Video range has been correctly expanded to full for the DCP */
-	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4083);
+	check_int_close (range, {0, 4083}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (movie_VoF_to_dcp)
 {
-	pair<int, int> range = dcp_range (movie_VoF("movie_VoF_to_dcp"));
+	auto range = dcp_range (movie_VoF("movie_VoF_to_dcp"));
 	/* We said that video range data was really full range, so here we are in the DCP
 	 * with video-range data.
 	 */
-	BOOST_CHECK_EQUAL (range.first, 350);
-	BOOST_CHECK_EQUAL (range.second, 3832);
+	check_int_close (range, {350, 3832}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (movie_F_to_dcp)
 {
-	pair<int, int> range = dcp_range (movie_F("movie_F_to_dcp"));
+	auto range = dcp_range (movie_F("movie_F_to_dcp"));
 	/* The nearly-full-range of the input has been preserved */
-	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4083);
+	check_int_close (range, {0, 4083}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (video_FoV_to_dcp)
 {
-	pair<int, int> range = dcp_range (movie_FoV("video_FoV_to_dcp"));
+	auto range = dcp_range (movie_FoV("video_FoV_to_dcp"));
 	/* The nearly-full-range of the input has become even more full, and clipped */
-	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4095);
+	check_int_close (range, {0, 4095}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (image_F_to_dcp)
 {
-	pair<int, int> range = dcp_range (image_F("image_F_to_dcp"));
-	BOOST_CHECK_EQUAL (range.first, 0);
-	BOOST_CHECK_EQUAL (range.second, 4083);
+	auto range = dcp_range (image_F("image_F_to_dcp"));
+	check_int_close (range, {0, 4083}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (image_FoV_to_dcp)
 {
-	pair<int, int> range = dcp_range (image_FoV("image_FoV_to_dcp"));
-	BOOST_CHECK_EQUAL (range.first, 430);
-	BOOST_CHECK_EQUAL (range.second, 4012);
+	auto range = dcp_range (image_FoV("image_FoV_to_dcp"));
+	check_int_close (range, {430, 4012}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (movie_V_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (movie_V("movie_V_to_V_movie"));
+	auto range = V_movie_range (movie_V("movie_V_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 60);
 	BOOST_CHECK_EQUAL (range.second, 998);
 }
@@ -496,7 +490,7 @@ BOOST_AUTO_TEST_CASE (movie_V_to_V_movie)
 
 BOOST_AUTO_TEST_CASE (movie_VoF_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (movie_VoF("movie_VoF_to_V_movie"));
+	auto range = V_movie_range (movie_VoF("movie_VoF_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 116);
 	BOOST_CHECK_EQUAL (range.second, 939);
 }
@@ -504,7 +498,7 @@ BOOST_AUTO_TEST_CASE (movie_VoF_to_V_movie)
 
 BOOST_AUTO_TEST_CASE (movie_F_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (movie_F("movie_F_to_V_movie"));
+	auto range = V_movie_range (movie_F("movie_F_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 4);
 	BOOST_CHECK_EQUAL (range.second, 1019);
 }
@@ -512,7 +506,7 @@ BOOST_AUTO_TEST_CASE (movie_F_to_V_movie)
 
 BOOST_AUTO_TEST_CASE (movie_FoV_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (movie_FoV("movie_FoV_to_V_movie"));
+	auto range = V_movie_range (movie_FoV("movie_FoV_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 4);
 	BOOST_CHECK_EQUAL (range.second, 1019);
 }
@@ -520,7 +514,7 @@ BOOST_AUTO_TEST_CASE (movie_FoV_to_V_movie)
 
 BOOST_AUTO_TEST_CASE (image_F_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (image_F("image_F_to_V_movie"));
+	auto range = V_movie_range (image_F("image_F_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 64);
 	BOOST_CHECK_EQUAL (range.second, 960);
 }
@@ -528,7 +522,7 @@ BOOST_AUTO_TEST_CASE (image_F_to_V_movie)
 
 BOOST_AUTO_TEST_CASE (image_FoV_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (image_FoV("image_FoV_to_V_movie"));
+	auto range = V_movie_range (image_FoV("image_FoV_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 102);
 	BOOST_CHECK_EQUAL (range.second, 923);
 }
@@ -536,7 +530,7 @@ BOOST_AUTO_TEST_CASE (image_FoV_to_V_movie)
 
 BOOST_AUTO_TEST_CASE (dcp_F_to_V_movie)
 {
-	pair<int, int> range = V_movie_range (dcp_F("dcp_F_to_V_movie"));
+	auto range = V_movie_range (dcp_F("dcp_F_to_V_movie"));
 	BOOST_CHECK_EQUAL (range.first, 64);
 	BOOST_CHECK_EQUAL (range.second, 944);
 }
