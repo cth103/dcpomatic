@@ -908,3 +908,17 @@ make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> 
 	BOOST_CHECK(ok);
 }
 
+
+void
+check_int_close (int a, int b, int d)
+{
+	BOOST_CHECK (std::abs(a - b) < d);
+}
+
+
+void
+check_int_close (std::pair<int, int> a, std::pair<int, int> b, int d)
+{
+	check_int_close (a.first, b.first, d);
+	check_int_close (a.second, b.second, d);
+}
