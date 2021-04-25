@@ -39,6 +39,9 @@ public:
 	explicit FileGroup (std::vector<boost::filesystem::path> const &);
 	~FileGroup ();
 
+	FileGroup (FileGroup const&) = delete;
+	FileGroup& operator= (FileGroup const&) = delete;
+
 	void set_paths (std::vector<boost::filesystem::path> const &);
 
 	int64_t seek (int64_t, int) const;
