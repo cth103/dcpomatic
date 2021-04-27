@@ -53,14 +53,16 @@ BOOST_AUTO_TEST_CASE (test_write_odd_amount_of_silence)
 
 BOOST_AUTO_TEST_CASE (interrupt_writer)
 {
-	auto film = new_test_film2 ("test_interrupt_writer");
+	Cleanup cl;
+
+	auto film = new_test_film2 ("test_interrupt_writer", {}, &cl);
 
 	auto content = content_factory("test/data/check_image0.png").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	/* Add some dummy content to the film so that it has a reel of the right length */
-	auto constexpr frames = 24 * 60 * 60;
+	auto constexpr frames = 24 * 60;
 	content->video->set_length (frames);
 
 	/* Make a random J2K image */
@@ -95,5 +97,6 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 	thread.interrupt ();
 
 	dcpomatic_sleep_seconds (1);
+	cl.run ();
 }
 
