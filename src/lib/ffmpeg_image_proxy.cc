@@ -124,6 +124,8 @@ DCPOMATIC_DISABLE_WARNINGS
 ImageProxy::Result
 FFmpegImageProxy::image (optional<dcp::Size>) const
 {
+	auto constexpr name_for_errors = "FFmpegImageProxy::image";
+
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (_image) {
@@ -162,34 +164,36 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		}
 	}
 
-	if (avformat_find_stream_info(format_context, 0) < 0) {
-		throw DecodeError (_("could not find stream information"));
+	int r = avformat_find_stream_info(format_context, 0);
+	if (r < 0) {
+		throw DecodeError (N_("avcodec_find_stream_info"), name_for_errors, r);
 	}
 
 	DCPOMATIC_ASSERT (format_context->nb_streams == 1);
 
 	AVFrame* frame = av_frame_alloc ();
 	if (!frame) {
-		throw DecodeError (N_("could not allocate frame"));
+		std::bad_alloc ();
 	}
 
 	AVCodecContext* codec_context = format_context->streams[0]->codec;
 	AVCodec* codec = avcodec_find_decoder (codec_context->codec_id);
 	DCPOMATIC_ASSERT (codec);
 
-	if (avcodec_open2 (codec_context, codec, 0) < 0) {
-		throw DecodeError (N_("could not open decoder"));
+	r = avcodec_open2 (codec_context, codec, 0);
+	if (r < 0) {
+		throw DecodeError (N_("avcodec_open2"), name_for_errors, r);
 	}
 
 	AVPacket packet;
-	int r = av_read_frame (format_context, &packet);
+	r = av_read_frame (format_context, &packet);
 	if (r < 0) {
-		throw DecodeError (N_("could not read frame"));
+		throw DecodeError (N_("av_read_frame"), name_for_errors, r);
 	}
 
 	int frame_finished;
 	if (avcodec_decode_video2(codec_context, frame, &frame_finished, &packet) < 0 || !frame_finished) {
-		throw DecodeError (N_("could not decode video"));
+		throw DecodeError (N_("avcodec_decode_video2"), name_for_errors, r);
 	}
 
 	AVPixelFormat const pix_fmt = static_cast<AVPixelFormat>(frame->format);

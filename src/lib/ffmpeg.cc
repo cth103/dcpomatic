@@ -192,7 +192,7 @@ FFmpeg::setup_general ()
 
 	_frame = av_frame_alloc ();
 	if (_frame == 0) {
-		throw DecodeError (N_("could not allocate frame"));
+		throw std::bad_alloc ();
 	}
 }
 
@@ -225,8 +225,9 @@ DCPOMATIC_DISABLE_WARNINGS
 			/* Enable following of links in files */
 			av_dict_set_int (&options, "enable_drefs", 1, 0);
 
-			if (avcodec_open2 (context, codec, &options) < 0) {
-				throw DecodeError (N_("could not open decoder"));
+			int r = avcodec_open2 (context, codec, &options);
+			if (r < 0) {
+				throw DecodeError (N_("avcodec_open2"), N_("FFmpeg::setup_decoders"), r);
 			}
 		} else {
 			dcpomatic_log->log (String::compose ("No codec found for stream %1", i), LogEntry::TYPE_WARNING);
