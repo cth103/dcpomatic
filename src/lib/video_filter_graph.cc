@@ -57,9 +57,8 @@ VideoFilterGraph::process (AVFrame* frame)
 {
 	list<pair<shared_ptr<Image>, int64_t>> images;
 
-DCPOMATIC_DISABLE_WARNINGS
 	if (_copy) {
-		images.push_back (make_pair(make_shared<Image>(frame), av_frame_get_best_effort_timestamp (frame)));
+		images.push_back (make_pair(make_shared<Image>(frame), frame->best_effort_timestamp));
 	} else {
 		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
 		if (r < 0) {
@@ -71,11 +70,10 @@ DCPOMATIC_DISABLE_WARNINGS
 				break;
 			}
 
-			images.push_back (make_pair(make_shared<Image>(_frame), av_frame_get_best_effort_timestamp (_frame)));
+			images.push_back (make_pair(make_shared<Image>(_frame), _frame->best_effort_timestamp));
 			av_frame_unref (_frame);
 		}
 	}
-DCPOMATIC_ENABLE_WARNINGS
 
 	return images;
 }

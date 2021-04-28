@@ -278,9 +278,7 @@ FFmpegExaminer::frame_time (AVStream* s) const
 {
 	optional<ContentTime> t;
 
-DCPOMATIC_DISABLE_WARNINGS
-	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-DCPOMATIC_ENABLE_WARNINGS
+	int64_t const bet = _frame->best_effort_timestamp;
 	if (bet != AV_NOPTS_VALUE) {
 		t = ContentTime::from_seconds (bet * av_q2d (s->time_base));
 	}
