@@ -18,12 +18,13 @@
 
 */
 
-#include "ffmpeg_image_proxy.h"
-#include "cross.h"
-#include "exceptions.h"
-#include "dcpomatic_socket.h"
-#include "image.h"
+
 #include "compose.hpp"
+#include "cross.h"
+#include "dcpomatic_socket.h"
+#include "exceptions.h"
+#include "ffmpeg_image_proxy.h"
+#include "image.h"
 #include "util.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
@@ -39,15 +40,18 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
-using std::pair;
-using std::min;
 using std::make_pair;
+using std::make_shared;
+using std::min;
+using std::pair;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using std::dynamic_pointer_cast;
 using dcp::raw_convert;
+
 
 FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path, VideoRange video_range)
 	: _data (path)
@@ -119,7 +123,6 @@ FFmpegImageProxy::avio_seek (int64_t const pos, int whence)
 	return _pos;
 }
 
-DCPOMATIC_DISABLE_WARNINGS
 
 ImageProxy::Result
 FFmpegImageProxy::image (optional<dcp::Size>) const
@@ -176,11 +179,15 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		std::bad_alloc ();
 	}
 
-	AVCodecContext* codec_context = format_context->streams[0]->codec;
-	AVCodec* codec = avcodec_find_decoder (codec_context->codec_id);
+	auto codec = avcodec_find_decoder (format_context->streams[0]->codecpar->codec_id);
 	DCPOMATIC_ASSERT (codec);
 
-	r = avcodec_open2 (codec_context, codec, 0);
+	auto context = avcodec_alloc_context3 (codec);
+	if (!context) {
+		throw DecodeError (N_("avcodec_alloc_context3"), name_for_errors);
+	}
+
+	r = avcodec_open2 (context, codec, 0);
 	if (r < 0) {
 		throw DecodeError (N_("avcodec_open2"), name_for_errors, r);
 	}
@@ -191,14 +198,19 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		throw DecodeError (N_("av_read_frame"), name_for_errors, r);
 	}
 
-	int frame_finished;
-	if (avcodec_decode_video2(codec_context, frame, &frame_finished, &packet) < 0 || !frame_finished) {
-		throw DecodeError (N_("avcodec_decode_video2"), name_for_errors, r);
+	r = avcodec_send_packet (context, &packet);
+	if (r < 0) {
+		throw DecodeError (N_("avcodec_send_packet"), name_for_errors, r);
 	}
 
-	AVPixelFormat const pix_fmt = static_cast<AVPixelFormat>(frame->format);
+	r = avcodec_receive_frame (context, frame);
+	if (r < 0) {
+		throw DecodeError (N_("avcodec_receive_frame"), name_for_errors, r);
+	}
 
-	_image.reset (new Image(frame));
+	auto const pix_fmt = static_cast<AVPixelFormat>(frame->format);
+
+	_image = make_shared<Image>(frame);
 	if (_video_range == VideoRange::VIDEO && av_pix_fmt_desc_get(pix_fmt)->flags & AV_PIX_FMT_FLAG_RGB) {
 		/* Asking for the video range to be converted by libswscale (in Image) will not work for
 		 * RGB sources since that method only processes video range in YUV and greyscale.  So we have
@@ -209,7 +221,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 
 	av_packet_unref (&packet);
 	av_frame_free (&frame);
-	avcodec_close (codec_context);
+	avcodec_free_context (&context);
 	avformat_close_input (&format_context);
 	av_free (avio_context->buffer);
 	av_free (avio_context);
@@ -217,7 +229,6 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	return Result (_image, 0);
 }
 
-DCPOMATIC_ENABLE_WARNINGS
 
 void
 FFmpegImageProxy::add_metadata (xmlpp::Node* node) const

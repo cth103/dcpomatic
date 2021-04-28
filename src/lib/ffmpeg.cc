@@ -68,11 +68,9 @@ FFmpeg::~FFmpeg ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-DCPOMATIC_DISABLE_WARNINGS
-	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		avcodec_close (_format_context->streams[i]->codec);
+	for (auto& i: _codec_context) {
+		avcodec_free_context (&i);
 	}
-DCPOMATIC_ENABLE_WARNINGS
 
 	av_frame_free (&_frame);
 	avformat_close_input (&_format_context);
@@ -202,15 +200,23 @@ FFmpeg::setup_decoders ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-DCPOMATIC_DISABLE_WARNINGS
+	_codec_context.resize (_format_context->nb_streams);
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		auto context = _format_context->streams[i]->codec;
-
-		context->thread_count = 8;
-		context->thread_type = FF_THREAD_FRAME | FF_THREAD_SLICE;
-
-		AVCodec* codec = avcodec_find_decoder (context->codec_id);
+		auto codec = avcodec_find_decoder (_format_context->streams[i]->codecpar->codec_id);
 		if (codec) {
+			auto context = avcodec_alloc_context3 (codec);
+			if (!context) {
+				throw std::bad_alloc ();
+			}
+			_codec_context[i] = context;
+
+			int r = avcodec_parameters_to_context (context, _format_context->streams[i]->codecpar);
+			if (r < 0) {
+				throw DecodeError ("avcodec_parameters_to_context", "FFmpeg::setup_decoders", r);
+			}
+
+			context->thread_count = 8;
+			context->thread_type = FF_THREAD_FRAME | FF_THREAD_SLICE;
 
 			AVDictionary* options = nullptr;
 			/* This option disables decoding of DCA frame footers in our patched version
@@ -225,7 +231,7 @@ DCPOMATIC_DISABLE_WARNINGS
 			/* Enable following of links in files */
 			av_dict_set_int (&options, "enable_drefs", 1, 0);
 
-			int r = avcodec_open2 (context, codec, &options);
+			r = avcodec_open2 (context, codec, &options);
 			if (r < 0) {
 				throw DecodeError (N_("avcodec_open2"), N_("FFmpeg::setup_decoders"), r);
 			}
@@ -233,11 +239,9 @@ DCPOMATIC_DISABLE_WARNINGS
 			dcpomatic_log->log (String::compose ("No codec found for stream %1", i), LogEntry::TYPE_WARNING);
 		}
 	}
-DCPOMATIC_ENABLE_WARNINGS
 }
 
 
-DCPOMATIC_DISABLE_WARNINGS
 AVCodecContext *
 FFmpeg::video_codec_context () const
 {
@@ -245,20 +249,20 @@ FFmpeg::video_codec_context () const
 		return nullptr;
 	}
 
-	return _format_context->streams[_video_stream.get()]->codec;
+	return _codec_context[_video_stream.get()];
 }
 
 
 AVCodecContext *
 FFmpeg::subtitle_codec_context () const
 {
-	if (!_ffmpeg_content->subtitle_stream()) {
+	auto str = _ffmpeg_content->subtitle_stream();
+	if (!str) {
 		return nullptr;
 	}
 
-	return _ffmpeg_content->subtitle_stream()->stream(_format_context)->codec;
+	return _codec_context[str->index(_format_context)];
 }
-DCPOMATIC_ENABLE_WARNINGS
 
 
 int

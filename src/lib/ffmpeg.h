@@ -73,6 +73,7 @@ protected:
 	FileGroup _file_group;
 
 	AVFormatContext* _format_context = nullptr;
+	std::vector<AVCodecContext*> _codec_context;
 	AVFrame* _frame = nullptr;
 
 	/** Index of video stream within AVFormatContext */

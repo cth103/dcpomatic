@@ -977,9 +977,11 @@ Image::Image (Image const & other)
 
 Image::Image (AVFrame* frame)
 	: _size (frame->width, frame->height)
-	, _pixel_format (static_cast<AVPixelFormat> (frame->format))
+	, _pixel_format (static_cast<AVPixelFormat>(frame->format))
 	, _aligned (true)
 {
+	DCPOMATIC_ASSERT (_pixel_format != AV_PIX_FMT_NONE);
+
 	allocate ();
 
 	for (int i = 0; i < planes(); ++i) {
