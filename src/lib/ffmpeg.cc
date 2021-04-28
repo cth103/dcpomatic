@@ -143,10 +143,9 @@ FFmpeg::setup_general ()
 
 	optional<int> video_stream_undefined_frame_rate;
 
-DCPOMATIC_DISABLE_WARNINGS
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		auto s = _format_context->streams[i];
-		if (s->codec->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codec->codec_id)) {
+		if (s->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codecpar->codec_id)) {
 			if (s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
 				/* This is definitely our video stream */
 				_video_stream = i;
@@ -156,7 +155,6 @@ DCPOMATIC_DISABLE_WARNINGS
 			}
 		}
 	}
-DCPOMATIC_ENABLE_WARNINGS
 
 	/* Files from iTunes sometimes have two video streams, one with the avg_frame_rate.num and .den set
 	   to zero.  Only use such a stream if there is no alternative.

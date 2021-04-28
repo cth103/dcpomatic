@@ -228,11 +228,9 @@ FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
 {
 	DCPOMATIC_ASSERT (bytes_per_audio_sample (stream));
 
-DCPOMATIC_DISABLE_WARNINGS
 	int const size = av_samples_get_buffer_size (
-		0, stream->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (stream), 1
+		0, stream->stream(_format_context)->codecpar->channels, _frame->nb_samples, audio_sample_format (stream), 1
 		);
-DCPOMATIC_ENABLE_WARNINGS
 	DCPOMATIC_ASSERT (size >= 0);
 
 	/* XXX: can't we just use _frame->nb_samples directly here? */
@@ -365,9 +363,7 @@ DCPOMATIC_ENABLE_WARNINGS
 AVSampleFormat
 FFmpegDecoder::audio_sample_format (shared_ptr<FFmpegAudioStream> stream) const
 {
-DCPOMATIC_DISABLE_WARNINGS
-	return stream->stream (_format_context)->codec->sample_fmt;
-DCPOMATIC_ENABLE_WARNINGS
+	return static_cast<AVSampleFormat>(stream->stream(_format_context)->codecpar->format);
 }
 
 

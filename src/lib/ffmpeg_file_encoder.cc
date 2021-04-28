@@ -335,8 +335,8 @@ FFmpegFileEncoder::setup_video ()
 		throw runtime_error ("could not create FFmpeg output video stream");
 	}
 
-DCPOMATIC_DISABLE_WARNINGS
 	_video_stream->id = _video_stream_index;
+DCPOMATIC_DISABLE_WARNINGS
 	_video_stream->codec = _video_codec_context;
 DCPOMATIC_ENABLE_WARNINGS
 
