@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "dolby_cp750.h"
 
 #include "i18n.h"
 
+
 using namespace std;
+
 
 DolbyCP750::DolbyCP750 ()
 	: CinemaSoundProcessor ("dolby_cp750", _("Dolby CP650 or CP750"), 4.0f, 20, 3.33333333333333333)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_DOWNLOAD_CERTIFICATE_PANEL_H
 #define DCPOMATIC_DOWNLOAD_CERTIFICATE_PANEL_H
+
 
 #include "lib/warnings.h"
 #include <dcp/certificate.h>
@@ -28,7 +30,9 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 
+
 class DownloadCertificateDialog;
+
 
 class DownloadCertificatePanel : public wxPanel
 {
@@ -53,5 +57,6 @@ protected:
 private:
 	boost::optional<dcp::Certificate> _certificate;
 };
+
 
 #endif

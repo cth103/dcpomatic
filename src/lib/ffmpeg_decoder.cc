@@ -81,7 +81,6 @@ using namespace dcpomatic;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
 	: FFmpeg (c)
 	, Decoder (film)
-	, _have_current_subtitle (false)
 {
 	if (c->video && c->video->use()) {
 		video = make_shared<VideoDecoder>(this, c);

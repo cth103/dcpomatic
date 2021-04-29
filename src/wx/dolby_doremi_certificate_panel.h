@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,15 @@
 
 */
 
+
 #include "download_certificate_panel.h"
+
 
 class DolbyDoremiCertificatePanel : public DownloadCertificatePanel
 {
 public:
 	DolbyDoremiCertificatePanel (DownloadCertificateDialog* dialog);
 
-	void do_download ();
-	wxString name () const;
+	void do_download () override;
+	wxString name () const override;
 };

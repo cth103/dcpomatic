@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "dkdm_dialog.h"
 #include "wx_util.h"
@@ -36,6 +37,7 @@
 #include <wx/treectrl.h>
 #include <wx/listctrl.h>
 #include <iostream>
+
 
 using std::string;
 using std::exception;
@@ -59,9 +61,9 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	, _film (film)
 {
 	/* Main sizers */
-	wxBoxSizer* horizontal = new wxBoxSizer (wxHORIZONTAL);
-	wxBoxSizer* left = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* right = new wxBoxSizer (wxVERTICAL);
+	auto horizontal = new wxBoxSizer (wxHORIZONTAL);
+	auto left = new wxBoxSizer (wxVERTICAL);
+	auto right = new wxBoxSizer (wxVERTICAL);
 
 	horizontal->Add (left, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP * 4);
 	horizontal->Add (right, 1, wxEXPAND);
@@ -71,7 +73,7 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
 	/* Sub-heading: Screens */
-	wxStaticText* h = new StaticText (this, _("Recipients"));
+	auto h = new StaticText (this, _("Recipients"));
 	h->SetFont (subheading_font);
 	left->Add (h, 0, wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 	_recipients = new RecipientsPanel (this);
@@ -112,7 +114,7 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 
 	/* Make an overall sizer to get a nice border */
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (horizontal, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
 	/* Bind */
@@ -128,6 +130,7 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	overall_sizer->SetSizeHints (this);
 }
 
+
 void
 DKDMDialog::setup_sensitivity ()
 {
@@ -136,25 +139,27 @@ DKDMDialog::setup_sensitivity ()
 	_make->Enable (!_recipients->recipients().empty() && _timing->valid() && _cpl->has_selected());
 }
 
+
 bool
 DKDMDialog::confirm_overwrite (boost::filesystem::path path)
 {
 	return confirm_dialog (
 		this,
-		wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
+		wxString::Format(_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
 		);
 }
+
 
 void
 DKDMDialog::make_clicked ()
 {
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 
 	list<KDMWithMetadataPtr> kdms;
 	try {
 		for (auto i: _recipients->recipients()) {
-			KDMWithMetadataPtr p = kdm_for_dkdm_recipient (film, _cpl->cpl(), i, _timing->from(), _timing->until());
+			auto p = kdm_for_dkdm_recipient (film, _cpl->cpl(), i, _timing->from(), _timing->until());
 			if (p) {
 				kdms.push_back (p);
 			}
@@ -171,17 +176,17 @@ DKDMDialog::make_clicked ()
 		return;
 	}
 
-	pair<shared_ptr<Job>, int> result = _output->make (kdms, film->name(), bind(&DKDMDialog::confirm_overwrite, this, _1));
+	auto result = _output->make (kdms, film->name(), bind(&DKDMDialog::confirm_overwrite, this, _1));
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}
 
 	if (result.second > 0) {
 		/* XXX: proper plural form support in wxWidgets? */
-		wxString s = result.second == 1 ? _("%d DKDM written to %s") : _("%d DKDMs written to %s");
+		auto s = result.second == 1 ? _("%d DKDM written to %s") : _("%d DKDMs written to %s");
 		message_dialog (
 			this,
-			wxString::Format (s, result.second, std_to_wx(_output->directory().string()).data())
+			wxString::Format(s, result.second, std_to_wx(_output->directory().string()).data())
 			);
 	}
 }

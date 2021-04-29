@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @defgroup completedcp Complete builds of DCPs */
 
 /** @file  test/4k_test.cc
@@ -26,6 +27,7 @@
  *
  *  The output is checked against test/data/4k_test.
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
@@ -36,8 +38,10 @@
 #include "lib/dcpomatic_log.h"
 #include "test.h"
 
+
 using std::shared_ptr;
 using std::make_shared;
+
 
 BOOST_AUTO_TEST_CASE (fourk_test)
 {
@@ -58,8 +62,8 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
 		});
 
-	boost::filesystem::path p (test_film_dir ("4k_test"));
+	boost::filesystem::path p (test_film_dir("4k_test"));
 	p /= film->dcp_name ();
 
-	check_dcp ("test/data/4k_test", p.string ());
+	check_dcp ("test/data/4k_test", p.string());
 }

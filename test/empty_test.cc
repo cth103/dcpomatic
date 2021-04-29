@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,21 +18,24 @@
 
 */
 
+
 /** @file  test/empty_test.cc
  *  @brief Test the creation of Empty objects.
  *  @ingroup feature
  */
 
-#include "lib/film.h"
+
 #include "lib/dcp_content_type.h"
+#include "lib/decoder.h"
+#include "lib/empty.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/player.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
-#include "lib/image_content.h"
-#include "lib/empty.h"
-#include "lib/player.h"
-#include "lib/decoder.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+
 
 using std::list;
 using std::make_shared;
@@ -42,18 +45,20 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 bool
 has_video (shared_ptr<const Content> content)
 {
         return static_cast<bool>(content->video);
 }
 
+
 BOOST_AUTO_TEST_CASE (empty_test1)
 {
-	shared_ptr<Film> film = new_test_film2 ("empty_test1");
+	auto film = new_test_film2 ("empty_test1");
 	film->set_sequence (false);
-	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
-	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
+	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
+	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
@@ -65,13 +70,13 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	 *     A A A     B
 	 */
 	contentA->video->set_length (3);
-	contentA->set_position (film, DCPTime::from_frames (2, vfr));
+	contentA->set_position (film, DCPTime::from_frames(2, vfr));
 	contentB->video->set_length (1);
-	contentB->set_position (film, DCPTime::from_frames (7, vfr));
+	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 
 	Empty black (film, film->playlist(), bind(&has_video, _1), film->playlist()->length(film));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 2U);
-	list<dcpomatic::DCPTimePeriod>::const_iterator i = black._periods.begin();
+	auto i = black._periods.begin();
 	BOOST_CHECK (i->from == DCPTime::from_frames(0, vfr));
 	BOOST_CHECK (i->to ==   DCPTime::from_frames(2, vfr));
 	++i;
@@ -79,13 +84,14 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 	BOOST_CHECK (i->to ==   DCPTime::from_frames(7, vfr));
 }
 
+
 /** Some tests where the first empty period is not at time 0 */
 BOOST_AUTO_TEST_CASE (empty_test2)
 {
-	shared_ptr<Film> film = new_test_film2 ("empty_test2");
+	auto film = new_test_film2 ("empty_test2");
 	film->set_sequence (false);
-	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
-	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
+	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
+	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
@@ -117,13 +123,14 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 	BOOST_CHECK (black.done ());
 }
 
+
 /** Test for when the film's playlist is not the same as the one passed into Empty */
 BOOST_AUTO_TEST_CASE (empty_test3)
 {
-	shared_ptr<Film> film = new_test_film2 ("empty_test3");
+	auto film = new_test_film2 ("empty_test3");
 	film->set_sequence (false);
-	shared_ptr<ImageContent> contentA (new ImageContent("test/data/simple_testcard_640x480.png"));
-	shared_ptr<ImageContent> contentB (new ImageContent("test/data/simple_testcard_640x480.png"));
+	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
+	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 
 	film->examine_and_add_content (contentA);
 	film->examine_and_add_content (contentB);
@@ -139,7 +146,7 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 	contentB->video->set_length (1);
 	contentB->set_position (film, DCPTime::from_frames(7, vfr));
 
-	shared_ptr<Playlist> playlist (new Playlist);
+	auto playlist = make_shared<Playlist>();
 	playlist->add (film, contentB);
 	Empty black (film, playlist, bind(&has_video, _1), playlist->length(film));
 	BOOST_REQUIRE_EQUAL (black._periods.size(), 1U);
@@ -149,6 +156,7 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 	/* position should initially be the start of the first empty period */
 	BOOST_CHECK (black.position() == DCPTime::from_frames(0, vfr));
 }
+
 
 BOOST_AUTO_TEST_CASE (empty_test_with_overlapping_content)
 {

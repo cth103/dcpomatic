@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
+
 #ifndef DCPOMATIC_EMPTY_H
 #define DCPOMATIC_EMPTY_H
+
 
 #include "playlist.h"
 #include "dcpomatic_time.h"
 #include "content_part.h"
 #include <list>
+
 
 struct empty_test1;
 struct empty_test2;
@@ -32,11 +35,12 @@ struct empty_test3;
 struct empty_test_with_overlapping_content;
 struct player_subframe_test;
 
+
 class Empty
 {
 public:
 	Empty () {}
-	Empty (std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist, boost::function<bool (std::shared_ptr<const Content>)> part, dcpomatic::DCPTime length);
+	Empty (std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist, std::function<bool (std::shared_ptr<const Content>)> part, dcpomatic::DCPTime length);
 
 	dcpomatic::DCPTime position () const {
 		return _position;
@@ -58,5 +62,6 @@ private:
 	std::list<dcpomatic::DCPTimePeriod> _periods;
 	dcpomatic::DCPTime _position;
 };
+
 
 #endif

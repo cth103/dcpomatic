@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/dcp_decoder.h
  *  @brief A decoder of existing DCPs.
  */
+
 
 #include "atmos_metadata.h"
 #include "decoder.h"
@@ -30,6 +32,7 @@
 #include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_asset.h>
 
+
 namespace dcp {
 	class Reel;
 }
@@ -37,6 +40,7 @@ namespace dcp {
 class DCPContent;
 class Log;
 struct dcp_subtitle_within_dcp_test;
+
 
 class DCPDecoder : public DCP, public Decoder
 {
@@ -56,16 +60,16 @@ public:
 	void set_decode_referenced (bool r);
 	void set_forced_reduction (boost::optional<int> reduction);
 
-	bool pass ();
-	void seek (dcpomatic::ContentTime t, bool accurate);
+	bool pass () override;
+	void seek (dcpomatic::ContentTime t, bool accurate) override;
 
-	std::vector<dcpomatic::FontData> fonts () const;
+	std::vector<dcpomatic::FontData> fonts () const override;
 
 	std::string lazy_digest () const {
 		return _lazy_digest;
 	}
 
-	dcpomatic::ContentTime position () const;
+	dcpomatic::ContentTime position () const override;
 
 private:
 	friend struct dcp_subtitle_within_dcp_test;
@@ -89,7 +93,7 @@ private:
 
 	std::vector<std::shared_ptr<dcp::Reel>>::iterator _reel;
 	/** Offset of _reel from the start of the content in frames */
-	int64_t _offset;
+	int64_t _offset = 0;
 	/** Reader for current mono picture asset, if applicable */
 	std::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
 	/** Reader for current stereo picture asset, if applicable */
@@ -99,7 +103,7 @@ private:
 	std::shared_ptr<dcp::AtmosAssetReader> _atmos_reader;
 	boost::optional<AtmosMetadata> _atmos_metadata;
 
-	bool _decode_referenced;
+	bool _decode_referenced = false;
 	boost::optional<int> _forced_reduction;
 
 	std::string _lazy_digest;

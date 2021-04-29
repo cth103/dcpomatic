@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -199,7 +199,7 @@ static
 pair<int, int>
 pixel_range (shared_ptr<Film> film, shared_ptr<const FFmpegContent> content)
 {
-	shared_ptr<FFmpegDecoder> decoder(new FFmpegDecoder(film, content, false));
+	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
 	decoder->video->Data.connect (bind(&video_handler, _1));
 	content_video = boost::none;
 	while (!content_video) {
@@ -214,7 +214,7 @@ static
 pair<int, int>
 pixel_range (shared_ptr<Film> film, shared_ptr<const ImageContent> content)
 {
-	shared_ptr<ImageDecoder> decoder(new ImageDecoder(film, content));
+	auto decoder = make_shared<ImageDecoder>(film, content);
 	decoder->video->Data.connect (bind(&video_handler, _1));
 	content_video = boost::none;
 	while (!content_video) {
@@ -232,9 +232,9 @@ pixel_range (boost::filesystem::path dcp_path)
 	dcp::DCP dcp (dcp_path);
 	dcp.read ();
 
-	shared_ptr<dcp::MonoPictureAsset> picture = dynamic_pointer_cast<dcp::MonoPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
+	auto picture = dynamic_pointer_cast<dcp::MonoPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (picture);
-	shared_ptr<dcp::OpenJPEGImage> frame = picture->start_read()->get_frame(0)->xyz_image();
+	auto frame = picture->start_read()->get_frame(0)->xyz_image();
 
 	int const width = frame->size().width;
 	int const height = frame->size().height;
@@ -267,8 +267,8 @@ static
 shared_ptr<Film>
 movie_V (string name)
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4").front());
+	auto film = new_test_film2 (name);
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4").front());
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -285,8 +285,8 @@ static
 shared_ptr<Film>
 movie_VoF (string name)
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4").front());
+	auto film = new_test_film2 (name);
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4").front());
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -304,8 +304,8 @@ static
 shared_ptr<Film>
 movie_F (string name)
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov").front());
+	auto film = new_test_film2 (name);
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov").front());
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -322,8 +322,8 @@ static
 shared_ptr<Film>
 movie_FoV (string name)
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<FFmpegContent> content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov").front());
+	auto film = new_test_film2 (name);
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov").front());
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -341,8 +341,8 @@ static
 shared_ptr<Film>
 image_F (string name)
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<ImageContent> content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png").front());
+	auto film = new_test_film2 (name);
+	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png").front());
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -359,8 +359,8 @@ static
 shared_ptr<Film>
 image_FoV (string name)
 {
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<ImageContent> content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png").front());
+	auto film = new_test_film2 (name);
+	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png").front());
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -379,9 +379,9 @@ shared_ptr<Film>
 dcp_F (string name)
 {
 	boost::filesystem::path const dcp = "test/data/RgbGreyTestcar_TST-1_F_MOS_2K_20201115_SMPTE_OV";
-	shared_ptr<Film> film = new_test_film2 (name);
-	shared_ptr<DCPContent> content(new DCPContent(dcp));
-	film->examine_and_add_content (shared_ptr<DCPContent>(new DCPContent(dcp)));
+	auto film = new_test_film2 (name);
+	auto content = make_shared<DCPContent>(dcp);
+	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto range = pixel_range (dcp);
@@ -411,11 +411,9 @@ static
 pair<int, int>
 V_movie_range (shared_ptr<Film> film)
 {
-	shared_ptr<TranscodeJob> job (new TranscodeJob(film));
+	auto job = make_shared<TranscodeJob>(film);
 	job->set_encoder (
-		shared_ptr<FFmpegEncoder>(
-			new FFmpegEncoder (film, job, film->file("export.mov"), ExportFormat::PRORES, true, false, false, 23)
-			)
+		make_shared<FFmpegEncoder>(film, job, film->file("export.mov"), ExportFormat::PRORES, true, false, false, 23)
 		);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());

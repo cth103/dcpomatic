@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,31 +18,35 @@
 
 */
 
-#include "font.h"
+
 #include "dcpomatic_assert.h"
+#include "font.h"
 #include "warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 using std::string;
 using namespace dcpomatic;
 
+
 Font::Font (cxml::NodePtr node)
-	: _id (node->string_child ("Id"))
+	: _id (node->string_child("Id"))
 {
 	for (auto i: node->node_children("File")) {
-		string variant = i->optional_string_attribute("Variant").get_value_or ("Normal");
+		string variant = i->optional_string_attribute("Variant").get_value_or("Normal");
 		if (variant == "Normal") {
 			_file = i->content();
 		}
 	}
 }
 
+
 void
 Font::as_xml (xmlpp::Node* node)
 {
-	node->add_child("Id")->add_child_text (_id);
+	node->add_child("Id")->add_child_text(_id);
 	if (_file) {
 		node->add_child("File")->add_child_text(_file->string());
 	}
@@ -58,6 +62,7 @@ dcpomatic::operator== (Font const & a, Font const & b)
 
 	return a.file() == b.file();
 }
+
 
 bool
 dcpomatic::operator!= (Font const & a, Font const & b)

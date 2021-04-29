@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,23 @@
 
 */
 
+
 #include "decoder.h"
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/stereo_picture_asset_reader.h>
 
+
 class VideoMXFContent;
 class Log;
+
 
 class VideoMXFDecoder : public Decoder
 {
 public:
 	VideoMXFDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const VideoMXFContent>);
 
-	bool pass ();
-	void seek (dcpomatic::ContentTime t, bool accurate);
+	bool pass () override;
+	void seek (dcpomatic::ContentTime t, bool accurate) override;
 
 private:
 

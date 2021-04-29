@@ -30,7 +30,7 @@ class TimelineLabelsView : public TimelineView
 public:
 	explicit TimelineLabelsView (Timeline& tl);
 
-	dcpomatic::Rect<int> bbox () const;
+	dcpomatic::Rect<int> bbox () const override;
 
 	void set_video_tracks (int n);
 	void set_audio_tracks (int n);
@@ -38,7 +38,7 @@ public:
 	void set_atmos (bool s);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
 
 	int _width = 0;
 	int _video_tracks = 0;

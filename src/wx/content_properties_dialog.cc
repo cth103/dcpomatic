@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "content_properties_dialog.h"
 #include "wx_util.h"
 #include "static_text.h"
@@ -26,6 +27,7 @@
 #include "lib/audio_content.h"
 #include <boost/algorithm/string.hpp>
 
+
 using std::string;
 using std::list;
 using std::pair;
@@ -33,10 +35,11 @@ using std::map;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
+
 ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<const Film> film, shared_ptr<Content> content)
 	: TableDialog (parent, _("Content Properties"), 2, 1, false)
 {
-	map<UserProperty::Category, list<UserProperty> > grouped;
+	map<UserProperty::Category, list<UserProperty>> grouped;
 	for (auto i: content->user_properties(film)) {
 		if (grouped.find(i.category) == grouped.end()) {
 			grouped[i.category] = list<UserProperty> ();
@@ -50,16 +53,17 @@ ContentPropertiesDialog::ContentPropertiesDialog (wxWindow* parent, shared_ptr<c
 	maybe_add_group (grouped, UserProperty::LENGTH);
 
 	/* Nasty hack to stop the bottom property being cut off on Windows / OS X */
-	add (wxString (), false);
-	add (wxString (), false);
+	add (wxString(), false);
+	add (wxString(), false);
 
 	layout ();
 }
 
+
 void
-ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserProperty> > const & groups, UserProperty::Category category)
+ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserProperty>> const & groups, UserProperty::Category category)
 {
-	map<UserProperty::Category, list<UserProperty> >::const_iterator i = groups.find (category);
+	auto i = groups.find (category);
 	if (i == groups.end()) {
 		return;
 	}
@@ -80,7 +84,7 @@ ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserP
 		break;
 	}
 
-	wxStaticText* m = new StaticText (this, category_name);
+	auto m = new StaticText (this, category_name);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetWeight (wxFONTWEIGHT_BOLD);
 	m->SetFont (font);

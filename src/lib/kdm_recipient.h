@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_KDM_RECIPIENT_H
 #define DCPOMATIC_KDM_RECIPIENT_H
+
 
 #include "warnings.h"
 #include <dcp/certificate.h>
@@ -29,6 +31,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 #include <string>
+
 
 class KDMRecipient
 {
@@ -49,5 +52,6 @@ public:
 	std::string notes;
 	boost::optional<dcp::Certificate> recipient;
 };
+
 
 #endif

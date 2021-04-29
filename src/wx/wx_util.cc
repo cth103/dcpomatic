@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -105,6 +105,7 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, in
 	return m;
 }
 
+
 wxStaticText *
 #ifdef __WXOSX__
 add_label_to_sizer (wxSizer* s, wxStaticText* t, bool left, int prop, int flags)
@@ -119,6 +120,7 @@ add_label_to_sizer (wxSizer* s, wxStaticText* t, bool, int prop, int flags)
 	return t;
 }
 
+
 wxStaticText *
 add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
 {
@@ -130,6 +132,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBP
 	s->Add (m, pos, span, flags);
 	return m;
 }
+
 
 wxStaticText *
 #ifdef __WXOSX__
@@ -145,6 +148,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
 	s->Add (t, pos, span, flags);
 	return t;
 }
+
 
 /** Pop up an error dialogue box.
  *  @param parent Parent.
@@ -164,6 +168,7 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 	d->Destroy ();
 }
 
+
 /** Pop up an error dialogue box.
  *  @param parent Parent.
  *  @param m Message.
@@ -176,11 +181,12 @@ message_dialog (wxWindow* parent, wxString m)
 	d->Destroy ();
 }
 
+
 /** @return true if the user answered "yes" */
 bool
 confirm_dialog (wxWindow* parent, wxString m)
 {
-	wxMessageDialog* d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
+	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
 	int const r = d->ShowModal ();
 	d->Destroy ();
 	return r == wxID_YES;
@@ -193,8 +199,9 @@ confirm_dialog (wxWindow* parent, wxString m)
 string
 wx_to_std (wxString s)
 {
-	return string (s.ToUTF8 ());
+	return string (s.ToUTF8());
 }
+
 
 /** @param s STL string.
  *  @return Corresponding wxWidgets string.
@@ -205,11 +212,13 @@ std_to_wx (string s)
 	return wxString (s.c_str(), wxConvUTF8);
 }
 
+
 string
 string_client_data (wxClientData* o)
 {
 	return wx_to_std (dynamic_cast<wxStringClientData*>(o)->GetData());
 }
+
 
 void
 checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
@@ -225,6 +234,7 @@ checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
 	}
 }
 
+
 void
 checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value)
 {
@@ -239,6 +249,7 @@ checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value)
 	}
 }
 
+
 void
 checked_set (wxSpinCtrl* widget, int value)
 {
@@ -246,6 +257,7 @@ checked_set (wxSpinCtrl* widget, int value)
 		widget->SetValue (value);
 	}
 }
+
 
 void
 checked_set (wxSpinCtrlDouble* widget, double value)
@@ -256,6 +268,7 @@ checked_set (wxSpinCtrlDouble* widget, double value)
 	}
 }
 
+
 void
 checked_set (wxChoice* widget, int value)
 {
@@ -263,6 +276,7 @@ checked_set (wxChoice* widget, int value)
 		widget->SetSelection (value);
 	}
 }
+
 
 void
 checked_set (wxChoice* widget, string value)
@@ -281,15 +295,16 @@ checked_set (wxChoice* widget, string value)
 	}
 }
 
+
 void
 checked_set (wxChoice* widget, vector<pair<string, string> > items)
 {
-       vector<pair<string, string> > current;
+       vector<pair<string, string>> current;
        for (unsigned int i = 0; i < widget->GetCount(); ++i) {
                current.push_back (
-                       make_pair (
-                               wx_to_std (widget->GetString (i)),
-                               string_client_data (widget->GetClientObject (i))
+                       make_pair(
+                               wx_to_std(widget->GetString(i)),
+                               string_client_data(widget->GetClientObject(i))
                                )
                        );
        }
@@ -304,6 +319,7 @@ checked_set (wxChoice* widget, vector<pair<string, string> > items)
        }
 }
 
+
 void
 checked_set (wxTextCtrl* widget, string value)
 {
@@ -311,6 +327,7 @@ checked_set (wxTextCtrl* widget, string value)
 		widget->ChangeValue (std_to_wx (value));
 	}
 }
+
 
 void
 checked_set (PasswordEntry* entry, string value)
@@ -320,6 +337,7 @@ checked_set (PasswordEntry* entry, string value)
 	}
 }
 
+
 void
 checked_set (wxTextCtrl* widget, wxString value)
 {
@@ -327,6 +345,7 @@ checked_set (wxTextCtrl* widget, wxString value)
 		widget->ChangeValue (value);
 	}
 }
+
 
 void
 checked_set (wxStaticText* widget, string value)
@@ -336,6 +355,7 @@ checked_set (wxStaticText* widget, string value)
 	}
 }
 
+
 void
 checked_set (wxStaticText* widget, wxString value)
 {
@@ -343,6 +363,7 @@ checked_set (wxStaticText* widget, wxString value)
 		widget->SetLabel (value);
 	}
 }
+
 
 void
 checked_set (wxCheckBox* widget, bool value)
@@ -352,6 +373,7 @@ checked_set (wxCheckBox* widget, bool value)
 	}
 }
 
+
 void
 checked_set (wxRadioButton* widget, bool value)
 {
@@ -359,6 +381,7 @@ checked_set (wxRadioButton* widget, bool value)
 		widget->SetValue (value);
 	}
 }
+
 
 void
 dcpomatic_setup_i18n ()
@@ -408,11 +431,13 @@ dcpomatic_setup_i18n ()
 	}
 }
 
+
 int
 wx_get (wxSpinCtrl* w)
 {
 	return w->GetValue ();
 }
+
 
 int
 wx_get (wxChoice* w)
@@ -420,11 +445,13 @@ wx_get (wxChoice* w)
 	return w->GetSelection ();
 }
 
+
 double
 wx_get (wxSpinCtrlDouble* w)
 {
 	return w->GetValue ();
 }
+
 
 /** @param s String of the form Context|String
  *  @return translation, or String if no translation is available.
@@ -444,6 +471,7 @@ context_translation (wxString s)
 	return t;
 }
 
+
 wxString
 time_to_timecode (DCPTime t, double fps)
 {
@@ -458,23 +486,24 @@ time_to_timecode (DCPTime t, double fps)
 	return wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f);
 }
 
+
 void
 setup_audio_channels_choice (wxChoice* choice, int minimum)
 {
-	vector<pair<string, string> > items;
+	vector<pair<string, string>> items;
 	for (int i = minimum; i <= 16; i += 2) {
 		if (i == 2) {
-			items.push_back (make_pair (wx_to_std (_("2 - stereo")), locale_convert<string> (i)));
+			items.push_back (make_pair(wx_to_std(_("2 - stereo")), locale_convert<string>(i)));
 		} else if (i == 4) {
-			items.push_back (make_pair (wx_to_std (_("4 - L/C/R/Lfe")), locale_convert<string> (i)));
+			items.push_back (make_pair(wx_to_std(_("4 - L/C/R/Lfe")), locale_convert<string>(i)));
 		} else if (i == 6) {
-			items.push_back (make_pair (wx_to_std (_("6 - 5.1")), locale_convert<string> (i)));
+			items.push_back (make_pair(wx_to_std(_("6 - 5.1")), locale_convert<string>(i)));
 		} else if (i == 8) {
-			items.push_back (make_pair (wx_to_std (_("8 - 5.1/HI/VI")), locale_convert<string> (i)));
+			items.push_back (make_pair(wx_to_std(_("8 - 5.1/HI/VI")), locale_convert<string>(i)));
 		} else if (i == 12) {
-			items.push_back (make_pair (wx_to_std (_("12 - 7.1/HI/VI")), locale_convert<string> (i)));
+			items.push_back (make_pair(wx_to_std(_("12 - 7.1/HI/VI")), locale_convert<string>(i)));
 		} else {
-			items.push_back (make_pair (locale_convert<string> (i), locale_convert<string> (i)));
+			items.push_back (make_pair(locale_convert<string> (i), locale_convert<string>(i)));
 		}
 	}
 
@@ -511,6 +540,7 @@ maybe_show_splash ()
 
 	return splash;
 }
+
 
 double
 calculate_mark_interval (double mark_interval)
@@ -616,7 +646,7 @@ bitmap_path (string name)
 	base = resources_path();
 #endif
 
-	boost::filesystem::path p = base / String::compose("%1.png", name);
+	auto p = base / String::compose("%1.png", name);
 	return std_to_wx (p.string());
 }
 

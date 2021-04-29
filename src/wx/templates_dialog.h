@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,14 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/listctrl.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 class TemplatesDialog : public wxDialog
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,23 +18,25 @@
 
 */
 
+
 #include "try_unmount_dialog.h"
 #include "wx_util.h"
 #include "static_text.h"
 #include <wx/wx.h>
 
+
 TryUnmountDialog::TryUnmountDialog (wxWindow* parent, wxString description)
 	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Disk Writer"))
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text = new StaticText (this, wxEmptyString);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
+	auto text = new StaticText (this, wxEmptyString);
 	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	text->SetLabelMarkup (
 		wxString::Format(_("The drive <b>%s</b> is mounted.\n\nIt must be unmounted before DCP-o-matic can write to it.\n\nShould DCP-o-matic try to unmount it now?"), description)
 		);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}

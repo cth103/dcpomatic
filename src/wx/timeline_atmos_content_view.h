@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 #include "timeline_content_view.h"
+
 
 /** @class TimelineAtmosContentView
  *  @brief Timeline view for AtmosContent.
@@ -29,9 +31,10 @@ public:
 	TimelineAtmosContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 private:
-	bool active () const {
+	bool active () const override {
 		return true;
 	}
-	wxColour background_colour () const;
-	wxColour foreground_colour () const;
+
+	wxColour background_colour () const override;
+	wxColour foreground_colour () const override;
 };

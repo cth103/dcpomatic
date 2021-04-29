@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_NAME_FORMAT_EDITOR_H
 #define DCPOMATIC_NAME_FORMAT_EDITOR_H
+
 
 #include "lib/compose.hpp"
 #include "lib/warnings.h"
@@ -28,6 +30,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 class NameFormatEditor
 {
@@ -58,5 +61,6 @@ private:
 	dcp::NameFormat::Map _examples;
 	std::string _suffix;
 };
+
 
 #endif

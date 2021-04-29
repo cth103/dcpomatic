@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "kdm_recipient.h"
+
 
 KDMRecipient::KDMRecipient (cxml::ConstNodePtr node)
 	: name (node->string_child("Name"))
-	, notes (node->optional_string_child("Notes").get_value_or (""))
+	, notes (node->optional_string_child("Notes").get_value_or(""))
 {
 	if (node->optional_string_child("Certificate")) {
 		recipient = dcp::Certificate (node->string_child("Certificate"));

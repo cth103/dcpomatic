@@ -18,6 +18,7 @@
 
 */
 
+
 #include "dcp_content_type.h"
 #include "hints.h"
 #include "types.h"
@@ -44,6 +45,7 @@
 #include <iostream>
 
 #include "i18n.h"
+
 
 using std::cout;
 using std::make_shared;
@@ -82,11 +84,13 @@ Hints::Hints (weak_ptr<const Film> weak_film)
 
 }
 
+
 void
 Hints::start ()
 {
 	_thread = boost::thread (bind(&Hints::thread, this));
 }
+
 
 Hints::~Hints ()
 {
@@ -256,7 +260,7 @@ Hints::check_big_font_files ()
 		for (auto i: film()->content()) {
 			for (auto j: i->text) {
 				for (auto k: j->fonts()) {
-					optional<boost::filesystem::path> const p = k->file ();
+					auto const p = k->file ();
 					if (p && boost::filesystem::file_size(p.get()) >= (MAX_FONT_FILE_SIZE - SIZE_SLACK)) {
 						big_font_files = true;
 					}
@@ -276,7 +280,7 @@ Hints::check_vob ()
 {
 	int vob = 0;
 	for (auto i: film()->content()) {
-		if (boost::algorithm::starts_with (i->path(0).filename().string(), "VTS_")) {
+		if (boost::algorithm::starts_with(i->path(0).filename().string(), "VTS_")) {
 			++vob;
 		}
 	}
@@ -330,8 +334,8 @@ Hints::check_loudness ()
 
 		ch = ch.substr (0, ch.length() - 2);
 
-		if (!ch.empty ()) {
-			hint (String::compose (
+		if (!ch.empty()) {
+			hint(String::compose(
 					_("Your audio level is very high (on %1).  You should reduce the gain of your audio content."),
 					ch
 					)
@@ -445,7 +449,7 @@ try
 	bool ccap_mxf_too_big = false;
 	bool subs_mxf_too_big = false;
 
-	boost::filesystem::path dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
+	auto dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
 	boost::filesystem::remove_all (dcp_dir);
 
 	_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
@@ -490,6 +494,7 @@ catch (...)
 {
 	store_current ();
 }
+
 
 void
 Hints::hint (string h)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "html_dialog.h"
 #include "wx_util.h"
 #include "lib/cross.h"
@@ -29,14 +30,16 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
+
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
+
 HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 	: wxDialog (parent, wxID_ANY, title)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	wxFileSystem::AddHandler(new wxMemoryFSHandler);
 
@@ -46,7 +49,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 		wxBitmap(std_to_wx(boost::filesystem::path(resources_path() / "me.jpg").string()), wxBITMAP_TYPE_JPEG), wxBITMAP_TYPE_JPEG
 		);
 
-	wxHtmlWindow* h = new wxHtmlWindow (this);
+	auto h = new wxHtmlWindow (this);
 	h->SetPage (html);
 	sizer->Add (h, 1, wxEXPAND | wxALL, 6);
 
@@ -61,6 +64,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 	/* Set height */
 	SetSize (h->GetInternalRepresentation()->GetWidth(), h->GetInternalRepresentation()->GetHeight() + 64);
 }
+
 
 void
 HTMLDialog::link_clicked (wxHtmlLinkEvent& ev)

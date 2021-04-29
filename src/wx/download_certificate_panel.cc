@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "wx_util.h"
 #include "download_certificate_panel.h"
 #include "download_certificate_dialog.h"
@@ -28,9 +29,11 @@
 #include <dcp/exceptions.h>
 #include <boost/bind/bind.hpp>
 
+
 using std::string;
 using boost::function;
 using boost::optional;
+
 
 DownloadCertificatePanel::DownloadCertificatePanel (DownloadCertificateDialog* dialog)
 	: wxPanel (dialog->notebook(), wxID_ANY)
@@ -59,11 +62,11 @@ optional<string>
 DownloadCertificatePanel::load_certificate (boost::filesystem::path file)
 {
 	try {
-		_certificate = dcp::Certificate (dcp::file_to_string (file));
+		_certificate = dcp::Certificate (dcp::file_to_string(file));
 	} catch (dcp::MiscError& e) {
 		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
 	}
-	return optional<string>();
+	return {};
 }
 
 
@@ -75,7 +78,7 @@ DownloadCertificatePanel::load_certificate_from_chain (boost::filesystem::path f
 	} catch (dcp::MiscError& e) {
 		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
 	}
-	return optional<string>();
+	return {};
 }
 
 
@@ -83,6 +86,7 @@ optional<dcp::Certificate>
 DownloadCertificatePanel::certificate () const
 {
 	return _certificate;
+
 }
 
 void
@@ -93,11 +97,12 @@ DownloadCertificatePanel::download ()
 	/* Hack: without this the SetLabel() above has no visible effect */
 	wxMilliSleep (200);
 
-	signal_manager->when_idle (boost::bind (&DownloadCertificatePanel::do_download, this));
+	signal_manager->when_idle (boost::bind(&DownloadCertificatePanel::do_download, this));
 }
+
 
 bool
 DownloadCertificatePanel::ready_to_download () const
 {
-	return !_serial->IsEmpty ();
+	return !_serial->IsEmpty();
 }

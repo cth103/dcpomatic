@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,12 @@
 
 */
 
+
 #include "job_view.h"
 
+
 class wxSizer;
+
 
 class NormalJobView : public JobView
 {
@@ -35,5 +38,5 @@ private:
 	void pause_clicked ();
 	void finished ();
 
-	wxButton* _pause;
+	wxButton* _pause = nullptr;
 };

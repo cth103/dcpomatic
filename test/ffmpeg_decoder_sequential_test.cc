@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 /** @file  test/ffmpeg_decoder_sequential_test.cc
  *  @brief Check that the FFmpeg decoder and Player produce sequential frames without gaps or dropped frames;
  *  Also that the decoder picks up frame rates correctly.
  *  @ingroup feature
  */
+
 
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_decoder.h"
@@ -36,9 +38,11 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-using std::cout;
+
 using std::cerr;
+using std::cout;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using boost::optional;
 using boost::bind;
@@ -47,8 +51,10 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 static DCPTime next;
 static DCPTime frame;
+
 
 static void
 check (shared_ptr<PlayerVideo>, DCPTime time)
@@ -57,18 +63,19 @@ check (shared_ptr<PlayerVideo>, DCPTime time)
 	next += frame;
 }
 
+
 void
 ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int video_length)
 {
-	boost::filesystem::path path = TestPaths::private_data() / file;
+	auto path = TestPaths::private_data() / file;
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
-	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_sequential_test_" + file.string());
-	shared_ptr<FFmpegContent> content (new FFmpegContent(path));
+	auto film = new_test_film ("ffmpeg_decoder_sequential_test_" + file.string());
+	auto content = make_shared<FFmpegContent>(path);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->write_metadata ();
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 
 	BOOST_REQUIRE (content->video_frame_rate());
 	BOOST_CHECK_CLOSE (content->video_frame_rate().get(), fps, 0.01);
@@ -80,6 +87,7 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 	while (!player->pass()) {}
 	BOOST_REQUIRE (next == DCPTime::from_frames (video_length, film->video_frame_rate()));
 }
+
 
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_sequential_test)
 {

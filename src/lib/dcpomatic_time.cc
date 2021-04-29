@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,25 +18,30 @@
 
 */
 
+
 #include "dcpomatic_time.h"
 #include <inttypes.h>
+
 
 using std::string;
 using namespace dcpomatic;
 
+
 template <>
 Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
-	: _t (llrint (d.get() * f.speed_up))
+	: _t (llrint(d.get() * f.speed_up))
 {
 
 }
+
 
 template <>
 Time<DCPTimeDifferentiator, ContentTimeDifferentiator>::Time (ContentTime d, FrameRateChange f)
-	: _t (llrint (d.get() / f.speed_up))
+	: _t (llrint(d.get() / f.speed_up))
 {
 
 }
+
 
 DCPTime
 dcpomatic::min (DCPTime a, DCPTime b)
@@ -48,6 +53,7 @@ dcpomatic::min (DCPTime a, DCPTime b)
 	return b;
 }
 
+
 DCPTime
 dcpomatic::max (DCPTime a, DCPTime b)
 {
@@ -57,6 +63,7 @@ dcpomatic::max (DCPTime a, DCPTime b)
 
 	return b;
 }
+
 
 ContentTime
 dcpomatic::min (ContentTime a, ContentTime b)
@@ -68,6 +75,7 @@ dcpomatic::min (ContentTime a, ContentTime b)
 	return b;
 }
 
+
 ContentTime
 dcpomatic::max (ContentTime a, ContentTime b)
 {
@@ -77,6 +85,7 @@ dcpomatic::max (ContentTime a, ContentTime b)
 
 	return b;
 }
+
 
 string
 dcpomatic::to_string (ContentTime t)
@@ -90,6 +99,7 @@ dcpomatic::to_string (ContentTime t)
 	return buffer;
 }
 
+
 string
 dcpomatic::to_string (DCPTime t)
 {
@@ -101,6 +111,7 @@ dcpomatic::to_string (DCPTime t)
 #endif
 	return buffer;
 }
+
 
 string
 dcpomatic::to_string (DCPTimePeriod p)

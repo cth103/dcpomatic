@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,14 @@
 
 */
 
+
 /** @file  src/pixel_formats_test.cc
  *  @brief Make sure that Image::sample_size() and Image::bytes_per_pixel() return the right
  *  things for various pixel formats.
  *  @ingroup selfcontained
  *  @see test/image_test.cc
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include <list>
@@ -34,8 +36,10 @@ extern "C" {
 #include "lib/image.h"
 #include <iostream>
 
+
 using std::list;
 using std::cout;
+
 
 /** @struct Case
  *  @brief  A test case for pixel_formats_test.
@@ -63,33 +67,34 @@ struct Case
 
 BOOST_AUTO_TEST_CASE (pixel_formats_test)
 {
-	list<Case> cases;
-	cases.push_back(Case(AV_PIX_FMT_RGB24,       1, 480, 480, 480, 3, 0,   0  ));
-	cases.push_back(Case(AV_PIX_FMT_RGBA,        1, 480, 480, 480, 4, 0,   0  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV420P,     3, 480, 240, 240, 1, 0.5, 0.5));
-	cases.push_back(Case(AV_PIX_FMT_YUV422P,     3, 480, 480, 480, 1, 0.5, 0.5));
-	cases.push_back(Case(AV_PIX_FMT_YUV422P10LE, 3, 480, 480, 480, 2, 1,   1  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV422P16LE, 3, 480, 480, 480, 2, 1,   1  ));
-	cases.push_back(Case(AV_PIX_FMT_UYVY422,     1, 480, 480, 480, 2, 0,   0  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV444P,     3, 480, 480, 480, 1, 1,   1  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV444P9BE,  3, 480, 480, 480, 2, 2,   2  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV444P9LE,  3, 480, 480, 480, 2, 2,   2  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV444P10BE, 3, 480, 480, 480, 2, 2,   2  ));
-	cases.push_back(Case(AV_PIX_FMT_YUV444P10LE, 3, 480, 480, 480, 2, 2,   2  ));
+	list<Case> cases = {
+		{ AV_PIX_FMT_RGB24,       1, 480, 480, 480, 3, 0,   0  },
+		{ AV_PIX_FMT_RGBA,        1, 480, 480, 480, 4, 0,   0  },
+		{ AV_PIX_FMT_YUV420P,     3, 480, 240, 240, 1, 0.5, 0.5},
+		{ AV_PIX_FMT_YUV422P,     3, 480, 480, 480, 1, 0.5, 0.5},
+		{ AV_PIX_FMT_YUV422P10LE, 3, 480, 480, 480, 2, 1,   1  },
+		{ AV_PIX_FMT_YUV422P16LE, 3, 480, 480, 480, 2, 1,   1  },
+		{ AV_PIX_FMT_UYVY422,     1, 480, 480, 480, 2, 0,   0  },
+		{ AV_PIX_FMT_YUV444P,     3, 480, 480, 480, 1, 1,   1  },
+		{ AV_PIX_FMT_YUV444P9BE,  3, 480, 480, 480, 2, 2,   2  },
+		{ AV_PIX_FMT_YUV444P9LE,  3, 480, 480, 480, 2, 2,   2  },
+		{ AV_PIX_FMT_YUV444P10BE, 3, 480, 480, 480, 2, 2,   2  },
+		{ AV_PIX_FMT_YUV444P10LE, 3, 480, 480, 480, 2, 2,   2  }
+	};
 
-	for (list<Case>::iterator i = cases.begin(); i != cases.end(); ++i) {
-		AVFrame* f = av_frame_alloc ();
+	for (auto const& i: cases) {
+		auto f = av_frame_alloc ();
 		f->width = 640;
 		f->height = 480;
-		f->format = static_cast<int> (i->format);
+		f->format = static_cast<int> (i.format);
 		av_frame_get_buffer (f, true);
 		Image t (f);
-		BOOST_CHECK_EQUAL(t.planes(), i->planes);
-		BOOST_CHECK_EQUAL(t.sample_size(0).height, i->lines[0]);
-		BOOST_CHECK_EQUAL(t.sample_size(1).height, i->lines[1]);
-		BOOST_CHECK_EQUAL(t.sample_size(2).height, i->lines[2]);
-		BOOST_CHECK_EQUAL(t.bytes_per_pixel(0), i->bpp[0]);
-		BOOST_CHECK_EQUAL(t.bytes_per_pixel(1), i->bpp[1]);
-		BOOST_CHECK_EQUAL(t.bytes_per_pixel(2), i->bpp[2]);
+		BOOST_CHECK_EQUAL(t.planes(), i.planes);
+		BOOST_CHECK_EQUAL(t.sample_size(0).height, i.lines[0]);
+		BOOST_CHECK_EQUAL(t.sample_size(1).height, i.lines[1]);
+		BOOST_CHECK_EQUAL(t.sample_size(2).height, i.lines[2]);
+		BOOST_CHECK_EQUAL(t.bytes_per_pixel(0), i.bpp[0]);
+		BOOST_CHECK_EQUAL(t.bytes_per_pixel(1), i.bpp[1]);
+		BOOST_CHECK_EQUAL(t.bytes_per_pixel(2), i.bpp[2]);
 	}
 }

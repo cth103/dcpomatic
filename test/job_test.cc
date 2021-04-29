@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,23 @@
 
 */
 
+
 /** @file  test/job_test.cc
  *  @brief Test Job and JobManager.
  *  @ingroup selfcontained
  */
 
-#include <boost/test/unit_test.hpp>
+
+#include "lib/cross.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
-#include "lib/cross.h"
+#include <boost/test/unit_test.hpp>
 
-using std::string;
+
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+
 
 class TestJob : public Job
 {
@@ -71,12 +76,13 @@ public:
 	}
 };
 
+
 BOOST_AUTO_TEST_CASE (job_manager_test)
 {
 	shared_ptr<Film> film;
 
 	/* Single job */
-	shared_ptr<TestJob> a (new TestJob (film));
+	auto a = make_shared<TestJob>(film);
 
 	JobManager::instance()->add (a);
 	dcpomatic_sleep_seconds (1);

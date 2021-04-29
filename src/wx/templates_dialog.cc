@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "templates_dialog.h"
 #include "wx_util.h"
 #include "rename_template_dialog.h"
@@ -25,11 +26,13 @@
 #include "lib/config.h"
 #include <wx/wx.h>
 
+
 using std::string;
 using boost::bind;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Templates"))
@@ -37,7 +40,7 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (_sizer);
 
-	wxSizer* hs = new wxBoxSizer (wxHORIZONTAL);
+	auto hs = new wxBoxSizer (wxHORIZONTAL);
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (200, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 	wxListItem ip;
@@ -49,7 +52,7 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	hs->Add (_list, 1, wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		auto s = new wxBoxSizer (wxVERTICAL);
 		_rename = new Button (this, _("Rename..."));
 		s->Add (_rename, 0, wxTOP | wxBOTTOM, 2);
 		_remove = new Button (this, _("Remove"));
@@ -59,22 +62,23 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 
 	_sizer->Add (hs, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
 		_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	_rename->Bind (wxEVT_BUTTON, bind (&TemplatesDialog::rename_clicked, this));
-	_remove->Bind (wxEVT_BUTTON, bind (&TemplatesDialog::remove_clicked, this));
+	_rename->Bind (wxEVT_BUTTON, bind(&TemplatesDialog::rename_clicked, this));
+	_remove->Bind (wxEVT_BUTTON, bind(&TemplatesDialog::remove_clicked, this));
 
-	_list->Bind (wxEVT_LIST_ITEM_SELECTED, bind (&TemplatesDialog::selection_changed, this));
-	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, bind (&TemplatesDialog::selection_changed, this));
-	_list->Bind (wxEVT_SIZE, bind (&TemplatesDialog::resized, this, _1));
-	_config_connection = Config::instance()->Changed.connect (bind (&TemplatesDialog::refresh, this));
+	_list->Bind (wxEVT_LIST_ITEM_SELECTED, bind(&TemplatesDialog::selection_changed, this));
+	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, bind(&TemplatesDialog::selection_changed, this));
+	_list->Bind (wxEVT_SIZE, bind(&TemplatesDialog::resized, this, _1));
+	_config_connection = Config::instance()->Changed.connect (bind(&TemplatesDialog::refresh, this));
 
 	refresh ();
 	selection_changed ();
 }
+
 
 void
 TemplatesDialog::refresh ()
@@ -90,11 +94,13 @@ TemplatesDialog::refresh ()
 	}
 }
 
+
 void
 TemplatesDialog::layout ()
 {
 	_sizer->Layout ();
 }
+
 
 void
 TemplatesDialog::selection_changed ()
@@ -103,6 +109,7 @@ TemplatesDialog::selection_changed ()
 	_rename->Enable (i >= 0);
 	_remove->Enable (i >= 0);
 }
+
 
 void
 TemplatesDialog::rename_clicked ()
@@ -118,7 +125,7 @@ TemplatesDialog::rename_clicked ()
 	li.m_mask = wxLIST_MASK_TEXT;
 	_list->GetItem (li);
 
-	RenameTemplateDialog* d = new RenameTemplateDialog (this);
+	auto d = new RenameTemplateDialog (this);
 	d->set (li.m_text);
 	if (d->ShowModal() == wxID_OK) {
 		if (!d->get().IsEmpty()) {
@@ -130,6 +137,7 @@ TemplatesDialog::rename_clicked ()
 	}
 	d->Destroy ();
 }
+
 
 void
 TemplatesDialog::remove_clicked ()
@@ -145,11 +153,12 @@ TemplatesDialog::remove_clicked ()
 	li.m_mask = wxLIST_MASK_TEXT;
 	_list->GetItem (li);
 
-	Config::instance()->delete_template (wx_to_std (li.m_text));
+	Config::instance()->delete_template (wx_to_std(li.m_text));
 	_list->DeleteItem (i);
 
 	selection_changed ();
 }
+
 
 void
 TemplatesDialog::resized (wxSizeEvent& ev)

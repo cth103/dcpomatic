@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,37 +18,42 @@
 
 */
 
+
 #include "email_dialog.h"
 #include "wx_util.h"
+
 
 using std::string;
 using std::shared_ptr;
 using boost::optional;
 
+
 EmailDialog::EmailDialog (wxWindow* parent)
 	: TableDialog (parent, _("Email address"), 2, 1, true)
 {
 	add (_("Email address"), true);
-	_email = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (400, -1)));
+	_email = add (new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(400, -1)));
 
 	layout ();
 
 	_email->SetFocus ();
 }
 
+
 void
 EmailDialog::set (string address)
 {
-	_email->SetValue (std_to_wx (address));
+	_email->SetValue (std_to_wx(address));
 }
+
 
 optional<string>
 EmailDialog::get () const
 {
-	string s = wx_to_std (_email->GetValue ());
-	if (s.empty ()) {
+	auto s = wx_to_std (_email->GetValue ());
+	if (s.empty()) {
 		/* Invalid email address */
-		return optional<string> ();
+		return {};
 	}
 
 	return s;

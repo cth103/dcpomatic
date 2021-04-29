@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,21 @@
 
 */
 
+
 #include "name_format_editor.h"
 #include "wx_util.h"
 #include "static_text.h"
 #include "lib/util.h"
 
+
 using std::string;
 
+
 NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples, string suffix)
-	: _panel (new wxPanel (parent))
-	, _example (new StaticText (_panel, ""))
-	, _sizer (new wxBoxSizer (wxVERTICAL))
-	, _specification (new wxTextCtrl (_panel, wxID_ANY, ""))
+	: _panel (new wxPanel(parent))
+	, _example (new StaticText(_panel, ""))
+	, _sizer (new wxBoxSizer(wxVERTICAL))
+	, _specification (new wxTextCtrl(_panel, wxID_ANY, ""))
 	, _name (name)
 	, _examples (examples)
 	, _suffix (suffix)
@@ -40,21 +43,22 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 	}
 	_panel->SetSizer (_sizer);
 
-	for (dcp::NameFormat::Map::const_iterator i = titles.begin(); i != titles.end(); ++i) {
-		wxStaticText* t = new StaticText (_panel, std_to_wx (String::compose ("%%%1 %2", i->first, i->second)));
+	for (auto const& i: titles) {
+		auto t = new StaticText (_panel, std_to_wx (String::compose ("%%%1 %2", i.first, i.second)));
 		_sizer->Add (t);
-		wxFont font = t->GetFont();
+		auto font = t->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
 		t->SetFont (font);
 		t->SetForegroundColour (wxColour (0, 0, 204));
 	}
 
-	_specification->SetValue (std_to_wx (_name.specification ()));
-	_specification->Bind (wxEVT_TEXT, boost::bind (&NameFormatEditor::changed, this));
+	_specification->SetValue (std_to_wx (_name.specification()));
+	_specification->Bind (wxEVT_TEXT, boost::bind(&NameFormatEditor::changed, this));
 
 	update_example ();
 }
+
 
 void
 NameFormatEditor::changed ()
@@ -63,6 +67,7 @@ NameFormatEditor::changed ()
 	Changed ();
 }
 
+
 void
 NameFormatEditor::update_example ()
 {
@@ -70,9 +75,9 @@ NameFormatEditor::update_example ()
 		return;
 	}
 
-	_name.set_specification (careful_string_filter (wx_to_std (_specification->GetValue ())));
+	_name.set_specification (careful_string_filter(wx_to_std(_specification->GetValue())));
 
-	wxString example = wxString::Format (_("e.g. %s"), std_to_wx (_name.get (_examples, _suffix)));
+	auto example = wxString::Format (_("e.g. %s"), std_to_wx (_name.get (_examples, _suffix)));
 	wxString wrapped;
 	for (size_t i = 0; i < example.Length(); ++i) {
 		if (i > 0 && (i % 40) == 0) {

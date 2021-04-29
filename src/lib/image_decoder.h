@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "decoder.h"
+
 
 class ImageContent;
 class Log;
 class ImageProxy;
+
 
 class ImageDecoder : public Decoder
 {
@@ -33,12 +36,12 @@ public:
 		return _image_content;
 	}
 
-	bool pass ();
-	void seek (dcpomatic::ContentTime, bool);
+	bool pass () override;
+	void seek (dcpomatic::ContentTime, bool) override;
 
 private:
 
 	std::shared_ptr<const ImageContent> _image_content;
 	std::shared_ptr<ImageProxy> _image;
-	Frame _frame_video_position;
+	Frame _frame_video_position = 0;
 };

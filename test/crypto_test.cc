@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #include "lib/crypto.h"
 #include "lib/exceptions.h"
 #include "test.h"
 #include <openssl/rand.h>
 #include <boost/test/unit_test.hpp>
 
+
 using std::string;
 using std::list;
+
 
 BOOST_AUTO_TEST_CASE (crypto_test)
 {
@@ -34,7 +37,7 @@ BOOST_AUTO_TEST_CASE (crypto_test)
 
 	RAND_bytes (key.data(), dcpomatic::crypto_key_length());
 
-	dcp::ArrayData ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
+	auto ciphertext = dcpomatic::encrypt ("Can you see any fish?", key, iv);
 	BOOST_REQUIRE_EQUAL (dcpomatic::decrypt (ciphertext, key, iv), "Can you see any fish?");
 
 	key.data()[5]++;

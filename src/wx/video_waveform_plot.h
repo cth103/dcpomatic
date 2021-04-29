@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 namespace dcp {
 	class OpenJPEGImage;
@@ -32,6 +34,7 @@ class PlayerVideo;
 class Image;
 class Film;
 class FilmViewer;
+
 
 class VideoWaveformPlot : public wxPanel
 {
@@ -59,10 +62,10 @@ private:
 	std::weak_ptr<const Film> _film;
 	std::shared_ptr<dcp::OpenJPEGImage> _image;
 	std::shared_ptr<const Image> _waveform;
-	bool _dirty;
-	bool _enabled;
-	int _component;
-	int _contrast;
+	bool _dirty = true;
+	bool _enabled = false;
+	int _component = 0;
+	int _contrast = 0;
 
 	static int const _vertical_margin;
 	static int const _pixel_values;

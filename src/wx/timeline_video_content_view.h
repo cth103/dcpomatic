@@ -18,7 +18,9 @@
 
 */
 
+
 #include "timeline_content_view.h"
+
 
 /** @class TimelineVideoContentView
  *  @brief Timeline view for VideoContent.
@@ -29,7 +31,7 @@ public:
 	TimelineVideoContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 private:
-	bool active () const;
-	wxColour background_colour () const;
-	wxColour foreground_colour () const;
+	bool active () const override;
+	wxColour background_colour () const override;
+	wxColour foreground_colour () const override;
 };

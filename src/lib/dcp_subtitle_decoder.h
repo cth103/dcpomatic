@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "text_decoder.h"
 #include "dcp_subtitle.h"
 #include "font_data.h"
 
+
 class DCPSubtitleContent;
+
 
 class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 {

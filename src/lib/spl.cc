@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "content_store.h"
 #include "spl.h"
 #include "warnings.h"
@@ -28,10 +29,12 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
+
 using std::cout;
 using std::string;
 using std::shared_ptr;
 using dcp::raw_convert;
+
 
 void
 SPL::read (boost::filesystem::path path, ContentStore* store)
@@ -43,7 +46,7 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 	_id = doc.string_child("Id");
 	_name = doc.string_child("Name");
 	for (auto i: doc.node_children("Entry")) {
-		shared_ptr<Content> c = store->get(i->string_child("Digest"));
+		auto c = store->get(i->string_child("Digest"));
 		if (c) {
 			add (SPLEntry(c));
 		} else {
@@ -52,11 +55,12 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 	}
 }
 
+
 void
 SPL::write (boost::filesystem::path path) const
 {
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("SPL");
+	auto root = doc.create_root_node ("SPL");
 	root->add_child("Id")->add_child_text (_id);
 	root->add_child("Name")->add_child_text (_name);
 	for (auto i: _spl) {

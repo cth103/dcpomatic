@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/ffmpeg_pts_offset_test.cc
  *  @brief Check the computation of _pts_offset in FFmpegDecoder.
  *  @ingroup selfcontained
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "lib/film.h"
@@ -31,17 +33,20 @@
 #include "lib/audio_content.h"
 #include "test.h"
 
+
+using std::make_shared;
 using std::shared_ptr;
 using namespace dcpomatic;
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_pts_offset_test");
-	shared_ptr<FFmpegContent> content (new FFmpegContent ("test/data/test.mp4"));
+	auto film = new_test_film ("ffmpeg_pts_offset_test");
+	auto content = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	content->audio.reset (new AudioContent (content.get()));
+	content->audio = make_shared<AudioContent>(content.get());
 	content->audio->add_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream));
 	content->_video_frame_rate = 24;
 

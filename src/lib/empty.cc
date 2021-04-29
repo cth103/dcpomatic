@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "empty.h"
 #include "film.h"
 #include "playlist.h"
@@ -28,28 +29,31 @@
 #include "piece.h"
 #include <iostream>
 
+
 using std::cout;
 using std::list;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
-using boost::function;
+using std::function;
 using namespace dcpomatic;
+
 
 Empty::Empty (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, function<bool (shared_ptr<const Content>)> part, DCPTime length)
 {
 	list<DCPTimePeriod> full;
 	for (auto i: playlist->content()) {
 		if (part(i)) {
-			full.push_back (DCPTimePeriod (i->position(), i->end(film)));
+			full.push_back (DCPTimePeriod(i->position(), i->end(film)));
 		}
 	}
 
 	_periods = subtract (DCPTimePeriod(DCPTime(), length), coalesce(full));
 
-	if (!_periods.empty ()) {
+	if (!_periods.empty()) {
 		_position = _periods.front().from;
 	}
 }
+
 
 void
 Empty::set_position (DCPTime position)
@@ -70,6 +74,7 @@ Empty::set_position (DCPTime position)
 	}
 }
 
+
 DCPTimePeriod
 Empty::period_at_position () const
 {
@@ -81,6 +86,7 @@ Empty::period_at_position () const
 
 	DCPOMATIC_ASSERT (false);
 }
+
 
 bool
 Empty::done () const

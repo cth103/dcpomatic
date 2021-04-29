@@ -18,7 +18,9 @@
 
 */
 
+
 #include "timeline_content_view.h"
+
 
 /** @class TimelineAudioContentView
  *  @brief Timeline view for AudioContent.
@@ -29,10 +31,10 @@ public:
 	TimelineAudioContentView (Timeline& tl, std::shared_ptr<Content> c);
 
 private:
-	bool active () const {
+	bool active () const override {
 		return true;
 	}
-	wxColour background_colour () const;
-	wxColour foreground_colour () const;
-	wxString label () const;
+	wxColour background_colour () const override;
+	wxColour foreground_colour () const override;
+	wxString label () const override;
 };

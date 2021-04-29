@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 #include "wx_util.h"
 #include <wx/wx.h>
 #include <map>
+
 
 class Film;
 class ScreensPanel;
@@ -29,6 +31,7 @@ class KDMTimingPanel;
 class DKDMOutputPanel;
 class KDMCPLPanel;
 struct CPLSummary;
+
 
 class DKDMDialog : public wxDialog
 {

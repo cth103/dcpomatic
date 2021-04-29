@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,13 @@
 
 */
 
-#include "video_waveform_plot.h"
+
 #include "film_viewer.h"
+#include "video_waveform_plot.h"
 #include "wx_util.h"
-#include "lib/image.h"
-#include "lib/film.h"
 #include "lib/dcp_video.h"
+#include "lib/film.h"
+#include "lib/image.h"
 #include "lib/player_video.h"
 #include <dcp/locale_convert.h>
 #include <dcp/openjpeg_image.h>
@@ -32,12 +33,14 @@
 #include <boost/bind/bind.hpp>
 #include <iostream>
 
+
 using std::cout;
-using std::min;
+using std::make_shared;
 using std::max;
+using std::min;
+using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
-using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -52,27 +55,24 @@ int const VideoWaveformPlot::_x_axis_width = 52;
 VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
-	, _dirty (true)
-	, _enabled (false)
-	, _component (0)
-	, _contrast (0)
 {
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
 #endif
 
-	shared_ptr<FilmViewer> fv = viewer.lock ();
+	auto fv = viewer.lock ();
 	DCPOMATIC_ASSERT (fv);
 
-	_viewer_connection = fv->ImageChanged.connect (boost::bind (&VideoWaveformPlot::set_image, this, _1));
+	_viewer_connection = fv->ImageChanged.connect (boost::bind(&VideoWaveformPlot::set_image, this, _1));
 
-	Bind (wxEVT_PAINT, boost::bind (&VideoWaveformPlot::paint, this));
-	Bind (wxEVT_SIZE,  boost::bind (&VideoWaveformPlot::sized, this, _1));
-	Bind (wxEVT_MOTION, boost::bind (&VideoWaveformPlot::mouse_moved, this, _1));
+	Bind (wxEVT_PAINT, boost::bind(&VideoWaveformPlot::paint, this));
+	Bind (wxEVT_SIZE,  boost::bind(&VideoWaveformPlot::sized, this, _1));
+	Bind (wxEVT_MOTION, boost::bind(&VideoWaveformPlot::mouse_moved, this, _1));
 
 	SetMinSize (wxSize (640, 512));
 	SetBackgroundColour (wxColour (0, 0, 0));
 }
+
 
 void
 VideoWaveformPlot::paint ()
@@ -88,7 +88,7 @@ VideoWaveformPlot::paint ()
 		return;
 	}
 
-	wxGraphicsContext* gc = wxGraphicsContext::Create (dc);
+	auto gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
 	}
@@ -119,7 +119,7 @@ VideoWaveformPlot::paint ()
 	}
 
 	for (int i = 0; i < label_gaps + 1; ++i) {
-		wxGraphicsPath p = gc->CreatePath ();
+		auto p = gc->CreatePath ();
 		int const y = _vertical_margin + height - (i * height / label_gaps) - 1;
 		p.MoveToPoint (label_width + 8, y);
 		p.AddLineToPoint (_x_axis_width - 4, y);
@@ -133,7 +133,7 @@ VideoWaveformPlot::paint ()
 		} else if (n < 1000) {
 			x += extra[2];
 		}
-		gc->DrawText (std_to_wx (locale_convert<string> (n)), x, y - (label_height / 2));
+		gc->DrawText (std_to_wx(locale_convert<string>(n)), x, y - (label_height / 2));
 	}
 
 	wxImage waveform (_waveform->size().width, height, _waveform->data()[0], true);
@@ -142,6 +142,7 @@ VideoWaveformPlot::paint ()
 
 	delete gc;
 }
+
 
 void
 VideoWaveformPlot::create_waveform ()
@@ -152,9 +153,9 @@ VideoWaveformPlot::create_waveform ()
 		return;
 	}
 
-	dcp::Size const image_size = _image->size();
+	auto const image_size = _image->size();
 	int const waveform_height = GetSize().GetHeight() - _vertical_margin * 2;
-	_waveform.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (image_size.width, waveform_height), true));
+	_waveform = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size (image_size.width, waveform_height), true);
 
 	for (int x = 0; x < image_size.width; ++x) {
 
@@ -185,11 +186,6 @@ VideoWaveformPlot::create_waveform ()
 		);
 }
 
-static void
-note ()
-{
-
-}
 
 void
 VideoWaveformPlot::set_image (shared_ptr<PlayerVideo> image)
@@ -201,10 +197,11 @@ VideoWaveformPlot::set_image (shared_ptr<PlayerVideo> image)
 	/* We must copy the PlayerVideo here as we will call ::image() on it, potentially
 	   with a different pixel_format than was used when ::prepare() was called.
 	*/
-	_image = DCPVideo::convert_to_xyz (image->shallow_copy(), boost::bind(&note));
+	_image = DCPVideo::convert_to_xyz (image->shallow_copy(), [](dcp::NoteType, string) {});
 	_dirty = true;
 	Refresh ();
 }
+
 
 void
 VideoWaveformPlot::sized (wxSizeEvent &)
@@ -212,11 +209,13 @@ VideoWaveformPlot::sized (wxSizeEvent &)
 	_dirty = true;
 }
 
+
 void
 VideoWaveformPlot::set_enabled (bool e)
 {
 	_enabled = e;
 }
+
 
 void
 VideoWaveformPlot::set_component (int c)
@@ -225,6 +224,7 @@ VideoWaveformPlot::set_component (int c)
 	_dirty = true;
 	Refresh ();
 }
+
 
 /** Set `contrast', i.e. a fudge multiplication factor to make low-level signals easier to see,
  *  between 0 and 256.
@@ -236,6 +236,7 @@ VideoWaveformPlot::set_contrast (int b)
 	_dirty = true;
 	Refresh ();
 }
+
 
 void
 VideoWaveformPlot::mouse_moved (wxMouseEvent& ev)
@@ -249,18 +250,18 @@ VideoWaveformPlot::mouse_moved (wxMouseEvent& ev)
 		_dirty = false;
 	}
 
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	if (!film) {
 		return;
 	}
 
-	dcp::Size const full = film->frame_size ();
+	auto const full = film->frame_size ();
 
-	double const xs = static_cast<double> (full.width) / _waveform->size().width;
+	auto const xs = static_cast<double> (full.width) / _waveform->size().width;
 	int const x1 = max (0, min (full.width - 1, int (floor (ev.GetPosition().x - _x_axis_width - 0.5) * xs)));
 	int const x2 = max (0, min (full.width - 1, int (floor (ev.GetPosition().x - _x_axis_width + 0.5) * xs)));
 
-	double const ys = static_cast<double> (_pixel_values) / _waveform->size().height;
+	auto const ys = static_cast<double> (_pixel_values) / _waveform->size().height;
 	int const fy = _waveform->size().height - (ev.GetPosition().y - _vertical_margin);
 	int const y1 = max (0, min (_pixel_values - 1, int (floor (fy - 0.5) * ys)));
 	int const y2 = max (0, min (_pixel_values - 1, int (floor (fy + 0.5) * ys)));

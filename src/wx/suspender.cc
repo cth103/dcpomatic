@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 #include "suspender.h"
+
 
 Suspender::Suspender(boost::function<void (int)> handler)
 	: _handler (handler)
@@ -27,16 +29,19 @@ Suspender::Suspender(boost::function<void (int)> handler)
 
 }
 
+
 Suspender::Block::Block (Suspender* s)
 	: _suspender (s)
 {
 	_suspender->increment ();
 }
 
+
 Suspender::Block::~Block ()
 {
 	_suspender->decrement ();
 }
+
 
 Suspender::Block
 Suspender::block ()
@@ -44,11 +49,13 @@ Suspender::block ()
 	return Block (this);
 }
 
+
 void
 Suspender::increment ()
 {
 	++_count;
 }
+
 
 void
 Suspender::decrement ()
@@ -61,6 +68,7 @@ Suspender::decrement ()
 		_pending.clear ();
 	}
 }
+
 
 bool
 Suspender::check (int property)

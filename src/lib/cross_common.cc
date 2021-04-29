@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "cross.h"
 #include "compose.hpp"
 #include "dcpomatic_log.h"
@@ -30,7 +31,9 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
+
 using std::string;
+
 
 Drive::Drive (string xml)
 {
@@ -50,7 +53,7 @@ string
 Drive::as_xml () const
 {
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("Drive");
+	auto root = doc.create_root_node ("Drive");
 	root->add_child("Device")->add_child_text(_device);
 	for (auto i: _mount_points) {
 		root->add_child("MountPoint")->add_child_text(i.string());
@@ -90,6 +93,7 @@ Drive::description () const
 
 	return String::compose(_("%1 (%2 GB) [%3]"), name, gb, _device);
 }
+
 
 string
 Drive::log_summary () const

@@ -18,6 +18,7 @@
 
 */
 
+
 #include "image_content.h"
 #include "image_decoder.h"
 #include "video_decoder.h"
@@ -33,19 +34,21 @@
 
 #include "i18n.h"
 
+
 using std::cout;
 using std::make_shared;
 using std::shared_ptr;
 using dcp::Size;
 using namespace dcpomatic;
 
+
 ImageDecoder::ImageDecoder (shared_ptr<const Film> film, shared_ptr<const ImageContent> c)
 	: Decoder (film)
 	, _image_content (c)
-	, _frame_video_position (0)
 {
 	video = make_shared<VideoDecoder>(this, c);
 }
+
 
 bool
 ImageDecoder::pass ()
@@ -79,6 +82,7 @@ ImageDecoder::pass ()
 	++_frame_video_position;
 	return false;
 }
+
 
 void
 ImageDecoder::seek (ContentTime time, bool accurate)

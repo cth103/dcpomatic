@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,26 +18,32 @@
 
 */
 
+
 /** @file  test/audio_processor_delay_test.cc
  *  @brief Test the AudioDelay class.
  *  @ingroup selfcontained
  */
 
-#include "lib/audio_delay.h"
+
 #include "lib/audio_buffers.h"
+#include "lib/audio_delay.h"
 #include <boost/test/unit_test.hpp>
 #include <cmath>
 #include <iostream>
 
+
 using std::cerr;
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+
 
 #define CHECK_SAMPLE(c,f,r) \
 	if (fabs(out->data(c)[f] - (r)) > 0.1) {			\
 		cerr << "Sample " << f << " at line " << __LINE__ << " is " << out->data(c)[f] << " not " << r << "; difference is " << fabs(out->data(c)[f] - (r)) << "\n"; \
 		BOOST_REQUIRE (fabs(out->data(c)[f] - (r)) <= 0.1);	\
 	}
+
 
 /** Block size greater than delay */
 BOOST_AUTO_TEST_CASE (audio_processor_delay_test1)
@@ -46,14 +52,14 @@ BOOST_AUTO_TEST_CASE (audio_processor_delay_test1)
 
 	int const C = 2;
 
-	shared_ptr<AudioBuffers> in (new AudioBuffers (C, 256));
+	auto in = make_shared<AudioBuffers>(C, 256);
 	for (int i = 0; i < C; ++i) {
 		for (int j = 0; j < 256; ++j) {
 			in->data(i)[j] = j;
 		}
 	}
 
-	shared_ptr<AudioBuffers> out = delay.run (in);
+	auto out = delay.run (in);
 	BOOST_REQUIRE_EQUAL (out->frames(), in->frames());
 
 	/* Silence at the start */
@@ -86,6 +92,7 @@ BOOST_AUTO_TEST_CASE (audio_processor_delay_test1)
 	}
 }
 
+
 /** Block size less than delay */
 BOOST_AUTO_TEST_CASE (audio_processor_delay_test2)
 {
@@ -96,14 +103,14 @@ BOOST_AUTO_TEST_CASE (audio_processor_delay_test2)
 	/* Feeding 4 blocks of 64 should give silence each time */
 
 	for (int i = 0; i < 4; ++i) {
-		shared_ptr<AudioBuffers> in (new AudioBuffers (C, 64));
+		auto in = make_shared<AudioBuffers>(C, 64);
 		for (int j = 0; j < C; ++j) {
 			for (int k = 0; k < 64; ++k) {
 				in->data(j)[k] = k + i * 64;
 			}
 		}
 
-		shared_ptr<AudioBuffers> out = delay.run (in);
+		auto out = delay.run (in);
 		BOOST_REQUIRE_EQUAL (out->frames(), in->frames());
 
 		/* Check for silence */
@@ -117,9 +124,9 @@ BOOST_AUTO_TEST_CASE (audio_processor_delay_test2)
 	/* Now feed 4 blocks of silence and we should see the data */
 	for (int i = 0; i < 4; ++i) {
 		/* Feed some silence */
-		shared_ptr<AudioBuffers> in (new AudioBuffers (C, 64));
+		auto in = make_shared<AudioBuffers>(C, 64);
 		in->make_silent ();
-		shared_ptr<AudioBuffers> out = delay.run (in);
+		auto out = delay.run (in);
 
 		/* Should now see the delayed data */
 		for (int j = 0; j < C; ++j) {

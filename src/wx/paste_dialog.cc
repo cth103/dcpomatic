@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #include "paste_dialog.h"
 #include "check_box.h"
+
 
 PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool text)
 	: TableDialog (parent, _("Paste"), 1, 0, true)
@@ -37,17 +39,20 @@ PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool text)
 	layout ();
 }
 
+
 bool
 PasteDialog::video () const
 {
 	return _video->GetValue ();
 }
 
+
 bool
 PasteDialog::audio () const
 {
 	return _audio->GetValue ();
 }
+
 
 bool
 PasteDialog::text () const

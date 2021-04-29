@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/silence_padding_test.cc
  *  @brief Test the padding (with silence) of a mono source to a 6-channel DCP.
  *  @ingroup feature
  */
+
 
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
@@ -37,10 +39,12 @@
 #include <dcp/sound_asset_reader.h>
 #include <boost/test/unit_test.hpp>
 
+
 using std::make_shared;
 using std::string;
 using std::shared_ptr;
 using boost::lexical_cast;
+
 
 static void
 test_silence_padding (int channels)
@@ -120,12 +124,14 @@ test_silence_padding (int channels)
 
 }
 
+
 BOOST_AUTO_TEST_CASE (silence_padding_test)
 {
 	for (int i = 1; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
 		test_silence_padding (i);
 	}
 }
+
 
 /** Test a situation that used to crash because of a sub-sample rounding confusion
  *  caused by a trim.

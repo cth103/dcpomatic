@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,19 +18,22 @@
 
 */
 
+
 #include "normal_job_view.h"
 #include "dcpomatic_button.h"
 #include "lib/job.h"
 #include <wx/wx.h>
 
+
 using std::shared_ptr;
+
 
 NormalJobView::NormalJobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
 	: JobView (job, parent, container, table)
-	, _pause (0)
 {
 
 }
+
 
 void
 NormalJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
@@ -41,10 +44,12 @@ NormalJobView::finish_setup (wxWindow* parent, wxSizer* sizer)
 }
 
 int
+
 NormalJobView::insert_position () const
 {
 	return 0;
 }
+
 
 void
 NormalJobView::pause_clicked ()
@@ -57,6 +62,7 @@ NormalJobView::pause_clicked ()
 		_pause->SetLabel (_("Resume"));
 	}
 }
+
 
 void
 NormalJobView::finished ()

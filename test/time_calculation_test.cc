@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/time_calculation_test.cc
  *  @brief Test calculation of timings when frame rates change.
  *  @ingroup feature
  */
+
 
 #include "lib/film.h"
 #include "lib/ffmpeg_content.h"
@@ -31,10 +33,13 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
-using std::string;
+
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using namespace dcpomatic;
+
 
 static string const xml = "<Content>"
 	"<Type>FFmpeg</Type>"
@@ -125,15 +130,16 @@ static string const xml = "<Content>"
 	"<FirstVideo>0</FirstVideo>"
 	"</Content>";
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_time_calculation_test");
+	auto film = new_test_film ("ffmpeg_time_calculation_test");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent(doc, film->state_version(), notes));
+	auto content = make_shared<FFmpegContent>(doc, film->state_version(), notes);
 
 	/* 25fps content, 25fps DCP */
 	film->set_video_frame_rate (25);
@@ -177,20 +183,21 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 
 }
 
+
 /** Test Player::dcp_to_content_video */
 BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 {
-	shared_ptr<Film> film = new_test_film ("player_time_calculation_test1");
+	auto film = new_test_film ("player_time_calculation_test1");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent(doc, film->state_version(), notes));
+	auto content = make_shared<FFmpegContent>(doc, film->state_version(), notes);
 	film->set_sequence (false);
 	film->add_content (content);
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (film, DCPTime());
@@ -386,17 +393,17 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 /** Test Player::content_video_to_dcp */
 BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 {
-	shared_ptr<Film> film = new_test_film ("player_time_calculation_test2");
+	auto film = new_test_film ("player_time_calculation_test2");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent(doc, film->state_version(), notes));
+	auto content = make_shared<FFmpegContent>(doc, film->state_version(), notes);
 	film->set_sequence (false);
 	film->add_content (content);
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (film, DCPTime());
@@ -562,18 +569,18 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 /** Test Player::dcp_to_content_audio */
 BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 {
-	shared_ptr<Film> film = new_test_film ("player_time_calculation_test3");
+	auto film = new_test_film ("player_time_calculation_test3");
 
-	shared_ptr<cxml::Document> doc (new cxml::Document);
+	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
 
 	list<string> notes;
-	shared_ptr<FFmpegContent> content (new FFmpegContent(doc, film->state_version(), notes));
-	AudioStreamPtr stream = content->audio->streams().front();
+	auto content = make_shared<FFmpegContent>(doc, film->state_version(), notes);
+	auto stream = content->audio->streams().front();
 	film->set_sequence (false);
 	film->add_content (content);
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 
 	/* Position 0, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (film, DCPTime());
@@ -583,7 +590,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	stream->_frame_rate = 48000;
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
-	shared_ptr<Piece> piece = player->_pieces.front ();
+	auto piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (0.5)),  24000);
 	BOOST_CHECK_EQUAL (player->dcp_to_resampled_audio (piece, DCPTime::from_seconds (3.0)), 144000);

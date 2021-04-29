@@ -67,7 +67,6 @@ using namespace dcpomatic;
 DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
 	: DCP (c, tolerant)
 	, Decoder (film)
-	, _decode_referenced (false)
 {
 	if (c->can_be_played()) {
 		if (c->video) {
@@ -125,7 +124,6 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 	set_decode_referenced (false);
 
 	_reel = _reels.begin ();
-	_offset = 0;
 	get_readers ();
 }
 

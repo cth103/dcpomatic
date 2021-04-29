@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file src/wx/wx_util.h
  *  @brief Some utility functions and classes.
  */
 
+
 #ifndef DCPOMATIC_WX_UTIL_H
 #define DCPOMATIC_WX_UTIL_H
+
 
 #include "lib/dcpomatic_time.h"
 #include "lib/warnings.h"
@@ -35,6 +38,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <boost/signals2.hpp>
 
+
 class FilePickerCtrl;
 class wxDirPickerCtrl;
 class wxSpinCtrl;
@@ -42,6 +46,7 @@ class wxSpinCtrlDouble;
 class wxGridBagSizer;
 class wxSplashScreen;
 class PasswordEntry;
+
 
 #define DCPOMATIC_SIZER_X_GAP 8
 #define DCPOMATIC_SIZER_Y_GAP 8
@@ -65,11 +70,13 @@ class PasswordEntry;
 #define DCPOMATIC_RTAUDIO_API RtAudio::MACOSX_CORE
 #endif
 
+
 /** i18n macro to support strings like Context|String
  *  so that `String' can be translated to different things
  *  in different contexts.
  */
 #define S_(x) context_translation(x)
+
 
 extern void error_dialog (wxWindow *, wxString, boost::optional<wxString> e = boost::optional<wxString>());
 extern void message_dialog (wxWindow *, wxString);
@@ -92,6 +99,7 @@ extern bool display_progress (wxString title, wxString task);
 extern bool report_errors_from_last_job (wxWindow* parent);
 extern wxString bitmap_path (std::string name);
 extern wxSize small_button_size (wxWindow* parent, wxString text);
+
 
 struct Offset
 {
@@ -131,5 +139,6 @@ extern double wx_get (wxSpinCtrlDouble* widget);
 #if defined(__WXMSW__)
 #define DCPOMATIC_USE_OWN_PICKER
 #endif
+
 
 #endif

@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_TIMELINE_CONTENT_VIEW_H
 #define DCPOMATIC_TIMELINE_CONTENT_VIEW_H
+
 
 #include "lib/change_signaller.h"
 #include "lib/types.h"
@@ -32,6 +34,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 class Content;
 
+
 /** @class TimelineContentView
  *  @brief Parent class for views of pieces of content.
  */
@@ -40,7 +43,7 @@ class TimelineContentView : public TimelineView
 public:
 	TimelineContentView (Timeline& tl, std::shared_ptr<Content> c);
 
-	dcpomatic::Rect<int> bbox () const;
+	dcpomatic::Rect<int> bbox () const override;
 
 	void set_selected (bool s);
 	bool selected () const;
@@ -60,7 +63,7 @@ protected:
 
 private:
 
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
 	int y_pos (int t) const;
 	void content_change (ChangeType type, int p);
 
@@ -70,6 +73,8 @@ private:
 	boost::signals2::scoped_connection _content_connection;
 };
 
-typedef std::vector<std::shared_ptr<TimelineContentView> > TimelineContentViewList;
+
+typedef std::vector<std::shared_ptr<TimelineContentView>> TimelineContentViewList;
+
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #include "move_to_dialog.h"
 #include "lib/film.h"
 #include <wx/spinctrl.h>
+
 
 using std::list;
 using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
+
 
 MoveToDialog::MoveToDialog (wxWindow* parent, optional<DCPTime> position, shared_ptr<const Film> film)
 	: TableDialog (parent, _("Move content"), 2, 0, true)
@@ -49,13 +52,14 @@ MoveToDialog::MoveToDialog (wxWindow* parent, optional<DCPTime> position, shared
 	}
 }
 
+
 DCPTime
 MoveToDialog::position () const
 {
-	shared_ptr<const Film> film = _film.lock ();
+	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	list<DCPTimePeriod> reels = film->reels ();
-	list<DCPTimePeriod>::const_iterator i = reels.begin ();
+	auto reels = film->reels ();
+	auto i = reels.begin ();
 	for (int j = 0; j < _reel->GetValue() - 1; ++j) {
 		DCPOMATIC_ASSERT (i != reels.end());
 		++i;

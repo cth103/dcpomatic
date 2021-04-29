@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/load_font_node.h>
 #include <iostream>
+
 
 using std::cout;
 using std::list;
@@ -31,13 +33,15 @@ using std::string;
 using std::vector;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 using boost::bind;
 using namespace dcpomatic;
+
 
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<const DCPSubtitleContent> content)
 	: Decoder (film)
 {
-	shared_ptr<dcp::SubtitleAsset> c (load (content->path (0)));
+	auto c = load (content->path(0));
 	c->fix_empty_font_ids ();
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
@@ -46,11 +50,11 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	if (_next != _subtitles.end()) {
 		first = content_time_period(*_next).from;
 	}
-	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), first)));
+	text.push_back (make_shared<TextDecoder>(this, content->only_text(), first));
 
-	map<string, dcp::ArrayData> fm = c->font_data();
-	for (map<string, dcp::ArrayData>::const_iterator j = fm.begin(); j != fm.end(); ++j) {
-		_fonts.push_back (FontData(j->first, j->second));
+	auto fm = c->font_data();
+	for (auto const& i: fm) {
+		_fonts.push_back (FontData(i.first, i.second));
 	}
 
 	/* Add a default font for any LoadFont nodes in our file which we haven't yet found fonts for */
@@ -60,6 +64,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 		}
 	}
 }
+
 
 void
 DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
@@ -72,6 +77,7 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 		++i;
 	}
 }
+
 
 bool
 DCPSubtitleDecoder::pass ()
@@ -89,7 +95,7 @@ DCPSubtitleDecoder::pass ()
 
 	list<dcp::SubtitleString> s;
 	list<dcp::SubtitleImage> i;
-	ContentTimePeriod const p = content_time_period (*_next);
+	auto const p = content_time_period (*_next);
 
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
 		auto ns = dynamic_pointer_cast<const dcp::SubtitleString>(*_next);
@@ -112,6 +118,7 @@ DCPSubtitleDecoder::pass ()
 	only_text()->emit_plain (p, s);
 	return false;
 }
+
 
 ContentTimePeriod
 DCPSubtitleDecoder::content_time_period (shared_ptr<const dcp::Subtitle> s) const

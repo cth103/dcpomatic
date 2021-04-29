@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
-#include "standard_controls.h"
+
 #include "film_viewer.h"
-#include <wx/wx.h>
+#include "standard_controls.h"
 #include <wx/tglbtn.h>
+#include <wx/wx.h>
+
 
 using std::shared_ptr;
+
 
 StandardControls::StandardControls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: Controls (parent, viewer, editor_controls)
@@ -33,12 +36,14 @@ StandardControls::StandardControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 	_play_button->Bind (wxEVT_TOGGLEBUTTON, boost::bind(&StandardControls::play_clicked, this));
 }
 
+
 void
 StandardControls::started ()
 {
 	Controls::started ();
 	_play_button->SetValue (true);
 }
+
 
 void
 StandardControls::stopped ()
@@ -47,11 +52,13 @@ StandardControls::stopped ()
 	_play_button->SetValue (false);
 }
 
+
 void
 StandardControls::play_clicked ()
 {
 	check_play_state ();
 }
+
 
 void
 StandardControls::check_play_state ()
@@ -67,6 +74,7 @@ StandardControls::check_play_state ()
 	}
 }
 
+
 void
 StandardControls::setup_sensitivity ()
 {
@@ -75,12 +83,14 @@ StandardControls::setup_sensitivity ()
 	_play_button->Enable (_film && !_film->content().empty() && !active_job);
 }
 
+
 void
 StandardControls::play ()
 {
 	_play_button->SetValue (true);
 	play_clicked ();
 }
+
 
 void
 StandardControls::stop ()

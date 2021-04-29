@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,20 @@
 
 */
 
+
 #include "uploader.h"
 #include <libssh/libssh.h>
+
 
 class SCPUploader : public Uploader
 {
 public:
-	SCPUploader (boost::function<void (std::string)> set_status, boost::function<void (float)> set_progress);
+	SCPUploader (std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
 	~SCPUploader ();
 
 protected:
-	virtual void create_directory (boost::filesystem::path directory);
-	virtual void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size);
+	virtual void create_directory (boost::filesystem::path directory) override;
+	virtual void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) override;
 
 private:
 	ssh_session _session;

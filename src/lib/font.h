@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_FONT_H
 #define DCPOMATIC_FONT_H
+
 
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
@@ -27,7 +29,9 @@
 #include <boost/filesystem.hpp>
 #include <string>
 
+
 namespace dcpomatic {
+
 
 class Font
 {
@@ -60,8 +64,10 @@ private:
 	boost::optional<boost::filesystem::path> _file;
 };
 
+
 bool operator!= (Font const & a, Font const & b);
 bool operator== (Font const & a, Font const & b);
+
 
 }
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "self_dkdm_dialog.h"
 #include "wx_util.h"
@@ -42,6 +43,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
+
 using std::string;
 using std::map;
 using std::list;
@@ -52,18 +54,19 @@ using std::make_pair;
 using std::shared_ptr;
 using boost::bind;
 
+
 SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> film)
 	: wxDialog (parent, wxID_ANY, _("Make DKDM for DCP-o-matic"))
 {
 	/* Main sizer */
-	wxBoxSizer* vertical = new wxBoxSizer (wxVERTICAL);
+	auto vertical = new wxBoxSizer (wxVERTICAL);
 
 	/* Font for sub-headings */
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
 	/* Sub-heading: CPL */
-	wxStaticText* h = new StaticText (this, _("CPL"));
+	auto h = new StaticText (this, _("CPL"));
 	h->SetFont (subheading_font);
 	vertical->Add (h);
 	_cpl = new KDMCPLPanel (this, film->cpls ());
@@ -77,7 +80,7 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> fi
 	_internal = new wxRadioButton (this, wxID_ANY, _("Save to KDM Creator tool's list"));
 	vertical->Add (_internal, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
-	wxBoxSizer* w = new wxBoxSizer (wxHORIZONTAL);
+	auto w = new wxBoxSizer (wxHORIZONTAL);
 
 	_write_to = new wxRadioButton (this, wxID_ANY, _("Write to"));
 	w->Add (_write_to, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
@@ -96,10 +99,10 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> fi
 
 	/* Make an overall sizer to get a nice border, and put some buttons in */
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (vertical, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
 	}
@@ -122,28 +125,31 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> fi
 	_write_to->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::dkdm_write_type_changed, this));
 }
 
+
 void
 SelfDKDMDialog::dkdm_write_type_changed ()
 {
 	setup_sensitivity ();
 
-	if (_internal->GetValue ()) {
-		Config::instance()->set_last_dkdm_write_type (Config::DKDM_WRITE_INTERNAL);
-	} else if (_write_to->GetValue ()) {
-		Config::instance()->set_last_dkdm_write_type (Config::DKDM_WRITE_FILE);
+	if (_internal->GetValue()) {
+		Config::instance()->set_last_dkdm_write_type(Config::DKDM_WRITE_INTERNAL);
+	} else if (_write_to->GetValue()) {
+		Config::instance()->set_last_dkdm_write_type(Config::DKDM_WRITE_FILE);
 	}
 }
+
 
 void
 SelfDKDMDialog::setup_sensitivity ()
 {
 	_folder->Enable (_write_to->GetValue ());
 
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
 	if (ok) {
 		ok->Enable (_cpl->has_selected ());
 	}
 }
+
 
 boost::filesystem::path
 SelfDKDMDialog::cpl () const
@@ -151,14 +157,16 @@ SelfDKDMDialog::cpl () const
 	return _cpl->cpl ();
 }
 
+
 bool
 SelfDKDMDialog::internal () const
 {
 	return _internal->GetValue ();
 }
 
+
 boost::filesystem::path
 SelfDKDMDialog::directory () const
 {
-	return wx_to_std (_folder->GetPath ());
+	return wx_to_std (_folder->GetPath());
 }

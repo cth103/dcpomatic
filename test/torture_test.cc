@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/torture_test.cc
  *  @brief Tricky arrangements of content whose resulting DCPs are checked programmatically.
  *  @ingroup completedcp
  */
+
 
 #include "lib/audio_content.h"
 #include "lib/film.h"
@@ -41,11 +43,13 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::list;
 using std::cout;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using namespace dcpomatic;
+
 
 /** Test start/end trim and positioning of some audio content */
 BOOST_AUTO_TEST_CASE (torture_test1)
@@ -63,7 +67,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	staircase->audio->set_gain (20 * log10(2));
 
 	/* And again at an offset of 50000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
-	staircase = content_factory("test/data/staircase.wav").front ();
+	staircase = content_factory("test/data/staircase.wav").front();
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames(50000, film->audio_frame_rate()));

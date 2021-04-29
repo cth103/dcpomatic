@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @defgroup selfcontained Self-contained tests of single classes / method sets */
 
 /** @file  test/audio_analysis_test.cc
@@ -25,35 +26,37 @@
  *  @ingroup selfcontained
  */
 
-#include <boost/test/unit_test.hpp>
-#include "lib/audio_analysis.h"
+
+#include "test.h"
 #include "lib/analyse_audio_job.h"
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/ratio.h"
-#include "lib/job_manager.h"
+#include "lib/audio_analysis.h"
 #include "lib/audio_content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
 #include "lib/playlist.h"
-#include "test.h"
+#include "lib/ratio.h"
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 
-using std::vector;
+
+using std::make_shared;
 using std::shared_ptr;
+using std::vector;
 using namespace dcpomatic;
 
-static float
-random_float ()
-{
-	return (float (rand ()) / RAND_MAX) * 2 - 1;
-}
 
 BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 {
 	int const channels = 3;
 	int const points = 4096;
+
+	auto random_float = []() {
+		return (float (rand ()) / RAND_MAX) * 2 - 1;
+	};
 
 	AudioAnalysis a (3);
 	for (int i = 0; i < channels; ++i) {
@@ -67,7 +70,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 
 	vector<AudioAnalysis::PeakTime> peak;
 	for (int i = 0; i < channels; ++i) {
-		peak.push_back (AudioAnalysis::PeakTime (random_float(), DCPTime (rand())));
+		peak.push_back (AudioAnalysis::PeakTime(random_float(), DCPTime(rand())));
 	}
 	a.set_sample_peak (peak);
 
@@ -96,58 +99,52 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 	BOOST_CHECK_EQUAL (a.sample_rate(), 48000);
 }
 
-static void
-finished ()
-{
-
-}
 
 BOOST_AUTO_TEST_CASE (audio_analysis_test)
 {
-	shared_ptr<Film> film = new_test_film ("audio_analysis_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
+	auto film = new_test_film ("audio_analysis_test");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("FTR"));
+	film->set_container (Ratio::from_id("185"));
 	film->set_name ("audio_analysis_test");
 	boost::filesystem::path p = TestPaths::private_data() / "betty_L.wav";
 
-	shared_ptr<FFmpegContent> c (new FFmpegContent(p));
+	auto c = make_shared<FFmpegContent>(p);
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
-	job->Finished.connect (boost::bind (&finished));
+	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());
 }
 
+
 /** Check that audio analysis works (i.e. runs without error) with a -ve delay */
 BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
-	shared_ptr<Film> film = new_test_film ("audio_analysis_negative_delay_test");
+	auto film = new_test_film ("audio_analysis_negative_delay_test");
 	film->set_name ("audio_analysis_negative_delay_test");
-	shared_ptr<FFmpegContent> c (new FFmpegContent(TestPaths::private_data() / "boon_telly.mkv"));
+	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	c->audio->set_delay (-250);
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
-	job->Finished.connect (boost::bind (&finished));
+	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());
 }
 
+
 /** Check audio analysis that is incorrect in 2e98263 */
 BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 {
-	shared_ptr<Film> film = new_test_film ("audio_analysis_test2");
+	auto film = new_test_film ("audio_analysis_test2");
 	film->set_name ("audio_analysis_test2");
-	shared_ptr<FFmpegContent> c (new FFmpegContent(TestPaths::private_data() / "3d_thx_broadway_2010_lossless.m2ts"));
+	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "3d_thx_broadway_2010_lossless.m2ts");
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<AnalyseAudioJob> job (new AnalyseAudioJob (film, film->playlist(), false));
-	job->Finished.connect (boost::bind (&finished));
+	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());
 }
@@ -161,57 +158,60 @@ analysis_finished ()
 	done = true;
 }
 
+
 /* Test a case which was reported to throw an exception; analysing
  * a 12-channel DCP's audio.
  */
 BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 {
-	shared_ptr<Film> film = new_test_film ("analyse_audio_test");
+	auto film = new_test_film ("analyse_audio_test");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
 	film->set_name ("frobozz");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/white.wav"));
+	auto content = make_shared<FFmpegContent>("test/data/white.wav");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_audio_channels (12);
 	boost::signals2::connection connection;
-	JobManager::instance()->analyse_audio (film, film->playlist(), false, connection, boost::bind (&analysis_finished));
+	JobManager::instance()->analyse_audio(film, film->playlist(), false, connection, boost::bind(&analysis_finished));
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK (done);
 }
 
+
 /** Run an audio analysis that triggered an exception in the audio decoder at one point */
 BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 {
-	shared_ptr<Film> film = new_test_film ("analyse_audio_test");
+	auto film = new_test_film ("analyse_audio_test");
 	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
 	film->set_name ("frobozz");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "20 The Wedding Convoy Song.m4a").front();
+	auto content = content_factory(TestPaths::private_data() / "20 The Wedding Convoy Song.m4a").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<Playlist> playlist (new Playlist);
+	auto playlist = make_shared<Playlist>();
 	playlist->add (film, content);
 	boost::signals2::connection c;
-	JobManager::instance()->analyse_audio (film, playlist, false, c, boost::bind (&finished));
+	JobManager::instance()->analyse_audio(film, playlist, false, c, []() {});
 	BOOST_CHECK (!wait_for_jobs ());
 }
 
+
 BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 {
-	shared_ptr<Film> film = new_test_film2 ("analyse_audio_leqm_test");
+	auto film = new_test_film2 ("analyse_audio_leqm_test");
 	film->set_audio_channels (2);
-	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav").front();
+	auto content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav").front();
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<Playlist> playlist (new Playlist);
+	auto playlist = make_shared<Playlist>();
 	playlist->add (film, content);
 	boost::signals2::connection c;
-	JobManager::instance()->analyse_audio (film, playlist, false, c, boost::bind (&finished));
+	JobManager::instance()->analyse_audio(film, playlist, false, c, []() {});
 	BOOST_CHECK (!wait_for_jobs());
 
 	AudioAnalysis analysis(film->audio_analysis_path(playlist));

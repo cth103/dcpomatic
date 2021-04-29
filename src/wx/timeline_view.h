@@ -43,13 +43,13 @@ public:
 	TimelineView (TimelineView const&) = delete;
 	TimelineView& operator= (TimelineView const&) = delete;
 
-	void paint (wxGraphicsContext* g, std::list<dcpomatic::Rect<int> > overlaps);
+	void paint (wxGraphicsContext* g, std::list<dcpomatic::Rect<int>> overlaps);
 	void force_redraw ();
 
 	virtual dcpomatic::Rect<int> bbox () const = 0;
 
 protected:
-	virtual void do_paint (wxGraphicsContext *, std::list<dcpomatic::Rect<int> > overlaps) = 0;
+	virtual void do_paint (wxGraphicsContext *, std::list<dcpomatic::Rect<int>> overlaps) = 0;
 
 	int time_x (dcpomatic::DCPTime t) const;
 

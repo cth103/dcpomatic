@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,18 @@
 
 */
 
+
+#include "content_panel.h"
 #include "film_editor.h"
 #include "timeline_dialog.h"
 #include "wx_util.h"
-#include "content_panel.h"
-#include "lib/playlist.h"
-#include "lib/cross.h"
 #include "lib/compose.hpp"
+#include "lib/cross.h"
+#include "lib/playlist.h"
 #include <wx/graphics.h>
 #include <iostream>
 #include <list>
+
 
 using std::list;
 using std::cout;
@@ -37,6 +39,7 @@ using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: wxDialog (
@@ -81,7 +84,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
 
 #ifdef DCPOMATIC_LINUX
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -96,6 +99,7 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 
 	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
 }
+
 
 void
 TimelineDialog::film_change (ChangeType type, Film::Property p)
@@ -114,23 +118,25 @@ TimelineDialog::film_change (ChangeType type, Film::Property p)
 	}
 }
 
+
 void
 TimelineDialog::set_selection (ContentList selection)
 {
 	_timeline.set_selection (selection);
 }
 
+
 void
 TimelineDialog::tool_clicked (wxCommandEvent& ev)
 {
-	Timeline::Tool t = (Timeline::Tool) ev.GetId();
+	Timeline::Tool t = static_cast<Timeline::Tool>(ev.GetId());
 	_timeline.tool_clicked (t);
 	if (t == Timeline::SNAP) {
-		_timeline.set_snap (_toolbar->GetToolState ((int) t));
+		_timeline.set_snap (_toolbar->GetToolState(static_cast<int>(t)));
 	} else if (t == Timeline::SEQUENCE) {
 		auto film = _film.lock ();
 		if (film) {
-			film->set_sequence (_toolbar->GetToolState ((int) t));
+			film->set_sequence (_toolbar->GetToolState(static_cast<int>(t)));
 		}
 	}
 }

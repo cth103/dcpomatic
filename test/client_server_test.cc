@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  test/client_server_test.cc
  *  @brief Test the server class.
  *  @ingroup feature
@@ -27,27 +28,30 @@
  *  encoded data to check that they are the same.
  */
 
-#include "lib/encode_server.h"
-#include "lib/image.h"
+
 #include "lib/cross.h"
 #include "lib/dcp_video.h"
-#include "lib/player_video.h"
-#include "lib/raw_image_proxy.h"
-#include "lib/j2k_image_proxy.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/encode_server.h"
 #include "lib/encode_server_description.h"
 #include "lib/file_log.h"
-#include "lib/dcpomatic_log.h"
+#include "lib/image.h"
+#include "lib/j2k_image_proxy.h"
+#include "lib/player_video.h"
+#include "lib/raw_image_proxy.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
 
+
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::weak_ptr;
-using std::make_shared;
 using boost::thread;
 using boost::optional;
 using dcp::ArrayData;
+
 
 void
 do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription description, ArrayData locally_encoded)
@@ -58,6 +62,7 @@ do_remote_encode (shared_ptr<DCPVideo> frame, EncodeServerDescription descriptio
 	BOOST_REQUIRE_EQUAL (locally_encoded.size(), remotely_encoded.size());
 	BOOST_CHECK_EQUAL (memcmp (locally_encoded.data(), remotely_encoded.data(), locally_encoded.size()), 0);
 }
+
 
 BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 {
@@ -145,6 +150,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	delete server;
 }
 
+
 BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 {
 	auto image = make_shared<Image>(AV_PIX_FMT_YUV420P, dcp::Size (1998, 1080), true);
@@ -226,6 +232,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	delete server_thread;
 	delete server;
 }
+
 
 BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 {

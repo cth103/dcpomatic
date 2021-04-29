@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,23 +18,27 @@
 
 */
 
+
 #include "rename_template_dialog.h"
+
 
 RenameTemplateDialog::RenameTemplateDialog (wxWindow* parent)
 	: TableDialog (parent, _("Rename template"), 2, 1, true)
 {
 	add (_("New name"), true);
-	_name = add (new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (300, -1)));
+	_name = add (new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(300, -1)));
 	layout ();
 
 	_name->SetFocus ();
 }
+
 
 wxString
 RenameTemplateDialog::get () const
 {
 	return _name->GetValue ();
 }
+
 
 void
 RenameTemplateDialog::set (wxString s)

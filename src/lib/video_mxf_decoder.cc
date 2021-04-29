@@ -18,6 +18,7 @@
 
 */
 
+
 #include "video_mxf_decoder.h"
 #include "video_decoder.h"
 #include "video_mxf_content.h"
@@ -29,19 +30,22 @@
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/exceptions.h>
 
+
+using std::make_shared;
 using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
+
 
 VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const VideoMXFContent> content)
 	: Decoder (film)
 	, _content (content)
 {
-	video.reset (new VideoDecoder (this, content));
+	video = make_shared<VideoDecoder>(this, content);
 
 	shared_ptr<dcp::MonoPictureAsset> mono;
 	try {
-		mono.reset (new dcp::MonoPictureAsset (_content->path(0)));
+		mono = make_shared<dcp::MonoPictureAsset>(_content->path(0));
 	} catch (dcp::MXFFileError& e) {
 		/* maybe it's stereo */
 	} catch (dcp::ReadError& e) {
@@ -50,7 +54,7 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 
 	shared_ptr<dcp::StereoPictureAsset> stereo;
 	try {
-		stereo.reset (new dcp::StereoPictureAsset (_content->path(0)));
+		stereo = make_shared<dcp::StereoPictureAsset>(_content->path(0));
 	} catch (dcp::MXFFileError& e) {
 		if (!mono) {
 			throw;
@@ -70,11 +74,12 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 	}
 }
 
+
 bool
 VideoMXFDecoder::pass ()
 {
-	double const vfr = _content->active_video_frame_rate (film());
-	int64_t const frame = _next.frames_round (vfr);
+	auto const vfr = _content->active_video_frame_rate (film());
+	auto const frame = _next.frames_round (vfr);
 
 	if (frame >= _content->video->length()) {
 		return true;
@@ -83,24 +88,18 @@ VideoMXFDecoder::pass ()
 	if (_mono_reader) {
 		video->emit (
 			film(),
-			shared_ptr<ImageProxy> (
-				new J2KImageProxy (_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE, optional<int>())
-				),
+			std::make_shared<J2KImageProxy>(_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE, optional<int>()),
 			frame
 			);
 	} else {
 		video->emit (
 			film(),
-			shared_ptr<ImageProxy> (
-				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::Eye::LEFT, AV_PIX_FMT_XYZ12LE, optional<int>())
-				),
+			std::make_shared<J2KImageProxy>(_stereo_reader->get_frame(frame), _size, dcp::Eye::LEFT, AV_PIX_FMT_XYZ12LE, optional<int>()),
 			frame
 			);
 		video->emit (
 			film(),
-			shared_ptr<ImageProxy> (
-				new J2KImageProxy (_stereo_reader->get_frame(frame), _size, dcp::Eye::RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>())
-				),
+			std::make_shared<J2KImageProxy>(_stereo_reader->get_frame(frame), _size, dcp::Eye::RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>()),
 			frame
 			);
 	}
@@ -108,6 +107,7 @@ VideoMXFDecoder::pass ()
 	_next += ContentTime::from_frames (1, vfr);
 	return false;
 }
+
 
 void
 VideoMXFDecoder::seek (ContentTime t, bool accurate)

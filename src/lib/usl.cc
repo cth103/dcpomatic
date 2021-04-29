@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 #include "usl.h"
 
 #include "i18n.h"
+
 
 USL::USL ()
 	: CinemaSoundProcessor ("usl", _("USL"), 5.5f, 10, 3.33333333333333333)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,20 @@
 
 */
 
+
 /** @file  test/zipper_test.cc
  *  @brief Test Zipper class.
  *  @ingroup selfcontained
  */
 
-#include "lib/zipper.h"
+
 #include "lib/exceptions.h"
+#include "lib/zipper.h"
 #include "test.h"
 #include <dcp/util.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
+
 
 /** Basic test of Zipper working normally */
 BOOST_AUTO_TEST_CASE (zipper_test1)

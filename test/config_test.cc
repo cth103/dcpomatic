@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #include "lib/config.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <fstream>
 
+
 using std::ofstream;
+
 
 static void
 rewrite_bad_config ()

@@ -46,8 +46,8 @@ class FFmpegDecoder : public FFmpeg, public Decoder
 public:
 	FFmpegDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const FFmpegContent>, bool fast);
 
-	bool pass ();
-	void seek (dcpomatic::ContentTime time, bool);
+	bool pass () override;
+	void seek (dcpomatic::ContentTime time, bool) override;
 
 private:
 	friend struct ::ffmpeg_pts_offset_test;
@@ -77,7 +77,7 @@ private:
 	dcpomatic::ContentTime _pts_offset;
 	boost::optional<dcpomatic::ContentTime> _current_subtitle_to;
 	/** true if we have a subtitle which has not had emit_stop called for it yet */
-	bool _have_current_subtitle;
+	bool _have_current_subtitle = false;
 
 	std::shared_ptr<Image> _black_image;
 

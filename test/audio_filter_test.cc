@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,21 @@
 
 */
 
+
 /** @file  test/audio_filter_test.cc
  *  @brief Test AudioFilter, LowPassAudioFilter, HighPassAudioFilter classes.
  *  @ingroup selfcontained
  */
 
+
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_filter.h"
 #include "lib/audio_buffers.h"
 
+
+using std::make_shared;
 using std::shared_ptr;
+
 
 static void
 audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)
@@ -36,12 +41,12 @@ audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)
 
 	for (int i = 0; i < num_blocks; ++i) {
 
-		shared_ptr<AudioBuffers> in (new AudioBuffers (1, block_size));
+		auto in = make_shared<AudioBuffers>(1, block_size);
 		for (int j = 0; j < block_size; ++j) {
 			in->data()[0][j] = c + j;
 		}
 
-		shared_ptr<AudioBuffers> out = f.run (in);
+		auto out = f.run (in);
 
 		for (int j = 0; j < out->frames(); ++j) {
 			BOOST_CHECK_EQUAL (out->data()[0][j], c + j);
@@ -50,6 +55,7 @@ audio_filter_impulse_test_one (AudioFilter& f, int block_size, int num_blocks)
 		c += block_size;
 	}
 }
+
 
 /** Create a filter with an impulse as a kernel and check that it
  *  passes data through unaltered.
@@ -70,6 +76,7 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_kernel_test)
 	audio_filter_impulse_test_one (f, 2048, 1);
 }
 
+
 /** Create filters and pass them impulses as input and check that
  *  the filter kernels comes back.
  */
@@ -77,11 +84,11 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_input_test)
 {
 	LowPassAudioFilter lpf (0.02, 0.3);
 
-	shared_ptr<AudioBuffers> in (new AudioBuffers (1, 1751));
+	auto in = make_shared<AudioBuffers>(1, 1751);
 	in->make_silent ();
 	in->data(0)[0] = 1;
 
-	shared_ptr<AudioBuffers> out = lpf.run (in);
+	auto out = lpf.run (in);
 	for (int j = 0; j < out->frames(); ++j) {
 		if (j <= lpf._M) {
 			BOOST_CHECK_EQUAL (out->data(0)[j], lpf._ir[j]);
@@ -92,7 +99,7 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_input_test)
 
 	HighPassAudioFilter hpf (0.02, 0.3);
 
-	in.reset (new AudioBuffers (1, 9133));
+	in = make_shared<AudioBuffers>(1, 9133);
 	in->make_silent ();
 	in->data(0)[0] = 1;
 
