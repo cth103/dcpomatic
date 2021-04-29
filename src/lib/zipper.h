@@ -19,16 +19,18 @@
 */
 
 
-#include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
 
 
-class Zipper : public boost::noncopyable
+class Zipper
 {
 public:
 	Zipper (boost::filesystem::path file);
 	~Zipper ();
+
+	Zipper (Zipper const&) = delete;
+	Zipper& operator= (Zipper const&) = delete;
 
 	void add (std::string name, std::string content);
 	void close ();

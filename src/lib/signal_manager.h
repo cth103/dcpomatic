@@ -26,7 +26,6 @@
 #include "exception_store.h"
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include <boost/noncopyable.hpp>
 
 
 class Signaller;

@@ -30,10 +30,13 @@ class Film;
 class Job;
 class DCPContent;
 
-class ContentMenu : public boost::noncopyable
+class ContentMenu
 {
 public:
 	explicit ContentMenu (wxWindow* p);
+
+	ContentMenu (ContentMenu const &) = delete;
+	ContentMenu& operator= (ContentMenu const &) = delete;
 
 	void popup (std::weak_ptr<Film>, ContentList, TimelineContentViewList, wxPoint);
 

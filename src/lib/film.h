@@ -93,11 +93,14 @@ private:
  *
  *  The content of a Film is held in a Playlist (created and managed by the Film).
  */
-class Film : public std::enable_shared_from_this<Film>, public Signaller, public boost::noncopyable
+class Film : public std::enable_shared_from_this<Film>, public Signaller
 {
 public:
 	explicit Film (boost::optional<boost::filesystem::path> dir);
 	~Film ();
+
+	Film (Film const&) = delete;
+	Film& operator= (Film const&) = delete;
 
 	std::shared_ptr<InfoFileHandle> info_file_handle (dcpomatic::DCPTimePeriod period, bool read) const;
 	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;

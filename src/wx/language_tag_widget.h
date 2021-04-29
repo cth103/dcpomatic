@@ -21,7 +21,6 @@
 
 #include <dcp/language_tag.h>
 #include <wx/wx.h>
-#include <boost/noncopyable.hpp>
 #include <boost/signals2.hpp>
 
 
@@ -31,11 +30,14 @@ class wxStaticText;
 class wxWindow;
 
 
-class LanguageTagWidget : public boost::noncopyable
+class LanguageTagWidget
 {
 public:
 	LanguageTagWidget (wxWindow* parent, wxString tooltip, boost::optional<dcp::LanguageTag> tag, boost::optional<wxString> size_to_fit = boost::none);
 	~LanguageTagWidget ();
+
+	LanguageTagWidget (LanguageTagWidget const&) = delete;
+	LanguageTagWidget& operator= (LanguageTagWidget const&) = delete;
 
 	wxSizer* sizer () const {
 		return _sizer;

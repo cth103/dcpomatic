@@ -18,24 +18,31 @@
 
 */
 
+
 #ifndef DCPOMATIC_DCP_CONTENT_TYPE_H
 #define DCPOMATIC_DCP_CONTENT_TYPE_H
+
 
 /** @file src/dcp_content_type.h
  *  @brief DCPContentType class.
  */
 
+
 #include <dcp/dcp.h>
 #include <string>
 #include <vector>
 
+
 /** @class DCPContentType
  *  @brief A description of the type of content for a DCP (e.g. feature, trailer etc.)
  */
-class DCPContentType : public boost::noncopyable
+class DCPContentType
 {
 public:
 	DCPContentType (std::string, dcp::ContentKind, std::string);
+
+	DCPContentType (DCPContentType const&) = delete;
+	DCPContentType& operator= (DCPContentType const&) = delete;
 
 	/** @return user-visible `pretty' name */
 	std::string pretty_name () const {
@@ -65,5 +72,6 @@ private:
 	/** All available DCP content types */
 	static std::vector<DCPContentType const *> _dcp_content_types;
 };
+
 
 #endif

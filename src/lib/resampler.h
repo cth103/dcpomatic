@@ -18,17 +18,22 @@
 
 */
 
+
 #include "types.h"
 #include <samplerate.h>
-#include <boost/utility.hpp>
+
 
 class AudioBuffers;
 
-class Resampler : public boost::noncopyable
+
+class Resampler
 {
 public:
 	Resampler (int, int, int);
 	~Resampler ();
+
+	Resampler (Resampler const&) = delete;
+	Resampler& operator= (Resampler const&) = delete;
 
 	std::shared_ptr<const AudioBuffers> run (std::shared_ptr<const AudioBuffers>);
 	std::shared_ptr<const AudioBuffers> flush ();

@@ -36,11 +36,14 @@ class Film;
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
-class Job : public std::enable_shared_from_this<Job>, public Signaller, public boost::noncopyable
+class Job : public std::enable_shared_from_this<Job>, public Signaller
 {
 public:
 	explicit Job (std::shared_ptr<const Film> film);
 	virtual ~Job ();
+
+	Job (Job const&) = delete;
+	Job& operator= (Job const&) = delete;
 
 	/** @return user-readable name of this job */
 	virtual std::string name () const = 0;

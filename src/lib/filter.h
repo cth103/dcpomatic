@@ -18,16 +18,19 @@
 
 */
 
+
 /** @file src/filter.h
  *  @brief A class to describe one of FFmpeg's video or audio filters.
  */
 
+
 #ifndef DCPOMATIC_FILTER_H
 #define DCPOMATIC_FILTER_H
 
-#include <boost/utility.hpp>
+
 #include <string>
 #include <vector>
+
 
 /** @class Filter
  *  @brief A class to describe one of FFmpeg's video or audio filters.
@@ -36,10 +39,13 @@
  *  8bpp.  FFmpeg quantizes e.g. yuv422p10le down to yuv422p before running such filters, which
  *  we don't really want to do.
  */
-class Filter : public boost::noncopyable
+class Filter
 {
 public:
 	Filter (std::string i, std::string n, std::string c, std::string f);
+
+	Filter (Filter const&) = delete;
+	Filter& operator= (Filter const&) = delete;
 
 	/** @return our id */
 	std::string id () const {
@@ -79,5 +85,6 @@ private:
 	static std::vector<Filter const *> _filters;
 	static void maybe_add (std::string, std::string, std::string, std::string);
 };
+
 
 #endif

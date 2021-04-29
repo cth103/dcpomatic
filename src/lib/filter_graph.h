@@ -38,11 +38,14 @@ class Filter;
 /** @class FilterGraph
  *  @brief A graph of FFmpeg filters.
  */
-class FilterGraph : public boost::noncopyable
+class FilterGraph
 {
 public:
 	FilterGraph ();
 	virtual ~FilterGraph ();
+
+	FilterGraph (FilterGraph const&) = delete;
+	FilterGraph& operator== (FilterGraph const&) = delete;
 
 	void setup (std::vector<Filter const *>);
 	AVFilterContext* get (std::string name);

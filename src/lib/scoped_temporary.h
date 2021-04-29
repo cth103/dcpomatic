@@ -18,18 +18,22 @@
 
 */
 
+
 #include <boost/filesystem.hpp>
-#include <boost/noncopyable.hpp>
 #include <cstdio>
+
 
 /** @class ScopedTemporary
  *  @brief A temporary file which is deleted when the ScopedTemporary object goes out of scope.
  */
-class ScopedTemporary : public boost::noncopyable
+class ScopedTemporary
 {
 public:
 	ScopedTemporary ();
 	~ScopedTemporary ();
+
+	ScopedTemporary (ScopedTemporary const&) = delete;
+	ScopedTemporary& operator= (ScopedTemporary const&) = delete;
 
 	/** @return temporary filename */
 	boost::filesystem::path file () const {

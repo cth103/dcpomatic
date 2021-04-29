@@ -54,10 +54,14 @@ namespace cxml {
  *  the TIFF data compressed until the decompressed image is needed.
  *  At this point, the class decodes the TIFF to an Image.
  */
-class ImageProxy : public boost::noncopyable
+class ImageProxy
 {
 public:
+	ImageProxy () {}
 	virtual ~ImageProxy () {}
+
+	ImageProxy (ImageProxy const&) = delete;
+	ImageProxy& operator= (ImageProxy const&) = delete;
 
 	struct Result {
 		Result (std::shared_ptr<Image> image_, int log2_scaling_)

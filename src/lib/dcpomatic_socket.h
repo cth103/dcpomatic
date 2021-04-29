@@ -20,7 +20,6 @@
 
 #include "digester.h"
 #include <boost/asio.hpp>
-#include <boost/noncopyable.hpp>
 #include <boost/scoped_ptr.hpp>
 
 /** @class Socket
@@ -30,10 +29,13 @@
  *  This class wraps some things that I could not work out how to do easily with boost;
  *  most notably, sync read/write calls with timeouts.
  */
-class Socket : public boost::noncopyable
+class Socket
 {
 public:
 	explicit Socket (int timeout = 30);
+
+	Socket (Socket const&) = delete;
+	Socket& operator= (Socket const&) = delete;
 
 	/** @return Our underlying socket */
 	boost::asio::ip::tcp::socket& socket () {
@@ -78,8 +80,6 @@ private:
 	bool check_read_digest ();
 	void start_write_digest ();
 	void finish_write_digest ();
-
-	Socket (Socket const &);
 
 	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;

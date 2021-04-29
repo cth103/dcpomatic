@@ -22,7 +22,6 @@
 #include "dcpomatic_time.h"
 #include "player_video.h"
 #include "types.h"
-#include <boost/noncopyable.hpp>
 #include <boost/thread/mutex.hpp>
 #include <utility>
 
@@ -31,9 +30,14 @@ class Film;
 class PlayerVideo;
 
 
-class VideoRingBuffers : public boost::noncopyable
+class VideoRingBuffers
 {
 public:
+	VideoRingBuffers () {}
+
+	VideoRingBuffers (VideoRingBuffers const&) = delete;
+	VideoRingBuffers& operator= (VideoRingBuffers const&) = delete;
+
 	void put (std::shared_ptr<PlayerVideo> frame, dcpomatic::DCPTime time);
 	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get ();
 

@@ -20,14 +20,13 @@
 
 
 #include "rect.h"
-#include <boost/noncopyable.hpp>
 #include <boost/filesystem.hpp>
 
 
 /** @class SubtitleAnalysis
  *  @brief Class to store the results of a SubtitleAnalysisJob.
  */
-class SubtitleAnalysis : public boost::noncopyable
+class SubtitleAnalysis
 {
 public:
 	explicit SubtitleAnalysis (boost::filesystem::path path);
@@ -41,6 +40,9 @@ public:
 		, _analysis_x_offset (analysis_x_offset_)
 		, _analysis_y_offset (analysis_y_offset_)
 	{}
+
+	SubtitleAnalysis (SubtitleAnalysis const&) = delete;
+	SubtitleAnalysis& operator= (SubtitleAnalysis const&) = delete;
 
 	void write (boost::filesystem::path path) const;
 

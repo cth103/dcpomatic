@@ -32,7 +32,7 @@
 class Player;
 class PlayerVideo;
 
-class Butler : public ExceptionStore, public boost::noncopyable
+class Butler : public ExceptionStore
 {
 public:
 	Butler (
@@ -47,6 +47,9 @@ public:
 		);
 
 	~Butler ();
+
+	Butler (Butler const&) = delete;
+	Butler& operator= (Butler const&) = delete;
 
 	void seek (dcpomatic::DCPTime position, bool accurate);
 

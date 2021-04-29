@@ -64,10 +64,13 @@ private:
 };
 
 
-class ContentPanel : public boost::noncopyable
+class ContentPanel
 {
 public:
 	ContentPanel (wxNotebook *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
+
+	ContentPanel (ContentPanel const&) = delete;
+	ContentPanel& operator= (ContentPanel const&) = delete;
 
 	std::shared_ptr<Film> film () const {
 		return _film;

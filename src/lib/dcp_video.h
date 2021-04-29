@@ -39,11 +39,14 @@ class PlayerVideo;
  *  Objects of this class are used for the queue that we keep
  *  of images that require encoding.
  */
-class DCPVideo : public boost::noncopyable
+class DCPVideo
 {
 public:
 	DCPVideo (std::shared_ptr<const PlayerVideo>, int index, int dcp_fps, int bandwidth, Resolution r);
 	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
+
+	DCPVideo (DCPVideo const&) = delete;
+	DCPVideo& operator= (DCPVideo const&) = delete;
 
 	dcp::ArrayData encode_locally ();
 	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30);

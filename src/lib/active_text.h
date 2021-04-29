@@ -24,7 +24,6 @@
 
 #include "dcpomatic_time.h"
 #include "player_text.h"
-#include <boost/noncopyable.hpp>
 #include <boost/thread/mutex.hpp>
 #include <list>
 #include <map>
@@ -34,9 +33,14 @@ class TextContent;
 /** @class ActiveText
  *  @brief A class to maintain information on active subtitles for Player.
  */
-class ActiveText : public boost::noncopyable
+class ActiveText
 {
 public:
+	ActiveText () {}
+
+	ActiveText (ActiveText const&) = delete;
+	ActiveText& operator= (ActiveText const&) = delete;
+
 	std::list<PlayerText> get_burnt (dcpomatic::DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (dcpomatic::DCPTime time);
 	void clear ();
