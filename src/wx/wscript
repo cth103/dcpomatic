@@ -99,7 +99,6 @@ sources = """
           markers_dialog.cc
           message_dialog.cc
           metadata_dialog.cc
-          monitor_dialog.cc
           move_to_dialog.cc
           nag_dialog.cc
           name_format_editor.cc

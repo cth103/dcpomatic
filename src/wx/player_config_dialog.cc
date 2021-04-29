@@ -33,7 +33,6 @@
 #include "email_dialog.h"
 #include "name_format_editor.h"
 #include "nag_dialog.h"
-#include "monitor_dialog.h"
 #include "check_box.h"
 #include "static_text.h"
 #include "lib/config.h"

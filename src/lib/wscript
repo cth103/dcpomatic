@@ -83,7 +83,6 @@ sources = """
           dkdm_recipient.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
-          edid.cc
           emailer.cc
           empty.cc
           encoder.cc

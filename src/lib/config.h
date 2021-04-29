@@ -27,7 +27,6 @@
 
 #include "types.h"
 #include "state.h"
-#include "edid.h"
 #include "audio_mapping.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
