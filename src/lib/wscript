@@ -102,13 +102,14 @@ sources = """
           ffmpeg_content.cc
           ffmpeg_decoder.cc
           ffmpeg_encoder.cc
-          ffmpeg_file_encoder.cc
           ffmpeg_examiner.cc
+          ffmpeg_file_encoder.cc
+          ffmpeg_image_proxy.cc
           ffmpeg_stream.cc
           ffmpeg_subtitle_stream.cc
+          ffmpeg_wrapper.cc
           film.cc
           filter.cc
-          ffmpeg_image_proxy.cc
           font.cc
           font_data.cc
           frame_interval_checker.cc

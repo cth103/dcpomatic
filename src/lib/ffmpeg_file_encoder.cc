@@ -20,6 +20,7 @@
 
 
 #include "ffmpeg_encoder.h"
+#include "ffmpeg_wrapper.h"
 #include "film.h"
 #include "job.h"
 #include "player.h"
@@ -61,15 +62,13 @@ public:
 	{
 		_codec = avcodec_find_encoder_by_name (codec_name.c_str());
 		if (!_codec) {
-			throw runtime_error (String::compose("could not find FFmpeg encoder %1", codec_name));
+			throw EncodeError (String::compose("avcodec_find_encoder_by_name failed for %1", codec_name));
 		}
 
 		_codec_context = avcodec_alloc_context3 (_codec);
 		if (!_codec_context) {
-			throw runtime_error ("could not allocate FFmpeg audio context");
+			throw std::bad_alloc ();
 		}
-
-		avcodec_get_context_defaults3 (_codec_context, _codec);
 
 		/* XXX: configurable */
 		_codec_context->bit_rate = channels * 128 * 1024;
@@ -78,22 +77,21 @@ public:
 		_codec_context->channel_layout = av_get_default_channel_layout (channels);
 		_codec_context->channels = channels;
 
+		int r = avcodec_open2 (_codec_context, _codec, 0);
+		if (r < 0) {
+			throw EncodeError (N_("avcodec_open2"), N_("ExportAudioStream::ExportAudioStream"), r);
+		}
+
 		_stream = avformat_new_stream (format_context, _codec);
 		if (!_stream) {
-			throw runtime_error ("could not create FFmpeg output audio stream");
+			throw EncodeError (N_("avformat_new_stream"), N_("ExportAudioStream::ExportAudioStream"));
 		}
 
 		_stream->id = stream_index;
 		_stream->disposition |= AV_DISPOSITION_DEFAULT;
-DCPOMATIC_DISABLE_WARNINGS
-		_stream->codec = _codec_context;
-DCPOMATIC_ENABLE_WARNINGS
-
-		int r = avcodec_open2 (_codec_context, _codec, 0);
+		r = avcodec_parameters_from_context (_stream->codecpar, _codec_context);
 		if (r < 0) {
-			char buffer[256];
-			av_strerror (r, buffer, sizeof(buffer));
-			throw runtime_error (String::compose("could not open FFmpeg audio codec (%1)", buffer));
+			throw EncodeError (N_("avcodec_parameters_from_context"), N_("ExportAudioStream::ExportAudioStream"), r);
 		}
 	}
 
@@ -111,24 +109,23 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	bool flush ()
 	{
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = 0;
-		packet.size = 0;
-		bool flushed = false;
-
-		int got_packet;
-DCPOMATIC_DISABLE_WARNINGS
-		avcodec_encode_audio2 (_codec_context, &packet, 0, &got_packet);
-DCPOMATIC_ENABLE_WARNINGS
-		if (got_packet) {
-			packet.stream_index = 0;
-			av_interleaved_write_frame (_format_context, &packet);
-		} else {
-			flushed = true;
+		int r = avcodec_send_frame (_codec_context, nullptr);
+		if (r < 0 && r != AVERROR_EOF) {
+			/* We get EOF if we've already flushed the stream once */
+			throw EncodeError (N_("avcodec_send_frame"), N_("ExportAudioStream::flush"), r);
 		}
-		av_packet_unref (&packet);
-		return flushed;
+
+		ffmpeg::Packet packet;
+		r = avcodec_receive_packet (_codec_context, packet.get());
+		if (r == AVERROR_EOF) {
+			return true;
+		} else if (r < 0) {
+			throw EncodeError (N_("avcodec_receive_packet"), N_("ExportAudioStream::flush"), r);
+		}
+
+		packet->stream_index = _stream_index;
+		av_interleaved_write_frame (_format_context, packet.get());
+		return false;
 	}
 
 	void write (int size, int channel_offset, int channels, float** data, int64_t sample_offset)
@@ -145,6 +142,8 @@ DCPOMATIC_ENABLE_WARNINGS
 		DCPOMATIC_ASSERT (samples);
 
 		frame->nb_samples = size;
+		frame->format = _codec_context->sample_fmt;
+		frame->channels = channels;
 		int r = avcodec_fill_audio_frame (frame, channels, _codec_context->sample_fmt, (const uint8_t *) samples, buffer_size, 0);
 		DCPOMATIC_ASSERT (r >= 0);
 
@@ -185,26 +184,21 @@ DCPOMATIC_ENABLE_WARNINGS
 		DCPOMATIC_ASSERT (_codec_context->time_base.num == 1);
 		frame->pts = sample_offset * _codec_context->time_base.den / _codec_context->sample_rate;
 
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = 0;
-		packet.size = 0;
-		int got_packet;
-
-		DCPOMATIC_DISABLE_WARNINGS
-		if (avcodec_encode_audio2 (_codec_context, &packet, frame, &got_packet) < 0) {
-			throw EncodeError ("FFmpeg audio encode failed");
-		}
-		DCPOMATIC_ENABLE_WARNINGS
-
-		if (got_packet && packet.size) {
-			packet.stream_index = _stream_index;
-			av_interleaved_write_frame (_format_context, &packet);
-			av_packet_unref (&packet);
-		}
-
+		r = avcodec_send_frame (_codec_context, frame);
 		av_free (samples);
 		av_frame_free (&frame);
+		if (r < 0) {
+			throw EncodeError (N_("avcodec_send_frame"), N_("ExportAudioStream::write"), r);
+		}
+
+		ffmpeg::Packet packet;
+		r = avcodec_receive_packet (_codec_context, packet.get());
+		if (r < 0 && r != AVERROR(EAGAIN)) {
+			throw EncodeError (N_("avcodec_receive_packet"), N_("ExportAudioStream::write"), r);
+		} else if (r >= 0) {
+			packet->stream_index = _stream_index;
+			av_interleaved_write_frame (_format_context, packet.get());
+		}
 	}
 
 private:
@@ -261,7 +255,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 
 	int r = avformat_alloc_output_context2 (&_format_context, 0, 0, _output.string().c_str());
 	if (!_format_context) {
-		throw runtime_error (String::compose("could not allocate FFmpeg format context (%1)", r));
+		throw EncodeError (N_("avformat_alloc_output_context2"), "FFmpegFileEncoder::FFmpegFileEncoder", r);
 	}
 
 	setup_video ();
@@ -269,13 +263,14 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 
 	r = avio_open_boost (&_format_context->pb, _output, AVIO_FLAG_WRITE);
 	if (r < 0) {
-		throw runtime_error (String::compose("could not open FFmpeg output file %1 (%2)", _output.string(), r));
+		throw EncodeError (String::compose(_("Could not open output file %1 (%2)"), _output.string(), r));
 	}
 
 	AVDictionary* options = nullptr;
 
-	if (avformat_write_header (_format_context, &options) < 0) {
-		throw runtime_error ("could not write header to FFmpeg output file");
+	r = avformat_write_header (_format_context, &options);
+	if (r < 0) {
+		throw EncodeError (N_("avformat_write_header"), N_("FFmpegFileEncoder::FFmpegFileEncoder"), r);
 	}
 
 	_pending_audio.reset (new AudioBuffers(channels, 0));
@@ -312,15 +307,13 @@ FFmpegFileEncoder::setup_video ()
 {
 	_video_codec = avcodec_find_encoder_by_name (_video_codec_name.c_str());
 	if (!_video_codec) {
-		throw runtime_error (String::compose ("could not find FFmpeg encoder %1", _video_codec_name));
+		throw EncodeError (String::compose("avcodec_find_encoder_by_name failed for %1", _video_codec_name));
 	}
 
 	_video_codec_context = avcodec_alloc_context3 (_video_codec);
 	if (!_video_codec_context) {
-		throw runtime_error ("could not allocate FFmpeg video context");
+		throw std::bad_alloc ();
 	}
-
-	avcodec_get_context_defaults3 (_video_codec_context, _video_codec);
 
 	/* Variable quantisation */
 	_video_codec_context->global_quality = 0;
@@ -330,18 +323,19 @@ FFmpegFileEncoder::setup_video ()
 	_video_codec_context->pix_fmt = _pixel_format;
 	_video_codec_context->flags |= AV_CODEC_FLAG_QSCALE | AV_CODEC_FLAG_GLOBAL_HEADER;
 
+	if (avcodec_open2 (_video_codec_context, _video_codec, &_video_options) < 0) {
+		throw EncodeError (N_("avcodec_open"), N_("FFmpegFileEncoder::setup_video"));
+	}
+
 	_video_stream = avformat_new_stream (_format_context, _video_codec);
 	if (!_video_stream) {
-		throw runtime_error ("could not create FFmpeg output video stream");
+		throw EncodeError (N_("avformat_new_stream"), N_("FFmpegFileEncoder::setup_video"));
 	}
 
 	_video_stream->id = _video_stream_index;
-DCPOMATIC_DISABLE_WARNINGS
-	_video_stream->codec = _video_codec_context;
-DCPOMATIC_ENABLE_WARNINGS
-
-	if (avcodec_open2 (_video_codec_context, _video_codec, &_video_options) < 0) {
-		throw runtime_error ("could not open FFmpeg video codec");
+	int r = avcodec_parameters_from_context (_video_stream->codecpar, _video_codec_context);
+	if (r < 0) {
+		throw EncodeError (N_("avcodec_parameters_from_context"), N_("FFmpegFileEncoder::setup_video"), r);
 	}
 }
 
@@ -373,22 +367,22 @@ FFmpegFileEncoder::flush ()
 	bool flushed_audio = false;
 
 	while (!flushed_video || !flushed_audio) {
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = 0;
-		packet.size = 0;
-
-		int got_packet;
-DCPOMATIC_DISABLE_WARNINGS
-		avcodec_encode_video2 (_video_codec_context, &packet, 0, &got_packet);
-DCPOMATIC_ENABLE_WARNINGS
-		if (got_packet) {
-			packet.stream_index = 0;
-			av_interleaved_write_frame (_format_context, &packet);
-		} else {
-			flushed_video = true;
+		int r = avcodec_send_frame (_video_codec_context, nullptr);
+		if (r < 0 && r != AVERROR_EOF) {
+			/* We get EOF if we've already flushed the stream once */
+			throw EncodeError (N_("avcodec_send_frame"), N_("FFmpegFileEncoder::flush"), r);
 		}
-		av_packet_unref (&packet);
+
+		ffmpeg::Packet packet;
+		r = avcodec_receive_packet (_video_codec_context, packet.get());
+		if (r == AVERROR_EOF) {
+			flushed_video = true;
+		} else if (r < 0) {
+			throw EncodeError (N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::flush"), r);
+		} else {
+			packet->stream_index = _video_stream_index;
+			av_interleaved_write_frame (_format_context, packet.get());
+		}
 
 		flushed_audio = true;
 		for (auto i: _audio_streams) {
@@ -435,26 +429,20 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	DCPOMATIC_ASSERT (_video_stream->time_base.num == 1);
 	frame->pts = time.get() * _video_stream->time_base.den / DCPTime::HZ;
 
-	AVPacket packet;
-	av_init_packet (&packet);
-	packet.data = 0;
-	packet.size = 0;
-
-	int got_packet;
-DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_encode_video2 (_video_codec_context, &packet, frame, &got_packet) < 0) {
-		throw EncodeError ("FFmpeg video encode failed");
-	}
-DCPOMATIC_ENABLE_WARNINGS
-
-	if (got_packet && packet.size) {
-		packet.stream_index = _video_stream_index;
-		av_interleaved_write_frame (_format_context, &packet);
-		av_packet_unref (&packet);
-	}
-
+	int r = avcodec_send_frame (_video_codec_context, frame);
 	av_frame_free (&frame);
+	if (r < 0) {
+		throw EncodeError (N_("avcodec_send_frame"), N_("FFmpegFileEncoder::video"), r);
+	}
 
+	ffmpeg::Packet packet;
+	r = avcodec_receive_packet (_video_codec_context, packet.get());
+	if (r < 0 && r != AVERROR(EAGAIN)) {
+		throw EncodeError (N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::video"), r);
+	} else if (r >= 0) {
+		packet->stream_index = _video_stream_index;
+		av_interleaved_write_frame (_format_context, packet.get());
+	}
 }
 
 
