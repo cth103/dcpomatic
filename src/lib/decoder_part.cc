@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,10 @@
 
 */
 
+
 #include "decoder_part.h"
 #include "decoder.h"
 
-using std::shared_ptr;
 
 DecoderPart::DecoderPart (Decoder* parent)
 	: _parent (parent)

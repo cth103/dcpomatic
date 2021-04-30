@@ -19,14 +19,14 @@
 */
 
 
-#include <boost/function.hpp>
+#include <functional>
 #include <set>
 
 
 class Suspender
 {
 public:
-	Suspender (boost::function<void (int)> handler);
+	Suspender (std::function<void (int)> handler);
 
 	bool check (int property);
 
@@ -47,7 +47,7 @@ private:
 	void increment ();
 	void decrement ();
 
-	boost::function<void (int)> _handler;
-	int _count;
+	std::function<void (int)> _handler;
+	int _count = 0;
 	std::set<int> _pending;
 };

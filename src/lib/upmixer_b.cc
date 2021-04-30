@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,20 @@
 
 */
 
+
 #include "upmixer_b.h"
 #include "audio_buffers.h"
 #include "audio_mapping.h"
 
 #include "i18n.h"
 
+
 using std::string;
+using std::make_shared;
 using std::min;
 using std::vector;
 using std::shared_ptr;
+
 
 UpmixerB::UpmixerB (int sampling_rate)
 	: _lfe (0.01, 150.0 / sampling_rate)
@@ -35,6 +39,7 @@ UpmixerB::UpmixerB (int sampling_rate)
 {
 
 }
+
 
 string
 UpmixerB::name () const
@@ -49,25 +54,28 @@ UpmixerB::id () const
 	return N_("stereo-5.1-upmix-b");
 }
 
+
 int
 UpmixerB::out_channels () const
 {
 	return 6;
 }
 
+
 shared_ptr<AudioProcessor>
 UpmixerB::clone (int sampling_rate) const
 {
-	return shared_ptr<AudioProcessor> (new UpmixerB (sampling_rate));
+	return make_shared<UpmixerB>(sampling_rate);
 }
+
 
 shared_ptr<AudioBuffers>
 UpmixerB::run (shared_ptr<const AudioBuffers> in, int channels)
 {
-	shared_ptr<AudioBuffers> out (new AudioBuffers (channels, in->frames()));
+	auto out = make_shared<AudioBuffers>(channels, in->frames());
 
 	/* L + R minus 6dB (in terms of amplitude) */
-	shared_ptr<AudioBuffers> in_LR = in->channel(0);
+	auto in_LR = in->channel(0);
 	in_LR->accumulate_frames (in->channel(1).get(), in->frames(), 0, 0);
 	in_LR->apply_gain (-6);
 
@@ -94,7 +102,7 @@ UpmixerB::run (shared_ptr<const AudioBuffers> in, int channels)
 	shared_ptr<AudioBuffers> S;
 	if (channels > 4) {
 		/* Ls is L - R with some delay */
-		shared_ptr<AudioBuffers> sub (new AudioBuffers (1, in->frames()));
+		auto sub = make_shared<AudioBuffers>(1, in->frames());
 		sub->copy_channel_from (in.get(), 0, 0);
 		float* p = sub->data (0);
 		float const * q = in->data (1);
@@ -113,12 +121,14 @@ UpmixerB::run (shared_ptr<const AudioBuffers> in, int channels)
 	return out;
 }
 
+
 void
 UpmixerB::flush ()
 {
 	_lfe.flush ();
 	_delay.flush ();
 }
+
 
 void
 UpmixerB::make_audio_mapping_default (AudioMapping& mapping) const
@@ -130,11 +140,12 @@ UpmixerB::make_audio_mapping_default (AudioMapping& mapping) const
 	}
 }
 
+
 vector<NamedChannel>
 UpmixerB::input_names () const
 {
-	vector<NamedChannel> n;
-	n.push_back (NamedChannel(_("Upmix L"), 0));
-	n.push_back (NamedChannel(_("Upmix R"), 1));
-	return n;
+	return {
+		NamedChannel(_("Upmix L"), 0),
+		NamedChannel(_("Upmix R"), 1)
+	};
 }

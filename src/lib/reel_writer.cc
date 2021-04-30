@@ -744,7 +744,7 @@ ReelWriter::create_reel (
 }
 
 void
-ReelWriter::calculate_digests (boost::function<void (float)> set_progress)
+ReelWriter::calculate_digests (std::function<void (float)> set_progress)
 try
 {
 	if (_picture_asset) {

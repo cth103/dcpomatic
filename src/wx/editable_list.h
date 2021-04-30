@@ -25,7 +25,6 @@
 #include "dcpomatic_button.h"
 #include <wx/wx.h>
 #include <wx/listctrl.h>
-#include <boost/function.hpp>
 #include <vector>
 
 class EditableListColumn
@@ -60,9 +59,9 @@ public:
 	EditableList (
 		wxWindow* parent,
 		std::vector<EditableListColumn> columns,
-		boost::function<std::vector<T> ()> get,
-		boost::function<void (std::vector<T>)> set,
-		boost::function<std::string (T, int)> column,
+		std::function<std::vector<T> ()> get,
+		std::function<void (std::vector<T>)> set,
+		std::function<std::string (T, int)> column,
 		bool can_edit = true,
 		bool title = true
 		)
@@ -289,10 +288,10 @@ private:
 		ev.Skip ();
 	}
 
-	boost::function <std::vector<T> ()> _get;
-	boost::function <void (std::vector<T>)> _set;
+	std::function <std::vector<T> ()> _get;
+	std::function <void (std::vector<T>)> _set;
 	std::vector<EditableListColumn> _columns;
-	boost::function<std::string (T, int)> _column;
+	std::function<std::string (T, int)> _column;
 
 	wxButton* _add;
 	wxButton* _edit;

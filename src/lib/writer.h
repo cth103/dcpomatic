@@ -128,7 +128,7 @@ private:
 	size_t video_reel (int frame) const;
 	void set_digest_progress (Job* job, float progress);
 	void write_cover_sheet (boost::filesystem::path output_dcp);
-	void calculate_referenced_digests (boost::function<void (float)> set_progress);
+	void calculate_referenced_digests (std::function<void (float)> set_progress);
 	void write_hanging_text (ReelWriter& reel);
 	void calculate_digests ();
 

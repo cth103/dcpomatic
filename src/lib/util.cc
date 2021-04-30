@@ -1040,7 +1040,7 @@ show_jobs_on_console (bool progress)
 
 /** XXX: could use mmap? */
 void
-copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, boost::function<void (float)> progress)
+copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)> progress)
 {
 	auto f = fopen_boost (from, "rb");
 	if (!f) {

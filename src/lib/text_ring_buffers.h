@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
+
 #ifndef DCPOMATIC_TEXT_RING_BUFFERS_H
 #define DCPOMATIC_TEXT_RING_BUFFERS_H
 
-#include "player_text.h"
+
 #include "dcp_text_track.h"
+#include "player_text.h"
 #include <boost/thread.hpp>
 #include <utility>
+
 
 class TextRingBuffers
 {
@@ -51,5 +54,6 @@ private:
 
 	std::list<Data> _data;
 };
+
 
 #endif

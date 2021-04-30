@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "log.h"
 #include "compose.hpp"
 
+
 /** The current log; set up by the front-ends when they have a Film to log into */
 extern std::shared_ptr<Log> dcpomatic_log;
+
 
 #define LOG_GENERAL(...)      dcpomatic_log->log(String::compose(__VA_ARGS__), LogEntry::TYPE_GENERAL);
 #define LOG_GENERAL_NC(...)   dcpomatic_log->log(__VA_ARGS__, LogEntry::TYPE_GENERAL);

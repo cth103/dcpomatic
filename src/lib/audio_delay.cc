@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,19 +18,24 @@
 
 */
 
+
 #include "audio_delay.h"
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
 #include <iostream>
 
+
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+
 
 AudioDelay::AudioDelay (int samples)
 	: _samples (samples)
 {
 
 }
+
 
 shared_ptr<AudioBuffers>
 AudioDelay::run (shared_ptr<const AudioBuffers> in)
@@ -55,7 +60,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 
 		/* Keep tail */
 		if (!_tail) {
-			_tail.reset (new AudioBuffers (in->channels(), _samples));
+			_tail = make_shared<AudioBuffers>(in->channels(), _samples);
 		}
 		_tail->copy_from (in.get(), _samples, in->frames() - _samples, 0);
 
@@ -66,7 +71,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 			out->copy_from (_tail.get(), out->frames(), 0, 0);
 		} else {
 			out->make_silent ();
-			_tail.reset (new AudioBuffers (out->channels(), _samples));
+			_tail = make_shared<AudioBuffers>(out->channels(), _samples);
 			_tail->make_silent ();
 		}
 
@@ -79,6 +84,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 
 	return out;
 }
+
 
 void
 AudioDelay::flush ()

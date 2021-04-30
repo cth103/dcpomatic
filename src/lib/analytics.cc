@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,32 +18,36 @@
 
 */
 
+
 #include "analytics.h"
-#include "exceptions.h"
 #include "compose.hpp"
+#include "exceptions.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 
 #include "i18n.h"
+
 
 using std::string;
 using dcp::raw_convert;
 using boost::algorithm::trim;
 
+
 Analytics* Analytics::_instance;
 int const Analytics::_current_version = 1;
 
+
 Analytics::Analytics ()
-	: _successful_dcp_encodes (0)
 {
 
 }
+
 
 void
 Analytics::successful_dcp_encode ()
@@ -81,11 +85,12 @@ Analytics::successful_dcp_encode ()
 	}
 }
 
+
 void
 Analytics::write () const
 {
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("Analytics");
+	auto root = doc.create_root_node ("Analytics");
 
 	root->add_child("Version")->add_child_text(raw_convert<string>(_current_version));
 	root->add_child("SuccessfulDCPEncodes")->add_child_text(raw_convert<string>(_successful_dcp_encodes));
@@ -99,6 +104,7 @@ Analytics::write () const
 	}
 }
 
+
 void
 Analytics::read ()
 try
@@ -109,6 +115,7 @@ try
 } catch (...) {
 	/* Never mind */
 }
+
 
 Analytics*
 Analytics::instance ()

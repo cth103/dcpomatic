@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/tools/dcpomatic.cc
  *  @brief The main DCP-o-matic GUI.
  */
+
 
 #include "wx/standard_controls.h"
 #include "wx/film_viewer.h"
@@ -112,21 +114,22 @@ DCPOMATIC_ENABLE_WARNINGS
 #undef check
 #endif
 
+
 using std::cout;
-using std::wcout;
+using std::dynamic_pointer_cast;
+using std::exception;
+using std::function;
+using std::list;
+using std::make_pair;
+using std::make_shared;
+using std::map;
+using std::shared_ptr;
 using std::string;
 using std::vector;
+using std::wcout;
 using std::wstring;
 using std::wstringstream;
-using std::map;
-using std::make_pair;
-using std::list;
-using std::exception;
-using std::make_shared;
-using std::shared_ptr;
-using std::dynamic_pointer_cast;
 using boost::optional;
-using boost::function;
 using boost::is_any_of;
 using boost::algorithm::find;
 #if BOOST_VERSION >= 106100
@@ -134,14 +137,15 @@ using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 
+
 class FilmChangedClosingDialog
 {
 public:
 	explicit FilmChangedClosingDialog (string name)
 	{
 		_dialog = new wxMessageDialog (
-			0,
-			wxString::Format (_("Save changes to film \"%s\" before closing?"), std_to_wx (name).data()),
+			nullptr,
+			wxString::Format(_("Save changes to film \"%s\" before closing?"), std_to_wx (name).data()),
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 			/// project (Film) has been changed since it was last saved.
 			_("Film changed"),
@@ -177,8 +181,8 @@ public:
 	explicit FilmChangedDuplicatingDialog (string name)
 	{
 		_dialog = new wxMessageDialog (
-			0,
-			wxString::Format (_("Save changes to film \"%s\" before duplicating?"), std_to_wx (name).data()),
+			nullptr,
+			wxString::Format(_("Save changes to film \"%s\" before duplicating?"), std_to_wx (name).data()),
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 			/// project (Film) has been changed since it was last saved.
 			_("Film changed"),
@@ -207,6 +211,7 @@ private:
 	wxMessageDialog* _dialog;
 };
 
+
 #define ALWAYS                        0x0
 #define NEEDS_FILM                    0x1
 #define NOT_DURING_DCP_CREATION       0x2
@@ -216,6 +221,7 @@ private:
 #define NEEDS_SELECTED_VIDEO_CONTENT  0x20
 #define NEEDS_CLIPBOARD               0x40
 #define NEEDS_ENCRYPTION              0x80
+
 
 map<wxMenuItem*, int> menu_items;
 
@@ -261,28 +267,15 @@ enum {
 	ID_forward_frame
 };
 
+
 class DOMFrame : public wxFrame
 {
 public:
-	explicit DOMFrame (wxString const & title)
-		: wxFrame (NULL, -1, title)
-		, _video_waveform_dialog (0)
-		, _system_information_dialog (0)
-		, _hints_dialog (0)
-		, _servers_list_dialog (0)
-		, _config_dialog (0)
-		, _kdm_dialog (0)
-		, _dkdm_dialog (0)
-		, _templates_dialog (0)
-		, _file_menu (0)
-		, _history_items (0)
-		, _history_position (0)
-		, _history_separator (0)
-		, _update_news_requested (false)
-		, _first_shown_called (false)
+	explicit DOMFrame (wxString const& title)
+		: wxFrame (nullptr, -1, title)
 	{
 #if defined(DCPOMATIC_WINDOWS)
-		if (Config::instance()->win32_console ()) {
+		if (Config::instance()->win32_console()) {
 			AllocConsole();
 
 			HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -309,7 +302,7 @@ public:
 		SetIcon (wxIcon (std_to_wx ("id")));
 #endif
 
-		_config_changed_connection = Config::instance()->Changed.connect (boost::bind (&DOMFrame::config_changed, this, _1));
+		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
 		config_changed (Config::OTHER);
 
 		_analytics_message_connection = Analytics::instance()->Message.connect(boost::bind(&DOMFrame::analytics_message, this, _1, _2));
@@ -355,7 +348,7 @@ public:
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
-		wxPanel* overall_panel = new wxPanel (this, wxID_ANY);
+		auto overall_panel = new wxPanel (this, wxID_ANY);
 
 		_film_viewer.reset (new FilmViewer (overall_panel));
 		_controls = new StandardControls (overall_panel, _film_viewer, true);
@@ -486,7 +479,7 @@ public:
 		_controls->set_film (_film);
 		if (_video_waveform_dialog) {
 			_video_waveform_dialog->Destroy ();
-			_video_waveform_dialog = 0;
+			_video_waveform_dialog = nullptr;
 		}
 		set_menu_sensitivity ();
 		if (_film && _film->directory()) {
@@ -788,8 +781,8 @@ private:
 		}
 
 		/* Remove any existing DCP if the user agrees */
-		boost::filesystem::path const dcp_dir = _film->dir (_film->dcp_name(), false);
-		if (boost::filesystem::exists (dcp_dir)) {
+		auto const dcp_dir = _film->dir (_film->dcp_name(), false);
+		if (boost::filesystem::exists(dcp_dir)) {
 			if (!confirm_dialog (this, wxString::Format (_("Do you want to overwrite the existing DCP %s?"), std_to_wx(dcp_dir.string()).data()))) {
 				return;
 			}
@@ -832,7 +825,7 @@ private:
 
 		if (_dkdm_dialog) {
 			_dkdm_dialog->Destroy ();
-			_dkdm_dialog = 0;
+			_dkdm_dialog = nullptr;
 		}
 
 		_dkdm_dialog = new DKDMDialog (this, _film);
@@ -967,7 +960,7 @@ private:
 		if (kdm) {
 			if (d->internal ()) {
 				auto dkdms = Config::instance()->dkdms();
-				dkdms->add (shared_ptr<DKDM> (new DKDM (kdm.get())));
+				dkdms->add (make_shared<DKDM>(kdm.get()));
 				Config::instance()->changed ();
 			} else {
 				auto path = d->directory() / (_film->dcp_name(false) + "_DKDM.xml");
@@ -1525,25 +1518,26 @@ private:
 	FilmEditor* _film_editor;
 	std::shared_ptr<FilmViewer> _film_viewer;
 	StandardControls* _controls;
-	VideoWaveformDialog* _video_waveform_dialog;
-	SystemInformationDialog* _system_information_dialog;
-	HintsDialog* _hints_dialog;
-	ServersListDialog* _servers_list_dialog;
-	wxPreferencesEditor* _config_dialog;
-	KDMDialog* _kdm_dialog;
-	DKDMDialog* _dkdm_dialog;
-	TemplatesDialog* _templates_dialog;
-	wxMenu* _file_menu;
+	VideoWaveformDialog* _video_waveform_dialog = nullptr;
+	SystemInformationDialog* _system_information_dialog = nullptr;
+	HintsDialog* _hints_dialog = nullptr;
+	ServersListDialog* _servers_list_dialog = nullptr;
+	wxPreferencesEditor* _config_dialog = nullptr;
+	KDMDialog* _kdm_dialog = nullptr;
+	DKDMDialog* _dkdm_dialog = nullptr;
+	TemplatesDialog* _templates_dialog = nullptr;
+	wxMenu* _file_menu = nullptr;
 	shared_ptr<Film> _film;
-	int _history_items;
-	int _history_position;
-	wxMenuItem* _history_separator;
+	int _history_items = 0;
+	int _history_position = 0;
+	wxMenuItem* _history_separator = nullptr;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _analytics_message_connection;
-	bool _update_news_requested;
+	bool _update_news_requested = false;
 	shared_ptr<Content> _clipboard;
-	bool _first_shown_called;
+	bool _first_shown_called = false;
 };
+
 
 static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
@@ -1555,6 +1549,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
 
+
 /** @class App
  *  @brief The magic App class for wxWidgets.
  */
@@ -1563,8 +1558,6 @@ class App : public wxApp
 public:
 	App ()
 		: wxApp ()
-		, _frame (0)
-		, _splash (0)
 	{
 #ifdef DCPOMATIC_LINUX
 		XInitThreads ();
@@ -1641,23 +1634,23 @@ private:
 			signal_manager = new wxSignalManager (this);
 			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
 
-			if (!_film_to_load.empty() && boost::filesystem::is_directory (_film_to_load)) {
+			if (!_film_to_load.empty() && boost::filesystem::is_directory(_film_to_load)) {
 				try {
 					_frame->load_film (_film_to_load);
 				} catch (exception& e) {
-					error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load film %1 (%2)")), _film_to_load)), std_to_wx(e.what()));
+					error_dialog (nullptr, std_to_wx(String::compose(wx_to_std(_("Could not load film %1 (%2)")), _film_to_load)), std_to_wx(e.what()));
 				}
 			}
 
 			if (!_film_to_create.empty ()) {
-				_frame->new_film (_film_to_create, optional<string> ());
-				if (!_content_to_add.empty ()) {
+				_frame->new_film (_film_to_create, optional<string>());
+				if (!_content_to_add.empty()) {
 					for (auto i: content_factory(_content_to_add)) {
-						_frame->film()->examine_and_add_content (i);
+						_frame->film()->examine_and_add_content(i);
 					}
 				}
 				if (!_dcp_to_add.empty ()) {
-					_frame->film()->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent(_dcp_to_add)));
+					_frame->film()->examine_and_add_content(make_shared<DCPContent>(_dcp_to_add));
 				}
 			}
 
@@ -1867,13 +1860,14 @@ private:
 		}
 	}
 
-	DOMFrame* _frame;
-	wxSplashScreen* _splash;
+	DOMFrame* _frame = nullptr;
+	wxSplashScreen* _splash = nullptr;
 	shared_ptr<wxTimer> _timer;
 	string _film_to_load;
 	string _film_to_create;
 	string _content_to_add;
 	string _dcp_to_add;
 };
+
 
 IMPLEMENT_APP (App)

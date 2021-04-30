@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 #include "nag_dialog.h"
 #include "wx_util.h"
 #include "static_text.h"
 #include "check_box.h"
+
 
 using std::shared_ptr;
 #if BOOST_VERSION >= 106100
@@ -48,7 +50,7 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 	if (can_cancel) {
 		flags |= wxCANCEL;
 	}
-	wxSizer* buttons = CreateSeparatedButtonSizer (flags);
+	auto buttons = CreateSeparatedButtonSizer (flags);
 	if (buttons) {
 		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -61,11 +63,13 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 	sizer->SetSizeHints (this);
 }
 
+
 void
 NagDialog::shut_up (wxCommandEvent& ev)
 {
 	Config::instance()->set_nagged (_nag, ev.IsChecked());
 }
+
 
 /** @return true if the user clicked Cancel */
 bool

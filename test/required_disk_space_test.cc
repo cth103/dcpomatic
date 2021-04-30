@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/required_disk_space_test.cc
  *  @brief Check Film::required_disk_space
  *  @ingroup selfcontained
  */
+
 
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
@@ -29,9 +31,11 @@
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::shared_ptr;
-using std::dynamic_pointer_cast;
+
 
 void check_within_n (int64_t a, int64_t b, int64_t n)
 {

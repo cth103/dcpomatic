@@ -63,7 +63,7 @@ using std::make_pair;
 using std::map;
 using boost::bind;
 using std::shared_ptr;
-using boost::function;
+using std::function;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,18 @@
 
 */
 
+
 #include "uploader.h"
 #include "dcpomatic_assert.h"
 #include "compose.hpp"
 
 #include "i18n.h"
 
+
 using std::string;
 using std::shared_ptr;
-using boost::function;
+using std::function;
+
 
 Uploader::Uploader (function<void (string)> set_status, function<void (float)> set_progress)
 	: _set_progress (set_progress)
@@ -35,6 +38,7 @@ Uploader::Uploader (function<void (string)> set_status, function<void (float)> s
 	_set_status (_("connecting"));
 }
 
+
 boost::uintmax_t
 Uploader::count_file_sizes (boost::filesystem::path directory) const
 {
@@ -42,39 +46,42 @@ Uploader::count_file_sizes (boost::filesystem::path directory) const
 
 	boost::uintmax_t size = 0;
 
-	for (directory_iterator i = directory_iterator (directory); i != directory_iterator (); ++i) {
-		if (is_directory (i->path ())) {
-			size += count_file_sizes (i->path ());
+	for (auto i: directory_iterator(directory)) {
+		if (is_directory (i.path())) {
+			size += count_file_sizes (i.path());
 		} else {
-			size += file_size (*i);
+			size += file_size (i);
 		}
 	}
 
 	return size;
 }
 
+
 void
 Uploader::upload (boost::filesystem::path directory)
 {
 	boost::uintmax_t transferred = 0;
-	upload_directory (directory.parent_path (), directory, transferred, count_file_sizes (directory));
+	upload_directory (directory.parent_path(), directory, transferred, count_file_sizes(directory));
 }
+
 
 void
 Uploader::upload_directory (boost::filesystem::path base, boost::filesystem::path directory, boost::uintmax_t& transferred, boost::uintmax_t total_size)
 {
 	using namespace boost::filesystem;
 
-	create_directory (remove_prefix (base, directory));
-	for (directory_iterator i = directory_iterator (directory); i != directory_iterator (); ++i) {
-		if (is_directory (i->path ())) {
-			upload_directory (base, i->path (), transferred, total_size);
+	create_directory (remove_prefix(base, directory));
+	for (auto i: directory_iterator(directory)) {
+		if (is_directory(i.path())) {
+			upload_directory (base, i.path(), transferred, total_size);
 		} else {
-			_set_status (String::compose (_("copying %1"), i->path().leaf ()));
-			upload_file (i->path (), remove_prefix (base, i->path ()), transferred, total_size);
+			_set_status (String::compose(_("copying %1"), i.path().leaf()));
+			upload_file (i.path(), remove_prefix (base, i.path()), transferred, total_size);
 		}
 	}
 }
+
 
 boost::filesystem::path
 Uploader::remove_prefix (boost::filesystem::path prefix, boost::filesystem::path target) const
@@ -83,8 +90,8 @@ Uploader::remove_prefix (boost::filesystem::path prefix, boost::filesystem::path
 
 	path result;
 
-	path::iterator i = target.begin ();
-	for (path::iterator j = prefix.begin (); j != prefix.end(); ++j) {
+	auto i = target.begin ();
+	for (auto j = prefix.begin (); j != prefix.end(); ++j) {
 		DCPOMATIC_ASSERT (*i == *j);
 		++i;
 	}

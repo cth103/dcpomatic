@@ -29,5 +29,5 @@ class Film;
  *  ContentList
  */
 ContentList overlaps (
-	std::shared_ptr<const Film> film, ContentList cl, boost::function<bool (std::shared_ptr<const Content>)> part, dcpomatic::DCPTime from, dcpomatic::DCPTime to
+	std::shared_ptr<const Film> film, ContentList cl, std::function<bool (std::shared_ptr<const Content>)> part, dcpomatic::DCPTime from, dcpomatic::DCPTime to
 	);

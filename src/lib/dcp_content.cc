@@ -56,7 +56,7 @@ using std::string;
 using std::vector;
 using boost::scoped_ptr;
 using boost::optional;
-using boost::function;
+using std::function;
 using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

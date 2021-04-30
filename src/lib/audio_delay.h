@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,8 +24,9 @@
 
 class AudioBuffers;
 
+
 /** @class AudioDelay
- *  @brief An audio delay line.
+ *  @brief An audio delay line
  */
 class AudioDelay
 {

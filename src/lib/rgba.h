@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,25 +18,22 @@
 
 */
 
+
 #ifndef DCPOMATIC_RGBA_H
 #define DCPOMATIC_RGBA_H
+
 
 #include <libcxml/cxml.h>
 #include <stdint.h>
 
+
 /** @class RGBA
  *  @brief A 32-bit RGBA colour.
  */
-
 class RGBA
 {
 public:
-	RGBA ()
-		: r (0)
-		, g (0)
-		, b (0)
-		, a (0)
-	{}
+	RGBA () {}
 
 	RGBA (uint8_t r_, uint8_t g_, uint8_t b_, uint8_t a_)
 		: r (r_)
@@ -49,12 +46,13 @@ public:
 
 	void as_xml (xmlpp::Node* parent) const;
 
-	uint8_t r;
-	uint8_t g;
-	uint8_t b;
-	uint8_t a;
+	uint8_t r = 0;
+	uint8_t g = 0;
+	uint8_t b = 0;
+	uint8_t a = 0;
 
 	bool operator< (RGBA const & other) const;
 };
+
 
 #endif

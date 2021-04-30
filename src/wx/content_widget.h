@@ -30,7 +30,6 @@
 #include <wx/wx.h>
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
-#include <boost/function.hpp>
 #include <vector>
 
 /** @class ContentWidget
@@ -60,12 +59,12 @@ public:
 		wxWindow* parent,
 		T* wrapped,
 		int property,
-		boost::function<std::shared_ptr<S> (Content*)> part,
-		boost::function<U (S*)> model_getter,
-		boost::function<void (S*, U)> model_setter,
-		boost::function<void ()> view_changed,
-		boost::function<U (V)> view_to_model,
-		boost::function<V (U)> model_to_view
+		std::function<std::shared_ptr<S> (Content*)> part,
+		std::function<U (S*)> model_getter,
+		std::function<void (S*, U)> model_setter,
+		std::function<void ()> view_changed,
+		std::function<U (V)> view_to_model,
+		std::function<V (U)> model_to_view
 		)
 		: _wrapped (wrapped)
 		, _sizer (0)
@@ -217,12 +216,12 @@ private:
 	wxButton* _button;
 	List _content;
 	int _property;
-	boost::function<std::shared_ptr<S> (Content *)> _part;
-	boost::function<U (S*)> _model_getter;
-	boost::function<void (S*, U)> _model_setter;
-	boost::function<void ()> _view_changed;
-	boost::function<U (V)> _view_to_model;
-	boost::function<V (U)> _model_to_view;
+	std::function<std::shared_ptr<S> (Content *)> _part;
+	std::function<U (S*)> _model_getter;
+	std::function<void (S*, U)> _model_setter;
+	std::function<void ()> _view_changed;
+	std::function<U (V)> _view_to_model;
+	std::function<V (U)> _model_to_view;
 	std::list<boost::signals2::connection> _connections;
 	bool _ignore_model_changes;
 };
@@ -241,10 +240,10 @@ public:
 		wxWindow* parent,
 		wxSpinCtrl* wrapped,
 		int property,
-		boost::function<std::shared_ptr<S> (Content *)> part,
-		boost::function<int (S*)> getter,
-		boost::function<void (S*, int)> setter,
-		boost::function<void ()> view_changed = boost::function<void ()>()
+		std::function<std::shared_ptr<S> (Content *)> part,
+		std::function<int (S*)> getter,
+		std::function<void (S*, int)> setter,
+		std::function<void ()> view_changed = std::function<void ()>()
 		)
 		: ContentWidget<S, wxSpinCtrl, int, int> (
 			parent,
@@ -269,10 +268,10 @@ public:
 		wxWindow* parent,
 		wxSpinCtrlDouble* wrapped,
 		int property,
-		boost::function<std::shared_ptr<S> (Content *)> part,
-		boost::function<double (S*)> getter,
-		boost::function<void (S*, double)> setter,
-		boost::function<void ()> view_changed = boost::function<void ()>()
+		std::function<std::shared_ptr<S> (Content *)> part,
+		std::function<double (S*)> getter,
+		std::function<void (S*, double)> setter,
+		std::function<void ()> view_changed = std::function<void ()>()
 		)
 		: ContentWidget<S, wxSpinCtrlDouble, double, double> (
 			parent,
@@ -297,12 +296,12 @@ public:
 		wxWindow* parent,
 		wxChoice* wrapped,
 		int property,
-		boost::function<std::shared_ptr<S> (Content *)> part,
-		boost::function<U (S*)> getter,
-		boost::function<void (S*, U)> setter,
-		boost::function<U (int)> view_to_model,
-		boost::function<int (U)> model_to_view,
-		boost::function<void ()> view_changed = boost::function<void()>()
+		std::function<std::shared_ptr<S> (Content *)> part,
+		std::function<U (S*)> getter,
+		std::function<void (S*, U)> setter,
+		std::function<U (int)> view_to_model,
+		std::function<int (U)> model_to_view,
+		std::function<void ()> view_changed = std::function<void()>()
 		)
 		: ContentWidget<S, wxChoice, U, int> (
 			parent,

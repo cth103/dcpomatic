@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,19 +18,24 @@
 
 */
 
+
 #ifndef DCPOMATIC_DCP_SUBTITLE_H
 #define DCPOMATIC_DCP_SUBTITLE_H
 
+
 #include <boost/filesystem.hpp>
+
 
 namespace dcp {
 	class SubtitleAsset;
 }
+
 
 class DCPSubtitle
 {
 protected:
 	std::shared_ptr<dcp::SubtitleAsset> load (boost::filesystem::path) const;
 };
+
 
 #endif

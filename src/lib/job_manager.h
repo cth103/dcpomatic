@@ -70,14 +70,14 @@ public:
 		std::shared_ptr<const Playlist> playlist,
 		bool from_zero,
 		boost::signals2::connection& connection,
-		boost::function<void()> ready
+		std::function<void()> ready
 		);
 
 	void analyse_subtitles (
 		std::shared_ptr<const Film> film,
 		std::shared_ptr<Content> content,
 		boost::signals2::connection& connection,
-		boost::function<void()> ready
+		std::function<void()> ready
 		);
 
 	boost::signals2::signal<void (std::weak_ptr<Job>)> JobAdded;

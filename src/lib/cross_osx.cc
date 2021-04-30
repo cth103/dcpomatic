@@ -65,7 +65,7 @@ using std::runtime_error;
 using std::map;
 using std::shared_ptr;
 using boost::optional;
-using boost::function;
+using std::function;
 
 /** @param s Number of seconds to sleep for */
 void

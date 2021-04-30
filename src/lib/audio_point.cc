@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_point.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
@@ -25,8 +26,10 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 using std::string;
 using dcp::raw_convert;
+
 
 AudioPoint::AudioPoint ()
 {
@@ -35,11 +38,13 @@ AudioPoint::AudioPoint ()
 	}
 }
 
+
 AudioPoint::AudioPoint (cxml::ConstNodePtr node)
 {
-	_data[PEAK] = node->number_child<float> ("Peak");
-	_data[RMS] = node->number_child<float> ("RMS");
+	_data[PEAK] = node->number_child<float>("Peak");
+	_data[RMS] = node->number_child<float>("RMS");
 }
+
 
 AudioPoint::AudioPoint (AudioPoint const & other)
 {
@@ -47,6 +52,7 @@ AudioPoint::AudioPoint (AudioPoint const & other)
 		_data[i] = other._data[i];
 	}
 }
+
 
 AudioPoint &
 AudioPoint::operator= (AudioPoint const & other)
@@ -62,9 +68,10 @@ AudioPoint::operator= (AudioPoint const & other)
 	return *this;
 }
 
+
 void
 AudioPoint::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child ("Peak")->add_child_text (raw_convert<string> (_data[PEAK]));
-	parent->add_child ("RMS")->add_child_text (raw_convert<string> (_data[RMS]));
+	parent->add_child("Peak")->add_child_text(raw_convert<string>(_data[PEAK]));
+	parent->add_child("RMS")->add_child_text(raw_convert<string>(_data[RMS]));
 }

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "shuffler.h"
 #include "content_video.h"
 #include "dcpomatic_assert.h"
@@ -25,13 +26,16 @@
 #include <string>
 #include <iostream>
 
+
 using std::make_pair;
+using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
-using std::shared_ptr;
 using boost::optional;
 
+
 int const Shuffler::_max_size = 64;
+
 
 struct Comparator
 {
@@ -42,6 +46,7 @@ struct Comparator
 		return a.second.eyes < b.second.eyes;
 	}
 };
+
 
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
@@ -54,7 +59,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		return;
 	}
 
-	shared_ptr<Piece> piece = weak_piece.lock ();
+	auto piece = weak_piece.lock ();
 	DCPOMATIC_ASSERT (piece);
 
 	if (!_last && video.eyes == Eyes::LEFT) {
@@ -103,6 +108,7 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	}
 }
 
+
 void
 Shuffler::clear ()
 {
@@ -110,6 +116,7 @@ Shuffler::clear ()
 	_store.clear ();
 	_last = optional<ContentVideo>();
 }
+
 
 void
 Shuffler::flush ()

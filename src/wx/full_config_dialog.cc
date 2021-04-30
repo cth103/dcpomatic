@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,61 +18,65 @@
 
 */
 
+
 /** @file src/full_config_dialog.cc
  *  @brief A dialogue to edit all DCP-o-matic configuration.
  */
 
-#include "full_config_dialog.h"
-#include "wx_util.h"
-#include "editable_list.h"
-#include "filter_dialog.h"
-#include "dir_picker_ctrl.h"
-#include "file_picker_ctrl.h"
-#include "server_dialog.h"
-#include "make_chain_dialog.h"
-#include "email_dialog.h"
-#include "name_format_editor.h"
-#include "nag_dialog.h"
-#include "config_move_dialog.h"
-#include "config_dialog.h"
-#include "static_text.h"
+
 #include "check_box.h"
+#include "config_dialog.h"
+#include "config_move_dialog.h"
 #include "dcpomatic_button.h"
+#include "dir_picker_ctrl.h"
+#include "editable_list.h"
+#include "email_dialog.h"
+#include "file_picker_ctrl.h"
+#include "filter_dialog.h"
+#include "full_config_dialog.h"
+#include "make_chain_dialog.h"
+#include "nag_dialog.h"
+#include "name_format_editor.h"
 #include "password_entry.h"
+#include "server_dialog.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/config.h"
-#include "lib/ratio.h"
-#include "lib/filter.h"
-#include "lib/dcp_content_type.h"
-#include "lib/log.h"
-#include "lib/util.h"
 #include "lib/cross.h"
+#include "lib/dcp_content_type.h"
 #include "lib/exceptions.h"
-#include <dcp/locale_convert.h>
-#include <dcp/exceptions.h>
+#include "lib/filter.h"
+#include "lib/log.h"
+#include "lib/ratio.h"
+#include "lib/util.h"
 #include <dcp/certificate_chain.h>
-#include <wx/stdpaths.h>
+#include <dcp/exceptions.h>
+#include <dcp/locale_convert.h>
+#include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
-#include <wx/filepicker.h>
+#include <wx/stdpaths.h>
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
 #include <iostream>
 
-using std::vector;
-using std::string;
-using std::list;
+
 using std::cout;
-using std::pair;
+using std::function;
+using std::list;
 using std::make_pair;
 using std::map;
-using boost::bind;
+using std::pair;
 using std::shared_ptr;
-using boost::function;
+using std::string;
+using std::vector;
+using boost::bind;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
+
 
 class FullGeneralPage : public GeneralPage
 {
@@ -84,7 +88,7 @@ public:
 private:
 	void setup ()
 	{
-		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		int r = 0;
@@ -124,8 +128,8 @@ private:
 
 		add_update_controls (table, r);
 
-		_config_file->Bind  (wxEVT_FILEPICKER_CHANGED, boost::bind (&FullGeneralPage::config_file_changed,   this));
-		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind (&FullGeneralPage::cinemas_file_changed,  this));
+		_config_file->Bind  (wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::config_file_changed,  this));
+		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::cinemas_file_changed, this));
 
 		_master_encoding_threads->SetRange (1, 128);
 		_master_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::master_encoding_threads_changed, this));
@@ -141,7 +145,7 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_master_encoding_threads, config->master_encoding_threads ());
 		checked_set (_server_encoding_threads, config->server_encoding_threads ());
@@ -157,8 +161,8 @@ private:
 
 	void export_cinemas_file ()
 	{
-		wxFileDialog* d = new wxFileDialog (
-			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, wxT ("XML files (*.xml)|*.xml"),
+		auto d = new wxFileDialog (
+			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
                 );
 
@@ -171,35 +175,35 @@ private:
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	void analyse_ebur128_changed ()
 	{
-		Config::instance()->set_analyse_ebur128 (_analyse_ebur128->GetValue ());
+		Config::instance()->set_analyse_ebur128 (_analyse_ebur128->GetValue());
 	}
 #endif
 
 	void automatic_audio_analysis_changed ()
 	{
-		Config::instance()->set_automatic_audio_analysis (_automatic_audio_analysis->GetValue ());
+		Config::instance()->set_automatic_audio_analysis (_automatic_audio_analysis->GetValue());
 	}
 
 	void master_encoding_threads_changed ()
 	{
-		Config::instance()->set_master_encoding_threads (_master_encoding_threads->GetValue ());
+		Config::instance()->set_master_encoding_threads (_master_encoding_threads->GetValue());
 	}
 
 	void server_encoding_threads_changed ()
 	{
-		Config::instance()->set_server_encoding_threads (_server_encoding_threads->GetValue ());
+		Config::instance()->set_server_encoding_threads (_server_encoding_threads->GetValue());
 	}
 
 	void config_file_changed ()
 	{
-		Config* config = Config::instance();
+		auto config = Config::instance();
 		boost::filesystem::path new_file = wx_to_std(_config_file->GetPath());
 		if (new_file == config->config_file()) {
 			return;
 		}
 		bool copy_and_link = true;
 		if (boost::filesystem::exists(new_file)) {
-			ConfigMoveDialog* d = new ConfigMoveDialog (_panel, new_file);
+			auto d = new ConfigMoveDialog (_panel, new_file);
 			if (d->ShowModal() == wxID_OK) {
 				copy_and_link = false;
 			}
@@ -231,6 +235,7 @@ private:
 	wxCheckBox* _automatic_audio_analysis;
 };
 
+
 class DefaultsPage : public Page
 {
 public:
@@ -253,13 +258,13 @@ public:
 private:
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		{
 			add_label_to_sizer (table, _panel, _("Default duration of still images"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			auto s = new wxBoxSizer (wxHORIZONTAL);
 			_still_length = new wxSpinCtrl (_panel);
 			s->Add (_still_length);
 			add_label_to_sizer (s, _panel, _("s"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -288,7 +293,7 @@ private:
 
 		{
 			add_label_to_sizer (table, _panel, _("Default JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			auto s = new wxBoxSizer (wxHORIZONTAL);
 			_j2k_bandwidth = new wxSpinCtrl (_panel);
 			s->Add (_j2k_bandwidth);
 			add_label_to_sizer (s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -297,7 +302,7 @@ private:
 
 		{
 			add_label_to_sizer (table, _panel, _("Default audio delay"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			auto s = new wxBoxSizer (wxHORIZONTAL);
 			_audio_delay = new wxSpinCtrl (_panel);
 			s->Add (_audio_delay);
 			add_label_to_sizer (s, _panel, _("ms"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -351,18 +356,18 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
-		vector<Ratio const *> containers = Ratio::containers ();
+		auto containers = Ratio::containers ();
 		for (size_t i = 0; i < containers.size(); ++i) {
-			if (containers[i] == config->default_container ()) {
+			if (containers[i] == config->default_container()) {
 				_container->SetSelection (i);
 			}
 		}
 
-		vector<DCPContentType const *> const ct = DCPContentType::all ();
+		auto const ct = DCPContentType::all ();
 		for (size_t i = 0; i < ct.size(); ++i) {
-			if (ct[i] == config->default_dcp_content_type ()) {
+			if (ct[i] == config->default_dcp_content_type()) {
 				_dcp_content_type->SetSelection (i);
 			}
 		}
@@ -392,7 +397,7 @@ private:
 		int const s = _dcp_audio_channels->GetSelection ();
 		if (s != wxNOT_FOUND) {
 			Config::instance()->set_default_dcp_audio_channels (
-				locale_convert<int> (string_client_data (_dcp_audio_channels->GetClientObject (s)))
+				locale_convert<int>(string_client_data(_dcp_audio_channels->GetClientObject(s)))
 				);
 		}
 	}
@@ -414,13 +419,13 @@ private:
 
 	void container_changed ()
 	{
-		vector<Ratio const *> ratio = Ratio::containers ();
+		auto ratio = Ratio::containers ();
 		Config::instance()->set_default_container (ratio[_container->GetSelection()]);
 	}
 
 	void dcp_content_type_changed ()
 	{
-		vector<DCPContentType const *> ct = DCPContentType::all ();
+		auto ct = DCPContentType::all ();
 		Config::instance()->set_default_dcp_content_type (ct[_dcp_content_type->GetSelection()]);
 	}
 
@@ -444,6 +449,7 @@ private:
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
 };
+
 
 class EncodingServersPage : public Page
 {
@@ -482,7 +488,7 @@ private:
 
 		_panel->GetSizer()->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 
-		_use_any_servers->Bind (wxEVT_CHECKBOX, boost::bind (&EncodingServersPage::use_any_servers_changed, this));
+		_use_any_servers->Bind (wxEVT_CHECKBOX, boost::bind(&EncodingServersPage::use_any_servers_changed, this));
 	}
 
 	void config_changed ()
@@ -504,6 +510,7 @@ private:
 	wxCheckBox* _use_any_servers;
 	EditableList<string, ServerDialog>* _servers_list;
 };
+
 
 class TMSPage : public Page
 {
@@ -567,7 +574,7 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_upload, config->upload_after_make_dcp());
 		checked_set (_tms_protocol, static_cast<int>(config->tms_protocol()));
@@ -615,11 +622,6 @@ private:
 	PasswordEntry* _tms_password;
 };
 
-static string
-column (string s)
-{
-	return s;
-}
 
 class EmailPage : public Page
 {
@@ -643,7 +645,7 @@ public:
 private:
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
@@ -675,19 +677,19 @@ private:
 		_password = new PasswordEntry (_panel);
 		table->Add (_password->get_panel(), 1, wxEXPAND | wxALL);
 
-		_server->Bind (wxEVT_TEXT, boost::bind (&EmailPage::server_changed, this));
-		_port->Bind (wxEVT_SPINCTRL, boost::bind (&EmailPage::port_changed, this));
-		_protocol->Bind (wxEVT_CHOICE, boost::bind (&EmailPage::protocol_changed, this));
-		_user->Bind (wxEVT_TEXT, boost::bind (&EmailPage::user_changed, this));
-		_password->Changed.connect (boost::bind (&EmailPage::password_changed, this));
+		_server->Bind (wxEVT_TEXT, boost::bind(&EmailPage::server_changed, this));
+		_port->Bind (wxEVT_SPINCTRL, boost::bind(&EmailPage::port_changed, this));
+		_protocol->Bind (wxEVT_CHOICE, boost::bind(&EmailPage::protocol_changed, this));
+		_user->Bind (wxEVT_TEXT, boost::bind(&EmailPage::user_changed, this));
+		_password->Changed.connect (boost::bind(&EmailPage::password_changed, this));
 	}
 
 	void config_changed ()
 	{
 		auto config = Config::instance ();
 
-		checked_set (_server, config->mail_server ());
-		checked_set (_port, config->mail_port ());
+		checked_set (_server, config->mail_server());
+		checked_set (_port, config->mail_port());
 		switch (config->mail_protocol()) {
 		case EmailProtocol::AUTO:
 			checked_set (_protocol, 0);
@@ -702,18 +704,18 @@ private:
 			checked_set (_protocol, 3);
 			break;
 		}
-		checked_set (_user, config->mail_user ());
+		checked_set (_user, config->mail_user());
 		checked_set (_password, config->mail_password());
 	}
 
 	void server_changed ()
 	{
-		Config::instance()->set_mail_server (wx_to_std (_server->GetValue ()));
+		Config::instance()->set_mail_server(wx_to_std(_server->GetValue()));
 	}
 
 	void port_changed ()
 	{
-		Config::instance()->set_mail_port (_port->GetValue ());
+		Config::instance()->set_mail_port(_port->GetValue());
 	}
 
 	void protocol_changed ()
@@ -750,6 +752,7 @@ private:
 	wxTextCtrl* _user;
 	PasswordEntry* _password;
 };
+
 
 class KDMEmailPage : public Page
 {
@@ -799,8 +802,9 @@ private:
 			columns,
 			bind (&Config::kdm_cc, Config::instance()),
 			bind (&Config::set_kdm_cc, Config::instance(), _1),
-			bind (&column, _1)
-			);
+			[] (string s, int) {
+				return s;
+			});
 		table->Add (_cc, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -872,6 +876,7 @@ private:
 	wxButton* _reset_email;
 };
 
+
 class NotificationsPage : public Page
 {
 public:
@@ -899,7 +904,7 @@ public:
 private:
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
 
@@ -931,8 +936,9 @@ private:
 			columns,
 			bind (&Config::notification_cc, Config::instance()),
 			bind (&Config::set_notification_cc, Config::instance(), _1),
-			bind (&column, _1)
-			);
+			[] (string s, int) {
+				return s;
+			});
 		table->Add (_cc, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -974,7 +980,7 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_enable_message_box, config->notification(Config::MESSAGE_BOX));
 		checked_set (_enable_email, config->notification(Config::EMAIL));
@@ -989,39 +995,39 @@ private:
 
 	void notification_subject_changed ()
 	{
-		Config::instance()->set_notification_subject (wx_to_std (_subject->GetValue ()));
+		Config::instance()->set_notification_subject(wx_to_std(_subject->GetValue()));
 	}
 
 	void notification_from_changed ()
 	{
-		Config::instance()->set_notification_from (wx_to_std (_from->GetValue ()));
+		Config::instance()->set_notification_from(wx_to_std(_from->GetValue()));
 	}
 
 	void notification_to_changed ()
 	{
-		Config::instance()->set_notification_to (wx_to_std (_to->GetValue ()));
+		Config::instance()->set_notification_to(wx_to_std(_to->GetValue()));
 	}
 
 	void notification_bcc_changed ()
 	{
-		Config::instance()->set_notification_bcc (wx_to_std (_bcc->GetValue ()));
+		Config::instance()->set_notification_bcc(wx_to_std(_bcc->GetValue()));
 	}
 
 	void notification_email_changed ()
 	{
-		if (_email->GetValue().IsEmpty ()) {
+		if (_email->GetValue().IsEmpty()) {
 			/* Sometimes we get sent an erroneous notification that the email
 			   is empty; I don't know why.
 			*/
 			return;
 		}
-		Config::instance()->set_notification_email (wx_to_std (_email->GetValue ()));
+		Config::instance()->set_notification_email(wx_to_std(_email->GetValue()));
 	}
 
 	void reset_email ()
 	{
-		Config::instance()->reset_notification_email ();
-		checked_set (_email, Config::instance()->notification_email ());
+		Config::instance()->reset_notification_email();
+		checked_set (_email, Config::instance()->notification_email());
 	}
 
 	void type_changed (wxCheckBox* b, Config::Notification n)
@@ -1041,6 +1047,7 @@ private:
 	wxTextCtrl* _email;
 	wxButton* _reset_email;
 };
+
 
 class CoverSheetPage : public Page
 {
@@ -1082,7 +1089,7 @@ private:
 
 	void config_changed ()
 	{
-		checked_set (_cover_sheet, Config::instance()->cover_sheet ());
+		checked_set (_cover_sheet, Config::instance()->cover_sheet());
 	}
 
 	void cover_sheet_changed ()
@@ -1093,13 +1100,13 @@ private:
 			*/
 			return;
 		}
-		Config::instance()->set_cover_sheet (wx_to_std (_cover_sheet->GetValue ()));
+		Config::instance()->set_cover_sheet(wx_to_std(_cover_sheet->GetValue()));
 	}
 
 	void reset_cover_sheet ()
 	{
-		Config::instance()->reset_cover_sheet ();
-		checked_set (_cover_sheet, Config::instance()->cover_sheet ());
+		Config::instance()->reset_cover_sheet();
+		checked_set (_cover_sheet, Config::instance()->cover_sheet());
 	}
 
 	wxTextCtrl* _cover_sheet;
@@ -1129,7 +1136,7 @@ public:
 private:
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 
 		add_label_to_sizer (table, _panel, _("Issuer"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -1174,7 +1181,7 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 		checked_set (_issuer, config->dcp_issuer ());
 		checked_set (_creator, config->dcp_creator ());
 		checked_set (_company_name, config->dcp_company_name ());
@@ -1185,27 +1192,27 @@ private:
 
 	void issuer_changed ()
 	{
-		Config::instance()->set_dcp_issuer (wx_to_std (_issuer->GetValue ()));
+		Config::instance()->set_dcp_issuer(wx_to_std(_issuer->GetValue()));
 	}
 
 	void creator_changed ()
 	{
-		Config::instance()->set_dcp_creator (wx_to_std (_creator->GetValue ()));
+		Config::instance()->set_dcp_creator(wx_to_std(_creator->GetValue()));
 	}
 
 	void company_name_changed ()
 	{
-		Config::instance()->set_dcp_company_name (wx_to_std(_company_name->GetValue()));
+		Config::instance()->set_dcp_company_name(wx_to_std(_company_name->GetValue()));
 	}
 
 	void product_name_changed ()
 	{
-		Config::instance()->set_dcp_product_name (wx_to_std(_product_name->GetValue()));
+		Config::instance()->set_dcp_product_name(wx_to_std(_product_name->GetValue()));
 	}
 
 	void product_version_changed ()
 	{
-		Config::instance()->set_dcp_product_version (wx_to_std(_product_version->GetValue()));
+		Config::instance()->set_dcp_product_version(wx_to_std(_product_version->GetValue()));
 	}
 
 	void j2k_comment_changed ()
@@ -1230,21 +1237,6 @@ class AdvancedPage : public Page
 public:
 	AdvancedPage (wxSize panel_size, int border)
 		: Page (panel_size, border)
-		, _maximum_j2k_bandwidth (0)
-		, _allow_any_dcp_frame_rate (0)
-		, _allow_any_container (0)
-		, _show_experimental_audio_processors (0)
-		, _only_servers_encode (0)
-		, _log_general (0)
-		, _log_warning (0)
-		, _log_error (0)
-		, _log_timing (0)
-		, _log_debug_threed (0)
-		, _log_debug_encode (0)
-		, _log_debug_email (0)
-		, _log_debug_video_view (0)
-		, _log_debug_player (0)
-		, _log_debug_audio_analysis (0)
 	{}
 
 	wxString GetName () const
@@ -1273,7 +1265,7 @@ private:
 
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
@@ -1290,8 +1282,8 @@ private:
 		_video_display_mode = new wxChoice (_panel, wxID_ANY);
 		table->Add (_video_display_mode);
 
-		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to change display mode)"), false);
-		wxFont font = restart->GetFont();
+		auto restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to change display mode)"), false);
+		auto font = restart->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
 		restart->SetFont (font);
@@ -1319,7 +1311,7 @@ private:
 
 		{
 			add_label_to_sizer (table, _panel, _("Maximum number of frames to store per thread"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+			auto s = new wxBoxSizer (wxHORIZONTAL);
 			_frames_in_memory_multiplier = new wxSpinCtrl (_panel);
 			s->Add (_frames_in_memory_multiplier, 1);
 			table->Add (s, 1);
@@ -1357,7 +1349,7 @@ private:
 
 		{
 			add_top_aligned_label_to_sizer (table, _panel, _("Log"));
-			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
+			auto t = new wxBoxSizer (wxVERTICAL);
 			_log_general = new CheckBox (_panel, _("General"));
 			t->Add (_log_general, 1, wxEXPAND | wxALL);
 			_log_warning = new CheckBox (_panel, _("Warnings"));
@@ -1417,7 +1409,7 @@ private:
 
 	void config_changed ()
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
 		switch (config->video_view_type()) {
@@ -1450,51 +1442,51 @@ private:
 
 	void maximum_j2k_bandwidth_changed ()
 	{
-		Config::instance()->set_maximum_j2k_bandwidth (_maximum_j2k_bandwidth->GetValue() * 1000000);
+		Config::instance()->set_maximum_j2k_bandwidth(_maximum_j2k_bandwidth->GetValue() * 1000000);
 	}
 
 	void video_display_mode_changed ()
 	{
 		if (_video_display_mode->GetSelection() == 0) {
-			Config::instance()->set_video_view_type (Config::VIDEO_VIEW_SIMPLE);
+			Config::instance()->set_video_view_type(Config::VIDEO_VIEW_SIMPLE);
 		} else {
-			Config::instance()->set_video_view_type (Config::VIDEO_VIEW_OPENGL);
+			Config::instance()->set_video_view_type(Config::VIDEO_VIEW_OPENGL);
 		}
 	}
 
 	void frames_in_memory_multiplier_changed ()
 	{
-		Config::instance()->set_frames_in_memory_multiplier (_frames_in_memory_multiplier->GetValue());
+		Config::instance()->set_frames_in_memory_multiplier(_frames_in_memory_multiplier->GetValue());
 	}
 
 	void allow_any_dcp_frame_rate_changed ()
 	{
-		Config::instance()->set_allow_any_dcp_frame_rate (_allow_any_dcp_frame_rate->GetValue ());
+		Config::instance()->set_allow_any_dcp_frame_rate(_allow_any_dcp_frame_rate->GetValue());
 	}
 
 	void allow_any_container_changed ()
 	{
-		Config::instance()->set_allow_any_container (_allow_any_container->GetValue ());
+		Config::instance()->set_allow_any_container(_allow_any_container->GetValue());
 	}
 
 	void show_experimental_audio_processors_changed ()
 	{
-		Config::instance()->set_show_experimental_audio_processors (_show_experimental_audio_processors->GetValue ());
+		Config::instance()->set_show_experimental_audio_processors(_show_experimental_audio_processors->GetValue());
 	}
 
 	void only_servers_encode_changed ()
 	{
-		Config::instance()->set_only_servers_encode (_only_servers_encode->GetValue ());
+		Config::instance()->set_only_servers_encode (_only_servers_encode->GetValue());
 	}
 
 	void dcp_metadata_filename_format_changed ()
 	{
-		Config::instance()->set_dcp_metadata_filename_format (_dcp_metadata_filename_format->get ());
+		Config::instance()->set_dcp_metadata_filename_format(_dcp_metadata_filename_format->get());
 	}
 
 	void dcp_asset_filename_format_changed ()
 	{
-		Config::instance()->set_dcp_asset_filename_format (_dcp_asset_filename_format->get ());
+		Config::instance()->set_dcp_asset_filename_format(_dcp_asset_filename_format->get());
 	}
 
 	void log_changed ()
@@ -1536,38 +1528,39 @@ private:
 #ifdef DCPOMATIC_WINDOWS
 	void win32_console_changed ()
 	{
-		Config::instance()->set_win32_console (_win32_console->GetValue ());
+		Config::instance()->set_win32_console(_win32_console->GetValue());
 	}
 #endif
 
-	wxSpinCtrl* _maximum_j2k_bandwidth;
-	wxChoice* _video_display_mode;
-	wxSpinCtrl* _frames_in_memory_multiplier;
-	wxCheckBox* _allow_any_dcp_frame_rate;
-	wxCheckBox* _allow_any_container;
-	wxCheckBox* _show_experimental_audio_processors;
-	wxCheckBox* _only_servers_encode;
-	NameFormatEditor* _dcp_metadata_filename_format;
-	NameFormatEditor* _dcp_asset_filename_format;
-	wxCheckBox* _log_general;
-	wxCheckBox* _log_warning;
-	wxCheckBox* _log_error;
-	wxCheckBox* _log_timing;
-	wxCheckBox* _log_debug_threed;
-	wxCheckBox* _log_debug_encode;
-	wxCheckBox* _log_debug_email;
-	wxCheckBox* _log_debug_video_view;
-	wxCheckBox* _log_debug_player;
-	wxCheckBox* _log_debug_audio_analysis;
+	wxSpinCtrl* _maximum_j2k_bandwidth = nullptr;
+	wxChoice* _video_display_mode = nullptr;
+	wxSpinCtrl* _frames_in_memory_multiplier = nullptr;
+	wxCheckBox* _allow_any_dcp_frame_rate = nullptr;
+	wxCheckBox* _allow_any_container = nullptr;
+	wxCheckBox* _show_experimental_audio_processors = nullptr;
+	wxCheckBox* _only_servers_encode = nullptr;
+	NameFormatEditor* _dcp_metadata_filename_format = nullptr;
+	NameFormatEditor* _dcp_asset_filename_format = nullptr;
+	wxCheckBox* _log_general = nullptr;
+	wxCheckBox* _log_warning = nullptr;
+	wxCheckBox* _log_error = nullptr;
+	wxCheckBox* _log_timing = nullptr;
+	wxCheckBox* _log_debug_threed = nullptr;
+	wxCheckBox* _log_debug_encode = nullptr;
+	wxCheckBox* _log_debug_email = nullptr;
+	wxCheckBox* _log_debug_video_view = nullptr;
+	wxCheckBox* _log_debug_player = nullptr;
+	wxCheckBox* _log_debug_audio_analysis = nullptr;
 #ifdef DCPOMATIC_WINDOWS
-	wxCheckBox* _win32_console;
+	wxCheckBox* _win32_console = nullptr;
 #endif
 };
+
 
 wxPreferencesEditor*
 create_full_config_dialog ()
 {
-	wxPreferencesEditor* e = new wxPreferencesEditor ();
+	auto e = new wxPreferencesEditor ();
 
 #ifdef DCPOMATIC_OSX
 	/* Width that we force some of the config panels to be on OSX so that
@@ -1581,17 +1574,17 @@ create_full_config_dialog ()
 	int const border = 8;
 #endif
 
-	e->AddPage (new FullGeneralPage (ps, border));
-	e->AddPage (new SoundPage (ps, border));
-	e->AddPage (new DefaultsPage (ps, border));
-	e->AddPage (new EncodingServersPage (ps, border));
-	e->AddPage (new KeysPage (ps, border));
-	e->AddPage (new TMSPage (ps, border));
-	e->AddPage (new EmailPage (ps, border));
-	e->AddPage (new KDMEmailPage (ps, border));
-	e->AddPage (new NotificationsPage (ps, border));
-	e->AddPage (new CoverSheetPage (ps, border));
-	e->AddPage (new IdentifiersPage (ps, border));
-	e->AddPage (new AdvancedPage (ps, border));
+	e->AddPage (new FullGeneralPage    (ps, border));
+	e->AddPage (new SoundPage          (ps, border));
+	e->AddPage (new DefaultsPage       (ps, border));
+	e->AddPage (new EncodingServersPage(ps, border));
+	e->AddPage (new KeysPage           (ps, border));
+	e->AddPage (new TMSPage            (ps, border));
+	e->AddPage (new EmailPage          (ps, border));
+	e->AddPage (new KDMEmailPage       (ps, border));
+	e->AddPage (new NotificationsPage  (ps, border));
+	e->AddPage (new CoverSheetPage     (ps, border));
+	e->AddPage (new IdentifiersPage    (ps, border));
+	e->AddPage (new AdvancedPage       (ps, border));
 	return e;
 }

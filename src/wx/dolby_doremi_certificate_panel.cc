@@ -23,19 +23,19 @@
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
-#include "lib/util.h"
-#include "lib/signal_manager.h"
 #include "lib/internet.h"
+#include "lib/signal_manager.h"
+#include "lib/util.h"
 #include <dcp/raw_convert.h>
 #include <curl/curl.h>
 #include <zip.h>
 #include <iostream>
 
 
-using std::string;
 using std::cout;
+using std::function;
 using std::list;
-using boost::function;
+using std::string;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

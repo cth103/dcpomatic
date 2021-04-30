@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,15 @@
 
 */
 
+
 #include "frame_interval_checker.h"
+
 
 using namespace dcpomatic;
 
+
 int const FrameIntervalChecker::_frames = 16;
+
 
 void
 FrameIntervalChecker::feed (ContentTime time, double frame_rate)
@@ -39,6 +43,7 @@ FrameIntervalChecker::feed (ContentTime time, double frame_rate)
 	_last = time;
 }
 
+
 FrameIntervalChecker::Guess
 FrameIntervalChecker::guess () const
 {
@@ -46,7 +51,7 @@ FrameIntervalChecker::guess () const
 		/* How soon can you land?
 		 * I can't tell.
 		 * You can tell me, I'm a doctor.
-		 * Nom I mean I'm just not sure.
+		 * No I mean I'm just not sure.
 		 * Can't you take a guess?
 		 * Well, not for another two hours.
 		 * You can't take a guess for another two hours?

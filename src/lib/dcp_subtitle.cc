@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "dcp_subtitle.h"
 #include "exceptions.h"
 #include "compose.hpp"
@@ -26,9 +27,12 @@
 
 #include "i18n.h"
 
-using std::string;
+
 using std::exception;
 using std::shared_ptr;
+using std::string;
+using std::make_shared;
+
 
 shared_ptr<dcp::SubtitleAsset>
 DCPSubtitle::load (boost::filesystem::path file) const
@@ -38,21 +42,21 @@ DCPSubtitle::load (boost::filesystem::path file) const
 	string smpte_error;
 
 	try {
-		sc.reset (new dcp::InteropSubtitleAsset (file));
+		sc = make_shared<dcp::InteropSubtitleAsset>(file);
 	} catch (exception& e) {
 		interop_error = e.what ();
 	}
 
 	if (!sc) {
 		try {
-			sc.reset (new dcp::SMPTESubtitleAsset (file));
+			sc = make_shared<dcp::SMPTESubtitleAsset>(file);
 		} catch (exception& e) {
 			smpte_error = e.what();
 		}
 	}
 
 	if (!sc) {
-		throw FileError (String::compose (_("Could not read subtitles (%1 / %2)"), interop_error, smpte_error), file);
+		throw FileError(String::compose(_("Could not read subtitles (%1 / %2)"), interop_error, smpte_error), file);
 	}
 
 	return sc;

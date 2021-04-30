@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "text_ring_buffers.h"
+
 
 using std::pair;
 using boost::optional;
 using namespace dcpomatic;
+
 
 void
 TextRingBuffers::put (PlayerText text, DCPTextTrack track, DCPTimePeriod period)
@@ -31,18 +34,20 @@ TextRingBuffers::put (PlayerText text, DCPTextTrack track, DCPTimePeriod period)
 	_data.push_back (Data(text, track, period));
 }
 
+
 optional<TextRingBuffers::Data>
 TextRingBuffers::get ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	if (_data.empty ()) {
-		return optional<Data>();
+	if (_data.empty()) {
+		return {};
 	}
 
-	Data r = _data.front ();
-	_data.pop_front ();
+	auto r = _data.front();
+	_data.pop_front();
 	return r;
 }
+
 
 void
 TextRingBuffers::clear ()

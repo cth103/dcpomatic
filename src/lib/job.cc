@@ -44,7 +44,7 @@ using std::list;
 using std::cout;
 using std::shared_ptr;
 using boost::optional;
-using boost::function;
+using std::function;
 using namespace dcpomatic;
 
 /** @param film Associated film, or 0 */

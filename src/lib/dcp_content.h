@@ -176,7 +176,7 @@ private:
 	std::list<dcpomatic::DCPTimePeriod> reels (std::shared_ptr<const Film> film) const;
 	bool can_reference (
 		std::shared_ptr<const Film> film,
-		boost::function <bool (std::shared_ptr<const Content>)>,
+		std::function <bool (std::shared_ptr<const Content>)>,
 		std::string overlapping,
 		std::string& why_not
 		) const;

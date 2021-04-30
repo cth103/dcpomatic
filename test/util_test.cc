@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/util_test.cc
  *  @brief Test various utility methods.
  *  @ingroup selfcontained
  */
+
 
 #include "lib/util.h"
 #include "lib/cross.h"
@@ -31,14 +33,16 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/bind/bind.hpp>
 
-using std::string;
-using std::vector;
+
 using std::list;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
+
 
 BOOST_AUTO_TEST_CASE (digest_head_tail_test)
 {
@@ -61,26 +65,29 @@ BOOST_AUTO_TEST_CASE (digest_head_tail_test)
 	BOOST_CHECK_THROW (digest_head_tail (p, 1024), OpenFileError);
 }
 
+
 BOOST_AUTO_TEST_CASE (timecode_test)
 {
-	DCPTime t = DCPTime::from_seconds (2 * 60 * 60 + 4 * 60 + 31) + DCPTime::from_frames (19, 24);
+	auto t = DCPTime::from_seconds (2 * 60 * 60 + 4 * 60 + 31) + DCPTime::from_frames (19, 24);
 	BOOST_CHECK_EQUAL (t.timecode (24), "02:04:31:19");
 }
 
+
 BOOST_AUTO_TEST_CASE (seconds_to_approximate_hms_test)
 {
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1), "1s");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2), "2s");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (60), "1m");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1.5 * 60), "1m 30s");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 60), "2m");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (17 * 60 + 20), "17m");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (1 * 3600), "1h");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (3600 + 40 * 60), "1h 40m");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 3600), "2h");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (2 * 3600 - 1), "2h");
-	BOOST_CHECK_EQUAL (seconds_to_approximate_hms (13 * 3600 + 40 * 60), "14h");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(1), "1s");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(2), "2s");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(60), "1m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(1.5 * 60), "1m 30s");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(2 * 60), "2m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(17 * 60 + 20), "17m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(1 * 3600), "1h");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(3600 + 40 * 60), "1h 40m");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(2 * 3600), "2h");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(2 * 3600 - 1), "2h");
+	BOOST_CHECK_EQUAL (seconds_to_approximate_hms(13 * 3600 + 40 * 60), "14h");
 }
+
 
 BOOST_AUTO_TEST_CASE (time_to_hmsf_test)
 {
@@ -91,6 +98,7 @@ BOOST_AUTO_TEST_CASE (time_to_hmsf_test)
 	BOOST_CHECK_EQUAL (time_to_hmsf(DCPTime::from_seconds(2 * 60 * 60 + 92), 24), "2:01:32.0");
 }
 
+
 BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
 {
 	BOOST_CHECK_EQUAL (tidy_for_filename ("fish\\chips"), "fish_chips");
@@ -99,12 +107,14 @@ BOOST_AUTO_TEST_CASE (tidy_for_filename_test)
 	BOOST_CHECK_EQUAL (tidy_for_filename ("abcdefghï"), "abcdefghï");
 }
 
+
 BOOST_AUTO_TEST_CASE (utf8_strlen_test)
 {
 	BOOST_CHECK_EQUAL (utf8_strlen("hello world"), 11U);
 	BOOST_CHECK_EQUAL (utf8_strlen("hëllo world"), 11U);
 	BOOST_CHECK_EQUAL (utf8_strlen("hëłlo wørld"), 11U);
 }
+
 
 BOOST_AUTO_TEST_CASE (careful_string_filter_test)
 {
@@ -116,6 +126,7 @@ BOOST_AUTO_TEST_CASE (careful_string_filter_test)
 	BOOST_CHECK_EQUAL ("hello_world_CcGgIOoSsUu", careful_string_filter("hello_world_ÇçĞğİÖöŞşÜü"));
 }
 
+
 static list<float> progress_values;
 
 static void
@@ -123,6 +134,7 @@ progress (float p)
 {
 	progress_values.push_back (p);
 }
+
 
 BOOST_AUTO_TEST_CASE (copy_in_bits_test)
 {

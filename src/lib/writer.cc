@@ -546,7 +546,7 @@ Writer::calculate_digests ()
 		pool.create_thread (boost::bind (&boost::asio::io_service::run, &service));
 	}
 
-	boost::function<void (float)> set_progress;
+	std::function<void (float)> set_progress;
 	if (job) {
 		set_progress = boost::bind (&Writer::set_digest_progress, this, job.get(), _1);
 	} else {
@@ -948,7 +948,7 @@ Writer::set_digest_progress (Job* job, float progress)
 
 /** Calculate hashes for any referenced MXF assets which do not already have one */
 void
-Writer::calculate_referenced_digests (boost::function<void (float)> set_progress)
+Writer::calculate_referenced_digests (std::function<void (float)> set_progress)
 try
 {
 	for (auto const& i: _reel_assets) {

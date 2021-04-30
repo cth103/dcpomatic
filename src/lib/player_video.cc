@@ -41,7 +41,7 @@ using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
 using boost::optional;
-using boost::function;
+using std::function;
 using dcp::Data;
 using dcp::raw_convert;
 

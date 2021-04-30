@@ -45,7 +45,7 @@ using std::vector;
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
-using boost::function;
+using std::function;
 using namespace dcpomatic;
 
 

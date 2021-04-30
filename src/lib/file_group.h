@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,19 @@
 
 */
 
+
 /** @file  src/lib/file_group.h
  *  @brief FileGroup class.
  */
 
+
 #ifndef DCPOMATIC_FILE_GROUP_H
 #define DCPOMATIC_FILE_GROUP_H
 
+
 #include <boost/filesystem.hpp>
 #include <vector>
+
 
 /** @class FileGroup
  *  @brief A class to make a list of files behave like they were concatenated.
@@ -53,10 +57,11 @@ private:
 
 	std::vector<boost::filesystem::path> _paths;
 	/** Index of path that we are currently reading from */
-	mutable size_t _current_path;
-	mutable FILE* _current_file;
-	mutable size_t _current_size;
-	mutable int64_t _position;
+	mutable size_t _current_path = 0;
+	mutable FILE* _current_file = nullptr;
+	mutable size_t _current_size = 0;
+	mutable int64_t _position = 0;
 };
+
 
 #endif

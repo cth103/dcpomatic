@@ -22,9 +22,8 @@
 #include "suspender.h"
 
 
-Suspender::Suspender(boost::function<void (int)> handler)
+Suspender::Suspender(std::function<void (int)> handler)
 	: _handler (handler)
-	, _count (0)
 {
 
 }

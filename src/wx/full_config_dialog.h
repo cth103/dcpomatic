@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,14 @@
 
 */
 
+
 /** @file src/full_config_dialog.h
  *  @brief A dialogue to edit all DCP-o-matic configuration.
  */
 
+
 class wxPreferencesEditor;
 
+
 wxPreferencesEditor* create_full_config_dialog ();
+

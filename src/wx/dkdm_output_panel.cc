@@ -45,7 +45,7 @@ using std::list;
 using std::exception;
 using std::make_pair;
 using std::shared_ptr;
-using boost::function;
+using std::function;
 
 
 DKDMOutputPanel::DKDMOutputPanel (wxWindow* parent)

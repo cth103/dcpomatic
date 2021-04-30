@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/ffmpeg_examiner_test.cc
  *  @brief FFmpegExaminer tests
  *  @ingroup selfcontained
  */
+
 
 #include <boost/test/unit_test.hpp>
 #include "lib/ffmpeg_examiner.h"
@@ -29,22 +31,26 @@
 #include "lib/ffmpeg_audio_stream.h"
 #include "test.h"
 
+
+using std::make_shared;
 using std::shared_ptr;
 using namespace dcpomatic;
+
 
 /** Check that the FFmpegExaminer can extract the first video and audio time
  *  correctly from data/count300bd24.m2ts.
  */
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_examiner_test");
-	shared_ptr<FFmpegContent> content (new FFmpegContent ("test/data/count300bd24.m2ts"));
-	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer (content));
+	auto film = new_test_film ("ffmpeg_examiner_test");
+	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
+	auto examiner = make_shared<FFmpegExaminer>(content);
 
 	BOOST_CHECK_EQUAL (examiner->first_video().get().get(), ContentTime::from_seconds(600).get());
 	BOOST_CHECK_EQUAL (examiner->audio_streams().size(), 1U);
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[0]->first_audio.get().get(), ContentTime::from_seconds(600).get());
 }
+
 
 /** Check that audio sampling rate and channel counts are correctly picked up from
  *  a problematic file.  When we used to specify analyzeduration and probesize
@@ -52,8 +58,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
  */
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_probesize_test)
 {
-	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data() / "RockyTop10 Playlist Flat.m4v"));
-	shared_ptr<FFmpegExaminer> examiner (new FFmpegExaminer(content));
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "RockyTop10 Playlist Flat.m4v");
+	auto examiner = make_shared<FFmpegExaminer>(content);
 
 	BOOST_CHECK_EQUAL (examiner->audio_streams().size(), 2U);
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[0]->frame_rate(), 48000);

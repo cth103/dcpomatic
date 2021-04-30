@@ -37,7 +37,7 @@ using std::weak_ptr;
 using std::shared_ptr;
 using boost::bind;
 using boost::optional;
-using boost::function;
+using std::function;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

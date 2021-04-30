@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,17 @@
 
 */
 
+
 #include "types.h"
 #include "content_video.h"
 #include <boost/signals2.hpp>
 
+
 struct shuffler_test5;
 
+
 class Piece;
+
 
 class Shuffler
 {

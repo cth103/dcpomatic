@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/wx/film_editor.h
  *  @brief FilmEditor class.
  */
+
 
 #include "lib/film.h"
 #include "lib/warnings.h"
@@ -29,11 +31,13 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
+
 class wxNotebook;
 class Film;
 class ContentPanel;
 class DCPPanel;
 class FilmViewer;
+
 
 /** @class FilmEditor
  *  @brief A wx widget to edit a film's metadata, and perform various functions.

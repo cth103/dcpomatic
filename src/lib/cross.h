@@ -31,7 +31,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread/mutex.hpp>
 #include <boost/optional.hpp>
-#include <boost/function.hpp>
 
 #ifdef DCPOMATIC_WINDOWS
 #define WEXITSTATUS(w) (w)

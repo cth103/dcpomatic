@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "rgba.h"
 #include "warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
@@ -25,25 +26,29 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/lexical_cast.hpp>
 
+
 using std::string;
 using boost::lexical_cast;
 
+
 RGBA::RGBA (cxml::ConstNodePtr node)
 {
-	r = node->number_child<int> ("R");
-	g = node->number_child<int> ("G");
-	b = node->number_child<int> ("B");
-	a = node->number_child<int> ("A");
+	r = node->number_child<int>("R");
+	g = node->number_child<int>("G");
+	b = node->number_child<int>("B");
+	a = node->number_child<int>("A");
 }
+
 
 void
 RGBA::as_xml (xmlpp::Node* parent) const
 {
-	parent->add_child("R")->add_child_text (lexical_cast<string> (int (r)));
-	parent->add_child("G")->add_child_text (lexical_cast<string> (int (g)));
-	parent->add_child("B")->add_child_text (lexical_cast<string> (int (b)));
-	parent->add_child("A")->add_child_text (lexical_cast<string> (int (a)));
+	parent->add_child("R")->add_child_text(lexical_cast<string>(int(r)));
+	parent->add_child("G")->add_child_text(lexical_cast<string>(int(g)));
+	parent->add_child("B")->add_child_text(lexical_cast<string>(int(b)));
+	parent->add_child("A")->add_child_text(lexical_cast<string>(int(a)));
 }
+
 
 bool
 RGBA::operator< (RGBA const & other) const

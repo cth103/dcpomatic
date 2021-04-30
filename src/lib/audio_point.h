@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,18 @@
 
 */
 
+
 #ifndef DCPOMATIC_AUDIO_POINT_H
 #define DCPOMATIC_AUDIO_POINT_H
 
+
 #include <libcxml/cxml.h>
+
 
 namespace xmlpp {
 	class Element;
 }
+
 
 class AudioPoint
 {
@@ -50,5 +54,6 @@ public:
 private:
 	float _data[COUNT];
 };
+
 
 #endif

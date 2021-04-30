@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/wx/film_editor.cc
  *  @brief FilmEditor class.
  */
+
 
 #include "wx_util.h"
 #include "film_editor.h"
@@ -34,6 +36,7 @@
 #include <wx/notebook.h>
 #include <iostream>
 
+
 using std::cout;
 using std::string;
 using std::list;
@@ -44,10 +47,11 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 
+
 FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent)
 {
-	wxBoxSizer* s = new wxBoxSizer (wxVERTICAL);
+	auto s = new wxBoxSizer (wxVERTICAL);
 
 	_main_notebook = new wxNotebook (this, wxID_ANY);
 	s->Add (_main_notebook, 1);
@@ -58,7 +62,7 @@ FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
 
 	JobManager::instance()->ActiveJobsChanged.connect (
-		bind (&FilmEditor::active_jobs_changed, this, _2)
+		bind(&FilmEditor::active_jobs_changed, this, _2)
 		);
 
 	set_film (shared_ptr<Film> ());
@@ -92,6 +96,7 @@ FilmEditor::film_change (ChangeType type, Film::Property p)
 	}
 }
 
+
 void
 FilmEditor::film_content_change (ChangeType type, int property)
 {
@@ -112,11 +117,12 @@ FilmEditor::film_content_change (ChangeType type, int property)
 	_dcp_panel->film_content_changed (property);
 }
 
+
 /** Sets the Film that we are editing */
 void
 FilmEditor::set_film (shared_ptr<Film> film)
 {
-	set_general_sensitivity (film != 0);
+	set_general_sensitivity (film != nullptr);
 
 	if (_film == film) {
 		return;
@@ -132,8 +138,8 @@ FilmEditor::set_film (shared_ptr<Film> film)
 		return;
 	}
 
-	_film->Change.connect (bind (&FilmEditor::film_change, this, _1, _2));
-	_film->ContentChange.connect (bind (&FilmEditor::film_content_change, this, _1, _3));
+	_film->Change.connect (bind(&FilmEditor::film_change, this, _1, _2));
+	_film->ContentChange.connect (bind(&FilmEditor::film_content_change, this, _1, _3));
 
 	if (_film->directory()) {
 		FileChanged (_film->directory().get());
@@ -142,9 +148,10 @@ FilmEditor::set_film (shared_ptr<Film> film)
 	}
 
 	if (!_film->content().empty()) {
-		_content_panel->set_selection (_film->content().front ());
+		_content_panel->set_selection (_film->content().front());
 	}
 }
+
 
 void
 FilmEditor::set_general_sensitivity (bool s)
@@ -152,6 +159,7 @@ FilmEditor::set_general_sensitivity (bool s)
 	_content_panel->set_general_sensitivity (s);
 	_dcp_panel->set_general_sensitivity (s);
 }
+
 
 void
 FilmEditor::active_jobs_changed (optional<string> j)

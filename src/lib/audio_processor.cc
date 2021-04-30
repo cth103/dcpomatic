@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,40 +18,46 @@
 
 */
 
+
 #include "audio_processor.h"
+#include "config.h"
 #include "mid_side_decoder.h"
 #include "upmixer_a.h"
 #include "upmixer_b.h"
-#include "config.h"
+
 
 using std::string;
 using std::list;
 
+
 list<AudioProcessor const *> AudioProcessor::_all;
 list<AudioProcessor const *> AudioProcessor::_non_experimental;
+
 
 void
 AudioProcessor::setup_audio_processors ()
 {
-	AudioProcessor* mid_side = new MidSideDecoder ();
+	auto mid_side = new MidSideDecoder ();
 	_all.push_back (mid_side);
 	_non_experimental.push_back (mid_side);
 
-	_all.push_back (new UpmixerA (48000));
-	_all.push_back (new UpmixerB (48000));
+	_all.push_back (new UpmixerA(48000));
+	_all.push_back (new UpmixerB(48000));
 }
+
 
 AudioProcessor const *
 AudioProcessor::from_id (string id)
 {
-	for (list<AudioProcessor const *>::const_iterator i = _all.begin(); i != _all.end(); ++i) {
-		if ((*i)->id() == id) {
-			return *i;
+	for (auto i: _all) {
+		if (i->id() == id) {
+			return i;
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
+
 
 list<AudioProcessor const *>
 AudioProcessor::visible ()
@@ -62,6 +68,7 @@ AudioProcessor::visible ()
 
 	return _non_experimental;
 }
+
 
 list<AudioProcessor const *>
 AudioProcessor::all ()

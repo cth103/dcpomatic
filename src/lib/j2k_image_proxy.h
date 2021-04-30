@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,18 @@
 
 */
 
+
 #include "image_proxy.h"
 #include <dcp/array_data.h>
 #include <dcp/util.h>
 #include <boost/thread/mutex.hpp>
 
+
 namespace dcp {
 	class MonoPictureFrame;
 	class StereoPictureFrame;
 }
+
 
 class J2KImageProxy : public ImageProxy
 {

@@ -49,7 +49,7 @@ using std::list;
 using std::exception;
 using std::make_pair;
 using std::shared_ptr;
-using boost::function;
+using std::function;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

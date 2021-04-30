@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,19 @@
 
 */
 
+
 #ifndef DCPOMATIC_DECODER_PART_H
 #define DCPOMATIC_DECODER_PART_H
+
 
 #include "dcpomatic_time.h"
 #include <boost/optional.hpp>
 
+
 class Decoder;
 class Log;
 class Film;
+
 
 class DecoderPart
 {
@@ -51,5 +55,6 @@ protected:
 private:
 	bool _ignore;
 };
+
 
 #endif

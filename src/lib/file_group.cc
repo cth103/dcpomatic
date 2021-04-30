@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,50 +18,48 @@
 
 */
 
+
 /** @file  src/lib/file_group.cc
  *  @brief FileGroup class.
  */
 
-#include "file_group.h"
-#include "exceptions.h"
-#include "cross.h"
+
 #include "compose.hpp"
+#include "cross.h"
 #include "dcpomatic_assert.h"
+#include "exceptions.h"
+#include "file_group.h"
 #include <sndfile.h>
 #include <cstdio>
 
+
 using std::vector;
+
 
 /** Construct a FileGroup with no files */
 FileGroup::FileGroup ()
-	: _current_path (0)
-	, _current_file (0)
-	, _current_size (0)
-	, _position (0)
 {
 
 }
 
+
 /** Construct a FileGroup with a single file */
 FileGroup::FileGroup (boost::filesystem::path p)
-	: _current_path (0)
-	, _current_file (0)
-	, _current_size (0)
 {
 	_paths.push_back (p);
 	ensure_open_path (0);
 	seek (0, SEEK_SET);
 }
 
+
 /** Construct a FileGroup with multiple files */
 FileGroup::FileGroup (vector<boost::filesystem::path> const & p)
 	: _paths (p)
-	, _current_path (0)
-	, _current_file (0)
 {
 	ensure_open_path (0);
 	seek (0, SEEK_SET);
 }
+
 
 /** Destroy a FileGroup, closing any open file */
 FileGroup::~FileGroup ()
@@ -71,6 +69,7 @@ FileGroup::~FileGroup ()
 	}
 }
 
+
 void
 FileGroup::set_paths (vector<boost::filesystem::path> const & p)
 {
@@ -78,6 +77,7 @@ FileGroup::set_paths (vector<boost::filesystem::path> const & p)
 	ensure_open_path (0);
 	seek (0, SEEK_SET);
 }
+
 
 /** Ensure that the given path index in the content is the _current_file */
 void
@@ -94,11 +94,12 @@ FileGroup::ensure_open_path (size_t p) const
 
 	_current_path = p;
 	_current_file = fopen_boost (_paths[_current_path], "rb");
-	if (_current_file == 0) {
+	if (!_current_file) {
 		throw OpenFileError (_paths[_current_path], errno, OpenFileError::READ);
 	}
 	_current_size = boost::filesystem::file_size (_paths[_current_path]);
 }
+
 
 int64_t
 FileGroup::seek (int64_t pos, int whence) const
@@ -137,6 +138,7 @@ FileGroup::seek (int64_t pos, int whence) const
 
 	return _position;
 }
+
 
 /** Try to read some data from the current position into a buffer.
  *  @param buffer Buffer to write data into.
@@ -194,6 +196,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 
 	return read;
 }
+
 
 /** @return Combined length of all the files */
 int64_t

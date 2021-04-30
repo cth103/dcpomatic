@@ -27,8 +27,6 @@
 #include "config.h"
 #include "dcpomatic_log.h"
 #include "emailer.h"
-#include <boost/function.hpp>
-#include <boost/function.hpp>
 
 #include "i18n.h"
 
@@ -38,7 +36,7 @@ using std::cout;
 using std::list;
 using std::shared_ptr;
 using boost::optional;
-using boost::function;
+using std::function;
 
 
 int
@@ -46,7 +44,7 @@ write_files (
 	list<KDMWithMetadataPtr> kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat name_format,
-	boost::function<bool (boost::filesystem::path)> confirm_overwrite
+	std::function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
 	int written = 0;

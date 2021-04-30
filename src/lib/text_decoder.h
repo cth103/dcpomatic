@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_CAPTION_DECODER_H
 #define DCPOMATIC_CAPTION_DECODER_H
+
 
 #include "decoder.h"
 #include "rect.h"
@@ -29,11 +31,13 @@
 #include <dcp/subtitle_string.h>
 #include <boost/signals2.hpp>
 
+
 namespace sub {
 	class Subtitle;
 }
 
 class Image;
+
 
 class TextDecoder : public DecoderPart
 {
@@ -70,5 +74,6 @@ private:
 	std::shared_ptr<const TextContent> _content;
 	boost::optional<dcpomatic::ContentTime> _position;
 };
+
 
 #endif

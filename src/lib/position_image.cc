@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,10 @@
 
 */
 
+
 #include "position_image.h"
 #include "image.h"
-#include <iostream>
 
-using std::cout;
 
 bool
 PositionImage::same (PositionImage const & other) const

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
+
 /** @file  src/lib/upmixer_b.h
  *  @brief UpmixerB class.
  */
 
+
 #include "audio_processor.h"
 #include "audio_filter.h"
 #include "audio_delay.h"
+
 
 class UpmixerB : public AudioProcessor
 {
@@ -44,3 +47,4 @@ private:
 	LowPassAudioFilter _lfe;
 	AudioDelay _delay;
 };
+

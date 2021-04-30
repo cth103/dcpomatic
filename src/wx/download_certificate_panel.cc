@@ -19,19 +19,18 @@
 */
 
 
-#include "wx_util.h"
-#include "download_certificate_panel.h"
 #include "download_certificate_dialog.h"
-#include "lib/signal_manager.h"
+#include "download_certificate_panel.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
-#include <dcp/util.h>
+#include "lib/signal_manager.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
+#include <dcp/util.h>
 #include <boost/bind/bind.hpp>
 
 
 using std::string;
-using boost::function;
 using boost::optional;
 
 

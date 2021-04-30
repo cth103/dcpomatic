@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
-#include "state.h"
+
 #include "signaller.h"
+#include "state.h"
 #include <boost/signals2.hpp>
+
 
 class Analytics : public State, public Signaller
 {
@@ -37,7 +39,7 @@ public:
 	static Analytics* instance ();
 
 private:
-	int _successful_dcp_encodes;
+	int _successful_dcp_encodes = 0;
 
 	static Analytics* _instance;
 	static int const _current_version;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "scoped_temporary.h"
 #include "compose.hpp"
 #include "exceptions.h"
@@ -25,7 +26,6 @@
 #include "util.h"
 #include <curl/curl.h>
 #include <zip.h>
-#include <boost/function.hpp>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
@@ -33,11 +33,13 @@
 
 #include "i18n.h"
 
-using std::string;
+
+using std::function;
 using std::list;
+using std::string;
 using boost::optional;
-using boost::function;
 using boost::algorithm::trim;
+
 
 static size_t
 ls_url_data (void* buffer, size_t size, size_t nmemb, void* output)
@@ -50,17 +52,18 @@ ls_url_data (void* buffer, size_t size, size_t nmemb, void* output)
 	return nmemb;
 }
 
+
 list<string>
 ls_url (string url)
 {
-	CURL* curl = curl_easy_init ();
+	auto curl = curl_easy_init ();
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
 	curl_easy_setopt (curl, CURLOPT_DIRLISTONLY, 1);
 
 	string ls;
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, ls_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, &ls);
-	CURLcode const cr = curl_easy_perform (curl);
+	auto const cr = curl_easy_perform (curl);
 
 	if (cr != CURLE_OK) {
 		return list<string>();
@@ -80,20 +83,22 @@ ls_url (string url)
 	return result;
 }
 
+
 static size_t
 get_from_url_data (void* buffer, size_t size, size_t nmemb, void* stream)
 {
-	FILE* f = reinterpret_cast<FILE*> (stream);
+	auto f = reinterpret_cast<FILE*> (stream);
 	return fwrite (buffer, size, nmemb, f);
 }
+
 
 optional<string>
 get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 {
-	CURL* curl = curl_easy_init ();
+	auto curl = curl_easy_init ();
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
 
-	FILE* f = temp.open ("wb");
+	auto f = temp.open ("wb");
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_url_data);
 	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
@@ -124,7 +129,7 @@ optional<string>
 get_from_url (string url, bool pasv, bool skip_pasv_ip, function<optional<string> (boost::filesystem::path)> load)
 {
 	ScopedTemporary temp;
-	optional<string> e = get_from_url (url, pasv, skip_pasv_ip, temp);
+	auto e = get_from_url (url, pasv, skip_pasv_ip, temp);
 	if (e) {
 		return e;
 	}
@@ -141,7 +146,7 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 {
 	/* Download the ZIP file to temp_zip */
 	ScopedTemporary temp_zip;
-	optional<string> e = get_from_url (url, pasv, skip_pasv_ip, temp_zip);
+	auto e = get_from_url (url, pasv, skip_pasv_ip, temp_zip);
 	if (e) {
 		return e;
 	}
@@ -154,19 +159,19 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 	   Centos 6, Centos 7, Debian 7 and Debian 8.
 	*/
 
-	FILE* zip_file = fopen_boost (temp_zip.file (), "rb");
+	auto zip_file = fopen_boost (temp_zip.file (), "rb");
 	if (!zip_file) {
 		return optional<string> (_("Could not open downloaded ZIP file"));
 	}
 
-	zip_source_t* zip_source = zip_source_filep_create (zip_file, 0, -1, 0);
+	auto zip_source = zip_source_filep_create (zip_file, 0, -1, 0);
 	if (!zip_source) {
 		return optional<string> (_("Could not open downloaded ZIP file"));
 	}
 
 	zip_error_t error;
 	zip_error_init (&error);
-	zip_t* zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
+	auto zip = zip_open_from_source (zip_source, ZIP_RDONLY, &error);
 	if (!zip) {
 		return String::compose (_("Could not open downloaded ZIP file (%1:%2: %3)"), error.zip_err, error.sys_err, error.str ? error.str : "");
 	}
@@ -181,7 +186,7 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 	}
 
 	ScopedTemporary temp_cert;
-	FILE* f = temp_cert.open ("wb");
+	auto f = temp_cert.open ("wb");
 	char buffer[4096];
 	while (true) {
 		int const N = zip_fread (file_in_zip, buffer, sizeof (buffer));

@@ -36,7 +36,7 @@ using std::make_shared;
 using boost::bind;
 using boost::optional;
 using std::shared_ptr;
-using boost::function;
+using std::function;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

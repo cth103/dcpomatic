@@ -33,7 +33,6 @@
 #include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/bind/bind.hpp>
-#include <boost/function.hpp>
 #include <boost/signals2.hpp>
 #include <iostream>
 

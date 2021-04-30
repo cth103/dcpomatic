@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "j2k_image_proxy.h"
 #include "dcpomatic_socket.h"
@@ -38,16 +39,19 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
+using std::dynamic_pointer_cast;
+using std::make_pair;
+using std::make_shared;
 using std::max;
 using std::pair;
-using std::make_pair;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
-using std::dynamic_pointer_cast;
 using dcp::ArrayData;
 using dcp::raw_convert;
+
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
 J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPixelFormat pixel_format)
@@ -100,9 +104,9 @@ J2KImageProxy::J2KImageProxy (
 J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 	: _error (false)
 {
-	_size = dcp::Size (xml->number_child<int> ("Width"), xml->number_child<int> ("Height"));
-	if (xml->optional_number_child<int> ("Eye")) {
-		_eye = static_cast<dcp::Eye> (xml->number_child<int> ("Eye"));
+	_size = dcp::Size (xml->number_child<int>("Width"), xml->number_child<int>("Height"));
+	if (xml->optional_number_child<int>("Eye")) {
+		_eye = static_cast<dcp::Eye>(xml->number_child<int>("Eye"));
 	}
 	shared_ptr<ArrayData> data(new ArrayData(xml->number_child<int>("Size")));
 	/* This only matters when we are using J2KImageProxy for the preview, which
@@ -113,6 +117,7 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	socket->read (data->data(), data->size());
 	_data = data;
 }
+
 
 int
 J2KImageProxy::prepare (optional<dcp::Size> target_size) const
@@ -139,7 +144,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 
 	try {
 		/* XXX: should check that potentially trashing _data here doesn't matter */
-		shared_ptr<dcp::OpenJPEGImage> decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
+		auto decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
 		_image.reset (new Image (_pixel_format, decompressed->size(), true));
 
 		int const shift = 16 - decompressed->precision (0);
@@ -155,7 +160,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 		int* decomp_1 = decompressed->data (1);
 		int* decomp_2 = decompressed->data (2);
 		for (int y = 0; y < decompressed->size().height; ++y) {
-			uint16_t* q = (uint16_t *) (_image->data()[0] + y * _image->stride()[0]);
+			auto q = reinterpret_cast<uint16_t *>(_image->data()[0] + y * _image->stride()[0]);
 			for (int x = 0; x < width; ++x) {
 				*q++ = decomp_0[p] << shift;
 				*q++ = decomp_1[p] << shift;
@@ -164,7 +169,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 			}
 		}
 	} catch (dcp::J2KDecompressionError& e) {
-		_image.reset (new Image (_pixel_format, _size, true));
+		_image = make_shared<Image>(_pixel_format, _size, true);
 		_image->make_black ();
 		_error = true;
 	}
@@ -191,14 +196,15 @@ J2KImageProxy::image (optional<dcp::Size> target_size) const
 void
 J2KImageProxy::add_metadata (xmlpp::Node* node) const
 {
-	node->add_child("Type")->add_child_text (N_("J2K"));
-	node->add_child("Width")->add_child_text (raw_convert<string> (_size.width));
-	node->add_child("Height")->add_child_text (raw_convert<string> (_size.height));
+	node->add_child("Type")->add_child_text(N_("J2K"));
+	node->add_child("Width")->add_child_text(raw_convert<string>(_size.width));
+	node->add_child("Height")->add_child_text(raw_convert<string>(_size.height));
 	if (_eye) {
-		node->add_child("Eye")->add_child_text (raw_convert<string> (static_cast<int> (_eye.get ())));
+		node->add_child("Eye")->add_child_text(raw_convert<string>(static_cast<int>(_eye.get())));
 	}
-	node->add_child("Size")->add_child_text (raw_convert<string>(_data->size()));
+	node->add_child("Size")->add_child_text(raw_convert<string>(_data->size()));
 }
+
 
 void
 J2KImageProxy::write_to_socket (shared_ptr<Socket> socket) const
@@ -206,16 +212,18 @@ J2KImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 	socket->write (_data->data(), _data->size());
 }
 
+
 bool
 J2KImageProxy::same (shared_ptr<const ImageProxy> other) const
 {
-	shared_ptr<const J2KImageProxy> jp = dynamic_pointer_cast<const J2KImageProxy> (other);
+	auto jp = dynamic_pointer_cast<const J2KImageProxy>(other);
 	if (!jp) {
 		return false;
 	}
 
 	return *_data == *jp->_data;
 }
+
 
 J2KImageProxy::J2KImageProxy (ArrayData data, dcp::Size size, AVPixelFormat pixel_format)
 	: _data (new ArrayData(data))
@@ -226,6 +234,7 @@ J2KImageProxy::J2KImageProxy (ArrayData data, dcp::Size size, AVPixelFormat pixe
 	/* ::image assumes 16bpp */
 	DCPOMATIC_ASSERT (_pixel_format == AV_PIX_FMT_RGB48 || _pixel_format == AV_PIX_FMT_XYZ12LE);
 }
+
 
 size_t
 J2KImageProxy::memory_used () const

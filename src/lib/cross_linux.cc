@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,20 @@
 
 */
 
-#include "cross.h"
+
 #include "compose.hpp"
-#include "log.h"
-#include "dcpomatic_log.h"
 #include "config.h"
-#include "exceptions.h"
+#include "cross.h"
 #include "dcpomatic_log.h"
+#include "dcpomatic_log.h"
+#include "exceptions.h"
+#include "log.h"
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
 #include <libavformat/avio.h>
 }
 #include <boost/algorithm/string.hpp>
-#include <boost/function.hpp>
 #if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>
 #endif
@@ -46,19 +46,21 @@ extern "C" {
 
 #include "i18n.h"
 
-using std::pair;
-using std::list;
-using std::ifstream;
-using std::string;
-using std::wstring;
-using std::make_pair;
-using std::vector;
+
 using std::cerr;
 using std::cout;
+using std::function;
+using std::ifstream;
+using std::list;
+using std::make_pair;
+using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::wstring;
 using boost::optional;
-using boost::function;
+
 
 /** @param s Number of seconds to sleep for */
 void
@@ -67,11 +69,13 @@ dcpomatic_sleep_seconds (int s)
 	sleep (s);
 }
 
+
 void
 dcpomatic_sleep_milliseconds (int ms)
 {
 	usleep (ms * 1000);
 }
+
 
 /** @return A string of CPU information (model name etc.) */
 string
@@ -96,6 +100,7 @@ cpu_info ()
 
 	return info;
 }
+
 
 boost::filesystem::path
 resources_path ()
@@ -135,12 +140,13 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 	}
 }
 
-list<pair<string, string> >
+
+list<pair<string, string>>
 mount_info ()
 {
-	list<pair<string, string> > m;
+	list<pair<string, string>> m;
 
-	FILE* f = setmntent ("/etc/mtab", "r");
+	auto f = setmntent ("/etc/mtab", "r");
 	if (!f) {
 		return m;
 	}
@@ -176,7 +182,7 @@ directory_containing_executable ()
 boost::filesystem::path
 openssl_path ()
 {
-	boost::filesystem::path p = directory_containing_executable() / "dcpomatic2_openssl";
+	auto p = directory_containing_executable() / "dcpomatic2_openssl";
 	if (boost::filesystem::is_regular_file(p)) {
 		return p;
 	}
@@ -201,8 +207,9 @@ disk_writer_path ()
 FILE *
 fopen_boost (boost::filesystem::path p, string t)
 {
-        return fopen (p.c_str(), t.c_str ());
+        return fopen(p.c_str(), t.c_str());
 }
+
 
 int
 dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
@@ -210,16 +217,19 @@ dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
 	return fseek (stream, offset, whence);
 }
 
+
 void
 Waker::nudge ()
 {
 
 }
 
+
 Waker::Waker ()
 {
 
 }
+
 
 Waker::~Waker ()
 {
@@ -230,7 +240,7 @@ Waker::~Waker ()
 void
 start_tool (string executable)
 {
-	boost::filesystem::path batch = directory_containing_executable() / executable;
+	auto batch = directory_containing_executable() / executable;
 
 	pid_t pid = fork ();
 	if (pid == 0) {
@@ -260,6 +270,7 @@ thread_id ()
 	return (uint64_t) pthread_self ();
 }
 
+
 int
 avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
 {
@@ -273,6 +284,7 @@ home_directory ()
 	return getenv("HOME");
 }
 
+
 /** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
 bool
 running_32_on_64 ()
@@ -283,10 +295,10 @@ running_32_on_64 ()
 
 
 static
-vector<pair<string, string> >
+vector<pair<string, string>>
 get_mounts (string prefix)
 {
-	vector<pair<string, string> > mounts;
+	vector<pair<string, string>> mounts;
 
 	std::ifstream f("/proc/mounts");
 	string line;
@@ -382,12 +394,14 @@ unprivileged ()
 
 bool PrivilegeEscalator::test = false;
 
+
 PrivilegeEscalator::~PrivilegeEscalator ()
 {
 	if (!test) {
 		unprivileged ();
 	}
 }
+
 
 PrivilegeEscalator::PrivilegeEscalator ()
 {
@@ -398,6 +412,7 @@ PrivilegeEscalator::PrivilegeEscalator ()
 		}
 	}
 }
+
 
 boost::filesystem::path
 config_path ()
@@ -414,6 +429,7 @@ disk_write_finished ()
 {
 
 }
+
 
 string
 dcpomatic::get_process_id ()

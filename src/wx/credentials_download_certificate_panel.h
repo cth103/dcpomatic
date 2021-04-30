@@ -22,7 +22,6 @@
 #define CREDENTIALS_DOWNLOAD_CERTIFICATE_PANEL_H
 
 #include "download_certificate_panel.h"
-#include <boost/function.hpp>
 
 class PasswordEntry;
 
@@ -31,12 +30,12 @@ class CredentialsDownloadCertificatePanel : public DownloadCertificatePanel
 public:
 	CredentialsDownloadCertificatePanel (
 			DownloadCertificateDialog* dialog,
-			boost::function<boost::optional<std::string> ()> get_username,
-			boost::function<void (std::string)> set_username,
-			boost::function<void ()> unset_username,
-			boost::function<boost::optional<std::string> ()> get_password,
-			boost::function<void (std::string)> set_password,
-			boost::function<void ()> unset_password
+			std::function<boost::optional<std::string> ()> get_username,
+			std::function<void (std::string)> set_username,
+			std::function<void ()> unset_username,
+			std::function<boost::optional<std::string> ()> get_password,
+			std::function<void (std::string)> set_password,
+			std::function<void ()> unset_password
 			);
 
 	virtual bool ready_to_download () const;
@@ -45,12 +44,12 @@ private:
 	void username_changed ();
 	void password_changed ();
 
-	boost::function<boost::optional<std::string> (void)> _get_username;
-	boost::function<void (std::string)> _set_username;
-	boost::function<void ()> _unset_username;
-	boost::function<boost::optional<std::string> (void)> _get_password;
-	boost::function<void (std::string)> _set_password;
-	boost::function<void ()> _unset_password;
+	std::function<boost::optional<std::string> (void)> _get_username;
+	std::function<void (std::string)> _set_username;
+	std::function<void ()> _unset_username;
+	std::function<boost::optional<std::string> (void)> _get_password;
+	std::function<void (std::string)> _set_password;
+	std::function<void ()> _unset_password;
 
 	wxTextCtrl* _username;
 	PasswordEntry* _password;

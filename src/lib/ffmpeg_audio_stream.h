@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
-#include "ffmpeg_stream.h"
+
 #include "audio_stream.h"
 #include "dcpomatic_time.h"
+#include "ffmpeg_stream.h"
+
 
 struct ffmpeg_pts_offset_test;
+
 
 class FFmpegAudioStream : public FFmpegStream, public AudioStream
 {
@@ -61,3 +64,4 @@ private:
 		, AudioStream (0, 0, 0)
 	{}
 };
+

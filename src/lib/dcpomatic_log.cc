@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #include "dcpomatic_log.h"
 #include "null_log.h"
+
 
 /** The current log; set up by the front-ends when they have a Film to log into */
 std::shared_ptr<Log> dcpomatic_log (new NullLog());

@@ -23,7 +23,7 @@
 #include "content.h"
 
 using std::shared_ptr;
-using boost::function;
+using std::function;
 using namespace dcpomatic;
 
 ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)

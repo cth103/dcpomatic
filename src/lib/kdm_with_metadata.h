@@ -75,7 +75,7 @@ typedef std::shared_ptr<KDMWithMetadata> KDMWithMetadataPtr;
 
 int write_files (
 	std::list<KDMWithMetadataPtr> screen_kdms, boost::filesystem::path directory,
-	dcp::NameFormat name_format, boost::function<bool (boost::filesystem::path)> confirm_overwrite
+	dcp::NameFormat name_format, std::function<bool (boost::filesystem::path)> confirm_overwrite
 	);
 
 
@@ -90,7 +90,7 @@ int write_directories (
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		boost::function<bool (boost::filesystem::path)> confirm_overwrite
+		std::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
 
@@ -99,7 +99,7 @@ int write_zip_files (
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		boost::function<bool (boost::filesystem::path)> confirm_overwrite
+		std::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
 

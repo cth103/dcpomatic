@@ -34,13 +34,13 @@
 
 
 using std::dynamic_pointer_cast;
+using std::function;
 using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
 using boost::bind;
-using boost::function;
 using boost::optional;
 
 

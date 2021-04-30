@@ -113,9 +113,9 @@ public:
 		wxWindow* parent,
 		wxString title,
 		int border,
-		boost::function<void (std::shared_ptr<dcp::CertificateChain>)> set,
-		boost::function<std::shared_ptr<const dcp::CertificateChain> (void)> get,
-		boost::function<bool (void)> nag_alter
+		std::function<void (std::shared_ptr<dcp::CertificateChain>)> set,
+		std::function<std::shared_ptr<const dcp::CertificateChain> (void)> get,
+		std::function<bool (void)> nag_alter
 		);
 
 	void add_button (wxWindow* button);
@@ -144,9 +144,9 @@ private:
 	wxStaticText* _private_key_bad;
 	wxSizer* _sizer;
 	wxBoxSizer* _button_sizer;
-	boost::function<void (std::shared_ptr<dcp::CertificateChain>)> _set;
-	boost::function<std::shared_ptr<const dcp::CertificateChain> (void)> _get;
-	boost::function<bool (void)> _nag_alter;
+	std::function<void (std::shared_ptr<dcp::CertificateChain>)> _set;
+	std::function<std::shared_ptr<const dcp::CertificateChain> (void)> _get;
+	std::function<bool (void)> _nag_alter;
 };
 
 class KeysPage : public Page

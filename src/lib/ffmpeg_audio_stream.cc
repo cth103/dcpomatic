@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "ffmpeg_audio_stream.h"
 #include <dcp/raw_convert.h>
 #include "warnings.h"
@@ -26,37 +27,40 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 
+
 using std::string;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 	: FFmpegStream (node)
 	, AudioStream (
-		node->number_child<int> ("FrameRate"),
-		node->optional_number_child<Frame>("Length").get_value_or (0),
-		AudioMapping (node->node_child ("Mapping"), version)
+		node->number_child<int>("FrameRate"),
+		node->optional_number_child<Frame>("Length").get_value_or(0),
+		AudioMapping (node->node_child("Mapping"), version)
 		)
 {
-	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type> ("FirstAudio");
+	optional<ContentTime::Type> const f = node->optional_number_child<ContentTime::Type>("FirstAudio");
 	if (f) {
-		first_audio = ContentTime (f.get ());
+		first_audio = ContentTime(f.get());
 	}
 	codec_name = node->optional_string_child("CodecName");
 }
+
 
 void
 FFmpegAudioStream::as_xml (xmlpp::Node* root) const
 {
 	FFmpegStream::as_xml (root);
-	root->add_child("FrameRate")->add_child_text (raw_convert<string> (frame_rate ()));
-	root->add_child("Length")->add_child_text (raw_convert<string> (length ()));
+	root->add_child("FrameRate")->add_child_text(raw_convert<string>(frame_rate()));
+	root->add_child("Length")->add_child_text(raw_convert<string>(length()));
 	mapping().as_xml (root->add_child("Mapping"));
 	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text (raw_convert<string> (first_audio.get().get ()));
+		root->add_child("FirstAudio")->add_child_text(raw_convert<string>(first_audio.get().get()));
 	}
 	if (codec_name) {
-		root->add_child("CodecName")->add_child_text (codec_name.get());
+		root->add_child("CodecName")->add_child_text(codec_name.get());
 	}
 }

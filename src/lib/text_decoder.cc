@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "text_decoder.h"
 #include "text_content.h"
 #include "util.h"
@@ -27,6 +28,7 @@
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
+
 using std::list;
 using std::cout;
 using std::string;
@@ -34,8 +36,9 @@ using std::min;
 using std::max;
 using std::shared_ptr;
 using boost::optional;
-using boost::function;
+using std::function;
 using namespace dcpomatic;
+
 
 TextDecoder::TextDecoder (
 	Decoder* parent,
@@ -48,6 +51,7 @@ TextDecoder::TextDecoder (
 {
 
 }
+
 
 /** Called by subclasses when an image subtitle is starting.
  *  @param from From time of the subtitle.
@@ -62,6 +66,7 @@ TextDecoder::emit_bitmap_start (ContentTime from, shared_ptr<Image> image, dcpom
 	BitmapStart (ContentBitmapText (from, image, rect));
 	_position = from;
 }
+
 
 void
 TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
@@ -96,6 +101,7 @@ TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
 	PlainStart (ContentStringText (from, s));
 	_position = from;
 }
+
 
 void
 TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
@@ -250,11 +256,13 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	emit_plain_start (from, out);
 }
 
+
 void
 TextDecoder::emit_stop (ContentTime to)
 {
 	Stop (to);
 }
+
 
 void
 TextDecoder::emit_plain (ContentTimePeriod period, list<dcp::SubtitleString> s)
@@ -263,12 +271,14 @@ TextDecoder::emit_plain (ContentTimePeriod period, list<dcp::SubtitleString> s)
 	emit_stop (period.to);
 }
 
+
 void
 TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const & s)
 {
 	emit_plain_start (period.from, s);
 	emit_stop (period.to);
 }
+
 
 /*  @param rect Area expressed as a fraction of the video frame that this subtitle
  *  is for (e.g. a width of 0.5 means the width of the subtitle is half the width
@@ -280,6 +290,7 @@ TextDecoder::emit_bitmap (ContentTimePeriod period, shared_ptr<Image> image, dcp
 	emit_bitmap_start (period.from, image, rect);
 	emit_stop (period.to);
 }
+
 
 void
 TextDecoder::seek ()

@@ -24,7 +24,7 @@
 #include "wx_util.h"
 
 using std::string;
-using boost::function;
+using std::function;
 using boost::optional;
 
 CredentialsDownloadCertificatePanel::CredentialsDownloadCertificatePanel (

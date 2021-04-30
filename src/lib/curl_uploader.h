@@ -24,7 +24,7 @@
 class CurlUploader : public Uploader
 {
 public:
-	CurlUploader (boost::function<void (std::string)> set_status, boost::function<void (float)> set_progress);
+	CurlUploader (std::function<void (std::string)> set_status, std::function<void (float)> set_progress);
 	~CurlUploader ();
 
 	size_t read_callback (void* ptr, size_t size, size_t nmemb);

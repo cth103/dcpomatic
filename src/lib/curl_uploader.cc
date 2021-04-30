@@ -29,7 +29,7 @@
 
 using std::string;
 using std::cout;
-using boost::function;
+using std::function;
 
 static size_t
 read_callback (void* ptr, size_t size, size_t nmemb, void* object)
