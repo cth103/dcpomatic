@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/lib/filter_graph.cc
  *  @brief A graph of FFmpeg filters.
  */
+
 
 #include "filter_graph.h"
 #include "filter.h"
@@ -36,6 +38,7 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using std::string;
 using std::list;
 using std::pair;
@@ -45,6 +48,7 @@ using std::vector;
 using std::shared_ptr;
 using std::weak_ptr;
 using dcp::Size;
+
 
 /** Construct a FilterGraph for the settings in a piece of content */
 FilterGraph::FilterGraph ()
@@ -73,12 +77,12 @@ FilterGraph::setup (vector<Filter const *> filters)
 		throw DecodeError (N_("could not create filter graph."));
 	}
 
-	AVFilter const * buffer_src = avfilter_get_by_name (src_name().c_str());
+	auto const buffer_src = avfilter_get_by_name (src_name().c_str());
 	if (!buffer_src) {
 		throw DecodeError (N_("could not find buffer src filter"));
 	}
 
-	AVFilter const * buffer_sink = avfilter_get_by_name (sink_name().c_str());
+	auto const buffer_sink = avfilter_get_by_name (sink_name().c_str());
 	if (!buffer_sink) {
 		throw DecodeError (N_("Could not create buffer sink filter"));
 	}
@@ -87,21 +91,19 @@ FilterGraph::setup (vector<Filter const *> filters)
 		throw DecodeError (N_("could not create buffer source"));
 	}
 
-	void* sink_params = sink_parameters ();
-
-	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), 0, sink_params, _graph) < 0) {
+	if (avfilter_graph_create_filter (&_buffer_sink_context, buffer_sink, N_("out"), nullptr, nullptr, _graph) < 0) {
 		throw DecodeError (N_("could not create buffer sink."));
 	}
 
-	av_free (sink_params);
+	set_parameters (_buffer_sink_context);
 
-	AVFilterInOut* outputs = avfilter_inout_alloc ();
+	auto outputs = avfilter_inout_alloc ();
 	outputs->name = av_strdup(N_("in"));
 	outputs->filter_ctx = _buffer_src_context;
 	outputs->pad_idx = 0;
 	outputs->next = 0;
 
-	AVFilterInOut* inputs = avfilter_inout_alloc ();
+	auto inputs = avfilter_inout_alloc ();
 	inputs->name = av_strdup(N_("out"));
 	inputs->filter_ctx = _buffer_sink_context;
 	inputs->pad_idx = 0;
@@ -113,9 +115,10 @@ FilterGraph::setup (vector<Filter const *> filters)
 
 	int e = avfilter_graph_config (_graph, 0);
 	if (e < 0) {
-		throw DecodeError (String::compose (N_("could not configure filter graph (%1)"), e));
+		throw DecodeError (String::compose(N_("could not configure filter graph (%1)"), e));
 	}
 }
+
 
 FilterGraph::~FilterGraph ()
 {
@@ -128,8 +131,9 @@ FilterGraph::~FilterGraph ()
 	}
 }
 
+
 AVFilterContext *
 FilterGraph::get (string name)
 {
-	return avfilter_graph_get_filter (_graph, name.c_str ());
+	return avfilter_graph_get_filter (_graph, name.c_str());
 }

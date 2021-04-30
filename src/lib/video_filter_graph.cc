@@ -26,6 +26,7 @@
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
+#include <libavutil/opt.h>
 }
 
 #include "i18n.h"
@@ -70,7 +71,7 @@ VideoFilterGraph::process (AVFrame* frame)
 				break;
 			}
 
-			images.push_back (make_pair(make_shared<Image>(_frame), _frame->best_effort_timestamp));
+			images.push_back (make_pair(make_shared<Image>(_frame), frame->best_effort_timestamp));
 			av_frame_unref (_frame);
 		}
 	}
@@ -105,15 +106,12 @@ VideoFilterGraph::src_parameters () const
 }
 
 
-void *
-VideoFilterGraph::sink_parameters () const
+void
+VideoFilterGraph::set_parameters (AVFilterContext* context) const
 {
-	auto sink_params = av_buffersink_params_alloc ();
-	auto pixel_fmts = new AVPixelFormat[2];
-	pixel_fmts[0] = _pixel_format;
-	pixel_fmts[1] = AV_PIX_FMT_NONE;
-	sink_params->pixel_fmts = pixel_fmts;
-	return sink_params;
+	AVPixelFormat pix_fmts[] = { _pixel_format, AV_PIX_FMT_NONE };
+	int r = av_opt_set_int_list (context, "pix_fmts", pix_fmts, AV_PIX_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
+	DCPOMATIC_ASSERT (r >= 0);
 }
 
 

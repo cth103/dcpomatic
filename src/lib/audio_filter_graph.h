@@ -34,10 +34,10 @@ public:
 	void process (std::shared_ptr<const AudioBuffers> audio);
 
 protected:
-	std::string src_parameters () const;
-	std::string src_name () const;
-	void* sink_parameters () const;
-	std::string sink_name () const;
+	std::string src_parameters () const override;
+	std::string src_name () const override;
+	void set_parameters (AVFilterContext* context) const override;
+	std::string sink_name () const override;
 
 private:
 	int _sample_rate;
