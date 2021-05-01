@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,30 +18,28 @@
 
 */
 
-#include "filter_graph.h"
+
 extern "C" {
-#include <libavfilter/buffersink.h>
+#include <libavformat/avformat.h>
+}
+#include "ffmpeg_wrapper.h"
+#include <new>
+
+
+using namespace ffmpeg;
+
+
+Packet::Packet ()
+{
+	_packet = av_packet_alloc ();
+	if (!_packet) {
+		throw std::bad_alloc ();
+	}
 }
 
-class AudioBuffers;
 
-class AudioFilterGraph : public FilterGraph
+Packet::~Packet ()
 {
-public:
-	AudioFilterGraph (int sample_rate, int channels);
-	~AudioFilterGraph ();
+	av_packet_free (&_packet);
+}
 
-	void process (std::shared_ptr<const AudioBuffers> audio);
-
-protected:
-	std::string src_parameters () const override;
-	std::string src_name () const override;
-	void set_parameters (AVFilterContext* context) const override;
-	std::string sink_name () const override;
-
-private:
-	int _sample_rate;
-	int _channels;
-	int64_t _channel_layout;
-	AVFrame* _in_frame;
-};

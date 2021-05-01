@@ -69,34 +69,35 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		auto s = _format_context->streams[i];
-DCPOMATIC_DISABLE_WARNINGS
-		if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
+		if (s->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
 
 			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
 			   so bodge it here.  No idea why we should have to do this.
 			*/
 
-			if (s->codec->channel_layout == 0) {
-				s->codec->channel_layout = av_get_default_channel_layout (s->codec->channels);
+			if (s->codecpar->channel_layout == 0) {
+				s->codecpar->channel_layout = av_get_default_channel_layout (s->codecpar->channels);
 			}
 
+			auto codec = _codec_context[i]->codec;
+
 			DCPOMATIC_ASSERT (_format_context->duration != AV_NOPTS_VALUE);
-			DCPOMATIC_ASSERT (s->codec->codec);
-			DCPOMATIC_ASSERT (s->codec->codec->name);
+			DCPOMATIC_ASSERT (codec);
+			DCPOMATIC_ASSERT (codec->name);
 
 			_audio_streams.push_back (
 				make_shared<FFmpegAudioStream>(
 					stream_name (s),
-					s->codec->codec->name,
+					codec->name,
 					s->id,
-					s->codec->sample_rate,
-					llrint ((double(_format_context->duration) / AV_TIME_BASE) * s->codec->sample_rate),
-					s->codec->channels
+					s->codecpar->sample_rate,
+					llrint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
+					s->codecpar->channels
 					)
 				);
 
-		} else if (s->codec->codec_type == AVMEDIA_TYPE_SUBTITLE) {
-			_subtitle_streams.push_back (shared_ptr<FFmpegSubtitleStream> (new FFmpegSubtitleStream (subtitle_stream_name (s), s->id)));
+		} else if (s->codecpar->codec_type == AVMEDIA_TYPE_SUBTITLE) {
+			_subtitle_streams.push_back (make_shared<FFmpegSubtitleStream>(subtitle_stream_name (s), s->id));
 		}
 	}
 
@@ -141,8 +142,7 @@ DCPOMATIC_DISABLE_WARNINGS
 			}
 		}
 
-		auto context = _format_context->streams[packet->stream_index]->codec;
-DCPOMATIC_ENABLE_WARNINGS
+		auto context = _codec_context[packet->stream_index];
 
 		if (_video_stream && packet->stream_index == _video_stream.get()) {
 			video_packet (context, temporal_reference, packet);
@@ -168,24 +168,13 @@ DCPOMATIC_ENABLE_WARNINGS
 	}
 
 	if (_video_stream) {
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = nullptr;
-		packet.size = 0;
-DCPOMATIC_DISABLE_WARNINGS
-		auto context = _format_context->streams[*_video_stream]->codec;
-DCPOMATIC_ENABLE_WARNINGS
-		while (video_packet(context, temporal_reference, &packet)) {}
+		auto context = _codec_context[_video_stream.get()];
+		while (video_packet(context, temporal_reference, nullptr)) {}
 	}
 
 	for (auto i: _audio_streams) {
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = nullptr;
-		packet.size = 0;
-DCPOMATIC_DISABLE_WARNINGS
-		audio_packet (i->stream(_format_context)->codec, i, &packet);
-DCPOMATIC_ENABLE_WARNINGS
+		auto context = _codec_context[i->index(_format_context)];
+		audio_packet(context, i, nullptr);
 	}
 
 	if (_video_stream) {
@@ -233,12 +222,22 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 		return false;
 	}
 
-	int frame_finished;
-DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_video2 (context, _frame, &frame_finished, packet) < 0 || !frame_finished) {
+	int r = avcodec_send_packet (context, packet);
+	if (r < 0 && !(r == AVERROR_EOF && !packet)) {
+		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
+		 * AVERROR_EOF can happen during flush if we've already sent a flush packet.
+		 */
+		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegExaminer::video_packet"), r);
+	}
+
+	r = avcodec_receive_frame (context, _frame);
+	if (r == AVERROR(EAGAIN)) {
+		/* More input is required */
+		return true;
+	} else if (r == AVERROR_EOF) {
+		/* No more output is coming */
 		return false;
 	}
-DCPOMATIC_ENABLE_WARNINGS
 
 	if (!_first_video) {
 		_first_video = frame_time (_format_context->streams[_video_stream.get()]);
@@ -264,12 +263,20 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 		return;
 	}
 
-	int frame_finished;
-DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_audio4 (context, _frame, &frame_finished, packet) >= 0 && frame_finished) {
-DCPOMATIC_ENABLE_WARNINGS
-		stream->first_audio = frame_time (stream->stream (_format_context));
+	int r = avcodec_send_packet (context, packet);
+	if (r < 0 && !(r == AVERROR_EOF && !packet) && r != AVERROR(EAGAIN)) {
+		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
+		 * AVERROR_EOF can happen during flush if we've already sent a flush packet.
+		 * EAGAIN means we need to do avcodec_receive_frame, so just carry on and do that.
+		 */
+		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegExaminer::audio_packet"), r);
 	}
+
+	if (avcodec_receive_frame (context, _frame) < 0) {
+		return;
+	}
+
+	stream->first_audio = frame_time (stream->stream(_format_context));
 }
 
 
@@ -278,9 +285,7 @@ FFmpegExaminer::frame_time (AVStream* s) const
 {
 	optional<ContentTime> t;
 
-DCPOMATIC_DISABLE_WARNINGS
-	int64_t const bet = av_frame_get_best_effort_timestamp (_frame);
-DCPOMATIC_ENABLE_WARNINGS
+	int64_t const bet = _frame->best_effort_timestamp;
 	if (bet != AV_NOPTS_VALUE) {
 		t = ContentTime::from_seconds (bet * av_q2d (s->time_base));
 	}

@@ -25,6 +25,7 @@ extern "C" {
 #include <libavfilter/buffersink.h>
 #include <libavfilter/buffersrc.h>
 #include <libavutil/channel_layout.h>
+#include <libavutil/opt.h>
 }
 #include <iostream>
 
@@ -70,27 +71,23 @@ AudioFilterGraph::src_parameters () const
 	return buffer;
 }
 
-void *
-AudioFilterGraph::sink_parameters () const
+
+void
+AudioFilterGraph::set_parameters (AVFilterContext* context) const
 {
-	AVABufferSinkParams* sink_params = av_abuffersink_params_alloc ();
+	AVSampleFormat sample_fmts[] = { AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_NONE };
+	int r = av_opt_set_int_list (context, "sample_fmts", sample_fmts, AV_SAMPLE_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
+	DCPOMATIC_ASSERT (r >= 0);
 
-	AVSampleFormat* sample_fmts = new AVSampleFormat[2];
-	sample_fmts[0] = AV_SAMPLE_FMT_FLTP;
-	sample_fmts[1] = AV_SAMPLE_FMT_NONE;
-	sink_params->sample_fmts = sample_fmts;
+	int64_t channel_layouts[] = { _channel_layout, -1 };
+	r = av_opt_set_int_list (context, "channel_layouts", channel_layouts, -1, AV_OPT_SEARCH_CHILDREN);
+	DCPOMATIC_ASSERT (r >= 0);
 
-	int64_t* channel_layouts = new int64_t[2];
-	channel_layouts[0] = _channel_layout;
-	channel_layouts[1] = -1;
-	sink_params->channel_layouts = channel_layouts;
-
-	sink_params->sample_rates = new int[2];
-	sink_params->sample_rates[0] = _sample_rate;
-	sink_params->sample_rates[1] = -1;
-
-	return sink_params;
+	int sample_rates[] = { _sample_rate, -1 };
+	r = av_opt_set_int_list (context, "sample_rates", sample_rates, -1, AV_OPT_SEARCH_CHILDREN);
+	DCPOMATIC_ASSERT (r >= 0);
 }
+
 
 string
 AudioFilterGraph::src_name () const

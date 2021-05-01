@@ -114,22 +114,20 @@ FFmpegDecoder::flush ()
 
 	bool did_something = false;
 	if (video) {
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = nullptr;
-		packet.size = 0;
-		if (decode_and_process_video_packet(&packet)) {
+		if (decode_and_process_video_packet(nullptr)) {
 			did_something = true;
 		}
 	}
 
 	for (auto i: ffmpeg_content()->ffmpeg_audio_streams()) {
-		AVPacket packet;
-		av_init_packet (&packet);
-		packet.data = nullptr;
-		packet.size = 0;
-		auto result = decode_audio_packet (i, &packet);
-		if (result.second) {
+		auto context = _codec_context[i->index(_format_context)];
+		int r = avcodec_send_packet (context, nullptr);
+		if (r < 0 && r != AVERROR_EOF) {
+			/* EOF can happen if we've already sent a flush packet */
+			throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::flush"), r);
+		}
+		r = avcodec_receive_frame (context, _frame);
+		if (r >= 0) {
 			process_audio_frame (i);
 			did_something = true;
 		}
@@ -224,35 +222,22 @@ FFmpegDecoder::pass ()
  *  Only the first buffer will be used for non-planar data, otherwise there will be one per channel.
  */
 shared_ptr<AudioBuffers>
-FFmpegDecoder::deinterleave_audio (shared_ptr<FFmpegAudioStream> stream) const
+FFmpegDecoder::deinterleave_audio (AVFrame* frame)
 {
-	DCPOMATIC_ASSERT (bytes_per_audio_sample (stream));
+	auto format = static_cast<AVSampleFormat>(frame->format);
 
-DCPOMATIC_DISABLE_WARNINGS
-	int const size = av_samples_get_buffer_size (
-		0, stream->stream(_format_context)->codec->channels, _frame->nb_samples, audio_sample_format (stream), 1
-		);
-DCPOMATIC_ENABLE_WARNINGS
-	DCPOMATIC_ASSERT (size >= 0);
-
-	/* XXX: can't we just use _frame->nb_samples directly here? */
 	/* XXX: can't we use swr_convert() to do the format conversion? */
 
-	/* Deinterleave and convert to float */
-
-	/* total_samples and frames will be rounded down here, so if there are stray samples at the end
-	   of the block that do not form a complete sample or frame they will be dropped.
-	*/
-	int const total_samples = size / bytes_per_audio_sample (stream);
-	int const channels = stream->channels();
-	int const frames = total_samples / channels;
+	int const channels = frame->channels;
+	int const frames = frame->nb_samples;
+	int const total_samples = frames * channels;
 	auto audio = make_shared<AudioBuffers>(channels, frames);
 	auto data = audio->data();
 
-	switch (audio_sample_format (stream)) {
+	switch (format) {
 	case AV_SAMPLE_FMT_U8:
 	{
-		uint8_t* p = reinterpret_cast<uint8_t *> (_frame->data[0]);
+		auto p = reinterpret_cast<uint8_t *> (frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -269,7 +254,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	case AV_SAMPLE_FMT_S16:
 	{
-		int16_t* p = reinterpret_cast<int16_t *> (_frame->data[0]);
+		auto p = reinterpret_cast<int16_t *> (frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -286,7 +271,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	case AV_SAMPLE_FMT_S16P:
 	{
-		int16_t** p = reinterpret_cast<int16_t **> (_frame->data);
+		auto p = reinterpret_cast<int16_t **> (frame->data);
 		for (int i = 0; i < channels; ++i) {
 			for (int j = 0; j < frames; ++j) {
 				data[i][j] = static_cast<float>(p[i][j]) / (1 << 15);
@@ -297,7 +282,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	case AV_SAMPLE_FMT_S32:
 	{
-		int32_t* p = reinterpret_cast<int32_t *> (_frame->data[0]);
+		auto p = reinterpret_cast<int32_t *> (frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -314,7 +299,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	case AV_SAMPLE_FMT_S32P:
 	{
-		int32_t** p = reinterpret_cast<int32_t **> (_frame->data);
+		auto p = reinterpret_cast<int32_t **> (frame->data);
 		for (int i = 0; i < channels; ++i) {
 			for (int j = 0; j < frames; ++j) {
 				data[i][j] = static_cast<float>(p[i][j]) / 2147483648;
@@ -325,7 +310,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	case AV_SAMPLE_FMT_FLT:
 	{
-		float* p = reinterpret_cast<float*> (_frame->data[0]);
+		auto p = reinterpret_cast<float*> (frame->data[0]);
 		int sample = 0;
 		int channel = 0;
 		for (int i = 0; i < total_samples; ++i) {
@@ -342,20 +327,20 @@ DCPOMATIC_ENABLE_WARNINGS
 
 	case AV_SAMPLE_FMT_FLTP:
 	{
-		float** p = reinterpret_cast<float**> (_frame->data);
-		DCPOMATIC_ASSERT (_frame->channels <= channels);
-		/* Sometimes there aren't as many channels in the _frame as in the stream */
-		for (int i = 0; i < _frame->channels; ++i) {
+		auto p = reinterpret_cast<float**> (frame->data);
+		DCPOMATIC_ASSERT (frame->channels <= channels);
+		/* Sometimes there aren't as many channels in the frame as in the stream */
+		for (int i = 0; i < frame->channels; ++i) {
 			memcpy (data[i], p[i], frames * sizeof(float));
 		}
-		for (int i = _frame->channels; i < channels; ++i) {
+		for (int i = frame->channels; i < channels; ++i) {
 			audio->make_silent (i);
 		}
 	}
 	break;
 
 	default:
-		throw DecodeError (String::compose (_("Unrecognised audio sample format (%1)"), static_cast<int> (audio_sample_format (stream))));
+		throw DecodeError (String::compose(_("Unrecognised audio sample format (%1)"), static_cast<int>(format)));
 	}
 
 	return audio;
@@ -365,9 +350,7 @@ DCPOMATIC_ENABLE_WARNINGS
 AVSampleFormat
 FFmpegDecoder::audio_sample_format (shared_ptr<FFmpegAudioStream> stream) const
 {
-DCPOMATIC_DISABLE_WARNINGS
-	return stream->stream (_format_context)->codec->sample_fmt;
-DCPOMATIC_ENABLE_WARNINGS
+	return static_cast<AVSampleFormat>(stream->stream(_format_context)->codecpar->format);
 }
 
 
@@ -431,11 +414,9 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		avcodec_flush_buffers (video_codec_context());
 	}
 
-DCPOMATIC_DISABLE_WARNINGS
 	for (auto i: ffmpeg_content()->ffmpeg_audio_streams()) {
-		avcodec_flush_buffers (i->stream(_format_context)->codec);
+		avcodec_flush_buffers (_codec_context[i->index(_format_context)]);
 	}
-DCPOMATIC_ENABLE_WARNINGS
 
 	if (subtitle_codec_context ()) {
 		avcodec_flush_buffers (subtitle_codec_context ());
@@ -470,7 +451,7 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 void
 FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 {
-	auto data = deinterleave_audio (stream);
+	auto data = deinterleave_audio (_frame);
 
 	ContentTime ct;
 	if (_frame->pts == AV_NOPTS_VALUE) {
@@ -517,27 +498,6 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 }
 
 
-pair<int, bool>
-FFmpegDecoder::decode_audio_packet (shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
-{
-	int frame_finished;
-	DCPOMATIC_DISABLE_WARNINGS
-	int decode_result = avcodec_decode_audio4 (stream->stream(_format_context)->codec, _frame, &frame_finished, packet);
-	DCPOMATIC_ENABLE_WARNINGS
-	if (decode_result < 0) {
-		/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
-		   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
-		   if it overreads the auxiliary data.	ffplay carries on if frame_finished is true,
-		   even in the face of such an error, so I think we should too.
-
-		   Returning from the method here caused mantis #352.
-		*/
-		LOG_WARNING ("avcodec_decode_audio4 failed (%1)", decode_result);
-	}
-	return make_pair(decode_result, frame_finished);
-}
-
-
 void
 FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 {
@@ -546,33 +506,28 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 		return;
 	}
 
-	/* Audio packets can contain multiple frames, so we may have to call avcodec_decode_audio4
-	   several times.  Make a simple copy so we can alter data and size.
-	*/
-	AVPacket copy_packet = *packet;
+	auto context = _codec_context[stream->index(_format_context)];
 
-	while (copy_packet.size > 0) {
-		auto result = decode_audio_packet (stream, &copy_packet);
-		if (result.first < 0) {
-			/* avcodec_decode_audio4 can sometimes return an error even though it has decoded
-			   some valid data; for example dca_subframe_footer can return AVERROR_INVALIDDATA
-			   if it overreads the auxiliary data.	ffplay carries on if frame_finished is true,
-			   even in the face of such an error, so I think we should too.
+	int r = avcodec_send_packet (context, packet);
+	if (r < 0) {
+		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
+		 * Likewise I think AVERROR_EOF should not happen.
+		 */
+		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::decode_and_process_audio_packet"), r);
+	}
 
-			   Returning from the method here caused mantis #352.
-			*/
+	while (r >= 0) {
+		r = avcodec_receive_frame (context, _frame);
+		if (r == AVERROR(EAGAIN)) {
+			/* More input is required */
+			return;
 		}
 
-		if (result.second) {
-			process_audio_frame (stream);
-		}
-
-		if (result.first) {
-			break;
-		}
-
-		copy_packet.data += result.first;
-		copy_packet.size -= result.first;
+		/* We choose to be relaxed here about other errors; it seems that there may be valid
+		 * data to decode even if an error occurred.  #352 may be related (though this was
+		 * when we were using an old version of the FFmpeg API).
+		 */
+		process_audio_frame (stream);
 	}
 }
 
@@ -582,12 +537,23 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
-	int frame_finished;
-DCPOMATIC_DISABLE_WARNINGS
-	if (avcodec_decode_video2 (video_codec_context(), _frame, &frame_finished, packet) < 0 || !frame_finished) {
+	auto context = video_codec_context();
+
+	int r = avcodec_send_packet (context, packet);
+	if (r < 0 && !(r == AVERROR_EOF && !packet)) {
+		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
+		 * AVERROR_EOF can happen during flush if we've already sent a flush packet.
+		 */
+		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::decode_and_process_video_packet"), r);
+	}
+
+	r = avcodec_receive_frame (context, _frame);
+	if (r == AVERROR(EAGAIN) || r == AVERROR_EOF) {
+		/* More input is required, or no more frames are coming */
 		return false;
 	}
-DCPOMATIC_ENABLE_WARNINGS
+
+	/* We assume we'll only get one frame here, which I think is safe */
 
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 

@@ -44,6 +44,14 @@ public:
 	explicit DecodeError (std::string s)
 		: std::runtime_error (s)
 	{}
+
+	explicit DecodeError (std::string function, std::string caller)
+		: std::runtime_error (String::compose("%1 failed [%2", function, caller))
+	{}
+
+	explicit DecodeError (std::string function, std::string caller, int error)
+		: std::runtime_error (String::compose("%1 failed [%2] (%3)", function, caller, error))
+	{}
 };
 
 class CryptoError : public std::runtime_error
@@ -54,6 +62,7 @@ public:
 	{}
 };
 
+
 /** @class EncodeError
  *  @brief A low-level problem with an encoder.
  */
@@ -63,7 +72,16 @@ public:
 	explicit EncodeError (std::string s)
 		: std::runtime_error (s)
 	{}
+
+	explicit EncodeError (std::string function, std::string caller)
+		: std::runtime_error (String::compose("%1 failed [%2]", function, caller))
+	{}
+
+	explicit EncodeError (std::string function, std::string caller, int error)
+		: std::runtime_error (String::compose("%1 failed [%2] (%3)", function, caller, error))
+	{}
 };
+
 
 /** @class FileError.
  *  @brief Parent class for file-related errors.

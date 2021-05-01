@@ -54,11 +54,12 @@ private:
 
 	bool flush ();
 
+	static std::shared_ptr<AudioBuffers> deinterleave_audio (AVFrame* frame);
+
 	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
 
 	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
-	std::pair<int, bool> decode_audio_packet (std::shared_ptr<FFmpegAudioStream> stream, AVPacket* packet);
 	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream);
 
 	bool decode_and_process_video_packet (AVPacket* packet);
@@ -69,7 +70,6 @@ private:
 	void process_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
 
 	void maybe_add_subtitle ();
-	std::shared_ptr<AudioBuffers> deinterleave_audio (std::shared_ptr<FFmpegAudioStream> stream) const;
 
 	std::list<std::shared_ptr<VideoFilterGraph> > _filter_graphs;
 	boost::mutex _filter_graphs_mutex;

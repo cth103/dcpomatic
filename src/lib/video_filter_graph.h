@@ -31,10 +31,10 @@ public:
 	std::list<std::pair<std::shared_ptr<Image>, int64_t>> process (AVFrame * frame);
 
 protected:
-	std::string src_parameters () const;
-	std::string src_name () const;
-	void* sink_parameters () const;
-	std::string sink_name () const;
+	std::string src_parameters () const override;
+	std::string src_name () const override;
+	void set_parameters (AVFilterContext* context) const override;
+	std::string sink_name () const override;
 
 private:
 	dcp::Size _size; ///< size of the images that this chain can process

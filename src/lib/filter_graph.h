@@ -53,7 +53,7 @@ public:
 protected:
 	virtual std::string src_parameters () const = 0;
 	virtual std::string src_name () const = 0;
-	virtual void* sink_parameters () const = 0;
+	virtual void set_parameters (AVFilterContext* context) const = 0;
 	virtual std::string sink_name () const = 0;
 
 	AVFilterGraph* _graph;

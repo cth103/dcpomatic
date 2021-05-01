@@ -26,6 +26,7 @@
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
+#include <libavutil/opt.h>
 }
 
 #include "i18n.h"
@@ -57,9 +58,8 @@ VideoFilterGraph::process (AVFrame* frame)
 {
 	list<pair<shared_ptr<Image>, int64_t>> images;
 
-DCPOMATIC_DISABLE_WARNINGS
 	if (_copy) {
-		images.push_back (make_pair(make_shared<Image>(frame), av_frame_get_best_effort_timestamp (frame)));
+		images.push_back (make_pair(make_shared<Image>(frame), frame->best_effort_timestamp));
 	} else {
 		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
 		if (r < 0) {
@@ -71,11 +71,10 @@ DCPOMATIC_DISABLE_WARNINGS
 				break;
 			}
 
-			images.push_back (make_pair(make_shared<Image>(_frame), av_frame_get_best_effort_timestamp (_frame)));
+			images.push_back (make_pair(make_shared<Image>(_frame), frame->best_effort_timestamp));
 			av_frame_unref (_frame);
 		}
 	}
-DCPOMATIC_ENABLE_WARNINGS
 
 	return images;
 }
@@ -107,15 +106,12 @@ VideoFilterGraph::src_parameters () const
 }
 
 
-void *
-VideoFilterGraph::sink_parameters () const
+void
+VideoFilterGraph::set_parameters (AVFilterContext* context) const
 {
-	auto sink_params = av_buffersink_params_alloc ();
-	auto pixel_fmts = new AVPixelFormat[2];
-	pixel_fmts[0] = _pixel_format;
-	pixel_fmts[1] = AV_PIX_FMT_NONE;
-	sink_params->pixel_fmts = pixel_fmts;
-	return sink_params;
+	AVPixelFormat pix_fmts[] = { _pixel_format, AV_PIX_FMT_NONE };
+	int r = av_opt_set_int_list (context, "pix_fmts", pix_fmts, AV_PIX_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
+	DCPOMATIC_ASSERT (r >= 0);
 }
 
 
