@@ -385,6 +385,23 @@ Image::swap_16 (uint16_t v)
 	return ((v >> 8) & 0xff) | ((v & 0xff) << 8);
 }
 
+
+/* This was a lambda in the original code */
+static
+void
+y_part (Image* image, int start, int width)
+{
+	int const bpp = image->bytes_per_pixel(0);
+	int const h = image->sample_size(0).height;
+	int const s = image->stride()[0];
+	uint8_t* p = image->data()[0];
+	for (int y = 0; y < h; ++y) {
+		memset (p + start * bpp, 0, width * bpp);
+		p += s;
+	}
+}
+
+
 void
 Image::make_part_black (int const start, int const width)
 {
@@ -409,20 +426,28 @@ Image::make_part_black (int const start, int const width)
 		}
 		break;
 	}
+	case AV_PIX_FMT_YUV420P:
+	{
+		y_part (this, start, width);
+		for (int i = 1; i < 3; ++i) {
+			uint8_t* p = data()[i];
+			int const h = sample_size(i).height;
+			for (int y = 0; y < h; ++y) {
+				for (int x = start / 2; x < (start + width) / 2; ++x) {
+					p[x] = eight_bit_uv;
+				}
+				p += stride()[i];
+			}
+		}
+		break;
+	}
 	case AV_PIX_FMT_YUV422P10LE:
 	{
-		int const bpp_0 = bytes_per_pixel(0);
-		int const h_0 = sample_size(0).height;
-		int const stride_0 = stride()[0];
-		auto p = data()[0];
-		for (int y = 0; y < h_0; ++y) {
-			memset (p + start * bpp_0, 0xff, width * bpp_0);
-			p += stride_0;
-		}
+		y_part (this, start, width);
 		for (int i = 1; i < 3; ++i) {
-			auto p = reinterpret_cast<int16_t*>(data()[i]);
-			int const lines = sample_size(i).height;
-			for (int y = 0; y < lines; ++y) {
+			int16_t* p = reinterpret_cast<int16_t*>(data()[i]);
+			int const h = sample_size(i).height;
+			for (int y = 0; y < h; ++y) {
 				for (int x = start / 2; x < (start + width) / 2; ++x) {
 					p[x] = ten_bit_uv;
 				}
