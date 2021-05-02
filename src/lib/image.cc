@@ -102,8 +102,8 @@ dcp::Size
 Image::sample_size (int n) const
 {
 	return dcp::Size (
-		lrint (ceil(static_cast<double>(size().width) / horizontal_factor (n))),
-		lrint (ceil(static_cast<double>(size().height) / vertical_factor (n)))
+		lrint (ceil(static_cast<double>(size().width) / horizontal_factor(n))),
+		lrint (ceil(static_cast<double>(size().height) / vertical_factor(n)))
 		);
 }
 

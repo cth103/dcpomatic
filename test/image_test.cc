@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 /** @file  test/image_test.cc
  *  @brief Test Image class.
  *  @ingroup selfcontained
- *  @see test/make_black_test.cc, test/pixel_formats_test.cc
+ *  @see test/pixel_formats_test.cc
  */
+
 
 #include "lib/compose.hpp"
 #include "lib/image.h"
@@ -31,14 +33,17 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
-using std::string;
-using std::list;
+
 using std::cout;
+using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+
 
 BOOST_AUTO_TEST_CASE (aligned_image_test)
 {
-	Image* s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), true);
+	auto s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), true);
 	BOOST_CHECK_EQUAL (s->planes(), 1);
 	/* 192 is 150 aligned to the nearest 64 bytes */
 	BOOST_CHECK_EQUAL (s->stride()[0], 192);
@@ -49,7 +54,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK (!s->data()[3]);
 
 	/* copy constructor */
-	Image* t = new Image (*s);
+	auto t = new Image (*s);
 	BOOST_CHECK_EQUAL (t->planes(), 1);
 	BOOST_CHECK_EQUAL (t->stride()[0], 192);
 	BOOST_CHECK_EQUAL (t->line_size()[0], 150);
@@ -65,7 +70,7 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	BOOST_CHECK_EQUAL (t->stride()[0], s->stride()[0]);
 
 	/* assignment operator */
-	Image* u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), false);
+	auto u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), false);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->planes(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 192);
@@ -86,9 +91,10 @@ BOOST_AUTO_TEST_CASE (aligned_image_test)
 	delete u;
 }
 
+
 BOOST_AUTO_TEST_CASE (compact_image_test)
 {
-	Image* s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), false);
+	auto s = new Image (AV_PIX_FMT_RGB24, dcp::Size (50, 50), false);
 	BOOST_CHECK_EQUAL (s->planes(), 1);
 	BOOST_CHECK_EQUAL (s->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (s->line_size()[0], 50 * 3);
@@ -98,7 +104,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK (!s->data()[3]);
 
 	/* copy constructor */
-	Image* t = new Image (*s);
+	auto t = new Image (*s);
 	BOOST_CHECK_EQUAL (t->planes(), 1);
 	BOOST_CHECK_EQUAL (t->stride()[0], 50 * 3);
 	BOOST_CHECK_EQUAL (t->line_size()[0], 50 * 3);
@@ -114,7 +120,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	BOOST_CHECK_EQUAL (t->stride()[0], s->stride()[0]);
 
 	/* assignment operator */
-	Image* u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), true);
+	auto u = new Image (AV_PIX_FMT_YUV422P, dcp::Size (150, 150), true);
 	*u = *s;
 	BOOST_CHECK_EQUAL (u->planes(), 1);
 	BOOST_CHECK_EQUAL (u->stride()[0], 50 * 3);
@@ -135,18 +141,19 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 	delete u;
 }
 
+
 void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
-	shared_ptr<FFmpegImageProxy> proxy (new FFmpegImageProxy (TestPaths::private_data() / "prophet_frame.tiff", VideoRange::FULL));
-	shared_ptr<Image> raw = proxy->image().image;
-	shared_ptr<Image> background = raw->convert_pixel_format (dcp::YUVToRGB::REC709, format, true, false);
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "prophet_frame.tiff", VideoRange::FULL);
+	auto raw = proxy->image().image;
+	auto background = raw->convert_pixel_format (dcp::YUVToRGB::REC709, format, true, false);
 
-	shared_ptr<Image> overlay (new Image (AV_PIX_FMT_BGRA, dcp::Size(431, 891), true));
+	auto overlay = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size(431, 891), true);
 	overlay->make_transparent ();
 
 	for (int y = 0; y < 128; ++y) {
-		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
+		auto p = overlay->data()[0] + y * overlay->stride()[0];
 		for (int x = 0; x < 128; ++x) {
 			p[x * 4 + 2] = 255;
 			p[x * 4 + 3] = 255;
@@ -154,7 +161,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	}
 
 	for (int y = 128; y < 256; ++y) {
-		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
+		auto p = overlay->data()[0] + y * overlay->stride()[0];
 		for (int x = 0; x < 128; ++x) {
 			p[x * 4 + 1] = 255;
 			p[x * 4 + 3] = 255;
@@ -162,7 +169,7 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 	}
 
 	for (int y = 256; y < 384; ++y) {
-		uint8_t* p = overlay->data()[0] + y * overlay->stride()[0];
+		auto p = overlay->data()[0] + y * overlay->stride()[0];
 		for (int x = 0; x < 128; ++x) {
 			p[x * 4] = 255;
 			p[x * 4 + 3] = 255;
@@ -171,11 +178,12 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 
 	background->alpha_blend (overlay, Position<int> (13, 17));
 
-	shared_ptr<Image> save = background->convert_pixel_format (dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, false, false);
+	auto save = background->convert_pixel_format (dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, false, false);
 
 	write_image (save, "build/test/image_test_" + suffix + ".png");
 	check_image ("build/test/image_test_" + suffix + ".png", TestPaths::private_data() / ("image_test_" + suffix + ".png"));
 }
+
 
 /** Test Image::alpha_blend */
 BOOST_AUTO_TEST_CASE (alpha_blend_test)
@@ -189,17 +197,18 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_one (AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
 }
 
+
 /** Test merge (list<PositionImage>) with a single image */
 BOOST_AUTO_TEST_CASE (merge_test1)
 {
 	int const stride = 48 * 4;
 
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_BGRA, dcp::Size (48, 48), false));
+	auto A = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (48, 48), false);
 	A->make_transparent ();
-	uint8_t* a = A->data()[0];
+	auto a = A->data()[0];
 
 	for (int y = 0; y < 48; ++y) {
-		uint8_t* p = a + y * stride;
+		auto p = a + y * stride;
 		for (int x = 0; x < 16; ++x) {
 			/* blue */
 			p[x * 4] = 255;
@@ -209,19 +218,20 @@ BOOST_AUTO_TEST_CASE (merge_test1)
 	}
 
 	list<PositionImage> all;
-	all.push_back (PositionImage (A, Position<int> (0, 0)));
-	PositionImage merged = merge (all);
+	all.push_back (PositionImage (A, Position<int>(0, 0)));
+	auto merged = merge (all);
 
-	BOOST_CHECK (merged.position == Position<int> (0, 0));
+	BOOST_CHECK (merged.position == Position<int>(0, 0));
 	BOOST_CHECK_EQUAL (memcmp (merged.image->data()[0], A->data()[0], stride * 48), 0);
 }
+
 
 /** Test merge (list<PositionImage>) with two images */
 BOOST_AUTO_TEST_CASE (merge_test2)
 {
-	shared_ptr<Image> A (new Image (AV_PIX_FMT_BGRA, dcp::Size (48, 1), false));
+	auto A = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (48, 1), false);
 	A->make_transparent ();
-	uint8_t* a = A->data()[0];
+	auto a = A->data()[0];
 	for (int x = 0; x < 16; ++x) {
 		/* blue */
 		a[x * 4] = 255;
@@ -229,9 +239,9 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 		a[x * 4 + 3] = 255;
 	}
 
-	shared_ptr<Image> B (new Image (AV_PIX_FMT_BGRA, dcp::Size (48, 1), false));
+	auto B = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (48, 1), false);
 	B->make_transparent ();
-	uint8_t* b = B->data()[0];
+	auto b = B->data()[0];
 	for (int x = 0; x < 16; ++x) {
 		/* red */
 		b[(x + 32) * 4 + 2] = 255;
@@ -240,13 +250,13 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 	}
 
 	list<PositionImage> all;
-	all.push_back (PositionImage (A, Position<int> (0, 0)));
-	all.push_back (PositionImage (B, Position<int> (0, 0)));
-	PositionImage merged = merge (all);
+	all.push_back (PositionImage(A, Position<int>(0, 0)));
+	all.push_back (PositionImage(B, Position<int>(0, 0)));
+	auto merged = merge (all);
 
-	BOOST_CHECK (merged.position == Position<int> (0, 0));
+	BOOST_CHECK (merged.position == Position<int>(0, 0));
 
-	uint8_t* m = merged.image->data()[0];
+	auto m = merged.image->data()[0];
 
 	for (int x = 0; x < 16; ++x) {
 		BOOST_CHECK_EQUAL (m[x * 4], 255);
@@ -257,23 +267,25 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 	}
 }
 
+
 /** Test Image::crop_scale_window with YUV420P and some windowing */
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png", VideoRange::FULL));
-	shared_ptr<Image> raw = proxy->image().image;
-	shared_ptr<Image> out = raw->crop_scale_window(
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png", VideoRange::FULL);
+	auto raw = proxy->image().image;
+	auto out = raw->crop_scale_window(
 		Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_YUV420P, VideoRange::FULL, true, false
 		);
-	shared_ptr<Image> save = out->scale(dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, false, false);
+	auto save = out->scale(dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, false, false);
 	write_image(save, "build/test/crop_scale_window_test.png");
 	check_image("test/data/crop_scale_window_test.png", "build/test/crop_scale_window_test.png");
 }
 
+
 /** Special cases of Image::crop_scale_window which triggered some valgrind warnings */
 BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 {
-	shared_ptr<Image> image (new Image(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true));
+	auto image = make_shared<Image>(AV_PIX_FMT_XYZ12LE, dcp::Size(2048, 858), true);
 	image->crop_scale_window (
 		Crop(279, 0, 0, 0), dcp::Size(1069, 448), dcp::Size(1069, 578), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
 		);
@@ -282,44 +294,48 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 		);
 }
 
+
 BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL));
-	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
+	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
 		);
 	write_image(cropped, "build/test/crop_scale_window_test3.png");
 	check_image("test/data/crop_scale_window_test3.png", "build/test/crop_scale_window_test3.png");
 }
 
+
 BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL));
-	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
+	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, false, false
 		);
 	write_image(cropped, "build/test/crop_scale_window_test4.png");
 	check_image("test/data/crop_scale_window_test4.png", "build/test/crop_scale_window_test4.png", 35000);
 }
 
+
 BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL));
-	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
 		);
 	write_image(cropped, "build/test/crop_scale_window_test5.png");
 	check_image("test/data/crop_scale_window_test5.png", "build/test/crop_scale_window_test5.png");
 }
 
+
 BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL));
-	shared_ptr<Image> xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
-	shared_ptr<Image> cropped = xyz->crop_scale_window(
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, false, false
 		);
 	write_image(cropped, "build/test/crop_scale_window_test6.png");
@@ -332,10 +348,10 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 {
 	using namespace boost::filesystem;
 	for (int left_crop = 0; left_crop < 8; ++left_crop) {
-		shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/rgb_grey_testcard.png", VideoRange::FULL));
-		shared_ptr<Image> yuv = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_YUV420P, true, false);
+		auto proxy = make_shared<FFmpegImageProxy>("test/data/rgb_grey_testcard.png", VideoRange::FULL);
+		auto yuv = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_YUV420P, true, false);
 		int rounded = left_crop - (left_crop % 2);
-		shared_ptr<Image> cropped = yuv->crop_scale_window(
+		auto cropped = yuv->crop_scale_window(
 			Crop(left_crop, 0, 0, 0),
 			dcp::Size(1998 - rounded, 1080),
 			dcp::Size(1998 - rounded, 1080),
@@ -355,15 +371,16 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 
 BOOST_AUTO_TEST_CASE (as_png_test)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/3d_test/000001.png", VideoRange::FULL));
-	shared_ptr<Image> image_rgb = proxy->image().image;
-	shared_ptr<Image> image_bgr = image_rgb->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_BGRA, true, false);
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png", VideoRange::FULL);
+	auto image_rgb = proxy->image().image;
+	auto image_bgr = image_rgb->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_BGRA, true, false);
 	image_rgb->as_png().write ("build/test/as_png_rgb.png");
 	image_bgr->as_png().write ("build/test/as_png_bgr.png");
 
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_rgb.png");
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_bgr.png");
 }
+
 
 /* Very dumb test to fade black to make sure it stays black */
 static void
@@ -377,17 +394,19 @@ fade_test_format_black (AVPixelFormat f, string name)
 	check_image ("test/data/" + filename, "build/test/" + filename);
 }
 
+
 /* Fade red to make sure it stays red */
 static void
 fade_test_format_red (AVPixelFormat f, float amount, string name)
 {
-	shared_ptr<FFmpegImageProxy> proxy(new FFmpegImageProxy("test/data/flat_red.png", VideoRange::FULL));
-	shared_ptr<Image> red = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, f, true, false);
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png", VideoRange::FULL);
+	auto red = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, f, true, false);
 	red->fade (amount);
 	string const filename = "fade_test_red_" + name + ".png";
 	red->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, true, false)->as_png().write("build/test/" + filename);
 	check_image ("test/data/" + filename, "build/test/" + filename);
 }
+
 
 BOOST_AUTO_TEST_CASE (fade_test)
 {
@@ -420,49 +439,50 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 	dcp::Size in_size (512, 512);
 	dcp::Size out_size (1024, 1024);
 
-	list<AVPixelFormat> pix_fmts;
-	pix_fmts.push_back (AV_PIX_FMT_RGB24); // 2
-	pix_fmts.push_back (AV_PIX_FMT_ARGB);
-	pix_fmts.push_back (AV_PIX_FMT_RGBA);
-	pix_fmts.push_back (AV_PIX_FMT_ABGR);
-	pix_fmts.push_back (AV_PIX_FMT_BGRA);
-	pix_fmts.push_back (AV_PIX_FMT_YUV420P); // 0
-	pix_fmts.push_back (AV_PIX_FMT_YUV411P);
-	pix_fmts.push_back (AV_PIX_FMT_YUV422P10LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUV422P16LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUV444P9LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUV444P9BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUV444P10LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUV444P10BE);
-	pix_fmts.push_back (AV_PIX_FMT_UYVY422);
-	pix_fmts.push_back (AV_PIX_FMT_YUVJ420P);
-	pix_fmts.push_back (AV_PIX_FMT_YUVJ422P);
-	pix_fmts.push_back (AV_PIX_FMT_YUVJ444P);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA420P9BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA422P9BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA444P9BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA420P9LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA422P9LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA444P9LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA420P10BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA422P10BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA444P10BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA420P10LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA422P10LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA444P10LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA420P16BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA422P16BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA444P16BE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA420P16LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA422P16LE);
-	pix_fmts.push_back (AV_PIX_FMT_YUVA444P16LE);
-	pix_fmts.push_back (AV_PIX_FMT_RGB555LE); // 46
+	list<AVPixelFormat> pix_fmts = {
+		AV_PIX_FMT_RGB24, // 2
+		AV_PIX_FMT_ARGB,
+		AV_PIX_FMT_RGBA,
+		AV_PIX_FMT_ABGR,
+		AV_PIX_FMT_BGRA,
+		AV_PIX_FMT_YUV420P, // 0
+		AV_PIX_FMT_YUV411P,
+		AV_PIX_FMT_YUV422P10LE,
+		AV_PIX_FMT_YUV422P16LE,
+		AV_PIX_FMT_YUV444P9LE,
+		AV_PIX_FMT_YUV444P9BE,
+		AV_PIX_FMT_YUV444P10LE,
+		AV_PIX_FMT_YUV444P10BE,
+		AV_PIX_FMT_UYVY422,
+		AV_PIX_FMT_YUVJ420P,
+		AV_PIX_FMT_YUVJ422P,
+		AV_PIX_FMT_YUVJ444P,
+		AV_PIX_FMT_YUVA420P9BE,
+		AV_PIX_FMT_YUVA422P9BE,
+		AV_PIX_FMT_YUVA444P9BE,
+		AV_PIX_FMT_YUVA420P9LE,
+		AV_PIX_FMT_YUVA422P9LE,
+		AV_PIX_FMT_YUVA444P9LE,
+		AV_PIX_FMT_YUVA420P10BE,
+		AV_PIX_FMT_YUVA422P10BE,
+		AV_PIX_FMT_YUVA444P10BE,
+		AV_PIX_FMT_YUVA420P10LE,
+		AV_PIX_FMT_YUVA422P10LE,
+		AV_PIX_FMT_YUVA444P10LE,
+		AV_PIX_FMT_YUVA420P16BE,
+		AV_PIX_FMT_YUVA422P16BE,
+		AV_PIX_FMT_YUVA444P16BE,
+		AV_PIX_FMT_YUVA420P16LE,
+		AV_PIX_FMT_YUVA422P16LE,
+		AV_PIX_FMT_YUVA444P16LE,
+		AV_PIX_FMT_RGB555LE, // 46
+	};
 
 	int N = 0;
-	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
-		std::shared_ptr<Image> foo (new Image (*i, in_size, true));
+	for (auto i: pix_fmts) {
+		auto foo = make_shared<Image>(i, in_size, true);
 		foo->make_black ();
-		std::shared_ptr<Image> bar = foo->scale (out_size, dcp::YUVToRGB::REC601, AV_PIX_FMT_RGB24, true, false);
+		auto bar = foo->scale (out_size, dcp::YUVToRGB::REC601, AV_PIX_FMT_RGB24, true, false);
 
 		uint8_t* p = bar->data()[0];
 		for (int y = 0; y < bar->size().height; ++y) {
@@ -487,9 +507,9 @@ BOOST_AUTO_TEST_CASE (make_black_test)
  */
 BOOST_AUTO_TEST_CASE (over_crop_test)
 {
-	shared_ptr<Image> image (new Image (AV_PIX_FMT_RGB24, dcp::Size(128, 128), true));
+	auto image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size(128, 128), true);
 	image->make_black ();
-	shared_ptr<Image> scaled = image->crop_scale_window (
+	auto scaled = image->crop_scale_window (
 		Crop(0, 0, 128, 128), dcp::Size(1323, 565), dcp::Size(1349, 565), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, true, true
 		);
 	string const filename = "over_crop_test.png";
