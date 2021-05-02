@@ -538,19 +538,19 @@ BOOST_AUTO_TEST_CASE (make_part_black_test)
 					int b = *q++;
 					if (x >= j.first && x < (j.first + j.second)) {
 						BOOST_CHECK_MESSAGE (
-							r < 3, "red=" << static_cast<int>(r) << " at x=" << x << " format " << i << " from " << j.first << " width " << j.second
+							r < 3, "red=" << static_cast<int>(r) << " at (" << x << "," << y << ") format " << i << " from " << j.first << " width " << j.second
 							);
 					} else {
 						BOOST_CHECK_MESSAGE (
-							r > 252, "red=" << static_cast<int>(r) << " at x=" << x << " format " << i << " from " << j.first << " width " << j.second
+							r >= 252, "red=" << static_cast<int>(r) << " at (" << x << "," << y << ") format " << i << " from " << j.first << " width " << j.second
 							);
 
 					}
 					BOOST_CHECK_MESSAGE (
-						g == 0, "green=" << static_cast<int>(g) << " at x=" << x << " format " << i << " from " << j.first << " width " << j.second
+						g == 0, "green=" << static_cast<int>(g) << " at (" << x << "," << y << ") format " << i << " from " << j.first << " width " << j.second
 						);
 					BOOST_CHECK_MESSAGE (
-						b == 0, "blue=" << static_cast<int>(b) << " at x=" << x << " format " << i << " from " << j.first << " width " << j.second
+						b == 0, "blue=" << static_cast<int>(b) << " at (" << x << "," << y << ") format " << i << " from " << j.first << " width " << j.second
 						);
 				}
 				p += bar->stride()[0];
