@@ -412,3 +412,18 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_from_dcp_with_crop)
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::PRORES, false, false, false, 23);
 	encoder.go ();
 }
+
+
+/** DCP -> H264 with crop */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_from_dcp_with_crop)
+{
+	auto dcp = make_shared<DCPContent>("test/data/import_dcp_test2");
+	auto film = new_test_film2 ("ffmpeg_encoder_h264_from_dcp_with_crop", { dcp });
+	dcp->video->set_left_crop (32);
+	dcp->video->set_right_crop (32);
+	film->write_metadata ();
+
+	auto job = make_shared<TranscodeJob>(film);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::H264_AAC, false, false, false, 23);
+	encoder.go ();
+}
