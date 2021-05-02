@@ -64,6 +64,15 @@ using dcp::Size;
 /** The memory alignment, in bytes, used for each row of an image if aligment is requested */
 #define ALIGNMENT 64
 
+/* U/V black value for 8-bit colour */
+static uint8_t const eight_bit_uv =	(1 << 7) - 1;
+/* U/V black value for 9-bit colour */
+static uint16_t const nine_bit_uv =	(1 << 8) - 1;
+/* U/V black value for 10-bit colour */
+static uint16_t const ten_bit_uv =	(1 << 9) - 1;
+/* U/V black value for 16-bit colour */
+static uint16_t const sixteen_bit_uv =	(1 << 15) - 1;
+
 
 int
 Image::vertical_factor (int n) const
@@ -381,7 +390,7 @@ Image::swap_16 (uint16_t v)
 }
 
 void
-Image::make_part_black (int x, int w)
+Image::make_part_black (int const start, int const width)
 {
 	switch (_pixel_format) {
 	case AV_PIX_FMT_RGB24:
@@ -399,12 +408,33 @@ Image::make_part_black (int x, int w)
 		int const s = stride()[0];
 		uint8_t* p = data()[0];
 		for (int y = 0; y < h; y++) {
-			memset (p + x * bpp, 0, w * bpp);
+			memset (p + start * bpp, 0, width * bpp);
 			p += s;
 		}
 		break;
 	}
-
+	case AV_PIX_FMT_YUV422P10LE:
+	{
+		int const bpp_0 = bytes_per_pixel(0);
+		int const h_0 = sample_size(0).height;
+		int const stride_0 = stride()[0];
+		auto p = data()[0];
+		for (int y = 0; y < h_0; ++y) {
+			memset (p + start * bpp_0, 0xff, width * bpp_0);
+			p += stride_0;
+		}
+		for (int i = 1; i < 3; ++i) {
+			auto p = reinterpret_cast<int16_t*>(data()[i]);
+			int const lines = sample_size(i).height;
+			for (int y = 0; y < lines; ++y) {
+				for (int x = start / 2; x < (start + width) / 2; ++x) {
+					p[x] = ten_bit_uv;
+				}
+				p += stride()[i] / 2;
+			}
+		}
+		break;
+	}
 	default:
 		throw PixelFormatError ("make_part_black()", _pixel_format);
 	}
@@ -413,15 +443,6 @@ Image::make_part_black (int x, int w)
 void
 Image::make_black ()
 {
-	/* U/V black value for 8-bit colour */
-	static uint8_t const eight_bit_uv =	(1 << 7) - 1;
-	/* U/V black value for 9-bit colour */
-	static uint16_t const nine_bit_uv =	(1 << 8) - 1;
-	/* U/V black value for 10-bit colour */
-	static uint16_t const ten_bit_uv =	(1 << 9) - 1;
-	/* U/V black value for 16-bit colour */
-	static uint16_t const sixteen_bit_uv =	(1 << 15) - 1;
-
 	switch (_pixel_format) {
 	case AV_PIX_FMT_YUV420P:
 	case AV_PIX_FMT_YUV422P:

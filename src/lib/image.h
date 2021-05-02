@@ -99,6 +99,7 @@ public:
 
 private:
 	friend struct pixel_formats_test;
+	friend struct make_part_black_test;
 
 	void allocate ();
 	void swap (Image &);
