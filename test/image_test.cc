@@ -26,6 +26,8 @@
 
 #include "lib/compose.hpp"
 #include "lib/image.h"
+#include "lib/image_content.h"
+#include "lib/image_decoder.h"
 #include "lib/ffmpeg_image_proxy.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -393,6 +395,7 @@ BOOST_AUTO_TEST_CASE (fade_test)
 	fade_test_format_red   (AV_PIX_FMT_RGB48LE,   0.5, "rgb48le_50");
 	fade_test_format_red   (AV_PIX_FMT_RGB48LE,   1,   "rgb48le_100");
 }
+
 
 /** Make sure the image isn't corrupted if it is cropped too much.  This can happen when a
  *  filler 128x128 black frame is emitted from the FFmpegDecoder and the overall crop in either direction

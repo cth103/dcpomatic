@@ -30,9 +30,11 @@
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
+#include "lib/ffmpeg_image_proxy.h"
 #include "lib/image.h"
 
 using std::list;
+using boost::shared_ptr;
 
 BOOST_AUTO_TEST_CASE (make_black_test)
 {
@@ -98,3 +100,63 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 		++N;
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE (make_part_black_test)
+{
+	shared_ptr<FFmpegImageProxy> proxy (new FFmpegImageProxy("test/data/flat_red.png"));
+	shared_ptr<Image> original = proxy->image().first;
+
+	list<AVPixelFormat> pix_fmts = {
+		AV_PIX_FMT_RGB24,
+		AV_PIX_FMT_ARGB,
+		AV_PIX_FMT_RGBA,
+		AV_PIX_FMT_ABGR,
+		AV_PIX_FMT_BGRA,
+		AV_PIX_FMT_YUV422P10LE,
+	};
+
+	list<std::pair<int, int> > positions = {
+		{ 0, 256 },
+		{ 128, 64 },
+	};
+
+	int N = 0;
+	for (list<AVPixelFormat>::const_iterator i = pix_fmts.begin(); i != pix_fmts.end(); ++i) {
+		for (list<std::pair<int, int> >::const_iterator j = positions.begin(); j != positions.end(); ++j) {
+			shared_ptr<Image> foo = original->convert_pixel_format(dcp::YUV_TO_RGB_REC601, *i, true, false);
+			foo->make_part_black (j->first, j->second);
+			shared_ptr<Image> bar = foo->convert_pixel_format (dcp::YUV_TO_RGB_REC601, AV_PIX_FMT_RGB24, true, false);
+
+			uint8_t* p = bar->data()[0];
+			for (int y = 0; y < bar->size().height; ++y) {
+				uint8_t* q = p;
+				for (int x = 0; x < bar->size().width; ++x) {
+					int r = *q++;
+					int g = *q++;
+					int b = *q++;
+					if (x >= j->first && x < (j->first + j->second)) {
+						BOOST_CHECK_MESSAGE (
+							r < 3, "red=" << static_cast<int>(r) << " at x=" << x << " format " << *i << " from " << j->first << " width " << j->second
+							);
+					} else {
+						BOOST_CHECK_MESSAGE (
+							r >= 252, "red=" << static_cast<int>(r) << " at x=" << x << " format " << *i << " from " << j->first << " width " << j->second
+							);
+
+					}
+					BOOST_CHECK_MESSAGE (
+						g == 0, "green=" << static_cast<int>(g) << " at x=" << x << " format " << *i << " from " << j->first << " width " << j->second
+						);
+					BOOST_CHECK_MESSAGE (
+						b == 0, "blue=" << static_cast<int>(b) << " at x=" << x << " format " << *i << " from " << j->first << " width " << j->second
+						);
+				}
+				p += bar->stride()[0];
+			}
+
+			++N;
+		}
+	}
+}
+
