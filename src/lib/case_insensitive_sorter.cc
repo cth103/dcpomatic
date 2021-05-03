@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,19 @@
 
 */
 
+
 #include "case_insensitive_sorter.h"
 #include <boost/filesystem.hpp>
-#include <iostream>
+
 
 using std::string;
+
 
 bool
 CaseInsensitiveSorter::operator() (boost::filesystem::path a, boost::filesystem::path b)
 {
-	string x = a.string ();
-	string y = b.string ();
+	auto x = a.string();
+	auto y = b.string();
 	transform (x.begin(), x.end(), x.begin(), ::tolower);
 	transform (y.begin(), y.end(), y.begin(), ::tolower);
 	return x < y;

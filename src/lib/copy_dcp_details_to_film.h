@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,5 +24,6 @@
 
 class DCPContent;
 class Film;
+
 
 extern void copy_dcp_details_to_film (std::shared_ptr<const DCPContent> dcp, std::shared_ptr<Film> film);

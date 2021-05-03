@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 #include "log.h"
+
 
 class FileLog : public Log
 {

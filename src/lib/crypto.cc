@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 /* Based on code from https://wiki.openssl.org/index.php/EVP_Symmetric_Encryption_and_Decryption */
+
 
 #include "crypto.h"
 #include "exceptions.h"
@@ -28,11 +30,14 @@
 #include <openssl/rand.h>
 #include <boost/scoped_array.hpp>
 
+
 using std::string;
 using namespace dcpomatic;
 
+
 /** The cipher that this code uses */
 #define CIPHER EVP_aes_256_cbc()
+
 
 dcp::ArrayData
 dcpomatic::random_iv ()
@@ -43,10 +48,11 @@ dcpomatic::random_iv ()
 	return iv;
 }
 
+
 dcp::ArrayData
 dcpomatic::encrypt (string plaintext, dcp::ArrayData key, dcp::ArrayData iv)
 {
-	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
+	auto ctx = EVP_CIPHER_CTX_new ();
 	if (!ctx) {
 		throw CryptoError ("could not create cipher context");
 	}
@@ -78,10 +84,11 @@ dcpomatic::encrypt (string plaintext, dcp::ArrayData key, dcp::ArrayData iv)
 	return ciphertext;
 }
 
+
 string
 dcpomatic::decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayData iv)
 {
-	EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new ();
+	auto ctx = EVP_CIPHER_CTX_new ();
 	if (!ctx) {
 		throw CryptoError ("could not create cipher context");
 	}
@@ -114,6 +121,7 @@ dcpomatic::decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayDat
 
 	return string ((char *) plaintext.data());
 }
+
 
 int
 dcpomatic::crypto_key_length ()

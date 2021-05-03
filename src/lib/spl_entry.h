@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #ifndef DCPOMATIC_SPL_ENTRY_H
 #define DCPOMATIC_SPL_ENTRY_H
 
+
 #include <libcxml/cxml.h>
 #include <dcp/types.h>
+
 
 namespace xmlpp {
 	class Element;
@@ -30,10 +33,11 @@ namespace xmlpp {
 
 class Content;
 
+
 class SPLEntry
 {
 public:
-	SPLEntry (std::shared_ptr<Content> content);
+	SPLEntry (std::shared_ptr<Content> c);
 
 	void as_xml (xmlpp::Element* e);
 
@@ -49,5 +53,6 @@ public:
 private:
 	void construct (std::shared_ptr<Content> content);
 };
+
 
 #endif

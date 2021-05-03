@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_dialog.h"
 #include "check_box.h"
 #include "check_box.h"
@@ -49,6 +50,7 @@
 #include <boost/lexical_cast.hpp>
 #include <iostream>
 
+
 using std::cout;
 using std::list;
 using std::string;
@@ -64,12 +66,9 @@ using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
 
+
 DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
-	: _audio_dialog (0)
-	, _markers_dialog (0)
-	, _interop_metadata_dialog (0)
-	, _smpte_metadata_dialog (0)
-	, _film (film)
+	: _film (film)
 	, _viewer (viewer)
 	, _generally_sensitive (true)
 {
@@ -123,19 +122,19 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_notebook->AddPage (make_video_panel (), _("Video"), false);
 	_notebook->AddPage (make_audio_panel (), _("Audio"), false);
 
-	_name->Bind		     (wxEVT_TEXT,     boost::bind (&DCPPanel::name_changed, this));
-	_use_isdcf_name->Bind	     (wxEVT_CHECKBOX, boost::bind (&DCPPanel::use_isdcf_name_toggled, this));
-	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind (&DCPPanel::copy_isdcf_name_button_clicked, this));
-	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind (&DCPPanel::dcp_content_type_changed, this));
-	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind (&DCPPanel::encrypted_toggled, this));
-	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind (&DCPPanel::reel_type_changed, this));
-	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind (&DCPPanel::reel_length_changed, this));
-	_standard->Bind              (wxEVT_CHOICE,   boost::bind (&DCPPanel::standard_changed, this));
-	_markers->Bind               (wxEVT_BUTTON,   boost::bind (&DCPPanel::markers_clicked, this));
-	_metadata->Bind              (wxEVT_BUTTON,   boost::bind (&DCPPanel::metadata_clicked, this));
+	_name->Bind		     (wxEVT_TEXT,     boost::bind(&DCPPanel::name_changed, this));
+	_use_isdcf_name->Bind	     (wxEVT_CHECKBOX, boost::bind(&DCPPanel::use_isdcf_name_toggled, this));
+	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind(&DCPPanel::copy_isdcf_name_button_clicked, this));
+	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind(&DCPPanel::dcp_content_type_changed, this));
+	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind(&DCPPanel::encrypted_toggled, this));
+	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind(&DCPPanel::reel_type_changed, this));
+	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind(&DCPPanel::reel_length_changed, this));
+	_standard->Bind              (wxEVT_CHOICE,   boost::bind(&DCPPanel::standard_changed, this));
+	_markers->Bind               (wxEVT_BUTTON,   boost::bind(&DCPPanel::markers_clicked, this));
+	_metadata->Bind              (wxEVT_BUTTON,   boost::bind(&DCPPanel::metadata_clicked, this));
 
 	for (auto i: DCPContentType::all()) {
-		_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
+		_dcp_content_type->Append (std_to_wx(i->pretty_name()));
 	}
 
 	_reel_type->Append (_("Single reel"));
@@ -148,7 +147,7 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_standard->Append (_("SMPTE"));
 	_standard->Append (_("Interop"));
 
-	Config::instance()->Changed.connect (boost::bind (&DCPPanel::config_changed, this, _1));
+	Config::instance()->Changed.connect (boost::bind(&DCPPanel::config_changed, this, _1));
 
 	add_to_grid ();
 }
@@ -169,39 +168,39 @@ DCPPanel::add_to_grid ()
 	flags |= wxALIGN_RIGHT;
 #endif
 
-	_grid->Add (_use_isdcf_name, wxGBPosition (r, 0), wxDefaultSpan, flags);
+	_grid->Add (_use_isdcf_name, wxGBPosition(r, 0), wxDefaultSpan, flags);
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_copy_isdcf_name_button, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
-		_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxEXPAND);
+		_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	}
 	++r;
 
 	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
 	++r;
 
-	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition (r, 0));
-	_grid->Add (_dcp_content_type, wxGBPosition (r, 1));
+	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition(r, 0));
+	_grid->Add (_dcp_content_type, wxGBPosition(r, 1));
 	++r;
 
-	_grid->Add (_encrypted, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_grid->Add (_encrypted, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
-	add_label_to_sizer (_grid, _reels_label, true, wxGBPosition (r, 0));
-	_grid->Add (_reel_type, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	add_label_to_sizer (_grid, _reels_label, true, wxGBPosition(r, 0));
+	_grid->Add (_reel_type, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
-	add_label_to_sizer (_grid, _reel_length_label, true, wxGBPosition (r, 0));
+	add_label_to_sizer (_grid, _reel_length_label, true, wxGBPosition(r, 0));
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_reel_length);
 		add_label_to_sizer (s, _reel_length_gb_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
-		_grid->Add (s, wxGBPosition (r, 1));
+		_grid->Add (s, wxGBPosition(r, 1));
 	}
 	++r;
 
-	add_label_to_sizer (_grid, _standard_label, true, wxGBPosition (r, 0));
-	_grid->Add (_standard, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	add_label_to_sizer (_grid, _standard_label, true, wxGBPosition(r, 0));
+	_grid->Add (_standard, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	auto extra = new wxBoxSizer (wxHORIZONTAL);
@@ -211,6 +210,7 @@ DCPPanel::add_to_grid ()
 	++r;
 }
 
+
 void
 DCPPanel::name_changed ()
 {
@@ -218,8 +218,9 @@ DCPPanel::name_changed ()
 		return;
 	}
 
-	_film->set_name (string (_name->GetValue().mb_str()));
+	_film->set_name (string(_name->GetValue().mb_str()));
 }
+
 
 void
 DCPPanel::j2k_bandwidth_changed ()
@@ -231,6 +232,7 @@ DCPPanel::j2k_bandwidth_changed ()
 	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
 }
 
+
 void
 DCPPanel::encrypted_toggled ()
 {
@@ -238,8 +240,9 @@ DCPPanel::encrypted_toggled ()
 		return;
 	}
 
-	_film->set_encrypted (_encrypted->GetValue ());
+	_film->set_encrypted (_encrypted->GetValue());
 }
+
 
 /** Called when the frame rate choice widget has been changed */
 void
@@ -257,6 +260,7 @@ DCPPanel::frame_rate_choice_changed ()
 		);
 }
 
+
 /** Called when the frame rate spin widget has been changed */
 void
 DCPPanel::frame_rate_spin_changed ()
@@ -265,8 +269,9 @@ DCPPanel::frame_rate_spin_changed ()
 		return;
 	}
 
-	_film->set_video_frame_rate (_frame_rate_spin->GetValue ());
+	_film->set_video_frame_rate (_frame_rate_spin->GetValue());
 }
+
 
 void
 DCPPanel::audio_channels_changed ()
@@ -275,8 +280,9 @@ DCPPanel::audio_channels_changed ()
 		return;
 	}
 
-	_film->set_audio_channels (locale_convert<int> (string_client_data (_audio_channels->GetClientObject (_audio_channels->GetSelection ()))));
+	_film->set_audio_channels (locale_convert<int>(string_client_data(_audio_channels->GetClientObject(_audio_channels->GetSelection()))));
 }
+
 
 void
 DCPPanel::resolution_changed ()
@@ -288,6 +294,7 @@ DCPPanel::resolution_changed ()
 	_film->set_resolution (_resolution->GetSelection() == 0 ? Resolution::TWO_K : Resolution::FOUR_K);
 }
 
+
 void
 DCPPanel::standard_changed ()
 {
@@ -296,6 +303,7 @@ DCPPanel::standard_changed ()
 	}
 
 	_film->set_interop (_standard->GetSelection() == 1);
+
 }
 
 void
@@ -303,12 +311,13 @@ DCPPanel::markers_clicked ()
 {
 	if (_markers_dialog) {
 		_markers_dialog->Destroy ();
-		_markers_dialog = 0;
+		_markers_dialog = nullptr;
 	}
 
 	_markers_dialog = new MarkersDialog (_panel, _film, _viewer);
 	_markers_dialog->Show();
 }
+
 
 void
 DCPPanel::metadata_clicked ()
@@ -316,7 +325,7 @@ DCPPanel::metadata_clicked ()
 	if (_film->interop()) {
 		if (_interop_metadata_dialog) {
 			_interop_metadata_dialog->Destroy ();
-			_interop_metadata_dialog = 0;
+			_interop_metadata_dialog = nullptr;
 		}
 
 		_interop_metadata_dialog = new InteropMetadataDialog (_panel, _film);
@@ -325,7 +334,7 @@ DCPPanel::metadata_clicked ()
 	} else {
 		if (_smpte_metadata_dialog) {
 			_smpte_metadata_dialog->Destroy ();
-			_smpte_metadata_dialog = 0;
+			_smpte_metadata_dialog = nullptr;
 		}
 
 		_smpte_metadata_dialog = new SMPTEMetadataDialog (_panel, _film);
@@ -333,6 +342,7 @@ DCPPanel::metadata_clicked ()
 		_smpte_metadata_dialog->Show ();
 	}
 }
+
 
 void
 DCPPanel::film_changed (Film::Property p)
@@ -348,9 +358,13 @@ DCPPanel::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	case Film::Property::DCP_CONTENT_TYPE:
-		checked_set (_dcp_content_type, DCPContentType::as_index (_film->dcp_content_type ()));
+	{
+		auto index = DCPContentType::as_index(_film->dcp_content_type());
+		DCPOMATIC_ASSERT (index);
+		checked_set (_dcp_content_type, *index);
 		setup_dcp_name ();
 		break;
+	}
 	case Film::Property::ENCRYPTED:
 		checked_set (_encrypted, _film->encrypted ());
 		break;
@@ -364,7 +378,7 @@ DCPPanel::film_changed (Film::Property p)
 		break;
 	case Film::Property::USE_ISDCF_NAME:
 	{
-		checked_set (_use_isdcf_name, _film->use_isdcf_name ());
+		checked_set (_use_isdcf_name, _film->use_isdcf_name());
 		if (_film->use_isdcf_name()) {
 			/* We are going back to using an ISDCF name.  Remove anything after a _ in the current name,
 			   in case the user has clicked 'Copy as name' then re-ticked 'Use ISDCF name' (#1513).
@@ -382,7 +396,7 @@ DCPPanel::film_changed (Film::Property p)
 	{
 		bool done = false;
 		for (unsigned int i = 0; i < _frame_rate_choice->GetCount(); ++i) {
-			if (wx_to_std (_frame_rate_choice->GetString(i)) == boost::lexical_cast<string> (_film->video_frame_rate())) {
+			if (wx_to_std(_frame_rate_choice->GetString(i)) == boost::lexical_cast<string>(_film->video_frame_rate())) {
 				checked_set (_frame_rate_choice, i);
 				done = true;
 				break;
@@ -400,15 +414,15 @@ DCPPanel::film_changed (Film::Property p)
 		break;
 	}
 	case Film::Property::AUDIO_CHANNELS:
-		if (_film->audio_channels () < minimum_allowed_audio_channels ()) {
-			_film->set_audio_channels (minimum_allowed_audio_channels ());
+		if (_film->audio_channels() < minimum_allowed_audio_channels()) {
+			_film->set_audio_channels (minimum_allowed_audio_channels());
 		} else {
-			checked_set (_audio_channels, locale_convert<string> (max (minimum_allowed_audio_channels(), _film->audio_channels ())));
+			checked_set (_audio_channels, locale_convert<string>(max(minimum_allowed_audio_channels(), _film->audio_channels())));
 			setup_dcp_name ();
 		}
 		break;
 	case Film::Property::THREE_D:
-		checked_set (_three_d, _film->three_d ());
+		checked_set (_three_d, _film->three_d());
 		setup_dcp_name ();
 		break;
 	case Film::Property::REENCODE_J2K:
@@ -420,12 +434,12 @@ DCPPanel::film_changed (Film::Property p)
 		_markers->Enable (!_film->interop());
 		break;
 	case Film::Property::AUDIO_PROCESSOR:
-		if (_film->audio_processor ()) {
+		if (_film->audio_processor()) {
 			checked_set (_audio_processor, _film->audio_processor()->id());
 		} else {
 			checked_set (_audio_processor, 0);
 		}
-		setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels ());
+		setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels());
 		film_changed (Film::Property::AUDIO_CHANNELS);
 		break;
 	case Film::Property::REEL_TYPE:
@@ -458,6 +472,7 @@ DCPPanel::film_changed (Film::Property p)
 	}
 }
 
+
 void
 DCPPanel::film_content_changed (int property)
 {
@@ -482,24 +497,25 @@ void
 DCPPanel::setup_container ()
 {
 	int n = 0;
-	vector<Ratio const *> ratios = Ratio::containers ();
-	vector<Ratio const *>::iterator i = ratios.begin ();
-	while (i != ratios.end() && *i != _film->container ()) {
+	auto ratios = Ratio::containers ();
+	auto i = ratios.begin ();
+	while (i != ratios.end() && *i != _film->container()) {
 		++i;
 		++n;
 	}
 
 	if (i == ratios.end()) {
 		checked_set (_container, -1);
-		checked_set (_container_size, wxT (""));
+		checked_set (_container_size, wxT(""));
 	} else {
 		checked_set (_container, n);
-		dcp::Size const size = fit_ratio_within (_film->container()->ratio(), _film->full_frame ());
-		checked_set (_container_size, wxString::Format ("%dx%d", size.width, size.height));
+		auto const size = fit_ratio_within (_film->container()->ratio(), _film->full_frame ());
+		checked_set (_container_size, wxString::Format("%dx%d", size.width, size.height));
 	}
 
 	setup_dcp_name ();
 }
+
 
 /** Called when the container widget has been changed */
 void
@@ -511,11 +527,12 @@ DCPPanel::container_changed ()
 
 	int const n = _container->GetSelection ();
 	if (n >= 0) {
-		vector<Ratio const *> ratios = Ratio::containers ();
-		DCPOMATIC_ASSERT (n < int (ratios.size()));
+		auto ratios = Ratio::containers ();
+		DCPOMATIC_ASSERT (n < int(ratios.size()));
 		_film->set_container (ratios[n]);
 	}
 }
+
 
 /** Called when the DCP content type widget has been changed */
 void
@@ -527,9 +544,10 @@ DCPPanel::dcp_content_type_changed ()
 
 	int const n = _dcp_content_type->GetSelection ();
 	if (n != wxNOT_FOUND) {
-		_film->set_dcp_content_type (DCPContentType::from_index (n));
+		_film->set_dcp_content_type (DCPContentType::from_index(n));
 	}
 }
+
 
 void
 DCPPanel::set_film (shared_ptr<Film> film)
@@ -582,12 +600,14 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	set_general_sensitivity(static_cast<bool>(_film));
 }
 
+
 void
 DCPPanel::set_general_sensitivity (bool s)
 {
 	_generally_sensitive = s;
 	setup_sensitivity ();
 }
+
 
 void
 DCPPanel::setup_sensitivity ()
@@ -629,6 +649,7 @@ DCPPanel::setup_sensitivity ()
 	_show_audio->Enable             (_generally_sensitive && _film);
 }
 
+
 void
 DCPPanel::use_isdcf_name_toggled ()
 {
@@ -636,15 +657,16 @@ DCPPanel::use_isdcf_name_toggled ()
 		return;
 	}
 
-	_film->set_use_isdcf_name (_use_isdcf_name->GetValue ());
+	_film->set_use_isdcf_name (_use_isdcf_name->GetValue());
 }
 
 void
 DCPPanel::setup_dcp_name ()
 {
-	_dcp_name->SetLabel (std_to_wx (_film->dcp_name (true)));
-	_dcp_name->SetToolTip (std_to_wx (_film->dcp_name (true)));
+	_dcp_name->SetLabel (std_to_wx(_film->dcp_name(true)));
+	_dcp_name->SetToolTip (std_to_wx(_film->dcp_name(true)));
 }
+
 
 void
 DCPPanel::best_frame_rate_clicked ()
@@ -653,8 +675,9 @@ DCPPanel::best_frame_rate_clicked ()
 		return;
 	}
 
-	_film->set_video_frame_rate (_film->best_video_frame_rate ());
+	_film->set_video_frame_rate (_film->best_video_frame_rate());
 }
+
 
 void
 DCPPanel::three_d_changed ()
@@ -663,8 +686,9 @@ DCPPanel::three_d_changed ()
 		return;
 	}
 
-	_film->set_three_d (_three_d->GetValue ());
+	_film->set_three_d (_three_d->GetValue());
 }
+
 
 void
 DCPPanel::reencode_j2k_changed ()
@@ -675,6 +699,7 @@ DCPPanel::reencode_j2k_changed ()
 
 	_film->set_reencode_j2k (_reencode_j2k->GetValue());
 }
+
 
 void
 DCPPanel::config_changed (Config::Property p)
@@ -691,10 +716,11 @@ DCPPanel::config_changed (Config::Property p)
 	}
 }
 
+
 void
 DCPPanel::setup_frame_rate_widget ()
 {
-	if (Config::instance()->allow_any_dcp_frame_rate ()) {
+	if (Config::instance()->allow_any_dcp_frame_rate()) {
 		_frame_rate_choice->Hide ();
 		_frame_rate_spin->Show ();
 	} else {
@@ -702,6 +728,7 @@ DCPPanel::setup_frame_rate_widget ()
 		_frame_rate_spin->Hide ();
 	}
 }
+
 
 wxPanel *
 DCPPanel::make_video_panel ()
@@ -769,6 +796,7 @@ DCPPanel::make_video_panel ()
 	return panel;
 }
 
+
 void
 DCPPanel::add_video_panel_to_grid ()
 {
@@ -776,7 +804,7 @@ DCPPanel::add_video_panel_to_grid ()
 
 	add_label_to_sizer (_video_grid, _container_label, true, wxGBPosition (r, 0));
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_container, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 		s->Add (_container_size, 1, wxLEFT | wxALIGN_CENTER_VERTICAL);
 		_video_grid->Add (s, wxGBPosition(r, 1));
@@ -809,6 +837,7 @@ DCPPanel::add_video_panel_to_grid ()
 	_video_grid->Add (_reencode_j2k, wxGBPosition(r, 0), wxGBSpan(1, 2));
 }
 
+
 int
 DCPPanel::minimum_allowed_audio_channels () const
 {
@@ -823,6 +852,7 @@ DCPPanel::minimum_allowed_audio_channels () const
 
 	return min;
 }
+
 
 wxPanel *
 DCPPanel::make_audio_panel ()
@@ -852,6 +882,7 @@ DCPPanel::make_audio_panel ()
 	return panel;
 }
 
+
 void
 DCPPanel::add_audio_panel_to_grid ()
 {
@@ -869,12 +900,14 @@ DCPPanel::add_audio_panel_to_grid ()
 	++r;
 }
 
+
 void
 DCPPanel::copy_isdcf_name_button_clicked ()
 {
 	_film->set_name (_film->isdcf_name (true));
 	_film->set_use_isdcf_name (false);
 }
+
 
 void
 DCPPanel::audio_processor_changed ()
@@ -886,6 +919,7 @@ DCPPanel::audio_processor_changed ()
 	auto const s = string_client_data (_audio_processor->GetClientObject (_audio_processor->GetSelection ()));
 	_film->set_audio_processor (AudioProcessor::from_id (s));
 }
+
 
 void
 DCPPanel::show_audio_clicked ()
@@ -903,6 +937,7 @@ DCPPanel::show_audio_clicked ()
 	d->Show ();
 }
 
+
 void
 DCPPanel::reel_type_changed ()
 {
@@ -910,8 +945,9 @@ DCPPanel::reel_type_changed ()
 		return;
 	}
 
-	_film->set_reel_type (static_cast<ReelType> (_reel_type->GetSelection ()));
+	_film->set_reel_type (static_cast<ReelType>(_reel_type->GetSelection()));
 }
+
 
 void
 DCPPanel::reel_length_changed ()
@@ -923,10 +959,11 @@ DCPPanel::reel_length_changed ()
 	_film->set_reel_length (_reel_length->GetValue() * 1000000000LL);
 }
 
+
 void
 DCPPanel::add_audio_processors ()
 {
-	_audio_processor->Append (_("None"), new wxStringClientData (N_("none")));
+	_audio_processor->Append (_("None"), new wxStringClientData(N_("none")));
 	for (auto ap: AudioProcessor::visible()) {
 		_audio_processor->Append (std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}

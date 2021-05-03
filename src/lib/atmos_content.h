@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -35,7 +35,8 @@ public:
 class AtmosContent : public ContentPart
 {
 public:
-	AtmosContent (Content* parent);
+	explicit AtmosContent (Content* parent);
+	AtmosContent (Content* parent, cxml::ConstNodePtr node);
 
 	static std::shared_ptr<AtmosContent> from_xml (Content* parent, cxml::ConstNodePtr node);
 
@@ -54,8 +55,6 @@ public:
 	}
 
 private:
-	AtmosContent (Content* parent, cxml::ConstNodePtr node);
-
 	Frame _length;
 	dcp::Fraction _edit_rate;
 };

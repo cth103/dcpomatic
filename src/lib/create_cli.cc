@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,19 +18,21 @@
 
 */
 
+
+#include "compose.hpp"
+#include "config.h"
 #include "create_cli.h"
 #include "dcp_content_type.h"
 #include "ratio.h"
-#include "config.h"
-#include "compose.hpp"
 #include <dcp/raw_convert.h>
+#include <iostream>
 #include <string>
 
-#include <iostream>
 
 using std::string;
 using std::cout;
 using boost::optional;
+
 
 string CreateCLI::_help =
 	"\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n"
@@ -54,6 +56,7 @@ string CreateCLI::_help =
 	"      --left-eye                next piece of content is for the left eye\n"
 	"      --right-eye               next piece of content is for the right eye\n";
 
+
 template <class T>
 void
 argument_option (int& n, int argc, char* argv[], string short_name, string long_name, bool* claimed, optional<string>* error, T* out)
@@ -71,6 +74,7 @@ argument_option (int& n, int argc, char* argv[], string short_name, string long_
 	*out = dcp::raw_convert<T>(string(argv[++n]));
 	*claimed = true;
 }
+
 
 CreateCLI::CreateCLI (int argc, char* argv[])
 	: version (false)

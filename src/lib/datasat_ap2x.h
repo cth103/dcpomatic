@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 /** @file  src/lib/datasat_ap2x.h
  *  @brief DatasatAP2x class.
  */
 
+
 #include "cinema_sound_processor.h"
+
 
 class DatasatAP2x : public CinemaSoundProcessor
 {

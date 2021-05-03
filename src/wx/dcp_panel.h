@@ -43,6 +43,7 @@ class Film;
 class FilmViewer;
 class Ratio;
 
+
 class DCPPanel
 {
 public:
@@ -149,10 +150,10 @@ private:
 	wxButton* _metadata;
 	wxSizer* _audio_panel_sizer;
 
-	AudioDialog* _audio_dialog;
-	MarkersDialog* _markers_dialog;
-	InteropMetadataDialog* _interop_metadata_dialog;
-	SMPTEMetadataDialog* _smpte_metadata_dialog;
+	AudioDialog* _audio_dialog = nullptr;
+	MarkersDialog* _markers_dialog = nullptr;
+	InteropMetadataDialog* _interop_metadata_dialog = nullptr;
+	SMPTEMetadataDialog* _smpte_metadata_dialog = nullptr;
 
 	std::shared_ptr<Film> _film;
 	std::weak_ptr<FilmViewer> _viewer;

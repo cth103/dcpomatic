@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,17 @@
 
 */
 
+
 #include "dkdm_recipient.h"
 #include "kdm_with_metadata.h"
 #include "film.h"
 #include <dcp/raw_convert.h>
 
 
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
 using dcp::raw_convert;
 
 
@@ -72,7 +74,7 @@ kdm_for_dkdm_recipient (
 	dcp::LocalTime const begin(valid_from, recipient->utc_offset_hour, recipient->utc_offset_minute);
 	dcp::LocalTime const end  (valid_to,   recipient->utc_offset_hour, recipient->utc_offset_minute);
 
-	dcp::EncryptedKDM const kdm = film->make_kdm (
+	auto const kdm = film->make_kdm (
 			recipient->recipient.get(),
 			vector<string>(),
 			cpl,
@@ -89,6 +91,6 @@ kdm_for_dkdm_recipient (
 	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
-	return KDMWithMetadataPtr(new KDMWithMetadata(name_values, 0, recipient->emails, kdm));
+	return make_shared<KDMWithMetadata>(name_values, nullptr, recipient->emails, kdm);
 }
 

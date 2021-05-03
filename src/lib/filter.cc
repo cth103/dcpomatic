@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file src/filter.cc
  *  @brief A class to describe one of FFmpeg's video or audio filters.
  */
+
 
 #include "filter.h"
 extern "C" {
@@ -30,9 +32,12 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using namespace std;
 
+
 vector<Filter const *> Filter::_filters;
+
 
 /** @param i Our id.
  *  @param n User-visible name.
@@ -48,12 +53,14 @@ Filter::Filter (string i, string n, string c, string f)
 
 }
 
+
 /** @return All available filters */
 vector<Filter const *>
 Filter::all ()
 {
 	return _filters;
 }
+
 
 /** Set up the static _filters vector; must be called before from_*
  *  methods are used.
@@ -80,6 +87,7 @@ Filter::setup_filters ()
 	maybe_add (N_("ow"),	      _("Overcomplete wavelet denoiser"),    _("Noise reduction"), N_("mp=ow"));
 }
 
+
 void
 Filter::maybe_add (string i, string n, string c, string f)
 {
@@ -89,10 +97,11 @@ Filter::maybe_add (string i, string n, string c, string f)
 		check_name = check_name.substr (0, end);
 	}
 
-	if (avfilter_get_by_name (check_name.c_str())) {
-		_filters.push_back (new Filter (i, n, c, f));
+	if (avfilter_get_by_name(check_name.c_str())) {
+		_filters.push_back (new Filter(i, n, c, f));
 	}
 }
+
 
 /** @param filters Set of filters.
  *  @return String to pass to FFmpeg for the video filters.
@@ -112,19 +121,20 @@ Filter::ffmpeg_string (vector<Filter const *> const & filters)
 	return ff;
 }
 
+
 /** @param d Our id.
  *  @return Corresponding Filter, or 0.
  */
 Filter const *
 Filter::from_id (string d)
 {
-	vector<Filter const *>::iterator i = _filters.begin ();
+	auto i = _filters.begin ();
 	while (i != _filters.end() && (*i)->id() != d) {
 		++i;
 	}
 
 	if (i == _filters.end ()) {
-		return 0;
+		return nullptr;
 	}
 
 	return *i;

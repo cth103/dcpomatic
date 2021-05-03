@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
+
 #include "overlaps.h"
 #include "types.h"
 #include "content.h"
 
-using std::shared_ptr;
+
 using std::function;
+using std::shared_ptr;
 using namespace dcpomatic;
+
 
 ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
 {

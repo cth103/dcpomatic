@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,18 @@
 
 */
 
+
 #include <dcp/array_data.h>
 
+
 namespace dcpomatic {
+
 
 dcp::ArrayData random_iv ();
 dcp::ArrayData encrypt (std::string plaintext, dcp::ArrayData key, dcp::ArrayData iv);
 std::string decrypt (dcp::ArrayData ciphertext, dcp::ArrayData key, dcp::ArrayData iv);
 int crypto_key_length ();
+
 
 }
 

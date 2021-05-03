@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_SCREEN_H
 #define DCPOMATIC_SCREEN_H
+
 
 #include "kdm_with_metadata.h"
 #include "kdm_recipient.h"
@@ -29,10 +31,13 @@
 #include <boost/optional.hpp>
 #include <string>
 
+
 class Cinema;
 class Film;
 
+
 namespace dcpomatic {
+
 
 /** @class Screen
  *  @brief A representation of a Screen for KDM generation.
@@ -59,6 +64,7 @@ public:
 };
 
 }
+
 
 KDMWithMetadataPtr
 kdm_for_screen (

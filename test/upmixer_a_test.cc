@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,27 +18,32 @@
 
 */
 
+
 /** @file  test/upmixer_a_test.cc
  *  @brief Check the Upmixer A against some reference sound files.
  *  @ingroup selfcontained
  */
 
-#include <boost/test/unit_test.hpp>
-#include <sndfile.h>
-#include "lib/film.h"
-#include "lib/ratio.h"
+
+#include "lib/audio_buffers.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/player.h"
-#include "lib/audio_buffers.h"
+#include "lib/ratio.h"
 #include "lib/upmixer_a.h"
 #include "test.h"
+#include <sndfile.h>
+#include <boost/test/unit_test.hpp>
 
+
+using std::make_shared;
 using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
+
 
 static SNDFILE* L;
 static SNDFILE* R;
@@ -46,6 +51,7 @@ static SNDFILE* C;
 static SNDFILE* Lfe;
 static SNDFILE* Ls;
 static SNDFILE* Rs;
+
 
 static void
 write (shared_ptr<AudioBuffers> b, DCPTime)
@@ -59,14 +65,15 @@ write (shared_ptr<AudioBuffers> b, DCPTime)
 
 }
 
+
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
-	shared_ptr<Film> film = new_test_film ("upmixer_a_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
+	auto film = new_test_film ("upmixer_a_test");
+	film->set_container (Ratio::from_id("185"));
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
 	film->set_name ("frobozz");
-	film->set_audio_processor (AudioProcessor::from_id ("stereo-5.1-upmix-a"));
-	shared_ptr<FFmpegContent> content (new FFmpegContent ("test/data/white.wav"));
+	film->set_audio_processor (AudioProcessor::from_id("stereo-5.1-upmix-a"));
+	auto content = make_shared<FFmpegContent>("test/data/white.wav");
 	film->examine_and_add_content (content);
 
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -82,7 +89,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
 	Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
 
-	shared_ptr<Player> player (new Player(film));
+	auto player = make_shared<Player>(film);
 	player->Audio.connect (bind (&write, _1, _2));
 	while (!player->pass()) {}
 

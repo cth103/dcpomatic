@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,13 @@
 
 */
 
+
 #include "kdm_recipient.h"
 #include "kdm_with_metadata.h"
 
+
 class Film;
+
 
 class DKDMRecipient : public KDMRecipient
 {

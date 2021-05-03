@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -30,11 +30,11 @@ class AtmosDecoder : public DecoderPart
 public:
 	AtmosDecoder (Decoder* parent, std::shared_ptr<const Content> content);
 
-	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const override {
 		return _position;
 	}
 
-	void seek ();
+	void seek () override;
 
 	void emit (std::shared_ptr<const Film> film, std::shared_ptr<const dcp::AtmosFrame> data, Frame frame, AtmosMetadata metadata);
 

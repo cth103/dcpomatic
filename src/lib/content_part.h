@@ -1,6 +1,5 @@
-
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,15 +18,19 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONTENT_PART_H
 #define DCPOMATIC_CONTENT_PART_H
 
-#include "content.h"
+
 #include "change_signaller.h"
+#include "content.h"
 #include <boost/thread/mutex.hpp>
+
 
 class Content;
 class Film;
+
 
 class ContentPart
 {
@@ -70,5 +73,6 @@ protected:
 	Content* _parent;
 	mutable boost::mutex _mutex;
 };
+
 
 #endif

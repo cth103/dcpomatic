@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #include <curl/curl.h>
 #include <boost/scoped_array.hpp>
+
 
 class Emailer
 {

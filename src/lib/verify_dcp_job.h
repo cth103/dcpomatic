@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,13 @@
 
 */
 
+
 #include "job.h"
 #include <dcp/verify.h>
 
+
 class Content;
+
 
 class VerifyDCPJob : public Job
 {
@@ -29,9 +32,9 @@ public:
 	explicit VerifyDCPJob (std::vector<boost::filesystem::path> directories);
 	~VerifyDCPJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 	std::vector<dcp::VerificationNote> notes () const {
 		return _notes;

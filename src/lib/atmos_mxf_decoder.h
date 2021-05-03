@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,23 @@
 
 */
 
+
 #include "atmos_metadata.h"
 #include "dcpomatic_time.h"
 #include "decoder.h"
 #include <dcp/atmos_asset_reader.h>
 
+
 class AtmosMXFContent;
+
 
 class AtmosMXFDecoder : public Decoder
 {
 public:
 	AtmosMXFDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const AtmosMXFContent>);
 
-	bool pass ();
-	void seek (dcpomatic::ContentTime t, bool accurate);
+	bool pass () override;
+	void seek (dcpomatic::ContentTime t, bool accurate) override;
 
 private:
 	std::shared_ptr<const AtmosMXFContent> _content;

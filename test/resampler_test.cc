@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,25 @@
 
 */
 
+
 /** @file  test/resampler_test.cc
  *  @brief Check that the timings that come back from Resampler correspond
  *  to the number of samples it generates.
  *  @ingroup selfcontained
  */
 
-#include <boost/test/unit_test.hpp>
+
 #include "lib/audio_buffers.h"
 #include "lib/resampler.h"
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 
-using std::pair;
+
 using std::cout;
+using std::make_shared;
+using std::pair;
 using std::shared_ptr;
+
 
 static void
 resampler_test_one (int from, int to)
@@ -43,11 +48,12 @@ resampler_test_one (int from, int to)
 
 	/* XXX: no longer checks anything */
 	for (int64_t i = 0; i < N; i += 1000) {
-		shared_ptr<AudioBuffers> a (new AudioBuffers (1, 1000));
+		auto a = make_shared<AudioBuffers> (1, 1000);
 		a->make_silent ();
-		pair<shared_ptr<const AudioBuffers>, Frame> r = resamp.run (a, 0);
+		auto r = resamp.run (a, 0);
 	}
 }
+
 
 BOOST_AUTO_TEST_CASE (resampler_test)
 {

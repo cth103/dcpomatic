@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #ifndef DCPOMATIC_FRAME_RATE_CHANGE_H
 #define DCPOMATIC_FRAME_RATE_CHANGE_H
 
@@ -28,6 +29,7 @@
 
 class Film;
 class Content;
+
 
 class FrameRateChange
 {
@@ -48,13 +50,13 @@ public:
 		return repeat;
 	}
 
-	double source;
-	int dcp;
+	double source = 24;
+	int dcp = 24;
 
 	/** true to skip every other frame */
-	bool skip;
+	bool skip = false;
 	/** number of times to use each frame (e.g. 1 is normal, 2 means repeat each frame once, and so on) */
-	int repeat;
+	int repeat = 1;
 	/** true if this DCP will run its video faster or slower than the source
 	 *  without taking into account `repeat' nor `skip'.
 	 *  (e.g. change_speed will be true if
@@ -64,17 +66,15 @@ public:
 	 *	    source is 15.00fps, DCP is 30fps
 	 *	    source is 12.50fps, DCP is 25fps)
 	 */
-	bool change_speed;
+	bool change_speed = false;
 
 	/** Amount by which the video is being sped-up in the DCP; e.g. for a
 	 *  24fps source in a 25fps DCP this would be 25/24.
 	 */
-	double speed_up;
+	double speed_up = 1.0;
 
 	std::string description () const;
-
-private:
-	void construct (double source_, int dcp_);
 };
+
 
 #endif

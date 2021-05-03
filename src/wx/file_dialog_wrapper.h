@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,10 @@
 
 */
 
+
+#include "wx_util.h"
 #include <dcp/util.h>
+
 
 template <class T>
 class FileDialogWrapper
@@ -34,7 +37,7 @@ public:
 
 	boost::optional<T> get ()
 	{
-		return T (dcp::file_to_string (wx_to_std (_dialog->GetPath ())));
+		return T (dcp::file_to_string(wx_to_std(_dialog->GetPath())));
 	}
 
 	int ShowModal ()

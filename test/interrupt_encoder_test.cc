@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,34 +18,39 @@
 
 */
 
+
 /** @file  test/interrupt_encoder_test.cc
  *  @brief Test clean shutdown of threads if a DCP encode is interrupted.
  *  @ingroup feature
  */
 
-#include "lib/film.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
-#include "lib/ffmpeg_content.h"
+
 #include "lib/audio_content.h"
-#include "lib/job_manager.h"
 #include "lib/cross.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/ratio.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+
+using std::make_shared;
 using std::shared_ptr;
+
 
 /** Interrupt a DCP encode when it is in progress, as this used to (still does?)
  *  sometimes give an error related to pthreads.
  */
 BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 {
-	shared_ptr<Film> film = new_test_film ("interrupt_encoder_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
+	auto film = new_test_film ("interrupt_encoder_test");
+	film->set_dcp_content_type (DCPContentType::from_isdcf_name("FTR"));
+	film->set_container (Ratio::from_id("185"));
 	film->set_name ("interrupt_encoder_test");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent(TestPaths::private_data() / "prophet_long_clip.mkv"));
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "prophet_long_clip.mkv");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

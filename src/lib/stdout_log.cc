@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,23 +18,28 @@
 
 */
 
+
 #include "stdout_log.h"
 #include "config.h"
 #include <iostream>
 
+
 using std::cout;
 using std::string;
 using std::shared_ptr;
+
 
 StdoutLog::StdoutLog ()
 {
 	set_types (Config::instance()->log_types());
 }
 
+
 StdoutLog::StdoutLog (int types)
 {
 	set_types (types);
 }
+
 
 void
 StdoutLog::do_log (shared_ptr<const LogEntry> entry)

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -37,11 +37,11 @@ public:
 		return std::dynamic_pointer_cast<const AtmosMXFContent> (Content::shared_from_this());
 	}
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job);
-	std::string summary () const;
-	void as_xml (xmlpp::Node* node, bool with_path) const;
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
-	dcpomatic::DCPTime approximate_length () const;
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job) override;
+	std::string summary () const override;
+	void as_xml (xmlpp::Node* node, bool with_path) const override;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length () const override;
 
 	static bool valid_mxf (boost::filesystem::path path);
 };

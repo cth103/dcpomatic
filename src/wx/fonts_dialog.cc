@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "fonts_dialog.h"
 #include "wx_util.h"
 #include "system_font_dialog.h"
@@ -28,11 +29,13 @@
 #include <wx/wx.h>
 #include <iostream>
 
+
 using std::list;
 using std::string;
 using std::cout;
 using std::shared_ptr;
 using namespace dcpomatic;
+
 
 FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_ptr<TextContent> caption)
 	: wxDialog (parent, wxID_ANY, _("Fonts"))
@@ -57,16 +60,16 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_
 		_fonts->InsertColumn (1, ip);
 	}
 
-	wxBoxSizer* sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto sizer = new wxBoxSizer (wxHORIZONTAL);
 	sizer->Add (_fonts, 1, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 
 	_edit = new Button (this, _("Edit..."));
 	sizer->Add (_edit, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	auto buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -80,11 +83,12 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_
 	setup ();
 }
 
+
 void
 FontsDialog::setup ()
 {
-	shared_ptr<Content> content = _content.lock ();
-	shared_ptr<TextContent> caption = _caption.lock ();
+	auto content = _content.lock ();
+	auto caption = _caption.lock ();
 	if (!content || !caption) {
 		return;
 	}
@@ -105,11 +109,13 @@ FontsDialog::setup ()
 	setup_sensitivity ();
 }
 
+
 void
 FontsDialog::selection_changed ()
 {
 	setup_sensitivity ();
 }
+
 
 void
 FontsDialog::setup_sensitivity ()
@@ -118,17 +124,18 @@ FontsDialog::setup_sensitivity ()
 	_edit->Enable (item != -1);
 }
 
+
 void
 FontsDialog::edit_clicked ()
 {
-	shared_ptr<Content> content = _content.lock ();
-	shared_ptr<TextContent> caption = _caption.lock ();
+	auto content = _content.lock ();
+	auto caption = _caption.lock ();
 	if (!content || !caption) {
 		return;
 	}
 
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	string const id = wx_to_std (_fonts->GetItemText (item, 0));
+	auto const id = wx_to_std (_fonts->GetItemText(item, 0));
 	shared_ptr<Font> font;
 	for (auto i: caption->fonts()) {
 		if (i->id() == id) {
@@ -155,7 +162,7 @@ FontsDialog::edit_clicked ()
         default_dir = "/System/Library/Fonts";
 #endif
 
-	wxFileDialog* d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf"), wxFD_CHANGE_DIR);
+	auto d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf"), wxFD_CHANGE_DIR);
 	int const r = d->ShowModal ();
 
 	if (r != wxID_OK) {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,22 @@
 
 */
 
+
 /** @file  src/lib/encode_server_finder.h
  *  @brief EncodeServerFinder class.
  */
 
-#include "signaller.h"
-#include "encode_server_description.h"
+
 #include "config.h"
+#include "encode_server_description.h"
 #include "exception_store.h"
+#include "signaller.h"
 #include <boost/signals2.hpp>
 #include <boost/thread/condition.hpp>
 
+
 class Socket;
+
 
 /** @class EncodeServerFinder
  *  @brief Locater of encoding servers.

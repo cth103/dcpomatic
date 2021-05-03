@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "curl_uploader.h"
 #include "exceptions.h"
 #include "config.h"
@@ -27,9 +28,11 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::cout;
 using std::function;
+
 
 static size_t
 read_callback (void* ptr, size_t size, size_t nmemb, void* object)
@@ -38,11 +41,9 @@ read_callback (void* ptr, size_t size, size_t nmemb, void* object)
 	return u->read_callback (ptr, size, nmemb);
 }
 
+
 CurlUploader::CurlUploader (function<void (string)> set_status, function<void (float)> set_progress)
 	: Uploader (set_status, set_progress)
-	, _file (0)
-	, _transferred (0)
-	, _total_size (0)
 {
 	_curl = curl_easy_init ();
 	if (!_curl) {
@@ -54,9 +55,10 @@ CurlUploader::CurlUploader (function<void (string)> set_status, function<void (f
 	curl_easy_setopt (_curl, CURLOPT_UPLOAD, 1L);
 	curl_easy_setopt (_curl, CURLOPT_FTP_CREATE_MISSING_DIRS, 1L);
 	curl_easy_setopt (_curl, CURLOPT_READDATA, this);
-	curl_easy_setopt (_curl, CURLOPT_USERNAME, Config::instance()->tms_user().c_str ());
-	curl_easy_setopt (_curl, CURLOPT_PASSWORD, Config::instance()->tms_password().c_str ());
+	curl_easy_setopt (_curl, CURLOPT_USERNAME, Config::instance()->tms_user().c_str());
+	curl_easy_setopt (_curl, CURLOPT_PASSWORD, Config::instance()->tms_password().c_str());
 }
+
 
 CurlUploader::~CurlUploader ()
 {
@@ -66,11 +68,13 @@ CurlUploader::~CurlUploader ()
 	curl_easy_cleanup (_curl);
 }
 
+
 void
 CurlUploader::create_directory (boost::filesystem::path)
 {
 	/* this is done by libcurl */
 }
+
 
 void
 CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size)
@@ -88,7 +92,7 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 	_transferred = &transferred;
 	_total_size = total_size;
 
-	CURLcode const r = curl_easy_perform (_curl);
+	auto const r = curl_easy_perform (_curl);
 	if (r != CURLE_OK) {
 		throw NetworkError (String::compose (_("Could not write to remote file (%1)"), curl_easy_strerror (r)));
 	}
@@ -96,6 +100,7 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 	fclose (_file);
 	_file = 0;
 }
+
 
 size_t
 CurlUploader::read_callback (void* ptr, size_t size, size_t nmemb)

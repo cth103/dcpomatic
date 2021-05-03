@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,9 +27,13 @@
 
 #include "i18n.h"
 
+
+using boost::optional;
 using namespace std;
 
+
 vector<DCPContentType const *> DCPContentType::_dcp_content_types;
+
 
 DCPContentType::DCPContentType (string p, dcp::ContentKind k, string d)
 	: _pretty_name (p)
@@ -39,22 +43,26 @@ DCPContentType::DCPContentType (string p, dcp::ContentKind k, string d)
 
 }
 
+
 void
 DCPContentType::setup_dcp_content_types ()
 {
-	_dcp_content_types.push_back (new DCPContentType(_("Feature"), dcp::ContentKind::FEATURE, N_("FTR")));
-	_dcp_content_types.push_back (new DCPContentType(_("Short"), dcp::ContentKind::SHORT, N_("SHR")));
-	_dcp_content_types.push_back (new DCPContentType(_("Trailer"), dcp::ContentKind::TRAILER, N_("TLR")));
-	_dcp_content_types.push_back (new DCPContentType(_("Test"), dcp::ContentKind::TEST, N_("TST")));
-	_dcp_content_types.push_back (new DCPContentType(_("Transitional"), dcp::ContentKind::TRANSITIONAL, N_("XSN")));
-	_dcp_content_types.push_back (new DCPContentType(_("Rating"), dcp::ContentKind::RATING, N_("RTG")));
-	_dcp_content_types.push_back (new DCPContentType(_("Teaser"), dcp::ContentKind::TEASER, N_("TSR")));
-	_dcp_content_types.push_back (new DCPContentType(_("Policy"), dcp::ContentKind::POLICY, N_("POL")));
-	_dcp_content_types.push_back (new DCPContentType(_("Public Service Announcement"), dcp::ContentKind::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")));
-	_dcp_content_types.push_back (new DCPContentType(_("Advertisement"), dcp::ContentKind::ADVERTISEMENT, N_("ADV")));
-	_dcp_content_types.push_back (new DCPContentType(_("Episode"), dcp::ContentKind::EPISODE, N_("EPS")));
-	_dcp_content_types.push_back (new DCPContentType(_("Promo"), dcp::ContentKind::PROMO, N_("PRO")));
+	_dcp_content_types = {
+		new DCPContentType(_("Feature"), dcp::ContentKind::FEATURE, N_("FTR")),
+		new DCPContentType(_("Short"), dcp::ContentKind::SHORT, N_("SHR")),
+		new DCPContentType(_("Trailer"), dcp::ContentKind::TRAILER, N_("TLR")),
+		new DCPContentType(_("Test"), dcp::ContentKind::TEST, N_("TST")),
+		new DCPContentType(_("Transitional"), dcp::ContentKind::TRANSITIONAL, N_("XSN")),
+		new DCPContentType(_("Rating"), dcp::ContentKind::RATING, N_("RTG")),
+		new DCPContentType(_("Teaser"), dcp::ContentKind::TEASER, N_("TSR")),
+		new DCPContentType(_("Policy"), dcp::ContentKind::POLICY, N_("POL")),
+		new DCPContentType(_("Public Service Announcement"), dcp::ContentKind::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")),
+		new DCPContentType(_("Advertisement"), dcp::ContentKind::ADVERTISEMENT, N_("ADV")),
+		new DCPContentType(_("Episode"), dcp::ContentKind::EPISODE, N_("EPS")),
+		new DCPContentType(_("Promo"), dcp::ContentKind::PROMO, N_("PRO"))
+	};
 }
+
 
 DCPContentType const *
 DCPContentType::from_isdcf_name (string n)
@@ -68,6 +76,7 @@ DCPContentType::from_isdcf_name (string n)
 	return 0;
 }
 
+
 DCPContentType const *
 DCPContentType::from_libdcp_kind (dcp::ContentKind kind)
 {
@@ -78,18 +87,19 @@ DCPContentType::from_libdcp_kind (dcp::ContentKind kind)
 	}
 
 	DCPOMATIC_ASSERT (false);
-	return 0;
+	return nullptr;
 }
 
 
 DCPContentType const *
 DCPContentType::from_index (int n)
 {
-	DCPOMATIC_ASSERT (n >= 0 && n < int (_dcp_content_types.size ()));
+	DCPOMATIC_ASSERT (n >= 0 && n < int(_dcp_content_types.size()));
 	return _dcp_content_types[n];
 }
 
-int
+
+optional<int>
 DCPContentType::as_index (DCPContentType const * c)
 {
 	vector<DCPContentType*>::size_type i = 0;
@@ -97,12 +107,13 @@ DCPContentType::as_index (DCPContentType const * c)
 		++i;
 	}
 
-	if (i == _dcp_content_types.size ()) {
-		return -1;
+	if (i == _dcp_content_types.size()) {
+		return {};
 	}
 
 	return i;
 }
+
 
 vector<DCPContentType const *>
 DCPContentType::all ()

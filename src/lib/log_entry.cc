@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "log_entry.h"
 #include <inttypes.h>
 #include <cstdio>
 
 #include "i18n.h"
+
 
 int const LogEntry::TYPE_GENERAL      = 0x001;
 int const LogEntry::TYPE_WARNING      = 0x002;
@@ -36,7 +38,9 @@ int const LogEntry::TYPE_DISK         = 0x100;
 int const LogEntry::TYPE_DEBUG_PLAYER = 0x200;
 int const LogEntry::TYPE_DEBUG_AUDIO_ANALYSIS = 0x400;
 
+
 using std::string;
+
 
 LogEntry::LogEntry (int type)
 	: _type (type)
@@ -44,13 +48,14 @@ LogEntry::LogEntry (int type)
 	gettimeofday (&_time, 0);
 }
 
+
 string
 LogEntry::get () const
 {
 	string s;
 	if (_type & TYPE_TIMING) {
 		char buffer[64];
-		snprintf (buffer, sizeof(buffer), "%" PRId64 ":%" PRId64 " ", static_cast<int64_t> (_time.tv_sec), static_cast<int64_t> (_time.tv_usec));
+		snprintf (buffer, sizeof(buffer), "%" PRId64 ":%" PRId64 " ", static_cast<int64_t>(_time.tv_sec), static_cast<int64_t>(_time.tv_usec));
 		s += buffer;
 	} else {
 		char buffer[64];
@@ -72,6 +77,7 @@ LogEntry::get () const
 	s += message ();
 	return s;
 }
+
 
 double
 LogEntry::seconds () const

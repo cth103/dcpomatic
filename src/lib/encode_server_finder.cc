@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "encode_server_finder.h"
 #include "exceptions.h"
 #include "util.h"
@@ -33,26 +34,31 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::list;
-using std::vector;
+
 using std::cout;
+using std::list;
+using std::make_shared;
 using std::shared_ptr;
-using boost::scoped_array;
+using std::string;
+using std::vector;
 using std::weak_ptr;
 using boost::optional;
+using boost::scoped_array;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 
+
 EncodeServerFinder* EncodeServerFinder::_instance = 0;
+
 
 EncodeServerFinder::EncodeServerFinder ()
 	: _stop (false)
 {
 	Config::instance()->Changed.connect (boost::bind (&EncodeServerFinder::config_changed, this, _1));
 }
+
 
 void
 EncodeServerFinder::start ()
@@ -70,6 +76,7 @@ EncodeServerFinder::~EncodeServerFinder ()
 {
 	stop ();
 }
+
 
 void
 EncodeServerFinder::stop ()
@@ -92,6 +99,7 @@ EncodeServerFinder::stop ()
 	_servers.clear ();
 }
 
+
 void
 EncodeServerFinder::search_thread ()
 try
@@ -106,18 +114,18 @@ try
 		throw NetworkError ("failed to set up broadcast socket");
 	}
 
-        socket.set_option (boost::asio::ip::udp::socket::reuse_address (true));
-        socket.set_option (boost::asio::socket_base::broadcast (true));
+        socket.set_option (boost::asio::ip::udp::socket::reuse_address(true));
+        socket.set_option (boost::asio::socket_base::broadcast(true));
 
 	string const data = DCPOMATIC_HELLO;
 	int const interval = 10;
 
 	while (!_stop) {
-		if (Config::instance()->use_any_servers ()) {
+		if (Config::instance()->use_any_servers()) {
 			/* Broadcast to look for servers */
 			try {
 				boost::asio::ip::udp::endpoint end_point (boost::asio::ip::address_v4::broadcast(), HELLO_PORT);
-				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+				socket.send_to (boost::asio::buffer(data.c_str(), data.size() + 1), end_point);
 			} catch (...) {
 
 			}
@@ -127,9 +135,9 @@ try
 		for (auto const& i: Config::instance()->servers()) {
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
-				boost::asio::ip::udp::resolver::query query (i, raw_convert<string> (HELLO_PORT));
-				boost::asio::ip::udp::endpoint end_point (*resolver.resolve (query));
-				socket.send_to (boost::asio::buffer (data.c_str(), data.size() + 1), end_point);
+				boost::asio::ip::udp::resolver::query query (i, raw_convert<string>(HELLO_PORT));
+				boost::asio::ip::udp::endpoint end_point (*resolver.resolve(query));
+				socket.send_to (boost::asio::buffer(data.c_str(), data.size() + 1), end_point);
 			} catch (...) {
 
 			}
@@ -140,10 +148,10 @@ try
 		{
 			boost::mutex::scoped_lock lm (_servers_mutex);
 
-			list<EncodeServerDescription>::iterator i = _servers.begin();
+			auto i = _servers.begin();
 			while (i != _servers.end()) {
 				if (i->last_seen_seconds() > 2 * interval) {
-					list<EncodeServerDescription>::iterator j = i;
+					auto j = i;
 					++j;
 					_servers.erase (i);
 					i = j;
@@ -155,17 +163,18 @@ try
 		}
 
 		if (removed) {
-			emit (boost::bind (boost::ref (ServersListChanged)));
+			emit (boost::bind(boost::ref(ServersListChanged)));
 		}
 
 		boost::mutex::scoped_lock lm (_search_condition_mutex);
-		_search_condition.timed_wait (lm, boost::get_system_time() + boost::posix_time::seconds (interval));
+		_search_condition.timed_wait (lm, boost::get_system_time() + boost::posix_time::seconds(interval));
 	}
 }
 catch (...)
 {
 	store_current ();
 }
+
 
 void
 EncodeServerFinder::listen_thread ()
@@ -176,7 +185,7 @@ try {
 
 	try {
 		_listen_acceptor.reset (
-			new tcp::acceptor (_listen_io_service, tcp::endpoint (tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
+			new tcp::acceptor (_listen_io_service, tcp::endpoint(tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
 			);
 	} catch (...) {
 		boost::throw_exception (NetworkError (_("Could not listen for remote encode servers.  Perhaps another instance of DCP-o-matic is running.")));
@@ -190,15 +199,17 @@ catch (...)
 	store_current ();
 }
 
+
 void
 EncodeServerFinder::start_accept ()
 {
-	shared_ptr<Socket> socket (new Socket ());
+	auto socket = make_shared<Socket>();
 	_listen_acceptor->async_accept (
 		socket->socket(),
-		boost::bind (&EncodeServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
+		boost::bind(&EncodeServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
 		);
 }
+
 
 void
 EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> socket)
@@ -209,18 +220,18 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 	}
 
 	uint32_t length;
-	socket->read (reinterpret_cast<uint8_t*> (&length), sizeof (uint32_t));
+	socket->read (reinterpret_cast<uint8_t*>(&length), sizeof(uint32_t));
 	length = ntohl (length);
 
-	scoped_array<char> buffer (new char[length]);
-	socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
+	scoped_array<char> buffer(new char[length]);
+	socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
 
 	string s (buffer.get());
-	shared_ptr<cxml::Document> xml (new cxml::Document ("ServerAvailable"));
+	auto xml = make_shared<cxml::Document>("ServerAvailable");
 	xml->read_string (s);
 
-	string const ip = socket->socket().remote_endpoint().address().to_string ();
-	optional<list<EncodeServerDescription>::iterator> found = server_found (ip);
+	auto const ip = socket->socket().remote_endpoint().address().to_string();
+	auto found = server_found (ip);
 	if (found) {
 		(*found)->set_seen ();
 	} else {
@@ -229,17 +240,18 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 			boost::mutex::scoped_lock lm (_servers_mutex);
 			_servers.push_back (sd);
 		}
-		emit (boost::bind (boost::ref (ServersListChanged)));
+		emit (boost::bind(boost::ref (ServersListChanged)));
 	}
 
 	start_accept ();
 }
 
+
 optional<list<EncodeServerDescription>::iterator>
 EncodeServerFinder::server_found (string ip)
 {
 	boost::mutex::scoped_lock lm (_servers_mutex);
-	list<EncodeServerDescription>::iterator i = _servers.begin();
+	auto i = _servers.begin();
 	while (i != _servers.end() && i->host_name() != ip) {
 		++i;
 	}
@@ -248,8 +260,9 @@ EncodeServerFinder::server_found (string ip)
 		return i;
 	}
 
-	return optional<list<EncodeServerDescription>::iterator>();
+	return {};
 }
+
 
 EncodeServerFinder*
 EncodeServerFinder::instance ()
@@ -262,12 +275,14 @@ EncodeServerFinder::instance ()
 	return _instance;
 }
 
+
 void
 EncodeServerFinder::drop ()
 {
 	delete _instance;
-	_instance = 0;
+	_instance = nullptr;
 }
+
 
 list<EncodeServerDescription>
 EncodeServerFinder::servers () const
@@ -275,6 +290,7 @@ EncodeServerFinder::servers () const
 	boost::mutex::scoped_lock lm (_servers_mutex);
 	return _servers;
 }
+
 
 void
 EncodeServerFinder::config_changed (Config::Property what)

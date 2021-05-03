@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #include "types.h"
 #include <dcp/types.h>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <vector>
 
+
 class DCPContentType;
 class Ratio;
+
 
 class CreateCLI
 {

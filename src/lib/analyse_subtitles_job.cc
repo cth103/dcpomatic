@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,19 @@
 
 */
 
+
 #include "analyse_subtitles_job.h"
-#include "playlist.h"
-#include "player.h"
-#include "subtitle_analysis.h"
 #include "bitmap_text.h"
-#include "render_text.h"
-#include "text_content.h"
 #include "image.h"
+#include "player.h"
+#include "playlist.h"
+#include "render_text.h"
+#include "subtitle_analysis.h"
+#include "text_content.h"
 #include <iostream>
 
 #include "i18n.h"
+
 
 using std::make_shared;
 using std::shared_ptr;
@@ -37,6 +39,7 @@ using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 AnalyseSubtitlesJob::AnalyseSubtitlesJob (shared_ptr<const Film> film, shared_ptr<Content> content)
 	: Job (film)

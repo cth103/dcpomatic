@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -60,7 +60,7 @@ public:
 	static DCPContentType const * from_isdcf_name (std::string);
 	static DCPContentType const * from_libdcp_kind (dcp::ContentKind);
 	static DCPContentType const * from_index (int);
-	static int as_index (DCPContentType const *);
+	static boost::optional<int> as_index (DCPContentType const *);
 	static std::vector<DCPContentType const *> all ();
 	static void setup_dcp_content_types ();
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "event_history.h"
 #include "util.h"
 #include <boost/thread/mutex.hpp>
 
+
 using boost::optional;
+
 
 EventHistory::EventHistory (int size)
 	: _size (size)
@@ -30,12 +33,13 @@ EventHistory::EventHistory (int size)
 
 }
 
+
 optional<float>
 EventHistory::rate () const
 {
 	boost::mutex::scoped_lock lock (_mutex);
-	if (int (_history.size()) < _size) {
-		return optional<float>();
+	if (int(_history.size()) < _size) {
+		return {};
 	}
 
 	struct timeval now;
@@ -43,6 +47,7 @@ EventHistory::rate () const
 
 	return _size / (seconds (now) - seconds (_history.back ()));
 }
+
 
 void
 EventHistory::event ()
@@ -52,7 +57,7 @@ EventHistory::event ()
 	struct timeval tv;
 	gettimeofday (&tv, 0);
 	_history.push_front (tv);
-	if (int (_history.size()) > _size) {
+	if (int(_history.size()) > _size) {
 		_history.pop_back ();
 	}
 }

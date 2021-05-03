@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,12 @@
 
 */
 
+
 #include "trusted_device.h"
 
+
 using std::string;
+
 
 TrustedDevice::TrustedDevice (string thumbprint)
 	: _thumbprint (thumbprint)
@@ -28,11 +31,13 @@ TrustedDevice::TrustedDevice (string thumbprint)
 
 }
 
+
 TrustedDevice::TrustedDevice (dcp::Certificate certificate)
 	: _certificate (certificate)
 {
 
 }
+
 
 string
 TrustedDevice::as_string () const
@@ -43,6 +48,7 @@ TrustedDevice::as_string () const
 
 	return *_thumbprint;
 }
+
 
 string
 TrustedDevice::thumbprint () const

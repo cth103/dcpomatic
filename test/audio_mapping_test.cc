@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,22 @@
 
 */
 
+
 /** @file  test/audio_mapping_test.cc
  *  @brief Test AudioMapping class.
  *  @ingroup selfcontained
  */
 
+
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_mapping.h"
 #include "lib/util.h"
 
+
 using std::list;
 using std::string;
 using boost::optional;
+
 
 BOOST_AUTO_TEST_CASE (audio_mapping_test)
 {
@@ -43,11 +47,11 @@ BOOST_AUTO_TEST_CASE (audio_mapping_test)
 
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < MAX_DCP_AUDIO_CHANNELS; ++j) {
-			BOOST_CHECK_EQUAL (four.get (i, j), (i == 0 && j == 1) ? 1 : 0);
+			BOOST_CHECK_EQUAL (four.get(i, j), (i == 0 && j == 1) ? 1 : 0);
 		}
 	}
 
-	list<int> mapped = four.mapped_output_channels ();
+	auto mapped = four.mapped_output_channels ();
 	BOOST_CHECK_EQUAL (mapped.size(), 1U);
 	BOOST_CHECK_EQUAL (mapped.front(), 1);
 
@@ -60,16 +64,18 @@ BOOST_AUTO_TEST_CASE (audio_mapping_test)
 	}
 }
 
+
 static void
-guess_check (string filename, int output_channel)
+guess_check (boost::filesystem::path filename, int output_channel)
 {
 	AudioMapping m (1, 8);
-	m.make_default (0, optional<boost::filesystem::path>(filename));
+	m.make_default (0, filename);
 	for (int i = 0; i < 8; ++i) {
 		BOOST_TEST_INFO (filename);
 		BOOST_CHECK_CLOSE (m.get(0, i), i == output_channel ? 1 : 0, 0.01);
 	}
 }
+
 
 BOOST_AUTO_TEST_CASE (audio_mapping_guess_test)
 {

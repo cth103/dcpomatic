@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_EVENT_HISTORY_H
 #define DCPOMATIC_EVENT_HISTORY_H
+
 
 #include <boost/thread/mutex.hpp>
 #include <boost/optional.hpp>
 #include <list>
+
 
 class EventHistory
 {
@@ -43,5 +46,6 @@ private:
 	/** Number of events that we should keep history for */
 	int const _size;
 };
+
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #ifndef DCPOMATIC_LOG_ENTRY_H
 #define DCPOMATIC_LOG_ENTRY_H
 
+
 #include <sys/time.h>
 #include <string>
+
 
 class LogEntry
 {
@@ -55,5 +58,6 @@ private:
 	struct timeval _time;
 	int _type;
 };
+
 
 #endif

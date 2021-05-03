@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "send_problem_report_job.h"
 #include "compose.hpp"
 #include "film.h"
@@ -31,9 +32,11 @@
 
 #include "i18n.h"
 
-using std::string;
+
 using std::list;
 using std::shared_ptr;
+using std::string;
+
 
 /** @param film Film thta the problem is with, or 0.
  *  @param from Email address to use for From:
@@ -51,10 +54,12 @@ SendProblemReportJob::SendProblemReportJob (
 
 }
 
+
 SendProblemReportJob::~SendProblemReportJob ()
 {
 	stop_thread ();
 }
+
 
 string
 SendProblemReportJob::name () const
@@ -66,11 +71,13 @@ SendProblemReportJob::name () const
 	return String::compose (_("Email problem report for %1"), _film->name());
 }
 
+
 string
 SendProblemReportJob::json_name () const
 {
 	return N_("send_problem_report");
 }
+
 
 void
 SendProblemReportJob::run ()
@@ -108,17 +115,18 @@ SendProblemReportJob::run ()
 	set_state (FINISHED_OK);
 }
 
+
 void
 SendProblemReportJob::add_file (string& body, boost::filesystem::path file) const
 {
-	FILE* f = fopen_boost (_film->file (file), "r");
+	auto f = fopen_boost (_film->file(file), "r");
 	if (!f) {
 		return;
 	}
 
 	body += file.string() + ":\n";
 	body += "---<8----\n";
-	uintmax_t const size = boost::filesystem::file_size (_film->file (file));
+	auto const size = boost::filesystem::file_size (_film->file(file));
 	char* buffer = new char[size + 1];
 	int const N = fread (buffer, 1, size, f);
 	buffer[N] = '\0';

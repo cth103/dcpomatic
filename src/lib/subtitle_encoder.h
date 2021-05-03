@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,21 @@
 
 */
 
+
 #include "types.h"
 #include "player_text.h"
 #include "dcp_text_track.h"
 #include "encoder.h"
 #include "dcpomatic_time.h"
 
+
 namespace dcp {
 	class SubtitleAsset;
 }
 
+
 class Film;
+
 
 /** @class SubtitleEncoder.
  *  @brief An `encoder' which extracts a film's subtitles to DCP XML format.
@@ -38,7 +42,7 @@ class SubtitleEncoder : public Encoder
 public:
 	SubtitleEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string intial_name, bool split_reels, bool include_font);
 
-	void go ();
+	void go () override;
 
 	/** @return the number of frames that are done */
 	Frame frames_done () const;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "raw_image_proxy.h"
 #include "image.h"
 #include "warnings.h"
@@ -33,13 +34,16 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
-using std::string;
-using std::pair;
-using std::make_pair;
-using std::shared_ptr;
+
 using std::dynamic_pointer_cast;
+using std::make_pair;
+using std::make_shared;
+using std::pair;
+using std::shared_ptr;
+using std::string;
 using boost::optional;
 using dcp::raw_convert;
+
 
 RawImageProxy::RawImageProxy (shared_ptr<Image> image)
 	: _image (image)
@@ -47,15 +51,17 @@ RawImageProxy::RawImageProxy (shared_ptr<Image> image)
 
 }
 
+
 RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	dcp::Size size (
-		xml->number_child<int> ("Width"), xml->number_child<int> ("Height")
+		xml->number_child<int>("Width"), xml->number_child<int>("Height")
 		);
 
-	_image.reset (new Image (static_cast<AVPixelFormat> (xml->number_child<int> ("PixelFormat")), size, true));
+	_image = make_shared<Image>(static_cast<AVPixelFormat>(xml->number_child<int>("PixelFormat")), size, true);
 	_image->read_from_socket (socket);
 }
+
 
 ImageProxy::Result
 RawImageProxy::image (optional<dcp::Size>) const
@@ -63,14 +69,16 @@ RawImageProxy::image (optional<dcp::Size>) const
 	return Result (_image, 0);
 }
 
+
 void
 RawImageProxy::add_metadata (xmlpp::Node* node) const
 {
-	node->add_child("Type")->add_child_text (N_("Raw"));
-	node->add_child("Width")->add_child_text (raw_convert<string> (_image->size().width));
-	node->add_child("Height")->add_child_text (raw_convert<string> (_image->size().height));
-	node->add_child("PixelFormat")->add_child_text (raw_convert<string> (static_cast<int> (_image->pixel_format ())));
+	node->add_child("Type")->add_child_text(N_("Raw"));
+	node->add_child("Width")->add_child_text(raw_convert<string>(_image->size().width));
+	node->add_child("Height")->add_child_text(raw_convert<string>(_image->size().height));
+	node->add_child("PixelFormat")->add_child_text(raw_convert<string>(static_cast<int>(_image->pixel_format())));
 }
+
 
 void
 RawImageProxy::write_to_socket (shared_ptr<Socket> socket) const
@@ -78,16 +86,18 @@ RawImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 	_image->write_to_socket (socket);
 }
 
+
 bool
 RawImageProxy::same (shared_ptr<const ImageProxy> other) const
 {
-	shared_ptr<const RawImageProxy> rp = dynamic_pointer_cast<const RawImageProxy> (other);
+	auto rp = dynamic_pointer_cast<const RawImageProxy> (other);
 	if (!rp) {
 		return false;
 	}
 
 	return (*_image.get()) == (*rp->image().image.get());
 }
+
 
 size_t
 RawImageProxy::memory_used () const

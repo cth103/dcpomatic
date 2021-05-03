@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,7 +18,9 @@
 
 */
 
+
 #include "content.h"
+
 
 class VideoMXFContent : public Content
 {
@@ -27,21 +29,21 @@ public:
 	VideoMXFContent (cxml::ConstNodePtr node, int version);
 
 	std::shared_ptr<VideoMXFContent> shared_from_this () {
-		return std::dynamic_pointer_cast<VideoMXFContent> (Content::shared_from_this ());
+		return std::dynamic_pointer_cast<VideoMXFContent>(Content::shared_from_this());
 	}
 
 	std::shared_ptr<const VideoMXFContent> shared_from_this () const {
-		return std::dynamic_pointer_cast<const VideoMXFContent> (Content::shared_from_this ());
+		return std::dynamic_pointer_cast<const VideoMXFContent>(Content::shared_from_this());
 	}
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job);
-	std::string summary () const;
-	std::string technical_summary () const;
-	std::string identifier () const;
-	void as_xml (xmlpp::Node* node, bool with_paths) const;
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
-	dcpomatic::DCPTime approximate_length () const;
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job) override;
+	std::string summary () const override;
+	std::string technical_summary () const override;
+	std::string identifier () const override;
+	void as_xml (xmlpp::Node* node, bool with_paths) const override;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length () const override;
+	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
 	static bool valid_mxf (boost::filesystem::path path);
 };

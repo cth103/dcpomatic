@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,42 +18,40 @@
 
 */
 
+
 #include "system_font_dialog.h"
 #include "wx_util.h"
 #include <wx/listctrl.h>
 #include <boost/filesystem.hpp>
 #include <iostream>
 
+
 using std::cout;
 using std::string;
 using boost::optional;
 
+
 SystemFontDialog::SystemFontDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Choose a font"))
 {
-	wxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	boost::filesystem::path fonts = "c:\\Windows\\Fonts";
-	char* windir = getenv ("windir");
+	auto windir = getenv ("windir");
 	if (windir) {
 		fonts = boost::filesystem::path (windir) / "Fonts";
 	}
 
-	for (
-		boost::filesystem::directory_iterator i = boost::filesystem::directory_iterator (fonts);
-		i != boost::filesystem::directory_iterator ();
-		++i
-		) {
-
-		string ext = i->path().extension().string ();
+	for (auto i: boost::filesystem::directory_iterator (fonts)) {
+		auto ext = i.path().extension().string();
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (ext == ".ttf") {
-			_fonts.push_back (i->path());
+			_fonts.push_back (i.path());
 		}
 	}
 
-	sort (_fonts.begin (), _fonts.end ());
+	sort (_fonts.begin(), _fonts.end());
 
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_list->InsertColumn (0, wxT (""));
@@ -65,7 +63,7 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 		_list->InsertItem (n++, std_to_wx (i.leaf().stem().string ()));
 	}
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -78,25 +76,27 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 	setup_sensitivity ();
 }
 
+
 optional<boost::filesystem::path>
 SystemFontDialog::get_font () const
 {
 	int const s = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (s == -1) {
-		return optional<boost::filesystem::path> ();
+		return {};
 	}
 
-	if (s < int (_fonts.size ())) {
+	if (s < int(_fonts.size())) {
 		return _fonts[s];
 	}
 
-	return optional<boost::filesystem::path> ();
+	return {};
 }
+
 
 void
 SystemFontDialog::setup_sensitivity ()
 {
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *> (FindWindowById(wxID_OK, this));
 	if (ok) {
 		ok->Enable (_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED) != -1);
 	}

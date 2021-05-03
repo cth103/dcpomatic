@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,16 @@
 
 */
 
-#include "lib/film.h"
+
 #include "lib/butler.h"
-#include "lib/player.h"
 #include "lib/dcp_content.h"
+#include "lib/film.h"
+#include "lib/player.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
+
+using std::make_shared;
 using std::pair;
 using std::shared_ptr;
 using boost::optional;
@@ -33,28 +36,29 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 /** Simulate the work that the player does, for profiling */
 BOOST_AUTO_TEST_CASE (dcp_playback_test)
 {
-	shared_ptr<Film> film = new_test_film ("dcp_playback_test");
-	shared_ptr<DCPContent> content (new DCPContent(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"));
+	auto film = new_test_film ("dcp_playback_test");
+	auto content = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	shared_ptr<Butler> butler (
-		new Butler(
-			film,
-			shared_ptr<Player>(new Player(film)),
-			AudioMapping(6, 6),
-			6,
-			bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
-			VideoRange::FULL,
-			false,
-			true)
+	auto butler = std::make_shared<Butler>(
+		film,
+		shared_ptr<Player>(new Player(film)),
+		AudioMapping(6, 6),
+		6,
+		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+		VideoRange::FULL,
+		false,
+		true
 		);
-	float* audio_buffer = new float[2000*6];
+
+	auto audio_buffer = new float[2000 * 6];
 	while (true) {
-		pair<shared_ptr<PlayerVideo>, DCPTime> p = butler->get_video (true, 0);
+		auto p = butler->get_video (true, 0);
 		if (!p.first) {
 			break;
 		}

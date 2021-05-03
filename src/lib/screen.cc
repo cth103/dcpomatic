@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "screen.h"
 #include "kdm_with_metadata.h"
 #include "film.h"
@@ -26,12 +27,15 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
+
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::list;
-using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
+
 
 Screen::Screen (cxml::ConstNodePtr node)
 	: KDMRecipient (node)
@@ -45,6 +49,7 @@ Screen::Screen (cxml::ConstNodePtr node)
 	}
 }
 
+
 void
 Screen::as_xml (xmlpp::Element* parent) const
 {
@@ -53,6 +58,7 @@ Screen::as_xml (xmlpp::Element* parent) const
 		parent->add_child("TrustedDevice")->add_child_text(i.as_string());
 	}
 }
+
 
 vector<string>
 Screen::trusted_device_thumbprints () const
@@ -78,14 +84,14 @@ kdm_for_screen (
 	)
 {
 	if (!screen->recipient) {
-		return KDMWithMetadataPtr();
+		return {};
 	}
 
-	shared_ptr<const Cinema> cinema = screen->cinema;
+	auto cinema = screen->cinema;
 	dcp::LocalTime const begin(valid_from, cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
 	dcp::LocalTime const end  (valid_to,   cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
 
-	dcp::EncryptedKDM const kdm = film->make_kdm (
+	auto const kdm = film->make_kdm (
 			screen->recipient.get(),
 			screen->trusted_device_thumbprints(),
 			cpl,
@@ -106,6 +112,6 @@ kdm_for_screen (
 	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
-	return KDMWithMetadataPtr(new KDMWithMetadata(name_values, cinema.get(), cinema ? cinema->emails : list<string>(), kdm));
+	return make_shared<KDMWithMetadata>(name_values, cinema.get(), cinema ? cinema->emails : list<string>(), kdm);
 }
 

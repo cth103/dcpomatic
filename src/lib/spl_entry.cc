@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,28 +18,25 @@
 
 */
 
-#include "spl_entry.h"
+
 #include "dcp_content.h"
 #include "dcpomatic_assert.h"
+#include "spl_entry.h"
 #include "warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
-SPLEntry::SPLEntry (shared_ptr<Content> content)
-{
-	construct (content);
-}
 
-void
-SPLEntry::construct (shared_ptr<Content> c)
+SPLEntry::SPLEntry (shared_ptr<Content> c)
+	: content (c)
+	, digest (content->digest())
 {
-	content = c;
-	shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (content);
-	digest = content->digest ();
+	auto dcp = dynamic_pointer_cast<DCPContent> (content);
 	if (dcp) {
 		name = dcp->name ();
 		DCPOMATIC_ASSERT (dcp->cpl());
@@ -51,6 +48,7 @@ SPLEntry::construct (shared_ptr<Content> c)
 		kind = dcp::ContentKind::FEATURE;
 	}
 }
+
 
 void
 SPLEntry::as_xml (xmlpp::Element* e)

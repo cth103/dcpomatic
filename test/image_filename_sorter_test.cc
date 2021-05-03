@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,44 +18,49 @@
 
 */
 
+
 /** @file  test/image_filename_sorter_test.cc
  *  @brief Test ImageFilenameSorter
  *  @ingroup selfcontained
  */
 
+
 #include "lib/image_filename_sorter.h"
 #include "lib/compose.hpp"
 #include <boost/test/unit_test.hpp>
+
 
 using std::random_shuffle;
 using std::sort;
 using std::vector;
 
+
 BOOST_AUTO_TEST_CASE (image_filename_sorter_test1)
 {
 	ImageFilenameSorter x;
-	BOOST_CHECK (x ("abc0000000001", "abc0000000002"));
-	BOOST_CHECK (x ("1", "2"));
-	BOOST_CHECK (x ("1", "0002"));
-	BOOST_CHECK (x ("0001", "2"));
-	BOOST_CHECK (x ("1", "999"));
-	BOOST_CHECK (x ("00057.tif", "00166.tif"));
-	BOOST_CHECK (x ("/my/numeric999/path/00057.tif", "/my/numeric999/path/00166.tif"));
-	BOOST_CHECK (x ("1_01.tif", "1_02.tif"));
-	BOOST_CHECK (x ("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000001.j2c"));
-	BOOST_CHECK (x ("ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86352.dpx", "ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86353.dpx"));
+	BOOST_CHECK (x("abc0000000001", "abc0000000002"));
+	BOOST_CHECK (x("1", "2"));
+	BOOST_CHECK (x("1", "0002"));
+	BOOST_CHECK (x("0001", "2"));
+	BOOST_CHECK (x("1", "999"));
+	BOOST_CHECK (x("00057.tif", "00166.tif"));
+	BOOST_CHECK (x("/my/numeric999/path/00057.tif", "/my/numeric999/path/00166.tif"));
+	BOOST_CHECK (x("1_01.tif", "1_02.tif"));
+	BOOST_CHECK (x("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000001.j2c"));
+	BOOST_CHECK (x("ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86352.dpx", "ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86353.dpx"));
 
-	BOOST_CHECK (!x ("abc0000000002", "abc0000000001"));
-	BOOST_CHECK (!x ("2", "1"));
-	BOOST_CHECK (!x ("0002", "1"));
-	BOOST_CHECK (!x ("2", "0001"));
-	BOOST_CHECK (!x ("999", "1"));
-	BOOST_CHECK (!x ("/my/numeric999/path/00166.tif", "/my/numeric999/path/00057.tif"));
-	BOOST_CHECK (!x ("1_02.tif", "1_01.tif"));
-	BOOST_CHECK (!x ("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000000.j2c"));
-	BOOST_CHECK (!x ("EWS_DCP_092815_000100.j2c", "EWS_DCP_092815_000000.j2c"));
-	BOOST_CHECK (!x ("ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86353.dpx", "ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86352.dpx"));
+	BOOST_CHECK (!x("abc0000000002", "abc0000000001"));
+	BOOST_CHECK (!x("2", "1"));
+	BOOST_CHECK (!x("0002", "1"));
+	BOOST_CHECK (!x("2", "0001"));
+	BOOST_CHECK (!x("999", "1"));
+	BOOST_CHECK (!x("/my/numeric999/path/00166.tif", "/my/numeric999/path/00057.tif"));
+	BOOST_CHECK (!x("1_02.tif", "1_01.tif"));
+	BOOST_CHECK (!x("EWS_DCP_092815_000000.j2c", "EWS_DCP_092815_000000.j2c"));
+	BOOST_CHECK (!x("EWS_DCP_092815_000100.j2c", "EWS_DCP_092815_000000.j2c"));
+	BOOST_CHECK (!x("ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86353.dpx", "ap_trlr_178_uhd_bt1886_txt_e5c1_033115.86352.dpx"));
 }
+
 
 /** Test a sort of a lot of paths.  Mostly useful for profiling. */
 BOOST_AUTO_TEST_CASE (image_filename_sorter_test2)

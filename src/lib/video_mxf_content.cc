@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "video_mxf_examiner.h"
 #include "video_mxf_content.h"
 #include "video_content.h"
@@ -32,10 +33,13 @@
 
 #include "i18n.h"
 
+
 using std::list;
 using std::string;
 using std::shared_ptr;
+using std::make_shared;
 using namespace dcpomatic;
+
 
 VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
 	: Content (path)
@@ -43,11 +47,13 @@ VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
 
 }
 
+
 VideoMXFContent::VideoMXFContent (cxml::ConstNodePtr node, int version)
 	: Content (node)
 {
 	video = VideoContent::from_xml (this, node, version);
 }
+
 
 bool
 VideoMXFContent::valid_mxf (boost::filesystem::path path)
@@ -55,7 +61,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	try {
-		shared_ptr<dcp::MonoPictureAsset> mp (new dcp::MonoPictureAsset (path));
+		dcp::MonoPictureAsset mp (path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -65,7 +71,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 
 	try {
 		Kumu::DefaultLogSink().SetFilterFlag(0);
-		shared_ptr<dcp::StereoPictureAsset> sp (new dcp::StereoPictureAsset (path));
+		dcp::StereoPictureAsset sp (path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -78,6 +84,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 	return false;
 }
 
+
 void
 VideoMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
@@ -86,10 +93,11 @@ VideoMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	Content::examine (film, job);
 
 	video.reset (new VideoContent (this));
-	shared_ptr<VideoMXFExaminer> examiner (new VideoMXFExaminer (shared_from_this ()));
+	auto examiner = make_shared<VideoMXFExaminer>(shared_from_this());
 	video->take_from_examiner (examiner);
 	video->unset_colour_conversion ();
 }
+
 
 string
 VideoMXFContent::summary () const
@@ -97,11 +105,13 @@ VideoMXFContent::summary () const
 	return String::compose (_("%1 [video]"), path_summary());
 }
 
+
 string
 VideoMXFContent::technical_summary () const
 {
-	return Content::technical_summary() + " - " + video->technical_summary ();
+	return Content::technical_summary() + " - " + video->technical_summary();
 }
+
 
 string
 VideoMXFContent::identifier () const
@@ -109,26 +119,30 @@ VideoMXFContent::identifier () const
 	return Content::identifier() + "_" + video->identifier();
 }
 
+
 void
 VideoMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text ("VideoMXF");
+	node->add_child("Type")->add_child_text("VideoMXF");
 	Content::as_xml (node, with_paths);
 	video->as_xml (node);
 }
+
 
 DCPTime
 VideoMXFContent::full_length (shared_ptr<const Film> film) const
 {
 	FrameRateChange const frc (film, shared_from_this());
-	return DCPTime::from_frames (llrint (video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
+	return DCPTime::from_frames (llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
+
 
 DCPTime
 VideoMXFContent::approximate_length () const
 {
 	return DCPTime::from_frames (video->length_after_3d_combine(), 24);
 }
+
 
 void
 VideoMXFContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const

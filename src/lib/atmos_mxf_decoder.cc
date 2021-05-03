@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "atmos_content.h"
 #include "atmos_decoder.h"
 #include "atmos_mxf_content.h"
@@ -26,15 +27,18 @@
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_reader.h>
 
+
+using std::make_shared;
 using std::shared_ptr;
+
 
 AtmosMXFDecoder::AtmosMXFDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const AtmosMXFContent> content)
 	: Decoder (film)
 	, _content (content)
 {
-	atmos.reset (new AtmosDecoder(this, content));
+	atmos = make_shared<AtmosDecoder>(this, content);
 
-	shared_ptr<dcp::AtmosAsset> asset (new dcp::AtmosAsset(_content->path(0)));
+	auto asset = make_shared<dcp::AtmosAsset>(_content->path(0));
 	_reader = asset->start_read ();
 	_metadata = AtmosMetadata (asset);
 }
@@ -43,8 +47,8 @@ AtmosMXFDecoder::AtmosMXFDecoder (std::shared_ptr<const Film> film, std::shared_
 bool
 AtmosMXFDecoder::pass ()
 {
-	double const vfr = _content->active_video_frame_rate (film());
-	int64_t const frame = _next.frames_round (vfr);
+	auto const vfr = _content->active_video_frame_rate (film());
+	auto const frame = _next.frames_round (vfr);
 
 	if (frame >= _content->atmos->length()) {
 		return true;

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 /** @file  src/lib/audio_buffers.h
  *  @brief AudioBuffers class.
@@ -97,5 +98,6 @@ private:
 	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
 	float** _data;
 };
+
 
 #endif

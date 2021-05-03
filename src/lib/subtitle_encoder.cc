@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,12 @@
 
 */
 
-#include "font_data.h"
-#include "subtitle_encoder.h"
-#include "player.h"
+
 #include "compose.hpp"
+#include "font_data.h"
 #include "job.h"
+#include "player.h"
+#include "subtitle_encoder.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/smpte_subtitle_asset.h>
@@ -30,6 +31,7 @@
 #include <boost/bind/bind.hpp>
 
 #include "i18n.h"
+
 
 using std::make_pair;
 using std::make_shared;
@@ -42,6 +44,7 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
+
 
 /** @param output Directory, if there will be multiple output files, or a filename.
  *  @param initial_name Hint that may be used to create filenames, if @ref output is a directory.
@@ -85,6 +88,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 	_default_font = dcp::ArrayData (default_font_file());
 }
 
+
 void
 SubtitleEncoder::go ()
 {
@@ -99,32 +103,33 @@ SubtitleEncoder::go ()
 	while (!_player->pass()) {}
 
 	int reel = 0;
-	for (vector<pair<shared_ptr<dcp::SubtitleAsset>, boost::filesystem::path> >::iterator i = _assets.begin(); i != _assets.end(); ++i) {
-		if (!i->first) {
+	for (auto& i: _assets) {
+		if (!i.first) {
 			/* No subtitles arrived for this asset; make an empty one so we write something to the output */
 			if (_film->interop()) {
-				shared_ptr<dcp::InteropSubtitleAsset> s (new dcp::InteropSubtitleAsset());
+				auto s = make_shared<dcp::InteropSubtitleAsset>();
 				s->set_movie_title (_film->name());
 				s->set_reel_number (raw_convert<string>(reel + 1));
-				i->first = s;
+				i.first = s;
 			} else {
-				shared_ptr<dcp::SMPTESubtitleAsset> s (new dcp::SMPTESubtitleAsset());
+				auto s = make_shared<dcp::SMPTESubtitleAsset>();
 				s->set_content_title_text (_film->name());
 				s->set_reel_number (reel + 1);
-				i->first = s;
+				i.first = s;
 			}
 		}
 
 		if (!_film->interop() || _include_font) {
 			for (auto j: _player->get_subtitle_fonts()) {
-				i->first->add_font (j.id, _default_font);
+				i.first->add_font (j.id, _default_font);
 			}
 		}
 
-		i->first->write (i->second);
+		i.first->write (i.second);
 		++reel;
 	}
 }
+
 
 void
 SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period)
@@ -170,7 +175,7 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 		if (_film->interop() && !_include_font) {
 			i.unset_font ();
 		}
-		_assets[_reel_index].first->add (shared_ptr<dcp::Subtitle>(new dcp::SubtitleString(i)));
+		_assets[_reel_index].first->add (make_shared<dcp::SubtitleString>(i));
 	}
 
 	if (_split_reels && (_reel_index < int(_reels.size()) - 1) && period.from > _reels[_reel_index].from) {
@@ -179,11 +184,12 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 
 	_last = period.from;
 
-	shared_ptr<Job> job = _job.lock ();
+	auto job = _job.lock ();
 	if (job) {
 		job->set_progress (float(period.from.get()) / _length.get());
 	}
 }
+
 
 Frame
 SubtitleEncoder::frames_done () const

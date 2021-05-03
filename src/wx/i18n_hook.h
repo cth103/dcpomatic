@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #ifndef DCPOMATIC_I18N_HOOK_H
 #define DCPOMATIC_I18N_HOOK_H
+
 
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <map>
+
 
 class I18NHook
 {
@@ -47,5 +50,6 @@ private:
 
 	static std::map<std::string, std::string> _translations;
 };
+
 
 #endif

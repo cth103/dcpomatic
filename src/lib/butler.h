@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_mapping.h"
 #include "audio_ring_buffers.h"
 #include "change_signaller.h"
@@ -29,8 +30,10 @@
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 
+
 class Player;
 class PlayerVideo;
+
 
 class Butler : public ExceptionStore
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 #include "job.h"
 #include <dcp/types.h>
 #include <boost/filesystem.hpp>
+
 
 class SendProblemReportJob : public Job
 {
@@ -33,9 +35,9 @@ public:
 
 	~SendProblemReportJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 private:
 	void add_file (std::string& body, boost::filesystem::path file) const;

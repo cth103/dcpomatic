@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,33 +18,38 @@
 
 */
 
+
 /** @file src/transcode_job.cc
  *  @brief A job which transcodes from one format to another.
  */
 
-#include "config.h"
-#include "transcode_job.h"
-#include "dcp_encoder.h"
-#include "upload_job.h"
-#include "job_manager.h"
-#include "film.h"
-#include "encoder.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "compose.hpp"
+
 #include "analytics.h"
-#include <iostream>
+#include "compose.hpp"
+#include "config.h"
+#include "dcp_encoder.h"
+#include "dcpomatic_log.h"
+#include "encoder.h"
+#include "film.h"
+#include "job_manager.h"
+#include "log.h"
+#include "transcode_job.h"
+#include "upload_job.h"
 #include <iomanip>
+#include <iostream>
 
 #include "i18n.h"
 
-using std::string;
-using std::fixed;
-using std::setprecision;
+
 using std::cout;
+using std::fixed;
+using std::make_shared;
+using std::setprecision;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using std::dynamic_pointer_cast;
+
 
 /** @param film Film to use */
 TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
@@ -53,10 +58,12 @@ TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
 
 }
 
+
 TranscodeJob::~TranscodeJob ()
 {
 	stop_thread ();
 }
+
 
 string
 TranscodeJob::name () const
@@ -64,17 +71,20 @@ TranscodeJob::name () const
 	return String::compose (_("Transcoding %1"), _film->name());
 }
 
+
 string
 TranscodeJob::json_name () const
 {
 	return N_("transcode");
 }
 
+
 void
 TranscodeJob::set_encoder (shared_ptr<Encoder> e)
 {
 	_encoder = e;
 }
+
 
 void
 TranscodeJob::run ()
@@ -103,8 +113,7 @@ TranscodeJob::run ()
 
 		/* XXX: this shouldn't be here */
 		if (Config::instance()->upload_after_make_dcp() && dynamic_pointer_cast<DCPEncoder>(_encoder)) {
-			shared_ptr<Job> job (new UploadJob (_film));
-			JobManager::instance()->add (job);
+			JobManager::instance()->add(make_shared<UploadJob>(_film));
 		}
 
 		_encoder.reset ();
@@ -117,6 +126,7 @@ TranscodeJob::run ()
 		throw;
 	}
 }
+
 
 string
 TranscodeJob::status () const
@@ -150,12 +160,13 @@ TranscodeJob::status () const
 	return buffer;
 }
 
+
 /** @return Approximate remaining time in seconds */
 int
 TranscodeJob::remaining_time () const
 {
 	/* _encoder might be destroyed by the job-runner thread */
-	shared_ptr<Encoder> e = _encoder;
+	auto e = _encoder;
 
 	if (!e || e->finishing()) {
 		/* We aren't doing any actual encoding so just use the job's guess */
@@ -164,7 +175,7 @@ TranscodeJob::remaining_time () const
 
 	/* We're encoding so guess based on the current encoding rate */
 
-	optional<float> fps = e->current_rate ();
+	auto fps = e->current_rate ();
 
 	if (!fps) {
 		return 0;

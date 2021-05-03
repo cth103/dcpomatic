@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,29 +18,32 @@
 
 */
 
-#include "lib/ratio.h"
-#include "lib/film.h"
-#include "lib/filter.h"
-#include "lib/util.h"
-#include "lib/encode_server.h"
+
 #include "lib/dcp_video.h"
 #include "lib/decoder.h"
+#include "lib/encode_server.h"
+#include "lib/encode_server_description.h"
 #include "lib/exceptions.h"
 #include "lib/file_log.h"
-#include "lib/video_decoder.h"
+#include "lib/film.h"
+#include "lib/filter.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
-#include "lib/encode_server_description.h"
+#include "lib/ratio.h"
+#include "lib/util.h"
+#include "lib/video_decoder.h"
 #include <getopt.h>
-#include <iostream>
-#include <iomanip>
 #include <exception>
+#include <iomanip>
+#include <iostream>
 
-using std::cout;
+
 using std::cerr;
-using std::string;
+using std::cout;
+using std::make_shared;
 using std::pair;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using boost::bind;
 #if BOOST_VERSION >= 106100
@@ -48,22 +51,24 @@ using namespace boost::placeholders;
 #endif
 using dcp::ArrayData;
 
+
 static shared_ptr<Film> film;
 static EncodeServerDescription* server;
 static int frame_count = 0;
 
+
 void
 process_video (shared_ptr<PlayerVideo> pvf)
 {
-	shared_ptr<DCPVideo> local  (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, Resolution::TWO_K));
-	shared_ptr<DCPVideo> remote (new DCPVideo (pvf, frame_count, film->video_frame_rate(), 250000000, Resolution::TWO_K));
+	auto local = make_shared<DCPVideo>(pvf, frame_count, film->video_frame_rate(), 250000000, Resolution::TWO_K);
+	auto remote = make_shared<DCPVideo>(pvf, frame_count, film->video_frame_rate(), 250000000, Resolution::TWO_K);
 
 	cout << "Frame " << frame_count << ": ";
 	cout.flush ();
 
 	++frame_count;
 
-	ArrayData local_encoded = local->encode_locally ();
+	auto local_encoded = local->encode_locally ();
 	ArrayData remote_encoded;
 
 	string remote_error;
@@ -73,7 +78,7 @@ process_video (shared_ptr<PlayerVideo> pvf)
 		remote_error = e.what ();
 	}
 
-	if (!remote_error.empty ()) {
+	if (!remote_error.empty()) {
 		cout << "\033[0;31mnetwork problem: " << remote_error << "\033[0m\n";
 		return;
 	}
@@ -83,8 +88,8 @@ process_video (shared_ptr<PlayerVideo> pvf)
 		return;
 	}
 
-	uint8_t* p = local_encoded.data();
-	uint8_t* q = remote_encoded.data();
+	auto p = local_encoded.data();
+	auto q = remote_encoded.data();
 	for (int i = 0; i < local_encoded.size(); ++i) {
 		if (*p++ != *q++) {
 			cout << "\033[0;31mdata differ\033[0m at byte " << i << "\n";
@@ -95,12 +100,14 @@ process_video (shared_ptr<PlayerVideo> pvf)
 	cout << "\033[0;32mgood\033[0m\n";
 }
 
+
 static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [--help] --film <film> --server <host>\n";
 	exit (EXIT_FAILURE);
 }
+
 
 int
 main (int argc, char* argv[])
@@ -145,11 +152,11 @@ main (int argc, char* argv[])
 
 	try {
 		server = new EncodeServerDescription (server_host, 1, SERVER_LINK_VERSION);
-		film.reset (new Film (film_dir));
+		film = make_shared<Film>(film_dir);
 		film->read_metadata ();
 
-		shared_ptr<Player> player (new Player(film));
-		player->Video.connect (bind (&process_video, _1));
+		auto player = make_shared<Player>(film);
+		player->Video.connect (bind(&process_video, _1));
 		while (!player->pass ()) {}
 	} catch (std::exception& e) {
 		cerr << "Error: " << e.what() << "\n";

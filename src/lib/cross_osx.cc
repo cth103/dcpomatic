@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "cross.h"
 #include "compose.hpp"
@@ -52,6 +53,7 @@ extern "C" {
 
 #include "i18n.h"
 
+
 using std::pair;
 using std::list;
 using std::ifstream;
@@ -67,6 +69,7 @@ using std::shared_ptr;
 using boost::optional;
 using std::function;
 
+
 /** @param s Number of seconds to sleep for */
 void
 dcpomatic_sleep_seconds (int s)
@@ -74,11 +77,13 @@ dcpomatic_sleep_seconds (int s)
 	sleep (s);
 }
 
+
 void
 dcpomatic_sleep_milliseconds (int ms)
 {
 	usleep (ms * 1000);
 }
+
 
 /** @return A string of CPU information (model name etc.) */
 string
@@ -88,7 +93,7 @@ cpu_info ()
 
 	char buffer[64];
 	size_t N = sizeof (buffer);
-	if (sysctlbyname ("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
+	if (sysctlbyname("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
 		info = buffer;
 	}
 
@@ -127,7 +132,7 @@ tags_path ()
 void
 run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 {
-	boost::filesystem::path path = directory_containing_executable () / "ffprobe";
+	auto path = directory_containing_executable () / "ffprobe";
 
 	string ffprobe = "\"" + path.string() + "\" \"" + content.string() + "\" 2> \"" + out.string() + "\"";
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
@@ -135,12 +140,13 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 }
 
 
-list<pair<string, string> >
+
+list<pair<string, string>>
 mount_info ()
 {
-	list<pair<string, string> > m;
-	return m;
+	return {};
 }
+
 
 boost::filesystem::path
 openssl_path ()
@@ -158,6 +164,7 @@ disk_writer_path ()
 }
 #endif
 
+
 /* Apparently there is no way to create an ofstream using a UTF-8
    filename under Windows.  We are hence reduced to using fopen
    with this wrapper.
@@ -165,8 +172,9 @@ disk_writer_path ()
 FILE *
 fopen_boost (boost::filesystem::path p, string t)
 {
-        return fopen (p.c_str(), t.c_str ());
+        return fopen (p.c_str(), t.c_str());
 }
+
 
 int
 dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
@@ -174,11 +182,13 @@ dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
 	return fseek (stream, offset, whence);
 }
 
+
 void
 Waker::nudge ()
 {
 
 }
+
 
 Waker::Waker ()
 {
@@ -186,19 +196,21 @@ Waker::Waker ()
 	IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
 }
 
+
 Waker::~Waker ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	IOPMAssertionRelease (_assertion_id);
 }
 
+
 void
 start_tool (string executable, string app)
 {
-	boost::filesystem::path exe_path = directory_containing_executable();
-	exe_path = exe_path.parent_path (); // Contents
-	exe_path = exe_path.parent_path (); // DCP-o-matic 2.app
-	exe_path = exe_path.parent_path (); // Applications
+	auto exe_path = directory_containing_executable();
+	exe_path = exe_path.parent_path(); // Contents
+	exe_path = exe_path.parent_path(); // DCP-o-matic 2.app
+	exe_path = exe_path.parent_path(); // Applications
 	exe_path /= app;
 	exe_path /= "Contents";
 	exe_path /= "MacOS";
@@ -235,17 +247,20 @@ thread_id ()
 	return (uint64_t) pthread_self ();
 }
 
+
 int
 avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
 {
 	return avio_open (s, file.c_str(), flags);
 }
 
+
 boost::filesystem::path
 home_directory ()
 {
-		return getenv("HOME");
+	return getenv("HOME");
 }
+
 
 /** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
 bool
@@ -254,6 +269,7 @@ running_32_on_64 ()
 	/* I'm assuming nobody does this on OS X */
 	return false;
 }
+
 
 static optional<string>
 get_vendor (CFDictionaryRef& description)
@@ -273,6 +289,7 @@ get_vendor (CFDictionaryRef& description)
 	return s;
 }
 
+
 static optional<string>
 get_model (CFDictionaryRef& description)
 {
@@ -291,11 +308,13 @@ get_model (CFDictionaryRef& description)
 	return s;
 }
 
+
 struct MediaPath
 {
 	bool real;       ///< true for a "real" disk, false for a synthesized APFS one
 	std::string prt; ///< "PRT" entry from the media path
 };
+
 
 static optional<MediaPath>
 analyse_media_path (CFDictionaryRef& description)
@@ -343,6 +362,7 @@ analyse_media_path (CFDictionaryRef& description)
 	return mp;
 }
 
+
 static bool
 is_whole_drive (DADiskRef& disk)
 {
@@ -356,6 +376,7 @@ is_whole_drive (DADiskRef& disk)
 	IOObjectRelease (service);
 	return whole_media;
 }
+
 
 static optional<boost::filesystem::path>
 mount_point (CFDictionaryRef& description)
@@ -371,6 +392,7 @@ mount_point (CFDictionaryRef& description)
 	}
 	return boost::filesystem::path(mount_path_buffer);
 }
+
 
 /* Here follows some rather intricate and (probably) fragile code to find the list of available
  * "real" drives on macOS that we might want to write a DCP to.
@@ -407,6 +429,7 @@ struct Disk
 	vector<boost::filesystem::path> mount_points;
 	unsigned long size;
 };
+
 
 static void
 disk_appeared (DADiskRef disk, void* context)
@@ -463,19 +486,20 @@ disk_appeared (DADiskRef disk, void* context)
 	reinterpret_cast<vector<Disk>*>(context)->push_back(this_disk);
 }
 
+
 vector<Drive>
 Drive::get ()
 {
 	using namespace boost::algorithm;
 	vector<Disk> disks;
 
-	DASessionRef session = DASessionCreate(kCFAllocatorDefault);
+	auto session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
 		return {};
 	}
 
 	DARegisterDiskAppearedCallback (session, NULL, disk_appeared, &disks);
-	CFRunLoopRef run_loop = CFRunLoopGetCurrent ();
+	auto run_loop = CFRunLoopGetCurrent ();
 	DASessionScheduleWithRunLoop (session, run_loop, kCFRunLoopDefaultMode);
 	CFRunLoopStop (run_loop);
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, 0);
@@ -496,7 +520,7 @@ Drive::get ()
 	}
 
 	/* Make a map of the PRT codes and mount points of mounted, synthesized disks */
-	map<string, vector<boost::filesystem::path> > mounted_synths;
+	map<string, vector<boost::filesystem::path>> mounted_synths;
 	for (auto& i: disks) {
 		if (!i.real && !i.mount_points.empty()) {
 			LOG_DISK("Found a mounted synth %1 with %2", i.mount_point, i.prt);
@@ -559,12 +583,12 @@ Drive::unmount ()
 {
 	LOG_DISK_NC("Unmount operation started");
 
-	DASessionRef session = DASessionCreate(kCFAllocatorDefault);
+	auto session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
 		return false;
 	}
 
-	DADiskRef disk = DADiskCreateFromBSDName(kCFAllocatorDefault, session, _device.c_str());
+	auto disk = DADiskCreateFromBSDName(kCFAllocatorDefault, session, _device.c_str());
 	if (!disk) {
 		return false;
 	}

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,12 @@
 
 */
 
+
 #include "atmos_content.h"
 #include "atmos_mxf_content.h"
-#include "job.h"
-#include "film.h"
 #include "compose.hpp"
+#include "film.h"
+#include "job.h"
 #include <asdcp/KM_log.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
@@ -31,10 +32,13 @@
 
 #include "i18n.h"
 
+
 using std::list;
+using std::make_shared;
 using std::string;
 using std::shared_ptr;
 using namespace dcpomatic;
+
 
 AtmosMXFContent::AtmosMXFContent (boost::filesystem::path path)
 	: Content (path)
@@ -42,11 +46,13 @@ AtmosMXFContent::AtmosMXFContent (boost::filesystem::path path)
 
 }
 
+
 AtmosMXFContent::AtmosMXFContent (cxml::ConstNodePtr node, int)
 	: Content (node)
 {
 	atmos = AtmosContent::from_xml (this, node);
 }
+
 
 bool
 AtmosMXFContent::valid_mxf (boost::filesystem::path path)
@@ -54,7 +60,7 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	try {
-		shared_ptr<dcp::AtmosAsset> a (new dcp::AtmosAsset (path));
+		dcp::AtmosAsset a (path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -67,20 +73,22 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 	return false;
 }
 
+
 void
 AtmosMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	job->set_progress_unknown ();
 	Content::examine (film, job);
-	shared_ptr<dcp::AtmosAsset> a (new dcp::AtmosAsset (path(0)));
+	auto a = make_shared<dcp::AtmosAsset>(path(0));
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		atmos.reset (new AtmosContent(this));
+		atmos = make_shared<AtmosContent>(this);
 		atmos->set_length (a->intrinsic_duration());
 		atmos->set_edit_rate (a->edit_rate());
 	}
 }
+
 
 string
 AtmosMXFContent::summary () const
@@ -88,20 +96,23 @@ AtmosMXFContent::summary () const
 	return String::compose (_("%1 [Atmos]"), path_summary());
 }
 
+
 void
 AtmosMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text ("AtmosMXF");
+	node->add_child("Type")->add_child_text("AtmosMXF");
 	Content::as_xml (node, with_paths);
 	atmos->as_xml (node);
 }
+
 
 DCPTime
 AtmosMXFContent::full_length (shared_ptr<const Film> film) const
 {
 	FrameRateChange const frc (film, shared_from_this());
-	return DCPTime::from_frames (llrint (atmos->length() * frc.factor()), film->video_frame_rate());
+	return DCPTime::from_frames (llrint(atmos->length() * frc.factor()), film->video_frame_rate());
 }
+
 
 DCPTime
 AtmosMXFContent::approximate_length () const

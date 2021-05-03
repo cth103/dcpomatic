@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "cross.h"
 #include "verify_dcp_job.h"
 #include "content.h"
 
 #include "i18n.h"
+
 
 using std::string;
 using std::vector;
@@ -32,6 +34,7 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 
+
 VerifyDCPJob::VerifyDCPJob (vector<boost::filesystem::path> directories)
 	: Job (shared_ptr<Film>())
 	, _directories (directories)
@@ -39,10 +42,12 @@ VerifyDCPJob::VerifyDCPJob (vector<boost::filesystem::path> directories)
 
 }
 
+
 VerifyDCPJob::~VerifyDCPJob ()
 {
 	stop_thread ();
 }
+
 
 string
 VerifyDCPJob::name () const
@@ -50,11 +55,13 @@ VerifyDCPJob::name () const
 	return _("Verify DCP");
 }
 
+
 string
 VerifyDCPJob::json_name () const
 {
 	return N_("verify_dcp");
 }
+
 
 void
 VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
@@ -64,6 +71,7 @@ VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
 	}
 	sub (s);
 }
+
 
 void
 VerifyDCPJob::run ()

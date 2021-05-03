@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,10 @@
 
 */
 
+
 #include "uploader.h"
 #include <curl/curl.h>
+
 
 class CurlUploader : public Uploader
 {
@@ -36,7 +38,7 @@ protected:
 private:
 	CURL* _curl;
 
-	FILE* _file;
-	boost::uintmax_t* _transferred;
-	boost::uintmax_t _total_size;
+	FILE* _file = nullptr;
+	boost::uintmax_t* _transferred = nullptr;
+	boost::uintmax_t _total_size = 0;
 };

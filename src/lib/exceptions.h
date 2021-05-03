@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file  src/lib/exceptions.h
  *  @brief Our exceptions.
  */
 
+
 #ifndef DCPOMATIC_EXCEPTIONS_H
 #define DCPOMATIC_EXCEPTIONS_H
+
 
 #include "compose.hpp"
 extern "C" {
@@ -31,8 +34,9 @@ extern "C" {
 }
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
-#include <stdexcept>
 #include <cstring>
+#include <stdexcept>
+
 
 /** @class DecodeError
  *  @brief A low-level problem with the decoder (possibly due to the nature
@@ -45,14 +49,15 @@ public:
 		: std::runtime_error (s)
 	{}
 
-	explicit DecodeError (std::string function, std::string caller)
+	DecodeError (std::string function, std::string caller)
 		: std::runtime_error (String::compose("%1 failed [%2", function, caller))
 	{}
 
-	explicit DecodeError (std::string function, std::string caller, int error)
+	DecodeError (std::string function, std::string caller, int error)
 		: std::runtime_error (String::compose("%1 failed [%2] (%3)", function, caller, error))
 	{}
 };
+
 
 class CryptoError : public std::runtime_error
 {
@@ -109,6 +114,7 @@ private:
 	boost::filesystem::path _file;
 };
 
+
 class JoinError : public std::runtime_error
 {
 public:
@@ -116,6 +122,7 @@ public:
 		: std::runtime_error (s)
 	{}
 };
+
 
 /** @class OpenFileError.
  *  @brief Indicates that some error occurred when trying to open a file.
@@ -136,6 +143,7 @@ public:
 	OpenFileError (boost::filesystem::path f, int error, Mode mode);
 };
 
+
 class FileNotFoundError : public std::runtime_error
 {
 public:
@@ -152,6 +160,7 @@ private:
 	boost::filesystem::path _file;
 };
 
+
 /** @class ReadFileError.
  *  @brief Indicates that some error occurred when trying to read from a file
  */
@@ -164,6 +173,7 @@ public:
 	ReadFileError (boost::filesystem::path f, int e = 0);
 };
 
+
 /** @class WriteFileError.
  *  @brief Indicates that some error occurred when trying to write to a file
  */
@@ -175,6 +185,7 @@ public:
 	 */
 	WriteFileError (boost::filesystem::path f, int e);
 };
+
 
 /** @class SettingError.
  *  @brief Indicates that something is wrong with a setting.
@@ -201,6 +212,7 @@ private:
 	std::string _setting;
 };
 
+
 /** @class MissingSettingError.
  *  @brief Indicates that a Film is missing a setting that is required for some operation.
  */
@@ -210,6 +222,7 @@ public:
 	/** @param s Name of setting that was required */
 	explicit MissingSettingError (std::string s);
 };
+
 
 /** @class BadSettingError
  *  @brief Indicates that a setting is bad in some way.
@@ -225,6 +238,7 @@ public:
 	{}
 };
 
+
 /** @class NetworkError
  *  @brief Indicates some problem with communication on the network.
  */
@@ -235,6 +249,7 @@ public:
 		: std::runtime_error (s)
 	{}
 };
+
 
 /** @class KDMError
  *  @brief A problem with a KDM.
@@ -258,6 +273,7 @@ private:
 	std::string _detail;
 };
 
+
 /** @class PixelFormatError
  *  @brief A problem with an unsupported pixel format.
  */
@@ -267,6 +283,7 @@ public:
 	PixelFormatError (std::string o, AVPixelFormat f);
 };
 
+
 /** @class TextSubtitleError
  *  @brief An error that occurs while parsing a TextSubtitleError file.
  */
@@ -275,6 +292,7 @@ class TextSubtitleError : public FileError
 public:
 	TextSubtitleError (std::string, std::string, boost::filesystem::path);
 };
+
 
 class DCPError : public std::runtime_error
 {
@@ -307,10 +325,12 @@ public:
 };
 
 class ProgrammingError : public std::runtime_error
+
 {
 public:
 	ProgrammingError (std::string file, int line, std::string message = "");
 };
+
 
 class TextEncodingError : public std::runtime_error
 {
@@ -320,6 +340,7 @@ public:
 	{}
 };
 
+
 class MetadataError : public std::runtime_error
 {
 public:
@@ -327,6 +348,7 @@ public:
 		: std::runtime_error (s)
 	{}
 };
+
 
 class OldFormatError : public std::runtime_error
 {
@@ -336,17 +358,20 @@ public:
 	{}
 };
 
+
 class KDMAsContentError : public std::runtime_error
 {
 public:
 	KDMAsContentError ();
 };
 
+
 class GLError : public std::runtime_error
 {
 public:
 	GLError (char const * last, int e);
 };
+
 
 /** @class CopyError
  *  @brief An error which occurs when copying a DCP to a distribution drive.
@@ -411,5 +436,6 @@ public:
 			: std::runtime_error (s)
 		{}
 };
+
 
 #endif

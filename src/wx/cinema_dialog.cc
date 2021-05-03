@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,53 +18,50 @@
 
 */
 
+
 #include "cinema_dialog.h"
 #include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
 #include "lib/util.h"
 
+
+using std::back_inserter;
+using std::copy;
+using std::cout;
+using std::list;
 using std::string;
 using std::vector;
-using std::copy;
-using std::back_inserter;
-using std::list;
-using std::cout;
 using boost::bind;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
-static string
-column (string s)
-{
-	return s;
-}
 
 CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, string notes, int utc_offset_hour, int utc_offset_minute)
 	: wxDialog (parent, wxID_ANY, title)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
-	wxGridBagSizer* sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	int r = 0;
 
-	add_label_to_sizer (sizer, this, _("Name"), true, wxGBPosition (r, 0));
-	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (500, -1));
-	sizer->Add (_name, wxGBPosition (r, 1));
+	add_label_to_sizer (sizer, this, _("Name"), true, wxGBPosition(r, 0));
+	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx(name), wxDefaultPosition, wxSize(500, -1));
+	sizer->Add (_name, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (sizer, this, _("UTC offset (time zone)"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (sizer, this, _("UTC offset (time zone)"), true, wxGBPosition(r, 0));
 	_utc_offset = new wxChoice (this, wxID_ANY);
-	sizer->Add (_utc_offset, wxGBPosition (r, 1));
+	sizer->Add (_utc_offset, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (sizer, this, _("Notes"), true, wxGBPosition (r, 0));
-	_notes = new wxTextCtrl (this, wxID_ANY, std_to_wx (notes), wxDefaultPosition, wxSize (500, -1));
-	sizer->Add (_notes, wxGBPosition (r, 1));
+	add_label_to_sizer (sizer, this, _("Notes"), true, wxGBPosition(r, 0));
+	_notes = new wxTextCtrl (this, wxID_ANY, std_to_wx(notes), wxDefaultPosition, wxSize(500, -1));
+	sizer->Add (_notes, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), false, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	add_label_to_sizer (sizer, this, _("Email addresses for KDM delivery"), false, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
 	copy (emails.begin(), emails.end(), back_inserter (_emails));
@@ -72,15 +69,17 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	vector<EditableListColumn> columns;
 	columns.push_back (EditableListColumn(_("Address")));
 	_email_list = new EditableList<string, EmailDialog> (
-		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), bind (&column, _1)
+		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), [](string s, int) {
+			return s;
+		}
 		);
 
-	sizer->Add (_email_list, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND);
+	sizer->Add (_email_list, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);
 	++r;
 
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -102,11 +101,13 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	_name->SetFocus ();
 }
 
+
 string
 CinemaDialog::name () const
 {
 	return wx_to_std (_name->GetValue());
 }
+
 
 void
 CinemaDialog::set_emails (vector<string> e)
@@ -114,44 +115,49 @@ CinemaDialog::set_emails (vector<string> e)
 	_emails = e;
 }
 
+
 vector<string>
 CinemaDialog::get_emails () const
 {
 	return _emails;
 }
 
+
 list<string>
 CinemaDialog::emails () const
 {
 	list<string> e;
-	copy (_emails.begin(), _emails.end(), back_inserter (e));
+	copy (_emails.begin(), _emails.end(), back_inserter(e));
 	return e;
 }
+
 
 int
 CinemaDialog::utc_offset_hour () const
 {
 	int const sel = _utc_offset->GetSelection();
-	if (sel < 0 || sel > int (_offsets.size())) {
+	if (sel < 0 || sel > int(_offsets.size())) {
 		return 0;
 	}
 
 	return _offsets[sel].hour;
 }
 
+
 int
 CinemaDialog::utc_offset_minute () const
 {
 	int const sel = _utc_offset->GetSelection();
-	if (sel < 0 || sel > int (_offsets.size())) {
+	if (sel < 0 || sel > int(_offsets.size())) {
 		return 0;
 	}
 
 	return _offsets[sel].minute;
 }
 
+
 string
 CinemaDialog::notes () const
 {
-	return wx_to_std (_notes->GetValue ());
+	return wx_to_std (_notes->GetValue());
 }

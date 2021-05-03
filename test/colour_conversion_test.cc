@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
 /** @file  test/colour_conversion_test.cc
  *  @brief Test ColourConversion class.
  *  @ingroup selfcontained
  */
+
 
 #include "lib/colour_conversion.h"
 #include "lib/film.h"
@@ -30,23 +32,27 @@
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
+
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test1)
 {
-	ColourConversion A (dcp::ColourConversion::srgb_to_xyz ());
-	ColourConversion B (dcp::ColourConversion::rec709_to_xyz ());
+	ColourConversion A (dcp::ColourConversion::srgb_to_xyz());
+	ColourConversion B (dcp::ColourConversion::rec709_to_xyz());
 
 	BOOST_CHECK_EQUAL (A.identifier(), "9840c601d2775bf1b3847254bbaa36a9");
 	BOOST_CHECK_EQUAL (B.identifier(), "58151ac92fdf333663a62c9a8ba5c5f4");
 }
 
+
 BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 {
 	ColourConversion A (dcp::ColourConversion::srgb_to_xyz ());
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("Test");
+	auto root = doc.create_root_node ("Test");
 	A.as_xml (root);
 	BOOST_CHECK_EQUAL (
 		doc.write_to_string_formatted ("UTF-8"),
@@ -73,11 +79,12 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test2)
 		);
 }
 
+
 BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 {
-	ColourConversion A (dcp::ColourConversion::rec709_to_xyz ());
+	ColourConversion A (dcp::ColourConversion::rec709_to_xyz());
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("Test");
+	auto root = doc.create_root_node ("Test");
 	A.as_xml (root);
 	BOOST_CHECK_EQUAL (
 		doc.write_to_string_formatted ("UTF-8"),
@@ -101,15 +108,16 @@ BOOST_AUTO_TEST_CASE (colour_conversion_test3)
 		);
 }
 
+
 /** Test a round trip via the XML representation */
 BOOST_AUTO_TEST_CASE (colour_conversion_test4)
 {
-	for (auto const& i: PresetColourConversion::all ()) {
+	for (auto const& i: PresetColourConversion::all()) {
 		xmlpp::Document out;
-		xmlpp::Element* out_root = out.create_root_node ("Test");
+		auto out_root = out.create_root_node("Test");
 		i.conversion.as_xml (out_root);
-		shared_ptr<cxml::Document> in (new cxml::Document ("Test"));
-		in->read_string (out.write_to_string ("UTF-8"));
-		BOOST_CHECK (ColourConversion::from_xml (in, Film::current_state_version).get () == i.conversion);
+		auto in = make_shared<cxml::Document> ("Test");
+		in->read_string (out.write_to_string("UTF-8"));
+		BOOST_CHECK (ColourConversion::from_xml(in, Film::current_state_version).get() == i.conversion);
 	}
 }

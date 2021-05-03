@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @class SystemFontDialog
  *  @brief A dialog box to select one of the "system" fonts on Windows.
  *
@@ -25,6 +26,7 @@
  *  the contents of `c:\Windows\Fonts`, so we need a different way to choose
  *  one of those fonts.
  */
+
 
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
@@ -34,7 +36,9 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 #include <vector>
 
+
 class wxListCtrl;
+
 
 class SystemFontDialog : public wxDialog
 {

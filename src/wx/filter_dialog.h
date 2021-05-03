@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/filter_dialog.h
  *  @brief A dialog to select FFmpeg filters.
  */
+
 
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
@@ -28,8 +30,10 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
+
 class Film;
 class Filter;
+
 
 /** @class FilterDialog
  *  @brief A dialog to select FFmpeg filters.

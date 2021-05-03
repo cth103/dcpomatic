@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,20 @@
 
 */
 
+
 /** @file  test/file_log_test.cc
  *  @brief Test FileLog.
  *  @ingroup selfcontained
  */
 
+
 #include "lib/file_log.h"
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
-using std::cout;
 
 BOOST_AUTO_TEST_CASE (file_log_test)
 {
 	FileLog log ("test/data/short.log");
-	BOOST_CHECK_EQUAL (log.head_and_tail (1024), "This is a short log.\nWith only two lines.\n");
-	BOOST_CHECK_EQUAL (log.head_and_tail (8), "This is \n .\n .\n .\no lines.\n");
+	BOOST_CHECK_EQUAL (log.head_and_tail(1024), "This is a short log.\nWith only two lines.\n");
+	BOOST_CHECK_EQUAL (log.head_and_tail(8), "This is \n .\n .\n .\no lines.\n");
 }

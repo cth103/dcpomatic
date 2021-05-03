@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #include "exceptions.h"
 #include "compose.hpp"
 
 #include "i18n.h"
 
+
 using std::string;
 using std::runtime_error;
 using boost::optional;
+
 
 /** @param f File that we were trying to open */
 OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
@@ -41,6 +44,7 @@ OpenFileError::OpenFileError (boost::filesystem::path f, int error, Mode mode)
 
 }
 
+
 FileNotFoundError::FileNotFoundError (boost::filesystem::path f)
 	: runtime_error(String::compose("File %1 not found", f.string()))
 	, _file (f)
@@ -48,35 +52,41 @@ FileNotFoundError::FileNotFoundError (boost::filesystem::path f)
 
 }
 
+
 ReadFileError::ReadFileError (boost::filesystem::path f, int e)
-	: FileError (String::compose (_("could not read from file %1 (%2)"), f.string(), strerror (e)), f)
+	: FileError (String::compose(_("could not read from file %1 (%2)"), f.string(), strerror(e)), f)
 {
 
 }
+
 
 WriteFileError::WriteFileError (boost::filesystem::path f, int e)
-	: FileError (String::compose (_("could not write to file %1 (%2)"), f.string(), strerror (e)), f)
+	: FileError (String::compose(_("could not write to file %1 (%2)"), f.string(), strerror(e)), f)
 {
 
 }
+
 
 MissingSettingError::MissingSettingError (string s)
-	: SettingError (s, String::compose (_("Missing required setting %1"), s))
+	: SettingError (s, String::compose(_("Missing required setting %1"), s))
 {
 
 }
+
 
 PixelFormatError::PixelFormatError (string o, AVPixelFormat f)
-	: runtime_error (String::compose (_("Cannot handle pixel format %1 during %2"), (int) f, o))
+	: runtime_error (String::compose(_("Cannot handle pixel format %1 during %2"), (int) f, o))
 {
 
 }
+
 
 TextSubtitleError::TextSubtitleError (string saw, string expecting, boost::filesystem::path f)
-	: FileError (String::compose (_("Error in subtitle file: saw %1 while expecting %2"), saw.empty() ? "[nothing]" : saw, expecting), f)
+	: FileError (String::compose(_("Error in subtitle file: saw %1 while expecting %2"), saw.empty() ? "[nothing]" : saw, expecting), f)
 {
 
 }
+
 
 InvalidSignerError::InvalidSignerError ()
 	: runtime_error (_("The certificate chain for signing is invalid"))
@@ -84,17 +94,20 @@ InvalidSignerError::InvalidSignerError ()
 
 }
 
+
 InvalidSignerError::InvalidSignerError (string reason)
-	: runtime_error (String::compose (_("The certificate chain for signing is invalid (%1)"), reason))
+	: runtime_error (String::compose(_("The certificate chain for signing is invalid (%1)"), reason))
 {
 
 }
+
 
 ProgrammingError::ProgrammingError (string file, int line, string message)
-	: runtime_error (String::compose (_("Programming error at %1:%2 %3"), file, line, message))
+	: runtime_error (String::compose(_("Programming error at %1:%2 %3"), file, line, message))
 {
 
 }
+
 
 KDMAsContentError::KDMAsContentError ()
 	: runtime_error (_("This file is a KDM.  KDMs should be added to DCP content by right-clicking the content and choosing \"Add KDM\"."))
@@ -102,19 +115,22 @@ KDMAsContentError::KDMAsContentError ()
 
 }
 
+
 KDMError::KDMError (string s, string d)
-	: runtime_error (String::compose ("%1 (%2)", s, d))
+	: runtime_error (String::compose("%1 (%2)", s, d))
 	, _summary (s)
 	, _detail (d)
 {
 
 }
 
+
 GLError::GLError (char const * last, int e)
 	: runtime_error (String::compose("%1 failed %2", last, e))
 {
 
 }
+
 
 CopyError::CopyError (string m, optional<int> n)
 	: runtime_error (String::compose("%1%2", m, n ? String::compose(" (%1)", *n) : ""))
@@ -124,11 +140,13 @@ CopyError::CopyError (string m, optional<int> n)
 
 }
 
+
 CommunicationFailedError::CommunicationFailedError ()
 	: CopyError (_("Lost communication between main and writer processes"))
 {
 
 }
+
 
 VerifyError::VerifyError (string m, int n)
 	: runtime_error (String::compose("%1 (%2)", m, n))

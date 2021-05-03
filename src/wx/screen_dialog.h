@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,17 @@
 
 */
 
+
 #include "editable_list.h"
 #include "lib/screen.h"
 #include <dcp/certificate.h>
 #include <wx/wx.h>
 #include <boost/optional.hpp>
 
+
 class Progress;
 class TrustedDeviceDialog;
+
 
 class ScreenDialog : public wxDialog
 {
@@ -35,7 +38,7 @@ public:
 		wxString,
 		std::string name = "",
 		std::string notes = "",
-		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate> (),
+		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate>(),
 		std::vector<TrustedDevice> d = std::vector<TrustedDevice>()
 		);
 

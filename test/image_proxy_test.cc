@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,6 +25,7 @@
 #include <boost/test/unit_test.hpp>
 
 
+using std::make_shared;
 using std::shared_ptr;
 
 
@@ -37,14 +38,14 @@ BOOST_AUTO_TEST_CASE (j2k_image_proxy_same_test)
 	/* The files don't matter here, we just need some data to compare */
 
 	{
-		shared_ptr<J2KImageProxy> proxy1(new J2KImageProxy(data_file0, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48));
-		shared_ptr<J2KImageProxy> proxy2(new J2KImageProxy(data_file0, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48));
+		auto proxy1 = make_shared<J2KImageProxy>(data_file0, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48);
+		auto proxy2 = make_shared<J2KImageProxy>(data_file0, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48);
 		BOOST_CHECK (proxy1->same(proxy2));
 	}
 
 	{
-		shared_ptr<J2KImageProxy> proxy1(new J2KImageProxy(data_file0, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48));
-		shared_ptr<J2KImageProxy> proxy2(new J2KImageProxy(data_file1, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48));
+		auto proxy1 = make_shared<J2KImageProxy>(data_file0, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48);
+		auto proxy2 = make_shared<J2KImageProxy>(data_file1, dcp::Size(1998, 1080), AV_PIX_FMT_RGB48);
 		BOOST_CHECK (!proxy1->same(proxy2));
 	}
 }
@@ -53,14 +54,14 @@ BOOST_AUTO_TEST_CASE (j2k_image_proxy_same_test)
 BOOST_AUTO_TEST_CASE (ffmpeg_image_proxy_same_test)
 {
 	{
-		shared_ptr<FFmpegImageProxy> proxy1(new FFmpegImageProxy(data_file0, VideoRange::FULL));
-		shared_ptr<FFmpegImageProxy> proxy2(new FFmpegImageProxy(data_file0, VideoRange::FULL));
+		auto proxy1 = make_shared<FFmpegImageProxy>(data_file0, VideoRange::FULL);
+		auto proxy2 = make_shared<FFmpegImageProxy>(data_file0, VideoRange::FULL);
 		BOOST_CHECK (proxy1->same(proxy2));
 	}
 
 	{
-		shared_ptr<FFmpegImageProxy> proxy1(new FFmpegImageProxy(data_file0, VideoRange::FULL));
-		shared_ptr<FFmpegImageProxy> proxy2(new FFmpegImageProxy(data_file1, VideoRange::FULL));
+		auto proxy1 = make_shared<FFmpegImageProxy>(data_file0, VideoRange::FULL);
+		auto proxy2 = make_shared<FFmpegImageProxy>(data_file1, VideoRange::FULL);
 		BOOST_CHECK (!proxy1->same(proxy2));
 	}
 }

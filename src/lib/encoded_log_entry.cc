@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,13 @@
 
 */
 
+
 #include "encoded_log_entry.h"
 #include <cstdio>
 
+
 using std::string;
+
 
 EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double encode, double send)
 	: LogEntry (LogEntry::TYPE_GENERAL)
@@ -33,6 +36,7 @@ EncodedLogEntry::EncodedLogEntry (int frame, string ip, double receive, double e
 {
 
 }
+
 
 string
 EncodedLogEntry::message () const

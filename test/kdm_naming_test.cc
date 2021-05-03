@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,22 +18,25 @@
 
 */
 
+
 #include "lib/cinema.h"
-#include "lib/screen.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/film.h"
 #include "lib/kdm_with_metadata.h"
+#include "lib/screen.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
 
+using std::dynamic_pointer_cast;
 using std::list;
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
 using boost::optional;
-using std::dynamic_pointer_cast;
+
 
 static
 bool
@@ -42,39 +45,41 @@ confirm_overwrite (boost::filesystem::path)
 	return true;
 }
 
+
 static shared_ptr<dcpomatic::Screen> cinema_a_screen_1;
 static shared_ptr<dcpomatic::Screen> cinema_a_screen_2;
 static shared_ptr<dcpomatic::Screen> cinema_b_screen_x;
 static shared_ptr<dcpomatic::Screen> cinema_b_screen_y;
 static shared_ptr<dcpomatic::Screen> cinema_b_screen_z;
 
+
 BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 {
-	Config* c = Config::instance();
+	auto c = Config::instance();
 
-	dcp::Certificate cert = c->decryption_chain()->leaf();
+	auto cert = c->decryption_chain()->leaf();
 
 	/* Cinema A: UTC +4:30 */
-	shared_ptr<Cinema> cinema_a (new Cinema("Cinema A", list<string>(), "", 4, 30));
-	cinema_a_screen_1.reset(new dcpomatic::Screen("Screen 1", "", cert, vector<TrustedDevice>()));
+	auto cinema_a = make_shared<Cinema>("Cinema A", list<string>(), "", 4, 30);
+	cinema_a_screen_1 = make_shared<dcpomatic::Screen>("Screen 1", "", cert, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_1);
-	cinema_a_screen_2.reset(new dcpomatic::Screen("Screen 2", "", cert, vector<TrustedDevice>()));
+	cinema_a_screen_2 = make_shared<dcpomatic::Screen>("Screen 2", "", cert, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_2);
 	c->add_cinema (cinema_a);
 
 	/* Cinema B: UTC -1:00 */
-	shared_ptr<Cinema> cinema_b (new Cinema("Cinema B", list<string>(), "", -1, 0));
-	cinema_b_screen_x.reset(new dcpomatic::Screen("Screen X", "", cert, vector<TrustedDevice>()));
+	auto cinema_b = make_shared<Cinema>("Cinema B", list<string>(), "", -1, 0);
+	cinema_b_screen_x = make_shared<dcpomatic::Screen>("Screen X", "", cert, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_x);
-	cinema_b_screen_y.reset(new dcpomatic::Screen("Screen Y", "", cert, vector<TrustedDevice>()));
+	cinema_b_screen_y = make_shared<dcpomatic::Screen>("Screen Y", "", cert, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_y);
-	cinema_b_screen_z.reset(new dcpomatic::Screen("Screen Z", "", cert, vector<TrustedDevice>()));
+	cinema_b_screen_z = make_shared<dcpomatic::Screen>("Screen Z", "", cert, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_z);
 	c->add_cinema (cinema_a);
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/single_kdm_naming_test");
-	shared_ptr<Film> film = new_test_film2 ("single_kdm_naming_test");
+	auto film = new_test_film2 ("single_kdm_naming_test");
 	film->set_name ("my_great_film");
 	film->examine_and_add_content (content_factory("test/data/flat_black.png").front());
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -88,8 +93,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	dcp::LocalTime until (cert.not_after());
 	until.add_months (-2);
 
-	string const from_string = from.date() + " " + from.time_of_day(true, false);
-	string const until_string = until.date() + " " + until.time_of_day(true, false);
+	auto const from_string = from.date() + " " + from.time_of_day(true, false);
+	auto const until_string = until.date() + " " + until.time_of_day(true, false);
 
 	auto cpl = cpls.front().cpl_file;
 	auto kdm = kdm_for_screen (
@@ -110,12 +115,12 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 		&confirm_overwrite
 		);
 
-	string from_time = from.time_of_day (true, false);
+	auto from_time = from.time_of_day (true, false);
 	boost::algorithm::replace_all (from_time, ":", "-");
-	string until_time = until.time_of_day (true, false);
+	auto until_time = until.time_of_day (true, false);
 	boost::algorithm::replace_all (until_time, ":", "-");
 
-	string const ref = String::compose("KDM_Cinema_A_-_Screen_1_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
+	auto const ref = String::compose("KDM_Cinema_A_-_Screen_1_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists("build/test/single_kdm_naming_test/" + ref), "File " << ref << " not found");
 }
 
@@ -124,7 +129,7 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 {
 	using boost::filesystem::path;
 
-	dcp::Certificate cert = Config::instance()->decryption_chain()->leaf();
+	auto cert = Config::instance()->decryption_chain()->leaf();
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/directory_kdm_naming_test");

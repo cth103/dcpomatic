@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
+#include "lib/datasat_ap2x.h"
 #include "lib/dolby_cp750.h"
 #include "lib/usl.h"
-#include "lib/datasat_ap2x.h"
 #include <boost/test/unit_test.hpp>
+
 
 BOOST_AUTO_TEST_CASE (dolby_cp750_test)
 {
@@ -43,6 +45,7 @@ BOOST_AUTO_TEST_CASE (dolby_cp750_test)
 	BOOST_CHECK_CLOSE (ap.db_for_fader_change(6, 3), -(20 + 6.66666666666666666), 0.1);
 }
 
+
 BOOST_AUTO_TEST_CASE (usl_test)
 {
 	USL ap;
@@ -62,6 +65,7 @@ BOOST_AUTO_TEST_CASE (usl_test)
 	/* Crossing knee, down */
 	BOOST_CHECK_CLOSE (ap.db_for_fader_change(6, 3), -(2.5 * 10 + 0.5 * 3.333333333333333333), 0.1);
 }
+
 
 BOOST_AUTO_TEST_CASE (datasat_ap2x_test)
 {

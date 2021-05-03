@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,14 @@
 
 */
 
-#include "table_dialog.h"
+
 #include "editable_list.h"
 #include "email_dialog.h"
+#include "table_dialog.h"
 #include <wx/wx.h>
 #include <list>
 #include <vector>
+
 
 class CinemaDialog : public wxDialog
 {

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,20 @@
 
 */
 
+
 #include "scoped_temporary.h"
 #include "exceptions.h"
 #include "cross.h"
+
 
 /** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened
  *  until open() is called.
  */
 ScopedTemporary::ScopedTemporary ()
-	: _open (0)
 {
 	_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path ();
 }
+
 
 /** Close and delete the temporary file */
 ScopedTemporary::~ScopedTemporary ()
@@ -39,12 +41,14 @@ ScopedTemporary::~ScopedTemporary ()
 	boost::filesystem::remove (_file, ec);
 }
 
+
 /** @return temporary filename */
 char const *
 ScopedTemporary::c_str () const
 {
-	return _file.string().c_str ();
+	return _file.string().c_str();
 }
+
 
 /** Open the temporary file.
  *  @return File's FILE pointer.
@@ -60,12 +64,13 @@ ScopedTemporary::open (char const * params)
 	return _open;
 }
 
+
 /** Close the file */
 void
 ScopedTemporary::close ()
 {
 	if (_open) {
 		fclose (_open);
-		_open = 0;
+		_open = nullptr;
 	}
 }

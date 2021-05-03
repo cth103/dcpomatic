@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "util.h"
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
@@ -26,8 +27,11 @@
 #include <cmath>
 #include <stdexcept>
 
+
 using std::bad_alloc;
 using std::shared_ptr;
+using std::make_shared;
+
 
 /** Construct an AudioBuffers.  Audio data is undefined after this constructor.
  *  @param channels Number of channels.
@@ -38,6 +42,7 @@ AudioBuffers::AudioBuffers (int channels, int32_t frames)
 	allocate (channels, frames);
 }
 
+
 /** Copy constructor.
  *  @param other Other AudioBuffers; data is copied.
  */
@@ -47,17 +52,20 @@ AudioBuffers::AudioBuffers (AudioBuffers const & other)
 	copy_from (&other, other._frames, 0, 0);
 }
 
+
 AudioBuffers::AudioBuffers (std::shared_ptr<const AudioBuffers> other)
 {
 	allocate (other->_channels, other->_frames);
 	copy_from (other.get(), other->_frames, 0, 0);
 }
 
+
 AudioBuffers::AudioBuffers (std::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset)
 {
 	allocate (other->_channels, frames_to_copy);
 	copy_from (other.get(), frames_to_copy, read_offset, 0);
 }
+
 
 AudioBuffers &
 AudioBuffers::operator= (AudioBuffers const & other)
@@ -73,11 +81,13 @@ AudioBuffers::operator= (AudioBuffers const & other)
 	return *this;
 }
 
+
 /** AudioBuffers destructor */
 AudioBuffers::~AudioBuffers ()
 {
 	deallocate ();
 }
+
 
 void
 AudioBuffers::allocate (int channels, int32_t frames)
@@ -89,18 +99,19 @@ AudioBuffers::allocate (int channels, int32_t frames)
 	_frames = frames;
 	_allocated_frames = frames;
 
-	_data = static_cast<float**> (malloc (_channels * sizeof (float *)));
+	_data = static_cast<float**> (malloc(_channels * sizeof(float *)));
 	if (!_data) {
 		throw bad_alloc ();
 	}
 
 	for (int i = 0; i < _channels; ++i) {
-		_data[i] = static_cast<float*> (malloc (frames * sizeof (float)));
+		_data[i] = static_cast<float*> (malloc(frames * sizeof(float)));
 		if (!_data[i]) {
 			throw bad_alloc ();
 		}
 	}
 }
+
 
 void
 AudioBuffers::deallocate ()
@@ -112,6 +123,7 @@ AudioBuffers::deallocate ()
 	free (_data);
 }
 
+
 /** @param c Channel index.
  *  @return Buffer for this channel.
  */
@@ -121,6 +133,7 @@ AudioBuffers::data (int c) const
 	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
 	return _data[c];
 }
+
 
 /** Set the number of frames that these AudioBuffers will report themselves
  *  as having.  If we reduce the number of frames, the `lost' frames will
@@ -138,6 +151,7 @@ AudioBuffers::set_frames (int32_t f)
 	_frames = f;
 }
 
+
 /** Make all frames silent */
 void
 AudioBuffers::make_silent ()
@@ -146,6 +160,7 @@ AudioBuffers::make_silent ()
 		make_silent (i);
 	}
 }
+
 
 /** Make all samples on a given channel silent.
  *  @param c Channel.
@@ -160,6 +175,7 @@ AudioBuffers::make_silent (int c)
 	*/
 	memset (_data[c], 0, _frames * sizeof(float));
 }
+
 
 /** Make some frames.
  *  @param from Start frame.
@@ -177,6 +193,7 @@ AudioBuffers::make_silent (int32_t from, int32_t frames)
 		memset (_data[c] + from, 0, frames * sizeof(float));
 	}
 }
+
 
 /** Copy data from another AudioBuffers to this one.  All channels are copied.
  *  @param from AudioBuffers to copy from; must have the same number of channels as this.
@@ -201,6 +218,7 @@ AudioBuffers::copy_from (AudioBuffers const * from, int32_t frames_to_copy, int3
 		memcpy (_data[i] + write_offset, from->_data[i] + read_offset, frames_to_copy * sizeof(float));
 	}
 }
+
 
 /** Move audio data around.
  *  @param from Offset to move from.
@@ -228,6 +246,7 @@ AudioBuffers::move (int32_t frames, int32_t from, int32_t to)
 	}
 }
 
+
 /** Add data from from `from', `from_channel' to our channel `to_channel'.
  *  @param from Buffers to copy data from.
  *  @param from_channel Channel index to read in \p from.
@@ -241,13 +260,14 @@ AudioBuffers::accumulate_channel (AudioBuffers const * from, int from_channel, i
 	DCPOMATIC_ASSERT (from->frames() == N);
 	DCPOMATIC_ASSERT (to_channel <= _channels);
 
-	float* s = from->data (from_channel);
-	float* d = _data[to_channel];
+	auto s = from->data (from_channel);
+	auto d = _data[to_channel];
 
 	for (int i = 0; i < N; ++i) {
 		*d++ += (*s++) * gain;
 	}
 }
+
 
 /** Ensure we have space for at least a certain number of frames.  If we extend
  *  the buffers, fill the new space with silence.
@@ -271,18 +291,19 @@ AudioBuffers::ensure_size (int32_t frames)
 	frames++;
 
 	for (int i = 0; i < _channels; ++i) {
-		_data[i] = static_cast<float*> (realloc (_data[i], frames * sizeof (float)));
+		_data[i] = static_cast<float*> (realloc(_data[i], frames * sizeof(float)));
 		if (!_data[i]) {
 			throw bad_alloc ();
 		}
 	}
 
-	int32_t const old_allocated = _allocated_frames;
+	auto const old_allocated = _allocated_frames;
 	_allocated_frames = frames;
 	if (old_allocated < _allocated_frames) {
 		make_silent (old_allocated, _allocated_frames - old_allocated);
 	}
 }
+
 
 /** Mix some other buffers with these ones.  The AudioBuffers must have the same number of channels.
  *  @param from Audio buffers to get data from.
@@ -297,7 +318,7 @@ AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t frames, int3
 	DCPOMATIC_ASSERT (read_offset >= 0);
 	DCPOMATIC_ASSERT (write_offset >= 0);
 
-	float** from_data = from->data ();
+	auto from_data = from->data ();
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < frames; ++j) {
 			_data[i][j + write_offset] += from_data[i][j + read_offset];
@@ -305,11 +326,12 @@ AudioBuffers::accumulate_frames (AudioBuffers const * from, int32_t frames, int3
 	}
 }
 
+
 /** @param dB gain in dB */
 void
 AudioBuffers::apply_gain (float dB)
 {
-	float const linear = db_to_linear (dB);
+	auto const linear = db_to_linear (dB);
 
 	for (int i = 0; i < _channels; ++i) {
 		for (int j = 0; j < _frames; ++j) {
@@ -318,16 +340,18 @@ AudioBuffers::apply_gain (float dB)
 	}
 }
 
+
 /** @param c Channel index.
  *  @return AudioBuffers object containing only channel `c' from this AudioBuffers.
  */
 shared_ptr<AudioBuffers>
 AudioBuffers::channel (int c) const
 {
-	shared_ptr<AudioBuffers> o (new AudioBuffers (1, frames ()));
+	auto o = make_shared<AudioBuffers>(1, frames());
 	o->copy_channel_from (this, c, 0);
 	return o;
 }
+
 
 /** Copy all the samples from a channel on another AudioBuffers to a channel on this one.
  *  @param from AudioBuffers to copy from.
@@ -341,14 +365,16 @@ AudioBuffers::copy_channel_from (AudioBuffers const * from, int from_channel, in
 	memcpy (data(to_channel), from->data(from_channel), frames() * sizeof (float));
 }
 
+
 /** Make a copy of these AudioBuffers */
 shared_ptr<AudioBuffers>
 AudioBuffers::clone () const
 {
-	shared_ptr<AudioBuffers> b (new AudioBuffers (channels (), frames ()));
-	b->copy_from (this, frames (), 0, 0);
+	auto b = make_shared<AudioBuffers>(channels(), frames());
+	b->copy_from (this, frames(), 0, 0);
 	return b;
 }
+
 
 /** Extend these buffers with the data from another.  The AudioBuffers must have the same number of channels. */
 void
@@ -359,6 +385,7 @@ AudioBuffers::append (shared_ptr<const AudioBuffers> other)
 	copy_from (other.get(), other->frames(), 0, _frames);
 	_frames += other->frames();
 }
+
 
 /** Remove some frames from the start of these AudioBuffers */
 void

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,13 @@
 
 */
 
+
 #ifndef DCPOMATIC_RAW_IMAGE_PROXY_H
 #define DCPOMATIC_RAW_IMAGE_PROXY_H
 
+
 #include "image_proxy.h"
+
 
 class RawImageProxy : public ImageProxy
 {
@@ -41,5 +44,6 @@ public:
 private:
 	std::shared_ptr<Image> _image;
 };
+
 
 #endif

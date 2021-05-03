@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "send_notification_email_job.h"
 #include "exceptions.h"
 #include "config.h"
@@ -27,9 +28,11 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::list;
 using std::shared_ptr;
+
 
 /** @param body Email body */
 SendNotificationEmailJob::SendNotificationEmailJob (string body)
@@ -39,10 +42,12 @@ SendNotificationEmailJob::SendNotificationEmailJob (string body)
 
 }
 
+
 SendNotificationEmailJob::~SendNotificationEmailJob ()
 {
 	stop_thread ();
 }
+
 
 string
 SendNotificationEmailJob::name () const
@@ -50,16 +55,18 @@ SendNotificationEmailJob::name () const
 	return _("Email notification");
 }
 
+
 string
 SendNotificationEmailJob::json_name () const
 {
 	return N_("send_notification_email");
 }
 
+
 void
 SendNotificationEmailJob::run ()
 {
-	Config* config = Config::instance ();
+	auto config = Config::instance ();
 
 	if (config->mail_server().empty()) {
 		throw NetworkError (_("No mail server configured in preferences"));
@@ -67,13 +74,13 @@ SendNotificationEmailJob::run ()
 
 	set_progress_unknown ();
 	list<string> to;
-	to.push_back (config->notification_to ());
+	to.push_back (config->notification_to());
 	Emailer email (config->notification_from(), to, config->notification_subject(), _body);
 	for (auto i: config->notification_cc()) {
 		email.add_cc (i);
 	}
 	if (!config->notification_bcc().empty()) {
-		email.add_bcc (config->notification_bcc ());
+		email.add_bcc (config->notification_bcc());
 	}
 
 	email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());

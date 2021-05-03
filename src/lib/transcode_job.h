@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,17 @@
 
 */
 
+
 /** @file src/transcode_job.h
  *  @brief A job which transcodes from one format to another.
  */
 
+
 #include "job.h"
 
+
 class Encoder;
+
 
 /** @class TranscodeJob
  *  @brief A job which transcodes a Film to another format.
@@ -35,15 +39,15 @@ public:
 	explicit TranscodeJob (std::shared_ptr<const Film> film);
 	~TranscodeJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
-	std::string status () const;
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
+	std::string status () const override;
 
 	void set_encoder (std::shared_ptr<Encoder> t);
 
 private:
-	int remaining_time () const;
+	int remaining_time () const override;
 
 	std::shared_ptr<Encoder> _encoder;
 };

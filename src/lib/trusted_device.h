@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_TRUSTED_DEVICE_H
 #define DCPOMATIC_TRUSTED_DEVICE_H
+
 
 #include <dcp/certificate.h>
 #include <boost/optional.hpp>
 #include <string>
+
 
 class TrustedDevice
 {
@@ -42,5 +45,6 @@ private:
 	boost::optional<dcp::Certificate> _certificate;
 	boost::optional<std::string> _thumbprint;
 };
+
 
 #endif

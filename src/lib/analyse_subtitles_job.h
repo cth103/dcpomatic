@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,21 +18,24 @@
 
 */
 
+
 #include "job.h"
 #include "types.h"
 #include "player_text.h"
 
+
 class Film;
 class Content;
+
 
 class AnalyseSubtitlesJob : public Job
 {
 public:
 	AnalyseSubtitlesJob (std::shared_ptr<const Film> film, std::shared_ptr<Content> content);
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 	boost::filesystem::path path () const {
 		return _path;
@@ -43,6 +46,6 @@ private:
 
 	std::weak_ptr<Content> _content;
 	boost::filesystem::path _path;
-	boost::optional<dcpomatic::Rect<double> > _bounding_box;
+	boost::optional<dcpomatic::Rect<double>> _bounding_box;
 };
 

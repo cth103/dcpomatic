@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,34 +18,34 @@
 
 */
 
-#include "test.h"
+
 #include "lib/content.h"
-#include "lib/film.h"
 #include "lib/content_factory.h"
+#include "lib/film.h"
 #include "lib/string_text_file.h"
 #include "lib/string_text_file_content.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
+
 
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
+
 /** Test parsing of UTF16 CR/LF input */
 BOOST_AUTO_TEST_CASE (subtitle_charset_test1)
 {
-	shared_ptr<Film> film = new_test_film2 ("subtitle_charset_test1");
-	shared_ptr<Content> content = content_factory (TestPaths::private_data() / "PADDINGTON soustitresVFdef.srt").front();
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto content = content_factory (TestPaths::private_data() / "PADDINGTON soustitresVFdef.srt").front();
+	auto film = new_test_film2 ("subtitle_charset_test1", { content });
 }
+
 
 /** Test parsing of OSX input */
 BOOST_AUTO_TEST_CASE (subtitle_charset_test2)
 {
-	shared_ptr<Film> film = new_test_film2 ("subtitle_charset_test2");
-	shared_ptr<Content> content = content_factory ("test/data/osx.srt").front();
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
-	shared_ptr<StringTextFileContent> ts = dynamic_pointer_cast<StringTextFileContent> (content);
+	auto content = content_factory ("test/data/osx.srt").front();
+	auto film = new_test_film2 ("subtitle_charset_test2", { content });
+	auto ts = dynamic_pointer_cast<StringTextFileContent> (content);
 	BOOST_REQUIRE (ts);
 	/* Make sure we got the subtitle data from the file */
 	BOOST_REQUIRE_EQUAL (content->full_length(film).get(), 6052032);

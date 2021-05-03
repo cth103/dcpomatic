@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,19 @@
 
 */
 
-#include "lib/server.h"
+
 #include "lib/dcpomatic_socket.h"
+#include "lib/server.h"
 #include <dcp/raw_convert.h>
-#include <boost/thread.hpp>
 #include <boost/test/unit_test.hpp>
+#include <boost/thread.hpp>
 #include <cstring>
 #include <iostream>
 
 
-using std::string;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 using boost::bind;
 
 
@@ -115,6 +117,7 @@ send (shared_ptr<Socket> socket, char const* message)
 	socket->write (reinterpret_cast<uint8_t const *>(message), strlen(message) + 1);
 }
 
+
 /** Basic test to see if Socket can send and receive data */
 BOOST_AUTO_TEST_CASE (socket_basic_test)
 {
@@ -128,7 +131,7 @@ BOOST_AUTO_TEST_CASE (socket_basic_test)
 	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
 	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
-	shared_ptr<Socket> socket (new Socket);
+	auto socket = make_shared<Socket>();
 	socket->connect (*endpoint_iterator);
 	send (socket, "Hello world!");
 

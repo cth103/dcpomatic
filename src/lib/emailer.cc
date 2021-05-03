@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "compose.hpp"
 #include "config.h"
 #include "emailer.h"
@@ -28,13 +29,15 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::min;
-using std::list;
+
 using std::cout;
+using std::list;
+using std::min;
 using std::pair;
 using std::shared_ptr;
+using std::string;
 using dcp::ArrayData;
+
 
 Emailer::Emailer (string from, list<string> to, string subject, string body)
 	: _from (from)
@@ -46,6 +49,7 @@ Emailer::Emailer (string from, list<string> to, string subject, string body)
 
 }
 
+
 string
 Emailer::fix (string s) const
 {
@@ -54,17 +58,20 @@ Emailer::fix (string s) const
 	return s;
 }
 
+
 void
 Emailer::add_cc (string cc)
 {
 	_cc.push_back (cc);
 }
 
+
 void
 Emailer::add_bcc (string bcc)
 {
 	_bcc.push_back (bcc);
 }
+
 
 void
 Emailer::add_attachment (boost::filesystem::path file, string name, string mime_type)
@@ -76,17 +83,20 @@ Emailer::add_attachment (boost::filesystem::path file, string name, string mime_
 	_attachments.push_back (a);
 }
 
+
 static size_t
 curl_data_shim (void* ptr, size_t size, size_t nmemb, void* userp)
 {
 	return reinterpret_cast<Emailer*>(userp)->get_data (ptr, size, nmemb);
 }
 
+
 static int
 curl_debug_shim (CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
 {
 	return reinterpret_cast<Emailer*>(userp)->debug (curl, type, data, size);
 }
+
 
 size_t
 Emailer::get_data (void* ptr, size_t size, size_t nmemb)
@@ -97,28 +107,29 @@ Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 	return t;
 }
 
+
 void
 Emailer::send (string server, int port, EmailProtocol protocol, string user, string password)
 {
 	char date_buffer[128];
 	time_t now = time (0);
-	strftime (date_buffer, sizeof(date_buffer), "%a, %d %b %Y %H:%M:%S ", localtime (&now));
+	strftime (date_buffer, sizeof(date_buffer), "%a, %d %b %Y %H:%M:%S ", localtime(&now));
 
-	boost::posix_time::ptime const utc_now = boost::posix_time::second_clock::universal_time ();
-	boost::posix_time::ptime const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
-	boost::posix_time::time_duration offset = local_now - utc_now;
+	auto const utc_now = boost::posix_time::second_clock::universal_time ();
+	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
+	auto offset = local_now - utc_now;
 	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), int(abs(offset.hours())), int(offset.minutes()));
 
 	_email = "Date: " + string(date_buffer) + "\r\n"
 		"To: " + address_list (_to) + "\r\n"
 		"From: " + _from + "\r\n";
 
-	if (!_cc.empty ()) {
-		_email += "Cc: " + address_list (_cc) + "\r\n";
+	if (!_cc.empty()) {
+		_email += "Cc: " + address_list(_cc) + "\r\n";
 	}
 
-	if (!_bcc.empty ()) {
-		_email += "Bcc: " + address_list (_bcc) + "\r\n";
+	if (!_bcc.empty()) {
+		_email += "Bcc: " + address_list(_bcc) + "\r\n";
 	}
 
 	string const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -149,9 +160,9 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 			"Content-Transfer-Encoding: Base64\r\n"
 			"Content-Disposition: attachment; filename=" + i.name + "\r\n\r\n";
 
-		BIO* b64 = BIO_new (BIO_f_base64());
+		auto b64 = BIO_new (BIO_f_base64());
 
-		BIO* bio = BIO_new (BIO_s_mem());
+		auto bio = BIO_new (BIO_s_mem());
 		bio = BIO_push (b64, bio);
 
 		ArrayData data (i.file);
@@ -171,7 +182,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 	curl_global_init (CURL_GLOBAL_DEFAULT);
 
-	CURL* curl = curl_easy_init ();
+	auto curl = curl_easy_init ();
 	if (!curl) {
 		throw NetworkError ("Could not initialise libcurl");
 	}
@@ -192,7 +203,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 	curl_easy_setopt (curl, CURLOPT_MAIL_FROM, _from.c_str());
 
-	struct curl_slist* recipients = 0;
+	struct curl_slist* recipients = nullptr;
 	for (auto i: _to) {
 		recipients = curl_slist_append (recipients, i.c_str());
 	}
@@ -218,7 +229,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 	curl_easy_setopt (curl, CURLOPT_DEBUGFUNCTION, curl_debug_shim);
 	curl_easy_setopt (curl, CURLOPT_DEBUGDATA, this);
 
-	CURLcode const r = curl_easy_perform (curl);
+	auto const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {
 		throw KDMError (_("Failed to send email"), curl_easy_strerror (r));
 	}
@@ -227,6 +238,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 	curl_easy_cleanup (curl);
 	curl_global_cleanup ();
 }
+
 
 string
 Emailer::address_list (list<string> addresses)
@@ -238,6 +250,7 @@ Emailer::address_list (list<string> addresses)
 
 	return o.substr (0, o.length() - 2);
 }
+
 
 int
 Emailer::debug (CURL *, curl_infotype type, char* data, size_t size)

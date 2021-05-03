@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,14 @@
 
 */
 
+
 #include "i18n_hook.h"
 #include "instant_i18n_dialog.h"
 #include "wx_util.h"
 #include "lib/cross.h"
 #include <wx/wx.h>
 #include <boost/bind/bind.hpp>
+
 
 using std::map;
 using std::string;
@@ -41,15 +43,16 @@ I18NHook::I18NHook (wxWindow* window, wxString original)
 	_window->Bind (wxEVT_MIDDLE_DOWN, bind(&I18NHook::handle, this, _1));
 }
 
+
 void
 I18NHook::handle (wxMouseEvent& ev)
 {
-	InstantI18NDialog* d = new InstantI18NDialog (_window, get_text());
+	auto d = new InstantI18NDialog (_window, get_text());
 	d->ShowModal();
 	set_text (d->get());
 	d->Destroy ();
 
-	wxWindow* w = _window;
+	auto w = _window;
 	while (w) {
 		if (w->GetContainingSizer()) {
 			w->GetContainingSizer()->Layout();

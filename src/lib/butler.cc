@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "butler.h"
 #include "player.h"
@@ -43,6 +44,7 @@ using namespace dcpomatic;
 using namespace boost::placeholders;
 #endif
 
+
 /** Minimum video readahead in frames */
 #define MINIMUM_VIDEO_READAHEAD 10
 /** Maximum video readahead in frames; should never be exceeded (by much) unless there are bugs in Player */
@@ -51,6 +53,7 @@ using namespace boost::placeholders;
 #define MINIMUM_AUDIO_READAHEAD (48000 * MINIMUM_VIDEO_READAHEAD / 24)
 /** Maximum audio readahead in frames; should never be exceeded (by much) unless there are bugs in Player */
 #define MAXIMUM_AUDIO_READAHEAD (48000 * MAXIMUM_VIDEO_READAHEAD / 24)
+
 
 /** @param pixel_format Pixel format functor that will be used when calling ::image on PlayerVideos coming out of this
  *  butler.  This will be used (where possible) to prepare the PlayerVideos so that calling image() on them is quick.
@@ -69,7 +72,7 @@ Butler::Butler (
 	)
 	: _film (film)
 	, _player (player)
-	, _prepare_work (new boost::asio::io_service::work (_prepare_service))
+	, _prepare_work (new boost::asio::io_service::work(_prepare_service))
 	, _pending_seek_accurate (false)
 	, _suspended (0)
 	, _finished (false)
@@ -105,6 +108,7 @@ Butler::Butler (
 		_prepare_pool.create_thread (bind (&boost::asio::io_service::run, &_prepare_service));
 	}
 }
+
 
 Butler::~Butler ()
 {
@@ -175,6 +179,7 @@ Butler::should_run () const
 	return (_video.size() < MAXIMUM_VIDEO_READAHEAD) && (_audio.size() < MAXIMUM_AUDIO_READAHEAD);
 }
 
+
 void
 Butler::thread ()
 try
@@ -230,6 +235,7 @@ try
 	_arrived.notify_all ();
 }
 
+
 /** @param blocking true if we should block until video is available.  If blocking is false
  *  and no video is immediately available the method will return a 0 PlayerVideo and the error AGAIN.
  *  @param e if non-0 this is filled with an error code (if an error occurs) or is untouched if no error occurs.
@@ -272,12 +278,14 @@ Butler::get_video (bool blocking, Error* e)
 	return r;
 }
 
+
 optional<TextRingBuffers::Data>
 Butler::get_closed_caption ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	return _closed_caption.get ();
 }
+
 
 void
 Butler::seek (DCPTime position, bool accurate)
@@ -286,6 +294,7 @@ Butler::seek (DCPTime position, bool accurate)
 	_awaiting = optional<DCPTime>();
 	seek_unlocked (position, accurate);
 }
+
 
 void
 Butler::seek_unlocked (DCPTime position, bool accurate)
@@ -304,6 +313,7 @@ Butler::seek_unlocked (DCPTime position, bool accurate)
 
 	_summon.notify_all ();
 }
+
 
 void
 Butler::prepare (weak_ptr<PlayerVideo> weak_video)
@@ -331,6 +341,7 @@ catch (...)
 	_died = true;
 }
 
+
 void
 Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 {
@@ -341,10 +352,11 @@ Butler::video (shared_ptr<PlayerVideo> video, DCPTime time)
 		return;
 	}
 
-	_prepare_service.post (bind (&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
+	_prepare_service.post (bind(&Butler::prepare, this, weak_ptr<PlayerVideo>(video)));
 
 	_video.put (video, time);
 }
+
 
 void
 Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
@@ -355,8 +367,9 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
 		return;
 	}
 
-	_audio.put (remap (audio, _audio_channels, _audio_mapping), time, frame_rate);
+	_audio.put (remap(audio, _audio_channels, _audio_mapping), time, frame_rate);
 }
+
 
 /** Try to get `frames' frames of audio and copy it into `out'.  Silence
  *  will be filled if no audio is available.
@@ -370,6 +383,7 @@ Butler::get_audio (float* out, Frame frames)
 	return t;
 }
 
+
 void
 Butler::disable_audio ()
 {
@@ -377,12 +391,14 @@ Butler::disable_audio ()
 	_disable_audio = true;
 }
 
+
 pair<size_t, string>
 Butler::memory_used () const
 {
 	/* XXX: should also look at _audio.memory_used() */
 	return _video.memory_used();
 }
+
 
 void
 Butler::player_change (ChangeType type, int property)
@@ -430,6 +446,7 @@ Butler::player_change (ChangeType type, int property)
 	_summon.notify_all ();
 }
 
+
 void
 Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
@@ -441,6 +458,7 @@ Butler::text (PlayerText pt, TextType type, optional<DCPTextTrack> track, DCPTim
 
 	_closed_caption.put (pt, *track, period);
 }
+
 
 string
 Butler::Error::summary () const

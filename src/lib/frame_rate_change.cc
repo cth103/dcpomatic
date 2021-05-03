@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "frame_rate_change.h"
 #include "types.h"
 #include "content.h"
@@ -27,46 +28,28 @@
 
 #include "i18n.h"
 
+
 using std::string;
 using std::shared_ptr;
 
-static bool
-about_equal (double a, double b)
-{
-	return (fabs (a - b) < VIDEO_FRAME_RATE_EPSILON);
-}
 
 FrameRateChange::FrameRateChange ()
-	: source (24)
-	, dcp (24)
-	, skip (false)
-	, repeat (1)
-	, change_speed (false)
-	, speed_up (1)
 {
 
 }
+
 
 FrameRateChange::FrameRateChange (double source_, int dcp_)
-	: skip (false)
-	, repeat (1)
-	, change_speed (false)
-{
-	construct (source_, dcp_);
-}
-
-void
-FrameRateChange::construct (double source_, int dcp_)
 {
 	source = source_;
 	dcp = dcp_;
 
-	if (fabs (source / 2.0 - dcp) < fabs (source - dcp)) {
+	if (fabs(source / 2.0 - dcp) < fabs(source - dcp)) {
 		/* The difference between source and DCP frame rate will be lower
 		   (i.e. better) if we skip.
 		*/
 		skip = true;
-	} else if (fabs (source * 2 - dcp) < fabs (source - dcp)) {
+	} else if (fabs(source * 2 - dcp) < fabs(source - dcp)) {
 		/* The difference between source and DCP frame rate would be better
 		   if we repeated each frame once; it may be better still if we
 		   repeated more than once.  Work out the required repeat.
@@ -75,22 +58,28 @@ FrameRateChange::construct (double source_, int dcp_)
 	}
 
 	speed_up = dcp / (source * factor());
+
+	auto about_equal = [](double a, double b) {
+		return (fabs (a - b) < VIDEO_FRAME_RATE_EPSILON);
+	};
+
 	change_speed = !about_equal (speed_up, 1.0);
 }
 
+
 FrameRateChange::FrameRateChange (shared_ptr<const Film> film, shared_ptr<const Content> content)
-	: skip (false)
-	, repeat (1)
+	: FrameRateChange (content->active_video_frame_rate(film), film->video_frame_rate())
 {
-	construct (content->active_video_frame_rate(film), film->video_frame_rate());
+
 }
 
+
 FrameRateChange::FrameRateChange (shared_ptr<const Film> film, Content const * content)
-	: skip (false)
-	, repeat (1)
+	: FrameRateChange (content->active_video_frame_rate(film), film->video_frame_rate())
 {
-	construct (content->active_video_frame_rate(film), film->video_frame_rate());
+
 }
+
 
 string
 FrameRateChange::description () const

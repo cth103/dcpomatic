@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "file_log.h"
 #include "cross.h"
 #include "config.h"
@@ -25,10 +26,12 @@
 #include <iostream>
 #include <cerrno>
 
+
 using std::cout;
 using std::string;
 using std::max;
 using std::shared_ptr;
+
 
 /** @param file Filename to write log to */
 FileLog::FileLog (boost::filesystem::path file)
@@ -37,24 +40,27 @@ FileLog::FileLog (boost::filesystem::path file)
 	set_types (Config::instance()->log_types());
 }
 
+
 FileLog::FileLog (boost::filesystem::path file, int types)
 	: _file (file)
 {
 	set_types (types);
 }
 
+
 void
 FileLog::do_log (shared_ptr<const LogEntry> entry)
 {
-	FILE* f = fopen_boost (_file, "a");
+	auto f = fopen_boost (_file, "a");
 	if (!f) {
 		cout << "(could not log to " << _file.string() << " error " << errno << "): " << entry->get() << "\n";
 		return;
 	}
 
-	fprintf (f, "%s\n", entry->get().c_str ());
+	fprintf (f, "%s\n", entry->get().c_str());
 	fclose (f);
 }
+
 
 string
 FileLog::head_and_tail (int amount) const
@@ -70,14 +76,14 @@ FileLog::head_and_tail (int amount) const
 		tail_amount = 0;
 	}
 
-	FILE* f = fopen_boost (_file, "r");
+	auto f = fopen_boost (_file, "r");
 	if (!f) {
 		return "";
 	}
 
 	string out;
 
-	char* buffer = new char[max(head_amount, tail_amount) + 1];
+	auto buffer = new char[max(head_amount, tail_amount) + 1];
 
 	int N = fread (buffer, 1, head_amount, f);
 	buffer[N] = '\0';

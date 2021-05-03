@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -27,6 +27,7 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 
 
+using std::make_shared;
 using std::string;
 using std::shared_ptr;
 
@@ -54,10 +55,10 @@ shared_ptr<AtmosContent>
 AtmosContent::from_xml (Content* parent, cxml::ConstNodePtr node)
 {
 	if (!node->optional_node_child("AtmosLength")) {
-		return shared_ptr<AtmosContent>();
+		return {};
 	}
 
-	return shared_ptr<AtmosContent> (new AtmosContent(parent, node));
+	return make_shared<AtmosContent>(parent, node);
 }
 
 

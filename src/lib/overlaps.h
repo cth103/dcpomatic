@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "types.h"
 #include "dcpomatic_time.h"
 
+
 class ContentPart;
 class Film;
+
 
 /** @return Pieces of content with a given part (video, audio,
  *  subtitle) that overlap a specified time range in the given
