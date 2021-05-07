@@ -45,9 +45,9 @@ public:
 	void go () override;
 
 	/** @return the number of frames that are done */
-	Frame frames_done () const;
+	Frame frames_done () const override;
 
-	bool finishing () const {
+	bool finishing () const override {
 		return false;
 	}
 
