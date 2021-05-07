@@ -33,12 +33,14 @@
 #include "util.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavutil/frame.h>
 #include <libavutil/pixdesc.h>
 #include <libavutil/pixfmt.h>
 #include <libswscale/swscale.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 #include <png.h>
 #if HAVE_VALGRIND_MEMCHECK_H
 #include <valgrind/memcheck.h>
