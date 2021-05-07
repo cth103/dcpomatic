@@ -1274,7 +1274,7 @@ private:
 			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 			_maximum_j2k_bandwidth = new wxSpinCtrl (_panel);
 			s->Add (_maximum_j2k_bandwidth, 1);
-			add_label_to_sizer (s, _panel, _("Mbit/s"), false);
+			add_label_to_sizer (s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxALIGN_CENTRE_VERTICAL);
 			table->Add (s, 1);
 		}
 
