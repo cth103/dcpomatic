@@ -199,8 +199,12 @@ the low-resolution version to save everyone's bandwidth bills.
 Now, start DCP-o-matic and its window will open.  First, we will
 create a new &lsquo;film&rsquo;.  A &lsquo;film&rsquo; is how DCP-o-matic refers to
 some pieces of content, along with some settings, which we will make into
-a DCP.  DCP-o-matic stores its data in a folder on your disk while it
-creates the DCP.  You can create a new film by selecting
+a DCP.  DCP-o-matic stores its &lsquo;film&rsquo; data in a folder on your disk while it
+creates the DCP.
+</para>
+
+<para>
+You can create a new film by selecting
 <guilabel>New</guilabel> from the <guilabel>File</guilabel> menu, as
 shown in <xref linkend="fig-file-new"/>.
 </para>
@@ -231,7 +235,7 @@ linkend="fig-video-new-film"/>.
 <para>
 In this dialogue box you can choose a name for the film.  This will be
 used to name the folder to store its data in, and also as the initial
-name for the DCP itself.  You can also choose whereabouts you want to create
+name for the DCP itself.  You can also choose where you want to create
 the film.  In the example from the figure, DCP-o-matic will create a
 folder called &lsquo;DCP Test&rsquo; inside my existing folder <code>DCP</code> into which it
 will write its working files.
@@ -331,9 +335,8 @@ linkend="fig-making-dcp"/>.
 </figure>
 
 <para>
-When it has finished, the DCP will end up on your disk inside the
-film's folder.  You can then copy this to a projector via a USB
-stick, hard-drive or network connection.  See <xref
+When it has finished, the DCP will be written into its own folder inside the film's folder.
+You can copy this to a projector via a USB stick, hard-drive or network connection.  See <xref
 linkend="ch-files"/> for details about the files that DCP-o-matic creates.
 </para>
 
@@ -439,7 +442,7 @@ modify them in various ways.
 The first step in manipulating an existing DCP is to import it.  Click
 <guilabel>Add DCP...</guilabel> and select your DCP's folder.  It will
 be added to the DCP-o-matic project.  If the DCP is unencrypted you
-can preview it in the normal way, though playback will be slow as
+can preview it in the normal way, though playback may be slow as
 decoding of DCPs is almost as computationally intensive as encoding
 them.
 </para>
@@ -641,12 +644,14 @@ example, a JPEG, PNG or TIFF file.
 images which should be treated as the frames of a video.
 </listitem>
 
-<listitem>Subtitle &mdash; a file containing subtitle which will be
+<listitem>Subtitle &mdash; a file containing subtitles which will be
 superimposed on the image of the DCP.  These can be
 <guilabel>.srt</guilabel>, <guilabel>.ssa</guilabel>, <guilabel>.ass</guilabel> or <guilabel>.xml</guilabel>
-files.</listitem>
+files.  Subtitle files can also be used to make closed captions.</listitem> 
 
 <listitem>DCP &mdash; an existing DCP.</listitem>
+
+<listitem>ATMOS MXFs &mdash; if you have Dolby ATMOS content in MXF format (created using Dolby's tools) you can add it to a DCP just like any other content.</listitem>
 </itemizedlist>
 
 <para>
