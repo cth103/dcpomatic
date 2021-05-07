@@ -31,6 +31,7 @@
 #include "rect.h"
 #include "timer.h"
 #include "util.h"
+#include "warnings.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
 DCPOMATIC_DISABLE_WARNINGS
