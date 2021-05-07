@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-07 00:32+0200\n"
-"PO-Revision-Date: 2020-09-04 10:02+0200\n"
+"PO-Revision-Date: 2021-05-07 11:56+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/lib/video_content.cc:486
@@ -176,6 +176,9 @@ msgid ""
 "know that you will play this DCP back on a capable projector, it is "
 "advisable to set the DCP to be 2K in the \"DCP→Video\" tab."
 msgstr ""
+"4K 3D podporuje pouze velmi omezený počet projektorů. Pokud nevíte, zda "
+"tento formát DCP projektor přehraje, je vhodné nastavit DCP na 2K na kartě "
+"„DCP → Video“."
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:155
@@ -268,49 +271,59 @@ msgstr "Analýza titulků"
 #: src/lib/hints.cc:367
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
-msgstr ""
+msgstr "Značka která přijde po konci projektu, bude ignorována."
 
 #: src/lib/hints.cc:471
 msgid "At least one of your closed caption files is larger than "
-msgstr ""
+msgstr "Jeden z vašich souborů skrytých titulků je větší než "
 
 #: src/lib/hints.cc:464
 msgid "At least one of your closed caption files' XML part is larger than "
-msgstr ""
+msgstr "Jeden z vašich XML souborů se skrytými titulky je větší než "
 
 #: src/lib/hints.cc:479
 msgid "At least one of your subtitle files is larger than "
-msgstr ""
+msgstr "Jeden z vašich souborů s titulky je větší než "
 
 #: src/lib/hints.cc:443
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr ""
+"Jeden z vašich řádků s titulky má více než 52 znaků. Doporučuje se, aby "
+"každý řádek měl maximálně 52 znaků."
 
 #: src/lib/hints.cc:445
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr ""
+"Jeden z vašich titulků má více než 79 znaků. Každý řádek by měl být dlouhý "
+"maximálně 79 znaků."
 
 #: src/lib/hints.cc:588
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr ""
+"Jeden z vašich titulků má více než 3 řádky. Doporučuje se použít maximálně 3 "
+"řádky."
 
 #: src/lib/hints.cc:578
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr ""
+"Jeden z vašich titulků trvá méně než 15 snímků. Doporučuje se, aby každý "
+"podnadpis měl délku alespoň 15 snímků."
 
 #: src/lib/hints.cc:583
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
+"Jeden z vašich titulků začíná méně než 2 snímky po předchozím. Doporučuje "
+"se, aby mezera mezi titulky byla alespoň 2 snímky."
 
 #: src/lib/hints.cc:631
 msgid ""
@@ -319,6 +332,9 @@ msgid ""
 "closed caption content in the \"Content→Timed text\", \"Content→Open "
 "subtitles\" or \"Content→Closed captions\" tab."
 msgstr ""
+"Jedna část titulků nebo skrytých titulků nemá zadaný jazyk. Je vhodné "
+"nastavit jazyk pro každý část titulků nebo skrytých titulků na kartě „Obsah "
+"→ Časovat text“, „Obsah → Otevřít titulky“ nebo „Obsah → Skryté titulky“."
 
 #: src/lib/audio_content.cc:291
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -475,7 +491,7 @@ msgstr "Barevný prostor"
 
 #: src/lib/combine_dcp_job.cc:46
 msgid "Combine DCPs"
-msgstr ""
+msgstr "Kombinovat DCPs"
 
 #: src/lib/content.cc:190
 msgid "Computing digest"
@@ -510,10 +526,11 @@ msgid "Content to be joined must all have or not have video"
 msgstr "Veškerý obsah ke sloučení musí mít video nebo žádné video"
 
 #: src/lib/text_content.cc:309
-#, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
-msgstr "Veškerý obsah ke sloučení musí mít stejné mezery mezi řádky titulků."
+msgstr ""
+"Obsah, ke kterému se chcete připojit, musí být hlavní jazyky titulků, nebo "
+"oba další."
 
 #: src/lib/video_content.cc:207
 msgid "Content to be joined must have all its video used or not used."
@@ -538,14 +555,13 @@ msgid "Content to be joined must have the same audio gain."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení hlasitosti zvuku."
 
 #: src/lib/audio_content.cc:122
-#, fuzzy
 msgid "Content to be joined must have the same audio language."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení hlasitosti zvuku."
+msgstr ""
+"Obsah, ke kterému se chcete připojit, musí mít stejnou jazykovou audio stopu."
 
 #: src/lib/video_content.cc:239
-#, fuzzy
 msgid "Content to be joined must have the same burnt subtitle language."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení  ’vypálené titulky'."
+msgstr "Obsah, ke kterému se chcete připojit, musí mít stejný jazyk titulků."
 
 #: src/lib/video_content.cc:231
 msgid "Content to be joined must have the same colour conversion."
@@ -622,9 +638,9 @@ msgid "Content to be joined must use the same subtitle stream."
 msgstr "Aby se spojil obsah, musí mít stejné nastavení titulkového streamu."
 
 #: src/lib/text_content.cc:305
-#, fuzzy
 msgid "Content to be joined must use the same text language."
-msgstr "Aby se spojil obsah, musí mít stejné nastavení písma."
+msgstr ""
+"Obsah, ke kterému se chcete připojit, musí používat stejný jazyk textu."
 
 #: src/lib/video_content.cc:430
 msgid "Content video is %1x%2"
@@ -687,9 +703,8 @@ msgid "Could not open file for writing"
 msgstr "Nemohu otevřít soubor pro zápis"
 
 #: src/lib/ffmpeg_file_encoder.cc:266
-#, fuzzy
 msgid "Could not open output file %1 (%2)"
-msgstr "nemohu zapisovat do souboru %1 (%2)"
+msgstr "Nelze otevřít výstupní soubor% 1 (% 2)"
 
 #: src/lib/dcp_subtitle.cc:59
 msgid "Could not read subtitles (%1 / %2)"
@@ -761,13 +776,12 @@ msgstr ""
 "Zkontrolujte prosím tato nastavení a ujistěte se, že je to to co chcete."
 
 #: src/lib/film.cc:1525
-#, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
 msgstr ""
-"DCP-o-matic musel změnit vaše nastavení pro odkazování na DCPs jako OV.  "
-"Zkontrolujte prosím tato nastavení a ujistěte se, že je to to co chcete."
+"DCP-o-matic musel změnit vaše nastavení tak, aby snímková frekvence filmu "
+"byla stejná jako u vašeho obsahu Atmos."
 
 #: src/lib/ffmpeg_content.cc:118
 msgid ""
@@ -866,9 +880,8 @@ msgid "Error: %1"
 msgstr "Chyba: %1"
 
 #: src/lib/hints.cc:406
-#, fuzzy
 msgid "Examining audio, subtitles and closed captions"
-msgstr "Zkoumání skrytých titulků"
+msgstr "Zkoumání zvuku, titulků a skrytých titulků"
 
 #: src/lib/examine_content_job.cc:49
 msgid "Examining content"
@@ -879,9 +892,8 @@ msgid "Examining subtitles"
 msgstr "Zkoumání titulků"
 
 #: src/lib/hints.cc:404
-#, fuzzy
 msgid "Examining subtitles and closed captions"
-msgstr "Zkoumání skrytých titulků"
+msgstr "Zkoumání titulků a skrytých titulků"
 
 #: src/lib/subtitle_encoder.cc:98
 msgid "Extracting"
@@ -1005,12 +1017,17 @@ msgid ""
 "particular reason to use Interop.  You are advised to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
+"Obecně je nyní vhodné dělat SMPTE DCP, pokud nemáte konkrétní důvod používat "
+"Interop. Na kartě „DCP“ se doporučuje nastavit DCP tak, aby používalo "
+"standard SMPTE."
 
 #: src/lib/hints.cc:571
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
 msgstr ""
+"Doporučujeme vložit první titulky alespoň 4 sekundy po spuštění DCP, abyste "
+"měli jistotu, že budou vidět."
 
 #: src/lib/job.cc:151 src/lib/job.cc:186 src/lib/job.cc:236 src/lib/job.cc:246
 msgid "It is not known what caused this error."
@@ -1300,6 +1317,9 @@ msgid ""
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
 "You should add these markers using the 'Markers' button in the \"DCP\" tab."
 msgstr ""
+"SMPTE DCP s typem FTR (funkce) by měly mít značky pro první snímek "
+"závěrečných titulků (FFEC) a první snímek pohyblivých titulků (FFMC). Tyto "
+"značky byste měli přidat pomocí tlačítka „Značky“ na kartě „DCP“."
 
 #: src/lib/ffmpeg_content.cc:633
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
@@ -1322,15 +1342,13 @@ msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
 #: src/lib/scp_uploader.cc:45
-#, fuzzy
 msgid "SSH error [%1]"
-msgstr "SSH chyba (%1)"
+msgstr "SSH chyba [%1]"
 
 #: src/lib/scp_uploader.cc:61 src/lib/scp_uploader.cc:72
 #: src/lib/scp_uploader.cc:77
-#, fuzzy
 msgid "SSH error [%1] (%2)"
-msgstr "SSH chyba (%1)"
+msgstr "SSH chyba [%1] (%2)"
 
 #: src/lib/util.cc:941
 msgid "Saturday"
@@ -1723,6 +1741,8 @@ msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr ""
+"Máte více než jednu část obsahu Atmos která nemá stejnou snímkovou "
+"frekvenci. Musíte odstranit nějaký obsah Atmos."
 
 #: src/lib/hints.cc:559
 msgid ""
@@ -1831,9 +1851,8 @@ msgid "could not find stream information"
 msgstr "nemohu najít informace o streamu"
 
 #: src/lib/reel_writer.cc:435
-#, fuzzy
 msgid "could not move atmos asset into the DCP (%1)"
-msgstr "nemohu přesunout audio do DCP (%1)"
+msgstr "nemohu přesunout atmos asset do DCP (% 1)"
 
 #: src/lib/reel_writer.cc:418
 msgid "could not move audio asset into the DCP (%1)"
@@ -1905,6 +1924,8 @@ msgstr "má jinou snímkovou frekvenci za sekundu pro film."
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
+"má počáteční oříznutí, takže musí být přepsány jeho titulky nebo skryté "
+"titulky."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:668
@@ -1974,6 +1995,8 @@ msgid ""
 "one if its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
+"jeden, pokud jeho skrytý titulek má nenulový vstupní bod, takže musí být "
+"přepsán."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:744
@@ -1981,6 +2004,8 @@ msgid ""
 "one if its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
+"jeden, pokud jeho reels titulků má nenulový vstupní bod, takže musí být "
+"přepsán."
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:217

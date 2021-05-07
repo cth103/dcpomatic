@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-07 00:32+0200\n"
-"PO-Revision-Date: 2020-09-04 10:47+0200\n"
+"PO-Revision-Date: 2021-05-07 12:02+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/tools/dcpomatic_kdm.cc:392
@@ -165,12 +165,13 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:1733
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
 "\n"
 msgstr ""
-"Vyskytl se problém: %s (%s)\n"
+"Došlo k výjimce: %s (%s) (%s)\n"
+"\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:713
@@ -337,11 +338,15 @@ msgid ""
 "Could not start the batch converter.  You may need to download it from "
 "dcpomatic.com."
 msgstr ""
+"Dávkový převodník nelze spustit. Možná si jej budete muset stáhnout z "
+"dcpomatic.com."
 
 #: src/tools/dcpomatic.cc:905
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
+"Přehrávač se nepodařilo spustit. Možná si jej budete muset stáhnout z "
+"dcpomatic.com."
 
 #: src/tools/dcpomatic.cc:1405 src/tools/dcpomatic_batch.cc:329
 #, c-format
@@ -470,14 +475,12 @@ msgid "Encrypted"
 msgstr "Šifrované"
 
 #: src/tools/dcpomatic.cc:1351
-#, fuzzy
 msgid "Export subtitles..."
-msgstr "Export…"
+msgstr "Exportovat titulky…"
 
 #: src/tools/dcpomatic.cc:1350
-#, fuzzy
 msgid "Export video file...\tCtrl-E"
-msgstr "Export…\tCtrl-E"
+msgstr "Exportovat video soubor…\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:172
 msgid "Export..."
@@ -571,13 +574,12 @@ msgid "New...\tCtrl-N"
 msgstr "Nový...\tCtrl-N"
 
 #: src/tools/dcpomatic_playlist.cc:522
-#, fuzzy
 msgid ""
 "No playlist folder is specified in preferences.  Please set one and then try "
 "again."
 msgstr ""
-"V předvolbách není zvolena žádná složka s Playlistem.  Nastavte jí a akci "
-"opakujte."
+"V předvolbách není zadána žádná složka seznamu skladeb. Nastavte jednu a "
+"zkuste to znovu."
 
 #: src/tools/dcpomatic.cc:1363
 msgid "Open DCP in &player"
@@ -696,7 +698,7 @@ msgstr "Vybrat KDM"
 
 #: src/tools/dcpomatic.cc:1333
 msgid "Select all\tShift-Ctrl-A"
-msgstr ""
+msgstr "Označit všechny\tShift-Ctrl-A"
 
 #: src/tools/dcpomatic.cc:570 src/tools/dcpomatic_batch.cc:295
 msgid "Select film to open"
@@ -836,6 +838,9 @@ msgid ""
 "the player.  Choose the DCP directory inside the DCP-o-matic project folder "
 "if that's what you want to play."
 msgstr ""
+"Vypadá to jako složka projektu DCP-o-matic, kterou nelze načíst do "
+"přehrávače. Pokud chcete přehrávat, vyberte adresář DCP ve složce projektu "
+"DCP-o-matic."
 
 #: src/tools/dcpomatic_player.cc:571
 msgid "Timing..."
@@ -859,9 +864,8 @@ msgid "Up"
 msgstr "Nahahoru"
 
 #: src/tools/dcpomatic_player.cc:568
-#, fuzzy
 msgid "Verify DCP..."
-msgstr "Ověřit DCP"
+msgstr "Ověřuji DCP…"
 
 #: src/tools/dcpomatic.cc:1367
 msgid "Video waveform..."
