@@ -653,7 +653,7 @@ def make_appimage(target, nice_name, internal_name, version):
     target.command('cp -r %s/share/libdcp/xsd build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
     target.command('cp -r %s/share/libdcp/tags build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
     if internal_name == 'dcpomatic2_disk':
-        target.command('mkdir -p build/%s.AppDir/usr/share/polkit-1/actions', nice_filename)
+        target.command('mkdir -p build/%s.AppDir/usr/share/polkit-1/actions' % nice_filename)
         target.command('cp %s/share/polkit-1/actions/com.dcpomatic.write-drive.policy build/%s.AppDir/usr/share/polkit-1/actions' % (target.directory, nice_filename))
 
     with open('build/%s.AppDir/AppRun' % nice_filename, 'w') as f:
