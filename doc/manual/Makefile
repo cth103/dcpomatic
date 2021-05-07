@@ -1,5 +1,8 @@
 # DCP-o-matic manual makefile
 
+INKSCAPE = ~/Applications/inkscape
+
+
 all:	html pdf
 
 DIAGRAMS := file-structure.svg 3d-left-right.svg 3d-top-bottom.svg timecode.svg pipeline1.svg pipeline2.svg \
@@ -14,7 +17,7 @@ SCREENSHOTS := file-new.pdf new-film.pdf video-select-content-file.pdf \
                prefs-notifications.pdf timeline1.pdf timed-text-tab.pdf \
                making-dcp.pdf filters.pdf video-tab.pdf audio-tab.pdf \
                audio-plot.pdf audio-map-eg1.pdf audio-map-eg2.pdf audio-map-eg3.pdf kdm.pdf \
-               kdm-creator.pdf export.pdf
+               kdm-creator.pdf export.pdf advanced-content.pdf
 
 XML := dcpomatic.xml
 
@@ -55,16 +58,16 @@ screenshots/examine-content.pdf: raw-screenshots/examine-content.pdf
 	python3 pdf_crop_by.py $< $@ 460 270 200 580
 
 screenshots/audio-tab.pdf: raw-screenshots/audio-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 0 1230 380
+	python3 pdf_crop_by.py $< $@ 0 0 1480 420
 
 screenshots/timing-tab.pdf: raw-screenshots/timing-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 0 1230 380
+	python3 pdf_crop_by.py $< $@ 0 100 1475 420
 
 screenshots/timed-text-tab.pdf: raw-screenshots/timed-text-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 200 1230 380
+	python3 pdf_crop_by.py $< $@ 0 50 1480 420
 
 screenshots/video-tab.pdf: raw-screenshots/video-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 0 1230 295
+	python3 pdf_crop_by.py $< $@ 0 0 1480 365
 
 screenshots/add-file.pdf: raw-screenshots/add-file.pdf
 	python3 pdf_crop_by.py $< $@ 0 600 1210 0
@@ -82,16 +85,16 @@ screenshots/audio-map-eg3.pdf: raw-screenshots/audio-map-eg3.pdf
 	python3 pdf_crop_by.py $< $@ 10 75 1350 630
 
 screenshots/dcp-tab.pdf: raw-screenshots/dcp-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 200 1230 30
+	python3 pdf_crop_by.py $< $@ 0 250 1480 30
 
 
 # For HTML: convert diagrams from SVG to PNG
 diagrams/%.png:	diagrams/%.svg
-	inkscape $< --export-type=png --export-filename=$@ --export-area-drawing
+	$(INKSCAPE) $< --export-type=png --export-filename=$@ --export-area-drawing
 
 # For LaTeX/PDF: convert diagrams from SVG to PDF
 diagrams/%.pdf:	diagrams/%.svg
-	inkscape $< --export-type=pdf --export-filename=$@ --export-area-drawing
+	$(INKSCAPE) $< --export-type=pdf --export-filename=$@ --export-area-drawing
 
 config.xml:	../../src/lib/config.cc config.py
 	python3 config.py ../../src/lib/config.cc > config.xml

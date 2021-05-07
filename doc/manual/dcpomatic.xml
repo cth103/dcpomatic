@@ -128,23 +128,10 @@ with the first (main) part.
 
 <!-- ============================================================== -->
 <section>
-<title>Debian, Ubuntu or Mint Linux</title>
+<title>Debian, Ubuntu and Mint Linux</title>
 
-<para>
-  You can install DCP-o-matic on:
-</para>
-
-<itemizedlist>
-  <listitem>Debian 9 (&lsquo;squeeze&rsquo;), 10 (&lsquo;buster&rsquo;) and unstable (&lsquo;sid&rsquo;)</listitem>
-  <listitem>Ubuntu 16.04, 18.04, 20.04 and 20.10</listitem>
-  <listitem>Mint 18 and 19</listitem>
-</itemizedlist>
-
-<para>
-using <code>.deb</code> packages: download the appropriate package
-from <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
-and double-click it.  Debian, Ubuntu or Mint will install the necessary bits and
-pieces and set DCP-o-matic up for you.
+<para>There are <code>.deb</code> packages for Debian, Ubuntu and Mint on 
+  <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
 </para>
 </section>
 <!-- ============================================================== -->
@@ -154,7 +141,7 @@ pieces and set DCP-o-matic up for you.
 <section>
   <title>Fedora, Centos and Mageia Linux</title>
 
-  <para>There are <code>.rpm</code> packages for Fedora 31, 32 and 33, Centos 7 and 8 and Mageia 7 on
+  <para>There are <code>.rpm</code> packages for Fedora, Centos and Mageia on
   <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
   </para>
 </section>
@@ -170,72 +157,17 @@ thanks to Stefan Karner.
 </para>
 </section>
 
-
-<!-- ============================================================== -->
 <section>
-<title>Other Linux distributions</title>
-
-<para>
-Installation on other Linux systems (for which no packages are
-available) is quite hard as it must be compiled from source.  If you
-can't download packages for your distribution, do let me know by
-<ulink url="mailto:carl@dcpomatic.com">email</ulink> and I will look
-into providing packages on the website.
-</para>
-
-<para>
-The following dependencies are required:
-<itemizedlist>
-<listitem><ulink url="http://ffmpeg.org/">FFmpeg</ulink></listitem>
-<listitem><ulink url="http://www.mega-nerd.com/libsndfile/">libsndfile</ulink></listitem>
-<listitem><ulink url="http://www.mega-nerd.com/SRC/">libsamplerate</ulink></listitem>
-<listitem><ulink url="http://www.openssl.org/">OpenSSL</ulink></listitem>
-<listitem><ulink url="http://www.openjpeg.org/">libopenjpeg</ulink></listitem>
-<listitem><ulink url="http://www.boost.org/">Boost</ulink></listitem>
-<listitem><ulink url="http://www.libssh.org/">libssh</ulink></listitem>
-<listitem><ulink url="http://www.gtk.org/">GTK (on Linux)</ulink></listitem>
-<listitem><ulink url="http://www.wxwidgets.org/">wxWidgets</ulink></listitem>
-<listitem><ulink url="http://libxmlplusplus.sourceforge.net/">libxml++</ulink></listitem>
-<listitem><ulink url="http://www.aleksey.com/xmlsec/">xmlsec</ulink></listitem>
-<listitem><ulink url="http://curl.haxx.se/">curl</ulink></listitem>
-<listitem><ulink url="http://www.nih.at/libzip/">libzip</ulink></listitem>
-<listitem><ulink url="http://carlh.net/asdcplib">asdcplib with some patches</ulink></listitem>
-<listitem><ulink url="http://carlh.net/libdcp">libdcp</ulink></listitem>
-<listitem><ulink url="http://carlh.net/libsub">libsub</ulink></listitem>
-<listitem><ulink url="http://carlh.net/libcxml">libcxml</ulink></listitem>
-<listitem><ulink url="https://carlh.net/locked_sstream">locked_sstream</ulink></listitem>
-<listitem><ulink url="https://www.music.mcgill.ca/~gary/rtaudio/">rtaudio</ulink></listitem>
-<listitem><ulink url="http://site.icu-project.org">libicu</ulink></listitem>
-</itemizedlist>
-</para>
-
-<para>
-Once you have installed the development packages for the dependencies,
-download the source code from <ulink
-url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>,
-unpack it and run the following commands from inside the source
-directory:
-</para>
-
-<programlisting>
-./waf configure --disable-tests
-./waf build
-sudo ./waf install
-</programlisting>
-
-<para>
-With any luck, this will build and install DCP-o-matic on your system.  To run it, enter:
-</para>
-
-<programlisting>
-dcpomatic2
-</programlisting>
-
-<para>
-in a shell.
+        <title>
+                Building from source
+        </title>
+        <para>
+                Since DCP-o-matic is open-source you can also build it yourself, though this can be quite a difficult process (especially on Windows and macOS).  There are instructions for how to do it on
+        <ulink url="https://dcpomatic.com/development">
+                https://dcpomatic.com/
+        </ulink>
 </para>
 </section>
-
 </chapter>
 
 
@@ -925,38 +857,6 @@ and DCP-o-matic will pick up the appropriate frames from each.
 </para>
 
 </section>
-
-
-<!-- ============================================================== -->
-<section>
-<title>Filtering</title>
-
-<para>
-The &lsquo;filters&rsquo; settings allow you to apply various video
-filters to the image.  These may be useful to try to improve
-poor-quality sources like DVDs.  You can set up the filters by clicking the
-<guilabel>Edit</guilabel> button next to the filters entry in the
-setup area of the DCP-o-matic window; this opens the filters selector
-as shown in <xref linkend="fig-filters"/>.
-</para>
-
-<figure id="fig-filters">
-  <title>Filters selector</title>
-  <mediaobject>
-    <imageobject>
-      <imagedata fileref="screenshots/filters&scs;"/>
-    </imageobject>
-  </mediaobject>
-</figure>
-
-<para>
-After changing the filters setup, you will need to regenerate the DCP
-to see the effect on the cinema screen.  The preview in DCP-o-matic
-will update itself whenever filters are changed, though of course this
-image may be smaller and of lower resolution than a projected image!
-</para>
-</section>
-
 
 
 <!-- ============================================================== -->
@@ -1687,6 +1587,107 @@ open to allow you to choose which settings you want to copy.  Clicking
 
 </section>
 
+
+<section>
+<title>Advanced content settings</title>
+
+<para>
+There are a few more content settings that you can change by right-clicking a piece of content in the list and choosing <guilabel>Advanced settings...</guilabel>
+This opens the dialogue box shown in <xref linkend="fig-advanced-content"/>.
+</para>
+
+<figure id="fig-advanced-content">
+  <title>Advanced content dialogue</title>
+  <mediaobject>
+    <imageobject>
+       <imagedata fileref="screenshots/advanced-content&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+
+<!-- ============================================================== -->
+<section>
+<title>Video filters</title>
+
+<para>
+The <guilabel>Video filters</guilabel> setting allows you to apply various
+filters to the image.  These may be useful to try to improve
+poor-quality sources like DVDs.  You can set up the filters by clicking the
+<guilabel>Edit</guilabel> button next to the filters entry; this opens the filters selector
+as shown in <xref linkend="fig-filters"/>.
+</para>
+
+<figure id="fig-filters">
+  <title>Filters selector</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/filters&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+</section>
+
+
+<section>
+<title>Override frame rate</title>
+
+<para>
+The <guilabel>Override detected video frame rate</guilabel> setting has some different effects depending on the type of content
+you use it on.
+</para>
+
+<para>
+For video content, it sets the frame rate that DCP-o-matic will run the video at.  This is useful if DCP-o-matic has mis-detected
+the video frame rate.  For example, if DCP-o-matic says your content is 24fps when you know for a fact it's 25fps, you can set the
+override value to 25 to force DCP-o-matic to do the right thing.
+</para>
+
+<para>
+On audio, subtitle and caption content this setting behaves slightly differently.  It sets the video frame rate that the content
+in question was intended to work with.  As an example, consider a project with a 23.976fps video source and some separate audio files.
+Perhaps those audio files have been mastered alongside a 24fps version of your video.  By default, DCP-o-matic will see the 23.976fps
+video file and decide to run it slightly fast at 24fps to fit the DCP standard.  It will then also run the audio slightly fast so that
+it stays in sync with the video.
+</para>
+
+<para>
+In this case, though, that is not what you want, since the audio is already &lsquo;fixed&rsquo; to work alongside 24fps video.  If you
+override the video frame rate of the <emphasis>audio</emphasis> content to 24fps this will stop DCP-o-matic altering it.
+</para>
+
+<para>
+A similar situation can occur if you have video at one rate and a subtitle file that was prepared with its timing at a different rate.
+In that case, you should override the video frame rate of the <emphasis>subtitle</emphasis> content to the one that it was prepared for.
+This will mean that DCP-o-matic can get the relative timing right.
+</para>
+
+<para>
+Do <emphasis>not</emphasis> use this setting to change the DCP frame rate.  Doing so will result in strange effects and sync problems.
+</para>
+</section>
+
+
+<section>
+<title>Video has burnt-in subtitles</title>
+<para>
+Details about subtitle language are stored in various places within the DCP metadata.  If a piece of video content already has subtitles
+burnt into the image you can tell DCP-o-matic the language that they are in by clicking the <guilabel>Edit...</guilabel> button.
+</para>
+</section>
+
+
+<section>
+<title>Ignore this content's video</title>
+<para>
+Tick this if you have some content which includes video along with other things (such as audio or subtitles) and you do
+<emphasis>not</emphasis> want the video to appear in the DCP.
+</para>
+</section>
+
+
+</section>
 
 </chapter>
 
