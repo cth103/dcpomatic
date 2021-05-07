@@ -477,7 +477,7 @@ AudioPlot::mouse_moved (wxMouseEvent& ev)
 		search (_peak, ev, min_dist, min_point);
 	}
 
-	_cursor = {};
+	_cursor = boost::none;
 
 	if (min_dist < DBL_MAX) {
 		wxRect before (min_point.draw.x - _cursor_size / 2, min_point.draw.y - _cursor_size / 2, _cursor_size, _cursor_size);
@@ -493,7 +493,7 @@ AudioPlot::mouse_moved (wxMouseEvent& ev)
 void
 AudioPlot::mouse_leave (wxMouseEvent &)
 {
-	_cursor = {};
+	_cursor = boost::none;
 	Refresh ();
 	Cursor (optional<DCPTime>(), optional<float>());
 }
