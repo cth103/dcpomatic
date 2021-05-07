@@ -27,11 +27,14 @@
 #include "event_history.h"
 #include "audio_mapping.h"
 #include "log.h"
+#include "warnings.h"
 #include <dcp/key.h>
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 
 
 class ExportAudioStream;

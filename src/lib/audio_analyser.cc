@@ -31,12 +31,15 @@
 #include "filter.h"
 #include "playlist.h"
 #include "types.h"
+#include "warnings.h"
 extern "C" {
 #include <leqm_nrt.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <libavutil/channel_layout.h>
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 #include <libavfilter/f_ebur128.h>
 #endif
+DCPOMATIC_ENABLE_WARNINGS
 }
 
 

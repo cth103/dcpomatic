@@ -19,10 +19,13 @@
 */
 
 
+#include "ffmpeg_wrapper.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavformat/avformat.h>
 }
-#include "ffmpeg_wrapper.h"
+DCPOMATIC_ENABLE_WARNINGS
 #include <new>
 
 

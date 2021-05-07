@@ -54,11 +54,13 @@
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
 #include <dcp/atmos_asset.h>
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavfilter/avfilter.h>
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 #include <curl/curl.h>
 #include <glib.h>
 #include <pangomm/init.h>

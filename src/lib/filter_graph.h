@@ -26,9 +26,12 @@
 #define DCPOMATIC_FILTER_GRAPH_H
 
 #include "util.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavfilter/buffersink.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 
 struct AVFilterContext;
 struct AVFrame;

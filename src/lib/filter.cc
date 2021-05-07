@@ -25,9 +25,12 @@
 
 
 #include "filter.h"
+#include "warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavfilter/avfilter.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

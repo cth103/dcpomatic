@@ -28,12 +28,12 @@
 #include "util.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libavutil/pixdesc.h>
 }
-DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>

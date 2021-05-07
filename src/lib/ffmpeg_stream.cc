@@ -24,10 +24,10 @@
 #include <dcp/raw_convert.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
 extern "C" {
 #include <libavformat/avformat.h>
 }
+DCPOMATIC_ENABLE_WARNINGS
 
 using std::string;
 using dcp::raw_convert;
