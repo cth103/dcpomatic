@@ -51,6 +51,11 @@ class PasswordEntry;
 #define DCPOMATIC_SIZER_Y_GAP 8
 #define DCPOMATIC_SIZER_GAP 8
 #define DCPOMATIC_DIALOG_BORDER 12
+#ifdef __WXGTK3__
+#define DCPOMATIC_SPIN_CTRL_WIDTH 118
+#else
+#define DCPOMATIC_SPIN_CTRL_WIDTH 56
+#endif
 
 /** Spacing to use between buttons in a vertical/horizontal line */
 #if defined(DCPOMATIC_OSX) || defined(__WXGTK3__)
