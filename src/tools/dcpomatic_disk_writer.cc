@@ -306,6 +306,7 @@ main ()
 		exit (EXIT_FAILURE);
 	}
 
+	LOG_DISK_NC("Entering main loop");
 	auto ml = Glib::MainLoop::create ();
 	Glib::signal_timeout().connect(sigc::ptr_fun(&idle), 500);
 	ml->run ();
