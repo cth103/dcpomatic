@@ -67,6 +67,7 @@ CopyToDriveJob::run ()
 {
 	LOG_DISK("Sending write request to disk writer for %1 %2", _dcp.string(), _drive.device());
 	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.device()), 2000)) {
+		LOG_DISK_NC("Failed to send write request.");
 		throw CommunicationFailedError ();
 	}
 

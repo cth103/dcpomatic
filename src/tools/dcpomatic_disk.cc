@@ -251,10 +251,15 @@ private:
 
 		bool have_writer = true;
 		if (!_nanomsg.send(DISK_WRITER_PING "\n", 2000)) {
+			LOG_DISK_NC("Could not send ping to writer");
 			have_writer = false;
 		} else {
 			auto reply = _nanomsg.receive (2000);
-			if (!reply || *reply != DISK_WRITER_PONG) {
+			if (!reply) {
+				LOG_DISK_NC("No reply received from ping");
+				have_writer = false;
+			} else if (*reply != DISK_WRITER_PONG) {
+				LOG_DISK_NC("Unexpected response to ping received");
 				have_writer = false;
 			}
 		}
@@ -270,6 +275,7 @@ private:
 			m->Destroy ();
 			return;
 #else
+			LOG_DISK_NC ("Failed to ping writer");
 			throw CommunicationFailedError ();
 #endif
 		}
@@ -285,9 +291,11 @@ private:
 
 			LOG_DISK("Sending unmount request to disk writer for %1", drive.as_xml());
 			if (!_nanomsg.send(DISK_WRITER_UNMOUNT "\n", 2000)) {
+				LOG_DISK_NC("Failed to send unmount request.");
 				throw CommunicationFailedError ();
 			}
 			if (!_nanomsg.send(drive.as_xml(), 2000)) {
+				LOG_DISK_NC("Failed to send drive for unmount request.");
 				throw CommunicationFailedError ();
 			}
 			/* The reply may have to wait for the user to authenticate, so let's wait a while */
