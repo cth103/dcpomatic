@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  test/film_metadata_test.cc
  *  @brief Test some basic reading/writing of film metadata.
  *  @ingroup feature
@@ -75,4 +76,28 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	g->write_metadata ();
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
+}
+
+
+/** Check a bug where <Content> tags with multiple <Text>s would fail to load */
+BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
+{
+	auto subs = content_factory("test/data/15s.srt").front();
+	auto caps = content_factory("test/data/15s.srt").front();
+	auto film = new_test_film2("multiple_text_nodes_are_allowed1", { subs, caps });
+	caps->only_text()->set_type(TextType::CLOSED_CAPTION);
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
+		});
+
+	auto reload = make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto film2 = new_test_film2("multiple_text_nodes_are_allowed2", { reload });
+	film2->write_metadata ();
+
+	auto test = make_shared<Film>(boost::filesystem::path("build/test/multiple_text_nodes_are_allowed2"));
+	test->read_metadata();
 }

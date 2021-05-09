@@ -104,10 +104,6 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		return { make_shared<TextContent>(parent, node, version) };
 	}
 
-	if (!node->optional_node_child("Text")) {
-		return {};
-	}
-
 	list<shared_ptr<TextContent>> c;
 	for (auto i: node->node_children("Text")) {
 		c.push_back (make_shared<TextContent>(parent, i, version));
