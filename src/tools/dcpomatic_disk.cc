@@ -249,18 +249,27 @@ private:
 		DCPOMATIC_ASSERT (_drive->GetSelection() != wxNOT_FOUND);
 		DCPOMATIC_ASSERT (static_cast<bool>(_dcp_path));
 
-		bool have_writer = true;
-		if (!_nanomsg.send(DISK_WRITER_PING "\n", 2000)) {
-			LOG_DISK_NC("Could not send ping to writer");
-			have_writer = false;
-		} else {
-			auto reply = _nanomsg.receive (2000);
-			if (!reply) {
-				LOG_DISK_NC("No reply received from ping");
-				have_writer = false;
-			} else if (*reply != DISK_WRITER_PONG) {
-				LOG_DISK_NC("Unexpected response to ping received");
-				have_writer = false;
+		auto ping = [this](int attempt) {
+			if (_nanomsg.send(DISK_WRITER_PING "\n", 2000)) {
+				auto reply = _nanomsg.receive (2000);
+				if (reply && *reply == DISK_WRITER_PONG) {
+					return true;
+				} else if (reply) {
+					LOG_DISK("Unexpected response %1 to ping received (attempt %2)", *reply, attempt);
+				} else {
+					LOG_DISK("No reply received from ping (attempt %1)", attempt);
+				}
+			} else {
+				LOG_DISK("Could not send ping to writer (attempt %1)", attempt);
+			}
+			return false;
+		};
+
+		bool have_writer = false;
+		for (int i = 0; i < 8; ++i) {
+			if (ping(i + 1)) {
+				have_writer = true;
+				break;
 			}
 		}
 
