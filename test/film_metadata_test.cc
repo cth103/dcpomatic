@@ -23,17 +23,25 @@
  *  @ingroup feature
  */
 
-#include <boost/test/unit_test.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/date_time.hpp>
-#include "lib/film.h"
+
+#include "lib/content.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/film.h"
 #include "lib/ratio.h"
+#include "lib/text_content.h"
 #include "test.h"
+#include <boost/date_time.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/test/unit_test.hpp>
+
 
 using std::string;
 using std::list;
+using std::make_shared;
 using std::shared_ptr;
+
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
@@ -55,12 +63,10 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	film->set_release_territory (dcp::LanguageTag::RegionSubtag("US"));
 	film->write_metadata ();
 
-	list<string> ignore;
-	ignore.push_back ("Key");
-	ignore.push_back ("ContextID");
+	list<string> ignore = { "Key", "ContextID" };
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 
-	shared_ptr<Film> g (new Film (dir));
+	auto g = make_shared<Film>(dir);
 	g->read_metadata ();
 
 	BOOST_CHECK_EQUAL (g->name(), "fred");
