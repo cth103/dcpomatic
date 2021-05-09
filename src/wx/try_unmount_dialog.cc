@@ -25,16 +25,20 @@
 #include <wx/wx.h>
 
 
+static int constexpr width = 300;
+
+
 TryUnmountDialog::TryUnmountDialog (wxWindow* parent, wxString description)
 	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Disk Writer"))
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
-	auto text = new StaticText (this, wxEmptyString);
+	auto text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(width, -1));
 	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	text->SetLabelMarkup (
 		wxString::Format(_("The drive <b>%s</b> is mounted.\n\nIt must be unmounted before DCP-o-matic can write to it.\n\nShould DCP-o-matic try to unmount it now?"), description)
 		);
+	text->Wrap(width);
 
 	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
