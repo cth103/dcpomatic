@@ -100,10 +100,6 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		return c;
 	}
 
-	if (!node->optional_node_child("Text")) {
-		return list<shared_ptr<TextContent> >();
-	}
-
 	list<shared_ptr<TextContent> > c;
 	BOOST_FOREACH (cxml::ConstNodePtr i, node->node_children("Text")) {
 		c.push_back (shared_ptr<TextContent> (new TextContent (parent, i, version)));
