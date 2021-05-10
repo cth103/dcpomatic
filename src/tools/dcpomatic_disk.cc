@@ -250,8 +250,8 @@ private:
 		DCPOMATIC_ASSERT (static_cast<bool>(_dcp_path));
 
 		auto ping = [this](int attempt) {
-			if (_nanomsg.send(DISK_WRITER_PING "\n", 2000)) {
-				auto reply = _nanomsg.receive (2000);
+			if (_nanomsg.send(DISK_WRITER_PING "\n", 1000)) {
+				auto reply = _nanomsg.receive (1000);
 				if (reply && *reply == DISK_WRITER_PONG) {
 					return true;
 				} else if (reply) {
@@ -262,6 +262,7 @@ private:
 			} else {
 				LOG_DISK("Could not send ping to writer (attempt %1)", attempt);
 			}
+			dcpomatic_sleep_seconds (1);
 			return false;
 		};
 
@@ -274,11 +275,20 @@ private:
 		}
 
 		if (!have_writer) {
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS)
 			auto m = new MessageDialog (
 				this,
 				_("DCP-o-matic Disk Writer"),
 				_("Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again.")
+				);
+			m->ShowModal ();
+			m->Destroy ();
+			return;
+#elif defined(DCPOMATIC_OSX)
+			auto m = new MessageDialog (
+				this,
+				_("DCP-o-matic Disk Writer"),
+				_("Did you install the DCP-o-matic Disk Writer.pkg from the .dmg?  Please check and try again.")
 				);
 			m->ShowModal ();
 			m->Destroy ();
