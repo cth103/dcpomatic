@@ -290,12 +290,12 @@ function make_dmg {
     ln -s /Applications "$vol_name/Applications"
     cat<<EOF > "$vol_name/READ ME.txt"
 Welcome to DCP-o-matic!  The first time you run the program there may be
-a long (several-minute) delay while OS X checks the code for viruses and
+a long (several-minute) delay while macOS checks the code for viruses and
 other malware.  Please be patient!
 EOF
     cat<<EOF > "$vol_name/READ ME.de_DE.txt"
 Beim erstmaligen Start der DCP-o-matic Anwendungen kann ein längerer
-Verifikationsvorgang auftreten.  Dies ist von der OS X Sicherheitsumgebung
+Verifikationsvorgang auftreten.  Dies ist von der macOS Sicherheitsumgebung
 'Gatekeeper' verursacht.  Dieser je nach Rechner teils minutenlange
 Verifikationsvorgang ist gegenwärtig normal und nicht zu umgehen,
 es ist kein Programmfehler.  Warten sie die Verifikation für jede der
