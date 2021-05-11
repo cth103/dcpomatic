@@ -301,7 +301,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_verify', file=f)
     if os.path.exists(os.path.join(tools, "dcpomatic2_disk")):
         print('%{_bindir}/dcpomatic2_disk', file=f)
-        print('%{_bindir}/dcpomatic2_disk_writer', file=f)
+        print('%attr(4755, root, root) %{_bindir}/dcpomatic2_disk_writer', file=f)
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
