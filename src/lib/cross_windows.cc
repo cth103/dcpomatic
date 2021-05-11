@@ -252,7 +252,12 @@ boost::filesystem::path
 fix_long_path (boost::filesystem::path long_path)
 {
 	using namespace boost::filesystem;
+
 	path fixed = "\\\\?\\";
+	if (boost::algorithm::starts_with(long_path.string(), fixed.string())) {
+		return long_path;
+	}
+
 	/* We have to make the path canonical but we can't call canonical() on the long path
 	 * as it will fail.  So we'll sort of do it ourselves (possibly badly).
 	 */

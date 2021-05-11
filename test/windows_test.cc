@@ -35,6 +35,8 @@ BOOST_AUTO_TEST_CASE (fix_long_path_test)
 	fixed_bar += boost::filesystem::current_path();
 	fixed_bar /= "bar";
 	BOOST_CHECK_EQUAL (fix_long_path("bar"), fixed_bar);
+
+	BOOST_CHECK_EQUAL (fix_long_path("\\\\?\\c:\\foo"), "\\\\?\\c:\\foo");
 #else
 	BOOST_CHECK_EQUAL (fix_long_path("foo/bar/baz"), "foo/bar/baz");
 #endif
