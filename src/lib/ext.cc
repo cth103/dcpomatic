@@ -221,7 +221,6 @@ copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 {
 	LOG_DISK ("Copy %1 -> %2", from.string(), to.generic_string());
 	from = fix_long_path (from);
-	to = fix_long_path (to);
 
 	using namespace boost::filesystem;
 
