@@ -666,16 +666,10 @@ def create_version_cc(version, cxx_flags):
 def post(ctx):
     if ctx.cmd == 'install' and ctx.env.TARGET_LINUX:
         ctx.exec_command('/sbin/ldconfig')
-        # setuid root executables
-        for e in ['dcpomatic2_uuid', 'dcpomatic2_disk_writer']:
-            # I can't find anything which tells me where things have been installed to,
-            # so here's some nasty hacks to guess.
-            debian = os.path.join(ctx.out_dir, '../debian/dcpomatic/usr/bin/%s' % e)
-            prefix = os.path.join(ctx.env['INSTALL_PREFIX'], 'bin/%s' % e)
-            if os.path.exists(debian):
-                os.chmod(debian, 0o4755)
-            if os.path.exists(prefix):
-                os.chmod(prefix, 0o4755)
+        # setuid root executable
+        exe = os.path.join(ctx.env['INSTALL_PREFIX'], 'bin/%s/dcpomatic2_disk_writer')
+        if os.path.exists(exe):
+            os.chmod(exe, 0o4755)
 
 def pot(bld):
     bld.recurse('src')
