@@ -5,7 +5,7 @@
   <vendor_url>https://dcpomatic.com</vendor_url>
   <action id="com.dcpomatic.write-drive">
     <description gettext-domain="dcpomatic">Unmount, format a drive and write a DCP to it</description>
-    <message gettext-domain="dcpomatic">Authentication is required to unmount the drive, format it and write the DCP</message>
+    <message gettext-domain="dcpomatic">Authentication is required to unmount the drive, format it and write the DCP.</message>
     <defaults>
        <allow_any>no</allow_any>
        <allow_inactive>no</allow_inactive>
