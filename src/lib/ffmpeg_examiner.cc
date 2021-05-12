@@ -62,7 +62,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		AVStream* s = _format_context->streams[i];
-		if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO) {
+		if (s->codec->codec_type == AVMEDIA_TYPE_AUDIO && s->codec->codec) {
 
 			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
 			   so bodge it here.  No idea why we should have to do this.
@@ -73,7 +73,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			}
 
 			DCPOMATIC_ASSERT (_format_context->duration != AV_NOPTS_VALUE);
-			DCPOMATIC_ASSERT (s->codec->codec);
 			DCPOMATIC_ASSERT (s->codec->codec->name);
 
 			_audio_streams.push_back (
