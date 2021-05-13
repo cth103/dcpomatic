@@ -719,6 +719,8 @@ def package(target, version, options):
                 packages.append((a, "com.dcpomatic.server"))
             elif x.find("Disk Writer") != -1:
                 packages.append((a, "com.dcpomatic.disk"))
+            elif x.find("Combiner") != -1:
+                packages.append((a, "com.dcpomatic.combiner"))
             else:
                 packages.append((a, "com.dcpomatic"))
         return packages
