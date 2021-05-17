@@ -75,7 +75,7 @@ SimpleVideoView::paint ()
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 	}
 
-#ifdef DCPOMATIC_OSX
+#if defined(DCPOMATIC_OSX) && wxCHECK_VERSION(3, 1, 0)
 	auto appearance = wxSystemSettings::GetAppearance();
 	auto dark = appearance.IsDark();
 #else
