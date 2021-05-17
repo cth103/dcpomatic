@@ -703,7 +703,8 @@ def package(target, version, options):
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
                 return package_rpm(target, cpu, version, options)
     elif target.platform == 'osx':
-        target.command('bash platform/osx/make_dmg.sh %s %s %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password))
+        archs = ' '.join(f'{t.arch}/{t.deployment}' for t in target.sub_targets)
+        target.command('bash platform/osx/make_dmg.sh %s %s %s %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password, archs))
         packages = []
         for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg'):
             a = os.path.abspath(x)

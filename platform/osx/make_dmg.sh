@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-SYNTAX="make_dmg.sh <environment> <builddir> <apple-id> <apple-password>"
+SYNTAX="make_dmg.sh <environment> <builddir> <apple-id> <apple-password> <arch1> [<arch2>]"
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist foo@bar.net opensesame
+# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist foo@bar.net opensesame x86_64/10.10 arm64/11.0
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
@@ -15,6 +15,8 @@ ENV=$1
 ROOT=$2
 APPLE_ID=$3
 APPLE_PASSWORD=$4
+ARCH1=$5
+ARCH2=$6
 
 # This is our work area for making up the .dmgs
 mkdir -p build/platform/osx
@@ -34,38 +36,62 @@ cat <<EOF > entitlements.plist
 EOF
 
 function copy {
-	for f in $1/arm64/$2; do
-		if [ -h $f ]; then
-			ln -s $(readlink $f) "$3/`basename $f`"
-		else
-			g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-			mkdir -p "$3"
-			lipo -create $f $g -output "$3/`basename $f`"
-		fi
-	done
+	if [ "$ARCH2" == "" ]; then
+		for f in $1/$2; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$3/`basename $f`"
+			else
+				cp $f "$3/`basename $f`"
+			fi
+		done
+	else
+		for f in $1/$ARCH1/$2; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$3/`basename $f`"
+			else
+				g=`echo $f | sed -e "s@/$ARCH1/@/$ARCH2/@g"`
+				mkdir -p "$3"
+				lipo -create $f $g -output "$3/`basename $f`"
+			fi
+		done
+	fi
 }
 
 function copy_lib_root {
-	for f in $ROOT/arm64/lib/$1*.dylib; do
-		if [ -h $f ]; then
-			ln -s $(readlink $f) "$2/`basename $f`"
-		else
-			g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-			mkdir -p "$2"
-			lipo -create $f $g -output "$2/`basename $f`"
-		fi
-	done
+	if [ "$ARCH2" == "" ]; then
+		for f in $ROOT/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				cp $f "$2/`basename $f`"
+			fi
+		done
+	else
+		for f in $ROOT/$ARCH1/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
+				g=`echo $f | sed -e "s@/$ARCH1/@/$ARCH2/@g"`
+				mkdir -p "$2"
+				lipo -create $f $g -output "$2/`basename $f`"
+			fi
+		done
+	fi
     to_relink="$to_relink|$1"
 }
 
 function copy_lib_env {
-	for f in $ENV/arm64/lib/$1*.dylib; do
+	for f in $ENV/$ARCH1/lib/$1*.dylib; do
 		if [ -h $f ]; then
 			ln -s $(readlink $f) "$2/`basename $f`"
 		else
-			g=`echo $f | sed -e "s/\/arm64\//\/x86_64\//g"`
-			mkdir -p "$2"
-			lipo -create $f $g -output "$2/`basename $f`"
+			if [ "$ARCH2" == "" ]; then
+				cp $f "$2/`basename $f`"
+			else
+				g=`echo $f | sed -e "s@/$ARCH1/@/$ARCH2/@g"`
+				mkdir -p "$2"
+				lipo -create $f $g -output "$2/`basename $f`"
+			fi
 		fi
 	done
     to_relink="$to_relink|$1"
@@ -144,7 +170,11 @@ function copy_libs {
 # @param #1 directory to copy to
 function copy_resources {
     local dest="$1"
-	local prefix=$ROOT/x86_64
+	if [ "$ARCH2" == "" ]; then
+		local prefix=$ROOT
+	else
+		local prefix=$ROOT/$ARCH1
+	fi
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic_small.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
@@ -208,7 +238,7 @@ function copy_resources {
     # i18n: wxWidgets .mo files
     for lang in de es fr it sv nl ru pl da cs; do
 	mkdir "$dest/$lang"
-	cp $ENV/x86_64/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
+	cp $ENV/$ARCH1/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
     done
 }
 
@@ -218,17 +248,15 @@ function relink_relative {
     local linkers=("$@")
 
 	for obj in "${linkers[@]}"; do
-		for arch in x86_64 arm64; do
-			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
-			changes=""
-			for dep in $deps; do
-				base=`basename $dep`
-				changes="$changes -change $dep @executable_path/../Frameworks/$base"
-			done
-			if test "x$changes" != "x"; then
-				install_name_tool $changes -id `basename "$obj"` "$obj"
-			fi
+		deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+		changes=""
+		for dep in $deps; do
+			base=`basename $dep`
+			changes="$changes -change $dep @executable_path/../Frameworks/$base"
 		done
+		if test "x$changes" != "x"; then
+			install_name_tool $changes -id `basename "$obj"` "$obj"
+		fi
 	done
 }
 
@@ -241,12 +269,10 @@ function relink_absolute {
     local linkers=("$@")
 
     for obj in "${linkers[@]}"; do
-		for arch in x86_64 arm64; do
-			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
-			for dep in $deps; do
-				base=`basename $dep`
-				install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
-			done
+		deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+		for dep in $deps; do
+			base=`basename $dep`
+			install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
 		done
     done
 }
@@ -391,7 +417,11 @@ function copy_verify {
 	relink_relative "${rl[@]}"
 }
 
-prefix=$ROOT/arm64
+if [ "$ARCH2" == "" ]; then
+	prefix=$ROOT
+else
+	prefix=$ROOT/$ARCH1
+fi
 
 # DCP-o-matic main
 setup "DCP-o-matic 2.app"
