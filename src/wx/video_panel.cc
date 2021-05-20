@@ -89,6 +89,10 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	int const crop_width = 128;
 	int const link_width = 32;
 	int const link_height = 64;
+#elif defined(__WXGTK20__)
+	int const crop_width = 56;
+	int const link_width = 24;
+	int const link_height = 32;
 #elif defined(DCPOMATIC_OSX)
 	int const crop_width = 56;
 	int const link_width = 19;
