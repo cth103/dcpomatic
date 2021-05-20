@@ -87,8 +87,14 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 		}
 	};
 
+	int leqm_channels = film->audio_channels();
+	auto content = _playlist->content();
+	if (content.size() == 1 && content[0]->audio && content[0]->audio->stream()) {
+		leqm_channels = content[0]->audio->stream()->channels();
+	}
+
 	/* XXX: is this right?  Especially for more than 5.1? */
-	vector<double> channel_corrections(film->audio_channels(), 1);
+	vector<double> channel_corrections(leqm_channels, 1);
 	add_if_required (channel_corrections,  4,   -3); // Ls
 	add_if_required (channel_corrections,  5,   -3); // Rs
 	add_if_required (channel_corrections,  6, -144); // HI
@@ -103,7 +109,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 	add_if_required (channel_corrections, 15, -144); // Unused
 
 	_leqm.reset(new leqm_nrt::Calculator(
-		film->audio_channels(),
+		leqm_channels,
 		film->audio_frame_rate(),
 		24,
 		channel_corrections,
