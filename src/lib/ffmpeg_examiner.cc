@@ -69,7 +69,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		auto s = _format_context->streams[i];
-		auto codec = _codec_context[i]->codec;
+		auto codec = _codec_context[i] ? _codec_context[i]->codec : nullptr;
 		if (s->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && codec) {
 
 			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
