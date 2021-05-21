@@ -89,8 +89,8 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 
 	int leqm_channels = film->audio_channels();
 	auto content = _playlist->content();
-	if (content.size() == 1 && content[0]->audio && content[0]->audio->stream()) {
-		leqm_channels = content[0]->audio->stream()->channels();
+	if (content.size() == 1 && content[0]->audio) {
+		leqm_channels = content[0]->audio->mapping().mapped_output_channels().size();
 	}
 
 	/* XXX: is this right?  Especially for more than 5.1? */
