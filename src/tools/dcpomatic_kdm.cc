@@ -19,33 +19,33 @@
 */
 
 
-#include "wx/full_config_dialog.h"
 #include "wx/about_dialog.h"
-#include "wx/report_problem_dialog.h"
-#include "wx/file_picker_ctrl.h"
-#include "wx/wx_util.h"
-#include "wx/wx_signal_manager.h"
-#include "wx/screens_panel.h"
-#include "wx/kdm_timing_panel.h"
-#include "wx/kdm_output_panel.h"
-#include "wx/job_view_dialog.h"
-#include "wx/file_dialog_wrapper.h"
-#include "wx/new_dkdm_folder_dialog.h"
-#include "wx/editable_list.h"
-#include "wx/static_text.h"
 #include "wx/dcpomatic_button.h"
+#include "wx/editable_list.h"
+#include "wx/file_dialog_wrapper.h"
+#include "wx/file_picker_ctrl.h"
+#include "wx/full_config_dialog.h"
+#include "wx/job_view_dialog.h"
+#include "wx/kdm_output_panel.h"
+#include "wx/kdm_timing_panel.h"
 #include "wx/nag_dialog.h"
+#include "wx/new_dkdm_folder_dialog.h"
+#include "wx/report_problem_dialog.h"
+#include "wx/screens_panel.h"
+#include "wx/static_text.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/wx_util.h"
+#include "lib/cinema.h"
+#include "lib/compose.hpp"
 #include "lib/config.h"
-#include "lib/util.h"
-#include "lib/screen.h"
+#include "lib/cross.h"
+#include "lib/dkdm_wrapper.h"
+#include "lib/exceptions.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
-#include "lib/exceptions.h"
+#include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
-#include "lib/compose.hpp"
-#include "lib/cinema.h"
-#include "lib/dkdm_wrapper.h"
-#include "lib/cross.h"
+#include "lib/util.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -68,11 +68,12 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::exception;
 using std::list;
+using std::make_shared;
+using std::map;
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::pair;
-using std::map;
-using std::shared_ptr;
 using boost::bind;
 using boost::optional;
 using boost::ref;
@@ -92,7 +93,7 @@ class DOMFrame : public wxFrame
 {
 public:
 	explicit DOMFrame (wxString const & title)
-		: wxFrame (0, -1, title)
+		: wxFrame (nullptr, -1, title)
 		, _config_dialog (nullptr)
 		, _job_view (nullptr)
 	{
@@ -361,11 +362,7 @@ private:
 					name_values['i'] = encrypted.cpl_id ();
 
 					/* Encrypt */
-					kdms.push_back (
-						KDMWithMetadataPtr(
-							new KDMWithMetadata(name_values, i->cinema.get(), i->cinema->emails, encrypted)
-							)
-						);
+					kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, encrypted));
 				}
 			}
 
@@ -410,9 +407,9 @@ private:
 		_output->setup_sensitivity ();
 		wxArrayTreeItemIds sel;
 		_dkdm->GetSelections (sel);
-		shared_ptr<DKDMGroup> group = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
-		shared_ptr<DKDM> dkdm = dynamic_pointer_cast<DKDM>(selected_dkdm());
 		_create->Enable (!_screens->screens().empty() && sel.GetCount() > 0);
+		auto group = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
+		auto dkdm = dynamic_pointer_cast<DKDM>(selected_dkdm());
 		_remove_dkdm->Enable (sel.GetCount() > 0 && (!group || group->name() != "root"));
 		_export_dkdm->Enable (sel.GetCount() > 0 && dkdm);
 	}
@@ -458,8 +455,8 @@ private:
 				/* Decrypt the DKDM to make sure that we can */
 				dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
 
-				shared_ptr<DKDMBase> new_dkdm(new DKDM(ekdm));
-				auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+				auto new_dkdm = make_shared<DKDM>(ekdm);
+				auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
 				if (!group) {
 					group = Config::instance()->dkdms ();
 				}
@@ -492,8 +489,8 @@ private:
 	{
 		auto d = new NewDKDMFolderDialog (this);
 		if (d->ShowModal() == wxID_OK) {
-			shared_ptr<DKDMBase> new_dkdm (new DKDMGroup (wx_to_std (d->get ())));
-			auto parent = dynamic_pointer_cast<DKDMGroup> (selected_dkdm ());
+			auto new_dkdm = make_shared<DKDMGroup>(wx_to_std(d->get()));
+			auto parent = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
 			if (!parent) {
 				parent = Config::instance()->dkdms ();
 			}
@@ -610,6 +607,7 @@ private:
 	JobViewDialog* _job_view;
 };
 
+
 /** @class App
  *  @brief The magic App class for wxWidgets.
  */
@@ -618,7 +616,7 @@ class App : public wxApp
 public:
 	App ()
 		: wxApp ()
-		, _frame (0)
+		, _frame (nullptr)
 	{}
 
 private:
@@ -674,7 +672,7 @@ private:
 			_frame->Maximize ();
 			if (splash) {
 				splash->Destroy ();
-				splash = 0;
+				splash = nullptr;
 			}
 			_frame->Show ();
 
@@ -708,10 +706,10 @@ private:
 				);
 		} catch (exception& e) {
 			error_dialog (
-				0,
+				nullptr,
 				wxString::Format (
 					_("An exception occurred: %s.\n\n") + " " + REPORT_PROBLEM,
-					std_to_wx (e.what ())
+					std_to_wx(e.what())
 					)
 				);
 		} catch (...) {
@@ -724,7 +722,7 @@ private:
 
 	void OnUnhandledException ()
 	{
-		error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
+		error_dialog (nullptr, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 	}
 
 	void idle ()
@@ -739,7 +737,7 @@ private:
 
 	void config_warning (string m)
 	{
-		message_dialog (_frame, std_to_wx (m));
+		message_dialog (_frame, std_to_wx(m));
 	}
 
 	DOMFrame* _frame;
