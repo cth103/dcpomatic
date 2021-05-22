@@ -62,6 +62,7 @@ enum {
 
 static unsigned int const log_lines = 32;
 
+
 class ServerLog : public Log, public Signaller
 {
 public:
@@ -109,7 +110,7 @@ private:
 		}
 		_last_time = *local;
 
-		shared_ptr<const EncodedLogEntry> encoded = dynamic_pointer_cast<const EncodedLogEntry> (entry);
+		auto encoded = dynamic_pointer_cast<const EncodedLogEntry> (entry);
 		if (encoded) {
 			_history.push_back (encoded->seconds ());
 			if (_history.size() > 48) {
@@ -125,7 +126,7 @@ private:
 	void append (string s)
 	{
 		_log.push_back (s);
-		emit (boost::bind (boost::ref (Appended), s));
+		emit (boost::bind(boost::ref(Appended), s));
 	}
 
 	list<string> _log;
@@ -136,14 +137,16 @@ private:
 	float _fps;
 };
 
+
 static shared_ptr<ServerLog> server_log;
+
 
 class StatusDialog : public wxDialog
 {
 public:
 	StatusDialog ()
 		: wxDialog (
-			0, wxID_ANY, _("DCP-o-matic Encode Server"),
+			nullptr, wxID_ANY, _("DCP-o-matic Encode Server"),
 			wxDefaultPosition, wxDefaultSize,
 #ifdef DCPOMATIC_OSX
 			wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxSTAY_ON_TOP
@@ -152,13 +155,13 @@ public:
 #endif
 			)
 	{
-		wxFlexGridSizer* state_sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
+		auto state_sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 
 		add_label_to_sizer (state_sizer, this, _("Frames per second"), true);
 		_fps = new StaticText (this, wxT(""));
 		state_sizer->Add (_fps);
 
-		wxFlexGridSizer* log_sizer = new wxFlexGridSizer (1, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
+		auto log_sizer = new wxFlexGridSizer (1, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 		log_sizer->AddGrowableCol (0, 1);
 
 		wxClientDC dc (this);
@@ -212,7 +215,6 @@ class TaskBarIcon : public wxTaskBarIcon
 {
 public:
 	TaskBarIcon ()
-		: _status (0)
 	{
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("id"));
@@ -230,7 +232,7 @@ public:
 
 	wxMenu* CreatePopupMenu ()
 	{
-		wxMenu* menu = new wxMenu;
+		auto menu = new wxMenu;
 		menu->Append (ID_status, std_to_wx ("Status..."));
 		menu->Append (ID_quit, std_to_wx ("Quit"));
 		return menu;
@@ -253,19 +255,19 @@ private:
 	StatusDialog* _status;
 };
 
+
 class App : public wxApp, public ExceptionStore
 {
 public:
 	App ()
 		: wxApp ()
-		, _icon (0)
 	{}
 
 private:
 
 	bool OnInit ()
 	{
-		if (!wxApp::OnInit ()) {
+		if (!wxApp::OnInit()) {
 			return false;
 		}
 
@@ -278,7 +280,7 @@ private:
 		Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 		Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-		wxSplashScreen* splash = maybe_show_splash ();
+		auto splash = maybe_show_splash ();
 
 		dcpomatic_setup_path_encoding ();
 		dcpomatic_setup_i18n ();
@@ -335,10 +337,10 @@ private:
 		try {
 			rethrow ();
 		} catch (exception& e) {
-			error_dialog (0, std_to_wx (e.what ()));
+			error_dialog (nullptr, std_to_wx(e.what()));
 			wxTheApp->ExitMainLoop ();
 		} catch (...) {
-			error_dialog (0, _("An unknown error has occurred with the DCP-o-matic server."));
+			error_dialog (nullptr, _("An unknown error has occurred with the DCP-o-matic server."));
 			wxTheApp->ExitMainLoop ();
 		}
 	}
@@ -350,16 +352,16 @@ private:
 
 	void config_failed_to_load ()
 	{
-		message_dialog (0, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+		message_dialog (nullptr, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
 	}
 
 	void config_warning (string m)
 	{
-		message_dialog (0, std_to_wx (m));
+		message_dialog (nullptr, std_to_wx(m));
 	}
 
 	boost::thread _thread;
-	TaskBarIcon* _icon;
+	TaskBarIcon* _icon = nullptr;
 	shared_ptr<wxTimer> _timer;
 };
 

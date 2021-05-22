@@ -102,7 +102,7 @@ SimpleVideoView::paint ()
 		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
 
-	optional<dcpomatic::Rect<double> > subs = _viewer->outline_subtitles();
+	auto subs = _viewer->outline_subtitles();
 	if (subs) {
 		wxPen p (wxColour(0, 255, 0), 2);
 		dc.SetPen (p);
@@ -130,7 +130,7 @@ SimpleVideoView::timer ()
 	}
 
 	display_next_frame (false);
-	DCPTime const next = position() + _viewer->one_video_frame();
+	auto const next = position() + _viewer->one_video_frame();
 
 	if (next >= length()) {
 		_viewer->finished ();
@@ -160,7 +160,7 @@ SimpleVideoView::start ()
 VideoView::NextFrameResult
 SimpleVideoView::display_next_frame (bool non_blocking)
 {
-	NextFrameResult const r = get_next_frame (non_blocking);
+	auto const r = get_next_frame (non_blocking);
 	if (r != SUCCESS) {
 		return r;
 	}
