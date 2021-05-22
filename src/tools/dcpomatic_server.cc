@@ -211,20 +211,16 @@ private:
 	std::shared_ptr<wxTimer> _timer;
 };
 
+
+static StatusDialog* status_dialog = nullptr;
+
+
 class TaskBarIcon : public wxTaskBarIcon
 {
 public:
 	TaskBarIcon ()
 	{
-#ifdef DCPOMATIC_WINDOWS
-		wxIcon icon (std_to_wx ("id"));
-#else
-		wxBitmap bitmap (bitmap_path("dcpomatic_small_black"), wxBITMAP_TYPE_PNG);
-		wxIcon icon;
-		icon.CopyFromBitmap (bitmap);
-#endif
-
-		SetIcon (icon, std_to_wx ("DCP-o-matic Encode Server"));
+		set_icon ();
 
 		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::status, this), ID_status);
 		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::quit, this), ID_quit);
@@ -238,21 +234,33 @@ public:
 		return menu;
 	}
 
+	void set_icon ()
+	{
+#ifdef DCPOMATIC_WINDOWS
+		wxIcon icon (std_to_wx("id"));
+#else
+		string const colour = gui_is_dark() ? "white" : "black";
+		wxBitmap bitmap (
+			bitmap_path(String::compose("dcpomatic_small_%1", colour)),
+			wxBITMAP_TYPE_PNG
+			);
+		wxIcon icon;
+		icon.CopyFromBitmap (bitmap);
+#endif
+
+		SetIcon (icon, std_to_wx ("DCP-o-matic Encode Server"));
+	}
+
 private:
 	void status ()
 	{
-		if (!_status) {
-			_status = new StatusDialog ();
-		}
-		_status->Show ();
+		status_dialog->Show ();
 	}
 
 	void quit ()
 	{
 		wxTheApp->ExitMainLoop ();
 	}
-
-	StatusDialog* _status;
 };
 
 
@@ -297,11 +305,12 @@ private:
 		*/
 		Config::instance();
 
+		status_dialog = new StatusDialog ();
 #ifdef DCPOMATIC_LINUX
-		StatusDialog* d = new StatusDialog ();
-		d->Show ();
+		status_dialog->Show ();
 #else
 		_icon = new TaskBarIcon;
+		status_dialog->Bind (wxEVT_SYS_COLOUR_CHANGED, boost::bind(&TaskBarIcon::set_icon, _icon));
 #endif
 		_thread = thread (bind (&App::main_thread, this));
 
