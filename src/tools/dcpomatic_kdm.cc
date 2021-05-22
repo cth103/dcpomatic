@@ -407,9 +407,9 @@ private:
 		_output->setup_sensitivity ();
 		wxArrayTreeItemIds sel;
 		_dkdm->GetSelections (sel);
-		_create->Enable (!_screens->screens().empty() && sel.GetCount() > 0);
 		auto group = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
 		auto dkdm = dynamic_pointer_cast<DKDM>(selected_dkdm());
+		_create->Enable (!_screens->screens().empty() && sel.GetCount() > 0 && dkdm);
 		_remove_dkdm->Enable (sel.GetCount() > 0 && (!group || group->name() != "root"));
 		_export_dkdm->Enable (sel.GetCount() > 0 && dkdm);
 	}
