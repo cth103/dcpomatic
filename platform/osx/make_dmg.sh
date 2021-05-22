@@ -178,7 +178,8 @@ function copy_resources {
 	else
 		local prefix=$ROOT/$ARCH1
 	fi
-    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic_small.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic_small_white.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic_small_black.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_kdm.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_server.icns "$dest"

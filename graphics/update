@@ -85,8 +85,9 @@ else
         inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/$i@2x.png --width 64 --height 64 src/preferences.svg
     done
 
-    # OS X menu bar icon for the server
-    $INKSCAPE_EXPORT --export-filename=osx/dcpomatic_small.png -w 64 -h 64 src/dcpomatic_small.svg
+    # OS X menu bar icon for the server (in dark and light mode)
+    $INKSCAPE_EXPORT --export-filename=osx/dcpomatic_small_white.png -w 64 -h 64 src/dcpomatic_small_white.svg
+    $INKSCAPE_EXPORT --export-filename=osx/dcpomatic_small_black.png -w 64 -h 64 src/dcpomatic_small_black.svg
 
     # Splash screen (all platforms)
     $INKSCAPE_EXPORT --export-filename=splash.png src/splash.svg -w 400 -h 300

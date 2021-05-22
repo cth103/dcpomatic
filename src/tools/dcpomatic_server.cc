@@ -217,7 +217,7 @@ public:
 #ifdef DCPOMATIC_WINDOWS
 		wxIcon icon (std_to_wx ("id"));
 #else
-		wxBitmap bitmap (bitmap_path("dcpomatic_small"), wxBITMAP_TYPE_PNG);
+		wxBitmap bitmap (bitmap_path("dcpomatic_small_black"), wxBITMAP_TYPE_PNG);
 		wxIcon icon;
 		icon.CopyFromBitmap (bitmap);
 #endif
