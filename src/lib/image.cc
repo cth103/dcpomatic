@@ -1440,6 +1440,22 @@ Image::video_range_to_full_range ()
 		}
 		break;
 	}
+	case AV_PIX_FMT_RGB48LE:
+	{
+		float const factor = 65536.0 / 56064.0;
+		uint16_t* p = reinterpret_cast<uint16_t*>(data()[0]);
+		int const lines = sample_size(0).height;
+		for (int y = 0; y < lines; ++y) {
+			uint16_t* q = p;
+			int const line_size_pixels = line_size()[0] / 2;
+			for (int x = 0; x < line_size_pixels; ++x) {
+				*q = clamp(lrintf((*q - 4096) * factor), 0L, 65535L);
+				++q;
+			}
+			p += stride()[0] / 2;
+		}
+		break;
+	}
 	case AV_PIX_FMT_GBRP12LE:
 	{
 		float const factor = 4096.0 / 3504.0;
