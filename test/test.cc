@@ -910,7 +910,7 @@ make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> 
 void
 check_int_close (int a, int b, int d)
 {
-	BOOST_CHECK (std::abs(a - b) < d);
+	BOOST_CHECK_MESSAGE (std::abs(a - b) < d, a << " differs from " << b << " by more than " << d);
 }
 
 
