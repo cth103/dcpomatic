@@ -1018,7 +1018,7 @@ Image::Image (Image const & other)
 	}
 }
 
-Image::Image (AVFrame* frame)
+Image::Image (AVFrame const * frame)
 	: _size (frame->width, frame->height)
 	, _pixel_format (static_cast<AVPixelFormat>(frame->format))
 	, _aligned (true)

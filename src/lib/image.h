@@ -41,7 +41,7 @@ class Image : public std::enable_shared_from_this<Image>
 {
 public:
 	Image (AVPixelFormat p, dcp::Size s, bool aligned);
-	explicit Image (AVFrame *);
+	explicit Image (AVFrame const *);
 	explicit Image (Image const &);
 	Image (std::shared_ptr<const Image>, bool);
 	Image& operator= (Image const &);
