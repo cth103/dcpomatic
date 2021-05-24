@@ -53,26 +53,23 @@ using std::dynamic_pointer_cast;
 using dcp::raw_convert;
 
 
-FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path, VideoRange video_range)
+FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path)
 	: _data (path)
-	, _video_range (video_range)
 	, _pos (0)
 	, _path (path)
 {
 
 }
 
-FFmpegImageProxy::FFmpegImageProxy (dcp::ArrayData data, VideoRange video_range)
+FFmpegImageProxy::FFmpegImageProxy (dcp::ArrayData data)
 	: _data (data)
-	, _video_range (video_range)
 	, _pos (0)
 {
 
 }
 
-FFmpegImageProxy::FFmpegImageProxy (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
-	: _video_range (string_to_video_range(node->string_child("VideoRange")))
-	, _pos (0)
+FFmpegImageProxy::FFmpegImageProxy (shared_ptr<Socket> socket)
+	: _pos (0)
 {
 	uint32_t const size = socket->read_uint32 ();
 	_data = dcp::ArrayData (size);
@@ -208,16 +205,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		throw DecodeError (N_("avcodec_receive_frame"), name_for_errors, r);
 	}
 
-	auto const pix_fmt = static_cast<AVPixelFormat>(frame->format);
-
 	_image = make_shared<Image>(frame);
-	if (_video_range == VideoRange::VIDEO && av_pix_fmt_desc_get(pix_fmt)->flags & AV_PIX_FMT_FLAG_RGB) {
-		/* Asking for the video range to be converted by libswscale (in Image) will not work for
-		 * RGB sources since that method only processes video range in YUV and greyscale.  So we have
-		 * to do it ourselves here.
-		 */
-		_image->video_range_to_full_range();
-	}
 
 	av_packet_unref (&packet);
 	av_frame_free (&frame);
@@ -234,7 +222,6 @@ void
 FFmpegImageProxy::add_metadata (xmlpp::Node* node) const
 {
 	node->add_child("Type")->add_child_text (N_("FFmpeg"));
-	node->add_child("VideoRange")->add_child_text(video_range_to_string(_video_range));
 }
 
 void
@@ -247,7 +234,7 @@ FFmpegImageProxy::write_to_socket (shared_ptr<Socket> socket) const
 bool
 FFmpegImageProxy::same (shared_ptr<const ImageProxy> other) const
 {
-	shared_ptr<const FFmpegImageProxy> mp = dynamic_pointer_cast<const FFmpegImageProxy> (other);
+	auto mp = dynamic_pointer_cast<const FFmpegImageProxy>(other);
 	if (!mp) {
 		return false;
 	}

@@ -74,7 +74,7 @@ ImageDecoder::pass ()
 			*/
 			_image = make_shared<J2KImageProxy>(path, _image_content->video->size(), pf);
 		} else {
-			_image = make_shared<FFmpegImageProxy>(path, _image_content->video->range());
+			_image = make_shared<FFmpegImageProxy>(path);
 		}
 	}
 

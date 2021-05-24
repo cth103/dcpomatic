@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
-	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "prophet_frame.tiff", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "prophet_frame.tiff");
 	auto raw = proxy->image().image;
 	auto background = raw->convert_pixel_format (dcp::YUVToRGB::REC709, format, true, false);
 
@@ -273,7 +273,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 /** Test Image::crop_scale_window with YUV420P and some windowing */
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
-	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png");
 	auto raw = proxy->image().image;
 	auto out = raw->crop_scale_window(
 		Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_YUV420P, VideoRange::FULL, true, false
@@ -299,7 +299,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 {
-	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
 	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 {
-	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
 	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, false, false
@@ -323,7 +323,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 {
-	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
 	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 
 BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 {
-	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
 	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, false, false
@@ -350,7 +350,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 {
 	using namespace boost::filesystem;
 	for (int left_crop = 0; left_crop < 8; ++left_crop) {
-		auto proxy = make_shared<FFmpegImageProxy>("test/data/rgb_grey_testcard.png", VideoRange::FULL);
+		auto proxy = make_shared<FFmpegImageProxy>("test/data/rgb_grey_testcard.png");
 		auto yuv = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_YUV420P, true, false);
 		int rounded = left_crop - (left_crop % 2);
 		auto cropped = yuv->crop_scale_window(
@@ -373,7 +373,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 
 BOOST_AUTO_TEST_CASE (as_png_test)
 {
-	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png");
 	auto image_rgb = proxy->image().image;
 	auto image_bgr = image_rgb->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_BGRA, true, false);
 	image_rgb->as_png().write ("build/test/as_png_rgb.png");
@@ -401,7 +401,7 @@ fade_test_format_black (AVPixelFormat f, string name)
 static void
 fade_test_format_red (AVPixelFormat f, float amount, string name)
 {
-	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png");
 	auto red = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, f, true, false);
 	red->fade (amount);
 	string const filename = "fade_test_red_" + name + ".png";
@@ -505,7 +505,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 
 BOOST_AUTO_TEST_CASE (make_part_black_test)
 {
-	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png", VideoRange::FULL);
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png");
 	auto original = proxy->image().image;
 
 	list<AVPixelFormat> pix_fmts = {

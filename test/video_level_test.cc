@@ -38,6 +38,8 @@
 #include "lib/image_decoder.h"
 #include "lib/ffmpeg_encoder.h"
 #include "lib/job_manager.h"
+#include "lib/player.h"
+#include "lib/player_video.h"
 #include "lib/transcode_job.h"
 #include "lib/video_decoder.h"
 #include "test.h"
@@ -91,7 +93,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_full_range_not_changed)
 
 	write_image (grey_image(size, grey_pixel), file);
 
-	FFmpegImageProxy proxy (file, VideoRange::FULL);
+	FFmpegImageProxy proxy (file);
 	ImageProxy::Result result = proxy.image ();
 	BOOST_REQUIRE (!result.error);
 
@@ -106,19 +108,30 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_full_range_not_changed)
 
 BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 {
-	dcp::Size size(640, 480);
+	dcp::Size size(1998, 1080);
 	uint8_t const grey_pixel = 128;
-	uint8_t const expanded_grey_pixel = static_cast<uint8_t>((grey_pixel - 16) * 256.0 / 219);
+	uint8_t const expanded_grey_pixel = static_cast<uint8_t>(lrintf((grey_pixel - 16) * 256.0 / 219));
 	boost::filesystem::path const file = "build/test/ffmpeg_image_video_range_expanded.png";
 
-	write_image (grey_image(size, grey_pixel), file);
+	write_image(grey_image(size, grey_pixel), file);
 
-	FFmpegImageProxy proxy (file, VideoRange::VIDEO);
-	ImageProxy::Result result = proxy.image ();
-	BOOST_REQUIRE (!result.error);
+	auto content = content_factory(file).front();
+	auto film = new_test_film2 ("ffmpeg_image_video_range_expanded", { content });
+	content->video->set_range (VideoRange::VIDEO);
+	auto player = make_shared<Player>(film, film->playlist());
+
+	shared_ptr<PlayerVideo> player_video;
+	player->Video.connect([&player_video](shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime) {
+		player_video = pv;
+	});
+	while (!player_video) {
+		BOOST_REQUIRE (!player->pass());
+	}
+
+	auto image = player_video->image ([](AVPixelFormat f) { return f; }, VideoRange::FULL, true, false);
 
 	for (int y = 0; y < size.height; ++y) {
-		uint8_t* p = result.image->data()[0] + y * result.image->stride()[0];
+		uint8_t* p = image->data()[0] + y * image->stride()[0];
 		for (int x = 0; x < size.width; ++x) {
 			BOOST_REQUIRE_EQUAL (*p++, expanded_grey_pixel);
 		}
@@ -185,6 +198,9 @@ pixel_range (shared_ptr<const Image> image)
 }
 
 
+/** @return pixel range of the first frame in @ref content in its raw form, i.e.
+ *  straight out of the decoder with no level processing, scaling etc.
+ */
 static
 pair<int, int>
 pixel_range (shared_ptr<const Film> film, shared_ptr<const Content> content)
@@ -504,8 +520,8 @@ BOOST_AUTO_TEST_CASE (image_F_to_V_movie)
 BOOST_AUTO_TEST_CASE (image_FoV_to_V_movie)
 {
 	auto range = V_movie_range (image_FoV("image_FoV_to_V_movie"));
-	BOOST_CHECK_EQUAL (range.first, 102);
-	BOOST_CHECK_EQUAL (range.second, 923);
+	BOOST_CHECK_EQUAL (range.first, 64);
+	BOOST_CHECK_EQUAL (range.second, 960);
 }
 
 

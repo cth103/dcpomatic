@@ -80,7 +80,6 @@ public:
 	void alpha_blend (std::shared_ptr<const Image> image, Position<int> pos);
 	void copy (std::shared_ptr<const Image> image, Position<int> pos);
 	void fade (float);
-	void video_range_to_full_range ();
 
 	void read_from_socket (std::shared_ptr<Socket>);
 	void write_to_socket (std::shared_ptr<Socket>) const;
@@ -106,6 +105,7 @@ private:
 	void make_part_black (int x, int w);
 	void yuv_16_black (uint16_t, bool);
 	static uint16_t swap_16 (uint16_t);
+	void video_range_to_full_range ();
 
 	dcp::Size _size;
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image

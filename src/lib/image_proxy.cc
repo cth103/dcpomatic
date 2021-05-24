@@ -45,7 +45,7 @@ image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 	if (xml->string_child("Type") == N_("Raw")) {
 		return make_shared<RawImageProxy>(xml, socket);
 	} else if (xml->string_child("Type") == N_("FFmpeg")) {
-		return shared_ptr<FFmpegImageProxy> (new FFmpegImageProxy(xml, socket));
+		return make_shared<FFmpegImageProxy>(socket);
 	} else if (xml->string_child("Type") == N_("J2K")) {
 		return make_shared<J2KImageProxy>(xml, socket);
 	}

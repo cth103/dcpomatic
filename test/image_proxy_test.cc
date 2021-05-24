@@ -54,14 +54,14 @@ BOOST_AUTO_TEST_CASE (j2k_image_proxy_same_test)
 BOOST_AUTO_TEST_CASE (ffmpeg_image_proxy_same_test)
 {
 	{
-		auto proxy1 = make_shared<FFmpegImageProxy>(data_file0, VideoRange::FULL);
-		auto proxy2 = make_shared<FFmpegImageProxy>(data_file0, VideoRange::FULL);
+		auto proxy1 = make_shared<FFmpegImageProxy>(data_file0);
+		auto proxy2 = make_shared<FFmpegImageProxy>(data_file0);
 		BOOST_CHECK (proxy1->same(proxy2));
 	}
 
 	{
-		auto proxy1 = make_shared<FFmpegImageProxy>(data_file0, VideoRange::FULL);
-		auto proxy2 = make_shared<FFmpegImageProxy>(data_file1, VideoRange::FULL);
+		auto proxy1 = make_shared<FFmpegImageProxy>(data_file0);
+		auto proxy2 = make_shared<FFmpegImageProxy>(data_file1);
 		BOOST_CHECK (!proxy1->same(proxy2));
 	}
 }

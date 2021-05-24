@@ -297,6 +297,15 @@ Image::crop_scale_window (
 		out->make_part_black (corner.x + cropped_size.width, out_size.width - cropped_size.width);
 	}
 
+	if (
+		video_range == VideoRange::VIDEO &&
+		out_video_range == VideoRange::FULL &&
+		av_pix_fmt_desc_get(_pixel_format)->flags & AV_PIX_FMT_FLAG_RGB
+	   ) {
+		/* libswscale will not convert video range for RGB sources, so we have to do it ourselves */
+		out->video_range_to_full_range ();
+	}
+
 	return out;
 }
 
