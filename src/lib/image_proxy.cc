@@ -18,6 +18,7 @@
 
 */
 
+
 #include "image_proxy.h"
 #include "raw_image_proxy.h"
 #include "ffmpeg_image_proxy.h"
@@ -31,19 +32,22 @@
 
 #include "i18n.h"
 
+
 using std::cout;
-using std::string;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+
 
 shared_ptr<ImageProxy>
 image_proxy_factory (shared_ptr<cxml::Node> xml, shared_ptr<Socket> socket)
 {
 	if (xml->string_child("Type") == N_("Raw")) {
-		return shared_ptr<ImageProxy> (new RawImageProxy (xml, socket));
+		return make_shared<RawImageProxy>(xml, socket);
 	} else if (xml->string_child("Type") == N_("FFmpeg")) {
 		return shared_ptr<FFmpegImageProxy> (new FFmpegImageProxy(xml, socket));
 	} else if (xml->string_child("Type") == N_("J2K")) {
-		return shared_ptr<J2KImageProxy> (new J2KImageProxy (xml, socket));
+		return make_shared<J2KImageProxy>(xml, socket);
 	}
 
 	throw NetworkError (_("Unexpected image type received by server"));
