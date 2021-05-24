@@ -1433,7 +1433,7 @@ Image::video_range_to_full_range ()
 		for (int y = 0; y < lines; ++y) {
 			uint8_t* q = p;
 			for (int x = 0; x < line_size()[0]; ++x) {
-				*q = int((*q - 16) * factor);
+				*q = clamp(lrintf((*q - 16) * factor), 0L, 255L);
 				++q;
 			}
 			p += stride()[0];
@@ -1450,7 +1450,7 @@ Image::video_range_to_full_range ()
 				uint16_t* q = p;
 				int const line_size_pixels = line_size()[c] / 2;
 				for (int x = 0; x < line_size_pixels; ++x) {
-					*q = int((*q - 256) * factor);
+					*q = clamp(lrintf((*q - 256) * factor), 0L, 4095L);
 					++q;
 				}
 			}

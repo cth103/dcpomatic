@@ -150,4 +150,12 @@ list_to_vector (std::list<T> v)
 extern double db_to_linear (double db);
 extern double linear_to_db (double linear);
 
+
+template <class T>
+T clamp (T val, T minimum, T maximum)
+{
+	return std::max(std::min(val, maximum), minimum);
+}
+
+
 #endif

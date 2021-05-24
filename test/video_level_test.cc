@@ -344,8 +344,11 @@ image_FoV (string name)
 	content->video->set_range (VideoRange::VIDEO);
 
 	auto range = pixel_range (film, content);
-	BOOST_CHECK_EQUAL (range.first, 11);
-	BOOST_CHECK_EQUAL (range.second, 250);
+	/* We are taking some full-range content and saying it should be read as video range, after which its
+	 * pixels will still be full range.
+	 */
+	BOOST_CHECK_EQUAL (range.first, 0);
+	BOOST_CHECK_EQUAL (range.second, 255);
 
 	return film;
 }
@@ -451,7 +454,10 @@ BOOST_AUTO_TEST_CASE (image_F_to_dcp)
 BOOST_AUTO_TEST_CASE (image_FoV_to_dcp)
 {
 	auto range = dcp_range (image_FoV("image_FoV_to_dcp"));
-	check_int_close (range, {430, 4012}, 2);
+	/* The nearly-full-range of the input has become even more full, and clipped.
+	 * XXX: I'm not sure why this doesn't quite hit 4095.
+	 */
+	check_int_close (range, {0, 4095}, 16);
 }
 
 
