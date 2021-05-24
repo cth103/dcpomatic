@@ -627,7 +627,7 @@ def package_rpm(target, cpu, version, options):
 
     requires = None
     if target.distro == 'mageia':
-        requires = "lib64xmlsec1-devel"
+        requires = "lib64xmlsec1-devel lib64canberra-gtk0"
 
     make_spec('build/platform/linux/dcpomatic2.spec', version, target, options, requires)
     cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
