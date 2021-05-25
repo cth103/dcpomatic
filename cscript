@@ -582,6 +582,11 @@ def package_windows(target):
 
 def package_debian(target, cpu, version, options):
     make_control(target.version, target.bits, 'debian/control', target.debug, options['gui'])
+    if target.version != '9' and target.version != '16.04':
+        with open('debian/postinst', 'w') as f:
+            print('#!/bin/sh', file=f)
+            # Get the required capability to write to disks
+            print('setcap cap_dac_override+ep /usr/bin/dcpomatic2_disk_writer', file=f)
     target.command('./waf dist')
     f = open('debian/files', 'w')
     print('dcpomatic_%s-1_%s.deb video extra' % (version, cpu), file=f)

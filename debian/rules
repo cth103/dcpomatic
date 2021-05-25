@@ -48,9 +48,3 @@ override_dh_strip:
 override_dh_shlibdeps:
 	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
 
-DISK := debian/dcpomatic/usr/bin/dcpomatic2_disk_writer
-override_dh_fixperms:
-	dh_fixperms
-ifneq ("$(wildcard $(DISK))", "")
-	chmod 4755 $(DISK)
-endif
