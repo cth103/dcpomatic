@@ -218,6 +218,8 @@ def can_build_disk(target):
             return True
         if target.distro == 'centos' and target.version == '8':
             return True
+        if target.distro == 'mageia':
+            return True
     return False
 
 def packages(name, packages, f):
