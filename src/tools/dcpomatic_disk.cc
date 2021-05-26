@@ -173,6 +173,10 @@ public:
 	~DOMFrame ()
 	{
 		_nanomsg.send(DISK_WRITER_QUIT "\n", 2000);
+		/* This seems really horrible but it's suggested by the examples on nanomsg.org, so...
+		 * Without this the quit is not received (at least sometimes) causing #2018.
+		 */
+		dcpomatic_sleep_seconds (1);
 	}
 
 private:
