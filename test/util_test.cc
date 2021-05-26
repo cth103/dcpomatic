@@ -139,7 +139,7 @@ progress (float p)
 BOOST_AUTO_TEST_CASE (copy_in_bits_test)
 {
 	for (int i = 0; i < 32; ++i) {
-		make_random_file ("build/test/random.dat", rand() % (256 * 1024 * 1024));
+		make_random_file ("build/test/random.dat", std::max(1, rand() % (256 * 1024 * 1024)));
 
 		progress_values.clear ();
 		copy_in_bits ("build/test/random.dat", "build/test/random.dat2", boost::bind(&progress, _1));
