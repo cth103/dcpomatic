@@ -43,14 +43,21 @@ Nanomsg::Nanomsg (bool server)
 		throw runtime_error("Could not set up nanomsg socket");
 	}
 	if (server) {
-		if (nn_bind(_socket, NANOMSG_URL) < 0) {
+		if ((_endpoint = nn_bind(_socket, NANOMSG_URL)) < 0) {
 			throw runtime_error(String::compose("Could not bind nanomsg socket (%1)", errno));
 		}
 	} else {
-		if (nn_connect(_socket, NANOMSG_URL) < 0) {
+		if ((_endpoint = nn_connect(_socket, NANOMSG_URL)) < 0) {
 			throw runtime_error(String::compose("Could not connect nanomsg socket (%1)", errno));
 		}
 	}
+}
+
+
+Nanomsg::~Nanomsg ()
+{
+	nn_shutdown (_socket, _endpoint);
+	nn_close (_socket);
 }
 
 

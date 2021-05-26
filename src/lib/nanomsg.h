@@ -28,6 +28,7 @@ class Nanomsg
 {
 public:
 	explicit Nanomsg (bool server);
+	~Nanomsg ();
 
 	Nanomsg (Nanomsg const&) = delete;
 	Nanomsg& operator= (Nanomsg const&) = delete;
@@ -49,6 +50,7 @@ private:
 	void recv_and_parse (int flags);
 
 	int _socket;
+	int _endpoint;
 	std::list<std::string> _pending;
 	std::string _current;
 };
