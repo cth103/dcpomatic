@@ -371,7 +371,6 @@ bool
 Drive::unmount ()
 {
 	for (auto i: _mount_points) {
-		PrivilegeEscalator esc;
 		int const r = umount(i.string().c_str());
 		LOG_DISK("Tried to unmount %1 and got %2 and %3", i.string(), r, errno);
 		if (r == -1) {
@@ -379,41 +378,6 @@ Drive::unmount ()
 		}
 	}
 	return true;
-}
-
-
-void
-unprivileged ()
-{
-	uid_t ruid, euid, suid;
-	if (getresuid(&ruid, &euid, &suid) == -1) {
-		cerr << "getresuid() failed.\n";
-	}
-	if (seteuid(ruid) == -1) {
-		cerr << "seteuid() failed.\n";
-	}
-}
-
-
-bool PrivilegeEscalator::test = false;
-
-
-PrivilegeEscalator::~PrivilegeEscalator ()
-{
-	if (!test) {
-		unprivileged ();
-	}
-}
-
-
-PrivilegeEscalator::PrivilegeEscalator ()
-{
-	if (!test) {
-		int const r = seteuid(0);
-		if (r < 0) {
-			throw PrivilegeError (String::compose("seteuid() call failed with %1", errno));
-		}
-	}
 }
 
 

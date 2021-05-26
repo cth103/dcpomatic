@@ -98,7 +98,6 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	/* Some arbitrary file size here */
 	make_random_file (dcp / "foo", 1024 * 1024 * 32 - 6128);
 
-	PrivilegeEscalator::test = true;
 	dcpomatic::write (dcp, disk.string(), partition.string(), 0);
 
 	BOOST_CHECK_EQUAL (system("/sbin/e2fsck -fn build/test/disk_writer_test1.partition"), 0);

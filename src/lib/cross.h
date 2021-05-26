@@ -71,14 +71,6 @@ namespace dcpomatic {
 	std::string get_process_id ();
 }
 
-class PrivilegeEscalator
-{
-public:
-	PrivilegeEscalator ();
-	~PrivilegeEscalator ();
-
-	static bool test;
-};
 
 /** @class Waker
  *  @brief A class which tries to keep the computer awake on various operating systems.

@@ -304,10 +304,6 @@ try
 	parts.division[2] = 0;
 	parts.division[3] = 0;
 
-#ifdef DCPOMATIC_LINUX
-	PrivilegeEscalator e;
-#endif
-
 	/* XXX: not sure if disk_id matters */
 	int r = ext4_mbr_write (bd, &parts, 0);
 	if (r) {
