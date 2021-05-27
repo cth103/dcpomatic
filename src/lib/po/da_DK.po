@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:32+0200\n"
+"POT-Creation-Date: 2021-05-27 14:46+0200\n"
 "PO-Revision-Date: 2019-04-06 12:29+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -165,7 +165,7 @@ msgstr "2.35 (35mm Scope)"
 msgid "2.39 (Scope)"
 msgstr "2.39 (Scope)"
 
-#: src/lib/filter.cc:84
+#: src/lib/filter.cc:87
 msgid "3D denoiser"
 msgstr "3D-denoiser"
 
@@ -372,20 +372,20 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bits per pixel"
 
-#: src/lib/filter.cc:80
+#: src/lib/filter.cc:83
 #, fuzzy
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Endnu et Deinterlacing Filter"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:588
 msgid "C"
 msgstr "C"
 
@@ -405,7 +405,7 @@ msgstr "Kan ikke håndtere pixelformat %1 under %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan ikke generere en KDM da projektet ikke er krypteret."
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:557
 msgid "Centre"
 msgstr "Center"
 
@@ -506,7 +506,7 @@ msgstr ""
 "Elementer der skal splejses skal enten alle have billede eller slet ikke "
 "have billede"
 
-#: src/lib/text_content.cc:309
+#: src/lib/text_content.cc:305
 #, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
@@ -518,13 +518,13 @@ msgstr ""
 msgid "Content to be joined must have all its video used or not used."
 msgstr "Indhold der skal splejses skal have samme billedhastighed"
 
-#: src/lib/text_content.cc:264
+#: src/lib/text_content.cc:260
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Indhold der skal splejses skal have samme indstilling af 'Brænd undertekster "
 "ind i billedet'."
 
-#: src/lib/text_content.cc:260
+#: src/lib/text_content.cc:256
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Indhold der skal splejses skal have den samme indstilling af 'brug "
@@ -572,7 +572,7 @@ msgstr "Indhold der skal splejses skal have samme skaleringsindstilling."
 msgid "Content to be joined must have the same fades."
 msgstr "Indhold der skal splejses skal fade på samme måde."
 
-#: src/lib/text_content.cc:292
+#: src/lib/text_content.cc:288
 msgid "Content to be joined must have the same outline width."
 msgstr "Indhold der skal splejses skal have samme breddeindramning."
 
@@ -580,27 +580,27 @@ msgstr "Indhold der skal splejses skal have samme breddeindramning."
 msgid "Content to be joined must have the same picture size."
 msgstr "Indhold der skal splejses skal have samme billedstørrelse."
 
-#: src/lib/text_content.cc:268
+#: src/lib/text_content.cc:264
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Indhold der skal splejses skal have samme X offset for undertekst."
 
-#: src/lib/text_content.cc:276
+#: src/lib/text_content.cc:272
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Indhold der skal splejses skal have samme X skalering af undertekst."
 
-#: src/lib/text_content.cc:272
+#: src/lib/text_content.cc:268
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Indhold der skal splejses skal have samme Y offset for undertekst."
 
-#: src/lib/text_content.cc:280
+#: src/lib/text_content.cc:276
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Indhold der skal splejses skal have samme Y skalering af undertekst."
 
-#: src/lib/text_content.cc:288
+#: src/lib/text_content.cc:284
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Indhold der skal splejses skal have samme udtoning af undertekster."
 
-#: src/lib/text_content.cc:284
+#: src/lib/text_content.cc:280
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Indhold der skal splejses skal have samme linjeafstand på undertekster."
@@ -613,11 +613,11 @@ msgstr "Indhold der skal splejses skal have samme billedhastighed"
 msgid "Content to be joined must have the same video frame type."
 msgstr "Indhold der skal splejses skal have samme billedtype."
 
-#: src/lib/text_content.cc:301
+#: src/lib/text_content.cc:297
 msgid "Content to be joined must use the same DCP track."
 msgstr "Indhold der skal splejses skal bruge det samme DCP-spor."
 
-#: src/lib/text_content.cc:297 src/lib/text_content.cc:317
+#: src/lib/text_content.cc:293 src/lib/text_content.cc:313
 msgid "Content to be joined must use the same fonts."
 msgstr "Indhold der skal splejses skal bruge samme skrifttype."
 
@@ -625,7 +625,7 @@ msgstr "Indhold der skal splejses skal bruge samme skrifttype."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Indhold der skal splejses skal bruge samme tekstningsstrøm."
 
-#: src/lib/text_content.cc:305
+#: src/lib/text_content.cc:301
 #, fuzzy
 msgid "Content to be joined must use the same text language."
 msgstr "Indhold der skal splejses skal bruge samme skrifttype."
@@ -659,7 +659,7 @@ msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:166
+#: src/lib/ffmpeg_image_proxy.cc:163
 msgid "Could not decode image (%1)"
 msgstr "Kunne ikke afkode billedet (%1)"
 
@@ -708,19 +708,19 @@ msgstr "Kunne ikke starte overførsel"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "D-BOX primary"
 msgstr "primær D-BOX"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "D-BOX secondary"
 msgstr "sekundær D-BOX"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "DBS"
 msgstr "DBS"
 
@@ -791,8 +791,8 @@ msgstr "DCP-o-matic besked"
 msgid "Datasat AP20 or AP25"
 msgstr ""
 
-#: src/lib/filter.cc:77 src/lib/filter.cc:78 src/lib/filter.cc:79
-#: src/lib/filter.cc:80 src/lib/filter.cc:81
+#: src/lib/filter.cc:80 src/lib/filter.cc:81 src/lib/filter.cc:82
+#: src/lib/filter.cc:83 src/lib/filter.cc:84
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
@@ -929,7 +929,7 @@ msgstr "Filnavn"
 msgid "Film"
 msgstr "Film"
 
-#: src/lib/ffmpeg_examiner.cc:113
+#: src/lib/ffmpeg_examiner.cc:111
 msgid "Finding length"
 msgstr "Beregner længde"
 
@@ -937,7 +937,7 @@ msgstr "Beregner længde"
 msgid "Frame rate"
 msgstr "Billedhastighed"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Friday"
 msgstr "Fredag"
 
@@ -977,23 +977,23 @@ msgstr "Gamma 22 (BT470M)"
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
-#: src/lib/filter.cc:82
+#: src/lib/filter.cc:85
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "HI"
 msgstr "HH"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Hearing impaired"
 msgstr "Hørehæmmede"
 
-#: src/lib/filter.cc:85
+#: src/lib/filter.cc:88
 msgid "High quality 3D denoiser"
 msgstr "Høj-kvalitets 3D-denoiser"
 
-#: src/lib/filter.cc:74
+#: src/lib/filter.cc:77
 msgid "Horizontal flip"
 msgstr "Horizontal flip"
 
@@ -1038,31 +1038,31 @@ msgstr "JEDEC P22"
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
-#: src/lib/filter.cc:78
+#: src/lib/filter.cc:81
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:584
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:553
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
 msgid "Left"
 msgstr "Venstre"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Left centre"
 msgstr "Venstre center"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left rear surround"
 msgstr "Venstre bag surround"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Left surround"
 msgstr "Venstre surround"
 
@@ -1070,11 +1070,11 @@ msgstr "Venstre surround"
 msgid "Length"
 msgstr "Længde"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:589
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:558
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -1102,7 +1102,7 @@ msgstr "Logaritmisk  (316:1 range)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "Ls"
 msgstr "Ls"
 
@@ -1110,7 +1110,7 @@ msgstr "Ls"
 msgid "Mid-side decoder"
 msgstr "Mid-side dekoder"
 
-#: src/lib/filter.cc:82 src/lib/filter.cc:83 src/lib/filter.cc:86
+#: src/lib/filter.cc:85 src/lib/filter.cc:86 src/lib/filter.cc:89
 msgid "Misc"
 msgstr "Diverse"
 
@@ -1134,7 +1134,7 @@ msgstr "Videostørrelser passer ikke i DCP"
 msgid "Missing required setting %1"
 msgstr "Mangler påkrævet indstilling %1"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Monday"
 msgstr "Mandag"
 
@@ -1142,7 +1142,7 @@ msgstr "Mandag"
 msgid "Mono"
 msgstr "Mono"
 
-#: src/lib/filter.cc:77
+#: src/lib/filter.cc:80
 msgid "Motion compensating deinterlacer"
 msgstr "Bevægelseskompenserende deinterlacer"
 
@@ -1158,7 +1158,7 @@ msgstr "Mail server er ikke sat op i indstillinger"
 msgid "No valid image files were found in the folder."
 msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 
-#: src/lib/filter.cc:84 src/lib/filter.cc:85 src/lib/filter.cc:87
+#: src/lib/filter.cc:87 src/lib/filter.cc:88 src/lib/filter.cc:90
 msgid "Noise reduction"
 msgstr "Støjreduktion"
 
@@ -1182,8 +1182,8 @@ msgstr "Kun det sidste indhold, der skal sammensættes, kan have sluttrim."
 msgid "Open subtitles"
 msgstr "Åbne undertekster"
 
-#: src/lib/filter.cc:73 src/lib/filter.cc:74 src/lib/filter.cc:75
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
+#: src/lib/filter.cc:79
 msgid "Orientation"
 msgstr "Retning"
 
@@ -1191,7 +1191,7 @@ msgstr "Retning"
 msgid "Out of memory"
 msgstr "Ikke tilstrækkelig arbejdshukommelse"
 
-#: src/lib/filter.cc:87
+#: src/lib/filter.cc:90
 msgid "Overcomplete wavelet denoiser"
 msgstr "Overcomplete wavelet denoiser"
 
@@ -1227,7 +1227,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:585
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
 msgid "R"
 msgstr "R"
 
@@ -1239,7 +1239,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "Rc"
 msgstr "Rc"
 
@@ -1259,31 +1259,31 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:554
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
 msgid "Right"
 msgstr "Højre"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Right centre"
 msgstr "Højre center"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right rear surround"
 msgstr "Højre bag surround"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Right surround"
 msgstr "Højre surround"
 
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:79
 msgid "Rotate 90 degrees anti-clockwise"
 msgstr "Roter 90 grader mod uret"
 
-#: src/lib/filter.cc:75
+#: src/lib/filter.cc:78
 msgid "Rotate 90 degrees clockwise"
 msgstr "Roter 90 grader med uret"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Rs"
 msgstr "Rs"
 
@@ -1346,7 +1346,7 @@ msgstr "SSH-fejl (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "SSH-fejl (%1)"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Saturday"
 msgstr "Lørdag"
 
@@ -1419,7 +1419,7 @@ msgstr "Stereo til 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo til 5.1 up-mixer B"
 
-#: src/lib/util.cc:929
+#: src/lib/util.cc:931
 msgid "Sunday"
 msgstr "Søndag"
 
@@ -1427,7 +1427,7 @@ msgstr "Søndag"
 msgid "Teaser"
 msgstr "Teaser"
 
-#: src/lib/filter.cc:86
+#: src/lib/filter.cc:89
 msgid "Telecine filter"
 msgstr "Telecinefilter"
 
@@ -1510,13 +1510,13 @@ msgstr ""
 "kører på et 32 bit operativsystem, så prøv at reducere antallet af "
 "genereringstråde i fanebladet Generelt i Indstillinger."
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 #, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 "KDM var genereret til DCP-o-matic, men ikke til dens 'leaf' certifikat."
 
-#: src/lib/util.cc:1140
+#: src/lib/util.cc:1142
 #, fuzzy
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "KDM var ikke genereret til DCP-o-matics dekrypterings certifikat."
@@ -1562,7 +1562,7 @@ msgstr ""
 "indlæses i denne version. Du er nødt til at lave en ny Film, tilføje dit "
 "indhold og konfigurere det igen. Beklager!"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Thursday"
 msgstr "Torsdag"
 
@@ -1582,7 +1582,7 @@ msgstr "Transcoder %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Tuesday"
 msgstr "Tirsdag"
 
@@ -1594,7 +1594,7 @@ msgstr ""
 msgid "Unexpected ZIP file contents"
 msgstr "Uventet indhold af ZIP arkiv"
 
-#: src/lib/image_proxy.cc:49
+#: src/lib/image_proxy.cc:53
 msgid "Unexpected image type received by server"
 msgstr "Uventet billedtype modtaget af server"
 
@@ -1611,7 +1611,7 @@ msgstr "Ukendt fejl"
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Kunne ikke genkende lydsekvensens format (%1)"
 
-#: src/lib/filter.cc:83
+#: src/lib/filter.cc:86
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Unsharp mask and Gaussian blur"
 
@@ -1627,7 +1627,7 @@ msgstr "Uspecificeret"
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: src/lib/util.cc:567 src/lib/util.cc:568
+#: src/lib/util.cc:569 src/lib/util.cc:570
 msgid "Unused"
 msgstr "Ubenyttet"
 
@@ -1639,7 +1639,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "VI"
 msgstr "VI"
 
@@ -1647,11 +1647,11 @@ msgstr "VI"
 msgid "Verify DCP"
 msgstr "Verificer DCP"
 
-#: src/lib/filter.cc:73
+#: src/lib/filter.cc:76
 msgid "Vertical flip"
 msgstr "Lodret spejling"
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Visually impaired"
 msgstr "Synshandicappet"
 
@@ -1659,11 +1659,11 @@ msgstr "Synshandicappet"
 msgid "Waiting"
 msgstr "Venter"
 
-#: src/lib/filter.cc:81
+#: src/lib/filter.cc:84
 msgid "Weave filter"
 msgstr "Weavefilter"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Wednesday"
 msgstr "Onsdag"
 
@@ -1671,7 +1671,7 @@ msgstr "Onsdag"
 msgid "YCOCG"
 msgstr "YCOCG"
 
-#: src/lib/filter.cc:79
+#: src/lib/filter.cc:82
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Endnu et Deinterlacing Filter"
 
@@ -1889,7 +1889,7 @@ msgid "frames per second"
 msgstr "billeder pr. sekund"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:198
+#: src/lib/util.cc:200
 msgid "h"
 msgstr "t"
 
@@ -1969,7 +1969,7 @@ msgid "its video frame size differs from the film's."
 msgstr "dens billedstørrelse er forskellig fra filmens."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:207
+#: src/lib/util.cc:209
 msgid "m"
 msgstr "m"
 
@@ -1996,7 +1996,7 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:217
+#: src/lib/util.cc:219
 msgid "s"
 msgstr "s"
 
@@ -2012,7 +2012,7 @@ msgstr "noget af dit indhold mangler"
 msgid "still"
 msgstr "stille"
 
-#: src/lib/ffmpeg_examiner.cc:339
+#: src/lib/ffmpeg_examiner.cc:337
 msgid "unknown"
 msgstr "ukendt"
 

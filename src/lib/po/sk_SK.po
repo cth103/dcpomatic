@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:32+0200\n"
+"POT-Creation-Date: 2021-05-27 14:46+0200\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -164,7 +164,7 @@ msgstr ""
 msgid "2.39 (Scope)"
 msgstr ""
 
-#: src/lib/filter.cc:84
+#: src/lib/filter.cc:87
 msgid "3D denoiser"
 msgstr "3D denoiser"
 
@@ -360,20 +360,20 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitov na pixel"
 
-#: src/lib/filter.cc:80
+#: src/lib/filter.cc:83
 #, fuzzy
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Len ďalší deinterlacing filter"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:588
 msgid "C"
 msgstr "C"
 
@@ -394,7 +394,7 @@ msgstr "Nemôžem spracovať formát pixelu %1 počas %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:557
 msgid "Centre"
 msgstr "Center"
 
@@ -499,7 +499,7 @@ msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 msgid "Content to be joined must all have or not have video"
 msgstr "Aby sa spojil obsah, musí mať rovnaké miznutie."
 
-#: src/lib/text_content.cc:309
+#: src/lib/text_content.cc:305
 #, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
@@ -510,11 +510,11 @@ msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 msgid "Content to be joined must have all its video used or not used."
 msgstr "Aby sa spojil obsah, musí mať rovnaký počet obrázkov za sekundu."
 
-#: src/lib/text_content.cc:264
+#: src/lib/text_content.cc:260
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "Aby sa spojil obsah, musí mať tie isté 'vypálené titulky' nastavenia."
 
-#: src/lib/text_content.cc:260
+#: src/lib/text_content.cc:256
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "Aby sa spojil obsah, musí mať tie isté 'použiť titulky' nastavenia."
 
@@ -558,7 +558,7 @@ msgstr "Aby sa spojil obsah, musí mať rovnaké nastavenia orezania."
 msgid "Content to be joined must have the same fades."
 msgstr "Aby sa spojil obsah, musí mať rovnaké miznutie."
 
-#: src/lib/text_content.cc:292
+#: src/lib/text_content.cc:288
 #, fuzzy
 msgid "Content to be joined must have the same outline width."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
@@ -567,28 +567,28 @@ msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 msgid "Content to be joined must have the same picture size."
 msgstr "Aby sa spojil obsah, musí mať rovnakú veľkosť obrazu."
 
-#: src/lib/text_content.cc:268
+#: src/lib/text_content.cc:264
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Aby sa spojil obsah, musí mať rovnaký titulkový X offset. "
 
-#: src/lib/text_content.cc:276
+#: src/lib/text_content.cc:272
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 
-#: src/lib/text_content.cc:272
+#: src/lib/text_content.cc:268
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Aby sa spojil obsah, musí mať rovnaký titulkový Y offset."
 
-#: src/lib/text_content.cc:280
+#: src/lib/text_content.cc:276
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú Y mierku."
 
-#: src/lib/text_content.cc:288
+#: src/lib/text_content.cc:284
 #, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 
-#: src/lib/text_content.cc:284
+#: src/lib/text_content.cc:280
 #, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
@@ -602,12 +602,12 @@ msgstr "Aby sa spojil obsah, musí mať rovnaký počet obrázkov za sekundu."
 msgid "Content to be joined must have the same video frame type."
 msgstr "Aby sa spojil obsah, musí mať rovnaký typ videa."
 
-#: src/lib/text_content.cc:301
+#: src/lib/text_content.cc:297
 #, fuzzy
 msgid "Content to be joined must use the same DCP track."
 msgstr "Aby sa spojil obsah, musí používať rovnaké písma."
 
-#: src/lib/text_content.cc:297 src/lib/text_content.cc:317
+#: src/lib/text_content.cc:293 src/lib/text_content.cc:313
 msgid "Content to be joined must use the same fonts."
 msgstr "Aby sa spojil obsah, musí používať rovnaké písma."
 
@@ -615,7 +615,7 @@ msgstr "Aby sa spojil obsah, musí používať rovnaké písma."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Aby sa spojil obsah, musí používať rovnaký titulkový stream."
 
-#: src/lib/text_content.cc:305
+#: src/lib/text_content.cc:301
 #, fuzzy
 msgid "Content to be joined must use the same text language."
 msgstr "Aby sa spojil obsah, musí používať rovnaké písma."
@@ -649,7 +649,7 @@ msgstr "Nemôžem vytvoriť vzdialený priečinok %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Nemôžem dekódovať JPEG2000 súbor %1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:166
+#: src/lib/ffmpeg_image_proxy.cc:163
 #, fuzzy
 msgid "Could not decode image (%1)"
 msgstr "Nemôžem dekódovať video súbor (%1)"
@@ -702,19 +702,19 @@ msgstr "Nemôžem začať prenos"
 msgid "Could not write to remote file (%1)"
 msgstr "Nemôžem zapisovať do vzdialeného súboru (%1)"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "D-BOX primary"
 msgstr "D-BOX primárne"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "D-BOX secondary"
 msgstr "D-BOX sekundárne"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "DBS"
 msgstr "DBS"
 
@@ -780,8 +780,8 @@ msgstr ""
 msgid "Datasat AP20 or AP25"
 msgstr ""
 
-#: src/lib/filter.cc:77 src/lib/filter.cc:78 src/lib/filter.cc:79
-#: src/lib/filter.cc:80 src/lib/filter.cc:81
+#: src/lib/filter.cc:80 src/lib/filter.cc:81 src/lib/filter.cc:82
+#: src/lib/filter.cc:83 src/lib/filter.cc:84
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
@@ -922,7 +922,7 @@ msgstr "meno"
 msgid "Film"
 msgstr "Film"
 
-#: src/lib/ffmpeg_examiner.cc:113
+#: src/lib/ffmpeg_examiner.cc:111
 #, fuzzy
 msgid "Finding length"
 msgstr "Dĺžka videa"
@@ -932,7 +932,7 @@ msgstr "Dĺžka videa"
 msgid "Frame rate"
 msgstr "Frame rate videa (počet obrázkov za sekundu)"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Friday"
 msgstr "Piatok"
 
@@ -973,23 +973,23 @@ msgstr "Gamma 22 (BT470M)"
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
-#: src/lib/filter.cc:82
+#: src/lib/filter.cc:85
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Hearing impaired"
 msgstr "Sluchovo postihnutý(í)"
 
-#: src/lib/filter.cc:85
+#: src/lib/filter.cc:88
 msgid "High quality 3D denoiser"
 msgstr "Vysoko kvalitný 3D denoiser"
 
-#: src/lib/filter.cc:74
+#: src/lib/filter.cc:77
 #, fuzzy
 msgid "Horizontal flip"
 msgstr "Horizontaler De-Blocker"
@@ -1035,31 +1035,31 @@ msgstr ""
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM donáška: $CPL_NAME"
 
-#: src/lib/filter.cc:78
+#: src/lib/filter.cc:81
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:584
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:553
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
 msgid "Left"
 msgstr "Left (Ľavá)"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Left centre"
 msgstr "Left centre (Ľavý stred)"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left rear surround"
 msgstr "Left rear surround (Ľavý zadný priestorový)"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Left surround"
 msgstr "Left surround (Ľavý zadný)"
 
@@ -1067,11 +1067,11 @@ msgstr "Left surround (Ľavý zadný)"
 msgid "Length"
 msgstr ""
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:589
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:558
 msgid "Lfe (sub)"
 msgstr "Lfe (Subwoofer)"
 
@@ -1099,7 +1099,7 @@ msgstr "Logarmitmický (rozsah 316:1 )"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "Ls"
 msgstr "Ls"
 
@@ -1107,7 +1107,7 @@ msgstr "Ls"
 msgid "Mid-side decoder"
 msgstr "Mid-side dekóder"
 
-#: src/lib/filter.cc:82 src/lib/filter.cc:83 src/lib/filter.cc:86
+#: src/lib/filter.cc:85 src/lib/filter.cc:86 src/lib/filter.cc:89
 msgid "Misc"
 msgstr "Rôzne"
 
@@ -1132,7 +1132,7 @@ msgstr "Nehoduje sa veľkosť videa v DCO"
 msgid "Missing required setting %1"
 msgstr "chýbajúce potrebné nastavenia %1"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Monday"
 msgstr "Pondelok"
 
@@ -1140,7 +1140,7 @@ msgstr "Pondelok"
 msgid "Mono"
 msgstr ""
 
-#: src/lib/filter.cc:77
+#: src/lib/filter.cc:80
 msgid "Motion compensating deinterlacer"
 msgstr "Pohybový kompenzačný odstraňovač"
 
@@ -1156,7 +1156,7 @@ msgstr ""
 msgid "No valid image files were found in the folder."
 msgstr "Žiadne platné súbory nebolo nájdené v priečinku."
 
-#: src/lib/filter.cc:84 src/lib/filter.cc:85 src/lib/filter.cc:87
+#: src/lib/filter.cc:87 src/lib/filter.cc:88 src/lib/filter.cc:90
 msgid "Noise reduction"
 msgstr "Redukcia hluku"
 
@@ -1181,8 +1181,8 @@ msgstr "Iba posledná časť pripojeného obsahu môže byť upravená od konca.
 msgid "Open subtitles"
 msgstr "[titulky]"
 
-#: src/lib/filter.cc:73 src/lib/filter.cc:74 src/lib/filter.cc:75
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
+#: src/lib/filter.cc:79
 msgid "Orientation"
 msgstr ""
 
@@ -1190,7 +1190,7 @@ msgstr ""
 msgid "Out of memory"
 msgstr "Málo pamäte"
 
-#: src/lib/filter.cc:87
+#: src/lib/filter.cc:90
 msgid "Overcomplete wavelet denoiser"
 msgstr "Overcomplete wavelet denoiser"
 
@@ -1225,7 +1225,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement (Verejné oznámenie služby)"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:585
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
 msgid "R"
 msgstr "R"
 
@@ -1237,7 +1237,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Prístupnosť"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "Rc"
 msgstr "Rc"
 
@@ -1259,31 +1259,31 @@ msgstr "Rec. 601 (SD)"
 msgid "Rec. 709"
 msgstr "Rec. 709 (HD)"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:554
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
 msgid "Right"
 msgstr "Right (Pravý)"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Right centre"
 msgstr "Right centre (Pravý stredný)"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right rear surround"
 msgstr "Right rear surround (Pravý zadný priestorový)"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Right surround"
 msgstr "Right surround (Pravý priestorový)"
 
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:79
 msgid "Rotate 90 degrees anti-clockwise"
 msgstr ""
 
-#: src/lib/filter.cc:75
+#: src/lib/filter.cc:78
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Rs"
 msgstr "Rs"
 
@@ -1347,7 +1347,7 @@ msgstr "SSH chyba (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "SSH chyba (%1)"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Saturday"
 msgstr "Sobota"
 
@@ -1411,7 +1411,7 @@ msgstr "Stereo na 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo na  5.1 up-mixer B"
 
-#: src/lib/util.cc:929
+#: src/lib/util.cc:931
 msgid "Sunday"
 msgstr "Nedel'a"
 
@@ -1419,7 +1419,7 @@ msgstr "Nedel'a"
 msgid "Teaser"
 msgstr "Teaser (Krátka upútavka)"
 
-#: src/lib/filter.cc:86
+#: src/lib/filter.cc:89
 msgid "Telecine filter"
 msgstr "Telecine Filter"
 
@@ -1498,11 +1498,11 @@ msgstr ""
 "Zostáva málo pamäte. Ak je váš operačný system 32-bitový, skúste znížiť "
 "počet enkódovacích threadov v záložke Všeobecné, v nastaveniach."
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:1140
+#: src/lib/util.cc:1142
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
 
@@ -1545,7 +1545,7 @@ msgstr ""
 "načítaný do tejto verzie. Budete musieť vytvoriť nový Film, znovu pridať váš "
 "obsah a znovu to nastaviť."
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Thursday"
 msgstr "Četrtek"
 
@@ -1566,7 +1566,7 @@ msgstr "Transkódovanie %1"
 msgid "Transitional"
 msgstr "Transitional (Prechod)"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Tuesday"
 msgstr "Utorok"
 
@@ -1578,7 +1578,7 @@ msgstr ""
 msgid "Unexpected ZIP file contents"
 msgstr "Neočakávaný obsah ZIP"
 
-#: src/lib/image_proxy.cc:49
+#: src/lib/image_proxy.cc:53
 msgid "Unexpected image type received by server"
 msgstr "Neočakávaný typ obrazu obdŕžaný od servera "
 
@@ -1595,7 +1595,7 @@ msgstr "Neznáma chyba"
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nerozpoznaná vzorkovacia frekvencia audia (%1)"
 
-#: src/lib/filter.cc:83
+#: src/lib/filter.cc:86
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Doostrenie a Gaussove rozostrenie"
 
@@ -1611,7 +1611,7 @@ msgstr "Nešpecifikované"
 msgid "Untitled"
 msgstr "Nepomenované"
 
-#: src/lib/util.cc:567 src/lib/util.cc:568
+#: src/lib/util.cc:569 src/lib/util.cc:570
 msgid "Unused"
 msgstr "Nepoužité"
 
@@ -1623,7 +1623,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "VI"
 msgstr "VI"
 
@@ -1631,11 +1631,11 @@ msgstr "VI"
 msgid "Verify DCP"
 msgstr ""
 
-#: src/lib/filter.cc:73
+#: src/lib/filter.cc:76
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Visually impaired"
 msgstr "Zrakovo postihnutý(í)"
 
@@ -1643,12 +1643,12 @@ msgstr "Zrakovo postihnutý(í)"
 msgid "Waiting"
 msgstr "Čakám"
 
-#: src/lib/filter.cc:81
+#: src/lib/filter.cc:84
 #, fuzzy
 msgid "Weave filter"
 msgstr "Telecine Filter"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Wednesday"
 msgstr "Streda"
 
@@ -1656,7 +1656,7 @@ msgstr "Streda"
 msgid "YCOCG"
 msgstr "YCOCG"
 
-#: src/lib/filter.cc:79
+#: src/lib/filter.cc:82
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Len ďalší deinterlacing filter"
 
@@ -1849,7 +1849,7 @@ msgid "frames per second"
 msgstr "obrázky za sekundu"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:198
+#: src/lib/util.cc:200
 msgid "h"
 msgstr "h"
 
@@ -1936,7 +1936,7 @@ msgid "its video frame size differs from the film's."
 msgstr ""
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:207
+#: src/lib/util.cc:209
 msgid "m"
 msgstr "m"
 
@@ -1963,7 +1963,7 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:217
+#: src/lib/util.cc:219
 msgid "s"
 msgstr "s"
 
@@ -1979,7 +1979,7 @@ msgstr ""
 msgid "still"
 msgstr "stále"
 
-#: src/lib/ffmpeg_examiner.cc:339
+#: src/lib/ffmpeg_examiner.cc:337
 msgid "unknown"
 msgstr "neznáme"
 

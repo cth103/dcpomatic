@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:32+0200\n"
+"POT-Creation-Date: 2021-05-27 14:46+0200\n"
 "PO-Revision-Date: 2017-07-31 21:23+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -167,7 +167,7 @@ msgstr "2.35 (Scope kinowy)"
 msgid "2.39 (Scope)"
 msgstr "2.39 (Scope)"
 
-#: src/lib/filter.cc:84
+#: src/lib/filter.cc:87
 msgid "3D denoiser"
 msgstr "Odszumianie 3D"
 
@@ -375,20 +375,20 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "Bitów na piksel"
 
-#: src/lib/filter.cc:80
+#: src/lib/filter.cc:83
 #, fuzzy
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "I jeszcze jeden filtr usuwania przeplotu"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:588
 msgid "C"
 msgstr "C"
 
@@ -409,7 +409,7 @@ msgstr "Nie można przetworzyć formatu %1 podczas %2"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:557
 msgid "Centre"
 msgstr "Centralny"
 
@@ -509,7 +509,7 @@ msgstr "Łączone pliki muszą jednocześnie posiadać lub nie posiadać napisó
 msgid "Content to be joined must all have or not have video"
 msgstr "Łączone pliki muszą jednocześnie posiadać lub nie posiadać obrazu"
 
-#: src/lib/text_content.cc:309
+#: src/lib/text_content.cc:305
 #, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
@@ -520,12 +520,12 @@ msgstr "Łączone pliki muszą mieć takie odstępy między liniami napisów."
 msgid "Content to be joined must have all its video used or not used."
 msgstr "Łączone pliki muszą mieć taką samą liczbę kl/s"
 
-#: src/lib/text_content.cc:264
+#: src/lib/text_content.cc:260
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
 "Łączone pliki muszą mieć takie same ustawienia w sekcji \"wypal napisy\"."
 
-#: src/lib/text_content.cc:260
+#: src/lib/text_content.cc:256
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
 "Łączone pliki muszą mieć takie same ustawienia w sekcji \"użyj napisów\"."
@@ -571,7 +571,7 @@ msgstr "Łączone pliki muszą mieć takie same ustawienia skalowania."
 msgid "Content to be joined must have the same fades."
 msgstr "Łączone pliki muszą mieć takie same czasy wejścia/wyjścia."
 
-#: src/lib/text_content.cc:292
+#: src/lib/text_content.cc:288
 msgid "Content to be joined must have the same outline width."
 msgstr "Łączone pliki muszą mieć taki sam rozmiar obrysu zewnętrznego."
 
@@ -579,27 +579,27 @@ msgstr "Łączone pliki muszą mieć taki sam rozmiar obrysu zewnętrznego."
 msgid "Content to be joined must have the same picture size."
 msgstr "Łączone pliki muszą mieć taki sam rozmiar obrazu."
 
-#: src/lib/text_content.cc:268
+#: src/lib/text_content.cc:264
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "Łączone pliki muszą mieć takie samo przesunięcie X napisów."
 
-#: src/lib/text_content.cc:276
+#: src/lib/text_content.cc:272
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "Łączone pliki muszą mieć taki sam rozmiar X napisów."
 
-#: src/lib/text_content.cc:272
+#: src/lib/text_content.cc:268
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "Łączone pliki muszą mieć takie samo przesunięcie Y napisów."
 
-#: src/lib/text_content.cc:280
+#: src/lib/text_content.cc:276
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "Łączone pliki muszą mieć taki sam rozmiar Y napisów."
 
-#: src/lib/text_content.cc:288
+#: src/lib/text_content.cc:284
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "Łączone pliki muszą mieć taki same czasy wejścia/wyjścia."
 
-#: src/lib/text_content.cc:284
+#: src/lib/text_content.cc:280
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Łączone pliki muszą mieć takie odstępy między liniami napisów."
 
@@ -611,12 +611,12 @@ msgstr "Łączone pliki muszą mieć taką samą liczbę kl/s"
 msgid "Content to be joined must have the same video frame type."
 msgstr "Łączone pliki muszą mieć taki sam klatkaż."
 
-#: src/lib/text_content.cc:301
+#: src/lib/text_content.cc:297
 #, fuzzy
 msgid "Content to be joined must use the same DCP track."
 msgstr "Łączone pliki muszą mieć takie same czcionki."
 
-#: src/lib/text_content.cc:297 src/lib/text_content.cc:317
+#: src/lib/text_content.cc:293 src/lib/text_content.cc:313
 msgid "Content to be joined must use the same fonts."
 msgstr "Łączone pliki muszą mieć takie same czcionki."
 
@@ -624,7 +624,7 @@ msgstr "Łączone pliki muszą mieć takie same czcionki."
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Łączone pliki muszą używać tego samego strumienia napisów."
 
-#: src/lib/text_content.cc:305
+#: src/lib/text_content.cc:301
 #, fuzzy
 msgid "Content to be joined must use the same text language."
 msgstr "Łączone pliki muszą mieć takie same czcionki."
@@ -658,7 +658,7 @@ msgstr "Nie można utworzyć folderu zdalnego %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Nie można zdekodować pliku JPEG2000 %1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:166
+#: src/lib/ffmpeg_image_proxy.cc:163
 #, fuzzy
 msgid "Could not decode image (%1)"
 msgstr "Nie można zdekodować pliku obrazu (%1)"
@@ -710,19 +710,19 @@ msgstr "Nie udało się rozpocząć transferu"
 msgid "Could not write to remote file (%1)"
 msgstr "Nie udało się zapisać do pliku zdalnego (%1)"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "D-BOX primary"
 msgstr "D-BOX główny"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "D-BOX secondary"
 msgstr "D-BOX kolejny"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "DBS"
 msgstr "DBS"
 
@@ -785,8 +785,8 @@ msgstr ""
 msgid "Datasat AP20 or AP25"
 msgstr ""
 
-#: src/lib/filter.cc:77 src/lib/filter.cc:78 src/lib/filter.cc:79
-#: src/lib/filter.cc:80 src/lib/filter.cc:81
+#: src/lib/filter.cc:80 src/lib/filter.cc:81 src/lib/filter.cc:82
+#: src/lib/filter.cc:83 src/lib/filter.cc:84
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
@@ -925,7 +925,7 @@ msgstr "Nazwa pliku"
 msgid "Film"
 msgstr "Film"
 
-#: src/lib/ffmpeg_examiner.cc:113
+#: src/lib/ffmpeg_examiner.cc:111
 msgid "Finding length"
 msgstr "Obliczanie czasu trwania"
 
@@ -933,7 +933,7 @@ msgstr "Obliczanie czasu trwania"
 msgid "Frame rate"
 msgstr "Liczba kl/s"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Friday"
 msgstr "Piątek"
 
@@ -973,23 +973,23 @@ msgstr "Gamma 22 (BT470M)"
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gamma 28 (BT470BG)"
 
-#: src/lib/filter.cc:82
+#: src/lib/filter.cc:85
 msgid "Gradient debander"
 msgstr "Zachowaj przejścia tonalne"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Hearing impaired"
 msgstr "Dla niesłyszących"
 
-#: src/lib/filter.cc:85
+#: src/lib/filter.cc:88
 msgid "High quality 3D denoiser"
 msgstr "Odszumianie 3D wysokiej jakości"
 
-#: src/lib/filter.cc:74
+#: src/lib/filter.cc:77
 msgid "Horizontal flip"
 msgstr ""
 
@@ -1034,31 +1034,31 @@ msgstr ""
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
-#: src/lib/filter.cc:78
+#: src/lib/filter.cc:81
 msgid "Kernel deinterlacer"
 msgstr "Usuwanie przeplotu metodą Kernel"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:584
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:553
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
 msgid "Left"
 msgstr "Lewy"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Left centre"
 msgstr "Lewy centralny"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left rear surround"
 msgstr "Lewy tylny surround"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Left surround"
 msgstr "Lewy surround"
 
@@ -1066,11 +1066,11 @@ msgstr "Lewy surround"
 msgid "Length"
 msgstr "Długość"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:589
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:558
 msgid "Lfe (sub)"
 msgstr "Lfe (subwoofer)"
 
@@ -1098,7 +1098,7 @@ msgstr "Logarytmiczny (316:1 range)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "Ls"
 msgstr "Ls"
 
@@ -1106,7 +1106,7 @@ msgstr "Ls"
 msgid "Mid-side decoder"
 msgstr "Dekoder Mid-side"
 
-#: src/lib/filter.cc:82 src/lib/filter.cc:83 src/lib/filter.cc:86
+#: src/lib/filter.cc:85 src/lib/filter.cc:86 src/lib/filter.cc:89
 msgid "Misc"
 msgstr "Różne"
 
@@ -1131,7 +1131,7 @@ msgstr "Nieprawidłowe rozmiary plików obrazu w DCP"
 msgid "Missing required setting %1"
 msgstr "brakuje wymaganych ustawień %1"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Monday"
 msgstr "Poniedziałek"
 
@@ -1139,7 +1139,7 @@ msgstr "Poniedziałek"
 msgid "Mono"
 msgstr "Mono"
 
-#: src/lib/filter.cc:77
+#: src/lib/filter.cc:80
 msgid "Motion compensating deinterlacer"
 msgstr "Usuwanie przeplotu z kompensacją ruchu"
 
@@ -1155,7 +1155,7 @@ msgstr "Brak konfiguracji serwera email w preferencjach"
 msgid "No valid image files were found in the folder."
 msgstr "W folderze nie znaleziono obsługiwanych plików."
 
-#: src/lib/filter.cc:84 src/lib/filter.cc:85 src/lib/filter.cc:87
+#: src/lib/filter.cc:87 src/lib/filter.cc:88 src/lib/filter.cc:90
 msgid "Noise reduction"
 msgstr "Redukcja szumu"
 
@@ -1180,8 +1180,8 @@ msgstr "Tylko ostatni z łączonych plików może być przycięty na końcu."
 msgid "Open subtitles"
 msgstr "Napisy"
 
-#: src/lib/filter.cc:73 src/lib/filter.cc:74 src/lib/filter.cc:75
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
+#: src/lib/filter.cc:79
 msgid "Orientation"
 msgstr ""
 
@@ -1189,7 +1189,7 @@ msgstr ""
 msgid "Out of memory"
 msgstr "Zabrakło pamięci RAM"
 
-#: src/lib/filter.cc:87
+#: src/lib/filter.cc:90
 msgid "Overcomplete wavelet denoiser"
 msgstr "Odszumianie DWT"
 
@@ -1223,7 +1223,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Komunikat publiczny"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:585
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
 msgid "R"
 msgstr "R"
 
@@ -1235,7 +1235,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Klasyfikacja"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "Rc"
 msgstr "Rc"
 
@@ -1255,31 +1255,31 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:554
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
 msgid "Right"
 msgstr "Prawy"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Right centre"
 msgstr "Prawy centralny"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right rear surround"
 msgstr "Prawy tylny surround"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Right surround"
 msgstr "Prawy surround"
 
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:79
 msgid "Rotate 90 degrees anti-clockwise"
 msgstr ""
 
-#: src/lib/filter.cc:75
+#: src/lib/filter.cc:78
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Rs"
 msgstr "Rs"
 
@@ -1342,7 +1342,7 @@ msgstr "Błąd SSH (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "Błąd SSH (%1)"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Saturday"
 msgstr "Sobota"
 
@@ -1408,7 +1408,7 @@ msgstr "Miksuj 2.0 do 5.1 wersja A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Miksuj 2.0 do 5.1 wersja B"
 
-#: src/lib/util.cc:929
+#: src/lib/util.cc:931
 msgid "Sunday"
 msgstr "Niedziela"
 
@@ -1416,7 +1416,7 @@ msgstr "Niedziela"
 msgid "Teaser"
 msgstr "Zapowiedź"
 
-#: src/lib/filter.cc:86
+#: src/lib/filter.cc:89
 msgid "Telecine filter"
 msgstr "Filtr Telecine"
 
@@ -1493,11 +1493,11 @@ msgstr ""
 "Brakuje pamięci, aby wykonać tą operację. Jeśli twój system jest 32 bitowy "
 "spróbuj zmniejszyć liczbę wątków kodujących w Prefeerencjach."
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:1140
+#: src/lib/util.cc:1142
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
 
@@ -1542,7 +1542,7 @@ msgstr ""
 "być otwarty w tej wersji. Musisz stworzyć nowy Projekt i ponownie dodać "
 "materiały i ustawienia. Przepraszamy!"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Thursday"
 msgstr "Czwartek"
 
@@ -1563,7 +1563,7 @@ msgstr "Transkodowanie %1"
 msgid "Transitional"
 msgstr "Tymczasowy"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Tuesday"
 msgstr "Wtorek"
 
@@ -1575,7 +1575,7 @@ msgstr ""
 msgid "Unexpected ZIP file contents"
 msgstr "Archiwum ZIP zawiera nieobsługiwane pliki"
 
-#: src/lib/image_proxy.cc:49
+#: src/lib/image_proxy.cc:53
 msgid "Unexpected image type received by server"
 msgstr "Serwer otrzymał nieobsługiwany typ obrazu"
 
@@ -1592,7 +1592,7 @@ msgstr "Nieznany błąd"
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Nieznany rodzaj pliku dźwiękowego (%1)"
 
-#: src/lib/filter.cc:83
+#: src/lib/filter.cc:86
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Wyostrzanie i filtr Gausowski"
 
@@ -1608,7 +1608,7 @@ msgstr "Nieokreślony"
 msgid "Untitled"
 msgstr "Nowy"
 
-#: src/lib/util.cc:567 src/lib/util.cc:568
+#: src/lib/util.cc:569 src/lib/util.cc:570
 msgid "Unused"
 msgstr "Nieużywany"
 
@@ -1620,7 +1620,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "VI"
 msgstr "VI"
 
@@ -1628,11 +1628,11 @@ msgstr "VI"
 msgid "Verify DCP"
 msgstr ""
 
-#: src/lib/filter.cc:73
+#: src/lib/filter.cc:76
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Visually impaired"
 msgstr "Dla niedowidzących"
 
@@ -1640,12 +1640,12 @@ msgstr "Dla niedowidzących"
 msgid "Waiting"
 msgstr "Czekam"
 
-#: src/lib/filter.cc:81
+#: src/lib/filter.cc:84
 #, fuzzy
 msgid "Weave filter"
 msgstr "Filtr Telecine"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Wednesday"
 msgstr "Środa"
 
@@ -1653,7 +1653,7 @@ msgstr "Środa"
 msgid "YCOCG"
 msgstr "YCOCG"
 
-#: src/lib/filter.cc:79
+#: src/lib/filter.cc:82
 msgid "Yet Another Deinterlacing Filter"
 msgstr "I jeszcze jeden filtr usuwania przeplotu"
 
@@ -1870,7 +1870,7 @@ msgid "frames per second"
 msgstr "klatek na sekundę"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:198
+#: src/lib/util.cc:200
 msgid "h"
 msgstr "g"
 
@@ -1963,7 +1963,7 @@ msgid "its video frame size differs from the film's."
 msgstr "Rozdzielczość obrazu w Projekcie rożni się od tej w DCP."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:207
+#: src/lib/util.cc:209
 msgid "m"
 msgstr "m"
 
@@ -1990,7 +1990,7 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:217
+#: src/lib/util.cc:219
 msgid "s"
 msgstr "s"
 
@@ -2006,7 +2006,7 @@ msgstr "brakuje części materiałów"
 msgid "still"
 msgstr "stopklatka"
 
-#: src/lib/ffmpeg_examiner.cc:339
+#: src/lib/ffmpeg_examiner.cc:337
 msgid "unknown"
 msgstr "nieznany"
 

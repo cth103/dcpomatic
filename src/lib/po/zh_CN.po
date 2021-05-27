@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:32+0200\n"
+"POT-Creation-Date: 2021-05-27 14:46+0200\n"
 "PO-Revision-Date: 2019-04-21 22:30+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -167,7 +167,7 @@ msgstr "2.35 (35mm Scope)"
 msgid "2.39 (Scope)"
 msgstr "2.39 (Scope)"
 
-#: src/lib/filter.cc:84
+#: src/lib/filter.cc:87
 msgid "3D denoiser"
 msgstr "3D 降噪"
 
@@ -369,20 +369,20 @@ msgstr "BT709"
 msgid "Bits per pixel"
 msgstr "像素位"
 
-#: src/lib/filter.cc:80
+#: src/lib/filter.cc:83
 #, fuzzy
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:586
+#: src/lib/util.cc:588
 msgid "C"
 msgstr "中置"
 
@@ -402,7 +402,7 @@ msgstr "在 %2 不能处理图片格式 %1"
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
-#: src/lib/util.cc:555
+#: src/lib/util.cc:557
 msgid "Centre"
 msgstr "居中对齐"
 
@@ -500,7 +500,7 @@ msgstr "要加入的内容必须都有或都没有隐藏式字幕"
 msgid "Content to be joined must all have or not have video"
 msgstr "要加入的内容必须都有或都没有视频"
 
-#: src/lib/text_content.cc:309
+#: src/lib/text_content.cc:305
 #, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
@@ -511,11 +511,11 @@ msgstr "字幕行距必须相同."
 msgid "Content to be joined must have all its video used or not used."
 msgstr "内容帧率必须相同"
 
-#: src/lib/text_content.cc:264
+#: src/lib/text_content.cc:260
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "所有要添加“刻录字幕”设置必须具有相同。"
 
-#: src/lib/text_content.cc:260
+#: src/lib/text_content.cc:256
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "所有要添加“use 字幕”设置必须具有相同。"
 
@@ -559,7 +559,7 @@ msgstr "视频比例设置必须相同。"
 msgid "Content to be joined must have the same fades."
 msgstr "视频淡入淡出效果必须相同。"
 
-#: src/lib/text_content.cc:292
+#: src/lib/text_content.cc:288
 msgid "Content to be joined must have the same outline width."
 msgstr "字幕宽度尺寸必须相同。"
 
@@ -567,27 +567,27 @@ msgstr "字幕宽度尺寸必须相同。"
 msgid "Content to be joined must have the same picture size."
 msgstr "视频图像尺寸必须相同。"
 
-#: src/lib/text_content.cc:268
+#: src/lib/text_content.cc:264
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "字幕X轴偏移必须相同。"
 
-#: src/lib/text_content.cc:276
+#: src/lib/text_content.cc:272
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "字幕X轴缩放大小必须相同。"
 
-#: src/lib/text_content.cc:272
+#: src/lib/text_content.cc:268
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "字幕Y轴偏移必须相同。"
 
-#: src/lib/text_content.cc:280
+#: src/lib/text_content.cc:276
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "字幕Y轴缩放大小必须相同。"
 
-#: src/lib/text_content.cc:288
+#: src/lib/text_content.cc:284
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "字幕淡入淡出效果必须相同。"
 
-#: src/lib/text_content.cc:284
+#: src/lib/text_content.cc:280
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "字幕行距必须相同."
 
@@ -599,11 +599,11 @@ msgstr "内容帧率必须相同"
 msgid "Content to be joined must have the same video frame type."
 msgstr "视频帧率必须相同。"
 
-#: src/lib/text_content.cc:301
+#: src/lib/text_content.cc:297
 msgid "Content to be joined must use the same DCP track."
 msgstr "DCP轨道必须相同。"
 
-#: src/lib/text_content.cc:297 src/lib/text_content.cc:317
+#: src/lib/text_content.cc:293 src/lib/text_content.cc:313
 msgid "Content to be joined must use the same fonts."
 msgstr "字幕字体必须相同。"
 
@@ -611,7 +611,7 @@ msgstr "字幕字体必须相同。"
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "字幕流必须相同。"
 
-#: src/lib/text_content.cc:305
+#: src/lib/text_content.cc:301
 #, fuzzy
 msgid "Content to be joined must use the same text language."
 msgstr "字幕字体必须相同。"
@@ -645,7 +645,7 @@ msgstr "无法创建远程目录 %1 (%2)"
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "无法解码JPEG2000文件%1 (%2)"
 
-#: src/lib/ffmpeg_image_proxy.cc:166
+#: src/lib/ffmpeg_image_proxy.cc:163
 msgid "Could not decode image (%1)"
 msgstr "无法解码图像媒体(%1)"
 
@@ -692,19 +692,19 @@ msgstr "无法开始传输"
 msgid "Could not write to remote file (%1)"
 msgstr "写入远程文件 (%1)失败！"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "DBS"
 msgstr "DBS"
 
@@ -769,8 +769,8 @@ msgstr "DCP-o-matic提醒"
 msgid "Datasat AP20 or AP25"
 msgstr ""
 
-#: src/lib/filter.cc:77 src/lib/filter.cc:78 src/lib/filter.cc:79
-#: src/lib/filter.cc:80 src/lib/filter.cc:81
+#: src/lib/filter.cc:80 src/lib/filter.cc:81 src/lib/filter.cc:82
+#: src/lib/filter.cc:83 src/lib/filter.cc:84
 msgid "De-interlacing"
 msgstr "去除隔行"
 
@@ -905,7 +905,7 @@ msgstr "文件名"
 msgid "Film"
 msgstr "电影"
 
-#: src/lib/ffmpeg_examiner.cc:113
+#: src/lib/ffmpeg_examiner.cc:111
 msgid "Finding length"
 msgstr "定位长度"
 
@@ -913,7 +913,7 @@ msgstr "定位长度"
 msgid "Frame rate"
 msgstr "帧率"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Friday"
 msgstr "星期五"
 
@@ -953,23 +953,23 @@ msgstr "伽玛 2.2 (BT470M)"
 msgid "Gamma 28 (BT470BG)"
 msgstr "伽玛 2.8 (BT470BG)"
 
-#: src/lib/filter.cc:82
+#: src/lib/filter.cc:85
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
-#: src/lib/filter.cc:85
+#: src/lib/filter.cc:88
 msgid "High quality 3D denoiser"
 msgstr "高品质的3D降噪"
 
-#: src/lib/filter.cc:74
+#: src/lib/filter.cc:77
 msgid "Horizontal flip"
 msgstr "水平翻转"
 
@@ -1014,31 +1014,31 @@ msgstr "JEDEC P22"
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
-#: src/lib/filter.cc:78
+#: src/lib/filter.cc:81
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:584
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:553
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Left surround"
 msgstr "左环绕"
 
@@ -1046,11 +1046,11 @@ msgstr "左环绕"
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:587
+#: src/lib/util.cc:589
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:556
+#: src/lib/util.cc:558
 msgid "Lfe (sub)"
 msgstr "次低（重低音）"
 
@@ -1078,7 +1078,7 @@ msgstr "对数 (范围 316:1)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "Ls"
 msgstr "左环绕"
 
@@ -1086,7 +1086,7 @@ msgstr "左环绕"
 msgid "Mid-side decoder"
 msgstr "中置解码"
 
-#: src/lib/filter.cc:82 src/lib/filter.cc:83 src/lib/filter.cc:86
+#: src/lib/filter.cc:85 src/lib/filter.cc:86 src/lib/filter.cc:89
 msgid "Misc"
 msgstr "其他"
 
@@ -1110,7 +1110,7 @@ msgstr "DCP中的视频分辨率不匹配"
 msgid "Missing required setting %1"
 msgstr "缺少必需的设置 %1"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Monday"
 msgstr "星期一"
 
@@ -1118,7 +1118,7 @@ msgstr "星期一"
 msgid "Mono"
 msgstr "单声道"
 
-#: src/lib/filter.cc:77
+#: src/lib/filter.cc:80
 msgid "Motion compensating deinterlacer"
 msgstr "动态隔行补偿"
 
@@ -1134,7 +1134,7 @@ msgstr "没有配置偏好的邮件服务"
 msgid "No valid image files were found in the folder."
 msgstr "未发现有效的图片序列文件。"
 
-#: src/lib/filter.cc:84 src/lib/filter.cc:85 src/lib/filter.cc:87
+#: src/lib/filter.cc:87 src/lib/filter.cc:88 src/lib/filter.cc:90
 msgid "Noise reduction"
 msgstr "降噪"
 
@@ -1158,8 +1158,8 @@ msgstr "只有最后一段才可以进行结束裁剪。"
 msgid "Open subtitles"
 msgstr "开放式字幕"
 
-#: src/lib/filter.cc:73 src/lib/filter.cc:74 src/lib/filter.cc:75
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
+#: src/lib/filter.cc:79
 msgid "Orientation"
 msgstr "方向"
 
@@ -1167,7 +1167,7 @@ msgstr "方向"
 msgid "Out of memory"
 msgstr "内存不足"
 
-#: src/lib/filter.cc:87
+#: src/lib/filter.cc:90
 msgid "Overcomplete wavelet denoiser"
 msgstr "小波降噪"
 
@@ -1202,7 +1202,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:585
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
 msgid "R"
 msgstr "右声道"
 
@@ -1214,7 +1214,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "Rc"
 msgstr "右中"
 
@@ -1234,31 +1234,31 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:554
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Right surround"
 msgstr "右环绕"
 
-#: src/lib/filter.cc:76
+#: src/lib/filter.cc:79
 msgid "Rotate 90 degrees anti-clockwise"
 msgstr "逆时针旋转90°"
 
-#: src/lib/filter.cc:75
+#: src/lib/filter.cc:78
 msgid "Rotate 90 degrees clockwise"
 msgstr "顺时针旋转90°"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Rs"
 msgstr "右环绕"
 
@@ -1321,7 +1321,7 @@ msgstr "SSH错误 (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "SSH错误 (%1)"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Saturday"
 msgstr "星期六"
 
@@ -1384,7 +1384,7 @@ msgstr "立体声到5.1，混音器A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "立体声到5.1，混音器B"
 
-#: src/lib/util.cc:929
+#: src/lib/util.cc:931
 msgid "Sunday"
 msgstr "星期日/天"
 
@@ -1392,7 +1392,7 @@ msgstr "星期日/天"
 msgid "Teaser"
 msgstr "传情片"
 
-#: src/lib/filter.cc:86
+#: src/lib/filter.cc:89
 msgid "Telecine filter"
 msgstr "胶转磁滤镜"
 
@@ -1465,12 +1465,12 @@ msgid ""
 "tab of Preferences."
 msgstr "内存不足，如您是32位系统，请重新设置运行线程数量来达到稳定运行。"
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 #, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr "KDM是为DCP-o-matic生成，但是与上级证书不匹配。"
 
-#: src/lib/util.cc:1140
+#: src/lib/util.cc:1142
 #, fuzzy
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "KDM不是为DCP-o-matic解密证书而生成"
@@ -1511,7 +1511,7 @@ msgid ""
 "create a new Film, re-add your content and set it up again.  Sorry!"
 msgstr "不支持老版本创建的工程文件!"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Thursday"
 msgstr "星期四"
 
@@ -1531,7 +1531,7 @@ msgstr "转码中 %1"
 msgid "Transitional"
 msgstr "过渡片"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Tuesday"
 msgstr "星期二"
 
@@ -1543,7 +1543,7 @@ msgstr ""
 msgid "Unexpected ZIP file contents"
 msgstr "意外的ZIP文件的内容"
 
-#: src/lib/image_proxy.cc:49
+#: src/lib/image_proxy.cc:53
 msgid "Unexpected image type received by server"
 msgstr "服务器接收到意外的图像类型"
 
@@ -1560,7 +1560,7 @@ msgstr "未知错误"
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
-#: src/lib/filter.cc:83
+#: src/lib/filter.cc:86
 msgid "Unsharp mask and Gaussian blur"
 msgstr "USM锐化和高斯模糊"
 
@@ -1576,7 +1576,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:567 src/lib/util.cc:568
+#: src/lib/util.cc:569 src/lib/util.cc:570
 msgid "Unused"
 msgstr "未使用"
 
@@ -1588,7 +1588,7 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "VI"
 msgstr "视力障碍"
 
@@ -1596,11 +1596,11 @@ msgstr "视力障碍"
 msgid "Verify DCP"
 msgstr "验证DCP中"
 
-#: src/lib/filter.cc:73
+#: src/lib/filter.cc:76
 msgid "Vertical flip"
 msgstr "垂直翻转"
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1608,12 +1608,12 @@ msgstr "视力障碍"
 msgid "Waiting"
 msgstr "请稍候"
 
-#: src/lib/filter.cc:81
+#: src/lib/filter.cc:84
 #, fuzzy
 msgid "Weave filter"
 msgstr "胶转磁滤镜"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Wednesday"
 msgstr "星期三"
 
@@ -1621,7 +1621,7 @@ msgstr "星期三"
 msgid "YCOCG"
 msgstr "YCOCG"
 
-#: src/lib/filter.cc:79
+#: src/lib/filter.cc:82
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
@@ -1829,7 +1829,7 @@ msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:198
+#: src/lib/util.cc:200
 msgid "h"
 msgstr "小时"
 
@@ -1920,7 +1920,7 @@ msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与DCP不一致。"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:207
+#: src/lib/util.cc:209
 msgid "m"
 msgstr "分"
 
@@ -1947,7 +1947,7 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:217
+#: src/lib/util.cc:219
 msgid "s"
 msgstr "秒"
 
@@ -1963,7 +1963,7 @@ msgstr "内容不完整"
 msgid "still"
 msgstr "静止图像"
 
-#: src/lib/ffmpeg_examiner.cc:339
+#: src/lib/ffmpeg_examiner.cc:337
 msgid "unknown"
 msgstr "未知"
 

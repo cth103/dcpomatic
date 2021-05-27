@@ -359,6 +359,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			add(i, wxString::Format(_("The reel duration (%s) of some timed text is not the same as the ContainerDuration (%s) of its MXF."), std_to_wx(parts[0]), std_to_wx(parts[1])));
 			break;
 		}
+		case dcp::VerificationNote::Code::MISSED_CHECK_OF_ENCRYPTED:
+			add(i, _("Part of the DCP could not be checked because no KDM was available"));
+			break;
 		}
 	}
 

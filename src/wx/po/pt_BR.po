@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:32+0200\n"
+"POT-Creation-Date: 2021-05-27 14:46+0200\n"
 "PO-Revision-Date: 2018-01-15 18:18-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -38,8 +38,8 @@ msgstr ""
 msgid " delayed by %dms"
 msgstr ""
 
-#: src/wx/text_panel.cc:94 src/wx/text_panel.cc:97 src/wx/text_panel.cc:102
-#: src/wx/text_panel.cc:105 src/wx/text_panel.cc:109
+#: src/wx/text_panel.cc:88 src/wx/text_panel.cc:91 src/wx/text_panel.cc:96
+#: src/wx/text_panel.cc:99 src/wx/text_panel.cc:103
 msgid "%"
 msgstr "%"
 
@@ -117,12 +117,12 @@ msgid "0dB (unchanged)"
 msgstr ""
 
 #. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:377
+#: src/wx/verify_dcp_dialog.cc:380
 msgid "1 Bv2.1 error, "
 msgstr ""
 
 #. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:369
+#: src/wx/verify_dcp_dialog.cc:372
 msgid "1 error, "
 msgstr ""
 
@@ -138,7 +138,7 @@ msgstr "2 - stereo"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:198
 msgid "2D"
 msgstr "2D"
 
@@ -146,31 +146,31 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:791
+#: src/wx/dcp_panel.cc:785
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:761 src/wx/video_panel.cc:195
+#: src/wx/dcp_panel.cc:755 src/wx/video_panel.cc:199
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:202
 msgid "3D alternate"
 msgstr "3D alternando quadros"
 
-#: src/wx/video_panel.cc:199
+#: src/wx/video_panel.cc:203
 msgid "3D left only"
 msgstr "3D (olho esquerdo)"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:200
 msgid "3D left/right"
 msgstr "3D (olho esquerdo/direito)"
 
-#: src/wx/video_panel.cc:200
+#: src/wx/video_panel.cc:204
 msgid "3D right only"
 msgstr "3D (olho direito)"
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:201
 msgid "3D top/bottom"
 msgstr "3D (metade superior/inferior)"
 
@@ -178,7 +178,7 @@ msgstr "3D (metade superior/inferior)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:792
+#: src/wx/dcp_panel.cc:786
 msgid "4K"
 msgstr "4K"
 
@@ -365,7 +365,7 @@ msgstr "Adicionar sequência de imagens"
 msgid "Add language..."
 msgstr "Definir idioma"
 
-#: src/wx/text_panel.cc:352
+#: src/wx/text_panel.cc:346
 #, fuzzy
 msgid "Add new..."
 msgstr "Adicionar cinema..."
@@ -393,7 +393,7 @@ msgstr ""
 "será adicionado. Adicione certificados em ordem: raiz - intermediário - "
 "folha."
 
-#: src/wx/text_panel.cc:172
+#: src/wx/text_panel.cc:166
 msgid "Additional"
 msgstr ""
 
@@ -459,7 +459,7 @@ msgstr ""
 msgid "An unknown exception occurred."
 msgstr "Um erro desconhecido ocorreu."
 
-#: src/wx/text_panel.cc:116
+#: src/wx/text_panel.cc:110
 msgid "Appearance..."
 msgstr "Aparência..."
 
@@ -573,7 +573,7 @@ msgstr ""
 msgid "Blue chromaticity"
 msgstr "Cromaticidade azul"
 
-#: src/wx/video_panel.cc:141
+#: src/wx/video_panel.cc:145
 #, fuzzy
 msgid "Bottom"
 msgstr "Inferior"
@@ -594,7 +594,7 @@ msgstr "Mas eu tenho de usar o volume"
 msgid "CC addresses"
 msgstr "Endereços CC"
 
-#: src/wx/text_panel.cc:193
+#: src/wx/text_panel.cc:187
 msgid "CCAP track"
 msgstr ""
 
@@ -633,22 +633,22 @@ msgstr "Impossível referenciar este DCP. "
 msgid "Cannot reference this DCP's audio: "
 msgstr "Impossível referenciar este DCP. "
 
-#: src/wx/text_panel.cc:588
+#: src/wx/text_panel.cc:582
 #, fuzzy
 msgid "Cannot reference this DCP's subtitles or captions."
 msgstr "Impossível referenciar este DCP. "
 
-#: src/wx/text_panel.cc:590
+#: src/wx/text_panel.cc:584
 #, fuzzy
 msgid "Cannot reference this DCP's subtitles or captions: "
 msgstr "Impossível referenciar este DCP. "
 
-#: src/wx/video_panel.cc:573
+#: src/wx/video_panel.cc:577
 #, fuzzy
 msgid "Cannot reference this DCP's video."
 msgstr "Impossível referenciar este DCP. "
 
-#: src/wx/video_panel.cc:575
+#: src/wx/video_panel.cc:579
 #, fuzzy
 msgid "Cannot reference this DCP's video: "
 msgstr "Impossível referenciar este DCP. "
@@ -681,7 +681,7 @@ msgstr "Cadeia"
 msgid "Channel gain"
 msgstr "Ganho do canal"
 
-#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:866
+#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:860
 msgid "Channels"
 msgstr "Canais"
 
@@ -747,12 +747,12 @@ msgstr ""
 msgid "Colour"
 msgstr "Cor"
 
-#: src/wx/content_colour_conversion_dialog.cc:37 src/wx/video_panel.cc:170
+#: src/wx/content_colour_conversion_dialog.cc:37 src/wx/video_panel.cc:174
 msgid "Colour conversion"
 msgstr "Conversão de cor"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:178
+#: src/wx/video_panel.cc:182
 msgid "Colour|Custom"
 msgstr "Cor|Customizar"
 
@@ -813,7 +813,7 @@ msgstr "Versão do conteúdo"
 msgid "Contrast"
 msgstr "Contraste"
 
-#: src/wx/text_panel.cc:103
+#: src/wx/text_panel.cc:97
 msgid "Coord|Y"
 msgstr ""
 
@@ -830,7 +830,7 @@ msgstr "Áudio"
 msgid "Could not analyse audio."
 msgstr "Não foi possível analisar o áudio."
 
-#: src/wx/text_panel.cc:905
+#: src/wx/text_panel.cc:899
 #, fuzzy
 msgid "Could not analyse subtitles."
 msgstr "Não foi possível analisar o áudio."
@@ -952,7 +952,7 @@ msgstr ""
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/try_unmount_dialog.cc:29
+#: src/wx/try_unmount_dialog.cc:32
 #, fuzzy
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic"
@@ -1149,7 +1149,7 @@ msgstr "Editar tela"
 #: src/wx/audio_mapping_view.cc:92 src/wx/content_advanced_dialog.cc:73
 #: src/wx/fonts_dialog.cc:66 src/wx/language_tag_widget.cc:48
 #: src/wx/metadata_dialog.cc:172 src/wx/recipients_panel.cc:71
-#: src/wx/video_panel.cc:168 src/wx/video_panel.cc:179
+#: src/wx/video_panel.cc:172 src/wx/video_panel.cc:183
 #: src/wx/editable_list.h:122
 msgid "Edit..."
 msgstr "Editar..."
@@ -1238,7 +1238,7 @@ msgstr "FTP (para Dolby)"
 msgid "Facility"
 msgstr ""
 
-#: src/wx/video_panel.cc:152
+#: src/wx/video_panel.cc:156
 msgid "Fade in"
 msgstr "Fade in"
 
@@ -1246,7 +1246,7 @@ msgstr "Fade in"
 msgid "Fade in time"
 msgstr "Duração de fade in"
 
-#: src/wx/video_panel.cc:155
+#: src/wx/video_panel.cc:159
 msgid "Fade out"
 msgstr "Fade out"
 
@@ -1326,7 +1326,7 @@ msgstr "Nome da pasta"
 msgid "Fonts"
 msgstr "Fontes"
 
-#: src/wx/text_panel.cc:115
+#: src/wx/text_panel.cc:109
 msgid "Fonts..."
 msgstr "Fontes..."
 
@@ -1342,7 +1342,7 @@ msgstr ""
 msgid "Format"
 msgstr "Formato"
 
-#: src/wx/dcp_panel.cc:755
+#: src/wx/dcp_panel.cc:749
 msgid "Frame Rate"
 msgstr "Taxa de quadros"
 
@@ -1372,7 +1372,7 @@ msgstr "Do endereço"
 msgid "From template"
 msgstr "Do modelo"
 
-#: src/wx/video_panel.cc:183
+#: src/wx/video_panel.cc:187
 msgid "Full (JPEG, 0-255)"
 msgstr ""
 
@@ -1603,7 +1603,7 @@ msgstr ""
 msgid "JACK"
 msgstr ""
 
-#: src/wx/dcp_panel.cc:763
+#: src/wx/dcp_panel.cc:757
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1657,7 +1657,7 @@ msgid "Label"
 msgstr ""
 
 #: src/wx/audio_panel.cc:98 src/wx/dcp_text_track_dialog.cc:35
-#: src/wx/send_i18n_dialog.cc:45 src/wx/text_panel.cc:162
+#: src/wx/send_i18n_dialog.cc:45 src/wx/text_panel.cc:156
 msgid "Language"
 msgstr "Idioma"
 
@@ -1670,7 +1670,7 @@ msgstr "Idioma"
 msgid "Language of burnt-in subtitles in this content"
 msgstr ""
 
-#: src/wx/text_panel.cc:165
+#: src/wx/text_panel.cc:159
 msgid "Language of these subtitles"
 msgstr ""
 
@@ -1718,7 +1718,7 @@ msgstr "Chave privada de folha"
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "A chave privada de folha não bate com o certificado de folha!"
 
-#: src/wx/controls.cc:86 src/wx/video_panel.cc:102
+#: src/wx/controls.cc:86 src/wx/video_panel.cc:106
 msgid "Left"
 msgstr "Esquerdo"
 
@@ -1730,7 +1730,7 @@ msgstr "Duração"
 msgid "Length: %1 (%2 frames)"
 msgstr "Duração: %1 (%2 quadros)"
 
-#: src/wx/text_panel.cc:107
+#: src/wx/text_panel.cc:101
 msgid "Line spacing"
 msgstr "Espaçamento de linha"
 
@@ -1780,7 +1780,7 @@ msgstr "Arquivos MP4 (*.mp4)|*.mp4"
 
 #. / TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. / film or an "additional" language.
-#: src/wx/text_panel.cc:171
+#: src/wx/text_panel.cc:165
 msgid "Main"
 msgstr ""
 
@@ -1806,7 +1806,7 @@ msgstr "Fazer KDMs"
 msgid "Make certificate chain"
 msgstr "Fazer cadeia de certificado"
 
-#: src/wx/video_panel.cc:400
+#: src/wx/video_panel.cc:404
 msgid "Many"
 msgstr ""
 
@@ -1844,7 +1844,7 @@ msgstr "Taxa de dados JPEG2000 máxima"
 msgid "Maximum number of frames to store per thread"
 msgstr "Número máximo de quadros para guardar por thread"
 
-#: src/wx/dcp_panel.cc:765 src/wx/full_config_dialog.cc:299
+#: src/wx/dcp_panel.cc:759 src/wx/full_config_dialog.cc:299
 #: src/wx/full_config_dialog.cc:1277
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1885,7 +1885,7 @@ msgstr "Mover o conteúdo selecionado para depois no filme."
 msgid "Move to start of reel"
 msgstr "Mover para o início do rolo"
 
-#: src/wx/video_panel.cc:479
+#: src/wx/video_panel.cc:483
 msgid "Multiple content selected"
 msgstr "Múltiplos conteúdos selecionados"
 
@@ -1939,7 +1939,7 @@ msgstr ""
 msgid "No DCP loaded."
 msgstr "Nenhum DCP carregado."
 
-#: src/wx/verify_dcp_dialog.cc:398
+#: src/wx/verify_dcp_dialog.cc:401
 msgid "No SMPTE Bv2.1 errors found."
 msgstr ""
 
@@ -1952,18 +1952,18 @@ msgstr "Nenhum áudio será passado do canal %d do vídeo para o canal %d do DCP
 msgid "No content found in this folder."
 msgstr "Nenhum conteúdo encontrado nesta pasta."
 
-#: src/wx/verify_dcp_dialog.cc:394
+#: src/wx/verify_dcp_dialog.cc:397
 msgid "No errors found."
 msgstr ""
 
-#: src/wx/verify_dcp_dialog.cc:402
+#: src/wx/verify_dcp_dialog.cc:405
 msgid "No warnings found."
 msgstr ""
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:72 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:966
-#: src/wx/subtitle_appearance_dialog.cc:150 src/wx/video_panel.cc:172
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:960
+#: src/wx/subtitle_appearance_dialog.cc:150 src/wx/video_panel.cc:176
 msgid "None"
 msgstr "Nenhum"
 
@@ -2001,7 +2001,7 @@ msgstr ""
 msgid "Off"
 msgstr "Desativado"
 
-#: src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:85
 #, fuzzy
 msgid "Offset"
 msgstr "Deslocamento X"
@@ -2089,6 +2089,10 @@ msgstr "Taxa de quadros do vídeo"
 #: src/wx/config_move_dialog.cc:31
 msgid "Overwrite this file with current configuration"
 msgstr "Sobrescrever este arquivo com a configuração atual"
+
+#: src/wx/verify_dcp_dialog.cc:363
+msgid "Part of the DCP could not be checked because no KDM was available"
+msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""
@@ -2189,7 +2193,7 @@ msgstr "Pre-lançamento"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:870
+#: src/wx/dcp_panel.cc:864
 msgid "Processor"
 msgstr "Processador"
 
@@ -2231,7 +2235,7 @@ msgstr "Conversão RGB para XYZ"
 msgid "RMS"
 msgstr "RMS"
 
-#: src/wx/video_panel.cc:181
+#: src/wx/video_panel.cc:185
 msgid "Range"
 msgstr ""
 
@@ -2241,7 +2245,7 @@ msgstr ""
 msgid "Ratings"
 msgstr "Alertas"
 
-#: src/wx/dcp_panel.cc:767
+#: src/wx/dcp_panel.cc:761
 msgid "Re-encode JPEG2000 data from input"
 msgstr ""
 
@@ -2379,7 +2383,7 @@ msgstr "Restaurar cores originais"
 msgid "Resume"
 msgstr "Continuar"
 
-#: src/wx/controls.cc:87 src/wx/video_panel.cc:116
+#: src/wx/controls.cc:87 src/wx/video_panel.cc:120
 msgid "Right"
 msgstr "Direito"
 
@@ -2432,7 +2436,7 @@ msgstr "Salvar modelo"
 msgid "Save to KDM Creator tool's list"
 msgstr "Salvar para a lista do KDM Creator"
 
-#: src/wx/text_panel.cc:99 src/wx/video_panel.cc:165
+#: src/wx/text_panel.cc:93 src/wx/video_panel.cc:169
 #, fuzzy
 msgid "Scale"
 msgstr "Redimensionamento X"
@@ -2570,7 +2574,7 @@ msgstr ""
 msgid "Set ratio and fit to DCP container"
 msgstr ""
 
-#: src/wx/custom_scale_dialog.cc:58
+#: src/wx/custom_scale_dialog.cc:52
 msgid "Set size"
 msgstr ""
 
@@ -2590,11 +2594,11 @@ msgstr ""
 msgid "Show experimental audio processors"
 msgstr ""
 
-#: src/wx/audio_panel.cc:69 src/wx/dcp_panel.cc:874
+#: src/wx/audio_panel.cc:69 src/wx/dcp_panel.cc:868
 msgid "Show graph of audio levels..."
 msgstr "Mostrar gráfico de níveis de áudio..."
 
-#: src/wx/text_panel.cc:157
+#: src/wx/text_panel.cc:151
 #, fuzzy
 msgid "Show subtitle area"
 msgstr "Usar legendas"
@@ -2674,7 +2678,7 @@ msgstr ""
 msgid "Stop"
 msgstr ""
 
-#: src/wx/text_panel.cc:111
+#: src/wx/text_panel.cc:105
 msgid "Stream"
 msgstr "Stream"
 
@@ -2985,7 +2989,7 @@ msgid ""
 msgstr ""
 "O diretório %1 já existe e não está vazio.  Tem certeza que deseja usá-lo?"
 
-#: src/wx/try_unmount_dialog.cc:36
+#: src/wx/try_unmount_dialog.cc:39
 #, c-format
 msgid ""
 "The drive <b>%s</b> is mounted.\n"
@@ -3292,7 +3296,7 @@ msgstr "Definir idioma"
 msgid "To address"
 msgstr "Do endereço"
 
-#: src/wx/video_panel.cc:127
+#: src/wx/video_panel.cc:131
 msgid "Top"
 msgstr "Topo"
 
@@ -3485,7 +3489,7 @@ msgstr "Usar nome ISDCF"
 msgid "Use as"
 msgstr "Usar o melhor"
 
-#: src/wx/dcp_panel.cc:759
+#: src/wx/dcp_panel.cc:753
 msgid "Use best"
 msgstr "Usar o melhor"
 
@@ -3529,7 +3533,7 @@ msgstr "Número de série"
 msgid "Video"
 msgstr "Vídeo"
 
-#: src/wx/video_panel.cc:184
+#: src/wx/video_panel.cc:188
 msgid "Video (MPEG, 16-235)"
 msgstr ""
 
@@ -3557,7 +3561,7 @@ msgstr ""
 msgid "Video has burnt-in subtitles in the language"
 msgstr "Idioma de legenda (ex. ES)"
 
-#: src/wx/text_panel.cc:114
+#: src/wx/text_panel.cc:108
 msgid "View..."
 msgstr "Exibir..."
 
@@ -3611,11 +3615,11 @@ msgstr "Gravar em"
 msgid "Written by"
 msgstr "Escrito por"
 
-#: src/wx/text_panel.cc:92 src/wx/text_panel.cc:100
+#: src/wx/text_panel.cc:86 src/wx/text_panel.cc:94
 msgid "X"
 msgstr ""
 
-#: src/wx/text_panel.cc:95
+#: src/wx/text_panel.cc:89
 msgid "Y"
 msgstr ""
 
@@ -3696,7 +3700,7 @@ msgid "_kdm_decryption_cert.pem"
 msgstr ""
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:385
+#: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
 msgstr ""
 
@@ -3714,7 +3718,7 @@ msgstr "Fazer cadeia de certificado"
 msgid "cinema"
 msgstr "Editar cinema"
 
-#: src/wx/text_panel.cc:81 src/wx/text_panel.cc:602
+#: src/wx/text_panel.cc:81 src/wx/text_panel.cc:596
 msgid "closed captions"
 msgstr ""
 
@@ -3731,7 +3735,7 @@ msgstr "Conteúdo"
 msgid "content filename"
 msgstr ""
 
-#: src/wx/video_panel.cc:167
+#: src/wx/video_panel.cc:171
 msgid "custom"
 msgstr ""
 
@@ -3799,7 +3803,7 @@ msgstr ""
 msgid "number of reels"
 msgstr "Início do rolo"
 
-#: src/wx/text_panel.cc:80 src/wx/text_panel.cc:600
+#: src/wx/text_panel.cc:80 src/wx/text_panel.cc:594
 #, fuzzy
 msgid "open subtitles"
 msgstr "Usar legendas"
@@ -3850,7 +3854,7 @@ msgstr "vezes"
 msgid "to date/time"
 msgstr ""
 
-#: src/wx/video_panel.cc:166
+#: src/wx/video_panel.cc:170
 msgid "to fit DCP"
 msgstr ""
 

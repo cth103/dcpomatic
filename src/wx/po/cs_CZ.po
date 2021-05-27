@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-07 00:32+0200\n"
+"POT-Creation-Date: 2021-05-27 14:46+0200\n"
 "PO-Revision-Date: 2021-05-07 14:26+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -39,8 +40,8 @@ msgstr " rozšířené o %dms"
 msgid " delayed by %dms"
 msgstr " odloženo o %dms"
 
-#: src/wx/text_panel.cc:94 src/wx/text_panel.cc:97 src/wx/text_panel.cc:102
-#: src/wx/text_panel.cc:105 src/wx/text_panel.cc:109
+#: src/wx/text_panel.cc:88 src/wx/text_panel.cc:91 src/wx/text_panel.cc:96
+#: src/wx/text_panel.cc:99 src/wx/text_panel.cc:103
 msgid "%"
 msgstr "%"
 
@@ -114,12 +115,12 @@ msgid "0dB (unchanged)"
 msgstr "0dB (beze změny)"
 
 #. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:377
+#: src/wx/verify_dcp_dialog.cc:380
 msgid "1 Bv2.1 error, "
 msgstr "1 Bv2.1 error, "
 
 #. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:369
+#: src/wx/verify_dcp_dialog.cc:372
 msgid "1 error, "
 msgstr "1 chyba, "
 
@@ -135,7 +136,7 @@ msgstr "2 - stereo"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:194
+#: src/wx/video_panel.cc:198
 msgid "2D"
 msgstr "2D"
 
@@ -143,31 +144,31 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "2D verze 3D DCP"
 
-#: src/wx/dcp_panel.cc:791
+#: src/wx/dcp_panel.cc:785
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:761 src/wx/video_panel.cc:195
+#: src/wx/dcp_panel.cc:755 src/wx/video_panel.cc:199
 msgid "3D"
 msgstr "3D DCP"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:202
 msgid "3D alternate"
 msgstr "3D alternativní"
 
-#: src/wx/video_panel.cc:199
+#: src/wx/video_panel.cc:203
 msgid "3D left only"
 msgstr "3D jen levé"
 
-#: src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:200
 msgid "3D left/right"
 msgstr "3D levé/pravé (Vedle sebe)"
 
-#: src/wx/video_panel.cc:200
+#: src/wx/video_panel.cc:204
 msgid "3D right only"
 msgstr "3D jen pravé"
 
-#: src/wx/video_panel.cc:197
+#: src/wx/video_panel.cc:201
 msgid "3D top/bottom"
 msgstr "3D horní/dolní (Pod sebou)"
 
@@ -175,7 +176,7 @@ msgstr "3D horní/dolní (Pod sebou)"
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
-#: src/wx/dcp_panel.cc:792
+#: src/wx/dcp_panel.cc:786
 msgid "4K"
 msgstr "4K"
 
@@ -360,7 +361,7 @@ msgstr "Přidat sekvenci obrázků"
 msgid "Add language..."
 msgstr "Přidat jazyk…"
 
-#: src/wx/text_panel.cc:352
+#: src/wx/text_panel.cc:346
 msgid "Add new..."
 msgstr "Přidat nový…"
 
@@ -386,7 +387,7 @@ msgstr ""
 "přidávat. Přidejte certifikáty v pořadí od kořenového přes střední až na "
 "list."
 
-#: src/wx/text_panel.cc:172
+#: src/wx/text_panel.cc:166
 msgid "Additional"
 msgstr "Další"
 
@@ -449,7 +450,7 @@ msgstr "Dílo má v ASSETMAP prázdnou cestu."
 msgid "An unknown exception occurred."
 msgstr "Došlo k neznámé výjimce."
 
-#: src/wx/text_panel.cc:116
+#: src/wx/text_panel.cc:110
 msgid "Appearance..."
 msgstr "Vzhled…"
 
@@ -561,7 +562,7 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Modrá barevnost"
 
-#: src/wx/video_panel.cc:141
+#: src/wx/video_panel.cc:145
 msgid "Bottom"
 msgstr "Spodek"
 
@@ -581,7 +582,7 @@ msgstr "Ale musím používat fader"
 msgid "CC addresses"
 msgstr "CC adresa"
 
-#: src/wx/text_panel.cc:193
+#: src/wx/text_panel.cc:187
 msgid "CCAP track"
 msgstr "CCAP stopa"
 
@@ -618,19 +619,19 @@ msgstr "Nelze odkazovat na zvuk toto DCP."
 msgid "Cannot reference this DCP's audio: "
 msgstr "Nelze odkazovat na zvuk tohoto DCP: "
 
-#: src/wx/text_panel.cc:588
+#: src/wx/text_panel.cc:582
 msgid "Cannot reference this DCP's subtitles or captions."
 msgstr "Nelze odkazovat na titulky tohoto DCP."
 
-#: src/wx/text_panel.cc:590
+#: src/wx/text_panel.cc:584
 msgid "Cannot reference this DCP's subtitles or captions: "
 msgstr "Nelze odkazovat na titulky nebo popisky tohoto DCP: "
 
-#: src/wx/video_panel.cc:573
+#: src/wx/video_panel.cc:577
 msgid "Cannot reference this DCP's video."
 msgstr "Nelze odkazovat na video tohoto DCP."
 
-#: src/wx/video_panel.cc:575
+#: src/wx/video_panel.cc:579
 msgid "Cannot reference this DCP's video: "
 msgstr "Nelze odkazovat na video tohoto DCP: "
 
@@ -661,7 +662,7 @@ msgstr "Řetěz"
 msgid "Channel gain"
 msgstr "Síla kanálu"
 
-#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:866
+#: src/wx/audio_dialog.cc:105 src/wx/dcp_panel.cc:860
 msgid "Channels"
 msgstr "Kanály"
 
@@ -726,12 +727,12 @@ msgstr "Skryté titulky"
 msgid "Colour"
 msgstr "Barva"
 
-#: src/wx/content_colour_conversion_dialog.cc:37 src/wx/video_panel.cc:170
+#: src/wx/content_colour_conversion_dialog.cc:37 src/wx/video_panel.cc:174
 msgid "Colour conversion"
 msgstr "Konverze barev"
 
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:178
+#: src/wx/video_panel.cc:182
 msgid "Colour|Custom"
 msgstr "Vlastní"
 
@@ -789,7 +790,7 @@ msgstr "Verze obsahu"
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/wx/text_panel.cc:103
+#: src/wx/text_panel.cc:97
 msgid "Coord|Y"
 msgstr "Coord|Y"
 
@@ -805,7 +806,7 @@ msgstr "Základní zvuk"
 msgid "Could not analyse audio."
 msgstr "Nelze analyzovat zvuk."
 
-#: src/wx/text_panel.cc:905
+#: src/wx/text_panel.cc:899
 msgid "Could not analyse subtitles."
 msgstr "Titulky nelze analyzovat."
 
@@ -922,7 +923,7 @@ msgstr "DCP ověření"
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/wx/try_unmount_dialog.cc:29
+#: src/wx/try_unmount_dialog.cc:32
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic Disk Writer"
 
@@ -1112,7 +1113,7 @@ msgstr "Upravit obraz"
 #: src/wx/audio_mapping_view.cc:92 src/wx/content_advanced_dialog.cc:73
 #: src/wx/fonts_dialog.cc:66 src/wx/language_tag_widget.cc:48
 #: src/wx/metadata_dialog.cc:172 src/wx/recipients_panel.cc:71
-#: src/wx/video_panel.cc:168 src/wx/video_panel.cc:179
+#: src/wx/video_panel.cc:172 src/wx/video_panel.cc:183
 #: src/wx/editable_list.h:122
 msgid "Edit..."
 msgstr "Upravit…"
@@ -1195,7 +1196,7 @@ msgstr "FTP (pro Dolby)"
 msgid "Facility"
 msgstr "Zařízení"
 
-#: src/wx/video_panel.cc:152
+#: src/wx/video_panel.cc:156
 msgid "Fade in"
 msgstr "Postupný náběh (Fade in)"
 
@@ -1203,7 +1204,7 @@ msgstr "Postupný náběh (Fade in)"
 msgid "Fade in time"
 msgstr "Postupný náběh v čase (Fade in)"
 
-#: src/wx/video_panel.cc:155
+#: src/wx/video_panel.cc:159
 msgid "Fade out"
 msgstr "Postupné zeslabení (Fade out)"
 
@@ -1283,7 +1284,7 @@ msgstr "Název složky"
 msgid "Fonts"
 msgstr "Písma"
 
-#: src/wx/text_panel.cc:115
+#: src/wx/text_panel.cc:109
 msgid "Fonts..."
 msgstr "Písma..."
 
@@ -1299,7 +1300,7 @@ msgstr "Forenzní označení videa"
 msgid "Format"
 msgstr "Formát"
 
-#: src/wx/dcp_panel.cc:755
+#: src/wx/dcp_panel.cc:749
 msgid "Frame Rate"
 msgstr "Frekvence snímků (frame rate)"
 
@@ -1328,7 +1329,7 @@ msgstr "Z adresy"
 msgid "From template"
 msgstr "Ze šablony"
 
-#: src/wx/video_panel.cc:183
+#: src/wx/video_panel.cc:187
 msgid "Full (JPEG, 0-255)"
 msgstr "Full (JPEG, 0-255)"
 
@@ -1578,7 +1579,7 @@ msgstr ""
 msgid "JACK"
 msgstr "JACK"
 
-#: src/wx/dcp_panel.cc:763
+#: src/wx/dcp_panel.cc:757
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
@@ -1633,7 +1634,7 @@ msgid "Label"
 msgstr "Označení"
 
 #: src/wx/audio_panel.cc:98 src/wx/dcp_text_track_dialog.cc:35
-#: src/wx/send_i18n_dialog.cc:45 src/wx/text_panel.cc:162
+#: src/wx/send_i18n_dialog.cc:45 src/wx/text_panel.cc:156
 msgid "Language"
 msgstr "Jazyk"
 
@@ -1645,7 +1646,7 @@ msgstr "Jazyková značka"
 msgid "Language of burnt-in subtitles in this content"
 msgstr "Jazyk vypálených titulků v tomto obsahu"
 
-#: src/wx/text_panel.cc:165
+#: src/wx/text_panel.cc:159
 msgid "Language of these subtitles"
 msgstr "Jazyk těchto titulků"
 
@@ -1693,7 +1694,7 @@ msgstr "Leaf private key"
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "List soukromého klíče neodpovídá listu certifikátu!"
 
-#: src/wx/controls.cc:86 src/wx/video_panel.cc:102
+#: src/wx/controls.cc:86 src/wx/video_panel.cc:106
 msgid "Left"
 msgstr "Levý"
 
@@ -1705,7 +1706,7 @@ msgstr "Délka"
 msgid "Length: %1 (%2 frames)"
 msgstr "Délka: %1 (%2 snímků)"
 
-#: src/wx/text_panel.cc:107
+#: src/wx/text_panel.cc:101
 msgid "Line spacing"
 msgstr "Mezera mezi řádky"
 
@@ -1752,7 +1753,7 @@ msgstr "MP4 soubor (*.mp4)|*.mp4"
 
 #. / TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. / film or an "additional" language.
-#: src/wx/text_panel.cc:171
+#: src/wx/text_panel.cc:165
 msgid "Main"
 msgstr "HlavníHlavní"
 
@@ -1776,7 +1777,7 @@ msgstr "Vytvořit KDM"
 msgid "Make certificate chain"
 msgstr "Udělat řetěz certifikátoů"
 
-#: src/wx/video_panel.cc:400
+#: src/wx/video_panel.cc:404
 msgid "Many"
 msgstr "Mnnoho"
 
@@ -1812,7 +1813,7 @@ msgstr "Maximální JPEG2000 šířka pásma (bandwidth)"
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximální počet snímků pro uložení na jeden podproces"
 
-#: src/wx/dcp_panel.cc:765 src/wx/full_config_dialog.cc:299
+#: src/wx/dcp_panel.cc:759 src/wx/full_config_dialog.cc:299
 #: src/wx/full_config_dialog.cc:1277
 msgid "Mbit/s"
 msgstr "Mbit/s"
@@ -1853,7 +1854,7 @@ msgstr "Přesunou vybrané části obsahu později ve filmu."
 msgid "Move to start of reel"
 msgstr "Přesunout na začátek reelu"
 
-#: src/wx/video_panel.cc:479
+#: src/wx/video_panel.cc:483
 msgid "Multiple content selected"
 msgstr "Vícenásobný výběr obsahu"
 
@@ -1907,7 +1908,7 @@ msgstr "Nebyl nalezen žádný soubor ASSETMAP nebo ASSETMAP.xml."
 msgid "No DCP loaded."
 msgstr "DCP nebyl načten."
 
-#: src/wx/verify_dcp_dialog.cc:398
+#: src/wx/verify_dcp_dialog.cc:401
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "Nebyly nalezeny žádné chyby SMPTE Bv2.1."
 
@@ -1920,18 +1921,18 @@ msgstr "Z %s channel '%s' do %s channel '%s’ nebude přidán žádný zvuk."
 msgid "No content found in this folder."
 msgstr "Žádný obsah nebyl ve složce nalezen."
 
-#: src/wx/verify_dcp_dialog.cc:394
+#: src/wx/verify_dcp_dialog.cc:397
 msgid "No errors found."
 msgstr "Nebyly nalezeny žádné chyby."
 
-#: src/wx/verify_dcp_dialog.cc:402
+#: src/wx/verify_dcp_dialog.cc:405
 msgid "No warnings found."
 msgstr "Nebyla nalezena žádná varování."
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:72 src/wx/content_advanced_dialog.cc:155
-#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:966
-#: src/wx/subtitle_appearance_dialog.cc:150 src/wx/video_panel.cc:172
+#: src/wx/content_advanced_dialog.cc:163 src/wx/dcp_panel.cc:960
+#: src/wx/subtitle_appearance_dialog.cc:150 src/wx/video_panel.cc:176
 msgid "None"
 msgstr "Žádný"
 
@@ -1968,7 +1969,7 @@ msgstr "OSS"
 msgid "Off"
 msgstr "Vypnuté"
 
-#: src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:85
 msgid "Offset"
 msgstr "Offset"
 
@@ -2049,6 +2050,10 @@ msgstr "Přepsat zjištěnou snímkovou frekvenci videa"
 #: src/wx/config_move_dialog.cc:31
 msgid "Overwrite this file with current configuration"
 msgstr "Přepsat tento soubor aktuální konfigurací"
+
+#: src/wx/verify_dcp_dialog.cc:363
+msgid "Part of the DCP could not be checked because no KDM was available"
+msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""
@@ -2147,7 +2152,7 @@ msgstr "Předběžné vydání"
 msgid "ProRes"
 msgstr "ProRes"
 
-#: src/wx/dcp_panel.cc:870
+#: src/wx/dcp_panel.cc:864
 msgid "Processor"
 msgstr "Procesor"
 
@@ -2187,7 +2192,7 @@ msgstr "Konverze RGB na XYZ"
 msgid "RMS"
 msgstr "RMS"
 
-#: src/wx/video_panel.cc:181
+#: src/wx/video_panel.cc:185
 msgid "Range"
 msgstr "Rozsah"
 
@@ -2196,7 +2201,7 @@ msgstr "Rozsah"
 msgid "Ratings"
 msgstr "Varování"
 
-#: src/wx/dcp_panel.cc:767
+#: src/wx/dcp_panel.cc:761
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Znovu zakódovat data JPEG2000 ze vstupu"
 
@@ -2332,7 +2337,7 @@ msgstr "Obnovit na originální barvy"
 msgid "Resume"
 msgstr "Pokračovat"
 
-#: src/wx/controls.cc:87 src/wx/video_panel.cc:116
+#: src/wx/controls.cc:87 src/wx/video_panel.cc:120
 msgid "Right"
 msgstr "Pravý"
 
@@ -2385,7 +2390,7 @@ msgstr "Uložit šablonu"
 msgid "Save to KDM Creator tool's list"
 msgstr "Uložit do seznamu KDM tool’s listu"
 
-#: src/wx/text_panel.cc:99 src/wx/video_panel.cc:165
+#: src/wx/text_panel.cc:93 src/wx/video_panel.cc:169
 msgid "Scale"
 msgstr "Měřítko"
 
@@ -2515,7 +2520,7 @@ msgstr "Nastavit DCP projekt z tohoto DCP"
 msgid "Set ratio and fit to DCP container"
 msgstr "Nastavit poměr a přizpůsobení kontejneru DCP"
 
-#: src/wx/custom_scale_dialog.cc:58
+#: src/wx/custom_scale_dialog.cc:52
 msgid "Set size"
 msgstr "Nastavit velikost"
 
@@ -2535,11 +2540,11 @@ msgstr "Ukázat"
 msgid "Show experimental audio processors"
 msgstr "Zobrazit experimentální zvukové procesory"
 
-#: src/wx/audio_panel.cc:69 src/wx/dcp_panel.cc:874
+#: src/wx/audio_panel.cc:69 src/wx/dcp_panel.cc:868
 msgid "Show graph of audio levels..."
 msgstr "Zobrazit graf zvukových hladin…"
 
-#: src/wx/text_panel.cc:157
+#: src/wx/text_panel.cc:151
 msgid "Show subtitle area"
 msgstr "Zobrazit oblast titulků"
 
@@ -2616,7 +2621,7 @@ msgstr "Stav"
 msgid "Stop"
 msgstr "Stop"
 
-#: src/wx/text_panel.cc:111
+#: src/wx/text_panel.cc:105
 msgid "Stream"
 msgstr "Stream"
 
@@ -2949,7 +2954,7 @@ msgid ""
 "use it?"
 msgstr "Složka %1 již existuje a není prázdná.  Přejete si jí použít?"
 
-#: src/wx/try_unmount_dialog.cc:36
+#: src/wx/try_unmount_dialog.cc:39
 #, c-format
 msgid ""
 "The drive <b>%s</b> is mounted.\n"
@@ -3303,7 +3308,7 @@ msgstr "Jazyk nadpisu"
 msgid "To address"
 msgstr "Na adresu"
 
-#: src/wx/video_panel.cc:127
+#: src/wx/video_panel.cc:131
 msgid "Top"
 msgstr "Vrch"
 
@@ -3489,7 +3494,7 @@ msgstr "Použít ISDCF název"
 msgid "Use as"
 msgstr "Použít jako"
 
-#: src/wx/dcp_panel.cc:759
+#: src/wx/dcp_panel.cc:753
 msgid "Use best"
 msgstr "Použít nejlepší"
 
@@ -3532,7 +3537,7 @@ msgstr "Serial number"
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/video_panel.cc:184
+#: src/wx/video_panel.cc:188
 msgid "Video (MPEG, 16-235)"
 msgstr "Video (MPEG, 16-235)"
 
@@ -3558,7 +3563,7 @@ msgstr "Snímková frekvence videa, pro který byl obsah připraven"
 msgid "Video has burnt-in subtitles in the language"
 msgstr "Video má vypálené titulky v jazyce"
 
-#: src/wx/text_panel.cc:114
+#: src/wx/text_panel.cc:108
 msgid "View..."
 msgstr "Zobrazit…"
 
@@ -3612,11 +3617,11 @@ msgstr "Zapsat"
 msgid "Written by"
 msgstr "Napsal"
 
-#: src/wx/text_panel.cc:92 src/wx/text_panel.cc:100
+#: src/wx/text_panel.cc:86 src/wx/text_panel.cc:94
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:95
+#: src/wx/text_panel.cc:89
 msgid "Y"
 msgstr "Y"
 
@@ -3693,7 +3698,7 @@ msgid "_kdm_decryption_cert.pem"
 msgstr "_kdm_decryption_cert.pem"
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:385
+#: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
 msgstr "a 1 varování."
 
@@ -3709,7 +3714,7 @@ msgstr "certificate_chain.pem"
 msgid "cinema"
 msgstr "kino"
 
-#: src/wx/text_panel.cc:81 src/wx/text_panel.cc:602
+#: src/wx/text_panel.cc:81 src/wx/text_panel.cc:596
 msgid "closed captions"
 msgstr "skryté titulky"
 
@@ -3725,7 +3730,7 @@ msgstr "obsah"
 msgid "content filename"
 msgstr "název souboru obsahu"
 
-#: src/wx/video_panel.cc:167
+#: src/wx/video_panel.cc:171
 msgid "custom"
 msgstr "vlastní"
 
@@ -3790,7 +3795,7 @@ msgstr "není povoleno"
 msgid "number of reels"
 msgstr "počet reelů"
 
-#: src/wx/text_panel.cc:80 src/wx/text_panel.cc:600
+#: src/wx/text_panel.cc:80 src/wx/text_panel.cc:594
 msgid "open subtitles"
 msgstr "otevřít titulky"
 
@@ -3835,7 +3840,7 @@ msgstr "doba"
 msgid "to date/time"
 msgstr "do data/času"
 
-#: src/wx/video_panel.cc:166
+#: src/wx/video_panel.cc:170
 msgid "to fit DCP"
 msgstr "přizpůsobit DCP"
 
