@@ -69,6 +69,7 @@ def build(bld):
                  dcp_subtitle_test.cc
                  digest_test.cc
                  empty_test.cc
+                 encryption_test.cc
                  ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
