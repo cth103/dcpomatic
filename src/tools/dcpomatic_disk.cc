@@ -38,6 +38,7 @@
 #include "lib/util.h"
 #include "lib/version.h"
 #include "lib/warnings.h"
+#include <wx/cmdline.h>
 #include <wx/wx.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <boost/process.hpp>
@@ -179,6 +180,12 @@ public:
 		dcpomatic_sleep_seconds (1);
 	}
 
+	void set_dcp (boost::filesystem::path dcp)
+	{
+		_dcp_path = dcp;
+		_dcp_name->SetLabel (std_to_wx(dcp.filename().string()));
+	}
+
 private:
 	void sized (wxSizeEvent& ev)
 	{
@@ -236,8 +243,7 @@ private:
 			return;
 		}
 
-		_dcp_path = path;
-		_dcp_name->SetLabel (std_to_wx(_dcp_path->filename().string()));
+		set_dcp (path);
 		setup_sensitivity ();
 	}
 
@@ -393,11 +399,18 @@ private:
 };
 
 
+static const wxCmdLineEntryDesc command_line_description[] = {
+	{ wxCMD_LINE_OPTION, "d", "dcp", "DCP to write", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_SWITCH, "s", "sure", "skip alpha test warnings", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
+};
+
+
 class App : public wxApp
 {
 public:
 	App ()
-		: _frame (0)
+		: _frame (nullptr)
 	{}
 
 	bool OnInit ()
@@ -441,17 +454,23 @@ public:
 			*/
 			Config::drop ();
 
-			auto warning = new DiskWarningDialog ();
-			warning->ShowModal ();
-			if (!warning->confirmed()) {
-				return false;
+			if (!_skip_alpha_check) {
+				auto warning = new DiskWarningDialog ();
+				warning->ShowModal ();
+				if (!warning->confirmed()) {
+					return false;
+				}
+				warning->Destroy ();
 			}
-			warning->Destroy ();
 
 			_frame = new DOMFrame (_("DCP-o-matic Disk Writer"));
 			SetTopWindow (_frame);
 
 			_frame->Show ();
+
+			if (_dcp_to_write) {
+				_frame->set_dcp (*_dcp_to_write);
+			}
 
 			signal_manager = new wxSignalManager (this);
 			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
@@ -460,6 +479,24 @@ public:
 		{
 			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
 			return false;
+		}
+
+		return true;
+	}
+
+	void OnInitCmdLine (wxCmdLineParser& parser)
+	{
+		parser.SetDesc (command_line_description);
+		parser.SetSwitchChars (wxT ("-"));
+	}
+
+	bool OnCmdLineParsed (wxCmdLineParser& parser)
+	{
+		_skip_alpha_check = parser.Found(wxT("sure"));
+
+		wxString dcp;
+		if (parser.Found(wxT("dcp"), &dcp)) {
+			_dcp_to_write = wx_to_std (dcp);
 		}
 
 		return true;
@@ -520,6 +557,8 @@ public:
 	}
 
 	DOMFrame* _frame;
+	bool _skip_alpha_check = false;
+	boost::optional<boost::filesystem::path> _dcp_to_write;
 };
 
 IMPLEMENT_APP (App)
