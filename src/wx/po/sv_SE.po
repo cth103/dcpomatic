@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-27 14:46+0200\n"
+"POT-Creation-Date: 2021-05-28 23:38+0200\n"
 "PO-Revision-Date: 2021-05-28 16:35+0200\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -67,7 +68,7 @@ msgstr "%d KDM skriven till %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDM:er skrivna till %s"
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d ljudkanaler via %s"
@@ -288,11 +289,11 @@ msgstr "Problem uppstod när vi letade efter tips (%s)"
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "En undertext är längre än akten den ligger i."
 
-#: src/wx/config_dialog.cc:1010
+#: src/wx/config_dialog.cc:1009
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:1006
+#: src/wx/config_dialog.cc:1005
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -785,7 +786,7 @@ msgstr "Källmaterialets egenskaper"
 msgid "Content Type"
 msgstr "Content type"
 
-#: src/wx/config_dialog.cc:1097
+#: src/wx/config_dialog.cc:1096
 msgid "Content directory"
 msgstr "Mapp för källmaterial"
 
@@ -810,7 +811,7 @@ msgstr "Y"
 msgid "Copy as name"
 msgstr "Kopiera som namn"
 
-#: src/wx/config_dialog.cc:1005
+#: src/wx/config_dialog.cc:1004
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
@@ -900,7 +901,7 @@ msgstr "Markör: inget"
 msgid "Custom scale"
 msgstr "Anpassad skalning"
 
-#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:900
+#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:899
 #: src/wx/film_editor.cc:62 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr "DCP"
@@ -1041,7 +1042,7 @@ msgstr "Fördröjning"
 msgid "Details..."
 msgstr "Detaljer..."
 
-#: src/wx/config_dialog.cc:1007
+#: src/wx/config_dialog.cc:1006
 msgid "Direct Sound"
 msgstr "Direct Sound"
 
@@ -1094,7 +1095,7 @@ msgstr "Överhoppade bildrutor: %d"
 msgid "Dual-screen displays"
 msgstr "Flera bildskärmar"
 
-#: src/wx/config_dialog.cc:1013
+#: src/wx/config_dialog.cc:1012
 msgid "Dummy"
 msgstr "Dummy"
 
@@ -1589,7 +1590,7 @@ msgstr ""
 "Det är inte möjligt att förstärka ljudet till denna volym eftersom ljudet "
 "kommer att klippa. Volymen har inte ändrats."
 
-#: src/wx/config_dialog.cc:1009
+#: src/wx/config_dialog.cc:1008
 msgid "JACK"
 msgstr "JACK"
 
@@ -1617,7 +1618,7 @@ msgstr "Hoppa till markerat källmaterial"
 msgid "KDM Email"
 msgstr "KDM-epost"
 
-#: src/wx/config_dialog.cc:1107
+#: src/wx/config_dialog.cc:1106
 msgid "KDM directory"
 msgstr "KDM-mapp"
 
@@ -1729,7 +1730,7 @@ msgstr "Radavstånd"
 msgid "Load certificate..."
 msgstr "Ladda certifikat..."
 
-#: src/wx/config_dialog.cc:1078
+#: src/wx/config_dialog.cc:1077
 msgid "Locations"
 msgstr "Locations"
 
@@ -1796,7 +1797,7 @@ msgstr "Skapa certifikatkedja"
 msgid "Many"
 msgstr "Flera"
 
-#: src/wx/config_dialog.cc:899
+#: src/wx/config_dialog.cc:898
 msgid "Mapping"
 msgstr "Mapping"
 
@@ -1976,7 +1977,7 @@ msgstr "Antalet trådar som DCP-o-matics kodningsserver ska använda"
 msgid "Number of threads DCP-o-matic should use"
 msgstr "Antalet trådar som DCP-o-matic ska använda"
 
-#: src/wx/config_dialog.cc:1012
+#: src/wx/config_dialog.cc:1011
 msgid "OSS"
 msgstr "OSS"
 
@@ -2041,7 +2042,7 @@ msgstr "Konturbredd"
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr "Konturbredd kan bara anges om undertexter bränns in."
 
-#: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:106
+#: src/wx/config_dialog.cc:899 src/wx/dkdm_dialog.cc:106
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "Utdata"
@@ -2135,11 +2136,11 @@ msgstr "Play"
 msgid "Play length"
 msgstr "Speltid"
 
-#: src/wx/config_dialog.cc:889
+#: src/wx/config_dialog.cc:888
 msgid "Play sound via"
 msgstr "Spela upp ljud med"
 
-#: src/wx/config_dialog.cc:1102
+#: src/wx/config_dialog.cc:1101
 msgid "Playlist directory"
 msgstr "Mapp för spellistor"
 
@@ -2187,7 +2188,7 @@ msgstr "Egenskaper..."
 msgid "Protocol"
 msgstr "Protokoll"
 
-#: src/wx/config_dialog.cc:1011
+#: src/wx/config_dialog.cc:1010
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2324,7 +2325,7 @@ msgstr "Upprepa..."
 msgid "Report A Problem"
 msgstr "Rapportera ett problem"
 
-#: src/wx/config_dialog.cc:905
+#: src/wx/config_dialog.cc:904
 msgid "Reset to default"
 msgstr "Återställ till standardvärden"
 
@@ -2426,7 +2427,7 @@ msgid "Select CPL XML file"
 msgstr "Välj CPL XML-fil"
 
 #: src/wx/config_dialog.cc:364 src/wx/config_dialog.cc:450
-#: src/wx/config_dialog.cc:853 src/wx/recipient_dialog.cc:188
+#: src/wx/config_dialog.cc:852 src/wx/recipient_dialog.cc:188
 #: src/wx/screen_dialog.cc:225
 msgid "Select Certificate File"
 msgstr "Välj certifikatfil"
@@ -2596,7 +2597,7 @@ msgstr "Utjämning"
 msgid "Snap"
 msgstr "Snap"
 
-#: src/wx/config_dialog.cc:878
+#: src/wx/config_dialog.cc:877
 msgid "Sound"
 msgstr "Ljud"
 
@@ -3596,7 +3597,7 @@ msgstr "Video har inbrända undertexter på språket"
 msgid "View..."
 msgstr "Visa..."
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1007
 msgid "WASAPI"
 msgstr "WASAPI"
 
@@ -3722,12 +3723,6 @@ msgstr "Zooma in / ut"
 msgid "Zoom out to whole film"
 msgstr "Zooma ut till hela filmen"
 
-# Is this something that SHOULD be translated?
-#. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
-#: src/wx/config_dialog.cc:850
-msgid "_kdm_decryption_cert.pem"
-msgstr "_kdm_decryption_cert.pem"
-
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
@@ -3736,11 +3731,6 @@ msgstr "och 1 varning."
 #: src/wx/metadata_dialog.cc:267
 msgid "candela per m²"
 msgstr "candela per kvadratmeter"
-
-# Is this something that SHOULD be translated?
-#: src/wx/config_dialog.cc:480
-msgid "certificate_chain.pem"
-msgstr "certificate_chain.pem"
 
 #: src/wx/kdm_output_panel.cc:91
 msgid "cinema"
@@ -3831,18 +3821,13 @@ msgstr "antal akter"
 msgid "open subtitles"
 msgstr "undertexter"
 
-#: src/wx/config_dialog.cc:900
+#: src/wx/config_dialog.cc:899
 msgid "output"
 msgstr "utdata"
 
 #: src/wx/full_config_dialog.cc:657
 msgid "port"
 msgstr "port"
-
-# Is this something that SHOULD be translated?
-#: src/wx/config_dialog.cc:655
-msgid "private_key.pem"
-msgstr "private_key.pem"
 
 #: src/wx/full_config_dialog.cc:661
 msgid "protocol"
@@ -3914,6 +3899,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+# Is this something that SHOULD be translated?
+#~ msgid "_kdm_decryption_cert.pem"
+#~ msgstr "_kdm_decryption_cert.pem"
+
+# Is this something that SHOULD be translated?
+#~ msgid "certificate_chain.pem"
+#~ msgstr "certificate_chain.pem"
+
+# Is this something that SHOULD be translated?
+#~ msgid "private_key.pem"
+#~ msgstr "private_key.pem"
 
 #~ msgid "Device"
 #~ msgstr "Enhet"

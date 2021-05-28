@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-27 14:46+0200\n"
+"POT-Creation-Date: 2021-05-28 23:38+0200\n"
 "PO-Revision-Date: 2019-04-21 23:17+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -75,7 +75,7 @@ msgstr "%d KDM 保存到 %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs 保存到 %s"
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 #, fuzzy, c-format
 msgid "%d channels on %s"
 msgstr "音频通道: %d"
@@ -291,11 +291,11 @@ msgstr ""
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1010
+#: src/wx/config_dialog.cc:1009
 msgid "ALSA"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1006
+#: src/wx/config_dialog.cc:1005
 msgid "ASIO"
 msgstr ""
 
@@ -790,7 +790,7 @@ msgstr "内容属性"
 msgid "Content Type"
 msgstr "内容类型"
 
-#: src/wx/config_dialog.cc:1097
+#: src/wx/config_dialog.cc:1096
 msgid "Content directory"
 msgstr "内容目录"
 
@@ -816,7 +816,7 @@ msgstr "坐标轴|Y"
 msgid "Copy as name"
 msgstr "复制名称"
 
-#: src/wx/config_dialog.cc:1005
+#: src/wx/config_dialog.cc:1004
 #, fuzzy
 msgid "CoreAudio"
 msgstr "音频"
@@ -910,7 +910,7 @@ msgstr ""
 msgid "Custom scale"
 msgstr ""
 
-#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:900
+#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:899
 #: src/wx/film_editor.cc:62 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr "DCP"
@@ -1056,7 +1056,7 @@ msgstr "延迟"
 msgid "Details..."
 msgstr "详细..."
 
-#: src/wx/config_dialog.cc:1007
+#: src/wx/config_dialog.cc:1006
 msgid "Direct Sound"
 msgstr ""
 
@@ -1109,7 +1109,7 @@ msgstr "丢帧: %d"
 msgid "Dual-screen displays"
 msgstr "双屏幕显示"
 
-#: src/wx/config_dialog.cc:1013
+#: src/wx/config_dialog.cc:1012
 msgid "Dummy"
 msgstr ""
 
@@ -1584,7 +1584,7 @@ msgid ""
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1009
+#: src/wx/config_dialog.cc:1008
 msgid "JACK"
 msgstr ""
 
@@ -1610,7 +1610,7 @@ msgstr "跳转到已选择的内容"
 msgid "KDM Email"
 msgstr "邮件发送 KDM"
 
-#: src/wx/config_dialog.cc:1107
+#: src/wx/config_dialog.cc:1106
 msgid "KDM directory"
 msgstr "KDM目录"
 
@@ -1722,7 +1722,7 @@ msgstr "行间距"
 msgid "Load certificate..."
 msgstr "载入证书..."
 
-#: src/wx/config_dialog.cc:1078
+#: src/wx/config_dialog.cc:1077
 msgid "Locations"
 msgstr "位置"
 
@@ -1790,7 +1790,7 @@ msgstr "创建证书"
 msgid "Many"
 msgstr ""
 
-#: src/wx/config_dialog.cc:899
+#: src/wx/config_dialog.cc:898
 msgid "Mapping"
 msgstr ""
 
@@ -1972,7 +1972,7 @@ msgstr "多个DCP-o-matic 编码服务器将被使用"
 msgid "Number of threads DCP-o-matic should use"
 msgstr "多个DCP-o-matic 将被使用"
 
-#: src/wx/config_dialog.cc:1012
+#: src/wx/config_dialog.cc:1011
 msgid "OSS"
 msgstr ""
 
@@ -2039,7 +2039,7 @@ msgstr "轮廓线宽度"
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr "只有选择烧录字幕才能显示轮廓线"
 
-#: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:106
+#: src/wx/config_dialog.cc:899 src/wx/dkdm_dialog.cc:106
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "输出"
@@ -2135,11 +2135,11 @@ msgstr "播放"
 msgid "Play length"
 msgstr "播放长度"
 
-#: src/wx/config_dialog.cc:889
+#: src/wx/config_dialog.cc:888
 msgid "Play sound via"
 msgstr "声音播放设备"
 
-#: src/wx/config_dialog.cc:1102
+#: src/wx/config_dialog.cc:1101
 msgid "Playlist directory"
 msgstr "播放列表目录"
 
@@ -2187,7 +2187,7 @@ msgstr "属性..."
 msgid "Protocol"
 msgstr "协议"
 
-#: src/wx/config_dialog.cc:1011
+#: src/wx/config_dialog.cc:1010
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2325,7 +2325,7 @@ msgstr "重复..."
 msgid "Report A Problem"
 msgstr "报告问题"
 
-#: src/wx/config_dialog.cc:905
+#: src/wx/config_dialog.cc:904
 #, fuzzy
 msgid "Reset to default"
 msgstr "恢复到默认"
@@ -2428,7 +2428,7 @@ msgid "Select CPL XML file"
 msgstr "选择CPL文件"
 
 #: src/wx/config_dialog.cc:364 src/wx/config_dialog.cc:450
-#: src/wx/config_dialog.cc:853 src/wx/recipient_dialog.cc:188
+#: src/wx/config_dialog.cc:852 src/wx/recipient_dialog.cc:188
 #: src/wx/screen_dialog.cc:225
 msgid "Select Certificate File"
 msgstr "选择证书文件"
@@ -2601,7 +2601,7 @@ msgstr "平滑"
 msgid "Snap"
 msgstr "临时"
 
-#: src/wx/config_dialog.cc:878
+#: src/wx/config_dialog.cc:877
 msgid "Sound"
 msgstr ""
 
@@ -3512,7 +3512,7 @@ msgstr "字幕语言(例如:QMS)"
 msgid "View..."
 msgstr "视图窗口…"
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1007
 msgid "WASAPI"
 msgstr ""
 
@@ -3632,12 +3632,6 @@ msgstr "放大/缩小"
 msgid "Zoom out to whole film"
 msgstr "缩放以适应"
 
-#. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
-#: src/wx/config_dialog.cc:850
-#, fuzzy
-msgid "_kdm_decryption_cert.pem"
-msgstr "dcpomatic_kdm_decryption_cert.pem"
-
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
@@ -3646,11 +3640,6 @@ msgstr ""
 #: src/wx/metadata_dialog.cc:267
 msgid "candela per m²"
 msgstr ""
-
-#: src/wx/config_dialog.cc:480
-#, fuzzy
-msgid "certificate_chain.pem"
-msgstr "证书秘钥"
 
 #: src/wx/kdm_output_panel.cc:91
 #, fuzzy
@@ -3744,7 +3733,7 @@ msgstr "分卷数量"
 msgid "open subtitles"
 msgstr "使用字幕"
 
-#: src/wx/config_dialog.cc:900
+#: src/wx/config_dialog.cc:899
 #, fuzzy
 msgid "output"
 msgstr "输出"
@@ -3752,11 +3741,6 @@ msgstr "输出"
 #: src/wx/full_config_dialog.cc:657
 msgid "port"
 msgstr "端口"
-
-#: src/wx/config_dialog.cc:655
-#, fuzzy
-msgid "private_key.pem"
-msgstr "私钥"
 
 #: src/wx/full_config_dialog.cc:661
 #, fuzzy
@@ -3828,6 +3812,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "_kdm_decryption_cert.pem"
+#~ msgstr "dcpomatic_kdm_decryption_cert.pem"
+
+#, fuzzy
+#~ msgid "certificate_chain.pem"
+#~ msgstr "证书秘钥"
+
+#, fuzzy
+#~ msgid "private_key.pem"
+#~ msgstr "私钥"
 
 #~ msgid "Device"
 #~ msgstr "设备"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-27 14:46+0200\n"
+"POT-Creation-Date: 2021-05-28 23:38+0200\n"
 "PO-Revision-Date: 2019-05-10 02:56+0100\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -70,7 +70,7 @@ msgstr "%d KDM geschrieben nach %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs geschrieben nach %s"
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d Kanäle über %s "
@@ -292,11 +292,11 @@ msgstr ""
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1010
+#: src/wx/config_dialog.cc:1009
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:1006
+#: src/wx/config_dialog.cc:1005
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -807,7 +807,7 @@ msgstr "Eigenschaften"
 msgid "Content Type"
 msgstr "Inhalt Typ"
 
-#: src/wx/config_dialog.cc:1097
+#: src/wx/config_dialog.cc:1096
 msgid "Content directory"
 msgstr " Verzeichnis"
 
@@ -833,7 +833,7 @@ msgstr "Coord|Y"
 msgid "Copy as name"
 msgstr "ISDCF Name statisch kopieren"
 
-#: src/wx/config_dialog.cc:1005
+#: src/wx/config_dialog.cc:1004
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
@@ -929,7 +929,7 @@ msgstr "Cursor: -"
 msgid "Custom scale"
 msgstr ""
 
-#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:900
+#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:899
 #: src/wx/film_editor.cc:62 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr "DCP"
@@ -1077,7 +1077,7 @@ msgstr "Verzögerung (+/-)"
 msgid "Details..."
 msgstr "Details..."
 
-#: src/wx/config_dialog.cc:1007
+#: src/wx/config_dialog.cc:1006
 msgid "Direct Sound"
 msgstr "Direct Sound"
 
@@ -1130,7 +1130,7 @@ msgstr "Übersprungene Bilder: %d"
 msgid "Dual-screen displays"
 msgstr "Zweischirmanzeige"
 
-#: src/wx/config_dialog.cc:1013
+#: src/wx/config_dialog.cc:1012
 msgid "Dummy"
 msgstr "Dummy"
 
@@ -1617,7 +1617,7 @@ msgid ""
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1009
+#: src/wx/config_dialog.cc:1008
 msgid "JACK"
 msgstr "JACK"
 
@@ -1643,7 +1643,7 @@ msgstr "Springe zu ausgewähltem Inhalt"
 msgid "KDM Email"
 msgstr "KDM Emailversand"
 
-#: src/wx/config_dialog.cc:1107
+#: src/wx/config_dialog.cc:1106
 msgid "KDM directory"
 msgstr "KDM Verzeichnis"
 
@@ -1760,7 +1760,7 @@ msgstr "Zeilenabstand"
 msgid "Load certificate..."
 msgstr "Lade Zertifikat…"
 
-#: src/wx/config_dialog.cc:1078
+#: src/wx/config_dialog.cc:1077
 msgid "Locations"
 msgstr "Orte"
 
@@ -1828,7 +1828,7 @@ msgstr "Zertifikatskette erzeugen"
 msgid "Many"
 msgstr ""
 
-#: src/wx/config_dialog.cc:899
+#: src/wx/config_dialog.cc:898
 msgid "Mapping"
 msgstr ""
 
@@ -2013,7 +2013,7 @@ msgstr ""
 msgid "Number of threads DCP-o-matic should use"
 msgstr "Anzahl der Rechenthreads, die DCP-o-matic nutzen soll"
 
-#: src/wx/config_dialog.cc:1012
+#: src/wx/config_dialog.cc:1011
 msgid "OSS"
 msgstr "OSS"
 
@@ -2086,7 +2086,7 @@ msgstr ""
 "Die Stärke der Umrissdarstellung kann nur bei fest eingerechneten "
 "Untertiteln ('Burn-In') gewählt werden."
 
-#: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:106
+#: src/wx/config_dialog.cc:899 src/wx/dkdm_dialog.cc:106
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "Ausgabe"
@@ -2182,11 +2182,11 @@ msgstr "Abspielen"
 msgid "Play length"
 msgstr "Abspiellänge"
 
-#: src/wx/config_dialog.cc:889
+#: src/wx/config_dialog.cc:888
 msgid "Play sound via"
 msgstr "Audio während Vorschau wiedergeben - über Ausgabegerät:"
 
-#: src/wx/config_dialog.cc:1102
+#: src/wx/config_dialog.cc:1101
 msgid "Playlist directory"
 msgstr "Playlistenverzeichnis"
 
@@ -2236,7 +2236,7 @@ msgstr "Eigenschaften..."
 msgid "Protocol"
 msgstr "Protokoll"
 
-#: src/wx/config_dialog.cc:1011
+#: src/wx/config_dialog.cc:1010
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2376,7 +2376,7 @@ msgstr "Wiederhole..."
 msgid "Report A Problem"
 msgstr "Problembericht senden"
 
-#: src/wx/config_dialog.cc:905
+#: src/wx/config_dialog.cc:904
 #, fuzzy
 msgid "Reset to default"
 msgstr "Auf Standardtext zurücksetzen"
@@ -2479,7 +2479,7 @@ msgid "Select CPL XML file"
 msgstr "CPL XML Datei auswählen"
 
 #: src/wx/config_dialog.cc:364 src/wx/config_dialog.cc:450
-#: src/wx/config_dialog.cc:853 src/wx/recipient_dialog.cc:188
+#: src/wx/config_dialog.cc:852 src/wx/recipient_dialog.cc:188
 #: src/wx/screen_dialog.cc:225
 msgid "Select Certificate File"
 msgstr "Zertifikats-Datei auswählen"
@@ -2653,7 +2653,7 @@ msgstr "Glätten"
 msgid "Snap"
 msgstr "Auf Objekte einrasten"
 
-#: src/wx/config_dialog.cc:878
+#: src/wx/config_dialog.cc:877
 msgid "Sound"
 msgstr ""
 
@@ -3586,7 +3586,7 @@ msgstr "Untertitel Sprache (z.B. EN)"
 msgid "View..."
 msgstr "Liste..."
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1007
 msgid "WASAPI"
 msgstr "WASAPI"
 
@@ -3714,12 +3714,6 @@ msgstr "Zoom +/-"
 msgid "Zoom out to whole film"
 msgstr "Vollständig"
 
-#. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
-#: src/wx/config_dialog.cc:850
-#, fuzzy
-msgid "_kdm_decryption_cert.pem"
-msgstr "dcpomatic_kdm_decryption_cert.pem"
-
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
@@ -3728,11 +3722,6 @@ msgstr ""
 #: src/wx/metadata_dialog.cc:267
 msgid "candela per m²"
 msgstr ""
-
-#: src/wx/config_dialog.cc:480
-#, fuzzy
-msgid "certificate_chain.pem"
-msgstr "Zertifikatskette"
 
 #: src/wx/kdm_output_panel.cc:91
 msgid "cinema"
@@ -3824,7 +3813,7 @@ msgstr "Anzahl Akte ('reels')"
 msgid "open subtitles"
 msgstr "Untertitel/Open Captions"
 
-#: src/wx/config_dialog.cc:900
+#: src/wx/config_dialog.cc:899
 #, fuzzy
 msgid "output"
 msgstr "Ausgabe"
@@ -3832,11 +3821,6 @@ msgstr "Ausgabe"
 #: src/wx/full_config_dialog.cc:657
 msgid "port"
 msgstr "Port"
-
-#: src/wx/config_dialog.cc:655
-#, fuzzy
-msgid "private_key.pem"
-msgstr "Leaf private key"
 
 #: src/wx/full_config_dialog.cc:661
 msgid "protocol"
@@ -3907,6 +3891,18 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#, fuzzy
+#~ msgid "_kdm_decryption_cert.pem"
+#~ msgstr "dcpomatic_kdm_decryption_cert.pem"
+
+#, fuzzy
+#~ msgid "certificate_chain.pem"
+#~ msgstr "Zertifikatskette"
+
+#, fuzzy
+#~ msgid "private_key.pem"
+#~ msgstr "Leaf private key"
 
 #~ msgid "Device"
 #~ msgstr "Gerät"

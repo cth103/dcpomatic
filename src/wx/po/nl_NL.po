@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-27 14:46+0200\n"
+"POT-Creation-Date: 2021-05-28 23:38+0200\n"
 "PO-Revision-Date: 2021-05-07 23:49+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -70,7 +70,7 @@ msgstr "%d KDM weggeschreven naar %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDM's weggeschreven naar %s"
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d kanalen via %s"
@@ -288,11 +288,11 @@ msgstr "Er is een probleem opgetreden tijdens het zoeken naar hints (%s)"
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "Een ondertitel duurt langer dan de reel waarin hij zit."
 
-#: src/wx/config_dialog.cc:1010
+#: src/wx/config_dialog.cc:1009
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:1006
+#: src/wx/config_dialog.cc:1005
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -786,7 +786,7 @@ msgstr "Content-eigenschappen"
 msgid "Content Type"
 msgstr "Content-type"
 
-#: src/wx/config_dialog.cc:1097
+#: src/wx/config_dialog.cc:1096
 msgid "Content directory"
 msgstr "Content-map"
 
@@ -811,7 +811,7 @@ msgstr "Y"
 msgid "Copy as name"
 msgstr "Kopieer als naam"
 
-#: src/wx/config_dialog.cc:1005
+#: src/wx/config_dialog.cc:1004
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
@@ -902,7 +902,7 @@ msgstr "Cursor: geen"
 msgid "Custom scale"
 msgstr "Aangepaste schaling"
 
-#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:900
+#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:899
 #: src/wx/film_editor.cc:62 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr "DCP"
@@ -1044,7 +1044,7 @@ msgstr "Vertraging"
 msgid "Details..."
 msgstr "Details..."
 
-#: src/wx/config_dialog.cc:1007
+#: src/wx/config_dialog.cc:1006
 msgid "Direct Sound"
 msgstr "Direct Sound"
 
@@ -1097,7 +1097,7 @@ msgstr "Dropped frames: %d"
 msgid "Dual-screen displays"
 msgstr "Dubbel scherm weergave"
 
-#: src/wx/config_dialog.cc:1013
+#: src/wx/config_dialog.cc:1012
 msgid "Dummy"
 msgstr "Dummy"
 
@@ -1590,7 +1590,7 @@ msgstr ""
 "instelling aan te passen, omdat hierdoor de audio van de DCP zou clippen.  "
 "De versterking is ongewijzigd."
 
-#: src/wx/config_dialog.cc:1009
+#: src/wx/config_dialog.cc:1008
 msgid "JACK"
 msgstr "JACK"
 
@@ -1618,7 +1618,7 @@ msgstr "Ga naar geselecteerde content"
 msgid "KDM Email"
 msgstr "KDM E-mail"
 
-#: src/wx/config_dialog.cc:1107
+#: src/wx/config_dialog.cc:1106
 msgid "KDM directory"
 msgstr "KDM-map"
 
@@ -1729,7 +1729,7 @@ msgstr "Regelafstand"
 msgid "Load certificate..."
 msgstr "Laad certificaat..."
 
-#: src/wx/config_dialog.cc:1078
+#: src/wx/config_dialog.cc:1077
 msgid "Locations"
 msgstr "Locaties"
 
@@ -1796,7 +1796,7 @@ msgstr "Maak certificaat-keten"
 msgid "Many"
 msgstr "Vele"
 
-#: src/wx/config_dialog.cc:899
+#: src/wx/config_dialog.cc:898
 msgid "Mapping"
 msgstr "Mapping"
 
@@ -1977,7 +1977,7 @@ msgstr "Aantal threads dat de DCP-o-matic encodeer-server moet gebruiken"
 msgid "Number of threads DCP-o-matic should use"
 msgstr "Aantal threads dat DCP-o-matic moet gebruiken"
 
-#: src/wx/config_dialog.cc:1012
+#: src/wx/config_dialog.cc:1011
 msgid "OSS"
 msgstr "OSS"
 
@@ -2043,7 +2043,7 @@ msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
 "Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden."
 
-#: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:106
+#: src/wx/config_dialog.cc:899 src/wx/dkdm_dialog.cc:106
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "Output"
@@ -2139,11 +2139,11 @@ msgstr "Speel af"
 msgid "Play length"
 msgstr "Afspeelduur"
 
-#: src/wx/config_dialog.cc:889
+#: src/wx/config_dialog.cc:888
 msgid "Play sound via"
 msgstr "Speel audio af via"
 
-#: src/wx/config_dialog.cc:1102
+#: src/wx/config_dialog.cc:1101
 msgid "Playlist directory"
 msgstr "Afspeellijst-map"
 
@@ -2191,7 +2191,7 @@ msgstr "Eigenschappen..."
 msgid "Protocol"
 msgstr "Protocol"
 
-#: src/wx/config_dialog.cc:1011
+#: src/wx/config_dialog.cc:1010
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2328,7 +2328,7 @@ msgstr "Herhaal..."
 msgid "Report A Problem"
 msgstr "Meld een probleem"
 
-#: src/wx/config_dialog.cc:905
+#: src/wx/config_dialog.cc:904
 msgid "Reset to default"
 msgstr "Stel standaard waarden opnieuw in"
 
@@ -2430,7 +2430,7 @@ msgid "Select CPL XML file"
 msgstr "Selecteer CPL XML-bestand"
 
 #: src/wx/config_dialog.cc:364 src/wx/config_dialog.cc:450
-#: src/wx/config_dialog.cc:853 src/wx/recipient_dialog.cc:188
+#: src/wx/config_dialog.cc:852 src/wx/recipient_dialog.cc:188
 #: src/wx/screen_dialog.cc:225
 msgid "Select Certificate File"
 msgstr "Selecteer certificaat-bestand"
@@ -2600,7 +2600,7 @@ msgstr "Gladstrijken"
 msgid "Snap"
 msgstr "Vastklikken"
 
-#: src/wx/config_dialog.cc:878
+#: src/wx/config_dialog.cc:877
 msgid "Sound"
 msgstr "Audio"
 
@@ -3604,7 +3604,7 @@ msgstr "Video heeft ingebrande ondertitels in de taal"
 msgid "View..."
 msgstr "Toon..."
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1007
 msgid "WASAPI"
 msgstr "WASAPI"
 
@@ -3731,11 +3731,6 @@ msgstr "Zoom in / uit"
 msgid "Zoom out to whole film"
 msgstr "Zoom uit naar hele film"
 
-#. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
-#: src/wx/config_dialog.cc:850
-msgid "_kdm_decryption_cert.pem"
-msgstr "_kdm_decryption_cert.pem"
-
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
@@ -3744,10 +3739,6 @@ msgstr "en 1 waarschuwing."
 #: src/wx/metadata_dialog.cc:267
 msgid "candela per m²"
 msgstr "candela per m²"
-
-#: src/wx/config_dialog.cc:480
-msgid "certificate_chain.pem"
-msgstr "certificate_chain.pem"
 
 #: src/wx/kdm_output_panel.cc:91
 msgid "cinema"
@@ -3838,17 +3829,13 @@ msgstr "aantal reels"
 msgid "open subtitles"
 msgstr "open ondertitels"
 
-#: src/wx/config_dialog.cc:900
+#: src/wx/config_dialog.cc:899
 msgid "output"
 msgstr "output"
 
 #: src/wx/full_config_dialog.cc:657
 msgid "port"
 msgstr "poort"
-
-#: src/wx/config_dialog.cc:655
-msgid "private_key.pem"
-msgstr "private_key.pem"
 
 #: src/wx/full_config_dialog.cc:661
 msgid "protocol"
@@ -3918,6 +3905,15 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:128
 msgid "y"
 msgstr "y"
+
+#~ msgid "_kdm_decryption_cert.pem"
+#~ msgstr "_kdm_decryption_cert.pem"
+
+#~ msgid "certificate_chain.pem"
+#~ msgstr "certificate_chain.pem"
+
+#~ msgid "private_key.pem"
+#~ msgstr "private_key.pem"
 
 #~ msgid "Device"
 #~ msgstr "Apparaat"

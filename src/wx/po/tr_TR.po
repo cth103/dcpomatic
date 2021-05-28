@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-27 14:46+0200\n"
+"POT-Creation-Date: 2021-05-28 23:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "%d KDMs written to %s"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1030
+#: src/wx/config_dialog.cc:1029
 #, c-format
 msgid "%d channels on %s"
 msgstr ""
@@ -279,11 +279,11 @@ msgstr ""
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1010
+#: src/wx/config_dialog.cc:1009
 msgid "ALSA"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1006
+#: src/wx/config_dialog.cc:1005
 msgid "ASIO"
 msgstr ""
 
@@ -759,7 +759,7 @@ msgstr ""
 msgid "Content Type"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1097
+#: src/wx/config_dialog.cc:1096
 msgid "Content directory"
 msgstr ""
 
@@ -784,7 +784,7 @@ msgstr ""
 msgid "Copy as name"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1005
+#: src/wx/config_dialog.cc:1004
 msgid "CoreAudio"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr ""
 msgid "Custom scale"
 msgstr ""
 
-#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:900
+#: src/wx/audio_panel.cc:101 src/wx/config_dialog.cc:899
 #: src/wx/film_editor.cc:62 src/wx/player_information.cc:55
 msgid "DCP"
 msgstr ""
@@ -1015,7 +1015,7 @@ msgstr ""
 msgid "Details..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1007
+#: src/wx/config_dialog.cc:1006
 msgid "Direct Sound"
 msgstr ""
 
@@ -1068,7 +1068,7 @@ msgstr ""
 msgid "Dual-screen displays"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1013
+#: src/wx/config_dialog.cc:1012
 msgid "Dummy"
 msgstr ""
 
@@ -1531,7 +1531,7 @@ msgid ""
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1009
+#: src/wx/config_dialog.cc:1008
 msgid "JACK"
 msgstr ""
 
@@ -1557,7 +1557,7 @@ msgstr ""
 msgid "KDM Email"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1107
+#: src/wx/config_dialog.cc:1106
 msgid "KDM directory"
 msgstr ""
 
@@ -1668,7 +1668,7 @@ msgstr ""
 msgid "Load certificate..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1078
+#: src/wx/config_dialog.cc:1077
 msgid "Locations"
 msgstr ""
 
@@ -1735,7 +1735,7 @@ msgstr ""
 msgid "Many"
 msgstr ""
 
-#: src/wx/config_dialog.cc:899
+#: src/wx/config_dialog.cc:898
 msgid "Mapping"
 msgstr ""
 
@@ -1915,7 +1915,7 @@ msgstr ""
 msgid "Number of threads DCP-o-matic should use"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1012
+#: src/wx/config_dialog.cc:1011
 msgid "OSS"
 msgstr ""
 
@@ -1980,7 +1980,7 @@ msgstr ""
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
 
-#: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:106
+#: src/wx/config_dialog.cc:899 src/wx/dkdm_dialog.cc:106
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr ""
@@ -2074,11 +2074,11 @@ msgstr ""
 msgid "Play length"
 msgstr ""
 
-#: src/wx/config_dialog.cc:889
+#: src/wx/config_dialog.cc:888
 msgid "Play sound via"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1102
+#: src/wx/config_dialog.cc:1101
 msgid "Playlist directory"
 msgstr ""
 
@@ -2124,7 +2124,7 @@ msgstr ""
 msgid "Protocol"
 msgstr ""
 
-#: src/wx/config_dialog.cc:1011
+#: src/wx/config_dialog.cc:1010
 msgid "PulseAudio"
 msgstr ""
 
@@ -2261,7 +2261,7 @@ msgstr ""
 msgid "Report A Problem"
 msgstr ""
 
-#: src/wx/config_dialog.cc:905
+#: src/wx/config_dialog.cc:904
 msgid "Reset to default"
 msgstr ""
 
@@ -2363,7 +2363,7 @@ msgid "Select CPL XML file"
 msgstr ""
 
 #: src/wx/config_dialog.cc:364 src/wx/config_dialog.cc:450
-#: src/wx/config_dialog.cc:853 src/wx/recipient_dialog.cc:188
+#: src/wx/config_dialog.cc:852 src/wx/recipient_dialog.cc:188
 #: src/wx/screen_dialog.cc:225
 msgid "Select Certificate File"
 msgstr ""
@@ -2533,7 +2533,7 @@ msgstr ""
 msgid "Snap"
 msgstr ""
 
-#: src/wx/config_dialog.cc:878
+#: src/wx/config_dialog.cc:877
 msgid "Sound"
 msgstr ""
 
@@ -3429,7 +3429,7 @@ msgstr ""
 msgid "View..."
 msgstr ""
 
-#: src/wx/config_dialog.cc:1008
+#: src/wx/config_dialog.cc:1007
 msgid "WASAPI"
 msgstr ""
 
@@ -3548,11 +3548,6 @@ msgstr ""
 msgid "Zoom out to whole film"
 msgstr ""
 
-#. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
-#: src/wx/config_dialog.cc:850
-msgid "_kdm_decryption_cert.pem"
-msgstr ""
-
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
@@ -3560,10 +3555,6 @@ msgstr ""
 
 #: src/wx/metadata_dialog.cc:267
 msgid "candela per m²"
-msgstr ""
-
-#: src/wx/config_dialog.cc:480
-msgid "certificate_chain.pem"
 msgstr ""
 
 #: src/wx/kdm_output_panel.cc:91
@@ -3655,16 +3646,12 @@ msgstr ""
 msgid "open subtitles"
 msgstr ""
 
-#: src/wx/config_dialog.cc:900
+#: src/wx/config_dialog.cc:899
 msgid "output"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:657
 msgid "port"
-msgstr ""
-
-#: src/wx/config_dialog.cc:655
-msgid "private_key.pem"
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:661
