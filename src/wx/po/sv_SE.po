@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-05-27 14:46+0200\n"
-"PO-Revision-Date: 2021-03-22 02:21+0100\n"
+"PO-Revision-Date: 2021-05-28 16:35+0200\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 2.3\n"
 
 #: src/wx/player_information.cc:95
 #, c-format
@@ -75,13 +74,12 @@ msgstr "%d ljudkanaler via %s"
 
 # Used verbatim without translation
 #: src/wx/about_dialog.cc:87
-#, fuzzy
 msgid ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
-"(C) 2012-2020 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen, Brecht Sanders"
+"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
+" Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:48 src/wx/file_picker_ctrl.cc:63
 msgid "(None)"
@@ -118,13 +116,12 @@ msgstr "0 dB (oförändrat)"
 #. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:380
 msgid "1 Bv2.1 error, "
-msgstr ""
+msgstr "1 Bv2.1 fel, "
 
 #. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:372
-#, fuzzy
 msgid "1 error, "
-msgstr " (%d fel)"
+msgstr "1 fel, "
 
 #: src/wx/wx_util.cc:504
 msgid "12 - 7.1/HI/VI"
@@ -144,7 +141,7 @@ msgstr "2D"
 
 #: src/wx/metadata_dialog.cc:250
 msgid "2D version of 3D DCP"
-msgstr ""
+msgstr "2D-version av 3D-DCP"
 
 #: src/wx/dcp_panel.cc:785
 msgid "2K"
@@ -216,68 +213,71 @@ msgstr "A"
 #: src/wx/verify_dcp_dialog.cc:338
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
-msgstr ""
+msgstr "En 2K JPEG2000-bild innehåller %n bildsegment istället för 3."
 
 #: src/wx/verify_dcp_dialog.cc:341
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr ""
+msgstr "En 2K JPEG2000-bild innehåller %n bildsegment istället för 6."
 
 #: src/wx/verify_dcp_dialog.cc:326
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
-msgstr ""
+msgstr "En 2K JPEG2000-bild innehåller %n POC-markeing(ar) istället för 0."
 
+# Svengelska
 #: src/wx/verify_dcp_dialog.cc:311
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
-msgstr ""
+msgstr "En 2K JPEG2000-bild innehåller %n guard bits istället för 1."
 
 #: src/wx/verify_dcp_dialog.cc:329
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
-msgstr ""
+msgstr "En 4K JPEG2000-bild innehåller %n POC-markeing(ar) istället för 1."
 
 #: src/wx/verify_dcp_dialog.cc:314
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
-msgstr ""
+msgstr "En 4K JPEG2000-bild innehåller %n guard bits istället för 2."
 
 #: src/wx/verify_dcp_dialog.cc:335
 msgid "A JPEG2000 frame contains POC marker in an invalid location."
-msgstr ""
+msgstr "En JPEG2000-bild innehåller POC-markering på ett felaktigt ställe."
 
 #: src/wx/verify_dcp_dialog.cc:332
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
-msgstr ""
+msgstr "En JPEG2000-bild innehåller en felaktig POC-markering (%n)."
 
+# Svengelska
 #: src/wx/verify_dcp_dialog.cc:323
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
-msgstr ""
+msgstr "En JPEG2000-bild innehåller en kodblockshöjd på %n istället för 32."
 
 #: src/wx/verify_dcp_dialog.cc:320
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
-msgstr ""
+msgstr "En JPEG2000-bild innehåller en kodblocksbredd på %n istället för 32."
 
 #: src/wx/verify_dcp_dialog.cc:344
 msgid "A JPEG2000 frame has no TLM marker."
-msgstr ""
+msgstr "En JPEG2000-bild saknar TLM-markeing."
 
+# Svengelska
 #: src/wx/verify_dcp_dialog.cc:317
 msgid "A JPEG2000 tile size does not match the image size."
-msgstr ""
+msgstr "En JPEG2000 tile-storlek stämmer inte med bildstorleken."
 
 #: src/wx/update_dialog.cc:40
 msgid "A new version of DCP-o-matic is available."
 msgstr "Det finns en nyare version av DCP-o-matic."
 
 #: src/wx/verify_dcp_dialog.cc:308
-#, fuzzy, c-format
+#, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)"
-msgstr "Bildspåret i en akt har ogiltlig bildhastighet"
+msgstr "En bild har en trasig JPEG2000-ström (%n)"
 
 #: src/wx/hints_dialog.cc:178
 #, c-format
@@ -286,7 +286,7 @@ msgstr "Problem uppstod när vi letade efter tips (%s)"
 
 #: src/wx/verify_dcp_dialog.cc:347
 msgid "A subtitle lasts longer than the reel it is in."
-msgstr ""
+msgstr "En undertext är längre än akten den ligger i."
 
 #: src/wx/config_dialog.cc:1010
 msgid "ALSA"
@@ -354,20 +354,19 @@ msgstr "Lägg till fil(er)..."
 
 #: src/wx/content_panel.cc:105
 msgid "Add folder..."
-msgstr "Lägg till mapp…"
+msgstr "Lägg till mapp..."
 
 #: src/wx/image_sequence_dialog.cc:28
 msgid "Add image sequence"
 msgstr "Lägg till bildsekvens"
 
 #: src/wx/language_tag_dialog.cc:40
-#, fuzzy
 msgid "Add language..."
-msgstr "Dialogspråk"
+msgstr "Lägg till språk..."
 
 #: src/wx/text_panel.cc:346
 msgid "Add new..."
-msgstr "Lägg till ny…"
+msgstr "Lägg till ny..."
 
 #: src/wx/recipients_panel.cc:128
 msgid "Add recipient"
@@ -393,7 +392,7 @@ msgstr ""
 
 #: src/wx/text_panel.cc:166
 msgid "Additional"
-msgstr ""
+msgstr "Ytterligare"
 
 #: src/wx/cinema_dialog.cc:70 src/wx/full_config_dialog.cc:798
 #: src/wx/full_config_dialog.cc:932 src/wx/recipient_dialog.cc:90
@@ -419,7 +418,7 @@ msgstr "Avancerade källmaterials-alternativ"
 
 #: src/wx/content_menu.cc:89
 msgid "Advanced settings..."
-msgstr "Avancerade inställningar…"
+msgstr "Avancerade inställningar..."
 
 #: src/wx/config_dialog.cc:704 src/wx/config_dialog.cc:720
 #: src/wx/kdm_output_panel.cc:80
@@ -493,27 +492,31 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:242
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
-msgstr ""
+msgstr "Åtminstone en komponent i akten är inte lika lång som de andra."
 
 #: src/wx/verify_dcp_dialog.cc:161
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "At least one frame of the video asset %f is close to the limit of 250MBit/s."
-msgstr "Minst en bildruta har bitrate nära gränsen 250Mbit/s."
+msgstr ""
+"Minst en bildruta i videokomponenten %f har en bitrate nära gränsen 250MBit/"
+"s."
 
 #: src/wx/verify_dcp_dialog.cc:158
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "At least one frame of the video asset %f is over the limit of 250Mbit/s."
-msgstr "Minst en bildruta har bitrate över gränsen 250Mbit/s."
+msgstr ""
+"Minst en bildruta i videokomponenten %f har en bitrate över gränsen 250MBit/"
+"s."
 
 #: src/wx/verify_dcp_dialog.cc:215
 msgid "At least one pair of subtitles is separated by less than 2 frames."
-msgstr ""
+msgstr "Åtminstone ett par undertexter ligger närmare än 2 bilder."
 
 #: src/wx/verify_dcp_dialog.cc:212
 msgid "At least one subtitle lasts less than 15 frames."
-msgstr ""
+msgstr "Åtminstone en undertext är kortare än 15 bilder."
 
 #: src/wx/timeline_labels_view.cc:40 src/wx/timeline_labels_view.cc:81
 msgid "Atmos"
@@ -725,7 +728,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:260
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "Undertexten %n har en icke-tom <EntryPoint>."
 
 #: src/wx/closed_captions_dialog.cc:44
 msgid "Closed captions"
@@ -839,9 +842,9 @@ msgid "Could not load certficate (%s)"
 msgstr "Kunde inte ladda in certifikat (%s)"
 
 #: src/wx/gl_video_view.cc:120
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read DCP: %s"
-msgstr "Kunde inte ladda KDM"
+msgstr "Kunde inte ladda DCP: %s"
 
 #: src/wx/download_certificate_panel.cc:66
 #: src/wx/download_certificate_panel.cc:78
@@ -1169,10 +1172,10 @@ msgstr "Mata in din mejladress för kontakten, inte %s"
 msgid "Errors"
 msgstr "Fel"
 
+# Is it really a "löv" in this context?
 #: src/wx/config_dialog.cc:698
-#, fuzzy
 msgid "Export KDM decryption leaf certificate..."
-msgstr "Exportera KDM-dekrypteringscertifikat..."
+msgstr "Exportera KDM-dekrypteringslövscertifikat..."
 
 #: src/wx/config_dialog.cc:700
 msgid "Export all KDM decryption settings..."
@@ -1180,11 +1183,11 @@ msgstr "Exportera alla inställningar för KDM-dekryptering..."
 
 #: src/wx/config_dialog.cc:296
 msgid "Export certificate..."
-msgstr "Exportera certifikat…"
+msgstr "Exportera certifikat..."
 
 #: src/wx/config_dialog.cc:298
 msgid "Export chain..."
-msgstr "Exportera kedja…"
+msgstr "Exportera kedja..."
 
 #: src/wx/export_subtitles_dialog.cc:38
 msgid "Export subtitles"
@@ -1260,7 +1263,7 @@ msgstr "Hitta saknade..."
 
 #: src/wx/subtitle_appearance_dialog.cc:129
 msgid "Finding the colours in these subtitles..."
-msgstr "Hittar färger i dessa undertexter…"
+msgstr "Hittar färger i dessa undertexter..."
 
 #: src/wx/markers_dialog.cc:127
 msgid "First frame of composition"
@@ -1651,22 +1654,20 @@ msgid "Language"
 msgstr "Språk"
 
 #: src/wx/full_language_tag_dialog.cc:193 src/wx/language_tag_dialog.cc:35
-#, fuzzy
 msgid "Language Tag"
-msgstr "Språk"
+msgstr "Språktagg"
 
 #: src/wx/content_advanced_dialog.cc:97
 msgid "Language of burnt-in subtitles in this content"
-msgstr ""
+msgstr "Språket på inbränd undertitel för detta innehåll"
 
 #: src/wx/text_panel.cc:159
-#, fuzzy
 msgid "Language of these subtitles"
-msgstr "Hittar färger i dessa undertexter…"
+msgstr "Språk för dessa undertexter"
 
 #: src/wx/audio_panel.cc:99
 msgid "Language used for the dialogue in this content"
-msgstr ""
+msgstr "Språk som används för dialogen i detta innehåll"
 
 #: src/wx/markers_dialog.cc:128
 msgid "Last frame of composition"
@@ -1726,7 +1727,7 @@ msgstr "Radavstånd"
 
 #: src/wx/screen_dialog.cc:59
 msgid "Load certificate..."
-msgstr "Ladda certifikat…"
+msgstr "Ladda certifikat..."
 
 #: src/wx/config_dialog.cc:1078
 msgid "Locations"
@@ -1769,7 +1770,7 @@ msgstr "MP4-filer (*.mp4)|*.mp4"
 #. / film or an "additional" language.
 #: src/wx/text_panel.cc:165
 msgid "Main"
-msgstr ""
+msgstr "Huvudsakligt"
 
 #: src/wx/hints_dialog.cc:75
 msgid "Make DCP"
@@ -1813,7 +1814,7 @@ msgstr "Tidsmarkörer"
 
 #: src/wx/dcp_panel.cc:116
 msgid "Markers..."
-msgstr "Tidsmarkörer…"
+msgstr "Tidsmarkörer..."
 
 #: src/wx/colour_conversion_editor.cc:129
 msgid "Matrix"
@@ -1842,7 +1843,7 @@ msgstr "Metadata"
 
 #: src/wx/dcp_panel.cc:117
 msgid "Metadata..."
-msgstr "Metadata…"
+msgstr "Metadata..."
 
 #: src/wx/export_video_file_dialog.cc:64
 msgid "Mix audio down to stereo"
@@ -1924,7 +1925,7 @@ msgstr "Ingen DCP laddad."
 
 #: src/wx/verify_dcp_dialog.cc:401
 msgid "No SMPTE Bv2.1 errors found."
-msgstr ""
+msgstr "Inga SMPTE Bv2.1 fel hittade."
 
 #: src/wx/audio_mapping_view.cc:616
 #, c-format
@@ -1937,11 +1938,11 @@ msgstr "Inget innehåll hittades i denna mapp."
 
 #: src/wx/verify_dcp_dialog.cc:397
 msgid "No errors found."
-msgstr ""
+msgstr "Inga fel hittade."
 
 #: src/wx/verify_dcp_dialog.cc:405
 msgid "No warnings found."
-msgstr ""
+msgstr "Inga varningar hittade."
 
 #. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:72 src/wx/content_advanced_dialog.cc:155
@@ -1952,7 +1953,7 @@ msgstr "Ingen"
 
 #: src/wx/verify_dcp_dialog.cc:200
 msgid "Not all subtitle assets specify the same <Language> tag."
-msgstr ""
+msgstr "Inte alla undertextinnehåll använder samma <Language> tagg."
 
 #: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:74
 #: src/wx/screen_dialog.cc:122
@@ -2037,9 +2038,8 @@ msgid "Outline width"
 msgstr "Konturbredd"
 
 #: src/wx/subtitle_appearance_dialog.cc:315
-#, fuzzy
 msgid "Outline width cannot be set unless you are burning in subtitles."
-msgstr "Konturbredd kan bara anges om undertexter bränns in"
+msgstr "Konturbredd kan bara anges om undertexter bränns in."
 
 #: src/wx/config_dialog.cc:900 src/wx/dkdm_dialog.cc:106
 #: src/wx/kdm_dialog.cc:108 src/wx/self_dkdm_dialog.cc:76
@@ -2068,7 +2068,7 @@ msgstr "Skriv över denna fil med nuvarande inställningar"
 
 #: src/wx/verify_dcp_dialog.cc:363
 msgid "Part of the DCP could not be checked because no KDM was available"
-msgstr ""
+msgstr "Del av DCPn kunde inte checkas eftersom ingen KDM fanns tillgänglig"
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""
@@ -2382,11 +2382,11 @@ msgstr "SMPTE"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "SMPTE Bv2.1 errors"
-msgstr ""
+msgstr "SMPTE Bv2.1 fel"
 
 #: src/wx/full_config_dialog.cc:667
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: src/wx/full_config_dialog.cc:666
 msgid "STARTTLS"
@@ -2557,7 +2557,7 @@ msgstr "Visa experimentella ljudfilter"
 
 #: src/wx/audio_panel.cc:69 src/wx/dcp_panel.cc:868
 msgid "Show graph of audio levels..."
-msgstr "Visa graf av ljudnivåer…"
+msgstr "Visa graf av ljudnivåer..."
 
 #: src/wx/text_panel.cc:151
 msgid "Show subtitle area"
@@ -2641,9 +2641,8 @@ msgid "Stream"
 msgstr "Ström"
 
 #: src/wx/metadata_dialog.cc:228
-#, fuzzy
 msgid "Studio"
-msgstr "Ljud"
+msgstr "Studio"
 
 #: src/wx/full_config_dialog.cc:789 src/wx/full_config_dialog.cc:919
 msgid "Subject"
@@ -2654,14 +2653,13 @@ msgid "Subscribers"
 msgstr "Prenumeranter"
 
 #: src/wx/subtitle_appearance_dialog.cc:60
-#, fuzzy
 msgid "Subtitle appearance"
 msgstr "Undertext-utseende"
 
 #: src/wx/verify_dcp_dialog.cc:254
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "Undertexttillgången %n har en icke-tom <EntryPoint>."
 
 #: src/wx/export_subtitles_dialog.cc:58
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -2716,9 +2714,8 @@ msgid "Temporary"
 msgstr "Temporary"
 
 #: src/wx/metadata_dialog.cc:238
-#, fuzzy
 msgid "Temporary version"
-msgstr "Temporary"
+msgstr "Temporär version"
 
 #: src/wx/update_dialog.cc:56
 msgid "Test version "
@@ -2771,11 +2768,13 @@ msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
 msgstr ""
+"Tillgångs-ID i en tajmad-text MXF är samma som Resurs-ID eller ID i den "
+"inbäddade XML:en."
 
 #: src/wx/verify_dcp_dialog.cc:293
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr ""
+msgstr "CPL:en %f har en felaktig CPL-utöknings metadata tagg (%n)"
 
 #: src/wx/verify_dcp_dialog.cc:239
 #, c-format
@@ -2783,73 +2782,80 @@ msgid ""
 "The CPL %n has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr ""
+"CPL:en %n har en <AnnotationText> som inte är samma som dess "
+"<ContentTitleText>."
 
 #: src/wx/verify_dcp_dialog.cc:296
 #, c-format
 msgid "The CPL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "CPL:en %n har krypterat innehåll men är inte signerat."
 
 #: src/wx/verify_dcp_dialog.cc:236
 #, c-format
 msgid "The CPL %n has no <AnnotationText> tag."
-msgstr ""
+msgstr "CPL:en %n har ingen <AnnotationText> tagg."
 
 #: src/wx/verify_dcp_dialog.cc:290
 #, c-format
 msgid "The CPL %n has no CPL extension metadata tag."
-msgstr ""
+msgstr "CPL:en %n har ingen CPL utökad metadata tagg."
 
 #: src/wx/verify_dcp_dialog.cc:284
 #, c-format
 msgid "The CPL %n has no CPL metadata tag."
-msgstr ""
+msgstr "CPL:en %n har ingen CPL metadata tagg."
 
 #: src/wx/verify_dcp_dialog.cc:287
 #, c-format
 msgid "The CPL %n has no CPL metadata version number tag."
-msgstr ""
+msgstr "CPL:en %n har ingen CPL metadata versionsnummer tagg."
 
 #: src/wx/verify_dcp_dialog.cc:278
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
-msgstr ""
+msgstr "DCP:n har en FFOC av %n istället för 1."
 
 #: src/wx/verify_dcp_dialog.cc:281
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr ""
+msgstr "DCP:n har en LFOC av %n istället för rullens längd minus ett."
 
 #: src/wx/verify_dcp_dialog.cc:248
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
 msgstr ""
+"DCP:n har undertexter men inte varje rulle har samma antal undertexter."
 
 #: src/wx/verify_dcp_dialog.cc:305
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
-msgstr ""
+msgstr "DCP:n har krypterat innehåll, men inte allt innehåll är krypterat."
 
 #: src/wx/verify_dcp_dialog.cc:272
 msgid "The DCP has no FFOC (first frame of content) marker."
-msgstr ""
+msgstr "DCP:n har ingen FFOC (first frame of content) markering."
 
 #: src/wx/verify_dcp_dialog.cc:275
 msgid "The DCP has no LFOC (last frame of content) marker."
-msgstr ""
+msgstr "DCP:n har ingen LFOC (last frame of content) markering."
 
 #: src/wx/verify_dcp_dialog.cc:245
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
-msgstr ""
+msgstr "DCP:n har undertexter men åtminstone en rulle saknar undertext."
 
 #: src/wx/verify_dcp_dialog.cc:266
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
+"DCP:n är en feature men har ingen FFEC ( first frame of end credit) "
+"markering."
 
 #: src/wx/verify_dcp_dialog.cc:269
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
+"DCP:n är en feature men har ingen FFMC ( first frame of moving credit) "
+"markering."
 
 #: src/wx/dkdm_dialog.cc:171 src/wx/kdm_dialog.cc:183
 msgid ""
@@ -2876,37 +2882,40 @@ msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
+"PKL:en %n har en <AnnotationText> som inte stämmer med CPL:ens "
+"<ContentTitleText>."
 
 #: src/wx/verify_dcp_dialog.cc:299
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "PKL:en %n har krypterat innehåll men är inte signerat."
 
 #: src/wx/verify_dcp_dialog.cc:124
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
-msgstr "Hashsumman i PKL och CPL stämmer inte överens för en bildkompent."
+msgstr "Hashsummorna i PKL och CPL stämmer inte överens för bildkompenten %f."
 
 #: src/wx/verify_dcp_dialog.cc:130
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
-msgstr "Hashsumman i PKL och CPL stämmer inte överens för en ljudkomponent."
+msgstr ""
+"Hashsummorna i PKL och CPL stämmer inte överens för ljudkomponenten %f."
 
 #: src/wx/verify_dcp_dialog.cc:350
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
 msgstr ""
+"Resurs-ID i en tajmad text MXF stämmer inte med ID i den inbäddade XML:en."
 
 #: src/wx/verify_dcp_dialog.cc:145
-#, fuzzy, c-format
+#, c-format
 msgid "The XML in %f is malformed (%n)."
-msgstr "XML-koden i %s är felaktig."
+msgstr "XML-koden i %f är felaktig (%n)."
 
 #: src/wx/verify_dcp_dialog.cc:143
-#, fuzzy
 msgid "The XML in %f is malformed on line %l (%n)."
-msgstr "XML-koden i %s är felaktig på rad %<PRIu64>."
+msgstr "XML-koden i %f är felaktig på rad %l (%n)"
 
 #: src/wx/verify_dcp_dialog.cc:188
 #, c-format
@@ -2914,39 +2923,42 @@ msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
 msgstr ""
+"XML:en i undertexttillgången %f tar %n byte vilket är mer än gränsen på "
+"256KB."
 
 #: src/wx/verify_dcp_dialog.cc:167
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
-msgstr ""
+msgstr "Tillgången %f är 3D men dess MXF är markerat som 2D."
 
 #: src/wx/verify_dcp_dialog.cc:136
-#, fuzzy, c-format
+#, c-format
 msgid "The asset %f is missing."
-msgstr "En komponent saknas."
+msgstr "Komponenten %f saknas."
 
 #: src/wx/verify_dcp_dialog.cc:155
-#, fuzzy, c-format
+#, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "En komponent har speltid under 1 sekund, vilket inte är tillåtet."
+msgstr "Komponenten %n har en speltid under 1 sekund, vilket inte är tillåtet."
 
 #: src/wx/verify_dcp_dialog.cc:152
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The asset %n has an instrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"En komponent har en verklig speltid under 1 sekund, vilket inte är tillåtet."
+"Komponenten %n har en faktisk speltid under 1 sekund, vilket inte är "
+"tillåtet."
 
 #: src/wx/verify_dcp_dialog.cc:263
-#, fuzzy, c-format
+#, c-format
 msgid "The asset %n has no <Hash> in the CPL."
-msgstr "En komponent har tom sökväg i ASSETMAP."
+msgstr "Komponenten %n har ingen <Hash> i CPL:en."
 
 #: src/wx/verify_dcp_dialog.cc:257
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "Undertexttillgången %n har ingen <EntryPoint> tagg."
 
 #: src/wx/content_menu.cc:403
 msgid ""
@@ -2992,7 +3004,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:209
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
-msgstr ""
+msgstr "Den första undertexten startar innan 4 sekunder på första rullen."
 
 #: src/wx/verify_dcp_dialog.cc:194
 #, c-format
@@ -3000,38 +3012,40 @@ msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr ""
+"Typsnittet i den tajmade texten %f tar %n byte vilket är mer än gränsen på "
+"10MB."
 
 #: src/wx/verify_dcp_dialog.cc:115
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the CPL %n in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
-"Den angivna hashsumman i PKL-filen för CPL:en stämmer inte överens med "
-"hashsumman för CPL-filen. Förmodligen är CPL-filen korrupt."
+"Hashsumman för CPL %n i PKL-filen stämmer inte överens med CPL-filen. "
+"Förmodligen är CPL-filen korrupt."
 
 #: src/wx/verify_dcp_dialog.cc:121
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the picture asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
-"Hashsumman för bildkomponent %s stämmer inte överens med vad som anges i PKL-"
-"filen. Bildkomponentfilen är förmodligen korrupt."
+"Hashsumman för bildkomponent %f stämmer inte överens med PKL-filen. "
+"Bildkomponentfilen är förmodligen korrupt."
 
 #: src/wx/verify_dcp_dialog.cc:127
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the sound asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
-"Hashsumman för ljudkompononenten %s stämmer inte överens med vad som anges i "
-"PKL-filen. Ljudkomponentfilen är förmodligen korrupt."
+"Hashsumman för ljudkompononenten %f stämmer inte överens med PKL-filen. "
+"Ljudkomponentfilen är förmodligen korrupt."
 
 #: src/wx/verify_dcp_dialog.cc:173
 #, c-format
 msgid "The invalid language tag %n is used."
-msgstr ""
+msgstr "Den felaktiga språktaggen %n används."
 
 #: src/wx/smpte_metadata_dialog.cc:70
 #, c-format
@@ -3039,9 +3053,9 @@ msgid "The language that the film's title (\"%s\") is in"
 msgstr "Språket för filmens titel (\"%s\")"
 
 #: src/wx/verify_dcp_dialog.cc:118
-#, fuzzy, c-format
+#, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr "Bildspåret i en akt har ogiltlig bildhastighet"
+msgstr "Bildspåret i en akt har en bildhastighet %n, vilket inte är giltigt."
 
 #: src/wx/film_viewer.cc:785
 msgid ""
@@ -3055,6 +3069,13 @@ msgid ""
 "from the View menu\n"
 "• using a more powerful computer.\n"
 msgstr ""
+"Spelaren tappar många bilder, så uppspelningen är nog inte så exakt.\n"
+"\n"
+"<b>Detta innebär inte nödvändigtvis att DCP:n är felaktig!</b>\n"
+"\n"
+"Du kan förbättra spelarens prestanda genom att:\n"
+"• välja att spela upp med halv eller kvarts upplösning\n"
+"• använda en kraftfullare dator\n"
 
 #: src/wx/verify_dcp_dialog.cc:359
 #, c-format
@@ -3062,79 +3083,88 @@ msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr ""
+"Rullens längd (%s) för någon tajmad text är inte samma som ContainerDuration "
+"(%s) för dess MXF."
 
 #: src/wx/verify_dcp_dialog.cc:233
-#, fuzzy, c-format
+#, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr "Bildspåret i en akt har ogiltlig bildhastighet"
+msgstr "Ljudspåret %f har ogiltlig bildhastighet %n."
 
 #: src/wx/verify_dcp_dialog.cc:197
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
-msgstr ""
+msgstr "Undertexttillgången %f innehåller inte någon <Language> tagg."
 
 #: src/wx/verify_dcp_dialog.cc:203
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
-msgstr ""
+msgstr "Undertexttillgången %f innehåller inte någon <StartTime> tagg."
 
 #: src/wx/verify_dcp_dialog.cc:206
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
-msgstr ""
+msgstr "Undertexttillgången %f har en <StartTime> som inte är noll."
 
 #: src/wx/verify_dcp_dialog.cc:251
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "Undertexttillgången %n har ingen <EntryPoint> tagg."
 
 #: src/wx/verify_dcp_dialog.cc:191
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr ""
+"Den tajmade texttillgången %f tar %n byte vilket är över grånsen 115MB."
 
 #: src/wx/verify_dcp_dialog.cc:185
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr ""
+"Videotillgången %f använder bildhastigheten %n vilket inte är korrekt för 3D-"
+"video."
 
 #: src/wx/verify_dcp_dialog.cc:182
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr ""
+"Videotillgången %f använder bildhastigheten %n vilket inte är korrekt för 4K-"
+"video."
 
 #: src/wx/verify_dcp_dialog.cc:179
-#, fuzzy, c-format
+#, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
-msgstr "Bildspåret i en akt har ogiltlig bildhastighet"
+msgstr "Bildspåret %f använder en ogiltig bildhastighet %n."
 
 #: src/wx/verify_dcp_dialog.cc:176
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
-msgstr ""
+msgstr "Videotillgången %f använder den felaktiga bildstorleken %n."
 
 #: src/wx/verify_dcp_dialog.cc:227
 msgid "There are more than 3 closed caption lines in at least one place."
-msgstr ""
+msgstr "Det finns mer än 3 undertextrader på åtminstone ett ställe."
 
 #: src/wx/verify_dcp_dialog.cc:218
 msgid "There are more than 3 subtitle lines in at least one place."
-msgstr ""
+msgstr "Det finns mer än 3 undertextrader på åtminstone ett ställe."
 
 #: src/wx/verify_dcp_dialog.cc:230
 msgid "There are more than 32 characters in at least one closed caption line."
-msgstr ""
+msgstr "Det finns mer än 32 tecken i åtminstone en undertextrad."
 
 #: src/wx/verify_dcp_dialog.cc:221
 msgid "There are more than 52 characters in at least one subtitle line."
-msgstr ""
+msgstr "Det finns mer än 52 tecken i åtminstone en undertextrad."
 
 #: src/wx/verify_dcp_dialog.cc:224
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr ""
+"Det finns mer än 79\n"
+" tecken i åtminstone en undertextrad."
 
 #: src/wx/hints_dialog.cc:141
 msgid "There are no hints yet: project check in progress."
@@ -3158,23 +3188,25 @@ msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
 msgstr ""
+"Det var problem att starta ljuduppspelningen.  Vänligen försök en annan "
+"ljudenhet i Inställningar."
 
 #: src/wx/kdm_cpl_panel.cc:131
 msgid "This CPL contains no encrypted assets."
 msgstr "Den här CPL:en innehåller inga krypterade komponenter."
 
 #: src/wx/verify_dcp_dialog.cc:164
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Den här DCP:n refererar till minst en komponent i en annan DCP, så den är en "
-"\"versionfil\" (VF)"
+"Den här DCP:n refererar till komponenten %n i en annan DCP (och möjligen "
+"andra), så den är en \"versionfil\" (VF)"
 
 #: src/wx/verify_dcp_dialog.cc:170
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
-msgstr ""
+msgstr "Denna DCP använder Interop-standarden, men den borde skapas med SMPTE."
 
 #: src/wx/content_menu.cc:457
 msgid ""
@@ -3207,6 +3239,9 @@ msgid ""
 "different project.  Choose the DCP directory inside the DCP-o-matic project "
 "folder if that's what you want to import."
 msgstr ""
+"Detta ser ut som en DCP-o-matic projektkatalog, vilket inte kan läggas till "
+"ett annat projekt.  Välj DCP-katalogen inuti DCP-o-matic projektkatalogen om "
+"det är vad du vill importera."
 
 #: src/wx/full_config_dialog.cc:1169
 msgid ""
@@ -3469,9 +3504,8 @@ msgid "UTC-9"
 msgstr "UTC-9"
 
 #: src/wx/closed_captions_dialog.cc:252
-#, fuzzy
 msgid "Unknown"
-msgstr "okänd"
+msgstr "Okänd"
 
 #: src/wx/update_dialog.cc:33
 msgid "Update"
@@ -3555,9 +3589,8 @@ msgstr "Källmaterialets tänkta bildhastighet"
 #. / TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. / "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:95
-#, fuzzy
 msgid "Video has burnt-in subtitles in the language"
-msgstr "Huvudsakligt språk i undertexter"
+msgstr "Video har inbrända undertexter på språket"
 
 #: src/wx/text_panel.cc:108
 msgid "View..."
@@ -3689,25 +3722,25 @@ msgstr "Zooma in / ut"
 msgid "Zoom out to whole film"
 msgstr "Zooma ut till hela filmen"
 
+# Is this something that SHOULD be translated?
 #. / TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
 #: src/wx/config_dialog.cc:850
-#, fuzzy
 msgid "_kdm_decryption_cert.pem"
-msgstr "dcpomatic_kdm_decryption_cert.pem"
+msgstr "_kdm_decryption_cert.pem"
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:388
 msgid "and 1 warning."
-msgstr ""
+msgstr "och 1 varning."
 
 #: src/wx/metadata_dialog.cc:267
 msgid "candela per m²"
 msgstr "candela per kvadratmeter"
 
+# Is this something that SHOULD be translated?
 #: src/wx/config_dialog.cc:480
-#, fuzzy
 msgid "certificate_chain.pem"
-msgstr "Certifikatkedja"
+msgstr "certificate_chain.pem"
 
 #: src/wx/kdm_output_panel.cc:91
 msgid "cinema"
@@ -3735,7 +3768,7 @@ msgstr "anpassad"
 
 #: src/wx/audio_gain_dialog.cc:32 src/wx/audio_panel.cc:82
 msgid "dB"
-msgstr " dB"
+msgstr "dB"
 
 #: src/wx/name_format_editor.cc:80
 #, c-format
@@ -3806,10 +3839,10 @@ msgstr "utdata"
 msgid "port"
 msgstr "port"
 
+# Is this something that SHOULD be translated?
 #: src/wx/config_dialog.cc:655
-#, fuzzy
 msgid "private_key.pem"
-msgstr "Löv privat nyckel"
+msgstr "private_key.pem"
 
 #: src/wx/full_config_dialog.cc:661
 msgid "protocol"
