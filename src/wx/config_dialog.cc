@@ -477,7 +477,7 @@ void
 CertificateChainEditor::export_chain ()
 {
 	auto d = new wxFileDialog (
-		this, _("Select Chain File"), wxEmptyString, _("certificate_chain.pem"), wxT("PEM files (*.pem)|*.pem"),
+		this, _("Select Chain File"), wxEmptyString, wxT("certificate_chain.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -652,7 +652,7 @@ CertificateChainEditor::export_private_key ()
 	}
 
 	auto d = new wxFileDialog (
-		this, _("Select Key File"), wxEmptyString, _("private_key.pem"), wxT ("PEM files (*.pem)|*.pem"),
+		this, _("Select Key File"), wxEmptyString, wxT("private_key.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -846,8 +846,7 @@ KeysPage::export_decryption_certificate ()
 	if (!config->dcp_issuer().empty()) {
 		default_name += "_" + std_to_wx(careful_string_filter(config->dcp_issuer()));
 	}
-	/// TRANSLATORS: this is the suffix of the defautl filename used when exporting KDM decryption leaf certificates
-	default_name += _("_kdm_decryption_cert.pem");
+	default_name += wxT("_kdm_decryption_cert.pem");
 
 	auto d = new wxFileDialog (
 		_panel, _("Select Certificate File"), wxEmptyString, default_name, wxT("PEM files (*.pem)|*.pem"),
