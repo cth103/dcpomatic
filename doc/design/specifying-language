@@ -1,0 +1,19 @@
+There are a few places where languages need to be specified, and it's quite complicated.
+
+# Audio language
+
+At the time of writing this is specified per content, in the content audio tab.  It is
+used for writing:
+
+- RFC5646SpokenLanguage metadata in sound MXF
+- ISDCF name of DCP
+- cover sheet
+
+# Subtitle language
+
+This is also specified per content, in the content subtitle tab.  It is used for writing:
+
+- CPL MainSubtitleLanguageList (all languages present in the DCP)
+- subtitle asset metadata
+- ISDCF name of DCP
+- cover sheet
