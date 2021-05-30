@@ -21,6 +21,7 @@
 
 #include "combine_dcp_job.h"
 #include "compose.hpp"
+#include "config.h"
 #include <dcp/combine.h>
 #include <dcp/exceptions.h>
 
@@ -66,7 +67,8 @@ CombineDCPJob::run ()
 			String::compose("libdcp %1", dcp::version),
 			String::compose("libdcp %1", dcp::version),
 			dcp::LocalTime().as_string(),
-			_annotation_text
+			_annotation_text,
+			Config::instance()->signer_chain()
 			);
 	} catch (dcp::CombineError& e) {
 		set_state (FINISHED_ERROR);
