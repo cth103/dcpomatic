@@ -95,4 +95,7 @@ private:
 	wxButton* _edit_colour_conversion_button;
 	wxStaticText* _range_label;
 	wxChoice* _range;
+
+	bool _left_changed_last = true;
+	bool _top_changed_last = true;
 };

@@ -712,20 +712,29 @@ VideoPanel::scale_custom_edit_clicked ()
 void
 VideoPanel::left_right_link_clicked ()
 {
-	right_crop_changed ();
+	if (_left_changed_last) {
+		left_crop_changed ();
+	} else {
+		right_crop_changed ();
+	}
 }
 
 
 void
 VideoPanel::top_bottom_link_clicked ()
 {
-	bottom_crop_changed ();
+	if (_top_changed_last) {
+		top_crop_changed ();
+	} else {
+		bottom_crop_changed ();
+	}
 }
 
 
 void
 VideoPanel::left_crop_changed ()
 {
+	_left_changed_last = true;
 	if (_left_right_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
 			i->video->set_right_crop (i->video->left_crop());
@@ -737,6 +746,7 @@ VideoPanel::left_crop_changed ()
 void
 VideoPanel::right_crop_changed ()
 {
+	_left_changed_last = false;
 	if (_left_right_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
 			i->video->set_left_crop (i->video->right_crop());
@@ -748,6 +758,7 @@ VideoPanel::right_crop_changed ()
 void
 VideoPanel::top_crop_changed ()
 {
+	_top_changed_last = true;
 	if (_top_bottom_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
 			i->video->set_bottom_crop (i->video->top_crop());
@@ -759,6 +770,7 @@ VideoPanel::top_crop_changed ()
 void
 VideoPanel::bottom_crop_changed ()
 {
+	_top_changed_last = false;
 	if (_top_bottom_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
 			i->video->set_top_crop (i->video->bottom_crop());
