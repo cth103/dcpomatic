@@ -911,18 +911,14 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Interior aspect ratio.  The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::ContentKind::TRAILER) {
-		Ratio const* content_ratio = nullptr;
-		for (auto i: content ()) {
-			if (i->video) {
-				/* Here's the first piece of video content */
-				content_ratio = Ratio::nearest_from_ratio(i->video->scaled_size(frame_size()).ratio());
-				break;
+		auto cl = content();
+		auto first_video = std::find_if(cl.begin(), cl.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->video); });
+		if (first_video != cl.end()) {
+			auto first_ratio = lrintf((*first_video)->video->scaled_size(frame_size()).ratio() * 100);
+			auto container_ratio = lrintf(container()->ratio() * 100);
+			if (first_ratio != container_ratio) {
+				d += "-" + dcp::raw_convert<string>(first_ratio);
 			}
-		}
-
-		if (content_ratio && content_ratio != container()) {
-			/* This needs to be the numeric version of the ratio, and ::id() is close enough */
-			d += "-" + content_ratio->id();
 		}
 	}
 

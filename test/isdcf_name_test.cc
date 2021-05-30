@@ -126,6 +126,13 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	content->video->set_custom_ratio (1.9);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-190_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+
+	/* And it should be possible to set any 'strange' ratio, not just the ones we know about */
+	content->video->set_custom_ratio (2.2);
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-220_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	content->video->set_custom_ratio (1.95);
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_XSN-2_F-195_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+
 	content->video->set_custom_ratio (1.33);
 
 	/* Test 3D */
