@@ -26,7 +26,7 @@
 class CombineDCPJob : public Job
 {
 public:
-	CombineDCPJob (std::vector<boost::filesystem::path> inputs, boost::filesystem::path output);
+	CombineDCPJob (std::vector<boost::filesystem::path> inputs, boost::filesystem::path output, std::string annotation_text);
 
 	std::string name () const;
 	std::string json_name () const;
@@ -35,5 +35,6 @@ public:
 private:
 	std::vector<boost::filesystem::path> _inputs;
 	boost::filesystem::path _output;
+	std::string _annotation_text;
 };
 

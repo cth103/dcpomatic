@@ -20,6 +20,7 @@
 
 
 #include "combine_dcp_job.h"
+#include "compose.hpp"
 #include <dcp/combine.h>
 #include <dcp/exceptions.h>
 
@@ -31,10 +32,11 @@ using std::vector;
 using std::shared_ptr;
 
 
-CombineDCPJob::CombineDCPJob (vector<boost::filesystem::path> inputs, boost::filesystem::path output)
+CombineDCPJob::CombineDCPJob (vector<boost::filesystem::path> inputs, boost::filesystem::path output, string annotation_text)
 	: Job (shared_ptr<Film>())
 	, _inputs (inputs)
 	, _output (output)
+	, _annotation_text (annotation_text)
 {
 
 }
@@ -58,7 +60,14 @@ void
 CombineDCPJob::run ()
 {
 	try {
-		dcp::combine (_inputs, _output);
+		dcp::combine (
+			_inputs,
+			_output,
+			String::compose("libdcp %1", dcp::version),
+			String::compose("libdcp %1", dcp::version),
+			dcp::LocalTime().as_string(),
+			_annotation_text
+			);
 	} catch (dcp::CombineError& e) {
 		set_state (FINISHED_ERROR);
 		set_error (e.what(), "");

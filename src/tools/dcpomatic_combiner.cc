@@ -104,7 +104,13 @@ public:
 			true
 			);
 
-		auto output = new wxBoxSizer (wxHORIZONTAL);
+		auto output = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		output->AddGrowableCol (1, 1);
+
+		add_label_to_sizer (output, overall_panel, _("Annotation text"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+		_annotation_text = new wxTextCtrl (overall_panel, wxID_ANY, wxT(""));
+		output->Add (_annotation_text, 1, wxEXPAND);
+
 		add_label_to_sizer (output, overall_panel, _("Output DCP folder"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_output = new DirPickerCtrl (overall_panel);
 		output->Add (_output, 1, wxEXPAND);
@@ -162,7 +168,7 @@ private:
 		}
 
 		auto jm = JobManager::instance ();
-		jm->add (make_shared<CombineDCPJob>(_inputs, output));
+		jm->add (make_shared<CombineDCPJob>(_inputs, output, wx_to_std(_annotation_text->GetValue())));
 		bool const ok = display_progress (_("DCP-o-matic Combine"), _("Combining DCPs"));
 		if (!ok) {
 			return;
@@ -189,6 +195,7 @@ private:
 	}
 
 	EditableList<boost::filesystem::path, DirDialogWrapper>* _input;
+	wxTextCtrl* _annotation_text = nullptr;
 	DirPickerCtrl* _output;
 	vector<boost::filesystem::path> _inputs;
 	Button* _combine;
