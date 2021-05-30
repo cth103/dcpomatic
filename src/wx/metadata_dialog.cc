@@ -155,6 +155,8 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 				checked_set (_luminance_unit, 1);
 				break;
 			}
+		} else {
+			checked_set (_luminance_unit, 1);
 		}
 	}
 }
