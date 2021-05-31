@@ -18,6 +18,9 @@ APPLE_PASSWORD=$4
 ARCH1=$5
 ARCH2=$6
 
+APPLICATION_IDENTITY="Developer ID Application: Carl Hetherington (R82DXSR997)"
+INSTALLER_IDENTITY="Developer ID Installer: Carl Hetherington (R82DXSR997)"
+
 # This is our work area for making up the .dmgs
 mkdir -p build/platform/osx
 cd build/platform/osx
@@ -45,13 +48,13 @@ function copy {
 			fi
 		done
 	else
-		for f in $1/$ARCH1/$2; do
+		for f in $1/$ARCH2/$2; do
 			if [ -h $f ]; then
 				ln -s $(readlink $f) "$3/`basename $f`"
 			else
-				g=`echo $f | sed -e "s@/$ARCH1/@/$ARCH2/@g"`
+				g=`echo $f | sed -e "s@/$ARCH2/@/$ARCH1/@g"`
 				mkdir -p "$3"
-				lipo -create $f $g -output "$3/`basename $f`"
+				lipo -create $f $g -output "$3/$(basename $f)"
 			fi
 		done
 	fi
@@ -67,13 +70,13 @@ function copy_lib_root {
 			fi
 		done
 	else
-		for f in $ROOT/$ARCH1/lib/$1*.dylib; do
+		for f in $ROOT/$ARCH2/lib/$1*.dylib; do
 			if [ -h $f ]; then
 				ln -s $(readlink $f) "$2/`basename $f`"
 			else
-				g=`echo $f | sed -e "s@/$ARCH1/@/$ARCH2/@g"`
+				g=`echo $f | sed -e "s@/$ARCH2/@/$ARCH1/@g"`
 				mkdir -p "$2"
-				lipo -create $f $g -output "$2/`basename $f`"
+				lipo -create $f $g -output "$2/$(basename $f)"
 			fi
 		done
 	fi
@@ -81,16 +84,16 @@ function copy_lib_root {
 }
 
 function copy_lib_env {
-	for f in $ENV/$ARCH1/lib/$1*.dylib; do
+	for f in $ENV/$ARCH2/lib/$1*.dylib; do
 		if [ -h $f ]; then
 			ln -s $(readlink $f) "$2/`basename $f`"
 		else
 			if [ "$ARCH2" == "" ]; then
 				cp $f "$2/`basename $f`"
 			else
-				g=`echo $f | sed -e "s@/$ARCH1/@/$ARCH2/@g"`
+				g=`echo $f | sed -e "s@/$ARCH2/@/$ARCH1/@g"`
 				mkdir -p "$2"
-				lipo -create $f $g -output "$2/`basename $f`"
+				lipo -create $f $g -output "$2/$(basename $f)"
 			fi
 		fi
 	done
@@ -247,16 +250,21 @@ function relink_relative {
     to_relink=`echo $to_relink | sed -e "s/\+//g"`
     local linkers=("$@")
 
-	for obj in "${linkers[@]}"; do
-		deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
-		changes=""
-		for dep in $deps; do
-			base=`basename $dep`
-			changes="$changes -change $dep @executable_path/../Frameworks/$base"
+	arch1_name=$(echo $ARCH1 | sed -e s@/.*@@)
+	arch2_name=$(echo $ARCH2 | sed -e s@/.*@@)
+
+	for arch in $arch1_name $arch2_name; do
+		for obj in "${linkers[@]}"; do
+			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+			changes=""
+			for dep in $deps; do
+				base=`basename $dep`
+				changes="$changes -change $dep @executable_path/../Frameworks/$base"
+			done
+			if test "x$changes" != "x"; then
+				install_name_tool $changes -id `basename "$obj"` "$obj"
+			fi
 		done
-		if test "x$changes" != "x"; then
-			install_name_tool $changes -id `basename "$obj"` "$obj"
-		fi
 	done
 }
 
@@ -268,39 +276,50 @@ function relink_absolute {
     shift
     local linkers=("$@")
 
-    for obj in "${linkers[@]}"; do
-		deps=`otool -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
-		for dep in $deps; do
-			base=`basename $dep`
-			install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
+	arch1_name=$(echo $ARCH1 | sed -e s@/.*@@)
+	arch2_name=$(echo $ARCH2 | sed -e s@/.*@@)
+
+	for arch in $arch1_name $arch2_name; do
+		for obj in "${linkers[@]}"; do
+			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+			for dep in $deps; do
+				base=`basename $dep`
+				install_name_tool -change "$dep" "$target"/$base -id `basename "$obj"` "$obj"
+			done
 		done
-    done
+	done
 }
 
 function sign {
-    codesign --deep --force --verify --verbose --options runtime --entitlements entitlements.plist --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$1"
-    if [ "$?" != "0" ]; then
-	echo "Failed to sign $1"
-	exit 1
-    fi
+	codesign --verify --verbose=4 --options runtime --entitlements entitlements.plist --sign "$APPLICATION_IDENTITY" "$1"
+	if [ "$?" != "0" ]; then
+		echo "Failed to sign $1"
+		exit 1
+	fi
 }
-
 
 # @param #1 .app directory
 # @param #2 .pkg or ""
 # @param #3 full name e.g. DCP-o-matic Batch Converter
+# @param #4 list of executables
 function make_dmg {
     local appdir="$1"
     local pkg="$2"
     local full_name="$3"
+    local exes="$4"
     tmp_dmg=dcpomatic_tmp.dmg
     dmg="$full_name $version.dmg"
     vol_name=DCP-o-matic-$version
 
-    sign "$appdir"
+	find "$appdir/Contents/Frameworks" -iname "*.dylib" -type f -print0 | while IFS= read -r -d '' f; do
+		sign "$f"
+	done
+	for f in $exes; do
+		sign "$appdir/Contents/MacOS/$f"
+	done
 
     if [ "$pkg" != "" ]; then
-	productsign --sign "Developer ID Installer: Carl Hetherington (R82DXSR997)" "$pkg" "signed_temp.pkg"
+	productsign --sign "$INSTALLER_IDENTITY" "$pkg" "signed_temp.pkg"
 	if [ "$?" != "0" ]; then
 	    echo "Failed to sign .pkg"
 	    exit 1
@@ -389,7 +408,7 @@ EOF
     xattr -c "$dmg"
 
     set -e
-    codesign --verify --verbose --options runtime --entitlements entitlements.plist --sign "Developer ID Application: Carl Hetherington (R82DXSR997)" "$dmg"
+    codesign --timestamp --verify --verbose --options runtime --entitlements entitlements.plist --sign "$APPLICATION_IDENTITY" "$dmg"
     set +e
 
     rm $tmp_dmg
@@ -420,7 +439,7 @@ function copy_verify {
 if [ "$ARCH2" == "" ]; then
 	prefix=$ROOT
 else
-	prefix=$ROOT/$ARCH1
+	prefix=$ROOT/$ARCH2
 fi
 
 # DCP-o-matic main
@@ -434,7 +453,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic"
+make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2"
 
 # DCP-o-matic KDM Creator
 setup "DCP-o-matic 2 KDM Creator.app"
@@ -445,7 +464,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic KDM Creator"
+make_dmg "$appdir" "" "DCP-o-matic KDM Creator" "dcpomatic2_verify openssl dcpomatic2_kdm_cli dcpomatic2_kdm"
 
 # DCP-o-matic Encode Server
 setup "DCP-o-matic 2 Encode Server.app"
@@ -456,7 +475,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Encode Server"
+make_dmg "$appdir" "" "DCP-o-matic Encode Server" "dcpomatic2_verify openssl dcpomatic2_server_cli dcpomatic2_server"
 
 # DCP-o-matic Batch Converter
 setup "DCP-o-matic 2 Batch converter.app"
@@ -466,7 +485,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Batch Converter"
+make_dmg "$appdir" "" "DCP-o-matic Batch Converter" "dcpomatic2_verify openssl dcpomatic2_batch"
 
 # DCP-o-matic Player
 setup "DCP-o-matic 2 Player.app"
@@ -476,7 +495,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Player"
+make_dmg "$appdir" "" "DCP-o-matic Player" "dcpomatic2_verify openssl dcpomatic2_player"
 
 # DCP-o-matic Playlist Editor
 setup "DCP-o-matic 2 Playlist Editor.app"
@@ -486,7 +505,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Playlist Editor"
+make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" "dcpomatic2_verify openssl dcpomatic2_playlist"
 
 # DCP-o-matic Combiner
 setup "DCP-o-matic 2 Combiner.app"
@@ -496,7 +515,7 @@ copy_verify
 cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
 rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
 relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Combiner"
+make_dmg "$appdir" "" "DCP-o-matic Combiner" "dcpomatic2_verify openssl dcpomatic2_combiner"
 
 # DCP-o-matic Disk Writer .app
 setup "DCP-o-matic 2 Disk Writer.app"
@@ -571,7 +590,7 @@ exit 0
 EOF
 chmod gou+x $pkgbase/scripts/postinstall
 
-find "$pkgbin" -iname "*.dylib" -print0 | while IFS= read -r -d '' f; do
+find "$pkgbin" -iname "*.dylib" -type f -print0 | while IFS= read -r -d '' f; do
     sign "$f"
 done
 sign "$pkgbin/dcpomatic2_disk_writer"
@@ -580,5 +599,5 @@ mkdir -p "$pkgroot/Library/Application Support/com.dcpomatic"
 mv $pkgbin/* "$pkgroot/Library/Application Support/com.dcpomatic/"
 pkgbuild --root $pkgroot --identifier com.dcpomatic.disk.writer --scripts $pkgbase/scripts "DCP-o-matic Disk Writer.pkg"
 
-make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer"
+make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" "dcpomatic2_verify openssl dcpomatic2_disk"
 
