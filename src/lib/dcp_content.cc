@@ -242,7 +242,6 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			boost::mutex::scoped_lock lm (_mutex);
 			audio = make_shared<AudioContent>(this);
 		}
-		audio->set_language (examiner->audio_language());
 		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels());
 		audio->set_stream (as);
 		auto m = as->mapping ();

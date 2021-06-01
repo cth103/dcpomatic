@@ -505,6 +505,9 @@ Film::metadata (bool with_content_paths) const
 	}
 	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
 	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
+	if (_audio_language) {
+		root->add_child("AudioLanguage")->add_child_text(_audio_language->to_string());
+	}
 	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
 
 	return doc;
@@ -685,6 +688,11 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_user_explicit_container = f.optional_bool_child("UserExplicitContainer").get_value_or(true);
 	_user_explicit_resolution = f.optional_bool_child("UserExplicitResolution").get_value_or(true);
 
+	auto audio_language = f.optional_string_child("AudioLanguage");
+	if (audio_language) {
+		_audio_language = dcp::LanguageTag(*audio_language);
+	}
+
 	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 
@@ -757,23 +765,6 @@ Film::mapped_audio_channels () const
 	}
 
 	return mapped;
-}
-
-
-vector<dcp::LanguageTag>
-Film::audio_languages () const
-{
-	vector<dcp::LanguageTag> result;
-	for (auto i: content()) {
-		if (i->audio && !i->audio->mapping().mapped_output_channels().empty() && i->audio->language()) {
-			result.push_back (i->audio->language().get());
-		}
-	}
-
-	std::sort (result.begin(), result.end());
-	auto last = std::unique (result.begin(), result.end());
-	result.erase (last, result.end());
-	return result;
 }
 
 
@@ -922,8 +913,7 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	auto audio_langs = audio_languages();
-	auto audio_language = (audio_langs.empty() || !audio_langs.front().language()) ? "XX" : audio_langs.front().language()->subtag();
+	auto audio_language = (_audio_language && _audio_language->language()) ? _audio_language->language()->subtag() : "XX";
 
 	d += "_" + to_upper (audio_language);
 
@@ -2145,5 +2135,13 @@ Film::set_two_d_version_of_three_d (bool t)
 {
 	FilmChangeSignaller ch (this, Property::TWO_D_VERSION_OF_THREE_D);
 	_two_d_version_of_three_d = t;
+}
+
+
+void
+Film::set_audio_language (optional<dcp::LanguageTag> language)
+{
+	FilmChangeSignaller ch (this, Property::AUDIO_LANGUAGE);
+	_audio_language = language;
 }
 

@@ -54,8 +54,6 @@ private:
 	void setup_sensitivity ();
 	void reference_clicked ();
 	void add_to_grid ();
-	void enable_language_clicked ();
-	void language_changed ();
 	boost::optional<float> peak () const;
 
 	wxCheckBox* _reference;
@@ -69,8 +67,6 @@ private:
 	wxStaticText* _delay_label;
 	wxStaticText* _delay_ms_label;
 	ContentSpinCtrl<AudioContent>* _delay;
-	wxCheckBox* _enable_language = nullptr;
-	LanguageTagWidget* _language = nullptr;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
 	AudioDialog* _audio_dialog;

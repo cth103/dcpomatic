@@ -718,9 +718,9 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 	boost::algorithm::replace_all (text, "$TYPE", film()->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all (text, "$CONTAINER", film()->container()->container_nickname());
 
-	auto audio_languages = film()->audio_languages();
-	if (!audio_languages.empty()) {
-		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", audio_languages.front().description());
+	auto audio_language = film()->audio_language();
+	if (audio_language) {
+		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", audio_language->description());
 	} else {
 		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _("None"));
 	}

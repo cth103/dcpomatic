@@ -27,6 +27,7 @@
 #include "dcpomatic_spin_ctrl.h"
 #include "focus_manager.h"
 #include "interop_metadata_dialog.h"
+#include "language_tag_dialog.h"
 #include "markers_dialog.h"
 #include "smpte_metadata_dialog.h"
 #include "static_text.h"
@@ -94,6 +95,10 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 		wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE | wxST_ELLIPSIZE_MIDDLE
 		);
 
+	_enable_audio_language = new wxCheckBox (_panel, wxID_ANY, _("Audio language"));
+	_audio_language = new wxStaticText (_panel, wxID_ANY, wxT(""));
+	_edit_audio_language = new Button (_panel, _("Edit..."));
+
 	_dcp_content_type_label = create_label (_panel, _("Content Type"), true);
 	_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 
@@ -132,6 +137,8 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind(&DCPPanel::standard_changed, this));
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind(&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind(&DCPPanel::metadata_clicked, this));
+	_enable_audio_language->Bind (wxEVT_CHECKBOX, boost::bind(&DCPPanel::enable_audio_language_toggled, this));
+	_edit_audio_language->Bind   (wxEVT_BUTTON,   boost::bind(&DCPPanel::edit_audio_language_clicked, this));
 
 	for (auto i: DCPContentType::all()) {
 		_dcp_content_type->Append (std_to_wx(i->pretty_name()));
@@ -177,6 +184,15 @@ DCPPanel::add_to_grid ()
 	++r;
 
 	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
+	++r;
+
+	{
+		auto s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add (_enable_audio_language, 0, wxALIGN_CENTER_VERTICAL);
+		s->Add (_audio_language, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		s->Add (_edit_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_GAP);
+		_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL);
+	}
 	++r;
 
 	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition(r, 0));
@@ -453,6 +469,15 @@ DCPPanel::film_changed (Film::Property p)
 		setup_dcp_name ();
 		setup_sensitivity ();
 		break;
+	case Film::Property::AUDIO_LANGUAGE:
+	{
+		auto al = _film->audio_language();
+		checked_set (_enable_audio_language, static_cast<bool>(al));
+		checked_set (_audio_language, al ? std_to_wx(al->to_string()) : wxT(""));
+		setup_dcp_name ();
+		setup_sensitivity ();
+		break;
+	}
 	case Film::Property::CONTENT_VERSIONS:
 	case Film::Property::VERSION_NUMBER:
 	case Film::Property::RELEASE_TERRITORY:
@@ -477,7 +502,6 @@ void
 DCPPanel::film_content_changed (int property)
 {
 	if (property == AudioContentProperty::STREAMS ||
-	    property == AudioContentProperty::LANGUAGE ||
 	    property == TextContentProperty::USE ||
 	    property == TextContentProperty::BURN ||
 	    property == TextContentProperty::LANGUAGE ||
@@ -597,6 +621,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::Property::REEL_TYPE);
 	film_changed (Film::Property::REEL_LENGTH);
 	film_changed (Film::Property::REENCODE_J2K);
+	film_changed (Film::Property::AUDIO_LANGUAGE);
 
 	set_general_sensitivity(static_cast<bool>(_film));
 }
@@ -617,6 +642,9 @@ DCPPanel::setup_sensitivity ()
 	_use_isdcf_name->Enable         (_generally_sensitive);
 	_dcp_content_type->Enable       (_generally_sensitive);
 	_copy_isdcf_name_button->Enable (_generally_sensitive);
+	_enable_audio_language->Enable  (_generally_sensitive);
+	_audio_language->Enable         (_enable_audio_language->GetValue());
+	_edit_audio_language->Enable    (_enable_audio_language->GetValue());
 	_encrypted->Enable              (_generally_sensitive);
 	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
 	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == ReelType::BY_LENGTH);
@@ -964,3 +992,28 @@ DCPPanel::add_audio_processors ()
 	}
 	_audio_panel_sizer->Layout();
 }
+
+
+void
+DCPPanel::enable_audio_language_toggled ()
+{
+	setup_sensitivity ();
+	if (_enable_audio_language->GetValue()) {
+		auto al = wx_to_std (_audio_language->GetLabel());
+		_film->set_audio_language (al.empty() ? dcp::LanguageTag("en-US") : dcp::LanguageTag(al));
+	} else {
+		_film->set_audio_language (boost::none);
+	}
+}
+
+
+void
+DCPPanel::edit_audio_language_clicked ()
+{
+       DCPOMATIC_ASSERT (_film->audio_language());
+       auto d = new LanguageTagDialog (_panel, *_film->audio_language());
+       d->ShowModal ();
+       _film->set_audio_language(d->get());
+       d->Destroy ();
+}
+

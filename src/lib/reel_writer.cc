@@ -168,12 +168,12 @@ ReelWriter::ReelWriter (
 	}
 
 	if (film()->audio_channels()) {
-		auto langs = film()->audio_languages();
+		auto lang = film()->audio_language();
 		_sound_asset = make_shared<dcp::SoundAsset> (
 			dcp::Fraction(film()->video_frame_rate(), 1),
 			film()->audio_frame_rate(),
 			film()->audio_channels(),
-			langs.empty() ? dcp::LanguageTag("en-US") : langs.front(),
+			lang ? *lang : dcp::LanguageTag("en-US"),
 			standard
 			);
 

@@ -23,6 +23,7 @@
 #include "lib/film.h"
 
 
+class Button;
 class wxNotebook;
 class wxPanel;
 class wxBoxSizer;
@@ -85,6 +86,8 @@ private:
 	void markers_clicked ();
 	void metadata_clicked ();
 	void reencode_j2k_changed ();
+	void enable_audio_language_toggled ();
+	void edit_audio_language_clicked ();
 
 	void setup_frame_rate_widget ();
 	void setup_container ();
@@ -115,6 +118,9 @@ private:
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
 	wxCheckBox* _use_isdcf_name;
+	wxCheckBox* _enable_audio_language = nullptr;
+	wxStaticText* _audio_language = nullptr;
+	Button* _edit_audio_language = nullptr;
 	wxStaticText* _container_label;
 	wxChoice* _container;
 	wxStaticText* _container_size;

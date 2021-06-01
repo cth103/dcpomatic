@@ -186,7 +186,11 @@ public:
 
 	std::list<dcpomatic::DCPTimePeriod> reels () const;
 	std::list<int> mapped_audio_channels () const;
-	std::vector<dcp::LanguageTag> audio_languages () const;
+
+	boost::optional<dcp::LanguageTag> audio_language () const {
+		return _audio_language;
+	}
+
 	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> subtitle_languages () const;
 
 	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
@@ -395,6 +399,7 @@ public:
 		return _luminance;
 	}
 
+
 	/* SET */
 
 	void set_directory (boost::filesystem::path);
@@ -439,6 +444,7 @@ public:
 	void set_two_d_version_of_three_d (bool t);
 	void set_distributor (boost::optional<std::string> d = boost::none);
 	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
+	void set_audio_language (boost::optional<dcp::LanguageTag> language);
 
 	void add_ffoc_lfoc (Markers& markers) const;
 
@@ -546,6 +552,7 @@ private:
 	bool _red_band = false;
 	bool _two_d_version_of_three_d = false;
 	boost::optional<dcp::Luminance> _luminance;
+	boost::optional<dcp::LanguageTag> _audio_language;
 
 	int _state_version;
 
