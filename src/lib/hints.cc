@@ -400,6 +400,7 @@ try
 	check_ffec_and_ffmc_in_smpte_feature ();
 	check_out_of_range_markers ();
 	check_text_languages ();
+	check_audio_language ();
 
 	if (check_loudness_done) {
 		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
@@ -637,3 +638,20 @@ Hints::check_text_languages ()
 		}
 	}
 }
+
+
+void
+Hints::check_audio_language ()
+{
+	auto content = film()->content();
+	auto mapped_audio =
+		std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> c) {
+			return c->audio && !c->audio->mapping().mapped_output_channels().empty();
+		});
+
+	if (mapped_audio != content.end() && !film()->audio_language()) {
+		hint (_("Some of your content has audio but you have not set the audio language.  It is advisable to set the audio language "
+			"in the \"DCP\" tab unless your audio has no spoken parts."));
+	}
+}
+

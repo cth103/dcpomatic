@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/audio_content.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -235,5 +236,22 @@ BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
 	dcpomatic_sleep_seconds (1);
 	hints.reset ();
 	dcpomatic_sleep_seconds (1);
+}
+
+
+BOOST_AUTO_TEST_CASE (hints_audio_with_no_language)
+{
+	auto content = content_factory("test/data/sine_440.wav").front();
+	auto film = new_test_film2 ("hints_audio_with_no_language", { content });
+	content->audio->set_gain (-6);
+
+	auto hints = get_hints (film);
+	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
+	BOOST_CHECK_EQUAL (
+		hints[0],
+		"Some of your content has audio but you have not set the audio language.  It is advisable to set the audio language "
+		"in the \"DCP\" tab unless your audio has no spoken parts."
+		);
+
 }
 
