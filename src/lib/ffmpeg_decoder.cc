@@ -548,9 +548,13 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 	}
 
 	r = avcodec_receive_frame (context, _frame);
-	if (r == AVERROR(EAGAIN) || r == AVERROR_EOF) {
-		/* More input is required, or no more frames are coming */
+	if (r == AVERROR(EAGAIN) || r == AVERROR_EOF || (r < 0 && !packet)) {
+		/* More input is required, no more frames are coming, or we are flushing and there was
+		 * some error which we just want to ignore.
+		 */
 		return false;
+	} else if (r < 0) {
+		throw DecodeError (N_("avcodec_receive_frame"), N_("FFmpeg::decode_and_process_video_packet"), r);
 	}
 
 	/* We assume we'll only get one frame here, which I think is safe */

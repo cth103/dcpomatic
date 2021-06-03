@@ -73,6 +73,7 @@ def build(bld):
                  ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
+                 ffmpeg_decoder_error_test.cc
                  ffmpeg_decoder_seek_test.cc
                  ffmpeg_decoder_sequential_test.cc
                  ffmpeg_encoder_test.cc
