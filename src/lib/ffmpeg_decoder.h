@@ -79,6 +79,9 @@ private:
 	/** true if we have a subtitle which has not had emit_stop called for it yet */
 	bool _have_current_subtitle = false;
 
+	/** number of errors from avcodec_send_packet to ignore */
+	int _errors_to_ignore = 0;
+
 	std::shared_ptr<Image> _black_image;
 
 	std::map<std::shared_ptr<FFmpegAudioStream>, boost::optional<dcpomatic::ContentTime>> _next_time;

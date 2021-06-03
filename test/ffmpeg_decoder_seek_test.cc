@@ -100,4 +100,5 @@ BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 	test ("boon_telly.mkv", frames);
 	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", frames);
 	test ("prophet_long_clip.mkv", { 15, 42, 999, 15 });
+	test ("dolby_aurora.vob", { 0, 125, 250, 41 });
 }
