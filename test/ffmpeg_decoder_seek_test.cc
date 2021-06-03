@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  test/ffmpeg_decoder_seek_test.cc
  *  @brief Check seek() with FFmpegDecoder.
  *  @ingroup selfcontained
@@ -26,28 +27,32 @@
  *  it probably should.
  */
 
+
+#include "lib/content_video.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_decoder.h"
-#include "lib/null_log.h"
 #include "lib/film.h"
-#include "lib/content_video.h"
+#include "lib/null_log.h"
 #include "lib/video_decoder.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
-#include <vector>
+#include <boost/test/unit_test.hpp>
 #include <iostream>
+#include <vector>
+
 
 using std::cerr;
-using std::vector;
-using std::list;
 using std::cout;
+using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::vector;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
+
 
 static optional<ContentVideo> stored;
 static bool
@@ -56,6 +61,7 @@ store (ContentVideo v)
 	stored = v;
 	return true;
 }
+
 
 static void
 check (shared_ptr<FFmpegDecoder> decoder, int frame)
@@ -67,42 +73,31 @@ check (shared_ptr<FFmpegDecoder> decoder, int frame)
 	BOOST_CHECK (stored->frame <= frame);
 }
 
+
 static void
 test (boost::filesystem::path file, vector<int> frames)
 {
-	boost::filesystem::path path = TestPaths::private_data() / file;
+	auto path = TestPaths::private_data() / file;
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
-	shared_ptr<Film> film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
-	shared_ptr<FFmpegContent> content (new FFmpegContent (path));
+	auto film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
+	auto content = make_shared<FFmpegContent>(path);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	shared_ptr<FFmpegDecoder> decoder (new FFmpegDecoder (film, content, false));
+	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
 	decoder->video->Data.connect (bind (&store, _1));
 
-	for (vector<int>::const_iterator i = frames.begin(); i != frames.end(); ++i) {
-		check (decoder, *i);
+	for (auto i: frames) {
+		check (decoder, i);
 	}
 }
 
+
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 {
-	vector<int> frames;
-
-	frames.clear ();
-	frames.push_back (0);
-	frames.push_back (42);
-	frames.push_back (999);
-	frames.push_back (0);
+	vector<int> frames = { 0, 42, 999, 0 };
 
 	test ("boon_telly.mkv", frames);
 	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", frames);
-
-	frames.clear ();
-	frames.push_back (15);
-	frames.push_back (42);
-	frames.push_back (999);
-	frames.push_back (15);
-
-	test ("prophet_long_clip.mkv", frames);
+	test ("prophet_long_clip.mkv", { 15, 42, 999, 15 });
 }
