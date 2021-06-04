@@ -67,9 +67,11 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 
 	if (mono) {
 		_mono_reader = mono->start_read ();
+		_mono_reader->set_check_hmac (false);
 		_size = mono->size ();
 	} else {
 		_stereo_reader = stereo->start_read ();
+		_stereo_reader->set_check_hmac (false);
 		_size = stereo->size ();
 	}
 }

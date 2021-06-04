@@ -241,9 +241,13 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
 
 			if (mono) {
-				mono->start_read()->get_frame(0)->xyz_image ();
+				auto reader = mono->start_read();
+				reader->set_check_hmac (false);
+				reader->get_frame(0)->xyz_image();
 			} else {
-				stereo->start_read()->get_frame(0)->xyz_image(dcp::Eye::LEFT);
+				auto reader = stereo->start_read();
+				reader->set_check_hmac (false);
+				reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
 			}
 
 			if (i->main_sound()) {
@@ -251,7 +255,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (sound->encrypted() && !sound->key()) {
 					_kdm_valid = false;
 				}
-				i->main_sound()->asset()->start_read()->get_frame(0);
+				auto reader = i->main_sound()->asset()->start_read();
+				reader->set_check_hmac (false);
+				reader->get_frame(0);
 			}
 
 			if (i->main_subtitle()) {
@@ -268,7 +274,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (atmos->encrypted() && !atmos->key()) {
 					_kdm_valid = false;
 				}
-				atmos->start_read()->get_frame(0);
+				auto reader = atmos->start_read();
+				reader->set_check_hmac (false);
+				reader->get_frame(0);
 			}
 		}
 	} catch (dcp::ReadError& e) {

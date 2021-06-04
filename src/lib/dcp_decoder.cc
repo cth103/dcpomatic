@@ -363,9 +363,11 @@ DCPDecoder::get_readers ()
 		DCPOMATIC_ASSERT (mono || stereo);
 		if (mono) {
 			_mono_reader = mono->start_read ();
+			_mono_reader->set_check_hmac (false);
 			_stereo_reader.reset ();
 		} else {
 			_stereo_reader = stereo->start_read ();
+			_stereo_reader->set_check_hmac (false);
 			_mono_reader.reset ();
 		}
 	} else {
@@ -375,6 +377,7 @@ DCPDecoder::get_readers ()
 
 	if ((*_reel)->main_sound()) {
 		_sound_reader = (*_reel)->main_sound()->asset()->start_read ();
+		_sound_reader->set_check_hmac (false);
 	} else {
 		_sound_reader.reset ();
 	}
@@ -382,6 +385,7 @@ DCPDecoder::get_readers ()
 	if ((*_reel)->atmos()) {
 		shared_ptr<dcp::AtmosAsset> asset = (*_reel)->atmos()->asset();
 		_atmos_reader = asset->start_read();
+		_atmos_reader->set_check_hmac (false);
 		_atmos_metadata = AtmosMetadata (asset);
 	} else {
 		_atmos_reader.reset ();

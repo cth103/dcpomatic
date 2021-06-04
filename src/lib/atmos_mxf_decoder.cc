@@ -40,6 +40,7 @@ AtmosMXFDecoder::AtmosMXFDecoder (std::shared_ptr<const Film> film, std::shared_
 
 	auto asset = make_shared<dcp::AtmosAsset>(_content->path(0));
 	_reader = asset->start_read ();
+	_reader->set_check_hmac (false);
 	_metadata = AtmosMetadata (asset);
 }
 
