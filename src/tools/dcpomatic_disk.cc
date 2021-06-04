@@ -182,6 +182,11 @@ public:
 
 	void set_dcp (boost::filesystem::path dcp)
 	{
+		if (!boost::filesystem::exists(dcp / "ASSETMAP") && !boost::filesystem::exists(dcp / "ASSETMAP.xml")) {
+			error_dialog (nullptr, _("No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP folder."));
+			return;
+		}
+
 		_dcp_path = dcp;
 		_dcp_name->SetLabel (std_to_wx(dcp.filename().string()));
 	}
