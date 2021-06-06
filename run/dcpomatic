@@ -3,7 +3,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 build=$DIR/../build
 export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:/Users/ci/osx-environment/x86_64/lib
+export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:/Users/ci/osx-environment/x86_64/10.10/lib
 export DCPOMATIC_GRAPHICS=$DIR/../graphics
 binary=$build/src/tools/dcpomatic2
 if [ "$1" == "--debug" ]; then
