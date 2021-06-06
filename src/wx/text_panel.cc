@@ -165,7 +165,7 @@ TextPanel::setup_visibility ()
 			_language_type->Append (_("Main"));
 			_language_type->Append (_("Additional"));
 			_language_type->Bind (wxEVT_CHOICE, boost::bind(&TextPanel::language_is_additional_changed, this));
-			_language_sizer->Add (_language_type, 0);
+			_language_sizer->Add (_language_type, 0, wxALIGN_CENTER_VERTICAL | wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 			_grid->Add (_language_sizer, wxGBPosition(_ccap_track_or_language_row, 1), wxGBSpan(1, 2));
 			film_content_changed (TextContentProperty::LANGUAGE);
 			film_content_changed (TextContentProperty::LANGUAGE_IS_ADDITIONAL);
