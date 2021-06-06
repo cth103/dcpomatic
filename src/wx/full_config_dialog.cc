@@ -1318,7 +1318,14 @@ private:
 		}
 
 		{
-			add_top_aligned_label_to_sizer (table, _panel, _("DCP metadata filename format"));
+			auto format = create_label (_panel, _("DCP metadata filename format"), true);
+#ifdef DCPOMATIC_OSX
+			auto align = new wxBoxSizer (wxHORIZONTAL);
+			align->Add (format, 0, wxTOP, 2);
+			table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
+#else
+			table->Add (format, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
+#endif
 			dcp::NameFormat::Map titles;
 			titles['t'] = wx_to_std (_("type (cpl/pkl)"));
 			dcp::NameFormat::Map examples;
@@ -1330,7 +1337,14 @@ private:
 		}
 
 		{
-			add_top_aligned_label_to_sizer (table, _panel, _("DCP asset filename format"));
+			auto format = create_label (_panel, _("DCP asset filename format"), true);
+#ifdef DCPOMATIC_OSX
+			auto align = new wxBoxSizer (wxHORIZONTAL);
+			align->Add (format, 0, wxTOP, 2);
+			table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
+#else
+			table->Add (format, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
+#endif
 			dcp::NameFormat::Map titles;
 			titles['t'] = wx_to_std (_("type (j2c/pcm/sub)"));
 			titles['r'] = wx_to_std (_("reel number"));
