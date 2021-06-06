@@ -57,6 +57,15 @@ class PasswordEntry;
 #define DCPOMATIC_SPIN_CTRL_WIDTH 56
 #endif
 
+/** Amount by which you need to bottom-pad text next to a checkbox in order
+ *  for the text baselines to be aligned.
+ */
+#ifdef DCPOMATIC_OSX
+#define DCPOMATIC_CHECKBOX_BOTTOM_PAD 2
+#else
+#define DCPOMATIC_CHECKBOX_BOTTOM_PAD 0
+#endif
+
 /** Spacing to use between buttons in a vertical/horizontal line */
 #if defined(DCPOMATIC_OSX) || defined(__WXGTK3__)
 #define DCPOMATIC_BUTTON_STACK_GAP 2
