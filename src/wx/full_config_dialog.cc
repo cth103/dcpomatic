@@ -665,7 +665,7 @@ private:
 			_protocol->Append (_("Plain"));
 			_protocol->Append (_("STARTTLS"));
 			_protocol->Append (_("SSL"));
-			s->Add (_protocol);
+			s->Add (_protocol, 1, wxALIGN_CENTER_VERTICAL);
 			table->Add (s, 1, wxEXPAND | wxALL);
 		}
 
