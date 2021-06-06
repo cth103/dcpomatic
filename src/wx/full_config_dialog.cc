@@ -251,7 +251,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("defaults", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("defaults"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -466,7 +466,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("servers", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("servers"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -527,7 +527,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("tms", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("tms"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -638,7 +638,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("email", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("email"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -775,7 +775,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("kdm_email", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("kdm_email"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -897,7 +897,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("notifications", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("notifications"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1070,7 +1070,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("cover_sheet", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("cover_sheet"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1129,7 +1129,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("identifiers", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("identifiers"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1247,7 +1247,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const
 	{
-		return wxBitmap ("advanced", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(bitmap_path("advanced"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
