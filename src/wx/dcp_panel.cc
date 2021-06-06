@@ -179,7 +179,7 @@ DCPPanel::add_to_grid ()
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_copy_isdcf_name_button, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
-		_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
 	}
 	++r;
 
@@ -188,9 +188,9 @@ DCPPanel::add_to_grid ()
 
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (_enable_audio_language, 0, wxALIGN_CENTER_VERTICAL);
-		s->Add (_audio_language, 1, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
-		s->Add (_edit_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_GAP);
+		s->Add (_enable_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		s->Add (_audio_language, 1, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
+		s->Add (_edit_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
 		_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL);
 	}
 	++r;
