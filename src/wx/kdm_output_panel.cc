@@ -75,17 +75,25 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent, bool interop)
 		_type->Append ("DCI Any", ((void *) dcp::Formulation::DCI_ANY));
 		_type->Append ("DCI Specific", ((void *) dcp::Formulation::DCI_SPECIFIC));
 	}
-	type->Add (_type, 1, wxEXPAND);
+	type->Add (_type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 	_type->SetSelection (0);
 	wxButton* advanced = new Button (this, _("Advanced..."));
 	type->Add (advanced, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	table->Add (type, 1, wxEXPAND);
+	table->Add (type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 
-	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
+	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
 	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
 	table->Add (_container_name_format->panel(), 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Filename format"), true, 0, wxALIGN_TOP | wxTOP | wxLEFT | wxRIGHT);
+	auto format = create_label (this, _("Filename format"), true);
+	auto align = new wxBoxSizer (wxHORIZONTAL);
+#ifdef DCPOMATIC_OSX
+	align->Add (format, 0, wxTOP, 2);
+	table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
+#else
+	align->Add (format, 0, wxLEFT, DCPOMATIC_SIZER_GAP - 2);
+	table->Add (align, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
+#endif
 	dcp::NameFormat::Map titles;
 	titles['f'] = wx_to_std (_("film name"));
 	titles['c'] = wx_to_std (_("cinema"));
