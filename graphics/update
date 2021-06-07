@@ -36,14 +36,14 @@ if [ `uname -s` == "Darwin" ]; then
 else
     required_font "Libre Baskerville"
 
-    for c in icotool convert inkscape inkbatch; do
+    INKSCAPE="$HOME/Applications/inkscape"
+    for c in icotool convert inkbatch $INKSCAPE; do
         if [ ! -x "$(command -v $c)" ]; then
             echo "$c is required"
             exit 1
         fi
     done
 
-    INKSCAPE="$HOME/Applications/inkscape -C --export-type=png"
 
     # OS X application icons
     mkdir -p osx
