@@ -44,6 +44,7 @@ else
         fi
     done
 
+    INKSCAPE_EXPORT="$INKSCAPE -C --export-type=png"
 
     # OS X application icons
     mkdir -p osx
@@ -55,8 +56,8 @@ else
 	done
 	for p in $svg_apps; do
 	    mkdir -p osx/$p.iconset
-	    $INKSCAPE --export-filename=osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
-	    $INKSCAPE --export-filename=osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
+	    $INKSCAPE_EXPORT --export-filename=osx/$p.iconset/icon_${r}x${r}.png -w $r -h $r src/$p.svg
+	    $INKSCAPE_EXPORT --export-filename=osx/$p.iconset/icon_${r}x${r}@2x.png -w $r -h $r src/$p.svg
 	done
     done
 
@@ -66,7 +67,7 @@ else
 	mkdir -p linux/$r
 	convert src/dcpomatic.png -resize $rx$r linux/$r/dcpomatic2.png
 	for p in $svg_apps; do
-	    $INKSCAPE --export-filename=linux/$r/$p.png src/$p.svg -w $r -h $r
+	    $INKSCAPE_EXPORT --export-filename=linux/$r/$p.png src/$p.svg -w $r -h $r
 	done
     done
 
@@ -85,22 +86,22 @@ else
     done
 
     # OS X menu bar icon for the server
-    $INKSCAPE --export-filename=osx/dcpomatic_small.png -w 64 -h 64 src/dcpomatic_small.svg
+    $INKSCAPE_EXPORT --export-filename=osx/dcpomatic_small.png -w 64 -h 64 src/dcpomatic_small.svg
 
     # Splash screen (all platforms)
-    $INKSCAPE --export-filename=splash.png src/splash.svg -w 400 -h 300
+    $INKSCAPE_EXPORT --export-filename=splash.png src/splash.svg -w 400 -h 300
 
     # Timeline toolbar icons (all platforms)
     for i in select zoom zoom_all snap sequence; do
-        $INKSCAPE --export-filename=$i.png src/$i.svg -w 32 -h 32
+        $INKSCAPE_EXPORT --export-filename=$i.png src/$i.svg -w 32 -h 32
     done
 
     # Playlist editor tick/no-tick
-    $INKSCAPE --export-filename=tick.png src/tick.svg -w 16 -h 16
-    $INKSCAPE --export-filename=no_tick.png src/no_tick.svg -w 16 -h 16
+    $INKSCAPE_EXPORT --export-filename=tick.png src/tick.svg -w 16 -h 16
+    $INKSCAPE_EXPORT --export-filename=no_tick.png src/no_tick.svg -w 16 -h 16
 
     # Link icon
-    $INKSCAPE --export-filename=link.png src/link.svg -w 9 -h 16
+    $INKSCAPE_EXPORT --export-filename=link.png src/link.svg -w 9 -h 16
 
     # favicon
     mkdir -p web
