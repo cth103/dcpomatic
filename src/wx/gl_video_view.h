@@ -40,14 +40,14 @@ public:
 	GLVideoView (FilmViewer* viewer, wxWindow* parent);
 	~GLVideoView ();
 
-	wxWindow* get () const {
+	wxWindow* get () const override {
 		return _canvas;
 	}
-	void update ();
-	void start ();
-	void stop ();
+	void update () override;
+	void start () override;
+	void stop () override;
 
-	NextFrameResult display_next_frame (bool);
+	NextFrameResult display_next_frame (bool) override;
 
 	bool vsync_enabled () const {
 		return _vsync_enabled;

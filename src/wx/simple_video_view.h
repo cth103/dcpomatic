@@ -33,13 +33,13 @@ class SimpleVideoView : public VideoView
 public:
 	SimpleVideoView (FilmViewer* viewer, wxWindow* parent);
 
-	wxWindow* get () const {
+	wxWindow* get () const override {
 		return _panel;
 	}
 
-	void update ();
-	void start ();
-	NextFrameResult display_next_frame (bool non_blocking);
+	void update () override;
+	void start () override;
+	NextFrameResult display_next_frame (bool non_blocking) override;
 
 private:
 	void set_image (std::shared_ptr<const Image> image) {

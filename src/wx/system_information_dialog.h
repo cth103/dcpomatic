@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,9 +25,9 @@
 
 class FilmViewer;
 
+
 class SystemInformationDialog : public TableDialog
 {
 public:
 	SystemInformationDialog (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
-
 };

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
+#include "film_viewer.h"
+#include "gl_video_view.h"
 #include "system_information_dialog.h"
 #include "wx_util.h"
-#include "gl_video_view.h"
-#include "film_viewer.h"
+
 
 #ifdef DCPOMATIC_OSX
 #include <OpenGL/glu.h>
@@ -31,9 +33,11 @@
 #include <GL/glext.h>
 #endif
 
+
 using std::string;
 using std::weak_ptr;
 using std::shared_ptr;
+
 
 SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
@@ -49,7 +53,7 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<Fil
 		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	} else {
 		add (_("OpenGL version"), true);
-		char const * v = (char const *) glGetString (GL_VERSION);
+		auto v = reinterpret_cast<char const *>(glGetString(GL_VERSION));
 		if (v) {
 			add (std_to_wx(v), false);
 		} else {
