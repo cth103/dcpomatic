@@ -180,8 +180,7 @@ public:
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
 		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-		/* XXX: hard-coded non-interop here */
-		_output = new KDMOutputPanel (overall_panel, false);
+		_output = new KDMOutputPanel (overall_panel);
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		_create = new Button (overall_panel, _("Create KDMs"));

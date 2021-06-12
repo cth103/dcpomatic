@@ -35,7 +35,7 @@ class Log;
 class KDMOutputPanel : public wxPanel
 {
 public:
-	KDMOutputPanel (wxWindow* parent, bool interop);
+	KDMOutputPanel (wxWindow* parent);
 
 	void setup_sensitivity ();
 

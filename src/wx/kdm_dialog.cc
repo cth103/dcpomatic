@@ -108,7 +108,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
 	right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
-	_output = new KDMOutputPanel (this, film->interop ());
+	_output = new KDMOutputPanel (this);
 	right->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
 	_make = new Button (this, _("Make KDMs"));
