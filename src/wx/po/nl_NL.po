@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-07 00:58+0200\n"
-"PO-Revision-Date: 2021-05-07 23:49+0200\n"
+"PO-Revision-Date: 2021-06-10 01:35+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -2071,6 +2070,8 @@ msgstr "Overschrijf dit bestand met huidige configuratie"
 #: src/wx/verify_dcp_dialog.cc:363
 msgid "Part of the DCP could not be checked because no KDM was available"
 msgstr ""
+"Een deel van de DCP kon niet worden gecontroleerd omdat er geen KDM "
+"beschikbaar was"
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""

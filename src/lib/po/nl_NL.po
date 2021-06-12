@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-06-07 00:58+0200\n"
-"PO-Revision-Date: 2021-05-07 23:37+0200\n"
+"PO-Revision-Date: 2021-06-10 01:30+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -1437,6 +1437,9 @@ msgid ""
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
 "has no spoken parts."
 msgstr ""
+"Een deel van uw content heeft audio, maar u heeft de audio-taal niet "
+"ingesteld.  Het is raadzaam om de audio-taal in te stellen in het \"DCP\"-"
+"tabblad, tenzij uw audio geen gesproken delen heeft."
 
 #: src/lib/film.cc:392
 msgid "Some of your content needs a KDM"
@@ -1821,14 +1824,13 @@ msgstr ""
 "kanalen met stilte."
 
 #: src/lib/hints.cc:160
-#, fuzzy
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
 msgstr ""
 "Uw DCP gebruikt een ongebruikelijke container-beeldverhouding.  Dit kan "
 "problemen geven met sommige projectoren.  Gebruik, indien mogelijk, Flat of "
-"Scope voor de container-beeldverhouding van de DCP"
+"Scope voor de container-beeldverhouding van de DCP."
 
 #: src/lib/hints.cc:340
 msgid ""
