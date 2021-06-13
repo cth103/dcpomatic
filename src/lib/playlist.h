@@ -83,7 +83,7 @@ public:
 
 	void repeat (std::shared_ptr<const Film> film, ContentList, int);
 
-	/** Emitted when content has been added to or removed from the playlist; implies OrderChanged */
+	/** Emitted when content has been added to or removed from the playlist; implies OrderChange */
 	mutable boost::signals2::signal<void (ChangeType)> Change;
 	mutable boost::signals2::signal<void ()> OrderChange;
 	/** Emitted when the length might have changed; may sometimes be emitted when it has not */
