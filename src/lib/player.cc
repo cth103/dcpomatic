@@ -841,6 +841,10 @@ Player::open_subtitles_for_frame (DCPTime time) const
 void
 Player::video (weak_ptr<Piece> wp, ContentVideo video)
 {
+	if (_suspended) {
+		return;
+	}
+
 	auto piece = wp.lock ();
 	if (!piece) {
 		return;
@@ -951,6 +955,10 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 void
 Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_audio)
 {
+	if (_suspended) {
+		return;
+	}
+
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
 
 	auto piece = wp.lock ();
@@ -1021,6 +1029,10 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 void
 Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentBitmapText subtitle)
 {
+	if (_suspended) {
+		return;
+	}
+
 	auto piece = wp.lock ();
 	auto text = wc.lock ();
 	if (!piece || !text) {
@@ -1060,6 +1072,10 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 void
 Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentStringText subtitle)
 {
+	if (_suspended) {
+		return;
+	}
+
 	auto piece = wp.lock ();
 	auto text = wc.lock ();
 	if (!piece || !text) {
@@ -1105,6 +1121,10 @@ Player::plain_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, Co
 void
 Player::subtitle_stop (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, ContentTime to)
 {
+	if (_suspended) {
+		return;
+	}
+
 	auto text = wc.lock ();
 	if (!text) {
 		return;
@@ -1354,6 +1374,10 @@ Player::playlist () const
 void
 Player::atmos (weak_ptr<Piece>, ContentAtmos data)
 {
+	if (_suspended) {
+		return;
+	}
+
 	Atmos (data.data, DCPTime::from_frames(data.frame, _film->video_frame_rate()), data.metadata);
 }
 
