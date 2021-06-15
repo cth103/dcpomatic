@@ -22,6 +22,8 @@
  *  @brief Some utility functions and classes.
  */
 
+#define UNICODE 1
+
 #include "util.h"
 #include "exceptions.h"
 #include "dcp_content_type.h"

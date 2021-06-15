@@ -19,6 +19,8 @@
 */
 
 
+#define UNICODE 1
+
 #include "cross.h"
 #include "compose.hpp"
 #include "log.h"

@@ -151,7 +151,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_WINDOWS')
         conf.env.append_value('CXXFLAGS', '-DWIN32_LEAN_AND_MEAN')
         conf.env.append_value('CXXFLAGS', '-DBOOST_USE_WINDOWS_H')
-        conf.env.append_value('CXXFLAGS', '-DUNICODE')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
         conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-Wcast-align')
