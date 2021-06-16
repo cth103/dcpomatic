@@ -1,2 +1,2 @@
 id ICON "../../graphics/windows/dcpomatic2_batch.ico"
-#include "wx-3.0/wx/msw/wx.rc"
+#include "wx-3.1/wx/msw/wx.rc"
