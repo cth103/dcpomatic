@@ -411,3 +411,22 @@ fix_long_path (boost::filesystem::path path)
 	return path;
 }
 
+
+bool
+show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path)
+{
+	int r = system ("which nautilus");
+	if (WEXITSTATUS(r) == 0) {
+		r = system (String::compose("nautilus \"%1\"", dir.string()).c_str());
+		return static_cast<bool>(WEXITSTATUS(r));
+	} else {
+		int r = system ("which konqueror");
+		if (WEXITSTATUS(r) == 0) {
+			r = system (String::compose("konqueror \"%1\"", dir.string()).c_str());
+			return static_cast<bool>(WEXITSTATUS(r));
+		}
+	}
+
+	return true;
+}
+

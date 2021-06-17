@@ -638,3 +638,12 @@ fix_long_path (boost::filesystem::path path)
 {
 	return path;
 }
+
+
+bool
+show_in_file_manager (boost::filesystem::path, boost::filesystem::path select)
+{
+	int r = system (String::compose("open -R \"%1\"", select.string()).c_str());
+	return static_cast<bool>(WEXITSTATUS(r));
+}
+

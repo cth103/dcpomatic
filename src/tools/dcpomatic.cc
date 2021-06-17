@@ -58,6 +58,7 @@
 #include "lib/analytics.h"
 #include "lib/emailer.h"
 #include "lib/config.h"
+#include "lib/cross.h"
 #include "lib/util.h"
 #include "lib/video_content.h"
 #include "lib/content.h"
@@ -127,8 +128,6 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::wcout;
-using std::wstring;
-using std::wstringstream;
 using boost::optional;
 using boost::is_any_of;
 using boost::algorithm::find;
@@ -1027,36 +1026,9 @@ private:
 	void jobs_show_dcp ()
 	{
 		DCPOMATIC_ASSERT (_film->directory ());
-#ifdef DCPOMATIC_WINDOWS
-		wstringstream args;
-		args << "/select," << _film->dir (_film->dcp_name(false));
-		ShellExecute (0, L"open", L"explorer.exe", args.str().c_str(), 0, SW_SHOWDEFAULT);
-#endif
-
-#ifdef DCPOMATIC_LINUX
-		int r = system ("which nautilus");
-		if (WEXITSTATUS (r) == 0) {
-			r = system (String::compose("nautilus \"%1\"", _film->directory()->string()).c_str());
-			if (WEXITSTATUS (r)) {
-				error_dialog (this, _("Could not show DCP."), _("Could not run nautilus"));
-			}
-		} else {
-			int r = system ("which konqueror");
-			if (WEXITSTATUS (r) == 0) {
-				r = system (String::compose ("konqueror \"%1\"", _film->directory()->string()).c_str());
-				if (WEXITSTATUS (r)) {
-					error_dialog (this, _("Could not show DCP"), _("Could not run konqueror"));
-				}
-			}
+		if (show_in_file_manager(_film->directory().get(), _film->dir(_film->dcp_name(false)))) {
+			error_dialog (this, _("Could not show DCP."));
 		}
-#endif
-
-#ifdef DCPOMATIC_OSX
-		int r = system (String::compose ("open -R \"%1\"", _film->dir (_film->dcp_name(false)).string()).c_str());
-		if (WEXITSTATUS (r)) {
-			error_dialog (this, _("Could not show DCP"));
-		}
-#endif
 	}
 
 	void view_closed_captions ()

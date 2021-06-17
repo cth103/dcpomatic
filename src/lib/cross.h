@@ -67,6 +67,7 @@ extern void unprivileged ();
 extern boost::filesystem::path config_path ();
 extern boost::filesystem::path directory_containing_executable ();
 extern boost::filesystem::path fix_long_path (boost::filesystem::path path);
+extern bool show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path select);
 namespace dcpomatic {
 	std::string get_process_id ();
 }

@@ -694,3 +694,13 @@ dcpomatic::get_process_id ()
 	return dcp::raw_convert<string>(GetCurrentProcessId());
 }
 
+
+bool
+show_in_file_manager (boost::filesystem::path, boost::filesystem::path select)
+{
+	std::wstringstream args;
+	args << "/select," << select;
+	auto const r = ShellExecute (0, L"open", L"explorer.exe", args.str().c_str(), 0, SW_SHOWDEFAULT);
+	return (reinterpret_cast<int64_t>(r) <= 32);
+}
+
