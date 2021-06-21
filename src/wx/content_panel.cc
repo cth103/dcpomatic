@@ -34,6 +34,7 @@
 #include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
@@ -420,13 +421,15 @@ ContentPanel::add_file_clicked ()
 		return;
 	}
 
+	auto path = Config::instance()->add_files_path();
+
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
 	auto d = new wxFileDialog (
 		_splitter,
 		_("Choose a file or files"),
-		wxT (""),
+		std_to_wx(path ? path->string() : home_directory().string()),
 		wxT (""),
 		wxT ("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
 		wxFD_MULTIPLE | wxFD_CHANGE_DIR
@@ -446,6 +449,10 @@ ContentPanel::add_file_clicked ()
 		path_list.push_back (wx_to_std(paths[i]));
 	}
 	add_files (path_list);
+
+	if (!path_list.empty()) {
+		Config::instance()->set_add_files_path(path_list[0].parent_path());
+	}
 
 	d->Destroy ();
 }

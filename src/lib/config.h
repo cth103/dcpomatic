@@ -539,6 +539,10 @@ public:
 		return _custom_languages;
 	}
 
+	boost::optional<boost::filesystem::path> add_files_path () const {
+		return _add_files_path;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1048,6 +1052,11 @@ public:
 
 	void add_custom_language (dcp::LanguageTag tag);
 
+	void set_add_files_path (boost::filesystem::path p) {
+		_add_files_path = p;
+		changed ();
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1260,6 +1269,7 @@ private:
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
 	std::vector<dcp::LanguageTag> _custom_languages;
+	boost::optional<boost::filesystem::path> _add_files_path;
 
 	static int const _current_version;
 

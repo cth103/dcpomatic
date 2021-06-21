@@ -176,6 +176,7 @@ Config::set_defaults ()
 	_player_kdm_directory = boost::none;
 	_audio_mapping = boost::none;
 	_custom_languages.clear ();
+	_add_files_path = boost::none;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -552,6 +553,8 @@ try
 			_custom_languages.push_back (dcp::LanguageTag(i->content()));
 		} catch (std::runtime_error& e) {}
 	}
+
+	_add_files_path = f.optional_string_child("AddFilesPath");
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -975,6 +978,10 @@ Config::write_config () const
 	}
 	for (auto const& i: _custom_languages) {
 		root->add_child("CustomLanguage")->add_child_text(i.to_string());
+	}
+	if (_add_files_path) {
+		/* [XML] The default path that will be offered in the picker when adding files to a film */
+		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
 	}
 
 	try {
