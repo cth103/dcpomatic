@@ -19,19 +19,20 @@
 */
 
 
-#include "lib/ffmpeg_encoder.h"
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/image_content.h"
-#include "lib/video_content.h"
 #include "lib/audio_content.h"
-#include "lib/string_text_file_content.h"
-#include "lib/ratio.h"
-#include "lib/transcode_job.h"
-#include "lib/dcp_content.h"
-#include "lib/text_content.h"
 #include "lib/compose.hpp"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_examiner.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/ratio.h"
+#include "lib/string_text_file_content.h"
+#include "lib/text_content.h"
+#include "lib/transcode_job.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -427,3 +428,30 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_from_dcp_with_crop)
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go ();
 }
+
+
+/** Export to H264 with reels */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
+{
+	auto content1 = content_factory("test/data/flat_red.png").front();
+	auto content2 = content_factory("test/data/flat_red.png").front();
+	auto film = new_test_film2 ("ffmpeg_encoder_h264_with_reels", { content1, content2 });
+	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
+	content1->video->set_length (240);
+	content2->video->set_length (240);
+
+	auto job = make_shared<TranscodeJob>(film);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_with_reels.mov", ExportFormat::H264_AAC, false, true, false, 23);
+	encoder.go ();
+
+	auto check = [](boost::filesystem::path path) {
+		auto reel = std::dynamic_pointer_cast<FFmpegContent>(content_factory(path).front());
+		BOOST_REQUIRE (reel);
+		FFmpegExaminer examiner(reel);
+		BOOST_CHECK_EQUAL (examiner.video_length(), 240U);
+	};
+
+	check ("build/test/ffmpeg_encoder_h264_with_reels_reel1.mov");
+	check ("build/test/ffmpeg_encoder_h264_with_reels_reel2.mov");
+}
+

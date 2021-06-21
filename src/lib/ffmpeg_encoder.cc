@@ -183,7 +183,7 @@ FFmpegEncoder::go ()
 			}
 			auto fe = encoder->get (v.first->eyes());
 			if (fe) {
-				fe->video(v.first, v.second);
+				fe->video(v.first, v.second - reel->from);
 			}
 		}
 
