@@ -441,9 +441,9 @@ ContentPanel::add_file_clicked ()
 
 	wxArrayString paths;
 	d->GetPaths (paths);
-	list<boost::filesystem::path> path_list;
+	vector<boost::filesystem::path> path_list;
 	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		path_list.push_back (wx_to_std (paths[i]));
+		path_list.push_back (wx_to_std(paths[i]));
 	}
 	add_files (path_list);
 
@@ -788,9 +788,9 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 	}
 
 	auto paths = event.GetFiles ();
-	list<boost::filesystem::path> path_list;
+	vector<boost::filesystem::path> path_list;
 	for (int i = 0; i < event.GetNumberOfFiles(); i++) {
-		path_list.push_back (wx_to_std (paths[i]));
+		path_list.push_back (wx_to_std(paths[i]));
 	}
 
 	add_files (path_list);
@@ -798,14 +798,14 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 
 
 void
-ContentPanel::add_files (list<boost::filesystem::path> paths)
+ContentPanel::add_files (vector<boost::filesystem::path> paths)
 {
 	/* It has been reported that the paths returned from e.g. wxFileDialog are not always sorted;
 	   I can't reproduce that, but sort them anyway.  Don't use ImageFilenameSorter as a normal
 	   alphabetical sort is expected here.
 	*/
 
-	paths.sort (CaseInsensitiveSorter ());
+	std::sort (paths.begin(), paths.end(), CaseInsensitiveSorter());
 
 	/* XXX: check for lots of files here and do something */
 

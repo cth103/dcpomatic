@@ -126,7 +126,7 @@ private:
 	void setup ();
 	void setup_sensitivity ();
 
-	void add_files (std::list<boost::filesystem::path>);
+	void add_files (std::vector<boost::filesystem::path>);
 	std::list<ContentSubPanel *> panels () const;
 
 	LimitedSplitter* _splitter;
