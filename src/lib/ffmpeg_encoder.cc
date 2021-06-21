@@ -277,7 +277,7 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 		}
 	}
 
-	map<Eyes, std::shared_ptr<FFmpegFileEncoder> >::const_iterator i = _encoders.find (eyes);
+	auto i = _encoders.find (eyes);
 	DCPOMATIC_ASSERT (i != _encoders.end());
 	return i->second;
 }
