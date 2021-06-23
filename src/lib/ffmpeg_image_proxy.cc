@@ -166,7 +166,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 
 	int r = avformat_find_stream_info(format_context, 0);
 	if (r < 0) {
-		throw DecodeError (N_("avcodec_find_stream_info"), name_for_errors, r);
+		throw DecodeError (N_("avcodec_find_stream_info"), name_for_errors, r, *_path);
 	}
 
 	DCPOMATIC_ASSERT (format_context->nb_streams == 1);
@@ -181,28 +181,28 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 
 	auto context = avcodec_alloc_context3 (codec);
 	if (!context) {
-		throw DecodeError (N_("avcodec_alloc_context3"), name_for_errors);
+		throw DecodeError (N_("avcodec_alloc_context3"), name_for_errors, *_path);
 	}
 
 	r = avcodec_open2 (context, codec, 0);
 	if (r < 0) {
-		throw DecodeError (N_("avcodec_open2"), name_for_errors, r);
+		throw DecodeError (N_("avcodec_open2"), name_for_errors, r, *_path);
 	}
 
 	AVPacket packet;
 	r = av_read_frame (format_context, &packet);
 	if (r < 0) {
-		throw DecodeError (N_("av_read_frame"), name_for_errors, r);
+		throw DecodeError (N_("av_read_frame"), name_for_errors, r, *_path);
 	}
 
 	r = avcodec_send_packet (context, &packet);
 	if (r < 0) {
-		throw DecodeError (N_("avcodec_send_packet"), name_for_errors, r);
+		throw DecodeError (N_("avcodec_send_packet"), name_for_errors, r, *_path);
 	}
 
 	r = avcodec_receive_frame (context, frame);
 	if (r < 0) {
-		throw DecodeError (N_("avcodec_receive_frame"), name_for_errors, r);
+		throw DecodeError (N_("avcodec_receive_frame"), name_for_errors, r, *_path);
 	}
 
 	_image = make_shared<Image>(frame);
