@@ -50,11 +50,19 @@ public:
 	{}
 
 	DecodeError (std::string function, std::string caller)
-		: std::runtime_error (String::compose("%1 failed [%2", function, caller))
+		: std::runtime_error (String::compose("%1 failed [%2]", function, caller))
 	{}
 
 	DecodeError (std::string function, std::string caller, int error)
 		: std::runtime_error (String::compose("%1 failed [%2] (%3)", function, caller, error))
+	{}
+
+	DecodeError (std::string function, std::string caller, boost::filesystem::path file)
+		: std::runtime_error (String::compose("%1 failed [%2] (%3)", function, caller, file.string()))
+	{}
+
+	DecodeError (std::string function, std::string caller, int error, boost::filesystem::path file)
+		: std::runtime_error (String::compose("%1 failed [%2] (%3) (%4)", function, caller, error, file.string()))
 	{}
 };
 
