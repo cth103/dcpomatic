@@ -175,12 +175,12 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	AVPacket packet;
 	int r = av_read_frame (format_context, &packet);
 	if (r < 0) {
-		throw DecodeError (N_("could not read frame"));
+		throw DecodeError (String::compose(N_("could not read frame in file %1"), _path->string()));
 	}
 
 	int frame_finished;
 	if (avcodec_decode_video2(codec_context, frame, &frame_finished, &packet) < 0 || !frame_finished) {
-		throw DecodeError (N_("could not decode video"));
+		throw DecodeError (String::compose(N_("could not decode video in file %1"), _path->string()));
 	}
 
 	_image.reset (new Image (frame));
