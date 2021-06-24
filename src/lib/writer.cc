@@ -624,6 +624,9 @@ Writer::finish (boost::filesystem::path output_dcp)
 		issuer = String::compose("DCP-o-matic %1 %2", dcpomatic_version, dcpomatic_git_commit);
 	}
 
+	cpl->set_creator (creator);
+	cpl->set_issuer (issuer);
+
 	cpl->set_ratings (film()->ratings());
 
 	vector<dcp::ContentVersion> cv;
