@@ -26,7 +26,7 @@
 #include <boost/test/unit_test.hpp>
 
 
-/** @defgroup regression Tests to make sure that old bugs do not reappear */
+/** @defgroup regression Regression tests */
 
 /** @file  test/ffmpeg_decoder_erro_test.cc
  *  @brief Check some bugs in the FFmpegDecoder
