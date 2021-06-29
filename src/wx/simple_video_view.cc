@@ -69,13 +69,17 @@ SimpleVideoView::paint ()
 	if (!out_size.width || !out_size.height || !_image || out_size != _image->size()) {
 		dc.Clear ();
 	} else {
-
 		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 	}
 
-	auto const pad_colour = (_viewer->pad_black() || gui_is_dark()) ? wxColour(0, 0, 0) : wxColour(240, 240, 240);
+	auto pad_colour = wxColour(240, 240, 240);
+	if (_viewer->pad_black()) {
+		pad_colour = wxColour(0, 0, 0);
+	} else if (gui_is_dark()) {
+		pad_colour = wxColour(50, 50, 50);
+	}
 
 	if (out_size.width < panel_size.GetWidth()) {
 		wxPen   p (pad_colour);
