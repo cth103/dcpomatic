@@ -374,7 +374,7 @@ public:
 
 		overall_panel->SetSizer (main_sizer);
 
-		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+		UpdateChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::update_checker_state_changed, this));
 
 		FocusManager::instance()->SetFocus.connect (boost::bind (&DOMFrame::remove_accelerators, this));
 		FocusManager::instance()->KillFocus.connect (boost::bind (&DOMFrame::add_accelerators, this));
