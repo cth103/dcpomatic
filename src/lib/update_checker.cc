@@ -193,7 +193,6 @@ UpdateChecker::set_state (State s)
 	{
 		boost::mutex::scoped_lock lm (_data_mutex);
 		_state = s;
-		_emits++;
 	}
 
 	emit (boost::bind(boost::ref(StateChanged)));

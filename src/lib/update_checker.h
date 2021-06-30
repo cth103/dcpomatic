@@ -98,7 +98,6 @@ private:
 	State _state;
 	boost::optional<std::string> _stable;
 	boost::optional<std::string> _test;
-	int _emits = 0;
 
 	boost::thread _thread;
 	boost::mutex _process_mutex;
