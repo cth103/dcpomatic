@@ -1105,8 +1105,8 @@ private:
 
 	void tools_check_for_updates ()
 	{
-		UpdateChecker::instance()->run ();
 		_update_news_requested = true;
+		UpdateChecker::instance()->run();
 	}
 
 	void tools_send_translations ()
