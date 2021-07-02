@@ -136,7 +136,7 @@ UpdateChecker::thread ()
 			int r = curl_easy_perform (_curl);
 			if (r != CURLE_OK) {
 				set_state (State::FAILED);
-				return;
+				continue;
 			}
 
 			/* Parse the reply */
