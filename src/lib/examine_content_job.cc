@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,18 +18,21 @@
 
 */
 
-#include <boost/filesystem.hpp>
-#include "examine_content_job.h"
-#include "log.h"
+
 #include "content.h"
+#include "examine_content_job.h"
 #include "film.h"
+#include "log.h"
+#include <boost/filesystem.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
+
 using std::string;
 using std::cout;
 using std::shared_ptr;
+
 
 ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Content> c)
 	: Job (film)
@@ -38,10 +41,12 @@ ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Co
 
 }
 
+
 ExamineContentJob::~ExamineContentJob ()
 {
 	stop_thread ();
 }
+
 
 string
 ExamineContentJob::name () const
@@ -49,11 +54,13 @@ ExamineContentJob::name () const
 	return _("Examining content");
 }
 
+
 string
 ExamineContentJob::json_name () const
 {
 	return N_("examine_content");
 }
+
 
 void
 ExamineContentJob::run ()

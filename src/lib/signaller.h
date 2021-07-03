@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,18 @@
 
 */
 
+
 #ifndef DCPOMATIC_SIGNALLER_H
 #define DCPOMATIC_SIGNALLER_H
+
 
 #include "signal_manager.h"
 #include <boost/thread/mutex.hpp>
 
+
 class WrapperBase
 {
 public:
-	WrapperBase ()
-		: _valid (true)
-		, _finished (false)
-	{}
-
 	virtual ~WrapperBase () {}
 
 	/* Can be called from any thread */
@@ -59,9 +57,10 @@ public:
 protected:
 	/* Protect _valid and _finished */
 	mutable boost::mutex _mutex;
-	bool _valid;
-	bool _finished;
+	bool _valid = true;
+	bool _finished = false;
 };
+
 
 /** Helper class to manage lifetime of signals, specifically to address
  *  the problem where an object containing a signal is deleted before
@@ -91,6 +90,7 @@ private:
 	T _signal;
 };
 
+
 /** Parent for any class which needs to raise cross-thread signals (from non-UI
  *  to UI).  Subclasses should call, e.g. emit (boost::bind (boost::ref (MySignal), foo, bar));
  */
@@ -100,8 +100,8 @@ public:
 	/* Can be called from any thread */
 	virtual ~Signaller () {
 		boost::mutex::scoped_lock lm (_signaller_mutex);
-		for (std::list<WrapperBase*>::iterator i = _wrappers.begin(); i != _wrappers.end(); ++i) {
-			(*i)->invalidate ();
+		for (auto i: _wrappers) {
+			i->invalidate();
 		}
 	}
 
@@ -109,17 +109,17 @@ public:
 	template <class T>
 	void emit (T signal)
 	{
-		Wrapper<T>* w = new Wrapper<T> (signal);
+		auto w = new Wrapper<T> (signal);
 		if (signal_manager) {
-			signal_manager->emit (boost::bind (&Wrapper<T>::signal, w));
+			signal_manager->emit (boost::bind(&Wrapper<T>::signal, w));
 		}
 
 		boost::mutex::scoped_lock lm (_signaller_mutex);
 
 		/* Clean up finished Wrappers */
-		std::list<WrapperBase*>::iterator i = _wrappers.begin ();
+		auto i = _wrappers.begin ();
 		while (i != _wrappers.end ()) {
-			std::list<WrapperBase*>::iterator tmp = i;
+			auto tmp = i;
 			++tmp;
 			if ((*i)->finished ()) {
 				delete *i;
@@ -137,5 +137,6 @@ private:
 	boost::mutex _signaller_mutex;
 	std::list<WrapperBase*> _wrappers;
 };
+
 
 #endif

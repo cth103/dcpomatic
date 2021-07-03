@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,21 +18,24 @@
 
 */
 
+
 /** @file src/upload_job.cc
  *  @brief A job to copy DCPs to a server using libcurl.
  */
 
+
 #include "compose.hpp"
-#include "upload_job.h"
 #include "config.h"
-#include "log.h"
+#include "curl_uploader.h"
 #include "dcpomatic_log.h"
 #include "film.h"
+#include "log.h"
 #include "scp_uploader.h"
-#include "curl_uploader.h"
+#include "upload_job.h"
 #include <iostream>
 
 #include "i18n.h"
+
 
 using std::string;
 using std::min;
@@ -42,6 +45,7 @@ using boost::scoped_ptr;
 using namespace boost::placeholders;
 #endif
 
+
 UploadJob::UploadJob (shared_ptr<const Film> film)
 	: Job (film)
 	, _status (_("Waiting"))
@@ -49,10 +53,12 @@ UploadJob::UploadJob (shared_ptr<const Film> film)
 
 }
 
+
 UploadJob::~UploadJob ()
 {
 	stop_thread ();
 }
+
 
 string
 UploadJob::name () const
@@ -60,11 +66,13 @@ UploadJob::name () const
 	return _("Copy DCP to TMS");
 }
 
+
 string
 UploadJob::json_name () const
 {
 	return N_("upload");
 }
+
 
 void
 UploadJob::run ()
@@ -88,16 +96,18 @@ UploadJob::run ()
 	set_state (FINISHED_OK);
 }
 
+
 string
 UploadJob::status () const
 {
 	boost::mutex::scoped_lock lm (_status_mutex);
-	string s = Job::status ();
-	if (!_status.empty () && !finished_in_error ()) {
+	auto s = Job::status ();
+	if (!_status.empty() && !finished_in_error()) {
 		s += N_("; ") + _status;
 	}
 	return s;
 }
+
 
 void
 UploadJob::set_status (string s)
