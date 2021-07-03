@@ -30,11 +30,11 @@ using std::min;
 using std::shared_ptr;
 
 
-/** @return array of floats which the caller must destroy with delete[] */
-float *
+std::vector<float>
 AudioFilter::sinc_blackman (float cutoff, bool invert) const
 {
-	float* ir = new float[_M + 1];
+	auto ir = std::vector<float>();
+	ir.reserve(_M + 1);
 
 	/* Impulse response */
 
@@ -70,12 +70,6 @@ AudioFilter::sinc_blackman (float cutoff, bool invert) const
 	}
 
 	return ir;
-}
-
-
-AudioFilter::~AudioFilter ()
-{
-	delete[] _ir;
 }
 
 
@@ -147,14 +141,10 @@ BandPassAudioFilter::BandPassAudioFilter (float transition_bandwidth, float lowe
 	auto lpf = sinc_blackman (lower, false);
 	auto hpf = sinc_blackman (higher, true);
 
-	delete[] _ir;
-	_ir = new float[_M + 1];
+	_ir.reserve (_M + 1);
 	for (int i = 0; i <= _M; ++i) {
 		_ir[i] = lpf[i] + hpf[i];
 	}
-
-	delete[] lpf;
-	delete[] hpf;
 
 	/* We now have a band-stop, so invert for band-pass */
 	for (int i = 0; i <= _M; ++i) {

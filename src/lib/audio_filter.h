@@ -23,6 +23,7 @@
 
 
 #include <memory>
+#include <vector>
 
 
 class AudioBuffers;
@@ -43,7 +44,7 @@ public:
 		}
 	}
 
-	virtual ~AudioFilter ();
+	virtual ~AudioFilter () {}
 
 	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers> in);
 
@@ -53,9 +54,9 @@ protected:
 	friend struct audio_filter_impulse_kernel_test;
 	friend struct audio_filter_impulse_input_test;
 
-	float* sinc_blackman (float cutoff, bool invert) const;
+	std::vector<float> sinc_blackman (float cutoff, bool invert) const;
 
-	float* _ir = nullptr;
+	std::vector<float> _ir;
 	int _M;
 	std::shared_ptr<AudioBuffers> _tail;
 };
