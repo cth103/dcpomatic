@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_ENCODER_H
 #define DCPOMATIC_ENCODER_H
 
-#include "types.h"
+
 #include "player_text.h"
+#include "types.h"
 #include <boost/signals2.hpp>
+
 
 class Film;
 class Encoder;
@@ -31,6 +34,7 @@ class Player;
 class Job;
 class PlayerVideo;
 class AudioBuffers;
+
 
 /** @class Encoder
  *  @brief Parent class for something that can encode a film into some format
@@ -48,7 +52,7 @@ public:
 
 	/** @return the current frame rate over the last short while */
 	virtual boost::optional<float> current_rate () const {
-		return boost::optional<float>();
+		return {};
 	}
 
 	/** @return the number of frames that are done */
@@ -60,5 +64,6 @@ protected:
 	std::weak_ptr<Job> _job;
 	std::shared_ptr<Player> _player;
 };
+
 
 #endif

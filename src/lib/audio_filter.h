@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,6 +28,7 @@
 class AudioBuffers;
 struct audio_filter_impulse_input_test;
 
+
 /** An audio filter which can take AudioBuffers and apply some filtering operation,
  *  returning filtered samples
  */
@@ -35,7 +36,6 @@ class AudioFilter
 {
 public:
 	explicit AudioFilter (float transition_bandwidth)
-		: _ir (0)
 	{
 		_M = 4 / transition_bandwidth;
 		if (_M % 2) {
@@ -55,10 +55,11 @@ protected:
 
 	float* sinc_blackman (float cutoff, bool invert) const;
 
-	float* _ir;
+	float* _ir = nullptr;
 	int _M;
 	std::shared_ptr<AudioBuffers> _tail;
 };
+
 
 class LowPassAudioFilter : public AudioFilter
 {
@@ -70,6 +71,7 @@ public:
 	LowPassAudioFilter (float transition_bandwidth, float cutoff);
 };
 
+
 class HighPassAudioFilter : public AudioFilter
 {
 public:
@@ -79,6 +81,7 @@ public:
 	 */
 	HighPassAudioFilter (float transition_bandwidth, float cutoff);
 };
+
 
 class BandPassAudioFilter : public AudioFilter
 {
@@ -90,5 +93,6 @@ public:
 	 */
 	BandPassAudioFilter (float transition_bandwidth, float lower, float higher);
 };
+
 
 #endif

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 /** @file src/lib/filter_graph.h
  *  @brief A graph of FFmpeg filters.
  */
 
+
 #ifndef DCPOMATIC_FILTER_GRAPH_H
 #define DCPOMATIC_FILTER_GRAPH_H
+
 
 #include "util.h"
 #include "warnings.h"
@@ -33,10 +36,12 @@ extern "C" {
 }
 DCPOMATIC_ENABLE_WARNINGS
 
+
 struct AVFilterContext;
 struct AVFrame;
 class Image;
 class Filter;
+
 
 /** @class FilterGraph
  *  @brief A graph of FFmpeg filters.
@@ -44,7 +49,7 @@ class Filter;
 class FilterGraph
 {
 public:
-	FilterGraph ();
+	FilterGraph() = default;
 	virtual ~FilterGraph ();
 
 	FilterGraph (FilterGraph const&) = delete;
@@ -59,12 +64,13 @@ protected:
 	virtual void set_parameters (AVFilterContext* context) const = 0;
 	virtual std::string sink_name () const = 0;
 
-	AVFilterGraph* _graph;
+	AVFilterGraph* _graph = nullptr;
 	/** true if this graph has no filters in, so it just copies stuff straight through */
-	bool _copy;
-	AVFilterContext* _buffer_src_context;
-	AVFilterContext* _buffer_sink_context;
-	AVFrame* _frame;
+	bool _copy = false;
+	AVFilterContext* _buffer_src_context = nullptr;
+	AVFilterContext* _buffer_sink_context = nullptr;
+	AVFrame* _frame = nullptr;
 };
+
 
 #endif

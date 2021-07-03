@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,17 @@
 
 */
 
+
 #include "audio_filter.h"
 #include "audio_buffers.h"
 #include "util.h"
 #include <cmath>
 
+
+using std::make_shared;
 using std::min;
 using std::shared_ptr;
+
 
 /** @return array of floats which the caller must destroy with delete[] */
 float *
@@ -68,15 +72,17 @@ AudioFilter::sinc_blackman (float cutoff, bool invert) const
 	return ir;
 }
 
+
 AudioFilter::~AudioFilter ()
 {
 	delete[] _ir;
 }
 
+
 shared_ptr<AudioBuffers>
 AudioFilter::run (shared_ptr<const AudioBuffers> in)
 {
-	shared_ptr<AudioBuffers> out (new AudioBuffers (in->channels(), in->frames()));
+	auto out = make_shared<AudioBuffers>(in->channels(), in->frames());
 
 	if (!_tail) {
 		_tail.reset (new AudioBuffers (in->channels(), _M + 1));
@@ -87,9 +93,9 @@ AudioFilter::run (shared_ptr<const AudioBuffers> in)
 	int const frames = in->frames ();
 
 	for (int i = 0; i < channels; ++i) {
-		float* tail_p = _tail->data (i);
-		float* in_p = in->data (i);
-		float* out_p = out->data (i);
+		auto tail_p = _tail->data (i);
+		auto in_p = in->data (i);
+		auto out_p = out->data (i);
 		for (int j = 0; j < frames; ++j) {
 			float s = 0;
 			for (int k = 0; k <= _M; ++k) {
@@ -113,11 +119,13 @@ AudioFilter::run (shared_ptr<const AudioBuffers> in)
 	return out;
 }
 
+
 void
 AudioFilter::flush ()
 {
 	_tail.reset ();
 }
+
 
 LowPassAudioFilter::LowPassAudioFilter (float transition_bandwidth, float cutoff)
 	: AudioFilter (transition_bandwidth)
@@ -132,11 +140,12 @@ HighPassAudioFilter::HighPassAudioFilter (float transition_bandwidth, float cuto
 	_ir = sinc_blackman (cutoff, true);
 }
 
+
 BandPassAudioFilter::BandPassAudioFilter (float transition_bandwidth, float lower, float higher)
 	: AudioFilter (transition_bandwidth)
 {
-	float* lpf = sinc_blackman (lower, false);
-	float* hpf = sinc_blackman (higher, true);
+	auto lpf = sinc_blackman (lower, false);
+	auto hpf = sinc_blackman (higher, true);
 
 	delete[] _ir;
 	_ir = new float[_M + 1];

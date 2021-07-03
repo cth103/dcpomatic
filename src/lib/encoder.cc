@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  src/encoder.cc
  *  @brief A class which takes a Film and some Options, then uses those to encode the film
  *  into some output format.
@@ -26,19 +27,18 @@
  *  as a parameter to the constructor.
  */
 
+
 #include "encoder.h"
 #include "player.h"
 
 #include "i18n.h"
 
-using std::weak_ptr;
-using std::shared_ptr;
 
 /** Construct an encoder.
  *  @param film Film that we are encoding.
  *  @param job Job that this encoder is being used in.
  */
-Encoder::Encoder (shared_ptr<const Film> film, weak_ptr<Job> job)
+Encoder::Encoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job)
 	: _film (film)
 	, _job (job)
 	, _player (new Player(film))

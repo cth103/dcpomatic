@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,13 @@
 
 */
 
+
 #ifndef DCPOMATIC_USER_PROPERTY_H
 #define DCPOMATIC_USER_PROPERTY_H
 
+
 #include <dcp/locale_convert.h>
+
 
 class UserProperty
 {
@@ -46,5 +49,6 @@ public:
 	std::string value;
 	std::string unit;
 };
+
 
 #endif

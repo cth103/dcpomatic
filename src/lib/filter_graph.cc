@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -50,22 +50,11 @@ using std::weak_ptr;
 using dcp::Size;
 
 
-/** Construct a FilterGraph for the settings in a piece of content */
-FilterGraph::FilterGraph ()
-	: _graph (0)
-	, _copy (false)
-	, _buffer_src_context (0)
-	, _buffer_sink_context (0)
-	, _frame (0)
-{
-
-}
-
 void
 FilterGraph::setup (vector<Filter const *> filters)
 {
-	string const filters_string = Filter::ffmpeg_string (filters);
-	if (filters.empty ()) {
+	auto const filters_string = Filter::ffmpeg_string (filters);
+	if (filters.empty()) {
 		_copy = true;
 		return;
 	}
