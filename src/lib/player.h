@@ -78,7 +78,6 @@ class Player : public std::enable_shared_from_this<Player>
 public:
 	Player (std::shared_ptr<const Film>);
 	Player (std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist);
-	~Player ();
 
 	Player (Player const& Player) = delete;
 	Player& operator= (Player const& Player) = delete;
@@ -208,7 +207,7 @@ private:
 	LastVideoMap _last_video;
 
 	AudioMerger _audio_merger;
-	Shuffler* _shuffler = nullptr;
+	std::unique_ptr<Shuffler> _shuffler;
 	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _delay;
 
 	class StreamState
@@ -238,5 +237,6 @@ private:
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_content_change_connection;
 };
+
 
 #endif

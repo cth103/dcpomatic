@@ -46,15 +46,15 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 	string ext = content->path(0).extension().string();
 	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
-	sub::Reader* reader = 0;
+	std::unique_ptr<sub::Reader> reader;
 
 	if (ext == ".stl") {
-		FILE* f = fopen_boost (content->path(0), "rb");
+		auto f = fopen_boost (content->path(0), "rb");
 		if (!f) {
 			throw OpenFileError (content->path(0), errno, OpenFileError::READ);
 		}
 		try {
-			reader = new sub::STLBinaryReader (f);
+			reader.reset(new sub::STLBinaryReader(f));
 		} catch (...) {
 			fclose (f);
 			throw;
@@ -100,17 +100,15 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 		ucnv_close (to_utf8);
 
 		if (ext == ".srt") {
-			reader = new sub::SubripReader (utf8.get());
+			reader.reset(new sub::SubripReader(utf8.get()));
 		} else if (ext == ".ssa" || ext == ".ass") {
-			reader = new sub::SSAReader (utf8.get());
+			reader.reset(new sub::SSAReader(utf8.get()));
 		}
 	}
 
 	if (reader) {
-		_subtitles = sub::collect<vector<sub::Subtitle> > (reader->subtitles ());
+		_subtitles = sub::collect<vector<sub::Subtitle>>(reader->subtitles());
 	}
-
-	delete reader;
 }
 
 /** @return time of first subtitle, if there is one */

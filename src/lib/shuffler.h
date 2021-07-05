@@ -19,13 +19,16 @@
 */
 
 
-#include "types.h"
+#ifndef DCPOMATIC_SHUFFLER_H
+#define DCPOMATIC_SHUFFLER_H
+
+
 #include "content_video.h"
+#include "types.h"
 #include <boost/signals2.hpp>
 
 
 struct shuffler_test5;
-
 
 class Piece;
 
@@ -48,3 +51,7 @@ private:
 	boost::optional<ContentVideo> _last;
 	static int const _max_size;
 };
+
+
+#endif
+
