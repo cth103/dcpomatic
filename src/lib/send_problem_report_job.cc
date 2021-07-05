@@ -119,19 +119,8 @@ SendProblemReportJob::run ()
 void
 SendProblemReportJob::add_file (string& body, boost::filesystem::path file) const
 {
-	auto f = fopen_boost (_film->file(file), "r");
-	if (!f) {
-		return;
-	}
-
 	body += file.string() + ":\n";
 	body += "---<8----\n";
-	auto const size = boost::filesystem::file_size (_film->file(file));
-	char* buffer = new char[size + 1];
-	int const N = fread (buffer, 1, size, f);
-	buffer[N] = '\0';
-	body += buffer;
-	delete[] buffer;
+	body += dcp::file_to_string (_film->file(file));
 	body += "---<8----\n\n";
-	fclose (f);
 }
