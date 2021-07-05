@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,17 +18,21 @@
 
 */
 
-#include "report_problem_dialog.h"
-#include "wx_util.h"
-#include "static_text.h"
+
 #include "check_box.h"
+#include "report_problem_dialog.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/config.h"
 #include "lib/job_manager.h"
 #include "lib/send_problem_report_job.h"
 #include <wx/sizer.h>
 
+
+using std::make_shared;
 using std::string;
 using std::shared_ptr;
+
 
 /** @param parent Parent window.
  *  @param film Film that we are working on, or 0.
@@ -45,21 +49,21 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 
 	_overall_sizer->Add (_table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
 
-	wxString t = _("My problem is");
+	auto t = _("My problem is");
 	int flags = wxALIGN_TOP | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
 	t += wxT (":");
 #endif
-	wxStaticText* m = new StaticText (this, t);
+	auto m = new StaticText (this, t);
 	_table->Add (m, 1, flags, 6);
 
-	_summary = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, wxSize (320, 240), wxTE_MULTILINE);
+	_summary = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(320, 240), wxTE_MULTILINE);
 	_table->Add (_summary, 1, wxEXPAND | wxALIGN_TOP);
 
 	_send_logs = new CheckBox (this, _("Send logs"));
@@ -90,7 +94,7 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 		}
 	}
 
-	wxStaticText* n = new StaticText (this, wxT (""));
+	auto n = new StaticText (this, wxT(""));
 	n->SetLabelMarkup (out);
 	_table->AddSpacer (0);
 	_table->Add (n, 1, wxEXPAND);
@@ -101,18 +105,20 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	_summary->SetFocus ();
 }
 
+
 void
 ReportProblemDialog::report ()
 {
-	if (_email->GetValue().IsEmpty ()) {
+	if (_email->GetValue().IsEmpty()) {
 		error_dialog (this, _("Please enter an email address so that we can contact you with any queries about the problem."));
 		return;
 	}
 
 	if (_email->GetValue() == "carl@dcpomatic.com" || _email->GetValue() == "cth@carlh.net") {
-		error_dialog (this, wxString::Format (_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
+		error_dialog (this, wxString::Format(_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
 		return;
 	}
 
-	JobManager::instance()->add (shared_ptr<Job> (new SendProblemReportJob (_film, wx_to_std (_email->GetValue ()), wx_to_std (_summary->GetValue ()))));
+	JobManager::instance()->add (make_shared<SendProblemReportJob>(_film, wx_to_std(_email->GetValue()), wx_to_std(_summary->GetValue())));
 }
+

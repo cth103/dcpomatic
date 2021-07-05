@@ -18,25 +18,29 @@
 
 */
 
+
 #ifndef DCPOMATIC_PLAYER_H
 #define DCPOMATIC_PLAYER_H
 
-#include "atmos_metadata.h"
-#include "player_text.h"
+
 #include "active_text.h"
-#include "content_text.h"
-#include "film.h"
+#include "atmos_metadata.h"
+#include "audio_merger.h"
+#include "audio_stream.h"
 #include "content.h"
 #include "content_atmos.h"
-#include "position_image.h"
-#include "piece.h"
-#include "content_video.h"
 #include "content_audio.h"
-#include "audio_stream.h"
-#include "audio_merger.h"
+#include "content_text.h"
+#include "content_video.h"
 #include "empty.h"
+#include "film.h"
+#include "piece.h"
+#include "player_text.h"
+#include "position_image.h"
+#include "shuffler.h"
 #include <boost/atomic.hpp>
 #include <list>
+
 
 namespace dcp {
 	class ReelAsset;
@@ -53,6 +57,7 @@ class AudioBuffers;
 class ReferencedReelAsset;
 class Shuffler;
 
+
 class PlayerProperty
 {
 public:
@@ -63,6 +68,7 @@ public:
 	static int const DCP_DECODE_REDUCTION;
 	static int const PLAYBACK_LENGTH;
 };
+
 
 /** @class Player
  *  @brief A class which can play a Playlist.
