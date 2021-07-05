@@ -60,8 +60,8 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	, _ebur128 (new AudioFilterGraph(film->audio_frame_rate(), film->audio_channels()))
 #endif
-	, _sample_peak (new float[film->audio_channels()])
-	, _sample_peak_frame (new Frame[film->audio_channels()])
+	, _sample_peak (film->audio_channels())
+	, _sample_peak_frame (film->audio_channels())
 	, _analysis (film->audio_channels())
 {
 
@@ -70,7 +70,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 	_ebur128->setup (_filters);
 #endif
 
-	_current = new AudioPoint[_film->audio_channels()];
+	_current = std::vector<AudioPoint>(_film->audio_channels());
 
 	if (!from_zero) {
 		_start = _playlist->start().get_value_or(DCPTime());
@@ -127,12 +127,9 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 
 AudioAnalyser::~AudioAnalyser ()
 {
-	delete[] _current;
 	for (auto i: _filters) {
 		delete const_cast<Filter*> (i);
 	}
-	delete[] _sample_peak;
-	delete[] _sample_peak_frame;
 }
 
 

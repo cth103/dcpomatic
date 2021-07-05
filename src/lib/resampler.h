@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -41,7 +41,7 @@ public:
 	void set_fast ();
 
 private:
-	SRC_STATE* _src;
+	SRC_STATE* _src = nullptr;
 	int _in_rate;
 	int _out_rate;
 	int _channels;

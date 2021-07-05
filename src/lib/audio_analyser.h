@@ -72,9 +72,9 @@ private:
 
 	boost::scoped_ptr<leqm_nrt::Calculator> _leqm;
 	Frame _done = 0;
-	float* _sample_peak = nullptr;
-	Frame* _sample_peak_frame = nullptr;
-	AudioPoint* _current = nullptr;
+	std::vector<float> _sample_peak;
+	std::vector<Frame> _sample_peak_frame;
+	std::vector<AudioPoint> _current;
 
 	AudioAnalysis _analysis;
 };
