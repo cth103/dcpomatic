@@ -71,7 +71,7 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	_table->Add (_send_logs, 1, wxEXPAND);
 	_table->AddSpacer (0);
 
-	add_label_to_sizer (_table, this, _("Your email address"), true);
+	add_label_to_sizer (_table, this, _("Your email address"), true, 0, wxALIGN_CENTRE_VERTICAL);
 	_email = new wxTextCtrl (this, wxID_ANY, wxT (""));
 	_email->SetValue (std_to_wx (Config::instance()->kdm_from ()));
 	_table->Add (_email, 1, wxEXPAND);
