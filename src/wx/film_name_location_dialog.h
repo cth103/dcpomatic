@@ -35,7 +35,6 @@ class FilmNameLocationDialog : public TableDialog
 {
 public:
 	FilmNameLocationDialog (wxWindow *, wxString title, bool offer_templates);
-	~FilmNameLocationDialog ();
 
 	boost::filesystem::path path () const;
 	bool check_path ();
@@ -44,6 +43,7 @@ public:
 private:
 	void use_template_clicked ();
 	void setup_sensitivity ();
+	void folder_changed ();
 
 	wxTextCtrl* _name;
 #ifdef DCPOMATIC_USE_OWN_PICKER

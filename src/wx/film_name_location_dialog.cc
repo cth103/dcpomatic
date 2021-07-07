@@ -48,15 +48,14 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	_folder = new DirPickerCtrl (this);
+	_folder->Changed.connect (bind(&FilmNameLocationDialog::folder_changed, this));
 #else
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+	_folder->Bind (wxEVT_DIRPICKER_CHANGED, bind(&FilmNameLocationDialog::folder_changed, this));
 #endif
 
-	if (!_directory) {
-		_directory = Config::instance()->default_directory_or(wx_to_std(wxStandardPaths::Get().GetDocumentsDir()));
-	}
-
-	_folder->SetPath (std_to_wx(_directory.get().string()));
+	auto dir = _directory.get_value_or(Config::instance()->default_directory_or(wx_to_std(wxStandardPaths::Get().GetDocumentsDir())));
+	_folder->SetPath (std_to_wx(dir.string()));
 	add (_folder);
 
 	if (offer_templates) {
@@ -102,7 +101,8 @@ FilmNameLocationDialog::use_template_clicked ()
 }
 
 
-FilmNameLocationDialog::~FilmNameLocationDialog ()
+void
+FilmNameLocationDialog::folder_changed ()
 {
 	_directory = wx_to_std (_folder->GetPath());
 }
