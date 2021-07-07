@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,15 +18,18 @@
 
 */
 
-#include "wx_util.h"
+
 #include "table_dialog.h"
+#include "wx_util.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/filepicker.h>
 DCPOMATIC_ENABLE_WARNINGS
 
+
 class DirPickerCtrl;
+
 
 class FilmNameLocationDialog : public TableDialog
 {
@@ -52,3 +55,4 @@ private:
 	wxChoice* _template_name;
 	static boost::optional<boost::filesystem::path> _directory;
 };
+

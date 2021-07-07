@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,9 +18,10 @@
 
 */
 
-#include "wx_util.h"
-#include "film_name_location_dialog.h"
+
 #include "check_box.h"
+#include "film_name_location_dialog.h"
+#include "wx_util.h"
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #endif
@@ -29,10 +30,13 @@
 #include <wx/stdpaths.h>
 #include <boost/filesystem.hpp>
 
+
 using namespace std;
 using namespace boost;
 
-boost::optional<boost::filesystem::path> FilmNameLocationDialog::_directory;
+
+optional<filesystem::path> FilmNameLocationDialog::_directory;
+
 
 FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title, bool offer_templates)
 	: TableDialog (parent, title, 2, 1, true)
@@ -49,10 +53,10 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 #endif
 
 	if (!_directory) {
-		_directory = Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir()));
+		_directory = Config::instance()->default_directory_or(wx_to_std(wxStandardPaths::Get().GetDocumentsDir()));
 	}
 
-	_folder->SetPath (std_to_wx (_directory.get().string()));
+	_folder->SetPath (std_to_wx(_directory.get().string()));
 	add (_folder);
 
 	if (offer_templates) {
@@ -68,10 +72,10 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 		_template_name->Enable (false);
 
 		for (auto i: Config::instance()->templates ()) {
-			_template_name->Append (std_to_wx (i));
+			_template_name->Append (std_to_wx(i));
 		}
 
-		_use_template->Bind (wxEVT_CHECKBOX, bind (&FilmNameLocationDialog::use_template_clicked, this));
+		_use_template->Bind (wxEVT_CHECKBOX, bind(&FilmNameLocationDialog::use_template_clicked, this));
 	}
 
 	layout ();
@@ -84,7 +88,7 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 void
 FilmNameLocationDialog::setup_sensitivity ()
 {
-	wxButton* ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
 	if (ok) {
 		ok->Enable (!_name->GetValue().IsEmpty());
 	}
@@ -94,32 +98,36 @@ FilmNameLocationDialog::setup_sensitivity ()
 void
 FilmNameLocationDialog::use_template_clicked ()
 {
-	_template_name->Enable (_use_template->GetValue ());
+	_template_name->Enable (_use_template->GetValue());
 }
+
 
 FilmNameLocationDialog::~FilmNameLocationDialog ()
 {
-	_directory = wx_to_std (_folder->GetPath ());
+	_directory = wx_to_std (_folder->GetPath());
 }
 
-boost::filesystem::path
+
+filesystem::path
 FilmNameLocationDialog::path () const
 {
 	filesystem::path p;
-	p /= wx_to_std (_folder->GetPath ());
-	p /= wx_to_std (_name->GetValue ());
+	p /= wx_to_std (_folder->GetPath());
+	p /= wx_to_std (_name->GetValue());
 	return p;
 }
+
 
 optional<string>
 FilmNameLocationDialog::template_name () const
 {
 	if (!_use_template->GetValue() || _template_name->GetSelection() == -1) {
-		return optional<string> ();
+		return {};
 	}
 
 	return wx_to_std (_template_name->GetString(_template_name->GetSelection()));
 }
+
 
 /** Check the path that is in our controls and offer confirmations or errors as required.
  *  @return true if the path should be used.
@@ -127,24 +135,25 @@ FilmNameLocationDialog::template_name () const
 bool
 FilmNameLocationDialog::check_path ()
 {
-	if (boost::filesystem::is_directory (path()) && !boost::filesystem::is_empty(path())) {
+	if (filesystem::is_directory(path()) && !filesystem::is_empty(path())) {
 		if (!confirm_dialog (
 			    this,
 			    std_to_wx (
-				    String::compose (wx_to_std (_("The directory %1 already exists and is not empty.  "
+				    String::compose(wx_to_std(_("The directory %1 already exists and is not empty.  "
 								  "Are you sure you want to use it?")),
-						     path().string().c_str())
+						    path().string().c_str())
 				    )
 			    )) {
 			return false;
 		}
-	} else if (boost::filesystem::is_regular_file (path())) {
+	} else if (boost::filesystem::is_regular_file(path())) {
 		error_dialog (
 			this,
-			String::compose (wx_to_std (_("%1 already exists as a file, so you cannot use it for a film.")), path().c_str())
+			String::compose (wx_to_std(_("%1 already exists as a file, so you cannot use it for a film.")), path().c_str())
 			);
 		return false;
 	}
 
 	return true;
 }
+
