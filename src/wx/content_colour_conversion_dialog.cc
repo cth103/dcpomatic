@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,30 +18,33 @@
 
 */
 
-#include "wx_util.h"
+
 #include "check_box.h"
-#include "content_colour_conversion_dialog.h"
 #include "colour_conversion_editor.h"
+#include "content_colour_conversion_dialog.h"
+#include "wx_util.h"
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
 #include "lib/util.h"
 #include <wx/statline.h>
 #include <iostream>
 
+
+using std::cout;
 using std::string;
 using std::vector;
-using std::cout;
 using boost::optional;
+
 
 ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, bool yuv)
 	: wxDialog (parent, wxID_ANY, _("Colour conversion"))
-	, _editor (new ColourConversionEditor (this, yuv))
+	, _editor (new ColourConversionEditor(this, yuv))
 	, _setting (false)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_Y_GAP - 2, DCPOMATIC_SIZER_X_GAP);
+	auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_Y_GAP - 2, DCPOMATIC_SIZER_X_GAP);
 	_preset_check = new CheckBox (this, _("Use preset"));
 	table->Add (_preset_check, 0, wxALIGN_CENTER_VERTICAL);
 	_preset_choice = new wxChoice (this, wxID_ANY);
@@ -51,7 +54,7 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, 
 	overall_sizer->Add (new wxStaticLine (this, wxID_ANY), 0, wxEXPAND);
 	overall_sizer->Add (_editor);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -69,11 +72,13 @@ ContentColourConversionDialog::ContentColourConversionDialog (wxWindow* parent, 
 	}
 }
 
+
 ColourConversion
 ContentColourConversionDialog::get () const
 {
 	return _editor->get ();
 }
+
 
 void
 ContentColourConversionDialog::set (ColourConversion c)
@@ -85,6 +90,7 @@ ContentColourConversionDialog::set (ColourConversion c)
 	check_for_preset ();
 }
 
+
 void
 ContentColourConversionDialog::check_for_preset ()
 {
@@ -92,7 +98,7 @@ ContentColourConversionDialog::check_for_preset ()
 		return;
 	}
 
-	optional<size_t> preset = _editor->get().preset ();
+	auto preset = _editor->get().preset ();
 
 	_preset_check->SetValue (static_cast<bool>(preset));
 	_preset_choice->Enable (static_cast<bool>(preset));
@@ -102,6 +108,7 @@ ContentColourConversionDialog::check_for_preset ()
 		_preset_choice->SetSelection (-1);
 	}
 }
+
 
 void
 ContentColourConversionDialog::preset_check_clicked ()
@@ -115,10 +122,11 @@ ContentColourConversionDialog::preset_check_clicked ()
 	}
 }
 
+
 void
 ContentColourConversionDialog::preset_choice_changed ()
 {
-	vector<PresetColourConversion> presets = PresetColourConversion::all ();
+	auto presets = PresetColourConversion::all ();
 	int const s = _preset_choice->GetCurrentSelection();
 	if (s != -1) {
 		set (presets[s].conversion);

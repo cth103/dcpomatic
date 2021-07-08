@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,24 @@
 
 */
 
+
 /** @file  src/lib/video_panel.h
  *  @brief VideoPanel class.
  */
+
 
 #include "content_sub_panel.h"
 #include "content_widget.h"
 #include "timecode.h"
 #include "lib/film.h"
 
-class wxChoice;
-class wxStaticText;
-class wxSpinCtrl;
+
 class wxButton;
+class wxChoice;
+class wxSpinCtrl;
+class wxStaticText;
 class wxToggleButton;
+
 
 /** @class VideoPanel
  *  @brief The video tab of the film editor.

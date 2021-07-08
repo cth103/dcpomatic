@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,31 +18,33 @@
 
 */
 
-#include "filter_dialog.h"
-#include "video_panel.h"
-#include "wx_util.h"
-#include "content_colour_conversion_dialog.h"
-#include "content_widget.h"
-#include "content_panel.h"
-#include "static_text.h"
+
 #include "check_box.h"
+#include "content_colour_conversion_dialog.h"
+#include "content_panel.h"
+#include "content_widget.h"
 #include "custom_scale_dialog.h"
 #include "dcpomatic_button.h"
-#include "lib/filter.h"
-#include "lib/ffmpeg_content.h"
+#include "filter_dialog.h"
+#include "static_text.h"
+#include "video_panel.h"
+#include "wx_util.h"
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
-#include "lib/util.h"
-#include "lib/ratio.h"
-#include "lib/frame_rate_change.h"
 #include "lib/dcp_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/filter.h"
+#include "lib/frame_rate_change.h"
+#include "lib/ratio.h"
+#include "lib/util.h"
 #include "lib/video_content.h"
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
-#include <boost/unordered_set.hpp>
 #include <boost/functional/hash.hpp>
+#include <boost/unordered_set.hpp>
 #include <set>
 #include <iostream>
+
 
 using std::vector;
 using std::string;
@@ -66,7 +68,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_reference = new CheckBox (this, _("Use this DCP's video as OV and make VF"));
 	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
-	wxFont font = _reference_note->GetFont();
+	auto font = _reference_note->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
 	_reference_note->SetFont(font);
@@ -160,7 +162,7 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_fade_out = new Timecode<ContentTime> (this);
 
 	wxClientDC dc (this);
-	wxSize size = dc.GetTextExtent (wxT ("A quite long name"));
+	auto size = dc.GetTextExtent (wxT ("A quite long name"));
 #ifdef __WXGTK3__
 	size.SetWidth (size.GetWidth() + 64);
 #endif
@@ -221,12 +223,13 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	add_to_grid ();
 }
 
+
 void
 VideoPanel::add_to_grid ()
 {
 	int r = 0;
 
-	wxBoxSizer* reference_sizer = new wxBoxSizer (wxVERTICAL);
+	auto reference_sizer = new wxBoxSizer (wxVERTICAL);
 	reference_sizer->Add (_reference, 0);
 	reference_sizer->Add (_reference_note, 0);
 	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3));
@@ -237,7 +240,7 @@ VideoPanel::add_to_grid ()
 	++r;
 
 	int cr = 0;
-	wxGridBagSizer* crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto crop = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	add_label_to_sizer (crop, _left_crop_label, true, wxGBPosition (cr, 0));
 	_left_crop->add (crop, wxGBPosition(cr, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -278,9 +281,9 @@ VideoPanel::add_to_grid ()
 
 	add_label_to_sizer (_grid, _scale_label, true, wxGBPosition (r, 0));
 	{
-		wxSizer* v = new wxBoxSizer (wxVERTICAL);
+		auto v = new wxBoxSizer (wxVERTICAL);
 		v->Add (_scale_fit, 0, wxBOTTOM, 4);
-		wxSizer* h = new wxBoxSizer (wxHORIZONTAL);
+		auto h = new wxBoxSizer (wxHORIZONTAL);
 		h->Add (_scale_custom, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL, 6);
 		h->Add (_scale_custom_edit, 0, wxALIGN_CENTER_VERTICAL);
 		v->Add (h, 0);
@@ -290,7 +293,7 @@ VideoPanel::add_to_grid ()
 
 	add_label_to_sizer (_grid, _colour_conversion_label, true, wxGBPosition(r, 0));
 	{
-		wxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (_colour_conversion, 1, wxALIGN_CENTER_VERTICAL | wxTOP | wxBOTTOM | wxRIGHT, 6);
 		s->Add (_edit_colour_conversion_button, 0, wxALIGN_CENTER_VERTICAL);
 		_grid->Add (s, wxGBPosition (r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -305,10 +308,11 @@ VideoPanel::add_to_grid ()
 	++r;
 }
 
+
 void
 VideoPanel::range_changed ()
 {
-	ContentList vc = _parent->selected_video ();
+	auto vc = _parent->selected_video ();
 	if (vc.size() != 1) {
 		return;
 	}
@@ -345,6 +349,7 @@ VideoPanel::film_changed (Film::Property property)
 	}
 }
 
+
 std::size_t
 hash_value (boost::optional<ColourConversion> const & c)
 {
@@ -359,10 +364,10 @@ hash_value (boost::optional<ColourConversion> const & c)
 void
 VideoPanel::film_content_changed (int property)
 {
-	ContentList vc = _parent->selected_video ();
+	auto vc = _parent->selected_video ();
 	shared_ptr<Content> vcs;
 	shared_ptr<FFmpegContent> fcs;
-	if (!vc.empty ()) {
+	if (!vc.empty()) {
 		vcs = vc.front ();
 		fcs = dynamic_pointer_cast<FFmpegContent> (vcs);
 	}
@@ -373,7 +378,7 @@ VideoPanel::film_content_changed (int property)
 	    property == VideoContentProperty::SCALE) {
 		setup_description ();
 	} else if (property == VideoContentProperty::COLOUR_CONVERSION) {
-		boost::unordered_set<optional<ColourConversion> > check;
+		boost::unordered_set<optional<ColourConversion>> check;
 		for (auto i: vc) {
 			check.insert (i->video->colour_conversion());
 		}
@@ -381,14 +386,14 @@ VideoPanel::film_content_changed (int property)
 		/* Remove any "Many" entry that we might have added previously.  There should
 		 * be entries for each preset plus one for "None" and one for "Custom".
 		 */
-		vector<PresetColourConversion> cc = PresetColourConversion::all ();
+		auto cc = PresetColourConversion::all ();
 		if (_colour_conversion->GetCount() > cc.size() + 2) {
 			_colour_conversion->Delete (_colour_conversion->GetCount() - 1);
 		}
 
 		if (check.size() == 1) {
 			if (vcs && vcs->video->colour_conversion ()) {
-				optional<size_t> preset = vcs->video->colour_conversion().get().preset ();
+				auto preset = vcs->video->colour_conversion().get().preset();
 				if (preset) {
 					checked_set (_colour_conversion, preset.get() + 1);
 				} else {
@@ -475,7 +480,7 @@ VideoPanel::film_content_changed (int property)
 void
 VideoPanel::setup_description ()
 {
-	ContentList vc = _parent->selected_video ();
+	auto vc = _parent->selected_video ();
 	if (vc.empty ()) {
 		checked_set (_description, wxT (""));
 		return;
@@ -484,7 +489,7 @@ VideoPanel::setup_description ()
 		return;
 	}
 
-	string d = vc.front()->video->processing_description (_parent->film());
+	auto d = vc.front()->video->processing_description(_parent->film());
 	size_t lines = count (d.begin(), d.end(), '\n');
 
 	for (int i = lines; i < 6; ++i) {
@@ -495,13 +500,14 @@ VideoPanel::setup_description ()
 	layout ();
 }
 
+
 void
 VideoPanel::colour_conversion_changed ()
 {
-	ContentList vc = _parent->selected_video ();
+	auto vc = _parent->selected_video ();
 
 	int const s = _colour_conversion->GetSelection ();
-	vector<PresetColourConversion> all = PresetColourConversion::all ();
+	auto all = PresetColourConversion::all ();
 
 	if (s == int(all.size() + 1)) {
 		edit_colour_conversion_clicked ();
@@ -516,12 +522,13 @@ VideoPanel::colour_conversion_changed ()
 	}
 }
 
+
 void
 VideoPanel::edit_colour_conversion_clicked ()
 {
-	ContentList vc = _parent->selected_video ();
+	auto vc = _parent->selected_video ();
 
-	ContentColourConversionDialog* d = new ContentColourConversionDialog (this, vc.front()->video->yuv ());
+	auto d = new ContentColourConversionDialog (this, vc.front()->video->yuv ());
 	d->set (vc.front()->video->colour_conversion().get_value_or (PresetColourConversion::all().front().conversion));
 	if (d->ShowModal() == wxID_OK) {
 		for (auto i: vc) {
@@ -534,10 +541,11 @@ VideoPanel::edit_colour_conversion_clicked ()
 	d->Destroy ();
 }
 
+
 void
 VideoPanel::content_selection_changed ()
 {
-	ContentList video_sel = _parent->selected_video ();
+	auto video_sel = _parent->selected_video ();
 
 	_frame_type->set_content (video_sel);
 	_left_crop->set_content (video_sel);
@@ -560,10 +568,11 @@ VideoPanel::content_selection_changed ()
 	setup_sensitivity ();
 }
 
+
 void
 VideoPanel::setup_sensitivity ()
 {
-	ContentList sel = _parent->selected ();
+	auto sel = _parent->selected ();
 
 	shared_ptr<DCPContent> dcp;
 	if (sel.size() == 1) {
@@ -604,8 +613,8 @@ VideoPanel::setup_sensitivity ()
 		_colour_conversion->Enable (false);
 		_range->Enable (false);
 	} else {
-		ContentList video_sel = _parent->selected_video ();
-		FFmpegContentList ffmpeg_sel = _parent->selected_ffmpeg ();
+		auto video_sel = _parent->selected_video ();
+		auto ffmpeg_sel = _parent->selected_ffmpeg ();
 		bool const single = video_sel.size() == 1;
 
 		_frame_type->wrapped()->Enable (true);
@@ -623,7 +632,7 @@ VideoPanel::setup_sensitivity ()
 		_range->Enable (single && !video_sel.empty() && !dcp);
 	}
 
-	ContentList vc = _parent->selected_video ();
+	auto vc = _parent->selected_video ();
 	shared_ptr<Content> vcs;
 	if (!vc.empty ()) {
 		vcs = vc.front ();
@@ -636,22 +645,24 @@ VideoPanel::setup_sensitivity ()
 	}
 }
 
+
 void
 VideoPanel::fade_in_changed ()
 {
 	auto const hmsf = _fade_in->get();
 	for (auto i: _parent->selected_video()) {
-		double const vfr = i->active_video_frame_rate (_parent->film());
+		auto const vfr = i->active_video_frame_rate(_parent->film());
 		i->video->set_fade_in (dcpomatic::ContentTime(hmsf, vfr).frames_round(vfr));
 	}
 }
+
 
 void
 VideoPanel::fade_out_changed ()
 {
 	auto const hmsf = _fade_out->get();
 	for (auto i: _parent->selected_video()) {
-		double const vfr = i->active_video_frame_rate (_parent->film());
+		auto const vfr = i->active_video_frame_rate (_parent->film());
 		i->video->set_fade_out (dcpomatic::ContentTime(hmsf, vfr).frames_round(vfr));
 	}
 }
@@ -660,12 +671,12 @@ VideoPanel::fade_out_changed ()
 void
 VideoPanel::reference_clicked ()
 {
-	ContentList c = _parent->selected ();
+	auto c = _parent->selected ();
 	if (c.size() != 1) {
 		return;
 	}
 
-	shared_ptr<DCPContent> d = dynamic_pointer_cast<DCPContent> (c.front ());
+	auto d = dynamic_pointer_cast<DCPContent> (c.front ());
 	if (!d) {
 		return;
 	}
@@ -695,8 +706,8 @@ VideoPanel::scale_custom_clicked ()
 bool
 VideoPanel::scale_custom_edit_clicked ()
 {
-	shared_ptr<const VideoContent> vc = _parent->selected_video().front()->video;
-	CustomScaleDialog* d = new CustomScaleDialog (this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
+	auto vc = _parent->selected_video().front()->video;
+	auto d = new CustomScaleDialog (this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
 	int const r = d->ShowModal ();
 	if (r == wxID_OK) {
 		for (auto i: _parent->selected_video()) {

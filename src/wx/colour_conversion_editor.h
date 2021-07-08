@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,14 +18,19 @@
 
 */
 
+
 #ifndef DCPOMATIC_COLOUR_CONVERSION_EDITOR_H
 #define DCPOMATIC_COLOUR_CONVERSION_EDITOR_H
+
 
 #include <boost/signals2.hpp>
 #include <wx/wx.h>
 
+
+class wxGridBagSizer;
 class wxSpinCtrlDouble;
 class ColourConversion;
+
 
 class ColourConversionEditor : public wxPanel
 {
@@ -79,4 +84,6 @@ private:
 	wxStaticText* _bradford[3][3];
 };
 
+
 #endif
+

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,11 @@
 
 */
 
-#include "wx_util.h"
-#include "static_text.h"
-#include "colour_conversion_editor.h"
+
 #include "check_box.h"
+#include "colour_conversion_editor.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/colour_conversion.h"
 #include <dcp/locale_convert.h>
 #include <dcp/gamma_transfer_function.h>
@@ -32,25 +33,29 @@
 #include <wx/gbsizer.h>
 #include <iostream>
 
-using std::string;
+
 using std::cout;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using boost::bind;
 using dcp::locale_convert;
+
 
 int const ColourConversionEditor::INPUT_GAMMA = 0;
 int const ColourConversionEditor::INPUT_GAMMA_LINEARISED = 1;
 int const ColourConversionEditor::INPUT_SGAMUT3 = 2;
 
+
 ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	: wxPanel (parent, wxID_ANY)
 	, _ignore_chromaticity_changed (false)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
-	wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_Y_GAP - 3, DCPOMATIC_SIZER_X_GAP);
+	auto table = new wxGridBagSizer (DCPOMATIC_SIZER_Y_GAP - 3, DCPOMATIC_SIZER_X_GAP);
 	overall_sizer->Add (table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	int r = 0;
@@ -72,7 +77,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	add_label_to_sizer (table, this, _("Input power"), true, wxGBPosition (r, 0));
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		_input_power = new wxSpinCtrlDouble (this);
 		s->Add (_input_power, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		add_label_to_sizer (s, this, _("threshold"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
@@ -89,7 +94,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	++r;
 
         wxClientDC dc (parent);
-        wxSize size = dc.GetTextExtent (wxT ("-0.12345678901"));
+        auto size = dc.GetTextExtent(wxT("-0.12345678901"));
         size.SetHeight (-1);
 
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
@@ -105,9 +110,9 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	/* YUV to RGB conversion */
 
-	wxStaticText* yuv_heading = subhead (table, this, _("YUV to RGB conversion"), r);
+	auto yuv_heading = subhead (table, this, _("YUV to RGB conversion"), r);
 
-	wxStaticText* yuv_label = add_label_to_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
+	auto yuv_label = add_label_to_sizer (table, this, _("YUV to RGB matrix"), true, wxGBPosition (r, 0));
 	_yuv_to_rgb = new wxChoice (this, wxID_ANY);
 	_yuv_to_rgb->Append (_("Rec. 601"));
 	_yuv_to_rgb->Append (_("Rec. 709"));
@@ -160,7 +165,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
         size = dc.GetTextExtent (wxT ("0.12345678"));
         size.SetHeight (-1);
 
-	wxFlexGridSizer* rgb_to_xyz_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto rgb_to_xyz_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			_rgb_to_xyz[i][j] = new StaticText (this, wxT (""), wxDefaultPosition, size, 0);
@@ -190,7 +195,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
         size = dc.GetTextExtent (wxT ("0.12345678"));
         size.SetHeight (-1);
 
-	wxFlexGridSizer* bradford_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto bradford_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			_bradford[i][j] = new StaticText (this, wxT (""), wxDefaultPosition, size, 0);
@@ -235,10 +240,11 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	_output->Bind (wxEVT_CHECKBOX, bind (&ColourConversionEditor::changed, this));
 }
 
+
 wxStaticText *
 ColourConversionEditor::subhead (wxGridBagSizer* sizer, wxWindow* parent, wxString text, int& row) const
 {
-	wxStaticText* m = new StaticText (parent, text);
+	auto m = new StaticText (parent, text);
 	wxFont font (*wxNORMAL_FONT);
 	font.SetWeight (wxFONTWEIGHT_BOLD);
 	m->SetFont (font);
@@ -247,15 +253,16 @@ ColourConversionEditor::subhead (wxGridBagSizer* sizer, wxWindow* parent, wxStri
 	return m;
 }
 
+
 void
 ColourConversionEditor::set (ColourConversion conversion)
 {
-	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.in ())) {
-		shared_ptr<const dcp::GammaTransferFunction> tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.in ());
+	if (dynamic_pointer_cast<const dcp::GammaTransferFunction>(conversion.in())) {
+		auto tf = dynamic_pointer_cast<const dcp::GammaTransferFunction>(conversion.in());
 		checked_set (_input, 0);
 		set_spin_ctrl (_input_gamma, tf->gamma ());
 	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (conversion.in ())) {
-		shared_ptr<const dcp::ModifiedGammaTransferFunction> tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (conversion.in ());
+		auto tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction>(conversion.in());
 		checked_set (_input, 1);
 		/* Arbitrary default; not used in this case (greyed out) */
 		_input_gamma->SetValue (2.2);
@@ -263,7 +270,7 @@ ColourConversionEditor::set (ColourConversion conversion)
 		set_text_ctrl (_input_threshold, tf->threshold ());
 		set_text_ctrl (_input_A, tf->A ());
 		set_text_ctrl (_input_B, tf->B ());
-	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction> (conversion.in ())) {
+	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction>(conversion.in())) {
 		checked_set (_input, 2);
 	}
 
@@ -301,12 +308,13 @@ ColourConversionEditor::set (ColourConversion conversion)
 		_adjust_white->SetValue (false);
 	}
 
-	_output->SetValue (static_cast<bool> (dynamic_pointer_cast<const dcp::GammaTransferFunction> (conversion.out ())));
+	_output->SetValue (static_cast<bool>(dynamic_pointer_cast<const dcp::GammaTransferFunction>(conversion.out())));
 
 	update_rgb_to_xyz ();
 	update_bradford ();
 	changed ();
 }
+
 
 ColourConversion
 ColourConversionEditor::get () const
@@ -316,48 +324,46 @@ ColourConversionEditor::get () const
 	switch (_input->GetSelection ()) {
 	case INPUT_GAMMA:
 		conversion.set_in (
-			shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (_input_gamma->GetValue ()))
+			make_shared<dcp::GammaTransferFunction>(_input_gamma->GetValue())
 			);
 		break;
 	case INPUT_GAMMA_LINEARISED:
 		/* Linearised gamma */
 		conversion.set_in (
-			shared_ptr<dcp::ModifiedGammaTransferFunction> (
-				new dcp::ModifiedGammaTransferFunction (
-					_input_power->GetValue (),
-					locale_convert<double> (wx_to_std (_input_threshold->GetValue ())),
-					locale_convert<double> (wx_to_std (_input_A->GetValue ())),
-					locale_convert<double> (wx_to_std (_input_B->GetValue ()))
-					)
+			make_shared<dcp::ModifiedGammaTransferFunction>(
+				_input_power->GetValue (),
+				locale_convert<double>(wx_to_std(_input_threshold->GetValue())),
+				locale_convert<double>(wx_to_std(_input_A->GetValue())),
+				locale_convert<double>(wx_to_std(_input_B->GetValue()))
 				)
 			);
 		break;
 	case INPUT_SGAMUT3:
 		/* SGamut3 */
-		conversion.set_in (shared_ptr<dcp::SGamut3TransferFunction> (new dcp::SGamut3TransferFunction ()));
+		conversion.set_in (make_shared<dcp::SGamut3TransferFunction>());
 		break;
 	}
 
-	conversion.set_yuv_to_rgb (static_cast<dcp::YUVToRGB> (_yuv_to_rgb->GetSelection ()));
+	conversion.set_yuv_to_rgb (static_cast<dcp::YUVToRGB>(_yuv_to_rgb->GetSelection()));
 
 	conversion.set_red (
-		dcp::Chromaticity (locale_convert<double> (wx_to_std (_red_x->GetValue ())), locale_convert<double> (wx_to_std (_red_y->GetValue ())))
+		dcp::Chromaticity(locale_convert<double>(wx_to_std(_red_x->GetValue())), locale_convert<double>(wx_to_std(_red_y->GetValue())))
 		);
 	conversion.set_green (
-		dcp::Chromaticity (locale_convert<double> (wx_to_std (_green_x->GetValue ())), locale_convert<double> (wx_to_std (_green_y->GetValue ())))
+		dcp::Chromaticity(locale_convert<double>(wx_to_std(_green_x->GetValue())), locale_convert<double>(wx_to_std(_green_y->GetValue())))
 		);
 	conversion.set_blue (
-		dcp::Chromaticity (locale_convert<double> (wx_to_std (_blue_x->GetValue ())), locale_convert<double> (wx_to_std (_blue_y->GetValue ())))
+		dcp::Chromaticity(locale_convert<double>(wx_to_std(_blue_x->GetValue())), locale_convert<double>(wx_to_std(_blue_y->GetValue())))
 		);
 	conversion.set_white (
-		dcp::Chromaticity (locale_convert<double> (wx_to_std (_white_x->GetValue ())), locale_convert<double> (wx_to_std (_white_y->GetValue ())))
+		dcp::Chromaticity(locale_convert<double>(wx_to_std(_white_x->GetValue())), locale_convert<double>(wx_to_std(_white_y->GetValue())))
 		);
 
-	if (_adjust_white->GetValue ()) {
-		conversion.set_adjusted_white (
-			dcp::Chromaticity (
-				locale_convert<double> (wx_to_std (_adjusted_white_x->GetValue ())),
-				locale_convert<double> (wx_to_std (_adjusted_white_y->GetValue ()))
+	if (_adjust_white->GetValue()) {
+		conversion.set_adjusted_white(
+			dcp::Chromaticity(
+				locale_convert<double>(wx_to_std(_adjusted_white_x->GetValue())),
+				locale_convert<double>(wx_to_std(_adjusted_white_y->GetValue()))
 				)
 			);
 	} else {
@@ -365,13 +371,14 @@ ColourConversionEditor::get () const
 	}
 
 	if (_output->GetValue ()) {
-		conversion.set_out (shared_ptr<dcp::GammaTransferFunction> (new dcp::GammaTransferFunction (2.6)));
+		conversion.set_out (make_shared<dcp::GammaTransferFunction>(2.6));
 	} else {
-		conversion.set_out (shared_ptr<dcp::IdentityTransferFunction> (new dcp::IdentityTransferFunction ()));
+		conversion.set_out (make_shared<dcp::IdentityTransferFunction>());
 	}
 
 	return conversion;
 }
+
 
 void
 ColourConversionEditor::changed ()
@@ -386,6 +393,7 @@ ColourConversionEditor::changed ()
 	Changed ();
 }
 
+
 void
 ColourConversionEditor::chromaticity_changed ()
 {
@@ -397,6 +405,7 @@ ColourConversionEditor::chromaticity_changed ()
 	changed ();
 }
 
+
 void
 ColourConversionEditor::adjusted_white_changed ()
 {
@@ -404,13 +413,14 @@ ColourConversionEditor::adjusted_white_changed ()
 	changed ();
 }
 
+
 void
 ColourConversionEditor::update_bradford ()
 {
 	_adjusted_white_x->Enable (_adjust_white->GetValue ());
 	_adjusted_white_y->Enable (_adjust_white->GetValue ());
 
-	boost::numeric::ublas::matrix<double> m = get().bradford ();
+	auto m = get().bradford();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			char buffer[256];
@@ -420,10 +430,11 @@ ColourConversionEditor::update_bradford ()
 	}
 }
 
+
 void
 ColourConversionEditor::update_rgb_to_xyz ()
 {
-	boost::numeric::ublas::matrix<double> m = get().rgb_to_xyz ();
+	auto m = get().rgb_to_xyz();
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
 			char buffer[256];
@@ -433,6 +444,7 @@ ColourConversionEditor::update_rgb_to_xyz ()
 	}
 }
 
+
 void
 ColourConversionEditor::changed (wxSpinCtrlDouble* sc)
 {
@@ -440,12 +452,13 @@ ColourConversionEditor::changed (wxSpinCtrlDouble* sc)
 	   it emits an erroneous changed signal, which messes things up.
 	   Check for that here.
 	*/
-	if (fabs (_last_spin_ctrl_value[sc] - sc->GetValue()) < 1e-3) {
+	if (fabs(_last_spin_ctrl_value[sc] - sc->GetValue()) < 1e-3) {
 		return;
 	}
 
 	Changed ();
 }
+
 
 void
 ColourConversionEditor::set_spin_ctrl (wxSpinCtrlDouble* control, double value)
@@ -453,6 +466,7 @@ ColourConversionEditor::set_spin_ctrl (wxSpinCtrlDouble* control, double value)
 	_last_spin_ctrl_value[control] = value;
 	control->SetValue (value);
 }
+
 
 void
 ColourConversionEditor::set_text_ctrl (wxTextCtrl* control, double value)

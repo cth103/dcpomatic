@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,14 @@
 
 */
 
+
 #include "lib/colour_conversion.h"
 #include <wx/wx.h>
+#include <boost/signals2.hpp>
+
 
 class ColourConversionEditor;
+
 
 class ContentColourConversionDialog : public wxDialog
 {
@@ -43,3 +47,4 @@ private:
 
 	boost::signals2::scoped_connection _editor_connection;
 };
+
