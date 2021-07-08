@@ -47,7 +47,7 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 }
 
 void
-ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot) const
+ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot)
 {
 	button->Enable (can_reference);
 
@@ -65,5 +65,18 @@ ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, sha
 		note->Show ();
 	}
 
-	_sizer->Layout ();
+	layout ();
 }
+
+
+void
+ContentSubPanel::layout ()
+{
+	int x;
+	int y;
+	GetViewStart (&x, &y);
+	Scroll (0, 0);
+	_sizer->Layout ();
+	Scroll (x, y);
+}
+

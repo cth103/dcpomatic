@@ -218,7 +218,7 @@ AudioPanel::film_content_changed (int property)
 		}
 		setup_description ();
 		setup_peak ();
-		_sizer->Layout ();
+		layout ();
 	} else if (property == AudioContentProperty::GAIN) {
 		setup_peak ();
 	} else if (property == DCPContentProperty::REFERENCE_AUDIO) {

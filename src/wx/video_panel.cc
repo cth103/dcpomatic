@@ -492,7 +492,7 @@ VideoPanel::setup_description ()
 	}
 
 	checked_set (_description, d);
-	_sizer->Layout ();
+	layout ();
 }
 
 void

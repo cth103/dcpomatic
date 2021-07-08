@@ -49,7 +49,8 @@ public:
 
 protected:
 
-	void setup_refer_button (wxCheckBox* button, wxStaticText* note, std::shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot) const;
+	void setup_refer_button (wxCheckBox* button, wxStaticText* note, std::shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot);
+	void layout ();
 	virtual void add_to_grid () = 0;
 
 	ContentPanel* _parent;
