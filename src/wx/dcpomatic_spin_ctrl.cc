@@ -20,11 +20,8 @@
 
 
 #include "dcpomatic_spin_ctrl.h"
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <wx/wx.h>
-#if BOOST_VERSION >= 106100
-using namespace boost::placeholders;
-#endif
 
 
 SpinCtrl::SpinCtrl (wxWindow* parent, int width)
@@ -33,6 +30,6 @@ SpinCtrl::SpinCtrl (wxWindow* parent, int width)
 	auto enter = [](wxCommandEvent& ev) {
 		dynamic_cast<wxWindow*>(ev.GetEventObject())->Navigate();
 	};
-	Bind (wxEVT_TEXT_ENTER, boost::bind<void>(enter, _1));
+	Bind (wxEVT_TEXT_ENTER, boost::bind<void>(enter, boost::placeholders::_1));
 }
 
