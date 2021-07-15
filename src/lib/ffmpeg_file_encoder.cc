@@ -416,7 +416,7 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	}
 
 	for (int i = 0; i < 3; ++i) {
-		AVBufferRef* buffer = av_buffer_create(image->data()[i], image->stride()[i] * image->size().height, &buffer_free, this, 0);
+		auto buffer = av_buffer_create(image->data()[i], image->stride()[i] * image->size().height, &buffer_free, this, 0);
 		frame->buf[i] = av_buffer_ref (buffer);
 		frame->data[i] = buffer->data;
 		frame->linesize[i] = image->stride()[i];

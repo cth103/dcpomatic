@@ -160,41 +160,35 @@ DCPDecoder::pass ()
 		if (_mono_reader) {
 			video->emit (
 				film(),
-				shared_ptr<ImageProxy> (
-					new J2KImageProxy (
-						_mono_reader->get_frame (entry_point + frame),
-						picture_asset->size(),
-						AV_PIX_FMT_XYZ12LE,
-						_forced_reduction
-						)
+				std::make_shared<J2KImageProxy>(
+					_mono_reader->get_frame (entry_point + frame),
+					picture_asset->size(),
+					AV_PIX_FMT_XYZ12LE,
+					_forced_reduction
 					),
 				_offset + frame
 				);
 		} else {
 			video->emit (
 				film(),
-				shared_ptr<ImageProxy> (
-					new J2KImageProxy (
-						_stereo_reader->get_frame (entry_point + frame),
-						picture_asset->size(),
-						dcp::Eye::LEFT,
-						AV_PIX_FMT_XYZ12LE,
-						_forced_reduction
-						)
+				std::make_shared<J2KImageProxy>(
+					_stereo_reader->get_frame (entry_point + frame),
+					picture_asset->size(),
+					dcp::Eye::LEFT,
+					AV_PIX_FMT_XYZ12LE,
+					_forced_reduction
 					),
 				_offset + frame
 				);
 
 			video->emit (
 				film(),
-				shared_ptr<ImageProxy> (
-					new J2KImageProxy (
-						_stereo_reader->get_frame (entry_point + frame),
-						picture_asset->size(),
-						dcp::Eye::RIGHT,
-						AV_PIX_FMT_XYZ12LE,
-						_forced_reduction
-						)
+				std::make_shared<J2KImageProxy>(
+					_stereo_reader->get_frame (entry_point + frame),
+					picture_asset->size(),
+					dcp::Eye::RIGHT,
+					AV_PIX_FMT_XYZ12LE,
+					_forced_reduction
 					),
 				_offset + frame
 				);

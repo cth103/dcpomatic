@@ -273,7 +273,7 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 			eyes = Eyes::BOTH;
 		} else if (eyes == Eyes::RIGHT) {
 			/* ...and ignore the right eye.*/
-			return shared_ptr<FFmpegFileEncoder>();
+			return {};
 		}
 	}
 
