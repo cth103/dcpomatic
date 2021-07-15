@@ -25,6 +25,7 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
+#include <boost/signals2.hpp>
 
 class DirPickerCtrl : public wxPanel
 {
@@ -33,6 +34,8 @@ public:
 
 	wxString GetPath () const;
 	void SetPath (wxString);
+
+	boost::signals2::signal<void ()> Changed;
 
 private:
 	void browse_clicked ();

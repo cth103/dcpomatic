@@ -67,6 +67,8 @@ DirPickerCtrl::SetPath (wxString p)
 
 	_sizer->Layout ();
 	SetMinSize (wxSize (max (400, _sizer->GetSize().GetWidth()), -1));
+
+	Changed ();
 }
 
 wxString
