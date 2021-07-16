@@ -84,19 +84,25 @@ function copy_lib_root {
 }
 
 function copy_lib_env {
-	for f in $ENV/$ARCH2/lib/$1*.dylib; do
-		if [ -h $f ]; then
-			ln -s $(readlink $f) "$2/`basename $f`"
-		else
-			if [ "$ARCH2" == "" ]; then
+	if [ "$ARCH2" == "" ]; then
+		for f in $ENV/$ARCH1/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
+			else
 				cp $f "$2/`basename $f`"
+			fi
+		done
+	else
+		for f in $ENV/$ARCH2/lib/$1*.dylib; do
+			if [ -h $f ]; then
+				ln -s $(readlink $f) "$2/`basename $f`"
 			else
 				g=`echo $f | sed -e "s@/$ARCH2/@/$ARCH1/@g"`
 				mkdir -p "$2"
 				lipo -create $f $g -output "$2/$(basename $f)"
 			fi
-		fi
-	done
+		done
+	fi
     to_relink="$to_relink|$1"
 }
 
