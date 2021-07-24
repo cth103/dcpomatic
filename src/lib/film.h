@@ -191,6 +191,7 @@ public:
 		return _audio_language;
 	}
 
+	/** @return pair containing the main subtitle language, and additional languages */
 	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> subtitle_languages () const;
 
 	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
