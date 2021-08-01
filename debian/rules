@@ -20,30 +20,30 @@ override_dh_auto_build:
 	./waf build
 
 override_dh_auto_install:
-	./waf install --destdir=debian/dcpomatic
-	mkdir -p debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/
-	cp -a /usr/share/locale/de/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/de/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/
-	cp -a /usr/share/locale/es/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/es/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/
-	cp -a /usr/share/locale/fr/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/fr/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/
-	cp -a /usr/share/locale/it/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/it/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/
-	cp -a /usr/share/locale/sv/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/sv/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/
-	cp -a /usr/share/locale/nl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/nl/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/pl/LC_MESSAGES/
-	cp -a /usr/share/locale/pl/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/pl/LC_MESSAGES/dcpomatic2-wxstd.mo
-	mkdir -p debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/
-	cp -a /usr/share/locale/ru/LC_MESSAGES/wxstd.mo debian/dcpomatic/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
-	cp -a $(CDIST_DIRECTORY)/src/openssl/apps/openssl debian/dcpomatic/usr/bin/dcpomatic2_openssl
-	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpverify debian/dcpomatic/usr/bin/dcpomatic2_verify
-	cp -ar $(CDIST_DIRECTORY)/share/libdcp debian/dcpomatic/usr/share
+	./waf install --destdir=debian/$(CDIST_PACKAGE)
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/de/LC_MESSAGES/
+	cp -a /usr/share/locale/de/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/de/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/es/LC_MESSAGES/
+	cp -a /usr/share/locale/es/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/es/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/fr/LC_MESSAGES/
+	cp -a /usr/share/locale/fr/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/fr/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/it/LC_MESSAGES/
+	cp -a /usr/share/locale/it/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/it/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/sv/LC_MESSAGES/
+	cp -a /usr/share/locale/sv/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/sv/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/nl/LC_MESSAGES/
+	cp -a /usr/share/locale/nl/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/nl/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/pl/LC_MESSAGES/
+	cp -a /usr/share/locale/pl/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/pl/LC_MESSAGES/dcpomatic2-wxstd.mo
+	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/ru/LC_MESSAGES/
+	cp -a /usr/share/locale/ru/LC_MESSAGES/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
+	cp -a $(CDIST_DIRECTORY)/src/openssl/apps/openssl debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_openssl
+	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpverify debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_verify
+	cp -ar $(CDIST_DIRECTORY)/share/libdcp debian/$(CDIST_PACKAGE)/usr/share
 
 .PHONY: override_dh_strip
 override_dh_strip:
-	dh_strip $(CDIST_DEBUG_PACKAGE)
+	dh_strip $(CDIST_DEBUG_PACKAGE_FLAG)
 
 override_dh_shlibdeps:
 	dh_shlibdeps --dpkg-shlibdeps-params=--ignore-missing-info
