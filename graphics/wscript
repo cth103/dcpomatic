@@ -21,13 +21,13 @@ import os
 
 def build(bld):
     # Linux application icons
-    if bld.env.TARGET_LINUX:
+    if bld.env.TARGET_LINUX and not bld.env.DISABLE_GUI:
         for r in [16, 22, 32, 48, 64, 128, 256, 512]:
             for p in ['dcpomatic2', 'dcpomatic2_kdm', 'dcpomatic2_server', 'dcpomatic2_batch', 'dcpomatic2_player', 'dcpomatic2_playlist', 'dcpomatic2_disk', 'dcpomatic2_combiner']:
                 bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), 'linux/%d/%s.png' % (r, p))
 
     # Install stuff for POSIX systems
-    if not bld.env.TARGET_WINDOWS:
+    if not bld.env.TARGET_WINDOWS and not bld.env.DISABLE_GUI:
         bld.install_as('${PREFIX}/share/dcpomatic2/dcpomatic2_server_small.png', 'linux/16/dcpomatic2.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'splash.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'zoom.png')

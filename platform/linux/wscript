@@ -58,6 +58,6 @@ def build(bld):
     obj.VERSION = bld.env.VERSION
     desktops.append(obj.target)
 
-    bld.install_as('${PREFIX}/share/polkit-1/actions/com.dcpomatic.write-drive.policy', 'com.dcpomatic.write-drive.policy')
-
-    bld.install_files('${PREFIX}/share/applications', desktops)
+    if not bld.env.DISABLE_GUI:
+        bld.install_as('${PREFIX}/share/polkit-1/actions/com.dcpomatic.write-drive.policy', 'com.dcpomatic.write-drive.policy')
+        bld.install_files('${PREFIX}/share/applications', desktops)

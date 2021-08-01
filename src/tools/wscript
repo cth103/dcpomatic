@@ -43,7 +43,7 @@ def build(bld):
         uselib += 'DL '
 
     cli_tools = ['dcpomatic_cli', 'dcpomatic_server_cli', 'server_test', 'dcpomatic_kdm_cli', 'dcpomatic_create']
-    if bld.env.ENABLE_DISK:
+    if bld.env.ENABLE_DISK and not bld.env.DISABLE_GUI:
         cli_tools.append('dcpomatic_disk_writer')
 
     for t in cli_tools:

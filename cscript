@@ -266,7 +266,8 @@ def make_control(debian_version, bits, filename, debug, gui):
     print('Standards-Version: 3.9.3', file=f)
     print('Homepage: https://dcpomatic.com/', file=f)
     print('', file=f)
-    print('Package: dcpomatic', file=f)
+    suffix = '' if gui else '-cli'
+    print(f'Package: dcpomatic{suffix}', file=f)
     if bits == 32:
         print('Architecture: i386', file=f)
     else:
@@ -282,10 +283,12 @@ def make_control(debian_version, bits, filename, debug, gui):
     print('  DCP-o-matic generates Digital Cinema Packages (DCPs) from videos, images,', file=f)
     print('  sound and subtitle files.  You can use it to make content for playback on DCI-compliant', file=f)
     print('  cinema projectors.', file=f)
+    if not gui:
+        print('  This package contains the command-line tools only.', file=f)
 
     if debug:
         print('', file=f)
-        print('Package: dcpomatic-dbg', file=f)
+        print(f'Package: dcpomatic{suffix}-dbg', file=f)
         if bits == 32:
             print('Architecture: i386', file=f)
         else:
@@ -610,14 +613,15 @@ def package_windows(target):
 
 def package_debian(target, cpu, version, options):
     make_control(target.version, target.bits, 'debian/control', target.debug, options['gui'])
-    if target.version != '9' and target.version != '16.04':
+    if target.version != '9' and target.version != '16.04' and options['gui']:
         with open('debian/postinst', 'w') as f:
             print('#!/bin/sh', file=f)
             # Get the required capability to write to disks
             print('setcap "cap_dac_override+ep cap_sys_admin+ep" /usr/bin/dcpomatic2_disk_writer', file=f)
     target.command('./waf dist')
     f = open('debian/files', 'w')
-    print('dcpomatic_%s-1_%s.deb video extra' % (version, cpu), file=f)
+    suffix = '' if options['gui'] else '-cli'
+    print(f'dcpomatic{suffix}_{version}-1_{cpu}.deb video extra', file=f)
     shutil.rmtree('build/deb', ignore_errors=True)
 
     os.makedirs('build/deb')
@@ -633,8 +637,9 @@ def package_debian(target, cpu, version, options):
     target.set('CDIST_DIRECTORY', target.directory)
 
     target.set('CDIST_CONFIGURE', '"' + configure_options(target, options) + '"')
+    target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
     if target.debug:
-        target.set('CDIST_DEBUG_PACKAGE', '--dbg-package=dcpomatic-dbg')
+        target.set('CDIST_DEBUG_PACKAGE_FLAG', f'--dbg-package=dcpomatic{suffix}-dbg')
 
     target.command('dpkg-buildpackage -uc -us')
 
