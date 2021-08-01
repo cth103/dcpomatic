@@ -72,10 +72,11 @@ void
 TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
 {
 	for (auto& i: s) {
-		/* We must escape < and > in strings, otherwise they might confuse our subtitle
-		   renderer (which uses some HTML-esque markup to do bold/italic etc.)
+		/* We must escape some things, otherwise they might confuse our subtitle
+		   renderer (which uses entities and some HTML-esque markup to do bold/italic etc.)
 		*/
 		string t = i.text ();
+		boost::algorithm::replace_all (t, "&", "&amp;");
 		boost::algorithm::replace_all (t, "<", "&lt;");
 		boost::algorithm::replace_all (t, ">", "&gt;");
 		i.set_text (t);

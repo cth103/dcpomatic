@@ -77,11 +77,7 @@ marked_up (list<StringText> subtitles, int target_height, float fade_factor)
 		/* Between 1-65535 inclusive, apparently... */
 		out += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
 		out += "color=\"#" + i.colour().to_rgb_string() + "\">";
-
-		string t = i.text();
-		replace_all(t, "&", "&amp;");
-		out += t;
-
+		out += i.text();
 		out += "</span>";
 	}
 
