@@ -73,7 +73,7 @@ private:
 	static void buffer_free(void* opaque, uint8_t* data);
 	void buffer_free2(uint8_t* data);
 
-	AVCodec* _video_codec = nullptr;
+	AVCodec const * _video_codec = nullptr;
 	AVCodecContext* _video_codec_context = nullptr;
 	std::vector<std::shared_ptr<ExportAudioStream>> _audio_streams;
 	bool _audio_stream_per_channel;

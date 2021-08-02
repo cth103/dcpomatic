@@ -203,7 +203,7 @@ public:
 
 private:
 	AVFormatContext* _format_context;
-	AVCodec* _codec;
+	AVCodec const * _codec;
 	AVCodecContext* _codec_context;
 	AVStream* _stream;
 	int _stream_index;

@@ -133,11 +133,11 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 	}
 
 	uint8_t* avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc(4096));
-	AVIOContext* avio_context = avio_alloc_context (avio_buffer, 4096, 0, const_cast<FFmpegImageProxy*>(this), avio_read_wrapper, 0, avio_seek_wrapper);
+	auto avio_context = avio_alloc_context (avio_buffer, 4096, 0, const_cast<FFmpegImageProxy*>(this), avio_read_wrapper, 0, avio_seek_wrapper);
 	AVFormatContext* format_context = avformat_alloc_context ();
 	format_context->pb = avio_context;
 
-	AVDictionary* options = 0;
+	AVDictionary* options = nullptr;
 	/* These durations are in microseconds, and represent how far into the content file
 	   we will look for streams.
 	*/
@@ -150,7 +150,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 		   directly from the file).  This code just does enough to allow the
 		   probe code to take a hint from "foo.tga" and so try targa format.
 		*/
-		AVInputFormat* f = av_find_input_format ("image2");
+		auto f = av_find_input_format ("image2");
 		format_context = avformat_alloc_context ();
 		format_context->pb = avio_context;
 		format_context->iformat = f;
@@ -171,7 +171,7 @@ FFmpegImageProxy::image (optional<dcp::Size>) const
 
 	DCPOMATIC_ASSERT (format_context->nb_streams == 1);
 
-	AVFrame* frame = av_frame_alloc ();
+	auto frame = av_frame_alloc ();
 	if (!frame) {
 		std::bad_alloc ();
 	}
