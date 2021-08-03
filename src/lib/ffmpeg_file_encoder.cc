@@ -29,6 +29,9 @@
 #include "image.h"
 #include "cross.h"
 #include "compose.hpp"
+extern "C" {
+#include <libavutil/channel_layout.h>
+}
 #include <iostream>
 
 #include "i18n.h"

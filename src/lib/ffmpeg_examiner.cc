@@ -33,8 +33,9 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libavutil/pixfmt.h>
 #include <libavutil/pixdesc.h>
-#include <libavutil/eval.h>
+#include <libavutil/channel_layout.h>
 #include <libavutil/display.h>
+#include <libavutil/eval.h>
 }
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>

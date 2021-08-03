@@ -367,10 +367,12 @@ dcpomatic_setup ()
 	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
+#ifdef DCPOMATIC_HAVE_AVREGISTER
 DCPOMATIC_DISABLE_WARNINGS
 	av_register_all ();
 	avfilter_register_all ();
 DCPOMATIC_ENABLE_WARNINGS
+#endif
 
 #ifdef DCPOMATIC_OSX
 	/* Add our library directory to the libltdl search path so that

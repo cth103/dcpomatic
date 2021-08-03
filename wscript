@@ -437,6 +437,19 @@ def configure(conf):
                    define_name='DCPOMATIC_HAVE_AVCOMPONENTDESCRIPTOR_DEPTH_MINUS1',
                    mandatory=False)
 
+    # See if we have av_register_all and avfilter_register_all
+    conf.check_cxx(fragment="""
+                            extern "C" {\n
+                            #include <libavformat/avformat.h>\n
+                            #include <libavfilter/avfilter.h>\n
+                            }\n
+                            int main () { av_register_all(); avfilter_register_all(); }\n
+                            """,
+                   msg='Checking for av_register_all and avfilter_register_all',
+                   uselib='AVFORMAT AVFILTER',
+                   define_name='DCPOMATIC_HAVE_AVREGISTER',
+                   mandatory=False)
+
     # Hack: the previous two check_cxx calls end up copying their (necessary) cxxflags
     # to these variables.  We don't want to use these for the actual build, so clean them out.
     conf.env['CXXFLAGS_AVCODEC'] = []
