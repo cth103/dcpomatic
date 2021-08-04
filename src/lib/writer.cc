@@ -654,6 +654,9 @@ Writer::finish (boost::filesystem::path output_dcp)
 	if (film()->luminance()) {
 		cpl->set_luminance (*film()->luminance());
 	}
+	if (film()->sign_language_video_language()) {
+		cpl->set_sign_language_video_language (*film()->sign_language_video_language());
+	}
 
 	auto ac = film()->mapped_audio_channels();
 	dcp::MCASoundField field = (

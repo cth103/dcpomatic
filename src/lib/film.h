@@ -153,6 +153,8 @@ public:
 	uint64_t required_disk_space () const;
 	bool should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const;
 
+	bool has_sign_language_video_channel () const;
+
 	/* Proxies for some Playlist methods */
 
 	ContentList content () const;
@@ -240,6 +242,7 @@ public:
 		NAME_LANGUAGE,
 		AUDIO_LANGUAGE,
 		RELEASE_TERRITORY,
+		SIGN_LANGUAGE_VIDEO_LANGUAGE,
 		VERSION_NUMBER,
 		STATUS,
 		CHAIN,
@@ -356,6 +359,10 @@ public:
 		return _release_territory;
 	}
 
+	boost::optional<dcp::LanguageTag> sign_language_video_language () const {
+		return _sign_language_video_language;
+	}
+
 	int version_number () const {
 		return _version_number;
 	}
@@ -434,6 +441,7 @@ public:
 	void set_content_versions (std::vector<std::string> v);
 	void set_name_language (dcp::LanguageTag lang);
 	void set_release_territory (boost::optional<dcp::LanguageTag::RegionSubtag> region = boost::none);
+	void set_sign_language_video_language (boost::optional<dcp::LanguageTag> tag);
 	void set_version_number (int v);
 	void set_status (dcp::Status s);
 	void set_chain (boost::optional<std::string> c = boost::none);
@@ -542,6 +550,7 @@ private:
 	std::vector<std::string> _content_versions;
 	dcp::LanguageTag _name_language;
 	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
+	boost::optional<dcp::LanguageTag> _sign_language_video_language;
 	int _version_number;
 	dcp::Status _status;
 	boost::optional<std::string> _chain;

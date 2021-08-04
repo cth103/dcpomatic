@@ -34,6 +34,7 @@ DCPOMATIC_ENABLE_WARNINGS
 
 class Button;
 class wxSpinCtrlDouble;
+class LanguageTagWidget;
 
 
 class MetadataDialog : public wxDialog, public WeakFilm
@@ -50,6 +51,7 @@ protected:
 	virtual void setup_sensitivity ();
 
 private:
+	void sign_language_video_language_changed ();
 	void edit_release_territory ();
 	void enable_release_territory_changed ();
 	void facility_changed ();
@@ -73,6 +75,7 @@ private:
 	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
 	wxStaticText* _release_territory_text;
 	Button* _edit_release_territory;
+	LanguageTagWidget* _sign_language_video_language = nullptr;
 	wxCheckBox* _enable_facility;
 	wxTextCtrl* _facility;
 	wxCheckBox* _enable_chain;

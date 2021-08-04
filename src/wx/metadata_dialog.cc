@@ -21,6 +21,7 @@
 
 #include "dcpomatic_button.h"
 #include "full_language_tag_dialog.h"
+#include "language_tag_widget.h"
 #include "metadata_dialog.h"
 #include "wx_util.h"
 #include "lib/film.h"
@@ -73,6 +74,7 @@ MetadataDialog::setup ()
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
 
+	_sign_language_video_language->Changed.connect (boost::bind(&MetadataDialog::sign_language_video_language_changed, this));
 	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&MetadataDialog::edit_release_territory, this));
 	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_release_territory_changed, this));
 	_enable_facility->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_facility_changed, this));
@@ -92,6 +94,7 @@ MetadataDialog::setup ()
 	_film_changed_connection = film()->Change.connect(boost::bind(&MetadataDialog::film_changed, this, _1, _2));
 
 	film_changed (ChangeType::DONE, Film::Property::RELEASE_TERRITORY);
+	film_changed (ChangeType::DONE, Film::Property::SIGN_LANGUAGE_VIDEO_LANGUAGE);
 	film_changed (ChangeType::DONE, Film::Property::FACILITY);
 	film_changed (ChangeType::DONE, Film::Property::STUDIO);
 	film_changed (ChangeType::DONE, Film::Property::TEMP_VERSION);
@@ -112,7 +115,9 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 		return;
 	}
 
-	if (property == Film::Property::RELEASE_TERRITORY) {
+	if (property == Film::Property::SIGN_LANGUAGE_VIDEO_LANGUAGE) {
+		_sign_language_video_language->set (film()->sign_language_video_language());
+	} else if (property == Film::Property::RELEASE_TERRITORY) {
 		auto rt = film()->release_territory();
 		checked_set (_enable_release_territory, static_cast<bool>(rt));
 		if (rt) {
@@ -196,6 +201,7 @@ MetadataDialog::edit_release_territory ()
 void
 MetadataDialog::setup_sensitivity ()
 {
+	_sign_language_video_language->enable (film()->has_sign_language_video_channel());
 	auto const enabled = _enable_release_territory->GetValue();
 	_release_territory_text->Enable (enabled);
 	_edit_release_territory->Enable (enabled);
@@ -222,6 +228,10 @@ MetadataDialog::enable_release_territory_changed ()
 void
 MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 {
+	add_label_to_sizer (sizer, panel, _("Sign language video language"), true, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
+	_sign_language_video_language = new LanguageTagWidget (panel, _("Language used for any sign language video track"), {}, {});
+	sizer->Add (_sign_language_video_language->sizer(), 1, wxEXPAND);
+
 	_enable_facility = new wxCheckBox (panel, wxID_ANY, _("Facility"));
 	sizer->Add (_enable_facility, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_facility = new wxTextCtrl (panel, wxID_ANY);
@@ -385,5 +395,12 @@ MetadataDialog::luminance_changed ()
 	}
 
 	film()->set_luminance (dcp::Luminance(_luminance_value->GetValue(), unit));
+}
+
+
+void
+MetadataDialog::sign_language_video_language_changed ()
+{
+	film()->set_sign_language_video_language(_sign_language_video_language->get());
 }
 

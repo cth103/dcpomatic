@@ -481,6 +481,9 @@ Film::metadata (bool with_content_paths) const
 	if (_release_territory) {
 		root->add_child("ReleaseTerritory")->add_child_text(_release_territory->subtag());
 	}
+	if (_sign_language_video_language) {
+		root->add_child("SignLanguageVideoLanguage")->add_child_text(_sign_language_video_language->to_string());
+	}
 	root->add_child("VersionNumber")->add_child_text(raw_convert<string>(_version_number));
 	root->add_child("Status")->add_child_text(dcp::status_to_string(_status));
 	if (_chain) {
@@ -660,6 +663,11 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	auto release_territory = f.optional_string_child("ReleaseTerritory");
 	if (release_territory) {
 		_release_territory = dcp::LanguageTag::RegionSubtag (*release_territory);
+	}
+
+	auto sign_language_video_language = f.optional_string_child("SignLanguageVideoLanguage");
+	if (sign_language_video_language) {
+		_sign_language_video_language = dcp::LanguageTag(*sign_language_video_language);
 	}
 
 	_version_number = f.optional_number_child<int>("VersionNumber").get_value_or(0);
@@ -2143,5 +2151,20 @@ Film::set_audio_language (optional<dcp::LanguageTag> language)
 {
 	FilmChangeSignaller ch (this, Property::AUDIO_LANGUAGE);
 	_audio_language = language;
+}
+
+
+bool
+Film::has_sign_language_video_channel () const
+{
+	return _audio_channels >= static_cast<int>(dcp::Channel::SIGN_LANGUAGE);
+}
+
+
+void
+Film::set_sign_language_video_language (optional<dcp::LanguageTag> lang)
+{
+	FilmChangeSignaller ch (this, Property::SIGN_LANGUAGE_VIDEO_LANGUAGE);
+	_sign_language_video_language = lang;
 }
 
