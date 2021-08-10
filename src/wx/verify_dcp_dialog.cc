@@ -360,7 +360,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			break;
 		}
 		case dcp::VerificationNote::Code::MISSED_CHECK_OF_ENCRYPTED:
-			add(i, _("Part of the DCP could not be checked because no KDM was available"));
+			add(i, _("Part of the DCP could not be checked because no KDM was available."));
 			break;
 		}
 	}
