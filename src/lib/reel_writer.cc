@@ -440,6 +440,10 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 	}
 }
 
+
+/** Try to make a ReelAsset for a subtitles or closed captions in a given period in the DCP.
+ *  A SubtitleAsset can be provided, or we will use one from @ref refs if not.
+ */
 template <class Interop, class SMPTE, class Result>
 shared_ptr<Result>
 maybe_add_text (
