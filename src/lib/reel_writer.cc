@@ -685,7 +685,6 @@ ReelWriter::create_reel_text (
 }
 
 
-
 void
 ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 {
