@@ -139,7 +139,7 @@ private:
 	std::shared_ptr<dcp::SoundAsset> _sound_asset;
 	std::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
 	std::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
-	std::map<DCPTextTrack, std::shared_ptr<dcp::SubtitleAsset> > _closed_caption_assets;
+	std::map<DCPTextTrack, std::shared_ptr<dcp::SubtitleAsset>> _closed_caption_assets;
 	std::shared_ptr<dcp::AtmosAsset> _atmos_asset;
 	std::shared_ptr<dcp::AtmosAssetWriter> _atmos_asset_writer;
 
