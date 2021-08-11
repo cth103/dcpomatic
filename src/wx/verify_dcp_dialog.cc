@@ -362,6 +362,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::MISSED_CHECK_OF_ENCRYPTED:
 			add(i, _("Part of the DCP could not be checked because no KDM was available."));
 			break;
+		case dcp::VerificationNote::Code::EMPTY_TEXT:
+			add(i, _("At least one <Text> node in a subtitle or closed caption is empty."));
+			break;
 		}
 	}
 
