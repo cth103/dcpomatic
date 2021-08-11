@@ -641,7 +641,7 @@ ReelWriter::create_reel_text (
 	} else if (ensure_subtitles) {
 		/* We had no subtitle asset, but we've been asked to make sure there is one */
 		subtitle = maybe_add_text<dcp::ReelInteropSubtitleAsset, dcp::ReelSMPTESubtitleAsset, dcp::ReelSubtitleAsset> (
-			empty_text_asset(TextType::OPEN_SUBTITLE, optional<DCPTextTrack>()),
+			empty_text_asset(TextType::OPEN_SUBTITLE, optional<DCPTextTrack>(), true),
 			duration,
 			reel,
 			refs,
@@ -670,7 +670,7 @@ ReelWriter::create_reel_text (
 	/* Make empty tracks for anything we've been asked to ensure but that we haven't added */
 	for (auto i: ensure_closed_captions) {
 		auto a = maybe_add_text<dcp::ReelInteropClosedCaptionAsset, dcp::ReelSMPTEClosedCaptionAsset, dcp::ReelClosedCaptionAsset> (
-			empty_text_asset(TextType::CLOSED_CAPTION, i), duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
+			empty_text_asset(TextType::CLOSED_CAPTION, i, true), duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.name);
@@ -784,7 +784,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 
 
 shared_ptr<dcp::SubtitleAsset>
-ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
+ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool with_dummy) const
 {
 	shared_ptr<dcp::SubtitleAsset> asset;
 
@@ -815,29 +815,31 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track) const
 		if (film()->encrypted()) {
 			s->set_key (film()->key());
 		}
-		s->add (
-			std::make_shared<dcp::SubtitleString>(
-				optional<std::string>(),
-				false,
-				false,
-				false,
-				dcp::Colour(),
-				42,
-				1.0,
-				dcp::Time(0, 0, 0, 0, 24),
-				dcp::Time(0, 0, 1, 0, 24),
-				0.5,
-				dcp::HAlign::CENTER,
-				0.5,
-				dcp::VAlign::CENTER,
-				dcp::Direction::LTR,
-				"",
-				dcp::Effect::NONE,
-				dcp::Colour(),
-				dcp::Time(),
-				dcp::Time()
-				)
-		       );
+		if (with_dummy) {
+			s->add (
+				std::make_shared<dcp::SubtitleString>(
+					optional<std::string>(),
+					false,
+					false,
+					false,
+					dcp::Colour(),
+					42,
+					1.0,
+					dcp::Time(0, 0, 0, 0, 24),
+					dcp::Time(0, 0, 1, 0, 24),
+					0.5,
+					dcp::HAlign::CENTER,
+					0.5,
+					dcp::VAlign::CENTER,
+					dcp::Direction::LTR,
+					" ",
+					dcp::Effect::NONE,
+					dcp::Colour(),
+					dcp::Time(),
+					dcp::Time()
+					)
+			       );
+		}
 		asset = s;
 	}
 
@@ -863,7 +865,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	}
 
 	if (!asset) {
-		asset = empty_text_asset (type, track);
+		asset = empty_text_asset (type, track, false);
 	}
 
 	switch (type) {
