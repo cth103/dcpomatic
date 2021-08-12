@@ -34,7 +34,7 @@ using boost::bind;
 #define FORMATS 2
 
 wxString format_names[] = {
-	_("ProRes"),
+	_("MOV / ProRes"),
 	_("MP4 / H.264"),
 };
 
