@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 00:58+0200\n"
+"POT-Creation-Date: 2021-08-12 11:08+0200\n"
 "PO-Revision-Date: 2021-04-06 23:34+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -18,12 +18,12 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/tools/dcpomatic_kdm.cc:389
+#: src/tools/dcpomatic_kdm.cc:388
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM weggeschreven naar %s"
 
-#: src/tools/dcpomatic_kdm.cc:389
+#: src/tools/dcpomatic_kdm.cc:388
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDM's weggeschreven naar %s"
@@ -45,25 +45,25 @@ msgid "&Close\tCtrl-W"
 msgstr "&Sluit\tCtrl-W"
 
 #: src/tools/dcpomatic.cc:1388 src/tools/dcpomatic_batch.cc:99
-#: src/tools/dcpomatic_kdm.cc:267 src/tools/dcpomatic_player.cc:584
+#: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:584
 #: src/tools/dcpomatic_playlist.cc:551
 msgid "&Edit"
 msgstr "&Wijzig"
 
 #: src/tools/dcpomatic.cc:1324 src/tools/dcpomatic_batch.cc:79
-#: src/tools/dcpomatic_kdm.cc:245 src/tools/dcpomatic_player.cc:536
+#: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:536
 #: src/tools/dcpomatic_playlist.cc:532
 msgid "&Exit"
 msgstr "&Stop"
 
 #: src/tools/dcpomatic.cc:1387 src/tools/dcpomatic_batch.cc:97
-#: src/tools/dcpomatic_kdm.cc:265 src/tools/dcpomatic_player.cc:582
+#: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:582
 #: src/tools/dcpomatic_playlist.cc:549
 msgid "&File"
 msgstr "&Bestand"
 
 #: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_batch.cc:102
-#: src/tools/dcpomatic_kdm.cc:269 src/tools/dcpomatic_player.cc:588
+#: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:588
 #: src/tools/dcpomatic_playlist.cc:553
 msgid "&Help"
 msgstr "&Help"
@@ -82,14 +82,14 @@ msgstr "&Open...\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:1336 src/tools/dcpomatic.cc:1339
 #: src/tools/dcpomatic_batch.cc:85 src/tools/dcpomatic_batch.cc:88
-#: src/tools/dcpomatic_kdm.cc:251 src/tools/dcpomatic_kdm.cc:254
+#: src/tools/dcpomatic_kdm.cc:250 src/tools/dcpomatic_kdm.cc:253
 #: src/tools/dcpomatic_player.cc:542 src/tools/dcpomatic_player.cc:545
 #: src/tools/dcpomatic_playlist.cc:539
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Voorkeuren...\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:1326 src/tools/dcpomatic_batch.cc:81
-#: src/tools/dcpomatic_kdm.cc:247 src/tools/dcpomatic_player.cc:538
+#: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:538
 #: src/tools/dcpomatic_playlist.cc:534
 msgid "&Quit"
 msgstr "&Stop"
@@ -120,12 +120,12 @@ msgid "<b>Playlists</b>"
 msgstr "<b>Afspeellijsten</b>"
 
 #: src/tools/dcpomatic.cc:1383 src/tools/dcpomatic_batch.cc:95
-#: src/tools/dcpomatic_kdm.cc:261 src/tools/dcpomatic_player.cc:578
+#: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:578
 #: src/tools/dcpomatic_playlist.cc:546
 msgid "About"
 msgstr "Over"
 
-#: src/tools/dcpomatic.cc:1381 src/tools/dcpomatic_kdm.cc:259
+#: src/tools/dcpomatic.cc:1381 src/tools/dcpomatic_kdm.cc:258
 #: src/tools/dcpomatic_player.cc:576 src/tools/dcpomatic_playlist.cc:544
 msgid "About DCP-o-matic"
 msgstr "Over DCP-o-matic"
@@ -154,7 +154,7 @@ msgstr "Voeg map toe..."
 msgid "Add..."
 msgstr "Voeg toe..."
 
-#: src/tools/dcpomatic.cc:1724 src/tools/dcpomatic_kdm.cc:702
+#: src/tools/dcpomatic.cc:1724 src/tools/dcpomatic_kdm.cc:701
 #: src/tools/dcpomatic_player.cc:1228 src/tools/dcpomatic_playlist.cc:656
 #, c-format
 msgid ""
@@ -173,7 +173,7 @@ msgstr ""
 "Er is een uitzondering opgetreden: %s (%s) (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:711
+#: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:710
 #: src/tools/dcpomatic_player.cc:1237 src/tools/dcpomatic_playlist.cc:665
 #, c-format
 msgid ""
@@ -183,13 +183,13 @@ msgstr ""
 "Er is een uitzondering opgetreden: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic_server.cc:341
+#: src/tools/dcpomatic_server.cc:352
 msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "Er is een onbekende fout opgetreden bij de DCP-o-matic-server."
 
 #: src/tools/dcpomatic.cc:957 src/tools/dcpomatic.cc:1748
-#: src/tools/dcpomatic_kdm.cc:400 src/tools/dcpomatic_kdm.cc:716
-#: src/tools/dcpomatic_kdm.cc:725 src/tools/dcpomatic_player.cc:1242
+#: src/tools/dcpomatic_kdm.cc:399 src/tools/dcpomatic_kdm.cc:715
+#: src/tools/dcpomatic_kdm.cc:724 src/tools/dcpomatic_player.cc:1242
 #: src/tools/dcpomatic_playlist.cc:670 src/tools/dcpomatic_playlist.cc:679
 msgid "An unknown exception occurred."
 msgstr "Er is een onbekende uitzondering opgetreden."
@@ -211,7 +211,7 @@ msgstr "Verkeerde instelling voor %s."
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:953 src/tools/dcpomatic_kdm.cc:396
+#: src/tools/dcpomatic.cc:953 src/tools/dcpomatic_kdm.cc:395
 msgid "CPL's content is not encrypted."
 msgstr "De inhoud van de CPL is niet versleuteld."
 
@@ -239,7 +239,7 @@ msgstr "Kopieer instellingen\tCtrl-C"
 msgid "Could not create folder to store film."
 msgstr "Kan map voor opslaan film niet aanmaken."
 
-#: src/tools/dcpomatic_kdm.cc:475
+#: src/tools/dcpomatic_kdm.cc:474
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -302,7 +302,7 @@ msgstr "Kan film niet openen op %s"
 msgid "Could not open this folder as a DCP-o-matic project."
 msgstr "Kan deze map niet als DCP-o-matic project openen."
 
-#: src/tools/dcpomatic_kdm.cc:480
+#: src/tools/dcpomatic_kdm.cc:479
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
@@ -310,7 +310,7 @@ msgstr ""
 "Kan het bestand niet als een KDM lezen.  Het is veel te groot.  Zorg ervoor "
 "dat u een DKDM (XML) bestand laadt."
 
-#: src/tools/dcpomatic_kdm.cc:468
+#: src/tools/dcpomatic_kdm.cc:467
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -371,7 +371,7 @@ msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
 "Kan niet naar config-bestand schrijven.  Uw wijzigingen zijn niet bewaard."
 
-#: src/tools/dcpomatic_kdm.cc:187
+#: src/tools/dcpomatic_kdm.cc:186
 msgid "Create KDMs"
 msgstr "Maak KDM's"
 
@@ -384,11 +384,11 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic Batch Converter"
 
-#: src/tools/dcpomatic_server.cc:146
+#: src/tools/dcpomatic_server.cc:149
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Encode Server"
 
-#: src/tools/dcpomatic_kdm.cc:636 src/tools/dcpomatic_kdm.cc:670
+#: src/tools/dcpomatic_kdm.cc:635 src/tools/dcpomatic_kdm.cc:669
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic KDM Creator"
 
@@ -406,7 +406,7 @@ msgstr "Kan DCP-o-matic Player niet starten."
 msgid "DCP-o-matic Playlist Editor"
 msgstr "DCP-o-matic Playlist Editor"
 
-#: src/tools/dcpomatic_kdm.cc:687 src/tools/dcpomatic_playlist.cc:643
+#: src/tools/dcpomatic_kdm.cc:686 src/tools/dcpomatic_playlist.cc:643
 msgid "DCP-o-matic could not start"
 msgstr "Kan DCP-o-matic niet starten"
 
@@ -491,7 +491,7 @@ msgstr "Exporteer video-bestand...\tCtrl-E"
 msgid "Export..."
 msgstr "Exporteer..."
 
-#: src/tools/dcpomatic.cc:982 src/tools/dcpomatic_kdm.cc:276
+#: src/tools/dcpomatic.cc:982 src/tools/dcpomatic_kdm.cc:275
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
@@ -502,7 +502,7 @@ msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
 msgid "Film changed"
 msgstr "Film is gewijzigd"
 
-#: src/tools/dcpomatic_server.cc:157
+#: src/tools/dcpomatic_server.cc:160
 msgid "Frames per second"
 msgstr "Frames per seconde"
 
@@ -629,7 +629,7 @@ msgstr "Maak ondertekenings-certificaten opnieuw"
 msgid "Remove"
 msgstr "Verwijder"
 
-#: src/tools/dcpomatic.cc:1385 src/tools/dcpomatic_kdm.cc:263
+#: src/tools/dcpomatic.cc:1385 src/tools/dcpomatic_kdm.cc:262
 #: src/tools/dcpomatic_player.cc:580
 msgid "Report a problem..."
 msgstr "Meld een probleem..."
@@ -688,11 +688,11 @@ msgstr "Selecteer DCP om te openen"
 msgid "Select DCP to open as OV"
 msgstr "Selecteer DCP om te openen als OV"
 
-#: src/tools/dcpomatic_kdm.cc:585
+#: src/tools/dcpomatic_kdm.cc:584
 msgid "Select DKDM File"
 msgstr "Selecteer DKDM-bestand"
 
-#: src/tools/dcpomatic_kdm.cc:448
+#: src/tools/dcpomatic_kdm.cc:447
 msgid "Select DKDM file"
 msgstr "Selecteer DKDM-bestand"
 
@@ -708,7 +708,7 @@ msgstr "Selecteer alles\tShift-Ctrl-A"
 msgid "Select film to open"
 msgstr "Kies film om te openen"
 
-#: src/tools/dcpomatic_kdm.cc:383
+#: src/tools/dcpomatic_kdm.cc:382
 msgid "Send KDM emails"
 msgstr "Verzend KDM e-mails"
 
@@ -815,7 +815,7 @@ msgstr ""
 "aanmaken?"
 
 #: src/tools/dcpomatic.cc:1790 src/tools/dcpomatic_batch.cc:489
-#: src/tools/dcpomatic_kdm.cc:735 src/tools/dcpomatic_server.cc:353
+#: src/tools/dcpomatic_kdm.cc:734 src/tools/dcpomatic_server.cc:364
 #: src/tools/dcpomatic_player.cc:1266
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
@@ -880,7 +880,7 @@ msgstr "Controleer DCP..."
 msgid "Video waveform..."
 msgstr "Video-golfvorm..."
 
-#: src/tools/dcpomatic_kdm.cc:560
+#: src/tools/dcpomatic_kdm.cc:559
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"

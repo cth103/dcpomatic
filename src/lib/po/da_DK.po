@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 00:58+0200\n"
+"POT-Creation-Date: 2021-08-12 11:08+0200\n"
 "PO-Revision-Date: 2019-04-06 12:29+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " på %1"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1128
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Længde: $LENGTH\n"
 "Størrelse: $SIZE\n"
 
-#: src/lib/config.cc:1099
+#: src/lib/config.cc:1106
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -377,15 +377,15 @@ msgstr "Bits per pixel"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Endnu et Deinterlacing Filter"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "BsL"
 msgstr "BsV"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "BsR"
 msgstr "BsH"
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "C"
 msgstr "C"
 
@@ -401,11 +401,11 @@ msgstr "Må ikke indeholde skråstreger"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan ikke håndtere pixelformat %1 under %2"
 
-#: src/lib/film.cc:1640
+#: src/lib/film.cc:1648
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan ikke generere en KDM da projektet ikke er krypteret."
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Centre"
 msgstr "Center"
 
@@ -629,7 +629,7 @@ msgstr "Indhold der skal splejses skal bruge samme skrifttype."
 msgid "Content video is %1x%2"
 msgstr "Indholdsvideo er %1x%2"
 
-#: src/lib/upload_job.cc:60
+#: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
 msgstr "Kopier DCP til TMS"
 
@@ -682,11 +682,11 @@ msgstr "Kunne ikke åbne downloadet ZIP-fil"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Den hentede ZIP-fil (%1:%2: %3) kunne ikke åbnes."
 
-#: src/lib/config.cc:985
+#: src/lib/config.cc:992
 msgid "Could not open file for writing"
 msgstr "Kunne ikke åbne fil til skrivning"
 
-#: src/lib/ffmpeg_file_encoder.cc:266
+#: src/lib/ffmpeg_file_encoder.cc:269
 #, fuzzy
 msgid "Could not open output file %1 (%2)"
 msgstr "kunne ikke skrive til fil %1 (%2)"
@@ -703,19 +703,19 @@ msgstr "Kunne ikke starte overførsel"
 msgid "Could not write to remote file (%1)"
 msgstr "Kunne ikke skrive til fjernfil. (%1)"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:569
 msgid "D-BOX primary"
 msgstr "primær D-BOX"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:570
 msgid "D-BOX secondary"
 msgstr "sekundær D-BOX"
 
-#: src/lib/util.cc:598
+#: src/lib/util.cc:600
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:601
 msgid "DBS"
 msgstr "DBS"
 
@@ -752,7 +752,7 @@ msgstr ""
 "DCP-o-matic kunne ikke åbne filen %1 (%2). Måske findes den ikke, eller den "
 "er i et uventet format."
 
-#: src/lib/film.cc:1543
+#: src/lib/film.cc:1551
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -761,7 +761,7 @@ msgstr ""
 "DCPer som OV.  Gennemse venligst indstillingerne for at sikre at de er som "
 "ønsket."
 
-#: src/lib/film.cc:1511
+#: src/lib/film.cc:1519
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -778,7 +778,7 @@ msgstr ""
 "DCP-o-matic understøtter ikke længere `%1'-filteret, så det er blevet slået "
 "fra."
 
-#: src/lib/config.cc:352 src/lib/config.cc:1096
+#: src/lib/config.cc:353 src/lib/config.cc:1103
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic besked"
 
@@ -791,7 +791,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:1084
+#: src/lib/config.cc:1091
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -877,7 +877,7 @@ msgstr "Fejl: %1"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Undersøger billedtekster"
 
-#: src/lib/examine_content_job.cc:49
+#: src/lib/examine_content_job.cc:54
 msgid "Examining content"
 msgstr "Undersøger indhold"
 
@@ -924,7 +924,7 @@ msgstr "Filnavn"
 msgid "Film"
 msgstr "Film"
 
-#: src/lib/ffmpeg_examiner.cc:111
+#: src/lib/ffmpeg_examiner.cc:112
 msgid "Finding length"
 msgstr "Beregner længde"
 
@@ -932,7 +932,7 @@ msgstr "Beregner længde"
 msgid "Frame rate"
 msgstr "Billedhastighed"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Friday"
 msgstr "Fredag"
 
@@ -976,11 +976,11 @@ msgstr "Gamma 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Gradient debander"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "HI"
 msgstr "HH"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Hearing impaired"
 msgstr "Hørehæmmede"
 
@@ -1029,7 +1029,7 @@ msgstr "Det er uklart hvad der forårsagede denne fejl."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:342 src/lib/config.cc:1081
+#: src/lib/config.cc:343 src/lib/config.cc:1088
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -1037,27 +1037,27 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:588
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:557
 msgid "Left"
 msgstr "Venstre"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left centre"
 msgstr "Venstre center"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "Left rear surround"
 msgstr "Venstre bag surround"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Left surround"
 msgstr "Venstre surround"
 
@@ -1065,11 +1065,11 @@ msgstr "Venstre surround"
 msgid "Length"
 msgstr "Længde"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -1097,7 +1097,7 @@ msgstr "Logaritmisk  (316:1 range)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "Ls"
 msgstr "Ls"
 
@@ -1129,11 +1129,11 @@ msgstr "Videostørrelser passer ikke i DCP"
 msgid "Missing required setting %1"
 msgstr "Mangler påkrævet indstilling %1"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Monday"
 msgstr "Mandag"
 
-#: src/lib/writer.cc:757
+#: src/lib/writer.cc:763
 msgid "Mono"
 msgstr "Mono"
 
@@ -1157,7 +1157,7 @@ msgstr "Ingen korrekte billedfiler kunne findes i folderen."
 msgid "Noise reduction"
 msgstr "Støjreduktion"
 
-#: src/lib/writer.cc:725 src/lib/writer.cc:732 src/lib/writer.cc:755
+#: src/lib/writer.cc:731 src/lib/writer.cc:738 src/lib/writer.cc:761
 msgid "None"
 msgstr "Ingen"
 
@@ -1222,7 +1222,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:589
 msgid "R"
 msgstr "R"
 
@@ -1234,7 +1234,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Censur"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "Rc"
 msgstr "Rc"
 
@@ -1254,19 +1254,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:558
 msgid "Right"
 msgstr "Højre"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right centre"
 msgstr "Højre center"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "Right rear surround"
 msgstr "Højre bag surround"
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Right surround"
 msgstr "Højre surround"
 
@@ -1278,7 +1278,7 @@ msgstr "Roter 90 grader mod uret"
 msgid "Rotate 90 degrees clockwise"
 msgstr "Roter 90 grader med uret"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "Rs"
 msgstr "Rs"
 
@@ -1341,7 +1341,7 @@ msgstr "SSH-fejl (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "SSH-fejl (%1)"
 
-#: src/lib/util.cc:943
+#: src/lib/util.cc:945
 msgid "Saturday"
 msgstr "Lørdag"
 
@@ -1356,6 +1356,10 @@ msgstr "Sender email"
 #: src/lib/dcp_content_type.cc:52
 msgid "Short"
 msgstr "Short"
+
+#: src/lib/util.cc:602
+msgid "Sign"
+msgstr ""
 
 #: src/lib/video_content.cc:500
 msgid "Size"
@@ -1409,7 +1413,7 @@ msgstr "Noget af dit indhold mangler en KDM"
 msgid "Some of your content needs an OV"
 msgstr "Noget af dit indhold mangler en OV"
 
-#: src/lib/writer.cc:759
+#: src/lib/writer.cc:765
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1421,7 +1425,7 @@ msgstr "Stereo til 5.1 up-mixer A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo til 5.1 up-mixer B"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Sunday"
 msgstr "Søndag"
 
@@ -1512,13 +1516,13 @@ msgstr ""
 "kører på et 32 bit operativsystem, så prøv at reducere antallet af "
 "genereringstråde i fanebladet Generelt i Indstillinger."
 
-#: src/lib/util.cc:1144
+#: src/lib/util.cc:1146
 #, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 "KDM var genereret til DCP-o-matic, men ikke til dens 'leaf' certifikat."
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 #, fuzzy
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "KDM var ikke genereret til DCP-o-matics dekrypterings certifikat."
@@ -1546,7 +1550,7 @@ msgstr ""
 "Denne fil er en KDM. KDMer skal tilføjes til DCP indhold ved at højreklikke "
 "på indholdet og vælge \"Tilføj KDM\"."
 
-#: src/lib/film.cc:564
+#: src/lib/film.cc:567
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1554,7 +1558,7 @@ msgstr ""
 "Denne film blev dannet med en nyere version af DCP-o-matic og kan ikke "
 "indlæses i denne version. Beklager!"
 
-#: src/lib/film.cc:549
+#: src/lib/film.cc:552
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1564,7 +1568,7 @@ msgstr ""
 "indlæses i denne version. Du er nødt til at lave en ny Film, tilføje dit "
 "indhold og konfigurere det igen. Beklager!"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Thursday"
 msgstr "Torsdag"
 
@@ -1584,7 +1588,7 @@ msgstr "Transcoder %1"
 msgid "Transitional"
 msgstr "Transitional"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Tuesday"
 msgstr "Tirsdag"
 
@@ -1629,7 +1633,7 @@ msgstr "Uspecificeret"
 msgid "Untitled"
 msgstr "Uden titel"
 
-#: src/lib/util.cc:569 src/lib/util.cc:570
+#: src/lib/util.cc:571 src/lib/util.cc:572
 msgid "Unused"
 msgstr "Ubenyttet"
 
@@ -1641,7 +1645,7 @@ msgstr "Upmix L"
 msgid "Upmix R"
 msgstr "Upmix R"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "VI"
 msgstr "VI"
 
@@ -1653,11 +1657,11 @@ msgstr "Verificer DCP"
 msgid "Vertical flip"
 msgstr "Lodret spejling"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Visually impaired"
 msgstr "Synshandicappet"
 
-#: src/lib/upload_job.cc:47
+#: src/lib/upload_job.cc:51
 msgid "Waiting"
 msgstr "Venter"
 
@@ -1665,7 +1669,7 @@ msgstr "Venter"
 msgid "Weave filter"
 msgstr "Weavefilter"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Wednesday"
 msgstr "Onsdag"
 
@@ -1733,7 +1737,7 @@ msgstr ""
 "Du har %1 filer der ligner VOB-filer fra en DVD. Du bør samle dem for at "
 "sikre gode overgange mellem filerne."
 
-#: src/lib/film.cc:1507
+#: src/lib/film.cc:1515
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1782,7 +1786,7 @@ msgid ""
 "audio content."
 msgstr "Lydniveauet er meget højt (%1). Du bør sænke gain på lyden."
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:288
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -2015,7 +2019,7 @@ msgstr "noget af dit indhold mangler"
 msgid "still"
 msgstr "stille"
 
-#: src/lib/ffmpeg_examiner.cc:337
+#: src/lib/ffmpeg_examiner.cc:338
 msgid "unknown"
 msgstr "ukendt"
 

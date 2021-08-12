@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic PORTUGUESE (Portugal)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 00:58+0200\n"
+"POT-Creation-Date: 2021-08-12 11:08+0200\n"
 "PO-Revision-Date: 2016-03-19 18:19+0000\n"
 "Last-Translator: Tiago Casal Ribeiro <tiago@casalribeiro.com>\n"
 "Language-Team: \n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1128
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -87,7 +87,7 @@ msgid ""
 "Size: $SIZE\n"
 msgstr ""
 
-#: src/lib/config.cc:1099
+#: src/lib/config.cc:1106
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -366,15 +366,15 @@ msgstr "Bits por pixel"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "C"
 msgstr "C"
 
@@ -391,11 +391,11 @@ msgstr "não pode conter barras"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossível manusear o formato de pixeis %1 durante %2"
 
-#: src/lib/film.cc:1640
+#: src/lib/film.cc:1648
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Centre"
 msgstr "Central"
 
@@ -623,7 +623,7 @@ msgstr "O conteúdo a ser unido deve usar os mesmos tipos de letra."
 msgid "Content video is %1x%2"
 msgstr "O vídeo do conteúdo tem %1x%2"
 
-#: src/lib/upload_job.cc:60
+#: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
 msgstr "Copiar DCP para TMS"
 
@@ -678,12 +678,12 @@ msgstr "Não foi possível abrir o ficheiro ZIP descarregado"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Não foi possível abrir o ficheiro ZIP descarregado"
 
-#: src/lib/config.cc:985
+#: src/lib/config.cc:992
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "não foi possível abrir o ficheiro para leitura"
 
-#: src/lib/ffmpeg_file_encoder.cc:266
+#: src/lib/ffmpeg_file_encoder.cc:269
 #, fuzzy
 msgid "Could not open output file %1 (%2)"
 msgstr "não foi possível escrever para o ficheiro %1 (%2)"
@@ -701,19 +701,19 @@ msgstr "Não foi possível iniciar a transferência"
 msgid "Could not write to remote file (%1)"
 msgstr "Não foi possível escrever para o ficheiro remoto (%1)"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:569
 msgid "D-BOX primary"
 msgstr "D-BOX primário"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:570
 msgid "D-BOX secondary"
 msgstr "D-BOX secundário"
 
-#: src/lib/util.cc:598
+#: src/lib/util.cc:600
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:601
 msgid "DBS"
 msgstr "DBS"
 
@@ -754,13 +754,13 @@ msgstr ""
 "O DCP-o-matic não conseguiu abrir o ficheiro %1. Talvez não exista ou está "
 "num formato inesperado."
 
-#: src/lib/film.cc:1543
+#: src/lib/film.cc:1551
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
 
-#: src/lib/film.cc:1511
+#: src/lib/film.cc:1519
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
@@ -771,7 +771,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "O DCP-o-matic já não suporta o filtro '%1', e este foi desactivado."
 
-#: src/lib/config.cc:352 src/lib/config.cc:1096
+#: src/lib/config.cc:353 src/lib/config.cc:1103
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -784,7 +784,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "A Desentrelaçar"
 
-#: src/lib/config.cc:1084
+#: src/lib/config.cc:1091
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -870,7 +870,7 @@ msgstr "Erro: %1"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Examen du contenu"
 
-#: src/lib/examine_content_job.cc:49
+#: src/lib/examine_content_job.cc:54
 #, fuzzy
 msgid "Examining content"
 msgstr "Examinar conteúdo"
@@ -921,7 +921,7 @@ msgstr "nome"
 msgid "Film"
 msgstr "Filme"
 
-#: src/lib/ffmpeg_examiner.cc:111
+#: src/lib/ffmpeg_examiner.cc:112
 msgid "Finding length"
 msgstr "À procura da duração"
 
@@ -929,7 +929,7 @@ msgstr "À procura da duração"
 msgid "Frame rate"
 msgstr "Cadência de fotogramas"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Friday"
 msgstr "Sexta-feira"
 
@@ -975,11 +975,11 @@ msgstr "Gama 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Alterar banda do gradiente"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "HI"
 msgstr "DA"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Hearing impaired"
 msgstr "Deficientes auditivos"
 
@@ -1029,7 +1029,7 @@ msgstr "A causa do erro não é conhecida."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:342 src/lib/config.cc:1081
+#: src/lib/config.cc:343 src/lib/config.cc:1088
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envio de chaves KDM: $CPL_NAME"
 
@@ -1037,27 +1037,27 @@ msgstr "Envio de chaves KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Desentrelaçador do núcleo"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:588
 msgid "L"
 msgstr "E"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "Lc"
 msgstr "Ec"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:557
 msgid "Left"
 msgstr "Esquerdo"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left centre"
 msgstr "Esquerdo central"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "Left rear surround"
 msgstr "Esquerdo traseiro surround"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Left surround"
 msgstr "Esquerdo surround"
 
@@ -1065,11 +1065,11 @@ msgstr "Esquerdo surround"
 msgid "Length"
 msgstr "Duração"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Lfe"
 msgstr "Lfe"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Lfe (sub)"
 msgstr "Lfe (sub)"
 
@@ -1097,7 +1097,7 @@ msgstr "Logarítmico (Variação 316:1)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "Ls"
 msgstr "Es"
 
@@ -1130,11 +1130,11 @@ msgstr "Dimensões de vídeo do DCP inválidas"
 msgid "Missing required setting %1"
 msgstr "falta definição necessária %1"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Monday"
 msgstr "Segunda-feira"
 
-#: src/lib/writer.cc:757
+#: src/lib/writer.cc:763
 msgid "Mono"
 msgstr ""
 
@@ -1158,7 +1158,7 @@ msgstr "Não foram encontrados ficheiros de imagem válidos na pasta."
 msgid "Noise reduction"
 msgstr "Redução de ruído"
 
-#: src/lib/writer.cc:725 src/lib/writer.cc:732 src/lib/writer.cc:755
+#: src/lib/writer.cc:731 src/lib/writer.cc:738 src/lib/writer.cc:761
 msgid "None"
 msgstr ""
 
@@ -1223,7 +1223,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Anúncio Público"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:589
 msgid "R"
 msgstr "D"
 
@@ -1235,7 +1235,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Classificação"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "Rc"
 msgstr "Dc"
 
@@ -1257,19 +1257,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:558
 msgid "Right"
 msgstr "Direito"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right centre"
 msgstr "Direita central"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "Right rear surround"
 msgstr "Direito traseiro surround"
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Right surround"
 msgstr "Direito surround"
 
@@ -1281,7 +1281,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "Rs"
 msgstr "Ds"
 
@@ -1345,7 +1345,7 @@ msgstr "Erro de SSH (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "Erro de SSH (%1)"
 
-#: src/lib/util.cc:943
+#: src/lib/util.cc:945
 msgid "Saturday"
 msgstr "Sábado"
 
@@ -1361,6 +1361,10 @@ msgstr "A enviar email"
 #: src/lib/dcp_content_type.cc:52
 msgid "Short"
 msgstr "Curta-metragem"
+
+#: src/lib/util.cc:602
+msgid "Sign"
+msgstr ""
 
 #: src/lib/video_content.cc:500
 msgid "Size"
@@ -1404,7 +1408,7 @@ msgstr ""
 msgid "Some of your content needs an OV"
 msgstr ""
 
-#: src/lib/writer.cc:759
+#: src/lib/writer.cc:765
 msgid "Stereo"
 msgstr ""
 
@@ -1416,7 +1420,7 @@ msgstr "Multiplicador de canais de Stereo para 5.1 A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Multiplicador de canais de Stereo para 5.1 B"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Sunday"
 msgstr "Domingo"
 
@@ -1503,11 +1507,11 @@ msgstr ""
 "sistema de 32-bit tente reduzir o número de linhas de execução na aba Geral "
 "das Preferências."
 
-#: src/lib/util.cc:1144
+#: src/lib/util.cc:1146
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr ""
 
@@ -1532,7 +1536,7 @@ msgid ""
 "the content and choosing \"Add KDM\"."
 msgstr ""
 
-#: src/lib/film.cc:564
+#: src/lib/film.cc:567
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1540,7 +1544,7 @@ msgstr ""
 "Este filme foi criado com uma versão mais recente do DCP-o-matic, e não pode "
 "ser carregado nesta. Desculpe!"
 
-#: src/lib/film.cc:549
+#: src/lib/film.cc:552
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1550,7 +1554,7 @@ msgstr ""
 "não pode ser carregado nesta. Necessita criar um novo Filme, voltar a "
 "adicionar o conteúdo e configurá-lo de novo. Desculpe!"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Thursday"
 msgstr "Quinta-feira"
 
@@ -1571,7 +1575,7 @@ msgstr "Transcodificar %1"
 msgid "Transitional"
 msgstr "Transitório"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Tuesday"
 msgstr "Terça-feira"
 
@@ -1616,7 +1620,7 @@ msgstr "Não especificado"
 msgid "Untitled"
 msgstr "Sem título"
 
-#: src/lib/util.cc:569 src/lib/util.cc:570
+#: src/lib/util.cc:571 src/lib/util.cc:572
 msgid "Unused"
 msgstr "Não utilizado"
 
@@ -1628,7 +1632,7 @@ msgstr "Combinar E"
 msgid "Upmix R"
 msgstr "Combinar D"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "VI"
 msgstr "DV"
 
@@ -1640,11 +1644,11 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Visually impaired"
 msgstr "Deficientes Visuais"
 
-#: src/lib/upload_job.cc:47
+#: src/lib/upload_job.cc:51
 msgid "Waiting"
 msgstr "A aguardar"
 
@@ -1653,7 +1657,7 @@ msgstr "A aguardar"
 msgid "Weave filter"
 msgstr "Filtro de telecinema"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Wednesday"
 msgstr "Quarta-feira"
 
@@ -1705,7 +1709,7 @@ msgid ""
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/film.cc:1507
+#: src/lib/film.cc:1515
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1748,7 +1752,7 @@ msgid ""
 "audio content."
 msgstr ""
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:288
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1985,7 +1989,7 @@ msgstr ""
 msgid "still"
 msgstr "imagem estática"
 
-#: src/lib/ffmpeg_examiner.cc:337
+#: src/lib/ffmpeg_examiner.cc:338
 msgid "unknown"
 msgstr "desconhecido"
 

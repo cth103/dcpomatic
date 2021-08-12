@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 00:58+0200\n"
+"POT-Creation-Date: 2021-08-12 11:08+0200\n"
 "PO-Revision-Date: 2019-03-27 00:34+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -68,7 +68,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:1121
+#: src/lib/config.cc:1128
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -90,7 +90,7 @@ msgstr ""
 "Длительность: $LENGTH\n"
 "Размер: $SIZE\n"
 
-#: src/lib/config.cc:1099
+#: src/lib/config.cc:1106
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -374,15 +374,15 @@ msgstr "Бит на пиксель"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Очередной фильтр деинтерлейсинга"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:598
 msgid "BsL"
 msgstr "BsL"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:599
 msgid "BsR"
 msgstr "BsR"
 
-#: src/lib/util.cc:588
+#: src/lib/util.cc:590
 msgid "C"
 msgstr "C"
 
@@ -398,11 +398,11 @@ msgstr "Не может содержать слэши"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/film.cc:1640
+#: src/lib/film.cc:1648
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Нельзя создать KDM т.к. этот проект не зашифрован."
 
-#: src/lib/util.cc:557
+#: src/lib/util.cc:559
 msgid "Centre"
 msgstr "Центральный"
 
@@ -636,7 +636,7 @@ msgstr "Для присоединения контента должен испо
 msgid "Content video is %1x%2"
 msgstr "Разрешение контента: %1x%2"
 
-#: src/lib/upload_job.cc:60
+#: src/lib/upload_job.cc:66
 msgid "Copy DCP to TMS"
 msgstr "Копировать DCP на TMS (Theater Management System)"
 
@@ -689,11 +689,11 @@ msgstr "Не удалось открыть загруженный ZIP-архив
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Не удалось открыть загруженный ZIP-файл (%1:%2: %3)"
 
-#: src/lib/config.cc:985
+#: src/lib/config.cc:992
 msgid "Could not open file for writing"
 msgstr "Не удалось открыть файл для записи"
 
-#: src/lib/ffmpeg_file_encoder.cc:266
+#: src/lib/ffmpeg_file_encoder.cc:269
 #, fuzzy
 msgid "Could not open output file %1 (%2)"
 msgstr "не удалось записать в файл %1 (%2)"
@@ -710,19 +710,19 @@ msgstr "Не удалось начать передачу"
 msgid "Could not write to remote file (%1)"
 msgstr "Не удалось записать в удаленный файл (%1)"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:569
 msgid "D-BOX primary"
 msgstr "D-BOX основной (DBP)"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:570
 msgid "D-BOX secondary"
 msgstr "D-BOX второстепенный (DBS)"
 
-#: src/lib/util.cc:598
+#: src/lib/util.cc:600
 msgid "DBP"
 msgstr "DBP"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:601
 msgid "DBS"
 msgstr "DBS"
 
@@ -759,7 +759,7 @@ msgstr ""
 "DCP-o-matic не удалось открыть файл %1 (%2). Возможно он не существует или "
 "имеет неожиданный формат."
 
-#: src/lib/film.cc:1543
+#: src/lib/film.cc:1551
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -768,7 +768,7 @@ msgstr ""
 "Пожалуйста, посмотрите на эти настройки, чтобы убедиться, что это то, чего "
 "вы хотите."
 
-#: src/lib/film.cc:1511
+#: src/lib/film.cc:1519
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -784,7 +784,7 @@ msgid ""
 msgstr ""
 "DCP-o-matic больше не поддерживает фильтр `%1', поэтому он был выключен."
 
-#: src/lib/config.cc:352 src/lib/config.cc:1096
+#: src/lib/config.cc:353 src/lib/config.cc:1103
 msgid "DCP-o-matic notification"
 msgstr "Уведомление DCP-o-matic"
 
@@ -797,7 +797,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:1084
+#: src/lib/config.cc:1091
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -882,7 +882,7 @@ msgstr "Ошибка: (%1)"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Проверка скрытых титров"
 
-#: src/lib/examine_content_job.cc:49
+#: src/lib/examine_content_job.cc:54
 msgid "Examining content"
 msgstr "Проверка контента"
 
@@ -929,7 +929,7 @@ msgstr "Имя файла"
 msgid "Film"
 msgstr "Проект"
 
-#: src/lib/ffmpeg_examiner.cc:111
+#: src/lib/ffmpeg_examiner.cc:112
 msgid "Finding length"
 msgstr "Расчет длительности"
 
@@ -937,7 +937,7 @@ msgstr "Расчет длительности"
 msgid "Frame rate"
 msgstr "Частота кадров"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:943
 msgid "Friday"
 msgstr "Пятница"
 
@@ -981,11 +981,11 @@ msgstr "Гамма 28 (BT470BG)"
 msgid "Gradient debander"
 msgstr "Разбиение градиента"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:594
 msgid "HI"
 msgstr "HI"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:563
 msgid "Hearing impaired"
 msgstr "Для слабослышащих"
 
@@ -1036,7 +1036,7 @@ msgstr "Неизвестно, что вызвало эту ошибку."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:342 src/lib/config.cc:1081
+#: src/lib/config.cc:343 src/lib/config.cc:1088
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -1044,27 +1044,27 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:586
+#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:588
 msgid "L"
 msgstr "L"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:596
 msgid "Lc"
 msgstr "Lc"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:555
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:557
 msgid "Left"
 msgstr "Левый"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:565
 msgid "Left centre"
 msgstr "Левый центральный"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:567
 msgid "Left rear surround"
 msgstr "Левый тыловой surround"
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:561
 msgid "Left surround"
 msgstr "Левый surround"
 
@@ -1072,11 +1072,11 @@ msgstr "Левый surround"
 msgid "Length"
 msgstr "Длительность"
 
-#: src/lib/util.cc:589
+#: src/lib/util.cc:591
 msgid "Lfe"
 msgstr "LFE"
 
-#: src/lib/util.cc:558
+#: src/lib/util.cc:560
 msgid "Lfe (sub)"
 msgstr "НЧ (sub)"
 
@@ -1104,7 +1104,7 @@ msgstr "Логарифмический (диапазон 316:1)"
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:592
 msgid "Ls"
 msgstr "Ls"
 
@@ -1136,11 +1136,11 @@ msgstr "Несоответствие размера видео в DCP"
 msgid "Missing required setting %1"
 msgstr "Отсутствует обязательная настройка %1"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:935
 msgid "Monday"
 msgstr "Понедельник"
 
-#: src/lib/writer.cc:757
+#: src/lib/writer.cc:763
 msgid "Mono"
 msgstr "Моно"
 
@@ -1164,7 +1164,7 @@ msgstr "В папке не найдено подходящих изображе�
 msgid "Noise reduction"
 msgstr "Подавление шума"
 
-#: src/lib/writer.cc:725 src/lib/writer.cc:732 src/lib/writer.cc:755
+#: src/lib/writer.cc:731 src/lib/writer.cc:738 src/lib/writer.cc:761
 msgid "None"
 msgstr "Ничего"
 
@@ -1230,7 +1230,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:587
+#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:589
 msgid "R"
 msgstr "R"
 
@@ -1242,7 +1242,7 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "RTG (Рейтинг)"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:597
 msgid "Rc"
 msgstr "Rc"
 
@@ -1262,19 +1262,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:556
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:558
 msgid "Right"
 msgstr "Правый"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:566
 msgid "Right centre"
 msgstr "Правый центральный"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:568
 msgid "Right rear surround"
 msgstr "Правый тыловой surround"
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:562
 msgid "Right surround"
 msgstr "Правый surround"
 
@@ -1286,7 +1286,7 @@ msgstr "Повернуть на 90º против часовой стрелки"
 msgid "Rotate 90 degrees clockwise"
 msgstr "Повернуть на 90º по часовой стрелке"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:593
 msgid "Rs"
 msgstr "Rs"
 
@@ -1349,7 +1349,7 @@ msgstr "Ошибка SSH (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "Ошибка SSH (%1)"
 
-#: src/lib/util.cc:943
+#: src/lib/util.cc:945
 msgid "Saturday"
 msgstr "Суббота"
 
@@ -1364,6 +1364,10 @@ msgstr "Отправка почты"
 #: src/lib/dcp_content_type.cc:52
 msgid "Short"
 msgstr "SHR (Короткометражный фильм)"
+
+#: src/lib/util.cc:602
+msgid "Sign"
+msgstr ""
 
 #: src/lib/video_content.cc:500
 msgid "Size"
@@ -1416,7 +1420,7 @@ msgstr "Часть вашего контента требует KDM"
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
-#: src/lib/writer.cc:759
+#: src/lib/writer.cc:765
 msgid "Stereo"
 msgstr "Стерео"
 
@@ -1428,7 +1432,7 @@ msgstr "Преобразователь A стерео-->5.1"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Преобразователь B стерео-->5.1"
 
-#: src/lib/util.cc:931
+#: src/lib/util.cc:933
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -1519,12 +1523,12 @@ msgstr ""
 "попробуйте уменьшить число потоков кодирования в Настройках во вкладке "
 "\"Основные\"."
 
-#: src/lib/util.cc:1144
+#: src/lib/util.cc:1146
 #, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr "KDM был сделан для DCP-o-matic, но не для его leaf-сертификата."
 
-#: src/lib/util.cc:1142
+#: src/lib/util.cc:1144
 #, fuzzy
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "KDM не был сделан для сертификата расшифровки DCP-o-matic."
@@ -1552,7 +1556,7 @@ msgstr ""
 "Этот файл - ключ (KDM). Ключи добавляются к DCP нажатием правой клавиши на "
 "контент и выбором \"Добавить KDM\" в контекстном меню."
 
-#: src/lib/film.cc:564
+#: src/lib/film.cc:567
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1560,7 +1564,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:549
+#: src/lib/film.cc:552
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1570,7 +1574,7 @@ msgstr ""
 "быть загружен этой версией. Вам необходимо создать новый проект, заново "
 "добавить контент и настроить его. Извините!"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:941
 msgid "Thursday"
 msgstr "Четверг"
 
@@ -1591,7 +1595,7 @@ msgstr "Транскодирование %1"
 msgid "Transitional"
 msgstr "XSN (Транзитный)"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:937
 msgid "Tuesday"
 msgstr "Вторник"
 
@@ -1636,7 +1640,7 @@ msgstr "Не определено"
 msgid "Untitled"
 msgstr "Безымянный"
 
-#: src/lib/util.cc:569 src/lib/util.cc:570
+#: src/lib/util.cc:571 src/lib/util.cc:572
 msgid "Unused"
 msgstr "Не используется"
 
@@ -1648,7 +1652,7 @@ msgstr "Преобразовать Л"
 msgid "Upmix R"
 msgstr "Преобразовать П"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:595
 msgid "VI"
 msgstr "VI"
 
@@ -1660,11 +1664,11 @@ msgstr "Проверить DCP"
 msgid "Vertical flip"
 msgstr "Перевернуть по вертикали"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:564
 msgid "Visually impaired"
 msgstr "Для слабовидящих"
 
-#: src/lib/upload_job.cc:47
+#: src/lib/upload_job.cc:51
 msgid "Waiting"
 msgstr "Ожидание"
 
@@ -1672,7 +1676,7 @@ msgstr "Ожидание"
 msgid "Weave filter"
 msgstr "Фильтр Weave"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:939
 msgid "Wednesday"
 msgstr "Среда"
 
@@ -1742,7 +1746,7 @@ msgstr ""
 "объединить (присоединить) их, чтобы гарантировать гладкие соединения между "
 "файлами."
 
-#: src/lib/film.cc:1507
+#: src/lib/film.cc:1515
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1793,7 +1797,7 @@ msgstr ""
 "Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
 "громкости вашего аудио-контента."
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:288
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -2028,7 +2032,7 @@ msgstr "часть вашего контента отсутствует"
 msgid "still"
 msgstr "статичный"
 
-#: src/lib/ffmpeg_examiner.cc:337
+#: src/lib/ffmpeg_examiner.cc:338
 msgid "unknown"
 msgstr "неизвестно"
 

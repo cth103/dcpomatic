@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-07 00:58+0200\n"
+"POT-Creation-Date: 2021-08-12 11:08+0200\n"
 "PO-Revision-Date: 2021-05-07 12:02+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -18,12 +18,12 @@ msgstr ""
 "X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/tools/dcpomatic_kdm.cc:389
+#: src/tools/dcpomatic_kdm.cc:388
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM zapsat do %s"
 
-#: src/tools/dcpomatic_kdm.cc:389
+#: src/tools/dcpomatic_kdm.cc:388
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDMs zapsat do %s"
@@ -45,25 +45,25 @@ msgid "&Close\tCtrl-W"
 msgstr "&Zavřít\tCtrl-W"
 
 #: src/tools/dcpomatic.cc:1388 src/tools/dcpomatic_batch.cc:99
-#: src/tools/dcpomatic_kdm.cc:267 src/tools/dcpomatic_player.cc:584
+#: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:584
 #: src/tools/dcpomatic_playlist.cc:551
 msgid "&Edit"
 msgstr "&Upravit"
 
 #: src/tools/dcpomatic.cc:1324 src/tools/dcpomatic_batch.cc:79
-#: src/tools/dcpomatic_kdm.cc:245 src/tools/dcpomatic_player.cc:536
+#: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:536
 #: src/tools/dcpomatic_playlist.cc:532
 msgid "&Exit"
 msgstr "&Konec"
 
 #: src/tools/dcpomatic.cc:1387 src/tools/dcpomatic_batch.cc:97
-#: src/tools/dcpomatic_kdm.cc:265 src/tools/dcpomatic_player.cc:582
+#: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:582
 #: src/tools/dcpomatic_playlist.cc:549
 msgid "&File"
 msgstr "&Soubor"
 
 #: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_batch.cc:102
-#: src/tools/dcpomatic_kdm.cc:269 src/tools/dcpomatic_player.cc:588
+#: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:588
 #: src/tools/dcpomatic_playlist.cc:553
 msgid "&Help"
 msgstr "&Pomoc"
@@ -82,14 +82,14 @@ msgstr "&Otevřít…\tCtrl-O"
 
 #: src/tools/dcpomatic.cc:1336 src/tools/dcpomatic.cc:1339
 #: src/tools/dcpomatic_batch.cc:85 src/tools/dcpomatic_batch.cc:88
-#: src/tools/dcpomatic_kdm.cc:251 src/tools/dcpomatic_kdm.cc:254
+#: src/tools/dcpomatic_kdm.cc:250 src/tools/dcpomatic_kdm.cc:253
 #: src/tools/dcpomatic_player.cc:542 src/tools/dcpomatic_player.cc:545
 #: src/tools/dcpomatic_playlist.cc:539
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Nastavení…\tCtrl-P"
 
 #: src/tools/dcpomatic.cc:1326 src/tools/dcpomatic_batch.cc:81
-#: src/tools/dcpomatic_kdm.cc:247 src/tools/dcpomatic_player.cc:538
+#: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:538
 #: src/tools/dcpomatic_playlist.cc:534
 msgid "&Quit"
 msgstr "&Ukončit"
@@ -120,12 +120,12 @@ msgid "<b>Playlists</b>"
 msgstr "<b>Playlisty</b>"
 
 #: src/tools/dcpomatic.cc:1383 src/tools/dcpomatic_batch.cc:95
-#: src/tools/dcpomatic_kdm.cc:261 src/tools/dcpomatic_player.cc:578
+#: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:578
 #: src/tools/dcpomatic_playlist.cc:546
 msgid "About"
 msgstr "O"
 
-#: src/tools/dcpomatic.cc:1381 src/tools/dcpomatic_kdm.cc:259
+#: src/tools/dcpomatic.cc:1381 src/tools/dcpomatic_kdm.cc:258
 #: src/tools/dcpomatic_player.cc:576 src/tools/dcpomatic_playlist.cc:544
 msgid "About DCP-o-matic"
 msgstr "O DCP-o-matic"
@@ -154,7 +154,7 @@ msgstr "Přidat složku…"
 msgid "Add..."
 msgstr "Přidat…"
 
-#: src/tools/dcpomatic.cc:1724 src/tools/dcpomatic_kdm.cc:702
+#: src/tools/dcpomatic.cc:1724 src/tools/dcpomatic_kdm.cc:701
 #: src/tools/dcpomatic_player.cc:1228 src/tools/dcpomatic_playlist.cc:656
 #, c-format
 msgid ""
@@ -174,7 +174,7 @@ msgstr ""
 "\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:711
+#: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:710
 #: src/tools/dcpomatic_player.cc:1237 src/tools/dcpomatic_playlist.cc:665
 #, c-format
 msgid ""
@@ -184,13 +184,13 @@ msgstr ""
 "Vyskytl se problém: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic_server.cc:341
+#: src/tools/dcpomatic_server.cc:352
 msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "Došlo k neznámé chybě na serveru DCP-o-matic."
 
 #: src/tools/dcpomatic.cc:957 src/tools/dcpomatic.cc:1748
-#: src/tools/dcpomatic_kdm.cc:400 src/tools/dcpomatic_kdm.cc:716
-#: src/tools/dcpomatic_kdm.cc:725 src/tools/dcpomatic_player.cc:1242
+#: src/tools/dcpomatic_kdm.cc:399 src/tools/dcpomatic_kdm.cc:715
+#: src/tools/dcpomatic_kdm.cc:724 src/tools/dcpomatic_player.cc:1242
 #: src/tools/dcpomatic_playlist.cc:670 src/tools/dcpomatic_playlist.cc:679
 msgid "An unknown exception occurred."
 msgstr "Vyskytl se neznámy problém."
@@ -212,7 +212,7 @@ msgstr "Chybné nastavení pro %s."
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:953 src/tools/dcpomatic_kdm.cc:396
+#: src/tools/dcpomatic.cc:953 src/tools/dcpomatic_kdm.cc:395
 msgid "CPL's content is not encrypted."
 msgstr "CPL obsah není enkryptovaný."
 
@@ -240,7 +240,7 @@ msgstr "Kopírovat nastavení\tCtrl-C"
 msgid "Could not create folder to store film."
 msgstr "Nemohu vytvořit složku pro uložení filmu."
 
-#: src/tools/dcpomatic_kdm.cc:475
+#: src/tools/dcpomatic_kdm.cc:474
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -301,7 +301,7 @@ msgstr "Nemohu otevřít film na %s"
 msgid "Could not open this folder as a DCP-o-matic project."
 msgstr "Složku nelze otevřít jako projekt DCP-o-matic."
 
-#: src/tools/dcpomatic_kdm.cc:480
+#: src/tools/dcpomatic_kdm.cc:479
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
@@ -309,7 +309,7 @@ msgstr ""
 "Nelze číst soubor jako KDM.  Je příliš velký.  Ujistěte se, že načítáte "
 "soubor DKDM (XML)."
 
-#: src/tools/dcpomatic_kdm.cc:468
+#: src/tools/dcpomatic_kdm.cc:467
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -366,7 +366,7 @@ msgstr ""
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr "Nemohu zapsat do konfiguračního souboru. Vaše změny nebudou uloženy."
 
-#: src/tools/dcpomatic_kdm.cc:187
+#: src/tools/dcpomatic_kdm.cc:186
 msgid "Create KDMs"
 msgstr "Vytvořit KDMs"
 
@@ -379,11 +379,11 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Batch Converter"
 msgstr "DCP-o-matic konvertor"
 
-#: src/tools/dcpomatic_server.cc:146
+#: src/tools/dcpomatic_server.cc:149
 msgid "DCP-o-matic Encode Server"
 msgstr "DCP-o-matic Encode Server"
 
-#: src/tools/dcpomatic_kdm.cc:636 src/tools/dcpomatic_kdm.cc:670
+#: src/tools/dcpomatic_kdm.cc:635 src/tools/dcpomatic_kdm.cc:669
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic KDM Creator"
 
@@ -401,7 +401,7 @@ msgstr "DCP-o-matic přehrávač nelze spustit."
 msgid "DCP-o-matic Playlist Editor"
 msgstr "DCP-o-matic Playlist Editor"
 
-#: src/tools/dcpomatic_kdm.cc:687 src/tools/dcpomatic_playlist.cc:643
+#: src/tools/dcpomatic_kdm.cc:686 src/tools/dcpomatic_playlist.cc:643
 msgid "DCP-o-matic could not start"
 msgstr "DCP-o-matic nelze spustit"
 
@@ -486,7 +486,7 @@ msgstr "Exportovat video soubor…\tCtrl-E"
 msgid "Export..."
 msgstr "Export…"
 
-#: src/tools/dcpomatic.cc:982 src/tools/dcpomatic_kdm.cc:276
+#: src/tools/dcpomatic.cc:982 src/tools/dcpomatic_kdm.cc:275
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Soubor %s již existuje. Chcete soubor přepsat?"
@@ -497,7 +497,7 @@ msgstr "Soubor %s již existuje. Chcete soubor přepsat?"
 msgid "Film changed"
 msgstr "Film byl změněn"
 
-#: src/tools/dcpomatic_server.cc:157
+#: src/tools/dcpomatic_server.cc:160
 msgid "Frames per second"
 msgstr "Snímků za sekundu"
 
@@ -625,7 +625,7 @@ msgstr "Znovu vytvořit podpisové certifikáty"
 msgid "Remove"
 msgstr "Vyjmout"
 
-#: src/tools/dcpomatic.cc:1385 src/tools/dcpomatic_kdm.cc:263
+#: src/tools/dcpomatic.cc:1385 src/tools/dcpomatic_kdm.cc:262
 #: src/tools/dcpomatic_player.cc:580
 msgid "Report a problem..."
 msgstr "Nahlásit problém..."
@@ -684,11 +684,11 @@ msgstr "Vybrat DCP k otevření"
 msgid "Select DCP to open as OV"
 msgstr "Vybrat DCP k otevření jako OV"
 
-#: src/tools/dcpomatic_kdm.cc:585
+#: src/tools/dcpomatic_kdm.cc:584
 msgid "Select DKDM File"
 msgstr "Vybrat DKDM soubor"
 
-#: src/tools/dcpomatic_kdm.cc:448
+#: src/tools/dcpomatic_kdm.cc:447
 msgid "Select DKDM file"
 msgstr "Vybrat DKDM soubor"
 
@@ -704,7 +704,7 @@ msgstr "Označit všechny\tShift-Ctrl-A"
 msgid "Select film to open"
 msgstr "Vybrat film k otevření"
 
-#: src/tools/dcpomatic_kdm.cc:383
+#: src/tools/dcpomatic_kdm.cc:382
 msgid "Send KDM emails"
 msgstr "Poslat KDM emailem"
 
@@ -807,7 +807,7 @@ msgstr ""
 "řetězec certifikátů pro podepisování DCP a KDM?"
 
 #: src/tools/dcpomatic.cc:1790 src/tools/dcpomatic_batch.cc:489
-#: src/tools/dcpomatic_kdm.cc:735 src/tools/dcpomatic_server.cc:353
+#: src/tools/dcpomatic_kdm.cc:734 src/tools/dcpomatic_server.cc:364
 #: src/tools/dcpomatic_player.cc:1266
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
@@ -871,7 +871,7 @@ msgstr "Ověřuji DCP…"
 msgid "Video waveform..."
 msgstr "Analýza videa..."
 
-#: src/tools/dcpomatic_kdm.cc:560
+#: src/tools/dcpomatic_kdm.cc:559
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
