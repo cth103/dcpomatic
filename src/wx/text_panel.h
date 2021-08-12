@@ -36,9 +36,10 @@ class TextPanel : public ContentSubPanel
 public:
 	TextPanel (ContentPanel *, TextType t);
 
-	void film_changed (Film::Property);
-	void film_content_changed (int);
-	void content_selection_changed ();
+	void create () override;
+	void film_changed (Film::Property) override;
+	void film_content_changed (int) override;
+	void content_selection_changed () override;
 
 private:
 	void use_toggled ();
@@ -59,7 +60,7 @@ private:
 	TextType current_type () const;
 	void update_dcp_tracks ();
 	void update_dcp_track_selection ();
-	void add_to_grid ();
+	void add_to_grid () override;
 	void try_to_load_analysis ();
 	void analysis_finished ();
 	void language_changed ();

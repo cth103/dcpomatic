@@ -66,6 +66,13 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	, _viewer (viewer)
 	, _film_content_changed_suspender (boost::bind(&TimingPanel::film_content_changed, this, _1))
 {
+
+}
+
+
+void
+TimingPanel::create ()
+{
 	wxSize size = TimecodeBase::size (this);
 
 	for (int i = 0; i < 3; ++i) {
@@ -123,6 +130,8 @@ TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 
 	setup_sensitivity ();
 	add_to_grid ();
+
+	_sizer->Layout ();
 }
 
 void

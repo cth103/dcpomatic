@@ -37,6 +37,8 @@ class ContentSubPanel : public wxScrolledWindow
 public:
 	ContentSubPanel (ContentPanel *, wxString);
 
+	virtual void create () = 0;
+
 	virtual void film_changed (Film::Property) {}
 	/** Called when a given property of one of the selected Contents changes */
 	virtual void film_content_changed (int) = 0;

@@ -57,6 +57,13 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
 	, _audio_dialog (0)
 {
+
+}
+
+
+void
+AudioPanel::create ()
+{
 	_reference = new CheckBox (this, _("Use this DCP's audio as OV and make VF"));
 	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
@@ -119,6 +126,8 @@ AudioPanel::AudioPanel (ContentPanel* p)
 	_active_jobs_connection = JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));
 
 	add_to_grid ();
+
+	_sizer->Layout ();
 }
 
 void

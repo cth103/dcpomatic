@@ -29,6 +29,7 @@ class TimingPanel : public ContentSubPanel
 public:
 	TimingPanel (ContentPanel *, std::weak_ptr<FilmViewer> viewer);
 
+	void create () override;
 	void film_changed (Film::Property);
 	void film_content_changed (int);
 	void content_selection_changed ();

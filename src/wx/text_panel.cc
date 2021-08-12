@@ -62,8 +62,15 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 	: ContentSubPanel (p, std_to_wx(text_type_to_name(t)))
 	, _original_type (t)
 {
+
+}
+
+
+void
+TextPanel::create ()
+{
 	wxString refer = _("Use this DCP's subtitle as OV and make VF");
-	if (t == TextType::CLOSED_CAPTION) {
+	if (_original_type == TextType::CLOSED_CAPTION) {
 		refer = _("Use this DCP's closed caption as OV and make VF");
 	}
 
@@ -131,6 +138,8 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 
 	add_to_grid();
 	content_selection_changed ();
+
+	_sizer->Layout ();
 }
 
 

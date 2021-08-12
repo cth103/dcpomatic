@@ -65,6 +65,13 @@ using namespace boost::placeholders;
 VideoPanel::VideoPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Video"))
 {
+
+}
+
+
+void
+VideoPanel::create ()
+{
 	_reference = new CheckBox (this, _("Use this DCP's video as OV and make VF"));
 	_reference_note = new StaticText (this, wxT(""));
 	_reference_note->Wrap (200);
@@ -221,6 +228,8 @@ VideoPanel::VideoPanel (ContentPanel* p)
 	_top_bottom_link->Bind               (wxEVT_TOGGLEBUTTON, boost::bind(&VideoPanel::top_bottom_link_clicked, this));
 
 	add_to_grid ();
+
+	_sizer->Layout ();
 }
 
 

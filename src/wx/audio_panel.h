@@ -39,9 +39,10 @@ public:
 	explicit AudioPanel (ContentPanel *);
 	~AudioPanel ();
 
-	void film_changed (Film::Property);
-	void film_content_changed (int);
-	void content_selection_changed ();
+	void create () override;
+	void film_changed (Film::Property) override;
+	void film_content_changed (int) override;
+	void content_selection_changed () override;
 	void set_film (std::shared_ptr<Film>);
 
 private:
@@ -53,7 +54,7 @@ private:
 	void active_jobs_changed (boost::optional<std::string>, boost::optional<std::string>);
 	void setup_sensitivity ();
 	void reference_clicked ();
-	void add_to_grid ();
+	void add_to_grid () override;
 	boost::optional<float> peak () const;
 
 	wxCheckBox* _reference;

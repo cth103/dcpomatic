@@ -45,9 +45,10 @@ class VideoPanel : public ContentSubPanel
 public:
 	explicit VideoPanel (ContentPanel *);
 
-	void film_changed (Film::Property);
-	void film_content_changed (int);
-	void content_selection_changed ();
+	void create () override;
+	void film_changed (Film::Property) override;
+	void film_content_changed (int) override;
+	void content_selection_changed () override;
 
 private:
 	void reference_clicked ();
@@ -56,7 +57,7 @@ private:
 	void range_changed ();
 	void fade_in_changed ();
 	void fade_out_changed ();
-	void add_to_grid ();
+	void add_to_grid () override;
 	void scale_fit_clicked ();
 	void scale_custom_clicked ();
 	bool scale_custom_edit_clicked ();

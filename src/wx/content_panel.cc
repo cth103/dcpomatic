@@ -135,6 +135,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 	_timing_panel = new TimingPanel (this, _film_viewer);
 	_notebook->AddPage (_timing_panel, _("Timing"), false);
+	_timing_panel->create ();
 
 	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::item_selected, this));
 	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::item_deselected, this));
@@ -358,6 +359,7 @@ ContentPanel::check_selection ()
 	if (have_video && !_video_panel) {
 		_video_panel = new VideoPanel (this);
 		_notebook->InsertPage (off, _video_panel, _video_panel->name());
+		_video_panel->create ();
 	} else if (!have_video && _video_panel) {
 		_notebook->DeletePage (off);
 		_video_panel = 0;
@@ -370,6 +372,7 @@ ContentPanel::check_selection ()
 	if (have_audio && !_audio_panel) {
 		_audio_panel = new AudioPanel (this);
 		_notebook->InsertPage (off, _audio_panel, _audio_panel->name());
+		_audio_panel->create ();
 	} else if (!have_audio && _audio_panel) {
 		_notebook->DeletePage (off);
 		_audio_panel = 0;
@@ -383,6 +386,7 @@ ContentPanel::check_selection ()
 		if (have_text[i] && !_text_panel[i]) {
 			_text_panel[i] = new TextPanel (this, static_cast<TextType>(i));
 			_notebook->InsertPage (off, _text_panel[i], _text_panel[i]->name());
+			_text_panel[i]->create ();
 		} else if (!have_text[i] && _text_panel[i]) {
 			_notebook->DeletePage (off);
 			_text_panel[i] = 0;
