@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 11:08+0200\n"
+"POT-Creation-Date: 2021-08-12 22:33+0200\n"
 "PO-Revision-Date: 2018-02-25 14:45-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -1777,6 +1777,11 @@ msgstr ""
 msgid "MISSING: "
 msgstr "FALTA: "
 
+#: src/wx/export_video_file_dialog.cc:37
+#, fuzzy
+msgid "MOV / ProRes"
+msgstr "ProRes"
+
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
 msgstr "Ficheros MOV (*.mov)|*.mov"
@@ -2201,10 +2206,6 @@ msgstr "Posición"
 #: src/wx/metadata_dialog.cc:254 src/wx/smpte_metadata_dialog.cc:155
 msgid "Pre-release"
 msgstr "Prelanzamiento"
-
-#: src/wx/export_video_file_dialog.cc:37
-msgid "ProRes"
-msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:893
 msgid "Processor"

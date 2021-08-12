@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 11:08+0200\n"
+"POT-Creation-Date: 2021-08-12 22:33+0200\n"
 "PO-Revision-Date: 2019-04-21 23:17+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -1756,6 +1756,11 @@ msgstr ""
 msgid "MISSING: "
 msgstr "丢失: "
 
+#: src/wx/export_video_file_dialog.cc:37
+#, fuzzy
+msgid "MOV / ProRes"
+msgstr "ProRes"
+
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV 文件 (*.mov)|*.mov"
@@ -2169,10 +2174,6 @@ msgstr "位置"
 #: src/wx/metadata_dialog.cc:254 src/wx/smpte_metadata_dialog.cc:155
 msgid "Pre-release"
 msgstr "预发布(点映版)"
-
-#: src/wx/export_video_file_dialog.cc:37
-msgid "ProRes"
-msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:893
 msgid "Processor"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 11:08+0200\n"
+"POT-Creation-Date: 2021-08-12 22:33+0200\n"
 "PO-Revision-Date: 2019-03-27 00:14+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -1766,6 +1766,11 @@ msgstr ""
 msgid "MISSING: "
 msgstr "ОТСУТСТВУЕТ: "
 
+#: src/wx/export_video_file_dialog.cc:37
+#, fuzzy
+msgid "MOV / ProRes"
+msgstr "ProRes"
+
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV файлы (*.mov)|*.mov"
@@ -2184,10 +2189,6 @@ msgstr "Позиция"
 #: src/wx/metadata_dialog.cc:254 src/wx/smpte_metadata_dialog.cc:155
 msgid "Pre-release"
 msgstr "Пре-релиз"
-
-#: src/wx/export_video_file_dialog.cc:37
-msgid "ProRes"
-msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:893
 msgid "Processor"

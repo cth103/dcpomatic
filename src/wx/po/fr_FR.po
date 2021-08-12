@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 11:08+0200\n"
+"POT-Creation-Date: 2021-08-12 22:33+0200\n"
 "PO-Revision-Date: 2019-05-07 14:29+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -1766,6 +1766,11 @@ msgstr ""
 msgid "MISSING: "
 msgstr "MANQUANT:"
 
+#: src/wx/export_video_file_dialog.cc:37
+#, fuzzy
+msgid "MOV / ProRes"
+msgstr "ProRes"
+
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
 msgstr "FIchiers MOV (*.mov)|*.mov"
@@ -2184,10 +2189,6 @@ msgstr "Position"
 #: src/wx/metadata_dialog.cc:254 src/wx/smpte_metadata_dialog.cc:155
 msgid "Pre-release"
 msgstr "Avant sortie"
-
-#: src/wx/export_video_file_dialog.cc:37
-msgid "ProRes"
-msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:893
 msgid "Processor"

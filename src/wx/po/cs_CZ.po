@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 11:08+0200\n"
+"POT-Creation-Date: 2021-08-12 22:33+0200\n"
 "PO-Revision-Date: 2021-05-07 14:26+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -1749,6 +1749,11 @@ msgstr "Svítivost"
 msgid "MISSING: "
 msgstr "CHYBĚJÍCÍ: "
 
+#: src/wx/export_video_file_dialog.cc:37
+#, fuzzy
+msgid "MOV / ProRes"
+msgstr "ProRes"
+
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
 msgstr "MOV soubor (*.mov)|*.mov"
@@ -2157,10 +2162,6 @@ msgstr "Pozice"
 #: src/wx/metadata_dialog.cc:254 src/wx/smpte_metadata_dialog.cc:155
 msgid "Pre-release"
 msgstr "Předběžné vydání"
-
-#: src/wx/export_video_file_dialog.cc:37
-msgid "ProRes"
-msgstr "ProRes"
 
 #: src/wx/dcp_panel.cc:893
 msgid "Processor"

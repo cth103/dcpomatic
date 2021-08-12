@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 11:08+0200\n"
+"POT-Creation-Date: 2021-08-12 22:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1701,6 +1701,10 @@ msgstr ""
 msgid "MISSING: "
 msgstr ""
 
+#: src/wx/export_video_file_dialog.cc:37
+msgid "MOV / ProRes"
+msgstr ""
+
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
 msgstr ""
@@ -2106,10 +2110,6 @@ msgstr ""
 
 #: src/wx/metadata_dialog.cc:254 src/wx/smpte_metadata_dialog.cc:155
 msgid "Pre-release"
-msgstr ""
-
-#: src/wx/export_video_file_dialog.cc:37
-msgid "ProRes"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:893
