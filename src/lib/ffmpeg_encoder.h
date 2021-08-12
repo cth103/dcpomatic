@@ -42,11 +42,11 @@ public:
 		int x264_crf
 		);
 
-	void go ();
+	void go () override;
 
-	boost::optional<float> current_rate () const;
-	Frame frames_done () const;
-	bool finishing () const {
+	boost::optional<float> current_rate () const override;
+	Frame frames_done () const override;
+	bool finishing () const override {
 		return false;
 	}
 

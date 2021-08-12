@@ -40,13 +40,13 @@ public:
 	DCPEncoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
 	~DCPEncoder ();
 
-	void go ();
+	void go () override;
 
-	boost::optional<float> current_rate () const;
-	Frame frames_done () const;
+	boost::optional<float> current_rate () const override;
+	Frame frames_done () const override;
 
 	/** @return true if we are in the process of calling Encoder::process_end */
-	bool finishing () const {
+	bool finishing () const override {
 		return _finishing;
 	}
 
