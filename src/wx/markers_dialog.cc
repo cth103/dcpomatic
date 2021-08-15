@@ -136,5 +136,11 @@ MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<Fi
 	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of moving credits"), dcp::Marker::LFMC));
 
 	sizer->Add (grid, 0, wxALL, 8);
+
+	auto buttons = CreateSeparatedButtonSizer (wxCLOSE);
+	if (buttons) {
+		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
 	SetSizerAndFit (sizer);
 }
