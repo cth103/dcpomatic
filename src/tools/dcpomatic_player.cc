@@ -33,6 +33,7 @@
 #include "wx/system_information_dialog.h"
 #include "wx/player_stress_tester.h"
 #include "wx/verify_dcp_progress_dialog.h"
+#include "wx/nag_dialog.h"
 #include "lib/cross.h"
 #include "lib/config.h"
 #include "lib/util.h"
@@ -210,6 +211,7 @@ public:
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
+		_viewer->TooManyDropped.connect (bind(&DOMFrame::too_many_frames_dropped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (Config::instance()->player_mode());
 #ifdef __WXOSX__
@@ -345,6 +347,25 @@ public:
 	void playback_stopped (DCPTime time)
 	{
 		_controls->log (wxString::Format("playback-stopped %s", time.timecode(_film->video_frame_rate()).c_str()));
+	}
+
+
+	void too_many_frames_dropped ()
+	{
+		if (!Config::instance()->nagged(Config::NAG_TOO_MANY_DROPPED_FRAMES)) {
+			_viewer->stop ();
+		}
+
+		NagDialog::maybe_nag (
+			this,
+			Config::NAG_TOO_MANY_DROPPED_FRAMES,
+			_("The player is dropping a lot of frames, so playback may not be accurate.\n\n"
+			  "<b>This does not necessarily mean that the DCP you are playing is defective!</b>\n\n"
+			  "You may be able to improve player performance by:\n"
+			  "• choosing 'decode at half resolution' or 'decode at quarter resolution' from the View menu\n"
+			  "• using a more powerful computer.\n"
+			 )
+			);
 	}
 
 	void set_decode_reduction (optional<int> reduction)

@@ -145,6 +145,8 @@ public:
 	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
 	boost::signals2::signal<void ()> Finished;
+	/** Emitted from the GUI thread when a lot of frames are being dropped */
+	boost::signals2::signal<void()> TooManyDropped;
 
 	boost::signals2::signal<bool ()> PlaybackPermitted;
 
@@ -161,7 +163,6 @@ private:
 	void config_changed (Config::Property);
 	void film_length_change ();
 	void ui_finished ();
-	void too_many_frames_dropped ();
 
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;

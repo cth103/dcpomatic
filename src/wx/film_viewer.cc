@@ -104,7 +104,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	}
 
 	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
-	_video_view->TooManyDropped.connect (boost::bind(&FilmViewer::too_many_frames_dropped, this));
+	_video_view->TooManyDropped.connect (boost::bind(boost::ref(TooManyDropped)));
 
 	set_film (shared_ptr<Film>());
 
@@ -769,24 +769,4 @@ void
 FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
 {
 	emit (boost::bind(boost::ref(ImageChanged), pv));
-}
-
-
-void
-FilmViewer::too_many_frames_dropped ()
-{
-	if (!Config::instance()->nagged(Config::NAG_TOO_MANY_DROPPED_FRAMES)) {
-		stop ();
-	}
-
-	NagDialog::maybe_nag (
-		panel(),
-		Config::NAG_TOO_MANY_DROPPED_FRAMES,
-		_("The player is dropping a lot of frames, so playback may not be accurate.\n\n"
-		  "<b>This does not necessarily mean that the DCP you are playing is defective!</b>\n\n"
-		  "You may be able to improve player performance by:\n"
-		  "• choosing 'decode at half resolution' or 'decode at quarter resolution' from the View menu\n"
-		  "• using a more powerful computer.\n"
-		 )
-		);
 }
