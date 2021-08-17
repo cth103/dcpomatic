@@ -3779,44 +3779,7 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 <!-- ============================================================== -->
 <chapter>
 <title>Keyboard shortcuts</title>
-
-<table id="keyboard-shortcuts">
-  <title>Keyboard shortcuts</title>
-  <tgroup cols='2' align='left' colsep='1' rowsep='1'>
-    <thead>
-      <row>
-	<entry>Key</entry>
-	<entry>Action</entry>
-      </row>
-    </thead>
-    <tbody>
-      <row>
-        <entry>Space</entry>
-	<entry>Start / stop playback</entry>
-      </row>
-      <row>
-        <entry>Delete</entry>
-	<entry>Remove content from film</entry>
-      </row>
-      <row>
-        <entry>Left arrow</entry>
-	<entry>Move back one frame</entry>
-      </row>
-      <row>
-        <entry>Right arrow</entry>
-	<entry>Move forward one frame</entry>
-      </row>
-      <row>
-        <entry>Ctrl+A</entry>
-	<entry>Add file(s) to film</entry>
-      </row>
-      <row>
-        <entry>Ctrl+T</entry>
-	<entry>Open timeline window</entry>
-      </row>
-    </tbody>
-  </tgroup>
-</table>
+<xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="shortcuts.xml"/>
 </chapter>
 
 

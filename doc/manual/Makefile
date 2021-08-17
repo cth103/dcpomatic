@@ -99,11 +99,16 @@ diagrams/%.pdf:	diagrams/%.svg
 config.xml:	../../src/lib/config.cc config.py
 	python3 config.py ../../src/lib/config.cc > config.xml
 
+SHORTCUTS :=	../../src/tools/dcpomatic.cc
+
+shortcuts.xml:	$(SHORTCUTS) shortcuts.py
+	python3 shortcuts.py $(SHORTCUTS) > $@
+
 #
 # HTML
 #
 
-html:	$(XML) config.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
+html:	$(XML) config.xml shortcuts.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(subst .pdf,.png,$(addprefix html/screenshots/,$(SCREENSHOTS))) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
 

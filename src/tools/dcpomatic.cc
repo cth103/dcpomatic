@@ -388,12 +388,18 @@ public:
 #else
 		int accelerators = 6;
 #endif
-		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
+		auto accel = new wxAcceleratorEntry[accelerators];
+		/* [Shortcut] Ctrl+A:Add file(s) to the film */
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
+		/* [Shortcut] Delete:Remove selected content from film */
 		accel[1].Set (wxACCEL_NORMAL, WXK_DELETE, ID_remove);
+		/* [Shortcut] Space:Start/stop playback */
 		accel[2].Set (wxACCEL_NORMAL, WXK_SPACE, ID_start_stop);
+		/* [Shortcut] Ctrl+T:Open timeline window */
 		accel[3].Set (wxACCEL_CTRL, static_cast<int>('T'), ID_timeline);
+		/* [Shortcut] Left arrow:Move back one frame */
 		accel[4].Set (wxACCEL_NORMAL, WXK_LEFT, ID_back_frame);
+		/* [Shortcut] Right arrow:Move forward one frame */
 		accel[5].Set (wxACCEL_NORMAL, WXK_RIGHT, ID_forward_frame);
 #ifdef __WXOSX__
 		accel[6].Set (wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
@@ -1302,9 +1308,12 @@ private:
 	void setup_menu (wxMenuBar* m)
 	{
 		_file_menu = new wxMenu;
+		/* [Shortcut] Ctrl+N:New film */
 		add_item (_file_menu, _("New...\tCtrl-N"), ID_file_new, ALWAYS);
+		/* [Shortcut] Ctrl+O:Open existing film */
 		add_item (_file_menu, _("&Open...\tCtrl-O"), ID_file_open, ALWAYS);
 		_file_menu->AppendSeparator ();
+		/* [Shortcut] Ctrl+S:Save current film */
 		add_item (_file_menu, _("&Save\tCtrl-S"), ID_file_save, NEEDS_FILM);
 		_file_menu->AppendSeparator ();
 		add_item (_file_menu, _("Save as &template..."), ID_file_save_as_template, NEEDS_FILM);
@@ -1314,6 +1323,7 @@ private:
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
 		_file_menu->AppendSeparator ();
+		/* [Shortcut] Ctrl+W:Close current film */
 		add_item (_file_menu, _("&Close\tCtrl-W"), ID_file_close, NEEDS_FILM);
 
 #ifndef __WXOSX__
@@ -1327,26 +1337,35 @@ private:
 #endif
 
 		auto edit = new wxMenu;
+		/* [Shortcut] Ctrl+C:Copy settings from currently selected content */
 		add_item (edit, _("Copy settings\tCtrl-C"), ID_edit_copy, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_SINGLE_SELECTED_CONTENT);
+		/* [Shortcut] Ctrl+V:Paste settings into currently selected content */
 		add_item (edit, _("Paste settings...\tCtrl-V"), ID_edit_paste, NEEDS_FILM | NOT_DURING_DCP_CREATION | NEEDS_SELECTED_CONTENT | NEEDS_CLIPBOARD);
 		edit->AppendSeparator ();
+		/* [Shortcut] Shift+Ctrl+A:Select all content */
 		add_item (edit, _("Select all\tShift-Ctrl-A"), ID_edit_select_all, NEEDS_FILM);
 
 #ifdef __WXOSX__
 		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #else
 		edit->AppendSeparator ();
+		/* [Shortcut] Ctrl+P:Open preferences window */
 		add_item (edit, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
 #endif
 
 		auto jobs_menu = new wxMenu;
+		/* [Shortcut] Ctrl+M:Make DCP */
 		add_item (jobs_menu, _("&Make DCP\tCtrl-M"), ID_jobs_make_dcp, NEEDS_FILM | NOT_DURING_DCP_CREATION);
+		/* [Shortcut] Ctrl+B:Make DCP in the batch converter*/
 		add_item (jobs_menu, _("Make DCP in &batch converter\tCtrl-B"), ID_jobs_make_dcp_batch, NEEDS_FILM | NOT_DURING_DCP_CREATION);
 		jobs_menu->AppendSeparator ();
+		/* [Shortcut] Ctrl+K:Make KDMs */
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
+		/* [Shortcut] Ctrl+D:Make DKDMs */
 		add_item (jobs_menu, _("Make &DKDMs...\tCtrl-D"), ID_jobs_make_dkdms, NEEDS_FILM);
 		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM | NEEDS_ENCRYPTION);
 		jobs_menu->AppendSeparator ();
+		/* [Shortcut] Ctrl+E:Export video file */
 		add_item (jobs_menu, _("Export video file...\tCtrl-E"), ID_jobs_export_video_file, NEEDS_FILM);
 		add_item (jobs_menu, _("Export subtitles..."), ID_jobs_export_subtitles, NEEDS_FILM);
 		jobs_menu->AppendSeparator ();
