@@ -104,6 +104,7 @@ Config::set_defaults ()
 	_default_j2k_bandwidth = 150000000;
 	_default_audio_delay = 0;
 	_default_interop = false;
+	_default_metadata.clear ();
 	_upload_after_make_dcp = false;
 	_mail_server = "";
 	_mail_port = 25;
@@ -313,6 +314,11 @@ try
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
+
+	for (auto const& i: f.node_children("DefaultMetadata")) {
+		_default_metadata[i->string_attribute("key")] = i->content();
+	}
+
 	_default_kdm_directory = f.optional_string_child("DefaultKDMDirectory");
 
 	/* Read any cinemas that are still lying around in the config file
@@ -690,6 +696,11 @@ Config::write_config () const
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
 	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */
 	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
+	for (auto const& i: _default_metadata) {
+		auto c = root->add_child("DefaultMetadata");
+		c->set_attribute("key", i.first);
+		c->add_child_text(i.second);
+	}
 	if (_default_kdm_directory) {
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
 		root->add_child("DefaultKDMDirectory")->add_child_text (_default_kdm_directory->string ());

@@ -313,6 +313,18 @@ private:
 		_standard = new wxChoice (_panel, wxID_ANY);
 		table->Add (_standard);
 
+		table->Add (_enable_metadata["facility"] = new CheckBox (_panel, _("Default facility")), 0, wxALIGN_CENTRE_VERTICAL);
+		table->Add (_metadata["facility"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
+
+		table->Add (_enable_metadata["studio"] = new CheckBox (_panel, _("Default studio")), 0, wxALIGN_CENTRE_VERTICAL);
+		table->Add (_metadata["studio"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
+
+		table->Add (_enable_metadata["chain"] = new CheckBox (_panel, _("Default chain")), 0, wxALIGN_CENTRE_VERTICAL);
+		table->Add (_metadata["chain"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
+
+		table->Add (_enable_metadata["distributor"] = new CheckBox (_panel, _("Default distributor")), 0, wxALIGN_CENTRE_VERTICAL);
+		table->Add (_metadata["distributor"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
+
 		add_label_to_sizer (table, _panel, _("Default KDM directory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 #ifdef DCPOMATIC_USE_OWN_PICKER
 		_kdm_directory = new DirPickerCtrl (_panel);
@@ -352,6 +364,14 @@ private:
 		_standard->Append (_("SMPTE"));
 		_standard->Append (_("Interop"));
 		_standard->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::standard_changed, this));
+
+		for (auto const& i: _enable_metadata) {
+			i.second->Bind (wxEVT_CHECKBOX, boost::bind(&DefaultsPage::metadata_changed, this));
+		}
+
+		for (auto const& i: _metadata) {
+			i.second->Bind (wxEVT_TEXT, boost::bind(&DefaultsPage::metadata_changed, this));
+		}
 	}
 
 	void config_changed ()
@@ -380,6 +400,27 @@ private:
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
+
+		auto metadata = config->default_metadata();
+
+		for (auto const& i: metadata) {
+			_enable_metadata[i.first]->SetValue(true);
+			checked_set (_metadata[i.first], i.second);
+		}
+
+		for (auto const& i: _enable_metadata) {
+			if (metadata.find(i.first) == metadata.end()) {
+				checked_set (i.second, false);
+			}
+		}
+
+		for (auto const& i: _metadata) {
+			if (metadata.find(i.first) == metadata.end()) {
+				checked_set (i.second, wxT(""));
+			}
+		}
+
+		setup_sensitivity ();
 	}
 
 	void j2k_bandwidth_changed ()
@@ -434,6 +475,25 @@ private:
 		Config::instance()->set_default_interop (_standard->GetSelection() == 1);
 	}
 
+	void metadata_changed ()
+	{
+		map<string, string> metadata;
+		for (auto const& i: _enable_metadata) {
+			if (i.second->GetValue()) {
+				metadata[i.first] = wx_to_std(_metadata[i.first]->GetValue());
+			}
+		}
+		Config::instance()->set_default_metadata (metadata);
+		setup_sensitivity ();
+	}
+
+	void setup_sensitivity ()
+	{
+		for (auto const& i: _enable_metadata) {
+			_metadata[i.first]->Enable(i.second->GetValue());
+		}
+	}
+
 	wxSpinCtrl* _j2k_bandwidth;
 	wxSpinCtrl* _audio_delay;
 	wxSpinCtrl* _still_length;
@@ -448,6 +508,8 @@ private:
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
+	map<string, CheckBox*> _enable_metadata;
+	map<string, wxTextCtrl*> _metadata;
 };
 
 

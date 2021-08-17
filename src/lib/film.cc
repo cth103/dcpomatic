@@ -176,6 +176,20 @@ Film::Film (optional<boost::filesystem::path> dir)
 {
 	set_isdcf_date_today ();
 
+	auto metadata = Config::instance()->default_metadata();
+	if (metadata.find("chain") != metadata.end()) {
+		_chain = metadata["chain"];
+	}
+	if (metadata.find("distributor") != metadata.end()) {
+		_distributor = metadata["distributor"];
+	}
+	if (metadata.find("facility") != metadata.end()) {
+		_facility = metadata["facility"];
+	}
+	if (metadata.find("studio") != metadata.end()) {
+		_studio = metadata["studio"];
+	}
+
 	_playlist_change_connection = _playlist->Change.connect (bind (&Film::playlist_change, this, _1));
 	_playlist_order_changed_connection = _playlist->OrderChange.connect (bind (&Film::playlist_order_changed, this));
 	_playlist_content_change_connection = _playlist->ContentChange.connect (bind (&Film::playlist_content_change, this, _1, _2, _3, _4));
