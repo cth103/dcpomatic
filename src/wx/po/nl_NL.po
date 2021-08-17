@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-12 22:33+0200\n"
-"PO-Revision-Date: 2021-06-10 01:35+0200\n"
+"PO-Revision-Date: 2021-08-16 04:08+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -492,6 +491,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:366
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
+"Ten minste één <Text> node in een ondertitel of closed caption is leeg."
 
 #: src/wx/verify_dcp_dialog.cc:242
 msgid ""
@@ -1674,9 +1674,8 @@ msgid "Language of these subtitles"
 msgstr "Taal van deze ondertitels"
 
 #: src/wx/metadata_dialog.cc:232
-#, fuzzy
 msgid "Language used for any sign language video track"
-msgstr "Taal die wordt gebruikt voor de dialoog in deze content"
+msgstr "Taal die wordt gebruikt voor een gebarentaal-videotrack"
 
 #: src/wx/markers_dialog.cc:128
 msgid "Last frame of composition"
@@ -1764,9 +1763,8 @@ msgid "MISSING: "
 msgstr "ONTBREKEND: "
 
 #: src/wx/export_video_file_dialog.cc:37
-#, fuzzy
 msgid "MOV / ProRes"
-msgstr "ProRes"
+msgstr "MOV / ProRes"
 
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
@@ -2083,11 +2081,10 @@ msgid "Overwrite this file with current configuration"
 msgstr "Overschrijf dit bestand met huidige configuratie"
 
 #: src/wx/verify_dcp_dialog.cc:363
-#, fuzzy
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
 "Een deel van de DCP kon niet worden gecontroleerd omdat er geen KDM "
-"beschikbaar was"
+"beschikbaar was."
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""
@@ -2582,7 +2579,7 @@ msgstr "Toon ondertitelgebied"
 
 #: src/wx/metadata_dialog.cc:231
 msgid "Sign language video language"
-msgstr ""
+msgstr "Gebarentaal videotaal"
 
 #: src/wx/config_dialog.cc:715 src/wx/config_dialog.cc:742
 msgid "Signing DCPs and KDMs"
