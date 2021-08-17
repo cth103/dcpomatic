@@ -963,10 +963,10 @@ private:
 		_email->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_email_changed, this));
 		_reset_email->Bind (wxEVT_BUTTON, boost::bind (&NotificationsPage::reset_email, this));
 
-		update_sensitivity ();
+		setup_sensitivity ();
 	}
 
-	void update_sensitivity ()
+	void setup_sensitivity ()
 	{
 		bool const s = _enable_email->GetValue();
 		_subject->Enable(s);
@@ -990,7 +990,7 @@ private:
 		checked_set (_bcc, config->notification_bcc ());
 		checked_set (_email, Config::instance()->notification_email ());
 
-		update_sensitivity ();
+		setup_sensitivity ();
 	}
 
 	void notification_subject_changed ()
@@ -1033,7 +1033,7 @@ private:
 	void type_changed (wxCheckBox* b, Config::Notification n)
 	{
 		Config::instance()->set_notification(n, b->GetValue());
-		update_sensitivity ();
+		setup_sensitivity ();
 	}
 
 	wxCheckBox* _enable_message_box;
