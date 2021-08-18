@@ -76,3 +76,11 @@ div.note {
 code.code {
     font-size: 90%;
 }
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 4px;
+}
