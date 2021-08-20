@@ -86,14 +86,12 @@ msgid "(None)"
 msgstr "(Nessuno)"
 
 #: src/wx/full_config_dialog.cc:1347 src/wx/player_config_dialog.cc:112
-#, fuzzy
 msgid "(restart DCP-o-matic to change display mode)"
-msgstr "(riavviare DCP-o-MATIC per vedere i cambiamenti della lingua)"
+msgstr "(riavviare DCP-o-matic per cambiare la modalità di visualizzazione)"
 
 #: src/wx/full_config_dialog.cc:1362
-#, fuzzy
 msgid "(restart DCP-o-matic to see all ratios)"
-msgstr "(riavviare DCP-o-MATIC per vedere i cambiamenti della lingua)"
+msgstr "(riavvia DCP-o-matic per vedere tutte le proporzioni)"
 
 #: src/wx/config_dialog.cc:142
 msgid "(restart DCP-o-matic to see language changes)"
@@ -439,7 +437,7 @@ msgstr "Consenti al DCP qualsiasi frequenza fotogrammi"
 
 #: src/wx/full_config_dialog.cc:1358
 msgid "Allow full-frame and non-standard container ratios"
-msgstr ""
+msgstr "Consenti rapporto full frame e contenitore non standard"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
@@ -582,9 +580,8 @@ msgid "Blue chromaticity"
 msgstr "Cromaticità blu"
 
 #: src/wx/video_panel.cc:154
-#, fuzzy
 msgid "Bottom"
-msgstr "In basso"
+msgstr "Sotto"
 
 #: src/wx/dir_picker_ctrl.cc:46 src/wx/kdm_cpl_panel.cc:44
 msgid "Browse..."
@@ -764,9 +761,8 @@ msgid "Colour|Custom"
 msgstr "Colore|Personalizza"
 
 #: src/wx/full_config_dialog.cc:1214
-#, fuzzy
 msgid "Company name"
-msgstr "Salva una copia"
+msgstr "Nome della ditta"
 
 #: src/wx/video_waveform_dialog.cc:64
 msgid "Component"
@@ -812,9 +808,8 @@ msgid "Content version"
 msgstr "Versione del contenuto"
 
 #: src/wx/smpte_metadata_dialog.cc:123
-#, fuzzy
 msgid "Content versions"
-msgstr "Versione del contenuto"
+msgstr "Versione contenuto"
 
 #: src/wx/video_waveform_dialog.cc:67
 msgid "Contrast"
@@ -1027,7 +1022,7 @@ msgstr "Canali audio DCP predefiniti"
 
 #: src/wx/full_config_dialog.cc:295
 msgid "Default JPEG2000 bandwidth"
-msgstr "Banda JPEG2000 predefinita"
+msgstr "Banda predefinita JPEG2000"
 
 #: src/wx/full_config_dialog.cc:328
 msgid "Default KDM directory"
@@ -1048,7 +1043,7 @@ msgstr "Contenitore predefinito"
 
 #: src/wx/full_config_dialog.cc:286
 msgid "Default content type"
-msgstr "Tipo contenuto predefinito"
+msgstr "Tipo di contenuto predefinito"
 
 #: src/wx/full_config_dialog.cc:274
 msgid "Default directory for new films"
@@ -1226,9 +1221,8 @@ msgid "Errors"
 msgstr "Errori"
 
 #: src/wx/config_dialog.cc:698
-#, fuzzy
 msgid "Export KDM decryption leaf certificate..."
-msgstr "Esporta certificato di decrittografia del KDM ..."
+msgstr "Esporta il certificato di decrittografia del KDM..."
 
 #: src/wx/config_dialog.cc:700
 msgid "Export all KDM decryption settings..."
@@ -1324,7 +1318,7 @@ msgstr ""
 
 #: src/wx/markers_dialog.cc:127
 msgid "First frame of composition"
-msgstr ""
+msgstr "First frame of composition"
 
 #: src/wx/markers_dialog.cc:133
 msgid "First frame of end credits"
@@ -1559,7 +1553,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:702
 msgid "Import all KDM decryption settings..."
-msgstr "Esporta tutte le impostazioni di decrittografia KDM ..."
+msgstr "Esporta tutte le impostazioni di decrittografia del KDM ..."
 
 #: src/wx/config_dialog.cc:313
 msgid "Import..."
@@ -1639,7 +1633,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:1229
 msgid "JPEG2000 comment"
-msgstr ""
+msgstr "JPEG2000 commenti"
 
 #: src/wx/content_menu.cc:86
 msgid "Join"
@@ -1860,9 +1854,8 @@ msgid "Markers"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:121
-#, fuzzy
 msgid "Markers..."
-msgstr "Proprietà..."
+msgstr "Markers..."
 
 #: src/wx/colour_conversion_editor.cc:134
 msgid "Matrix"
@@ -2021,11 +2014,11 @@ msgstr "Notifica quando completato"
 #: src/wx/full_config_dialog.cc:102
 msgid "Number of threads DCP-o-matic encode server should use"
 msgstr ""
-"Numero di thread che il server di codifica DCP-o-MATIC dovrebbe utilizzare"
+"Numero di thread che il server di codifica DCP-o-MATIC può utilizzare"
 
 #: src/wx/full_config_dialog.cc:97
 msgid "Number of threads DCP-o-matic should use"
-msgstr "Numero di thread che DCP-o-MATIC dovrebbe usare"
+msgstr "Numero di thread che DCP-o-MATIC può utilizzare"
 
 #: src/wx/config_dialog.cc:1011
 msgid "OSS"
@@ -2084,7 +2077,7 @@ msgstr "Contorno"
 
 #: src/wx/controls.cc:83
 msgid "Outline content"
-msgstr "Contenuto contorno"
+msgstr "Mostra contorno contenuto"
 
 #: src/wx/subtitle_appearance_dialog.cc:93
 msgid "Outline width"
@@ -2228,14 +2221,12 @@ msgid "Processor"
 msgstr "Processore"
 
 #: src/wx/full_config_dialog.cc:1219
-#, fuzzy
 msgid "Product name"
-msgstr "Nome cartella"
+msgstr "Nome Prodotto"
 
 #: src/wx/full_config_dialog.cc:1224
-#, fuzzy
 msgid "Product version"
-msgstr "Versione non corretta"
+msgstr "Versione prodotto"
 
 #: src/wx/content_menu.cc:88
 msgid "Properties..."
@@ -2271,13 +2262,12 @@ msgstr ""
 
 #: src/wx/interop_metadata_dialog.cc:56 src/wx/rating_dialog.cc:25
 #: src/wx/smpte_metadata_dialog.cc:80
-#, fuzzy
 msgid "Ratings"
-msgstr "Avvertimenti"
+msgstr "Ratings"
 
 #: src/wx/dcp_panel.cc:790
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "Ricodifica i dati JPEG 2000 dall'input"
 
 #: src/wx/content_menu.cc:90
 msgid "Re-examine..."
@@ -2306,7 +2296,7 @@ msgstr "Certificato destinatario"
 
 #: src/wx/dkdm_dialog.cc:76
 msgid "Recipients"
-msgstr ""
+msgstr "Recipiente"
 
 #: src/wx/metadata_dialog.cc:258
 msgid "Red band"
@@ -2467,9 +2457,8 @@ msgid "Save to KDM Creator tool's list"
 msgstr "Salva nella lista degli strumenti di KDM Creator"
 
 #: src/wx/text_panel.cc:100 src/wx/video_panel.cc:178
-#, fuzzy
 msgid "Scale"
-msgstr "Scaler"
+msgstr "Scale"
 
 #: src/wx/kdm_dialog.cc:78
 msgid "Screens"
@@ -2619,11 +2608,11 @@ msgstr "Ombra"
 
 #: src/wx/password_entry.cc:34
 msgid "Show"
-msgstr ""
+msgstr "Mostra"
 
 #: src/wx/full_config_dialog.cc:1366
 msgid "Show experimental audio processors"
-msgstr ""
+msgstr "Mostra processori audio sperimentali"
 
 #: src/wx/audio_panel.cc:75 src/wx/dcp_panel.cc:897
 msgid "Show graph of audio levels..."
@@ -2636,7 +2625,7 @@ msgstr "Traccia sottotitoli"
 
 #: src/wx/metadata_dialog.cc:231
 msgid "Sign language video language"
-msgstr ""
+msgstr "Impostazioni composizione"
 
 #: src/wx/config_dialog.cc:715 src/wx/config_dialog.cc:742
 msgid "Signing DCPs and KDMs"
@@ -2707,7 +2696,7 @@ msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:109
 msgid "Status"
-msgstr ""
+msgstr "Stato"
 
 #: src/wx/playlist_controls.cc:52
 msgid "Stop"
@@ -3305,9 +3294,8 @@ msgid "Timing|Timing"
 msgstr "Sincronizzazione|Sincronizzazione"
 
 #: src/wx/smpte_metadata_dialog.cc:67
-#, fuzzy
 msgid "Title language"
-msgstr "Imposta la lingua"
+msgstr "Title language"
 
 #: src/wx/full_config_dialog.cc:989
 msgid "To address"
@@ -3315,7 +3303,7 @@ msgstr "Indirizzo destinatario"
 
 #: src/wx/video_panel.cc:140
 msgid "Top"
-msgstr "Alto"
+msgstr "Sopra"
 
 #: src/wx/closed_captions_dialog.cc:66
 msgid "Track"
@@ -3333,7 +3321,7 @@ msgstr "Tradotto da"
 #: src/wx/timing_panel.cc:114
 #, fuzzy
 msgid "Trim from current position to end"
-msgstr "Taglia dopo la posizione corrente"
+msgstr "Taglia dalla posizione corrente alla fine"
 
 #: src/wx/timing_panel.cc:112
 msgid "Trim from end"
@@ -3493,9 +3481,8 @@ msgid "Update"
 msgstr "Aggiorna"
 
 #: src/wx/full_config_dialog.cc:599
-#, fuzzy
 msgid "Upload DCP to TMS after creation"
-msgstr "Carica DCP al TMS dopo il completamento"
+msgstr "Carica il DCP nel TMS dopo il creazione"
 
 #: src/wx/dcp_panel.cc:87
 msgid "Use ISDCF name"
@@ -3541,9 +3528,8 @@ msgid "User name"
 msgstr "Nome utente"
 
 #: src/wx/smpte_metadata_dialog.cc:105
-#, fuzzy
 msgid "Version number"
-msgstr "Numero di serie"
+msgstr "Numero versione"
 
 #: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:127
 #: src/wx/timeline_labels_view.cc:37 src/wx/timeline_labels_view.cc:69
@@ -3561,7 +3547,7 @@ msgstr "Forma d'onda video"
 
 #: src/wx/full_config_dialog.cc:1343 src/wx/player_config_dialog.cc:105
 msgid "Video display mode"
-msgstr ""
+msgstr "Modalità visualizzazione monitor"
 
 #: src/wx/content_advanced_dialog.cc:71
 #, fuzzy
@@ -3618,11 +3604,11 @@ msgstr "Scrivi tutti i KDM nella stessa cartella"
 
 #: src/wx/export_video_file_dialog.cc:70
 msgid "Write each audio channel to its own stream"
-msgstr ""
+msgstr "Write each audio channel to its own stream"
 
 #: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:67
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "Scrivi le bobine in file separati"
 
 #: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_output_panel.cc:110
 #: src/wx/self_dkdm_dialog.cc:85
@@ -3826,9 +3812,8 @@ msgid "port"
 msgstr "porta"
 
 #: src/wx/full_config_dialog.cc:723
-#, fuzzy
 msgid "protocol"
-msgstr "Protocollo"
+msgstr "protocollo"
 
 #: src/wx/full_config_dialog.cc:1412
 #, fuzzy
