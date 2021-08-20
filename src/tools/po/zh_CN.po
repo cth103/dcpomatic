@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 22:33+0200\n"
+"POT-Creation-Date: 2021-08-20 23:10+0200\n"
 "PO-Revision-Date: 2019-04-21 22:48+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -33,82 +33,82 @@ msgstr "%d 导出KDMs 到 %s"
 msgid "&Add Film...\tCtrl-A"
 msgstr "&添加工程"
 
-#: src/tools/dcpomatic_player.cc:526
+#: src/tools/dcpomatic_player.cc:547
 msgid "&Add OV..."
 msgstr "&添加OV…"
 
-#: src/tools/dcpomatic_player.cc:532
+#: src/tools/dcpomatic_player.cc:553
 msgid "&Close"
 msgstr "&关闭"
 
-#: src/tools/dcpomatic.cc:1317
+#: src/tools/dcpomatic.cc:1327
 msgid "&Close\tCtrl-W"
 msgstr "&关闭\tCtrl+W"
 
-#: src/tools/dcpomatic.cc:1388 src/tools/dcpomatic_batch.cc:99
-#: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:584
+#: src/tools/dcpomatic.cc:1407 src/tools/dcpomatic_batch.cc:99
+#: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:605
 #: src/tools/dcpomatic_playlist.cc:551
 msgid "&Edit"
 msgstr "&编辑"
 
-#: src/tools/dcpomatic.cc:1324 src/tools/dcpomatic_batch.cc:79
-#: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:536
+#: src/tools/dcpomatic.cc:1334 src/tools/dcpomatic_batch.cc:79
+#: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:557
 #: src/tools/dcpomatic_playlist.cc:532
 msgid "&Exit"
 msgstr "&退出"
 
-#: src/tools/dcpomatic.cc:1387 src/tools/dcpomatic_batch.cc:97
-#: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:582
+#: src/tools/dcpomatic.cc:1406 src/tools/dcpomatic_batch.cc:97
+#: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:603
 #: src/tools/dcpomatic_playlist.cc:549
 msgid "&File"
 msgstr "&文件"
 
-#: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_batch.cc:102
-#: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:588
+#: src/tools/dcpomatic.cc:1411 src/tools/dcpomatic_batch.cc:102
+#: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:609
 #: src/tools/dcpomatic_playlist.cc:553
 msgid "&Help"
 msgstr "&帮助"
 
-#: src/tools/dcpomatic.cc:1389
+#: src/tools/dcpomatic.cc:1408
 msgid "&Jobs"
 msgstr "&创建"
 
-#: src/tools/dcpomatic.cc:1343
+#: src/tools/dcpomatic.cc:1358
 msgid "&Make DCP\tCtrl-M"
 msgstr "&创建 DCP\tCtrl+M"
 
-#: src/tools/dcpomatic.cc:1306 src/tools/dcpomatic_player.cc:525
+#: src/tools/dcpomatic.cc:1314 src/tools/dcpomatic_player.cc:546
 msgid "&Open...\tCtrl-O"
 msgstr "&打开...\tCtrl+O"
 
-#: src/tools/dcpomatic.cc:1336 src/tools/dcpomatic.cc:1339
+#: src/tools/dcpomatic.cc:1349 src/tools/dcpomatic.cc:1353
 #: src/tools/dcpomatic_batch.cc:85 src/tools/dcpomatic_batch.cc:88
 #: src/tools/dcpomatic_kdm.cc:250 src/tools/dcpomatic_kdm.cc:253
-#: src/tools/dcpomatic_player.cc:542 src/tools/dcpomatic_player.cc:545
+#: src/tools/dcpomatic_player.cc:563 src/tools/dcpomatic_player.cc:566
 #: src/tools/dcpomatic_playlist.cc:539
 msgid "&Preferences...\tCtrl-P"
 msgstr "&设置....\tCtrl+P"
 
-#: src/tools/dcpomatic.cc:1326 src/tools/dcpomatic_batch.cc:81
-#: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:538
+#: src/tools/dcpomatic.cc:1336 src/tools/dcpomatic_batch.cc:81
+#: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:559
 #: src/tools/dcpomatic_playlist.cc:534
 msgid "&Quit"
 msgstr "&退出"
 
-#: src/tools/dcpomatic.cc:1308
+#: src/tools/dcpomatic.cc:1317
 msgid "&Save\tCtrl-S"
 msgstr "&保存\tCtrl+S"
 
-#: src/tools/dcpomatic.cc:1353
+#: src/tools/dcpomatic.cc:1372
 msgid "&Send DCP to TMS"
 msgstr "&发送 DCP 到 TMS"
 
-#: src/tools/dcpomatic.cc:1391 src/tools/dcpomatic_batch.cc:101
-#: src/tools/dcpomatic_player.cc:587
+#: src/tools/dcpomatic.cc:1410 src/tools/dcpomatic_batch.cc:101
+#: src/tools/dcpomatic_player.cc:608
 msgid "&Tools"
 msgstr "&工具"
 
-#: src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_player.cc:586
+#: src/tools/dcpomatic.cc:1409 src/tools/dcpomatic_player.cc:607
 msgid "&View"
 msgstr "&查看"
 
@@ -120,14 +120,14 @@ msgstr ""
 msgid "<b>Playlists</b>"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1383 src/tools/dcpomatic_batch.cc:95
-#: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:578
+#: src/tools/dcpomatic.cc:1402 src/tools/dcpomatic_batch.cc:95
+#: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:599
 #: src/tools/dcpomatic_playlist.cc:546
 msgid "About"
 msgstr "关于"
 
-#: src/tools/dcpomatic.cc:1381 src/tools/dcpomatic_kdm.cc:258
-#: src/tools/dcpomatic_player.cc:576 src/tools/dcpomatic_playlist.cc:544
+#: src/tools/dcpomatic.cc:1400 src/tools/dcpomatic_kdm.cc:258
+#: src/tools/dcpomatic_player.cc:597 src/tools/dcpomatic_playlist.cc:544
 msgid "About DCP-o-matic"
 msgstr "关于 DCP-o-matic"
 
@@ -135,7 +135,7 @@ msgstr "关于 DCP-o-matic"
 msgid "Add"
 msgstr "添加"
 
-#: src/tools/dcpomatic_player.cc:527
+#: src/tools/dcpomatic_player.cc:548
 #, fuzzy
 msgid "Add &KDM..."
 msgstr "&添加KDM…"
@@ -156,8 +156,8 @@ msgstr "添加工程文件夹..."
 msgid "Add..."
 msgstr "添加..."
 
-#: src/tools/dcpomatic.cc:1724 src/tools/dcpomatic_kdm.cc:701
-#: src/tools/dcpomatic_player.cc:1228 src/tools/dcpomatic_playlist.cc:656
+#: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:701
+#: src/tools/dcpomatic_player.cc:1249 src/tools/dcpomatic_playlist.cc:656
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -166,7 +166,7 @@ msgstr ""
 "出现未知错误: %s (%s).\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1733
+#: src/tools/dcpomatic.cc:1752
 #, fuzzy, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -175,8 +175,8 @@ msgstr ""
 "出现未知错误: %s (%s).\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:710
-#: src/tools/dcpomatic_player.cc:1237 src/tools/dcpomatic_playlist.cc:665
+#: src/tools/dcpomatic.cc:1762 src/tools/dcpomatic_kdm.cc:710
+#: src/tools/dcpomatic_player.cc:1258 src/tools/dcpomatic_playlist.cc:665
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -189,37 +189,37 @@ msgstr ""
 msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "DCP-o-matic 服务出现未知错误。"
 
-#: src/tools/dcpomatic.cc:957 src/tools/dcpomatic.cc:1748
+#: src/tools/dcpomatic.cc:963 src/tools/dcpomatic.cc:1767
 #: src/tools/dcpomatic_kdm.cc:399 src/tools/dcpomatic_kdm.cc:715
-#: src/tools/dcpomatic_kdm.cc:724 src/tools/dcpomatic_player.cc:1242
+#: src/tools/dcpomatic_kdm.cc:724 src/tools/dcpomatic_player.cc:1263
 #: src/tools/dcpomatic_playlist.cc:670 src/tools/dcpomatic_playlist.cc:679
 msgid "An unknown exception occurred."
 msgstr "出现未知错误."
 
-#: src/tools/dcpomatic.cc:732
+#: src/tools/dcpomatic.cc:738
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr "确定要恢复默认设置？ 该操作不能撤销."
 
-#: src/tools/dcpomatic.cc:799
+#: src/tools/dcpomatic.cc:805
 #, c-format
 msgid "Bad setting for %s."
 msgstr "配置错误 %s."
 
-#: src/tools/dcpomatic_player.cc:554 src/tools/dcpomatic_playlist.cc:275
+#: src/tools/dcpomatic_player.cc:575 src/tools/dcpomatic_playlist.cc:275
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:953 src/tools/dcpomatic_kdm.cc:395
+#: src/tools/dcpomatic.cc:959 src/tools/dcpomatic_kdm.cc:395
 msgid "CPL's content is not encrypted."
 msgstr "该CPL未加密."
 
-#: src/tools/dcpomatic.cc:1373 src/tools/dcpomatic_player.cc:570
+#: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_player.cc:591
 msgid "Check for updates"
 msgstr "检查更新"
 
-#: src/tools/dcpomatic.cc:1832 src/tools/dcpomatic.cc:1849
+#: src/tools/dcpomatic.cc:1851 src/tools/dcpomatic.cc:1868
 #, fuzzy
 msgid "Close DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -228,15 +228,15 @@ msgstr "DCP-o-matic"
 msgid "Close without saving film"
 msgstr "关闭但不保存"
 
-#: src/tools/dcpomatic.cc:1366 src/tools/dcpomatic_player.cc:560
+#: src/tools/dcpomatic.cc:1385 src/tools/dcpomatic_player.cc:581
 msgid "Closed captions..."
 msgstr "隐藏式字幕..."
 
-#: src/tools/dcpomatic.cc:1330
+#: src/tools/dcpomatic.cc:1341
 msgid "Copy settings\tCtrl-C"
 msgstr "拷贝设置\tCtrl-C"
 
-#: src/tools/dcpomatic.cc:549 src/tools/dcpomatic.cc:558
+#: src/tools/dcpomatic.cc:555 src/tools/dcpomatic.cc:564
 msgid "Could not create folder to store film."
 msgstr "无法创建目录来存储影片."
 
@@ -246,19 +246,19 @@ msgid ""
 "certificate."
 msgstr "不能解开DKDM. 也许它不是用选定的证书所加密的."
 
-#: src/tools/dcpomatic.cc:892
+#: src/tools/dcpomatic.cc:898
 msgid "Could not find batch converter."
 msgstr "找不到批量转换服务器."
 
-#: src/tools/dcpomatic.cc:907
+#: src/tools/dcpomatic.cc:913
 msgid "Could not find player."
 msgstr "无法找到播放器."
 
-#: src/tools/dcpomatic_player.cc:697 src/tools/dcpomatic_player.cc:1167
+#: src/tools/dcpomatic_player.cc:718 src/tools/dcpomatic_player.cc:1188
 msgid "Could not load DCP %1."
 msgstr "无法载入DCP %1。"
 
-#: src/tools/dcpomatic_player.cc:515
+#: src/tools/dcpomatic_player.cc:536
 #, fuzzy, c-format
 msgid ""
 "Could not load DCP.\n"
@@ -266,12 +266,12 @@ msgid ""
 "%s."
 msgstr "无法载入DCP %1。"
 
-#: src/tools/dcpomatic_player.cc:679
+#: src/tools/dcpomatic_player.cc:700
 msgid "Could not load KDM."
 msgstr "无法载入KDM."
 
-#: src/tools/dcpomatic_player.cc:377 src/tools/dcpomatic_player.cc:384
-#: src/tools/dcpomatic_player.cc:386
+#: src/tools/dcpomatic_player.cc:398 src/tools/dcpomatic_player.cc:405
+#: src/tools/dcpomatic_player.cc:407
 #, c-format
 msgid "Could not load a DCP from %s"
 msgstr "无法从 %s 载入DCP"
@@ -280,21 +280,21 @@ msgstr "无法从 %s 载入DCP"
 msgid "Could not load film %1"
 msgstr "无法载入工程 %1"
 
-#: src/tools/dcpomatic.cc:1641
+#: src/tools/dcpomatic.cc:1660
 msgid "Could not load film %1 (%2)"
 msgstr "无法加载工程 %1 (%2)"
 
-#: src/tools/dcpomatic.cc:801
+#: src/tools/dcpomatic.cc:807
 msgid "Could not make DCP."
 msgstr "DCP创建失败."
 
-#: src/tools/dcpomatic.cc:466 src/tools/dcpomatic.cc:471
+#: src/tools/dcpomatic.cc:472 src/tools/dcpomatic.cc:477
 #: src/tools/dcpomatic_batch.cc:218
 #, c-format
 msgid "Could not open film at %s"
 msgstr "无法在 %s 打开工程"
 
-#: src/tools/dcpomatic.cc:461
+#: src/tools/dcpomatic.cc:467
 msgid "Could not open this folder as a DCP-o-matic project."
 msgstr ""
 
@@ -310,47 +310,47 @@ msgid ""
 "at all."
 msgstr "不能读取KDM。文件可能被损坏或者使用了不兼容的格式."
 
-#: src/tools/dcpomatic.cc:1042
+#: src/tools/dcpomatic.cc:1048
 msgid "Could not run konqueror"
 msgstr "无法运行konqueror"
 
-#: src/tools/dcpomatic.cc:1035
+#: src/tools/dcpomatic.cc:1041
 msgid "Could not run nautilus"
 msgstr "无法运行nautilus"
 
-#: src/tools/dcpomatic.cc:1042 src/tools/dcpomatic.cc:1051
+#: src/tools/dcpomatic.cc:1048 src/tools/dcpomatic.cc:1057
 msgid "Could not show DCP"
 msgstr "无法显示DCP"
 
-#: src/tools/dcpomatic.cc:1035
+#: src/tools/dcpomatic.cc:1041
 msgid "Could not show DCP."
 msgstr "无法显示DCP."
 
-#: src/tools/dcpomatic.cc:890
+#: src/tools/dcpomatic.cc:896
 msgid ""
 "Could not start the batch converter.  You may need to download it from "
 "dcpomatic.com."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:905
+#: src/tools/dcpomatic.cc:911
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1405 src/tools/dcpomatic_batch.cc:329
+#: src/tools/dcpomatic.cc:1424 src/tools/dcpomatic_batch.cc:329
 #, c-format
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
 msgstr "不能保存设置%s。设置没有被保存。"
 
-#: src/tools/dcpomatic.cc:1417 src/tools/dcpomatic_batch.cc:341
-#: src/tools/dcpomatic_player.cc:918 src/tools/dcpomatic_playlist.cc:565
+#: src/tools/dcpomatic.cc:1436 src/tools/dcpomatic_batch.cc:341
+#: src/tools/dcpomatic_player.cc:939 src/tools/dcpomatic_playlist.cc:565
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr "不能保存设置%s。设置没有被保存。"
 
-#: src/tools/dcpomatic_player.cc:926
+#: src/tools/dcpomatic_player.cc:947
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr "不能保存设置到文件。更改没有被保存。"
 
@@ -358,8 +358,8 @@ msgstr "不能保存设置到文件。更改没有被保存。"
 msgid "Create KDMs"
 msgstr "创建KDMs"
 
-#: src/tools/dcpomatic.cc:523 src/tools/dcpomatic.cc:1579
-#: src/tools/dcpomatic.cc:1620
+#: src/tools/dcpomatic.cc:529 src/tools/dcpomatic.cc:1598
+#: src/tools/dcpomatic.cc:1639
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
@@ -375,13 +375,13 @@ msgstr "DCP-o-matic 编码服务器"
 msgid "DCP-o-matic KDM Creator"
 msgstr "DCP-o-matic KMD 创建器"
 
-#: src/tools/dcpomatic_player.cc:141 src/tools/dcpomatic_player.cc:369
-#: src/tools/dcpomatic_player.cc:644 src/tools/dcpomatic_player.cc:830
-#: src/tools/dcpomatic_player.cc:1108
+#: src/tools/dcpomatic_player.cc:142 src/tools/dcpomatic_player.cc:390
+#: src/tools/dcpomatic_player.cc:665 src/tools/dcpomatic_player.cc:851
+#: src/tools/dcpomatic_player.cc:1129
 msgid "DCP-o-matic Player"
 msgstr "DCP-o-matic 播放器"
 
-#: src/tools/dcpomatic_player.cc:1190
+#: src/tools/dcpomatic_player.cc:1211
 msgid "DCP-o-matic Player could not start."
 msgstr "DCP-o-matic 播放器无法启动."
 
@@ -397,15 +397,15 @@ msgstr "DCP-o-matic 无法启动"
 msgid "DKDM"
 msgstr "DKDM"
 
-#: src/tools/dcpomatic_player.cc:563
+#: src/tools/dcpomatic_player.cc:584
 msgid "Decode at full resolution"
 msgstr "全分辨率解码"
 
-#: src/tools/dcpomatic_player.cc:564
+#: src/tools/dcpomatic_player.cc:585
 msgid "Decode at half resolution"
 msgstr "半分辨率解码"
 
-#: src/tools/dcpomatic_player.cc:565
+#: src/tools/dcpomatic_player.cc:586
 msgid "Decode at quarter resolution"
 msgstr "四分之一分辨率解码"
 
@@ -413,11 +413,11 @@ msgstr "四分之一分辨率解码"
 msgid "Delete"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1818
+#: src/tools/dcpomatic.cc:1837
 msgid "Do nothing"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:786
+#: src/tools/dcpomatic.cc:792
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
 msgstr "真的要覆盖已经存在的DCP %s 吗？"
@@ -434,15 +434,15 @@ msgstr "取消复制"
 msgid "Down"
 msgstr "下"
 
-#: src/tools/dcpomatic_player.cc:557
+#: src/tools/dcpomatic_player.cc:578
 msgid "Dual screen\tShift+F11"
 msgstr "双屏\tShift+F11"
 
-#: src/tools/dcpomatic.cc:609 src/tools/dcpomatic.cc:624
+#: src/tools/dcpomatic.cc:615 src/tools/dcpomatic.cc:630
 msgid "Duplicate Film"
 msgstr "复制工程"
 
-#: src/tools/dcpomatic.cc:1312
+#: src/tools/dcpomatic.cc:1321
 msgid "Duplicate and open..."
 msgstr "复制工程并打开..."
 
@@ -450,11 +450,11 @@ msgstr "复制工程并打开..."
 msgid "Duplicate without saving film"
 msgstr "复制项目但不保存"
 
-#: src/tools/dcpomatic.cc:1311
+#: src/tools/dcpomatic.cc:1320
 msgid "Duplicate..."
 msgstr "复制…"
 
-#: src/tools/dcpomatic.cc:1371 src/tools/dcpomatic_batch.cc:92
+#: src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_batch.cc:92
 msgid "Encoding servers..."
 msgstr "查看编码服务器..."
 
@@ -462,12 +462,12 @@ msgstr "查看编码服务器..."
 msgid "Encrypted"
 msgstr "加密的"
 
-#: src/tools/dcpomatic.cc:1351
+#: src/tools/dcpomatic.cc:1370
 #, fuzzy
 msgid "Export subtitles..."
 msgstr "导出...\tCtrl+E"
 
-#: src/tools/dcpomatic.cc:1350
+#: src/tools/dcpomatic.cc:1369
 #, fuzzy
 msgid "Export video file...\tCtrl-E"
 msgstr "导出...\tCtrl+E"
@@ -477,7 +477,7 @@ msgstr "导出...\tCtrl+E"
 msgid "Export..."
 msgstr "导出...\tCtrl+E"
 
-#: src/tools/dcpomatic.cc:982 src/tools/dcpomatic_kdm.cc:275
+#: src/tools/dcpomatic.cc:988 src/tools/dcpomatic_kdm.cc:275
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "已存在文件 %s ，是否覆盖？"
@@ -492,15 +492,15 @@ msgstr "工程已被编辑"
 msgid "Frames per second"
 msgstr "帧率"
 
-#: src/tools/dcpomatic_player.cc:556
+#: src/tools/dcpomatic_player.cc:577
 msgid "Full screen\tF11"
 msgstr "全屏\tF11"
 
-#: src/tools/dcpomatic.cc:1370
+#: src/tools/dcpomatic.cc:1389
 msgid "Hints..."
 msgstr "提示..."
 
-#: src/tools/dcpomatic.cc:462
+#: src/tools/dcpomatic.cc:468
 msgid ""
 "It looks like you are trying to open a DCP.  File -> Open is for loading DCP-"
 "o-matic projects, not DCPs.  To import a DCP, create a new project with File "
@@ -516,28 +516,28 @@ msgstr "KDM有效期"
 msgid "Length"
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:369 src/tools/dcpomatic_player.cc:644
+#: src/tools/dcpomatic_player.cc:390 src/tools/dcpomatic_player.cc:665
 msgid "Loading content"
 msgstr "正在载入内容"
 
-#: src/tools/dcpomatic.cc:1347
+#: src/tools/dcpomatic.cc:1365
 #, fuzzy
 msgid "Make &DKDMs...\tCtrl-D"
 msgstr "制作 KDM \tCtrl+K"
 
-#: src/tools/dcpomatic.cc:1346
+#: src/tools/dcpomatic.cc:1363
 msgid "Make &KDMs...\tCtrl-K"
 msgstr "制作 KDM \tCtrl+K"
 
-#: src/tools/dcpomatic.cc:1344
+#: src/tools/dcpomatic.cc:1360
 msgid "Make DCP in &batch converter\tCtrl-B"
 msgstr "批量制作DCP\tCtrl+B"
 
-#: src/tools/dcpomatic.cc:1348
+#: src/tools/dcpomatic.cc:1366
 msgid "Make DKDM for DCP-o-matic..."
 msgstr "制作DCP-o-matic的KDM..."
 
-#: src/tools/dcpomatic.cc:1372
+#: src/tools/dcpomatic.cc:1391
 msgid "Manage templates..."
 msgstr "管理模板…"
 
@@ -549,7 +549,7 @@ msgstr "名称"
 msgid "New"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:533
+#: src/tools/dcpomatic.cc:539
 msgid "New Film"
 msgstr "新建工程"
 
@@ -558,7 +558,7 @@ msgstr "新建工程"
 msgid "New Playlist"
 msgstr "保存播放列表"
 
-#: src/tools/dcpomatic.cc:1305
+#: src/tools/dcpomatic.cc:1312
 msgid "New...\tCtrl-N"
 msgstr "新建工程\tCtrl+N"
 
@@ -568,7 +568,7 @@ msgid ""
 "again."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1363
+#: src/tools/dcpomatic.cc:1382
 msgid "Open DCP in &player"
 msgstr "打开并使用播放器播放DCP"
 
@@ -576,7 +576,7 @@ msgstr "打开并使用播放器播放DCP"
 msgid "Output"
 msgstr "输出"
 
-#: src/tools/dcpomatic.cc:1331
+#: src/tools/dcpomatic.cc:1343
 msgid "Paste settings...\tCtrl-V"
 msgstr "黏贴设置....\tCtrl+V"
 
@@ -584,7 +584,7 @@ msgstr "黏贴设置....\tCtrl+V"
 msgid "Pause"
 msgstr "暂停"
 
-#: src/tools/dcpomatic.cc:554
+#: src/tools/dcpomatic.cc:560
 msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for DCP-o-matic."
@@ -598,11 +598,11 @@ msgstr "问题|N"
 msgid "Question|Y"
 msgstr "问题|Y"
 
-#: src/tools/dcpomatic.cc:1844
+#: src/tools/dcpomatic.cc:1863
 msgid "Recreate KDM decryption chain"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1814 src/tools/dcpomatic.cc:1828
+#: src/tools/dcpomatic.cc:1833 src/tools/dcpomatic.cc:1847
 msgid "Recreate signing certificates"
 msgstr ""
 
@@ -610,12 +610,12 @@ msgstr ""
 msgid "Remove"
 msgstr "移除"
 
-#: src/tools/dcpomatic.cc:1385 src/tools/dcpomatic_kdm.cc:262
-#: src/tools/dcpomatic_player.cc:580
+#: src/tools/dcpomatic.cc:1404 src/tools/dcpomatic_kdm.cc:262
+#: src/tools/dcpomatic_player.cc:601
 msgid "Report a problem..."
 msgstr "报告问题..."
 
-#: src/tools/dcpomatic.cc:733 src/tools/dcpomatic.cc:1377
+#: src/tools/dcpomatic.cc:739 src/tools/dcpomatic.cc:1396
 msgid "Restore default preferences"
 msgstr "恢复默认设置"
 
@@ -623,22 +623,22 @@ msgstr "恢复默认设置"
 msgid "Resume"
 msgstr "继续"
 
-#: src/tools/dcpomatic.cc:1358
+#: src/tools/dcpomatic.cc:1377
 #, fuzzy
 msgid "S&how DCP in Explorer"
 msgstr "&查看DCP"
 
-#: src/tools/dcpomatic.cc:1360
+#: src/tools/dcpomatic.cc:1379
 #, fuzzy
 msgid "S&how DCP in Files"
 msgstr "&查看DCP"
 
-#: src/tools/dcpomatic.cc:1356
+#: src/tools/dcpomatic.cc:1375
 #, fuzzy
 msgid "S&how DCP in Finder"
 msgstr "&查看DCP"
 
-#: src/tools/dcpomatic.cc:1310
+#: src/tools/dcpomatic.cc:1319
 msgid "Save as &template..."
 msgstr "保存为模板…"
 
@@ -664,11 +664,11 @@ msgstr "保存并复制"
 msgid "Screens"
 msgstr "厅放映服务器"
 
-#: src/tools/dcpomatic_player.cc:598
+#: src/tools/dcpomatic_player.cc:619
 msgid "Select DCP to open"
 msgstr "选择打开DCP"
 
-#: src/tools/dcpomatic_player.cc:623
+#: src/tools/dcpomatic_player.cc:644
 msgid "Select DCP to open as OV"
 msgstr "选择DCP作为OV打开"
 
@@ -681,15 +681,15 @@ msgstr "选择DKDM文件"
 msgid "Select DKDM file"
 msgstr "选择DKDM文件"
 
-#: src/tools/dcpomatic_player.cc:665
+#: src/tools/dcpomatic_player.cc:686
 msgid "Select KDM"
 msgstr "选择KDM"
 
-#: src/tools/dcpomatic.cc:1333
+#: src/tools/dcpomatic.cc:1346
 msgid "Select all\tShift-Ctrl-A"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:570 src/tools/dcpomatic_batch.cc:295
+#: src/tools/dcpomatic.cc:576 src/tools/dcpomatic_batch.cc:295
 msgid "Select film to open"
 msgstr "选择打开工程文件"
 
@@ -697,19 +697,19 @@ msgstr "选择打开工程文件"
 msgid "Send KDM emails"
 msgstr "发送KDM电子邮件"
 
-#: src/tools/dcpomatic.cc:1374
+#: src/tools/dcpomatic.cc:1393
 msgid "Send translations..."
 msgstr "发送翻译……"
 
-#: src/tools/dcpomatic_player.cc:562
+#: src/tools/dcpomatic_player.cc:583
 msgid "Set decode resolution to match display"
 msgstr "将解码分辨率设置为适应屏幕分辨率"
 
-#: src/tools/dcpomatic.cc:1375 src/tools/dcpomatic_player.cc:572
+#: src/tools/dcpomatic.cc:1394 src/tools/dcpomatic_player.cc:593
 msgid "System information..."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:756
+#: src/tools/dcpomatic.cc:762
 #, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f GB, and "
@@ -720,7 +720,7 @@ msgstr ""
 "创造该DCP包时大约需要缓存空间 %.1f GB，您当前可用磁盘空间只有 %.1f GB。DCP-o-"
 "matic工作至少需要2倍的空间来继续。您是否仍然继续?"
 
-#: src/tools/dcpomatic.cc:754
+#: src/tools/dcpomatic.cc:760
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
@@ -729,7 +729,7 @@ msgstr ""
 "该DCP在创建中将占用约 %.1f GB, 您正在使用的磁盘只有 %.1f GB可用。您是否仍然继"
 "续?"
 
-#: src/tools/dcpomatic.cc:1479 src/tools/dcpomatic_player.cc:900
+#: src/tools/dcpomatic.cc:1498 src/tools/dcpomatic_player.cc:921
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "连接DCP-o-matic下载服务器失败."
 
@@ -743,11 +743,11 @@ msgstr ""
 "该DCP在创建中将占用约 %.1f GB, 您正在使用的磁盘只有 %.1f GB可用。您是否仍然要"
 "把影片添加到队列中?"
 
-#: src/tools/dcpomatic_player.cc:299
+#: src/tools/dcpomatic_player.cc:301
 msgid "The KDM does not allow playback of this content at this time."
 msgstr "这个KDM不允许在现在这个时间播放这个内容."
 
-#: src/tools/dcpomatic.cc:1845
+#: src/tools/dcpomatic.cc:1864
 msgid ""
 "The certificate chain that DCP-o-matic uses for decrypting KDMs is "
 "inconsistent and\n"
@@ -758,7 +758,7 @@ msgid ""
 "configuration before continuing."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1815
+#: src/tools/dcpomatic.cc:1834
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error\n"
@@ -767,7 +767,7 @@ msgid ""
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1829
+#: src/tools/dcpomatic.cc:1848
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is "
 "inconsistent and\n"
@@ -776,41 +776,54 @@ msgid ""
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:1790 src/tools/dcpomatic_batch.cc:489
+#: src/tools/dcpomatic.cc:1809 src/tools/dcpomatic_batch.cc:489
 #: src/tools/dcpomatic_kdm.cc:734 src/tools/dcpomatic_server.cc:364
-#: src/tools/dcpomatic_player.cc:1266
+#: src/tools/dcpomatic_player.cc:1287
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr "现有配置文件损坏，系统将会使用默认的配置文件，请稍候。"
 
-#: src/tools/dcpomatic.cc:1481 src/tools/dcpomatic_player.cc:902
+#: src/tools/dcpomatic_player.cc:362
+msgid ""
+"The player is dropping a lot of frames, so playback may not be accurate.\n"
+"\n"
+"<b>This does not necessarily mean that the DCP you are playing is defective!"
+"</b>\n"
+"\n"
+"You may be able to improve player performance by:\n"
+"• choosing 'decode at half resolution' or 'decode at quarter resolution' "
+"from the View menu\n"
+"• using a more powerful computer.\n"
+msgstr ""
+
+#: src/tools/dcpomatic.cc:1500 src/tools/dcpomatic_player.cc:923
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "DCP-o-matic 没有新的版本。"
 
-#: src/tools/dcpomatic.cc:1157 src/tools/dcpomatic_batch.cc:237
+#: src/tools/dcpomatic.cc:1163 src/tools/dcpomatic_batch.cc:237
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr "有未完成的操作，确定退出吗？"
 
-#: src/tools/dcpomatic.cc:444
+#: src/tools/dcpomatic.cc:450
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
 msgstr "老版本中创建的工程无法在高于创建版本中被打开，具体请参考设置."
 
-#: src/tools/dcpomatic_player.cc:379
+#: src/tools/dcpomatic_player.cc:400
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be loaded into "
 "the player.  Choose the DCP directory inside the DCP-o-matic project folder "
 "if that's what you want to play."
 msgstr ""
 
-#: src/tools/dcpomatic_player.cc:571
+#: src/tools/dcpomatic_player.cc:592
 #, fuzzy
 msgid "Timing..."
 msgstr "KDM有效期"
 
-#: src/tools/dcpomatic.cc:552
+#: src/tools/dcpomatic.cc:558
 #, c-format
 msgid "Try removing the %s characters from your folder name."
 msgstr "尝试把文件夹名中的 %s 字符移除."
@@ -819,7 +832,7 @@ msgstr "尝试把文件夹名中的 %s 字符移除."
 msgid "Type"
 msgstr "类型"
 
-#: src/tools/dcpomatic.cc:1158 src/tools/dcpomatic_batch.cc:238
+#: src/tools/dcpomatic.cc:1164 src/tools/dcpomatic_batch.cc:238
 msgid "Unfinished jobs"
 msgstr "未完成的进程"
 
@@ -827,12 +840,12 @@ msgstr "未完成的进程"
 msgid "Up"
 msgstr "上"
 
-#: src/tools/dcpomatic_player.cc:568
+#: src/tools/dcpomatic_player.cc:589
 #, fuzzy
 msgid "Verify DCP..."
 msgstr "验证DCP"
 
-#: src/tools/dcpomatic.cc:1367
+#: src/tools/dcpomatic.cc:1386
 msgid "Video waveform..."
 msgstr "视频示波器..."
 
@@ -842,7 +855,7 @@ msgid ""
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
 msgstr ""
 
-#: src/tools/dcpomatic.cc:928
+#: src/tools/dcpomatic.cc:934
 #, c-format
 msgid ""
 "You are making a DKDM which is encrypted by a private key held in\n"
@@ -861,7 +874,7 @@ msgstr ""
 "weight=\"bold\" size=\"larger\">备份这个文件</span> 如果丢失，您的数字模板文"
 "件（包括生成的DCP包）将无法使用。"
 
-#: src/tools/dcpomatic.cc:776
+#: src/tools/dcpomatic.cc:782
 msgid ""
 "You are making an encrypted DCP.  It will not be possible to make KDMs for "
 "this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
@@ -876,7 +889,7 @@ msgstr ""
 "请在生成KDM之前再次确认已经 <span weight=\"bold\" size=\"larger\">备份</"
 "span> 该文件。"
 
-#: src/tools/dcpomatic.cc:1628
+#: src/tools/dcpomatic.cc:1647
 msgid ""
 "You are running the 32-bit version of DCP-o-matic on a 64-bit version of "
 "Windows.  This will limit the memory available to DCP-o-matic and may cause "
@@ -884,8 +897,8 @@ msgid ""
 "matic."
 msgstr ""
 
-#: src/tools/dcpomatic.cc:579 src/tools/dcpomatic_batch.cc:304
-#: src/tools/dcpomatic_player.cc:604 src/tools/dcpomatic_player.cc:632
+#: src/tools/dcpomatic.cc:585 src/tools/dcpomatic_batch.cc:304
+#: src/tools/dcpomatic_player.cc:625 src/tools/dcpomatic_player.cc:653
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."

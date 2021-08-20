@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 22:33+0200\n"
+"POT-Creation-Date: 2021-08-20 23:10+0200\n"
 "PO-Revision-Date: 2021-05-07 11:56+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " na %1"
 
-#: src/lib/config.cc:1128
+#: src/lib/config.cc:1139
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -93,7 +93,7 @@ msgstr ""
 "Délka: $LENGTH\n"
 "Velikost: $SIZE\n"
 
-#: src/lib/config.cc:1106
+#: src/lib/config.cc:1117
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -417,7 +417,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Zrušené"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "Cannot contain slashes"
 msgstr "Nemůže obsahovat lomítka"
 
@@ -425,7 +425,7 @@ msgstr "Nemůže obsahovat lomítka"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nemužu zpracovat formát pixelu %1 během %2"
 
-#: src/lib/film.cc:1648
+#: src/lib/film.cc:1662
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Nelze vytvořit KDM, protože tento projekt není zašifrován."
 
@@ -693,7 +693,7 @@ msgstr "Nemohu otevřít ZIP soubor"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Nemohu otevřít stažený ZIP soubor (%1:%2: %3)"
 
-#: src/lib/config.cc:992
+#: src/lib/config.cc:1003
 msgid "Could not open file for writing"
 msgstr "Nemohu otevřít soubor pro zápis"
 
@@ -762,7 +762,7 @@ msgstr ""
 "DCP-o-matic nemohl otevřít soubor %1 (%2).  Možná, že soubor neexistuje nebo "
 "je v  nepodporovaném formátu."
 
-#: src/lib/film.cc:1551
+#: src/lib/film.cc:1565
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -770,7 +770,7 @@ msgstr ""
 "DCP-o-matic musel změnit vaše nastavení pro odkazování na DCPs jako OV.  "
 "Zkontrolujte prosím tato nastavení a ujistěte se, že je to to co chcete."
 
-#: src/lib/film.cc:1519
+#: src/lib/film.cc:1533
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
@@ -783,7 +783,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 
-#: src/lib/config.cc:353 src/lib/config.cc:1103
+#: src/lib/config.cc:359 src/lib/config.cc:1114
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic oznámení"
 
@@ -796,7 +796,7 @@ msgstr "Datasat AP20 nebo AP25"
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:1091
+#: src/lib/config.cc:1102
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -1032,7 +1032,7 @@ msgstr "Nevím, co zapříčinilo tuto chybu."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:343 src/lib/config.cc:1088
+#: src/lib/config.cc:349 src/lib/config.cc:1099
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM doručení: $CPL_NAME"
 
@@ -1407,11 +1407,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:406
 msgid "Some of your content needs a KDM"
 msgstr "Část vašeho obsahu potřebuje KDM"
 
-#: src/lib/film.cc:395
+#: src/lib/film.cc:409
 msgid "Some of your content needs an OV"
 msgstr "Část vašeho obsahu potřebuje OV"
 
@@ -1447,7 +1447,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Text titulků"
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:389
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "DCP je prázdný, možná proto, že veškerý obsah má nulovou délku."
 
@@ -1558,7 +1558,7 @@ msgstr ""
 "Tento soubor je KDM. KDM by měly být přidány do obsahu DCP klepnutím pravým "
 "tlačítkem myši na obsah a výběrem možnosti “Přidat KDM”."
 
-#: src/lib/film.cc:567
+#: src/lib/film.cc:581
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1566,7 +1566,7 @@ msgstr ""
 "Tento film byl vytvořený novější verzí DCP-o-matic, a nemůže být načtený "
 "touto verzí. Omlouváme se !"
 
-#: src/lib/film.cc:552
+#: src/lib/film.cc:566
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1742,7 +1742,7 @@ msgstr ""
 "Máte %1 souborů, které vypadají jako VOB soubory z DVD. Měli byste je "
 "spojit, aby zajistit tak hladké spojení mezi těmito dvěma soubory."
 
-#: src/lib/film.cc:1515
+#: src/lib/film.cc:1529
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1766,7 +1766,7 @@ msgstr ""
 "Zadali jste soubor písma, který je větší než 640kB. Pravděpodobně to může "
 "způsobit problémy při přehrávání."
 
-#: src/lib/film.cc:371
+#: src/lib/film.cc:385
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musíte přidat obsah do DCP před tím než ho vytvoříte"
 
@@ -1797,7 +1797,7 @@ msgid ""
 msgstr ""
 "Hlasitost zvuku je velmi vysoká (na %1). Snižte zesílení zvukového obsahu."
 
-#: src/lib/config.cc:288
+#: src/lib/config.cc:289
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "Výchozí kontejner není platný a byl změněn na Flat (1,85: 1)"
@@ -1841,11 +1841,11 @@ msgstr "spojení vypršelo"
 msgid "connecting"
 msgstr "připojuji"
 
-#: src/lib/film.cc:367
+#: src/lib/film.cc:381
 msgid "container"
 msgstr "kontejner"
 
-#: src/lib/film.cc:379
+#: src/lib/film.cc:393
 msgid "content type"
 msgstr "typ obsahu"
 
@@ -1992,14 +1992,15 @@ msgstr "m"
 msgid "moving"
 msgstr "přesouvám"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "name"
 msgstr "jméno"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:756
+#, fuzzy
 msgid ""
-"one if its closed caption has a non-zero entry point so it must be re-"
+"one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 "jeden, pokud jeho skrytý titulek má nenulový vstupní bod, takže musí být "
@@ -2007,8 +2008,9 @@ msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:743
+#, fuzzy
 msgid ""
-"one if its subtitle reels has a non-zero entry point so it must be re-"
+"one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 "jeden, pokud jeho reels titulků má nenulový vstupní bod, takže musí být "
@@ -2023,7 +2025,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:402
 msgid "some of your content is missing"
 msgstr "část obsahu chybí"
 

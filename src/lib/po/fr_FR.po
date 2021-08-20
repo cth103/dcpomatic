@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 22:33+0200\n"
+"POT-Creation-Date: 2021-08-20 23:10+0200\n"
 "PO-Revision-Date: 2019-05-07 14:28+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " %1"
 
-#: src/lib/config.cc:1128
+#: src/lib/config.cc:1139
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Durée: $LENGTH\n"
 "Taille: $SIZE\n"
 
-#: src/lib/config.cc:1106
+#: src/lib/config.cc:1117
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -405,7 +405,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Annulé"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "Cannot contain slashes"
 msgstr "slash non autorisés"
 
@@ -413,7 +413,7 @@ msgstr "slash non autorisés"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Format du pixel %1 non géré par %2"
 
-#: src/lib/film.cc:1648
+#: src/lib/film.cc:1662
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Fabrication d'une KDM impossible car ce projet n'est pas crypté."
 
@@ -696,7 +696,7 @@ msgstr "Ouverture du fichier Zip téléchargé impossible"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Ouverture du fichier Zip téléchargé impossible (%1:%2: %3)"
 
-#: src/lib/config.cc:992
+#: src/lib/config.cc:1003
 msgid "Could not open file for writing"
 msgstr "Ouverture du fichier pour enregistrer impossible."
 
@@ -766,7 +766,7 @@ msgstr ""
 "DCP-o-matic ne peut pas ouvrir le fichier %1 (%2). Soit il n'existe pas, "
 "soit il n'est pas dans un format géré."
 
-#: src/lib/film.cc:1551
+#: src/lib/film.cc:1565
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -775,7 +775,7 @@ msgstr ""
 "qu'OV. Merci de vérifier ces réglages pour être sûr qu'ils correspondent à "
 "ce que vous attendez."
 
-#: src/lib/film.cc:1519
+#: src/lib/film.cc:1533
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -790,7 +790,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic ne gère plus le filtre `%1'. Celui-ci a été désactivé."
 
-#: src/lib/config.cc:353 src/lib/config.cc:1103
+#: src/lib/config.cc:359 src/lib/config.cc:1114
 msgid "DCP-o-matic notification"
 msgstr "Notification DCP-o-matic"
 
@@ -803,7 +803,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:1091
+#: src/lib/config.cc:1102
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -1043,7 +1043,7 @@ msgstr "Erreur indéterminée."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:343 src/lib/config.cc:1088
+#: src/lib/config.cc:349 src/lib/config.cc:1099
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Envoi KDM: $CPL_NAME"
 
@@ -1418,11 +1418,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:406
 msgid "Some of your content needs a KDM"
 msgstr "Certains de vos contenus nécessitent une clé"
 
-#: src/lib/film.cc:395
+#: src/lib/film.cc:409
 msgid "Some of your content needs an OV"
 msgstr "Certains de vos contenus nécessitent une OV"
 
@@ -1458,7 +1458,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Sous-titres textes"
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:389
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1563,7 +1563,7 @@ msgstr ""
 "Ce fichier est une KDM. Les KDM doivent être ajoutées au contenu du DCP en "
 "cliquant droit sur le contenu et en sélectionnant \"Add KDM\"."
 
-#: src/lib/film.cc:567
+#: src/lib/film.cc:581
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1571,7 +1571,7 @@ msgstr ""
 "Ce film a été créé avec une nouvelle version de DCP-o-matic et il ne peut "
 "être ouvert dans cette version du programme. Désolé!"
 
-#: src/lib/film.cc:552
+#: src/lib/film.cc:566
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1750,7 +1750,7 @@ msgstr ""
 "Vous avez  %1 fichiers qui ressemblent à des fichiers VOB issus de DVD. Vous "
 "devriez les assembler pour vous assurer des transitions fluides."
 
-#: src/lib/film.cc:1515
+#: src/lib/film.cc:1529
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1772,7 +1772,7 @@ msgstr ""
 "Vous avez choisi un fichier police de caractère qui est plus lourd que 640 "
 "kB. Cela peut poser des problèmes en lecture."
 
-#: src/lib/film.cc:371
+#: src/lib/film.cc:385
 msgid "You must add some content to the DCP before creating it"
 msgstr "Vous devez ajouter des contenus au DCP avant de le créer"
 
@@ -1802,7 +1802,7 @@ msgstr ""
 "Votre volume sonore est très élevé (sur %1). Vous devriez réduire le dain de "
 "votre contenu audio."
 
-#: src/lib/config.cc:288
+#: src/lib/config.cc:289
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1849,11 +1849,11 @@ msgstr "temps de connexion expiré"
 msgid "connecting"
 msgstr "connexion"
 
-#: src/lib/film.cc:367
+#: src/lib/film.cc:381
 msgid "container"
 msgstr "conteneur"
 
-#: src/lib/film.cc:379
+#: src/lib/film.cc:393
 msgid "content type"
 msgstr "type de contenu"
 
@@ -2002,21 +2002,21 @@ msgstr "m"
 msgid "moving"
 msgstr "séquence"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "name"
 msgstr "nom"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:756
 msgid ""
-"one if its closed caption has a non-zero entry point so it must be re-"
+"one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:743
 msgid ""
-"one if its subtitle reels has a non-zero entry point so it must be re-"
+"one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
@@ -2029,7 +2029,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:402
 msgid "some of your content is missing"
 msgstr "Certains de vos contenus sont manquants"
 

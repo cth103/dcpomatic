@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 22:33+0200\n"
+"POT-Creation-Date: 2021-08-20 23:10+0200\n"
 "PO-Revision-Date: 2019-04-21 22:30+0800\n"
 "Last-Translator: Hanyuan\n"
 "Language-Team: Hanyuan\n"
@@ -72,7 +72,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1128
+#: src/lib/config.cc:1139
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1106
+#: src/lib/config.cc:1117
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -390,7 +390,7 @@ msgstr "中置"
 msgid "Cancelled"
 msgstr "取消"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
@@ -398,7 +398,7 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2 不能处理图片格式 %1"
 
-#: src/lib/film.cc:1648
+#: src/lib/film.cc:1662
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
@@ -666,7 +666,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
-#: src/lib/config.cc:992
+#: src/lib/config.cc:1003
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -734,7 +734,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1551
+#: src/lib/film.cc:1565
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -742,7 +742,7 @@ msgstr ""
 "DCP-o-matic必须把您DCP的设置更改为OV（原创）。请重新检查设置确认设置内容是否"
 "为您的期望值。"
 
-#: src/lib/film.cc:1519
+#: src/lib/film.cc:1533
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -756,7 +756,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:353 src/lib/config.cc:1103
+#: src/lib/config.cc:359 src/lib/config.cc:1114
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic提醒"
 
@@ -769,7 +769,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1091
+#: src/lib/config.cc:1102
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -1005,7 +1005,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:343 src/lib/config.cc:1088
+#: src/lib/config.cc:349 src/lib/config.cc:1099
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -1370,11 +1370,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:406
 msgid "Some of your content needs a KDM"
 msgstr "一些内容需要KDM密匙"
 
-#: src/lib/film.cc:395
+#: src/lib/film.cc:409
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV（声明原创）"
 
@@ -1410,7 +1410,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "文本字幕"
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:389
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1504,13 +1504,13 @@ msgstr ""
 "这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
 "加到DCP中。"
 
-#: src/lib/film.cc:567
+#: src/lib/film.cc:581
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件!"
 
-#: src/lib/film.cc:552
+#: src/lib/film.cc:566
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1683,7 +1683,7 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/film.cc:1515
+#: src/lib/film.cc:1529
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1701,7 +1701,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/film.cc:371
+#: src/lib/film.cc:385
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "您必须在创建DCP之前添加一些内容"
@@ -1729,7 +1729,7 @@ msgid ""
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:288
+#: src/lib/config.cc:289
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "默认设置的容器不可用，已被替换为Flat (1.85:1)"
@@ -1771,11 +1771,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:367
+#: src/lib/film.cc:381
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:379
+#: src/lib/film.cc:393
 msgid "content type"
 msgstr "打包类型"
 
@@ -1935,21 +1935,21 @@ msgstr "分"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:756
 msgid ""
-"one if its closed caption has a non-zero entry point so it must be re-"
+"one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:743
 msgid ""
-"one if its subtitle reels has a non-zero entry point so it must be re-"
+"one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 
@@ -1962,7 +1962,7 @@ msgstr "秒"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:402
 msgid "some of your content is missing"
 msgstr "内容不完整"
 

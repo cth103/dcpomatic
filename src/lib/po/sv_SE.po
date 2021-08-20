@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-12 22:33+0200\n"
+"POT-Creation-Date: 2021-08-20 23:10+0200\n"
 "PO-Revision-Date: 2021-05-28 15:39+0200\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " på %1"
 
-#: src/lib/config.cc:1128
+#: src/lib/config.cc:1139
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,7 +92,7 @@ msgstr ""
 "Speltid: $LENGTH\n"
 "Storlek: $SIZE\n"
 
-#: src/lib/config.cc:1106
+#: src/lib/config.cc:1117
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -420,7 +420,7 @@ msgstr "C"
 msgid "Cancelled"
 msgstr "Avbruten"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "Cannot contain slashes"
 msgstr "Får inte innehålla snedstreck"
 
@@ -428,7 +428,7 @@ msgstr "Får inte innehålla snedstreck"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan inte hantera pixelformat %1 under %2"
 
-#: src/lib/film.cc:1648
+#: src/lib/film.cc:1662
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan inte göra KDM eftersom projektet inte är krypterat."
 
@@ -711,7 +711,7 @@ msgstr "Kunde inte öppna hämtad ZIP-fil"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Kunde inte öppna hämtad ZIP-fil"
 
-#: src/lib/config.cc:992
+#: src/lib/config.cc:1003
 msgid "Could not open file for writing"
 msgstr "Kunde inte öppna fil %1 för skrivning (%2)"
 
@@ -780,7 +780,7 @@ msgstr ""
 "DCP-o-matic kunde inte öppna %1 (%2). Kanske finns inte filen eller har ett "
 "okänt format."
 
-#: src/lib/film.cc:1551
+#: src/lib/film.cc:1565
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -789,7 +789,7 @@ msgstr ""
 "DCP:er som OV. Var vänlig kontrollera dessa inställningar så att det är "
 "korrekta."
 
-#: src/lib/film.cc:1519
+#: src/lib/film.cc:1533
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
@@ -802,7 +802,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic stödjer inte längre '%1'-filtret, så det har inaktiverats."
 
-#: src/lib/config.cc:353 src/lib/config.cc:1103
+#: src/lib/config.cc:359 src/lib/config.cc:1114
 msgid "DCP-o-matic notification"
 msgstr "Meddelande från DCP-o-matic"
 
@@ -815,7 +815,7 @@ msgstr "Datasat AP20 eller AP25"
 msgid "De-interlacing"
 msgstr "Avflätning"
 
-#: src/lib/config.cc:1091
+#: src/lib/config.cc:1102
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -1055,7 +1055,7 @@ msgstr "Det är inte känt vad som orsakade detta fel."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:343 src/lib/config.cc:1088
+#: src/lib/config.cc:349 src/lib/config.cc:1099
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-leverans: $CPL_NAME"
 
@@ -1430,11 +1430,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:406
 msgid "Some of your content needs a KDM"
 msgstr "En del av ditt källmaterial behöver en KDM"
 
-#: src/lib/film.cc:395
+#: src/lib/film.cc:409
 msgid "Some of your content needs an OV"
 msgstr "En del av ditt källmaterial behöver en OV"
 
@@ -1470,7 +1470,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Undertexter"
 
-#: src/lib/film.cc:375
+#: src/lib/film.cc:389
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "DCP:n är tom, kanske för att källmaterialet har speltid noll."
 
@@ -1580,7 +1580,7 @@ msgstr ""
 "Detta är en KDM. KDM:er ska läggas till DCP:er genom att högerklicka på "
 "källmaterialet och välja \"Lägg till KDM\"."
 
-#: src/lib/film.cc:567
+#: src/lib/film.cc:581
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1588,7 +1588,7 @@ msgstr ""
 "Denna film skapades i en nyare version av DCP-o-matic, och den kan inte "
 "öppnas i denna version. Förlåt!"
 
-#: src/lib/film.cc:552
+#: src/lib/film.cc:566
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1766,7 +1766,7 @@ msgstr ""
 "Du har %1 filer som ser ut att vara VOB-filer från en DVD. Du bör sammanfoga "
 "dem för att säkerställa korrekta skarvar mellan filerna."
 
-#: src/lib/film.cc:1515
+#: src/lib/film.cc:1529
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1790,7 +1790,7 @@ msgstr ""
 "Du använder en typsnittsfil som är större än 640kB. Risken är stor att detta "
 "leder till problem vid uppspelning."
 
-#: src/lib/film.cc:371
+#: src/lib/film.cc:385
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du måste lägga till källmaterial till DCP:n innan du skapar den"
 
@@ -1824,7 +1824,7 @@ msgstr ""
 "Din ljudnivå är mycket hög (på %1). Rekommenderat är att sänka gain på "
 "ljudspåret."
 
-#: src/lib/config.cc:288
+#: src/lib/config.cc:289
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1869,11 +1869,11 @@ msgstr "uppkopplingen tog för lång tid"
 msgid "connecting"
 msgstr "ansluter"
 
-#: src/lib/film.cc:367
+#: src/lib/film.cc:381
 msgid "container"
 msgstr "behållare"
 
-#: src/lib/film.cc:379
+#: src/lib/film.cc:393
 msgid "content type"
 msgstr "filmtyp"
 
@@ -2019,21 +2019,23 @@ msgstr "min"
 msgid "moving"
 msgstr "rörlig"
 
-#: src/lib/film.cc:363
+#: src/lib/film.cc:377
 msgid "name"
 msgstr "namn"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:756
+#, fuzzy
 msgid ""
-"one if its closed caption has a non-zero entry point so it must be re-"
+"one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr "en av dess undertitlar har en icke-tom början så den måste skrivas om."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:743
+#, fuzzy
 msgid ""
-"one if its subtitle reels has a non-zero entry point so it must be re-"
+"one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
 "en av dess undertextakter har en icke-tom början så den måste skrivas om."
@@ -2047,7 +2049,7 @@ msgstr "sek"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:402
 msgid "some of your content is missing"
 msgstr "en del av ditt källmaterial saknas"
 
