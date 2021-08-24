@@ -2258,7 +2258,7 @@ msgstr "RMS"
 
 #: src/wx/video_panel.cc:194
 msgid "Range"
-msgstr ""
+msgstr "Range"
 
 #: src/wx/interop_metadata_dialog.cc:56 src/wx/rating_dialog.cc:25
 #: src/wx/smpte_metadata_dialog.cc:80
@@ -2267,7 +2267,7 @@ msgstr "Ratings"
 
 #: src/wx/dcp_panel.cc:790
 msgid "Re-encode JPEG2000 data from input"
-msgstr "Ricodifica i dati JPEG 2000 dall'input"
+msgstr "Ricodifica i dati JPEG2000 dall'input"
 
 #: src/wx/content_menu.cc:90
 msgid "Re-examine..."
@@ -2458,7 +2458,7 @@ msgstr "Salva nella lista degli strumenti di KDM Creator"
 
 #: src/wx/text_panel.cc:100 src/wx/video_panel.cc:178
 msgid "Scale"
-msgstr "Scale"
+msgstr "Scala"
 
 #: src/wx/kdm_dialog.cc:78
 msgid "Screens"
@@ -3319,7 +3319,6 @@ msgid "Translated by"
 msgstr "Tradotto da"
 
 #: src/wx/timing_panel.cc:114
-#, fuzzy
 msgid "Trim from current position to end"
 msgstr "Taglia dalla posizione corrente alla fine"
 
