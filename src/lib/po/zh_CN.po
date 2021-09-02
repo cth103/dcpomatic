@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-08-20 23:10+0200\n"
-"PO-Revision-Date: 2019-04-21 22:30+0800\n"
-"Last-Translator: Hanyuan\n"
+"PO-Revision-Date: 2021-09-02 16:54+0800\n"
+"Last-Translator: kahn <bnm14744@gmail.com>\n"
 "Language-Team: Hanyuan\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -96,11 +96,11 @@ msgstr ""
 
 #: src/lib/config.cc:1117
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr "$JOB_NAME: $JOB_STATUS"
+msgstr "$工作名称: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:94
 msgid "%1 (%2 GB) [%3]"
-msgstr ""
+msgstr "%1 (%2 GB) [%3]"
 
 #: src/lib/atmos_mxf_content.cc:96
 msgid "%1 [Atmos]"
@@ -177,6 +177,8 @@ msgid ""
 "know that you will play this DCP back on a capable projector, it is "
 "advisable to set the DCP to be 2K in the \"DCP→Video\" tab."
 msgstr ""
+"只有极少数的放映设备支持4K 3D，除非您确认你的设备支持放映，否则建议在“DCP→视"
+"频”选项卡中将DCP设置为2K。"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:155
@@ -202,6 +204,15 @@ msgid ""
 "€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
 "Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
+"<h2>您已经用 DCP-o-matic 创建了%1 DCPs！</h2><img width=“20%%” src=“memory:"
+"me.jpg” align=“center”><p>你好。我是卡尔，我是DCP-o-matic的开发者。我在业余时"
+"间(在一个优秀的测试员和翻译志愿者团队的帮助下)开发它，并将其作为开源软件发布."
+"<p>如果您觉得DCP-o-matic对您有帮助，请考虑向该项目捐款。资金支持将帮助我花更"
+"多的时间开发DCP-o-matic并使其变得更好！<p><ul><li><a href=“https://dcpomatic."
+"com/donate_amount?amount=40”>去贝宝(Paypal)捐款40欧元</a><li><a "
+"href=“https://dcpomatic.com/donate_amount?amount=20”>去贝宝(Paypal)捐款20欧元"
+"</a><li><a href=“https://dcpomatic.com/donate_amount?amount=10”>去贝宝"
+"(Paypal)捐款10欧元</a></ul><p>谢谢您"
 
 #: src/lib/hints.cc:169
 msgid ""
@@ -256,49 +267,50 @@ msgstr "定位字幕中"
 #: src/lib/hints.cc:368
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
-msgstr ""
+msgstr "至少有一个标记出现在项目结束后，将被忽略。"
 
 #: src/lib/hints.cc:473
 msgid "At least one of your closed caption files is larger than "
-msgstr ""
+msgstr "至少有一个隐藏字幕文件过大"
 
 #: src/lib/hints.cc:466
 msgid "At least one of your closed caption files' XML part is larger than "
-msgstr ""
+msgstr "至少有一个隐藏式字幕文件的XML部分过大"
 
 #: src/lib/hints.cc:481
 msgid "At least one of your subtitle files is larger than "
-msgstr ""
+msgstr "至少有一个字幕文件过大"
 
 #: src/lib/hints.cc:445
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
-msgstr ""
+msgstr "至少有一行字幕超过52个字符，  建议每行最多52个字符。"
 
 #: src/lib/hints.cc:447
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
-msgstr ""
+msgstr "至少有一行字幕超过79个字符，  你应该让每行最多79个字符。"
 
 #: src/lib/hints.cc:590
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
-msgstr ""
+msgstr "您的字幕中至少有一个超过3行，  建议使用不超过3行。"
 
 #: src/lib/hints.cc:580
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
-msgstr ""
+msgstr "您的字幕中至少有一个持续时间少于15帧，  建议每个字幕至少15帧长。"
 
 #: src/lib/hints.cc:585
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
+"至少有一个字幕在前一个字幕后不到2帧开始，  建议字幕之间的间隔至少为2帧。"
 
 #: src/lib/hints.cc:633
 msgid ""
@@ -307,6 +319,8 @@ msgid ""
 "closed caption content in the \"Content→Timed text\", \"Content→Open "
 "subtitles\" or \"Content→Closed captions\" tab."
 msgstr ""
+"至少有一个字幕或隐藏字幕内容没有指定的语言，  建议在“内容→时间轴”、“内容→打开"
+"字幕”或“内容→隐藏字幕”选项卡中设置每段字幕或隐藏字幕内容的语言。"
 
 #: src/lib/audio_content.cc:271
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -420,7 +434,7 @@ msgstr "检查现有的图像数据"
 
 #: src/lib/check_content_change_job.cc:93
 msgid "Choose 'Make DCP' again when you have done this."
-msgstr "请在做完更改之后再次执行“制作DCP”命令"
+msgstr "请在做完更改之后再次执行“制作DCP”命令。"
 
 #: src/lib/ffmpeg_content.cc:655
 #, fuzzy
@@ -466,7 +480,7 @@ msgstr "色彩空间"
 
 #: src/lib/combine_dcp_job.cc:49
 msgid "Combine DCPs"
-msgstr ""
+msgstr "合并 DCPs"
 
 #: src/lib/content.cc:190
 msgid "Computing digest"
@@ -478,7 +492,7 @@ msgstr "计算Hash值中"
 
 #: src/lib/analytics.cc:62
 msgid "Congratulations!"
-msgstr ""
+msgstr "恭喜你！"
 
 #: src/lib/frame_rate_change.cc:90
 msgid "Content and DCP have the same rate.\n"
@@ -621,7 +635,7 @@ msgstr "复制DCP到TMS（影院内容管理系统）"
 
 #: src/lib/reel_writer.cc:134
 msgid "Copying old video file"
-msgstr ""
+msgstr "复制源视频文件"
 
 #: src/lib/reel_writer.cc:389
 #, fuzzy
@@ -705,11 +719,11 @@ msgstr "DBS"
 
 #: src/lib/ratio.cc:48
 msgid "DCI Flat"
-msgstr "DCI Flat(遮幅/1.77/1.78/1.85) "
+msgstr "DCI Flat(遮幅/1.77/1.78/1.85)  "
 
 #: src/lib/ratio.cc:50
 msgid "DCI Scope"
-msgstr "DCI Scope(宽银幕/2.35/2.39) "
+msgstr "DCI Scope(宽银幕/2.35/2.39)  "
 
 #: src/lib/dcp_subtitle_content.cc:103
 msgid "DCP XML subtitles"
@@ -762,7 +776,7 @@ msgstr "DCP-o-matic提醒"
 
 #: src/lib/datasat_ap2x.cc:28
 msgid "Datasat AP20 or AP25"
-msgstr ""
+msgstr "数据来自AP20或AP25"
 
 #: src/lib/filter.cc:80 src/lib/filter.cc:81 src/lib/filter.cc:82
 #: src/lib/filter.cc:83 src/lib/filter.cc:84
@@ -838,7 +852,7 @@ msgstr "编码中"
 
 #: src/lib/dcp_content_type.cc:61
 msgid "Episode"
-msgstr ""
+msgstr "插曲"
 
 #: src/lib/exceptions.cc:85
 msgid "Error in subtitle file: saw %1 while expecting %2"
@@ -990,12 +1004,14 @@ msgid ""
 "particular reason to use Interop.  You are advised to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
+"一般建议您使用SMPTE DCPS，除非您有特殊原因使用Interop。建议您在“DCP”选项卡中"
+"将DCP设置为使用SMPTE标准。"
 
 #: src/lib/hints.cc:573
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
-msgstr ""
+msgstr "建议在DCP开始后至少4秒放置您的第一个字幕，以确保它能被看到。"
 
 #: src/lib/job.cc:151 src/lib/job.cc:186 src/lib/job.cc:236 src/lib/job.cc:246
 msgid "It is not known what caused this error."
@@ -1071,7 +1087,7 @@ msgstr "对数 (范围 316:1)"
 
 #: src/lib/exceptions.cc:145
 msgid "Lost communication between main and writer processes"
-msgstr ""
+msgstr "主进程和写入进程之间的通信丢失"
 
 #: src/lib/util.cc:592
 msgid "Ls"
@@ -1191,7 +1207,7 @@ msgstr "程序内部错误 %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:62
 msgid "Promo"
-msgstr ""
+msgstr "宣传片"
 
 #: src/lib/dcp_content_type.cc:59
 msgid "Public Service Announcement"
@@ -1203,7 +1219,7 @@ msgstr "右声道"
 
 #: src/lib/ffmpeg_content.cc:642
 msgid "RGB / sRGB (IEC61966-2-1)"
-msgstr "RGB / sRGB (IEC61966-2-1)"
+msgstr "颜色模式 RGB / sRGB (IEC61966-2-1)"
 
 #: src/lib/dcp_content_type.cc:56
 msgid "Rating"
@@ -1284,6 +1300,8 @@ msgid ""
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
 "You should add these markers using the 'Markers' button in the \"DCP\" tab."
 msgstr ""
+"类型为FTR(FEATURE)的SMPTE DCP应具有结束字幕的第一帧(FFEC)和移动字幕的第一帧"
+"(FFMC)的标记。您应该使用“DCP”选项卡中的“标记”按钮添加这些标记。"
 
 #: src/lib/ffmpeg_content.cc:633
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
@@ -1334,7 +1352,7 @@ msgstr "短片"
 
 #: src/lib/util.cc:602
 msgid "Sign"
-msgstr ""
+msgstr "签名"
 
 #: src/lib/video_content.cc:500
 msgid "Size"
@@ -1350,18 +1368,23 @@ msgid ""
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
+"有些文件在添加到项目后发生了更改\n"
+"\n"
+"这些文件现在将被重新检查，因此您可能需要检查它们的设置。"
 
 #: src/lib/check_content_change_job.cc:100
 msgid ""
 "Some files have been changed since they were added to the project.  Open the "
 "project in DCP-o-matic, check the settings, then save it before trying again."
 msgstr ""
+"一些文件在添加到项目后被修改。在DCP-o-matic中打开项目，检查设置，然后保存后重"
+"试"
 
 #: src/lib/hints.cc:554
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
-msgstr ""
+msgstr "您的某些隐藏字幕跨度超过%1行，因此它将被截断，可能显示不完整"
 
 #: src/lib/hints.cc:653
 msgid ""
@@ -1369,6 +1392,8 @@ msgid ""
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
 "has no spoken parts."
 msgstr ""
+"您的某些内容有音频，但您尚未设置音频语言。建议在“DCP”选项卡设置音频语言，除非"
+"您的音频没有说话部分。"
 
 #: src/lib/film.cc:406
 msgid "Some of your content needs a KDM"
@@ -1412,7 +1437,7 @@ msgstr "文本字幕"
 
 #: src/lib/film.cc:389
 msgid "The DCP is empty, perhaps because all the content has zero length."
-msgstr ""
+msgstr "DCP为空，可能是因为所有内容的长度都为零"
 
 #: src/lib/exceptions.cc:92
 msgid "The certificate chain for signing is invalid"
@@ -1428,6 +1453,8 @@ msgid ""
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
+"内容文件%1设置为3D，但似乎不包含3D图像。请将其设置为2D。请通过勾选DCP视频选项"
+"卡中的3D选项，您仍然可以根据此内容制作3D DCP。"
 
 #: src/lib/job.cc:112
 msgid ""
@@ -1459,6 +1486,8 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
+"您的DCP和某些内容的帧速率不符。可能导致声画不同步。如果您的放映服务器支持当前"
+"速率，建议您将DCP帧速率设置为更接近当前原视频的速率"
 
 #: src/lib/dcp_content.cc:657
 msgid "There is no video in this DCP"
@@ -1488,6 +1517,8 @@ msgid ""
 "the 'number of threads DCP-o-matic should use' in the General tab of "
 "Preferences and try again."
 msgstr ""
+"出现此错误可能是因为您正在运行32位版本的DCP-o-matic，并且试图使用太多编码线"
+"程。请在“首选项”的“常规”选项卡中减少“DCP-o-matic应该使用的线程数”，然后重试。"
 
 #: src/lib/job.cc:141
 msgid ""
@@ -1495,6 +1526,8 @@ msgid ""
 "of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and "
 "try again."
 msgstr ""
+"出现此错误可能是因为您正在运行32位版本的DCP-o-matic。请使用64位安装程序重新安"
+"装DCP-o-matic，然后重试。"
 
 #: src/lib/exceptions.cc:113
 msgid ""
@@ -1543,7 +1576,7 @@ msgstr "星期二"
 
 #: src/lib/usl.cc:28
 msgid "USL"
-msgstr ""
+msgstr "规格上限 USL"
 
 #: src/lib/internet.cc:185
 msgid "Unexpected ZIP file contents"
@@ -1632,33 +1665,28 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
 #: src/lib/hints.cc:201
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"你所设定的视频帧率不是DCI标准（SMPTE）支持的，我们建议您制作DCI标准（SMPTE）"
-"的DCP。"
+"您设置的帧率为%1 fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率更改"
+"为%2 fps。"
 
 #: src/lib/hints.cc:185
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"你所设定的视频帧率不是DCI标准（SMPTE）支持的，我们建议您制作DCI标准（SMPTE）"
-"的DCP。"
+"您设置的帧率为%1 fps的DCP。并非所有放映设备都支持此帧率。建议您将帧率更改"
+"为%2 fps。"
 
 #: src/lib/hints.cc:195
-#, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
-msgstr ""
-"你所设定的视频帧率不是DCI标准（SMPTE）支持的，我们建议您制作DCI标准（SMPTE）"
-"的DCP。"
+msgstr "您设置的DCP帧速率为30fps，这不是所有放映设备都支持 ，请注意兼容问题。"
 
 #: src/lib/hints.cc:306
 msgid ""
@@ -1687,13 +1715,15 @@ msgstr ""
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
-msgstr ""
+msgstr "您有多个全景声，它们的帧率不同。您必须删除一些全景声。"
 
 #: src/lib/hints.cc:561
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
+"您有重叠的隐藏式字幕，这在 Interop DCP中是不允许的。请您的DCP标准更改为"
+"SMPTE。"
 
 #: src/lib/hints.cc:274
 msgid ""
@@ -1702,9 +1732,8 @@ msgid ""
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
 #: src/lib/film.cc:385
-#, fuzzy
 msgid "You must add some content to the DCP before creating it"
-msgstr "您必须在创建DCP之前添加一些内容"
+msgstr "在创建 DCP 之前，必须向添加一些内容"
 
 #: src/lib/hints.cc:112
 msgid ""
@@ -1713,15 +1742,16 @@ msgid ""
 "matter if your content has fewer channels, as DCP-o-matic will fill the "
 "extras with silence."
 msgstr ""
+"您的DCP的音轨少于6个，可能会在某些放映设备不支持。但是您任然可以设置成6个声"
+"轨，因为DCP-o-matic将用空白音轨补齐。"
 
 #: src/lib/hints.cc:160
-#, fuzzy
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
 msgstr ""
 "DCP使用了不常见的画幅比例，可能导致部分电影放映机无法正常播放，建议改成Flat "
-"(1.77/1.78/1.85) 或者Scope (2.35/2.39) 比例"
+"(1.77/1.78/1.85) 或者Scope (2.35/2.39) 比例。"
 
 #: src/lib/hints.cc:340
 msgid ""
@@ -1868,7 +1898,7 @@ msgstr "影片与DCP的帧速率不一致."
 #: src/lib/dcp_content.cc:765
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
-msgstr ""
+msgstr "当前内容有修剪，所以字幕或隐藏字幕必须重写。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:667
@@ -1944,14 +1974,14 @@ msgstr "名字"
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
-msgstr ""
+msgstr "它的一个隐藏字幕有一个非零的时间点，因此必须重写。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:743
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
-msgstr ""
+msgstr "它的一个字幕卷轴有一个非零的时间点，因此必须重写。"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:219
