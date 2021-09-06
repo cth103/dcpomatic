@@ -27,22 +27,24 @@ import json
 
 deb_build_depends = dict()
 
-deb_build_depends_base = ['debhelper', 'python', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev', 'libx264-dev']
+deb_build_depends_base = ['debhelper', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev', 'libx264-dev']
 
 deb_build_depends['16.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['16.04'].extend(['libssh-dev'])
+deb_build_depends['16.04'].extend(['libssh-dev', 'python'])
 deb_build_depends['18.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['18.04'].extend(['libssh-dev'])
+deb_build_depends['18.04'].extend(['libssh-dev', 'python'])
 deb_build_depends['20.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['20.04'].extend(['libssh-dev'])
+deb_build_depends['20.04'].extend(['libssh-dev', 'python'])
 deb_build_depends['20.10'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['20.10'].extend(['libssh-dev'])
+deb_build_depends['20.10'].extend(['libssh-dev', 'python'])
 deb_build_depends['21.04'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['21.04'].extend(['libssh-dev'])
+deb_build_depends['21.04'].extend(['libssh-dev', 'python'])
 deb_build_depends['9'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['9'].extend(['libssh-gcrypt-dev'])
+deb_build_depends['9'].extend(['libssh-gcrypt-dev', 'python'])
 deb_build_depends['10'] = copy.deepcopy(deb_build_depends_base)
-deb_build_depends['10'].extend(['libssh-gcrypt-dev'])
+deb_build_depends['10'].extend(['libssh-gcrypt-dev', 'python'])
+deb_build_depends['11'] = copy.deepcopy(deb_build_depends_base)
+deb_build_depends['11'].extend(['libssh-gcrypt-dev', 'python3.9'])
 deb_build_depends['unstable'] = copy.deepcopy(deb_build_depends_base)
 
 deb_depends = dict()
@@ -179,6 +181,30 @@ deb_depends['10'].extend(['libboost-filesystem1.67.0',
                           'libcurl4'])
 
 deb_depends_gui['10'] = [ 'libwxgtk3.0-0v5',
+                          'libxcb-xfixes0',
+                          'libxcb-shape0',
+                          'libasound2',
+                          'libpulse0' ]
+
+deb_depends['11'] = copy.deepcopy(deb_depends_base)
+deb_depends['11'].extend(['libboost-filesystem1.74.0',
+                          'libboost-thread1.74.0',
+                          'libboost-regex1.74.0',
+                          'libboost-date-time1.74.0',
+                          'libxml++2.6-2v5',
+                          'libzip4',
+                          'libcairomm-1.0-1v5',
+                          'libpangomm-1.4-1v5',
+                          'libicu67',
+                          'libssh-4',
+                          'libssh-gcrypt-4',
+                          'libnettle8',
+                          'libx264-160',
+                          'libcurl4',
+                          'libxerces-c3.2',
+                          'libnanomsg5'])
+
+deb_depends_gui['11'] = [ 'libwxgtk3.0-gtk3-0v5',
                           'libxcb-xfixes0',
                           'libxcb-shape0',
                           'libasound2',
