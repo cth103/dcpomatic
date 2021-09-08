@@ -378,6 +378,7 @@ class GLError : public std::runtime_error
 {
 public:
 	GLError (char const* last, int e);
+	GLError (char const* message);
 };
 
 
