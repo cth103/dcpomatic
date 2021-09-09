@@ -28,6 +28,7 @@
 #include "lib/signaller.h"
 #include "lib/timer.h"
 #include "lib/types.h"
+#include <wx/wx.h>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 
@@ -130,6 +131,16 @@ protected:
 	NextFrameResult get_next_frame (bool non_blocking);
 	boost::optional<int> time_until_next_frame () const;
 	dcpomatic::DCPTime one_video_frame () const;
+
+	wxColour pad_colour () const;
+
+	wxColour outline_content_colour () const {
+		return wxColour(255, 0, 0);
+	}
+
+	wxColour outline_subtitles_colour () const {
+		return wxColour(0, 255, 0);
+	}
 
 	int video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);

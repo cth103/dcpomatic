@@ -173,3 +173,17 @@ VideoView::add_dropped ()
 		emit (boost::bind(boost::ref(TooManyDropped)));
 	}
 }
+
+
+wxColour
+VideoView::pad_colour () const
+{
+	if (_viewer->pad_black()) {
+		return wxColour(0, 0, 0);
+	} else if (gui_is_dark()) {
+		return wxColour(50, 50, 50);
+	} else {
+		return wxColour(240, 240, 240);
+	}
+}
+

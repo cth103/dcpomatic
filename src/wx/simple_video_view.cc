@@ -74,24 +74,19 @@ SimpleVideoView::paint ()
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 	}
 
-	auto pad_colour = wxColour(240, 240, 240);
-	if (_viewer->pad_black()) {
-		pad_colour = wxColour(0, 0, 0);
-	} else if (gui_is_dark()) {
-		pad_colour = wxColour(50, 50, 50);
-	}
+	auto pad = pad_colour();
 
 	if (out_size.width < panel_size.GetWidth()) {
-		wxPen   p (pad_colour);
-		wxBrush b (pad_colour);
+		wxPen   p (pad);
+		wxBrush b (pad);
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		dc.DrawRectangle (out_size.width, 0, panel_size.GetWidth() - out_size.width, panel_size.GetHeight());
 	}
 
 	if (out_size.height < panel_size.GetHeight()) {
-		wxPen   p (pad_colour);
-		wxBrush b (pad_colour);
+		wxPen   p (pad);
+		wxBrush b (pad);
 		dc.SetPen (p);
 		dc.SetBrush (b);
 		int const gap = (panel_size.GetHeight() - out_size.height) / 2;
@@ -100,7 +95,7 @@ SimpleVideoView::paint ()
 	}
 
 	if (_viewer->outline_content()) {
-		wxPen p (wxColour (255, 0, 0), 2);
+		wxPen p (outline_content_colour(), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, _inter_size.width, _inter_size.height);
@@ -108,7 +103,7 @@ SimpleVideoView::paint ()
 
 	auto subs = _viewer->outline_subtitles();
 	if (subs) {
-		wxPen p (wxColour(0, 255, 0), 2);
+		wxPen p (outline_subtitles_colour(), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
 		dc.DrawRectangle (subs->x * out_size.width, subs->y * out_size.height, subs->width * out_size.width, subs->height * out_size.height);
