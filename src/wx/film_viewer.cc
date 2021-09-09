@@ -281,21 +281,22 @@ FilmViewer::calculate_sizes ()
 	auto const view_ratio = float(_video_view->get()->GetSize().x) / _video_view->get()->GetSize().y;
 	auto const film_ratio = container ? container->ratio () : 1.78;
 
+	dcp::Size out_size;
 	if (view_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
-		_out_size.width = _video_view->get()->GetSize().x;
-		_out_size.height = lrintf (_out_size.width / film_ratio);
+		out_size.width = _video_view->get()->GetSize().x;
+		out_size.height = lrintf (out_size.width / film_ratio);
 	} else {
 		/* panel is more widescreen than the film; clamp height */
-		_out_size.height = _video_view->get()->GetSize().y;
-		_out_size.width = lrintf (_out_size.height * film_ratio);
+		out_size.height = _video_view->get()->GetSize().y;
+		out_size.width = lrintf (out_size.height * film_ratio);
 	}
 
 	/* Catch silly values */
-	_out_size.width = max (64, _out_size.width);
-	_out_size.height = max (64, _out_size.height);
+	out_size.width = max (64, out_size.width);
+	out_size.height = max (64, out_size.height);
 
-	_player->set_video_container_size (_out_size);
+	_player->set_video_container_size (out_size);
 }
 
 

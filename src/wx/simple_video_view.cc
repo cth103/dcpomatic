@@ -63,12 +63,13 @@ SimpleVideoView::paint ()
         _state_timer.set("paint-panel");
 	wxPaintDC dc (_panel);
 
-	dcp::Size const out_size = _viewer->out_size ();
-	wxSize const panel_size = _panel->GetSize ();
+	auto const panel_size = _panel->GetSize ();
 
-	if (!out_size.width || !out_size.height || !_image || out_size != _image->size()) {
+	dcp::Size out_size;
+	if (!_image) {
 		dc.Clear ();
 	} else {
+		out_size = _image->size();
 		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));

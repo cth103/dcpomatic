@@ -115,9 +115,6 @@ public:
 	}
 
 	/* Some accessors and utility methods that VideoView classes need */
-	dcp::Size out_size () const {
-		return _out_size;
-	}
 	bool outline_content () const {
 		return _outline_content;
 	}
@@ -175,9 +172,6 @@ private:
 	VideoView* _video_view = nullptr;
 	bool _coalesce_player_changes = false;
 	std::vector<int> _pending_player_changes;
-
-	/** Size of our output (including padding if we have any) */
-	dcp::Size _out_size;
 
 	RtAudio _audio;
 	int _audio_channels = 0;
