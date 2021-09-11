@@ -53,6 +53,10 @@ public:
 		return _vsync_enabled;
 	}
 
+	std::map<GLenum, std::string> information () const {
+		return _information;
+	}
+
 private:
 	void set_image (std::shared_ptr<const Image> image);
 	void set_image_and_draw ();
@@ -86,4 +90,6 @@ private:
 	bool _setup_shaders_done = false;
 
 	std::shared_ptr<wxTimer> _timer;
+
+	std::map<GLenum, std::string> _information;
 };

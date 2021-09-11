@@ -52,13 +52,23 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<Fil
 		add (_("OpenGL version"), true);
 		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	} else {
-		add (_("OpenGL version"), true);
-		auto v = reinterpret_cast<char const *>(glGetString(GL_VERSION));
-		if (v) {
-			add (std_to_wx(v), false);
-		} else {
-			add (_("unknown"), false);
-		}
+
+		auto information = gl->information();
+		auto add_string = [this, &information](GLenum name, wxString label) {
+			add (label, true);
+			auto i = information.find(name);
+			if (i != information.end()) {
+				add (std_to_wx(i->second), false);
+			} else {
+				add (_("unknown"), false);
+			}
+		};
+
+		add_string (GL_VENDOR, _("Vendor"));
+		add_string (GL_RENDERER, _("Renderer"));
+		add_string (GL_VERSION, _("Version"));
+		add_string (GL_SHADING_LANGUAGE_VERSION, _("Shading language version"));
+
 		add (_("vsync"), true);
 		add (gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
 	}

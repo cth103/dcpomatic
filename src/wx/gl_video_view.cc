@@ -277,6 +277,18 @@ GLVideoView::setup_shaders ()
 	}
 #endif
 
+	auto get_information = [this](GLenum name) {
+		auto s = glGetString (name);
+		if (s) {
+			_information[name] = std::string (reinterpret_cast<char const *>(s));
+		}
+	};
+
+	get_information (GL_VENDOR);
+	get_information (GL_RENDERER);
+	get_information (GL_VERSION);
+	get_information (GL_SHADING_LANGUAGE_VERSION);
+
 	unsigned int indices[] = {
 		0, 1, 3, // texture triangle #1
 		1, 2, 3, // texture triangle #2
