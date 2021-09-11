@@ -145,7 +145,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 	try {
 		/* XXX: should check that potentially trashing _data here doesn't matter */
 		auto decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
-		_image.reset (new Image (_pixel_format, decompressed->size(), true));
+		_image.reset (new Image (_pixel_format, decompressed->size(), false));
 
 		int const shift = 16 - decompressed->precision (0);
 

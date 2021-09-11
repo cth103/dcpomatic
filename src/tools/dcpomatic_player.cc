@@ -197,6 +197,7 @@ public:
 			_controls = new StandardControls (_overall_panel, _viewer, false);
 		}
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
+		_viewer->set_optimise_for_j2k (true);
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));

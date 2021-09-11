@@ -323,7 +323,7 @@ try
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
 		LOG_TIMING("start-prepare in %1", thread_id());
-		video->prepare (_pixel_format, _video_range, _aligned, _fast);
+		video->prepare (_pixel_format, _video_range, _aligned, _fast, _prepare_only_proxy);
 		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
 }

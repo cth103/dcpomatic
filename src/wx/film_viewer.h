@@ -98,6 +98,7 @@ public:
 	void set_outline_subtitles (boost::optional<dcpomatic::Rect<double>>);
 	void set_eyes (Eyes e);
 	void set_pad_black (bool p);
+	void set_optimise_for_j2k (bool o);
 
 	void slow_refresh ();
 
@@ -186,6 +187,11 @@ private:
 	int _latency_history_count = 0;
 
 	boost::optional<int> _dcp_decode_reduction;
+
+	/** true to assume that this viewer is only being used for JPEG2000 sources
+	 *  so it can optimise accordingly.
+	 */
+	bool _optimise_for_j2k = false;
 
 	ClosedCaptionsDialog* _closed_captions_dialog = nullptr;
 

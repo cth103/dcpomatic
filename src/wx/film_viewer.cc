@@ -229,6 +229,10 @@ FilmViewer::recreate_butler ()
 		_butler->disable_audio ();
 	}
 
+	if (dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k) {
+		_butler->set_prepare_only_proxy (true);
+	}
+
 	_closed_captions_dialog->set_butler (_butler);
 
 	resume ();
@@ -772,3 +776,12 @@ FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
 {
 	emit (boost::bind(boost::ref(ImageChanged), pv));
 }
+
+
+void
+FilmViewer::set_optimise_for_j2k (bool o)
+{
+	_optimise_for_j2k = o;
+	_video_view->set_optimise_for_j2k (o);
+}
+

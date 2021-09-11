@@ -121,6 +121,14 @@ PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoR
 	return _image;
 }
 
+
+shared_ptr<Image>
+PlayerVideo::raw_image () const
+{
+	return _in->image(_inter_size).image;
+}
+
+
 /** Create an image for this frame.  A lock must be held on _mutex.
  *  @param pixel_format Function which is called to decide what pixel format the output image should be;
  *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
@@ -290,11 +298,11 @@ PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 }
 
 void
-PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast)
+PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast, bool proxy_only)
 {
 	_in->prepare (_inter_size);
 	boost::mutex::scoped_lock lm (_mutex);
-	if (!_image) {
+	if (!_image && !proxy_only) {
 		make_image (pixel_format, video_range, aligned, fast);
 	}
 }

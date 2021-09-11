@@ -58,7 +58,7 @@ public:
 	}
 
 private:
-	void set_image (std::shared_ptr<const Image> image);
+	void set_image (std::shared_ptr<const PlayerVideo> pv);
 	void set_image_and_draw ();
 	void draw (Position<int> inter_position, dcp::Size inter_size);
 	void thread ();
@@ -86,7 +86,7 @@ private:
 	boost::atomic<bool> _one_shot;
 
 	GLuint _vao;
-	GLint _draw_border;
+	GLint _fragment_type;
 	bool _setup_shaders_done = false;
 
 	std::shared_ptr<wxTimer> _timer;

@@ -80,6 +80,9 @@ public:
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
 	void disable_audio ();
+	void set_prepare_only_proxy (bool p) {
+		_prepare_only_proxy = p;
+	}
 
 	std::pair<size_t, std::string> memory_used () const;
 
@@ -126,6 +129,14 @@ private:
 	VideoRange _video_range;
 	bool _aligned;
 	bool _fast;
+
+	/** true to ask PlayerVideo::prepare to only prepare the ImageProxy and not also
+	 *  the final image.  We want to do this when the viewer is intending to call
+	 *  PlayerVideo::raw_image() and do the things in PlayerVideo::make_imgae() itself:
+	 *  this is the case for the GLVideoView which can do scale, pixfmt conversion etc.
+	 *  in the shader.
+	 */
+	bool _prepare_only_proxy = false;
 
 	/** If we are waiting to be refilled following a seek, this is the time we were
 	    seeking to.

@@ -189,12 +189,22 @@ static constexpr char fragment_source[] =
 "in vec2 TexCoord;\n"
 "\n"
 "uniform sampler2D texture_sampler;\n"
-"uniform int draw_border;\n"
+/* type = 0: draw border
+ * type = 1: draw XYZ image
+ * type = 2: draw RGB image
+ */
+"uniform int type = 0;\n"
 "uniform vec4 border_colour;\n"
+"uniform mat4 colour_conversion;\n"
 "\n"
 "out vec4 FragColor;\n"
 "\n"
 "vec4 cubic(float x)\n"
+"\n"
+"#define IN_GAMMA 2.2\n"
+"#define OUT_GAMMA 0.384615385\n"       //  1 /  2.6
+"#define DCI_COEFFICIENT 0.91655528\n"  // 48 / 53.37
+"\n"
 "{\n"
 "    float x2 = x * x;\n"
 "    float x3 = x2 * x;\n"
@@ -241,10 +251,23 @@ static constexpr char fragment_source[] =
 "\n"
 "void main()\n"
 "{\n"
-"	if (draw_border == 1) {\n"
-"		FragColor = border_colour;\n"
-"	} else {\n"
-"		FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"	switch (type) {\n"
+"		case 0:\n"
+"			FragColor = border_colour;\n"
+"			break;\n"
+"		case 1:\n"
+"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			FragColor.x = pow(FragColor.x, IN_GAMMA) / DCI_COEFFICIENT;\n"
+"			FragColor.y = pow(FragColor.y, IN_GAMMA) / DCI_COEFFICIENT;\n"
+"			FragColor.z = pow(FragColor.z, IN_GAMMA) / DCI_COEFFICIENT;\n"
+"			FragColor = colour_conversion * FragColor;\n"
+"			FragColor.x = pow(FragColor.x, OUT_GAMMA);\n"
+"			FragColor.y = pow(FragColor.y, OUT_GAMMA);\n"
+"			FragColor.z = pow(FragColor.z, OUT_GAMMA);\n"
+"			break;\n"
+"		case 2:\n"
+"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			break;\n"
 "	}\n"
 "}\n";
 
@@ -383,9 +406,22 @@ GLVideoView::setup_shaders ()
 
 	glUseProgram (program);
 
-	_draw_border = glGetUniformLocation (program, "draw_border");
+	_fragment_type = glGetUniformLocation (program, "type");
 	check_gl_error ("glGetUniformLocation");
 	set_border_colour (program);
+
+	auto conversion = dcp::ColourConversion::rec709_to_xyz();
+	boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
+	GLfloat gl_matrix[] = {
+		static_cast<float>(matrix(0, 0)), static_cast<float>(matrix(0, 1)), static_cast<float>(matrix(0, 2)), 0.0f,
+		static_cast<float>(matrix(1, 0)), static_cast<float>(matrix(1, 1)), static_cast<float>(matrix(1, 2)), 0.0f,
+		static_cast<float>(matrix(2, 0)), static_cast<float>(matrix(2, 1)), static_cast<float>(matrix(2, 2)), 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
+		};
+
+	auto colour_conversion = glGetUniformLocation (program, "colour_conversion");
+	check_gl_error ("glGetUniformLocation");
+	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
 
 	glLineWidth (2.0f);
 }
@@ -424,10 +460,10 @@ GLVideoView::draw (Position<int>, dcp::Size)
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
-	glUniform1i(_draw_border, 0);
+	glUniform1i(_fragment_type, _optimise_for_j2k ? 1 : 2);
 	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	if (_viewer->outline_content()) {
-		glUniform1i(_draw_border, 1);
+		glUniform1i(_fragment_type, 1);
 		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(6 * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
@@ -440,30 +476,35 @@ GLVideoView::draw (Position<int>, dcp::Size)
 
 
 void
-GLVideoView::set_image (shared_ptr<const Image> image)
+GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 {
-	if (!image) {
-		_size = optional<dcp::Size>();
-		return;
-	}
+	auto image = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
 
-
-	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_RGB24);
 	DCPOMATIC_ASSERT (!image->aligned());
+
+	/** If _optimise_for_j2k is true we render a XYZ image, doing the colourspace
+	 *  conversion, scaling and video range conversion in the GL shader.
+	 *  Othewise we render a RGB image without any shader-side processing.
+	 */
+
+	/* XXX: video range conversion */
+	/* XXX: subs */
 
 	if (image->size() != _size) {
 		_have_storage = false;
 	}
 
 	_size = image->size ();
-	glPixelStorei (GL_UNPACK_ALIGNMENT, 1);
+	glPixelStorei (GL_UNPACK_ALIGNMENT, _optimise_for_j2k ? 2 : 1);
 	check_gl_error ("glPixelStorei");
 
+	auto const format = _optimise_for_j2k ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
+
 	if (_have_storage) {
-		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
+		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, format, image->data()[0]);
 		check_gl_error ("glTexSubImage2D");
 	} else {
-		glTexImage2D (GL_TEXTURE_2D, 0, GL_RGBA8, _size->width, _size->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->data()[0]);
+		glTexImage2D (GL_TEXTURE_2D, 0, _optimise_for_j2k ? GL_RGBA12 : GL_RGBA8, _size->width, _size->height, 0, GL_RGB, format, image->data()[0]);
 		check_gl_error ("glTexImage2D");
 
 		auto const canvas_size = _canvas_size.load();
@@ -517,6 +558,7 @@ GLVideoView::set_image (shared_ptr<const Image> image)
 	check_gl_error ("glTexParameterf");
 }
 
+
 void
 GLVideoView::start ()
 {
@@ -566,7 +608,7 @@ GLVideoView::set_image_and_draw ()
 {
 	auto pv = player_video().first;
 	if (pv) {
-		set_image (pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true));
+		set_image (pv);
 		draw (pv->inter_position(), pv->inter_size());
 		_viewer->image_changed (pv);
 	}
