@@ -38,8 +38,11 @@ using std::shared_ptr;
 SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
-	shared_ptr<FilmViewer> viewer = weak_viewer.lock ();
-	GLVideoView const * gl = viewer ? dynamic_cast<GLVideoView const *>(viewer->video_view()) : 0;
+	auto viewer = weak_viewer.lock ();
+	shared_ptr<const GLVideoView> gl;
+	if (viewer) {
+		gl = std::dynamic_pointer_cast<const GLVideoView>(viewer->video_view());
+	}
 
 	if (!gl) {
 		add (_("OpenGL version"), true);

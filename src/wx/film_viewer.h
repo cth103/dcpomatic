@@ -62,7 +62,7 @@ public:
 		return _video_view->get();
 	}
 
-	VideoView const * video_view () const {
+	std::shared_ptr<const VideoView> video_view () const {
 		return _video_view;
 	}
 
@@ -169,7 +169,7 @@ private:
 	std::shared_ptr<Film> _film;
 	std::shared_ptr<Player> _player;
 
-	VideoView* _video_view = nullptr;
+	std::shared_ptr<VideoView> _video_view;
 	bool _coalesce_player_changes = false;
 	std::vector<int> _pending_player_changes;
 
