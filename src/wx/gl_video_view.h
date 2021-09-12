@@ -75,7 +75,7 @@ private:
 
 	boost::atomic<wxSize> _canvas_size;
 	GLuint _video_texture;
-	boost::optional<dcp::Size> _size;
+	boost::optional<dcp::Size> _video_size;
 	bool _have_storage;
 	bool _vsync_enabled;
 	boost::thread _thread;

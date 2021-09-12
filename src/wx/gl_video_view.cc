@@ -497,29 +497,29 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	/* XXX: video range conversion */
 	/* XXX: subs */
 
-	if (image->size() != _size) {
+	if (image->size() != _video_size) {
 		_have_storage = false;
 	}
 
-	_size = image->size ();
+	_video_size = image->size ();
 	glPixelStorei (GL_UNPACK_ALIGNMENT, _optimise_for_j2k ? 2 : 1);
 	check_gl_error ("glPixelStorei");
 
 	auto const format = _optimise_for_j2k ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
 
 	if (_have_storage) {
-		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, format, image->data()[0]);
+		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _video_size->width, _video_size->height, GL_RGB, format, image->data()[0]);
 		check_gl_error ("glTexSubImage2D");
 	} else {
-		glTexImage2D (GL_TEXTURE_2D, 0, _optimise_for_j2k ? GL_RGBA12 : GL_RGBA8, _size->width, _size->height, 0, GL_RGB, format, image->data()[0]);
+		glTexImage2D (GL_TEXTURE_2D, 0, _optimise_for_j2k ? GL_RGBA12 : GL_RGBA8, _video_size->width, _video_size->height, 0, GL_RGB, format, image->data()[0]);
 		check_gl_error ("glTexImage2D");
 
 		auto const canvas_size = _canvas_size.load();
 		int const canvas_width = canvas_size.GetWidth();
 		int const canvas_height = canvas_size.GetHeight();
 
-		float const image_x = float(_size->width) / canvas_width;
-		float const image_y = float(_size->height) / canvas_height;
+		float const image_x = float(_video_size->width) / canvas_width;
+		float const image_y = float(_video_size->height) / canvas_height;
 
 		auto x_pixels_to_gl = [canvas_width](int x) {
 			return (x * 2.0f / canvas_width) - 1.0f;
