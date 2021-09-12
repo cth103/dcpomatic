@@ -634,6 +634,7 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 
 	if (sub.num_rects <= 0) {
 		/* Nothing new in this subtitle */
+		avsubtitle_free (&sub);
 		return;
 	}
 
