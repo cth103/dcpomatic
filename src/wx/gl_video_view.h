@@ -34,6 +34,23 @@ DCPOMATIC_ENABLE_WARNINGS
 #undef Success
 #undef Status
 
+
+class Texture
+{
+public:
+	Texture ();
+	~Texture ();
+
+	Texture (Texture const&) = delete;
+	Texture& operator= (Texture const&) = delete;
+
+	void bind ();
+
+private:
+	GLuint _name;
+};
+
+
 class GLVideoView : public VideoView
 {
 public:
@@ -74,7 +91,7 @@ private:
 	wxGLContext* _context;
 
 	boost::atomic<wxSize> _canvas_size;
-	GLuint _video_texture;
+	std::unique_ptr<Texture> _video_texture;
 	boost::optional<dcp::Size> _video_size;
 	bool _have_storage;
 	bool _vsync_enabled;

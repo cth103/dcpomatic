@@ -114,8 +114,6 @@ GLVideoView::~GLVideoView ()
 		_thread.interrupt ();
 		_thread.join ();
 	} catch (...) {}
-
-	glDeleteTextures (1, &_video_texture);
 }
 
 void
@@ -464,7 +462,6 @@ GLVideoView::draw (Position<int>, dcp::Size)
 	glViewport (0, 0, width, height);
 	check_gl_error ("glViewport");
 
-	glBindTexture(GL_TEXTURE_2D, _video_texture);
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
 	glUniform1i(_fragment_type, _optimise_for_j2k ? 1 : 2);
@@ -668,10 +665,8 @@ try
 	_vsync_enabled = true;
 #endif
 
-	glGenTextures (1, &_video_texture);
-	check_gl_error ("glGenTextures");
-	glBindTexture (GL_TEXTURE_2D, _video_texture);
-	check_gl_error ("glBindTexture");
+	_video_texture.reset(new Texture());
+	_video_texture->bind();
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
@@ -716,5 +711,26 @@ GLVideoView::request_one_shot ()
 	boost::mutex::scoped_lock lm (_playing_mutex);
 	_one_shot = true;
 	_thread_work_condition.notify_all ();
+}
+
+
+Texture::Texture ()
+{
+	glGenTextures (1, &_name);
+	check_gl_error ("glGenTextures");
+}
+
+
+Texture::~Texture ()
+{
+	glDeleteTextures (1, &_name);
+}
+
+
+void
+Texture::bind ()
+{
+	glBindTexture(GL_TEXTURE_2D, _name);
+	check_gl_error ("glBindTexture");
 }
 
