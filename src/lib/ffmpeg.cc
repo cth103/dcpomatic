@@ -284,9 +284,9 @@ FFmpeg::avio_seek (int64_t const pos, int whence)
 
 
 FFmpegSubtitlePeriod
-FFmpeg::subtitle_period (AVSubtitle const & sub)
+FFmpeg::subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub)
 {
-	auto const packet_time = ContentTime::from_seconds (static_cast<double> (sub.pts) / AV_TIME_BASE);
+	auto const packet_time = ContentTime::from_seconds (packet->pts * av_q2d(stream->time_base));
 
 	if (sub.end_display_time == static_cast<uint32_t> (-1)) {
 		/* End time is not known */

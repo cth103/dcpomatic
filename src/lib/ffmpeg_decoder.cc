@@ -622,12 +622,14 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 		return;
 	}
 
+	auto sub_period = subtitle_period (packet, ffmpeg_content()->subtitle_stream()->stream(_format_context), sub);
+
 	/* Stop any current subtitle, either at the time it was supposed to stop, or now if now is sooner */
 	if (_have_current_subtitle) {
 		if (_current_subtitle_to) {
-			only_text()->emit_stop (min(*_current_subtitle_to, subtitle_period(sub).from + _pts_offset));
+			only_text()->emit_stop (min(*_current_subtitle_to, sub_period.from + _pts_offset));
 		} else {
-			only_text()->emit_stop (subtitle_period(sub).from + _pts_offset);
+			only_text()->emit_stop (sub_period.from + _pts_offset);
 		}
 		_have_current_subtitle = false;
 	}
@@ -641,7 +643,6 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 	/* Subtitle PTS (within the source, not taking into account any of the
 	   source that we may have chopped off for the DCP).
 	*/
-	auto sub_period = subtitle_period (sub);
 	ContentTime from;
 	from = sub_period.from + _pts_offset;
 	if (sub_period.to) {
