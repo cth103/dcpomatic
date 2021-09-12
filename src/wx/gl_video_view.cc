@@ -285,6 +285,22 @@ GLVideoView::ensure_context ()
 	}
 }
 
+
+/* Offset of video texture triangles in indices */
+static constexpr int indices_video_texture = 0;
+/* Offset of border lines in indices */
+static constexpr int indices_border = 6;
+
+static constexpr unsigned int indices[] = {
+	0, 1, 3, // video texture triangle #1
+	1, 2, 3, // video texture triangle #2
+	4, 5,    // border line #1
+	5, 6,    // border line #2
+	6, 7,    // border line #3
+	7, 4,    // border line #4
+};
+
+
 void
 GLVideoView::setup_shaders ()
 {
@@ -311,15 +327,6 @@ GLVideoView::setup_shaders ()
 	get_information (GL_RENDERER);
 	get_information (GL_VERSION);
 	get_information (GL_SHADING_LANGUAGE_VERSION);
-
-	unsigned int indices[] = {
-		0, 1, 3, // texture triangle #1
-		1, 2, 3, // texture triangle #2
-		4, 5,    // border line #1
-		5, 6,    // border line #2
-		6, 7,    // border line #3
-		7, 4,    // border line #4
-	};
 
 	glGenVertexArrays(1, &_vao);
 	check_gl_error ("glGenVertexArrays");
@@ -461,10 +468,10 @@ GLVideoView::draw (Position<int>, dcp::Size)
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
 	glUniform1i(_fragment_type, _optimise_for_j2k ? 1 : 2);
-	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture));
 	if (_viewer->outline_content()) {
 		glUniform1i(_fragment_type, 1);
-		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(6 * sizeof(int)));
+		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_border * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
 
