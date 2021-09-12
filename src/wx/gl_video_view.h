@@ -74,7 +74,7 @@ private:
 	wxGLContext* _context;
 
 	boost::atomic<wxSize> _canvas_size;
-	GLuint _texture;
+	GLuint _video_texture;
 	boost::optional<dcp::Size> _size;
 	bool _have_storage;
 	bool _vsync_enabled;

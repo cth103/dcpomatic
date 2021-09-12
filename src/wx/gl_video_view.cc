@@ -115,7 +115,7 @@ GLVideoView::~GLVideoView ()
 		_thread.join ();
 	} catch (...) {}
 
-	glDeleteTextures (1, &_texture);
+	glDeleteTextures (1, &_video_texture);
 }
 
 void
@@ -457,7 +457,7 @@ GLVideoView::draw (Position<int>, dcp::Size)
 	glViewport (0, 0, width, height);
 	check_gl_error ("glViewport");
 
-	glBindTexture(GL_TEXTURE_2D, _texture);
+	glBindTexture(GL_TEXTURE_2D, _video_texture);
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
 	glUniform1i(_fragment_type, _optimise_for_j2k ? 1 : 2);
@@ -661,9 +661,9 @@ try
 	_vsync_enabled = true;
 #endif
 
-	glGenTextures (1, &_texture);
+	glGenTextures (1, &_video_texture);
 	check_gl_error ("glGenTextures");
-	glBindTexture (GL_TEXTURE_2D, _texture);
+	glBindTexture (GL_TEXTURE_2D, _video_texture);
 	check_gl_error ("glBindTexture");
 
 	while (true) {
