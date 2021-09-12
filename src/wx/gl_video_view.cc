@@ -539,14 +539,14 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 
 		float vertices[] = {
 			// positions                  // texture coords
-			 image_x,   image_y,   0.0f,  1.0f, 0.0f,   // top right           (index 0)
-			 image_x,  -image_y,   0.0f,  1.0f, 1.0f,   // bottom right        (index 1)
-			-image_x,  -image_y,   0.0f,  0.0f, 1.0f,   // bottom left         (index 2)
-			-image_x,   image_y,   0.0f,  0.0f, 0.0f,   // top left            (index 3)
-			 border_x1, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom left  (index 4)
-			 border_x1, border_y2, 0.0f,  0.0f, 0.0f,   // border top left     (index 5)
-			 border_x2, border_y2, 0.0f,  0.0f, 0.0f,   // border top right    (index 6)
-			 border_x2, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom right (index 7)
+			 image_x,   image_y,   0.0f,  1.0f, 0.0f,   // video texture top right    (index 0)
+			 image_x,  -image_y,   0.0f,  1.0f, 1.0f,   // video texture bottom right (index 1)
+			-image_x,  -image_y,   0.0f,  0.0f, 1.0f,   // video texture bottom left  (index 2)
+			-image_x,   image_y,   0.0f,  0.0f, 0.0f,   // video texture top left     (index 3)
+			 border_x1, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom left         (index 4)
+			 border_x1, border_y2, 0.0f,  0.0f, 0.0f,   // border top left            (index 5)
+			 border_x2, border_y2, 0.0f,  0.0f, 0.0f,   // border top right           (index 6)
+			 border_x2, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom right        (index 7)
 		};
 
 		/* Set the vertex shader's input data (GL_ARRAY_BUFFER) */
