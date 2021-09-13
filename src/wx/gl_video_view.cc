@@ -74,7 +74,6 @@ check_gl_error (char const * last)
 GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 	: VideoView (viewer)
 	, _context (nullptr)
-	, _have_storage (false)
 	, _vsync_enabled (false)
 	, _playing (false)
 	, _one_shot (false)
@@ -494,29 +493,15 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	/* XXX: video range conversion */
 	/* XXX: subs */
 
-	if (image->size() != _video_size) {
-		_have_storage = false;
-	}
+	auto const changed = _video_texture->set (image);
 
-	_video_size = image->size ();
-	glPixelStorei (GL_UNPACK_ALIGNMENT, _optimise_for_j2k ? 2 : 1);
-	check_gl_error ("glPixelStorei");
-
-	auto const format = _optimise_for_j2k ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE;
-
-	if (_have_storage) {
-		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _video_size->width, _video_size->height, GL_RGB, format, image->data()[0]);
-		check_gl_error ("glTexSubImage2D");
-	} else {
-		glTexImage2D (GL_TEXTURE_2D, 0, _optimise_for_j2k ? GL_RGBA12 : GL_RGBA8, _video_size->width, _video_size->height, 0, GL_RGB, format, image->data()[0]);
-		check_gl_error ("glTexImage2D");
-
+	if (changed) {
 		auto const canvas_size = _canvas_size.load();
 		int const canvas_width = canvas_size.GetWidth();
 		int const canvas_height = canvas_size.GetHeight();
 
-		float const image_x = float(_video_size->width) / canvas_width;
-		float const image_y = float(_video_size->height) / canvas_height;
+		float const image_x = float(image->size().width) / canvas_width;
+		float const image_y = float(image->size().height) / canvas_height;
 
 		auto x_pixels_to_gl = [canvas_width](int x) {
 			return (x * 2.0f / canvas_width) - 1.0f;
@@ -549,8 +534,6 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		/* Set the vertex shader's input data (GL_ARRAY_BUFFER) */
 		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 		check_gl_error ("glBufferData");
-
-		_have_storage = true;
 	}
 
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -665,7 +648,7 @@ try
 	_vsync_enabled = true;
 #endif
 
-	_video_texture.reset(new Texture());
+	_video_texture.reset(new Texture(_optimise_for_j2k ? 2 : 1));
 	_video_texture->bind();
 
 	while (true) {
@@ -714,7 +697,8 @@ GLVideoView::request_one_shot ()
 }
 
 
-Texture::Texture ()
+Texture::Texture (GLint unpack_alignment)
+	: _unpack_alignment (unpack_alignment)
 {
 	glGenTextures (1, &_name);
 	check_gl_error ("glGenTextures");
@@ -732,5 +716,29 @@ Texture::bind ()
 {
 	glBindTexture(GL_TEXTURE_2D, _name);
 	check_gl_error ("glBindTexture");
+}
+
+
+bool
+Texture::set (shared_ptr<const Image> image)
+{
+	auto const create = !_size || image->size() != _size;
+	_size = image->size();
+
+	glPixelStorei (GL_UNPACK_ALIGNMENT, _unpack_alignment);
+	check_gl_error ("glPixelStorei");
+
+	auto const format = image->pixel_format() == AV_PIX_FMT_RGB24 ? GL_UNSIGNED_BYTE : GL_UNSIGNED_SHORT;
+	auto const internal_format = image->pixel_format() == AV_PIX_FMT_RGB24 ? GL_RGBA8 : GL_RGBA12;
+
+	if (create) {
+		glTexImage2D (GL_TEXTURE_2D, 0, internal_format, _size->width, _size->height, 0, GL_RGB, format, image->data()[0]);
+		check_gl_error ("glTexImage2D");
+	} else {
+		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, format, image->data()[0]);
+		check_gl_error ("glTexSubImage2D");
+	}
+
+	return create;
 }
 

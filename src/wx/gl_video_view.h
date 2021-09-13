@@ -38,16 +38,19 @@ DCPOMATIC_ENABLE_WARNINGS
 class Texture
 {
 public:
-	Texture ();
+	Texture (GLint unpack_alignment);
 	~Texture ();
 
 	Texture (Texture const&) = delete;
 	Texture& operator= (Texture const&) = delete;
 
 	void bind ();
+	bool set (std::shared_ptr<const Image> image);
 
 private:
 	GLuint _name;
+	GLint _unpack_alignment;
+	boost::optional<dcp::Size> _size;
 };
 
 
@@ -92,8 +95,6 @@ private:
 
 	boost::atomic<wxSize> _canvas_size;
 	std::unique_ptr<Texture> _video_texture;
-	boost::optional<dcp::Size> _video_size;
-	bool _have_storage;
 	bool _vsync_enabled;
 	boost::thread _thread;
 
