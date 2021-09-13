@@ -70,6 +70,9 @@ public:
 	std::shared_ptr<PlayerVideo> shallow_copy () const;
 
 	void set_text (PositionImage);
+	boost::optional<PositionImage> text () const {
+		return _text;
+	}
 
 	void prepare (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast, bool proxy_only);
 	std::shared_ptr<Image> image (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
