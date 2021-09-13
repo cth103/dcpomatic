@@ -481,9 +481,9 @@ GLVideoView::draw (Position<int>, dcp::Size)
 void
 GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 {
-	auto image = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+	auto video = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
 
-	DCPOMATIC_ASSERT (!image->aligned());
+	DCPOMATIC_ASSERT (!video->aligned());
 
 	/** If _optimise_for_j2k is true we render a XYZ image, doing the colourspace
 	 *  conversion, scaling and video range conversion in the GL shader.
@@ -493,15 +493,15 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	/* XXX: video range conversion */
 	/* XXX: subs */
 
-	auto const changed = _video_texture->set (image);
+	auto const changed = _video_texture->set (video);
 
 	if (changed) {
 		auto const canvas_size = _canvas_size.load();
 		int const canvas_width = canvas_size.GetWidth();
 		int const canvas_height = canvas_size.GetHeight();
 
-		float const image_x = float(image->size().width) / canvas_width;
-		float const image_y = float(image->size().height) / canvas_height;
+		float const video_x = float(video->size().width) / canvas_width;
+		float const video_y = float(video->size().height) / canvas_height;
 
 		auto x_pixels_to_gl = [canvas_width](int x) {
 			return (x * 2.0f / canvas_width) - 1.0f;
@@ -514,17 +514,17 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		auto inter_position = player_video().first->inter_position();
 		auto inter_size = player_video().first->inter_size();
 
-		float const border_x1 = x_pixels_to_gl (inter_position.x) + 1.0f - image_x;
-		float const border_y1 = y_pixels_to_gl (inter_position.y) + 1.0f - image_y;
-		float const border_x2 = x_pixels_to_gl (inter_position.x + inter_size.width) + 1.0f - image_x;
-		float const border_y2 = y_pixels_to_gl (inter_position.y + inter_size.height) + 1.0f - image_y;
+		float const border_x1 = x_pixels_to_gl (inter_position.x) + 1.0f - video_x;
+		float const border_y1 = y_pixels_to_gl (inter_position.y) + 1.0f - video_y;
+		float const border_x2 = x_pixels_to_gl (inter_position.x + inter_size.width) + 1.0f - video_x;
+		float const border_y2 = y_pixels_to_gl (inter_position.y + inter_size.height) + 1.0f - video_y;
 
 		float vertices[] = {
 			// positions                  // texture coords
-			 image_x,   image_y,   0.0f,  1.0f, 0.0f,   // video texture top right    (index 0)
-			 image_x,  -image_y,   0.0f,  1.0f, 1.0f,   // video texture bottom right (index 1)
-			-image_x,  -image_y,   0.0f,  0.0f, 1.0f,   // video texture bottom left  (index 2)
-			-image_x,   image_y,   0.0f,  0.0f, 0.0f,   // video texture top left     (index 3)
+			 video_x,   video_y,   0.0f,  1.0f, 0.0f,   // video texture top right    (index 0)
+			 video_x,  -video_y,   0.0f,  1.0f, 1.0f,   // video texture bottom right (index 1)
+			-video_x,  -video_y,   0.0f,  0.0f, 1.0f,   // video texture bottom left  (index 2)
+			-video_x,   video_y,   0.0f,  0.0f, 0.0f,   // video texture top left     (index 3)
 			 border_x1, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom left         (index 4)
 			 border_x1, border_y2, 0.0f,  0.0f, 0.0f,   // border top left            (index 5)
 			 border_x2, border_y2, 0.0f,  0.0f, 0.0f,   // border top right           (index 6)
