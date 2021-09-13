@@ -68,7 +68,8 @@ Butler::Butler (
 	function<AVPixelFormat (AVPixelFormat)> pixel_format,
 	VideoRange video_range,
 	bool aligned,
-	bool fast
+	bool fast,
+	bool prepare_only_proxy
 	)
 	: _film (film)
 	, _player (player)
@@ -85,6 +86,7 @@ Butler::Butler (
 	, _video_range (video_range)
 	, _aligned (aligned)
 	, _fast (fast)
+	, _prepare_only_proxy (prepare_only_proxy)
 {
 	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
 	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2, _3));

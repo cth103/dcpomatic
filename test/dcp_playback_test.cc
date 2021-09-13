@@ -53,7 +53,8 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
 		false,
-		true
+		true,
+		false
 		);
 
 	auto audio_buffer = new float[2000 * 6];

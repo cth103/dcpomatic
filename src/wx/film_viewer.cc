@@ -222,15 +222,12 @@ FilmViewer::recreate_butler ()
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
 		false,
-		true
+		true,
+		dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k
 		);
 
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
 		_butler->disable_audio ();
-	}
-
-	if (dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k) {
-		_butler->set_prepare_only_proxy (true);
 	}
 
 	_closed_captions_dialog->set_butler (_butler);

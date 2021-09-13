@@ -46,7 +46,8 @@ public:
 		std::function<AVPixelFormat (AVPixelFormat)> pixel_format,
 		VideoRange video_range,
 		bool aligned,
-		bool fast
+		bool fast,
+		bool prepare_only_proxy
 		);
 
 	~Butler ();
@@ -80,9 +81,6 @@ public:
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
 	void disable_audio ();
-	void set_prepare_only_proxy (bool p) {
-		_prepare_only_proxy = p;
-	}
 
 	std::pair<size_t, std::string> memory_used () const;
 
