@@ -45,7 +45,7 @@ public:
 	Texture& operator= (Texture const&) = delete;
 
 	void bind ();
-	bool set (std::shared_ptr<const Image> image);
+	void set (std::shared_ptr<const Image> image);
 
 private:
 	GLuint _name;
@@ -93,8 +93,37 @@ private:
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
 
+	template <class T>
+	class Last
+	{
+	public:
+		void set_next (T const& next) {
+			_next = next;
+		}
+
+		bool changed () const {
+			return !_value || *_value != _next;
+		}
+
+		void update () {
+			_value = _next;
+		}
+
+	private:
+		boost::optional<T> _value;
+		T _next;
+	};
+
+	Last<wxSize> _last_canvas_size;
+	Last<dcp::Size> _last_video_size;
+	Last<Position<int>> _last_inter_position;
+	Last<dcp::Size> _last_inter_size;
+	Last<dcp::Size> _last_out_size;
+
 	boost::atomic<wxSize> _canvas_size;
 	std::unique_ptr<Texture> _video_texture;
+	std::unique_ptr<Texture> _subtitle_texture;
+	bool _have_subtitle_to_render = false;
 	bool _vsync_enabled;
 	boost::thread _thread;
 

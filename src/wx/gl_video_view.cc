@@ -285,16 +285,20 @@ GLVideoView::ensure_context ()
 
 /* Offset of video texture triangles in indices */
 static constexpr int indices_video_texture = 0;
+/* Offset of subtitle texture triangles in indices */
+static constexpr int indices_subtitle_texture = 6;
 /* Offset of border lines in indices */
-static constexpr int indices_border = 6;
+static constexpr int indices_border = 12;
 
 static constexpr unsigned int indices[] = {
 	0, 1, 3, // video texture triangle #1
 	1, 2, 3, // video texture triangle #2
-	4, 5,    // border line #1
-	5, 6,    // border line #2
-	6, 7,    // border line #3
-	7, 4,    // border line #4
+	4, 5, 7, // subtitle texture triangle #1
+	5, 6, 7, // subtitle texture triangle #2
+	8, 9,    // border line #1
+	9, 10,   // border line #2
+	10, 11,  // border line #3
+	11, 8,   // border line #4
 };
 
 
@@ -428,6 +432,12 @@ GLVideoView::setup_shaders ()
 	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
 
 	glLineWidth (2.0f);
+	glEnable (GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	/* Reserve space for the GL_ARRAY_BUFFER */
+	glBufferData(GL_ARRAY_BUFFER, 12 * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
+	check_gl_error ("glBufferData");
 }
 
 
@@ -464,9 +474,15 @@ GLVideoView::draw (Position<int>, dcp::Size)
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
 	glUniform1i(_fragment_type, _optimise_for_j2k ? 1 : 2);
-	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture));
+	_video_texture->bind();
+	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture * sizeof(int)));
+	if (_have_subtitle_to_render) {
+		glUniform1i(_fragment_type, 2);
+		_subtitle_texture->bind();
+		glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture * sizeof(int)));
+	}
 	if (_viewer->outline_content()) {
-		glUniform1i(_fragment_type, 1);
+		glUniform1i(_fragment_type, 0);
 		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_border * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
@@ -491,50 +507,91 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	 */
 
 	/* XXX: video range conversion */
-	/* XXX: subs */
 
-	auto const changed = _video_texture->set (video);
+	_video_texture->set (video);
 
-	if (changed) {
-		auto const canvas_size = _canvas_size.load();
-		int const canvas_width = canvas_size.GetWidth();
-		int const canvas_height = canvas_size.GetHeight();
+	auto const text = pv->text();
+	_have_subtitle_to_render = static_cast<bool>(text) && _optimise_for_j2k;
+	if (_have_subtitle_to_render) {
+		/* opt: only do this if it's a new subtitle? */
+		DCPOMATIC_ASSERT (!text->image->aligned());
+		_subtitle_texture->set (text->image);
+	}
 
-		float const video_x = float(video->size().width) / canvas_width;
-		float const video_y = float(video->size().height) / canvas_height;
 
-		auto x_pixels_to_gl = [canvas_width](int x) {
-			return (x * 2.0f / canvas_width) - 1.0f;
+	auto const canvas_size = _canvas_size.load();
+	int const canvas_width = canvas_size.GetWidth();
+	int const canvas_height = canvas_size.GetHeight();
+	auto inter_position = player_video().first->inter_position();
+	auto inter_size = player_video().first->inter_size();
+	auto out_size = player_video().first->out_size();
+
+	_last_canvas_size.set_next (canvas_size);
+	_last_video_size.set_next (video->size());
+	_last_inter_position.set_next (inter_position);
+	_last_inter_size.set_next (inter_size);
+	_last_out_size.set_next (out_size);
+
+	auto x_pixels_to_gl = [canvas_width](int x) {
+		return (x * 2.0f / canvas_width) - 1.0f;
+	};
+
+	auto y_pixels_to_gl = [canvas_height](int y) {
+		return (y * 2.0f / canvas_height) - 1.0f;
+	};
+
+	if (_last_canvas_size.changed() || _last_inter_position.changed() || _last_inter_size.changed() || _last_out_size.changed()) {
+		float const video_x1 = x_pixels_to_gl(_optimise_for_j2k ? inter_position.x : 0);
+		float const video_x2 = x_pixels_to_gl(_optimise_for_j2k ? (inter_position.x + inter_size.width) : out_size.width);
+		float const video_y1 = y_pixels_to_gl(_optimise_for_j2k ? inter_position.y : 0);
+		float const video_y2 = y_pixels_to_gl(_optimise_for_j2k ? (inter_position.y + inter_size.height) : out_size.height);
+		float video_vertices[] = {
+			 // positions              // texture coords
+			video_x2, video_y2, 0.0f,  1.0f, 0.0f,   // video texture top right       (index 0)
+			video_x2, video_y1, 0.0f,  1.0f, 1.0f,   // video texture bottom right    (index 1)
+			video_x1, video_y1, 0.0f,  0.0f, 1.0f,   // video texture bottom left     (index 2)
+			video_x1, video_y2, 0.0f,  0.0f, 0.0f,   // video texture top left        (index 3)
 		};
 
-		auto y_pixels_to_gl = [canvas_height](int y) {
-			return (y * 2.0f / canvas_height) - 1.0f;
-		};
+		glBufferSubData (GL_ARRAY_BUFFER, 0, sizeof(video_vertices), video_vertices);
+		check_gl_error ("glBufferSubData (video)");
 
-		auto inter_position = player_video().first->inter_position();
-		auto inter_size = player_video().first->inter_size();
+		float const border_x1 = x_pixels_to_gl(inter_position.x);
+		float const border_y1 = y_pixels_to_gl(inter_position.y);
+		float const border_x2 = x_pixels_to_gl(inter_position.x + inter_size.width);
+		float const border_y2 = y_pixels_to_gl(inter_position.y + inter_size.height);
 
-		float const border_x1 = x_pixels_to_gl (inter_position.x) + 1.0f - video_x;
-		float const border_y1 = y_pixels_to_gl (inter_position.y) + 1.0f - video_y;
-		float const border_x2 = x_pixels_to_gl (inter_position.x + inter_size.width) + 1.0f - video_x;
-		float const border_y2 = y_pixels_to_gl (inter_position.y + inter_size.height) + 1.0f - video_y;
-
-		float vertices[] = {
-			// positions                  // texture coords
-			 video_x,   video_y,   0.0f,  1.0f, 0.0f,   // video texture top right    (index 0)
-			 video_x,  -video_y,   0.0f,  1.0f, 1.0f,   // video texture bottom right (index 1)
-			-video_x,  -video_y,   0.0f,  0.0f, 1.0f,   // video texture bottom left  (index 2)
-			-video_x,   video_y,   0.0f,  0.0f, 0.0f,   // video texture top left     (index 3)
+		float border_vertices[] = {
+			 // positions                 // texture coords
 			 border_x1, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom left         (index 4)
 			 border_x1, border_y2, 0.0f,  0.0f, 0.0f,   // border top left            (index 5)
 			 border_x2, border_y2, 0.0f,  0.0f, 0.0f,   // border top right           (index 6)
 			 border_x2, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom right        (index 7)
 		};
 
-		/* Set the vertex shader's input data (GL_ARRAY_BUFFER) */
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-		check_gl_error ("glBufferData");
+		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), sizeof(border_vertices), border_vertices);
+		check_gl_error ("glBufferSubData (border)");
 	}
+
+	if (_have_subtitle_to_render) {
+		float const subtitle_x1 = x_pixels_to_gl(inter_position.x + text->position.x);
+		float const subtitle_x2 = x_pixels_to_gl(inter_position.x + text->position.x + text->image->size().width);
+		float const subtitle_y1 = y_pixels_to_gl(inter_position.y + text->position.y + text->image->size().height);
+		float const subtitle_y2 = y_pixels_to_gl(inter_position.y + text->position.y);
+
+		float vertices[] = {
+			 // positions                     // texture coords
+			 subtitle_x2, subtitle_y1, 0.0f,  1.0f, 0.0f,   // subtitle texture top right    (index 4)
+			 subtitle_x2, subtitle_y2, 0.0f,  1.0f, 1.0f,   // subtitle texture bottom right (index 5)
+			 subtitle_x1, subtitle_y2, 0.0f,  0.0f, 1.0f,   // subtitle texture bottom left  (index 6)
+			 subtitle_x1, subtitle_y1, 0.0f,  0.0f, 0.0f,   // subtitle texture top left     (index 7)
+		};
+
+		glBufferSubData (GL_ARRAY_BUFFER, 4 * 5 * sizeof(float), sizeof(vertices), vertices);
+		check_gl_error ("glBufferSubData (subtitle)");
+	}
+
+	/* opt: where should these go? */
 
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -649,7 +706,7 @@ try
 #endif
 
 	_video_texture.reset(new Texture(_optimise_for_j2k ? 2 : 1));
-	_video_texture->bind();
+	_subtitle_texture.reset(new Texture(1));
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
@@ -719,7 +776,7 @@ Texture::bind ()
 }
 
 
-bool
+void
 Texture::set (shared_ptr<const Image> image)
 {
 	auto const create = !_size || image->size() != _size;
@@ -728,17 +785,40 @@ Texture::set (shared_ptr<const Image> image)
 	glPixelStorei (GL_UNPACK_ALIGNMENT, _unpack_alignment);
 	check_gl_error ("glPixelStorei");
 
-	auto const format = image->pixel_format() == AV_PIX_FMT_RGB24 ? GL_UNSIGNED_BYTE : GL_UNSIGNED_SHORT;
-	auto const internal_format = image->pixel_format() == AV_PIX_FMT_RGB24 ? GL_RGBA8 : GL_RGBA12;
+	DCPOMATIC_ASSERT (!image->aligned());
 
-	if (create) {
-		glTexImage2D (GL_TEXTURE_2D, 0, internal_format, _size->width, _size->height, 0, GL_RGB, format, image->data()[0]);
-		check_gl_error ("glTexImage2D");
-	} else {
-		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, GL_RGB, format, image->data()[0]);
-		check_gl_error ("glTexSubImage2D");
+	GLint internal_format;
+	GLenum format;
+	GLenum type;
+
+	switch (image->pixel_format()) {
+	case AV_PIX_FMT_BGRA:
+		internal_format = GL_RGBA8;
+		format = GL_BGRA;
+		type = GL_UNSIGNED_BYTE;
+		break;
+	case AV_PIX_FMT_RGBA:
+		internal_format = GL_RGBA8;
+		format = GL_RGBA;
+		type = GL_UNSIGNED_BYTE;
+		break;
+	case AV_PIX_FMT_XYZ12:
+		internal_format = GL_RGBA12;
+		format = GL_RGB;
+		type = GL_UNSIGNED_SHORT;
+		break;
+	default:
+		throw PixelFormatError ("Texture::set", image->pixel_format());
 	}
 
-	return create;
+	bind ();
+
+	if (create) {
+		glTexImage2D (GL_TEXTURE_2D, 0, internal_format, _size->width, _size->height, 0, format, type, image->data()[0]);
+		check_gl_error ("glTexImage2D");
+	} else {
+		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, format, type, image->data()[0]);
+		check_gl_error ("glTexSubImage2D");
+	}
 }
 

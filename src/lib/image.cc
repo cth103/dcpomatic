@@ -1154,7 +1154,7 @@ merge (list<PositionImage> images)
 		all.extend (dcpomatic::Rect<int>(i.position, i.image->size().width, i.image->size().height));
 	}
 
-	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), true);
+	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), false);
 	merged->make_transparent ();
 	for (auto const& i: images) {
 		merged->alpha_blend (i.image, i.position - all.position());

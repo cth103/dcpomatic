@@ -109,6 +109,10 @@ public:
 		return _inter_size;
 	}
 
+	dcp::Size out_size () const {
+		return _out_size;
+	}
+
 	bool same (std::shared_ptr<const PlayerVideo> other) const;
 
 	size_t memory_used () const;
