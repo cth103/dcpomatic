@@ -802,6 +802,11 @@ Texture::set (shared_ptr<const Image> image)
 		format = GL_RGBA;
 		type = GL_UNSIGNED_BYTE;
 		break;
+	case AV_PIX_FMT_RGB24:
+		internal_format = GL_RGBA8;
+		format = GL_RGB;
+		type = GL_UNSIGNED_BYTE;
+		break;
 	case AV_PIX_FMT_XYZ12:
 		internal_format = GL_RGBA12;
 		format = GL_RGB;
