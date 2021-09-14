@@ -57,6 +57,7 @@ public:
 	J2KImageProxy (dcp::ArrayData data, dcp::Size size, AVPixelFormat pixel_format);
 
 	Result image (
+		bool aligned,
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 
@@ -64,7 +65,7 @@ public:
 	void write_to_socket (std::shared_ptr<Socket>) const;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	bool same (std::shared_ptr<const ImageProxy>) const;
-	int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
+	int prepare (bool aligned, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
 
 	std::shared_ptr<const dcp::Data> j2k () const {
 		return _data;

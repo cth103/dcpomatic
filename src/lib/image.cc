@@ -1027,10 +1027,10 @@ Image::Image (Image const & other)
 	}
 }
 
-Image::Image (AVFrame const * frame)
+Image::Image (AVFrame const * frame, bool aligned)
 	: _size (frame->width, frame->height)
 	, _pixel_format (static_cast<AVPixelFormat>(frame->format))
-	, _aligned (true)
+	, _aligned (aligned)
 {
 	DCPOMATIC_ASSERT (_pixel_format != AV_PIX_FMT_NONE);
 
@@ -1139,7 +1139,7 @@ Image::aligned () const
 
 
 PositionImage
-merge (list<PositionImage> images)
+merge (list<PositionImage> images, bool aligned)
 {
 	if (images.empty ()) {
 		return {};
@@ -1154,7 +1154,7 @@ merge (list<PositionImage> images)
 		all.extend (dcpomatic::Rect<int>(i.position, i.image->size().width, i.image->size().height));
 	}
 
-	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), false);
+	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), aligned);
 	merged->make_transparent ();
 	for (auto const& i: images) {
 		merged->alpha_blend (i.image, i.position - all.position());
@@ -1312,15 +1312,17 @@ Image::fade (float f)
 	}
 }
 
+
 shared_ptr<const Image>
-Image::ensure_aligned (shared_ptr<const Image> image)
+Image::ensure_aligned (shared_ptr<const Image> image, bool aligned)
 {
-	if (image->aligned()) {
+	if (image->aligned() == aligned) {
 		return image;
 	}
 
-	return make_shared<Image>(image, true);
+	return make_shared<Image>(image, aligned);
 }
+
 
 size_t
 Image::memory_used () const

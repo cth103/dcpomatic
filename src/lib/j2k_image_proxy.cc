@@ -108,7 +108,7 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 	if (xml->optional_number_child<int>("Eye")) {
 		_eye = static_cast<dcp::Eye>(xml->number_child<int>("Eye"));
 	}
-	shared_ptr<ArrayData> data(new ArrayData(xml->number_child<int>("Size")));
+	auto data = make_shared<ArrayData>(xml->number_child<int>("Size"));
 	/* This only matters when we are using J2KImageProxy for the preview, which
 	   will never use this constructor (which is only used for passing data to
 	   encode servers).  So we can put anything in here.  It's a bit of a hack.
@@ -120,7 +120,7 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 
 
 int
-J2KImageProxy::prepare (optional<dcp::Size> target_size) const
+J2KImageProxy::prepare (bool aligned, optional<dcp::Size> target_size) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -145,7 +145,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 	try {
 		/* XXX: should check that potentially trashing _data here doesn't matter */
 		auto decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
-		_image.reset (new Image (_pixel_format, decompressed->size(), false));
+		_image = make_shared<Image>(_pixel_format, decompressed->size(), aligned);
 
 		int const shift = 16 - decompressed->precision (0);
 
@@ -169,7 +169,7 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 			}
 		}
 	} catch (dcp::J2KDecompressionError& e) {
-		_image = make_shared<Image>(_pixel_format, _size, true);
+		_image = make_shared<Image>(_pixel_format, _size, aligned);
 		_image->make_black ();
 		_error = true;
 	}
@@ -182,9 +182,9 @@ J2KImageProxy::prepare (optional<dcp::Size> target_size) const
 
 
 ImageProxy::Result
-J2KImageProxy::image (optional<dcp::Size> target_size) const
+J2KImageProxy::image (bool aligned, optional<dcp::Size> target_size) const
 {
-	int const r = prepare (target_size);
+	int const r = prepare (aligned, target_size);
 
 	/* I think this is safe without a lock on mutex.  _image is guaranteed to be
 	   set up when prepare() has happened.

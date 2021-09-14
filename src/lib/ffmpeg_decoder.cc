@@ -86,7 +86,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 		video = make_shared<VideoDecoder>(this, c);
 		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate(film));
 		/* It doesn't matter what size or pixel format this is, it just needs to be black */
-		_black_image.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (128, 128), true));
+		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size (128, 128), true);
 		_black_image->make_black ();
 	} else {
 		_pts_offset = {};

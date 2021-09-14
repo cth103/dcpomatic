@@ -41,7 +41,7 @@ class Image : public std::enable_shared_from_this<Image>
 {
 public:
 	Image (AVPixelFormat p, dcp::Size s, bool aligned);
-	explicit Image (AVFrame const *);
+	explicit Image (AVFrame const *, bool aligned);
 	explicit Image (Image const &);
 	Image (std::shared_ptr<const Image>, bool);
 	Image& operator= (Image const &);
@@ -94,7 +94,7 @@ public:
 
 	void png_error (char const * message);
 
-	static std::shared_ptr<const Image> ensure_aligned (std::shared_ptr<const Image> image);
+	static std::shared_ptr<const Image> ensure_aligned (std::shared_ptr<const Image> image, bool aligned);
 
 private:
 	friend struct pixel_formats_test;
@@ -115,7 +115,7 @@ private:
 	bool _aligned;
 };
 
-extern PositionImage merge (std::list<PositionImage> images);
+extern PositionImage merge (std::list<PositionImage> images, bool aligned);
 extern bool operator== (Image const & a, Image const & b);
 
 #endif

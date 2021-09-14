@@ -148,7 +148,7 @@ void
 alpha_blend_test_one (AVPixelFormat format, string suffix)
 {
 	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "prophet_frame.tiff");
-	auto raw = proxy->image().image;
+	auto raw = proxy->image(false).image;
 	auto background = raw->convert_pixel_format (dcp::YUVToRGB::REC709, format, true, false);
 
 	auto overlay = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size(431, 891), true);
@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_CASE (merge_test1)
 
 	list<PositionImage> all;
 	all.push_back (PositionImage (A, Position<int>(0, 0)));
-	auto merged = merge (all);
+	auto merged = merge (all, false);
 
 	BOOST_CHECK (merged.position == Position<int>(0, 0));
 	BOOST_CHECK_EQUAL (memcmp (merged.image->data()[0], A->data()[0], stride * 48), 0);
@@ -254,7 +254,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 	list<PositionImage> all;
 	all.push_back (PositionImage(A, Position<int>(0, 0)));
 	all.push_back (PositionImage(B, Position<int>(0, 0)));
-	auto merged = merge (all);
+	auto merged = merge (all, false);
 
 	BOOST_CHECK (merged.position == Position<int>(0, 0));
 
@@ -274,7 +274,7 @@ BOOST_AUTO_TEST_CASE (merge_test2)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test)
 {
 	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png");
-	auto raw = proxy->image().image;
+	auto raw = proxy->image(false).image;
 	auto out = raw->crop_scale_window(
 		Crop(), dcp::Size(1998, 836), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_YUV420P, VideoRange::FULL, true, false
 		);
@@ -300,7 +300,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test2)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 {
 	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
-	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
+	auto xyz = proxy->image(false).image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
 		);
@@ -312,7 +312,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test3)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 {
 	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
-	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
+	auto xyz = proxy->image(false).image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, false, false
 		);
@@ -324,7 +324,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test4)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 {
 	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
-	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	auto xyz = proxy->image(false).image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_RGB24, VideoRange::FULL, false, false
 		);
@@ -336,7 +336,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test5)
 BOOST_AUTO_TEST_CASE (crop_scale_window_test6)
 {
 	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "player_seek_test_0.png");
-	auto xyz = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
+	auto xyz = proxy->image(false).image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_XYZ12LE, true, false);
 	auto cropped = xyz->crop_scale_window(
 		Crop(512, 0, 0, 0), dcp::Size(1486, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_XYZ12LE, VideoRange::FULL, false, false
 		);
@@ -351,7 +351,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 	using namespace boost::filesystem;
 	for (int left_crop = 0; left_crop < 8; ++left_crop) {
 		auto proxy = make_shared<FFmpegImageProxy>("test/data/rgb_grey_testcard.png");
-		auto yuv = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_YUV420P, true, false);
+		auto yuv = proxy->image(false).image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_YUV420P, true, false);
 		int rounded = left_crop - (left_crop % 2);
 		auto cropped = yuv->crop_scale_window(
 			Crop(left_crop, 0, 0, 0),
@@ -374,7 +374,7 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 BOOST_AUTO_TEST_CASE (as_png_test)
 {
 	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png");
-	auto image_rgb = proxy->image().image;
+	auto image_rgb = proxy->image(false).image;
 	auto image_bgr = image_rgb->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_BGRA, true, false);
 	image_rgb->as_png().write ("build/test/as_png_rgb.png");
 	image_bgr->as_png().write ("build/test/as_png_bgr.png");
@@ -402,7 +402,7 @@ static void
 fade_test_format_red (AVPixelFormat f, float amount, string name)
 {
 	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png");
-	auto red = proxy->image().image->convert_pixel_format(dcp::YUVToRGB::REC709, f, true, false);
+	auto red = proxy->image(false).image->convert_pixel_format(dcp::YUVToRGB::REC709, f, true, false);
 	red->fade (amount);
 	string const filename = "fade_test_red_" + name + ".png";
 	red->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, true, false)->as_png().write("build/test/" + filename);
@@ -506,7 +506,7 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 BOOST_AUTO_TEST_CASE (make_part_black_test)
 {
 	auto proxy = make_shared<FFmpegImageProxy>("test/data/flat_red.png");
-	auto original = proxy->image().image;
+	auto original = proxy->image(false).image;
 
 	list<AVPixelFormat> pix_fmts = {
 		AV_PIX_FMT_RGB24,

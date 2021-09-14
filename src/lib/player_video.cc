@@ -122,10 +122,10 @@ PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoR
 }
 
 
-shared_ptr<Image>
+shared_ptr<const Image>
 PlayerVideo::raw_image () const
 {
-	return _in->image(_inter_size).image;
+	return _in->image(false, _inter_size).image;
 }
 
 
@@ -144,7 +144,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 	_image_out_size = _out_size;
 	_image_fade = _fade;
 
-	auto prox = _in->image (_inter_size);
+	auto prox = _in->image (true, _inter_size);
 	_error = prox.error;
 
 	auto total_crop = _crop;
@@ -184,7 +184,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 		);
 
 	if (_text) {
-		_image->alpha_blend (Image::ensure_aligned (_text->image), _text->position);
+		_image->alpha_blend (Image::ensure_aligned(_text->image, true), _text->position);
 	}
 
 	if (_fade) {
@@ -300,7 +300,7 @@ PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 void
 PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast, bool proxy_only)
 {
-	_in->prepare (_inter_size);
+	_in->prepare (aligned, _inter_size);
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image && !proxy_only) {
 		make_image (pixel_format, video_range, aligned, fast);

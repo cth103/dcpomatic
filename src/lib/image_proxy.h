@@ -91,6 +91,7 @@ public:
 	 *  can be used as an optimisation.
 	 */
 	virtual Result image (
+		bool aligned,
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const = 0;
 
@@ -102,7 +103,7 @@ public:
 	 *  This method may be called in a different thread to image().
 	 *  @return log2 of any scaling down that will be applied to the image.
 	 */
-	virtual int prepare (boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
+	virtual int prepare (bool, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
 	virtual size_t memory_used () const = 0;
 };
 

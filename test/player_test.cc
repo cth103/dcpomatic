@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 
 	accumulated = std::make_shared<AudioBuffers>(film->audio_channels(), 0);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->Audio.connect (bind (&accumulate, _1, _2));
 	while (!player->pass ()) {}
 	BOOST_REQUIRE (accumulated->frames() >= 48000);
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	/* Length should be rounded up from B's length to the next video frame */
 	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1U);
 	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->Video.connect (bind (&video, _1, _2));
 	player->Audio.connect (bind (&audio, _1, _2));
 	video_frames = audio_frames = 0;
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->set_fast ();
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
@@ -261,7 +261,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->set_fast ();
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
@@ -335,7 +335,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	text->only_text()->set_type (TextType::CLOSED_CAPTION);
 	text->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
 
@@ -355,7 +355,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	film->examine_and_add_content (boon);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, false);
 	player->set_fast ();
 	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true, false);
 

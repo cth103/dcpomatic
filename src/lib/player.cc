@@ -95,11 +95,12 @@ int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 int const PlayerProperty::PLAYBACK_LENGTH = 705;
 
 
-Player::Player (shared_ptr<const Film> film)
+Player::Player (shared_ptr<const Film> film, bool aligned)
 	: _film (film)
 	, _suspended (0)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
+	, _aligned_subtitles (aligned)
 {
 	construct ();
 }
@@ -827,7 +828,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 		return {};
 	}
 
-	return merge (captions);
+	return merge (captions, _aligned_subtitles);
 }
 
 

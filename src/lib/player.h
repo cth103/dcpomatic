@@ -76,7 +76,7 @@ public:
 class Player : public std::enable_shared_from_this<Player>
 {
 public:
-	Player (std::shared_ptr<const Film>);
+	Player (std::shared_ptr<const Film>, bool aligned_subtitles);
 	Player (std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist);
 
 	Player (Player const& Player) = delete;
@@ -232,6 +232,9 @@ private:
 	std::shared_ptr<AudioProcessor> _audio_processor;
 
 	dcpomatic::DCPTime _playback_length;
+
+	/** aligned flag for subtitle images that we create */
+	bool _aligned_subtitles = true;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;

@@ -64,9 +64,10 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 
 
 ImageProxy::Result
-RawImageProxy::image (optional<dcp::Size>) const
+RawImageProxy::image (bool aligned, optional<dcp::Size>) const
 {
-	return Result (_image, 0);
+	/* This ensure_aligned could be wasteful */
+	return Result (Image::ensure_aligned(_image, aligned), 0);
 }
 
 
@@ -95,7 +96,7 @@ RawImageProxy::same (shared_ptr<const ImageProxy> other) const
 		return false;
 	}
 
-	return (*_image.get()) == (*rp->image().image.get());
+	return (*_image.get()) == (*rp->image(_image->aligned()).image.get());
 }
 
 

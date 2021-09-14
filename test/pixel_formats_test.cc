@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (pixel_formats_test)
 		f->height = 480;
 		f->format = static_cast<int> (i.format);
 		av_frame_get_buffer (f, true);
-		Image t (f);
+		Image t (f, false);
 		BOOST_CHECK_EQUAL(t.planes(), i.planes);
 		BOOST_CHECK_EQUAL(t.sample_size(0).height, i.lines[0]);
 		BOOST_CHECK_EQUAL(t.sample_size(1).height, i.lines[1]);

@@ -28,9 +28,7 @@
 
 
 using std::make_shared;
-using std::pair;
-using std::shared_ptr;
-using boost::optional;
+using std::make_shared;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -47,7 +45,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	auto butler = std::make_shared<Butler>(
 		film,
-		shared_ptr<Player>(new Player(film)),
+		make_shared<Player>(film, false),
 		AudioMapping(6, 6),
 		6,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),

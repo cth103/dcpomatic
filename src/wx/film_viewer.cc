@@ -169,7 +169,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player = make_shared<Player>(_film);
+		_player = make_shared<Player>(_film, !_optimise_for_j2k);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -221,7 +221,7 @@ FilmViewer::recreate_butler ()
 		_audio_channels,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		false,
+		!_optimise_for_j2k,
 		true,
 		dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k
 		);

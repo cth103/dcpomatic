@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_full_range_not_changed)
 	write_image (grey_image(size, grey_pixel), file);
 
 	FFmpegImageProxy proxy (file);
-	ImageProxy::Result result = proxy.image ();
+	ImageProxy::Result result = proxy.image (false);
 	BOOST_REQUIRE (!result.error);
 
 	for (int y = 0; y < size.height; ++y) {
@@ -214,7 +214,7 @@ pixel_range (shared_ptr<const Film> film, shared_ptr<const Content> content)
 		BOOST_REQUIRE (!decoder->pass());
 	}
 
-	return pixel_range (content_video->image->image().image);
+	return pixel_range (content_video->image->image(false).image);
 }
 
 
