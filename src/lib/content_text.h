@@ -48,7 +48,7 @@ private:
 class ContentBitmapText : public ContentText
 {
 public:
-	ContentBitmapText (dcpomatic::ContentTime f, std::shared_ptr<Image> im, dcpomatic::Rect<double> r)
+	ContentBitmapText (dcpomatic::ContentTime f, std::shared_ptr<const Image> im, dcpomatic::Rect<double> r)
 		: ContentText (f)
 		, sub (im, r)
 	{}

@@ -64,7 +64,7 @@ public:
 	ImageProxy& operator= (ImageProxy const&) = delete;
 
 	struct Result {
-		Result (std::shared_ptr<Image> image_, int log2_scaling_)
+		Result (std::shared_ptr<const Image> image_, int log2_scaling_)
 			: image (image_)
 			, log2_scaling (log2_scaling_)
 			, error (false)
@@ -76,8 +76,7 @@ public:
 			, error (error_)
 		{}
 
-		/** Image (which will be aligned) */
-		std::shared_ptr<Image> image;
+		std::shared_ptr<const Image> image;
 		/** log2 of any scaling down that has already been applied to the image;
 		 *  e.g. if the image is already half the size of the original, this value
 		 *  will be 1.
