@@ -45,12 +45,12 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	auto butler = std::make_shared<Butler>(
 		film,
-		make_shared<Player>(film, false),
+		make_shared<Player>(film, Image::Alignment::COMPACT),
 		AudioMapping(6, 6),
 		6,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		false,
+		Image::Alignment::COMPACT,
 		true,
 		false
 		);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		}
 		/* assuming DCP is 24fps/48kHz */
 		butler->get_audio (audio_buffer, 2000);
-		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true);
 	}
 	delete[] audio_buffer;
 }

@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (upmixer_a_test)
 	Ls = sf_open ("build/test/upmixer_a_test/Ls.wav", SFM_WRITE, &info);
 	Rs = sf_open ("build/test/upmixer_a_test/Rs.wav", SFM_WRITE, &info);
 
-	auto player = make_shared<Player>(film, false);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->Audio.connect (bind (&write, _1, _2));
 	while (!player->pass()) {}
 

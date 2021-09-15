@@ -54,7 +54,6 @@
 
 
 using std::min;
-using std::make_pair;
 using std::max;
 using std::pair;
 using std::string;
@@ -71,7 +70,7 @@ static
 shared_ptr<Image>
 grey_image (dcp::Size size, uint8_t pixel)
 {
-	auto grey = make_shared<Image>(AV_PIX_FMT_RGB24, size, true);
+	auto grey = make_shared<Image>(AV_PIX_FMT_RGB24, size, Image::Alignment::PADDED);
 	for (int y = 0; y < size.height; ++y) {
 		uint8_t* p = grey->data()[0] + y * grey->stride()[0];
 		for (int x = 0; x < size.width; ++x) {
@@ -94,7 +93,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_full_range_not_changed)
 	write_image (grey_image(size, grey_pixel), file);
 
 	FFmpegImageProxy proxy (file);
-	ImageProxy::Result result = proxy.image (false);
+	ImageProxy::Result result = proxy.image (Image::Alignment::COMPACT);
 	BOOST_REQUIRE (!result.error);
 
 	for (int y = 0; y < size.height; ++y) {
@@ -128,7 +127,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 		BOOST_REQUIRE (!player->pass());
 	}
 
-	auto image = player_video->image ([](AVPixelFormat f) { return f; }, VideoRange::FULL, true, false);
+	auto image = player_video->image ([](AVPixelFormat f) { return f; }, VideoRange::FULL, Image::Alignment::PADDED, false);
 
 	for (int y = 0; y < size.height; ++y) {
 		uint8_t* p = image->data()[0] + y * image->stride()[0];
@@ -214,7 +213,7 @@ pixel_range (shared_ptr<const Film> film, shared_ptr<const Content> content)
 		BOOST_REQUIRE (!decoder->pass());
 	}
 
-	return pixel_range (content_video->image->image(false).image);
+	return pixel_range (content_video->image->image(Image::Alignment::COMPACT).image);
 }
 
 

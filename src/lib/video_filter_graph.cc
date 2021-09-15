@@ -38,7 +38,6 @@ using std::make_shared;
 using std::pair;
 using std::shared_ptr;
 using std::string;
-using std::vector;
 
 
 VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction r)
@@ -59,7 +58,7 @@ VideoFilterGraph::process (AVFrame* frame)
 	list<pair<shared_ptr<Image>, int64_t>> images;
 
 	if (_copy) {
-		images.push_back (make_pair(make_shared<Image>(frame, true), frame->best_effort_timestamp));
+		images.push_back (make_pair(make_shared<Image>(frame, Image::Alignment::PADDED), frame->best_effort_timestamp));
 	} else {
 		int r = av_buffersrc_write_frame (_buffer_src_context, frame);
 		if (r < 0) {
@@ -71,7 +70,7 @@ VideoFilterGraph::process (AVFrame* frame)
 				break;
 			}
 
-			images.push_back (make_pair(make_shared<Image>(_frame, true), frame->best_effort_timestamp));
+			images.push_back (make_pair(make_shared<Image>(_frame, Image::Alignment::PADDED), frame->best_effort_timestamp));
 			av_frame_unref (_frame);
 		}
 	}

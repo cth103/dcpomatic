@@ -42,10 +42,8 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::cout;
 using std::dynamic_pointer_cast;
-using std::make_pair;
 using std::make_shared;
 using std::max;
-using std::pair;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
@@ -120,7 +118,7 @@ J2KImageProxy::J2KImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 
 
 int
-J2KImageProxy::prepare (bool aligned, optional<dcp::Size> target_size) const
+J2KImageProxy::prepare (Image::Alignment alignment, optional<dcp::Size> target_size) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -145,7 +143,7 @@ J2KImageProxy::prepare (bool aligned, optional<dcp::Size> target_size) const
 	try {
 		/* XXX: should check that potentially trashing _data here doesn't matter */
 		auto decompressed = dcp::decompress_j2k (const_cast<uint8_t*>(_data->data()), _data->size(), reduce);
-		_image = make_shared<Image>(_pixel_format, decompressed->size(), aligned);
+		_image = make_shared<Image>(_pixel_format, decompressed->size(), alignment);
 
 		int const shift = 16 - decompressed->precision (0);
 
@@ -169,7 +167,7 @@ J2KImageProxy::prepare (bool aligned, optional<dcp::Size> target_size) const
 			}
 		}
 	} catch (dcp::J2KDecompressionError& e) {
-		_image = make_shared<Image>(_pixel_format, _size, aligned);
+		_image = make_shared<Image>(_pixel_format, _size, alignment);
 		_image->make_black ();
 		_error = true;
 	}
@@ -182,9 +180,9 @@ J2KImageProxy::prepare (bool aligned, optional<dcp::Size> target_size) const
 
 
 ImageProxy::Result
-J2KImageProxy::image (bool aligned, optional<dcp::Size> target_size) const
+J2KImageProxy::image (Image::Alignment alignment, optional<dcp::Size> target_size) const
 {
-	int const r = prepare (aligned, target_size);
+	int const r = prepare (alignment, target_size);
 
 	/* I think this is safe without a lock on mutex.  _image is guaranteed to be
 	   set up when prepare() has happened.

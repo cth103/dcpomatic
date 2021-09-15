@@ -94,7 +94,7 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	if (node->optional_number_child<int>("SubtitleX")) {
 
 		auto image = make_shared<Image> (
-			AV_PIX_FMT_BGRA, dcp::Size(node->number_child<int>("SubtitleWidth"), node->number_child<int>("SubtitleHeight")), true
+			AV_PIX_FMT_BGRA, dcp::Size(node->number_child<int>("SubtitleWidth"), node->number_child<int>("SubtitleHeight")), Image::Alignment::PADDED
 			);
 
 		image->read_from_socket (socket);
@@ -110,13 +110,13 @@ PlayerVideo::set_text (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const
+PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast) const
 {
 	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop, inter size, out size, fade) */
 
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image || _crop != _image_crop || _inter_size != _image_inter_size || _out_size != _image_out_size || _fade != _image_fade) {
-		make_image (pixel_format, video_range, aligned, fast);
+		make_image (pixel_format, video_range, alignment, fast);
 	}
 	return _image;
 }
@@ -125,7 +125,7 @@ PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoR
 shared_ptr<const Image>
 PlayerVideo::raw_image () const
 {
-	return _in->image(false, _inter_size).image;
+	return _in->image(Image::Alignment::COMPACT, _inter_size).image;
 }
 
 
@@ -133,18 +133,18 @@ PlayerVideo::raw_image () const
  *  @param pixel_format Function which is called to decide what pixel format the output image should be;
  *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
  *  output pixel format.  Two functions force and keep_xyz_or_rgb are provided for use here.
- *  @param aligned true if the output image should be aligned to 32-byte boundaries.
+ *  @param alignment PADDED if the output image should be aligned to 32-byte boundaries, otherwise COMPACT.
  *  @param fast true to be fast at the expense of quality.
  */
 void
-PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const
+PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast) const
 {
 	_image_crop = _crop;
 	_image_inter_size = _inter_size;
 	_image_out_size = _out_size;
 	_image_fade = _fade;
 
-	auto prox = _in->image (true, _inter_size);
+	auto prox = _in->image (Image::Alignment::PADDED, _inter_size);
 	_error = prox.error;
 
 	auto total_crop = _crop;
@@ -180,11 +180,11 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 	}
 
 	_image = prox.image->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), video_range, aligned, fast
+		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), video_range, alignment, fast
 		);
 
 	if (_text) {
-		_image->alpha_blend (Image::ensure_aligned(_text->image, true), _text->position);
+		_image->alpha_blend (Image::ensure_alignment(_text->image, Image::Alignment::PADDED), _text->position);
 	}
 
 	if (_fade) {
@@ -298,12 +298,12 @@ PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 }
 
 void
-PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast, bool proxy_only)
+PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only)
 {
-	_in->prepare (aligned, _inter_size);
+	_in->prepare (alignment, _inter_size);
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image && !proxy_only) {
-		make_image (pixel_format, video_range, aligned, fast);
+		make_image (pixel_format, video_range, alignment, fast);
 	}
 }
 

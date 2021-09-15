@@ -364,9 +364,9 @@ double
 rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	FFmpegImageProxy ref_proxy (ref);
-	auto ref_image = ref_proxy.image(false).image;
+	auto ref_image = ref_proxy.image(Image::Alignment::COMPACT).image;
 	FFmpegImageProxy check_proxy (check);
-	auto check_image = check_proxy.image(false).image;
+	auto check_image = check_proxy.image(Image::Alignment::COMPACT).image;
 
 	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());
 	AVPixelFormat const format = ref_image->pixel_format();

@@ -59,18 +59,20 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
+
 using std::cout;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
-using dcp::Size;
 using dcp::ArrayData;
 using dcp::raw_convert;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
+
 #define DCI_COEFFICENT (48.0 / 52.37)
+
 
 /** Construct a DCP video frame.
  *  @param frame Input frame.
@@ -103,7 +105,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 {
 	shared_ptr<dcp::OpenJPEGImage> xyz;
 
-	auto image = frame->image (bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, true, false);
+	auto image = frame->image (bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, Image::Alignment::PADDED, false);
 	if (frame->colour_conversion()) {
 		xyz = dcp::rgb_to_xyz (
 			image->data()[0],

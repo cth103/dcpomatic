@@ -57,7 +57,7 @@ using namespace boost::placeholders;
 
 /** @param pixel_format Pixel format functor that will be used when calling ::image on PlayerVideos coming out of this
  *  butler.  This will be used (where possible) to prepare the PlayerVideos so that calling image() on them is quick.
- *  @param aligned Same as above for the `aligned' flag.
+ *  @param alignment Same as above for the `alignment' value.
  *  @param fast Same as above for the `fast' flag.
  */
 Butler::Butler (
@@ -67,7 +67,7 @@ Butler::Butler (
 	int audio_channels,
 	function<AVPixelFormat (AVPixelFormat)> pixel_format,
 	VideoRange video_range,
-	bool aligned,
+	Image::Alignment alignment,
 	bool fast,
 	bool prepare_only_proxy
 	)
@@ -84,7 +84,7 @@ Butler::Butler (
 	, _disable_audio (false)
 	, _pixel_format (pixel_format)
 	, _video_range (video_range)
-	, _aligned (aligned)
+	, _alignment (alignment)
 	, _fast (fast)
 	, _prepare_only_proxy (prepare_only_proxy)
 {
@@ -325,7 +325,7 @@ try
 	/* If the weak_ptr cannot be locked the video obviously no longer requires any work */
 	if (video) {
 		LOG_TIMING("start-prepare in %1", thread_id());
-		video->prepare (_pixel_format, _video_range, _aligned, _fast, _prepare_only_proxy);
+		video->prepare (_pixel_format, _video_range, _alignment, _fast, _prepare_only_proxy);
 		LOG_TIMING("finish-prepare in %1", thread_id());
 	}
 }

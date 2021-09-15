@@ -64,8 +64,8 @@ using std::string;
 using dcp::Size;
 
 
-/** The memory alignment, in bytes, used for each row of an image if aligment is requested */
-#define ALIGNMENT 64
+/** The memory alignment, in bytes, used for each row of an image if Alignment::PADDED is requested */
+int constexpr ALIGNMENT = 64;
 
 /* U/V black value for 8-bit colour */
 static uint8_t const eight_bit_uv =	(1 << 7) - 1;
@@ -177,19 +177,19 @@ Image::crop_scale_window (
 	VideoRange video_range,
 	AVPixelFormat out_format,
 	VideoRange out_video_range,
-	bool out_aligned,
+	Alignment out_alignment,
 	bool fast
 	) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
-	   the input image is not aligned.
+	   the input image is not padded.
 	*/
-	DCPOMATIC_ASSERT (aligned ());
+	DCPOMATIC_ASSERT (alignment() == Alignment::PADDED);
 
 	DCPOMATIC_ASSERT (out_size.width >= inter_size.width);
 	DCPOMATIC_ASSERT (out_size.height >= inter_size.height);
 
-	auto out = make_shared<Image>(out_format, out_size, out_aligned);
+	auto out = make_shared<Image>(out_format, out_size, out_alignment);
 	out->make_black ();
 
 	auto in_desc = av_pix_fmt_desc_get (_pixel_format);
@@ -310,27 +310,27 @@ Image::crop_scale_window (
 }
 
 shared_ptr<Image>
-Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned, bool fast) const
+Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
 {
-	return scale(size(), yuv_to_rgb, out_format, out_aligned, fast);
+	return scale(size(), yuv_to_rgb, out_format, out_alignment, fast);
 }
 
 /** @param out_size Size to scale to.
  *  @param yuv_to_rgb YUVToRGB transform transform to use, if required.
  *  @param out_format Output pixel format.
- *  @param out_aligned true to make an aligned output image.
+ *  @param out_aligment Output alignment.
  *  @param fast Try to be fast at the possible expense of quality; at present this means using
  *  fast bilinear rather than bicubic scaling.
  */
 shared_ptr<Image>
-Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool out_aligned, bool fast) const
+Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
 {
 	/* Empirical testing suggests that sws_scale() will crash if
-	   the input image is not aligned.
+	   the input image alignment is not PADDED.
 	*/
-	DCPOMATIC_ASSERT (aligned ());
+	DCPOMATIC_ASSERT (alignment() == Alignment::PADDED);
 
-	auto scaled = make_shared<Image>(out_format, out_size, out_aligned);
+	auto scaled = make_shared<Image>(out_format, out_size, out_alignment);
 	auto scale_context = sws_getContext (
 		size().width, size().height, pixel_format(),
 		out_size.width, out_size.height, out_format,
@@ -736,7 +736,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -771,7 +771,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -806,7 +806,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 	case AV_PIX_FMT_YUV422P10LE:
 	{
-		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, false, false);
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		dcp::Size const ts = size();
 		dcp::Size const os = yuv->size();
 		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
@@ -934,15 +934,16 @@ Image::bytes_per_pixel (int c) const
  *
  *  @param p Pixel format.
  *  @param s Size in pixels.
- *  @param aligned true to make each row of this image aligned to a ALIGNMENT-byte boundary.
+ *  @param alignment PADDED to make each row of this image aligned to a ALIGNMENT-byte boundary, otherwise COMPACT.
  */
-Image::Image (AVPixelFormat p, dcp::Size s, bool aligned)
+Image::Image (AVPixelFormat p, dcp::Size s, Alignment alignment)
 	: _size (s)
 	, _pixel_format (p)
-	, _aligned (aligned)
+	, _alignment (alignment)
 {
 	allocate ();
 }
+
 
 void
 Image::allocate ()
@@ -958,7 +959,7 @@ Image::allocate ()
 
 	for (int i = 0; i < planes(); ++i) {
 		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
-		_stride[i] = stride_round_up (i, _line_size, _aligned ? ALIGNMENT : 1);
+		_stride[i] = stride_round_up (i, _line_size, _alignment == Alignment::PADDED ? ALIGNMENT : 1);
 
 		/* The assembler function ff_rgb24ToY_avx (in libswscale/x86/input.asm)
 		   uses a 16-byte fetch to read three bytes (R/G/B) of image data.
@@ -1011,7 +1012,7 @@ Image::Image (Image const & other)
 	: std::enable_shared_from_this<Image>(other)
 	, _size (other._size)
 	, _pixel_format (other._pixel_format)
-	, _aligned (other._aligned)
+	, _alignment (other._alignment)
 {
 	allocate ();
 
@@ -1027,10 +1028,10 @@ Image::Image (Image const & other)
 	}
 }
 
-Image::Image (AVFrame const * frame, bool aligned)
+Image::Image (AVFrame const * frame, Alignment alignment)
 	: _size (frame->width, frame->height)
 	, _pixel_format (static_cast<AVPixelFormat>(frame->format))
-	, _aligned (aligned)
+	, _alignment (alignment)
 {
 	DCPOMATIC_ASSERT (_pixel_format != AV_PIX_FMT_NONE);
 
@@ -1049,10 +1050,10 @@ Image::Image (AVFrame const * frame, bool aligned)
 	}
 }
 
-Image::Image (shared_ptr<const Image> other, bool aligned)
+Image::Image (shared_ptr<const Image> other, Alignment alignment)
 	: _size (other->_size)
 	, _pixel_format (other->_pixel_format)
-	, _aligned (aligned)
+	, _alignment (alignment)
 {
 	allocate ();
 
@@ -1093,7 +1094,7 @@ Image::swap (Image & other)
 		std::swap (_stride[i], other._stride[i]);
 	}
 
-	std::swap (_aligned, other._aligned);
+	std::swap (_alignment, other._alignment);
 }
 
 Image::~Image ()
@@ -1131,15 +1132,15 @@ Image::size () const
 	return _size;
 }
 
-bool
-Image::aligned () const
+Image::Alignment
+Image::alignment () const
 {
-	return _aligned;
+	return _alignment;
 }
 
 
 PositionImage
-merge (list<PositionImage> images, bool aligned)
+merge (list<PositionImage> images, Image::Alignment alignment)
 {
 	if (images.empty ()) {
 		return {};
@@ -1154,7 +1155,7 @@ merge (list<PositionImage> images, bool aligned)
 		all.extend (dcpomatic::Rect<int>(i.position, i.image->size().width, i.image->size().height));
 	}
 
-	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), aligned);
+	auto merged = make_shared<Image>(images.front().image->pixel_format(), dcp::Size(all.width, all.height), alignment);
 	merged->make_transparent ();
 	for (auto const& i: images) {
 		merged->alpha_blend (i.image, i.position - all.position());
@@ -1167,7 +1168,7 @@ merge (list<PositionImage> images, bool aligned)
 bool
 operator== (Image const & a, Image const & b)
 {
-	if (a.planes() != b.planes() || a.pixel_format() != b.pixel_format() || a.aligned() != b.aligned()) {
+	if (a.planes() != b.planes() || a.pixel_format() != b.pixel_format() || a.alignment() != b.alignment()) {
 		return false;
 	}
 
@@ -1314,13 +1315,13 @@ Image::fade (float f)
 
 
 shared_ptr<const Image>
-Image::ensure_aligned (shared_ptr<const Image> image, bool aligned)
+Image::ensure_alignment (shared_ptr<const Image> image, Image::Alignment alignment)
 {
-	if (image->aligned() == aligned) {
+	if (image->alignment() == alignment) {
 		return image;
 	}
 
-	return make_shared<Image>(image, aligned);
+	return make_shared<Image>(image, alignment);
 }
 
 
@@ -1395,7 +1396,7 @@ Image::as_png () const
 	DCPOMATIC_ASSERT (bytes_per_pixel(0) == 4);
 	DCPOMATIC_ASSERT (planes() == 1);
 	if (pixel_format() != AV_PIX_FMT_RGBA) {
-		return convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, true, false)->as_png();
+		return convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, Image::Alignment::PADDED, false)->as_png();
 	}
 
 	/* error handling? */

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,21 +18,23 @@
 
 */
 
-#include "simple_video_view.h"
-#include "film_viewer.h"
-#include "wx_util.h"
+
 #include "closed_captions_dialog.h"
-#include "lib/image.h"
-#include "lib/dcpomatic_log.h"
+#include "film_viewer.h"
+#include "simple_video_view.h"
+#include "wx_util.h"
 #include "lib/butler.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/image.h"
 #include <dcp/util.h>
 #include <wx/wx.h>
 #include <boost/bind/bind.hpp>
 
+
 using std::max;
+using std::shared_ptr;
 using std::string;
 using boost::optional;
-using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -56,6 +58,7 @@ SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 
 	_timer.Bind (wxEVT_TIMER, boost::bind(&SimpleVideoView::timer, this));
 }
+
 
 void
 SimpleVideoView::paint ()
@@ -113,6 +116,7 @@ SimpleVideoView::paint ()
         _state_timer.unset();
 }
 
+
 void
 SimpleVideoView::refresh_panel ()
 {
@@ -121,6 +125,7 @@ SimpleVideoView::refresh_panel ()
 	_panel->Update ();
 	_state_timer.unset ();
 }
+
 
 void
 SimpleVideoView::timer ()
@@ -145,12 +150,14 @@ SimpleVideoView::timer ()
 	}
 }
 
+
 void
 SimpleVideoView::start ()
 {
 	VideoView::start ();
 	timer ();
 }
+
 
 /** Try to get a frame from the butler and display it.
  *  @param non_blocking true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
@@ -175,6 +182,7 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 
 	return SUCCESS;
 }
+
 
 void
 SimpleVideoView::update ()
@@ -214,7 +222,7 @@ SimpleVideoView::update ()
 	_state_timer.set ("get image");
 
 	set_image (
-		player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true)
+		player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true)
 		);
 
 	_state_timer.set ("ImageChanged");

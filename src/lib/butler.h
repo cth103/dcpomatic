@@ -45,7 +45,7 @@ public:
 		int audio_channels,
 		std::function<AVPixelFormat (AVPixelFormat)> pixel_format,
 		VideoRange video_range,
-		bool aligned,
+		Image::Alignment alignment,
 		bool fast,
 		bool prepare_only_proxy
 		);
@@ -125,7 +125,7 @@ private:
 
 	std::function<AVPixelFormat (AVPixelFormat)> _pixel_format;
 	VideoRange _video_range;
-	bool _aligned;
+	Image::Alignment _alignment;
 	bool _fast;
 
 	/** true to ask PlayerVideo::prepare to only prepare the ImageProxy and not also

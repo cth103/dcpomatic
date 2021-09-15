@@ -96,7 +96,7 @@ static shared_ptr<Image>
 create_image (dcp::Size size)
 {
 	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha */
-	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, size, false);
+	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, size, Image::Alignment::COMPACT);
 	image->make_black ();
 	return image;
 }

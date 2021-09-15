@@ -135,7 +135,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	auto player = make_shared<Player>(film, false);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	while (!player->pass ()) {}
 }
 
@@ -148,7 +148,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	auto player = make_shared<Player>(film, false);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_fast ();
 	while (!player->pass ()) {}
 }
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test4)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	auto player = make_shared<Player>(film, false);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_fast ();
 	BOOST_CHECK_NO_THROW (while (!player->pass()) {});
 }

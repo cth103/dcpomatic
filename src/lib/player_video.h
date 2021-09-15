@@ -23,11 +23,12 @@
 #define DCPOMATIC_PLAYER_VIDEO_H
 
 
-#include "types.h"
-#include "position.h"
-#include "dcpomatic_time.h"
 #include "colour_conversion.h"
+#include "dcpomatic_time.h"
+#include "image.h"
+#include "position.h"
 #include "position_image.h"
+#include "types.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
@@ -74,8 +75,8 @@ public:
 		return _text;
 	}
 
-	void prepare (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast, bool proxy_only);
-	std::shared_ptr<Image> image (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
+	void prepare (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only);
+	std::shared_ptr<Image> image (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast) const;
 	std::shared_ptr<const Image> raw_image () const;
 
 	static AVPixelFormat force (AVPixelFormat, AVPixelFormat);
@@ -126,7 +127,7 @@ public:
 	}
 
 private:
-	void make_image (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool aligned, bool fast) const;
+	void make_image (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast) const;
 
 	std::shared_ptr<const ImageProxy> _in;
 	Crop _crop;

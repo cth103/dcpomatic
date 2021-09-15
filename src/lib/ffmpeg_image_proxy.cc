@@ -122,7 +122,7 @@ FFmpegImageProxy::avio_seek (int64_t const pos, int whence)
 
 
 ImageProxy::Result
-FFmpegImageProxy::image (bool aligned, optional<dcp::Size>) const
+FFmpegImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 {
 	auto constexpr name_for_errors = "FFmpegImageProxy::image";
 
@@ -205,7 +205,7 @@ FFmpegImageProxy::image (bool aligned, optional<dcp::Size>) const
 		throw DecodeError (N_("avcodec_receive_frame"), name_for_errors, r, *_path);
 	}
 
-	_image = make_shared<Image>(frame, aligned);
+	_image = make_shared<Image>(frame, alignment);
 
 	av_packet_unref (&packet);
 	av_frame_free (&frame);

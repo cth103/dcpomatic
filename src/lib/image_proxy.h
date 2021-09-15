@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,19 +18,24 @@
 
 */
 
+
 #ifndef DCPOMATIC_IMAGE_PROXY_H
 #define DCPOMATIC_IMAGE_PROXY_H
+
 
 /** @file  src/lib/image_proxy.h
  *  @brief ImageProxy and subclasses.
  */
 
+
+#include "image.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <dcp/types.h>
 #include <boost/optional.hpp>
 #include <boost/utility.hpp>
+
 
 class Image;
 class Socket;
@@ -42,6 +47,7 @@ namespace xmlpp {
 namespace cxml {
 	class Node;
 }
+
 
 /** @class ImageProxy
  *  @brief A class which holds an Image, and can produce it on request.
@@ -91,7 +97,7 @@ public:
 	 *  can be used as an optimisation.
 	 */
 	virtual Result image (
-		bool aligned,
+		Image::Alignment alignment,
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const = 0;
 
@@ -103,10 +109,12 @@ public:
 	 *  This method may be called in a different thread to image().
 	 *  @return log2 of any scaling down that will be applied to the image.
 	 */
-	virtual int prepare (bool, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
+	virtual int prepare (Image::Alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const { return 0; }
 	virtual size_t memory_used () const = 0;
 };
 
+
 std::shared_ptr<ImageProxy> image_proxy_factory (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
+
 
 #endif

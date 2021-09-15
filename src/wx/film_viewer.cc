@@ -63,17 +63,11 @@ extern "C" {
 using std::bad_alloc;
 using std::cout;
 using std::dynamic_pointer_cast;
-using std::exception;
-using std::list;
-using std::make_pair;
 using std::make_shared;
 using std::max;
-using std::min;
-using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -169,7 +163,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player = make_shared<Player>(_film, !_optimise_for_j2k);
+		_player = make_shared<Player>(_film, _optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -221,7 +215,7 @@ FilmViewer::recreate_butler ()
 		_audio_channels,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		!_optimise_for_j2k,
+		_optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,
 		dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k
 		);

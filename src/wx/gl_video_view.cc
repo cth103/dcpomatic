@@ -497,12 +497,12 @@ GLVideoView::draw (Position<int>, dcp::Size)
 void
 GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 {
-	shared_ptr<const Image> video = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+	shared_ptr<const Image> video = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true);
 
 	/* Only the player's black frames should be aligned at this stage, so this should
 	 * almost always have no work to do.
 	 */
-	video = Image::ensure_aligned (video, false);
+	video = Image::ensure_alignment (video, Image::Alignment::COMPACT);
 
 	/** If _optimise_for_j2k is true we render a XYZ image, doing the colourspace
 	 *  conversion, scaling and video range conversion in the GL shader.
@@ -517,7 +517,7 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	_have_subtitle_to_render = static_cast<bool>(text) && _optimise_for_j2k;
 	if (_have_subtitle_to_render) {
 		/* opt: only do this if it's a new subtitle? */
-		DCPOMATIC_ASSERT (!text->image->aligned());
+		DCPOMATIC_ASSERT (text->image->alignment() == Image::Alignment::COMPACT);
 		_subtitle_texture->set (text->image);
 	}
 
@@ -788,7 +788,7 @@ Texture::set (shared_ptr<const Image> image)
 	glPixelStorei (GL_UNPACK_ALIGNMENT, _unpack_alignment);
 	check_gl_error ("glPixelStorei");
 
-	DCPOMATIC_ASSERT (!image->aligned());
+	DCPOMATIC_ASSERT (image->alignment() == Image::Alignment::COMPACT);
 
 	GLint internal_format;
 	GLenum format;

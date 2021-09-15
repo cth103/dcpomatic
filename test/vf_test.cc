@@ -291,7 +291,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	/* Check that the selected reel assets are right */
-	auto player = make_shared<Player>(vf, false);
+	auto player = make_shared<Player>(vf, Image::Alignment::COMPACT);
 	auto a = player->get_reel_assets();
 	BOOST_REQUIRE_EQUAL (a.size(), 4U);
 	auto i = a.begin();

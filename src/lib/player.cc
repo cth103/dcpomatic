@@ -95,12 +95,12 @@ int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 int const PlayerProperty::PLAYBACK_LENGTH = 705;
 
 
-Player::Player (shared_ptr<const Film> film, bool aligned)
+Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment)
 	: _film (film)
 	, _suspended (0)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
-	, _aligned_subtitles (aligned)
+	, _subtitle_alignment (subtitle_alignment)
 {
 	construct ();
 }
@@ -332,7 +332,7 @@ Player::set_video_container_size (dcp::Size s)
 
 		_video_container_size = s;
 
-		_black_image.reset (new Image (AV_PIX_FMT_RGB24, _video_container_size, true));
+		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
 		_black_image->make_black ();
 	}
 
@@ -828,7 +828,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 		return {};
 	}
 
-	return merge (captions, _aligned_subtitles);
+	return merge (captions, _subtitle_alignment);
 }
 
 
@@ -1056,7 +1056,7 @@ Player::bitmap_text_start (weak_ptr<Piece> wp, weak_ptr<const TextContent> wc, C
 	}
 
 	dcp::Size scaled_size (width, height);
-	ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUVToRGB::REC601, image->pixel_format(), true, _fast), subtitle.sub.rectangle));
+	ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUVToRGB::REC601, image->pixel_format(), Image::Alignment::PADDED, _fast), subtitle.sub.rectangle));
 	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
 
 	_active_texts[static_cast<int>(text->type())].add_from (wc, ps, from);

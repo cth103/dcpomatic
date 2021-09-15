@@ -34,6 +34,7 @@
 #include "content_video.h"
 #include "empty.h"
 #include "film.h"
+#include "image.h"
 #include "piece.h"
 #include "player_text.h"
 #include "position_image.h"
@@ -76,7 +77,7 @@ public:
 class Player : public std::enable_shared_from_this<Player>
 {
 public:
-	Player (std::shared_ptr<const Film>, bool aligned_subtitles);
+	Player (std::shared_ptr<const Film>, Image::Alignment subtitle_alignment);
 	Player (std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist);
 
 	Player (Player const& Player) = delete;
@@ -233,8 +234,8 @@ private:
 
 	dcpomatic::DCPTime _playback_length;
 
-	/** aligned flag for subtitle images that we create */
-	bool _aligned_subtitles = true;
+	/** Alignment for subtitle images that we create */
+	Image::Alignment _subtitle_alignment = Image::Alignment::PADDED;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;
