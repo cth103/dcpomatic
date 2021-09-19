@@ -59,6 +59,7 @@
 #include "upload_job.h"
 #include "util.h"
 #include "video_content.h"
+#include "version.h"
 #include <libcxml/cxml.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/cpl.h>
@@ -461,6 +462,9 @@ Film::metadata (bool with_content_paths) const
 	auto root = doc->create_root_node ("Metadata");
 
 	root->add_child("Version")->add_child_text (raw_convert<string> (current_state_version));
+	auto last_write = root->add_child("LastWrittenBy");
+	last_write->add_child_text (dcpomatic_version);
+	last_write->set_attribute("git", dcpomatic_git_commit);
 	root->add_child("Name")->add_child_text (_name);
 	root->add_child("UseISDCFName")->add_child_text (_use_isdcf_name ? "1" : "0");
 

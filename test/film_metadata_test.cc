@@ -41,7 +41,6 @@
 using std::string;
 using std::list;
 using std::make_shared;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
@@ -64,7 +63,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	film->set_release_territory (dcp::LanguageTag::RegionSubtag("US"));
 	film->write_metadata ();
 
-	list<string> ignore = { "Key", "ContextID" };
+	list<string> ignore = { "Key", "ContextID", "LastWrittenBy" };
 	check_xml ("test/data/metadata.xml.ref", dir.string() + "/metadata.xml", ignore);
 
 	auto g = make_shared<Film>(dir);
