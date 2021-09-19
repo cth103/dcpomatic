@@ -18,57 +18,59 @@
 
 */
 
+
 /** @file  src/film.cc
  *  @brief A representation of some audio, video and subtitle content, and details of
  *  how they should be presented in a DCP.
  */
 
+
 #include "atmos_content.h"
-#include "film.h"
-#include "job.h"
-#include "util.h"
-#include "job_manager.h"
-#include "dcp_encoder.h"
-#include "transcode_job.h"
-#include "upload_job.h"
-#include "null_log.h"
-#include "file_log.h"
-#include "dcpomatic_log.h"
-#include "exceptions.h"
-#include "examine_content_job.h"
-#include "config.h"
-#include "playlist.h"
-#include "dcp_content_type.h"
-#include "ratio.h"
-#include "cross.h"
-#include "environment_info.h"
-#include "audio_processor.h"
-#include "digester.h"
-#include "compose.hpp"
-#include "screen.h"
 #include "audio_content.h"
-#include "video_content.h"
-#include "text_content.h"
-#include "ffmpeg_content.h"
-#include "dcp_content.h"
-#include "kdm_with_metadata.h"
-#include "cinema.h"
+#include "audio_processor.h"
 #include "change_signaller.h"
 #include "check_content_change_job.h"
+#include "cinema.h"
+#include "compose.hpp"
+#include "config.h"
+#include "cross.h"
+#include "dcp_content.h"
+#include "dcp_content_type.h"
+#include "dcp_encoder.h"
+#include "dcpomatic_log.h"
+#include "digester.h"
+#include "environment_info.h"
+#include "examine_content_job.h"
+#include "exceptions.h"
+#include "ffmpeg_content.h"
 #include "ffmpeg_subtitle_stream.h"
+#include "file_log.h"
+#include "film.h"
 #include "font.h"
+#include "job.h"
+#include "job_manager.h"
+#include "kdm_with_metadata.h"
+#include "null_log.h"
+#include "playlist.h"
+#include "ratio.h"
+#include "screen.h"
+#include "text_content.h"
+#include "transcode_job.h"
+#include "upload_job.h"
+#include "util.h"
+#include "video_content.h"
 #include <libcxml/cxml.h>
-#include <dcp/cpl.h>
 #include <dcp/certificate_chain.h>
-#include <dcp/util.h>
-#include <dcp/local_time.h>
+#include <dcp/cpl.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/local_time.h>
 #include <dcp/raw_convert.h>
-#include <dcp/reel_file_asset.h>
 #include <dcp/reel_asset.h>
+#include <dcp/reel_file_asset.h>
+#include <dcp/util.h>
 #include <libxml++/libxml++.h>
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <unistd.h>
 #include <stdexcept>
@@ -80,26 +82,27 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::pair;
-using std::vector;
-using std::setfill;
-using std::min;
-using std::max;
-using std::make_pair;
-using std::cout;
-using std::list;
-using std::set;
-using std::runtime_error;
-using std::copy;
+
 using std::back_inserter;
-using std::map;
+using std::copy;
+using std::cout;
+using std::dynamic_pointer_cast;
 using std::exception;
 using std::find;
-using std::shared_ptr;
-using std::weak_ptr;
+using std::list;
+using std::make_pair;
 using std::make_shared;
-using std::dynamic_pointer_cast;
+using std::map;
+using std::max;
+using std::min;
+using std::pair;
+using std::runtime_error;
+using std::set;
+using std::setfill;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
 using boost::is_any_of;
 #if BOOST_VERSION >= 106100
@@ -140,6 +143,7 @@ string const Film::metadata_file = "metadata.xml";
  * VideoContent scale expressed just as "guess" or "custom"
  */
 int const Film::current_state_version = 38;
+
 
 /** Construct a Film object in a given directory.
  *
