@@ -84,7 +84,7 @@ TextContent::TextContent (Content* parent, TextType type, TextType original_type
  *  The list could be empty if no TextContents are found.
  */
 list<shared_ptr<TextContent>>
-TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
+TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
 	if (version < 34) {
 		/* With old metadata FFmpeg content has the subtitle-related tags even with no
@@ -101,18 +101,18 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 		if (!node->optional_number_child<double>("SubtitleXOffset") && !node->optional_number_child<double>("SubtitleOffset")) {
 			return {};
 		}
-		return { make_shared<TextContent>(parent, node, version) };
+		return { make_shared<TextContent>(parent, node, version, notes) };
 	}
 
 	list<shared_ptr<TextContent>> c;
 	for (auto i: node->node_children("Text")) {
-		c.push_back (make_shared<TextContent>(parent, i, version));
+		c.push_back (make_shared<TextContent>(parent, i, version, notes));
 	}
 
 	return c;
 }
 
-TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
+TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: ContentPart (parent)
 	, _use (false)
 	, _burn (false)
@@ -234,9 +234,24 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version)
 
 	auto lang = node->optional_node_child("Language");
 	if (lang) {
-		_language = dcp::LanguageTag(lang->content());
-		auto add = lang->optional_bool_attribute("Additional");
-		_language_is_additional = add && *add;
+		try {
+			_language = dcp::LanguageTag(lang->content());
+			auto add = lang->optional_bool_attribute("Additional");
+			_language_is_additional = add && *add;
+		} catch (dcp::LanguageTagError&) {
+			/* The language tag can be empty or invalid if it was loaded from a
+			 * 2.14.x metadata file; we'll just ignore it in that case.
+			 */
+			if (version <= 37) {
+				if (!lang->content().empty()) {
+					notes.push_back (String::compose(
+						_("A subtitle or closed caption file in this project is marked with the language '%1', "
+						  "which DCP-o-matic does not recognise.  The file's language has been cleared."), lang->content()));
+				}
+			} else {
+				throw;
+			}
+		}
 	}
 }
 

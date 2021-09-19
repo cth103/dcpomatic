@@ -32,7 +32,7 @@ class StringTextFileContent : public Content
 {
 public:
 	StringTextFileContent (boost::filesystem::path);
-	StringTextFileContent (cxml::ConstNodePtr, int);
+	StringTextFileContent (cxml::ConstNodePtr, int, std::list<std::string>&);
 
 	std::shared_ptr<StringTextFileContent> shared_from_this () {
 		return std::dynamic_pointer_cast<StringTextFileContent> (Content::shared_from_this ());

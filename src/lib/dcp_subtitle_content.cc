@@ -48,7 +48,8 @@ DCPSubtitleContent::DCPSubtitleContent (cxml::ConstNodePtr node, int version)
 	: Content (node)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
-	text = TextContent::from_xml (this, node, version);
+	list<string> notes;
+	text = TextContent::from_xml (this, node, version, notes);
 }
 
 void

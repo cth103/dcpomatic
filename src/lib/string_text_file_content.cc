@@ -34,6 +34,7 @@
 
 
 using std::cout;
+using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
@@ -48,11 +49,11 @@ StringTextFileContent::StringTextFileContent (boost::filesystem::path path)
 }
 
 
-StringTextFileContent::StringTextFileContent (cxml::ConstNodePtr node, int version)
+StringTextFileContent::StringTextFileContent (cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (node)
 	, _length (node->number_child<ContentTime::Type>("Length"))
 {
-	text = TextContent::from_xml (this, node, version);
+	text = TextContent::from_xml (this, node, version, notes);
 }
 
 

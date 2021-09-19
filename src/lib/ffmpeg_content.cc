@@ -92,7 +92,7 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	text = TextContent::from_xml (this, node, version);
+	text = TextContent::from_xml (this, node, version, notes);
 
 	for (auto i: node->node_children("SubtitleStream")) {
 		_subtitle_streams.push_back (make_shared<FFmpegSubtitleStream>(i, version));

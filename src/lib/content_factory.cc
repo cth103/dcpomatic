@@ -88,7 +88,7 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 			);
 
 	} else if (type == "SubRip" || type == "TextSubtitle") {
-		content.reset (new StringTextFileContent(node, version));
+		content = make_shared<StringTextFileContent>(node, version, notes);
 	} else if (type == "DCP") {
 		content = make_shared<DCPContent>(node, version);
 	} else if (type == "DCPSubtitle") {

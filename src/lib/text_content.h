@@ -69,8 +69,8 @@ class TextContent : public ContentPart
 {
 public:
 	TextContent (Content* parent, TextType type, TextType original_type);
-	TextContent (Content* parent, std::vector<std::shared_ptr<Content> >);
-	TextContent (Content* parent, cxml::ConstNodePtr, int version);
+	TextContent (Content* parent, std::vector<std::shared_ptr<Content>>);
+	TextContent (Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
 
 	void as_xml (xmlpp::Node *) const;
 	std::string identifier () const;
@@ -197,7 +197,7 @@ public:
 		return _language_is_additional;
 	}
 
-	static std::list<std::shared_ptr<TextContent>> from_xml (Content* parent, cxml::ConstNodePtr, int version);
+	static std::list<std::shared_ptr<TextContent>> from_xml (Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
 
 private:
 	friend struct ffmpeg_pts_offset_test;

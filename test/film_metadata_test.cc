@@ -101,3 +101,28 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 	auto test = make_shared<Film>(boost::filesystem::path("build/test/multiple_text_nodes_are_allowed2"));
 	test->read_metadata();
 }
+
+
+/** Read some metadata from v2.14.x that fails to open on 2.15.x */
+BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_1)
+{
+	namespace fs = boost::filesystem;
+	auto film = make_shared<Film>(fs::path("build/test/metadata_loads_from_2_14_x_1"));
+	auto notes = film->read_metadata(fs::path("test/data/2.14.x.metadata.1.xml"));
+	BOOST_REQUIRE_EQUAL (notes.size(), 0U);
+}
+
+
+/** Read some more metadata from v2.14.x that fails to open on 2.15.x */
+BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_2)
+{
+	namespace fs = boost::filesystem;
+	auto film = make_shared<Film>(fs::path("build/test/metadata_loads_from_2_14_x_2"));
+	auto notes = film->read_metadata(fs::path("test/data/2.14.x.metadata.2.xml"));
+	BOOST_REQUIRE_EQUAL (notes.size(), 1U);
+	BOOST_REQUIRE_EQUAL (notes.front(),
+		       "A subtitle or closed caption file in this project is marked with the language 'eng', "
+		       "which DCP-o-matic does not recognise.  The file's language has been cleared."
+		       );
+}
+

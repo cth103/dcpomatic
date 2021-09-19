@@ -96,7 +96,8 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 {
 	video = VideoContent::from_xml (this, node, version);
 	audio = AudioContent::from_xml (this, node, version);
-	text = TextContent::from_xml (this, node, version);
+	list<string> notes;
+	text = TextContent::from_xml (this, node, version, notes);
 	atmos = AtmosContent::from_xml (this, node);
 
 	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
