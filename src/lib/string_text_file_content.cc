@@ -37,7 +37,6 @@ using std::cout;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
-using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 

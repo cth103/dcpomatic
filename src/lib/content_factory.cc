@@ -50,7 +50,6 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
-using boost::optional;
 
 
 /** Create a Content object from an XML node.
@@ -70,14 +69,14 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content.reset (new FFmpegContent(node, version, notes));
+		content = make_shared<FFmpegContent>(node, version, notes);
 	} else if (type == "Image") {
-		content.reset (new ImageContent(node, version));
+		content = make_shared<ImageContent>(node, version);
 	} else if (type == "Sndfile") {
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content.reset (new FFmpegContent(node, version, notes));
+		content = make_shared<FFmpegContent>(node, version, notes);
 
 		content->audio->set_stream (
 			make_shared<FFmpegAudioStream>(
@@ -91,13 +90,13 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 	} else if (type == "SubRip" || type == "TextSubtitle") {
 		content.reset (new StringTextFileContent(node, version));
 	} else if (type == "DCP") {
-		content.reset (new DCPContent(node, version));
+		content = make_shared<DCPContent>(node, version);
 	} else if (type == "DCPSubtitle") {
-		content.reset (new DCPSubtitleContent(node, version));
+		content = make_shared<DCPSubtitleContent>(node, version);
 	} else if (type == "VideoMXF") {
-		content.reset (new VideoMXFContent(node, version));
+		content = make_shared<VideoMXFContent>(node, version);
 	} else if (type == "AtmosMXF") {
-		content.reset (new AtmosMXFContent(node, version));
+		content = make_shared<AtmosMXFContent>(node, version);
 	}
 
 	return content;
@@ -169,26 +168,26 @@ content_factory (boost::filesystem::path path)
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (valid_image_file (path)) {
-			single.reset (new ImageContent(path));
+			single = make_shared<ImageContent>(path);
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass" || ext == ".stl") {
-			single.reset (new StringTextFileContent(path));
+			single = make_shared<StringTextFileContent>(path);
 		} else if (ext == ".xml") {
 			cxml::Document doc;
 			doc.read_file (path);
 			if (doc.root_name() == "DCinemaSecurityMessage") {
 				throw KDMAsContentError ();
 			}
-			single.reset (new DCPSubtitleContent(path));
+			single = make_shared<DCPSubtitleContent>(path);
 		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf(path)) {
-			single.reset (new DCPSubtitleContent(path));
+			single = make_shared<DCPSubtitleContent>(path);
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf(path)) {
-			single.reset (new VideoMXFContent(path));
+			single = make_shared<VideoMXFContent>(path);
 		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf(path)) {
-			single.reset (new AtmosMXFContent(path));
+			single = make_shared<AtmosMXFContent>(path);
 		}
 
 		if (!single) {
-			single.reset (new FFmpegContent(path));
+			single = make_shared<FFmpegContent>(path);
 		}
 
 		content.push_back (single);
