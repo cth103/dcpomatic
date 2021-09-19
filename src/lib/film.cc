@@ -267,6 +267,10 @@ Film::video_identifier () const
 		s += "_3D";
 	}
 
+	if (_reencode_j2k) {
+		s += "_R";
+	}
+
 	return s;
 }
 
