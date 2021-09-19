@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -28,9 +28,9 @@
 #define DCPOMATIC_AUDIO_DECODER_H
 
 
-#include "decoder.h"
-#include "content_audio.h"
 #include "audio_stream.h"
+#include "content_audio.h"
+#include "decoder.h"
 #include "decoder_part.h"
 #include <boost/signals2.hpp>
 

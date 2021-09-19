@@ -18,9 +18,11 @@
 
 */
 
+
 #include "audio_stream.h"
 #include "audio_mapping.h"
 #include "util.h"
+
 
 AudioStream::AudioStream (int frame_rate, Frame length, int channels)
 	: _frame_rate (frame_rate)
@@ -30,6 +32,7 @@ AudioStream::AudioStream (int frame_rate, Frame length, int channels)
 
 }
 
+
 AudioStream::AudioStream (int frame_rate, Frame length, AudioMapping mapping)
 	: _frame_rate (frame_rate)
 	, _length (length)
@@ -38,12 +41,14 @@ AudioStream::AudioStream (int frame_rate, Frame length, AudioMapping mapping)
 
 }
 
+
 void
 AudioStream::set_mapping (AudioMapping mapping)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	_mapping = mapping;
 }
+
 
 int
 AudioStream::channels () const

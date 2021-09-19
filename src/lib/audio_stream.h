@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_AUDIO_STREAM_H
 #define DCPOMATIC_AUDIO_STREAM_H
+
 
 #include "audio_mapping.h"
 #include "types.h"
 #include <boost/thread/mutex.hpp>
+
 
 struct audio_sampling_rate_test;
 
@@ -65,6 +68,8 @@ private:
 	AudioMapping _mapping;
 };
 
+
 typedef std::shared_ptr<AudioStream> AudioStreamPtr;
+
 
 #endif
