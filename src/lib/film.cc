@@ -111,7 +111,9 @@ using namespace boost::placeholders;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
-string const Film::metadata_file = "metadata.xml";
+
+static constexpr char metadata_file[] = "metadata.xml";
+
 
 /* 5 -> 6
  * AudioMapping XML changed.

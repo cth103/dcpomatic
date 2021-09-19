@@ -495,8 +495,6 @@ private:
 	void check_settings_consistency ();
 	void maybe_set_container_and_resolution ();
 
-	static std::string const metadata_file;
-
 	/** Log to write to */
 	std::shared_ptr<Log> _log;
 	std::shared_ptr<Playlist> _playlist;

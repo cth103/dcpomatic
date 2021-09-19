@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 
 	film->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (film->container() == Ratio::from_id ("185"));
-	BOOST_CHECK (film->dcp_content_type() == 0);
+	BOOST_CHECK (film->dcp_content_type() == nullptr);
 
 	film->set_name ("fred");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("SHR"));
