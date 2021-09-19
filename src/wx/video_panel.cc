@@ -700,6 +700,7 @@ VideoPanel::scale_fit_clicked ()
 {
 	for (auto i: _parent->selected_video()) {
 		i->video->set_custom_ratio (optional<float>());
+		i->video->set_custom_size (optional<dcp::Size>());
 	}
 }
 
