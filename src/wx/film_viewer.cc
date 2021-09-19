@@ -418,7 +418,8 @@ FilmViewer::player_change (vector<int> properties)
 	for (auto i: properties) {
 		if (
 			i == VideoContentProperty::CROP ||
-			i == VideoContentProperty::SCALE ||
+			i == VideoContentProperty::CUSTOM_RATIO ||
+			i == VideoContentProperty::CUSTOM_SIZE ||
 			i == VideoContentProperty::FADE_IN ||
 			i == VideoContentProperty::FADE_OUT ||
 			i == VideoContentProperty::COLOUR_CONVERSION ||

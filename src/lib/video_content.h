@@ -45,7 +45,6 @@ public:
 	static int const SIZE;
 	static int const FRAME_TYPE;
 	static int const CROP;
-	static int const SCALE;
 	static int const COLOUR_CONVERSION;
 	static int const FADE_IN;
 	static int const FADE_OUT;

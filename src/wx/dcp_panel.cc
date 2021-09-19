@@ -506,7 +506,8 @@ DCPPanel::film_content_changed (int property)
 	    property == TextContentProperty::BURN ||
 	    property == TextContentProperty::LANGUAGE ||
 	    property == TextContentProperty::LANGUAGE_IS_ADDITIONAL ||
-	    property == VideoContentProperty::SCALE ||
+	    property == VideoContentProperty::CUSTOM_RATIO ||
+	    property == VideoContentProperty::CUSTOM_SIZE ||
 	    property == VideoContentProperty::BURNT_SUBTITLE_LANGUAGE ||
 	    property == VideoContentProperty::CROP ||
 	    property == DCPContentProperty::REFERENCE_VIDEO ||

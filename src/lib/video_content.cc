@@ -43,14 +43,13 @@ int const VideoContentProperty::USE               = 0;
 int const VideoContentProperty::SIZE              = 1;
 int const VideoContentProperty::FRAME_TYPE        = 2;
 int const VideoContentProperty::CROP              = 3;
-int const VideoContentProperty::SCALE	          = 4;
-int const VideoContentProperty::COLOUR_CONVERSION = 5;
-int const VideoContentProperty::FADE_IN           = 6;
-int const VideoContentProperty::FADE_OUT          = 7;
-int const VideoContentProperty::RANGE             = 8;
-int const VideoContentProperty::CUSTOM_RATIO      = 9;
-int const VideoContentProperty::CUSTOM_SIZE       = 10;
-int const VideoContentProperty::BURNT_SUBTITLE_LANGUAGE = 11;
+int const VideoContentProperty::COLOUR_CONVERSION = 4;
+int const VideoContentProperty::FADE_IN           = 5;
+int const VideoContentProperty::FADE_OUT          = 6;
+int const VideoContentProperty::RANGE             = 7;
+int const VideoContentProperty::CUSTOM_RATIO      = 8;
+int const VideoContentProperty::CUSTOM_SIZE       = 9;
+int const VideoContentProperty::BURNT_SUBTITLE_LANGUAGE = 10;
 
 using std::string;
 using std::setprecision;
@@ -302,9 +301,8 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	auto const range = d->range ();
 
 	ContentChangeSignaller cc1 (_parent, VideoContentProperty::SIZE);
-	ContentChangeSignaller cc2 (_parent, VideoContentProperty::SCALE);
-	ContentChangeSignaller cc3 (_parent, ContentProperty::LENGTH);
-	ContentChangeSignaller cc4 (_parent, VideoContentProperty::RANGE);
+	ContentChangeSignaller cc2 (_parent, ContentProperty::LENGTH);
+	ContentChangeSignaller cc3 (_parent, VideoContentProperty::RANGE);
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
