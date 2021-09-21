@@ -55,7 +55,6 @@ deb_depends['16.04'].extend(['libboost-filesystem1.58.0',
                              'libzip4',
                              'libcairomm-1.0-1v5',
                              'libpangomm-1.4-1v5',
-                             'libwxgtk3.0-0v5',
                              'libicu55',
                              'libnettle6',
                              'libssh-4',
@@ -72,7 +71,6 @@ deb_depends['18.04'].extend(['libboost-filesystem1.65.1',
                              'libpangomm-1.4-1v5',
                              'libxml++2.6-2v5',
                              'libzip4',
-                             'libwxgtk3.0-0v5',
                              'libicu60',
                              'libnettle6',
                              'libssh-4',
@@ -155,8 +153,7 @@ deb_depends['9'].extend(['libboost-filesystem1.62.0',
                          'libcurl3',
                          'libxerces-c3.1'])
 
-deb_depends_gui['9'] = [ 'libwxgtk3.0-0v5',
-                         'libxcb-xfixes0',
+deb_depends_gui['9'] = [ 'libxcb-xfixes0',
                          'libxcb-shape0',
                          'libasound2',
                          'libpulse0' ]
@@ -180,8 +177,7 @@ deb_depends['10'].extend(['libboost-filesystem1.67.0',
                           'libxerces-c3.2',
                           'libnanomsg5'])
 
-deb_depends_gui['10'] = [ 'libwxgtk3.0-0v5',
-                          'libxcb-xfixes0',
+deb_depends_gui['10'] = [ 'libxcb-xfixes0',
                           'libxcb-shape0',
                           'libasound2',
                           'libpulse0' ]
@@ -204,8 +200,7 @@ deb_depends['11'].extend(['libboost-filesystem1.74.0',
                           'libxerces-c3.2',
                           'libnanomsg5'])
 
-deb_depends_gui['11'] = [ 'libwxgtk3.0-gtk3-0v5',
-                          'libxcb-xfixes0',
+deb_depends_gui['11'] = [ 'libxcb-xfixes0',
                           'libxcb-shape0',
                           'libasound2',
                           'libpulse0' ]
