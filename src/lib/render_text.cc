@@ -48,8 +48,6 @@ using std::min;
 using std::pair;
 using std::shared_ptr;
 using std::string;
-using boost::optional;
-using boost::algorithm::replace_all;
 using namespace dcpomatic;
 
 
