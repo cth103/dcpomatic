@@ -110,13 +110,13 @@ PlayerVideo::set_text (PositionImage image)
 }
 
 shared_ptr<Image>
-PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast) const
+PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const
 {
 	/* XXX: this assumes that image() and prepare() are only ever called with the same parameters (except crop, inter size, out size, fade) */
 
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image || _crop != _image_crop || _inter_size != _image_inter_size || _out_size != _image_out_size || _fade != _image_fade) {
-		make_image (pixel_format, video_range, alignment, fast);
+		make_image (pixel_format, video_range, fast);
 	}
 	return _image;
 }
@@ -133,11 +133,10 @@ PlayerVideo::raw_image () const
  *  @param pixel_format Function which is called to decide what pixel format the output image should be;
  *  it is passed the pixel format of the input image from the ImageProxy, and should return the desired
  *  output pixel format.  Two functions force and keep_xyz_or_rgb are provided for use here.
- *  @param alignment PADDED if the output image should be aligned to 32-byte boundaries, otherwise COMPACT.
  *  @param fast true to be fast at the expense of quality.
  */
 void
-PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast) const
+PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const
 {
 	_image_crop = _crop;
 	_image_inter_size = _inter_size;
@@ -180,11 +179,11 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 	}
 
 	_image = prox.image->crop_scale_window (
-		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), video_range, alignment, fast
+		total_crop, _inter_size, _out_size, yuv_to_rgb, _video_range, pixel_format (prox.image->pixel_format()), video_range, Image::Alignment::COMPACT, fast
 		);
 
 	if (_text) {
-		_image->alpha_blend (Image::ensure_alignment(_text->image, Image::Alignment::PADDED), _text->position);
+		_image->alpha_blend (_text->image, _text->position);
 	}
 
 	if (_fade) {
@@ -303,7 +302,7 @@ PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, Vide
 	_in->prepare (alignment, _inter_size);
 	boost::mutex::scoped_lock lm (_mutex);
 	if (!_image && !proxy_only) {
-		make_image (pixel_format, video_range, alignment, fast);
+		make_image (pixel_format, video_range, fast);
 	}
 }
 

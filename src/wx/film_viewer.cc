@@ -208,6 +208,8 @@ FilmViewer::recreate_butler ()
 		return;
 	}
 
+	auto const j2k_gl_optimised = dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k;
+
 	_butler = std::make_shared<Butler>(
 		_film,
 		_player,
@@ -215,9 +217,9 @@ FilmViewer::recreate_butler ()
 		_audio_channels,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		_optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
+		j2k_gl_optimised ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,
-		dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k
+		j2k_gl_optimised
 		);
 
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {

@@ -402,7 +402,6 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	auto image = video->image (
 		bind (&PlayerVideo::force, _1, _pixel_format),
 		VideoRange::VIDEO,
-		Image::Alignment::PADDED,
 		false
 		);
 

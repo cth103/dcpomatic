@@ -72,6 +72,7 @@ SimpleVideoView::paint ()
 	if (!_image) {
 		dc.Clear ();
 	} else {
+		DCPOMATIC_ASSERT (_image->alignment() == Image::Alignment::COMPACT);
 		out_size = _image->size();
 		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
@@ -188,7 +189,7 @@ void
 SimpleVideoView::update ()
 {
 	if (!player_video().first) {
-		set_image (shared_ptr<Image>());
+		_image.reset ();
 		refresh_panel ();
 		return;
 	}
@@ -221,9 +222,7 @@ SimpleVideoView::update ()
 
 	_state_timer.set ("get image");
 
-	set_image (
-		player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true)
-		);
+	_image = player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 
 	_state_timer.set ("ImageChanged");
 	_viewer->image_changed (player_video().first);

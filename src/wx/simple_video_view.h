@@ -42,10 +42,6 @@ public:
 	NextFrameResult display_next_frame (bool non_blocking) override;
 
 private:
-	void set_image (std::shared_ptr<const Image> image) {
-		_image = image;
-	}
-
 	void refresh_panel ();
 	void paint ();
 	void timer ();
