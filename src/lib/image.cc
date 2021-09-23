@@ -1147,7 +1147,8 @@ merge (list<PositionImage> images, Image::Alignment alignment)
 	}
 
 	if (images.size() == 1) {
-		return images.front ();
+		images.front().image = Image::ensure_alignment(images.front().image, alignment);
+		return images.front();
 	}
 
 	dcpomatic::Rect<int> all (images.front().position, images.front().image->size().width, images.front().image->size().height);
