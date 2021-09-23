@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true, false);
+	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
 	butler->disable_audio();
 
 	for (int i = 0; i < 10; ++i) {

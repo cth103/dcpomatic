@@ -45,12 +45,12 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	auto butler = std::make_shared<Butler>(
 		film,
-		make_shared<Player>(film, Image::Alignment::COMPACT),
+		make_shared<Player>(film, Image::Alignment::PADDED),
 		AudioMapping(6, 6),
 		6,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		Image::Alignment::COMPACT,
+		Image::Alignment::PADDED,
 		true,
 		false
 		);
