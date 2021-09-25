@@ -729,6 +729,41 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_audio_language = dcp::LanguageTag(*audio_language);
 	}
 
+	/* Read the old ISDCFMetadata tag from 2.14.x metadata */
+	auto isdcf = f.optional_node_child("ISDCFMetadata");
+	if (isdcf) {
+		if (auto territory = isdcf->optional_string_child("Territory")) {
+			try {
+				_release_territory = dcp::LanguageTag::RegionSubtag(*territory);
+			} catch (...) {
+				/* Invalid region subtag; just ignore it */
+			}
+		}
+		if (auto audio_language = isdcf->optional_string_child("AudioLanguage")) {
+			try {
+				_audio_language = dcp::LanguageTag(*audio_language);
+			} catch (...) {
+				/* Invalid language tag; just ignore it */
+			}
+		}
+		if (auto content_version = isdcf->optional_string_child("ContentVersion")) {
+			_content_versions.push_back (*content_version);
+		}
+		if (auto rating = isdcf->optional_string_child("Rating")) {
+			_ratings.push_back (dcp::Rating("", *rating));
+		}
+		if (auto mastered_luminance = isdcf->optional_number_child<float>("MasteredLuminance")) {
+			_luminance = dcp::Luminance(*mastered_luminance, dcp::Luminance::Unit::FOOT_LAMBERT);
+		}
+		_studio = isdcf->optional_string_child("Studio");
+		_facility = isdcf->optional_string_child("Facility");
+		_temp_version = isdcf->optional_bool_child("TempVersion").get_value_or("false");
+		_pre_release = isdcf->optional_bool_child("PreRelease").get_value_or("false");
+		_red_band = isdcf->optional_bool_child("RedBand").get_value_or("false");
+		_two_d_version_of_three_d = isdcf->optional_bool_child("TwoDVersionOfThreeD").get_value_or("false");
+		_chain = isdcf->optional_string_child("Chain");
+	}
+
 	list<string> notes;
 	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
 

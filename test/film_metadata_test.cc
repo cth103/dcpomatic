@@ -41,6 +41,7 @@
 using std::string;
 using std::list;
 using std::make_shared;
+using std::vector;
 
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
@@ -123,5 +124,30 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_2)
 		       "A subtitle or closed caption file in this project is marked with the language 'eng', "
 		       "which DCP-o-matic does not recognise.  The file's language has been cleared."
 		       );
+}
+
+
+BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_3)
+{
+	namespace fs = boost::filesystem;
+	auto film = make_shared<Film>(fs::path("build/test/metadata_loads_from_2_14_x_3"));
+	auto notes = film->read_metadata(fs::path("test/data/2.14.x.metadata.3.xml"));
+
+	BOOST_REQUIRE (film->release_territory());
+	BOOST_REQUIRE (film->release_territory()->subtag() == dcp::LanguageTag::RegionSubtag("de").subtag());
+
+	BOOST_REQUIRE (film->audio_language());
+	BOOST_REQUIRE (*film->audio_language() == dcp::LanguageTag("sv-SE"));
+
+	BOOST_REQUIRE (film->content_versions() == vector<string>{"3"});
+	BOOST_REQUIRE (film->ratings() == vector<dcp::Rating>{ dcp::Rating("", "214rating") });
+	BOOST_REQUIRE_EQUAL (film->studio().get_value_or(""), "214studio");
+	BOOST_REQUIRE_EQUAL (film->facility().get_value_or(""), "214facility");
+	BOOST_REQUIRE_EQUAL (film->temp_version(), true);
+	BOOST_REQUIRE_EQUAL (film->pre_release(), true);
+	BOOST_REQUIRE_EQUAL (film->red_band(), true);
+	BOOST_REQUIRE_EQUAL (film->two_d_version_of_three_d(), true);
+	BOOST_REQUIRE_EQUAL (film->chain().get_value_or(""), "214chain");
+	BOOST_REQUIRE (film->luminance() == dcp::Luminance(14, dcp::Luminance::Unit::FOOT_LAMBERT));
 }
 
