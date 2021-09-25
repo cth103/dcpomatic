@@ -1095,7 +1095,8 @@ public:
 	void save_template (std::shared_ptr<const Film> film, std::string name) const;
 	bool existing_template (std::string name) const;
 	std::list<std::string> templates () const;
-	boost::filesystem::path template_path (std::string name) const;
+	boost::filesystem::path template_read_path (std::string name) const;
+	boost::filesystem::path template_write_path (std::string name) const;
 	void rename_template (std::string old_name, std::string new_name) const;
 	void delete_template (std::string name) const;
 
@@ -1103,7 +1104,8 @@ public:
 	static void drop ();
 	static void restore_defaults ();
 	static bool have_existing (std::string);
-	static boost::filesystem::path config_file ();
+	static boost::filesystem::path config_read_file ();
+	static boost::filesystem::path config_write_file ();
 
 private:
 	Config ();

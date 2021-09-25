@@ -552,7 +552,7 @@ Drive::get ()
 
 
 boost::filesystem::path
-config_path ()
+config_path (optional<string> version)
 {
 	boost::filesystem::path p;
 	p /= g_get_home_dir ();
@@ -560,6 +560,9 @@ config_path ()
 	p /= "Preferences";
 	p /= "com.dcpomatic";
 	p /= "2";
+	if (version) {
+		p /= *version;
+	}
 	return p;
 }
 

@@ -64,7 +64,7 @@ extern int avio_open_boost (AVIOContext** s, boost::filesystem::path file, int f
 extern boost::filesystem::path home_directory ();
 extern bool running_32_on_64 ();
 extern void unprivileged ();
-extern boost::filesystem::path config_path ();
+extern boost::filesystem::path config_path (boost::optional<std::string> version);
 extern boost::filesystem::path directory_containing_executable ();
 extern boost::filesystem::path fix_long_path (boost::filesystem::path path);
 extern bool show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path select);

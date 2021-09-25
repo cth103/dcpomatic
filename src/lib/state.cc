@@ -19,33 +19,70 @@
 */
 
 
-#include "state.h"
 #include "cross.h"
+#include "state.h"
+#include "util.h"
 #include <glib.h>
 
 
 using std::string;
+using boost::optional;
 
 
 boost::optional<boost::filesystem::path> State::override_path;
+
+
+/* List of config versions to look for in descending order of preference;
+ * i.e. look at the first one, and if that doesn't exist, try the second, etc.
+ */
+static std::vector<std::string> config_versions = { "2.16" };
+
+
+static
+boost::filesystem::path
+config_path_or_override (optional<string> version)
+{
+	if (State::override_path) {
+		auto p = *State::override_path;
+		if (version) {
+			p /= *version;
+		}
+		return p;
+	}
+
+	return config_path (version);
+}
+
+
+/** @param file State filename
+ *  @return Full path to read @file from.
+ */
+boost::filesystem::path
+State::read_path (string file)
+{
+	using namespace boost::filesystem;
+
+	for (auto i: config_versions) {
+		auto full = config_path_or_override(i) / file;
+		if (exists(full)) {
+			return full;
+		}
+	}
+
+	return config_path_or_override({}) / file;
+}
 
 
 /** @param file State filename
  *  @return Full path to write @file to.
  */
 boost::filesystem::path
-State::path (string file, bool create_directories)
+State::write_path (string file)
 {
-	boost::filesystem::path p;
-	if (override_path) {
-		p = *override_path;
-	} else {
-		p = config_path ();
-	}
+	boost::filesystem::path p = config_path_or_override(config_versions.front());
 	boost::system::error_code ec;
-	if (create_directories) {
-		boost::filesystem::create_directories (p, ec);
-	}
+	boost::filesystem::create_directories (p, ec);
 	p /= file;
 	return p;
 }
+

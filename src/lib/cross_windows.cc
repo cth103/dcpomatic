@@ -672,11 +672,14 @@ Drive::unmount ()
 
 
 boost::filesystem::path
-config_path ()
+config_path (optional<string> version)
 {
 	boost::filesystem::path p;
 	p /= g_get_user_config_dir ();
 	p /= "dcpomatic2";
+	if (version) {
+		p /= *version;
+	}
 	return p;
 }
 

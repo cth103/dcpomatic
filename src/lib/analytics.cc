@@ -96,11 +96,11 @@ Analytics::write () const
 	root->add_child("SuccessfulDCPEncodes")->add_child_text(raw_convert<string>(_successful_dcp_encodes));
 
 	try {
-		doc.write_to_file_formatted(path("analytics.xml").string());
+		doc.write_to_file_formatted(write_path("analytics.xml").string());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
-		throw FileError (s, path("analytics.xml"));
+		throw FileError (s, write_path("analytics.xml"));
 	}
 }
 
@@ -110,7 +110,7 @@ Analytics::read ()
 try
 {
 	cxml::Document f ("Analytics");
-	f.read_file (path("analytics.xml"));
+	f.read_file (read_path("analytics.xml"));
 	_successful_dcp_encodes = f.number_child<int>("SuccessfulDCPEncodes");
 } catch (...) {
 	/* Never mind */

@@ -139,7 +139,7 @@ public:
 		/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 		 * a better place to put them.
 		 */
-		dcpomatic_log.reset(new FileLog(config_path() / "disk.log"));
+		dcpomatic_log = make_shared<FileLog>(State::write_path("disk.log"));
 		dcpomatic_log->set_types (dcpomatic_log->types() | LogEntry::TYPE_DISK);
 		LOG_DISK("dcpomatic_disk %1 started", dcpomatic_git_commit);
 
