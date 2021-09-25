@@ -52,13 +52,10 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::cerr;
 using std::cout;
-using std::function;
 using std::ifstream;
 using std::list;
 using std::make_pair;
 using std::pair;
-using std::runtime_error;
-using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::wstring;

@@ -56,8 +56,6 @@ using std::list;
 using std::min;
 using std::max;
 using std::remove;
-using std::exception;
-using std::cerr;
 using std::shared_ptr;
 using std::make_shared;
 using boost::optional;
