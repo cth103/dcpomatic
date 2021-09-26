@@ -394,7 +394,7 @@ maybe_open_console ()
 boost::filesystem::path
 home_directory ()
 {
-	return boost::filesystem::path(getenv("HOMEDRIVE")) / boost::filesystem::path(getenv("HOMEPATH"));
+	return boost::filesystem::path(getenv("userprofile"));
 }
 
 
