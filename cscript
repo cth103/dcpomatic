@@ -706,6 +706,9 @@ def make_appimage(target, nice_name, internal_name, version, extra_bin=None):
     target.command('cp -r %s/share/dcpomatic2 build/%s.AppDir/usr/share/' % (target.directory, nice_filename))
     target.command('cp -r %s/share/libdcp/xsd build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
     target.command('cp -r %s/share/libdcp/tags build/%s.AppDir/usr/share/libdcp/' % (target.directory, nice_filename))
+    lib = 'usr/lib/x86_64-linux-gnu'
+    target.command(f'mkdir -p build/{nice_filename}.AppDir/{lib}/gdk-pixbuf-2.0/2.10.0')
+    target.command(f'cp -a /{lib}/gdk-pixbuf-2.0 build/{nice_filename}.AppDir/usr/lib/x86_64-linux-gnu/')
     if internal_name == 'dcpomatic2_disk':
         target.command('mkdir -p build/%s.AppDir/usr/share/polkit-1/actions' % nice_filename)
         target.command('cp %s/share/polkit-1/actions/com.dcpomatic.write-drive.policy build/%s.AppDir/usr/share/polkit-1/actions' % (target.directory, nice_filename))
@@ -714,6 +717,7 @@ def make_appimage(target, nice_name, internal_name, version, extra_bin=None):
         print('#!/bin/bash', file=f)
         print('export PATH=$APPDIR/usr/bin:$PATH', file=f)
         print('export XDG_DATA_DIRS="$APPDIR/usr/share/:/usr/share/:$XDG_DATA_DIRS"', file=f)
+        print('export LD_LIBRARY_PATH=$APPDIR/usr/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}', file=f)
         print('"$APPDIR"/usr/bin/%s $@' % internal_name, file=f)
     target.command('chmod a+rx build/%s.AppDir/AppRun' % nice_filename)
     with open('build/%s.AppDir/%s.desktop' % (nice_filename, internal_name), 'w') as f:
