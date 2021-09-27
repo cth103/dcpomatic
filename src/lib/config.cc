@@ -1254,25 +1254,6 @@ Config::read_dkdm_recipients (cxml::Document const & f)
 	}
 }
 
-void
-Config::set_dkdm_recipients_file (boost::filesystem::path file)
-{
-	if (file == _dkdm_recipients_file) {
-		return;
-	}
-
-	_dkdm_recipients_file = file;
-
-	if (boost::filesystem::exists (_dkdm_recipients_file)) {
-		/* Existing file; read it in */
-		cxml::Document f ("DKDMRecipients");
-		f.read_file (_dkdm_recipients_file);
-		read_dkdm_recipients (f);
-	}
-
-	changed (OTHER);
-}
-
 
 void
 Config::save_template (shared_ptr<const Film> film, string name) const

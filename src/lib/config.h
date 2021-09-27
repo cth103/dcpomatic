@@ -827,8 +827,6 @@ public:
 
 	void set_cinemas_file (boost::filesystem::path file);
 
-	void set_dkdm_recipients_file (boost::filesystem::path file);
-
 	void set_show_hints_before_make_dcp (bool s) {
 		maybe_set (_show_hints_before_make_dcp, s);
 	}
