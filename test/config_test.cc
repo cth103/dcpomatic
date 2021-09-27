@@ -32,11 +32,11 @@ static void
 rewrite_bad_config ()
 {
 	boost::system::error_code ec;
-	boost::filesystem::remove ("build/test/bad_config/config.xml", ec);
+	boost::filesystem::remove ("build/test/bad_config/2.16/config.xml", ec);
 
 	Config::override_path = "build/test/bad_config";
-	boost::filesystem::create_directories ("build/test/bad_config");
-	ofstream f ("build/test/bad_config/config.xml");
+	boost::filesystem::create_directories ("build/test/bad_config/2.16");
+	ofstream f ("build/test/bad_config/2.16/config.xml");
 	f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	  << "<Config>\n"
 	  << "<Foo></Foo>\n"
@@ -57,37 +57,37 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 
 	Config::instance();
 
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
+	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
+	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	Config::drop();
 	rewrite_bad_config();
 	Config::instance();
 
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
+	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
+	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	Config::drop();
 	rewrite_bad_config();
 	Config::instance();
 
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
-	BOOST_CHECK ( boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
-	BOOST_CHECK (!boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
+	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
+	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	Config::drop();
 	rewrite_bad_config();
 	Config::instance();
 
-	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.1"));
-	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.2"));
-	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.3"));
-	BOOST_CHECK (boost::filesystem::exists ("build/test/bad_config/config.xml.4"));
+	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
+	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	/* This test has called Config::set_defaults(), so take us back
 	   to the config that we want for our tests.
@@ -110,5 +110,26 @@ BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 	   to the config that we want for our tests.
 	*/
 	setup_test_config ();
+}
+
+
+BOOST_AUTO_TEST_CASE (config_upgrade_test)
+{
+	boost::filesystem::path dir = "build/test/config_upgrade_test";
+	Config::override_path = dir;
+	Config::drop ();
+	boost::filesystem::remove_all (dir);
+	boost::filesystem::create_directories (dir);
+
+	boost::filesystem::copy_file ("test/data/2.14.config.xml", dir / "config.xml");
+	boost::filesystem::copy_file ("test/data/2.14.cinemas.xml", dir / "cinemas.xml");
+	Config::instance();
+	Config::instance()->write();
+
+	check_xml (dir / "config.xml", "test/data/2.14.config.xml", {});
+	check_xml (dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
+	check_xml (dir / "2.16" / "config.xml", "test/data/2.16.config.xml", {});
+	/* cinemas.xml is not copied into 2.16 as its format has not changed */
+	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.16" / "cinemas.xml"));
 }
 

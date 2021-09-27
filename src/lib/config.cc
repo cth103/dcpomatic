@@ -56,8 +56,6 @@ using std::list;
 using std::min;
 using std::max;
 using std::remove;
-using std::exception;
-using std::cerr;
 using std::shared_ptr;
 using std::make_shared;
 using boost::optional;
@@ -127,8 +125,8 @@ Config::set_defaults ()
 #ifdef DCPOMATIC_WINDOWS
 	_win32_console = false;
 #endif
-	_cinemas_file = path ("cinemas.xml");
-	_dkdm_recipients_file = path ("dkdm_recipients.xml");
+	_cinemas_file = read_path ("cinemas.xml");
+	_dkdm_recipients_file = read_path ("dkdm_recipients.xml");
 	_show_hints_before_make_dcp = true;
 	_confirm_kdm_email = true;
 	_kdm_container_name_format = dcp::NameFormat ("KDM %f %c");
@@ -218,13 +216,13 @@ Config::backup ()
 	/* Make a copy of the configuration */
 	try {
 		int n = 1;
-		while (n < 100 && boost::filesystem::exists(path(String::compose("config.xml.%1", n)))) {
+		while (n < 100 && boost::filesystem::exists(write_path(String::compose("config.xml.%1", n)))) {
 			++n;
 		}
 
-		boost::filesystem::copy_file(path("config.xml", false), path(String::compose("config.xml.%1", n), false));
-		boost::filesystem::copy_file(path("cinemas.xml", false), path(String::compose("cinemas.xml.%1", n), false));
-		boost::filesystem::copy_file(path("dkdm_recipients.xml", false), path(String::compose("dkdm_recipients.xml.%1", n), false));
+		boost::filesystem::copy_file(read_path("config.xml"), write_path(String::compose("config.xml.%1", n)));
+		boost::filesystem::copy_file(read_path("cinemas.xml"), write_path(String::compose("cinemas.xml.%1", n)));
+		boost::filesystem::copy_file(read_path("dkdm_recipients.xml"), write_path(String::compose("dkdm_recipients.xml.%1", n)));
 	} catch (...) {}
 }
 
@@ -233,7 +231,7 @@ Config::read ()
 try
 {
 	cxml::Document f ("Config");
-	f.read_file (config_file ());
+	f.read_file (config_read_file());
 
 	auto version = f.optional_number_child<int> ("Version");
 	if (version && *version < _current_version) {
@@ -469,8 +467,8 @@ try
 			_dkdms->add (DKDMBase::read (i));
 		}
 	}
-	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or (path ("cinemas.xml").string ());
-	_dkdm_recipients_file = f.optional_string_child("DKDMRecipientsFile").get_value_or (path("dkdm_recipients.xml").string());
+	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or(read_path("cinemas.xml").string());
+	_dkdm_recipients_file = f.optional_string_child("DKDMRecipientsFile").get_value_or(read_path("dkdm_recipients.xml").string());
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
 	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or (true);
 	_kdm_container_name_format = dcp::NameFormat (f.optional_string_child("KDMContainerNameFormat").get_value_or ("KDM %f %c"));
@@ -995,21 +993,23 @@ Config::write_config () const
 		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
 	}
 
+	auto target = config_write_file();
+
 	try {
 		auto const s = doc.write_to_string_formatted ();
-		boost::filesystem::path tmp (string(config_file().string()).append(".tmp"));
+		boost::filesystem::path tmp (string(target.string()).append(".tmp"));
 		auto f = fopen_boost (tmp, "w");
 		if (!f) {
 			throw FileError (_("Could not open file for writing"), tmp);
 		}
 		checked_fwrite (s.c_str(), s.bytes(), f, tmp);
 		fclose (f);
-		boost::filesystem::remove (config_file());
-		boost::filesystem::rename (tmp, config_file());
+		boost::filesystem::remove (target);
+		boost::filesystem::rename (tmp, target);
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
-		throw FileError (s, config_file());
+		throw FileError (s, target);
 	}
 }
 
@@ -1203,11 +1203,13 @@ Config::clean_history_internal (vector<boost::filesystem::path>& h)
 	}
 }
 
+
 bool
 Config::have_existing (string file)
 {
-	return boost::filesystem::exists (path (file, false));
+	return boost::filesystem::exists (read_path(file));
 }
+
 
 void
 Config::read_cinemas (cxml::Document const & f)
@@ -1252,41 +1254,23 @@ Config::read_dkdm_recipients (cxml::Document const & f)
 	}
 }
 
-void
-Config::set_dkdm_recipients_file (boost::filesystem::path file)
-{
-	if (file == _dkdm_recipients_file) {
-		return;
-	}
-
-	_dkdm_recipients_file = file;
-
-	if (boost::filesystem::exists (_dkdm_recipients_file)) {
-		/* Existing file; read it in */
-		cxml::Document f ("DKDMRecipients");
-		f.read_file (_dkdm_recipients_file);
-		read_dkdm_recipients (f);
-	}
-
-	changed (OTHER);
-}
-
 
 void
 Config::save_template (shared_ptr<const Film> film, string name) const
 {
-	film->write_template (template_path (name));
+	film->write_template (template_write_path(name));
 }
+
 
 list<string>
 Config::templates () const
 {
-	if (!boost::filesystem::exists (path ("templates"))) {
+	if (!boost::filesystem::exists(read_path("templates"))) {
 		return {};
 	}
 
 	list<string> n;
-	for (auto const& i: boost::filesystem::directory_iterator(path("templates"))) {
+	for (auto const& i: boost::filesystem::directory_iterator(read_path("templates"))) {
 		n.push_back (i.path().filename().string());
 	}
 	return n;
@@ -1295,33 +1279,41 @@ Config::templates () const
 bool
 Config::existing_template (string name) const
 {
-	return boost::filesystem::exists (template_path (name));
+	return boost::filesystem::exists (template_read_path(name));
 }
 
+
 boost::filesystem::path
-Config::template_path (string name) const
+Config::template_read_path (string name) const
 {
-	return path("templates") / tidy_for_filename (name);
+	return read_path("templates") / tidy_for_filename (name);
 }
+
+
+boost::filesystem::path
+Config::template_write_path (string name) const
+{
+	return write_path("templates") / tidy_for_filename (name);
+}
+
 
 void
 Config::rename_template (string old_name, string new_name) const
 {
-	boost::filesystem::rename (template_path (old_name), template_path (new_name));
+	boost::filesystem::rename (template_read_path(old_name), template_write_path(new_name));
 }
 
 void
 Config::delete_template (string name) const
 {
-	boost::filesystem::remove (template_path (name));
+	boost::filesystem::remove (template_write_path(name));
 }
 
 /** @return Path to the config.xml containing the actual settings, following a link if required */
 boost::filesystem::path
-Config::config_file ()
+config_file (boost::filesystem::path main)
 {
 	cxml::Document f ("Config");
-	auto main = path("config.xml", false);
 	if (!boost::filesystem::exists (main)) {
 		/* It doesn't exist, so there can't be any links; just return it */
 		return main;
@@ -1343,6 +1335,21 @@ Config::config_file ()
 	return main;
 }
 
+
+boost::filesystem::path
+Config::config_read_file ()
+{
+	return config_file (read_path("config.xml"));
+}
+
+
+boost::filesystem::path
+Config::config_write_file ()
+{
+	return config_file (write_path("config.xml"));
+}
+
+
 void
 Config::reset_cover_sheet ()
 {
@@ -1356,11 +1363,11 @@ Config::link (boost::filesystem::path new_file) const
 	xmlpp::Document doc;
 	doc.create_root_node("Config")->add_child("Link")->add_child_text(new_file.string());
 	try {
-		doc.write_to_file_formatted(path("config.xml", true).string());
+		doc.write_to_file_formatted(write_path("config.xml").string());
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
-		throw FileError (s, path("config.xml"));
+		throw FileError (s, write_path("config.xml"));
 	}
 }
 
@@ -1368,14 +1375,14 @@ void
 Config::copy_and_link (boost::filesystem::path new_file) const
 {
 	write ();
-	boost::filesystem::copy_file (config_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
+	boost::filesystem::copy_file (config_read_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
 	link (new_file);
 }
 
 bool
 Config::have_write_permission () const
 {
-	auto f = fopen_boost (config_file(), "r+");
+	auto f = fopen_boost (config_write_file(), "r+");
 	if (!f) {
 		return false;
 	}

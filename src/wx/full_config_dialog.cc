@@ -153,7 +153,7 @@ private:
 		checked_set (_analyse_ebur128, config->analyse_ebur128 ());
 #endif
 		checked_set (_automatic_audio_analysis, config->automatic_audio_analysis ());
-		checked_set (_config_file, config->config_file());
+		checked_set (_config_file, config->config_read_file());
 		checked_set (_cinemas_file, config->cinemas_file());
 
 		GeneralPage::config_changed ();
@@ -198,7 +198,7 @@ private:
 	{
 		auto config = Config::instance();
 		boost::filesystem::path new_file = wx_to_std(_config_file->GetPath());
-		if (new_file == config->config_file()) {
+		if (new_file == config->config_read_file()) {
 			return;
 		}
 		bool copy_and_link = true;
@@ -212,7 +212,7 @@ private:
 
 		if (copy_and_link) {
 			config->write ();
-			if (new_file != config->config_file()) {
+			if (new_file != config->config_read_file()) {
 				config->copy_and_link (new_file);
 			}
 		} else {

@@ -27,7 +27,9 @@
 #include "lib/exceptions.h"
 #include "lib/ext.h"
 #include "lib/file_log.h"
+#include "lib/state.h"
 #include "lib/nanomsg.h"
+#include "lib/util.h"
 #include "lib/version.h"
 #include "lib/warnings.h"
 
@@ -288,7 +290,7 @@ main ()
 	/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 	 * a better place to put them.
 	 */
-	dcpomatic_log.reset(new FileLog(config_path() / "disk_writer.log", LogEntry::TYPE_DISK));
+	dcpomatic_log.reset(new FileLog(State::write_path("disk_writer.log"), LogEntry::TYPE_DISK));
 	LOG_DISK_NC("dcpomatic_disk_writer started");
 #endif
 
