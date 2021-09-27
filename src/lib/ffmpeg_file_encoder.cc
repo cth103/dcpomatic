@@ -19,16 +19,16 @@
 */
 
 
+#include "compose.hpp"
+#include "cross.h"
 #include "ffmpeg_encoder.h"
 #include "ffmpeg_wrapper.h"
 #include "film.h"
+#include "image.h"
 #include "job.h"
+#include "log.h"
 #include "player.h"
 #include "player_video.h"
-#include "log.h"
-#include "image.h"
-#include "cross.h"
-#include "compose.hpp"
 extern "C" {
 #include <libavutil/channel_layout.h>
 }
@@ -39,13 +39,9 @@ extern "C" {
 
 using std::cout;
 using std::make_shared;
-using std::pair;
-using std::runtime_error;
 using std::shared_ptr;
 using std::string;
-using std::weak_ptr;
 using boost::bind;
-using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -406,7 +402,6 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	auto image = video->image (
 		bind (&PlayerVideo::force, _1, _pixel_format),
 		VideoRange::VIDEO,
-		true,
 		false
 		);
 

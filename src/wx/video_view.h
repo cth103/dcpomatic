@@ -127,6 +127,10 @@ public:
 		_three_d = t;
 	}
 
+	void set_optimise_for_j2k (bool o) {
+		_optimise_for_j2k = o;
+	}
+
 protected:
 	NextFrameResult get_next_frame (bool non_blocking);
 	boost::optional<int> time_until_next_frame () const;
@@ -167,6 +171,8 @@ protected:
 	FilmViewer* _viewer;
 
 	StateTimer _state_timer;
+
+	bool _optimise_for_j2k = false;
 
 private:
 	/** Mutex protecting all the state in this class */

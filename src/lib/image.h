@@ -40,10 +40,15 @@ class Socket;
 class Image : public std::enable_shared_from_this<Image>
 {
 public:
-	Image (AVPixelFormat p, dcp::Size s, bool aligned);
-	explicit Image (AVFrame const *);
+	enum class Alignment {
+		COMPACT,
+		PADDED
+	};
+
+	Image (AVPixelFormat p, dcp::Size s, Alignment alignment);
+	explicit Image (AVFrame const *, Alignment alignment);
 	explicit Image (Image const &);
-	Image (std::shared_ptr<const Image>, bool);
+	Image (std::shared_ptr<const Image>, Alignment alignment);
 	Image& operator= (Image const &);
 	~Image ();
 
@@ -53,7 +58,7 @@ public:
 	/** @return array of sizes of the data in each line, in bytes (including any alignment padding) */
 	int const * stride () const;
 	dcp::Size size () const;
-	bool aligned () const;
+	Alignment alignment () const;
 
 	int planes () const;
 	int vertical_factor (int) const;
@@ -61,8 +66,8 @@ public:
 	dcp::Size sample_size (int) const;
 	float bytes_per_pixel (int) const;
 
-	std::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
-	std::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, bool aligned, bool fast) const;
+	std::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
+	std::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
 	std::shared_ptr<Image> crop_scale_window (
 		Crop crop,
 		dcp::Size inter_size,
@@ -71,7 +76,7 @@ public:
 		VideoRange video_range,
 		AVPixelFormat out_format,
 		VideoRange out_video_range,
-		bool aligned,
+		Alignment alignment,
 		bool fast
 		) const;
 
@@ -94,7 +99,7 @@ public:
 
 	void png_error (char const * message);
 
-	static std::shared_ptr<const Image> ensure_aligned (std::shared_ptr<const Image> image);
+	static std::shared_ptr<const Image> ensure_alignment (std::shared_ptr<const Image> image, Alignment alignment);
 
 private:
 	friend struct pixel_formats_test;
@@ -112,10 +117,10 @@ private:
 	uint8_t** _data; ///< array of pointers to components
 	int* _line_size; ///< array of sizes of the data in each line, in bytes (without any alignment padding bytes)
 	int* _stride; ///< array of strides for each line, in bytes (including any alignment padding bytes)
-	bool _aligned;
+	Alignment _alignment;
 };
 
-extern PositionImage merge (std::list<PositionImage> images);
+extern PositionImage merge (std::list<PositionImage> images, Image::Alignment alignment);
 extern bool operator== (Image const & a, Image const & b);
 
 #endif

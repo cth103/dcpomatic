@@ -32,6 +32,7 @@ public:
 	FFmpegImageProxy (std::shared_ptr<Socket> socket);
 
 	Result image (
+		Image::Alignment alignment,
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const;
 

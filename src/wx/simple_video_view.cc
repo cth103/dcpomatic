@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,21 +18,23 @@
 
 */
 
-#include "simple_video_view.h"
-#include "film_viewer.h"
-#include "wx_util.h"
+
 #include "closed_captions_dialog.h"
-#include "lib/image.h"
-#include "lib/dcpomatic_log.h"
+#include "film_viewer.h"
+#include "simple_video_view.h"
+#include "wx_util.h"
 #include "lib/butler.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/image.h"
 #include <dcp/util.h>
 #include <wx/wx.h>
 #include <boost/bind/bind.hpp>
 
+
 using std::max;
+using std::shared_ptr;
 using std::string;
 using boost::optional;
-using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -57,18 +59,21 @@ SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 	_timer.Bind (wxEVT_TIMER, boost::bind(&SimpleVideoView::timer, this));
 }
 
+
 void
 SimpleVideoView::paint ()
 {
         _state_timer.set("paint-panel");
 	wxPaintDC dc (_panel);
 
-	dcp::Size const out_size = _viewer->out_size ();
-	wxSize const panel_size = _panel->GetSize ();
+	auto const panel_size = _panel->GetSize ();
 
-	if (!out_size.width || !out_size.height || !_image || out_size != _image->size()) {
+	dcp::Size out_size;
+	if (!_image) {
 		dc.Clear ();
 	} else {
+		DCPOMATIC_ASSERT (_image->alignment() == Image::Alignment::COMPACT);
+		out_size = _image->size();
 		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
@@ -112,6 +117,7 @@ SimpleVideoView::paint ()
         _state_timer.unset();
 }
 
+
 void
 SimpleVideoView::refresh_panel ()
 {
@@ -120,6 +126,7 @@ SimpleVideoView::refresh_panel ()
 	_panel->Update ();
 	_state_timer.unset ();
 }
+
 
 void
 SimpleVideoView::timer ()
@@ -144,12 +151,14 @@ SimpleVideoView::timer ()
 	}
 }
 
+
 void
 SimpleVideoView::start ()
 {
 	VideoView::start ();
 	timer ();
 }
+
 
 /** Try to get a frame from the butler and display it.
  *  @param non_blocking true to return false quickly if no video is available quickly (i.e. we are waiting for the butler).
@@ -175,11 +184,12 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 	return SUCCESS;
 }
 
+
 void
 SimpleVideoView::update ()
 {
 	if (!player_video().first) {
-		set_image (shared_ptr<Image>());
+		_image.reset ();
 		refresh_panel ();
 		return;
 	}
@@ -212,9 +222,7 @@ SimpleVideoView::update ()
 
 	_state_timer.set ("get image");
 
-	set_image (
-		player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true)
-		);
+	_image = player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 
 	_state_timer.set ("ImageChanged");
 	_viewer->image_changed (player_video().first);

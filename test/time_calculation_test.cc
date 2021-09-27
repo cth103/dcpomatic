@@ -36,7 +36,6 @@
 
 using std::list;
 using std::make_shared;
-using std::shared_ptr;
 using std::string;
 using namespace dcpomatic;
 
@@ -197,7 +196,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	film->set_sequence (false);
 	film->add_content (content);
 
-	auto player = make_shared<Player>(film);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (film, DCPTime());
@@ -206,7 +205,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
-	shared_ptr<Piece> piece = player->_pieces.front ();
+	auto piece = player->_pieces.front();
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime ()), 0);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (0.5)), 12);
 	BOOST_CHECK_EQUAL (player->dcp_to_content_video (piece, DCPTime::from_seconds (3.0)), 72);
@@ -403,7 +402,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	film->set_sequence (false);
 	film->add_content (content);
 
-	auto player = make_shared<Player>(film);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (film, DCPTime());
@@ -412,7 +411,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	film->set_video_frame_rate (24);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_pieces.size(), 1U);
-	shared_ptr<Piece> piece = player->_pieces.front ();
+	auto piece = player->_pieces.front ();
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 0).get(), 0);
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 12).get(), DCPTime::from_seconds(0.5).get());
 	BOOST_CHECK_EQUAL (player->content_video_to_dcp (piece, 72).get(), DCPTime::from_seconds(3.0).get());
@@ -580,7 +579,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_sequence (false);
 	film->add_content (content);
 
-	auto player = make_shared<Player>(film);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 
 	/* Position 0, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (film, DCPTime());

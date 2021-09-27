@@ -45,8 +45,9 @@ public:
 		int audio_channels,
 		std::function<AVPixelFormat (AVPixelFormat)> pixel_format,
 		VideoRange video_range,
-		bool aligned,
-		bool fast
+		Image::Alignment alignment,
+		bool fast,
+		bool prepare_only_proxy
 		);
 
 	~Butler ();
@@ -124,8 +125,16 @@ private:
 
 	std::function<AVPixelFormat (AVPixelFormat)> _pixel_format;
 	VideoRange _video_range;
-	bool _aligned;
+	Image::Alignment _alignment;
 	bool _fast;
+
+	/** true to ask PlayerVideo::prepare to only prepare the ImageProxy and not also
+	 *  the final image.  We want to do this when the viewer is intending to call
+	 *  PlayerVideo::raw_image() and do the things in PlayerVideo::make_imgae() itself:
+	 *  this is the case for the GLVideoView which can do scale, pixfmt conversion etc.
+	 *  in the shader.
+	 */
+	bool _prepare_only_proxy = false;
 
 	/** If we are waiting to be refilled following a seek, this is the time we were
 	    seeking to.

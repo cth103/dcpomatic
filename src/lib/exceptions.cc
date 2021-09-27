@@ -132,6 +132,13 @@ GLError::GLError (char const* last, int e)
 }
 
 
+GLError::GLError (char const* message)
+	: runtime_error (message)
+{
+
+}
+
+
 CopyError::CopyError (string m, optional<int> n)
 	: runtime_error (String::compose("%1%2", m, n ? String::compose(" (%1)", *n) : ""))
 	, _message (m)

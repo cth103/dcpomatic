@@ -58,15 +58,16 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 		xml->number_child<int>("Width"), xml->number_child<int>("Height")
 		);
 
-	_image = make_shared<Image>(static_cast<AVPixelFormat>(xml->number_child<int>("PixelFormat")), size, true);
+	_image = make_shared<Image>(static_cast<AVPixelFormat>(xml->number_child<int>("PixelFormat")), size, Image::Alignment::PADDED);
 	_image->read_from_socket (socket);
 }
 
 
 ImageProxy::Result
-RawImageProxy::image (optional<dcp::Size>) const
+RawImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 {
-	return Result (_image, 0);
+	/* This ensure_alignment could be wasteful */
+	return Result (Image::ensure_alignment(_image, alignment), 0);
 }
 
 
@@ -95,7 +96,7 @@ RawImageProxy::same (shared_ptr<const ImageProxy> other) const
 		return false;
 	}
 
-	return (*_image.get()) == (*rp->image().image.get());
+	return (*_image.get()) == (*rp->image(_image->alignment()).image.get());
 }
 
 

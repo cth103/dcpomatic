@@ -52,8 +52,8 @@ public:
 		return _position;
 	}
 
-	void emit_bitmap_start (dcpomatic::ContentTime from, std::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
-	void emit_bitmap (dcpomatic::ContentTimePeriod period, std::shared_ptr<Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap_start (dcpomatic::ContentTime from, std::shared_ptr<const Image> image, dcpomatic::Rect<double> rect);
+	void emit_bitmap (dcpomatic::ContentTimePeriod period, std::shared_ptr<const Image> image, dcpomatic::Rect<double> rect);
 	void emit_plain_start (dcpomatic::ContentTime from, std::list<dcp::SubtitleString> s);
 	void emit_plain_start (dcpomatic::ContentTime from, sub::Subtitle const & subtitle);
 	void emit_plain (dcpomatic::ContentTimePeriod period, std::list<dcp::SubtitleString> s);

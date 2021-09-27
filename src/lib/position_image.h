@@ -35,12 +35,12 @@ class PositionImage
 public:
 	PositionImage () {}
 
-	PositionImage (std::shared_ptr<Image> i, Position<int> p)
+	PositionImage (std::shared_ptr<const Image> i, Position<int> p)
 		: image (i)
 		, position (p)
 	{}
 
-	std::shared_ptr<Image> image;
+	std::shared_ptr<const Image> image;
 	Position<int> position;
 
 	bool same (PositionImage const & other) const;

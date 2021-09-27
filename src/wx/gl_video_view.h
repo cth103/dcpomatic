@@ -34,27 +34,51 @@ DCPOMATIC_ENABLE_WARNINGS
 #undef Success
 #undef Status
 
+
+class Texture
+{
+public:
+	Texture (GLint unpack_alignment);
+	~Texture ();
+
+	Texture (Texture const&) = delete;
+	Texture& operator= (Texture const&) = delete;
+
+	void bind ();
+	void set (std::shared_ptr<const Image> image);
+
+private:
+	GLuint _name;
+	GLint _unpack_alignment;
+	boost::optional<dcp::Size> _size;
+};
+
+
 class GLVideoView : public VideoView
 {
 public:
 	GLVideoView (FilmViewer* viewer, wxWindow* parent);
 	~GLVideoView ();
 
-	wxWindow* get () const {
+	wxWindow* get () const override {
 		return _canvas;
 	}
-	void update ();
-	void start ();
-	void stop ();
+	void update () override;
+	void start () override;
+	void stop () override;
 
-	NextFrameResult display_next_frame (bool);
+	NextFrameResult display_next_frame (bool) override;
 
 	bool vsync_enabled () const {
 		return _vsync_enabled;
 	}
 
+	std::map<GLenum, std::string> information () const {
+		return _information;
+	}
+
 private:
-	void set_image (std::shared_ptr<const Image> image);
+	void set_image (std::shared_ptr<const PlayerVideo> pv);
 	void set_image_and_draw ();
 	void draw (Position<int> inter_position, dcp::Size inter_size);
 	void thread ();
@@ -63,15 +87,43 @@ private:
 	void check_for_butler_errors ();
 	void ensure_context ();
 	void size_changed (wxSizeEvent const &);
+	void setup_shaders ();
+	void set_border_colour (GLuint program);
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
 
-	boost::atomic<wxSize> _canvas_size;
+	template <class T>
+	class Last
+	{
+	public:
+		void set_next (T const& next) {
+			_next = next;
+		}
 
-	GLuint _id;
-	boost::optional<dcp::Size> _size;
-	bool _have_storage;
+		bool changed () const {
+			return !_value || *_value != _next;
+		}
+
+		void update () {
+			_value = _next;
+		}
+
+	private:
+		boost::optional<T> _value;
+		T _next;
+	};
+
+	Last<wxSize> _last_canvas_size;
+	Last<dcp::Size> _last_video_size;
+	Last<Position<int>> _last_inter_position;
+	Last<dcp::Size> _last_inter_size;
+	Last<dcp::Size> _last_out_size;
+
+	boost::atomic<wxSize> _canvas_size;
+	std::unique_ptr<Texture> _video_texture;
+	std::unique_ptr<Texture> _subtitle_texture;
+	bool _have_subtitle_to_render = false;
 	bool _vsync_enabled;
 	boost::thread _thread;
 
@@ -80,5 +132,11 @@ private:
 	boost::atomic<bool> _playing;
 	boost::atomic<bool> _one_shot;
 
+	GLuint _vao;
+	GLint _fragment_type;
+	bool _setup_shaders_done = false;
+
 	std::shared_ptr<wxTimer> _timer;
+
+	std::map<GLenum, std::string> _information;
 };

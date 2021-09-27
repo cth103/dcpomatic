@@ -28,7 +28,6 @@
 #include <sys/time.h>
 
 
-using std::pair;
 using std::shared_ptr;
 using boost::optional;
 

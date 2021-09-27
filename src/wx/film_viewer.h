@@ -62,7 +62,7 @@ public:
 		return _video_view->get();
 	}
 
-	VideoView const * video_view () const {
+	std::shared_ptr<const VideoView> video_view () const {
 		return _video_view;
 	}
 
@@ -98,6 +98,7 @@ public:
 	void set_outline_subtitles (boost::optional<dcpomatic::Rect<double>>);
 	void set_eyes (Eyes e);
 	void set_pad_black (bool p);
+	void set_optimise_for_j2k (bool o);
 
 	void slow_refresh ();
 
@@ -115,9 +116,6 @@ public:
 	}
 
 	/* Some accessors and utility methods that VideoView classes need */
-	dcp::Size out_size () const {
-		return _out_size;
-	}
 	bool outline_content () const {
 		return _outline_content;
 	}
@@ -172,12 +170,9 @@ private:
 	std::shared_ptr<Film> _film;
 	std::shared_ptr<Player> _player;
 
-	VideoView* _video_view = nullptr;
+	std::shared_ptr<VideoView> _video_view;
 	bool _coalesce_player_changes = false;
 	std::vector<int> _pending_player_changes;
-
-	/** Size of our output (including padding if we have any) */
-	dcp::Size _out_size;
 
 	RtAudio _audio;
 	int _audio_channels = 0;
@@ -192,6 +187,11 @@ private:
 	int _latency_history_count = 0;
 
 	boost::optional<int> _dcp_decode_reduction;
+
+	/** true to assume that this viewer is only being used for JPEG2000 sources
+	 *  so it can optimise accordingly.
+	 */
+	bool _optimise_for_j2k = false;
 
 	ClosedCaptionsDialog* _closed_captions_dialog = nullptr;
 

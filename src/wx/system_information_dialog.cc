@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,12 @@
 
 */
 
+
+#include "film_viewer.h"
+#include "gl_video_view.h"
 #include "system_information_dialog.h"
 #include "wx_util.h"
-#include "gl_video_view.h"
-#include "film_viewer.h"
+
 
 #ifdef DCPOMATIC_OSX
 #include <OpenGL/glu.h>
@@ -31,27 +33,42 @@
 #include <GL/glext.h>
 #endif
 
+
 using std::string;
 using std::weak_ptr;
 using std::shared_ptr;
 
+
 SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
-	shared_ptr<FilmViewer> viewer = weak_viewer.lock ();
-	GLVideoView const * gl = viewer ? dynamic_cast<GLVideoView const *>(viewer->video_view()) : 0;
+	auto viewer = weak_viewer.lock ();
+	shared_ptr<const GLVideoView> gl;
+	if (viewer) {
+		gl = std::dynamic_pointer_cast<const GLVideoView>(viewer->video_view());
+	}
 
 	if (!gl) {
 		add (_("OpenGL version"), true);
 		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	} else {
-		add (_("OpenGL version"), true);
-		char const * v = (char const *) glGetString (GL_VERSION);
-		if (v) {
-			add (std_to_wx(v), false);
-		} else {
-			add (_("unknown"), false);
-		}
+
+		auto information = gl->information();
+		auto add_string = [this, &information](GLenum name, wxString label) {
+			add (label, true);
+			auto i = information.find(name);
+			if (i != information.end()) {
+				add (std_to_wx(i->second), false);
+			} else {
+				add (_("unknown"), false);
+			}
+		};
+
+		add_string (GL_VENDOR, _("Vendor"));
+		add_string (GL_RENDERER, _("Renderer"));
+		add_string (GL_VERSION, _("Version"));
+		add_string (GL_SHADING_LANGUAGE_VERSION, _("Shading language version"));
+
 		add (_("vsync"), true);
 		add (gl->vsync_enabled() ? _("enabled") : _("not enabled"), false);
 	}

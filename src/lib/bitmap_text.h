@@ -31,12 +31,12 @@ class Image;
 class BitmapText
 {
 public:
-	BitmapText (std::shared_ptr<Image> i, dcpomatic::Rect<double> r)
+	BitmapText (std::shared_ptr<const Image> i, dcpomatic::Rect<double> r)
 		: image (i)
 		, rectangle (r)
 	{}
 
-	std::shared_ptr<Image> image;
+	std::shared_ptr<const Image> image;
 	/** Area that the subtitle covers on its corresponding video, expressed in
 	 *  proportions of the image size; e.g. rectangle.x = 0.5 would mean that
 	 *  the rectangle starts half-way across the video.

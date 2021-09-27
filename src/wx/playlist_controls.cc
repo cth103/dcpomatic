@@ -109,7 +109,7 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 	_previous_button->Bind (wxEVT_BUTTON, boost::bind(&PlaylistControls::previous_clicked,  this));
 	_spl_view->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&PlaylistControls::spl_selection_changed, this));
 	_spl_view->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&PlaylistControls::spl_selection_changed, this));
-	_viewer->Finished.connect (boost::bind(&PlaylistControls::viewer_finished, this));
+	viewer->Finished.connect (boost::bind(&PlaylistControls::viewer_finished, this));
 	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&PlaylistControls::update_playlist_directory, this));
 	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
 
@@ -148,18 +148,26 @@ PlaylistControls::deselect_playlist ()
 void
 PlaylistControls::play_clicked ()
 {
-	_viewer->start ();
+	auto viewer = _viewer.lock ();
+	if (viewer) {
+		viewer->start ();
+	}
 }
 
 void
 PlaylistControls::setup_sensitivity ()
 {
+	auto viewer = _viewer.lock ();
+	if (!viewer) {
+		return;
+	}
+
 	Controls::setup_sensitivity ();
 	bool const active_job = _active_job && *_active_job != "examine_content";
 	bool const c = _film && !_film->content().empty() && !active_job;
-	_play_button->Enable (c && !_viewer->playing());
-	_pause_button->Enable (_viewer->playing());
-	_spl_view->Enable (!_viewer->playing());
+	_play_button->Enable (c && !viewer->playing());
+	_pause_button->Enable (viewer->playing());
+	_spl_view->Enable (!viewer->playing());
 	_next_button->Enable (can_do_next());
 	_previous_button->Enable (can_do_previous());
 }
@@ -167,14 +175,22 @@ PlaylistControls::setup_sensitivity ()
 void
 PlaylistControls::pause_clicked ()
 {
-	_viewer->stop ();
+	auto viewer = _viewer.lock ();
+	if (viewer) {
+		viewer->stop ();
+	}
 }
 
 void
 PlaylistControls::stop_clicked ()
 {
-	_viewer->stop ();
-	_viewer->seek (DCPTime(), true);
+	auto viewer = _viewer.lock ();
+	if (!viewer) {
+		return;
+	}
+
+	viewer->stop ();
+	viewer->seek (DCPTime(), true);
 	if (_selected_playlist) {
 		_selected_playlist_position = 0;
 		update_current_content ();
@@ -436,7 +452,8 @@ PlaylistControls::update_current_content ()
 void
 PlaylistControls::viewer_finished ()
 {
-	if (!_selected_playlist) {
+	auto viewer = _viewer.lock ();
+	if (!_selected_playlist || !viewer) {
 		return;
 	}
 
@@ -444,7 +461,7 @@ PlaylistControls::viewer_finished ()
 	if (_selected_playlist_position < int(_playlists[*_selected_playlist].get().size())) {
 		/* Next piece of content on the SPL */
 		update_current_content ();
-		_viewer->start ();
+		viewer->start ();
 	} else {
 		/* Finished the whole SPL */
 		_selected_playlist_position = 0;

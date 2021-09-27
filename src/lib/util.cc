@@ -22,31 +22,33 @@
  *  @brief Some utility functions and classes.
  */
 
+
 #define UNICODE 1
 
-#include "util.h"
-#include "exceptions.h"
-#include "dcp_content_type.h"
-#include "filter.h"
-#include "cinema_sound_processor.h"
-#include "config.h"
-#include "ratio.h"
-#include "job.h"
-#include "cross.h"
-#include "video_content.h"
-#include "rect.h"
-#include "digester.h"
-#include "audio_processor.h"
-#include "crypto.h"
-#include "compose.hpp"
+
 #include "audio_buffers.h"
-#include "string_text.h"
-#include "font.h"
-#include "render_text.h"
+#include "audio_processor.h"
+#include "cinema_sound_processor.h"
+#include "compose.hpp"
+#include "config.h"
+#include "cross.h"
+#include "crypto.h"
+#include "dcp_content_type.h"
+#include "digester.h"
+#include "exceptions.h"
 #include "ffmpeg_image_proxy.h"
+#include "filter.h"
+#include "font.h"
 #include "image.h"
-#include "text_decoder.h"
+#include "job.h"
 #include "job_manager.h"
+#include "ratio.h"
+#include "rect.h"
+#include "render_text.h"
+#include "string_text.h"
+#include "text_decoder.h"
+#include "util.h"
+#include "video_content.h"
 #include "warnings.h"
 #include <dcp/decrypted_kdm.h>
 #include <dcp/locale_convert.h>
@@ -93,25 +95,23 @@ DCPOMATIC_ENABLE_WARNINGS
 
 #include "i18n.h"
 
-using std::string;
-using std::wstring;
-using std::setfill;
-using std::ostream;
-using std::endl;
-using std::vector;
-using std::min;
-using std::max;
-using std::map;
-using std::list;
-using std::multimap;
-using std::istream;
-using std::pair;
-using std::cout;
+
 using std::bad_alloc;
-using std::set_terminate;
+using std::cout;
+using std::endl;
+using std::istream;
+using std::list;
 using std::make_pair;
-using std::shared_ptr;
 using std::make_shared;
+using std::map;
+using std::min;
+using std::ostream;
+using std::pair;
+using std::set_terminate;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::wstring;
 using boost::thread;
 using boost::optional;
 using boost::lexical_cast;
@@ -121,6 +121,7 @@ using dcp::Size;
 using dcp::raw_convert;
 using dcp::locale_convert;
 using namespace dcpomatic;
+
 
 /** Path to our executable, required by the stacktrace stuff and filled
  *  in during App::onInit().
@@ -956,7 +957,7 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 {
 	/* XXX: this is rather inefficient; decoding the image just to get its size */
 	FFmpegImageProxy proxy (sub.png_image());
-	auto image = proxy.image().image;
+	auto image = proxy.image(Image::Alignment::PADDED).image;
 	/* set up rect with height and width */
 	dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
 

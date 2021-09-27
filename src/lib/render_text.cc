@@ -48,8 +48,6 @@ using std::min;
 using std::pair;
 using std::shared_ptr;
 using std::string;
-using boost::optional;
-using boost::algorithm::replace_all;
 using namespace dcpomatic;
 
 
@@ -95,8 +93,10 @@ set_source_rgba (Cairo::RefPtr<Cairo::Context> context, dcp::Colour colour, floa
 static shared_ptr<Image>
 create_image (dcp::Size size)
 {
-	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha */
-	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, size, false);
+	/* FFmpeg BGRA means first byte blue, second byte green, third byte red, fourth byte alpha.
+	 * This must be COMPACT as we're using it with Cairo::ImageSurface::create
+	 */
+	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, size, Image::Alignment::COMPACT);
 	image->make_black ();
 	return image;
 }
@@ -105,6 +105,11 @@ create_image (dcp::Size size)
 static Cairo::RefPtr<Cairo::ImageSurface>
 create_surface (shared_ptr<Image> image)
 {
+	/* XXX: I don't think it's guaranteed that format_stride_for_width will return a stride without any padding,
+	 * so it's lucky that this works.
+	 */
+	DCPOMATIC_ASSERT (image->alignment() == Image::Alignment::COMPACT);
+	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_BGRA);
 	return Cairo::ImageSurface::create (
 		image->data()[0],
 		Cairo::FORMAT_ARGB32,

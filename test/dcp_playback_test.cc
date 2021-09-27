@@ -28,9 +28,7 @@
 
 
 using std::make_shared;
-using std::pair;
-using std::shared_ptr;
-using boost::optional;
+using std::make_shared;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -47,13 +45,14 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	auto butler = std::make_shared<Butler>(
 		film,
-		shared_ptr<Player>(new Player(film)),
+		make_shared<Player>(film, Image::Alignment::PADDED),
 		AudioMapping(6, 6),
 		6,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		false,
-		true
+		Image::Alignment::PADDED,
+		true,
+		false
 		);
 
 	auto audio_buffer = new float[2000 * 6];
@@ -64,7 +63,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		}
 		/* assuming DCP is 24fps/48kHz */
 		butler->get_audio (audio_buffer, 2000);
-		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 	}
 	delete[] audio_buffer;
 }

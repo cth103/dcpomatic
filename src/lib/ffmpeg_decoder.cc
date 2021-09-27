@@ -18,31 +18,33 @@
 
 */
 
+
 /** @file  src/ffmpeg_decoder.cc
  *  @brief A decoder using FFmpeg to decode content.
  */
 
-#include "filter.h"
-#include "exceptions.h"
-#include "image.h"
-#include "util.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "ffmpeg_decoder.h"
-#include "text_decoder.h"
-#include "ffmpeg_audio_stream.h"
-#include "ffmpeg_subtitle_stream.h"
-#include "video_filter_graph.h"
+
 #include "audio_buffers.h"
-#include "ffmpeg_content.h"
-#include "raw_image_proxy.h"
-#include "video_decoder.h"
-#include "film.h"
+#include "audio_content.h"
 #include "audio_decoder.h"
 #include "compose.hpp"
-#include "text_content.h"
-#include "audio_content.h"
+#include "dcpomatic_log.h"
+#include "exceptions.h"
+#include "ffmpeg_audio_stream.h"
+#include "ffmpeg_content.h"
+#include "ffmpeg_decoder.h"
+#include "ffmpeg_subtitle_stream.h"
+#include "film.h"
+#include "filter.h"
 #include "frame_interval_checker.h"
+#include "image.h"
+#include "log.h"
+#include "raw_image_proxy.h"
+#include "text_content.h"
+#include "text_decoder.h"
+#include "util.h"
+#include "video_decoder.h"
+#include "video_filter_graph.h"
 #include <dcp/subtitle_string.h>
 #include <sub/ssa_reader.h>
 #include <sub/subtitle.h>
@@ -52,28 +54,22 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 #include <boost/algorithm/string.hpp>
-#include <vector>
 #include <iomanip>
 #include <iostream>
+#include <vector>
 #include <stdint.h>
 
 #include "i18n.h"
 
+
 using std::cout;
+using std::dynamic_pointer_cast;
+using std::make_shared;
+using std::min;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::list;
-using std::min;
-using std::pair;
-using std::max;
-using std::map;
-using std::shared_ptr;
-using std::make_shared;
-using std::make_pair;
-using boost::is_any_of;
-using boost::split;
 using boost::optional;
-using std::dynamic_pointer_cast;
 using dcp::Size;
 using namespace dcpomatic;
 
@@ -86,7 +82,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 		video = make_shared<VideoDecoder>(this, c);
 		_pts_offset = pts_offset (c->ffmpeg_audio_streams(), c->first_video(), c->active_video_frame_rate(film));
 		/* It doesn't matter what size or pixel format this is, it just needs to be black */
-		_black_image.reset (new Image (AV_PIX_FMT_RGB24, dcp::Size (128, 128), true));
+		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size (128, 128), Image::Alignment::PADDED);
 		_black_image->make_black ();
 	} else {
 		_pts_offset = {};
@@ -684,7 +680,7 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime
 	/* Note BGRA is expressed little-endian, so the first byte in the word is B, second
 	   G, third R, fourth A.
 	*/
-	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (rect->w, rect->h), true);
+	auto image = make_shared<Image>(AV_PIX_FMT_BGRA, dcp::Size (rect->w, rect->h), Image::Alignment::PADDED);
 
 #ifdef DCPOMATIC_HAVE_AVSUBTITLERECT_PICT
 	/* Start of the first line in the subtitle */

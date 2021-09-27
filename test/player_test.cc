@@ -25,21 +25,21 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
 #include "lib/audio_buffers.h"
-#include "lib/player.h"
-#include "lib/video_content.h"
-#include "lib/image_content.h"
-#include "lib/string_text_file_content.h"
-#include "lib/content_factory.h"
-#include "lib/dcp_content.h"
-#include "lib/text_content.h"
 #include "lib/butler.h"
 #include "lib/compose.hpp"
+#include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/player.h"
+#include "lib/ratio.h"
+#include "lib/string_text_file_content.h"
+#include "lib/text_content.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
@@ -48,7 +48,6 @@
 
 using std::cout;
 using std::list;
-using std::pair;
 using std::shared_ptr;
 using std::make_shared;
 using boost::bind;
@@ -84,7 +83,7 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 
 	accumulated = std::make_shared<AudioBuffers>(film->audio_channels(), 0);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->Audio.connect (bind (&accumulate, _1, _2));
 	while (!player->pass ()) {}
 	BOOST_REQUIRE (accumulated->frames() >= 48000);
@@ -164,7 +163,7 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	/* Length should be rounded up from B's length to the next video frame */
 	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->setup_pieces ();
 	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1U);
 	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
@@ -206,7 +205,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->Video.connect (bind (&video, _1, _2));
 	player->Audio.connect (bind (&audio, _1, _2));
 	video_frames = audio_frames = 0;
@@ -229,12 +228,12 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_fast ();
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
 	butler->disable_audio();
 
 	for (int i = 0; i < 10; ++i) {
@@ -242,7 +241,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 		butler->seek (t, true);
 		auto video = butler->get_video(true, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
-		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true), String::compose("build/test/player_seek_test_%1.png", i));
+		write_image(video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true), String::compose("build/test/player_seek_test_%1.png", i));
 		/* This 14.08 is empirically chosen (hopefully) to accept changes in rendering between the reference and a test machine
 		   (17.10 and 16.04 seem to anti-alias a little differently) but to reject gross errors e.g. missing fonts or missing
 		   text altogether.
@@ -261,12 +260,12 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_fast ();
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
 	butler->disable_audio();
 
 	butler->seek(DCPTime::from_seconds(5), true);
@@ -277,7 +276,7 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 		auto video = butler->get_video(true, 0);
 		BOOST_CHECK_EQUAL(video.second.get(), t.get());
 		write_image(
-			video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true), String::compose("build/test/player_seek_test2_%1.png", i)
+			video.first->image(bind(PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true), String::compose("build/test/player_seek_test2_%1.png", i)
 			);
 		check_image(TestPaths::private_data() / String::compose("player_seek_test2_%1.png", i), String::compose("build/test/player_seek_test2_%1.png", i), 14.08);
 	}
@@ -335,7 +334,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	text->only_text()->set_type (TextType::CLOSED_CAPTION);
 	text->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_ignore_video ();
 	player->set_ignore_audio ();
 
@@ -355,9 +354,9 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	film->examine_and_add_content (boon);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	auto player = std::make_shared<Player>(film);
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_fast ();
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, false, true);
+	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true, false);
 
 	/* Wait for the butler to fill */
 	dcpomatic_sleep_seconds (5);

@@ -139,20 +139,9 @@ class DOMFrame : public wxFrame
 {
 public:
 	DOMFrame ()
-		: wxFrame (0, -1, _("DCP-o-matic Player"))
-		, _dual_screen (0)
-		, _update_news_requested (false)
-		, _info (0)
+		: wxFrame (nullptr, -1, _("DCP-o-matic Player"))
 		, _mode (Config::instance()->player_mode())
-		, _config_dialog (0)
-		, _file_menu (0)
-		, _history_items (0)
-		, _history_position (0)
-		, _history_separator (0)
-		, _system_information_dialog (0)
-		, _view_full_screen (0)
-		, _view_dual_screen (0)
-		, _main_sizer (new wxBoxSizer (wxVERTICAL))
+		, _main_sizer (new wxBoxSizer(wxVERTICAL))
 	{
 		dcpomatic_log = make_shared<NullLog>();
 
@@ -199,7 +188,7 @@ public:
 		*/
 		_overall_panel = new wxPanel (this, wxID_ANY);
 
-		_viewer.reset (new FilmViewer (_overall_panel));
+		_viewer = make_shared<FilmViewer>(_overall_panel);
 		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
 			auto pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
@@ -208,6 +197,7 @@ public:
 			_controls = new StandardControls (_overall_panel, _viewer, false);
 		}
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
+		_viewer->set_optimise_for_j2k (true);
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
 		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
 		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
@@ -255,7 +245,7 @@ public:
 
 		reset_film ();
 
-		UpdateChecker::instance()->StateChanged.connect (boost::bind (&DOMFrame::update_checker_state_changed, this));
+		UpdateChecker::instance()->StateChanged.connect (boost::bind(&DOMFrame::update_checker_state_changed, this));
 		setup_screen ();
 
 		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
@@ -1038,30 +1028,30 @@ private:
 		_viewer->seek (_film->length() - _viewer->one_video_frame(), true);
 	}
 
-	wxFrame* _dual_screen;
-	bool _update_news_requested;
-	PlayerInformation* _info;
+	wxFrame* _dual_screen = nullptr;
+	bool _update_news_requested = false;
+	PlayerInformation* _info = nullptr;
 	Config::PlayerMode _mode;
-	wxPreferencesEditor* _config_dialog;
-	wxPanel* _overall_panel;
-	wxMenu* _file_menu;
-	wxMenuItem* _view_cpl;
-	wxMenu* _cpl_menu;
-	int _history_items;
-	int _history_position;
-	wxMenuItem* _history_separator;
+	wxPreferencesEditor* _config_dialog = nullptr;
+	wxPanel* _overall_panel = nullptr;
+	wxMenu* _file_menu = nullptr;
+	wxMenuItem* _view_cpl = nullptr;
+	wxMenu* _cpl_menu = nullptr;
+	int _history_items = 0;
+	int _history_position = 0;
+	wxMenuItem* _history_separator = nullptr;
 	shared_ptr<FilmViewer> _viewer;
 	Controls* _controls;
-	SystemInformationDialog* _system_information_dialog;
+	SystemInformationDialog* _system_information_dialog = nullptr;
 	std::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _examine_job_connection;
-	wxMenuItem* _file_add_ov;
-	wxMenuItem* _file_add_kdm;
-	wxMenuItem* _tools_verify;
-	wxMenuItem* _view_full_screen;
-	wxMenuItem* _view_dual_screen;
-	wxSizer* _main_sizer;
+	wxMenuItem* _file_add_ov = nullptr;
+	wxMenuItem* _file_add_kdm = nullptr;
+	wxMenuItem* _tools_verify = nullptr;
+	wxMenuItem* _view_full_screen = nullptr;
+	wxMenuItem* _view_dual_screen = nullptr;
+	wxSizer* _main_sizer = nullptr;
 	PlayerStressTester _stress;
 };
 
@@ -1106,7 +1096,6 @@ class App : public wxApp
 public:
 	App ()
 		: wxApp ()
-		, _frame (0)
 	{
 #ifdef DCPOMATIC_LINUX
 		XInitThreads ();
@@ -1117,7 +1106,7 @@ private:
 
 	bool OnInit ()
 	{
-		wxSplashScreen* splash = 0;
+		wxSplashScreen* splash = nullptr;
 		try {
 			wxInitAllImageHandlers ();
 
@@ -1167,7 +1156,7 @@ private:
 			_frame->Maximize ();
 			if (splash) {
 				splash->Destroy ();
-				splash = 0;
+				splash = nullptr;
 			}
 			_frame->Show ();
 
@@ -1292,7 +1281,7 @@ private:
 		message_dialog (_frame, std_to_wx (m));
 	}
 
-	DOMFrame* _frame;
+	DOMFrame* _frame = nullptr;
 	string _dcp_to_load;
 	boost::optional<string> _stress;
 };

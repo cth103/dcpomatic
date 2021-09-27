@@ -18,26 +18,25 @@
 
 */
 
+
+#include "butler.h"
+#include "cross.h"
 #include "ffmpeg_encoder.h"
 #include "film.h"
+#include "image.h"
 #include "job.h"
+#include "log.h"
 #include "player.h"
 #include "player_video.h"
-#include "log.h"
-#include "image.h"
-#include "cross.h"
-#include "butler.h"
 #include "compose.hpp"
 #include <iostream>
 
 #include "i18n.h"
 
+
 using std::cout;
 using std::list;
 using std::make_shared;
-using std::map;
-using std::pair;
-using std::runtime_error;
 using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
@@ -47,6 +46,7 @@ using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 /** @param key Key to use to encrypt MP4 outputs */
 FFmpegEncoder::FFmpegEncoder (
@@ -108,7 +108,7 @@ FFmpegEncoder::FFmpegEncoder (
 	}
 
 	_butler = std::make_shared<Butler>(
-		_film, _player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), VideoRange::VIDEO, true, false
+		_film, _player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), VideoRange::VIDEO, Image::Alignment::PADDED, false, false
 		);
 }
 

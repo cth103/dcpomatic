@@ -51,11 +51,8 @@
 using std::cout;
 using std::make_shared;
 using std::max;
-using std::min;
-using std::pair;
 using std::shared_ptr;
 using std::string;
-using std::vector;
 using std::weak_ptr;
 using boost::optional;
 using boost::bind;
@@ -408,7 +405,7 @@ try
 		emit (bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
 	}
 
-	auto player = make_shared<Player>(film);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_ignore_video ();
 	if (check_loudness_done) {
 		/* We don't need to analyse audio because we already loaded a suitable analysis */

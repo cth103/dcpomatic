@@ -63,17 +63,11 @@ extern "C" {
 using std::bad_alloc;
 using std::cout;
 using std::dynamic_pointer_cast;
-using std::exception;
-using std::list;
-using std::make_pair;
 using std::make_shared;
 using std::max;
-using std::min;
-using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -96,10 +90,10 @@ FilmViewer::FilmViewer (wxWindow* p)
 {
 	switch (Config::instance()->video_view_type()) {
 	case Config::VIDEO_VIEW_OPENGL:
-		_video_view = new GLVideoView (this, p);
+		_video_view = std::make_shared<GLVideoView>(this, p);
 		break;
 	case Config::VIDEO_VIEW_SIMPLE:
-		_video_view = new SimpleVideoView (this, p);
+		_video_view = std::make_shared<SimpleVideoView>(this, p);
 		break;
 	}
 
@@ -169,7 +163,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player = make_shared<Player>(_film);
+		_player = make_shared<Player>(_film, _optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -214,6 +208,8 @@ FilmViewer::recreate_butler ()
 		return;
 	}
 
+	auto const j2k_gl_optimised = dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k;
+
 	_butler = std::make_shared<Butler>(
 		_film,
 		_player,
@@ -221,8 +217,9 @@ FilmViewer::recreate_butler ()
 		_audio_channels,
 		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		false,
-		true
+		j2k_gl_optimised ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
+		true,
+		j2k_gl_optimised
 		);
 
 	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
@@ -281,21 +278,22 @@ FilmViewer::calculate_sizes ()
 	auto const view_ratio = float(_video_view->get()->GetSize().x) / _video_view->get()->GetSize().y;
 	auto const film_ratio = container ? container->ratio () : 1.78;
 
+	dcp::Size out_size;
 	if (view_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
-		_out_size.width = _video_view->get()->GetSize().x;
-		_out_size.height = lrintf (_out_size.width / film_ratio);
+		out_size.width = _video_view->get()->GetSize().x;
+		out_size.height = lrintf (out_size.width / film_ratio);
 	} else {
 		/* panel is more widescreen than the film; clamp height */
-		_out_size.height = _video_view->get()->GetSize().y;
-		_out_size.width = lrintf (_out_size.height * film_ratio);
+		out_size.height = _video_view->get()->GetSize().y;
+		out_size.width = lrintf (out_size.height * film_ratio);
 	}
 
 	/* Catch silly values */
-	_out_size.width = max (64, _out_size.width);
-	_out_size.height = max (64, _out_size.height);
+	out_size.width = max (64, out_size.width);
+	out_size.height = max (64, out_size.height);
 
-	_player->set_video_container_size (_out_size);
+	_player->set_video_container_size (out_size);
 }
 
 
@@ -771,3 +769,12 @@ FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
 {
 	emit (boost::bind(boost::ref(ImageChanged), pv));
 }
+
+
+void
+FilmViewer::set_optimise_for_j2k (bool o)
+{
+	_optimise_for_j2k = o;
+	_video_view->set_optimise_for_j2k (o);
+}
+

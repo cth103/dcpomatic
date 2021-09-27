@@ -79,7 +79,7 @@ protected:
 	wxBoxSizer* _button_sizer;
 	std::shared_ptr<Film> _film;
 	wxSlider* _slider;
-	std::shared_ptr<FilmViewer> _viewer;
+	std::weak_ptr<FilmViewer> _viewer;
 	boost::optional<std::string> _active_job;
 
 private:
