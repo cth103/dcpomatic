@@ -124,12 +124,17 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test)
 	boost::filesystem::copy_file ("test/data/2.14.config.xml", dir / "config.xml");
 	boost::filesystem::copy_file ("test/data/2.14.cinemas.xml", dir / "cinemas.xml");
 	Config::instance();
-	Config::instance()->write();
+	try {
+		/* This will fail to write cinemas.xml since the link is to a non-existant directory */
+		Config::instance()->write();
+	} catch (...) {}
 
 	check_xml (dir / "config.xml", "test/data/2.14.config.xml", {});
 	check_xml (dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
 	check_xml (dir / "2.16" / "config.xml", "test/data/2.16.config.xml", {});
 	/* cinemas.xml is not copied into 2.16 as its format has not changed */
 	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.16" / "cinemas.xml"));
+
+	setup_test_config();
 }
 
