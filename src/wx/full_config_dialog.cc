@@ -1459,7 +1459,9 @@ private:
 		_maximum_j2k_bandwidth->SetRange (1, 1000);
 		_maximum_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_video_display_mode->Append (_("Simple (safer)"));
+#if wxCHECK_VERSION(3, 1, 0)
 		_video_display_mode->Append (_("OpenGL (faster)"));
+#endif
 		_video_display_mode->Bind (wxEVT_CHOICE, boost::bind(&AdvancedPage::video_display_mode_changed, this));
 		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
 		_allow_any_container->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_container_changed, this));

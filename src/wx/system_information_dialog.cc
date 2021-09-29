@@ -39,6 +39,8 @@ using std::weak_ptr;
 using std::shared_ptr;
 
 
+#if wxCHECK_VERSION(3, 1, 0)
+
 SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
@@ -75,3 +77,14 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<Fil
 
 	layout ();
 }
+
+#else
+
+SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer>)
+	: TableDialog (parent, _("System information"), 2, 1, false)
+{
+	add (_("OpenGL version"), true);
+	add (_("OpenGL renderer not supported by this DCP-o-matic version"), false);
+}
+
+#endif

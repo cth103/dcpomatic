@@ -18,14 +18,25 @@
 
 */
 
-#include "video_view.h"
-#include "lib/signaller.h"
-#include "lib/position.h"
+
 #include "lib/warnings.h"
+
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/glcanvas.h>
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
+
+/* The OpenGL API in wxWidgets 3.0.x is sufficiently different to make it awkward to support,
+ * and I think it may even have things missing that we require (e.g. the attributes parameter
+ * to wxGLContext).  Hence we only support the GLVideoView on wxWidgets 3.1.0 and higher
+ * (which only excludes the old macOS builds, since wxWidgets 3.1.x does not support macOS
+ * 10.9 or earlier).
+ */
+#if wxCHECK_VERSION(3,1,0)
+
+#include "video_view.h"
+#include "lib/signaller.h"
+#include "lib/position.h"
 #include <dcp/util.h>
 #include <boost/atomic.hpp>
 #include <boost/thread.hpp>
@@ -140,3 +151,5 @@ private:
 
 	std::map<GLenum, std::string> _information;
 };
+
+#endif

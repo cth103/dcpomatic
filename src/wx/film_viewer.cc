@@ -88,6 +88,7 @@ FilmViewer::FilmViewer (wxWindow* p)
 	: _audio (DCPOMATIC_RTAUDIO_API)
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 {
+#if wxCHECK_VERSION(3, 1, 0)
 	switch (Config::instance()->video_view_type()) {
 	case Config::VIDEO_VIEW_OPENGL:
 		_video_view = std::make_shared<GLVideoView>(this, p);
@@ -96,6 +97,9 @@ FilmViewer::FilmViewer (wxWindow* p)
 		_video_view = std::make_shared<SimpleVideoView>(this, p);
 		break;
 	}
+#else
+	_video_view = std::make_shared<SimpleVideoView>(this, p);
+#endif
 
 	_video_view->Sized.connect (boost::bind(&FilmViewer::video_view_sized, this));
 	_video_view->TooManyDropped.connect (boost::bind(boost::ref(TooManyDropped)));
@@ -208,7 +212,11 @@ FilmViewer::recreate_butler ()
 		return;
 	}
 
+#if wxCHECK_VERSION(3, 1, 0)
 	auto const j2k_gl_optimised = dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k;
+#else
+	auto const j2k_gl_optimised = false;
+#endif
 
 	_butler = std::make_shared<Butler>(
 		_film,

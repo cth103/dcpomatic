@@ -24,6 +24,10 @@
 #endif
 
 #include "gl_video_view.h"
+
+/* This will only build on an new-enough wxWidgets: see the comment in gl_video_view.h */
+#if wxCHECK_VERSION(3,1,0)
+
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "lib/image.h"
@@ -830,3 +834,4 @@ Texture::set (shared_ptr<const Image> image)
 	}
 }
 
+#endif
