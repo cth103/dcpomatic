@@ -435,7 +435,7 @@ GLVideoView::setup_shaders ()
 	check_gl_error ("glGetUniformLocation");
 	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
 
-	glLineWidth (2.0f);
+	glLineWidth (1.0f);
 	check_gl_error ("glLineWidth");
 	glEnable (GL_BLEND);
 	check_gl_error ("glEnable");
