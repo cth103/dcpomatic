@@ -436,8 +436,11 @@ GLVideoView::setup_shaders ()
 	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
 
 	glLineWidth (2.0f);
+	check_gl_error ("glLineWidth");
 	glEnable (GL_BLEND);
+	check_gl_error ("glEnable");
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	check_gl_error ("glBlendFunc");
 
 	/* Reserve space for the GL_ARRAY_BUFFER */
 	glBufferData(GL_ARRAY_BUFFER, 12 * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
