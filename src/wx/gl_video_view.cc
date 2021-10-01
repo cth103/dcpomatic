@@ -532,9 +532,12 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	auto const canvas_size = _canvas_size.load();
 	int const canvas_width = canvas_size.GetWidth();
 	int const canvas_height = canvas_size.GetHeight();
-	auto inter_position = player_video().first->inter_position();
-	auto inter_size = player_video().first->inter_size();
-	auto out_size = player_video().first->out_size();
+	auto const inter_position = player_video().first->inter_position();
+	auto const inter_size = player_video().first->inter_size();
+	auto const out_size = player_video().first->out_size();
+
+	auto x_offset = std::max(0, (canvas_width - out_size.width) / 2);
+	auto y_offset = std::max(0, (canvas_height - out_size.height) / 2);
 
 	_last_canvas_size.set_next (canvas_size);
 	_last_video_size.set_next (video->size());
@@ -542,62 +545,91 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	_last_inter_size.set_next (inter_size);
 	_last_out_size.set_next (out_size);
 
-	auto x_pixels_to_gl = [canvas_width](int x) {
-		return (x * 2.0f / canvas_width) - 1.0f;
-	};
+	class Rectangle
+	{
+	public:
+		Rectangle (wxSize canvas_size, float x, float y, dcp::Size size)
+			: _canvas_size (canvas_size)
+		{
+			auto const x1 = x_pixels_to_gl(x);
+			auto const y1 = y_pixels_to_gl(y);
+			auto const x2 = x_pixels_to_gl(x + size.width);
+			auto const y2 = y_pixels_to_gl(y + size.height);
 
-	auto y_pixels_to_gl = [canvas_height](int y) {
-		return (y * 2.0f / canvas_height) - 1.0f;
+			/* The texture coordinates here have to account for the fact that when we put images into the texture OpenGL
+			 * expected us to start at the lower left but we actually started at the top left.  So although the
+			 * top of the texture is at 1.0 we pretend it's the other way round.
+			 */
+
+			// bottom right
+			_vertices[0] = x2;
+			_vertices[1] = y2;
+			_vertices[2] = 0.0f;
+			_vertices[3] = 1.0f;
+			_vertices[4] = 1.0f;
+
+			// top right
+			_vertices[5] = x2;
+			_vertices[6] = y1;
+			_vertices[7] = 0.0f;
+			_vertices[8] = 1.0f;
+			_vertices[9] = 0.0f;
+
+			// top left
+			_vertices[10] = x1;
+			_vertices[11] = y1;
+			_vertices[12] = 0.0f;
+			_vertices[13] = 0.0f;
+			_vertices[14] = 0.0f;
+
+			// bottom left
+			_vertices[15] = x1;
+			_vertices[16] = y2;
+			_vertices[17] = 0.0f;
+			_vertices[18] = 0.0f;
+			_vertices[19] = 1.0f;
+		}
+
+		float const * vertices () const {
+			return _vertices;
+		}
+
+		int const size () const {
+			return sizeof(_vertices);
+		}
+
+	private:
+		/* @param x x position in pixels where 0 is left and canvas_width is right on screen */
+		float x_pixels_to_gl(int x) const {
+			return (x * 2.0f / _canvas_size.GetWidth()) - 1.0f;
+		}
+
+		/* @param y y position in pixels where 0 is top and canvas_height is bottom on screen */
+		float y_pixels_to_gl(int y) const {
+			return 1.0f - (y * 2.0f / _canvas_size.GetHeight());
+		}
+
+		wxSize _canvas_size;
+		float _vertices[20];
 	};
 
 	if (_last_canvas_size.changed() || _last_inter_position.changed() || _last_inter_size.changed() || _last_out_size.changed()) {
-		float const video_x1 = x_pixels_to_gl(_optimise_for_j2k ? inter_position.x : 0);
-		float const video_x2 = x_pixels_to_gl(_optimise_for_j2k ? (inter_position.x + inter_size.width) : out_size.width);
-		float const video_y1 = y_pixels_to_gl(_optimise_for_j2k ? inter_position.y : 0);
-		float const video_y2 = y_pixels_to_gl(_optimise_for_j2k ? (inter_position.y + inter_size.height) : out_size.height);
-		float video_vertices[] = {
-			 // positions              // texture coords
-			video_x2, video_y2, 0.0f,  1.0f, 0.0f,   // video texture top right       (index 0)
-			video_x2, video_y1, 0.0f,  1.0f, 1.0f,   // video texture bottom right    (index 1)
-			video_x1, video_y1, 0.0f,  0.0f, 1.0f,   // video texture bottom left     (index 2)
-			video_x1, video_y2, 0.0f,  0.0f, 0.0f,   // video texture top left        (index 3)
-		};
 
-		glBufferSubData (GL_ARRAY_BUFFER, 0, sizeof(video_vertices), video_vertices);
+		const auto video = _optimise_for_j2k ?
+			Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size)
+			: Rectangle(canvas_size, x_offset, y_offset, out_size);
+
+		glBufferSubData (GL_ARRAY_BUFFER, 0, video.size(), video.vertices());
 		check_gl_error ("glBufferSubData (video)");
 
-		float const border_x1 = x_pixels_to_gl(inter_position.x);
-		float const border_y1 = y_pixels_to_gl(inter_position.y);
-		float const border_x2 = x_pixels_to_gl(inter_position.x + inter_size.width);
-		float const border_y2 = y_pixels_to_gl(inter_position.y + inter_size.height);
-
-		float border_vertices[] = {
-			 // positions                 // texture coords
-			 border_x1, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom left         (index 4)
-			 border_x1, border_y2, 0.0f,  0.0f, 0.0f,   // border top left            (index 5)
-			 border_x2, border_y2, 0.0f,  0.0f, 0.0f,   // border top right           (index 6)
-			 border_x2, border_y1, 0.0f,  0.0f, 0.0f,   // border bottom right        (index 7)
-		};
-
-		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), sizeof(border_vertices), border_vertices);
+		const auto border = Rectangle(canvas_size, inter_position.x, inter_position.y, inter_size);
+		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), border.size(), border.vertices());
 		check_gl_error ("glBufferSubData (border)");
 	}
 
 	if (_have_subtitle_to_render) {
-		float const subtitle_x1 = x_pixels_to_gl(inter_position.x + text->position.x);
-		float const subtitle_x2 = x_pixels_to_gl(inter_position.x + text->position.x + text->image->size().width);
-		float const subtitle_y1 = y_pixels_to_gl(inter_position.y + text->position.y + text->image->size().height);
-		float const subtitle_y2 = y_pixels_to_gl(inter_position.y + text->position.y);
-
-		float vertices[] = {
-			 // positions                     // texture coords
-			 subtitle_x2, subtitle_y1, 0.0f,  1.0f, 0.0f,   // subtitle texture top right    (index 4)
-			 subtitle_x2, subtitle_y2, 0.0f,  1.0f, 1.0f,   // subtitle texture bottom right (index 5)
-			 subtitle_x1, subtitle_y2, 0.0f,  0.0f, 1.0f,   // subtitle texture bottom left  (index 6)
-			 subtitle_x1, subtitle_y1, 0.0f,  0.0f, 0.0f,   // subtitle texture top left     (index 7)
-		};
-
-		glBufferSubData (GL_ARRAY_BUFFER, 4 * 5 * sizeof(float), sizeof(vertices), vertices);
+		const auto subtitle = Rectangle(canvas_size, inter_position.x + x_offset + text->position.x, inter_position.y + y_offset + text->position.y, text->image->size());
+		glBufferSubData (GL_ARRAY_BUFFER, 4 * 5 * sizeof(float), subtitle.size(), subtitle.vertices());
 		check_gl_error ("glBufferSubData (subtitle)");
 	}
 
