@@ -695,7 +695,11 @@ GLVideoView::set_image_and_draw ()
 	auto pv = player_video().first;
 	if (pv) {
 		set_image (pv);
-		draw ();
+	}
+
+	draw ();
+
+	if (pv) {
 		_viewer->image_changed (pv);
 	}
 }
