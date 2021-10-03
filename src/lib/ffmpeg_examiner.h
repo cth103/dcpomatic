@@ -57,6 +57,8 @@ public:
 
 	VideoRange range () const;
 
+	PixelQuanta pixel_quanta () const;
+
 	AVColorRange color_range () const {
 		return video_codec_context()->color_range;
 	}

@@ -184,6 +184,10 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		_range = VideoRange::VIDEO;
 	}
 
+	if (auto pixel_quanta = node->optional_node_child("PixelQuanta")) {
+		_pixel_quanta = PixelQuanta(pixel_quanta);
+	}
+
 	auto burnt = node->optional_string_child("BurntSubtitleLanguage");
 	if (burnt) {
 		_burnt_subtitle_language = dcp::LanguageTag (*burnt);
@@ -243,6 +247,8 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 		if (c[i]->video->yuv ()) {
 			_yuv = true;
 		}
+
+		_pixel_quanta = max(_pixel_quanta, c[i]->video->_pixel_quanta);
 	}
 
 	_use = ref->use ();
@@ -285,6 +291,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
 	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
 	node->add_child("Range")->add_child_text(_range == VideoRange::FULL ? "full" : "video");
+	_pixel_quanta.as_xml(node->add_child("PixelQuanta"));
 	if (_burnt_subtitle_language) {
 		node->add_child("BurntSubtitleLanguage")->add_child_text(_burnt_subtitle_language->to_string());
 	}
@@ -299,6 +306,7 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	auto const ar = d->sample_aspect_ratio ();
 	auto const yuv = d->yuv ();
 	auto const range = d->range ();
+	auto const pixel_quanta = d->pixel_quanta ();
 
 	ContentChangeSignaller cc1 (_parent, VideoContentProperty::SIZE);
 	ContentChangeSignaller cc2 (_parent, ContentProperty::LENGTH);
@@ -311,6 +319,7 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 		_sample_aspect_ratio = ar;
 		_yuv = yuv;
 		_range = range;
+		_pixel_quanta = pixel_quanta;
 	}
 
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);

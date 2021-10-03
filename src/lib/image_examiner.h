@@ -39,6 +39,10 @@ public:
 	VideoRange range () const {
 		return VideoRange::FULL;
 	}
+	PixelQuanta pixel_quanta () const {
+		/* See ::yuv - we're assuming the image is not YUV and so not subsampled */
+		return {};
+	}
 
 private:
 	std::weak_ptr<const Film> _film;

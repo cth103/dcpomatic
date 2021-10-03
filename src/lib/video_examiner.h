@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,13 +18,17 @@
 
 */
 
+
 /** @file  src/lib/video_examiner.h
  *  @brief VideoExaminer class.
  */
 
+
+#include "pixel_quanta.h"
 #include "types.h"
 #include "video_content.h"
 #include <dcp/types.h>
+
 
 /** @class VideoExaminer
  *  @brief Parent for classes which examine video sources and obtain information about them.
@@ -49,4 +53,5 @@ public:
 	/** @return true if this video is in YUV; must not be called if has_video() == false */
 	virtual bool yuv () const = 0;
 	virtual VideoRange range () const = 0;
+	virtual PixelQuanta pixel_quanta () const = 0;
 };

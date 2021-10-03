@@ -62,6 +62,10 @@ public:
 		return VideoRange::FULL;
 	}
 
+	PixelQuanta pixel_quanta () const {
+		return {};
+	}
+
 	std::string name () const {
 		return _name;
 	}

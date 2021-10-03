@@ -480,3 +480,12 @@ FFmpegExaminer::range () const
 		return VideoRange::FULL;
 	}
 }
+
+
+PixelQuanta
+FFmpegExaminer::pixel_quanta () const
+{
+	auto const desc = av_pix_fmt_desc_get(video_codec_context()->pix_fmt);
+	return { 1 << desc->log2_chroma_w, 1 << desc->log2_chroma_h };
+}
+

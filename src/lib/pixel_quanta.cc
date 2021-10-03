@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,34 +18,30 @@
 
 */
 
-#include "video_examiner.h"
 
-class VideoMXFContent;
+#include "pixel_quanta.h"
+#include <dcp/raw_convert.h>
 
-namespace dcp {
-	class PictureAsset;
+
+PixelQuanta::PixelQuanta (cxml::ConstNodePtr node)
+	: x(node->number_child<int>("X"))
+	, y(node->number_child<int>("Y"))
+{
+
 }
 
-class VideoMXFExaminer : public VideoExaminer
+
+void
+PixelQuanta::as_xml (xmlpp::Element* node) const
 {
-public:
-	explicit VideoMXFExaminer (std::shared_ptr<const VideoMXFContent>);
+	node->add_child("X")->add_child_text(dcp::raw_convert<std::string>(x));
+	node->add_child("Y")->add_child_text(dcp::raw_convert<std::string>(y));
+}
 
-	bool has_video () const {
-		return true;
-	}
-	boost::optional<double> video_frame_rate () const;
-	dcp::Size video_size () const;
-	Frame video_length () const;
-	boost::optional<double> sample_aspect_ratio () const;
-	bool yuv () const;
-	VideoRange range () const {
-		return VideoRange::FULL;
-	}
-	PixelQuanta pixel_quanta () const {
-		return {};
-	}
 
-private:
-	std::shared_ptr<dcp::PictureAsset> _asset;
-};
+PixelQuanta
+max (PixelQuanta const& a, PixelQuanta const& b)
+{
+	return { std::max(a.x, b.x), std::max(a.y, b.y) };
+}
+

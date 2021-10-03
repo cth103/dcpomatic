@@ -26,6 +26,7 @@
 #include "colour_conversion.h"
 #include "content_part.h"
 #include "dcpomatic_time.h"
+#include "pixel_quanta.h"
 #include "types.h"
 #include "user_property.h"
 #include <dcp/language_tag.h>
@@ -245,6 +246,7 @@ private:
 	/** fade out time in content frames */
 	Frame _fade_out;
 	VideoRange _range;
+	PixelQuanta _pixel_quanta;
 	boost::optional<dcp::LanguageTag> _burnt_subtitle_language;
 };
 
