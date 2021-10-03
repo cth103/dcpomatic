@@ -91,7 +91,7 @@ public:
 private:
 	void set_image (std::shared_ptr<const PlayerVideo> pv);
 	void set_image_and_draw ();
-	void draw (Position<int> inter_position, dcp::Size inter_size);
+	void draw ();
 	void thread ();
 	void thread_playing ();
 	void request_one_shot ();

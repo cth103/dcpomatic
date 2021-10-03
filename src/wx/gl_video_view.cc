@@ -460,7 +460,7 @@ GLVideoView::set_border_colour (GLuint program)
 
 
 void
-GLVideoView::draw (Position<int>, dcp::Size)
+GLVideoView::draw ()
 {
 	auto pad = pad_colour();
 	glClearColor(pad.Red() / 255.0, pad.Green() / 255.0, pad.Blue() / 255.0, 1.0);
@@ -695,7 +695,7 @@ GLVideoView::set_image_and_draw ()
 	auto pv = player_video().first;
 	if (pv) {
 		set_image (pv);
-		draw (pv->inter_position(), pv->inter_size());
+		draw ();
 		_viewer->image_changed (pv);
 	}
 }
