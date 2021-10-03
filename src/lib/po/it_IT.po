@@ -416,7 +416,7 @@ msgstr "Canali"
 
 #: src/lib/check_content_change_job.cc:52
 msgid "Checking content for changes"
-msgstr ""
+msgstr "Controllo del contenuto modificato"
 
 #: src/lib/reel_writer.cc:250
 msgid "Checking existing image data"
@@ -485,7 +485,7 @@ msgstr ""
 
 #: src/lib/frame_rate_change.cc:90
 msgid "Content and DCP have the same rate.\n"
-msgstr "La sorgente e il DCP hanno la stessa frequenza di fotogrammi.\n"
+msgstr "La sorgente e il DCP hanno la stessa frequenza fotogrammi.\n"
 
 #: src/lib/audio_content.cc:310
 msgid "Content audio sample rate"
@@ -1159,7 +1159,7 @@ msgstr "Nulla"
 
 #: src/lib/job.cc:501
 msgid "OK (ran for %1)"
-msgstr "OK (eseguito al %1)"
+msgstr "OK (eseguito in: %1)"
 
 #: src/lib/content.cc:123
 msgid "Only the first piece of content to be joined can have a start trim."

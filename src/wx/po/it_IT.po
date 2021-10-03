@@ -95,7 +95,7 @@ msgstr "(riavvia DCP-o-matic per vedere tutte le proporzioni)"
 
 #: src/wx/config_dialog.cc:142
 msgid "(restart DCP-o-matic to see language changes)"
-msgstr "(riavviare DCP-o-MATIC per vedere i cambiamenti della lingua)"
+msgstr "(riavviare DCP-o-matic per vedere i cambiamenti della lingua)"
 
 #: src/wx/audio_mapping_view.cc:91
 msgid "+3dB"
@@ -731,7 +731,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:112
 msgid "Cinema and screen database file"
-msgstr "File database di schermo e cinema"
+msgstr "File database di schermi e cinema"
 
 #: src/wx/content_widget.h:81
 msgid "Click the button to set all selected content to the same value."
@@ -985,9 +985,8 @@ msgid "Debug: 3D"
 msgstr "Debug: decodifica"
 
 #: src/wx/full_config_dialog.cc:1448
-#, fuzzy
 msgid "Debug: audio analysis"
-msgstr "Ritardo audio predefinito"
+msgstr "Debug: analisi audio"
 
 #: src/wx/full_config_dialog.cc:1442
 msgid "Debug: email sending"
@@ -1003,9 +1002,8 @@ msgid "Debug: player"
 msgstr "Debug: decodifica"
 
 #: src/wx/full_config_dialog.cc:1444
-#, fuzzy
 msgid "Debug: video view"
-msgstr "Debug: codifica"
+msgstr "Debug: video view"
 
 #: src/wx/player_information.cc:175
 #, c-format
@@ -1147,7 +1145,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:118
 msgid "Earlier"
-msgstr "Prima"
+msgstr "Sposta in alto"
 
 #: src/wx/screens_panel.cc:73
 msgid "Edit Cinema..."
@@ -1383,7 +1381,7 @@ msgstr "Open-source libera, creazione DCP ha praticamente tutto."
 
 #: src/wx/kdm_timing_panel.cc:50
 msgid "From"
-msgstr "Da"
+msgstr "Dal"
 
 #: src/wx/full_config_dialog.cc:855 src/wx/full_config_dialog.cc:985
 msgid "From address"
@@ -1391,7 +1389,7 @@ msgstr "Indirizzo del mittente"
 
 #: src/wx/film_name_location_dialog.cc:62
 msgid "From template"
-msgstr "Dal modello"
+msgstr "Da modello"
 
 #: src/wx/video_panel.cc:196
 msgid "Full (JPEG, 0-255)"
@@ -1541,7 +1539,7 @@ msgstr ""
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "Image X position"
-msgstr "Posizione immagine X"
+msgstr "Posizione cursore XYZ"
 
 #: src/wx/player_config_dialog.cc:100
 msgid "Image on primary, controls on secondary"
@@ -1641,7 +1639,7 @@ msgstr "Unisci"
 
 #: src/wx/controls.cc:90
 msgid "Jump to selected content"
-msgstr "Salta al contenuto selezionato"
+msgstr "Vai al contenuto selezionato"
 
 #: src/wx/full_config_dialog.cc:834
 msgid "KDM Email"
@@ -1681,10 +1679,9 @@ msgstr ""
 #: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:45
 #: src/wx/text_panel.cc:165
 msgid "Language"
-msgstr "Linguaggio"
+msgstr "Lingua"
 
 #: src/wx/full_language_tag_dialog.cc:193 src/wx/language_tag_dialog.cc:35
-#, fuzzy
 msgid "Language Tag"
 msgstr "Linguaggio"
 
@@ -1722,7 +1719,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:122
 msgid "Later"
-msgstr "Dopo"
+msgstr "Sposta in basso"
 
 #: src/wx/config_dialog.cc:517
 msgid "Leaf"
@@ -1838,7 +1835,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:898
 msgid "Mapping"
-msgstr ""
+msgstr "Mappatura canali"
 
 #: src/wx/kdm_advanced_dialog.cc:40
 #, fuzzy
@@ -1888,7 +1885,7 @@ msgstr ""
 
 #: src/wx/export_video_file_dialog.cc:64
 msgid "Mix audio down to stereo"
-msgstr "Mix audio in stereo"
+msgstr "Mixa l'uscita audio in stereo"
 
 #: src/wx/config_move_dialog.cc:29
 msgid "Move configuration"
@@ -2035,7 +2032,7 @@ msgstr "Spostamento X"
 
 #: src/wx/full_config_dialog.cc:1370
 msgid "Only servers encode"
-msgstr "Solo I server di codifica"
+msgstr "Solo i server di codifica"
 
 #: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:292
 msgid "Open console window"
@@ -2189,7 +2186,7 @@ msgstr "Durata riproduzione"
 
 #: src/wx/config_dialog.cc:888
 msgid "Play sound via"
-msgstr "Riproduci l'audio tramite"
+msgstr "Riproduci l'audio con"
 
 #: src/wx/config_dialog.cc:1101
 #, fuzzy
@@ -2375,9 +2372,8 @@ msgid "Report A Problem"
 msgstr "Segnala un problema"
 
 #: src/wx/config_dialog.cc:904
-#, fuzzy
 msgid "Reset to default"
-msgstr "Ripristina testo predefinito"
+msgstr "Ripristina a default"
 
 #: src/wx/full_config_dialog.cc:879 src/wx/full_config_dialog.cc:1013
 msgid "Reset to default subject and text"
@@ -3284,9 +3280,8 @@ msgid "Timeline..."
 msgstr "Timeline..."
 
 #: src/wx/content_panel.cc:137
-#, fuzzy
 msgid "Timing"
-msgstr "KDM|Durata"
+msgstr "Validità KDM"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:65
@@ -3307,7 +3302,7 @@ msgstr "Sopra"
 
 #: src/wx/closed_captions_dialog.cc:66
 msgid "Track"
-msgstr ""
+msgstr "Traccia"
 
 #: src/wx/instant_i18n_dialog.cc:28
 #, fuzzy
@@ -3603,7 +3598,7 @@ msgstr "Scrivi tutti i KDM nella stessa cartella"
 
 #: src/wx/export_video_file_dialog.cc:70
 msgid "Write each audio channel to its own stream"
-msgstr "Write each audio channel to its own stream"
+msgstr "Genera file audio in canali separati"
 
 #: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:67
 msgid "Write reels into separate files"
@@ -3612,7 +3607,7 @@ msgstr "Scrivi le bobine in file separati"
 #: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_output_panel.cc:110
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
-msgstr "Scrivi a"
+msgstr "Salva file in"
 
 #: src/wx/about_dialog.cc:100
 msgid "Written by"
@@ -3668,18 +3663,16 @@ msgstr ""
 "inviare e-mails."
 
 #: src/wx/send_i18n_dialog.cc:41
-#, fuzzy
 msgid "Your email"
-msgstr "Il tuo indirizzo email"
+msgstr "La tua email"
 
 #: src/wx/report_problem_dialog.cc:74
 msgid "Your email address"
 msgstr "Il tuo indirizzo email"
 
 #: src/wx/send_i18n_dialog.cc:37
-#, fuzzy
 msgid "Your name"
-msgstr "Nome cartella"
+msgstr "Il tuo nome"
 
 #: src/wx/timeline_dialog.cc:75
 msgid "Zoom"
@@ -3717,7 +3710,7 @@ msgstr ""
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
-msgstr "valore del componente"
+msgstr "valore della componente"
 
 #: src/wx/audio_panel.cc:104
 #, fuzzy
@@ -3864,7 +3857,7 @@ msgstr ""
 
 #: src/wx/kdm_timing_panel.cc:69
 msgid "until"
-msgstr "fino a"
+msgstr "al"
 
 #: src/wx/system_information_dialog.cc:55
 msgid "vsync"
