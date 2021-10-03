@@ -1111,7 +1111,7 @@ linear_to_db (double linear)
 
 
 dcp::Size
-scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container)
+scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta)
 {
 	/* Now scale it down if the display container is smaller than the film container */
 	if (display_container != film_container) {
@@ -1122,6 +1122,7 @@ scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_cont
 
 		s.width = lrintf (s.width * scale);
 		s.height = lrintf (s.height * scale);
+		s = quanta.round (s);
 	}
 
 	return s;

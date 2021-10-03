@@ -53,6 +53,13 @@ PixelQuanta::round_y (int y_) const
 }
 
 
+dcp::Size
+PixelQuanta::round (dcp::Size size) const
+{
+	return dcp::Size (round_x(size.width), round_y(size.height));
+}
+
+
 PixelQuanta
 max (PixelQuanta const& a, PixelQuanta const& b)
 {

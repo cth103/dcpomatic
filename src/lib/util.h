@@ -18,16 +18,20 @@
 
 */
 
+
 /** @file src/util.h
  *  @brief Some utility functions and classes.
  */
 
+
 #ifndef DCPOMATIC_UTIL_H
 #define DCPOMATIC_UTIL_H
 
-#include "types.h"
-#include "dcpomatic_time.h"
+
 #include "audio_mapping.h"
+#include "dcpomatic_time.h"
+#include "pixel_quanta.h"
+#include "types.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/util.h>
@@ -40,6 +44,7 @@
 #include <vector>
 
 #undef check
+
 
 namespace dcp {
 	class PictureAsset;
@@ -119,7 +124,7 @@ extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
 extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, std::shared_ptr<TextDecoder> decoder);
 extern bool show_jobs_on_console (bool progress);
 extern void copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)>);
-extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container);
+extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta);
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
 extern std::string to_upper (std::string s);

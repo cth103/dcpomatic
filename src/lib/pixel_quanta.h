@@ -26,6 +26,7 @@
 #include "warnings.h"
 
 #include <libcxml/cxml.h>
+#include <dcp/types.h>
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
@@ -54,6 +55,7 @@ public:
 
 	int round_x (int x_) const;
 	int round_y (int y_) const;
+	dcp::Size round (dcp::Size size) const;
 
 	int x;
 	int y;

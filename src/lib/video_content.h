@@ -183,6 +183,11 @@ public:
 		return _range;
 	}
 
+	PixelQuanta pixel_quanta () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _pixel_quanta;
+	}
+
 	bool use () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _use;

@@ -920,16 +920,23 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 		}
 	}
 
+	auto const content_video = piece->content->video;
+
 	_last_video[wp] = std::make_shared<PlayerVideo>(
 		video.image,
-		piece->content->video->actual_crop(),
-		piece->content->video->fade (_film, video.frame),
-		scale_for_display(piece->content->video->scaled_size(_film->frame_size()), _video_container_size, _film->frame_size()),
+		content_video->actual_crop(),
+		content_video->fade (_film, video.frame),
+		scale_for_display(
+			content_video->scaled_size(_film->frame_size()),
+			_video_container_size,
+			_film->frame_size(),
+			content_video->pixel_quanta()
+			),
 		_video_container_size,
 		video.eyes,
 		video.part,
-		piece->content->video->colour_conversion(),
-		piece->content->video->range(),
+		content_video->colour_conversion(),
+		content_video->range(),
 		piece->content,
 		video.frame,
 		false
