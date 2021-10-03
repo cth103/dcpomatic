@@ -39,6 +39,20 @@ PixelQuanta::as_xml (xmlpp::Element* node) const
 }
 
 
+int
+PixelQuanta::round_x (int x_) const
+{
+	return x_ - (x_ % x);
+}
+
+
+int
+PixelQuanta::round_y (int y_) const
+{
+	return y_ - (y_ % y);
+}
+
+
 PixelQuanta
 max (PixelQuanta const& a, PixelQuanta const& b)
 {

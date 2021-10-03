@@ -218,7 +218,7 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 			throw JoinError (_("Content to be joined must have the same video frame type."));
 		}
 
-		if (c[i]->video->crop() != ref->crop()) {
+		if (c[i]->video->requested_crop() != ref->requested_crop()) {
 			throw JoinError (_("Content to be joined must have the same crop."));
 		}
 
@@ -254,7 +254,7 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 	_use = ref->use ();
 	_size = ref->size ();
 	_frame_type = ref->frame_type ();
-	_crop = ref->crop ();
+	_crop = ref->requested_crop ();
 	_custom_ratio = ref->custom_ratio ();
 	_colour_conversion = ref->colour_conversion ();
 	_fade_in = ref->fade_in ();
@@ -334,13 +334,14 @@ string
 VideoContent::identifier () const
 {
 	char buffer[256];
+	auto const crop = actual_crop();
 	snprintf (
 		buffer, sizeof(buffer), "%d_%d_%d_%d_%d_%f_%d_%d%" PRId64 "_%" PRId64 "_%d",
 		(_use ? 1 : 0),
-		crop().left,
-		crop().right,
-		crop().top,
-		crop().bottom,
+		crop.left,
+		crop.right,
+		crop.top,
+		crop.bottom,
 		_custom_ratio.get_value_or(0),
 		_custom_size ? _custom_size->width : 0,
 		_custom_size ? _custom_size->height : 0,
@@ -399,7 +400,7 @@ VideoContent::size_after_3d_split () const
 dcp::Size
 VideoContent::size_after_crop () const
 {
-	return crop().apply (size_after_3d_split ());
+	return actual_crop().apply(size_after_3d_split());
 }
 
 
@@ -452,8 +453,10 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 		d += buffer;
 	}
 
-	if ((crop().left || crop().right || crop().top || crop().bottom) && size() != dcp::Size (0, 0)) {
-		dcp::Size cropped = size_after_crop ();
+	auto const crop = actual_crop();
+
+	if ((crop.left || crop.right || crop.top || crop.bottom) && size() != dcp::Size(0, 0)) {
+		auto const cropped = size_after_crop ();
 		d += String::compose (
 			_("\nCropped to %1x%2"),
 			cropped.width, cropped.height
@@ -668,3 +671,16 @@ VideoContent::set_custom_size (optional<dcp::Size> size)
 {
 	maybe_set (_custom_size, size, VideoContentProperty::CUSTOM_SIZE);
 }
+
+
+Crop
+VideoContent::actual_crop () const
+{
+	return Crop(
+		_pixel_quanta.round_x(_crop.left),
+		_pixel_quanta.round_x(_crop.right),
+		_pixel_quanta.round_y(_crop.top),
+		_pixel_quanta.round_y(_crop.bottom)
+	);
+}
+

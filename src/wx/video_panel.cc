@@ -118,7 +118,7 @@ VideoPanel::create ()
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
-		boost::mem_fn (&VideoContent::left_crop),
+		boost::mem_fn (&VideoContent::requested_left_crop),
 		boost::mem_fn (&VideoContent::set_left_crop),
 		boost::bind (&VideoPanel::left_crop_changed, this)
 		);
@@ -132,7 +132,7 @@ VideoPanel::create ()
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
-		boost::mem_fn (&VideoContent::right_crop),
+		boost::mem_fn (&VideoContent::requested_right_crop),
 		boost::mem_fn (&VideoContent::set_right_crop),
 		boost::bind (&VideoPanel::right_crop_changed, this)
 		);
@@ -143,7 +143,7 @@ VideoPanel::create ()
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
-		boost::mem_fn (&VideoContent::top_crop),
+		boost::mem_fn (&VideoContent::requested_top_crop),
 		boost::mem_fn (&VideoContent::set_top_crop),
 		boost::bind (&VideoPanel::top_crop_changed, this)
 		);
@@ -157,7 +157,7 @@ VideoPanel::create ()
 		new wxSpinCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(crop_width, -1)),
 		VideoContentProperty::CROP,
 		&Content::video,
-		boost::mem_fn (&VideoContent::bottom_crop),
+		boost::mem_fn (&VideoContent::requested_bottom_crop),
 		boost::mem_fn (&VideoContent::set_bottom_crop),
 		boost::bind (&VideoPanel::bottom_crop_changed, this)
 		);
@@ -759,7 +759,7 @@ VideoPanel::left_crop_changed ()
 	_left_changed_last = true;
 	if (_left_right_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
-			i->video->set_right_crop (i->video->left_crop());
+			i->video->set_right_crop (i->video->requested_left_crop());
 		}
 	}
 }
@@ -771,7 +771,7 @@ VideoPanel::right_crop_changed ()
 	_left_changed_last = false;
 	if (_left_right_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
-			i->video->set_left_crop (i->video->right_crop());
+			i->video->set_left_crop (i->video->requested_right_crop());
 		}
 	}
 }
@@ -783,7 +783,7 @@ VideoPanel::top_crop_changed ()
 	_top_changed_last = true;
 	if (_top_bottom_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
-			i->video->set_bottom_crop (i->video->top_crop());
+			i->video->set_bottom_crop (i->video->requested_top_crop());
 		}
 	}
 }
@@ -795,10 +795,9 @@ VideoPanel::bottom_crop_changed ()
 	_top_changed_last = false;
 	if (_top_bottom_link->GetValue()) {
 		for (auto i: _parent->selected_video()) {
-			i->video->set_top_crop (i->video->bottom_crop());
+			i->video->set_top_crop (i->video->requested_bottom_crop());
 		}
 	}
 }
-
 
 

@@ -922,7 +922,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 
 	_last_video[wp] = std::make_shared<PlayerVideo>(
 		video.image,
-		piece->content->video->crop (),
+		piece->content->video->actual_crop(),
 		piece->content->video->fade (_film, video.frame),
 		scale_for_display(piece->content->video->scaled_size(_film->frame_size()), _video_container_size, _film->frame_size()),
 		_video_container_size,

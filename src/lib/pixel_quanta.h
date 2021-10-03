@@ -52,6 +52,9 @@ public:
 
 	void as_xml (xmlpp::Element* node) const;
 
+	int round_x (int x_) const;
+	int round_y (int y_) const;
+
 	int x;
 	int y;
 };

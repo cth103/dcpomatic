@@ -113,27 +113,29 @@ public:
 		return _frame_type;
 	}
 
-	Crop crop () const {
+	Crop actual_crop () const;
+
+	Crop requested_crop () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _crop;
 	}
 
-	int left_crop () const {
+	int requested_left_crop () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _crop.left;
 	}
 
-	int right_crop () const {
+	int requested_right_crop () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _crop.right;
 	}
 
-	int top_crop () const {
+	int requested_top_crop () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _crop.top;
 	}
 
-	int bottom_crop () const {
+	int requested_bottom_crop () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _crop.bottom;
 	}

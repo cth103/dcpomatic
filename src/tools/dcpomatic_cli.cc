@@ -92,10 +92,10 @@ print_dump (shared_ptr<Film> film)
 		if (c->video) {
 			cout << "\t" << c->video->size().width << "x" << c->video->size().height << "\n"
 			     << "\t" << c->active_video_frame_rate(film) << "fps\n"
-			     << "\tcrop left " << c->video->left_crop()
-			     << " right " << c->video->right_crop()
-			     << " top " << c->video->top_crop()
-			     << " bottom " << c->video->bottom_crop() << "\n";
+			     << "\tcrop left " << c->video->requested_left_crop()
+			     << " right " << c->video->requested_right_crop()
+			     << " top " << c->video->requested_top_crop()
+			     << " bottom " << c->video->requested_bottom_crop() << "\n";
 			if (c->video->custom_ratio()) {
 				cout << "\tscale to custom ratio " << *c->video->custom_ratio() << ":1\n";
 			}
