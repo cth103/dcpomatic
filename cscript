@@ -694,12 +694,10 @@ def package_rpm(target, cpu, version, options):
 
     return rpms
 
-def make_appimage(target, nice_name, internal_name, version, extra_bin=None):
+def make_appimage(target, nice_name, internal_name, version):
     nice_filename = nice_name.replace(' ', '_')
     os.makedirs('build/%s.AppDir/usr/bin' % nice_filename)
     target.command('cp %s/bin/%s build/%s.AppDir/usr/bin' % (target.directory, internal_name, nice_filename))
-    if extra_bin:
-        target.command('cp %s/bin/%s build/%s.AppDir/usr/bin' % (target.directory, extra_bin, nice_filename))
     target.command('cp %s/src/openssl/apps/openssl build/%s.AppDir/usr/bin/dcpomatic2_openssl' % (target.directory, nice_filename))
     target.command('cp %s/bin/dcpverify build/%s.AppDir/usr/bin/dcpomatic2_verify' % (target.directory, nice_filename))
     target.command('mkdir -p build/%s.AppDir/usr/share/libdcp' % nice_filename)
@@ -745,7 +743,6 @@ def package(target, version, options):
             out.append(make_appimage(target, 'DCP-o-matic KDM Creator', 'dcpomatic2_kdm', version))
             out.append(make_appimage(target, 'DCP-o-matic Batch Converter', 'dcpomatic2_batch', version))
             out.append(make_appimage(target, 'DCP-o-matic Encode Server', 'dcpomatic2_server', version))
-            out.append(make_appimage(target, 'DCP-o-matic Disk Writer', 'dcpomatic2_disk', version, "dcpomatic2_disk_writer"))
             out.append(make_appimage(target, 'DCP-o-matic Combiner', 'dcpomatic2_combiner', version))
             return out
         else:
