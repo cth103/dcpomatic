@@ -1,6 +1,7 @@
 # DCP-o-matic manual makefile
 
 INKSCAPE = ~/Applications/inkscape
+LIBDCP = ~/src/libdcp
 
 
 all:	html pdf
@@ -104,11 +105,24 @@ SHORTCUTS :=	../../src/tools/dcpomatic.cc
 shortcuts.xml:	$(SHORTCUTS) shortcuts.py
 	python3 shortcuts.py $(SHORTCUTS) > $@
 
+LIBDCP_DEPS = $(LIBDCP)/src/verify_j2k.cc $(LIBDCP)/src/dcp.cc $(LIBDCP)/src/verify.cc
+
+verify_errors.xml:	verifier.py $(LIBDCP_DEPS)
+	python3 verifier.py $(LIBDCP) ERROR > $@
+
+verify_bv21_errors.xml:	verifier.py $(LIBDCP_DEPS)
+	python3 verifier.py $(LIBDCP) BV21_ERROR > $@
+
+verify_warnings.xml:	verifier.py $(LIBDCP_DEPS)
+	python3 verifier.py $(LIBDCP) WARNING > $@
+
+
 #
 # HTML
 #
 
-html:	$(XML) config.xml shortcuts.xml dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
+html:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml verify_warnings.xml \
+	dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(subst .pdf,.png,$(addprefix html/screenshots/,$(SCREENSHOTS))) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
 
@@ -128,7 +142,8 @@ html:	$(XML) config.xml shortcuts.xml dcpomatic-html.xsl extensions-html.ent dcp
 # PDF
 #
 
-pdf:	$(XML) config.xml dcpomatic-pdf.xsl extensions-pdf.ent dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
+pdf:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml verify_warnings.xml \
+	dcpomatic-pdf.xsl extensions-pdf.ent dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(addprefix screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))
 

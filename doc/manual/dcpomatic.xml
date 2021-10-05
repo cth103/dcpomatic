@@ -3741,7 +3741,7 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 </chapter>
 
 <chapter xml:id="ch-player" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
-  <title>Playing and verifying DCPs</title>
+  <title>Playing DCPs</title>
 
   <para>DCP-o-matic includes a DCP player, and although it requires a
   very high-speed CPU to play DCPs in full resolution, it can also
@@ -3767,11 +3767,42 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   resolution.
   </para>
 
+</chapter>
+
+
+<chapter xml:id="ch-verifier" xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
+  <title>Verifying DCPs</title>
+
   <para>
-    The player also offers a simple DCP validator.  To check a DCP,
+    The player also offers a DCP validator.  To check a DCP,
     open it and then select <guilabel>Verify DCP</guilabel> from the
-    <guilabel>Tools</guilabel> menu.  This will run some basic checks to see if the DCP meets the required standards.
+    <guilabel>Tools</guilabel> menu.  This will run various checks on the DCP.
   </para>
+
+  <para>
+    The validator will report three kinds of problems:
+  </para>
+
+  <itemizedlist>
+  <listitem>Errors &mdash; serious problems with the DCP that are likely to cause problems on playback.</listitem>
+  <listitem>Bv2.1 errors &mdash; errors described by the <ulink url="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9161348">SMPTE Bv2.1 standard</ulink>.</listitem>
+  <listitem>Warnings &mdash; small problems that may not matter.</listitem>
+  </itemizedlist>
+
+  <section>
+  <title>Errors</title>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="verify_errors.xml"/>
+  </section>
+
+  <section>
+  <title>Bv2.1 errors</title>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="verify_bv21_errors.xml"/>
+  </section>
+
+  <section>
+  <title>Warnings</title>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="verify_warnings.xml"/>
+  </section>
 
 </chapter>
 
