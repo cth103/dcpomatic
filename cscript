@@ -804,8 +804,8 @@ def make_pot(target):
             os.path.abspath('build/src/tools/dcpomatic.pot')]
 
 def make_manual(target):
+    target.command('make -C doc/manual LIBDCP=../../../libdcp')
     os.chdir('doc/manual')
-    target.command('make')
     target.command('pdflatex colour.tex')
     return [os.path.abspath('pdf'), os.path.abspath('html'), os.path.abspath('colour.pdf')]
 
