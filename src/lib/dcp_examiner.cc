@@ -21,6 +21,7 @@
 
 #include "dcp_examiner.h"
 #include "dcp_content.h"
+#include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "image.h"
 #include "config.h"
@@ -110,6 +111,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_name = cpl->content_title_text ();
 	_content_kind = cpl->content_kind ();
 
+	LOG_GENERAL ("Selected CPL %1", _cpl);
+
 	auto try_to_parse_language = [](optional<string> lang) -> boost::optional<dcp::LanguageTag> {
 		try {
 			if (lang) {
@@ -119,14 +122,20 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		return boost::none;
 	};
 
+	LOG_GENERAL ("Looking at %1 reels", cpl->reels().size());
+
 	for (auto i: cpl->reels()) {
+		LOG_GENERAL ("Reel %1", i->id());
 
 		if (i->main_picture ()) {
 			if (!i->main_picture()->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
+				LOG_GENERAL ("Main picture %1 of reel %2 is missing", i->main_picture()->id(), i->id());
 				return;
 			}
+
+			LOG_GENERAL ("Main picture %1 of reel %2 found", i->main_picture()->id(), i->id());
 
 			auto const frac = i->main_picture()->edit_rate ();
 			float const fr = float(frac.numerator) / frac.denominator;
@@ -151,8 +160,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			if (!i->main_sound()->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
+				LOG_GENERAL ("Main sound %1 of reel %2 is missing", i->main_sound()->id(), i->id());
 				return;
 			}
+
+			LOG_GENERAL ("Main sound %1 of reel %2 found", i->main_sound()->id(), i->id());
 
 			_has_audio = true;
 			auto asset = i->main_sound()->asset();
@@ -177,8 +189,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			if (!i->main_subtitle()->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
+				LOG_GENERAL ("Main subtitle %1 of reel %2 is missing", i->main_subtitle()->id(), i->id());
 				return;
 			}
+
+			LOG_GENERAL ("Main subtitle %1 of reel %2 found", i->main_subtitle()->id(), i->id());
 
 			_text_count[static_cast<int>(TextType::OPEN_SUBTITLE)] = 1;
 			_open_subtitle_language = try_to_parse_language (i->main_subtitle()->language());
@@ -188,8 +203,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			if (!j->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
+				LOG_GENERAL ("Closed caption %1 of reel %2 is missing", j->id(), i->id());
 				return;
 			}
+
+			LOG_GENERAL ("Closed caption %1 of reel %2 found", j->id(), i->id());
 
 			_text_count[static_cast<int>(TextType::CLOSED_CAPTION)]++;
 			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text(), try_to_parse_language(j->language())));
@@ -225,6 +243,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_encrypted = cpl->any_encrypted ();
 	_kdm_valid = true;
 
+	LOG_GENERAL_NC ("Check that everything encrypted has a key");
+
 	/* Check first that anything encrypted has a key.  We must do this, as if we try to
 	 * read encrypted data with asdcplib without even offering a key it will just return
 	 * the encrypted data.  Secondly, check that we can read the first thing from each
@@ -232,6 +252,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	 */
 	try {
 		for (auto i: cpl->reels()) {
+			LOG_GENERAL ("Reel %1", i->id());
 			auto pic = i->main_picture()->asset();
 			if (pic->encrypted() && !pic->key()) {
 				_kdm_valid = false;
