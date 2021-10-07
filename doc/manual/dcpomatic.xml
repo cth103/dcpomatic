@@ -96,12 +96,8 @@ DCP-o-matic will be installed onto your machine.
 </para>
 
 <para>
-If you are using a 32-bit version of Windows, you will need the 32-bit
-installer.  For 64-bit Windows, either installer will work, but I
-suggest you use the 64-bit version as it will allow DCP-o-matic to
-use more memory.  You may find that DCP-o-matic crashes if you run
-many parallel encoding threads (more than 4) on the 32-bit
-version.
+Use the 64-bit installer unless you are using a 32-bit version of Windows.
+You may find that DCP-o-matic crashes if run the 32-bit version on a CPU with more than 4 cores.
 </para>
 
 </section>
@@ -112,8 +108,8 @@ version.
 <title>macOS</title>
 
 <para>
-DCP-o-matic will run on macOS version 10.10 (Yosemite) and
-higher.  DCP-o-matic is split into seven separate applications, each of
+DCP-o-matic versions 2.16.0 and higher will run on macOS version 10.10 (Yosemite) and
+higher.  DCP-o-matic is split into eight separate applications, each of
 which can be installed by downloading the <code>.dmg</code>,
 double-clicking to open and then dragging the icon to your
 <guilabel>Applications</guilabel> folder.
@@ -122,6 +118,10 @@ double-clicking to open and then dragging the icon to your
 <para>
 If you don't know which parts of DCP-o-matic to install, start
 with the first (main) part.
+</para>
+
+<para>
+If you are using macOS 10.9 (Mavericks) or older you will need to install the latest 2.14.x version of DCP-o-matic.
 </para>
 
 </section>
@@ -158,14 +158,11 @@ thanks to Stefan Karner.
 </section>
 
 <section>
-        <title>
-                Building from source
-        </title>
-        <para>
-                Since DCP-o-matic is open-source you can also build it yourself, though this can be quite a difficult process (especially on Windows and macOS).  There are instructions for how to do it on
-        <ulink url="https://dcpomatic.com/development">
-                https://dcpomatic.com/
-        </ulink>
+<title>Building from source</title>
+<para>
+Since DCP-o-matic is open-source you can also build it yourself,
+though this can be quite a difficult process (especially on Windows and macOS).
+There are instructions for how to do it on <ulink url="https://dcpomatic.com/development">https://dcpomatic.com/</ulink>
 </para>
 </section>
 </chapter>
@@ -192,7 +189,7 @@ movie <ulink url="http://sintel.org/">Sintel</ulink> from <ulink
 url="https://download.blender.org/durian/trailer/Sintel_Trailer.480p.DivX_Plus_HD.mkv">their
 website</ulink>.  Generally one would want to use the
 highest-resolution material available, but for this test we will use
-the low-resolution version to save everyone's bandwidth bills.
+the low-resolution version to save on download time.
 </para>
 
 <para>
@@ -420,6 +417,21 @@ Finally, as with video, you can choose <guilabel>Make DCP</guilabel>
 from the <guilabel>Jobs</guilabel> menu to create your DCP.  This will
 be much quicker than creating a DCP from a video file, as DCP-o-matic only needs
 to encode a single frame which it can then repeat.
+</para>
+
+</chapter>
+
+
+<!-- ============================================================== -->
+<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" id="ch-disk-writer">
+<title>Writing DCP drives</title>
+
+<para>
+Once a DCP has been created it must often be transferred to a cinema for playback.  The most reliable way to do this is to write a specially-formatted drive (in the ext2 format) containing your DCP.
+</para>
+
+<para>
+Writing ext2-formatted drives is difficult from macOS and Windows without custom software.  DCP-o-matic includes a tool called the &lsquo;DCP-o-matic Disk Writer&rsquo; which makes it easy.
 </para>
 
 </chapter>
@@ -754,7 +766,7 @@ linkend="sec-prefs-keys"/>).
 
 <!-- ============================================================== -->
 <section>
-<title>Content Properties</title>
+<title>Content properties</title>
 
 <para>
 Below the content list are the controls to set content properties.  To
@@ -2173,7 +2185,7 @@ methods to understand it.
 
 <para>
 We suppose that we are trying to send a DCP to
-Alice's cinema without an attacker called Mallory being able to
+Alice's cinema without a third party called Mallory being able to
 watch it himself.
 </para>
 
@@ -2229,7 +2241,7 @@ certificate so that others can make encrypted DCPs for DCP-o-matic.
 We take our DCP's symmetric key and encrypt it using the public key of
 Alice's projector.  We send the result to Alice over email (using a
 format called a Key Delivery Message, or KDM).  Her projector then
-decrypts our message using its private key, yielding the magic
+decrypts our message using its private key, giving the
 symmetric key which can decrypt the DCP.
 </para>
 
@@ -3774,9 +3786,9 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   <title>Verifying DCPs</title>
 
   <para>
-    The player also offers a DCP validator.  To check a DCP,
+    The player also offers a DCP checker.  To check a DCP,
     open it and then select <guilabel>Verify DCP</guilabel> from the
-    <guilabel>Tools</guilabel> menu.  This will run various checks on the DCP.
+    <guilabel>Tools</guilabel> menu.
   </para>
 
   <para>
