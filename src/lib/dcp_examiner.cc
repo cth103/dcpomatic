@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -17,6 +17,7 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 #include "dcp_examiner.h"
 #include "dcp_content.h"
@@ -48,13 +49,11 @@
 
 #include "i18n.h"
 
-using std::list;
+
 using std::cout;
-using std::runtime_error;
-using std::map;
+using std::dynamic_pointer_cast;
 using std::shared_ptr;
 using std::string;
-using std::dynamic_pointer_cast;
 using boost::optional;
 
 

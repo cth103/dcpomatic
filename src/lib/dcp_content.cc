@@ -18,6 +18,7 @@
 
 */
 
+
 #include "atmos_content.h"
 #include "dcp_content.h"
 #include "video_content.h"
@@ -45,24 +46,23 @@
 
 #include "i18n.h"
 
+
 using std::cout;
-using std::distance;
+using std::dynamic_pointer_cast;
+using std::function;
 using std::list;
 using std::make_shared;
-using std::map;
-using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::vector;
-using boost::scoped_ptr;
 using boost::optional;
-using std::function;
-using std::dynamic_pointer_cast;
+using boost::scoped_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 int const DCPContentProperty::NEEDS_ASSETS       = 600;
 int const DCPContentProperty::NEEDS_KDM          = 601;
@@ -72,6 +72,7 @@ int const DCPContentProperty::REFERENCE_TEXT     = 604;
 int const DCPContentProperty::NAME               = 605;
 int const DCPContentProperty::TEXTS              = 606;
 int const DCPContentProperty::CPL                = 607;
+
 
 DCPContent::DCPContent (boost::filesystem::path p)
 	: _encrypted (false)
