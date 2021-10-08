@@ -45,6 +45,7 @@ public:
 		, data(data_)
 	{}
 
+	/** <LoadFont> ID */
 	std::string id;
 	boost::optional<dcp::ArrayData> data;
 };
