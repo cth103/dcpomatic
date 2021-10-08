@@ -36,7 +36,6 @@ using std::min;
 using std::max;
 using std::shared_ptr;
 using boost::optional;
-using std::function;
 using namespace dcpomatic;
 
 

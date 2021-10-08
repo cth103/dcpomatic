@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "string_text_file_decoder.h"
 #include "string_text_file_content.h"
 #include "text_content.h"
@@ -25,15 +26,14 @@
 #include <dcp/subtitle_string.h>
 #include <iostream>
 
-using std::list;
-using std::vector;
-using std::string;
+
 using std::cout;
-using std::max;
+using std::make_shared;
 using std::shared_ptr;
-using boost::optional;
-using std::dynamic_pointer_cast;
+using std::string;
+using std::vector;
 using namespace dcpomatic;
+
 
 StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const Film> film, shared_ptr<const StringTextFileContent> content)
 	: Decoder (film)
@@ -44,8 +44,9 @@ StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const Film> film, share
 	if (!_subtitles.empty()) {
 		first = content_time_period(_subtitles[0]).from;
 	}
-	text.push_back (shared_ptr<TextDecoder> (new TextDecoder (this, content->only_text(), first)));
+	text.push_back (make_shared<TextDecoder>(this, content->only_text(), first));
 }
+
 
 void
 StringTextFileDecoder::seek (ContentTime time, bool accurate)
@@ -66,6 +67,7 @@ StringTextFileDecoder::seek (ContentTime time, bool accurate)
 	}
 }
 
+
 bool
 StringTextFileDecoder::pass ()
 {
@@ -79,6 +81,7 @@ StringTextFileDecoder::pass ()
 	++_next;
 	return false;
 }
+
 
 ContentTimePeriod
 StringTextFileDecoder::content_time_period (sub::Subtitle s) const

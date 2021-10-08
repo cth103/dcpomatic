@@ -28,13 +28,11 @@
 
 using std::cout;
 using std::list;
-using std::map;
 using std::string;
 using std::vector;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using std::make_shared;
-using boost::bind;
 using namespace dcpomatic;
 
 
