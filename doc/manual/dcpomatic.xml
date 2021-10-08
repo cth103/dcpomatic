@@ -2139,7 +2139,15 @@ from the timeline is also preserved.
   <para>
     From this dialogue you can select the required output format,
     output file and, in the case of MP4, the quality of the output
-    file.  Higher quality files will, of course, be larger.
+    file (by setting the <ulink url="https://trac.ffmpeg.org/wiki/Encode/H.264#crf">CRF value</ulink>).
+  </para>
+
+  <para>
+    The useful range of CRF values is from 17 (high quality but large file size) to 28 (smaller file size and still reasonable quality).
+  </para>
+
+  <para>
+    The time needed to export, and the resulting size, depend partly on the DCP resolution set in the project.  To change that, see chapter <xref linkend="ch-dcp"/>.
   </para>
 
   <para>
@@ -3786,20 +3794,24 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   <title>Verifying DCPs</title>
 
   <para>
-    The player also offers a DCP checker.  To check a DCP,
+    The player also offers a DCP verifier.  To check a DCP,
     open it and then select <guilabel>Verify DCP</guilabel> from the
     <guilabel>Tools</guilabel> menu.
   </para>
 
   <para>
-    The validator will report three kinds of problems:
+    The verifier will report three kinds of problems:
   </para>
 
   <itemizedlist>
-  <listitem>Errors &mdash; serious problems with the DCP that are likely to cause problems on playback.</listitem>
-  <listitem>Bv2.1 errors &mdash; errors described by the <ulink url="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9161348">SMPTE Bv2.1 standard</ulink>.</listitem>
-  <listitem>Warnings &mdash; small problems that may not matter.</listitem>
+  <listitem><emphasis>Errors</emphasis> &mdash; serious problems with the DCP that are likely to cause problems on playback.</listitem>
+  <listitem><emphasis>Bv2.1 errors</emphasis> &mdash; errors described by the <ulink url="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9161348">SMPTE Bv2.1 standard</ulink>.</listitem>
+  <listitem><emphasis>Warnings</emphasis> &mdash; small problems that may not matter.</listitem>
   </itemizedlist>
+
+  <para>
+    The following sections list what the verifier checks for in each category.
+  </para>
 
   <section>
   <title>Errors</title>
