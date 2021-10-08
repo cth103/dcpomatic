@@ -35,6 +35,8 @@ except ImportError:
 from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
+libdcp_version = '1.8.2'
+libsub_version = '1.6.2'
 
 this_version = subprocess.Popen(shlex.split('git tag -l --points-at HEAD'), stdout=subprocess.PIPE).communicate()[0]
 last_version = subprocess.Popen(shlex.split('git describe --tags --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
@@ -302,21 +304,21 @@ def configure(conf):
 
     # libdcp
     if conf.options.static_dcp:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.8.1', args='--cflags', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version=libdcp_version, args='--cflags', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-carl', 'kumu-carl', 'openjp2']
         conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c']
     else:
-        conf.check_cfg(package='libdcp-1.0', atleast_version='1.8.1', args='--cflags --libs', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', atleast_version=libdcp_version, args='--cflags --libs', uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
     # libsub
     if conf.options.static_sub:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.6.1', args='--cflags', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version=libsub_version, args='--cflags', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
         conf.env.STLIB_SUB = ['sub-1.0']
     else:
-        conf.check_cfg(package='libsub-1.0', atleast_version='1.6.1', args='--cflags --libs', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', atleast_version=libsub_version, args='--cflags --libs', uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
     # libxml++
