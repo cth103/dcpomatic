@@ -21,6 +21,8 @@
 
 #include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
+#include "font.h"
+#include "text_content.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/load_font_node.h>
 #include <iostream>
@@ -39,7 +41,8 @@ using namespace dcpomatic;
 DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<const DCPSubtitleContent> content)
 	: Decoder (film)
 {
-	auto c = load (content->path(0));
+	/* Load the XML or MXF file */
+	shared_ptr<dcp::SubtitleAsset> const c = load (content->path(0));
 	c->fix_empty_font_ids ();
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
@@ -50,14 +53,39 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	}
 	text.push_back (make_shared<TextDecoder>(this, content->only_text(), first));
 
-	auto fm = c->font_data();
-	for (auto const& i: fm) {
-		_fonts.push_back (FontData(i.first, i.second));
-	}
+	/* The fonts that are included in content's file; if it's interop there will be none
+	 * (as the fonts are held in separate assets).
+	 */
+	auto fonts_in_asset = c->font_data();
 
-	/* Add a default font for any LoadFont nodes in our file which we haven't yet found fonts for */
+	/* Fonts specified in the TextContent */
+	list<shared_ptr<dcpomatic::Font>> fonts_in_content;
+	for (auto i: content->text) {
+		auto this_fonts = i->fonts();
+		std::copy(this_fonts.begin(), this_fonts.end(), std::back_inserter(fonts_in_content));
+	}
+	fonts_in_content.sort();
+	fonts_in_content.unique();
+
+	/* Find a font for each <LoadFont> Node */
 	for (auto i: c->load_font_nodes()) {
-		if (fm.find(i->id) == fm.end()) {
+		bool done = false;
+		for (auto j: fonts_in_content) {
+			if (j->id() == i->id && j->file()) {
+				// One was specified in the content
+				_fonts.push_back (FontData(i->id, dcp::ArrayData(*j->file())));
+				done = true;
+			}
+		}
+		if (!done) {
+			if (fonts_in_asset.find(i->id) != fonts_in_asset.end()) {
+				// One was included in the subtitle file
+				_fonts.push_back (FontData(i->id, fonts_in_asset[i->id]));
+				done = true;
+			}
+		}
+		if (!done) {
+			// Give up and add a default
 			_fonts.push_back (FontData(i->id, dcp::ArrayData(default_font_file())));
 		}
 	}

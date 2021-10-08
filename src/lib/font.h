@@ -41,6 +41,11 @@ public:
 
 	explicit Font (cxml::NodePtr node);
 
+	Font (std::string id, boost::filesystem::path file)
+		: _id (id)
+		, _file (file)
+	{}
+
 	void as_xml (xmlpp::Node* node);
 
 	std::string id () const {

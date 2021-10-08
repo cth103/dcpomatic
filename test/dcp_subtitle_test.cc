@@ -228,3 +228,19 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
 
 	check_font_tags (doc.node_children());
 }
+
+
+/** Check that fonts specified in the DoM content are used in the output and not ignored (#2074) */
+BOOST_AUTO_TEST_CASE (test_font_override)
+{
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub4.xml");
+	auto film = new_test_film2("test_font_override", {content});
+	film->set_interop(true);
+
+	BOOST_REQUIRE_EQUAL(content->text.size(), 1U);
+	content->text.front()->add_font(make_shared<dcpomatic::Font>("theFontId", "test/data/Inconsolata-VF.ttf"));
+
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
+	check_file (subtitle_file(film).parent_path() / "font_0.ttf", "test/data/Inconsolata-VF.ttf");
+}
+
