@@ -131,7 +131,12 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test)
 
 	check_xml (dir / "config.xml", "test/data/2.14.config.xml", {});
 	check_xml (dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
+#ifdef DCPOMATIC_WINDOWS
+	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
+	check_xml (dir / "2.16" / "config.xml", "test/data/2.16.config.windows.xml", {});
+#else
 	check_xml (dir / "2.16" / "config.xml", "test/data/2.16.config.xml", {});
+#endif
 	/* cinemas.xml is not copied into 2.16 as its format has not changed */
 	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.16" / "cinemas.xml"));
 
