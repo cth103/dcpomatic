@@ -95,6 +95,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 	dcpomatic_sleep_seconds	(1);
 
 	thread.interrupt ();
+	thread.join ();
 
 	dcpomatic_sleep_seconds (1);
 	cl.run ();
