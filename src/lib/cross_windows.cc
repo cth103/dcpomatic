@@ -355,10 +355,9 @@ static string
 wchar_to_utf8 (wchar_t const * s)
 {
 	int const length = (wcslen(s) + 1) * 2;
-	char* utf8 = new char[length];
-	WideCharToMultiByte (CP_UTF8, 0, s, -1, utf8, length, 0, 0);
+	std::vector<char> utf8(length);
+	WideCharToMultiByte (CP_UTF8, 0, s, -1, utf8.data(), length, 0, 0);
 	string u (utf8);
-	delete[] utf8;
 	return u;
 }
 

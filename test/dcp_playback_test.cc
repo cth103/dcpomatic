@@ -55,15 +55,14 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		false
 		);
 
-	auto audio_buffer = new float[2000 * 6];
+	std::vector<float> audio_buffer(2000 * 6);
 	while (true) {
 		auto p = butler->get_video (true, 0);
 		if (!p.first) {
 			break;
 		}
 		/* assuming DCP is 24fps/48kHz */
-		butler->get_audio (audio_buffer, 2000);
+		butler->get_audio (audio_buffer.data(), 2000);
 		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 	}
-	delete[] audio_buffer;
 }

@@ -37,20 +37,18 @@ run (string cmd)
 	boost::escaped_list_separator<char> els ("", " ", "\"\'");
 	boost::tokenizer<boost::escaped_list_separator<char> > tok (cmd, els);
 
-	char** argv = new char*[256];
+	std::vector<char*> argv(256);
 	int argc = 0;
 
 	for (boost::tokenizer<boost::escaped_list_separator<char> >::iterator i = tok.begin(); i != tok.end(); ++i) {
 		argv[argc++] = strdup (i->c_str());
 	}
 
-	CreateCLI cc (argc, argv);
+	CreateCLI cc (argc, argv.data());
 
 	for (int i = 0; i < argc; ++i) {
 		free (argv[i]);
 	}
-
-	delete[] argv;
 
 	return cc;
 }

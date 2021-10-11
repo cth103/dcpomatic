@@ -106,7 +106,7 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 		throw CopyError (String::compose("Failed to open file %1", from.string()), 0);
 	}
 
-	uint8_t* buffer = new uint8_t[block_size];
+	std::vector<uint8_t> buffer(block_size);
 	Digester digester;
 
 	int progress_frequency = 1;
@@ -114,28 +114,25 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 	uint64_t remaining = file_size (from);
 	while (remaining > 0) {
 		uint64_t const this_time = min(remaining, block_size);
-		size_t read = fread (buffer, 1, this_time, in);
+		size_t read = fread (buffer.data(), 1, this_time, in);
 		if (read != this_time) {
 			fclose (in);
 			ext4_fclose (&out);
-			delete[] buffer;
 			throw CopyError (String::compose("Short read; expected %1 but read %2", this_time, read), 0);
 		}
 
-		digester.add (buffer, this_time);
+		digester.add (buffer.data(), this_time);
 
 		size_t written;
-		r = ext4_fwrite (&out, buffer, this_time, &written);
+		r = ext4_fwrite (&out, buffer.data(), this_time, &written);
 		if (r != EOK) {
 			fclose (in);
 			ext4_fclose (&out);
-			delete[] buffer;
 			throw CopyError ("Write failed", r);
 		}
 		if (written != this_time) {
 			fclose (in);
 			ext4_fclose (&out);
-			delete[] buffer;
 			throw CopyError (String::compose("Short write; expected %1 but wrote %2", this_time, written), 0);
 		}
 		remaining -= this_time;
@@ -149,7 +146,6 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 
 	fclose (in);
 	ext4_fclose (&out);
-	delete[] buffer;
 
 	return digester.get ();
 }
@@ -167,21 +163,20 @@ read (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 	}
 	LOG_DISK("Opened %1 for read", to.generic_string());
 
-	uint8_t* buffer = new uint8_t[block_size];
+	std::vector<uint8_t> buffer(block_size);
 	Digester digester;
 
 	uint64_t remaining = file_size (from);
 	while (remaining > 0) {
 		uint64_t const this_time = min(remaining, block_size);
 		size_t read;
-		r = ext4_fread (&in, buffer, this_time, &read);
+		r = ext4_fread (&in, buffer.data(), this_time, &read);
 		if (read != this_time) {
 			ext4_fclose (&in);
-			delete[] buffer;
 			throw VerifyError (String::compose("Short read; expected %1 but read %2", this_time, read), 0);
 		}
 
-		digester.add (buffer, this_time);
+		digester.add (buffer.data(), this_time);
 		remaining -= this_time;
 		total_remaining -= this_time;
 		if (nanomsg) {
@@ -190,7 +185,6 @@ read (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 	}
 
 	ext4_fclose (&in);
-	delete[] buffer;
 
 	return digester.get ();
 }

@@ -212,7 +212,7 @@ public:
 
 		_stress.setup (this, _controls);
 
-		wxAcceleratorEntry* accel = new wxAcceleratorEntry[accelerators];
+		std::vector<wxAcceleratorEntry> accel(accelerators);
 		accel[0].Set(wxACCEL_NORMAL,                WXK_SPACE, ID_start_stop);
 		accel[1].Set(wxACCEL_NORMAL,                WXK_LEFT,  ID_go_back_frame);
 		accel[2].Set(wxACCEL_NORMAL,                WXK_RIGHT, ID_go_forward_frame);
@@ -227,9 +227,8 @@ public:
 #ifdef __WXOSX__
 		accel[11].Set(wxACCEL_CTRL, static_cast<int>('W'), ID_file_close);
 #endif
-		wxAcceleratorTable accel_table (accelerators, accel);
+		wxAcceleratorTable accel_table (accelerators, accel.data());
 		SetAcceleratorTable (accel_table);
-		delete[] accel;
 
 		Bind (wxEVT_MENU, boost::bind(&DOMFrame::start_stop_pressed, this), ID_start_stop);
 		Bind (wxEVT_MENU, boost::bind(&DOMFrame::go_back_frame, this),      ID_go_back_frame);
