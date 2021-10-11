@@ -57,7 +57,7 @@ write_callback_wrapper (void* data, size_t size, size_t nmemb, void* user)
  *  do the work.
  */
 UpdateChecker::UpdateChecker ()
-	: _buffer (new char[BUFFER_SIZE])
+	: _buffer (BUFFER_SIZE)
 	, _state (State::NOT_RUN)
 {
 	_curl = curl_easy_init ();
@@ -97,7 +97,6 @@ UpdateChecker::~UpdateChecker ()
 	} catch (...) {}
 
 	curl_easy_cleanup (_curl);
-	delete[] _buffer;
 }
 
 
@@ -142,7 +141,7 @@ UpdateChecker::thread ()
 			/* Parse the reply */
 
 			_buffer[_offset] = '\0';
-			string s (_buffer);
+			string s (_buffer.data());
 			cxml::Document doc ("Update");
 			doc.read_string (s);
 
@@ -181,7 +180,7 @@ size_t
 UpdateChecker::write_callback (void* data, size_t size, size_t nmemb)
 {
 	size_t const t = min (size * nmemb, size_t (BUFFER_SIZE - _offset - 1));
-	memcpy (_buffer + _offset, data, t);
+	memcpy (_buffer.data() + _offset, data, t);
 	_offset += t;
 	return t;
 }

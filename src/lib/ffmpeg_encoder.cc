@@ -161,7 +161,7 @@ FFmpegEncoder::go ()
 
 	auto const video_frame = DCPTime::from_frames (1, _film->video_frame_rate ());
 	int const audio_frames = video_frame.frames_round(_film->audio_frame_rate());
-	float* interleaved = new float[_output_audio_channels * audio_frames];
+	std::vector<float> interleaved(_output_audio_channels * audio_frames);
 	auto deinterleaved = make_shared<AudioBuffers>(_output_audio_channels, audio_frames);
 	int const gets_per_frame = _film->three_d() ? 2 : 1;
 	for (DCPTime i; i < _film->length(); i += video_frame) {
@@ -204,9 +204,9 @@ FFmpegEncoder::go ()
 
 		waker.nudge ();
 
-		_butler->get_audio (Butler::Behaviour::BLOCKING, interleaved, audio_frames);
+		_butler->get_audio (Butler::Behaviour::BLOCKING, interleaved.data(), audio_frames);
 		/* XXX: inefficient; butler interleaves and we deinterleave again */
-		float* p = interleaved;
+		float* p = interleaved.data();
 		for (int j = 0; j < audio_frames; ++j) {
 			for (int k = 0; k < _output_audio_channels; ++k) {
 				deinterleaved->data(k)[j] = *p++;
@@ -214,7 +214,6 @@ FFmpegEncoder::go ()
 		}
 		encoder->audio (deinterleaved);
 	}
-	delete[] interleaved;
 
 	for (auto i: file_encoders) {
 		i.flush ();

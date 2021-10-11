@@ -43,7 +43,7 @@ class TestServer : public Server
 public:
 	TestServer (bool digest)
 		: Server (TEST_SERVER_PORT, 30)
-		, _buffer (new uint8_t[TEST_SERVER_BUFFER_LENGTH])
+		, _buffer (TEST_SERVER_BUFFER_LENGTH)
 		, _size (0)
 		, _result (false)
 		, _digest (digest)
@@ -58,7 +58,6 @@ public:
 		try {
 			_thread.join ();
 		} catch (...) {}
-		delete[] _buffer;
 	}
 
 	void expect (int size)
@@ -68,7 +67,7 @@ public:
 	}
 
 	uint8_t const * buffer() const {
-		return _buffer;
+		return _buffer.data();
 	}
 
 	void await ()
@@ -90,12 +89,12 @@ private:
 		BOOST_REQUIRE (_size);
 		if (_digest) {
 			Socket::ReadDigestScope ds (socket);
-			socket->read (_buffer, _size);
+			socket->read (_buffer.data(), _size);
 			_size = 0;
 			_condition.notify_one ();
 			_result = ds.check();
 		} else {
-			socket->read (_buffer, _size);
+			socket->read (_buffer.data(), _size);
 			_size = 0;
 			_condition.notify_one ();
 		}
@@ -104,7 +103,7 @@ private:
 	boost::thread _thread;
 	boost::mutex _mutex;
 	boost::condition _condition;
-	uint8_t* _buffer;
+	std::vector<uint8_t> _buffer;
 	int _size;
 	bool _result;
 	bool _digest;

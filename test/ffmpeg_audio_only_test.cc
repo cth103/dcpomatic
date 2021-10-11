@@ -48,17 +48,16 @@ using namespace boost::placeholders;
 
 
 static SNDFILE* ref = nullptr;
-static int ref_buffer_size = 0;
-static float* ref_buffer = nullptr;
+static std::vector<float> ref_buffer;
 
 
 static void
 audio (std::shared_ptr<AudioBuffers> audio, int channels)
 {
 	/* Check that we have a big enough buffer */
-	BOOST_CHECK (audio->frames() * audio->channels() < ref_buffer_size);
+	BOOST_CHECK (audio->frames() * audio->channels() < static_cast<int>(ref_buffer.size()));
 
-	int const N = sf_readf_float (ref, ref_buffer, audio->frames());
+	int const N = sf_readf_float (ref, ref_buffer.data(), audio->frames());
 	for (int i = 0; i < N; ++i) {
 		switch (channels) {
 		case 1:
@@ -98,8 +97,7 @@ test (boost::filesystem::path file)
 	ref = sf_open (file.string().c_str(), SFM_READ, &info);
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
-	ref_buffer_size = info.samplerate * info.channels;
-	ref_buffer = new float[ref_buffer_size];
+	ref_buffer.resize(info.samplerate * info.channels);
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 
@@ -107,7 +105,6 @@ test (boost::filesystem::path file)
 	while (!player->pass ()) {}
 
 	sf_close (ref);
-	delete[] ref_buffer;
 
 	return film;
 }
@@ -126,21 +123,19 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test1)
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 
-	auto buffer = new int16_t[info.channels * 2000];
+	std::vector<int16_t> buffer(info.channels * 2000);
 
 	dcp::SoundAsset asset (dcp_file(film, "pcm"));
 	auto reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
 		auto frame = reader->get_frame(i);
 		sf_count_t this_time = min (info.frames, sf_count_t(2000));
-		sf_readf_short (ref, buffer, this_time);
+		sf_readf_short (ref, buffer.data(), this_time);
 		for (int j = 0; j < this_time; ++j) {
 			BOOST_REQUIRE_EQUAL (frame->get(2, j) >> 8, buffer[j]);
 		}
 		info.frames -= this_time;
 	}
-
-	delete[] buffer;
 }
 
 
@@ -157,14 +152,14 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 
-	auto buffer = new int32_t[info.channels * 2000];
+	std::vector<int32_t> buffer(info.channels * 2000);
 
 	dcp::SoundAsset asset (dcp_file(film, "pcm"));
 	auto reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
 		auto frame = reader->get_frame(i);
 		sf_count_t this_time = min (info.frames, sf_count_t(2000));
-		sf_readf_int (ref, buffer, this_time);
+		sf_readf_int (ref, buffer.data(), this_time);
 		for (int j = 0; j < this_time; ++j) {
 			int32_t s = frame->get(2, j);
 			if (s > (1 << 23)) {
@@ -174,8 +169,6 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test2)
 		}
 		info.frames -= this_time;
 	}
-
-	delete[] buffer;
 }
 
 
@@ -192,14 +185,14 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
 	/* We don't want to test anything that requires resampling */
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 
-	auto buffer = new int32_t[info.channels * 2000];
+	std::vector<int32_t> buffer(info.channels * 2000);
 
 	dcp::SoundAsset asset (dcp_file(film, "pcm"));
 	auto reader = asset.start_read ();
 	for (int i = 0; i < asset.intrinsic_duration(); ++i) {
 		auto frame = reader->get_frame(i);
 		sf_count_t this_time = min (info.frames, sf_count_t(2000));
-		sf_readf_int (ref, buffer, this_time);
+		sf_readf_int (ref, buffer.data(), this_time);
 		for (int j = 0; j < this_time; ++j) {
 			int32_t s = frame->get(2, j);
 			if (s > (1 << 23)) {
@@ -209,6 +202,4 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_only_test3)
 		}
 		info.frames -= this_time;
 	}
-
-	delete[] buffer;
 }

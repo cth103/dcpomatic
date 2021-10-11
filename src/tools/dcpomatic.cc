@@ -389,7 +389,7 @@ public:
 #else
 		int accelerators = 6;
 #endif
-		auto accel = new wxAcceleratorEntry[accelerators];
+		std::vector<wxAcceleratorEntry> accel(accelerators);
 		/* [Shortcut] Ctrl+A:Add file(s) to the film */
 		accel[0].Set (wxACCEL_CTRL, static_cast<int>('A'), ID_add_file);
 		/* [Shortcut] Delete:Remove selected content from film */
@@ -411,9 +411,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::timeline_pressed, this), ID_timeline);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::back_frame, this), ID_back_frame);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::forward_frame, this), ID_forward_frame);
-		wxAcceleratorTable accel_table (accelerators, accel);
+		wxAcceleratorTable accel_table (accelerators, accel.data());
 		SetAcceleratorTable (accel_table);
-		delete[] accel;
 	}
 
 	void remove_accelerators ()

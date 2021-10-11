@@ -468,28 +468,25 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 	BOOST_CHECK (check_file);
 
 	int const buffer_size = 65536;
-	uint8_t* ref_buffer = new uint8_t[buffer_size];
-	uint8_t* check_buffer = new uint8_t[buffer_size];
+	std::vector<uint8_t> ref_buffer(buffer_size);
+	std::vector<uint8_t> check_buffer(buffer_size);
 
 	string error = "File " + check.string() + " differs from reference " + ref.string();
 
 	while (N) {
 		uintmax_t this_time = min (uintmax_t (buffer_size), N);
-		size_t r = fread (ref_buffer, 1, this_time, ref_file);
+		size_t r = fread (ref_buffer.data(), 1, this_time, ref_file);
 		BOOST_CHECK_EQUAL (r, this_time);
-		r = fread (check_buffer, 1, this_time, check_file);
+		r = fread (check_buffer.data(), 1, this_time, check_file);
 		BOOST_CHECK_EQUAL (r, this_time);
 
-		BOOST_CHECK_MESSAGE (memcmp (ref_buffer, check_buffer, this_time) == 0, error);
-		if (memcmp (ref_buffer, check_buffer, this_time)) {
+		BOOST_CHECK_MESSAGE (memcmp(ref_buffer.data(), check_buffer.data(), this_time) == 0, error);
+		if (memcmp(ref_buffer.data(), check_buffer.data(), this_time)) {
 			break;
 		}
 
 		N -= this_time;
 	}
-
-	delete[] ref_buffer;
-	delete[] check_buffer;
 
 	fclose (ref_file);
 	fclose (check_file);
@@ -511,17 +508,14 @@ check_text_file (boost::filesystem::path ref, boost::filesystem::path check)
 
 	DCPOMATIC_ASSERT (buffer_size < 1024 * 1024);
 
-	auto ref_buffer = new uint8_t[buffer_size];
-	auto ref_read = fread(ref_buffer, 1, buffer_size, ref_file);
-	auto check_buffer = new uint8_t[buffer_size];
-	auto check_read = fread(check_buffer, 1, buffer_size, check_file);
+	std::vector<uint8_t> ref_buffer(buffer_size);
+	auto ref_read = fread(ref_buffer.data(), 1, buffer_size, ref_file);
+	std::vector<uint8_t> check_buffer(buffer_size);
+	auto check_read = fread(check_buffer.data(), 1, buffer_size, check_file);
 	BOOST_CHECK_EQUAL (ref_read, check_read);
 
 	string const error = "File " + check.string() + " differs from reference " + ref.string();
-	BOOST_CHECK_MESSAGE(memcmp(ref_buffer, check_buffer, ref_read) == 0, error);
-
-	delete[] ref_buffer;
-	delete[] check_buffer;
+	BOOST_CHECK_MESSAGE(memcmp(ref_buffer.data(), check_buffer.data(), ref_read) == 0, error);
 
 	fclose (ref_file);
 	fclose (check_file);

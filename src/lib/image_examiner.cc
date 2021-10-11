@@ -55,16 +55,14 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 		if (!f) {
 			throw FileError ("Could not open file for reading", path);
 		}
-		auto buffer = new uint8_t[size];
-		checked_fread (buffer, size, f, path);
+		std::vector<uint8_t> buffer(size);
+		checked_fread (buffer.data(), size, f, path);
 		fclose (f);
 		try {
-			_video_size = dcp::decompress_j2k (buffer, size, 0)->size ();
+			_video_size = dcp::decompress_j2k(buffer.data(), size, 0)->size();
 		} catch (dcp::ReadError& e) {
-			delete[] buffer;
 			throw DecodeError (String::compose (_("Could not decode JPEG2000 file %1 (%2)"), path, e.what ()));
 		}
-		delete[] buffer;
 	} else {
 		FFmpegImageProxy proxy(content->path(0));
 		_video_size = proxy.image(Image::Alignment::COMPACT).image->size();

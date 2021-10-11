@@ -89,7 +89,7 @@ private:
 	void set_state (State);
 	void thread ();
 
-	char* _buffer;
+	std::vector<char> _buffer;
 	int _offset = 0;
 	CURL* _curl = nullptr;
 

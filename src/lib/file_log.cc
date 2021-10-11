@@ -87,23 +87,22 @@ FileLog::head_and_tail (int amount) const
 
 	string out;
 
-	auto buffer = new char[max(head_amount, tail_amount) + 1];
+	std::vector<char> buffer(max(head_amount, tail_amount) + 1);
 
-	int N = fread (buffer, 1, head_amount, f);
+	int N = fread (buffer.data(), 1, head_amount, f);
 	buffer[N] = '\0';
-	out += string (buffer);
+	out += string (buffer.data());
 
 	if (tail_amount > 0) {
 		out +=  "\n .\n .\n .\n";
 
 		fseek (f, - tail_amount - 1, SEEK_END);
 
-		N = fread (buffer, 1, tail_amount, f);
+		N = fread (buffer.data(), 1, tail_amount, f);
 		buffer[N] = '\0';
-		out += string (buffer) + "\n";
+		out += string (buffer.data()) + "\n";
 	}
 
-	delete[] buffer;
 	fclose (f);
 
 	return out;

@@ -408,10 +408,9 @@ GLVideoView::setup_shaders ()
 			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &log_length);
 			string log;
 			if (log_length > 0) {
-				char* log_char = new char[log_length];
-				glGetShaderInfoLog(shader, log_length, nullptr, log_char);
-				log = string(log_char);
-				delete[] log_char;
+				std::vector<char> log_char(log_length);
+				glGetShaderInfoLog(shader, log_length, nullptr, log_char.data());
+				log = string(log_char.data());
 			}
 			glDeleteShader(shader);
 			throw GLError(String::compose("Could not compile shader (%1)", log).c_str(), -1);
@@ -437,10 +436,9 @@ GLVideoView::setup_shaders ()
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &log_length);
 		string log;
 		if (log_length > 0) {
-			char* log_char = new char[log_length];
-			glGetProgramInfoLog(program, log_length, nullptr, log_char);
-			log = string(log_char);
-			delete[] log_char;
+			std::vector<char> log_char(log_length);
+			glGetProgramInfoLog(program, log_length, nullptr, log_char.data());
+			log = string(log_char.data());
 		}
 		glDeleteProgram (program);
 		throw GLError(String::compose("Could not link shader (%1)", log).c_str(), -1);
