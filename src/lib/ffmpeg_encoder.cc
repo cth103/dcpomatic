@@ -178,12 +178,15 @@ FFmpegEncoder::go ()
 			Butler::Error e;
 			auto v = _butler->get_video (true, &e);
 			_butler->rethrow ();
-			if (!v.first) {
-				throw DecodeError(String::compose("Error during decoding: %1", e.summary()));
-			}
-			auto fe = encoder->get (v.first->eyes());
-			if (fe) {
-				fe->video(v.first, v.second - reel->from);
+			if (v.first) {
+				auto fe = encoder->get (v.first->eyes());
+				if (fe) {
+					fe->video(v.first, v.second - reel->from);
+				}
+			} else {
+				if (e.code != Butler::Error::Code::FINISHED) {
+					throw DecodeError(String::compose("Error during decoding: %1", e.summary()));
+				}
 			}
 		}
 

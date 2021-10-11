@@ -40,7 +40,6 @@
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
-using boost::optional;
 using namespace dcpomatic;
 
 
@@ -453,5 +452,17 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 
 	check ("build/test/ffmpeg_encoder_h264_with_reels_reel1.mov");
 	check ("build/test/ffmpeg_encoder_h264_with_reels_reel2.mov");
+}
+
+
+/** Regression test for "Error during decoding: Butler finished" (#2097) */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
+{
+	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv").front();
+	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_1", { content });
+
+	auto job = make_shared<TranscodeJob>(film);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES, false, true, false, 23);
+	encoder.go ();
 }
 
