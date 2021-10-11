@@ -59,18 +59,14 @@ public:
 
 	class Error {
 	public:
-		enum Code{
+		enum class Code {
 			NONE,
 			AGAIN,
 			DIED,
 			FINISHED
 		};
 
-		Error()
-			: code (NONE)
-		{}
-
-		Code code;
+		Code code = Code::NONE;
 		std::string message;
 
 		std::string summary () const;
