@@ -250,10 +250,10 @@ Butler::get_video (bool blocking, Error* e)
 	auto setup_error = [this](Error* e, Error::Code fallback) {
 		if (e) {
 			if (_died) {
-				e->code = Error::DIED;
+				e->code = Error::Code::DIED;
 				e->message = _died_message;
 			} else if (_finished) {
-				e->code = Error::FINISHED;
+				e->code = Error::Code::FINISHED;
 			} else {
 				e->code = fallback;
 			}
@@ -261,7 +261,7 @@ Butler::get_video (bool blocking, Error* e)
 	};
 
 	if (_video.empty() && (_finished || _died || (_suspended && !blocking))) {
-		setup_error (e, Error::AGAIN);
+		setup_error (e, Error::Code::AGAIN);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
@@ -271,7 +271,7 @@ Butler::get_video (bool blocking, Error* e)
 	}
 
 	if (_video.empty()) {
-		setup_error (e, Error::NONE);
+		setup_error (e, Error::Code::NONE);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}
 
@@ -467,13 +467,13 @@ Butler::Error::summary () const
 {
 	switch (code)
 	{
-		case Error::NONE:
+		case Error::Code::NONE:
 			return "No error registered";
-		case Error::AGAIN:
+		case Error::Code::AGAIN:
 			return "Butler not ready";
-		case Error::DIED:
+		case Error::Code::DIED:
 			return String::compose("Butler died (%1)", message);
-		case Error::FINISHED:
+		case Error::Code::FINISHED:
 			return "Butler finished";
 	}
 
