@@ -21,6 +21,7 @@
 
 #include "lib/audio_content.h"
 #include "lib/compose.hpp"
+#include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
@@ -464,5 +465,22 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
 	auto job = make_shared<TranscodeJob>(film);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES, false, true, false, 23);
 	encoder.go ();
+}
+
+
+/** Regression test for Butler video buffers reached 480 frames (audio is 0) (#2101) */
+BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
+{
+	auto logs = Config::instance()->log_types();
+	Config::instance()->set_log_types(logs | LogEntry::TYPE_DEBUG_PLAYER);
+
+	auto content = content_factory(TestPaths::private_data() / "tge_clip.mkv").front();
+	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_2", { content });
+
+	auto job = make_shared<TranscodeJob>(film);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_2.mov", ExportFormat::PRORES, false, true, false, 23);
+	encoder.go ();
+
+	Config::instance()->set_log_types(logs);
 }
 
