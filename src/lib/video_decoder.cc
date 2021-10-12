@@ -32,14 +32,9 @@
 #include "i18n.h"
 
 
-using std::back_inserter;
 using std::cout;
 using std::dynamic_pointer_cast;
-using std::list;
-using std::make_shared;
-using std::max;
 using std::shared_ptr;
-using boost::optional;
 using namespace dcpomatic;
 
 
