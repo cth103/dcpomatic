@@ -1874,7 +1874,7 @@ unused channel will be filled with silence.
 
 <para>
 The <guilabel>Processor</guilabel> control allows you to select a
-process to apply to the audio before it goes into the DCP.  Three processes are currently provided:
+process to apply to the audio before it goes into the DCP.  One process is currently provided:
 </para>
 
 <itemizedlist>
@@ -1884,31 +1884,7 @@ stereo input and extract the common part (corresponding to the
 The remaining L/R parts will be kept in the L/R channels of the DCP.
 This may be useful to make near-field L/R mixes more compatible with
 cinema audio systems.</listitem>
-<listitem>Stereo to 5.1 up-mixer A &mdash; this will take a stereo input and up-mix it to &lsquo;fake&rsquo; 5.1.  The input L/R are treated as follows:
-<itemizedlist>
-<listitem>DCP L is input L bandpass-filtered between 1.9kHz and 4.8kHz.</listitem>
-<listitem>DCP R is input R bandpass-filtered between 1.9kHz and 4.8kHz.</listitem>
-<listitem>DCP C is input L mixed with input R, taken down by 3dB and then bandpass-filtered between 150Hz and 1.9kHz.</listitem>
-<listitem>DCP Lfe is input L mixed with input R, taken down by 3dB and then bandpass-filtered between 20Hz and 150Hz.</listitem>
-<listitem>DCP Ls is input L bandpass-filtered between 4.8kHz and 20kHz.</listitem>
-<listitem>DCP Rs is input R bandpass-filtered between 4.8kHz and 20kHz.</listitem>
 </itemizedlist>
-<para>
-This upmixing algorithm is due to Gérald Maruccia.
-</para>
-</listitem>
-<listitem>Stereo to 5.1 up-mixer B &mdash; this uses a different approach:
-<itemizedlist>
-  <listitem>DCP L is input L.</listitem>
-  <listitem>DCP R is input R.</listitem>
-  <listitem>DCP C is input L + input R taken down by 3dB.</listitem>
-  <listitem>DCP Lfe is DCP C bandpass filtered between 20Hz and 150Hz.</listitem>
-  <listitem>DCP Ls and Rs are input L - input R with a 20ms delay.</listitem>
-</itemizedlist>
-</listitem>
-</itemizedlist>
-
-The up-mixers are not particularly advanced and should be used with care.  You are strongly advised to check how the DCPs sound in a cinema if you have used one of DCP-o-matic's upmixers.
 
 <!-- ============================================================== -->
 <section xml:id="sec-reels">
