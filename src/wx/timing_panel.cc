@@ -412,9 +412,8 @@ TimingPanel::play_length_changed ()
 	Suspender::Block bl = _film_content_changed_suspender.block ();
 	for (auto i: _parent->selected()) {
 		FrameRateChange const frc = _parent->film()->active_frame_rate_change (i->position ());
-		i->set_trim_end (
-			ContentTime (max(DCPTime(), i->full_length(_parent->film()) - play_length), frc) - i->trim_start()
-			);
+		auto dcp = max(DCPTime(), i->full_length(_parent->film()) - play_length);
+		i->set_trim_end (max(ContentTime(), ContentTime(dcp, frc) - i->trim_start()));
 	}
 }
 
