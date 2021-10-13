@@ -423,12 +423,6 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 	for (auto& i: _next_time) {
 		i.second = boost::optional<dcpomatic::ContentTime>();
 	}
-
-	/* We find that we get some errors from av_send_packet after a seek.  Perhaps we should ignore
-	 * all of them (which seems risky), or perhaps we should have some proper fix.  But instead
-	 * let's ignore the next 2 errors.
-	 */
-	_errors_to_ignore = 2;
 }
 
 
@@ -512,18 +506,8 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
-		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
-		 * Likewise I think AVERROR_EOF should not happen.
-		 */
-		if (_errors_to_ignore > 0) {
-			/* We see errors here after a seek, which is hopefully to be nothing to worry about */
-			--_errors_to_ignore;
-			LOG_GENERAL("Ignoring error %1 avcodec_send_packet after seek; will ignore %2 more", r, _errors_to_ignore);
-			return;
-		}
-		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::decode_and_process_audio_packet"), r);
+		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
 	}
-
 	while (r >= 0) {
 		r = avcodec_receive_frame (context, _frame);
 		if (r == AVERROR(EAGAIN)) {
@@ -548,11 +532,8 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 	auto context = video_codec_context();
 
 	int r = avcodec_send_packet (context, packet);
-	if (r < 0 && !(r == AVERROR_EOF && !packet)) {
-		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
-		 * AVERROR_EOF can happen during flush if we've already sent a flush packet.
-		 */
-		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::decode_and_process_video_packet"), r);
+	if (r < 0) {
+		LOG_WARNING("avcodec_send_packet returned %1 for a video packet", r);
 	}
 
 	r = avcodec_receive_frame (context, _frame);
