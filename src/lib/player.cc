@@ -743,10 +743,38 @@ Player::pass ()
 	/* Emit any audio that is ready */
 
 	/* Work out the time before which the audio is definitely all here.  This is the earliest last_push_end of one
-	   of our streams, or the position of the _silent.
+	   of our streams, or the position of the _silent.  First, though we choose only streams that are less than
+	   ignore_streams_behind seconds behind the furthest ahead (we assume that if a stream has fallen that far
+	   behind it has finished).  This is so that we don't withhold audio indefinitely awaiting data from a stream
+	   that will never come, causing bugs like #2101.
 	*/
-	auto pull_to = _playback_length;
+	constexpr int ignore_streams_behind = 5;
+
+	using state_pair = std::pair<AudioStreamPtr, StreamState>;
+
+	/* Find the 'leading' stream (i.e. the one that pushed data most recently) */
+	auto latest_last_push_end = std::max_element(
+		_stream_states.begin(),
+		_stream_states.end(),
+		[](state_pair const& a, state_pair const& b) { return a.second.last_push_end < b.second.last_push_end; }
+		);
+
+	if (latest_last_push_end != _stream_states.end()) {
+		LOG_DEBUG_PLAYER("Leading stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end));
+	}
+
+	/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
+	std::map<AudioStreamPtr, StreamState> alive_stream_states;
 	for (auto const& i: _stream_states) {
+		if ((latest_last_push_end->second.last_push_end - i.second.last_push_end) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
+			alive_stream_states.insert(i);
+		} else {
+			LOG_DEBUG_PLAYER("Ignoring stream %1 because it is too far behind", i.second.piece->content->path(0));
+		}
+	}
+
+	auto pull_to = _playback_length;
+	for (auto const& i: alive_stream_states) {
 		if (!i.second.piece->done && i.second.last_push_end < pull_to) {
 			pull_to = i.second.last_push_end;
 		}
