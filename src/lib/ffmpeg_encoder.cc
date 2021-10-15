@@ -204,7 +204,7 @@ FFmpegEncoder::go ()
 
 		waker.nudge ();
 
-		_butler->get_audio (interleaved.data(), audio_frames);
+		_butler->get_audio (Butler::Behaviour::BLOCKING, interleaved.data(), audio_frames);
 		/* XXX: inefficient; butler interleaves and we deinterleave again */
 		float* p = interleaved.data();
 		for (int j = 0; j < audio_frames; ++j) {

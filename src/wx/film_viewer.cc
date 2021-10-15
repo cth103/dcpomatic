@@ -649,7 +649,7 @@ int
 FilmViewer::audio_callback (void* out_p, unsigned int frames)
 {
 	while (true) {
-		auto t = _butler->get_audio (reinterpret_cast<float*> (out_p), frames);
+		auto t = _butler->get_audio (Butler::Behaviour::NON_BLOCKING, reinterpret_cast<float*> (out_p), frames);
 		if (!t || DCPTime(uncorrected_time() - *t) < one_video_frame()) {
 			/* There was an underrun or this audio is on time; carry on */
 			break;

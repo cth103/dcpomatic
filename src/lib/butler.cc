@@ -373,13 +373,21 @@ Butler::audio (shared_ptr<AudioBuffers> audio, DCPTime time, int frame_rate)
 }
 
 
-/** Try to get `frames' frames of audio and copy it into `out'.  Silence
- *  will be filled if no audio is available.
- *  @return time of this audio, or unset if there was a buffer underrun.
+/** Try to get `frames' frames of audio and copy it into `out'.
+ *  @param behaviour BLOCKING if we should block until audio is available.  If behaviour is NON_BLOCKING
+ *  and no audio is immediately available the buffer will be filled with silence and boost::none
+ *  will be returned.
+ *  @return time of this audio, or unset if blocking was false and no data was available.
  */
 optional<DCPTime>
-Butler::get_audio (float* out, Frame frames)
+Butler::get_audio (Behaviour behaviour, float* out, Frame frames)
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
+	while (behaviour == Behaviour::BLOCKING && !_finished && !_died && _audio.size() < frames) {
+		_arrived.wait (lm);
+	}
+
 	auto t = _audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
 	return t;
