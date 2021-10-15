@@ -247,7 +247,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 					   use libsub for DCP subs) we can cheat by just putting 0 in here.
 					*/
 					dcp::Time (),
-					dcp::Time ()
+					dcp::Time (),
+					0
 					)
 				);
 		}

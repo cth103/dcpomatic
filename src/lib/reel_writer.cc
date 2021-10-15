@@ -839,7 +839,8 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 					dcp::Effect::NONE,
 					dcp::Colour(),
 					dcp::Time(),
-					dcp::Time()
+					dcp::Time(),
+					0
 					)
 			       );
 		}
