@@ -176,7 +176,7 @@ FFmpegEncoder::go ()
 
 		for (int j = 0; j < gets_per_frame; ++j) {
 			Butler::Error e;
-			auto v = _butler->get_video (true, &e);
+			auto v = _butler->get_video (Butler::Behaviour::BLOCKING, &e);
 			_butler->rethrow ();
 			if (v.first) {
 				auto fe = encoder->get (v.first->eyes());
