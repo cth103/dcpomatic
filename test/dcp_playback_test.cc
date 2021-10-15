@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 
 	auto audio_buffer = new float[2000 * 6];
 	while (true) {
-		auto p = butler->get_video (true, 0);
+		auto p = butler->get_video (Butler::Behaviour::BLOCKING, 0);
 		if (!p.first) {
 			break;
 		}

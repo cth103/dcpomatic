@@ -238,12 +238,12 @@ try
 }
 
 
-/** @param blocking true if we should block until video is available.  If blocking is false
+/** @param behaviour BLOCKING if we should block until video is available.  If behaviour is NON_BLOCKING
  *  and no video is immediately available the method will return a 0 PlayerVideo and the error AGAIN.
  *  @param e if non-0 this is filled with an error code (if an error occurs) or is untouched if no error occurs.
  */
 pair<shared_ptr<PlayerVideo>, DCPTime>
-Butler::get_video (bool blocking, Error* e)
+Butler::get_video (Behaviour behaviour, Error* e)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -260,7 +260,7 @@ Butler::get_video (bool blocking, Error* e)
 		}
 	};
 
-	if (_video.empty() && (_finished || _died || (_suspended && !blocking))) {
+	if (_video.empty() && (_finished || _died || (_suspended && behaviour == Behaviour::NON_BLOCKING))) {
 		setup_error (e, Error::Code::AGAIN);
 		return make_pair(shared_ptr<PlayerVideo>(), DCPTime());
 	}

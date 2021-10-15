@@ -72,7 +72,12 @@ public:
 		std::string summary () const;
 	};
 
-	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (bool blocking, Error* e = 0);
+	enum class Behaviour {
+		BLOCKING,
+		NON_BLOCKING
+	};
+
+	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (Behaviour behaviour, Error* e = nullptr);
 	boost::optional<dcpomatic::DCPTime> get_audio (float* out, Frame frames);
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
 
