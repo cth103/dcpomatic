@@ -43,6 +43,7 @@ public:
 	boost::optional<dcpomatic::DCPTime> peek () const;
 
 	void clear ();
+	/** @return number of frames currently available */
 	Frame size () const;
 
 private:
