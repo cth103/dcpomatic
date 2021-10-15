@@ -83,27 +83,53 @@ setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string marku
 
 
 string
-marked_up (list<StringText> subtitles, int target_height, float fade_factor)
+marked_up (list<StringText> subtitles, int target_height, float fade_factor, string font_name)
 {
-	string out;
+	auto constexpr pixels_to_1024ths_point = 72 * 1024 / 96;
 
-	for (auto const& i: subtitles) {
-		out += "<span ";
-		if (i.italic()) {
-			out += "style=\"italic\" ";
+	auto make_span = [target_height, fade_factor](StringText const& subtitle, string text, string extra_attribute) {
+		string span;
+		span += "<span ";
+		if (subtitle.italic()) {
+			span += "style=\"italic\" ";
 		}
-		if (i.bold()) {
-			out += "weight=\"bold\" ";
+		if (subtitle.bold()) {
+			span += "weight=\"bold\" ";
 		}
-		if (i.underline()) {
-			out += "underline=\"single\" ";
+		if (subtitle.underline()) {
+			span += "underline=\"single\" ";
 		}
-		out += "size=\"" + dcp::raw_convert<string>(i.size_in_pixels(target_height) * 72 * 1024 / 96) + "\" ";
+		span += "size=\"" + dcp::raw_convert<string>(subtitle.size_in_pixels(target_height) * pixels_to_1024ths_point) + "\" ";
 		/* Between 1-65535 inclusive, apparently... */
-		out += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
-		out += "color=\"#" + i.colour().to_rgb_string() + "\">";
-		out += i.text();
-		out += "</span>";
+		span += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
+		span += "color=\"#" + subtitle.colour().to_rgb_string() + "\"";
+		if (!extra_attribute.empty()) {
+			span += " " + extra_attribute;
+		}
+		span += ">";
+		span += text;
+		span += "</span>";
+		return span;
+	};
+
+	string out;
+	for (auto const& i: subtitles) {
+		if (std::abs(i.space_before()) > dcp::SPACE_BEFORE_EPSILON) {
+			/* We need to insert some horizontal space into the layout.  The only way I can find to do this
+			 * is to write a " " with some special letter_spacing.  As far as I can see, such a space will
+			 * be written with letter_spacing either side.  This means that to get a horizontal space x we
+			 * need to write a " " with letter spacing (x - s) / 2, where s is the width of the " ".
+			 */
+			auto layout = create_layout();
+			setup_layout(layout, font_name, make_span(i, " ", {}));
+			int space_width;
+			int dummy;
+			layout->get_pixel_size(space_width, dummy);
+			auto spacing = ((i.space_before() * i.size_in_pixels(target_height) - space_width) / 2) * pixels_to_1024ths_point;
+			out += make_span(i, " ", "letter_spacing=\"" + dcp::raw_convert<string>(spacing) + "\"");
+		}
+
+		out += make_span(i, i.text(), {});
 	}
 
 	return out;
@@ -301,7 +327,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size
 
 	auto const font_name = setup_font (first, fonts);
 	auto const fade_factor = calculate_fade_factor (first, time, frame_rate);
-	auto const markup = marked_up (subtitles, target.height, fade_factor);
+	auto const markup = marked_up (subtitles, target.height, fade_factor, font_name);
 	auto layout = create_layout ();
 	setup_layout (layout, font_name, markup);
 	dcp::Size size;
