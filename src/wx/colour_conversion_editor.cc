@@ -29,15 +29,15 @@
 #include <dcp/identity_transfer_function.h>
 #include <dcp/s_gamut3_transfer_function.h>
 #include <dcp/modified_gamma_transfer_function.h>
-#include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
+#include <wx/numformatter.h>
+#include <wx/spinctrl.h>
 #include <iostream>
 
 
 using std::cout;
 using std::dynamic_pointer_cast;
 using std::make_shared;
-using std::shared_ptr;
 using std::string;
 using boost::bind;
 using dcp::locale_convert;
@@ -100,7 +100,8 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
         wxArrayString list;
 
-        wxString n (wxT ("0123456789.-"));
+	wxString n (wxT("0123456789-"));
+	n.Append(wxNumberFormatter::GetDecimalSeparator());
         for (size_t i = 0; i < n.Length(); ++i) {
                 list.Add (n[i]);
         }
