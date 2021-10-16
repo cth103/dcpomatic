@@ -55,6 +55,33 @@ static FcConfig* fc_config = nullptr;
 static list<pair<boost::filesystem::path, string>> fc_config_fonts;
 
 
+/** Create a Pango layout using a dummy context which we can use to calculate the size
+ *  of the text we will render.  Then we can transfer the layout over to the real context
+ *  for the actual render.
+ */
+static Glib::RefPtr<Pango::Layout>
+create_layout()
+{
+	auto c_font_map = pango_cairo_font_map_new ();
+	DCPOMATIC_ASSERT (c_font_map);
+	auto font_map = Glib::wrap (c_font_map);
+	auto c_context = pango_font_map_create_context (c_font_map);
+	DCPOMATIC_ASSERT (c_context);
+	auto context = Glib::wrap (c_context);
+	return Pango::Layout::create (context);
+}
+
+
+static void
+setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string markup)
+{
+	layout->set_alignment (Pango::ALIGN_LEFT);
+	Pango::FontDescription font (font_name);
+	layout->set_font_description (font);
+	layout->set_markup (markup);
+}
+
+
 string
 marked_up (list<StringText> subtitles, int target_height, float fade_factor)
 {
@@ -256,33 +283,6 @@ y_position (StringText const& first, int target_height, int layout_height)
 	}
 
 	return y;
-}
-
-
-static void
-setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string markup)
-{
-	layout->set_alignment (Pango::ALIGN_LEFT);
-	Pango::FontDescription font (font_name);
-	layout->set_font_description (font);
-	layout->set_markup (markup);
-}
-
-
-/** Create a Pango layout using a dummy context which we can use to calculate the size
- *  of the text we will render.  Then we can transfer the layout over to the real context
- *  for the actual render.
- */
-static Glib::RefPtr<Pango::Layout>
-create_layout()
-{
-	auto c_font_map = pango_cairo_font_map_new ();
-	DCPOMATIC_ASSERT (c_font_map);
-	auto font_map = Glib::wrap (c_font_map);
-	auto c_context = pango_font_map_create_context (c_font_map);
-	DCPOMATIC_ASSERT (c_context);
-	auto context = Glib::wrap (c_context);
-	return Pango::Layout::create (context);
 }
 
 
