@@ -26,7 +26,7 @@ Hello, and welcome to DCP-o-matic!
 <section>
 <title>What is DCP-o-matic?</title>
 
-<para>DCP-o-matic is a set of programs to allow you to:</para>
+<para>DCP-o-matic is a set of tools to allow you to:</para>
 
 <itemizedlist>
   <listitem>Create <ulink
@@ -108,7 +108,7 @@ You may find that DCP-o-matic crashes if run the 32-bit version on a CPU with mo
 <title>macOS</title>
 
 <para>
-DCP-o-matic versions 2.16.0 and higher will run on macOS version 10.10 (Yosemite) and
+DCP-o-matic versions 2.16.0 and higher will run on macOS version 10.8 (Mountain Lion) and
 higher.  DCP-o-matic is split into eight separate applications, each of
 which can be installed by downloading the <code>.dmg</code>,
 double-clicking to open and then dragging the icon to your
@@ -121,7 +121,7 @@ with the first (main) part.
 </para>
 
 <para>
-If you are using macOS 10.9 (Mavericks) or older you will need to install the latest 2.14.x version of DCP-o-matic.
+If you are using macOS 10.7 (Lion) or older you will need to install the latest 2.14.x version of DCP-o-matic.
 </para>
 
 </section>
@@ -162,7 +162,7 @@ thanks to Stefan Karner.
 <para>
 Since DCP-o-matic is open-source you can also build it yourself,
 though this can be quite a difficult process (especially on Windows and macOS).
-There are instructions for how to do it on <ulink url="https://dcpomatic.com/development">https://dcpomatic.com/</ulink>
+There are instructions for how to do it on <ulink url="https://dcpomatic.com/building">https://dcpomatic.com/</ulink>
 </para>
 </section>
 </chapter>
@@ -417,21 +417,6 @@ Finally, as with video, you can choose <guilabel>Make DCP</guilabel>
 from the <guilabel>Jobs</guilabel> menu to create your DCP.  This will
 be much quicker than creating a DCP from a video file, as DCP-o-matic only needs
 to encode a single frame which it can then repeat.
-</para>
-
-</chapter>
-
-
-<!-- ============================================================== -->
-<chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en" id="ch-disk-writer">
-<title>Writing DCP drives</title>
-
-<para>
-Once a DCP has been created it must often be transferred to a cinema for playback.  The most reliable way to do this is to write a specially-formatted drive (in the ext2 format) containing your DCP.
-</para>
-
-<para>
-Writing ext2-formatted drives is difficult from macOS and Windows without custom software.  DCP-o-matic includes a tool called the &lsquo;DCP-o-matic Disk Writer&rsquo; which makes it easy.
 </para>
 
 </chapter>
