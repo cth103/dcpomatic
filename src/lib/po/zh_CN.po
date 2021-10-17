@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-20 23:10+0200\n"
+"POT-Creation-Date: 2021-10-17 15:26+0200\n"
 "PO-Revision-Date: 2021-09-02 16:54+0800\n"
 "Last-Translator: kahn <bnm14744@gmail.com>\n"
 "Language-Team: Hanyuan\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: src/lib/video_content.cc:486
+#: src/lib/video_content.cc:496
 #, c-format
 msgid ""
 "\n"
@@ -28,7 +28,7 @@ msgstr ""
 "\n"
 "源视频帧率 %.4f\n"
 
-#: src/lib/video_content.cc:451
+#: src/lib/video_content.cc:461
 msgid ""
 "\n"
 "Cropped to %1x%2"
@@ -36,7 +36,7 @@ msgstr ""
 "\n"
 "裁剪为%1x%2"
 
-#: src/lib/video_content.cc:444
+#: src/lib/video_content.cc:452
 #, c-format
 msgid ""
 "\n"
@@ -45,7 +45,7 @@ msgstr ""
 "\n"
 "显示宽高比 %.2f:1"
 
-#: src/lib/video_content.cc:474
+#: src/lib/video_content.cc:484
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
@@ -53,7 +53,7 @@ msgstr ""
 "\n"
 "填充为黑色，以适应打包宽高比 %1 (%2x%3)"
 
-#: src/lib/video_content.cc:464
+#: src/lib/video_content.cc:474
 msgid ""
 "\n"
 "Scaled to %1x%2"
@@ -61,7 +61,7 @@ msgstr ""
 "\n"
 "缩放到 %1x%2"
 
-#: src/lib/video_content.cc:468 src/lib/video_content.cc:479
+#: src/lib/video_content.cc:478 src/lib/video_content.cc:489
 #, c-format
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
@@ -106,7 +106,7 @@ msgstr "%1 (%2 GB) [%3]"
 msgid "%1 [Atmos]"
 msgstr "%1 [全景声]"
 
-#: src/lib/dcp_content.cc:318
+#: src/lib/dcp_content.cc:320
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
@@ -122,7 +122,7 @@ msgstr "%1 [影片]"
 msgid "%1 [video]"
 msgstr "%1 [视频]"
 
-#: src/lib/video_content.cc:439
+#: src/lib/video_content.cc:447
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ", 像素宽高比 %.2f:1"
@@ -171,7 +171,7 @@ msgstr "2.39 (Scope)"
 msgid "3D denoiser"
 msgstr "3D 降噪"
 
-#: src/lib/hints.cc:212
+#: src/lib/hints.cc:209
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -214,7 +214,7 @@ msgstr ""
 "</a><li><a href=“https://dcpomatic.com/donate_amount?amount=10”>去贝宝"
 "(Paypal)捐款10欧元</a></ul><p>谢谢您"
 
-#: src/lib/hints.cc:169
+#: src/lib/hints.cc:166
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -222,6 +222,13 @@ msgid ""
 msgstr ""
 "有些放映设备不支持高码率DCP,我们推荐使用200Mbit/s以内的码率来进行打包，这种细"
 "微的调整是肉眼很难分辨的。"
+
+#: src/lib/text_content.cc:248
+msgid ""
+"A subtitle or closed caption file in this project is marked with the "
+"language '%1', which DCP-o-matic does not recognise.  The file's language "
+"has been cleared."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:635
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -231,7 +238,7 @@ msgstr "ARIB STD-B67 (HDR-HLG)"
 msgid "Advertisement"
 msgstr "广告片"
 
-#: src/lib/hints.cc:146
+#: src/lib/hints.cc:143
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -241,7 +248,7 @@ msgstr ""
 "您添加的媒体画面宽高比为2.39:1，但是DCP容器设置为1.85:1的模式。这将会使您的画"
 "面在放映时存在上下黑边。建议把DCP容器设置为2.39:1的模式。"
 
-#: src/lib/hints.cc:150
+#: src/lib/hints.cc:147
 #, fuzzy
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
@@ -264,55 +271,55 @@ msgstr "分析音频中"
 msgid "Analysing subtitles"
 msgstr "定位字幕中"
 
-#: src/lib/hints.cc:368
+#: src/lib/hints.cc:365
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "至少有一个标记出现在项目结束后，将被忽略。"
 
-#: src/lib/hints.cc:473
+#: src/lib/hints.cc:470
 msgid "At least one of your closed caption files is larger than "
 msgstr "至少有一个隐藏字幕文件过大"
 
-#: src/lib/hints.cc:466
+#: src/lib/hints.cc:463
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "至少有一个隐藏式字幕文件的XML部分过大"
 
-#: src/lib/hints.cc:481
+#: src/lib/hints.cc:478
 msgid "At least one of your subtitle files is larger than "
 msgstr "至少有一个字幕文件过大"
 
-#: src/lib/hints.cc:445
+#: src/lib/hints.cc:442
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr "至少有一行字幕超过52个字符，  建议每行最多52个字符。"
 
-#: src/lib/hints.cc:447
+#: src/lib/hints.cc:444
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr "至少有一行字幕超过79个字符，  你应该让每行最多79个字符。"
 
-#: src/lib/hints.cc:590
+#: src/lib/hints.cc:587
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr "您的字幕中至少有一个超过3行，  建议使用不超过3行。"
 
-#: src/lib/hints.cc:580
+#: src/lib/hints.cc:577
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr "您的字幕中至少有一个持续时间少于15帧，  建议每个字幕至少15帧长。"
 
-#: src/lib/hints.cc:585
+#: src/lib/hints.cc:582
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 "至少有一个字幕在前一个字幕后不到2帧开始，  建议字幕之间的间隔至少为2帧。"
 
-#: src/lib/hints.cc:633
+#: src/lib/hints.cc:630
 msgid ""
 "At least one piece of subtitle or closed caption content has no specified "
 "language.  It is advisable to set the language for each piece of subtitle or "
@@ -388,15 +395,15 @@ msgstr "像素位"
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/util.cc:598
+#: src/lib/util.cc:601
 msgid "BsL"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:599
+#: src/lib/util.cc:602
 msgid "BsR"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:590
+#: src/lib/util.cc:593
 msgid "C"
 msgstr "中置"
 
@@ -404,7 +411,7 @@ msgstr "中置"
 msgid "Cancelled"
 msgstr "取消"
 
-#: src/lib/film.cc:377
+#: src/lib/film.cc:388
 msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
@@ -412,11 +419,11 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2 不能处理图片格式 %1"
 
-#: src/lib/film.cc:1662
+#: src/lib/film.cc:1711
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
-#: src/lib/util.cc:559
+#: src/lib/util.cc:562
 msgid "Centre"
 msgstr "居中对齐"
 
@@ -486,7 +493,7 @@ msgstr "合并 DCPs"
 msgid "Computing digest"
 msgstr "计算Hash值中"
 
-#: src/lib/writer.cc:535
+#: src/lib/writer.cc:531
 msgid "Computing digests"
 msgstr "计算Hash值中"
 
@@ -514,22 +521,22 @@ msgstr "要加入的内容必须都有或都没有隐藏式字幕"
 msgid "Content to be joined must all have or not have video"
 msgstr "要加入的内容必须都有或都没有视频"
 
-#: src/lib/text_content.cc:305
+#: src/lib/text_content.cc:320
 #, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
 msgstr "字幕行距必须相同."
 
-#: src/lib/video_content.cc:207
+#: src/lib/video_content.cc:210
 #, fuzzy
 msgid "Content to be joined must have all its video used or not used."
 msgstr "内容帧率必须相同"
 
-#: src/lib/text_content.cc:260
+#: src/lib/text_content.cc:275
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr "所有要添加“刻录字幕”设置必须具有相同。"
 
-#: src/lib/text_content.cc:256
+#: src/lib/text_content.cc:271
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr "所有要添加“use 字幕”设置必须具有相同。"
 
@@ -541,62 +548,62 @@ msgstr "视频和音频的延迟必须相同。"
 msgid "Content to be joined must have the same audio gain."
 msgstr "视频和音频增益必须相同。"
 
-#: src/lib/video_content.cc:239
+#: src/lib/video_content.cc:242
 #, fuzzy
 msgid "Content to be joined must have the same burnt subtitle language."
 msgstr "所有要添加“刻录字幕”设置必须具有相同。"
 
-#: src/lib/video_content.cc:231
+#: src/lib/video_content.cc:234
 msgid "Content to be joined must have the same colour conversion."
 msgstr "视频颜色转换必须相同。"
 
-#: src/lib/video_content.cc:219
+#: src/lib/video_content.cc:222
 msgid "Content to be joined must have the same crop."
 msgstr "视频裁剪设置必须相同。"
 
-#: src/lib/video_content.cc:223
+#: src/lib/video_content.cc:226
 #, fuzzy
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr "视频比例设置必须相同。"
 
-#: src/lib/video_content.cc:227
+#: src/lib/video_content.cc:230
 #, fuzzy
 msgid "Content to be joined must have the same custom size setting."
 msgstr "视频比例设置必须相同。"
 
-#: src/lib/video_content.cc:235
+#: src/lib/video_content.cc:238
 msgid "Content to be joined must have the same fades."
 msgstr "视频淡入淡出效果必须相同。"
 
-#: src/lib/text_content.cc:288
+#: src/lib/text_content.cc:303
 msgid "Content to be joined must have the same outline width."
 msgstr "字幕宽度尺寸必须相同。"
 
-#: src/lib/video_content.cc:211
+#: src/lib/video_content.cc:214
 msgid "Content to be joined must have the same picture size."
 msgstr "视频图像尺寸必须相同。"
 
-#: src/lib/text_content.cc:264
+#: src/lib/text_content.cc:279
 msgid "Content to be joined must have the same subtitle X offset."
 msgstr "字幕X轴偏移必须相同。"
 
-#: src/lib/text_content.cc:272
+#: src/lib/text_content.cc:287
 msgid "Content to be joined must have the same subtitle X scale."
 msgstr "字幕X轴缩放大小必须相同。"
 
-#: src/lib/text_content.cc:268
+#: src/lib/text_content.cc:283
 msgid "Content to be joined must have the same subtitle Y offset."
 msgstr "字幕Y轴偏移必须相同。"
 
-#: src/lib/text_content.cc:276
+#: src/lib/text_content.cc:291
 msgid "Content to be joined must have the same subtitle Y scale."
 msgstr "字幕Y轴缩放大小必须相同。"
 
-#: src/lib/text_content.cc:284
+#: src/lib/text_content.cc:299
 msgid "Content to be joined must have the same subtitle fades."
 msgstr "字幕淡入淡出效果必须相同。"
 
-#: src/lib/text_content.cc:280
+#: src/lib/text_content.cc:295
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "字幕行距必须相同."
 
@@ -604,15 +611,15 @@ msgstr "字幕行距必须相同."
 msgid "Content to be joined must have the same video frame rate"
 msgstr "内容帧率必须相同"
 
-#: src/lib/video_content.cc:215
+#: src/lib/video_content.cc:218
 msgid "Content to be joined must have the same video frame type."
 msgstr "视频帧率必须相同。"
 
-#: src/lib/text_content.cc:297
+#: src/lib/text_content.cc:312
 msgid "Content to be joined must use the same DCP track."
 msgstr "DCP轨道必须相同。"
 
-#: src/lib/text_content.cc:293 src/lib/text_content.cc:313
+#: src/lib/text_content.cc:308 src/lib/text_content.cc:328
 msgid "Content to be joined must use the same fonts."
 msgstr "字幕字体必须相同。"
 
@@ -620,12 +627,12 @@ msgstr "字幕字体必须相同。"
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "字幕流必须相同。"
 
-#: src/lib/text_content.cc:301
+#: src/lib/text_content.cc:316
 #, fuzzy
 msgid "Content to be joined must use the same text language."
 msgstr "字幕字体必须相同。"
 
-#: src/lib/video_content.cc:430
+#: src/lib/video_content.cc:438
 msgid "Content video is %1x%2"
 msgstr "源视频分辨率是 %1x%2"
 
@@ -650,7 +657,7 @@ msgstr "无法连接到服务器 %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "无法创建远程目录 %1 (%2)"
 
-#: src/lib/image_examiner.cc:65
+#: src/lib/image_examiner.cc:64
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "无法解码JPEG2000文件%1 (%2)"
 
@@ -684,7 +691,7 @@ msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
-#: src/lib/ffmpeg_file_encoder.cc:269
+#: src/lib/ffmpeg_file_encoder.cc:265
 #, fuzzy
 msgid "Could not open output file %1 (%2)"
 msgstr "不能写入文件 %1 (%2)"
@@ -701,19 +708,19 @@ msgstr "无法开始传输"
 msgid "Could not write to remote file (%1)"
 msgstr "写入远程文件 (%1)失败！"
 
-#: src/lib/util.cc:569
+#: src/lib/util.cc:572
 msgid "D-BOX primary"
 msgstr "一级D-BOX"
 
-#: src/lib/util.cc:570
+#: src/lib/util.cc:573
 msgid "D-BOX secondary"
 msgstr "二级D-BOX"
 
-#: src/lib/util.cc:600
+#: src/lib/util.cc:603
 msgid "DBP"
 msgstr "一级D-BOX通道"
 
-#: src/lib/util.cc:601
+#: src/lib/util.cc:604
 msgid "DBS"
 msgstr "DBS"
 
@@ -725,7 +732,7 @@ msgstr "DCI Flat(遮幅/1.77/1.78/1.85)  "
 msgid "DCI Scope"
 msgstr "DCI Scope(宽银幕/2.35/2.39)  "
 
-#: src/lib/dcp_subtitle_content.cc:103
+#: src/lib/dcp_subtitle_content.cc:104
 msgid "DCP XML subtitles"
 msgstr "DCP XML字幕"
 
@@ -748,7 +755,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1565
+#: src/lib/film.cc:1614
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -756,7 +763,7 @@ msgstr ""
 "DCP-o-matic必须把您DCP的设置更改为OV（原创）。请重新检查设置确认设置内容是否"
 "为您的期望值。"
 
-#: src/lib/film.cc:1533
+#: src/lib/film.cc:1582
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -770,7 +777,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:359 src/lib/config.cc:1114
+#: src/lib/config.cc:357 src/lib/config.cc:1114
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic提醒"
 
@@ -862,7 +869,7 @@ msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
-#: src/lib/hints.cc:408
+#: src/lib/hints.cc:405
 #, fuzzy
 msgid "Examining audio, subtitles and closed captions"
 msgstr "检查隐藏式字幕中"
@@ -875,7 +882,7 @@ msgstr "检查媒体内容中"
 msgid "Examining subtitles"
 msgstr "定位字幕中"
 
-#: src/lib/hints.cc:406
+#: src/lib/hints.cc:403
 #, fuzzy
 msgid "Examining subtitles and closed captions"
 msgstr "检查隐藏式字幕中"
@@ -906,7 +913,7 @@ msgstr "电子邮件发送失败"
 msgid "Feature"
 msgstr "正片"
 
-#: src/lib/content.cc:464
+#: src/lib/content.cc:468
 msgid "Filename"
 msgstr "文件名"
 
@@ -918,11 +925,11 @@ msgstr "电影"
 msgid "Finding length"
 msgstr "定位长度"
 
-#: src/lib/content.cc:471
+#: src/lib/content.cc:475
 msgid "Frame rate"
 msgstr "帧率"
 
-#: src/lib/util.cc:943
+#: src/lib/util.cc:946
 msgid "Friday"
 msgstr "星期五"
 
@@ -966,11 +973,11 @@ msgstr "伽玛 2.8 (BT470BG)"
 msgid "Gradient debander"
 msgstr "梯度"
 
-#: src/lib/util.cc:594
+#: src/lib/util.cc:597
 msgid "HI"
 msgstr "听力障碍"
 
-#: src/lib/util.cc:563
+#: src/lib/util.cc:566
 msgid "Hearing impaired"
 msgstr "听力障碍"
 
@@ -994,11 +1001,11 @@ msgstr "IEC61966-2-1 (sRGB或sYCC)"
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/hints.cc:188
+#: src/lib/hints.cc:185
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "如果您选择使用25fps，那就必须把DCP标准选线设置为SMPTE"
 
-#: src/lib/hints.cc:251
+#: src/lib/hints.cc:248
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  You are advised to set your DCP to use "
@@ -1007,7 +1014,7 @@ msgstr ""
 "一般建议您使用SMPTE DCPS，除非您有特殊原因使用Interop。建议您在“DCP”选项卡中"
 "将DCP设置为使用SMPTE标准。"
 
-#: src/lib/hints.cc:573
+#: src/lib/hints.cc:570
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1021,7 +1028,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:349 src/lib/config.cc:1099
+#: src/lib/config.cc:347 src/lib/config.cc:1099
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -1029,39 +1036,39 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/ffmpeg_encoder.cc:251 src/lib/util.cc:588
+#: src/lib/ffmpeg_encoder.cc:253 src/lib/util.cc:591
 msgid "L"
 msgstr "左声道"
 
-#: src/lib/util.cc:596
+#: src/lib/util.cc:599
 msgid "Lc"
 msgstr "左中"
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:557
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:560
 msgid "Left"
 msgstr "左声道"
 
-#: src/lib/util.cc:565
+#: src/lib/util.cc:568
 msgid "Left centre"
 msgstr "左中"
 
-#: src/lib/util.cc:567
+#: src/lib/util.cc:570
 msgid "Left rear surround"
 msgstr "左后环绕"
 
-#: src/lib/util.cc:561
+#: src/lib/util.cc:564
 msgid "Left surround"
 msgstr "左环绕"
 
-#: src/lib/video_content.cc:499
+#: src/lib/video_content.cc:509
 msgid "Length"
 msgstr "长度"
 
-#: src/lib/util.cc:591
+#: src/lib/util.cc:594
 msgid "Lfe"
 msgstr "次低"
 
-#: src/lib/util.cc:560
+#: src/lib/util.cc:563
 msgid "Lfe (sub)"
 msgstr "次低（重低音）"
 
@@ -1085,11 +1092,11 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/exceptions.cc:145
+#: src/lib/exceptions.cc:152
 msgid "Lost communication between main and writer processes"
 msgstr "主进程和写入进程之间的通信丢失"
 
-#: src/lib/util.cc:592
+#: src/lib/util.cc:595
 msgid "Ls"
 msgstr "左环绕"
 
@@ -1101,19 +1108,19 @@ msgstr "中置解码"
 msgid "Misc"
 msgstr "其他"
 
-#: src/lib/dcp_examiner.cc:164
+#: src/lib/dcp_examiner.cc:175
 msgid "Mismatched audio channel counts in DCP"
 msgstr "DCP中的音频通道数不匹配"
 
-#: src/lib/dcp_examiner.cc:170
+#: src/lib/dcp_examiner.cc:181
 msgid "Mismatched audio sample rates in DCP"
 msgstr "DCP中的音频采样率不符合"
 
-#: src/lib/dcp_examiner.cc:137
+#: src/lib/dcp_examiner.cc:145
 msgid "Mismatched frame rates in DCP"
 msgstr "DCP中的帧率不匹配"
 
-#: src/lib/dcp_examiner.cc:145
+#: src/lib/dcp_examiner.cc:153
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配"
 
@@ -1121,11 +1128,11 @@ msgstr "DCP中的视频分辨率不匹配"
 msgid "Missing required setting %1"
 msgstr "缺少必需的设置 %1"
 
-#: src/lib/util.cc:935
+#: src/lib/util.cc:938
 msgid "Monday"
 msgstr "星期一"
 
-#: src/lib/writer.cc:763
+#: src/lib/writer.cc:759
 msgid "Mono"
 msgstr "单声道"
 
@@ -1149,7 +1156,7 @@ msgstr "未发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:731 src/lib/writer.cc:738 src/lib/writer.cc:761
+#: src/lib/writer.cc:727 src/lib/writer.cc:734 src/lib/writer.cc:757
 msgid "None"
 msgstr "无"
 
@@ -1186,7 +1193,7 @@ msgstr "小波降噪"
 msgid "P3"
 msgstr "P3"
 
-#: src/lib/util.h:59
+#: src/lib/util.h:64
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
@@ -1197,7 +1204,7 @@ msgstr ""
 msgid "Policy"
 msgstr "政策相关"
 
-#: src/lib/content.cc:480
+#: src/lib/content.cc:484
 msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
@@ -1213,7 +1220,7 @@ msgstr "宣传片"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/ffmpeg_encoder.cc:256 src/lib/util.cc:589
+#: src/lib/ffmpeg_encoder.cc:258 src/lib/util.cc:592
 msgid "R"
 msgstr "右声道"
 
@@ -1225,7 +1232,7 @@ msgstr "颜色模式 RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "分级"
 
-#: src/lib/util.cc:597
+#: src/lib/util.cc:600
 msgid "Rc"
 msgstr "右中"
 
@@ -1245,19 +1252,19 @@ msgstr "Rec. 601"
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:558
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:561
 msgid "Right"
 msgstr "右声道"
 
-#: src/lib/util.cc:566
+#: src/lib/util.cc:569
 msgid "Right centre"
 msgstr "右中"
 
-#: src/lib/util.cc:568
+#: src/lib/util.cc:571
 msgid "Right rear surround"
 msgstr "右后环绕"
 
-#: src/lib/util.cc:562
+#: src/lib/util.cc:565
 msgid "Right surround"
 msgstr "右环绕"
 
@@ -1269,7 +1276,7 @@ msgstr "逆时针旋转90°"
 msgid "Rotate 90 degrees clockwise"
 msgstr "顺时针旋转90°"
 
-#: src/lib/util.cc:593
+#: src/lib/util.cc:596
 msgid "Rs"
 msgstr "右环绕"
 
@@ -1294,7 +1301,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:615
+#: src/lib/hints.cc:612
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1334,7 +1341,7 @@ msgstr "SSH错误 (%1)"
 msgid "SSH error [%1] (%2)"
 msgstr "SSH错误 (%1)"
 
-#: src/lib/util.cc:945
+#: src/lib/util.cc:948
 msgid "Saturday"
 msgstr "星期六"
 
@@ -1350,11 +1357,11 @@ msgstr "发送电子邮件"
 msgid "Short"
 msgstr "短片"
 
-#: src/lib/util.cc:602
+#: src/lib/util.cc:605
 msgid "Sign"
 msgstr "签名"
 
-#: src/lib/video_content.cc:500
+#: src/lib/video_content.cc:510
 msgid "Size"
 msgstr "大小"
 
@@ -1380,13 +1387,13 @@ msgstr ""
 "一些文件在添加到项目后被修改。在DCP-o-matic中打开项目，检查设置，然后保存后重"
 "试"
 
-#: src/lib/hints.cc:554
+#: src/lib/hints.cc:551
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr "您的某些隐藏字幕跨度超过%1行，因此它将被截断，可能显示不完整"
 
-#: src/lib/hints.cc:653
+#: src/lib/hints.cc:650
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1395,15 +1402,15 @@ msgstr ""
 "您的某些内容有音频，但您尚未设置音频语言。建议在“DCP”选项卡设置音频语言，除非"
 "您的音频没有说话部分。"
 
-#: src/lib/film.cc:406
+#: src/lib/film.cc:417
 msgid "Some of your content needs a KDM"
 msgstr "一些内容需要KDM密匙"
 
-#: src/lib/film.cc:409
+#: src/lib/film.cc:420
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV（声明原创）"
 
-#: src/lib/writer.cc:765
+#: src/lib/writer.cc:761
 msgid "Stereo"
 msgstr "双声道"
 
@@ -1415,7 +1422,7 @@ msgstr "立体声到5.1，混音器A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "立体声到5.1，混音器B"
 
-#: src/lib/util.cc:933
+#: src/lib/util.cc:936
 msgid "Sunday"
 msgstr "星期日/天"
 
@@ -1435,7 +1442,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "文本字幕"
 
-#: src/lib/film.cc:389
+#: src/lib/film.cc:400
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "DCP为空，可能是因为所有内容的长度都为零"
 
@@ -1447,7 +1454,7 @@ msgstr "证书签名无效"
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "证书签名无效(%1)"
 
-#: src/lib/video_decoder.cc:86
+#: src/lib/video_decoder.cc:81
 msgid ""
 "The content file %1 is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
@@ -1478,7 +1485,7 @@ msgstr "文件 %1 被缩短了 %2 毫秒."
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "文件 %1 被延长了 %2 毫秒."
 
-#: src/lib/hints.cc:241
+#: src/lib/hints.cc:238
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1489,7 +1496,7 @@ msgstr ""
 "您的DCP和某些内容的帧速率不符。可能导致声画不同步。如果您的放映服务器支持当前"
 "速率，建议您将DCP帧速率设置为更接近当前原视频的速率"
 
-#: src/lib/dcp_content.cc:657
+#: src/lib/dcp_content.cc:659
 msgid "There is no video in this DCP"
 msgstr "DCP中不包含画面"
 
@@ -1500,12 +1507,12 @@ msgid ""
 "tab of Preferences."
 msgstr "内存不足，如您是32位系统，请重新设置运行线程数量来达到稳定运行。"
 
-#: src/lib/util.cc:1146
+#: src/lib/util.cc:1150
 #, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr "KDM是为DCP-o-matic生成，但是与上级证书不匹配。"
 
-#: src/lib/util.cc:1144
+#: src/lib/util.cc:1148
 #, fuzzy
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "KDM不是为DCP-o-matic解密证书而生成"
@@ -1537,20 +1544,20 @@ msgstr ""
 "这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
 "加到DCP中。"
 
-#: src/lib/film.cc:581
+#: src/lib/film.cc:595
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件!"
 
-#: src/lib/film.cc:566
+#: src/lib/film.cc:580
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
 "create a new Film, re-add your content and set it up again.  Sorry!"
 msgstr "不支持老版本创建的工程文件!"
 
-#: src/lib/util.cc:941
+#: src/lib/util.cc:944
 msgid "Thursday"
 msgstr "星期四"
 
@@ -1570,7 +1577,7 @@ msgstr "转码中 %1"
 msgid "Transitional"
 msgstr "过渡片"
 
-#: src/lib/util.cc:937
+#: src/lib/util.cc:940
 msgid "Tuesday"
 msgstr "星期二"
 
@@ -1595,7 +1602,7 @@ msgstr "未知"
 msgid "Unknown error"
 msgstr "未知错误"
 
-#: src/lib/ffmpeg_decoder.cc:343
+#: src/lib/ffmpeg_decoder.cc:339
 msgid "Unrecognised audio sample format (%1)"
 msgstr "无法识别的音频采样格式 (%1)"
 
@@ -1615,7 +1622,7 @@ msgstr "未指定"
 msgid "Untitled"
 msgstr "无标题"
 
-#: src/lib/util.cc:571 src/lib/util.cc:572
+#: src/lib/util.cc:574 src/lib/util.cc:575
 msgid "Unused"
 msgstr "未使用"
 
@@ -1627,7 +1634,7 @@ msgstr "左混"
 msgid "Upmix R"
 msgstr "右混"
 
-#: src/lib/util.cc:595
+#: src/lib/util.cc:598
 msgid "VI"
 msgstr "视力障碍"
 
@@ -1639,7 +1646,7 @@ msgstr "验证DCP中"
 msgid "Vertical flip"
 msgstr "垂直翻转"
 
-#: src/lib/util.cc:564
+#: src/lib/util.cc:567
 msgid "Visually impaired"
 msgstr "视力障碍"
 
@@ -1652,7 +1659,7 @@ msgstr "请稍候"
 msgid "Weave filter"
 msgstr "胶转磁滤镜"
 
-#: src/lib/util.cc:939
+#: src/lib/util.cc:942
 msgid "Wednesday"
 msgstr "星期三"
 
@@ -1664,7 +1671,7 @@ msgstr "YCOCG"
 msgid "Yet Another Deinterlacing Filter"
 msgstr "反隔行扫描滤镜"
 
-#: src/lib/hints.cc:201
+#: src/lib/hints.cc:198
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
@@ -1673,7 +1680,7 @@ msgstr ""
 "您设置的帧率为%1 fps的DCP。并非所有放映设备都支持此帧率。建议您将DCP帧率更改"
 "为%2 fps。"
 
-#: src/lib/hints.cc:185
+#: src/lib/hints.cc:182
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
@@ -1682,19 +1689,19 @@ msgstr ""
 "您设置的帧率为%1 fps的DCP。并非所有放映设备都支持此帧率。建议您将帧率更改"
 "为%2 fps。"
 
-#: src/lib/hints.cc:195
+#: src/lib/hints.cc:192
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr "您设置的DCP帧速率为30fps，这不是所有放映设备都支持 ，请注意兼容问题。"
 
-#: src/lib/hints.cc:306
+#: src/lib/hints.cc:303
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr "您添加的内容是3D内容，但您的DCP包设置为2D模式，请设置到3D模式。"
 
-#: src/lib/hints.cc:122
+#: src/lib/hints.cc:119
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
@@ -1703,7 +1710,7 @@ msgstr ""
 "你用的是dcp-o-matic双声道转5.1立体声的混频器。这是实验性的功能，可能导致音频"
 "质量差。如果你继续，你应该检查完成的DCP声音."
 
-#: src/lib/hints.cc:290
+#: src/lib/hints.cc:287
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1711,13 +1718,13 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/film.cc:1529
+#: src/lib/film.cc:1578
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr "您有多个全景声，它们的帧率不同。您必须删除一些全景声。"
 
-#: src/lib/hints.cc:561
+#: src/lib/hints.cc:558
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -1725,17 +1732,17 @@ msgstr ""
 "您有重叠的隐藏式字幕，这在 Interop DCP中是不允许的。请您的DCP标准更改为"
 "SMPTE。"
 
-#: src/lib/hints.cc:274
+#: src/lib/hints.cc:271
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/film.cc:385
+#: src/lib/film.cc:396
 msgid "You must add some content to the DCP before creating it"
 msgstr "在创建 DCP 之前，必须向添加一些内容"
 
-#: src/lib/hints.cc:112
+#: src/lib/hints.cc:109
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -1745,7 +1752,7 @@ msgstr ""
 "您的DCP的音轨少于6个，可能会在某些放映设备不支持。但是您任然可以设置成6个声"
 "轨，因为DCP-o-matic将用空白音轨补齐。"
 
-#: src/lib/hints.cc:160
+#: src/lib/hints.cc:157
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -1753,13 +1760,13 @@ msgstr ""
 "DCP使用了不常见的画幅比例，可能导致部分电影放映机无法正常播放，建议改成Flat "
 "(1.77/1.78/1.85) 或者Scope (2.35/2.39) 比例。"
 
-#: src/lib/hints.cc:340
+#: src/lib/hints.cc:337
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:289
+#: src/lib/config.cc:287
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "默认设置的容器不可用，已被替换为Flat (1.85:1)"
@@ -1783,7 +1790,7 @@ msgstr "[动态图像]"
 msgid "[still]"
 msgstr "[静态图像]"
 
-#: src/lib/dcp_subtitle_content.cc:97 src/lib/string_text_file_content.cc:78
+#: src/lib/dcp_subtitle_content.cc:98 src/lib/string_text_file_content.cc:78
 msgid "[subtitles]"
 msgstr "[字幕]"
 
@@ -1801,11 +1808,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:381
+#: src/lib/film.cc:392
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:393
+#: src/lib/film.cc:404
 msgid "content type"
 msgstr "打包类型"
 
@@ -1861,89 +1868,89 @@ msgstr "异步读取错误 (%1)"
 msgid "error during async_write (%1)"
 msgstr "异步写入错误 (%1)"
 
-#: src/lib/content.cc:473 src/lib/content.cc:482
+#: src/lib/content.cc:477 src/lib/content.cc:486
 msgid "frames per second"
 msgstr "每秒帧数"
 
 #. / TRANSLATORS: h here is an abbreviation for hours
-#: src/lib/util.cc:200
+#: src/lib/util.cc:203
 msgid "h"
 msgstr "小时"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:750
+#: src/lib/dcp_content.cc:752
 #, fuzzy
 msgid "it does not have closed captions in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:739
+#: src/lib/dcp_content.cc:741
 #, fuzzy
 msgid "it does not have open subtitles in all its reels."
 msgstr "该DCP的所有分卷无字幕。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:706
+#: src/lib/dcp_content.cc:708
 #, fuzzy
 msgid "it does not have sound in all its reels."
 msgstr "该DCP的所有分卷无声音。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:610
+#: src/lib/dcp_content.cc:612
 #, fuzzy
 msgid "it has a different frame rate to the film."
 msgstr "影片与DCP的帧速率不一致."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:765
+#: src/lib/dcp_content.cc:767
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "当前内容有修剪，所以字幕或隐藏字幕必须重写。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:667
+#: src/lib/dcp_content.cc:669
 #, fuzzy
 msgid "it is 2K and the film is 4K."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:664
+#: src/lib/dcp_content.cc:666
 #, fuzzy
 msgid "it is 4K and the film is 2K."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:598
+#: src/lib/dcp_content.cc:600
 #, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "打包内容被设置为Interop类型，而实际打包类型是 SMPTE。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:602
+#: src/lib/dcp_content.cc:604
 #, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "打包内容被设置为SMPTE类型，而实际打包类型是 Interop。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:712
+#: src/lib/dcp_content.cc:714
 #, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "音频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:770
+#: src/lib/dcp_content.cc:772
 #, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:677
+#: src/lib/dcp_content.cc:679
 #, fuzzy
 msgid "it overlaps other video content; remove the other content."
 msgstr "视频文件重复，请删除重复项."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:633
+#: src/lib/dcp_content.cc:635
 #, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -1951,13 +1958,13 @@ msgid ""
 msgstr "影片时长与DCP中的分卷时长不一致，请设置 【 分卷模式 】 来分割该内容。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:672
+#: src/lib/dcp_content.cc:674
 #, fuzzy
 msgid "its video frame size differs from the film's."
 msgstr "视频帧大小与DCP不一致。"
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
-#: src/lib/util.cc:209
+#: src/lib/util.cc:212
 msgid "m"
 msgstr "分"
 
@@ -1965,26 +1972,26 @@ msgstr "分"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:377
+#: src/lib/film.cc:388
 msgid "name"
 msgstr "名字"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:756
+#: src/lib/dcp_content.cc:758
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr "它的一个隐藏字幕有一个非零的时间点，因此必须重写。"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:743
+#: src/lib/dcp_content.cc:745
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr "它的一个字幕卷轴有一个非零的时间点，因此必须重写。"
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
-#: src/lib/util.cc:219
+#: src/lib/util.cc:222
 msgid "s"
 msgstr "秒"
 
@@ -1992,7 +1999,7 @@ msgstr "秒"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:402
+#: src/lib/film.cc:413
 msgid "some of your content is missing"
 msgstr "内容不完整"
 
@@ -2004,7 +2011,7 @@ msgstr "静止图像"
 msgid "unknown"
 msgstr "未知"
 
-#: src/lib/video_content.cc:499
+#: src/lib/video_content.cc:509
 msgid "video frames"
 msgstr "视频帧"
 
