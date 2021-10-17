@@ -1,3 +1,4 @@
+screenshots/*.pdf
 verify_bv21_errors.xml
 verify_errors.xml
 verify_warnings.xml
