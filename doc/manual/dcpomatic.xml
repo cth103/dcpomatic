@@ -3899,7 +3899,7 @@ If you are sure you want to continue, type <code>I am sure</code> into the text 
 </para>
 
 <figure id="fig-disk-writer">
-  <title>Starting the Disk Writer</title>
+  <title>The Disk Writer</title>
   <mediaobject>
     <imageobject>
       <imagedata fileref="screenshots/disk-writer&scs;"/>
