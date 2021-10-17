@@ -3808,6 +3808,139 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 
 
 <!-- ============================================================== -->
+<chapter xml:id="ch-writer">
+<title>Writing DCPs to disks</title>
+
+<para>
+Once you have your DCP, you need to get it to the cinema or theater who
+will play it. Sometimes this is possible via the internet, using a
+service such as Filemail. If that's an option: go for it! Network
+transfers avoid a lot of the difficulties that other methods have.
+</para>
+
+<para>
+However, your DCP may be too large to make that practical. In that case,
+the usual approach is to copy the DCP onto a USB hard drive or stick and
+physically take it or send it to the cinema.
+</para>
+
+<section>
+<title>Hard drive formatting</title>
+
+<para>
+In theory, this should be as simple as dragging and dropping the DCP's
+files onto a USB-connected drive. Sadly, though, things are not always
+that simple. This is because not all hard drives are formatted in the
+same way. The most common formats for hard drives are:
+</para>
+
+<itemizedlist>
+<listitem>APFS &mdash; used by macOS 10.13 and later for solid state drives (SSDs).</listitem>
+<listitem>HFS+ (Mac OS Extended) &mdash; used by macOS on 10.12 and earlier, and on all macOS systems for spinning disks.</listitem>
+<listitem>NTFS &mdash; modern format used by Windows.</listitem>
+<listitem>ExFAT &mdash; another modern, but less common (and buggier) format used by Windows.</listitem>
+<listitem>FAT32 &mdash; old format used by Windows.</listitem>
+<listitem>ext2, ext3, ext4 &mdash; often used by Linux.</listitem>
+</itemizedlist>
+
+<para>
+You can format a drive however you want, but a drive set up on macOS will usually use APFS, just as one set up on Windows will probably use NTFS or ExFAT.
+</para>
+
+<para>
+The problem you have as a DCP maker is: the only format that is
+guaranteed to work in all cinemas is ext2. This format is not easy to
+use directly from Windows or macOS: both operating systems need extra
+software to write ext2 drives.
+</para>
+
+<para>
+The &ldquo;DCP-o-matic Disk Writer&rdquo; provides a possible
+solution to this problem.  It allows you to format and copy DCPs onto ext2-formatted disks from Windows, macOS or Linux.
+</para>
+
+</section>
+
+
+<section>
+<title>Caution</title>
+
+<para>
+DCP-o-matic is made by one developer in his spare time. As a project,
+we do not have any quality assurance department, testing team or
+anything like that. Though we try our best to ensure quality using
+automated testing, and by the great efforts of our users to find and report problems,
+bugs do get into the code and things do go wrong.
+</para>
+
+<para>
+Though very undesirable, bugs in most parts of DCP-o-matic are usually
+not disastrous; they most often result in an error message, or some
+problem with a DCP. The Disk Writer tool, however, is a bit different.  It obtains
+permission from your operating system to write directly to disks connected to the
+computer.  Though we have done as much as we can to prevent problems, there is a chance
+that a bug in the Disk Writer could cause irretrievable data loss (for example, if
+the writer wrote to the wrong drive by mistake).
+</para>
+
+<para>
+No such problems have been reported, nor found by us during testing, but I would
+like to warn you that they are possible.  As always, make sure that you have backups
+(somewhere that is not directly connected to your computer) of anything that you do not want
+to lose.
+</para>
+
+</section>
+
+
+<section>
+<title>Writing a DCP to a disk</title>
+
+<para>
+Starting up the Disk Writer will give open a confirmation window to make sure that you understand the risks involved, as shown in <xref linkend="fig-disk-writer-notice"/>.
+</para>
+
+<figure id="fig-disk-writer-notice">
+  <title>Starting the Disk Writer</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/disk-writer-notice&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+If you are sure you want to continue, type <code>I am sure</code> into the text box and click <guilabel>OK</guilabel>.  This will open the window shown in <xref linkend="fig-disk-writer"/>.
+</para>
+
+<figure id="fig-disk-writer">
+  <title>Starting the Disk Writer</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/disk-writer&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>Next, click <guilabel>Open...</guilabel> and choose the DCP that you want to write.</para>
+
+<para>
+Now we need to choose the drive that the DCP will be written to from the drop-down menu.
+<emphasis>Whichever drive you choose will be irretrievably wiped!</emphasis>
+If the drive you want is not listed, click <guilabel>Refresh</guilabel> to search the system for drives.
+</para>
+
+<para>
+Finally, click <guilabel>Copy DCP</guilabel>.  After a confirmation window, the drive will be formatted,
+and the DCP copied and then read back to check that it was written correctly.
+</para>
+
+</section>
+
+</chapter>
+
+
+<!-- ============================================================== -->
 <chapter>
 <title>Keyboard shortcuts</title>
 <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="shortcuts.xml"/>
