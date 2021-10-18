@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-17 15:26+0200\n"
-"PO-Revision-Date: 2018-02-25 14:35-0600\n"
+"PO-Revision-Date: 2021-10-17 22:46-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 3.0\n"
 
 #: src/tools/dcpomatic_kdm.cc:388
 #, c-format
@@ -40,9 +40,8 @@ msgid "&Close"
 msgstr "&Cerrar"
 
 #: src/tools/dcpomatic.cc:1298
-#, fuzzy
 msgid "&Close\tCtrl-W"
-msgstr "&Guardar\tCtrl-S"
+msgstr "&Cerrar\tCtrl-W"
 
 #: src/tools/dcpomatic.cc:1378 src/tools/dcpomatic_batch.cc:99
 #: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:594
@@ -113,11 +112,11 @@ msgstr "&Ver"
 
 #: src/tools/dcpomatic_playlist.cc:262
 msgid "<b>Playlist:</b>"
-msgstr ""
+msgstr "<b>Lista:</b>"
 
 #: src/tools/dcpomatic_playlist.cc:108
 msgid "<b>Playlists</b>"
-msgstr ""
+msgstr "<b>Listas:</b>"
 
 #: src/tools/dcpomatic.cc:1373 src/tools/dcpomatic_batch.cc:95
 #: src/tools/dcpomatic_kdm.cc:260 src/tools/dcpomatic_player.cc:588
@@ -131,23 +130,20 @@ msgid "About DCP-o-matic"
 msgstr "Acerca de DVD-o-matic"
 
 #: src/tools/dcpomatic_playlist.cc:294
-#, fuzzy
 msgid "Add"
-msgstr "Añadir..."
+msgstr "Añadir"
 
 #: src/tools/dcpomatic_player.cc:537
-#, fuzzy
 msgid "Add &KDM..."
-msgstr "&Añadir KDM..."
+msgstr "Añadir &KDM..."
 
 #: src/tools/dcpomatic_batch.cc:134
 msgid "Add Film..."
 msgstr "Añadir película..."
 
 #: src/tools/dcpomatic_playlist.cc:63
-#, fuzzy
 msgid "Add content"
-msgstr "Cargando DCP"
+msgstr "Añadir contenido"
 
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "Add folder..."
@@ -168,12 +164,12 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:1723
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
 "\n"
 msgstr ""
-"Ha ocurrido una excepción: %s (%s).\n"
+"Ha ocurrido una excepción: %s (%s) (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:1733 src/tools/dcpomatic_kdm.cc:710
@@ -223,9 +219,8 @@ msgid "Check for updates"
 msgstr "Buscar actualizaciones"
 
 #: src/tools/dcpomatic.cc:1822 src/tools/dcpomatic.cc:1839
-#, fuzzy
 msgid "Close DCP-o-matic"
-msgstr "DCP-o-matic"
+msgstr "Cerrar DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:155
 msgid "Close without saving film"
@@ -233,7 +228,7 @@ msgstr "Cerrar sin guardar la película"
 
 #: src/tools/dcpomatic.cc:1356 src/tools/dcpomatic_player.cc:570
 msgid "Closed captions..."
-msgstr ""
+msgstr "Subtítulos cerrados…"
 
 #: src/tools/dcpomatic.cc:1312
 msgid "Copy settings\tCtrl-C"
@@ -241,7 +236,7 @@ msgstr "Copiar configuración\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:553 src/tools/dcpomatic.cc:562
 msgid "Could not create folder to store film."
-msgstr ""
+msgstr "No se puedo crear la carpeta para guardar la película."
 
 #: src/tools/dcpomatic_kdm.cc:474
 msgid ""
