@@ -244,17 +244,28 @@ calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
 	*/
 	auto const fade_in_start = DCPTime::from_seconds(first.in().as_seconds()).round(frame_rate);
 	auto const fade_in_end = fade_in_start + DCPTime::from_seconds (first.fade_up_time().as_seconds ());
-	auto const fade_out_end =  DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
-	auto const fade_out_start = fade_out_end - DCPTime::from_seconds (first.fade_down_time().as_seconds ());
 
 	if (fade_in_start <= time && time <= fade_in_end && fade_in_start != fade_in_end) {
 		fade_factor *= DCPTime(time - fade_in_start).seconds() / DCPTime(fade_in_end - fade_in_start).seconds();
 	}
-	if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
-		fade_factor *= 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
-	}
-	if (time < fade_in_start || time > fade_out_end) {
+
+	if (time < fade_in_start) {
 		fade_factor = 0;
+	}
+
+	/* first.out() may be zero if we don't know when this subtitle will finish.  We can only think about
+	 * fading out if we _do_ know when it will finish.
+	 */
+	if (first.out() != dcp::Time()) {
+		auto const fade_out_end = DCPTime::from_seconds (first.out().as_seconds()).round(frame_rate);
+		auto const fade_out_start = fade_out_end - DCPTime::from_seconds(first.fade_down_time().as_seconds());
+
+		if (fade_out_start <= time && time <= fade_out_end && fade_out_start != fade_out_end) {
+			fade_factor *= 1 - DCPTime(time - fade_out_start).seconds() / DCPTime(fade_out_end - fade_out_start).seconds();
+		}
+		if (time > fade_out_end) {
+			fade_factor = 0;
+		}
 	}
 
 	return fade_factor;
