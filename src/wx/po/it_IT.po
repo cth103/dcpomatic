@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-17 15:26+0200\n"
+"POT-Creation-Date: 2021-10-25 01:13+0200\n"
 "PO-Revision-Date: 2018-09-30 18:21+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -114,12 +114,12 @@ msgid "0dB (unchanged)"
 msgstr ""
 
 #. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:383
+#: src/wx/verify_dcp_dialog.cc:389
 msgid "1 Bv2.1 error, "
 msgstr ""
 
 #. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:375
+#: src/wx/verify_dcp_dialog.cc:381
 msgid "1 error, "
 msgstr ""
 
@@ -1963,7 +1963,7 @@ msgstr ""
 msgid "No DCP loaded."
 msgstr "Nessun DCP caricato."
 
-#: src/wx/verify_dcp_dialog.cc:404
+#: src/wx/verify_dcp_dialog.cc:410
 msgid "No SMPTE Bv2.1 errors found."
 msgstr ""
 
@@ -1976,11 +1976,11 @@ msgstr "Nessun audio sarà passato dal canale %d sorgente al canale %d del DCP"
 msgid "No content found in this folder."
 msgstr "Nessun contenuto trovato in questa cartella."
 
-#: src/wx/verify_dcp_dialog.cc:400
+#: src/wx/verify_dcp_dialog.cc:406
 msgid "No errors found."
 msgstr ""
 
-#: src/wx/verify_dcp_dialog.cc:408
+#: src/wx/verify_dcp_dialog.cc:414
 msgid "No warnings found."
 msgstr ""
 
@@ -2668,6 +2668,17 @@ msgstr "Livellamento"
 #: src/wx/timeline_dialog.cc:77
 msgid "Snap"
 msgstr "Aggancia"
+
+#: src/wx/verify_dcp_dialog.cc:369
+msgid ""
+"Some closed <Text> or <Image> nodes have different vertical alignments "
+"within a <Subtitle>."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:372
+msgid ""
+"Some closed captions are not listed in the order of their vertical position."
+msgstr ""
 
 #: src/wx/config_dialog.cc:877
 msgid "Sound"
@@ -3713,7 +3724,7 @@ msgid "Zoom out to whole film"
 msgstr ""
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:391
+#: src/wx/verify_dcp_dialog.cc:397
 msgid "and 1 warning."
 msgstr ""
 

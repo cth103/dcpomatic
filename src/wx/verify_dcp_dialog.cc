@@ -365,6 +365,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::EMPTY_TEXT:
 			add(i, _("At least one <Text> node in a subtitle or closed caption is empty."));
 			break;
+		case dcp::VerificationNote::Code::MISMATCHED_CLOSED_CAPTION_VALIGN:
+			add(i, _("Some closed <Text> or <Image> nodes have different vertical alignments within a <Subtitle>."));
+			break;
+		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ORDERING:
+			add(i, _("Some closed captions are not listed in the order of their vertical position."));
+			break;
 		}
 	}
 
