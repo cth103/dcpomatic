@@ -287,16 +287,18 @@ FFmpegSubtitlePeriod
 FFmpeg::subtitle_period (AVPacket const* packet, AVStream const* stream, AVSubtitle const & sub)
 {
 	auto const packet_time = ContentTime::from_seconds (packet->pts * av_q2d(stream->time_base));
+	auto const start = packet_time + ContentTime::from_seconds(sub.start_display_time / 1e3);
 
 	if (sub.end_display_time == 0 || sub.end_display_time == static_cast<uint32_t>(-1)) {
-		/* End time is not known */
-		return FFmpegSubtitlePeriod (packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3));
+		/* End time is not in the AVSubtitle; perhaps we can use the AVPacket's duration */
+		if (packet->duration) {
+			return FFmpegSubtitlePeriod(start, start + ContentTime::from_seconds(packet->duration * av_q2d(stream->time_base)));
+		} else {
+			return FFmpegSubtitlePeriod(start);
+		}
 	}
 
-	return FFmpegSubtitlePeriod (
-		packet_time + ContentTime::from_seconds (sub.start_display_time / 1e3),
-		packet_time + ContentTime::from_seconds (sub.end_display_time / 1e3)
-		);
+	return FFmpegSubtitlePeriod (start, packet_time + ContentTime::from_seconds(sub.end_display_time / 1e3));
 }
 
 
