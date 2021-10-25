@@ -620,7 +620,7 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		glBufferSubData (GL_ARRAY_BUFFER, 0, video.size(), video.vertices());
 		check_gl_error ("glBufferSubData (video)");
 
-		const auto border = Rectangle(canvas_size, inter_position.x, inter_position.y, inter_size);
+		const auto border = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
 		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), border.size(), border.vertices());
 		check_gl_error ("glBufferSubData (border)");
 	}
