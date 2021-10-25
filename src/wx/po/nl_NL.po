@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-25 01:13+0200\n"
-"PO-Revision-Date: 2021-10-23 03:25+0200\n"
+"PO-Revision-Date: 2021-10-25 20:29+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -2649,11 +2648,14 @@ msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
+"Sommige closed <Text> of <Image> nodes hebben verschillende verticale "
+"uitlijningen binnen een <Subtitle>."
 
 #: src/wx/verify_dcp_dialog.cc:372
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
+"Sommige closed captions staan niet in de volgorde van hun verticale positie."
 
 #: src/wx/config_dialog.cc:877
 msgid "Sound"
