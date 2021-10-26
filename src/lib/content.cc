@@ -48,8 +48,6 @@
 using std::cout;
 using std::list;
 using std::make_shared;
-using std::max;
-using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::vector;
