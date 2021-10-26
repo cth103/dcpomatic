@@ -162,7 +162,7 @@ thanks to Stefan Karner.
 <para>
 Since DCP-o-matic is open-source you can also build it yourself,
 though this can be quite a difficult process (especially on Windows and macOS).
-There are instructions for how to do it on <ulink url="https://dcpomatic.com/building">https://dcpomatic.com/</ulink>
+There are instructions for how to do it on <ulink url="https://dcpomatic.com/building">https://dcpomatic.com/building</ulink>
 </para>
 </section>
 </chapter>
@@ -236,6 +236,11 @@ name for the DCP itself.  You can also choose where you want to create
 the film.  In the example from the figure, DCP-o-matic will create a
 folder called &lsquo;DCP Test&rsquo; inside my existing folder <code>DCP</code> into which it
 will write its working files.
+</para>
+
+<para>
+DCPs can be very large (more than 100Gb for a feature-length DCP) so
+it's important to choose a folder on a disk with plenty of free space.
 </para>
 
 </section>
@@ -470,10 +475,10 @@ form of a Key Delivery Message (KDM), to decrypt it.
 </para>
 
 <para>
-KDMs must be prepared by the organisation which created the DCP.  They
+KDMs must be prepared by whoever created the DCP.  They
 contain the keys to decrypt the DCP wrapped up in such a way that only
 the intended recipient can read them.  You will need to provide the
-organisation with a certificate which identifies your copy of
+KDM creator with a certificate which identifies your copy of
 DCP-o-matic and allows them to create a KDM for you.
 </para>
 
@@ -482,13 +487,13 @@ To get DCP-o-matic's decryption certificate, open the Preferences
 dialogue (see <xref linkend="ch-preferences"/>) and go to the
 <guilabel>Keys</guilabel> tab.  Click the <guilabel>Export DCP
 decryption certificate...</guilabel> button at the bottom of this tab
-and save the certificate.  Send this certificate to the DCP creators
-and they can create a KDM to allow DCP-o-matic to decrypt their DCP.
+and save the certificate.  Send this certificate to the KDM creators
+and they can make a KDM to allow DCP-o-matic to decrypt the DCP.
 </para>
 
 <para>
-Once you have your KDM, right-click the DCP's name in DCP-o-matic and
-choose <guilabel>Add KDM...</guilabel>.  Specify your KDM and the DCP
+Once you have your KDM, right-click the DCP's name in the DCP-o-matic content list and
+choose <guilabel>Add KDM...</guilabel>.  Select your KDM and the DCP
 will be decrypted and become available for preview.
 </para>
 
@@ -554,7 +559,7 @@ This can be inefficient in some cases.  Consider, for example, a film
 which has ten different translations for which the subtitles are
 different but video and audio are the same.  If the video and audio
 content takes up, say, 100Gb this means that the set of DCPs for every
-translation would be about 1Tb with a lot of duplicated data.
+translation would be about 1Tb, with a lot of duplicated data.
 </para>
 
 <para>
@@ -730,7 +735,7 @@ clicking the <guilabel>Remove</guilabel> button.
 
 <para>Adding existing DCPs to a DCP-o-matic film is a little different
 to adding other types of content.  Most content has to be converted to
-JPEG2000, the compression scheme used by DCPs, which is a very
+JPEG2000 (the compression scheme used by DCPs) which is a very
 time-consuming process.  Existing DCPs are already in JPEG2000 format
 so do not require conversion.  This means that, provided no settings
 such as crop are used on the DCP content, picture and sound data will
@@ -801,7 +806,7 @@ The <guilabel>Video</guilabel> tab controls properties of the image, as shown in
 <title>Use this DCP's video as OV and make VF</title>
 
 <para>
-This option is only applicable if the selected content is an existing
+This option is only available if the selected content is an existing
 DCP.  It allows you make a VF DCP, using the video content from the
 existing DCP by referencing it (rather than copying).  See <xref
 linkend="sec-overlay"/>.
@@ -872,9 +877,15 @@ converting the selected content into the XYZ colourspace for the DCP.
 </para>
 
 <para>
+In particular, the setting you choose here should be the colour space <emphasis>that the content
+has been created or graded for</emphasis>.  DCP-o-matic will take care of converting your content's
+colourspace into the correct one for the DCP.
+</para>
+
+<para>
 The easiest way to select the required conversion is to choose one of
-DCP-o-matic's presets.  DCP-o-matic knows how to convert from four
-common colourspaces: sRGB, Rec. 601, Rec. 709 and P3.  If you do not
+DCP-o-matic's presets.  DCP-o-matic knows how to convert from seven
+common colourspaces: sRGB, Rec. 601, Rec. 709, Rec. 1886, Rec. 2020, S-Gamut3 and P3.  If you do not
 know which preset you should use, refer to the suggestions in <xref
 linkend="tab-colour-conversion"/>.
 </para>
@@ -949,9 +960,9 @@ after making any changes.
 </para>
 
 <para>
-The <guilabel>Scale to</guilabel> option governs the shape that
-DCP-o-matic will scale the content's image into.  Select the aspect
-ratio that your content should be presented in.
+The <guilabel>Scale</guilabel> option governs the shape that
+DCP-o-matic will scale the content's image into.  In most cases <guilabel>to fit DCP</guilabel> will do the right thing; if not, choose <guilabel>custom</guilabel>
+and you can specify exactly how the image should be scaled.
 </para>
 
 </section>
@@ -964,11 +975,10 @@ ratio that your content should be presented in.
 At the bottom of the video tab is a short description of what will
 happen to your video with the current settings.  In the example of
 <xref linkend="fig-video-tab"/>, DCP-o-matic is telling you that the
-video file is 2048x872 pixels and it has square pixels (a pixel
-aspect ratio of 1.00) hence its display aspect ratio is 2.35:1.  Since
-the controls specify &lsquo;2.35&rsquo; for the ratio, DCP-o-matic
-does not scale the image but pads it to the DCP's container ratio of
-1.85:1.  For a 2K DCP this is 1998x1080 pixels.
+video file is 720x576 pixels and has rectangular pixels (a pixel
+aspect ratio of 1.42:1) and so its display aspect ratio is 1.78:1.  Since
+the controls specify <guilabel>to fit DCP</guilabel> DCP-o-matic scales the image
+to 1918x1080 and pads it to the DCP's container ratio of 1.85:1 (called &lsquo;DCI Flat&rsquo;).  For a 2K DCP this is 1998x1080 pixels.
 </para>
 
 <para>
@@ -1022,7 +1032,7 @@ DCP channel.
 </para>
 
 <para>
-When content channels are copied into DCP channels they can be done
+When content channels are copied into DCP channels the copy can be done
 with variable gain.  If, for example, you want to copy a channel
 as-is, you can set a gain of 0dB.  Alternatively, if you want to mix
 two channels into one, you may want to use a gain of -6dB on each one
@@ -1121,7 +1131,7 @@ linkend="sec-show-audio"/> for more details.
 </para>
 
 <para>
-&lsquo;Audio Gain&rsquo; is used to alter the volume of the
+<guilabel>Audio Gain</guilabel> is used to alter the volume of the
 soundtrack.  The specified gain (in dB) will be applied to each sound
 channel of your content before it is written to the DCP.
 </para>
@@ -1152,13 +1162,6 @@ that it should apply to make this happen.  Then you can re-make the
 DCP (this will be reasonably fast, as the video data will already have
 been done) and it should play back at the correct volume with 7 on
 your sound-rack fader.
-</para>
-
-<para>
-Current versions of DCP-o-matic only know about the Dolby CP650 and
-CP750.  If you use a different sound processor, and know the gain
-curve of its volume control, <ulink url="mailto:carl@dcpomatic.com">get in
-touch</ulink>.
 </para>
 
 <para>
@@ -1204,7 +1207,7 @@ DCP-o-matic can either:
 <itemizedlist>
   <listitem>Extract timed text that is embedded in video files, or</listitem>
   <listitem>Use timed text from SubRip (<code>.srt</code>), SubStation
-  Alpha (<code>.ssa</code> or <code>.ass</code>) or DCP XML files.  You may find the great
+  Alpha (<code>.ssa</code> or <code>.ass</code>) or DCP XML files.  You may find the
   free program <ulink
   url="http://www.nikse.dk/subtitleedit/">Subtitle Edit</ulink> useful
   for creating such files.</listitem>
@@ -1215,7 +1218,7 @@ Embedded timed text is usually represented using a set of bitmaps,
 especially on files that have come from DVD or BluRay.  Such text can
 be used as a subtitle, but not a closed caption (since the closed
 captioning system requires the text to be delivered as
-character codes rather than an image).
+character codes rather than as an image).
 </para>
 
 <para>In contrast, SubRip, SubStation Alpha or DCP text can be used as either a subtitle or a closed caption.</para>
@@ -1388,12 +1391,6 @@ to the full length minus <guilabel>trim-from-start</guilabel> and minus <guilabe
 </para>
 
 <para>
-<guilabel>Video frame rate</guilabel> specifies the frame rate for
-still-image content.  It can also be used to override the detected
-frame rate of other content if DCP-o-matic has got it wrong.
-</para>
-
-<para>
 Each timecode control has a <guilabel>Set</guilabel> which you should
 click when you have entered a new value for a timecode.  The
 <guilabel>Set</guilabel> button will make DCP-o-matic take account of
@@ -1461,7 +1458,7 @@ video as it takes it from a source and puts it into a DCP.
 </para>
 
 <para>
-Consider, as a somewhat over-the-top example, that we have a 720 x 576
+Consider, as a rather contrived example, that we have a 720 x 576
 image which is letterboxed with 36 black pixels each at the top and
 bottom, and the video content within the letterbox should be presented
 in the DCP at ratio of 2.39:1 within a 1.85:1 frame (such as might
@@ -1512,17 +1509,14 @@ linkend="fig-pipeline2"/>.
 <para>
 The next step is to scale the image.  Since this content should be
 presented in a 2.39:1 (scope) aspect ratio inside a 1.85:1 (flat) DCP we would select
-<guilabel>Scope</guilabel> from the <guilabel>Scale to</guilabel>
-option in the <guilabel>Video</guilabel> tab and
-<guilabel>Flat</guilabel> from the <guilabel>Container</guilabel>
-option in the <guilabel>DCP</guilabel> tab.
+<guilabel>custom</guilabel> from the <guilabel>Scale</guilabel>
+option in the <guilabel>Video</guilabel> tab, then choose a ratio (<guilabel>Set ratio and
+fit to DCP container</guilabel>) of 2.39:1.
 </para>
 
-<para>The <guilabel>Scale to</guilabel> option should always be set to
-the aspect ratio at which the content should be seen.  The
-<guilabel>Container</guilabel> option should be set to the preset that
-you want to use on the projector.  Of course, these two settings will
-often be the same.
+<para>Next, we would choose
+<guilabel>Flat</guilabel> from the <guilabel>Container</guilabel>
+option in the <guilabel>DCP</guilabel> tab.
 </para>
 
 <para>
@@ -1538,7 +1532,7 @@ that the DCP will play back correctly using the projector's
 &lsquo;Flat&rsquo; preset).  At 2K, 1.85:1 is 1998 pixels by 1080.
 Scaling the source up whilst preserving its 1.85:1 aspect ratio will
 result in the image hitting the sides of the container first, at a
-size of 1998 x 836.  This gives us a new version of the image as shown
+size of 1998x836.  This gives us a new version of the image as shown
 in <xref linkend="fig-pipeline3"/>.
 </para>
 
@@ -1723,12 +1717,11 @@ ISDCF-compliant name.
 </para>
 
 <para>
-Underneath the name field is a preview of the name that the DCP will
-get.  To use a ISDCF-compliant name, tick the <guilabel>Use ISDCF
-name</guilabel> check-box.  The ISDCF name will be composed using details
+Underneath the <guilabel>Use ISDCF name</guilabel> checkbox is a preview of the name that the DCP will
+get.  The ISDCF name will be composed using details
 of your content's soundtrack, the current date and other things that
-can be specified in the ISDCF name details dialogue box, which you can
-open by clicking on the <guilabel>Details</guilabel> button.
+can be specified in the <guilabel>Metadata</guilabel> dialogue box, which you can
+open by clicking on the <guilabel>Metadata</guilabel> button.
 </para>
 
 <para>
@@ -1747,11 +1740,6 @@ The <guilabel>Content Type</guilabel> option can be
 required type from the drop-down list.  On some projection systems
 this will affect where your content appears in the projector's server
 user interface, so take care to select an appropriate type.
-</para>
-
-<para>
-The <guilabel>Signed</guilabel> check-box sets whether or not the DCP
-is signed.  This is rarely important; if in doubt, tick it.
 </para>
 
 <para>
@@ -1780,8 +1768,30 @@ more modern of the two).
 </para>
 
 <para>
-Ticking the <guilabel>Upload DCP to TMS after it is made</guilabel>
-will ask DCP-o-matic to copy the finished DCP to your configured TMS (see <xref linkend="sec-prefs-tms"/>).
+The <guilabel>Markers</guilabel> button opens the Markers dialogue,
+as shown in <xref linkend="fig-markers"/>.
+</para>
+
+<figure id="fig-markers">
+  <title>Markers dialogue</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/markers&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+This dialogue allows you to specify times for when certain things happen
+within your DCP.  These times may be read by projection systems to automate
+actions such as setting house light levels.
+</para>
+
+<para>
+The <guilabel>Metadata</guilabel> button opens the Metadata dialogue,
+which allows you to specify various information about the DCP that you are
+making.  Some of these data will be included in the DCP's files, and others
+used to make up the ISDCF name for the DCP (if that option is being used).
 </para>
 
 <para>
@@ -1800,18 +1810,18 @@ for the content's ratio and &lsquo;Flat&rsquo; for the DCP.
 </para>
 
 <para>
+The <guilabel>Resolution</guilabel> control allows you to choose the
+resolution for your DCP.  Use 2K unless you have content that is of
+high enough resolution to be worth presenting in 4K.
+</para>
+
+<para>
 The <guilabel>Frame Rate</guilabel> control sets the frame rate of
 your DCP.  This can be a little tricky to get right.  Ideally, you
 want it to be the same as the video content that you are using.  If it
 is not the same, DCP-o-matic must resort to some tricks to alter your
 content to fit the specified frame rate.  Frame rates are discussed in
 more detail in <xref linkend="ch-frame-rates"/>.
-</para>
-
-<para>
-The <guilabel>Use best</guilabel> button sets the DCP video frame rate
-to what DCP-o-matic thinks is the best given the content that you have
-added.
 </para>
 
 <para>
@@ -1823,13 +1833,7 @@ Real-D etc.) but not on a 2D system.
 </para>
 
 <para>
-The <guilabel>Resolution</guilabel> tab allows you to choose the
-resolution for your DCP.  Use 2K unless you have content that is of
-high enough resolution to be worth presenting in 4K.
-</para>
-
-<para>
-The <guilabel>JPEG2000 bandwidth</guilabel>; setting changes how big
+The <guilabel>JPEG2000 bandwidth for newly-encoded data</guilabel>; setting changes how big
 the final image files used within the DCP will be.  Larger numbers
 will give better quality, but correspondingly larger DCPs.  The
 bandwidth can be between 50 and 250 megabits per second (Mbit/s).
@@ -1848,7 +1852,7 @@ this option switched off.
 </para>
 
 <para>
-The <guilabel>Audio Channels</guilabel> control sets the number of
+The <guilabel>Channels</guilabel> control sets the number of
 audio channels that the DCP will have.  If the DCP has any channels
 for which there is no content audio they will be replaced by silence.
 You can only set an even number of channels here, since that is
@@ -1863,7 +1867,7 @@ process to apply to the audio before it goes into the DCP.  One process is curre
 </para>
 
 <itemizedlist>
-<listitem>Mid-side decode &mdash; this will take a L/R
+<listitem>Mid-side decoder &mdash; this will take a L/R
 stereo input and extract the common part (corresponding to the
 &lsquo;Mid&rsquo; in a mid-side signal) into the DCP's centre channel.
 The remaining L/R parts will be kept in the L/R channels of the DCP.
@@ -1993,8 +1997,8 @@ to the plots, which can make them easier to read in some cases.
 </para>
 
 <para>
-Obviously the audio plot is no substitute for listening in an
-auditorium, but it can be useful to get levels in the right rough area.
+The audio plot is no substitute for listening in an
+cinema, but it can be useful to get levels in roughly the right area.
 </para>
 
 </section>
@@ -2052,16 +2056,15 @@ in templates:
   <listitem>Resolution</listitem>
   <listitem>JPEG200 bandwidth</listitem>
   <listitem>Video frame rate</listitem>
-  <listitem>Signed and encrypted checkboxes</listitem>
+  <listitem>Encrypted checkbox</listitem>
   <listitem>Audio channels</listitem>
   <listitem>Standard (Interop / SMPTE)</listitem>
   <listitem>Audio processor</listitem>
   <listitem>Reel type and length</listitem>
-  <listitem>Upload after make DCP checkbox</listitem>
 </itemizedlist>
 
 <para>
-In addition to this, the settings (but not the filenames) of any
+In addition, the settings (but not the filenames) of any
 content in the template are stored, as discussed above.  The status of
 the <guilabel>Keep video and subtitles in sequence</guilabel> checkbox
 from the timeline is also preserved.
@@ -2108,7 +2111,7 @@ from the timeline is also preserved.
   </para>
 
   <para>
-    The time needed to export, and the resulting size, depend partly on the DCP resolution set in the project.  To change that, see chapter <xref linkend="ch-dcp"/>.
+    The time needed to export, and the resulting size, depend partly on the DCP resolution set in the project.  To change that, see <xref linkend="ch-dcp"/>.
   </para>
 
   <para>
@@ -2166,7 +2169,7 @@ know the key.
 </para>
 
 <para>
-The first step in a DCP encryption is to encode its data with a random key
+The first step in encrypting a DCP is to encode its data with a random key
 using symmetric-key encryption.  The encrypted DCP can then be sent
 anywhere, safe in the knowledge that even if Mallory got hold of a
 copy, he could not decrypt it.
@@ -2177,7 +2180,7 @@ Alice, however, needs to know the key so she can play the DCP in her
 cinema.  A simple approach might be for us to send Alice the key.
 However, if Mallory can intercept the DCP, he might also be able to
 intercept our communication of the key to Alice.  Furthermore, if Alice
-happened to know Mallory, she could just send him a copy of the key.
+happened to know Mallory, he could just send her a copy of the key.
 </para>
 
 <para>
@@ -2253,7 +2256,7 @@ is).
 </para>
 
 <para>
-The second part of distributions is to generate KDMs for the cinemas
+The second stage of distribution is to generate KDMs for the cinemas
 that you wish to allow to play your DCP.  There are two approaches to
 this within DCP-o-matic: using the project, or using a DKDM.  These
 approaches are now described in turn.
@@ -2328,6 +2331,7 @@ destination cinema will in advance of show time to identify any
 problems.
 </para>
 
+<!-- XXX: this is a sudden introduction of CPL as a concept -->
 <para>
 Once you have set up all the screens that you need KDMs for, select
 the CPL that you want to create the KDM for.  You can use the
@@ -2390,7 +2394,7 @@ make KDMs for the DKDM's film for any cinema.
 </para>
 
 <para>
-In other cases a DKDM is sent to a 3rd party so that they can create
+In other cases a DKDM is sent to a third party so that they can create
 KDMs for your films.  This can be useful if, for example, you have a
 distributor who provides 24-hour KDM support to cinemas and can create
 KDMs for anybody that requires them at short notice.
@@ -2445,7 +2449,7 @@ tab.
 <title>Encryption keys</title>
 
 <para>
-  You must be careful when using encryption not to lose important keys.
+  You should be careful when using encryption not to lose important keys.
 </para>
 
 <para>
@@ -2533,7 +2537,7 @@ behaviour.  They are described in this chapter.
 <para>
 Preferences can be edited by choosing
 <guilabel>Preferences...</guilabel> from the <guilabel>Edit</guilabel>
-menu.  This opens a dialogue which is split into eleven tabs.
+menu.  This opens a dialogue which is split into tabs.
 </para>
 
 <!-- ============================================================== -->
@@ -2570,18 +2574,6 @@ users.  If your language is not on the last, head to <ulink
 url="https://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
 find out how to contribute a translation.
 </para>
-</section>
-
-
-<!-- ============================================================== -->
-<section>
-  <title>Interface complexity</title>
-
-  <para>
-    Choose <guilabel>Simple</guilabel> to see a cut-down, simplified
-    interface or <guilabel>Full</guilabel> to see DCP-o-matic's full
-    interface.
-  </para>
 </section>
 
 
@@ -2687,18 +2679,6 @@ The <guilabel>Check for testing updates as well as stable
 ones</guilabel> option will also check for test updates as well as
 those that are formally &lsquo;released&rsquo;. This is useful if you
 like to live on the bleeding edge!
-</para>
-</section>
-
-<!-- ============================================================== -->
-<section>
-<title>Issuer and creator</title>
-
-<para>
-With these controls you can set the issuer and creator strings that
-will be put into the DCPs which you create.  The issuer is typically your name
-(or your organisation's name) and the creator is typically the name of the tool
-used to make the DCP (e.g. DCP-o-matic).
 </para>
 </section>
 
