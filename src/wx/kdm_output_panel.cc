@@ -18,6 +18,7 @@
 
 */
 
+
 #include "kdm_output_panel.h"
 #include "kdm_timing_panel.h"
 #include "confirm_kdm_email_dialog.h"
@@ -43,13 +44,15 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/stdpaths.h>
 DCPOMATIC_ENABLE_WARNINGS
 
-using std::pair;
-using std::string;
-using std::list;
+
 using std::exception;
-using std::make_pair;
-using std::shared_ptr;
 using std::function;
+using std::list;
+using std::make_pair;
+using std::make_shared;
+using std::pair;
+using std::shared_ptr;
+using std::string;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -61,12 +64,12 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	, _forensic_mark_audio (true)
 	, _forensic_mark_audio_up_to (12)
 {
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
+	auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 	table->AddGrowableCol (1);
 
 	add_label_to_sizer (table, this, _("KDM type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 
-	wxBoxSizer* type = new wxBoxSizer (wxHORIZONTAL);
+	auto type = new wxBoxSizer (wxHORIZONTAL);
 	_type = new wxChoice (this, wxID_ANY);
 	_type->Append ("Modified Transitional 1", ((void *) dcp::Formulation::MODIFIED_TRANSITIONAL_1));
 	_type->Append ("DCI Any", ((void *) dcp::Formulation::DCI_ANY));
@@ -75,7 +78,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	_type->Append ("Modified Transitional 1 (without AuthorizedDeviceInfo)", ((void *) dcp::Formulation::MODIFIED_TRANSITIONAL_TEST));
 	type->Add (_type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 	_type->SetSelection (0);
-	wxButton* advanced = new Button (this, _("Advanced..."));
+	auto advanced = new Button (this, _("Advanced..."));
 	type->Add (advanced, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	table->Add (type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 
@@ -116,7 +119,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
-	boost::optional<boost::filesystem::path> path = Config::instance()->default_kdm_directory ();
+	auto path = Config::instance()->default_kdm_directory();
 	if (path) {
 		_folder->SetPath (std_to_wx (path->string ()));
 	} else {
@@ -125,7 +128,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 
 	table->Add (_folder, 1, wxEXPAND);
 
-	wxSizer* write_options = new wxBoxSizer(wxVERTICAL);
+	auto write_options = new wxBoxSizer(wxVERTICAL);
 	_write_flat = new wxRadioButton (this, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
 	write_options->Add (_write_flat, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	_write_folder = new wxRadioButton (this, wxID_ANY, _("Write a folder for each cinema's KDMs"));
@@ -176,7 +179,7 @@ KDMOutputPanel::setup_sensitivity ()
 void
 KDMOutputPanel::advanced_clicked ()
 {
-	KDMAdvancedDialog* d = new KDMAdvancedDialog (this, _forensic_mark_video, _forensic_mark_audio, _forensic_mark_audio_up_to);
+	auto d = new KDMAdvancedDialog (this, _forensic_mark_video, _forensic_mark_audio, _forensic_mark_audio_up_to);
 	d->ShowModal ();
 	_forensic_mark_video = d->forensic_mark_video ();
 	_forensic_mark_audio = d->forensic_mark_audio ();
@@ -201,7 +204,7 @@ KDMOutputPanel::make (
 	list<KDMWithMetadataPtr> kdms, string name, function<bool (boost::filesystem::path)> confirm_overwrite
 	)
 {
-	list<list<KDMWithMetadataPtr> > const cinema_kdms = collect (kdms);
+	auto const cinema_kdms = collect (kdms);
 
 	/* Decide whether to proceed */
 
@@ -237,7 +240,7 @@ KDMOutputPanel::make (
 			}
 
 			if (!emails.empty ()) {
-				ConfirmKDMEmailDialog* d = new ConfirmKDMEmailDialog (this, emails);
+				auto d = new ConfirmKDMEmailDialog (this, emails);
 				if (d->ShowModal() == wxID_CANCEL) {
 					proceed = false;
 				}
@@ -284,13 +287,11 @@ KDMOutputPanel::make (
 		}
 
 		if (_email->GetValue ()) {
-			job.reset (
-				new SendKDMEmailJob (
-					cinema_kdms,
-					_container_name_format->get(),
-					_filename_format->get(),
-					name
-					)
+			job = make_shared<SendKDMEmailJob>(
+				cinema_kdms,
+				_container_name_format->get(),
+				_filename_format->get(),
+				name
 				);
 		}
 
