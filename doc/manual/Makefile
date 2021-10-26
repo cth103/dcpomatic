@@ -18,7 +18,8 @@ SCREENSHOTS := file-new.pdf new-film.pdf video-select-content-file.pdf \
                prefs-notifications.pdf timeline1.pdf timed-text-tab.pdf \
                making-dcp.pdf filters.pdf video-tab.pdf audio-tab.pdf \
                audio-plot.pdf audio-map-eg1.pdf audio-map-eg2.pdf audio-map-eg3.pdf kdm.pdf \
-               kdm-creator.pdf export.pdf advanced-content.pdf disk-writer-notice.pdf disk-writer.pdf
+               kdm-creator.pdf export.pdf advanced-content.pdf disk-writer-notice.pdf disk-writer.pdf \
+	       markers.pdf
 
 XML := dcpomatic.xml
 
