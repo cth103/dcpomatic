@@ -244,6 +244,7 @@ KDMOutputPanel::make (
 				if (d->ShowModal() == wxID_CANCEL) {
 					proceed = false;
 				}
+				d->Destroy ();
 			}
 		}
 	}
