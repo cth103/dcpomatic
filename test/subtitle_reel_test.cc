@@ -34,11 +34,9 @@
 #include <boost/test/unit_test.hpp>
 
 
-using std::list;
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
-using boost::optional;
 
 
 /* Check that timings are done correctly for multi-reel DCPs with PNG subs */
@@ -72,7 +70,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 	dcp::DCP dcp ("build/test/subtitle_reel_test/" + film->dcp_name());
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
-	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
+	auto cpl = dcp.cpls().front();
 
 	auto reels = cpl->reels ();
 	BOOST_REQUIRE_EQUAL (reels.size(), 2U);
