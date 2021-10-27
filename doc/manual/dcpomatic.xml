@@ -1996,6 +1996,8 @@ The smoothing slider applies a variable degree of temporal smoothing
 to the plots, which can make them easier to read in some cases.
 </para>
 
+<para>Underneath the plot are shown some precise numbers for peaks and other measurements.  A peak value displayed in red means that it is greater than -3dB.</para>
+
 <para>
 The audio plot is no substitute for listening in an
 cinema, but it can be useful to get levels in roughly the right area.
