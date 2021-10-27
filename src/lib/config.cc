@@ -967,7 +967,7 @@ Config::write_config () const
 		root->add_child("PlayerActivityLogFile")->add_child_text(_player_activity_log_file->string());
 	}
 	if (_player_debug_log_file) {
-		/* [XML] PlayerLogFile Filename to use for player debug logs */
+		/* [XML] PlayerLogFile Filename to use for player debug logs. */
 		root->add_child("PlayerDebugLogFile")->add_child_text(_player_debug_log_file->string());
 	}
 	if (_player_content_directory) {
@@ -989,7 +989,7 @@ Config::write_config () const
 		root->add_child("CustomLanguage")->add_child_text(i.to_string());
 	}
 	if (_add_files_path) {
-		/* [XML] The default path that will be offered in the picker when adding files to a film */
+		/* [XML] AddFilesPath The default path that will be offered in the picker when adding files to a film. */
 		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
 	}
 
