@@ -2570,7 +2570,7 @@ You will need to restart DCP-o-matic to see the new language.
 
 <para>
 The translations for DCP-o-matic have been contributed by helpful
-users.  If your language is not on the last, head to <ulink
+users.  If your language is not on the last, visit <ulink
 url="https://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
 find out how to contribute a translation.
 </para>
@@ -2612,7 +2612,7 @@ encode.
 <para>
 This is the location of DCP-o-matic's configuration file on disk.  You
 can use this to share configuration between several copies of
-DCP-o-matic, across a network share, for instance.
+DCP-o-matic: across a network share, for instance.
 </para>
 </section>
 
@@ -2633,7 +2633,7 @@ store details of the cinemas and screens used to make KDMs.
 
 <para>
 The checkbox to the left of <guilabel>Play sound</guilabel> enables or
-disables DCP-o-matic use of sound.  On some machines there will be
+disables DCP-o-matic's use of sound.  On some machines there will be
 multiple options in the drop-down menu to decide how the sound should
 be played.
 </para>
@@ -2647,8 +2647,7 @@ be played.
 If <guilabel>Find integrated loudness, true peak and loudness range
 when analysing audio</guilabel> is ticked, DCP-o-matic will do extra
 work when analysing audio.  Leave this ticked if the extra parameters
-are useful to you.  If not, untick it and audio analysis will be
-faster.
+are useful to you.  If not, untick it to make audio analysis faster.
 </para>
 
 </section>
@@ -2669,7 +2668,7 @@ If this checkbox is ticked an audio analysis will be run whenever content is add
 <para>
 The <guilabel>Check for updates on startup</guilabel> option, if
 enabled, will tell DCP-o-matic to check on <ulink
-url="https://dcpomatic.com/">dcpomatic.com</ulink> to see if there any
+url="https://dcpomatic.com/">dcpomatic.com</ulink> to see if there are any
 newer versions of DCP-o-matic then the one you are running.  If so, a
 dialogue box will open with a link to download the new version.
 </para>
@@ -2677,8 +2676,7 @@ dialogue box will open with a link to download the new version.
 <para>
 The <guilabel>Check for testing updates as well as stable
 ones</guilabel> option will also check for test updates as well as
-those that are formally &lsquo;released&rsquo;. This is useful if you
-like to live on the bleeding edge!
+those that are formally &lsquo;released&rsquo;. 
 </para>
 </section>
 
@@ -2851,7 +2849,7 @@ you can upload DCPs directly from DCP-o-matic to the TMS using the
 <para>
 <guilabel>Protocol</guilabel> should be set to SCP or FTP as
 appropriate for your TMS.  We know that the Arts Alliance Media (AAM)
-and the Doremi ranges uses SCP connections, and that Dolby's TMSs use
+and the Doremi ranges uses SCP connections, and that Dolby's TMS uses
 FTP.  Do let us know if you use any other type of TMS with the
 <guilabel>Send DCP to TMS</guilabel> feature.
 </para>
@@ -2980,7 +2978,7 @@ send.
 </para>
 
 <para>
-The bottom box in the tab is the contents of the email that should
+The bottom box in the tab is the content of the email that should
 be sent.  DCP-o-matic will replace the &lsquo;magic&rsquo; strings
 <code>$JOB_NAME</code> and <code>$JOB_STATUS</code> in the with the
 details of the job that has completed.
@@ -3098,7 +3096,7 @@ that you might see with your current settings.
 </para>
 
 <para>
-The four checkboxes labelled <guilabel>Log</guilabel> control what
+The checkboxes labelled <guilabel>Log</guilabel> control what
 sort of messages DCP-o-matic writes to its log file when creating a
 DCP.  It is useful to leave <guilabel>General</guilabel>,
 <guilabel>Warnings</guilabel> and <guilabel>Errors</guilabel> ticked
@@ -3134,7 +3132,7 @@ however, always possible.
 There are some limitations to video and audio frame rates in DCPs.  This is
 complicated by the fact that not all projectors will play DCPs at the
 same frame rates.  It is possible to create a DCP which one projector will
-play fine, but another (of a different type) will refuse to play.
+play fine, but another (of a different type, or even just with a different software version) will refuse to play.
 </para>
 
 
@@ -3177,7 +3175,7 @@ with minimal loss in quality.
 </para>
 
 <para>
-Video rate conversion is harder.  DCP-o-matic's basic strategy to deal
+Video rate conversion is harder.  DCP-o-matic's strategy to deal
 with a non-supported content rate is to run it at the wrong speed, and
 to adjust the audio to keep it in sync.
 </para>
@@ -3226,8 +3224,8 @@ content.
 </para>
 
 <para>
-If you want to experiment with other non-standard frame rates, you can
-do so by ticking the <guilabel>Allow any DCP frame rate</guilabel> in
+You can experiment with other non-standard frame rates
+by ticking the <guilabel>Allow any DCP frame rate</guilabel> in
 the <guilabel>Advanced</guilabel> tab of the preferences dialogue (see the
 <xref linkend="sec-prefs-advanced" endterm="sec-prefs-advanced-short"/>).  You are strongly advised to
 use this only on your own equipment, and only for experimentation
@@ -3253,7 +3251,7 @@ a small program called <code>dcpomatic_server</code>.
 </para>
 
 <para>
-The master and server machines do not need to be the same type, so you
+The master and server machines do not need to be running the same operating system, so you
 can mix Windows PCs, Macs and Linux machines as you wish.
 </para>
 
@@ -3263,7 +3261,7 @@ can mix Windows PCs, Macs and Linux machines as you wish.
 <title>Running the servers</title>
 
 <para>
-There are two options for the encoding server;
+There are two options for the encoding server:
 <code>dcpomatic_server_cli</code>, which runs on the command line, and
 <code>dcpomatic_server</code>, which has a simple GUI.  The command line
 version is well-suited to headless servers, especially on Linux, and
@@ -3398,7 +3396,7 @@ Following this is the DCP itself:
 <code>DCP-TEST_EN-XX_UK-U_51_2K_CSY_20130218_CSY_OV</code>.  This
 contains some small XML files, which describe the DCP, and two large
 MXF files, which contain the DCP's audio and video data.  It may also
-contain subtitles in either XML or MXF format.  This folder
+contain subtitles or closed captions in either XML or MXF format.  This folder
 (<code>DCP-TEST_EN-XX_...</code>) is what you should ingest, or pass
 to the cinema which is showing your DCP.
 </para>
@@ -3633,7 +3631,7 @@ DCP.</listitem>
 <listitem>Check the subtitle appearance in the preview; it will be
 slow to respond as it is having to decompress images from the existing
 DCP.  Adjust the appearance using controls in the
-<guilabel>Subtitle</guilabel> tab if required.</listitem>
+<guilabel>Timed Text</guilabel> or <guilabel>Closed Captions</guilabel> tabs if required.</listitem>
 <listitem>Choose <guilabel>Make DCP</guilabel> from the menu.</listitem>
 </itemizedlist>
 
@@ -3650,7 +3648,7 @@ DCP.  Adjust the appearance using controls in the
 <listitem>Check the subtitle appearance in the preview; it will be
 slow to respond as it is having to decompress images from the existing
 DCP.  Adjust the appearance using controls in the
-<guilabel>Subtitle</guilabel> tab if required.</listitem>
+<guilabel>Timed Text</guilabel> or <guilabel>Closed Captions</guilabel> tabs if required.</listitem>
 <listitem>Choose <guilabel>Make DCP</guilabel> from the menu.</listitem>
 </itemizedlist>
 
@@ -3726,6 +3724,12 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   decode at less than full resolution the DCP's data will be decoded
   at this lower resolution, which is quicker than decoding at full
   resolution.
+  </para>
+
+  <para>Another way to improve performance is to set the <guilabel>Video display mode</guilabel>
+  in <guilabel>Preferences</guilabel> to <guilabel>OpenGL (faster)</guilabel>.  This should provide
+  a significant speed-up on most systems, although this mode has not been so widely tested so may
+  have problems.
   </para>
 
 </chapter>
