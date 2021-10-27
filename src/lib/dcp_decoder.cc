@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,40 +18,42 @@
 
 */
 
+
 #include "atmos_decoder.h"
-#include "dcp_decoder.h"
-#include "dcp_content.h"
 #include "audio_content.h"
-#include "video_decoder.h"
 #include "audio_decoder.h"
+#include "config.h"
+#include "dcp_content.h"
+#include "dcp_decoder.h"
+#include "digester.h"
+#include "ffmpeg_image_proxy.h"
+#include "frame_interval_checker.h"
+#include "image.h"
 #include "j2k_image_proxy.h"
 #include "text_decoder.h"
-#include "ffmpeg_image_proxy.h"
-#include "image.h"
-#include "config.h"
-#include "digester.h"
-#include "frame_interval_checker.h"
-#include <dcp/dcp.h>
+#include "video_decoder.h"
 #include <dcp/cpl.h>
-#include <dcp/reel.h>
+#include <dcp/dcp.h>
+#include <dcp/decrypted_kdm.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_asset_reader.h>
-#include <dcp/stereo_picture_asset.h>
-#include <dcp/stereo_picture_asset_reader.h>
+#include <dcp/mono_picture_frame.h>
+#include <dcp/reel.h>
+#include <dcp/reel_atmos_asset.h>
+#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
-#include <dcp/mono_picture_frame.h>
-#include <dcp/stereo_picture_frame.h>
-#include <dcp/sound_frame.h>
 #include <dcp/sound_asset_reader.h>
+#include <dcp/sound_frame.h>
+#include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_picture_asset_reader.h>
+#include <dcp/stereo_picture_frame.h>
 #include <dcp/subtitle_image.h>
-#include <dcp/decrypted_kdm.h>
-#include <dcp/reel_atmos_asset.h>
 #include <iostream>
 
 #include "i18n.h"
+
 
 using std::list;
 using std::cout;
@@ -63,6 +65,7 @@ using std::dynamic_pointer_cast;
 using std::make_shared;
 using boost::optional;
 using namespace dcpomatic;
+
 
 DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
 	: DCP (c, tolerant)
@@ -142,12 +145,12 @@ DCPDecoder::pass ()
 		return true;
 	}
 
-	double const vfr = _dcp_content->active_video_frame_rate (film());
+	auto const vfr = _dcp_content->active_video_frame_rate (film());
 
 	/* Frame within the (played part of the) reel that is coming up next */
-	int64_t const frame = _next.frames_round (vfr);
+	auto const frame = _next.frames_round (vfr);
 
-	shared_ptr<dcp::PictureAsset> picture_asset = (*_reel)->main_picture()->asset();
+	auto picture_asset = (*_reel)->main_picture()->asset();
 	DCPOMATIC_ASSERT (picture_asset);
 
 	/* We must emit texts first as when we emit the video for this frame
@@ -156,7 +159,7 @@ DCPDecoder::pass ()
 	pass_texts (_next, picture_asset->size());
 
 	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
-		int64_t const entry_point = (*_reel)->main_picture()->entry_point().get_value_or(0);
+		auto const entry_point = (*_reel)->main_picture()->entry_point().get_value_or(0);
 		if (_mono_reader) {
 			video->emit (
 				film(),
@@ -196,14 +199,14 @@ DCPDecoder::pass ()
 	}
 
 	if (_sound_reader && (_decode_referenced || !_dcp_content->reference_audio())) {
-		int64_t const entry_point = (*_reel)->main_sound()->entry_point().get_value_or(0);
-		shared_ptr<const dcp::SoundFrame> sf = _sound_reader->get_frame (entry_point + frame);
-		uint8_t const * from = sf->data ();
+		auto const entry_point = (*_reel)->main_sound()->entry_point().get_value_or(0);
+		auto sf = _sound_reader->get_frame (entry_point + frame);
+		auto from = sf->data ();
 
 		int const channels = _dcp_content->audio->stream()->channels ();
 		int const frames = sf->size() / (3 * channels);
-		shared_ptr<AudioBuffers> data (new AudioBuffers (channels, frames));
-		float** data_data = data->data();
+		auto data = make_shared<AudioBuffers>(channels, frames);
+		auto data_data = data->data();
 		for (int i = 0; i < frames; ++i) {
 			for (int j = 0; j < channels; ++j) {
 				data_data[j][i] = static_cast<int> ((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float> (INT_MAX - 256);
@@ -216,7 +219,7 @@ DCPDecoder::pass ()
 
 	if (_atmos_reader) {
 		DCPOMATIC_ASSERT (_atmos_metadata);
-		int64_t const entry_point = (*_reel)->atmos()->entry_point().get_value_or(0);
+		auto const entry_point = (*_reel)->atmos()->entry_point().get_value_or(0);
 		atmos->emit (film(), _atmos_reader->get_frame(entry_point + frame), _offset + frame, *_atmos_metadata);
 	}
 
@@ -231,6 +234,7 @@ DCPDecoder::pass ()
 
 	return false;
 }
+
 
 void
 DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
@@ -263,14 +267,15 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 	}
 }
 
+
 void
 DCPDecoder::pass_texts (
 	ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size
 	)
 {
-	double const vfr = _dcp_content->active_video_frame_rate (film());
+	auto const vfr = _dcp_content->active_video_frame_rate (film());
 	/* Frame within the (played part of the) reel that is coming up next */
-	int64_t const frame = next.frames_round (vfr);
+	auto const frame = next.frames_round (vfr);
 
 	if (_decode_referenced || !reference) {
 		auto subs = asset->subtitles_during (
@@ -331,6 +336,7 @@ DCPDecoder::pass_texts (
 	}
 }
 
+
 void
 DCPDecoder::next_reel ()
 {
@@ -338,6 +344,7 @@ DCPDecoder::next_reel ()
 	++_reel;
 	get_readers ();
 }
+
 
 void
 DCPDecoder::get_readers ()
@@ -351,9 +358,9 @@ DCPDecoder::get_readers ()
 	}
 
 	if ((*_reel)->main_picture()) {
-		shared_ptr<dcp::PictureAsset> asset = (*_reel)->main_picture()->asset ();
-		shared_ptr<dcp::MonoPictureAsset> mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
-		shared_ptr<dcp::StereoPictureAsset> stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
+		auto asset = (*_reel)->main_picture()->asset();
+		auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(asset);
+		auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(asset);
 		DCPOMATIC_ASSERT (mono || stereo);
 		if (mono) {
 			_mono_reader = mono->start_read ();
@@ -377,7 +384,7 @@ DCPDecoder::get_readers ()
 	}
 
 	if ((*_reel)->atmos()) {
-		shared_ptr<dcp::AtmosAsset> asset = (*_reel)->atmos()->asset();
+		auto asset = (*_reel)->atmos()->asset();
 		_atmos_reader = asset->start_read();
 		_atmos_reader->set_check_hmac (false);
 		_atmos_metadata = AtmosMetadata (asset);
@@ -386,6 +393,7 @@ DCPDecoder::get_readers ()
 		_atmos_metadata = boost::none;
 	}
 }
+
 
 void
 DCPDecoder::seek (ContentTime t, bool accurate)
@@ -404,7 +412,7 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Pre-roll for subs */
 
-	ContentTime pre = t - ContentTime::from_seconds (pre_roll_seconds);
+	auto pre = t - ContentTime::from_seconds (pre_roll_seconds);
 	if (pre < ContentTime()) {
 		pre = ContentTime ();
 	}
@@ -416,7 +424,7 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 		pre >= ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()))
 		) {
 
-		ContentTime rd = ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
+		auto rd = ContentTime::from_frames ((*_reel)->main_picture()->actual_duration(), _dcp_content->active_video_frame_rate(film()));
 		pre -= rd;
 		t -= rd;
 		next_reel ();
@@ -424,7 +432,7 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Pass texts in the pre-roll */
 
-	double const vfr = _dcp_content->active_video_frame_rate (film());
+	auto const vfr = _dcp_content->active_video_frame_rate (film());
 	for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
 		pass_texts (pre, (*_reel)->main_picture()->asset()->size());
 		pre += ContentTime::from_frames (1, vfr);
@@ -444,6 +452,7 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 	_next = t;
 }
 
+
 void
 DCPDecoder::set_decode_referenced (bool r)
 {
@@ -457,11 +466,13 @@ DCPDecoder::set_decode_referenced (bool r)
 	}
 }
 
+
 void
 DCPDecoder::set_forced_reduction (optional<int> reduction)
 {
 	_forced_reduction = reduction;
 }
+
 
 string
 DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
@@ -480,6 +491,7 @@ DCPDecoder::calculate_lazy_digest (shared_ptr<const DCPContent> c) const
 	return d.get ();
 }
 
+
 ContentTime
 DCPDecoder::position () const
 {
@@ -493,9 +505,8 @@ DCPDecoder::fonts () const
 	vector<FontData> data;
 	for (auto i: _reels) {
 		if (i->main_subtitle() && i->main_subtitle()->asset()) {
-			map<string, dcp::ArrayData> fm = i->main_subtitle()->asset()->font_data();
-			for (map<string, dcp::ArrayData>::const_iterator j = fm.begin(); j != fm.end(); ++j) {
-				data.push_back (FontData(j->first, j->second));
+			for (auto const& j: i->main_subtitle()->asset()->font_data()) {
+				data.push_back (FontData(j.first, j.second));
 			}
 		}
 	}
