@@ -108,7 +108,11 @@ TranscodeJob::run ()
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
 
 		if (dynamic_pointer_cast<DCPEncoder>(_encoder)) {
-			Analytics::instance()->successful_dcp_encode();
+			try {
+				Analytics::instance()->successful_dcp_encode();
+			} catch (FileError& e) {
+				LOG_WARNING (N_("Failed to write analytics (%1)"), e.what());
+			}
 		}
 
 		/* XXX: this shouldn't be here */
