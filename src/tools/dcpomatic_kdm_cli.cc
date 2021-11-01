@@ -68,7 +68,7 @@ help ()
 		"  -t, --valid-to                           valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
 		"  -d, --valid-duration                     valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
 		"  -F, --formulation                        modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
-		"  -a, --disable-forensic-marking-picture   disable forensic marking of pictures essences\n"
+		"  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences\n"
 		"  -a, --disable-forensic-marking-audio     disable forensic marking of audio essences (optionally above a given channel, e.g 12)\n"
 		"  -z, --zip                                ZIP each cinema's KDMs into its own file\n"
 		"  -v, --verbose                            be verbose\n"
