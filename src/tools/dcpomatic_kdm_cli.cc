@@ -70,6 +70,7 @@ help ()
 		"  -F, --formulation                        modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
 		"  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences\n"
 		"  -a, --disable-forensic-marking-audio     disable forensic marking of audio essences (optionally above a given channel, e.g 12)\n"
+		"  -e, --email                              email KDMs to cinemas\n"
 		"  -z, --zip                                ZIP each cinema's KDMs into its own file\n"
 		"  -v, --verbose                            be verbose\n"
 		"  -c, --cinema                             specify a cinema, either by name or email address\n"
@@ -210,6 +211,7 @@ from_film (
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
+	bool email,
 	bool zip
 	)
 {
@@ -244,6 +246,9 @@ from_film (
 			}
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
+		if (email) {
+			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name());
+		}
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
@@ -335,6 +340,7 @@ from_dkdm (
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
+	bool email,
 	bool zip
 	)
 {
@@ -372,10 +378,16 @@ from_dkdm (
 			kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, kdm));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
+		if (email) {
+			send_emails ({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""));
+		}
 	} catch (FileError& e) {
 		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
 		exit (EXIT_FAILURE);
 	} catch (KDMError& e) {
+		cerr << program_name << ": " << e.what() << "\n";
+		exit (EXIT_FAILURE);
+	} catch (NetworkError& e) {
 		cerr << program_name << ": " << e.what() << "\n";
 		exit (EXIT_FAILURE);
 	}
@@ -427,6 +439,7 @@ int main (int argc, char* argv[])
 	dcp::Formulation formulation = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
 	bool disable_forensic_marking_picture = false;
 	optional<int> disable_forensic_marking_audio;
+	bool email = false;
 
 	program_name = argv[0];
 
@@ -443,6 +456,7 @@ int main (int argc, char* argv[])
 			{ "formulation", required_argument, 0, 'F' },
 			{ "disable-forensic-marking-picture", no_argument, 0, 'p' },
 			{ "disable-forensic-marking-audio", optional_argument, 0, 'a' },
+			{ "email", no_argument, 0, 'e' },
 			{ "zip", no_argument, 0, 'z' },
 			{ "verbose", no_argument, 0, 'v' },
 			{ "cinema", required_argument, 0, 'c' },
@@ -454,7 +468,7 @@ int main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pa::zvc:S:C:T:BD", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BD", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -505,6 +519,9 @@ int main (int argc, char* argv[])
 			} else if (optarg) {
 				disable_forensic_marking_audio = atoi (optarg);
 			}
+			break;
+		case 'e':
+			email = true;
 			break;
 		case 'z':
 			zip = true;
@@ -609,6 +626,7 @@ int main (int argc, char* argv[])
 			formulation,
 			disable_forensic_marking_picture,
 			disable_forensic_marking_audio,
+			email,
 			zip
 			);
 	} else {
@@ -634,6 +652,7 @@ int main (int argc, char* argv[])
 			formulation,
 			disable_forensic_marking_picture,
 			disable_forensic_marking_audio,
+			email,
 			zip
 			);
 	}
