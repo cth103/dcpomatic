@@ -195,7 +195,7 @@ write_zip_files (
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 void
-email (
+send_emails (
 	list<list<KDMWithMetadataPtr>> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,

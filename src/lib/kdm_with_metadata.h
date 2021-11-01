@@ -103,7 +103,7 @@ int write_zip_files (
 		);
 
 
-void email (
+void send_emails (
 		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
