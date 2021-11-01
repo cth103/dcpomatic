@@ -25,14 +25,14 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/dcp_content.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
-#include "lib/video_content.h"
-#include "lib/referenced_reel_asset.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/player.h"
+#include "lib/referenced_reel_asset.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -42,12 +42,12 @@
 #include <iostream>
 
 
-using std::list;
-using std::string;
 using std::cout;
-using std::shared_ptr;
-using std::make_shared;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using namespace dcpomatic;
 
 
