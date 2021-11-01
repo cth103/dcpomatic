@@ -233,7 +233,7 @@ email (
 
 		string screens;
 		for (auto j: i) {
-			auto screen_name = j->get('n');
+			auto screen_name = j->get('s');
 			if (screen_name) {
 				screens += *screen_name + ", ";
 			}
