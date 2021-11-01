@@ -104,7 +104,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	email (_kdms, _container_name_format, _filename_format, _cpl_name);
+	send_emails (_kdms, _container_name_format, _filename_format, _cpl_name);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }
