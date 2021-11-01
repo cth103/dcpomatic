@@ -717,6 +717,10 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 
 	auto text = Config::instance()->cover_sheet ();
 	boost::algorithm::replace_all (text, "$CPL_NAME", film()->name());
+	auto cpls = film()->cpls();
+	if (!cpls.empty()) {
+		boost::algorithm::replace_all (text, "$CPL_FILENAME", cpls[0].cpl_file.filename().string());
+	}
 	boost::algorithm::replace_all (text, "$TYPE", film()->dcp_content_type()->pretty_name());
 	boost::algorithm::replace_all (text, "$CONTAINER", film()->container()->container_nickname());
 
