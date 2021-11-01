@@ -2932,6 +2932,9 @@ KDM that is being sent; these strings are shown in <xref linkend="tab-kdm-magic"
 <entry><code>$CPL_NAME</code></entry><entry>DCP title</entry>
 </row>
 <row>
+<entry><code>$CPL_FILENAME</code></entry><entry>Filename of the CPL</entry>
+</row>
+<row>
 <entry><code>$CINEMA_NAME</code></entry><entry>Cinema name</entry>
 </row>
 <row>

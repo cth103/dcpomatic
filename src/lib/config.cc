@@ -1162,6 +1162,7 @@ Config::set_cover_sheet_to_default ()
 {
 	_cover_sheet = _(
 		"$CPL_NAME\n\n"
+		"CPL Filename: $CPL_FILENAME\n"
 		"Type: $TYPE\n"
 		"Format: $CONTAINER\n"
 		"Audio: $AUDIO\n"
