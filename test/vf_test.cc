@@ -370,3 +370,31 @@ BOOST_AUTO_TEST_CASE (vf_test7)
 	vf->write_metadata ();
 	make_and_verify_dcp (vf);
 }
+
+
+/** Test bug #2116 */
+BOOST_AUTO_TEST_CASE (test_vf_with_trimmed_multi_reel_dcp)
+{
+	/* Make an OV with 3 reels */
+	std::vector<std::shared_ptr<Content>> ov_content;
+	for (int i = 0; i < 3; ++i) {
+		auto c = content_factory("test/data/flat_red.png").front();
+		c->video->set_length(240);
+		ov_content.push_back(c);
+	}
+	auto ov = new_test_film2 ("test_vf_with_trimmed_multi_reel_dcp_ov", ov_content);
+	ov->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	make_and_verify_dcp (ov);
+
+	/* Make a VF with a specific arrangement */
+	auto vf_image = content_factory("test/data/flat_red.png").front();
+	auto vf_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+	auto vf = new_test_film2 ("test_vf_with_trimmed_multi_reel_dcp_vf", { vf_image, vf_dcp });
+	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	vf_dcp->set_reference_video(true);
+	vf_dcp->set_reference_audio(true);
+	vf_dcp->set_trim_start(ContentTime::from_seconds(10));
+	vf_dcp->set_position(vf, DCPTime::from_seconds(10));
+	make_and_verify_dcp (vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+}
+
