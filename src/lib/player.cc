@@ -557,7 +557,7 @@ Player::get_reel_assets ()
 {
 	/* Does not require a lock on _mutex as it's only called from DCPEncoder */
 
-	list<ReferencedReelAsset> a;
+	list<ReferencedReelAsset> reel_assets;
 
 	for (auto i: playlist()->content()) {
 		auto j = dynamic_pointer_cast<DCPContent> (i);
@@ -569,7 +569,7 @@ Player::get_reel_assets ()
 		try {
 			decoder.reset (new DCPDecoder(_film, j, false, false, shared_ptr<DCPDecoder>()));
 		} catch (...) {
-			return a;
+			return reel_assets;
 		}
 
 		DCPOMATIC_ASSERT (j->video_frame_rate ());
@@ -598,20 +598,20 @@ Player::get_reel_assets ()
 
 			auto const from = i->position() + DCPTime::from_frames (offset_from_start, _film->video_frame_rate());
 			if (j->reference_video ()) {
-				maybe_add_asset (a, k->main_picture(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, k->main_picture(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (j->reference_audio ()) {
-				maybe_add_asset (a, k->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, k->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (j->reference_text (TextType::OPEN_SUBTITLE)) {
-				maybe_add_asset (a, k->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, k->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (j->reference_text (TextType::CLOSED_CAPTION)) {
 				for (auto l: k->closed_captions()) {
-					maybe_add_asset (a, l, reel_trim_start, reel_trim_end, from, ffr);
+					maybe_add_asset (reel_assets, l, reel_trim_start, reel_trim_end, from, ffr);
 				}
 			}
 
@@ -620,7 +620,7 @@ Player::get_reel_assets ()
 		}
 	}
 
-	return a;
+	return reel_assets;
 }
 
 
