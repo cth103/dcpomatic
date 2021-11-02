@@ -587,10 +587,10 @@ Player::get_reel_assets ()
 			offset_from_end += k->main_picture()->actual_duration();
 		}
 
-		for (auto k: decoder->reels()) {
+		for (auto reel: decoder->reels()) {
 
 			/* Assume that main picture duration is the length of the reel */
-			int64_t const reel_duration = k->main_picture()->actual_duration();
+			int64_t const reel_duration = reel->main_picture()->actual_duration();
 
 			/* See doc/design/trim_reels.svg */
 			Frame const reel_trim_start = min(reel_duration, max(int64_t(0), trim_start - offset_from_start));
@@ -598,19 +598,19 @@ Player::get_reel_assets ()
 
 			auto const from = content->position() + DCPTime::from_frames (offset_from_start, _film->video_frame_rate());
 			if (dcp->reference_video()) {
-				maybe_add_asset (reel_assets, k->main_picture(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, reel->main_picture(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (dcp->reference_audio()) {
-				maybe_add_asset (reel_assets, k->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, reel->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (dcp->reference_text(TextType::OPEN_SUBTITLE)) {
-				maybe_add_asset (reel_assets, k->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, reel->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
 			}
 
 			if (dcp->reference_text(TextType::CLOSED_CAPTION)) {
-				for (auto l: k->closed_captions()) {
+				for (auto l: reel->closed_captions()) {
 					maybe_add_asset (reel_assets, l, reel_trim_start, reel_trim_end, from, ffr);
 				}
 			}
