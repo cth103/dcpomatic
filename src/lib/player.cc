@@ -582,9 +582,9 @@ Player::get_reel_assets ()
 		int64_t offset_from_start = 0;
 		/* position i the asset from the end */
 		int64_t offset_from_end = 0;
-		for (auto k: decoder->reels()) {
+		for (auto reel: decoder->reels()) {
 			/* Assume that main picture duration is the length of the reel */
-			offset_from_end += k->main_picture()->actual_duration();
+			offset_from_end += reel->main_picture()->actual_duration();
 		}
 
 		for (auto reel: decoder->reels()) {
