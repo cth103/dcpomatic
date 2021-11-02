@@ -47,6 +47,8 @@ rewrite_bad_config ()
 
 BOOST_AUTO_TEST_CASE (config_backup_test)
 {
+	ConfigRestorer cr;
+
 	Config::override_path = "build/test/bad_config";
 
 	Config::drop();
@@ -88,16 +90,13 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
-
-	/* This test has called Config::set_defaults(), so take us back
-	   to the config that we want for our tests.
-	*/
-	setup_test_config ();
 }
 
 
 BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 {
+	ConfigRestorer cr;
+
 	boost::filesystem::remove_all ("build/test/config.xml");
 	boost::filesystem::copy_file ("test/data/utf8_config.xml", "build/test/config.xml");
 	Config::override_path = "build/test";
@@ -105,16 +104,13 @@ BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 	Config::instance()->write();
 
 	check_text_file ("test/data/utf8_config.xml", "build/test/config.xml");
-
-	/* This test has called Config::set_defaults(), so take us back
-	   to the config that we want for our tests.
-	*/
-	setup_test_config ();
 }
 
 
 BOOST_AUTO_TEST_CASE (config_upgrade_test)
 {
+	ConfigRestorer cr;
+
 	boost::filesystem::path dir = "build/test/config_upgrade_test";
 	Config::override_path = dir;
 	Config::drop ();
@@ -139,7 +135,5 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test)
 #endif
 	/* cinemas.xml is not copied into 2.16 as its format has not changed */
 	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.16" / "cinemas.xml"));
-
-	setup_test_config();
 }
 

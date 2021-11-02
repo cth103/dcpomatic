@@ -54,6 +54,8 @@ using std::make_shared;
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
 BOOST_AUTO_TEST_CASE (import_dcp_test)
 {
+	ConfigRestorer cr;
+
 	auto A = new_test_film ("import_dcp_test");
 	A->set_container (Ratio::from_id ("185"));
 	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
@@ -100,9 +102,6 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/import_dcp_test2", "build/test/import_dcp_test2/" + B->dcp_name());
-
-	/* Restore the reference decryption chain */
-	setup_test_config ();
 }
 
 
