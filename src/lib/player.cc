@@ -610,8 +610,8 @@ Player::get_reel_assets ()
 			}
 
 			if (dcp->reference_text(TextType::CLOSED_CAPTION)) {
-				for (auto l: reel->closed_captions()) {
-					maybe_add_asset (reel_assets, l, reel_trim_start, reel_trim_end, from, ffr);
+				for (auto caption: reel->closed_captions()) {
+					maybe_add_asset (reel_assets, caption, reel_trim_start, reel_trim_end, from, ffr);
 				}
 			}
 
