@@ -565,6 +565,10 @@ Player::get_reel_assets ()
 			continue;
 		}
 
+		if (!dcp->reference_video() && !dcp->reference_audio() && !dcp->reference_text(TextType::OPEN_SUBTITLE) && !dcp->reference_text(TextType::CLOSED_CAPTION)) {
+			continue;
+		}
+
 		scoped_ptr<DCPDecoder> decoder;
 		try {
 			decoder.reset (new DCPDecoder(_film, dcp, false, false, shared_ptr<DCPDecoder>()));
