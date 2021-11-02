@@ -576,11 +576,13 @@ Player::get_reel_assets ()
 			return reel_assets;
 		}
 
+		auto const frame_rate = _film->video_frame_rate();
 		DCPOMATIC_ASSERT (dcp->video_frame_rate());
-		double const cfr = dcp->video_frame_rate().get();
-		Frame const trim_start = dcp->trim_start().frames_round(cfr);
-		Frame const trim_end = dcp->trim_end().frames_round(cfr);
-		int const ffr = _film->video_frame_rate ();
+		/* We should only be referencing if the DCP rate is the same as the film rate */
+		DCPOMATIC_ASSERT (std::round(dcp->video_frame_rate().get()) == frame_rate);
+
+		Frame const trim_start = dcp->trim_start().frames_round(frame_rate);
+		Frame const trim_end = dcp->trim_end().frames_round(frame_rate);
 
 		/* position in the asset from the start */
 		int64_t offset_from_start = 0;
@@ -600,22 +602,22 @@ Player::get_reel_assets ()
 			Frame const reel_trim_start = min(reel_duration, max(int64_t(0), trim_start - offset_from_start));
 			Frame const reel_trim_end =   min(reel_duration, max(int64_t(0), reel_duration - (offset_from_end - trim_end)));
 
-			auto const from = max(DCPTime(), content->position() + DCPTime::from_frames(offset_from_start, ffr) - DCPTime::from_frames(trim_start, cfr));
+			auto const from = max(DCPTime(), content->position() + DCPTime::from_frames(offset_from_start, frame_rate) - DCPTime::from_frames(trim_start, frame_rate));
 			if (dcp->reference_video()) {
-				maybe_add_asset (reel_assets, reel->main_picture(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, reel->main_picture(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}
 
 			if (dcp->reference_audio()) {
-				maybe_add_asset (reel_assets, reel->main_sound(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, reel->main_sound(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}
 
 			if (dcp->reference_text(TextType::OPEN_SUBTITLE)) {
-				maybe_add_asset (reel_assets, reel->main_subtitle(), reel_trim_start, reel_trim_end, from, ffr);
+				maybe_add_asset (reel_assets, reel->main_subtitle(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}
 
 			if (dcp->reference_text(TextType::CLOSED_CAPTION)) {
 				for (auto caption: reel->closed_captions()) {
-					maybe_add_asset (reel_assets, caption, reel_trim_start, reel_trim_end, from, ffr);
+					maybe_add_asset (reel_assets, caption, reel_trim_start, reel_trim_end, from, frame_rate);
 				}
 			}
 
