@@ -56,7 +56,6 @@ private:
 
 
 extern bool wait_for_jobs ();
-extern void setup_test_config ();
 extern std::shared_ptr<Film> new_test_film (std::string);
 extern std::shared_ptr<Film> new_test_film2 (std::string, std::vector<std::shared_ptr<Content>> content = {}, Cleanup* cleanup = nullptr);
 extern void check_dcp (boost::filesystem::path, boost::filesystem::path);
@@ -88,6 +87,13 @@ public:
 
 private:
 	std::shared_ptr<Log> _old;
+};
+
+
+class ConfigRestorer
+{
+public:
+	~ConfigRestorer();
 };
 
 

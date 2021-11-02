@@ -47,6 +47,8 @@ using std::vector;
 
 BOOST_AUTO_TEST_CASE (vf_kdm_test)
 {
+	ConfigRestorer cr;
+
 	/* Make an encrypted DCP from test.mp4 */
 
 	auto A = new_test_film ("vf_kdm_test_ov");
@@ -124,7 +126,4 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 
 	/* Should be 1s red, 1s green, 1s blue */
 	check_dcp ("test/data/vf_kdm_test_check", "build/test/vf_kdm_test_check/" + C->dcp_name());
-
-	/* Restore the reference decryption chain */
-	setup_test_config ();
 }

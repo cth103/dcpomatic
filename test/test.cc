@@ -99,10 +99,10 @@ boost::filesystem::path TestPaths::xsd ()
 }
 
 
-void
+static void
 setup_test_config ()
 {
-	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency());
+	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency() / 2);
 	Config::instance()->set_server_encoding_threads (1);
 	Config::instance()->set_server_port_base (61921);
 	Config::instance()->set_default_container (Ratio::from_id ("185"));
@@ -920,3 +920,10 @@ check_int_close (std::pair<int, int> a, std::pair<int, int> b, int d)
 	check_int_close (a.first, b.first, d);
 	check_int_close (a.second, b.second, d);
 }
+
+
+ConfigRestorer::~ConfigRestorer()
+{
+	setup_test_config();
+}
+
