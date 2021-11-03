@@ -19,38 +19,22 @@
 */
 
 
-#include "config.h"
-#include "dcp_digest_file.h"
-#include "dcp_transcode_job.h"
-#include "film.h"
-#include "job_manager.h"
-#include "upload_job.h"
-#include <dcp/cpl.h>
+#include "lib/content_factory.h"
+#include "lib/dcp_digest_file.h"
+#include "lib/film.h"
+#include "test.h"
+#include <dcp/dcp.h>
+#include <boost/test/unit_test.hpp>
 
 
-using std::make_shared;
-using std::shared_ptr;
-
-
-DCPTranscodeJob::DCPTranscodeJob (shared_ptr<const Film> film, ChangedBehaviour changed)
-	: TranscodeJob (film, changed)
+BOOST_AUTO_TEST_CASE (dcp_digest_file_test)
 {
+	dcp::DCP dcp("test/data/dcp_digest_test_dcp");
+	dcp.read ();
+	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
 
-}
+	write_dcp_digest_file ("build/test/digest.xml", dcp.cpls()[0], "e684e49e89182e907dabe5d9b3bd81ba");
 
-
-void
-DCPTranscodeJob::post_transcode ()
-{
-	if (Config::instance()->upload_after_make_dcp()) {
-		JobManager::instance()->add(make_shared<UploadJob>(_film));
-	}
-
-	dcp::DCP dcp(_film->dir(_film->dcp_name()));
-	dcp.read();
-
-	for (auto cpl: dcp.cpls()) {
-		write_dcp_digest_file (_film->file(cpl->annotation_text().get_value_or(cpl->id()) + ".dcpdig"), cpl, _film->key().hex());
-	}
+	check_xml ("test/data/digest.xml", "build/test/digest.xml", {});
 }
 

@@ -19,38 +19,9 @@
 */
 
 
-#include "config.h"
-#include "dcp_digest_file.h"
-#include "dcp_transcode_job.h"
-#include "film.h"
-#include "job_manager.h"
-#include "upload_job.h"
-#include <dcp/cpl.h>
+#include <dcp/dcp.h>
+#include <boost/filesystem.hpp>
 
 
-using std::make_shared;
-using std::shared_ptr;
-
-
-DCPTranscodeJob::DCPTranscodeJob (shared_ptr<const Film> film, ChangedBehaviour changed)
-	: TranscodeJob (film, changed)
-{
-
-}
-
-
-void
-DCPTranscodeJob::post_transcode ()
-{
-	if (Config::instance()->upload_after_make_dcp()) {
-		JobManager::instance()->add(make_shared<UploadJob>(_film));
-	}
-
-	dcp::DCP dcp(_film->dir(_film->dcp_name()));
-	dcp.read();
-
-	for (auto cpl: dcp.cpls()) {
-		write_dcp_digest_file (_film->file(cpl->annotation_text().get_value_or(cpl->id()) + ".dcpdig"), cpl, _film->key().hex());
-	}
-}
+extern void write_dcp_digest_file (boost::filesystem::path filename, std::shared_ptr<dcp::CPL> cpl, std::string key);
 
