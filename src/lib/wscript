@@ -67,6 +67,7 @@ sources = """
           dcp_decoder.cc
           dcp_encoder.cc
           dcp_examiner.cc
+          dcp_digest_file.cc
           dcp_subtitle.cc
           dcp_subtitle_content.cc
           dcp_subtitle_decoder.cc
