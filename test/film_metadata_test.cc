@@ -107,8 +107,11 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_1)
 {
 	namespace fs = boost::filesystem;
-	auto film = make_shared<Film>(fs::path("build/test/metadata_loads_from_2_14_x_1"));
-	auto notes = film->read_metadata(fs::path("test/data/2.14.x.metadata.1.xml"));
+	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_1");
+	fs::remove_all(dir);
+	auto film = make_shared<Film>(dir);
+	fs::copy_file("test/data/2.14.x.metadata.1.xml", dir / "metadata.xml");
+	auto notes = film->read_metadata(dir / "metadata.xml");
 	BOOST_REQUIRE_EQUAL (notes.size(), 0U);
 }
 
@@ -117,8 +120,11 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_1)
 BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_2)
 {
 	namespace fs = boost::filesystem;
-	auto film = make_shared<Film>(fs::path("build/test/metadata_loads_from_2_14_x_2"));
-	auto notes = film->read_metadata(fs::path("test/data/2.14.x.metadata.2.xml"));
+	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_2");
+	fs::remove_all(dir);
+	auto film = make_shared<Film>(dir);
+	fs::copy_file("test/data/2.14.x.metadata.2.xml", dir / "metadata.xml");
+	auto notes = film->read_metadata(dir / "metadata.xml");
 	BOOST_REQUIRE_EQUAL (notes.size(), 1U);
 	BOOST_REQUIRE_EQUAL (notes.front(),
 		       "A subtitle or closed caption file in this project is marked with the language 'eng', "
@@ -130,8 +136,11 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_2)
 BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_3)
 {
 	namespace fs = boost::filesystem;
-	auto film = make_shared<Film>(fs::path("build/test/metadata_loads_from_2_14_x_3"));
-	auto notes = film->read_metadata(fs::path("test/data/2.14.x.metadata.3.xml"));
+	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_3");
+	fs::remove_all(dir);
+	auto film = make_shared<Film>(dir);
+	fs::copy_file("test/data/2.14.x.metadata.3.xml", dir / "metadata.xml");
+	auto notes = film->read_metadata(dir / "metadata.xml");
 
 	BOOST_REQUIRE (film->release_territory());
 	BOOST_REQUIRE (film->release_territory()->subtag() == dcp::LanguageTag::RegionSubtag("de").subtag());
