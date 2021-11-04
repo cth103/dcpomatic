@@ -103,8 +103,11 @@ JobView::setup ()
 void
 JobView::maybe_pulse ()
 {
-	if (_gauge && _job->running() && !_job->progress()) {
-		_gauge->Pulse ();
+	if (_gauge && _job->running()) {
+		auto elapsed = _job->seconds_since_last_progress_update();
+		if (!_job->progress() || !elapsed || *elapsed > 2) {
+			_gauge->Pulse ();
+		}
 	}
 }
 
