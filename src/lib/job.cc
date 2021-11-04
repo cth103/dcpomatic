@@ -376,8 +376,7 @@ Job::set_progress (float p, bool force)
 		struct timeval now;
 		gettimeofday (&now, 0);
 		if (_last_progress_update && _last_progress_update->tv_sec > 0) {
-			double const elapsed = (now.tv_sec + now.tv_usec / 1000000.0)
-				- (_last_progress_update->tv_sec + _last_progress_update->tv_usec / 1000000.0);
+			double const elapsed = seconds(now) - seconds(*_last_progress_update);
 			if (elapsed < 0.5) {
 				return;
 			}
