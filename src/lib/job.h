@@ -81,6 +81,7 @@ public:
 	void set_progress (float, bool force = false);
 	void sub (std::string);
 	boost::optional<float> progress () const;
+	boost::optional<float> seconds_since_last_progress_update () const;
 
 	std::shared_ptr<const Film> film () const {
 		return _film;
