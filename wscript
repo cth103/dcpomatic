@@ -587,24 +587,8 @@ def configure(conf):
 
     Logs.pprint('YELLOW', '')
 
-def download_supporters(can_fail):
-    r = os.system('curl -m 2 -s -f https://dcpomatic.com/supporters.cc > src/wx/supporters.cc')
-    if (r >> 8) == 0:
-        r = os.system('curl -s -f https://dcpomatic.com/subscribers.cc > src/wx/subscribers.cc')
-    if (r >> 8) != 0:
-        if can_fail:
-            raise Exception("Could not download supporters lists (%d)" % (r >> 8))
-        else:
-            f = open('src/wx/supporters.cc', 'w')
-            print('supported_by.Add(wxT("Debug build - no supporters lists available"));', file=f)
-            f.close()
-            f = open('src/wx/subscribers.cc', 'w')
-            print('subscribers.Add(wxT("Debug build - no subscribers lists available"));', file=f)
-            f.close()
-
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
-    download_supporters(not bld.env.DEBUG)
 
     bld.recurse('src')
     bld.recurse('graphics')
@@ -690,6 +674,13 @@ def pot(bld):
 
 def pot_merge(bld):
     bld.recurse('src')
+
+def supporters(bld):
+    r = os.system('curl -m 2 -s -f https://dcpomatic.com/supporters.cc > src/wx/supporters.cc')
+    if (r >> 8) == 0:
+        r = os.system('curl -s -f https://dcpomatic.com/subscribers.cc > src/wx/subscribers.cc')
+    if (r >> 8) != 0:
+        raise Exception("Could not download supporters lists (%d)" % (r >> 8))
 
 def tags(bld):
     os.system('etags src/lib/*.cc src/lib/*.h src/wx/*.cc src/wx/*.h src/tools/*.cc')
