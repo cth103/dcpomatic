@@ -361,6 +361,22 @@ Job::check_for_interruption_or_pause ()
 	}
 }
 
+
+optional<float>
+Job::seconds_since_last_progress_update () const
+{
+	boost::mutex::scoped_lock lm (_progress_mutex);
+	if (!_last_progress_update) {
+		return {};
+	}
+
+	struct timeval now;
+	gettimeofday (&now, 0);
+
+	return seconds(now) - seconds(*_last_progress_update);
+}
+
+
 /** Set the progress of the current part of the job.
  *  @param p Progress (from 0 to 1)
  *  @param force Do not ignore this update, even if it hasn't been long since the last one.
