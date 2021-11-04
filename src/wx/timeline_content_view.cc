@@ -95,7 +95,7 @@ TimelineContentView::track () const
 }
 
 void
-TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> > overlaps)
+TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>> overlaps)
 {
 	DCPOMATIC_ASSERT (_track);
 
@@ -105,8 +105,8 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> 
 		return;
 	}
 
-	DCPTime const position = cont->position ();
-	DCPTime const len = cont->length_after_trim (film);
+	auto const position = cont->position ();
+	auto const len = cont->length_after_trim (film);
 
 	wxColour selected (background_colour().Red() / 2, background_colour().Green() / 2, background_colour().Blue() / 2);
 

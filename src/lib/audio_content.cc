@@ -98,7 +98,7 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 }
 
 
-AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content> > c)
+AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content>> c)
 	: ContentPart (parent)
 {
 	auto ref = c[0]->audio;

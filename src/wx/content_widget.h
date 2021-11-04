@@ -92,13 +92,13 @@ public:
 		return _wrapped;
 	}
 
-	typedef std::vector<std::shared_ptr<Content> > List;
+	typedef std::vector<std::shared_ptr<Content>> List;
 
 	/** Set the content that this control is working on (i.e. the selected content) */
 	void set_content (List content)
 	{
-		for (typename std::list<boost::signals2::connection>::iterator i = _connections.begin(); i != _connections.end(); ++i) {
-			i->disconnect ();
+		for (auto& i: _connections) {
+			i.disconnect ();
 		}
 
 		_connections.clear ();
@@ -109,11 +109,11 @@ public:
 
 		update_from_model ();
 
-		for (typename List::iterator i = _content.begin(); i != _content.end(); ++i) {
+		for (auto i: _content) {
 #if BOOST_VERSION >= 106100
-			_connections.push_back ((*i)->Change.connect (boost::bind (&ContentWidget::model_changed, this, boost::placeholders::_1, boost::placeholders::_3)));
+			_connections.push_back (i->Change.connect(boost::bind(&ContentWidget::model_changed, this, boost::placeholders::_1, boost::placeholders::_3)));
 #else
-			_connections.push_back ((*i)->Change.connect (boost::bind (&ContentWidget::model_changed, this, _1, _3)));
+			_connections.push_back (i->Change.connect(boost::bind(&ContentWidget::model_changed, this, _1, _3)));
 #endif
 		}
 	}
@@ -135,7 +135,7 @@ public:
 			return;
 		}
 
-		typename List::iterator i = _content.begin ();
+		auto i = _content.begin ();
 		U const v = boost::bind (_model_getter, _part(_content.front().get()).get())();
 		while (i != _content.end() && boost::bind (_model_getter, _part(i->get()).get())() == v) {
 			++i;

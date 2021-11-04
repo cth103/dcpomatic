@@ -35,13 +35,13 @@ run (string cmd)
 	/* This approximates the logic which splits command lines up into argc/argv */
 
 	boost::escaped_list_separator<char> els ("", " ", "\"\'");
-	boost::tokenizer<boost::escaped_list_separator<char> > tok (cmd, els);
+	boost::tokenizer<boost::escaped_list_separator<char>> tok (cmd, els);
 
 	std::vector<char*> argv(256);
 	int argc = 0;
 
-	for (boost::tokenizer<boost::escaped_list_separator<char> >::iterator i = tok.begin(); i != tok.end(); ++i) {
-		argv[argc++] = strdup (i->c_str());
+	for (auto i: tok) {
+		argv[argc++] = strdup (i.c_str());
 	}
 
 	CreateCLI cc (argc, argv.data());

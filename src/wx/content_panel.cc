@@ -473,7 +473,7 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
-	list<shared_ptr<Content> > content;
+	list<shared_ptr<Content>> content;
 
 	try {
 		content = content_factory (path);

@@ -140,11 +140,11 @@ public:
 		return _tms_password;
 	}
 
-	std::list<std::shared_ptr<Cinema> > cinemas () const {
+	std::list<std::shared_ptr<Cinema>> cinemas () const {
 		return _cinemas;
 	}
 
-	std::list<std::shared_ptr<DKDMRecipient> > dkdm_recipients () const {
+	std::list<std::shared_ptr<DKDMRecipient>> dkdm_recipients () const {
 		return _dkdm_recipients;
 	}
 
@@ -1194,8 +1194,8 @@ private:
 	*/
 	boost::optional<boost::filesystem::path> _default_kdm_directory;
 	bool _upload_after_make_dcp;
-	std::list<std::shared_ptr<Cinema> > _cinemas;
-	std::list<std::shared_ptr<DKDMRecipient> > _dkdm_recipients;
+	std::list<std::shared_ptr<Cinema>> _cinemas;
+	std::list<std::shared_ptr<DKDMRecipient>> _dkdm_recipients;
 	std::string _mail_server;
 	int _mail_port;
 	EmailProtocol _mail_protocol;

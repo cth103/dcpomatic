@@ -174,7 +174,7 @@ private:
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
 	boost::atomic<int> _suspended;
-	std::list<std::shared_ptr<Piece> > _pieces;
+	std::list<std::shared_ptr<Piece>> _pieces;
 
 	/** Size of the image we are rendering to; this may be the DCP frame size, or
 	 *  the size of preview in a window.
@@ -208,7 +208,7 @@ private:
 
 	AudioMerger _audio_merger;
 	std::unique_ptr<Shuffler> _shuffler;
-	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _delay;
+	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime>> _delay;
 
 	class StreamState
 	{

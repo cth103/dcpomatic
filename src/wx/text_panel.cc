@@ -874,7 +874,7 @@ TextPanel::update_outline_subtitles_in_viewer ()
 		}
 		fv->set_outline_subtitles (rect);
 	} else {
-		fv->set_outline_subtitles (optional<dcpomatic::Rect<double> >());
+		fv->set_outline_subtitles ({});
 	}
 }
 

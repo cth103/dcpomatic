@@ -297,7 +297,7 @@ checked_set (wxChoice* widget, string value)
 
 
 void
-checked_set (wxChoice* widget, vector<pair<string, string> > items)
+checked_set (wxChoice* widget, vector<pair<string, string>> items)
 {
        vector<pair<string, string>> current;
        for (unsigned int i = 0; i < widget->GetCount(); ++i) {

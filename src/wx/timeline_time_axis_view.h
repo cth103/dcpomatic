@@ -29,7 +29,7 @@ public:
 	void set_y (int y);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int> > overlaps);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps);
 
 	int _y; ///< y position in tracks (not pixels)
 };

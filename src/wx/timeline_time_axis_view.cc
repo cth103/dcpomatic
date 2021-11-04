@@ -50,7 +50,7 @@ TimelineTimeAxisView::set_y (int y)
 }
 
 void
-TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)
+TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>>)
 {
 	if (!_timeline.pixels_per_second()) {
 		return;

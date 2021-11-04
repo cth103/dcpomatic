@@ -111,8 +111,8 @@ main (int argc, char* argv[])
 		}
 
 		for (auto i: cc.content) {
-			boost::filesystem::path const can = boost::filesystem::canonical (i.path);
-			list<shared_ptr<Content> > content;
+			auto const can = boost::filesystem::canonical (i.path);
+			list<shared_ptr<Content>> content;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
 				content.push_back (shared_ptr<DCPContent>(new DCPContent(can)));

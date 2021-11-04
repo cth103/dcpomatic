@@ -60,7 +60,7 @@ SendKDMEmailJob::SendKDMEmailJob (
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 SendKDMEmailJob::SendKDMEmailJob (
-	list<list<KDMWithMetadataPtr> > kdms,
+	list<list<KDMWithMetadataPtr>> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	string cpl_name

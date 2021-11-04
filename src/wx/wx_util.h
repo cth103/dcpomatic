@@ -144,7 +144,7 @@ extern void checked_set (wxSpinCtrl* widget, int value);
 extern void checked_set (wxSpinCtrlDouble* widget, double value);
 extern void checked_set (wxChoice* widget, int value);
 extern void checked_set (wxChoice* widget, std::string value);
-extern void checked_set (wxChoice* widget, std::vector<std::pair<std::string, std::string> > items);
+extern void checked_set (wxChoice* widget, std::vector<std::pair<std::string, std::string>> items);
 extern void checked_set (wxTextCtrl* widget, std::string value);
 extern void checked_set (wxTextCtrl* widget, wxString value);
 extern void checked_set (PasswordEntry* widget, std::string value);

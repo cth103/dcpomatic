@@ -18,19 +18,23 @@
 
 */
 
+
 #include "check_content_change_job.h"
-#include "job_manager.h"
-#include "examine_content_job.h"
 #include "content.h"
+#include "examine_content_job.h"
 #include "film.h"
+#include "job_manager.h"
 #include <iostream>
 
 #include "i18n.h"
 
-using std::string;
-using std::list;
+
 using std::cout;
+using std::list;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+
 
 /** @param gui true if we are running this job from the GUI, false if it's the CLI */
 CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film, shared_ptr<Job> following, bool gui)
@@ -63,7 +67,7 @@ CheckContentChangeJob::run ()
 {
 	set_progress_unknown ();
 
-	list<shared_ptr<Content> > changed;
+	list<shared_ptr<Content>> changed;
 
 	for (auto i: _film->content()) {
 		bool ic = false;
@@ -84,7 +88,7 @@ CheckContentChangeJob::run ()
 	if (!changed.empty()) {
 		if (_gui) {
 			for (auto i: changed) {
-				JobManager::instance()->add(shared_ptr<Job>(new ExamineContentJob(_film, i)));
+				JobManager::instance()->add(make_shared<ExamineContentJob>(_film, i));
 			}
 			string m = _("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings.");
 			if (_following) {

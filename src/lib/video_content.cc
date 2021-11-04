@@ -196,7 +196,7 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 }
 
 
-VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
+VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content>> c)
 	: ContentPart (parent)
 	, _length (0)
 	, _yuv (false)
