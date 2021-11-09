@@ -135,13 +135,13 @@ J2KEncoder::end ()
 	     So just mop up anything left in the queue here.
 	*/
 
-	for (auto i: _queue) {
-		LOG_GENERAL(N_("Encode left-over frame %1"), i->index());
+	for (auto const& i: _queue) {
+		LOG_GENERAL(N_("Encode left-over frame %1"), i.index());
 		try {
 			_writer->write (
-				make_shared<dcp::ArrayData>(i->encode_locally()),
-				i->index(),
-				i->eyes()
+				make_shared<dcp::ArrayData>(i.encode_locally()),
+				i.index(),
+				i.eyes()
 				);
 			frame_done ();
 		} catch (std::exception& e) {
@@ -237,7 +237,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
 		LOG_TIMING ("add-frame-to-queue queue=%1", _queue.size ());
-		_queue.push_back (make_shared<DCPVideo>(
+		_queue.push_back (DCPVideo(
 				pv,
 				position,
 				_film->video_frame_rate(),
@@ -315,7 +315,7 @@ try
 		{
 			boost::this_thread::disable_interruption dis;
 
-			LOG_TIMING ("encoder-pop thread=%1 frame=%2 eyes=%3", thread_id(), vf->index(), (int) vf->eyes ());
+			LOG_TIMING ("encoder-pop thread=%1 frame=%2 eyes=%3", thread_id(), vf.index(), static_cast<int>(vf.eyes()));
 			_queue.pop_front ();
 
 			lock.unlock ();
@@ -325,7 +325,7 @@ try
 			/* We need to encode this input */
 			if (server) {
 				try {
-					encoded = make_shared<dcp::ArrayData>(vf->encode_remotely(server.get()));
+					encoded = make_shared<dcp::ArrayData>(vf.encode_remotely(server.get()));
 
 					if (remote_backoff > 0) {
 						LOG_GENERAL ("%1 was lost, but now she is found; removing backoff", server->host_name ());
@@ -341,15 +341,15 @@ try
 					}
 					LOG_ERROR (
 						N_("Remote encode of %1 on %2 failed (%3); thread sleeping for %4s"),
-						vf->index(), server->host_name(), e.what(), remote_backoff
+						vf.index(), server->host_name(), e.what(), remote_backoff
 						);
 				}
 
 			} else {
 				try {
-					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf->index());
-					encoded = make_shared<dcp::ArrayData>(vf->encode_locally());
-					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf->index());
+					LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf.index());
+					encoded = make_shared<dcp::ArrayData>(vf.encode_locally());
+					LOG_TIMING ("finish-local-encode thread=%1 frame=%2", thread_id(), vf.index());
 				} catch (std::exception& e) {
 					/* This is very bad, so don't cope with it, just pass it on */
 					LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
@@ -358,11 +358,11 @@ try
 			}
 
 			if (encoded) {
-				_writer->write (encoded, vf->index(), vf->eyes());
+				_writer->write (encoded, vf.index(), vf.eyes());
 				frame_done ();
 			} else {
 				lock.lock ();
-				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), vf->index());
+				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), vf.index());
 				_queue.push_front (vf);
 				lock.unlock ();
 			}

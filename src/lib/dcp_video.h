@@ -45,8 +45,8 @@ public:
 	DCPVideo (std::shared_ptr<const PlayerVideo>, int index, int dcp_fps, int bandwidth, Resolution r);
 	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
-	DCPVideo (DCPVideo const&) = delete;
-	DCPVideo& operator= (DCPVideo const&) = delete;
+	DCPVideo (DCPVideo const&) = default;
+	DCPVideo& operator= (DCPVideo const&) = default;
 
 	dcp::ArrayData encode_locally () const;
 	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30) const;
