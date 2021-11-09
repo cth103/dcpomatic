@@ -48,8 +48,8 @@ public:
 	DCPVideo (DCPVideo const&) = delete;
 	DCPVideo& operator= (DCPVideo const&) = delete;
 
-	dcp::ArrayData encode_locally ();
-	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30);
+	dcp::ArrayData encode_locally () const;
+	dcp::ArrayData encode_remotely (EncodeServerDescription, int timeout = 30) const;
 
 	int index () const {
 		return _index;
