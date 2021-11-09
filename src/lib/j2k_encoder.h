@@ -96,7 +96,7 @@ private:
 	std::shared_ptr<boost::thread_group> _threads;
 
 	mutable boost::mutex _queue_mutex;
-	std::list<std::shared_ptr<DCPVideo>> _queue;
+	std::list<DCPVideo> _queue;
 	/** condition to manage thread wakeups when we have nothing to do */
 	boost::condition _empty_condition;
 	/** condition to manage thread wakeups when we have too much to do */
