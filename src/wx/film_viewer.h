@@ -139,8 +139,8 @@ public:
 	}
 
 	boost::signals2::signal<void (std::shared_ptr<PlayerVideo>)> ImageChanged;
-	boost::signals2::signal<void (dcpomatic::DCPTime)> Started;
-	boost::signals2::signal<void (dcpomatic::DCPTime)> Stopped;
+	boost::signals2::signal<void ()> Started;
+	boost::signals2::signal<void ()> Stopped;
 	/** While playing back we reached the end of the film (emitted from GUI thread) */
 	boost::signals2::signal<void ()> Finished;
 	/** Emitted from the GUI thread when a lot of frames are being dropped */

@@ -28,7 +28,6 @@ class PlaylistControls : public Controls
 public:
 	PlaylistControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer);
 
-	void log (wxString s);
 	void set_film (std::shared_ptr<Film> film);
 
 	/** This is so that we can tell our parent player to reset the film

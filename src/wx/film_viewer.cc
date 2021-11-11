@@ -371,7 +371,7 @@ FilmViewer::start ()
 	/* Calling start() below may directly result in Stopped being emitted, and if that
 	 * happens we want it to come after the Started signal, so do that first.
 	 */
-	Started (position());
+	Started ();
 	_video_view->start ();
 }
 
@@ -390,7 +390,7 @@ FilmViewer::stop ()
 
 	_playing = false;
 	_video_view->stop ();
-	Stopped (position());
+	Stopped ();
 
 	_video_view->rethrow ();
 	return true;

@@ -168,7 +168,6 @@ Config::set_defaults ()
 	_image_display = 0;
 	_video_view_type = VIDEO_VIEW_SIMPLE;
 	_respect_kdm_validity_periods = true;
-	_player_activity_log_file = boost::none;
 	_player_debug_log_file = boost::none;
 	_player_content_directory = boost::none;
 	_player_playlist_directory = boost::none;
@@ -535,11 +534,6 @@ try
 		_video_view_type = VIDEO_VIEW_SIMPLE;
 	}
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
-	/* PlayerLogFile is old name */
-	_player_activity_log_file = f.optional_string_child("PlayerLogFile");
-	if (!_player_activity_log_file) {
-		_player_activity_log_file = f.optional_string_child("PlayerActivityLogFile");
-	}
 	_player_debug_log_file = f.optional_string_child("PlayerDebugLogFile");
 	_player_content_directory = f.optional_string_child("PlayerContentDirectory");
 	_player_playlist_directory = f.optional_string_child("PlayerPlaylistDirectory");
@@ -962,10 +956,6 @@ Config::write_config () const
 	}
 	/* [XML] RespectKDMValidityPeriods 1 to refuse to use KDMs that are out of date, 0 to ignore KDM dates. */
 	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
-	if (_player_activity_log_file) {
-		/* [XML] PlayerLogFile Filename to use for player activity logs (e.g starting, stopping, playlist loads) */
-		root->add_child("PlayerActivityLogFile")->add_child_text(_player_activity_log_file->string());
-	}
 	if (_player_debug_log_file) {
 		/* [XML] PlayerLogFile Filename to use for player debug logs. */
 		root->add_child("PlayerDebugLogFile")->add_child_text(_player_debug_log_file->string());

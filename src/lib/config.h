@@ -517,10 +517,6 @@ public:
 		return _respect_kdm_validity_periods;
 	}
 
-	boost::optional<boost::filesystem::path> player_activity_log_file () const {
-		return _player_activity_log_file;
-	}
-
 	boost::optional<boost::filesystem::path> player_debug_log_file () const {
 		return _player_debug_log_file;
 	}
@@ -993,18 +989,6 @@ public:
 		maybe_set (_respect_kdm_validity_periods, r);
 	}
 
-	void set_player_activity_log_file (boost::filesystem::path p) {
-		maybe_set (_player_activity_log_file, p);
-	}
-
-	void unset_player_activity_log_file () {
-		if (!_player_activity_log_file) {
-			return;
-		}
-		_player_activity_log_file = boost::none;
-		changed ();
-	}
-
 	void set_player_debug_log_file (boost::filesystem::path p) {
 		maybe_set (_player_debug_log_file, p, PLAYER_DEBUG_LOG);
 	}
@@ -1263,10 +1247,6 @@ private:
 	int _image_display;
 	VideoViewType _video_view_type;
 	bool _respect_kdm_validity_periods;
-	/** Log file containing things the player does (e.g. started, stopped, loaded
-	    playlist etc.)  Does not contain debugging information.
-	*/
-	boost::optional<boost::filesystem::path> _player_activity_log_file;
 	/** Log file containing debug information for the player */
 	boost::optional<boost::filesystem::path> _player_debug_log_file;
 	/** A directory containing DCPs whose contents are presented to the user

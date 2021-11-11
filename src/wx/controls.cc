@@ -19,22 +19,22 @@
 */
 
 
-#include "controls.h"
-#include "film_viewer.h"
-#include "wx_util.h"
-#include "playhead_to_timecode_dialog.h"
-#include "playhead_to_frame_dialog.h"
-#include "content_view.h"
-#include "static_text.h"
 #include "check_box.h"
+#include "content_view.h"
+#include "controls.h"
 #include "dcpomatic_button.h"
-#include "lib/job_manager.h"
-#include "lib/player_video.h"
-#include "lib/dcp_content.h"
-#include "lib/job.h"
-#include "lib/examine_content_job.h"
+#include "film_viewer.h"
+#include "playhead_to_frame_dialog.h"
+#include "playhead_to_timecode_dialog.h"
+#include "static_text.h"
+#include "wx_util.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/examine_content_job.h"
+#include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/player_video.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -249,12 +249,6 @@ Controls::slider_moved (bool page)
 	}
 	viewer->seek (t, accurate);
 	update_position_label ();
-
-	log (
-		wxString::Format(
-			"playback-seeked %s", t.timecode(_film->video_frame_rate()).c_str()
-			)
-		);
 }
 
 
