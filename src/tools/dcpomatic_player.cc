@@ -199,8 +199,6 @@ public:
 		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
 		_viewer->set_optimise_for_j2k (true);
 		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
-		_viewer->Started.connect (bind(&DOMFrame::playback_started, this, _1));
-		_viewer->Stopped.connect (bind(&DOMFrame::playback_stopped, this, _1));
 		_viewer->TooManyDropped.connect (bind(&DOMFrame::too_many_frames_dropped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (Config::instance()->player_mode());
@@ -292,51 +290,6 @@ public:
 		}
 
 		return ok;
-	}
-
-	void playback_started (DCPTime time)
-	{
-		/* XXX: this only logs the first piece of content; probably should be each piece? */
-		if (_film->content().empty()) {
-			return;
-		}
-
-		auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
-		if (dcp) {
-			DCPExaminer ex (dcp, true);
-			shared_ptr<dcp::CPL> playing_cpl;
-			for (auto i: ex.cpls()) {
-				if (!dcp->cpl() || i->id() == *dcp->cpl()) {
-					playing_cpl = i;
-				}
-			}
-			DCPOMATIC_ASSERT (playing_cpl);
-
-			_controls->log (
-				wxString::Format(
-					"playback-started %s %s %s",
-					time.timecode(_film->video_frame_rate()).c_str(),
-					dcp->directories().front().string().c_str(),
-					playing_cpl->annotation_text().get_value_or("").c_str()
-					)
-				);
-		}
-
-		auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(_film->content().front());
-		if (ffmpeg) {
-			_controls->log (
-				wxString::Format(
-					"playback-started %s %s",
-					time.timecode(_film->video_frame_rate()).c_str(),
-					ffmpeg->path(0).string().c_str()
-					)
-				);
-		}
-	}
-
-	void playback_stopped (DCPTime time)
-	{
-		_controls->log (wxString::Format("playback-stopped %s", time.timecode(_film->video_frame_rate()).c_str()));
 	}
 
 

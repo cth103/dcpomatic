@@ -232,28 +232,6 @@ PlaylistControls::next_clicked ()
 	update_current_content ();
 }
 
-void
-PlaylistControls::log (wxString s)
-{
-	optional<boost::filesystem::path> log = Config::instance()->player_activity_log_file();
-	if (!log) {
-		return;
-	}
-
-	struct timeval time;
-	gettimeofday (&time, 0);
-	char buffer[64];
-	time_t const sec = time.tv_sec;
-	struct tm* t = localtime (&sec);
-	strftime (buffer, 64, "%c", t);
-	wxString ts = std_to_wx(string(buffer)) + N_(": ");
-	FILE* f = fopen_boost (*log, "a");
-	if (!f) {
-		return;
-	}
-	fprintf (f, "%s%s\n", wx_to_std(ts).c_str(), wx_to_std(s).c_str());
-	fclose (f);
-}
 
 void
 PlaylistControls::add_playlist_to_list (SPL spl)
@@ -361,8 +339,6 @@ PlaylistControls::spl_selection_changed ()
 void
 PlaylistControls::select_playlist (int selected, int position)
 {
-	log (wxString::Format("load-playlist %s", std_to_wx(_playlists[selected].name()).data()));
-
 	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist and KDMs");
 
 	for (auto const& i: _playlists[selected].get()) {
