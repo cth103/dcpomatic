@@ -283,17 +283,21 @@ FilmViewer::calculate_sizes ()
 
 	auto const container = _film->container ();
 
-	auto const view_ratio = float(_video_view->get()->GetSize().x) / _video_view->get()->GetSize().y;
+	auto const dpi_scale_factor = _video_view->get()->GetDPIScaleFactor();
+	int const video_view_width = std::round(_video_view->get()->GetSize().x * dpi_scale_factor);
+	int const video_view_height = std::round(_video_view->get()->GetSize().y * dpi_scale_factor);
+
+	auto const view_ratio = float(video_view_width) / video_view_height;
 	auto const film_ratio = container ? container->ratio () : 1.78;
 
 	dcp::Size out_size;
 	if (view_ratio < film_ratio) {
 		/* panel is less widscreen than the film; clamp width */
-		out_size.width = _video_view->get()->GetSize().x;
+		out_size.width = video_view_width;
 		out_size.height = lrintf (out_size.width / film_ratio);
 	} else {
 		/* panel is more widescreen than the film; clamp height */
-		out_size.height = _video_view->get()->GetSize().y;
+		out_size.height = video_view_height;
 		out_size.width = lrintf (out_size.height * film_ratio);
 	}
 

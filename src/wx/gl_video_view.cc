@@ -103,10 +103,13 @@ GLVideoView::GLVideoView (FilmViewer* viewer, wxWindow *parent)
 void
 GLVideoView::size_changed (wxSizeEvent const& ev)
 {
-	_canvas_size = ev.GetSize ();
+	auto const scale = _canvas->GetDPIScaleFactor();
+	int const width = std::round(ev.GetSize().GetWidth() * scale);
+	int const height = std::round(ev.GetSize().GetHeight() * scale);
+	_canvas_size = { width, height };
+	LOG_GENERAL("GLVideoView canvas size changed to %1x%2", width, height);
 	Sized ();
 }
-
 
 
 GLVideoView::~GLVideoView ()
