@@ -39,7 +39,7 @@ libdcp_version = '1.8.5'
 libsub_version = '1.6.5'
 
 this_version = subprocess.Popen(shlex.split('git tag -l --points-at HEAD'), stdout=subprocess.PIPE).communicate()[0]
-last_version = subprocess.Popen(shlex.split('git describe --tags --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
+last_version = subprocess.Popen(shlex.split('git describe --tags --match v* --abbrev=0'), stdout=subprocess.PIPE).communicate()[0]
 
 # Python 2/3 compatibility; I don't really understand what's going on here
 if not isinstance(this_version, str):
