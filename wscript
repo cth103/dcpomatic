@@ -664,10 +664,6 @@ def create_version_cc(version, cxx_flags):
 def post(ctx):
     if ctx.cmd == 'install' and ctx.env.TARGET_LINUX:
         ctx.exec_command('/sbin/ldconfig')
-        # setuid root executable
-        exe = os.path.join(ctx.env['INSTALL_PREFIX'], 'bin/%s/dcpomatic2_disk_writer')
-        if os.path.exists(exe):
-            os.chmod(exe, 0o4755)
 
 def pot(bld):
     bld.recurse('src')

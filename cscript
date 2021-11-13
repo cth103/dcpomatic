@@ -408,6 +408,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('', file=f)
     print('%post', file=f)
     print('/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
+    print('setcap "cap_dac_override+ep cap_sys_admin+ep" /usr/bin/dcpomatic2_disk_writer', file=f)
     print('', file=f)
     print('%postun', file=f)
     print('if [ $1 -eq 0 ] ; then', file=f)
