@@ -255,14 +255,17 @@ fix_long_path (boost::filesystem::path long_path)
 {
 	using namespace boost::filesystem;
 
-	path fixed = "\\\\?\\";
-	if (boost::algorithm::starts_with(long_path.string(), fixed.string())) {
+	if (boost::algorithm::starts_with(long_path.string(), "\\\\")) {
+		/* This could mean it starts with \\ (i.e. a SMB path) or \\?\ (a long path)
+		 * or a variety of other things... anyway, we'll leave it alone.
+		 */
 		return long_path;
 	}
 
 	/* We have to make the path canonical but we can't call canonical() on the long path
 	 * as it will fail.  So we'll sort of do it ourselves (possibly badly).
 	 */
+	path fixed = "\\\\?\\";
 	if (long_path.is_absolute()) {
 		fixed += long_path.make_preferred();
 	} else {
