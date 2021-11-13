@@ -30,12 +30,13 @@
 
 #include "film_viewer.h"
 #include "wx_util.h"
-#include "lib/image.h"
-#include "lib/dcpomatic_assert.h"
-#include "lib/exceptions.h"
-#include "lib/cross.h"
-#include "lib/player_video.h"
 #include "lib/butler.h"
+#include "lib/cross.h"
+#include "lib/dcpomatic_assert.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/exceptions.h"
+#include "lib/image.h"
+#include "lib/player_video.h"
 #include <boost/bind/bind.hpp>
 #include <iostream>
 
