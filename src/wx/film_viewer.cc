@@ -283,7 +283,11 @@ FilmViewer::calculate_sizes ()
 
 	auto const container = _film->container ();
 
+#if wxCHECK_VERSION(3,1,0)
 	auto const dpi_scale_factor = _video_view->get()->GetDPIScaleFactor();
+#else
+	auto const dpi_scale_factor = 1;
+#endif
 	int const video_view_width = std::round(_video_view->get()->GetSize().x * dpi_scale_factor);
 	int const video_view_height = std::round(_video_view->get()->GetSize().y * dpi_scale_factor);
 
