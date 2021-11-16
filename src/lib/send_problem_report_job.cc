@@ -121,6 +121,10 @@ SendProblemReportJob::add_file (string& body, boost::filesystem::path file) cons
 {
 	body += file.string() + ":\n";
 	body += "---<8----\n";
-	body += dcp::file_to_string (_film->file(file));
+	try {
+		body += dcp::file_to_string (_film->file(file));
+	} catch (...) {
+		body += "[could not be read]\n";
+	}
 	body += "---<8----\n\n";
 }
