@@ -283,13 +283,9 @@ FilmViewer::calculate_sizes ()
 
 	auto const container = _film->container ();
 
-#if wxCHECK_VERSION(3,1,0)
-	auto const dpi_scale_factor = _video_view->get()->GetDPIScaleFactor();
-#else
-	auto const dpi_scale_factor = 1;
-#endif
-	int const video_view_width = std::round(_video_view->get()->GetSize().x * dpi_scale_factor);
-	int const video_view_height = std::round(_video_view->get()->GetSize().y * dpi_scale_factor);
+	auto const scale = dpi_scale_factor (_video_view->get());
+	int const video_view_width = std::round(_video_view->get()->GetSize().x * scale);
+	int const video_view_height = std::round(_video_view->get()->GetSize().y * scale);
 
 	auto const view_ratio = float(video_view_width) / video_view_height;
 	auto const film_ratio = container ? container->ratio () : 1.78;

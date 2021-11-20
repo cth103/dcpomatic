@@ -673,3 +673,18 @@ gui_is_dark ()
 #endif
 }
 
+
+#if wxCHECK_VERSION(3,1,0)
+double
+dpi_scale_factor (wxWindow* window)
+{
+	return window->GetDPIScaleFactor();
+}
+#else
+double
+dpi_scale_factor (wxWindow*)
+{
+	return 1;
+}
+#endif
+
