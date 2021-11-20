@@ -65,6 +65,8 @@ SimpleVideoView::paint ()
 {
         _state_timer.set("paint-panel");
 	wxPaintDC dc (_panel);
+	auto scale = 1 / dpi_scale_factor (_panel);
+	dc.SetLogicalScale (scale, scale);
 
 	auto const panel_size = _panel->GetSize ();
 
