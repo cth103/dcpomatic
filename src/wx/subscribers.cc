@@ -1,5 +1,6 @@
 subscribers.Add (wxT ("Mark Allender"));
 subscribers.Add (wxT ("Luiz Amoasei"));
+subscribers.Add (wxT ("Sem Rumo - Projetos Audiovisuais"));
 subscribers.Add (wxT ("Central Cinema"));
 subscribers.Add (wxT ("Drop-Out Cinema"));
 subscribers.Add (wxT ("Chris Eller"));
@@ -21,7 +22,6 @@ subscribers.Add (wxT ("LightBender Post"));
 subscribers.Add (wxT ("Ross Meyer"));
 subscribers.Add (wxT ("Owen Morgan"));
 subscribers.Add (wxT ("Austrian Film Museum"));
-subscribers.Add (wxT ("João Gabriel Riveres"));
 subscribers.Add (wxT ("Irving Shapiro"));
 subscribers.Add (wxT ("Jussi Siponen"));
 subscribers.Add (wxT ("Jeremy Spracklen"));
