@@ -105,7 +105,7 @@ TimecodeBase::clear ()
 void
 TimecodeBase::changed ()
 {
-	if (_set_button) {
+	if (_set_button && !_ignore_changed) {
 		_set_button->Enable (true);
 	}
 }
@@ -117,6 +117,21 @@ TimecodeBase::set_clicked ()
 	if (_set_button) {
 		_set_button->Enable (false);
 	}
+
+	_ignore_changed = true;
+	if (_hours->GetValue().IsEmpty()) {
+		_hours->SetValue(wxT("0"));
+	}
+	if (_minutes->GetValue().IsEmpty()) {
+		_minutes->SetValue(wxT("0"));
+	}
+	if (_seconds->GetValue().IsEmpty()) {
+		_seconds->SetValue(wxT("0"));
+	}
+	if (_frames->GetValue().IsEmpty()) {
+		_frames->SetValue(wxT("0"));
+	}
+	_ignore_changed = false;
 }
 
 void

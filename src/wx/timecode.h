@@ -54,6 +54,8 @@ protected:
 	wxTextCtrl* _frames;
 	wxButton* _set_button;
 	wxStaticText* _fixed;
+
+	bool _ignore_changed = false;
 };
 
 template <class T>
