@@ -268,6 +268,7 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
 		_luminance_value = new wxSpinCtrlDouble (panel, wxID_ANY);
+		_luminance_value->SetRange (0.1, 32.0);
 		_luminance_value->SetDigits (1);
 		_luminance_value->SetIncrement (0.1);
 		s->Add (_luminance_value, 0);
