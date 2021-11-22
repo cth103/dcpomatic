@@ -69,11 +69,17 @@ public:
 		set_sensitivity ();
 
 		set_button->Bind (wxEVT_BUTTON, bind(&Marker::set, this));
-		checkbox->Bind (wxEVT_CHECKBOX, bind(&Marker::set_sensitivity, this));
+		checkbox->Bind (wxEVT_CHECKBOX, bind(&Marker::checkbox_clicked, this));
 		timecode->Changed.connect (bind(&Marker::changed, this));
 	}
 
 private:
+	void checkbox_clicked ()
+	{
+		set_sensitivity ();
+		changed ();
+	}
+
 	void set_sensitivity ()
 	{
 		timecode->Enable (checkbox->GetValue());
