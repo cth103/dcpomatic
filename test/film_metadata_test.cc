@@ -160,3 +160,17 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_3)
 	BOOST_REQUIRE (film->luminance() == dcp::Luminance(14, dcp::Luminance::Unit::FOOT_LAMBERT));
 }
 
+
+/** Check that an empty <MasteredLuminance> tag results in the film's luminance being unset */
+BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_4)
+{
+	namespace fs = boost::filesystem;
+	auto dir = fs::path("build/test/metadata_loads_from_2_14_x_4");
+	fs::remove_all(dir);
+	auto film = make_shared<Film>(dir);
+	fs::copy_file("test/data/2.14.x.metadata.4.xml", dir / "metadata.xml");
+	auto notes = film->read_metadata(dir / "metadata.xml");
+
+	BOOST_REQUIRE (!film->luminance());
+}
+

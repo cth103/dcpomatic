@@ -753,7 +753,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 			_ratings.push_back (dcp::Rating("", *rating));
 		}
 		if (auto mastered_luminance = isdcf->optional_number_child<float>("MasteredLuminance")) {
-			_luminance = dcp::Luminance(*mastered_luminance, dcp::Luminance::Unit::FOOT_LAMBERT);
+			if (*mastered_luminance > 0) {
+				_luminance = dcp::Luminance(*mastered_luminance, dcp::Luminance::Unit::FOOT_LAMBERT);
+			}
 		}
 		_studio = isdcf->optional_string_child("Studio");
 		_facility = isdcf->optional_string_child("Facility");
