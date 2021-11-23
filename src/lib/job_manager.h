@@ -96,7 +96,6 @@ private:
 	~JobManager ();
 	void scheduler ();
 	void start ();
-	void priority_changed ();
 	void job_finished ();
 
 	mutable boost::mutex _mutex;

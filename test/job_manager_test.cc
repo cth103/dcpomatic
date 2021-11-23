@@ -19,8 +19,8 @@
 */
 
 
-/** @file  test/job_test.cc
- *  @brief Test Job and JobManager.
+/** @file  test/job_manager_test.cc
+ *  @brief Test JobManager.
  *  @ingroup selfcontained
  */
 
@@ -34,6 +34,7 @@
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 
 class TestJob : public Job
@@ -77,7 +78,7 @@ public:
 };
 
 
-BOOST_AUTO_TEST_CASE (job_manager_test)
+BOOST_AUTO_TEST_CASE (job_manager_test1)
 {
 	shared_ptr<Film> film;
 
@@ -86,8 +87,44 @@ BOOST_AUTO_TEST_CASE (job_manager_test)
 
 	JobManager::instance()->add (a);
 	dcpomatic_sleep_seconds (1);
-	BOOST_CHECK_EQUAL (a->running (), true);
+	BOOST_CHECK (a->running());
 	a->set_finished_ok ();
 	dcpomatic_sleep_seconds (2);
-	BOOST_CHECK_EQUAL (a->finished_ok(), true);
+	BOOST_CHECK (a->finished_ok());
 }
+
+
+BOOST_AUTO_TEST_CASE (job_manager_test2)
+{
+	shared_ptr<Film> film;
+
+	vector<shared_ptr<TestJob>> jobs;
+	for (int i = 0; i < 16; ++i) {
+		auto job = make_shared<TestJob>(film);
+		jobs.push_back (job);
+		JobManager::instance()->add (job);
+	}
+
+	dcpomatic_sleep_seconds (1);
+	BOOST_CHECK (jobs[0]->running());
+	jobs[0]->set_finished_ok();
+
+	dcpomatic_sleep_seconds (1);
+	BOOST_CHECK (!jobs[0]->running());
+	BOOST_CHECK (jobs[1]->running());
+
+	/* Push our jobs[5] to the top of the list */
+	for (int i = 0; i < 5; ++i) {
+		JobManager::instance()->increase_priority(jobs[5]);
+	}
+
+	dcpomatic_sleep_seconds (1);
+	for (int i = 0; i < 16; ++i) {
+		BOOST_CHECK (i == 5 ? jobs[i]->running() : !jobs[i]->running());
+	}
+
+	for (auto job: jobs) {
+		job->set_finished_ok();
+	}
+}
+
