@@ -159,39 +159,30 @@ JobManager::scheduler ()
 
 		boost::mutex::scoped_lock lm (_mutex);
 
-		while (true) {
-			bool have_new = false;
-			bool have_running = false;
-			for (auto i: _jobs) {
-				if (i->running()) {
-					have_running = true;
-				}
-				if (i->is_new()) {
-					have_new = true;
-				}
-			}
-
-			if ((!have_running && have_new) || _terminate) {
-				break;
-			}
-
-			_empty_condition.wait (lm);
-		}
-
 		if (_terminate) {
 			break;
 		}
 
+		bool have_running = false;
 		for (auto i: _jobs) {
-			if (i->is_new()) {
-				_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
-				i->start ();
+			if (have_running && i->running()) {
+				i->pause_by_priority();
+			} else if (!have_running && (i->is_new() || i->paused_by_priority())) {
+				if (i->is_new()) {
+					_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
+					i->start ();
+				} else {
+					i->resume ();
+				}
 				emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, i->json_name()));
 				_last_active_job = i->json_name ();
-				/* Only start one job at once */
-				break;
+				have_running = true;
+			} else if (!have_running && i->running()) {
+				have_running = true;
 			}
 		}
+
+		_empty_condition.wait (lm);
 	}
 }
 
@@ -319,35 +310,9 @@ JobManager::increase_priority (shared_ptr<Job> job)
 	}
 
 	if (changed) {
-		priority_changed ();
+		_empty_condition.notify_all ();
+		emit (boost::bind(boost::ref(JobsReordered)));
 	}
-}
-
-
-void
-JobManager::priority_changed ()
-{
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-
-		bool first = true;
-		for (auto i: _jobs) {
-			if (first) {
-				if (i->is_new ()) {
-					i->start ();
-				} else if (i->paused_by_priority ()) {
-					i->resume ();
-				}
-				first = false;
-			} else {
-				if (i->running ()) {
-					i->pause_by_priority ();
-				}
-			}
-		}
-	}
-
-	emit (boost::bind(boost::ref(JobsReordered)));
 }
 
 
@@ -370,7 +335,8 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 	}
 
 	if (changed) {
-		priority_changed ();
+		_empty_condition.notify_all ();
+		emit (boost::bind(boost::ref(JobsReordered)));
 	}
 }
 
