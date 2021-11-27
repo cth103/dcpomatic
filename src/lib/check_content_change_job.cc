@@ -63,23 +63,9 @@ CheckContentChangeJob::run ()
 {
 	set_progress_unknown ();
 
-	list<shared_ptr<Content> > changed;
-
-	for (auto i: _film->content()) {
-		bool ic = false;
-		for (size_t j = 0; j < i->number_of_paths(); ++j) {
-			if (boost::filesystem::last_write_time(i->path(j)) != i->last_write_time(j)) {
-				ic = true;
-				break;
-			}
-		}
-		if (!ic && i->calculate_digest() != i->digest()) {
-			ic = true;
-		}
-		if (ic) {
-			changed.push_back (i);
-		}
-	}
+	auto content = _film->content();
+	std::vector<shared_ptr<Content>> changed;
+	std::copy_if (content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 
 	if (!changed.empty()) {
 		if (_gui) {

@@ -545,3 +545,18 @@ Content::add_path (boost::filesystem::path p)
 	auto last_write = boost::filesystem::last_write_time(p, ec);
 	_last_write_times.push_back (ec ? 0 : last_write);
 }
+
+
+bool
+Content::changed () const
+{
+	bool write_time_changed = false;
+	for (auto i = 0U; i < _paths.size(); ++i) {
+		if (boost::filesystem::last_write_time(_paths[i]) != last_write_time(i)) {
+			write_time_changed = true;
+			break;
+		}
+	}
+
+	return (write_time_changed || calculate_digest() != digest());
+}
