@@ -202,6 +202,9 @@ public:
 	std::shared_ptr<TextContent> only_text () const;
 	std::shared_ptr<TextContent> text_of_original_type (TextType type) const;
 
+	/** @return true if this content has changed since it was last examined */
+	bool changed () const;
+
 protected:
 
 	virtual void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
