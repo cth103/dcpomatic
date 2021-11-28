@@ -81,6 +81,7 @@ private:
 
 	int _input_channels = 0;
 	int _output_channels = 0;
+	/** Linear gains */
 	std::vector<std::vector<float>> _gain;
 };
 
