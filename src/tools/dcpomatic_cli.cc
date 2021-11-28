@@ -355,7 +355,7 @@ main (int argc, char* argv[])
 		cout << "\nMaking DCP for " << film->name() << "\n";
 	}
 
-	film->make_dcp (false, check);
+	film->make_dcp (check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE);
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {

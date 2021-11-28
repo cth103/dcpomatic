@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	c->video->set_length (24);
 
 	film->set_three_d (true);
-	film->make_dcp ();
+	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
 	film->write_metadata ();
 
 	auto jm = JobManager::instance ();

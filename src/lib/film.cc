@@ -377,12 +377,9 @@ Film::subtitle_analysis_path (shared_ptr<const Content> content) const
 }
 
 
-/** Add suitable Jobs to the JobManager to create a DCP for this Film.
- *  @param gui true if this is being called from a GUI tool.
- *  @param check true to check the content in the project for changes before making the DCP.
- */
+/** Add suitable Jobs to the JobManager to create a DCP for this Film */
 void
-Film::make_dcp (bool gui, bool check)
+Film::make_dcp (TranscodeJob::ChangedBehaviour behaviour)
 {
 	if (dcp_name().find ("/") != string::npos) {
 		throw BadSettingError (_("name"), _("Cannot contain slashes"));
@@ -438,14 +435,9 @@ Film::make_dcp (bool gui, bool check)
 	}
 	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
 
-	auto tj = make_shared<TranscodeJob>(shared_from_this());
+	auto tj = make_shared<TranscodeJob>(shared_from_this(), behaviour);
 	tj->set_encoder (make_shared<DCPEncoder>(shared_from_this(), tj));
-	if (check) {
-		auto cc = make_shared<CheckContentChangeJob>(shared_from_this(), tj, gui);
-		JobManager::instance()->add (cc);
-	} else {
-		JobManager::instance()->add (tj);
-	}
+	JobManager::instance()->add (tj);
 }
 
 /** Start a job to send our DCP to the configured TMS */

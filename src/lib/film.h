@@ -30,6 +30,7 @@
 #include "dcp_text_track.h"
 #include "frame_rate_change.h"
 #include "signaller.h"
+#include "transcode_job.h"
 #include "types.h"
 #include "util.h"
 #include <dcp/encrypted_kdm.h>
@@ -111,7 +112,7 @@ public:
 	boost::filesystem::path subtitle_analysis_path (std::shared_ptr<const Content>) const;
 
 	void send_dcp_to_tms ();
-	void make_dcp (bool gui = false, bool check = true);
+	void make_dcp (TranscodeJob::ChangedBehaviour behaviour);
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.

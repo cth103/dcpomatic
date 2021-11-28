@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp ();
+	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
 
 	dcpomatic_sleep_seconds (10);
 

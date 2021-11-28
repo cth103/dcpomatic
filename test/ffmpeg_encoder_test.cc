@@ -69,12 +69,12 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 	name = String::compose("%1_test%2", name, number);
 
 	auto c = make_shared<FFmpegContent>(content);
-	shared_ptr<Film> film = new_test_film2 (name, {c}, &cl);
+	auto film = new_test_film2 (name, {c}, &cl);
 	film->set_name (name);
 	film->set_audio_channels (6);
 
 	film->write_metadata ();
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	auto file = boost::filesystem::path("build") / "test" / String::compose("%1.%2", name, extension);
 	cl.add (file);
 	FFmpegEncoder encoder (film, job, file, format, false, false, false, 23);
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 	c->video->set_length (240);
 
 	film->write_metadata ();
-	auto job = make_shared<TranscodeJob> (film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test5.mov", ExportFormat::PRORES, false, false, false, 23);
 	encoder.go ();
 }
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
-	auto job = make_shared<TranscodeJob> (film);
+	auto job = make_shared<TranscodeJob> (film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test6.mov", ExportFormat::PRORES, false, false, false, 23);
 	encoder.go ();
 }
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	s->only_text()->set_effect (dcp::Effect::SHADOW);
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
 
-	auto job = make_shared<TranscodeJob> (film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test7.mov", ExportFormat::PRORES, false, false, false, 23);
 	encoder.go ();
 }
@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
-	auto job = make_shared<TranscodeJob> (film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test2.mp4", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go ();
 }
@@ -229,7 +229,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
 	film->write_metadata();
 
-	auto job = make_shared<TranscodeJob> (film);
+	auto job = make_shared<TranscodeJob> (film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test3.mp4", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go ();
 }
@@ -243,7 +243,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 
 	film->set_container(Ratio::from_id("185"));
 
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test4.mp4", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go();
 }
@@ -298,7 +298,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 	map.set (0, 5, 1);
 	Rs->audio->set_mapping (map);
 
-	auto job = make_shared<TranscodeJob> (film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_test5.mp4", ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go ();
 
@@ -326,7 +326,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 		i->set_use (true);
 	}
 
-	auto job = make_shared<TranscodeJob> (film2);
+	auto job = make_shared<TranscodeJob>(film2, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test6_vf.mp4", ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go ();
 }
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_3d_dcp_to_h264)
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "xm");
 	auto film2 = new_test_film2 ("ffmpeg_encoder_3d_dcp_to_h264_export", {dcp});
 
-	auto job = make_shared<TranscodeJob> (film2);
+	auto job = make_shared<TranscodeJob>(film2, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_3d_dcp_to_h264.mp4", ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go ();
 }
@@ -360,7 +360,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 	auto dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film2 ("ffmpeg_encoder_h264_test7_export", {dcp});
 
-	auto job = make_shared<TranscodeJob> (film2);
+	auto job = make_shared<TranscodeJob> (film2, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film2, job, "build/test/ffmpeg_encoder_h264_test7.mp4", ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go ();
 }
@@ -369,12 +369,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 /** Stereo project with mixdown-to-stereo set */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 {
-	shared_ptr<Film> film = new_test_film2("ffmpeg_encoder_h264_test4");
-	film->examine_and_add_content(shared_ptr<DCPContent>(new DCPContent("test/data/scope_dcp")));
+	auto film = new_test_film2("ffmpeg_encoder_h264_test4");
+	film->examine_and_add_content(make_shared<DCPContent>("test/data/scope_dcp"));
 	BOOST_REQUIRE(!wait_for_jobs());
 	film->set_audio_channels (2);
 
-	shared_ptr<Job> job(new TranscodeJob(film));
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_h264_test8.mp4", ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go();
 }
@@ -385,7 +385,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 {
 	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test9");
 	film->set_name ("ffmpeg_encoder_prores_test9");
-	shared_ptr<ImageContent> c (new ImageContent(TestPaths::private_data() / "bbc405.png"));
+	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (12);
 
@@ -395,7 +395,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 	c->video->set_length (240);
 
 	film->write_metadata ();
-	shared_ptr<Job> job (new TranscodeJob (film));
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test9.mov", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go ();
 }
@@ -410,7 +410,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_from_dcp_with_crop)
 	dcp->video->set_right_crop (32);
 	film->write_metadata ();
 
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::PRORES, false, false, false, 23);
 	encoder.go ();
 }
@@ -425,7 +425,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_from_dcp_with_crop)
 	dcp->video->set_right_crop (32);
 	film->write_metadata ();
 
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::H264_AAC, false, false, false, 23);
 	encoder.go ();
 }
@@ -441,7 +441,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 	content1->video->set_length (240);
 	content2->video->set_length (240);
 
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_h264_with_reels.mov", ExportFormat::H264_AAC, false, true, false, 23);
 	encoder.go ();
 
@@ -463,7 +463,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
 	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv").front();
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_1", { content });
 
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES, false, true, false, 23);
 	encoder.go ();
 }
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 	auto content = content_factory(TestPaths::private_data() / "tge_clip.mkv").front();
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_2", { content });
 
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_2.mov", ExportFormat::PRORES, false, true, false, 23);
 	encoder.go ();
 
