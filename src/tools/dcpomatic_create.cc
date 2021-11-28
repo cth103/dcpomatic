@@ -146,6 +146,9 @@ main (int argc, char* argv[])
 						stream->set_mapping (mapping);
 					}
 				}
+				if (j->audio && i.gain) {
+					j->audio->set_gain (*i.gain);
+				}
 			}
 		}
 

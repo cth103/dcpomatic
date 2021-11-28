@@ -171,4 +171,13 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	cc = run ("dcpomatic2_create --channel foo fred.wav");
 	BOOST_REQUIRE (cc.error);
 	BOOST_CHECK (boost::algorithm::starts_with(*cc.error, "dcpomatic2_create: foo is not valid for --channel"));
+
+	cc = run ("dcpomatic2_create fred.wav --gain -6 jim.wav --gain 2 sheila.wav");
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 3U);
+	BOOST_CHECK_EQUAL (cc.content[0].path, "fred.wav");
+	BOOST_CHECK (!cc.content[0].gain);
+	BOOST_CHECK_EQUAL (cc.content[1].path, "jim.wav");
+	BOOST_CHECK_CLOSE (*cc.content[1].gain, -6, 0.001);
+	BOOST_CHECK_EQUAL (cc.content[2].path, "sheila.wav");
+	BOOST_CHECK_CLOSE (*cc.content[2].gain, 2, 0.001);
 }
