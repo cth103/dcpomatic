@@ -55,7 +55,8 @@ string CreateCLI::_help =
 	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
 	"      --left-eye                next piece of content is for the left eye\n"
 	"      --right-eye               next piece of content is for the right eye\n"
-	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs\n";
+	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs\n"
+	"      --gain                    next piece of content should have the given audio gain (in dB)\n";
 
 
 template <class T>
@@ -133,6 +134,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	int j2k_bandwidth_int = 0;
 	auto next_frame_type = VideoFrameType::TWO_D;
 	optional<dcp::Channel> channel;
+	optional<float> gain;
 
 	int i = 1;
 	while (i < argc) {
@@ -200,6 +202,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		};
 
 		argument_option(i, argc, argv, "", "--channel", &claimed, &error, &channel, convert_channel);
+		argument_option(i, argc, argv, "", "--gain", &claimed, &error, &gain);
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
@@ -210,9 +213,11 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				c.path = a;
 				c.frame_type = next_frame_type;
 				c.channel = channel;
+				c.gain = gain;
 				content.push_back (c);
 				next_frame_type = VideoFrameType::TWO_D;
 				channel = {};
+				gain = {};
 			}
 		}
 

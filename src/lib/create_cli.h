@@ -39,6 +39,7 @@ public:
 		boost::filesystem::path path;
 		VideoFrameType frame_type;
 		boost::optional<dcp::Channel> channel;
+		boost::optional<float> gain;
 	};
 
 	bool version;
