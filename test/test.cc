@@ -887,7 +887,7 @@ void
 make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore)
 {
 	film->write_metadata ();
-	film->make_dcp ();
+	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto notes = dcp::verify ({film->dir(film->dcp_name())}, &stage, &progress, TestPaths::xsd());
 	bool ok = true;

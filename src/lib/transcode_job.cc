@@ -26,10 +26,12 @@
 
 #include "analytics.h"
 #include "compose.hpp"
+#include "content.h"
 #include "config.h"
 #include "dcp_encoder.h"
 #include "dcpomatic_log.h"
 #include "encoder.h"
+#include "examine_content_job.h"
 #include "film.h"
 #include "job_manager.h"
 #include "log.h"
@@ -52,8 +54,9 @@ using std::dynamic_pointer_cast;
 
 
 /** @param film Film to use */
-TranscodeJob::TranscodeJob (shared_ptr<const Film> film)
+TranscodeJob::TranscodeJob (shared_ptr<const Film> film, ChangedBehaviour changed)
 	: Job (film)
+	, _changed (changed)
 {
 
 }
@@ -90,6 +93,32 @@ void
 TranscodeJob::run ()
 {
 	try {
+		auto content = _film->content();
+		std::vector<shared_ptr<Content>> changed;
+		std::copy_if (content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
+
+		if (!changed.empty()) {
+			switch (_changed) {
+			case ChangedBehaviour::EXAMINE_THEN_STOP:
+				for (auto i: changed) {
+					JobManager::instance()->add(make_shared<ExamineContentJob>(_film, i));
+				}
+				set_progress (1);
+				set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings before trying again."));
+				set_error (_("Files have changed since they were added to the project."), _("Check their new settings, then try again."));
+				set_state (FINISHED_ERROR);
+				return;
+			case ChangedBehaviour::STOP:
+				set_progress (1);
+				set_error (_("Files have changed since they were added to the project."), _("Open the project in DCP-o-matic, check the settings, then save it before trying again."));
+				set_state (FINISHED_ERROR);
+				return;
+			default:
+				LOG_GENERAL_NC (_("Some files have been changed since they were added to the project."));
+				break;
+			}
+		}
+
 		struct timeval start;
 		gettimeofday (&start, 0);
 		LOG_GENERAL_NC (N_("Transcode job starting"));
@@ -139,29 +168,17 @@ TranscodeJob::status () const
 		return Job::status ();
 	}
 
-
-	char buffer[256];
 	if (finished() || _encoder->finishing()) {
-		strncpy (buffer, Job::status().c_str(), 255);
-		buffer[255] = '\0';
-	} else {
-		snprintf (
-			buffer, sizeof(buffer), "%s; %" PRId64 "/%" PRId64 " frames",
-			Job::status().c_str(),
-			_encoder->frames_done(),
-			_film->length().frames_round (_film->video_frame_rate ())
-			);
-
-		optional<float> const fps = _encoder->current_rate ();
-		if (fps) {
-			char fps_buffer[64];
-			/// TRANSLATORS: fps here is an abbreviation for frames per second
-			snprintf (fps_buffer, sizeof(fps_buffer), _("; %.1f fps"), *fps);
-			strncat (buffer, fps_buffer, strlen(buffer) - 1);
-		}
+		return Job::status();
 	}
 
-	return buffer;
+	auto status = String::compose(_("%1; %2/%3 frames"), Job::status(), _encoder->frames_done(), _film->length().frames_round(_film->video_frame_rate()));
+	if (auto const fps = _encoder->current_rate()) {
+		/// TRANSLATORS: fps here is an abbreviation for frames per second
+		status += String::compose(_("; %1 fps"), dcp::locale_convert<string>(*fps, 1));
+	}
+
+	return status;
 }
 
 

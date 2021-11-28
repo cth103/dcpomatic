@@ -798,7 +798,7 @@ private:
 			   a long time, and crashes/power failures are moderately likely.
 			*/
 			_film->write_metadata ();
-			_film->make_dcp (true);
+			_film->make_dcp (TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		} catch (BadSettingError& e) {
 			error_dialog (this, wxString::Format (_("Bad setting for %s."), std_to_wx(e.setting()).data()), std_to_wx(e.what()));
 		} catch (std::exception& e) {
@@ -992,7 +992,7 @@ private:
 				}
 			}
 
-			auto job = make_shared<TranscodeJob>(_film);
+			auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 			job->set_encoder (
 				make_shared<FFmpegEncoder> (
 					_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
@@ -1007,7 +1007,7 @@ private:
 	{
 		auto d = new ExportSubtitlesDialog (this, _film->reels().size(), _film->interop());
 		if (d->ShowModal() == wxID_OK) {
-			auto job = make_shared<TranscodeJob>(_film);
+			auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 			job->set_encoder (
 				make_shared<SubtitleEncoder>(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font())
 				);

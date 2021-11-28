@@ -27,14 +27,10 @@
 class CheckContentChangeJob : public Job
 {
 public:
-	CheckContentChangeJob (std::shared_ptr<const Film>, std::shared_ptr<Job> following = std::shared_ptr<Job>(), bool gui = true);
+	CheckContentChangeJob (std::shared_ptr<const Film>);
 	~CheckContentChangeJob ();
 
 	std::string name () const;
 	std::string json_name () const;
 	void run ();
-
-private:
-	std::shared_ptr<Job> _following;
-	bool _gui;
 };

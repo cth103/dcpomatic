@@ -19,12 +19,20 @@
 */
 
 
+#ifndef DCPOMATIC_TRANSCODE_JOB_H
+#define DCPOMATIC_TRANSCODE_JOB_H
+
+
 /** @file src/transcode_job.h
  *  @brief A job which transcodes from one format to another.
  */
 
 
 #include "job.h"
+
+
+/* Defined by Windows */
+#undef IGNORE
 
 
 class Encoder;
@@ -36,7 +44,13 @@ class Encoder;
 class TranscodeJob : public Job
 {
 public:
-	explicit TranscodeJob (std::shared_ptr<const Film> film);
+	enum class ChangedBehaviour {
+		EXAMINE_THEN_STOP,
+		STOP,
+		IGNORE
+	};
+
+	explicit TranscodeJob (std::shared_ptr<const Film> film, ChangedBehaviour changed);
 	~TranscodeJob ();
 
 	std::string name () const override;
@@ -50,4 +64,9 @@ private:
 	int remaining_time () const override;
 
 	std::shared_ptr<Encoder> _encoder;
+	ChangedBehaviour _changed;
 };
+
+
+#endif
+

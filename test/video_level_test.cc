@@ -406,7 +406,7 @@ static
 pair<int, int>
 V_movie_range (shared_ptr<Film> film)
 {
-	auto job = make_shared<TranscodeJob>(film);
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	job->set_encoder (
 		make_shared<FFmpegEncoder>(film, job, film->file("export.mov"), ExportFormat::PRORES, true, false, false, 23)
 		);

@@ -564,7 +564,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 	BOOST_CHECK (film->reels().front() == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(), dcpomatic::DCPTime::from_frames(263, 24)));
 
 	film->write_metadata ();
-	film->make_dcp ();
+	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
