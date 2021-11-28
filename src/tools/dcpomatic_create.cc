@@ -137,6 +137,15 @@ main (int argc, char* argv[])
 				if (j->video) {
 					j->video->set_frame_type (i.frame_type);
 				}
+				if (j->audio && i.channel) {
+					for (auto stream: j->audio->streams()) {
+						AudioMapping mapping(stream->channels(), film->audio_channels());
+						for (int channel = 0; channel < stream->channels(); ++channel) {
+							mapping.set(channel, *i.channel, 1.0f);
+						}
+						stream->set_mapping (mapping);
+					}
+				}
 			}
 		}
 

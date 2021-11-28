@@ -38,6 +38,7 @@ public:
 	struct Content {
 		boost::filesystem::path path;
 		VideoFrameType frame_type;
+		boost::optional<dcp::Channel> channel;
 	};
 
 	bool version;

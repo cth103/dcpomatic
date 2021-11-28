@@ -156,4 +156,19 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_REQUIRE (cc.j2k_bandwidth);
 	BOOST_CHECK_EQUAL (*cc.j2k_bandwidth, 120000000);
 	BOOST_CHECK (!cc.error);
+
+	cc = run ("dcpomatic2_create --channel L fred.wav --channel R jim.wav sheila.wav");
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 3U);
+	BOOST_CHECK_EQUAL (cc.content[0].path, "fred.wav");
+	BOOST_CHECK (cc.content[0].channel);
+	BOOST_CHECK (*cc.content[0].channel == dcp::Channel::LEFT);
+	BOOST_CHECK_EQUAL (cc.content[1].path, "jim.wav");
+	BOOST_CHECK (cc.content[1].channel);
+	BOOST_CHECK (*cc.content[1].channel == dcp::Channel::RIGHT);
+	BOOST_CHECK_EQUAL (cc.content[2].path, "sheila.wav");
+	BOOST_CHECK (!cc.content[2].channel);
+
+	cc = run ("dcpomatic2_create --channel foo fred.wav");
+	BOOST_REQUIRE (cc.error);
+	BOOST_CHECK (boost::algorithm::starts_with(*cc.error, "dcpomatic2_create: foo is not valid for --channel"));
 }
