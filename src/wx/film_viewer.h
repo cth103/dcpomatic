@@ -161,6 +161,7 @@ private:
 	void config_changed (Config::Property);
 	void film_length_change ();
 	void ui_finished ();
+	void start_audio_stream_if_open ();
 
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;

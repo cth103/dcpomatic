@@ -320,15 +320,30 @@ FilmViewer::suspend ()
 
 
 void
+FilmViewer::start_audio_stream_if_open ()
+{
+	if (_audio.isStreamOpen()) {
+		_audio.setStreamTime (_video_view->position().seconds());
+		try {
+			_audio.startStream ();
+		} catch (RtAudioError& e) {
+			_audio_channels = 0;
+			error_dialog (
+				_video_view->get(),
+				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(e.what())
+				);
+		}
+	}
+}
+
+
+void
 FilmViewer::resume ()
 {
 	DCPOMATIC_ASSERT (_suspended > 0);
 	--_suspended;
 	if (_playing && !_suspended) {
-		if (_audio.isStreamOpen()) {
-			_audio.setStreamTime (_video_view->position().seconds());
-			_audio.startStream ();
-		}
+		start_audio_stream_if_open ();
 		_video_view->start ();
 	}
 }
@@ -358,18 +373,7 @@ FilmViewer::start ()
 	/* Take the video view's idea of position as our `playhead' and start the
 	   audio stream (which is the timing reference) there.
          */
-	if (_audio.isStreamOpen()) {
-		_audio.setStreamTime (_video_view->position().seconds());
-		try {
-			_audio.startStream ();
-		} catch (RtAudioError& e) {
-			_audio_channels = 0;
-			error_dialog (
-				_video_view->get(),
-				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(e.what())
-				);
-		}
-	}
+	start_audio_stream_if_open ();
 
 	_playing = true;
 	/* Calling start() below may directly result in Stopped being emitted, and if that
