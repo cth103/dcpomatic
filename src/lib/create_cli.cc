@@ -54,7 +54,8 @@ string CreateCLI::_help =
 	"      --threed                  make a 3D DCP\n"
 	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
 	"      --left-eye                next piece of content is for the left eye\n"
-	"      --right-eye               next piece of content is for the right eye\n";
+	"      --right-eye               next piece of content is for the right eye\n"
+	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs\n";
 
 
 template <class T>
@@ -100,7 +101,15 @@ argument_option (
 		return;
 	}
 
-	*out = convert(argv[++n]);
+	auto const arg = argv[++n];
+	auto const value = convert(arg);
+	if (!value) {
+		*error = String::compose("%1: %2 is not valid for %3", argv[0], arg, long_name);
+		*claimed = true;
+		return;
+	}
+
+	*out = value;
 	*claimed = true;
 }
 
@@ -123,6 +132,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	string template_name_string;
 	int j2k_bandwidth_int = 0;
 	auto next_frame_type = VideoFrameType::TWO_D;
+	optional<dcp::Channel> channel;
 
 	int i = 1;
 	while (i < argc) {
@@ -171,6 +181,26 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);
 		argument_option(i, argc, argv, "",   "--j2k-bandwidth",    &claimed, &error, &j2k_bandwidth_int);
 
+		std::function<optional<dcp::Channel> (string)> convert_channel = [](string channel) -> optional<dcp::Channel>{
+			if (channel == "L") {
+				return dcp::Channel::LEFT;
+			} else if (channel == "R") {
+				return dcp::Channel::RIGHT;
+			} else if (channel == "C") {
+				return dcp::Channel::CENTRE;
+			} else if (channel == "Lfe") {
+				return dcp::Channel::LFE;
+			} else if (channel == "Ls") {
+				return dcp::Channel::LS;
+			} else if (channel == "Rs") {
+				return dcp::Channel::RS;
+			} else {
+				return {};
+			}
+		};
+
+		argument_option(i, argc, argv, "", "--channel", &claimed, &error, &channel, convert_channel);
+
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
 				error = String::compose("%1: unrecognised option '%2'", argv[0], a) + String::compose(_help, argv[0]);
@@ -179,8 +209,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				Content c;
 				c.path = a;
 				c.frame_type = next_frame_type;
+				c.channel = channel;
 				content.push_back (c);
 				next_frame_type = VideoFrameType::TWO_D;
+				channel = {};
 			}
 		}
 
