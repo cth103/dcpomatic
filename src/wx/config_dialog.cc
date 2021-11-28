@@ -690,7 +690,7 @@ KeysPage::setup ()
 	{
 		auto m = new StaticText (_panel, _("Decrypting KDMs"));
 		m->SetFont (subheading_font);
-		sizer->Add (m, 0, wxALL, _border);
+		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
 	}
 
 	auto buttons = new wxBoxSizer (wxVERTICAL);
@@ -714,7 +714,7 @@ KeysPage::setup ()
 	{
 		auto m = new StaticText (_panel, _("Signing DCPs and KDMs"));
 		m->SetFont (subheading_font);
-		sizer->Add (m, 0, wxALL, _border);
+		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
 	}
 
 	auto signing_advanced = new Button (_panel, _("Advanced..."));
