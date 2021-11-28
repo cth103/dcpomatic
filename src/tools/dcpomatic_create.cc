@@ -18,39 +18,41 @@
 
 */
 
-#include "lib/version.h"
-#include "lib/film.h"
-#include "lib/util.h"
-#include "lib/content_factory.h"
-#include "lib/job_manager.h"
-#include "lib/signal_manager.h"
-#include "lib/job.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
-#include "lib/image_content.h"
-#include "lib/video_content.h"
-#include "lib/cross.h"
+#include "lib/audio_content.h"
 #include "lib/config.h"
-#include "lib/dcp_content.h"
+#include "lib/content_factory.h"
 #include "lib/create_cli.h"
-#include "lib/version.h"
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/ratio.h"
+#include "lib/signal_manager.h"
+#include "lib/util.h"
+#include "lib/version.h"
+#include "lib/version.h"
+#include "lib/video_content.h"
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <getopt.h>
-#include <string>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 #include <stdexcept>
+#include <string>
 
-using std::string;
-using std::cout;
 using std::cerr;
-using std::list;
-using std::exception;
-using std::shared_ptr;
+using std::cout;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using boost::optional;
 
 class SimpleSignalManager : public SignalManager
@@ -84,10 +86,10 @@ main (int argc, char* argv[])
 	}
 
 	signal_manager = new SimpleSignalManager ();
-	JobManager* jm = JobManager::instance ();
+	auto jm = JobManager::instance ();
 
 	try {
-		shared_ptr<Film> film (new Film(cc.output_dir));
+		auto film = std::make_shared<Film>(cc.output_dir);
 		dcpomatic_log = film->log ();
 		dcpomatic_log->set_types (Config::instance()->log_types());
 		if (cc.template_name) {
@@ -115,7 +117,7 @@ main (int argc, char* argv[])
 			list<shared_ptr<Content>> content;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
-				content.push_back (shared_ptr<DCPContent>(new DCPContent(can)));
+				content.push_back (make_shared<DCPContent>(can));
 			} else {
 				/* I guess it's not a DCP */
 				content = content_factory (can);
@@ -143,7 +145,7 @@ main (int argc, char* argv[])
 		}
 
 		for (auto i: film->content()) {
-			shared_ptr<ImageContent> ic = dynamic_pointer_cast<ImageContent> (i);
+			auto ic = dynamic_pointer_cast<ImageContent> (i);
 			if (ic && ic->still()) {
 				ic->video->set_length (cc.still_length * 24);
 			}
