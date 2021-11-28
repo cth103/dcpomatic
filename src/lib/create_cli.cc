@@ -76,12 +76,41 @@ argument_option (int& n, int argc, char* argv[], string short_name, string long_
 }
 
 
+template <class T>
+void
+argument_option (
+	int& n,
+	int argc,
+	char* argv[],
+	string short_name,
+	string long_name,
+	bool* claimed,
+	optional<string>* error,
+	boost::optional<T>* out,
+	std::function<boost::optional<T> (string s)> convert = [](string s) { return dcp::raw_convert<T>(s); }
+	)
+{
+	string const a = argv[n];
+	if (a != short_name && a != long_name) {
+		return;
+	}
+
+	if ((n + 1) >= argc) {
+		**error = String::compose("%1: option %2 requires an argument", argv[0], long_name);
+		return;
+	}
+
+	*out = convert(argv[++n]);
+	*claimed = true;
+}
+
+
 CreateCLI::CreateCLI (int argc, char* argv[])
 	: version (false)
 	, encrypt (false)
 	, threed (false)
-	, dcp_content_type (0)
-	, container_ratio (0)
+	, dcp_content_type (nullptr)
+	, container_ratio (nullptr)
 	, still_length (10)
 	, standard (dcp::Standard::SMPTE)
 	, no_use_isdcf_name (false)
@@ -92,8 +121,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	string standard_string = "SMPTE";
 	int dcp_frame_rate_int = 0;
 	string template_name_string;
-	string config_dir_string;
-	string output_dir_string;
 	int j2k_bandwidth_int = 0;
 	auto next_frame_type = VideoFrameType::TWO_D;
 
@@ -129,6 +156,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			claimed = true;
 		}
 
+		std::function<optional<boost::filesystem::path> (string s)> string_to_path = [](string s) {
+			return boost::filesystem::path(s);
+		};
+
 		argument_option(i, argc, argv, "-n", "--name",             &claimed, &error, &name);
 		argument_option(i, argc, argv, "-t", "--template",         &claimed, &error, &template_name_string);
 		argument_option(i, argc, argv, "-c", "--dcp-content-type", &claimed, &error, &dcp_content_type_string);
@@ -136,8 +167,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "",   "--container-ratio",  &claimed, &error, &container_ratio_string);
 		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length);
 		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string);
-		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir_string);
-		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir_string);
+		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
+		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);
 		argument_option(i, argc, argv, "",   "--j2k-bandwidth",    &claimed, &error, &j2k_bandwidth_int);
 
 		if (!claimed) {
@@ -154,14 +185,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		}
 
 		++i;
-	}
-
-	if (!config_dir_string.empty()) {
-		config_dir = config_dir_string;
-	}
-
-	if (!output_dir_string.empty()) {
-		output_dir = output_dir_string;
 	}
 
 	if (!template_name_string.empty()) {
