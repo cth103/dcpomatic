@@ -69,7 +69,11 @@ FileLog::head_and_tail (int amount) const
 
 	uintmax_t head_amount = amount;
 	uintmax_t tail_amount = amount;
-	uintmax_t size = boost::filesystem::file_size (_file);
+	boost::system::error_code ec;
+	uintmax_t size = boost::filesystem::file_size (_file, ec);
+	if (size == static_cast<uintmax_t>(-1)) {
+		return "";
+	}
 
 	if (size < (head_amount + tail_amount)) {
 		head_amount = size;
