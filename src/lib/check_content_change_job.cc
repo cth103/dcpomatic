@@ -27,10 +27,10 @@
 
 #include "i18n.h"
 
-using std::string;
-using std::list;
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
 
 CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film)
 	: Job (film)
