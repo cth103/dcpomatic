@@ -633,7 +633,7 @@ CertificateChainEditor::import_private_key ()
 			chain->set_key (dcp::file_to_string (p));
 			_set (chain);
 			update_private_key ();
-		} catch (dcp::MiscError& e) {
+		} catch (std::exception& e) {
 			error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 		}
 	}
