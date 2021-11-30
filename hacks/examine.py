@@ -29,7 +29,7 @@ def handle(frame):
     if frame['media_type'] == 'video' and 'video' in types:
         if last_video_pts is not None and frame['pkt_pts_time'] <= last_video_pts:
             print 'Out of order video frame %f (%d) is same as or behind %f (%d)' % (frame['pkt_pts_time'], frame['pkt_pts'], last_video_pts, last_video)
-        elif last_video_pts is not None:
+        elif last_video_pts is not None and frame['pkt_dts_time'] != "N/A":
             print 'OK V    frame %f %f %f %f %d indices %d/%d' % (frame['pkt_pts_time'], frame['pkt_dts_time'], frame['pkt_pts_time'] - last_video_pts, 1 / (frame['pkt_pts_time'] - last_video_pts), frame['pkt_size'], video_frame_count, frame['pkt_pts_time'] * VIDEO_RATE)
             check_pts_dts(frame)
 	else:
@@ -62,9 +62,12 @@ while True:
         frame = dict()
     elif l != '[FRAME]' and l != '[SIDE_DATA]' and l != '[/SIDE_DATA]':
         s = l.split('=')
-	if s[0] in ['pkt_pts_time', 'pkt_dts_time', 'pkt_pts', 'pkt_dts']:
+        if s[0] in ['pkt_pts_time', 'pkt_dts_time', 'pkt_pts', 'pkt_dts'] and s[1] != "N/A":
             frame[s[0]] = float(s[1])
-	elif s[0] in ['channels', 'pkt_size', 'nb_samples']:
-	    frame[s[0]] = int(s[1])
+        elif s[0] in ['channels', 'pkt_size', 'nb_samples']:
+            frame[s[0]] = int(s[1])
         elif len(s) > 1:
             frame[s[0]] = s[1]
+
+print("Video frames=%d" % video_frame_count)
+print("Average frame rate=%f" % (video_frame_count / last_video_pts))
