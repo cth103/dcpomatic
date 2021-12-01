@@ -104,7 +104,7 @@ for c in root.find('Playlist').findall('Content'):
             audio_frame_rate = int(c.find('AudioStream').find('FrameRate').text)
             names = { 1: 'mono', 2: 'stereo', 3: '3.0', 4: '4.0', 5: '4.1', 6: '5.1', 7: '6.1', 8: '7.1' }
             audio_cmd = '-f lavfi -i anullsrc=channel_layout=%s:sample_rate=%d' % (names[audio_channels], audio_frame_rate)
-        os.system('ffmpeg -t %d %s %s -shortest "%s"' % (float(video_length) / video_frame_rate, video_cmd, audio_cmd, path))
+        os.system('ffmpeg -t %f %s %s -shortest "%s"' % (float(video_length) / video_frame_rate, video_cmd, audio_cmd, path))
         c.find('Path').text = path
         c.find('Digest').text = digest_head_tail(path)
     elif type == 'Image':
