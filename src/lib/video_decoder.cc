@@ -105,7 +105,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 
 		if (vft == VideoFrameType::THREE_D_ALTERNATE) {
 			frame = decoder_frame / 2;
-			eyes = (decoder_frame % 1) ? Eyes::RIGHT : Eyes::LEFT;
+			eyes = (decoder_frame % 2) ? Eyes::RIGHT : Eyes::LEFT;
 		} else {
 			frame = decoder_frame;
 			if (vft == VideoFrameType::THREE_D) {
