@@ -40,7 +40,6 @@ using std::string;
 using std::min;
 using std::shared_ptr;
 using boost::bind;
-using std::dynamic_pointer_cast;
 
 
 JobView::JobView (shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table)
@@ -159,7 +158,7 @@ JobView::finished ()
 		d->Destroy ();
 	}
 
-	if ((dynamic_pointer_cast<TranscodeJob>(_job) || dynamic_pointer_cast<AnalyseAudioJob>(_job)) && _notify->GetValue()) {
+	if (_job->enable_notify() && _notify->GetValue()) {
 		if (Config::instance()->notification(Config::MESSAGE_BOX)) {
 			wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
 		}
