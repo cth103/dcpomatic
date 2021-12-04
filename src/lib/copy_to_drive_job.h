@@ -27,9 +27,12 @@ class CopyToDriveJob : public Job
 public:
 	CopyToDriveJob (boost::filesystem::path dcp, Drive drive, Nanomsg& nanomsg);
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
+	bool enable_notify () const override {
+		return true;
+	}
 
 private:
 	void count (boost::filesystem::path dir, uint64_t& total_bytes);
