@@ -50,6 +50,10 @@ public:
 	virtual std::string json_name () const = 0;
 	/** Run this job in the current thread. */
 	virtual void run () = 0;
+	/** @return true if it should be possible to notify when this job finishes */
+	virtual bool enable_notify () const {
+		return false;
+	}
 
 	void start ();
 	bool pause_by_user ();

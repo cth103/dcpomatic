@@ -57,6 +57,9 @@ public:
 	std::string json_name () const override;
 	void run () override;
 	std::string status () const override;
+	bool enable_notify () const override {
+		return true;
+	}
 
 	void set_encoder (std::shared_ptr<Encoder> t);
 
