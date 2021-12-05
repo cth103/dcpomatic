@@ -53,14 +53,13 @@ create_empty (boost::filesystem::path file, int size)
 
 
 vector<string>
-ext2_ls (string path)
+ext2_ls (vector<string> arguments)
 {
 	using namespace boost::process;
 
 	boost::asio::io_service ios;
 	future<string> data;
-	/* e2ls is from 'e2tools */
-	child ch (search_path("e2ls"), path, std_in.close(), std_out > data, ios);
+	child ch (search_path("e2ls"), arguments, std_in.close(), std_out > data, ios);
 	ios.run();
 
 	auto output = data.get();
@@ -71,9 +70,11 @@ ext2_ls (string path)
 }
 
 
-/** Use the writer code to make a disk and partition and copy a file to it, then check
- *  that the partition has inode size 128 and that the file can be copied back off using
- *  e2tools.
+/** Use the writer code to make a disk and partition and copy a file (in a directory)
+ *  to it, then check that:
+ *  - the partition has inode size 128
+ *  - the file and directory have reasonable timestamps
+ *  - the file can be copied back off the disk
  */
 BOOST_AUTO_TEST_CASE (disk_writer_test1)
 {
@@ -116,8 +117,22 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 		BOOST_CHECK_EQUAL (matches[1].str(), "128");
 	}
 
-	BOOST_CHECK (ext2_ls(partition.string()) == vector<string>({"disk_writer_test1", "lost+found"}));
-	BOOST_CHECK (ext2_ls(partition.string() + ":disk_writer_test1") == vector<string>({"foo"}));
+	BOOST_CHECK (ext2_ls({partition.string()}) == vector<string>({"disk_writer_test1", "lost+found"}));
+
+	string const unset_date = "1-Jan-1970";
+
+	/* Check timestamp of the directory has been set */
+	auto details = ext2_ls({"-l", partition.string()});
+	BOOST_REQUIRE (details.size() >= 6);
+	BOOST_CHECK (details[5] != unset_date);
+
+	auto const dir = partition.string() + ":disk_writer_test1";
+	BOOST_CHECK (ext2_ls({dir}) == vector<string>({"foo"}));
+
+	/* Check timestamp of foo */
+	details = ext2_ls({"-l", dir});
+	BOOST_REQUIRE (details.size() >= 6);
+	BOOST_CHECK (details[5] != unset_date);
 
 	system ("e2cp " + partition.string() + ":disk_writer_test1/foo build/test/disk_writer_test1_foo_back");
 	check_file ("build/test/disk_writer_test1/foo", "build/test/disk_writer_test1_foo_back");

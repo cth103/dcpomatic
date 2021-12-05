@@ -57,6 +57,7 @@ extern "C" {
 #include <lwext4/ext4_mkfs.h>
 }
 #include <boost/filesystem.hpp>
+#include <chrono>
 #include <string>
 
 
@@ -89,6 +90,18 @@ count (boost::filesystem::path dir, uint64_t& total_bytes)
 		}
 	}
 }
+
+
+static
+void
+set_timestamps_to_now (boost::filesystem::path path)
+{
+	auto const now = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+	ext4_mtime_set (path.generic_string().c_str(), now);
+	ext4_ctime_set (path.generic_string().c_str(), now);
+	ext4_atime_set (path.generic_string().c_str(), now);
+}
+
 
 static
 string
@@ -146,6 +159,8 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 
 	fclose (in);
 	ext4_fclose (&out);
+
+	set_timestamps_to_now (to);
 
 	return digester.get ();
 }
@@ -225,6 +240,7 @@ copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		if (r != EOK) {
 			throw CopyError (String::compose("Failed to create directory %1", cr.generic_string()), r);
 		}
+		set_timestamps_to_now (cr);
 
 		for (directory_iterator i = directory_iterator(from); i != directory_iterator(); ++i) {
 			copy (i->path(), cr, total_remaining, total, copied_files, nanomsg);
