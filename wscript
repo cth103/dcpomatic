@@ -664,6 +664,7 @@ def create_version_cc(version, cxx_flags):
 def post(ctx):
     if ctx.cmd == 'install' and ctx.env.TARGET_LINUX:
         ctx.exec_command('/sbin/ldconfig')
+        ctx.exec_command('setcap "cap_dac_override+ep cap_sys_admin+ep" %s/bin/dcpomatic2_disk_writer' % ctx.options.prefix)
 
 def pot(bld):
     bld.recurse('src')
