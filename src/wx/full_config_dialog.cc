@@ -844,9 +844,9 @@ public:
 private:
 	void setup ()
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
+		_panel->GetSizer()->Add (table, 0, wxEXPAND | wxALL, _border);
 
 		add_label_to_sizer (table, _panel, _("Subject"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_subject = new wxTextCtrl (_panel, wxID_ANY);
@@ -968,7 +968,7 @@ private:
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
-		_panel->GetSizer()->Add (table, 1, wxEXPAND | wxALL, _border);
+		_panel->GetSizer()->Add (table, 0, wxEXPAND | wxALL, _border);
 
 		_enable_message_box = new CheckBox (_panel, _("Message box"));
 		table->Add (_enable_message_box, 1, wxEXPAND | wxALL);
