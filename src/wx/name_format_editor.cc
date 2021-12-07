@@ -43,15 +43,17 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 	}
 	_panel->SetSizer (_sizer);
 
+	auto titles_sizer = new wxFlexGridSizer (2);
 	for (auto const& i: titles) {
 		auto t = new StaticText (_panel, std_to_wx (String::compose ("%%%1 %2", i.first, i.second)));
-		_sizer->Add (t);
+		titles_sizer->Add (t);
 		auto font = t->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
 		t->SetFont (font);
 		t->SetForegroundColour (wxColour (0, 0, 204));
 	}
+	_sizer->Add (titles_sizer);
 
 	_specification->SetValue (std_to_wx (_name.specification()));
 	_specification->Bind (wxEVT_TEXT, boost::bind(&NameFormatEditor::changed, this));
