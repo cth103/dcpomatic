@@ -1426,7 +1426,7 @@ private:
 
 		{
 			add_top_aligned_label_to_sizer (table, _panel, _("Log"));
-			auto t = new wxBoxSizer (wxVERTICAL);
+			auto t = new wxFlexGridSizer (2);
 			_log_general = new CheckBox (_panel, _("General"));
 			t->Add (_log_general, 1, wxEXPAND | wxALL);
 			_log_warning = new CheckBox (_panel, _("Warnings"));
