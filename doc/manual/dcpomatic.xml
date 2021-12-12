@@ -3615,8 +3615,8 @@ sets.
 <listitem>Start a new DCP-o-matic film.</listitem>
 <listitem>Click <guilabel>Add DCP...</guilabel> and specify your existing DCP's folder.</listitem>
 <listitem>Go to the <guilabel>DCP</guilabel> tab and choose <guilabel>Split by video content</guilabel> for <guilabel>Reel type</guilabel>.</listitem>
-<listitem>Go to the <guilabel>Video</guilabel> and
-<guilabel>Audio</guilabel> tabs in turn and tick the <guilabel>Use this DCP's audio as OV and make VF</guilabel> checkboxes.</listitem>
+<listitem>Go to the <guilabel>Video</guilabel> tab and tick the <guilabel>Use this DCP's video as OV and make VF</guilabel> checkbox.</listitem>
+<listitem>Go to the <guilabel>Audio</guilabel> tab and tick the <guilabel>Use this DCP's audio as OV and make VF</guilabel> checkbox.</listitem>
 <listitem>Add your subtitles to the film in whatever format you have.</listitem>
 <listitem>Check the subtitle appearance in the preview; it will be
 slow to respond as it is having to decompress images from the existing
