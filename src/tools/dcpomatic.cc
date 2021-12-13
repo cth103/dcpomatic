@@ -1100,8 +1100,17 @@ private:
 				body += i.first + "\n" + i.second + "\n\n";
 			}
 			list<string> to = { "carl@dcpomatic.com" };
-			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
-			emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
+			if (d->email().find("@") == string::npos) {
+				error_dialog (this, _("You must enter a valid email address when sending translations, "
+						      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
+			} else {
+				Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
+				try {
+					emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
+				} catch (NetworkError& e) {
+					error_dialog (this, _("Could not send translations"), std_to_wx(e.what()));
+				}
+			}
 		}
 
 		d->Destroy ();
