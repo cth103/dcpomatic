@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,20 +18,23 @@
 
 */
 
+
+#include "i18n_hook.h"
 #include "send_i18n_dialog.h"
 #include "wx_util.h"
-#include "i18n_hook.h"
 #include <wx/listctrl.h>
+
 
 using std::string;
 using std::map;
 
+
 SendI18NDialog::SendI18NDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Send translations"))
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	table->AddGrowableCol (1, 1);
 
 	add_label_to_sizer (table, this, _("Your name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -46,20 +49,20 @@ SendI18NDialog::SendI18NDialog (wxWindow* parent)
 	_language = new wxTextCtrl (this, wxID_ANY);
 	table->Add (_language, 0, wxEXPAND);
 
-	wxListCtrl* list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(800, -1), wxLC_REPORT | wxLC_NO_HEADER);
+	auto list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(800, -1), wxLC_REPORT | wxLC_NO_HEADER);
 	list->AppendColumn(wxT(""), wxLIST_FORMAT_LEFT, 400);
 	list->AppendColumn(wxT(""), wxLIST_FORMAT_LEFT, 400);
 
-	map<string, string> translations = I18NHook::translations ();
+	auto translations = I18NHook::translations ();
 	int N = 0;
-	for (map<string, string>::const_iterator i = translations.begin(); i != translations.end(); ++i) {
+	for (auto const& i: translations) {
 		wxListItem it;
 		it.SetId(N);
 		it.SetColumn(0);
-		it.SetText(std_to_wx(i->first));
+		it.SetText(std_to_wx(i.first));
 		list->InsertItem(it);
 		it.SetColumn(1);
-		it.SetText(std_to_wx(i->second));
+		it.SetText(std_to_wx(i.second));
 		list->SetItem(it);
 		++N;
 	}
@@ -67,7 +70,7 @@ SendI18NDialog::SendI18NDialog (wxWindow* parent)
 	overall_sizer->Add (table, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 	overall_sizer->Add (list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
