@@ -231,7 +231,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 	auto const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {
-		throw KDMError (_("Failed to send email"), curl_easy_strerror (r));
+		throw NetworkError (_("Failed to send email"), curl_easy_strerror(r));
 	}
 
 	curl_slist_free_all (recipients);
