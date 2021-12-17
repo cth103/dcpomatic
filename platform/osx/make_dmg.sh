@@ -262,7 +262,7 @@ function relink_relative {
 
 	for arch in $arch1_name $arch2_name; do
 		for obj in "${linkers[@]}"; do
-			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|boost|libicu|libssh)"`
+			deps=`otool -arch $arch -L "$obj" | awk '{print $1}' | egrep "($to_relink)" | egrep "($ENV|$ROOT|@rpath|boost|libicu|libssh)"`
 			changes=""
 			for dep in $deps; do
 				base=`basename $dep`
