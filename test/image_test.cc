@@ -30,6 +30,7 @@
 #include "lib/image.h"
 #include "lib/image_content.h"
 #include "lib/image_decoder.h"
+#include "lib/image_jpeg.h"
 #include "lib/image_png.h"
 #include "lib/ffmpeg_image_proxy.h"
 #include "test.h"
@@ -381,6 +382,19 @@ BOOST_AUTO_TEST_CASE (as_png_test)
 
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_rgb.png");
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_bgr.png");
+}
+
+
+BOOST_AUTO_TEST_CASE (as_jpeg_test)
+{
+	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png");
+	auto image_rgb = proxy->image(Image::Alignment::PADDED).image;
+	auto image_bgr = image_rgb->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_BGRA, Image::Alignment::PADDED, false);
+	image_as_jpeg(image_rgb, 60).write("build/test/as_jpeg_rgb.jpeg");
+	image_as_jpeg(image_bgr, 60).write("build/test/as_jpeg_bgr.jpeg");
+
+	check_image ("test/data/as_jpeg_rgb.jpeg", "build/test/as_jpeg_rgb.jpeg");
+	check_image ("test/data/as_jpeg_bgr.jpeg", "build/test/as_jpeg_bgr.jpeg");
 }
 
 

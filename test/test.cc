@@ -369,8 +369,10 @@ rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 	FFmpegImageProxy check_proxy (check);
 	auto check_image = check_proxy.image(Image::Alignment::COMPACT).image;
 
+	BOOST_REQUIRE_EQUAL (ref_image->planes(), check_image->planes());
+
 	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());
-	AVPixelFormat const format = ref_image->pixel_format();
+	auto const format = ref_image->pixel_format();
 
 	BOOST_REQUIRE (ref_image->size() == check_image->size());
 	int const width = ref_image->size().width;
@@ -411,6 +413,19 @@ rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 				uint16_t* q = reinterpret_cast<uint16_t*>(check_image->data()[0] + y * check_image->stride()[0]);
 				for (int x = 0; x < width; ++x) {
 					for (int c = 0; c < 3; ++c) {
+						sum_square += pow((*p++ - *q++), 2);
+					}
+				}
+			}
+			break;
+		}
+		case AV_PIX_FMT_YUVJ420P:
+		{
+			for (int c = 0; c < ref_image->planes(); ++c) {
+				for (int y = 0; y < height / ref_image->vertical_factor(c); ++y) {
+					auto p = ref_image->data()[c] + y * ref_image->stride()[c];
+					auto q = check_image->data()[c] + y * check_image->stride()[c];
+					for (int x = 0; x < ref_image->line_size()[c]; ++x) {
 						sum_square += pow((*p++ - *q++), 2);
 					}
 				}
