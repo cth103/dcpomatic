@@ -33,6 +33,7 @@
 #include "lib/film.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
+#include "lib/make_dcp.h"
 #include "lib/ratio.h"
 #include "lib/video_content.h"
 #include "test.h"
@@ -186,7 +187,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 	c->video->set_length (24);
 
 	film->set_three_d (true);
-	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
+	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
 	film->write_metadata ();
 
 	auto jm = JobManager::instance ();

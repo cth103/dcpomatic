@@ -31,6 +31,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/make_dcp.h"
 #include "lib/ratio.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -54,7 +55,7 @@ BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
+	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
 
 	dcpomatic_sleep_seconds (10);
 

@@ -118,7 +118,6 @@ public:
 	boost::filesystem::path subtitle_analysis_path (std::shared_ptr<const Content>) const;
 
 	void send_dcp_to_tms ();
-	void make_dcp (TranscodeJob::ChangedBehaviour behaviour);
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.

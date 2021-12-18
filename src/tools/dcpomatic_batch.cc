@@ -32,6 +32,7 @@
 #include "lib/film.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
+#include "lib/make_dcp.h"
 #include "lib/transcode_job.h"
 #include "lib/util.h"
 #include "lib/version.h"
@@ -211,7 +212,7 @@ public:
 				}
 			}
 
-			film->make_dcp (TranscodeJob::ChangedBehaviour::STOP);
+			make_dcp (film, TranscodeJob::ChangedBehaviour::STOP);
 		} catch (std::exception& e) {
 			auto p = std_to_wx (path.string ());
 			auto b = p.ToUTF8 ();
@@ -450,7 +451,7 @@ class App : public wxApp
 				try {
 					film = make_shared<Film>(i);
 					film->read_metadata ();
-					film->make_dcp (TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
+					make_dcp (film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 				} catch (exception& e) {
 					error_dialog (
 						0,

@@ -30,6 +30,7 @@
 #include "lib/job_manager.h"
 #include "lib/json_server.h"
 #include "lib/log.h"
+#include "lib/make_dcp.h"
 #include "lib/ratio.h"
 #include "lib/signal_manager.h"
 #include "lib/transcode_job.h"
@@ -393,7 +394,7 @@ main (int argc, char* argv[])
 		}
 	}
 
-	TranscodeJob::ChangedBehaviour behaviour = check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE;
+	TranscodeJob::ChangedBehaviour const behaviour = check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE;
 
 	if (export_format) {
 		auto job = std::make_shared<TranscodeJob>(film, behaviour);
@@ -405,13 +406,14 @@ main (int argc, char* argv[])
 		JobManager::instance()->add (job);
 	} else {
 		try {
-			film->make_dcp (behaviour);
+			make_dcp (film, behaviour);
 		} catch (runtime_error& e) {
 			std::cerr << "Could not make DCP: " << e.what() << "\n";
 			exit(EXIT_FAILURE);
 		}
 	}
 
+	make_dcp (film, behaviour);
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {
