@@ -18,22 +18,23 @@
 
 */
 
+#include "lib/audio_content.h"
+#include "lib/config.h"
+#include "lib/cross.h"
+#include "lib/dcpomatic_log.h"
+#include "lib/encode_server_finder.h"
 #include "lib/film.h"
 #include "lib/filter.h"
-#include "lib/transcode_job.h"
 #include "lib/job_manager.h"
+#include "lib/json_server.h"
+#include "lib/log.h"
+#include "lib/make_dcp.h"
+#include "lib/ratio.h"
+#include "lib/signal_manager.h"
+#include "lib/transcode_job.h"
 #include "lib/util.h"
 #include "lib/version.h"
-#include "lib/cross.h"
-#include "lib/config.h"
-#include "lib/log.h"
-#include "lib/signal_manager.h"
-#include "lib/encode_server_finder.h"
-#include "lib/json_server.h"
-#include "lib/ratio.h"
 #include "lib/video_content.h"
-#include "lib/audio_content.h"
-#include "lib/dcpomatic_log.h"
 #include <dcp/version.h>
 #include <getopt.h>
 #include <iostream>
@@ -355,7 +356,7 @@ main (int argc, char* argv[])
 		cout << "\nMaking DCP for " << film->name() << "\n";
 	}
 
-	film->make_dcp (check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE);
+	make_dcp (film, check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE);
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {

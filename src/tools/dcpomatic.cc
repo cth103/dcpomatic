@@ -24,78 +24,79 @@
  */
 
 
-#include "wx/standard_controls.h"
-#include "wx/film_viewer.h"
-#include "wx/film_editor.h"
-#include "wx/job_manager_view.h"
-#include "wx/full_config_dialog.h"
-#include "wx/wx_util.h"
-#include "wx/film_name_location_dialog.h"
-#include "wx/wx_signal_manager.h"
-#include "wx/recreate_chain_dialog.h"
 #include "wx/about_dialog.h"
-#include "wx/kdm_dialog.h"
-#include "wx/dkdm_dialog.h"
-#include "wx/self_dkdm_dialog.h"
-#include "wx/servers_list_dialog.h"
-#include "wx/hints_dialog.h"
-#include "wx/update_dialog.h"
 #include "wx/content_panel.h"
-#include "wx/report_problem_dialog.h"
-#include "wx/video_waveform_dialog.h"
-#include "wx/system_information_dialog.h"
-#include "wx/save_template_dialog.h"
-#include "wx/templates_dialog.h"
-#include "wx/nag_dialog.h"
+#include "wx/dkdm_dialog.h"
 #include "wx/export_subtitles_dialog.h"
 #include "wx/export_video_file_dialog.h"
-#include "wx/paste_dialog.h"
+#include "wx/film_editor.h"
+#include "wx/film_name_location_dialog.h"
+#include "wx/film_viewer.h"
 #include "wx/focus_manager.h"
+#include "wx/full_config_dialog.h"
+#include "wx/hints_dialog.h"
 #include "wx/html_dialog.h"
-#include "wx/send_i18n_dialog.h"
 #include "wx/i18n_hook.h"
-#include "lib/film.h"
+#include "wx/job_manager_view.h"
+#include "wx/kdm_dialog.h"
+#include "wx/nag_dialog.h"
+#include "wx/paste_dialog.h"
+#include "wx/recreate_chain_dialog.h"
+#include "wx/report_problem_dialog.h"
+#include "wx/save_template_dialog.h"
+#include "wx/self_dkdm_dialog.h"
+#include "wx/send_i18n_dialog.h"
+#include "wx/servers_list_dialog.h"
+#include "wx/standard_controls.h"
+#include "wx/system_information_dialog.h"
+#include "wx/templates_dialog.h"
+#include "wx/update_dialog.h"
+#include "wx/video_waveform_dialog.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/wx_util.h"
 #include "lib/analytics.h"
-#include "lib/emailer.h"
-#include "lib/config.h"
-#include "lib/cross.h"
-#include "lib/util.h"
-#include "lib/video_content.h"
-#include "lib/content.h"
-#include "lib/version.h"
-#include "lib/signal_manager.h"
-#include "lib/log.h"
-#include "lib/screen.h"
-#include "lib/job_manager.h"
-#include "lib/exceptions.h"
-#include "lib/cinema.h"
-#include "lib/kdm_with_metadata.h"
-#include "lib/send_kdm_email_job.h"
-#include "lib/encode_server_finder.h"
-#include "lib/update_checker.h"
-#include "lib/cross.h"
-#include "lib/content_factory.h"
-#include "lib/compose.hpp"
-#include "lib/dcpomatic_socket.h"
-#include "lib/hints.h"
-#include "lib/dcp_content.h"
-#include "lib/ffmpeg_encoder.h"
-#include "lib/transcode_job.h"
-#include "lib/dkdm_wrapper.h"
 #include "lib/audio_content.h"
 #include "lib/check_content_change_job.h"
-#include "lib/text_content.h"
+#include "lib/cinema.h"
+#include "lib/compose.hpp"
+#include "lib/config.h"
+#include "lib/content.h"
+#include "lib/content_factory.h"
+#include "lib/cross.h"
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/dcpomatic_socket.h"
+#include "lib/dkdm_wrapper.h"
+#include "lib/emailer.h"
+#include "lib/encode_server_finder.h"
+#include "lib/exceptions.h"
+#include "lib/ffmpeg_encoder.h"
+#include "lib/film.h"
+#include "lib/hints.h"
+#include "lib/job_manager.h"
+#include "lib/kdm_with_metadata.h"
+#include "lib/log.h"
+#include "lib/make_dcp.h"
+#include "lib/screen.h"
+#include "lib/send_kdm_email_job.h"
+#include "lib/signal_manager.h"
 #include "lib/subtitle_encoder.h"
+#include "lib/text_content.h"
+#include "lib/transcode_job.h"
+#include "lib/update_checker.h"
+#include "lib/util.h"
+#include "lib/version.h"
+#include "lib/video_content.h"
 #include "lib/warnings.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
 DCPOMATIC_DISABLE_WARNINGS
-#include <wx/generic/aboutdlgg.h>
-#include <wx/stdpaths.h>
 #include <wx/cmdline.h>
+#include <wx/generic/aboutdlgg.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
+#include <wx/stdpaths.h>
 #include <wx/wxhtml.h>
 DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXGTK__
@@ -104,8 +105,8 @@ DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
-#include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 #include <iostream>
 #include <fstream>
 /* This is OK as it's only used with DCPOMATIC_WINDOWS */
@@ -798,7 +799,7 @@ private:
 			   a long time, and crashes/power failures are moderately likely.
 			*/
 			_film->write_metadata ();
-			_film->make_dcp (TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
+			make_dcp (_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		} catch (BadSettingError& e) {
 			error_dialog (this, wxString::Format (_("Bad setting for %s."), std_to_wx(e.setting()).data()), std_to_wx(e.what()));
 		} catch (std::exception& e) {

@@ -38,6 +38,7 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/log_entry.h"
+#include "lib/make_dcp.h"
 #include "lib/ratio.h"
 #include "lib/signal_manager.h"
 #include "lib/util.h"
@@ -887,7 +888,7 @@ void
 make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore)
 {
 	film->write_metadata ();
-	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
+	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
 	BOOST_REQUIRE (!wait_for_jobs());
 	auto notes = dcp::verify ({film->dir(film->dcp_name())}, &stage, &progress, TestPaths::xsd());
 	bool ok = true;

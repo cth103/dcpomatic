@@ -25,27 +25,28 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/ratio.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/image_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/dcp_content.h"
-#include "lib/video_content.h"
-#include "lib/string_text_file_content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/make_dcp.h"
+#include "lib/ratio.h"
+#include "lib/string_text_file_content.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
 
-using std::list;
 using std::cout;
-using std::vector;
-using std::string;
-using std::shared_ptr;
-using std::make_shared;
 using std::function;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 using namespace dcpomatic;
 
 
@@ -564,7 +565,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 	BOOST_CHECK (film->reels().front() == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime(), dcpomatic::DCPTime::from_frames(263, 24)));
 
 	film->write_metadata ();
-	film->make_dcp (TranscodeJob::ChangedBehaviour::IGNORE);
+	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };

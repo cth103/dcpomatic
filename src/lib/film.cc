@@ -377,69 +377,6 @@ Film::subtitle_analysis_path (shared_ptr<const Content> content) const
 }
 
 
-/** Add suitable Jobs to the JobManager to create a DCP for this Film */
-void
-Film::make_dcp (TranscodeJob::ChangedBehaviour behaviour)
-{
-	if (dcp_name().find ("/") != string::npos) {
-		throw BadSettingError (_("name"), _("Cannot contain slashes"));
-	}
-
-	if (container() == nullptr) {
-		throw MissingSettingError (_("container"));
-	}
-
-	if (content().empty()) {
-		throw runtime_error (_("You must add some content to the DCP before creating it"));
-	}
-
-	if (length() == DCPTime()) {
-		throw runtime_error (_("The DCP is empty, perhaps because all the content has zero length."));
-	}
-
-	if (dcp_content_type() == nullptr) {
-		throw MissingSettingError (_("content type"));
-	}
-
-	if (name().empty()) {
-		set_name ("DCP");
-	}
-
-	for (auto i: content ()) {
-		if (!i->paths_valid()) {
-			throw runtime_error (_("some of your content is missing"));
-		}
-		auto dcp = dynamic_pointer_cast<const DCPContent>(i);
-		if (dcp && dcp->needs_kdm()) {
-			throw runtime_error (_("Some of your content needs a KDM"));
-		}
-		if (dcp && dcp->needs_assets()) {
-			throw runtime_error (_("Some of your content needs an OV"));
-		}
-	}
-
-	set_isdcf_date_today ();
-
-	for (auto i: environment_info ()) {
-		LOG_GENERAL_NC (i);
-	}
-
-	for (auto i: content ()) {
-		LOG_GENERAL ("Content: %1", i->technical_summary());
-	}
-	LOG_GENERAL ("DCP video rate %1 fps", video_frame_rate());
-	if (Config::instance()->only_servers_encode ()) {
-		LOG_GENERAL_NC ("0 threads: ONLY SERVERS SET TO ENCODE");
-	} else {
-		LOG_GENERAL ("%1 threads", Config::instance()->master_encoding_threads());
-	}
-	LOG_GENERAL ("J2K bandwidth %1", j2k_bandwidth());
-
-	auto tj = make_shared<TranscodeJob>(shared_from_this(), behaviour);
-	tj->set_encoder (make_shared<DCPEncoder>(shared_from_this(), tj));
-	JobManager::instance()->add (tj);
-}
-
 /** Start a job to send our DCP to the configured TMS */
 void
 Film::send_dcp_to_tms ()

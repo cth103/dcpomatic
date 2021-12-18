@@ -131,6 +131,7 @@ sources = """
           kdm_recipient.cc
           log.cc
           log_entry.cc
+          make_dcp.cc
           mid_side_decoder.cc
           overlaps.cc
           pixel_quanta.cc
