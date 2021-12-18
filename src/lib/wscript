@@ -122,6 +122,7 @@ sources = """
           image_decoder.cc
           image_examiner.cc
           image_filename_sorter.cc
+          image_jpeg.cc
           image_png.cc
           image_proxy.cc
           j2k_image_proxy.cc
@@ -207,7 +208,7 @@ def build(bld):
                  AVCODEC AVUTIL AVFORMAT AVFILTER SWSCALE
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 BOOST_REGEX
                  SAMPLERATE POSTPROC TIFF SSH DCP CXML GLIB LZMA XML++
-                 CURL ZIP BZ2 FONTCONFIG PANGOMM CAIROMM XMLSEC SUB ICU NETTLE PNG LEQM_NRT
+                 CURL ZIP BZ2 FONTCONFIG PANGOMM CAIROMM XMLSEC SUB ICU NETTLE PNG JPEG LEQM_NRT
                  """
 
     if bld.env.TARGET_OSX:

@@ -348,6 +348,18 @@ def configure(conf):
     # libpng
     conf.check_cfg(package='libpng', args='--cflags --libs', uselib_store='PNG', mandatory=True)
 
+    # libjpeg
+    conf.check_cxx(fragment="""
+                            #include <cstddef>
+                            #include <cstdio>
+                            #include <jpeglib.h>
+                            int main() { struct jpeg_compress_struct compress; jpeg_create_compress (&compress); return 0; }
+                            """,
+                   msg='Checking for libjpeg',
+                   libpath='/usr/local/lib',
+                   lib=['jpeg'],
+                   uselib_store='JPEG')
+
     # lwext4
     if conf.options.enable_disk:
         conf.check_cxx(fragment="""
