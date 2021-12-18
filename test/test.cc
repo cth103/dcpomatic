@@ -701,7 +701,7 @@ png_flush (png_structp)
 static void
 png_error_fn (png_structp png_ptr, char const * message)
 {
-	reinterpret_cast<Image*>(png_get_error_ptr(png_ptr))->png_error (message);
+	throw EncodeError (String::compose("Error during PNG write: %1", message));
 }
 
 
