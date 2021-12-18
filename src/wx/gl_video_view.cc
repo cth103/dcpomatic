@@ -60,6 +60,7 @@
 using std::cout;
 using std::shared_ptr;
 using std::string;
+using boost::bind;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -506,7 +507,7 @@ GLVideoView::draw ()
 void
 GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 {
-	shared_ptr<const Image> video = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+	shared_ptr<const Image> video = _optimise_for_j2k ? pv->raw_image() : pv->image(bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 
 	/* Only the player's black frames should be aligned at this stage, so this should
 	 * almost always have no work to do.

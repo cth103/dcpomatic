@@ -18,6 +18,7 @@
 
 */
 
+
 #include "content.h"
 #include "film.h"
 #include "image.h"
@@ -33,16 +34,18 @@ extern "C" {
 #include <libxml++/libxml++.h>
 #include <iostream>
 
+
 using std::cout;
 using std::dynamic_pointer_cast;
+using std::function;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
 using boost::optional;
-using std::function;
 using dcp::Data;
 using dcp::raw_convert;
+
 
 PlayerVideo::PlayerVideo (
 	shared_ptr<const ImageProxy> in,
@@ -285,7 +288,7 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 }
 
 AVPixelFormat
-PlayerVideo::force (AVPixelFormat, AVPixelFormat force_to)
+PlayerVideo::force (AVPixelFormat force_to)
 {
 	return force_to;
 }

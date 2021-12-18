@@ -32,6 +32,7 @@
 
 using std::make_shared;
 using std::shared_ptr;
+using boost::bind;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -59,7 +60,7 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		map.set (i, i, 1);
 	}
 
-	Butler butler (film, make_shared<Player>(film, Image::Alignment::COMPACT), map, 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, false, false);
+	Butler butler (film, make_shared<Player>(film, Image::Alignment::COMPACT), map, 6, bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, false, false);
 
 	BOOST_CHECK (butler.get_video(Butler::Behaviour::BLOCKING, 0).second == DCPTime());
 	BOOST_CHECK (butler.get_video(Butler::Behaviour::BLOCKING, 0).second == DCPTime::from_frames(1, 24));

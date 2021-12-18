@@ -29,6 +29,7 @@
 
 using std::make_shared;
 using std::make_shared;
+using boost::bind;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -48,7 +49,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		make_shared<Player>(film, Image::Alignment::PADDED),
 		AudioMapping(6, 6),
 		6,
-		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+		bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
 		Image::Alignment::PADDED,
 		true,
@@ -63,6 +64,6 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		}
 		/* assuming DCP is 24fps/48kHz */
 		butler->get_audio (Butler::Behaviour::BLOCKING, audio_buffer.data(), 2000);
-		p.first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+		p.first->image(bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 	}
 }

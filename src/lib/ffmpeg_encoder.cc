@@ -108,7 +108,7 @@ FFmpegEncoder::FFmpegEncoder (
 	}
 
 	_butler = std::make_shared<Butler>(
-		_film, _player, map, _output_audio_channels, bind(&PlayerVideo::force, _1, FFmpegFileEncoder::pixel_format(format)), VideoRange::VIDEO, Image::Alignment::PADDED, false, false
+		_film, _player, map, _output_audio_channels, bind(&PlayerVideo::force, FFmpegFileEncoder::pixel_format(format)), VideoRange::VIDEO, Image::Alignment::PADDED, false, false
 		);
 }
 

@@ -79,7 +79,7 @@ public:
 	std::shared_ptr<Image> image (std::function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const;
 	std::shared_ptr<const Image> raw_image () const;
 
-	static AVPixelFormat force (AVPixelFormat, AVPixelFormat);
+	static AVPixelFormat force (AVPixelFormat);
 	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
 
 	void add_metadata (xmlpp::Node* node) const;
