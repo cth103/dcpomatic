@@ -95,7 +95,7 @@ ContentPropertiesDialog::maybe_add_group (map<UserProperty::Category, list<UserP
 	add_spacer ();
 
 	for (auto j: i->second) {
-		add (std_to_wx (j.key), true);
+		add_label_to_sizer (_table, this, std_to_wx(j.key), true, 0, wxALIGN_TOP);
 		add (new StaticText (this, std_to_wx (j.value + " " + j.unit)));
 	}
 }

@@ -463,7 +463,24 @@ Content::active_video_frame_rate (shared_ptr<const Film> film) const
 void
 Content::add_properties (shared_ptr<const Film>, list<UserProperty>& p) const
 {
-	p.push_back (UserProperty (UserProperty::GENERAL, _("Filename"), path(0).string ()));
+	auto paths_to_show = std::min(number_of_paths(), size_t{8});
+	string paths = "";
+	for (auto i = size_t{0}; i < paths_to_show; ++i) {
+		paths += path(i).string();
+		if (i < (paths_to_show - 1)) {
+			paths += "\n";
+		}
+	}
+	if (paths_to_show < number_of_paths()) {
+		paths += String::compose("... and %1 more", number_of_paths() - paths_to_show);
+	}
+	p.push_back (
+		UserProperty(
+			UserProperty::GENERAL,
+			paths_to_show > 1 ? _("Filenames") : _("Filename"),
+			paths
+			)
+		);
 
 	if (_video_frame_rate) {
 		if (video) {
