@@ -28,6 +28,7 @@
 #include "film.h"
 #include "font_data.h"
 #include "image.h"
+#include "image_png.h"
 #include "job.h"
 #include "log.h"
 #include "reel_writer.h"
@@ -908,7 +909,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	for (auto i: subs.bitmap) {
 		asset->add (
 			make_shared<dcp::SubtitleImage>(
-				i.image->as_png(),
+				image_as_png(i.image),
 				dcp::Time(period.from.seconds() - _period.from.seconds(), tcr),
 				dcp::Time(period.to.seconds() - _period.from.seconds(), tcr),
 				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP,

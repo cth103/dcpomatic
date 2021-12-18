@@ -45,6 +45,8 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/file_log.h"
 #include "lib/film.h"
+#include "lib/image.h"
+#include "lib/image_png.h"
 #include "lib/internet.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
