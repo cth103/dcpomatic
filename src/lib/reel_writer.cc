@@ -18,18 +18,20 @@
 
 */
 
-#include "reel_writer.h"
-#include "film.h"
-#include "cross.h"
-#include "job.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "digester.h"
-#include "font_data.h"
+
+#include "audio_buffers.h"
 #include "compose.hpp"
 #include "config.h"
-#include "audio_buffers.h"
+#include "cross.h"
+#include "dcpomatic_log.h"
+#include "digester.h"
+#include "film.h"
+#include "font_data.h"
 #include "image.h"
+#include "image_png.h"
+#include "job.h"
+#include "log.h"
+#include "reel_writer.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/certificate_chain.h>
@@ -56,27 +58,30 @@
 
 #include "i18n.h"
 
-using std::list;
-using std::string;
+
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::exception;
+using std::list;
+using std::make_shared;
 using std::map;
 using std::set;
-using std::vector;
 using std::shared_ptr;
-using std::make_shared;
+using std::string;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
-using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using std::weak_ptr;
 using dcp::ArrayData;
 using dcp::Data;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 int const ReelWriter::_info_size = 48;
+
 
 static dcp::MXFMetadata
 mxf_metadata ()
@@ -896,7 +901,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	for (auto i: subs.bitmap) {
 		asset->add (
 			make_shared<dcp::SubtitleImage>(
-				i.image->as_png(),
+				image_as_png(i.image),
 				dcp::Time(period.from.seconds() - _period.from.seconds(), tcr),
 				dcp::Time(period.to.seconds() - _period.from.seconds(), tcr),
 				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP,

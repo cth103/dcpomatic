@@ -95,8 +95,6 @@ public:
 
 	size_t memory_used () const;
 
-	dcp::ArrayData as_png () const;
-
 	static std::shared_ptr<const Image> ensure_alignment (std::shared_ptr<const Image> image, Alignment alignment);
 
 private:

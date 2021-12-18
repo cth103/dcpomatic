@@ -30,6 +30,7 @@
 #include "lib/image.h"
 #include "lib/image_content.h"
 #include "lib/image_decoder.h"
+#include "lib/image_png.h"
 #include "lib/ffmpeg_image_proxy.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -375,8 +376,8 @@ BOOST_AUTO_TEST_CASE (as_png_test)
 	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png");
 	auto image_rgb = proxy->image(Image::Alignment::PADDED).image;
 	auto image_bgr = image_rgb->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_BGRA, Image::Alignment::PADDED, false);
-	image_rgb->as_png().write ("build/test/as_png_rgb.png");
-	image_bgr->as_png().write ("build/test/as_png_bgr.png");
+	image_as_png(image_rgb).write ("build/test/as_png_rgb.png");
+	image_as_png(image_bgr).write ("build/test/as_png_bgr.png");
 
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_rgb.png");
 	check_image ("test/data/3d_test/000001.png", "build/test/as_png_bgr.png");
@@ -391,7 +392,7 @@ fade_test_format_black (AVPixelFormat f, string name)
 	yuv.make_black ();
 	yuv.fade (0);
 	string const filename = "fade_test_black_" + name + ".png";
-	yuv.convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, Image::Alignment::PADDED, false)->as_png().write("build/test/" + filename);
+	image_as_png(yuv.convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, Image::Alignment::PADDED, false)).write("build/test/" + filename);
 	check_image ("test/data/" + filename, "build/test/" + filename);
 }
 
@@ -404,7 +405,7 @@ fade_test_format_red (AVPixelFormat f, float amount, string name)
 	auto red = proxy->image(Image::Alignment::PADDED).image->convert_pixel_format(dcp::YUVToRGB::REC709, f, Image::Alignment::PADDED, false);
 	red->fade (amount);
 	string const filename = "fade_test_red_" + name + ".png";
-	red->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, Image::Alignment::PADDED, false)->as_png().write("build/test/" + filename);
+	image_as_png(red->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, Image::Alignment::PADDED, false)).write("build/test/" + filename);
 	check_image ("test/data/" + filename, "build/test/" + filename);
 }
 
