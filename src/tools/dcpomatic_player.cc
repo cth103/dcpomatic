@@ -46,11 +46,14 @@
 #include "lib/file_log.h"
 #include "lib/film.h"
 #include "lib/image.h"
+#include "lib/image_jpeg.h"
 #include "lib/image_png.h"
 #include "lib/internet.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/null_log.h"
+#include "lib/player.h"
+#include "lib/player_video.h"
 #include "lib/ratio.h"
 #include "lib/scoped_temporary.h"
 #include "lib/server.h"
@@ -113,6 +116,7 @@ enum {
 	ID_file_open = 1,
 	ID_file_add_ov,
 	ID_file_add_kdm,
+	ID_file_save_frame,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
 	ID_file_close = 100,
@@ -174,6 +178,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_open, this), ID_file_open);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_ov, this), ID_file_add_ov);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_add_kdm, this), ID_file_add_kdm);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_save_frame, this), ID_file_save_frame);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_history, this, _1), ID_file_history, ID_file_history + HISTORY_SIZE);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_close, this), ID_file_close);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
@@ -497,6 +502,8 @@ private:
 		_file_menu->Append (ID_file_open, _("&Open...\tCtrl-O"));
 		_file_add_ov = _file_menu->Append (ID_file_add_ov, _("&Add OV..."));
 		_file_add_kdm = _file_menu->Append (ID_file_add_kdm, _("Add &KDM..."));
+		_file_menu->AppendSeparator ();
+		_file_save_frame = _file_menu->Append (ID_file_save_frame, _("&Save frame to file...\tCtrl-S"));
 
 		_history_position = _file_menu->GetMenuItems().GetCount();
 
@@ -656,6 +663,42 @@ private:
 
 		d->Destroy ();
 		_info->triggered_update ();
+	}
+
+	void file_save_frame ()
+	{
+		wxFileDialog dialog (this, _("Save frame to file"), "", "", "PNG files (*.png)|*.png|JPEG files (*.jpg,*.jpeg)|*.jpg,*.jpeg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		if (dialog.ShowModal() == wxID_CANCEL) {
+			return;
+		}
+
+		auto path = boost::filesystem::path (wx_to_std(dialog.GetPath()));
+
+		auto player = make_shared<Player>(_film, Image::Alignment::PADDED);
+		player->seek (_viewer->position(), true);
+
+		bool done = false;
+		player->Video.connect ([path, &done, this](shared_ptr<PlayerVideo> video, DCPTime) {
+			auto ext = boost::algorithm::to_lower_copy(path.extension().string());
+			if (ext == ".png") {
+				auto image = video->image(boost::bind(PlayerVideo::force, AV_PIX_FMT_RGBA), VideoRange::FULL, false);
+				image_as_png(image).write(path);
+			} else if (ext == ".jpg" || ext == ".jpeg") {
+				auto image = video->image(boost::bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, false);
+				image_as_jpeg(image, 80).write(path);
+			} else {
+				error_dialog (this, _(wxString::Format("Unrecognised file extension %s (use .jpg, .jpeg or .png)", std_to_wx(ext))));
+			}
+			done = true;
+		});
+
+		int tries_left = 50;
+		while (!done && tries_left >= 0) {
+			player->pass();
+			--tries_left;
+		}
+
+		DCPOMATIC_ASSERT (tries_left >= 0);
 	}
 
 	void file_history (wxCommandEvent& event)
@@ -951,6 +994,7 @@ private:
 		_tools_verify->Enable (static_cast<bool>(_film));
 		_file_add_ov->Enable (static_cast<bool>(_film));
 		_file_add_kdm->Enable (static_cast<bool>(_film));
+		_file_save_frame->Enable (static_cast<bool>(_film));
 		_view_cpl->Enable (static_cast<bool>(_film));
 	}
 
@@ -1008,6 +1052,7 @@ private:
 	boost::signals2::scoped_connection _examine_job_connection;
 	wxMenuItem* _file_add_ov = nullptr;
 	wxMenuItem* _file_add_kdm = nullptr;
+	wxMenuItem* _file_save_frame = nullptr;
 	wxMenuItem* _tools_verify = nullptr;
 	wxMenuItem* _view_full_screen = nullptr;
 	wxMenuItem* _view_dual_screen = nullptr;
