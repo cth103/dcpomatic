@@ -97,8 +97,6 @@ public:
 
 	dcp::ArrayData as_png () const;
 
-	void png_error (char const * message);
-
 	static std::shared_ptr<const Image> ensure_alignment (std::shared_ptr<const Image> image, Alignment alignment);
 
 private:
