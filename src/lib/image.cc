@@ -122,13 +122,13 @@ Image::sample_size (int n) const
 int
 Image::planes () const
 {
+	if (_pixel_format == AV_PIX_FMT_PAL8) {
+		return 2;
+	}
+
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("planes()", _pixel_format);
-	}
-
-	if (_pixel_format == AV_PIX_FMT_PAL8) {
-		return 2;
 	}
 
 	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
