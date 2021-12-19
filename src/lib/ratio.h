@@ -42,9 +42,6 @@ public:
 		, _isdcf_name (d)
 	{}
 
-	Ratio (Ratio const&) = delete;
-	Ratio& operator= (Ratio const&) = delete;
-
 	std::string id () const {
 		return _id;
 	}
@@ -72,9 +69,7 @@ public:
 	static Ratio const * from_ratio (float r);
 	static Ratio const * nearest_from_ratio (float r);
 
-	static std::vector<Ratio const *> all () {
-		return _ratios;
-	}
+	static std::vector<Ratio const *> all ();
 
 	static std::vector<Ratio const *> containers ();
 
@@ -88,7 +83,7 @@ private:
 	boost::optional<std::string> _container_nickname;
 	std::string _isdcf_name;
 
-	static std::vector<Ratio const *> _ratios;
+	static std::vector<Ratio> _ratios;
 };
 
 

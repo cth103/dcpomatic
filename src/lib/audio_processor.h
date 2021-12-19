@@ -29,7 +29,7 @@
 
 
 #include "types.h"
-#include <list>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -65,14 +65,14 @@ public:
 	/** @return the user-visible (translated) names of each of our inputs, in order */
 	virtual std::vector<NamedChannel> input_names () const = 0;
 
-	static std::list<AudioProcessor const *> all ();
-	static std::list<AudioProcessor const *> visible ();
+	static std::vector<AudioProcessor const *> all ();
+	static std::vector<AudioProcessor const *> visible ();
 	static void setup_audio_processors ();
 	static AudioProcessor const * from_id (std::string);
 
 private:
-	static std::list<AudioProcessor const *> _all;
-	static std::list<AudioProcessor const *> _non_experimental;
+	static std::vector<std::unique_ptr<const AudioProcessor>> _experimental;
+	static std::vector<std::unique_ptr<const AudioProcessor>> _non_experimental;
 };
 
 

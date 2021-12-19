@@ -39,7 +39,7 @@ DCPOMATIC_ENABLE_WARNINGS
 using namespace std;
 
 
-vector<Filter const *> Filter::_filters;
+vector<Filter> Filter::_filters;
 
 
 /** @param i Our id.
@@ -61,7 +61,11 @@ Filter::Filter (string i, string n, string c, string f)
 vector<Filter const *>
 Filter::all ()
 {
-	return _filters;
+	vector<Filter const *> raw;
+	for (auto& filter: _filters) {
+		raw.push_back (&filter);
+	}
+	return raw;
 }
 
 
@@ -101,7 +105,7 @@ Filter::maybe_add (string i, string n, string c, string f)
 	}
 
 	if (avfilter_get_by_name(check_name.c_str())) {
-		_filters.push_back (new Filter(i, n, c, f));
+		_filters.push_back (Filter(i, n, c, f));
 	}
 }
 
@@ -132,7 +136,7 @@ Filter const *
 Filter::from_id (string d)
 {
 	auto i = _filters.begin ();
-	while (i != _filters.end() && (*i)->id() != d) {
+	while (i != _filters.end() && i->id() != d) {
 		++i;
 	}
 
@@ -140,5 +144,5 @@ Filter::from_id (string d)
 		return nullptr;
 	}
 
-	return *i;
+	return &(*i);
 }

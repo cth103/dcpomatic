@@ -36,7 +36,7 @@
 using namespace std;
 
 
-vector<CinemaSoundProcessor const *> CinemaSoundProcessor::_cinema_sound_processors;
+vector<unique_ptr<const CinemaSoundProcessor>> CinemaSoundProcessor::_cinema_sound_processors;
 
 
 /** @param i Our id.
@@ -57,7 +57,11 @@ CinemaSoundProcessor::CinemaSoundProcessor (string i, string n, float knee, floa
 vector<CinemaSoundProcessor const *>
 CinemaSoundProcessor::all ()
 {
-	return _cinema_sound_processors;
+	vector<CinemaSoundProcessor const *> raw;
+	for (auto& processor: _cinema_sound_processors) {
+		raw.push_back (processor.get());
+	}
+	return raw;
 }
 
 
@@ -67,9 +71,9 @@ CinemaSoundProcessor::all ()
 void
 CinemaSoundProcessor::setup_cinema_sound_processors ()
 {
-	_cinema_sound_processors.push_back (new DolbyCP750);
-	_cinema_sound_processors.push_back (new USL);
-	_cinema_sound_processors.push_back (new DatasatAP2x);
+	_cinema_sound_processors.push_back (unique_ptr<CinemaSoundProcessor>(new DolbyCP750));
+	_cinema_sound_processors.push_back (unique_ptr<CinemaSoundProcessor>(new USL));
+	_cinema_sound_processors.push_back (unique_ptr<CinemaSoundProcessor>(new DatasatAP2x));
 }
 
 
@@ -88,26 +92,7 @@ CinemaSoundProcessor::from_id (string id)
 		return nullptr;
 	}
 
-	return *i;
-}
-
-
-/** @param s A sound processor from our static list.
- *  @return Index of the sound processor with the list, or -1.
- */
-int
-CinemaSoundProcessor::as_index (CinemaSoundProcessor const * s)
-{
-	vector<CinemaSoundProcessor*>::size_type i = 0;
-	while (i < _cinema_sound_processors.size() && _cinema_sound_processors[i] != s) {
-		++i;
-	}
-
-	if (i == _cinema_sound_processors.size ()) {
-		return -1;
-	}
-
-	return i;
+	return i->get();
 }
 
 
@@ -118,7 +103,7 @@ CinemaSoundProcessor const *
 CinemaSoundProcessor::from_index (int i)
 {
 	DCPOMATIC_ASSERT (i >= 0 && i < int(_cinema_sound_processors.size()));
-	return _cinema_sound_processors[i];
+	return _cinema_sound_processors[i].get();
 }
 
 
