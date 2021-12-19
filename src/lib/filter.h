@@ -44,9 +44,6 @@ class Filter
 public:
 	Filter (std::string i, std::string n, std::string c, std::string f);
 
-	Filter (Filter const&) = delete;
-	Filter& operator= (Filter const&) = delete;
-
 	/** @return our id */
 	std::string id () const {
 		return _id;
@@ -82,7 +79,7 @@ private:
 	std::string _ffmpeg;
 
 	/** all available filters */
-	static std::vector<Filter const *> _filters;
+	static std::vector<Filter> _filters;
 	static void maybe_add (std::string, std::string, std::string, std::string);
 };
 

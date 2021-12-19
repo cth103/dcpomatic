@@ -33,22 +33,36 @@ using std::vector;
 using boost::optional;
 
 
-vector<Ratio const *> Ratio::_ratios;
+vector<Ratio> Ratio::_ratios;
 
 
 void
 Ratio::setup_ratios ()
 {
-	_ratios.push_back (new Ratio(float(1290) / 1080, "119", _("1.19"),              optional<string>(),      "119"));
-	_ratios.push_back (new Ratio(float(1440) / 1080, "133", _("1.33 (4:3)"),        optional<string>(),      "133"));
-	_ratios.push_back (new Ratio(float(1485) / 1080, "138", _("1.38 (Academy)"),    optional<string>(),      "137"));
-	_ratios.push_back (new Ratio(float(1544) / 1080, "143", _("1.43 (IMAX)"),       optional<string>(),      "143"));
-	_ratios.push_back (new Ratio(float(1800) / 1080, "166", _("1.66"),              optional<string>(),      "166"));
-	_ratios.push_back (new Ratio(float(1920) / 1080, "178", _("1.78 (16:9 or HD)"), optional<string>(),      "178"));
-	_ratios.push_back (new Ratio(float(1998) / 1080, "185", _("1.85 (Flat)"),       string(_("DCI Flat")),   "F"));
-	_ratios.push_back (new Ratio(float(2048) /  872, "235", _("2.35 (35mm Scope)"), optional<string>(),      "S"));
-	_ratios.push_back (new Ratio(float(2048) /  858, "239", _("2.39 (Scope)"),      string(_("DCI Scope")),  "S"));
-	_ratios.push_back (new Ratio(float(2048) / 1080, "190", _("1.90 (Full frame)"), string(_("Full frame")), "C"));
+	/* This must only be called once as we rely on the addresses of objects in _ratios staying the same */
+	DCPOMATIC_ASSERT (_ratios.empty());
+
+	_ratios.push_back (Ratio(float(1290) / 1080, "119", _("1.19"),              {},                      "119"));
+	_ratios.push_back (Ratio(float(1440) / 1080, "133", _("1.33 (4:3)"),        {},                      "133"));
+	_ratios.push_back (Ratio(float(1485) / 1080, "138", _("1.38 (Academy)"),    {},                      "137"));
+	_ratios.push_back (Ratio(float(1544) / 1080, "143", _("1.43 (IMAX)"),       {},                      "143"));
+	_ratios.push_back (Ratio(float(1800) / 1080, "166", _("1.66"),              {},                      "166"));
+	_ratios.push_back (Ratio(float(1920) / 1080, "178", _("1.78 (16:9 or HD)"), {},                      "178"));
+	_ratios.push_back (Ratio(float(1998) / 1080, "185", _("1.85 (Flat)"),       string(_("DCI Flat")),   "F"));
+	_ratios.push_back (Ratio(float(2048) /  872, "235", _("2.35 (35mm Scope)"), {},                      "S"));
+	_ratios.push_back (Ratio(float(2048) /  858, "239", _("2.39 (Scope)"),      string(_("DCI Scope")),  "S"));
+	_ratios.push_back (Ratio(float(2048) / 1080, "190", _("1.90 (Full frame)"), string(_("Full frame")), "C"));
+}
+
+
+vector<Ratio const *>
+Ratio::all ()
+{
+	vector<Ratio const *> pointers;
+	for (Ratio& ratio: _ratios) {
+		pointers.push_back (&ratio);
+	}
+	return pointers;
 }
 
 
@@ -61,15 +75,15 @@ Ratio::from_id (string i)
 	}
 
 	auto j = _ratios.begin ();
-	while (j != _ratios.end() && (*j)->id() != i) {
+	while (j != _ratios.end() && j->id() != i) {
 		++j;
 	}
 
-	if (j == _ratios.end ()) {
-		return 0;
+	if (j == _ratios.end()) {
+		return nullptr;
 	}
 
-	return *j;
+	return &(*j);
 }
 
 
@@ -78,7 +92,7 @@ Ratio const *
 Ratio::from_ratio (float r)
 {
 	auto j = _ratios.begin ();
-	while (j != _ratios.end() && fabs((*j)->ratio() - r) > 0.01) {
+	while (j != _ratios.end() && fabs(j->ratio() - r) > 0.01) {
 		++j;
 	}
 
@@ -86,32 +100,34 @@ Ratio::from_ratio (float r)
 		return nullptr;
 	}
 
-	return *j;
+	return &(*j);
 }
 
 
 Ratio const *
 Ratio::nearest_from_ratio (float r)
 {
-	Ratio const * nearest = nullptr;
+	vector<Ratio>::const_iterator nearest = _ratios.end();
 	float distance = FLT_MAX;
 
 	for (auto i = _ratios.begin(); i != _ratios.end(); ++i) {
-		float const d = fabs((*i)->ratio() - r);
+		float const d = fabs(i->ratio() - r);
 		if (d < distance) {
 			distance = d;
-			nearest = *i;
+			nearest = i;
 		}
 	}
 
-	return nearest;
+	DCPOMATIC_ASSERT (nearest != _ratios.end());
+
+	return &(*nearest);
 }
 
 vector<Ratio const *>
 Ratio::containers ()
 {
 	if (Config::instance()->allow_any_container()) {
-		return _ratios;
+		return all();
 	}
 
 	vector<Ratio const *> r;

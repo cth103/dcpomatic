@@ -29,6 +29,7 @@
 
 
 #include <boost/utility.hpp>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -64,7 +65,6 @@ public:
 	static void setup_cinema_sound_processors ();
 	static CinemaSoundProcessor const * from_id (std::string id);
 	static CinemaSoundProcessor const * from_index (int);
-	static int as_index (CinemaSoundProcessor const *);
 
 private:
 	/** id for our use */
@@ -75,8 +75,8 @@ private:
 	float _below;
 	float _above;
 
-	/** sll available cinema sound processors */
-	static std::vector<CinemaSoundProcessor const *> _cinema_sound_processors;
+	/** all available cinema sound processors */
+	static std::vector<std::unique_ptr<const CinemaSoundProcessor>> _cinema_sound_processors;
 };
 
 

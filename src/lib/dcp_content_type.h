@@ -41,9 +41,6 @@ class DCPContentType
 public:
 	DCPContentType (std::string, dcp::ContentKind, std::string);
 
-	DCPContentType (DCPContentType const&) = delete;
-	DCPContentType& operator= (DCPContentType const&) = delete;
-
 	/** @return user-visible `pretty' name */
 	std::string pretty_name () const {
 		return _pretty_name;
@@ -70,7 +67,7 @@ private:
 	std::string _isdcf_name;
 
 	/** All available DCP content types */
-	static std::vector<DCPContentType const *> _dcp_content_types;
+	static std::vector<DCPContentType> _dcp_content_types;
 };
 
 

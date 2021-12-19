@@ -27,31 +27,36 @@
 
 
 using std::string;
-using std::list;
+using std::unique_ptr;
+using std::vector;
 
 
-list<AudioProcessor const *> AudioProcessor::_all;
-list<AudioProcessor const *> AudioProcessor::_non_experimental;
+vector<unique_ptr<const AudioProcessor>> AudioProcessor::_experimental;
+vector<unique_ptr<const AudioProcessor>> AudioProcessor::_non_experimental;
 
 
 void
 AudioProcessor::setup_audio_processors ()
 {
-	auto mid_side = new MidSideDecoder ();
-	_all.push_back (mid_side);
-	_non_experimental.push_back (mid_side);
+	_non_experimental.push_back (unique_ptr<AudioProcessor>(new MidSideDecoder()));
 
-	_all.push_back (new UpmixerA(48000));
-	_all.push_back (new UpmixerB(48000));
+	_experimental.push_back (unique_ptr<AudioProcessor>(new UpmixerA(48000)));
+	_experimental.push_back (unique_ptr<AudioProcessor>(new UpmixerB(48000)));
 }
 
 
 AudioProcessor const *
 AudioProcessor::from_id (string id)
 {
-	for (auto i: _all) {
+	for (auto& i: _non_experimental) {
 		if (i->id() == id) {
-			return i;
+			return i.get();
+		}
+	}
+
+	for (auto& i: _experimental) {
+		if (i->id() == id) {
+			return i.get();
 		}
 	}
 
@@ -59,19 +64,35 @@ AudioProcessor::from_id (string id)
 }
 
 
-list<AudioProcessor const *>
+vector<AudioProcessor const *>
 AudioProcessor::visible ()
 {
+	vector<AudioProcessor const *> raw;
 	if (Config::instance()->show_experimental_audio_processors()) {
-		return _all;
+		for (auto& processor: _experimental) {
+			raw.push_back (processor.get());
+		}
 	}
 
-	return _non_experimental;
+	for (auto& processor: _non_experimental) {
+		raw.push_back (processor.get());
+	}
+
+	return raw;
 }
 
 
-list<AudioProcessor const *>
+vector<AudioProcessor const *>
 AudioProcessor::all ()
 {
-	return _all;
+	vector<AudioProcessor const *> raw;
+	for (auto& processor: _experimental) {
+		raw.push_back (processor.get());
+	}
+
+	for (auto& processor: _non_experimental) {
+		raw.push_back (processor.get());
+	}
+
+	return raw;
 }
