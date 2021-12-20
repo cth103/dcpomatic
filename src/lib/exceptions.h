@@ -253,19 +253,19 @@ public:
 class NetworkError : public std::runtime_error
 {
 public:
-	explicit NetworkError (std::string s, std::string d = "");
+	explicit NetworkError (std::string s, boost::optional<std::string> d = boost::optional<std::string>());
 
 	std::string summary () const {
 		return _summary;
 	}
 
-	std::string detail () const {
+	boost::optional<std::string> detail () const {
 		return _detail;
 	}
 
 private:
 	std::string _summary;
-	std::string _detail;
+	boost::optional<std::string> _detail;
 };
 
 
