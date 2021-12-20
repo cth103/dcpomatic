@@ -116,8 +116,8 @@ KDMAsContentError::KDMAsContentError ()
 }
 
 
-NetworkError::NetworkError (string s, string d)
-	: runtime_error (String::compose("%1 (%2)", s, d))
+NetworkError::NetworkError (string s, optional<string> d)
+	: runtime_error (String::compose("%1%2", s, d ? String::compose(" (%1)", *d) : ""))
 	, _summary (s)
 	, _detail (d)
 {
