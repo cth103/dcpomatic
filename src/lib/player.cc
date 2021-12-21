@@ -1406,12 +1406,22 @@ Player::playlist () const
 
 
 void
-Player::atmos (weak_ptr<Piece>, ContentAtmos data)
+Player::atmos (weak_ptr<Piece> weak_piece, ContentAtmos data)
 {
 	if (_suspended) {
 		return;
 	}
 
-	Atmos (data.data, DCPTime::from_frames(data.frame, _film->video_frame_rate()), data.metadata);
+	auto piece = weak_piece.lock ();
+	DCPOMATIC_ASSERT (piece);
+
+	auto const vfr = _film->video_frame_rate();
+
+	DCPTime const dcp_time = DCPTime::from_frames(data.frame, vfr) - DCPTime(piece->content->trim_start(), FrameRateChange(vfr, vfr));
+	if (dcp_time < piece->content->position() || dcp_time >= (piece->content->end(_film))) {
+		return;
+	}
+
+	Atmos (data.data, dcp_time, data.metadata);
 }
 
