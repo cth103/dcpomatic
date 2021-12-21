@@ -90,3 +90,18 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 	cl.run ();
 }
 
+
+BOOST_AUTO_TEST_CASE (atmos_trim_test)
+{
+	Cleanup cl;
+
+	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
+	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
+	auto film = new_test_film2 ("atmos_trim_test", {content}, &cl);
+
+	content->set_trim_start (dcpomatic::ContentTime::from_seconds(1));
+
+	/* Just check that the encode runs; I'm not sure how to test the MXF */
+	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+}
+
