@@ -26,22 +26,31 @@
 
 
 using std::ofstream;
+using std::string;
+using boost::optional;
 
 
-static void
-rewrite_bad_config ()
+static string
+rewrite_bad_config (string filename, string extra_line)
 {
-	boost::system::error_code ec;
-	boost::filesystem::remove ("build/test/bad_config/2.16/config.xml", ec);
+	using namespace boost::filesystem;
 
-	Config::override_path = "build/test/bad_config";
-	boost::filesystem::create_directories ("build/test/bad_config/2.16");
-	ofstream f ("build/test/bad_config/2.16/config.xml");
+	auto base = path("build/test/bad_config/2.16");
+	auto file = base / filename;
+
+	boost::system::error_code ec;
+	remove (file, ec);
+
+	boost::filesystem::create_directories (base);
+	std::ofstream f (file.string().c_str());
 	f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 	  << "<Config>\n"
 	  << "<Foo></Foo>\n"
+	  << extra_line << "\n"
 	  << "</Config>\n";
 	f.close ();
+
+	return dcp::file_to_string (file);
 }
 
 
@@ -50,46 +59,90 @@ BOOST_AUTO_TEST_CASE (config_backup_test)
 	ConfigRestorer cr;
 
 	Config::override_path = "build/test/bad_config";
-
 	Config::drop();
-
 	boost::filesystem::remove_all ("build/test/bad_config");
 
-	rewrite_bad_config();
+	/* Write an invalid config file to config.xml */
+	auto const first_write_xml = rewrite_bad_config("config.xml", "first write");
 
+	/* Load the config; this should fail, causing the bad config to be copied to config.xml.1
+	 * and a new config.xml created in its place.
+	 */
 	Config::instance();
 
 	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.1") == first_write_xml);
 	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
 	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
 	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	Config::drop();
-	rewrite_bad_config();
+	auto const second_write_xml = rewrite_bad_config("config.xml", "second write");
 	Config::instance();
 
 	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.1") == first_write_xml);
 	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.2") == second_write_xml);
 	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
 	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	Config::drop();
-	rewrite_bad_config();
+	auto const third_write_xml = rewrite_bad_config("config.xml", "third write");
 	Config::instance();
 
 	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.1") == first_write_xml);
 	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.2") == second_write_xml);
 	BOOST_CHECK ( boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.3") == third_write_xml);
 	BOOST_CHECK (!boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
 
 	Config::drop();
-	rewrite_bad_config();
+	auto const fourth_write_xml = rewrite_bad_config("config.xml", "fourth write");
 	Config::instance();
 
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.1"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.1") == first_write_xml);
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.2"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.2") == second_write_xml);
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.3"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.3") == third_write_xml);
 	BOOST_CHECK (boost::filesystem::exists("build/test/bad_config/2.16/config.xml.4"));
+	BOOST_CHECK (dcp::file_to_string("build/test/bad_config/2.16/config.xml.4") == fourth_write_xml);
+}
+
+
+BOOST_AUTO_TEST_CASE (config_backup_with_link_test)
+{
+	using namespace boost::filesystem;
+
+	ConfigRestorer cr;
+
+	auto base = path("build/test/bad_config");
+	auto version = base / "2.16";
+
+	Config::override_path = base;
+	Config::drop();
+
+	boost::filesystem::remove_all (base);
+
+	boost::filesystem::create_directories (version);
+	std::ofstream f (path(version / "config.xml").string().c_str());
+	f << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+	  << "<Config>\n"
+	  << "<Link>" << path(version / "actual.xml").string() << "</Link>\n"
+	  << "</Config>\n";
+	f.close ();
+
+	Config::drop ();
+	/* Cause actual.xml to be backed up */
+	rewrite_bad_config ("actual.xml", "first write");
+	Config::instance ();
+
+	/* Make sure actual.xml was backed up to the right place */
+	BOOST_CHECK (boost::filesystem::exists(version / "actual.xml.1"));
 }
 
 
