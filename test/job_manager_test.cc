@@ -123,8 +123,19 @@ BOOST_AUTO_TEST_CASE (job_manager_test2)
 		BOOST_CHECK (i == 5 ? jobs[i]->running() : !jobs[i]->running());
 	}
 
-	for (auto job: jobs) {
-		job->set_finished_ok();
+	/* Set any jobs that are started to be finished, until they're all finished */
+	while (true) {
+		if (std::find_if(jobs.begin(), jobs.end(), [](shared_ptr<Job> job) { return !job->finished_ok(); }) == jobs.end()) {
+			break;
+		}
+
+		for (auto job: jobs) {
+			if (job->running()) {
+				job->set_finished_ok();
+			}
+		}
 	}
+
+	BOOST_REQUIRE (!wait_for_jobs());
 }
 
