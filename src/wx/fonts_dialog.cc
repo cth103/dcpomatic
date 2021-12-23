@@ -162,7 +162,7 @@ FontsDialog::edit_clicked ()
         default_dir = "/System/Library/Fonts";
 #endif
 
-	auto d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf"), wxFD_CHANGE_DIR);
+	auto d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
 	int const r = d->ShowModal ();
 
 	if (r != wxID_OK) {
