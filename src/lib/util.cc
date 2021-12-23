@@ -530,6 +530,13 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 }
 
 
+string
+simple_digest (vector<boost::filesystem::path> paths)
+{
+	return digest_head_tail(paths, 1000000) + raw_convert<string>(boost::filesystem::file_size(paths.front()));
+}
+
+
 /** Trip an assert if the caller is not in the UI thread */
 void
 ensure_ui_thread ()

@@ -91,6 +91,7 @@ extern void dcpomatic_setup ();
 extern void dcpomatic_setup_path_encoding ();
 extern void dcpomatic_setup_gettext_i18n (std::string);
 extern std::string digest_head_tail (std::vector<boost::filesystem::path>, boost::uintmax_t size);
+extern std::string simple_digest (std::vector<boost::filesystem::path> paths);
 extern void ensure_ui_thread ();
 extern std::string audio_channel_name (int);
 extern std::string short_audio_channel_name (int);

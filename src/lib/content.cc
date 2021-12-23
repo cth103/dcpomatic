@@ -169,15 +169,11 @@ Content::as_xml (xmlpp::Node* node, bool with_paths) const
 string
 Content::calculate_digest () const
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	auto p = _paths;
-	lm.unlock ();
-
 	/* Some content files are very big, so we use a poor man's
 	   digest here: a digest of the first and last 1e6 bytes with the
 	   size of the first file tacked on the end as a string.
 	*/
-	return digest_head_tail(p, 1000000) + raw_convert<string>(boost::filesystem::file_size(p.front()));
+	return simple_digest (paths());
 }
 
 
