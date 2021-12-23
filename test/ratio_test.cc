@@ -34,8 +34,6 @@ using std::ostream;
 
 BOOST_AUTO_TEST_CASE (ratio_test)
 {
-	Ratio::setup_ratios ();
-
 	Ratio const * r = Ratio::from_id ("119");
 	BOOST_CHECK (r);
 	BOOST_CHECK_EQUAL (fit_ratio_within (r->ratio(), dcp::Size (2048, 1080)), dcp::Size (1290, 1080));
@@ -72,8 +70,6 @@ BOOST_AUTO_TEST_CASE (ratio_test)
 
 BOOST_AUTO_TEST_CASE (ratios_use_same_pointers_test)
 {
-	Ratio::setup_ratios ();
-
 	auto const test = Ratio::from_id ("119");
 	BOOST_CHECK_EQUAL (test, Ratio::from_id("119"));
 }

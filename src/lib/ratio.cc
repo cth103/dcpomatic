@@ -39,6 +39,9 @@ vector<Ratio> Ratio::_ratios;
 void
 Ratio::setup_ratios ()
 {
+	/* This must only be called once as we rely on the addresses of objects in _ratios staying the same */
+	DCPOMATIC_ASSERT (_ratios.empty());
+
 	_ratios.push_back (Ratio(float(1290) / 1080, "119", _("1.19"),              {},                      "119"));
 	_ratios.push_back (Ratio(float(1440) / 1080, "133", _("1.33 (4:3)"),        {},                      "133"));
 	_ratios.push_back (Ratio(float(1485) / 1080, "138", _("1.38 (Academy)"),    {},                      "137"));
