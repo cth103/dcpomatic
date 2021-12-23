@@ -529,6 +529,14 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	return digester.get ();
 }
 
+
+string
+simple_digest (vector<boost::filesystem::path> paths)
+{
+	return digest_head_tail(paths, 1000000) + raw_convert<string>(boost::filesystem::file_size(paths.front()));
+}
+
+
 /** Round a number up to the nearest multiple of another number.
  *  @param c Index.
  *  @param stride Array of numbers to round, indexed by c.
