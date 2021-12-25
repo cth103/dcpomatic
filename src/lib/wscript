@@ -97,6 +97,7 @@ sources = """
           file_group.cc
           file_log.cc
           filter_graph.cc
+          find_missing.cc
           ffmpeg.cc
           ffmpeg_audio_stream.cc
           ffmpeg_content.cc

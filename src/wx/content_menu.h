@@ -51,7 +51,6 @@ private:
 	void ov ();
 	void set_dcp_settings ();
 	void remove ();
-	void maybe_found_missing (std::weak_ptr<Job>, std::weak_ptr<Content>, std::weak_ptr<Content>);
 	void cpl_selected (wxCommandEvent& ev);
 
 	wxMenu* _menu;
