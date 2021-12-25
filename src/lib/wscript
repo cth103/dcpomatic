@@ -115,6 +115,7 @@ sources = """
           font_data.cc
           frame_interval_checker.cc
           frame_rate_change.cc
+          guess_crop.cc
           hints.cc
           internet.cc
           image.cc
