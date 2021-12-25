@@ -25,8 +25,8 @@
 #include "content_properties_dialog.h"
 #include "film_viewer.h"
 #include "repeat_dialog.h"
-#include "timeline_audio_content_view.h"
 #include "timeline_video_content_view.h"
+#include "timeline_audio_content_view.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
@@ -38,6 +38,7 @@
 #include "lib/exceptions.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/find_missing.h"
 #include "lib/guess_crop.h"
 #include "lib/image_content.h"
 #include "lib/job_manager.h"
@@ -342,14 +343,14 @@ ContentMenu::find_missing ()
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still ()) || dc) {
-		auto d = new wxDirDialog (0, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+		auto d = new wxDirDialog (nullptr, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
 		r = d->ShowModal ();
-		path = wx_to_std (d->GetPath ());
+		path = wx_to_std (d->GetPath());
 		d->Destroy ();
 	} else {
-		auto d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
+		auto d = new wxFileDialog (nullptr, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
 		r = d->ShowModal ();
-		path = wx_to_std (d->GetPath ());
+		path = wx_to_std (d->GetPath());
 		d->Destroy ();
 	}
 
@@ -393,7 +394,7 @@ ContentMenu::re_examine ()
 	}
 
 	for (auto i: _content) {
-		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, i)));
+		JobManager::instance()->add(make_shared<ExamineContentJob>(film, i));
 	}
 }
 
