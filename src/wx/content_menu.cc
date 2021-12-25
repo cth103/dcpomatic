@@ -19,42 +19,43 @@
 */
 
 
-#include "content_menu.h"
-#include "repeat_dialog.h"
-#include "wx_util.h"
-#include "timeline_video_content_view.h"
-#include "timeline_audio_content_view.h"
-#include "content_properties_dialog.h"
 #include "content_advanced_dialog.h"
-#include "lib/playlist.h"
-#include "lib/film.h"
-#include "lib/image_content.h"
-#include "lib/content_factory.h"
-#include "lib/examine_content_job.h"
-#include "lib/job_manager.h"
-#include "lib/exceptions.h"
-#include "lib/dcp_content.h"
-#include "lib/dcp_examiner.h"
-#include "lib/ffmpeg_content.h"
+#include "content_menu.h"
+#include "content_properties_dialog.h"
+#include "repeat_dialog.h"
+#include "timeline_audio_content_view.h"
+#include "timeline_video_content_view.h"
+#include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
+#include "lib/content_factory.h"
 #include "lib/copy_dcp_details_to_film.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_examiner.h"
+#include "lib/examine_content_job.h"
+#include "lib/exceptions.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/find_missing.h"
+#include "lib/image_content.h"
+#include "lib/job_manager.h"
+#include "lib/playlist.h"
 #include <dcp/cpl.h>
-#include <dcp/exceptions.h>
 #include <dcp/decrypted_kdm.h>
-#include <wx/wx.h>
+#include <dcp/exceptions.h>
 #include <wx/dirdlg.h>
+#include <wx/wx.h>
 #include <iostream>
 
 
 using std::cout;
-using std::vector;
+using std::dynamic_pointer_cast;
 using std::exception;
 using std::list;
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::shared_ptr;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -331,14 +332,14 @@ ContentMenu::find_missing ()
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still ()) || dc) {
-		auto d = new wxDirDialog (0, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+		auto d = new wxDirDialog (nullptr, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
 		r = d->ShowModal ();
-		path = wx_to_std (d->GetPath ());
+		path = wx_to_std (d->GetPath());
 		d->Destroy ();
 	} else {
-		auto d = new wxFileDialog (0, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
+		auto d = new wxFileDialog (nullptr, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
 		r = d->ShowModal ();
-		path = wx_to_std (d->GetPath ());
+		path = wx_to_std (d->GetPath());
 		d->Destroy ();
 	}
 
@@ -382,7 +383,7 @@ ContentMenu::re_examine ()
 	}
 
 	for (auto i: _content) {
-		JobManager::instance()->add (shared_ptr<Job> (new ExamineContentJob (film, i)));
+		JobManager::instance()->add(make_shared<ExamineContentJob>(film, i));
 	}
 }
 
