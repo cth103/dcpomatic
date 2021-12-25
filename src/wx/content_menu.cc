@@ -354,35 +354,11 @@ ContentMenu::find_missing ()
 		d->Destroy ();
 	}
 
-	list<shared_ptr<Content>> content;
-
-	if (r == wxID_OK) {
-		if (dc) {
-			content.push_back (make_shared<DCPContent>(path));
-		} else {
-			content = content_factory (path);
-		}
-	}
-
-	if (content.empty ()) {
+	if (r == wxID_CANCEL) {
 		return;
 	}
 
-	for (auto i: content) {
-		auto j = make_shared<ExamineContentJob>(film, i);
-
-		j->Finished.connect (
-			bind (
-				&ContentMenu::maybe_found_missing,
-				this,
-				std::weak_ptr<Job> (j),
-				std::weak_ptr<Content> (_content.front ()),
-				std::weak_ptr<Content> (i)
-				)
-			);
-
-		JobManager::instance()->add (j);
-	}
+	dcpomatic::find_missing (film->content(), path);
 }
 
 void
@@ -398,26 +374,6 @@ ContentMenu::re_examine ()
 	}
 }
 
-void
-ContentMenu::maybe_found_missing (weak_ptr<Job> j, weak_ptr<Content> oc, weak_ptr<Content> nc)
-{
-	auto job = j.lock ();
-	if (!job || !job->finished_ok ()) {
-		return;
-	}
-
-	auto old_content = oc.lock ();
-	auto new_content = nc.lock ();
-	DCPOMATIC_ASSERT (old_content);
-	DCPOMATIC_ASSERT (new_content);
-
-	if (new_content->digest() != old_content->digest()) {
-		error_dialog (0, _("The content file(s) you specified are not the same as those that are missing.  Either try again with the correct content file or remove the missing content."));
-		return;
-	}
-
-	old_content->set_paths (new_content->paths());
-}
 
 void
 ContentMenu::kdm ()
