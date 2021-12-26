@@ -87,9 +87,9 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
 	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
+	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
 	_properties = _menu->Append (ID_properties, _("Properties..."));
 	_advanced = _menu->Append (ID_advanced, _("Advanced settings..."));
-	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
 	_menu->AppendSeparator ();
 	_kdm = _menu->Append (ID_kdm, _("Add KDM..."));
 	_ov = _menu->Append (ID_ov, _("Add OV..."));
