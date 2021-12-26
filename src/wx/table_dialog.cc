@@ -38,7 +38,7 @@ TableDialog::TableDialog (wxWindow* parent, wxString title, int columns, int gro
 		flags |= wxCANCEL;
 	}
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (flags);
+	auto buttons = CreateSeparatedButtonSizer (flags);
 	if (buttons) {
 		_overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -65,7 +65,7 @@ TableDialog::add (wxString text, bool)
 		text += wxT (":");
 	}
 #endif
-	wxStaticText* m = new StaticText (this, wxT (""));
+	auto m = new StaticText (this, wxT (""));
 	m->SetLabelMarkup (text);
 	_table->Add (m, 0, flags, 6);
 	return m;
