@@ -99,7 +99,7 @@ private:
 	void ensure_context ();
 	void size_changed (wxSizeEvent const &);
 	void setup_shaders ();
-	void set_border_colour (GLuint program);
+	void set_outline_content_colour (GLuint program);
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
