@@ -195,12 +195,12 @@ static constexpr char fragment_source[] =
 "in vec2 TexCoord;\n"
 "\n"
 "uniform sampler2D texture_sampler;\n"
-/* type = 0: draw border
+/* type = 0: draw outline content rectangle
  * type = 1: draw XYZ image
  * type = 2: draw RGB image
  */
 "uniform int type = 0;\n"
-"uniform vec4 border_colour;\n"
+"uniform vec4 outline_content_colour;\n"
 "uniform mat4 colour_conversion;\n"
 "\n"
 "out vec4 FragColor;\n"
@@ -259,7 +259,7 @@ static constexpr char fragment_source[] =
 "{\n"
 "	switch (type) {\n"
 "		case 0:\n"
-"			FragColor = border_colour;\n"
+"			FragColor = outline_content_colour;\n"
 "			break;\n"
 "		case 1:\n"
 "			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
@@ -296,18 +296,18 @@ GLVideoView::ensure_context ()
 static constexpr int indices_video_texture = 0;
 /* Offset of subtitle texture triangles in indices */
 static constexpr int indices_subtitle_texture = 6;
-/* Offset of border lines in indices */
-static constexpr int indices_border = 12;
+/* Offset of content outline lines in indices */
+static constexpr int indices_outline_content = 12;
 
 static constexpr unsigned int indices[] = {
 	0, 1, 3, // video texture triangle #1
 	1, 2, 3, // video texture triangle #2
 	4, 5, 7, // subtitle texture triangle #1
 	5, 6, 7, // subtitle texture triangle #2
-	8, 9,    // border line #1
-	9, 10,   // border line #2
-	10, 11,  // border line #3
-	11, 8,   // border line #4
+	8, 9,    // outline content line #1
+	9, 10,   // outline content line #2
+	10, 11,  // outline content line #3
+	11, 8,   // outline content line #4
 };
 
 
@@ -423,7 +423,7 @@ GLVideoView::setup_shaders ()
 
 	_fragment_type = glGetUniformLocation (program, "type");
 	check_gl_error ("glGetUniformLocation");
-	set_border_colour (program);
+	set_outline_content_colour (program);
 
 	auto conversion = dcp::ColourConversion::rec709_to_xyz();
 	boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
@@ -452,9 +452,9 @@ GLVideoView::setup_shaders ()
 
 
 void
-GLVideoView::set_border_colour (GLuint program)
+GLVideoView::set_outline_content_colour (GLuint program)
 {
-	auto uniform = glGetUniformLocation (program, "border_colour");
+	auto uniform = glGetUniformLocation (program, "outline_content_colour");
 	check_gl_error ("glGetUniformLocation");
 	auto colour = outline_content_colour ();
 	glUniform4f (uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
@@ -493,7 +493,7 @@ GLVideoView::draw ()
 	}
 	if (_viewer->outline_content()) {
 		glUniform1i(_fragment_type, 0);
-		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_border * sizeof(int)));
+		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_outline_content * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
 
@@ -625,9 +625,9 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		glBufferSubData (GL_ARRAY_BUFFER, 0, video.size(), video.vertices());
 		check_gl_error ("glBufferSubData (video)");
 
-		const auto border = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
-		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), border.size(), border.vertices());
-		check_gl_error ("glBufferSubData (border)");
+		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
+		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), outline_content.size(), outline_content.vertices());
+		check_gl_error ("glBufferSubData (outline_content)");
 	}
 
 	if (_have_subtitle_to_render) {
