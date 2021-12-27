@@ -197,6 +197,7 @@ static constexpr char fragment_source[] =
 /* type = 0: draw outline content rectangle
  * type = 1: draw XYZ image
  * type = 2: draw RGB image
+ * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
 "uniform vec4 outline_content_colour;\n"
@@ -277,6 +278,14 @@ static constexpr char fragment_source[] =
 "}\n";
 
 
+enum class FragmentType
+{
+	OUTLINE_CONTENT = 0,
+	XYZ_IMAGE = 1,
+	RGB_IMAGE = 2,
+};
+
+
 void
 GLVideoView::ensure_context ()
 {
@@ -291,12 +300,13 @@ GLVideoView::ensure_context ()
 }
 
 
-/* Offset of video texture triangles in indices */
-static constexpr int indices_video_texture = 0;
-/* Offset of subtitle texture triangles in indices */
-static constexpr int indices_subtitle_texture = 6;
-/* Offset of content outline lines in indices */
-static constexpr int indices_outline_content = 12;
+/* Offset and number of indices for the things in the indices array below */
+static constexpr int indices_video_texture_offset = 0;
+static constexpr int indices_video_texture_number = 6;
+static constexpr int indices_subtitle_texture_offset = indices_video_texture_offset + indices_video_texture_number;
+static constexpr int indices_subtitle_texture_number = 6;
+static constexpr int indices_outline_content_offset = indices_subtitle_texture_offset + indices_subtitle_texture_number;
+static constexpr int indices_outline_content_number = 8;
 
 static constexpr unsigned int indices[] = {
 	0, 1, 3, // video texture triangle #1
@@ -308,6 +318,11 @@ static constexpr unsigned int indices[] = {
 	10, 11,  // outline content line #3
 	11, 8,   // outline content line #4
 };
+
+/* Offsets of things in the GL_ARRAY_BUFFER */
+static constexpr int array_buffer_video_offset = 0;
+static constexpr int array_buffer_subtitle_offset = array_buffer_video_offset + 4 * 5 * sizeof(float);
+static constexpr int array_buffer_outline_content_offset = array_buffer_subtitle_offset + 4 * 5 * sizeof(float);
 
 
 void
@@ -484,17 +499,17 @@ GLVideoView::draw ()
 
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
-	glUniform1i(_fragment_type, _optimise_for_j2k ? 1 : 2);
+	glUniform1i(_fragment_type, static_cast<GLint>(_optimise_for_j2k ? FragmentType::XYZ_IMAGE : FragmentType::RGB_IMAGE));
 	_video_texture->bind();
-	glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture * sizeof(int)));
+	glDrawElements (GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
-		glUniform1i(_fragment_type, 2);
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::RGB_IMAGE));
 		_subtitle_texture->bind();
-		glDrawElements (GL_TRIANGLES, 6, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture * sizeof(int)));
+		glDrawElements (GL_TRIANGLES, indices_subtitle_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture_offset * sizeof(int)));
 	}
 	if (_viewer->outline_content()) {
-		glUniform1i(_fragment_type, 0);
-		glDrawElements (GL_LINES, 8, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_outline_content * sizeof(int)));
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::OUTLINE_CONTENT));
+		glDrawElements (GL_LINES, indices_outline_content_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_outline_content_offset * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
 
@@ -623,17 +638,17 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 			Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size)
 			: Rectangle(canvas_size, x_offset, y_offset, out_size);
 
-		glBufferSubData (GL_ARRAY_BUFFER, 0, video.size(), video.vertices());
+		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
 		check_gl_error ("glBufferSubData (video)");
 
 		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
-		glBufferSubData (GL_ARRAY_BUFFER, 8 * 5 * sizeof(float), outline_content.size(), outline_content.vertices());
+		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_outline_content_offset, outline_content.size(), outline_content.vertices());
 		check_gl_error ("glBufferSubData (outline_content)");
 	}
 
 	if (_have_subtitle_to_render) {
 		const auto subtitle = Rectangle(canvas_size, inter_position.x + x_offset + text->position.x, inter_position.y + y_offset + text->position.y, text->image->size());
-		glBufferSubData (GL_ARRAY_BUFFER, 4 * 5 * sizeof(float), subtitle.size(), subtitle.vertices());
+		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_subtitle_offset, subtitle.size(), subtitle.vertices());
 		check_gl_error ("glBufferSubData (subtitle)");
 	}
 
