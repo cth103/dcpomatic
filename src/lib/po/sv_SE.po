@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-25 01:13+0200\n"
-"PO-Revision-Date: 2021-05-28 15:39+0200\n"
+"PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -231,6 +231,8 @@ msgid ""
 "language '%1', which DCP-o-matic does not recognise.  The file's language "
 "has been cleared."
 msgstr ""
+"En fil med undertext i detta projekt är markerat med språket '%1', vilket "
+"DCP-omatic inte känner igen. Filens språk-fält har tömts."
 
 #: src/lib/ffmpeg_content.cc:635
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -1393,7 +1395,7 @@ msgstr "Short"
 
 #: src/lib/util.cc:605
 msgid "Sign"
-msgstr ""
+msgstr "Tecken"
 
 #: src/lib/video_content.cc:510
 msgid "Size"
@@ -1436,6 +1438,8 @@ msgid ""
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
 "has no spoken parts."
 msgstr ""
+"Innehållet har ljudspår, men inget språk är angivit. Det rekommenderas att "
+"sätta ljudspårets språk i \"DCP\"-fliken."
 
 #: src/lib/film.cc:417
 msgid "Some of your content needs a KDM"
@@ -1814,14 +1818,13 @@ msgstr ""
 "tystnad."
 
 #: src/lib/hints.cc:157
-#, fuzzy
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
 msgstr ""
 "Din DCP använder ett ovanligt bildformat. Detta kan orsaka problem vid "
 "uppspelning på en del utrustning. Använd Flat eller Scope som bildformat om "
-"möjligt"
+"möjligt."
 
 #: src/lib/hints.cc:337
 msgid ""
@@ -2032,20 +2035,19 @@ msgstr "namn"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:758
-#, fuzzy
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
-msgstr "en av dess undertitlar har en icke-tom början så den måste skrivas om."
+msgstr ""
+"en av dess undertitlar har en icke-noll början så den måste skrivas om."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:745
-#, fuzzy
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
-"en av dess undertextakter har en icke-tom början så den måste skrivas om."
+"en av dess undertexter har en icke-noll början så den måste skrivas om."
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:222
