@@ -144,10 +144,7 @@ TranscodeJob::run ()
 			}
 		}
 
-		/* XXX: this shouldn't be here */
-		if (Config::instance()->upload_after_make_dcp() && dynamic_pointer_cast<DCPEncoder>(_encoder)) {
-			JobManager::instance()->add(make_shared<UploadJob>(_film));
-		}
+		post_transcode ();
 
 		_encoder.reset ();
 
