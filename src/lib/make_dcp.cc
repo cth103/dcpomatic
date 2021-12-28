@@ -22,12 +22,12 @@
 #include "config.h"
 #include "dcp_content.h"
 #include "dcp_encoder.h"
+#include "dcp_transcode_job.h"
 #include "dcpomatic_log.h"
 #include "environment_info.h"
 #include "film.h"
 #include "job_manager.h"
 #include "make_dcp.h"
-#include "transcode_job.h"
 #include <stdexcept>
 
 #include "i18n.h"
@@ -98,7 +98,7 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 	}
 	LOG_GENERAL ("J2K bandwidth %1", film->j2k_bandwidth());
 
-	auto tj = make_shared<TranscodeJob>(film, behaviour);
+	auto tj = make_shared<DCPTranscodeJob>(film, behaviour);
 	tj->set_encoder (make_shared<DCPEncoder>(film, tj));
 	JobManager::instance()->add (tj);
 }

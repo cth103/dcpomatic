@@ -64,6 +64,8 @@ public:
 	void set_encoder (std::shared_ptr<Encoder> t);
 
 private:
+	virtual void post_transcode () {}
+
 	int remaining_time () const override;
 
 	std::shared_ptr<Encoder> _encoder;
