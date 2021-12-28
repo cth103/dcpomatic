@@ -175,7 +175,7 @@ TranscodeJob::status () const
 	auto status = String::compose(_("%1; %2/%3 frames"), Job::status(), _encoder->frames_done(), _film->length().frames_round(_film->video_frame_rate()));
 	if (auto const fps = _encoder->current_rate()) {
 		/// TRANSLATORS: fps here is an abbreviation for frames per second
-		status += String::compose(_("; %1 fps"), dcp::locale_convert<string>(*fps, 1));
+		status += String::compose(_("; %1 fps"), dcp::locale_convert<string>(*fps, 1, true));
 	}
 
 	return status;
