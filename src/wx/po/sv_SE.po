@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-10-25 01:13+0200\n"
-"PO-Revision-Date: 2021-05-28 16:35+0200\n"
+"PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -492,7 +491,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:366
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
-msgstr ""
+msgstr "Minst en <Text> node i en subtitel är tom."
 
 #: src/wx/verify_dcp_dialog.cc:242
 msgid ""
@@ -1015,9 +1014,8 @@ msgid "Default audio delay"
 msgstr "Förvald ljudfördröjning"
 
 #: src/wx/full_config_dialog.cc:322
-#, fuzzy
 msgid "Default chain"
-msgstr "Förvald DCP-behållare"
+msgstr "Förvald kedja"
 
 #: src/wx/full_config_dialog.cc:282
 msgid "Default container"
@@ -1032,27 +1030,24 @@ msgid "Default directory for new films"
 msgstr "Förvald mapp för nya projekt"
 
 #: src/wx/full_config_dialog.cc:325
-#, fuzzy
 msgid "Default distributor"
-msgstr "Distributör"
+msgstr "Förvald distributör"
 
 #: src/wx/full_config_dialog.cc:266
 msgid "Default duration of still images"
 msgstr "Förvald speltid för stillbilder"
 
 #: src/wx/full_config_dialog.cc:316
-#, fuzzy
 msgid "Default facility"
-msgstr "Förvald skalning"
+msgstr "Förvald inrättning"
 
 #: src/wx/full_config_dialog.cc:312
 msgid "Default standard"
 msgstr "Förvald DCP-standard"
 
 #: src/wx/full_config_dialog.cc:319
-#, fuzzy
 msgid "Default studio"
-msgstr "Förvald DCP-standard"
+msgstr "Förvald studio"
 
 #: src/wx/full_config_dialog.cc:248
 msgid "Defaults"
@@ -1695,9 +1690,8 @@ msgid "Language of these subtitles"
 msgstr "Språk för dessa undertexter"
 
 #: src/wx/metadata_dialog.cc:232
-#, fuzzy
 msgid "Language used for any sign language video track"
-msgstr "Språk som används för dialogen i detta innehåll"
+msgstr "Språk som används för videospår med teckenspråk"
 
 #: src/wx/markers_dialog.cc:128
 msgid "Last frame of composition"
@@ -1785,9 +1779,8 @@ msgid "MISSING: "
 msgstr "SAKNAS: "
 
 #: src/wx/export_video_file_dialog.cc:37
-#, fuzzy
 msgid "MOV / ProRes"
-msgstr "ProRes"
+msgstr "MOV / ProRes"
 
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
@@ -2041,7 +2034,7 @@ msgstr "OpenGL (snabbare)"
 
 #: src/wx/system_information_dialog.cc:87
 msgid "OpenGL renderer not supported by this DCP-o-matic version"
-msgstr ""
+msgstr "OpenGL-renderare stöds inte av denna DCP_o-matic version"
 
 #: src/wx/system_information_dialog.cc:54
 #: src/wx/system_information_dialog.cc:86
@@ -2106,9 +2099,8 @@ msgid "Overwrite this file with current configuration"
 msgstr "Skriv över denna fil med nuvarande inställningar"
 
 #: src/wx/verify_dcp_dialog.cc:363
-#, fuzzy
 msgid "Part of the DCP could not be checked because no KDM was available."
-msgstr "Del av DCPn kunde inte checkas eftersom ingen KDM fanns tillgänglig"
+msgstr "Del av DCPn kunde inte checkas eftersom ingen KDM fanns tillgänglig."
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""
@@ -2346,7 +2338,7 @@ msgstr "Byt namn..."
 
 #: src/wx/system_information_dialog.cc:70
 msgid "Renderer"
-msgstr ""
+msgstr "Renderare"
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -2584,9 +2576,8 @@ msgid "Set to"
 msgstr "Ange"
 
 #: src/wx/system_information_dialog.cc:72
-#, fuzzy
 msgid "Shading language version"
-msgstr "Stabil version "
+msgstr "Skuggningsspråkets version"
 
 #: src/wx/subtitle_appearance_dialog.cc:152
 msgid "Shadow"
@@ -2610,7 +2601,7 @@ msgstr "Visa undertext-area"
 
 #: src/wx/metadata_dialog.cc:231
 msgid "Sign language video language"
-msgstr ""
+msgstr "Teckenspråksvideo språk"
 
 #: src/wx/config_dialog.cc:715 src/wx/config_dialog.cc:742
 msgid "Signing DCPs and KDMs"
@@ -2650,11 +2641,13 @@ msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
+"Några stängda <Text> eller <Image> noder har olika vertikala början inom en "
+"<Subtitle>."
 
 #: src/wx/verify_dcp_dialog.cc:372
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
-msgstr ""
+msgstr "Någar undertexter är inte listade i ordning enligt vertikal position."
 
 #: src/wx/config_dialog.cc:877
 msgid "Sound"
@@ -2791,7 +2784,6 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "'tills'-tiden måste vara efter 'från'-tiden."
 
 #: src/wx/disk_warning_dialog.cc:44
-#, fuzzy
 msgid ""
 "The <b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
@@ -2809,7 +2801,7 @@ msgid ""
 "\n"
 "into the box below, then click OK."
 msgstr ""
-"The <b>DCP-o-matic Disk Writer</b> är\n"
+"DCP-o-matic Disk Writer</b> är\n"
 "\n"
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">ALPHA-MÄSSIG "
 "TESTMJUKVARA</span>\n"
@@ -3600,12 +3592,11 @@ msgstr "Användarnamn"
 
 #: src/wx/system_information_dialog.cc:69
 msgid "Vendor"
-msgstr ""
+msgstr "Leverantör"
 
 #: src/wx/system_information_dialog.cc:71
-#, fuzzy
 msgid "Version"
-msgstr "Versionsnummer"
+msgstr "Version"
 
 #: src/wx/smpte_metadata_dialog.cc:105
 msgid "Version number"
