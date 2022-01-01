@@ -532,6 +532,12 @@ VideoContent::set_length (Frame len)
 
 
 void
+VideoContent::set_crop (Crop c)
+{
+	maybe_set (_crop, c, VideoContentProperty::CROP);
+}
+
+void
 VideoContent::set_left_crop (int c)
 {
 	maybe_set (_crop.left, c, VideoContentProperty::CROP);

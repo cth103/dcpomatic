@@ -77,7 +77,7 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, w
 	, _left_down (false)
 	, _down_view_position (0)
 	, _first_move (false)
-	, _menu (this)
+	, _menu (this, viewer)
 	, _snap (true)
 	, _tool (SELECT)
 	, _x_scroll_rate (16)

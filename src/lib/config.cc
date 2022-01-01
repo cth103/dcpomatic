@@ -183,6 +183,7 @@ Config::set_defaults ()
 	_audio_mapping = boost::none;
 	_custom_languages.clear ();
 	_add_files_path = boost::none;
+	_auto_crop_threshold = 0.1;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -583,6 +584,7 @@ try
 	}
 
 	_add_files_path = f.optional_string_child("AddFilesPath");
+	_auto_crop_threshold = f.optional_number_child<double>("AutoCropThreshold").get_value_or(0.1);
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -1014,6 +1016,7 @@ Config::write_config () const
 		/* [XML] AddFilesPath The default path that will be offered in the picker when adding files to a film. */
 		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
 	}
+	root->add_child("AutoCropThreshold")->add_child_text(raw_convert<string>(_auto_crop_threshold));
 
 	auto target = config_write_file();
 

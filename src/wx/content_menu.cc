@@ -19,9 +19,11 @@
 */
 
 
+#include "auto_crop_dialog.h"
 #include "content_advanced_dialog.h"
 #include "content_menu.h"
 #include "content_properties_dialog.h"
+#include "film_viewer.h"
 #include "repeat_dialog.h"
 #include "timeline_audio_content_view.h"
 #include "timeline_video_content_view.h"
@@ -36,9 +38,11 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/find_missing.h"
+#include "lib/guess_crop.h"
 #include "lib/image_content.h"
 #include "lib/job_manager.h"
 #include "lib/playlist.h"
+#include "lib/video_content.h"
 #include <dcp/cpl.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -61,6 +65,7 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+using namespace dcpomatic;
 
 
 enum {
@@ -71,6 +76,7 @@ enum {
 	ID_properties,
 	ID_advanced,
 	ID_re_examine,
+	ID_auto_crop,
 	ID_kdm,
 	ID_ov,
 	ID_choose_cpl,
@@ -79,15 +85,17 @@ enum {
 };
 
 
-ContentMenu::ContentMenu (wxWindow* p)
+ContentMenu::ContentMenu (wxWindow* p, weak_ptr<FilmViewer> viewer)
 	: _menu (new wxMenu)
 	, _parent (p)
 	, _pop_up_open (false)
+	, _viewer (viewer)
 {
 	_repeat = _menu->Append (ID_repeat, _("Repeat..."));
 	_join = _menu->Append (ID_join, _("Join"));
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
 	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
+	_auto_crop = _menu->Append (ID_auto_crop, _("Auto-crop..."));
 	_properties = _menu->Append (ID_properties, _("Properties..."));
 	_advanced = _menu->Append (ID_advanced, _("Advanced settings..."));
 	_menu->AppendSeparator ();
@@ -105,6 +113,7 @@ ContentMenu::ContentMenu (wxWindow* p)
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::properties, this), ID_properties);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::advanced, this), ID_advanced);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::auto_crop, this), ID_auto_crop);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_settings, this), ID_set_dcp_settings);
@@ -139,6 +148,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_properties->Enable (_content.size() == 1);
 	_advanced->Enable (_content.size() == 1);
 	_re_examine->Enable (!_content.empty ());
+	_auto_crop->Enable (_content.size() == 1);
 
 	if (_content.size() == 1) {
 		auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
@@ -480,4 +490,85 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
+}
+
+
+void
+ContentMenu::auto_crop ()
+{
+	DCPOMATIC_ASSERT (_content.size() == 1);
+
+	auto film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	auto viewer = _viewer.lock ();
+	DCPOMATIC_ASSERT (viewer);
+
+	auto update_viewer = [this](Crop crop) {
+		auto film = _film.lock();
+		DCPOMATIC_ASSERT (film);
+		auto viewer = _viewer.lock ();
+		DCPOMATIC_ASSERT (viewer);
+		auto const content = _content.front();
+		auto const current_crop = content->video->actual_crop();
+		viewer->set_crop_guess (
+			Rect<float>(
+				static_cast<float>(std::max(0, crop.left - current_crop.left)) / content->video->size().width,
+				static_cast<float>(std::max(0, crop.top - current_crop.top)) / content->video->size().height,
+				1.0f - (static_cast<float>(std::max(0, crop.left - current_crop.left + crop.right - current_crop.right)) / content->video->size().width),
+				1.0f - (static_cast<float>(std::max(0, crop.top - current_crop.top + crop.bottom - current_crop.bottom)) / content->video->size().height)
+				));
+	};
+
+	auto guess_crop_for_content = [this, film, viewer]() {
+		auto position = viewer->position_in_content(_content.front()).get_value_or(
+			ContentTime::from_frames(_content.front()->video->length(), _content.front()->video_frame_rate().get_value_or(24))
+			);
+		return guess_crop(film, _content.front(), Config::instance()->auto_crop_threshold(), position);
+	};
+
+	/* Make an initial guess in the view and open the dialog */
+
+	auto const crop = guess_crop_for_content ();
+	update_viewer (crop);
+
+	if (_auto_crop_dialog) {
+		_auto_crop_dialog->Destroy();
+		_auto_crop_dialog = nullptr;
+	}
+	_auto_crop_dialog = new AutoCropDialog (_parent, crop);
+	_auto_crop_dialog->Show ();
+
+	/* Update the dialog and view when the crop threshold changes */
+	_auto_crop_config_connection = Config::instance()->Changed.connect([this, guess_crop_for_content, update_viewer](Config::Property property) {
+		auto film = _film.lock();
+		DCPOMATIC_ASSERT (film);
+		if (property == Config::AUTO_CROP_THRESHOLD) {
+			auto const crop = guess_crop_for_content();
+			_auto_crop_dialog->set(crop);
+			update_viewer(crop);
+		}
+	});
+
+	/* Also update the dialog and view when we're looking at a different frame */
+	_auto_crop_viewer_connection = viewer->ImageChanged.connect([this, guess_crop_for_content, update_viewer](shared_ptr<PlayerVideo>) {
+		auto const crop = guess_crop_for_content();
+		_auto_crop_dialog->set(crop);
+		update_viewer(crop);
+	});
+
+	/* Handle the user closing the dialog (with OK or cancel) */
+	_auto_crop_dialog->Bind (wxEVT_BUTTON, [this, viewer](wxCommandEvent& ev) {
+		if (ev.GetId() == wxID_OK) {
+			_content.front()->video->set_crop(_auto_crop_dialog->get());
+		}
+		_auto_crop_dialog->Show (false);
+		viewer->unset_crop_guess ();
+		_auto_crop_config_connection.disconnect ();
+		_auto_crop_viewer_connection.disconnect ();
+	});
+
+	/* Update the view when something in the dialog is changed */
+	_auto_crop_dialog->Changed.connect([this, update_viewer](Crop crop) {
+		update_viewer (crop);
+	});
 }

@@ -101,7 +101,8 @@ public:
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
-	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<Content> content, dcpomatic::ContentTime t);
+	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t);
+	boost::optional<dcpomatic::ContentTime> dcp_to_content_time (std::shared_ptr<const Content> content, dcpomatic::DCPTime t);
 
 	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 

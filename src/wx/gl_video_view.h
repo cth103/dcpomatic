@@ -100,6 +100,7 @@ private:
 	void size_changed (wxSizeEvent const &);
 	void setup_shaders ();
 	void set_outline_content_colour (GLuint program);
+	void set_crop_guess_colour (GLuint program);
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
@@ -130,6 +131,7 @@ private:
 	Last<Position<int>> _last_inter_position;
 	Last<dcp::Size> _last_inter_size;
 	Last<dcp::Size> _last_out_size;
+	Last<boost::optional<dcpomatic::Rect<float>>> _last_crop_guess;
 
 	boost::atomic<wxSize> _canvas_size;
 	std::unique_ptr<Texture> _video_texture;

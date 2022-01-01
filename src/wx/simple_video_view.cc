@@ -117,6 +117,19 @@ SimpleVideoView::paint ()
 		dc.DrawRectangle (subs->x * out_size.width, subs->y * out_size.height, subs->width * out_size.width, subs->height * out_size.height);
 	}
 
+	if (_viewer->crop_guess()) {
+		wxPen p (crop_guess_colour(), 2);
+		dc.SetPen (p);
+		dc.SetBrush (*wxTRANSPARENT_BRUSH);
+		auto const crop_guess = _viewer->crop_guess().get();
+		dc.DrawRectangle (
+			_inter_position.x + _inter_size.width * crop_guess.x,
+			_inter_position.y + _inter_size.height * crop_guess.y,
+			_inter_size.width * crop_guess.width,
+			_inter_size.height * crop_guess.height
+			);
+	}
+
         _state_timer.unset();
 }
 

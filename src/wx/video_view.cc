@@ -185,4 +185,3 @@ VideoView::pad_colour () const
 		return wxColour(240, 240, 240);
 	}
 }
-

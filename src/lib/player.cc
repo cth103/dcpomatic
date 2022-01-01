@@ -1384,13 +1384,29 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 
 
 optional<DCPTime>
-Player::content_time_to_dcp (shared_ptr<Content> content, ContentTime t)
+Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t)
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	for (auto i: _pieces) {
 		if (i->content == content) {
 			return content_time_to_dcp (i, t);
+		}
+	}
+
+	/* We couldn't find this content; perhaps things are being changed over */
+	return {};
+}
+
+
+optional<ContentTime>
+Player::dcp_to_content_time (shared_ptr<const Content> content, DCPTime t)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	for (auto i: _pieces) {
+		if (i->content == content) {
+			return dcp_to_content_time (i, t);
 		}
 	}
 

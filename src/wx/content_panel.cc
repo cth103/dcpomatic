@@ -84,7 +84,7 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	_splitter = new LimitedSplitter (n);
 	_top_panel = new wxPanel (_splitter);
 
-	_menu = new ContentMenu (_splitter);
+	_menu = new ContentMenu (_splitter, _film_viewer);
 
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);

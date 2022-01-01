@@ -146,6 +146,10 @@ protected:
 		return wxColour(0, 255, 0);
 	}
 
+	wxColour crop_guess_colour () const {
+		return wxColour(0, 0, 255);
+	}
+
 	int video_frame_rate () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _video_frame_rate;

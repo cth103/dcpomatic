@@ -118,7 +118,7 @@ FilmViewer::~FilmViewer ()
 }
 
 
-/** Ask for ::get() to be called next time we are idle */
+/** Ask for ::idle_handler() to be called next time we are idle */
 void
 FilmViewer::request_idle_display_next_frame ()
 {
@@ -712,6 +712,13 @@ FilmViewer::dcp_decode_reduction () const
 }
 
 
+optional<ContentTime>
+FilmViewer::position_in_content (shared_ptr<const Content> content) const
+{
+	return _player->dcp_to_content_time (content, position());
+}
+
+
 DCPTime
 FilmViewer::one_video_frame () const
 {
@@ -793,5 +800,23 @@ FilmViewer::set_optimise_for_j2k (bool o)
 {
 	_optimise_for_j2k = o;
 	_video_view->set_optimise_for_j2k (o);
+}
+
+
+void
+FilmViewer::set_crop_guess (Rect<float> crop)
+{
+	if (crop != _crop_guess) {
+		_crop_guess = crop;
+		_video_view->update ();
+	}
+}
+
+
+void
+FilmViewer::unset_crop_guess ()
+{
+	_crop_guess = {};
+	_video_view->update ();
 }
 

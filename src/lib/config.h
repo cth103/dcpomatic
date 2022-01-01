@@ -84,6 +84,7 @@ public:
 		HISTORY,
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 		AUDIO_MAPPING,
+		AUTO_CROP_THRESHOLD,
 		OTHER
 	};
 
@@ -545,6 +546,10 @@ public:
 
 	boost::optional<boost::filesystem::path> add_files_path () const {
 		return _add_files_path;
+	}
+
+	double auto_crop_threshold () const {
+		return _auto_crop_threshold;
 	}
 
 	/* SET (mostly) */
@@ -1055,6 +1060,10 @@ public:
 		changed ();
 	}
 
+	void set_auto_crop_threshold (double threshold) {
+		maybe_set (_auto_crop_threshold, threshold, AUTO_CROP_THRESHOLD);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1268,6 +1277,7 @@ private:
 	boost::optional<AudioMapping> _audio_mapping;
 	std::vector<dcp::LanguageTag> _custom_languages;
 	boost::optional<boost::filesystem::path> _add_files_path;
+	double _auto_crop_threshold;
 
 	static int const _current_version;
 
