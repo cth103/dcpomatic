@@ -1432,6 +1432,22 @@ Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t)
 }
 
 
+optional<ContentTime>
+Player::dcp_to_content_time (shared_ptr<const Content> content, DCPTime t)
+{
+	boost::mutex::scoped_lock lm (_mutex);
+
+	for (auto i: _pieces) {
+		if (i->content == content) {
+			return dcp_to_content_time (i, t);
+		}
+	}
+
+	/* We couldn't find this content; perhaps things are being changed over */
+	return {};
+}
+
+
 shared_ptr<const Playlist>
 Player::playlist () const
 {

@@ -32,15 +32,17 @@ LIBDCP_ENABLE_WARNINGS
 #include <memory>
 
 
+class AutoCropDialog;
 class DCPContent;
 class Film;
+class FilmViewer;
 class Job;
 
 
 class ContentMenu
 {
 public:
-	explicit ContentMenu (wxWindow* p);
+	ContentMenu (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
 
 	ContentMenu (ContentMenu const &) = delete;
 	ContentMenu& operator= (ContentMenu const &) = delete;
@@ -54,6 +56,7 @@ private:
 	void properties ();
 	void advanced ();
 	void re_examine ();
+	void auto_crop ();
 	void kdm ();
 	void ov ();
 	void set_dcp_settings ();
@@ -67,6 +70,7 @@ private:
 	std::weak_ptr<Film> _film;
 	wxWindow* _parent;
 	bool _pop_up_open;
+	std::weak_ptr<FilmViewer> _viewer;
 	ContentList _content;
 	TimelineContentViewList _views;
 	wxMenuItem* _repeat;
@@ -75,11 +79,17 @@ private:
 	wxMenuItem* _properties;
 	wxMenuItem* _advanced;
 	wxMenuItem* _re_examine;
+	wxMenuItem* _auto_crop;
 	wxMenuItem* _kdm;
 	wxMenuItem* _ov;
 	wxMenuItem* _choose_cpl;
 	wxMenuItem* _set_dcp_settings;
 	wxMenuItem* _remove;
+
+	AutoCropDialog* _auto_crop_dialog = nullptr;
+	boost::signals2::scoped_connection _auto_crop_config_connection;
+	boost::signals2::scoped_connection _auto_crop_viewer_connection;
 };
+
 
 #endif

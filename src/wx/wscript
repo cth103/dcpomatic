@@ -31,6 +31,7 @@ sources = """
           audio_mapping_view.cc
           audio_panel.cc
           audio_plot.cc
+          auto_crop_dialog.cc
           barco_alchemy_certificate_panel.cc
           batch_job_view.cc
           check_box.cc

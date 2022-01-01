@@ -80,6 +80,7 @@ public:
 	dcpomatic::DCPTime position () const {
 		return _video_view->position();
 	}
+	boost::optional<dcpomatic::ContentTime> position_in_content (std::shared_ptr<const Content> content) const;
 	dcpomatic::DCPTime one_video_frame () const;
 
 	void start ();
@@ -99,6 +100,8 @@ public:
 	void set_eyes (Eyes e);
 	void set_pad_black (bool p);
 	void set_optimise_for_j2k (bool o);
+	void set_crop_guess (dcpomatic::Rect<float> crop);
+	void unset_crop_guess ();
 
 	void slow_refresh ();
 
@@ -133,6 +136,9 @@ public:
 	}
 	void finished ();
 	void image_changed (std::shared_ptr<PlayerVideo> video);
+	boost::optional<dcpomatic::Rect<float>> crop_guess () const {
+		return _crop_guess;
+	}
 
 	bool pending_idle_get () const {
 		return _idle_get;
@@ -205,6 +211,8 @@ private:
 
 	/** true if an get() is required next time we are idle */
 	bool _idle_get = false;
+
+	boost::optional<dcpomatic::Rect<float>> _crop_guess;
 
 	boost::signals2::scoped_connection _config_changed_connection;
 };

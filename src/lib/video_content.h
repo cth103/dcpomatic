@@ -89,6 +89,7 @@ public:
 
 	void set_frame_type (VideoFrameType);
 
+	void set_crop (Crop crop);
 	void set_left_crop (int);
 	void set_right_crop (int);
 	void set_top_crop (int);

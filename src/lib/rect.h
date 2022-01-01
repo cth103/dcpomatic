@@ -119,6 +119,13 @@ public:
 };
 
 
+template <class T>
+bool operator== (Rect<T> const& a, Rect<T> const& b)
+{
+	return a.x == b.x && a.y == b.y && a.width == b.width && a.height == b.height;
+}
+
+
 }
 
 

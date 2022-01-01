@@ -195,12 +195,14 @@ static constexpr char fragment_source[] =
 "\n"
 "uniform sampler2D texture_sampler;\n"
 /* type = 0: draw outline content rectangle
- * type = 1: draw XYZ image
- * type = 2: draw RGB image
+ * type = 1: draw crop guess rectangle
+ * type = 2: draw XYZ image
+ * type = 3: draw RGB image
  * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
 "uniform vec4 outline_content_colour;\n"
+"uniform vec4 crop_guess_colour;\n"
 "uniform mat4 colour_conversion;\n"
 "\n"
 "out vec4 FragColor;\n"
@@ -262,6 +264,9 @@ static constexpr char fragment_source[] =
 "			FragColor = outline_content_colour;\n"
 "			break;\n"
 "		case 1:\n"
+"                       FragColor = crop_guess_colour;\n"
+"                       break;\n"
+"		case 2:\n"
 "			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
 "			FragColor.x = pow(FragColor.x, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.y = pow(FragColor.y, IN_GAMMA) / DCI_COEFFICIENT;\n"
@@ -271,7 +276,7 @@ static constexpr char fragment_source[] =
 "			FragColor.y = pow(FragColor.y, OUT_GAMMA);\n"
 "			FragColor.z = pow(FragColor.z, OUT_GAMMA);\n"
 "			break;\n"
-"		case 2:\n"
+"		case 3:\n"
 "			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
 "			break;\n"
 "	}\n"
@@ -281,8 +286,9 @@ static constexpr char fragment_source[] =
 enum class FragmentType
 {
 	OUTLINE_CONTENT = 0,
-	XYZ_IMAGE = 1,
-	RGB_IMAGE = 2,
+	CROP_GUESS = 1,
+	XYZ_IMAGE = 2,
+	RGB_IMAGE = 3,
 };
 
 
@@ -307,6 +313,8 @@ static constexpr int indices_subtitle_texture_offset = indices_video_texture_off
 static constexpr int indices_subtitle_texture_number = 6;
 static constexpr int indices_outline_content_offset = indices_subtitle_texture_offset + indices_subtitle_texture_number;
 static constexpr int indices_outline_content_number = 8;
+static constexpr int indices_crop_guess_offset = indices_outline_content_offset + indices_outline_content_number;
+static constexpr int indices_crop_guess_number = 8;
 
 static constexpr unsigned int indices[] = {
 	0, 1, 3, // video texture triangle #1
@@ -317,12 +325,17 @@ static constexpr unsigned int indices[] = {
 	9, 10,   // outline content line #2
 	10, 11,  // outline content line #3
 	11, 8,   // outline content line #4
+	12, 13,  // crop guess line #1
+	13, 14,  // crop guess line #2
+	14, 15,  // crop guess line #3
+	15, 12,  // crop guess line #4
 };
 
 /* Offsets of things in the GL_ARRAY_BUFFER */
 static constexpr int array_buffer_video_offset = 0;
 static constexpr int array_buffer_subtitle_offset = array_buffer_video_offset + 4 * 5 * sizeof(float);
 static constexpr int array_buffer_outline_content_offset = array_buffer_subtitle_offset + 4 * 5 * sizeof(float);
+static constexpr int array_buffer_crop_guess_offset = array_buffer_outline_content_offset + 4 * 5 * sizeof(float);
 
 
 void
@@ -440,6 +453,7 @@ GLVideoView::setup_shaders ()
 	_fragment_type = glGetUniformLocation (program, "type");
 	check_gl_error ("glGetUniformLocation");
 	set_outline_content_colour (program);
+	set_crop_guess_colour (program);
 
 	auto conversion = dcp::ColourConversion::rec709_to_xyz();
 	boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
@@ -454,7 +468,7 @@ GLVideoView::setup_shaders ()
 	check_gl_error ("glGetUniformLocation");
 	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
 
-	glLineWidth (1.0f);
+	glLineWidth (2.0f);
 	check_gl_error ("glLineWidth");
 	glEnable (GL_BLEND);
 	check_gl_error ("glEnable");
@@ -462,7 +476,7 @@ GLVideoView::setup_shaders ()
 	check_gl_error ("glBlendFunc");
 
 	/* Reserve space for the GL_ARRAY_BUFFER */
-	glBufferData(GL_ARRAY_BUFFER, 12 * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, 16 * 5 * sizeof(float), nullptr, GL_STATIC_DRAW);
 	check_gl_error ("glBufferData");
 }
 
@@ -473,6 +487,17 @@ GLVideoView::set_outline_content_colour (GLuint program)
 	auto uniform = glGetUniformLocation (program, "outline_content_colour");
 	check_gl_error ("glGetUniformLocation");
 	auto colour = outline_content_colour ();
+	glUniform4f (uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
+	check_gl_error ("glUniform4f");
+}
+
+
+void
+GLVideoView::set_crop_guess_colour (GLuint program)
+{
+	auto uniform = glGetUniformLocation (program, "crop_guess_colour");
+	check_gl_error ("glGetUniformLocation");
+	auto colour = crop_guess_colour ();
 	glUniform4f (uniform, colour.Red() / 255.0f, colour.Green() / 255.0f, colour.Blue() / 255.0f, 1.0f);
 	check_gl_error ("glUniform4f");
 }
@@ -510,6 +535,11 @@ GLVideoView::draw ()
 	if (_viewer->outline_content()) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::OUTLINE_CONTENT));
 		glDrawElements (GL_LINES, indices_outline_content_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_outline_content_offset * sizeof(int)));
+		check_gl_error ("glDrawElements");
+	}
+	if (auto guess = _viewer->crop_guess()) {
+		glUniform1i(_fragment_type, 1);
+		glDrawElements (GL_LINES, indices_crop_guess_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_crop_guess_offset * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
 
@@ -554,6 +584,7 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	auto const inter_position = player_video().first->inter_position();
 	auto const inter_size = player_video().first->inter_size();
 	auto const out_size = player_video().first->out_size();
+	auto const crop_guess = _viewer->crop_guess();
 
 	auto x_offset = std::max(0, (canvas_width - out_size.width) / 2);
 	auto y_offset = std::max(0, (canvas_height - out_size.height) / 2);
@@ -563,6 +594,7 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	_last_inter_position.set_next (inter_position);
 	_last_inter_size.set_next (inter_size);
 	_last_out_size.set_next (out_size);
+	_last_crop_guess.set_next (crop_guess);
 
 	class Rectangle
 	{
@@ -632,8 +664,9 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		float _vertices[20];
 	};
 
-	if (_last_canvas_size.changed() || _last_inter_position.changed() || _last_inter_size.changed() || _last_out_size.changed()) {
+	auto const sizing_changed = _last_canvas_size.changed() || _last_inter_position.changed() || _last_inter_size.changed() || _last_out_size.changed();
 
+	if (sizing_changed) {
 		const auto video = _optimise_for_j2k ?
 			Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size)
 			: Rectangle(canvas_size, x_offset, y_offset, out_size);
@@ -644,6 +677,17 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		const auto outline_content = Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
 		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_outline_content_offset, outline_content.size(), outline_content.vertices());
 		check_gl_error ("glBufferSubData (outline_content)");
+	}
+
+	if ((sizing_changed || _last_crop_guess.changed()) && crop_guess) {
+		auto const crop_guess_rectangle = Rectangle(
+			canvas_size,
+			inter_position.x + x_offset + inter_size.width * crop_guess->x,
+			inter_position.y + y_offset + inter_size.height * crop_guess->y,
+			dcp::Size(inter_size.width * crop_guess->width, inter_size.height * crop_guess->height)
+			);
+		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_crop_guess_offset, crop_guess_rectangle.size(), crop_guess_rectangle.vertices());
+		check_gl_error ("glBufferSubData (crop_guess_rectangle)");
 	}
 
 	if (_have_subtitle_to_render) {

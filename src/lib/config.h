@@ -91,6 +91,7 @@ public:
 		HISTORY,
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 		AUDIO_MAPPING,
+		AUTO_CROP_THRESHOLD,
 		OTHER
 	};
 
@@ -571,6 +572,9 @@ public:
 		return _default_kdm_type;
 	}
 
+	double auto_crop_threshold () const {
+		return _auto_crop_threshold;
+	}
 
 	/* SET (mostly) */
 
@@ -1096,6 +1100,10 @@ public:
 		maybe_set (_default_kdm_type, type);
 	}
 
+	void set_auto_crop_threshold (double threshold) {
+		maybe_set (_auto_crop_threshold, threshold, AUTO_CROP_THRESHOLD);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1316,6 +1324,7 @@ private:
 	bool _write_kdms_to_disk;
 	bool _email_kdms;
 	dcp::Formulation _default_kdm_type;
+	double _auto_crop_threshold;
 
 	static int const _current_version;
 
