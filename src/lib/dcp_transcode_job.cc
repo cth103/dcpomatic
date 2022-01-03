@@ -20,12 +20,13 @@
 
 
 #include "config.h"
+#include "dcp_content.h"
 #include "dcp_digest_file.h"
-#include "dcp_transcode_job.h"
 #include "film.h"
 #include "job_manager.h"
 #include "upload_job.h"
 #include <dcp/cpl.h>
+#include <dcp/search.h>
 
 
 using std::make_shared;

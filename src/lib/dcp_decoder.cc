@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -44,6 +44,7 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
+#include <dcp/search.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/sound_frame.h>
 #include <dcp/stereo_picture_asset.h>
@@ -67,23 +68,23 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> c, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
-	: DCP (c, tolerant)
-	, Decoder (film)
+DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> content, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
+	: Decoder (film)
+	, _dcp_content (content)
 {
-	if (c->can_be_played()) {
-		if (c->video) {
-			video = make_shared<VideoDecoder>(this, c);
+	if (content->can_be_played()) {
+		if (content->video) {
+			video = make_shared<VideoDecoder>(this, content);
 		}
-		if (c->audio) {
-			audio = make_shared<AudioDecoder>(this, c->audio, fast);
+		if (content->audio) {
+			audio = make_shared<AudioDecoder>(this, content->audio, fast);
 		}
-		for (auto i: c->text) {
+		for (auto i: content->text) {
 			/* XXX: this time here should be the time of the first subtitle, not 0 */
 			text.push_back (make_shared<TextDecoder>(this, i, ContentTime()));
 		}
-		if (c->atmos) {
-			atmos = make_shared<AtmosDecoder>(this, c);
+		if (content->atmos) {
+			atmos = make_shared<AtmosDecoder>(this, content);
 		}
 	}
 
@@ -95,13 +96,13 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 	   the same before we re-use _reels.
 	*/
 
-	_lazy_digest = calculate_lazy_digest (c);
+	_lazy_digest = calculate_lazy_digest (content);
 
 	if (old && old->lazy_digest() == _lazy_digest) {
 		_reels = old->_reels;
 	} else {
 
-		auto cpl_list = cpls ();
+		auto cpl_list = dcp::find_and_resolve_cpls (content->directories(), tolerant);
 
 		if (cpl_list.empty()) {
 			throw DCPError (_("No CPLs found in DCP."));
@@ -118,9 +119,12 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 			/* No CPL found; probably an old file that doesn't specify it;
 			   just use the first one.
 			*/
-			cpl = cpls().front ();
+			cpl = cpl_list.front();
 		}
 
+		if (content->kdm()) {
+			cpl->add (decrypt_kdm_with_helpful_error(content->kdm().get()));
+		}
 		_reels = cpl->reels ();
 	}
 

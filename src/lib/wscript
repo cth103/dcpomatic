@@ -62,7 +62,6 @@ sources = """
           crypto.cc
           curl_uploader.cc
           datasat_ap2x.cc
-          dcp.cc
           dcp_content.cc
           dcp_content_type.cc
           dcp_decoder.cc

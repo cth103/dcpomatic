@@ -19,33 +19,34 @@
 */
 
 
-#include "dcp_examiner.h"
+#include "config.h"
 #include "dcp_content.h"
+#include "dcp_examiner.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "image.h"
-#include "config.h"
 #include "util.h"
+#include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
-#include <dcp/cpl.h>
-#include <dcp/reel.h>
-#include <dcp/reel_picture_asset.h>
-#include <dcp/reel_sound_asset.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/mono_picture_frame.h>
+#include <dcp/reel.h>
+#include <dcp/reel_atmos_asset.h>
+#include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_markers_asset.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/reel_subtitle_asset.h>
+#include <dcp/search.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset_reader.h>
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/stereo_picture_frame.h>
-#include <dcp/sound_asset.h>
-#include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_asset.h>
-#include <dcp/reel_atmos_asset.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
-#include <dcp/reel_markers_asset.h>
-#include <dcp/sound_asset.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -59,7 +60,6 @@ using boost::optional;
 
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
-	: DCP (content, tolerant)
 {
 	shared_ptr<dcp::CPL> cpl;
 
@@ -67,9 +67,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		_text_count[i] = 0;
 	}
 
+	auto cpls = dcp::find_and_resolve_cpls (content->directories(), tolerant);
+
 	if (content->cpl ()) {
 		/* Use the CPL that the content was using before */
-		for (auto i: cpls()) {
+		for (auto i: cpls) {
 			if (i->id() == content->cpl().get()) {
 				cpl = i;
 			}
@@ -79,7 +81,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		int least_unsatisfied = INT_MAX;
 
-		for (auto i: cpls()) {
+		for (auto i: cpls) {
 			int unsatisfied = 0;
 			for (auto j: i->reels()) {
 				if (j->main_picture() && !j->main_picture()->asset_ref().resolved()) {
@@ -105,6 +107,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	if (!cpl) {
 		throw DCPError ("No CPLs found in DCP");
+	}
+
+	if (content->kdm()) {
+		cpl->add (decrypt_kdm_with_helpful_error(content->kdm().get()));
 	}
 
 	_cpl = cpl->id ();

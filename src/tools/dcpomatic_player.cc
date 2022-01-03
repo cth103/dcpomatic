@@ -38,7 +38,6 @@
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
-#include "lib/dcp_examiner.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/examine_content_job.h"
@@ -65,6 +64,7 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
+#include <dcp/search.h>
 #include <dcp/raw_convert.h>
 #include <wx/cmdline.h>
 #include <wx/display.h>
@@ -440,9 +440,8 @@ public:
 			/* Offer a CPL menu */
 			auto first = dynamic_pointer_cast<DCPContent>(_film->content().front());
 			if (first) {
-				DCPExaminer ex (first, true);
 				int id = ID_view_cpl;
-				for (auto i: ex.cpls()) {
+				for (auto i: dcp::find_and_resolve_cpls(first->directories(), true)) {
 					auto j = _cpl_menu->AppendRadioItem(
 						id,
 						wxString::Format("%s (%s)", std_to_wx(i->annotation_text().get_value_or("")).data(), std_to_wx(i->id()).data())
@@ -735,11 +734,10 @@ private:
 	{
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
-		DCPExaminer ex (dcp, true);
+		auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
 		int id = ev.GetId() - ID_view_cpl;
 		DCPOMATIC_ASSERT (id >= 0);
-		DCPOMATIC_ASSERT (id < int(ex.cpls().size()));
-		auto cpls = ex.cpls();
+		DCPOMATIC_ASSERT (id < int(cpls.size()));
 		auto i = cpls.begin();
 		while (id > 0) {
 			++i;
