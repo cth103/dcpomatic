@@ -30,8 +30,10 @@
 #include <dcp/search.h>
 
 
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::shared_ptr;
+using std::vector;
 
 
 DCPTranscodeJob::DCPTranscodeJob (shared_ptr<const Film> film, ChangedBehaviour changed)
@@ -48,11 +50,30 @@ DCPTranscodeJob::post_transcode ()
 		JobManager::instance()->add(make_shared<UploadJob>(_film));
 	}
 
-	dcp::DCP dcp(_film->dir(_film->dcp_name()));
-	dcp.read();
+	/* The first directory is the project's DCP, so the first CPL will also be from the project
+	 * (not from one of the DCPs imported into the project).
+	 */
+	vector<boost::filesystem::path> all_directories = { _film->dir(_film->dcp_name()) };
 
-	for (auto cpl: dcp.cpls()) {
-		write_dcp_digest_file (_film->file(cpl->annotation_text().get_value_or(cpl->id()) + ".dcpdig"), cpl, _film->key().hex());
+	vector<dcp::EncryptedKDM> all_kdms;
+	for (auto content: _film->content()) {
+		if (auto dcp_content = dynamic_pointer_cast<DCPContent>(content)) {
+			auto directories = dcp_content->directories();
+			std::copy (directories.begin(), directories.end(), std::back_inserter(all_directories));
+			if (dcp_content->kdm()) {
+				all_kdms.push_back (dcp_content->kdm().get());
+			}
+		}
 	}
+
+	auto cpls = dcp::find_and_resolve_cpls (all_directories, true);
+	DCPOMATIC_ASSERT (!cpls.empty());
+	auto cpl = cpls.front ();
+
+	for (auto const& kdm: all_kdms) {
+		cpl->add (decrypt_kdm_with_helpful_error(kdm));
+	}
+
+	write_dcp_digest_file (_film->file(cpl->annotation_text().get_value_or(cpl->id()) + ".dcpdig"), cpl, _film->key().hex());
 }
 

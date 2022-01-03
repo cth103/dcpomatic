@@ -39,7 +39,7 @@ using std::string;
 
 
 template <class R, class A>
-void add_asset(string key, shared_ptr<R> reel_asset, shared_ptr<A> asset, xmlpp::Element* reel, string name)
+void add_asset(string film_key, shared_ptr<R> reel_asset, shared_ptr<A> asset, xmlpp::Element* reel, string name)
 {
 	if (asset) {
 		auto out = reel->add_child(name);
@@ -49,7 +49,7 @@ void add_asset(string key, shared_ptr<R> reel_asset, shared_ptr<A> asset, xmlpp:
 		}
 		if (asset->key_id()) {
 			out->add_child("KeyId")->add_child_text("urn:uuid:" + asset->key_id().get());
-			out->add_child("Key")->add_child_text(key);
+			out->add_child("Key")->add_child_text(asset->key() ? asset->key()->hex() : film_key);
 		}
 	}
 };
@@ -59,7 +59,7 @@ void
 write_dcp_digest_file (
 	boost::filesystem::path path,
 	shared_ptr<dcp::CPL> cpl,
-	string key
+	string film_key
 	)
 {
 	xmlpp::Document doc;
@@ -75,13 +75,13 @@ write_dcp_digest_file (
 		out_reel->add_child("Id")->add_child_text("urn:uuid:" + in_reel->id());
 		out_reel->add_child("AnnotationText");
 		if (in_reel->main_picture()) {
-			add_asset(key, in_reel->main_picture(), in_reel->main_picture()->asset(), out_reel, "MainPicture");
+			add_asset(film_key, in_reel->main_picture(), in_reel->main_picture()->asset(), out_reel, "MainPicture");
 		}
 		if (in_reel->main_sound()) {
-			add_asset(key, in_reel->main_sound(), in_reel->main_sound()->asset(), out_reel, "MainSound");
+			add_asset(film_key, in_reel->main_sound(), in_reel->main_sound()->asset(), out_reel, "MainSound");
 		}
 		if (auto smpte_sub = dynamic_pointer_cast<dcp::ReelSMPTESubtitleAsset>(in_reel->main_subtitle())) {
-			add_asset(key, smpte_sub, smpte_sub->smpte_asset(), out_reel, "MainSubtitle");
+			add_asset(film_key, smpte_sub, smpte_sub->smpte_asset(), out_reel, "MainSubtitle");
 		}
 	}
 	doc.write_to_file_formatted(path.string());
