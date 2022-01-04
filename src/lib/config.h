@@ -160,6 +160,10 @@ public:
 		return _allow_any_container;
 	}
 
+	bool allow_96khz_audio () const {
+		return _allow_96khz_audio;
+	}
+
 	bool show_experimental_audio_processors () const {
 		return _show_experimental_audio_processors;
 	}
@@ -624,6 +628,10 @@ public:
 
 	void set_allow_any_container (bool a) {
 		maybe_set (_allow_any_container, a);
+	}
+
+	void set_allow_96hhz_audio (bool a) {
+		maybe_set (_allow_96khz_audio, a);
 	}
 
 	void set_show_experimental_audio_processors (bool e) {
@@ -1155,6 +1163,7 @@ private:
 	    https://www.dcpomatic.com/forum/viewtopic.php?f=2&t=1119&p=4468
 	*/
 	bool _allow_any_container;
+	bool _allow_96khz_audio;
 	/** Offer the upmixers in the audio processor settings */
 	bool _show_experimental_audio_processors;
 	boost::optional<std::string> _language;

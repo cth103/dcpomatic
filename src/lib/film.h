@@ -146,8 +146,6 @@ public:
 
 	std::vector<CPLSummary> cpls () const;
 
-	int audio_frame_rate () const;
-
 	std::list<DCPTextTrack> closed_caption_tracks () const;
 
 	uint64_t required_disk_space () const;
@@ -227,6 +225,7 @@ public:
 		ENCRYPTED,
 		J2K_BANDWIDTH,
 		VIDEO_FRAME_RATE,
+		AUDIO_FRAME_RATE,
 		AUDIO_CHANNELS,
 		/** The setting of _three_d has changed */
 		THREE_D,
@@ -407,6 +406,11 @@ public:
 		return _luminance;
 	}
 
+	int audio_frame_rate () const {
+		return _audio_frame_rate;
+	}
+
+
 
 	/* SET */
 
@@ -454,6 +458,7 @@ public:
 	void set_distributor (boost::optional<std::string> d = boost::none);
 	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
 	void set_audio_language (boost::optional<dcp::LanguageTag> language);
+	void set_audio_frame_rate (int rate);
 
 	void add_ffoc_lfoc (Markers& markers) const;
 
@@ -561,6 +566,7 @@ private:
 	bool _two_d_version_of_three_d = false;
 	boost::optional<dcp::Luminance> _luminance;
 	boost::optional<dcp::LanguageTag> _audio_language;
+	int _audio_frame_rate = 48000;
 
 	int _state_version;
 

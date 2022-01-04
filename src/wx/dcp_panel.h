@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -88,6 +88,7 @@ private:
 	void reencode_j2k_changed ();
 	void enable_audio_language_toggled ();
 	void edit_audio_language_clicked ();
+	void audio_sample_rate_changed ();
 
 	void setup_frame_rate_widget ();
 	void setup_container ();
@@ -136,6 +137,8 @@ private:
 	wxSizer* _frame_rate_sizer;
 	wxStaticText* _channels_label;
 	wxChoice* _audio_channels;
+	wxStaticText* _audio_sample_rate_label;
+	wxChoice* _audio_sample_rate;
 	wxStaticText* _processor_label;
 	wxChoice* _audio_processor;
 	wxButton* _show_audio;

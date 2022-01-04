@@ -408,6 +408,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
 	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
 	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
+	root->add_child("AudioFrameRate")->add_child_text(raw_convert<string>(_audio_frame_rate));
 	root->add_child("ISDCFDate")->add_child_text (boost::gregorian::to_iso_string (_isdcf_date));
 	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
@@ -561,6 +562,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_resolution = string_to_resolution (f.string_child ("Resolution"));
 	_j2k_bandwidth = f.number_child<int> ("J2KBandwidth");
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
+	_audio_frame_rate = f.optional_number_child<int>("AudioFrameRate").get_value_or(48000);
 	_encrypted = f.bool_child ("Encrypted");
 	_audio_channels = f.number_child<int> ("AudioChannels");
 	/* We used to allow odd numbers (and zero) channels, but it's just not worth
@@ -1553,14 +1555,6 @@ Film::playlist_order_changed ()
 	signal_change (ChangeType::DONE, Property::CONTENT_ORDER);
 }
 
-int
-Film::audio_frame_rate () const
-{
-	/* It seems that nobody makes 96kHz DCPs at the moment, so let's avoid them.
-	   See #1436.
-	*/
-	return 48000;
-}
 
 void
 Film::set_sequence (bool s)
@@ -2145,6 +2139,14 @@ Film::set_audio_language (optional<dcp::LanguageTag> language)
 {
 	FilmChangeSignaller ch (this, Property::AUDIO_LANGUAGE);
 	_audio_language = language;
+}
+
+
+void
+Film::set_audio_frame_rate (int rate)
+{
+	FilmChangeSignaller ch (this, Property::AUDIO_FRAME_RATE);
+	_audio_frame_rate = rate;
 }
 
 
