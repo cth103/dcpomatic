@@ -479,6 +479,9 @@ DCPPanel::film_changed (Film::Property p)
 		setup_sensitivity ();
 		break;
 	}
+	case Film::Property::AUDIO_FRAME_RATE:
+		checked_set (_audio_sample_rate, _film->audio_frame_rate() == 48000 ? 0 : 1);
+		break;
 	case Film::Property::CONTENT_VERSIONS:
 	case Film::Property::VERSION_NUMBER:
 	case Film::Property::RELEASE_TERRITORY:
@@ -624,6 +627,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::Property::REEL_LENGTH);
 	film_changed (Film::Property::REENCODE_J2K);
 	film_changed (Film::Property::AUDIO_LANGUAGE);
+	film_changed (Film::Property::AUDIO_FRAME_RATE);
 
 	set_general_sensitivity(static_cast<bool>(_film));
 }
@@ -892,6 +896,9 @@ DCPPanel::make_audio_panel ()
 	_audio_channels = new wxChoice (panel, wxID_ANY);
 	setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels ());
 
+	_audio_sample_rate_label = create_label (panel, _("Sample rate"), true);
+	_audio_sample_rate = new wxChoice (panel, wxID_ANY);
+
 	_processor_label = create_label (panel, _("Processor"), true);
 	_audio_processor = new wxChoice (panel, wxID_ANY);
 	add_audio_processors ();
@@ -899,8 +906,12 @@ DCPPanel::make_audio_panel ()
 	_show_audio = new Button (panel, _("Show graph of audio levels..."));
 
 	_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_channels_changed, this));
+	_audio_sample_rate->Bind (wxEVT_CHOICE, boost::bind(&DCPPanel::audio_sample_rate_changed, this));
 	_audio_processor->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_processor_changed, this));
 	_show_audio->Bind (wxEVT_BUTTON, boost::bind (&DCPPanel::show_audio_clicked, this));
+
+	_audio_sample_rate->Append (_("48kHz"));
+	_audio_sample_rate->Append (_("96kHz"));
 
 	add_audio_panel_to_grid ();
 
@@ -915,6 +926,10 @@ DCPPanel::add_audio_panel_to_grid ()
 
 	add_label_to_sizer (_audio_grid, _channels_label, true, wxGBPosition (r, 0));
 	_audio_grid->Add (_audio_channels, wxGBPosition (r, 1));
+	++r;
+
+	add_label_to_sizer (_audio_grid, _audio_sample_rate_label, true, wxGBPosition(r, 0));
+	_audio_grid->Add (_audio_sample_rate, wxGBPosition(r, 1));
 	++r;
 
 	add_label_to_sizer (_audio_grid, _processor_label, true, wxGBPosition (r, 0));
@@ -1017,5 +1032,12 @@ DCPPanel::edit_audio_language_clicked ()
        d->ShowModal ();
        _film->set_audio_language(d->get());
        d->Destroy ();
+}
+
+
+void
+DCPPanel::audio_sample_rate_changed ()
+{
+	_film->set_audio_frame_rate (_audio_sample_rate->GetSelection() == 0 ? 48000 : 96000);
 }
 
