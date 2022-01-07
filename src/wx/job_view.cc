@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -25,20 +25,21 @@
 #include "static_text.h"
 #include "check_box.h"
 #include "dcpomatic_button.h"
-#include "lib/job.h"
-#include "lib/job_manager.h"
+#include "lib/analyse_audio_job.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/job.h"
+#include "lib/job_manager.h"
 #include "lib/send_notification_email_job.h"
 #include "lib/transcode_job.h"
-#include "lib/analyse_audio_job.h"
 #include <wx/wx.h>
 #include <boost/algorithm/string.hpp>
 
 
-using std::string;
+using std::make_shared;
 using std::min;
 using std::shared_ptr;
+using std::string;
 using boost::bind;
 
 
@@ -166,7 +167,7 @@ JobView::finished ()
 			string body = Config::instance()->notification_email();
 			boost::algorithm::replace_all (body, "$JOB_NAME", _job->name());
 			boost::algorithm::replace_all (body, "$JOB_STATUS", _job->status());
-			JobManager::instance()->add_after (_job, shared_ptr<Job> (new SendNotificationEmailJob (body)));
+			JobManager::instance()->add_after(_job, make_shared<SendNotificationEmailJob>(body));
 		}
 	}
 }

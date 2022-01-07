@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2018-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2018-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,32 +18,36 @@
 
 */
 
-#include "playlist_controls.h"
-#include "film_viewer.h"
-#include "wx_util.h"
+
 #include "content_view.h"
 #include "dcpomatic_button.h"
+#include "film_viewer.h"
+#include "playlist_controls.h"
 #include "static_text.h"
-#include "lib/player_video.h"
-#include "lib/dcp_content.h"
-#include "lib/cross.h"
-#include "lib/scoped_temporary.h"
-#include "lib/internet.h"
-#include "lib/ffmpeg_content.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
-#include <dcp/raw_convert.h>
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/internet.h"
+#include "lib/player_video.h"
+#include "lib/scoped_temporary.h"
 #include <dcp/exceptions.h>
+#include <dcp/raw_convert.h>
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
 
-using std::string;
+
 using std::cout;
-using std::exception;
-using std::sort;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::make_shared;
+using std::shared_ptr;
+using std::sort;
+using std::string;
 using boost::optional;
 using namespace dcpomatic;
+
 
 PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> viewer)
 	: Controls (parent, viewer, false)
@@ -62,13 +66,13 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
 
-	wxBoxSizer* left_sizer = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto left_sizer = new wxBoxSizer (wxVERTICAL);
+	auto e_sizer = new wxBoxSizer (wxHORIZONTAL);
 
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxBoxSizer* spl_header = new wxBoxSizer (wxHORIZONTAL);
+	auto spl_header = new wxBoxSizer (wxHORIZONTAL);
 	{
 		wxStaticText* m = new StaticText (this, "Playlists");
 		m->SetFont (subheading_font);
@@ -82,7 +86,7 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 
 	_content_view = new ContentView (this);
 
-	wxBoxSizer* content_header = new wxBoxSizer (wxHORIZONTAL);
+	auto content_header = new wxBoxSizer (wxHORIZONTAL);
 	{
 		wxStaticText* m = new StaticText (this, "Content");
 		m->SetFont (subheading_font);
@@ -142,7 +146,7 @@ PlaylistControls::deselect_playlist ()
 		_selected_playlist = boost::none;
 		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
 	}
-	ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
+	ResetFilm (std::make_shared<Film>(optional<boost::filesystem::path>()));
 }
 
 void
@@ -293,9 +297,9 @@ optional<dcp::EncryptedKDM>
 PlaylistControls::get_kdm_from_directory (shared_ptr<DCPContent> dcp)
 {
 	using namespace boost::filesystem;
-	optional<path> kdm_dir = Config::instance()->player_kdm_directory();
+	auto kdm_dir = Config::instance()->player_kdm_directory();
 	if (!kdm_dir) {
-		return optional<dcp::EncryptedKDM>();
+		return {};
 	}
 	for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
 		try {
@@ -343,7 +347,7 @@ PlaylistControls::select_playlist (int selected, int position)
 
 	for (auto const& i: _playlists[selected].get()) {
 		dialog.Pulse ();
-		shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (i.content);
+		auto dcp = dynamic_pointer_cast<DCPContent> (i.content);
 		if (dcp && dcp->needs_kdm()) {
 			optional<dcp::EncryptedKDM> kdm;
 			kdm = get_kdm_from_directory (dcp);
@@ -388,7 +392,7 @@ void
 PlaylistControls::reset_film ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
-	shared_ptr<Film> film (new Film(optional<boost::filesystem::path>()));
+	auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
 	film->add_content (_playlists[*_selected_playlist].get()[_selected_playlist_position].content);
 	ResetFilm (film);
 }
