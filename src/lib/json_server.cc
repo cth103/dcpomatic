@@ -19,12 +19,12 @@
 */
 
 
-#include "json_server.h"
-#include "job_manager.h"
-#include "job.h"
-#include "util.h"
 #include "film.h"
+#include "job.h"
+#include "job_manager.h"
+#include "json_server.h"
 #include "transcode_job.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
@@ -32,14 +32,15 @@
 #include <iostream>
 
 
-using std::string;
 using std::cout;
-using std::map;
-using std::list;
-using boost::thread;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::map;
+using std::shared_ptr;
+using std::string;
 using boost::asio::ip::tcp;
+using boost::thread;
 using dcp::raw_convert;
 
 
@@ -74,7 +75,7 @@ try
 	tcp::acceptor a (io_service, tcp::endpoint (tcp::v4 (), port));
 	while (true) {
 		try {
-			shared_ptr<tcp::socket> s (new tcp::socket (io_service));
+			auto s = make_shared<tcp::socket>(io_service);
 			a.accept (*s);
 			handle (s);
 		}

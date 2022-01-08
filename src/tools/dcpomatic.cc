@@ -630,7 +630,7 @@ private:
 		int const r = d->ShowModal ();
 
 		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
-			shared_ptr<Film> film (new Film (d->path()));
+			auto film = make_shared<Film>(d->path());
 			film->copy_from (_film);
 			film->set_name (d->path().filename().generic_string());
 			film->write_metadata ();

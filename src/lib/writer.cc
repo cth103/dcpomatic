@@ -303,12 +303,11 @@ Writer::write (shared_ptr<const AudioBuffers> audio, DCPTime const time)
 			DCPOMATIC_ASSERT ((part_frames[0] + part_frames[1]) <= audio->frames());
 
 			if (part_frames[0]) {
-				shared_ptr<AudioBuffers> part (new AudioBuffers(audio, part_frames[0], 0));
-				_audio_reel->write (part);
+				_audio_reel->write (make_shared<AudioBuffers>(audio, part_frames[0], 0));
 			}
 
 			if (part_frames[1]) {
-				audio.reset (new AudioBuffers(audio, part_frames[1], part_frames[0]));
+				audio = make_shared<AudioBuffers>(audio, part_frames[1], part_frames[0]);
 			} else {
 				audio.reset ();
 			}

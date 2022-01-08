@@ -18,24 +18,25 @@
 
 */
 
+
+#include "cinema.h"
+#include "colour_conversion.h"
+#include "compose.hpp"
 #include "config.h"
+#include "cross.h"
+#include "crypto.h"
+#include "dcp_content_type.h"
+#include "dkdm_recipient.h"
+#include "dkdm_wrapper.h"
+#include "film.h"
 #include "filter.h"
+#include "log.h"
 #include "ratio.h"
 #include "types.h"
-#include "log.h"
-#include "dcp_content_type.h"
-#include "colour_conversion.h"
-#include "cinema.h"
 #include "util.h"
-#include "cross.h"
-#include "film.h"
-#include "dkdm_wrapper.h"
-#include "compose.hpp"
-#include "crypto.h"
-#include "dkdm_recipient.h"
-#include <dcp/raw_convert.h>
-#include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
+#include <dcp/name_format.h>
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <glib.h>
 #include <libxml++/libxml++.h>
@@ -48,26 +49,29 @@
 
 #include "i18n.h"
 
-using std::vector;
+
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::ifstream;
-using std::string;
 using std::list;
-using std::min;
+using std::make_shared;
 using std::max;
+using std::min;
 using std::remove;
 using std::shared_ptr;
-using std::make_shared;
-using boost::optional;
-using std::dynamic_pointer_cast;
+using std::string;
+using std::vector;
 using boost::algorithm::trim;
+using boost::optional;
 using dcp::raw_convert;
+
 
 Config* Config::_instance = 0;
 int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
 boost::signals2::signal<bool (Config::BadReason)> Config::Bad;
+
 
 /** Construct default configuration */
 Config::Config ()
@@ -487,7 +491,7 @@ try
 		_dkdms = dynamic_pointer_cast<DKDMGroup> (DKDMBase::read (f.node_child("DKDMGroup")));
 	} else {
 		/* Old-style: one or more DKDM nodes */
-		_dkdms.reset (new DKDMGroup ("root"));
+		_dkdms = make_shared<DKDMGroup>("root");
 		for (auto i: f.node_children("DKDM")) {
 			_dkdms->add (DKDMBase::read (i));
 		}
@@ -1269,7 +1273,7 @@ Config::read_dkdm_recipients (cxml::Document const & f)
 {
 	_dkdm_recipients.clear ();
 	for (auto i: f.node_children("DKDMRecipient")) {
-		_dkdm_recipients.push_back (shared_ptr<DKDMRecipient>(new DKDMRecipient(i)));
+		_dkdm_recipients.push_back (make_shared<DKDMRecipient>(i));
 	}
 }
 

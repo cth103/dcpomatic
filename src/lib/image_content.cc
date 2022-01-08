@@ -16,33 +16,37 @@
     You should have received a copy of the GNU General Public License
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
+
 */
 
-#include "image_content.h"
-#include "video_content.h"
-#include "image_examiner.h"
 #include "compose.hpp"
-#include "film.h"
-#include "job.h"
-#include "frame_rate_change.h"
 #include "exceptions.h"
+#include "film.h"
+#include "frame_rate_change.h"
+#include "image_content.h"
+#include "image_examiner.h"
 #include "image_filename_sorter.h"
+#include "job.h"
+#include "video_content.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
 using std::list;
-using std::vector;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using namespace dcpomatic;
+
 
 ImageContent::ImageContent (boost::filesystem::path p)
 {
-	video.reset (new VideoContent (this));
+	video = make_shared<VideoContent>(this);
 
 	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
 		add_path (p);
@@ -107,9 +111,9 @@ ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		job->sub (_("Scanning image files"));
 		vector<boost::filesystem::path> paths;
 		int n = 0;
-		for (boost::filesystem::directory_iterator i(*_path_to_scan); i != boost::filesystem::directory_iterator(); ++i) {
-			if (boost::filesystem::is_regular_file (i->path()) && valid_image_file (i->path())) {
-				paths.push_back (i->path());
+		for (auto i: boost::filesystem::directory_iterator(*_path_to_scan)) {
+			if (boost::filesystem::is_regular_file(i.path()) && valid_image_file(i.path())) {
+				paths.push_back (i.path());
 			}
 			++n;
 			if ((n % 1000) == 0) {
@@ -127,7 +131,7 @@ ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 	Content::examine (film, job);
 
-	shared_ptr<ImageExaminer> examiner (new ImageExaminer (film, shared_from_this(), job));
+	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
 	video->take_from_examiner (examiner);
 	set_default_colour_conversion ();
 }

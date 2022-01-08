@@ -23,6 +23,7 @@
 #include <dcp/atmos_asset.h>
 
 
+using std::make_shared;
 using std::shared_ptr;
 
 
@@ -39,5 +40,5 @@ AtmosMetadata::AtmosMetadata (shared_ptr<const dcp::AtmosAsset> asset)
 shared_ptr<dcp::AtmosAsset>
 AtmosMetadata::create (dcp::Fraction edit_rate) const
 {
-	return shared_ptr<dcp::AtmosAsset> (new dcp::AtmosAsset(edit_rate, _first_frame, _max_channel_count, _max_object_count, _atmos_version));
+	return make_shared<dcp::AtmosAsset>(edit_rate, _first_frame, _max_channel_count, _max_object_count, _atmos_version);
 }

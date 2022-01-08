@@ -43,7 +43,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 	/* You can't call this with varying channel counts */
 	DCPOMATIC_ASSERT (!_tail || in->channels() == _tail->channels());
 
-	shared_ptr<AudioBuffers> out (new AudioBuffers (in->channels(), in->frames()));
+	auto out = make_shared<AudioBuffers>(in->channels(), in->frames());
 
 	if (in->frames() > _samples) {
 

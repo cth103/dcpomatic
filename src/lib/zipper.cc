@@ -19,17 +19,18 @@
 */
 
 
-#include "zipper.h"
-#include "exceptions.h"
 #include "dcpomatic_assert.h"
+#include "exceptions.h"
+#include "zipper.h"
 #include <zip.h>
 #include <boost/filesystem.hpp>
 #include <stdexcept>
 
 
-using std::string;
+using std::make_shared;
 using std::runtime_error;
 using std::shared_ptr;
+using std::string;
 
 
 Zipper::Zipper (boost::filesystem::path file)
@@ -48,7 +49,7 @@ Zipper::Zipper (boost::filesystem::path file)
 void
 Zipper::add (string name, string content)
 {
-	shared_ptr<string> copy(new string(content));
+	auto copy = make_shared<string>(content);
 	_store.push_back (copy);
 
 	auto source = zip_source_buffer (_zip, copy->c_str(), copy->length(), 0);
@@ -68,7 +69,7 @@ Zipper::close ()
 	if (zip_close(_zip) == -1) {
 		throw runtime_error ("failed to close ZIP archive");
 	}
-	_zip = 0;
+	_zip = nullptr;
 }
 
 
