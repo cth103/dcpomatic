@@ -445,7 +445,7 @@ PlaylistControls::viewer_finished ()
 	} else {
 		/* Finished the whole SPL */
 		_selected_playlist_position = 0;
-		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
+		ResetFilm (std::make_shared<Film>(optional<boost::filesystem::path>()));
 		_play_button->Enable (true);
 		_pause_button->Enable (false);
 	}
