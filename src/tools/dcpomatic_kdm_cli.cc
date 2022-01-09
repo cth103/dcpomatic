@@ -31,7 +31,7 @@
 int
 main (int argc, char* argv[])
 {
-	auto error = kdm_cli (argc, argv);
+	auto error = kdm_cli (argc, argv, [](std::string s) { std::cout << s << "\n"; });
 	if (error) {
 		std::cerr << *error << "\n";
 		exit (EXIT_FAILURE);

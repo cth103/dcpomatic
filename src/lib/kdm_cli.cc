@@ -36,10 +36,8 @@
 #include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
 #include <getopt.h>
-#include <iostream>
 
 
-using std::cout;
 using std::dynamic_pointer_cast;
 using std::list;
 using std::make_shared;
@@ -56,33 +54,37 @@ using namespace dcpomatic;
 
 
 static void
-help ()
+help (std::function<void (string)> out)
 {
-	cout << "Syntax: " << program_name << " [OPTION] <FILM|CPL-ID|DKDM>\n"
-		"  -h, --help                               show this help\n"
-		"  -o, --output                             output file or directory\n"
-		"  -K, --filename-format                    filename format for KDMs\n"
-		"  -Z, --container-name-format              filename format for ZIP containers\n"
-		"  -f, --valid-from                         valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"\n"
-		"  -t, --valid-to                           valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")\n"
-		"  -d, --valid-duration                     valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")\n"
-		"  -F, --formulation                        modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]\n"
-		"  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences\n"
-		"  -a, --disable-forensic-marking-audio     disable forensic marking of audio essences (optionally above a given channel, e.g 12)\n"
-		"  -e, --email                              email KDMs to cinemas\n"
-		"  -z, --zip                                ZIP each cinema's KDMs into its own file\n"
-		"  -v, --verbose                            be verbose\n"
-		"  -c, --cinema                             specify a cinema, either by name or email address\n"
-		"  -S, --screen                             screen description\n"
-		"  -C, --certificate                        file containing projector certificate\n"
-		"  -T, --trusted-device                     file containing a trusted device's certificate\n"
-		"      --list-cinemas                       list known cinemas from the DCP-o-matic settings\n"
-		"      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs\n\n"
-		"CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.\n\n"
-		"For example:\n\n"
-		"Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.\n"
-		"(Fred's Cinema must have been set up in DCP-o-matic's KDM window)\n\n"
-		"\t" << program_name << " -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie\n\n";
+	out (String::compose("Syntax: %1 [OPTION] <FILM|CPL-ID|DKDM>", program_name));
+	out ("  -h, --help                               show this help");
+	out ("  -o, --output                             output file or directory");
+	out ("  -K, --filename-format                    filename format for KDMs");
+	out ("  -Z, --container-name-format              filename format for ZIP containers");
+	out ("  -f, --valid-from                         valid from time (in local time zone of the cinema) (e.g. \"2013-09-28 01:41:51\") or \"now\"");
+	out ("  -t, --valid-to                           valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")");
+	out ("  -d, --valid-duration                     valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")");
+	out ("  -F, --formulation                        modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]");
+	out ("  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences");
+	out ("  -a, --disable-forensic-marking-audio     disable forensic marking of audio essences (optionally above a given channel, e.g 12)");
+	out ("  -e, --email                              email KDMs to cinemas");
+	out ("  -z, --zip                                ZIP each cinema's KDMs into its own file");
+	out ("  -v, --verbose                            be verbose");
+	out ("  -c, --cinema                             specify a cinema, either by name or email address");
+	out ("  -S, --screen                             screen description");
+	out ("  -C, --certificate                        file containing projector certificate");
+	out ("  -T, --trusted-device                     file containing a trusted device's certificate");
+	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
+	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
+	out ("");
+	out ("CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.");
+	out ("");
+	out ("For example:");
+	out ("");
+	out ("Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.");
+	out ("(Fred's Cinema must have been set up in DCP-o-matic's KDM window)");
+	out ("");
+	out (String::compose("\t%1 -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie", program_name));
 }
 
 
@@ -147,7 +149,8 @@ write_files (
 	boost::filesystem::path output,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	bool verbose
+	bool verbose,
+	std::function<void (string)> out
 	)
 {
 	if (zip) {
@@ -160,7 +163,7 @@ write_files (
 			);
 
 		if (verbose) {
-			cout << "Wrote " << N << " ZIP files to " << output << "\n";
+			out (String::compose("Wrote %1 ZIP files to %2", N, output));
 		}
 	} else {
 		int const N = write_files (
@@ -169,7 +172,7 @@ write_files (
 			);
 
 		if (verbose) {
-			cout << "Wrote " << N << " KDM files to " << output << "\n";
+			out (String::compose("Wrote %1 KDM files to %2", N, output));
 		}
 	}
 }
@@ -212,7 +215,8 @@ from_film (
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
 	bool email,
-	bool zip
+	bool zip,
+	std::function<void (string)> out
 	)
 {
 	shared_ptr<Film> film;
@@ -220,7 +224,7 @@ from_film (
 		film = make_shared<Film>(film_dir);
 		film->read_metadata ();
 		if (verbose) {
-			cout << "Read film " << film->name () << "\n";
+			out (String::compose("Read film %1", film->name()));
 		}
 	} catch (std::exception& e) {
 		throw KDMCLIError (String::compose("error reading film \"%1\" (%2)", film_dir.string(), e.what()));
@@ -244,7 +248,7 @@ from_film (
 				kdms.push_back (p);
 			}
 		}
-		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
+		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
 			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name());
 		}
@@ -337,7 +341,8 @@ from_dkdm (
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
 	bool email,
-	bool zip
+	bool zip,
+	std::function<void (string)> out
 	)
 {
 	dcp::NameFormat::Map values;
@@ -373,7 +378,7 @@ from_dkdm (
 
 			kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, kdm));
 		}
-		write_files (kdms, zip, output, container_name_format, filename_format, verbose);
+		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
 			send_emails ({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""));
 		}
@@ -385,32 +390,28 @@ from_dkdm (
 
 static
 void
-dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
+dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent, std::function<void (string)> out)
 {
+	auto const indent_string = string(indent, ' ');
+
 	if (indent > 0) {
-		for (int i = 0; i < indent; ++i) {
-			cout << " ";
-		}
-		cout << group->name() << "\n";
+		out (indent_string + group->name());
 	}
 	for (auto i: group->children()) {
 		auto g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
-			dump_dkdm_group (g, indent + 2);
+			dump_dkdm_group (g, indent + 2, out);
 		} else {
-			for (int j = 0; j < indent; ++j) {
-				cout << " ";
-			}
 			auto d = dynamic_pointer_cast<DKDM>(i);
 			assert(d);
-			cout << d->dkdm().cpl_id() << "\n";
+			out (indent_string + d->dkdm().cpl_id());
 		}
 	}
 }
 
 
 optional<string>
-kdm_cli (int argc, char* argv[])
+kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
 {
 	boost::filesystem::path output = ".";
@@ -468,7 +469,7 @@ try
 
 		switch (c) {
 		case 'h':
-			help ();
+			help (out);
 			exit (EXIT_SUCCESS);
 		case 'o':
 			output = optarg;
@@ -561,13 +562,13 @@ try
 	if (list_cinemas) {
 		auto cinemas = Config::instance()->cinemas ();
 		for (auto i: cinemas) {
-			cout << i->name << " (" << Emailer::address_list (i->emails) << ")\n";
+			out (String::compose("%1 (%2)", i->name, Emailer::address_list (i->emails)));
 		}
 		exit (EXIT_SUCCESS);
 	}
 
 	if (list_dkdm_cpls) {
-		dump_dkdm_group (Config::instance()->dkdms(), 0);
+		dump_dkdm_group (Config::instance()->dkdms(), 0, out);
 		exit (EXIT_SUCCESS);
 	}
 
@@ -580,8 +581,7 @@ try
 	}
 
 	if (optind >= argc) {
-		help ();
-		exit (EXIT_FAILURE);
+		throw KDMCLIError ("no film, CPL ID or DKDM specified");
 	}
 
 	if (screens.empty()) {
@@ -600,7 +600,7 @@ try
 	dcpomatic_setup ();
 
 	if (verbose) {
-		cout << "Making KDMs valid from " << valid_from.get() << " to " << valid_to.get() << "\n";
+		out (String::compose("Making KDMs valid from %1 to %2", boost::posix_time::to_simple_string(valid_from.get()), boost::posix_time::to_simple_string(valid_to.get())));
 	}
 
 	string const thing = argv[optind];
@@ -618,7 +618,8 @@ try
 			disable_forensic_marking_picture,
 			disable_forensic_marking_audio,
 			email,
-			zip
+			zip,
+			out
 			);
 	} else {
 		if (boost::filesystem::is_regular_file(thing)) {
@@ -644,7 +645,8 @@ try
 			disable_forensic_marking_picture,
 			disable_forensic_marking_audio,
 			email,
-			zip
+			zip,
+			out
 			);
 	}
 
