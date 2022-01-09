@@ -56,6 +56,8 @@ get_hints (shared_ptr<Film> film)
 {
 	current_hints.clear ();
 	Hints hints (film);
+	/* None of our tests need the audio analysis, and it is quite time-consuming */
+	hints.disable_audio_analysis ();
 	hints.Hint.connect (collect_hint);
 	hints.start ();
 	hints.join ();

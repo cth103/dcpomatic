@@ -51,6 +51,9 @@ public:
 
 	/* For tests only */
 	void join ();
+	void disable_audio_analysis () {
+		_disable_audio_analysis = true;
+	}
 
 private:
 	friend struct hint_subtitle_too_early;
@@ -103,4 +106,6 @@ private:
 	boost::optional<dcpomatic::DCPTimePeriod> _last_subtitle;
 
 	boost::atomic<bool> _stop;
+
+	bool _disable_audio_analysis = false;
 };

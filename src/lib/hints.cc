@@ -407,7 +407,7 @@ try
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_ignore_video ();
-	if (check_loudness_done) {
+	if (check_loudness_done || _disable_audio_analysis) {
 		/* We don't need to analyse audio because we already loaded a suitable analysis */
 		player->set_ignore_audio ();
 	}
