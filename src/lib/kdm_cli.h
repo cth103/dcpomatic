@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,17 +19,4 @@
 */
 
 
-/** @file  src/tools/dcpomatic_kdm_cli.cc
- *  @brief Command-line program to generate KDMs.
- */
-
-
-#include "lib/kdm_cli.h"
-
-
-int
-main (int argc, char* argv[])
-{
-	return kdm_cli (argc, argv);
-}
-
+extern int kdm_cli (int argc, char* argv[]);
