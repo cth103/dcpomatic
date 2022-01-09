@@ -39,7 +39,6 @@
 #include <iostream>
 
 
-using std::cerr;
 using std::cout;
 using std::dynamic_pointer_cast;
 using std::list;
@@ -59,7 +58,7 @@ using namespace dcpomatic;
 static void
 help ()
 {
-	cerr << "Syntax: " << program_name << " [OPTION] <FILM|CPL-ID|DKDM>\n"
+	cout << "Syntax: " << program_name << " [OPTION] <FILM|CPL-ID|DKDM>\n"
 		"  -h, --help                               show this help\n"
 		"  -o, --output                             output file or directory\n"
 		"  -K, --filename-format                    filename format for KDMs\n"
