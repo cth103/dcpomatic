@@ -105,6 +105,8 @@ kdm_for_screen (
 	dcp::NameFormat::Map name_values;
 	if (cinema) {
 		name_values['c'] = cinema->name;
+	} else {
+		name_values['c'] = "";
 	}
 	name_values['s'] = screen->name;
 	name_values['f'] = film->name();
