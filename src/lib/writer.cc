@@ -19,31 +19,31 @@
 */
 
 
-#include "writer.h"
-#include "compose.hpp"
-#include "film.h"
-#include "ratio.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "dcp_video.h"
-#include "dcp_content_type.h"
-#include "audio_mapping.h"
-#include "config.h"
-#include "job.h"
-#include "cross.h"
 #include "audio_buffers.h"
-#include "version.h"
+#include "audio_mapping.h"
+#include "compose.hpp"
+#include "config.h"
+#include "cross.h"
+#include "dcp_content_type.h"
+#include "dcp_video.h"
+#include "dcpomatic_log.h"
+#include "film.h"
 #include "font_data.h"
-#include "util.h"
+#include "job.h"
+#include "log.h"
+#include "ratio.h"
 #include "reel_writer.h"
 #include "text_content.h"
+#include "util.h"
+#include "version.h"
+#include "writer.h"
 #include <dcp/cpl.h>
 #include <dcp/locale_convert.h>
 #include <dcp/reel_file_asset.h>
-#include <fstream>
 #include <cerrno>
-#include <iostream>
 #include <cfloat>
+#include <fstream>
+#include <iostream>
 
 #include "i18n.h"
 
@@ -65,8 +65,8 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using dcp::Data;
 using dcp::ArrayData;
+using dcp::Data;
 using namespace dcpomatic;
 
 

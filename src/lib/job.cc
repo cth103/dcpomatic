@@ -18,34 +18,38 @@
 
 */
 
+
 /** @file  src/job.cc
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
 
-#include "job.h"
-#include "util.h"
+
+#include "compose.hpp"
 #include "cross.h"
+#include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "film.h"
+#include "job.h"
 #include "log.h"
-#include "dcpomatic_log.h"
-#include "compose.hpp"
+#include "util.h"
 #include <dcp/exceptions.h>
 #include <sub/exceptions.h>
-#include <boost/thread.hpp>
-#include <boost/filesystem.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/thread.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
-using std::string;
-using std::list;
+
 using std::cout;
-using std::shared_ptr;
-using boost::optional;
 using std::function;
+using std::list;
+using std::shared_ptr;
+using std::string;
+using boost::optional;
 using namespace dcpomatic;
+
 
 /** @param film Associated film, or 0 */
 Job::Job (shared_ptr<const Film> film)
@@ -59,6 +63,7 @@ Job::Job (shared_ptr<const Film> film)
 
 }
 
+
 Job::~Job ()
 {
 #ifdef DCPOMATIC_DEBUG
@@ -66,6 +71,7 @@ Job::~Job ()
 	assert (!_thread.joinable());
 #endif
 }
+
 
 void
 Job::stop_thread ()
@@ -77,6 +83,7 @@ Job::stop_thread ()
 		_thread.join ();
 	} catch (...) {}
 }
+
 
 /** Start the job in a separate thread, returning immediately */
 void
@@ -90,6 +97,7 @@ Job::start ()
 	pthread_setname_np (_thread.native_handle(), "job-wrapper");
 #endif
 }
+
 
 /** A wrapper for the ::run() method to catch exceptions */
 void
@@ -251,6 +259,7 @@ Job::run_wrapper ()
 	}
 }
 
+
 /** @return true if this job is new (ie has not started running) */
 bool
 Job::is_new () const
@@ -258,6 +267,7 @@ Job::is_new () const
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _state == NEW;
 }
+
 
 /** @return true if the job is running */
 bool
@@ -267,6 +277,7 @@ Job::running () const
 	return _state == RUNNING;
 }
 
+
 /** @return true if the job has finished (either successfully or unsuccessfully) */
 bool
 Job::finished () const
@@ -274,6 +285,7 @@ Job::finished () const
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED;
 }
+
 
 /** @return true if the job has finished successfully */
 bool
@@ -283,6 +295,7 @@ Job::finished_ok () const
 	return _state == FINISHED_OK;
 }
 
+
 /** @return true if the job has finished unsuccessfully */
 bool
 Job::finished_in_error () const
@@ -291,12 +304,14 @@ Job::finished_in_error () const
 	return _state == FINISHED_ERROR;
 }
 
+
 bool
 Job::finished_cancelled () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _state == FINISHED_CANCELLED;
 }
+
 
 bool
 Job::paused_by_user () const
@@ -305,12 +320,14 @@ Job::paused_by_user () const
 	return _state == PAUSED_BY_USER;
 }
 
+
 bool
 Job::paused_by_priority () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _state == PAUSED_BY_PRIORITY;
 }
+
 
 /** Set the state of this job.
  *  @param s New state.
@@ -337,6 +354,7 @@ Job::set_state (State s)
 	}
 }
 
+
 /** @return DCPTime (in seconds) that this sub-job has been running */
 int
 Job::elapsed_sub_time () const
@@ -347,6 +365,7 @@ Job::elapsed_sub_time () const
 
 	return time (0) - _sub_start_time;
 }
+
 
 /** Check to see if this job has been interrupted or paused */
 void
@@ -403,6 +422,7 @@ Job::set_progress (float p, bool force)
 	set_progress_common (p);
 }
 
+
 void
 Job::set_progress_common (optional<float> p)
 {
@@ -414,6 +434,7 @@ Job::set_progress_common (optional<float> p)
 	emit (boost::bind (boost::ref (Progress)));
 }
 
+
 /** @return fractional progress of the current sub-job, if known */
 optional<float>
 Job::progress () const
@@ -421,6 +442,7 @@ Job::progress () const
 	boost::mutex::scoped_lock lm (_progress_mutex);
 	return _progress;
 }
+
 
 void
 Job::sub (string n)
@@ -435,12 +457,14 @@ Job::sub (string n)
 	_sub_start_time = time (0);
 }
 
+
 string
 Job::error_details () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _error_details;
 }
+
 
 /** @return A summary of any error that the job has generated */
 string
@@ -449,6 +473,7 @@ Job::error_summary () const
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _error_summary;
 }
+
 
 /** Set the current error string.
  *  @param s New error string.
@@ -466,6 +491,7 @@ Job::set_error (string s, string d)
 	_error_details = d;
 }
 
+
 /** Say that this job's progress will be unknown until further notice */
 void
 Job::set_progress_unknown ()
@@ -473,6 +499,7 @@ Job::set_progress_unknown ()
 	check_for_interruption_or_pause ();
 	set_progress_common (optional<float> ());
 }
+
 
 /** @return Human-readable status of this job */
 string
@@ -523,6 +550,7 @@ Job::status () const
 	return s;
 }
 
+
 string
 Job::json_status () const
 {
@@ -547,6 +575,7 @@ Job::json_status () const
 	return "";
 }
 
+
 /** @return An estimate of the remaining time for this sub-job, in seconds */
 int
 Job::remaining_time () const
@@ -557,6 +586,7 @@ Job::remaining_time () const
 
 	return elapsed_sub_time() / progress().get() - elapsed_sub_time();
 }
+
 
 void
 Job::cancel ()
@@ -572,6 +602,7 @@ Job::cancel ()
 	_thread.interrupt ();
 	_thread.join ();
 }
+
 
 /** @return true if the job was paused, false if it was not running */
 bool
@@ -596,6 +627,7 @@ Job::pause_by_user ()
 	return paused;
 }
 
+
 void
 Job::pause_by_priority ()
 {
@@ -605,6 +637,7 @@ Job::pause_by_priority ()
 	}
 }
 
+
 void
 Job::resume ()
 {
@@ -613,6 +646,7 @@ Job::resume ()
 		_pause_changed.notify_all ();
 	}
 }
+
 
 void
 Job::when_finished (boost::signals2::connection& connection, function<void()> finished)
@@ -625,12 +659,14 @@ Job::when_finished (boost::signals2::connection& connection, function<void()> fi
 	}
 }
 
+
 optional<string>
 Job::message () const
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	return _message;
 }
+
 
 void
 Job::set_message (string m)

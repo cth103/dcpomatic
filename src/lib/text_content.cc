@@ -32,13 +32,13 @@
 #include "i18n.h"
 
 
+using std::cout;
+using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::cout;
-using std::list;
-using std::shared_ptr;
-using std::make_shared;
-using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
@@ -80,6 +80,7 @@ TextContent::TextContent (Content* parent, TextType type, TextType original_type
 
 }
 
+
 /** @return TextContents from node or <Text> nodes under node (according to version).
  *  The list could be empty if no TextContents are found.
  */
@@ -111,6 +112,7 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, li
 
 	return c;
 }
+
 
 TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: ContentPart (parent)
@@ -255,6 +257,7 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version,
 	}
 }
 
+
 TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
 	: ContentPart (parent)
 {
@@ -352,6 +355,7 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
 	connect_to_fonts ();
 }
 
+
 /** _mutex must not be held on entry */
 void
 TextContent::as_xml (xmlpp::Node* root) const
@@ -414,6 +418,7 @@ TextContent::as_xml (xmlpp::Node* root) const
 	}
 }
 
+
 string
 TextContent::identifier () const
 {
@@ -442,12 +447,14 @@ TextContent::identifier () const
 	return s;
 }
 
+
 void
 TextContent::add_font (shared_ptr<Font> font)
 {
 	_fonts.push_back (font);
 	connect_to_fonts ();
 }
+
 
 void
 TextContent::connect_to_fonts ()
@@ -463,6 +470,7 @@ TextContent::connect_to_fonts ()
 	}
 }
 
+
 void
 TextContent::font_changed ()
 {
@@ -470,11 +478,13 @@ TextContent::font_changed ()
 	ContentChangeSignaller cc (_parent, TextContentProperty::FONTS);
 }
 
+
 void
 TextContent::set_colour (dcp::Colour colour)
 {
 	maybe_set (_colour, colour, TextContentProperty::COLOUR);
 }
+
 
 void
 TextContent::unset_colour ()
@@ -482,11 +492,13 @@ TextContent::unset_colour ()
 	maybe_set (_colour, optional<dcp::Colour>(), TextContentProperty::COLOUR);
 }
 
+
 void
 TextContent::set_effect (dcp::Effect e)
 {
 	maybe_set (_effect, e, TextContentProperty::EFFECT);
 }
+
 
 void
 TextContent::unset_effect ()
@@ -494,11 +506,13 @@ TextContent::unset_effect ()
 	maybe_set (_effect, optional<dcp::Effect>(), TextContentProperty::EFFECT);
 }
 
+
 void
 TextContent::set_effect_colour (dcp::Colour colour)
 {
 	maybe_set (_effect_colour, colour, TextContentProperty::EFFECT_COLOUR);
 }
+
 
 void
 TextContent::unset_effect_colour ()
@@ -506,11 +520,13 @@ TextContent::unset_effect_colour ()
 	maybe_set (_effect_colour, optional<dcp::Colour>(), TextContentProperty::EFFECT_COLOUR);
 }
 
+
 void
 TextContent::set_use (bool u)
 {
 	maybe_set (_use, u, TextContentProperty::USE);
 }
+
 
 void
 TextContent::set_burn (bool b)
@@ -518,11 +534,13 @@ TextContent::set_burn (bool b)
 	maybe_set (_burn, b, TextContentProperty::BURN);
 }
 
+
 void
 TextContent::set_x_offset (double o)
 {
 	maybe_set (_x_offset, o, TextContentProperty::X_OFFSET);
 }
+
 
 void
 TextContent::set_y_offset (double o)
@@ -530,11 +548,13 @@ TextContent::set_y_offset (double o)
 	maybe_set (_y_offset, o, TextContentProperty::Y_OFFSET);
 }
 
+
 void
 TextContent::set_x_scale (double s)
 {
 	maybe_set (_x_scale, s, TextContentProperty::X_SCALE);
 }
+
 
 void
 TextContent::set_y_scale (double s)
@@ -542,11 +562,13 @@ TextContent::set_y_scale (double s)
 	maybe_set (_y_scale, s, TextContentProperty::Y_SCALE);
 }
 
+
 void
 TextContent::set_line_spacing (double s)
 {
 	maybe_set (_line_spacing, s, TextContentProperty::LINE_SPACING);
 }
+
 
 void
 TextContent::set_fade_in (ContentTime t)
@@ -554,11 +576,13 @@ TextContent::set_fade_in (ContentTime t)
 	maybe_set (_fade_in, t, TextContentProperty::FADE_IN);
 }
 
+
 void
 TextContent::unset_fade_in ()
 {
 	maybe_set (_fade_in, optional<ContentTime>(), TextContentProperty::FADE_IN);
 }
+
 
 void
 TextContent::set_fade_out (ContentTime t)
@@ -566,11 +590,13 @@ TextContent::set_fade_out (ContentTime t)
 	maybe_set (_fade_out, t, TextContentProperty::FADE_OUT);
 }
 
+
 void
 TextContent::unset_fade_out ()
 {
 	maybe_set (_fade_out, optional<ContentTime>(), TextContentProperty::FADE_OUT);
 }
+
 
 void
 TextContent::set_type (TextType type)
@@ -578,11 +604,13 @@ TextContent::set_type (TextType type)
 	maybe_set (_type, type, TextContentProperty::TYPE);
 }
 
+
 void
 TextContent::set_outline_width (int w)
 {
 	maybe_set (_outline_width, w, TextContentProperty::OUTLINE_WIDTH);
 }
+
 
 void
 TextContent::set_dcp_track (DCPTextTrack t)
@@ -590,11 +618,13 @@ TextContent::set_dcp_track (DCPTextTrack t)
 	maybe_set (_dcp_track, t, TextContentProperty::DCP_TRACK);
 }
 
+
 void
 TextContent::unset_dcp_track ()
 {
 	maybe_set (_dcp_track, optional<DCPTextTrack>(), TextContentProperty::DCP_TRACK);
 }
+
 
 void
 TextContent::set_language (optional<dcp::LanguageTag> language)
@@ -602,11 +632,13 @@ TextContent::set_language (optional<dcp::LanguageTag> language)
 	maybe_set (_language, language, TextContentProperty::LANGUAGE);
 }
 
+
 void
 TextContent::set_language_is_additional (bool additional)
 {
 	maybe_set (_language_is_additional, additional, TextContentProperty::LANGUAGE_IS_ADDITIONAL);
 }
+
 
 void
 TextContent::take_settings_from (shared_ptr<const TextContent> c)

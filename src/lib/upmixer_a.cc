@@ -19,9 +19,9 @@
 */
 
 
-#include "upmixer_a.h"
 #include "audio_buffers.h"
 #include "audio_mapping.h"
+#include "upmixer_a.h"
 
 #include "i18n.h"
 
@@ -86,13 +86,14 @@ UpmixerA::run (shared_ptr<const AudioBuffers> in, int channels)
 	in_LR->apply_gain (-6);
 
 	/* Run filters */
-	vector<shared_ptr<AudioBuffers>> all_out;
-	all_out.push_back (_left.run(in_L));
-	all_out.push_back (_right.run(in_R));
-	all_out.push_back (_centre.run(in_LR));
-	all_out.push_back (_lfe.run(in_LR));
-	all_out.push_back (_ls.run(in_L));
-	all_out.push_back (_rs.run(in_R));
+	vector<shared_ptr<AudioBuffers>> all_out = {
+		_left.run(in_L),
+		_right.run(in_R),
+		_centre.run(in_LR),
+		_lfe.run(in_LR),
+		_ls.run(in_L),
+		_rs.run(in_R)
+	};
 
 	auto out = make_shared<AudioBuffers>(channels, in->frames());
 	int const N = min (channels, 6);

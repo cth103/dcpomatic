@@ -19,10 +19,10 @@
 */
 
 
-#include "shuffler.h"
 #include "content_video.h"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
+#include "shuffler.h"
 #include <string>
 #include <iostream>
 

@@ -74,7 +74,7 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 
 	auto spl_header = new wxBoxSizer (wxHORIZONTAL);
 	{
-		wxStaticText* m = new StaticText (this, "Playlists");
+		auto m = new StaticText (this, "Playlists");
 		m->SetFont (subheading_font);
 		spl_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
 	}
@@ -88,7 +88,7 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 
 	auto content_header = new wxBoxSizer (wxHORIZONTAL);
 	{
-		wxStaticText* m = new StaticText (this, "Content");
+		auto m = new StaticText (this, "Content");
 		m->SetFont (subheading_font);
 		content_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
 	}
@@ -273,11 +273,11 @@ PlaylistControls::update_playlist_directory ()
 
 	_playlists.clear ();
 
-	for (directory_iterator i = directory_iterator(*dir); i != directory_iterator(); ++i) {
+	for (auto i: directory_iterator(*dir)) {
 		try {
-			if (is_regular_file(i->path()) && i->path().extension() == ".xml") {
+			if (is_regular_file(i.path()) && i.path().extension() == ".xml") {
 				SPL spl;
-				spl.read (i->path(), _content_view);
+				spl.read (i.path(), _content_view);
 				_playlists.push_back (spl);
 			}
 		} catch (exception& e) {
@@ -301,10 +301,10 @@ PlaylistControls::get_kdm_from_directory (shared_ptr<DCPContent> dcp)
 	if (!kdm_dir) {
 		return {};
 	}
-	for (directory_iterator i = directory_iterator(*kdm_dir); i != directory_iterator(); ++i) {
+	for (auto i: directory_iterator(*kdm_dir)) {
 		try {
-			if (file_size(i->path()) < MAX_KDM_SIZE) {
-				dcp::EncryptedKDM kdm (dcp::file_to_string(i->path()));
+			if (file_size(i.path()) < MAX_KDM_SIZE) {
+				dcp::EncryptedKDM kdm (dcp::file_to_string(i.path()));
 				if (kdm.cpl_id() == dcp->cpl()) {
 					return kdm;
 				}
@@ -313,7 +313,7 @@ PlaylistControls::get_kdm_from_directory (shared_ptr<DCPContent> dcp)
 			/* Hey well */
 		}
 	}
-	return optional<dcp::EncryptedKDM>();
+	return {};
 }
 
 void

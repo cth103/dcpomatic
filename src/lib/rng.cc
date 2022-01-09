@@ -33,7 +33,8 @@ RNG::RNG (int32_t seed)
 }
 
 
-int32_t RNG::get ()
+int32_t
+RNG::get ()
 {
 	uint32_t const b = ((_state >> 0) ^ (_state >> 1) ^ (_state >> 2) ^ (_state >> 7));
 	_state = (_state >> 1) | (b << 23);

@@ -18,9 +18,11 @@
 
 */
 
+
 /** @file  src/lib/active_captions.h
  *  @brief ActiveText class.
  */
+
 
 #include "dcpomatic_time.h"
 #include "player_text.h"
@@ -28,7 +30,9 @@
 #include <list>
 #include <map>
 
+
 class TextContent;
+
 
 /** @class ActiveText
  *  @brief A class to maintain information on active subtitles for Player.

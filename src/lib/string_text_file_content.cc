@@ -19,12 +19,12 @@
 */
 
 
-#include "string_text_file_content.h"
-#include "util.h"
-#include "string_text_file.h"
 #include "film.h"
 #include "font.h"
+#include "string_text_file.h"
+#include "string_text_file_content.h"
 #include "text_content.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 #include <iostream>

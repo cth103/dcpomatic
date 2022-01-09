@@ -19,19 +19,19 @@
 */
 
 
-#include "video_ring_buffers.h"
-#include "player_video.h"
 #include "compose.hpp"
+#include "player_video.h"
+#include "video_ring_buffers.h"
 #include <list>
 #include <iostream>
 
 
+using std::cout;
 using std::list;
 using std::make_pair;
-using std::cout;
 using std::pair;
-using std::string;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using namespace dcpomatic;
 

@@ -20,8 +20,8 @@
 
 
 #include "dkdm_recipient.h"
-#include "kdm_with_metadata.h"
 #include "film.h"
+#include "kdm_with_metadata.h"
 #include <dcp/raw_convert.h>
 
 
@@ -68,7 +68,7 @@ kdm_for_dkdm_recipient (
 	)
 {
 	if (!recipient->recipient) {
-		return KDMWithMetadataPtr();
+		return {};
 	}
 
 	dcp::LocalTime const begin(valid_from, recipient->utc_offset_hour, recipient->utc_offset_minute);

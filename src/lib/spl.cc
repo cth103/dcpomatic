@@ -30,10 +30,10 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 
-using std::cout;
-using std::string;
-using std::shared_ptr;
 using dcp::raw_convert;
+using std::cout;
+using std::shared_ptr;
+using std::string;
 
 
 void

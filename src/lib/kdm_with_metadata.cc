@@ -19,24 +19,24 @@
 */
 
 
-#include "kdm_with_metadata.h"
 #include "cinema.h"
-#include "screen.h"
-#include "util.h"
-#include "zipper.h"
 #include "config.h"
 #include "dcpomatic_log.h"
 #include "emailer.h"
+#include "kdm_with_metadata.h"
+#include "screen.h"
+#include "util.h"
+#include "zipper.h"
 
 #include "i18n.h"
 
 
-using std::string;
 using std::cout;
+using std::function;
 using std::list;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
-using std::function;
 
 
 int

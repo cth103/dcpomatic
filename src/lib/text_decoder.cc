@@ -19,22 +19,22 @@
 */
 
 
-#include "text_decoder.h"
-#include "text_content.h"
-#include "util.h"
-#include "log.h"
 #include "compose.hpp"
+#include "log.h"
+#include "text_content.h"
+#include "text_decoder.h"
+#include "util.h"
 #include <sub/subtitle.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
 
-using std::list;
 using std::cout;
-using std::string;
-using std::min;
+using std::list;
 using std::max;
+using std::min;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using namespace dcpomatic;
 

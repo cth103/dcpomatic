@@ -19,9 +19,9 @@
 */
 
 
+#include "content.h"
 #include "overlaps.h"
 #include "types.h"
-#include "content.h"
 
 
 using std::function;

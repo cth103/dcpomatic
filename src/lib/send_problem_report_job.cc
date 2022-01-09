@@ -19,15 +19,15 @@
 */
 
 
-#include "send_problem_report_job.h"
 #include "compose.hpp"
-#include "film.h"
 #include "cross.h"
-#include "film.h"
-#include "log.h"
-#include "version.h"
 #include "emailer.h"
 #include "environment_info.h"
+#include "film.h"
+#include "film.h"
+#include "log.h"
+#include "send_problem_report_job.h"
+#include "version.h"
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"

@@ -77,6 +77,7 @@ PlayerVideo::PlayerVideo (
 
 }
 
+
 PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket)
 {
 	_crop = Crop (node);
@@ -106,11 +107,13 @@ PlayerVideo::PlayerVideo (shared_ptr<cxml::Node> node, shared_ptr<Socket> socket
 	}
 }
 
+
 void
 PlayerVideo::set_text (PositionImage image)
 {
 	_text = image;
 }
+
 
 shared_ptr<Image>
 PlayerVideo::image (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, bool fast) const
@@ -194,6 +197,7 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 	}
 }
 
+
 void
 PlayerVideo::add_metadata (xmlpp::Node* node) const
 {
@@ -221,6 +225,7 @@ PlayerVideo::add_metadata (xmlpp::Node* node) const
 	}
 }
 
+
 void
 PlayerVideo::write_to_socket (shared_ptr<Socket> socket) const
 {
@@ -229,6 +234,7 @@ PlayerVideo::write_to_socket (shared_ptr<Socket> socket) const
 		_text->image->write_to_socket (socket);
 	}
 }
+
 
 bool
 PlayerVideo::has_j2k () const
@@ -243,6 +249,7 @@ PlayerVideo::has_j2k () const
 	return _crop == Crop() && _out_size == j2k->size() && _inter_size == j2k->size() && !_text && !_fade && !_colour_conversion;
 }
 
+
 shared_ptr<const dcp::Data>
 PlayerVideo::j2k () const
 {
@@ -251,11 +258,13 @@ PlayerVideo::j2k () const
 	return j2k->j2k ();
 }
 
+
 Position<int>
 PlayerVideo::inter_position () const
 {
 	return Position<int> ((_out_size.width - _inter_size.width) / 2, (_out_size.height - _inter_size.height) / 2);
 }
+
 
 /** @return true if this PlayerVideo is definitely the same as another, false if it is probably not */
 bool
@@ -287,17 +296,20 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 	return _in->same (other->_in);
 }
 
+
 AVPixelFormat
 PlayerVideo::force (AVPixelFormat force_to)
 {
 	return force_to;
 }
 
+
 AVPixelFormat
 PlayerVideo::keep_xyz_or_rgb (AVPixelFormat p)
 {
 	return p == AV_PIX_FMT_XYZ12LE ? AV_PIX_FMT_XYZ12LE : AV_PIX_FMT_RGB48LE;
 }
+
 
 void
 PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, VideoRange video_range, Image::Alignment alignment, bool fast, bool proxy_only)
@@ -309,11 +321,13 @@ PlayerVideo::prepare (function<AVPixelFormat (AVPixelFormat)> pixel_format, Vide
 	}
 }
 
+
 size_t
 PlayerVideo::memory_used () const
 {
 	return _in->memory_used();
 }
+
 
 /** @return Shallow copy of this; _in and _text are shared between the original and the copy */
 shared_ptr<PlayerVideo>
@@ -334,6 +348,7 @@ PlayerVideo::shallow_copy () const
 		_error
 		);
 }
+
 
 /** Re-read crop, fade, inter/out size, colour conversion and video range from our content.
  *  @return true if this was possible, false if not.

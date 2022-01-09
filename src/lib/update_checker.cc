@@ -20,8 +20,8 @@
 
 
 #include "update_checker.h"
-#include "version.h"
 #include "util.h"
+#include "version.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <curl/curl.h>

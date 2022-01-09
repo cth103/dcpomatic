@@ -19,14 +19,14 @@
 */
 
 
-#include "stdout_log.h"
 #include "config.h"
+#include "stdout_log.h"
 #include <iostream>
 
 
 using std::cout;
-using std::string;
 using std::shared_ptr;
+using std::string;
 
 
 StdoutLog::StdoutLog ()

@@ -19,11 +19,11 @@
 */
 
 
-#include "resampler.h"
 #include "audio_buffers.h"
-#include "exceptions.h"
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
+#include "exceptions.h"
+#include "resampler.h"
 #include <samplerate.h>
 #include <iostream>
 #include <cmath>

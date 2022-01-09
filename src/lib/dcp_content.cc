@@ -176,10 +176,10 @@ DCPContent::read_directory (boost::filesystem::path p)
 	bool have_assetmap = false;
 	bool have_metadata = false;
 
-	for (directory_iterator i(p); i != directory_iterator(); ++i) {
-		if (i->path().filename() == "ASSETMAP" || i->path().filename() == "ASSETMAP.xml") {
+	for (auto i: directory_iterator(p)) {
+		if (i.path().filename() == "ASSETMAP" || i.path().filename() == "ASSETMAP.xml") {
 			have_assetmap = true;
-		} else if (i->path().filename() == "metadata.xml") {
+		} else if (i.path().filename() == "metadata.xml") {
 			have_metadata = true;
 		}
 	}

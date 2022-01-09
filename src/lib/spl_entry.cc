@@ -28,8 +28,8 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 
 
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::shared_ptr;
 
 
 SPLEntry::SPLEntry (shared_ptr<Content> c)

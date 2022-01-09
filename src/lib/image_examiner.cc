@@ -19,16 +19,16 @@
 */
 
 
-#include "image_content.h"
-#include "image_examiner.h"
-#include "film.h"
-#include "job.h"
-#include "exceptions.h"
+#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
-#include "compose.hpp"
+#include "exceptions.h"
 #include "ffmpeg_image_proxy.h"
+#include "film.h"
 #include "image.h"
+#include "image_content.h"
+#include "image_examiner.h"
+#include "job.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
 #include <dcp/j2k_transcode.h>
@@ -39,8 +39,8 @@
 
 using std::cout;
 using std::list;
-using std::sort;
 using std::shared_ptr;
+using std::sort;
 using boost::optional;
 
 

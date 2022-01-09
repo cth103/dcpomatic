@@ -19,8 +19,8 @@
 */
 
 
-#include "raw_image_proxy.h"
 #include "image.h"
+#include "raw_image_proxy.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <dcp/util.h>

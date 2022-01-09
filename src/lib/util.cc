@@ -112,14 +112,14 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::wstring;
-using boost::thread;
-using boost::optional;
-using boost::lexical_cast;
 using boost::bad_lexical_cast;
+using boost::lexical_cast;
+using boost::optional;
 using boost::scoped_array;
+using boost::thread;
 using dcp::Size;
-using dcp::raw_convert;
 using dcp::locale_convert;
+using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -130,6 +130,7 @@ string program_name;
 bool is_batch_converter = false;
 static boost::thread::id ui_thread;
 static boost::filesystem::path backtrace_file;
+
 
 /** Convert some number of seconds to a string representation
  *  in hours, minutes and seconds.
@@ -151,6 +152,7 @@ seconds_to_hms (int s)
 	return buffer;
 }
 
+
 string
 time_to_hmsf (DCPTime time, Frame rate)
 {
@@ -166,6 +168,7 @@ time_to_hmsf (DCPTime time, Frame rate)
 	snprintf (buffer, sizeof(buffer), "%d:%02d:%02d.%d", h, m, s, static_cast<int>(f));
 	return buffer;
 }
+
 
 /** @param s Number of seconds.
  *  @return String containing an approximate description of s (e.g. "about 2 hours")
@@ -225,11 +228,13 @@ seconds_to_approximate_hms (int s)
 	return ap;
 }
 
+
 double
 seconds (struct timeval t)
 {
 	return t.tv_sec + (double (t.tv_usec) / 1e6);
 }
+
 
 #ifdef DCPOMATIC_WINDOWS
 
@@ -241,6 +246,7 @@ addr2line (void const * const addr)
 	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str());
 	return system(addr2line_cmd);
 }
+
 
 DCPOMATIC_DISABLE_WARNINGS
 /** This is called when C signals occur on Windows (e.g. SIGSEGV)
@@ -302,11 +308,13 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 DCPOMATIC_ENABLE_WARNINGS
 #endif
 
+
 void
 set_backtrace_file (boost::filesystem::path p)
 {
 	backtrace_file = p;
 }
+
 
 /** This is called when there is an unhandled exception.  Any
  *  backtrace in this function is useless on Windows as the stack has
@@ -336,6 +344,7 @@ terminate ()
 	abort();
 }
 
+
 void
 dcpomatic_setup_path_encoding ()
 {
@@ -356,6 +365,7 @@ dcpomatic_setup_path_encoding ()
 	boost::filesystem::path::imbue (std::locale ());
 #endif
 }
+
 
 /** Call the required functions to set up DCP-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
@@ -424,6 +434,7 @@ DCPOMATIC_ENABLE_WARNINGS
 	ui_thread = boost::this_thread::get_id ();
 }
 
+
 #ifdef DCPOMATIC_WINDOWS
 boost::filesystem::path
 mo_path ()
@@ -438,6 +449,7 @@ mo_path ()
 }
 #endif
 
+
 #ifdef DCPOMATIC_OSX
 boost::filesystem::path
 mo_path ()
@@ -445,6 +457,7 @@ mo_path ()
 	return "DCP-o-matic 2.app/Contents/Resources";
 }
 #endif
+
 
 void
 dcpomatic_setup_gettext_i18n (string lang)
@@ -477,6 +490,7 @@ dcpomatic_setup_gettext_i18n (string lang)
 	bindtextdomain ("libdcpomatic2", LINUX_LOCALE_PREFIX);
 #endif
 }
+
 
 /** Compute a digest of the first and last `size' bytes of a set of files. */
 string
@@ -550,12 +564,14 @@ stride_round_up (int c, int const * stride, int t)
 	return a - (a % t);
 }
 
+
 /** Trip an assert if the caller is not in the UI thread */
 void
 ensure_ui_thread ()
 {
 	DCPOMATIC_ASSERT (boost::this_thread::get_id() == ui_thread);
 }
+
 
 string
 audio_channel_name (int c)
@@ -585,6 +601,7 @@ audio_channel_name (int c)
 
 	return channels[c];
 }
+
 
 string
 short_audio_channel_name (int c)
@@ -635,6 +652,7 @@ valid_image_file (boost::filesystem::path f)
 		);
 }
 
+
 bool
 valid_sound_file (boost::filesystem::path f)
 {
@@ -647,6 +665,7 @@ valid_sound_file (boost::filesystem::path f)
 	return (ext == ".wav" || ext == ".mp3" || ext == ".aif" || ext == ".aiff");
 }
 
+
 bool
 valid_j2k_file (boost::filesystem::path f)
 {
@@ -655,12 +674,14 @@ valid_j2k_file (boost::filesystem::path f)
 	return (ext == ".j2k" || ext == ".j2c" || ext == ".jp2");
 }
 
+
 string
 tidy_for_filename (string f)
 {
 	boost::replace_if (f, boost::is_any_of ("\\/:"), '_');
 	return f;
 }
+
 
 dcp::Size
 fit_ratio_within (float ratio, dcp::Size full_frame)
@@ -672,6 +693,7 @@ fit_ratio_within (float ratio, dcp::Size full_frame)
 	return dcp::Size (full_frame.width, lrintf (full_frame.width / ratio));
 }
 
+
 void *
 wrapped_av_malloc (size_t s)
 {
@@ -681,6 +703,7 @@ wrapped_av_malloc (size_t s)
 	}
 	return p;
 }
+
 
 map<string, string>
 split_get_request (string url)
@@ -728,6 +751,7 @@ split_get_request (string url)
 	return r;
 }
 
+
 string
 video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
@@ -740,6 +764,7 @@ video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int r
 	}
 	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
+
 
 string
 audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, optional<string> summary)
@@ -811,6 +836,7 @@ careful_string_filter (string s)
 	return boost::locale::conv::utf_to_utf<char>(out);
 }
 
+
 /** @param mapped List of mapped audio channels from a Film.
  *  @param channels Total number of channels in the Film.
  *  @return First: number of non-LFE soundtrack channels (L/R/C/Ls/Rs/Lc/Rc/Bsl/Bsr), second: number of LFE channels.
@@ -853,6 +879,7 @@ audio_channel_types (list<int> mapped, int channels)
 	return make_pair (non_lfe, lfe);
 }
 
+
 shared_ptr<AudioBuffers>
 remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map)
 {
@@ -877,6 +904,7 @@ remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping m
 	return mapped;
 }
 
+
 Eyes
 increment_eyes (Eyes e)
 {
@@ -886,6 +914,7 @@ increment_eyes (Eyes e)
 
 	return Eyes::LEFT;
 }
+
 
 void
 checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path)
@@ -902,6 +931,7 @@ checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::
 	}
 }
 
+
 void
 checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path)
 {
@@ -916,6 +946,7 @@ checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path pat
 		}
 	}
 }
+
 
 size_t
 utf8_strlen (string s)
@@ -935,6 +966,7 @@ utf8_strlen (string s)
 	}
 	return N;
 }
+
 
 string
 day_of_week_to_string (boost::gregorian::greg_weekday d)
@@ -958,6 +990,7 @@ day_of_week_to_string (boost::gregorian::greg_weekday d)
 
 	return d.as_long_string ();
 }
+
 
 /** @param size Size of picture that the subtitle will be overlaid onto */
 void
@@ -997,6 +1030,7 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 
 	decoder->emit_bitmap (period, image, rect);
 }
+
 
 bool
 show_jobs_on_console (bool progress)
@@ -1053,6 +1087,7 @@ show_jobs_on_console (bool progress)
 	return error;
 }
 
+
 /** XXX: could use mmap? */
 void
 copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)> progress)
@@ -1105,11 +1140,13 @@ copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::fun
 	free (buffer);
 }
 
+
 double
 db_to_linear (double db)
 {
 	return pow(10, db / 20);
 }
+
 
 double
 linear_to_db (double linear)

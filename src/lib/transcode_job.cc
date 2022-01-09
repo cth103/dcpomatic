@@ -26,8 +26,8 @@
 
 #include "analytics.h"
 #include "compose.hpp"
-#include "content.h"
 #include "config.h"
+#include "content.h"
 #include "dcp_encoder.h"
 #include "dcpomatic_log.h"
 #include "encoder.h"
@@ -44,13 +44,13 @@
 
 
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::fixed;
 using std::make_shared;
 using std::setprecision;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
-using std::dynamic_pointer_cast;
 
 
 /** @param film Film to use */

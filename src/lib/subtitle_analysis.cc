@@ -19,8 +19,8 @@
 */
 
 
-#include "subtitle_analysis.h"
 #include "exceptions.h"
+#include "subtitle_analysis.h"
 #include "warnings.h"
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
@@ -49,7 +49,7 @@ SubtitleAnalysis::SubtitleAnalysis (boost::filesystem::path path)
 		throw OldFormatError ("Subtitle analysis file is too old");
 	}
 
-	cxml::NodePtr bounding_box = f.optional_node_child("BoundingBox");
+	auto bounding_box = f.optional_node_child("BoundingBox");
 	if (bounding_box) {
 		_bounding_box = dcpomatic::Rect<double> ();
 		_bounding_box->x = bounding_box->number_child<double>("X");
@@ -67,7 +67,7 @@ void
 SubtitleAnalysis::write (boost::filesystem::path path) const
 {
 	auto doc = make_shared<xmlpp::Document>();
-	xmlpp::Element* root = doc->create_root_node ("SubtitleAnalysis");
+	auto root = doc->create_root_node ("SubtitleAnalysis");
 
 	root->add_child("Version")->add_child_text (raw_convert<string>(_current_state_version));
 

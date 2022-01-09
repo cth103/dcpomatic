@@ -18,19 +18,23 @@
 
 */
 
+
 #include "video_mxf_content.h"
 #include "video_mxf_examiner.h"
 #include <dcp/exceptions.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 
+
 using std::shared_ptr;
+using std::make_shared;
 using boost::optional;
+
 
 VideoMXFExaminer::VideoMXFExaminer (shared_ptr<const VideoMXFContent> content)
 {
 	try {
-		_asset.reset (new dcp::MonoPictureAsset (content->path(0)));
+		_asset = make_shared<dcp::MonoPictureAsset>(content->path(0));
 	} catch (dcp::MXFFileError& e) {
 		/* maybe it's stereo */
 	} catch (dcp::ReadError& e) {
@@ -38,9 +42,10 @@ VideoMXFExaminer::VideoMXFExaminer (shared_ptr<const VideoMXFContent> content)
 	}
 
 	if (!_asset) {
-		_asset.reset (new dcp::StereoPictureAsset (content->path(0)));
+		_asset = make_shared<dcp::StereoPictureAsset>(content->path(0));
 	}
 }
+
 
 optional<double>
 VideoMXFExaminer::video_frame_rate () const
@@ -48,11 +53,13 @@ VideoMXFExaminer::video_frame_rate () const
 	return _asset->frame_rate().as_float ();
 }
 
+
 dcp::Size
 VideoMXFExaminer::video_size () const
 {
 	return _asset->size ();
 }
+
 
 Frame
 VideoMXFExaminer::video_length () const
@@ -60,11 +67,13 @@ VideoMXFExaminer::video_length () const
 	return _asset->intrinsic_duration ();
 }
 
+
 optional<double>
 VideoMXFExaminer::sample_aspect_ratio () const
 {
 	return 1.0;
 }
+
 
 bool
 VideoMXFExaminer::yuv () const

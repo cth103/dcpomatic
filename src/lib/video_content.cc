@@ -18,19 +18,20 @@
 
 */
 
-#include "video_content.h"
-#include "content.h"
-#include "video_examiner.h"
-#include "compose.hpp"
-#include "ratio.h"
-#include "config.h"
+
 #include "colour_conversion.h"
-#include "util.h"
-#include "film.h"
+#include "compose.hpp"
+#include "config.h"
+#include "content.h"
+#include "dcpomatic_log.h"
 #include "exceptions.h"
+#include "film.h"
 #include "frame_rate_change.h"
 #include "log.h"
-#include "dcpomatic_log.h"
+#include "ratio.h"
+#include "util.h"
+#include "video_content.h"
+#include "video_examiner.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -38,6 +39,7 @@
 #include <iostream>
 
 #include "i18n.h"
+
 
 int const VideoContentProperty::USE               = 0;
 int const VideoContentProperty::SIZE              = 1;
@@ -51,22 +53,24 @@ int const VideoContentProperty::CUSTOM_RATIO      = 8;
 int const VideoContentProperty::CUSTOM_SIZE       = 9;
 int const VideoContentProperty::BURNT_SUBTITLE_LANGUAGE = 10;
 
-using std::string;
-using std::setprecision;
+
 using std::cout;
-using std::vector;
-using std::min;
-using std::max;
-using std::fixed;
-using std::setprecision;
-using std::list;
-using std::pair;
-using std::shared_ptr;
-using std::make_shared;
-using boost::optional;
 using std::dynamic_pointer_cast;
+using std::fixed;
+using std::list;
+using std::make_shared;
+using std::max;
+using std::min;
+using std::pair;
+using std::setprecision;
+using std::setprecision;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 VideoContent::VideoContent (Content* parent)
 	: ContentPart (parent)
@@ -81,6 +85,7 @@ VideoContent::VideoContent (Content* parent)
 
 }
 
+
 shared_ptr<VideoContent>
 VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 {
@@ -90,6 +95,7 @@ VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
 
 	return make_shared<VideoContent>(parent, node, version);
 }
+
 
 VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version)
 	: ContentPart (parent)
@@ -297,6 +303,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	}
 }
 
+
 void
 VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 {
@@ -329,6 +336,7 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	}
 }
 
+
 /** @return string which includes everything about how this content looks */
 string
 VideoContent::identifier () const
@@ -359,6 +367,7 @@ VideoContent::identifier () const
 	return s;
 }
 
+
 string
 VideoContent::technical_summary () const
 {
@@ -375,6 +384,7 @@ VideoContent::technical_summary () const
 
 	return s;
 }
+
 
 dcp::Size
 VideoContent::size_after_3d_split () const
@@ -395,6 +405,7 @@ VideoContent::size_after_3d_split () const
 
 	DCPOMATIC_ASSERT (false);
 }
+
 
 /** @return Video size after 3D split and crop */
 dcp::Size
@@ -426,6 +437,7 @@ VideoContent::fade (shared_ptr<const Film> film, Frame f) const
 
 	return optional<double> ();
 }
+
 
 string
 VideoContent::processing_description (shared_ptr<const Film> film)
@@ -503,6 +515,7 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 	return d;
 }
 
+
 void
 VideoContent::add_properties (list<UserProperty>& p) const
 {
@@ -510,11 +523,13 @@ VideoContent::add_properties (list<UserProperty>& p) const
 	p.push_back (UserProperty (UserProperty::VIDEO, _("Size"), String::compose ("%1x%2", size().width, size().height)));
 }
 
+
 void
 VideoContent::set_length (Frame len)
 {
 	maybe_set (_length, len, ContentProperty::LENGTH);
 }
+
 
 void
 VideoContent::set_left_crop (int c)
@@ -522,17 +537,20 @@ VideoContent::set_left_crop (int c)
 	maybe_set (_crop.left, c, VideoContentProperty::CROP);
 }
 
+
 void
 VideoContent::set_right_crop (int c)
 {
 	maybe_set (_crop.right, c, VideoContentProperty::CROP);
 }
 
+
 void
 VideoContent::set_top_crop (int c)
 {
 	maybe_set (_crop.top, c, VideoContentProperty::CROP);
 }
+
 
 void
 VideoContent::set_bottom_crop (int c)
@@ -547,11 +565,13 @@ VideoContent::set_frame_type (VideoFrameType t)
 	maybe_set (_frame_type, t, VideoContentProperty::FRAME_TYPE);
 }
 
+
 void
 VideoContent::unset_colour_conversion ()
 {
 	maybe_set (_colour_conversion, boost::optional<ColourConversion> (), VideoContentProperty::COLOUR_CONVERSION);
 }
+
 
 void
 VideoContent::set_colour_conversion (ColourConversion c)
@@ -559,11 +579,13 @@ VideoContent::set_colour_conversion (ColourConversion c)
 	maybe_set (_colour_conversion, c, VideoContentProperty::COLOUR_CONVERSION);
 }
 
+
 void
 VideoContent::set_fade_in (Frame t)
 {
 	maybe_set (_fade_in, t, VideoContentProperty::FADE_IN);
 }
+
 
 void
 VideoContent::set_fade_out (Frame t)
@@ -571,11 +593,13 @@ VideoContent::set_fade_out (Frame t)
 	maybe_set (_fade_out, t, VideoContentProperty::FADE_OUT);
 }
 
+
 void
 VideoContent::set_range (VideoRange r)
 {
 	maybe_set (_range, r, VideoContentProperty::RANGE);
 }
+
 
 void
 VideoContent::set_use (bool u)
@@ -618,6 +642,7 @@ VideoContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
 {
 	pos = pos.round (film->video_frame_rate());
 }
+
 
 void
 VideoContent::modify_trim_start (ContentTime& trim) const

@@ -64,6 +64,7 @@ ImageContent::ImageContent (cxml::ConstNodePtr node, int version)
 	video = VideoContent::from_xml (this, node, version);
 }
 
+
 string
 ImageContent::summary () const
 {
@@ -77,6 +78,7 @@ ImageContent::summary () const
 
 	return s;
 }
+
 
 string
 ImageContent::technical_summary () const
@@ -93,6 +95,7 @@ ImageContent::technical_summary () const
 	return s;
 }
 
+
 void
 ImageContent::as_xml (xmlpp::Node* node, bool with_paths) const
 {
@@ -103,6 +106,7 @@ ImageContent::as_xml (xmlpp::Node* node, bool with_paths) const
 		video->as_xml (node);
 	}
 }
+
 
 void
 ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
@@ -136,6 +140,7 @@ ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	set_default_colour_conversion ();
 }
 
+
 DCPTime
 ImageContent::full_length (shared_ptr<const Film> film) const
 {
@@ -143,11 +148,13 @@ ImageContent::full_length (shared_ptr<const Film> film) const
 	return DCPTime::from_frames (llrint(video->length_after_3d_combine() * frc.factor()), film->video_frame_rate());
 }
 
+
 DCPTime
 ImageContent::approximate_length () const
 {
 	return DCPTime::from_frames (video->length_after_3d_combine(), 24);
 }
+
 
 string
 ImageContent::identifier () const
@@ -157,11 +164,13 @@ ImageContent::identifier () const
 	return buffer;
 }
 
+
 bool
 ImageContent::still () const
 {
 	return number_of_paths() == 1;
 }
+
 
 void
 ImageContent::set_default_colour_conversion ()
@@ -184,6 +193,7 @@ ImageContent::set_default_colour_conversion ()
 		video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);
 	}
 }
+
 
 void
 ImageContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p) const

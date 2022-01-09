@@ -74,12 +74,12 @@
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <unistd.h>
-#include <stdexcept>
-#include <iostream>
 #include <algorithm>
 #include <cstdlib>
 #include <iomanip>
+#include <iostream>
 #include <set>
+#include <stdexcept>
 
 #include "i18n.h"
 

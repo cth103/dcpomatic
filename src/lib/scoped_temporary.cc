@@ -19,9 +19,9 @@
 */
 
 
-#include "scoped_temporary.h"
-#include "exceptions.h"
 #include "cross.h"
+#include "exceptions.h"
+#include "scoped_temporary.h"
 
 
 /** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened

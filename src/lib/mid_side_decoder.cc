@@ -19,9 +19,9 @@
 */
 
 
-#include "mid_side_decoder.h"
 #include "audio_buffers.h"
 #include "audio_mapping.h"
+#include "mid_side_decoder.h"
 
 #include "i18n.h"
 

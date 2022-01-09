@@ -19,17 +19,17 @@
 */
 
 
-#include "nanomsg.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
+#include "nanomsg.h"
 #include <nanomsg/nn.h>
 #include <nanomsg/pair.h>
-#include <stdexcept>
 #include <cerrno>
+#include <stdexcept>
 
 
-using std::string;
 using std::runtime_error;
+using std::string;
 using boost::optional;
 
 

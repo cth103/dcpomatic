@@ -19,10 +19,10 @@
 */
 
 
-#include "scoped_temporary.h"
 #include "compose.hpp"
-#include "exceptions.h"
 #include "cross.h"
+#include "exceptions.h"
+#include "scoped_temporary.h"
 #include "util.h"
 #include <curl/curl.h>
 #include <zip.h>
@@ -37,8 +37,8 @@
 using std::function;
 using std::list;
 using std::string;
-using boost::optional;
 using boost::algorithm::trim;
+using boost::optional;
 
 
 static size_t
@@ -66,7 +66,7 @@ ls_url (string url)
 	auto const cr = curl_easy_perform (curl);
 
 	if (cr != CURLE_OK) {
-		return list<string>();
+		return {};
 	}
 
 	list<string> result;

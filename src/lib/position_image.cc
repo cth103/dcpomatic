@@ -19,8 +19,8 @@
 */
 
 
-#include "position_image.h"
 #include "image.h"
+#include "position_image.h"
 
 
 bool

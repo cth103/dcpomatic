@@ -27,7 +27,6 @@
 #include "atmos_metadata.h"
 #include "audio_merger.h"
 #include "audio_stream.h"
-#include "content.h"
 #include "content_atmos.h"
 #include "content_audio.h"
 #include "content_text.h"
@@ -35,7 +34,6 @@
 #include "empty.h"
 #include "film.h"
 #include "image.h"
-#include "piece.h"
 #include "player_text.h"
 #include "position_image.h"
 #include "shuffler.h"
@@ -52,11 +50,12 @@ namespace dcpomatic {
 }
 
 class AtmosContent;
+class AudioBuffers;
+class Content;
+class Piece;
 class PlayerVideo;
 class Playlist;
-class AudioBuffers;
 class ReferencedReelAsset;
-class Shuffler;
 
 
 class PlayerProperty

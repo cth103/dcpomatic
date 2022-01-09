@@ -19,12 +19,12 @@
 */
 
 
-#include "scp_uploader.h"
-#include "exceptions.h"
-#include "job.h"
+#include "compose.hpp"
 #include "config.h"
 #include "cross.h"
-#include "compose.hpp"
+#include "exceptions.h"
+#include "job.h"
+#include "scp_uploader.h"
 #include "warnings.h"
 #include <sys/stat.h>
 

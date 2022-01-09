@@ -19,8 +19,8 @@
 */
 
 
-#include "server.h"
 #include "dcpomatic_socket.h"
+#include "server.h"
 
 
 #include "i18n.h"

@@ -100,6 +100,7 @@ mxf_metadata ()
 	return meta;
 }
 
+
 /** @param job Related job, or 0.
  *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
  *  (no picture nor sound) and not give errors in that case.  This is used by the hints system to check the potential sizes of
@@ -202,6 +203,7 @@ ReelWriter::ReelWriter (
 	_default_font = dcp::ArrayData(default_font_file());
 }
 
+
 /** @param frame reel-relative frame */
 void
 ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
@@ -212,6 +214,7 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 	checked_fwrite (&info.size, sizeof (info.size), handle->get(), handle->file());
 	checked_fwrite (info.hash.c_str(), info.hash.size(), handle->get(), handle->file());
 }
+
 
 dcp::FrameInfo
 ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const
@@ -229,6 +232,7 @@ ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes 
 	return frame_info;
 }
 
+
 long
 ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 {
@@ -245,6 +249,7 @@ ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 
 	DCPOMATIC_ASSERT (false);
 }
+
 
 Frame
 ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
@@ -304,6 +309,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	return first_nonexistant_frame;
 }
 
+
 void
 ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
@@ -345,6 +351,7 @@ ReelWriter::fake_write (int size)
 	_picture_asset_writer->fake_write (size);
 }
 
+
 void
 ReelWriter::repeat_write (Frame frame, Eyes eyes)
 {
@@ -359,6 +366,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 		);
 	write_frame_info (frame, eyes, fin);
 }
+
 
 void
 ReelWriter::finish (boost::filesystem::path output_dcp)
@@ -751,6 +759,7 @@ ReelWriter::create_reel (
 	return reel;
 }
 
+
 void
 ReelWriter::calculate_digests (std::function<void (float)> set_progress)
 try
@@ -771,6 +780,7 @@ try
 	 * may throw thread_interrupted, at which point we just give up.
 	 */
 }
+
 
 Frame
 ReelWriter::start () const
@@ -910,6 +920,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			);
 	}
 }
+
 
 bool
 ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHandle> info_file, Frame frame) const

@@ -19,16 +19,16 @@
 */
 
 
-#include "uploader.h"
-#include "dcpomatic_assert.h"
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
+#include "uploader.h"
 
 #include "i18n.h"
 
 
-using std::string;
-using std::shared_ptr;
 using std::function;
+using std::shared_ptr;
+using std::string;
 
 
 Uploader::Uploader (function<void (string)> set_status, function<void (float)> set_progress)

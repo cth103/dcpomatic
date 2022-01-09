@@ -18,28 +18,31 @@
 
 */
 
-#include "string_text_file.h"
+
 #include "cross.h"
 #include "exceptions.h"
+#include "string_text_file.h"
 #include "string_text_file_content.h"
-#include <sub/subrip_reader.h>
+#include <sub/collect.h>
 #include <sub/ssa_reader.h>
 #include <sub/stl_binary_reader.h>
-#include <sub/collect.h>
-#include <unicode/ucsdet.h>
+#include <sub/subrip_reader.h>
 #include <unicode/ucnv.h>
+#include <unicode/ucsdet.h>
 #include <iostream>
 
 #include "i18n.h"
 
-using std::vector;
+
 using std::cout;
-using std::string;
 using std::shared_ptr;
-using boost::scoped_array;
+using std::string;
+using std::vector;
 using boost::optional;
+using boost::scoped_array;
 using dcp::ArrayData;
 using namespace dcpomatic;
+
 
 StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 {
@@ -111,22 +114,24 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 	}
 }
 
+
 /** @return time of first subtitle, if there is one */
 optional<ContentTime>
 StringTextFile::first () const
 {
 	if (_subtitles.empty()) {
-		return optional<ContentTime>();
+		return {};
 	}
 
 	return ContentTime::from_seconds(_subtitles[0].from.all_as_seconds());
 }
 
+
 ContentTime
 StringTextFile::length () const
 {
 	if (_subtitles.empty ()) {
-		return ContentTime ();
+		return {};
 	}
 
 	return ContentTime::from_seconds (_subtitles.back().to.all_as_seconds ());

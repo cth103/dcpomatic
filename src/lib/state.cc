@@ -79,7 +79,7 @@ State::read_path (string file)
 boost::filesystem::path
 State::write_path (string file)
 {
-	boost::filesystem::path p = config_path_or_override(config_versions.front());
+	auto p = config_path_or_override(config_versions.front());
 	boost::system::error_code ec;
 	boost::filesystem::create_directories (p, ec);
 	p /= file;

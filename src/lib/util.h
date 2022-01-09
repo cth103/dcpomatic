@@ -34,13 +34,13 @@
 #include "types.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
-#include <dcp/util.h>
 #include <dcp/subtitle_image.h>
-#include <boost/optional.hpp>
-#include <boost/filesystem.hpp>
+#include <dcp/util.h>
 #include <boost/date_time/gregorian/gregorian.hpp>
-#include <string>
+#include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <map>
+#include <string>
 #include <vector>
 
 #undef check
@@ -130,29 +130,6 @@ extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
 extern std::string to_upper (std::string s);
 extern void start_of_thread (std::string name);
-
-template <class T>
-std::list<T>
-vector_to_list (std::vector<T> v)
-{
-	std::list<T> l;
-	for (auto& i: v) {
-		l.push_back (i);
-	}
-	return l;
-}
-
-template <class T>
-std::vector<T>
-list_to_vector (std::list<T> v)
-{
-	std::vector<T> l;
-	for (auto& i: v) {
-		l.push_back (i);
-	}
-	return l;
-}
-
 extern double db_to_linear (double db);
 extern double linear_to_db (double linear);
 

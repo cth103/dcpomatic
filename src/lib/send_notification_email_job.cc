@@ -19,11 +19,11 @@
 */
 
 
-#include "send_notification_email_job.h"
-#include "exceptions.h"
+#include "compose.hpp"
 #include "config.h"
 #include "emailer.h"
-#include "compose.hpp"
+#include "exceptions.h"
+#include "send_notification_email_job.h"
 #include <list>
 
 #include "i18n.h"

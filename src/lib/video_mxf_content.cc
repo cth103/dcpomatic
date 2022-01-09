@@ -19,25 +19,25 @@
 */
 
 
-#include "video_mxf_examiner.h"
-#include "video_mxf_content.h"
-#include "video_content.h"
-#include "job.h"
-#include "film.h"
 #include "compose.hpp"
+#include "film.h"
+#include "job.h"
+#include "video_content.h"
+#include "video_mxf_content.h"
+#include "video_mxf_examiner.h"
 #include <asdcp/KM_log.h>
+#include <dcp/exceptions.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
-#include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"
 
 
 using std::list;
-using std::string;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using namespace dcpomatic;
 
 
