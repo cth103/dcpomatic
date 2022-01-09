@@ -585,7 +585,6 @@ int main (int argc, char* argv[])
 
 	if (!valid_from) {
 		error ("you must specify --valid-from");
-		exit (EXIT_FAILURE);
 	}
 
 	if (optind >= argc) {
