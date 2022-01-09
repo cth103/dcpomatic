@@ -1274,7 +1274,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:814
 msgid "Import all KDM decryption settings..."
-msgstr "Esporta tutte le impostazioni di decrittografia KDM ..."
+msgstr "Importa tutte le impostazioni di decrittografia KDM ..."
 
 #: src/wx/config_dialog.cc:443
 msgid "Import..."
