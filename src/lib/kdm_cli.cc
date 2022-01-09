@@ -87,12 +87,13 @@ help ()
 }
 
 
-static void
-error (string m)
+class KDMCLIError : public std::runtime_error
 {
-	cerr << program_name << ": " << m << "\n";
-	exit (EXIT_FAILURE);
-}
+public:
+	KDMCLIError (std::string message)
+		: std::runtime_error (String::compose("%1: %2", program_name, message).c_str())
+	{}
+};
 
 
 static boost::posix_time::ptime
@@ -115,8 +116,7 @@ duration_from_string (string d)
 	string const unit (unit_buf);
 
 	if (N == 0) {
-		cerr << "Could not understand duration \"" << d << "\"\n";
-		exit (EXIT_FAILURE);
+		throw KDMCLIError (String::compose("could not understand duration \"%1\"", d));
 	}
 
 	if (unit == "year" || unit == "years") {
@@ -129,8 +129,7 @@ duration_from_string (string d)
 		return boost::posix_time::time_duration (N, 0, 0, 0);
 	}
 
-	cerr << "Could not understand duration \"" << d << "\"\n";
-	exit (EXIT_FAILURE);
+	throw KDMCLIError (String::compose("could not understand duration \"%1\"", d));
 }
 
 
@@ -192,8 +191,7 @@ find_cinema (string cinema_name)
 	}
 
 	if (i == cinemas.end ()) {
-		cerr << program_name << ": could not find cinema \"" << cinema_name << "\"\n";
-		exit (EXIT_FAILURE);
+		throw KDMCLIError (String::compose("could not find cinema \"%1\"", cinema_name));
 	}
 
 	return *i;
@@ -226,16 +224,15 @@ from_film (
 			cout << "Read film " << film->name () << "\n";
 		}
 	} catch (std::exception& e) {
-		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
-		exit (EXIT_FAILURE);
+		throw KDMCLIError (String::compose("error reading film \"%1\" (%2)", film_dir.string(), e.what()));
 	}
 
 	/* XXX: allow specification of this */
 	vector<CPLSummary> cpls = film->cpls ();
 	if (cpls.empty ()) {
-		error ("no CPLs found in film");
+		throw KDMCLIError ("no CPLs found in film");
 	} else if (cpls.size() > 1) {
-		error ("more than one CPL found in film");
+		throw KDMCLIError ("more than one CPL found in film");
 	}
 
 	auto cpl = cpls.front().cpl_file;
@@ -253,14 +250,7 @@ from_film (
 			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name());
 		}
 	} catch (FileError& e) {
-		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
-		exit (EXIT_FAILURE);
-	} catch (KDMError& e) {
-		cerr << program_name << ": " << e.what() << "\n";
-		exit (EXIT_FAILURE);
-	} catch (runtime_error& e) {
-		cerr << program_name << ": " << e.what() << "\n";
-		exit (EXIT_FAILURE);
+		throw KDMCLIError (String::compose("%1 (%2)", e.what(), e.file().string()));
 	}
 }
 
@@ -285,7 +275,7 @@ sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
 		}
 	}
 
-	return optional<dcp::EncryptedKDM>();
+	return {};
 }
 
 
@@ -313,7 +303,7 @@ kdm_from_dkdm (
 	/* Signer for new KDM */
 	auto signer = Config::instance()->signer_chain ();
 	if (!signer->valid ()) {
-		error ("signing certificate chain is invalid.");
+		throw KDMCLIError ("signing certificate chain is invalid.");
 	}
 
 	/* Make a new empty KDM and add the keys from the DKDM to it */
@@ -389,14 +379,7 @@ from_dkdm (
 			send_emails ({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""));
 		}
 	} catch (FileError& e) {
-		cerr << program_name << ": " << e.what() << " (" << e.file().string() << ")\n";
-		exit (EXIT_FAILURE);
-	} catch (KDMError& e) {
-		cerr << program_name << ": " << e.what() << "\n";
-		exit (EXIT_FAILURE);
-	} catch (NetworkError& e) {
-		cerr << program_name << ": " << e.what() << "\n";
-		exit (EXIT_FAILURE);
+		throw KDMCLIError (String::compose("%1 (%2)", e.what(), e.file().string()));
 	}
 }
 
@@ -427,8 +410,9 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent)
 }
 
 
-int
+optional<string>
 kdm_cli (int argc, char* argv[])
+try
 {
 	boost::filesystem::path output = ".";
 	auto container_name_format = Config::instance()->kdm_container_name_format();
@@ -515,7 +499,7 @@ kdm_cli (int argc, char* argv[])
 			} else if (string(optarg) == "dci-specific") {
 				formulation = dcp::Formulation::DCI_SPECIFIC;
 			} else {
-				error ("unrecognised KDM formulation " + string (optarg));
+				throw KDMCLIError ("unrecognised KDM formulation " + string (optarg));
 			}
 			break;
 		case 'p':
@@ -589,11 +573,11 @@ kdm_cli (int argc, char* argv[])
 	}
 
 	if (!duration_string && !valid_to) {
-		error ("you must specify a --valid-duration or --valid-to");
+		throw KDMCLIError ("you must specify a --valid-duration or --valid-to");
 	}
 
 	if (!valid_from) {
-		error ("you must specify --valid-from");
+		throw KDMCLIError ("you must specify --valid-from");
 	}
 
 	if (optind >= argc) {
@@ -603,7 +587,7 @@ kdm_cli (int argc, char* argv[])
 
 	if (screens.empty()) {
 		if (!cinema_name) {
-			error ("you must specify either a cinema or one or more screens using certificate files");
+			throw KDMCLIError ("you must specify either a cinema or one or more screens using certificate files");
 		}
 
 		screens = find_cinema (*cinema_name)->screens ();
@@ -645,7 +629,7 @@ kdm_cli (int argc, char* argv[])
 		}
 
 		if (!dkdm) {
-			error ("could not find film or CPL ID corresponding to " + thing);
+			throw KDMCLIError ("could not find film or CPL ID corresponding to " + thing);
 		}
 
 		from_dkdm (
@@ -665,5 +649,8 @@ kdm_cli (int argc, char* argv[])
 			);
 	}
 
-	return 0;
+	return {};
+} catch (std::exception& e) {
+	return string(e.what());
 }
+

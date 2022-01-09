@@ -25,11 +25,18 @@
 
 
 #include "lib/kdm_cli.h"
+#include <iostream>
 
 
 int
 main (int argc, char* argv[])
 {
-	return kdm_cli (argc, argv);
+	auto error = kdm_cli (argc, argv);
+	if (error) {
+		std::cerr << *error << "\n";
+		exit (EXIT_FAILURE);
+	}
+
+	return 0;
 }
 

@@ -19,4 +19,8 @@
 */
 
 
-extern int kdm_cli (int argc, char* argv[]);
+#include <boost/optional.hpp>
+#include <string>
+
+
+extern boost::optional<std::string> kdm_cli (int argc, char* argv[]);
