@@ -414,7 +414,7 @@ optional<string>
 kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
 {
-	boost::filesystem::path output = ".";
+	boost::filesystem::path output = boost::filesystem::current_path();
 	auto container_name_format = Config::instance()->kdm_container_name_format();
 	auto filename_format = Config::instance()->kdm_filename_format();
 	optional<string> cinema_name;
