@@ -354,8 +354,11 @@ from_dkdm (
 				continue;
 			}
 
-			dcp::LocalTime begin(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
-			dcp::LocalTime end(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+			int const offset_hour = i->cinema ? i->cinema->utc_offset_hour() : 0;
+			int const offset_minute = i->cinema ? i->cinema->utc_offset_minute() : 0;
+
+			dcp::LocalTime begin(valid_from, offset_hour, offset_minute);
+			dcp::LocalTime end(valid_to, offset_hour, offset_minute);
 
 			auto const kdm = kdm_from_dkdm(
 							dkdm,
@@ -369,14 +372,14 @@ from_dkdm (
 							);
 
 			dcp::NameFormat::Map name_values;
-			name_values['c'] = i->cinema->name;
+			name_values['c'] = i->cinema ? i->cinema->name : "";
 			name_values['s'] = i->name;
 			name_values['f'] = dkdm.annotation_text().get_value_or("");
 			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
 			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();
 
-			kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, kdm));
+			kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema ? i->cinema->emails : list<string>(), kdm));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
