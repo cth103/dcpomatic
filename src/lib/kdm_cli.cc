@@ -596,9 +596,6 @@ try
 		valid_to = valid_from.get() + duration_from_string (*duration_string);
 	}
 
-	dcpomatic_setup_path_encoding ();
-	dcpomatic_setup ();
-
 	if (verbose) {
 		out (String::compose("Making KDMs valid from %1 to %2", boost::posix_time::to_simple_string(valid_from.get()), boost::posix_time::to_simple_string(valid_to.get())));
 	}
