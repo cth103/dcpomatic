@@ -131,8 +131,9 @@ sources = """
           job_manager.cc
           j2k_encoder.cc
           json_server.cc
-          kdm_with_metadata.cc
+          kdm_cli.cc
           kdm_recipient.cc
+          kdm_with_metadata.cc
           log.cc
           log_entry.cc
           make_dcp.cc
