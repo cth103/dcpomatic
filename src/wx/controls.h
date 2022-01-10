@@ -38,7 +38,9 @@ class Content;
 class ContentView;
 class Film;
 class FilmViewer;
+class MarkersPanel;
 class PlayerVideo;
+
 class wxListCtrl;
 class wxToggleButton;
 
@@ -77,6 +79,7 @@ protected:
 	wxSizer* _v_sizer;
 	wxBoxSizer* _button_sizer;
 	std::shared_ptr<Film> _film;
+	MarkersPanel* _markers;
 	wxSlider* _slider;
 	std::weak_ptr<FilmViewer> _viewer;
 	boost::optional<std::string> _active_job;
