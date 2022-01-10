@@ -59,18 +59,20 @@ bool_note('3D', soup.Metadata.ThreeD, lambda x: not x)
 bool_note('Encrypted', soup.Metadata.ThreeD, lambda x: not x)
 reel_types = ['single', 'by-video', 'by-length']
 note('Reel type', reel_types[int(soup.ReelType.text)])
-for c in soup.Metadata.Playlist.children:
-    if isinstance(c, bs4.element.Tag):
+for content in soup.Metadata.Playlist.children:
+    if isinstance(content, bs4.element.Tag):
         print()
-        note('  Type', c.Type.text)
-        note('  Position', dcp_time(c.Position))
-        note('  Trim start', c.TrimStart.text)
-        note('  Trim end', c.TrimEnd.text)
-        if c.VideoFrameRate:
-            note('  Video rate', c.VideoFrameRate.text)
-            note('  Video length', content_time_from_frames(c.VideoLength, float(c.VideoFrameRate.text)))
-        if c.AudioFrameRate:
-            note('  Audio rate', c.AudioFrameRate.text)
-        bool_note('  Reference video', c.ReferenceVideo, lambda x: not x)
-        bool_note('  Reference audio', c.ReferenceAudio, lambda x: not x)
-        bool_note('  Reference subtitle', c.ReferenceSubtitle, lambda x: not x)
+        note('  Type', content.Type.text)
+        note('  Position', dcp_time(content.Position))
+        note('  Trim start', content.TrimStart.text)
+        note('  Trim end', content.TrimEnd.text)
+        if content.VideoFrameRate:
+            note('  Video rate', content.VideoFrameRate.text)
+            note('  Video length', content_time_from_frames(content.VideoLength, float(content.VideoFrameRate.text)))
+        if content.AudioFrameRate:
+            note('  Audio rate', content.AudioFrameRate.text)
+        bool_note('  Reference video', content.ReferenceVideo, lambda x: not x)
+        bool_note('  Reference audio', content.ReferenceAudio, lambda x: not x)
+        bool_note('  Reference subtitle', content.ReferenceSubtitle, lambda x: not x)
+        for stream in content.find_all('AudioStream'):
+            note(' Audio stream length', stream.Length.text)
