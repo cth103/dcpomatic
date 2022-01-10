@@ -335,6 +335,12 @@ from_dkdm (
 				continue;
 			}
 
+			int const offset_hour = i->cinema ? i->cinema->utc_offset_hour() : 0;
+			int const offset_minute = i->cinema ? i->cinema->utc_offset_minute() : 0;
+
+			dcp::LocalTime begin(valid_from, offset_hour, offset_minute);
+			dcp::LocalTime end(valid_to, offset_hour, offset_minute);
+
 			screen_kdms.push_back (
 				ScreenKDM (
 					i,
@@ -342,8 +348,8 @@ from_dkdm (
 						dkdm,
 						i->recipient.get(),
 						i->trusted_device_thumbprints(),
-						dcp::LocalTime(valid_from, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
-						dcp::LocalTime(valid_to, i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()),
+						begin,
+						end,
 						formulation,
 						disable_forensic_marking_picture,
 						disable_forensic_marking_audio
