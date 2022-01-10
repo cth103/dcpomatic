@@ -1263,7 +1263,7 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 		}
 	}
 
-	/* We need a delay to give a little wiggle room to ensure that relevent subtitles arrive at the
+	/* We need a delay to give a little wiggle room to ensure that relevant subtitles arrive at the
 	   player before the video that requires them.
 	*/
 	_delay.push_back (make_pair (pv, time));
