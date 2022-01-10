@@ -98,6 +98,7 @@ sources = """
           make_chain_dialog.cc
           markers.cc
           markers_dialog.cc
+          markers_panel.cc
           message_dialog.cc
           metadata_dialog.cc
           move_to_dialog.cc

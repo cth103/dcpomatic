@@ -24,8 +24,8 @@
 
 
 #include "lib/dcpomatic_time.h"
-#include "lib/types.h"
 #include "lib/film.h"
+#include "lib/types.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -33,14 +33,16 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
-class FilmViewer;
-class Film;
 class ClosedCaptionsDialog;
 class Content;
-class PlayerVideo;
-class wxToggleButton;
-class wxListCtrl;
 class ContentView;
+class Film;
+class FilmViewer;
+class MarkersPanel;
+class PlayerVideo;
+
+class wxListCtrl;
+class wxToggleButton;
 
 
 namespace dcp {
@@ -77,6 +79,7 @@ protected:
 	wxSizer* _v_sizer;
 	wxBoxSizer* _button_sizer;
 	std::shared_ptr<Film> _film;
+	MarkersPanel* _markers;
 	wxSlider* _slider;
 	std::weak_ptr<FilmViewer> _viewer;
 	boost::optional<std::string> _active_job;

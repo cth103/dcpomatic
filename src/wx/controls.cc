@@ -24,6 +24,7 @@
 #include "controls.h"
 #include "dcpomatic_button.h"
 #include "film_viewer.h"
+#include "markers_panel.h"
 #include "playhead_to_frame_dialog.h"
 #include "playhead_to_timecode_dialog.h"
 #include "static_text.h"
@@ -45,15 +46,15 @@
 #include <wx/progdlg.h>
 
 
-using std::string;
-using std::list;
 using std::cout;
-using std::make_pair;
-using std::exception;
-using boost::optional;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::list;
+using std::make_pair;
+using std::shared_ptr;
+using std::string;
+using std::weak_ptr;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -62,6 +63,7 @@ using namespace dcpomatic;
 
 Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
 	: wxPanel (parent)
+	, _markers (new MarkersPanel(this, viewer))
 	, _slider (new wxSlider(this, wxID_ANY, 0, 0, 4096))
 	, _viewer (viewer)
 	, _slider_being_moved (false)
@@ -107,7 +109,12 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 	_button_sizer = new wxBoxSizer (wxHORIZONTAL);
 	h_sizer->Add (_button_sizer, 0, wxEXPAND);
 
-	h_sizer->Add (_slider, 1, wxEXPAND);
+	{
+		auto box = new wxBoxSizer (wxVERTICAL);
+		box->Add (_markers, 0, wxEXPAND);
+		box->Add (_slider, 0, wxEXPAND);
+		h_sizer->Add (box, 1, wxEXPAND);
+	}
 
 	_v_sizer->Add (h_sizer, 0, wxEXPAND | wxALL, 6);
 
@@ -465,6 +472,8 @@ Controls::set_film (shared_ptr<Film> film)
 	}
 
 	_film = film;
+
+	_markers->set_film (_film);
 
 	if (_film) {
 		_film_change_connection = _film->Change.connect (boost::bind(&Controls::film_change, this, _1, _2));
