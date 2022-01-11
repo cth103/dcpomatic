@@ -229,7 +229,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegExaminer::video_packet"), r);
 	}
 
-	r = avcodec_receive_frame (context, _frame);
+	r = avcodec_receive_frame (context, _video_frame);
 	if (r == AVERROR(EAGAIN)) {
 		/* More input is required */
 		return true;
@@ -239,16 +239,17 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 	}
 
 	if (!_first_video) {
-		_first_video = frame_time (_format_context->streams[_video_stream.get()]);
+		_first_video = frame_time (_video_frame, _format_context->streams[_video_stream.get()]);
 	}
 	if (_need_video_length) {
 		_video_length = frame_time (
+			_video_frame,
 			_format_context->streams[_video_stream.get()]
 			).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
 	}
 	if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
-		temporal_reference += (_frame->top_field_first ? "T" : "B");
-		temporal_reference += (_frame->repeat_pict ? "3" : "2");
+		temporal_reference += (_video_frame->top_field_first ? "T" : "B");
+		temporal_reference += (_video_frame->repeat_pict ? "3" : "2");
 	}
 
 	return true;
@@ -271,22 +272,24 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegExaminer::audio_packet"), r);
 	}
 
-	if (avcodec_receive_frame (context, _frame) < 0) {
+	auto frame = audio_frame (stream);
+
+	if (avcodec_receive_frame (context, frame) < 0) {
 		return;
 	}
 
-	stream->first_audio = frame_time (stream->stream(_format_context));
+	stream->first_audio = frame_time (frame, stream->stream(_format_context));
 }
 
 
 optional<ContentTime>
-FFmpegExaminer::frame_time (AVStream* s) const
+FFmpegExaminer::frame_time (AVFrame* frame, AVStream* stream) const
 {
 	optional<ContentTime> t;
 
-	int64_t const bet = _frame->best_effort_timestamp;
+	int64_t const bet = frame->best_effort_timestamp;
 	if (bet != AV_NOPTS_VALUE) {
-		t = ContentTime::from_seconds (bet * av_q2d (s->time_base));
+		t = ContentTime::from_seconds (bet * av_q2d(stream->time_base));
 	}
 
 	return t;

@@ -75,10 +75,13 @@ protected:
 
 	AVFormatContext* _format_context = nullptr;
 	std::vector<AVCodecContext*> _codec_context;
-	AVFrame* _frame = nullptr;
 
+	/** AVFrame used for decoding video */
+	AVFrame* _video_frame = nullptr;
 	/** Index of video stream within AVFormatContext */
 	boost::optional<int> _video_stream;
+
+	AVFrame* audio_frame (std::shared_ptr<const FFmpegAudioStream> stream);
 
 	/* It would appear (though not completely verified) that one must have
 	   a mutex around calls to avcodec_open* and avcodec_close... and here
@@ -92,6 +95,9 @@ private:
 
 	static void ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl);
 	static std::weak_ptr<Log> _ffmpeg_log;
+
+	/** AVFrames used for decoding audio streams; accessed with audio_frame() */
+	std::map<std::shared_ptr<const FFmpegAudioStream>, AVFrame*> _audio_frame;
 };
 
 
