@@ -122,7 +122,7 @@ FFmpegDecoder::flush ()
 			/* EOF can happen if we've already sent a flush packet */
 			throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegDecoder::flush"), r);
 		}
-		r = avcodec_receive_frame (context, _frame);
+		r = avcodec_receive_frame (context, audio_frame(i));
 		if (r >= 0) {
 			process_audio_frame (i);
 			did_something = true;
@@ -447,10 +447,11 @@ FFmpegDecoder::audio_stream_from_index (int index) const
 void
 FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 {
-	auto data = deinterleave_audio (_frame);
+	auto frame = audio_frame (stream);
+	auto data = deinterleave_audio (frame);
 
 	ContentTime ct;
-	if (_frame->pts == AV_NOPTS_VALUE) {
+	if (frame->pts == AV_NOPTS_VALUE) {
 		/* In some streams we see not every frame coming through with a timestamp; for those
 		   that have AV_NOPTS_VALUE we need to work out the timestamp ourselves.  This is
 		   particularly noticeable with TrueHD streams (see #1111).
@@ -460,7 +461,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 		}
 	} else {
 		ct = ContentTime::from_seconds (
-			_frame->best_effort_timestamp *
+			frame->best_effort_timestamp *
 			av_q2d (stream->stream(_format_context)->time_base))
 			+ _pts_offset;
 	}
@@ -481,7 +482,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 			to_string(ct),
 			data->frames(),
 			stream->id(),
-			_frame->best_effort_timestamp,
+			frame->best_effort_timestamp,
 			av_q2d(stream->stream(_format_context)->time_base),
 			to_string(_pts_offset)
 			);
@@ -503,13 +504,14 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 	}
 
 	auto context = _codec_context[stream->index(_format_context)];
+	auto frame = audio_frame (stream);
 
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
 	}
 	while (r >= 0) {
-		r = avcodec_receive_frame (context, _frame);
+		r = avcodec_receive_frame (context, frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
 			return;
@@ -536,7 +538,7 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 		LOG_WARNING("avcodec_send_packet returned %1 for a video packet", r);
 	}
 
-	r = avcodec_receive_frame (context, _frame);
+	r = avcodec_receive_frame (context, _video_frame);
 	if (r == AVERROR(EAGAIN) || r == AVERROR_EOF || (r < 0 && !packet)) {
 		/* More input is required, no more frames are coming, or we are flushing and there was
 		 * some error which we just want to ignore.
@@ -553,21 +555,21 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 	shared_ptr<VideoFilterGraph> graph;
 
 	auto i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process (dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format)) {
+	while (i != _filter_graphs.end() && !(*i)->can_process(dcp::Size(_video_frame->width, _video_frame->height), (AVPixelFormat) _video_frame->format)) {
 		++i;
 	}
 
 	if (i == _filter_graphs.end ()) {
 		dcp::Fraction vfr (lrint(_ffmpeg_content->video_frame_rate().get() * 1000), 1000);
-		graph = make_shared<VideoFilterGraph>(dcp::Size (_frame->width, _frame->height), (AVPixelFormat) _frame->format, vfr);
+		graph = make_shared<VideoFilterGraph>(dcp::Size(_video_frame->width, _video_frame->height), (AVPixelFormat) _video_frame->format, vfr);
 		graph->setup (_ffmpeg_content->filters ());
 		_filter_graphs.push_back (graph);
-		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _frame->width, _frame->height, _frame->format);
+		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _video_frame->width, _video_frame->height, _video_frame->format);
 	} else {
 		graph = *i;
 	}
 
-	auto images = graph->process (_frame);
+	auto images = graph->process (_video_frame);
 
 	for (auto const& i: images) {
 

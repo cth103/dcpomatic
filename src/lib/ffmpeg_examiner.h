@@ -91,7 +91,7 @@ private:
 
 	std::string stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
-	boost::optional<dcpomatic::ContentTime> frame_time (AVStream* s) const;
+	boost::optional<dcpomatic::ContentTime> frame_time (AVFrame* frame, AVStream* stream) const;
 
 	std::vector<std::shared_ptr<FFmpegSubtitleStream>> _subtitle_streams;
 	std::vector<std::shared_ptr<FFmpegAudioStream>> _audio_streams;

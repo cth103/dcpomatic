@@ -72,7 +72,11 @@ FFmpeg::~FFmpeg ()
 		avcodec_free_context (&i);
 	}
 
-	av_frame_free (&_frame);
+	av_frame_free (&_video_frame);
+	for (auto& audio_frame: _audio_frame) {
+		av_frame_free (&audio_frame.second);
+	}
+
 	avformat_close_input (&_format_context);
 }
 
@@ -188,8 +192,8 @@ FFmpeg::setup_general ()
 		}
 	}
 
-	_frame = av_frame_alloc ();
-	if (_frame == 0) {
+	_video_frame = av_frame_alloc ();
+	if (_video_frame == nullptr) {
 		throw std::bad_alloc ();
 	}
 }
@@ -354,3 +358,23 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optiona
 
 	return po;
 }
+
+
+AVFrame *
+FFmpeg::audio_frame (shared_ptr<const FFmpegAudioStream> stream)
+{
+	auto iter = _audio_frame.find(stream);
+	if (iter != _audio_frame.end()) {
+		return iter->second;
+	}
+
+	auto frame = av_frame_alloc ();
+	if (frame == nullptr) {
+		throw std::bad_alloc();
+	}
+
+	_audio_frame[stream] = frame;
+	return frame;
+
+}
+
