@@ -548,6 +548,15 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 		throw DecodeError (N_("avcodec_receive_frame"), N_("FFmpeg::decode_and_process_video_packet"), r);
 	}
 
+	process_video_frame ();
+
+	return true;
+}
+
+
+void
+FFmpegDecoder::process_video_frame ()
+{
 	/* We assume we'll only get one frame here, which I think is safe */
 
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
@@ -587,8 +596,6 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 			LOG_WARNING_NC ("Dropping frame without PTS");
 		}
 	}
-
-	return true;
 }
 
 

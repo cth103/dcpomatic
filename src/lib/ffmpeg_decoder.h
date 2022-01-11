@@ -62,6 +62,8 @@ private:
 	std::shared_ptr<FFmpegAudioStream> audio_stream_from_index (int index) const;
 	void process_audio_frame (std::shared_ptr<FFmpegAudioStream> stream);
 
+	void process_video_frame ();
+
 	bool decode_and_process_video_packet (AVPacket* packet);
 	void decode_and_process_audio_packet (AVPacket* packet);
 	void decode_and_process_subtitle_packet (AVPacket* packet);
