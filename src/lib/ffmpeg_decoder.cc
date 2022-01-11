@@ -538,17 +538,19 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 		LOG_WARNING("avcodec_send_packet returned %1 for a video packet", r);
 	}
 
-	r = avcodec_receive_frame (context, _video_frame);
-	if (r == AVERROR(EAGAIN) || r == AVERROR_EOF || (r < 0 && !packet)) {
-		/* More input is required, no more frames are coming, or we are flushing and there was
-		 * some error which we just want to ignore.
-		 */
-		return false;
-	} else if (r < 0) {
-		throw DecodeError (N_("avcodec_receive_frame"), N_("FFmpeg::decode_and_process_video_packet"), r);
-	}
+	while (true) {
+		r = avcodec_receive_frame (context, _video_frame);
+		if (r == AVERROR(EAGAIN) || r == AVERROR_EOF || (r < 0 && !packet)) {
+			/* More input is required, no more frames are coming, or we are flushing and there was
+			 * some error which we just want to ignore.
+			 */
+			return false;
+		} else if (r < 0) {
+			throw DecodeError (N_("avcodec_receive_frame"), N_("FFmpeg::decode_and_process_video_packet"), r);
+		}
 
-	process_video_frame ();
+		process_video_frame ();
+	}
 
 	return true;
 }
@@ -557,8 +559,6 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 void
 FFmpegDecoder::process_video_frame ()
 {
-	/* We assume we'll only get one frame here, which I think is safe */
-
 	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
 
 	shared_ptr<VideoFilterGraph> graph;

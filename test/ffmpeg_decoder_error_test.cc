@@ -22,6 +22,7 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcpomatic_time.h"
+#include "lib/player.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -45,4 +46,14 @@ BOOST_AUTO_TEST_CASE (check_exception_during_flush)
 	make_and_verify_dcp (film);
 }
 
+
+
+BOOST_AUTO_TEST_CASE (check_exception_with_multiple_video_frames_per_packet)
+{
+	auto content = content_factory(TestPaths::private_data() / "chk.mkv").front();
+	auto film = new_test_film2 ("check_exception_with_multiple_video_frames_per_packet", { content });
+	auto player = std::make_shared<Player>(film, film->playlist());
+
+	while (!player->pass()) {}
+}
 

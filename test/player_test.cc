@@ -210,7 +210,7 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	player->Audio.connect (bind (&audio, _1, _2));
 	video_frames = audio_frames = 0;
 	while (!player->pass ()) {
-		BOOST_CHECK (abs(video_frames - (audio_frames / 2000)) < 8);
+		BOOST_CHECK (abs(video_frames - (audio_frames / 2000)) <= 8);
 	}
 }
 
