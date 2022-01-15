@@ -96,6 +96,7 @@ sources = """
           language_tag_dialog.cc
           language_tag_widget.cc
           make_chain_dialog.cc
+          markers.cc
           markers_dialog.cc
           message_dialog.cc
           metadata_dialog.cc

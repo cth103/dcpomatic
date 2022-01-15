@@ -19,13 +19,14 @@
 */
 
 
-#include "markers_dialog.h"
-#include "wx_util.h"
-#include "timecode.h"
-#include "static_text.h"
-#include "dcpomatic_button.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "film_viewer.h"
+#include "markers.h"
+#include "markers_dialog.h"
+#include "static_text.h"
+#include "timecode.h"
+#include "wx_util.h"
 #include "lib/film.h"
 #include <dcp/types.h>
 #include <wx/gbsizer.h>
@@ -34,11 +35,11 @@
 
 
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
 using std::weak_ptr;
-using std::make_shared;
-using boost::optional;
 using boost::bind;
+using boost::optional;
 using dcpomatic::DCPTime;
 
 
@@ -130,16 +131,9 @@ MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<Fi
 	auto grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	int r = 0;
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of composition"), dcp::Marker::FFOC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of composition"), dcp::Marker::LFOC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of title credits"), dcp::Marker::FFTC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of title credits"), dcp::Marker::LFTC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of intermission"), dcp::Marker::FFOI));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of intermission"), dcp::Marker::LFOI));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of end credits"), dcp::Marker::FFEC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of end credits"), dcp::Marker::LFEC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("First frame of moving credits"), dcp::Marker::FFMC));
-	_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, _("Last frame of moving credits"), dcp::Marker::LFMC));
+	for (auto const& marker: all_markers()) {
+		_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, marker.first, marker.second));
+	}
 
 	sizer->Add (grid, 0, wxALL, 8);
 
