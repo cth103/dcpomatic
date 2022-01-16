@@ -612,7 +612,7 @@ ContentMenu::auto_crop ()
 	});
 
 	/* Update the view when something in the dialog is changed */
-	_auto_crop_dialog->Changed.connect([this, update_viewer](Crop crop) {
+	_auto_crop_dialog->Changed.connect([update_viewer](Crop crop) {
 		update_viewer (crop);
 	});
 }
