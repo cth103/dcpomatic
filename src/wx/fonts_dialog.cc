@@ -28,6 +28,7 @@
 #include "lib/text_content.h"
 #include <wx/wx.h>
 #include <iostream>
+#include <memory>
 
 
 using std::list;
