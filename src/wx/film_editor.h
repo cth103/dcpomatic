@@ -50,7 +50,6 @@ public:
 	void set_film (std::shared_ptr<Film>);
 	void first_shown ();
 
-	boost::signals2::signal<void (boost::filesystem::path)> FileChanged;
 	boost::signals2::signal<void (void)> SelectionChanged;
 
 	/* Stuff for panels */
