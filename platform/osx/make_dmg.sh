@@ -7,7 +7,12 @@ SYNTAX="make_dmg.sh <environment> <builddir> <apple-id> <apple-password> <arch1>
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
 
-version=`git describe --tags --abbrev=0 | sed -e "s/v//"`
+# Use a tag if what we've built is exactly on one
+version=$(git describe --tags --abbrev=0 --match=v2.*.* --exact-match $1 2> /dev/null)
+if [ "$?" != "0" ]; then
+	# Otherwise use <branch>-<commit>
+	version="$(basename $(git name-rev --name-only HEAD))-$(git rev-parse --short HEAD)"
+fi
 
 # DMG size in megabytes
 DMG_SIZE=256
