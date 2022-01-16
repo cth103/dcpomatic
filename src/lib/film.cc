@@ -482,7 +482,7 @@ Film::write_metadata (boost::filesystem::path path) const
 
 /** Write state to our `metadata' file */
 void
-Film::write_metadata () const
+Film::write_metadata ()
 {
 	DCPOMATIC_ASSERT (directory());
 	boost::filesystem::create_directories (directory().get());
@@ -2178,8 +2178,12 @@ Film::set_sign_language_video_language (optional<dcp::LanguageTag> lang)
 
 
 void
-Film::set_dirty (bool dirty) const
+Film::set_dirty (bool dirty)
 {
+	auto const changed = dirty != _dirty;
 	_dirty = dirty;
+	if (changed) {
+		emit (boost::bind(boost::ref(DirtyChange), _dirty));
+	}
 }
 

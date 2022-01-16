@@ -131,7 +131,7 @@ public:
 
 	void use_template (std::string name);
 	std::list<std::string> read_metadata (boost::optional<boost::filesystem::path> path = boost::optional<boost::filesystem::path> ());
-	void write_metadata () const;
+	void write_metadata ();
 	void write_metadata (boost::filesystem::path path) const;
 	void write_template (boost::filesystem::path path) const;
 	std::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
@@ -481,6 +481,8 @@ public:
 	*/
 	mutable boost::signals2::signal<void ()> LengthChange;
 
+	boost::signals2::signal<void (bool)> DirtyChange;
+
 	/** Emitted when we have something important to tell the user */
 	boost::signals2::signal<void (std::string)> Message;
 
@@ -507,7 +509,7 @@ private:
 	void audio_analysis_finished ();
 	void check_settings_consistency ();
 	void maybe_set_container_and_resolution ();
-	void set_dirty (bool dirty) const;
+	void set_dirty (bool dirty);
 
 	/** Log to write to */
 	std::shared_ptr<Log> _log;
