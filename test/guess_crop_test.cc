@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test1)
 	auto film = new_test_film2 ("guess_crop_image_test1", { content });
 
 	BOOST_CHECK (
-		guess_crop(film, content, 0.1, ContentTime::from_frames(content->video->length(), content->video_frame_rate().get()))
+		guess_crop(film, content, 0.1, ContentTime::from_seconds(5))
 		== Crop(0, 0, 11, 11)
 		);
 }
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test2)
 	auto film = new_test_film2 ("guess_crop_image_test2", { content });
 
 	BOOST_CHECK (
-		guess_crop(film, content, 0.1, ContentTime::from_frames(content->video->length(), content->video_frame_rate().get()))
+		guess_crop(film, content, 0.1, ContentTime::from_seconds(5))
 		== Crop(0, 0, 22, 22)
 		);
 }
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test3)
 	auto film = new_test_film2 ("guess_crop_image_test3", { content });
 
 	BOOST_CHECK (
-		guess_crop(film, content, 0.1, ContentTime::from_frames(content->video->length(), content->video_frame_rate().get()))
+		guess_crop(film, content, 0.1, ContentTime::from_seconds(5))
 		== Crop(113, 262, 0, 0)
 		);
 }
