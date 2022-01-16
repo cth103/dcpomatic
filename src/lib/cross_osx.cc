@@ -104,7 +104,7 @@ cpu_info ()
 boost::filesystem::path
 directory_containing_executable ()
 {
-	return boost::dll::program_location().parent_path();
+	return boost::filesystem::canonical(boost::dll::program_location()).parent_path();
 }
 
 
