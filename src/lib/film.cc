@@ -487,7 +487,7 @@ Film::write_metadata () const
 	DCPOMATIC_ASSERT (directory());
 	boost::filesystem::create_directories (directory().get());
 	metadata()->write_to_file_formatted(file(metadata_file).string());
-	_dirty = false;
+	set_dirty (false);
 }
 
 /** Write a template from this film */
@@ -705,7 +705,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		set_backtrace_file (file ("backtrace.txt"));
 	}
 
-	_dirty = false;
+	set_dirty (false);
 	return notes;
 }
 
@@ -1052,7 +1052,7 @@ void
 Film::set_directory (boost::filesystem::path d)
 {
 	_directory = d;
-	_dirty = true;
+	set_dirty (true);
 }
 
 void
@@ -1195,7 +1195,7 @@ void
 Film::signal_change (ChangeType type, Property p)
 {
 	if (type == ChangeType::DONE) {
-		_dirty = true;
+		set_dirty (true);
 
 		if (p == Property::CONTENT) {
 			if (!_user_explicit_video_frame_rate) {
@@ -1474,7 +1474,7 @@ Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool
 		ContentChange (type, c, p, frequent);
 	}
 
-	_dirty = true;
+	set_dirty (true);
 }
 
 void
@@ -1493,7 +1493,7 @@ Film::playlist_change (ChangeType type)
 		check_settings_consistency ();
 	}
 
-	_dirty = true;
+	set_dirty (true);
 }
 
 /** Check for (and if necessary fix) impossible settings combinations, like
@@ -2162,5 +2162,12 @@ Film::set_sign_language_video_language (optional<dcp::LanguageTag> lang)
 {
 	FilmChangeSignaller ch (this, Property::SIGN_LANGUAGE_VIDEO_LANGUAGE);
 	_sign_language_video_language = lang;
+}
+
+
+void
+Film::set_dirty (bool dirty) const
+{
+	_dirty = dirty;
 }
 
