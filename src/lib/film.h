@@ -507,6 +507,7 @@ private:
 	void audio_analysis_finished ();
 	void check_settings_consistency ();
 	void maybe_set_container_and_resolution ();
+	void set_dirty (bool dirty) const;
 
 	/** Log to write to */
 	std::shared_ptr<Log> _log;
