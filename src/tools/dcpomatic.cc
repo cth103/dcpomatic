@@ -368,9 +368,8 @@ public:
 
 		set_menu_sensitivity ();
 
-		_film_editor->FileChanged.connect (bind (&DOMFrame::file_changed, this, _1));
 		_film_editor->content_panel()->SelectionChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
-		file_changed ("");
+		set_title ();
 
 		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
 
@@ -498,6 +497,7 @@ public:
 			_film->Message.connect (boost::bind(&DOMFrame::film_message, this, _1));
 			dcpomatic_log = _film->log ();
 		}
+		set_title ();
 	}
 
 	shared_ptr<Film> film () const {
@@ -524,16 +524,6 @@ private:
 		if (type == ChangeType::DONE) {
 			set_menu_sensitivity ();
 		}
-	}
-
-	void file_changed (boost::filesystem::path f)
-	{
-		auto s = wx_to_std(_("DCP-o-matic"));
-		if (!f.empty ()) {
-			s += " - " + f.string ();
-		}
-
-		SetTitle (std_to_wx (s));
 	}
 
 	void file_new ()
@@ -1533,6 +1523,16 @@ private:
 		auto d = new HTMLDialog(this, std_to_wx(title), std_to_wx(html));
 		d->ShowModal();
 		d->Destroy();
+	}
+
+	void set_title ()
+	{
+		auto s = wx_to_std(_("DCP-o-matic"));
+		if (_film && _film->directory()) {
+			s += " - " + _film->directory()->string();
+		}
+
+		SetTitle (std_to_wx(s));
 	}
 
 	FilmEditor* _film_editor;
