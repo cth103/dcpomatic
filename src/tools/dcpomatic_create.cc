@@ -105,6 +105,9 @@ main (int argc, char* argv[])
 		film->set_use_isdcf_name (!cc.no_use_isdcf_name);
 		film->set_encrypted (cc.encrypt);
 		film->set_three_d (cc.threed);
+		if (cc.twok) {
+			film->set_resolution (Resolution::TWO_K);
+		}
 		if (cc.fourk) {
 			film->set_resolution (Resolution::FOUR_K);
 		}
