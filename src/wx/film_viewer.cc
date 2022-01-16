@@ -804,7 +804,7 @@ FilmViewer::set_optimise_for_j2k (bool o)
 
 
 void
-FilmViewer::set_crop_guess (Rect<float> crop)
+FilmViewer::set_crop_guess (dcpomatic::Rect<float> crop)
 {
 	if (crop != _crop_guess) {
 		_crop_guess = crop;
