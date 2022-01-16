@@ -20,6 +20,7 @@
 
 
 #include <boost/filesystem.hpp>
+#include <memory>
 #include <vector>
 
 

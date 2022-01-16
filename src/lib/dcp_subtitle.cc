@@ -24,6 +24,7 @@
 #include "compose.hpp"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
+#include <memory>
 
 #include "i18n.h"
 

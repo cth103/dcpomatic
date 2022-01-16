@@ -21,6 +21,7 @@
 
 #include "case_insensitive_sorter.h"
 #include <boost/filesystem.hpp>
+#include <algorithm>
 
 
 using std::string;

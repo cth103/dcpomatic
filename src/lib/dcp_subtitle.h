@@ -24,6 +24,7 @@
 
 
 #include <boost/filesystem.hpp>
+#include <memory>
 
 
 namespace dcp {
