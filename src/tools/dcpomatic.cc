@@ -492,6 +492,7 @@ public:
 		if (_film) {
 			_film->Change.connect (boost::bind (&DOMFrame::film_change, this, _1));
 			_film->Message.connect (boost::bind(&DOMFrame::film_message, this, _1));
+			_film->DirtyChange.connect (boost::bind(&DOMFrame::set_title, this));
 			dcpomatic_log = _film->log ();
 		}
 		set_title ();
@@ -1508,8 +1509,13 @@ private:
 	void set_title ()
 	{
 		auto s = wx_to_std(_("DCP-o-matic"));
-		if (_film && _film->directory()) {
-			s += " - " + _film->directory()->string();
+		if (_film) {
+			if (_film->directory()) {
+				s += " - " + _film->directory()->string();
+			}
+			if (_film->dirty()) {
+				s += " *";
+			}
 		}
 
 		SetTitle (std_to_wx(s));
