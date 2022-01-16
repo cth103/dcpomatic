@@ -49,7 +49,8 @@ string CreateCLI::_help =
 	"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
 	"      --no-sign                 do not sign the DCP\n"
 	"      --config <dir>            directory containing config.xml and cinemas.xml\n"
-	"      --fourk                   make a 4K DCP rather than a 2K one\n"
+	"      --twok                    make a 2K DCP instead of choosing a resolution based on the content\n"
+	"      --fourk                   make a 4K DCP instead of choosing a resolution based on the content\n"
 	"  -o, --output <dir>            output directory\n"
 	"      --threed                  make a 3D DCP\n"
 	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
@@ -124,6 +125,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, still_length (10)
 	, standard (dcp::Standard::SMPTE)
 	, no_use_isdcf_name (false)
+	, twok (false)
 	, fourk (false)
 {
 	string dcp_content_type_string = "TST";
@@ -162,6 +164,9 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			claimed = true;
 		} else if (a == "--right-eye") {
 			next_frame_type = VideoFrameType::THREE_D_RIGHT;
+			claimed = true;
+		} else if (a == "--twok") {
+			twok = true;
 			claimed = true;
 		} else if (a == "--fourk") {
 			fourk = true;

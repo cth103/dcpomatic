@@ -57,6 +57,7 @@ public:
 	boost::optional<boost::filesystem::path> output_dir;
 	boost::optional<std::string> error;
 	std::vector<Content> content;
+	bool twok;
 	bool fourk;
 	boost::optional<int> j2k_bandwidth;
 

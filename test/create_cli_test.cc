@@ -144,6 +144,12 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[1].frame_type, VideoFrameType::THREE_D_RIGHT);
 	BOOST_CHECK_EQUAL (cc.fourk, false);
 
+	cc = run ("dcpomatic2_create --twok foo.mp4");
+	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
+	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
+	BOOST_CHECK_EQUAL (cc.twok, true);
+	BOOST_CHECK (!cc.error);
+
 	cc = run ("dcpomatic2_create --fourk foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
