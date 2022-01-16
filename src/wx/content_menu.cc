@@ -511,7 +511,7 @@ ContentMenu::auto_crop ()
 		auto const content = _content.front();
 		auto const current_crop = content->video->actual_crop();
 		viewer->set_crop_guess (
-			Rect<float>(
+			dcpomatic::Rect<float>(
 				static_cast<float>(std::max(0, crop.left - current_crop.left)) / content->video->size().width,
 				static_cast<float>(std::max(0, crop.top - current_crop.top)) / content->video->size().height,
 				1.0f - (static_cast<float>(std::max(0, crop.left - current_crop.left + crop.right - current_crop.right)) / content->video->size().width),
