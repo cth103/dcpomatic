@@ -245,6 +245,7 @@ supported_by.Add (wxT ("Hannes Feil"));
 supported_by.Add (wxT ("Rasitha Ferdinando"));
 supported_by.Add (wxT ("Tom Fermanian"));
 supported_by.Add (wxT ("Jose Angel Velasco Fernandez"));
+supported_by.Add (wxT ("Nicole Ferre"));
 supported_by.Add (wxT ("Bruno Roque Ferreira"));
 supported_by.Add (wxT ("Antonio Ferreira"));
 supported_by.Add (wxT ("Santiago Ferreira"));
