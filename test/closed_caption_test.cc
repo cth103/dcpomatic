@@ -100,15 +100,15 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	BOOST_REQUIRE_EQUAL (ccaps.size(), 3U);
 
 	auto i = ccaps.begin ();
-	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "First track");
+	BOOST_CHECK_EQUAL ((*i)->annotation_text().get_value_or(""), "First track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
 	BOOST_CHECK_EQUAL ((*i)->language().get(), "fr-FR");
 	++i;
-	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Second track");
+	BOOST_CHECK_EQUAL ((*i)->annotation_text().get_value_or(""), "Second track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
 	BOOST_CHECK_EQUAL ((*i)->language().get(), "de-DE");
 	++i;
-	BOOST_CHECK_EQUAL ((*i)->annotation_text(), "Third track");
+	BOOST_CHECK_EQUAL ((*i)->annotation_text().get_value_or(""), "Third track");
 	BOOST_REQUIRE (static_cast<bool>((*i)->language()));
 	BOOST_CHECK_EQUAL ((*i)->language().get(), "it-IT");
 
