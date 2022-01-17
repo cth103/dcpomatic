@@ -147,7 +147,22 @@ struct OSXMediaPath
 };
 
 
+
+struct OSXDisk
+{
+	std::string mount_point;
+	boost::optional<std::string> vendor;
+	boost::optional<std::string> model;
+	bool real;
+	std::string prt;
+	bool whole;
+	std::vector<boost::filesystem::path> mount_points;
+	unsigned long size;
+};
+
+
 boost::optional<OSXMediaPath> analyse_osx_media_path (std::string path);
+std::vector<Drive> osx_disks_to_drives (std::vector<OSXDisk> disks);
 
 
 #endif

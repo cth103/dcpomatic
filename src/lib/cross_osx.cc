@@ -387,19 +387,6 @@ mount_point (CFDictionaryRef& description)
  * unearth is, to put it impolitely, crap.
  */
 
-struct Disk
-{
-	string mount_point;
-	optional<string> vendor;
-	optional<string> model;
-	bool real;
-	string prt;
-	bool whole;
-	vector<boost::filesystem::path> mount_points;
-	unsigned long size;
-};
-
-
 static void
 disk_appeared (DADiskRef disk, void* context)
 {
@@ -410,7 +397,7 @@ disk_appeared (DADiskRef disk, void* context)
 	}
 	LOG_DISK("%1 appeared", bsd_name);
 
-	Disk this_disk;
+	OSXDisk this_disk;
 
 	this_disk.mount_point = string("/dev/") + bsd_name;
 	LOG_DISK("Mount point is %1", this_disk.mount_point);
@@ -452,7 +439,7 @@ disk_appeared (DADiskRef disk, void* context)
 	CFNumberGetValue ((CFNumberRef) media_size_cstr, kCFNumberLongType, &this_disk.size);
 	CFRelease (description);
 
-	reinterpret_cast<vector<Disk>*>(context)->push_back(this_disk);
+	reinterpret_cast<vector<OSXDisk>*>(context)->push_back(this_disk);
 }
 
 
@@ -460,7 +447,7 @@ vector<Drive>
 Drive::get ()
 {
 	using namespace boost::algorithm;
-	vector<Disk> disks;
+	vector<OSXDisk> disks;
 
 	auto session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
@@ -475,48 +462,7 @@ Drive::get ()
 	DAUnregisterCallback(session, (void *) disk_appeared, &disks);
 	CFRelease(session);
 
-	/* Mark disks containing mounted partitions as themselves mounted */
-	for (auto& i: disks) {
-		if (!i.whole) {
-			continue;
-		}
-		for (auto& j: disks) {
-			if (!j.mount_points.empty() && starts_with(j.mount_point, i.mount_point)) {
-				LOG_DISK("Marking %1 as mounted because %2 is", i.mount_point, j.mount_point);
-				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
-			}
-		}
-	}
-
-	/* Make a map of the PRT codes and mount points of mounted, synthesized disks */
-	map<string, vector<boost::filesystem::path>> mounted_synths;
-	for (auto& i: disks) {
-		if (!i.real && !i.mount_points.empty()) {
-			LOG_DISK("Found a mounted synth %1 with %2", i.mount_point, i.prt);
-			mounted_synths[i.prt] = i.mount_points;
-		}
-	}
-
-	/* Mark containers of those mounted synths as themselves mounted */
-	for (auto& i: disks) {
-		if (i.real) {
-			auto j = mounted_synths.find(i.prt);
-			if (j != mounted_synths.end()) {
-				LOG_DISK("Marking %1 (%2) as mounted because it contains a mounted synth", i.mount_point, i.prt);
-				std::copy(j->second.begin(), j->second.end(), back_inserter(i.mount_points));
-			}
-		}
-	}
-
-	vector<Drive> drives;
-	for (auto& i: disks) {
-		if (i.whole) {
-			/* A whole disk that is not a container for a mounted synth */
-			drives.push_back(Drive(i.mount_point, i.mount_points, i.size, i.vendor, i.model));
-			LOG_DISK_NC(drives.back().log_summary());
-		}
-	}
-	return drives;
+	return osx_disks_to_drives (disks);
 }
 
 

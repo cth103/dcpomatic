@@ -33,6 +33,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include "i18n.h"
 
 
+using std::map;
 using std::string;
 using std::vector;
 using boost::optional;
@@ -152,3 +153,53 @@ analyse_osx_media_path (string path)
 }
 
 
+/* This is in _common so we can use it in unit tests */
+vector<Drive>
+osx_disks_to_drives (vector<OSXDisk> disks)
+{
+	using namespace boost::algorithm;
+
+	/* Mark disks containing mounted partitions as themselves mounted */
+	for (auto& i: disks) {
+		if (!i.whole) {
+			continue;
+		}
+		for (auto& j: disks) {
+			if (!j.mount_points.empty() && starts_with(j.mount_point, i.mount_point)) {
+				LOG_DISK("Marking %1 as mounted because %2 is", i.mount_point, j.mount_point);
+				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
+			}
+		}
+	}
+
+	/* Make a map of the PRT codes and mount points of mounted, synthesized disks */
+	map<string, vector<boost::filesystem::path>> mounted_synths;
+	for (auto const& i: disks) {
+		if (!i.real && !i.mount_points.empty()) {
+			LOG_DISK("Found a mounted synth %1 with %2", i.mount_point, i.prt);
+			mounted_synths[i.prt] = i.mount_points;
+		}
+	}
+
+	/* Mark containers of those mounted synths as themselves mounted */
+	for (auto& i: disks) {
+		if (i.real) {
+			auto j = mounted_synths.find(i.prt);
+			if (j != mounted_synths.end()) {
+				LOG_DISK("Marking %1 (%2) as mounted because it contains a mounted synth", i.mount_point, i.prt);
+				std::copy(j->second.begin(), j->second.end(), back_inserter(i.mount_points));
+			}
+		}
+	}
+
+	vector<Drive> drives;
+	for (auto const& i: disks) {
+		if (i.whole) {
+			/* A whole disk that is not a container for a mounted synth */
+			drives.push_back(Drive(i.mount_point, i.mount_points, i.size, i.vendor, i.model));
+			LOG_DISK_NC(drives.back().log_summary());
+		}
+	}
+
+	return drives;
+}
