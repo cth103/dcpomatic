@@ -44,7 +44,7 @@ void add_asset(string film_key, shared_ptr<R> reel_asset, shared_ptr<A> asset, x
 	if (asset) {
 		auto out = reel->add_child(name);
 		out->add_child("Id")->add_child_text("urn:uuid:" + asset->id());
-		out->add_child("AnnotationText")->add_child_text(reel_asset->annotation_text());
+		out->add_child("AnnotationText")->add_child_text(reel_asset->annotation_text().get_value_or(""));
 		if (asset->key_id()) {
 			out->add_child("KeyId")->add_child_text("urn:uuid:" + asset->key_id().get());
 			out->add_child("Key")->add_child_text(asset->key() ? asset->key()->hex() : film_key);
