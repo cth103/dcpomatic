@@ -124,8 +124,6 @@ Drive::log_summary () const
 optional<OSXMediaPath>
 analyse_osx_media_path (string path)
 {
-	using namespace boost::algorithm;
-
 	if (path.find("/IOHDIXController") != string::npos) {
 		/* This is a disk image, so we completely ignore it */
 		LOG_DISK_NC("Ignoring this as it seems to be a disk image");
@@ -133,27 +131,32 @@ analyse_osx_media_path (string path)
 	}
 
 	OSXMediaPath mp;
-	if (starts_with(path, "IODeviceTree:")) {
+	vector<string> parts;
+	split(parts, path, boost::is_any_of("/"));
+	std::copy(parts.begin() + 1, parts.end(), back_inserter(mp.parts));
+
+	if (!parts.empty() && parts[0] == "IODeviceTree:") {
 		mp.real = true;
-	} else if (starts_with(path, "IOService:")) {
+		if (mp.parts.size() < 2) {
+			/* Later we expect at least 2 parts in a IODeviceTree */
+			LOG_DISK_NC("Ignoring this as it has a strange media path");
+			return {};
+		}
+	} else if (!parts.empty() && parts[0] == "IOService:") {
 		mp.real = false;
 	} else {
 		return {};
-	}
-
-	vector<string> bits;
-	split(bits, path, boost::is_any_of("/"));
-	for (auto i: bits) {
-		if (starts_with(i, "PRT")) {
-			mp.prt = i;
-		}
 	}
 
 	return mp;
 }
 
 
-/* This is in _common so we can use it in unit tests */
+/* Take soem OSXDisk objects, representing disks that `DARegisterDiskAppearedCallback` told us about,
+ * and find those drives that we could write a DCP to.  The drives returned are "real" (not synthesized)
+ * and are whole disks (not partitions).  They may be mounted, or contain mounted partitions, in which
+ * their mounted() method will return true.
+ */
 vector<Drive>
 osx_disks_to_drives (vector<OSXDisk> disks)
 {
@@ -165,38 +168,37 @@ osx_disks_to_drives (vector<OSXDisk> disks)
 			continue;
 		}
 		for (auto& j: disks) {
-			if (!j.mount_points.empty() && starts_with(j.mount_point, i.mount_point)) {
-				LOG_DISK("Marking %1 as mounted because %2 is", i.mount_point, j.mount_point);
+			if (!j.mount_points.empty() && starts_with(j.device, i.device)) {
+				LOG_DISK("Marking %1 as mounted because %2 is", i.device, j.device);
 				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
 			}
 		}
 	}
 
-	/* Make a map of the PRT codes and mount points of mounted, synthesized disks */
-	map<string, vector<boost::filesystem::path>> mounted_synths;
-	for (auto const& i: disks) {
-		if (!i.real && !i.mount_points.empty()) {
-			LOG_DISK("Found a mounted synth %1 with %2", i.mount_point, i.prt);
-			mounted_synths[i.prt] = i.mount_points;
-		}
-	}
-
-	/* Mark containers of those mounted synths as themselves mounted */
+	/* Mark containers of mounted synths as themselves mounted */
 	for (auto& i: disks) {
-		if (i.real) {
-			auto j = mounted_synths.find(i.prt);
-			if (j != mounted_synths.end()) {
-				LOG_DISK("Marking %1 (%2) as mounted because it contains a mounted synth", i.mount_point, i.prt);
-				std::copy(j->second.begin(), j->second.end(), back_inserter(i.mount_points));
+		if (i.media_path.real) {
+			for (auto& j: disks) {
+				if (!j.media_path.real && !j.mount_points.empty()) {
+					/* i is real, j is a mounted synth; if we see the first two parts
+					 * of i anywhere in j we assume they are related and so i shares
+					 * j's mount points.
+					 */
+					if (
+						find(j.media_path.parts.begin(), j.media_path.parts.end(), i.media_path.parts[0]) != j.media_path.parts.end() &&
+						find(j.media_path.parts.begin(), j.media_path.parts.end(), i.media_path.parts[1]) != j.media_path.parts.end()) {
+						LOG_DISK("Marking %1 as mounted because %2 is (found %3 and %4)", i.device, j.device, i.media_path.parts[0], i.media_path.parts[1]);
+						std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
+					}
+				}
 			}
 		}
 	}
 
 	vector<Drive> drives;
 	for (auto const& i: disks) {
-		if (i.whole) {
-			/* A whole disk that is not a container for a mounted synth */
-			drives.push_back(Drive(i.mount_point, i.mount_points, i.size, i.vendor, i.model));
+		if (i.whole && i.media_path.real) {
+			drives.push_back(Drive(i.device, i.mount_points, i.size, i.vendor, i.model));
 			LOG_DISK_NC(drives.back().log_summary());
 		}
 	}
