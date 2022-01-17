@@ -27,12 +27,15 @@
 DCPOMATIC_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 DCPOMATIC_ENABLE_WARNINGS
+#include <boost/algorithm/string.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
 
 using std::string;
+using std::vector;
+using boost::optional;
 
 
 Drive::Drive (string xml)
@@ -113,3 +116,39 @@ Drive::log_summary () const
 		_device, mp, _size, _vendor.get_value_or("[none]"), _model.get_value_or("[none]")
 			);
 }
+
+
+
+/* This is in _common so we can use it in unit tests */
+optional<OSXMediaPath>
+analyse_osx_media_path (string path)
+{
+	using namespace boost::algorithm;
+
+	if (path.find("/IOHDIXController") != string::npos) {
+		/* This is a disk image, so we completely ignore it */
+		LOG_DISK_NC("Ignoring this as it seems to be a disk image");
+		return {};
+	}
+
+	OSXMediaPath mp;
+	if (starts_with(path, "IODeviceTree:")) {
+		mp.real = true;
+	} else if (starts_with(path, "IOService:")) {
+		mp.real = false;
+	} else {
+		return {};
+	}
+
+	vector<string> bits;
+	split(bits, path, boost::is_any_of("/"));
+	for (auto i: bits) {
+		if (starts_with(i, "PRT")) {
+			mp.prt = i;
+		}
+	}
+
+	return mp;
+}
+
+
