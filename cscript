@@ -432,8 +432,8 @@ def dependencies(target, options):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', 'v1.8.5'))
-    deps.append(('libsub', 'v1.6.5'))
+    deps.append(('libdcp', 'v1.8.6'))
+    deps.append(('libsub', 'v1.6.6'))
     deps.append(('leqm-nrt', '93ae9e6'))
     deps.append(('rtaudio', 'f619b76'))
     # We get our OpenSSL libraries from the environment, but we
