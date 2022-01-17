@@ -309,14 +309,7 @@ get_model (CFDictionaryRef& description)
 }
 
 
-struct MediaPath
-{
-	bool real;       ///< true for a "real" disk, false for a synthesized APFS one
-	std::string prt; ///< "PRT" entry from the media path
-};
-
-
-static optional<MediaPath>
+static optional<OSXMediaPath>
 analyse_media_path (CFDictionaryRef& description)
 {
 	using namespace boost::algorithm;
@@ -335,31 +328,7 @@ analyse_media_path (CFDictionaryRef& description)
 
 	string path(path_key_cstr);
 	LOG_DISK("MediaPathKey is %1", path);
-
-	if (path.find("/IOHDIXController") != string::npos) {
-		/* This is a disk image, so we completely ignore it */
-		LOG_DISK_NC("Ignoring this as it seems to be a disk image");
-		return {};
-	}
-
-	MediaPath mp;
-	if (starts_with(path, "IODeviceTree:")) {
-		mp.real = true;
-	} else if (starts_with(path, "IOService:")) {
-		mp.real = false;
-	} else {
-		return {};
-	}
-
-	vector<string> bits;
-	split(bits, path, boost::is_any_of("/"));
-	for (auto i: bits) {
-		if (starts_with(i, "PRT")) {
-			mp.prt = i;
-		}
-	}
-
-	return mp;
+	return analyse_osx_media_path (path);
 }
 
 
@@ -467,7 +436,7 @@ disk_appeared (DADiskRef disk, void* context)
 	}
 
 	LOG_DISK(
-		"%1 prt %2 whole %3 mounted %4",
+		"%1 prt=%2 %3 %4",
 		 this_disk.real ? "Real" : "Synth",
 		 this_disk.prt,
 		 this_disk.whole ? "whole" : "part",

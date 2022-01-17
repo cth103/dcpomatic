@@ -139,4 +139,15 @@ private:
 
 void disk_write_finished ();
 
+
+struct OSXMediaPath
+{
+	bool real;       ///< true for a "real" disk, false for a synthesized APFS one
+	std::string prt; ///< "PRT" entry from the media path
+};
+
+
+boost::optional<OSXMediaPath> analyse_osx_media_path (std::string path);
+
+
 #endif
