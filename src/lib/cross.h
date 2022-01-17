@@ -142,19 +142,17 @@ void disk_write_finished ();
 
 struct OSXMediaPath
 {
-	bool real;       ///< true for a "real" disk, false for a synthesized APFS one
-	std::string prt; ///< "PRT" entry from the media path
+	bool real; ///< true for a "real" disk, false for a synthesized APFS one
+	std::vector<std::string> parts; ///< parts of the media path after the :
 };
-
 
 
 struct OSXDisk
 {
-	std::string mount_point;
+	std::string device;
 	boost::optional<std::string> vendor;
 	boost::optional<std::string> model;
-	bool real;
-	std::string prt;
+	OSXMediaPath media_path;
 	bool whole;
 	std::vector<boost::filesystem::path> mount_points;
 	unsigned long size;

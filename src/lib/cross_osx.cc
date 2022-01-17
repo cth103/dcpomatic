@@ -380,8 +380,8 @@ mount_point (CFDictionaryRef& description)
  * a partition /dev/disk2s2 whose content is made into a synthesized /dev/disk3, itself containing some partitions
  * which are mounted.  /dev/disk2s2 is not considered to be mounted, in this case.  So we need to know that
  * disk2s2 is related to disk3 so we can consider disk2s2 as mounted if any parts of disk3 are.  In order to do
- * this I am picking out what looks like a suitable identifier prefixed with PRT from the MediaContentKey.
- * If disk2s2 and disk3 have the same PRT code I am assuming they are linked.
+ * this I am taking the first two parts of the IODeviceTree and seeing if they exist anywhere in a
+ * IOService identifier.  If they do, I am assuming the IOService device is on the matching IODeviceTree device.
  *
  * Lots of this is guesswork and may be broken.  In my defence the documentation that I have been able to
  * unearth is, to put it impolitely, crap.
@@ -399,8 +399,8 @@ disk_appeared (DADiskRef disk, void* context)
 
 	OSXDisk this_disk;
 
-	this_disk.mount_point = string("/dev/") + bsd_name;
-	LOG_DISK("Mount point is %1", this_disk.mount_point);
+	this_disk.device = string("/dev/") + bsd_name;
+	LOG_DISK("Device is %1", this_disk.device);
 
 	CFDictionaryRef description = DADiskCopyDescription (disk);
 
@@ -414,8 +414,7 @@ disk_appeared (DADiskRef disk, void* context)
 		return;
 	}
 
-	this_disk.real = media_path->real;
-	this_disk.prt = media_path->prt;
+	this_disk.media_path = *media_path;
 	this_disk.whole = is_whole_drive (disk);
 	auto mp = mount_point (description);
 	if (mp) {
@@ -423,11 +422,10 @@ disk_appeared (DADiskRef disk, void* context)
 	}
 
 	LOG_DISK(
-		"%1 prt=%2 %3 %4",
-		 this_disk.real ? "Real" : "Synth",
-		 this_disk.prt,
+		"%1 %2 mounted at %3",
+		 this_disk.media_path.real ? "Real" : "Synth",
 		 this_disk.whole ? "whole" : "part",
-		 mp ? ("mounted at " + mp->string()) : "unmounted"
+		 mp ? mp->string() : "[nowhere]"
 		);
 
 	auto media_size_cstr = CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey);
