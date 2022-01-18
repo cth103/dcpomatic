@@ -710,6 +710,7 @@ supported_by.Add (wxT ("Cine Avenida Pedrajas"));
 supported_by.Add (wxT ("Voitek Pendrak"));
 supported_by.Add (wxT ("Gregory Penetrante"));
 supported_by.Add (wxT ("Rui Pereira"));
+supported_by.Add (wxT ("Warren Pereira"));
 supported_by.Add (wxT ("Orion Perenyi"));
 supported_by.Add (wxT ("Luis Morales Pesado"));
 supported_by.Add (wxT ("Sascha Pesenecker"));
