@@ -45,6 +45,7 @@
 extern "C" {
 #include <lwext4/file_dev.h>
 }
+#include <unistd.h>
 #include <xpc/xpc.h>
 #endif
 
@@ -285,7 +286,7 @@ main ()
 	 * redirect this to a file in /var/log
 	 */
 	dcpomatic_log.reset(new StdoutLog(LogEntry::TYPE_DISK));
-	LOG_DISK("dcpomatic_disk_writer %1 started", dcpomatic_git_commit);
+	LOG_DISK("dcpomatic_disk_writer %1 started uid=%2 euid=%3", dcpomatic_git_commit, getuid(), geteuid());
 #else
 	/* XXX: this is a hack, but I expect we'll need logs and I'm not sure if there's
 	 * a better place to put them.
