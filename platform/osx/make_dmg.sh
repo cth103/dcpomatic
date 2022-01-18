@@ -8,8 +8,10 @@ SYNTAX="make_dmg.sh <environment> <builddir> <apple-id> <apple-password> <arch1>
 # were found.
 
 # Use a tag if what we've built is exactly on one
-version=$(git describe --tags --abbrev=0 --match=v2.*.* --exact-match 2> /dev/null | sed -e "s/^v//")
-if [ "$?" != "0" ]; then
+version=$(git describe --tags --abbrev=0 --match=v2.*.* --exact-match 2> /dev/null)
+if [ "$?" == "0" ]; then
+	version=$(echo $version | sed -e "s/^v//")
+else
 	# Otherwise use <branch>-<commit>
 	version="$(basename $(git name-rev --name-only HEAD))-$(git rev-parse --short HEAD)"
 fi
