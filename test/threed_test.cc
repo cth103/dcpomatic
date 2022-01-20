@@ -212,3 +212,45 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 
 	JobManager::drop ();
 }
+
+
+/** Trigger a -114 error by trying to make a 3D DCP out of two files with slightly
+ *  different lengths.
+ */
+BOOST_AUTO_TEST_CASE (threed_test_separate_files_slightly_different_lengths)
+{
+	shared_ptr<Film> film = new_test_film2 ("threed_test3");
+	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
+	film->examine_and_add_content (L);
+	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
+	film->examine_and_add_content (R);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
+	R->set_trim_end (dcpomatic::ContentTime::from_frames(1, 24));
+
+	film->set_three_d (true);
+	make_and_verify_dcp (film);
+}
+
+
+/** Trigger a -114 error by trying to make a 3D DCP out of two files with very
+ *  different lengths.
+ */
+BOOST_AUTO_TEST_CASE (threed_test_separate_files_very_different_lengths)
+{
+	shared_ptr<Film> film = new_test_film2 ("threed_test3");
+	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
+	film->examine_and_add_content (L);
+	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
+	film->examine_and_add_content (R);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
+	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
+	R->set_trim_end (dcpomatic::ContentTime::from_seconds(1.5));
+
+	film->set_three_d (true);
+	make_and_verify_dcp (film);
+}
