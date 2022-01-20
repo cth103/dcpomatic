@@ -37,17 +37,6 @@ using boost::optional;
 int const Shuffler::_max_size = 64;
 
 
-struct Comparator
-{
-	bool operator()(Shuffler::Store const & a, Shuffler::Store const & b) {
-		if (a.second.frame != b.second.frame) {
-			return a.second.frame < b.second.frame;
-		}
-		return a.second.eyes < b.second.eyes;
-	}
-};
-
-
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
@@ -71,7 +60,12 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 	}
 
 	_store.push_back (make_pair (weak_piece, video));
-	_store.sort (Comparator());
+	_store.sort ([](Shuffler::Store const & a, Shuffler::Store const & b) {
+		if (a.second.frame != b.second.frame) {
+			return a.second.frame < b.second.frame;
+		}
+		return a.second.eyes < b.second.eyes;
+	});
 
 	while (true) {
 
