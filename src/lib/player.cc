@@ -279,9 +279,9 @@ Player::setup_pieces_unlocked ()
 	_black = Empty (_film, playlist(), bind(&have_video, _1), _playback_length);
 	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
-	_next_video_time = boost::optional<dcpomatic::DCPTime>();
+	_next_video_time = boost::none;
 	_next_video_eyes = Eyes::BOTH;
-	_next_audio_time = boost::optional<dcpomatic::DCPTime>();
+	_next_audio_time = boost::none;
 }
 
 
@@ -1239,9 +1239,9 @@ Player::seek (DCPTime time, bool accurate)
 		_next_video_eyes = Eyes::LEFT;
 		_next_audio_time = time;
 	} else {
-		_next_video_time = optional<DCPTime>();
-		_next_video_eyes = optional<Eyes>();
-		_next_audio_time = optional<DCPTime>();
+		_next_video_time = boost::none;
+		_next_video_eyes = boost::none;
+		_next_audio_time = boost::none;
 	}
 
 	_black.set_position (time);
