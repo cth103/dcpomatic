@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -70,11 +70,11 @@ msgstr ""
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:491
+#: src/lib/job.cc:506
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:1139
+#: src/lib/config.cc:1153
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -87,11 +87,11 @@ msgid ""
 "Size: $SIZE\n"
 msgstr ""
 
-#: src/lib/config.cc:1117
+#: src/lib/config.cc:1131
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
-#: src/lib/cross_common.cc:94
+#: src/lib/cross_common.cc:98
 msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
@@ -116,6 +116,10 @@ msgstr "%1 [video]"
 #, fuzzy
 msgid "%1 [video]"
 msgstr "%1 [video]"
+
+#: src/lib/transcode_job.cc:175
+msgid "%1; %2/%3 frames"
+msgstr ""
 
 #: src/lib/video_content.cc:447
 #, fuzzy, c-format
@@ -176,12 +180,11 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:155
-#, c-format
-msgid "; %.1f fps"
+#: src/lib/transcode_job.cc:178
+msgid "; %1 fps"
 msgstr ""
 
-#: src/lib/job.cc:496
+#: src/lib/job.cc:511
 msgid "; %1 remaining; finishing at %2%3"
 msgstr ""
 
@@ -384,11 +387,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:505
+#: src/lib/job.cc:520
 msgid "Cancelled"
 msgstr "Zrušené"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 #, fuzzy
 msgid "Cannot contain slashes"
 msgstr "nemôže obsahovať lomky"
@@ -397,7 +400,7 @@ msgstr "nemôže obsahovať lomky"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nemôžem spracovať formát pixelu %1 počas %2"
 
-#: src/lib/film.cc:1711
+#: src/lib/film.cc:1705
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -410,17 +413,17 @@ msgstr "Center"
 msgid "Channels"
 msgstr "Zvukové kanály"
 
-#: src/lib/check_content_change_job.cc:52
+#: src/lib/transcode_job.cc:108
+msgid "Check their new settings, then try again."
+msgstr ""
+
+#: src/lib/check_content_change_job.cc:49
 msgid "Checking content for changes"
 msgstr ""
 
 #: src/lib/reel_writer.cc:250
 msgid "Checking existing image data"
 msgstr "Kontrolujem existujúce video dáta"
-
-#: src/lib/check_content_change_job.cc:93
-msgid "Choose 'Make DCP' again when you have done this."
-msgstr ""
 
 #: src/lib/ffmpeg_content.cc:655
 #, fuzzy
@@ -647,7 +650,7 @@ msgstr "Nemôžem sa pripojiť k serveru %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Nemôžem vytvoriť vzdialený priečinok %1 (%2)"
 
-#: src/lib/image_examiner.cc:64
+#: src/lib/image_examiner.cc:65
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Nemôžem dekódovať JPEG2000 súbor %1 (%2)"
 
@@ -681,7 +684,7 @@ msgstr "Nemôžem otvoriť ZIP súbor"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Nemôžem otvoriť ZIP súbor"
 
-#: src/lib/config.cc:1003
+#: src/lib/config.cc:1017
 #, fuzzy
 msgid "Could not open file for writing"
 msgstr "Datei konnte nicht zum Lesen geöffnet werden."
@@ -691,7 +694,7 @@ msgstr "Datei konnte nicht zum Lesen geöffnet werden."
 msgid "Could not open output file %1 (%2)"
 msgstr "nemôžem zapisovať do súboru %1 (%2)"
 
-#: src/lib/dcp_subtitle.cc:59
+#: src/lib/dcp_subtitle.cc:60
 #, fuzzy
 msgid "Could not read subtitles (%1 / %2)"
 msgstr "Nemôžem čítať titulky"
@@ -757,13 +760,13 @@ msgstr ""
 "DCP-o-matic nemohol otvoriť %1.  Možno, že súbor neexistuje alebo nie je "
 "podporovaný."
 
-#: src/lib/film.cc:1614
+#: src/lib/film.cc:1608
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
 
-#: src/lib/film.cc:1582
+#: src/lib/film.cc:1576
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
@@ -774,7 +777,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic nepodporuje `%1' filter, takže filter bude vypnutý."
 
-#: src/lib/config.cc:357 src/lib/config.cc:1114
+#: src/lib/config.cc:380 src/lib/config.cc:1128
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -787,7 +790,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "De-interlacing"
 
-#: src/lib/config.cc:1102
+#: src/lib/config.cc:1116
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -865,7 +868,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Chyba v SubRip súbore: videný %1 a bol očakávaný %2"
 
-#: src/lib/job.cc:503
+#: src/lib/job.cc:518
 msgid "Error: %1"
 msgstr "Chyba: %1"
 
@@ -919,6 +922,10 @@ msgstr "Feature"
 #, fuzzy
 msgid "Filename"
 msgstr "meno"
+
+#: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
+msgid "Files have changed since they were added to the project."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:596
 msgid "Film"
@@ -1033,7 +1040,7 @@ msgstr "Neviem, čo zapríčinilo túto chybu."
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:347 src/lib/config.cc:1099
+#: src/lib/config.cc:370 src/lib/config.cc:1113
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM donáška: $CPL_NAME"
 
@@ -1041,7 +1048,7 @@ msgstr "KDM donáška: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kernel deinterlacer"
 
-#: src/lib/ffmpeg_encoder.cc:253 src/lib/util.cc:591
+#: src/lib/ffmpeg_encoder.cc:254 src/lib/util.cc:591
 msgid "L"
 msgstr "L"
 
@@ -1097,7 +1104,7 @@ msgstr "Logarmitmický (rozsah 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarmitmický (rozsah 316:1 )"
 
-#: src/lib/exceptions.cc:152
+#: src/lib/exceptions.cc:161
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
@@ -1166,7 +1173,7 @@ msgstr "Redukcia hluku"
 msgid "None"
 msgstr ""
 
-#: src/lib/job.cc:501
+#: src/lib/job.cc:516
 msgid "OK (ran for %1)"
 msgstr "OK (hotovo za %1)"
 
@@ -1182,6 +1189,12 @@ msgstr "Iba posledná časť pripojeného obsahu môže byť upravená od konca.
 #, fuzzy
 msgid "Open subtitles"
 msgstr "[titulky]"
+
+#: src/lib/transcode_job.cc:113
+msgid ""
+"Open the project in DCP-o-matic, check the settings, then save it before "
+"trying again."
+msgstr ""
 
 #: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
 #: src/lib/filter.cc:79
@@ -1227,7 +1240,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Public Service Announcement (Verejné oznámenie služby)"
 
-#: src/lib/ffmpeg_encoder.cc:258 src/lib/util.cc:592
+#: src/lib/ffmpeg_encoder.cc:259 src/lib/util.cc:592
 msgid "R"
 msgstr "R"
 
@@ -1378,17 +1391,23 @@ msgstr ""
 msgid "Some audio will be resampled to %1Hz"
 msgstr "Nejaké audio bude prevzorkované na %1Hz"
 
-#: src/lib/check_content_change_job.cc:89
+#: src/lib/transcode_job.cc:117
+msgid "Some files have been changed since they were added to the project."
+msgstr ""
+
+#: src/lib/transcode_job.cc:107
+msgid ""
+"Some files have been changed since they were added to the project.\n"
+"\n"
+"These files will now be re-examined, so you may need to check their settings "
+"before trying again."
+msgstr ""
+
+#: src/lib/check_content_change_job.cc:71
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
 "These files will now be re-examined, so you may need to check their settings."
-msgstr ""
-
-#: src/lib/check_content_change_job.cc:100
-msgid ""
-"Some files have been changed since they were added to the project.  Open the "
-"project in DCP-o-matic, check the settings, then save it before trying again."
 msgstr ""
 
 #: src/lib/hints.cc:551
@@ -1404,11 +1423,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:417
+#: src/lib/film.cc:414
 msgid "Some of your content needs a KDM"
 msgstr ""
 
-#: src/lib/film.cc:420
+#: src/lib/film.cc:417
 msgid "Some of your content needs an OV"
 msgstr ""
 
@@ -1445,7 +1464,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "[titulky]"
 
-#: src/lib/film.cc:400
+#: src/lib/film.cc:397
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1540,7 +1559,7 @@ msgid ""
 "the content and choosing \"Add KDM\"."
 msgstr ""
 
-#: src/lib/film.cc:595
+#: src/lib/film.cc:587
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1548,7 +1567,7 @@ msgstr ""
 "Tento film bol vytvorený novšou verziou DCP-o-matic, a nemôže byť načítaný "
 "touto verziou. Prepáčte !"
 
-#: src/lib/film.cc:580
+#: src/lib/film.cc:572
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1570,7 +1589,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:71
+#: src/lib/transcode_job.cc:74
 #, fuzzy
 msgid "Transcoding %1"
 msgstr "Transkódovanie %1"
@@ -1595,7 +1614,7 @@ msgstr "Neočakávaný obsah ZIP"
 msgid "Unexpected image type received by server"
 msgstr "Neočakávaný typ obrazu obdŕžaný od servera "
 
-#: src/lib/cross_common.cc:91 src/lib/dcp_text_track.cc:53
+#: src/lib/cross_common.cc:95 src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "neznáme"
@@ -1712,7 +1731,7 @@ msgid ""
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/film.cc:1578
+#: src/lib/film.cc:1572
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1730,7 +1749,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr ""
 
-#: src/lib/film.cc:396
+#: src/lib/film.cc:393
 #, fuzzy
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musíte pridať obsah do DCP pred tým, ako ho vytvoríte"
@@ -1755,7 +1774,7 @@ msgid ""
 "audio content."
 msgstr ""
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:310
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1797,11 +1816,11 @@ msgstr "spojenie vypršalo"
 msgid "connecting"
 msgstr "pripájam"
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:389
 msgid "container"
 msgstr "kontajner"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:401
 msgid "content type"
 msgstr "typ obsahu"
 
@@ -1809,7 +1828,7 @@ msgstr "typ obsahu"
 msgid "copying %1"
 msgstr "kopírujem %1"
 
-#: src/lib/ffmpeg.cc:137
+#: src/lib/ffmpeg.cc:141
 msgid "could not find stream information"
 msgstr "nemôžem nájsť informácie o streame"
 
@@ -1957,7 +1976,7 @@ msgstr "m"
 msgid "moving"
 msgstr "presúvam"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "name"
 msgstr "meno"
 
@@ -1984,7 +2003,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:413
+#: src/lib/film.cc:410
 msgid "some of your content is missing"
 msgstr ""
 
@@ -1992,7 +2011,7 @@ msgstr ""
 msgid "still"
 msgstr "stále"
 
-#: src/lib/ffmpeg_examiner.cc:338
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "neznáme"
 

@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -74,8 +75,9 @@ msgstr "%d ljudkanaler via %s"
 
 # Used verbatim without translation
 #: src/wx/about_dialog.cc:87
+#, fuzzy
 msgid ""
-"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
@@ -300,10 +302,6 @@ msgstr "ASIO"
 msgid "About DCP-o-matic"
 msgstr "Om DCP-o-matic"
 
-#: src/wx/player_config_dialog.cc:123
-msgid "Activity log file"
-msgstr "Aktivitets-loggfil"
-
 #: src/wx/screens_panel.cc:172
 msgid "Add Cinema"
 msgstr "Lägg till biograf"
@@ -404,7 +402,7 @@ msgid "Adjust white point to"
 msgstr "Justera vitpunkt till"
 
 #: src/wx/full_config_dialog.cc:1306 src/wx/metadata_dialog.cc:63
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:233
 msgid "Advanced"
 msgstr "Avancerat"
 
@@ -457,7 +455,7 @@ msgstr "Ett okänt fel inträffade."
 msgid "Appearance..."
 msgstr "Utseende..."
 
-#: src/wx/job_view.cc:185
+#: src/wx/job_view.cc:187
 msgid "Are you sure you want to cancel this job?"
 msgstr "Är du säker på att du vill avbryta detta jobb?"
 
@@ -625,7 +623,7 @@ msgstr "CPL:ens innehåll är inte krypterat."
 msgid "Calculate..."
 msgstr "Beräkna..."
 
-#: src/wx/job_view.cc:74 src/wx/verify_dcp_progress_dialog.cc:64
+#: src/wx/job_view.cc:73 src/wx/verify_dcp_progress_dialog.cc:64
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -716,7 +714,7 @@ msgstr "Välj en mapp"
 msgid "Choose a font"
 msgstr "Välj ett typsnitt"
 
-#: src/wx/fonts_dialog.cc:165
+#: src/wx/fonts_dialog.cc:166
 msgid "Choose a font file"
 msgstr "Välj en typsnittsfil"
 
@@ -769,7 +767,7 @@ msgstr "Inställningsfil"
 
 # Svengelska
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:286
+#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:271
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -849,7 +847,7 @@ msgstr "Kunde inte ladda KDM"
 msgid "Could not load certficate (%s)"
 msgstr "Kunde inte ladda in certifikat (%s)"
 
-#: src/wx/gl_video_view.cc:134
+#: src/wx/gl_video_view.cc:138
 #, c-format
 msgid "Could not read DCP: %s"
 msgstr "Kunde inte ladda DCP: %s"
@@ -874,7 +872,7 @@ msgstr "Kunde inte läsa certifikat från Qubes server."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kunde inte läsa nyckelfil; filen är för lång (%s)"
 
-#: src/wx/film_viewer.cc:606
+#: src/wx/film_viewer.cc:614
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Kunde inte ange ljudutgång. Förhandsvisningen sker utan ljud."
@@ -937,8 +935,8 @@ msgstr "DCP:n verifierar OK."
 msgid "DCP verification"
 msgstr "DCP-verifiering"
 
-#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:161
-#: src/wx/playlist_controls.cc:366 src/wx/playlist_controls.cc:444
+#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:163
+#: src/wx/playlist_controls.cc:342 src/wx/playlist_controls.cc:420
 #: src/wx/wx_util.cc:161 src/wx/wx_util.cc:179 src/wx/wx_util.cc:189
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -947,7 +945,7 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic disk-skrivare"
 
-#: src/wx/player_config_dialog.cc:357
+#: src/wx/player_config_dialog.cc:342
 msgid "DCP-o-matic Player Preferences"
 msgstr "DCP-o-matic Player Inställningar"
 
@@ -960,7 +958,7 @@ msgstr "DCP-o-matic Playlist Editor Inställningar"
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic ljudanalys - %s"
 
-#: src/wx/player_config_dialog.cc:128
+#: src/wx/player_config_dialog.cc:123
 msgid "Debug log file"
 msgstr "Debug-loggfil"
 
@@ -1061,7 +1059,7 @@ msgstr "Ange typsnitt i utfil och exportera typsnittsfil"
 msgid "Delay"
 msgstr "Fördröjning"
 
-#: src/wx/job_view.cc:78
+#: src/wx/job_view.cc:77
 msgid "Details..."
 msgstr "Detaljer..."
 
@@ -1147,7 +1145,7 @@ msgid "Edit screen"
 msgstr "Redigera salong"
 
 #: src/wx/audio_mapping_view.cc:92 src/wx/content_advanced_dialog.cc:73
-#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:66
+#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:67
 #: src/wx/language_tag_widget.cc:48 src/wx/metadata_dialog.cc:179
 #: src/wx/recipients_panel.cc:71 src/wx/video_panel.cc:181
 #: src/wx/video_panel.cc:192 src/wx/editable_list.h:122
@@ -1191,7 +1189,7 @@ msgstr "Slut"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Mata in din mejladress för kontakten, inte %s"
 
-#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:283
+#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:268
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "Errors"
 msgstr "Fel"
@@ -1249,7 +1247,7 @@ msgstr "Tona ut"
 msgid "Fade out time"
 msgstr "Tona ut-tidkod"
 
-#: src/wx/fonts_dialog.cc:58
+#: src/wx/fonts_dialog.cc:59
 msgid "File"
 msgstr "Fil"
 
@@ -1289,23 +1287,23 @@ msgstr "Hitta saknade..."
 msgid "Finding the colours in these subtitles..."
 msgstr "Hittar färger i dessa undertexter..."
 
-#: src/wx/markers_dialog.cc:127
+#: src/wx/markers_dialog.cc:133
 msgid "First frame of composition"
 msgstr "Första bildruta av komposition"
 
-#: src/wx/markers_dialog.cc:133
+#: src/wx/markers_dialog.cc:139
 msgid "First frame of end credits"
 msgstr "Första bildruta av sluttexter"
 
-#: src/wx/markers_dialog.cc:131
+#: src/wx/markers_dialog.cc:137
 msgid "First frame of intermission"
 msgstr "Första bildruta av paus"
 
-#: src/wx/markers_dialog.cc:135
+#: src/wx/markers_dialog.cc:141
 msgid "First frame of moving credits"
 msgstr "Första bildruta av rullande eftertexter"
 
-#: src/wx/markers_dialog.cc:129
+#: src/wx/markers_dialog.cc:135
 msgid "First frame of title credits"
 msgstr "Första bildruta av förtexter"
 
@@ -1317,7 +1315,7 @@ msgstr "Mapp- / ZIP-namnsformat"
 msgid "Folder name"
 msgstr "Mappnamn"
 
-#: src/wx/fonts_dialog.cc:41
+#: src/wx/fonts_dialog.cc:42
 msgid "Fonts"
 msgstr "Typsnitt"
 
@@ -1396,7 +1394,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Förstärkning för källkanal %d i DCP-kanal %d"
 
 #: src/wx/config_dialog.cc:109 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:279
+#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:264
 msgid "General"
 msgstr "Allmänt"
 
@@ -1445,7 +1443,7 @@ msgstr "Datornamn eller IP-adress"
 msgid "I want to play this back at fader"
 msgstr "Jag vill spela upp i volym"
 
-#: src/wx/fonts_dialog.cc:50
+#: src/wx/fonts_dialog.cc:51
 msgid "ID"
 msgstr "ID"
 
@@ -1672,7 +1670,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Åldersgräns"
 
-#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:45
+#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:48
 #: src/wx/text_panel.cc:165
 msgid "Language"
 msgstr "Språk"
@@ -1693,23 +1691,23 @@ msgstr "Språk för dessa undertexter"
 msgid "Language used for any sign language video track"
 msgstr "Språk som används för videospår med teckenspråk"
 
-#: src/wx/markers_dialog.cc:128
+#: src/wx/markers_dialog.cc:134
 msgid "Last frame of composition"
 msgstr "Sista bildruta av komposition"
 
-#: src/wx/markers_dialog.cc:134
+#: src/wx/markers_dialog.cc:140
 msgid "Last frame of end credits"
 msgstr "Sista bildruta av sluttexter"
 
-#: src/wx/markers_dialog.cc:132
+#: src/wx/markers_dialog.cc:138
 msgid "Last frame of intermission"
 msgstr "Sista bildruta av paus"
 
-#: src/wx/markers_dialog.cc:136
+#: src/wx/markers_dialog.cc:142
 msgid "Last frame of moving credits"
 msgstr "Sista bildruta av rullande eftertexter"
 
-#: src/wx/markers_dialog.cc:130
+#: src/wx/markers_dialog.cc:136
 msgid "Last frame of title credits"
 msgstr "Sista bildruta av förtexter"
 
@@ -1757,7 +1755,7 @@ msgstr "Ladda certifikat..."
 msgid "Locations"
 msgstr "Locations"
 
-#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:277
+#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:262
 msgid "Log"
 msgstr "Logg"
 
@@ -1836,7 +1834,7 @@ msgstr "Märk alla ljudkanaler"
 msgid "Mark audio channels up to (and including)"
 msgstr "Märk ljudkanaler upp till (och inklusive)"
 
-#: src/wx/markers_dialog.cc:120
+#: src/wx/markers_dialog.cc:126
 msgid "Markers"
 msgstr "Tidsmarkörer"
 
@@ -1992,7 +1990,7 @@ msgstr "Anteckningar"
 msgid "Notifications"
 msgstr "Aviseringar"
 
-#: src/wx/job_view.cc:87
+#: src/wx/job_view.cc:86
 msgid "Notify when complete"
 msgstr "Meddela när klar"
 
@@ -2020,7 +2018,7 @@ msgstr "Offset"
 msgid "Only servers encode"
 msgstr "Endast servrar kodar"
 
-#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:292
+#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:277
 msgid "Open console window"
 msgstr "Öppna konsolfönster"
 
@@ -2491,10 +2489,6 @@ msgstr "Välj nyckelfil"
 msgid "Select OV"
 msgstr "Välj OV"
 
-#: src/wx/player_config_dialog.cc:124
-msgid "Select activity log file"
-msgstr "Välj aktivitets-loggfil"
-
 #: src/wx/timeline_dialog.cc:74
 msgid "Select and move content"
 msgstr "Välj och flytta källmaterial"
@@ -2507,7 +2501,7 @@ msgstr "Välj biograf- och salongs-databasfil"
 msgid "Select configuration file"
 msgstr "Välj inställnings-fil"
 
-#: src/wx/player_config_dialog.cc:129
+#: src/wx/player_config_dialog.cc:124
 msgid "Select debug log file"
 msgstr "Välj debug-loggfil"
 
@@ -2527,7 +2521,7 @@ msgstr "Skicka epost-meddelanden"
 msgid "Send logs"
 msgstr "Skicka loggar"
 
-#: src/wx/send_i18n_dialog.cc:30
+#: src/wx/send_i18n_dialog.cc:33
 msgid "Send translations"
 msgstr "Skicka översättningar"
 
@@ -2775,7 +2769,7 @@ msgstr "Temporär version"
 msgid "Test version "
 msgstr "Testversion "
 
-#: src/wx/about_dialog.cc:222
+#: src/wx/about_dialog.cc:223
 msgid "Tested by"
 msgstr "Testat av"
 
@@ -3217,7 +3211,7 @@ msgstr "Det finns redan en mall med detta namn. Vill du skriva över den?"
 msgid "There is not enough free memory to do that."
 msgstr "Det finns inte tillräckligt mycket ledigt minne för att göra det."
 
-#: src/wx/film_viewer.cc:365
+#: src/wx/film_viewer.cc:333
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3642,7 +3636,7 @@ msgstr "Visa..."
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:281
+#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:266
 #: src/wx/verify_dcp_dialog.cc:55
 msgid "Warnings"
 msgstr "Varningar"
@@ -3736,7 +3730,7 @@ msgid ""
 msgstr ""
 "Du måste ange en e-postserver i Inställningar innan du kan skicka e-post."
 
-#: src/wx/send_i18n_dialog.cc:41
+#: src/wx/send_i18n_dialog.cc:44
 msgid "Your email"
 msgstr "Din epostadress"
 
@@ -3744,7 +3738,7 @@ msgstr "Din epostadress"
 msgid "Your email address"
 msgstr "Din epostadress"
 
-#: src/wx/send_i18n_dialog.cc:37
+#: src/wx/send_i18n_dialog.cc:40
 msgid "Your name"
 msgstr "Ditt namn"
 
@@ -3769,7 +3763,7 @@ msgstr "Zooma ut till hela filmen"
 msgid "and 1 warning."
 msgstr "och 1 varning."
 
-#: src/wx/metadata_dialog.cc:279
+#: src/wx/metadata_dialog.cc:280
 msgid "candela per m²"
 msgstr "candela per kvadratmeter"
 
@@ -3801,7 +3795,7 @@ msgstr "anpassad"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/name_format_editor.cc:80
+#: src/wx/name_format_editor.cc:82
 #, c-format
 msgid "e.g. %s"
 msgstr "t.ex. %s"
@@ -3819,7 +3813,7 @@ msgstr "ruta"
 msgid "film name"
 msgstr "filmnamn"
 
-#: src/wx/metadata_dialog.cc:280
+#: src/wx/metadata_dialog.cc:281
 msgid "foot lambert"
 msgstr "foot-lambert"
 
@@ -3940,6 +3934,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:134
 msgid "y"
 msgstr "y"
+
+#~ msgid "Activity log file"
+#~ msgstr "Aktivitets-loggfil"
+
+#~ msgid "Select activity log file"
+#~ msgstr "Välj aktivitets-loggfil"
 
 #~ msgid ""
 #~ "The player is dropping a lot of frames, so playback may not be accurate.\n"

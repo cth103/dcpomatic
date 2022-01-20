@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-O-MATIC_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2021-09-02 19:25+0800\n"
 "Last-Translator: kahn <bnm14744@gmail.com>\n"
 "Language-Team: Hanyuan\n"
@@ -81,8 +81,9 @@ msgid "%d channels on %s"
 msgstr "音频通道: %d"
 
 #: src/wx/about_dialog.cc:87
+#, fuzzy
 msgid ""
-"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
 "(C)2012-2021年卡尔·海瑟灵顿，特伦斯·梅钦格\n"
@@ -302,10 +303,6 @@ msgstr "ASIO"
 msgid "About DCP-o-matic"
 msgstr "关于 DCP-o-matic"
 
-#: src/wx/player_config_dialog.cc:123
-msgid "Activity log file"
-msgstr "活动log文件"
-
 #: src/wx/screens_panel.cc:172
 msgid "Add Cinema"
 msgstr "添加影院"
@@ -405,7 +402,7 @@ msgid "Adjust white point to"
 msgstr "调整白点"
 
 #: src/wx/full_config_dialog.cc:1306 src/wx/metadata_dialog.cc:63
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:233
 #, fuzzy
 msgid "Advanced"
 msgstr "高级…"
@@ -462,7 +459,7 @@ msgstr "出现未知错误。"
 msgid "Appearance..."
 msgstr "显示..."
 
-#: src/wx/job_view.cc:185
+#: src/wx/job_view.cc:187
 msgid "Are you sure you want to cancel this job?"
 msgstr "确定要取消当前任务吗？"
 
@@ -625,7 +622,7 @@ msgstr "该CPL内容没有加密."
 msgid "Calculate..."
 msgstr "计算..."
 
-#: src/wx/job_view.cc:74 src/wx/verify_dcp_progress_dialog.cc:64
+#: src/wx/job_view.cc:73 src/wx/verify_dcp_progress_dialog.cc:64
 msgid "Cancel"
 msgstr "取消"
 
@@ -716,7 +713,7 @@ msgstr "选择一个文件夹"
 msgid "Choose a font"
 msgstr "选择字体"
 
-#: src/wx/fonts_dialog.cc:165
+#: src/wx/fonts_dialog.cc:166
 msgid "Choose a font file"
 msgstr "选择一个字体文件"
 
@@ -768,7 +765,7 @@ msgid "Configuration file"
 msgstr "配置文件"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:286
+#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:271
 msgid "Config|Timing"
 msgstr "时间设置"
 
@@ -851,7 +848,7 @@ msgstr "无法加载 KDM"
 msgid "Could not load certficate (%s)"
 msgstr "无法导入证书文件 (%s)"
 
-#: src/wx/gl_video_view.cc:134
+#: src/wx/gl_video_view.cc:138
 #, fuzzy, c-format
 msgid "Could not read DCP: %s"
 msgstr "无法加载 KDM"
@@ -878,7 +875,7 @@ msgstr "无法读取证书文件."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "无法读取Key文件，因为文件过长 (%s)"
 
-#: src/wx/film_viewer.cc:606
+#: src/wx/film_viewer.cc:614
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "不能设置音频输出。因此预览时将没有音频输出."
@@ -941,8 +938,8 @@ msgstr "DCP是正常的."
 msgid "DCP verification"
 msgstr "DCP验证"
 
-#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:161
-#: src/wx/playlist_controls.cc:366 src/wx/playlist_controls.cc:444
+#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:163
+#: src/wx/playlist_controls.cc:342 src/wx/playlist_controls.cc:420
 #: src/wx/wx_util.cc:161 src/wx/wx_util.cc:179 src/wx/wx_util.cc:189
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -952,7 +949,7 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic 设置"
 
-#: src/wx/player_config_dialog.cc:357
+#: src/wx/player_config_dialog.cc:342
 msgid "DCP-o-matic Player Preferences"
 msgstr "DCP-o-matic播放器首选项"
 
@@ -965,7 +962,7 @@ msgstr "DCP-o-matic 播放列表编辑器首选项"
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic音频 - %s"
 
-#: src/wx/player_config_dialog.cc:128
+#: src/wx/player_config_dialog.cc:123
 msgid "Debug log file"
 msgstr "Debug文件"
 
@@ -1074,7 +1071,7 @@ msgstr "在输出和导出字体文件中定义字体"
 msgid "Delay"
 msgstr "延迟"
 
-#: src/wx/job_view.cc:78
+#: src/wx/job_view.cc:77
 msgid "Details..."
 msgstr "详细..."
 
@@ -1161,7 +1158,7 @@ msgid "Edit screen"
 msgstr "编辑放映厅服务器（证书）"
 
 #: src/wx/audio_mapping_view.cc:92 src/wx/content_advanced_dialog.cc:73
-#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:66
+#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:67
 #: src/wx/language_tag_widget.cc:48 src/wx/metadata_dialog.cc:179
 #: src/wx/recipients_panel.cc:71 src/wx/video_panel.cc:181
 #: src/wx/video_panel.cc:192 src/wx/editable_list.h:122
@@ -1205,7 +1202,7 @@ msgstr "结束"
 msgid "Enter your email address for the contact, not %s"
 msgstr "请输入您的电子邮件地址，不是 %s"
 
-#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:283
+#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:268
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "Errors"
 msgstr "错误"
@@ -1267,7 +1264,7 @@ msgstr "淡出"
 msgid "Fade out time"
 msgstr "淡出时间"
 
-#: src/wx/fonts_dialog.cc:58
+#: src/wx/fonts_dialog.cc:59
 msgid "File"
 msgstr "文件"
 
@@ -1305,23 +1302,23 @@ msgstr "查询失败..."
 msgid "Finding the colours in these subtitles..."
 msgstr "找到这些字幕中的颜色."
 
-#: src/wx/markers_dialog.cc:127
+#: src/wx/markers_dialog.cc:133
 msgid "First frame of composition"
 msgstr "第一帧构图"
 
-#: src/wx/markers_dialog.cc:133
+#: src/wx/markers_dialog.cc:139
 msgid "First frame of end credits"
 msgstr "片尾的第一帧"
 
-#: src/wx/markers_dialog.cc:131
+#: src/wx/markers_dialog.cc:137
 msgid "First frame of intermission"
 msgstr "幕间休息第一帧"
 
-#: src/wx/markers_dialog.cc:135
+#: src/wx/markers_dialog.cc:141
 msgid "First frame of moving credits"
 msgstr "动态第一帧"
 
-#: src/wx/markers_dialog.cc:129
+#: src/wx/markers_dialog.cc:135
 msgid "First frame of title credits"
 msgstr "标题字幕第一帧"
 
@@ -1333,7 +1330,7 @@ msgstr "文件夹/ZIP名称格式"
 msgid "Folder name"
 msgstr "文件夹名称"
 
-#: src/wx/fonts_dialog.cc:41
+#: src/wx/fonts_dialog.cc:42
 msgid "Fonts"
 msgstr "字体"
 
@@ -1412,7 +1409,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "从内容通道  %d 到DCP %d 通道进行增益调整"
 
 #: src/wx/config_dialog.cc:109 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:279
+#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:264
 msgid "General"
 msgstr "普通"
 
@@ -1461,7 +1458,7 @@ msgstr "服务器地址或IP地址"
 msgid "I want to play this back at fader"
 msgstr "使用推子"
 
-#: src/wx/fonts_dialog.cc:50
+#: src/wx/fonts_dialog.cc:51
 msgid "ID"
 msgstr "ID"
 
@@ -1679,7 +1676,7 @@ msgstr ""
 msgid "Label"
 msgstr "标签"
 
-#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:45
+#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:48
 #: src/wx/text_panel.cc:165
 msgid "Language"
 msgstr "语言"
@@ -1701,23 +1698,23 @@ msgstr "字幕语言"
 msgid "Language used for any sign language video track"
 msgstr "用于手语视频轨道"
 
-#: src/wx/markers_dialog.cc:128
+#: src/wx/markers_dialog.cc:134
 msgid "Last frame of composition"
 msgstr "构图的最后一帧"
 
-#: src/wx/markers_dialog.cc:134
+#: src/wx/markers_dialog.cc:140
 msgid "Last frame of end credits"
 msgstr "片尾字幕的最后一帧"
 
-#: src/wx/markers_dialog.cc:132
+#: src/wx/markers_dialog.cc:138
 msgid "Last frame of intermission"
 msgstr "幕间休息的最后一帧"
 
-#: src/wx/markers_dialog.cc:136
+#: src/wx/markers_dialog.cc:142
 msgid "Last frame of moving credits"
 msgstr "动态第一帧"
 
-#: src/wx/markers_dialog.cc:130
+#: src/wx/markers_dialog.cc:136
 msgid "Last frame of title credits"
 msgstr "标题字幕的最后一帧"
 
@@ -1765,7 +1762,7 @@ msgstr "载入证书..."
 msgid "Locations"
 msgstr "位置"
 
-#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:277
+#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:262
 msgid "Log"
 msgstr "日志"
 
@@ -1847,7 +1844,7 @@ msgstr "默认DCP音频通道"
 msgid "Mark audio channels up to (and including)"
 msgstr "标记最多（包括）个音频频道"
 
-#: src/wx/markers_dialog.cc:120
+#: src/wx/markers_dialog.cc:126
 msgid "Markers"
 msgstr "标记"
 
@@ -2004,7 +2001,7 @@ msgstr "记录"
 msgid "Notifications"
 msgstr "提醒"
 
-#: src/wx/job_view.cc:87
+#: src/wx/job_view.cc:86
 msgid "Notify when complete"
 msgstr "结束时提醒"
 
@@ -2032,7 +2029,7 @@ msgstr "偏移"
 msgid "Only servers encode"
 msgstr "仅在编码服务器编码"
 
-#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:292
+#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:277
 msgid "Open console window"
 msgstr "打开控制台窗口"
 
@@ -2507,10 +2504,6 @@ msgstr "选择密钥文件"
 msgid "Select OV"
 msgstr "选择OV"
 
-#: src/wx/player_config_dialog.cc:124
-msgid "Select activity log file"
-msgstr "选择活动的日志文件"
-
 #: src/wx/timeline_dialog.cc:74
 msgid "Select and move content"
 msgstr "选择并移动内容"
@@ -2523,7 +2516,7 @@ msgstr "选择电影和银幕的数据库文件"
 msgid "Select configuration file"
 msgstr "选择配置文件"
 
-#: src/wx/player_config_dialog.cc:129
+#: src/wx/player_config_dialog.cc:124
 msgid "Select debug log file"
 msgstr "选择debug文件"
 
@@ -2543,7 +2536,7 @@ msgstr "发送电子邮件"
 msgid "Send logs"
 msgstr "发送日志"
 
-#: src/wx/send_i18n_dialog.cc:30
+#: src/wx/send_i18n_dialog.cc:33
 msgid "Send translations"
 msgstr "发送翻译"
 
@@ -2800,7 +2793,7 @@ msgstr "临时版本"
 msgid "Test version "
 msgstr "测试版 "
 
-#: src/wx/about_dialog.cc:222
+#: src/wx/about_dialog.cc:223
 msgid "Tested by"
 msgstr "测试"
 
@@ -3198,7 +3191,7 @@ msgstr "已存在同名模板，是否覆盖？"
 msgid "There is not enough free memory to do that."
 msgstr "内存不足."
 
-#: src/wx/film_viewer.cc:365
+#: src/wx/film_viewer.cc:333
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3610,7 +3603,7 @@ msgstr "视图窗口…"
 msgid "WASAPI"
 msgstr "共享模式"
 
-#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:281
+#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:266
 #: src/wx/verify_dcp_dialog.cc:55
 msgid "Warnings"
 msgstr "警告"
@@ -3698,7 +3691,7 @@ msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr "您必须先在偏好设置中设定邮件服务器才能发送邮件."
 
-#: src/wx/send_i18n_dialog.cc:41
+#: src/wx/send_i18n_dialog.cc:44
 msgid "Your email"
 msgstr "您的邮箱"
 
@@ -3706,7 +3699,7 @@ msgstr "您的邮箱"
 msgid "Your email address"
 msgstr "您的邮箱地址"
 
-#: src/wx/send_i18n_dialog.cc:37
+#: src/wx/send_i18n_dialog.cc:40
 msgid "Your name"
 msgstr "您的名字"
 
@@ -3731,7 +3724,7 @@ msgstr "缩放以适应"
 msgid "and 1 warning."
 msgstr "和1个警告"
 
-#: src/wx/metadata_dialog.cc:279
+#: src/wx/metadata_dialog.cc:280
 msgid "candela per m²"
 msgstr "坎德拉每平方米"
 
@@ -3765,7 +3758,7 @@ msgstr "自定义"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/name_format_editor.cc:80
+#: src/wx/name_format_editor.cc:82
 #, c-format
 msgid "e.g. %s"
 msgstr "例如 %s"
@@ -3783,7 +3776,7 @@ msgstr "帧"
 msgid "film name"
 msgstr "音频名称"
 
-#: src/wx/metadata_dialog.cc:280
+#: src/wx/metadata_dialog.cc:281
 msgid "foot lambert"
 msgstr "朗伯(亮度单位) "
 
@@ -3906,6 +3899,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:134
 msgid "y"
 msgstr "y"
+
+#~ msgid "Activity log file"
+#~ msgstr "活动log文件"
+
+#~ msgid "Select activity log file"
+#~ msgstr "选择活动的日志文件"
 
 #, fuzzy
 #~ msgid "_kdm_decryption_cert.pem"

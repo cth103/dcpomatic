@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2021-05-07 14:26+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -75,8 +75,9 @@ msgid "%d channels on %s"
 msgstr "%d kanály na %s"
 
 #: src/wx/about_dialog.cc:87
+#, fuzzy
 msgid ""
-"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
@@ -297,10 +298,6 @@ msgstr "ASIO"
 msgid "About DCP-o-matic"
 msgstr "O DCP-o-matic"
 
-#: src/wx/player_config_dialog.cc:123
-msgid "Activity log file"
-msgstr "Soubor protokolu aktivit"
-
 #: src/wx/screens_panel.cc:172
 msgid "Add Cinema"
 msgstr "Přidat kino"
@@ -401,7 +398,7 @@ msgid "Adjust white point to"
 msgstr "Nastavit bílý bod na"
 
 #: src/wx/full_config_dialog.cc:1306 src/wx/metadata_dialog.cc:63
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:233
 msgid "Advanced"
 msgstr "Pokročilý"
 
@@ -454,7 +451,7 @@ msgstr "Došlo k neznámé výjimce."
 msgid "Appearance..."
 msgstr "Vzhled…"
 
-#: src/wx/job_view.cc:185
+#: src/wx/job_view.cc:187
 msgid "Are you sure you want to cancel this job?"
 msgstr "Opravdu že chcete zrušit tuto úlohu?"
 
@@ -616,7 +613,7 @@ msgstr "CPL obsah není šifrovaný."
 msgid "Calculate..."
 msgstr "Vypočítat…"
 
-#: src/wx/job_view.cc:74 src/wx/verify_dcp_progress_dialog.cc:64
+#: src/wx/job_view.cc:73 src/wx/verify_dcp_progress_dialog.cc:64
 msgid "Cancel"
 msgstr "Zrušit"
 
@@ -707,7 +704,7 @@ msgstr "Vyberte složku"
 msgid "Choose a font"
 msgstr "Vyberte písmo"
 
-#: src/wx/fonts_dialog.cc:165
+#: src/wx/fonts_dialog.cc:166
 msgid "Choose a font file"
 msgstr "Vyberte soubor s písmem"
 
@@ -758,7 +755,7 @@ msgid "Configuration file"
 msgstr "Konfigurační soubor"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:286
+#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:271
 msgid "Config|Timing"
 msgstr "Časování"
 
@@ -838,7 +835,7 @@ msgstr "Nelze načíst KDM"
 msgid "Could not load certficate (%s)"
 msgstr "Nelze načíst certifikát (%s)"
 
-#: src/wx/gl_video_view.cc:134
+#: src/wx/gl_video_view.cc:138
 #, c-format
 msgid "Could not read DCP: %s"
 msgstr "Nelze načíst DCP: %s"
@@ -863,7 +860,7 @@ msgstr "Nelze přečíst certifikáty ze serveru Qube."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Nemůžu přečíst soubor s klíčem; soubor je příliš dlouhý (%s)"
 
-#: src/wx/film_viewer.cc:606
+#: src/wx/film_viewer.cc:614
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Nelze nastavit výstup zvuku. Během přehrávání nebude slyšet zvuk."
@@ -926,8 +923,8 @@ msgstr "DCP ověření OK."
 msgid "DCP verification"
 msgstr "DCP ověření"
 
-#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:161
-#: src/wx/playlist_controls.cc:366 src/wx/playlist_controls.cc:444
+#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:163
+#: src/wx/playlist_controls.cc:342 src/wx/playlist_controls.cc:420
 #: src/wx/wx_util.cc:161 src/wx/wx_util.cc:179 src/wx/wx_util.cc:189
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -936,7 +933,7 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic Disk Writer"
 
-#: src/wx/player_config_dialog.cc:357
+#: src/wx/player_config_dialog.cc:342
 msgid "DCP-o-matic Player Preferences"
 msgstr "DCP-o-matic Předředvolby Přehrávače"
 
@@ -949,7 +946,7 @@ msgstr "DCP-o-matic Předředvolby Playlist editoru"
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic zvuk - %s"
 
-#: src/wx/player_config_dialog.cc:128
+#: src/wx/player_config_dialog.cc:123
 msgid "Debug log file"
 msgstr "Debug soubor protokolu"
 
@@ -1054,7 +1051,7 @@ msgstr "Definujte písmo ve výstupu a exportujte soubor písem"
 msgid "Delay"
 msgstr "Zpoždění"
 
-#: src/wx/job_view.cc:78
+#: src/wx/job_view.cc:77
 msgid "Details..."
 msgstr "Detaily..."
 
@@ -1140,7 +1137,7 @@ msgid "Edit screen"
 msgstr "Upravit obraz"
 
 #: src/wx/audio_mapping_view.cc:92 src/wx/content_advanced_dialog.cc:73
-#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:66
+#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:67
 #: src/wx/language_tag_widget.cc:48 src/wx/metadata_dialog.cc:179
 #: src/wx/recipients_panel.cc:71 src/wx/video_panel.cc:181
 #: src/wx/video_panel.cc:192 src/wx/editable_list.h:122
@@ -1184,7 +1181,7 @@ msgstr "Konec"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Zadejte vaši e-mailovou adresu kontaktu, nikoli %s"
 
-#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:283
+#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:268
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "Errors"
 msgstr "Chyby"
@@ -1241,7 +1238,7 @@ msgstr "Postupné zeslabení (Fade out)"
 msgid "Fade out time"
 msgstr "Postupné zeslabení v čase (Fade out)"
 
-#: src/wx/fonts_dialog.cc:58
+#: src/wx/fonts_dialog.cc:59
 msgid "File"
 msgstr "Soubor"
 
@@ -1281,23 +1278,23 @@ msgstr "Najít chybějící…"
 msgid "Finding the colours in these subtitles..."
 msgstr "Hledání barev v těchto titulkách…"
 
-#: src/wx/markers_dialog.cc:127
+#: src/wx/markers_dialog.cc:133
 msgid "First frame of composition"
 msgstr "První snímek kompozice"
 
-#: src/wx/markers_dialog.cc:133
+#: src/wx/markers_dialog.cc:139
 msgid "First frame of end credits"
 msgstr "První snímek závěrečných titulků"
 
-#: src/wx/markers_dialog.cc:131
+#: src/wx/markers_dialog.cc:137
 msgid "First frame of intermission"
 msgstr "První snímek přestávky"
 
-#: src/wx/markers_dialog.cc:135
+#: src/wx/markers_dialog.cc:141
 msgid "First frame of moving credits"
 msgstr "První snímek pohyblivých titulků"
 
-#: src/wx/markers_dialog.cc:129
+#: src/wx/markers_dialog.cc:135
 msgid "First frame of title credits"
 msgstr "První snímek úvodních titulků"
 
@@ -1309,7 +1306,7 @@ msgstr "Složka / ZIP name format"
 msgid "Folder name"
 msgstr "Název složky"
 
-#: src/wx/fonts_dialog.cc:41
+#: src/wx/fonts_dialog.cc:42
 msgid "Fonts"
 msgstr "Písma"
 
@@ -1388,7 +1385,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Zesílit kanál %d in DCP kanály %d"
 
 #: src/wx/config_dialog.cc:109 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:279
+#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:264
 msgid "General"
 msgstr "Všeobecné"
 
@@ -1437,7 +1434,7 @@ msgstr "Host name nebo IP adresa"
 msgid "I want to play this back at fader"
 msgstr "Chci přehrávat na faderu na úrovni"
 
-#: src/wx/fonts_dialog.cc:50
+#: src/wx/fonts_dialog.cc:51
 msgid "ID"
 msgstr "ID"
 
@@ -1662,7 +1659,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Označení"
 
-#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:45
+#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:48
 #: src/wx/text_panel.cc:165
 msgid "Language"
 msgstr "Jazyk"
@@ -1684,23 +1681,23 @@ msgstr "Jazyk těchto titulků"
 msgid "Language used for any sign language video track"
 msgstr "Jazyk použitý pro dialog v tomto obsahu"
 
-#: src/wx/markers_dialog.cc:128
+#: src/wx/markers_dialog.cc:134
 msgid "Last frame of composition"
 msgstr "Poslední snímek kompozice"
 
-#: src/wx/markers_dialog.cc:134
+#: src/wx/markers_dialog.cc:140
 msgid "Last frame of end credits"
 msgstr "Poslední snímek závěrečných titulků"
 
-#: src/wx/markers_dialog.cc:132
+#: src/wx/markers_dialog.cc:138
 msgid "Last frame of intermission"
 msgstr "Poslední snímek přestávky"
 
-#: src/wx/markers_dialog.cc:136
+#: src/wx/markers_dialog.cc:142
 msgid "Last frame of moving credits"
 msgstr "Poslední snímek pohyblivých titulků"
 
-#: src/wx/markers_dialog.cc:130
+#: src/wx/markers_dialog.cc:136
 msgid "Last frame of title credits"
 msgstr "Poslední snímek úvodních titulků"
 
@@ -1748,7 +1745,7 @@ msgstr "Načíst certifikát…"
 msgid "Locations"
 msgstr "Umístění"
 
-#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:277
+#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:262
 msgid "Log"
 msgstr "Log"
 
@@ -1828,7 +1825,7 @@ msgstr "Označte všechny zvukové kanály"
 msgid "Mark audio channels up to (and including)"
 msgstr "Označte zvukové kanály až po (a zahrnout)"
 
-#: src/wx/markers_dialog.cc:120
+#: src/wx/markers_dialog.cc:126
 msgid "Markers"
 msgstr "Značky"
 
@@ -1984,7 +1981,7 @@ msgstr "Poznámky"
 msgid "Notifications"
 msgstr "Oznámení"
 
-#: src/wx/job_view.cc:87
+#: src/wx/job_view.cc:86
 msgid "Notify when complete"
 msgstr "Oznámit po dokončení"
 
@@ -2012,7 +2009,7 @@ msgstr "Offset"
 msgid "Only servers encode"
 msgstr "Jen enkódování přes servery"
 
-#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:292
+#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:277
 msgid "Open console window"
 msgstr "Otevřít okno s konzolou"
 
@@ -2483,10 +2480,6 @@ msgstr "Vybrat soubor s klíčem"
 msgid "Select OV"
 msgstr "Vybrat OV"
 
-#: src/wx/player_config_dialog.cc:124
-msgid "Select activity log file"
-msgstr "Vybrat soubor protokolu aktivit"
-
 #: src/wx/timeline_dialog.cc:74
 msgid "Select and move content"
 msgstr "Vybrat a přesunou obsah"
@@ -2499,7 +2492,7 @@ msgstr "Vybrat soubor databáze filmu a obrazovky"
 msgid "Select configuration file"
 msgstr "Vybrat soubor s konfigurací"
 
-#: src/wx/player_config_dialog.cc:129
+#: src/wx/player_config_dialog.cc:124
 msgid "Select debug log file"
 msgstr "Vybrat soubor protokolu ladění"
 
@@ -2519,7 +2512,7 @@ msgstr "Odeslat emaily"
 msgid "Send logs"
 msgstr "Odeslat logy"
 
-#: src/wx/send_i18n_dialog.cc:30
+#: src/wx/send_i18n_dialog.cc:33
 msgid "Send translations"
 msgstr "Odeslat překlady"
 
@@ -2766,7 +2759,7 @@ msgstr "Dočasočná verze"
 msgid "Test version "
 msgstr "Testovací verze "
 
-#: src/wx/about_dialog.cc:222
+#: src/wx/about_dialog.cc:223
 msgid "Tested by"
 msgstr "Testeři"
 
@@ -3200,7 +3193,7 @@ msgstr "Šablona s tímto názvem již existuje. Chcete jej přepsat?"
 msgid "There is not enough free memory to do that."
 msgstr "Nemáte dostatek paměti."
 
-#: src/wx/film_viewer.cc:365
+#: src/wx/film_viewer.cc:333
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3620,7 +3613,7 @@ msgstr "Zobrazit…"
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:281
+#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:266
 #: src/wx/verify_dcp_dialog.cc:55
 msgid "Warnings"
 msgstr "Varování"
@@ -3713,7 +3706,7 @@ msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr "Před odesláním e-mailů musíte nastavit poštovní server v Předvolbách."
 
-#: src/wx/send_i18n_dialog.cc:41
+#: src/wx/send_i18n_dialog.cc:44
 msgid "Your email"
 msgstr "Váš email"
 
@@ -3721,7 +3714,7 @@ msgstr "Váš email"
 msgid "Your email address"
 msgstr "Vaše emailová adresa"
 
-#: src/wx/send_i18n_dialog.cc:37
+#: src/wx/send_i18n_dialog.cc:40
 msgid "Your name"
 msgstr "Vaše jméno"
 
@@ -3746,7 +3739,7 @@ msgstr "Oddálit na celý film"
 msgid "and 1 warning."
 msgstr "a 1 varování."
 
-#: src/wx/metadata_dialog.cc:279
+#: src/wx/metadata_dialog.cc:280
 msgid "candela per m²"
 msgstr "kandela na m²"
 
@@ -3778,7 +3771,7 @@ msgstr "vlastní"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/name_format_editor.cc:80
+#: src/wx/name_format_editor.cc:82
 #, c-format
 msgid "e.g. %s"
 msgstr "např. %s"
@@ -3796,7 +3789,7 @@ msgstr "f"
 msgid "film name"
 msgstr "název filmu"
 
-#: src/wx/metadata_dialog.cc:280
+#: src/wx/metadata_dialog.cc:281
 msgid "foot lambert"
 msgstr "foot lambert"
 
@@ -3915,6 +3908,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:134
 msgid "y"
 msgstr "y"
+
+#~ msgid "Activity log file"
+#~ msgstr "Soubor protokolu aktivit"
+
+#~ msgid "Select activity log file"
+#~ msgstr "Vybrat soubor protokolu aktivit"
 
 #~ msgid ""
 #~ "The player is dropping a lot of frames, so playback may not be accurate.\n"

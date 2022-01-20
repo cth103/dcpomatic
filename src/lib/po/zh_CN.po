@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2021-09-02 16:54+0800\n"
 "Last-Translator: kahn <bnm14744@gmail.com>\n"
 "Language-Team: Hanyuan\n"
@@ -68,11 +68,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:491
+#: src/lib/job.cc:506
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1139
+#: src/lib/config.cc:1153
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,11 +94,11 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1117
+#: src/lib/config.cc:1131
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$工作名称: $JOB_STATUS"
 
-#: src/lib/cross_common.cc:94
+#: src/lib/cross_common.cc:98
 msgid "%1 (%2 GB) [%3]"
 msgstr "%1 (%2 GB) [%3]"
 
@@ -121,6 +121,10 @@ msgstr "%1 [影片]"
 #: src/lib/ffmpeg_content.cc:343 src/lib/video_mxf_content.cc:105
 msgid "%1 [video]"
 msgstr "%1 [视频]"
+
+#: src/lib/transcode_job.cc:175
+msgid "%1; %2/%3 frames"
+msgstr ""
 
 #: src/lib/video_content.cc:447
 #, c-format
@@ -181,12 +185,11 @@ msgstr ""
 "频”选项卡中将DCP设置为2K。"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:155
-#, c-format
-msgid "; %.1f fps"
-msgstr "; %.1f fps"
+#: src/lib/transcode_job.cc:178
+msgid "; %1 fps"
+msgstr "; %1 fps"
 
-#: src/lib/job.cc:496
+#: src/lib/job.cc:511
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; 剩余 %1 ; 完成于 %2%3"
 
@@ -407,11 +410,11 @@ msgstr "右后环绕"
 msgid "C"
 msgstr "中置"
 
-#: src/lib/job.cc:505
+#: src/lib/job.cc:520
 msgid "Cancelled"
 msgstr "取消"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
@@ -419,7 +422,7 @@ msgstr "不能包含斜杠"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2 不能处理图片格式 %1"
 
-#: src/lib/film.cc:1711
+#: src/lib/film.cc:1705
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密."
 
@@ -431,17 +434,17 @@ msgstr "居中对齐"
 msgid "Channels"
 msgstr "声音通道"
 
-#: src/lib/check_content_change_job.cc:52
+#: src/lib/transcode_job.cc:108
+msgid "Check their new settings, then try again."
+msgstr ""
+
+#: src/lib/check_content_change_job.cc:49
 msgid "Checking content for changes"
 msgstr "检查媒体内容是否有改变"
 
 #: src/lib/reel_writer.cc:250
 msgid "Checking existing image data"
 msgstr "检查现有的图像数据"
-
-#: src/lib/check_content_change_job.cc:93
-msgid "Choose 'Make DCP' again when you have done this."
-msgstr "请在做完更改之后再次执行“制作DCP”命令。"
 
 #: src/lib/ffmpeg_content.cc:655
 #, fuzzy
@@ -657,7 +660,7 @@ msgstr "无法连接到服务器 %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "无法创建远程目录 %1 (%2)"
 
-#: src/lib/image_examiner.cc:64
+#: src/lib/image_examiner.cc:65
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "无法解码JPEG2000文件%1 (%2)"
 
@@ -687,7 +690,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
-#: src/lib/config.cc:1003
+#: src/lib/config.cc:1017
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -696,7 +699,7 @@ msgstr "无法执行写入，目标文件无法打开"
 msgid "Could not open output file %1 (%2)"
 msgstr "不能写入文件 %1 (%2)"
 
-#: src/lib/dcp_subtitle.cc:59
+#: src/lib/dcp_subtitle.cc:60
 msgid "Could not read subtitles (%1 / %2)"
 msgstr "无法读取字幕 (%1 / %2)"
 
@@ -755,7 +758,7 @@ msgid ""
 "is in an unexpected format."
 msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1614
+#: src/lib/film.cc:1608
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -763,7 +766,7 @@ msgstr ""
 "DCP-o-matic必须把您DCP的设置更改为OV（原创）。请重新检查设置确认设置内容是否"
 "为您的期望值。"
 
-#: src/lib/film.cc:1582
+#: src/lib/film.cc:1576
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -777,7 +780,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:357 src/lib/config.cc:1114
+#: src/lib/config.cc:380 src/lib/config.cc:1128
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic提醒"
 
@@ -790,7 +793,7 @@ msgstr "数据来自AP20或AP25"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1102
+#: src/lib/config.cc:1116
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -865,7 +868,7 @@ msgstr "插曲"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
-#: src/lib/job.cc:503
+#: src/lib/job.cc:518
 msgid "Error: %1"
 msgstr "错误: (%1)"
 
@@ -916,6 +919,10 @@ msgstr "正片"
 #: src/lib/content.cc:468
 msgid "Filename"
 msgstr "文件名"
+
+#: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
+msgid "Files have changed since they were added to the project."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:596
 msgid "Film"
@@ -1028,7 +1035,7 @@ msgstr "未知错误."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:347 src/lib/config.cc:1099
+#: src/lib/config.cc:370 src/lib/config.cc:1113
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -1036,7 +1043,7 @@ msgstr "发行KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "隔行扫描"
 
-#: src/lib/ffmpeg_encoder.cc:253 src/lib/util.cc:591
+#: src/lib/ffmpeg_encoder.cc:254 src/lib/util.cc:591
 msgid "L"
 msgstr "左声道"
 
@@ -1092,7 +1099,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/exceptions.cc:152
+#: src/lib/exceptions.cc:161
 msgid "Lost communication between main and writer processes"
 msgstr "主进程和写入进程之间的通信丢失"
 
@@ -1160,7 +1167,7 @@ msgstr "降噪"
 msgid "None"
 msgstr "无"
 
-#: src/lib/job.cc:501
+#: src/lib/job.cc:516
 msgid "OK (ran for %1)"
 msgstr "确认 (运行 %1)"
 
@@ -1175,6 +1182,15 @@ msgstr "只有最后一段才可以进行结束裁剪。"
 #: src/lib/types.cc:141
 msgid "Open subtitles"
 msgstr "开放式字幕"
+
+#: src/lib/transcode_job.cc:113
+#, fuzzy
+msgid ""
+"Open the project in DCP-o-matic, check the settings, then save it before "
+"trying again."
+msgstr ""
+"一些文件在添加到项目后被修改。在DCP-o-matic中打开项目，检查设置，然后保存后重"
+"试"
 
 #: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
 #: src/lib/filter.cc:79
@@ -1220,7 +1236,7 @@ msgstr "宣传片"
 msgid "Public Service Announcement"
 msgstr "公共服务或公告"
 
-#: src/lib/ffmpeg_encoder.cc:258 src/lib/util.cc:592
+#: src/lib/ffmpeg_encoder.cc:259 src/lib/util.cc:592
 msgid "R"
 msgstr "右声道"
 
@@ -1369,7 +1385,27 @@ msgstr "大小"
 msgid "Some audio will be resampled to %1Hz"
 msgstr "部分音频将被重新采样到%1Hz"
 
-#: src/lib/check_content_change_job.cc:89
+#: src/lib/transcode_job.cc:117
+#, fuzzy
+msgid "Some files have been changed since they were added to the project."
+msgstr ""
+"有些文件在添加到项目后发生了更改\n"
+"\n"
+"这些文件现在将被重新检查，因此您可能需要检查它们的设置。"
+
+#: src/lib/transcode_job.cc:107
+#, fuzzy
+msgid ""
+"Some files have been changed since they were added to the project.\n"
+"\n"
+"These files will now be re-examined, so you may need to check their settings "
+"before trying again."
+msgstr ""
+"有些文件在添加到项目后发生了更改\n"
+"\n"
+"这些文件现在将被重新检查，因此您可能需要检查它们的设置。"
+
+#: src/lib/check_content_change_job.cc:71
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
@@ -1378,14 +1414,6 @@ msgstr ""
 "有些文件在添加到项目后发生了更改\n"
 "\n"
 "这些文件现在将被重新检查，因此您可能需要检查它们的设置。"
-
-#: src/lib/check_content_change_job.cc:100
-msgid ""
-"Some files have been changed since they were added to the project.  Open the "
-"project in DCP-o-matic, check the settings, then save it before trying again."
-msgstr ""
-"一些文件在添加到项目后被修改。在DCP-o-matic中打开项目，检查设置，然后保存后重"
-"试"
 
 #: src/lib/hints.cc:551
 msgid ""
@@ -1402,11 +1430,11 @@ msgstr ""
 "您的某些内容有音频，但您尚未设置音频语言。建议在“DCP”选项卡设置音频语言，除非"
 "您的音频没有说话部分。"
 
-#: src/lib/film.cc:417
+#: src/lib/film.cc:414
 msgid "Some of your content needs a KDM"
 msgstr "一些内容需要KDM密匙"
 
-#: src/lib/film.cc:420
+#: src/lib/film.cc:417
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV（声明原创）"
 
@@ -1442,7 +1470,7 @@ msgstr "测试片"
 msgid "Text subtitles"
 msgstr "文本字幕"
 
-#: src/lib/film.cc:400
+#: src/lib/film.cc:397
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "DCP为空，可能是因为所有内容的长度都为零"
 
@@ -1544,13 +1572,13 @@ msgstr ""
 "这是一个KDM密匙文件。KDM密匙文件可以通过在你的DCP包上右键，点击添加KDM文件添"
 "加到DCP中。"
 
-#: src/lib/film.cc:595
+#: src/lib/film.cc:587
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr "不支持新版本创建的工程文件!"
 
-#: src/lib/film.cc:580
+#: src/lib/film.cc:572
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1569,7 +1597,7 @@ msgstr "时控文本"
 msgid "Trailer"
 msgstr "预告片"
 
-#: src/lib/transcode_job.cc:71
+#: src/lib/transcode_job.cc:74
 msgid "Transcoding %1"
 msgstr "转码中 %1"
 
@@ -1593,7 +1621,7 @@ msgstr "意外的ZIP文件的内容"
 msgid "Unexpected image type received by server"
 msgstr "服务器接收到意外的图像类型"
 
-#: src/lib/cross_common.cc:91 src/lib/dcp_text_track.cc:53
+#: src/lib/cross_common.cc:95 src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "未知"
@@ -1718,7 +1746,7 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/film.cc:1578
+#: src/lib/film.cc:1572
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1738,7 +1766,7 @@ msgid ""
 "likely to cause problems on playback."
 msgstr "您添加的字体文件超过了640KB，部分服务器不支持超过640KB大小的字体。"
 
-#: src/lib/film.cc:396
+#: src/lib/film.cc:393
 msgid "You must add some content to the DCP before creating it"
 msgstr "在创建 DCP 之前，必须向添加一些内容"
 
@@ -1766,7 +1794,7 @@ msgid ""
 "audio content."
 msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:310
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr "默认设置的容器不可用，已被替换为Flat (1.85:1)"
@@ -1808,11 +1836,11 @@ msgstr "连接超时"
 msgid "connecting"
 msgstr "连接"
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:389
 msgid "container"
 msgstr "打包类型"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:401
 msgid "content type"
 msgstr "打包类型"
 
@@ -1820,7 +1848,7 @@ msgstr "打包类型"
 msgid "copying %1"
 msgstr "复制中... %1"
 
-#: src/lib/ffmpeg.cc:137
+#: src/lib/ffmpeg.cc:141
 msgid "could not find stream information"
 msgstr "找不到流信息"
 
@@ -1972,7 +2000,7 @@ msgstr "分"
 msgid "moving"
 msgstr "移动"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "name"
 msgstr "名字"
 
@@ -1999,7 +2027,7 @@ msgstr "秒"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:413
+#: src/lib/film.cc:410
 msgid "some of your content is missing"
 msgstr "内容不完整"
 
@@ -2007,13 +2035,16 @@ msgstr "内容不完整"
 msgid "still"
 msgstr "静止图像"
 
-#: src/lib/ffmpeg_examiner.cc:338
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "未知"
 
 #: src/lib/video_content.cc:509
 msgid "video frames"
 msgstr "视频帧"
+
+#~ msgid "Choose 'Make DCP' again when you have done this."
+#~ msgstr "请在做完更改之后再次执行“制作DCP”命令。"
 
 #, fuzzy
 #~ msgid "Content to be joined must have the same audio language."

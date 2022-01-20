@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2019-04-06 12:29+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:491
+#: src/lib/job.cc:506
 msgid " on %1"
 msgstr " på %1"
 
-#: src/lib/config.cc:1139
+#: src/lib/config.cc:1153
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -92,11 +92,11 @@ msgstr ""
 "Længde: $LENGTH\n"
 "Størrelse: $SIZE\n"
 
-#: src/lib/config.cc:1117
+#: src/lib/config.cc:1131
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/cross_common.cc:94
+#: src/lib/cross_common.cc:98
 msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
@@ -119,6 +119,10 @@ msgstr "%1 [film]"
 #: src/lib/ffmpeg_content.cc:343 src/lib/video_mxf_content.cc:105
 msgid "%1 [video]"
 msgstr "%1 [video]"
+
+#: src/lib/transcode_job.cc:175
+msgid "%1; %2/%3 frames"
+msgstr ""
 
 #: src/lib/video_content.cc:447
 #, c-format
@@ -177,12 +181,11 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:155
-#, c-format
-msgid "; %.1f fps"
-msgstr "; %.1f bps"
+#: src/lib/transcode_job.cc:178
+msgid "; %1 fps"
+msgstr "; %1 bps"
 
-#: src/lib/job.cc:496
+#: src/lib/job.cc:511
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 mangler; færdig ca %2%3"
 
@@ -396,11 +399,11 @@ msgstr "BsH"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:505
+#: src/lib/job.cc:520
 msgid "Cancelled"
 msgstr "Annulleret"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "Cannot contain slashes"
 msgstr "Må ikke indeholde skråstreger"
 
@@ -408,7 +411,7 @@ msgstr "Må ikke indeholde skråstreger"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Kan ikke håndtere pixelformat %1 under %2"
 
-#: src/lib/film.cc:1711
+#: src/lib/film.cc:1705
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Kan ikke generere en KDM da projektet ikke er krypteret."
 
@@ -420,17 +423,17 @@ msgstr "Center"
 msgid "Channels"
 msgstr "Lyd kanaler"
 
-#: src/lib/check_content_change_job.cc:52
+#: src/lib/transcode_job.cc:108
+msgid "Check their new settings, then try again."
+msgstr ""
+
+#: src/lib/check_content_change_job.cc:49
 msgid "Checking content for changes"
 msgstr "Undersøger om der er ændringer i indholdet"
 
 #: src/lib/reel_writer.cc:250
 msgid "Checking existing image data"
 msgstr "Verificerer eksisterende billeddata"
-
-#: src/lib/check_content_change_job.cc:93
-msgid "Choose 'Make DCP' again when you have done this."
-msgstr "Vælg 'Fremstil DCP' igen når du har gjort dette."
 
 #: src/lib/ffmpeg_content.cc:655
 msgid "Chroma-derived constant luminance"
@@ -657,7 +660,7 @@ msgstr "Kunne ikke få forbindelse til server %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Kunne ikke danne fjernkatalog %1 (%2)"
 
-#: src/lib/image_examiner.cc:64
+#: src/lib/image_examiner.cc:65
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Kunne ikke læse JPEG2000 fil %1 (%2)"
 
@@ -689,7 +692,7 @@ msgstr "Kunne ikke åbne downloadet ZIP-fil"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Den hentede ZIP-fil (%1:%2: %3) kunne ikke åbnes."
 
-#: src/lib/config.cc:1003
+#: src/lib/config.cc:1017
 msgid "Could not open file for writing"
 msgstr "Kunne ikke åbne fil til skrivning"
 
@@ -698,7 +701,7 @@ msgstr "Kunne ikke åbne fil til skrivning"
 msgid "Could not open output file %1 (%2)"
 msgstr "kunne ikke skrive til fil %1 (%2)"
 
-#: src/lib/dcp_subtitle.cc:59
+#: src/lib/dcp_subtitle.cc:60
 msgid "Could not read subtitles (%1 / %2)"
 msgstr "Kunne ikke indlæse undertekster (%1 / %2)"
 
@@ -759,7 +762,7 @@ msgstr ""
 "DCP-o-matic kunne ikke åbne filen %1 (%2). Måske findes den ikke, eller den "
 "er i et uventet format."
 
-#: src/lib/film.cc:1614
+#: src/lib/film.cc:1608
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -768,7 +771,7 @@ msgstr ""
 "DCPer som OV.  Gennemse venligst indstillingerne for at sikre at de er som "
 "ønsket."
 
-#: src/lib/film.cc:1582
+#: src/lib/film.cc:1576
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -785,7 +788,7 @@ msgstr ""
 "DCP-o-matic understøtter ikke længere `%1'-filteret, så det er blevet slået "
 "fra."
 
-#: src/lib/config.cc:357 src/lib/config.cc:1114
+#: src/lib/config.cc:380 src/lib/config.cc:1128
 msgid "DCP-o-matic notification"
 msgstr "DCP-o-matic besked"
 
@@ -798,7 +801,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Sammenfletning (de-interlacing)"
 
-#: src/lib/config.cc:1102
+#: src/lib/config.cc:1116
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -875,7 +878,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Fejl i fil med undertekster: så %1 men forventede %2"
 
-#: src/lib/job.cc:503
+#: src/lib/job.cc:518
 msgid "Error: %1"
 msgstr "Fejl: %1"
 
@@ -926,6 +929,10 @@ msgstr "Feature"
 #: src/lib/content.cc:468
 msgid "Filename"
 msgstr "Filnavn"
+
+#: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
+msgid "Files have changed since they were added to the project."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:596
 msgid "Film"
@@ -1036,7 +1043,7 @@ msgstr "Det er uklart hvad der forårsagede denne fejl."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:347 src/lib/config.cc:1099
+#: src/lib/config.cc:370 src/lib/config.cc:1113
 msgid "KDM delivery: $CPL_NAME"
 msgstr "KDM-levering: $CPL_NAME"
 
@@ -1044,7 +1051,7 @@ msgstr "KDM-levering: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Kerne sammenfletter"
 
-#: src/lib/ffmpeg_encoder.cc:253 src/lib/util.cc:591
+#: src/lib/ffmpeg_encoder.cc:254 src/lib/util.cc:591
 msgid "L"
 msgstr "L"
 
@@ -1100,7 +1107,7 @@ msgstr "Logaritmisk (100:1 range)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmisk  (316:1 range)"
 
-#: src/lib/exceptions.cc:152
+#: src/lib/exceptions.cc:161
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
@@ -1168,7 +1175,7 @@ msgstr "Støjreduktion"
 msgid "None"
 msgstr "Ingen"
 
-#: src/lib/job.cc:501
+#: src/lib/job.cc:516
 msgid "OK (ran for %1)"
 msgstr "OK (kørte i %1)"
 
@@ -1183,6 +1190,17 @@ msgstr "Kun det sidste indhold, der skal sammensættes, kan have sluttrim."
 #: src/lib/types.cc:141
 msgid "Open subtitles"
 msgstr "Åbne undertekster"
+
+#: src/lib/transcode_job.cc:113
+#, fuzzy
+msgid ""
+"Open the project in DCP-o-matic, check the settings, then save it before "
+"trying again."
+msgstr ""
+"Nogle filer er blevet ændret siden de blev tilføjet til projektet.\n"
+"\n"
+"De bliver nu undersøgt igen, og det kan være nødvendigt at gennemse deres "
+"indstillinger bagefter."
 
 #: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
 #: src/lib/filter.cc:79
@@ -1229,7 +1247,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "Publikumsorientering (PSA)"
 
-#: src/lib/ffmpeg_encoder.cc:258 src/lib/util.cc:592
+#: src/lib/ffmpeg_encoder.cc:259 src/lib/util.cc:592
 msgid "R"
 msgstr "R"
 
@@ -1376,22 +1394,33 @@ msgstr "Størrelse"
 msgid "Some audio will be resampled to %1Hz"
 msgstr "Noget lyd resamples til %1Hz"
 
-#: src/lib/check_content_change_job.cc:89
-msgid ""
-"Some files have been changed since they were added to the project.\n"
-"\n"
-"These files will now be re-examined, so you may need to check their settings."
+#: src/lib/transcode_job.cc:117
+#, fuzzy
+msgid "Some files have been changed since they were added to the project."
 msgstr ""
 "Nogle filer er blevet ændret siden de blev tilføjet til projektet.\n"
 "\n"
 "De bliver nu undersøgt igen, og det kan være nødvendigt at gennemse deres "
 "indstillinger bagefter."
 
-#: src/lib/check_content_change_job.cc:100
+#: src/lib/transcode_job.cc:107
 #, fuzzy
 msgid ""
-"Some files have been changed since they were added to the project.  Open the "
-"project in DCP-o-matic, check the settings, then save it before trying again."
+"Some files have been changed since they were added to the project.\n"
+"\n"
+"These files will now be re-examined, so you may need to check their settings "
+"before trying again."
+msgstr ""
+"Nogle filer er blevet ændret siden de blev tilføjet til projektet.\n"
+"\n"
+"De bliver nu undersøgt igen, og det kan være nødvendigt at gennemse deres "
+"indstillinger bagefter."
+
+#: src/lib/check_content_change_job.cc:71
+msgid ""
+"Some files have been changed since they were added to the project.\n"
+"\n"
+"These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 "Nogle filer er blevet ændret siden de blev tilføjet til projektet.\n"
 "\n"
@@ -1412,11 +1441,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:417
+#: src/lib/film.cc:414
 msgid "Some of your content needs a KDM"
 msgstr "Noget af dit indhold mangler en KDM"
 
-#: src/lib/film.cc:420
+#: src/lib/film.cc:417
 msgid "Some of your content needs an OV"
 msgstr "Noget af dit indhold mangler en OV"
 
@@ -1452,7 +1481,7 @@ msgstr "Test"
 msgid "Text subtitles"
 msgstr "Teks"
 
-#: src/lib/film.cc:400
+#: src/lib/film.cc:397
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1557,7 +1586,7 @@ msgstr ""
 "Denne fil er en KDM. KDMer skal tilføjes til DCP indhold ved at højreklikke "
 "på indholdet og vælge \"Tilføj KDM\"."
 
-#: src/lib/film.cc:595
+#: src/lib/film.cc:587
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1565,7 +1594,7 @@ msgstr ""
 "Denne film blev dannet med en nyere version af DCP-o-matic og kan ikke "
 "indlæses i denne version. Beklager!"
 
-#: src/lib/film.cc:580
+#: src/lib/film.cc:572
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1587,7 +1616,7 @@ msgstr "Timet tekst"
 msgid "Trailer"
 msgstr "Trailer"
 
-#: src/lib/transcode_job.cc:71
+#: src/lib/transcode_job.cc:74
 msgid "Transcoding %1"
 msgstr "Transcoder %1"
 
@@ -1611,7 +1640,7 @@ msgstr "Uventet indhold af ZIP arkiv"
 msgid "Unexpected image type received by server"
 msgstr "Uventet billedtype modtaget af server"
 
-#: src/lib/cross_common.cc:91 src/lib/dcp_text_track.cc:53
+#: src/lib/cross_common.cc:95 src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "ukendt"
@@ -1744,7 +1773,7 @@ msgstr ""
 "Du har %1 filer der ligner VOB-filer fra en DVD. Du bør samle dem for at "
 "sikre gode overgange mellem filerne."
 
-#: src/lib/film.cc:1578
+#: src/lib/film.cc:1572
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1765,7 +1794,7 @@ msgstr ""
 "Du har valgt en font-fil der er større end 640 kB. Dette vil højst "
 "sandsynligt give problemer ved afspilningen."
 
-#: src/lib/film.cc:396
+#: src/lib/film.cc:393
 msgid "You must add some content to the DCP before creating it"
 msgstr "Du er nødt til at tilføje indhold til DCP'en før du kan danne den"
 
@@ -1793,7 +1822,7 @@ msgid ""
 "audio content."
 msgstr "Lydniveauet er meget højt (%1). Du bør sænke gain på lyden."
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:310
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1838,11 +1867,11 @@ msgstr "forbindelsestimeout"
 msgid "connecting"
 msgstr "forbinder"
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:389
 msgid "container"
 msgstr "container"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:401
 msgid "content type"
 msgstr "indholdstype"
 
@@ -1850,7 +1879,7 @@ msgstr "indholdstype"
 msgid "copying %1"
 msgstr "kopierer %1"
 
-#: src/lib/ffmpeg.cc:137
+#: src/lib/ffmpeg.cc:141
 msgid "could not find stream information"
 msgstr "kunne ikke finde information om strøm"
 
@@ -1991,7 +2020,7 @@ msgstr "m"
 msgid "moving"
 msgstr "flytter"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "name"
 msgstr "navn"
 
@@ -2018,7 +2047,7 @@ msgstr "s"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:413
+#: src/lib/film.cc:410
 msgid "some of your content is missing"
 msgstr "noget af dit indhold mangler"
 
@@ -2026,13 +2055,16 @@ msgstr "noget af dit indhold mangler"
 msgid "still"
 msgstr "stille"
 
-#: src/lib/ffmpeg_examiner.cc:338
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "ukendt"
 
 #: src/lib/video_content.cc:509
 msgid "video frames"
 msgstr "videobilleder"
+
+#~ msgid "Choose 'Make DCP' again when you have done this."
+#~ msgstr "Vælg 'Fremstil DCP' igen når du har gjort dette."
 
 #, fuzzy
 #~ msgid "Content to be joined must have the same audio language."

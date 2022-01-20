@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2019-03-27 00:34+0200\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Russian\n"
@@ -64,11 +64,11 @@ msgstr " (%.2f:1)"
 
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
-#: src/lib/job.cc:491
+#: src/lib/job.cc:506
 msgid " on %1"
 msgstr " на %1"
 
-#: src/lib/config.cc:1139
+#: src/lib/config.cc:1153
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -90,11 +90,11 @@ msgstr ""
 "Длительность: $LENGTH\n"
 "Размер: $SIZE\n"
 
-#: src/lib/config.cc:1117
+#: src/lib/config.cc:1131
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
-#: src/lib/cross_common.cc:94
+#: src/lib/cross_common.cc:98
 msgid "%1 (%2 GB) [%3]"
 msgstr ""
 
@@ -117,6 +117,10 @@ msgstr "%1 [видео]"
 #: src/lib/ffmpeg_content.cc:343 src/lib/video_mxf_content.cc:105
 msgid "%1 [video]"
 msgstr "%1 [видео]"
+
+#: src/lib/transcode_job.cc:175
+msgid "%1; %2/%3 frames"
+msgstr ""
 
 #: src/lib/video_content.cc:447
 #, c-format
@@ -175,12 +179,11 @@ msgid ""
 msgstr ""
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
-#: src/lib/transcode_job.cc:155
-#, c-format
-msgid "; %.1f fps"
-msgstr "; %.1f кадр/сек"
+#: src/lib/transcode_job.cc:178
+msgid "; %1 fps"
+msgstr "; %1 кадр/сек"
 
-#: src/lib/job.cc:496
+#: src/lib/job.cc:511
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 осталось; время завершения %2%3"
 
@@ -393,11 +396,11 @@ msgstr "BsR"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:505
+#: src/lib/job.cc:520
 msgid "Cancelled"
 msgstr "Отменено"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "Cannot contain slashes"
 msgstr "Не может содержать слэши"
 
@@ -405,7 +408,7 @@ msgstr "Не может содержать слэши"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Невозможно обработать формат пикселя %1 во время %2"
 
-#: src/lib/film.cc:1711
+#: src/lib/film.cc:1705
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Нельзя создать KDM т.к. этот проект не зашифрован."
 
@@ -417,17 +420,17 @@ msgstr "Центральный"
 msgid "Channels"
 msgstr "Каналы"
 
-#: src/lib/check_content_change_job.cc:52
+#: src/lib/transcode_job.cc:108
+msgid "Check their new settings, then try again."
+msgstr ""
+
+#: src/lib/check_content_change_job.cc:49
 msgid "Checking content for changes"
 msgstr "Проверка контента на предмет изменений"
 
 #: src/lib/reel_writer.cc:250
 msgid "Checking existing image data"
 msgstr "Проверка данных изображения"
-
-#: src/lib/check_content_change_job.cc:93
-msgid "Choose 'Make DCP' again when you have done this."
-msgstr "Выберите снова ‘Сделать DCP’ когда закончите с этим."
 
 #: src/lib/ffmpeg_content.cc:655
 msgid "Chroma-derived constant luminance"
@@ -664,7 +667,7 @@ msgstr "Не удалось подключиться к серверу %1 (%2)"
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Не удалось создать удалённый каталог %1 (%2)"
 
-#: src/lib/image_examiner.cc:64
+#: src/lib/image_examiner.cc:65
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Не удалось декодировать JPEG2000-файл(ы) %1 (%2)"
 
@@ -696,7 +699,7 @@ msgstr "Не удалось открыть загруженный ZIP-архив
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Не удалось открыть загруженный ZIP-файл (%1:%2: %3)"
 
-#: src/lib/config.cc:1003
+#: src/lib/config.cc:1017
 msgid "Could not open file for writing"
 msgstr "Не удалось открыть файл для записи"
 
@@ -705,7 +708,7 @@ msgstr "Не удалось открыть файл для записи"
 msgid "Could not open output file %1 (%2)"
 msgstr "не удалось записать в файл %1 (%2)"
 
-#: src/lib/dcp_subtitle.cc:59
+#: src/lib/dcp_subtitle.cc:60
 msgid "Could not read subtitles (%1 / %2)"
 msgstr "Не удалось прочитать субтитры (%1 / %2)"
 
@@ -766,7 +769,7 @@ msgstr ""
 "DCP-o-matic не удалось открыть файл %1 (%2). Возможно он не существует или "
 "имеет неожиданный формат."
 
-#: src/lib/film.cc:1614
+#: src/lib/film.cc:1608
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -775,7 +778,7 @@ msgstr ""
 "Пожалуйста, посмотрите на эти настройки, чтобы убедиться, что это то, чего "
 "вы хотите."
 
-#: src/lib/film.cc:1582
+#: src/lib/film.cc:1576
 #, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
@@ -791,7 +794,7 @@ msgid ""
 msgstr ""
 "DCP-o-matic больше не поддерживает фильтр `%1', поэтому он был выключен."
 
-#: src/lib/config.cc:357 src/lib/config.cc:1114
+#: src/lib/config.cc:380 src/lib/config.cc:1128
 msgid "DCP-o-matic notification"
 msgstr "Уведомление DCP-o-matic"
 
@@ -804,7 +807,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr "Деинтерлейсинг"
 
-#: src/lib/config.cc:1102
+#: src/lib/config.cc:1116
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -880,7 +883,7 @@ msgstr ""
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Ошибка в файле субтитров: найдено %1, в то время как ожидается %2"
 
-#: src/lib/job.cc:503
+#: src/lib/job.cc:518
 msgid "Error: %1"
 msgstr "Ошибка: (%1)"
 
@@ -931,6 +934,10 @@ msgstr "FTR (Фильм)"
 #: src/lib/content.cc:468
 msgid "Filename"
 msgstr "Имя файла"
+
+#: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
+msgid "Files have changed since they were added to the project."
+msgstr ""
 
 #: src/lib/ffmpeg_content.cc:596
 msgid "Film"
@@ -1043,7 +1050,7 @@ msgstr "Неизвестно, что вызвало эту ошибку."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:347 src/lib/config.cc:1099
+#: src/lib/config.cc:370 src/lib/config.cc:1113
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Назначение KDM: $CPL_NAME"
 
@@ -1051,7 +1058,7 @@ msgstr "Назначение KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
-#: src/lib/ffmpeg_encoder.cc:253 src/lib/util.cc:591
+#: src/lib/ffmpeg_encoder.cc:254 src/lib/util.cc:591
 msgid "L"
 msgstr "L"
 
@@ -1107,7 +1114,7 @@ msgstr "Логарифмический (диапазон 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Логарифмический (диапазон 316:1)"
 
-#: src/lib/exceptions.cc:152
+#: src/lib/exceptions.cc:161
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
@@ -1175,7 +1182,7 @@ msgstr "Подавление шума"
 msgid "None"
 msgstr "Ничего"
 
-#: src/lib/job.cc:501
+#: src/lib/job.cc:516
 msgid "OK (ran for %1)"
 msgstr "Готово! (выполнено за %1)"
 
@@ -1191,6 +1198,17 @@ msgstr "Только последний элемент контента може
 #, fuzzy
 msgid "Open subtitles"
 msgstr "Текстовые субтитры"
+
+#: src/lib/transcode_job.cc:113
+#, fuzzy
+msgid ""
+"Open the project in DCP-o-matic, check the settings, then save it before "
+"trying again."
+msgstr ""
+"Некоторые файлы изменились с момента их добавления в проект.\n"
+"\n"
+"Эти файлы сейчас будут перепроверены, поэтому возможно вам придётся "
+"проверить их настройки."
 
 #: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
 #: src/lib/filter.cc:79
@@ -1237,7 +1255,7 @@ msgstr ""
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
-#: src/lib/ffmpeg_encoder.cc:258 src/lib/util.cc:592
+#: src/lib/ffmpeg_encoder.cc:259 src/lib/util.cc:592
 msgid "R"
 msgstr "R"
 
@@ -1384,22 +1402,33 @@ msgstr "Размер"
 msgid "Some audio will be resampled to %1Hz"
 msgstr "Некоторое аудио будет ресемплировано на %1 Гц"
 
-#: src/lib/check_content_change_job.cc:89
-msgid ""
-"Some files have been changed since they were added to the project.\n"
-"\n"
-"These files will now be re-examined, so you may need to check their settings."
+#: src/lib/transcode_job.cc:117
+#, fuzzy
+msgid "Some files have been changed since they were added to the project."
 msgstr ""
 "Некоторые файлы изменились с момента их добавления в проект.\n"
 "\n"
 "Эти файлы сейчас будут перепроверены, поэтому возможно вам придётся "
 "проверить их настройки."
 
-#: src/lib/check_content_change_job.cc:100
+#: src/lib/transcode_job.cc:107
 #, fuzzy
 msgid ""
-"Some files have been changed since they were added to the project.  Open the "
-"project in DCP-o-matic, check the settings, then save it before trying again."
+"Some files have been changed since they were added to the project.\n"
+"\n"
+"These files will now be re-examined, so you may need to check their settings "
+"before trying again."
+msgstr ""
+"Некоторые файлы изменились с момента их добавления в проект.\n"
+"\n"
+"Эти файлы сейчас будут перепроверены, поэтому возможно вам придётся "
+"проверить их настройки."
+
+#: src/lib/check_content_change_job.cc:71
+msgid ""
+"Some files have been changed since they were added to the project.\n"
+"\n"
+"These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 "Некоторые файлы изменились с момента их добавления в проект.\n"
 "\n"
@@ -1419,11 +1448,11 @@ msgid ""
 "has no spoken parts."
 msgstr ""
 
-#: src/lib/film.cc:417
+#: src/lib/film.cc:414
 msgid "Some of your content needs a KDM"
 msgstr "Часть вашего контента требует KDM"
 
-#: src/lib/film.cc:420
+#: src/lib/film.cc:417
 msgid "Some of your content needs an OV"
 msgstr "Часть вашего контента требует OV"
 
@@ -1459,7 +1488,7 @@ msgstr "TST (Тестовый)"
 msgid "Text subtitles"
 msgstr "Текстовые субтитры"
 
-#: src/lib/film.cc:400
+#: src/lib/film.cc:397
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
@@ -1563,7 +1592,7 @@ msgstr ""
 "Этот файл - ключ (KDM). Ключи добавляются к DCP нажатием правой клавиши на "
 "контент и выбором \"Добавить KDM\" в контекстном меню."
 
-#: src/lib/film.cc:595
+#: src/lib/film.cc:587
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1571,7 +1600,7 @@ msgstr ""
 "Проект создан более новой версией DCP-o-matic и не быть загружен этой "
 "версией. Извините!"
 
-#: src/lib/film.cc:580
+#: src/lib/film.cc:572
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1593,7 +1622,7 @@ msgstr ""
 msgid "Trailer"
 msgstr "TRL (Трейлер)"
 
-#: src/lib/transcode_job.cc:71
+#: src/lib/transcode_job.cc:74
 #, fuzzy
 msgid "Transcoding %1"
 msgstr "Транскодирование %1"
@@ -1618,7 +1647,7 @@ msgstr "Неожиданное содержимое ZIP-файла"
 msgid "Unexpected image type received by server"
 msgstr "Сервером получен неожиданный тип изображения"
 
-#: src/lib/cross_common.cc:91 src/lib/dcp_text_track.cc:53
+#: src/lib/cross_common.cc:95 src/lib/dcp_text_track.cc:53
 #, fuzzy
 msgid "Unknown"
 msgstr "неизвестно"
@@ -1753,7 +1782,7 @@ msgstr ""
 "объединить (присоединить) их, чтобы гарантировать гладкие соединения между "
 "файлами."
 
-#: src/lib/film.cc:1578
+#: src/lib/film.cc:1572
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1774,7 +1803,7 @@ msgstr ""
 "Вы выбрали шрифт, размер которого больше 640 кБ. Весьма вероятно, что это "
 "вызовет проблемы при воспроизведении."
 
-#: src/lib/film.cc:396
+#: src/lib/film.cc:393
 msgid "You must add some content to the DCP before creating it"
 msgstr "Вам необходимо добавить контент в DCP перед его созданием"
 
@@ -1804,7 +1833,7 @@ msgstr ""
 "Уровень вашего аудио слишком высок (на %1). Вам стоит понизить уровень "
 "громкости вашего аудио-контента."
 
-#: src/lib/config.cc:287
+#: src/lib/config.cc:310
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
@@ -1851,11 +1880,11 @@ msgstr "таймаут соединения"
 msgid "connecting"
 msgstr "соединение"
 
-#: src/lib/film.cc:392
+#: src/lib/film.cc:389
 msgid "container"
 msgstr "контейнер"
 
-#: src/lib/film.cc:404
+#: src/lib/film.cc:401
 msgid "content type"
 msgstr "тип контента"
 
@@ -1863,7 +1892,7 @@ msgstr "тип контента"
 msgid "copying %1"
 msgstr "копирование %1"
 
-#: src/lib/ffmpeg.cc:137
+#: src/lib/ffmpeg.cc:141
 msgid "could not find stream information"
 msgstr "не удалось найти информацию о потоке"
 
@@ -2004,7 +2033,7 @@ msgstr "м"
 msgid "moving"
 msgstr "последовательность"
 
-#: src/lib/film.cc:388
+#: src/lib/film.cc:385
 msgid "name"
 msgstr "название"
 
@@ -2031,7 +2060,7 @@ msgstr "с"
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/film.cc:413
+#: src/lib/film.cc:410
 msgid "some of your content is missing"
 msgstr "часть вашего контента отсутствует"
 
@@ -2039,13 +2068,16 @@ msgstr "часть вашего контента отсутствует"
 msgid "still"
 msgstr "статичный"
 
-#: src/lib/ffmpeg_examiner.cc:338
+#: src/lib/ffmpeg_examiner.cc:341
 msgid "unknown"
 msgstr "неизвестно"
 
 #: src/lib/video_content.cc:509
 msgid "video frames"
 msgstr "видеокадры"
+
+#~ msgid "Choose 'Make DCP' again when you have done this."
+#~ msgstr "Выберите снова ‘Сделать DCP’ когда закончите с этим."
 
 #, fuzzy
 #~ msgid "Content to be joined must have the same audio language."

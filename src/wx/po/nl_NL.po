@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 01:13+0200\n"
+"POT-Creation-Date: 2022-01-20 09:40+0100\n"
 "PO-Revision-Date: 2021-10-25 20:29+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -75,8 +76,9 @@ msgid "%d channels on %s"
 msgstr "%d kanalen via %s"
 
 #: src/wx/about_dialog.cc:87
+#, fuzzy
 msgid ""
-"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
 "(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
@@ -299,10 +301,6 @@ msgstr "ASIO"
 msgid "About DCP-o-matic"
 msgstr "Over DCP-o-matic"
 
-#: src/wx/player_config_dialog.cc:123
-msgid "Activity log file"
-msgstr "Activity-logbestand"
-
 #: src/wx/screens_panel.cc:172
 msgid "Add Cinema"
 msgstr "Voeg Bioscoop toe"
@@ -403,7 +401,7 @@ msgid "Adjust white point to"
 msgstr "Pas witpunt aan naar"
 
 #: src/wx/full_config_dialog.cc:1306 src/wx/metadata_dialog.cc:63
-#: src/wx/player_config_dialog.cc:248
+#: src/wx/player_config_dialog.cc:233
 msgid "Advanced"
 msgstr "Geavanceerd"
 
@@ -456,7 +454,7 @@ msgstr "Er is een onbekende uitzondering opgetreden."
 msgid "Appearance..."
 msgstr "Uiterlijk..."
 
-#: src/wx/job_view.cc:185
+#: src/wx/job_view.cc:187
 msgid "Are you sure you want to cancel this job?"
 msgstr "Weet u zeker dat u deze taak wilt annuleren?"
 
@@ -626,7 +624,7 @@ msgstr "De inhoud van de CPL is niet versleuteld."
 msgid "Calculate..."
 msgstr "Bereken..."
 
-#: src/wx/job_view.cc:74 src/wx/verify_dcp_progress_dialog.cc:64
+#: src/wx/job_view.cc:73 src/wx/verify_dcp_progress_dialog.cc:64
 msgid "Cancel"
 msgstr "Annuleer"
 
@@ -717,7 +715,7 @@ msgstr "Kies een map"
 msgid "Choose a font"
 msgstr "Kies een lettertype"
 
-#: src/wx/fonts_dialog.cc:165
+#: src/wx/fonts_dialog.cc:166
 msgid "Choose a font file"
 msgstr "Kies een lettertype-bestand"
 
@@ -770,7 +768,7 @@ msgid "Configuration file"
 msgstr "Configuratiebestand"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:286
+#: src/wx/full_config_dialog.cc:1436 src/wx/player_config_dialog.cc:271
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -850,7 +848,7 @@ msgstr "Kan KDM niet laden"
 msgid "Could not load certficate (%s)"
 msgstr "Kan certificaat niet laden (%s)"
 
-#: src/wx/gl_video_view.cc:134
+#: src/wx/gl_video_view.cc:138
 #, c-format
 msgid "Could not read DCP: %s"
 msgstr "Kan DCP niet lezen: %s"
@@ -875,7 +873,7 @@ msgstr "Kan certificaten van Qube server niet lezen."
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Kan sleutel-bestand niet lezen; bestand is te lang (%s)"
 
-#: src/wx/film_viewer.cc:606
+#: src/wx/film_viewer.cc:614
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr ""
@@ -939,8 +937,8 @@ msgstr "DCP valideert OK."
 msgid "DCP verification"
 msgstr "DCP-controle"
 
-#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:161
-#: src/wx/playlist_controls.cc:366 src/wx/playlist_controls.cc:444
+#: src/wx/about_dialog.cc:54 src/wx/content_view.cc:84 src/wx/job_view.cc:163
+#: src/wx/playlist_controls.cc:342 src/wx/playlist_controls.cc:420
 #: src/wx/wx_util.cc:161 src/wx/wx_util.cc:179 src/wx/wx_util.cc:189
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
@@ -949,7 +947,7 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic Disk Writer"
 
-#: src/wx/player_config_dialog.cc:357
+#: src/wx/player_config_dialog.cc:342
 msgid "DCP-o-matic Player Preferences"
 msgstr "DCP-o-matic Player Voorkeuren"
 
@@ -962,7 +960,7 @@ msgstr "DCP-o-matic Playlist Editor Voorkeuren"
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic audio - %s"
 
-#: src/wx/player_config_dialog.cc:128
+#: src/wx/player_config_dialog.cc:123
 msgid "Debug log file"
 msgstr "Debug-logbestand"
 
@@ -1064,7 +1062,7 @@ msgstr ""
 msgid "Delay"
 msgstr "Vertraging"
 
-#: src/wx/job_view.cc:78
+#: src/wx/job_view.cc:77
 msgid "Details..."
 msgstr "Details..."
 
@@ -1150,7 +1148,7 @@ msgid "Edit screen"
 msgstr "Wijzig scherm"
 
 #: src/wx/audio_mapping_view.cc:92 src/wx/content_advanced_dialog.cc:73
-#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:66
+#: src/wx/dcp_panel.cc:100 src/wx/fonts_dialog.cc:67
 #: src/wx/language_tag_widget.cc:48 src/wx/metadata_dialog.cc:179
 #: src/wx/recipients_panel.cc:71 src/wx/video_panel.cc:181
 #: src/wx/video_panel.cc:192 src/wx/editable_list.h:122
@@ -1194,7 +1192,7 @@ msgstr "Einde"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Vul uw e-mailadres in voor het contact, niet %s"
 
-#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:283
+#: src/wx/full_config_dialog.cc:1433 src/wx/player_config_dialog.cc:268
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "Errors"
 msgstr "Fouten"
@@ -1251,7 +1249,7 @@ msgstr "Fade out"
 msgid "Fade out time"
 msgstr "Fade out tijd"
 
-#: src/wx/fonts_dialog.cc:58
+#: src/wx/fonts_dialog.cc:59
 msgid "File"
 msgstr "Bestand"
 
@@ -1291,23 +1289,23 @@ msgstr "Zoek ontbrekende..."
 msgid "Finding the colours in these subtitles..."
 msgstr "Zoeken van de kleuren in deze ondertitels..."
 
-#: src/wx/markers_dialog.cc:127
+#: src/wx/markers_dialog.cc:133
 msgid "First frame of composition"
 msgstr "First frame of composition"
 
-#: src/wx/markers_dialog.cc:133
+#: src/wx/markers_dialog.cc:139
 msgid "First frame of end credits"
 msgstr "First frame of end credits"
 
-#: src/wx/markers_dialog.cc:131
+#: src/wx/markers_dialog.cc:137
 msgid "First frame of intermission"
 msgstr "First frame of intermission"
 
-#: src/wx/markers_dialog.cc:135
+#: src/wx/markers_dialog.cc:141
 msgid "First frame of moving credits"
 msgstr "First frame of moving credits"
 
-#: src/wx/markers_dialog.cc:129
+#: src/wx/markers_dialog.cc:135
 msgid "First frame of title credits"
 msgstr "First frame of title credits"
 
@@ -1319,7 +1317,7 @@ msgstr "Map- / ZIP-naam-formaat"
 msgid "Folder name"
 msgstr "Mapnaam"
 
-#: src/wx/fonts_dialog.cc:41
+#: src/wx/fonts_dialog.cc:42
 msgid "Fonts"
 msgstr "Lettertypen"
 
@@ -1398,7 +1396,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Versterking voor content-kanaal %d in DCP-kanaal %d"
 
 #: src/wx/config_dialog.cc:109 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:279
+#: src/wx/full_config_dialog.cc:1429 src/wx/player_config_dialog.cc:264
 msgid "General"
 msgstr "Algemeen"
 
@@ -1447,7 +1445,7 @@ msgstr "Hostnaam of IP-adres"
 msgid "I want to play this back at fader"
 msgstr "Ik wil dit afspelen met deze volume-instelling"
 
-#: src/wx/fonts_dialog.cc:50
+#: src/wx/fonts_dialog.cc:51
 msgid "ID"
 msgstr "ID"
 
@@ -1672,7 +1670,7 @@ msgstr "LEQ(m) %.2fdB"
 msgid "Label"
 msgstr "Label"
 
-#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:45
+#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:48
 #: src/wx/text_panel.cc:165
 msgid "Language"
 msgstr "Taal"
@@ -1693,23 +1691,23 @@ msgstr "Taal van deze ondertitels"
 msgid "Language used for any sign language video track"
 msgstr "Taal die wordt gebruikt voor een gebarentaal-videotrack"
 
-#: src/wx/markers_dialog.cc:128
+#: src/wx/markers_dialog.cc:134
 msgid "Last frame of composition"
 msgstr "Last frame of composition"
 
-#: src/wx/markers_dialog.cc:134
+#: src/wx/markers_dialog.cc:140
 msgid "Last frame of end credits"
 msgstr "Last frame of end credits"
 
-#: src/wx/markers_dialog.cc:132
+#: src/wx/markers_dialog.cc:138
 msgid "Last frame of intermission"
 msgstr "Last frame of intermission"
 
-#: src/wx/markers_dialog.cc:136
+#: src/wx/markers_dialog.cc:142
 msgid "Last frame of moving credits"
 msgstr "Last frame of moving credits"
 
-#: src/wx/markers_dialog.cc:130
+#: src/wx/markers_dialog.cc:136
 msgid "Last frame of title credits"
 msgstr "Last frame of title credits"
 
@@ -1757,7 +1755,7 @@ msgstr "Laad certificaat..."
 msgid "Locations"
 msgstr "Locaties"
 
-#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:277
+#: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:262
 msgid "Log"
 msgstr "Log"
 
@@ -1836,7 +1834,7 @@ msgstr "Markeer alle audio-kanalen"
 msgid "Mark audio channels up to (and including)"
 msgstr "Markeer audiokanalen tot en met"
 
-#: src/wx/markers_dialog.cc:120
+#: src/wx/markers_dialog.cc:126
 msgid "Markers"
 msgstr "Markers"
 
@@ -1993,7 +1991,7 @@ msgstr "Aantekeningen"
 msgid "Notifications"
 msgstr "Notificaties"
 
-#: src/wx/job_view.cc:87
+#: src/wx/job_view.cc:86
 msgid "Notify when complete"
 msgstr "Meld wanneer klaar"
 
@@ -2021,7 +2019,7 @@ msgstr "Verschuiving"
 msgid "Only servers encode"
 msgstr "Alleen servers encoderen"
 
-#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:292
+#: src/wx/full_config_dialog.cc:1454 src/wx/player_config_dialog.cc:277
 msgid "Open console window"
 msgstr "Open console-venster"
 
@@ -2498,10 +2496,6 @@ msgstr "Selecteer sleutel-bestand"
 msgid "Select OV"
 msgstr "Selecteer OV"
 
-#: src/wx/player_config_dialog.cc:124
-msgid "Select activity log file"
-msgstr "Selecteer activity-logbestand"
-
 #: src/wx/timeline_dialog.cc:74
 msgid "Select and move content"
 msgstr "Selecteer en verplaats content"
@@ -2514,7 +2508,7 @@ msgstr "Selecteer bioscoop- en scherm-database-bestand"
 msgid "Select configuration file"
 msgstr "Selecteer configuratiebestand"
 
-#: src/wx/player_config_dialog.cc:129
+#: src/wx/player_config_dialog.cc:124
 msgid "Select debug log file"
 msgstr "Selecteer debug-logbestand"
 
@@ -2534,7 +2528,7 @@ msgstr "Verzend e-mails"
 msgid "Send logs"
 msgstr "Verzend logs"
 
-#: src/wx/send_i18n_dialog.cc:30
+#: src/wx/send_i18n_dialog.cc:33
 msgid "Send translations"
 msgstr "Verzend vertalingen"
 
@@ -2783,7 +2777,7 @@ msgstr "Tijdelijke versie"
 msgid "Test version "
 msgstr "Test-versie "
 
-#: src/wx/about_dialog.cc:222
+#: src/wx/about_dialog.cc:223
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -3229,7 +3223,7 @@ msgstr "Er is al een template met deze naam.  Wilt u hem overschrijven?"
 msgid "There is not enough free memory to do that."
 msgstr "Er is niet genoeg geheugen om dat te doen."
 
-#: src/wx/film_viewer.cc:365
+#: src/wx/film_viewer.cc:333
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3652,7 +3646,7 @@ msgstr "Toon..."
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:281
+#: src/wx/full_config_dialog.cc:1431 src/wx/player_config_dialog.cc:266
 #: src/wx/verify_dcp_dialog.cc:55
 msgid "Warnings"
 msgstr "Waarschuwingen"
@@ -3747,7 +3741,7 @@ msgstr ""
 "U moet een e-mailserver instellen bij Voorkeuren voordat u e-mails kunt "
 "verzenden."
 
-#: src/wx/send_i18n_dialog.cc:41
+#: src/wx/send_i18n_dialog.cc:44
 msgid "Your email"
 msgstr "Uw e-mailadres"
 
@@ -3755,7 +3749,7 @@ msgstr "Uw e-mailadres"
 msgid "Your email address"
 msgstr "Uw e-mailadres"
 
-#: src/wx/send_i18n_dialog.cc:37
+#: src/wx/send_i18n_dialog.cc:40
 msgid "Your name"
 msgstr "Uw naam"
 
@@ -3780,7 +3774,7 @@ msgstr "Zoom uit naar hele film"
 msgid "and 1 warning."
 msgstr "en 1 waarschuwing."
 
-#: src/wx/metadata_dialog.cc:279
+#: src/wx/metadata_dialog.cc:280
 msgid "candela per m²"
 msgstr "candela per m²"
 
@@ -3812,7 +3806,7 @@ msgstr "aangepast"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/name_format_editor.cc:80
+#: src/wx/name_format_editor.cc:82
 #, c-format
 msgid "e.g. %s"
 msgstr "bv. %s"
@@ -3830,7 +3824,7 @@ msgstr "f"
 msgid "film name"
 msgstr "filmnaam"
 
-#: src/wx/metadata_dialog.cc:280
+#: src/wx/metadata_dialog.cc:281
 msgid "foot lambert"
 msgstr "foot lambert"
 
@@ -3949,6 +3943,12 @@ msgstr "x"
 #: src/wx/colour_conversion_editor.cc:134
 msgid "y"
 msgstr "y"
+
+#~ msgid "Activity log file"
+#~ msgstr "Activity-logbestand"
+
+#~ msgid "Select activity log file"
+#~ msgstr "Selecteer activity-logbestand"
 
 #~ msgid ""
 #~ "The player is dropping a lot of frames, so playback may not be accurate.\n"
