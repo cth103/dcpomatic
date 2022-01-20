@@ -813,6 +813,19 @@ Player::pass ()
 		for (auto const& i: _delay) {
 			do_emit_video(i.first, i.second);
 		}
+
+		/* Perhaps we should have Empty entries for both eyes in the 3D case (somehow).
+		 * However, if we have L and R video files, and one is shorter than the other,
+		 * the fill code in ::video mostly takes care of filling in the gaps.
+		 * However, since it fills at the point when it knows there is more video coming
+		 * at time t (so it should fill any gap up to t) it can't do anything right at the
+		 * end.  This is particularly bad news if the last frame emitted is a LEFT
+		 * eye, as the MXF writer will complain about the 3D sequence being wrong.
+		 * Here's a hack to workaround that particular case.
+		 */
+		if (_next_video_eyes && _next_video_time && *_next_video_eyes == Eyes::RIGHT) {
+			do_emit_video (black_player_video_frame(Eyes::RIGHT), *_next_video_time);
+		}
 	}
 
 	return done;
