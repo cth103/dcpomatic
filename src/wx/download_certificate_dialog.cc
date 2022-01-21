@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,22 +18,25 @@
 
 */
 
-#include "dolby_doremi_certificate_panel.h"
+
 #include "barco_alchemy_certificate_panel.h"
 #include "christie_certificate_panel.h"
+#include "dcpomatic_button.h"
+#include "dolby_doremi_certificate_panel.h"
+#include "download_certificate_dialog.h"
 #include "gdc_certificate_panel.h"
 #include "qube_certificate_panel.h"
-#include "download_certificate_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
-#include "dcpomatic_button.h"
+
 
 using boost::optional;
+
 
 DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Download certificate"))
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	_notebook = new wxNotebook (this, wxID_ANY);
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -43,7 +46,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 
 	_message = new StaticText (this, wxT (""));
 	sizer->Add (_message, 0, wxALL, DCPOMATIC_SIZER_GAP);
-	wxFont font = _message->GetFont();
+	auto font = _message->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	font.SetPointSize (font.GetPointSize() - 1);
 	_message->SetFont (font);
@@ -59,7 +62,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 		_notebook->AddPage (i, i->name(), true);
 	}
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -77,10 +80,12 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	setup_sensitivity ();
 }
 
+
 DownloadCertificateDialog::~DownloadCertificateDialog ()
 {
 	_notebook->Unbind (wxEVT_NOTEBOOK_PAGE_CHANGED, &DownloadCertificateDialog::page_changed, this);
 }
+
 
 void
 DownloadCertificateDialog::download ()
@@ -88,24 +93,26 @@ DownloadCertificateDialog::download ()
 	_pages[_notebook->GetSelection()]->download ();
 }
 
+
 dcp::Certificate
 DownloadCertificateDialog::certificate () const
 {
-	optional<dcp::Certificate> c = _pages[_notebook->GetSelection()]->certificate ();
+	auto c = _pages[_notebook->GetSelection()]->certificate ();
 	DCPOMATIC_ASSERT (c);
-	return c.get ();
+	return *c;
 }
 
 void
 DownloadCertificateDialog::setup_sensitivity ()
 {
-	DownloadCertificatePanel* p = _pages[_notebook->GetSelection()];
+	auto p = _pages[_notebook->GetSelection()];
 	_download->Enable (p->ready_to_download ());
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	if (ok) {
 		ok->Enable (static_cast<bool>(p->certificate ()));
 	}
 }
+
 
 void
 DownloadCertificateDialog::page_changed (wxNotebookEvent& ev)

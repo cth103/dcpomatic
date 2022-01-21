@@ -113,7 +113,7 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 	/* Maximum time is 20s */
 	curl_easy_setopt (curl, CURLOPT_TIMEOUT, 20);
 
-	CURLcode const cr = curl_easy_perform (curl);
+	auto const cr = curl_easy_perform (curl);
 
 	temp.close ();
 	curl_easy_cleanup (curl);
@@ -121,7 +121,7 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 		return String::compose (_("Download failed (%1 error %2)"), url, (int) cr);
 	}
 
-	return optional<string>();
+	return {};
 }
 
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,8 +18,9 @@
 
 */
 
-#include <boost/optional.hpp>
+
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 
 
 class ScopedTemporary;
