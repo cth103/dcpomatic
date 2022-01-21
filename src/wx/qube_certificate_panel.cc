@@ -71,7 +71,7 @@ QubeCertificatePanel::do_download ()
 		return;
 	}
 
-	auto error = get_from_url (String::compose("%1SMPTE-%2/%3", base, _type, *name), true, false, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1));
+	auto error = get_from_url (String::compose("%1SMPTE-%2/%3", base, _type, *name), true, false, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 
 	if (error) {
 		_dialog->message()->SetLabel(wxT(""));

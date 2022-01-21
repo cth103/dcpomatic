@@ -540,7 +540,7 @@ try
 		{
 			/* Make a new screen and add it to the current cinema */
 			dcp::CertificateChain chain (dcp::file_to_string(optarg));
-			auto screen = make_shared<Screen>(screen_description, "", chain.leaf(), vector<TrustedDevice>());
+			auto screen = std::make_shared<Screen>(screen_description, "", chain.leaf(), boost::none, vector<TrustedDevice>());
 			if (cinema) {
 				cinema->add_screen (screen);
 			}

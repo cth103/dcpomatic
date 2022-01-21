@@ -58,10 +58,11 @@ DownloadCertificatePanel::DownloadCertificatePanel (DownloadCertificateDialog* d
 
 
 optional<string>
-DownloadCertificatePanel::load_certificate (boost::filesystem::path file)
+DownloadCertificatePanel::load_certificate (boost::filesystem::path file, string url)
 {
 	try {
 		_certificate = dcp::Certificate (dcp::file_to_string(file));
+		_url = url;
 	} catch (dcp::MiscError& e) {
 		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
 	}
@@ -70,10 +71,11 @@ DownloadCertificatePanel::load_certificate (boost::filesystem::path file)
 
 
 optional<string>
-DownloadCertificatePanel::load_certificate_from_chain (boost::filesystem::path file)
+DownloadCertificatePanel::load_certificate_from_chain (boost::filesystem::path file, string url)
 {
 	try {
 		_certificate = dcp::CertificateChain (dcp::file_to_string(file)).leaf();
+		_url = url;
 	} catch (dcp::MiscError& e) {
 		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());
 	}
@@ -85,6 +87,14 @@ optional<dcp::Certificate>
 DownloadCertificatePanel::certificate () const
 {
 	return _certificate;
+
+}
+
+
+optional<string>
+DownloadCertificatePanel::url () const
+{
+	return _url;
 
 }
 

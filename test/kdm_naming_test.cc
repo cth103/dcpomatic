@@ -61,19 +61,19 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 
 	/* Cinema A: UTC +4:30 */
 	auto cinema_a = make_shared<Cinema>("Cinema A", list<string>(), "", 4, 30);
-	cinema_a_screen_1 = make_shared<dcpomatic::Screen>("Screen 1", "", cert, vector<TrustedDevice>());
+	cinema_a_screen_1 = std::make_shared<dcpomatic::Screen>("Screen 1", "", cert, boost::none, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_1);
-	cinema_a_screen_2 = make_shared<dcpomatic::Screen>("Screen 2", "", cert, vector<TrustedDevice>());
+	cinema_a_screen_2 = std::make_shared<dcpomatic::Screen>("Screen 2", "", cert, boost::none, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_2);
 	c->add_cinema (cinema_a);
 
 	/* Cinema B: UTC -1:00 */
 	auto cinema_b = make_shared<Cinema>("Cinema B", list<string>(), "", -1, 0);
-	cinema_b_screen_x = make_shared<dcpomatic::Screen>("Screen X", "", cert, vector<TrustedDevice>());
+	cinema_b_screen_x = std::make_shared<dcpomatic::Screen>("Screen X", "", cert, boost::none, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_x);
-	cinema_b_screen_y = make_shared<dcpomatic::Screen>("Screen Y", "", cert, vector<TrustedDevice>());
+	cinema_b_screen_y = std::make_shared<dcpomatic::Screen>("Screen Y", "", cert, boost::none, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_y);
-	cinema_b_screen_z = make_shared<dcpomatic::Screen>("Screen Z", "", cert, vector<TrustedDevice>());
+	cinema_b_screen_z = std::make_shared<dcpomatic::Screen>("Screen Z", "", cert, boost::none, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_z);
 	c->add_cinema (cinema_a);
 

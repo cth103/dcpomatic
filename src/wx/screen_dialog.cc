@@ -102,7 +102,13 @@ private:
 
 
 ScreenDialog::ScreenDialog (
-	wxWindow* parent, wxString title, string name, string notes, optional<dcp::Certificate> recipient, vector<TrustedDevice> trusted_devices
+	wxWindow* parent,
+	wxString title,
+	string name,
+	string notes,
+	optional<dcp::Certificate> recipient,
+	optional<string> recipient_file,
+	vector<TrustedDevice> trusted_devices
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
@@ -136,15 +142,31 @@ ScreenDialog::ScreenDialog (
 	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
 	_recipient_thumbprint->SetFont (font);
 	set_recipient (recipient);
+
 	_get_recipient_from_file = new Button (this, _("Get from file..."));
 	_download_recipient = new Button (this, _("Download..."));
-	s->Add (_recipient_thumbprint, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	s->Add (_recipient_thumbprint, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, DCPOMATIC_SIZER_X_GAP);
 	s->Add (_get_recipient_from_file, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	s->Add (_download_recipient, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	_sizer->Add (s, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_sizer (_sizer, this, _("Other trusted devices"), true, wxGBPosition (r, 0));
+	add_label_to_sizer (_sizer, this, _("Filename"), true, wxGBPosition(r, 0));
+	_recipient_file = new wxStaticText (this, wxID_ANY, wxT(""));
+	checked_set (_recipient_file, recipient_file.get_value_or(""));
+	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
+	++r;
+
+	{
+		int flags = wxALIGN_CENTER_VERTICAL | wxTOP;
+#ifdef __WXOSX__
+		flags |= wxALIGN_RIGHT;
+		auto m = new StaticText (this, _("Other trusted devices") + wxT(":"));
+#else
+		auto m = new StaticText (this, _("Other trusted devices"));
+#endif
+		_sizer->Add (m, wxGBPosition(r, 0), wxDefaultSpan, flags, DCPOMATIC_SIZER_Y_GAP);
+	}
 	++r;
 
 	vector<EditableListColumn> columns;
@@ -202,6 +224,17 @@ ScreenDialog::recipient () const
 }
 
 
+optional<string>
+ScreenDialog::recipient_file () const
+{
+	auto const f = wx_to_std(_recipient_file->GetLabel());
+	if (f.empty()) {
+		return {};
+	}
+	return f;
+}
+
+
 void
 ScreenDialog::load_recipient (boost::filesystem::path file)
 {
@@ -213,6 +246,7 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 			return;
 		}
 		set_recipient (c.leaf ());
+		checked_set (_recipient_file, file.string());
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 	}
@@ -238,6 +272,7 @@ ScreenDialog::download_recipient ()
 	auto d = new DownloadCertificateDialog (this);
 	if (d->ShowModal() == wxID_OK) {
 		set_recipient (d->certificate());
+		checked_set (_recipient_file, d->url());
 	}
 	d->Destroy ();
 	setup_sensitivity ();

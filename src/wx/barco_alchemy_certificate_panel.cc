@@ -64,7 +64,7 @@ BarcoAlchemyCertificatePanel::do_download ()
 		serial
 		);
 
-	optional<string> error = get_from_url (url, true, false, boost::bind (&DownloadCertificatePanel::load_certificate, this, _1));
+	auto error = get_from_url (url, true, false, boost::bind (&DownloadCertificatePanel::load_certificate, this, _1, _2));
 	if (error) {
 		_dialog->message()->SetLabel(wxT(""));
 		error_dialog (this, std_to_wx(*error));

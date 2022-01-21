@@ -36,10 +36,11 @@ DCPOMATIC_ENABLE_WARNINGS
 class KDMRecipient
 {
 public:
-	KDMRecipient (std::string const& name_, std::string const& notes_, boost::optional<dcp::Certificate> recipient_)
+	KDMRecipient (std::string const& name_, std::string const& notes_, boost::optional<dcp::Certificate> recipient_, boost::optional<std::string> recipient_file_)
 		: name (name_)
 		, notes (notes_)
 		, recipient (recipient_)
+		, recipient_file (recipient_file_)
 	{}
 
 	explicit KDMRecipient (cxml::ConstNodePtr);
@@ -51,6 +52,10 @@ public:
 	std::string name;
 	std::string notes;
 	boost::optional<dcp::Certificate> recipient;
+	/** The pathname or URL that the recipient certificate was obtained from; purely
+	 *  to inform the user.
+	 */
+	boost::optional<std::string> recipient_file;
 };
 
 

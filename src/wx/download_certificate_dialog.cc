@@ -30,6 +30,7 @@
 #include "wx_util.h"
 
 
+using std::string;
 using boost::optional;
 
 
@@ -101,6 +102,16 @@ DownloadCertificateDialog::certificate () const
 	DCPOMATIC_ASSERT (c);
 	return *c;
 }
+
+
+string
+DownloadCertificateDialog::url () const
+{
+	auto u = _pages[_notebook->GetSelection()]->url();
+	DCPOMATIC_ASSERT (u);
+	return *u;
+}
+
 
 void
 DownloadCertificateDialog::setup_sensitivity ()

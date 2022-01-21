@@ -44,9 +44,10 @@ public:
 	virtual bool ready_to_download () const;
 
 	void download ();
-	boost::optional<std::string> load_certificate (boost::filesystem::path);
-	boost::optional<std::string> load_certificate_from_chain (boost::filesystem::path);
+	boost::optional<std::string> load_certificate (boost::filesystem::path, std::string url);
+	boost::optional<std::string> load_certificate_from_chain (boost::filesystem::path, std::string url);
 	boost::optional<dcp::Certificate> certificate () const;
+	boost::optional<std::string> url () const;
 
 protected:
 	DownloadCertificateDialog* _dialog;
@@ -56,6 +57,7 @@ protected:
 
 private:
 	boost::optional<dcp::Certificate> _certificate;
+	boost::optional<std::string> _url;
 };
 
 

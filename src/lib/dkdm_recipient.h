@@ -37,7 +37,7 @@ public:
 		int utc_offset_hour_,
 		int utc_offset_minute_
 		)
-		: KDMRecipient (name_, notes_, recipient_)
+		: KDMRecipient (name_, notes_, recipient_, boost::none)
 	  	, emails (emails_)
 		, utc_offset_hour (utc_offset_hour_)
 		, utc_offset_minute (utc_offset_minute_)
