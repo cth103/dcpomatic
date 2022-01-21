@@ -38,13 +38,15 @@ public:
 		wxString,
 		std::string name = "",
 		std::string notes = "",
-		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate>(),
-		std::vector<TrustedDevice> d = std::vector<TrustedDevice>()
+		boost::optional<dcp::Certificate> c = {},
+		boost::optional<std::string> f = {},
+		std::vector<TrustedDevice> d = {}
 		);
 
 	std::string name () const;
 	std::string notes () const;
 	boost::optional<dcp::Certificate> recipient () const;
+	boost::optional<std::string> recipient_file () const;
 	std::vector<TrustedDevice> trusted_devices () {
 		return _trusted_devices;
 	}
@@ -64,6 +66,7 @@ private:
 	wxTextCtrl* _name;
 	wxTextCtrl* _notes;
 	wxStaticText* _recipient_thumbprint;
+	wxStaticText* _recipient_file;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
 	EditableList<TrustedDevice, TrustedDeviceDialog>* _trusted_device_list;

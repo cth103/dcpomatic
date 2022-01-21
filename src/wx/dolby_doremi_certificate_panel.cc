@@ -199,7 +199,7 @@ DolbyDoremiCertificatePanel::do_download ()
 	auto i = urls.begin ();
 	auto j = files.begin ();
 	while (!ok && i != urls.end ()) {
-		auto error = get_from_zip_url (*i++, *j++, true, true, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1));
+		auto error = get_from_zip_url (*i++, *j++, true, true, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 		if (error) {
 			errors.push_back (error.get ());
 		} else {

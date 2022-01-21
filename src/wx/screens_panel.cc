@@ -261,7 +261,7 @@ ScreensPanel::add_screen_clicked ()
 		}
 	}
 
-	auto s = std::make_shared<Screen>(d->name(), d->notes(), d->recipient(), d->trusted_devices());
+	auto s = std::make_shared<Screen>(d->name(), d->notes(), d->recipient(), d->recipient_file(), d->trusted_devices());
 	c->add_screen (s);
 	auto id = add_screen (c, s);
 	if (id) {
@@ -283,7 +283,7 @@ ScreensPanel::edit_screen_clicked ()
 
 	auto s = *_selected_screens.begin();
 
-	auto d = new ScreenDialog (GetParent(), _("Edit screen"), s.second->name, s.second->notes, s.second->recipient, s.second->trusted_devices);
+	auto d = new ScreenDialog (GetParent(), _("Edit screen"), s.second->name, s.second->notes, s.second->recipient, s.second->recipient_file, s.second->trusted_devices);
 	if (d->ShowModal() != wxID_OK) {
 		d->Destroy ();
 		return;
@@ -306,6 +306,7 @@ ScreensPanel::edit_screen_clicked ()
 	s.second->name = d->name ();
 	s.second->notes = d->notes ();
 	s.second->recipient = d->recipient ();
+	s.second->recipient_file = d->recipient_file ();
 	s.second->trusted_devices = d->trusted_devices ();
 	_targets->SetItemText (s.first, std_to_wx (d->name()));
 	Config::instance()->changed (Config::CINEMAS);

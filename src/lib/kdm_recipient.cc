@@ -31,6 +31,8 @@ KDMRecipient::KDMRecipient (cxml::ConstNodePtr node)
 	} else if (node->optional_string_child("Recipient")) {
 		recipient = dcp::Certificate (node->string_child("Recipient"));
 	}
+
+	recipient_file = node->optional_string_child("RecipientFile");
 }
 
 
@@ -40,6 +42,9 @@ KDMRecipient::as_xml (xmlpp::Element* parent) const
 	parent->add_child("Name")->add_child_text(name);
 	if (recipient) {
 		parent->add_child("Recipient")->add_child_text(recipient->certificate(true));
+	}
+	if (recipient_file) {
+		parent->add_child("RecipientFile")->add_child_text(*recipient_file);
 	}
 
 	parent->add_child("Notes")->add_child_text(notes);

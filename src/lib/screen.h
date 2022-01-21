@@ -49,8 +49,14 @@ namespace dcpomatic {
 class Screen : public KDMRecipient
 {
 public:
-	Screen (std::string const & name_, std::string const & notes_, boost::optional<dcp::Certificate> recipient_, std::vector<TrustedDevice> trusted_devices_)
-		: KDMRecipient (name_, notes_, recipient_)
+	Screen (
+		std::string const & name_,
+		std::string const & notes_,
+		boost::optional<dcp::Certificate> recipient_,
+		boost::optional<std::string> recipient_file_,
+		std::vector<TrustedDevice> trusted_devices_
+	       )
+		: KDMRecipient (name_, notes_, recipient_, recipient_file_)
 		, trusted_devices (trusted_devices_)
 	{}
 

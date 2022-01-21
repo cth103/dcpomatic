@@ -34,6 +34,7 @@ public:
 	~DownloadCertificateDialog ();
 
 	dcp::Certificate certificate () const;
+	std::string url () const;
 
 	void setup_sensitivity ();
 
