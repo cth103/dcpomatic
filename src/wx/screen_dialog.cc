@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -132,7 +132,7 @@ ScreenDialog::ScreenDialog (
         size.SetHeight (-1);
 
 	add_label_to_sizer (_sizer, this, _("Recipient certificate"), true, wxGBPosition(r, 0));
-	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	auto s = new wxBoxSizer (wxHORIZONTAL);
 	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
 	_recipient_thumbprint->SetFont (font);
 	set_recipient (recipient);

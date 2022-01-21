@@ -68,7 +68,7 @@ ChristieCertificatePanel::do_download ()
 	if (error) {
 		all_errors = *error;
 
-		string const url = String::compose ("%1IMB-S2/IMB-S2_%2_sha256.pem", prefix, serial);
+		auto const url = String::compose ("%1IMB-S2/IMB-S2_%2_sha256.pem", prefix, serial);
 
 		error = get_from_url (url, true, false, boost::bind(&DownloadCertificatePanel::load_certificate_from_chain, this, _1));
 		if (error) {
