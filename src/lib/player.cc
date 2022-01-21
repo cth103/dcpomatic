@@ -279,9 +279,9 @@ Player::setup_pieces_unlocked ()
 	_black = Empty (_film, playlist(), bind(&have_video, _1), _playback_length);
 	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
-	_last_video_time = boost::optional<dcpomatic::DCPTime>();
-	_last_video_eyes = Eyes::BOTH;
-	_last_audio_time = boost::optional<dcpomatic::DCPTime>();
+	_next_video_time = boost::optional<dcpomatic::DCPTime>();
+	_next_video_eyes = Eyes::BOTH;
+	_next_audio_time = boost::optional<dcpomatic::DCPTime>();
 }
 
 
@@ -703,11 +703,11 @@ Player::pass ()
 		earliest_content->done = earliest_content->decoder->pass ();
 		auto dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
 		if (dcp && !_play_referenced && dcp->reference_audio()) {
-			/* We are skipping some referenced DCP audio content, so we need to update _last_audio_time
+			/* We are skipping some referenced DCP audio content, so we need to update _next_audio_time
 			   to `hide' the fact that no audio was emitted during the referenced DCP (though
 			   we need to behave as though it was).
 			*/
-			_last_audio_time = dcp->end (_film);
+			_next_audio_time = dcp->end (_film);
 		}
 		break;
 	}
@@ -720,20 +720,20 @@ Player::pass ()
 	{
 		LOG_DEBUG_PLAYER ("Emit silence for gap at %1", to_string(_silent.position()));
 		DCPTimePeriod period (_silent.period_at_position());
-		if (_last_audio_time) {
+		if (_next_audio_time) {
 			/* Sometimes the thing that happened last finishes fractionally before
 			   or after this silence.  Bodge the start time of the silence to fix it.
 			   I think this is nothing to worry about since we will just add or
 			   remove a little silence at the end of some content.
 			*/
-			int64_t const error = labs(period.from.get() - _last_audio_time->get());
+			int64_t const error = labs(period.from.get() - _next_audio_time->get());
 			/* Let's not worry about less than a frame at 24fps */
 			int64_t const too_much_error = DCPTime::from_frames(1, 24).get();
 			if (error >= too_much_error) {
 				_film->log()->log(String::compose("Silence starting before or after last audio by %1", error), LogEntry::TYPE_ERROR);
 			}
 			DCPOMATIC_ASSERT (error < too_much_error);
-			period.from = *_last_audio_time;
+			period.from = *_next_audio_time;
 		}
 		if (period.duration() > one_video_frame()) {
 			period.to = period.from + one_video_frame();
@@ -793,16 +793,16 @@ Player::pass ()
 	LOG_DEBUG_PLAYER("Emitting audio up to %1", to_string(pull_to));
 	auto audio = _audio_merger.pull (pull_to);
 	for (auto i = audio.begin(); i != audio.end(); ++i) {
-		if (_last_audio_time && i->second < *_last_audio_time) {
+		if (_next_audio_time && i->second < *_next_audio_time) {
 			/* This new data comes before the last we emitted (or the last seek); discard it */
-			auto cut = discard_audio (i->first, i->second, *_last_audio_time);
+			auto cut = discard_audio (i->first, i->second, *_next_audio_time);
 			if (!cut.first) {
 				continue;
 			}
 			*i = cut;
-		} else if (_last_audio_time && i->second > *_last_audio_time) {
+		} else if (_next_audio_time && i->second > *_next_audio_time) {
 			/* There's a gap between this data and the last we emitted; fill with silence */
-			fill_audio (DCPTimePeriod (*_last_audio_time, i->second));
+			fill_audio (DCPTimePeriod (*_next_audio_time, i->second));
 		}
 
 		emit_audio (i->first, i->second);
@@ -895,7 +895,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	   if it's after the content's period here as in that case we still need to fill any gap between
 	   `now' and the end of the content's period.
 	*/
-	if (time < piece->content->position() || (_last_video_time && time < *_last_video_time)) {
+	if (time < piece->content->position() || (_next_video_time && time < *_next_video_time)) {
 		return;
 	}
 
@@ -908,8 +908,8 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 	*/
 	DCPTime fill_to = min (time, piece->content->end(_film));
 
-	if (_last_video_time) {
-		DCPTime fill_from = max (*_last_video_time, piece->content->position());
+	if (_next_video_time) {
+		DCPTime fill_from = max (*_next_video_time, piece->content->position());
 
 		/* Fill if we have more than half a frame to do */
 		if ((fill_to - fill_from) > one_video_frame() / 2) {
@@ -924,7 +924,7 @@ Player::video (weak_ptr<Piece> wp, ContentVideo video)
 					fill_to_eyes = Eyes::LEFT;
 				}
 				auto j = fill_from;
-				auto eyes = _last_video_eyes.get_value_or(Eyes::LEFT);
+				auto eyes = _next_video_eyes.get_value_or(Eyes::LEFT);
 				if (eyes == Eyes::BOTH) {
 					eyes = Eyes::LEFT;
 				}
@@ -1235,13 +1235,13 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	if (accurate) {
-		_last_video_time = time;
-		_last_video_eyes = Eyes::LEFT;
-		_last_audio_time = time;
+		_next_video_time = time;
+		_next_video_eyes = Eyes::LEFT;
+		_next_audio_time = time;
 	} else {
-		_last_video_time = optional<DCPTime>();
-		_last_video_eyes = optional<Eyes>();
-		_last_audio_time = optional<DCPTime>();
+		_next_video_time = optional<DCPTime>();
+		_next_video_eyes = optional<Eyes>();
+		_next_audio_time = optional<DCPTime>();
 	}
 
 	_black.set_position (time);
@@ -1270,9 +1270,9 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	_delay.push_back (make_pair (pv, time));
 
 	if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
-		_last_video_time = time + one_video_frame();
+		_next_video_time = time + one_video_frame();
 	}
-	_last_video_eyes = increment_eyes (pv->eyes());
+	_next_video_eyes = increment_eyes (pv->eyes());
 
 	if (_delay.size() < 3) {
 		return;
@@ -1306,14 +1306,14 @@ void
 Player::emit_audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	/* Log if the assert below is about to fail */
-	if (_last_audio_time && labs(time.get() - _last_audio_time->get()) > 1) {
-		_film->log()->log(String::compose("Out-of-sequence emit %1 vs %2", to_string(time), to_string(*_last_audio_time)), LogEntry::TYPE_WARNING);
+	if (_next_audio_time && labs(time.get() - _next_audio_time->get()) > 1) {
+		_film->log()->log(String::compose("Out-of-sequence emit %1 vs %2", to_string(time), to_string(*_next_audio_time)), LogEntry::TYPE_WARNING);
 	}
 
 	/* This audio must follow on from the previous, allowing for half a sample (at 48kHz) leeway */
-	DCPOMATIC_ASSERT (!_last_audio_time || labs(time.get() - _last_audio_time->get()) < 2);
+	DCPOMATIC_ASSERT (!_next_audio_time || labs(time.get() - _next_audio_time->get()) < 2);
 	Audio (data, time, _film->audio_frame_rate());
-	_last_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
+	_next_audio_time = time + DCPTime::from_frames (data->frames(), _film->audio_frame_rate());
 }
 
 

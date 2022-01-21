@@ -195,11 +195,12 @@ private:
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	bool _play_referenced = false;
 
-	/** Time just after the last video frame we emitted, or the time of the last accurate seek */
-	boost::optional<dcpomatic::DCPTime> _last_video_time;
-	boost::optional<Eyes> _last_video_eyes;
-	/** Time just after the last audio frame we emitted, or the time of the last accurate seek */
-	boost::optional<dcpomatic::DCPTime> _last_audio_time;
+	/** Time of the next video that we will emit, or the time of the last accurate seek */
+	boost::optional<dcpomatic::DCPTime> _next_video_time;
+	/** Eyes of the next video that we will emit */
+	boost::optional<Eyes> _next_video_eyes;
+	/** Time of the next audio that we will emit, or the time of the last accurate seek */
+	boost::optional<dcpomatic::DCPTime> _next_audio_time;
 
 	boost::optional<int> _dcp_decode_reduction;
 
