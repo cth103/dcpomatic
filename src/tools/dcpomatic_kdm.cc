@@ -51,10 +51,11 @@
 #include <dcp/exceptions.h>
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
+#include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
-#include <wx/filepicker.h>
+#include <wx/treectrl.h>
+#include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>

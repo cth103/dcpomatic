@@ -61,7 +61,8 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
-	_targets = new TreeCtrl (this);
+	_targets = new TreeListCtrl (this);
+	_targets->AppendColumn (wxT("foo"));
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	add_cinemas ();
@@ -86,7 +87,8 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	sizer->Add (targets, 1, wxEXPAND);
 
 	_search->Bind        (wxEVT_TEXT, boost::bind (&ScreensPanel::search_changed, this));
-	_targets->Bind       (wxEVT_TREE_SEL_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_targets->Bind       (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_targets->Bind       (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
 
 	_add_cinema->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_cinema_clicked, this));
 	_edit_cinema->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_cinema_clicked, this));
@@ -102,7 +104,8 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 ScreensPanel::~ScreensPanel ()
 {
-	_targets->Unbind (wxEVT_TREE_SEL_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_targets->Unbind (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
+	_targets->Unbind (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
 }
 
 
@@ -121,7 +124,7 @@ ScreensPanel::setup_sensitivity ()
 }
 
 
-optional<wxTreeItemId>
+optional<wxTreeListItem>
 ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 {
 	auto search = wx_to_std (_search->GetValue ());
@@ -131,11 +134,11 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 		auto name = c->name;
 		transform (name.begin(), name.end(), name.begin(), ::tolower);
 		if (name.find (search) == string::npos) {
-			return optional<wxTreeItemId>();
+			return {};
 		}
 	}
 
-	auto id = _targets->AppendItem(_root, std_to_wx(c->name));
+	auto id = _targets->AppendItem(_targets->GetRootItem(), std_to_wx(c->name));
 
 	_cinemas[id] = c;
 
@@ -143,13 +146,13 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 		add_screen (c, i);
 	}
 
-	_targets->SortChildren (_root);
+	_targets->SetSortColumn (0);
 
 	return id;
 }
 
 
-optional<wxTreeItemId>
+optional<wxTreeListItem>
 ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
 {
 	auto i = _cinemas.begin();
@@ -175,8 +178,8 @@ ScreensPanel::add_cinema_clicked ()
 		Config::instance()->add_cinema (c);
 		auto id = add_cinema (c);
 		if (id) {
-			_targets->Unselect ();
-			_targets->SelectItem (*id);
+			_targets->UnselectAll ();
+			_targets->Select (*id);
 		}
 	}
 
@@ -226,7 +229,7 @@ ScreensPanel::remove_cinema_clicked ()
 
 	for (auto const& i: _selected_cinemas) {
 		Config::instance()->remove_cinema (i.second);
-		_targets->Delete (i.first);
+		_targets->DeleteItem (i.first);
 	}
 
 	selection_changed ();
@@ -344,7 +347,7 @@ ScreensPanel::remove_screen_clicked ()
 		}
 
 		j->second->remove_screen (i.second);
-		_targets->Delete (i.first);
+		_targets->DeleteItem (i.first);
 	}
 
 	Config::instance()->changed (Config::CINEMAS);
@@ -354,27 +357,23 @@ ScreensPanel::remove_screen_clicked ()
 list<shared_ptr<Screen>>
 ScreensPanel::screens () const
 {
-	list<shared_ptr<Screen>> s;
+	list<shared_ptr<Screen>> output;
 
-	for (auto const& i: _selected_cinemas) {
-		for (auto j: i.second->screens()) {
-			s.push_back (j);
+	for (auto item = _targets->GetFirstItem(); item.IsOk(); item = _targets->GetNextItem(item)) {
+		if (_targets->GetCheckedState(item) == wxCHK_CHECKED) {
+			auto screen_iter = _screens.find(item);
+			if (screen_iter != _screens.end()) {
+				output.push_back (screen_iter->second);
+			}
 		}
 	}
 
-	for (auto const& i: _selected_screens) {
-		s.push_back (i.second);
-	}
-
-	s.sort ();
-	s.unique ();
-
-	return s;
+	return output;
 }
 
 
 void
-ScreensPanel::selection_changed_shim (wxTreeEvent &)
+ScreensPanel::selection_changed_shim (wxTreeListEvent &)
 {
 	selection_changed ();
 }
@@ -387,13 +386,13 @@ ScreensPanel::selection_changed ()
 		return;
 	}
 
-	wxArrayTreeItemIds s;
+	wxTreeListItems s;
 	_targets->GetSelections (s);
 
 	_selected_cinemas.clear ();
 	_selected_screens.clear ();
 
-	for (size_t i = 0; i < s.GetCount(); ++i) {
+	for (size_t i = 0; i < s.size(); ++i) {
 		auto j = _cinemas.find (s[i]);
 		if (j != _cinemas.end ()) {
 			_selected_cinemas[j->first] = j->second;
@@ -405,15 +404,12 @@ ScreensPanel::selection_changed ()
 	}
 
 	setup_sensitivity ();
-	ScreensChanged ();
 }
 
 
 void
 ScreensPanel::add_cinemas ()
 {
-	_root = _targets->AddRoot ("Foo");
-
 	for (auto i: Config::instance()->cinemas()) {
 		add_cinema (i);
 	}
@@ -432,14 +428,14 @@ ScreensPanel::search_changed ()
 	_ignore_selection_change = true;
 
 	for (auto const& i: _selected_cinemas) {
-		/* The wxTreeItemIds will now be different, so we must search by cinema */
+		/* The wxTreeListItems will now be different, so we must search by cinema */
 		auto j = _cinemas.begin ();
 		while (j != _cinemas.end() && j->second != i.second) {
 			++j;
 		}
 
 		if (j != _cinemas.end()) {
-			_targets->SelectItem (j->first);
+			_targets->Select (j->first);
 		}
 	}
 
@@ -450,7 +446,7 @@ ScreensPanel::search_changed ()
 		}
 
 		if (j != _screens.end()) {
-			_targets->SelectItem (j->first);
+			_targets->Select (j->first);
 		}
 	}
 
@@ -458,12 +454,49 @@ ScreensPanel::search_changed ()
 }
 
 
-wxIMPLEMENT_DYNAMIC_CLASS (TreeCtrl, wxTreeCtrl);
+void
+ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
+{
+	if (_cinemas.find(ev.GetItem()) != _cinemas.end()) {
+		/* Cinema: check/uncheck all children */
+		auto const checked = _targets->GetCheckedState(ev.GetItem());
+		for (auto child = _targets->GetFirstChild(ev.GetItem()); child.IsOk(); child = _targets->GetNextSibling(child)) {
+			_targets->CheckItem(child, checked);
+		}
+	} else {
+		/* Screen: set cinema to checked/unchecked/3state */
+		auto parent = _targets->GetItemParent(ev.GetItem());
+		DCPOMATIC_ASSERT (parent.IsOk());
+		int checked = 0;
+		int unchecked = 0;
+		for (auto child = _targets->GetFirstChild(parent); child.IsOk(); child = _targets->GetNextSibling(child)) {
+			if (_targets->GetCheckedState(child) == wxCHK_CHECKED) {
+			    ++checked;
+			} else {
+			    ++unchecked;
+			}
+		}
+		if (checked == 0) {
+			_targets->CheckItem(parent, wxCHK_UNCHECKED);
+		} else if (unchecked == 0) {
+			_targets->CheckItem(parent, wxCHK_CHECKED);
+		} else {
+			_targets->CheckItem(parent, wxCHK_UNDETERMINED);
+		}
+	}
+
+	ScreensChanged ();
+}
+
+
+
+wxIMPLEMENT_DYNAMIC_CLASS (TreeListCtrl, wxTreeListCtrl);
 
 
 int
-TreeCtrl::OnCompareItems (wxTreeItemId const& a, wxTreeItemId const& b)
+TreeListCtrl::OnCompareItems (wxTreeListItem const& a, wxTreeListItem const& b)
 {
 	return strcoll (wx_to_std(GetItemText(a)).c_str(), wx_to_std(GetItemText(b)).c_str());
 }
+
 
