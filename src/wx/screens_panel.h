@@ -23,7 +23,7 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <wx/srchctrl.h>
-#include <wx/treectrl.h>
+#include <wx/treelist.h>
 #include <boost/signals2.hpp>
 #include <list>
 #include <map>
@@ -36,22 +36,22 @@ namespace dcpomatic {
 class Cinema;
 
 
-/** Shim around wxTreeCtrl so we can use strcoll() to compare things */
-class TreeCtrl : public wxTreeCtrl
+/** Shim around wxTreeListCtrl so we can use strcoll() to compare things */
+class TreeListCtrl : public wxTreeListCtrl
 {
 public:
-	wxDECLARE_DYNAMIC_CLASS (TreeCtrl);
+	wxDECLARE_DYNAMIC_CLASS (TreeListCtrl);
 
-	TreeCtrl () {}
+	TreeListCtrl () {}
 
-	TreeCtrl (wxWindow* parent)
-		: wxTreeCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_MULTIPLE | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT)
+	TreeListCtrl (wxWindow* parent)
+		: wxTreeListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER)
 	{}
 
-	virtual ~TreeCtrl () {}
+	virtual ~TreeListCtrl () {}
 
 private:
-	int OnCompareItems (wxTreeItemId const& a, wxTreeItemId const& b);
+	int OnCompareItems (wxTreeListItem const& a, wxTreeListItem const& b);
 };
 
 
@@ -68,30 +68,30 @@ public:
 
 private:
 	void add_cinemas ();
-	boost::optional<wxTreeItemId> add_cinema (std::shared_ptr<Cinema>);
-	boost::optional<wxTreeItemId> add_screen (std::shared_ptr<Cinema>, std::shared_ptr<dcpomatic::Screen>);
+	boost::optional<wxTreeListItem> add_cinema (std::shared_ptr<Cinema>);
+	boost::optional<wxTreeListItem> add_screen (std::shared_ptr<Cinema>, std::shared_ptr<dcpomatic::Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
 	void remove_cinema_clicked ();
 	void add_screen_clicked ();
 	void edit_screen_clicked ();
 	void remove_screen_clicked ();
-	void selection_changed_shim (wxTreeEvent &);
+	void selection_changed_shim (wxTreeListEvent &);
 	void selection_changed ();
 	void search_changed ();
+	void checkbox_changed (wxTreeListEvent& ev);
 
 	wxSearchCtrl* _search;
-	TreeCtrl* _targets;
+	TreeListCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;
 	wxButton* _remove_cinema;
 	wxButton* _add_screen;
 	wxButton* _edit_screen;
 	wxButton* _remove_screen;
-	wxTreeItemId _root;
 
-	typedef std::map<wxTreeItemId, std::shared_ptr<Cinema>> CinemaMap;
-	typedef std::map<wxTreeItemId, std::shared_ptr<dcpomatic::Screen>> ScreenMap;
+	typedef std::map<wxTreeListItem, std::shared_ptr<Cinema>> CinemaMap;
+	typedef std::map<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>> ScreenMap;
 
 	CinemaMap _cinemas;
 	ScreenMap _screens;
