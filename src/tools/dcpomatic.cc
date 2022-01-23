@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -250,12 +250,12 @@ enum {
 	ID_jobs_open_dcp_in_player,
 	ID_view_closed_captions,
 	ID_view_video_waveform,
-	ID_tools_hints,
-	ID_tools_encoding_servers,
+	ID_view_hints,
+	ID_view_encoding_servers,
+	ID_view_system_information,
 	ID_tools_manage_templates,
 	ID_tools_check_for_updates,
 	ID_tools_send_translations,
-	ID_tools_system_information,
 	ID_tools_restore_default_preferences,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
@@ -332,12 +332,12 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_open_dcp_in_player, this), ID_jobs_open_dcp_in_player);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this),    ID_view_closed_captions);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_video_waveform, this),     ID_view_video_waveform);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_hints, this),              ID_view_hints);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_encoding_servers, this),   ID_view_encoding_servers);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_system_information, this), ID_view_system_information);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_manage_templates, this),  ID_tools_manage_templates);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_send_translations, this), ID_tools_send_translations);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this),ID_tools_system_information);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
@@ -1036,7 +1036,7 @@ private:
 		_video_waveform_dialog->Show ();
 	}
 
-	void tools_system_information ()
+	void view_system_information ()
 	{
 		if (!_system_information_dialog) {
 			_system_information_dialog = new SystemInformationDialog (this, _film_viewer);
@@ -1045,7 +1045,7 @@ private:
 		_system_information_dialog->Show ();
 	}
 
-	void tools_hints ()
+	void view_hints ()
 	{
 		if (!_hints_dialog) {
 			_hints_dialog = new HintsDialog (this, _film, true);
@@ -1054,7 +1054,7 @@ private:
 		_hints_dialog->Show ();
 	}
 
-	void tools_encoding_servers ()
+	void view_encoding_servers ()
 	{
 		if (!_servers_list_dialog) {
 			_servers_list_dialog = new ServersListDialog (this);
@@ -1356,14 +1356,14 @@ private:
 		auto view = new wxMenu;
 		add_item (view, _("Closed captions..."), ID_view_closed_captions, NEEDS_FILM);
 		add_item (view, _("Video waveform..."), ID_view_video_waveform, NEEDS_FILM);
+		add_item (view, _("Hints..."), ID_view_hints, NEEDS_FILM);
+		add_item (view, _("Encoding servers..."), ID_view_encoding_servers, 0);
+		add_item (view, _("System information..."), ID_view_system_information, 0);
 
 		auto tools = new wxMenu;
-		add_item (tools, _("Hints..."), ID_tools_hints, NEEDS_FILM);
-		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
-		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
+		add_item (tools, _("Check for updates..."), ID_tools_check_for_updates, 0);
 		add_item (tools, _("Send translations..."), ID_tools_send_translations, 0);
-		add_item (tools, _("System information..."), ID_tools_system_information, 0);
 		tools->AppendSeparator ();
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
 
