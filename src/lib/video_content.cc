@@ -435,7 +435,7 @@ VideoContent::fade (shared_ptr<const Film> film, Frame f) const
 		return 1 - double (f - fade_out_start) / fade_out();
 	}
 
-	return optional<double> ();
+	return {};
 }
 
 
