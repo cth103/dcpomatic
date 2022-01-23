@@ -18,13 +18,13 @@
 
 */
 
-#include "recipient_dialog.h"
-#include "wx_util.h"
-#include "file_dialog_wrapper.h"
-#include "static_text.h"
-#include "download_certificate_dialog.h"
-#include "table_dialog.h"
+
 #include "dcpomatic_button.h"
+#include "download_certificate_dialog.h"
+#include "recipient_dialog.h"
+#include "static_text.h"
+#include "table_dialog.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/util.h"
 #include <dcp/exceptions.h>
@@ -36,12 +36,13 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
-using std::string;
+
 using std::cout;
-using std::vector;
 using std::list;
-using boost::optional;
+using std::string;
+using std::vector;
 using boost::bind;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

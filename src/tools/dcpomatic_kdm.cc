@@ -22,7 +22,6 @@
 #include "wx/about_dialog.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/editable_list.h"
-#include "wx/file_dialog_wrapper.h"
 #include "wx/file_picker_ctrl.h"
 #include "wx/full_config_dialog.h"
 #include "wx/job_view_dialog.h"
