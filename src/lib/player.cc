@@ -1049,12 +1049,28 @@ Player::audio (weak_ptr<Piece> wp, AudioStreamPtr stream, ContentAudio content_a
 
 	DCPOMATIC_ASSERT (content_audio.audio->frames() > 0);
 
-	/* Gain */
+	/* Gain and fade */
 
-	if (content->gain() != 0) {
-		auto gain = make_shared<AudioBuffers>(content_audio.audio);
-		gain->apply_gain (content->gain());
-		content_audio.audio = gain;
+	auto const fade_coeffs = content->fade (stream, content_audio.frame, content_audio.audio->frames(), rfr);
+	if (content->gain() != 0 || !fade_coeffs.empty()) {
+		auto gain_buffers = make_shared<AudioBuffers>(content_audio.audio);
+		if (!fade_coeffs.empty()) {
+			/* Apply both fade and gain */
+			DCPOMATIC_ASSERT (fade_coeffs.size() == static_cast<size_t>(gain_buffers->frames()));
+			auto const channels = gain_buffers->channels();
+			auto const frames = fade_coeffs.size();
+			auto data = gain_buffers->data();
+			auto const gain = db_to_linear (content->gain());
+			for (auto channel = 0; channel < channels; ++channel) {
+				for (auto frame = 0U; frame < frames; ++frame) {
+					data[channel][frame] *= gain * fade_coeffs[frame];
+				}
+			}
+		} else {
+			/* Just apply gain */
+			gain_buffers->apply_gain (content->gain());
+		}
+		content_audio.audio = gain_buffers;
 	}
 
 	/* Remap */

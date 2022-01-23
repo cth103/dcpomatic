@@ -173,6 +173,7 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	_yuv = node->optional_bool_child("YUV").get_value_or (true);
 
 	if (version >= 32) {
+		/* These should be VideoFadeIn and VideoFadeOut but we'll leave them like this until 2.18.x */
 		_fade_in = node->number_child<Frame> ("FadeIn");
 		_fade_out = node->number_child<Frame> ("FadeOut");
 	} else {

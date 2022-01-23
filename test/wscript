@@ -48,6 +48,7 @@ def build(bld):
                  atmos_test.cc
                  audio_analysis_test.cc
                  audio_buffers_test.cc
+                 audio_content_test.cc
                  audio_delay_test.cc
                  audio_filter_test.cc
                  audio_mapping_test.cc
