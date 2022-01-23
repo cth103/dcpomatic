@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,24 +19,24 @@
 */
 
 
+#include "cinema_dialog.h"
+#include "dcpomatic_button.h"
+#include "screen_dialog.h"
 #include "screens_panel.h"
 #include "wx_util.h"
-#include "cinema_dialog.h"
-#include "screen_dialog.h"
-#include "dcpomatic_button.h"
-#include "lib/config.h"
 #include "lib/cinema.h"
+#include "lib/config.h"
 #include "lib/screen.h"
 
 
-using std::list;
-using std::pair;
 using std::cout;
-using std::map;
-using std::string;
 using std::make_pair;
 using std::make_shared;
+using std::map;
+using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -354,10 +354,10 @@ ScreensPanel::remove_screen_clicked ()
 }
 
 
-list<shared_ptr<Screen>>
+vector<shared_ptr<Screen>>
 ScreensPanel::screens () const
 {
-	list<shared_ptr<Screen>> output;
+	vector<shared_ptr<Screen>> output;
 
 	for (auto item = _targets->GetFirstItem(); item.IsOk(); item = _targets->GetNextItem(item)) {
 		if (_targets->GetCheckedState(item) == wxCHK_CHECKED) {
