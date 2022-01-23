@@ -256,6 +256,7 @@ enum {
 	ID_tools_send_translations,
 	ID_tools_system_information,
 	ID_tools_restore_default_preferences,
+	ID_tools_export_preferences,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_add_file,
@@ -338,6 +339,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_send_translations, this), ID_tools_send_translations);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this),ID_tools_system_information);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_export_preferences, this), ID_tools_export_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
 
@@ -744,6 +746,21 @@ private:
 
 		if (r == wxID_YES) {
 			Config::restore_defaults ();
+		}
+	}
+
+	void tools_export_preferences ()
+	{
+		auto dialog = new wxFileDialog (
+			this, _("Specify ZIP file"), wxEmptyString, wxT("dcpomatic_config.zip"), wxT("ZIP files (*.zip)|*.zip"),
+			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+			);
+
+		int const r = dialog->ShowModal ();
+		dialog->Destroy ();
+
+		if (r == wxID_OK) {
+			save_all_config_as_zip (wx_to_std(dialog->GetPath()));
 		}
 	}
 
@@ -1375,6 +1392,8 @@ private:
 		add_item (tools, _("System information..."), ID_tools_system_information, 0);
 		tools->AppendSeparator ();
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
+		tools->AppendSeparator ();
+		add_item (tools, _("Export preferences..."), ID_tools_export_preferences, ALWAYS);
 
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__

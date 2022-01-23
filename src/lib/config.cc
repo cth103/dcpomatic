@@ -33,9 +33,10 @@
 #include "compose.hpp"
 #include "crypto.h"
 #include "dkdm_recipient.h"
-#include <dcp/raw_convert.h>
-#include <dcp/name_format.h>
+#include "zipper.h"
 #include <dcp/certificate_chain.h>
+#include <dcp/name_format.h>
+#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <glib.h>
 #include <libxml++/libxml++.h>
@@ -1476,5 +1477,23 @@ Config::check_certificates () const
 	}
 
 	return bad;
+}
+
+
+void
+save_all_config_as_zip (boost::filesystem::path zip_file)
+{
+	Zipper zipper (zip_file);
+
+	auto config = Config::instance();
+	zipper.add ("config.xml", dcp::file_to_string(config->config_read_file()));
+	if (boost::filesystem::exists(config->cinemas_file())) {
+		zipper.add ("cinemas.xml", dcp::file_to_string(config->cinemas_file()));
+	}
+	if (boost::filesystem::exists(config->dkdm_recipients_file())) {
+		zipper.add ("dkdm_recipients.xml", dcp::file_to_string(config->dkdm_recipients_file()));
+	}
+
+	zipper.close ();
 }
 
