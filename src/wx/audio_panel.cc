@@ -28,30 +28,32 @@
 #include "gain_calculator_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "lib/audio_content.h"
+#include "lib/cinema_sound_processor.h"
 #include "lib/config.h"
+#include "lib/dcp_content.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/ffmpeg_content.h"
-#include "lib/cinema_sound_processor.h"
 #include "lib/job_manager.h"
-#include "lib/dcp_content.h"
-#include "lib/audio_content.h"
 #include "lib/maths_util.h"
 #include <wx/spinctrl.h>
 #include <iostream>
 
 
-using std::vector;
 using std::cout;
-using std::string;
-using std::list;
-using std::pair;
-using std::make_shared;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::pair;
+using std::set;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+using namespace dcpomatic;
 
 
 AudioPanel::AudioPanel (ContentPanel* p)
@@ -102,6 +104,12 @@ AudioPanel::create ()
 	/// TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 	_delay_ms_label = create_label (this, _("ms"), false);
 
+	_fade_in_label = create_label (this, _("Fade in"), true);
+	_fade_in = new Timecode<ContentTime> (this);
+
+	_fade_out_label = create_label (this, _("Fade out"), true);
+	_fade_out = new Timecode<ContentTime> (this);
+
 	_mapping = new AudioMappingView (this, _("Content"), _("content"), _("DCP"), _("DCP"));
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
@@ -123,6 +131,9 @@ AudioPanel::create ()
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
 	_gain_calculate_button->Bind (wxEVT_BUTTON,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
+	_fade_in->Changed.connect (boost::bind(&AudioPanel::fade_in_changed, this));
+	_fade_out->Changed.connect (boost::bind(&AudioPanel::fade_out_changed, this));
+
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 	_active_jobs_connection = JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));
 
@@ -130,6 +141,7 @@ AudioPanel::create ()
 
 	_sizer->Layout ();
 }
+
 
 void
 AudioPanel::add_to_grid ()
@@ -163,7 +175,16 @@ AudioPanel::add_to_grid ()
 	s->Add (_delay_ms_label, 0, wxALIGN_CENTER_VERTICAL);
 	_grid->Add (s, wxGBPosition(r, 1));
 	++r;
+
+	add_label_to_sizer (_grid, _fade_in_label, true, wxGBPosition(r, 0));
+	_grid->Add (_fade_in, wxGBPosition(r, 1), wxGBSpan(1, 3));
+	++r;
+
+	add_label_to_sizer (_grid, _fade_out_label, true, wxGBPosition(r, 0));
+	_grid->Add (_fade_out, wxGBPosition(r, 1), wxGBSpan(1, 3));
+	++r;
 }
+
 
 AudioPanel::~AudioPanel ()
 {
@@ -242,6 +263,34 @@ AudioPanel::film_content_changed (int property)
 		setup_sensitivity ();
 	} else if (property == ContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
+	} else if (property == AudioContentProperty::FADE_IN) {
+		set<Frame> check;
+		for (auto i: ac) {
+			check.insert (i->audio->fade_in().get());
+		}
+
+		if (check.size() == 1) {
+			_fade_in->set (
+				ac.front()->audio->fade_in(),
+				ac.front()->active_video_frame_rate(_parent->film())
+				);
+		} else {
+			_fade_in->clear ();
+		}
+	} else if (property == AudioContentProperty::FADE_OUT) {
+		set<Frame> check;
+		for (auto i: ac) {
+			check.insert (i->audio->fade_out().get());
+		}
+
+		if (check.size() == 1) {
+			_fade_out->set (
+				ac.front()->audio->fade_out(),
+				ac.front()->active_video_frame_rate(_parent->film())
+				);
+		} else {
+			_fade_out->clear ();
+		}
 	}
 }
 
@@ -307,6 +356,8 @@ AudioPanel::content_selection_changed ()
 
 	film_content_changed (AudioContentProperty::STREAMS);
 	film_content_changed (AudioContentProperty::GAIN);
+	film_content_changed (AudioContentProperty::FADE_IN);
+	film_content_changed (AudioContentProperty::FADE_OUT);
 	film_content_changed (DCPContentProperty::REFERENCE_AUDIO);
 
 	setup_sensitivity ();
@@ -444,6 +495,28 @@ AudioPanel::set_film (shared_ptr<Film>)
 	if (_audio_dialog) {
 		_audio_dialog->Destroy ();
 		_audio_dialog = nullptr;
+	}
+}
+
+
+void
+AudioPanel::fade_in_changed ()
+{
+	auto const hmsf = _fade_in->get();
+	for (auto i: _parent->selected_audio()) {
+		auto const vfr = i->active_video_frame_rate(_parent->film());
+		i->audio->set_fade_in (dcpomatic::ContentTime(hmsf, vfr));
+	}
+}
+
+
+void
+AudioPanel::fade_out_changed ()
+{
+	auto const hmsf = _fade_out->get();
+	for (auto i: _parent->selected_audio()) {
+		auto const vfr = i->active_video_frame_rate (_parent->film());
+		i->audio->set_fade_out (dcpomatic::ContentTime(hmsf, vfr));
 	}
 }
 

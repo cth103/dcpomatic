@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_WX_TIMECODE_H
 #define DCPOMATIC_WX_TIMECODE_H
+
 
 #include "wx_util.h"
 #include "lib/dcpomatic_time.h"
@@ -27,6 +29,7 @@
 #include <dcp/raw_convert.h>
 #include <wx/wx.h>
 #include <boost/signals2.hpp>
+
 
 class TimecodeBase : public wxPanel
 {
@@ -57,6 +60,7 @@ protected:
 
 	bool _ignore_changed = false;
 };
+
 
 template <class T>
 class Timecode : public TimecodeBase

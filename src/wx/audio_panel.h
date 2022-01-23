@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,6 +22,7 @@
 #include "lib/audio_mapping.h"
 #include "content_sub_panel.h"
 #include "content_widget.h"
+#include "timecode.h"
 
 
 class wxSpinCtrlDouble;
@@ -56,6 +57,8 @@ private:
 	void reference_clicked ();
 	void add_to_grid () override;
 	boost::optional<float> peak () const;
+	void fade_in_changed ();
+	void fade_out_changed ();
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
@@ -68,6 +71,10 @@ private:
 	wxStaticText* _delay_label;
 	wxStaticText* _delay_ms_label;
 	ContentSpinCtrl<AudioContent>* _delay;
+	wxStaticText* _fade_in_label;
+	Timecode<dcpomatic::ContentTime>* _fade_in;
+	wxStaticText* _fade_out_label;
+	Timecode<dcpomatic::ContentTime>* _fade_out;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
 	AudioDialog* _audio_dialog;

@@ -53,6 +53,8 @@ using namespace dcpomatic;
 int const AudioContentProperty::STREAMS = 200;
 int const AudioContentProperty::GAIN = 201;
 int const AudioContentProperty::DELAY = 202;
+int const AudioContentProperty::FADE_IN = 203;
+int const AudioContentProperty::FADE_OUT = 204;
 
 
 AudioContent::AudioContent (Content* parent)
@@ -90,6 +92,8 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 {
 	_gain = node->number_child<double> ("AudioGain");
 	_delay = node->number_child<int> ("AudioDelay");
+	_fade_in = ContentTime(node->optional_number_child<ContentTime::Type>("AudioFadeIn").get_value_or(0));
+	_fade_out = ContentTime(node->optional_number_child<ContentTime::Type>("AudioFadeOut").get_value_or(0));
 
 	/* Backwards compatibility */
 	auto r = node->optional_number_child<double>("AudioVideoFrameRate");
@@ -127,6 +131,8 @@ AudioContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("AudioGain")->add_child_text(raw_convert<string>(_gain));
 	node->add_child("AudioDelay")->add_child_text(raw_convert<string>(_delay));
+	node->add_child("AudioFadeIn")->add_child_text(raw_convert<string>(_fade_in.get()));
+	node->add_child("AudioFadeOut")->add_child_text(raw_convert<string>(_fade_out.get()));
 }
 
 
@@ -420,3 +426,57 @@ AudioContent::modify_trim_start (ContentTime& trim) const
 	/* XXX: we're in trouble if streams have different rates */
 	trim = trim.round (_streams.front()->frame_rate());
 }
+
+
+void
+AudioContent::set_fade_in (ContentTime t)
+{
+	maybe_set (_fade_in, t, AudioContentProperty::FADE_IN);
+}
+
+
+void
+AudioContent::set_fade_out (ContentTime t)
+{
+	maybe_set (_fade_out, t, AudioContentProperty::FADE_OUT);
+}
+
+
+vector<float>
+AudioContent::fade (Frame frame, Frame length, int frame_rate) const
+{
+	auto const in = fade_in().frames_round(frame_rate);
+	auto const out = fade_out().frames_round(frame_rate);
+
+	/* Where the start trim ends, at frame_rate */
+	auto const trim_start = _parent->trim_start().frames_round(frame_rate);
+	/* Where the end trim starts within the whole length of the content, at frame_rate */
+	auto const trim_end = ContentTime(ContentTime::from_frames(stream()->length(), stream()->frame_rate()) - _parent->trim_end()).frames_round(frame_rate);
+
+	if (
+		(in == 0  || (frame >= (trim_start + in))) &&
+		(out == 0 || ((frame + length) < (trim_end - out)))
+	   ) {
+		/* This section starts after the fade in and ends before the fade out */
+		return {};
+	}
+
+	/* Start position relative to the start of the fade in */
+	auto in_start = frame - trim_start;
+	/* Start position relative to the start of the fade out */
+	auto out_start = frame - (trim_end - out);
+
+	vector<float> coeffs(length);
+	for (auto coeff = 0; coeff < length; ++coeff) {
+		coeffs[coeff] = 1.0;
+		if (in) {
+			coeffs[coeff] *= logarithmic_fade_in_curve(static_cast<float>(in_start + coeff) / in);
+		}
+		if (out) {
+			coeffs[coeff] *= logarithmic_fade_out_curve(static_cast<float>(out_start + coeff) / out);
+		}
+	}
+
+	return coeffs;
+}
+

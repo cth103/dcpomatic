@@ -42,6 +42,8 @@ public:
 	static int const STREAMS;
 	static int const GAIN;
 	static int const DELAY;
+	static int const FADE_IN;
+	static int const FADE_OUT;
 };
 
 
@@ -77,6 +79,19 @@ public:
 		return _delay;
 	}
 
+	dcpomatic::ContentTime fade_in () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fade_in;
+	}
+
+	dcpomatic::ContentTime fade_out () const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _fade_out;
+	}
+
+	void set_fade_in (dcpomatic::ContentTime time);
+	void set_fade_out (dcpomatic::ContentTime time);
+
 	std::string processing_description (std::shared_ptr<const Film> film) const;
 
 	std::vector<AudioStreamPtr> streams () const {
@@ -94,6 +109,13 @@ public:
 	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
 	void modify_trim_start (dcpomatic::ContentTime& pos) const;
 
+	/** @param frame frame within the whole (untrimmed) content.
+	 *  @param frame_rate The frame rate of the audio (it may have been resampled).
+	 *  @return a fade coefficient for @ref length samples starting at an offset @frame within
+	 *  the content, or an empty vector if the given section has no fade.
+	 */
+	std::vector<float> fade (Frame frame, Frame length, int frame_rate) const;
+
 	static std::shared_ptr<AudioContent> from_xml (Content* parent, cxml::ConstNodePtr, int version);
 
 private:
@@ -102,6 +124,8 @@ private:
 	double _gain = 0;
 	/** Delay to apply to audio (positive moves audio later) in milliseconds */
 	int _delay = 0;
+	dcpomatic::ContentTime _fade_in;
+	dcpomatic::ContentTime _fade_out;
 	std::vector<AudioStreamPtr> _streams;
 };
 

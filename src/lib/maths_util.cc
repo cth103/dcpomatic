@@ -19,6 +19,7 @@
 */
 
 
+#include "maths_util.h"
 #include <cmath>
 
 
@@ -33,5 +34,21 @@ double
 linear_to_db (double linear)
 {
 	return 20 * log10(linear);
+}
+
+
+float
+logarithmic_fade_in_curve (float t)
+{
+	auto const c = clamp(t, 0.0f, 1.0f);
+	return std::exp(2 * (c - 1)) * c;
+}
+
+
+float
+logarithmic_fade_out_curve (float t)
+{
+	auto const c = clamp(t, 0.0f, 1.0f);
+	return std::exp(-2 * c) * (1 - c);
 }
 
