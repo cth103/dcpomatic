@@ -21,7 +21,6 @@
 
 #include "dcpomatic_button.h"
 #include "download_certificate_dialog.h"
-#include "file_dialog_wrapper.h"
 #include "screen_dialog.h"
 #include "static_text.h"
 #include "table_dialog.h"
