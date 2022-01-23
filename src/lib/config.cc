@@ -34,6 +34,7 @@
 #include "ratio.h"
 #include "types.h"
 #include "util.h"
+#include "zipper.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/name_format.h>
 #include <dcp/raw_convert.h>
@@ -1475,5 +1476,23 @@ Config::add_custom_language (dcp::LanguageTag tag)
 		_custom_languages.push_back (tag);
 		changed ();
 	}
+}
+
+
+void
+save_all_config_as_zip (boost::filesystem::path zip_file)
+{
+	Zipper zipper (zip_file);
+
+	auto config = Config::instance();
+	zipper.add ("config.xml", dcp::file_to_string(config->config_read_file()));
+	if (boost::filesystem::exists(config->cinemas_file())) {
+		zipper.add ("cinemas.xml", dcp::file_to_string(config->cinemas_file()));
+	}
+	if (boost::filesystem::exists(config->dkdm_recipients_file())) {
+		zipper.add ("dkdm_recipients.xml", dcp::file_to_string(config->dkdm_recipients_file()));
+	}
+
+	zipper.close ();
 }
 

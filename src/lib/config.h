@@ -44,6 +44,10 @@ class Film;
 class DKDMGroup;
 class DKDMRecipient;
 
+
+extern void save_all_config_as_zip (boost::filesystem::path zip_file);
+
+
 /** @class Config
  *  @brief A singleton class holding configuration.
  */
