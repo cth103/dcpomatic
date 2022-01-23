@@ -179,8 +179,8 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	_yuv = node->optional_bool_child("YUV").get_value_or (true);
 
 	if (version >= 32) {
-		_fade_in = node->number_child<Frame> ("FadeIn");
-		_fade_out = node->number_child<Frame> ("FadeOut");
+		_fade_in = node->optional_number_child<Frame>("VideoFadeIn").get_value_or(node->number_child<Frame>("FadeIn"));
+		_fade_out = node->optional_number_child<Frame>("VideoFadeOut").get_value_or(node->number_child<Frame>("FadeOut"));
 	} else {
 		_fade_in = _fade_out = 0;
 	}
@@ -294,8 +294,8 @@ VideoContent::as_xml (xmlpp::Node* node) const
 		_colour_conversion.get().as_xml (node->add_child("ColourConversion"));
 	}
 	node->add_child("YUV")->add_child_text (_yuv ? "1" : "0");
-	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
-	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
+	node->add_child("VideoFadeIn")->add_child_text(raw_convert<string>(_fade_in));
+	node->add_child("VideoFadeOut")->add_child_text(raw_convert<string>(_fade_out));
 	node->add_child("Range")->add_child_text(_range == VideoRange::FULL ? "full" : "video");
 	_pixel_quanta.as_xml(node->add_child("PixelQuanta"));
 	if (_burnt_subtitle_language) {
