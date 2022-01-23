@@ -61,7 +61,7 @@ public:
 	explicit ScreensPanel (wxWindow* parent);
 	~ScreensPanel ();
 
-	std::list<std::shared_ptr<dcpomatic::Screen>> screens () const;
+	std::vector<std::shared_ptr<dcpomatic::Screen>> screens () const;
 	void setup_sensitivity ();
 
 	boost::signals2::signal<void ()> ScreensChanged;
