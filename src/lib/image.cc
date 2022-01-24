@@ -25,9 +25,11 @@
 
 
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
 #include "dcpomatic_socket.h"
 #include "exceptions.h"
 #include "image.h"
+#include "maths_util.h"
 #include "rect.h"
 #include "timer.h"
 #include "util.h"

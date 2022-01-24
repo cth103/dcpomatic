@@ -51,10 +51,6 @@ namespace dcp {
 	class SoundAsset;
 }
 
-#ifndef M_PI
-#define M_PI (3.14159265358979323846)
-#endif
-
 /** The maximum number of audio channels that we can have in a DCP */
 #define MAX_DCP_AUDIO_CHANNELS 16
 /** Message broadcast to find possible encoding servers */
@@ -130,15 +126,6 @@ extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
 extern std::string to_upper (std::string s);
 extern void start_of_thread (std::string name);
-extern double db_to_linear (double db);
-extern double linear_to_db (double linear);
-
-
-template <class T>
-T clamp (T val, T minimum, T maximum)
-{
-	return std::max(std::min(val, maximum), minimum);
-}
 
 
 #endif

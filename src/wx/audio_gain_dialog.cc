@@ -18,11 +18,13 @@
 
 */
 
+
 #include "audio_gain_dialog.h"
 #include "wx_util.h"
-#include "lib/util.h"
-#include <cmath>
+#include "lib/maths_util.h"
 #include <wx/spinctrl.h>
+#include <cmath>
+
 
 AudioGainDialog::AudioGainDialog (wxWindow* parent, int c, int d, float v)
 	: TableDialog (parent, _("Channel gain"), 3, 1, true)

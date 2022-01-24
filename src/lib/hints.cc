@@ -30,11 +30,11 @@
 #include "font.h"
 #include "font_data.h"
 #include "hints.h"
+#include "maths_util.h"
 #include "player.h"
 #include "ratio.h"
 #include "text_content.h"
 #include "types.h"
-#include "util.h"
 #include "video_content.h"
 #include "writer.h"
 #include <dcp/cpl.h>

@@ -24,11 +24,11 @@
  */
 
 
+#include "audio_gain_dialog.h"
 #include "audio_mapping_view.h"
 #include "wx_util.h"
-#include "audio_gain_dialog.h"
 #include "lib/audio_mapping.h"
-#include "lib/util.h"
+#include "lib/maths_util.h"
 #include "lib/warnings.h"
 #include <dcp/locale_convert.h>
 #include <dcp/types.h>
@@ -43,13 +43,13 @@ DCPOMATIC_ENABLE_WARNINGS
 
 using std::cout;
 using std::list;
-using std::string;
-using std::min;
-using std::max;
-using std::vector;
-using std::pair;
 using std::make_pair;
+using std::max;
+using std::min;
+using std::pair;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

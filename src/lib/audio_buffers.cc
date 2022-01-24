@@ -19,9 +19,9 @@
 */
 
 
-#include "util.h"
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
+#include "maths_util.h"
 #include <cassert>
 #include <cstring>
 #include <cmath>
