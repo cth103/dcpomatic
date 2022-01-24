@@ -19,18 +19,19 @@
 */
 
 
-#include "ffmpeg.h"
-#include "ffmpeg_content.h"
-#include "film.h"
-#include "exceptions.h"
-#include "util.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "ffmpeg_subtitle_stream.h"
-#include "ffmpeg_audio_stream.h"
-#include "digester.h"
 #include "compose.hpp"
 #include "config.h"
+#include "dcpomatic_log.h"
+#include "digester.h"
+#include "exceptions.h"
+#include "ffmpeg.h"
+#include "ffmpeg_audio_stream.h"
+#include "ffmpeg_content.h"
+#include "ffmpeg_subtitle_stream.h"
+#include "film.h"
+#include "log.h"
+#include "memory_util.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>

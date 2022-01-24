@@ -139,6 +139,7 @@ sources = """
           log_entry.cc
           make_dcp.cc
           maths_util.cc
+          memory_util.cc
           mid_side_decoder.cc
           overlaps.cc
           pixel_quanta.cc

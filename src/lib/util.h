@@ -102,7 +102,6 @@ extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
-extern void* wrapped_av_malloc (size_t);
 extern void set_backtrace_file (boost::filesystem::path);
 extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (std::shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
