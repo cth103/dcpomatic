@@ -529,18 +529,6 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	return digester.get ();
 }
 
-/** Round a number up to the nearest multiple of another number.
- *  @param c Index.
- *  @param stride Array of numbers to round, indexed by c.
- *  @param t Multiple to round to.
- *  @return Rounded number.
- */
-int
-stride_round_up (int c, int const * stride, int t)
-{
-	int const a = stride[c] + (t - 1);
-	return a - (a % t);
-}
 
 /** Trip an assert if the caller is not in the UI thread */
 void
