@@ -30,6 +30,7 @@
 #include "ffmpeg_subtitle_stream.h"
 #include "film.h"
 #include "log.h"
+#include "memory_util.h"
 #include "util.h"
 #include <dcp/raw_convert.h>
 extern "C" {

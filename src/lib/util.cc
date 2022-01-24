@@ -652,16 +652,6 @@ fit_ratio_within (float ratio, dcp::Size full_frame)
 	return dcp::Size (full_frame.width, lrintf (full_frame.width / ratio));
 }
 
-void *
-wrapped_av_malloc (size_t s)
-{
-	auto p = av_malloc (s);
-	if (!p) {
-		throw bad_alloc ();
-	}
-	return p;
-}
-
 map<string, string>
 split_get_request (string url)
 {

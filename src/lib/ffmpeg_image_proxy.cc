@@ -21,11 +21,12 @@
 
 #include "compose.hpp"
 #include "cross.h"
+#include "dcpomatic_assert.h"
 #include "dcpomatic_socket.h"
 #include "exceptions.h"
 #include "ffmpeg_image_proxy.h"
 #include "image.h"
-#include "util.h"
+#include "memory_util.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
 DCPOMATIC_DISABLE_WARNINGS
