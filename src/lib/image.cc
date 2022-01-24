@@ -973,9 +973,15 @@ Image::allocate ()
 	_stride = (int *) wrapped_av_malloc (4 * sizeof (int));
 	_stride[0] = _stride[1] = _stride[2] = _stride[3] = 0;
 
+	auto stride_round_up = [](int stride, int t) {
+		int const a = stride + (t - 1);
+		return a - (a % t);
+	};
+
 	for (int i = 0; i < planes(); ++i) {
 		_line_size[i] = ceil (_size.width * bytes_per_pixel(i));
-		_stride[i] = stride_round_up (i, _line_size, _alignment == Alignment::PADDED ? ALIGNMENT : 1);
+		_stride[i] = stride_round_up (_line_size[i], _alignment == Alignment::PADDED ? ALIGNMENT : 1);
+
 
 		/* The assembler function ff_rgb24ToY_avx (in libswscale/x86/input.asm)
 		   uses a 16-byte fetch to read three bytes (R/G/B) of image data.

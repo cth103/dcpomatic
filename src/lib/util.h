@@ -102,7 +102,6 @@ extern boost::filesystem::path mo_path ();
 #endif
 extern std::string tidy_for_filename (std::string);
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
-extern int stride_round_up (int, int const *, int);
 extern void* wrapped_av_malloc (size_t);
 extern void set_backtrace_file (boost::filesystem::path);
 extern std::map<std::string, std::string> split_get_request (std::string url);
