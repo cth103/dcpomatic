@@ -185,6 +185,7 @@ Config::set_defaults ()
 	_custom_languages.clear ();
 	_add_files_path = boost::none;
 	_auto_crop_threshold = 0.1;
+	_use_isdcf_name_by_default = true;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -586,6 +587,7 @@ try
 
 	_add_files_path = f.optional_string_child("AddFilesPath");
 	_auto_crop_threshold = f.optional_number_child<double>("AutoCropThreshold").get_value_or(0.1);
+	_use_isdcf_name_by_default = f.optional_bool_child("UseISDCFNameByDefault").get_value_or(true);
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -1018,6 +1020,7 @@ Config::write_config () const
 		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
 	}
 	root->add_child("AutoCropThreshold")->add_child_text(raw_convert<string>(_auto_crop_threshold));
+	root->add_child("UseISDCFNameByDefault")->add_child_text(_use_isdcf_name_by_default ? "1" : "0");
 
 	auto target = config_write_file();
 

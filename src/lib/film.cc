@@ -155,7 +155,7 @@ int const Film::current_state_version = 38;
 
 Film::Film (optional<boost::filesystem::path> dir)
 	: _playlist (new Playlist)
-	, _use_isdcf_name (true)
+	, _use_isdcf_name (Config::instance()->use_isdcf_name_by_default())
 	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
 	, _container (Config::instance()->default_container ())
 	, _resolution (Resolution::TWO_K)
