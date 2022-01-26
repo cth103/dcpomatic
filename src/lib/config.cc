@@ -179,6 +179,7 @@ Config::set_defaults ()
 	_audio_mapping = boost::none;
 	_custom_languages.clear ();
 	_add_files_path = boost::none;
+	_use_isdcf_name_by_default = true;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -565,6 +566,7 @@ try
 	}
 
 	_add_files_path = f.optional_string_child("AddFilesPath");
+	_use_isdcf_name_by_default = f.optional_bool_child("UseISDCFNameByDefault").get_value_or(true);
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -994,6 +996,7 @@ Config::write_config () const
 		/* [XML] AddFilesPath The default path that will be offered in the picker when adding files to a film. */
 		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
 	}
+	root->add_child("UseISDCFNameByDefault")->add_child_text(_use_isdcf_name_by_default ? "1" : "0");
 
 	auto target = config_write_file();
 

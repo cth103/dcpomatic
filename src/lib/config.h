@@ -548,6 +548,10 @@ public:
 		return _add_files_path;
 	}
 
+	bool use_isdcf_name_by_default () const {
+		return _use_isdcf_name_by_default;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1052,6 +1056,10 @@ public:
 		changed ();
 	}
 
+	void set_use_isdcf_name_by_default (bool use) {
+		maybe_set (_use_isdcf_name_by_default, use);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1267,6 +1275,7 @@ private:
 	boost::optional<AudioMapping> _audio_mapping;
 	std::vector<dcp::LanguageTag> _custom_languages;
 	boost::optional<boost::filesystem::path> _add_files_path;
+	bool _use_isdcf_name_by_default;
 
 	static int const _current_version;
 

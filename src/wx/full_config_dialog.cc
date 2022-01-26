@@ -334,11 +334,15 @@ private:
 
 		table->Add (_kdm_directory, 1, wxEXPAND);
 
+		table->Add (_use_isdcf_name_by_default = new CheckBox(_panel, _("Use ISDCF name by default")), 0, wxALIGN_CENTRE_VERTICAL);
+
 		_still_length->SetRange (1, 3600);
 		_still_length->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::still_length_changed, this));
 
 		_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::kdm_directory_changed, this));
+
+		_use_isdcf_name_by_default->Bind (wxEVT_CHECKBOX, boost::bind(&DefaultsPage::use_isdcf_name_by_default_changed, this));
 
 		for (auto i: Ratio::containers()) {
 			_container->Append (std_to_wx(i->container_nickname()));
@@ -395,6 +399,7 @@ private:
 		checked_set (_still_length, config->default_still_length ());
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		_kdm_directory->SetPath (std_to_wx (config->default_kdm_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
+		checked_set (_use_isdcf_name_by_default, config->use_isdcf_name_by_default());
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
@@ -453,6 +458,11 @@ private:
 		Config::instance()->set_default_kdm_directory (wx_to_std (_kdm_directory->GetPath ()));
 	}
 
+	void use_isdcf_name_by_default_changed ()
+	{
+		Config::instance()->set_use_isdcf_name_by_default (_use_isdcf_name_by_default->GetValue());
+	}
+
 	void still_length_changed ()
 	{
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
@@ -504,6 +514,7 @@ private:
 	wxDirPickerCtrl* _directory;
 	wxDirPickerCtrl* _kdm_directory;
 #endif
+	wxCheckBox* _use_isdcf_name_by_default;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
