@@ -179,8 +179,18 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	_yuv = node->optional_bool_child("YUV").get_value_or (true);
 
 	if (version >= 32) {
-		_fade_in = node->optional_number_child<Frame>("VideoFadeIn").get_value_or(node->number_child<Frame>("FadeIn"));
-		_fade_out = node->optional_number_child<Frame>("VideoFadeOut").get_value_or(node->number_child<Frame>("FadeOut"));
+		auto vfi = node->optional_number_child<Frame>("VideoFadeIn");
+		if (vfi) {
+			_fade_in = *vfi;
+		} else {
+			_fade_in = node->number_child<Frame>("FadeIn");
+		}
+		auto vfo = node->optional_number_child<Frame>("VideoFadeOut");
+		if (vfo) {
+			_fade_out = *vfo;
+		} else {
+			_fade_out = node->number_child<Frame>("FadeOut");
+		}
 	} else {
 		_fade_in = _fade_out = 0;
 	}
