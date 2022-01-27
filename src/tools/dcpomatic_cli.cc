@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,13 @@
 
 */
 
+
 #include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/encode_server_finder.h"
+#include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/filter.h"
 #include "lib/job_manager.h"
@@ -40,38 +42,43 @@
 #include <iostream>
 #include <iomanip>
 
-using std::string;
+
 using std::cerr;
 using std::cout;
-using std::vector;
+using std::dynamic_pointer_cast;
+using std::list;
 using std::pair;
 using std::setw;
-using std::list;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
-using std::dynamic_pointer_cast;
+
 
 static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION] [<FILM>]\n"
-	     << "  -v, --version        show DCP-o-matic version\n"
-	     << "  -h, --help           show this help\n"
-	     << "  -f, --flags          show flags passed to C++ compiler on build\n"
-	     << "  -n, --no-progress    do not print progress to stdout\n"
-	     << "  -r, --no-remote      do not use any remote servers\n"
-	     << "  -t, --threads        specify number of local encoding threads (overriding configuration)\n"
-	     << "  -j, --json <port>    run a JSON server on the specified port\n"
-	     << "  -k, --keep-going     keep running even when the job is complete\n"
-	     << "  -s, --servers <file> specify servers to use in a text file\n"
-	     << "  -l, --list-servers   just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
-	     << "  -d, --dcp-path       echo DCP's path to stdout on successful completion (implies -n)\n"
-	     << "  -c, --config <dir>   directory containing config.xml and cinemas.xml\n"
-	     << "      --dump           just dump a summary of the film's settings; don't encode\n"
-	     << "      --no-check       don't check project's content files for changes before making the DCP\n"
+	     << "  -v, --version                 show DCP-o-matic version\n"
+	     << "  -h, --help                    show this help\n"
+	     << "  -f, --flags                   show flags passed to C++ compiler on build\n"
+	     << "  -n, --no-progress             do not print progress to stdout\n"
+	     << "  -r, --no-remote               do not use any remote servers\n"
+	     << "  -t, --threads                 specify number of local encoding threads (overriding configuration)\n"
+	     << "  -j, --json <port>             run a JSON server on the specified port\n"
+	     << "  -k, --keep-going              keep running even when the job is complete\n"
+	     << "  -s, --servers <file>          specify servers to use in a text file\n"
+	     << "  -l, --list-servers            just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
+	     << "  -d, --dcp-path                echo DCP's path to stdout on successful completion (implies -n)\n"
+	     << "  -c, --config <dir>            directory containing config.xml and cinemas.xml\n"
+	     << "      --dump                    just dump a summary of the film's settings; don't encode\n"
+	     << "      --no-check                don't check project's content files for changes before making the DCP\n"
+	     << "      --export-format <format>  export project to a file, rather than making a DCP: specify mov or mp4\n"
+	     << "      --export-filename         filename to export to with --export\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
+
 
 static void
 print_dump (shared_ptr<Film> film)
@@ -120,6 +127,7 @@ print_dump (shared_ptr<Film> film)
 		}
 	}
 }
+
 
 static void
 list_servers ()
@@ -202,6 +210,8 @@ main (int argc, char* argv[])
 	bool dcp_path = false;
 	optional<boost::filesystem::path> config;
 	bool check = true;
+	optional<string> export_format;
+	optional<boost::filesystem::path> export_filename;
 
 	int option_index = 0;
 	while (true) {
@@ -221,10 +231,12 @@ main (int argc, char* argv[])
 			/* Just using A, B, C ... from here on */
 			{ "dump", no_argument, 0, 'A' },
 			{ "no-check", no_argument, 0, 'B' },
+			{ "export-format", required_argument, 0, 'C' },
+			{ "export-filename", required_argument, 0, 'D' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:B", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:BC:D:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -274,6 +286,12 @@ main (int argc, char* argv[])
 		case 'B':
 			check = false;
 			break;
+		case 'C':
+			export_format = optarg;
+			break;
+		case 'D':
+			export_filename = optarg;
+			break;
 		}
 	}
 
@@ -308,13 +326,28 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
+	if (export_format && !export_filename) {
+		cerr << "Argument --export-filename is required with --export-format\n";
+		exit (EXIT_FAILURE);
+	}
+
+	if (!export_format && export_filename) {
+		cerr << "Argument --export-format is required with --export-filename\n";
+		exit (EXIT_FAILURE);
+	}
+
+	if (export_format && *export_format != "mp4" && *export_format != "mov") {
+		cerr << "Unrecognised export format: must be mp4 or mov\n";
+		exit (EXIT_FAILURE);
+	}
+
 	film_dir = argv[optind];
 
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 	signal_manager = new SignalManager ();
 
-	if (no_remote) {
+	if (no_remote || export_format) {
 		EncodeServerFinder::instance()->stop ();
 	}
 
@@ -353,10 +386,27 @@ main (int argc, char* argv[])
 	}
 
 	if (progress) {
-		cout << "\nMaking DCP for " << film->name() << "\n";
+		if (export_format) {
+			cout << "\nExporting " << film->name() << "\n";
+		} else {
+			cout << "\nMaking DCP for " << film->name() << "\n";
+		}
 	}
 
-	make_dcp (film, check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE);
+	TranscodeJob::ChangedBehaviour behaviour = check ? TranscodeJob::ChangedBehaviour::STOP : TranscodeJob::ChangedBehaviour::IGNORE;
+
+	if (export_format) {
+		auto job = std::make_shared<TranscodeJob>(film, behaviour);
+		job->set_encoder (
+			std::make_shared<FFmpegEncoder> (
+				film, job, *export_filename, *export_format == "mp4" ? ExportFormat::H264_AAC : ExportFormat::PRORES, false, false, false, 23
+				)
+			);
+		JobManager::instance()->add (job);
+	} else {
+		make_dcp (film, behaviour);
+	}
+
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {
