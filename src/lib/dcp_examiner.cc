@@ -257,6 +257,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			if (pic->encrypted() && !pic->key()) {
 				_kdm_valid = false;
 				LOG_GENERAL_NC ("Picture has no key");
+				break;
 			}
 			auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(pic);
 			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
@@ -276,6 +277,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (sound->encrypted() && !sound->key()) {
 					_kdm_valid = false;
 					LOG_GENERAL_NC ("Sound has no key");
+					break;
 				}
 				auto reader = i->main_sound()->asset()->start_read();
 				reader->set_check_hmac (false);
@@ -288,6 +290,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
 					_kdm_valid = false;
 					LOG_GENERAL_NC ("Subtitle has no key");
+					break;
 				}
 				sub->subtitles ();
 			}
@@ -297,6 +300,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (atmos->encrypted() && !atmos->key()) {
 					_kdm_valid = false;
 					LOG_GENERAL_NC ("ATMOS sound has no key");
+					break;
 				}
 				auto reader = atmos->start_read();
 				reader->set_check_hmac (false);
