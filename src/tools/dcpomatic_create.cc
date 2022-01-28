@@ -115,19 +115,19 @@ main (int argc, char* argv[])
 			film->set_j2k_bandwidth (*cc.j2k_bandwidth);
 		}
 
-		for (auto i: cc.content) {
-			boost::filesystem::path const can = boost::filesystem::canonical (i.path);
-			list<shared_ptr<Content> > content;
+		for (auto cli_content: cc.content) {
+			auto const can = boost::filesystem::canonical (cli_content.path);
+			list<shared_ptr<Content>> film_content_list;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
-				content.push_back (make_shared<DCPContent>(can));
+				film_content_list.push_back (make_shared<DCPContent>(can));
 			} else {
 				/* I guess it's not a DCP */
-				content = content_factory (can);
+				film_content_list = content_factory (can);
 			}
 
-			for (auto j: content) {
-				film->examine_and_add_content (j);
+			for (auto film_content: film_content_list) {
+				film->examine_and_add_content (film_content);
 			}
 
 			while (jm->work_to_do ()) {
@@ -136,21 +136,21 @@ main (int argc, char* argv[])
 
 			while (signal_manager->ui_idle() > 0) {}
 
-			for (auto j: content) {
-				if (j->video) {
-					j->video->set_frame_type (i.frame_type);
+			for (auto film_content: film_content_list) {
+				if (film_content->video) {
+					film_content->video->set_frame_type (cli_content.frame_type);
 				}
-				if (j->audio && i.channel) {
-					for (auto stream: j->audio->streams()) {
+				if (film_content->audio && cli_content.channel) {
+					for (auto stream: film_content->audio->streams()) {
 						AudioMapping mapping(stream->channels(), film->audio_channels());
 						for (int channel = 0; channel < stream->channels(); ++channel) {
-							mapping.set(channel, *i.channel, 1.0f);
+							mapping.set(channel, *cli_content.channel, 1.0f);
 						}
 						stream->set_mapping (mapping);
 					}
 				}
-				if (j->audio && i.gain) {
-					j->audio->set_gain (*i.gain);
+				if (film_content->audio && cli_content.gain) {
+					film_content->audio->set_gain (*cli_content.gain);
 				}
 			}
 		}
