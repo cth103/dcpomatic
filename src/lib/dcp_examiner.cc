@@ -262,6 +262,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			auto pic = i->main_picture()->asset();
 			if (pic->encrypted() && !pic->key()) {
 				_kdm_valid = false;
+				LOG_GENERAL_NC ("Picture has no key");
 			}
 			auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(pic);
 			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
@@ -280,6 +281,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				auto sound = i->main_sound()->asset ();
 				if (sound->encrypted() && !sound->key()) {
 					_kdm_valid = false;
+					LOG_GENERAL_NC ("Sound has no key");
 				}
 				auto reader = i->main_sound()->asset()->start_read();
 				reader->set_check_hmac (false);
@@ -291,6 +293,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				auto mxf_sub = dynamic_pointer_cast<dcp::MXF>(sub);
 				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
 					_kdm_valid = false;
+					LOG_GENERAL_NC ("Subtitle has no key");
 				}
 				sub->subtitles ();
 			}
@@ -299,6 +302,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				auto atmos = i->atmos()->asset();
 				if (atmos->encrypted() && !atmos->key()) {
 					_kdm_valid = false;
+					LOG_GENERAL_NC ("ATMOS sound has no key");
 				}
 				auto reader = atmos->start_read();
 				reader->set_check_hmac (false);
@@ -307,8 +311,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		}
 	} catch (dcp::ReadError& e) {
 		_kdm_valid = false;
+		LOG_GENERAL ("KDM is invalid: %1", e.what());
 	} catch (dcp::MiscError& e) {
 		_kdm_valid = false;
+		LOG_GENERAL ("KDM is invalid: %1", e.what());
 	}
 
 	_standard = cpl->standard();
