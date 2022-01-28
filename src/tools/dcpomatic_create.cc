@@ -120,7 +120,9 @@ main (int argc, char* argv[])
 			list<shared_ptr<Content>> film_content_list;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
-				film_content_list.push_back (make_shared<DCPContent>(can));
+				auto dcp = make_shared<DCPContent>(can);
+				film_content_list.push_back (dcp);
+				dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(*cli_content.kdm)));
 			} else {
 				/* I guess it's not a DCP */
 				film_content_list = content_factory (can);
