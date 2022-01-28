@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -56,7 +56,8 @@ string CreateCLI::_help =
 	"      --left-eye                next piece of content is for the left eye\n"
 	"      --right-eye               next piece of content is for the right eye\n"
 	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs\n"
-	"      --gain                    next piece of content should have the given audio gain (in dB)\n";
+	"      --gain                    next piece of content should have the given audio gain (in dB)\n"
+	"      --kdm <file>              KDM for next piece of content\n";
 
 
 template <class T>
@@ -136,6 +137,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	auto next_frame_type = VideoFrameType::TWO_D;
 	optional<dcp::Channel> channel;
 	optional<float> gain;
+	optional<boost::filesystem::path> kdm;
 
 	int i = 1;
 	while (i < argc) {
@@ -207,6 +209,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 
 		argument_option(i, argc, argv, "", "--channel", &claimed, &error, &channel, convert_channel);
 		argument_option(i, argc, argv, "", "--gain", &claimed, &error, &gain);
+		argument_option(i, argc, argv, "", "--kdm", &claimed, &error, &kdm, string_to_path);
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
@@ -218,6 +221,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				c.frame_type = next_frame_type;
 				c.channel = channel;
 				c.gain = gain;
+				c.kdm = kdm;
 				content.push_back (c);
 				next_frame_type = VideoFrameType::TWO_D;
 				channel = {};

@@ -40,6 +40,7 @@ public:
 		VideoFrameType frame_type;
 		boost::optional<dcp::Channel> channel;
 		boost::optional<float> gain;
+		boost::optional<boost::filesystem::path> kdm;
 	};
 
 	bool version;
