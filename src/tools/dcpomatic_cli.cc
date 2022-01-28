@@ -47,6 +47,7 @@ using std::cout;
 using std::dynamic_pointer_cast;
 using std::list;
 using std::pair;
+using std::runtime_error;
 using std::setw;
 using std::shared_ptr;
 using std::string;
@@ -403,7 +404,12 @@ main (int argc, char* argv[])
 			);
 		JobManager::instance()->add (job);
 	} else {
-		film->make_dcp (behaviour);
+		try {
+			film->make_dcp (behaviour);
+		} catch (runtime_error& e) {
+			std::cerr << "Could not make DCP: " << e.what() << "\n";
+			exit(EXIT_FAILURE);
+		}
 	}
 
 	bool const error = show_jobs_on_console (progress);
