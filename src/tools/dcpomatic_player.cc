@@ -331,7 +331,6 @@ public:
 		reset_film ();
 		try {
 			_stress.set_suspended (true);
-			// here
 			auto dcp = make_shared<DCPContent>(dir);
 			auto job = make_shared<ExamineContentJob>(_film, dcp);
 			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
