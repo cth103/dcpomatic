@@ -18,35 +18,38 @@
 
 */
 
+
+#include "lib/config.h"
 #include "lib/config.h"
 #include "lib/dcp_video.h"
-#include "lib/exceptions.h"
-#include "lib/util.h"
-#include "lib/config.h"
-#include "lib/image.h"
-#include "lib/file_log.h"
-#include "lib/null_log.h"
-#include "lib/version.h"
-#include "lib/encode_server.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/encode_server.h"
+#include "lib/exceptions.h"
+#include "lib/file_log.h"
+#include "lib/image.h"
+#include "lib/null_log.h"
+#include "lib/util.h"
+#include "lib/version.h"
+#include <boost/algorithm/string.hpp>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
-#include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
-#include <boost/thread/mutex.hpp>
 #include <boost/thread/condition.hpp>
-#include <unistd.h>
+#include <boost/thread/mutex.hpp>
 #include <errno.h>
 #include <getopt.h>
+#include <unistd.h>
+#include <cstring>
 #include <iostream>
 #include <stdexcept>
-#include <cstring>
 #include <vector>
 
+
 using std::cerr;
-using std::string;
 using std::cout;
 using std::shared_ptr;
+using std::string;
+
 
 static void
 help (string n)
@@ -58,6 +61,7 @@ help (string n)
 	     << "  --verbose          be verbose to stdout\n"
 	     << "  --log              write a log file of activity\n";
 }
+
 
 int
 main (int argc, char* argv[])
