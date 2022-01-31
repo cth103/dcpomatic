@@ -113,9 +113,8 @@ main (int argc, char* argv[])
 		dcpomatic_log.reset (new FileLog("dcpomatic_server_cli.log"));
 	}
 
-	EncodeServer server (verbose, num_threads);
-
 	try {
+		EncodeServer server (verbose, num_threads);
 		server.run ();
 	} catch (boost::system::system_error& e) {
 		if (e.code() == boost::system::errc::address_in_use) {
