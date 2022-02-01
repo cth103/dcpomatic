@@ -56,7 +56,7 @@ for c in root.find('Playlist').findall('Content'):
             assets[a.find('am:Id', ns).text[9:]] = a.find('am:ChunkList', ns).find('am:Chunk', ns).find('am:Path', ns).text
 
         cpl_id = None
-        for k, v in assets.iteritems():
+        for k, v in assets.items():
             try:
                 e = ET.parse(os.path.join(dir, v))
                 if e.getroot().tag == '{http://www.digicine.com/PROTO-ASDCP-CPL-20040511#}CompositionPlaylist':
