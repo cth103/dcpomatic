@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE (osx_drive_identification_test)
 	disk("/dev/disk0s1", "IODeviceTree:/arm-io@10F00000/ans@77400000/iop-ans-nub/AppleANS3NVMeController/@1:1", false, {});
 	disk("/dev/disk0s2", "IODeviceTree:/arm-io@10F00000/ans@77400000/iop-ans-nub/AppleANS3NVMeController/@1:2", false, {});
 	disk("/dev/disk0s3", "IODeviceTree:/arm-io@10F00000/ans@77400000/iop-ans-nub/AppleANS3NVMeController/@1:3", false, {});
-	disk("/dev/disk1", "IOService:/AppleARMPE/arm-io@10F00000/AppleT810xIO/ans@77400000/AppleASCWrapV4/iop-ans-nub/RTBuddyV2/RTBuddyService/AppleANS3NVMeController/NS_01@1/IOBlockStorageDriver/ APPLE SSD AP0512Q Media/IOGUIDPartitionScheme/iBootSystemContainer@1/AppleAPFSContainerScheme/AppleAPFSMedia", true, {});
+	disk("/dev/disk1", "IOService:/AppleARMPE/arm-io@10F00000/AppleT810xIO/ans@77400000/AppleASCWrapV4/iop-ans-nub/RTBuddyV2/RTBuddyService/AppleANS3NVMeController/NS_01@1/IOBlockStorageDriver/APPLE SSD AP0512Q Media/IOGUIDPartitionScheme/iBootSystemContainer@1/AppleAPFSContainerScheme/AppleAPFSMedia", true, {});
 	disk("/dev/disk2", "IOService:/AppleARMPE/arm-io@10F00000/AppleT810xIO/ans@77400000/AppleASCWrapV4/iop-ans-nub/RTBuddyV2/RTBuddyService/AppleANS3NVMeController/NS_01@1/IOBlockStorageDriver/APPLE SSD AP0512Q Media/IOGUIDPartitionScheme/RecoveryOSContainer@3/AppleAPFSContainerScheme/AppleAPFSMedia", true, {});
 	disk("/dev/disk3", "IOService:/AppleARMPE/arm-io@10F00000/AppleT810xIO/ans@77400000/AppleASCWrapV4/iop-ans-nub/RTBuddyV2/RTBuddyService/AppleANS3NVMeController/NS_01@1/IOBlockStorageDriver/APPLE SSD AP0512Q Media/IOGUIDPartitionScheme/Container@2/AppleAPFSContainerScheme/AppleAPFSMedia", false, {});
 	disk("/dev/disk1s1", "IOService:/AppleARMPE/arm-io@10F00000/AppleT810xIO/ans@77400000/AppleASCWrapV4/iop-ans-nub/RTBuddyV2/RTBuddyService/AppleANS3NVMeController/NS_01@1/IOBlockStorageDriver/APPLE SSD AP0512Q Media/IOGUIDPartitionScheme/iBootSystemContainer@1/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/iSCPreboot@1", false, {});
@@ -214,5 +214,33 @@ BOOST_AUTO_TEST_CASE (osx_drive_identification_test)
 	writeable = find_unmounted (disks);
 	BOOST_REQUIRE_EQUAL (writeable.size(), 1U);
 	BOOST_CHECK_EQUAL (writeable[0].device(), "/dev/disk3");
+
+	disks.clear ();
+	disk("/dev/disk7", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@3/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media", true, {});
+	disk("/dev/disk7s1", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@3/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media/IOGUIDPartitionScheme/disk image@1", false, {});
+	disk("/dev/disk6s1", "MediaPathKey is IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@2/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media/IOGUIDPartitionScheme/disk image@1", false, {});
+	disk("/dev/disk6", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@2/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media", true, {});
+	disk("/dev/disk5s1", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@1/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media/IOGUIDPartitionScheme/disk image@1", false, {});
+	disk("/dev/disk5", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@1/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media", true, {});
+	disk("/dev/disk4s1", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@0/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media/IOGUIDPartitionScheme/disk image@1", false, {});
+	disk("/dev/disk4", "IOService:/IOResources/IOHDIXController/IOHDIXHDDriveOutKernel@0/IODiskImageBlockStorageDeviceOutKernel/IOBlockStorageDriver/Apple UDIF read-only compressed (zlib) Media", true, {});
+	disk("/dev/disk0", "IODeviceTree:/PCI0@1e0000/pci8086,2829@1F,2/PRT3@3/PMP@0/@0:0", true, {});
+	disk("/dev/disk2", "IODeviceTree:/PCI0@1e0000/pci8086,2829@1F,2/PRT1@1/PMP@0/@0:0", true, {});
+	disk("/dev/disk1", "IODeviceTree:/PCI0@1e0000/pci8086,2829@1F,2/PRT0@0/PMP@0/@0:0", true, {});
+	disk("/dev/disk1s1", "IODeviceTree:/PCI0@1e0000/pci8086,2829@1F,2/PRT0@0/PMP@0/@0:1", false, {"/Volumes/EFI"});
+	disk("/dev/disk2s1", "IODeviceTree:/PCI0@1e0000/pci8086,2829@1F,2/PRT1@1/PMP@0/@0:1", false, {});
+	disk("/dev/disk2s2", "IODeviceTree:/PCI0@1e0000/pci8086,2829@1F,2/PRT1@1/PMP@0/@0:2", false, {});
+	disk("/dev/disk3", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia", false, {});
+	disk("/dev/disk3s1", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/macOS - Data@1", false, {"/System/Volumes/Data"});
+	disk("/dev/disk3s2", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/Preboot@2", false, {"/System/Volumes/Preboot"});
+	disk("/dev/disk3s3", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/Recovery@3", false, {});
+	disk("/dev/disk3s4", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/VM@4", false, {"/System/Volumes/VM"});
+	disk("/dev/disk3s5", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/macOS@5", false, {});
+	disk("/dev/disk3s6", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/Update@6", false, {"/System/Volumes/Update"});
+	disk("/dev/disk3s5s1", "IOService:/AppleACPIPlatformExpert/PCI0@1e0000/AppleACPIPCI/pci8086,2829@1F,2/AppleAHCI/PRT1@1/IOAHCIDevice@0/AppleAHCIDiskDriver/IOAHCIBlockStorageDevice/IOBlockStorageDriver/VBOX HARDDISK Media/IOGUIDPartitionScheme/disk image@2/AppleAPFSContainerScheme/AppleAPFSMedia/AppleAPFSContainer/macOS@5/com.apple.os.update-5523D8E63431315F9F949CCDD0274BF797F5CEE4EAF616D4C66A01B8D6A83C7B@1", false, {"/"});
+
+	writeable = find_unmounted (disks);
+	BOOST_REQUIRE_EQUAL (writeable.size(), 1U);
+	BOOST_CHECK_EQUAL (writeable[0].device(), "/dev/disk0");
 }
 
