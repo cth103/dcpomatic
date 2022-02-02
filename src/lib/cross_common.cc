@@ -21,6 +21,7 @@
 
 #include "cross.h"
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
 #include "warnings.h"
 #include <dcp/raw_convert.h>
@@ -37,6 +38,9 @@ using std::map;
 using std::string;
 using std::vector;
 using boost::optional;
+
+
+auto constexpr MEDIA_PATH_REQUIRED_MATCHES = 3;
 
 
 Drive::Drive (string xml)
@@ -137,8 +141,8 @@ analyse_osx_media_path (string path)
 
 	if (!parts.empty() && parts[0] == "IODeviceTree:") {
 		mp.real = true;
-		if (mp.parts.size() < 2) {
-			/* Later we expect at least 2 parts in a IODeviceTree */
+		if (mp.parts.size() < MEDIA_PATH_REQUIRED_MATCHES) {
+			/* Later we expect at least MEDIA_PATH_REQUIRED_MATCHES parts in a IODeviceTree */
 			LOG_DISK_NC("Ignoring this as it has a strange media path");
 			return {};
 		}
@@ -180,14 +184,21 @@ osx_disks_to_drives (vector<OSXDisk> disks)
 		if (i.media_path.real) {
 			for (auto& j: disks) {
 				if (!j.media_path.real && !j.mount_points.empty()) {
-					/* i is real, j is a mounted synth; if we see the first two parts
-					 * of i anywhere in j we assume they are related and so i shares
-					 * j's mount points.
+					/* i is real, j is a mounted synth; if we see the first MEDIA_PATH_REQUIRED_MATCHES parts
+					 * of i anywhere in j we assume they are related and so i shares j's mount points.
 					 */
-					if (
-						find(j.media_path.parts.begin(), j.media_path.parts.end(), i.media_path.parts[0]) != j.media_path.parts.end() &&
-						find(j.media_path.parts.begin(), j.media_path.parts.end(), i.media_path.parts[1]) != j.media_path.parts.end()) {
-						LOG_DISK("Marking %1 as mounted because %2 is (found %3 and %4)", i.device, j.device, i.media_path.parts[0], i.media_path.parts[1]);
+					bool one_missing = false;
+					string all_parts;
+					DCPOMATIC_ASSERT (i.media_path.parts.size() >= MEDIA_PATH_REQUIRED_MATCHES);
+					for (auto k = 0; k < MEDIA_PATH_REQUIRED_MATCHES; ++k) {
+						if (find(j.media_path.parts.begin(), j.media_path.parts.end(), i.media_path.parts[k]) == j.media_path.parts.end()) {
+							one_missing = true;
+						}
+						all_parts += i.media_path.parts[k] + " ";
+					}
+
+					if (!one_missing) {
+						LOG_DISK("Marking %1 as mounted because %2 is (found %3)", i.device, j.device, all_parts);
 						std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
 					}
 				}
