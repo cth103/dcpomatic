@@ -158,14 +158,14 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_in_with_trim)
 
 	/* In the trim */
 	auto const f1 = content->audio->fade(0, 2000, 48000);
-	BOOST_REQUIRE_EQUAL (f1.size(), 2000);
+	BOOST_REQUIRE_EQUAL (f1.size(), 2000U);
 	for (auto i = 0; i < 2000; ++i) {
 		BOOST_REQUIRE_CLOSE (f1[i], 0.0f, 0.01);
 	}
 
 	/* In the fade */
 	auto const f2 = content->audio->fade(5200, 2000, 48000);
-	BOOST_REQUIRE_EQUAL (f2.size(), 2000);
+	BOOST_REQUIRE_EQUAL (f2.size(), 2000U);
 	for (auto i = 0; i < 2000; ++i) {
 		BOOST_REQUIRE_CLOSE (f2[i], logarithmic_fade_in_curve(static_cast<float>(i) / 2000), 0.01);
 	}
@@ -186,14 +186,14 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim)
 
 	/* In the trim */
 	auto const f1 = content->audio->fade(length - 6000, 2000, 48000);
-	BOOST_REQUIRE_EQUAL (f1.size(), 2000);
+	BOOST_REQUIRE_EQUAL (f1.size(), 2000U);
 	for (auto i = 0; i < 2000; ++i) {
 		BOOST_REQUIRE_CLOSE (f1[i], 0.0f, 0.01);
 	}
 
 	/* In the fade */
 	auto const f2 = content->audio->fade(length - 9000 - 1000, 1000, 48000);
-	BOOST_REQUIRE_EQUAL (f2.size(), 1000);
+	BOOST_REQUIRE_EQUAL (f2.size(), 1000U);
 	for (auto i = 0; i < 1000; ++i) {
 		BOOST_REQUIRE_CLOSE (f2[i], logarithmic_fade_out_curve(static_cast<float>(i) / 1000), 0.01);
 	}
@@ -216,14 +216,14 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim_at_44k1)
 
 	/* In the trim */
 	auto const f1 = content->audio->fade(std::round(48000 * 4.75), 200, 48000);
-	BOOST_REQUIRE_EQUAL (f1.size(), 200);
+	BOOST_REQUIRE_EQUAL (f1.size(), 200U);
 	for (auto i = 0; i < 200; ++i) {
 		BOOST_REQUIRE_CLOSE (f1[i], 0.0f, 0.01);
 	}
 
 	/* In the fade */
 	auto const f2 = content->audio->fade(std::round(48000 * 3.5 + 200), 7000, 48000);
-	BOOST_REQUIRE_EQUAL (f2.size(), 7000);
+	BOOST_REQUIRE_EQUAL (f2.size(), 7000U);
 	for (auto i = 0; i < 7000; ++i) {
 		BOOST_REQUIRE_CLOSE (f2[i], logarithmic_fade_out_curve(static_cast<float>(i + 200) / 48000), 0.01);
 	}
