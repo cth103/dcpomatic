@@ -321,8 +321,12 @@ function make_dmg {
     local pkg="$2"
     local full_name="$3"
     local exes="$4"
-    tmp_dmg=dcpomatic_tmp.dmg
-    dmg="$full_name $version.dmg"
+	tmp_dmg=dcpomatic_tmp.dmg
+	if [ "$ARCH2" == "" ]; then
+		dmg="$full_name $version macOS10.8+.dmg"
+	else
+		dmg="$full_name $version macOS10.10+.dmg"
+	fi
     vol_name=DCP-o-matic-$version
 
 	find "$appdir/Contents/Frameworks" -iname "*.dylib" -type f -print0 | while IFS= read -r -d '' f; do
