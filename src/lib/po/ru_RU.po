@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2022-02-05 21:47+0500\n"
+"PO-Revision-Date: 2022-02-09 19:43+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
 "Language: ru\n"
@@ -271,7 +271,7 @@ msgstr ""
 
 #: src/lib/job.cc:106
 msgid "An error occurred whilst handling the file %1."
-msgstr "Возникла ошибка при обращении к файлу %1."
+msgstr "Произошла ошибка при обращении к файлу %1."
 
 #: src/lib/analyse_audio_job.cc:70
 msgid "Analysing audio"
@@ -349,7 +349,7 @@ msgid ""
 "subtitles\" or \"Content→Closed captions\" tab."
 msgstr ""
 "Найдены субтитры, для которых не указан язык.  Рекомендуется задать язык для "
-"всех частей субтитров на вкладках \"Контент→Текст\", \"Контент→Открытые "
+"всех частей субтитров на вкладках \"Контент→Субтитры\", \"Контент→Открытые "
 "субтитры\", \"Контент→Скрытые субтитры\"."
 
 #: src/lib/audio_content.cc:271
@@ -868,10 +868,12 @@ msgstr ""
 "Каждый кадр контента будет повторён дополнительно %1 раз(а) в DCP-пакете.\n"
 
 #: src/lib/send_kdm_email_job.cc:89
+#, fuzzy
 msgid "Email KDMs"
 msgstr "Отправка ключей KDM"
 
 #: src/lib/send_kdm_email_job.cc:92
+#, fuzzy
 msgid "Email KDMs for %2"
 msgstr "Отправка ключей KDM для %1"
 
@@ -905,7 +907,7 @@ msgstr "Ошибка: (%1)"
 
 #: src/lib/hints.cc:405
 msgid "Examining audio, subtitles and closed captions"
-msgstr "Проверка аудио, открытых и закрытых субтитров"
+msgstr "Проверка аудио, открытых и скрытых субтитров"
 
 #: src/lib/examine_content_job.cc:54
 msgid "Examining content"
@@ -1409,7 +1411,7 @@ msgstr "SHR (Короткометражный фильм)"
 
 #: src/lib/util.cc:605
 msgid "Sign"
-msgstr "Знак"
+msgstr "Глух"
 
 #: src/lib/video_content.cc:510
 msgid "Size"
@@ -1451,7 +1453,7 @@ msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
-"Некоторые из ваших закрытых субтитров занимают более %1 строк. Они будут "
+"Некоторые из ваших скрытых субтитров занимают более %1 строк. Они будут "
 "обрезаны."
 
 #: src/lib/hints.cc:650
@@ -1580,7 +1582,7 @@ msgstr ""
 #: src/lib/util.cc:1150
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
-"Этот KDM был сделан для DCP-o-matic, но не для его листового сертификата."
+"Этот KDM был сделан для DCP-o-matic, но не для его конечного сертификата."
 
 #: src/lib/util.cc:1148
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
@@ -1638,7 +1640,7 @@ msgstr "Четверг"
 
 #: src/lib/types.cc:139
 msgid "Timed text"
-msgstr "Текст"
+msgstr "Субтитры"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Trailer"
@@ -1814,8 +1816,8 @@ msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
-"Ваши закрытые субтитры содержат пересечения (overlap), которые не "
-"допускаются для Interop DCP.  Измените ваш стандарт DCP на SMPTE."
+"Ваши скрытые субтитры содержат пересечения (overlap), которые не допускаются "
+"для Interop DCP.  Измените ваш стандарт DCP на SMPTE."
 
 #: src/lib/hints.cc:271
 msgid ""
@@ -1923,7 +1925,7 @@ msgstr "не удалось найти информацию о потоке"
 
 #: src/lib/reel_writer.cc:435
 msgid "could not move atmos asset into the DCP (%1)"
-msgstr "не удалось переместить Atmos в DCP-пакет (%1)"
+msgstr "не удалось переместить atmos в DCP-пакет (%1)"
 
 #: src/lib/reel_writer.cc:418
 msgid "could not move audio asset into the DCP (%1)"
