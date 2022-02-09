@@ -657,7 +657,7 @@ small_button_size (wxWindow* parent, wxString text)
 	wxClientDC dc (parent);
 	auto size = dc.GetTextExtent (text);
 	size.SetHeight (-1);
-	size.IncBy (24, 0);
+	size.IncBy (32, 0);
 	return size;
 }
 
