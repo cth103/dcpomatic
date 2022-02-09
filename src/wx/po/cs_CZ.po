@@ -2977,10 +2977,10 @@ msgstr "Datový zdroj %n má dobu trvání kratší než 1 vteřinu, což je nep
 #: src/wx/verify_dcp_dialog.cc:152
 #, c-format
 msgid ""
-"The asset %n has an instrinsic duration of less than 1 second, which is "
+"The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"Datový zdroj %n má instrinsickou dobu trvání kratší než 1 sekundu, která je "
+"Datový zdroj %n má intrinsickou dobu trvání kratší než 1 sekundu, která je "
 "neplatná."
 
 #: src/wx/verify_dcp_dialog.cc:263

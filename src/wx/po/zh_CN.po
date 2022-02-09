@@ -2997,7 +2997,7 @@ msgstr "资产%n的持续时间少于1秒，这是无效的。"
 #: src/wx/verify_dcp_dialog.cc:152
 #, c-format
 msgid ""
-"The asset %n has an instrinsic duration of less than 1 second, which is "
+"The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr "资产%n的持续时间小于1秒，这是无效的。"
 

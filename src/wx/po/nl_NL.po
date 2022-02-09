@@ -3004,7 +3004,7 @@ msgstr "De asset %n heeft een duur van minder dan 1 seconde, wat ongeldig is."
 #: src/wx/verify_dcp_dialog.cc:152
 #, c-format
 msgid ""
-"The asset %n has an instrinsic duration of less than 1 second, which is "
+"The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
 "De asset %n heeft een intrinsieke duur van minder dan 1 seconde, wat "
