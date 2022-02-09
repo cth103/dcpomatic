@@ -3035,7 +3035,7 @@ msgstr "Komponenten %n har en speltid under 1 sekund, vilket inte är tillåtet.
 #: src/wx/verify_dcp_dialog.cc:152
 #, c-format
 msgid ""
-"The asset %n has an instrinsic duration of less than 1 second, which is "
+"The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
 "Komponenten %n har en faktisk speltid under 1 sekund, vilket inte är "

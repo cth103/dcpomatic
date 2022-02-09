@@ -149,7 +149,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			add(i, _("No ASSETMAP or ASSETMAP.xml file was found."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION:
-			add(i, _("The asset %n has an instrinsic duration of less than 1 second, which is invalid."));
+			add(i, _("The asset %n has an intrinsic duration of less than 1 second, which is invalid."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_DURATION:
 			add(i, _("The asset %n has a duration of less than 1 second, which is invalid."));
