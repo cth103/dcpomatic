@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2022-02-05 23:43+0500\n"
+"PO-Revision-Date: 2022-02-09 19:43+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -469,7 +469,7 @@ msgstr "Зашифрован"
 
 #: src/tools/dcpomatic.cc:1351
 msgid "Export subtitles..."
-msgstr "Экспортировать субтитры...\tCtrl-E"
+msgstr "Экспортировать субтитры..."
 
 #: src/tools/dcpomatic.cc:1350
 msgid "Export video file...\tCtrl-E"
@@ -515,7 +515,7 @@ msgstr ""
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:152
 msgid "KDM|Timing"
-msgstr "KDM|Тайминг"
+msgstr "Тайминг"
 
 #: src/tools/dcpomatic_playlist.cc:116
 msgid "Length"
@@ -599,11 +599,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_playlist.cc:361
 msgid "Question|N"
-msgstr "Вопрос|Н"
+msgstr "Н"
 
 #: src/tools/dcpomatic_playlist.cc:361
 msgid "Question|Y"
-msgstr "Вопрос|Д"
+msgstr "Д"
 
 #: src/tools/dcpomatic.cc:1844
 msgid "Recreate KDM decryption chain"
@@ -698,7 +698,7 @@ msgstr "Выберите проект"
 
 #: src/tools/dcpomatic_kdm.cc:382
 msgid "Send KDM emails"
-msgstr "Отправить KDM-ключи по email"
+msgstr "Отправить письма с KDM-ключами"
 
 #: src/tools/dcpomatic.cc:1374
 msgid "Send translations..."
@@ -862,7 +862,7 @@ msgstr "Проверить DCP..."
 
 #: src/tools/dcpomatic.cc:1367
 msgid "Video waveform..."
-msgstr "Волновая форма видео..."
+msgstr "Волновой график видео..."
 
 #: src/tools/dcpomatic_kdm.cc:559
 msgid ""
