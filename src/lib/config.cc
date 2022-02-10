@@ -619,7 +619,7 @@ catch (...) {
 Config *
 Config::instance ()
 {
-	if (_instance == 0) {
+	if (_instance == nullptr) {
 		_instance = new Config;
 		_instance->read ();
 	}
