@@ -26,12 +26,12 @@ msgid " (%d errors)"
 msgstr " (ошибок: %d)"
 
 #: src/wx/timeline_audio_content_view.cc:68
-#, fuzzy, c-format
+#, c-format
 msgid " advanced by %dms"
 msgstr " ускорено на %d мс"
 
 #: src/wx/timeline_audio_content_view.cc:66
-#, fuzzy, c-format
+#, c-format
 msgid " delayed by %dms"
 msgstr " задержка на %d мс"
 
@@ -583,7 +583,6 @@ msgid "CC addresses"
 msgstr "Получатели"
 
 #: src/wx/text_panel.cc:196
-#, fuzzy
 msgid "CCAP track"
 msgstr "Дорожка скрытых субтитров CCAP"
 
@@ -799,7 +798,6 @@ msgid "Coord|Y"
 msgstr "Y"
 
 #: src/wx/dcp_panel.cc:88
-#, fuzzy
 msgid "Copy as name"
 msgstr "Копировать в название"
 
@@ -881,17 +879,15 @@ msgid "Crop"
 msgstr "Кадрирование"
 
 #: src/wx/audio_dialog.cc:465
-#, fuzzy, c-format
+#, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Указатель: %.1f дБ на %s"
 
 #: src/wx/audio_dialog.cc:459
-#, fuzzy
 msgid "Cursor: none"
 msgstr "Указатель: ничего"
 
 #: src/wx/custom_scale_dialog.cc:39
-#, fuzzy
 msgid "Custom scale"
 msgstr "Масштаб указателя"
 
@@ -1042,7 +1038,6 @@ msgid "Defaults"
 msgstr "Умолчания"
 
 #: src/wx/export_subtitles_dialog.cc:50
-#, fuzzy
 msgid "Define font in output and export font file"
 msgstr "Задайте шрифт для файла вывода и экспорта"
 
@@ -1108,7 +1103,6 @@ msgid "Dual-screen displays"
 msgstr "Двойной экран"
 
 #: src/wx/config_dialog.cc:1012
-#, fuzzy
 msgid "Dummy"
 msgstr "Файл-пустышка"
 
@@ -1450,7 +1444,6 @@ msgid "IP address / host name"
 msgstr "IP-адрес / имя хоста"
 
 #: src/wx/full_config_dialog.cc:1188
-#, fuzzy
 msgid "Identifiers"
 msgstr "Идентификаторы"
 
@@ -1598,7 +1591,6 @@ msgid "Issuer"
 msgstr "Издатель"
 
 #: src/wx/audio_panel.cc:270
-#, fuzzy
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1670,7 +1662,6 @@ msgid "Language"
 msgstr "Язык"
 
 #: src/wx/full_language_tag_dialog.cc:193 src/wx/language_tag_dialog.cc:35
-#, fuzzy
 msgid "Language Tag"
 msgstr "Тег языка"
 
@@ -1816,7 +1807,6 @@ msgid "Make certificate chain"
 msgstr "Создать цепочку сертификатов"
 
 #: src/wx/video_panel.cc:419
-#, fuzzy
 msgid "Many"
 msgstr "Много"
 
@@ -1829,7 +1819,6 @@ msgid "Mark all audio channels"
 msgstr "Пометить все аудиоканалы"
 
 #: src/wx/kdm_advanced_dialog.cc:44
-#, fuzzy
 msgid "Mark audio channels up to (and including)"
 msgstr "Пометить аудиоканалы до текущего"
 
@@ -1890,9 +1879,7 @@ msgstr "Переместить выбранный элемент контент�
 msgid "Move the selected piece of content later in the film."
 msgstr "Переместить выбранный элемент контента ниже."
 
-# +
 #: src/wx/timing_panel.cc:106
-#, fuzzy
 msgid "Move to start of reel"
 msgstr "Передвинуть к началу части фильма"
 
@@ -2011,7 +1998,6 @@ msgid "OSS"
 msgstr "OSS"
 
 #: src/wx/audio_mapping_view.cc:88
-#, fuzzy
 msgid "Off"
 msgstr "Выключен"
 
@@ -2126,7 +2112,6 @@ msgid "Paste audio settings"
 msgstr "Вставить настройки аудио"
 
 #: src/wx/paste_dialog.cc:35
-#, fuzzy
 msgid "Paste subtitle and caption settings"
 msgstr "Вставить настройки субтитров"
 
@@ -2359,7 +2344,6 @@ msgid "Repeat..."
 msgstr "Повторить..."
 
 #: src/wx/report_problem_dialog.cc:41
-#, fuzzy
 msgid "Report A Problem"
 msgstr "Сообщить Об Ошибке"
 
@@ -2380,7 +2364,6 @@ msgid "Resolution"
 msgstr "Разрешение"
 
 #: src/wx/player_config_dialog.cc:119
-#, fuzzy
 msgid "Respect KDM validity periods"
 msgstr "Учитывать сроки действия KDM"
 
@@ -2447,7 +2430,6 @@ msgid "Save to KDM Creator tool's list"
 msgstr "Сохранить в список инструмента KDM Creator"
 
 #: src/wx/text_panel.cc:100 src/wx/video_panel.cc:178
-#, fuzzy
 msgid "Scale"
 msgstr "Масштабировать"
 
@@ -2554,12 +2536,10 @@ msgid "Servers"
 msgstr "Сервера"
 
 #: src/wx/content_advanced_dialog.cc:88 src/wx/timecode.cc:67
-#, fuzzy
 msgid "Set"
 msgstr "Задать"
 
 #: src/wx/markers_dialog.cc:57
-#, fuzzy
 msgid "Set from current position"
 msgstr "Обрезать с текущей позиции"
 
@@ -2608,7 +2588,6 @@ msgid "Show subtitle area"
 msgstr "Показать область субтитров"
 
 #: src/wx/metadata_dialog.cc:231
-#, fuzzy
 msgid "Sign language video language"
 msgstr "Язык видео с языком глухонемых"
 
@@ -2641,12 +2620,10 @@ msgid "Smoothing"
 msgstr "Сглаживание"
 
 #: src/wx/timeline_dialog.cc:77
-#, fuzzy
 msgid "Snap"
 msgstr "Присоединять"
 
 #: src/wx/verify_dcp_dialog.cc:369
-#, fuzzy
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
@@ -2694,7 +2671,6 @@ msgid "Start player as"
 msgstr "Запустить плеер как"
 
 #: src/wx/smpte_metadata_dialog.cc:109
-#, fuzzy
 msgid "Status"
 msgstr "Состояние"
 
@@ -2832,7 +2808,6 @@ msgstr ""
 "в поле ниже и нажмите ОК."
 
 #: src/wx/verify_dcp_dialog.cc:353
-#, fuzzy
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -2971,7 +2946,6 @@ msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "Хэши PKL и CPL не согласован с ресурсом звука %f."
 
 #: src/wx/verify_dcp_dialog.cc:350
-#, fuzzy
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
@@ -3013,7 +2987,7 @@ msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr "Продолжительность ресурса %n менее 1 секунды, что некорректно."
 
 #: src/wx/verify_dcp_dialog.cc:152
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The asset %n has an instrinsic duration of less than 1 second, which is "
 "invalid."
@@ -3084,7 +3058,7 @@ msgstr ""
 "Шрифты в ресурсе субтитров %f занимают %n байт, что превышает лимит в 10 МБ."
 
 #: src/wx/verify_dcp_dialog.cc:115
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the CPL %n in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
@@ -3102,7 +3076,7 @@ msgstr ""
 "файл повреждён."
 
 #: src/wx/verify_dcp_dialog.cc:127
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The hash of the sound asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
@@ -3116,7 +3090,7 @@ msgid "The invalid language tag %n is used."
 msgstr "Используется некорректный тег языка %n."
 
 #: src/wx/smpte_metadata_dialog.cc:70
-#, fuzzy, c-format
+#, c-format
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "Язык в заголовке фильма (\"%s\") - "
 
@@ -3126,7 +3100,7 @@ msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "Часть фильма содержит изображение с некорректной частотой кадров %n."
 
 #: src/wx/verify_dcp_dialog.cc:359
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
@@ -3352,12 +3326,10 @@ msgid "Thumbprint"
 msgstr "Отпечаток"
 
 #: src/wx/timeline_dialog.cc:48
-#, fuzzy
 msgid "Timeline"
 msgstr "Шкала времени"
 
 #: src/wx/content_panel.cc:125
-#, fuzzy
 msgid "Timeline..."
 msgstr "Шкала времени..."
 
@@ -3416,7 +3388,6 @@ msgid "True peak is %.2fdB"
 msgstr "Истинный пик %.2f дБ"
 
 #: src/wx/screen_dialog.cc:55
-#, fuzzy
 msgid "Trusted Device"
 msgstr "Доверенные Устройства"
 
@@ -3625,7 +3596,6 @@ msgid "Video Waveform"
 msgstr "Волновой график видео"
 
 #: src/wx/full_config_dialog.cc:1343 src/wx/player_config_dialog.cc:105
-#, fuzzy
 msgid "Video display mode"
 msgstr "Режим работы экрана"
 
@@ -3690,7 +3660,6 @@ msgstr "Записать часть фильма в отдельные файл�
 
 #: src/wx/dkdm_output_panel.cc:69 src/wx/kdm_output_panel.cc:110
 #: src/wx/self_dkdm_dialog.cc:85
-#, fuzzy
 msgid "Write to"
 msgstr "Сохранить в"
 
@@ -3772,7 +3741,6 @@ msgid "Zoom in / out"
 msgstr "Увеличить/уменьшить"
 
 #: src/wx/timeline_dialog.cc:76
-#, fuzzy
 msgid "Zoom out to whole film"
 msgstr "Уменьшить до всего проекта"
 
@@ -3806,7 +3774,6 @@ msgid "content filename"
 msgstr "имя файла контента"
 
 #: src/wx/video_panel.cc:180
-#, fuzzy
 msgid "custom"
 msgstr "задать"
 
@@ -3872,7 +3839,6 @@ msgid "number of reels"
 msgstr "количество частей фильма"
 
 #: src/wx/text_panel.cc:87 src/wx/text_panel.cc:603
-#, fuzzy
 msgid "open subtitles"
 msgstr "открытые субтитры"
 
@@ -3914,7 +3880,6 @@ msgid "to date/time"
 msgstr "до даты/времени"
 
 #: src/wx/video_panel.cc:179
-#, fuzzy
 msgid "to fit DCP"
 msgstr "вписать в DCP"
 
@@ -3939,7 +3904,6 @@ msgid "until"
 msgstr "до"
 
 #: src/wx/system_information_dialog.cc:74
-#, fuzzy
 msgid "vsync"
 msgstr "vsync"
 

@@ -868,12 +868,10 @@ msgstr ""
 "Каждый кадр контента будет повторён дополнительно %1 раз(а) в DCP-пакете.\n"
 
 #: src/lib/send_kdm_email_job.cc:89
-#, fuzzy
 msgid "Email KDMs"
 msgstr "Отправка ключей KDM"
 
 #: src/lib/send_kdm_email_job.cc:92
-#, fuzzy
 msgid "Email KDMs for %2"
 msgstr "Отправка ключей KDM для %1"
 
