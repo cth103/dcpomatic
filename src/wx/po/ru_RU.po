@@ -3039,15 +3039,6 @@ msgstr ""
 "Файлы, которые вы выбрали - не те, которые отсутствуют. Либо попробуйте "
 "снова, выбрав правильные файлы, либо удалите отсутствующий контент."
 
-#: src/wx/content_menu.cc:403
-msgid ""
-"The content file(s) you specified are not the same as those that are "
-"missing.  Either try again with the correct content file or remove the "
-"missing content."
-msgstr ""
-"Файлы, которые вы выбрали - не те, которые отсутствуют. Либо попробуйте "
-"снова, выбрав правильные файлы, либо удалите отсутствующий контент."
-
 #: src/wx/film_name_location_dialog.cc:142
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
