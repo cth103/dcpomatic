@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+
+import os
+import sys
+
+import bs4
+
+with open(sys.argv[1]) as file:
+    xml = file.read()
+
+soup = bs4.BeautifulSoup(xml, 'xml')
+for purpose, purpose_name in zip([soup.Signer, soup.Decryption], ['signer', 'decrypt']):
+    for cert, cert_name in zip(purpose.findAll('Certificate'), ['root', 'inter', 'leaf']):
+        name = f"{purpose_name}_{cert_name}"
+        with open(f"{name}.pem", "w") as out:
+            print(cert.text, file=out)
+        os.system(f"openssl x509 -text -in {name}.pem > {name}.dump")
+        os.system(f"openssl asn1parse < {name}.pem > {name}.asn1")
+
+
