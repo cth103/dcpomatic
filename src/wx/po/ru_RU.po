@@ -3063,7 +3063,7 @@ msgid ""
 "The hash of the CPL %n in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
-"Хэш CPL в PKL несогласован с CPL-файлом.  Возможно это значит, что CPL-файл "
+"Хэш CPL %n в PKL несогласован с CPL-файлом.  Возможно это значит, что CPL-файл "
 "повреждён.."
 
 #: src/wx/verify_dcp_dialog.cc:121
@@ -3081,7 +3081,7 @@ msgid ""
 "The hash of the sound asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
-"Хэш ресурса звука %s не согласован с PKL-файлом.  Возможно, файл ресурса "
+"Хэш ресурса звука %f не согласован с PKL-файлом.  Возможно, файл ресурса "
 "повреждён."
 
 #: src/wx/verify_dcp_dialog.cc:173
