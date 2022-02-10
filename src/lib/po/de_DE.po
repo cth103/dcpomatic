@@ -902,7 +902,7 @@ msgid "Email KDMs"
 msgstr "Email KDMs"
 
 #: src/lib/send_kdm_email_job.cc:92
-msgid "Email KDMs for %2"
+msgid "Email KDMs for %1"
 msgstr "Versende KDM Email(s) für %1"
 
 #: src/lib/send_notification_email_job.cc:55

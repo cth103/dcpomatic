@@ -840,7 +840,7 @@ msgstr "Email KDM"
 
 #: src/lib/send_kdm_email_job.cc:92
 #, fuzzy
-msgid "Email KDMs for %2"
+msgid "Email KDMs for %1"
 msgstr "Email KDM pre %1"
 
 #: src/lib/send_notification_email_job.cc:55
