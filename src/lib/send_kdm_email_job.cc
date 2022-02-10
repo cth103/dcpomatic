@@ -89,7 +89,7 @@ SendKDMEmailJob::name () const
 		return _("Email KDMs");
 	}
 
-	return String::compose (_("Email KDMs for %2"), *f);
+	return String::compose (_("Email KDMs for %1"), *f);
 }
 
 

@@ -845,7 +845,7 @@ msgstr "Enviar chaves KDM por email"
 
 #: src/lib/send_kdm_email_job.cc:92
 #, fuzzy
-msgid "Email KDMs for %2"
+msgid "Email KDMs for %1"
 msgstr "Enviar chaves KDM por email para %1"
 
 #: src/lib/send_notification_email_job.cc:55
