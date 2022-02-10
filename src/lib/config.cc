@@ -227,7 +227,8 @@ Config::backup ()
 		while (n < 100 && exists(add_number(path_to_copy, n))) {
 			++n;
 		}
-		copy_file(path_to_copy, add_number(path_to_copy, n));
+		boost::system::error_code ec;
+		copy_file(path_to_copy, add_number(path_to_copy, n), ec);
 	};
 
 	/* Make a backup copy of any config.xml, cinemas.xml, dkdm_recipients.xml that we might be about
@@ -235,18 +236,17 @@ Config::backup ()
 	 * and decide to overwrite it with a new one (possibly losing important details in the corrupted
 	 * file).  But we might as well back up the other files while we're about it.
 	 */
-	try {
-		/* This uses the State::write_path stuff so, e.g. for a current version 2.16 we might copy
-		 * ~/.config/dcpomatic2/2.16/config.xml to ~/.config/dcpomatic2/2.16/config.xml.1
-		 */
-		copy_adding_number (config_write_file());
 
-		/* These do not use State::write_path, so whatever path is in the Config we will copy
-		 * adding a number.
-		 */
-		copy_adding_number (_cinemas_file);
-		copy_adding_number (_dkdm_recipients_file);
-	} catch (...) {}
+	/* This uses the State::write_path stuff so, e.g. for a current version 2.16 we might copy
+	 * ~/.config/dcpomatic2/2.16/config.xml to ~/.config/dcpomatic2/2.16/config.xml.1
+	 */
+	copy_adding_number (config_write_file());
+
+	/* These do not use State::write_path, so whatever path is in the Config we will copy
+	 * adding a number.
+	 */
+	copy_adding_number (_cinemas_file);
+	copy_adding_number (_dkdm_recipients_file);
 }
 
 void
@@ -591,7 +591,7 @@ try
 	}
 }
 catch (...) {
-	if (have_existing ("config.xml")) {
+	if (have_existing("config.xml") || have_existing("cinemas.xml") || have_existing("dkdm_recipients.xml")) {
 		backup ();
 		/* We have a config file but it didn't load */
 		FailedToLoad ();

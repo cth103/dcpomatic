@@ -19,13 +19,16 @@
 */
 
 
+#include "lib/cinema.h"
 #include "lib/config.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <fstream>
 
 
+using std::list;
 using std::ofstream;
+using std::make_shared;
 using std::string;
 using boost::optional;
 
@@ -188,5 +191,28 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test)
 #endif
 	/* cinemas.xml is not copied into 2.16 as its format has not changed */
 	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.16" / "cinemas.xml"));
+}
+
+
+BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
+{
+	boost::filesystem::path dir = "build/test/config_keep_cinemas_if_making_new_config";
+	Config::override_path = dir;
+	Config::drop ();
+	boost::filesystem::remove_all (dir);
+	boost::filesystem::create_directories (dir);
+
+	Config::instance()->write();
+
+	Config::instance()->add_cinema(make_shared<Cinema>("My Great Cinema", list<string>(), "", 0, 0));
+	Config::instance()->write();
+
+	boost::filesystem::copy_file (dir / "cinemas.xml", dir / "backup_for_test.xml");
+
+	Config::drop ();
+	boost::filesystem::remove (dir / "2.16" / "config.xml");
+	Config::instance();
+
+	check_text_file (dir / "backup_for_test.xml", dir / "cinemas.xml.1");
 }
 
