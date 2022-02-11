@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2022-02-09 19:43+0500\n"
+"PO-Revision-Date: 2022-02-11 19:45+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
 "Language: ru\n"
@@ -41,7 +41,7 @@ msgid ""
 "Display aspect ratio %.2f:1"
 msgstr ""
 "\n"
-"Соотношение сторон экрана %.2f:1"
+"Соотношение сторон экрана - %.2f:1"
 
 #: src/lib/video_content.cc:484
 msgid ""
@@ -190,7 +190,7 @@ msgstr "; %1 кадр/сек"
 
 #: src/lib/job.cc:511
 msgid "; %1 remaining; finishing at %2%3"
-msgstr "; осталось %1; время завершения - %2%3"
+msgstr "; осталось %1; время завершения %2%3"
 
 #: src/lib/analytics.cc:64
 msgid ""
@@ -1109,7 +1109,7 @@ msgstr "LFE"
 
 #: src/lib/util.cc:563
 msgid "Lfe (sub)"
-msgstr "НЧ (sub)"
+msgstr "LFE - НЧ (сабвуфер)"
 
 #: src/lib/ffmpeg_content.cc:575
 msgid "Limited"
@@ -1357,7 +1357,7 @@ msgid ""
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
 "You should add these markers using the 'Markers' button in the \"DCP\" tab."
 msgstr ""
-"SMPTE DCP с типом FTR (полнометражный фильм) должны иметь маркеры FFEC "
+"SMPTE DCP с типом FTR (полнометражный фильм) должен иметь маркеры FFEC "
 "(первый кадр конечных титров) и FFMC (первый кадр конечных двигающихся "
 "титров).  Вы должны добавить эти маркеры, используя кнопку \"Маркеры\" на "
 "вкладке \"DCP\"."
@@ -1409,7 +1409,7 @@ msgstr "SHR (Короткометражный фильм)"
 
 #: src/lib/util.cc:605
 msgid "Sign"
-msgstr "Глух"
+msgstr "Жест"
 
 #: src/lib/video_content.cc:510
 msgid "Size"

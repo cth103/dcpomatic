@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2022-02-09 19:43+0500\n"
+"PO-Revision-Date: 2022-02-11 19:45+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -45,7 +45,7 @@ msgstr "&Закрыть\tCtrl-W"
 #: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:548
 #: src/tools/dcpomatic_playlist.cc:551
 msgid "&Edit"
-msgstr "&Редактировать"
+msgstr "&Правка"
 
 #: src/tools/dcpomatic.cc:1315 src/tools/dcpomatic_batch.cc:79
 #: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:500
@@ -63,7 +63,7 @@ msgstr "&Файл"
 #: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:552
 #: src/tools/dcpomatic_playlist.cc:553
 msgid "&Help"
-msgstr "&Помощь"
+msgstr "П&омощь"
 
 #: src/tools/dcpomatic.cc:1389
 msgid "&Jobs"
@@ -374,7 +374,7 @@ msgstr "DCP-o-matic Пакетный Конвертер"
 
 #: src/tools/dcpomatic_server.cc:149
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic Сервер Кодирования"
+msgstr "DCP-o-matic Encode Server"
 
 #: src/tools/dcpomatic_kdm.cc:635 src/tools/dcpomatic_kdm.cc:669
 msgid "DCP-o-matic KDM Creator"
@@ -477,7 +477,7 @@ msgstr "Экспортировать видеофайл...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:173
 msgid "Export..."
-msgstr "Экспортировать..."
+msgstr "Экспорт..."
 
 #: src/tools/dcpomatic.cc:987 src/tools/dcpomatic_kdm.cc:275
 #, c-format
@@ -628,7 +628,7 @@ msgstr "Восстановить настройки по умолчанию"
 
 #: src/tools/dcpomatic_batch.cc:140
 msgid "Resume"
-msgstr "Возобновить"
+msgstr "Продолжить"
 
 #: src/tools/dcpomatic.cc:1358
 msgid "S&how DCP in Explorer"
