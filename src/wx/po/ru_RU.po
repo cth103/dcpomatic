@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2022-02-11 19:45+0500\n"
+"PO-Revision-Date: 2022-02-11 22:17+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
 "Language: ru\n"
@@ -354,7 +354,7 @@ msgstr "Добавить язык..."
 
 #: src/wx/text_panel.cc:355
 msgid "Add new..."
-msgstr "Добавить новый…"
+msgstr "Добавить…"
 
 #: src/wx/recipients_panel.cc:128
 msgid "Add recipient"
@@ -584,7 +584,7 @@ msgstr "Получатели"
 
 #: src/wx/text_panel.cc:196
 msgid "CCAP track"
-msgstr "Дорожка скрытых субтитров CCAP"
+msgstr "Дорожка CCAP"
 
 #: src/wx/dkdm_dialog.cc:91 src/wx/kdm_cpl_panel.cc:41 src/wx/kdm_dialog.cc:93
 #: src/wx/self_dkdm_dialog.cc:69
@@ -597,7 +597,7 @@ msgstr "CPL ID"
 
 #: src/wx/kdm_cpl_panel.cc:56
 msgid "CPL annotation text"
-msgstr "CPL аннотация"
+msgstr "Аннотация к CPL"
 
 #: src/wx/dkdm_output_panel.cc:181 src/wx/kdm_output_panel.cc:298
 msgid "CPL's content is not encrypted."
@@ -637,11 +637,11 @@ msgstr "Нельзя использовать видео этого DCP: "
 
 #: src/wx/text_view.cc:71
 msgid "Caption"
-msgstr "Титр"
+msgstr "Субтитр"
 
 #: src/wx/text_view.cc:46
 msgid "Captions"
-msgstr "Титры"
+msgstr "Субтитры"
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid "Certificate chain"
@@ -727,7 +727,7 @@ msgstr "Скрытые субтитры"
 
 #: src/wx/subtitle_appearance_dialog.cc:84 src/wx/video_panel.cc:183
 msgid "Colour"
-msgstr "Цвета"
+msgstr "Цвет"
 
 #: src/wx/content_colour_conversion_dialog.cc:40
 msgid "Colour conversion"
@@ -1413,7 +1413,7 @@ msgstr "Зелёная цветность"
 
 #: src/wx/batch_job_view.cc:50
 msgid "Higher priority"
-msgstr "Более высокий приоритет"
+msgstr "Увеличить приоритет"
 
 #: src/wx/hints_dialog.cc:49
 msgid "Hints"
@@ -1740,7 +1740,7 @@ msgstr "Загрузить сертификат…"
 
 #: src/wx/config_dialog.cc:1077
 msgid "Locations"
-msgstr "Расположения"
+msgstr "Директории"
 
 #: src/wx/full_config_dialog.cc:1427 src/wx/player_config_dialog.cc:262
 msgid "Log"
@@ -1753,7 +1753,7 @@ msgstr "Диапазон громкости: %.2f LU"
 
 #: src/wx/batch_job_view.cc:53
 msgid "Lower priority"
-msgstr "Более низкий приоритет"
+msgstr "Уменьшить приоритет"
 
 #: src/wx/metadata_dialog.cc:266
 msgid "Luminance"
@@ -2346,7 +2346,7 @@ msgstr "Повторить..."
 
 #: src/wx/report_problem_dialog.cc:41
 msgid "Report A Problem"
-msgstr "Сообщить Об Ошибке"
+msgstr "Сообщить об ошибке"
 
 #: src/wx/config_dialog.cc:904
 msgid "Reset to default"
@@ -2562,7 +2562,7 @@ msgstr "Задать размер"
 
 #: src/wx/subtitle_appearance_dialog.cc:229
 msgid "Set to"
-msgstr "Изменить на"
+msgstr "Задать"
 
 #: src/wx/system_information_dialog.cc:72
 msgid "Shading language version"
@@ -2716,7 +2716,7 @@ msgstr "Файлы субтитров (*.mov)|*.mov"
 
 #: src/wx/timeline_labels_view.cc:39 src/wx/timeline_labels_view.cc:75
 msgid "Subtitles/captions"
-msgstr "Открытые/скрытые субтитры"
+msgstr "Субтитры"
 
 #: src/wx/player_information.cc:153
 msgid "Subtitles: no"
@@ -3391,11 +3391,11 @@ msgstr "Истинный пик: %.2f дБ"
 
 #: src/wx/screen_dialog.cc:55
 msgid "Trusted Device"
-msgstr "Доверенные Устройства"
+msgstr "Доверенные устройства"
 
 #: src/wx/screen_dialog.cc:68
 msgid "Trusted Device certificate"
-msgstr "Сертификат Доверенного Устройства"
+msgstr "Сертификат доверенного устройства"
 
 #: src/wx/audio_dialog.cc:120 src/wx/config_dialog.cc:270
 #: src/wx/video_panel.cc:83
@@ -3599,7 +3599,7 @@ msgstr "Волновой график видео"
 
 #: src/wx/full_config_dialog.cc:1343 src/wx/player_config_dialog.cc:105
 msgid "Video display mode"
-msgstr "Режим работы экрана"
+msgstr "Режим отображения"
 
 #: src/wx/content_advanced_dialog.cc:71
 msgid "Video filters"
@@ -3744,7 +3744,7 @@ msgstr "Увеличить/уменьшить"
 
 #: src/wx/timeline_dialog.cc:76
 msgid "Zoom out to whole film"
-msgstr "Уменьшить до всего проекта"
+msgstr "Показать весь проект"
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:397
@@ -3777,7 +3777,7 @@ msgstr "имя файла контента"
 
 #: src/wx/video_panel.cc:180
 msgid "custom"
-msgstr "задать"
+msgstr "настроить"
 
 #: src/wx/audio_gain_dialog.cc:32 src/wx/audio_panel.cc:88
 msgid "dB"
