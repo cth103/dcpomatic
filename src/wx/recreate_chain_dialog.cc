@@ -37,7 +37,7 @@ RecreateChainDialog::RecreateChainDialog (wxWindow* parent, Config::BadSignerCha
 	, _reason (reason)
 {
 	wxString message;
-	if (_reason & Config::BadSignerChainReason::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) {
+	if (_reason & Config::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) {
 		message = _("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period\n"
 			    "that is too long.  This will cause problems playing back DCPs on some systems.\n"
 			    "Do you want to re-create the certificate chain for signing DCPs and KDMs?");
@@ -60,7 +60,7 @@ RecreateChainDialog::RecreateChainDialog (wxWindow* parent, Config::BadSignerCha
 void
 RecreateChainDialog::shut_up (wxCommandEvent& ev)
 {
-	if (_reason & Config::BadSignerChainReason::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) {
+	if (_reason & Config::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) {
 		Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG, ev.IsChecked());
 	} else {
 		Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN_UTF8_STRINGS, ev.IsChecked());
