@@ -699,6 +699,7 @@ CertificateChainEditor::remake_certificates ()
 			shared_ptr<dcp::CertificateChain> (
 				new dcp::CertificateChain (
 					openssl_path (),
+					CERTIFICATE_VALIDITY_PERIOD,
 					d->organisation (),
 					d->organisational_unit (),
 					d->root_common_name (),

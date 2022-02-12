@@ -108,6 +108,7 @@ BOOST_AUTO_TEST_CASE (swaroop_chain_test)
 	shared_ptr<dcp::CertificateChain> cc (
 		new dcp::CertificateChain (
 			openssl_path(),
+			CERTIFICATE_VALIDITY_PERIOD,
 			"dcpomatic.com",
 			"dcpomatic.com",
 			".dcpomatic.smpte-430-2.ROOT",

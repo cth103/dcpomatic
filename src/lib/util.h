@@ -63,6 +63,8 @@ namespace dcp {
 #define CLOSED_CAPTION_LINES 3
 /** Maximum line length of closed caption viewers */
 #define CLOSED_CAPTION_LENGTH 30
+/** Validity period of certificate chains (in days) */
+#define CERTIFICATE_VALIDITY_PERIOD (10 * 365)
 
 extern std::string program_name;
 extern bool is_batch_converter;

@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
 	A_dcp.read ();
 
-	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path ())));
+	Config::instance()->set_decryption_chain (shared_ptr<dcp::CertificateChain> (new dcp::CertificateChain (openssl_path (), CERTIFICATE_VALIDITY_PERIOD)));
 
 	dcp::EncryptedKDM kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf (),
