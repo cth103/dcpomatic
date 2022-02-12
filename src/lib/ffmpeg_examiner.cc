@@ -264,12 +264,9 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 	}
 
 	int r = avcodec_send_packet (context, packet);
-	if (r < 0 && !(r == AVERROR_EOF && !packet) && r != AVERROR(EAGAIN)) {
-		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
-		 * AVERROR_EOF can happen during flush if we've already sent a flush packet.
-		 * EAGAIN means we need to do avcodec_receive_frame, so just carry on and do that.
-		 */
-		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegExaminer::audio_packet"), r);
+	if (r < 0) {
+		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
+		return;
 	}
 
 	auto frame = audio_frame (stream);

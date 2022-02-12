@@ -67,3 +67,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_probesize_test)
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[1]->frame_rate(), 48000);
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[1]->channels(), 5);
 }
+
+
+/** Check that a file can be examined without error */
+BOOST_AUTO_TEST_CASE (ffmpeg_examiner_vob_test)
+{
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "bad.vob");
+	auto examiner = make_shared<FFmpegExaminer>(content);
+}
+
