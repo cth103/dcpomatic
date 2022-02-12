@@ -204,6 +204,7 @@ Config::create_certificate_chain ()
 {
 	return make_shared<dcp::CertificateChain> (
 		openssl_path(),
+		CERTIFICATE_VALIDITY_PERIOD,
 		"dcpomatic.com",
 		"dcpomatic.com",
 		".dcpomatic.smpte-430-2.ROOT",

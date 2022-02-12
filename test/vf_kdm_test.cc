@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	dcp::DCP A_dcp ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	A_dcp.read ();
 
-	Config::instance()->set_decryption_chain (make_shared<dcp::CertificateChain>(openssl_path()));
+	Config::instance()->set_decryption_chain (make_shared<dcp::CertificateChain>(openssl_path(), CERTIFICATE_VALIDITY_PERIOD));
 
 	auto A_kdm = A->make_kdm (
 		Config::instance()->decryption_chain()->leaf(),

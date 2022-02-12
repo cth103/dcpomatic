@@ -78,6 +78,7 @@ namespace dcp {
 /** Maximum size of the XML part of a closed caption file, according to SMPTE Bv2.1 */
 #define MAX_CLOSED_CAPTION_XML_SIZE (256 * 1024)
 #define MAX_CLOSED_CAPTION_XML_SIZE_TEXT "256KB"
+#define CERTIFICATE_VALIDITY_PERIOD (10 * 365)
 
 extern std::string program_name;
 extern bool is_batch_converter;

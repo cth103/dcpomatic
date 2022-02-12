@@ -583,6 +583,7 @@ CertificateChainEditor::remake_certificates ()
 		_set (
 			make_shared<dcp::CertificateChain> (
 				openssl_path (),
+				CERTIFICATE_VALIDITY_PERIOD,
 				d->organisation (),
 				d->organisational_unit (),
 				d->root_common_name (),
