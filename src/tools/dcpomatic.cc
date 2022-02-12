@@ -1807,7 +1807,7 @@ private:
 		switch (reason) {
 		case Config::BAD_SIGNER_UTF8_STRINGS:
 		{
-			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN)) {
+			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN_UTF8)) {
 				return false;
 			}
 			auto d = new RecreateChainDialog (
@@ -1816,7 +1816,7 @@ private:
 				  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
 				  "the certificate chain for signing DCPs and KDMs?"),
 				_("Do nothing"),
-				Config::NAG_BAD_SIGNER_CHAIN
+				Config::NAG_BAD_SIGNER_CHAIN_UTF8
 				);
 			int const r = d->ShowModal ();
 			d->Destroy ();
