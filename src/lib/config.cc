@@ -69,7 +69,7 @@ Config* Config::_instance = 0;
 int const Config::_current_version = 3;
 boost::signals2::signal<void ()> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
-boost::signals2::signal<bool (void)> Config::BadSignerChain;
+boost::signals2::signal<bool (Config::BadSignerChainReason)> Config::BadSignerChain;
 
 /** Construct default configuration */
 Config::Config ()
@@ -452,15 +452,23 @@ try
 		}
 	}
 
-	bool bad_signer_chain = false;
+	BadSignerChainReason reason = BAD_SIGNER_CHAIN_NONE;
 	BOOST_FOREACH (dcp::Certificate const & i, _signer_chain->unordered()) {
 		if (i.has_utf8_strings()) {
-			bad_signer_chain = true;
+			reason = static_cast<BadSignerChainReason>(reason | BAD_SIGNER_CHAIN_HAS_UTF8_STRINGS);
+		}
+		struct tm not_before = i.not_before();
+		struct tm not_after = i.not_after();
+		if ((not_after.tm_year - not_before.tm_year) > 15) {
+			/* We don't know why (or precise details) but it seems like certificate validity of >10
+			 * years causes problems with some projection systems (#2174 and others).
+			 */
+			reason = static_cast<BadSignerChainReason>(reason | BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG);
 		}
 	}
 
-	if (bad_signer_chain) {
-		optional<bool> const remake = BadSignerChain();
+	if (reason) {
+		optional<bool> const remake = BadSignerChain(reason);
 		if (remake && *remake) {
 			_signer_chain = create_certificate_chain ();
 		}

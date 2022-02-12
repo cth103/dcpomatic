@@ -32,12 +32,20 @@ using std::string;
 using namespace boost::placeholders;
 #endif
 
-RecreateChainDialog::RecreateChainDialog (wxWindow* parent)
+RecreateChainDialog::RecreateChainDialog (wxWindow* parent, Config::BadSignerChainReason reason)
 	: QuestionDialog (parent, _("Certificate chain"), _("Recreate signing certificates"), _("Do nothing"))
+	, _reason (reason)
 {
-	wxString const message = _("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
-				   "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
-				   "the certificate chain for signing DCPs and KDMs?");
+	wxString message;
+	if (_reason & Config::BadSignerChainReason::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) {
+		message = _("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period\n"
+			    "that is too long.  This will cause problems playing back DCPs on some systems.\n"
+			    "Do you want to re-create the certificate chain for signing DCPs and KDMs?");
+	} else {
+		message = _("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
+			    "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
+			    "the certificate chain for signing DCPs and KDMs?");
+	}
 
 	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
@@ -52,5 +60,10 @@ RecreateChainDialog::RecreateChainDialog (wxWindow* parent)
 void
 RecreateChainDialog::shut_up (wxCommandEvent& ev)
 {
-	Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN, ev.IsChecked());
+	if (_reason & Config::BadSignerChainReason::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) {
+		Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG, ev.IsChecked());
+	} else {
+		Config::instance()->set_nagged (Config::NAG_BAD_SIGNER_CHAIN_UTF8_STRINGS, ev.IsChecked());
+	}
 }
+

@@ -1524,7 +1524,7 @@ private:
 			*/
 			Config::drop ();
 
-			Config::BadSignerChain.connect (boost::bind (&App::config_bad_signer_chain, this));
+			Config::BadSignerChain.connect (boost::bind (&App::config_bad_signer_chain, this, _1));
 
 			_frame = new DOMFrame (_("DCP-o-matic"));
 			SetTopWindow (_frame);
@@ -1693,9 +1693,12 @@ private:
 		message_dialog (_frame, std_to_wx (m));
 	}
 
-	bool config_bad_signer_chain ()
+	bool config_bad_signer_chain (Config::BadSignerChainReason reason)
 	{
-		if (Config::instance()->nagged(Config::NAG_BAD_SIGNER_CHAIN)) {
+		bool const need_nag_utf8_strings = (reason & Config::BAD_SIGNER_CHAIN_HAS_UTF8_STRINGS) && !Config::instance()->nagged(Config::NAG_BAD_SIGNER_CHAIN_UTF8_STRINGS);
+		bool const need_nag_validity_too_long = (reason & Config::BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG) && !Config::instance()->nagged(Config::NAG_BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG);
+
+		if (!need_nag_utf8_strings && !need_nag_validity_too_long) {
 			return false;
 		}
 
@@ -1704,7 +1707,7 @@ private:
 			_splash = 0;
 		}
 
-		RecreateChainDialog* d = new RecreateChainDialog (_frame);
+		RecreateChainDialog* d = new RecreateChainDialog (_frame, reason);
 		int const r = d->ShowModal ();
 		d->Destroy ();
 		return r == wxID_OK;

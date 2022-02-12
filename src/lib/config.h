@@ -372,10 +372,11 @@ public:
 		NAG_DKDM_CONFIG,
 		NAG_ENCRYPTED_METADATA,
 		NAG_ALTER_DECRYPTION_CHAIN,
-		NAG_BAD_SIGNER_CHAIN,
+		NAG_BAD_SIGNER_CHAIN_UTF8_STRINGS,
 		/* Not really a nag but it's the same idea */
 		NAG_INITIAL_SETUP,
 		NAG_IMPORT_DECRYPTION_CHAIN,
+		NAG_BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG,
 		NAG_COUNT
 	};
 
@@ -1074,7 +1075,12 @@ public:
 	/** Emitted if there is a bad certificate in the signer chain.  Handler can call
 	 *  true to ask Config to re-create the chain.
 	 */
-	static boost::signals2::signal<bool (void)> BadSignerChain;
+	enum BadSignerChainReason {
+		BAD_SIGNER_CHAIN_NONE = 0x0,
+		BAD_SIGNER_CHAIN_HAS_UTF8_STRINGS = 0x1,
+		BAD_SIGNER_CHAIN_VALIDITY_TOO_LONG = 0x2,
+	};
+	static boost::signals2::signal<bool (BadSignerChainReason)> BadSignerChain;
 
 	void write () const;
 	void write_config () const;

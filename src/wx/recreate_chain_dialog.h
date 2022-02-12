@@ -19,14 +19,17 @@
 */
 
 #include "question_dialog.h"
+#include "lib/config.h"
 #include <wx/wx.h>
 #include <list>
 
 class RecreateChainDialog : public QuestionDialog
 {
 public:
-	RecreateChainDialog (wxWindow* parent);
+	RecreateChainDialog (wxWindow* parent, Config::BadSignerChainReason reason);
 
 private:
 	void shut_up (wxCommandEvent& ev);
+
+	Config::BadSignerChainReason _reason;
 };
