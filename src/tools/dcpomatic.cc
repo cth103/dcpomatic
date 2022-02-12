@@ -1822,6 +1822,23 @@ private:
 			d->Destroy ();
 			return r == wxID_OK;
 		}
+		case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
+		{
+			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN_VALIDITY)) {
+				return false;
+			}
+			auto d = new RecreateChainDialog (
+				_frame, _("Recreate signing certificates"),
+				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period\n"
+				  "that is too long.  This will cause problems playing back DCPs on some systems.\n"
+				  "Do you want to re-create the certificate chain for signing DCPs and KDMs?"),
+				_("Do nothing"),
+				Config::NAG_BAD_SIGNER_CHAIN_VALIDITY
+				);
+			int const r = d->ShowModal ();
+			d->Destroy ();
+			return r == wxID_OK;
+		}
 		case Config::BAD_SIGNER_INCONSISTENT:
 		{
 			auto d = new RecreateChainDialog (

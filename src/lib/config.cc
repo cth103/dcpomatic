@@ -456,6 +456,9 @@ try
 		if (i.has_utf8_strings()) {
 			bad = BAD_SIGNER_UTF8_STRINGS;
 		}
+		if ((i.not_after().year() - i.not_before().year()) > 15) {
+			bad = BAD_SIGNER_VALIDITY_TOO_LONG;
+		}
 	}
 
 	if (!_signer_chain->chain_valid() || !_signer_chain->private_key_valid()) {
@@ -472,6 +475,7 @@ try
 			switch (*bad) {
 			case BAD_SIGNER_UTF8_STRINGS:
 			case BAD_SIGNER_INCONSISTENT:
+			case BAD_SIGNER_VALIDITY_TOO_LONG:
 				_signer_chain = create_certificate_chain ();
 				break;
 			case BAD_DECRYPTION_INCONSISTENT:

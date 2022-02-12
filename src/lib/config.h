@@ -402,6 +402,7 @@ public:
 		NAG_DELETE_DKDM,
 		NAG_32_ON_64,
 		NAG_TOO_MANY_DROPPED_FRAMES,
+		NAG_BAD_SIGNER_CHAIN_VALIDITY,
 		NAG_COUNT
 	};
 
@@ -1059,9 +1060,10 @@ public:
 	 *  true to ask Config to solve the problem (by discarding and recreating the bad thing)
 	 */
 	enum BadReason {
-		BAD_SIGNER_UTF8_STRINGS,     ///< signer chain contains UTF-8 strings (not PRINTABLESTRING)
-		BAD_SIGNER_INCONSISTENT,     ///< signer chain is somehow inconsistent
-		BAD_DECRYPTION_INCONSISTENT, ///< KDM decryption chain is somehow inconsistent
+		BAD_SIGNER_UTF8_STRINGS,      ///< signer chain contains UTF-8 strings (not PRINTABLESTRING)
+		BAD_SIGNER_INCONSISTENT,      ///< signer chain is somehow inconsistent
+		BAD_DECRYPTION_INCONSISTENT,  ///< KDM decryption chain is somehow inconsistent
+		BAD_SIGNER_VALIDITY_TOO_LONG, ///< signer certificate validity periods are >10 years
 	};
 
 	static boost::signals2::signal<bool (BadReason)> Bad;
