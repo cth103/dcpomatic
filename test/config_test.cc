@@ -196,6 +196,8 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test)
 
 BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 {
+	ConfigRestorer cr;
+
 	boost::filesystem::path dir = "build/test/config_keep_cinemas_if_making_new_config";
 	Config::override_path = dir;
 	Config::drop ();
