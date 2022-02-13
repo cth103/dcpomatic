@@ -247,6 +247,8 @@ def make_control(debian_version, bits, filename, debug, gui):
     print('', file=f)
     suffix = '' if gui else '-cli'
     print(f'Package: dcpomatic{suffix}', file=f)
+    if gui:
+        print('Replaces: dcpomatic-cli', file=f)
     if bits == 32:
         print('Architecture: i386', file=f)
     else:
