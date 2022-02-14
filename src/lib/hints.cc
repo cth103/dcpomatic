@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -23,6 +23,7 @@
 #include "audio_content.h"
 #include "audio_processor.h"
 #include "compose.hpp"
+#include "config.h"
 #include "content.h"
 #include "cross.h"
 #include "dcp_content_type.h"
@@ -381,6 +382,7 @@ try
 
 	auto content = film->content ();
 
+	check_certificates ();
 	check_interop ();
 	check_big_font_files ();
 	check_few_audio_channels ();
@@ -649,6 +651,34 @@ Hints::check_audio_language ()
 	if (mapped_audio != content.end() && !film()->audio_language()) {
 		hint (_("Some of your content has audio but you have not set the audio language.  It is advisable to set the audio language "
 			"in the \"DCP\" tab unless your audio has no spoken parts."));
+	}
+}
+
+
+void
+Hints::check_certificates ()
+{
+	auto bad = Config::instance()->check_certificates();
+	if (!bad) {
+		return;
+	}
+
+	switch (*bad) {
+	case Config::BAD_SIGNER_UTF8_STRINGS:
+		hint(_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error "
+		       "which will prevent DCPs from being validated correctly on some systems.  You are advised to "
+		       "re-create the signing certificate chain by clicking the \"Re-make certificates and key...\" "
+		       "button in the Keys page of Preferences."));
+		break;
+	case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
+		hint(_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period "
+		       "that is too long.  This will cause problems playing back DCPs on some systems. "
+		       "You are advised to re-create the signing certificate chain by clicking the "
+		       "\"Re-make certificates and key...\" button in the Keys page of Preferences."));
+		break;
+	default:
+		/* Some bad situations can't happen here as DCP-o-matic would have refused to start until they are fixed */
+		break;
 	}
 }
 
