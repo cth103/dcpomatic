@@ -709,6 +709,7 @@ supported_by.Add (wxT ("Christian Passeri"));
 supported_by.Add (wxT ("Sharad Patel"));
 supported_by.Add (wxT ("Panagiotis Patsiaouras"));
 supported_by.Add (wxT ("Anand Patwardhan"));
+supported_by.Add (wxT ("Stanko Pavlica"));
 supported_by.Add (wxT ("Konstantinos Pavlidis"));
 supported_by.Add (wxT ("Cine Avenida Pedrajas"));
 supported_by.Add (wxT ("Voitek Pendrak"));
