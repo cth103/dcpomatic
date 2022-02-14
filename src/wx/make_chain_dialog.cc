@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,11 +18,14 @@
 
 */
 
+
 #include "make_chain_dialog.h"
 #include "static_text.h"
 #include <boost/algorithm/string.hpp>
 
+
 using std::string;
+
 
 MakeChainDialog::MakeChainDialog (
 	wxWindow* parent,
@@ -57,7 +60,7 @@ MakeChainDialog::MakeChainDialog (
 	add (_("Root common name"), true);
 
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (new StaticText (this, wxT (".")), 0, wxALIGN_CENTER_VERTICAL);
 		s->Add (_root_common_name = new wxTextCtrl (
 				this, wxID_ANY, std_to_wx (root_common_name), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
@@ -68,7 +71,7 @@ MakeChainDialog::MakeChainDialog (
 	add (_("Intermediate common name"), true);
 
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (new StaticText (this, wxT (".")), 0, wxALIGN_CENTER_VERTICAL);
 		s->Add (_intermediate_common_name = new wxTextCtrl (
 				this, wxID_ANY, std_to_wx (intermediate_common_name), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
@@ -79,7 +82,7 @@ MakeChainDialog::MakeChainDialog (
 	add (_("Leaf common name"), true);
 
 	{
-		wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+		auto s = new wxBoxSizer (wxHORIZONTAL);
 		s->Add (new StaticText (this, wxT ("CS.")), 0, wxALIGN_CENTER_VERTICAL);
 		s->Add (_leaf_common_name = new wxTextCtrl (
 				this, wxID_ANY, std_to_wx (leaf_common_name), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
