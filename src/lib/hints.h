@@ -65,6 +65,7 @@ private:
 	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
 	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
 
+	void check_certificates ();
 	void check_interop ();
 	void check_big_font_files ();
 	void check_few_audio_channels ();

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2020-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,6 +20,7 @@
 
 
 #include "lib/audio_content.h"
+#include "lib/config.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -254,6 +255,24 @@ BOOST_AUTO_TEST_CASE (hints_audio_with_no_language)
 		"Some of your content has audio but you have not set the audio language.  It is advisable to set the audio language "
 		"in the \"DCP\" tab unless your audio has no spoken parts."
 		);
+}
 
+
+BOOST_AUTO_TEST_CASE (hints_certificate_validity)
+{
+	ConfigRestorer cr;
+
+	Config::instance()->set_signer_chain(make_shared<dcp::CertificateChain>(openssl_path(), 40 * 365));
+
+	auto film = new_test_film2 ("hints_certificate_validity");
+	auto hints = get_hints (film);
+	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
+	BOOST_CHECK_EQUAL (
+		hints[0],
+		"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period "
+		"that is too long.  This will cause problems playing back DCPs on some systems. "
+		"You are advised to re-create the signing certificate chain by clicking the "
+		"\"Re-make certificates and key...\" button in the Keys page of Preferences."
+		);
 }
 

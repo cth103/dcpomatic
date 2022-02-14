@@ -536,62 +536,15 @@ CertificateChainEditor::update_certificate_list ()
 void
 CertificateChainEditor::remake_certificates ()
 {
-	auto chain = _get();
-
-	string subject_organization_name;
-	string subject_organizational_unit_name;
-	string root_common_name;
-	string intermediate_common_name;
-	string leaf_common_name;
-
-	auto all = chain->root_to_leaf ();
-
-	if (all.size() >= 1) {
-		/* Have a root */
-		subject_organization_name = chain->root().subject_organization_name ();
-		subject_organizational_unit_name = chain->root().subject_organizational_unit_name ();
-		root_common_name = chain->root().subject_common_name ();
-	}
-
-	if (all.size() >= 2) {
-		/* Have a leaf */
-		leaf_common_name = chain->leaf().subject_common_name ();
-	}
-
-	if (all.size() >= 3) {
-		/* Have an intermediate */
-		dcp::CertificateChain::List::iterator i = all.begin ();
-		++i;
-		intermediate_common_name = i->subject_common_name ();
-	}
-
 	if (_nag_alter()) {
 		/* Cancel was clicked */
 		return;
 	}
 
-	auto d = new MakeChainDialog (
-		this,
-		subject_organization_name,
-		subject_organizational_unit_name,
-		root_common_name,
-		intermediate_common_name,
-		leaf_common_name
-		);
+	auto d = new MakeChainDialog (this, _get());
 
 	if (d->ShowModal () == wxID_OK) {
-		_set (
-			make_shared<dcp::CertificateChain> (
-				openssl_path (),
-				CERTIFICATE_VALIDITY_PERIOD,
-				d->organisation (),
-				d->organisational_unit (),
-				d->root_common_name (),
-				d->intermediate_common_name (),
-				d->leaf_common_name ()
-				)
-			);
-
+		_set (d->get());
 		update_certificate_list ();
 		update_private_key ();
 	}
@@ -694,18 +647,18 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
 	}
 
-	auto buttons = new wxBoxSizer (wxVERTICAL);
+	auto kdm_buttons = new wxBoxSizer (wxVERTICAL);
 
 	auto export_decryption_certificate = new Button (_panel, _("Export KDM decryption leaf certificate..."));
-	buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	kdm_buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
-	buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	kdm_buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
-	buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	kdm_buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto decryption_advanced = new Button (_panel, _("Advanced..."));
-	buttons->Add (decryption_advanced, 0);
+	kdm_buttons->Add (decryption_advanced, 0);
 
-	sizer->Add (buttons, 0, wxLEFT, _border);
+	sizer->Add (kdm_buttons, 0, wxLEFT, _border);
 
 	export_decryption_certificate->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_certificate, this));
 	export_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_chain_and_key, this));
@@ -718,10 +671,30 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
 	}
 
+	auto signing_buttons = new wxBoxSizer (wxVERTICAL);
+
 	auto signing_advanced = new Button (_panel, _("Advanced..."));
-	sizer->Add (signing_advanced, 0, wxLEFT | wxBOTTOM, _border);
+	signing_buttons->Add (signing_advanced, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto remake_signing = new Button (_panel, _("Re-make certificates and key..."));
+	signing_buttons->Add (remake_signing, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+
+	sizer->Add (signing_buttons, 0, wxLEFT, _border);
+
 	signing_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::signing_advanced, this));
+	remake_signing->Bind (wxEVT_BUTTON, bind(&KeysPage::remake_signing, this));
 }
+
+
+void
+KeysPage::remake_signing ()
+{
+	auto d = new MakeChainDialog (_panel, Config::instance()->signer_chain());
+
+	if (d->ShowModal () == wxID_OK) {
+		Config::instance()->set_signer_chain(d->get());
+	}
+}
+
 
 void
 KeysPage::decryption_advanced ()
