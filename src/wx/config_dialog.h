@@ -176,6 +176,7 @@ private:
 	void signing_advanced ();
 	void export_decryption_chain_and_key ();
 	void import_decryption_chain_and_key ();
+	void remake_signing ();
 };
 
 

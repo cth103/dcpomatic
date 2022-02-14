@@ -647,18 +647,18 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
 	}
 
-	auto buttons = new wxBoxSizer (wxVERTICAL);
+	auto kdm_buttons = new wxBoxSizer (wxVERTICAL);
 
 	auto export_decryption_certificate = new Button (_panel, _("Export KDM decryption leaf certificate..."));
-	buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	kdm_buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
-	buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	kdm_buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
-	buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	kdm_buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 	auto decryption_advanced = new Button (_panel, _("Advanced..."));
-	buttons->Add (decryption_advanced, 0);
+	kdm_buttons->Add (decryption_advanced, 0);
 
-	sizer->Add (buttons, 0, wxLEFT, _border);
+	sizer->Add (kdm_buttons, 0, wxLEFT, _border);
 
 	export_decryption_certificate->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_certificate, this));
 	export_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_chain_and_key, this));
@@ -671,10 +671,30 @@ KeysPage::setup ()
 		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
 	}
 
+	auto signing_buttons = new wxBoxSizer (wxVERTICAL);
+
 	auto signing_advanced = new Button (_panel, _("Advanced..."));
-	sizer->Add (signing_advanced, 0, wxLEFT | wxBOTTOM, _border);
+	signing_buttons->Add (signing_advanced, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto remake_signing = new Button (_panel, _("Re-make certificates and key..."));
+	signing_buttons->Add (remake_signing, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+
+	sizer->Add (signing_buttons, 0, wxLEFT, _border);
+
 	signing_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::signing_advanced, this));
+	remake_signing->Bind (wxEVT_BUTTON, bind(&KeysPage::remake_signing, this));
 }
+
+
+void
+KeysPage::remake_signing ()
+{
+	auto d = new MakeChainDialog (_panel, Config::instance()->signer_chain());
+
+	if (d->ShowModal () == wxID_OK) {
+		Config::instance()->set_signer_chain(d->get());
+	}
+}
+
 
 void
 KeysPage::decryption_advanced ()
