@@ -57,23 +57,23 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 {
 	auto c = Config::instance();
 
-	auto cert = c->decryption_chain()->leaf();
+	auto crypt_cert = c->decryption_chain()->leaf();
 
 	/* Cinema A: UTC +4:30 */
 	auto cinema_a = make_shared<Cinema>("Cinema A", list<string>(), "", 4, 30);
-	cinema_a_screen_1 = make_shared<dcpomatic::Screen>("Screen 1", "", cert, vector<TrustedDevice>());
+	cinema_a_screen_1 = make_shared<dcpomatic::Screen>("Screen 1", "", crypt_cert, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_1);
-	cinema_a_screen_2 = make_shared<dcpomatic::Screen>("Screen 2", "", cert, vector<TrustedDevice>());
+	cinema_a_screen_2 = make_shared<dcpomatic::Screen>("Screen 2", "", crypt_cert, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_2);
 	c->add_cinema (cinema_a);
 
 	/* Cinema B: UTC -1:00 */
 	auto cinema_b = make_shared<Cinema>("Cinema B", list<string>(), "", -1, 0);
-	cinema_b_screen_x = make_shared<dcpomatic::Screen>("Screen X", "", cert, vector<TrustedDevice>());
+	cinema_b_screen_x = make_shared<dcpomatic::Screen>("Screen X", "", crypt_cert, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_x);
-	cinema_b_screen_y = make_shared<dcpomatic::Screen>("Screen Y", "", cert, vector<TrustedDevice>());
+	cinema_b_screen_y = make_shared<dcpomatic::Screen>("Screen Y", "", crypt_cert, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_y);
-	cinema_b_screen_z = make_shared<dcpomatic::Screen>("Screen Z", "", cert, vector<TrustedDevice>());
+	cinema_b_screen_z = make_shared<dcpomatic::Screen>("Screen Z", "", crypt_cert, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_z);
 	c->add_cinema (cinema_a);
 
@@ -88,9 +88,11 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	auto cpls = film->cpls ();
 	BOOST_REQUIRE(cpls.size() == 1);
 
-	dcp::LocalTime from (cert.not_before());
+	auto sign_cert = c->signer_chain()->leaf();
+
+	dcp::LocalTime from (sign_cert.not_before());
 	from.add_months (2);
-	dcp::LocalTime until (cert.not_after());
+	dcp::LocalTime until (sign_cert.not_after());
 	until.add_months (-2);
 
 	auto const from_string = from.date() + " " + from.time_of_day(true, false);
@@ -129,8 +131,6 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 {
 	using boost::filesystem::path;
 
-	auto cert = Config::instance()->decryption_chain()->leaf();
-
 	/* Film */
 	boost::filesystem::remove_all ("build/test/directory_kdm_naming_test");
 	auto film = new_test_film2 (
@@ -144,9 +144,11 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	auto cpls = film->cpls ();
 	BOOST_REQUIRE(cpls.size() == 1);
 
-	dcp::LocalTime from (cert.not_before());
+	auto sign_cert = Config::instance()->signer_chain()->leaf();
+
+	dcp::LocalTime from (sign_cert.not_before());
 	from.add_months (2);
-	dcp::LocalTime until (cert.not_after());
+	dcp::LocalTime until (sign_cert.not_after());
 	until.add_months (-2);
 
 	string const from_string = from.date() + " " + from.time_of_day(true, false);
