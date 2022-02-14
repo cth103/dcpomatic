@@ -450,25 +450,7 @@ try
 		}
 	}
 
-	optional<BadReason> bad;
-
-	for (auto const& i: _signer_chain->unordered()) {
-		if (i.has_utf8_strings()) {
-			bad = BAD_SIGNER_UTF8_STRINGS;
-		}
-		if ((i.not_after().year() - i.not_before().year()) > 15) {
-			bad = BAD_SIGNER_VALIDITY_TOO_LONG;
-		}
-	}
-
-	if (!_signer_chain->chain_valid() || !_signer_chain->private_key_valid()) {
-		bad = BAD_SIGNER_INCONSISTENT;
-	}
-
-	if (!_decryption_chain->chain_valid() || !_decryption_chain->private_key_valid()) {
-		bad = BAD_DECRYPTION_INCONSISTENT;
-	}
-
+	auto bad = check_certificates ();
 	if (bad) {
 		auto const remake = Bad(*bad);
 		if (remake && *remake) {
@@ -1468,5 +1450,31 @@ Config::add_custom_language (dcp::LanguageTag tag)
 		_custom_languages.push_back (tag);
 		changed ();
 	}
+}
+
+
+optional<Config::BadReason>
+Config::check_certificates () const
+{
+	optional<BadReason> bad;
+
+	for (auto const& i: _signer_chain->unordered()) {
+		if (i.has_utf8_strings()) {
+			bad = BAD_SIGNER_UTF8_STRINGS;
+		}
+		if ((i.not_after().year() - i.not_before().year()) > 15) {
+			bad = BAD_SIGNER_VALIDITY_TOO_LONG;
+		}
+	}
+
+	if (!_signer_chain->chain_valid() || !_signer_chain->private_key_valid()) {
+		bad = BAD_SIGNER_INCONSISTENT;
+	}
+
+	if (!_decryption_chain->chain_valid() || !_decryption_chain->private_key_valid()) {
+		bad = BAD_DECRYPTION_INCONSISTENT;
+	}
+
+	return bad;
 }
 
