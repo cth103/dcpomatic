@@ -27,35 +27,9 @@
 class MakeChainDialog : public TableDialog
 {
 public:
-	MakeChainDialog (
-		wxWindow* parent,
-		std::string organisation,
-		std::string organisational_unit_name,
-		std::string root_common_name,
-		std::string intermediate_common_name,
-		std::string leaf_common_name
-		);
+	MakeChainDialog (wxWindow* parent, std::shared_ptr<const dcp::CertificateChain> chain);
 
-	std::string organisation () const {
-		return wx_to_std (_organisation->GetValue ());
-	}
-
-	std::string organisational_unit () const {
-		return wx_to_std (_organisational_unit->GetValue ());
-	}
-
-	std::string root_common_name () const {
-		return "." + wx_to_std (_root_common_name->GetValue ());
-	}
-
-	std::string intermediate_common_name () const {
-		return "." + wx_to_std (_intermediate_common_name->GetValue ());
-	}
-
-	std::string leaf_common_name () const {
-		return "CS." + wx_to_std (_leaf_common_name->GetValue ());
-	}
-
+	std::shared_ptr<dcp::CertificateChain> get () const;
 
 private:
 	wxTextCtrl* _organisation;

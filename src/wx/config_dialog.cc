@@ -536,62 +536,15 @@ CertificateChainEditor::update_certificate_list ()
 void
 CertificateChainEditor::remake_certificates ()
 {
-	auto chain = _get();
-
-	string subject_organization_name;
-	string subject_organizational_unit_name;
-	string root_common_name;
-	string intermediate_common_name;
-	string leaf_common_name;
-
-	auto all = chain->root_to_leaf ();
-
-	if (all.size() >= 1) {
-		/* Have a root */
-		subject_organization_name = chain->root().subject_organization_name ();
-		subject_organizational_unit_name = chain->root().subject_organizational_unit_name ();
-		root_common_name = chain->root().subject_common_name ();
-	}
-
-	if (all.size() >= 2) {
-		/* Have a leaf */
-		leaf_common_name = chain->leaf().subject_common_name ();
-	}
-
-	if (all.size() >= 3) {
-		/* Have an intermediate */
-		dcp::CertificateChain::List::iterator i = all.begin ();
-		++i;
-		intermediate_common_name = i->subject_common_name ();
-	}
-
 	if (_nag_alter()) {
 		/* Cancel was clicked */
 		return;
 	}
 
-	auto d = new MakeChainDialog (
-		this,
-		subject_organization_name,
-		subject_organizational_unit_name,
-		root_common_name,
-		intermediate_common_name,
-		leaf_common_name
-		);
+	auto d = new MakeChainDialog (this, _get());
 
 	if (d->ShowModal () == wxID_OK) {
-		_set (
-			make_shared<dcp::CertificateChain> (
-				openssl_path (),
-				CERTIFICATE_VALIDITY_PERIOD,
-				d->organisation (),
-				d->organisational_unit (),
-				d->root_common_name (),
-				d->intermediate_common_name (),
-				d->leaf_common_name ()
-				)
-			);
-
+		_set (d->get());
 		update_certificate_list ();
 		update_private_key ();
 	}

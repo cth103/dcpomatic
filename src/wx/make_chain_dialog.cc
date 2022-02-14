@@ -21,22 +21,50 @@
 
 #include "make_chain_dialog.h"
 #include "static_text.h"
+#include "lib/cross.h"
+#include "lib/util.h"
+#include <dcp/certificate_chain.h>
 #include <boost/algorithm/string.hpp>
 
 
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 
 
 MakeChainDialog::MakeChainDialog (
 	wxWindow* parent,
-	string organisation,
-	string organisational_unit_name,
-	string root_common_name,
-	string intermediate_common_name,
-	string leaf_common_name
+	shared_ptr<const dcp::CertificateChain> chain
 	)
 	: TableDialog (parent, _("Make certificate chain"), 2, 1, true)
 {
+	string subject_organization_name;
+	string subject_organizational_unit_name;
+	string root_common_name;
+	string intermediate_common_name;
+	string leaf_common_name;
+
+	auto all = chain->root_to_leaf ();
+
+	if (all.size() >= 1) {
+		/* Have a root */
+		subject_organization_name = chain->root().subject_organization_name ();
+		subject_organizational_unit_name = chain->root().subject_organizational_unit_name ();
+		root_common_name = chain->root().subject_common_name ();
+	}
+
+	if (all.size() >= 2) {
+		/* Have a leaf */
+		leaf_common_name = chain->leaf().subject_common_name ();
+	}
+
+	if (all.size() >= 3) {
+		/* Have an intermediate */
+		dcp::CertificateChain::List::iterator i = all.begin ();
+		++i;
+		intermediate_common_name = i->subject_common_name ();
+	}
+
 	wxTextValidator validator (wxFILTER_EXCLUDE_CHAR_LIST);
 	validator.SetCharExcludes (wxT ("/"));
 
@@ -53,9 +81,9 @@ MakeChainDialog::MakeChainDialog (
 	}
 
 	add (_("Organisation"), true);
-	add (_organisation = new wxTextCtrl (this, wxID_ANY, std_to_wx (organisation), wxDefaultPosition, wxSize (480, -1), 0, validator));
+	add (_organisation = new wxTextCtrl (this, wxID_ANY, std_to_wx(subject_organization_name), wxDefaultPosition, wxSize (480, -1), 0, validator));
 	add (_("Organisational unit"), true);
-	add (_organisational_unit = new wxTextCtrl (this, wxID_ANY, std_to_wx (organisational_unit_name), wxDefaultPosition, wxDefaultSize, 0, validator));
+	add (_organisational_unit = new wxTextCtrl (this, wxID_ANY, std_to_wx(subject_organizational_unit_name), wxDefaultPosition, wxDefaultSize, 0, validator));
 
 	add (_("Root common name"), true);
 
@@ -93,4 +121,19 @@ MakeChainDialog::MakeChainDialog (
 	layout ();
 
 	_organisation->SetFocus ();
+}
+
+
+shared_ptr<dcp::CertificateChain>
+MakeChainDialog::get () const
+{
+	return make_shared<dcp::CertificateChain>(
+		openssl_path(),
+		CERTIFICATE_VALIDITY_PERIOD,
+		wx_to_std(_organisation->GetValue()),
+		wx_to_std(_organisational_unit->GetValue()),
+		"." + wx_to_std(_root_common_name->GetValue()),
+		"." + wx_to_std(_intermediate_common_name->GetValue()),
+		"CS." + wx_to_std(_leaf_common_name->GetValue())
+		);
 }
