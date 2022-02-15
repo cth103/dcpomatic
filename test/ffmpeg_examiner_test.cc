@@ -76,3 +76,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_vob_test)
 	auto examiner = make_shared<FFmpegExaminer>(content);
 }
 
+
+/** Check that another file can be examined without error */
+BOOST_AUTO_TEST_CASE (ffmpeg_examiner_mkv_test)
+{
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "sample.mkv");
+	auto examiner = make_shared<FFmpegExaminer>(content);
+}

@@ -221,22 +221,25 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 		return false;
 	}
 
-	int r = avcodec_send_packet (context, packet);
-	if (r < 0 && !(r == AVERROR_EOF && !packet)) {
-		/* We could cope with AVERROR(EAGAIN) and re-send the packet but I think it should never happen.
-		 * AVERROR_EOF can happen during flush if we've already sent a flush packet.
-		 */
-		throw DecodeError (N_("avcodec_send_packet"), N_("FFmpegExaminer::video_packet"), r);
-	}
+	bool pending = false;
+	do {
+		int r = avcodec_send_packet (context, packet);
+		if (r < 0) {
+			LOG_WARNING("avcodec_send_packet returned %1 for a video packet", r);
+		}
 
-	r = avcodec_receive_frame (context, _video_frame);
-	if (r == AVERROR(EAGAIN)) {
-		/* More input is required */
-		return true;
-	} else if (r == AVERROR_EOF) {
-		/* No more output is coming */
-		return false;
-	}
+		/* EAGAIN means we should call avcodec_receive_frame and then re-send the same packet */
+		pending = r == AVERROR(EAGAIN);
+
+		r = avcodec_receive_frame (context, _video_frame);
+		if (r == AVERROR(EAGAIN)) {
+			/* More input is required */
+			return true;
+		} else if (r == AVERROR_EOF) {
+			/* No more output is coming */
+			return false;
+		}
+	} while (pending);
 
 	if (!_first_video) {
 		_first_video = frame_time (_video_frame, _format_context->streams[_video_stream.get()]);
