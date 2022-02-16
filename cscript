@@ -281,7 +281,6 @@ def make_control(debian_version, bits, filename, debug, gui):
 
 def make_spec(filename, version, target, options, requires=None):
     """Make a .spec file for a RPM build"""
-    tools = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(filename))), "src/tools")
     f = open(filename, 'w')
     print('Summary:A program that generates Digital Cinema Packages (DCPs) from video and audio files', file=f)
     print('Name:dcpomatic2', file=f)
@@ -311,7 +310,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_openssl', file=f)
     print('%{_bindir}/dcpomatic2_combiner', file=f)
     print('%{_bindir}/dcpomatic2_verify', file=f)
-    if os.path.exists(os.path.join(tools, "dcpomatic2_disk")):
+    if can_build_disk(target):
         print('%{_bindir}/dcpomatic2_disk', file=f)
         print('%caps(cap_dac_override=ep) %{_bindir}/dcpomatic2_disk_writer', file=f)
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
@@ -321,7 +320,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_datadir}/applications/dcpomatic2_player.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_playlist.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_combiner.desktop', file=f)
-    if os.path.exists(os.path.join(tools, "dcpomatic2_disk")):
+    if can_build_disk(target):
         print('%{_datadir}/applications/dcpomatic2_disk.desktop', file=f)
     print('%{_datadir}/dcpomatic2/dcpomatic2_server_small.png', file=f)
     print('%{_datadir}/dcpomatic2/select.png', file=f)
@@ -570,7 +569,8 @@ def build(target, options):
         with open('build/com.dcpomatic.DCP-o-matic.json', 'w') as outfile:
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
-    else:
+    elif target.platform != "linux":
+        # Build here if the packaging step won't do it
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
         target.command('./waf')
         target.command('./waf install')
@@ -647,8 +647,8 @@ def package_rpm(target, cpu, version, options):
     if target.distro == 'mageia':
         requires = "lib64xmlsec1-devel lib64canberra-gtk0 libcap-utils"
 
-    make_spec('build/platform/linux/dcpomatic2.spec', version, target, options, requires)
-    cmd = 'rpmbuild --define "_topdir %s" -bb build/platform/linux/dcpomatic2.spec' % topdir
+    make_spec('dcpomatic2.spec', version, target, options, requires)
+    cmd = 'rpmbuild --define "_topdir %s" -bb dcpomatic2.spec' % topdir
     target.command(cmd)
     rpms = []
 
