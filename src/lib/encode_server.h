@@ -28,16 +28,17 @@
  */
 
 
-#include "server.h"
+#include "cross.h"
 #include "exception_store.h"
-#include <boost/thread.hpp>
+#include "server.h"
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <string>
 
 
-class Socket;
 class Log;
+class Socket;
 
 
 /** @class EncodeServer
@@ -65,6 +66,7 @@ private:
 	boost::condition _empty_condition;
 	bool _verbose;
 	int _num_threads;
+	Waker _waker;
 
 	struct Broadcast {
 
