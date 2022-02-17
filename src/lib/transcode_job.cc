@@ -134,7 +134,7 @@ TranscodeJob::run ()
 			fps = _encoder->frames_done() / (finish.tv_sec - start.tv_sec);
 		}
 
-		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), fps);
+		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(fps, 2, true));
 
 		if (dynamic_pointer_cast<DCPEncoder>(_encoder)) {
 			try {
