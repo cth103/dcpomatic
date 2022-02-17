@@ -569,7 +569,7 @@ def build(target, options):
         with open('build/com.dcpomatic.DCP-o-matic.json', 'w') as outfile:
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
-    elif target.platform != "linux":
+    elif target.platform != "linux" or target.detail == 'appimage':
         # Build here if the packaging step won't do it
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
         target.command('./waf')
