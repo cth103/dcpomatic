@@ -454,7 +454,7 @@ def configure_options(target, options):
 
     return opt
 
-def build(target, options):
+def build(target, options, for_package):
     if target.platform == 'flatpak':
         target.checkout_dependencies()
         prefix = 'https://dcpomatic.com/deps'
@@ -569,7 +569,7 @@ def build(target, options):
         with open('build/com.dcpomatic.DCP-o-matic.json', 'w') as outfile:
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
-    else:
+    elif target.platform != 'linux' or target.detail == 'appimage' or not for_package:
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
         target.command('./waf')
         target.command('./waf install')
@@ -711,10 +711,6 @@ def make_appimage(target, nice_name, internal_name, version):
 
 def package(target, version, options):
     """version: DCP-o-matic version string"""
-    if target.platform != 'linux' or target.detail == 'appimage':
-        # In most cases we need to build ourselves before packaging, but on some Linux targets the packaging
-        # tool wants to build DCP-o-matic so we don't bother here.
-        build(target, options)
     if target.platform == 'windows':
         return package_windows(target)
     elif target.platform == 'linux':
