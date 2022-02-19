@@ -361,7 +361,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('cd dcpomatic-%s' % version, file=f)
     print('export PKG_CONFIG_PATH=%s/lib/pkgconfig:%s/lib64/pkgconfig:/usr/local/lib/pkgconfig:/usr/local/lib64/pkgconfig' % (target.directory, target.directory), file=f)
     print('CXXFLAGS="-I%s/include" LDFLAGS="-L%s/lib" ./waf configure --prefix=%%{buildroot}/usr --destdir=/usr %s' %
-          (target.directory, target.directory, configure_options(target, options)), file=f)
+          (target.directory, target.directory, configure_options(target, options, for_package=True)), file=f)
     print('./waf', file=f)
     print('%install', file=f)
     print('cd dcpomatic-%s' % version, file=f)
@@ -415,12 +415,14 @@ def dependencies(target, options):
 
 option_defaults = { "gui": True, "variant": None }
 
-def configure_options(target, options):
+def configure_options(target, options, for_package=False):
     opt = ' --warnings-are-errors'
 
-    if not ((target.platform == 'linux' and target.distro == 'ubuntu' and target.version == '18.04') or
+    if for_package or not (
+            (target.platform == 'linux' and target.distro == 'ubuntu' and target.version == '18.04') or
             (target.platform == 'osx') or
-            (target.platform == 'windows')):
+            (target.platform == 'windows')
+        ):
         # Currently we only build tests on Ubuntu 18.04, macOS and Windows
         opt += ' --disable-tests'
 
@@ -570,7 +572,7 @@ def build(target, options, for_package):
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
     elif target.platform != 'linux' or target.detail == 'appimage' or not for_package:
-        target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options)))
+        target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options, for_package)))
         target.command('./waf')
         target.command('./waf install')
 
@@ -615,7 +617,7 @@ def package_debian(target, cpu, version, options):
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
     target.set('CDIST_DIRECTORY', target.directory)
 
-    target.set('CDIST_CONFIGURE', '"' + configure_options(target, options) + '"')
+    target.set('CDIST_CONFIGURE', '"' + configure_options(target, options, for_package=True) + '"')
     target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
     if not target.debug:
         target.set('CDIST_DEBUG_PACKAGE_FLAG', '--no-ddebs')
