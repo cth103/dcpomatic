@@ -47,7 +47,7 @@ if not isinstance(this_version, str):
 if not isinstance(last_version, str):
     last_version = last_version.decode('utf-8')
 
-if this_version == '':
+if this_version == '' or this_version == 'merged-to-main':
     VERSION = '%sdevel' % last_version[1:].strip()
 else:
     VERSION = this_version[1:].strip()
