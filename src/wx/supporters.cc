@@ -609,6 +609,7 @@ supported_by.Add (wxT ("John Marsh"));
 supported_by.Add (wxT ("Kelly Marshall"));
 supported_by.Add (wxT ("Kelly Marshall"));
 supported_by.Add (wxT ("Sean Martin"));
+supported_by.Add (wxT ("Maxime Martinot"));
 supported_by.Add (wxT ("Paco Rosés Martínez"));
 supported_by.Add (wxT ("Miriana Marusic"));
 supported_by.Add (wxT ("Daniele Massa"));
