@@ -67,7 +67,7 @@ private:
 	void listen_thread ();
 
 	void start_accept ();
-	void handle_accept (boost::system::error_code ec, std::shared_ptr<Socket> socket);
+	void handle_accept (boost::system::error_code ec);
 
 	void config_changed (Config::Property what);
 
@@ -87,6 +87,8 @@ private:
 
 	boost::condition _search_condition;
 	boost::mutex _search_condition_mutex;
+
+	std::shared_ptr<Socket> _accept_socket;
 
 	static EncodeServerFinder* _instance;
 };

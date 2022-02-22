@@ -203,16 +203,17 @@ catch (...)
 void
 EncodeServerFinder::start_accept ()
 {
-	auto socket = make_shared<Socket>();
+	_accept_socket = make_shared<Socket>();
+
 	_listen_acceptor->async_accept (
-		socket->socket(),
-		boost::bind(&EncodeServerFinder::handle_accept, this, boost::asio::placeholders::error, socket)
+		_accept_socket->socket(),
+		boost::bind(&EncodeServerFinder::handle_accept, this, boost::asio::placeholders::error)
 		);
 }
 
 
 void
-EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Socket> socket)
+EncodeServerFinder::handle_accept (boost::system::error_code ec)
 {
 	if (ec) {
 		start_accept ();
@@ -220,18 +221,17 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 	}
 
 	uint32_t length;
-	socket->read (reinterpret_cast<uint8_t*>(&length), sizeof(uint32_t));
+	_accept_socket->read (reinterpret_cast<uint8_t*>(&length), sizeof(uint32_t));
 	length = ntohl (length);
 
 	scoped_array<char> buffer(new char[length]);
-	socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
+	_accept_socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
 
 	string s (buffer.get());
 	auto xml = make_shared<cxml::Document>("ServerAvailable");
 	xml->read_string (s);
 
-	auto const ip = socket->socket().remote_endpoint().address().to_string();
-	}
+	auto const ip = _accept_socket->socket().remote_endpoint().address().to_string();
 	bool changed = false;
 	{
 		boost::mutex::scoped_lock lm (_servers_mutex);
