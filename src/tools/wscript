@@ -23,7 +23,7 @@ from waflib import Logs
 import i18n
 
 def configure(conf):
-    if conf.env.TARGET_WINDOWS:
+    if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         conf.env.append_value('CXXFLAGS', ['-mconsole'])
         conf.env.append_value('LINKFLAGS', ['-mconsole'])
 
@@ -37,7 +37,7 @@ def build(bld):
             uselib += 'POLKIT '
         uselib += 'LWEXT4 NANOMSG '
 
-    if bld.env.TARGET_WINDOWS:
+    if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         uselib += 'WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE WINSOCK2 OLE32 DSOUND WINMM KSUSER SETUPAPI '
     if bld.env.TARGET_LINUX:
         uselib += 'DL '
@@ -52,7 +52,7 @@ def build(bld):
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
-        if bld.env.TARGET_WINDOWS and t == 'dcpomatic_disk_writer':
+        if (bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32) and t == 'dcpomatic_disk_writer':
             obj.source += ' ../../platform/windows/%s.rc' % t
             # Prevent a console window opening when we start dcpomatic2_disk_writer
             obj.env.append_value('LINKFLAGS', '-Wl,-subsystem,windows')
@@ -79,7 +79,7 @@ def build(bld):
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
         obj.source = '%s.cc' % t
-        if bld.env.TARGET_WINDOWS:
+        if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
             obj.source += ' ../../platform/windows/%s.rc' % t
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
 

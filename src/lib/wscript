@@ -216,7 +216,7 @@ def build(bld):
         if bld.env.TARGET_LINUX:
             obj.uselib += ' POLKIT'
 
-    if bld.env.TARGET_WINDOWS:
+    if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE SETUPAPI'
         obj.source += ' cross_windows.cc'
     if bld.env.TARGET_OSX:

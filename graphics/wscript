@@ -27,7 +27,7 @@ def build(bld):
                 bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), 'linux/%d/%s.png' % (r, p))
 
     # Install stuff for POSIX systems
-    if not bld.env.TARGET_WINDOWS and not bld.env.DISABLE_GUI:
+    if not bld.env.TARGET_WINDOWS_64 and not bld.env.TARGET_WINDOWS_32 and not bld.env.DISABLE_GUI:
         bld.install_as('${PREFIX}/share/dcpomatic2/dcpomatic2_server_small.png', 'linux/16/dcpomatic2.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'splash.png')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'zoom.png')

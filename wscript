@@ -59,7 +59,8 @@ def options(opt):
     opt.add_option('--enable-debug',      action='store_true', default=False, help='build with debugging information and without optimisation')
     opt.add_option('--disable-gui',       action='store_true', default=False, help='disable building of GUI tools')
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
-    opt.add_option('--target-windows',    action='store_true', default=False, help='set up to do a cross-compile for Windows')
+    opt.add_option('--target-windows-64', action='store_true', default=False, help='set up to do a cross-compile for Windows 64-bit')
+    opt.add_option('--target-windows-32', action='store_true', default=False, help='set up to do a cross-compile for Windows 32-bit')
     opt.add_option('--target-macos-arm64', action='store_true', default=False, help='set up to do a cross-compile for macOS arm64')
     opt.add_option('--static-dcpomatic',  action='store_true', default=False, help='link to components of DCP-o-matic statically')
     opt.add_option('--static-boost',      action='store_true', default=False, help='link statically to Boost')
@@ -81,15 +82,16 @@ def options(opt):
 def configure(conf):
     conf.load('compiler_cxx')
     conf.load('clang_compilation_database', tooldir=['waf-tools'])
-    if conf.options.target_windows:
+    if conf.options.target_windows_64 or conf.options.target_windows_32:
         conf.load('winres')
 
     # Save conf.options that we need elsewhere in conf.env
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.DISABLE_TESTS = conf.options.disable_tests
-    conf.env.TARGET_WINDOWS = conf.options.target_windows
+    conf.env.TARGET_WINDOWS_64 = conf.options.target_windows_64
+    conf.env.TARGET_WINDOWS_32 = conf.options.target_windows_64
     conf.env.TARGET_OSX = sys.platform == 'darwin'
-    conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS and not conf.env.TARGET_OSX
+    conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS_64 and not conf.env.TARGET_WINDOWS_32 and not conf.env.TARGET_OSX
     conf.env.VERSION = VERSION
     conf.env.DEBUG = conf.options.enable_debug
     conf.env.STATIC_DCPOMATIC = conf.options.static_dcpomatic
@@ -149,7 +151,7 @@ def configure(conf):
     #
 
     # Windows
-    if conf.env.TARGET_WINDOWS:
+    if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_WINDOWS')
         conf.env.append_value('CXXFLAGS', '-DWIN32_LEAN_AND_MEAN')
         conf.env.append_value('CXXFLAGS', '-DBOOST_USE_WINDOWS_H')
@@ -170,8 +172,8 @@ def configure(conf):
         conf.check(lib='winmm', uselib_store='WINMM', msg="Checking for library winmm")
         conf.check(lib='ksuser', uselib_store='KSUSER', msg="Checking for library ksuser")
         conf.check(lib='setupapi', uselib_store='SETUPAPI', msg="Checking for library setupapi")
-        boost_lib_suffix = '-mt'
-        boost_thread = 'boost_thread-mt'
+        boost_lib_suffix = '-mt-x32' if conf.options.target_windows_32 else '-mt-x64'
+        boost_thread = 'boost_thread' + boost_lib_suffix
         conf.check_cxx(fragment="""
                                #include <boost/locale.hpp>\n
                                int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
@@ -530,7 +532,7 @@ def configure(conf):
         # program has to link with boost_system so I'm doing it this way.
         if conf.options.enable_disk:
             deps = ['boost_system%s' % boost_lib_suffix]
-            if conf.env.TARGET_WINDOWS:
+            if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
                 deps.append('ws2_32')
                 deps.append('boost_filesystem%s' % boost_lib_suffix)
             conf.check_cxx(fragment="""
@@ -559,7 +561,7 @@ def configure(conf):
         conf.recurse('test')
 
     Logs.pprint('YELLOW', '')
-    if conf.env.TARGET_WINDOWS:
+    if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         Logs.pprint('YELLOW', '\t' + 'Target'.ljust(25) + ': Windows')
     elif conf.env.TARGET_LINUX:
         Logs.pprint('YELLOW', '\t' + 'Target'.ljust(25) + ': Linux')
@@ -595,14 +597,14 @@ def build(bld):
 
     if not bld.env.DISABLE_TESTS:
         bld.recurse('test')
-    if bld.env.TARGET_WINDOWS:
+    if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         bld.recurse('platform/windows')
     if bld.env.TARGET_LINUX:
         bld.recurse('platform/linux')
     if bld.env.TARGET_OSX:
         bld.recurse('platform/osx')
 
-    if not bld.env.TARGET_WINDOWS:
+    if not bld.env.TARGET_WINDOWS_64 and not bld.env.TARGET_WINDOWS_32:
         bld.install_files('${PREFIX}/share/dcpomatic2', 'fonts/LiberationSans-Regular.ttf')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'fonts/LiberationSans-Italic.ttf')
         bld.install_files('${PREFIX}/share/dcpomatic2', 'fonts/LiberationSans-Bold.ttf')

@@ -82,14 +82,10 @@ SetOutPath "$INSTDIR\\bin"
 WriteUninstaller "$INSTDIR\\Uninstall.exe"
 
 File "%static_deps%/bin/libintl-8.dll"
-File "%static_deps%/bin/libboost_chrono-mt.dll"
-File "%static_deps%/bin/libboost_filesystem-mt.dll"
-File "%static_deps%/bin/libboost_system-mt.dll"
-File "%static_deps%/bin/libboost_thread-mt.dll"
-File "%static_deps%/bin/libboost_date_time-mt.dll"
-File "%static_deps%/bin/libboost_locale-mt.dll"
-File "%static_deps%/bin/libboost_regex-mt.dll"
 """, file=f)
+
+    for lib in ['chrono', 'filesystem', 'system', 'thread', 'date_time', 'locale', 'regex']:
+        print('File "%%static_deps%%/bin/libboost_%s-mt-x%d.dll"' % (lib, bits), file=f)
 
     if bits == 32:
         print('File "%static_deps%/bin/libgcc_s_sjlj-1.dll"', file=f)

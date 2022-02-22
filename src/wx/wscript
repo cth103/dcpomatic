@@ -210,7 +210,7 @@ def configure(conf):
 
     if conf.env.TARGET_LINUX:
         conf.env.append_value('CXXFLAGS', ['-DGL_GLEXT_PROTOTYPES', '-DGLX_GLXEXT_PROTOTYPES'])
-    if conf.env.TARGET_WINDOWS:
+    if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         conf.env.append_value('CXXFLAGS', ['-DWGL_WGLEXT_PROTOTYPES'])
 
     if conf.options.static_wxwidgets:
@@ -265,7 +265,7 @@ def configure(conf):
 
     # Some rtaudio-configs don't include rtaudio as a link library.  Go figure.
     conf.env.LIB_RTAUDIO.append('rtaudio')
-    if conf.env.TARGET_WINDOWS:
+    if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         # Don't explicitly link with pthread on Windows
         conf.env.CFLAGS_RTAUDIO.remove('-pthread')
         conf.env.LINKFLAGS_RTAUDIO.remove('-pthread')
@@ -274,10 +274,10 @@ def configure(conf):
         conf.env.LIB_RTAUDIO.append('mfuuid')
         conf.env.LIB_RTAUDIO.append('wmcodecdspuuid')
 
-    if conf.env.TARGET_WINDOWS or conf.env.TARGET_LINUX:
+    if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32 or conf.env.TARGET_LINUX:
         conf.check_cfg(package='gl', args='--cflags --libs', uselib_store='GL', mandatory=True)
         conf.check_cfg(package='glu', args='--cflags --libs', uselib_store='GLU', mandatory=True)
-        if conf.env.TARGET_WINDOWS:
+        if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
             conf.check_cfg(package='glew', args='--cflags --libs', uselib_store='GLEW', mandatory=True)
     else:
         conf.env.STLIB_GL = 'gl'
@@ -312,7 +312,7 @@ def build(bld):
     obj.uselib = 'BOOST_FILESYSTEM BOOST_THREAD BOOST_REGEX WXWIDGETS DCP SUB ZIP CXML RTAUDIO '
     if bld.env.TARGET_LINUX:
         obj.uselib += 'GTK GL GLU '
-    if bld.env.TARGET_WINDOWS:
+    if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += 'WINSOCK2 OLE32 DSOUND WINMM KSUSER GL GLU GLEW '
     if bld.env.TARGET_OSX:
         obj.framework = ['CoreAudio', 'OpenGL']
