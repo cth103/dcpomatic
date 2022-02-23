@@ -206,6 +206,9 @@ File "%cdist_deps%/bin/libopenjp2.dll"
         print('File "%resources%/gdb_script"', file=f)
         print('File "%resources%/dcpomatic2_debug.bat"', file=f)
         print('File "%mingw%/bin/gdb.exe"', file=f)
+        print('File "%static_deps%/bin/libtermcap.dll"', file=f)
+        print('File "%static_deps%/bin/libreadline8.dll"', file=f)
+        print('File "%static_deps%/bin/libmman.dll"', file=f)
         for s, l in tools:
             print('File "%%resources%%/dcpomatic2_%s_debug.bat"' % s, file=f)
     else:
