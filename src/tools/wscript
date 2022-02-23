@@ -76,6 +76,8 @@ def build(bld):
             obj.uselib += ' GL GLU'
         if bld.env.TARGET_LINUX:
             obj.uselib += ' X11'
+        if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
+            obj.uselib += ' GLEW'
         obj.includes = ['..']
         obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
         obj.source = '%s.cc' % t
