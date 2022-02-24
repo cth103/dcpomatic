@@ -231,36 +231,29 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec, shared_ptr<Sock
 	xml->read_string (s);
 
 	auto const ip = socket->socket().remote_endpoint().address().to_string();
-	auto found = server_found (ip);
-	if (found) {
-		(*found)->set_seen ();
-	} else {
-		EncodeServerDescription sd (ip, xml->number_child<int>("Threads"), xml->optional_number_child<int>("Version").get_value_or(0));
-		{
-			boost::mutex::scoped_lock lm (_servers_mutex);
-			_servers.push_back (sd);
+	}
+	bool changed = false;
+	{
+		boost::mutex::scoped_lock lm (_servers_mutex);
+		auto i = _servers.begin();
+		while (i != _servers.end() && i->host_name() != ip) {
+			++i;
 		}
+
+		if (i != _servers.end()) {
+			i->set_seen();
+		} else {
+			EncodeServerDescription sd (ip, xml->number_child<int>("Threads"), xml->optional_number_child<int>("Version").get_value_or(0));
+			_servers.push_back (sd);
+			changed = true;
+		}
+	}
+
+	if (changed) {
 		emit (boost::bind(boost::ref (ServersListChanged)));
 	}
 
 	start_accept ();
-}
-
-
-optional<list<EncodeServerDescription>::iterator>
-EncodeServerFinder::server_found (string ip)
-{
-	boost::mutex::scoped_lock lm (_servers_mutex);
-	auto i = _servers.begin();
-	while (i != _servers.end() && i->host_name() != ip) {
-		++i;
-	}
-
-	if (i != _servers.end()) {
-		return i;
-	}
-
-	return {};
 }
 
 

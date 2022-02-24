@@ -66,7 +66,6 @@ private:
 	void search_thread ();
 	void listen_thread ();
 
-	boost::optional<std::list<EncodeServerDescription>::iterator> server_found (std::string);
 	void start_accept ();
 	void handle_accept (boost::system::error_code ec, std::shared_ptr<Socket> socket);
 
