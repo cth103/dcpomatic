@@ -109,6 +109,7 @@ def configure(conf):
                                        '-Wall',
                                        '-Wextra',
                                        '-Wwrite-strings',
+                                       '-Wno-error=deprecated',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64',
