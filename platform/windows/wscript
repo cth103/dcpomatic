@@ -163,9 +163,9 @@ File "%static_deps%/bin/libdav1d.dll"
     """, file=f)
 
     if bits == 32:
-        print('File "%static_deps%/bin/libcrypto-1_1.dll"', file=f)
+        print('File "%static_deps%/bin/libcrypto-3.dll"', file=f)
     else:
-        print('File "%static_deps%/bin/libcrypto-1_1-x64.dll"', file=f)
+        print('File "%static_deps%/bin/libcrypto-3-x64.dll"', file=f)
 
     print("""
 File "%static_deps%/bin/libltdl-7.dll"
