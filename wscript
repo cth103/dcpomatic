@@ -89,7 +89,7 @@ def configure(conf):
     conf.env.DISABLE_GUI = conf.options.disable_gui
     conf.env.DISABLE_TESTS = conf.options.disable_tests
     conf.env.TARGET_WINDOWS_64 = conf.options.target_windows_64
-    conf.env.TARGET_WINDOWS_32 = conf.options.target_windows_64
+    conf.env.TARGET_WINDOWS_32 = conf.options.target_windows_32
     conf.env.TARGET_OSX = sys.platform == 'darwin'
     conf.env.TARGET_LINUX = not conf.env.TARGET_WINDOWS_64 and not conf.env.TARGET_WINDOWS_32 and not conf.env.TARGET_OSX
     conf.env.VERSION = VERSION
