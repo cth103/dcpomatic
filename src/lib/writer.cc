@@ -629,6 +629,9 @@ Writer::finish (boost::filesystem::path output_dcp)
 	for (auto i: film()->content_versions()) {
 		cv.push_back (dcp::ContentVersion(i));
 	}
+	if (cv.empty()) {
+		cv = { dcp::ContentVersion("1") };
+	}
 	cpl->set_content_versions (cv);
 
 	cpl->set_full_content_title_text (film()->name());
