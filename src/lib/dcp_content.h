@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2018 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,16 +18,21 @@
 
 */
 
+
 #ifndef DCPOMATIC_DCP_CONTENT_H
 #define DCPOMATIC_DCP_CONTENT_H
+
 
 /** @file  src/lib/dcp_content.h
  *  @brief DCPContent class.
  */
 
+
 #include "content.h"
 #include <libcxml/cxml.h>
 #include <dcp/encrypted_kdm.h>
+#include <dcp/rating.h>
+
 
 class DCPContentProperty
 {
@@ -42,7 +47,6 @@ public:
 	static int const CPL;
 };
 
-class ContentPart;
 
 /** @class DCPContent
  *  @brief An existing DCP used as input.
@@ -216,5 +220,6 @@ private:
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
 };
+
 
 #endif

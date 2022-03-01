@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2019-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,10 +18,70 @@
 
 */
 
-#include "table_dialog.h"
-#include <dcp/types.h>
 
-class RatingDialog : public TableDialog
+#include <dcp/rating.h>
+#include <wx/wx.h>
+#include <boost/signals2.hpp>
+
+
+class wxChoice;
+class wxListView;
+class wxNotebook;
+class wxSearchCtrl;
+
+
+class RatingDialogPage : public wxPanel
+{
+public:
+	RatingDialogPage (wxNotebook* notebook);
+	virtual dcp::Rating get () const = 0;
+	virtual bool set (dcp::Rating rating) = 0;
+
+	/** Emitted when the page has been changed, the parameter being true if OK
+	 *  should now be enabled in the main dialogue.
+	 */
+	boost::signals2::signal<void (bool)> Changed;
+};
+
+
+class StandardRatingDialogPage : public RatingDialogPage
+{
+public:
+	StandardRatingDialogPage (wxNotebook* notebook);
+
+	dcp::Rating get () const override;
+	bool set (dcp::Rating rating) override;
+
+private:
+	void search_changed ();
+	void found_systems_view_selection_changed ();
+	void update_found_system_selection ();
+
+	wxSearchCtrl* _search;
+	wxListView* _found_systems_view;
+	boost::optional<dcp::RatingSystem> _selected_system;
+	wxChoice* _rating;
+	std::vector<dcp::RatingSystem> _found_systems;
+};
+
+
+class CustomRatingDialogPage : public RatingDialogPage
+{
+public:
+	CustomRatingDialogPage (wxNotebook* notebook);
+
+	dcp::Rating get () const override;
+	bool set (dcp::Rating rating) override;
+
+private:
+	void changed ();
+
+	wxTextCtrl* _agency;
+	wxTextCtrl* _rating;
+};
+
+
+class RatingDialog : public wxDialog
 {
 public:
 	RatingDialog (wxWindow* parent);
@@ -30,6 +90,13 @@ public:
 	dcp::Rating get () const;
 
 private:
-	wxTextCtrl* _agency;
-	wxTextCtrl* _label;
+	void setup_sensitivity (bool ok_valid);
+	void page_changed ();
+
+	wxNotebook* _notebook;
+
+	StandardRatingDialogPage* _standard_page;
+	CustomRatingDialogPage* _custom_page;
+	RatingDialogPage* _active_page;
 };
+

@@ -18,18 +18,23 @@
 
 */
 
+
 /** @file  src/lib/dcp_examiner.h
  *  @brief DCPExaminer class.
  */
 
-#include "video_examiner.h"
+
 #include "audio_examiner.h"
 #include "dcp.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_assert.h"
+#include "video_examiner.h"
 #include <dcp/dcp_time.h>
+#include <dcp/rating.h>
+
 
 class DCPContent;
+
 
 class DCPExaminer : public DCP, public VideoExaminer, public AudioExaminer
 {

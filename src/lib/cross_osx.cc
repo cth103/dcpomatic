@@ -115,16 +115,9 @@ resources_path ()
 
 
 boost::filesystem::path
-xsd_path ()
+libdcp_resources_path ()
 {
-	return resources_path() / "xsd";
-}
-
-
-boost::filesystem::path
-tags_path ()
-{
-	return resources_path() / "tags";
+	return resources_path();
 }
 
 

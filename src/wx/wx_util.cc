@@ -86,7 +86,7 @@ setup_osx_flags (wxSizer* s, bool left, int& flags)
 #endif
 
 
-/** Add a wxStaticText to a wxSizer, aligning it at vertical centre.
+/** Add a wxStaticText to a wxSizer.
  *  @param s Sizer to add to.
  *  @param p Parent window for the wxStaticText.
  *  @param t Text for the wxStaticText.

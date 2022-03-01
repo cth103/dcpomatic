@@ -36,6 +36,7 @@
 #include <dcp/encrypted_kdm.h>
 #include <dcp/key.h>
 #include <dcp/language_tag.h>
+#include <dcp/rating.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>

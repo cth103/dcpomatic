@@ -354,6 +354,7 @@ def make_spec(filename, version, target, options, requires=None):
         print('%%{_datadir}/locale/%s/LC_MESSAGES/libdcpomatic2.mo' % l, file=f)
     print('%{_datadir}/libdcp/tags/*', file=f)
     print('%{_datadir}/libdcp/xsd/*', file=f)
+    print('%{_datadir}/libdcp/ratings', file=f)
     print('%{_datadir}/polkit-1/actions/com.dcpomatic.write-drive.policy', file=f)
     print('', file=f)
     print('%prep', file=f)
@@ -372,6 +373,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/bin/mkdir -p %{buildroot}/usr/share/libdcp', file=f)
     print('/bin/cp -r %s/src/libdcp/tags %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
     print('/bin/cp -r %s/src/libdcp/xsd %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
+    print('/bin/cp %s/src/libdcp/ratings %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
     print('/bin/mv %s/bin/dcpverify %%{buildroot}/usr/bin/dcpomatic2_verify' % target.directory, file=f)
     print('', file=f)
     print('%post', file=f)
@@ -400,8 +402,8 @@ def dependencies(target, options):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', 'v1.8.8'))
-    deps.append(('libsub', 'v1.6.8'))
+    deps.append(('libdcp', 'v1.8.10'))
+    deps.append(('libsub', 'v1.6.10'))
     deps.append(('leqm-nrt', '93ae9e6'))
     deps.append(('rtaudio', 'f619b76'))
     # We get our OpenSSL libraries from the environment, but we
@@ -676,6 +678,7 @@ def make_appimage(target, nice_name, internal_name, version):
     target.command(f'cp -r {target.directory}/share/dcpomatic2 {appdir}/usr/share/')
     target.command(f'cp -r {target.directory}/share/libdcp/xsd {appdir}/usr/share/libdcp/')
     target.command(f'cp -r {target.directory}/share/libdcp/tags {appdir}/usr/share/libdcp/')
+    target.command(f'cp {target.directory}/share/libdcp/ratings {appdir}/usr/share/libdcp/')
     lib = 'usr/lib/x86_64-linux-gnu'
     target.command(f'mkdir -p build/{nice_filename}.AppDir/{lib}/gdk-pixbuf-2.0/2.10.0')
     target.command(f'cp -a /{lib}/gdk-pixbuf-2.0 build/{nice_filename}.AppDir/usr/lib/x86_64-linux-gnu/')

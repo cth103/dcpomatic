@@ -336,6 +336,8 @@ File "%cdist_deps%/share/libdcp/tags/region"
 File "%cdist_deps%/share/libdcp/tags/script"
 File "%cdist_deps%/share/libdcp/tags/variant"
 File "%cdist_deps%/share/libdcp/tags/dcnc"
+SetOutPath "$INSTDIR"
+File "%cdist_deps%/share/libdcp/ratings"
 
 SectionEnd
     """, file=f)

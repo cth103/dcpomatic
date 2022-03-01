@@ -53,8 +53,7 @@ extern boost::filesystem::path disk_writer_path ();
 extern void maybe_open_console ();
 #endif
 extern boost::filesystem::path resources_path ();
-extern boost::filesystem::path xsd_path ();
-extern boost::filesystem::path tags_path ();
+extern boost::filesystem::path libdcp_resources_path ();
 extern FILE * fopen_boost (boost::filesystem::path, std::string);
 extern int dcpomatic_fseek (FILE *, int64_t, int);
 extern void start_batch_converter ();

@@ -399,7 +399,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #endif
 
 	Pango::init ();
-	dcp::init (tags_path());
+	dcp::init (libdcp_resources_path());
 
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	/* Render something to fontconfig to create its cache */
