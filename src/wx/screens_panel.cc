@@ -45,7 +45,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 	, _ignore_selection_change (false)
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 #ifdef __WXGTK3__
 	int const height = 30;
