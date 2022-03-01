@@ -47,13 +47,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 
-#ifdef __WXGTK3__
-	int const height = 30;
-#else
-	int const height = -1;
-#endif
-
-	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, height));
+	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
 #ifndef __WXGTK3__
 	/* The cancel button seems to be strangely broken in GTK3; clicking on it twice sometimes works */
 	_search->ShowCancelButton (true);

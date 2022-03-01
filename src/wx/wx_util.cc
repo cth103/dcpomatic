@@ -688,3 +688,15 @@ dpi_scale_factor (wxWindow*)
 }
 #endif
 
+
+
+int
+search_ctrl_height ()
+{
+#ifdef __WXGTK3__
+	return 30;
+#else
+	return -1;
+#endif
+}
+

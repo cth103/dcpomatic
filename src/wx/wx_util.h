@@ -121,6 +121,7 @@ extern wxString bitmap_path (std::string name);
 extern wxSize small_button_size (wxWindow* parent, wxString text);
 extern bool gui_is_dark ();
 extern double dpi_scale_factor (wxWindow* window);
+extern int search_ctrl_height ();
 
 
 struct Offset
