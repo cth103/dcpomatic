@@ -57,12 +57,11 @@ TableDialog::layout ()
 
 wxStaticText *
 #ifdef DCPOMATIC_OSX
-TableDialog::add (wxString text, bool label)
+TableDialog::add (wxString text, bool label, int flags)
 #else
-TableDialog::add (wxString text, bool)
+TableDialog::add (wxString text, bool, int flags)
 #endif
 {
-	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
 #ifdef DCPOMATIC_OSX
 	if (label) {
 		flags |= wxALIGN_RIGHT;

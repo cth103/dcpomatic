@@ -38,7 +38,7 @@ protected:
 		return w;
 	}
 
-	wxStaticText* add (wxString text, bool label);
+	wxStaticText* add (wxString text, bool label, int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
 	void add_spacer ();
 
 	void layout ();
