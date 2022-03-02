@@ -47,7 +47,6 @@ string CreateCLI::_help =
 	"  -s, --still-length <n>        number of seconds that still content should last\n"
 	"      --standard <standard>     SMPTE or interop (default SMPTE)\n"
 	"      --no-use-isdcf-name       do not use an ISDCF name; use the specified name unmodified\n"
-	"      --no-sign                 do not sign the DCP\n"
 	"      --config <dir>            directory containing config.xml and cinemas.xml\n"
 	"      --twok                    make a 2K DCP instead of choosing a resolution based on the content\n"
 	"      --fourk                   make a 4K DCP instead of choosing a resolution based on the content\n"
