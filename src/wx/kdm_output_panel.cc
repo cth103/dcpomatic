@@ -118,7 +118,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
 #endif
 
-	auto path = Config::instance()->default_kdm_directory ();
+	auto path = Config::instance()->default_kdm_directory();
 	if (path) {
 		_folder->SetPath (std_to_wx (path->string ()));
 	} else {

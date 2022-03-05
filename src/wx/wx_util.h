@@ -159,7 +159,7 @@ extern int wx_get (wxChoice* widget);
 extern int wx_get (wxSpinCtrl* widget);
 extern double wx_get (wxSpinCtrlDouble* widget);
 
-#if defined(__WXMSW__)
+#ifdef DCPOMATIC_WINDOWS
 #define DCPOMATIC_USE_OWN_PICKER
 #endif
 

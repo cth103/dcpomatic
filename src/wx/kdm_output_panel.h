@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2017 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,19 +18,19 @@
 
 */
 
+
 #include "lib/kdm_with_metadata.h"
-#include "wx_util.h"
-#include "name_format_editor.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
 
-class wxRadioButton;
-class wxDirPickerCtrl;
+
 class DirPickerCtrl;
-class KDMTimingPanel;
 class Job;
-class Log;
+class NameFormatEditor;
+class wxDirPickerCtrl;
+class wxRadioButton;
+
 
 class KDMOutputPanel : public wxPanel
 {
@@ -52,7 +52,7 @@ public:
 	}
 
 	std::pair<std::shared_ptr<Job>, int> make (
-		std::list<KDMWithMetadataPtr > screen_kdms,
+		std::list<KDMWithMetadataPtr> screen_kdms,
 		std::string name,
 		std::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
