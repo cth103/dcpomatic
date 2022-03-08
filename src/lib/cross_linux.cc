@@ -58,7 +58,6 @@ using std::make_pair;
 using std::pair;
 using std::string;
 using std::vector;
-using std::wstring;
 using boost::optional;
 
 

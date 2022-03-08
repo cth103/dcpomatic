@@ -58,7 +58,6 @@ using std::pair;
 using std::list;
 using std::ifstream;
 using std::string;
-using std::wstring;
 using std::make_pair;
 using std::vector;
 using std::cerr;
