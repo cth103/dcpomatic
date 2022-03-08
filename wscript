@@ -173,6 +173,7 @@ def configure(conf):
         conf.check(lib='winmm', uselib_store='WINMM', msg="Checking for library winmm")
         conf.check(lib='ksuser', uselib_store='KSUSER', msg="Checking for library ksuser")
         conf.check(lib='setupapi', uselib_store='SETUPAPI', msg="Checking for library setupapi")
+        conf.check(lib='uuid', uselib_store='UUID', msg="Checking for library uuid")
         boost_lib_suffix = '-mt-x32' if conf.options.target_windows_32 else '-mt-x64'
         boost_thread = 'boost_thread' + boost_lib_suffix
         conf.check_cxx(fragment="""

@@ -44,7 +44,9 @@ extern "C" {
 #include <fileapi.h>
 #undef DATADIR
 #include <shlwapi.h>
+#include <shlobj.h>
 #include <shellapi.h>
+#include <knownfolders.h>
 #include <fcntl.h>
 #include <fstream>
 #include <map>
@@ -397,7 +399,17 @@ maybe_open_console ()
 boost::filesystem::path
 home_directory ()
 {
-	return boost::filesystem::path(getenv("userprofile"));
+	PWSTR wide_path;
+	auto result = SHGetKnownFolderPath(FOLDERID_Documents, 0, nullptr, &wide_path);
+
+	if (result != S_OK) {
+		CoTaskMemFree(wide_path);
+		return boost::filesystem::path("c:\\");
+	}
+
+	auto path = wchar_to_utf8(wide_path);
+	CoTaskMemFree(wide_path);
+	return path;
 }
 
 
