@@ -125,7 +125,7 @@ AudioMapping::make_default (AudioProcessor const * processor, optional<boost::fi
 			if (filename) {
 				for (int i = 0; i < regexes; ++i) {
 					boost::regex e (regex[i].regex, boost::regex::icase);
-					if (boost::regex_match(filename->string(), e) && regex[i].channel < output_channels()) {
+					if (boost::regex_match(filename->filename().string(), e) && regex[i].channel < output_channels()) {
 						set (0, regex[i].channel, 1);
 						guessed = true;
 					}
