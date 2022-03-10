@@ -164,10 +164,10 @@ StandardRatingDialogPage::found_systems_view_selection_changed ()
 	}
 
 	/* Update the ratings dropdown */
-	vector<wxString> items;
+	wxArrayString items;
 	if (_selected_system) {
 		for (auto rating: _selected_system->ratings) {
-			items.push_back(std_to_wx(rating.label));
+			items.Add(std_to_wx(rating.label));
 		}
 	}
 
