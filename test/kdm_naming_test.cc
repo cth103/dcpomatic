@@ -122,7 +122,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	auto until_time = until.time_of_day (true, false);
 	boost::algorithm::replace_all (until_time, ":", "-");
 
-	auto const ref = String::compose("KDM_Cinema_A_-_Screen_1_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
+	auto const dcp_date = boost::gregorian::to_iso_string(film->isdcf_date());
+	auto const ref = String::compose("KDM_Cinema_A_-_Screen_1_-_MyGreatFilm_TST-1_F_XX-XX_MOS_2K_%1_SMPTE_OV_-_%2_%3_-_%4_%5.xml", dcp_date, from.date(), from_time, until.date(), until_time);
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists("build/test/single_kdm_naming_test/" + ref), "File " << ref << " not found");
 }
 
@@ -182,8 +183,8 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 		path("build/test/directory_kdm_naming_test"),
 		dcp::NameFormat("%c - %s - %f - %b - %e"),
 #ifdef DCPOMATIC_WINDOWS
-		/* With %i in the format the path is too long for Windows */
-		dcp::NameFormat("KDM %c - %s - %f - %b - %e"),
+		/* Use a shorter name on Windows so that the paths aren't too long */
+		dcp::NameFormat("KDM %f"),
 #else
 		dcp::NameFormat("KDM %c - %s - %f - %b - %e - %i"),
 #endif
@@ -195,38 +196,42 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	auto until_time = until.time_of_day (true, false);
 	boost::algorithm::replace_all (until_time, ":", "-");
 
+	auto const dcp_date = boost::gregorian::to_iso_string(film->isdcf_date());
+	auto const dcp_name = String::compose("MyGreatFilm_TST-1_F_XX-XX_MOS_2K_%1_SMPTE_OV", dcp_date);
+	auto const common = String::compose("%1_-_%2_%3_-_%4_%5", dcp_name, from.date(), from_time, until.date(), until_time);
+
 	path const base = "build/test/directory_kdm_naming_test";
 
-	path dir_a = String::compose("Cinema_A_-_%s_-_my_great_film_-_%1_%2_-_%3_%4", from.date(), from_time, until.date(), until_time);
+	path dir_a = String::compose("Cinema_A_-_%s_-_%1", common);
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_a), "Directory " << dir_a << " not found");
-	path dir_b = String::compose("Cinema_B_-_%s_-_my_great_film_-_%1_%2_-_%3_%4", from.date(), from_time, until.date(), until_time);
+	path dir_b = String::compose("Cinema_B_-_%s_-_%1", common);
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_b), "Directory " << dir_b << " not found");
 
 #ifdef DCPOMATIC_WINDOWS
-	path ref = String::compose("KDM_Cinema_A_-_Screen_2_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
+	path ref = String::compose("KDM_%1.xml", dcp_name);
 #else
-	path ref = String::compose("KDM_Cinema_A_-_Screen_2_-_my_great_film_-_%1_%2_-_%3_%4_-_%5.xml", from.date(), from_time, until.date(), until_time, cpl_id);
+	path ref = String::compose("KDM_Cinema_A_-_Screen_2_-_%1_-_%2.xml", common, cpl_id);
 #endif
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_a / ref), "File " << ref << " not found");
 
 #ifdef DCPOMATIC_WINDOWS
-	ref = String::compose("KDM_Cinema_B_-_Screen_X_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
+	ref = String::compose("KDM_%1.xml", dcp_name);
 #else
-	ref = String::compose("KDM_Cinema_B_-_Screen_X_-_my_great_film_-_%1_%2_-_%3_%4_-_%5.xml", from.date(), from_time, until.date(), until_time, cpl_id);
+	ref = String::compose("KDM_Cinema_B_-_Screen_X_-_%1_-_%2.xml", common, cpl_id);
 #endif
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_b / ref), "File " << ref << " not found");
 
 #ifdef DCPOMATIC_WINDOWS
-	ref = String::compose("KDM_Cinema_A_-_Screen_1_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
+	ref = String::compose("KDM_%1.xml", dcp_name);
 #else
-	ref = String::compose("KDM_Cinema_A_-_Screen_1_-_my_great_film_-_%1_%2_-_%3_%4_-_%5.xml", from.date(), from_time, until.date(), until_time, cpl_id);
+	ref = String::compose("KDM_Cinema_A_-_Screen_1_-_%1_-_%2.xml", common, cpl_id);
 #endif
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_a / ref), "File " << ref << " not found");
 
 #ifdef DCPOMATIC_WINDOWS
-	ref = String::compose("KDM_Cinema_B_-_Screen_Z_-_my_great_film_-_%1_%2_-_%3_%4.xml", from.date(), from_time, until.date(), until_time);
+	ref = String::compose("KDM_%1.xml", dcp_name);
 #else
-	ref = String::compose("KDM_Cinema_B_-_Screen_Z_-_my_great_film_-_%1_%2_-_%3_%4_-_%5.xml", from.date(), from_time, until.date(), until_time, cpl_id);
+	ref = String::compose("KDM_Cinema_B_-_Screen_Z_-_%1_-_%2.xml", common, cpl_id);
 #endif
 	BOOST_CHECK_MESSAGE (boost::filesystem::exists(base / dir_b / ref), "File " << ref << " not found");
 }

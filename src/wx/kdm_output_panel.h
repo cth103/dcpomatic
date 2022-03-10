@@ -20,6 +20,7 @@
 
 
 #include "lib/kdm_with_metadata.h"
+#include "wx_util.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>

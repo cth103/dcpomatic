@@ -409,6 +409,10 @@ public:
 		return _luminance;
 	}
 
+	boost::gregorian::date isdcf_date () const {
+		return _isdcf_date;
+	}
+
 
 	/* SET */
 

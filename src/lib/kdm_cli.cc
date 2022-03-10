@@ -374,7 +374,7 @@ from_dkdm (
 			dcp::NameFormat::Map name_values;
 			name_values['c'] = i->cinema ? i->cinema->name : "";
 			name_values['s'] = i->name;
-			name_values['f'] = dkdm.annotation_text().get_value_or("");
+			name_values['f'] = kdm.content_title_text();
 			name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
 			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();

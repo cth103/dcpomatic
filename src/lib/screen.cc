@@ -109,7 +109,7 @@ kdm_for_screen (
 		name_values['c'] = "";
 	}
 	name_values['s'] = screen->name;
-	name_values['f'] = film->name();
+	name_values['f'] = kdm.content_title_text();
 	name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
 	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();

@@ -338,7 +338,7 @@ private:
 						begin,
 						end,
 						decrypted.annotation_text().get_value_or (""),
-						decrypted.content_title_text(),
+						title,
 						dcp::LocalTime().as_string()
 						);
 
