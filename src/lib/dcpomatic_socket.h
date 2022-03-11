@@ -42,6 +42,7 @@ public:
 		return _socket;
 	}
 
+	void set_send_buffer_size (int size);
 	void connect (boost::asio::ip::tcp::endpoint);
 
 	void write (uint32_t n);
@@ -87,4 +88,5 @@ private:
 	int _timeout;
 	boost::scoped_ptr<Digester> _read_digester;
 	boost::scoped_ptr<Digester> _write_digester;
+	boost::optional<int> _send_buffer_size;
 };

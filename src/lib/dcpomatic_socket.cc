@@ -21,6 +21,7 @@
 
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
+#include "dcpomatic_log.h"
 #include "dcpomatic_socket.h"
 #include "exceptions.h"
 #include <boost/bind/bind.hpp>
@@ -75,6 +76,16 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 
 	if (!_socket.is_open ()) {
 		throw NetworkError (_("connect timed out"));
+	}
+
+	if (_send_buffer_size) {
+		boost::asio::socket_base::send_buffer_size old_size;
+		_socket.get_option(old_size);
+
+		boost::asio::socket_base::send_buffer_size new_size(*_send_buffer_size);
+		_socket.set_option(new_size);
+
+		LOG_GENERAL("Changed socket send buffer size from %1 to %2", old_size.value(), *_send_buffer_size);
 	}
 }
 
@@ -241,5 +252,12 @@ Socket::finish_write_digest ()
 	_write_digester.reset ();
 
 	write (buffer, size);
+}
+
+
+void
+Socket::set_send_buffer_size (int size)
+{
+	_send_buffer_size = size;
 }
 
