@@ -143,7 +143,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 			"Content-Type: multipart/mixed; boundary=" + boundary + "\r\n";
 	}
 
-	_email += "Subject: " + _subject + "\r\n"
+	_email += "Subject: " + encode_rfc1342(_subject) + "\r\n"
 		"User-Agent: DCP-o-matic\r\n"
 		"\r\n";
 
@@ -156,9 +156,9 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 	for (auto i: _attachments) {
 		_email += "\r\n\r\n--" + boundary + "\r\n"
-			"Content-Type: " + i.mime_type + "; name=" + i.name + "\r\n"
+			"Content-Type: " + i.mime_type + "; name=" + encode_rfc1342(i.name) + "\r\n"
 			"Content-Transfer-Encoding: Base64\r\n"
-			"Content-Disposition: attachment; filename=" + i.name + "\r\n\r\n";
+			"Content-Disposition: attachment; filename=" + encode_rfc1342(i.name) + "\r\n\r\n";
 
 		auto b64 = BIO_new (BIO_f_base64());
 		if (!b64) {
@@ -270,3 +270,31 @@ Emailer::debug (CURL *, curl_infotype type, char* data, size_t size)
 	}
 	return 0;
 }
+
+
+string
+Emailer::encode_rfc1342 (string subject)
+{
+	auto b64 = BIO_new(BIO_f_base64());
+	if (!b64) {
+		throw std::bad_alloc();
+	}
+
+	auto bio = BIO_new(BIO_s_mem());
+	if (!bio) {
+		throw std::bad_alloc();
+	}
+
+	bio = BIO_push(b64, bio);
+	BIO_write(bio, subject.c_str(), subject.length());
+	(void) BIO_flush(bio);
+
+	char* out;
+	long int bytes = BIO_get_mem_data(bio, &out);
+	string base64_subject(out, bytes);
+	BIO_free_all(b64);
+
+	boost::algorithm::replace_all(base64_subject, "\n", "");
+	return "=?utf-8?B?" + base64_subject + "?=";
+}
+
