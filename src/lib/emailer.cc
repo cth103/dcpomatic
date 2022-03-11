@@ -161,8 +161,14 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 			"Content-Disposition: attachment; filename=" + i.name + "\r\n\r\n";
 
 		auto b64 = BIO_new (BIO_f_base64());
+		if (!b64) {
+			throw std::bad_alloc();
+		}
 
 		auto bio = BIO_new (BIO_s_mem());
+		if (!bio) {
+			throw std::bad_alloc();
+		}
 		bio = BIO_push (b64, bio);
 
 		ArrayData data (i.file);
