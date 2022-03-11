@@ -109,10 +109,10 @@ ScreensPanel::setup_sensitivity ()
 	bool const sc = _selected_cinemas.size() == 1;
 	bool const ss = _selected_screens.size() == 1;
 
-	_edit_cinema->Enable (sc);
+	_edit_cinema->Enable (sc || ss);
 	_remove_cinema->Enable (_selected_cinemas.size() >= 1);
 
-	_add_screen->Enable (sc);
+	_add_screen->Enable (sc || ss);
 	_edit_screen->Enable (ss);
 	_remove_screen->Enable (_selected_screens.size() >= 1);
 }
@@ -181,26 +181,38 @@ ScreensPanel::add_cinema_clicked ()
 }
 
 
+optional<pair<wxTreeListItem, shared_ptr<Cinema>>>
+ScreensPanel::cinema_for_operation () const
+{
+	if (_selected_cinemas.size() == 1) {
+		return make_pair(_selected_cinemas.begin()->first, _selected_cinemas.begin()->second);
+	} else if (_selected_screens.size() == 1) {
+		return make_pair(_targets->GetItemParent(_selected_screens.begin()->first), _selected_screens.begin()->second->cinema);
+	}
+
+	return {};
+}
+
+
 void
 ScreensPanel::edit_cinema_clicked ()
 {
-	if (_selected_cinemas.size() != 1) {
+	auto cinema = cinema_for_operation ();
+	if (!cinema) {
 		return;
 	}
 
-	auto c = *_selected_cinemas.begin();
-
 	auto d = new CinemaDialog (
-		GetParent(), _("Edit cinema"), c.second->name, c.second->emails, c.second->notes, c.second->utc_offset_hour(), c.second->utc_offset_minute()
+		GetParent(), _("Edit cinema"), cinema->second->name, cinema->second->emails, cinema->second->notes, cinema->second->utc_offset_hour(), cinema->second->utc_offset_minute()
 		);
 
 	if (d->ShowModal() == wxID_OK) {
-		c.second->name = d->name ();
-		c.second->emails = d->emails ();
-		c.second->notes = d->notes ();
-		c.second->set_utc_offset_hour (d->utc_offset_hour ());
-		c.second->set_utc_offset_minute (d->utc_offset_minute ());
-		_targets->SetItemText (c.first, std_to_wx (d->name()));
+		cinema->second->name = d->name ();
+		cinema->second->emails = d->emails ();
+		cinema->second->notes = d->notes ();
+		cinema->second->set_utc_offset_hour (d->utc_offset_hour ());
+		cinema->second->set_utc_offset_minute (d->utc_offset_minute ());
+		_targets->SetItemText (cinema->first, std_to_wx(d->name()));
 		Config::instance()->changed (Config::CINEMAS);
 	}
 
@@ -233,11 +245,10 @@ ScreensPanel::remove_cinema_clicked ()
 void
 ScreensPanel::add_screen_clicked ()
 {
-	if (_selected_cinemas.size() != 1) {
+	auto cinema = cinema_for_operation ();
+	if (!cinema) {
 		return;
 	}
-
-	auto c = _selected_cinemas.begin()->second;
 
 	auto d = new ScreenDialog (GetParent(), _("Add Screen"));
 	if (d->ShowModal () != wxID_OK) {
@@ -245,7 +256,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	for (auto i: c->screens ()) {
+	for (auto i: cinema->second->screens()) {
 		if (i->name == d->name()) {
 			error_dialog (
 				GetParent(),
@@ -258,9 +269,9 @@ ScreensPanel::add_screen_clicked ()
 		}
 	}
 
-	auto s = std::make_shared<Screen>(d->name(), d->notes(), d->recipient(), d->recipient_file(), d->trusted_devices());
-	c->add_screen (s);
-	auto id = add_screen (c, s);
+	auto screen = std::make_shared<Screen>(d->name(), d->notes(), d->recipient(), d->recipient_file(), d->trusted_devices());
+	cinema->second->add_screen (screen);
+	auto id = add_screen (cinema->second, screen);
 	if (id) {
 		_targets->Expand (id.get ());
 	}

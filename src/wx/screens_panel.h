@@ -80,6 +80,7 @@ private:
 	void selection_changed ();
 	void search_changed ();
 	void checkbox_changed (wxTreeListEvent& ev);
+	boost::optional<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> cinema_for_operation () const;
 
 	wxSearchCtrl* _search;
 	TreeListCtrl* _targets;
