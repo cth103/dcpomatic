@@ -119,25 +119,25 @@ ScreensPanel::setup_sensitivity ()
 
 
 optional<wxTreeListItem>
-ScreensPanel::add_cinema (shared_ptr<Cinema> c)
+ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
 {
 	auto search = wx_to_std (_search->GetValue ());
 	transform (search.begin(), search.end(), search.begin(), ::tolower);
 
 	if (!search.empty ()) {
-		auto name = c->name;
+		auto name = cinema->name;
 		transform (name.begin(), name.end(), name.begin(), ::tolower);
 		if (name.find (search) == string::npos) {
 			return {};
 		}
 	}
 
-	auto id = _targets->AppendItem(_targets->GetRootItem(), std_to_wx(c->name));
+	auto id = _targets->AppendItem(_targets->GetRootItem(), std_to_wx(cinema->name));
 
-	_cinemas[id] = c;
+	_cinemas[id] = cinema;
 
-	for (auto i: c->screens()) {
-		add_screen (c, i);
+	for (auto screen: cinema->screens()) {
+		add_screen (cinema, screen);
 	}
 
 	_targets->SetSortColumn (0);
@@ -147,19 +147,19 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> c)
 
 
 optional<wxTreeListItem>
-ScreensPanel::add_screen (shared_ptr<Cinema> c, shared_ptr<Screen> s)
+ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 {
-	auto i = _cinemas.begin();
-	while (i != _cinemas.end() && i->second != c) {
-		++i;
+	auto cinema_iter = _cinemas.begin();
+	while (cinema_iter != _cinemas.end() && cinema_iter->second != cinema) {
+		++cinema_iter;
 	}
 
-	if (i == _cinemas.end()) {
+	if (cinema_iter == _cinemas.end()) {
 		return {};
 	}
 
-	_screens[_targets->AppendItem (i->first, std_to_wx (s->name))] = s;
-	return i->first;
+	_screens[_targets->AppendItem(cinema_iter->first, std_to_wx(screen->name))] = screen;
+	return cinema_iter->first;
 }
 
 
@@ -168,9 +168,9 @@ ScreensPanel::add_cinema_clicked ()
 {
 	auto d = new CinemaDialog (GetParent(), _("Add Cinema"));
 	if (d->ShowModal () == wxID_OK) {
-		auto c = make_shared<Cinema>(d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute());
-		Config::instance()->add_cinema (c);
-		auto id = add_cinema (c);
+		auto cinema = make_shared<Cinema>(d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute());
+		Config::instance()->add_cinema (cinema);
+		auto id = add_cinema (cinema);
 		if (id) {
 			_targets->UnselectAll ();
 			_targets->Select (*id);
@@ -256,8 +256,8 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	for (auto i: cinema->second->screens()) {
-		if (i->name == d->name()) {
+	for (auto screen: cinema->second->screens()) {
+		if (screen->name == d->name()) {
 			error_dialog (
 				GetParent(),
 				wxString::Format (
@@ -289,17 +289,25 @@ ScreensPanel::edit_screen_clicked ()
 		return;
 	}
 
-	auto s = *_selected_screens.begin();
+	auto edit_screen = *_selected_screens.begin();
 
-	auto d = new ScreenDialog (GetParent(), _("Edit screen"), s.second->name, s.second->notes, s.second->recipient, s.second->recipient_file, s.second->trusted_devices);
+	auto d = new ScreenDialog (
+		GetParent(), _("Edit screen"),
+		edit_screen.second->name,
+		edit_screen.second->notes,
+		edit_screen.second->recipient,
+		edit_screen.second->recipient_file,
+		edit_screen.second->trusted_devices
+		);
+
 	if (d->ShowModal() != wxID_OK) {
 		d->Destroy ();
 		return;
 	}
 
-	auto c = s.second->cinema;
-	for (auto i: c->screens ()) {
-		if (i != s.second && i->name == d->name()) {
+	auto cinema = edit_screen.second->cinema;
+	for (auto screen: cinema->screens()) {
+		if (screen != edit_screen.second && screen->name == d->name()) {
 			error_dialog (
 				GetParent(),
 				wxString::Format (
@@ -311,12 +319,12 @@ ScreensPanel::edit_screen_clicked ()
 		}
 	}
 
-	s.second->name = d->name ();
-	s.second->notes = d->notes ();
-	s.second->recipient = d->recipient ();
-	s.second->recipient_file = d->recipient_file ();
-	s.second->trusted_devices = d->trusted_devices ();
-	_targets->SetItemText (s.first, std_to_wx (d->name()));
+	edit_screen.second->name = d->name ();
+	edit_screen.second->notes = d->notes ();
+	edit_screen.second->recipient = d->recipient ();
+	edit_screen.second->recipient_file = d->recipient_file ();
+	edit_screen.second->trusted_devices = d->trusted_devices ();
+	_targets->SetItemText (edit_screen.first, std_to_wx(d->name()));
 	Config::instance()->changed (Config::CINEMAS);
 
 	d->Destroy ();
@@ -398,13 +406,13 @@ ScreensPanel::selection_changed ()
 	_selected_screens.clear ();
 
 	for (size_t i = 0; i < s.size(); ++i) {
-		auto j = _cinemas.find (s[i]);
-		if (j != _cinemas.end ()) {
-			_selected_cinemas[j->first] = j->second;
+		auto cinema = _cinemas.find (s[i]);
+		if (cinema != _cinemas.end ()) {
+			_selected_cinemas[cinema->first] = cinema->second;
 		}
-		auto k = _screens.find (s[i]);
-		if (k != _screens.end ()) {
-			_selected_screens[k->first] = k->second;
+		auto screen = _screens.find (s[i]);
+		if (screen != _screens.end ()) {
+			_selected_screens[screen->first] = screen->second;
 		}
 	}
 
@@ -415,8 +423,8 @@ ScreensPanel::selection_changed ()
 void
 ScreensPanel::add_cinemas ()
 {
-	for (auto i: Config::instance()->cinemas()) {
-		add_cinema (i);
+	for (auto cinema: Config::instance()->cinemas()) {
+		add_cinema (cinema);
 	}
 }
 
@@ -432,26 +440,26 @@ ScreensPanel::search_changed ()
 
 	_ignore_selection_change = true;
 
-	for (auto const& i: _selected_cinemas) {
+	for (auto const& selection: _selected_cinemas) {
 		/* The wxTreeListItems will now be different, so we must search by cinema */
-		auto j = _cinemas.begin ();
-		while (j != _cinemas.end() && j->second != i.second) {
-			++j;
+		auto cinema = _cinemas.begin ();
+		while (cinema != _cinemas.end() && cinema->second != selection.second) {
+			++cinema;
 		}
 
-		if (j != _cinemas.end()) {
-			_targets->Select (j->first);
+		if (cinema != _cinemas.end()) {
+			_targets->Select (cinema->first);
 		}
 	}
 
-	for (auto const& i: _selected_screens) {
-		auto j = _screens.begin ();
-		while (j != _screens.end() && j->second != i.second) {
-			++j;
+	for (auto const& selection: _selected_screens) {
+		auto screen = _screens.begin ();
+		while (screen != _screens.end() && screen->second != selection.second) {
+			++screen;
 		}
 
-		if (j != _screens.end()) {
-			_targets->Select (j->first);
+		if (screen != _screens.end()) {
+			_targets->Select (screen->first);
 		}
 	}
 
