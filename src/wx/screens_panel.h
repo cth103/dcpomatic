@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2015-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2015-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,6 +18,7 @@
 
 */
 
+
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -27,6 +28,7 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 #include <list>
 #include <map>
+
 
 namespace dcpomatic {
 	class Screen;
@@ -63,6 +65,12 @@ private:
 	void checkbox_changed (wxTreeListEvent& ev);
 	boost::optional<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> cinema_for_operation () const;
 
+	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> Cinemas;
+	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>>> Screens;
+
+	Cinemas::iterator cinema_by_tree_list_item (wxTreeListItem item);
+	Screens::const_iterator screen_by_tree_list_item (wxTreeListItem item) const;
+
 	wxSearchCtrl* _search;
 	wxTreeListCtrl* _targets;
 	wxButton* _add_cinema;
@@ -72,13 +80,10 @@ private:
 	wxButton* _edit_screen;
 	wxButton* _remove_screen;
 
-	typedef std::map<wxTreeListItem, std::shared_ptr<Cinema>> CinemaMap;
-	typedef std::map<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>> ScreenMap;
-
-	CinemaMap _cinemas;
-	ScreenMap _screens;
-	CinemaMap _selected_cinemas;
-	ScreenMap _selected_screens;
+	Cinemas _cinemas;
+	Screens _screens;
+	Cinemas _selected_cinemas;
+	Screens _selected_screens;
 
 	bool _ignore_selection_change;
 
