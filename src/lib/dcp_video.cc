@@ -212,6 +212,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	auto socket = make_shared<Socket>(timeout);
+	socket->set_send_buffer_size (512 * 1024);
 
 	socket->connect (*endpoint_iterator);
 
