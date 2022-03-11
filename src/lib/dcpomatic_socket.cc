@@ -18,18 +18,21 @@
 
 */
 
-#include "dcpomatic_socket.h"
+
 #include "compose.hpp"
-#include "exceptions.h"
 #include "dcpomatic_assert.h"
+#include "dcpomatic_socket.h"
+#include "exceptions.h"
 #include <boost/bind/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
+
 using std::shared_ptr;
 using std::weak_ptr;
+
 
 /** @param timeout Timeout in seconds */
 Socket::Socket (int timeout)
@@ -52,6 +55,7 @@ Socket::check ()
 	_deadline.async_wait (boost::bind (&Socket::check, this));
 }
 
+
 /** Blocking connect.
  *  @param endpoint End-point to connect to.
  */
@@ -73,6 +77,7 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 		throw NetworkError (_("connect timed out"));
 	}
 }
+
 
 /** Blocking write.
  *  @param data Buffer to write.
@@ -99,12 +104,14 @@ Socket::write (uint8_t const * data, int size)
 	}
 }
 
+
 void
 Socket::write (uint32_t v)
 {
 	v = htonl (v);
 	write (reinterpret_cast<uint8_t*> (&v), 4);
 }
+
 
 /** Blocking read.
  *  @param data Buffer to read to.
@@ -131,6 +138,7 @@ Socket::read (uint8_t* data, int size)
 	}
 }
 
+
 uint32_t
 Socket::read_uint32 ()
 {
@@ -146,6 +154,7 @@ Socket::start_read_digest ()
 	DCPOMATIC_ASSERT (!_read_digester);
 	_read_digester.reset (new Digester());
 }
+
 
 void
 Socket::start_write_digest ()
@@ -165,7 +174,7 @@ Socket::ReadDigestScope::ReadDigestScope (shared_ptr<Socket> socket)
 bool
 Socket::ReadDigestScope::check ()
 {
-	shared_ptr<Socket> sp = _socket.lock ();
+	auto sp = _socket.lock ();
 	if (!sp) {
 		return false;
 	}
@@ -183,7 +192,7 @@ Socket::WriteDigestScope::WriteDigestScope (shared_ptr<Socket> socket)
 
 Socket::WriteDigestScope::~WriteDigestScope ()
 {
-	shared_ptr<Socket> sp = _socket.lock ();
+	auto sp = _socket.lock ();
 	if (sp) {
 		try {
 			sp->finish_write_digest ();
@@ -215,6 +224,7 @@ Socket::check_read_digest ()
 
 	return memcmp(ref, actual, size) == 0;
 }
+
 
 void
 Socket::finish_write_digest ()
