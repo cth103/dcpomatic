@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -22,12 +22,14 @@
  *  @brief Class holding configuration.
  */
 
+
 #ifndef DCPOMATIC_CONFIG_H
 #define DCPOMATIC_CONFIG_H
 
-#include "types.h"
-#include "state.h"
+
 #include "audio_mapping.h"
+#include "state.h"
+#include "types.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
@@ -36,13 +38,14 @@
 #include <boost/filesystem.hpp>
 #include <vector>
 
+
+class Cinema;
 class CinemaSoundProcessor;
 class DCPContentType;
-class Ratio;
-class Cinema;
-class Film;
 class DKDMGroup;
 class DKDMRecipient;
+class Film;
+class Ratio;
 
 
 extern void save_all_config_as_zip (boost::filesystem::path zip_file);
