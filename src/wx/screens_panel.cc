@@ -55,9 +55,10 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
-	_targets = new TreeListCtrl (this);
+	_targets = new wxTreeListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER);
 	_targets->AppendColumn (wxT("foo"));
 	_targets->SetSortColumn (0);
+	_targets->SetItemComparator (&_comparator);
 
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
@@ -499,17 +500,6 @@ ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
 	}
 
 	ScreensChanged ();
-}
-
-
-
-wxIMPLEMENT_DYNAMIC_CLASS (TreeListCtrl, wxTreeListCtrl);
-
-
-int
-TreeListCtrl::OnCompareItems (wxTreeListItem const& a, wxTreeListItem const& b)
-{
-	return strcoll (wx_to_std(GetItemText(a)).c_str(), wx_to_std(GetItemText(b)).c_str());
 }
 
 

@@ -36,25 +36,6 @@ namespace dcpomatic {
 class Cinema;
 
 
-/** Shim around wxTreeListCtrl so we can use strcoll() to compare things */
-class TreeListCtrl : public wxTreeListCtrl
-{
-public:
-	wxDECLARE_DYNAMIC_CLASS (TreeListCtrl);
-
-	TreeListCtrl () {}
-
-	TreeListCtrl (wxWindow* parent)
-		: wxTreeListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER)
-	{}
-
-	virtual ~TreeListCtrl () {}
-
-private:
-	int OnCompareItems (wxTreeListItem const& a, wxTreeListItem const& b);
-};
-
-
 class ScreensPanel : public wxPanel
 {
 public:
@@ -83,7 +64,7 @@ private:
 	boost::optional<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> cinema_for_operation () const;
 
 	wxSearchCtrl* _search;
-	TreeListCtrl* _targets;
+	wxTreeListCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;
 	wxButton* _remove_cinema;
@@ -100,4 +81,15 @@ private:
 	ScreenMap _selected_screens;
 
 	bool _ignore_selection_change;
+
+	class Comparator : public wxTreeListItemComparator
+	{
+	public:
+		int Compare (wxTreeListCtrl* tree_list, unsigned, wxTreeListItem a, wxTreeListItem b) override
+		{
+			return strcoll(wx_to_std(tree_list->GetItemText(a)).c_str(), wx_to_std(tree_list->GetItemText(b)).c_str());
+		}
+	};
+
+	Comparator _comparator;
 };
