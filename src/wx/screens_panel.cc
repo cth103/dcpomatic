@@ -57,6 +57,8 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new TreeListCtrl (this);
 	_targets->AppendColumn (wxT("foo"));
+	_targets->SetSortColumn (0);
+
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	add_cinemas ();
@@ -139,8 +141,6 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
 	for (auto screen: cinema->screens()) {
 		add_screen (cinema, screen);
 	}
-
-	_targets->SetSortColumn (0);
 
 	return id;
 }
