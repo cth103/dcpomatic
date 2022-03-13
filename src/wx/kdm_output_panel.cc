@@ -153,16 +153,33 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 		break;
 	}
 
-	_write_to->SetValue (true);
+	_write_to->SetValue (Config::instance()->write_kdms_to_disk());
+	_email->SetValue (Config::instance()->email_kdms());
 
-	_write_to->Bind     (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
-	_email->Bind        (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::setup_sensitivity, this));
+	_write_to->Bind     (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::write_to_changed, this));
+	_email->Bind        (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::email_changed, this));
 	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	advanced->Bind      (wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
 
 	SetSizer (table);
+}
+
+
+void
+KDMOutputPanel::write_to_changed ()
+{
+	Config::instance()->set_write_kdms_to_disk(_write_to->GetValue());
+	setup_sensitivity ();
+}
+
+
+void
+KDMOutputPanel::email_changed ()
+{
+	Config::instance()->set_email_kdms(_email->GetValue());
+	setup_sensitivity ();
 }
 
 

@@ -60,6 +60,8 @@ public:
 private:
 	void kdm_write_type_changed ();
 	void advanced_clicked ();
+	void write_to_changed ();
+	void email_changed ();
 
 	wxChoice* _type;
 	NameFormatEditor* _container_name_format;
