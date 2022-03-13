@@ -702,6 +702,8 @@ VideoPanel::scale_fit_clicked ()
 		i->video->set_custom_ratio (optional<float>());
 		i->video->set_custom_size (optional<dcp::Size>());
 	}
+
+	setup_sensitivity ();
 }
 
 
@@ -711,6 +713,8 @@ VideoPanel::scale_custom_clicked ()
 	if (!scale_custom_edit_clicked()) {
 		_scale_fit->SetValue (true);
 	}
+
+	setup_sensitivity ();
 }
 
 
