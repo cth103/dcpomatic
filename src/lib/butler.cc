@@ -149,7 +149,7 @@ Butler::should_run () const
 
 	if (_audio.size() >= MAXIMUM_AUDIO_READAHEAD * 10) {
 		/* This is way too big */
-		optional<DCPTime> pos = _audio.peek();
+		auto pos = _audio.peek();
 		if (pos) {
 			throw ProgrammingError
 				(__FILE__, __LINE__, String::compose ("Butler audio buffers reached %1 frames at %2 (video is %3)", _audio.size(), pos->get(), _video.size()));
