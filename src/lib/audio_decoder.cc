@@ -69,22 +69,20 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 		time += ContentTime::from_seconds (_content->delay() / 1000.0);
 	}
 
-	auto reset = false;
-	if (_positions[stream] == 0) {
-		/* This is the first data we have received since initialisation or seek.  Set
-		   the position based on the ContentTime that was given.  After this first time
-		   we just count samples unless the timestamp is more than slack_frames away
-		   from where we think it should be.  This is because ContentTimes seem to be
-		   slightly unreliable from FFmpegDecoder (i.e. not sample accurate), but we still
-		   need to obey them sometimes otherwise we get sync problems such as #1833.
-		*/
-		if (_content->delay() > 0) {
-			/* Insert silence to give the delay */
-			silence (_content->delay ());
-		}
-		reset = true;
-	} else if (std::abs(_positions[stream] - time.frames_round(resampled_rate)) > slack_frames) {
-		reset = true;
+	/* first_since_seek is set to true if this is the first data we have
+	   received since initialisation or seek.  We'll set the position based
+	   on the ContentTime that was given.  After this first time we just
+	   count samples unless the timestamp is more than slack_frames away
+	   from where we think it should be.  This is because ContentTimes seem
+	   to be slightly unreliable from FFmpegDecoder (i.e.  not sample
+	   accurate), but we still need to obey them sometimes otherwise we get
+	   sync problems such as #1833.
+	*/
+
+	auto const first_since_seek = _positions[stream] == 0;
+	auto const need_reset = !first_since_seek && (std::abs(_positions[stream] - time.frames_round(resampled_rate)) > slack_frames);
+
+	if (need_reset) {
 		LOG_GENERAL (
 			"Reset audio position: was %1, new data at %2, slack: %3 frames",
 			_positions[stream],
@@ -93,8 +91,12 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 			);
 	}
 
-	if (reset) {
+	if (first_since_seek || need_reset) {
 		_positions[stream] = time.frames_round (resampled_rate);
+	}
+
+	if (first_since_seek && _content->delay() > 0) {
+		silence (stream, _content->delay());
 	}
 
 	shared_ptr<Resampler> resampler;
@@ -183,18 +185,18 @@ AudioDecoder::flush ()
 
 	if (_content->delay() < 0) {
 		/* Finish off with the gap caused by the delay */
-		silence (-_content->delay ());
+		for (auto stream: _content->streams()) {
+			silence (stream, -_content->delay());
+		}
 	}
 }
 
 
 void
-AudioDecoder::silence (int milliseconds)
+AudioDecoder::silence (AudioStreamPtr stream, int milliseconds)
 {
-	for (auto i: _content->streams()) {
-		int const samples = ContentTime::from_seconds(milliseconds / 1000.0).frames_round(i->frame_rate());
-		auto silence = make_shared<AudioBuffers>(i->channels(), samples);
-		silence->make_silent ();
-		Data (i, ContentAudio (silence, _positions[i]));
-	}
+	int const samples = ContentTime::from_seconds(milliseconds / 1000.0).frames_round(stream->frame_rate());
+	auto silence = make_shared<AudioBuffers>(stream->channels(), samples);
+	silence->make_silent ();
+	Data (stream, ContentAudio(silence, _positions[stream]));
 }

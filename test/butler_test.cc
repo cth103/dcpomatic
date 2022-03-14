@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2017-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2017-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,13 +19,14 @@
 */
 
 
-#include "lib/butler.h"
-#include "lib/film.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
-#include "lib/content_factory.h"
+#include "lib/audio_content.h"
 #include "lib/audio_mapping.h"
+#include "lib/butler.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
+#include "lib/film.h"
 #include "lib/player.h"
+#include "lib/ratio.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -77,3 +78,38 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		BOOST_REQUIRE_EQUAL (buffer[i * 6 + 5], 0);
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE (butler_test2)
+{
+	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv");
+	BOOST_REQUIRE (!content.empty());
+	auto film = new_test_film2 ("butler_test2", { content.front() });
+	BOOST_REQUIRE (content.front()->audio);
+	content.front()->audio->set_delay(100);
+
+	/* This is the map of the player output (5.1) to the butler output (also 5.1) */
+	auto map = AudioMapping (6, 6);
+	for (int i = 0; i < 6; ++i) {
+		map.set (i, i, 1);
+	}
+
+	Butler butler (film, make_shared<Player>(film, Image::Alignment::COMPACT), map, 6, bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, false, false);
+
+	int const audio_frames_per_video_frame = 48000 / 25;
+	float audio_buffer[audio_frames_per_video_frame * 6];
+	for (int i = 0; i < 16; ++i) {
+		butler.get_video(Butler::Behaviour::BLOCKING, 0);
+		butler.get_audio(Butler::Behaviour::BLOCKING, audio_buffer, audio_frames_per_video_frame);
+	}
+
+	butler.seek (DCPTime::from_seconds(60), false);
+
+	for (int i = 0; i < 240; ++i) {
+		butler.get_video(Butler::Behaviour::BLOCKING, 0);
+		butler.get_audio(Butler::Behaviour::BLOCKING, audio_buffer, audio_frames_per_video_frame);
+	}
+
+	butler.rethrow();
+}
+

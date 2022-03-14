@@ -61,7 +61,7 @@ public:
 	boost::signals2::signal<void (AudioStreamPtr, ContentAudio)> Data;
 
 private:
-	void silence (int milliseconds);
+	void silence (AudioStreamPtr stream, int milliseconds);
 
 	std::shared_ptr<const AudioContent> _content;
 	/** Frame after the last one that was emitted from Data (i.e. at the resampled rate, if applicable)
