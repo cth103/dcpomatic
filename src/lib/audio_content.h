@@ -61,10 +61,9 @@ public:
 	int resampled_frame_rate (std::shared_ptr<const Film> film) const;
 	std::vector<NamedChannel> channel_names () const;
 
-	/** Set gain in dB.
-	 *  @param double g New gain in dB.
-	 */
-	void set_gain (double g);
+	/** Set gain in dB */
+	void set_gain (double);
+	/** Set delay in milliseconds (positive moves audio later) */
 	void set_delay (int);
 
 	double gain () const {
