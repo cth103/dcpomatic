@@ -27,6 +27,11 @@
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/screen.h"
+#include <unicode/putil.h>
+#include <unicode/ucol.h>
+#include <unicode/uiter.h>
+#include <unicode/utypes.h>
+#include <unicode/ustring.h>
 
 
 using std::cout;
@@ -523,3 +528,38 @@ ScreensPanel::screen_by_tree_list_item (wxTreeListItem item) const
 		);
 }
 
+
+ScreensPanel::Comparator::Comparator ()
+{
+	UErrorCode status = U_ZERO_ERROR;
+	_collator = ucol_open(nullptr, &status);
+	if (_collator) {
+		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
+		ucol_setAttribute(_collator, UCOL_STRENGTH, UCOL_PRIMARY, &status);
+		ucol_setAttribute(_collator, UCOL_ALTERNATE_HANDLING, UCOL_SHIFTED, &status);
+	}
+}
+
+ScreensPanel::Comparator::~Comparator ()
+{
+	if (_collator) {
+		ucol_close (_collator);
+	}
+}
+
+int
+ScreensPanel::Comparator::Compare (wxTreeListCtrl* tree_list, unsigned, wxTreeListItem a, wxTreeListItem b)
+{
+	auto utf8_a = wx_to_std(tree_list->GetItemText(a));
+	auto utf8_b = wx_to_std(tree_list->GetItemText(b));
+	if (_collator) {
+		UErrorCode error = U_ZERO_ERROR;
+		boost::scoped_array<uint16_t> utf16_a(new uint16_t[utf8_a.size() + 1]);
+		u_strFromUTF8(reinterpret_cast<UChar*>(utf16_a.get()), utf8_a.size() + 1, nullptr, utf8_a.c_str(), -1, &error);
+		boost::scoped_array<uint16_t> utf16_b(new uint16_t[utf8_b.size() + 1]);
+		u_strFromUTF8(reinterpret_cast<UChar*>(utf16_b.get()), utf8_b.size() + 1, nullptr, utf8_b.c_str(), -1, &error);
+		return ucol_strcoll(_collator, reinterpret_cast<UChar*>(utf16_a.get()), -1, reinterpret_cast<UChar*>(utf16_b.get()), -1);
+	} else {
+		return strcoll(utf8_a.c_str(), utf8_b.c_str());
+	}
+}

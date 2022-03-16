@@ -36,6 +36,7 @@ namespace dcpomatic {
 
 
 class Cinema;
+class UCollator;
 
 
 class ScreensPanel : public wxPanel
@@ -90,10 +91,13 @@ private:
 	class Comparator : public wxTreeListItemComparator
 	{
 	public:
-		int Compare (wxTreeListCtrl* tree_list, unsigned, wxTreeListItem a, wxTreeListItem b) override
-		{
-			return strcoll(wx_to_std(tree_list->GetItemText(a)).c_str(), wx_to_std(tree_list->GetItemText(b)).c_str());
-		}
+		Comparator ();
+		~Comparator ();
+
+		int Compare (wxTreeListCtrl* tree_list, unsigned, wxTreeListItem a, wxTreeListItem b) override;
+
+	private:
+		UCollator* _collator;
 	};
 
 	Comparator _comparator;
