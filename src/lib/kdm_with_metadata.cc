@@ -19,24 +19,25 @@
 */
 
 
-#include "kdm_with_metadata.h"
 #include "cinema.h"
+#include "config.h"
+#include "cross.h"
+#include "dcpomatic_log.h"
+#include "emailer.h"
+#include "kdm_with_metadata.h"
 #include "screen.h"
 #include "util.h"
 #include "zipper.h"
-#include "config.h"
-#include "dcpomatic_log.h"
-#include "emailer.h"
 
 #include "i18n.h"
 
 
-using std::string;
 using std::cout;
+using std::function;
 using std::list;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
-using std::function;
 
 
 int
@@ -65,7 +66,7 @@ write_files (
 
 	/* Write KDMs to the specified directory */
 	for (auto i: kdms) {
-		auto out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
+		auto out = fix_long_path(directory / careful_string_filter(name_format.get(i->name_values(), ".xml")));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
 			i->kdm_as_xml (out);
 			++written;
@@ -145,7 +146,7 @@ write_directories (
 	int written = 0;
 
 	for (auto const& i: kdms) {
-		boost::filesystem::path path = directory;
+		auto path = directory;
 		path /= container_name_format.get(i.front()->name_values(), "", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
