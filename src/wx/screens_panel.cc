@@ -143,6 +143,7 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
 	auto id = _targets->AppendItem(_targets->GetRootItem(), std_to_wx(cinema->name));
 
 	_cinemas.push_back(make_pair(id, cinema));
+	_item_to_cinema[id] = cinema;
 
 	for (auto screen: cinema->screens()) {
 		add_screen (cinema, screen);
@@ -164,7 +165,11 @@ ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 		return {};
 	}
 
-	_screens.push_back(make_pair(_targets->AppendItem(cinema_iter->first, std_to_wx(screen->name)), screen));
+	auto id = _targets->AppendItem(cinema_iter->first, std_to_wx(screen->name));
+
+	_screens.push_back(make_pair(id, screen));
+	_item_to_screen[id] = screen;
+
 	return cinema_iter->first;
 }
 
@@ -380,9 +385,8 @@ ScreensPanel::screens () const
 
 	for (auto item = _targets->GetFirstItem(); item.IsOk(); item = _targets->GetNextItem(item)) {
 		if (_targets->GetCheckedState(item) == wxCHK_CHECKED) {
-			auto screen_iter = screen_by_tree_list_item(item);
-			if (screen_iter != _screens.end()) {
-				output.push_back (screen_iter->second);
+			if (auto screen = item_to_screen(item)) {
+				output.push_back (screen);
 			}
 		}
 	}
@@ -412,13 +416,11 @@ ScreensPanel::selection_changed ()
 	_selected_screens.clear ();
 
 	for (size_t i = 0; i < selection.size(); ++i) {
-		auto cinema = cinema_by_tree_list_item(selection[i]);
-		if (cinema != _cinemas.end ()) {
-			_selected_cinemas.push_back(*cinema);
+		if (auto cinema = item_to_cinema(selection[i])) {
+			_selected_cinemas.push_back(make_pair(selection[i], cinema));
 		}
-		auto screen = screen_by_tree_list_item(selection[i]);
-		if (screen != _screens.end ()) {
-			_selected_screens.push_back(*screen);
+		if (auto screen = item_to_screen(selection[i])) {
+			_selected_screens.push_back(make_pair(selection[i], screen));
 		}
 	}
 
@@ -442,6 +444,8 @@ ScreensPanel::search_changed ()
 	_cinemas.clear ();
 	_screens.clear ();
 
+	_item_to_cinema.clear ();
+	_item_to_screen.clear ();
 	add_cinemas ();
 
 	_ignore_selection_change = true;
@@ -476,8 +480,7 @@ ScreensPanel::search_changed ()
 void
 ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
 {
-	auto cinema_iter = cinema_by_tree_list_item(ev.GetItem());
-	if (cinema_iter != _cinemas.end()) {
+	if (item_to_cinema(ev.GetItem())) {
 		/* Cinema: check/uncheck all children */
 		auto const checked = _targets->GetCheckedState(ev.GetItem());
 		for (auto child = _targets->GetFirstChild(ev.GetItem()); child.IsOk(); child = _targets->GetNextSibling(child)) {
@@ -509,23 +512,27 @@ ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
 }
 
 
-ScreensPanel::Cinemas::iterator
-ScreensPanel::cinema_by_tree_list_item (wxTreeListItem item)
+shared_ptr<Cinema>
+ScreensPanel::item_to_cinema (wxTreeListItem item) const
 {
-	return std::find_if(
-		_cinemas.begin(), _cinemas.end(),
-		[item](pair<wxTreeListItem, shared_ptr<Cinema>> const& s) { return s.first == item; }
-		);
+	auto iter = _item_to_cinema.find (item);
+	if (iter == _item_to_cinema.end()) {
+		return {};
+	}
+
+	return iter->second;
 }
 
 
-ScreensPanel::Screens::const_iterator
-ScreensPanel::screen_by_tree_list_item (wxTreeListItem item) const
+shared_ptr<Screen>
+ScreensPanel::item_to_screen (wxTreeListItem item) const
 {
-	return std::find_if(
-		_screens.begin(), _screens.end(),
-		[item](pair<wxTreeListItem, shared_ptr<Screen>> const& s) { return s.first == item; }
-		);
+	auto iter = _item_to_screen.find (item);
+	if (iter == _item_to_screen.end()) {
+		return {};
+	}
+
+	return iter->second;
 }
 
 

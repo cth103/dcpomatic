@@ -69,8 +69,8 @@ private:
 	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> Cinemas;
 	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>>> Screens;
 
-	Cinemas::iterator cinema_by_tree_list_item (wxTreeListItem item);
-	Screens::const_iterator screen_by_tree_list_item (wxTreeListItem item) const;
+	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
+	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;
 
 	wxSearchCtrl* _search;
 	wxTreeListCtrl* _targets;
@@ -85,6 +85,9 @@ private:
 	Screens _screens;
 	Cinemas _selected_cinemas;
 	Screens _selected_screens;
+
+	std::map<wxTreeListItem, std::shared_ptr<Cinema>> _item_to_cinema;
+	std::map<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>> _item_to_screen;
 
 	bool _ignore_selection_change;
 
