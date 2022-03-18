@@ -93,7 +93,7 @@ private:
 	std::map<std::shared_ptr<Cinema>, wxTreeListItem> _cinema_to_item;
 	std::map<std::shared_ptr<dcpomatic::Screen>, wxTreeListItem> _screen_to_item;
 
-	bool _ignore_selection_change;
+	bool _ignore_selection_change = false;
 
 	class Comparator : public wxTreeListItemComparator
 	{

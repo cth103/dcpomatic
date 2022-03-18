@@ -48,7 +48,6 @@ using namespace dcpomatic;
 
 ScreensPanel::ScreensPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
-	, _ignore_selection_change (false)
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 
