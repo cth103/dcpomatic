@@ -71,6 +71,8 @@ private:
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
 	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;
+	boost::optional<wxTreeListItem> cinema_to_item (std::shared_ptr<Cinema> cinema) const;
+	boost::optional<wxTreeListItem> screen_to_item (std::shared_ptr<dcpomatic::Screen> screen) const;
 
 	wxSearchCtrl* _search;
 	wxTreeListCtrl* _targets;
@@ -88,6 +90,8 @@ private:
 
 	std::map<wxTreeListItem, std::shared_ptr<Cinema>> _item_to_cinema;
 	std::map<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>> _item_to_screen;
+	std::map<std::shared_ptr<Cinema>, wxTreeListItem> _cinema_to_item;
+	std::map<std::shared_ptr<dcpomatic::Screen>, wxTreeListItem> _screen_to_item;
 
 	bool _ignore_selection_change;
 

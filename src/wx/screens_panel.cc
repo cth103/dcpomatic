@@ -144,6 +144,7 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
 
 	_cinemas.push_back(make_pair(id, cinema));
 	_item_to_cinema[id] = cinema;
+	_cinema_to_item[cinema] = id;
 
 	for (auto screen: cinema->screens()) {
 		add_screen (cinema, screen);
@@ -156,21 +157,18 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
 optional<wxTreeListItem>
 ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 {
-	auto cinema_iter = _cinemas.begin();
-	while (cinema_iter != _cinemas.end() && cinema_iter->second != cinema) {
-		++cinema_iter;
-	}
-
-	if (cinema_iter == _cinemas.end()) {
+	auto item = cinema_to_item(cinema);
+	if (!item) {
 		return {};
 	}
 
-	auto id = _targets->AppendItem(cinema_iter->first, std_to_wx(screen->name));
+	auto id = _targets->AppendItem(*item, std_to_wx(screen->name));
 
 	_screens.push_back(make_pair(id, screen));
 	_item_to_screen[id] = screen;
+	_screen_to_item[screen] = id;
 
-	return cinema_iter->first;
+	return item;
 }
 
 
@@ -445,31 +443,25 @@ ScreensPanel::search_changed ()
 	_screens.clear ();
 
 	_item_to_cinema.clear ();
+	_cinema_to_item.clear ();
 	_item_to_screen.clear ();
+	_screen_to_item.clear ();
+
 	add_cinemas ();
 
 	_ignore_selection_change = true;
 
 	for (auto const& selection: _selected_cinemas) {
 		/* The wxTreeListItems will now be different, so we must search by cinema */
-		auto cinema = _cinemas.begin ();
-		while (cinema != _cinemas.end() && cinema->second != selection.second) {
-			++cinema;
-		}
-
-		if (cinema != _cinemas.end()) {
-			_targets->Select (cinema->first);
+		if (auto item = cinema_to_item(selection.second)) {
+			_targets->Select (*item);
 		}
 	}
 
 	for (auto const& selection: _selected_screens) {
-		auto screen = _screens.begin ();
-		while (screen != _screens.end() && screen->second != selection.second) {
-			++screen;
-		}
-
-		if (screen != _screens.end()) {
-			_targets->Select (screen->first);
+		/* Likewise by screen */
+		if (auto item = screen_to_item(selection.second)) {
+			_targets->Select (*item);
 		}
 	}
 
@@ -529,6 +521,30 @@ ScreensPanel::item_to_screen (wxTreeListItem item) const
 {
 	auto iter = _item_to_screen.find (item);
 	if (iter == _item_to_screen.end()) {
+		return {};
+	}
+
+	return iter->second;
+}
+
+
+optional<wxTreeListItem>
+ScreensPanel::cinema_to_item (shared_ptr<Cinema> cinema) const
+{
+	auto iter = _cinema_to_item.find (cinema);
+	if (iter == _cinema_to_item.end()) {
+		return {};
+	}
+
+	return iter->second;
+}
+
+
+optional<wxTreeListItem>
+ScreensPanel::screen_to_item (shared_ptr<Screen> screen) const
+{
+	auto iter = _screen_to_item.find (screen);
+	if (iter == _screen_to_item.end()) {
 		return {};
 	}
 
