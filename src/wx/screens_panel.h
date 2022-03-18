@@ -52,7 +52,7 @@ public:
 
 private:
 	void add_cinemas ();
-	boost::optional<wxTreeListItem> add_cinema (std::shared_ptr<Cinema>);
+	boost::optional<wxTreeListItem> add_cinema (std::shared_ptr<Cinema>, wxTreeListItem previous);
 	boost::optional<wxTreeListItem> add_screen (std::shared_ptr<Cinema>, std::shared_ptr<dcpomatic::Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
@@ -67,6 +67,7 @@ private:
 	boost::optional<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> cinema_for_operation () const;
 	void set_screen_checked (wxTreeListItem item, bool checked);
 	void setup_cinema_checked_state (wxTreeListItem screen);
+	int compare (std::string const& utf8_a, std::string const& utf8_b);
 
 	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> Cinemas;
 	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>>> Screens;
@@ -106,17 +107,5 @@ private:
 	bool _ignore_selection_change = false;
 	bool _ignore_check_change = false;
 
-	class Comparator : public wxTreeListItemComparator
-	{
-	public:
-		Comparator ();
-		~Comparator ();
-
-		int Compare (wxTreeListCtrl* tree_list, unsigned, wxTreeListItem a, wxTreeListItem b) override;
-
-	private:
-		UCollator* _collator;
-	};
-
-	Comparator _comparator;
+	UCollator* _collator = nullptr;
 };

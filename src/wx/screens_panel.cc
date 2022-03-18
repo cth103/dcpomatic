@@ -27,6 +27,7 @@
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/screen.h"
+#include "lib/timer.h"
 #include <unicode/putil.h>
 #include <unicode/ucol.h>
 #include <unicode/uiter.h>
@@ -61,8 +62,6 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER);
 	_targets->AppendColumn (wxT("foo"));
-	_targets->SetSortColumn (0);
-	_targets->SetItemComparator (&_comparator);
 
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
@@ -100,6 +99,14 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_remove_screen->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_screen_clicked, this));
 
 	SetSizer (sizer);
+
+	UErrorCode status = U_ZERO_ERROR;
+	_collator = ucol_open(nullptr, &status);
+	if (_collator) {
+		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
+		ucol_setAttribute(_collator, UCOL_STRENGTH, UCOL_PRIMARY, &status);
+		ucol_setAttribute(_collator, UCOL_ALTERNATE_HANDLING, UCOL_SHIFTED, &status);
+	}
 }
 
 
@@ -107,6 +114,10 @@ ScreensPanel::~ScreensPanel ()
 {
 	_targets->Unbind (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
 	_targets->Unbind (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
+
+	if (_collator) {
+		ucol_close (_collator);
+	}
 }
 
 
@@ -126,7 +137,7 @@ ScreensPanel::setup_sensitivity ()
 
 
 optional<wxTreeListItem>
-ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
+ScreensPanel::add_cinema (shared_ptr<Cinema> cinema, wxTreeListItem previous)
 {
 	auto search = wx_to_std (_search->GetValue ());
 	transform (search.begin(), search.end(), search.begin(), ::tolower);
@@ -139,7 +150,7 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema)
 		}
 	}
 
-	auto id = _targets->AppendItem(_targets->GetRootItem(), std_to_wx(cinema->name));
+	auto id = _targets->InsertItem(_targets->GetRootItem(), previous, std_to_wx(cinema->name));
 
 	_cinemas.push_back(make_pair(id, cinema));
 	_item_to_cinema[id] = cinema;
@@ -177,12 +188,31 @@ ScreensPanel::add_cinema_clicked ()
 	auto d = new CinemaDialog (GetParent(), _("Add Cinema"));
 	if (d->ShowModal () == wxID_OK) {
 		auto cinema = make_shared<Cinema>(d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute());
-		Config::instance()->add_cinema (cinema);
-		auto id = add_cinema (cinema);
-		if (id) {
-			_targets->UnselectAll ();
-			_targets->Select (*id);
+
+		auto cinemas = Config::instance()->cinemas();
+		cinemas.sort(
+			[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return compare(a->name, b->name) < 0; }
+			);
+
+		optional<wxTreeListItem> item;
+		for (auto existing_cinema: cinemas) {
+			if (!item && compare(d->name(), existing_cinema->name) < 0) {
+				if (auto existing_item = cinema_to_item(existing_cinema)) {
+					item = add_cinema (cinema, *existing_item);
+				}
+			}
 		}
+
+		if (!item) {
+			item = add_cinema (cinema, wxTLI_LAST);
+		}
+
+		if (item) {
+			_targets->UnselectAll ();
+			_targets->Select (*item);
+		}
+
+		Config::instance()->add_cinema (cinema);
 	}
 
 	d->Destroy ();
@@ -428,8 +458,13 @@ ScreensPanel::selection_changed ()
 void
 ScreensPanel::add_cinemas ()
 {
-	for (auto cinema: Config::instance()->cinemas()) {
-		add_cinema (cinema);
+	auto cinemas = Config::instance()->cinemas();
+	cinemas.sort(
+		[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return compare(a->name, b->name) < 0; }
+		);
+
+	for (auto cinema: cinemas) {
+		add_cinema (cinema, wxTLI_LAST);
 	}
 }
 
@@ -590,29 +625,9 @@ ScreensPanel::screen_to_item (shared_ptr<Screen> screen) const
 }
 
 
-ScreensPanel::Comparator::Comparator ()
-{
-	UErrorCode status = U_ZERO_ERROR;
-	_collator = ucol_open(nullptr, &status);
-	if (_collator) {
-		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
-		ucol_setAttribute(_collator, UCOL_STRENGTH, UCOL_PRIMARY, &status);
-		ucol_setAttribute(_collator, UCOL_ALTERNATE_HANDLING, UCOL_SHIFTED, &status);
-	}
-}
-
-ScreensPanel::Comparator::~Comparator ()
-{
-	if (_collator) {
-		ucol_close (_collator);
-	}
-}
-
 int
-ScreensPanel::Comparator::Compare (wxTreeListCtrl* tree_list, unsigned, wxTreeListItem a, wxTreeListItem b)
+ScreensPanel::compare (string const& utf8_a, string const& utf8_b)
 {
-	auto utf8_a = wx_to_std(tree_list->GetItemText(a));
-	auto utf8_b = wx_to_std(tree_list->GetItemText(b));
 	if (_collator) {
 		UErrorCode error = U_ZERO_ERROR;
 		boost::scoped_array<uint16_t> utf16_a(new uint16_t[utf8_a.size() + 1]);
