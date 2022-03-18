@@ -465,38 +465,77 @@ ScreensPanel::search_changed ()
 	}
 
 	_ignore_selection_change = false;
+
+	_ignore_check_change = true;
+
+	for (auto const& checked: _checked_screens) {
+		if (auto item = screen_to_item(checked.second)) {
+			_targets->CheckItem(*item, wxCHK_CHECKED);
+			setup_cinema_checked_state(*item);
+		}
+	}
+
+	_ignore_check_change = false;
+}
+
+
+void
+ScreensPanel::set_screen_checked (wxTreeListItem item, bool checked)
+{
+	auto current = std::find_if(
+		_checked_screens.begin(), _checked_screens.end(),
+		[item](pair<wxTreeListItem, shared_ptr<Screen>> const& screen) { return screen.first == item; }
+		);
+
+	if (current == _checked_screens.end() && checked) {
+		_checked_screens.push_back({item, item_to_screen(item)});
+	} else if (current != _checked_screens.end() && !checked) {
+		_checked_screens.erase(current);
+	}
+}
+
+
+void
+ScreensPanel::setup_cinema_checked_state (wxTreeListItem screen)
+{
+	auto cinema = _targets->GetItemParent(screen);
+	DCPOMATIC_ASSERT (cinema.IsOk());
+	int checked = 0;
+	int unchecked = 0;
+	for (auto child = _targets->GetFirstChild(cinema); child.IsOk(); child = _targets->GetNextSibling(child)) {
+		if (_targets->GetCheckedState(child) == wxCHK_CHECKED) {
+		    ++checked;
+		} else {
+		    ++unchecked;
+		}
+	}
+	if (checked == 0) {
+		_targets->CheckItem(cinema, wxCHK_UNCHECKED);
+	} else if (unchecked == 0) {
+		_targets->CheckItem(cinema, wxCHK_CHECKED);
+	} else {
+		_targets->CheckItem(cinema, wxCHK_UNDETERMINED);
+	}
 }
 
 
 void
 ScreensPanel::checkbox_changed (wxTreeListEvent& ev)
 {
+	if (_ignore_check_change) {
+		return;
+	}
+
 	if (item_to_cinema(ev.GetItem())) {
 		/* Cinema: check/uncheck all children */
 		auto const checked = _targets->GetCheckedState(ev.GetItem());
 		for (auto child = _targets->GetFirstChild(ev.GetItem()); child.IsOk(); child = _targets->GetNextSibling(child)) {
 			_targets->CheckItem(child, checked);
+			set_screen_checked(child, checked);
 		}
 	} else {
-		/* Screen: set cinema to checked/unchecked/3state */
-		auto parent = _targets->GetItemParent(ev.GetItem());
-		DCPOMATIC_ASSERT (parent.IsOk());
-		int checked = 0;
-		int unchecked = 0;
-		for (auto child = _targets->GetFirstChild(parent); child.IsOk(); child = _targets->GetNextSibling(child)) {
-			if (_targets->GetCheckedState(child) == wxCHK_CHECKED) {
-			    ++checked;
-			} else {
-			    ++unchecked;
-			}
-		}
-		if (checked == 0) {
-			_targets->CheckItem(parent, wxCHK_UNCHECKED);
-		} else if (unchecked == 0) {
-			_targets->CheckItem(parent, wxCHK_CHECKED);
-		} else {
-			_targets->CheckItem(parent, wxCHK_UNDETERMINED);
-		}
+		set_screen_checked(ev.GetItem(), _targets->GetCheckedState(ev.GetItem()));
+		setup_cinema_checked_state(ev.GetItem());
 	}
 
 	ScreensChanged ();

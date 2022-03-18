@@ -65,6 +65,8 @@ private:
 	void search_changed ();
 	void checkbox_changed (wxTreeListEvent& ev);
 	boost::optional<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> cinema_for_operation () const;
+	void set_screen_checked (wxTreeListItem item, bool checked);
+	void setup_cinema_checked_state (wxTreeListItem screen);
 
 	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<Cinema>>> Cinemas;
 	typedef std::vector<std::pair<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>>> Screens;
@@ -85,8 +87,16 @@ private:
 
 	Cinemas _cinemas;
 	Screens _screens;
+	/* We want to be able to search (and so remove selected things from the view)
+	 * but not deselect them, so we maintain lists of selected cinemas and screens.
+	 */
 	Cinemas _selected_cinemas;
 	Screens _selected_screens;
+	/* Likewise with checked screens, except that we can work out which cinemas
+	 * are checked from which screens are checked, so we don't need to store the
+	 * cinemas.
+	 */
+	Screens _checked_screens;
 
 	std::map<wxTreeListItem, std::shared_ptr<Cinema>> _item_to_cinema;
 	std::map<wxTreeListItem, std::shared_ptr<dcpomatic::Screen>> _item_to_screen;
@@ -94,6 +104,7 @@ private:
 	std::map<std::shared_ptr<dcpomatic::Screen>, wxTreeListItem> _screen_to_item;
 
 	bool _ignore_selection_change = false;
+	bool _ignore_check_change = false;
 
 	class Comparator : public wxTreeListItemComparator
 	{
