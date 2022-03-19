@@ -23,6 +23,7 @@
 #include "confirm_kdm_email_dialog.h"
 #include "dcpomatic_button.h"
 #include "kdm_advanced_dialog.h"
+#include "kdm_choice.h"
 #include "kdm_output_panel.h"
 #include "kdm_timing_panel.h"
 #include "name_format_editor.h"
@@ -69,11 +70,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	add_label_to_sizer (table, this, _("KDM type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 
 	auto type = new wxBoxSizer (wxHORIZONTAL);
-	_type = new wxChoice (this, wxID_ANY);
-	_type->Append ("Modified Transitional 1", ((void *) dcp::Formulation::MODIFIED_TRANSITIONAL_1));
-	_type->Append ("DCI Any", ((void *) dcp::Formulation::DCI_ANY));
-	_type->Append ("DCI Specific", ((void *) dcp::Formulation::DCI_SPECIFIC));
-	_type->Append ("Multiple Modified Transitional 1", ((void *) dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1));
+	_type = new KDMChoice (this);
 	type->Add (_type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 	_type->SetSelection (0);
 	auto advanced = new Button (this, _("Advanced..."));
@@ -329,7 +326,7 @@ KDMOutputPanel::make (
 dcp::Formulation
 KDMOutputPanel::formulation () const
 {
-	return (dcp::Formulation) reinterpret_cast<intptr_t> (_type->GetClientData (_type->GetSelection()));
+	return _type->get();
 }
 
 

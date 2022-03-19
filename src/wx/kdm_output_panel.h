@@ -28,6 +28,7 @@
 
 class DirPickerCtrl;
 class Job;
+class KDMChoice;
 class NameFormatEditor;
 class wxDirPickerCtrl;
 class wxRadioButton;
@@ -64,7 +65,7 @@ private:
 	void write_to_changed ();
 	void email_changed ();
 
-	wxChoice* _type;
+	KDMChoice* _type;
 	NameFormatEditor* _container_name_format;
 	NameFormatEditor* _filename_format;
 	wxCheckBox* _write_to;
