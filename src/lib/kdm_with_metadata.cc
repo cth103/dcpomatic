@@ -225,6 +225,7 @@ send_emails (
 			boost::algorithm::replace_all (target, "$START_TIME", i.front()->get('b').get_value_or(""));
 			boost::algorithm::replace_all (target, "$END_TIME", i.front()->get('e').get_value_or(""));
 			boost::algorithm::replace_all (target, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
+			boost::algorithm::replace_all (target, "$CINEMA_SHORT_NAME", i.front()->get('c').get_value_or("").substr(0, 14));
 			return target;
 		};
 

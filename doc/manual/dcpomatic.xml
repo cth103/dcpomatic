@@ -2935,6 +2935,9 @@ KDM that is being sent; these strings are shown in <xref linkend="tab-kdm-magic"
 <entry><code>$CINEMA_NAME</code></entry><entry>Cinema name</entry>
 </row>
 <row>
+<entry><code>$CINEMA_SHORT_NAME</code></entry><entry>First 14 characters of the cinema name</entry>
+</row>
+<row>
 <entry><code>$SCREENS</code></entry><entry>Name of screen or screens that KDMs are being generated for</entry>
 </row>
 <row>
