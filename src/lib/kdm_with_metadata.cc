@@ -220,17 +220,16 @@ send_emails (
 		zip_file /= container_name_format.get(i.front()->name_values(), ".zip");
 		make_zip_file (i, zip_file, filename_format);
 
-		auto subject = config->kdm_subject();
-		boost::algorithm::replace_all (subject, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (subject, "$START_TIME", i.front()->get('b').get_value_or(""));
-		boost::algorithm::replace_all (subject, "$END_TIME", i.front()->get('e').get_value_or(""));
-		boost::algorithm::replace_all (subject, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
+		auto substitute_variables = [cpl_name, i](string target) {
+			boost::algorithm::replace_all (target, "$CPL_NAME", cpl_name);
+			boost::algorithm::replace_all (target, "$START_TIME", i.front()->get('b').get_value_or(""));
+			boost::algorithm::replace_all (target, "$END_TIME", i.front()->get('e').get_value_or(""));
+			boost::algorithm::replace_all (target, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
+			return target;
+		};
 
-		auto body = config->kdm_email();
-		boost::algorithm::replace_all (body, "$CPL_NAME", cpl_name);
-		boost::algorithm::replace_all (body, "$START_TIME", i.front()->get('b').get_value_or(""));
-		boost::algorithm::replace_all (body, "$END_TIME", i.front()->get('e').get_value_or(""));
-		boost::algorithm::replace_all (body, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
+		auto subject = substitute_variables(config->kdm_subject());
+		auto body = substitute_variables(config->kdm_email());
 
 		string screens;
 		for (auto j: i) {
