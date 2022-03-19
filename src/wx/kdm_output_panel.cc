@@ -72,7 +72,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	auto type = new wxBoxSizer (wxHORIZONTAL);
 	_type = new KDMChoice (this);
 	type->Add (_type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
-	_type->SetSelection (0);
+	_type->set(Config::instance()->default_kdm_type());
 	auto advanced = new Button (this, _("Advanced..."));
 	type->Add (advanced, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	table->Add (type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);

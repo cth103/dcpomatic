@@ -34,6 +34,7 @@
 #include "file_picker_ctrl.h"
 #include "filter_dialog.h"
 #include "full_config_dialog.h"
+#include "kdm_choice.h"
 #include "make_chain_dialog.h"
 #include "nag_dialog.h"
 #include "name_format_editor.h"
@@ -331,8 +332,11 @@ private:
 #else
 		_kdm_directory = new wxDirPickerCtrl (_panel, wxDD_DIR_MUST_EXIST);
 #endif
-
 		table->Add (_kdm_directory, 1, wxEXPAND);
+
+		add_label_to_sizer (table, _panel, _("Default KDM type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+		_kdm_type = new KDMChoice (_panel);
+		table->Add (_kdm_type, 1, wxEXPAND);
 
 		table->Add (_use_isdcf_name_by_default = new CheckBox(_panel, _("Use ISDCF name by default")), 0, wxALIGN_CENTRE_VERTICAL);
 
@@ -341,6 +345,7 @@ private:
 
 		_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::kdm_directory_changed, this));
+		_kdm_type->Bind (wxEVT_CHOICE, boost::bind(&DefaultsPage::kdm_type_changed, this));
 
 		_use_isdcf_name_by_default->Bind (wxEVT_CHECKBOX, boost::bind(&DefaultsPage::use_isdcf_name_by_default_changed, this));
 
@@ -399,6 +404,7 @@ private:
 		checked_set (_still_length, config->default_still_length ());
 		_directory->SetPath (std_to_wx (config->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		_kdm_directory->SetPath (std_to_wx (config->default_kdm_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
+		_kdm_type->set (config->default_kdm_type());
 		checked_set (_use_isdcf_name_by_default, config->use_isdcf_name_by_default());
 		checked_set (_j2k_bandwidth, config->default_j2k_bandwidth() / 1000000);
 		_j2k_bandwidth->SetRange (50, config->maximum_j2k_bandwidth() / 1000000);
@@ -458,6 +464,11 @@ private:
 		Config::instance()->set_default_kdm_directory (wx_to_std (_kdm_directory->GetPath ()));
 	}
 
+	void kdm_type_changed ()
+	{
+		Config::instance()->set_default_kdm_type(_kdm_type->get());
+	}
+
 	void use_isdcf_name_by_default_changed ()
 	{
 		Config::instance()->set_use_isdcf_name_by_default (_use_isdcf_name_by_default->GetValue());
@@ -514,6 +525,7 @@ private:
 	wxDirPickerCtrl* _directory;
 	wxDirPickerCtrl* _kdm_directory;
 #endif
+	KDMChoice* _kdm_type;
 	wxCheckBox* _use_isdcf_name_by_default;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;

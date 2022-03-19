@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2012-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2012-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -182,6 +182,7 @@ Config::set_defaults ()
 	_use_isdcf_name_by_default = true;
 	_write_kdms_to_disk = true;
 	_email_kdms = false;
+	_default_kdm_type = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -571,6 +572,7 @@ try
 	_use_isdcf_name_by_default = f.optional_bool_child("UseISDCFNameByDefault").get_value_or(true);
 	_write_kdms_to_disk = f.optional_bool_child("WriteKDMsToDisk").get_value_or(true);
 	_email_kdms = f.optional_bool_child("EmailKDMs").get_value_or(false);
+	_default_kdm_type = dcp::string_to_formulation(f.optional_string_child("DefaultKDMType").get_value_or("modified-transitional-1"));
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -1003,6 +1005,7 @@ Config::write_config () const
 	root->add_child("UseISDCFNameByDefault")->add_child_text(_use_isdcf_name_by_default ? "1" : "0");
 	root->add_child("WriteKDMsToDisk")->add_child_text(_write_kdms_to_disk ? "1" : "0");
 	root->add_child("EmailKDMs")->add_child_text(_email_kdms ? "1" : "0");
+	root->add_child("DefaultKDMType")->add_child_text(dcp::formulation_to_string(_default_kdm_type));
 
 	auto target = config_write_file();
 

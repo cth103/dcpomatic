@@ -29,5 +29,9 @@ public:
 	KDMChoice (wxWindow* parent);
 
 	dcp::Formulation get () const;
+	void set (dcp::Formulation type);
+
+private:
+	dcp::Formulation get_formulation (unsigned int n) const;
 };
 

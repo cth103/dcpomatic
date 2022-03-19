@@ -33,8 +33,30 @@ KDMChoice::KDMChoice (wxWindow* parent)
 
 
 dcp::Formulation
+KDMChoice::get_formulation (unsigned int n) const
+{
+	return static_cast<dcp::Formulation>(reinterpret_cast<intptr_t>(GetClientData(n)));
+}
+
+
+dcp::Formulation
 KDMChoice::get () const
 {
-	return static_cast<dcp::Formulation>(reinterpret_cast<intptr_t>(GetClientData(GetSelection())));
+	return get_formulation(GetSelection());
 }
+
+
+void
+KDMChoice::set (dcp::Formulation type)
+{
+	for (unsigned int i = 0; i < GetCount(); ++i) {
+		if (get_formulation(i) == type) {
+			SetSelection(i);
+			return;
+		}
+	}
+}
+
+
+
 

@@ -563,6 +563,11 @@ public:
 		return _email_kdms;
 	}
 
+	dcp::Formulation default_kdm_type () const {
+		return _default_kdm_type;
+	}
+
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1079,6 +1084,10 @@ public:
 		maybe_set (_email_kdms, email);
 	}
 
+	void set_default_kdm_type (dcp::Formulation type) {
+		maybe_set (_default_kdm_type, type);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1297,6 +1306,7 @@ private:
 	bool _use_isdcf_name_by_default;
 	bool _write_kdms_to_disk;
 	bool _email_kdms;
+	dcp::Formulation _default_kdm_type;
 
 	static int const _current_version;
 
