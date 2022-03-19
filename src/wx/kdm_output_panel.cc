@@ -74,7 +74,6 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	_type->Append ("DCI Any", ((void *) dcp::Formulation::DCI_ANY));
 	_type->Append ("DCI Specific", ((void *) dcp::Formulation::DCI_SPECIFIC));
 	_type->Append ("Multiple Modified Transitional 1", ((void *) dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1));
-	_type->Append ("Modified Transitional 1 (without AuthorizedDeviceInfo)", ((void *) dcp::Formulation::MODIFIED_TRANSITIONAL_TEST));
 	type->Add (_type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 	_type->SetSelection (0);
 	auto advanced = new Button (this, _("Advanced..."));
