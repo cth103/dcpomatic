@@ -152,7 +152,6 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema, wxTreeListItem previous)
 
 	auto id = _targets->InsertItem(_targets->GetRootItem(), previous, std_to_wx(cinema->name));
 
-	_cinemas.push_back(make_pair(id, cinema));
 	_item_to_cinema[id] = cinema;
 	_cinema_to_item[cinema] = id;
 
@@ -174,7 +173,6 @@ ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 
 	auto id = _targets->AppendItem(*item, std_to_wx(screen->name));
 
-	_screens.push_back(make_pair(id, screen));
 	_item_to_screen[id] = screen;
 	_screen_to_item[screen] = id;
 
@@ -467,8 +465,6 @@ void
 ScreensPanel::search_changed ()
 {
 	_targets->DeleteAllItems ();
-	_cinemas.clear ();
-	_screens.clear ();
 
 	_item_to_cinema.clear ();
 	_cinema_to_item.clear ();
