@@ -401,15 +401,7 @@ vector<shared_ptr<Screen>>
 ScreensPanel::screens () const
 {
 	vector<shared_ptr<Screen>> output;
-
-	for (auto item = _targets->GetFirstItem(); item.IsOk(); item = _targets->GetNextItem(item)) {
-		if (_targets->GetCheckedState(item) == wxCHK_CHECKED) {
-			if (auto screen = item_to_screen(item)) {
-				output.push_back (screen);
-			}
-		}
-	}
-
+	std::copy (_checked_screens.begin(), _checked_screens.end(), std::back_inserter(output));
 	return output;
 }
 
