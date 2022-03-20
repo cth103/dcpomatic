@@ -67,6 +67,8 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	add_cinemas ();
 
+	auto side_buttons = new wxBoxSizer (wxVERTICAL);
+
 	auto target_buttons = new wxBoxSizer (wxVERTICAL);
 
 	_add_cinema = new Button (this, _("Add Cinema..."));
@@ -82,7 +84,18 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_remove_screen = new Button (this, _("Remove Screen"));
 	target_buttons->Add (_remove_screen, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-	targets->Add (target_buttons, 0, 0);
+	side_buttons->Add (target_buttons, 0, 0);
+
+	auto check_buttons = new wxBoxSizer (wxVERTICAL);
+
+	_check_all = new Button (this, _("Check all"));
+	check_buttons->Add (_check_all, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	_uncheck_all = new Button (this, _("Uncheck all"));
+	check_buttons->Add (_uncheck_all, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+
+	side_buttons->Add (check_buttons, 1, wxEXPAND | wxTOP, DCPOMATIC_BUTTON_STACK_GAP * 8);
+
+	targets->Add (side_buttons, 0, 0);
 
 	sizer->Add (targets, 1, wxEXPAND);
 
@@ -97,6 +110,9 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_add_screen->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_screen_clicked, this));
 	_edit_screen->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_screen_clicked, this));
 	_remove_screen->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_screen_clicked, this));
+
+	_check_all->Bind     (wxEVT_BUTTON, boost::bind(&ScreensPanel::check_all, this));
+	_uncheck_all->Bind     (wxEVT_BUTTON, boost::bind(&ScreensPanel::uncheck_all, this));
 
 	SetSizer (sizer);
 
@@ -117,6 +133,32 @@ ScreensPanel::~ScreensPanel ()
 
 	if (_collator) {
 		ucol_close (_collator);
+	}
+}
+
+
+void
+ScreensPanel::check_all ()
+{
+	for (auto cinema = _targets->GetFirstChild(_targets->GetRootItem()); cinema.IsOk();  cinema = _targets->GetNextSibling(cinema)) {
+		_targets->CheckItem(cinema, wxCHK_CHECKED);
+		for (auto screen = _targets->GetFirstChild(cinema); screen.IsOk(); screen = _targets->GetNextSibling(screen)) {
+			_targets->CheckItem(screen, wxCHK_CHECKED);
+			set_screen_checked(screen, true);
+		}
+	}
+}
+
+
+void
+ScreensPanel::uncheck_all ()
+{
+	for (auto cinema = _targets->GetFirstChild(_targets->GetRootItem()); cinema.IsOk();  cinema = _targets->GetNextSibling(cinema)) {
+		_targets->CheckItem(cinema, wxCHK_UNCHECKED);
+		for (auto screen = _targets->GetFirstChild(cinema); screen.IsOk(); screen = _targets->GetNextSibling(screen)) {
+			_targets->CheckItem(screen, wxCHK_UNCHECKED);
+			set_screen_checked(screen, false);
+		}
 	}
 }
 

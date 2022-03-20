@@ -69,6 +69,8 @@ private:
 	void set_screen_checked (wxTreeListItem item, bool checked);
 	void setup_cinema_checked_state (wxTreeListItem screen);
 	int compare (std::string const& utf8_a, std::string const& utf8_b);
+	void check_all ();
+	void uncheck_all ();
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
 	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;
@@ -83,6 +85,8 @@ private:
 	wxButton* _add_screen;
 	wxButton* _edit_screen;
 	wxButton* _remove_screen;
+	wxButton* _check_all;
+	wxButton* _uncheck_all;
 
 	/* We want to be able to search (and so remove selected things from the view)
 	 * but not deselect them, so we maintain lists of selected cinemas and screens.
