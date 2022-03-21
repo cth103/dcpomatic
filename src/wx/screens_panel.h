@@ -37,7 +37,7 @@ namespace dcpomatic {
 
 
 class Cinema;
-class UCollator;
+struct UCollator;
 
 
 class ScreensPanel : public wxPanel
