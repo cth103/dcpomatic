@@ -371,6 +371,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ORDERING:
 			add(i, _("Some closed captions are not listed in the order of their vertical position."));
 			break;
+		case dcp::VerificationNote::Code::UNEXPECTED_ENTRY_POINT:
+			add(i, _("There is a <EntryPoint> tag inside a <MainMarkers>."));
+			break;
+		case dcp::VerificationNote::Code::UNEXPECTED_DURATION:
+			add(i, _("There is a <Duration> tag inside a <MainMarkers>."));
+			break;
 		}
 	}
 
