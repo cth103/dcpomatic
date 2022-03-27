@@ -104,11 +104,11 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 
 		_add_folder = new Button (_top_panel, _("Add folder..."));
 		_add_folder->SetToolTip (_("Add a folder of image files (which will be used as a moving image sequence) or a folder of sound files."));
-		b->Add (_add_folder, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		b->Add (_add_folder, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_add_dcp = new Button (_top_panel, _("Add DCP..."));
 		_add_dcp->SetToolTip (_("Add a DCP."));
-		b->Add (_add_dcp, 1, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
+		b->Add (_add_dcp, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_remove = new Button (_top_panel, _("Remove"));
 		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
