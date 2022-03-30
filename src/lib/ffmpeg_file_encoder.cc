@@ -134,7 +134,8 @@ public:
 		auto frame = av_frame_alloc ();
 		DCPOMATIC_ASSERT (frame);
 
-		int const buffer_size = av_samples_get_buffer_size (0, channels, size, _codec_context->sample_fmt, 0);
+		int line_size;
+		int const buffer_size = av_samples_get_buffer_size (&line_size, channels, size, _codec_context->sample_fmt, 0);
 		DCPOMATIC_ASSERT (buffer_size >= 0);
 
 		auto samples = av_malloc (buffer_size);
@@ -169,10 +170,8 @@ public:
 		}
 		case AV_SAMPLE_FMT_FLTP:
 		{
-			float* q = reinterpret_cast<float*> (samples);
 			for (int i = 0; i < channels; ++i) {
-				memcpy (q, data[i + channel_offset], sizeof(float) * size);
-				q += size;
+				memcpy (reinterpret_cast<float*>(static_cast<uint8_t*>(samples) + i * line_size), data[i + channel_offset], sizeof(float) * size);
 			}
 			break;
 		}
