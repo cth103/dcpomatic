@@ -39,12 +39,14 @@
 #include "nag_dialog.h"
 #include "name_format_editor.h"
 #include "password_entry.h"
+#include "send_test_email_dialog.h"
 #include "server_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content_type.h"
+#include "lib/emailer.h"
 #include "lib/exceptions.h"
 #include "lib/filter.h"
 #include "lib/log.h"
@@ -762,11 +764,16 @@ private:
 		_password = new PasswordEntry (_panel);
 		table->Add (_password->get_panel(), 1, wxEXPAND | wxALL);
 
+		table->AddSpacer (0);
+		_send_test_email = new Button (_panel, _("Send test email..."));
+		table->Add (_send_test_email);
+
 		_server->Bind (wxEVT_TEXT, boost::bind(&EmailPage::server_changed, this));
 		_port->Bind (wxEVT_SPINCTRL, boost::bind(&EmailPage::port_changed, this));
 		_protocol->Bind (wxEVT_CHOICE, boost::bind(&EmailPage::protocol_changed, this));
 		_user->Bind (wxEVT_TEXT, boost::bind(&EmailPage::user_changed, this));
 		_password->Changed.connect (boost::bind(&EmailPage::password_changed, this));
+		_send_test_email->Bind (wxEVT_BUTTON, boost::bind(&EmailPage::send_test_email_clicked, this));
 	}
 
 	void config_changed ()
@@ -831,11 +838,41 @@ private:
 		Config::instance()->set_mail_password(_password->get());
 	}
 
+	void send_test_email_clicked ()
+	{
+		auto dialog = new SendTestEmailDialog(_panel);
+		auto result = dialog->ShowModal();
+		dialog->Destroy();
+		if (result == wxID_OK) {
+			Emailer emailer(
+				wx_to_std(dialog->from()),
+				{ wx_to_std(dialog->to()) },
+				wx_to_std(_("DCP-o-matic test email")),
+				wx_to_std(_("This is a test email from DCP-o-matic."))
+				);
+			auto config = Config::instance();
+			try {
+				emailer.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+			} catch (NetworkError& e) {
+				error_dialog (_panel, std_to_wx(e.summary()), std_to_wx(e.detail().get_value_or("")));
+				return;
+			} catch (std::exception& e) {
+				error_dialog (_panel, _("Test email sending failed."), std_to_wx(e.what()));
+				return;
+			} catch (...) {
+				error_dialog (_panel, _("Test email sending failed."));
+				return;
+			}
+			message_dialog (_panel, _("Test email sent."));
+		}
+	}
+
 	wxTextCtrl* _server;
 	wxSpinCtrl* _port;
 	wxChoice* _protocol;
 	wxTextCtrl* _user;
 	PasswordEntry* _password;
+	Button* _send_test_email;
 };
 
 

@@ -129,6 +129,7 @@ sources = """
           screens_panel.cc
           self_dkdm_dialog.cc
           send_i18n_dialog.cc
+          send_test_email_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc
           simple_video_view.cc
