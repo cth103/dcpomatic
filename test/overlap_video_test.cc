@@ -23,6 +23,7 @@
 #include "lib/content_factory.h"
 #include "lib/dcpomatic_time.h"
 #include "lib/film.h"
+#include "lib/piece.h"
 #include "lib/player.h"
 #include "lib/video_content.h"
 #include "test.h"

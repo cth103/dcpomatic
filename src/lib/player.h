@@ -27,7 +27,6 @@
 #include "atmos_metadata.h"
 #include "audio_merger.h"
 #include "audio_stream.h"
-#include "content.h"
 #include "content_atmos.h"
 #include "content_audio.h"
 #include "content_text.h"
@@ -35,7 +34,6 @@
 #include "empty.h"
 #include "film.h"
 #include "image.h"
-#include "piece.h"
 #include "player_text.h"
 #include "position_image.h"
 #include "shuffler.h"
@@ -52,11 +50,11 @@ namespace dcpomatic {
 }
 
 class AtmosContent;
+class AudioBuffers;
+class Content;
 class PlayerVideo;
 class Playlist;
-class AudioBuffers;
 class ReferencedReelAsset;
-class Shuffler;
 
 
 class PlayerProperty
@@ -102,7 +100,7 @@ public:
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
-	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<Content> content, dcpomatic::ContentTime t);
+	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t);
 
 	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 
@@ -133,7 +131,6 @@ private:
 	void construct ();
 	void setup_pieces ();
 	void setup_pieces_unlocked ();
-	void flush ();
 	void film_change (ChangeType, Film::Property);
 	void playlist_change (ChangeType);
 	void playlist_content_change (ChangeType, int, bool);
@@ -175,7 +172,7 @@ private:
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
 	boost::atomic<int> _suspended;
-	std::list<std::shared_ptr<Piece> > _pieces;
+	std::list<std::shared_ptr<Piece>> _pieces;
 
 	/** Size of the image we are rendering to; this may be the DCP frame size, or
 	 *  the size of preview in a window.
@@ -210,7 +207,7 @@ private:
 
 	AudioMerger _audio_merger;
 	std::unique_ptr<Shuffler> _shuffler;
-	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> > _delay;
+	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime>> _delay;
 
 	class StreamState
 	{

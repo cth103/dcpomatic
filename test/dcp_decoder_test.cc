@@ -25,14 +25,15 @@
  */
 
 
-#include "lib/film.h"
+#include "lib/config.h"
+#include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_decoder.h"
-#include "lib/content_factory.h"
-#include "lib/player.h"
 #include "lib/examine_content_job.h"
+#include "lib/film.h"
 #include "lib/job_manager.h"
-#include "lib/config.h"
+#include "lib/piece.h"
+#include "lib/player.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>

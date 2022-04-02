@@ -73,7 +73,7 @@ private:
 		void audio (std::shared_ptr<AudioBuffers>);
 
 	private:
-		std::map<Eyes, std::shared_ptr<FFmpegFileEncoder> > _encoders;
+		std::map<Eyes, std::shared_ptr<FFmpegFileEncoder>> _encoders;
 	};
 
 	int _output_audio_channels;

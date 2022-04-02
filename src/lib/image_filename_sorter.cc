@@ -18,22 +18,25 @@
 
 */
 
+
 #include "image_filename_sorter.h"
 #include <dcp/locale_convert.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 #include <iostream>
 
+
 using std::list;
 using std::string;
 using dcp::locale_convert;
 using boost::optional;
 
+
 bool
 ImageFilenameSorter::operator() (boost::filesystem::path a, boost::filesystem::path b)
 {
-	string an = extract_numbers (a);
-	string bn = extract_numbers (b);
+	auto an = extract_numbers (a);
+	auto bn = extract_numbers (b);
 
 	int const anl = an.length ();
 	int const bnl = bn.length ();
@@ -51,7 +54,7 @@ string
 ImageFilenameSorter::extract_numbers (boost::filesystem::path p)
 {
 	string numbers;
-	string const ps = p.leaf().string();
+	auto const ps = p.leaf().string();
 	for (size_t i = 0; i < ps.size(); ++i) {
 		if (isdigit (ps[i])) {
 			numbers += ps[i];

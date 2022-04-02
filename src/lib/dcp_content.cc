@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2020 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -20,19 +20,19 @@
 
 
 #include "atmos_content.h"
-#include "dcp_content.h"
-#include "video_content.h"
 #include "audio_content.h"
-#include "dcp_examiner.h"
-#include "job.h"
-#include "film.h"
-#include "config.h"
-#include "overlaps.h"
 #include "compose.hpp"
+#include "config.h"
+#include "dcp_content.h"
 #include "dcp_decoder.h"
-#include "log.h"
+#include "dcp_examiner.h"
 #include "dcpomatic_log.h"
+#include "film.h"
+#include "job.h"
+#include "log.h"
+#include "overlaps.h"
 #include "text_content.h"
+#include "video_content.h"
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
@@ -176,10 +176,10 @@ DCPContent::read_directory (boost::filesystem::path p)
 	bool have_assetmap = false;
 	bool have_metadata = false;
 
-	for (directory_iterator i(p); i != directory_iterator(); ++i) {
-		if (i->path().filename() == "ASSETMAP" || i->path().filename() == "ASSETMAP.xml") {
+	for (auto i: directory_iterator(p)) {
+		if (i.path().filename() == "ASSETMAP" || i.path().filename() == "ASSETMAP.xml") {
 			have_assetmap = true;
-		} else if (i->path().filename() == "metadata.xml") {
+		} else if (i.path().filename() == "metadata.xml") {
 			have_metadata = true;
 		}
 	}
@@ -690,7 +690,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>()));
+		decoder = make_shared<DCPDecoder>(film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>());
 	} catch (dcp::ReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
@@ -725,7 +725,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 {
 	shared_ptr<DCPDecoder> decoder;
 	try {
-		decoder.reset (new DCPDecoder (film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>()));
+		decoder = make_shared<DCPDecoder>(film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>());
 	} catch (dcp::ReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;

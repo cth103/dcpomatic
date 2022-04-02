@@ -18,13 +18,16 @@
 
 */
 
+
 /** @file  src/film.h
  *  @brief A representation of some audio and video content, and details of
  *  how they should be presented in a DCP.
  */
 
+
 #ifndef DCPOMATIC_FILM_H
 #define DCPOMATIC_FILM_H
+
 
 #include "change_signaller.h"
 #include "dcp_text_track.h"
@@ -44,6 +47,7 @@
 #include <inttypes.h>
 #include <string>
 #include <vector>
+
 
 namespace xmlpp {
 	class Document;
@@ -65,6 +69,7 @@ class Film;
 struct isdcf_name_test;
 struct recover_test_2d_encrypted;
 struct atmos_encrypted_passthrough_test;
+
 
 class InfoFileHandle
 {
@@ -412,7 +417,6 @@ public:
 	boost::gregorian::date isdcf_date () const {
 		return _isdcf_date;
 	}
-
 
 	/* SET */
 

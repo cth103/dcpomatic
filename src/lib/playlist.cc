@@ -19,20 +19,20 @@
 */
 
 
-#include "playlist.h"
-#include "video_content.h"
-#include "text_content.h"
-#include "ffmpeg_decoder.h"
-#include "ffmpeg_content.h"
-#include "image_decoder.h"
 #include "audio_content.h"
+#include "compose.hpp"
+#include "config.h"
 #include "content_factory.h"
 #include "dcp_content.h"
-#include "job.h"
-#include "config.h"
-#include "util.h"
 #include "digester.h"
-#include "compose.hpp"
+#include "ffmpeg_content.h"
+#include "ffmpeg_decoder.h"
+#include "image_decoder.h"
+#include "job.h"
+#include "playlist.h"
+#include "text_content.h"
+#include "util.h"
+#include "video_content.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
 #include <boost/bind/placeholders.hpp>
@@ -41,17 +41,17 @@
 #include "i18n.h"
 
 
-using std::list;
 using std::cout;
-using std::vector;
-using std::min;
-using std::max;
-using std::string;
-using std::pair;
-using boost::optional;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::max;
+using std::min;
+using std::pair;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::weak_ptr;
+using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

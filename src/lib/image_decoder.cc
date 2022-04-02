@@ -19,16 +19,16 @@
 */
 
 
+#include "exceptions.h"
+#include "ffmpeg_image_proxy.h"
+#include "film.h"
+#include "frame_interval_checker.h"
+#include "image.h"
 #include "image_content.h"
 #include "image_decoder.h"
-#include "video_decoder.h"
-#include "image.h"
-#include "ffmpeg_image_proxy.h"
 #include "j2k_image_proxy.h"
-#include "film.h"
-#include "exceptions.h"
 #include "video_content.h"
-#include "frame_interval_checker.h"
+#include "video_decoder.h"
 #include <boost/filesystem.hpp>
 #include <iostream>
 

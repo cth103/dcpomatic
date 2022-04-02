@@ -19,13 +19,13 @@
 */
 
 
-#include "image_proxy.h"
-#include "raw_image_proxy.h"
-#include "ffmpeg_image_proxy.h"
-#include "j2k_image_proxy.h"
-#include "image.h"
-#include "exceptions.h"
 #include "cross.h"
+#include "exceptions.h"
+#include "ffmpeg_image_proxy.h"
+#include "image.h"
+#include "image_proxy.h"
+#include "j2k_image_proxy.h"
+#include "raw_image_proxy.h"
 #include <dcp/util.h>
 #include <libcxml/cxml.h>
 #include <iostream>

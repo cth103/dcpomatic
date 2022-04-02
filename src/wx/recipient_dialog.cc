@@ -61,7 +61,7 @@ RecipientDialog::RecipientDialog (
 	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	SetSizer (overall_sizer);
 
 	_sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
@@ -97,14 +97,14 @@ RecipientDialog::RecipientDialog (
 	++r;
 
         wxClientDC dc (this);
-	wxFont font = _name->GetFont ();
+	auto font = _name->GetFont ();
 	font.SetFamily (wxFONTFAMILY_TELETYPE);
 	dc.SetFont (font);
-        wxSize size = dc.GetTextExtent (wxT ("1234567890123456789012345678"));
-        size.SetHeight (-1);
+	auto size = dc.GetTextExtent(wxT("1234567890123456789012345678"));
+	size.SetHeight (-1);
 
 	add_label_to_sizer (_sizer, this, _("Recipient certificate"), true, wxGBPosition (r, 0));
-	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
+	auto s = new wxBoxSizer (wxHORIZONTAL);
 	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
 	_recipient_thumbprint->SetFont (font);
 	set_recipient (recipient);
@@ -122,7 +122,7 @@ RecipientDialog::RecipientDialog (
 
 	overall_sizer->Add (_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -186,7 +186,7 @@ RecipientDialog::load_recipient (boost::filesystem::path file)
 void
 RecipientDialog::get_recipient_from_file ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _("Select Certificate File"));
+	auto d = new wxFileDialog (this, _("Select Certificate File"));
 	if (d->ShowModal () == wxID_OK) {
 		load_recipient (boost::filesystem::path (wx_to_std (d->GetPath ())));
 	}
@@ -199,7 +199,7 @@ RecipientDialog::get_recipient_from_file ()
 void
 RecipientDialog::setup_sensitivity ()
 {
-	wxButton* ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton*> (FindWindowById (wxID_OK, this));
 	if (ok) {
 		ok->Enable (static_cast<bool>(_recipient) && !_name->GetValue().IsEmpty());
 	}

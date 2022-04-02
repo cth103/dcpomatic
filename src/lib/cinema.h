@@ -76,7 +76,7 @@ public:
 		return _utc_offset_minute;
 	}
 
-	std::list<std::shared_ptr<dcpomatic::Screen> > screens () const {
+	std::list<std::shared_ptr<dcpomatic::Screen>> screens () const {
 		return _screens;
 	}
 

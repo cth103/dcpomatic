@@ -19,8 +19,8 @@
 */
 
 
-#include "player_text.h"
 #include "font.h"
+#include "player_text.h"
 
 
 using std::list;

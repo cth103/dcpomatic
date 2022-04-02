@@ -18,8 +18,9 @@
 
 */
 
-#include "audio_filter_graph.h"
+
 #include "audio_buffers.h"
+#include "audio_filter_graph.h"
 #include "compose.hpp"
 extern "C" {
 #include <libavfilter/buffersink.h>
@@ -31,9 +32,12 @@ extern "C" {
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
+using std::string;
+
 
 AudioFilterGraph::AudioFilterGraph (int sample_rate, int channels)
 	: _sample_rate (sample_rate)
@@ -113,7 +117,7 @@ AudioFilterGraph::process (shared_ptr<const AudioBuffers> buffers)
 		   the constructor) so we need to create new buffers with some extra
 		   silent channels.
 		*/
-		shared_ptr<AudioBuffers> extended_buffers (new AudioBuffers (process_channels, buffers->frames()));
+		auto extended_buffers = make_shared<AudioBuffers>(process_channels, buffers->frames());
 		for (int i = 0; i < buffers->channels(); ++i) {
 			extended_buffers->copy_channel_from (buffers.get(), i, i);
 		}

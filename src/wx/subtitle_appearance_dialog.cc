@@ -39,11 +39,12 @@ DCPOMATIC_DISABLE_WARNINGS
 DCPOMATIC_ENABLE_WARNINGS
 
 
-using std::map;
-using std::string;
-using std::shared_ptr;
-using boost::bind;
 using std::dynamic_pointer_cast;
+using std::map;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
@@ -68,7 +69,7 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		/* XXX: assuming that all FFmpeg streams have bitmap subs */
 		if (_stream->colours().empty()) {
 			_job_manager_connection = JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&SubtitleAppearanceDialog::active_jobs_changed, this, _1));
-			_job = JobManager::instance()->add(shared_ptr<Job>(new ExamineFFmpegSubtitlesJob(film, ff)));
+			_job = JobManager::instance()->add(make_shared<ExamineFFmpegSubtitlesJob>(film, ff));
 		}
 	}
 

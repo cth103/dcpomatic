@@ -24,32 +24,32 @@
  */
 
 
-#include "j2k_encoder.h"
-#include "util.h"
-#include "film.h"
-#include "log.h"
-#include "dcpomatic_log.h"
+#include "compose.hpp"
 #include "config.h"
-#include "dcp_video.h"
 #include "cross.h"
-#include "writer.h"
+#include "dcp_video.h"
+#include "dcpomatic_log.h"
+#include "encode_server_description.h"
 #include "encode_server_finder.h"
+#include "film.h"
+#include "j2k_encoder.h"
+#include "log.h"
 #include "player.h"
 #include "player_video.h"
-#include "encode_server_description.h"
-#include "compose.hpp"
+#include "util.h"
+#include "writer.h"
 #include <libcxml/cxml.h>
 #include <iostream>
 
 #include "i18n.h"
 
 
-using std::list;
 using std::cout;
 using std::exception;
+using std::list;
+using std::make_shared;
 using std::shared_ptr;
 using std::weak_ptr;
-using std::make_shared;
 using boost::optional;
 using dcp::Data;
 using namespace dcpomatic;

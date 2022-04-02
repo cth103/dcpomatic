@@ -107,6 +107,7 @@ Image::horizontal_factor (int n) const
 	return lrintf(powf(2.0f, d->log2_chroma_w));
 }
 
+
 /** @param n Component index.
  *  @return Number of samples (i.e. pixels, unless sub-sampled) in each direction for this component.
  */
@@ -119,17 +120,18 @@ Image::sample_size (int n) const
 		);
 }
 
+
 /** @return Number of planes */
 int
 Image::planes () const
 {
+	if (_pixel_format == AV_PIX_FMT_PAL8) {
+		return 2;
+	}
+
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("planes()", _pixel_format);
-	}
-
-	if (_pixel_format == AV_PIX_FMT_PAL8) {
-		return 2;
 	}
 
 	if ((d->flags & AV_PIX_FMT_FLAG_PLANAR) == 0) {
@@ -309,11 +311,13 @@ Image::crop_scale_window (
 	return out;
 }
 
+
 shared_ptr<Image>
 Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment out_alignment, bool fast) const
 {
 	return scale(size(), yuv_to_rgb, out_format, out_alignment, fast);
 }
+
 
 /** @param out_size Size to scale to.
  *  @param yuv_to_rgb YUVToRGB transform transform to use, if required.
@@ -373,6 +377,7 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	return scaled;
 }
 
+
 /** Blacken a YUV image whose bits per pixel is rounded up to 16 */
 void
 Image::yuv_16_black (uint16_t v, bool alpha)
@@ -395,11 +400,13 @@ Image::yuv_16_black (uint16_t v, bool alpha)
 	}
 }
 
+
 uint16_t
 Image::swap_16 (uint16_t v)
 {
 	return ((v >> 8) & 0xff) | ((v & 0xff) << 8);
 }
+
 
 void
 Image::make_part_black (int const start, int const width)
@@ -470,6 +477,7 @@ Image::make_part_black (int const start, int const width)
 		throw PixelFormatError ("make_part_black()", _pixel_format);
 	}
 }
+
 
 void
 Image::make_black ()
@@ -586,6 +594,7 @@ Image::make_black ()
 	}
 }
 
+
 void
 Image::make_transparent ()
 {
@@ -595,6 +604,7 @@ Image::make_transparent ()
 
 	memset (data()[0], 0, sample_size(0).height * stride()[0]);
 }
+
 
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
@@ -842,6 +852,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	}
 }
 
+
 void
 Image::copy (shared_ptr<const Image> other, Position<int> position)
 {
@@ -857,6 +868,7 @@ Image::copy (shared_ptr<const Image> other, Position<int> position)
 	}
 }
 
+
 void
 Image::read_from_socket (shared_ptr<Socket> socket)
 {
@@ -870,6 +882,7 @@ Image::read_from_socket (shared_ptr<Socket> socket)
 	}
 }
 
+
 void
 Image::write_to_socket (shared_ptr<Socket> socket) const
 {
@@ -882,6 +895,7 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 		}
 	}
 }
+
 
 float
 Image::bytes_per_pixel (int c) const
@@ -928,6 +942,7 @@ Image::bytes_per_pixel (int c) const
 
 	return bpp[c];
 }
+
 
 /** Construct a Image of a given size and format, allocating memory
  *  as required.
@@ -1008,6 +1023,7 @@ Image::allocate ()
 	}
 }
 
+
 Image::Image (Image const & other)
 	: std::enable_shared_from_this<Image>(other)
 	, _size (other._size)
@@ -1027,6 +1043,7 @@ Image::Image (Image const & other)
 		}
 	}
 }
+
 
 Image::Image (AVFrame const * frame, Alignment alignment)
 	: _size (frame->width, frame->height)
@@ -1050,6 +1067,7 @@ Image::Image (AVFrame const * frame, Alignment alignment)
 	}
 }
 
+
 Image::Image (shared_ptr<const Image> other, Alignment alignment)
 	: _size (other->_size)
 	, _pixel_format (other->_pixel_format)
@@ -1070,6 +1088,7 @@ Image::Image (shared_ptr<const Image> other, Alignment alignment)
 	}
 }
 
+
 Image&
 Image::operator= (Image const & other)
 {
@@ -1081,6 +1100,7 @@ Image::operator= (Image const & other)
 	swap (tmp);
 	return *this;
 }
+
 
 void
 Image::swap (Image & other)
@@ -1097,6 +1117,7 @@ Image::swap (Image & other)
 	std::swap (_alignment, other._alignment);
 }
 
+
 Image::~Image ()
 {
 	for (int i = 0; i < planes(); ++i) {
@@ -1108,11 +1129,13 @@ Image::~Image ()
 	av_free (_stride);
 }
 
+
 uint8_t * const *
 Image::data () const
 {
 	return _data;
 }
+
 
 int const *
 Image::line_size () const
@@ -1120,17 +1143,20 @@ Image::line_size () const
 	return _line_size;
 }
 
+
 int const *
 Image::stride () const
 {
 	return _stride;
 }
 
+
 dcp::Size
 Image::size () const
 {
 	return _size;
 }
+
 
 Image::Alignment
 Image::alignment () const
@@ -1193,6 +1219,7 @@ operator== (Image const & a, Image const & b)
 
 	return true;
 }
+
 
 /** Fade the image.
  *  @param f Amount to fade by; 0 is black, 1 is no fade.
@@ -1336,6 +1363,7 @@ Image::memory_used () const
 	return m;
 }
 
+
 class Memory
 {
 public:
@@ -1352,6 +1380,7 @@ public:
 	uint8_t* data;
 	size_t size;
 };
+
 
 static void
 png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
@@ -1373,11 +1402,13 @@ png_write_data (png_structp png_ptr, png_bytep data, png_size_t length)
 	mem->size += length;
 }
 
+
 static void
 png_flush (png_structp)
 {
 
 }
+
 
 static void
 png_error_fn (png_structp png_ptr, char const * message)
@@ -1385,11 +1416,13 @@ png_error_fn (png_structp png_ptr, char const * message)
 	reinterpret_cast<Image*>(png_get_error_ptr(png_ptr))->png_error (message);
 }
 
+
 void
 Image::png_error (char const * message)
 {
 	throw EncodeError (String::compose ("Error during PNG write: %1", message));
 }
+
 
 dcp::ArrayData
 Image::as_png () const

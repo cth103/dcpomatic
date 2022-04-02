@@ -48,7 +48,7 @@ public:
 
 private:
 	mutable boost::mutex _mutex;
-	std::list<std::pair<std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime> > _buffers;
+	std::list<std::pair<std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime>> _buffers;
 	int _used_in_head = 0;
 };
 

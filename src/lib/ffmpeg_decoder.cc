@@ -144,7 +144,7 @@ FFmpegDecoder::flush ()
 		auto const f = full_length.frames_round (vfr);
 		auto v = video->position(film()).get_value_or(ContentTime()).frames_round(vfr) + 1;
 		while (v < f) {
-			video->emit (film(), shared_ptr<const ImageProxy> (new RawImageProxy (_black_image)), v);
+			video->emit (film(), make_shared<const RawImageProxy>(_black_image), v);
 			++v;
 		}
 	}

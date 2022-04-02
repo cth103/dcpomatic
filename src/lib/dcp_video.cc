@@ -125,7 +125,7 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
  *  @return Encoded data.
  */
 ArrayData
-DCPVideo::encode_locally ()
+DCPVideo::encode_locally () const
 {
 	auto const comment = Config::instance()->dcp_j2k_comment();
 
@@ -204,7 +204,7 @@ DCPVideo::encode_locally ()
  *  @return Encoded data.
  */
 ArrayData
-DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout)
+DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);

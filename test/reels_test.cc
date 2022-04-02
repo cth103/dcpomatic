@@ -25,27 +25,27 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/ratio.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/image_content.h"
-#include "lib/dcp_content_type.h"
-#include "lib/dcp_content.h"
-#include "lib/video_content.h"
-#include "lib/string_text_file_content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/ratio.h"
+#include "lib/string_text_file_content.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
 
-using std::list;
 using std::cout;
-using std::vector;
-using std::string;
-using std::shared_ptr;
-using std::make_shared;
 using std::function;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 using namespace dcpomatic;
 
 

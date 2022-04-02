@@ -24,9 +24,9 @@
  */
 
 
-#include "log.h"
-#include "cross.h"
 #include "config.h"
+#include "cross.h"
+#include "log.h"
 #include "string_log_entry.h"
 #include <time.h>
 #include <cstdio>
@@ -34,10 +34,10 @@
 #include "i18n.h"
 
 
-using std::string;
 using std::cout;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
 
 
 Log::Log ()

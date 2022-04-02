@@ -27,10 +27,11 @@
 #ifndef DCPOMATIC_CONTENT_H
 #define DCPOMATIC_CONTENT_H
 
-#include "types.h"
-#include "signaller.h"
-#include "dcpomatic_time.h"
+
 #include "change_signaller.h"
+#include "dcpomatic_time.h"
+#include "signaller.h"
+#include "types.h"
 #include "user_property.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>

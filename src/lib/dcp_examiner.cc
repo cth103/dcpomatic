@@ -19,33 +19,33 @@
 */
 
 
-#include "dcp_examiner.h"
+#include "config.h"
 #include "dcp_content.h"
+#include "dcp_examiner.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "image.h"
-#include "config.h"
 #include "util.h"
+#include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
-#include <dcp/cpl.h>
-#include <dcp/reel.h>
-#include <dcp/reel_picture_asset.h>
-#include <dcp/reel_sound_asset.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/mono_picture_frame.h>
+#include <dcp/reel.h>
+#include <dcp/reel_atmos_asset.h>
+#include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_markers_asset.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/reel_subtitle_asset.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset.h>
+#include <dcp/sound_asset_reader.h>
 #include <dcp/stereo_picture_asset.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/stereo_picture_frame.h>
-#include <dcp/sound_asset.h>
-#include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_asset.h>
-#include <dcp/reel_atmos_asset.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
-#include <dcp/reel_markers_asset.h>
-#include <dcp/sound_asset.h>
 #include <iostream>
 
 #include "i18n.h"

@@ -73,7 +73,7 @@ private:
 
 	void maybe_add_subtitle ();
 
-	std::list<std::shared_ptr<VideoFilterGraph> > _filter_graphs;
+	std::list<std::shared_ptr<VideoFilterGraph>> _filter_graphs;
 	boost::mutex _filter_graphs_mutex;
 
 	dcpomatic::ContentTime _pts_offset;

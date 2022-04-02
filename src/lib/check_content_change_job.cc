@@ -18,19 +18,22 @@
 
 */
 
+
 #include "check_content_change_job.h"
-#include "job_manager.h"
-#include "examine_content_job.h"
 #include "content.h"
+#include "examine_content_job.h"
 #include "film.h"
+#include "job_manager.h"
 #include <iostream>
 
 #include "i18n.h"
+
 
 using std::cout;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+
 
 CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film)
 	: Job (film)

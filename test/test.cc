@@ -369,7 +369,7 @@ rms_error (boost::filesystem::path ref, boost::filesystem::path check)
 	auto check_image = check_proxy.image(Image::Alignment::COMPACT).image;
 
 	BOOST_REQUIRE_EQUAL (ref_image->pixel_format(), check_image->pixel_format());
-	AVPixelFormat const format = ref_image->pixel_format();
+	auto const format = ref_image->pixel_format();
 
 	BOOST_REQUIRE (ref_image->size() == check_image->size());
 	int const width = ref_image->size().width;
