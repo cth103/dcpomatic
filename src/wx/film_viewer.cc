@@ -223,7 +223,7 @@ FilmViewer::recreate_butler ()
 		_player,
 		Config::instance()->audio_mapping(_audio_channels),
 		_audio_channels,
-		bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24),
+		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
 		j2k_gl_optimised ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,

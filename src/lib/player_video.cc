@@ -298,7 +298,7 @@ PlayerVideo::same (shared_ptr<const PlayerVideo> other) const
 
 
 AVPixelFormat
-PlayerVideo::force (AVPixelFormat, AVPixelFormat force_to)
+PlayerVideo::force (AVPixelFormat force_to)
 {
 	return force_to;
 }

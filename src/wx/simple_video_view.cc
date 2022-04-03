@@ -224,7 +224,7 @@ SimpleVideoView::update ()
 
 	_state_timer.set ("get image");
 
-	_image = player_video().first->image(bind(&PlayerVideo::force, _1, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+	_image = player_video().first->image(boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
 
 	_state_timer.set ("ImageChanged");
 	_viewer->image_changed (player_video().first);
