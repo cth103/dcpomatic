@@ -35,6 +35,7 @@
 #include "lib/job_manager.h"
 #include "lib/dcp_content.h"
 #include "lib/audio_content.h"
+#include "lib/maths_util.h"
 #include <wx/spinctrl.h>
 #include <iostream>
 

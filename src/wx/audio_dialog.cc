@@ -18,6 +18,7 @@
 
 */
 
+
 #include "audio_dialog.h"
 #include "audio_plot.h"
 #include "check_box.h"
@@ -28,9 +29,11 @@
 #include "lib/audio_content.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/maths_util.h"
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <iostream>
+
 
 using std::cout;
 using std::list;
@@ -47,6 +50,7 @@ using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 /** @param parent Parent window.
  *  @param film Film we are using.

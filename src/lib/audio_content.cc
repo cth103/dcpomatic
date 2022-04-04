@@ -25,6 +25,7 @@
 #include "exceptions.h"
 #include "film.h"
 #include "frame_rate_change.h"
+#include "maths_util.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>

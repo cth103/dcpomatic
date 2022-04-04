@@ -40,6 +40,7 @@
 #include "image_decoder.h"
 #include "job.h"
 #include "log.h"
+#include "maths_util.h"
 #include "piece.h"
 #include "player.h"
 #include "player_video.h"

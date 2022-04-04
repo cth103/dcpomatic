@@ -20,27 +20,28 @@
 
 
 #include "audio_plot.h"
-#include "wx_util.h"
 #include "film_viewer.h"
+#include "wx_util.h"
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
 #include "lib/compose.hpp"
+#include "lib/maths_util.h"
 #include <wx/graphics.h>
 #include <boost/bind/bind.hpp>
-#include <iostream>
 #include <cfloat>
+#include <iostream>
 
 
 using std::cout;
-using std::vector;
 using std::list;
+using std::map;
 using std::max;
 using std::min;
-using std::map;
+using std::shared_ptr;
+using std::vector;
+using std::weak_ptr;
 using boost::bind;
 using boost::optional;
-using std::shared_ptr;
-using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

@@ -1085,18 +1085,6 @@ copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::fun
 	free (buffer);
 }
 
-double
-db_to_linear (double db)
-{
-	return pow(10, db / 20);
-}
-
-double
-linear_to_db (double linear)
-{
-	return 20 * log10(linear);
-}
-
 
 dcp::Size
 scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta)
