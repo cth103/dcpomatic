@@ -21,6 +21,7 @@
 
 #include "audio_filter.h"
 #include "audio_buffers.h"
+#include "maths_util.h"
 #include "util.h"
 #include <cmath>
 
