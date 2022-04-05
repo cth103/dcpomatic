@@ -25,6 +25,7 @@ extern "C" {
 #include <libavutil/avutil.h>
 }
 DCPOMATIC_ENABLE_WARNINGS
+#include <new>
 #include <stdexcept>
 
 
