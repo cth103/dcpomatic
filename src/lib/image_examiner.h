@@ -27,19 +27,19 @@ class ImageExaminer : public VideoExaminer
 public:
 	ImageExaminer (std::shared_ptr<const Film>, std::shared_ptr<const ImageContent>, std::shared_ptr<Job>);
 
-	bool has_video () const {
+	bool has_video () const override {
 		return true;
 	}
-	boost::optional<double> video_frame_rate () const;
-	dcp::Size video_size () const;
-	Frame video_length () const {
+	boost::optional<double> video_frame_rate () const override;
+	dcp::Size video_size () const override;
+	Frame video_length () const override {
 		return _video_length;
 	}
-	bool yuv () const;
-	VideoRange range () const {
+	bool yuv () const override;
+	VideoRange range () const override {
 		return VideoRange::FULL;
 	}
-	PixelQuanta pixel_quanta () const {
+	PixelQuanta pixel_quanta () const override {
 		/* See ::yuv - we're assuming the image is not YUV and so not subsampled */
 		return {};
 	}

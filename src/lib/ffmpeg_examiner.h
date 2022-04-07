@@ -37,11 +37,11 @@ public:
 
 	bool has_video () const;
 
-	boost::optional<double> video_frame_rate () const;
-	dcp::Size video_size () const;
-	Frame video_length () const;
-	boost::optional<double> sample_aspect_ratio () const;
-	bool yuv () const;
+	boost::optional<double> video_frame_rate () const override;
+	dcp::Size video_size () const override;
+	Frame video_length () const override;
+	boost::optional<double> sample_aspect_ratio () const override;
+	bool yuv () const override;
 
 	std::vector<std::shared_ptr<FFmpegSubtitleStream>> subtitle_streams () const {
 		return _subtitle_streams;
@@ -55,9 +55,9 @@ public:
 		return _first_video;
 	}
 
-	VideoRange range () const;
+	VideoRange range () const override;
 
-	PixelQuanta pixel_quanta () const;
+	PixelQuanta pixel_quanta () const override;
 
 	AVColorRange color_range () const {
 		return video_codec_context()->color_range;

@@ -34,15 +34,15 @@ public:
 	bool has_video () const {
 		return true;
 	}
-	boost::optional<double> video_frame_rate () const;
-	dcp::Size video_size () const;
-	Frame video_length () const;
-	boost::optional<double> sample_aspect_ratio () const;
-	bool yuv () const;
-	VideoRange range () const {
+	boost::optional<double> video_frame_rate () const override;
+	dcp::Size video_size () const override;
+	Frame video_length () const override;
+	boost::optional<double> sample_aspect_ratio () const override;
+	bool yuv () const override;
+	VideoRange range () const override {
 		return VideoRange::FULL;
 	}
-	PixelQuanta pixel_quanta () const {
+	PixelQuanta pixel_quanta () const override {
 		return {};
 	}
 
