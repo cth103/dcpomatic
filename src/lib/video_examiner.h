@@ -48,7 +48,7 @@ public:
 	virtual Frame video_length () const = 0;
 	/** @return video sample aspect ratio (if known); must not be called if has_video() == false */
 	virtual boost::optional<double> sample_aspect_ratio () const {
-		return boost::optional<double> ();
+		return {};
 	}
 	/** @return true if this video is in YUV; must not be called if has_video() == false */
 	virtual bool yuv () const = 0;
