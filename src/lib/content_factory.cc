@@ -66,9 +66,6 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 	std::shared_ptr<Content> content;
 
 	if (type == "FFmpeg") {
-		/* SndfileContent is now handled by the FFmpeg code rather than by
-		   separate libsndfile-based code.
-		*/
 		content = make_shared<FFmpegContent>(node, version, notes);
 	} else if (type == "Image") {
 		content = make_shared<ImageContent>(node, version);
