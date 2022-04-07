@@ -32,6 +32,7 @@
 #include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/date_time.hpp>
 #include <boost/filesystem.hpp>
@@ -174,3 +175,38 @@ BOOST_AUTO_TEST_CASE (metadata_loads_from_2_14_x_4)
 	BOOST_REQUIRE (!film->luminance());
 }
 
+
+BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_dcp)
+{
+	namespace fs = boost::filesystem;
+	auto film = make_shared<Film>(fs::path("test/data/214x_dcp"));
+	film->read_metadata();
+
+	BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+	BOOST_REQUIRE(film->content()[0]->video);
+	BOOST_CHECK(film->content()[0]->video->range() == VideoRange::FULL);
+}
+
+
+BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_mp4_with_unknown_range)
+{
+	namespace fs = boost::filesystem;
+	auto film = make_shared<Film>(fs::path("test/data/214x_mp4"));
+	film->read_metadata();
+
+	BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+	BOOST_REQUIRE(film->content()[0]->video);
+	BOOST_CHECK(film->content()[0]->video->range() == VideoRange::VIDEO);
+}
+
+
+BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_png)
+{
+	namespace fs = boost::filesystem;
+	auto film = make_shared<Film>(fs::path("test/data/214x_png"));
+	film->read_metadata();
+
+	BOOST_REQUIRE_EQUAL(film->content().size(), 1U);
+	BOOST_REQUIRE(film->content()[0]->video);
+	BOOST_CHECK(film->content()[0]->video->range() == VideoRange::FULL);
+}

@@ -95,7 +95,7 @@ DCPContent::DCPContent (boost::filesystem::path p)
 DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	: Content (node)
 {
-	video = VideoContent::from_xml (this, node, version);
+	video = VideoContent::from_xml (this, node, version, VideoRange::FULL);
 	audio = AudioContent::from_xml (this, node, version);
 	list<string> notes;
 	text = TextContent::from_xml (this, node, version, notes);

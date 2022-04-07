@@ -60,7 +60,7 @@ class VideoContent : public ContentPart, public std::enable_shared_from_this<Vid
 {
 public:
 	explicit VideoContent (Content* parent);
-	VideoContent (Content* parent, cxml::ConstNodePtr, int);
+	VideoContent (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint);
 	VideoContent (Content* parent, std::vector<std::shared_ptr<Content>>);
 
 	void as_xml (xmlpp::Node *) const;
@@ -216,7 +216,7 @@ public:
 	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
 	void modify_trim_start (dcpomatic::ContentTime& pos) const;
 
-	static std::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr, int);
+	static std::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint);
 
 private:
 

@@ -86,17 +86,20 @@ VideoContent::VideoContent (Content* parent)
 }
 
 
+/** @param video_range_hint Video range to use if none is given in the XML */
 shared_ptr<VideoContent>
-VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version)
+VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
 {
 	if (!node->optional_number_child<int> ("VideoWidth")) {
 		return {};
 	}
 
-	return make_shared<VideoContent>(parent, node, version);
+	return make_shared<VideoContent>(parent, node, version, video_range_hint);
 }
 
-VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version)
+
+/** @param video_range_hint Video range to use if none is given in the XML */
+VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
 	: ContentPart (parent)
 {
 	_size.width = node->number_child<int> ("VideoWidth");
@@ -185,8 +188,12 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		_fade_in = _fade_out = 0;
 	}
 
-	_range = VideoRange::FULL;
-	if (node->optional_string_child("Range").get_value_or("full") == "video") {
+	auto video_range = node->optional_string_child("Range");
+	if (!video_range) {
+		_range = video_range_hint;
+	} else if (*video_range == "full") {
+		_range = VideoRange::FULL;
+	} else {
 		_range = VideoRange::VIDEO;
 	}
 

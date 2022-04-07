@@ -90,7 +90,11 @@ get_optional_enum (cxml::ConstNodePtr node, string name)
 FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>& notes)
 	: Content (node)
 {
-	video = VideoContent::from_xml (this, node, version);
+	_color_range = get_optional_enum<AVColorRange>(node, "ColorRange");
+
+	VideoRange const video_range_hint = (_color_range && *_color_range == AVCOL_RANGE_JPEG) ? VideoRange::FULL : VideoRange::VIDEO;
+
+	video = VideoContent::from_xml (this, node, version, video_range_hint);
 	audio = AudioContent::from_xml (this, node, version);
 	text = TextContent::from_xml (this, node, version, notes);
 
@@ -124,7 +128,6 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 		_first_video = ContentTime (f.get ());
 	}
 
-	_color_range = get_optional_enum<AVColorRange>(node, "ColorRange");
 	_color_primaries = get_optional_enum<AVColorPrimaries>(node, "ColorPrimaries");
 	_color_trc = get_optional_enum<AVColorTransferCharacteristic>(node, "ColorTransferCharacteristic");
 	_colorspace = get_optional_enum<AVColorSpace>(node, "Colorspace");
