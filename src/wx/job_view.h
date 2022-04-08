@@ -63,7 +63,7 @@ protected:
 	wxFlexGridSizer* _table;
 	/** sizer for buttons (cancel, details, pause etc.) */
 	wxBoxSizer* _buttons;
-	/** sizer for the guage and the message underneath it */
+	/** sizer for the gauge and the message underneath it */
 	wxBoxSizer* _gauge_message;
 
 private:

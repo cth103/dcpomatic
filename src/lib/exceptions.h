@@ -416,7 +416,7 @@ private:
 
 
 /** @class CommunicationFailedError
- *  @brief Communcation between dcpomatic2_disk and _disk_writer failed somehow.
+ *  @brief Communication between dcpomatic2_disk and _disk_writer failed somehow.
  */
 class CommunicationFailedError : public CopyError
 {

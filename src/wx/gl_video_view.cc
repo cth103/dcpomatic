@@ -517,7 +517,7 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 
 	/** If _optimise_for_j2k is true we render a XYZ image, doing the colourspace
 	 *  conversion, scaling and video range conversion in the GL shader.
-	 *  Othewise we render a RGB image without any shader-side processing.
+	 *  Otherwise we render a RGB image without any shader-side processing.
 	 */
 
 	/* XXX: video range conversion */
