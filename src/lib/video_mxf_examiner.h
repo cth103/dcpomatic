@@ -31,7 +31,7 @@ class VideoMXFExaminer : public VideoExaminer
 public:
 	explicit VideoMXFExaminer (std::shared_ptr<const VideoMXFContent>);
 
-	bool has_video () const {
+	bool has_video () const override {
 		return true;
 	}
 	boost::optional<double> video_frame_rate () const override;
