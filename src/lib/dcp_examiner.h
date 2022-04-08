@@ -45,29 +45,29 @@ public:
 		return _has_video;
 	}
 
-	boost::optional<double> video_frame_rate () const {
+	boost::optional<double> video_frame_rate () const override {
 		return _video_frame_rate;
 	}
 
-	dcp::Size video_size () const {
+	dcp::Size video_size () const override {
 		DCPOMATIC_ASSERT (_has_video);
 		DCPOMATIC_ASSERT (_video_size);
 		return *_video_size;
 	}
 
-	Frame video_length () const {
+	Frame video_length () const override {
 		return _video_length;
 	}
 
-	bool yuv () const {
+	bool yuv () const override {
 		return false;
 	}
 
-	VideoRange range () const {
+	VideoRange range () const override {
 		return VideoRange::FULL;
 	}
 
-	PixelQuanta pixel_quanta () const {
+	PixelQuanta pixel_quanta () const override {
 		return {};
 	}
 
@@ -83,19 +83,19 @@ public:
 		return _needs_assets;
 	}
 
-	bool has_audio () const {
+	bool has_audio () const override {
 		return _has_audio;
 	}
 
-	int audio_channels () const {
+	int audio_channels () const override {
 		return _audio_channels.get_value_or (0);
 	}
 
-	Frame audio_length () const {
+	Frame audio_length () const override {
 		return _audio_length;
 	}
 
-	int audio_frame_rate () const {
+	int audio_frame_rate () const override {
 		return _audio_frame_rate.get_value_or (48000);
 	}
 
