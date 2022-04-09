@@ -25,6 +25,6 @@ class GDCCertificatePanel : public CredentialsDownloadCertificatePanel
 public:
 	GDCCertificatePanel (DownloadCertificateDialog* dialog);
 
-	void do_download ();
-	wxString name () const;
+	void do_download () override;
+	wxString name () const override;
 };

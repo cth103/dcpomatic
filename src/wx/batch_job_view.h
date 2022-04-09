@@ -28,10 +28,10 @@ public:
 	BatchJobView (std::shared_ptr<Job> job, wxWindow* parent, wxWindow* container, wxFlexGridSizer* table);
 
 private:
-	int insert_position () const;
-	void job_list_changed ();
+	int insert_position () const override;
+	void job_list_changed () override;
 
-	void finish_setup (wxWindow* parent, wxSizer* sizer);
+	void finish_setup (wxWindow* parent, wxSizer* sizer) override;
 	void higher_priority_clicked ();
 	void lower_priority_clicked ();
 

@@ -32,9 +32,9 @@ public:
 	TimelineTextContentView (Timeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
 
 private:
-	bool active () const;
-	wxColour background_colour () const;
-	wxColour foreground_colour () const;
+	bool active () const override;
+	wxColour background_colour () const override;
+	wxColour foreground_colour () const override;
 
 	std::shared_ptr<TextContent> _caption;
 };

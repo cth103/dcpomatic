@@ -53,9 +53,9 @@ public:
 
 	~SendKDMEmailJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 private:
 	dcp::NameFormat _container_name_format;

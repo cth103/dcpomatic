@@ -32,8 +32,8 @@ public:
 	size_t read_callback (void* ptr, size_t size, size_t nmemb);
 
 protected:
-	virtual void create_directory (boost::filesystem::path directory);
-	virtual void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size);
+	void create_directory (boost::filesystem::path directory) override;
+	void upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size) override;
 
 private:
 	CURL* _curl;

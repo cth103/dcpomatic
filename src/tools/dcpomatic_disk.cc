@@ -418,7 +418,7 @@ public:
 		: _frame (nullptr)
 	{}
 
-	bool OnInit ()
+	bool OnInit () override
 	{
 		try {
 			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
@@ -489,13 +489,13 @@ public:
 		return true;
 	}
 
-	void OnInitCmdLine (wxCmdLineParser& parser)
+	void OnInitCmdLine (wxCmdLineParser& parser) override
 	{
 		parser.SetDesc (command_line_description);
 		parser.SetSwitchChars (wxT ("-"));
 	}
 
-	bool OnCmdLineParsed (wxCmdLineParser& parser)
+	bool OnCmdLineParsed (wxCmdLineParser& parser) override
 	{
 		_skip_alpha_check = parser.Found(wxT("sure"));
 
@@ -549,14 +549,14 @@ public:
 		}
 	}
 
-	bool OnExceptionInMainLoop ()
+	bool OnExceptionInMainLoop () override
 	{
 		report_exception ();
 		/* This will terminate the program */
 		return false;
 	}
 
-	void OnUnhandledException ()
+	void OnUnhandledException () override
 	{
 		report_exception ();
 	}

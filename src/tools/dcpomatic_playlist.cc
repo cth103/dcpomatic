@@ -85,7 +85,7 @@ public:
 		return _content_view->selected ();
 	}
 
-	shared_ptr<Content> get (string digest) const
+	shared_ptr<Content> get (string digest) const override
 	{
 		return _content_view->get (digest);
 	}
@@ -590,7 +590,7 @@ public:
 
 private:
 
-	bool OnInit ()
+	bool OnInit () override
 	try
 	{
 		wxInitAllImageHandlers ();
@@ -645,7 +645,7 @@ private:
 	}
 
 	/* An unhandled exception has occurred inside the main event loop */
-	bool OnExceptionInMainLoop ()
+	bool OnExceptionInMainLoop () override
 	{
 		try {
 			throw;
@@ -674,7 +674,7 @@ private:
 		return false;
 	}
 
-	void OnUnhandledException ()
+	void OnUnhandledException () override
 	{
 		error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 	}

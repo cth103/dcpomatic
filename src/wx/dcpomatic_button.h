@@ -29,8 +29,8 @@ class Button : public wxButton, public I18NHook
 public:
 	Button (wxWindow* parent, wxString label, wxPoint pos = wxDefaultPosition, wxSize = wxDefaultSize, long style = 0);
 
-	void set_text (wxString text);
-	wxString get_text () const;
+	void set_text (wxString text) override;
+	wxString get_text () const override;
 };
 
 #endif

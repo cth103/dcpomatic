@@ -28,10 +28,10 @@ public:
 	explicit FileLog (boost::filesystem::path file);
 	FileLog (boost::filesystem::path file, int types);
 
-	std::string head_and_tail (int amount = 1024) const;
+	std::string head_and_tail (int amount = 1024) const override;
 
 private:
-	void do_log (std::shared_ptr<const LogEntry> entry);
+	void do_log (std::shared_ptr<const LogEntry> entry) override;
 
 	/** filename to write to */
 	boost::filesystem::path _file;

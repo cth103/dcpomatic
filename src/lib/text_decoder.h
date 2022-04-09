@@ -48,7 +48,7 @@ public:
 		dcpomatic::ContentTime first
 		);
 
-	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const override {
 		return _position;
 	}
 
@@ -60,7 +60,7 @@ public:
 	void emit_plain (dcpomatic::ContentTimePeriod period, sub::Subtitle const & subtitle);
 	void emit_stop (dcpomatic::ContentTime to);
 
-	void seek ();
+	void seek () override;
 
 	std::shared_ptr<const TextContent> content () const {
 		return _content;

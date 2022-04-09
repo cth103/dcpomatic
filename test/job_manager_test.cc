@@ -59,7 +59,7 @@ public:
 		set_state (FINISHED_ERROR);
 	}
 
-	void run ()
+	void run () override
 	{
 		while (true) {
 			if (finished ()) {
@@ -68,11 +68,11 @@ public:
 		}
 	}
 
-	string name () const {
+	string name () const override {
 		return "";
 	}
 
-	string json_name () const {
+	string json_name () const override {
 		return "";
 	}
 };

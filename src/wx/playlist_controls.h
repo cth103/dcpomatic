@@ -28,7 +28,7 @@ class PlaylistControls : public Controls
 public:
 	PlaylistControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer);
 
-	void set_film (std::shared_ptr<Film> film);
+	void set_film (std::shared_ptr<Film> film) override;
 
 	/** This is so that we can tell our parent player to reset the film
 	    when we have created one from a SPL.  We could call a method
@@ -36,8 +36,8 @@ public:
 	*/
 	boost::signals2::signal<void (std::weak_ptr<Film>)> ResetFilm;
 
-	void play ();
-	void stop ();
+	void play () override;
+	void stop () override;
 
 private:
 	void play_clicked ();
@@ -50,10 +50,10 @@ private:
 	void update_playlist_directory ();
 	void spl_selection_changed ();
 	void select_playlist (int selected, int position);
-	void started ();
-	void stopped ();
-	void setup_sensitivity ();
-	void config_changed (int);
+	void started () override;
+	void stopped () override;
+	void setup_sensitivity () override;
+	void config_changed (int) override;
 	void viewer_finished ();
 	void reset_film ();
 	void update_current_content ();

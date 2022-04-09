@@ -369,7 +369,7 @@ public:
 		, _frame (frame)
 	{}
 
-	void handle (shared_ptr<Socket> socket)
+	void handle (shared_ptr<Socket> socket) override
 	{
 		try {
 			int const length = socket->read_uint32 ();
@@ -390,7 +390,7 @@ private:
 
 class App : public wxApp
 {
-	bool OnInit ()
+	bool OnInit () override
 	{
 		wxInitAllImageHandlers ();
 
@@ -469,13 +469,13 @@ class App : public wxApp
 		signal_manager->ui_idle ();
 	}
 
-	void OnInitCmdLine (wxCmdLineParser& parser)
+	void OnInitCmdLine (wxCmdLineParser& parser) override
 	{
 		parser.SetDesc (command_line_description);
 		parser.SetSwitchChars (wxT ("-"));
 	}
 
-	bool OnCmdLineParsed (wxCmdLineParser& parser)
+	bool OnCmdLineParsed (wxCmdLineParser& parser) override
 	{
 		for (size_t i = 0; i < parser.GetParamCount(); ++i) {
 			films_to_load.push_back (wx_to_std(parser.GetParam(i)));

@@ -51,9 +51,9 @@ class AudioDecoder : public std::enable_shared_from_this<AudioDecoder>, public D
 public:
 	AudioDecoder (Decoder* parent, std::shared_ptr<const AudioContent> content, bool fast);
 
-	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film> film) const;
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film> film) const override;
 	void emit (std::shared_ptr<const Film> film, AudioStreamPtr stream, std::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime, bool time_already_delayed = false);
-	void seek ();
+	void seek () override;
 	void flush ();
 
 	dcpomatic::ContentTime stream_position (std::shared_ptr<const Film> film, AudioStreamPtr stream) const;

@@ -89,7 +89,7 @@ public:
 	{}
 
 private:
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
@@ -146,7 +146,7 @@ private:
 		_automatic_audio_analysis->Bind (wxEVT_CHECKBOX, boost::bind (&FullGeneralPage::automatic_audio_analysis_changed, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 
@@ -246,20 +246,20 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Defaults");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("defaults"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
@@ -385,7 +385,7 @@ private:
 		}
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 
@@ -545,20 +545,20 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Servers");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("servers"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		_use_any_servers = new CheckBox (_panel, _("Search network for servers"));
 		_panel->GetSizer()->Add (_use_any_servers, 0, wxALL, _border);
@@ -578,7 +578,7 @@ private:
 		_use_any_servers->Bind (wxEVT_CHECKBOX, boost::bind(&EncodingServersPage::use_any_servers_changed, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		checked_set (_use_any_servers, Config::instance()->use_any_servers ());
 		_servers_list->refresh ();
@@ -606,20 +606,20 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("TMS");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("tms"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		_upload = new CheckBox (_panel, _("Upload DCP to TMS after creation"));
 		_panel->GetSizer()->Add (_upload, 0, wxALL | wxEXPAND, _border);
@@ -659,7 +659,7 @@ private:
 		_tms_password->Changed.connect (boost::bind (&TMSPage::tms_password_changed, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 
@@ -717,20 +717,20 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Email");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("email"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
@@ -776,7 +776,7 @@ private:
 		_send_test_email->Bind (wxEVT_BUTTON, boost::bind(&EmailPage::send_test_email_clicked, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 
@@ -889,20 +889,20 @@ public:
 #endif
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("KDM Email");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("kdm_email"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
@@ -948,9 +948,9 @@ private:
 		_reset_email->Bind (wxEVT_BUTTON, boost::bind (&KDMEmailPage::reset_email, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_subject, config->kdm_subject ());
 		checked_set (_from, config->kdm_from ());
@@ -1011,20 +1011,20 @@ public:
 #endif
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Notifications");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("notifications"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
@@ -1100,7 +1100,7 @@ private:
 		_reset_email->Enable(s);
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 
@@ -1184,20 +1184,20 @@ public:
 #endif
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Cover Sheet");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("cover_sheet"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		_cover_sheet = new wxTextCtrl (_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (-1, 200), wxTE_MULTILINE);
 		_panel->GetSizer()->Add (_cover_sheet, 0, wxEXPAND | wxALL, _border);
@@ -1209,7 +1209,7 @@ private:
 		_reset_cover_sheet->Bind (wxEVT_BUTTON, boost::bind (&CoverSheetPage::reset_cover_sheet, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		checked_set (_cover_sheet, Config::instance()->cover_sheet());
 	}
@@ -1243,20 +1243,20 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Identifiers");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("identifiers"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
@@ -1301,7 +1301,7 @@ private:
 		_j2k_comment->Bind (wxEVT_TEXT, boost::bind(&IdentifiersPage::j2k_comment_changed, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 		checked_set (_issuer, config->dcp_issuer ());
@@ -1361,13 +1361,13 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Advanced");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("advanced"), wxBITMAP_TYPE_PNG);
 	}
@@ -1385,7 +1385,7 @@ private:
 		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	void setup ()
+	void setup () override
 	{
 		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
@@ -1545,7 +1545,7 @@ private:
 #endif
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		auto config = Config::instance ();
 

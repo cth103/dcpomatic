@@ -51,10 +51,10 @@ public:
 	EncodeServer (bool verbose, int num_threads);
 	~EncodeServer ();
 
-	void run ();
+	void run () override;
 
 private:
-	void handle (std::shared_ptr<Socket>);
+	void handle (std::shared_ptr<Socket>) override;
 	void worker_thread ();
 	int process (std::shared_ptr<Socket> socket, struct timeval &, struct timeval &);
 	void broadcast_thread ();

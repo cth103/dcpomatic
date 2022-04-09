@@ -31,9 +31,9 @@ public:
 	ExamineContentJob (std::shared_ptr<const Film>, std::shared_ptr<Content>);
 	~ExamineContentJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 	std::shared_ptr<Content> content () const {
 		return _content;

@@ -62,7 +62,7 @@ public:
 
 	explicit Screen (cxml::ConstNodePtr);
 
-	void as_xml (xmlpp::Element *) const;
+	void as_xml (xmlpp::Element *) const override;
 	std::vector<std::string> trusted_device_thumbprints () const;
 
 	std::shared_ptr<Cinema> cinema;

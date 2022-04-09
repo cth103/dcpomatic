@@ -47,7 +47,7 @@ public:
 
 	explicit DKDMRecipient (cxml::ConstNodePtr);
 
-	void as_xml (xmlpp::Element *) const;
+	void as_xml (xmlpp::Element *) const override;
 
 	std::list<std::string> emails;
 	int utc_offset_hour;

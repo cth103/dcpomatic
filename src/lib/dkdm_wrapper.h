@@ -61,8 +61,8 @@ public:
 		: _dkdm (k)
 	{}
 
-	std::string name () const;
-	void as_xml (xmlpp::Element *) const;
+	std::string name () const override;
+	void as_xml (xmlpp::Element *) const override;
 
 	dcp::EncryptedKDM dkdm () const {
 		return _dkdm;
@@ -80,11 +80,11 @@ public:
 		: _name (name)
 	{}
 
-	std::string name () const {
+	std::string name () const override {
 		return _name;
 	}
 
-	void as_xml (xmlpp::Element *) const;
+	void as_xml (xmlpp::Element *) const override;
 
 	std::list<std::shared_ptr<DKDMBase>> children () const {
 		return _children;

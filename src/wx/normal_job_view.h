@@ -33,10 +33,10 @@ public:
 	void setup ();
 
 private:
-	int insert_position () const;
-	void finish_setup (wxWindow* parent, wxSizer* sizer);
+	int insert_position () const override;
+	void finish_setup (wxWindow* parent, wxSizer* sizer) override;
 	void pause_clicked ();
-	void finished ();
+	void finished () override;
 
 	wxButton* _pause = nullptr;
 };

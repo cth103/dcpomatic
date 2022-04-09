@@ -28,7 +28,7 @@ class StringLogEntry : public LogEntry
 public:
 	StringLogEntry (int type, std::string message);
 
-	std::string message () const {
+	std::string message () const override {
 		return _message;
 	}
 

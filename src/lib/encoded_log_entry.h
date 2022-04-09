@@ -27,7 +27,7 @@ class EncodedLogEntry : public LogEntry
 public:
 	EncodedLogEntry (int frame, std::string ip, double receive, double encode, double send);
 
-	std::string message () const;
+	std::string message () const override;
 
 private:
 	int _frame;

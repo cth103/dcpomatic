@@ -25,6 +25,6 @@ class ChristieCertificatePanel : public CredentialsDownloadCertificatePanel
 public:
 	ChristieCertificatePanel (DownloadCertificateDialog* dialog);
 
-	void do_download ();
-	wxString name () const;
+	void do_download () override;
+	wxString name () const override;
 };

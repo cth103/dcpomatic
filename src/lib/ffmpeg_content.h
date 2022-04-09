@@ -59,15 +59,15 @@ public:
 		return std::dynamic_pointer_cast<const FFmpegContent> (Content::shared_from_this ());
 	}
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>);
-	void take_settings_from (std::shared_ptr<const Content> c);
-	std::string summary () const;
-	std::string technical_summary () const;
-	void as_xml (xmlpp::Node *, bool with_paths) const;
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
-	dcpomatic::DCPTime approximate_length () const;
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
+	void take_settings_from (std::shared_ptr<const Content> c) override;
+	std::string summary () const override;
+	std::string technical_summary () const override;
+	void as_xml (xmlpp::Node *, bool with_paths) const override;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length () const override;
 
-	std::string identifier () const;
+	std::string identifier () const override;
 
 	void set_default_colour_conversion ();
 
@@ -100,7 +100,7 @@ public:
 	void signal_subtitle_stream_changed ();
 
 private:
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
+	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const override;
 
 	friend struct ffmpeg_pts_offset_test;
 	friend struct audio_sampling_rate_test;

@@ -32,10 +32,10 @@ class DCPSubtitleDecoder : public DCPSubtitle, public Decoder
 public:
 	DCPSubtitleDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const DCPSubtitleContent>);
 
-	bool pass ();
-	void seek (dcpomatic::ContentTime time, bool accurate);
+	bool pass () override;
+	void seek (dcpomatic::ContentTime time, bool accurate) override;
 
-	std::vector<dcpomatic::FontData> fonts () const;
+	std::vector<dcpomatic::FontData> fonts () const override;
 
 private:
 	dcpomatic::ContentTimePeriod content_time_period (std::shared_ptr<const dcp::Subtitle> s) const;

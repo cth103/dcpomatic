@@ -620,7 +620,7 @@ public:
 
 private:
 
-	bool OnInit ()
+	bool OnInit () override
 	{
 		wxSplashScreen* splash = nullptr;
 
@@ -719,7 +719,7 @@ private:
 		return false;
 	}
 
-	void OnUnhandledException ()
+	void OnUnhandledException () override
 	{
 		error_dialog (nullptr, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
 	}

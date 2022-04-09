@@ -87,7 +87,7 @@ public:
 	boost::signals2::signal<void(int)> Removed;
 
 private:
-	void do_log (shared_ptr<const LogEntry> entry)
+	void do_log (shared_ptr<const LogEntry> entry) override
 	{
 		time_t const s = entry->seconds ();
 		struct tm* local = localtime (&s);
@@ -226,7 +226,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&TaskBarIcon::quit, this), ID_quit);
 	}
 
-	wxMenu* CreatePopupMenu ()
+	wxMenu* CreatePopupMenu () override
 	{
 		auto menu = new wxMenu;
 		menu->Append (ID_status, std_to_wx ("Status..."));
@@ -273,7 +273,7 @@ public:
 
 private:
 
-	bool OnInit ()
+	bool OnInit () override
 	{
 		if (!wxApp::OnInit()) {
 			return false;
@@ -327,7 +327,7 @@ private:
 		return true;
 	}
 
-	int OnExit ()
+	int OnExit () override
 	{
 		delete _icon;
 		return wxApp::OnExit ();

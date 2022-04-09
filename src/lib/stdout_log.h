@@ -29,5 +29,5 @@ public:
 	explicit StdoutLog (int types);
 
 private:
-	void do_log (std::shared_ptr<const LogEntry> entry);
+	void do_log (std::shared_ptr<const LogEntry> entry) override;
 };

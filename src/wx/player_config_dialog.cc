@@ -78,7 +78,7 @@ public:
 	{}
 
 private:
-	void setup ()
+	void setup () override
 	{
 		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
@@ -132,7 +132,7 @@ private:
 		_debug_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
 		GeneralPage::config_changed ();
 
@@ -228,13 +228,13 @@ public:
 		, _log_timing (0)
 	{}
 
-	wxString GetName () const
+	wxString GetName () const override
 	{
 		return _("Advanced");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap ("advanced", wxBITMAP_TYPE_PNG_RESOURCE);
 	}
@@ -252,9 +252,9 @@ private:
 		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	void setup ()
+	void setup () override
 	{
-		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
@@ -288,9 +288,9 @@ private:
 #endif
 	}
 
-	void config_changed ()
+	void config_changed () override
 	{
-		Config* config = Config::instance ();
+		auto config = Config::instance ();
 
 		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
 		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
@@ -339,17 +339,17 @@ private:
 wxPreferencesEditor*
 create_player_config_dialog ()
 {
-	wxPreferencesEditor* e = new wxPreferencesEditor (_("DCP-o-matic Player Preferences"));
+	auto e = new wxPreferencesEditor (_("DCP-o-matic Player Preferences"));
 
 #ifdef DCPOMATIC_OSX
 	/* Width that we force some of the config panels to be on OSX so that
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	wxSize ps = wxSize (520, -1);
+	auto ps = wxSize (520, -1);
 	int const border = 16;
 #else
-	wxSize ps = wxSize (-1, -1);
+	auto ps = wxSize (-1, -1);
 	int const border = 8;
 #endif
 

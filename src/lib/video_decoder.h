@@ -56,11 +56,11 @@ public:
 	friend struct ffmpeg_pts_offset_test;
 	friend void ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int gaps, int video_length);
 
-	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const {
+	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const override {
 		return _position;
 	}
 
-	void seek ();
+	void seek () override;
 	void emit (std::shared_ptr<const Film> film, std::shared_ptr<const ImageProxy>, Frame frame);
 
 	boost::signals2::signal<void (ContentVideo)> Data;

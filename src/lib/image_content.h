@@ -37,21 +37,21 @@ public:
 		return std::dynamic_pointer_cast<const ImageContent> (Content::shared_from_this ());
 	};
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>);
-	std::string summary () const;
-	std::string technical_summary () const;
-	void as_xml (xmlpp::Node *, bool with_paths) const;
-	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const;
-	dcpomatic::DCPTime approximate_length () const;
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
+	std::string summary () const override;
+	std::string technical_summary () const override;
+	void as_xml (xmlpp::Node *, bool with_paths) const override;
+	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
+	dcpomatic::DCPTime approximate_length () const override;
 
-	std::string identifier () const;
+	std::string identifier () const override;
 
 	void set_default_colour_conversion ();
 
 	bool still () const;
 
 private:
-	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const;
+	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;
 
 	boost::optional<boost::filesystem::path> _path_to_scan;
 };

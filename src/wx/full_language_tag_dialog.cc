@@ -111,7 +111,7 @@ public:
 	}
 
 private:
-	wxString OnGetItemText (long item, long column) const
+	wxString OnGetItemText (long item, long column) const override
 	{
 		if (column == 0) {
 			return _matching_subtags[item].subtag;

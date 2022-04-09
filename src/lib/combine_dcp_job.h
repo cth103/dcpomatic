@@ -28,9 +28,9 @@ class CombineDCPJob : public Job
 public:
 	CombineDCPJob (std::vector<boost::filesystem::path> inputs, boost::filesystem::path output, std::string annotation_text);
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 private:
 	std::vector<boost::filesystem::path> _inputs;

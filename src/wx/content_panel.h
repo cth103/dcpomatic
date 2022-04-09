@@ -48,7 +48,7 @@ class LimitedSplitter : public wxSplitterWindow
 public:
 	LimitedSplitter (wxWindow* parent);
 
-	bool OnSashPositionChange (int new_position)
+	bool OnSashPositionChange (int new_position) override
 	{
 		/* Try to stop the top bit of the splitter getting so small that buttons disappear */
 		return new_position > 220;

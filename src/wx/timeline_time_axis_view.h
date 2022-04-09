@@ -25,11 +25,11 @@ class TimelineTimeAxisView : public TimelineView
 public:
 	TimelineTimeAxisView (Timeline& tl, int y);
 
-	dcpomatic::Rect<int> bbox () const;
+	dcpomatic::Rect<int> bbox () const override;
 	void set_y (int y);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps);
+	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
 
 	int _y; ///< y position in tracks (not pixels)
 };

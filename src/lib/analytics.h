@@ -31,8 +31,8 @@ public:
 
 	void successful_dcp_encode ();
 
-	void write () const;
-	void read ();
+	void write () const override;
+	void read () override;
 
 	boost::signals2::signal<void (std::string, std::string)> Message;
 

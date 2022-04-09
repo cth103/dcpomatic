@@ -29,9 +29,9 @@ public:
 	ExamineFFmpegSubtitlesJob (std::shared_ptr<const Film>, std::shared_ptr<FFmpegContent>);
 	~ExamineFFmpegSubtitlesJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
 
 private:
 	std::shared_ptr<FFmpegContent> _content;

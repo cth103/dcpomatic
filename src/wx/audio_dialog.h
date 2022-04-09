@@ -36,7 +36,7 @@ class AudioDialog : public wxDialog
 public:
 	AudioDialog (wxWindow* parent, std::shared_ptr<Film> film, std::weak_ptr<FilmViewer> viewer, std::shared_ptr<Content> content = std::shared_ptr<Content>());
 
-	bool Show (bool show = true);
+	bool Show (bool show = true) override;
 
 	void set_cursor (boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
 

@@ -32,8 +32,8 @@ class CheckBox : public wxCheckBox, public I18NHook
 public:
 	CheckBox (wxWindow* parent, wxString label);
 
-	void set_text (wxString text);
-	wxString get_text () const;
+	void set_text (wxString text) override;
+	wxString get_text () const override;
 };
 
 

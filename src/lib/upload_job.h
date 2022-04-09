@@ -33,10 +33,10 @@ public:
 	explicit UploadJob (std::shared_ptr<const Film>);
 	~UploadJob ();
 
-	std::string name () const;
-	std::string json_name () const;
-	void run ();
-	std::string status () const;
+	std::string name () const override;
+	std::string json_name () const override;
+	void run () override;
+	std::string status () const override;
 
 private:
 	void set_status (std::string);

@@ -31,10 +31,10 @@ class StringTextFileDecoder : public Decoder, public StringTextFile
 public:
 	StringTextFileDecoder (std::shared_ptr<const Film> film, std::shared_ptr<const StringTextFileContent>);
 
-	void seek (dcpomatic::ContentTime time, bool accurate);
-	bool pass ();
+	void seek (dcpomatic::ContentTime time, bool accurate) override;
+	bool pass () override;
 
-	std::vector<dcpomatic::FontData> fonts () const;
+	std::vector<dcpomatic::FontData> fonts () const override;
 
 private:
 	dcpomatic::ContentTimePeriod content_time_period (sub::Subtitle s) const;

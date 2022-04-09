@@ -30,7 +30,7 @@ class wxSignalManager : public SignalManager
 {
 public:
 	explicit wxSignalManager (wxEvtHandler *);
-	void wake_ui ();
+	void wake_ui () override;
 
 private:
 	wxEvtHandler* _handler;

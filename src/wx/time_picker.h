@@ -44,8 +44,8 @@ class TimePickerSpin : public TimePicker
 public:
 	TimePickerSpin (wxWindow* parent, wxDateTime time);
 
-	int hours () const;
-	int minutes () const;
+	int hours () const override;
+	int minutes () const override;
 
 private:
 	void changed ();
@@ -60,8 +60,8 @@ class TimePickerText : public TimePicker
 public:
 	TimePickerText (wxWindow* parent, wxDateTime time);
 
-	int hours () const;
-	int minutes () const;
+	int hours () const override;
+	int minutes () const override;
 
 private:
 	void changed ();

@@ -26,6 +26,6 @@ class StaticText : public wxStaticText, public I18NHook
 public:
 	StaticText (wxWindow* parent, wxString label, wxPoint pos = wxDefaultPosition, wxSize = wxDefaultSize, long style = 0);
 
-	void set_text (wxString text);
-	wxString get_text () const;
+	void set_text (wxString text) override;
+	wxString get_text () const override;
 };

@@ -36,14 +36,14 @@ class UpmixerA : public AudioProcessor
 public:
 	explicit UpmixerA (int sampling_rate);
 
-	std::string name () const;
-	std::string id () const;
-	int out_channels () const;
-	std::shared_ptr<AudioProcessor> clone (int) const;
-	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers>, int channels);
-	void flush ();
-	void make_audio_mapping_default (AudioMapping& mapping) const;
-	std::vector<NamedChannel> input_names () const;
+	std::string name () const override;
+	std::string id () const override;
+	int out_channels () const override;
+	std::shared_ptr<AudioProcessor> clone (int) const override;
+	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers>, int channels) override;
+	void flush () override;
+	void make_audio_mapping_default (AudioMapping& mapping) const override;
+	std::vector<NamedChannel> input_names () const override;
 
 private:
 	BandPassAudioFilter _left;

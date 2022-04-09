@@ -27,15 +27,15 @@ class StandardControls : public Controls
 public:
 	StandardControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer, bool editor_controls);
 
-	void play ();
-	void stop ();
+	void play () override;
+	void stop () override;
 
 private:
 	void check_play_state ();
 	void play_clicked ();
-	void started ();
-	void stopped ();
-	void setup_sensitivity ();
+	void started () override;
+	void stopped () override;
+	void setup_sensitivity () override;
 
 	wxToggleButton* _play_button;
 };

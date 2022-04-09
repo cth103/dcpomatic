@@ -38,7 +38,7 @@ public:
 			std::function<void ()> unset_password
 			);
 
-	virtual bool ready_to_download () const;
+	bool ready_to_download () const override;
 
 private:
 	void username_changed ();

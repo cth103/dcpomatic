@@ -59,13 +59,13 @@ public:
 	Result image (
 		Image::Alignment alignment,
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
-		) const;
+		) const override;
 
-	void add_metadata (xmlpp::Node *) const;
-	void write_to_socket (std::shared_ptr<Socket>) const;
+	void add_metadata (xmlpp::Node *) const override;
+	void write_to_socket (std::shared_ptr<Socket> override) const override;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
-	bool same (std::shared_ptr<const ImageProxy>) const;
-	int prepare (Image::Alignment alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const;
+	bool same (std::shared_ptr<const ImageProxy>) const override;
+	int prepare (Image::Alignment alignment, boost::optional<dcp::Size> = boost::optional<dcp::Size>()) const override;
 
 	std::shared_ptr<const dcp::Data> j2k () const {
 		return _data;
@@ -79,7 +79,7 @@ public:
 		return _eye;
 	}
 
-	size_t memory_used () const;
+	size_t memory_used () const override;
 
 private:
 	std::shared_ptr<const dcp::Data> _data;

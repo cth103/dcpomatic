@@ -54,7 +54,7 @@ public:
 	Page (wxSize panel_size, int border);
 	virtual ~Page () {}
 
-	wxWindow* CreateWindow (wxWindow* parent);
+	wxWindow* CreateWindow (wxWindow* parent) override;
 
 protected:
 	wxWindow* create_window (wxWindow* parent);
@@ -79,10 +79,10 @@ class GeneralPage : public Page
 public:
 	GeneralPage (wxSize panel_size, int border);
 
-	wxString GetName () const;
+	wxString GetName () const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("general"), wxBITMAP_TYPE_PNG);
 	}
@@ -91,7 +91,7 @@ public:
 protected:
 	void add_language_controls (wxGridBagSizer* table, int& r);
 	void add_update_controls (wxGridBagSizer* table, int& r);
-	virtual void config_changed ();
+	void config_changed () override;
 
 private:
 	void setup_sensitivity ();
@@ -156,10 +156,10 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName () const;
+	wxString GetName () const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("keys"), wxBITMAP_TYPE_PNG);
 	}
@@ -167,10 +167,10 @@ public:
 
 private:
 
-	void setup ();
+	void setup () override;
 
 	void export_decryption_certificate ();
-	void config_changed () {}
+	void config_changed () override {}
 	bool nag_alter_decryption_chain ();
 	void decryption_advanced ();
 	void signing_advanced ();
@@ -187,10 +187,10 @@ public:
 		: Page (panel_size, border)
 	{}
 
-	wxString GetName() const;
+	wxString GetName() const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const
+	wxBitmap GetLargeIcon () const override
 	{
 		return wxBitmap(bitmap_path("sound"), wxBITMAP_TYPE_PNG);
 	}
@@ -198,8 +198,8 @@ public:
 
 private:
 
-	void setup ();
-	void config_changed ();
+	void setup () override;
+	void config_changed () override;
         boost::optional<std::string> get_sound_output ();
 	void sound_changed ();
 	void sound_output_changed ();
@@ -219,15 +219,15 @@ class LocationsPage : public Page
 public:
 	LocationsPage (wxSize panel_size, int border);
 
-	wxString GetName () const;
+	wxString GetName () const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const;
+	wxBitmap GetLargeIcon () const override;
 #endif
 
 private:
-	void setup ();
-	void config_changed ();
+	void setup () override;
+	void config_changed () override;
 	void content_directory_changed ();
 	void playlist_directory_changed ();
 	void kdm_directory_changed ();
