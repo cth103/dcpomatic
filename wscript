@@ -109,6 +109,7 @@ def configure(conf):
                                        '-Wall',
                                        '-Wextra',
                                        '-Wwrite-strings',
+                                       '-Wsuggest-override',
                                        '-Wno-error=deprecated',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
