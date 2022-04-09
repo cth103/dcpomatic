@@ -28,17 +28,17 @@
 wxPreferencesEditor*
 create_playlist_editor_config_dialog ()
 {
-	wxPreferencesEditor* e = new wxPreferencesEditor (_("DCP-o-matic Playlist Editor Preferences"));
+	auto e = new wxPreferencesEditor (_("DCP-o-matic Playlist Editor Preferences"));
 
 #ifdef DCPOMATIC_OSX
 	/* Width that we force some of the config panels to be on OSX so that
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	wxSize ps = wxSize (520, -1);
+	auto ps = wxSize (520, -1);
 	int const border = 16;
 #else
-	wxSize ps = wxSize (-1, -1);
+	auto ps = wxSize (-1, -1);
 	int const border = 8;
 #endif
 

@@ -18,35 +18,39 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONFIG_DIALOG_H
 #define DCPOMATIC_CONFIG_DIALOG_H
 
-#include "wx_util.h"
+
 #include "editable_list.h"
 #include "make_chain_dialog.h"
+#include "wx_util.h"
 #include "lib/config.h"
-#include "lib/ratio.h"
-#include "lib/filter.h"
-#include "lib/dcp_content_type.h"
-#include "lib/log.h"
-#include "lib/util.h"
 #include "lib/cross.h"
+#include "lib/dcp_content_type.h"
 #include "lib/exceptions.h"
+#include "lib/filter.h"
+#include "lib/log.h"
+#include "lib/ratio.h"
+#include "lib/util.h"
 #include "lib/warnings.h"
-#include <dcp/locale_convert.h>
-#include <dcp/exceptions.h>
 #include <dcp/certificate_chain.h>
+#include <dcp/exceptions.h>
+#include <dcp/locale_convert.h>
 DCPOMATIC_DISABLE_WARNINGS
-#include <wx/stdpaths.h>
+#include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
-#include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+#include <wx/stdpaths.h>
 #include <RtAudio.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <iostream>
 
+
 class AudioMappingView;
+
 
 class Page : public wxPreferencesPage
 {
@@ -73,6 +77,7 @@ private:
 	boost::signals2::scoped_connection _config_connection;
 	bool _window_exists;
 };
+
 
 class GeneralPage : public Page
 {
@@ -105,6 +110,7 @@ private:
 	wxCheckBox* _check_for_updates;
 	wxCheckBox* _check_for_test_updates;
 };
+
 
 class CertificateChainEditor : public wxDialog
 {
@@ -214,6 +220,7 @@ private:
 	Button* _reset_to_default;
 };
 
+
 class LocationsPage : public Page
 {
 public:
@@ -236,4 +243,5 @@ private:
 	wxDirPickerCtrl* _playlist_directory;
 	wxDirPickerCtrl* _kdm_directory;
 };
+
 #endif

@@ -31,21 +31,21 @@
 #include "lib/timer.h"
 #include "lib/signaller.h"
 #include "lib/warnings.h"
-#include <RtAudio.h>
 DCPOMATIC_DISABLE_WARNINGS
+#include <RtAudio.h>
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <vector>
 
 
-class wxToggleButton;
-class FFmpegPlayer;
-class Image;
-class RGBPlusAlphaImage;
-class PlayerVideo;
-class Player;
 class Butler;
 class ClosedCaptionsDialog;
+class FFmpegPlayer;
+class Image;
+class Player;
+class PlayerVideo;
+class RGBPlusAlphaImage;
+class wxToggleButton;
 
 
 /** @class FilmViewer

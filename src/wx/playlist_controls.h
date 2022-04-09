@@ -18,10 +18,13 @@
 
 */
 
+
 #include "controls.h"
 #include "lib/spl.h"
 
+
 class DCPContent;
+
 
 class PlaylistControls : public Controls
 {
