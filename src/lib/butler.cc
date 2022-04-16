@@ -20,25 +20,25 @@
 
 
 #include "butler.h"
+#include "compose.hpp"
+#include "cross.h"
+#include "dcpomatic_log.h"
+#include "exceptions.h"
+#include "log.h"
 #include "player.h"
 #include "util.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "cross.h"
-#include "compose.hpp"
-#include "exceptions.h"
 #include "video_content.h"
 
 
 using std::cout;
-using std::pair;
+using std::function;
 using std::make_pair;
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
-using std::shared_ptr;
 using boost::bind;
 using boost::optional;
-using std::function;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

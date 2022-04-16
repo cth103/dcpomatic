@@ -111,7 +111,7 @@ VideoView::time_until_next_frame () const
 {
 	if (length() == dcpomatic::DCPTime()) {
 		/* There's no content, so this doesn't matter */
-		return optional<int>();
+		return {};
 	}
 
 	auto const next = position() + one_video_frame();
