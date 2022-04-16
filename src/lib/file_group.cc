@@ -61,15 +61,6 @@ FileGroup::FileGroup (vector<boost::filesystem::path> const & p)
 }
 
 
-/** Destroy a FileGroup, closing any open file */
-FileGroup::~FileGroup ()
-{
-	if (_current_file) {
-		fclose (_current_file);
-	}
-}
-
-
 void
 FileGroup::set_paths (vector<boost::filesystem::path> const & p)
 {
@@ -89,11 +80,11 @@ FileGroup::ensure_open_path (size_t p) const
 	}
 
 	if (_current_file) {
-		fclose (_current_file);
+		_current_file->close();
 	}
 
 	_current_path = p;
-	_current_file = fopen_boost (_paths[_current_path], "rb");
+	_current_file = dcp::File(_paths[_current_path], "rb");
 	if (!_current_file) {
 		throw OpenFileError (_paths[_current_path], errno, OpenFileError::READ);
 	}
@@ -130,10 +121,10 @@ FileGroup::seek (int64_t pos, int whence) const
 
 	if (i < _paths.size()) {
 		ensure_open_path (i);
-		dcpomatic_fseek (_current_file, sub_pos, SEEK_SET);
+		_current_file->seek(sub_pos, SEEK_SET);
 	} else {
 		ensure_open_path (_paths.size() - 1);
-		dcpomatic_fseek (_current_file, _current_size, SEEK_SET);
+		_current_file->seek(_current_size, SEEK_SET);
 	}
 
 	return _position;
@@ -148,6 +139,8 @@ FileGroup::seek (int64_t pos, int whence) const
 int
 FileGroup::read (uint8_t* buffer, int amount) const
 {
+	DCPOMATIC_ASSERT (_current_file);
+
 	int read = 0;
 	while (true) {
 
@@ -156,8 +149,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 
 		DCPOMATIC_ASSERT (_current_file);
 
-#ifdef DCPOMATIC_WINDOWS
-		int64_t const current_position = _ftelli64 (_current_file);
+		auto const current_position = _current_file->tell();
 		if (current_position == -1) {
 			to_read = 0;
 			eof = true;
@@ -165,15 +157,8 @@ FileGroup::read (uint8_t* buffer, int amount) const
 			to_read = _current_size - current_position;
 			eof = true;
 		}
-#else
-		long const current_position = ftell(_current_file);
-		if ((current_position + to_read) > _current_size) {
-			to_read = _current_size - current_position;
-			eof = true;
-		}
-#endif
 
-		int const this_time = fread (buffer + read, 1, to_read, _current_file);
+		int const this_time = _current_file->read(buffer + read, 1, to_read);
 		read += this_time;
 		_position += this_time;
 		if (read == amount) {
@@ -181,7 +166,7 @@ FileGroup::read (uint8_t* buffer, int amount) const
 			break;
 		}
 
-		if (ferror(_current_file)) {
+		if (_current_file->error()) {
 			throw FileError (String::compose("fread error %1", errno), _paths[_current_path]);
 		}
 

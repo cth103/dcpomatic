@@ -113,8 +113,6 @@ extern std::string careful_string_filter (std::string);
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
 extern std::shared_ptr<AudioBuffers> remap (std::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
 extern Eyes increment_eyes (Eyes e);
-extern void checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path);
-extern void checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path);
 extern size_t utf8_strlen (std::string s);
 extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
 extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, std::shared_ptr<TextDecoder> decoder);

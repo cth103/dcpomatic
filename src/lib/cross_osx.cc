@@ -156,24 +156,6 @@ disk_writer_path ()
 #endif
 
 
-/* Apparently there is no way to create an ofstream using a UTF-8
-   filename under Windows.  We are hence reduced to using fopen
-   with this wrapper.
-*/
-FILE *
-fopen_boost (boost::filesystem::path p, string t)
-{
-        return fopen (p.c_str(), t.c_str());
-}
-
-
-int
-dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
-{
-	return fseek (stream, offset, whence);
-}
-
-
 void
 Waker::nudge ()
 {
@@ -537,13 +519,6 @@ string
 dcpomatic::get_process_id ()
 {
 	return dcp::raw_convert<string>(getpid());
-}
-
-
-boost::filesystem::path
-fix_long_path (boost::filesystem::path path)
-{
-	return path;
 }
 
 

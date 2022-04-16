@@ -250,9 +250,11 @@ LIBDCP_DISABLE_WARNINGS
 LONG WINAPI
 exception_handler(struct _EXCEPTION_POINTERS * info)
 {
-	auto f = fopen_boost (backtrace_file, "w");
-	fprintf (f, "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
-	fclose(f);
+	dcp::File f(backtrace_file, "w");
+	if (f) {
+		fprintf(f.get(), "C-style exception %d\n", info->ExceptionRecord->ExceptionCode);
+		f.close();
+	}
 
 	if (info->ExceptionRecord->ExceptionCode != EXCEPTION_STACK_OVERFLOW) {
 		CONTEXT* context = info->ContextRecord;
@@ -490,16 +492,15 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	char* p = buffer.get ();
 	int i = 0;
 	while (i < int64_t (files.size()) && to_do > 0) {
-		auto f = fopen_boost (files[i], "rb");
+		dcp::File f(files[i], "rb");
 		if (!f) {
 			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
 		}
 
 		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
-		checked_fread (p, this_time, f, files[i]);
+		f.checked_read(p, this_time);
 		p += this_time;
  		to_do -= this_time;
-		fclose (f);
 
 		++i;
 	}
@@ -510,17 +511,16 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	p = buffer.get ();
 	i = files.size() - 1;
 	while (i >= 0 && to_do > 0) {
-		auto f = fopen_boost (files[i], "rb");
+		dcp::File f(files[i], "rb");
 		if (!f) {
 			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
 		}
 
 		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
-		dcpomatic_fseek (f, -this_time, SEEK_END);
-		checked_fread (p, this_time, f, files[i]);
+		f.seek(-this_time, SEEK_END);
+		f.checked_read(p, this_time);
 		p += this_time;
 		to_do -= this_time;
-		fclose (f);
 
 		--i;
 	}
@@ -864,35 +864,6 @@ increment_eyes (Eyes e)
 	return Eyes::LEFT;
 }
 
-void
-checked_fwrite (void const * ptr, size_t size, FILE* stream, boost::filesystem::path path)
-{
-	size_t N = fwrite (ptr, 1, size, stream);
-	if (N != size) {
-		if (ferror(stream)) {
-			fclose (stream);
-			throw FileError (String::compose("fwrite error %1", errno), path);
-		} else {
-			fclose (stream);
-			throw FileError ("Unexpected short write", path);
-		}
-	}
-}
-
-void
-checked_fread (void* ptr, size_t size, FILE* stream, boost::filesystem::path path)
-{
-	size_t N = fread (ptr, 1, size, stream);
-	if (N != size) {
-		if (ferror(stream)) {
-			fclose (stream);
-			throw FileError (String::compose("fread error %1", errno), path);
-		} else {
-			fclose (stream);
-			throw FileError ("Unexpected short read", path);
-		}
-	}
-}
 
 size_t
 utf8_strlen (string s)
@@ -1034,52 +1005,38 @@ show_jobs_on_console (bool progress)
 void
 copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)> progress)
 {
-	auto f = fopen_boost (from, "rb");
+	dcp::File f(from, "rb");
 	if (!f) {
 		throw OpenFileError (from, errno, OpenFileError::READ);
 	}
-	auto t = fopen_boost (to, "wb");
+	dcp::File t(to, "wb");
 	if (!t) {
-		fclose (f);
 		throw OpenFileError (to, errno, OpenFileError::WRITE);
 	}
 
 	/* on the order of a second's worth of copying */
 	boost::uintmax_t const chunk = 20 * 1024 * 1024;
 
-	auto buffer = static_cast<uint8_t*> (malloc(chunk));
-	if (!buffer) {
-		throw std::bad_alloc ();
-	}
+	std::vector<uint8_t> buffer(chunk);
 
 	boost::uintmax_t const total = boost::filesystem::file_size (from);
 	boost::uintmax_t remaining = total;
 
 	while (remaining) {
 		boost::uintmax_t this_time = min (chunk, remaining);
-		size_t N = fread (buffer, 1, chunk, f);
+		size_t N = f.read(buffer.data(), 1, chunk);
 		if (N < this_time) {
-			fclose (f);
-			fclose (t);
-			free (buffer);
 			throw ReadFileError (from, errno);
 		}
 
-		N = fwrite (buffer, 1, this_time, t);
+		N = t.write(buffer.data(), 1, this_time);
 		if (N < this_time) {
-			fclose (f);
-			fclose (t);
-			free (buffer);
 			throw WriteFileError (to, errno);
 		}
 
 		progress (1 - float(remaining) / total);
 		remaining -= this_time;
 	}
-
-	fclose (f);
-	fclose (t);
-	free (buffer);
 }
 
 

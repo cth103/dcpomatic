@@ -18,12 +18,14 @@
 
 */
 
-#include "config_dialog.h"
-#include "static_text.h"
-#include "check_box.h"
-#include "nag_dialog.h"
-#include "dcpomatic_button.h"
+
 #include "audio_mapping_view.h"
+#include "check_box.h"
+#include "config_dialog.h"
+#include "dcpomatic_button.h"
+#include "nag_dialog.h"
+#include "static_text.h"
+#include <dcp/file.h>
 #include <dcp/raw_convert.h>
 
 
@@ -462,14 +464,13 @@ CertificateChainEditor::export_certificate ()
 		if (path.extension() != ".pem") {
 			path += ".pem";
 		}
-		auto f = fopen_boost (path, "w");
+		dcp::File f(path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		string const s = j->certificate (true);
-		checked_fwrite (s.c_str(), s.length(), f, path);
-		fclose (f);
+		f.checked_write(s.c_str(), s.length());
 	}
 	d->Destroy ();
 }
@@ -487,14 +488,13 @@ CertificateChainEditor::export_chain ()
 		if (path.extension() != ".pem") {
 			path += ".pem";
 		}
-		auto f = fopen_boost (path, "w");
+		dcp::File f(path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		auto const s = _get()->chain();
-		checked_fwrite (s.c_str(), s.length(), f, path);
-		fclose (f);
+		f.checked_write (s.c_str(), s.length());
 	}
 
 	d->Destroy ();
@@ -616,14 +616,13 @@ CertificateChainEditor::export_private_key ()
 		if (path.extension() != ".pem") {
 			path += ".pem";
 		}
-		auto f = fopen_boost (path, "w");
+		dcp::File f(path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		auto const s = _get()->key().get ();
-		checked_fwrite (s.c_str(), s.length(), f, path);
-		fclose (f);
+		f.checked_write(s.c_str(), s.length());
 	}
 	d->Destroy ();
 }
@@ -733,17 +732,16 @@ KeysPage::export_decryption_chain_and_key ()
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		auto f = fopen_boost (path, "w");
+		dcp::File f(path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		auto const chain = Config::instance()->decryption_chain()->chain();
-		checked_fwrite (chain.c_str(), chain.length(), f, path);
-		optional<string> const key = Config::instance()->decryption_chain()->key();
+		f.checked_write (chain.c_str(), chain.length());
+		auto const key = Config::instance()->decryption_chain()->key();
 		DCPOMATIC_ASSERT (key);
-		checked_fwrite (key->c_str(), key->length(), f, path);
-		fclose (f);
+		f.checked_write(key->c_str(), key->length());
 	}
 	d->Destroy ();
 
@@ -768,15 +766,15 @@ KeysPage::import_decryption_chain_and_key ()
 	if (d->ShowModal () == wxID_OK) {
 		auto new_chain = make_shared<dcp::CertificateChain>();
 
-		FILE* f = fopen_boost (wx_to_std (d->GetPath ()), "r");
+		dcp::File f(wx_to_std(d->GetPath()), "r");
 		if (!f) {
-			throw OpenFileError (wx_to_std (d->GetPath ()), errno, OpenFileError::WRITE);
+			throw OpenFileError (f.path(), errno, OpenFileError::WRITE);
 		}
 
 		string current;
-		while (!feof (f)) {
+		while (!f.eof()) {
 			char buffer[128];
-			if (fgets (buffer, 128, f) == 0) {
+			if (f.gets(buffer, 128) == 0) {
 				break;
 			}
 			current += buffer;
@@ -788,7 +786,6 @@ KeysPage::import_decryption_chain_and_key ()
 				current = "";
 			}
 		}
-		fclose (f);
 
 		if (new_chain->chain_valid() && new_chain->private_key_valid()) {
 			Config::instance()->set_decryption_chain (new_chain);
@@ -833,14 +830,13 @@ KeysPage::export_decryption_certificate ()
 		if (path.extension() != ".pem") {
 			path += ".pem";
 		}
-		auto f = fopen_boost (path, "w");
+		dcp::File f(path, "w");
 		if (!f) {
 			throw OpenFileError (path, errno, OpenFileError::WRITE);
 		}
 
 		auto const s = Config::instance()->decryption_chain()->leaf().certificate (true);
-		checked_fwrite (s.c_str(), s.length(), f, path);
-		fclose (f);
+		f.checked_write(s.c_str(), s.length());
 	}
 
 	d->Destroy ();

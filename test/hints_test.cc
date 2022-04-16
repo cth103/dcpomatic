@@ -200,16 +200,16 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 
 	auto film = new_test_film2 (name);
 
-	auto ccap = fopen_boost (String::compose("build/test/%1.srt", name), "w");
+	dcp::File ccap(String::compose("build/test/%1.srt", name), "w");
 	BOOST_REQUIRE (ccap);
 	for (int i = 0; i < 2048; ++i) {
-		fprintf(ccap, "%d\n", i + 1);
+		fprintf(ccap.get(), "%d\n", i + 1);
 		int second = i * 2;
 		int minute = second % 60;
-		fprintf(ccap, "00:%02d:%02d,000 --> 00:%02d:%02d,000\n", minute, second, minute, second + 1);
-		fprintf(ccap, "Here are some closed captions.\n\n");
+		fprintf(ccap.get(), "00:%02d:%02d,000 --> 00:%02d:%02d,000\n", minute, second, minute, second + 1);
+		fprintf(ccap.get(), "Here are some closed captions.\n\n");
 	}
-	fclose (ccap);
+	ccap.close();
 
 	auto content = content_factory("build/test/" + name + ".srt").front();
 	content->text.front()->set_type (TextType::CLOSED_CAPTION);

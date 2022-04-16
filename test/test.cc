@@ -462,9 +462,9 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
 	auto N = boost::filesystem::file_size (ref);
 	BOOST_CHECK_EQUAL (N, boost::filesystem::file_size (check));
-	auto ref_file = fopen_boost (ref, "rb");
+	dcp::File ref_file(ref, "rb");
 	BOOST_CHECK (ref_file);
-	auto check_file = fopen_boost (check, "rb");
+	dcp::File check_file(check, "rb");
 	BOOST_CHECK (check_file);
 
 	int const buffer_size = 65536;
@@ -475,30 +475,27 @@ check_file (boost::filesystem::path ref, boost::filesystem::path check)
 
 	while (N) {
 		uintmax_t this_time = min (uintmax_t (buffer_size), N);
-		size_t r = fread (ref_buffer.data(), 1, this_time, ref_file);
+		size_t r = ref_file.read (ref_buffer.data(), 1, this_time);
 		BOOST_CHECK_EQUAL (r, this_time);
-		r = fread (check_buffer.data(), 1, this_time, check_file);
+		r = check_file.read(check_buffer.data(), 1, this_time);
 		BOOST_CHECK_EQUAL (r, this_time);
 
-		BOOST_CHECK_MESSAGE (memcmp(ref_buffer.data(), check_buffer.data(), this_time) == 0, error);
-		if (memcmp(ref_buffer.data(), check_buffer.data(), this_time)) {
+		BOOST_CHECK_MESSAGE (memcmp (ref_buffer.data(), check_buffer.data(), this_time) == 0, error);
+		if (memcmp (ref_buffer.data(), check_buffer.data(), this_time)) {
 			break;
 		}
 
 		N -= this_time;
 	}
-
-	fclose (ref_file);
-	fclose (check_file);
 }
 
 
 void
 check_text_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
-	auto ref_file = fopen_boost (ref, "r");
+	dcp::File ref_file(ref, "r");
 	BOOST_CHECK (ref_file);
-	auto check_file = fopen_boost (check, "r");
+	dcp::File check_file(check, "r");
 	BOOST_CHECK (check_file);
 
 	int const buffer_size = std::max(
@@ -509,16 +506,13 @@ check_text_file (boost::filesystem::path ref, boost::filesystem::path check)
 	DCPOMATIC_ASSERT (buffer_size < 1024 * 1024);
 
 	std::vector<uint8_t> ref_buffer(buffer_size);
-	auto ref_read = fread(ref_buffer.data(), 1, buffer_size, ref_file);
+	auto ref_read = ref_file.read(ref_buffer.data(), 1, buffer_size);
 	std::vector<uint8_t> check_buffer(buffer_size);
-	auto check_read = fread(check_buffer.data(), 1, buffer_size, check_file);
+	auto check_read = check_file.read(check_buffer.data(), 1, buffer_size);
 	BOOST_CHECK_EQUAL (ref_read, check_read);
 
 	string const error = "File " + check.string() + " differs from reference " + ref.string();
 	BOOST_CHECK_MESSAGE(memcmp(ref_buffer.data(), check_buffer.data(), ref_read) == 0, error);
-
-	fclose (ref_file);
-	fclose (check_file);
 }
 
 
@@ -827,13 +821,12 @@ subtitle_file (shared_ptr<Film> film)
 void
 make_random_file (boost::filesystem::path path, size_t size)
 {
-	auto t = fopen_boost(path, "wb");
+	dcp::File t(path, "wb");
 	BOOST_REQUIRE (t);
 	for (size_t i = 0; i < size; ++i) {
 		uint8_t r = rand() & 0xff;
-		fwrite (&r, 1, 1, t);
+		t.write(&r, 1, 1);
 	}
-	fclose (t);
 }
 
 

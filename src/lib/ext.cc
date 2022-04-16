@@ -79,7 +79,7 @@ static
 void
 count (boost::filesystem::path dir, uint64_t& total_bytes)
 {
-	dir = fix_long_path (dir);
+	dir = dcp::fix_long_path (dir);
 
 	using namespace boost::filesystem;
 	for (auto i: directory_iterator(dir)) {
@@ -113,7 +113,7 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 		throw CopyError (String::compose("Failed to open file %1", to.generic_string()), r);
 	}
 
-	FILE* in = fopen_boost (from, "rb");
+	dcp::File in(from, "rb");
 	if (!in) {
 		ext4_fclose (&out);
 		throw CopyError (String::compose("Failed to open file %1", from.string()), 0);
@@ -127,9 +127,8 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 	uint64_t remaining = file_size (from);
 	while (remaining > 0) {
 		uint64_t const this_time = min(remaining, block_size);
-		size_t read = fread (buffer.data(), 1, this_time, in);
+		size_t read = in.read(buffer.data(), 1, this_time);
 		if (read != this_time) {
-			fclose (in);
 			ext4_fclose (&out);
 			throw CopyError (String::compose("Short read; expected %1 but read %2", this_time, read), 0);
 		}
@@ -139,12 +138,10 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 		size_t written;
 		r = ext4_fwrite (&out, buffer.data(), this_time, &written);
 		if (r != EOK) {
-			fclose (in);
 			ext4_fclose (&out);
 			throw CopyError ("Write failed", r);
 		}
 		if (written != this_time) {
-			fclose (in);
 			ext4_fclose (&out);
 			throw CopyError (String::compose("Short write; expected %1 but wrote %2", this_time, written), 0);
 		}
@@ -157,7 +154,6 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 		}
 	}
 
-	fclose (in);
 	ext4_fclose (&out);
 
 	set_timestamps_to_now (to);
@@ -229,7 +225,7 @@ void
 copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total, vector<CopiedFile>& copied_files, Nanomsg* nanomsg)
 {
 	LOG_DISK ("Copy %1 -> %2", from.string(), to.generic_string());
-	from = fix_long_path (from);
+	from = dcp::fix_long_path (from);
 
 	using namespace boost::filesystem;
 

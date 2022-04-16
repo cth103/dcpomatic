@@ -1718,9 +1718,9 @@ Film::should_be_enough_disk_space (double& required, double& available, bool& ca
 	boost::filesystem::path test = internal_video_asset_dir() / "test";
 	boost::filesystem::path test2 = internal_video_asset_dir() / "test2";
 	can_hard_link = true;
-	auto f = fopen_boost (test, "w");
+	dcp::File f(test, "w");
 	if (f) {
-		fclose (f);
+		f.close();
 		boost::system::error_code ec;
 		boost::filesystem::create_hard_link (test, test2, ec);
 		if (ec) {
@@ -2071,32 +2071,13 @@ Film::info_file_handle (DCPTimePeriod period, bool read) const
 	return std::make_shared<InfoFileHandle>(_info_file_mutex, info_file(period), read);
 }
 
-InfoFileHandle::InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read)
+InfoFileHandle::InfoFileHandle (boost::mutex& mutex, boost::filesystem::path path, bool read)
 	: _lock (mutex)
-	, _file (file)
+	, _file (path, read ? "rb" : (boost::filesystem::exists(path) ? "r+b" : "wb"))
 {
-	if (read) {
-		_handle = fopen_boost (file, "rb");
-		if (!_handle) {
-			throw OpenFileError (file, errno, OpenFileError::READ);
-		}
-	} else {
-		auto const exists = boost::filesystem::exists (file);
-		if (exists) {
-			_handle = fopen_boost (file, "r+b");
-		} else {
-			_handle = fopen_boost (file, "wb");
-		}
-
-		if (!_handle) {
-			throw OpenFileError (file, errno, exists ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
-		}
+	if (!_file) {
+		throw OpenFileError (path, errno, read ? OpenFileError::READ : (boost::filesystem::exists(path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE));
 	}
-}
-
-InfoFileHandle::~InfoFileHandle ()
-{
-	fclose (_handle);
 }
 
 

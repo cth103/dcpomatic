@@ -208,10 +208,10 @@ void
 ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 {
 	auto handle = film()->info_file_handle(_period, false);
-	dcpomatic_fseek (handle->get(), frame_info_position(frame, eyes), SEEK_SET);
-	checked_fwrite (&info.offset, sizeof(info.offset), handle->get(), handle->file());
-	checked_fwrite (&info.size, sizeof (info.size), handle->get(), handle->file());
-	checked_fwrite (info.hash.c_str(), info.hash.size(), handle->get(), handle->file());
+	handle->get().seek(frame_info_position(frame, eyes), SEEK_SET);
+	handle->get().checked_write(&info.offset, sizeof(info.offset));
+	handle->get().checked_write(&info.size, sizeof(info.size));
+	handle->get().checked_write(info.hash.c_str(), info.hash.size());
 }
 
 
@@ -219,12 +219,12 @@ dcp::FrameInfo
 ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const
 {
 	dcp::FrameInfo frame_info;
-	dcpomatic_fseek (info->get(), frame_info_position(frame, eyes), SEEK_SET);
-	checked_fread (&frame_info.offset, sizeof(frame_info.offset), info->get(), info->file());
-	checked_fread (&frame_info.size, sizeof(frame_info.size), info->get(), info->file());
+	info->get().seek(frame_info_position(frame, eyes), SEEK_SET);
+	info->get().checked_read(&frame_info.offset, sizeof(frame_info.offset));
+	info->get().checked_read(&frame_info.size, sizeof(frame_info.size));
 
 	char hash_buffer[33];
-	checked_fread (hash_buffer, 32, info->get(), info->file());
+	info->get().checked_read(hash_buffer, 32);
 	hash_buffer[32] = '\0';
 	frame_info.hash = hash_buffer;
 
@@ -260,7 +260,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	}
 
 	/* Try to open the existing asset */
-	auto asset_file = fopen_boost (asset, "rb");
+	dcp::File asset_file(asset, "rb");
 	if (!asset_file) {
 		LOG_GENERAL ("Could not open existing asset at %1 (errno=%2)", asset.string(), errno);
 		return 0;
@@ -274,13 +274,12 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 		info_file = film()->info_file_handle (_period, true);
 	} catch (OpenFileError &) {
 		LOG_GENERAL_NC ("Could not open film info file");
-		fclose (asset_file);
 		return 0;
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
-	int const n = (boost::filesystem::file_size(info_file->file()) / _info_size) - 1;
-	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size(info_file->file()), _info_size);
+	int const n = (boost::filesystem::file_size(info_file->get().path()) / _info_size) - 1;
+	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size(info_file->get().path()), _info_size);
 
 	Frame first_nonexistant_frame;
 	if (film()->three_d()) {
@@ -302,8 +301,6 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	}
 
 	LOG_GENERAL ("Proceeding with first nonexistant frame %1", first_nonexistant_frame);
-
-	fclose (asset_file);
 
 	return first_nonexistant_frame;
 }
@@ -921,7 +918,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 
 
 bool
-ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHandle> info_file, Frame frame) const
+ReelWriter::existing_picture_frame_ok (dcp::File& asset_file, shared_ptr<InfoFileHandle> info_file, Frame frame) const
 {
 	LOG_GENERAL ("Checking existing picture frame %1", frame);
 
@@ -933,9 +930,9 @@ ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHand
 	bool ok = true;
 
 	/* Read the data from the asset and hash it */
-	dcpomatic_fseek (asset_file, info.offset, SEEK_SET);
+	asset_file.seek(info.offset, SEEK_SET);
 	ArrayData data (info.size);
-	size_t const read = fread (data.data(), 1, data.size(), asset_file);
+	size_t const read = asset_file.read(data.data(), 1, data.size());
 	LOG_GENERAL ("Read %1 bytes of asset data; wanted %2", read, info.size);
 	if (read != static_cast<size_t> (data.size ())) {
 		LOG_GENERAL ("Existing frame %1 is incomplete", frame);

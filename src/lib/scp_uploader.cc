@@ -25,6 +25,8 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
+#include <dcp/file.h>
+#include <dcp/warnings.h>
 #include <sys/stat.h>
 
 #include "i18n.h"
@@ -104,8 +106,8 @@ SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path 
 	/* Use generic_string so that we get forward-slashes in the path, even on Windows */
 	ssh_scp_push_file (_scp, to.generic_string().c_str(), to_do, S_IRUSR | S_IWUSR);
 
-	auto f = fopen_boost (from, "rb");
-	if (f == nullptr) {
+	dcp::File f(from, "rb");
+	if (!f) {
 		throw NetworkError (String::compose(_("Could not open %1 to send"), from));
 	}
 
@@ -114,15 +116,13 @@ SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path 
 
 	while (to_do > 0) {
 		int const t = min (to_do, buffer_size);
-		size_t const read = fread (buffer, 1, t, f);
+		size_t const read = f.read(buffer, 1, t);
 		if (read != size_t (t)) {
-			fclose (f);
 			throw ReadFileError (from);
 		}
 
 		int const r = ssh_scp_write (_scp, buffer, t);
 		if (r != SSH_OK) {
-			fclose (f);
 			throw NetworkError (String::compose(_("Could not write to remote file (%1)"), ssh_get_error(_session)));
 		}
 		to_do -= t;
@@ -132,6 +132,4 @@ SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path 
 			_set_progress ((double) transferred / total_size);
 		}
 	}
-
-	fclose (f);
 }

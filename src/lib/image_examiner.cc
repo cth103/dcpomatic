@@ -51,13 +51,13 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 	auto path = content->path(0);
 	if (valid_j2k_file (path)) {
 		auto size = boost::filesystem::file_size (path);
-		auto f = fopen_boost (path, "rb");
+		dcp::File f(path, "rb");
 		if (!f) {
 			throw FileError ("Could not open file for reading", path);
 		}
 		std::vector<uint8_t> buffer(size);
-		checked_fread (buffer.data(), size, f, path);
-		fclose (f);
+		f.checked_read(buffer.data(), size);
+		f.close();
 		try {
 			_video_size = dcp::decompress_j2k(buffer.data(), size, 0)->size();
 		} catch (dcp::ReadError& e) {

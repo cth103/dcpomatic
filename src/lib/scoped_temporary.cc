@@ -29,16 +29,18 @@
  */
 ScopedTemporary::ScopedTemporary ()
 {
-	_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path ();
+	_path = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 }
 
 
 /** Close and delete the temporary file */
 ScopedTemporary::~ScopedTemporary ()
 {
-	close ();
+	if (_file) {
+		_file->close();
+	}
 	boost::system::error_code ec;
-	boost::filesystem::remove (_file, ec);
+	boost::filesystem::remove (_path, ec);
 }
 
 
@@ -46,31 +48,23 @@ ScopedTemporary::~ScopedTemporary ()
 char const *
 ScopedTemporary::c_str () const
 {
-	return _file.string().c_str();
+	return _path.string().c_str();
 }
 
 
 /** Open the temporary file.
  *  @return File's FILE pointer.
  */
-FILE*
+dcp::File&
 ScopedTemporary::open (char const * params)
 {
-	close ();
-	_open = fopen_boost (_file, params);
-	if (!_open) {
-		throw FileError ("Could not open scoped temporary", _file);
+	if (_file) {
+		_file->close();
 	}
-	return _open;
+	_file = dcp::File(_path, params);
+	if (!*_file) {
+		throw FileError ("Could not open scoped temporary", _path);
+	}
+	return *_file;
 }
 
-
-/** Close the file */
-void
-ScopedTemporary::close ()
-{
-	if (_open) {
-		fclose (_open);
-		_open = nullptr;
-	}
-}

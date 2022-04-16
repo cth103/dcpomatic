@@ -162,7 +162,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 		return;
 	}
 
-	auto o = fopen_boost (out, "w");
+	dcp::File o(out, "w");
 	if (!o) {
 		LOG_ERROR_NC (N_("ffprobe call failed (could not create output file)"));
 		return;
@@ -176,10 +176,10 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 		if (!ReadFile(child_stderr_read, buffer, sizeof(buffer), &read, 0) || read == 0) {
 			break;
 		}
-		fwrite (buffer, read, 1, o);
+		o.write(buffer, read, 1);
 	}
 
-	fclose (o);
+	o.close();
 
 	WaitForSingleObject (process_info.hProcess, INFINITE);
 	CloseHandle (process_info.hProcess);
@@ -230,64 +230,6 @@ disk_writer_path ()
 	return directory_containing_executable() / "dcpomatic2_disk_writer.exe";
 }
 #endif
-
-
-/** Windows can't "by default" cope with paths longer than 260 characters, so if you pass such a path to
- *  any boost::filesystem method it will fail.  There is a "fix" for this, which is to prepend
- *  the string \\?\ to the path.  This will make it work, so long as:
- *  - the path is absolute.
- *  - the path only uses backslashes.
- *  - individual path components are "short enough" (probably less than 255 characters)
- *
- *  See https://www.boost.org/doc/libs/1_57_0/libs/filesystem/doc/reference.html under
- *  "Warning: Long paths on Windows" for some details.
- *
- *  Our fopen_boost uses this method to get this fix, but any other calls to boost::filesystem
- *  will not unless this method is explicitly called to pre-process the pathname.
- */
-boost::filesystem::path
-fix_long_path (boost::filesystem::path long_path)
-{
-	using namespace boost::filesystem;
-
-	if (boost::algorithm::starts_with(long_path.string(), "\\\\")) {
-		/* This could mean it starts with \\ (i.e. a SMB path) or \\?\ (a long path)
-		 * or a variety of other things... anyway, we'll leave it alone.
-		 */
-		return long_path;
-	}
-
-	/* We have to make the path canonical but we can't call canonical() on the long path
-	 * as it will fail.  So we'll sort of do it ourselves (possibly badly).
-	 */
-	path fixed = "\\\\?\\";
-	if (long_path.is_absolute()) {
-		fixed += long_path.make_preferred();
-	} else {
-		fixed += boost::filesystem::current_path() / long_path.make_preferred();
-	}
-	return fixed;
-}
-
-
-/* Apparently there is no way to create an ofstream using a UTF-8
-   filename under Windows.  We are hence reduced to using fopen
-   with this wrapper.
-*/
-FILE *
-fopen_boost (boost::filesystem::path p, string t)
-{
-        wstring w (t.begin(), t.end());
-	/* c_str() on fixed here should give a UTF-16 string */
-	return _wfopen (fix_long_path(p).c_str(), w.c_str());
-}
-
-
-int
-dcpomatic_fseek (FILE* stream, int64_t offset, int whence)
-{
-	return _fseeki64 (stream, offset, whence);
-}
 
 
 void

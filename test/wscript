@@ -151,7 +151,6 @@ def build(bld):
                  video_level_test.cc
                  video_mxf_content_test.cc
                  vf_kdm_test.cc
-                 windows_test.cc
                  writer_test.cc
                  zipper_test.cc
                  """

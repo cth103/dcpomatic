@@ -1031,12 +1031,12 @@ Config::write_config () const
 	try {
 		auto const s = doc.write_to_string_formatted ();
 		boost::filesystem::path tmp (string(target.string()).append(".tmp"));
-		auto f = fopen_boost (tmp, "w");
+		dcp::File f(tmp, "w");
 		if (!f) {
 			throw FileError (_("Could not open file for writing"), tmp);
 		}
-		checked_fwrite (s.c_str(), s.bytes(), f, tmp);
-		fclose (f);
+		f.checked_write(s.c_str(), s.bytes());
+		f.close();
 		boost::filesystem::remove (target);
 		boost::filesystem::rename (tmp, target);
 	} catch (xmlpp::exception& e) {
@@ -1416,13 +1416,8 @@ Config::copy_and_link (boost::filesystem::path new_file) const
 bool
 Config::have_write_permission () const
 {
-	auto f = fopen_boost (config_write_file(), "r+");
-	if (!f) {
-		return false;
-	}
-
-	fclose (f);
-	return true;
+	dcp::File f(config_write_file(), "r+");
+	return static_cast<bool>(f);
 }
 
 /** @param  output_channels Number of output channels in use.

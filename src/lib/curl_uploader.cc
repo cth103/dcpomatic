@@ -24,6 +24,7 @@
 #include "config.h"
 #include "cross.h"
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
 #include <iostream>
 
 #include "i18n.h"
@@ -62,9 +63,6 @@ CurlUploader::CurlUploader (function<void (string)> set_status, function<void (f
 
 CurlUploader::~CurlUploader ()
 {
-	if (_file) {
-		fclose (_file);
-	}
 	curl_easy_cleanup (_curl);
 }
 
@@ -85,10 +83,11 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 		String::compose ("ftp://%1/%2/%3", Config::instance()->tms_ip(), Config::instance()->tms_path(), to.generic_string ()).c_str ()
 		);
 
-	_file = fopen_boost (from, "rb");
-	if (!_file) {
+	dcp::File file(from, "rb");
+	if (!file) {
 		throw NetworkError (String::compose (_("Could not open %1 to send"), from));
 	}
+	_file = file.get();
 	_transferred = &transferred;
 	_total_size = total_size;
 
@@ -97,15 +96,15 @@ CurlUploader::upload_file (boost::filesystem::path from, boost::filesystem::path
 		throw NetworkError (String::compose (_("Could not write to remote file (%1)"), curl_easy_strerror (r)));
 	}
 
-	fclose (_file);
-	_file = 0;
+	_file = nullptr;
 }
 
 
 size_t
 CurlUploader::read_callback (void* ptr, size_t size, size_t nmemb)
 {
-	size_t const r = fread (ptr, size, nmemb, _file);
+	DCPOMATIC_ASSERT (_file);
+	size_t const r = fread(ptr, size, nmemb, _file);
 	*_transferred += size * nmemb;
 
 	if (_total_size > 0) {

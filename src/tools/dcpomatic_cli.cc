@@ -301,19 +301,18 @@ main (int argc, char* argv[])
 	}
 
 	if (servers) {
-		auto f = fopen_boost (*servers, "r");
+		dcp::File f(*servers, "r");
 		if (!f) {
 			cerr << "Could not open servers list file " << *servers << "\n";
 			exit (EXIT_FAILURE);
 		}
 		vector<string> servers;
-		while (!feof (f)) {
+		while (!f.eof()) {
 			char buffer[128];
-			if (fscanf (f, "%s.127", buffer) == 1) {
+			if (fscanf(f.get(), "%s.127", buffer) == 1) {
 				servers.push_back (buffer);
 			}
 		}
-		fclose (f);
 		Config::instance()->set_servers (servers);
 	}
 

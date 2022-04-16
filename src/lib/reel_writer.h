@@ -25,8 +25,9 @@
 #include "player_text.h"
 #include "dcp_text_track.h"
 #include "weak_film.h"
-#include <dcp/picture_asset_writer.h>
 #include <dcp/atmos_asset_writer.h>
+#include <dcp/file.h>
+#include <dcp/picture_asset_writer.h>
 
 namespace dcpomatic {
 	class FontData;
@@ -102,7 +103,7 @@ private:
 	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
 	long frame_info_position (Frame frame, Eyes eyes) const;
 	Frame check_existing_picture_asset (boost::filesystem::path asset);
-	bool existing_picture_frame_ok (FILE* asset_file, std::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
+	bool existing_picture_frame_ok (dcp::File& asset_file, std::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
 	std::shared_ptr<dcp::SubtitleAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
 
 	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture (std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;

@@ -18,28 +18,32 @@
 
 */
 
-#include "string_text_file.h"
+
 #include "cross.h"
 #include "exceptions.h"
+#include "string_text_file.h"
 #include "string_text_file_content.h"
-#include <sub/subrip_reader.h>
+#include <dcp/file.h>
+#include <sub/collect.h>
 #include <sub/ssa_reader.h>
 #include <sub/stl_binary_reader.h>
-#include <sub/collect.h>
+#include <sub/subrip_reader.h>
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
 #include <iostream>
 
 #include "i18n.h"
 
-using std::vector;
+
 using std::cout;
-using std::string;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::scoped_array;
 using boost::optional;
 using dcp::ArrayData;
 using namespace dcpomatic;
+
 
 StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 {
@@ -49,17 +53,15 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 	std::unique_ptr<sub::Reader> reader;
 
 	if (ext == ".stl") {
-		auto f = fopen_boost (content->path(0), "rb");
+		dcp::File f(content->path(0), "rb");
 		if (!f) {
-			throw OpenFileError (content->path(0), errno, OpenFileError::READ);
+			throw OpenFileError (f.path(), errno, OpenFileError::READ);
 		}
 		try {
-			reader.reset(new sub::STLBinaryReader(f));
+			reader.reset(new sub::STLBinaryReader(f.get()));
 		} catch (...) {
-			fclose (f);
 			throw;
 		}
-		fclose (f);
 
 	} else {
 		/* Text-based file; sort out its character encoding before we try to parse it */

@@ -22,6 +22,7 @@
 #include "file_log.h"
 #include "cross.h"
 #include "config.h"
+#include <dcp/file.h>
 #include <cstdio>
 #include <iostream>
 #include <cerrno>
@@ -51,14 +52,13 @@ FileLog::FileLog (boost::filesystem::path file, int types)
 void
 FileLog::do_log (shared_ptr<const LogEntry> entry)
 {
-	auto f = fopen_boost (_file, "a");
+	dcp::File f(_file, "a");
 	if (!f) {
 		cout << "(could not log to " << _file.string() << " error " << errno << "): " << entry->get() << "\n";
 		return;
 	}
 
-	fprintf (f, "%s\n", entry->get().c_str());
-	fclose (f);
+	fprintf(f.get(), "%s\n", entry->get().c_str());
 }
 
 
@@ -80,7 +80,7 @@ FileLog::head_and_tail (int amount) const
 		tail_amount = 0;
 	}
 
-	auto f = fopen_boost (_file, "r");
+	dcp::File f(_file, "r");
 	if (!f) {
 		return "";
 	}
@@ -89,21 +89,19 @@ FileLog::head_and_tail (int amount) const
 
 	std::vector<char> buffer(max(head_amount, tail_amount) + 1);
 
-	int N = fread (buffer.data(), 1, head_amount, f);
+	int N = f.read(buffer.data(), 1, head_amount);
 	buffer[N] = '\0';
 	out += string (buffer.data());
 
 	if (tail_amount > 0) {
 		out +=  "\n .\n .\n .\n";
 
-		fseek (f, - tail_amount - 1, SEEK_END);
+		f.seek(- tail_amount - 1, SEEK_END);
 
-		N = fread (buffer.data(), 1, tail_amount, f);
+		N = f.read(buffer.data(), 1, tail_amount);
 		buffer[N] = '\0';
-		out += string (buffer.data()) + "\n";
+		out += string(buffer.data()) + "\n";
 	}
-
-	fclose (f);
 
 	return out;
 }

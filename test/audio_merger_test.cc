@@ -30,6 +30,7 @@
 #include "lib/audio_buffers.h"
 #include "lib/dcpomatic_time.h"
 #include "test.h"
+#include <dcp/file.h>
 #include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/bind/bind.hpp>
@@ -154,11 +155,11 @@ BOOST_AUTO_TEST_CASE (audio_merger_test3)
 /* Reply a sequence of calls to AudioMerger that resulted in a crash */
 BOOST_AUTO_TEST_CASE (audio_merger_test4)
 {
-	auto f = fopen_boost("test/data/audio_merger_bug1.log", "r");
+	dcp::File f("test/data/audio_merger_bug1.log", "r");
 	BOOST_REQUIRE (f);
 	list<string> tokens;
 	char buf[64];
-	while (fscanf(f, "%63s", buf) == 1) {
+	while (fscanf(f.get(), "%63s", buf) == 1) {
 		tokens.push_back (buf);
 	}
 

@@ -28,6 +28,7 @@
 #include "screen.h"
 #include "util.h"
 #include "zipper.h"
+#include <dcp/file.h>
 
 #include "i18n.h"
 
@@ -66,7 +67,7 @@ write_files (
 
 	/* Write KDMs to the specified directory */
 	for (auto i: kdms) {
-		auto out = fix_long_path(directory / careful_string_filter(name_format.get(i->name_values(), ".xml")));
+		auto out = dcp::fix_long_path(directory / careful_string_filter(name_format.get(i->name_values(), ".xml")));
 		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
 			i->kdm_as_xml (out);
 			++written;

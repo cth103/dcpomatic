@@ -53,18 +53,18 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	/* Remove <Hash> tags from the CPL */
 	for (auto i: directory_iterator(String::compose("build/test/%1/%2", ov_name, ov->dcp_name()))) {
 		if (boost::algorithm::starts_with(i.path().filename().string(), "cpl_")) {
-			auto in = fopen_boost(i.path(), "r");
+			dcp::File in(i.path(), "r");
 			BOOST_REQUIRE (in);
-			auto out = fopen_boost(i.path().string() + ".tmp", "w");
+			dcp::File out(i.path().string() + ".tmp", "w");
 			BOOST_REQUIRE (out);
 			char buffer[256];
-			while (fgets(buffer, sizeof(buffer), in)) {
+			while (in.gets(buffer, sizeof(buffer))) {
 				if (string(buffer).find("Hash") == string::npos) {
-					fputs (buffer, out);
+					out.puts(buffer);
 				}
 			}
-			fclose (in);
-			fclose (out);
+			in.close();
+			out.close();
 			rename (i.path().string() + ".tmp", i.path());
 		}
 	}
@@ -82,15 +82,14 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	int hashes = 0;
 	for (auto i: directory_iterator(String::compose("build/test/%1/%2", vf_name, vf->dcp_name()))) {
 		if (boost::algorithm::starts_with(i.path().filename().string(), "cpl_")) {
-			auto in = fopen_boost(i.path(), "r");
+			dcp::File in(i.path(), "r");
 			BOOST_REQUIRE (in);
 			char buffer[256];
-			while (fgets (buffer, sizeof(buffer), in)) {
+			while (in.gets(buffer, sizeof(buffer))) {
 				if (string(buffer).find("Hash") != string::npos) {
 					++hashes;
 				}
 			}
-			fclose (in);
 		}
 	}
 	BOOST_CHECK_EQUAL (hashes, 2);

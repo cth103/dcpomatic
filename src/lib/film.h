@@ -37,6 +37,7 @@
 #include "types.h"
 #include "util.h"
 #include <dcp/encrypted_kdm.h>
+#include <dcp/file.h>
 #include <dcp/key.h>
 #include <dcp/language_tag.h>
 #include <dcp/rating.h>
@@ -75,13 +76,8 @@ class InfoFileHandle
 {
 public:
 	InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read);
-	~InfoFileHandle ();
 
-	FILE* get () const {
-		return _handle;
-	}
-
-	boost::filesystem::path file () const {
+	dcp::File& get () {
 		return _file;
 	}
 
@@ -89,9 +85,9 @@ private:
 	friend class Film;
 
 	boost::mutex::scoped_lock _lock;
-	FILE* _handle;
-	boost::filesystem::path _file;
+	dcp::File _file;
 };
+
 
 /** @class Film
  *

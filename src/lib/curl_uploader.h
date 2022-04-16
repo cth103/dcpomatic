@@ -20,6 +20,7 @@
 
 
 #include "uploader.h"
+#include <dcp/file.h>
 #include <curl/curl.h>
 
 

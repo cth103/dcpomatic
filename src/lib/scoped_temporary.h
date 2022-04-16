@@ -19,7 +19,9 @@
 */
 
 
+#include <dcp/file.h>
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <cstdio>
 
 
@@ -35,16 +37,15 @@ public:
 	ScopedTemporary (ScopedTemporary const&) = delete;
 	ScopedTemporary& operator= (ScopedTemporary const&) = delete;
 
-	/** @return temporary filename */
-	boost::filesystem::path file () const {
-		return _file;
+	/** @return temporary pathname */
+	boost::filesystem::path path () const {
+		return _path;
 	}
 
 	char const * c_str () const;
-	FILE* open (char const *);
-	void close ();
+	dcp::File& open (char const *);
 
 private:
-	boost::filesystem::path _file;
-	FILE* _open = nullptr;
+	boost::filesystem::path _path;
+	boost::optional<dcp::File> _file;
 };

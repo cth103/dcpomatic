@@ -24,6 +24,7 @@
 #include "exceptions.h"
 #include "scoped_temporary.h"
 #include "util.h"
+#include <dcp/file.h>
 #include <curl/curl.h>
 #include <zip.h>
 #include <boost/optional.hpp>
@@ -98,9 +99,9 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 	auto curl = curl_easy_init ();
 	curl_easy_setopt (curl, CURLOPT_URL, url.c_str());
 
-	auto f = temp.open ("wb");
+	auto& f = temp.open ("wb");
 	curl_easy_setopt (curl, CURLOPT_WRITEFUNCTION, get_from_url_data);
-	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f);
+	curl_easy_setopt (curl, CURLOPT_WRITEDATA, f.get());
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPSV, 0);
 	curl_easy_setopt (curl, CURLOPT_FTP_USE_EPRT, 0);
 	if (skip_pasv_ip) {
@@ -115,7 +116,7 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 
 	auto const cr = curl_easy_perform (curl);
 
-	temp.close ();
+	f.close();
 	curl_easy_cleanup (curl);
 	if (cr != CURLE_OK) {
 		return String::compose (_("Download failed (%1 error %2)"), url, (int) cr);
@@ -133,7 +134,7 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, function<optional<string
 	if (e) {
 		return e;
 	}
-	return load (temp.file(), url);
+	return load (temp.path(), url);
 }
 
 
@@ -159,14 +160,14 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 	   Centos 6, Centos 7, Debian 7 and Debian 8.
 	*/
 
-	auto zip_file = fopen_boost (temp_zip.file (), "rb");
+	auto& zip_file = temp_zip.open("rb");
 	if (!zip_file) {
-		return optional<string> (_("Could not open downloaded ZIP file"));
+		return string(_("Could not open downloaded ZIP file"));
 	}
 
-	auto zip_source = zip_source_filep_create (zip_file, 0, -1, 0);
+	auto zip_source = zip_source_filep_create (zip_file.take(), 0, -1, 0);
 	if (!zip_source) {
-		return optional<string> (_("Could not open downloaded ZIP file"));
+		return string(_("Could not open downloaded ZIP file"));
 	}
 
 	zip_error_t error;
@@ -182,22 +183,22 @@ get_from_zip_url (string url, string file, bool pasv, bool skip_pasv_ip, functio
 
 	struct zip_file* file_in_zip = zip_fopen (zip, file.c_str(), 0);
 	if (!file_in_zip) {
-		return optional<string> (_("Unexpected ZIP file contents"));
+		return string(_("Unexpected ZIP file contents"));
 	}
 
 	ScopedTemporary temp_cert;
-	auto f = temp_cert.open ("wb");
+	auto& f = temp_cert.open ("wb");
 	char buffer[4096];
 	while (true) {
 		int const N = zip_fread (file_in_zip, buffer, sizeof (buffer));
-		checked_fwrite (buffer, N, f, temp_cert.file());
+		f.checked_write(buffer, N);
 		if (N < int (sizeof (buffer))) {
 			break;
 		}
 	}
 	zip_fclose (file_in_zip);
 	zip_close (zip);
-	temp_cert.close ();
+	f.close ();
 
-	return load (temp_cert.file(), url);
+	return load (temp_cert.path(), url);
 }

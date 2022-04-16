@@ -28,7 +28,9 @@
 #define DCPOMATIC_FILE_GROUP_H
 
 
+#include <dcp/file.h>
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <vector>
 
 
@@ -41,7 +43,6 @@ public:
 	FileGroup ();
 	explicit FileGroup (boost::filesystem::path);
 	explicit FileGroup (std::vector<boost::filesystem::path> const &);
-	~FileGroup ();
 
 	FileGroup (FileGroup const&) = delete;
 	FileGroup& operator= (FileGroup const&) = delete;
@@ -58,7 +59,7 @@ private:
 	std::vector<boost::filesystem::path> _paths;
 	/** Index of path that we are currently reading from */
 	mutable size_t _current_path = 0;
-	mutable FILE* _current_file = nullptr;
+	mutable boost::optional<dcp::File> _current_file;
 	mutable size_t _current_size = 0;
 	mutable int64_t _position = 0;
 };

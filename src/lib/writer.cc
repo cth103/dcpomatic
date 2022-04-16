@@ -710,7 +710,7 @@ void
 Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 {
 	auto const cover = film()->file("COVER_SHEET.txt");
-	auto f = fopen_boost (cover, "w");
+	dcp::File f(cover, "w");
 	if (!f) {
 		throw OpenFileError (cover, errno, OpenFileError::WRITE);
 	}
@@ -778,8 +778,7 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 
 	boost::algorithm::replace_all (text, "$LENGTH", length);
 
-	checked_fwrite (text.c_str(), text.length(), f, cover);
-	fclose (f);
+	f.checked_write(text.c_str(), text.length());
 }
 
 

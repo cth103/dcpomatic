@@ -54,8 +54,6 @@ extern void maybe_open_console ();
 #endif
 extern boost::filesystem::path resources_path ();
 extern boost::filesystem::path libdcp_resources_path ();
-extern FILE * fopen_boost (boost::filesystem::path, std::string);
-extern int dcpomatic_fseek (FILE *, int64_t, int);
 extern void start_batch_converter ();
 extern void start_player ();
 extern uint64_t thread_id ();
@@ -65,7 +63,6 @@ extern bool running_32_on_64 ();
 extern void unprivileged ();
 extern boost::filesystem::path config_path (boost::optional<std::string> version);
 extern boost::filesystem::path directory_containing_executable ();
-extern boost::filesystem::path fix_long_path (boost::filesystem::path path);
 extern bool show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path select);
 namespace dcpomatic {
 	std::string get_process_id ();
