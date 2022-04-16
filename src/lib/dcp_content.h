@@ -92,7 +92,7 @@ public:
 		return _kdm;
 	}
 
-	bool can_be_played () const;
+	bool can_be_played () const override;
 	bool needs_kdm () const;
 	bool needs_assets () const;
 

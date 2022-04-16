@@ -192,6 +192,10 @@ public:
 
 	std::string calculate_digest () const;
 
+	virtual bool can_be_played () const {
+		return true;
+	}
+
 	/* ChangeType::PENDING and ChangeType::CANCELLED may be emitted from any thread; ChangeType::DONE always from GUI thread */
 	boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> Change;
 
