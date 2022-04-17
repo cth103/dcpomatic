@@ -129,7 +129,7 @@ class TestSignalManager : public SignalManager
 {
 public:
 	/* No wakes in tests: we call ui_idle ourselves */
-	void wake_ui ()
+	void wake_ui () override
 	{
 
 	}
