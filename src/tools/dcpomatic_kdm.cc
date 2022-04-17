@@ -690,7 +690,7 @@ private:
 	}
 
 	/* An unhandled exception has occurred inside the main event loop */
-	bool OnExceptionInMainLoop ()
+	bool OnExceptionInMainLoop () override
 	{
 		try {
 			throw;

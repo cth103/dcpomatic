@@ -61,7 +61,7 @@ public:
 	/* Do nothing in this method so that UI events happen in our thread
 	   when we call SignalManager::ui_idle().
 	*/
-	void wake_ui () {}
+	void wake_ui () override {}
 };
 
 int
