@@ -32,6 +32,9 @@ deb_build_depends_base = ['debhelper', 'g++', 'pkg-config', 'libsndfile1-dev', '
 for v in ['16.04', '18.04', '20.04', '20.10', '21.04', '21.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python'])
+for v in ['22.04']:
+    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
+    deb_build_depends[v].extend(['libssh-dev', 'python3.10'])
 for v in ['9', '10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-gcrypt-dev', 'python'])
@@ -100,6 +103,25 @@ deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
 
 deb_depends['21.10'] = copy.deepcopy(deb_depends_base)
 deb_depends['21.10'].extend(['libboost-filesystem1.74.0',
+                             'libboost-thread1.74.0',
+                             'libboost-regex1.74.0',
+                             'libboost-date-time1.74.0',
+                             'libcairomm-1.0-1v5',
+                             'libpangomm-1.4-1v5',
+                             'libxml++2.6-2v5',
+                             'libzip4',
+                             'libicu67',
+                             'libnettle8',
+                             'libssh-4',
+                             'libx264-160',
+                             'libcurl4',
+                             'libpulse0',
+                             'libxerces-c3.2',
+                             'libnanomsg5',
+                             'libdav1d4'])
+
+deb_depends['22.04'] = copy.deepcopy(deb_depends_base)
+deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libboost-thread1.74.0',
                              'libboost-regex1.74.0',
                              'libboost-date-time1.74.0',
