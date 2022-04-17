@@ -657,8 +657,6 @@ Drive::unmount ()
 	DCPOMATIC_ASSERT (_mount_points.size() == 1);
 	string const device_name = String::compose ("\\\\.\\%1", _mount_points.front());
 	string const truncated = device_name.substr (0, device_name.length() - 1);
-	//LOG_DISK("Actually opening %1", _device);
-	//HANDLE device = CreateFileA (_device.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
 	LOG_DISK("Actually opening %1", truncated);
 	HANDLE device = CreateFileA (truncated.c_str(), (GENERIC_READ | GENERIC_WRITE), FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, 0);
  	if (device == INVALID_HANDLE_VALUE) {
