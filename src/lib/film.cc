@@ -915,7 +915,18 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	auto audio_language = (_audio_language && _audio_language->language()) ? _audio_language->language()->subtag() : "XX";
+	auto entry_for_language = [](dcp::LanguageTag const& tag) {
+		/* Look up what we should be using for this tag in the DCNC name */
+		for (auto const& dcnc: dcp::dcnc_tags()) {
+			if (tag.to_string() == dcnc.first) {
+				return dcnc.second;
+			}
+		}
+		/* Fallback to the language subtag, if there is one */
+		return tag.language() ? tag.language()->subtag() : "XX";
+	};
+
+	auto audio_language = _audio_language ? entry_for_language(*_audio_language) : "XX";
 
 	d += "_" + to_upper (audio_language);
 
@@ -937,7 +948,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto sub_langs = subtitle_languages();
 	if (sub_langs.first && sub_langs.first->language()) {
-		auto lang = sub_langs.first->language()->subtag();
+		auto lang = entry_for_language(*sub_langs.first);
 		if (burnt_in) {
 			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
