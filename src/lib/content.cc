@@ -24,17 +24,17 @@
  */
 
 
-#include "content.h"
-#include "change_signaller.h"
-#include "util.h"
-#include "content_factory.h"
-#include "video_content.h"
 #include "audio_content.h"
-#include "text_content.h"
+#include "change_signaller.h"
+#include "compose.hpp"
+#include "content.h"
+#include "content_factory.h"
 #include "exceptions.h"
 #include "film.h"
 #include "job.h"
-#include "compose.hpp"
+#include "text_content.h"
+#include "util.h"
+#include "video_content.h"
 #include <dcp/locale_convert.h>
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>

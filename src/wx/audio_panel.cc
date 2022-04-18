@@ -58,7 +58,6 @@ using namespace dcpomatic;
 
 AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
-	, _audio_dialog (0)
 {
 
 }
@@ -219,6 +218,7 @@ AudioPanel::film_changed (Film::Property property)
 	}
 }
 
+
 void
 AudioPanel::film_content_changed (int property)
 {
@@ -294,6 +294,7 @@ AudioPanel::film_content_changed (int property)
 	}
 }
 
+
 void
 AudioPanel::gain_calculate_button_clicked ()
 {
@@ -325,6 +326,7 @@ AudioPanel::gain_calculate_button_clicked ()
 	d->Destroy ();
 }
 
+
 void
 AudioPanel::setup_description ()
 {
@@ -337,6 +339,7 @@ AudioPanel::setup_description ()
 	checked_set (_description, ac.front()->audio->processing_description(_parent->film()));
 }
 
+
 void
 AudioPanel::mapping_changed (AudioMapping m)
 {
@@ -345,6 +348,7 @@ AudioPanel::mapping_changed (AudioMapping m)
 		c.front()->audio->set_mapping (m);
 	}
 }
+
 
 void
 AudioPanel::content_selection_changed ()
@@ -362,6 +366,7 @@ AudioPanel::content_selection_changed ()
 
 	setup_sensitivity ();
 }
+
 
 void
 AudioPanel::setup_sensitivity ()
@@ -395,6 +400,7 @@ AudioPanel::setup_sensitivity ()
 	_description->Enable (!ref && single);
 }
 
+
 void
 AudioPanel::show_clicked ()
 {
@@ -411,6 +417,7 @@ AudioPanel::show_clicked ()
 	_audio_dialog = new AudioDialog (this, _parent->film(), _parent->film_viewer(), ac.front());
 	_audio_dialog->Show ();
 }
+
 
 /** @return If there is one selected piece of audio content, return its peak value in dB (if known) */
 optional<float>
@@ -432,6 +439,7 @@ AudioPanel::peak () const
 
 	return peak_dB;
 }
+
 
 void
 AudioPanel::setup_peak ()
@@ -461,6 +469,7 @@ AudioPanel::setup_peak ()
 	}
 }
 
+
 void
 AudioPanel::active_jobs_changed (optional<string> old_active, optional<string> new_active)
 {
@@ -471,6 +480,7 @@ AudioPanel::active_jobs_changed (optional<string> old_active, optional<string> n
 		_mapping->Enable (false);
 	}
 }
+
 
 void
 AudioPanel::reference_clicked ()
@@ -487,6 +497,7 @@ AudioPanel::reference_clicked ()
 
 	d->set_reference_audio (_reference->GetValue ());
 }
+
 
 void
 AudioPanel::set_film (shared_ptr<Film>)

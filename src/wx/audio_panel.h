@@ -77,7 +77,7 @@ private:
 	Timecode<dcpomatic::ContentTime>* _fade_out;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
-	AudioDialog* _audio_dialog;
+	AudioDialog* _audio_dialog = nullptr;
 
 	boost::signals2::scoped_connection _mapping_connection;
 	boost::signals2::scoped_connection _active_jobs_connection;
