@@ -59,6 +59,7 @@ private:
 	boost::optional<float> peak () const;
 	void fade_in_changed ();
 	void fade_out_changed ();
+	void use_same_fades_as_video_changed ();
 
 	wxCheckBox* _reference;
 	wxStaticText* _reference_note;
@@ -75,6 +76,7 @@ private:
 	Timecode<dcpomatic::ContentTime>* _fade_in;
 	wxStaticText* _fade_out_label;
 	Timecode<dcpomatic::ContentTime>* _fade_out;
+	wxCheckBox* _use_same_fades_as_video;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
 	AudioDialog* _audio_dialog = nullptr;

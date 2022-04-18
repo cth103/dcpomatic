@@ -109,6 +109,8 @@ AudioPanel::create ()
 	_fade_out_label = create_label (this, _("Fade out"), true);
 	_fade_out = new Timecode<ContentTime> (this);
 
+	_use_same_fades_as_video = new wxCheckBox (this, wxID_ANY, _("Use same fades as video"));
+
 	_mapping = new AudioMappingView (this, _("Content"), _("content"), _("DCP"), _("DCP"));
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
@@ -132,6 +134,7 @@ AudioPanel::create ()
 
 	_fade_in->Changed.connect (boost::bind(&AudioPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind(&AudioPanel::fade_out_changed, this));
+	_use_same_fades_as_video->Bind (wxEVT_CHECKBOX, boost::bind(&AudioPanel::use_same_fades_as_video_changed, this));
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 	_active_jobs_connection = JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));
@@ -181,6 +184,9 @@ AudioPanel::add_to_grid ()
 
 	add_label_to_sizer (_grid, _fade_out_label, true, wxGBPosition(r, 0));
 	_grid->Add (_fade_out, wxGBPosition(r, 1), wxGBSpan(1, 3));
+	++r;
+
+	_grid->Add (_use_same_fades_as_video, wxGBPosition(r, 0), wxGBSpan(1, 4));
 	++r;
 }
 
@@ -291,6 +297,8 @@ AudioPanel::film_content_changed (int property)
 		} else {
 			_fade_out->clear ();
 		}
+	} else if (property == AudioContentProperty::USE_SAME_FADES_AS_VIDEO) {
+		setup_sensitivity ();
 	}
 }
 
@@ -362,6 +370,7 @@ AudioPanel::content_selection_changed ()
 	film_content_changed (AudioContentProperty::GAIN);
 	film_content_changed (AudioContentProperty::FADE_IN);
 	film_content_changed (AudioContentProperty::FADE_OUT);
+	film_content_changed (AudioContentProperty::USE_SAME_FADES_AS_VIDEO);
 	film_content_changed (DCPContentProperty::REFERENCE_AUDIO);
 
 	setup_sensitivity ();
@@ -391,6 +400,8 @@ AudioPanel::setup_sensitivity ()
 	auto const ref = _reference->GetValue();
 	auto const single = sel.size() == 1;
 
+	auto const all_have_video = std::all_of(sel.begin(), sel.end(), [](shared_ptr<const Content> c) { return static_cast<bool>(c->video); });
+
 	_gain->wrapped()->Enable (!ref);
 	_gain_calculate_button->Enable (!ref && single);
 	_show->Enable (single);
@@ -398,6 +409,9 @@ AudioPanel::setup_sensitivity ()
 	_delay->wrapped()->Enable (!ref);
 	_mapping->Enable (!ref && single);
 	_description->Enable (!ref && single);
+	_fade_in->Enable (!_use_same_fades_as_video->GetValue());
+	_fade_out->Enable (!_use_same_fades_as_video->GetValue());
+	_use_same_fades_as_video->Enable (!ref && all_have_video);
 }
 
 
@@ -528,6 +542,15 @@ AudioPanel::fade_out_changed ()
 	for (auto i: _parent->selected_audio()) {
 		auto const vfr = i->active_video_frame_rate (_parent->film());
 		i->audio->set_fade_out (dcpomatic::ContentTime(hmsf, vfr));
+	}
+}
+
+
+void
+AudioPanel::use_same_fades_as_video_changed ()
+{
+	for (auto content: _parent->selected_audio()) {
+		content->audio->set_use_same_fades_as_video(_use_same_fades_as_video->GetValue());
 	}
 }
 

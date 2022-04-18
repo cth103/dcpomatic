@@ -22,6 +22,7 @@
 #include "lib/audio_content.h"
 #include "lib/content_factory.h"
 #include "lib/maths_util.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -242,5 +243,19 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim_at_44k1)
 		BOOST_REQUIRE_CLOSE (f2[i], logarithmic_fade_out_curve(static_cast<float>(i + 200) / 48000), 0.01);
 	}
 
+}
+
+
+BOOST_AUTO_TEST_CASE (audio_content_fades_same_as_video)
+{
+	auto content = content_factory("test/data/staircase.mov").front();
+	auto film = new_test_film2("audio_content_fades_same_as_video", { content });
+
+	content->audio->set_use_same_fades_as_video(true);
+	content->video->set_fade_in(9);
+	content->video->set_fade_out(81);
+
+	BOOST_CHECK(content->audio->fade_in() == dcpomatic::ContentTime::from_frames(9 * 48000 / 24, 48000));
+	BOOST_CHECK(content->audio->fade_out() == dcpomatic::ContentTime::from_frames(81 * 48000 / 24, 48000));
 }
 

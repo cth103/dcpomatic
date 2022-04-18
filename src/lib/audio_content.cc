@@ -26,6 +26,7 @@
 #include "film.h"
 #include "frame_rate_change.h"
 #include "maths_util.h"
+#include "video_content.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -55,6 +56,7 @@ int const AudioContentProperty::GAIN = 201;
 int const AudioContentProperty::DELAY = 202;
 int const AudioContentProperty::FADE_IN = 203;
 int const AudioContentProperty::FADE_OUT = 204;
+int const AudioContentProperty::USE_SAME_FADES_AS_VIDEO = 205;
 
 
 AudioContent::AudioContent (Content* parent)
@@ -94,6 +96,7 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 	_delay = node->number_child<int> ("AudioDelay");
 	_fade_in = ContentTime(node->optional_number_child<ContentTime::Type>("AudioFadeIn").get_value_or(0));
 	_fade_out = ContentTime(node->optional_number_child<ContentTime::Type>("AudioFadeOut").get_value_or(0));
+	_use_same_fades_as_video = node->optional_bool_child("AudioUseSameFadesAsVideo").get_value_or(false);
 
 	/* Backwards compatibility */
 	auto r = node->optional_number_child<double>("AudioVideoFrameRate");
@@ -133,6 +136,7 @@ AudioContent::as_xml (xmlpp::Node* node) const
 	node->add_child("AudioDelay")->add_child_text(raw_convert<string>(_delay));
 	node->add_child("AudioFadeIn")->add_child_text(raw_convert<string>(_fade_in.get()));
 	node->add_child("AudioFadeOut")->add_child_text(raw_convert<string>(_fade_out.get()));
+	node->add_child("AudioUseSameFadesAsVideo")->add_child_text(_use_same_fades_as_video ? "1" : "0");
 }
 
 
@@ -428,6 +432,30 @@ AudioContent::modify_trim_start (ContentTime& trim) const
 }
 
 
+ContentTime
+AudioContent::fade_in () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_use_same_fades_as_video && _parent->video) {
+		return dcpomatic::ContentTime::from_frames(_parent->video->fade_in(), _parent->video_frame_rate().get_value_or(24));
+	}
+
+	return _fade_in;
+}
+
+
+ContentTime
+AudioContent::fade_out () const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	if (_use_same_fades_as_video && _parent->video) {
+		return dcpomatic::ContentTime::from_frames(_parent->video->fade_out(), _parent->video_frame_rate().get_value_or(24));
+	}
+
+	return _fade_out;
+}
+
+
 void
 AudioContent::set_fade_in (ContentTime t)
 {
@@ -439,6 +467,13 @@ void
 AudioContent::set_fade_out (ContentTime t)
 {
 	maybe_set (_fade_out, t, AudioContentProperty::FADE_OUT);
+}
+
+
+void
+AudioContent::set_use_same_fades_as_video (bool s)
+{
+	maybe_set (_use_same_fades_as_video, s, AudioContentProperty::USE_SAME_FADES_AS_VIDEO);
 }
 
 

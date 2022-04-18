@@ -44,6 +44,7 @@ public:
 	static int const DELAY;
 	static int const FADE_IN;
 	static int const FADE_OUT;
+	static int const USE_SAME_FADES_AS_VIDEO;
 };
 
 
@@ -78,18 +79,12 @@ public:
 		return _delay;
 	}
 
-	dcpomatic::ContentTime fade_in () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _fade_in;
-	}
-
-	dcpomatic::ContentTime fade_out () const {
-		boost::mutex::scoped_lock lm (_mutex);
-		return _fade_out;
-	}
+	dcpomatic::ContentTime fade_in () const;
+	dcpomatic::ContentTime fade_out () const;
 
 	void set_fade_in (dcpomatic::ContentTime time);
 	void set_fade_out (dcpomatic::ContentTime time);
+	void set_use_same_fades_as_video (bool s);
 
 	std::string processing_description (std::shared_ptr<const Film> film) const;
 
@@ -125,6 +120,7 @@ private:
 	int _delay = 0;
 	dcpomatic::ContentTime _fade_in;
 	dcpomatic::ContentTime _fade_out;
+	bool _use_same_fades_as_video = false;
 	std::vector<AudioStreamPtr> _streams;
 };
 
