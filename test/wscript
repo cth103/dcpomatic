@@ -122,6 +122,7 @@ def build(bld):
                  remake_with_subtitle_test.cc
                  render_subtitles_test.cc
                  scaling_test.cc
+                 scope_guard_test.cc
                  silence_padding_test.cc
                  shuffler_test.cc
                  skip_frame_test.cc
