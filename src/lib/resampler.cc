@@ -131,7 +131,6 @@ Resampler::run (shared_ptr<const AudioBuffers> in)
 			break;
 		}
 
-		resampled->ensure_size (out_offset + data.output_frames_gen);
 		resampled->set_frames (out_offset + data.output_frames_gen);
 
 		{
@@ -176,7 +175,7 @@ Resampler::flush ()
 		throw EncodeError (String::compose(N_("could not run sample-rate converter (%1)"), src_strerror(r)));
 	}
 
-	out->ensure_size (out_offset + data.output_frames_gen);
+	out->set_frames (out_offset + data.output_frames_gen);
 
 	auto p = data.data_out;
 	auto q = out->data ();
@@ -187,7 +186,6 @@ Resampler::flush ()
 	}
 
 	out_offset += data.output_frames_gen;
-	out->set_frames (out_offset);
 
 	return out;
 }

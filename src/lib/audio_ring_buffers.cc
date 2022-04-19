@@ -85,7 +85,7 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 		}
 
 		int const to_do = min (frames, front.first->frames() - _used_in_head);
-		float** p = front.first->data();
+		float* const* p = front.first->data();
 		int const c = min (front.first->channels(), channels);
 		for (int i = 0; i < to_do; ++i) {
 			for (int j = 0; j < c; ++j) {

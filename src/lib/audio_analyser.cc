@@ -134,7 +134,7 @@ AudioAnalyser::~AudioAnalyser ()
 
 
 void
-AudioAnalyser::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
+AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 {
 	LOG_DEBUG_AUDIO_ANALYSIS("Received %1 frames at %2", b->frames(), to_string(time));
 	DCPOMATIC_ASSERT (time >= _start);
@@ -150,7 +150,7 @@ AudioAnalyser::analyse (shared_ptr<const AudioBuffers> b, DCPTime time)
 	vector<double> interleaved(frames * channels);
 
 	for (int j = 0; j < channels; ++j) {
-		float* data = b->data(j);
+		float const* data = b->data(j);
 		for (int i = 0; i < frames; ++i) {
 			float s = data[i];
 

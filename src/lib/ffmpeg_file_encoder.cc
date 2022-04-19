@@ -127,7 +127,7 @@ public:
 		return false;
 	}
 
-	void write (int size, int channel_offset, int channels, float** data, int64_t sample_offset)
+	void write (int size, int channel_offset, int channels, float* const* data, int64_t sample_offset)
 	{
 		DCPOMATIC_ASSERT (size);
 

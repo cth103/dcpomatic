@@ -45,7 +45,7 @@ public:
 	AudioAnalyser (AudioAnalyser const&) = delete;
 	AudioAnalyser& operator= (AudioAnalyser const&) = delete;
 
-	void analyse (std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
+	void analyse (std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime time);
 
 	dcpomatic::DCPTime start () const {
 		return _start;

@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE (audio_buffers_extend_test)
 	random_fill (buffers);
 
 	/* Extend */
-	buffers.ensure_size (299);
+	buffers.set_frames (299);
 
 	srand (1);
 	random_check (buffers, 0, 150);
@@ -303,3 +303,44 @@ BOOST_AUTO_TEST_CASE (audio_buffers_accumulate_frames)
 		}
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE (audio_buffers_data)
+{
+       AudioBuffers a (94, 512);
+
+       for (int i = 0; i < 94; ++i) {
+               BOOST_CHECK_EQUAL (a.data()[i], a.data(i));
+       }
+
+       a.set_frames (2048);
+
+       for (int i = 0; i < 94; ++i) {
+               BOOST_CHECK_EQUAL (a.data()[i], a.data(i));
+       }
+}
+
+
+BOOST_AUTO_TEST_CASE (audio_buffers_trim_start)
+{
+       AudioBuffers a (13, 999);
+
+       srand (55);
+       random_fill (a);
+
+       a.trim_start (101);
+
+       srand (55);
+
+       /* Burn the first 101 numbers in the sequence */
+       for (int i = 0; i < 101 * 13; ++i) {
+               random_float ();
+       }
+
+       for (int i = 0; i < (999 - 101); ++i) {
+               for (int j = 0; j < 13; ++j) {
+                       BOOST_CHECK_CLOSE (a.data(j)[i], random_float(), tolerance);
+               }
+       }
+}
+

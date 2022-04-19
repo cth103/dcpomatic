@@ -28,75 +28,65 @@
 #define DCPOMATIC_AUDIO_BUFFERS_H
 
 
-#include <stdint.h>
 #include <memory>
+#include <vector>
 
 
 /** @class AudioBuffers
  *  @brief A class to hold multi-channel audio data in float format.
- *
- *  The use of int32_t for frame counts in this class is due to the
- *  round-up to the next power-of-2 code in ensure_size(); if that
- *  were changed the frame count could use any integer type.
  */
 class AudioBuffers
 {
 public:
-	AudioBuffers (int channels, int32_t frames);
+	AudioBuffers (int channels, int frames);
 	AudioBuffers (AudioBuffers const &);
 	explicit AudioBuffers (std::shared_ptr<const AudioBuffers>);
-	AudioBuffers (std::shared_ptr<const AudioBuffers> other, int32_t frames_to_copy, int32_t read_offset);
-	~AudioBuffers ();
+	AudioBuffers (std::shared_ptr<const AudioBuffers> other, int frames_to_copy, int read_offset);
 
 	AudioBuffers & operator= (AudioBuffers const &);
 
 	std::shared_ptr<AudioBuffers> clone () const;
 	std::shared_ptr<AudioBuffers> channel (int) const;
 
-	void ensure_size (int32_t);
-
-	float** data () const {
-		return _data;
+	float* const* data () const {
+		return _data_pointers.data();
 	}
 
-	float* data (int) const;
+	float const* data (int) const;
+	float* data (int);
 
 	int channels () const {
-		return _channels;
+		return _data.size();
 	}
 
 	int frames () const {
-		return _frames;
+		return _data[0].size();
 	}
 
-	void set_frames (int32_t f);
+	void set_frames (int f);
 
 	void make_silent ();
 	void make_silent (int channel);
-	void make_silent (int32_t from, int32_t frames);
+	void make_silent (int from, int frames);
 
 	void apply_gain (float);
 
-	void copy_from (AudioBuffers const * from, int32_t frames_to_copy, int32_t read_offset, int32_t write_offset);
+	void copy_from (AudioBuffers const * from, int frames_to_copy, int read_offset, int write_offset);
 	void copy_channel_from (AudioBuffers const * from, int from_channel, int to_channel);
-	void move (int32_t frames, int32_t from, int32_t to);
+	void move (int frames, int from, int to);
 	void accumulate_channel (AudioBuffers const * from, int from_channel, int to_channel, float gain = 1);
-	void accumulate_frames (AudioBuffers const * from, int32_t frames, int32_t read_offset, int32_t write_offset);
+	void accumulate_frames (AudioBuffers const * from, int frames, int read_offset, int write_offset);
 	void append (std::shared_ptr<const AudioBuffers> other);
-	void trim_start (int32_t frames);
+	void trim_start (int frames);
 
 private:
-	void allocate (int channels, int32_t frames);
-	void deallocate ();
+	void allocate (int channels, int frames);
+	void update_data_pointers ();
 
-	/** Number of channels */
-	int _channels;
-	/** Number of frames (where a frame is one sample across all channels) */
-	int32_t _frames;
-	/** Number of frames that _data can hold */
-	int32_t _allocated_frames;
 	/** Audio data (so that, e.g. _data[2][6] is channel 2, sample 6) */
-	float** _data;
+	std::vector<std::vector<float>> _data;
+	/** Pointers to the data of each vector in _data */
+	std::vector<float*> _data_pointers;
 };
 
 

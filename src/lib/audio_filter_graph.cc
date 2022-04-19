@@ -106,7 +106,7 @@ AudioFilterGraph::sink_name () const
 }
 
 void
-AudioFilterGraph::process (shared_ptr<const AudioBuffers> buffers)
+AudioFilterGraph::process (shared_ptr<AudioBuffers> buffers)
 {
 	DCPOMATIC_ASSERT (buffers->frames() > 0);
 	int const process_channels = av_get_channel_layout_nb_channels (_channel_layout);
