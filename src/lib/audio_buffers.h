@@ -72,7 +72,7 @@ public:
 	void set_frames (int32_t f);
 
 	void make_silent ();
-	void make_silent (int c);
+	void make_silent (int channel);
 	void make_silent (int32_t from, int32_t frames);
 
 	void apply_gain (float);

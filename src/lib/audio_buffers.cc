@@ -124,14 +124,14 @@ AudioBuffers::deallocate ()
 }
 
 
-/** @param c Channel index.
+/** @param channel Channel index.
  *  @return Buffer for this channel.
  */
 float*
-AudioBuffers::data (int c) const
+AudioBuffers::data (int channel) const
 {
-	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
-	return _data[c];
+	DCPOMATIC_ASSERT (channel >= 0 && channel < _channels);
+	return _data[channel];
 }
 
 
@@ -141,14 +141,14 @@ AudioBuffers::data (int c) const
  *  @param f Frames; must be less than or equal to the number of allocated frames.
  */
 void
-AudioBuffers::set_frames (int32_t f)
+AudioBuffers::set_frames (int32_t frames)
 {
-	DCPOMATIC_ASSERT (f <= _allocated_frames);
+	DCPOMATIC_ASSERT (frames <= _allocated_frames);
 
-	if (f < _frames) {
-		make_silent (f, _frames - f);
+	if (frames < _frames) {
+		make_silent (frames, _frames - frames);
 	}
-	_frames = f;
+	_frames = frames;
 }
 
 
@@ -156,24 +156,22 @@ AudioBuffers::set_frames (int32_t f)
 void
 AudioBuffers::make_silent ()
 {
-	for (int i = 0; i < _channels; ++i) {
-		make_silent (i);
+	for (int channel = 0; channel < _channels; ++channel) {
+		make_silent (channel);
 	}
 }
 
 
-/** Make all samples on a given channel silent.
- *  @param c Channel.
- */
+/** Make all samples on a given channel silent */
 void
-AudioBuffers::make_silent (int c)
+AudioBuffers::make_silent (int channel)
 {
-	DCPOMATIC_ASSERT (c >= 0 && c < _channels);
+	DCPOMATIC_ASSERT (channel >= 0 && channel < _channels);
 
 	/* This isn't really allowed, as all-bits-0 is not guaranteed to mean a 0 float,
 	   but it seems that we can get away with it.
 	*/
-	memset (_data[c], 0, _frames * sizeof(float));
+	memset (_data[channel], 0, _frames * sizeof(float));
 }
 
 
@@ -186,11 +184,11 @@ AudioBuffers::make_silent (int32_t from, int32_t frames)
 {
 	DCPOMATIC_ASSERT ((from + frames) <= _allocated_frames);
 
-	for (int c = 0; c < _channels; ++c) {
+	for (int channel = 0; channel < _channels; ++channel) {
 		/* This isn't really allowed, as all-bits-0 is not guaranteed to mean a 0 float,
 		   but it seems that we can get away with it.
 		*/
-		memset (_data[c] + from, 0, frames * sizeof(float));
+		memset (_data[channel] + from, 0, frames * sizeof(float));
 	}
 }
 
@@ -341,15 +339,12 @@ AudioBuffers::apply_gain (float dB)
 }
 
 
-/** @param c Channel index.
- *  @return AudioBuffers object containing only channel `c' from this AudioBuffers.
- */
 shared_ptr<AudioBuffers>
-AudioBuffers::channel (int c) const
+AudioBuffers::channel (int channel) const
 {
-	auto o = make_shared<AudioBuffers>(1, frames());
-	o->copy_channel_from (this, c, 0);
-	return o;
+	auto output = make_shared<AudioBuffers>(1, frames());
+	output->copy_channel_from (this, channel, 0);
+	return output;
 }
 
 
