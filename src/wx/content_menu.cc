@@ -42,6 +42,7 @@
 #include <dcp/cpl.h>
 #include <dcp/exceptions.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/search.h>
 #include <wx/wx.h>
 #include <wx/dirdlg.h>
 #include <iostream>
@@ -145,8 +146,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			_ov->Enable (dcp->needs_assets ());
 			_set_dcp_settings->Enable (static_cast<bool>(dcp));
 			try {
-				DCPExaminer ex (dcp, true);
-				auto cpls = ex.cpls ();
+				auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
 				_choose_cpl->Enable (cpls.size() > 1);
 				/* We can't have 0 as a menu item ID on OS X */
 				int id = 1;
@@ -437,16 +437,9 @@ ContentMenu::kdm ()
 			return;
 		}
 
-		DCPExaminer ex (dcp, true);
-
-		bool kdm_matches_any_cpl = false;
-		for (auto i: ex.cpls()) {
-			if (i->id() == kdm->cpl_id()) {
-				kdm_matches_any_cpl = true;
-			}
-		}
-
-		bool kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
+		auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
+		bool const kdm_matches_any_cpl = std::any_of(cpls.begin(), cpls.end(), [kdm](shared_ptr<const dcp::CPL> cpl) { return cpl->id() == kdm->cpl_id(); });
+		bool const kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
 
 		if (!kdm_matches_any_cpl) {
 			error_dialog (_parent, _("This KDM was not made for this DCP.  You will need a different one."));
@@ -517,8 +510,7 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	DCPExaminer ex (dcp, true);
-	auto cpls = ex.cpls ();
+	auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
 	DCPOMATIC_ASSERT (ev.GetId() > 0);
 	DCPOMATIC_ASSERT (ev.GetId() <= int (cpls.size()));
 

@@ -44,6 +44,7 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
+#include <dcp/search.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/sound_frame.h>
 #include <dcp/stereo_picture_asset.h>
@@ -68,8 +69,8 @@ using namespace dcpomatic;
 
 
 DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent> content, bool fast, bool tolerant, shared_ptr<DCPDecoder> old)
-	: DCP (content, tolerant)
-	, Decoder (film)
+	: Decoder (film)
+	, _dcp_content (content)
 {
 	if (content->can_be_played()) {
 		if (content->video) {
@@ -101,7 +102,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		_reels = old->_reels;
 	} else {
 
-		auto cpl_list = cpls ();
+		auto cpl_list = dcp::find_and_resolve_cpls(content->directories(), tolerant);
 
 		if (cpl_list.empty()) {
 			throw DCPError (_("No CPLs found in DCP."));
@@ -118,7 +119,11 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 			/* No CPL found; probably an old file that doesn't specify it;
 			   just use the first one.
 			*/
-			cpl = cpls().front ();
+			cpl = cpl_list.front();
+		}
+
+		if (content->kdm()) {
+			cpl->add (decrypt_kdm_with_helpful_error(content->kdm().get()));
 		}
 
 		_reels = cpl->reels ();

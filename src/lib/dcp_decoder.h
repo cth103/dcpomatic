@@ -26,7 +26,6 @@
 
 #include "atmos_metadata.h"
 #include "decoder.h"
-#include "dcp.h"
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/sound_asset_reader.h>
@@ -42,12 +41,12 @@ class Log;
 struct dcp_subtitle_within_dcp_test;
 
 
-class DCPDecoder : public DCP, public Decoder
+class DCPDecoder : public Decoder
 {
 public:
 	DCPDecoder (
 		std::shared_ptr<const Film> film,
-		std::shared_ptr<const DCPContent>,
+		std::shared_ptr<const DCPContent> content,
 		bool fast,
 		bool tolerant,
 		std::shared_ptr<DCPDecoder> old
@@ -86,6 +85,8 @@ private:
 		dcp::Size size
 		);
 	std::string calculate_lazy_digest (std::shared_ptr<const DCPContent>) const;
+
+	std::shared_ptr<const DCPContent> _dcp_content;
 
 	/** Time of next thing to return from pass relative to the start of _reel */
 	dcpomatic::ContentTime _next;

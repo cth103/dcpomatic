@@ -25,7 +25,6 @@
 
 
 #include "audio_examiner.h"
-#include "dcp.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_assert.h"
 #include "video_examiner.h"
@@ -36,7 +35,7 @@
 class DCPContent;
 
 
-class DCPExaminer : public DCP, public VideoExaminer, public AudioExaminer
+class DCPExaminer : public VideoExaminer, public AudioExaminer
 {
 public:
 	explicit DCPExaminer (std::shared_ptr<const DCPContent>, bool tolerant);

@@ -39,6 +39,7 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
+#include <dcp/search.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_reader.h>
@@ -59,7 +60,6 @@ using boost::optional;
 
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
-	: DCP (content, tolerant)
 {
 	shared_ptr<dcp::CPL> cpl;
 
@@ -67,9 +67,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		_text_count[i] = 0;
 	}
 
+	auto cpls = dcp::find_and_resolve_cpls (content->directories(), tolerant);
+
 	if (content->cpl ()) {
 		/* Use the CPL that the content was using before */
-		for (auto i: cpls()) {
+		for (auto i: cpls) {
 			if (i->id() == content->cpl().get()) {
 				cpl = i;
 			}
@@ -79,7 +81,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		int least_unsatisfied = INT_MAX;
 
-		for (auto i: cpls()) {
+		for (auto i: cpls) {
 			int unsatisfied = 0;
 			for (auto j: i->reels()) {
 				if (j->main_picture() && !j->main_picture()->asset_ref().resolved()) {
@@ -105,6 +107,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	if (!cpl) {
 		throw DCPError ("No CPLs found in DCP");
+	}
+
+	if (content->kdm()) {
+		cpl->add (decrypt_kdm_with_helpful_error(content->kdm().get()));
 	}
 
 	_cpl = cpl->id ();
