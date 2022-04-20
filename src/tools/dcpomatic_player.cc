@@ -18,68 +18,70 @@
 
 */
 
+#include "wx/about_dialog.h"
+#include "wx/film_viewer.h"
+#include "wx/nag_dialog.h"
+#include "wx/player_config_dialog.h"
+#include "wx/player_information.h"
+#include "wx/player_stress_tester.h"
+#include "wx/playlist_controls.h"
+#include "wx/report_problem_dialog.h"
+#include "wx/standard_controls.h"
+#include "wx/system_information_dialog.h"
+#include "wx/timer_display.h"
+#include "wx/update_dialog.h"
+#include "wx/verify_dcp_dialog.h"
+#include "wx/verify_dcp_progress_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
-#include "wx/about_dialog.h"
-#include "wx/report_problem_dialog.h"
-#include "wx/film_viewer.h"
-#include "wx/player_information.h"
-#include "wx/update_dialog.h"
-#include "wx/player_config_dialog.h"
-#include "wx/verify_dcp_dialog.h"
-#include "wx/standard_controls.h"
-#include "wx/playlist_controls.h"
-#include "wx/timer_display.h"
-#include "wx/system_information_dialog.h"
-#include "wx/player_stress_tester.h"
-#include "wx/verify_dcp_progress_dialog.h"
-#include "wx/nag_dialog.h"
-#include "lib/cross.h"
-#include "lib/config.h"
-#include "lib/util.h"
-#include "lib/internet.h"
-#include "lib/update_checker.h"
 #include "lib/compose.hpp"
+#include "lib/config.h"
+#include "lib/cross.h"
 #include "lib/dcp_content.h"
-#include "lib/job_manager.h"
-#include "lib/job.h"
-#include "lib/film.h"
-#include "lib/null_log.h"
-#include "lib/video_content.h"
-#include "lib/text_content.h"
-#include "lib/ratio.h"
-#include "lib/verify_dcp_job.h"
 #include "lib/dcp_examiner.h"
-#include "lib/examine_content_job.h"
-#include "lib/server.h"
-#include "lib/dcpomatic_socket.h"
-#include "lib/scoped_temporary.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/dcpomatic_socket.h"
+#include "lib/examine_content_job.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/file_log.h"
+#include "lib/film.h"
+#include "lib/internet.h"
+#include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/null_log.h"
+#include "lib/ratio.h"
+#include "lib/scoped_temporary.h"
+#include "lib/server.h"
+#include "lib/text_content.h"
+#include "lib/update_checker.h"
+#include "lib/util.h"
+#include "lib/verify_dcp_job.h"
+#include "lib/video_content.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
-#include <wx/wx.h>
-#include <wx/stdpaths.h>
-#include <wx/splash.h>
 #include <wx/cmdline.h>
+#include <wx/display.h>
 #include <wx/preferences.h>
 #include <wx/progdlg.h>
-#include <wx/display.h>
+#include <wx/splash.h>
+#include <wx/stdpaths.h>
+#include <wx/wx.h>
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif
-#include <boost/bind/bind.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/bind/bind.hpp>
 #include <iostream>
 
 #ifdef check
 #undef check
 #endif
 
+
 #define MAX_CPLS 32
+
 
 using std::cout;
 using std::dynamic_pointer_cast;
@@ -90,15 +92,16 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::weak_ptr;
-using boost::scoped_array;
-using boost::optional;
-using boost::thread;
 using boost::bind;
+using boost::optional;
+using boost::scoped_array;
+using boost::thread;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 enum {
 	ID_file_open = 1,
