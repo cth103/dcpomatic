@@ -84,7 +84,7 @@ public:
 	}
 
 private:
-	void handle (std::shared_ptr<Socket> socket)
+	void handle (std::shared_ptr<Socket> socket) override
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		BOOST_REQUIRE (_size);
