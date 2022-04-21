@@ -34,10 +34,7 @@
 #ifndef DCPOMATIC_STRING_COMPOSE_H
 #define DCPOMATIC_STRING_COMPOSE_H
 
-#include "warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
 #include <dcp/locale_convert.h>
-DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 #include <string>
 #include <list>
