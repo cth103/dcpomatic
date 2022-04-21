@@ -22,15 +22,18 @@
  *  @brief ContentWidget class.
  */
 
+
 #ifndef DCPOMATIC_CONTENT_WIDGET_H
 #define DCPOMATIC_CONTENT_WIDGET_H
 
+
 #include "wx_util.h"
 #include "lib/content.h"
-#include <wx/wx.h>
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
+#include <wx/wx.h>
 #include <vector>
+
 
 /** @class ContentWidget
  *  @brief A widget which represents some Content state and which can be used

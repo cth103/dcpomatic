@@ -45,15 +45,13 @@
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
-#include <wx/wx.h>
-#include <wx/notebook.h>
-#include <wx/listctrl.h>
 #include <wx/display.h>
+#include <wx/listctrl.h>
+#include <wx/notebook.h>
+#include <wx/wx.h>
 #include <boost/filesystem.hpp>
-#include <iostream>
 
 
-using std::cout;
 using std::dynamic_pointer_cast;
 using std::exception;
 using std::list;

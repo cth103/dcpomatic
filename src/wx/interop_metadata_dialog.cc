@@ -28,10 +28,10 @@
 #include <wx/gbsizer.h>
 
 
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using std::weak_ptr;
-using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

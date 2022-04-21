@@ -22,8 +22,8 @@
 #include "batch_job_view.h"
 #include "dcpomatic_button.h"
 #include "lib/job_manager.h"
-#include <wx/sizer.h>
 #include <wx/button.h>
+#include <wx/sizer.h>
 
 
 using std::list;

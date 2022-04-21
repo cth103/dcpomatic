@@ -18,11 +18,13 @@
 
 */
 
-#include "timeline_content_view.h"
+
 #include "timeline.h"
+#include "timeline_content_view.h"
 #include "wx_util.h"
 #include "lib/content.h"
 #include <wx/graphics.h>
+
 
 using std::list;
 using std::shared_ptr;
@@ -31,12 +33,14 @@ using namespace dcpomatic;
 using namespace boost::placeholders;
 #endif
 
+
 TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
 	: TimelineView (tl)
 	, _content (c)
 {
 	_content_connection = c->Change.connect (bind (&TimelineContentView::content_change, this, _1, _3));
 }
+
 
 dcpomatic::Rect<int>
 TimelineContentView::bbox () const
@@ -57,6 +61,7 @@ TimelineContentView::bbox () const
 		);
 }
 
+
 void
 TimelineContentView::set_selected (bool s)
 {
@@ -64,11 +69,13 @@ TimelineContentView::set_selected (bool s)
 	force_redraw ();
 }
 
+
 bool
 TimelineContentView::selected () const
 {
 	return _selected;
 }
+
 
 shared_ptr<Content>
 TimelineContentView::content () const
@@ -76,11 +83,13 @@ TimelineContentView::content () const
 	return _content.lock ();
 }
 
+
 void
 TimelineContentView::set_track (int t)
 {
 	_track = t;
 }
+
 
 void
 TimelineContentView::unset_track ()
@@ -88,11 +97,13 @@ TimelineContentView::unset_track ()
 	_track = boost::optional<int>();
 }
 
+
 boost::optional<int>
 TimelineContentView::track () const
 {
 	return _track;
 }
+
 
 void
 TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>> overlaps)
@@ -156,11 +167,13 @@ TimelineContentView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>>
 	gc->PopState ();
 }
 
+
 int
 TimelineContentView::y_pos (int t) const
 {
 	return t * _timeline.pixels_per_track() + _timeline.tracks_y_offset();
 }
+
 
 void
 TimelineContentView::content_change (ChangeType type, int p)
@@ -175,6 +188,7 @@ TimelineContentView::content_change (ChangeType type, int p)
 		force_redraw ();
 	}
 }
+
 
 wxString
 TimelineContentView::label () const

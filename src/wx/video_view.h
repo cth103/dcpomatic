@@ -33,11 +33,11 @@
 #include <boost/thread.hpp>
 
 
-class Image;
-class wxWindow;
 class FilmViewer;
+class Image;
 class Player;
 class PlayerVideo;
+class wxWindow;
 
 
 class VideoView : public ExceptionStore, public Signaller

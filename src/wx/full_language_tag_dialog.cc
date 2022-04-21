@@ -19,8 +19,8 @@
 */
 
 
-#include "lib/dcpomatic_assert.h"
 #include "full_language_tag_dialog.h"
+#include "lib/dcpomatic_assert.h"
 #include <dcp/language_tag.h>
 #include <wx/listctrl.h>
 #include <wx/srchctrl.h>
@@ -29,7 +29,6 @@
 #include <boost/bind/bind.hpp>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
-#include <iostream>
 #include <iterator>
 #include <string>
 #include <vector>
@@ -37,11 +36,11 @@
 
 using std::min;
 using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using boost::optional;
-using std::shared_ptr;
 using std::weak_ptr;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

@@ -34,8 +34,8 @@ DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
 #include <wx/gbsizer.h>
-#include <boost/thread.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread.hpp>
 
 
 class FilePickerCtrl;

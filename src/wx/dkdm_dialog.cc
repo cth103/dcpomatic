@@ -19,36 +19,36 @@
 */
 
 
+#include "confirm_kdm_email_dialog.h"
+#include "dcpomatic_button.h"
 #include "dkdm_dialog.h"
-#include "wx_util.h"
-#include "recipients_panel.h"
-#include "kdm_timing_panel.h"
 #include "dkdm_output_panel.h"
 #include "kdm_cpl_panel.h"
-#include "confirm_kdm_email_dialog.h"
+#include "kdm_timing_panel.h"
+#include "recipients_panel.h"
 #include "static_text.h"
-#include "dcpomatic_button.h"
-#include "lib/film.h"
-#include "lib/kdm_with_metadata.h"
-#include "lib/job_manager.h"
+#include "wx_util.h"
 #include "lib/config.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/kdm_with_metadata.h"
 #include <libcxml/cxml.h>
 #include <dcp/exceptions.h>
-#include <wx/treectrl.h>
 #include <wx/listctrl.h>
+#include <wx/treectrl.h>
 #include <iostream>
 
 
-using std::string;
-using std::exception;
-using std::map;
-using std::list;
-using std::pair;
 using std::cout;
-using std::vector;
+using std::exception;
+using std::list;
 using std::make_pair;
+using std::map;
+using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::bind;
 using boost::optional;
 #if BOOST_VERSION >= 106100

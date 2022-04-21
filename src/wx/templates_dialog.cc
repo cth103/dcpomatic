@@ -19,10 +19,10 @@
 */
 
 
+#include "dcpomatic_button.h"
+#include "rename_template_dialog.h"
 #include "templates_dialog.h"
 #include "wx_util.h"
-#include "rename_template_dialog.h"
-#include "dcpomatic_button.h"
 #include "lib/config.h"
 #include <wx/wx.h>
 

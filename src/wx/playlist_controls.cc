@@ -18,32 +18,35 @@
 
 */
 
-#include "playlist_controls.h"
-#include "film_viewer.h"
-#include "wx_util.h"
+
 #include "content_view.h"
 #include "dcpomatic_button.h"
+#include "film_viewer.h"
+#include "playlist_controls.h"
 #include "static_text.h"
-#include "lib/player_video.h"
-#include "lib/dcp_content.h"
-#include "lib/cross.h"
-#include "lib/scoped_temporary.h"
-#include "lib/internet.h"
-#include "lib/ffmpeg_content.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/internet.h"
+#include "lib/player_video.h"
+#include "lib/scoped_temporary.h"
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
 
-using std::string;
+
 using std::cout;
-using std::exception;
-using std::sort;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::shared_ptr;
+using std::sort;
+using std::string;
 using boost::optional;
 using namespace dcpomatic;
+
 
 PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> viewer)
 	: Controls (parent, viewer, false)

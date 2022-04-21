@@ -18,6 +18,7 @@
 
 */
 
+
 #include "editable_list.h"
 #include "email_dialog.h"
 #include "wx_util.h"
@@ -26,8 +27,10 @@
 #include <wx/wx.h>
 #include <boost/optional.hpp>
 
+
 class Progress;
 class TrustedDeviceDialog;
+
 
 class RecipientDialog : public wxDialog
 {

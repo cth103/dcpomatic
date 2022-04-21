@@ -19,43 +19,41 @@
 */
 
 
-#include "content_menu.h"
-#include "repeat_dialog.h"
-#include "wx_util.h"
-#include "timeline_video_content_view.h"
-#include "timeline_audio_content_view.h"
-#include "content_properties_dialog.h"
 #include "content_advanced_dialog.h"
-#include "lib/playlist.h"
-#include "lib/film.h"
-#include "lib/image_content.h"
-#include "lib/content_factory.h"
-#include "lib/examine_content_job.h"
-#include "lib/job_manager.h"
-#include "lib/exceptions.h"
-#include "lib/dcp_content.h"
-#include "lib/dcp_examiner.h"
-#include "lib/ffmpeg_content.h"
+#include "content_menu.h"
+#include "content_properties_dialog.h"
+#include "repeat_dialog.h"
+#include "timeline_audio_content_view.h"
+#include "timeline_video_content_view.h"
+#include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
+#include "lib/content_factory.h"
 #include "lib/copy_dcp_details_to_film.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_examiner.h"
+#include "lib/examine_content_job.h"
+#include "lib/exceptions.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/job_manager.h"
+#include "lib/playlist.h"
 #include <dcp/cpl.h>
-#include <dcp/exceptions.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/exceptions.h>
 #include <dcp/search.h>
-#include <wx/wx.h>
 #include <wx/dirdlg.h>
-#include <iostream>
+#include <wx/wx.h>
 
 
-using std::cout;
-using std::vector;
+using std::dynamic_pointer_cast;
 using std::exception;
 using std::list;
-using std::shared_ptr;
-using std::weak_ptr;
-using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::shared_ptr;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

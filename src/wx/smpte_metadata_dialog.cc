@@ -23,19 +23,19 @@
 #include "editable_list.h"
 #include "language_tag_dialog.h"
 #include "language_tag_widget.h"
-#include "smpte_metadata_dialog.h"
 #include "rating_dialog.h"
+#include "smpte_metadata_dialog.h"
 #include "lib/film.h"
 #include <dcp/types.h>
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
 
 
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using boost::optional;
-using std::shared_ptr;
 using std::weak_ptr;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

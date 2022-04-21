@@ -18,12 +18,15 @@
 
 */
 
-#include "kdm_advanced_dialog.h"
+
 #include "check_box.h"
+#include "kdm_advanced_dialog.h"
 #include "wx_util.h"
 #include <wx/spinctrl.h>
 
+
 using boost::optional;
+
 
 KDMAdvancedDialog::KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video, bool forensic_mark_audio, optional<int> forensic_mark_audio_up_to)
 	: TableDialog (parent, _("Advanced KDM options"), 2, 1, false)

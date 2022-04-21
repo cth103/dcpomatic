@@ -18,8 +18,10 @@
 
 */
 
+
 #include "wx_util.h"
 #include <wx/wx.h>
+
 
 class SendI18NDialog : public wxDialog
 {

@@ -18,6 +18,7 @@
 
 */
 
+
 #include "check_box.h"
 #include "content_panel.h"
 #include "dcp_text_track_dialog.h"
@@ -47,14 +48,14 @@
 #include <wx/spinctrl.h>
 
 
-using std::vector;
-using std::string;
-using std::list;
 using std::cout;
-using std::shared_ptr;
-using boost::optional;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::bind;
+using boost::optional;
 
 
 /** @param t Original text type of the content, if known */

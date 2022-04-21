@@ -24,23 +24,21 @@
  */
 
 
-#include "wx_util.h"
-#include "film_editor.h"
-#include "dcp_panel.h"
 #include "content_panel.h"
-#include "lib/film.h"
-#include "lib/job_manager.h"
+#include "dcp_panel.h"
+#include "film_editor.h"
+#include "wx_util.h"
 #include "lib/content.h"
 #include "lib/dcp_content.h"
-#include <wx/wx.h>
+#include "lib/film.h"
+#include "lib/job_manager.h"
 #include <wx/notebook.h>
-#include <iostream>
+#include <wx/wx.h>
 
 
-using std::cout;
-using std::string;
 using std::list;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100

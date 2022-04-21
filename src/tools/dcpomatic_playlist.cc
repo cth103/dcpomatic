@@ -19,12 +19,12 @@
 */
 
 
-#include "wx/wx_util.h"
-#include "wx/wx_signal_manager.h"
+#include "wx/about_dialog.h"
 #include "wx/content_view.h"
 #include "wx/dcpomatic_button.h"
-#include "wx/about_dialog.h"
 #include "wx/playlist_editor_config_dialog.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/wx_util.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
@@ -32,11 +32,11 @@
 #include "lib/spl.h"
 #include "lib/spl_entry.h"
 #include "lib/util.h"
-#include <wx/wx.h>
-#include <wx/listctrl.h>
 #include <wx/imaglist.h>
-#include <wx/spinctrl.h>
+#include <wx/listctrl.h>
 #include <wx/preferences.h>
+#include <wx/spinctrl.h>
+#include <wx/wx.h>
 
 
 using std::cout;

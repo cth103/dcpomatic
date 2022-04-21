@@ -35,25 +35,25 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
-#include <dcp/dcp.h>
 #include <dcp/cpl.h>
+#include <dcp/dcp.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
-#include <wx/wx.h>
-#include <wx/tglbtn.h>
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
+#include <wx/tglbtn.h>
+#include <wx/wx.h>
 
 
-using std::string;
-using std::list;
 using std::cout;
-using std::make_pair;
-using std::exception;
-using boost::optional;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::exception;
+using std::list;
+using std::make_pair;
+using std::shared_ptr;
+using std::string;
+using std::weak_ptr;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

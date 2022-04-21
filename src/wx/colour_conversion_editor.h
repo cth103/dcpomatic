@@ -27,9 +27,9 @@
 #include <wx/wx.h>
 
 
+class ColourConversion;
 class wxGridBagSizer;
 class wxSpinCtrlDouble;
-class ColourConversion;
 
 
 class ColourConversionEditor : public wxPanel

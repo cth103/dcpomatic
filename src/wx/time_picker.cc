@@ -18,20 +18,22 @@
 
 */
 
+
+#include "static_text.h"
 #include "time_picker.h"
 #include "wx_util.h"
-#include "static_text.h"
 #include <dcp/locale_convert.h>
 #include <wx/spinctrl.h>
 #include <boost/bind/bind.hpp>
 #include <iomanip>
 
+
+using std::cout;
+using std::max;
+using std::min;
 using std::setfill;
 using std::setw;
-using std::min;
-using std::max;
 using std::string;
-using std::cout;
 using boost::bind;
 using dcp::locale_convert;
 

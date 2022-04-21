@@ -18,19 +18,22 @@
 
 */
 
-#include "lib/kdm_with_metadata.h"
-#include "wx_util.h"
+
 #include "name_format_editor.h"
+#include "wx_util.h"
+#include "lib/kdm_with_metadata.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/filesystem.hpp>
 
-class wxRadioButton;
-class wxDirPickerCtrl;
+
 class DirPickerCtrl;
-class KDMTimingPanel;
 class Job;
+class KDMTimingPanel;
 class Log;
+class wxDirPickerCtrl;
+class wxRadioButton;
+
 
 class DKDMOutputPanel : public wxPanel
 {

@@ -29,10 +29,8 @@
 #include <wx/graphics.h>
 #include <boost/bind/bind.hpp>
 #include <cfloat>
-#include <iostream>
 
 
-using std::cout;
 using std::list;
 using std::map;
 using std::max;

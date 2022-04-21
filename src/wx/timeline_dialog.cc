@@ -27,14 +27,12 @@
 #include "lib/cross.h"
 #include "lib/playlist.h"
 #include <wx/graphics.h>
-#include <iostream>
 #include <list>
 
 
 using std::list;
-using std::cout;
-using std::string;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;

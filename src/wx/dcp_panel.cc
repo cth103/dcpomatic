@@ -32,36 +32,34 @@
 #include "smpte_metadata_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
-#include "lib/ratio.h"
-#include "lib/config.h"
-#include "lib/dcp_content_type.h"
-#include "lib/util.h"
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/audio_processor.h"
-#include "lib/video_content.h"
-#include "lib/text_content.h"
-#include "lib/dcp_content.h"
 #include "lib/audio_content.h"
+#include "lib/audio_processor.h"
+#include "lib/config.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
+#include "lib/text_content.h"
+#include "lib/util.h"
+#include "lib/video_content.h"
 #include <dcp/locale_convert.h>
-#include <wx/wx.h>
-#include <wx/notebook.h>
 #include <wx/gbsizer.h>
+#include <wx/notebook.h>
 #include <wx/spinctrl.h>
+#include <wx/wx.h>
 #include <boost/lexical_cast.hpp>
-#include <iostream>
 
 
-using std::cout;
 using std::list;
+using std::make_pair;
+using std::max;
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::pair;
-using std::max;
-using std::make_pair;
-using boost::lexical_cast;
-using std::shared_ptr;
 using std::weak_ptr;
+using boost::lexical_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

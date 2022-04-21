@@ -18,6 +18,7 @@
 
 */
 
+
 #include "content_sub_panel.h"
 #include "content_panel.h"
 #include "wx_util.h"
@@ -26,12 +27,14 @@
 #include "lib/log.h"
 #include <wx/notebook.h>
 
+
 using std::list;
-using std::string;
 using std::shared_ptr;
+using std::string;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 	: wxScrolledWindow (p->notebook(), wxID_ANY)

@@ -18,15 +18,17 @@
 
 */
 
-#include "timeline_time_axis_view.h"
 #include "timeline.h"
+#include "timeline_time_axis_view.h"
 #include "wx_util.h"
-#include <wx/wx.h>
 #include <wx/graphics.h>
+#include <wx/wx.h>
 
-using std::list;
+
 using std::cout;
+using std::list;
 using namespace dcpomatic;
+
 
 TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
 	: TimelineView (tl)
@@ -35,11 +37,13 @@ TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
 
 }
 
+
 dcpomatic::Rect<int>
 TimelineTimeAxisView::bbox () const
 {
 	return dcpomatic::Rect<int> (0, _y - 4, _timeline.width(), 24);
 }
+
 
 /** @param y y position in tracks (not pixels) */
 void
@@ -48,6 +52,7 @@ TimelineTimeAxisView::set_y (int y)
 	_y = y;
 	force_redraw ();
 }
+
 
 void
 TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int> >)

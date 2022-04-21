@@ -19,22 +19,20 @@
 */
 
 
-#include "fonts_dialog.h"
-#include "wx_util.h"
-#include "system_font_dialog.h"
 #include "dcpomatic_button.h"
-#include "lib/font.h"
+#include "fonts_dialog.h"
+#include "system_font_dialog.h"
+#include "wx_util.h"
 #include "lib/content.h"
+#include "lib/font.h"
 #include "lib/text_content.h"
 #include <wx/wx.h>
-#include <iostream>
 #include <memory>
 
 
 using std::list;
-using std::string;
-using std::cout;
 using std::shared_ptr;
+using std::string;
 using namespace dcpomatic;
 
 

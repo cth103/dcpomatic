@@ -29,8 +29,8 @@
 
 
 using std::string;
-using boost::optional;
 using std::shared_ptr;
+using boost::optional;
 
 
 static int const max_file_name_length = 80;

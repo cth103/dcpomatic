@@ -28,8 +28,8 @@
 #include "lib/player_video.h"
 #include <dcp/locale_convert.h>
 #include <dcp/openjpeg_image.h>
-#include <wx/rawbmp.h>
 #include <wx/graphics.h>
+#include <wx/rawbmp.h>
 #include <boost/bind/bind.hpp>
 #include <iostream>
 

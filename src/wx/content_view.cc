@@ -21,13 +21,13 @@
 
 #include "content_view.h"
 #include "wx_util.h"
-#include "lib/dcpomatic_assert.h"
 #include "lib/config.h"
-#include "lib/dcp_content.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/dcpomatic_assert.h"
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
-#include "lib/cross.h"
 #include <dcp/exceptions.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>

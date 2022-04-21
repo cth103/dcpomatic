@@ -20,19 +20,24 @@
 
 #include "content_menu.h"
 #include "timeline_content_view.h"
-#include "lib/util.h"
-#include "lib/rect.h"
 #include "lib/film.h"
+#include "lib/rect.h"
+#include "lib/util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
-class Film;
+
 class ContentPanel;
-class TimelineView;
-class TimelineTimeAxisView;
-class TimelineReelsView;
-class TimelineLabelsView;
+class Film;
 class FilmViewer;
+class TimelineLabelsView;
+class TimelineReelsView;
+class TimelineTimeAxisView;
+class TimelineView;
+
 
 class Timeline : public wxPanel
 {

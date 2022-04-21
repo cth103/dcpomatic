@@ -18,18 +18,19 @@
 
 */
 
-#include "reel_writer.h"
-#include "film.h"
-#include "cross.h"
-#include "job.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "digester.h"
-#include "font_data.h"
+
+#include "audio_buffers.h"
 #include "compose.hpp"
 #include "config.h"
-#include "audio_buffers.h"
+#include "cross.h"
+#include "dcpomatic_log.h"
+#include "digester.h"
+#include "film.h"
+#include "font_data.h"
 #include "image.h"
+#include "job.h"
+#include "log.h"
+#include "reel_writer.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/certificate_chain.h>
@@ -56,27 +57,29 @@
 
 #include "i18n.h"
 
-using std::list;
-using std::string;
-using std::cout;
+
+using std::dynamic_pointer_cast;
 using std::exception;
+using std::list;
+using std::make_shared;
 using std::map;
 using std::set;
-using std::vector;
 using std::shared_ptr;
-using std::make_shared;
+using std::string;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
-using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using std::weak_ptr;
 using dcp::ArrayData;
 using dcp::Data;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
+
 int const ReelWriter::_info_size = 48;
+
 
 static dcp::MXFMetadata
 mxf_metadata ()
@@ -94,6 +97,7 @@ mxf_metadata ()
 	}
 	return meta;
 }
+
 
 /** @param job Related job, or 0.
  *  @param text_only true to enable a special mode where the writer will expect only subtitles and closed captions to be written
@@ -197,6 +201,7 @@ ReelWriter::ReelWriter (
 	_default_font = dcp::ArrayData(default_font_file());
 }
 
+
 /** @param frame reel-relative frame */
 void
 ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
@@ -207,6 +212,7 @@ ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
 	checked_fwrite (&info.size, sizeof (info.size), handle->get(), handle->file());
 	checked_fwrite (info.hash.c_str(), info.hash.size(), handle->get(), handle->file());
 }
+
 
 dcp::FrameInfo
 ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const
@@ -224,6 +230,7 @@ ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes 
 	return frame_info;
 }
 
+
 long
 ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 {
@@ -240,6 +247,7 @@ ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
 
 	DCPOMATIC_ASSERT (false);
 }
+
 
 Frame
 ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
@@ -299,6 +307,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	return first_nonexistant_frame;
 }
 
+
 void
 ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
@@ -340,6 +349,7 @@ ReelWriter::fake_write (int size)
 	_picture_asset_writer->fake_write (size);
 }
 
+
 void
 ReelWriter::repeat_write (Frame frame, Eyes eyes)
 {
@@ -354,6 +364,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 		);
 	write_frame_info (frame, eyes, fin);
 }
+
 
 void
 ReelWriter::finish (boost::filesystem::path output_dcp)
@@ -767,6 +778,7 @@ try
 	 */
 }
 
+
 Frame
 ReelWriter::start () const
 {
@@ -905,6 +917,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 			);
 	}
 }
+
 
 bool
 ReelWriter::existing_picture_frame_ok (FILE* asset_file, shared_ptr<InfoFileHandle> info_file, Frame frame) const

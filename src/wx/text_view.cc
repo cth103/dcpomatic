@@ -18,27 +18,30 @@
 
 */
 
-#include "text_view.h"
-#include "film_viewer.h"
-#include "wx_util.h"
-#include "lib/string_text_file_decoder.h"
-#include "lib/content_text.h"
-#include "lib/video_decoder.h"
-#include "lib/audio_decoder.h"
-#include "lib/film.h"
-#include "lib/config.h"
-#include "lib/string_text_file_content.h"
-#include "lib/text_decoder.h"
 
+#include "film_viewer.h"
+#include "text_view.h"
+#include "wx_util.h"
+#include "lib/audio_decoder.h"
+#include "lib/config.h"
+#include "lib/content_text.h"
+#include "lib/film.h"
+#include "lib/string_text_file_content.h"
+#include "lib/string_text_file_decoder.h"
+#include "lib/text_decoder.h"
+#include "lib/video_decoder.h"
+
+
+using std::dynamic_pointer_cast;
 using std::list;
 using std::shared_ptr;
 using std::weak_ptr;
 using boost::bind;
-using std::dynamic_pointer_cast;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 TextView::TextView (
 	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, weak_ptr<FilmViewer> viewer
@@ -73,12 +76,12 @@ TextView::TextView (
 		_list->InsertColumn (2, ip);
 	}
 
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
+	auto sizer = new wxBoxSizer (wxVERTICAL);
 	sizer->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
 
 	_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&TextView::subtitle_selected, this, _1));
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK);
+	auto buttons = CreateSeparatedButtonSizer (wxOK);
 	if (buttons) {
 		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
@@ -104,6 +107,7 @@ TextView::TextView (
 	SetSizerAndFit (sizer);
 }
 
+
 void
 TextView::data_start (ContentStringText cts)
 {
@@ -120,6 +124,7 @@ TextView::data_start (ContentStringText cts)
 	_last_count = cts.subs.size ();
 }
 
+
 void
 TextView::data_stop (ContentTime time)
 {
@@ -132,6 +137,7 @@ TextView::data_stop (ContentTime time)
 	}
 }
 
+
 void
 TextView::subtitle_selected (wxListEvent& ev)
 {
@@ -140,9 +146,9 @@ TextView::subtitle_selected (wxListEvent& ev)
 	}
 
 	DCPOMATIC_ASSERT (ev.GetIndex() < int(_start_times.size()));
-	shared_ptr<Content> lc = _content.lock ();
+	auto lc = _content.lock ();
 	DCPOMATIC_ASSERT (lc);
-	shared_ptr<FilmViewer> fv = _film_viewer.lock ();
+	auto fv = _film_viewer.lock ();
 	DCPOMATIC_ASSERT (fv);
 	/* Add on a frame here to work around any rounding errors and make sure land in the subtitle */
 	fv->seek (lc, _start_times[ev.GetIndex()] + ContentTime::from_frames(1, _frc->source), true);

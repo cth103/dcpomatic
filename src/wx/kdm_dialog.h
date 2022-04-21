@@ -18,11 +18,13 @@
 
 */
 
+
 #include "wx_util.h"
 #include <dcp/types.h>
 #include <wx/wx.h>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <map>
+
 
 namespace dcpomatic {
 	class Screen;
@@ -30,11 +32,12 @@ namespace dcpomatic {
 
 class Cinema;
 class Film;
-class ScreensPanel;
-class KDMTimingPanel;
-class KDMOutputPanel;
 class KDMCPLPanel;
+class KDMOutputPanel;
+class KDMTimingPanel;
+class ScreensPanel;
 struct CPLSummary;
+
 
 class KDMDialog : public wxDialog
 {

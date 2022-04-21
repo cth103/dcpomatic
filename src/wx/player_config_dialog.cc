@@ -18,57 +18,59 @@
 
 */
 
+
 /** @file src/player_config_dialog.cc
  *  @brief A dialogue to edit DCP-o-matic Player configuration.
  */
 
-#include "config_dialog.h"
-#include "wx_util.h"
-#include "editable_list.h"
-#include "filter_dialog.h"
-#include "file_picker_ctrl.h"
-#include "dir_picker_ctrl.h"
-#include "server_dialog.h"
-#include "make_chain_dialog.h"
-#include "email_dialog.h"
-#include "name_format_editor.h"
-#include "nag_dialog.h"
+
 #include "check_box.h"
+#include "config_dialog.h"
+#include "dir_picker_ctrl.h"
+#include "editable_list.h"
+#include "email_dialog.h"
+#include "file_picker_ctrl.h"
+#include "filter_dialog.h"
+#include "make_chain_dialog.h"
+#include "nag_dialog.h"
+#include "name_format_editor.h"
+#include "server_dialog.h"
 #include "static_text.h"
+#include "wx_util.h"
 #include "lib/config.h"
-#include "lib/ratio.h"
-#include "lib/filter.h"
-#include "lib/dcp_content_type.h"
-#include "lib/log.h"
-#include "lib/util.h"
 #include "lib/cross.h"
+#include "lib/dcp_content_type.h"
 #include "lib/exceptions.h"
-#include <dcp/locale_convert.h>
-#include <dcp/exceptions.h>
+#include "lib/filter.h"
+#include "lib/log.h"
+#include "lib/ratio.h"
+#include "lib/util.h"
 #include <dcp/certificate_chain.h>
-#include <wx/stdpaths.h>
+#include <dcp/exceptions.h>
+#include <dcp/locale_convert.h>
+#include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
-#include <wx/filepicker.h>
+#include <wx/stdpaths.h>
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
-#include <iostream>
 
-using std::vector;
-using std::string;
+
+using std::function;
 using std::list;
-using std::cout;
-using std::pair;
 using std::make_pair;
 using std::map;
-using boost::bind;
+using std::pair;
 using std::shared_ptr;
-using std::function;
+using std::string;
+using std::vector;
+using boost::bind;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
+
 
 class PlayerGeneralPage : public GeneralPage
 {

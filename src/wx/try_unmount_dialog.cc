@@ -19,9 +19,9 @@
 */
 
 
+#include "static_text.h"
 #include "try_unmount_dialog.h"
 #include "wx_util.h"
-#include "static_text.h"
 #include <wx/wx.h>
 
 

@@ -18,25 +18,29 @@
 
 */
 
-#include "player_stress_tester.h"
+
 #include "controls.h"
+#include "player_stress_tester.h"
 #include <dcp/raw_convert.h>
 #include <dcp/util.h>
 #include <wx/wx.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/bind/bind.hpp>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <iostream>
 
+
+using std::cout;
 using std::string;
 using std::vector;
-using std::cout;
 using dcp::raw_convert;
 using boost::optional;
 
+
 /* Interval to check for things to do with the stress script (in milliseconds) */
 #define CHECK_INTERVAL 20
+
 
 Command::Command (string line)
 	: type (NONE)

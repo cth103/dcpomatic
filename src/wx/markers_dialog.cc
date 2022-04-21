@@ -19,26 +19,24 @@
 */
 
 
-#include "markers_dialog.h"
-#include "wx_util.h"
-#include "timecode.h"
-#include "static_text.h"
-#include "dcpomatic_button.h"
 #include "check_box.h"
+#include "dcpomatic_button.h"
 #include "film_viewer.h"
+#include "markers_dialog.h"
+#include "static_text.h"
+#include "timecode.h"
+#include "wx_util.h"
 #include "lib/film.h"
 #include <dcp/types.h>
 #include <wx/gbsizer.h>
 #include <boost/bind/bind.hpp>
-#include <iostream>
 
 
-using std::cout;
+using std::make_shared;
 using std::shared_ptr;
 using std::weak_ptr;
-using std::make_shared;
-using boost::optional;
 using boost::bind;
+using boost::optional;
 using dcpomatic::DCPTime;
 
 

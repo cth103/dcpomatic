@@ -24,12 +24,12 @@
 #include <map>
 
 
-class Film;
-class ScreensPanel;
-class RecipientsPanel;
-class KDMTimingPanel;
 class DKDMOutputPanel;
+class Film;
 class KDMCPLPanel;
+class KDMTimingPanel;
+class RecipientsPanel;
+class ScreensPanel;
 struct CPLSummary;
 
 

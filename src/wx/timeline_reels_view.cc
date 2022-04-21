@@ -19,10 +19,10 @@
 */
 
 
-#include "timeline_reels_view.h"
 #include "timeline.h"
-#include <wx/wx.h>
+#include "timeline_reels_view.h"
 #include <wx/graphics.h>
+#include <wx/wx.h>
 
 
 using std::min;

@@ -19,10 +19,10 @@
 */
 
 
-#include "timeline_labels_view.h"
 #include "timeline.h"
-#include <wx/wx.h>
+#include "timeline_labels_view.h"
 #include <wx/graphics.h>
+#include <wx/wx.h>
 
 
 using std::list;

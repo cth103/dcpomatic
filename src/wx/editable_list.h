@@ -18,14 +18,17 @@
 
 */
 
+
 #ifndef DCPOMATIC_EDITABLE_LIST_H
 #define DCPOMATIC_EDITABLE_LIST_H
 
-#include "wx_util.h"
+
 #include "dcpomatic_button.h"
-#include <wx/wx.h>
+#include "wx_util.h"
 #include <wx/listctrl.h>
+#include <wx/wx.h>
 #include <vector>
+
 
 class EditableListColumn
 {

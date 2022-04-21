@@ -18,40 +18,39 @@
 
 */
 
-#include "film_editor.h"
-#include "timeline.h"
-#include "timeline_time_axis_view.h"
-#include "timeline_reels_view.h"
-#include "timeline_labels_view.h"
-#include "timeline_video_content_view.h"
-#include "timeline_audio_content_view.h"
-#include "timeline_text_content_view.h"
-#include "timeline_atmos_content_view.h"
 #include "content_panel.h"
-#include "wx_util.h"
+#include "film_editor.h"
 #include "film_viewer.h"
-#include "lib/film.h"
-#include "lib/playlist.h"
-#include "lib/image_content.h"
-#include "lib/timer.h"
-#include "lib/audio_content.h"
-#include "lib/text_content.h"
-#include "lib/video_content.h"
+#include "timeline.h"
+#include "timeline_atmos_content_view.h"
+#include "timeline_audio_content_view.h"
+#include "timeline_labels_view.h"
+#include "timeline_reels_view.h"
+#include "timeline_text_content_view.h"
+#include "timeline_time_axis_view.h"
+#include "timeline_video_content_view.h"
+#include "wx_util.h"
 #include "lib/atmos_mxf_content.h"
+#include "lib/audio_content.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/playlist.h"
+#include "lib/text_content.h"
+#include "lib/timer.h"
+#include "lib/video_content.h"
 #include <wx/graphics.h>
-#include <list>
 #include <iterator>
-#include <iostream>
+#include <list>
 
-using std::list;
-using std::cout;
-using std::min;
-using std::max;
+
 using std::abs;
+using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::max;
+using std::min;
 using std::shared_ptr;
 using std::weak_ptr;
-using std::dynamic_pointer_cast;
-using std::make_shared;
 using boost::bind;
 using boost::optional;
 using namespace dcpomatic;
@@ -59,9 +58,11 @@ using namespace dcpomatic;
 using namespace boost::placeholders;
 #endif
 
+
 /* 3 hours in 640 pixels */
 double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
 int const Timeline::_minimum_pixels_per_track = 16;
+
 
 Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent, wxID_ANY)
@@ -126,17 +127,20 @@ Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, w
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
 }
 
+
 void
 Timeline::update_playhead ()
 {
 	Refresh ();
 }
 
+
 void
 Timeline::set_pixels_per_second (double pps)
 {
 	_pixels_per_second = max (_minimum_pixels_per_second, pps);
 }
+
 
 void
 Timeline::paint_labels ()
@@ -156,6 +160,7 @@ Timeline::paint_labels ()
 
 	delete gc;
 }
+
 
 void
 Timeline::paint_main ()
@@ -224,6 +229,7 @@ Timeline::paint_main ()
 	delete gc;
 }
 
+
 void
 Timeline::film_change (ChangeType type, Film::Property p)
 {
@@ -238,6 +244,7 @@ Timeline::film_change (ChangeType type, Film::Property p)
 		Refresh ();
 	}
 }
+
 
 void
 Timeline::recreate_views ()
@@ -274,6 +281,7 @@ Timeline::recreate_views ()
 	Refresh ();
 }
 
+
 void
 Timeline::film_content_change (ChangeType type, int property, bool frequent)
 {
@@ -292,6 +300,7 @@ Timeline::film_content_change (ChangeType type, int property, bool frequent)
 		Refresh ();
 	}
 }
+
 
 template <class T>
 int
@@ -345,6 +354,7 @@ place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
 	return tracks - base;
 }
 
+
 /** Compare the mapped output channels of two TimelineViews, so we can into
  *  order of first mapped DCP channel.
  */
@@ -365,6 +375,7 @@ struct AudioMappingComparator {
 		return la < lb;
 	}
 };
+
 
 void
 Timeline::assign_tracks ()
@@ -429,11 +440,13 @@ Timeline::assign_tracks ()
 	_reels_view->set_y (8);
 }
 
+
 int
 Timeline::tracks () const
 {
 	return _tracks;
 }
+
 
 void
 Timeline::setup_scrollbars ()
@@ -450,6 +463,7 @@ Timeline::setup_scrollbars ()
 	_main_canvas->SetVirtualSize (*_pixels_per_second * film->length().seconds(), h);
 	_main_canvas->SetScrollRate (_x_scroll_rate, _y_scroll_rate);
 }
+
 
 shared_ptr<TimelineView>
 Timeline::event_to_view (wxMouseEvent& ev)
@@ -473,6 +487,7 @@ Timeline::event_to_view (wxMouseEvent& ev)
 	return *i;
 }
 
+
 void
 Timeline::left_down (wxMouseEvent& ev)
 {
@@ -491,6 +506,7 @@ Timeline::left_down (wxMouseEvent& ev)
 		break;
 	}
 }
+
 
 void
 Timeline::left_down_select (wxMouseEvent& ev)
@@ -548,6 +564,7 @@ Timeline::left_down_select (wxMouseEvent& ev)
 	}
 }
 
+
 void
 Timeline::left_up (wxMouseEvent& ev)
 {
@@ -566,6 +583,7 @@ Timeline::left_up (wxMouseEvent& ev)
 		break;
 	}
 }
+
 
 void
 Timeline::left_up_select (wxMouseEvent& ev)
@@ -590,6 +608,7 @@ Timeline::left_up_select (wxMouseEvent& ev)
 	_start_snaps.clear ();
 	_end_snaps.clear ();
 }
+
 
 void
 Timeline::left_up_zoom (wxMouseEvent& ev)
@@ -626,11 +645,13 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 	Refresh ();
 }
 
+
 void
 Timeline::set_pixels_per_track (int h)
 {
 	_pixels_per_track = max(_minimum_pixels_per_track, h);
 }
+
 
 void
 Timeline::mouse_moved (wxMouseEvent& ev)
@@ -649,6 +670,7 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 	}
 }
 
+
 void
 Timeline::mouse_moved_select (wxMouseEvent& ev)
 {
@@ -658,6 +680,7 @@ Timeline::mouse_moved_select (wxMouseEvent& ev)
 
 	set_position_from_event (ev);
 }
+
 
 void
 Timeline::mouse_moved_zoom (wxMouseEvent& ev)
@@ -669,6 +692,7 @@ Timeline::mouse_moved_zoom (wxMouseEvent& ev)
 	_zoom_point = ev.GetPosition ();
 	Refresh ();
 }
+
 
 void
 Timeline::right_down (wxMouseEvent& ev)
@@ -691,6 +715,7 @@ Timeline::right_down (wxMouseEvent& ev)
 	}
 }
 
+
 void
 Timeline::right_down_select (wxMouseEvent& ev)
 {
@@ -708,6 +733,7 @@ Timeline::right_down_select (wxMouseEvent& ev)
 	_menu.popup (_film, selected_content (), selected_views (), ev.GetPosition ());
 }
 
+
 void
 Timeline::maybe_snap (DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance) const
 {
@@ -716,6 +742,7 @@ Timeline::maybe_snap (DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance)
 		nearest_distance = d;
 	}
 }
+
 
 void
 Timeline::set_position_from_event (wxMouseEvent& ev, bool force_emit)
@@ -782,17 +809,20 @@ Timeline::set_position_from_event (wxMouseEvent& ev, bool force_emit)
 	film->set_sequence (false);
 }
 
+
 void
 Timeline::force_redraw (dcpomatic::Rect<int> const & r)
 {
 	_main_canvas->RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
 }
 
+
 shared_ptr<const Film>
 Timeline::film () const
 {
 	return _film.lock ();
 }
+
 
 void
 Timeline::resized ()
@@ -804,6 +834,7 @@ Timeline::resized ()
 	setup_scrollbars ();
 }
 
+
 void
 Timeline::clear_selection ()
 {
@@ -814,6 +845,7 @@ Timeline::clear_selection ()
 		}
 	}
 }
+
 
 TimelineContentViewList
 Timeline::selected_views () const
@@ -830,6 +862,7 @@ Timeline::selected_views () const
 	return sel;
 }
 
+
 ContentList
 Timeline::selected_content () const
 {
@@ -842,6 +875,7 @@ Timeline::selected_content () const
 	return sel;
 }
 
+
 void
 Timeline::set_selection (ContentList selection)
 {
@@ -853,17 +887,20 @@ Timeline::set_selection (ContentList selection)
 	}
 }
 
+
 int
 Timeline::tracks_y_offset () const
 {
 	return _reels_view->bbox().height + 4;
 }
 
+
 int
 Timeline::width () const
 {
 	return _main_canvas->GetVirtualSize().GetWidth();
 }
+
 
 void
 Timeline::scrolled (wxScrollWinEvent& ev)
@@ -875,6 +912,7 @@ Timeline::scrolled (wxScrollWinEvent& ev)
 	}
 	ev.Skip ();
 }
+
 
 void
 Timeline::tool_clicked (Tool t)
@@ -892,6 +930,7 @@ Timeline::tool_clicked (Tool t)
 		break;
 	}
 }
+
 
 void
 Timeline::zoom_all ()

@@ -22,11 +22,12 @@
 #include "check_box.h"
 #include "film_name_location_dialog.h"
 #include "wx_util.h"
+/* This must come after wx_util.h as it defines DCPOMATIC_USE_OWN_PICKER */
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #endif
-#include "lib/config.h"
 #include "lib/compose.hpp"
+#include "lib/config.h"
 #include <wx/stdpaths.h>
 #include <boost/filesystem.hpp>
 

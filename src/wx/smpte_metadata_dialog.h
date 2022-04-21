@@ -30,11 +30,11 @@
 #include <vector>
 
 
-class Film;
-class RatingDialog;
 class ContentVersionDialog;
-class LanguageTagWidget;
+class Film;
 class LanguageTagDialog;
+class LanguageTagWidget;
+class RatingDialog;
 
 
 class SMPTEMetadataDialog : public MetadataDialog

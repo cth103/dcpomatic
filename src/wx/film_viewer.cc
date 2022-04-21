@@ -32,36 +32,34 @@
 #include "playhead_to_timecode_dialog.h"
 #include "simple_video_view.h"
 #include "wx_util.h"
-#include "lib/film.h"
-#include "lib/ratio.h"
-#include "lib/util.h"
-#include "lib/job_manager.h"
-#include "lib/image.h"
-#include "lib/exceptions.h"
+#include "lib/butler.h"
+#include "lib/compose.hpp"
+#include "lib/config.h"
+#include "lib/dcpomatic_log.h"
 #include "lib/examine_content_job.h"
+#include "lib/exceptions.h"
+#include "lib/film.h"
 #include "lib/filter.h"
+#include "lib/image.h"
+#include "lib/job_manager.h"
+#include "lib/log.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
+#include "lib/ratio.h"
+#include "lib/text_content.h"
+#include "lib/timer.h"
+#include "lib/util.h"
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
-#include "lib/timer.h"
-#include "lib/butler.h"
-#include "lib/log.h"
-#include "lib/config.h"
-#include "lib/compose.hpp"
-#include "lib/dcpomatic_log.h"
-#include "lib/text_content.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <dcp/exceptions.h>
 #include <wx/tglbtn.h>
-#include <iostream>
 #include <iomanip>
 
 
 using std::bad_alloc;
-using std::cout;
 using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::max;

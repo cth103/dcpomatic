@@ -18,8 +18,10 @@
 
 */
 
+
 #include "i18n_hook.h"
 #include <wx/wx.h>
+
 
 class StaticText : public wxStaticText, public I18NHook
 {

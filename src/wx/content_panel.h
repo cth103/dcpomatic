@@ -26,21 +26,21 @@
 #include <list>
 
 
+class AudioPanel;
+class ContentSubPanel;
+class Film;
+class FilmEditor;
+class FilmViewer;
+class TextPanel;
+class TimelineDialog;
+class TimingPanel;
+class VideoPanel;
+class wxListCtrl;
+class wxListEvent;
 class wxNotebook;
 class wxPanel;
 class wxSizer;
-class wxListCtrl;
-class wxListEvent;
 class wxSplitterWindow;
-class TimelineDialog;
-class FilmEditor;
-class ContentSubPanel;
-class TextPanel;
-class VideoPanel;
-class AudioPanel;
-class TimingPanel;
-class Film;
-class FilmViewer;
 
 
 class LimitedSplitter : public wxSplitterWindow

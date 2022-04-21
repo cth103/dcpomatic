@@ -24,6 +24,7 @@
 #include <boost/version.hpp>
 #include <wx/wx.h>
 
+
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
