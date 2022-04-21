@@ -29,9 +29,12 @@
 
 #include "wx_util.h"
 #include "lib/content.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <vector>
 
 

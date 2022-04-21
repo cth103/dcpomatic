@@ -21,10 +21,10 @@
 
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/treelist.h>
+#include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 #include <list>
 #include <map>

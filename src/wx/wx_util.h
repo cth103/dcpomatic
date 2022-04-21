@@ -31,9 +31,9 @@
 #include "lib/dcpomatic_time.h"
 #include "lib/warnings.h"
 DCPOMATIC_DISABLE_WARNINGS
+#include <wx/gbsizer.h>
 #include <wx/wx.h>
 DCPOMATIC_ENABLE_WARNINGS
-#include <wx/gbsizer.h>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 

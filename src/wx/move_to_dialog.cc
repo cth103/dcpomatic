@@ -21,7 +21,10 @@
 
 #include "move_to_dialog.h"
 #include "lib/film.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::list;

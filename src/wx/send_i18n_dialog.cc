@@ -22,7 +22,10 @@
 #include "i18n_hook.h"
 #include "send_i18n_dialog.h"
 #include "wx_util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/listctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::string;

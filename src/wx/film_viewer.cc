@@ -51,11 +51,14 @@
 #include "lib/util.h"
 #include "lib/video_content.h"
 #include "lib/video_decoder.h"
+#include "lib/warnings.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <dcp/exceptions.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/tglbtn.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iomanip>
 
 

@@ -18,12 +18,18 @@
 
 */
 
+
 #include "dir_picker_ctrl.h"
 #include "table_dialog.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
+
 class FilePickerCtrl;
+
 
 class ExportSubtitlesDialog : public TableDialog
 {

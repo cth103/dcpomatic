@@ -21,8 +21,11 @@
 
 #include "editable_list.h"
 #include "lib/screen.h"
+#include "lib/warnings.h"
 #include <dcp/certificate.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 
 

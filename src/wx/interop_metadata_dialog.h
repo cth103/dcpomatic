@@ -21,9 +21,12 @@
 
 #include "editable_list.h"
 #include "metadata_dialog.h"
+#include "lib/warnings.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <vector>
 
 

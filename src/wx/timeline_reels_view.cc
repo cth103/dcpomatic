@@ -21,8 +21,10 @@
 
 #include "timeline.h"
 #include "timeline_reels_view.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/graphics.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::min;

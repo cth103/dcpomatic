@@ -26,7 +26,10 @@
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
 #include "lib/util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/statline.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 

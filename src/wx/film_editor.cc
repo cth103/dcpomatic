@@ -32,8 +32,11 @@
 #include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/notebook.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::list;

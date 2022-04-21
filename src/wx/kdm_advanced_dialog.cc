@@ -22,7 +22,10 @@
 #include "check_box.h"
 #include "kdm_advanced_dialog.h"
 #include "wx_util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using boost::optional;

@@ -39,12 +39,15 @@
 #include "lib/image_content.h"
 #include "lib/job_manager.h"
 #include "lib/playlist.h"
+#include "lib/warnings.h"
 #include <dcp/cpl.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
 #include <dcp/search.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/dirdlg.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::dynamic_pointer_cast;

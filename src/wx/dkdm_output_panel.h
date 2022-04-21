@@ -22,8 +22,11 @@
 #include "name_format_editor.h"
 #include "wx_util.h"
 #include "lib/kdm_with_metadata.h"
+#include "lib/warnings.h"
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
 

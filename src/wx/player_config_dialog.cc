@@ -45,13 +45,16 @@
 #include "lib/log.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
+#include "lib/warnings.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
 #include <dcp/locale_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
 #include <wx/stdpaths.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <RtAudio.h>
 #include <boost/filesystem.hpp>
 

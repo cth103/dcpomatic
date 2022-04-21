@@ -43,11 +43,14 @@
 #include "lib/text_content.h"
 #include "lib/util.h"
 #include "lib/video_content.h"
+#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
 #include <wx/notebook.h>
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/lexical_cast.hpp>
 
 

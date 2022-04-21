@@ -19,8 +19,11 @@
 */
 
 
+#include "lib/warnings.h"
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 class KDMChoice : public wxChoice

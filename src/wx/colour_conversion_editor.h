@@ -23,8 +23,11 @@
 #define DCPOMATIC_COLOUR_CONVERSION_EDITOR_H
 
 
-#include <boost/signals2.hpp>
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
+#include <boost/signals2.hpp>
 
 
 class ColourConversion;

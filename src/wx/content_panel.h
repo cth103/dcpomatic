@@ -22,7 +22,10 @@
 #include "content_menu.h"
 #include "lib/film.h"
 #include "lib/types.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/splitter.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <list>
 
 

@@ -26,8 +26,11 @@
 #include "wx_util.h"
 #include "lib/dcpomatic_time.h"
 #include "lib/types.h"
+#include "lib/warnings.h"
 #include <dcp/raw_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 

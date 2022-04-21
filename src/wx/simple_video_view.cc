@@ -26,8 +26,11 @@
 #include "lib/butler.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/image.h"
+#include "lib/warnings.h"
 #include <dcp/util.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 

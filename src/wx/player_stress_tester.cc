@@ -21,9 +21,12 @@
 
 #include "controls.h"
 #include "player_stress_tester.h"
+#include "lib/warnings.h"
 #include <dcp/raw_convert.h>
 #include <dcp/util.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <boost/bind/bind.hpp>
 #include <iostream>

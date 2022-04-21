@@ -36,12 +36,15 @@
 #include "lib/transcode_job.h"
 #include "lib/util.h"
 #include "lib/version.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/aboutdlg.h>
 #include <wx/cmdline.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/stdpaths.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 #include <set>
 

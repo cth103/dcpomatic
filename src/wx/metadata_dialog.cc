@@ -25,11 +25,14 @@
 #include "metadata_dialog.h"
 #include "wx_util.h"
 #include "lib/film.h"
+#include "lib/warnings.h"
 #include <boost/bind.hpp>
 #include <boost/weak_ptr.hpp>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/notebook.h>
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::weak_ptr;

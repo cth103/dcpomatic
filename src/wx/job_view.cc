@@ -32,7 +32,10 @@
 #include "lib/job_manager.h"
 #include "lib/send_notification_email_job.h"
 #include "lib/transcode_job.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 
 

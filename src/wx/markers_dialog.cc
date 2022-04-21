@@ -27,8 +27,11 @@
 #include "timecode.h"
 #include "wx_util.h"
 #include "lib/film.h"
+#include "lib/warnings.h"
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 

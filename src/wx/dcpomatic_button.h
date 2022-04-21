@@ -18,11 +18,17 @@
 
 */
 
+
 #ifndef DCPOMATIC_BUTTON_H
 #define DCPOMATIC_BUTTON_H
 
+
 #include "i18n_hook.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/button.h>
+DCPOMATIC_ENABLE_WARNINGS
+
 
 class Button : public wxButton, public I18NHook
 {
@@ -32,5 +38,6 @@ public:
 	void set_text (wxString text) override;
 	wxString get_text () const override;
 };
+
 
 #endif

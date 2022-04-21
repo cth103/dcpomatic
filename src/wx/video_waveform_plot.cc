@@ -26,10 +26,13 @@
 #include "lib/film.h"
 #include "lib/image.h"
 #include "lib/player_video.h"
+#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
 #include <dcp/openjpeg_image.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/graphics.h>
 #include <wx/rawbmp.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 #include <iostream>
 

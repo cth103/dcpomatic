@@ -25,8 +25,11 @@
 
 #include "dcpomatic_button.h"
 #include "wx_util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <vector>
 
 

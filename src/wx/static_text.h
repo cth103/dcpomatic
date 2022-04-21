@@ -20,7 +20,10 @@
 
 
 #include "i18n_hook.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 class StaticText : public wxStaticText, public I18NHook

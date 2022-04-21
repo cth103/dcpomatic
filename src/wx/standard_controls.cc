@@ -21,8 +21,11 @@
 
 #include "film_viewer.h"
 #include "standard_controls.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/tglbtn.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::shared_ptr;

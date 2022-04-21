@@ -26,7 +26,10 @@
 #include "lib/audio_analysis.h"
 #include "lib/compose.hpp"
 #include "lib/maths_util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/graphics.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 #include <cfloat>
 

@@ -22,7 +22,10 @@
 #include "audio_gain_dialog.h"
 #include "wx_util.h"
 #include "lib/maths_util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <cmath>
 
 

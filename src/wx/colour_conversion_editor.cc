@@ -24,14 +24,17 @@
 #include "static_text.h"
 #include "wx_util.h"
 #include "lib/colour_conversion.h"
+#include "lib/warnings.h"
 #include <dcp/gamma_transfer_function.h>
 #include <dcp/identity_transfer_function.h>
 #include <dcp/locale_convert.h>
 #include <dcp/modified_gamma_transfer_function.h>
 #include <dcp/s_gamut3_transfer_function.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
 #include <wx/numformatter.h>
 #include <wx/spinctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::dynamic_pointer_cast;

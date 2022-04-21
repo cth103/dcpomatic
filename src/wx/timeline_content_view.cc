@@ -23,7 +23,10 @@
 #include "timeline_content_view.h"
 #include "wx_util.h"
 #include "lib/content.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/graphics.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::list;

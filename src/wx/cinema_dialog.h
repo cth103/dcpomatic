@@ -22,7 +22,10 @@
 #include "editable_list.h"
 #include "email_dialog.h"
 #include "table_dialog.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <list>
 #include <vector>
 

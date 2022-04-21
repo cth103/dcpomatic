@@ -57,11 +57,13 @@
 #include "lib/util.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/video_content.h"
+#include "lib/warnings.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
 #include <dcp/search.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/cmdline.h>
 #include <wx/display.h>
 #include <wx/preferences.h>
@@ -69,6 +71,7 @@
 #include <wx/splash.h>
 #include <wx/stdpaths.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif

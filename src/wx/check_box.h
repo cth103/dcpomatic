@@ -24,7 +24,10 @@
 
 
 #include "i18n_hook.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 class CheckBox : public wxCheckBox, public I18NHook

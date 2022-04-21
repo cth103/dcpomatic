@@ -32,11 +32,14 @@
 #include "lib/spl.h"
 #include "lib/spl_entry.h"
 #include "lib/util.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/imaglist.h>
 #include <wx/listctrl.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::cout;

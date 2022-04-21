@@ -25,7 +25,10 @@
 #include "lib/dcp_content.h"
 #include "lib/compose.hpp"
 #include "lib/log.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/notebook.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::list;

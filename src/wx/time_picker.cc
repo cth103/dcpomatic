@@ -22,8 +22,11 @@
 #include "static_text.h"
 #include "time_picker.h"
 #include "wx_util.h"
+#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 #include <iomanip>
 

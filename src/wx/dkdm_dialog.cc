@@ -32,10 +32,13 @@
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
+#include "lib/warnings.h"
 #include <libcxml/cxml.h>
 #include <dcp/exceptions.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/treectrl.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <iostream>
 
 

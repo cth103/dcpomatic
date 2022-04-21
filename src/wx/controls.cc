@@ -35,14 +35,17 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
+#include "lib/warnings.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
 #include <wx/tglbtn.h>
 #include <wx/wx.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::cout;

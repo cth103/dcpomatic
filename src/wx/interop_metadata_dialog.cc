@@ -24,8 +24,11 @@
 #include "language_tag_widget.h"
 #include "rating_dialog.h"
 #include "lib/film.h"
+#include "lib/warnings.h"
 #include <dcp/types.h>
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
+DCPOMATIC_ENABLE_WARNINGS
 
 
 using std::shared_ptr;

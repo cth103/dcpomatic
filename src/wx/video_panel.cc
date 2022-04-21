@@ -38,8 +38,11 @@
 #include "lib/ratio.h"
 #include "lib/util.h"
 #include "lib/video_content.h"
+#include "lib/warnings.h"
+DCPOMATIC_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
 #include <wx/tglbtn.h>
+DCPOMATIC_ENABLE_WARNINGS
 #include <boost/functional/hash.hpp>
 #include <boost/unordered_set.hpp>
 #include <set>
