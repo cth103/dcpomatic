@@ -35,7 +35,8 @@
   _Pragma("GCC diagnostic ignored \"-Wmissing-field-initializers\"") \
   _Pragma("GCC diagnostic ignored \"-Wunused-parameter\"") \
   _Pragma("GCC diagnostic ignored \"-Waddress\"") \
-  _Pragma("GCC diagnostic ignored \"-Wparentheses\"")
+  _Pragma("GCC diagnostic ignored \"-Wparentheses\"") \
+  _Pragma("GCC diagnostic ignored \"-Wsuggest-override\"")
 #endif
 
 #define DCPOMATIC_ENABLE_WARNINGS \

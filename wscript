@@ -109,6 +109,7 @@ def configure(conf):
                                        '-Wall',
                                        '-Wextra',
                                        '-Wwrite-strings',
+                                       '-Wsuggest-override',
                                        '-Wno-error=deprecated',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
@@ -126,10 +127,6 @@ def configure(conf):
         if int(gcc[0]) >= 8:
             # I tried and failed to ignore these with _Pragma
             conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
-        if int(gcc[0]) >= 9:
-            # I can't get #pragma GCC diagnostic ignored "-Wsuggest-override" to work on older GCCs,
-            # so only enable this if we're on a newer one
-            conf.env.append_value('CXXFLAGS', '-Wsuggest-override')
         have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
         # Most gccs still give these warnings from boost::optional
         conf.env.append_value('CXXFLAGS', ['-Wno-maybe-uninitialized'])
