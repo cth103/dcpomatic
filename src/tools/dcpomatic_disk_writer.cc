@@ -31,7 +31,7 @@
 #include "lib/nanomsg.h"
 #include "lib/util.h"
 #include "lib/version.h"
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
 
 #ifdef DCPOMATIC_POSIX
 #include <sys/ioctl.h>
