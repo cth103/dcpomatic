@@ -12,6 +12,7 @@ def write_installer(bits, dcpomatic_version, debug, disk):
         ('create', 'Creator'),
         ('playlist', 'Playlist Editor'),
         ('combiner', 'Combiner'),
+        ('editor', 'Editor'),
     ]
 
     if disk:

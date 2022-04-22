@@ -692,14 +692,11 @@ Writer::finish (boost::filesystem::path output_dcp)
 		throw InvalidSignerError (reason);
 	}
 
-	dcp.write_xml (
-		issuer,
-		creator,
-		dcp::LocalTime().as_string(),
-		film()->dcp_name(),
-		signer,
-		Config::instance()->dcp_metadata_filename_format()
-		);
+	dcp.set_issuer(issuer);
+	dcp.set_creator(creator);
+	dcp.set_annotation_text(film()->dcp_name());
+
+	dcp.write_xml (signer, Config::instance()->dcp_metadata_filename_format());
 
 	LOG_GENERAL (
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
