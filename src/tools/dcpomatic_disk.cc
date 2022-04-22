@@ -37,7 +37,7 @@
 #include "lib/signal_manager.h"
 #include "lib/util.h"
 #include "lib/version.h"
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
 #include <wx/cmdline.h>
 #include <wx/wx.h>
 LIBDCP_DISABLE_WARNINGS
