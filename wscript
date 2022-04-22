@@ -109,7 +109,6 @@ def configure(conf):
                                        '-Wall',
                                        '-Wextra',
                                        '-Wwrite-strings',
-                                       '-Wsuggest-override',
                                        '-Wno-error=deprecated',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
@@ -130,6 +129,7 @@ def configure(conf):
         have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
         # Most gccs still give these warnings from boost::optional
         conf.env.append_value('CXXFLAGS', ['-Wno-maybe-uninitialized'])
+        conf.env.append_value('CXXFLAGS', ['-Wsuggest-override'])
     else:
         have_c11 = False
 
