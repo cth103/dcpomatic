@@ -83,3 +83,14 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_mkv_test)
 	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "sample.mkv");
 	auto examiner = make_shared<FFmpegExaminer>(content);
 }
+
+
+/** Check that the video stream is correctly picked from a difficult file (#2238) */
+BOOST_AUTO_TEST_CASE (ffmpeg_examiner_video_stream_selection_test)
+{
+	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "isy.mp4");
+	auto examiner = make_shared<FFmpegExaminer>(content);
+
+	BOOST_REQUIRE (examiner->video_frame_rate());
+	BOOST_CHECK_EQUAL (examiner->video_frame_rate().get(), 25);
+}

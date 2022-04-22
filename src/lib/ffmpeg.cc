@@ -149,6 +149,11 @@ FFmpeg::setup_general ()
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		auto s = _format_context->streams[i];
 		if (s->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codecpar->codec_id)) {
+			auto const frame_rate = av_q2d(s->avg_frame_rate);
+			if (frame_rate < 1 || frame_rate > 1000) {
+				/* Ignore video streams with crazy frame rates.  These are usually things like album art on MP3s. */
+				continue;
+			}
 			if (s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
 				/* This is definitely our video stream */
 				_video_stream = i;
@@ -164,11 +169,6 @@ FFmpeg::setup_general ()
 	*/
 	if (!_video_stream && video_stream_undefined_frame_rate) {
 		_video_stream = video_stream_undefined_frame_rate.get();
-	}
-
-	/* Ignore video streams with crazy frame rates.  These are usually things like album art on MP3s. */
-	if (_video_stream && av_q2d(av_guess_frame_rate(_format_context, _format_context->streams[_video_stream.get()], 0)) > 1000) {
-		_video_stream = optional<int>();
 	}
 
 	/* Hack: if the AVStreams have duplicate IDs, replace them with our
