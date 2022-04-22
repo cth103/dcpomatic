@@ -31,14 +31,18 @@
 #include <dcp/exceptions.h>
 #include <dcp/types.h>
 #include <dcp/warnings.h>
+
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #else
 LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-#include <wx/stdpaths.h>
 LIBDCP_ENABLE_WARNINGS
 #endif
+
+LIBDCP_DISABLE_WARNINGS
+#include <wx/stdpaths.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::exception;
