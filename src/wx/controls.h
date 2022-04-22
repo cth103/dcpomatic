@@ -24,23 +24,23 @@
 
 
 #include "lib/dcpomatic_time.h"
-#include "lib/types.h"
 #include "lib/film.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include "lib/types.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
-class FilmViewer;
-class Film;
 class ClosedCaptionsDialog;
 class Content;
-class PlayerVideo;
-class wxToggleButton;
-class wxListCtrl;
 class ContentView;
+class Film;
+class FilmViewer;
+class PlayerVideo;
+class wxListCtrl;
+class wxToggleButton;
 
 
 namespace dcp {

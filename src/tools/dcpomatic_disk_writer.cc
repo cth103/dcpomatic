@@ -60,9 +60,9 @@ extern "C" {
 }
 #endif
 
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <glibmm.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 #include <unistd.h>
 #include <sys/types.h>

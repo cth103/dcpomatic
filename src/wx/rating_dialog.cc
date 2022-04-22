@@ -22,13 +22,13 @@
 #include "dcpomatic_spin_ctrl.h"
 #include "rating_dialog.h"
 #include "wx_util.h"
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
 #include <unicode/unistr.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/notebook.h>
 #include <wx/srchctrl.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::string;

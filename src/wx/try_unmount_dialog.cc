@@ -22,10 +22,10 @@
 #include "static_text.h"
 #include "try_unmount_dialog.h"
 #include "wx_util.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 static int constexpr width = 300;

@@ -23,18 +23,18 @@
 #define DCPOMATIC_FFMPEG_FILE_ENCODER_H
 
 
+#include "audio_mapping.h"
 #include "encoder.h"
 #include "event_history.h"
-#include "audio_mapping.h"
 #include "log.h"
-#include "warnings.h"
 #include <dcp/key.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 class ExportAudioStream;

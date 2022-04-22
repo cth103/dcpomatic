@@ -25,16 +25,16 @@
 
 
 #include "video_view.h"
-#include "lib/film.h"
 #include "lib/config.h"
+#include "lib/film.h"
 #include "lib/player_text.h"
-#include "lib/timer.h"
 #include "lib/signaller.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include "lib/timer.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <RtAudio.h>
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 

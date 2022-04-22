@@ -20,12 +20,12 @@
 
 
 #include "dcpomatic_spin_ctrl.h"
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 #include <boost/version.hpp>
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
 
 
 #if BOOST_VERSION >= 106100

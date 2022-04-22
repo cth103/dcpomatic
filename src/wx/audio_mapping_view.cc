@@ -29,19 +29,17 @@
 #include "wx_util.h"
 #include "lib/audio_mapping.h"
 #include "lib/maths_util.h"
-#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
 #include <dcp/types.h>
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
-#include <wx/renderer.h>
-#include <wx/grid.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <iostream>
+#include <wx/grid.h>
+#include <wx/renderer.h>
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 
 
-using std::cout;
 using std::list;
 using std::make_pair;
 using std::max;

@@ -18,20 +18,24 @@
 
 */
 
+
 #include "check_box.h"
 #include "export_video_file_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
+
 
 using std::string;
 using boost::bind;
 
+
 #define FORMATS 2
+
 
 wxString format_names[] = {
 	_("MOV / ProRes"),

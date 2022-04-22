@@ -18,9 +18,12 @@
 
 */
 
+
 #include "table_dialog.h"
 
+
 class wxSpinCtrlDouble;
+
 
 class AudioGainDialog : public TableDialog
 {

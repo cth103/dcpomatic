@@ -29,7 +29,6 @@
 #include "timecode.h"
 #include "lib/film.h"
 
-
 class wxButton;
 class wxChoice;
 class wxSpinCtrl;

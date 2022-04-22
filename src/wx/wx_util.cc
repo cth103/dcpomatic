@@ -34,15 +34,15 @@
 #include "lib/job_manager.h"
 #include "lib/util.h"
 #include "lib/version.h"
-#include "lib/warnings.h"
 #include <dcp/locale_convert.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
 #include <wx/progdlg.h>
 #include <wx/filepicker.h>
 #include <wx/sizer.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
 

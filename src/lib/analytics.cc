@@ -22,12 +22,12 @@
 #include "analytics.h"
 #include "compose.hpp"
 #include "exceptions.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 

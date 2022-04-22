@@ -18,35 +18,35 @@
 
 */
 
-#include "timing_panel.h"
-#include "wx_util.h"
-#include "film_viewer.h"
-#include "timecode.h"
+
 #include "content_panel.h"
+#include "dcpomatic_button.h"
+#include "film_viewer.h"
 #include "move_to_dialog.h"
 #include "static_text.h"
-#include "dcpomatic_button.h"
-#include "lib/content.h"
-#include "lib/image_content.h"
-#include "lib/text_content.h"
-#include "lib/dcp_subtitle_content.h"
+#include "timecode.h"
+#include "timing_panel.h"
+#include "wx_util.h"
 #include "lib/audio_content.h"
-#include "lib/string_text_file_content.h"
-#include "lib/video_content.h"
+#include "lib/content.h"
 #include "lib/dcp_content.h"
+#include "lib/dcp_subtitle_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/image_content.h"
+#include "lib/string_text_file_content.h"
+#include "lib/text_content.h"
+#include "lib/video_content.h"
 #include <dcp/locale_convert.h>
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
 #if defined(__WXGTK20__) && !defined(__WXGTK3__)
 #define TIMING_PANEL_ALIGNMENT_HACK 1
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <gtk/gtk.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #endif
 #include <set>
-#include <iostream>
 
-using std::cout;
+
 using std::string;
 using std::set;
 using std::shared_ptr;
@@ -58,6 +58,7 @@ using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
 using namespace dcpomatic;
+
 
 TimingPanel::TimingPanel (ContentPanel* p, weak_ptr<FilmViewer> viewer)
 	/* horrid hack for apparent lack of context support with wxWidgets i18n code */

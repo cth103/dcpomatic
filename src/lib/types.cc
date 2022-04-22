@@ -21,15 +21,15 @@
 #include "types.h"
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
-#include "warnings.h"
-#include <dcp/raw_convert.h>
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
-#include <dcp/reel_file_asset.h>
+#include <dcp/raw_convert.h>
 #include <dcp/reel_asset.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/reel_file_asset.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 
 #include "i18n.h"

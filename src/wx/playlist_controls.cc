@@ -32,13 +32,13 @@
 #include "lib/internet.h"
 #include "lib/player_video.h"
 #include "lib/scoped_temporary.h"
-#include "lib/warnings.h"
-#include <dcp/raw_convert.h>
 #include <dcp/exceptions.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/raw_convert.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/progdlg.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::cout;

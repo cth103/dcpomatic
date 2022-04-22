@@ -26,12 +26,12 @@
 #include "rating_dialog.h"
 #include "smpte_metadata_dialog.h"
 #include "lib/film.h"
-#include "lib/warnings.h"
 #include <dcp/types.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
 #include <wx/spinctrl.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::shared_ptr;

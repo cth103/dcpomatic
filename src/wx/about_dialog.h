@@ -22,12 +22,14 @@
  *  @brief The "about DCP-o-matic" dialogue box.
  */
 
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 class wxNotebook;
+
 
 /** @class AboutDialog
  *  @brief The "about DCP-o-matic" dialogue box.

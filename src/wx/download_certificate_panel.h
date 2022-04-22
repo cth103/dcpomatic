@@ -23,11 +23,11 @@
 #define DCPOMATIC_DOWNLOAD_CERTIFICATE_PANEL_H
 
 
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
 #include <dcp/certificate.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 
 

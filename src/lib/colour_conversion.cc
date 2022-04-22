@@ -18,36 +18,40 @@
 
 */
 
-#include "config.h"
+
 #include "colour_conversion.h"
-#include "util.h"
+#include "config.h"
 #include "digester.h"
-#include "warnings.h"
-#include <dcp/raw_convert.h>
+#include "util.h"
 #include <dcp/chromaticity.h>
 #include <dcp/gamma_transfer_function.h>
-#include <dcp/modified_gamma_transfer_function.h>
 #include <dcp/identity_transfer_function.h>
+#include <dcp/modified_gamma_transfer_function.h>
+#include <dcp/raw_convert.h>
 #include <dcp/s_gamut3_transfer_function.h>
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"
 
-using std::list;
-using std::string;
+
 using std::cout;
-using std::vector;
+using std::dynamic_pointer_cast;
+using std::list;
 using std::make_shared;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
-using std::dynamic_pointer_cast;
 using dcp::raw_convert;
 
+
 vector<PresetColourConversion> PresetColourConversion::_presets;
+
 
 ColourConversion::ColourConversion ()
 	: dcp::ColourConversion (dcp::ColourConversion::srgb_to_xyz ())

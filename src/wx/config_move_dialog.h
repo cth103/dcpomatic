@@ -18,8 +18,10 @@
 
 */
 
+
 #include "question_dialog.h"
 #include <boost/filesystem.hpp>
+
 
 class ConfigMoveDialog : public QuestionDialog
 {

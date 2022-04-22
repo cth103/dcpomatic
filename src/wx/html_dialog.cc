@@ -22,13 +22,12 @@
 #include "html_dialog.h"
 #include "wx_util.h"
 #include "lib/cross.h"
-#include "lib/warnings.h"
-#include <boost/filesystem.hpp>
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wxhtml.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/fs_mem.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <iostream>
+#include <wx/wxhtml.h>
+LIBDCP_ENABLE_WARNINGS
+#include <boost/filesystem.hpp>
 
 
 #if BOOST_VERSION >= 106100

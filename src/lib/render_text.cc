@@ -26,13 +26,13 @@
 #include "render_text.h"
 #include "types.h"
 #include "util.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
+#include <dcp/warnings.h>
 #include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <pangomm.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <pango/pangocairo.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>

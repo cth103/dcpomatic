@@ -28,9 +28,9 @@
 #include "lib/job_manager.h"
 #include "lib/util.h"
 #include <dcp/combine.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <wx/wx.h>
 #include <boost/bind/bind.hpp>
 #include <boost/filesystem.hpp>

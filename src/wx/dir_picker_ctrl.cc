@@ -18,20 +18,23 @@
 
 */
 
-#include "dir_picker_ctrl.h"
-#include "wx_util.h"
-#include "static_text.h"
+
 #include "dcpomatic_button.h"
-#include "lib/warnings.h"
-#include <wx/wx.h>
-#include <wx/stdpaths.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include "dir_picker_ctrl.h"
+#include "static_text.h"
+#include "wx_util.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+#include <wx/stdpaths.h>
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
+
 
 using namespace std;
 using namespace boost;
+
 
 DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
 	: wxPanel (parent)

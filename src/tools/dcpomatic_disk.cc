@@ -40,9 +40,9 @@
 #include "lib/warnings.h"
 #include <wx/cmdline.h>
 #include <wx/wx.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <boost/process.hpp>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/process/windows.hpp>
 #endif

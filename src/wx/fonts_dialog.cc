@@ -26,10 +26,10 @@
 #include "lib/content.h"
 #include "lib/font.h"
 #include "lib/text_content.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <memory>
 
 

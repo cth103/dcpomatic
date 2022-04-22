@@ -20,11 +20,11 @@
 
 
 #include "wx_util.h"
-#include "lib/warnings.h"
 #include <dcp/types.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <map>
 

@@ -18,19 +18,22 @@
 
 */
 
+
+#include "dcpomatic_button.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
-#include "dcpomatic_button.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
-#include <wx/stdpaths.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+#include <wx/stdpaths.h>
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
+
 
 using namespace std;
 using namespace boost;
+
 
 FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open, bool warn_overwrite)
 	: wxPanel (parent)

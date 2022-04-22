@@ -18,34 +18,36 @@
 
 */
 
-#include "lib/config.h"
-#include "lib/send_kdm_email_job.h"
-#include "lib/warnings.h"
+
+#include "check_box.h"
+#include "confirm_kdm_email_dialog.h"
+#include "dcpomatic_button.h"
 #include "dkdm_output_panel.h"
 #include "kdm_timing_panel.h"
-#include "confirm_kdm_email_dialog.h"
-#include "wx_util.h"
 #include "name_format_editor.h"
-#include "check_box.h"
-#include "dcpomatic_button.h"
+#include "wx_util.h"
+#include "lib/config.h"
+#include "lib/send_kdm_email_job.h"
 #include <dcp/exceptions.h>
 #include <dcp/types.h>
+#include <dcp/warnings.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #else
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
-#endif
 #include <wx/stdpaths.h>
+LIBDCP_ENABLE_WARNINGS
+#endif
 
-using std::pair;
-using std::string;
-using std::list;
+
 using std::exception;
-using std::make_pair;
-using std::shared_ptr;
 using std::function;
+using std::list;
+using std::make_pair;
+using std::pair;
+using std::shared_ptr;
+using std::string;
 
 
 DKDMOutputPanel::DKDMOutputPanel (wxWindow* parent)

@@ -30,13 +30,13 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/examine_ffmpeg_subtitles_job.h"
 #include "lib/job_manager.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 #include <wx/clrpicker.h>
 #include <wx/spinctrl.h>
 #include <wx/gbsizer.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::dynamic_pointer_cast;

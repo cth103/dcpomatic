@@ -20,10 +20,10 @@
 
 
 #include "rgba.h"
-#include "warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/lexical_cast.hpp>
 
 

@@ -45,10 +45,10 @@
 #include "lib/string_text_file_decoder.h"
 #include "lib/subtitle_analysis.h"
 #include "lib/text_content.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::cout;

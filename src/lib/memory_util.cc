@@ -19,12 +19,12 @@
 */
 
 
-#include "warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavutil/avutil.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <new>
 #include <stdexcept>
 

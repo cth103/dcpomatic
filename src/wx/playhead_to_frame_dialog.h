@@ -18,8 +18,10 @@
 
 */
 
+
 #include "table_dialog.h"
 #include "timecode.h"
+
 
 class PlayheadToFrameDialog : public TableDialog
 {

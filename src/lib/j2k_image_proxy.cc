@@ -23,7 +23,6 @@
 #include "dcpomatic_socket.h"
 #include "image.h"
 #include "j2k_image_proxy.h"
-#include "warnings.h"
 #include <dcp/colour_conversion.h>
 #include <dcp/j2k_transcode.h>
 #include <dcp/mono_picture_frame.h>
@@ -31,10 +30,11 @@
 #include <dcp/raw_convert.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/stereo_picture_frame.h>
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

@@ -24,12 +24,12 @@
 #include "metadata_dialog.h"
 #include "lib/film.h"
 #include "lib/weak_film.h"
-#include "lib/warnings.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 

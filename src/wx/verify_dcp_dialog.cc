@@ -22,14 +22,14 @@
 #include "verify_dcp_dialog.h"
 #include "wx_util.h"
 #include "lib/verify_dcp_job.h"
-#include "lib/warnings.h"
-#include <dcp/verify.h>
 #include <dcp/raw_convert.h>
-#include <boost/algorithm/string.hpp>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/verify.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
 #include <wx/notebook.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
+#include <boost/algorithm/string.hpp>
 
 
 using std::list;

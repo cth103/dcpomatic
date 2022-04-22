@@ -29,15 +29,16 @@
 #include "lib/signaller.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/taskbar.h>
-#include <wx/splash.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/icon.h>
-DCPOMATIC_ENABLE_WARNINGS
+#include <wx/splash.h>
+#include <wx/taskbar.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 #include <boost/optional.hpp>
 #include <iostream>
+
 
 using std::cout;
 using std::string;
@@ -53,6 +54,7 @@ using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 enum {
 	ID_status = 1,

@@ -18,15 +18,18 @@
 
 */
 
+
 #include "servers_list_dialog.h"
 #include "wx_util.h"
 #include "lib/encode_server_finder.h"
 #include "lib/encode_server_description.h"
 #include <boost/lexical_cast.hpp>
 
+
 using std::list;
 using std::string;
 using boost::lexical_cast;
+
 
 ServersListDialog::ServersListDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("Encoding Servers"))

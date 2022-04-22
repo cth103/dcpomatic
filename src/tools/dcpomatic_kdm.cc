@@ -48,14 +48,14 @@
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/treectrl.h>
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #ifdef __WXOSX__
 #include <ApplicationServices/ApplicationServices.h>
 #endif

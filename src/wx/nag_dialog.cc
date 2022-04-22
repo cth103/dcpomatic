@@ -19,10 +19,10 @@
 */
 
 
-#include "nag_dialog.h"
-#include "wx_util.h"
-#include "static_text.h"
 #include "check_box.h"
+#include "nag_dialog.h"
+#include "static_text.h"
+#include "wx_util.h"
 
 
 using std::shared_ptr;

@@ -18,9 +18,12 @@
 
 */
 
+
 #include "lib/signal_manager.h"
 
+
 class wxEvtHandler;
+
 
 /** @class wxSignalManager
  *  @brief SignalManager for the wxWidgets event loop

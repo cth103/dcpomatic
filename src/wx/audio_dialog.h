@@ -18,18 +18,21 @@
 
 */
 
-#include "lib/film.h"
+
 #include "lib/audio_analysis.h"
+#include "lib/film.h"
 #include "lib/playlist.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
+
 
 class AudioPlot;
 class FilmViewer;
 class Film;
+
 
 class AudioDialog : public wxDialog
 {

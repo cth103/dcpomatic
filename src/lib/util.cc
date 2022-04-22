@@ -49,22 +49,22 @@
 #include "text_decoder.h"
 #include "util.h"
 #include "video_content.h"
-#include "warnings.h"
+#include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/locale_convert.h>
-#include <dcp/util.h>
-#include <dcp/raw_convert.h>
 #include <dcp/picture_asset.h>
+#include <dcp/raw_convert.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
-#include <dcp/atmos_asset.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/util.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavfilter/avfilter.h>
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <curl/curl.h>
 #include <glib.h>
 #include <pangomm/init.h>
@@ -75,9 +75,9 @@ DCPOMATIC_ENABLE_WARNINGS
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <boost/locale.hpp>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
 #include <dbghelp.h>
@@ -242,7 +242,7 @@ addr2line (void const * const addr)
 	return system(addr2line_cmd);
 }
 
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 /** This is called when C signals occur on Windows (e.g. SIGSEGV)
  *  (NOT C++ exceptions!).  We write a backtrace to backtrace_file by dark means.
  *  Adapted from code here: http://spin.atomicobject.com/2013/01/13/exceptions-stack-traces-c/
@@ -299,7 +299,7 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 
 	return EXCEPTION_CONTINUE_SEARCH;
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #endif
 
 void
@@ -371,10 +371,10 @@ dcpomatic_setup ()
 #endif
 
 #ifdef DCPOMATIC_HAVE_AVREGISTER
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 	av_register_all ();
 	avfilter_register_all ();
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #endif
 
 #ifdef DCPOMATIC_OSX

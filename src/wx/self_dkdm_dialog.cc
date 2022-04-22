@@ -27,20 +27,20 @@
 #include "lib/film.h"
 #include "lib/screen.h"
 #include "lib/config.h"
-#include "lib/warnings.h"
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #else
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #endif
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/treectrl.h>
 #include <wx/listctrl.h>
 #include <wx/stdpaths.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 

@@ -18,16 +18,17 @@
 
 */
 
-#include <dcp/verify.h>
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <map>
 
+#include <dcp/verify.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
+#include <map>
 
 class wxRichTextCtrl;
 class VerifyDCPJob;
+
 
 class VerifyDCPDialog : public wxDialog
 {

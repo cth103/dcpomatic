@@ -27,16 +27,16 @@
 #include "ffmpeg_image_proxy.h"
 #include "image.h"
 #include "memory_util.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
 #include <libavutil/pixdesc.h>
 }
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

@@ -18,7 +18,9 @@
 
 */
 
+
 #include "credentials_download_certificate_panel.h"
+
 
 class GDCCertificatePanel : public CredentialsDownloadCertificatePanel
 {

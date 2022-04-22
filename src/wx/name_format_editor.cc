@@ -20,8 +20,8 @@
 
 
 #include "name_format_editor.h"
-#include "wx_util.h"
 #include "static_text.h"
+#include "wx_util.h"
 #include "lib/util.h"
 
 

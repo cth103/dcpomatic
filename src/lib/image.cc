@@ -33,17 +33,17 @@
 #include "memory_util.h"
 #include "rect.h"
 #include "timer.h"
-#include "warnings.h"
 #include <dcp/rgb_xyz.h>
 #include <dcp/transfer_function.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavutil/frame.h>
 #include <libavutil/pixdesc.h>
 #include <libavutil/pixfmt.h>
 #include <libswscale/swscale.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <png.h>
 #if HAVE_VALGRIND_MEMCHECK_H
 #include <valgrind/memcheck.h>

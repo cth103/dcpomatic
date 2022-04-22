@@ -18,22 +18,24 @@
 
 */
 
+
 /** @file  src/wx/about_dialog.cc
  *  @brief The "about DCP-o-matic" dialogue box.
  */
 
 #include "about_dialog.h"
-#include "wx_util.h"
 #include "static_text.h"
-#include "lib/version.h"
+#include "wx_util.h"
 #include "lib/compose.hpp"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include "lib/version.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/notebook.h>
 #include <wx/hyperlink.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 using std::vector;
+
 
 AboutDialog::AboutDialog (wxWindow* parent)
 	: wxDialog (parent, wxID_ANY, _("About DCP-o-matic"))

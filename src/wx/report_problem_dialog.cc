@@ -26,10 +26,10 @@
 #include "lib/config.h"
 #include "lib/job_manager.h"
 #include "lib/send_problem_report_job.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/sizer.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::make_shared;

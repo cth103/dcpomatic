@@ -20,12 +20,12 @@
 
 
 #include "ffmpeg_wrapper.h"
-#include "warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavformat/avformat.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <new>
 
 

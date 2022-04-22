@@ -23,13 +23,12 @@
 #define DCPOMATIC_PIXEL_QUANTA_H
 
 
-#include "warnings.h"
-
 #include <libcxml/cxml.h>
 #include <dcp/types.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 class PixelQuanta

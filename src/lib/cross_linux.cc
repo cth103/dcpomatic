@@ -26,14 +26,14 @@
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "log.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
+#include <dcp/warnings.h>
 #include <glib.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavformat/avio.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>

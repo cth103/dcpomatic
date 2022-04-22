@@ -18,14 +18,15 @@
 
 */
 
+
+#include "dcpomatic_button.h"
 #include "timecode.h"
 #include "wx_util.h"
-#include "dcpomatic_button.h"
 #include "lib/util.h"
-#include <iostream>
+
 
 using std::string;
-using std::cout;
+
 
 TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	: wxPanel (parent)

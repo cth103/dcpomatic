@@ -21,10 +21,10 @@
 #include "rgba_colour_picker.h"
 #include "wx_util.h"
 #include "static_text.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/clrpicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 RGBAColourPicker::RGBAColourPicker (wxWindow* parent, RGBA colour)
 	: wxPanel (parent, wxID_ANY)

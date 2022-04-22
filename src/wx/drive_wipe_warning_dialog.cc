@@ -18,9 +18,11 @@
 
 */
 
+
 #include "drive_wipe_warning_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+
 
 DriveWipeWarningDialog::DriveWipeWarningDialog (wxWindow* parent, wxString drive)
 	: wxDialog (parent, wxID_ANY, _("Important notice"))

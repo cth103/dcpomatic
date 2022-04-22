@@ -18,12 +18,16 @@
 
 */
 
+
 #ifndef CREDENTIALS_DOWNLOAD_CERTIFICATE_PANEL_H
 #define CREDENTIALS_DOWNLOAD_CERTIFICATE_PANEL_H
 
+
 #include "download_certificate_panel.h"
 
+
 class PasswordEntry;
+
 
 class CredentialsDownloadCertificatePanel : public DownloadCertificatePanel
 {

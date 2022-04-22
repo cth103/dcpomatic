@@ -19,12 +19,12 @@
 */
 
 
-#include "lib/warnings.h"
-
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/glcanvas.h>
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
+
 
 /* The OpenGL API in wxWidgets 3.0.x is sufficiently different to make it awkward to support,
  * and I think it may even have things missing that we require (e.g. the attributes parameter

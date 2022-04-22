@@ -18,7 +18,9 @@
 
 */
 
+
 #include "new_dkdm_folder_dialog.h"
+
 
 NewDKDMFolderDialog::NewDKDMFolderDialog (wxWindow* parent)
 	: TableDialog (parent, _("Add DKDM folder"), 2, 1, true)

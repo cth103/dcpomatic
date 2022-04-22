@@ -19,11 +19,11 @@
 */
 
 
-#include "lib/warnings.h"
 #include <dcp/language_tag.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 

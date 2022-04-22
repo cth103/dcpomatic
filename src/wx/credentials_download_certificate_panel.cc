@@ -18,14 +18,17 @@
 
 */
 
+
 #include "download_certificate_dialog.h"
 #include "credentials_download_certificate_panel.h"
 #include "password_entry.h"
 #include "wx_util.h"
 
+
 using std::string;
 using std::function;
 using boost::optional;
+
 
 CredentialsDownloadCertificatePanel::CredentialsDownloadCertificatePanel (
 		DownloadCertificateDialog* dialog,

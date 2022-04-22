@@ -28,13 +28,13 @@
 #include "lib/dcpomatic_assert.h"
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
-#include "lib/warnings.h"
 #include <dcp/exceptions.h>
+#include <dcp/warnings.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/progdlg.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::cout;

@@ -20,14 +20,14 @@
 
 #include "ffmpeg_stream.h"
 #include "dcpomatic_assert.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 extern "C" {
 #include <libavformat/avformat.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 using std::string;
 using dcp::raw_convert;

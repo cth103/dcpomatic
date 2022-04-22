@@ -20,7 +20,6 @@
 
 
 #include "dcp_digest_file.h"
-#include "warnings.h"
 #include <dcp/cpl.h>
 #include <dcp/mxf.h>
 #include <dcp/reel.h>
@@ -28,9 +27,10 @@
 #include <dcp/reel_sound_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel_smpte_subtitle_asset.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::dynamic_pointer_cast;

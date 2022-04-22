@@ -23,12 +23,12 @@
 #define DCPOMATIC_KDM_RECIPIENT_H
 
 
-#include "warnings.h"
 #include <dcp/certificate.h>
+#include <dcp/warnings.h>
 #include <libcxml/cxml.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 #include <string>
 

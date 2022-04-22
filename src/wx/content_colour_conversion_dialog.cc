@@ -26,14 +26,12 @@
 #include "lib/colour_conversion.h"
 #include "lib/config.h"
 #include "lib/util.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/statline.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <iostream>
+LIBDCP_ENABLE_WARNINGS
 
 
-using std::cout;
 using std::string;
 using std::vector;
 using boost::optional;

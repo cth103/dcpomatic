@@ -31,19 +31,19 @@
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/send_kdm_email_job.h"
-#include "lib/warnings.h"
 #include <dcp/exceptions.h>
 #include <dcp/types.h>
+#include <dcp/warnings.h>
 #ifdef DCPOMATIC_USE_OWN_PICKER
 #include "dir_picker_ctrl.h"
 #else
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #endif
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 #include <wx/stdpaths.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::exception;

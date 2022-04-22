@@ -18,15 +18,17 @@
 
 */
 
+
 #include "video_view.h"
 #include "lib/position.h"
-#include "lib/warnings.h"
 #include <dcp/types.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 class FilmViewer;
+
 
 class SimpleVideoView : public VideoView
 {

@@ -19,14 +19,14 @@
 */
 
 #include "kdm_timing_panel.h"
-#include "wx_util.h"
-#include "time_picker.h"
 #include "static_text.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include "time_picker.h"
+#include "wx_util.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 using std::cout;
 using boost::bind;

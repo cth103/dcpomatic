@@ -18,15 +18,15 @@
 
 */
 
+
 #include "video_waveform_dialog.h"
 #include "video_waveform_plot.h"
 #include "film_viewer.h"
 #include "wx_util.h"
 #include "static_text.h"
 #include <boost/bind/bind.hpp>
-#include <iostream>
 
-using std::cout;
+
 using boost::bind;
 using std::weak_ptr;
 using std::shared_ptr;

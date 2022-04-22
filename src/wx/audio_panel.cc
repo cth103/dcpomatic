@@ -36,14 +36,12 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/job_manager.h"
 #include "lib/maths_util.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <iostream>
+LIBDCP_ENABLE_WARNINGS
 
 
-using std::cout;
 using std::dynamic_pointer_cast;
 using std::list;
 using std::make_shared;

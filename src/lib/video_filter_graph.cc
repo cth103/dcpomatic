@@ -22,7 +22,6 @@
 #include "compose.hpp"
 #include "image.h"
 #include "video_filter_graph.h"
-#include "warnings.h"
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>

@@ -18,10 +18,12 @@
 
 */
 
+
 #include "config_move_dialog.h"
-#include "wx_util.h"
 #include "static_text.h"
+#include "wx_util.h"
 #include <boost/filesystem.hpp>
+
 
 ConfigMoveDialog::ConfigMoveDialog (wxWindow* parent, boost::filesystem::path new_file)
 	: QuestionDialog (

@@ -18,17 +18,20 @@
 
 */
 
-#include "kdm_cpl_panel.h"
-#include "wx_util.h"
-#include "static_text.h"
+
 #include "dcpomatic_button.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include "kdm_cpl_panel.h"
+#include "static_text.h"
+#include "wx_util.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
 
+
 using std::vector;
+
 
 KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	: wxPanel (parent, wxID_ANY)

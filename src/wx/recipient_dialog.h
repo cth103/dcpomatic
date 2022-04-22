@@ -23,11 +23,11 @@
 #include "email_dialog.h"
 #include "wx_util.h"
 #include "lib/screen.h"
-#include "lib/warnings.h"
 #include <dcp/certificate.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/optional.hpp>
 
 

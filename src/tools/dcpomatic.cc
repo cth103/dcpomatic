@@ -88,17 +88,17 @@
 #include "lib/util.h"
 #include "lib/version.h"
 #include "lib/video_content.h"
-#include "lib/warnings.h"
 #include <dcp/exceptions.h>
 #include <dcp/raw_convert.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/cmdline.h>
 #include <wx/generic/aboutdlgg.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/stdpaths.h>
 #include <wx/wxhtml.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #ifdef __WXGTK__
 #include <X11/Xlib.h>
 #endif

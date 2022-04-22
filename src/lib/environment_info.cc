@@ -23,10 +23,10 @@
 #include "cross.h"
 #include "log.h"
 #include "version.h"
-#include "warnings.h"
 #include <dcp/version.h>
+#include <dcp/warnings.h>
 #include <libssh/libssh.h>
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -34,7 +34,7 @@ extern "C" {
 #include <libswscale/swscale.h>
 #include <libavutil/pixfmt.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
 #include "i18n.h"

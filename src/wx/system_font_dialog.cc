@@ -21,15 +21,13 @@
 
 #include "system_font_dialog.h"
 #include "wx_util.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
-#include <iostream>
 
 
-using std::cout;
 using std::string;
 using boost::optional;
 

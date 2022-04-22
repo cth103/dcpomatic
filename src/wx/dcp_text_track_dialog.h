@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_DCP_TEXT_TRACK_DIALOG_H
 #define DCPOMATIC_DCP_TEXT_TRACK_DIALOG_H
+
 
 #include "table_dialog.h"
 #include "wx_util.h"

@@ -18,7 +18,9 @@
 
 */
 
+
 #include "table_dialog.h"
+
 
 class NewDKDMFolderDialog : public TableDialog
 {

@@ -34,19 +34,18 @@
 #include "lib/log.h"
 #include "lib/ratio.h"
 #include "lib/util.h"
-#include "lib/warnings.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
 #include <dcp/locale_convert.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/spinctrl.h>
 #include <wx/stdpaths.h>
 #include <RtAudio.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
-#include <iostream>
 
 
 class AudioMappingView;

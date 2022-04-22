@@ -29,10 +29,8 @@
 #include <dcp/raw_convert.h>
 #include <curl/curl.h>
 #include <zip.h>
-#include <iostream>
 
 
-using std::cout;
 using std::function;
 using std::list;
 using std::string;

@@ -26,8 +26,8 @@
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_subtitle_stream.h"
 #include "util.h"
-#include "warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -37,7 +37,7 @@ extern "C" {
 #include <libavutil/display.h>
 #include <libavutil/eval.h>
 }
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <iostream>
 
 #include "i18n.h"

@@ -20,11 +20,11 @@
 
 
 #include "atmos_content.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::make_shared;

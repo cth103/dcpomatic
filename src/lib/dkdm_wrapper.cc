@@ -22,10 +22,10 @@
 #include "compose.hpp"
 #include "dkdm_wrapper.h"
 #include "dcpomatic_assert.h"
-#include "warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::string;

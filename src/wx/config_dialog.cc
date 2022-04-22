@@ -25,21 +25,22 @@
 #include "dcpomatic_button.h"
 #include "audio_mapping_view.h"
 #include <dcp/raw_convert.h>
-#include <iostream>
 
+
+using std::function;
+using std::make_pair;
+using std::make_shared;
+using std::map;
+using std::pair;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::pair;
-using std::make_pair;
-using std::map;
-using std::make_shared;
 using boost::bind;
 using boost::optional;
-using std::shared_ptr;
-using std::function;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 static
 bool

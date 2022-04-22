@@ -25,7 +25,6 @@
 #include "dcpomatic_log.h"
 #include "config.h"
 #include "exceptions.h"
-#include "warnings.h"
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
@@ -527,9 +526,9 @@ void
 make_foreground_application ()
 {
 	ProcessSerialNumber serial;
-DCPOMATIC_DISABLE_WARNINGS
+LIBDCP_DISABLE_WARNINGS
 	GetCurrentProcess (&serial);
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 	TransformProcessType (&serial, kProcessTransformToForegroundApplication);
 }
 

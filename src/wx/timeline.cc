@@ -38,10 +38,10 @@
 #include "lib/text_content.h"
 #include "lib/timer.h"
 #include "lib/video_content.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
-DCPOMATIC_ENABLE_WARNINGS
+LIBDCP_ENABLE_WARNINGS
 #include <iterator>
 #include <list>
 

@@ -23,12 +23,12 @@
 #include "language_tag_dialog.h"
 #include "wx_util.h"
 #include "lib/config.h"
-#include "lib/warnings.h"
-DCPOMATIC_DISABLE_WARNINGS
+#include <dcp/language_tag.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/wx.h>
-DCPOMATIC_ENABLE_WARNINGS
-#include <dcp/language_tag.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::vector;

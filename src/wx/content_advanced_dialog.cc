@@ -31,12 +31,13 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/image_content.h"
 #include "lib/video_content.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
-DCPOMATIC_DISABLE_WARNINGS
-#include <wx/wx.h>
 #include <wx/propgrid/property.h>
 #include <wx/propgrid/props.h>
-DCPOMATIC_ENABLE_WARNINGS
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 

@@ -18,10 +18,13 @@
 
 */
 
+
 #include <boost/signals2.hpp>
+
 
 class wxTextCtrl;
 class wxFocusEvent;
+
 
 /** @class FocusManager class
  *  @brief A central point for notifications about when wxTextCtrls get focus in the main window.
