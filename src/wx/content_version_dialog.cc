@@ -24,6 +24,7 @@
 
 
 using std::string;
+using boost::optional;
 
 
 ContentVersionDialog::ContentVersionDialog (wxWindow* parent)
@@ -46,7 +47,7 @@ ContentVersionDialog::set (string r)
 }
 
 
-string
+optional<string>
 ContentVersionDialog::get () const
 {
 	return wx_to_std(_version->GetValue());

@@ -65,7 +65,7 @@ public:
 
 	}
 
-	boost::filesystem::path get () const
+	optional<boost::filesystem::path> get () const
 	{
 		return boost::filesystem::path(wx_to_std(GetPath()));
 	}

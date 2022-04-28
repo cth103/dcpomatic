@@ -92,7 +92,7 @@ RatingDialog::set (dcp::Rating rating)
 }
 
 
-dcp::Rating
+optional<dcp::Rating>
 RatingDialog::get () const
 {
 	return _active_page->get();

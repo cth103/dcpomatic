@@ -210,7 +210,8 @@ private:
 		S* dialog = new S (this);
 
 		if (dialog->ShowModal() == wxID_OK) {
-			boost::optional<T> const v = dialog->get ();
+			auto const v = dialog->get ();
+			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
 			if (v) {
 				add_to_control (v.get ());
 				std::vector<T> all = _get ();
@@ -235,7 +236,8 @@ private:
 		S* dialog = new S (this);
 		dialog->set (all[item]);
 		if (dialog->ShowModal() == wxID_OK) {
-			boost::optional<T> const v = dialog->get ();
+			auto const v = dialog->get ();
+			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
 			if (!v) {
 				return;
 			}
