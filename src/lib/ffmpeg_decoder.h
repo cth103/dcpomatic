@@ -24,6 +24,7 @@
  */
 
 
+#include "bitmap_text.h"
 #include "decoder.h"
 #include "ffmpeg.h"
 #include "util.h"
@@ -72,7 +73,7 @@ private:
 	void decode_and_process_audio_packet (AVPacket* packet);
 	void decode_and_process_subtitle_packet (AVPacket* packet);
 
-	void process_bitmap_subtitle (AVSubtitleRect const * rect, dcpomatic::ContentTime from);
+	BitmapText process_bitmap_subtitle (AVSubtitleRect const * rect);
 	void process_ass_subtitle (std::string ass, dcpomatic::ContentTime from);
 
 	void maybe_add_subtitle ();

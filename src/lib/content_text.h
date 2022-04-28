@@ -45,9 +45,14 @@ private:
 	dcpomatic::ContentTime _from;
 };
 
+
 class ContentBitmapText : public ContentText
 {
 public:
+	ContentBitmapText (dcpomatic::ContentTime from)
+		: ContentText(from)
+	{}
+
 	ContentBitmapText (dcpomatic::ContentTime f, std::shared_ptr<const Image> im, dcpomatic::Rect<double> r)
 		: ContentText (f)
 		, subs{ {im, r} }
@@ -56,6 +61,7 @@ public:
 	/* Our texts, with their rectangles unmodified by any offsets or scales that the content specifies */
 	std::vector<BitmapText> subs;
 };
+
 
 /** A text caption.  We store the time period separately (as well as in the dcp::SubtitleStrings)
  *  as the dcp::SubtitleString timings are sometimes quite heavily quantised and this causes problems

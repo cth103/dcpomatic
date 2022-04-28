@@ -644,6 +644,7 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 		_have_current_subtitle = true;
 	}
 
+	ContentBitmapText bitmap_text(from);
 	for (unsigned int i = 0; i < sub.num_rects; ++i) {
 		auto const rect = sub.rects[i];
 
@@ -651,7 +652,7 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 		case SUBTITLE_NONE:
 			break;
 		case SUBTITLE_BITMAP:
-			process_bitmap_subtitle (rect, from);
+			bitmap_text.subs.push_back(process_bitmap_subtitle(rect));
 			break;
 		case SUBTITLE_TEXT:
 			cout << "XXX: SUBTITLE_TEXT " << rect->text << "\n";
@@ -662,6 +663,10 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 		}
 	}
 
+	if (!bitmap_text.subs.empty()) {
+		only_text()->emit_bitmap_start(bitmap_text);
+	}
+
 	if (_current_subtitle_to) {
 		only_text()->emit_stop (*_current_subtitle_to);
 	}
@@ -670,8 +675,8 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 }
 
 
-void
-FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime from)
+BitmapText
+FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
 {
 	/* Note BGRA is expressed little-endian, so the first byte in the word is B, second
 	   G, third R, fourth A.
@@ -754,7 +759,7 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime
 		static_cast<double>(rect->h) / target_height
 		);
 
-	only_text()->emit_bitmap_start ({ from, image, scaled_rect });
+	return { image, scaled_rect };
 }
 
 
