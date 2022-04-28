@@ -50,11 +50,11 @@ class ContentBitmapText : public ContentText
 public:
 	ContentBitmapText (dcpomatic::ContentTime f, std::shared_ptr<const Image> im, dcpomatic::Rect<double> r)
 		: ContentText (f)
-		, sub (im, r)
+		, subs{ {im, r} }
 	{}
 
-	/* Our text, with its rectangle unmodified by any offsets or scales that the content specifies */
-	BitmapText sub;
+	/* Our texts, with their rectangles unmodified by any offsets or scales that the content specifies */
+	std::vector<BitmapText> subs;
 };
 
 /** A text caption.  We store the time period separately (as well as in the dcp::SubtitleStrings)

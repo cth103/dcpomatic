@@ -1104,32 +1104,35 @@ Player::bitmap_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextConten
 		return;
 	}
 
-	/* Apply content's subtitle offsets */
-	subtitle.sub.rectangle.x += content->x_offset ();
-	subtitle.sub.rectangle.y += content->y_offset ();
-
-	/* Apply a corrective translation to keep the subtitle centred after the scale that is coming up */
-	subtitle.sub.rectangle.x -= subtitle.sub.rectangle.width * ((content->x_scale() - 1) / 2);
-	subtitle.sub.rectangle.y -= subtitle.sub.rectangle.height * ((content->y_scale() - 1) / 2);
-
-	/* Apply content's subtitle scale */
-	subtitle.sub.rectangle.width *= content->x_scale ();
-	subtitle.sub.rectangle.height *= content->y_scale ();
-
 	PlayerText ps;
-	auto image = subtitle.sub.image;
+	for (auto& sub: subtitle.subs)
+	{
+		/* Apply content's subtitle offsets */
+		sub.rectangle.x += content->x_offset ();
+		sub.rectangle.y += content->y_offset ();
 
-	/* We will scale the subtitle up to fit _video_container_size */
-	int const width = subtitle.sub.rectangle.width * _video_container_size.width;
-	int const height = subtitle.sub.rectangle.height * _video_container_size.height;
-	if (width == 0 || height == 0) {
-		return;
+		/* Apply a corrective translation to keep the subtitle centred after the scale that is coming up */
+		sub.rectangle.x -= sub.rectangle.width * ((content->x_scale() - 1) / 2);
+		sub.rectangle.y -= sub.rectangle.height * ((content->y_scale() - 1) / 2);
+
+		/* Apply content's subtitle scale */
+		sub.rectangle.width *= content->x_scale ();
+		sub.rectangle.height *= content->y_scale ();
+
+		auto image = sub.image;
+
+		/* We will scale the subtitle up to fit _video_container_size */
+		int const width = sub.rectangle.width * _video_container_size.width;
+		int const height = sub.rectangle.height * _video_container_size.height;
+		if (width == 0 || height == 0) {
+			return;
+		}
+
+		dcp::Size scaled_size (width, height);
+		ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUVToRGB::REC601, image->pixel_format(), Image::Alignment::PADDED, _fast), sub.rectangle));
 	}
 
-	dcp::Size scaled_size (width, height);
-	ps.bitmap.push_back (BitmapText(image->scale(scaled_size, dcp::YUVToRGB::REC601, image->pixel_format(), Image::Alignment::PADDED, _fast), subtitle.sub.rectangle));
-	DCPTime from (content_time_to_dcp (piece, subtitle.from()));
-
+	DCPTime from(content_time_to_dcp(piece, subtitle.from()));
 	_active_texts[static_cast<int>(content->type())].add_from(weak_content, ps, from);
 }
 
