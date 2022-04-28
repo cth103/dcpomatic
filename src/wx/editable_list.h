@@ -96,9 +96,9 @@ public:
 		/* With the GTK3 backend wxListCtrls are hard to pick out from the background of the
 		 * window, so put a border in to help.
 		 */
-		wxPanel* border = new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_THEME);
+		auto border = new wxPanel (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL | wxBORDER_THEME);
 		_list = new wxListCtrl (border, wxID_ANY, wxDefaultPosition, wxSize(total_width, 100), style);
-		wxBoxSizer* border_sizer = new wxBoxSizer (wxHORIZONTAL);
+		auto border_sizer = new wxBoxSizer (wxHORIZONTAL);
 		border_sizer->Add (_list, 1, wxALL | wxEXPAND, 2);
 		border->SetSizer (border_sizer);
 #else
@@ -155,9 +155,9 @@ public:
 	{
 		_list->DeleteAllItems ();
 
-		std::vector<T> current = _get ();
-		for (typename std::vector<T>::iterator i = current.begin (); i != current.end(); ++i) {
-			add_to_control (*i);
+		auto current = _get ();
+		for (auto const& i: current) {
+			add_to_control (i);
 		}
 	}
 
@@ -165,10 +165,10 @@ public:
 	{
 		int item = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		if (item == -1) {
-			return boost::optional<T> ();
+			return {};
 		}
 
-		std::vector<T> all = _get ();
+		auto all = _get ();
 		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 		return all[item];
 	}
@@ -214,7 +214,7 @@ private:
 			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
 			if (v) {
 				add_to_control (v.get ());
-				std::vector<T> all = _get ();
+				auto all = _get ();
 				all.push_back (v.get ());
 				_set (all);
 			}
@@ -261,7 +261,7 @@ private:
 		}
 
 		_list->DeleteItem (i);
-		std::vector<T> all = _get ();
+		auto all = _get ();
 		all.erase (all.begin() + i);
 		_set (all);
 
