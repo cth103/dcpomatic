@@ -52,6 +52,15 @@ public:
 	bool growable;
 };
 
+
+namespace EditableListButton
+{
+	static int constexpr NEW = 0x1;
+	static int constexpr EDIT = 0x2;
+	static int constexpr REMOVE = 0x4;
+};
+
+
 /** @param T type of things being edited.
  *  @param S dialog to edit a thing.
  *  @param get Function to get a std::vector of the things being edited.
@@ -68,15 +77,14 @@ public:
 		std::function<std::vector<T> ()> get,
 		std::function<void (std::vector<T>)> set,
 		std::function<std::string (T, int)> column,
-		bool can_edit = true,
-		bool title = true
+		bool title,
+		int buttons
 		)
 		: wxPanel (parent)
 		, _get (get)
 		, _set (set)
 		, _columns (columns)
 		, _column (column)
-		, _edit (0)
 		, _default_width (200)
 	{
 		_sizer = new wxBoxSizer (wxHORIZONTAL);
@@ -121,23 +129,31 @@ public:
 #endif
 
 		{
-			wxSizer* s = new wxBoxSizer (wxVERTICAL);
-			_add = new Button (this, _("Add..."));
-			s->Add (_add, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-			if (can_edit) {
+			auto s = new wxBoxSizer (wxVERTICAL);
+			if (buttons & EditableListButton::NEW) {
+				_add = new Button (this, _("Add..."));
+				s->Add (_add, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+			}
+			if (buttons & EditableListButton::EDIT) {
 				_edit = new Button (this, _("Edit..."));
 				s->Add (_edit, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 			}
-			_remove = new Button (this, _("Remove"));
-			s->Add (_remove, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+			if (buttons & EditableListButton::REMOVE) {
+				_remove = new Button (this, _("Remove"));
+				s->Add (_remove, 1, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+			}
 			_sizer->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		}
 
-		_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
+		if (_add) {
+			_add->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::add_clicked, this));
+		}
 		if (_edit) {
 			_edit->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::edit_clicked, this));
 		}
-		_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::remove_clicked, this));
+		if (_remove) {
+			_remove->Bind (wxEVT_COMMAND_BUTTON_CLICKED, boost::bind (&EditableList::remove_clicked, this));
+		}
 
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, boost::bind (&EditableList::selection_changed, this));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, boost::bind (&EditableList::selection_changed, this));
@@ -200,7 +216,9 @@ private:
 		if (_edit) {
 			_edit->Enable (i >= 0);
 		}
-		_remove->Enable (i >= 0);
+		if (_remove) {
+			_remove->Enable (i >= 0);
+		}
 
 		SelectionChanged ();
 	}
@@ -301,9 +319,9 @@ private:
 	std::vector<EditableListColumn> _columns;
 	std::function<std::string (T, int)> _column;
 
-	wxButton* _add;
-	wxButton* _edit;
-	wxButton* _remove;
+	wxButton* _add = nullptr;
+	wxButton* _edit = nullptr;
+	wxButton* _remove = nullptr;
 	wxListCtrl* _list;
 	wxBoxSizer* _sizer;
 	int _default_width;

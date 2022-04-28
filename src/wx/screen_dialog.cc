@@ -178,6 +178,7 @@ ScreenDialog::ScreenDialog (
 		[] (TrustedDevice const& d, int) {
 			return d.thumbprint();
 		},
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE,
 		false
 		);
 

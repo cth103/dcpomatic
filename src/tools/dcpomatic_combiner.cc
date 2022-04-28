@@ -100,8 +100,8 @@ public:
 			boost::bind(&DOMFrame::inputs, this),
 			boost::bind(&DOMFrame::set_inputs, this, _1),
 			&display_string,
-			false,
-			true
+			true,
+			EditableListButton::NEW | EditableListButton::REMOVE
 			);
 
 		auto output = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);

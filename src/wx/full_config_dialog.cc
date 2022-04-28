@@ -573,7 +573,9 @@ private:
 			columns,
 			boost::bind (&Config::servers, Config::instance()),
 			boost::bind (&Config::set_servers, Config::instance(), _1),
-			boost::bind (&EncodingServersPage::server_column, this, _1)
+			boost::bind (&EncodingServersPage::server_column, this, _1),
+			false,
+			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 			);
 
 		_panel->GetSizer()->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
@@ -929,7 +931,10 @@ private:
 			bind (&Config::set_kdm_cc, Config::instance(), _1),
 			[] (string s, int) {
 				return s;
-			});
+			},
+			true,
+			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
+			);
 		table->Add (_cc, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
@@ -1063,7 +1068,10 @@ private:
 			bind (&Config::set_notification_cc, Config::instance(), _1),
 			[] (string s, int) {
 				return s;
-			});
+			},
+			true,
+			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
+			);
 		table->Add (_cc, 1, wxEXPAND | wxALL);
 
 		add_label_to_sizer (table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);

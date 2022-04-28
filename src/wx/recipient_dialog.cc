@@ -90,7 +90,8 @@ RecipientDialog::RecipientDialog (
 	vector<EditableListColumn> columns;
 	columns.push_back (EditableListColumn(_("Address")));
 	_email_list = new EditableList<string, EmailDialog> (
-		this, columns, bind(&RecipientDialog::get_emails, this), bind(&RecipientDialog::set_emails, this, _1), bind(&column, _1)
+		this, columns, bind(&RecipientDialog::get_emails, this), bind(&RecipientDialog::set_emails, this, _1), bind(&column, _1),
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE, true
 		);
 
 	_sizer->Add (_email_list, wxGBPosition (r, 0), wxGBSpan (1, 2), wxEXPAND);
