@@ -754,7 +754,7 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect, ContentTime
 		static_cast<double>(rect->h) / target_height
 		);
 
-	only_text()->emit_bitmap_start (from, image, scaled_rect);
+	only_text()->emit_bitmap_start ({ from, image, scaled_rect });
 }
 
 

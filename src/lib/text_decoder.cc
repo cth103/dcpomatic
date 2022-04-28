@@ -60,10 +60,10 @@ TextDecoder::TextDecoder (
  *  of the video frame)
  */
 void
-TextDecoder::emit_bitmap_start (ContentTime from, shared_ptr<const Image> image, dcpomatic::Rect<double> rect)
+TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 {
-	BitmapStart (ContentBitmapText (from, image, rect));
-	_position = from;
+	BitmapStart (bitmap);
+	_position = bitmap.from();
 }
 
 
@@ -288,7 +288,7 @@ TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const & s)
 void
 TextDecoder::emit_bitmap (ContentTimePeriod period, shared_ptr<const Image> image, dcpomatic::Rect<double> rect)
 {
-	emit_bitmap_start (period.from, image, rect);
+	emit_bitmap_start ({ period.from, image, rect });
 	emit_stop (period.to);
 }
 
