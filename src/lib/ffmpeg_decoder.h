@@ -18,25 +18,29 @@
 
 */
 
+
 /** @file  src/ffmpeg_decoder.h
  *  @brief A decoder using FFmpeg to decode content.
  */
 
-#include "util.h"
+
 #include "decoder.h"
 #include "ffmpeg.h"
+#include "util.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 }
 #include <boost/thread/mutex.hpp>
 #include <stdint.h>
 
+
+class AudioBuffers;
+class FFmpegAudioStream;
+class Image;
 class Log;
 class VideoFilterGraph;
-class FFmpegAudioStream;
-class AudioBuffers;
-class Image;
 struct ffmpeg_pts_offset_test;
+
 
 /** @class FFmpegDecoder
  *  @brief A decoder using FFmpeg to decode content.
