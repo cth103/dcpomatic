@@ -20,7 +20,10 @@
 
 
 #include <dcp/types.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <utility>
 #include <vector>
 
