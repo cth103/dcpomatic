@@ -23,8 +23,11 @@
 #include "markers.h"
 #include "markers_panel.h"
 #include "wx_util.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
 #include <wx/tipwin.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 #include <boost/version.hpp>
 
