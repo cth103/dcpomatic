@@ -1,7 +1,7 @@
 def desktop(bld, suffix):
     obj = bld(features='subst')
-    obj.source = f'dcpomatic{suffix}.desktop.in'
-    obj.target = 'dcpomatic2{suffix}.desktop'
+    obj.source = 'dcpomatic' + suffix + '.desktop.in'
+    obj.target = 'dcpomatic2' + suffix + '.desktop'
     obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
     obj.VERSION = bld.env.VERSION
     return obj.target
