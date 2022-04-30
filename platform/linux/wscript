@@ -1,62 +1,25 @@
+def desktop(bld, suffix):
+    obj = bld(features='subst')
+    obj.source = f'dcpomatic{suffix}.desktop.in'
+    obj.target = 'dcpomatic2{suffix}.desktop'
+    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
+    obj.VERSION = bld.env.VERSION
+    return obj.target
+
 def build(bld):
-    desktops = []
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic.desktop.in'
-    obj.target = 'dcpomatic2.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic_batch.desktop.in'
-    obj.target = 'dcpomatic2_batch.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic_server.desktop.in'
-    obj.target = 'dcpomatic2_server.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic_kdm.desktop.in'
-    obj.target = 'dcpomatic2_kdm.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
+    desktops = [
+            desktop(bld, ''),
+            desktop(bld, '_batch'),
+            desktop(bld, '_server'),
+            desktop(bld, '_kdm'),
+            desktop(bld, '_player'),
+            desktop(bld, '_playlist'),
+            desktop(bld, '_combiner'),
+            desktop(bld, '_editor'),
+        ]
 
     if bld.env.ENABLE_DISK:
-        obj = bld(features='subst')
-        obj.source = 'dcpomatic_disk.desktop.in'
-        obj.target = 'dcpomatic2_disk.desktop'
-        obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-        obj.VERSION = bld.env.VERSION
-        desktops.append(obj.target)
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic_player.desktop.in'
-    obj.target = 'dcpomatic2_player.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic_playlist.desktop.in'
-    obj.target = 'dcpomatic2_playlist.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
-
-    obj = bld(features='subst')
-    obj.source = 'dcpomatic_combiner.desktop.in'
-    obj.target = 'dcpomatic2_combiner.desktop'
-    obj.INSTALL_PREFIX = bld.env.INSTALL_PREFIX
-    obj.VERSION = bld.env.VERSION
-    desktops.append(obj.target)
+        desktops.append(desktop(bld, '_disk'))
 
     if not bld.env.DISABLE_GUI:
         bld.install_as('${PREFIX}/share/polkit-1/actions/com.dcpomatic.write-drive.policy', 'com.dcpomatic.write-drive.policy')

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec=@INSTALL_PREFIX@/bin/dcpomatic2_editor
+Name=DCP-o-matic 2 Editor
+Icon=dcpomatic2_editor
+Comment=DCP editor
+Categories=AudioVideo;Video

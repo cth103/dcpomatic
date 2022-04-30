@@ -325,6 +325,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_batch', file=f)
     print('%{_bindir}/dcpomatic2_cli', file=f)
     print('%{_bindir}/dcpomatic2_create', file=f)
+    print('%{_bindir}/dcpomatic2_editor', file=f)
     print('%{_bindir}/dcpomatic2_kdm', file=f)
     print('%{_bindir}/dcpomatic2_server', file=f)
     print('%{_bindir}/dcpomatic2_server_cli', file=f)
@@ -339,6 +340,7 @@ def make_spec(filename, version, target, options, requires=None):
         print('%caps(cap_dac_override=ep) %{_bindir}/dcpomatic2_disk_writer', file=f)
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_editor.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_kdm.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_player.desktop', file=f)
@@ -363,6 +365,7 @@ def make_spec(filename, version, target, options, requires=None):
     for r in ['128x128', '16x16', '22x22', '256x256', '32x32', '48x48', '512x512', '64x64']:
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_batch.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_editor.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_player.png' % r, file=f)
@@ -752,6 +755,7 @@ def package(target, version, options):
             out.append(make_appimage(target, 'DCP-o-matic Batch Converter', 'dcpomatic2_batch', version))
             out.append(make_appimage(target, 'DCP-o-matic Encode Server', 'dcpomatic2_server', version))
             out.append(make_appimage(target, 'DCP-o-matic Combiner', 'dcpomatic2_combiner', version))
+            out.append(make_appimage(target, 'DCP-o-matic Editor', 'dcpomatic2_editor', version))
             return out
         else:
             if target.bits == 32:
@@ -783,6 +787,8 @@ def package(target, version, options):
                 packages.append((a, "com.dcpomatic.disk"))
             elif x.find("Combiner") != -1:
                 packages.append((a, "com.dcpomatic.combiner"))
+            elif x.find("Editor") != -1:
+                packages.append((a, "com.dcpomatic.editor"))
             else:
                 packages.append((a, "com.dcpomatic"))
         return packages
