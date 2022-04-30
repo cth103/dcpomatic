@@ -126,12 +126,9 @@ def configure(conf):
         if int(gcc[0]) >= 8:
             # I tried and failed to ignore these with _Pragma
             conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
-        have_c11 = int(gcc[0]) >= 4 and int(gcc[1]) >= 8 and int(gcc[2]) >= 1
         # Most gccs still give these warnings from boost::optional
         conf.env.append_value('CXXFLAGS', ['-Wno-maybe-uninitialized'])
         conf.env.append_value('CXXFLAGS', ['-Wsuggest-override'])
-    else:
-        have_c11 = False
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
