@@ -159,7 +159,7 @@ Timeline::paint_labels ()
 	_labels_canvas->GetViewStart (&vsx, &vsy);
 	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate + tracks_y_offset());
 
-	_labels_view->paint (gc, list<dcpomatic::Rect<int> >());
+	_labels_view->paint (gc, {});
 
 	delete gc;
 }
