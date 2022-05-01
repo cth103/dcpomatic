@@ -602,13 +602,13 @@ ContentMenu::auto_crop ()
 
 	/* Handle the user closing the dialog (with OK or cancel) */
 	_auto_crop_dialog->Bind (wxEVT_BUTTON, [this, viewer](wxCommandEvent& ev) {
+		_auto_crop_config_connection.disconnect ();
+		_auto_crop_viewer_connection.disconnect ();
 		if (ev.GetId() == wxID_OK) {
 			_content.front()->video->set_crop(_auto_crop_dialog->get());
 		}
 		_auto_crop_dialog->Show (false);
 		viewer->unset_crop_guess ();
-		_auto_crop_config_connection.disconnect ();
-		_auto_crop_viewer_connection.disconnect ();
 	});
 
 	/* Update the view when something in the dialog is changed */
