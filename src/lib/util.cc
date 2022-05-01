@@ -34,6 +34,7 @@
 #include "cross.h"
 #include "crypto.h"
 #include "dcp_content_type.h"
+#include "dcpomatic_log.h"
 #include "digester.h"
 #include "exceptions.h"
 #include "ffmpeg_image_proxy.h"
@@ -424,6 +425,8 @@ LIBDCP_ENABLE_WARNINGS
 	curl_global_init (CURL_GLOBAL_ALL);
 
 	ui_thread = boost::this_thread::get_id ();
+
+	capture_asdcp_logs ();
 }
 
 #ifdef DCPOMATIC_WINDOWS
@@ -1147,4 +1150,31 @@ start_of_thread (string)
 
 }
 #endif
+
+
+class LogSink : public Kumu::ILogSink
+{
+public:
+	LogSink () {}
+	LogSink (LogSink const&) = delete;
+	LogSink& operator= (LogSink const&) = delete;
+
+	void WriteEntry(const Kumu::LogEntry& entry) override {
+		Kumu::AutoMutex L(m_lock);
+		WriteEntryToListeners(entry);
+		if (entry.TestFilter(m_filter)) {
+			string buffer;
+			entry.CreateStringWithOptions(buffer, m_options);
+			LOG_GENERAL("asdcplib: %1", buffer);
+		}
+	}
+};
+
+
+void
+capture_asdcp_logs ()
+{
+	static LogSink log_sink;
+	Kumu::SetDefaultLogSink(&log_sink);
+}
 
