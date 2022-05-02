@@ -937,3 +937,17 @@ ConfigRestorer::~ConfigRestorer()
 	setup_test_config();
 }
 
+
+boost::filesystem::path
+find_file (boost::filesystem::path dir, string filename_part)
+{
+	boost::optional<boost::filesystem::path> found;
+	for (auto i: boost::filesystem::directory_iterator(dir)) {
+		if (i.path().filename().string().find(filename_part) != string::npos) {
+			BOOST_REQUIRE (!found);
+			found = i;
+		}
+	}
+	BOOST_REQUIRE (found);
+	return *found;
+}
