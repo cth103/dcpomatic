@@ -72,9 +72,12 @@ SimpleVideoView::paint ()
 	dc.SetLogicalScale (scale, scale);
 
 	auto const panel_size = _panel->GetSize ();
+	auto pad = pad_colour();
 
 	dcp::Size out_size;
 	if (!_image) {
+		wxBrush b (pad);
+		dc.SetBackground (b);
 		dc.Clear ();
 	} else {
 		DCPOMATIC_ASSERT (_image->alignment() == Image::Alignment::COMPACT);
@@ -83,8 +86,6 @@ SimpleVideoView::paint ()
 		wxBitmap frame_bitmap (frame);
 		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
 	}
-
-	auto pad = pad_colour();
 
 	if (out_size.width < panel_size.GetWidth()) {
 		wxPen   p (pad);
