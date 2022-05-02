@@ -343,6 +343,14 @@ private:
 		_kdm_type = new KDMChoice (_panel);
 		table->Add (_kdm_type, 1, wxEXPAND);
 
+		add_label_to_sizer (table, _panel, _("Default KDM duration"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+		_kdm_duration = new wxSpinCtrl (_panel);
+		_kdm_duration_unit = new wxChoice (_panel, wxID_ANY);
+		auto kdm_duration_sizer = new wxBoxSizer (wxHORIZONTAL);
+		kdm_duration_sizer->Add (_kdm_duration, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		kdm_duration_sizer->Add (_kdm_duration_unit, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		table->Add (kdm_duration_sizer, 1, wxEXPAND);
+
 		table->Add (_use_isdcf_name_by_default = new CheckBox(_panel, _("Use ISDCF name by default")), 0, wxALIGN_CENTRE_VERTICAL);
 
 		_still_length->SetRange (1, 3600);
@@ -351,6 +359,13 @@ private:
 		_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::directory_changed, this));
 		_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, boost::bind (&DefaultsPage::kdm_directory_changed, this));
 		_kdm_type->Bind (wxEVT_CHOICE, boost::bind(&DefaultsPage::kdm_type_changed, this));
+		_kdm_duration_unit->Append (_("days"));
+		_kdm_duration_unit->Append (_("weeks"));
+		_kdm_duration_unit->Append (_("months"));
+		_kdm_duration_unit->Append (_("years"));
+
+		_kdm_duration->Bind (wxEVT_SPINCTRL, boost::bind(&DefaultsPage::kdm_duration_changed, this));
+		_kdm_duration_unit->Bind (wxEVT_CHOICE, boost::bind(&DefaultsPage::kdm_duration_changed, this));
 
 		_use_isdcf_name_by_default->Bind (wxEVT_CHECKBOX, boost::bind(&DefaultsPage::use_isdcf_name_by_default_changed, this));
 
@@ -436,7 +451,49 @@ private:
 			}
 		}
 
+		checked_set (_kdm_duration, config->default_kdm_duration().duration);
+		switch (config->default_kdm_duration().unit) {
+			case RoughDuration::Unit::DAYS:
+				_kdm_duration->SetRange(1, 365);
+				checked_set (_kdm_duration_unit, 0);
+				break;
+			case RoughDuration::Unit::WEEKS:
+				_kdm_duration->SetRange(1, 52);
+				checked_set (_kdm_duration_unit, 1);
+				break;
+			case RoughDuration::Unit::MONTHS:
+				_kdm_duration->SetRange(1, 12);
+				checked_set (_kdm_duration_unit, 2);
+				break;
+			case RoughDuration::Unit::YEARS:
+				_kdm_duration->SetRange(1, 40);
+				checked_set (_kdm_duration_unit, 3);
+				break;
+		}
+
 		setup_sensitivity ();
+	}
+
+	void kdm_duration_changed ()
+	{
+		auto config = Config::instance();
+		auto duration = _kdm_duration->GetValue();
+		RoughDuration::Unit unit = RoughDuration::Unit::DAYS;
+		switch (_kdm_duration_unit->GetSelection()) {
+		case 0:
+			unit = RoughDuration::Unit::DAYS;
+			break;
+		case 1:
+			unit = RoughDuration::Unit::WEEKS;
+			break;
+		case 2:
+			unit = RoughDuration::Unit::MONTHS;
+			break;
+		case 3:
+			unit = RoughDuration::Unit::YEARS;
+			break;
+		}
+		config->set_default_kdm_duration (RoughDuration(duration, unit));
 	}
 
 	void j2k_bandwidth_changed ()
@@ -531,6 +588,8 @@ private:
 	wxDirPickerCtrl* _kdm_directory;
 #endif
 	KDMChoice* _kdm_type;
+	wxSpinCtrl* _kdm_duration;
+	wxChoice* _kdm_duration_unit;
 	wxCheckBox* _use_isdcf_name_by_default;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;

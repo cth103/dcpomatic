@@ -28,6 +28,7 @@
 
 
 #include "audio_mapping.h"
+#include "rough_duration.h"
 #include "state.h"
 #include "types.h"
 #include <dcp/name_format.h>
@@ -572,6 +573,10 @@ public:
 		return _default_kdm_type;
 	}
 
+	RoughDuration default_kdm_duration () const {
+		return _default_kdm_duration;
+	}
+
 	double auto_crop_threshold () const {
 		return _auto_crop_threshold;
 	}
@@ -1100,6 +1105,10 @@ public:
 		maybe_set (_default_kdm_type, type);
 	}
 
+	void set_default_kdm_duration (RoughDuration duration) {
+		maybe_set (_default_kdm_duration, duration);
+	}
+
 	void set_auto_crop_threshold (double threshold) {
 		maybe_set (_auto_crop_threshold, threshold, AUTO_CROP_THRESHOLD);
 	}
@@ -1324,6 +1333,7 @@ private:
 	bool _write_kdms_to_disk;
 	bool _email_kdms;
 	dcp::Formulation _default_kdm_type;
+	RoughDuration _default_kdm_duration;
 	double _auto_crop_threshold;
 
 	static int const _current_version;

@@ -177,6 +177,7 @@ sources = """
           transcode_job.cc
           trusted_device.cc
           types.cc
+          rough_duration.cc
           signal_manager.cc
           stdout_log.cc
           update_checker.cc

@@ -18,35 +18,39 @@
 
 */
 
+
 #include "kdm_timing_panel.h"
 #include "static_text.h"
 #include "time_picker.h"
 #include "wx_util.h"
+#include "lib/config.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 LIBDCP_ENABLE_WARNINGS
 
+
 using std::cout;
 using boost::bind;
+
 
 KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 {
-	wxBoxSizer* overall_sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 
 #ifdef __WXGTK3__
 	/* wxDatePickerCtrl is too small with the GTK3 backend so we need to make it bigger with some fudge factors */
 	wxClientDC dc (parent);
-	wxSize size = dc.GetTextExtent (wxT("99/99/9999"));
+	auto size = dc.GetTextExtent(wxT("99/99/9999"));
 	size.SetWidth (size.GetWidth() * 1.75);
 	size.SetHeight (-1);
 #else
-	wxSize size = wxDefaultSize;
+	auto size = wxDefaultSize;
 #endif
 
-	wxSizer* table = new wxBoxSizer (wxHORIZONTAL);
+	auto table = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (table, this, _("From"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	wxDateTime from;
 	from.SetToCurrent ();
@@ -67,9 +71,24 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	table->Add (_from_time, 0, wxALIGN_CENTER_VERTICAL);
 
 	add_label_to_sizer (table, this, _("until"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-	wxDateTime to = from;
-	/* 1 week from now */
-	to.Add (wxDateSpan (0, 0, 1, 0));
+	auto to = from;
+
+	auto const duration = Config::instance()->default_kdm_duration();
+	switch (duration.unit) {
+	case RoughDuration::Unit::DAYS:
+		to.Add(wxDateSpan(0, 0, 0, duration.duration));
+		break;
+	case RoughDuration::Unit::WEEKS:
+		to.Add(wxDateSpan(0, 0, duration.duration, 0));
+		break;
+	case RoughDuration::Unit::MONTHS:
+		to.Add(wxDateSpan(0, duration.duration, 0, 0));
+		break;
+	case RoughDuration::Unit::YEARS:
+		to.Add(wxDateSpan(duration.duration, 0, 0, 0));
+		break;
+	}
+
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to, wxDefaultPosition, size);
 #ifdef DCPOMATIC_OSX
 	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
@@ -110,21 +129,24 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	SetSizer (overall_sizer);
 }
 
+
 boost::posix_time::ptime
 KDMTimingPanel::from () const
 {
 	return posix_time (_from_date, _from_time);
 }
 
+
 boost::posix_time::ptime
 KDMTimingPanel::posix_time (wxDatePickerCtrl* date_picker, TimePicker* time_picker)
 {
-	wxDateTime const date = date_picker->GetValue ();
+	auto const date = date_picker->GetValue ();
 	return boost::posix_time::ptime (
 		boost::gregorian::date (date.GetYear(), date.GetMonth() + 1, date.GetDay()),
 		boost::posix_time::time_duration (time_picker->hours(), time_picker->minutes(), 0)
 		);
 }
+
 
 boost::posix_time::ptime
 KDMTimingPanel::until () const
@@ -132,11 +154,13 @@ KDMTimingPanel::until () const
 	return posix_time (_until_date, _until_time);
 }
 
+
 bool
 KDMTimingPanel::valid () const
 {
 	return until() > from();
 }
+
 
 void
 KDMTimingPanel::changed () const

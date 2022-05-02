@@ -78,6 +78,7 @@ boost::signals2::signal<bool (Config::BadReason)> Config::Bad;
 Config::Config ()
         /* DKDMs are not considered a thing to reset on set_defaults() */
 	: _dkdms (new DKDMGroup ("root"))
+	, _default_kdm_duration (1, RoughDuration::Unit::WEEKS)
 {
 	set_defaults ();
 }
@@ -188,6 +189,7 @@ Config::set_defaults ()
 	_write_kdms_to_disk = true;
 	_email_kdms = false;
 	_default_kdm_type = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
+	_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
 	_auto_crop_threshold = 0.1;
 
 	_allowed_dcp_frame_rates.clear ();
@@ -580,6 +582,11 @@ try
 	_write_kdms_to_disk = f.optional_bool_child("WriteKDMsToDisk").get_value_or(true);
 	_email_kdms = f.optional_bool_child("EmailKDMs").get_value_or(false);
 	_default_kdm_type = dcp::string_to_formulation(f.optional_string_child("DefaultKDMType").get_value_or("modified-transitional-1"));
+	if (auto duration = f.optional_node_child("DefaultKDMDuration")) {
+		_default_kdm_duration = RoughDuration(duration);
+	} else {
+		_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
+	}
 	_auto_crop_threshold = f.optional_number_child<double>("AutoCropThreshold").get_value_or(0.1);
 
 	if (boost::filesystem::exists (_cinemas_file)) {
@@ -725,6 +732,7 @@ Config::write_config () const
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
 		root->add_child("DefaultKDMDirectory")->add_child_text (_default_kdm_directory->string ());
 	}
+	_default_kdm_duration.as_xml(root->add_child("DefaultKDMDuration"));
 	/* [XML] MailServer Hostname of SMTP server to use. */
 	root->add_child("MailServer")->add_child_text (_mail_server);
 	/* [XML] MailPort Port number to use on SMTP server. */
