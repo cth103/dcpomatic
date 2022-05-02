@@ -137,8 +137,9 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_multiple_files_one_incorrect)
 	/* Corrupt one of the files in the moved content, so that it should not be found in the find_missing
 	 * step
 	 */
-	remove (moved / "cpl_80daeb7a-57d8-4a70-abeb-cd92ddac1527.xml");
-	copy ("test/data/scaling_test_133_185/ASSETMAP.xml", moved / "cpl_80daeb7a-57d8-4a70-abeb-cd92ddac1527.xml");
+	auto cpl = find_file(moved, "cpl_");
+	remove (cpl);
+	copy ("test/data/scaling_test_133_185/ASSETMAP.xml", cpl);
 
 	/* The film's contents should be invalid */
 	for (auto content: film->content()) {
