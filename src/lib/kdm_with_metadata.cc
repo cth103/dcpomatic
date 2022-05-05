@@ -38,6 +38,7 @@ using std::function;
 using std::list;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 
 
@@ -201,7 +202,8 @@ send_emails (
 	list<list<KDMWithMetadataPtr>> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	string cpl_name
+	string cpl_name,
+	vector<string> extra_addresses
 	)
 {
 	auto config = Config::instance ();
@@ -255,22 +257,38 @@ send_emails (
 
 		email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
 
+		auto log_details = [](Emailer& email) {
+			dcpomatic_log->log("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
+			dcpomatic_log->log(email.email(), LogEntry::TYPE_DEBUG_EMAIL);
+			dcpomatic_log->log("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
+			dcpomatic_log->log(email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
+		};
+
 		try {
 			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (...) {
 			boost::filesystem::remove (zip_file);
-			dcpomatic_log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
-			dcpomatic_log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
-			dcpomatic_log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
-			dcpomatic_log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
+			log_details (email);
 			throw;
 		}
 
-		boost::filesystem::remove (zip_file);
+		log_details (email);
 
-		dcpomatic_log->log ("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
-		dcpomatic_log->log (email.email(), LogEntry::TYPE_DEBUG_EMAIL);
-		dcpomatic_log->log ("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
-		dcpomatic_log->log (email.notes(), LogEntry::TYPE_DEBUG_EMAIL);
+		for (auto extra: extra_addresses) {
+			Emailer email (config->kdm_from(), { extra }, subject, body);
+			email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
+
+			try {
+				email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+			} catch (...) {
+				boost::filesystem::remove (zip_file);
+				log_details (email);
+				throw;
+			}
+
+			log_details (email);
+		}
+
+		boost::filesystem::remove (zip_file);
 	}
 }

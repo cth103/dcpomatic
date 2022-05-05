@@ -22,6 +22,7 @@
 #include "check_box.h"
 #include "confirm_kdm_email_dialog.h"
 #include "dcpomatic_button.h"
+#include "extra_kdm_email_dialog.h"
 #include "kdm_advanced_dialog.h"
 #include "kdm_choice.h"
 #include "kdm_output_panel.h"
@@ -50,6 +51,7 @@ using std::exception;
 using std::function;
 using std::list;
 using std::make_pair;
+using std::make_shared;
 using std::pair;
 using std::shared_ptr;
 using std::string;
@@ -135,7 +137,8 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 
 	_email = new CheckBox (this, _("Send by email"));
 	table->Add (_email, 1, wxEXPAND);
-	table->AddSpacer (0);
+	auto add_email_addresses = new wxButton(this, wxID_ANY, _("Set additional email addresses..."));
+	table->Add (add_email_addresses);
 
 	switch (Config::instance()->last_kdm_write_type().get_value_or(Config::KDM_WRITE_FLAT)) {
 	case Config::KDM_WRITE_FLAT:
@@ -154,6 +157,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 
 	_write_to->Bind     (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::write_to_changed, this));
 	_email->Bind        (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::email_changed, this));
+	add_email_addresses->Bind (wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
 	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
@@ -301,13 +305,12 @@ KDMOutputPanel::make (
 		}
 
 		if (_email->GetValue ()) {
-			job.reset (
-				new SendKDMEmailJob (
-					cinema_kdms,
-					_container_name_format->get(),
-					_filename_format->get(),
-					name
-					)
+			job = make_shared<SendKDMEmailJob>(
+				cinema_kdms,
+				_container_name_format->get(),
+				_filename_format->get(),
+				name,
+				_extra_addresses
 				);
 		}
 
@@ -335,3 +338,15 @@ KDMOutputPanel::directory () const
 {
 	return wx_to_std (_folder->GetPath ());
 }
+
+
+void
+KDMOutputPanel::add_email_addresses_clicked ()
+{
+	auto dialog = new ExtraKDMEmailDialog (this, _extra_addresses);
+	if (dialog->ShowModal() == wxID_OK) {
+		_extra_addresses = dialog->get();
+	}
+	dialog->Destroy();
+}
+

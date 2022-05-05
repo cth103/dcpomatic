@@ -67,6 +67,7 @@ private:
 	void advanced_clicked ();
 	void write_to_changed ();
 	void email_changed ();
+	void add_email_addresses_clicked ();
 
 	KDMChoice* _type;
 	NameFormatEditor* _container_name_format;
@@ -84,4 +85,5 @@ private:
 	bool _forensic_mark_video;
 	bool _forensic_mark_audio;
 	boost::optional<int> _forensic_mark_audio_up_to;
+	std::vector<std::string> _extra_addresses;
 };

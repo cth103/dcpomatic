@@ -19,18 +19,19 @@
 */
 
 
-#include "send_kdm_email_job.h"
 #include "compose.hpp"
-#include "kdm_with_metadata.h"
 #include "film.h"
+#include "kdm_with_metadata.h"
+#include "send_kdm_email_job.h"
 #include <list>
 
 #include "i18n.h"
 
 
-using std::string;
 using std::list;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 
 
@@ -38,12 +39,14 @@ SendKDMEmailJob::SendKDMEmailJob (
 	list<KDMWithMetadataPtr> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	string cpl_name
+	string cpl_name,
+	vector<string> extra_addresses
 	)
 	: Job (shared_ptr<Film>())
 	, _container_name_format (container_name_format)
 	, _filename_format (filename_format)
 	, _cpl_name (cpl_name)
+	, _extra_addresses (extra_addresses)
 {
 	for (auto i: kdms) {
 		list<KDMWithMetadataPtr> s;
@@ -63,13 +66,15 @@ SendKDMEmailJob::SendKDMEmailJob (
 	list<list<KDMWithMetadataPtr> > kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
-	string cpl_name
+	string cpl_name,
+	vector<string> extra_addresses
 	)
 	: Job (shared_ptr<Film>())
 	, _container_name_format (container_name_format)
 	, _filename_format (filename_format)
 	, _cpl_name (cpl_name)
 	, _kdms (kdms)
+	, _extra_addresses (extra_addresses)
 {
 
 }
@@ -104,7 +109,7 @@ void
 SendKDMEmailJob::run ()
 {
 	set_progress_unknown ();
-	send_emails (_kdms, _container_name_format, _filename_format, _cpl_name);
+	send_emails (_kdms, _container_name_format, _filename_format, _cpl_name, _extra_addresses);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

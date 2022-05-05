@@ -68,6 +68,7 @@ sources = """
           email_dialog.cc
           export_subtitles_dialog.cc
           export_video_file_dialog.cc
+          extra_kdm_email_dialog.cc
           file_picker_ctrl.cc
           film_editor.cc
           film_name_location_dialog.cc

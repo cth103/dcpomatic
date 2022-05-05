@@ -24,6 +24,7 @@
 #include <dcp/types.h>
 #include <dcp/name_format.h>
 #include <boost/filesystem.hpp>
+#include <vector>
 
 
 namespace dcpomatic {
@@ -41,14 +42,16 @@ public:
 		std::list<KDMWithMetadataPtr> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		std::string cpl_name
+		std::string cpl_name,
+		std::vector<std::string> extra_addresses
 		);
 
 	SendKDMEmailJob (
 		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
-		std::string cpl_name
+		std::string cpl_name,
+		std::vector<std::string> extra_addresses
 		);
 
 	~SendKDMEmailJob ();
@@ -62,4 +65,5 @@ private:
 	dcp::NameFormat _filename_format;
 	std::string _cpl_name;
 	std::list<std::list<KDMWithMetadataPtr>> _kdms;
+	std::vector<std::string> _extra_addresses;
 };

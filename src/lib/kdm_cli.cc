@@ -250,7 +250,7 @@ from_film (
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
-			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name());
+			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name(), {});
 		}
 	} catch (FileError& e) {
 		throw KDMCLIError (String::compose("%1 (%2)", e.what(), e.file().string()));
@@ -383,7 +383,7 @@ from_dkdm (
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
-			send_emails ({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""));
+			send_emails ({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""), {});
 		}
 	} catch (FileError& e) {
 		throw KDMCLIError (String::compose("%1 (%2)", e.what(), e.file().string()));

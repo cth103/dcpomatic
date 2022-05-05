@@ -178,7 +178,8 @@ DKDMOutputPanel::make (
 					kdms,
 					_filename_format->get(),
 					_filename_format->get(),
-					name
+					name,
+					{}
 					)
 				);
 		}
