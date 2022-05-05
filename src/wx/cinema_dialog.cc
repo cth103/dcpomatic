@@ -71,7 +71,7 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	_email_list = new EditableList<string, EmailDialog> (
 		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), [](string s, int) {
 			return s;
-		}, true, false
+		}, false, EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 
 	sizer->Add (_email_list, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);
