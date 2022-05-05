@@ -715,8 +715,8 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		auto conv = dcp::ColourConversion::srgb_to_xyz();
 		double fast_matrix[9];
 		dcp::combined_rgb_to_xyz (conv, fast_matrix);
-		double const * lut_in = conv.in()->lut (8, false);
-		double const * lut_out = conv.out()->lut (16, true);
+		auto lut_in = conv.in()->lut(0, 1, 8, false);
+		auto lut_out = conv.out()->lut(0, 1, 16, true);
 		int const this_bpp = 6;
 		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
 			uint16_t* tp = reinterpret_cast<uint16_t*> (data()[0] + ty * stride()[0] + start_tx * this_bpp);
