@@ -27,6 +27,7 @@
 #include "exceptions.h"
 #include "ext.h"
 #include "nanomsg.h"
+#include <dcp/file.h>
 
 #ifdef DCPOMATIC_LINUX
 #include <linux/fs.h>
