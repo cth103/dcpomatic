@@ -1,17 +1,22 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# dcpomatic translation file, Chinese Simplified (Rov8 branch)
+# Copyright (C) 2015-2021 DCP-o-matic zh_CN contributors
+# This file is distributed under the same license as the DCP-o-matic package.
+#
+# Translators:
+# Rov (若文) <lojy2009@qq.com>, 2015-2016
+# Hanyuan (刘汉源), 2016-2019
+# kahn <bnm14744@gmail.com>, 2021
+# Dian Li <xslidian@gmail.com>, 2022
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2021-09-02 23:01+0800\n"
-"Last-Translator: kahn <bnm14744@gmail.com>\n"
-"Language-Team: Hanyuan\n"
-"Language: zh\n"
+"PO-Revision-Date: 2022-05-05 23:40+0800\n"
+"Last-Translator: Dian Li <xslidian@gmail.com>\n"
+"Language-Team: Chinese Simplified (Rov8 branch)\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,55 +36,55 @@ msgstr "%d 导出KDMs 到 %s"
 
 #: src/tools/dcpomatic_batch.cc:77
 msgid "&Add Film...\tCtrl-A"
-msgstr "&添加工程"
+msgstr "添加工程(&A)...\tCtrl+A"
 
 #: src/tools/dcpomatic_player.cc:490
 msgid "&Add OV..."
-msgstr "&添加OV…"
+msgstr "添加OV(&A)…"
 
 #: src/tools/dcpomatic_player.cc:496
 msgid "&Close"
-msgstr "&关闭"
+msgstr "关闭(&C)"
 
 #: src/tools/dcpomatic.cc:1308
 msgid "&Close\tCtrl-W"
-msgstr "&关闭\tCtrl+W"
+msgstr "关闭(&C)\tCtrl+W"
 
 #: src/tools/dcpomatic.cc:1388 src/tools/dcpomatic_batch.cc:99
 #: src/tools/dcpomatic_kdm.cc:266 src/tools/dcpomatic_player.cc:548
 #: src/tools/dcpomatic_playlist.cc:551
 msgid "&Edit"
-msgstr "&编辑"
+msgstr "编辑(&E)"
 
 #: src/tools/dcpomatic.cc:1315 src/tools/dcpomatic_batch.cc:79
 #: src/tools/dcpomatic_kdm.cc:244 src/tools/dcpomatic_player.cc:500
 #: src/tools/dcpomatic_playlist.cc:532
 msgid "&Exit"
-msgstr "&退出"
+msgstr "退出(&E)"
 
 #: src/tools/dcpomatic.cc:1387 src/tools/dcpomatic_batch.cc:97
 #: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:546
 #: src/tools/dcpomatic_playlist.cc:549
 msgid "&File"
-msgstr "&文件"
+msgstr "文件(&F)"
 
 #: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_batch.cc:102
 #: src/tools/dcpomatic_kdm.cc:268 src/tools/dcpomatic_player.cc:552
 #: src/tools/dcpomatic_playlist.cc:553
 msgid "&Help"
-msgstr "&帮助"
+msgstr "帮助(&H)"
 
 #: src/tools/dcpomatic.cc:1389
 msgid "&Jobs"
-msgstr "&创建"
+msgstr "创建(&J)"
 
 #: src/tools/dcpomatic.cc:1339
 msgid "&Make DCP\tCtrl-M"
-msgstr "&创建 DCP\tCtrl+M"
+msgstr "创建 DCP(&M)\tCtrl+M"
 
 #: src/tools/dcpomatic.cc:1295 src/tools/dcpomatic_player.cc:489
 msgid "&Open...\tCtrl-O"
-msgstr "&打开...\tCtrl+O"
+msgstr "打开(&O)...\tCtrl+O"
 
 #: src/tools/dcpomatic.cc:1330 src/tools/dcpomatic.cc:1334
 #: src/tools/dcpomatic_batch.cc:85 src/tools/dcpomatic_batch.cc:88
@@ -87,30 +92,30 @@ msgstr "&打开...\tCtrl+O"
 #: src/tools/dcpomatic_player.cc:506 src/tools/dcpomatic_player.cc:509
 #: src/tools/dcpomatic_playlist.cc:539
 msgid "&Preferences...\tCtrl-P"
-msgstr "&设置....\tCtrl+P"
+msgstr "设置(&P)...\tCtrl+P"
 
 #: src/tools/dcpomatic.cc:1317 src/tools/dcpomatic_batch.cc:81
 #: src/tools/dcpomatic_kdm.cc:246 src/tools/dcpomatic_player.cc:502
 #: src/tools/dcpomatic_playlist.cc:534
 msgid "&Quit"
-msgstr "&退出"
+msgstr "退出(&Q)"
 
 #: src/tools/dcpomatic.cc:1298
 msgid "&Save\tCtrl-S"
-msgstr "&保存\tCtrl+S"
+msgstr "保存(&S)\tCtrl+S"
 
 #: src/tools/dcpomatic.cc:1353
 msgid "&Send DCP to TMS"
-msgstr "&发送 DCP 到 TMS"
+msgstr "发送 DCP 到 TMS(&S)"
 
 #: src/tools/dcpomatic.cc:1391 src/tools/dcpomatic_batch.cc:101
 #: src/tools/dcpomatic_player.cc:551
 msgid "&Tools"
-msgstr "&工具"
+msgstr "工具(&T)"
 
 #: src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_player.cc:550
 msgid "&View"
-msgstr "&查看"
+msgstr "查看(&V)"
 
 #: src/tools/dcpomatic_playlist.cc:262
 msgid "<b>Playlist:</b>"
@@ -136,9 +141,8 @@ msgid "Add"
 msgstr "添加"
 
 #: src/tools/dcpomatic_player.cc:491
-#, fuzzy
 msgid "Add &KDM..."
-msgstr "&添加KDM…"
+msgstr "添加 &KDM..."
 
 #: src/tools/dcpomatic_batch.cc:134
 msgid "Add Film..."
@@ -167,12 +171,12 @@ msgstr ""
 "\n"
 
 #: src/tools/dcpomatic.cc:1733
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
 "\n"
 msgstr ""
-"出现未知错误: %s (%s).\n"
+"发生异常: %s (%s) (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:1743 src/tools/dcpomatic_kdm.cc:710
@@ -258,12 +262,15 @@ msgid "Could not load DCP %1."
 msgstr "无法载入DCP %1。"
 
 #: src/tools/dcpomatic_player.cc:479
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load DCP.\n"
 "\n"
 "%s."
-msgstr "无法载入DCP %1。"
+msgstr ""
+"无法载入 DCP。\n"
+"\n"
+"%s."
 
 #: src/tools/dcpomatic_player.cc:643
 msgid "Could not load KDM."
@@ -310,9 +317,8 @@ msgid ""
 msgstr "不能读取KDM。文件可能被损坏或者使用了不兼容的格式."
 
 #: src/tools/dcpomatic.cc:1112
-#, fuzzy
 msgid "Could not send translations"
-msgstr "无法运行nautilus"
+msgstr "无法发送翻译"
 
 #: src/tools/dcpomatic.cc:1030
 msgid "Could not show DCP."
@@ -455,19 +461,16 @@ msgid "Encrypted"
 msgstr "加密的"
 
 #: src/tools/dcpomatic.cc:1351
-#, fuzzy
 msgid "Export subtitles..."
-msgstr "导出...\tCtrl+E"
+msgstr "导出字幕..."
 
 #: src/tools/dcpomatic.cc:1350
-#, fuzzy
 msgid "Export video file...\tCtrl-E"
-msgstr "导出...\tCtrl+E"
+msgstr "导出视频文件...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:173
-#, fuzzy
 msgid "Export..."
-msgstr "导出...\tCtrl+E"
+msgstr "导出..."
 
 #: src/tools/dcpomatic.cc:987 src/tools/dcpomatic_kdm.cc:275
 #, c-format
@@ -515,9 +518,8 @@ msgid "Loading content"
 msgstr "正在载入内容"
 
 #: src/tools/dcpomatic.cc:1346
-#, fuzzy
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr "制作 KDM \tCtrl+K"
+msgstr "制作 &DKDM...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1344
 msgid "Make &KDMs...\tCtrl-K"
@@ -548,9 +550,8 @@ msgid "New Film"
 msgstr "新建电影"
 
 #: src/tools/dcpomatic_playlist.cc:209
-#, fuzzy
 msgid "New Playlist"
-msgstr "保存播放列表"
+msgstr "新建播放列表"
 
 #: src/tools/dcpomatic.cc:1293
 msgid "New...\tCtrl-N"
@@ -664,9 +665,8 @@ msgid "Select DCP to open as OV"
 msgstr "选择DCP作为OV打开"
 
 #: src/tools/dcpomatic_kdm.cc:584
-#, fuzzy
 msgid "Select DKDM File"
-msgstr "选择DKDM文件"
+msgstr "选择 DKDM 文件"
 
 #: src/tools/dcpomatic_kdm.cc:447
 msgid "Select DKDM file"
@@ -809,9 +809,8 @@ msgstr ""
 "文件夹中的DCP目录。"
 
 #: src/tools/dcpomatic_player.cc:535
-#, fuzzy
 msgid "Timing..."
-msgstr "KDM有效期"
+msgstr "计时..."
 
 #: src/tools/dcpomatic.cc:557
 #, c-format
@@ -831,9 +830,8 @@ msgid "Up"
 msgstr "上"
 
 #: src/tools/dcpomatic_player.cc:532
-#, fuzzy
 msgid "Verify DCP..."
-msgstr "验证DCP"
+msgstr "验证 DCP..."
 
 #: src/tools/dcpomatic.cc:1367
 msgid "Video waveform..."
@@ -903,6 +901,8 @@ msgid ""
 "You must enter a valid email address when sending translations, otherwise "
 "the DCP-o-matic maintainers cannot credit you or contact you with questions."
 msgstr ""
+"发送翻译时，您必须输入有效的电子邮件地址，否则 DCP-o-matic 的维护人员无法为您"
+"署名或向您咨询某些问题。"
 
 #~ msgid "Could not run konqueror"
 #~ msgstr "无法运行konqueror"
