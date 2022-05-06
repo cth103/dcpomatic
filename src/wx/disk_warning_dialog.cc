@@ -25,13 +25,13 @@
 DiskWarningDialog::DiskWarningDialog ()
 	: wxDialog (0, wxID_ANY, _("Important notice"))
 {
-	wxBoxSizer* sizer = new wxBoxSizer (wxVERTICAL);
-	wxStaticText* text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(400, 300));
+	auto sizer = new wxBoxSizer (wxVERTICAL);
+	auto text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(400, 300));
 	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	_yes = new wxTextCtrl (this, wxID_ANY);
 	sizer->Add (_yes, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxSizer* buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
+	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);
 	if (buttons) {
 		sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
