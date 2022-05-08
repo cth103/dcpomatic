@@ -256,6 +256,8 @@ ScreensPanel::add_cinema_clicked ()
 	}
 
 	d->Destroy ();
+
+	selection_changed ();
 }
 
 
