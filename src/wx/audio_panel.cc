@@ -57,6 +57,9 @@ using namespace boost::placeholders;
 using namespace dcpomatic;
 
 
+std::map<boost::filesystem::path, float> AudioPanel::_peak_cache;
+
+
 AudioPanel::AudioPanel (ContentPanel* p)
 	: ContentSubPanel (p, _("Audio"))
 {
@@ -445,8 +448,18 @@ AudioPanel::peak () const
 		auto playlist = make_shared<Playlist>();
 		playlist->add (_parent->film(), sel.front());
 		try {
-			auto analysis = make_shared<AudioAnalysis>(_parent->film()->audio_analysis_path(playlist));
-			peak_dB = linear_to_db(analysis->overall_sample_peak().first.peak) + analysis->gain_correction(playlist);
+			/* Loading the audio analysis file is slow, and this ::peak() is called a few times when
+			 * the content selection is changed, so cache it.
+			 */
+			auto const path = _parent->film()->audio_analysis_path(playlist);
+			auto cached = _peak_cache.find(path);
+			if (cached != _peak_cache.end()) {
+				peak_dB = cached->second;
+			} else {
+				auto analysis = make_shared<AudioAnalysis>(path);
+				peak_dB = linear_to_db(analysis->overall_sample_peak().first.peak) + analysis->gain_correction(playlist);
+				_peak_cache[path] = *peak_dB;
+			}
 		} catch (...) {
 
 		}
