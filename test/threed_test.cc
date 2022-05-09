@@ -25,16 +25,20 @@
  */
 
 
+#include "lib/butler.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/image.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/make_dcp.h"
+#include "lib/player.h"
 #include "lib/ratio.h"
+#include "lib/util.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -255,3 +259,33 @@ BOOST_AUTO_TEST_CASE (threed_test_separate_files_very_different_lengths)
 	film->set_three_d (true);
 	make_and_verify_dcp (film);
 }
+
+
+BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
+{
+	auto film = new_test_film2("threed_test_butler_overfill");
+	auto A = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
+	film->examine_and_add_content(A);
+	auto B = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
+	film->examine_and_add_content(B);
+	BOOST_REQUIRE (!wait_for_jobs());
+
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
+	int const audio_channels = 2;
+	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), audio_channels, boost::bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
+
+	int const audio_frames = 1920;
+	std::vector<float> audio(audio_frames * audio_channels);
+
+	B->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
+	B->set_position(film, dcpomatic::DCPTime());
+
+	butler->seek(dcpomatic::DCPTime(), true);
+	Butler::Error error;
+	for (auto i = 0; i < 960; ++i) {
+		butler->get_video(Butler::Behaviour::BLOCKING, &error);
+		butler->get_audio(Butler::Behaviour::BLOCKING, audio.data(), audio_frames);
+	}
+	BOOST_REQUIRE (error.code == Butler::Error::Code::NONE);
+}
+
