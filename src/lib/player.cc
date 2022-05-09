@@ -166,8 +166,19 @@ Player::setup_pieces_unlocked ()
 	auto old_pieces = _pieces;
 	_pieces.clear ();
 
-	_shuffler.reset (new Shuffler());
-	_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
+	auto playlist_content = playlist()->content();
+	bool const have_threed = std::any_of(
+		playlist_content.begin(),
+		playlist_content.end(),
+		[](shared_ptr<const Content> c) {
+			return c->video && (c->video->frame_type() == VideoFrameType::THREE_D_LEFT || c->video->frame_type() == VideoFrameType::THREE_D_RIGHT);
+		});
+
+
+	if (have_threed) {
+		_shuffler.reset(new Shuffler());
+		_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
+	}
 
 	for (auto i: playlist()->content()) {
 
@@ -219,7 +230,7 @@ Player::setup_pieces_unlocked ()
 		_pieces.push_back (piece);
 
 		if (decoder->video) {
-			if (i->video->frame_type() == VideoFrameType::THREE_D_LEFT || i->video->frame_type() == VideoFrameType::THREE_D_RIGHT) {
+			if (have_threed) {
 				/* We need a Shuffler to cope with 3D L/R video data arriving out of sequence */
 				decoder->video->Data.connect (bind(&Shuffler::video, _shuffler.get(), weak_ptr<Piece>(piece), _1));
 			} else {
@@ -810,7 +821,9 @@ Player::pass ()
 	}
 
 	if (done) {
-		_shuffler->flush ();
+		if (_shuffler) {
+			_shuffler->flush ();
+		}
 		for (auto const& i: _delay) {
 			do_emit_video(i.first, i.second);
 		}
