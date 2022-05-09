@@ -159,4 +159,27 @@ boost::optional<OSXMediaPath> analyse_osx_media_path (std::string path);
 std::vector<Drive> osx_disks_to_drives (std::vector<OSXDisk> disks);
 
 
+class ArgFixer
+{
+public:
+	ArgFixer(int argc, char** argv);
+
+	int argc() const {
+		return _argc;
+	}
+
+	char** argv() const {
+		 return _argv;
+	}
+
+private:
+	int _argc;
+	char** _argv;
+#ifdef DCPOMATIC_WINDOWS
+	std::vector<std::string> _argv_strings;
+#endif
+
+};
+
+
 #endif

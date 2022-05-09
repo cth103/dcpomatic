@@ -44,10 +44,11 @@ extern "C" {
 #include <setupapi.h>
 #include <fileapi.h>
 #undef DATADIR
-#include <shlwapi.h>
-#include <shlobj.h>
-#include <shellapi.h>
 #include <knownfolders.h>
+#include <processenv.h>
+#include <shellapi.h>
+#include <shlobj.h>
+#include <shlwapi.h>
 #include <fcntl.h>
 #include <fstream>
 #include <map>
@@ -655,5 +656,19 @@ show_in_file_manager (boost::filesystem::path, boost::filesystem::path select)
 	args << "/select," << select;
 	auto const r = ShellExecute (0, L"open", L"explorer.exe", args.str().c_str(), 0, SW_SHOWDEFAULT);
 	return (reinterpret_cast<int64_t>(r) <= 32);
+}
+
+
+ArgFixer::ArgFixer(int, char**)
+{
+	auto cmd_line = GetCommandLineW();
+	auto wide_argv = CommandLineToArgvW(cmd_line, &_argc);
+
+	_argv_strings.resize(_argc);
+	_argv = new char*[_argc];
+	for (int i = 0; i < _argc; ++i) {
+		_argv_strings[i] = wchar_to_utf8(wide_argv[i]);
+		_argv[i] = const_cast<char*>(_argv_strings[i].c_str());
+	}
 }
 

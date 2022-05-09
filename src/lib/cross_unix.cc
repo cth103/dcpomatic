@@ -84,3 +84,10 @@ dcpomatic::get_process_id ()
 }
 
 
+ArgFixer::ArgFixer(int argc, char** argv)
+	: _argc(argc)
+	, _argv(argv)
+{
+
+}
+
