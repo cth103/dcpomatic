@@ -29,6 +29,7 @@
 #include "exceptions.h"
 #include "dcpomatic_assert.h"
 #include "util.h"
+#include <dcp/file.h>
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
