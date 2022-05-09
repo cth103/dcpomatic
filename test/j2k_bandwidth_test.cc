@@ -58,7 +58,8 @@ check (int target_bits_per_second)
 		{
 			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
 			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE,
-			dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES
+			dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES,
+			dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES
 		});
 
 	boost::filesystem::directory_iterator i (boost::filesystem::path("build") / "test" / name / "video");
