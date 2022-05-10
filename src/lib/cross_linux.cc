@@ -29,11 +29,6 @@
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <glib.h>
-LIBDCP_DISABLE_WARNINGS
-extern "C" {
-#include <libavformat/avio.h>
-}
-LIBDCP_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 #if BOOST_VERSION >= 106100
 #include <boost/dll/runtime_symbol_info.hpp>
@@ -59,21 +54,6 @@ using std::pair;
 using std::string;
 using std::vector;
 using boost::optional;
-
-
-/** @param s Number of seconds to sleep for */
-void
-dcpomatic_sleep_seconds (int s)
-{
-	sleep (s);
-}
-
-
-void
-dcpomatic_sleep_milliseconds (int ms)
-{
-	usleep (ms * 1000);
-}
 
 
 /** @return A string of CPU information (model name etc.) */
@@ -235,36 +215,6 @@ start_player ()
 }
 
 
-uint64_t
-thread_id ()
-{
-	return (uint64_t) pthread_self ();
-}
-
-
-int
-avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
-{
-	return avio_open (s, file.c_str(), flags);
-}
-
-
-boost::filesystem::path
-home_directory ()
-{
-	return getenv("HOME");
-}
-
-
-/** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
-bool
-running_32_on_64 ()
-{
-	/* I'm assuming nobody does this on Linux */
-	return false;
-}
-
-
 static
 vector<pair<string, string>>
 get_mounts (string prefix)
@@ -367,14 +317,6 @@ disk_write_finished ()
 {
 
 }
-
-
-string
-dcpomatic::get_process_id ()
-{
-	return dcp::raw_convert<string>(getpid());
-}
-
 
 bool
 show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path)

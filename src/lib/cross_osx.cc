@@ -27,9 +27,6 @@
 #include "exceptions.h"
 #include <dcp/raw_convert.h>
 #include <glib.h>
-extern "C" {
-#include <libavformat/avio.h>
-}
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>
 #if BOOST_VERSION >= 106100
@@ -66,21 +63,6 @@ using std::map;
 using std::shared_ptr;
 using boost::optional;
 using std::function;
-
-
-/** @param s Number of seconds to sleep for */
-void
-dcpomatic_sleep_seconds (int s)
-{
-	sleep (s);
-}
-
-
-void
-dcpomatic_sleep_milliseconds (int ms)
-{
-	usleep (ms * 1000);
-}
 
 
 /** @return A string of CPU information (model name etc.) */
@@ -211,36 +193,6 @@ void
 start_player ()
 {
 	start_tool ("dcpomatic2_player", "DCP-o-matic\\ 2\\ Player.app");
-}
-
-
-uint64_t
-thread_id ()
-{
-	return (uint64_t) pthread_self ();
-}
-
-
-int
-avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
-{
-	return avio_open (s, file.c_str(), flags);
-}
-
-
-boost::filesystem::path
-home_directory ()
-{
-	return getenv("HOME");
-}
-
-
-/** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
-bool
-running_32_on_64 ()
-{
-	/* I'm assuming nobody does this on OS X */
-	return false;
 }
 
 
@@ -512,13 +464,6 @@ LIBDCP_DISABLE_WARNINGS
 	GetCurrentProcess (&serial);
 LIBDCP_ENABLE_WARNINGS
 	TransformProcessType (&serial, kProcessTransformToForegroundApplication);
-}
-
-
-string
-dcpomatic::get_process_id ()
-{
-	return dcp::raw_convert<string>(getpid());
 }
 
 
