@@ -217,8 +217,8 @@ msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 3."
 
 #: src/wx/verify_dcp_dialog.cc:341
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 6."
+msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
+msgstr "Een 4K JPEG2000-frame bevat %n tile parts in plaats van 6."
 
 #: src/wx/verify_dcp_dialog.cc:326
 #, c-format

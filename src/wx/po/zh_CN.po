@@ -225,8 +225,8 @@ msgstr "2K JPEG2000帧包含%n个图块部分，而不是3个。"
 
 #: src/wx/verify_dcp_dialog.cc:341
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "2K JPEG2000帧包含%n个图块部分，而不是6个。"
+msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
+msgstr "4K JPEG2000帧包含%n个图块部分，而不是6个。"
 
 #: src/wx/verify_dcp_dialog.cc:326
 #, c-format

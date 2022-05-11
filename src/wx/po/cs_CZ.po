@@ -218,8 +218,8 @@ msgstr "Rámeček 2K JPEG2000 obsahuje %n dílů dlaždic místo 3."
 
 #: src/wx/verify_dcp_dialog.cc:341
 #, c-format
-msgid "A 2K JPEG2000 frame contains %n tile parts instead of 6."
-msgstr "Rámeček 2K JPEG2000 obsahuje% n dílků dlaždic místo 6."
+msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
+msgstr "Rámeček 4K JPEG2000 obsahuje %n dílků dlaždic místo 6."
 
 #: src/wx/verify_dcp_dialog.cc:326
 #, c-format

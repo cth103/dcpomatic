@@ -338,7 +338,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			add(i, _("A 2K JPEG2000 frame contains %n tile parts instead of 3."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_4K:
-			add(i, _("A 2K JPEG2000 frame contains %n tile parts instead of 6."));
+			add(i, _("A 4K JPEG2000 frame contains %n tile parts instead of 6."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_JPEG200_TLM_MARKER:
 			add(i, _("A JPEG2000 frame has no TLM marker."));
