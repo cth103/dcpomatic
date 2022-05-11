@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (careful_string_filter_test)
 	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_wörld"));
 	BOOST_CHECK_EQUAL ("hello_world", careful_string_filter("héllo_wörld"));
 	BOOST_CHECK_EQUAL ("hello_world_a", careful_string_filter("héllo_wörld_à"));
-	BOOST_CHECK_EQUAL ("hello_world_CcGgIOoSsUu", careful_string_filter("hello_world_ÇçĞğİÖöŞşÜü"));
+	BOOST_CHECK_EQUAL ("hello_world_CcGgIOoSsUuLl", careful_string_filter("hello_world_ÇçĞğİÖöŞşÜüŁł"));
 }
 
 
