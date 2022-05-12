@@ -816,7 +816,7 @@ FilmViewer::set_crop_guess (dcpomatic::Rect<float> crop)
 void
 FilmViewer::unset_crop_guess ()
 {
-	_crop_guess = {};
+	_crop_guess = boost::none;
 	_video_view->update ();
 }
 
