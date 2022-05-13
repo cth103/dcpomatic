@@ -404,6 +404,8 @@ AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 {
 	set_gain (c->_gain);
 	set_delay (c->_delay);
+	set_fade_in (c->fade_in());
+	set_fade_out (c->fade_out());
 
 	size_t i = 0;
 	size_t j = 0;
