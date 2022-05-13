@@ -62,7 +62,7 @@ guess_crop (shared_ptr<const Image> image, double threshold)
 			break;
 		}
 		default:
-			DCPOMATIC_ASSERT (false);
+			throw PixelFormatError("guess_crop()", image->pixel_format());
 		}
 
 		return brightest > threshold;
