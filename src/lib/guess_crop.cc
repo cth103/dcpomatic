@@ -61,6 +61,16 @@ guess_crop (shared_ptr<const Image> image, double threshold)
 			}
 			break;
 		}
+		case AV_PIX_FMT_YUV422P10LE:
+		{
+			uint16_t const* data = reinterpret_cast<uint16_t*>(image->data()[0] + (start_x * 2) + (start_y * image->stride()[0]));
+			for (int p = 0; p < pixels; ++p) {
+				/* Just using Y */
+				brightest = std::max(brightest, static_cast<double>(*data) / 1024);
+				data += rows ? 1 : (image->stride()[0] / 2);
+			}
+			break;
+		}
 		default:
 			throw PixelFormatError("guess_crop()", image->pixel_format());
 		}
