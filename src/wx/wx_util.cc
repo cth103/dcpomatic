@@ -101,7 +101,7 @@ add_label_to_sizer (wxSizer* s, wxWindow* p, wxString t, bool left, int prop, in
 	setup_osx_flags (s, left, flags);
 #endif
 	auto m = create_label (p, t, left);
-	s->Add (m, prop, flags, 6);
+	s->Add (m, prop, flags, DCPOMATIC_SIZER_GAP);
 	return m;
 }
 
@@ -116,7 +116,7 @@ add_label_to_sizer (wxSizer* s, wxStaticText* t, bool, int prop, int flags)
 #ifdef __WXOSX__
 	setup_osx_flags (s, left, flags);
 #endif
-	s->Add (t, prop, flags, 6);
+	s->Add (t, prop, flags, DCPOMATIC_SIZER_GAP);
 	return t;
 }
 

@@ -1482,24 +1482,25 @@ private:
 		table->AddSpacer (0);
 
 		_allow_any_dcp_frame_rate = new CheckBox (_panel, _("Allow any DCP frame rate"));
-		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxALL);
+		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		table->AddSpacer (0);
 
 		_allow_any_container = new CheckBox (_panel, _("Allow full-frame and non-standard container ratios"));
-		table->Add (_allow_any_container, 1, wxEXPAND | wxALL);
-		restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to see all ratios)"), false);
+		table->Add (_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		restart = new StaticText (_panel, _("(restart DCP-o-matic to see all ratios)"));
+		table->Add (restart, 1, wxEXPAND | wxALL | wxALIGN_CENTRE_VERTICAL);
 		restart->SetFont (font);
 
 		_allow_96khz_audio = new CheckBox (_panel, _("Allow creation of DCPs with 96kHz audio"));
-		table->Add (_allow_96khz_audio, 1, wxEXPAND | wxALL);
+		table->Add (_allow_96khz_audio, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		table->AddSpacer (0);
 
 		_show_experimental_audio_processors = new CheckBox (_panel, _("Show experimental audio processors"));
-		table->Add (_show_experimental_audio_processors, 1, wxEXPAND | wxALL);
+		table->Add (_show_experimental_audio_processors, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		table->AddSpacer (0);
 
 		_only_servers_encode = new CheckBox (_panel, _("Only servers encode"));
-		table->Add (_only_servers_encode, 1, wxEXPAND | wxALL);
+		table->Add (_only_servers_encode, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		table->AddSpacer (0);
 
 		{
@@ -1517,7 +1518,7 @@ private:
 			align->Add (format, 0, wxTOP, 2);
 			table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
 #else
-			table->Add (format, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
+			table->Add (format, 0, wxTOP | wxLEFT | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
 #endif
 			dcp::NameFormat::Map titles;
 			titles['t'] = wx_to_std (_("type (cpl/pkl)"));
@@ -1536,7 +1537,7 @@ private:
 			align->Add (format, 0, wxTOP, 2);
 			table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
 #else
-			table->Add (format, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
+			table->Add (format, 0, wxTOP | wxLEFT | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
 #endif
 			dcp::NameFormat::Map titles;
 			titles['t'] = wx_to_std (_("type (j2c/pcm/sub)"));
