@@ -154,7 +154,7 @@ have_video (shared_ptr<const Content> content)
 bool
 have_audio (shared_ptr<const Content> content)
 {
-	return static_cast<bool>(content->audio);
+	return static_cast<bool>(content->audio) && content->can_be_played();
 }
 
 

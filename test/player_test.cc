@@ -466,3 +466,34 @@ BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 	film2->set_video_frame_rate (24);
 	make_and_verify_dcp (film2);
 }
+
+
+/** #2257 */
+BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
+{
+	auto content = content_factory("test/data/flat_red.png").front();
+	auto film = new_test_film2 ("encrypted_dcp_with_no_kdm_gives_no_butler_error", { content });
+	int constexpr length = 24 * 25;
+	content->video->set_length(length);
+	film->set_encrypted (true);
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+		});
+
+	auto content2 = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto film2 = new_test_film2 ("encrypted_dcp_with_no_kdm_gives_no_butler_error2", { content2 });
+
+	auto player = std::make_shared<Player>(film2, Image::Alignment::COMPACT);
+	Butler butler(film2, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
+
+	float buffer[2000 * 6];
+	for (int i = 0; i < length; ++i) {
+		butler.get_video(Butler::Behaviour::BLOCKING, 0);
+		butler.get_audio(Butler::Behaviour::BLOCKING, buffer, 2000);
+	}
+
+	BOOST_CHECK_NO_THROW(butler.rethrow());
+}
+
