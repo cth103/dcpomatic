@@ -536,7 +536,7 @@ GLVideoView::draw ()
 		check_gl_error ("glDrawElements");
 	}
 	if (auto guess = _viewer->crop_guess()) {
-		glUniform1i(_fragment_type, 1);
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::CROP_GUESS));
 		glDrawElements (GL_LINES, indices_crop_guess_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_crop_guess_offset * sizeof(int)));
 		check_gl_error ("glDrawElements");
 	}
