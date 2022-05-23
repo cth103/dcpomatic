@@ -412,7 +412,6 @@ main (int argc, char* argv[])
 		}
 	}
 
-	make_dcp (film, behaviour);
 	bool const error = show_jobs_on_console (progress);
 
 	if (keep_going) {
