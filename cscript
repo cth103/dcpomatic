@@ -129,15 +129,15 @@ deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libpangomm-1.4-1v5',
                              'libxml++2.6-2v5',
                              'libzip4',
-                             'libicu67',
+                             'libicu70',
                              'libnettle8',
                              'libssh-4',
-                             'libx264-160',
+                             'libx264-163',
                              'libcurl4',
                              'libpulse0',
                              'libxerces-c3.2',
                              'libnanomsg5',
-                             'libdav1d4'])
+                             'libdav1d5'])
 
 deb_depends['9'] = copy.deepcopy(deb_depends_base)
 deb_depends['9'].extend(['libboost-filesystem1.62.0',
