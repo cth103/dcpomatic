@@ -34,11 +34,6 @@
 class ContentAudio
 {
 public:
-	ContentAudio ()
-		: audio (new AudioBuffers (0, 0))
-		, frame (0)
-	{}
-
 	ContentAudio (std::shared_ptr<const AudioBuffers> a, Frame f)
 		: audio (a)
 		, frame (f)
