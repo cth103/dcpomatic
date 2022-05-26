@@ -60,7 +60,18 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		map.set (i, i, 1);
 	}
 
-	Butler butler (film, make_shared<Player>(film, Image::Alignment::COMPACT), map, 6, boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, false, false);
+	Butler butler (
+		film,
+		make_shared<Player>(film, Image::Alignment::COMPACT),
+		map,
+		6,
+		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
+		VideoRange::FULL,
+		Image::Alignment::COMPACT,
+		false,
+		false,
+		Butler::Audio::ENABLED
+		);
 
 	BOOST_CHECK (butler.get_video(Butler::Behaviour::BLOCKING, 0).second == DCPTime());
 	BOOST_CHECK (butler.get_video(Butler::Behaviour::BLOCKING, 0).second == DCPTime::from_frames(1, 24));
@@ -95,7 +106,16 @@ BOOST_AUTO_TEST_CASE (butler_test2)
 	}
 
 	Butler butler (
-		film, make_shared<Player>(film, Image::Alignment::COMPACT), map, 6, boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, false, false
+		film,
+		make_shared<Player>(film, Image::Alignment::COMPACT),
+		map,
+		6,
+		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
+		VideoRange::FULL,
+		Image::Alignment::COMPACT,
+		false,
+		false,
+		Butler::Audio::ENABLED
 		);
 
 	int const audio_frames_per_video_frame = 48000 / 25;

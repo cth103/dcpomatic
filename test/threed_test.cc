@@ -272,7 +272,9 @@ BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
 
 	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	int const audio_channels = 2;
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), audio_channels, boost::bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
+	auto butler = std::make_shared<Butler>(
+		film, player, AudioMapping(), audio_channels, boost::bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED
+		);
 
 	int const audio_frames = 1920;
 	std::vector<float> audio(audio_frames * audio_channels);

@@ -228,12 +228,9 @@ FilmViewer::recreate_butler ()
 		VideoRange::FULL,
 		j2k_gl_optimised ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,
-		j2k_gl_optimised
+		j2k_gl_optimised,
+		(Config::instance()->sound() && _audio.isStreamOpen()) ? Butler::Audio::ENABLED : Butler::Audio::DISABLED
 		);
-
-	if (!Config::instance()->sound() && !_audio.isStreamOpen()) {
-		_butler->disable_audio ();
-	}
 
 	_closed_captions_dialog->set_butler (_butler);
 

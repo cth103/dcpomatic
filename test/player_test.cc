@@ -233,8 +233,9 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
-	butler->disable_audio();
+	auto butler = std::make_shared<Butler>(
+		film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
+		);
 
 	for (int i = 0; i < 10; ++i) {
 		auto t = DCPTime::from_frames (i, 24);
@@ -265,8 +266,9 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	player->set_always_burn_open_subtitles ();
 	player->set_play_referenced ();
 
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
-	butler->disable_audio();
+	auto butler = std::make_shared<Butler>
+		(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
+		 );
 
 	butler->seek(DCPTime::from_seconds(5), true);
 
@@ -356,7 +358,9 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 
 	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
 	player->set_fast ();
-	auto butler = std::make_shared<Butler>(film, player, AudioMapping(), 6, bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true, false);
+	auto butler = std::make_shared<Butler>(
+		film, player, AudioMapping(), 6, bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true, false, Butler::Audio::ENABLED
+		);
 
 	/* Wait for the butler to fill */
 	dcpomatic_sleep_seconds (5);
@@ -486,7 +490,7 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	auto film2 = new_test_film2 ("encrypted_dcp_with_no_kdm_gives_no_butler_error2", { content2 });
 
 	auto player = std::make_shared<Player>(film2, Image::Alignment::COMPACT);
-	Butler butler(film2, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false);
+	Butler butler(film2, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
 
 	float buffer[2000 * 6];
 	for (int i = 0; i < length; ++i) {

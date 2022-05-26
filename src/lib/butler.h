@@ -38,6 +38,12 @@ class PlayerVideo;
 class Butler : public ExceptionStore
 {
 public:
+	enum class Audio
+	{
+		ENABLED,
+		DISABLED
+	};
+
 	Butler (
 		std::weak_ptr<const Film> film,
 		std::shared_ptr<Player> player,
@@ -47,7 +53,8 @@ public:
 		VideoRange video_range,
 		Image::Alignment alignment,
 		bool fast,
-		bool prepare_only_proxy
+		bool prepare_only_proxy,
+		Audio audio
 		);
 
 	~Butler ();
@@ -80,8 +87,6 @@ public:
 	std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime> get_video (Behaviour behaviour, Error* e = nullptr);
 	boost::optional<dcpomatic::DCPTime> get_audio (Behaviour behaviour, float* out, Frame frames);
 	boost::optional<TextRingBuffers::Data> get_closed_caption ();
-
-	void disable_audio ();
 
 	std::pair<size_t, std::string> memory_used () const;
 

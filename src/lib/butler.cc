@@ -69,7 +69,8 @@ Butler::Butler (
 	VideoRange video_range,
 	Image::Alignment alignment,
 	bool fast,
-	bool prepare_only_proxy
+	bool prepare_only_proxy,
+	Audio audio
 	)
 	: _film (film)
 	, _player (player)
@@ -81,7 +82,7 @@ Butler::Butler (
 	, _stop_thread (false)
 	, _audio_mapping (audio_mapping)
 	, _audio_channels (audio_channels)
-	, _disable_audio (false)
+	, _disable_audio (audio == Audio::DISABLED)
 	, _pixel_format (pixel_format)
 	, _video_range (video_range)
 	, _alignment (alignment)
@@ -391,14 +392,6 @@ Butler::get_audio (Behaviour behaviour, float* out, Frame frames)
 	auto t = _audio.get (out, _audio_channels, frames);
 	_summon.notify_all ();
 	return t;
-}
-
-
-void
-Butler::disable_audio ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	_disable_audio = true;
 }
 
 

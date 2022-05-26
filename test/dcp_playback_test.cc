@@ -52,7 +52,8 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 		VideoRange::FULL,
 		Image::Alignment::PADDED,
 		true,
-		false
+		false,
+		Butler::Audio::ENABLED
 		);
 
 	std::vector<float> audio_buffer(2000 * 6);
