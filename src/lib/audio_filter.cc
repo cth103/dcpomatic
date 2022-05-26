@@ -80,7 +80,7 @@ AudioFilter::run (shared_ptr<const AudioBuffers> in)
 	auto out = make_shared<AudioBuffers>(in->channels(), in->frames());
 
 	if (!_tail) {
-		_tail.reset (new AudioBuffers (in->channels(), _M + 1));
+		_tail = make_shared<AudioBuffers>(in->channels(), _M + 1);
 		_tail->make_silent ();
 	}
 

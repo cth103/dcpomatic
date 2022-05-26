@@ -52,7 +52,7 @@ private:
 		 *  @param r Frame rate.
 		 */
 		Buffer (int c, int32_t f, dcpomatic::DCPTime t, int r)
-			: audio (new AudioBuffers (c, f))
+			: audio (std::make_shared<AudioBuffers>(c, f))
 			, time (t)
 			, frame_rate (r)
 		{}

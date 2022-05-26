@@ -271,7 +271,7 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		throw EncodeError (N_("avformat_write_header"), N_("FFmpegFileEncoder::FFmpegFileEncoder"), r);
 	}
 
-	_pending_audio.reset (new AudioBuffers(channels, 0));
+	_pending_audio = make_shared<AudioBuffers>(channels, 0);
 }
 
 

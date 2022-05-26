@@ -23,6 +23,7 @@
 #include <iostream>
 
 using std::cout;
+using std::make_shared;
 using std::shared_ptr;
 using namespace dcpomatic;
 
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 	BOOST_CHECK_EQUAL (buffer[240 * 6], CANARY);
 
 	/* Put some data in */
-	shared_ptr<AudioBuffers> data (new AudioBuffers (6, 91));
+	auto data = make_shared<AudioBuffers>(6, 91);
 	int value = 0;
 	for (int i = 0; i < 91; ++i) {
 		for (int j = 0; j < 6; ++j) {
@@ -99,7 +100,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test2)
 	AudioRingBuffers rb;
 
 	/* Put some data in */
-	shared_ptr<AudioBuffers> data (new AudioBuffers (2, 91));
+	auto data = make_shared<AudioBuffers>(2, 91);
 	int value = 0;
 	for (int i = 0; i < 91; ++i) {
 		for (int j = 0; j < 2; ++j) {
@@ -151,7 +152,7 @@ BOOST_AUTO_TEST_CASE (audio_ring_buffers_test3)
 	AudioRingBuffers rb;
 
 	/* Put some data in */
-	shared_ptr<AudioBuffers> data (new AudioBuffers (6, 91));
+	auto data = make_shared<AudioBuffers>(6, 91);
 	int value = 0;
 	for (int i = 0; i < 91; ++i) {
 		for (int j = 0; j < 6; ++j) {
