@@ -132,7 +132,7 @@ DCPVideo::encode_locally () const
 	ArrayData enc = {};
 	/* This was empirically derived by a user: see #1902 */
 	int const minimum_size = 16384;
-	LOG_GENERAL ("Using minimum frame size %1", minimum_size);
+	LOG_DEBUG_ENCODE("Using minimum frame size %1", minimum_size);
 
 	auto xyz = convert_to_xyz (_frame, boost::bind(&Log::dcp_log, dcpomatic_log.get(), _1, _2));
 	int noise_amount = 2;
@@ -148,7 +148,7 @@ DCPVideo::encode_locally () const
 		);
 
 		if (enc.size() >= minimum_size) {
-			LOG_GENERAL (N_("Frame %1 encoded size was OK (%2)"), _index, enc.size());
+			LOG_DEBUG_ENCODE(N_("Frame %1 encoded size was OK (%2)"), _index, enc.size());
 			break;
 		}
 
