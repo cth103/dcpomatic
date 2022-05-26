@@ -137,8 +137,8 @@ private:
 	wxSizer* _frame_rate_sizer;
 	wxStaticText* _channels_label;
 	wxChoice* _audio_channels;
-	wxStaticText* _audio_sample_rate_label;
-	wxChoice* _audio_sample_rate;
+	wxStaticText* _audio_sample_rate_label = nullptr;
+	wxChoice* _audio_sample_rate = nullptr;
 	wxStaticText* _processor_label;
 	wxChoice* _audio_processor;
 	wxButton* _show_audio;
