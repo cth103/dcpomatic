@@ -48,7 +48,6 @@ using namespace boost::placeholders;
 #endif
 
 
-/** @param key Key to use to encrypt MP4 outputs */
 FFmpegEncoder::FFmpegEncoder (
 	shared_ptr<const Film> film,
 	weak_ptr<Job> job,
