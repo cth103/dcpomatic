@@ -30,6 +30,9 @@ LIBDCP_ENABLE_WARNINGS
 
 class Content;
 class TextContent;
+namespace dcpomatic {
+	class Font;
+}
 
 
 class FontsDialog : public wxDialog
@@ -41,10 +44,13 @@ private:
 	void setup ();
 	void setup_sensitivity ();
 	void selection_changed ();
-	void edit_clicked ();
+	void set_from_file_clicked ();
+	void set_from_system_font_clicked ();
+	std::shared_ptr<dcpomatic::Font> get_selection ();
 
 	std::weak_ptr<Content> _content;
 	std::weak_ptr<TextContent> _caption;
 	wxListCtrl* _fonts;
-	wxButton* _edit;
+	wxButton* _set_from_file;
+	wxButton* _set_from_system_font = nullptr;
 };

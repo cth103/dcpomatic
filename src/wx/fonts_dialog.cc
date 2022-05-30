@@ -65,8 +65,19 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_
 	auto sizer = new wxBoxSizer (wxHORIZONTAL);
 	sizer->Add (_fonts, 1, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 
-	_edit = new Button (this, _("Edit..."));
-	sizer->Add (_edit, 0, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto buttons_panel = new wxPanel(this);
+	auto buttons_sizer = new wxBoxSizer(wxVERTICAL);
+
+	_set_from_file = new Button(buttons_panel, _("Set from file..."));
+	buttons_sizer->Add (_set_from_file, 0, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+
+#ifdef DCPOMATIC_WINDOWS
+	_set_from_system_font = new Button(buttons_panel, _("Set from system font..."));
+	buttons_sizer->Add (_set_from_system_font, 0, wxEXPAND | wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+#endif
+
+	buttons_panel->SetSizer(buttons_sizer);
+	sizer->Add(buttons_panel);
 
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_X_GAP);
@@ -78,7 +89,10 @@ FontsDialog::FontsDialog (wxWindow* parent, shared_ptr<Content> content, shared_
 
 	SetSizerAndFit (overall_sizer);
 
-	_edit->Bind (wxEVT_BUTTON, boost::bind (&FontsDialog::edit_clicked, this));
+	_set_from_file->Bind(wxEVT_BUTTON, boost::bind(&FontsDialog::set_from_file_clicked, this));
+	if (_set_from_system_font) {
+		_set_from_system_font->Bind(wxEVT_BUTTON, boost::bind(&FontsDialog::set_from_system_font_clicked, this));
+	}
 	_fonts->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&FontsDialog::selection_changed, this));
 	_fonts->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&FontsDialog::selection_changed, this));
 
@@ -125,22 +139,31 @@ void
 FontsDialog::setup_sensitivity ()
 {
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	_edit->Enable (item != -1);
+	_set_from_file->Enable (item != -1);
+	if (_set_from_system_font) {
+		_set_from_system_font->Enable (item != -1);
+	}
 }
 
 
-void
-FontsDialog::edit_clicked ()
+shared_ptr<Font>
+FontsDialog::get_selection ()
 {
-	auto content = _content.lock ();
-	auto caption = _caption.lock ();
-	if (!content || !caption) {
-		return;
+	auto caption = _caption.lock();
+	if (!caption) {
+		return {};
 	}
 
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	auto const id = _fonts->GetItemData(item) ? "" : wx_to_std(_fonts->GetItemText(item, 0));
-	auto font = caption->get_font(id);
+	return caption->get_font(id);
+}
+
+
+void
+FontsDialog::set_from_file_clicked ()
+{
+	auto font = get_selection();
 	if (!font) {
 		return;
 	}
@@ -171,5 +194,27 @@ FontsDialog::edit_clicked ()
 	font->set_file (wx_to_std(d->GetPath()));
 	d->Destroy ();
 
+	setup ();
+}
+
+
+void
+FontsDialog::set_from_system_font_clicked()
+{
+	auto font = get_selection();
+	if (!font) {
+		return;
+	}
+
+	auto dialog = new SystemFontDialog(this);
+	auto const r = dialog->ShowModal();
+	if (r == wxID_OK) {
+		auto font_file = dialog->get_font();
+		if (font_file) {
+			font->set_file(*font_file);
+		}
+	}
+
+	dialog->Destroy();
 	setup ();
 }
