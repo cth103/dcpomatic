@@ -177,13 +177,19 @@ try
 			"com.dcpomatic.write-drive",
 			[xml]() {
 				bool const success = Drive(xml).unmount();
-				if (!nanomsg->send(success ? (DISK_WRITER_OK "\n") : (DISK_WRITER_ERROR "\n"), LONG_TIMEOUT)) {
+				bool sent_reply = false;
+				if (success) {
+					sent_reply = nanomsg->send(DISK_WRITER_OK "\n", LONG_TIMEOUT);
+				} else {
+					sent_reply = nanomsg->send(DISK_WRITER_ERROR "\nCould not unmount drive\n1\n", LONG_TIMEOUT);
+				}
+				if (!sent_reply) {
 					LOG_DISK_NC("CommunicationFailedError in unmount_finished");
 					throw CommunicationFailedError ();
 				}
 			},
 			[]() {
-				if (!nanomsg->send(DISK_WRITER_ERROR "\n", LONG_TIMEOUT)) {
+				if (!nanomsg->send(DISK_WRITER_ERROR "\nCould not get permission to unmount drive\n1\n", LONG_TIMEOUT)) {
 					LOG_DISK_NC("CommunicationFailedError in unmount_finished");
 					throw CommunicationFailedError ();
 				}
@@ -266,7 +272,7 @@ try
 			},
 			[]() {
 				if (nanomsg) {
-					nanomsg->send(DISK_WRITER_ERROR "\nCould not obtain authorization to write to the drive\n", LONG_TIMEOUT);
+					nanomsg->send(DISK_WRITER_ERROR "\nCould not obtain authorization to write to the drive\n1\n", LONG_TIMEOUT);
 				}
 			});
 	}
