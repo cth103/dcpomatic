@@ -254,6 +254,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 		}
 	}
 
+	/* Pass these subs through the other emit_plain_start so that they get their forced settings applied */
 	emit_plain_start (from, out);
 }
 
