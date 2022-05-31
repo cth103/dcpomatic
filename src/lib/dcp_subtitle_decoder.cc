@@ -118,8 +118,8 @@ DCPSubtitleDecoder::pass ()
 	   time of emitting the first.
 	*/
 
-	list<dcp::SubtitleString> s;
-	list<dcp::SubtitleImage> i;
+	vector<dcp::SubtitleString> s;
+	vector<dcp::SubtitleImage> i;
 	auto const p = content_time_period (*_next);
 
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {

@@ -28,7 +28,7 @@
 #include "rect.h"
 #include "types.h"
 #include <dcp/subtitle_string.h>
-#include <list>
+#include <vector>
 
 
 class Image;
@@ -74,12 +74,12 @@ public:
 class ContentStringText : public ContentText
 {
 public:
-	ContentStringText (dcpomatic::ContentTime f, std::list<dcp::SubtitleString> s)
+	ContentStringText (dcpomatic::ContentTime f, std::vector<dcp::SubtitleString> s)
 		: ContentText (f)
 		, subs (s)
 	{}
 
-	std::list<dcp::SubtitleString> subs;
+	std::vector<dcp::SubtitleString> subs;
 };
 
 

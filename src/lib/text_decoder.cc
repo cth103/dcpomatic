@@ -19,22 +19,22 @@
 */
 
 
-#include "text_decoder.h"
-#include "text_content.h"
-#include "util.h"
-#include "log.h"
 #include "compose.hpp"
+#include "log.h"
+#include "text_content.h"
+#include "text_decoder.h"
+#include "util.h"
 #include <sub/subtitle.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
 
-using std::list;
 using std::cout;
-using std::string;
-using std::min;
 using std::max;
+using std::min;
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -68,7 +68,7 @@ TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 
 
 void
-TextDecoder::emit_plain_start (ContentTime from, list<dcp::SubtitleString> s)
+TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> s)
 {
 	for (auto& i: s) {
 		/* We must escape some things, otherwise they might confuse our subtitle
@@ -130,7 +130,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 		}
 	}
 
-	list<dcp::SubtitleString> out;
+	vector<dcp::SubtitleString> out;
 	for (auto i: subtitle.lines) {
 		for (auto j: i.blocks) {
 
@@ -266,7 +266,7 @@ TextDecoder::emit_stop (ContentTime to)
 
 
 void
-TextDecoder::emit_plain (ContentTimePeriod period, list<dcp::SubtitleString> s)
+TextDecoder::emit_plain (ContentTimePeriod period, vector<dcp::SubtitleString> s)
 {
 	emit_plain_start (period.from, s);
 	emit_stop (period.to);

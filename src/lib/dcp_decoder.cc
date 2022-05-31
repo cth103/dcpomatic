@@ -288,7 +288,7 @@ DCPDecoder::pass_texts (
 			true
 			);
 
-		list<dcp::SubtitleString> strings;
+		vector<dcp::SubtitleString> strings;
 
 		for (auto i: subs) {
 			auto is = dynamic_pointer_cast<const dcp::SubtitleString>(i);
