@@ -18,17 +18,21 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONTENT_TEXT_H
 #define DCPOMATIC_CONTENT_TEXT_H
 
+
+#include "bitmap_text.h"
 #include "dcpomatic_time.h"
 #include "rect.h"
 #include "types.h"
-#include "bitmap_text.h"
 #include <dcp/subtitle_string.h>
 #include <list>
 
+
 class Image;
+
 
 class ContentText
 {
@@ -77,5 +81,6 @@ public:
 
 	std::list<dcp::SubtitleString> subs;
 };
+
 
 #endif

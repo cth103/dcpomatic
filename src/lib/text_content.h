@@ -132,7 +132,7 @@ public:
 		return _y_scale;
 	}
 
-	std::list<std::shared_ptr<dcpomatic::Font> > fonts () const {
+	std::list<std::shared_ptr<dcpomatic::Font>> fonts () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _fonts;
 	}
@@ -221,7 +221,7 @@ private:
 	double _x_scale;
 	/** y scale factor to apply to subtitles */
 	double _y_scale;
-	std::list<std::shared_ptr<dcpomatic::Font> > _fonts;
+	std::list<std::shared_ptr<dcpomatic::Font>> _fonts;
 	boost::optional<dcp::Colour> _colour;
 	boost::optional<dcp::Effect> _effect;
 	boost::optional<dcp::Colour> _effect_colour;
