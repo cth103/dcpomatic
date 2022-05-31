@@ -41,11 +41,11 @@ using namespace dcpomatic;
 
 TextDecoder::TextDecoder (
 	Decoder* parent,
-	shared_ptr<const TextContent> c,
+	shared_ptr<const TextContent> content,
 	ContentTime first
 	)
 	: DecoderPart (parent)
-	, _content (c)
+	, _content (content)
 	, _position (first)
 {
 
@@ -68,37 +68,37 @@ TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 
 
 void
-TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> s)
+TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles)
 {
-	for (auto& i: s) {
+	for (auto& subtitle: subtitles) {
 		/* We must escape some things, otherwise they might confuse our subtitle
 		   renderer (which uses entities and some HTML-esque markup to do bold/italic etc.)
 		*/
-		string t = i.text ();
-		boost::algorithm::replace_all (t, "&", "&amp;");
-		boost::algorithm::replace_all (t, "<", "&lt;");
-		boost::algorithm::replace_all (t, ">", "&gt;");
-		i.set_text (t);
+		string text = subtitle.text();
+		boost::algorithm::replace_all(text, "&", "&amp;");
+		boost::algorithm::replace_all(text, "<", "&lt;");
+		boost::algorithm::replace_all(text, ">", "&gt;");
+		subtitle.set_text (text);
 
 		/* Set any forced appearance */
 		if (content()->colour()) {
-			i.set_colour (*content()->colour());
+			subtitle.set_colour(*content()->colour());
 		}
 		if (content()->effect_colour()) {
-			i.set_effect_colour (*content()->effect_colour());
+			subtitle.set_effect_colour(*content()->effect_colour());
 		}
 		if (content()->effect()) {
-			i.set_effect (*content()->effect());
+			subtitle.set_effect(*content()->effect());
 		}
 		if (content()->fade_in()) {
-			i.set_fade_up_time (dcp::Time(content()->fade_in()->seconds(), 1000));
+			subtitle.set_fade_up_time(dcp::Time(content()->fade_in()->seconds(), 1000));
 		}
 		if (content()->fade_out()) {
-			i.set_fade_down_time (dcp::Time(content()->fade_out()->seconds(), 1000));
+			subtitle.set_fade_down_time (dcp::Time(content()->fade_out()->seconds(), 1000));
 		}
 	}
 
-	PlainStart (ContentStringText (from, s));
+	PlainStart(ContentStringText(from, subtitles));
 	_position = from;
 }
 
@@ -109,70 +109,70 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
 	optional<int> bottom_line;
-	for (auto i: subtitle.lines) {
-		if (!i.vertical_position.reference || (i.vertical_position.line && !i.vertical_position.lines) || i.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
+	for (auto line: subtitle.lines) {
+		if (!line.vertical_position.reference || (line.vertical_position.line && !line.vertical_position.lines) || line.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
-			if (!bottom_line || bottom_line.get() < i.vertical_position.line.get()) {
-				bottom_line = i.vertical_position.line.get();
+			if (!bottom_line || bottom_line.get() < line.vertical_position.line.get()) {
+				bottom_line = line.vertical_position.line.get();
 			}
 		}
 	}
 
 	/* Find the lowest proportional position */
 	optional<float> lowest_proportional;
-	for (auto i: subtitle.lines) {
-		if (i.vertical_position.proportional) {
+	for (auto line: subtitle.lines) {
+		if (line.vertical_position.proportional) {
 			if (!lowest_proportional) {
-				lowest_proportional = i.vertical_position.proportional;
+				lowest_proportional = line.vertical_position.proportional;
 			} else {
-				lowest_proportional = min (lowest_proportional.get(), i.vertical_position.proportional.get());
+				lowest_proportional = min(lowest_proportional.get(), line.vertical_position.proportional.get());
 			}
 		}
 	}
 
 	vector<dcp::SubtitleString> out;
-	for (auto i: subtitle.lines) {
-		for (auto j: i.blocks) {
+	for (auto line: subtitle.lines) {
+		for (auto block: line.blocks) {
 
-			if (!j.font_size.specified()) {
+			if (!block.font_size.specified()) {
 				/* Fallback default font size if no other has been specified */
-				j.font_size.set_points (48);
+				block.font_size.set_points (48);
 			}
 
 			float v_position;
 			dcp::VAlign v_align;
 			if (needs_placement) {
-				DCPOMATIC_ASSERT (i.vertical_position.line);
-				double const multiplier = 1.2 * content()->line_spacing() * content()->y_scale() * j.font_size.proportional (72 * 11);
-				switch (i.vertical_position.reference.get_value_or(sub::BOTTOM_OF_SCREEN)) {
+				DCPOMATIC_ASSERT (line.vertical_position.line);
+				double const multiplier = 1.2 * content()->line_spacing() * content()->y_scale() * block.font_size.proportional (72 * 11);
+				switch (line.vertical_position.reference.get_value_or(sub::BOTTOM_OF_SCREEN)) {
 				case sub::BOTTOM_OF_SCREEN:
 				case sub::TOP_OF_SUBTITLE:
 					/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
 					   of the screen a bit to a pleasing degree.
 					   */
 					v_position = 1.015 -
-						(1 + bottom_line.get() - i.vertical_position.line.get()) * multiplier;
+						(1 + bottom_line.get() - line.vertical_position.line.get()) * multiplier;
 
 					v_align = dcp::VAlign::TOP;
 					break;
 				case sub::TOP_OF_SCREEN:
 					/* This 0.1 is another fudge factor to bring the top line away from the top of the screen a little */
-					v_position = 0.12 + i.vertical_position.line.get() * multiplier;
+					v_position = 0.12 + line.vertical_position.line.get() * multiplier;
 					v_align = dcp::VAlign::TOP;
 					break;
 				case sub::VERTICAL_CENTRE_OF_SCREEN:
-					v_position = i.vertical_position.line.get() * multiplier;
+					v_position = line.vertical_position.line.get() * multiplier;
 					v_align = dcp::VAlign::CENTER;
 					break;
 				}
 			} else {
-				DCPOMATIC_ASSERT (i.vertical_position.reference);
-				if (i.vertical_position.proportional) {
-					v_position = i.vertical_position.proportional.get();
+				DCPOMATIC_ASSERT (line.vertical_position.reference);
+				if (line.vertical_position.proportional) {
+					v_position = line.vertical_position.proportional.get();
 				} else {
-					DCPOMATIC_ASSERT (i.vertical_position.line);
-					DCPOMATIC_ASSERT (i.vertical_position.lines);
-					v_position = float(*i.vertical_position.line) / *i.vertical_position.lines;
+					DCPOMATIC_ASSERT (line.vertical_position.line);
+					DCPOMATIC_ASSERT (line.vertical_position.lines);
+					v_position = float(*line.vertical_position.line) / *line.vertical_position.lines;
 				}
 
 				if (lowest_proportional) {
@@ -180,7 +180,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 					v_position = ((v_position - lowest_proportional.get()) * content()->line_spacing()) + lowest_proportional.get();
 				}
 
-				switch (i.vertical_position.reference.get()) {
+				switch (line.vertical_position.reference.get()) {
 				case sub::TOP_OF_SCREEN:
 					v_align = dcp::VAlign::TOP;
 					break;
@@ -197,8 +197,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 			}
 
 			dcp::HAlign h_align;
-			float h_position = i.horizontal_position.proportional;
-			switch (i.horizontal_position.reference) {
+			float h_position = line.horizontal_position.proportional;
+			switch (line.horizontal_position.reference) {
 			case sub::LEFT_OF_SCREEN:
 				h_align = dcp::HAlign::LEFT;
 				h_position = max(h_position, 0.05f);
@@ -223,11 +223,11 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 			out.push_back (
 				dcp::SubtitleString (
 					string(TEXT_FONT_ID),
-					j.italic,
-					j.bold,
-					j.underline,
-					j.colour.dcp(),
-					j.font_size.points (72 * 11),
+					block.italic,
+					block.bold,
+					block.underline,
+					block.colour.dcp(),
+					block.font_size.points (72 * 11),
 					1.0,
 					dcp::Time (from.seconds(), 1000),
 					/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
@@ -237,9 +237,9 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 					v_position,
 					v_align,
 					dcp::Direction::LTR,
-					j.text,
+					block.text,
 					dcp::Effect::NONE,
-					j.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
+					block.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
 					/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
 					   but the times of these often don't have a frame rate associated
 					   with them so the sub::Time won't convert them to milliseconds without
@@ -266,17 +266,17 @@ TextDecoder::emit_stop (ContentTime to)
 
 
 void
-TextDecoder::emit_plain (ContentTimePeriod period, vector<dcp::SubtitleString> s)
+TextDecoder::emit_plain (ContentTimePeriod period, vector<dcp::SubtitleString> subtitles)
 {
-	emit_plain_start (period.from, s);
+	emit_plain_start (period.from, subtitles);
 	emit_stop (period.to);
 }
 
 
 void
-TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const & s)
+TextDecoder::emit_plain (ContentTimePeriod period, sub::Subtitle const& subtitles)
 {
-	emit_plain_start (period.from, s);
+	emit_plain_start (period.from, subtitles);
 	emit_stop (period.to);
 }
 
