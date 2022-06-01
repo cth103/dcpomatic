@@ -24,7 +24,6 @@
 
 
 #include "bitmap_text.h"
-#include "dcpomatic_time.h"
 #include "string_text.h"
 
 

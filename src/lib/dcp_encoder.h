@@ -21,6 +21,7 @@
 
 #include "atmos_metadata.h"
 #include "dcp_text_track.h"
+#include "dcpomatic_time.h"
 #include "encoder.h"
 #include "player_text.h"
 #include "types.h"

@@ -24,6 +24,7 @@
 
 
 #include "audio_mapping.h"
+#include "dcpomatic_time.h"
 #include "encoder.h"
 #include "event_history.h"
 #include "log.h"

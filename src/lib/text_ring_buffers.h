@@ -24,6 +24,7 @@
 
 
 #include "dcp_text_track.h"
+#include "dcpomatic_time.h"
 #include "player_text.h"
 #include <boost/thread.hpp>
 #include <utility>
