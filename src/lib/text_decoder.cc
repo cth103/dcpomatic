@@ -117,12 +117,12 @@ TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> sub
 
 
 void
-TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
+TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subtitle)
 {
 	/* See if our next subtitle needs to be vertically placed on screen by us */
 	bool needs_placement = false;
 	optional<int> bottom_line;
-	for (auto line: subtitle.lines) {
+	for (auto line: sub_subtitle.lines) {
 		if (!line.vertical_position.reference || (line.vertical_position.line && !line.vertical_position.lines) || line.vertical_position.reference.get() == sub::TOP_OF_SUBTITLE) {
 			needs_placement = true;
 			if (!bottom_line || bottom_line.get() < line.vertical_position.line.get()) {
@@ -133,7 +133,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 
 	/* Find the lowest proportional position */
 	optional<float> lowest_proportional;
-	for (auto line: subtitle.lines) {
+	for (auto line: sub_subtitle.lines) {
 		if (line.vertical_position.proportional) {
 			if (!lowest_proportional) {
 				lowest_proportional = line.vertical_position.proportional;
@@ -143,8 +143,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 		}
 	}
 
-	vector<dcp::SubtitleString> out;
-	for (auto line: subtitle.lines) {
+	vector<dcp::SubtitleString> dcp_subtitles;
+	for (auto line: sub_subtitle.lines) {
 		for (auto block: line.blocks) {
 
 			if (!block.font_size.specified()) {
@@ -233,7 +233,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 			   content by the other emit_plain_start() above.
 			*/
 
-			out.push_back (
+			dcp_subtitles.push_back(
 				dcp::SubtitleString (
 					string(TEXT_FONT_ID),
 					block.italic,
@@ -268,7 +268,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & subtitle)
 	}
 
 	/* Pass these subs through the other emit_plain_start so that they get their forced settings applied */
-	emit_plain_start (from, out);
+	emit_plain_start (from, dcp_subtitles);
 }
 
 
