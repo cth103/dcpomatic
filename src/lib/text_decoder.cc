@@ -81,28 +81,34 @@ escape_text (string text)
 }
 
 
+static
+void
+set_forced_appearance(shared_ptr<const TextContent> content, dcp::SubtitleString& subtitle)
+{
+	if (content->colour()) {
+		subtitle.set_colour(*content->colour());
+	}
+	if (content->effect_colour()) {
+		subtitle.set_effect_colour(*content->effect_colour());
+	}
+	if (content->effect()) {
+		subtitle.set_effect(*content->effect());
+	}
+	if (content->fade_in()) {
+		subtitle.set_fade_up_time(dcp::Time(content->fade_in()->seconds(), 1000));
+	}
+	if (content->fade_out()) {
+		subtitle.set_fade_down_time (dcp::Time(content->fade_out()->seconds(), 1000));
+	}
+}
+
+
 void
 TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles)
 {
 	for (auto& subtitle: subtitles) {
 		subtitle.set_text(escape_text(subtitle.text()));
-
-		/* Set any forced appearance */
-		if (content()->colour()) {
-			subtitle.set_colour(*content()->colour());
-		}
-		if (content()->effect_colour()) {
-			subtitle.set_effect_colour(*content()->effect_colour());
-		}
-		if (content()->effect()) {
-			subtitle.set_effect(*content()->effect());
-		}
-		if (content()->fade_in()) {
-			subtitle.set_fade_up_time(dcp::Time(content()->fade_in()->seconds(), 1000));
-		}
-		if (content()->fade_out()) {
-			subtitle.set_fade_down_time (dcp::Time(content()->fade_out()->seconds(), 1000));
-		}
+		set_forced_appearance(content(), subtitle);
 	}
 
 	PlainStart(ContentStringText(from, subtitles));
