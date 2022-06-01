@@ -25,10 +25,10 @@
 
 
 #include "atmos_metadata.h"
-#include "types.h"
-#include "player_text.h"
-#include "exception_store.h"
 #include "dcp_text_track.h"
+#include "exception_store.h"
+#include "player_text.h"
+#include "types.h"
 #include "weak_film.h"
 #include <dcp/atmos_frame.h>
 #include <boost/thread.hpp>
@@ -44,11 +44,11 @@ namespace dcpomatic {
 	class FontData;
 }
 
-class Film;
 class AudioBuffers;
+class Film;
 class Job;
-class ReferencedReelAsset;
 class ReelWriter;
+class ReferencedReelAsset;
 
 
 struct QueueItem

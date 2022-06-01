@@ -18,20 +18,23 @@
 
 */
 
+
 #include "atmos_metadata.h"
-#include "types.h"
-#include "player_text.h"
 #include "dcp_text_track.h"
 #include "encoder.h"
+#include "player_text.h"
+#include "types.h"
 #include <dcp/atmos_frame.h>
 
+
+class AudioBuffers;
 class Film;
 class J2KEncoder;
-class Player;
-class Writer;
 class Job;
+class Player;
 class PlayerVideo;
-class AudioBuffers;
+class Writer;
+
 
 /** @class DCPEncoder */
 class DCPEncoder : public Encoder

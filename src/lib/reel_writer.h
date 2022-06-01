@@ -18,42 +18,45 @@
 
 */
 
+
 #include "atmos_metadata.h"
-#include "types.h"
-#include "dcpomatic_time.h"
-#include "referenced_reel_asset.h"
-#include "player_text.h"
 #include "dcp_text_track.h"
+#include "dcpomatic_time.h"
+#include "player_text.h"
+#include "referenced_reel_asset.h"
+#include "types.h"
 #include "weak_film.h"
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/file.h>
 #include <dcp/picture_asset_writer.h>
 
+
 namespace dcpomatic {
 	class FontData;
 }
 
-class Film;
-class Job;
 class AudioBuffers;
+class Film;
 class InfoFileHandle;
+class Job;
 struct write_frame_info_test;
 
 namespace dcp {
+	class AtmosAsset;
 	class MonoPictureAsset;
 	class MonoPictureAssetWriter;
-	class StereoPictureAsset;
-	class StereoPictureAssetWriter;
 	class PictureAsset;
 	class PictureAssetWriter;
+	class Reel;
+	class ReelAsset;
+	class ReelPictureAsset;
 	class SoundAsset;
 	class SoundAssetWriter;
+	class StereoPictureAsset;
+	class StereoPictureAssetWriter;
 	class SubtitleAsset;
-	class AtmosAsset;
-	class ReelAsset;
-	class Reel;
-	class ReelPictureAsset;
 }
+
 
 class ReelWriter : public WeakConstFilm
 {
