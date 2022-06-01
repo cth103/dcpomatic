@@ -67,18 +67,25 @@ TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 }
 
 
+static
+string
+escape_text (string text)
+{
+	/* We must escape some things, otherwise they might confuse our subtitle
+	   renderer (which uses entities and some HTML-esque markup to do bold/italic etc.)
+	*/
+	boost::algorithm::replace_all(text, "&", "&amp;");
+	boost::algorithm::replace_all(text, "<", "&lt;");
+	boost::algorithm::replace_all(text, ">", "&gt;");
+	return text;
+}
+
+
 void
 TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles)
 {
 	for (auto& subtitle: subtitles) {
-		/* We must escape some things, otherwise they might confuse our subtitle
-		   renderer (which uses entities and some HTML-esque markup to do bold/italic etc.)
-		*/
-		string text = subtitle.text();
-		boost::algorithm::replace_all(text, "&", "&amp;");
-		boost::algorithm::replace_all(text, "<", "&lt;");
-		boost::algorithm::replace_all(text, ">", "&gt;");
-		subtitle.set_text (text);
+		subtitle.set_text(escape_text(subtitle.text()));
 
 		/* Set any forced appearance */
 		if (content()->colour()) {
