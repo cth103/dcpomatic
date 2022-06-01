@@ -267,8 +267,13 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 		}
 	}
 
-	/* Pass these subs through the other emit_plain_start so that they get their forced settings applied */
-	emit_plain_start (from, dcp_subtitles);
+	for (auto& subtitle: dcp_subtitles) {
+		subtitle.set_text(escape_text(subtitle.text()));
+		set_forced_appearance(content(), subtitle);
+	}
+
+	PlainStart(ContentStringText(from, dcp_subtitles));
+	_position = from;
 }
 
 
