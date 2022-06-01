@@ -104,18 +104,7 @@ DCPEncoder::go ()
 	}
 
 	if (_non_burnt_subtitles) {
-		auto fonts = _player->get_subtitle_fonts ();
-
-		if (fonts.size() > 1 && _film->interop()) {
-			/* Interop will ignore second and subsequent <LoadFont>s so don't even
-			   write them as they upset some validators.
-			*/
-			auto first = fonts.front();
-			fonts.clear ();
-			fonts.push_back (first);
-		}
-
-		_writer->write (fonts);
+		_writer->write(_player->get_subtitle_fonts());
 	}
 
 	while (!_player->pass ()) {}

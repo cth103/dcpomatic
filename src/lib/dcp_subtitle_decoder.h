@@ -21,7 +21,6 @@
 
 #include "text_decoder.h"
 #include "dcp_subtitle.h"
-#include "font_data.h"
 
 
 class DCPSubtitleContent;
@@ -35,8 +34,6 @@ public:
 	bool pass () override;
 	void seek (dcpomatic::ContentTime time, bool accurate) override;
 
-	std::vector<dcpomatic::FontData> fonts () const override;
-
 	boost::optional<dcpomatic::ContentTime> first () const;
 
 private:
@@ -44,6 +41,4 @@ private:
 
 	std::vector<std::shared_ptr<const dcp::Subtitle>> _subtitles;
 	std::vector<std::shared_ptr<const dcp::Subtitle>>::const_iterator _next;
-
-	std::vector<dcpomatic::FontData> _fonts;
 };

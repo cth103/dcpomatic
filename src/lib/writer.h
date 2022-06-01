@@ -28,6 +28,7 @@
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
 #include "exception_store.h"
+#include "font_id_map.h"
 #include "player_text.h"
 #include "types.h"
 #include "weak_film.h"
@@ -41,15 +42,14 @@ namespace dcp {
 	class Data;
 }
 
-namespace dcpomatic {
-	class FontData;
-}
-
 class AudioBuffers;
 class Film;
 class Job;
 class ReelWriter;
 class ReferencedReelAsset;
+struct writer_disambiguate_font_ids1;
+struct writer_disambiguate_font_ids2;
+struct writer_disambiguate_font_ids3;
 
 
 struct QueueItem
@@ -115,7 +115,7 @@ public:
 	void repeat (Frame, Eyes);
 	void write (std::shared_ptr<const AudioBuffers>, dcpomatic::DCPTime time);
 	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod period);
-	void write (std::vector<dcpomatic::FontData> fonts);
+	void write (std::vector<std::shared_ptr<dcpomatic::Font>> fonts);
 	void write (ReferencedReelAsset asset);
 	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
 	void finish (boost::filesystem::path output_dcp);
@@ -123,6 +123,10 @@ public:
 	void set_encoder_threads (int threads);
 
 private:
+	friend struct ::writer_disambiguate_font_ids1;
+	friend struct ::writer_disambiguate_font_ids2;
+	friend struct ::writer_disambiguate_font_ids3;
+
 	void thread ();
 	void terminate_thread (bool);
 	bool have_sequenced_image_at_queue_head ();
@@ -201,7 +205,11 @@ private:
 
 	std::list<ReferencedReelAsset> _reel_assets;
 
-	std::vector<dcpomatic::FontData> _fonts;
+	FontIdMap _fonts;
+	/** If we are given many fonts, but we're making an Interop DCP, we'll choose a single
+	 *  one that we'll use everywher.  This is that chosen font.
+	 */
+	std::shared_ptr<dcpomatic::Font> _chosen_interop_font;
 
 	/** true if any reel has any subtitles */
 	bool _have_subtitles = false;

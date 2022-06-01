@@ -114,8 +114,8 @@ sources = """
           film.cc
           filter.cc
           font.cc
-          font_data.cc
           font_config.cc
+          font_id_map.cc
           frame_interval_checker.cc
           frame_rate_change.cc
           guess_crop.cc
@@ -146,7 +146,6 @@ sources = """
           overlaps.cc
           pixel_quanta.cc
           player.cc
-          player_text.cc
           player_video.cc
           playlist.cc
           position_image.cc

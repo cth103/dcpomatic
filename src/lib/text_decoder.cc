@@ -83,7 +83,7 @@ escape_text (string text)
 
 static
 void
-set_forced_appearance(shared_ptr<const TextContent> content, dcp::SubtitleString& subtitle)
+set_forced_appearance(shared_ptr<const TextContent> content, StringText& subtitle)
 {
 	if (content->colour()) {
 		subtitle.set_colour(*content->colour());
@@ -106,12 +106,16 @@ set_forced_appearance(shared_ptr<const TextContent> content, dcp::SubtitleString
 void
 TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles)
 {
+	vector<StringText> string_texts;
+
 	for (auto& subtitle: subtitles) {
-		subtitle.set_text(escape_text(subtitle.text()));
-		set_forced_appearance(content(), subtitle);
+		auto string_text = StringText(subtitle, content()->outline_width(), subtitle.font() ? content()->get_font(*subtitle.font()) : shared_ptr<Font>());
+		string_text.set_text(escape_text(string_text.text()));
+		set_forced_appearance(content(), string_text);
+		string_texts.push_back(string_text);
 	}
 
-	PlainStart(ContentStringText(from, subtitles));
+	PlainStart(ContentStringText(from, string_texts));
 	_position = from;
 }
 
@@ -143,7 +147,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 		}
 	}
 
-	vector<dcp::SubtitleString> dcp_subtitles;
+	vector<StringText> string_texts;
 	for (auto line: sub_subtitle.lines) {
 		for (auto block: line.blocks) {
 
@@ -233,46 +237,43 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 			   content by the other emit_plain_start() above.
 			*/
 
-			dcp_subtitles.push_back(
-				dcp::SubtitleString (
-					string(TEXT_FONT_ID),
-					block.italic,
-					block.bold,
-					block.underline,
-					block.colour.dcp(),
-					block.font_size.points (72 * 11),
-					1.0,
-					dcp::Time (from.seconds(), 1000),
-					/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
-					dcp::Time (),
-					h_position,
-					h_align,
-					v_position,
-					v_align,
-					dcp::Direction::LTR,
-					block.text,
-					dcp::Effect::NONE,
-					block.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
-					/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
-					   but the times of these often don't have a frame rate associated
-					   with them so the sub::Time won't convert them to milliseconds without
-					   throwing an exception.  Since only DCP subs fill those in (and we don't
-					   use libsub for DCP subs) we can cheat by just putting 0 in here.
-					*/
-					dcp::Time (),
-					dcp::Time (),
-					0
-					)
+			auto dcp_subtitle = dcp::SubtitleString(
+				optional<string>(),
+				block.italic,
+				block.bold,
+				block.underline,
+				block.colour.dcp(),
+				block.font_size.points (72 * 11),
+				1.0,
+				dcp::Time (from.seconds(), 1000),
+				/* XXX: hmm; this is a bit ugly (we don't know the to time yet) */
+				dcp::Time (),
+				h_position,
+				h_align,
+				v_position,
+				v_align,
+				dcp::Direction::LTR,
+				escape_text(block.text),
+				dcp::Effect::NONE,
+				block.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
+				/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
+				   but the times of these often don't have a frame rate associated
+				   with them so the sub::Time won't convert them to milliseconds without
+				   throwing an exception.  Since only DCP subs fill those in (and we don't
+				   use libsub for DCP subs) we can cheat by just putting 0 in here.
+				*/
+				dcp::Time (),
+				dcp::Time (),
+				0
 				);
+
+			auto string_text = StringText(dcp_subtitle, content()->outline_width(), content()->get_font(block.font.get_value_or("")));
+			set_forced_appearance(content(), string_text);
+			string_texts.push_back(string_text);
 		}
 	}
 
-	for (auto& subtitle: dcp_subtitles) {
-		subtitle.set_text(escape_text(subtitle.text()));
-		set_forced_appearance(content(), subtitle);
-	}
-
-	PlainStart(ContentStringText(from, dcp_subtitles));
+	PlainStart(ContentStringText(from, string_texts));
 	_position = from;
 }
 

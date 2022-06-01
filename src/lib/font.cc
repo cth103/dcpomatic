@@ -28,6 +28,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 using std::string;
+using boost::optional;
 using namespace dcpomatic;
 
 
@@ -69,3 +70,19 @@ dcpomatic::operator!= (Font const & a, Font const & b)
 {
 	return !(a == b);
 }
+
+
+optional<dcp::ArrayData>
+Font::data () const
+{
+	if (_data) {
+		return _data;
+	}
+
+	if (_file) {
+		return dcp::ArrayData(*_file);
+	}
+
+	return {};
+}
+

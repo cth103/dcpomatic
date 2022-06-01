@@ -44,6 +44,9 @@ public:
 
 	boost::optional<dcpomatic::ContentTime> first () const;
 	dcpomatic::ContentTime length () const;
+	std::vector<sub::Subtitle> const& subtitles() const {
+		return _subtitles;
+	}
 
 protected:
 	std::vector<sub::Subtitle> _subtitles;

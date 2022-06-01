@@ -34,8 +34,6 @@ public:
 	void seek (dcpomatic::ContentTime time, bool accurate) override;
 	bool pass () override;
 
-	std::vector<dcpomatic::FontData> fonts () const override;
-
 private:
 	dcpomatic::ContentTimePeriod content_time_period (sub::Subtitle s) const;
 

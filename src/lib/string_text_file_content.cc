@@ -61,14 +61,29 @@ void
 StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	Content::examine (film, job);
-	StringTextFile s (shared_from_this());
+	StringTextFile file (shared_from_this());
 
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
 
+	std::set<string> names;
+	for (auto const& subtitle: file.subtitles()) {
+		for (auto const& line: subtitle.lines) {
+			for (auto const& block: line.blocks) {
+				names.insert(block.font.get_value_or(""));
+			}
+		}
+	}
+
+	for (auto name: names) {
+		/* Make a font for each family name that somebody might later
+		 * ask about.
+		 */
+		only_text()->add_font(make_shared<Font>(name));
+	}
+
 	boost::mutex::scoped_lock lm (_mutex);
-	_length = s.length ();
-	only_text()->add_font (make_shared<Font>(TEXT_FONT_ID));
+	_length = file.length();
 }
 
 

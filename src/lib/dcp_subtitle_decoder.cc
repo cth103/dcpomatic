@@ -51,43 +51,6 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 		first = content_time_period(*_next).from;
 	}
 	text.push_back (make_shared<TextDecoder>(this, content->only_text(), first));
-
-	/* The fonts that are included in content's file; if it's interop there will be none
-	 * (as the fonts are held in separate assets).
-	 */
-	auto fonts_in_asset = c->font_data();
-
-	/* Fonts specified in the TextContent */
-	list<shared_ptr<dcpomatic::Font>> fonts_in_content;
-	for (auto i: content->text) {
-		auto this_fonts = i->fonts();
-		std::copy(this_fonts.begin(), this_fonts.end(), std::back_inserter(fonts_in_content));
-	}
-	fonts_in_content.sort();
-	fonts_in_content.unique();
-
-	/* Find a font for each <LoadFont> Node */
-	for (auto i: c->load_font_nodes()) {
-		bool done = false;
-		for (auto j: fonts_in_content) {
-			if (j->id() == i->id && j->file()) {
-				// One was specified in the content
-				_fonts.push_back (FontData(i->id, dcp::ArrayData(*j->file())));
-				done = true;
-			}
-		}
-		if (!done) {
-			if (fonts_in_asset.find(i->id) != fonts_in_asset.end()) {
-				// One was included in the subtitle file
-				_fonts.push_back (FontData(i->id, fonts_in_asset[i->id]));
-				done = true;
-			}
-		}
-		if (!done) {
-			// Give up and add a default
-			_fonts.push_back (FontData(i->id, dcp::ArrayData(default_font_file())));
-		}
-	}
 }
 
 
@@ -155,13 +118,6 @@ DCPSubtitleDecoder::content_time_period (shared_ptr<const dcp::Subtitle> s) cons
 }
 
 
-vector<dcpomatic::FontData>
-DCPSubtitleDecoder::fonts () const
-{
-	return _fonts;
-}
-
-
 /** @return time of first subtitle, if there is one */
 optional<ContentTime>
 DCPSubtitleDecoder::first () const
@@ -172,3 +128,4 @@ DCPSubtitleDecoder::first () const
 
 	return ContentTime::from_seconds(_subtitles[0]->in().as_seconds());
 }
+

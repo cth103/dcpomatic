@@ -20,7 +20,6 @@
 
 
 #include "compose.hpp"
-#include "font_data.h"
 #include "job.h"
 #include "player.h"
 #include "subtitle_encoder.h"
@@ -121,7 +120,7 @@ SubtitleEncoder::go ()
 
 		if (!_film->interop() || _include_font) {
 			for (auto j: _player->get_subtitle_fonts()) {
-				i.first->add_font (j.id, _default_font);
+				i.first->add_font(j->id(), j->data().get_value_or(_default_font));
 			}
 		}
 

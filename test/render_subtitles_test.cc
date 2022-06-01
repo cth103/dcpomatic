@@ -18,14 +18,18 @@
 
 */
 
+
 /** @file  test/render_text_test.cc
  *  @brief Check markup of subtitles for rendering.
  *  @ingroup feature
  */
 
+
 #include "lib/render_text.h"
+#include "lib/string_text.h"
 #include <dcp/subtitle_string.h>
 #include <boost/test/unit_test.hpp>
+
 
 static void
 add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool underline)
@@ -54,7 +58,8 @@ add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool un
 				dcp::Time (),
 				0
 				),
-			2
+			2,
+			std::shared_ptr<dcpomatic::Font>()
 			)
 		);
 }

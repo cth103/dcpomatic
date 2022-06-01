@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,27 +19,27 @@
 */
 
 
+#include "dcpomatic_assert.h"
 #include "font.h"
-#include "player_text.h"
+#include "font_id_map.h"
 
 
-using std::list;
 using std::shared_ptr;
-using namespace dcpomatic;
+using std::string;
+
+
+std::string
+FontIdMap::get(shared_ptr<dcpomatic::Font> font) const
+{
+	auto iter = _map.find(font);
+	DCPOMATIC_ASSERT(iter != _map.end());
+	return iter->second;
+}
 
 
 void
-PlayerText::add_fonts (list<shared_ptr<Font>> fonts_)
+FontIdMap::put(shared_ptr<dcpomatic::Font> font, string id)
 {
-	for (auto i: fonts_) {
-		bool got = false;
-		for (auto j: fonts) {
-			if (*i == *j) {
-				got = true;
-			}
-		}
-		if (!got) {
-			fonts.push_back (i);
-		}
-	}
+	_map[font] = id;
 }
+

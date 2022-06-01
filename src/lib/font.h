@@ -23,6 +23,7 @@
 #define DCPOMATIC_FONT_H
 
 
+#include <dcp/array_data.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
@@ -52,6 +53,10 @@ public:
 		return _id;
 	}
 
+	void set_id (std::string id) {
+		_id = id;
+	}
+
 	boost::optional<boost::filesystem::path> file () const {
 		return _file;
 	}
@@ -61,11 +66,16 @@ public:
 		Changed ();
 	}
 
+	boost::optional<dcp::ArrayData> data() const;
+
 	boost::signals2::signal<void()> Changed;
 
 private:
-	/** Font ID, used to describe it in the subtitle content */
+	/** Font ID, used to describe it in the subtitle content; could be either a
+	 *  font family name or an ID from some DCP font XML.
+	 */
 	std::string _id;
+	boost::optional<dcp::ArrayData> _data;
 	boost::optional<boost::filesystem::path> _file;
 };
 

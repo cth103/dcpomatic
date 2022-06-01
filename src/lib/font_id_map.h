@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2022 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,43 +19,34 @@
 */
 
 
-#ifndef DCPOMATIC_FONT_DATA_H
-#define DCPOMATIC_FONT_DATA_H
+#ifndef DCPOMATIC_FONT_ID_MAP_H
+#define DCPOMATIC_FONT_ID_MAP_H
 
 
-#include <dcp/array_data.h>
-#include <boost/optional.hpp>
+#include <map>
 #include <string>
 
 
 namespace dcpomatic {
-
-
-class Font;
-
-
-/** A font (TTF) file held as a block of data */
-class FontData
-{
-public:
-	FontData (std::shared_ptr<const Font> font);
-
-	FontData (std::string id_, dcp::ArrayData data_)
-		: id(id_)
-		, data(data_)
-	{}
-
-	/** <LoadFont> ID */
-	std::string id;
-	boost::optional<dcp::ArrayData> data;
-};
-
-
-extern bool operator== (FontData const& a, FontData const& b);
-extern bool operator!= (FontData const& a, FontData const& b);
-
-
+	class Font;
 }
 
 
+class FontIdMap
+{
+public:
+	std::string get(std::shared_ptr<dcpomatic::Font> font) const;
+	void put(std::shared_ptr<dcpomatic::Font> font, std::string id);
+
+	std::map<std::shared_ptr<dcpomatic::Font>, std::string> const& map() const {
+		return _map;
+	}
+
+private:
+	std::map<std::shared_ptr<dcpomatic::Font>, std::string> _map;
+
+};
+
+
 #endif
+

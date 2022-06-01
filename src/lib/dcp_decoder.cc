@@ -502,18 +502,3 @@ DCPDecoder::position () const
 	return ContentTime::from_frames(_offset, _dcp_content->active_video_frame_rate(film())) + _next;
 }
 
-
-vector<FontData>
-DCPDecoder::fonts () const
-{
-	vector<FontData> data;
-	for (auto i: _reels) {
-		if (i->main_subtitle() && i->main_subtitle()->asset()) {
-			for (auto const& j: i->main_subtitle()->asset()->font_data()) {
-				data.push_back (FontData(j.first, j.second));
-			}
-		}
-	}
-	return data;
-}
-

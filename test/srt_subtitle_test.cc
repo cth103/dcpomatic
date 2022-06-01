@@ -170,13 +170,14 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_sequence (false);
-	auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	content->only_text()->set_use (true);
-	content->only_text()->set_burn (false);
-	film->examine_and_add_content (content);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
-	content->set_position (film, DCPTime());
+	for (auto i = 0; i < 2; ++i) {
+		auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
+		content->only_text()->set_use (true);
+		content->only_text()->set_burn (false);
+		film->examine_and_add_content (content);
+		BOOST_REQUIRE (!wait_for_jobs());
+		content->set_position (film, DCPTime());
+	}
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	check_dcp ("test/data/xml_subtitle_test2", film->dir (film->dcp_name ()));

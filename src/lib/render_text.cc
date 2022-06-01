@@ -171,14 +171,12 @@ create_surface (shared_ptr<Image> image)
 
 
 static string
-setup_font (StringText const& subtitle, list<shared_ptr<Font>> const& fonts)
+setup_font (StringText const& subtitle)
 {
 	auto font_file = default_font_file ();
 
-	for (auto i: fonts) {
-		if (i->id() == subtitle.font() && i->file()) {
-			font_file = i->file().get();
-		}
+	if (subtitle.font && subtitle.font->file()) {
+		font_file = *subtitle.font->file();
 	}
 
 	return FontConfig::instance()->make_font_available(font_file);
@@ -278,7 +276,7 @@ y_position (StringText const& first, int target_height, int layout_height)
  *  at the same time and with the same fade in/out.
  */
 static PositionImage
-render_line (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
@@ -287,7 +285,7 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size
 	DCPOMATIC_ASSERT (!subtitles.empty ());
 	auto const& first = subtitles.front ();
 
-	auto const font_name = setup_font (first, fonts);
+	auto const font_name = setup_font (first);
 	auto const fade_factor = calculate_fade_factor (first, time, frame_rate);
 	auto const markup = marked_up (subtitles, target.height, fade_factor, font_name);
 	auto layout = create_layout ();
@@ -375,21 +373,21 @@ render_line (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size
  *  @param frame_rate DCP frame rate.
  */
 list<PositionImage>
-render_text (list<StringText> subtitles, list<shared_ptr<Font>> fonts, dcp::Size target, DCPTime time, int frame_rate)
+render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
 {
 	list<StringText> pending;
 	list<PositionImage> images;
 
 	for (auto const& i: subtitles) {
 		if (!pending.empty() && (i.v_align() != pending.back().v_align() || fabs(i.v_position() - pending.back().v_position()) > 1e-4)) {
-			images.push_back (render_line (pending, fonts, target, time, frame_rate));
+			images.push_back(render_line(pending, target, time, frame_rate));
 			pending.clear ();
 		}
 		pending.push_back (i);
 	}
 
 	if (!pending.empty()) {
-		images.push_back (render_line (pending, fonts, target, time, frame_rate));
+		images.push_back(render_line(pending,  target, time, frame_rate));
 	}
 
 	return images;

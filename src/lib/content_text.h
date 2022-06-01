@@ -26,6 +26,7 @@
 #include "bitmap_text.h"
 #include "dcpomatic_time.h"
 #include "rect.h"
+#include "string_text.h"
 #include "types.h"
 #include <dcp/subtitle_string.h>
 #include <vector>
@@ -74,12 +75,12 @@ public:
 class ContentStringText : public ContentText
 {
 public:
-	ContentStringText (dcpomatic::ContentTime f, std::vector<dcp::SubtitleString> s)
+	ContentStringText (dcpomatic::ContentTime f, std::vector<StringText> s)
 		: ContentText (f)
 		, subs (s)
 	{}
 
-	std::vector<dcp::SubtitleString> subs;
+	std::vector<StringText> subs;
 };
 
 

@@ -29,7 +29,6 @@
 #include "dcp_content_type.h"
 #include "film.h"
 #include "font.h"
-#include "font_data.h"
 #include "hints.h"
 #include "maths_util.h"
 #include "player.h"
@@ -418,6 +417,8 @@ try
 
 	struct timeval last_pulse;
 	gettimeofday (&last_pulse, 0);
+
+	_writer->write (player->get_subtitle_fonts());
 
 	while (!player->pass()) {
 

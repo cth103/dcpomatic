@@ -62,8 +62,6 @@ public:
 	bool pass () override;
 	void seek (dcpomatic::ContentTime t, bool accurate) override;
 
-	std::vector<dcpomatic::FontData> fonts () const override;
-
 	std::string lazy_digest () const {
 		return _lazy_digest;
 	}

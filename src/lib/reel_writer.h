@@ -22,6 +22,7 @@
 #include "atmos_metadata.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "font_id_map.h"
 #include "player_text.h"
 #include "referenced_reel_asset.h"
 #include "types.h"
@@ -30,10 +31,6 @@
 #include <dcp/file.h>
 #include <dcp/picture_asset_writer.h>
 
-
-namespace dcpomatic {
-	class FontData;
-}
 
 class AudioBuffers;
 class Film;
@@ -74,13 +71,14 @@ public:
 	void fake_write (int size);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (std::shared_ptr<const AudioBuffers> audio);
-	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
+	void write (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period, FontIdMap const& fonts);
 	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
 
 	void finish (boost::filesystem::path output_dcp);
 	std::shared_ptr<dcp::Reel> create_reel (
 		std::list<ReferencedReelAsset> const & refs,
-		std::vector<dcpomatic::FontData> const & fonts,
+		FontIdMap const & fonts,
+		std::shared_ptr<dcpomatic::Font> chosen_interop_font,
 		boost::filesystem::path output_dcp,
 		bool ensure_subtitles,
 		std::set<DCPTextTrack> ensure_closed_captions
@@ -114,7 +112,8 @@ private:
 	void create_reel_text (
 		std::shared_ptr<dcp::Reel> reel,
 		std::list<ReferencedReelAsset> const & refs,
-		std::vector<dcpomatic::FontData> const& fonts,
+		FontIdMap const& fonts,
+		std::shared_ptr<dcpomatic::Font> chosen_interop_font,
 		int64_t duration,
 		boost::filesystem::path output_dcp,
 		bool ensure_subtitles,

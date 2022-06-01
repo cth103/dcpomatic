@@ -33,7 +33,6 @@
 #include "cross.h"
 #include "audio_buffers.h"
 #include "version.h"
-#include "font_data.h"
 #include "util.h"
 #include "reel_writer.h"
 #include "text_content.h"
@@ -44,6 +43,7 @@
 #include <cerrno>
 #include <iostream>
 #include <cfloat>
+#include <set>
 
 #include "i18n.h"
 
@@ -58,6 +58,7 @@ using std::make_shared;
 using std::max;
 using std::min;
 using std::shared_ptr;
+using std::set;
 using std::string;
 using std::vector;
 using std::weak_ptr;
@@ -605,7 +606,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	/* Add reels */
 
 	for (auto& i: _reels) {
-		cpl->add (i.create_reel(_reel_assets, _fonts, output_dcp, _have_subtitles, _have_closed_captions));
+		cpl->add (i.create_reel(_reel_assets, _fonts, _chosen_interop_font, output_dcp, _have_subtitles, _have_closed_captions));
 	}
 
 	/* Add metadata */
@@ -855,26 +856,79 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		period = back_off(period);
 	}
 
-	(*reel)->write (text, type, track, period);
+	(*reel)->write(text, type, track, period, _fonts);
 }
 
 
 void
-Writer::write (vector<FontData> fonts)
+Writer::write (vector<shared_ptr<Font>> fonts)
 {
-	/* Just keep a list of unique fonts and we'll deal with them in ::finish */
+	if (fonts.empty()) {
+		return;
+	}
 
-	for (auto const& i: fonts) {
-		bool got = false;
-		for (auto& j: _fonts) {
-			if (i == j) {
-				got = true;
+	/* Fonts may come in with empty IDs but we don't want to put those in the DCP */
+	auto fix_id = [](string id) {
+		return id.empty() ? "font" : id;
+	};
+
+	if (film()->interop()) {
+		/* Interop will ignore second and subsequent <LoadFont>s so we don't want to
+		 * even write them as they upset some validators.  Set up _fonts so that every
+		 * font used by any subtitle will be written with the same ID.
+		 */
+		for (size_t i = 0; i < fonts.size(); ++i) {
+			_fonts.put(fonts[i], fix_id(fonts[0]->id()));
+		}
+		_chosen_interop_font = fonts[0];
+	} else {
+		set<string> used_ids;
+
+		/* Return the index of a _N at the end of a string, or string::npos */
+		auto underscore_number_position = [](string s) {
+			auto last_underscore = s.find_last_of("_");
+			if (last_underscore == string::npos) {
+				return string::npos;
 			}
+
+			for (auto i = last_underscore + 1; i < s.size(); ++i) {
+				if (!isdigit(s[i])) {
+					return string::npos;
+				}
+			}
+
+			return last_underscore;
+		};
+
+		/* Write fonts to _fonts, changing any duplicate IDs so that they are unique */
+		for (auto font: fonts) {
+			auto id = fix_id(font->id());
+			if (used_ids.find(id) == used_ids.end()) {
+				/* This ID is unique so we can just use it as-is */
+				_fonts.put(font, id);
+				used_ids.insert(id);
+			} else {
+				auto end = underscore_number_position(id);
+				if (end == string::npos) {
+					/* This string has no _N suffix, so add one */
+					id += "_0";
+					end = underscore_number_position(id);
+				}
+
+				++end;
+
+				/* Increment the suffix until we find a unique one */
+				auto number = dcp::raw_convert<int>(id.substr(end));
+				while (used_ids.find(id) != used_ids.end()) {
+					++number;
+					id = String::compose("%1_%2", id.substr(0, end - 1), number);
+				}
+				used_ids.insert(id);
+			}
+			_fonts.put(font, id);
 		}
 
-		if (!got) {
-			_fonts.push_back (i);
-		}
+		DCPOMATIC_ASSERT(_fonts.map().size() == used_ids.size());
 	}
 }
 
@@ -976,7 +1030,7 @@ Writer::write_hanging_text (ReelWriter& reel)
 	vector<HangingText> new_hanging_texts;
 	for (auto i: _hanging_texts) {
 		if (i.period.from == reel.period().from) {
-			reel.write (i.text, i.type, i.track, i.period);
+			reel.write (i.text, i.type, i.track, i.period, _fonts);
 		} else {
 			new_hanging_texts.push_back (i);
 		}

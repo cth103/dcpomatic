@@ -77,6 +77,7 @@ public:
 	void take_settings_from (std::shared_ptr<const TextContent> c);
 
 	void add_font (std::shared_ptr<dcpomatic::Font> font);
+	std::shared_ptr<dcpomatic::Font> get_font(std::string id) const;
 
 	void set_use (bool);
 	void set_burn (bool);

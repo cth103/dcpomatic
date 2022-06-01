@@ -477,18 +477,17 @@ Player::content_time_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 }
 
 
-vector<FontData>
+vector<shared_ptr<Font>>
 Player::get_subtitle_fonts ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	vector<FontData> fonts;
-	for (auto i: _pieces) {
-		/* XXX: things may go wrong if there are duplicate font IDs
-		   with different font files.
-		*/
-		auto f = i->decoder->fonts ();
-		copy (f.begin(), f.end(), back_inserter(fonts));
+	vector<shared_ptr<Font>> fonts;
+	for (auto piece: _pieces) {
+		for (auto text: piece->content->text) {
+			auto text_fonts = text->fonts();
+			copy (text_fonts.begin(), text_fonts.end(), back_inserter(fonts));
+		}
 	}
 
 	return fonts;
@@ -880,7 +879,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 
 		/* String subtitles (rendered to an image) */
 		if (!j.string.empty()) {
-			auto s = render_text (j.string, j.fonts, _video_container_size, time, vfr);
+			auto s = render_text(j.string, _video_container_size, time, vfr);
 			copy (s.begin(), s.end(), back_inserter (captions));
 		}
 	}
@@ -1191,8 +1190,7 @@ Player::plain_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextContent
 		}
 
 		s.set_in (dcp::Time(from.seconds(), 1000));
-		ps.string.push_back (StringText (s, content->outline_width()));
-		ps.add_fonts (content->fonts ());
+		ps.string.push_back (s);
 	}
 
 	_active_texts[static_cast<int>(content->type())].add_from(weak_content, ps, from);

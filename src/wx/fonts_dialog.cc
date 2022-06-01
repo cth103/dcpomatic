@@ -101,9 +101,11 @@ FontsDialog::setup ()
 		wxListItem item;
 		item.SetId (n);
 		_fonts->InsertItem (item);
-		_fonts->SetItem (n, 0, std_to_wx (i->id ()));
+		auto const id = i->id().empty() ? _("Unspecified") : std_to_wx(i->id());
+		_fonts->SetItem(n, 0, id);
+		_fonts->SetItemData(n, i->id().empty());
 		if (i->file()) {
-			_fonts->SetItem (n, 1, i->file()->leaf().string ());
+			_fonts->SetItem(n, 1, i->file()->leaf().string());
 		}
 		++n;
 	}
@@ -137,14 +139,8 @@ FontsDialog::edit_clicked ()
 	}
 
 	int const item = _fonts->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	auto const id = wx_to_std (_fonts->GetItemText(item, 0));
-	shared_ptr<Font> font;
-	for (auto i: caption->fonts()) {
-		if (i->id() == id) {
-			font = i;
-		}
-	}
-
+	auto const id = _fonts->GetItemData(item) ? "" : wx_to_std(_fonts->GetItemText(item, 0));
+	auto font = caption->get_font(id);
 	if (!font) {
 		return;
 	}

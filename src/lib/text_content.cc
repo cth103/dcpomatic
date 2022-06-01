@@ -445,6 +445,7 @@ TextContent::identifier () const
 void
 TextContent::add_font (shared_ptr<Font> font)
 {
+	DCPOMATIC_ASSERT(!get_font(font->id()));
 	_fonts.push_back (font);
 	connect_to_fonts ();
 }
@@ -647,3 +648,19 @@ TextContent::take_settings_from (shared_ptr<const TextContent> c)
 	set_language (c->_language);
 	set_language_is_additional (c->_language_is_additional);
 }
+
+
+shared_ptr<dcpomatic::Font>
+TextContent::get_font(string id) const
+{
+	auto iter = std::find_if(_fonts.begin(), _fonts.end(), [&id](shared_ptr<dcpomatic::Font> font) {
+		return font->id() == id;
+	});
+
+	if (iter == _fonts.end()) {
+		return {};
+	}
+
+	return *iter;
+}
+

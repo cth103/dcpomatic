@@ -23,22 +23,29 @@
 #define DCPOMATIC_STRING_TEXT_H
 
 
+#include "font.h"
 #include <dcp/subtitle_string.h>
 
-/** A wrapper for SubtitleString which allows us to include settings that are not
 
- *  applicable to true DCP subtitles.  For example, we can set outline width for burn-in
- *  but this cannot be specified in DCP XML.
+/** A wrapper for SubtitleString which allows us to:
+ *
+ *    - include settings that are not applicable to true DCP subtitles.
+ *      For example, we can set outline width for burn-in but this cannot be specified in DCP XML.
+ *
+ *    - specify the font by referring to a Font object from the content we came from, rather than
+ *      having to use a DCP ID like in dcp::SubtitleString.
  */
 class StringText : public dcp::SubtitleString
 {
 public:
-	StringText (dcp::SubtitleString dcp_, int outline_width_)
+	StringText (dcp::SubtitleString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (outline_width_)
+		, font (font_)
 	{}
 
 	int outline_width;
+	std::shared_ptr<dcpomatic::Font> font;
 };
 
 
