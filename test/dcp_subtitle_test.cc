@@ -186,8 +186,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 	auto film = new_test_film2 ("dcp_subtitle_test4", {content, content2});
 	film->set_interop (true);
 
-	content->only_text()->add_font (shared_ptr<Font> (new Font ("font1")));
-	content2->only_text()->add_font (shared_ptr<Font> (new Font ("font2")));
+	content->only_text()->add_font(make_shared<Font>("font1"));
+	content2->only_text()->add_font(make_shared<Font>("font2"));
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
