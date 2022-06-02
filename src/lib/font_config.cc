@@ -22,6 +22,7 @@
 #include "dcpomatic_assert.h"
 #include "font_config.h"
 #include <fontconfig/fontconfig.h>
+#include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 
 
@@ -82,6 +83,33 @@ FontConfig::make_font_available(boost::filesystem::path font_file)
 
 	FcConfigBuildFonts(_config);
 	return *font_name;
+}
+
+
+optional<boost::filesystem::path>
+FontConfig::system_font_with_name(string name)
+{
+	optional<boost::filesystem::path> path;
+
+	auto pattern = FcNameParse(reinterpret_cast<FcChar8 const*>(name.c_str()));
+	auto object_set = FcObjectSetBuild(FC_FILE, nullptr);
+	auto font_set = FcFontList(_config, pattern, object_set);
+	if (font_set) {
+		for (int i = 0; i < font_set->nfont; ++i) {
+			auto font = font_set->fonts[i];
+			FcChar8* file;
+			if (FcPatternGetString(font, FC_FILE, 0, &file) == FcResultMatch) {
+				path = boost::filesystem::path(reinterpret_cast<char*>(file));
+				break;
+			}
+		}
+		FcFontSetDestroy(font_set);
+	}
+
+	FcObjectSetDestroy(object_set);
+	FcPatternDestroy(pattern);
+
+	return path;
 }
 
 

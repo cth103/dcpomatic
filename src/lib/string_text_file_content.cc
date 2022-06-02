@@ -19,13 +19,15 @@
 */
 
 
-#include "string_text_file_content.h"
-#include "util.h"
-#include "string_text_file.h"
 #include "film.h"
 #include "font.h"
+#include "font_config.h"
+#include "string_text_file.h"
+#include "string_text_file_content.h"
 #include "text_content.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
+#include <fontconfig/fontconfig.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
 
@@ -76,10 +78,12 @@ StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job
 	}
 
 	for (auto name: names) {
-		/* Make a font for each family name that somebody might later
-		 * ask about.
-		 */
-		only_text()->add_font(make_shared<Font>(name));
+		auto path = FontConfig::instance()->system_font_with_name(name);
+		if (path) {
+			only_text()->add_font(make_shared<Font>(name, *path));
+		} else {
+			only_text()->add_font(make_shared<Font>(name));
+		}
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);

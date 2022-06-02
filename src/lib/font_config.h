@@ -32,6 +32,7 @@ public:
 	static FontConfig* instance();
 
 	std::string make_font_available(boost::filesystem::path font_file);
+	boost::optional<boost::filesystem::path> system_font_with_name(std::string name);
 
 private:
 	FontConfig();
