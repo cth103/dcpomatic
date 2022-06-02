@@ -22,13 +22,13 @@
 #include "cross.h"
 #include "dcpomatic_assert.h"
 #include "font.h"
+#include "font_config.h"
 #include "image.h"
 #include "render_text.h"
 #include "types.h"
 #include "util.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
-#include <fontconfig/fontconfig.h>
 #include <cairomm/cairomm.h>
 LIBDCP_DISABLE_WARNINGS
 #include <pangomm.h>
@@ -49,10 +49,6 @@ using std::pair;
 using std::shared_ptr;
 using std::string;
 using namespace dcpomatic;
-
-
-static FcConfig* fc_config = nullptr;
-static list<pair<boost::filesystem::path, string>> fc_config_fonts;
 
 
 /** Create a Pango layout using a dummy context which we can use to calculate the size
@@ -177,10 +173,6 @@ create_surface (shared_ptr<Image> image)
 static string
 setup_font (StringText const& subtitle, list<shared_ptr<Font>> const& fonts)
 {
-	if (!fc_config) {
-		fc_config = FcInitLoadConfig ();
-	}
-
 	auto font_file = default_font_file ();
 
 	for (auto i: fonts) {
@@ -189,48 +181,7 @@ setup_font (StringText const& subtitle, list<shared_ptr<Font>> const& fonts)
 		}
 	}
 
-	auto existing = fc_config_fonts.cbegin ();
-	while (existing != fc_config_fonts.end() && existing->first != font_file) {
-		++existing;
-	}
-
-	string font_name;
-	if (existing != fc_config_fonts.end ()) {
-		font_name = existing->second;
-	} else {
-		/* Make this font available to DCP-o-matic */
-		FcConfigAppFontAddFile (fc_config, reinterpret_cast<FcChar8 const *>(font_file.string().c_str()));
-		auto pattern = FcPatternBuild (
-			0, FC_FILE, FcTypeString, font_file.string().c_str(), static_cast<char *>(0)
-			);
-		auto object_set = FcObjectSetBuild (FC_FAMILY, FC_STYLE, FC_LANG, FC_FILE, static_cast<char *> (0));
-		auto font_set = FcFontList (fc_config, pattern, object_set);
-		if (font_set) {
-			for (int i = 0; i < font_set->nfont; ++i) {
-				FcPattern* font = font_set->fonts[i];
-				FcChar8* file;
-				FcChar8* family;
-				FcChar8* style;
-				if (
-					FcPatternGetString (font, FC_FILE, 0, &file) == FcResultMatch &&
-					FcPatternGetString (font, FC_FAMILY, 0, &family) == FcResultMatch &&
-					FcPatternGetString (font, FC_STYLE, 0, &style) == FcResultMatch
-					) {
-					font_name = reinterpret_cast<char const *> (family);
-				}
-			}
-
-			FcFontSetDestroy (font_set);
-		}
-
-		FcObjectSetDestroy (object_set);
-		FcPatternDestroy (pattern);
-
-		fc_config_fonts.push_back (make_pair(font_file, font_name));
-	}
-
-	FcConfigSetCurrent (fc_config);
-	return font_name;
+	return FontConfig::instance()->make_font_available(font_file);
 }
 
 
