@@ -705,44 +705,40 @@ split_get_request (string url)
 	return r;
 }
 
+
+static
 string
-video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, optional<string> summary)
+asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int reel_count, optional<string> summary)
 {
 	dcp::NameFormat::Map values;
-	values['t'] = "j2c";
-	values['r'] = raw_convert<string> (reel_index + 1);
-	values['n'] = raw_convert<string> (reel_count);
+	values['t'] = type;
+	values['r'] = raw_convert<string>(reel_index + 1);
+	values['n'] = raw_convert<string>(reel_count);
 	if (summary) {
-		values['c'] = careful_string_filter (summary.get());
+		values['c'] = careful_string_filter(summary.get());
 	}
 	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
 }
 
+
+string
+video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, optional<string> summary)
+{
+	return asset_filename(asset, "j2c", reel_index, reel_count, summary);
+}
+
+
 string
 audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
-	dcp::NameFormat::Map values;
-	values['t'] = "pcm";
-	values['r'] = raw_convert<string> (reel_index + 1);
-	values['n'] = raw_convert<string> (reel_count);
-	if (summary) {
-		values['c'] = careful_string_filter (summary.get());
-	}
-	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
+	return asset_filename(asset, "pcm", reel_index, reel_count, summary);
 }
 
 
 string
 atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
-	dcp::NameFormat::Map values;
-	values['t'] = "atmos";
-	values['r'] = raw_convert<string> (reel_index + 1);
-	values['n'] = raw_convert<string> (reel_count);
-	if (summary) {
-		values['c'] = careful_string_filter (summary.get());
-	}
-	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
+	return asset_filename(asset, "atmos", reel_index, reel_count, summary);
 }
 
 
