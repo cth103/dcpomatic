@@ -55,13 +55,9 @@ using boost::lexical_cast;
 static
 void test_audio_delay (int delay_in_ms)
 {
-	BOOST_TEST_MESSAGE ("Testing delay of " << delay_in_ms);
-
 	string const film_name = "audio_delay_test_" + lexical_cast<string> (delay_in_ms);
 	auto content = make_shared<FFmpegContent>("test/data/staircase.wav");
-	shared_ptr<Film> film = new_test_film2 (
-		film_name, { content }
-		);
+	auto film = new_test_film2 (film_name, { content });
 
 	content->audio->set_delay (delay_in_ms);
 
@@ -70,7 +66,6 @@ void test_audio_delay (int delay_in_ms)
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
 	path /= film->dcp_name ();
-	std::cout << "Loading " << path.string() << "\n";
 	dcp::DCP check (path.string ());
 	check.read ();
 
@@ -85,7 +80,7 @@ void test_audio_delay (int delay_in_ms)
 	int const delay_in_frames = delay_in_ms * 48000 / 1000;
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
-		shared_ptr<const dcp::SoundFrame> sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
+		auto sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 
 		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
