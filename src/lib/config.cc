@@ -79,6 +79,7 @@ Config::Config ()
         /* DKDMs are not considered a thing to reset on set_defaults() */
 	: _dkdms (new DKDMGroup ("root"))
 	, _default_kdm_duration (1, RoughDuration::Unit::WEEKS)
+	, _export(this)
 {
 	set_defaults ();
 }
@@ -203,6 +204,8 @@ Config::set_defaults ()
 	set_kdm_email_to_default ();
 	set_notification_email_to_default ();
 	set_cover_sheet_to_default ();
+
+	_export.set_defaults();
 }
 
 void
@@ -588,6 +591,8 @@ try
 		_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
 	}
 	_auto_crop_threshold = f.optional_number_child<double>("AutoCropThreshold").get_value_or(0.1);
+
+	_export.read(f.optional_node_child("Export"));
 
 	if (boost::filesystem::exists (_cinemas_file)) {
 		cxml::Document f ("Cinemas");
@@ -1025,6 +1030,8 @@ Config::write_config () const
 	root->add_child("EmailKDMs")->add_child_text(_email_kdms ? "1" : "0");
 	root->add_child("DefaultKDMType")->add_child_text(dcp::formulation_to_string(_default_kdm_type));
 	root->add_child("AutoCropThreshold")->add_child_text(raw_convert<string>(_auto_crop_threshold));
+
+	_export.write(root->add_child("Export"));
 
 	auto target = config_write_file();
 

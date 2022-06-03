@@ -45,6 +45,10 @@ public:
 
 private:
 	void format_changed ();
+	void mixdown_changed ();
+	void split_reels_changed ();
+	void split_streams_changed ();
+	void x264_crf_changed ();
 	void file_changed ();
 
 	std::string _initial_name;

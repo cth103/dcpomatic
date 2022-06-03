@@ -95,6 +95,7 @@ sources = """
           examine_content_job.cc
           examine_ffmpeg_subtitles_job.cc
           exceptions.cc
+          export_config.cc
           file_group.cc
           file_log.cc
           filter_graph.cc

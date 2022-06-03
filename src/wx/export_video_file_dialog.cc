@@ -23,6 +23,7 @@
 #include "export_video_file_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
+#include "lib/config.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
@@ -61,6 +62,8 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 	: TableDialog (parent, _("Export video file"), 2, 1, true)
 	, _initial_name (name)
 {
+	auto& config = Config::instance()->export_config();
+
 	add (_("Format"), true);
 	_format = new wxChoice (this, wxID_ANY);
 	add (_format);
@@ -74,7 +77,7 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 	_split_streams = new CheckBox (this, _("Write each audio channel to its own stream"));
 	add (_split_streams, false);
 	_x264_crf_label[0] = add (_("Quality"), true);
-	_x264_crf = new wxSlider (this, wxID_ANY, 23, 0, 51, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL | wxSL_LABELS);
+	_x264_crf = new wxSlider (this, wxID_ANY, config.x264_crf(), 0, 51, wxDefaultPosition, wxDefaultSize, wxSL_HORIZONTAL | wxSL_LABELS);
 	add (_x264_crf, false);
 	add_spacer ();
 	_x264_crf_label[1] = add (_("0 is best, 51 is worst"), false);
@@ -96,15 +99,29 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 	for (int i = 0; i < FORMATS; ++i) {
 		_format->Append (format_names[i]);
 	}
-	_format->SetSelection (0);
+	for (int i = 0; i < FORMATS; ++i) {
+		if (config.format() == formats[i]) {
+			_format->SetSelection(i);
+		}
+	}
+
+	_mixdown->SetValue(config.mixdown_to_stereo());
+	_split_reels->SetValue(config.split_reels());
+	_split_streams->SetValue(config.split_streams());
 
 	_x264_crf->Enable (false);
 	for (int i = 0; i < 2; ++i) {
 		_x264_crf_label[i]->Enable (false);
 	}
 
+	_mixdown->Bind (wxEVT_CHECKBOX, bind(&ExportVideoFileDialog::mixdown_changed, this));
+	_split_reels->Bind (wxEVT_CHECKBOX, bind(&ExportVideoFileDialog::split_reels_changed, this));
+	_split_streams->Bind (wxEVT_CHECKBOX, bind(&ExportVideoFileDialog::split_streams_changed, this));
+	_x264_crf->Bind (wxEVT_SLIDER, bind(&ExportVideoFileDialog::x264_crf_changed, this));
 	_format->Bind (wxEVT_CHOICE, bind (&ExportVideoFileDialog::format_changed, this));
 	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind (&ExportVideoFileDialog::file_changed, this));
+
+	format_changed ();
 
 	layout ();
 
@@ -112,17 +129,49 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 	ok->Enable (false);
 }
 
+
+void
+ExportVideoFileDialog::mixdown_changed()
+{
+	Config::instance()->export_config().set_mixdown_to_stereo(_mixdown->GetValue());
+}
+
+
+void
+ExportVideoFileDialog::split_reels_changed()
+{
+	Config::instance()->export_config().set_split_reels(_split_reels->GetValue());
+}
+
+
+void
+ExportVideoFileDialog::split_streams_changed()
+{
+	Config::instance()->export_config().set_split_streams(_split_streams->GetValue());
+}
+
+
+void
+ExportVideoFileDialog::x264_crf_changed()
+{
+	Config::instance()->export_config().set_x264_crf(_x264_crf->GetValue());
+}
+
+
 void
 ExportVideoFileDialog::format_changed ()
 {
-	DCPOMATIC_ASSERT (_format->GetSelection() >= 0 && _format->GetSelection() < FORMATS);
-	_file->SetWildcard (format_filters[_format->GetSelection()]);
+	auto const selection = _format->GetSelection();
+	DCPOMATIC_ASSERT (selection >= 0 && selection < FORMATS);
+	_file->SetWildcard (format_filters[selection]);
 	_file->SetPath (_initial_name);
-	_x264_crf->Enable (_format->GetSelection() == 1);
+	_x264_crf->Enable (selection == 1);
 	for (int i = 0; i < 2; ++i) {
-		_x264_crf_label[i]->Enable (_format->GetSelection() == 1);
+		_x264_crf_label[i]->Enable (selection == 1);
 	}
-	_mixdown->Enable (_format->GetSelection() != 2);
+	_mixdown->Enable (selection != 2);
+
+	Config::instance()->export_config().set_format(formats[selection]);
 }
 
 boost::filesystem::path

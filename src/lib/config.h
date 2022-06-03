@@ -28,6 +28,7 @@
 
 
 #include "audio_mapping.h"
+#include "export_config.h"
 #include "rough_duration.h"
 #include "state.h"
 #include "types.h"
@@ -1113,6 +1114,10 @@ public:
 		maybe_set (_auto_crop_threshold, threshold, AUTO_CROP_THRESHOLD);
 	}
 
+	ExportConfig& export_config() {
+		return _export;
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1158,21 +1163,6 @@ public:
 	static boost::filesystem::path config_read_file ();
 	static boost::filesystem::path config_write_file ();
 
-private:
-	Config ();
-	void read () override;
-	void set_defaults ();
-	void set_kdm_email_to_default ();
-	void set_notification_email_to_default ();
-	void set_cover_sheet_to_default ();
-	void read_cinemas (cxml::Document const & f);
-	void read_dkdm_recipients (cxml::Document const & f);
-	std::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
-	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
-	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
-	void clean_history_internal (std::vector<boost::filesystem::path>& h);
-	void backup ();
-
 	template <class T>
 	void maybe_set (T& member, T new_value, Property prop = OTHER) {
 		if (member == new_value) {
@@ -1190,6 +1180,21 @@ private:
 		member = new_value;
 		changed (prop);
 	}
+
+private:
+	Config ();
+	void read () override;
+	void set_defaults ();
+	void set_kdm_email_to_default ();
+	void set_notification_email_to_default ();
+	void set_cover_sheet_to_default ();
+	void read_cinemas (cxml::Document const & f);
+	void read_dkdm_recipients (cxml::Document const & f);
+	std::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
+	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
+	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
+	void clean_history_internal (std::vector<boost::filesystem::path>& h);
+	void backup ();
 
 	/** number of threads which a master DoM should use for J2K encoding on the local machine */
 	int _master_encoding_threads;
@@ -1336,10 +1341,13 @@ private:
 	RoughDuration _default_kdm_duration;
 	double _auto_crop_threshold;
 
+	ExportConfig _export;
+
 	static int const _current_version;
 
 	/** Singleton instance, or 0 */
 	static Config* _instance;
 };
+
 
 #endif
