@@ -75,7 +75,6 @@ AudioRingBuffers::get (float* out, int channels, int frames)
 					*out++ = 0;
 				}
 			}
-			cout << "audio underrun; missing " << frames << "!\n";
 			return time;
 		}
 
