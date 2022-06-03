@@ -146,14 +146,14 @@ write_directories (
 {
 	int written = 0;
 
-	for (auto const& i: kdms) {
+	for (auto const& kdm: kdms) {
 		auto path = directory;
-		path /= container_name_format.get(i.front()->name_values(), "", "s");
+		path /= container_name_format.get(kdm.front()->name_values(), "", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
-			write_files (i, path, filename_format, confirm_overwrite);
+			write_files(kdm, path, filename_format, confirm_overwrite);
 		}
-		written += i.size();
+		written += kdm.size();
 	}
 
 	return written;
@@ -172,16 +172,16 @@ write_zip_files (
 {
 	int written = 0;
 
-	for (auto const& i: kdms) {
+	for (auto const& kdm: kdms) {
 		auto path = directory;
-		path /= container_name_format.get(i.front()->name_values(), ".zip", "s");
+		path /= container_name_format.get(kdm.front()->name_values(), ".zip", "s");
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			if (boost::filesystem::exists (path)) {
 				/* Creating a new zip file over an existing one is an error */
 				boost::filesystem::remove (path);
 			}
-			make_zip_file (i, path, filename_format);
-			written += i.size();
+			make_zip_file(kdm, path, filename_format);
+			written += kdm.size();
 		}
 	}
 
@@ -210,23 +210,25 @@ send_emails (
 		throw NetworkError (_("No mail server configured in preferences"));
 	}
 
-	for (auto const& i: kdms) {
+	for (auto const& kdms_for_cinema: kdms) {
 
-		if (i.front()->emails().empty()) {
+		auto first = kdms_for_cinema.front();
+
+		if (first->emails().empty()) {
 			continue;
 		}
 
 		auto zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		boost::filesystem::create_directories (zip_file);
-		zip_file /= container_name_format.get(i.front()->name_values(), ".zip");
-		make_zip_file (i, zip_file, filename_format);
+		zip_file /= container_name_format.get(first->name_values(), ".zip");
+		make_zip_file (kdms_for_cinema, zip_file, filename_format);
 
-		auto substitute_variables = [cpl_name, i](string target) {
-			boost::algorithm::replace_all (target, "$CPL_NAME", cpl_name);
-			boost::algorithm::replace_all (target, "$START_TIME", i.front()->get('b').get_value_or(""));
-			boost::algorithm::replace_all (target, "$END_TIME", i.front()->get('e').get_value_or(""));
-			boost::algorithm::replace_all (target, "$CINEMA_NAME", i.front()->get('c').get_value_or(""));
-			boost::algorithm::replace_all (target, "$CINEMA_SHORT_NAME", i.front()->get('c').get_value_or("").substr(0, 14));
+		auto substitute_variables = [cpl_name, first](string target) {
+			boost::algorithm::replace_all(target, "$CPL_NAME", cpl_name);
+			boost::algorithm::replace_all(target, "$START_TIME", first->get('b').get_value_or(""));
+			boost::algorithm::replace_all(target, "$END_TIME", first->get('e').get_value_or(""));
+			boost::algorithm::replace_all(target, "$CINEMA_NAME", first->get('c').get_value_or(""));
+			boost::algorithm::replace_all(target, "$CINEMA_SHORT_NAME", first->get('c').get_value_or("").substr(0, 14));
 			return target;
 		};
 
@@ -234,24 +236,24 @@ send_emails (
 		auto body = substitute_variables(config->kdm_email());
 
 		string screens;
-		for (auto j: i) {
-			auto screen_name = j->get('s');
+		for (auto kdm: kdms_for_cinema) {
+			auto screen_name = kdm->get('s');
 			if (screen_name) {
 				screens += *screen_name + ", ";
 			}
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
-		Emailer email (config->kdm_from(), i.front()->emails(), subject, body);
+		Emailer email (config->kdm_from(), first->emails(), subject, body);
 
-		for (auto i: config->kdm_cc()) {
-			email.add_cc (i);
+		for (auto cc: config->kdm_cc()) {
+			email.add_cc (cc);
 		}
 		if (!config->kdm_bcc().empty()) {
 			email.add_bcc (config->kdm_bcc());
 		}
 
-		email.add_attachment (zip_file, container_name_format.get(i.front()->name_values(), ".zip"), "application/zip");
+		email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
 
 		try {
 			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
