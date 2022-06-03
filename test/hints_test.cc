@@ -63,6 +63,7 @@ get_hints (shared_ptr<Film> film)
 	hints.start ();
 	hints.join ();
 	while (signal_manager->ui_idle()) {}
+	hints.rethrow();
 	return current_hints;
 }
 
