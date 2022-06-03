@@ -27,9 +27,10 @@
 
 #include "test.h"
 #include "lib/config.h"
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
+#include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/video_content.h"
 #ifdef DCPOMATIC_WINDOWS
 #include <boost/locale.hpp>
@@ -38,9 +39,9 @@
 #include <boost/regex.hpp>
 
 
-using std::string;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
 
 
 class Keep
@@ -170,3 +171,34 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 		BOOST_CHECK (got[i] == 2);
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE (subtitle_file_naming)
+{
+	Keep keep;
+
+	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%t ostrabagalous %c"));
+
+	auto content = content_factory("test/data/15s.srt");
+	auto film = new_test_film2("subtitle_file_naming", { content.front() });
+	film->set_interop(false);
+
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+		});
+
+	int got = 0;
+
+	for (auto i: boost::filesystem::directory_iterator(film->file(film->dcp_name()))) {
+		if (boost::regex_match(i.path().filename().string(), boost::regex("sub_ostrabagalous_15s.*\\.mxf"))) {
+			++got;
+		}
+	}
+
+	BOOST_CHECK_EQUAL(got, 1);
+}
+

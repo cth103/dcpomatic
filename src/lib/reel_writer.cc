@@ -459,6 +459,9 @@ maybe_add_text (
 	shared_ptr<dcp::SubtitleAsset> asset,
 	int64_t picture_duration,
 	shared_ptr<dcp::Reel> reel,
+	int reel_index,
+	int reel_count,
+	optional<string> content_summary,
 	list<ReferencedReelAsset> const & refs,
 	vector<FontData> const & fonts,
 	dcp::ArrayData default_font,
@@ -481,7 +484,7 @@ maybe_add_text (
 		if (auto interop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(asset)) {
 			auto directory = output_dcp / interop->id ();
 			boost::filesystem::create_directories (directory);
-			interop->write (directory / ("sub_" + interop->id() + ".xml"));
+			interop->write (directory / subtitle_asset_filename(asset, reel_index, reel_count, content_summary));
 			reel_asset = make_shared<Interop> (
 				interop,
 				dcp::Fraction(film->video_frame_rate(), 1),
@@ -496,7 +499,7 @@ maybe_add_text (
 			*/
 			smpte->set_intrinsic_duration(picture_duration);
 			smpte->write (
-				output_dcp / ("sub_" + asset->id() + ".mxf")
+				output_dcp / subtitle_asset_filename(asset, reel_index, reel_count, content_summary)
 				);
 			reel_asset = make_shared<SMPTE> (
 				smpte,
@@ -643,7 +646,7 @@ ReelWriter::create_reel_text (
 	) const
 {
 	auto subtitle = maybe_add_text<dcp::ReelInteropSubtitleAsset, dcp::ReelSMPTESubtitleAsset, dcp::ReelSubtitleAsset> (
-		_subtitle_asset, duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
+		_subtitle_asset, duration, reel, _reel_index, _reel_count, _content_summary, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 		);
 
 	if (subtitle) {
@@ -657,6 +660,9 @@ ReelWriter::create_reel_text (
 			empty_text_asset(TextType::OPEN_SUBTITLE, optional<DCPTextTrack>(), true),
 			duration,
 			reel,
+			_reel_index,
+			_reel_count,
+			_content_summary,
 			refs,
 			fonts,
 			_default_font,
@@ -669,7 +675,7 @@ ReelWriter::create_reel_text (
 
 	for (auto const& i: _closed_caption_assets) {
 		auto a = maybe_add_text<dcp::ReelInteropClosedCaptionAsset, dcp::ReelSMPTEClosedCaptionAsset, dcp::ReelClosedCaptionAsset> (
-			i.second, duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
+			i.second, duration, reel, _reel_index, _reel_count, _content_summary, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.first.name);
@@ -683,7 +689,19 @@ ReelWriter::create_reel_text (
 	/* Make empty tracks for anything we've been asked to ensure but that we haven't added */
 	for (auto i: ensure_closed_captions) {
 		auto a = maybe_add_text<dcp::ReelInteropClosedCaptionAsset, dcp::ReelSMPTEClosedCaptionAsset, dcp::ReelClosedCaptionAsset> (
-			empty_text_asset(TextType::CLOSED_CAPTION, i, true), duration, reel, refs, fonts, _default_font, film(), _period, output_dcp, _text_only
+			empty_text_asset(TextType::CLOSED_CAPTION, i, true),
+			duration,
+			reel,
+			_reel_index,
+			_reel_count,
+			_content_summary,
+			refs,
+			fonts,
+			_default_font,
+			film(),
+			_period,
+			output_dcp,
+			_text_only
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.name);

@@ -736,6 +736,13 @@ audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int ree
 
 
 string
+subtitle_asset_filename (shared_ptr<dcp::SubtitleAsset> asset, int reel_index, int reel_count, optional<string> summary)
+{
+	return asset_filename(asset, "sub", reel_index, reel_count, summary);
+}
+
+
+string
 atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
 	return asset_filename(asset, "atmos", reel_index, reel_count, summary);
