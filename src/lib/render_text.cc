@@ -99,7 +99,7 @@ marked_up (list<StringText> subtitles, int target_height, float fade_factor, str
 		if (subtitle.underline()) {
 			span += "underline=\"single\" ";
 		}
-		span += "size=\"" + dcp::raw_convert<string>(subtitle.size_in_pixels(target_height) * pixels_to_1024ths_point) + "\" ";
+		span += "size=\"" + dcp::raw_convert<string>(lrintf(subtitle.size_in_pixels(target_height) * pixels_to_1024ths_point)) + "\" ";
 		/* Between 1-65535 inclusive, apparently... */
 		span += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
 		span += "color=\"#" + subtitle.colour().to_rgb_string() + "\"";
