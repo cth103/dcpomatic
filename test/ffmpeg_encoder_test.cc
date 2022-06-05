@@ -61,7 +61,6 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 		name += "prores";
 		extension = "mov";
 		break;
-	case ExportFormat::H264_PCM:
 	case ExportFormat::SUBTITLES_DCP:
 		BOOST_REQUIRE (false);
 	}

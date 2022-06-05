@@ -241,12 +241,6 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		_audio_codec_name = "aac";
 		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
 		break;
-	case ExportFormat::H264_PCM:
-		_sample_format = AV_SAMPLE_FMT_S32;
-		_video_codec_name = "libx264";
-		_audio_codec_name = "pcm_s24le";
-		av_dict_set_int (&_video_options, "crf", x264_crf, 0);
-		break;
 	default:
 		DCPOMATIC_ASSERT (false);
 	}
@@ -290,7 +284,6 @@ FFmpegFileEncoder::pixel_format (ExportFormat format)
 	case ExportFormat::PRORES:
 		return AV_PIX_FMT_YUV422P10;
 	case ExportFormat::H264_AAC:
-	case ExportFormat::H264_PCM:
 		return AV_PIX_FMT_YUV420P;
 	default:
 		DCPOMATIC_ASSERT (false);

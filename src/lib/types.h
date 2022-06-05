@@ -171,7 +171,6 @@ enum class ExportFormat
 {
 	PRORES,
 	H264_AAC,
-	H264_PCM,
 	SUBTITLES_DCP
 };
 
