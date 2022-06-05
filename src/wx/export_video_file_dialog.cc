@@ -108,7 +108,7 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 
 	layout ();
 
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	ok->Enable (false);
 }
 
@@ -167,7 +167,7 @@ ExportVideoFileDialog::x264_crf () const
 void
 ExportVideoFileDialog::file_changed ()
 {
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
 	DCPOMATIC_ASSERT (ok);
 	ok->Enable (path().is_absolute());
 }
