@@ -36,6 +36,8 @@
 #include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/dcp_subtitle_decoder.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/image_content.h"
@@ -300,20 +302,27 @@ ContentPanel::check_selection ()
 	}
 
 	optional<DCPTime> go_to;
-	for (auto i: selected()) {
-		DCPTime p;
-		p = i->position();
-		if (dynamic_pointer_cast<StringTextFileContent>(i) && i->paths_valid()) {
-			/* Rather special case; if we select a text subtitle file jump to its
-			   first subtitle.
-			*/
-			StringTextFile ts (dynamic_pointer_cast<StringTextFileContent>(i));
-			if (ts.first()) {
-				p += DCPTime(ts.first().get(), _film->active_frame_rate_change(i->position()));
+	for (auto content: selected()) {
+		if (content->paths_valid()) {
+			auto position = content->position();
+			if (auto text_content = dynamic_pointer_cast<StringTextFileContent>(content)) {
+				/* Rather special case; if we select a text subtitle file jump to its
+				   first subtitle.
+				*/
+				StringTextFile ts(text_content);
+				if (auto first = ts.first()) {
+					position += DCPTime(first.get(), _film->active_frame_rate_change(content->position()));
+				}
+			} else if (auto dcp_content = dynamic_pointer_cast<DCPSubtitleContent>(content)) {
+				/* Do the same for DCP subtitles */
+				DCPSubtitleDecoder ts(_film, dcp_content);
+				if (auto first = ts.first()) {
+					position += DCPTime(first.get(), _film->active_frame_rate_change(content->position()));
+				}
 			}
-		}
-		if (!go_to || p < go_to.get()) {
-			go_to = p;
+			if (!go_to || position < go_to.get()) {
+				go_to = position;
+			}
 		}
 	}
 

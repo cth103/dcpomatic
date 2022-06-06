@@ -37,6 +37,8 @@ public:
 
 	std::vector<dcpomatic::FontData> fonts () const override;
 
+	boost::optional<dcpomatic::ContentTime> first () const;
+
 private:
 	dcpomatic::ContentTimePeriod content_time_period (std::shared_ptr<const dcp::Subtitle> s) const;
 

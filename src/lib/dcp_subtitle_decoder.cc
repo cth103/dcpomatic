@@ -19,22 +19,21 @@
 */
 
 
-#include "dcp_subtitle_decoder.h"
 #include "dcp_subtitle_content.h"
+#include "dcp_subtitle_decoder.h"
 #include "font.h"
 #include "text_content.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/load_font_node.h>
-#include <iostream>
 
 
-using std::cout;
+using std::dynamic_pointer_cast;
 using std::list;
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
-using std::dynamic_pointer_cast;
-using std::make_shared;
+using boost::optional;
 using namespace dcpomatic;
 
 
@@ -42,7 +41,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	: Decoder (film)
 {
 	/* Load the XML or MXF file */
-	shared_ptr<dcp::SubtitleAsset> const c = load (content->path(0));
+	auto const c = load (content->path(0));
 	c->fix_empty_font_ids ();
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
@@ -162,3 +161,14 @@ DCPSubtitleDecoder::fonts () const
 	return _fonts;
 }
 
+
+/** @return time of first subtitle, if there is one */
+optional<ContentTime>
+DCPSubtitleDecoder::first () const
+{
+	if (_subtitles.empty()) {
+		return {};
+	}
+
+	return ContentTime::from_seconds(_subtitles[0]->in().as_seconds());
+}
