@@ -708,7 +708,7 @@ split_get_request (string url)
 
 static
 string
-asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int reel_count, optional<string> summary)
+asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int reel_count, optional<string> summary, string extension)
 {
 	dcp::NameFormat::Map values;
 	values['t'] = type;
@@ -717,35 +717,35 @@ asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int r
 	if (summary) {
 		values['c'] = careful_string_filter(summary.get());
 	}
-	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + ".mxf");
+	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + extension);
 }
 
 
 string
 video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
-	return asset_filename(asset, "j2c", reel_index, reel_count, summary);
+	return asset_filename(asset, "j2c", reel_index, reel_count, summary, ".mxf");
 }
 
 
 string
 audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
-	return asset_filename(asset, "pcm", reel_index, reel_count, summary);
+	return asset_filename(asset, "pcm", reel_index, reel_count, summary, ".mxf");
 }
 
 
 string
-subtitle_asset_filename (shared_ptr<dcp::SubtitleAsset> asset, int reel_index, int reel_count, optional<string> summary)
+subtitle_asset_filename (shared_ptr<dcp::SubtitleAsset> asset, int reel_index, int reel_count, optional<string> summary, string extension)
 {
-	return asset_filename(asset, "sub", reel_index, reel_count, summary);
+	return asset_filename(asset, "sub", reel_index, reel_count, summary, extension);
 }
 
 
 string
 atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
-	return asset_filename(asset, "atmos", reel_index, reel_count, summary);
+	return asset_filename(asset, "atmos", reel_index, reel_count, summary, ".mxf");
 }
 
 

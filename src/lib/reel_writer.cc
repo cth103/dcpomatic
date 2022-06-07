@@ -484,7 +484,7 @@ maybe_add_text (
 		if (auto interop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(asset)) {
 			auto directory = output_dcp / interop->id ();
 			boost::filesystem::create_directories (directory);
-			interop->write (directory / subtitle_asset_filename(asset, reel_index, reel_count, content_summary));
+			interop->write (directory / subtitle_asset_filename(asset, reel_index, reel_count, content_summary, ".xml"));
 			reel_asset = make_shared<Interop> (
 				interop,
 				dcp::Fraction(film->video_frame_rate(), 1),
@@ -499,7 +499,7 @@ maybe_add_text (
 			*/
 			smpte->set_intrinsic_duration(picture_duration);
 			smpte->write (
-				output_dcp / subtitle_asset_filename(asset, reel_index, reel_count, content_summary)
+				output_dcp / subtitle_asset_filename(asset, reel_index, reel_count, content_summary, ".mxf")
 				);
 			reel_asset = make_shared<SMPTE> (
 				smpte,

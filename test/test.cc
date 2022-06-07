@@ -791,12 +791,12 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 boost::filesystem::path
 dcp_file (shared_ptr<const Film> film, string prefix)
 {
-	auto i = boost::filesystem::directory_iterator (film->dir(film->dcp_name()));
-	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with (i->path().leaf().string(), prefix)) {
+	auto i = boost::filesystem::recursive_directory_iterator(film->dir(film->dcp_name()));
+	while (i != boost::filesystem::recursive_directory_iterator() && !boost::algorithm::starts_with(i->path().leaf().string(), prefix)) {
 		++i;
 	}
 
-	BOOST_REQUIRE (i != boost::filesystem::directory_iterator());
+	BOOST_REQUIRE_MESSAGE(i != boost::filesystem::recursive_directory_iterator(), "Could not find file with prefix " << prefix);
 	return i->path();
 }
 

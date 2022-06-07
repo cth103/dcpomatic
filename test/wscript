@@ -76,6 +76,7 @@ def build(bld):
                  empty_caption_test.cc
                  empty_test.cc
                  encryption_test.cc
+                 file_extension_test.cc
                  ffmpeg_audio_only_test.cc
                  ffmpeg_audio_test.cc
                  ffmpeg_dcp_test.cc
