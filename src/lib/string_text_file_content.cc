@@ -40,6 +40,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
@@ -78,7 +79,10 @@ StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job
 	}
 
 	for (auto name: names) {
-		auto path = FontConfig::instance()->system_font_with_name(name);
+		optional<boost::filesystem::path> path;
+		if (!name.empty()) {
+			path = FontConfig::instance()->system_font_with_name(name);
+		}
 		if (path) {
 			only_text()->add_font(make_shared<Font>(name, *path));
 		} else {
