@@ -128,6 +128,7 @@ private:
 
 	void setup ();
 	void setup_sensitivity ();
+	void set_selected_state(int item, bool state);
 
 	void add_files (std::vector<boost::filesystem::path>);
 	std::list<ContentSubPanel *> panels () const;

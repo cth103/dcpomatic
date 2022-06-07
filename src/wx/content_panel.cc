@@ -677,11 +677,7 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 {
 	auto content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
-		if (content[i] == wc.lock ()) {
-			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-		} else {
-			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
-		}
+		set_selected_state(i, content[i] == wc.lock());
 	}
 }
 
@@ -693,11 +689,7 @@ ContentPanel::set_selection (ContentList cl)
 
 	auto content = _film->content ();
 	for (size_t i = 0; i < content.size(); ++i) {
-		if (find(cl.begin(), cl.end(), content[i]) != cl.end()) {
-			_content->SetItemState (i, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-		} else {
-			_content->SetItemState (i, 0, wxLIST_STATE_SELECTED);
-		}
+		set_selected_state(i, find(cl.begin(), cl.end(), content[i]) != cl.end());
 	}
 
 	_no_check_selection = false;
@@ -783,7 +775,7 @@ ContentPanel::setup ()
 		_content->InsertItem (item);
 
 		if (i.get() == selected_content) {
-			_content->SetItemState (t, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+			set_selected_state(t, true);
 		}
 
 		if (!valid || needs_kdm || needs_assets) {
@@ -793,7 +785,7 @@ ContentPanel::setup ()
 
 	if (!selected_content && !content.empty ()) {
 		/* Select the item of content if none was selected before */
-		_content->SetItemState (0, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
+		set_selected_state(0, true);
 	}
 
 	setup_sensitivity ();
@@ -858,6 +850,14 @@ ContentPanel::panels () const
 	}
 	p.push_back (_timing_panel);
 	return p;
+}
+
+
+void
+ContentPanel::set_selected_state(int item, bool state)
+{
+	_content->SetItemState(item, state ? wxLIST_STATE_SELECTED : 0, wxLIST_STATE_SELECTED);
+	_content->SetItemState(item, state ? wxLIST_STATE_FOCUSED : 0, wxLIST_STATE_FOCUSED);
 }
 
 
