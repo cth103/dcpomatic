@@ -5,18 +5,18 @@ import os
 import ntpath
 import tempfile
 import shutil
-import md5
+import hashlib
 import xml.etree.ElementTree as ET
 
 if len(sys.argv) < 2:
-    print 'Syntax: %s <film>' % sys.argv[1]
+    print('Syntax: %s <film>' % sys.argv[1])
     sys.exit(1)
 
 metadata_xml = os.path.join(sys.argv[1], 'metadata.xml');
 tree = ET.parse(metadata_xml)
 
 def digest_head_tail(filename, size=1000000):
-    m = md5.new()
+    m = hashlib.md5()
     f = open(filename, 'rb')
     m.update(f.read(size))
     f.seek(size, 2)
@@ -39,6 +39,9 @@ for c in root.find('Playlist').findall('Content'):
         assetmap_file = None
         for p in c.findall('Path'):
             if os.path.basename(p.text) == 'ASSETMAP':
+                interop = True
+            elif os.path.basename(p.text) == 'ASSETMAP.xml':
+                interop = False
                 assetmap_file = p.text
 
         assert(assetmap_file is not None)
@@ -47,15 +50,17 @@ for c in root.find('Playlist').findall('Content'):
         assets = {}
 
         assetmap = ET.parse(assetmap_file)
-        ns = {'am': 'http://www.digicine.com/PROTO-ASDCP-AM-20040311#'}
+        ns = {'am': 'http://www.digicine.com/PROTO-ASDCP-AM-20040311#'} if interop else {'am': 'http://www.smpte-ra.org/schemas/429-9/2007/AM'}
         for a in assetmap.getroot().find('am:AssetList', ns).findall('am:Asset', ns):
             assets[a.find('am:Id', ns).text[9:]] = a.find('am:ChunkList', ns).find('am:Chunk', ns).find('am:Path', ns).text
 
         cpl_id = None
-        for k, v in assets.iteritems():
+        cpl_ns = 'http://www.digicine.com/PROTO-ASDCP-CPL-20040511#}' if interop else 'http://www.smpte-ra.org/schemas/429-7/2006/CPL'
+        for k, v in assets.items():
             try:
                 e = ET.parse(os.path.join(dir, v))
-                if e.getroot().tag == '{http://www.digicine.com/PROTO-ASDCP-CPL-20040511#}CompositionPlaylist':
+                print(e.getroot().tag)
+                if e.getroot().tag == "{" + cpl_ns + "}CompositionPlaylist":
                     cpl_id = k
             except:
                 pass
@@ -63,20 +68,30 @@ for c in root.find('Playlist').findall('Content'):
         assert(cpl_id is not None)
         cpl = ET.parse(os.path.join(dir, assets[cpl_id]))
 
-        ns = {'cpl': 'http://www.digicine.com/PROTO-ASDCP-CPL-20040511#'}
+        ns = {'cpl': cpl_ns}
         for r in cpl.find('cpl:ReelList', ns).findall('cpl:Reel', ns):
             for a in r.find('cpl:AssetList', ns).iter():
                 if a.tag == '{%s}MainPicture' % ns['cpl']:
                     id = a.find('cpl:Id', ns).text[9:]
                     duration = int(a.find('cpl:IntrinsicDuration', ns).text)
                     black_png = tempfile.NamedTemporaryFile('wb', suffix='.png')
+                    black_j2cs = []
                     black_j2c = tempfile.NamedTemporaryFile('wb', suffix='.j2c')
                     os.system('convert -size 1998x1080 xc:black %s' % black_png.name)
-                    os.system('image_to_j2k -i %s -o %s' % (black_png.name, black_j2c.name))
+                    os.system('opj_compress -i %s -o %s' % (black_png.name, black_j2c.name))
                     j2c_dir = tempfile.mkdtemp()
-                    print j2c_dir
                     for i in range(0, duration):
-                        shutil.copyfile(black_j2c.name, os.path.join(j2c_dir, '%06d.j2c' % i))
+                        try:
+                            os.link(black_j2c.name, os.path.join(j2c_dir, '%06d.j2c' % i))
+                        except OSError as e:
+                            if e.errno == 31:
+                                # Too many links
+                                black_j2cs.append(black_j2c)
+                                black_j2c = tempfile.NamedTemporaryFile('wb', suffix='.j2c')
+                                os.link(black_j2c.name, os.path.join(j2c_dir, '%06d.j2c' % i))
+                            else:
+                                raise
+                    print('=> wrap it')
                     os.system('asdcp-wrap -a %s %s %s' % (id, j2c_dir, os.path.join(sys.argv[1], 'dummy', assets[id])))
                 elif a.tag == '{%s}MainSound' % ns['cpl']:
                     wav = tempfile.NamedTemporaryFile('wb', suffix='.wav')
@@ -113,11 +128,11 @@ for c in root.find('Playlist').findall('Content'):
         path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
         os.system('convert -size %dx%d xc:black "%s"' % (width, height, path))
     else:
-        print 'Skipped %s' % type
+        print('Skipped %s' % type)
 
 
 shutil.move(metadata_xml, metadata_xml + '.bak')
 r = open(metadata_xml, 'w')
-r.write(ET.tostring(root))
+r.write(ET.tostring(root).decode('UTF-8'))
 r.close()
 
