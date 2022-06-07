@@ -614,7 +614,7 @@ Player::get_reel_assets ()
 			Frame const reel_trim_start = min(reel_duration, max(int64_t(0), trim_start - offset_from_start));
 			Frame const reel_trim_end =   min(reel_duration, max(int64_t(0), reel_duration - (offset_from_end - trim_end)));
 
-			auto const from = max(DCPTime(), content->position() + DCPTime::from_frames(offset_from_start, frame_rate) - DCPTime::from_frames(trim_start, frame_rate));
+			auto const from = content->position() + std::max(DCPTime(), DCPTime::from_frames(offset_from_start - trim_start, frame_rate));
 			if (dcp->reference_video()) {
 				maybe_add_asset (reel_assets, reel->main_picture(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}

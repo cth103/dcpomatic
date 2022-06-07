@@ -36,6 +36,10 @@
 #include "lib/string_text_file_content.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <dcp/cpl.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -574,3 +578,72 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 	BOOST_REQUIRE (notes.empty());
 }
 
+
+/** Create a long DCP A then insert it repeatedly into a new project, trimming it differently each time.
+ *  Make a DCP B from that project which refers to A and splits into reels.  This was found to go wrong
+ *  when looking at #2268.
+ */
+BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
+{
+	/* Make a 20s DCP */
+	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
+	auto film1 = new_test_film2("repeated_dcp_into_reels1", { A });
+	auto constexpr frame_rate = 24;
+	auto constexpr length_in_seconds = 20;
+	auto constexpr total_frames = frame_rate * length_in_seconds;
+	film1->set_video_frame_rate(frame_rate);
+	A->video->set_length(total_frames);
+	make_and_verify_dcp(film1);
+
+	/* Make a new project that includes this long DCP 4 times, each
+	 * trimmed to a quarter of the original, i.e.
+	 * /----------------------|----------------------|----------------------|----------------------\
+	 * | 1st quarter of film1 | 2nd quarter of film1 | 3rd quarter of film1 | 4th quarter of film1 |
+	 * \----------------------|----------------------|----------------------|_---------------------/
+	 */
+
+	shared_ptr<DCPContent> original_dcp[4] = {
+		 make_shared<DCPContent>(film1->dir(film1->dcp_name(false))),
+		 make_shared<DCPContent>(film1->dir(film1->dcp_name(false))),
+		 make_shared<DCPContent>(film1->dir(film1->dcp_name(false))),
+		 make_shared<DCPContent>(film1->dir(film1->dcp_name(false)))
+	};
+
+	auto film2 = new_test_film2("repeated_dcp_into_reels2", { original_dcp[0], original_dcp[1], original_dcp[2], original_dcp[3] });
+	film2->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	film2->set_video_frame_rate(frame_rate);
+	film2->set_sequence(false);
+
+	for (int i = 0; i < 4; ++i) {
+		original_dcp[i]->set_position(film2, DCPTime::from_frames(total_frames * i / 4, frame_rate));
+		original_dcp[i]->set_trim_start(ContentTime::from_frames(total_frames * i / 4, frame_rate));
+		original_dcp[i]->set_trim_end  (ContentTime::from_frames(total_frames * (4 - i - 1) / 4, frame_rate));
+		original_dcp[i]->set_reference_video(true);
+		original_dcp[i]->set_reference_audio(true);
+	}
+
+	make_and_verify_dcp(film2, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+
+	dcp::DCP check1(film1->dir(film1->dcp_name()));
+	check1.read();
+	BOOST_REQUIRE(!check1.cpls().empty());
+	BOOST_REQUIRE(!check1.cpls()[0]->reels().empty());
+	auto picture = check1.cpls()[0]->reels()[0]->main_picture()->asset();
+	BOOST_REQUIRE(picture);
+	auto sound = check1.cpls()[0]->reels()[0]->main_sound()->asset();
+	BOOST_REQUIRE(sound);
+
+	dcp::DCP check2(film2->dir(film2->dcp_name()));
+	check2.read();
+	BOOST_REQUIRE(!check2.cpls().empty());
+	auto cpl = check2.cpls()[0];
+	BOOST_REQUIRE_EQUAL(cpl->reels().size(), 4U);
+	for (int i = 0; i < 4; ++i) {
+		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_picture()->entry_point().get_value_or(0), total_frames * i / 4);
+		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_picture()->duration().get_value_or(0), total_frames / 4);
+		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_picture()->id(), picture->id());
+		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_sound()->entry_point().get_value_or(0), total_frames * i / 4);
+		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_sound()->duration().get_value_or(0), total_frames / 4);
+		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_sound()->id(), sound->id());
+	}
+}
