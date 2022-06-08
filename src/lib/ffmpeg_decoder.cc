@@ -93,8 +93,10 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 	}
 
 	if (c->only_text()) {
-		/* XXX: this time here should be the time of the first subtitle, not 0 */
-		text.push_back (make_shared<TextDecoder>(this, c->only_text(), ContentTime()));
+		text.push_back (make_shared<TextDecoder>(this, c->only_text()));
+		/* XXX: we should be calling maybe_set_position() on this TextDecoder, but we can't easily find
+		 * the time of the first subtitle at this point.
+		 */
 	}
 
 	for (auto i: c->ffmpeg_audio_streams()) {

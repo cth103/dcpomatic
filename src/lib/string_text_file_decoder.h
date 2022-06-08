@@ -36,6 +36,7 @@ public:
 
 private:
 	dcpomatic::ContentTimePeriod content_time_period (sub::Subtitle s) const;
+	void update_position();
 
 	size_t _next;
 };

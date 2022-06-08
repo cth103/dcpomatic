@@ -501,3 +501,40 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	BOOST_CHECK_NO_THROW(butler.rethrow());
 }
 
+
+BOOST_AUTO_TEST_CASE (interleaved_subtitle_are_emitted_correctly)
+{
+	boost::filesystem::path paths[2] = {
+		"build/test/interleaved_subtitle_are_emitted_correctly1.srt",
+		"build/test/interleaved_subtitle_are_emitted_correctly2.srt"
+	};
+
+	dcp::File subs_file[2] = { dcp::File(paths[0], "w"), dcp::File(paths[1], "w") };
+
+	fprintf(subs_file[0].get(), "1\n00:00:01,000 -> 00:00:02,000\nSub 1/1\n\n");
+	fprintf(subs_file[0].get(), "2\n00:00:05,000 -> 00:00:06,000\nSub 1/2\n\n");
+
+	fprintf(subs_file[1].get(), "1\n00:00:00,500 -> 00:00:01,500\nSub 2/1\n\n");
+	fprintf(subs_file[1].get(), "2\n00:00:02,000 -> 00:00:03,000\nSub 2/2\n\n");
+
+	subs_file[0].close();
+	subs_file[1].close();
+
+	auto subs1 = content_factory(paths[0]).front();
+	auto subs2 = content_factory(paths[1]).front();
+	auto film = new_test_film2("interleaved_subtitle_are_emitted_correctly", { subs1, subs2 });
+	film->set_sequence(false);
+	subs1->set_position(film, DCPTime());
+	subs2->set_position(film, DCPTime());
+
+	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
+	dcp::Time last;
+	player->Text.connect([&last](PlayerText text, TextType, optional<DCPTextTrack>, dcpomatic::DCPTimePeriod) {
+		for (auto sub: text.string) {
+			BOOST_CHECK(sub.in() >= last);
+			last = sub.in();
+		}
+	});
+	while (!player->pass()) {}
+}
+

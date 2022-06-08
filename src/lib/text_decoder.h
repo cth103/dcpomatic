@@ -42,11 +42,7 @@ class Image;
 class TextDecoder : public DecoderPart
 {
 public:
-	TextDecoder (
-		Decoder* parent,
-		std::shared_ptr<const TextContent>,
-		dcpomatic::ContentTime first
-		);
+	TextDecoder (Decoder* parent, std::shared_ptr<const TextContent>);
 
 	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film>) const override {
 		return _position;
@@ -59,6 +55,8 @@ public:
 	void emit_plain (dcpomatic::ContentTimePeriod period, std::vector<dcp::SubtitleString> s);
 	void emit_plain (dcpomatic::ContentTimePeriod period, sub::Subtitle const & subtitle);
 	void emit_stop (dcpomatic::ContentTime to);
+
+	void maybe_set_position (dcpomatic::ContentTime position);
 
 	void seek () override;
 

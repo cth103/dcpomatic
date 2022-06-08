@@ -46,11 +46,8 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	_subtitles = c->subtitles ();
 	_next = _subtitles.begin ();
 
-	ContentTime first;
-	if (_next != _subtitles.end()) {
-		first = content_time_period(*_next).from;
-	}
-	text.push_back (make_shared<TextDecoder>(this, content->only_text(), first));
+	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
+	update_position();
 }
 
 
@@ -64,6 +61,8 @@ DCPSubtitleDecoder::seek (ContentTime time, bool accurate)
 	while (i != _subtitles.end() && ContentTime::from_seconds ((*_next)->in().as_seconds()) < time) {
 		++i;
 	}
+
+	update_position();
 }
 
 
@@ -104,6 +103,9 @@ DCPSubtitleDecoder::pass ()
 	}
 
 	only_text()->emit_plain (p, s);
+
+	update_position();
+
 	return false;
 }
 
@@ -127,5 +129,16 @@ DCPSubtitleDecoder::first () const
 	}
 
 	return ContentTime::from_seconds(_subtitles[0]->in().as_seconds());
+}
+
+
+void
+DCPSubtitleDecoder::update_position()
+{
+	if (_next != _subtitles.end()) {
+		only_text()->maybe_set_position(
+			ContentTime::from_seconds((*_next)->in().as_seconds())
+			);
+	}
 }
 

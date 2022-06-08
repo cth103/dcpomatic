@@ -80,8 +80,11 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 			audio = make_shared<AudioDecoder>(this, content->audio, fast);
 		}
 		for (auto i: content->text) {
-			/* XXX: this time here should be the time of the first subtitle, not 0 */
-			text.push_back (make_shared<TextDecoder>(this, i, ContentTime()));
+			text.push_back (make_shared<TextDecoder>(this, i));
+			/* We should really call maybe_set_position() on this TextDecoder to set the time
+			 * of the first subtitle, but it probably doesn't matter since we'll always
+			 * have regularly occurring video (and maybe audio) content.
+			 */
 		}
 		if (content->atmos) {
 			atmos = make_shared<AtmosDecoder>(this, content);

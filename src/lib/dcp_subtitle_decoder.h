@@ -38,6 +38,7 @@ public:
 
 private:
 	dcpomatic::ContentTimePeriod content_time_period (std::shared_ptr<const dcp::Subtitle> s) const;
+	void update_position();
 
 	std::vector<std::shared_ptr<const dcp::Subtitle>> _subtitles;
 	std::vector<std::shared_ptr<const dcp::Subtitle>>::const_iterator _next;

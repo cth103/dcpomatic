@@ -41,12 +41,10 @@ using namespace dcpomatic;
 
 TextDecoder::TextDecoder (
 	Decoder* parent,
-	shared_ptr<const TextContent> content,
-	ContentTime first
+	shared_ptr<const TextContent> content
 	)
 	: DecoderPart (parent)
 	, _content (content)
-	, _position (first)
 {
 
 }
@@ -63,7 +61,7 @@ void
 TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 {
 	BitmapStart (bitmap);
-	_position = bitmap.from();
+	maybe_set_position(bitmap.from());
 }
 
 
@@ -116,7 +114,7 @@ TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> sub
 	}
 
 	PlainStart(ContentStringText(from, string_texts));
-	_position = from;
+	maybe_set_position(from);
 }
 
 
@@ -274,7 +272,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 	}
 
 	PlainStart(ContentStringText(from, string_texts));
-	_position = from;
+	maybe_set_position(from);
 }
 
 
@@ -318,3 +316,13 @@ TextDecoder::seek ()
 {
 	_position = ContentTime ();
 }
+
+
+void
+TextDecoder::maybe_set_position (dcpomatic::ContentTime position)
+{
+	if (!_position || position > *_position) {
+		_position = position;
+	}
+}
+

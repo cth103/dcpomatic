@@ -40,11 +40,8 @@ StringTextFileDecoder::StringTextFileDecoder (shared_ptr<const Film> film, share
 	, StringTextFile (content)
 	, _next (0)
 {
-	ContentTime first;
-	if (!_subtitles.empty()) {
-		first = content_time_period(_subtitles[0]).from;
-	}
-	text.push_back (make_shared<TextDecoder>(this, content->only_text(), first));
+	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
+	update_position();
 }
 
 
@@ -65,6 +62,8 @@ StringTextFileDecoder::seek (ContentTime time, bool accurate)
 	while (_next < _subtitles.size() && ContentTime::from_seconds (_subtitles[_next].from.all_as_seconds ()) < time) {
 		++_next;
 	}
+
+	update_position();
 }
 
 
@@ -79,6 +78,9 @@ StringTextFileDecoder::pass ()
 	only_text()->emit_plain (p, _subtitles[_next]);
 
 	++_next;
+
+	update_position();
+
 	return false;
 }
 
@@ -91,3 +93,15 @@ StringTextFileDecoder::content_time_period (sub::Subtitle s) const
 		ContentTime::from_seconds (s.to.all_as_seconds())
 		);
 }
+
+
+void
+StringTextFileDecoder::update_position ()
+{
+	if (_next < _subtitles.size()) {
+		only_text()->maybe_set_position(
+			ContentTime::from_seconds(_subtitles[_next].from.all_as_seconds())
+			);
+	}
+}
+
