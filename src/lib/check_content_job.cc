@@ -19,7 +19,7 @@
 */
 
 
-#include "check_content_change_job.h"
+#include "check_content_job.h"
 #include "content.h"
 #include "examine_content_job.h"
 #include "film.h"
@@ -35,31 +35,31 @@ using std::shared_ptr;
 using std::string;
 
 
-CheckContentChangeJob::CheckContentChangeJob (shared_ptr<const Film> film)
+CheckContentJob::CheckContentJob (shared_ptr<const Film> film)
 	: Job (film)
 {
 
 }
 
-CheckContentChangeJob::~CheckContentChangeJob ()
+CheckContentJob::~CheckContentJob ()
 {
 	stop_thread ();
 }
 
 string
-CheckContentChangeJob::name () const
+CheckContentJob::name () const
 {
-	return _("Checking content for changes");
+	return _("Checking content");
 }
 
 string
-CheckContentChangeJob::json_name () const
+CheckContentJob::json_name () const
 {
-	return N_("check_content_change");
+	return N_("check_content");
 }
 
 void
-CheckContentChangeJob::run ()
+CheckContentJob::run ()
 {
 	set_progress_unknown ();
 

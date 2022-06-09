@@ -48,7 +48,7 @@ sources = """
           text_content.cc
           text_decoder.cc
           case_insensitive_sorter.cc
-          check_content_change_job.cc
+          check_content_job.cc
           cinema.cc
           cinema_sound_processor.cc
           colour_conversion.cc

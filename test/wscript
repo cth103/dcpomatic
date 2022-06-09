@@ -135,6 +135,7 @@ def build(bld):
                  ssa_subtitle_test.cc
                  stream_test.cc
                  subtitle_charset_test.cc
+                 subtitle_font_id_change_test.cc
                  subtitle_language_test.cc
                  subtitle_metadata_test.cc
                  subtitle_reel_test.cc

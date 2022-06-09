@@ -20,15 +20,15 @@
 
 #include "job.h"
 
-/** @class CheckContentChangeJob
- *  @brief A job to check whether content has changed since it was added to the film.
+/** @class CheckContentJob
+ *  @brief A job to check content that was just loaded to see if anything needs fixing about it.
  */
 
-class CheckContentChangeJob : public Job
+class CheckContentJob : public Job
 {
 public:
-	CheckContentChangeJob (std::shared_ptr<const Film>);
-	~CheckContentChangeJob ();
+	CheckContentJob (std::shared_ptr<const Film>);
+	~CheckContentJob ();
 
 	std::string name () const override;
 	std::string json_name () const override;

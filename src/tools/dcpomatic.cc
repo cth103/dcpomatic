@@ -56,7 +56,7 @@
 #include "wx/wx_util.h"
 #include "lib/analytics.h"
 #include "lib/audio_content.h"
-#include "lib/check_content_change_job.h"
+#include "lib/check_content_job.h"
 #include "lib/cinema.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
@@ -458,7 +458,7 @@ public:
 
 		set_film (film);
 
-		JobManager::instance()->add(make_shared<CheckContentChangeJob>(film));
+		JobManager::instance()->add(make_shared<CheckContentJob>(film));
 	}
 	catch (FileNotFoundError& e) {
 		auto const dir = e.file().parent_path();

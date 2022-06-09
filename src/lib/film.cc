@@ -29,7 +29,6 @@
 #include "audio_content.h"
 #include "audio_processor.h"
 #include "change_signaller.h"
-#include "check_content_change_job.h"
 #include "cinema.h"
 #include "compose.hpp"
 #include "config.h"
