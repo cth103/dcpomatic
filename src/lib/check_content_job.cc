@@ -24,12 +24,14 @@
 #include "examine_content_job.h"
 #include "film.h"
 #include "job_manager.h"
+#include "string_text_file_content.h"
 #include <iostream>
 
 #include "i18n.h"
 
 
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
@@ -72,6 +74,14 @@ CheckContentJob::run ()
 			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, i));
 		}
 		set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
+	}
+
+	if (_film->last_written_by_earlier_than(2, 16, 14)) {
+		for (auto c: content) {
+			if (auto stf = dynamic_pointer_cast<StringTextFileContent>(c)) {
+				stf->check_font_ids();
+			}
+		}
 	}
 
 	set_progress (1);

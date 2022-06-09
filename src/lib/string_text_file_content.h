@@ -50,6 +50,8 @@ public:
 	dcpomatic::DCPTime approximate_length () const override;
 	std::string identifier () const override;
 
+	void check_font_ids();
+
 private:
 	dcpomatic::ContentTime _length;
 };
