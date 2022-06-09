@@ -76,6 +76,7 @@ public:
 	std::string identifier () const;
 	void take_settings_from (std::shared_ptr<const TextContent> c);
 
+	void clear_fonts ();
 	void add_font (std::shared_ptr<dcpomatic::Font> font);
 	std::shared_ptr<dcpomatic::Font> get_font(std::string id) const;
 

@@ -66,6 +66,8 @@ StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job
 	Content::examine (film, job);
 	StringTextFile file (shared_from_this());
 
+	only_text()->clear_fonts();
+
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
 

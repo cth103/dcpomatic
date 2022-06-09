@@ -664,3 +664,10 @@ TextContent::get_font(string id) const
 	return *iter;
 }
 
+
+void
+TextContent::clear_fonts()
+{
+	_fonts.clear();
+}
+
