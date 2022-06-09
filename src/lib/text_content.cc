@@ -445,7 +445,9 @@ TextContent::identifier () const
 void
 TextContent::add_font (shared_ptr<Font> font)
 {
-	DCPOMATIC_ASSERT(!get_font(font->id()));
+	boost::mutex::scoped_lock lm(_mutex);
+
+	DCPOMATIC_ASSERT(!get_font_unlocked(font->id()));
 	_fonts.push_back (font);
 	connect_to_fonts ();
 }
@@ -653,6 +655,14 @@ TextContent::take_settings_from (shared_ptr<const TextContent> c)
 shared_ptr<dcpomatic::Font>
 TextContent::get_font(string id) const
 {
+	boost::mutex::scoped_lock lm(_mutex);
+	return get_font_unlocked(id);
+}
+
+
+shared_ptr<dcpomatic::Font>
+TextContent::get_font_unlocked(string id) const
+{
 	auto iter = std::find_if(_fonts.begin(), _fonts.end(), [&id](shared_ptr<dcpomatic::Font> font) {
 		return font->id() == id;
 	});
@@ -668,6 +678,8 @@ TextContent::get_font(string id) const
 void
 TextContent::clear_fonts()
 {
+	boost::mutex::scoped_lock lm(_mutex);
+
 	_fonts.clear();
 }
 

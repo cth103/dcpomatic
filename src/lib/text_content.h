@@ -206,6 +206,7 @@ private:
 
 	void font_changed ();
 	void connect_to_fonts ();
+	std::shared_ptr<dcpomatic::Font> get_font_unlocked(std::string id) const;
 
 	std::list<boost::signals2::connection> _font_connections;
 
