@@ -210,6 +210,8 @@ public:
 		return _tolerant;
 	}
 
+	bool last_written_by_earlier_than(int major, int minor, int micro) const;
+
 	/** Identifiers for the parts of our state;
 	    used for signalling changes.
 	*/
@@ -515,6 +517,8 @@ private:
 	 *  must not be relative.
 	 */
 	boost::optional<boost::filesystem::path> _directory;
+
+	boost::optional<std::string> _last_written_by;
 
 	/** Name for DCP-o-matic */
 	std::string _name;

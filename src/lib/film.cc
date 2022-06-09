@@ -534,6 +534,8 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		}
 	}
 
+	_last_written_by = f.optional_string_child("LastWrittenBy");
+
 	_name = f.string_child ("Name");
 	if (_state_version >= 9) {
 		_use_isdcf_name = f.bool_child ("UseISDCFName");
@@ -2165,5 +2167,43 @@ Film::set_dirty (bool dirty)
 	if (changed) {
 		emit (boost::bind(boost::ref(DirtyChange), _dirty));
 	}
+}
+
+
+/** @return true if the metadata was (probably) last written by a version earlier
+ *  than the given one; false if it definitely was not.
+ */
+bool
+Film::last_written_by_earlier_than(int major, int minor, int micro) const
+{
+	if (!_last_written_by) {
+		return true;
+	}
+
+	vector<string> parts;
+	boost::split(parts, *_last_written_by, boost::is_any_of("."));
+
+	if (parts.size() != 3) {
+		/* Not sure what's going on, so let's say it was written by an old version */
+		return true;
+	}
+
+	if (boost::ends_with(parts[2], "pre")) {
+		parts[2] = parts[2].substr(0, parts[2].length() - 3);
+	}
+
+	int our_major = dcp::raw_convert<int>(parts[0]);
+	int our_minor = dcp::raw_convert<int>(parts[1]);
+	int our_micro = dcp::raw_convert<int>(parts[2]);
+
+	if (our_major != major) {
+		return our_major < major;
+	}
+
+	if (our_minor != minor) {
+		return our_minor < minor;
+	}
+
+	return our_micro < micro;
 }
 
