@@ -118,7 +118,7 @@ optional<ContentTime>
 StringTextFile::first () const
 {
 	if (_subtitles.empty()) {
-		return optional<ContentTime>();
+		return {};
 	}
 
 	return ContentTime::from_seconds(_subtitles[0].from.all_as_seconds());
@@ -128,7 +128,7 @@ ContentTime
 StringTextFile::length () const
 {
 	if (_subtitles.empty ()) {
-		return ContentTime ();
+		return {};
 	}
 
 	return ContentTime::from_seconds (_subtitles.back().to.all_as_seconds ());

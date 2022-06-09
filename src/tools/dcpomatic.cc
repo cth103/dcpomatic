@@ -458,7 +458,7 @@ public:
 
 		set_film (film);
 
-		JobManager::instance()->add(shared_ptr<Job>(new CheckContentChangeJob(film)));
+		JobManager::instance()->add(make_shared<CheckContentChangeJob>(film));
 	}
 	catch (FileNotFoundError& e) {
 		auto const dir = e.file().parent_path();
