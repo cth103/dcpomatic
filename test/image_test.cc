@@ -201,6 +201,44 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 }
 
 
+/** Test Image::alpha_blend when the "base" image is XYZ12LE */
+BOOST_AUTO_TEST_CASE (alpha_blend_test_onto_xyz)
+{
+	Image xyz(AV_PIX_FMT_XYZ12LE, dcp::Size(50, 50), Image::Alignment::PADDED);
+	xyz.make_black();
+
+	auto overlay = make_shared<Image>(AV_PIX_FMT_RGBA, dcp::Size(8, 8), Image::Alignment::PADDED);
+	for (int y = 0; y < 8; ++y) {
+		uint8_t* p = overlay->data()[0] + (y * overlay->stride()[0]);
+		for (int x = 0; x < 8; ++x) {
+			*p++ = 255;
+			*p++ = 0;
+			*p++ = 0;
+			*p++ = 255;
+		}
+	}
+
+	xyz.alpha_blend(overlay, Position<int>(4, 4));
+
+	for (int y = 0; y < 50; ++y) {
+		uint16_t* p = reinterpret_cast<uint16_t*>(xyz.data()[0]) + (y * xyz.stride()[0] / 2);
+		for (int x = 0; x < 50; ++x) {
+			std::cout << "x=" << x << ", y=" << y << "\n";
+			if (4 <= x && x < 12 && 4 <= y && y < 12) {
+				BOOST_REQUIRE_EQUAL(p[0], 45078U);
+				BOOST_REQUIRE_EQUAL(p[1], 34939U);
+				BOOST_REQUIRE_EQUAL(p[2], 13892U);
+			} else {
+				BOOST_REQUIRE_EQUAL(p[0], 0U);
+				BOOST_REQUIRE_EQUAL(p[1], 0U);
+				BOOST_REQUIRE_EQUAL(p[2], 0U);
+			}
+			p += 3;
+		}
+	}
+}
+
+
 /** Test merge (list<PositionImage>) with a single image */
 BOOST_AUTO_TEST_CASE (merge_test1)
 {

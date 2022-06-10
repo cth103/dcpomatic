@@ -730,14 +730,14 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 				double const b = lut_in[op[blue]];
 
 				/* RGB to XYZ, including Bradford transform and DCI companding */
-				double const x = max (0.0, min (65535.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
-				double const y = max (0.0, min (65535.0, r * fast_matrix[3] + g * fast_matrix[4] + b * fast_matrix[5]));
-				double const z = max (0.0, min (65535.0, r * fast_matrix[6] + g * fast_matrix[7] + b * fast_matrix[8]));
+				double const x = max(0.0, min(1.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
+				double const y = max(0.0, min(1.0, r * fast_matrix[3] + g * fast_matrix[4] + b * fast_matrix[5]));
+				double const z = max(0.0, min(1.0, r * fast_matrix[6] + g * fast_matrix[7] + b * fast_matrix[8]));
 
 				/* Out gamma LUT and blend */
-				tp[0] = lrint(lut_out[lrint(x)] * 65535) * alpha + tp[0] * (1 - alpha);
-				tp[1] = lrint(lut_out[lrint(y)] * 65535) * alpha + tp[1] * (1 - alpha);
-				tp[2] = lrint(lut_out[lrint(z)] * 65535) * alpha + tp[2] * (1 - alpha);
+				tp[0] = lrint(lut_out[lrint(x * 65535)] * 65535) * alpha + tp[0] * (1 - alpha);
+				tp[1] = lrint(lut_out[lrint(y * 65535)] * 65535) * alpha + tp[1] * (1 - alpha);
+				tp[2] = lrint(lut_out[lrint(z * 65535)] * 65535) * alpha + tp[2] * (1 - alpha);
 
 				tp += this_bpp / 2;
 				op += other_bpp;
