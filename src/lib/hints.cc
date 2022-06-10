@@ -439,7 +439,6 @@ try
 		check_loudness ();
 	}
 
-	_writer->write (player->get_subtitle_fonts());
 
 	if (_long_subtitle && !_very_long_subtitle) {
 		hint (_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));
