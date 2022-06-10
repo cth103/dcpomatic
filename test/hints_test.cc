@@ -173,17 +173,20 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 {
 	string const name = "hint_subtitle_mxf_too_big";
 
+	dcp::File fake_font("build/test/hint_subtitle_mxf_too_big.ttf", "w");
+	for (int i = 0; i < 4096; ++i) {
+		std::vector<uint8_t> rubbish(65536);
+		fake_font.write(rubbish.data(), 1, rubbish.size());
+	}
+	fake_font.close();
+
 	auto film = new_test_film2 (name);
 	auto content = content_factory("test/data/" + name + ".srt").front();
 	content->text.front()->set_type (TextType::OPEN_SUBTITLE);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
-	for (int i = 1; i < 512; ++i) {
-		auto font = make_shared<dcpomatic::Font>(String::compose("font_%1", i));
-		font->set_file ("test/data/LiberationSans-Regular.ttf");
-		content->text.front()->add_font(font);
-	}
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
+	content->text.front()->get_font("")->set_file("build/test/hint_subtitle_mxf_too_big.ttf");
 	auto hints = get_hints (film);
 
 	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
