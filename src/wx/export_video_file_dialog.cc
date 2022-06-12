@@ -35,25 +35,29 @@ using std::string;
 using boost::bind;
 
 
-#define FORMATS 2
+int constexpr FORMATS = 3;
 
 
 wxString format_names[] = {
-	_("MOV / ProRes"),
+	_("MOV / ProRes 4444"),
+	_("MOV / ProRes HQ"),
 	_("MP4 / H.264"),
 };
 
 wxString format_filters[] = {
+	_("MOV files (*.mov)|*.mov"),
 	_("MOV files (*.mov)|*.mov"),
 	_("MP4 files (*.mp4)|*.mp4"),
 };
 
 wxString format_extensions[] = {
 	"mov",
+	"mov",
 	"mp4",
 };
 
 ExportFormat formats[] = {
+	ExportFormat::PRORES_4444,
 	ExportFormat::PRORES_HQ,
 	ExportFormat::H264_AAC,
 };
@@ -165,9 +169,9 @@ ExportVideoFileDialog::format_changed ()
 	DCPOMATIC_ASSERT (selection >= 0 && selection < FORMATS);
 	_file->SetWildcard (format_filters[selection]);
 	_file->SetPath (_initial_name);
-	_x264_crf->Enable (selection == 1);
+	_x264_crf->Enable (formats[selection] == ExportFormat::H264_AAC);
 	for (int i = 0; i < 2; ++i) {
-		_x264_crf_label[i]->Enable (selection == 1);
+		_x264_crf_label[i]->Enable(formats[selection] == ExportFormat::H264_AAC);
 	}
 	_mixdown->Enable (selection != 2);
 

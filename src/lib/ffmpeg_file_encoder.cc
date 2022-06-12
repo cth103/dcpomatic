@@ -228,6 +228,13 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 	_pixel_format = pixel_format (format);
 
 	switch (format) {
+	case ExportFormat::PRORES_4444:
+		_sample_format = AV_SAMPLE_FMT_S16;
+		_video_codec_name = "prores_ks";
+		_audio_codec_name = "pcm_s16le";
+		av_dict_set(&_video_options, "profile", "4", 0);
+		av_dict_set(&_video_options, "threads", "auto", 0);
+		break;
 	case ExportFormat::PRORES_HQ:
 		_sample_format = AV_SAMPLE_FMT_S16;
 		_video_codec_name = "prores_ks";
@@ -281,6 +288,8 @@ AVPixelFormat
 FFmpegFileEncoder::pixel_format (ExportFormat format)
 {
 	switch (format) {
+	case ExportFormat::PRORES_4444:
+		return AV_PIX_FMT_YUV444P10;
 	case ExportFormat::PRORES_HQ:
 		return AV_PIX_FMT_YUV422P10;
 	case ExportFormat::H264_AAC:

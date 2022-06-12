@@ -63,6 +63,8 @@ ExportConfig::read(cxml::ConstNodePtr node)
 		_format = ExportFormat::SUBTITLES_DCP;
 	} else if (format == "h264-aac") {
 		_format = ExportFormat::H264_AAC;
+	} else if (format == "prores-4444") {
+		_format = ExportFormat::PRORES_4444;
 	} else {
 		_format = ExportFormat::PRORES_HQ;
 	}
@@ -80,8 +82,12 @@ ExportConfig::write(xmlpp::Element* node) const
 	string name;
 
 	switch (_format) {
+		case ExportFormat::PRORES_4444:
+			name = "prores-4444";
+			break;
 		case ExportFormat::PRORES_HQ:
-			name = "prores";
+			/* Write this but we also accept 'prores' for backwards compatibility */
+			name = "prores-hq";
 			break;
 		case ExportFormat::H264_AAC:
 			name = "h264-aac";

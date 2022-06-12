@@ -57,8 +57,12 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 		name += "h264";
 		extension = "mp4";
 		break;
+	case ExportFormat::PRORES_4444:
+		name += "prores-444";
+		extension = "mov";
+		break;
 	case ExportFormat::PRORES_HQ:
-		name += "prores";
+		name += "prores-hq";
 		extension = "mov";
 		break;
 	case ExportFormat::SUBTITLES_DCP:
