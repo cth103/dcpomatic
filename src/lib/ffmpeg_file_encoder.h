@@ -43,7 +43,7 @@ class ExportAudioStream;
 
 enum class ExportFormat
 {
-	PRORES,
+	PRORES_HQ,
 	H264_AAC,
 	SUBTITLES_DCP
 };

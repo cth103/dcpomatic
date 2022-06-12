@@ -54,7 +54,7 @@ wxString format_extensions[] = {
 };
 
 ExportFormat formats[] = {
-	ExportFormat::PRORES,
+	ExportFormat::PRORES_HQ,
 	ExportFormat::H264_AAC,
 };
 

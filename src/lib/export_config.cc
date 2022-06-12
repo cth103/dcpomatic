@@ -41,7 +41,7 @@ ExportConfig::ExportConfig(Config* parent)
 void
 ExportConfig::set_defaults()
 {
-	_format = ExportFormat::PRORES;
+	_format = ExportFormat::PRORES_HQ;
 	_mixdown_to_stereo = false;
 	_split_reels = false;
 	_split_streams = false;
@@ -64,7 +64,7 @@ ExportConfig::read(cxml::ConstNodePtr node)
 	} else if (format == "h264-aac") {
 		_format = ExportFormat::H264_AAC;
 	} else {
-		_format = ExportFormat::PRORES;
+		_format = ExportFormat::PRORES_HQ;
 	}
 
 	_mixdown_to_stereo = node->bool_child("MixdownToStereo");
@@ -80,7 +80,7 @@ ExportConfig::write(xmlpp::Element* node) const
 	string name;
 
 	switch (_format) {
-		case ExportFormat::PRORES:
+		case ExportFormat::PRORES_HQ:
 			name = "prores";
 			break;
 		case ExportFormat::H264_AAC:

@@ -399,7 +399,7 @@ main (int argc, char* argv[])
 		auto job = std::make_shared<TranscodeJob>(film, behaviour);
 		job->set_encoder (
 			std::make_shared<FFmpegEncoder> (
-				film, job, *export_filename, *export_format == "mp4" ? ExportFormat::H264_AAC : ExportFormat::PRORES, false, false, false, 23
+				film, job, *export_filename, *export_format == "mp4" ? ExportFormat::H264_AAC : ExportFormat::PRORES_HQ, false, false, false, 23
 				)
 			);
 		JobManager::instance()->add (job);

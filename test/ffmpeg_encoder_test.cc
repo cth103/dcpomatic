@@ -57,7 +57,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 		name += "h264";
 		extension = "mp4";
 		break;
-	case ExportFormat::PRORES:
+	case ExportFormat::PRORES_HQ:
 		name += "prores";
 		extension = "mov";
 		break;
@@ -86,28 +86,28 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 /** Red / green / blue MP4 -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test1)
 {
-	ffmpeg_content_test (1, "test/data/test.mp4", ExportFormat::PRORES);
+	ffmpeg_content_test (1, "test/data/test.mp4", ExportFormat::PRORES_HQ);
 }
 
 
 /** Dolby Aurora trailer VOB -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test2)
 {
-	ffmpeg_content_test (2, TestPaths::private_data() / "dolby_aurora.vob", ExportFormat::PRORES);
+	ffmpeg_content_test (2, TestPaths::private_data() / "dolby_aurora.vob", ExportFormat::PRORES_HQ);
 }
 
 
 /** Sintel trailer -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test3)
 {
-	ffmpeg_content_test (3, TestPaths::private_data() / "Sintel_Trailer1.480p.DivX_Plus_HD.mkv", ExportFormat::PRORES);
+	ffmpeg_content_test (3, TestPaths::private_data() / "Sintel_Trailer1.480p.DivX_Plus_HD.mkv", ExportFormat::PRORES_HQ);
 }
 
 
 /** Big Buck Bunny trailer -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test4)
 {
-	ffmpeg_content_test (4, TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov", ExportFormat::PRORES);
+	ffmpeg_content_test (4, TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov", ExportFormat::PRORES_HQ);
 }
 
 
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 
 	film->write_metadata ();
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test5.mov", ExportFormat::PRORES, false, false, false, 23);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test5.mov", ExportFormat::PRORES_HQ, false, false, false, 23);
 	encoder.go ();
 }
 
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 	film->write_metadata();
 
 	auto job = make_shared<TranscodeJob> (film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test6.mov", ExportFormat::PRORES, false, false, false, 23);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test6.mov", ExportFormat::PRORES_HQ, false, false, false, 23);
 	encoder.go ();
 }
 
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test7.mov", ExportFormat::PRORES, false, false, false, 23);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_test7.mov", ExportFormat::PRORES_HQ, false, false, false, 23);
 	encoder.go ();
 }
 
@@ -410,7 +410,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_from_dcp_with_crop)
 	film->write_metadata ();
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::PRORES, false, false, false, 23);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_from_dcp_with_crop.mov", ExportFormat::PRORES_HQ, false, false, false, 23);
 	encoder.go ();
 }
 
@@ -463,7 +463,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_1", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES, false, true, false, 23);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES_HQ, false, true, false, 23);
 	encoder.go ();
 }
 
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_2", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_2.mov", ExportFormat::PRORES, false, true, false, 23);
+	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_2.mov", ExportFormat::PRORES_HQ, false, true, false, 23);
 	encoder.go ();
 
 	dcpomatic_log->set_types(logs);
