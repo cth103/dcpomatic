@@ -4,7 +4,6 @@ subscribers.Add (wxT ("Sem Rumo - Projetos Audiovisuais"));
 subscribers.Add (wxT ("Central Cinema"));
 subscribers.Add (wxT ("Drop-Out Cinema"));
 subscribers.Add (wxT ("Root & Rust Creative"));
-subscribers.Add (wxT ("Chris Eller"));
 subscribers.Add (wxT ("Gerard Elmore"));
 subscribers.Add (wxT ("Barak Epstein"));
 subscribers.Add (wxT ("José Delio Ares García"));
