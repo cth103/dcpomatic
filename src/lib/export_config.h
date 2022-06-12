@@ -23,7 +23,7 @@
 #define DCPOMATIC_EXPORT_CONFIG_H
 
 
-#include "types.h"
+#include "ffmpeg_file_encoder.h"
 #include <libcxml/cxml.h>
 
 

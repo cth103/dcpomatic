@@ -41,6 +41,14 @@ LIBDCP_ENABLE_WARNINGS
 class ExportAudioStream;
 
 
+enum class ExportFormat
+{
+	PRORES,
+	H264_AAC,
+	SUBTITLES_DCP
+};
+
+
 class FFmpegFileEncoder
 {
 public:
