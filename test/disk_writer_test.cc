@@ -40,18 +40,6 @@ using std::string;
 using std::vector;
 
 
-static
-void
-create_empty (boost::filesystem::path file, off_t size)
-{
-	auto fd = open (file.string().c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
-	BOOST_REQUIRE (fd != -1);
-	auto const r = posix_fallocate (fd, 0, size);
-	BOOST_REQUIRE_EQUAL (r, 0);
-	close (fd);
-}
-
-
 vector<string>
 ext2_ls (vector<string> arguments)
 {
@@ -91,8 +79,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	/* lwext4 has a lower limit of correct ext2 partition sizes it can make; 32Mb
 	 * does not work here: fsck gives errors about an incorrect free blocks count.
 	 */
-	create_empty (disk, 256 * 1024 * 1024);
-	create_empty (partition, 256 * 1024 * 1024);
+	make_random_file(disk, 256 * 1024 * 1024);
+	make_random_file(partition, 256 * 1024 * 1024);
 
 	path dcp = "build/test/disk_writer_test1";
 	create_directory (dcp);
@@ -156,8 +144,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 	cl.add(disk);
 	cl.add(partition);
 
-	create_empty(disk, 4LL * 1024LL * 1024LL * 1024LL);
-	create_empty(partition, 4LL * 1024LL * 1024LL * 1024LL);
+	make_random_file(disk, 4LL * 1024LL * 1024LL * 1024LL);
+	make_random_file(partition, 4LL * 1024LL * 1024LL * 1024LL);
 
 	auto const dcp = TestPaths::private_data() / "xm";
 	dcpomatic::write(dcp, disk.string(), partition.string(), 0);
