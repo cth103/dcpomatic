@@ -50,6 +50,7 @@
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
+#include <dcp/warnings.h>
 #include <asdcp/AS_DCP.h>
 #include <png.h>
 #include <sndfile.h>
@@ -59,8 +60,11 @@ extern "C" {
 }
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE dcpomatic_test
-#include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
+LIBDCP_DISABLE_WARNINGS
+#include <boost/random.hpp>
+LIBDCP_ENABLE_WARNINGS
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 #include <list>
 #include <vector>
@@ -818,14 +822,21 @@ subtitle_file (shared_ptr<Film> film)
 	return boost::filesystem::path("/");
 }
 
+
 void
 make_random_file (boost::filesystem::path path, size_t size)
 {
-	dcp::File t(path, "wb");
-	BOOST_REQUIRE (t);
-	for (size_t i = 0; i < size; ++i) {
-		uint8_t r = rand() & 0xff;
-		t.write(&r, 1, 1);
+	dcp::File random_file(path, "wb");
+	BOOST_REQUIRE (random_file);
+
+	boost::random::mt19937 rng(1);
+	boost::random::uniform_int_distribution<uint64_t> dist(0);
+
+	while (size > 0) {
+		auto this_time = std::min(size, size_t(8));
+		uint64_t random = dist(rng);
+		random_file.write(&random, this_time, 1);
+		size -= this_time;
 	}
 }
 
