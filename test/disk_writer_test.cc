@@ -42,7 +42,7 @@ using std::vector;
 
 static
 void
-create_empty (boost::filesystem::path file, int size)
+create_empty (boost::filesystem::path file, off_t size)
 {
 	auto fd = open (file.string().c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
 	BOOST_REQUIRE (fd != -1);
@@ -136,6 +136,46 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 
 	system ("e2cp " + partition.string() + ":disk_writer_test1/foo build/test/disk_writer_test1_foo_back");
 	check_file ("build/test/disk_writer_test1/foo", "build/test/disk_writer_test1_foo_back");
+}
+
+
+BOOST_AUTO_TEST_CASE (disk_writer_test2)
+{
+	using namespace boost::filesystem;
+	using namespace boost::process;
+
+	remove_all("build/test/disk_writer_test2.disk");
+	remove_all("build/test/disk_writer_test2.partition");
+	remove_all("build/test/disk_writer_test2");
+
+	Cleanup cl;
+
+	path const disk = "build/test/disk_writer_test2.disk";
+	path const partition = "build/test/disk_writer_test2.partition";
+
+	cl.add(disk);
+	cl.add(partition);
+
+	create_empty(disk, 4LL * 1024LL * 1024LL * 1024LL);
+	create_empty(partition, 4LL * 1024LL * 1024LL * 1024LL);
+
+	auto const dcp = TestPaths::private_data() / "xm";
+	dcpomatic::write(dcp, disk.string(), partition.string(), 0);
+
+	BOOST_CHECK_EQUAL(system("/sbin/e2fsck -fn build/test/disk_writer_test2.partition"), 0);
+
+	path const check = "build/test/disk_writer_test2";
+	create_directory(check);
+	cl.add(check);
+
+	for (auto original: directory_iterator(dcp)) {
+		auto path_in_copy = path("xm") / original.path().filename();
+		auto path_in_check = check / original.path().filename();
+		system("e2cp " + partition.string() + ":" + path_in_copy.string() + " " + path_in_check.string());
+		check_file(original.path(), path_in_check);
+	}
+
+	cl.run();
 }
 
 
