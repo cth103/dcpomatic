@@ -285,12 +285,26 @@ try
 {
 	ext4_dmask_set (DEBUG_ALL);
 
-	/* We rely on static initialization for these */
-	static struct ext4_fs fs;
-	static struct ext4_mkfs_info info;
+	struct ext4_fs fs;
+	fs.read_only = false;
+	fs.bdev = nullptr;
+	fs.last_inode_bg_id = 0;
+	fs.jbd_fs = nullptr;
+	fs.jbd_journal = nullptr;
+	fs.curr_trans = nullptr;
+	struct ext4_mkfs_info info;
+	info.len = 0;
 	info.block_size = 4096;
+	info.blocks_per_group = 0;
 	info.inode_size = 128;
+	info.inodes = 0;
+	info.journal_blocks = 0;
+	info.dsc_size = 0;
+	for (int i = 0; i < UUID_SIZE; ++i) {
+		info.uuid[i] = rand() & 0xff;
+	}
 	info.journal = false;
+	info.label = nullptr;
 
 #ifdef WIN32
 	file_windows_name_set(device.c_str());
