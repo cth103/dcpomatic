@@ -147,8 +147,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 	cl.add(disk);
 	cl.add(partition);
 
-	make_random_file(disk, 4LL * 1024LL * 1024LL * 1024LL);
-	make_random_file(partition, 4LL * 1024LL * 1024LL * 1024LL);
+	make_random_file(disk,      31043616768LL);
+	make_random_file(partition, 31043571712LL);
 
 	auto const dcp = TestPaths::private_data() / "xm";
 	dcpomatic::write(dcp, disk.string(), partition.string(), nullptr);
