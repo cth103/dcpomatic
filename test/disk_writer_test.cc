@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	/* Some arbitrary file size here */
 	make_random_file (dcp / "foo", 1024 * 1024 * 32 - 6128);
 
-	dcpomatic::write (dcp, disk.string(), partition.string(), 0);
+	dcpomatic::write (dcp, disk.string(), partition.string(), nullptr);
 
 	BOOST_CHECK_EQUAL (system("/sbin/e2fsck -fn build/test/disk_writer_test1.partition"), 0);
 
@@ -151,7 +151,7 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 	make_random_file(partition, 4LL * 1024LL * 1024LL * 1024LL);
 
 	auto const dcp = TestPaths::private_data() / "xm";
-	dcpomatic::write(dcp, disk.string(), partition.string(), 0);
+	dcpomatic::write(dcp, disk.string(), partition.string(), nullptr);
 
 	BOOST_CHECK_EQUAL(system("/sbin/e2fsck -fn build/test/disk_writer_test2.partition"), 0);
 
