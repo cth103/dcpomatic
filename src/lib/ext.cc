@@ -73,7 +73,7 @@ using std::vector;
 
 
 /* Use quite a big block size here, as ext4's fwrite() has quite a bit of overhead */
-static uint64_t const block_size = 4096 * 4096;
+uint64_t constexpr block_size = 4096 * 4096;
 
 
 static
