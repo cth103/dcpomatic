@@ -69,12 +69,13 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	using namespace boost::filesystem;
 	using namespace boost::process;
 
-	remove_all ("build/test/disk_writer_test1.disk");
-	remove_all ("build/test/disk_writer_test1.partition");
-	remove_all ("build/test/disk_writer_test1");
+	Cleanup cl;
 
 	path disk = "build/test/disk_writer_test1.disk";
 	path partition = "build/test/disk_writer_test1.partition";
+
+	cl.add(disk);
+	cl.add(partition);
 
 	/* lwext4 has a lower limit of correct ext2 partition sizes it can make; 32Mb
 	 * does not work here: fsck gives errors about an incorrect free blocks count.
@@ -124,6 +125,8 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 
 	system ("e2cp " + partition.string() + ":disk_writer_test1/foo build/test/disk_writer_test1_foo_back");
 	check_file ("build/test/disk_writer_test1/foo", "build/test/disk_writer_test1_foo_back");
+
+	cl.run();
 }
 
 
