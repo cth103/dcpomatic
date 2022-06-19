@@ -58,16 +58,15 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 		return;
 	}
 
-	/* Amount of error we will tolerate on audio timestamps; see comment below.
-	 * We'll use 1 24fps video frame at 48kHz as this seems to be roughly how
-	 * ffplay does it.
-	 */
-	static Frame const slack_frames = 48000 / 24;
-
 	int const resampled_rate = _content->resampled_frame_rate(film);
 	if (!time_already_delayed) {
 		time += ContentTime::from_seconds (_content->delay() / 1000.0);
 	}
+
+	/* Amount of error we will tolerate on audio timestamps; see comment below.
+	 * We'll use 1 24fps video frame as this seems to be roughly how ffplay does it.
+	 */
+	Frame const slack_frames = resampled_rate / 24;
 
 	/* first_since_seek is set to true if this is the first data we have
 	   received since initialisation or seek.  We'll set the position based
