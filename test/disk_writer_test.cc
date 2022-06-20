@@ -58,6 +58,18 @@ ext2_ls (vector<string> arguments)
 }
 
 
+static
+void
+make_empty_file(boost::filesystem::path file, off_t size)
+{
+       auto fd = open (file.string().c_str(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
+       BOOST_REQUIRE (fd != -1);
+       auto const r = posix_fallocate (fd, 0, size);
+       BOOST_REQUIRE_EQUAL (r, 0);
+       close (fd);
+}
+
+
 /** Use the writer code to make a disk and partition and copy a file (in a directory)
  *  to it, then check that:
  *  - the partition has inode size 128
@@ -147,8 +159,9 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 	cl.add(disk);
 	cl.add(partition);
 
-	make_random_file(disk,      31043616768LL);
-	make_random_file(partition, 31043571712LL);
+	/* Using empty files here still triggers the bug and is much quicker than using random data */
+	make_empty_file(disk,      31043616768LL);
+	make_empty_file(partition, 31043571712LL);
 
 	auto const dcp = TestPaths::private_data() / "xm";
 	dcpomatic::write(dcp, disk.string(), partition.string(), nullptr);
