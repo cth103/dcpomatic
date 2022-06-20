@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test1)
 {
 	std::list<StringText> s;
 	add (s, "Hello", false, false, false);
-	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
+	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 /** Test marked_up() in render_text.cc */
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test2)
 {
 	std::list<StringText> s;
 	add (s, "Hello", false, true, false);
-	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
+	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test3)
 {
 	std::list<StringText> s;
 	add (s, "Hello", true, true, false);
-	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
+	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 /** Test marked_up() in render_text.cc */
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test4)
 {
 	std::list<StringText> s;
 	add (s, "Hello", true, true, true);
-	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" underline=\"single\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
+	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" underline=\"single\" size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 /** Test marked_up() in render_text.cc */
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test5)
 	std::list<StringText> s;
 	add (s, "Hello", false, true, false);
 	add (s, " world.", false, false, false);
-	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\"> world.</span>");
+	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\"> world.</span>");
 }
 
 /** Test marked_up() in render_text.cc */
@@ -113,5 +113,5 @@ BOOST_AUTO_TEST_CASE (render_markup_test6)
 	add (s, "Hello", true, false, false);
 	add (s, " world ", false, false, false);
 	add (s, "we are bold.", false, true, false);
-	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span style=\"italic\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\"> world </span><span weight=\"bold\" size=\"41472\" alpha=\"65535\" color=\"#FFFFFF\">we are bold.</span>");
+	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span style=\"italic\" size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\"> world </span><span weight=\"bold\" size=\"32256\" alpha=\"65535\" color=\"#FFFFFF\">we are bold.</span>");
 }
