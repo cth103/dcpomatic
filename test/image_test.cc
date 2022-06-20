@@ -223,7 +223,6 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test_onto_xyz)
 	for (int y = 0; y < 50; ++y) {
 		uint16_t* p = reinterpret_cast<uint16_t*>(xyz.data()[0]) + (y * xyz.stride()[0] / 2);
 		for (int x = 0; x < 50; ++x) {
-			std::cout << "x=" << x << ", y=" << y << "\n";
 			if (4 <= x && x < 12 && 4 <= y && y < 12) {
 				BOOST_REQUIRE_EQUAL(p[0], 45078U);
 				BOOST_REQUIRE_EQUAL(p[1], 34939U);
