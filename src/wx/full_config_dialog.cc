@@ -1495,6 +1495,10 @@ private:
 		table->Add (_allow_96khz_audio, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		table->AddSpacer (0);
 
+		_use_all_audio_channels = new CheckBox(_panel, _("Allow mapping to all audio channels"));
+		table->Add(_use_all_audio_channels, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		table->AddSpacer(0);
+
 		_show_experimental_audio_processors = new CheckBox (_panel, _("Show experimental audio processors"));
 		table->Add (_show_experimental_audio_processors, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		table->AddSpacer (0);
@@ -1598,6 +1602,7 @@ private:
 		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
 		_allow_any_container->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_container_changed, this));
 		_allow_96khz_audio->Bind (wxEVT_CHECKBOX, boost::bind(&AdvancedPage::allow_96khz_audio_changed, this));
+		_use_all_audio_channels->Bind(wxEVT_CHECKBOX, boost::bind(&AdvancedPage::use_all_channels_changed, this));
 		_show_experimental_audio_processors->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::show_experimental_audio_processors_changed, this));
 		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
 		_frames_in_memory_multiplier->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::frames_in_memory_multiplier_changed, this));
@@ -1634,6 +1639,7 @@ private:
 		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
 		checked_set (_allow_any_container, config->allow_any_container ());
 		checked_set (_allow_96khz_audio, config->allow_96khz_audio());
+		checked_set (_use_all_audio_channels, config->use_all_audio_channels());
 		checked_set (_show_experimental_audio_processors, config->show_experimental_audio_processors ());
 		checked_set (_only_servers_encode, config->only_servers_encode ());
 		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
@@ -1684,6 +1690,11 @@ private:
 	void allow_96khz_audio_changed ()
 	{
 		Config::instance()->set_allow_96hhz_audio(_allow_96khz_audio->GetValue());
+	}
+
+	void use_all_channels_changed ()
+	{
+		Config::instance()->set_use_all_audio_channels(_use_all_audio_channels->GetValue());
 	}
 
 	void show_experimental_audio_processors_changed ()
@@ -1755,6 +1766,7 @@ private:
 	wxCheckBox* _allow_any_dcp_frame_rate = nullptr;
 	wxCheckBox* _allow_any_container = nullptr;
 	wxCheckBox* _allow_96khz_audio = nullptr;
+	wxCheckBox* _use_all_audio_channels = nullptr;
 	wxCheckBox* _show_experimental_audio_processors = nullptr;
 	wxCheckBox* _only_servers_encode = nullptr;
 	NameFormatEditor* _dcp_metadata_filename_format = nullptr;

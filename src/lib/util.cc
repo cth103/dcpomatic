@@ -594,14 +594,14 @@ short_audio_channel_name (int c)
 		_("Rs"),
 		_("HI"),
 		_("VI"),
-		_("Lc"),
-		_("Rc"),
+		_("9"),
+		_("10"),
 		_("BsL"),
 		_("BsR"),
 		_("DBP"),
 		_("DBS"),
 		_("Sign"),
-		""
+		_("16")
 	};
 
 	return channels[c];

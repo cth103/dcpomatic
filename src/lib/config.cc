@@ -101,6 +101,7 @@ Config::set_defaults ()
 	_allow_any_dcp_frame_rate = false;
 	_allow_any_container = false;
 	_allow_96khz_audio = false;
+	_use_all_audio_channels = false;
 	_show_experimental_audio_processors = false;
 	_language = optional<string> ();
 	_default_still_length = 10;
@@ -414,6 +415,7 @@ try
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate").get_value_or (false);
 	_allow_any_container = f.optional_bool_child ("AllowAnyContainer").get_value_or (false);
 	_allow_96khz_audio = f.optional_bool_child("Allow96kHzAudio").get_value_or(false);
+	_use_all_audio_channels = f.optional_bool_child("UseAllAudioChannels").get_value_or(false);
 	_show_experimental_audio_processors = f.optional_bool_child ("ShowExperimentalAudioProcessors").get_value_or (false);
 
 	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
@@ -803,6 +805,8 @@ Config::write_config () const
 	root->add_child("AllowAnyContainer")->add_child_text (_allow_any_container ? "1" : "0");
 	/* [XML] Allow96kHzAudio 1 to allow users to make DCPs with 96kHz audio, 0 to always make 48kHz DCPs */
 	root->add_child("Allow96kHzAudio")->add_child_text(_allow_96khz_audio ? "1" : "0");
+	/* [XML] UseAllAudioChannels 1 to allow users to map audio to all 16 DCP channels, 0 to limit to the channels used in standard DCPs */
+	root->add_child("UseAllAudioChannels")->add_child_text(_use_all_audio_channels ? "1" : "0");
 	/* [XML] ShowExperimentalAudioProcessors 1 to offer users the (experimental) audio upmixer processors, 0 to hide them */
 	root->add_child("ShowExperimentalAudioProcessors")->add_child_text (_show_experimental_audio_processors ? "1" : "0");
 	/* [XML] LogTypes Types of logging to write; a bitfield where 1 is general notes, 2 warnings, 4 errors, 8 debug information related

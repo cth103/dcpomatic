@@ -174,6 +174,10 @@ public:
 		return _allow_96khz_audio;
 	}
 
+	bool use_all_audio_channels () const {
+		return _use_all_audio_channels;
+	}
+
 	bool show_experimental_audio_processors () const {
 		return _show_experimental_audio_processors;
 	}
@@ -667,6 +671,10 @@ public:
 
 	void set_allow_96hhz_audio (bool a) {
 		maybe_set (_allow_96khz_audio, a);
+	}
+
+	void set_use_all_audio_channels (bool a) {
+		maybe_set (_use_all_audio_channels, a);
 	}
 
 	void set_show_experimental_audio_processors (bool e) {
@@ -1230,6 +1238,7 @@ private:
 	*/
 	bool _allow_any_container;
 	bool _allow_96khz_audio;
+	bool _use_all_audio_channels;
 	/** Offer the upmixers in the audio processor settings */
 	bool _show_experimental_audio_processors;
 	boost::optional<std::string> _language;
