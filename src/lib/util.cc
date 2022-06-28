@@ -1121,6 +1121,9 @@ default_font_file ()
 	if (!boost::filesystem::exists(liberation_normal)) {
 		liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 	}
+	if (!boost::filesystem::exists(liberation_normal)) {
+		liberation_normal = "/usr/share/fonts/liberation-sans/LiberationSans-Regular.ttf";
+	}
 
 	return liberation_normal;
 }
