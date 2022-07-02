@@ -1,9 +1,8 @@
 #!/bin/bash
 
-cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/..
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/environment
 
-export LD_LIBRARY_PATH=build/src/lib:build/src/wx:/home/c.hetherington/lib:$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH=build/src/lib:build/src/wx:build/src/asdcplib/src:/Users/c.hetherington/osx-environment/64/lib
 if [ "$1" == "--debug" ]; then
     shift
     gdb --args build/src/tools/dcpomatic2_create $*

@@ -1,0 +1,6 @@
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+build=$DIR/../build
+export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:/Users/ci/osx-environment/x86_64/10.10/lib:/Users/ci/workspace/lib
+DCPOMATIC_GRAPHICS=$DIR/../graphics
+
