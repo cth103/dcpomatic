@@ -19,4 +19,11 @@
 */
 
 
+#include <dcp/array_data.h>
+#include <memory>
+
+
+class Image;
+
+
 dcp::ArrayData image_as_png (std::shared_ptr<const Image> image);
