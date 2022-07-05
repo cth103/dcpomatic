@@ -64,16 +64,16 @@ add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool un
 		);
 }
 
-/** Test marked_up() in render_text.cc */
-BOOST_AUTO_TEST_CASE (render_markup_test1)
+
+BOOST_AUTO_TEST_CASE (marked_up_test1)
 {
 	std::list<StringText> s;
 	add (s, "Hello", false, false, false);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
-/** Test marked_up() in render_text.cc */
-BOOST_AUTO_TEST_CASE (render_markup_test2)
+
+BOOST_AUTO_TEST_CASE (marked_up_test2)
 {
 	std::list<StringText> s;
 	add (s, "Hello", false, true, false);
@@ -81,24 +81,21 @@ BOOST_AUTO_TEST_CASE (render_markup_test2)
 }
 
 
-/** Test marked_up() in render_text.cc */
-BOOST_AUTO_TEST_CASE (render_markup_test3)
+BOOST_AUTO_TEST_CASE (marked_up_test3)
 {
 	std::list<StringText> s;
 	add (s, "Hello", true, true, false);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
-/** Test marked_up() in render_text.cc */
-BOOST_AUTO_TEST_CASE (render_markup_test4)
+BOOST_AUTO_TEST_CASE (marked_up_test4)
 {
 	std::list<StringText> s;
 	add (s, "Hello", true, true, true);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" underline=\"single\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
-/** Test marked_up() in render_text.cc */
-BOOST_AUTO_TEST_CASE (render_markup_test5)
+BOOST_AUTO_TEST_CASE (marked_up_test5)
 {
 	std::list<StringText> s;
 	add (s, "Hello", false, true, false);
@@ -106,8 +103,7 @@ BOOST_AUTO_TEST_CASE (render_markup_test5)
 	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\"> world.</span>");
 }
 
-/** Test marked_up() in render_text.cc */
-BOOST_AUTO_TEST_CASE (render_markup_test6)
+BOOST_AUTO_TEST_CASE (marked_up_test6)
 {
 	std::list<StringText> s;
 	add (s, "Hello", true, false, false);
