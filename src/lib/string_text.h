@@ -32,20 +32,35 @@
  *    - include settings that are not applicable to true DCP subtitles.
  *      For example, we can set outline width for burn-in but this cannot be specified in DCP XML.
  *
+ *    - include details of how v_align should be interpreted
+ *
  *    - specify the font by referring to a Font object from the content we came from, rather than
  *      having to use a DCP ID like in dcp::SubtitleString.
  */
 class StringText : public dcp::SubtitleString
 {
 public:
-	StringText (dcp::SubtitleString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_)
+	StringText(dcp::SubtitleString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_, dcp::Standard valign_standard_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (outline_width_)
 		, font (font_)
+		, valign_standard (valign_standard_)
 	{}
 
 	int outline_width;
 	std::shared_ptr<dcpomatic::Font> font;
+	/** Interop and SMPTE use the same VAlign choices (top, center, bottom) but give them different
+	 *  meanings.  This is the standard which should be used to interpret v_align() in this subtitle;
+	 *  valign_standard == SMPTE means:
+	 *     top - top of screen to top of subtitle
+	 *     center - centre of screen to center of subtitle
+	 *     bottom - bottom of screen to bottom of subtitle
+	 *  valign_standard == Interop means:
+	 *     top - top of screen to baseline of subtitle
+	 *     center - centre of screen to baseline of subtitle
+	 *     bottom - bottom of screen to baseline of subtitle
+	 */
+	dcp::Standard valign_standard;
 };
 
 

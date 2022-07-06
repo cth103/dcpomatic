@@ -245,27 +245,41 @@ x_position (StringText const& first, int target_width, int layout_width)
 
 
 static int
-y_position (StringText const& first, int target_height, int layout_height)
+y_position (StringText const& first, int target_height, int baseline_to_bottom, int layout_height)
 {
 	int y = 0;
-	switch (first.v_align()) {
-	case dcp::VAlign::TOP:
-		/* SMPTE says that v_position is the distance between top
-		   of frame and top of subtitle, but this doesn't always seem to be
-		   the case in practice; Gunnar Ásgeirsson's Dolby server appears
-		   to put VAlign::TOP subs with v_position as the distance between top
-		   of frame and bottom of subtitle.
-		*/
-		y = first.v_position() * target_height - layout_height;
+	switch (first.valign_standard) {
+	case dcp::Standard::INTEROP:
+		switch (first.v_align()) {
+		case dcp::VAlign::TOP:
+			/* v_position is distance from top of frame to subtitle baseline */
+			y = first.v_position() * target_height - (layout_height - baseline_to_bottom);
+			break;
+		case dcp::VAlign::CENTER:
+			/* v_position is distance from centre of frame to subtitle baseline */
+			y = (0.5 + first.v_position()) * target_height - (layout_height - baseline_to_bottom);
+			break;
+		case dcp::VAlign::BOTTOM:
+			/* v_position is distance from bottom of frame to subtitle baseline */
+			y = (1.0 - first.v_position()) * target_height - (layout_height - baseline_to_bottom);
+			break;
+		}
 		break;
-	case dcp::VAlign::CENTER:
-		/* v_position is distance between centre of frame and centre of subtitle */
-		y = (0.5 + first.v_position()) * target_height - layout_height / 2;
-		break;
-	case dcp::VAlign::BOTTOM:
-		/* v_position is distance between bottom of frame and bottom of subtitle */
-		y = (1.0 - first.v_position()) * target_height - layout_height;
-		break;
+	case dcp::Standard::SMPTE:
+		switch (first.v_align()) {
+		case dcp::VAlign::TOP:
+			/* v_position is distance from top of frame to top of subtitle */
+			y = first.v_position() * target_height;
+			break;
+		case dcp::VAlign::CENTER:
+			/* v_position is distance from centre of frame to centre of subtitle */
+			y = (0.5 + first.v_position()) * target_height - layout_height / 2;
+			break;
+		case dcp::VAlign::BOTTOM:
+			/* v_position is distance from bottom of frame to bottom of subtitle */
+			y = (1.0 - first.v_position()) * target_height - layout_height;
+			break;
+		}
 	}
 
 	return y;
@@ -359,7 +373,7 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	context->stroke ();
 
 	int const x = x_position (first, target.width, size.width);
-	int const y = y_position (first, target.height, size.height);
+	int const y = y_position (first, target.height, ink.get_y() / Pango::SCALE, size.height);
 	return PositionImage (image, Position<int>(max (0, x), max(0, y)));
 }
 

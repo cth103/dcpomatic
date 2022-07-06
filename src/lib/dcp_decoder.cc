@@ -303,7 +303,8 @@ DCPDecoder::pass_texts (
 							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
 							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 							),
-						strings
+						strings,
+						_dcp_content->standard()
 						);
 					strings.clear ();
 				}
@@ -338,7 +339,8 @@ DCPDecoder::pass_texts (
 					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.in().as_seconds()),
 					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 					),
-				strings
+				strings,
+				_dcp_content->standard()
 				);
 			strings.clear ();
 		}

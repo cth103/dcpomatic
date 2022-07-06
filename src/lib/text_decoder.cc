@@ -102,12 +102,17 @@ set_forced_appearance(shared_ptr<const TextContent> content, StringText& subtitl
 
 
 void
-TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles)
+TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles, dcp::Standard valign_standard)
 {
 	vector<StringText> string_texts;
 
 	for (auto& subtitle: subtitles) {
-		auto string_text = StringText(subtitle, content()->outline_width(), subtitle.font() ? content()->get_font(*subtitle.font()) : shared_ptr<Font>());
+		auto string_text = StringText(
+			subtitle,
+			content()->outline_width(),
+			subtitle.font() ? content()->get_font(*subtitle.font()) : shared_ptr<Font>(),
+			valign_standard
+			);
 		string_text.set_text(escape_text(string_text.text()));
 		set_forced_appearance(content(), string_text);
 		string_texts.push_back(string_text);
@@ -265,7 +270,12 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				0
 				);
 
-			auto string_text = StringText(dcp_subtitle, content()->outline_width(), content()->get_font(block.font.get_value_or("")));
+			auto string_text = StringText(
+				dcp_subtitle,
+				content()->outline_width(),
+				content()->get_font(block.font.get_value_or("")),
+				dcp::Standard::SMPTE
+				);
 			set_forced_appearance(content(), string_text);
 			string_texts.push_back(string_text);
 		}
@@ -284,9 +294,9 @@ TextDecoder::emit_stop (ContentTime to)
 
 
 void
-TextDecoder::emit_plain (ContentTimePeriod period, vector<dcp::SubtitleString> subtitles)
+TextDecoder::emit_plain (ContentTimePeriod period, vector<dcp::SubtitleString> subtitles, dcp::Standard valign_standard)
 {
-	emit_plain_start (period.from, subtitles);
+	emit_plain_start (period.from, subtitles, valign_standard);
 	emit_stop (period.to);
 }
 
