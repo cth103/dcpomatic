@@ -20,6 +20,7 @@
 
 
 #include "dcpomatic_assert.h"
+#include "dcpomatic_log.h"
 #include "font_config.h"
 #include <fontconfig/fontconfig.h>
 #include <boost/filesystem.hpp>
@@ -91,23 +92,34 @@ FontConfig::system_font_with_name(string name)
 {
 	optional<boost::filesystem::path> path;
 
+	LOG_GENERAL("Searching system for font %1", name);
 	auto pattern = FcNameParse(reinterpret_cast<FcChar8 const*>(name.c_str()));
 	auto object_set = FcObjectSetBuild(FC_FILE, nullptr);
 	auto font_set = FcFontList(_config, pattern, object_set);
 	if (font_set) {
+		LOG_GENERAL("%1 candidate fonts found", font_set->nfont);
 		for (int i = 0; i < font_set->nfont; ++i) {
 			auto font = font_set->fonts[i];
 			FcChar8* file;
 			if (FcPatternGetString(font, FC_FILE, 0, &file) == FcResultMatch) {
 				path = boost::filesystem::path(reinterpret_cast<char*>(file));
+				LOG_GENERAL("Found %1", *path);
 				break;
 			}
 		}
 		FcFontSetDestroy(font_set);
+	} else {
+		LOG_GENERAL_NC("No candidate fonts found");
 	}
 
 	FcObjectSetDestroy(object_set);
 	FcPatternDestroy(pattern);
+
+	if (path) {
+		LOG_GENERAL("Searched system for font %1, found %2", name, *path);
+	} else {
+		LOG_GENERAL("Searched system for font %1; nothing found", name);
+	}
 
 	return path;
 }
