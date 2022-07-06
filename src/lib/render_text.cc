@@ -290,8 +290,8 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	auto const markup = marked_up (subtitles, target.height, fade_factor, font_name);
 	auto layout = create_layout ();
 	setup_layout (layout, font_name, markup);
-	dcp::Size size;
-	layout->get_pixel_size (size.width, size.height);
+	auto ink = layout->get_ink_extents();
+	dcp::Size size{ink.get_width() / Pango::SCALE, ink.get_height() / Pango::SCALE};
 
 	/* Calculate x and y scale factors.  These are only used to stretch
 	   the font away from its normal aspect ratio.
@@ -316,12 +316,8 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	size.height *= y_scale;
 
 	/* Shuffle the subtitle over by the border width (if we have any) so it's not cut off */
-	int const x_offset = ceil (border_width);
-	/* Move down a bit so that accents on capital letters can be seen */
-	int const y_offset = target.height / 100.0;
-
-	size.width += x_offset;
-	size.height += y_offset;
+	int const x_offset = (-ink.get_x() / Pango::SCALE) + ceil(border_width);
+	int const y_offset = -ink.get_y() / Pango::SCALE + ceil(border_width);
 
 	auto image = create_image (size);
 	auto surface = create_surface (image);
