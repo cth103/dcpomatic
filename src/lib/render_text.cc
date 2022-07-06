@@ -383,7 +383,7 @@ render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	}
 
 	if (!pending.empty()) {
-		images.push_back(render_line(pending,  target, time, frame_rate));
+		images.push_back(render_line(pending, target, time, frame_rate));
 	}
 
 	return images;
