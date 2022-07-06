@@ -41,9 +41,9 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	: Decoder (film)
 {
 	/* Load the XML or MXF file */
-	auto const c = load (content->path(0));
-	c->fix_empty_font_ids ();
-	_subtitles = c->subtitles ();
+	auto const asset = load (content->path(0));
+	asset->fix_empty_font_ids ();
+	_subtitles = asset->subtitles ();
 	_next = _subtitles.begin ();
 
 	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
