@@ -173,7 +173,6 @@ ExportVideoFileDialog::format_changed ()
 	for (int i = 0; i < 2; ++i) {
 		_x264_crf_label[i]->Enable(formats[selection] == ExportFormat::H264_AAC);
 	}
-	_mixdown->Enable (selection != 2);
 
 	Config::instance()->export_config().set_format(formats[selection]);
 }
