@@ -35,7 +35,7 @@ using namespace boost::placeholders;
 #endif
 
 
-HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
+HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok)
 	: wxDialog (parent, wxID_ANY, title)
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
@@ -62,6 +62,13 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 
 	/* Set height */
 	SetSize (h->GetInternalRepresentation()->GetWidth(), h->GetInternalRepresentation()->GetHeight() + 256);
+
+	if (ok) {
+		auto buttons = CreateSeparatedButtonSizer(wxOK);
+		if (buttons) {
+			sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
+		}
+	}
 }
 
 
