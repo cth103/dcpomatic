@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2021-05-07 11:56+0200\n"
+"PO-Revision-Date: 2022-07-07 10:13+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1\n"
 
 #: src/lib/video_content.cc:496
 #, c-format
@@ -123,7 +123,7 @@ msgstr "%1 [video]"
 
 #: src/lib/transcode_job.cc:175
 msgid "%1; %2/%3 frames"
-msgstr ""
+msgstr "%1; %2/%3 snímků"
 
 #: src/lib/video_content.cc:447
 #, c-format
@@ -236,6 +236,8 @@ msgid ""
 "language '%1', which DCP-o-matic does not recognise.  The file's language "
 "has been cleared."
 msgstr ""
+"Soubor titulků nebo skrytých titulků v tomto projektu je označen jazykem "
+"‚%1‘, který DCP-o-matic nerozpozná.  Jazyk souboru byl vymazán."
 
 #: src/lib/ffmpeg_content.cc:635
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -449,7 +451,7 @@ msgstr "Kanály"
 
 #: src/lib/transcode_job.cc:108
 msgid "Check their new settings, then try again."
-msgstr ""
+msgstr "Zkontrolujte jejich nové nastavení a zkuste to znovu."
 
 #: src/lib/check_content_change_job.cc:49
 msgid "Checking content for changes"
@@ -930,7 +932,7 @@ msgstr "Jméno souboru"
 
 #: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
 msgid "Files have changed since they were added to the project."
-msgstr ""
+msgstr "Soubory se od doby přidání do projektu změnily."
 
 #: src/lib/ffmpeg_content.cc:596
 msgid "Film"
@@ -1195,13 +1197,12 @@ msgid "Open subtitles"
 msgstr "Otevřít titulky"
 
 #: src/lib/transcode_job.cc:113
-#, fuzzy
 msgid ""
 "Open the project in DCP-o-matic, check the settings, then save it before "
 "trying again."
 msgstr ""
-"Some files have been changed since they were added to the project.  Open the "
-"project in DCP-o-matic, check the settings, then save it before trying again."
+"Otevřete projekt v programu DCP-o-matic, zkontrolujte nastavení a před "
+"dalším pokusem jej uložte."
 
 #: src/lib/filter.cc:76 src/lib/filter.cc:77 src/lib/filter.cc:78
 #: src/lib/filter.cc:79
@@ -1386,7 +1387,7 @@ msgstr "Short (Krátky film)"
 
 #: src/lib/util.cc:605
 msgid "Sign"
-msgstr ""
+msgstr "Podepsat"
 
 #: src/lib/video_content.cc:510
 msgid "Size"
@@ -1397,26 +1398,20 @@ msgid "Some audio will be resampled to %1Hz"
 msgstr "Některé audio bude převzorkované na %1Hz"
 
 #: src/lib/transcode_job.cc:117
-#, fuzzy
 msgid "Some files have been changed since they were added to the project."
-msgstr ""
-"Některé soubory byly od jejich přidání do projektu změněny.\n"
-"\n"
-"Tyto soubory budou nyní znovu přezkoumány, takže bude pravděpodobně nutné "
-"zkontrolovat jejich nastavení."
+msgstr "Některé soubory byly od svého přidání do projektu změněny."
 
 #: src/lib/transcode_job.cc:107
-#, fuzzy
 msgid ""
 "Some files have been changed since they were added to the project.\n"
 "\n"
 "These files will now be re-examined, so you may need to check their settings "
 "before trying again."
 msgstr ""
-"Některé soubory byly od jejich přidání do projektu změněny.\n"
+"Některé soubory byly po přidání do projektu změněny.\n"
 "\n"
-"Tyto soubory budou nyní znovu přezkoumány, takže bude pravděpodobně nutné "
-"zkontrolovat jejich nastavení."
+"Tyto soubory budou nyní znovu prozkoumány, takže před dalším pokusem bude "
+"možná nutné zkontrolovat jejich nastavení."
 
 #: src/lib/check_content_change_job.cc:71
 msgid ""
@@ -1443,6 +1438,9 @@ msgid ""
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
 "has no spoken parts."
 msgstr ""
+"Některý obsah obsahuje zvuk, ale nenastavili jste jazyk zvuku.  Doporučujeme "
+"nastavit jazyk zvuku na kartě „DCP“, pokud váš zvuk neobsahuje žádné mluvené "
+"části."
 
 #: src/lib/film.cc:414
 msgid "Some of your content needs a KDM"
@@ -1819,13 +1817,12 @@ msgstr ""
 "tom, zda má váš obsah méně kanálů, protože DCP-o-matic naplní doplňky tichem."
 
 #: src/lib/hints.cc:157
-#, fuzzy
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
 msgstr ""
-"Váš DCP používá neobvyklý poměr. To může způsobit na některých projektorech "
-"problémy. Pokud je to možné použijte Flat nebo Scope pro poměr kontejneru DCP"
+"Vaše DCP používá neobvyklý poměr.  To může u některých projektorů způsobit "
+"problémy.  Pokud je to možné, použijte pro poměr DCP formát Flat nebo Scope."
 
 #: src/lib/hints.cc:337
 msgid ""
@@ -2035,23 +2032,18 @@ msgstr "jméno"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:758
-#, fuzzy
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
-"jeden, pokud jeho skrytý titulek má nenulový vstupní bod, takže musí být "
-"přepsán."
+"jeden ze skrytých titulků má nenulový vstupní bod, takže musí být přepsán."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:745
-#, fuzzy
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
-msgstr ""
-"jeden, pokud jeho reels titulků má nenulový vstupní bod, takže musí být "
-"přepsán."
+msgstr "jeden z titulků má nenulový vstupní bod, takže musí být přepsán."
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:222

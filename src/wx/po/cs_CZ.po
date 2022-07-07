@@ -3,21 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-01-20 09:40+0100\n"
-"PO-Revision-Date: 2021-05-07 14:26+0200\n"
+"PO-Revision-Date: 2022-07-07 10:22+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: DCP-o-matic translators\n"
 "Language: cs_CZ\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.4.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.1\n"
 "X-Poedit-Bookmarks: -1,-1,-1,-1,369,-1,-1,-1,-1,-1\n"
 
 #: src/wx/player_information.cc:95
@@ -75,12 +74,11 @@ msgid "%d channels on %s"
 msgstr "%d kanály na %s"
 
 #: src/wx/about_dialog.cc:87
-#, fuzzy
 msgid ""
 "(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
-"(C) 2012-2021 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:48 src/wx/file_picker_ctrl.cc:63
@@ -485,7 +483,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:366
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
-msgstr ""
+msgstr "Alespoň jeden uzel <Text> v titulku nebo uzavřeném titulku je prázdný."
 
 #: src/wx/verify_dcp_dialog.cc:242
 msgid ""
@@ -528,9 +526,8 @@ msgid "Audio channels: %d"
 msgstr "Zvukové kanály: %d"
 
 #: src/wx/dcp_panel.cc:98
-#, fuzzy
 msgid "Audio language"
-msgstr "Nastavit jazyk"
+msgstr "Jazyk zvuku"
 
 #: src/wx/audio_mapping_view.cc:624
 #, c-format
@@ -1000,9 +997,8 @@ msgid "Default audio delay"
 msgstr "Předvolené zpoždění zvuku"
 
 #: src/wx/full_config_dialog.cc:322
-#, fuzzy
 msgid "Default chain"
-msgstr "Předvolený kontejner"
+msgstr "Výchozí chain"
 
 #: src/wx/full_config_dialog.cc:282
 msgid "Default container"
@@ -1017,27 +1013,24 @@ msgid "Default directory for new films"
 msgstr "Předvolený adresář pro nové filmy"
 
 #: src/wx/full_config_dialog.cc:325
-#, fuzzy
 msgid "Default distributor"
-msgstr "Distributor"
+msgstr "Výchozí distributor"
 
 #: src/wx/full_config_dialog.cc:266
 msgid "Default duration of still images"
 msgstr "Předvolená dálka statických snímků"
 
 #: src/wx/full_config_dialog.cc:316
-#, fuzzy
 msgid "Default facility"
-msgstr "Výchozí měřítko-na"
+msgstr "Výchozí zařízení"
 
 #: src/wx/full_config_dialog.cc:312
 msgid "Default standard"
 msgstr "DCP standard"
 
 #: src/wx/full_config_dialog.cc:319
-#, fuzzy
 msgid "Default studio"
-msgstr "DCP standard"
+msgstr "Výchozí studio"
 
 #: src/wx/full_config_dialog.cc:248
 msgid "Defaults"
@@ -1677,9 +1670,8 @@ msgid "Language of these subtitles"
 msgstr "Jazyk těchto titulků"
 
 #: src/wx/metadata_dialog.cc:232
-#, fuzzy
 msgid "Language used for any sign language video track"
-msgstr "Jazyk použitý pro dialog v tomto obsahu"
+msgstr "Jazyk používaný pro jakoukoli videostopu ve znakovém jazyce"
 
 #: src/wx/markers_dialog.cc:134
 msgid "Last frame of composition"
@@ -1767,9 +1759,8 @@ msgid "MISSING: "
 msgstr "CHYBĚJÍCÍ: "
 
 #: src/wx/export_video_file_dialog.cc:37
-#, fuzzy
 msgid "MOV / ProRes"
-msgstr "ProRes"
+msgstr "MOV / ProRes"
 
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV files (*.mov)|*.mov"
@@ -2023,7 +2014,7 @@ msgstr "OpenGL (rychlejší)"
 
 #: src/wx/system_information_dialog.cc:87
 msgid "OpenGL renderer not supported by this DCP-o-matic version"
-msgstr ""
+msgstr "Vykreslovač OpenGL není touto verzí DCP-o-matic podporován"
 
 #: src/wx/system_information_dialog.cc:54
 #: src/wx/system_information_dialog.cc:86
@@ -2090,6 +2081,7 @@ msgstr "Přepsat tento soubor aktuální konfigurací"
 #: src/wx/verify_dcp_dialog.cc:363
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
+"Část DCP nebylo možné zkontrolovat, protože nebyl k dispozici žádný KDM."
 
 #: src/wx/verify_dcp_dialog.cc:139
 msgid ""
@@ -2327,7 +2319,7 @@ msgstr "Přejmenovat..."
 
 #: src/wx/system_information_dialog.cc:70
 msgid "Renderer"
-msgstr ""
+msgstr "Vykreslovač"
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
@@ -2561,9 +2553,8 @@ msgid "Set to"
 msgstr "Nastaven na"
 
 #: src/wx/system_information_dialog.cc:72
-#, fuzzy
 msgid "Shading language version"
-msgstr "Stabilní verze "
+msgstr "Shading language version"
 
 #: src/wx/subtitle_appearance_dialog.cc:152
 msgid "Shadow"
@@ -2587,7 +2578,7 @@ msgstr "Zobrazit oblast titulků"
 
 #: src/wx/metadata_dialog.cc:231
 msgid "Sign language video language"
-msgstr ""
+msgstr "Jazyk videa ve znakovém jazyce"
 
 #: src/wx/config_dialog.cc:715 src/wx/config_dialog.cc:742
 msgid "Signing DCPs and KDMs"
@@ -2627,11 +2618,15 @@ msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
 msgstr ""
+"Některé uzavřené uzly <Text> nebo <Obrázek> mají v rámci <Nápisu> různé "
+"vertikální zarovnání."
 
 #: src/wx/verify_dcp_dialog.cc:372
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
+"Některé uzavřené titulky nejsou uvedeny v pořadí podle jejich vertikální "
+"polohy."
 
 #: src/wx/config_dialog.cc:877
 msgid "Sound"
@@ -2768,7 +2763,6 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "Čas 'do' musí být po čase 'od’."
 
 #: src/wx/disk_warning_dialog.cc:44
-#, fuzzy
 msgid ""
 "The <b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
@@ -2789,13 +2783,13 @@ msgstr ""
 "<b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">ZKUŠEBNÍ SOFTWARE "
-"ALPHA</span>\n"
+"BETA</span>\n"
 "\n"
 "a může\n"
 "\n"
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">ZNIČIT DATA!</span>\n"
 "\n"
-"If you are sure you want to continue please type\n"
+"IPokud jste si jisti, že chcete pokračovat, zadejte prosím\n"
 "\n"
 "<tt>Jsem si jistý</tt>\n"
 "\n"
@@ -3562,12 +3556,11 @@ msgstr "Uživatelské jméno"
 
 #: src/wx/system_information_dialog.cc:69
 msgid "Vendor"
-msgstr ""
+msgstr "Dodavatel"
 
 #: src/wx/system_information_dialog.cc:71
-#, fuzzy
 msgid "Version"
-msgstr "Serial number"
+msgstr "Verze"
 
 #: src/wx/smpte_metadata_dialog.cc:105
 msgid "Version number"
