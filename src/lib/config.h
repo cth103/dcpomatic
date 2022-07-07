@@ -586,6 +586,10 @@ public:
 		return _auto_crop_threshold;
 	}
 
+	boost::optional<std::string> last_release_notes_version () const {
+		return _last_release_notes_version;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1122,6 +1126,10 @@ public:
 		maybe_set (_auto_crop_threshold, threshold, AUTO_CROP_THRESHOLD);
 	}
 
+	void set_last_release_notes_version (std::string version) {
+		maybe_set (_last_release_notes_version, version);
+	}
+
 	ExportConfig& export_config() {
 		return _export;
 	}
@@ -1349,6 +1357,7 @@ private:
 	dcp::Formulation _default_kdm_type;
 	RoughDuration _default_kdm_duration;
 	double _auto_crop_threshold;
+	boost::optional<std::string> _last_release_notes_version;
 
 	ExportConfig _export;
 

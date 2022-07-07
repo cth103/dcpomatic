@@ -78,6 +78,7 @@
 #include "lib/kdm_with_metadata.h"
 #include "lib/log.h"
 #include "lib/make_dcp.h"
+#include "lib/release_notes.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/signal_manager.h"
@@ -1685,6 +1686,14 @@ private:
 
 			if (Config::instance()->check_for_updates ()) {
 				UpdateChecker::instance()->run ();
+			}
+
+			auto release_notes = find_release_notes();
+			if (release_notes) {
+				auto notes = new HTMLDialog(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
+				notes->Centre();
+				notes->ShowModal();
+				notes->Destroy();
 			}
 		}
 		catch (exception& e)

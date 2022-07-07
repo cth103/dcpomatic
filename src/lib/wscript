@@ -152,6 +152,7 @@ sources = """
           ratio.cc
           raw_image_proxy.cc
           reel_writer.cc
+          release_notes.cc
           render_text.cc
           resampler.cc
           rgba.cc

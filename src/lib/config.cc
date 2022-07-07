@@ -193,6 +193,7 @@ Config::set_defaults ()
 	_default_kdm_type = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
 	_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
 	_auto_crop_threshold = 0.1;
+	_last_release_notes_version = boost::none;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -593,6 +594,7 @@ try
 		_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
 	}
 	_auto_crop_threshold = f.optional_number_child<double>("AutoCropThreshold").get_value_or(0.1);
+	_last_release_notes_version = f.optional_string_child("LastReleaseNotesVersion");
 
 	_export.read(f.optional_node_child("Export"));
 
@@ -1034,6 +1036,9 @@ Config::write_config () const
 	root->add_child("EmailKDMs")->add_child_text(_email_kdms ? "1" : "0");
 	root->add_child("DefaultKDMType")->add_child_text(dcp::formulation_to_string(_default_kdm_type));
 	root->add_child("AutoCropThreshold")->add_child_text(raw_convert<string>(_auto_crop_threshold));
+	if (_last_release_notes_version) {
+		root->add_child("LastReleaseNotesVersion")->add_child_text(*_last_release_notes_version);
+	}
 
 	_export.write(root->add_child("Export"));
 
