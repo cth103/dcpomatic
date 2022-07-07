@@ -282,8 +282,8 @@ public:
 		auto images = new wxImageList (16, 16);
 		wxIcon tick_icon;
 		wxIcon no_tick_icon;
-		tick_icon.LoadFile (bitmap_path("tick"), wxBITMAP_TYPE_PNG);
-		no_tick_icon.LoadFile (bitmap_path("no_tick"), wxBITMAP_TYPE_PNG);
+		tick_icon.LoadFile (bitmap_path("tick.png"), wxBITMAP_TYPE_PNG);
+		no_tick_icon.LoadFile (bitmap_path("no_tick.png"), wxBITMAP_TYPE_PNG);
 		images->Add (tick_icon);
 		images->Add (no_tick_icon);
 

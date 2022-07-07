@@ -63,11 +63,11 @@ TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_pt
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 
-	wxBitmap select (bitmap_path("select"), wxBITMAP_TYPE_PNG);
-	wxBitmap zoom (bitmap_path("zoom"), wxBITMAP_TYPE_PNG);
-	wxBitmap zoom_all (bitmap_path("zoom_all"), wxBITMAP_TYPE_PNG);
-	wxBitmap snap (bitmap_path("snap"), wxBITMAP_TYPE_PNG);
-	wxBitmap sequence (bitmap_path("sequence"), wxBITMAP_TYPE_PNG);
+	wxBitmap select (bitmap_path("select.png"), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom (bitmap_path("zoom.png"), wxBITMAP_TYPE_PNG);
+	wxBitmap zoom_all (bitmap_path("zoom_all.png"), wxBITMAP_TYPE_PNG);
+	wxBitmap snap (bitmap_path("snap.png"), wxBITMAP_TYPE_PNG);
+	wxBitmap sequence (bitmap_path("sequence.png"), wxBITMAP_TYPE_PNG);
 
 	_toolbar = new wxToolBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
 	_toolbar->SetMargins (4, 4);

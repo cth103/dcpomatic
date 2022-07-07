@@ -88,7 +88,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("general"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(bitmap_path("general.png"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -166,7 +166,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("keys"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(bitmap_path("keys.png"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -197,7 +197,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("sound"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(bitmap_path("sound.png"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 

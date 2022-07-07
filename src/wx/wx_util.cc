@@ -517,7 +517,7 @@ maybe_show_splash ()
 	wxSplashScreen* splash = nullptr;
 	try {
 		wxBitmap bitmap;
-		if (bitmap.LoadFile(bitmap_path("splash"), wxBITMAP_TYPE_PNG)) {
+		if (bitmap.LoadFile(bitmap_path("splash.png"), wxBITMAP_TYPE_PNG)) {
 			{
 				/* This wxMemoryDC must be destroyed before bitmap can be used elsewhere */
 				wxMemoryDC dc(bitmap);
@@ -646,7 +646,7 @@ bitmap_path (string name)
 	base = resources_path();
 #endif
 
-	auto p = base / String::compose("%1.png", name);
+	auto p = base / name;
 	return std_to_wx (p.string());
 }
 

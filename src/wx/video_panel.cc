@@ -127,7 +127,7 @@ VideoPanel::create ()
 		);
 
 	_left_right_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
-	_left_right_link->SetBitmap (wxBitmap(bitmap_path("link"), wxBITMAP_TYPE_PNG));
+	_left_right_link->SetBitmap (wxBitmap(bitmap_path("link.png"), wxBITMAP_TYPE_PNG));
 
 	_right_crop_label = create_label (this, _("Right"), true);
 	_right_crop = new ContentSpinCtrl<VideoContent> (
@@ -152,7 +152,7 @@ VideoPanel::create ()
 		);
 
 	_top_bottom_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
-	_top_bottom_link->SetBitmap (wxBitmap(bitmap_path("link"), wxBITMAP_TYPE_PNG));
+	_top_bottom_link->SetBitmap (wxBitmap(bitmap_path("link.png"), wxBITMAP_TYPE_PNG));
 
 	_bottom_crop_label = create_label (this, _("Bottom"), true);
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (
