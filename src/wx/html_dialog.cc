@@ -61,7 +61,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html)
 	SetSize (800, -1);
 
 	/* Set height */
-	SetSize (h->GetInternalRepresentation()->GetWidth(), h->GetInternalRepresentation()->GetHeight() + 64);
+	SetSize (h->GetInternalRepresentation()->GetWidth(), h->GetInternalRepresentation()->GetHeight() + 256);
 }
 
 
