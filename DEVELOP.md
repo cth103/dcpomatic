@@ -55,6 +55,11 @@ to load a script file called `stress` and start executing it.
 
 - Edit `src/wx/config_dialog.cc` to add the language to languages.
 - Add to `platform/windows/wscript`, `platform/osx/make_dmg.sh`, `cscript`.
+- ./waf pot
+- cp build/src/lib/libdcpomatic.pot src/lib/po/$LANG.po
+- cp build/src/wx/libdcpomatic-wx.pot src/wx/po/$LANG.po
+- cp build/src/tools/libdcpomatic-wx.pot src/tools/po/$LANG.po
+- Commit / push
 - Add credit to `src/wx/about_dialog.cc` and database.
-- Add to `i18n.php` on website and `update-i18n-stats` script.
+- Add to `i18n.php` on website and `update-i18n-stats` script, then run `update-i18n-stats` script.
 
