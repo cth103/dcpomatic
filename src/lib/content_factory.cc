@@ -50,6 +50,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 
 
 /** Create a Content object from an XML node.
@@ -104,10 +105,10 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
  *  @param path File or directory.
  *  @return Content objects.
  */
-list<shared_ptr<Content>>
+vector<shared_ptr<Content>>
 content_factory (boost::filesystem::path path)
 {
-	list<shared_ptr<Content>> content;
+	vector<shared_ptr<Content>> content;
 
 	if (boost::filesystem::is_directory (path)) {
 

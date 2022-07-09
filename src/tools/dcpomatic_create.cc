@@ -45,6 +45,7 @@
 #include <stdexcept>
 #include <string>
 
+
 using std::cerr;
 using std::cout;
 using std::dynamic_pointer_cast;
@@ -53,7 +54,9 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
+
 
 class SimpleSignalManager : public SignalManager
 {
@@ -117,7 +120,7 @@ main (int argc, char* argv[])
 
 		for (auto cli_content: cc.content) {
 			auto const can = boost::filesystem::canonical (cli_content.path);
-			list<shared_ptr<Content>> film_content_list;
+			vector<shared_ptr<Content>> film_content_list;
 
 			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
 				auto dcp = make_shared<DCPContent>(can);

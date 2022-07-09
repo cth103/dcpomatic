@@ -65,8 +65,8 @@ BOOST_AUTO_TEST_CASE (dcp_digest_file_test2)
 		return {};
 	};
 
-	auto red = content_factory("test/data/flat_red.png").front();
-	auto ov = new_test_film2 ("dcp_digest_file_test2_ov", { red });
+	auto red = content_factory("test/data/flat_red.png");
+	auto ov = new_test_film2 ("dcp_digest_file_test2_ov", red);
 	ov->set_encrypted (true);
 	make_and_verify_dcp (ov);
 

@@ -73,7 +73,7 @@ void
 check (TextType type, string name, optional<string> expected_hint = optional<string>())
 {
 	auto film = new_test_film2 (name);
-	auto content = content_factory("test/data/" + name + ".srt").front();
+	auto content = content_factory("test/data/" + name + ".srt")[0];
 	content->text.front()->set_type (type);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	film->examine_and_add_content (content);
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 	fake_font.close();
 
 	auto film = new_test_film2 (name);
-	auto content = content_factory("test/data/" + name + ".srt").front();
+	auto content = content_factory("test/data/" + name + ".srt")[0];
 	content->text.front()->set_type (TextType::OPEN_SUBTITLE);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	film->examine_and_add_content (content);
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 	}
 	ccap.close();
 
-	auto content = content_factory("build/test/" + name + ".srt").front();
+	auto content = content_factory("build/test/" + name + ".srt")[0];
 	content->text.front()->set_type (TextType::CLOSED_CAPTION);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
 	film->examine_and_add_content (content);
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
 {
 	auto film = new_test_film2 ("hints_destroyed_while_running");
-	auto content = content_factory(TestPaths::private_data() / "boon_telly.mkv").front();
+	auto content = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
 
 BOOST_AUTO_TEST_CASE (hints_audio_with_no_language)
 {
-	auto content = content_factory("test/data/sine_440.wav").front();
+	auto content = content_factory("test/data/sine_440.wav")[0];
 	auto film = new_test_film2 ("hints_audio_with_no_language", { content });
 	content->audio->set_gain (-6);
 

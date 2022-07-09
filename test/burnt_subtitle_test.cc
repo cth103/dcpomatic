@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	film->examine_and_add_content (content_factory(film, "test/data/flat_black.png").front());
+	film->examine_and_add_content (content_factory(film, "test/data/flat_black.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (film);
 
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	auto background_dcp = make_shared<DCPContent>(film2, film->dir(film->dcp_name()));
 	film2->examine_and_add_content (background_dcp);
 	auto sub = dynamic_pointer_cast<StringText> (
-		content_factory(film2, "test/data/subrip2.srt").front()
+		content_factory(film2, "test/data/subrip2.srt")[0]
 		);
 	sub->subtitle->set_burn (true);
 	sub->subtitle->set_outline (true);

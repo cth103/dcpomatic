@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	string const ov_name = "hash_added_to_imported_dcp_test_ov";
 	shared_ptr<Film> ov = new_test_film2 (
 		ov_name,
-		{ content_factory("test/data/flat_red.png").front() }
+		content_factory("test/data/flat_red.png")
 		);
 	make_and_verify_dcp (ov);
 

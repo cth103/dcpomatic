@@ -35,8 +35,8 @@ using std::make_shared;
 
 BOOST_AUTO_TEST_CASE (smpte_dcp_with_subtitles_can_be_decrypted)
 {
-	auto content = content_factory("test/data/15s.srt").front();
-	auto film = new_test_film2 ("smpte_dcp_with_subtitles_can_be_decrypted", { content });
+	auto content = content_factory("test/data/15s.srt");
+	auto film = new_test_film2 ("smpte_dcp_with_subtitles_can_be_decrypted", content);
 	film->set_interop (false);
 	film->set_encrypted (true);
 	make_and_verify_dcp (

@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
 
 BOOST_AUTO_TEST_CASE(dcp_subtitle_font_id_test)
 {
-	auto subs = content_factory(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV" / "8b48f6ae-c74b-4b80-b994-a8236bbbad74_sub.mxf").front();
-	auto film = new_test_film2("dcp_subtitle_font_id_test", { subs });
+	auto subs = content_factory(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV" / "8b48f6ae-c74b-4b80-b994-a8236bbbad74_sub.mxf");
+	auto film = new_test_film2("dcp_subtitle_font_id_test", subs);
 
 	auto content = film->content();
 	BOOST_REQUIRE_EQUAL(content.size(), 1U);

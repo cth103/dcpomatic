@@ -49,9 +49,9 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_single_files)
 
 	/* Make a film with that content */
 	auto film = new_test_film2 (name + "_film", {
-		content_factory(content_dir / "A.png").front(),
-		content_factory(content_dir / "B.png").front(),
-		content_factory(content_dir / "C.png").front()
+		content_factory(content_dir / "A.png")[0],
+		content_factory(content_dir / "B.png")[0],
+		content_factory(content_dir / "C.png")[0]
 		});
 	film->write_metadata ();
 

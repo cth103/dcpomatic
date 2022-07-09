@@ -25,30 +25,30 @@
  */
 
 
-#include "test.h"
-#include "lib/film.h"
-#include "lib/screen.h"
-#include "lib/dcp_subtitle_content.h"
-#include "lib/ratio.h"
-#include "lib/dcp_content_type.h"
-#include "lib/dcp_content.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/examine_content_job.h"
-#include "lib/job_manager.h"
 #include "lib/config.h"
-#include "lib/cross.h"
-#include "lib/video_content.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/examine_content_job.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/ratio.h"
+#include "lib/screen.h"
+#include "lib/video_content.h"
+#include "test.h"
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>
 
 
-using std::vector;
-using std::string;
-using std::map;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::map;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 
 
 /** Make an encrypted DCP, import it and make a new unencrypted DCP */
@@ -110,10 +110,10 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 	Cleanup cl;
 
 	/* Make a DCP with some markers */
-	auto content = content_factory("test/data/flat_red.png").front();
-	auto film = new_test_film2 ("import_dcp_markers_test", {content}, &cl);
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2 ("import_dcp_markers_test", content, &cl);
 
-	content->video->set_length (24 * 60 * 10);
+	content[0]->video->set_length (24 * 60 * 10);
 
 	film->set_marker(dcp::Marker::FFOC, dcpomatic::DCPTime::from_frames(1, 24));
 	film->set_marker(dcp::Marker::FFMC, dcpomatic::DCPTime::from_seconds(9.4));
@@ -161,7 +161,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 {
 	/* Make a DCP with some ratings and a content version */
 	auto film = new_test_film2 ("import_dcp_metadata_test");
-	auto content = content_factory("test/data/flat_red.png").front();
+	auto content = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

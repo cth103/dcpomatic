@@ -26,7 +26,6 @@
 #include "lib/film.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
 
 using std::string;
@@ -42,7 +41,7 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 
 	auto film = new_test_film2 (
 		"atmos_passthrough_test",
-		{ content_factory(TestPaths::private_data() / "atmos_asset.mxf").front() },
+		content_factory(TestPaths::private_data() / "atmos_asset.mxf"),
 		&cl
 		);
 
@@ -60,8 +59,8 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 	Cleanup cl;
 
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
-	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
-	auto film = new_test_film2 ("atmos_encrypted_passthrough_test", {content}, &cl);
+	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
+	auto film = new_test_film2 ("atmos_encrypted_passthrough_test", content, &cl);
 
 	film->set_encrypted (true);
 	film->_key = dcp::Key ("4fac12927eb122af1c2781aa91f3a4cc");
@@ -96,10 +95,10 @@ BOOST_AUTO_TEST_CASE (atmos_trim_test)
 	Cleanup cl;
 
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
-	auto content = content_factory (TestPaths::private_data() / "atmos_asset.mxf").front();
-	auto film = new_test_film2 ("atmos_trim_test", {content}, &cl);
+	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
+	auto film = new_test_film2 ("atmos_trim_test", content, &cl);
 
-	content->set_trim_start (dcpomatic::ContentTime::from_seconds(1));
+	content[0]->set_trim_start (dcpomatic::ContentTime::from_seconds(1));
 
 	/* Just check that the encode runs; I'm not sure how to test the MXF */
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });

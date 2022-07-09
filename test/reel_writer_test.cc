@@ -109,8 +109,8 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 {
 	/* Make a DCP */
-	auto video = content_factory("test/data/flat_red.png").front();
-	auto audio = content_factory("test/data/white.wav").front();
+	auto video = content_factory("test/data/flat_red.png")[0];
+	auto audio = content_factory("test/data/white.wav")[0];
 	auto film = new_test_film2 ("reel_reuse_video_test", { video, audio });
 	make_and_verify_dcp (film);
 

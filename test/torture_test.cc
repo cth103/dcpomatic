@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	film->set_sequence (false);
 
 	/* Staircase at an offset of 2000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
-	auto staircase = content_factory("test/data/staircase.wav").front();
+	auto staircase = content_factory("test/data/staircase.wav")[0];
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames(2000, film->audio_frame_rate()));
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	staircase->audio->set_gain (20 * log10(2));
 
 	/* And again at an offset of 50000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
-	staircase = content_factory("test/data/staircase.wav").front();
+	staircase = content_factory("test/data/staircase.wav")[0];
 	film->examine_and_add_content (staircase);
 	BOOST_REQUIRE (!wait_for_jobs());
 	staircase->set_position (film, DCPTime::from_frames(50000, film->audio_frame_rate()));
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	staircase->audio->set_gain (20 * log10(2));
 
 	/* 1s of red at 5s in */
-	auto red = content_factory("test/data/flat_red.png").front();
+	auto red = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (red);
 	BOOST_REQUIRE (!wait_for_jobs());
 	red->set_position (film, DCPTime::from_seconds(5));

@@ -114,9 +114,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 
 	write_image(grey_image(size, grey_pixel), file);
 
-	auto content = content_factory(file).front();
-	auto film = new_test_film2 ("ffmpeg_image_video_range_expanded", { content });
-	content->video->set_range (VideoRange::VIDEO);
+	auto content = content_factory(file);
+	auto film = new_test_film2 ("ffmpeg_image_video_range_expanded", content);
+	content[0]->video->set_range (VideoRange::VIDEO);
 	auto player = make_shared<Player>(film, film->playlist());
 
 	shared_ptr<PlayerVideo> player_video;
@@ -260,7 +260,7 @@ shared_ptr<Film>
 movie_V (string name)
 {
 	auto film = new_test_film2 (name);
-	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4").front());
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -278,7 +278,7 @@ shared_ptr<Film>
 movie_VoF (string name)
 {
 	auto film = new_test_film2 (name);
-	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4").front());
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -297,7 +297,7 @@ shared_ptr<Film>
 movie_F (string name)
 {
 	auto film = new_test_film2 (name);
-	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov").front());
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -315,7 +315,7 @@ shared_ptr<Film>
 movie_FoV (string name)
 {
 	auto film = new_test_film2 (name);
-	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov").front());
+	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -334,7 +334,7 @@ shared_ptr<Film>
 image_F (string name)
 {
 	auto film = new_test_film2 (name);
-	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png").front());
+	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -352,7 +352,7 @@ shared_ptr<Film>
 image_FoV (string name)
 {
 	auto film = new_test_film2 (name);
-	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png").front());
+	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());

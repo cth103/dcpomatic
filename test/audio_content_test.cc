@@ -29,29 +29,29 @@
 
 BOOST_AUTO_TEST_CASE (audio_content_fade_empty_region)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
-	auto film = new_test_film2("audio_content_fade_empty_region", { content });
+	auto content = content_factory("test/data/impulse_train.wav");
+	auto film = new_test_film2("audio_content_fade_empty_region", content);
 
-	BOOST_CHECK (content->audio->fade(content->audio->stream(), 0, 0, 48000).empty());
+	BOOST_CHECK(content[0]->audio->fade(content[0]->audio->stream(), 0, 0, 48000).empty());
 }
 
 
 BOOST_AUTO_TEST_CASE (audio_content_fade_no_fade)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
-	auto film = new_test_film2("audio_content_fade_no_fade", { content });
+	auto content = content_factory("test/data/impulse_train.wav");
+	auto film = new_test_film2("audio_content_fade_no_fade", content);
 
-	auto const stream = content->audio->stream();
+	auto const stream = content[0]->audio->stream();
 
-	BOOST_CHECK (content->audio->fade(stream, 0, 2000, 48000).empty());
-	BOOST_CHECK (content->audio->fade(stream, 9999, 451, 48000).empty());
-	BOOST_CHECK (content->audio->fade(stream, stream->length() + 100, 8000, 48000).empty());
+	BOOST_CHECK(content[0]->audio->fade(stream, 0, 2000, 48000).empty());
+	BOOST_CHECK(content[0]->audio->fade(stream, 9999, 451, 48000).empty());
+	BOOST_CHECK(content[0]->audio->fade(stream, stream->length() + 100, 8000, 48000).empty());
 }
 
 
 BOOST_AUTO_TEST_CASE (audio_content_fade_unfaded_part)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_fade_unfaded_part", { content });
 
 	auto const stream = content->audio->stream();
@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_unfaded_part)
 
 BOOST_AUTO_TEST_CASE (audio_content_within_the_fade_in)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_within_the_fade_in", { content });
 
 	content->audio->set_fade_in(dcpomatic::ContentTime::from_frames(2000, 48000));
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (audio_content_within_the_fade_in)
 
 BOOST_AUTO_TEST_CASE (audio_content_within_the_fade_out)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_within_the_fade_out", { content });
 
 	auto const stream = content->audio->stream();
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (audio_content_within_the_fade_out)
 
 BOOST_AUTO_TEST_CASE (audio_content_overlapping_the_fade_in)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_overlapping_the_fade_in", { content });
 
 	content->audio->set_fade_in(dcpomatic::ContentTime::from_frames(2000, 48000));
@@ -119,7 +119,7 @@ BOOST_AUTO_TEST_CASE (audio_content_overlapping_the_fade_in)
 
 BOOST_AUTO_TEST_CASE (audio_content_overlapping_the_fade_out)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_overlapping_the_fade_out", { content });
 
 	auto const stream = content->audio->stream();
@@ -140,7 +140,7 @@ BOOST_AUTO_TEST_CASE (audio_content_overlapping_the_fade_out)
 
 BOOST_AUTO_TEST_CASE (audio_content_fade_in_and_out)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_fade_in_and_out", { content });
 
 	auto const stream = content->audio->stream();
@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_in_and_out)
 
 BOOST_AUTO_TEST_CASE (audio_content_fade_in_with_trim)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_fade_in_with_trim", { content });
 
 	auto const stream = content->audio->stream();
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_in_with_trim)
 
 BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim)
 {
-	auto content = content_factory("test/data/impulse_train.wav").front();
+	auto content = content_factory("test/data/impulse_train.wav")[0];
 	auto film = new_test_film2("audio_content_fade_out_with_trim", { content });
 
 	auto const stream = content->audio->stream();
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim)
 BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim_at_44k1)
 {
 	/* 5s at 44.1kHz */
-	auto content = content_factory("test/data/white.wav").front();
+	auto content = content_factory("test/data/white.wav")[0];
 	auto film = new_test_film2("audio_content_fade_out_with_trim_at_44k1", { content });
 
 	auto const stream = content->audio->stream();
@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim_at_44k1)
 
 BOOST_AUTO_TEST_CASE (audio_content_fades_same_as_video)
 {
-	auto content = content_factory("test/data/staircase.mov").front();
+	auto content = content_factory("test/data/staircase.mov")[0];
 	auto film = new_test_film2("audio_content_fades_same_as_video", { content });
 
 	content->audio->set_use_same_fades_as_video(true);

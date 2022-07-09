@@ -19,30 +19,30 @@
 */
 
 
-#include "lib/dcp_encoder.h"
-#include "lib/writer.h"
-#include "lib/transcode_job.h"
-#include "lib/job_manager.h"
-#include "lib/film.h"
-#include "lib/ratio.h"
+#include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
-#include "lib/content.h"
-#include "lib/video_content.h"
+#include "lib/dcp_encoder.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/ratio.h"
+#include "lib/transcode_job.h"
+#include "lib/video_content.h"
+#include "lib/writer.h"
 #include "test.h"
-#include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/test/unit_test.hpp>
 
 
+using std::dynamic_pointer_cast;
 using std::getline;
 using std::ifstream;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::starts_with;
 using boost::split;
-using std::dynamic_pointer_cast;
-using std::shared_ptr;
 
 
 static
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	auto content = content_factory("test/data/flat_red.png").front ();
+	auto content = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	make_and_verify_dcp (film);
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test2)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
 	film->set_name ("frobozz");
-	auto content = content_factory("test/data/flat_red.png").front();
+	auto content = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);

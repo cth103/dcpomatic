@@ -315,8 +315,8 @@ BOOST_AUTO_TEST_CASE (reels_test6)
  */
 BOOST_AUTO_TEST_CASE (reels_test7)
 {
-	auto A = content_factory("test/data/flat_red.png").front();
-	auto B = content_factory("test/data/awkward_length.wav").front();
+	auto A = content_factory("test/data/flat_red.png")[0];
+	auto B = content_factory("test/data/awkward_length.wav")[0];
 	auto film = new_test_film2 ("reels_test7", { A, B });
 	film->set_video_frame_rate (24);
 	A->video->set_length (2 * 24);
@@ -351,7 +351,7 @@ BOOST_AUTO_TEST_CASE (reels_test9)
 	make_and_verify_dcp (film);
 
 	auto B = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2("reels_test9b", {B, content_factory("test/data/dcp_sub4.xml").front()});
+	auto film2 = new_test_film2("reels_test9b", {B, content_factory("test/data/dcp_sub4.xml")[0]});
 	B->set_reference_video(true);
 	B->set_reference_audio(true);
 	film2->set_reel_type(ReelType::BY_VIDEO_CONTENT);
@@ -386,7 +386,7 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 
 	/* Now try to make the VF; this used to fail */
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
-	auto vf = new_test_film2("reels_test10_vf", {ov_dcp, content_factory("test/data/15s.srt").front()});
+	auto vf = new_test_film2("reels_test10_vf", {ov_dcp, content_factory("test/data/15s.srt")[0]});
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video (true);
 	ov_dcp->set_reference_audio (true);

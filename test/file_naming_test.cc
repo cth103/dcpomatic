@@ -180,7 +180,7 @@ BOOST_AUTO_TEST_CASE (subtitle_file_naming)
 	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%t ostrabagalous %c"));
 
 	auto content = content_factory("test/data/15s.srt");
-	auto film = new_test_film2("subtitle_file_naming", { content.front() });
+	auto film = new_test_film2("subtitle_file_naming", content);
 	film->set_interop(false);
 
 	make_and_verify_dcp (

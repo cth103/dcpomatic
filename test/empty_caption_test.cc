@@ -29,9 +29,9 @@
 
 BOOST_AUTO_TEST_CASE (check_for_no_empty_text_nodes_in_failure_case)
 {
-	auto content = content_factory("test/data/empty.srt").front();
-	auto film = new_test_film2 ("check_for_no_empty_text_nodes_in_failure_case", {content});
-	auto text = content->text.front();
+	auto content = content_factory("test/data/empty.srt");
+	auto film = new_test_film2 ("check_for_no_empty_text_nodes_in_failure_case", content);
+	auto text = content[0]->text.front();
 	text->set_type (TextType::CLOSED_CAPTION);
 	text->set_dcp_track({"English", dcp::LanguageTag("en-GB")});
 

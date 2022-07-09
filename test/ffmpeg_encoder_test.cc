@@ -322,7 +322,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 	film2->examine_and_add_content (ov);
 	BOOST_REQUIRE (!wait_for_jobs());
 	ov->set_reference_video (true);
-	auto subs = content_factory("test/data/subrip.srt").front();
+	auto subs = content_factory("test/data/subrip.srt")[0];
 	film2->examine_and_add_content (subs);
 	BOOST_REQUIRE (!wait_for_jobs());
 	for (auto i: subs->text) {
@@ -437,8 +437,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_from_dcp_with_crop)
 /** Export to H264 with reels */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 {
-	auto content1 = content_factory("test/data/flat_red.png").front();
-	auto content2 = content_factory("test/data/flat_red.png").front();
+	auto content1 = content_factory("test/data/flat_red.png")[0];
+	auto content2 = content_factory("test/data/flat_red.png")[0];
 	auto film = new_test_film2 ("ffmpeg_encoder_h264_with_reels", { content1, content2 });
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	content1->video->set_length (240);
@@ -449,7 +449,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 	encoder.go ();
 
 	auto check = [](boost::filesystem::path path) {
-		auto reel = std::dynamic_pointer_cast<FFmpegContent>(content_factory(path).front());
+		auto reel = std::dynamic_pointer_cast<FFmpegContent>(content_factory(path)[0]);
 		BOOST_REQUIRE (reel);
 		FFmpegExaminer examiner(reel);
 		BOOST_CHECK_EQUAL (examiner.video_length(), 240U);
@@ -463,7 +463,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 /** Regression test for "Error during decoding: Butler finished" (#2097) */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
 {
-	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv").front();
+	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv")[0];
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_1", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
@@ -478,7 +478,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 	auto logs = dcpomatic_log->types();
 	dcpomatic_log->set_types(logs | LogEntry::TYPE_DEBUG_PLAYER);
 
-	auto content = content_factory(TestPaths::private_data() / "tge_clip.mkv").front();
+	auto content = content_factory(TestPaths::private_data() / "tge_clip.mkv")[0];
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_2", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);

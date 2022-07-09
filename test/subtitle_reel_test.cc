@@ -106,13 +106,13 @@ BOOST_AUTO_TEST_CASE (subtitle_in_all_reels_test)
 	film->set_sequence (false);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	for (int i = 0; i < 3; ++i) {
-		auto video = content_factory("test/data/flat_red.png").front();
+		auto video = content_factory("test/data/flat_red.png")[0];
 		film->examine_and_add_content (video);
 		BOOST_REQUIRE (!wait_for_jobs());
 		video->video->set_length (15 * 24);
 		video->set_position (film, dcpomatic::DCPTime::from_seconds(15 * i));
 	}
-	auto subs = content_factory("test/data/15s.srt").front();
+	auto subs = content_factory("test/data/15s.srt")[0];
 	film->examine_and_add_content (subs);
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (
@@ -146,20 +146,20 @@ BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
 	for (int i = 0; i < 3; ++i) {
-		auto video = content_factory("test/data/flat_red.png").front();
+		auto video = content_factory("test/data/flat_red.png")[0];
 		film->examine_and_add_content (video);
 		BOOST_REQUIRE (!wait_for_jobs());
 		video->video->set_length (15 * 24);
 		video->set_position (film, dcpomatic::DCPTime::from_seconds(15 * i));
 	}
 
-	auto ccap1 = content_factory("test/data/15s.srt").front();
+	auto ccap1 = content_factory("test/data/15s.srt")[0];
 	film->examine_and_add_content (ccap1);
 	BOOST_REQUIRE (!wait_for_jobs());
 	ccap1->text.front()->set_type (TextType::CLOSED_CAPTION);
 	ccap1->text.front()->set_dcp_track (DCPTextTrack("Test", dcp::LanguageTag("de-DE")));
 
-	auto ccap2 = content_factory("test/data/15s.srt").front();
+	auto ccap2 = content_factory("test/data/15s.srt")[0];
 	film->examine_and_add_content (ccap2);
 	BOOST_REQUIRE (!wait_for_jobs());
 	ccap2->text.front()->set_type (TextType::CLOSED_CAPTION);
@@ -201,14 +201,14 @@ BOOST_AUTO_TEST_CASE (subtitles_split_at_reel_boundaries)
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
 	for (int i = 0; i < 3; ++i) {
-		auto video = content_factory("test/data/flat_red.png").front();
+		auto video = content_factory("test/data/flat_red.png")[0];
 		film->examine_and_add_content (video);
 		BOOST_REQUIRE (!wait_for_jobs());
 		video->video->set_length (15 * 24);
 		video->set_position (film, dcpomatic::DCPTime::from_seconds(15 * i));
 	}
 
-	auto subtitle = content_factory("test/data/45s.srt").front();
+	auto subtitle = content_factory("test/data/45s.srt")[0];
 	film->examine_and_add_content (subtitle);
 	BOOST_REQUIRE (!wait_for_jobs());
 

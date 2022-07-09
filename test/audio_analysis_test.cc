@@ -27,7 +27,6 @@
  */
 
 
-#include "test.h"
 #include "lib/analyse_audio_job.h"
 #include "lib/audio_analysis.h"
 #include "lib/audio_content.h"
@@ -39,8 +38,8 @@
 #include "lib/job_manager.h"
 #include "lib/playlist.h"
 #include "lib/ratio.h"
+#include "test.h"
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
 
 using std::make_shared;
@@ -188,7 +187,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
 	film->set_name ("frobozz");
-	auto content = content_factory(TestPaths::private_data() / "20 The Wedding Convoy Song.m4a").front();
+	auto content = content_factory(TestPaths::private_data() / "20 The Wedding Convoy Song.m4a")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -204,7 +203,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 {
 	auto film = new_test_film2 ("analyse_audio_leqm_test");
 	film->set_audio_channels (2);
-	auto content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav").front();
+	auto content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

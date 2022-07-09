@@ -99,7 +99,7 @@ ContentView::update ()
 			} else if (i.path().extension() == ".mp4") {
 				auto all_content = content_factory(i);
 				if (!all_content.empty()) {
-					content = all_content.front();
+					content = all_content[0];
 				}
 			}
 

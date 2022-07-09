@@ -47,7 +47,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 	film->set_name ("content_test1");
 	film->set_container (Ratio::from_id ("185"));
 
-	auto content = content_factory(TestPaths::private_data() / "demo_sound_bug.mkv").front ();
+	auto content = content_factory(TestPaths::private_data() / "demo_sound_bug.mkv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
 	make_and_verify_dcp (
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
  */
 BOOST_AUTO_TEST_CASE (content_test2)
 {
-	auto content = content_factory("test/data/red_23976.mp4").front();
+	auto content = content_factory("test/data/red_23976.mp4")[0];
 	auto film = new_test_film2 ("content_test2", {content});
 	content->set_trim_start(ContentTime::from_seconds(0.5));
 	make_and_verify_dcp (film);
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (content_test2)
 /** Check that position and start trim of video content is forced to a frame boundary */
 BOOST_AUTO_TEST_CASE (content_test3)
 {
-	auto content = content_factory("test/data/red_24.mp4").front();
+	auto content = content_factory("test/data/red_24.mp4")[0];
 	auto film = new_test_film2 ("content_test3", {content});
 	film->set_sequence (false);
 
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (content_test4)
 {
 	auto film = new_test_film2 ("content_test4");
 
-	auto video = content_factory("test/data/count300bd24.m2ts").front();
+	auto video = content_factory("test/data/count300bd24.m2ts")[0];
 	film->examine_and_add_content (video);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -139,12 +139,12 @@ BOOST_AUTO_TEST_CASE (content_test4)
 /** Content containing no video will not have its length rounded to the nearest video frame */
 BOOST_AUTO_TEST_CASE (content_test5)
 {
-	auto audio = content_factory("test/data/sine_16_48_220_10.wav").front();
-	auto film = new_test_film2 ("content_test5", {audio});
+	auto audio = content_factory("test/data/sine_16_48_220_10.wav");
+	auto film = new_test_film2 ("content_test5", audio);
 
-	audio->set_trim_end (dcpomatic::ContentTime(3000));
+	audio[0]->set_trim_end(dcpomatic::ContentTime(3000));
 
-	BOOST_CHECK (audio->length_after_trim(film) == DCPTime(957000));
+	BOOST_CHECK(audio[0]->length_after_trim(film) == DCPTime(957000));
 }
 
 
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE (content_test6)
 
 	auto film = new_test_film2 (
 		"content_test6",
-		{ content_factory(TestPaths::private_data() / "fha.mkv").front() },
+		content_factory(TestPaths::private_data() / "fha.mkv"),
 		&cl
 		);
 
@@ -169,8 +169,8 @@ BOOST_AUTO_TEST_CASE (content_test6)
 /** Reel length error when making the test for #1833 */
 BOOST_AUTO_TEST_CASE (content_test7)
 {
-	auto content = content_factory(TestPaths::private_data() / "clapperboard.mp4").front();
-	auto film = new_test_film2 ("content_test7", {content});
-	content->audio->set_delay (-1000);
+	auto content = content_factory(TestPaths::private_data() / "clapperboard.mp4");
+	auto film = new_test_film2 ("content_test7", content);
+	content[0]->audio->set_delay(-1000);
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
 }

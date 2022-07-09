@@ -46,9 +46,9 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 	film->set_name ("butler_test1");
 	film->set_container (Ratio::from_id ("185"));
 
-	auto video = content_factory("test/data/flat_red.png").front();
+	auto video = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (video);
-	auto audio = content_factory("test/data/staircase.wav").front();
+	auto audio = content_factory("test/data/staircase.wav")[0];
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs ());
 

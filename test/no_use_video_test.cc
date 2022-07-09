@@ -52,8 +52,8 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (no_use_video_test1)
 {
 	auto film = new_test_film2 ("no_use_video_test1");
-	auto A = content_factory("test/data/flat_red.png").front();
-	auto B = content_factory("test/data/flat_green.png").front();
+	auto A = content_factory("test/data/flat_red.png")[0];
+	auto B = content_factory("test/data/flat_green.png")[0];
 	film->examine_and_add_content (A);
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -72,8 +72,8 @@ BOOST_AUTO_TEST_CASE (no_use_video_test1)
 BOOST_AUTO_TEST_CASE (no_use_video_test2)
 {
 	auto film = new_test_film2 ("no_use_video_test2");
-	auto A = content_factory (TestPaths::private_data() / "dolby_aurora.vob").front();
-	auto B = content_factory (TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov").front();
+	auto A = content_factory(TestPaths::private_data() / "dolby_aurora.vob")[0];
+	auto B = content_factory(TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov")[0];
 	film->examine_and_add_content (A);
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -92,9 +92,9 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 BOOST_AUTO_TEST_CASE (no_use_video_test3)
 {
 	auto ov_a = new_test_film2 ("no_use_video_test3_ov_a");
-	auto ov_a_pic = content_factory("test/data/flat_red.png").front();
+	auto ov_a_pic = content_factory("test/data/flat_red.png")[0];
 	BOOST_REQUIRE (ov_a_pic);
-	auto ov_a_snd = content_factory("test/data/sine_16_48_220_10.wav").front();
+	auto ov_a_snd = content_factory("test/data/sine_16_48_220_10.wav")[0];
 	BOOST_REQUIRE (ov_a_snd);
 	ov_a->examine_and_add_content (ov_a_pic);
 	ov_a->examine_and_add_content (ov_a_snd);
@@ -102,9 +102,9 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	make_and_verify_dcp (ov_a);
 
 	auto ov_b = new_test_film2("no_use_video_test3_ov_b");
-	auto ov_b_pic = content_factory("test/data/flat_green.png").front();
+	auto ov_b_pic = content_factory("test/data/flat_green.png")[0];
 	BOOST_REQUIRE (ov_b_pic);
-	auto ov_b_snd = content_factory("test/data/sine_16_48_880_10.wav").front();
+	auto ov_b_snd = content_factory("test/data/sine_16_48_880_10.wav")[0];
 	BOOST_REQUIRE (ov_b_snd);
 	ov_b->examine_and_add_content (ov_b_pic);
 	ov_b->examine_and_add_content (ov_b_snd);

@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 {
 	string const name = "automatic_ffoc_lfoc_markers_test1";
 	auto film = new_test_film2 (name);
-	film->examine_and_add_content (content_factory("test/data/flat_red.png").front());
+	film->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_interop (false);
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 {
 	string const name = "automatic_ffoc_lfoc_markers_test2";
 	auto film = new_test_film2 (name);
-	film->examine_and_add_content (content_factory("test/data/flat_red.png").front());
+	film->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	film->set_interop (false);

@@ -41,9 +41,9 @@ using std::vector;
 
 BOOST_AUTO_TEST_CASE (test_write_odd_amount_of_silence)
 {
-	auto content = content_factory("test/data/flat_red.png").front();
-	auto film = new_test_film2 ("test_write_odd_amount_of_silence", {content});
-	content->video->set_length(24);
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2 ("test_write_odd_amount_of_silence", content);
+	content[0]->video->set_length(24);
 	auto writer = make_shared<Writer>(film, shared_ptr<Job>());
 
 	auto audio = make_shared<AudioBuffers>(6, 48000);
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 
 	auto film = new_test_film2 ("test_interrupt_writer", {}, &cl);
 
-	auto content = content_factory("test/data/check_image0.png").front();
+	auto content = content_factory("test/data/check_image0.png")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 

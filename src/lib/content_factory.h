@@ -25,6 +25,7 @@
 
 
 #include <libcxml/cxml.h>
+#include <vector>
 
 
 class Film;
@@ -32,4 +33,4 @@ class Content;
 
 
 extern std::shared_ptr<Content> content_factory (cxml::ConstNodePtr, int, std::list<std::string> &);
-extern std::list<std::shared_ptr<Content>> content_factory (boost::filesystem::path);
+extern std::vector<std::shared_ptr<Content>> content_factory (boost::filesystem::path);

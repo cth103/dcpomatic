@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	film->set_j2k_bandwidth (100000000);
 	film->set_audio_channels (6);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	auto content_a = content_factory("test/data/flat_blue.png").front();
+	auto content_a = content_factory("test/data/flat_blue.png")[0];
 	BOOST_REQUIRE (content_a);
 	film->examine_and_add_content (content_a);
 	auto content_b = make_shared<DCPContent>("test/data/burnt_subtitle_test_dcp");

@@ -46,8 +46,8 @@ using boost::optional;
 BOOST_AUTO_TEST_CASE (remake_id_test1)
 {
 	/* Make a DCP */
-	auto content = content_factory("test/data/flat_red.png").front();
-	auto film = new_test_film2 ("remake_id_test1_1", {content});
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2 ("remake_id_test1_1", content);
 	make_and_verify_dcp (film);
 
 	/* Copy the video file */
@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_CASE (remake_id_test1)
 BOOST_AUTO_TEST_CASE (remake_id_test2)
 {
 	/* Make a DCP */
-	auto content = content_factory("test/data/flat_red.png").front();
-	auto film = new_test_film2 ("remake_id_test2_1", {content});
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2 ("remake_id_test2_1", content);
 	film->set_encrypted (true);
 	make_and_verify_dcp (film);
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 
 	/* Import the DCP into a new film */
 	auto dcp_content = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2("remake_id_test2_2", {dcp_content});
+	auto film2 = new_test_film2("remake_id_test2_2", { dcp_content });
 	dcp_content->add_kdm(kdm);
 	JobManager::instance()->add(make_shared<ExamineContentJob>(film2, dcp_content));
 	BOOST_REQUIRE(!wait_for_jobs());

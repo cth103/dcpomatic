@@ -30,8 +30,8 @@
 
 BOOST_AUTO_TEST_CASE (dcp_metadata_test)
 {
-	auto content = content_factory("test/data/flat_red.png").front();
-	auto film = new_test_film2 ("dcp_metadata_test", { content });
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2 ("dcp_metadata_test", content);
 
 	Config::instance()->set_dcp_creator ("this is the creator");
 	Config::instance()->set_dcp_issuer ("this is the issuer");

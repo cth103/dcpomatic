@@ -42,10 +42,10 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 {
 	string const name = "subtitle_language_interop_test";
-	auto fr = content_factory("test/data/frames.srt").front();
-	auto film = new_test_film2 (name, { fr });
+	auto fr = content_factory("test/data/frames.srt");
+	auto film = new_test_film2 (name, fr);
 
-	fr->only_text()->set_language (dcp::LanguageTag("fr-FR"));
+	fr[0]->only_text()->set_language (dcp::LanguageTag("fr-FR"));
 	film->set_interop (true);
 
 	make_and_verify_dcp (
@@ -63,10 +63,10 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 {
 	string const name = "subtitle_language_smpte_test";
-	auto fr = content_factory("test/data/frames.srt").front();
-	auto film = new_test_film2 (name, { fr });
+	auto fr = content_factory("test/data/frames.srt");
+	auto film = new_test_film2 (name, fr);
 
-	fr->only_text()->set_language (dcp::LanguageTag("fr-FR"));
+	fr[0]->only_text()->set_language (dcp::LanguageTag("fr-FR"));
 	film->set_interop (false);
 
 	make_and_verify_dcp (

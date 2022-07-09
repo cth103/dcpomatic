@@ -25,22 +25,20 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
-#include "lib/film.h"
-#include "lib/ratio.h"
-#include "lib/dcp_content_type.h"
-#include "lib/image_content.h"
-#include "lib/video_content.h"
-#include "lib/audio_mapping.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/audio_content.h"
+#include "lib/audio_mapping.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
+#include "lib/ratio.h"
 #include "lib/text_content.h"
+#include "lib/video_content.h"
 #include "test.h"
-#include <iostream>
+#include <boost/test/unit_test.hpp>
 
 
-using std::cout;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
@@ -56,7 +54,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
-	auto audio = content_factory("test/data/sine_440.wav").front();
+	auto audio = content_factory("test/data/sine_440.wav")[0];
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_audio_language(dcp::LanguageTag("en-US"));
@@ -80,7 +78,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
 	film->set_audio_channels (1);
 	film->set_resolution (Resolution::FOUR_K);
-	auto text = content_factory("test/data/subrip.srt").front();
+	auto text = content_factory("test/data/subrip.srt")[0];
 	BOOST_REQUIRE_EQUAL (text->text.size(), 1U);
 	text->text.front()->set_burn (true);
 	text->text.front()->set_language (dcp::LanguageTag("fr-FR"));
@@ -91,7 +89,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_studio (string("di"));
 	film->set_facility (string("ppfacility"));
 	BOOST_REQUIRE (!wait_for_jobs());
-	audio = content_factory("test/data/sine_440.wav").front();
+	audio = content_factory("test/data/sine_440.wav")[0];
 	film->examine_and_add_content (audio);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_audio_language (dcp::LanguageTag("de-DE"));

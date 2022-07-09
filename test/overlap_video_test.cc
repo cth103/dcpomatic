@@ -47,9 +47,9 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 {
 	auto film = new_test_film2 ("overlap_video_test1");
 	film->set_sequence (false);
-	auto A = content_factory("test/data/flat_red.png").front();
+	auto A = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (A);
-	auto B = content_factory("test/data/flat_green.png").front();
+	auto B = content_factory("test/data/flat_green.png")[0];
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs());
 

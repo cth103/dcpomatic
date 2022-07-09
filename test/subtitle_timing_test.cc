@@ -40,8 +40,8 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 	constexpr auto content_frame_rate = 29.976f;
 	const std::string name = "test_subtitle_timing_with_frame_rate_change";
 
-	auto picture = content_factory("test/data/flat_red.png").front();
-	auto sub = content_factory("test/data/hour.srt").front();
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto sub = content_factory("test/data/hour.srt")[0];
 	sub->text.front()->set_language(dcp::LanguageTag("en-GB"));
 	picture->set_video_frame_rate (content_frame_rate);
 

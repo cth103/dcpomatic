@@ -32,7 +32,7 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (pulldown_detect_test1)
 {
 	shared_ptr<Film> film = new_test_film2 ("pulldown_detect_test1");
-	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "greatbrain.mkv").front();
+	shared_ptr<Content> content = content_factory(TestPaths::private_data() / "greatbrain.mkv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_REQUIRE (static_cast<bool>(content->video_frame_rate()));

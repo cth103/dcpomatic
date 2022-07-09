@@ -25,13 +25,13 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
+#include "lib/dcp_content_type.h"
+#include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/ratio.h"
-#include "lib/film.h"
-#include "lib/dcp_content_type.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
 
 
 using std::string;

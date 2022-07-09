@@ -83,8 +83,8 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 /** Check a bug where <Content> tags with multiple <Text>s would fail to load */
 BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 {
-	auto subs = content_factory("test/data/15s.srt").front();
-	auto caps = content_factory("test/data/15s.srt").front();
+	auto subs = content_factory("test/data/15s.srt")[0];
+	auto caps = content_factory("test/data/15s.srt")[0];
 	auto film = new_test_film2("multiple_text_nodes_are_allowed1", { subs, caps });
 	caps->only_text()->set_type(TextType::CLOSED_CAPTION);
 	make_and_verify_dcp (

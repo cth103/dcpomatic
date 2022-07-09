@@ -149,10 +149,10 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	film->set_name ("reels_test7");
 	film->set_container (Ratio::from_id("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
-	auto A = content_factory("test/data/flat_red.png").front();
+	auto A = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (A);
 	BOOST_REQUIRE (!wait_for_jobs());
-	auto B = content_factory("test/data/awkward_length.wav").front();
+	auto B = content_factory("test/data/awkward_length.wav")[0];
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_video_frame_rate (24);
@@ -289,11 +289,11 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 BOOST_AUTO_TEST_CASE (player_trim_test)
 {
        auto film = new_test_film2 ("player_trim_test");
-       auto A = content_factory("test/data/flat_red.png").front();
+       auto A = content_factory("test/data/flat_red.png")[0];
        film->examine_and_add_content (A);
        BOOST_REQUIRE (!wait_for_jobs ());
        A->video->set_length (10 * 24);
-       auto B = content_factory("test/data/flat_red.png").front();
+       auto B = content_factory("test/data/flat_red.png")[0];
        film->examine_and_add_content (B);
        BOOST_REQUIRE (!wait_for_jobs ());
        B->video->set_length (10 * 24);
@@ -328,9 +328,9 @@ store (list<Sub>* out, PlayerText text, TextType type, optional<DCPTextTrack> tr
 BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 {
 	auto film = new_test_film2 ("player_ignore_video_and_audio_test");
-	auto ff = content_factory(TestPaths::private_data() / "boon_telly.mkv").front();
+	auto ff = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
 	film->examine_and_add_content (ff);
-	auto text = content_factory("test/data/subrip.srt").front();
+	auto text = content_factory("test/data/subrip.srt")[0];
 	film->examine_and_add_content (text);
 	BOOST_REQUIRE (!wait_for_jobs());
 	text->only_text()->set_type (TextType::CLOSED_CAPTION);
@@ -352,7 +352,7 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 BOOST_AUTO_TEST_CASE (player_trim_crash)
 {
 	auto film = new_test_film2 ("player_trim_crash");
-	auto boon = content_factory(TestPaths::private_data() / "boon_telly.mkv").front();
+	auto boon = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
 	film->examine_and_add_content (boon);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 BOOST_AUTO_TEST_CASE (player_silence_crash)
 {
 	auto film = new_test_film2 ("player_silence_crash");
-	auto sine = content_factory("test/data/impulse_train.wav").front();
+	auto sine = content_factory("test/data/impulse_train.wav")[0];
 	film->examine_and_add_content (sine);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -394,9 +394,9 @@ BOOST_AUTO_TEST_CASE (player_silence_crash)
 BOOST_AUTO_TEST_CASE (player_3d_test_1)
 {
 	auto film = new_test_film2 ("player_3d_test_1a");
-	auto left = content_factory("test/data/flat_red.png").front();
+	auto left = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (left);
-	auto right = content_factory("test/data/flat_blue.png").front();
+	auto right = content_factory("test/data/flat_blue.png")[0];
 	film->examine_and_add_content (right);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -419,8 +419,8 @@ BOOST_AUTO_TEST_CASE (player_3d_test_1)
 /** Test a crash when processing a 3D DCP as content in a 2D project */
 BOOST_AUTO_TEST_CASE (player_3d_test_2)
 {
-	auto left = content_factory("test/data/flat_red.png").front();
-	auto right = content_factory("test/data/flat_blue.png").front();
+	auto left = content_factory("test/data/flat_red.png")[0];
+	auto right = content_factory("test/data/flat_blue.png")[0];
 	auto film = new_test_film2 ("player_3d_test_2a", {left, right});
 
 	left->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
@@ -444,7 +444,7 @@ BOOST_AUTO_TEST_CASE (player_3d_test_2)
 BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 {
 	/* 25fps DCP with some audio */
-	auto content1 = content_factory("test/data/flat_red.png").front();
+	auto content1 = content_factory("test/data/flat_red.png")[0];
 	auto film1 = new_test_film2 ("player_silence_at_end_crash_1", {content1});
 	content1->video->set_length (25);
 	film1->set_video_frame_rate (25);
@@ -463,7 +463,7 @@ BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 	}
 
 	BOOST_REQUIRE (video);
-	auto content3 = content_factory(*video).front();
+	auto content3 = content_factory(*video)[0];
 	film2->examine_and_add_content (content3);
 	BOOST_REQUIRE (!wait_for_jobs());
 	content3->set_position (film2, DCPTime::from_seconds(1.5));
@@ -475,7 +475,7 @@ BOOST_AUTO_TEST_CASE (player_silence_at_end_crash)
 /** #2257 */
 BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 {
-	auto content = content_factory("test/data/flat_red.png").front();
+	auto content = content_factory("test/data/flat_red.png")[0];
 	auto film = new_test_film2 ("encrypted_dcp_with_no_kdm_gives_no_butler_error", { content });
 	int constexpr length = 24 * 25;
 	content->video->set_length(length);
@@ -520,8 +520,8 @@ BOOST_AUTO_TEST_CASE (interleaved_subtitle_are_emitted_correctly)
 	subs_file[0].close();
 	subs_file[1].close();
 
-	auto subs1 = content_factory(paths[0]).front();
-	auto subs2 = content_factory(paths[1]).front();
+	auto subs1 = content_factory(paths[0])[0];
+	auto subs2 = content_factory(paths[1])[0];
 	auto film = new_test_film2("interleaved_subtitle_are_emitted_correctly", { subs1, subs2 });
 	film->set_sequence(false);
 	subs1->set_position(film, DCPTime());

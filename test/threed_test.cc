@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 
 	auto film = new_test_film2 ("threed_test7");
 	path const content_path = "test/data/flat_red.png";
-	auto c = content_factory(content_path).front();
+	auto c = content_factory(content_path)[0];
 	film->examine_and_add_content (c);
 	BOOST_REQUIRE (!wait_for_jobs());
 

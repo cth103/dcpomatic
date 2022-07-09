@@ -31,9 +31,9 @@
  */
 BOOST_AUTO_TEST_CASE (interop_file_extension_test)
 {
-	auto video = content_factory("test/data/flat_red.png").front();
-	auto audio = content_factory("test/data/sine_440.wav").front();
-	auto sub = content_factory("test/data/15s.srt").front();
+	auto video = content_factory("test/data/flat_red.png")[0];
+	auto audio = content_factory("test/data/sine_440.wav")[0];
+	auto sub = content_factory("test/data/15s.srt")[0];
 	auto film = new_test_film2("interop_file_extension_test", { video, audio, sub });
 	film->set_interop(true);
 
@@ -56,9 +56,9 @@ BOOST_AUTO_TEST_CASE (interop_file_extension_test)
 
 BOOST_AUTO_TEST_CASE (smpte_file_extension_test)
 {
-	auto video = content_factory("test/data/flat_red.png").front();
-	auto audio = content_factory("test/data/sine_440.wav").front();
-	auto sub = content_factory("test/data/15s.srt").front();
+	auto video = content_factory("test/data/flat_red.png")[0];
+	auto audio = content_factory("test/data/sine_440.wav")[0];
+	auto sub = content_factory("test/data/15s.srt")[0];
 	auto film = new_test_film2("smpte_file_extension_test", { video, audio, sub });
 	film->set_interop(false);
 
