@@ -96,7 +96,7 @@ ContentView::update ()
 			shared_ptr<Content> content;
 			if (is_directory(i) && (is_regular_file(i / "ASSETMAP") || is_regular_file(i / "ASSETMAP.xml"))) {
 				content.reset (new DCPContent(i));
-			} else if (i.path().extension() == ".mp4" || i.path().extension() == ".ecinema") {
+			} else if (i.path().extension() == ".mp4") {
 				content = content_factory(i).front();
 			}
 
