@@ -166,6 +166,11 @@ public:
 		return _atmos_edit_rate;
 	}
 
+	/** @return fonts in each reel */
+	std::vector<std::vector<std::shared_ptr<dcpomatic::Font>>> fonts() const {
+		return _fonts;
+	}
+
 private:
 	boost::optional<double> _video_frame_rate;
 	boost::optional<dcp::Size> _video_size;
@@ -198,4 +203,5 @@ private:
 	bool _has_atmos = false;
 	Frame _atmos_length = 0;
 	dcp::Fraction _atmos_edit_rate;
+	std::vector<std::vector<std::shared_ptr<dcpomatic::Font>>> _fonts;
 };

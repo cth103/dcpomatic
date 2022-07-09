@@ -189,7 +189,10 @@ StringTextFileContent::check_font_ids()
 	auto names = font_names(file);
 
 	auto content = only_text();
-	auto legacy_font_file = content->get_font("font")->file();
+	optional<boost::filesystem::path> legacy_font_file;
+	if (auto legacy_font = content->get_font("font")) {
+		legacy_font_file = legacy_font->file();
+	}
 
 	for (auto name: names) {
 		if (!content->get_font(name)) {

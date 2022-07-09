@@ -54,8 +54,10 @@
 
 using std::cout;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 
 
@@ -132,6 +134,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	for (auto i: cpl->reels()) {
 		LOG_GENERAL ("Reel %1", i->id());
+		vector<shared_ptr<dcpomatic::Font>> reel_fonts;
 
 		if (i->main_picture ()) {
 			if (!i->main_picture()->asset_ref().resolved()) {
@@ -203,6 +206,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			_text_count[static_cast<int>(TextType::OPEN_SUBTITLE)] = 1;
 			_open_subtitle_language = try_to_parse_language (i->main_subtitle()->language());
+
+			for (auto const& font: i->main_subtitle()->asset()->font_data()) {
+				reel_fonts.push_back(make_shared<dcpomatic::Font>(font.first, font.second));
+			}
 		}
 
 		for (auto j: i->closed_captions()) {
@@ -244,6 +251,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		} else if (!i->atmos()) {
 			_reel_lengths.push_back (i->atmos()->actual_duration());
 		}
+
+		_fonts.push_back(reel_fonts);
 	}
 
 	_encrypted = cpl->any_encrypted ();

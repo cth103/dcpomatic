@@ -308,7 +308,9 @@ DCPDecoder::pass_texts (
 					strings.clear ();
 				}
 
-				strings.push_back (*is);
+				dcp::SubtitleString is_copy = *is;
+				is_copy.set_font(id_for_font_in_reel(is_copy.font().get_value_or(""), _reel - _reels.begin()));
+				strings.push_back(is_copy);
 			}
 
 			/* XXX: perhaps these image subs should also be collected together like the string ones are;

@@ -240,6 +240,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 BOOST_AUTO_TEST_CASE (reels_test5)
 {
 	auto dcp = make_shared<DCPContent>("test/data/reels_test4");
+	dcp->check_font_ids();
 	auto film = new_test_film2 ("reels_test5", {dcp});
 	film->set_sequence (false);
 

@@ -21,6 +21,7 @@
 
 #include "check_content_job.h"
 #include "content.h"
+#include "dcp_content.h"
 #include "examine_content_job.h"
 #include "film.h"
 #include "job_manager.h"
@@ -69,19 +70,21 @@ CheckContentJob::run ()
 	std::vector<shared_ptr<Content>> changed;
 	std::copy_if (content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 
+	if (_film->last_written_by_earlier_than(2, 16, 14)) {
+		for (auto c: content) {
+			if (auto stf = dynamic_pointer_cast<StringTextFileContent>(c)) {
+				stf->check_font_ids();
+			} else if (auto dcp = dynamic_pointer_cast<DCPContent>(c)) {
+				dcp->check_font_ids();
+			}
+		}
+	}
+
 	if (!changed.empty()) {
 		for (auto i: changed) {
 			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, i));
 		}
 		set_message (_("Some files have been changed since they were added to the project.\n\nThese files will now be re-examined, so you may need to check their settings."));
-	}
-
-	if (_film->last_written_by_earlier_than(2, 16, 14)) {
-		for (auto c: content) {
-			if (auto stf = dynamic_pointer_cast<StringTextFileContent>(c)) {
-				stf->check_font_ids();
-			}
-		}
 	}
 
 	set_progress (1);

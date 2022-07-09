@@ -47,6 +47,11 @@ public:
 		, _file (file)
 	{}
 
+	Font (std::string id, dcp::ArrayData data)
+		: _id (id)
+		, _data (data)
+	{}
+
 	void as_xml (xmlpp::Node* node);
 
 	std::string id () const {

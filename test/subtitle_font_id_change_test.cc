@@ -84,6 +84,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test1)
 
 	CheckContentJob check(film);
 	check.run();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 }
@@ -105,9 +106,14 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test2)
 	BOOST_REQUIRE_EQUAL(content[0]->text.size(), 1U);
 
 	content[0]->set_paths({"test/data/short.srt"});
+	/* Make sure the content doesn't look like it's changed, otherwise it will be re-examined
+	 * which obscures the point of this test.
+	 */
+	content[0]->_last_write_times[0] = boost::filesystem::last_write_time("test/data/short.srt");
 
 	CheckContentJob check(film);
 	check.run();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto font = content[0]->text.front()->get_font("");
 	BOOST_REQUIRE(font->file());
@@ -136,6 +142,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 
 	CheckContentJob check(film);
 	check.run();
+	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto font = content[0]->text.front()->get_font("Arial Black");
 	BOOST_REQUIRE(font->file());
@@ -147,3 +154,29 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 }
+
+
+BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test4)
+{
+	auto film = new_test_film2("subtitle_font_id_change_test4");
+	boost::filesystem::remove(film->file("metadata.xml"));
+	boost::filesystem::copy_file("test/data/subtitle_font_id_change_test4.xml", film->file("metadata.xml"));
+
+	{
+		Editor editor(film->file("metadata.xml"));
+		editor.replace("dcpomatic-test-private", TestPaths::private_data().string());
+	}
+
+	film->read_metadata();
+
+	auto content = film->content();
+	BOOST_REQUIRE_EQUAL(content.size(), 1U);
+	BOOST_REQUIRE_EQUAL(content[0]->text.size(), 1U);
+
+	CheckContentJob check(film);
+	check.run();
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_STANDARD });
+}
+

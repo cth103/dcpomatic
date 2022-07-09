@@ -74,8 +74,14 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 
 	sc->fix_empty_font_ids ();
 
-	for (auto i: sc->load_font_nodes()) {
-		only_text()->add_font(make_shared<Font>(i->id));
+	auto font_data = sc->font_data();
+	for (auto node: sc->load_font_nodes()) {
+		auto data = font_data.find(node->id);
+		if (data != font_data.end()) {
+			only_text()->add_font(make_shared<Font>(node->id, data->second));
+		} else {
+			only_text()->add_font(make_shared<Font>(node->id));
+		}
 	}
 }
 

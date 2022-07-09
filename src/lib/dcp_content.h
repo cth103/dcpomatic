@@ -29,6 +29,7 @@
 
 
 #include "content.h"
+#include "font.h"
 #include <libcxml/cxml.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/rating.h>
@@ -170,6 +171,8 @@ public:
 		return _content_versions;
 	}
 
+	void check_font_ids();
+
 private:
 	friend struct reels_test5;
 
@@ -220,6 +223,11 @@ private:
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
 };
+
+
+extern std::string id_for_font_in_reel(std::string id, int reel);
+extern void add_fonts_from_examiner(std::shared_ptr<TextContent> text, std::vector<std::vector<std::shared_ptr<dcpomatic::Font>>> const& fonts);
+
 
 
 #endif
