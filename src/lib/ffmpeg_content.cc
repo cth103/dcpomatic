@@ -320,6 +320,7 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			text.clear ();
 			text.push_back (make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::UNKNOWN));
 			_subtitle_stream = _subtitle_streams.front ();
+			text.front()->add_font(make_shared<dcpomatic::Font>(""));
 		}
 	}
 

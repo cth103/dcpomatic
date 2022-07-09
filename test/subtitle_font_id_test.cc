@@ -90,3 +90,13 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_smpte_dcp)
 	make_and_verify_dcp(film);
 }
 
+
+BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_mkv)
+{
+	auto subs = content_factory(TestPaths::private_data() / "clapperboard_with_subs.mkv");
+	auto film = new_test_film2("make_dcp_with_subs_from_mkv", subs);
+	subs[0]->text.front()->set_use(true);
+	subs[0]->text.front()->set_language(dcp::LanguageTag("en-US"));
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
+}
+
