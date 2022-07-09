@@ -89,9 +89,7 @@ StringTextFileContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
 
-	std::set<string> names = font_names(file);
-
-	for (auto name: names) {
+	for (auto name: font_names(file)) {
 		optional<boost::filesystem::path> path;
 		if (!name.empty()) {
 			path = FontConfig::instance()->system_font_with_name(name);
