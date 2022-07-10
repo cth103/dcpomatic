@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-09 11:18+0200\n"
+"PO-Revision-Date: 2022-07-10 11:20+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -231,9 +231,8 @@ msgid "Close without saving film"
 msgstr "Zapri brez shranjevanje filma"
 
 #: src/tools/dcpomatic.cc:1374 src/tools/dcpomatic_player.cc:538
-#, fuzzy
 msgid "Closed captions..."
-msgstr "Zaprti napisi..."
+msgstr "Zaprti napisi ..."
 
 #: src/tools/dcpomatic.cc:1330
 msgid "Copy settings\tCtrl-C"
@@ -481,9 +480,8 @@ msgid "Export preferences..."
 msgstr "Nastavitve izvoza ..."
 
 #: src/tools/dcpomatic.cc:1359
-#, fuzzy
 msgid "Export subtitles..."
-msgstr "Izvozi podnapise ..."
+msgstr "Izvozi podnaslove ..."
 
 #: src/tools/dcpomatic.cc:1358
 msgid "Export video file...\tCtrl-E"
@@ -726,7 +724,7 @@ msgstr "Pošlji prevode ..."
 #: src/tools/dcpomatic_player.cc:540
 #, fuzzy
 msgid "Set decode resolution to match display"
-msgstr "Nastavi ločljivost dekodiranja tako, da se ujema z zaslonom"
+msgstr "Nastavi ločljivost dekodiranja, tako da se ujema z zaslonom/platnom"
 
 #: src/tools/dcpomatic.cc:746
 msgid "Specify ZIP file"
