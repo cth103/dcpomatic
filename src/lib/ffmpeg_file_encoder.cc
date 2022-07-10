@@ -280,6 +280,7 @@ FFmpegFileEncoder::~FFmpegFileEncoder ()
 {
 	_audio_streams.clear ();
 	avcodec_close (_video_codec_context);
+	avio_close (_format_context->pb);
 	avformat_free_context (_format_context);
 }
 
