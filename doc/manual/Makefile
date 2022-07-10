@@ -59,11 +59,11 @@ html/screenshots/kdm-creator.png: screenshots/kdm-creator.png
 
 # For HTML: convert diagrams from SVG to PNG
 diagrams/%.png:	diagrams/%.svg
-	inkscape -z -f $< --export-png $@ --export-area-drawing
+	inkscape -z $< --export-png $@ --export-area-drawing
 
 # For LaTeX/PDF: convert diagrams from SVG to PDF
 diagrams/%.pdf:	diagrams/%.svg
-	inkscape -z -f $< --export-pdf $@ --export-area-drawing
+	inkscape -z $< --export-pdf $@ --export-area-drawing
 
 config.xml:	../../src/lib/config.cc config.py
 	python3 config.py ../../src/lib/config.cc > config.xml
