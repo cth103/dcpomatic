@@ -423,7 +423,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		boost::filesystem::rename (film()->file(aaf), audio_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move audio asset into the DCP (%1)"), ec.value ()), aaf
+				String::compose (_("could not move audio asset into the DCP (%1:%2)"), ec.category().name(), ec.value()), aaf
 				);
 		}
 
@@ -440,7 +440,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		boost::filesystem::rename (film()->file(aaf), atmos_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move atmos asset into the DCP (%1)"), ec.value ()), aaf
+				String::compose (_("could not move atmos asset into the DCP (%1:%2)"), ec.category().name(), ec.value()), aaf
 				);
 		}
 
