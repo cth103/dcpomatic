@@ -126,6 +126,7 @@ extern boost::filesystem::path default_font_file ();
 extern std::string to_upper (std::string s);
 extern void start_of_thread (std::string name);
 extern void capture_asdcp_logs ();
+extern std::string error_details(boost::system::error_code ec);
 
 template <class T>
 std::list<T>

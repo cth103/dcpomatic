@@ -391,7 +391,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 
 		boost::filesystem::create_hard_link (video_from, video_to, ec);
 		if (ec) {
-			LOG_WARNING_NC ("Hard-link failed; copying instead");
+			LOG_WARNING("Hard-link failed (%1); copying instead", error_details(ec));
 			auto job = _job.lock ();
 			if (job) {
 				job->sub (_("Copying video file into DCP"));
@@ -404,7 +404,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 			} else {
 				boost::filesystem::copy_file (video_from, video_to, ec);
 				if (ec) {
-					LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), ec.message());
+					LOG_ERROR("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), error_details(ec));
 					throw FileError (ec.message(), video_from);
 				}
 			}
@@ -423,7 +423,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		boost::filesystem::rename (film()->file(aaf), audio_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move audio asset into the DCP (%1:%2)"), ec.category().name(), ec.value()), aaf
+				String::compose(_("could not move audio asset into the DCP (%1)"), error_details(ec)), aaf
 				);
 		}
 
@@ -440,7 +440,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		boost::filesystem::rename (film()->file(aaf), atmos_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose (_("could not move atmos asset into the DCP (%1:%2)"), ec.category().name(), ec.value()), aaf
+				String::compose(_("could not move atmos asset into the DCP (%1)"), error_details(ec), aaf
 				);
 		}
 

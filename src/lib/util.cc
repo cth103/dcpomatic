@@ -1181,3 +1181,9 @@ capture_asdcp_logs ()
 	Kumu::SetDefaultLogSink(&log_sink);
 }
 
+
+string
+error_details(boost::system::error_code ec)
+{
+	return String::compose("%1:%2:%3", ec.category().name(), ec.value(), ec.message());
+}
