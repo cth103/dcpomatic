@@ -440,7 +440,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		boost::filesystem::rename (film()->file(aaf), atmos_to, ec);
 		if (ec) {
 			throw FileError (
-				String::compose(_("could not move atmos asset into the DCP (%1)"), error_details(ec), aaf
+				String::compose(_("could not move atmos asset into the DCP (%1)"), error_details(ec)), aaf
 				);
 		}
 
