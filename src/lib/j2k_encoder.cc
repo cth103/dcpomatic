@@ -77,7 +77,7 @@ J2KEncoder::~J2KEncoder ()
 void
 J2KEncoder::begin ()
 {
-	auto wp = shared_from_this ();
+	weak_ptr<J2KEncoder> wp = shared_from_this ();
 	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
 		boost::bind (&J2KEncoder::call_servers_list_changed, wp)
 		);
