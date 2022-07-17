@@ -45,6 +45,9 @@ elif [[ `echo $changes | grep pl_PL` != "" ]]; then
 elif [[ `echo $changes | grep it_IT` != "" ]]; then
   language="it_IT"
   translator="Riccardo Mantani"
+elif [[ `echo $changes | grep sl_SI` != "" ]]; then
+  language="sl_SI"
+  translator="Martin Srebotnjak"
 else
   echo "Unknown language"
   exit 1

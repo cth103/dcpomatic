@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-10 14:12+0200\n"
+"PO-Revision-Date: 2022-07-17 07:45+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -35,13 +35,13 @@ msgstr ""
 "Obrezano na %1x%2"
 
 #: src/lib/video_content.cc:465
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
 msgstr ""
 "\n"
-"Prikaz razmerja širine %.2f:1"
+"Prikazano razmerje stranic %.2f:1"
 
 #: src/lib/video_content.cc:497
 msgid ""
@@ -52,13 +52,12 @@ msgstr ""
 "Obdano s črnino, da se prilega vsebniku %1 (%2x%3)"
 
 #: src/lib/video_content.cc:487
-#, fuzzy
 msgid ""
 "\n"
 "Scaled to %1x%2"
 msgstr ""
 "\n"
-"Razmah na %1x%2"
+"Velikost spremenjena na %1x%2"
 
 #: src/lib/video_content.cc:491 src/lib/video_content.cc:502
 #, c-format
@@ -68,9 +67,8 @@ msgstr " (%.2f:1)"
 #. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. / to say what day a job will finish.
 #: src/lib/job.cc:533
-#, fuzzy
 msgid " on %1"
-msgstr "v %1"
+msgstr " na %1"
 
 #: src/lib/config.cc:1183
 msgid ""
@@ -206,9 +204,8 @@ msgid "; %1 fps"
 msgstr "; %1 sl/s"
 
 #: src/lib/job.cc:538
-#, fuzzy
 msgid "; %1 remaining; finishing at %2%3"
-msgstr "; %1 preostalo; zaključna ob %2%3"
+msgstr "; %1 preostalo; zaključevanje ob %2%3"
 
 #: src/lib/analytics.cc:64
 msgid ""
@@ -256,38 +253,35 @@ msgstr ""
 "jezikom »%1«, ki ga DCP-o-matic ne prepozna.  Jezik datoteke je počiščen."
 
 #: src/lib/ffmpeg_content.cc:638
-#, fuzzy
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
-msgstr "ARIB STD-B67 (\"Hibridna log-gama\")"
+msgstr "ARIB STD-B67 (»Hibridna log-gama«)"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Advertisement"
 msgstr "Oglas"
 
 #: src/lib/hints.cc:143
-#, fuzzy
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
 "You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" "
 "tab."
 msgstr ""
-"Vsa vsebina je v širokem formatu (2,39:1), vendar je vsebnik vašega DCP "
-"plosk (1,85:1).  S tem bo vaša vsebina zajeta v črn okvir v ploskem prikazu "
-"(1,85:1).  Vsebnik DCP-ja boste morda raje nastavili na široki format "
-"(2m39:1) na zavihku »DCP«."
+"Vsa vsebina je v ukrivljenem formatu (2,39:1, Scope), vsebnik vašega DCP pa "
+"je raven (1,85:1, Flat).  S tem bo vaša vsebina zaobjeta s črnim robom "
+"zgoraj in spodaj v ravnem prikazu (1,85:1, Flat).  Vsebnik DCP-ja bi morda "
+"raje nastavili na ukrivljeni format (2,39:1, Scope) na zavihku »DCP«."
 
 #: src/lib/hints.cc:147
-#, fuzzy
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
 "DCP's container to have the same ratio as your content."
 msgstr ""
-"Vsa vsebina je ožja od 1,90:1, vendar je vsebnik vašega DCP-ja širokega "
-"formata (2,39:1).  To bo vašo vsebino dopolnil s črnima pasovoma na levem in "
-"desnem robu.  Morda boste raje nastavili vsebnik DCP, da ima enako razmerje "
-"kot vaš vsebnik."
+"Vsa vsebina je ožja od 1,90:1, vendar je vsebnik vašega DCP-ja ukrivljenega "
+"formata (2,39:1, Scope).  To bo vašo vsebino dopolnilo s črnima pasovoma na "
+"levem in desnem robu.  Morda bi raje nastavili vsebnik DCP, da ima enako "
+"razmerje kot vaša vsebina."
 
 #: src/lib/job.cc:114
 msgid "An error occurred whilst handling the file %1."
@@ -316,14 +310,14 @@ msgstr "Vsaj en del datotek XML zaprtih napisov je večji od "
 
 #: src/lib/hints.cc:480
 msgid "At least one of your subtitle files is larger than "
-msgstr "Vsaj ena od datotek podnapisov je večja od "
+msgstr "Vsaj ena od datotek podnaslovov je večja od "
 
 #: src/lib/hints.cc:444
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr ""
-"Vsaj ena od vrstic podnapisov ima več kot 52 znakov.  Priporočljivo je, da "
+"Vsaj ena od vrstic podnaslovov ima več kot 52 znakov.  Priporočljivo je, da "
 "ima vsaka vrstica največ 52 znakov."
 
 #: src/lib/hints.cc:446
@@ -331,7 +325,7 @@ msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr ""
-"Vsaj ena od vrstic podnapisov ima več kot 79 znakov.  Priporočljivo je, da "
+"Vsaj ena od vrstic podnaslovov ima več kot 79 znakov.  Priporočljivo je, da "
 "ima vsaka vrstica največ 79 znakov."
 
 #: src/lib/hints.cc:589
@@ -339,7 +333,7 @@ msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr ""
-"Vsaj eden od vaših podnapisov ima več kot 3 vrstice.  Priporočljivo je "
+"Vsaj eden od vaših podnaslovov ima več kot 3 vrstice.  Priporočljivo je "
 "uporabiti največ 3 vrstice."
 
 #: src/lib/hints.cc:579
@@ -347,7 +341,7 @@ msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr ""
-"Vsaj en vaš podnapis traja manj kot 15 sličic.  Priporočljivo je, da vsak "
+"Vsaj en vaš podnaslov traja manj kot 15 sličic.  Priporočljivo je, da vsak "
 "podnaslov dolg vsaj 15 sličic."
 
 #: src/lib/hints.cc:584
@@ -355,21 +349,20 @@ msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
-"Vsaj eden od vaših podnapisov se začne manj kot 2 sličici po prejšnjem.  "
-"Priporočljivo je, da je vrzel med podnapisi vsaj 2 sličici."
+"Vsaj eden od vaših podnaslovov se začne manj kot 2 sličici po prejšnjem.  "
+"Priporočljivo je, da je vrzel med podnaslovi vsaj 2 sličici."
 
 #: src/lib/hints.cc:632
-#, fuzzy
 msgid ""
 "At least one piece of subtitle or closed caption content has no specified "
 "language.  It is advisable to set the language for each piece of subtitle or "
 "closed caption content in the \"Content→Timed text\", \"Content→Open "
 "subtitles\" or \"Content→Closed captions\" tab."
 msgstr ""
-"Vsaj en del podnaslova ali zaprte vsebine napisa nima določenega jezika.  "
-"Priporočljivo je, da jezik za vsak kos podnaslova ali zaprte vsebine "
-"podnaslova nastavite v zavihku »Vsebina → Timed besedilo«, »Vsebina → Odpri "
-"podnapise« ali »Vsebina → Zaprti napisi«."
+"Vsaj en del vsebine podnaslovov ali zaprtih napisov nima določenega jezika.  "
+"Priporočljivo je, da jezik za vsak kos vsebine podnaslovov ali zaprtih "
+"napisov nastavite v zavihku »Vsebina → Časovno opredeljeno besedilo«, "
+"»Vsebina → Odpri podnaslove« ali »Vsebina → Zaprti napisi«."
 
 #: src/lib/audio_content.cc:282
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -439,12 +432,12 @@ msgstr "Filter razpletanja Boba Weaverja"
 #: src/lib/util.cc:599
 #, fuzzy
 msgid "BsL"
-msgstr "Bsl"
+msgstr "BsL"
 
 #: src/lib/util.cc:600
 #, fuzzy
 msgid "BsR"
-msgstr "BSR"
+msgstr "BsR (D)"
 
 #: src/lib/util.cc:591
 msgid "C"
@@ -459,9 +452,8 @@ msgid "Cannot contain slashes"
 msgstr "Ne sme vsebovati poševnic"
 
 #: src/lib/exceptions.cc:78
-#, fuzzy
 msgid "Cannot handle pixel format %1 during %2"
-msgstr "Formata pike ni mogoče %1 d %2"
+msgstr "Formata slikovne točke %1 ni mogoče procesirati med %2"
 
 #: src/lib/film.cc:1649
 msgid "Cannot make a KDM as this project is not encrypted."
@@ -498,7 +490,6 @@ msgid "Chroma-derived non-constant luminance"
 msgstr "Nekonstantna svetilnost iz krome"
 
 #: src/lib/types.cc:143
-#, fuzzy
 msgid "Closed captions"
 msgstr "Zaprti napisi"
 
@@ -519,12 +510,10 @@ msgstr "Primarne barve"
 #: src/lib/ffmpeg_content.cc:549 src/lib/ffmpeg_content.cc:556
 #: src/lib/ffmpeg_content.cc:563 src/lib/ffmpeg_content.cc:573
 #: src/lib/ffmpeg_content.cc:578 src/lib/ffmpeg_content.cc:583
-#, fuzzy
 msgid "Colour range"
-msgstr "Barvni razpon"
+msgstr "Barvni obseg"
 
 #: src/lib/ffmpeg_content.cc:642
-#, fuzzy
 msgid "Colour transfer characteristic"
 msgstr "Značilnost barvnega prenosa"
 
@@ -537,12 +526,10 @@ msgid "Combine DCPs"
 msgstr "Združi DCP-je"
 
 #: src/lib/content.cc:184
-#, fuzzy
 msgid "Computing digest"
 msgstr "Računanje povzetka"
 
 #: src/lib/writer.cc:531
-#, fuzzy
 msgid "Computing digests"
 msgstr "Računanje povzetkov"
 
@@ -559,171 +546,146 @@ msgid "Content audio sample rate"
 msgstr "Mera vzorčenja zvoka vsebine"
 
 #: src/lib/ffmpeg_content.cc:158
-#, fuzzy
 msgid "Content to be joined must all have or not have audio"
-msgstr "Vsebina, ki jo je treba združiti, mora imeti vse ali ne imeti zvoka"
+msgstr "Vsebina, ki jo želite združiti, mora imeti vse ali ne imeti zvoka"
 
 #: src/lib/ffmpeg_content.cc:161
-#, fuzzy
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti ali nima podnapisov ali napisov"
+"Vsebina, ki jo želite združiti, mora imeti vsa podnaslove oz. napise ali pa "
+"jih sploh ne imeti."
 
 #: src/lib/ffmpeg_content.cc:155
-#, fuzzy
 msgid "Content to be joined must all have or not have video"
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti vse ali ne imeti videoposnetka"
+"Vsebina, ki jo želite združiti, mora imeti vsa videoposnetek ali ga sploh ne "
+"imeti."
 
 #: src/lib/text_content.cc:320
-#, fuzzy
 msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
 msgstr ""
-"Vsebina, ki jo je treba združiti, morata biti oba glavna jezika podnapisov "
+"Vsebina, ki jo želite združiti, mora imeti vsa oba glavna jezika podnaslovov "
 "ali oba dodatna."
 
 #: src/lib/video_content.cc:223
 #, fuzzy
 msgid "Content to be joined must have all its video used or not used."
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti ves videoposnetek uporabljen "
-"ali ne."
+"Vsebina, ki jo želite združiti, mora imeti vsa uporabljen videoposnetek ali "
+"pa vsa ne."
 
 #: src/lib/text_content.cc:275
-#, fuzzy
 msgid "Content to be joined must have the same 'burn subtitles' setting."
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enako nastavitev \"zapisovanje "
-"podnapisov\"."
+"Vsebina, ki jo želite združiti, mora imeti enako nastavitev »zapeci "
+"podnaslove«."
 
 #: src/lib/text_content.cc:271
-#, fuzzy
 msgid "Content to be joined must have the same 'use subtitles' setting."
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enako nastavitev \"uporabi "
-"podnapise\"."
+"Vsebina, ki jo želite združiti, mora imeti enako nastavitev »uporabi "
+"podnaslove«."
 
 #: src/lib/audio_content.cc:121
-#, fuzzy
 msgid "Content to be joined must have the same audio delay."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enako zvočno zamudo."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako zakasnitev zvoka."
 
 #: src/lib/audio_content.cc:117
-#, fuzzy
 msgid "Content to be joined must have the same audio gain."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enak avdio dobiček."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako ojačitev zvoka."
 
 #: src/lib/video_content.cc:255
-#, fuzzy
 msgid "Content to be joined must have the same burnt subtitle language."
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enak izgoreli jezik podnapisov."
+"Vsebina, ki jo želite združiti, mora imeti enak jezik vžganih podnaslovov."
 
 #: src/lib/video_content.cc:247
-#, fuzzy
 msgid "Content to be joined must have the same colour conversion."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enako barvno pretvorbo."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako barvno pretvorbo."
 
 #: src/lib/video_content.cc:235
-#, fuzzy
 msgid "Content to be joined must have the same crop."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enak pridelek."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako obrezavo."
 
 #: src/lib/video_content.cc:239
-#, fuzzy
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr ""
-"Vsebina, ki jo želite združiti, mora imeti enako nastavitev razmerja po meri."
+"Vsebina, ki jo želite združiti, mora imeti enako nastavitev razmerja stranic "
+"po meri."
 
 #: src/lib/video_content.cc:243
-#, fuzzy
 msgid "Content to be joined must have the same custom size setting."
 msgstr ""
 "Vsebina, ki jo želite združiti, mora imeti enako nastavitev velikosti po "
 "meri."
 
 #: src/lib/video_content.cc:251
-#, fuzzy
 msgid "Content to be joined must have the same fades."
-msgstr "Vsebina, ki jo je treba združiti, mora biti enaka."
+msgstr ""
+"Vsebina, ki jo želite združiti, mora imeti enake odtemnitve/zatemnitve."
 
 #: src/lib/text_content.cc:303
-#, fuzzy
 msgid "Content to be joined must have the same outline width."
 msgstr "Vsebina, ki jo želite združiti, mora imeti enako širino orisa."
 
 #: src/lib/video_content.cc:227
-#, fuzzy
 msgid "Content to be joined must have the same picture size."
 msgstr "Vsebina, ki jo želite združiti, mora imeti enako velikost slike."
 
 #: src/lib/text_content.cc:279
-#, fuzzy
 msgid "Content to be joined must have the same subtitle X offset."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enak podnaslov X pomik."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enak odmik podnaslovov X."
 
 #: src/lib/text_content.cc:287
-#, fuzzy
 msgid "Content to be joined must have the same subtitle X scale."
-msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enak podnaslov X lestvica."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako merilo podnaslovov X."
 
 #: src/lib/text_content.cc:283
-#, fuzzy
 msgid "Content to be joined must have the same subtitle Y offset."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enak podnaslov Y odmik."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enak odmik podnaslovov Y."
 
 #: src/lib/text_content.cc:291
-#, fuzzy
 msgid "Content to be joined must have the same subtitle Y scale."
-msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enak podnaslov Y lestvica."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako merilo podnaslovov Y."
 
 #: src/lib/text_content.cc:299
-#, fuzzy
 msgid "Content to be joined must have the same subtitle fades."
-msgstr "Vsebina, ki jo je treba združiti, mora imeti enak podnapis zmede."
+msgstr ""
+"Vsebina, ki jo želite združiti, mora imeti enake odtemnitve/zatemnitve "
+"podnaslovov."
 
 #: src/lib/text_content.cc:295
-#, fuzzy
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enak razmik med vrsticami "
-"podnaslova."
+"Vsebina, ki jo želite združiti, mora imeti enak razmik med vrsticami "
+"podnaslovov."
 
 #: src/lib/content.cc:132 src/lib/content.cc:136
-#, fuzzy
 msgid "Content to be joined must have the same video frame rate"
-msgstr ""
-"Vsebina, ki jo je treba združiti, mora imeti enako hitrost video okvirja"
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako hitrost video sličic."
 
 #: src/lib/video_content.cc:231
-#, fuzzy
 msgid "Content to be joined must have the same video frame type."
-msgstr "Vsebina, ki jo želite združiti, mora imeti enako vrsto video okvirja."
+msgstr "Vsebina, ki jo želite združiti, mora imeti enako vrsto video sličice."
 
 #: src/lib/text_content.cc:312
 #, fuzzy
 msgid "Content to be joined must use the same DCP track."
-msgstr "Vsebina, ki jo je treba združiti, mora uporabljati isto dcp skladbo."
+msgstr ""
+"Vsebina, ki jo želite združiti, mora uporabljati isto stezo/posnetek DCP."
 
 #: src/lib/text_content.cc:308 src/lib/text_content.cc:328
-#, fuzzy
 msgid "Content to be joined must use the same fonts."
 msgstr "Vsebina, ki jo želite združiti, mora uporabljati iste pisave."
 
 #: src/lib/ffmpeg_content.cc:182
-#, fuzzy
 msgid "Content to be joined must use the same subtitle stream."
-msgstr ""
-"Vsebina, ki jo je treba združiti, mora uporabljati isti tok podnapisov."
+msgstr "Vsebina, ki jo želite združiti, mora uporabljati isti tok podnaslovov."
 
 #: src/lib/text_content.cc:316
-#, fuzzy
 msgid "Content to be joined must use the same text language."
-msgstr ""
-"Vsebina, ki jo je treba združiti, mora uporabljati isti besedilni jezik."
+msgstr "Vsebina, ki jo želite združiti, mora uporabljati isti jezik besedila."
 
 #: src/lib/video_content.cc:451
 msgid "Content video is %1x%2"
@@ -758,13 +720,12 @@ msgid "Could not decode image (%1)"
 msgstr "Slike ni mogoče dekodirati (%1)"
 
 #: src/lib/encode_server_finder.cc:191
-#, fuzzy
 msgid ""
 "Could not listen for remote encode servers.  Perhaps another instance of DCP-"
 "o-matic is running."
 msgstr ""
-"Za oddaljene kodne strežnike ni bilo mogoče poslušati.  Morda še en primerek "
-"DCP-o-matic teče."
+"Ni bilo mogoče prisluhniti oddaljenim strežnikom kodiranja.  Morda je zagnan "
+"še en primerek programa DCP-o-matic."
 
 #: src/lib/job.cc:169 src/lib/job.cc:184
 msgid "Could not open %1"
@@ -821,14 +782,12 @@ msgid "DBS"
 msgstr "DBS"
 
 #: src/lib/ratio.cc:51
-#, fuzzy
 msgid "DCI Flat"
-msgstr "DCI, raven (flat)"
+msgstr "DCI, ploski (flat)"
 
 #: src/lib/ratio.cc:53
-#, fuzzy
 msgid "DCI Scope"
-msgstr "DCI, široki (scope)"
+msgstr "DCI, ukrivljeni (scope)"
 
 #: src/lib/dcp_subtitle_content.cc:104
 msgid "DCP XML subtitles"
@@ -839,41 +798,38 @@ msgid "DCP sample rate"
 msgstr "Mera vzorčenja DCP"
 
 #: src/lib/frame_rate_change.cc:103
-#, fuzzy, c-format
+#, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
-msgstr "DCP bo %.1f%% o s hitrostjo vsebine.\n"
+msgstr "DCP bo predvajan pri %.1f% % hitrosti vsebine.\n"
 
 #: src/lib/frame_rate_change.cc:93
-#, fuzzy
 msgid "DCP will use every other frame of the content.\n"
-msgstr "DCP bo uporabil vse druge okvire vsebine.\n"
+msgstr "DCP bo uporabil vsako drugo sličico vsebine.\n"
 
 #: src/lib/job.cc:171 src/lib/job.cc:186
-#, fuzzy
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
 msgstr ""
-"DCP-o-matic ni mogel odpreti datoteke %1 (%2).  Morda ne obstaja ali pa je v "
+"DCP-o-matic ne more odpreti datoteke %1 (%2).  Morda ne obstaja ali pa je v "
 "nepričakovani obliki."
 
 #: src/lib/film.cc:1560
-#, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
-"DCP-o-matic je moral spremeniti nastavitve za to, da se dcp imenuje OV.  "
-"Preglejte te nastavitve, da se prepričate, da so to, kar želite."
+"DCP-o-matic je moral spremeniti vaše nastavitve, da DCP lahko nosi oznako "
+"OV.  Preglejte te nastavitve, da se prepričate, da so skladne z vašimi "
+"željami."
 
 #: src/lib/film.cc:1528
-#, fuzzy
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
 msgstr ""
-"DCP-o-matic je moral spremeniti nastavitve, tako da je hitrost okvirja filma "
-"enaka vsebini programa Atmos."
+"DCP-o-matic je moral spremeniti nastavitve, tako da je hitrost sličic filma "
+"enaka tisti vaše vsebine Atmos."
 
 #: src/lib/ffmpeg_content.cc:122
 msgid ""
@@ -894,7 +850,6 @@ msgid "De-interlacing"
 msgstr "Razpletanje"
 
 #: src/lib/config.cc:1146
-#, fuzzy
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -908,7 +863,7 @@ msgid ""
 "Best regards,\n"
 "DCP-o-matic"
 msgstr ""
-"Dragi projekcionist,\n"
+"Dragi/a projekcionist/ka,\n"
 "\n"
 "priloženi so KDM-ji za $CPL_NAME.\n"
 "\n"
@@ -1050,29 +1005,24 @@ msgid "Full (0-%1)"
 msgstr "Polno (0-%1)"
 
 #: src/lib/ratio.cc:54
-#, fuzzy
 msgid "Full frame"
 msgstr "Celotna sličica (full frame)"
 
 #: src/lib/audio_content.cc:348
-#, fuzzy
 msgid "Full length in audio samples at DCP rate"
 msgstr "Polna dolžina v zvočnih vzorcih pri hitrosti DCP"
 
 #: src/lib/audio_content.cc:335
-#, fuzzy
 msgid "Full length in audio samples at content rate"
 msgstr "Polna dolžina v zvočnih vzorcih pri hitrosti vsebine"
 
 #: src/lib/audio_content.cc:342
-#, fuzzy
 msgid "Full length in video frames at DCP rate"
-msgstr "Polna dolžina video sličico pri hitrosti DCP"
+msgstr "Polna dolžina v video sličicah pri hitrosti DCP"
 
 #: src/lib/audio_content.cc:328
-#, fuzzy
 msgid "Full length in video frames at content rate"
-msgstr "Polna dolžina video sličic pri hitrosti vsebine"
+msgstr "Polna dolžina v video sličicah pri hitrosti vsebine"
 
 #: src/lib/ffmpeg_content.cc:624
 msgid "Gamma 22 (BT470M)"
@@ -1085,17 +1035,16 @@ msgstr "Gama 28 (BT470BG)"
 #: src/lib/filter.cc:88
 #, fuzzy
 msgid "Gradient debander"
-msgstr "Debander preliva"
+msgstr "Razpasovnik preliva"
 
 #: src/lib/util.cc:595
 #, fuzzy
 msgid "HI"
-msgstr "Živijo"
+msgstr "HI"
 
 #: src/lib/util.cc:564
-#, fuzzy
 msgid "Hearing impaired"
-msgstr "Osebe z okvarami sluha"
+msgstr "Za osebe z okvarami sluha"
 
 #: src/lib/filter.cc:91
 #, fuzzy
@@ -1103,9 +1052,8 @@ msgid "High quality 3D denoiser"
 msgstr "Visokokakovostni 3D-razšumnik"
 
 #: src/lib/filter.cc:80
-#, fuzzy
 msgid "Horizontal flip"
-msgstr "Vodoravno obrnjeno"
+msgstr "Vodoravno preobrni"
 
 #: src/lib/audio_content.cc:321 src/lib/audio_content.cc:341
 msgid "Hz"
@@ -1154,7 +1102,6 @@ msgid "KDM delivery: $CPL_NAME"
 msgstr "Dostava KDM: $CPL_NAME"
 
 #: src/lib/filter.cc:84
-#, fuzzy
 msgid "Kernel deinterlacer"
 msgstr "Razpletalnik jedra"
 
@@ -1205,14 +1152,12 @@ msgid "Linear"
 msgstr "Linearno"
 
 #: src/lib/ffmpeg_content.cc:629
-#, fuzzy
 msgid "Logarithmic (100:1 range)"
-msgstr "Logaritemsko (razpon 100:1)"
+msgstr "Logaritemsko (obseg 100:1)"
 
 #: src/lib/ffmpeg_content.cc:630
-#, fuzzy
 msgid "Logarithmic (316:1 range)"
-msgstr "Logaritemsko (razpon 316:1)"
+msgstr "Logaritemsko (obseg 316:1)"
 
 #: src/lib/exceptions.cc:161
 msgid "Lost communication between main and writer processes"
@@ -1221,7 +1166,7 @@ msgstr "Izgubljena komunikacija med glavnimi in zapisovalnimi procesi"
 #: src/lib/util.cc:593
 #, fuzzy
 msgid "Ls"
-msgstr "ZH"
+msgstr "Ls"
 
 #: src/lib/mid_side_decoder.cc:39
 #, fuzzy
@@ -1261,7 +1206,6 @@ msgid "Mono"
 msgstr "Mono"
 
 #: src/lib/filter.cc:83
-#, fuzzy
 msgid "Motion compensating deinterlacer"
 msgstr "Razpletalnik s kompenzacijo gibanja"
 
@@ -1286,7 +1230,6 @@ msgid "None"
 msgstr "Brez"
 
 #: src/lib/job.cc:543
-#, fuzzy
 msgid "OK (ran for %1)"
 msgstr "V redu (potekalo %1)"
 
@@ -1324,18 +1267,19 @@ msgstr "Zmanjkalo pomnilnika"
 #: src/lib/filter.cc:93
 #, fuzzy
 msgid "Overcomplete wavelet denoiser"
-msgstr "Nepopoln denoiser valovanja"
+msgstr "Nadpopoln razšumnik valčkov"
 
 #: src/lib/colour_conversion.cc:291
 msgid "P3"
 msgstr "P3"
 
 #: src/lib/util.h:61
-#, fuzzy
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
-msgstr "To težavo obvestite s pomočjo > -carl@dcpomatic.com"
+msgstr ""
+"O tej težavi poročajte s pomočjo Pomoč > Poročaj o težavi ali prek e-pošte "
+"na naslov carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Policy"
@@ -1350,7 +1294,6 @@ msgid "Programming error at %1:%2 %3"
 msgstr "Programska napaka na %1:%2 %3"
 
 #: src/lib/dcp_content_type.cc:62
-#, fuzzy
 msgid "Promo"
 msgstr "Promo"
 
@@ -1413,7 +1356,7 @@ msgstr "Zasukaj za 90° v SUK"
 #: src/lib/util.cc:594
 #, fuzzy
 msgid "Rs"
-msgstr "Rs"
+msgstr "Rs (D)"
 
 #: src/lib/colour_conversion.cc:294
 msgid "S-Gamut3/S-Log3"
@@ -1443,9 +1386,10 @@ msgid ""
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
 "You should add these markers using the 'Markers' button in the \"DCP\" tab."
 msgstr ""
-"SMPTE DCP z vrsto FTR (funkcija) bi moral imeti označevalce za prvi okvir "
-"končnih kreditov (FFEC) in prvi okvir gibljivih kreditov (FFMC).  Te "
-"označevalce morate dodati z gumbom \"Označevalci\" na zavihku \"DCP\"."
+"DCP-ji SMPTE vrste FTR (celovečerni film, angl. feature) bi moral imeti "
+"oznake za prvo sličico končnih napisov (FFEC) in prvo sličico gibljivih "
+"napisov (FFMC).  Te oznake morate dodati z gumbom »Označevalci« na zavihku "
+"»DCP«."
 
 #: src/lib/ffmpeg_content.cc:636
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
@@ -1579,9 +1523,8 @@ msgid "Sunday"
 msgstr "Nedelja"
 
 #: src/lib/dcp_content_type.cc:57
-#, fuzzy
 msgid "Teaser"
-msgstr "Teaser"
+msgstr "Dražilnik (teaser)"
 
 #: src/lib/filter.cc:92
 msgid "Telecine filter"
@@ -1622,7 +1565,6 @@ msgstr ""
 "Ključi v Nastavitvah."
 
 #: src/lib/hints.cc:674
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period that is too long.  This will cause problems playing back "
@@ -1633,28 +1575,26 @@ msgstr ""
 "Veriga potrdil, ki jo DCP-o-matic uporablja za podpisovanje DCP-jev in KDM-"
 "jev, ima predolgo obdobje veljavnosti.  To bo povzročilo težave pri "
 "predvajanju DCP-jev v nekaterih sistemih. Svetujemo vam, da znova ustvarite "
-"verigo potrdil za podpisovanje s klikom na »Re-make certifikati in ključ..."
-"\" gumb na strani Tipke preferenc."
+"verigo potrdil za podpisovanje s klikom gumba »Ponovno izdelaj potrdila in "
+"ključ …« na strani Ključi v nastavitvah."
 
 #: src/lib/video_decoder.cc:81
-#, fuzzy
 msgid ""
 "The content file %1 is set as 3D but does not appear to contain 3D images.  "
 "Please set it to 2D.  You can still make a 3D DCP from this content by "
 "ticking the 3D option in the DCP video tab."
 msgstr ""
-"Datoteka vsebine %1 je nastavljena kot 3D, vendar ne vsebuje 3D slik.  "
-"Prosim, nastavite na 2D.  Iz te vsebine lahko še vedno naredite 3D DCP tako, "
-"da na zavihku DCP videoposnetka odklikate možnost 3D."
+"Datoteka vsebine %1 je nastavljena kot 3D, vendar ne vsebuje 3D-slik.  "
+"Nastavite jo na 2D.  Iz te vsebine lahko še vedno naredite 3D-DCP, tako da "
+"na zavihku videoposnetka DCP potrdite možnost 3D."
 
 #: src/lib/job.cc:120
-#, fuzzy
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
 msgstr ""
-"Pogon, na ki je film shranjen, je nizek v prostoru za diske.  Osvobodite "
-"nekaj več prostora in poskusite znova."
+"Pogon, na katerem je film shranjen, ima malo nezasedenega prostora.  "
+"Sprostite nekaj več prostora in poskusite znova."
 
 #: src/lib/playlist.cc:228
 msgid "The file %1 has been moved %2 milliseconds earlier."
@@ -1667,12 +1607,12 @@ msgstr "Datoteka %1 je bila premaknjena %2 milisekund nazaj."
 #: src/lib/playlist.cc:248
 #, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Datoteka %1 je bila obrazana za %2 milisekundi manj."
+msgstr "Datoteka %1 je bila obrezana %2 milisekundi manj."
 
 #: src/lib/playlist.cc:243
 #, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Datoteko %1 je še %2 milisekundi obsežneje."
+msgstr "Datoteka %1 je bila obrezana %2 milisekundi več."
 
 #: src/lib/hints.cc:238
 msgid ""
@@ -1705,14 +1645,14 @@ msgstr ""
 #: src/lib/util.cc:1099
 #, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
-msgstr "Ta KDM je bil izdelan za DCP-o-matic, vendar ne za listno potrdilo."
+msgstr ""
+"Ta KDM je bil izdelan za DCP-o-matic, vendar ne za njegovo listno potrdilo."
 
 #: src/lib/util.cc:1097
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "Ta KDM ni bil narejen za potrdilo za dešifriranje DCP-o-matic."
 
 #: src/lib/job.cc:139
-#, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of DCP-o-matic and trying to use too many encoding threads.  Please reduce "
@@ -1721,57 +1661,52 @@ msgid ""
 msgstr ""
 "Do te napake je verjetno prišlo, ker izvajate 32-bitno različico DCP-o-matic "
 "in poskušate uporabiti preveč niti za kodiranje.  Prosimo, zmanjšajte "
-"\"število nit DCP-o-matic bi morali uporabiti\" na zavihku Splošne "
-"nastavitve in poskusite znova."
+"»število niti, ki naj jih uporablja DCP-o-matic« na zavihku Splošno v "
+"nastavitvah in poskusite znova."
 
 #: src/lib/job.cc:149
-#, fuzzy
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and "
 "try again."
 msgstr ""
 "Do te napake je verjetno prišlo, ker izvajate 32-bitno različico DCP-o-"
-"matic.  Ponovno namestite DCP-o-matic s 64-bitnim namestitvenim programjem "
-"in poskusite znova."
+"matic.  Ponovno namestite DCP-o-matic s 64-bitnim namestitvenim programom in "
+"poskusite znova."
 
 #: src/lib/exceptions.cc:113
-#, fuzzy
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
 msgstr ""
-"Ta datoteka je KDM.  KDM-jem je treba dodati dcp vsebini tako, da z desno "
-"tipko miške kliknete vsebino in izberete »Dodaj KDM«."
+"Ta datoteka je KDM.  KDM-je je treba dodati vsebini DCP vsebini tako, da z "
+"desno tipko miške kliknete vsebino in izberete »Dodaj KDM«."
 
 #: src/lib/film.cc:524
-#, fuzzy
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
 msgstr ""
 "Ta film je nastal z novejšo različico DCP-o-matic in ga ni mogoče naložiti v "
-"to različico.  Oprosti!"
+"to različico.  Oprostite!"
 
 #: src/lib/film.cc:509
-#, fuzzy
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
 "create a new Film, re-add your content and set it up again.  Sorry!"
 msgstr ""
 "Ta film je nastal s starejšo različico DCP-o-matic in ga žal ni mogoče "
-"naložiti v to različico.  Ustvariti morate nov Film, znova dodati vsebino in "
-"jo znova nastaviti.  Oprosti!"
+"naložiti v to različico.  Ustvariti morate nov film, znova dodati vsebino in "
+"jo znova nastaviti.  Oprostite!"
 
 #: src/lib/util.cc:919
 msgid "Thursday"
 msgstr "Četrtek"
 
 #: src/lib/types.cc:139
-#, fuzzy
 msgid "Timed text"
-msgstr "Časovno besedilo"
+msgstr "Časovno opredeljeno besedilo"
 
 #: src/lib/dcp_content_type.cc:53
 msgid "Trailer"
@@ -1784,7 +1719,7 @@ msgstr "Prekodiranje %1"
 #: src/lib/dcp_content_type.cc:55
 #, fuzzy
 msgid "Transitional"
-msgstr "Predloga besedila Office Open XML (prehodni)"
+msgstr "Prehodni"
 
 #: src/lib/util.cc:915
 msgid "Tuesday"
@@ -1815,9 +1750,8 @@ msgid "Unrecognised audio sample format (%1)"
 msgstr "Neprepoznana oblika vzorca zvoka (%1)"
 
 #: src/lib/filter.cc:89
-#, fuzzy
 msgid "Unsharp mask and Gaussian blur"
-msgstr "Unsharp maska in gavsovska meglica"
+msgstr "Razostri masko in Gaussova zabrisanost"
 
 #: src/lib/ffmpeg_content.cc:549 src/lib/ffmpeg_content.cc:573
 #: src/lib/ffmpeg_content.cc:591 src/lib/ffmpeg_content.cc:593
@@ -1838,38 +1772,35 @@ msgstr "Neuporabljeno"
 #: src/lib/upmixer_a.cc:138 src/lib/upmixer_b.cc:148
 #, fuzzy
 msgid "Upmix L"
-msgstr "Upmix L"
+msgstr "Zmešaj navzgor L"
 
 #: src/lib/upmixer_a.cc:139 src/lib/upmixer_b.cc:149
 #, fuzzy
 msgid "Upmix R"
-msgstr "Upmix R"
+msgstr "Zmešaj navzgor R (D)"
 
 #: src/lib/util.cc:596
 #, fuzzy
 msgid "VI"
-msgstr "vietnamski (vi)"
+msgstr "VI"
 
 #: src/lib/verify_dcp_job.cc:55
 msgid "Verify DCP"
 msgstr "Preveri DCP"
 
 #: src/lib/filter.cc:79
-#, fuzzy
 msgid "Vertical flip"
-msgstr "Navpično preobrnjeno"
+msgstr "Navpično preobrni"
 
 #: src/lib/util.cc:565
-#, fuzzy
 msgid "Visually impaired"
-msgstr "Slabovidne osebe"
+msgstr "Za slabovidne osebe"
 
 #: src/lib/upload_job.cc:51
 msgid "Waiting"
 msgstr "Čakanje"
 
 #: src/lib/filter.cc:87
-#, fuzzy
 msgid "Weave filter"
 msgstr "Filter tkanja"
 
@@ -1886,33 +1817,31 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Še en filter za razpletanje"
 
 #: src/lib/hints.cc:198
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You are advised to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
-"Nastavljeni ste za DCP s hitrostjo %1 sl/s.  Te hitrosti sličic ne podpirajo "
-"vsi projektorji.  Svetujemo vam, da spremenite hitrost sličic DCP na %2 sl/s."
+"Nastavljeno imate za DCP s hitrostjo %1 sl/s.  Te hitrosti sličic ne "
+"podpirajo vsi projektorji.  Svetujemo vam, da spremenite hitrost sličic DCP "
+"na %2 sl/s."
 
 #: src/lib/hints.cc:182
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
-"Nastavljeni ste za DCP s hitrostjo %1 sl/s.  Te hitrosti sličic ne podpirajo "
-"vsi projektorji.  Morda boste želeli razmisliti o spremembi hitrosti sličic "
-"na %2 sl/s."
+"Nastavljeno imate za DCP s hitrostjo %1 sl/s.  Te hitrosti sličic ne "
+"podpirajo vsi projektorji.  Morda boste želeli razmisliti o spremembi "
+"hitrosti sličic na %2 sl/s."
 
 #: src/lib/hints.cc:192
-#, fuzzy
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
-"Nastavljeni ste za hitrost sličic DCP 30 sl/s, ki je ne podpirajo vsi "
+"Nastavljeno imate za hitrost sličic DCP 30 sl/s, ki je ne podpirajo vsi "
 "projektorji.  Zavedajte se, da imate morda težave z združljivostjo."
 
 #: src/lib/hints.cc:303
@@ -1924,42 +1853,39 @@ msgstr ""
 "na 3D, če ga želite predvajati na 3D-sistemu (npr. Real-D, MasterImage itn.)"
 
 #: src/lib/hints.cc:119
-#, fuzzy
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
-"Uporabljate DCP-o-maticov stereo-to-5.1 upmixer.  To je eksperimentalno in "
-"lahko povzroči slabo kakovost zvoka.  Če nadaljujete, morate poslušati "
-"rezultat DCP v kinu, da se prepričate, da se sliši dobro."
+"Uporabljate funkcijo programa DCP-o-matic za spremembo stereo zvoka v "
+"prostorski zvok (stereo-to-5.1).  To je poskusno in lahko povzroči slabo "
+"kakovost zvoka.  Če nadaljujete, morate poslušati rezultat DCP v "
+"kinodvorani, da se prepričate, da je slišati dobro."
 
 #: src/lib/hints.cc:287
-#, fuzzy
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
-"Imate %1 f, ki izgledajo, kot da so datoteke VOB z DVD-ja. Pridružite se "
-"jim, da zagotovite gladke povezave med datotekami."
+"Imate %1 datotek, za katere kaže, da so datoteke VOB z DVD-ja. Združite jih, "
+"da zagotovite gladke spoje med datotekami."
 
 #: src/lib/film.cc:1524
-#, fuzzy
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr ""
-"Imate več kot en kos atmos vsebine, in nimajo enake hitrosti okvirja.  "
-"Odstraniti morate nekaj vsebine Atmosa."
+"Imate več kot en kos vsebine Atmos, in nimajo enake hitrosti sličic.  "
+"Odstraniti morate nekaj vsebine Atmos."
 
 #: src/lib/hints.cc:560
-#, fuzzy
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
-"Imate prekrivanje zaprtih napisov, ki niso dovoljeni v Interop DCP.  "
-"Spremenite dcp standard v SMPTE."
+"Imate prekrivanje zaprtih napisov, ki niso dovoljeni v DCP-jih Interop.  "
+"Spremenite standard DCP v SMPTE."
 
 #: src/lib/hints.cc:271
 msgid ""
@@ -2027,7 +1953,6 @@ msgid "[moving images]"
 msgstr "[gibljive slike]"
 
 #: src/lib/image_content.cc:74
-#, fuzzy
 msgid "[still]"
 msgstr "[fotografija]"
 
@@ -2038,7 +1963,6 @@ msgstr "[podnaslovi]"
 #. / TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
 #. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:147
-#, fuzzy
 msgid "_reel%1"
 msgstr "_reel%1"
 
@@ -2067,12 +1991,10 @@ msgid "could not find stream information"
 msgstr "podatkov o toku ni mogoče najti"
 
 #: src/lib/reel_writer.cc:443
-#, fuzzy
 msgid "could not move atmos asset into the DCP (%1)"
-msgstr "sredstva atmosa ni bilo mogoče premakniti v DCP (%1)"
+msgstr "sredstva atmos ni bilo mogoče premakniti v DCP (%1)"
 
 #: src/lib/reel_writer.cc:426
-#, fuzzy
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "zvočnega sredstva ni bilo mogoče premakniti v DCP (%1)"
 
@@ -2139,12 +2061,11 @@ msgstr "ima drugačno hitrost sličic kot film."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:767
-#, fuzzy
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
-"ima začetni trim, tako da morajo biti njegovi podnapisi ali zaprti napisi "
-"ponovno napisani."
+"ima začetno obrezavo, tako da morajo biti njegovi podnaslovi ali zaprti "
+"napisi ponovno zapisani."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:669
@@ -2158,49 +2079,42 @@ msgstr "Je 4K, film pa 2K."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:600
-#, fuzzy
 msgid "it is Interop and the film is set to SMPTE."
-msgstr "To je Interop in film je nastavljen na SMPTE."
+msgstr "je Interop in film je nastavljen na SMPTE."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:604
-#, fuzzy
 msgid "it is SMPTE and the film is set to Interop."
-msgstr "To je SMPTE in film je nastavljen na Interop."
+msgstr "je SMPTE in film je nastavljen na Interop."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:714
-#, fuzzy
 msgid "it overlaps other audio content; remove the other content."
 msgstr "prekriva druge zvočne vsebine; odstranite drugo vsebino."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:772
-#, fuzzy
 msgid "it overlaps other text content; remove the other content."
 msgstr "prekriva drugo besedilno vsebino; odstranite drugo vsebino."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:679
-#, fuzzy
 msgid "it overlaps other video content; remove the other content."
-msgstr "prekriva druge video vsebine; odstranite drugo vsebino."
+msgstr "prekriva drugo video vsebino; odstranite drugo vsebino."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:635
-#, fuzzy
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
 msgstr ""
-"dolžine njenega kotla se razlikujejo od dolžin v filmu; nastavite način za "
-"vklop na \"razdelitev po video vsebini\"."
+"dolžine njegovih kolutov se razlikujejo od dolžin v filmu; nastavite način "
+"kolutov na »razdeli po video vsebini«."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:674
-#, fuzzy
 msgid "its video frame size differs from the film's."
-msgstr "velikost video okvirja se razlikuje od velikosti filma."
+msgstr "njegova velikost video sličice se razlikuje od velikosti v filmu."
 
 #. / TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:213
@@ -2208,7 +2122,6 @@ msgid "m"
 msgstr "m"
 
 #: src/lib/image_content.cc:92
-#, fuzzy
 msgid "moving"
 msgstr "gibljive slike"
 
@@ -2218,23 +2131,21 @@ msgstr "ime"
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:758
-#, fuzzy
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
-"eden od zaprtih napisov ima vstopno točko brez nič, zato jo je treba ponovno "
-"zaslišati."
+"eden od zaprtih napisov ima neničelno vstopno točko, zato ga je treba "
+"ponovno zapisati."
 
 #. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:745
-#, fuzzy
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
 msgstr ""
-"eden od njegovih podnaslovov ima vstopno točko brez nič, zato jo je treba "
-"ponovno navesti."
+"eden od njegovih podnaslovov ima neničelno vstopno točko, zato ga je treba "
+"ponovno zapisati."
 
 #. / TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:223
@@ -2246,7 +2157,6 @@ msgid "sRGB"
 msgstr "sRGB"
 
 #: src/lib/image_content.cc:90
-#, fuzzy
 msgid "still"
 msgstr "fotografija"
 
@@ -2255,6 +2165,5 @@ msgid "unknown"
 msgstr "neznano"
 
 #: src/lib/video_content.cc:522
-#, fuzzy
 msgid "video frames"
 msgstr "video sličice"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-10 11:20+0200\n"
+"PO-Revision-Date: 2022-07-17 07:46+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -722,9 +722,8 @@ msgid "Send translations..."
 msgstr "Pošlji prevode ..."
 
 #: src/tools/dcpomatic_player.cc:540
-#, fuzzy
 msgid "Set decode resolution to match display"
-msgstr "Nastavi ločljivost dekodiranja, tako da se ujema z zaslonom/platnom"
+msgstr "Nastavi ločljivost dekodiranja, tako da se ujema s prikazanim"
 
 #: src/tools/dcpomatic.cc:746
 msgid "Specify ZIP file"
