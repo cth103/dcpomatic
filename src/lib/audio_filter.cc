@@ -35,7 +35,7 @@ std::vector<float>
 AudioFilter::sinc_blackman (float cutoff, bool invert) const
 {
 	auto ir = std::vector<float>();
-	ir.reserve(_M + 1);
+	ir.resize(_M + 1);
 
 	/* Impulse response */
 
@@ -142,7 +142,7 @@ BandPassAudioFilter::BandPassAudioFilter (float transition_bandwidth, float lowe
 	auto lpf = sinc_blackman (lower, false);
 	auto hpf = sinc_blackman (higher, true);
 
-	_ir.reserve (_M + 1);
+	_ir.resize(_M + 1);
 	for (int i = 0; i <= _M; ++i) {
 		_ir[i] = lpf[i] + hpf[i];
 	}

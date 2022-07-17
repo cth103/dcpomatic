@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (audio_filter_impulse_kernel_test)
 {
 	AudioFilter f (0.02);
 
-	f._ir.reserve(f._M + 1);
+	f._ir.resize(f._M + 1);
 	f._ir[0] = 1;
 	for (int i = 1; i <= f._M; ++i) {
 		f._ir[i] = 0;
