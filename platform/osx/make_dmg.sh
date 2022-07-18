@@ -1,11 +1,35 @@
 #!/bin/bash
 #
-SYNTAX="make_dmg.sh <environment> <builddir> <apple-id> <apple-password> <arch1> [<arch2>]"
+SYNTAX="make_dmg.sh -e <environment> -r <builddir> -i <apple-id> -p <apple-password> -a <arch1> [-a <arch2>] [-b <id>]"
 #
-# e.g. make_dmg.sh /Users/carl/osx-environment /Users/carl/cdist foo@bar.net opensesame x86_64/10.10 arm64/11.0
+# e.g. make_dmg.sh -e /Users/carl/osx-environment -r /Users/carl/cdist -i foo@bar.net -p opensesame -a x86_64/10.10 -a arm64/11.0 [-b dcpomatic2_player]
 
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
+
+BUILD="main kdm server batch player playlist combiner editor disk"
+while getopts "e:r:i:p:a:b:" o; do
+	case "${o}" in
+		e)
+			ENV=${OPTARG}
+			;;
+		r)
+			ROOT=${OPTARG}
+			;;
+		i)
+			APPLE_ID=${OPTARG}
+			;;
+		p)
+			APPLE_PASSWORD=${OPTARG}
+			;;
+		a)
+			ARCHS+=("$OPTARG")
+			;;
+		b)
+			BUILD=${OPTARG}
+			;;
+	esac
+done
 
 # Use a tag if what we've built is exactly on one
 version=$(git describe --tags --abbrev=0 --match=v2.*.* --exact-match 2> /dev/null)
@@ -18,12 +42,9 @@ fi
 
 # DMG size in megabytes
 DMG_SIZE=256
-ENV=$1
-ROOT=$2
-APPLE_ID=$3
-APPLE_PASSWORD=$4
-ARCH1=$5
-ARCH2=$6
+
+ARCH1=${ARCHS[0]}
+ARCH2=${ARCHS[1]}
 
 APPLICATION_IDENTITY="Developer ID Application: Carl Hetherington (R82DXSR997)"
 INSTALLER_IDENTITY="Developer ID Installer: Carl Hetherington (R82DXSR997)"
@@ -463,111 +484,128 @@ else
 	prefix=$ROOT/$ARCH2
 fi
 
-# DCP-o-matic main
-setup "DCP-o-matic 2.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$approot/MacOS"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacOS"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
-copy $ROOT bin/ffprobe "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2"
+if [[ "$BUILD" == *main* ]]; then
+	# DCP-o-matic main
+	setup "DCP-o-matic 2.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$approot/MacOS"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacOS"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
+	copy $ROOT bin/ffprobe "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2"
+fi
 
-# DCP-o-matic KDM Creator
-setup "DCP-o-matic 2 KDM Creator.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic KDM Creator" "dcpomatic2_verify openssl dcpomatic2_kdm_cli dcpomatic2_kdm"
+if [[ "$BUILD" == *kdm* ]]; then
+	# DCP-o-matic KDM Creator
+	setup "DCP-o-matic 2 KDM Creator.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm "$approot/MacOS"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic KDM Creator" "dcpomatic2_verify openssl dcpomatic2_kdm_cli dcpomatic2_kdm"
+fi
 
-# DCP-o-matic Encode Server
-setup "DCP-o-matic 2 Encode Server.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$approot/MacOS"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Encode Server" "dcpomatic2_verify openssl dcpomatic2_server_cli dcpomatic2_server"
+if [[ "$BUILD" == *server* ]]; then
+	# DCP-o-matic Encode Server
+	setup "DCP-o-matic 2 Encode Server.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server "$approot/MacOS"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Encode Server" "dcpomatic2_verify openssl dcpomatic2_server_cli dcpomatic2_server"
+fi
 
-# DCP-o-matic Batch Converter
-setup "DCP-o-matic 2 Batch converter.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Batch Converter" "dcpomatic2_verify openssl dcpomatic2_batch"
+if [[ "$BUILD" == *batch* ]]; then
+	# DCP-o-matic Batch Converter
+	setup "DCP-o-matic 2 Batch converter.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Batch Converter" "dcpomatic2_verify openssl dcpomatic2_batch"
+fi
 
-# DCP-o-matic Player
-setup "DCP-o-matic 2 Player.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Player" "dcpomatic2_verify openssl dcpomatic2_player"
+if [[ "$BUILD" == *player* ]]; then
+	# DCP-o-matic Player
+	setup "DCP-o-matic 2 Player.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Player" "dcpomatic2_verify openssl dcpomatic2_player"
+fi
 
-# DCP-o-matic Playlist Editor
-setup "DCP-o-matic 2 Playlist Editor.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_playlist "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" "dcpomatic2_verify openssl dcpomatic2_playlist"
+if [[ "$BUILD" == *playlist* ]]; then
+	# DCP-o-matic Playlist Editor
+	setup "DCP-o-matic 2 Playlist Editor.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_playlist "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" "dcpomatic2_verify openssl dcpomatic2_playlist"
+fi
 
-# DCP-o-matic Combiner
-setup "DCP-o-matic 2 Combiner.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_combiner "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Combiner" "dcpomatic2_verify openssl dcpomatic2_combiner"
+if [[ "$BUILD" == *combiner* ]]; then
+	# DCP-o-matic Combiner
+	setup "DCP-o-matic 2 Combiner.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_combiner "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Combiner" "dcpomatic2_verify openssl dcpomatic2_combiner"
+fi
 
-# DCP-o-matic Editor
-setup "DCP-o-matic 2 Editor.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_editor "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_editor.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_editor" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
-make_dmg "$appdir" "" "DCP-o-matic Editor" "dcpomatic2_verify openssl dcpomatic2_editor"
+if [[ "$BUILD" == *editor* ]]; then
+	# DCP-o-matic Editor
+	setup "DCP-o-matic 2 Editor.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_editor "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_editor.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_editor" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Editor" "dcpomatic2_verify openssl dcpomatic2_editor"
+fi
 
-# DCP-o-matic Disk Writer .app
-setup "DCP-o-matic 2 Disk Writer.app"
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk "$approot/MacOS"
-copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
-copy_verify
-cp $prefix/src/dcpomatic/platform/osx/uninstall_disk.applescript "$approot/Resources"
-cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_disk.Info.plist "$approot/Info.plist"
-rl=("$approot/MacOS/dcpomatic2_disk" "$approot/Frameworks/"*.dylib)
-relink_relative "${rl[@]}"
+if [[ "$BUILD" == *disk* ]]; then 
+	# DCP-o-matic Disk Writer .app
+	setup "DCP-o-matic 2 Disk Writer.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	cp $prefix/src/dcpomatic/platform/osx/uninstall_disk.applescript "$approot/Resources"
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_disk.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_disk" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
 
-# DCP-o-matic Disk Writer daemon .pkg
+	# DCP-o-matic Disk Writer daemon .pkg
 
-pkgbase=tmp-disk-writer
-rm -rf $pkgbase
-mkdir $pkgbase
-pkgbin=$pkgbase/bin
-pkgroot=$pkgbase/root
+	pkgbase=tmp-disk-writer
+	rm -rf $pkgbase
+	mkdir $pkgbase
+	pkgbin=$pkgbase/bin
+	pkgroot=$pkgbase/root
 
-mkdir -p $pkgroot/Library/LaunchDaemons
-cat > $pkgroot/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist <<EOF
+	mkdir -p $pkgroot/Library/LaunchDaemons
+	cat > $pkgroot/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -602,33 +640,34 @@ cat > $pkgroot/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist <<EOF
 </plist>
 EOF
 
-# Get the binaries together in $pkgbin then move them to the
-# place with spaces in the filename to avoid some of the pain of escaping
+	# Get the binaries together in $pkgbin then move them to the
+	# place with spaces in the filename to avoid some of the pain of escaping
 
-mkdir $pkgbin
-copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk_writer "$pkgbin"
-copy_libs "$pkgbin"
+	mkdir $pkgbin
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk_writer "$pkgbin"
+	copy_libs "$pkgbin"
 
-rl=("$pkgbin/dcpomatic2_disk_writer" "$pkgbin/"*.dylib)
-relink_absolute "/Library/Application Support/com.dcpomatic" "${rl[@]}"
+	rl=("$pkgbin/dcpomatic2_disk_writer" "$pkgbin/"*.dylib)
+	relink_absolute "/Library/Application Support/com.dcpomatic" "${rl[@]}"
 
-mkdir $pkgbase/scripts
-cat > $pkgbase/scripts/postinstall <<EOF
+	mkdir $pkgbase/scripts
+	cat > $pkgbase/scripts/postinstall <<EOF
 #!/bin/sh
 /bin/launchctl unload "/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist"
 /bin/launchctl load "/Library/LaunchDaemons/com.dcpomatic.disk.writer.plist"
 exit 0
 EOF
-chmod gou+x $pkgbase/scripts/postinstall
+	chmod gou+x $pkgbase/scripts/postinstall
 
-find "$pkgbin" -iname "*.dylib" -type f -print0 | while IFS= read -r -d '' f; do
-    sign "$f"
-done
-sign "$pkgbin/dcpomatic2_disk_writer"
+	find "$pkgbin" -iname "*.dylib" -type f -print0 | while IFS= read -r -d '' f; do
+		sign "$f"
+	done
+	sign "$pkgbin/dcpomatic2_disk_writer"
 
-mkdir -p "$pkgroot/Library/Application Support/com.dcpomatic"
-mv $pkgbin/* "$pkgroot/Library/Application Support/com.dcpomatic/"
-pkgbuild --root $pkgroot --identifier com.dcpomatic.disk.writer --scripts $pkgbase/scripts "DCP-o-matic Disk Writer.pkg"
+	mkdir -p "$pkgroot/Library/Application Support/com.dcpomatic"
+	mv $pkgbin/* "$pkgroot/Library/Application Support/com.dcpomatic/"
+	pkgbuild --root $pkgroot --identifier com.dcpomatic.disk.writer --scripts $pkgbase/scripts "DCP-o-matic Disk Writer.pkg"
 
-make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" "dcpomatic2_verify openssl dcpomatic2_disk"
+	make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" "dcpomatic2_verify openssl dcpomatic2_disk"
+fi
 
