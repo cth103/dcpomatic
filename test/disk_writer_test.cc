@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (disk_writer_test1)
 	/* Some arbitrary file size here */
 	make_random_file (dcp / "foo", 1024 * 1024 * 32 - 6128);
 
-	dcpomatic::write (dcp, disk.string(), partition.string(), nullptr);
+	dcpomatic::write ({dcp}, disk.string(), partition.string(), nullptr);
 
 	BOOST_CHECK_EQUAL (system("/sbin/e2fsck -fn build/test/disk_writer_test1.partition"), 0);
 
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 	make_empty_file(partition, 31043571712LL);
 
 	auto const dcp = TestPaths::private_data() / "xm";
-	dcpomatic::write(dcp, disk.string(), partition.string(), nullptr);
+	dcpomatic::write({dcp}, disk.string(), partition.string(), nullptr);
 
 	BOOST_CHECK_EQUAL(system("/sbin/e2fsck -fn build/test/disk_writer_test2.partition"), 0);
 
@@ -177,6 +177,53 @@ BOOST_AUTO_TEST_CASE (disk_writer_test2)
 		auto path_in_check = check / original.path().filename();
 		system("e2cp " + partition.string() + ":" + path_in_copy.string() + " " + path_in_check.string());
 		check_file(original.path(), path_in_check);
+	}
+
+	cl.run();
+}
+
+
+
+BOOST_AUTO_TEST_CASE (disk_writer_test3)
+{
+	using namespace boost::filesystem;
+	using namespace boost::process;
+
+	remove_all("build/test/disk_writer_test3.disk");
+	remove_all("build/test/disk_writer_test3.partition");
+	remove_all("build/test/disk_writer_test3");
+
+	Cleanup cl;
+
+	path const disk = "build/test/disk_writer_test3.disk";
+	path const partition = "build/test/disk_writer_test3.partition";
+
+	cl.add(disk);
+	cl.add(partition);
+
+	/* Using empty files here still triggers the bug and is much quicker than using random data */
+	make_empty_file(disk,      31043616768LL);
+	make_empty_file(partition, 31043571712LL);
+
+	vector<boost::filesystem::path> const dcps = {
+		TestPaths::private_data() / "xm",
+		TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV"
+	};
+	dcpomatic::write(dcps, disk.string(), partition.string(), nullptr);
+
+	BOOST_CHECK_EQUAL(system("/sbin/e2fsck -fn build/test/disk_writer_test3.partition"), 0);
+
+	path const check = "build/test/disk_writer_test3";
+	create_directory(check);
+	cl.add(check);
+
+	for (auto dcp: dcps) {
+		for (auto original: directory_iterator(dcp)) {
+			auto path_in_copy = dcp.filename() / original.path().filename();
+			auto path_in_check = check / original.path().filename();
+			system("e2cp " + partition.string() + ":" + path_in_copy.string() + " " + path_in_check.string());
+			check_file(original.path(), path_in_check);
+		}
 	}
 
 	cl.run();

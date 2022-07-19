@@ -25,7 +25,7 @@
 class CopyToDriveJob : public Job
 {
 public:
-	CopyToDriveJob (boost::filesystem::path dcp, Drive drive, Nanomsg& nanomsg);
+	CopyToDriveJob (std::vector<boost::filesystem::path> const& dcps, Drive drive, Nanomsg& nanomsg);
 
 	std::string name () const override;
 	std::string json_name () const override;
@@ -37,7 +37,7 @@ public:
 private:
 	void count (boost::filesystem::path dir, uint64_t& total_bytes);
 	void copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total);
-	boost::filesystem::path _dcp;
+	std::vector<boost::filesystem::path> _dcps;
 	Drive _drive;
 	Nanomsg& _nanomsg;
 };

@@ -195,15 +195,26 @@ try
 				}
 			});
 	} else if (*s == DISK_WRITER_WRITE) {
-		auto dcp_path_opt = nanomsg->receive (LONG_TIMEOUT);
 		auto device_opt = nanomsg->receive (LONG_TIMEOUT);
-		if (!dcp_path_opt || !device_opt) {
+		if (!device_opt) {
 			LOG_DISK_NC("Failed to receive write request");
 			throw CommunicationFailedError();
 		}
-
-		auto dcp_path = *dcp_path_opt;
 		auto device = *device_opt;
+
+		vector<boost::filesystem::path> dcp_paths;
+		while (true) {
+			auto dcp_path_opt = nanomsg->receive (LONG_TIMEOUT);
+			if (!dcp_path_opt) {
+				LOG_DISK_NC("Failed to receive write request");
+				throw CommunicationFailedError();
+			}
+			if (*dcp_path_opt != "") {
+				dcp_paths.push_back(*dcp_path_opt);
+			} else {
+				break;
+			}
+		}
 
 		/* Do some basic sanity checks; this is a bit belt-and-braces but it can't hurt... */
 
@@ -249,11 +260,14 @@ try
 			return true;
 		}
 
-		LOG_DISK ("Here we go writing %1 to %2", dcp_path, device);
+		LOG_DISK("Here we go writing these to %1", device);
+		for (auto dcp: dcp_paths) {
+			LOG_DISK("  %1", dcp);
+		}
 
 		request_privileges (
 			"com.dcpomatic.write-drive",
-			[dcp_path, device]() {
+			[dcp_paths, device]() {
 #if defined(DCPOMATIC_LINUX)
 				auto posix_partition = device;
 				/* XXX: don't know if this logic is sensible */
@@ -262,12 +276,12 @@ try
 				} else {
 					posix_partition += "1";
 				}
-				dcpomatic::write (dcp_path, device, posix_partition, nanomsg);
+				dcpomatic::write (dcp_paths, device, posix_partition, nanomsg);
 #elif defined(DCPOMATIC_OSX)
 				auto fast_device = boost::algorithm::replace_first_copy (device, "/dev/disk", "/dev/rdisk");
-				dcpomatic::write (dcp_path, fast_device, fast_device + "s1", nanomsg);
+				dcpomatic::write (dcp_paths, fast_device, fast_device + "s1", nanomsg);
 #elif defined(DCPOMATIC_WINDOWS)
-				dcpomatic::write (dcp_path, device, "", nanomsg);
+				dcpomatic::write (dcp_paths, device, "", nanomsg);
 #endif
 			},
 			[]() {

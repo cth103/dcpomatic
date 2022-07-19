@@ -18,43 +18,52 @@
 
 */
 
-#include "disk_writer_messages.h"
-#include "copy_to_drive_job.h"
+
 #include "compose.hpp"
-#include "exceptions.h"
+#include "copy_to_drive_job.h"
 #include "dcpomatic_log.h"
+#include "disk_writer_messages.h"
+#include "exceptions.h"
 #include <dcp/raw_convert.h>
 #include <nanomsg/nn.h>
-#include <unistd.h>
 #include <fcntl.h>
+#include <unistd.h>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <iostream>
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
 using std::min;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 using dcp::raw_convert;
 
-CopyToDriveJob::CopyToDriveJob (boost::filesystem::path dcp, Drive drive, Nanomsg& nanomsg)
+
+CopyToDriveJob::CopyToDriveJob(std::vector<boost::filesystem::path> const& dcps, Drive drive, Nanomsg& nanomsg)
 	: Job (shared_ptr<Film>())
-	, _dcp (dcp)
+	, _dcps (dcps)
 	, _drive (drive)
 	, _nanomsg (nanomsg)
 {
 
 }
 
+
 string
 CopyToDriveJob::name () const
 {
-	return String::compose (_("Copying %1\nto %2"), _dcp.filename().string(), _drive.description());
+	if (_dcps.size() == 1) {
+		return String::compose(_("Copying %1\nto %2"), _dcps[0].filename().string(), _drive.description());
+	}
+
+	return String::compose(_("Copying DCPs to %1"), _drive.description());
 }
+
 
 string
 CopyToDriveJob::json_name () const
@@ -65,8 +74,17 @@ CopyToDriveJob::json_name () const
 void
 CopyToDriveJob::run ()
 {
-	LOG_DISK("Sending write request to disk writer for %1 %2", _dcp.string(), _drive.device());
-	if (!_nanomsg.send(String::compose(DISK_WRITER_WRITE "\n%1\n%2\n", _dcp.string(), _drive.device()), 2000)) {
+	LOG_DISK("Sending write requests to disk %1 for:", _drive.device());
+	for (auto dcp: _dcps) {
+		LOG_DISK("%1", dcp.string());
+	}
+
+	string request = String::compose(DISK_WRITER_WRITE "\n%1\n", _drive.device());
+	for (auto dcp: _dcps) {
+		request += String::compose("%1\n", dcp.string());
+	}
+	request += "\n";
+	if (!_nanomsg.send(request, 2000)) {
 		LOG_DISK_NC("Failed to send write request.");
 		throw CommunicationFailedError ();
 	}

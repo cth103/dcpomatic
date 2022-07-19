@@ -21,6 +21,7 @@
 
 #include "wx/disk_warning_dialog.h"
 #include "wx/drive_wipe_warning_dialog.h"
+#include "wx/editable_list.h"
 #include "wx/job_manager_view.h"
 #include "wx/message_dialog.h"
 #include "wx/try_unmount_dialog.h"
@@ -57,6 +58,7 @@ using std::exception;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -68,6 +70,33 @@ enum {
 	ID_tools_uninstall = 1,
 };
 #endif
+
+
+class DirDialogWrapper : public wxDirDialog
+{
+public:
+	DirDialogWrapper (wxWindow* parent)
+		: wxDirDialog (parent, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST)
+	{
+
+	}
+
+	boost::optional<boost::filesystem::path> get () const
+	{
+		auto const dcp = boost::filesystem::path(wx_to_std(GetPath()));
+		if (!boost::filesystem::exists(dcp / "ASSETMAP") && !boost::filesystem::exists(dcp / "ASSETMAP.xml")) {
+			error_dialog (nullptr, _("No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP folder."));
+			return {};
+		}
+
+		return dcp;
+	}
+
+	void set (boost::filesystem::path)
+	{
+		/* Not used */
+	}
+};
 
 
 class DOMFrame : public wxFrame
@@ -99,12 +128,19 @@ public:
 
 		int r = 0;
 		add_label_to_sizer (grid, overall_panel, _("DCP"), true, wxGBPosition(r, 0));
-		auto dcp_name_sizer = new wxBoxSizer (wxHORIZONTAL);
-		_dcp_name = new wxStaticText (overall_panel, wxID_ANY, wxEmptyString);
-		dcp_name_sizer->Add (_dcp_name, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
-		_dcp_open = new wxButton (overall_panel, wxID_ANY, _("Open..."));
-		dcp_name_sizer->Add (_dcp_open, 0);
-		grid->Add (dcp_name_sizer, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+		auto dcp_sizer = new wxBoxSizer (wxHORIZONTAL);
+		auto dcps = new EditableList<boost::filesystem::path, DirDialogWrapper>(
+			overall_panel,
+			{ EditableListColumn(_("DCP"), 300, true) },
+			boost::bind(&DOMFrame::dcp_paths, this),
+			boost::bind(&DOMFrame::set_dcp_paths, this, _1),
+			[](boost::filesystem::path p, int) { return p.filename().string(); },
+			false,
+			EditableListButton::NEW | EditableListButton::REMOVE
+			);
+
+		dcp_sizer->Add(dcps, 1, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+		grid->Add(dcp_sizer, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 		++r;
 
 		add_label_to_sizer (grid, overall_panel, _("Drive"), true, wxGBPosition(r, 0));
@@ -126,7 +162,6 @@ public:
 
 		grid->AddGrowableCol (1);
 
-		_dcp_open->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::open, this));
 		_copy->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::copy, this));
 		_drive->Bind (wxEVT_CHOICE, boost::bind(&DOMFrame::setup_sensitivity, this));
 		_drive_refresh->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::drive_refresh, this));
@@ -180,18 +215,18 @@ public:
 		dcpomatic_sleep_seconds (1);
 	}
 
-	void set_dcp (boost::filesystem::path dcp)
+	void set_dcp_paths (vector<boost::filesystem::path> dcps)
 	{
-		if (!boost::filesystem::exists(dcp / "ASSETMAP") && !boost::filesystem::exists(dcp / "ASSETMAP.xml")) {
-			error_dialog (nullptr, _("No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP folder."));
-			return;
-		}
-
-		_dcp_path = dcp;
-		_dcp_name->SetLabel (std_to_wx(dcp.filename().string()));
+		_dcp_paths = dcps;
+		setup_sensitivity();
 	}
 
 private:
+	vector<boost::filesystem::path> dcp_paths() const
+	{
+		return _dcp_paths;
+	}
+
 	void sized (wxSizeEvent& ev)
 	{
 		_sizer->Layout ();
@@ -236,22 +271,6 @@ private:
 		ev.Skip ();
 	}
 
-
-	void open ()
-	{
-		auto d = new wxDirDialog (this, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
-		int r = d->ShowModal ();
-		boost::filesystem::path const path (wx_to_std(d->GetPath()));
-		d->Destroy ();
-
-		if (r != wxID_OK) {
-			return;
-		}
-
-		set_dcp (path);
-		setup_sensitivity ();
-	}
-
 	void copy ()
 	{
 		/* Check that the selected drive still exists and update its properties if so */
@@ -262,7 +281,7 @@ private:
 		}
 
 		DCPOMATIC_ASSERT (_drive->GetSelection() != wxNOT_FOUND);
-		DCPOMATIC_ASSERT (static_cast<bool>(_dcp_path));
+		DCPOMATIC_ASSERT (!_dcp_paths.empty());
 
 		auto ping = [this](int attempt) {
 			if (_nanomsg.send(DISK_WRITER_PING "\n", 1000)) {
@@ -356,7 +375,7 @@ private:
 			return;
 		}
 
-		JobManager::instance()->add(make_shared<CopyToDriveJob>(*_dcp_path, _drives[_drive->GetSelection()], _nanomsg));
+		JobManager::instance()->add(make_shared<CopyToDriveJob>(_dcp_paths, _drives[_drive->GetSelection()], _nanomsg));
 		setup_sensitivity ();
 	}
 
@@ -385,16 +404,14 @@ private:
 
 	void setup_sensitivity ()
 	{
-		_copy->Enable (static_cast<bool>(_dcp_path) && _drive->GetSelection() != wxNOT_FOUND && !JobManager::instance()->work_to_do());
+		_copy->Enable (!_dcp_paths.empty() && _drive->GetSelection() != wxNOT_FOUND && !JobManager::instance()->work_to_do());
 	}
 
-	wxStaticText* _dcp_name;
-	wxButton* _dcp_open;
 	wxChoice* _drive;
 	wxButton* _drive_refresh;
 	wxButton* _copy;
 	JobManagerView* _jobs;
-	boost::optional<boost::filesystem::path> _dcp_path;
+	std::vector<boost::filesystem::path> _dcp_paths;
 	std::vector<Drive> _drives;
 #ifndef DCPOMATIC_OSX
 	boost::process::child* _writer;
@@ -474,7 +491,7 @@ public:
 			_frame->Show ();
 
 			if (_dcp_to_write) {
-				_frame->set_dcp (*_dcp_to_write);
+				_frame->set_dcp_paths({*_dcp_to_write});
 			}
 
 			signal_manager = new wxSignalManager (this);

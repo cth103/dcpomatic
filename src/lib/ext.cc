@@ -78,16 +78,18 @@ uint64_t constexpr block_size = 4096 * 4096;
 
 static
 void
-count (boost::filesystem::path dir, uint64_t& total_bytes)
+count (std::vector<boost::filesystem::path> dirs, uint64_t& total_bytes)
 {
-	dir = dcp::fix_long_path (dir);
-
 	using namespace boost::filesystem;
-	for (auto i: directory_iterator(dir)) {
-		if (is_directory(i)) {
-			count (i, total_bytes);
-		} else {
-			total_bytes += file_size (i);
+
+	for (auto dir: dirs) {
+		dir = dcp::fix_long_path(dir);
+		for (auto path: directory_iterator(dir)) {
+			if (is_directory(path)) {
+				count({path}, total_bytes);
+			} else {
+				total_bytes += file_size(path);
+			}
 		}
 	}
 }
@@ -277,9 +279,9 @@ format_progress (void* context, float progress)
 
 void
 #ifdef DCPOMATIC_WINDOWS
-dcpomatic::write (boost::filesystem::path dcp_path, string device, string, Nanomsg* nanomsg)
+dcpomatic::write (vector<boost::filesystem::path> dcp_paths, string device, string, Nanomsg* nanomsg)
 #else
-dcpomatic::write (boost::filesystem::path dcp_path, string device, string posix_partition, Nanomsg* nanomsg)
+dcpomatic::write (vector<boost::filesystem::path> dcp_paths, string device, string posix_partition, Nanomsg* nanomsg)
 #endif
 try
 {
@@ -390,11 +392,13 @@ try
 	LOG_DISK_NC ("Mounted device");
 
 	uint64_t total_bytes = 0;
-	count (dcp_path, total_bytes);
+	count (dcp_paths, total_bytes);
 
 	uint64_t total_remaining = total_bytes;
 	vector<CopiedFile> copied_files;
-	copy (dcp_path, "/mp", total_remaining, total_bytes, copied_files, nanomsg);
+	for (auto dcp_path: dcp_paths) {
+		copy (dcp_path, "/mp", total_remaining, total_bytes, copied_files, nanomsg);
+	}
 
 	/* Unmount and re-mount to make sure the write has finished */
 	r = ext4_umount("/mp/");
