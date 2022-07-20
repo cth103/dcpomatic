@@ -261,6 +261,8 @@ AudioPanel::film_content_changed (int property)
 		setup_peak ();
 		layout ();
 	} else if (property == AudioContentProperty::GAIN) {
+		/* This is a bit aggressive but probably not so bad */
+		_peak_cache.clear();
 		setup_peak ();
 	} else if (property == DCPContentProperty::REFERENCE_AUDIO) {
 		if (ac.size() == 1) {
