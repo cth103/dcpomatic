@@ -38,8 +38,10 @@
 #include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/cross.h"
+#include "lib/dcpomatic_log.h"
 #include "lib/dkdm_wrapper.h"
 #include "lib/exceptions.h"
+#include "lib/file_log.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
 #include "lib/screen.h"
@@ -203,6 +205,8 @@ public:
 		_export_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::export_dkdm_clicked, this));
 
 		setup_sensitivity ();
+
+		dcpomatic_log = make_shared<FileLog>(State::write_path("kdm.log"));
 	}
 
 private:
