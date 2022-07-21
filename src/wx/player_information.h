@@ -41,8 +41,11 @@ private:
 	void periodic_update ();
 
 	std::weak_ptr<FilmViewer> _viewer;
+	wxPanel* _kdm_panel;
 	wxSizer* _sizer;
 	wxStaticText** _dcp;
+	wxStaticText* _kdm_from;
+	wxStaticText* _kdm_to;
 	wxStaticText* _dropped;
 	wxStaticText* _decode_resolution;
 	boost::scoped_ptr<wxTimer> _timer;

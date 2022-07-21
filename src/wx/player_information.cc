@@ -73,6 +73,21 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 	}
 
 	{
+		_kdm_panel = new wxPanel(this, wxID_ANY);
+		auto s = new wxBoxSizer(wxVERTICAL);
+		add_label_to_sizer(s, _kdm_panel, _("KDM"), false, 0)->SetFont(title_font);
+		auto g = new wxGridBagSizer(0, DCPOMATIC_SIZER_GAP);
+		add_label_to_sizer(g, _kdm_panel, _("Valid from"), true, wxGBPosition(0, 0));
+		_kdm_from = add_label_to_sizer(g, _kdm_panel, wxT(""), false, wxGBPosition(0, 1));
+		add_label_to_sizer(g, _kdm_panel, _("Valid to"), true, wxGBPosition(1, 0));
+		_kdm_to = add_label_to_sizer(g, _kdm_panel, wxT(""), false, wxGBPosition(1, 1));
+		auto pad = new wxBoxSizer(wxVERTICAL);
+		s->Add(g, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		_kdm_panel->SetSizer(s);
+		_sizer->Add(_kdm_panel, 1, wxEXPAND | wxALL, 6);
+	}
+
+	{
 		auto s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
 		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
@@ -128,6 +143,7 @@ PlayerInformation::triggered_update ()
 			checked_set (_dcp[r], wxT(""));
 		}
 		checked_set (_decode_resolution, wxT(""));
+		_kdm_panel->Hide();
 		return;
 	}
 
@@ -181,6 +197,17 @@ PlayerInformation::triggered_update ()
 	checked_set (_decode_resolution, wxString::Format(_("Decode resolution: %dx%d"), decode.width, decode.height));
 
 	DCPOMATIC_ASSERT(r <= dcp_lines);
+
+	if (dcp->encrypted() && dcp->kdm()) {
+		_kdm_panel->Show();
+		auto const kdm = *dcp->kdm();
+		auto const before = kdm.not_valid_before();
+		checked_set(_kdm_from, wxString::Format(_("%s %s"), std_to_wx(before.date()), std_to_wx(before.time_of_day(true, false))));
+		auto const after = kdm.not_valid_after();
+		checked_set(_kdm_to, wxString::Format(_("%s %s"), std_to_wx(after.date()), std_to_wx(after.time_of_day(true, false))));
+	} else {
+		_kdm_panel->Hide();
+	}
 
 	_sizer->Layout ();
 }
