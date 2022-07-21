@@ -18,6 +18,7 @@
 
 */
 
+
 #include "player_information.h"
 #include "wx_util.h"
 #include "film_viewer.h"
@@ -28,15 +29,18 @@
 #include "lib/dcp_content.h"
 #include "lib/film.h"
 
+
 using std::cout;
-using std::string;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::string;
+using std::weak_ptr;
 using boost::optional;
+
 
 /* This should be even */
 static int const dcp_lines = 6;
+
 
 PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 	: wxPanel (parent)
@@ -51,7 +55,7 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 	DCPOMATIC_ASSERT ((dcp_lines % 2) == 0);
 
 	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		auto s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
 		for (int i = 0; i < dcp_lines / 2; ++i) {
 			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
@@ -60,7 +64,7 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 	}
 
 	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		auto s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, wxT(" "), false, 0);
 		for (int i = dcp_lines / 2; i < dcp_lines; ++i) {
 			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
@@ -69,7 +73,7 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 	}
 
 	{
-		wxSizer* s = new wxBoxSizer (wxVERTICAL);
+		auto s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
 		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
 		_decode_resolution = add_label_to_sizer(s, this, wxT(""), false, 0);
@@ -85,12 +89,13 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 	_timer->Start (500);
 }
 
+
 void
 PlayerInformation::periodic_update ()
 {
-	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	auto fv = _viewer.lock ();
 	if (fv) {
-		wxString s = wxString::Format(_("Dropped frames: %d"), fv->dropped() + fv->errored());
+		auto s = wxString::Format(_("Dropped frames: %d"), fv->dropped() + fv->errored());
 		if (fv->errored() == 1) {
 			s += wxString::Format(_(" (%d error)"), fv->errored());
 		} else if (fv->errored() > 1) {
@@ -100,17 +105,18 @@ PlayerInformation::periodic_update ()
 	}
 }
 
+
 void
 PlayerInformation::triggered_update ()
 {
-	shared_ptr<FilmViewer> fv = _viewer.lock ();
+	auto fv = _viewer.lock ();
 	if (!fv) {
 		return;
 	}
 
 	shared_ptr<DCPContent> dcp;
 	if (fv->film()) {
-		ContentList content = fv->film()->content();
+		auto content = fv->film()->content();
 		if (content.size() == 1) {
 			dcp = dynamic_pointer_cast<DCPContent>(content.front());
 		}
@@ -157,7 +163,7 @@ PlayerInformation::triggered_update ()
 	vfr = dcp->video_frame_rate ();
 	DCPOMATIC_ASSERT (vfr);
 
-	string const len = String::compose(
+	auto const len = String::compose(
 		wx_to_std(_("Length: %1 (%2 frames)")),
 		time_to_hmsf(dcp->full_length(fv->film()), lrint(*vfr)),
 		dcp->full_length(fv->film()).frames_round(*vfr)
@@ -165,8 +171,8 @@ PlayerInformation::triggered_update ()
 
 	checked_set (_dcp[r++], std_to_wx(len));
 
-	dcp::Size decode = dcp->video->size();
-	optional<int> reduction = fv->dcp_decode_reduction();
+	auto decode = dcp->video->size();
+	auto reduction = fv->dcp_decode_reduction();
 	if (reduction) {
 		decode.width /= pow(2, *reduction);
 		decode.height /= pow(2, *reduction);
