@@ -206,6 +206,8 @@ DCPContent::read_sub_directory (boost::filesystem::path p)
 		} else if (boost::filesystem::is_directory(i.path()) && i.path().filename() != ".AppleDouble") {
 			LOG_GENERAL ("Inside there's directory %1", i.path().string());
 			read_sub_directory (i.path());
+		} else {
+			LOG_GENERAL("Ignoring %1 from inside", i.path().string());
 		}
 	}
 }
