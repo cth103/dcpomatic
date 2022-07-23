@@ -207,7 +207,7 @@ DCPContent::read_sub_directory (boost::filesystem::path p)
 			LOG_GENERAL ("Inside there's directory %1", i.path().string());
 			read_sub_directory (i.path());
 		} else {
-			LOG_GENERAL("Ignoring %1 from inside", i.path().string());
+			LOG_GENERAL("Ignoring %1 from inside: status is %2", i.path().string(), static_cast<int>(boost::filesystem::status(i.path()).type()));
 		}
 	}
 }
