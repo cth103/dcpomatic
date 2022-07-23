@@ -41,5 +41,6 @@ test/README.aux
 .ccls-cache
 compile_commands.json
 vim-lsp.log
+.cache
 
 lock
