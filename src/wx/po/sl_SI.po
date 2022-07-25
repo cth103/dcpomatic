@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-24 19:40+0200\n"
+"PO-Revision-Date: 2022-07-25 14:53+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -171,7 +171,7 @@ msgstr "3D – zgoraj/spodaj"
 
 #: src/wx/wx_util.cc:498
 msgid "4 - L/C/R/Lfe"
-msgstr "4 - L/S/D/Lfe"
+msgstr "4 – L/S/D/Lfe"
 
 #: src/wx/dcp_panel.cc:920
 msgid "48kHz"
@@ -769,7 +769,7 @@ msgstr "Pretvorba barv"
 #. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:194
 msgid "Colour|Custom"
-msgstr "Barva| Po meri"
+msgstr "Barva|Po meri"
 
 #: src/wx/full_config_dialog.cc:1344
 msgid "Company name"
@@ -786,7 +786,7 @@ msgstr "Prilagoditvena datoteka"
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1572 src/wx/player_config_dialog.cc:276
 msgid "Config|Timing"
-msgstr "Config| Časovna usklajenost"
+msgstr "Prilagoditev|Časovna usklajenost"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Confirm KDM email"
@@ -827,7 +827,7 @@ msgstr "Kontrast"
 
 #: src/wx/text_panel.cc:108
 msgid "Coord|Y"
-msgstr "Coord| Y"
+msgstr "Koordinate|Y"
 
 #: src/wx/dcp_panel.cc:89
 msgid "Copy as name"
@@ -1097,9 +1097,8 @@ msgid "Details..."
 msgstr "Podrobnosti ..."
 
 #: src/wx/config_dialog.cc:978
-#, fuzzy
 msgid "Direct Sound"
-msgstr "Neposredni zvok"
+msgstr "Direct Sound"
 
 #: src/wx/smpte_metadata_dialog.cc:116
 msgid "Distributor"
@@ -1394,9 +1393,8 @@ msgid "Free, open-source DCP creation from almost anything."
 msgstr "Prosto, odprto-kodno ustvarjanje DCP iz skoraj vsega."
 
 #: src/wx/kdm_timing_panel.cc:54
-#, fuzzy
 msgid "From"
-msgstr "Iz/Od"
+msgstr "Od"
 
 #: src/wx/full_config_dialog.cc:979 src/wx/full_config_dialog.cc:1112
 #: src/wx/send_test_email_dialog.cc:28
@@ -1655,7 +1653,6 @@ msgstr ""
 "povzročilo porezavo zvoka DCP-ja.  Ojačitev ni bila spremenjena."
 
 #: src/wx/config_dialog.cc:980
-#, fuzzy
 msgid "JACK"
 msgstr "JACK"
 
@@ -1867,9 +1864,8 @@ msgid "Make certificate chain"
 msgstr "Naredi verigo potrdil"
 
 #: src/wx/video_panel.cc:422
-#, fuzzy
 msgid "Many"
-msgstr "Večkrat/Številni"
+msgstr "Številni"
 
 #: src/wx/config_dialog.cc:870
 msgid "Mapping"
@@ -1930,7 +1926,6 @@ msgid "Move %s marker to current position"
 msgstr "Premakni oznako %s na trenutni položaj"
 
 #: src/wx/config_move_dialog.cc:31
-#, fuzzy
 msgid "Move configuration"
 msgstr "Premakni prilagoditev"
 
@@ -2253,9 +2248,8 @@ msgid "Pre-release"
 msgstr "Pred-izdaja"
 
 #: src/wx/dcp_panel.cc:906
-#, fuzzy
 msgid "Processor"
-msgstr "Obdelovalec/Procesor"
+msgstr "Obdelovalec"
 
 #: src/wx/full_config_dialog.cc:1349
 msgid "Product name"
@@ -2339,9 +2333,8 @@ msgid "Recipients"
 msgstr "Prejemniki"
 
 #: src/wx/metadata_dialog.cc:261
-#, fuzzy
 msgid "Red band"
-msgstr "Rdeči kanal/Rdeči pas"
+msgstr "Rdeči pas"
 
 #: src/wx/colour_conversion_editor.cc:139
 msgid "Red chromaticity"
@@ -2466,9 +2459,8 @@ msgid "Root"
 msgstr "Korenska mapa"
 
 #: src/wx/make_chain_dialog.cc:88
-#, fuzzy
 msgid "Root common name"
-msgstr "Korensko skupno ime"
+msgstr "Splošno korensko ime"
 
 #: src/wx/colour_conversion_editor.cc:70
 msgid "S-Gamut3"
@@ -2610,9 +2602,8 @@ msgid "Send translations"
 msgstr "Pošlji prevode"
 
 #: src/wx/timeline_dialog.cc:79
-#, fuzzy
 msgid "Sequence"
-msgstr "Zaporedje/Sekvenca"
+msgstr "Sekvenca"
 
 #: src/wx/download_certificate_panel.cc:49
 msgid "Serial number"
@@ -2784,9 +2775,8 @@ msgid "Stop"
 msgstr "Ustavi"
 
 #: src/wx/text_panel.cc:116
-#, fuzzy
 msgid "Stream"
-msgstr "Pretakanje/Tok"
+msgstr "Tok"
 
 #: src/wx/metadata_dialog.cc:243
 msgid "Studio"
@@ -2887,7 +2877,6 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "Čas »do« mora slediti času »od«."
 
 #: src/wx/disk_warning_dialog.cc:44
-#, fuzzy
 msgid ""
 "The <b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
@@ -2917,7 +2906,7 @@ msgstr ""
 "\n"
 "Če ste prepričani, da želite nadaljevati, vnesite\n"
 "\n"
-"<tt>Prepričan/a sem, da</tt>\n"
+"<tt>I am sure</tt> (sem prepričan/a)\n"
 "\n"
 "v spodnje polje in kliknite V redu."
 
@@ -3458,7 +3447,7 @@ msgstr "Časovna usklajenost"
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:66
 msgid "Timing|Timing"
-msgstr "Časovna usklajenost| Časovna usklajenost"
+msgstr "Časovna usklajenost|Časovna usklajenost"
 
 #: src/wx/smpte_metadata_dialog.cc:70
 msgid "Title language"
@@ -3938,9 +3927,8 @@ msgid "film name"
 msgstr "naslov filma"
 
 #: src/wx/metadata_dialog.cc:284
-#, fuzzy
 msgid "foot lambert"
-msgstr "čevljev lambertov"
+msgstr "čevelj-lambert(ov)"
 
 #: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:99
 msgid "from date/time"
@@ -4023,9 +4011,8 @@ msgid "to date/time"
 msgstr "v datum/čas"
 
 #: src/wx/video_panel.cc:182
-#, fuzzy
 msgid "to fit DCP"
-msgstr "za prilagoditev DCP"
+msgstr "umeri po velikosti DCP"
 
 #: src/wx/full_config_dialog.cc:1528
 msgid "type (cpl/pkl)"
@@ -4048,7 +4035,6 @@ msgid "until"
 msgstr "do"
 
 #: src/wx/system_information_dialog.cc:74
-#, fuzzy
 msgid "vsync"
 msgstr "vsync"
 
