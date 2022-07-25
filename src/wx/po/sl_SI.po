@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-17 07:49+0200\n"
+"PO-Revision-Date: 2022-07-24 19:40+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -170,9 +170,8 @@ msgid "3D top/bottom"
 msgstr "3D – zgoraj/spodaj"
 
 #: src/wx/wx_util.cc:498
-#, fuzzy
 msgid "4 - L/C/R/Lfe"
-msgstr "4 - L/S/D/Lfe (L/C/R/Lfe)"
+msgstr "4 - L/S/D/Lfe"
 
 #: src/wx/dcp_panel.cc:920
 msgid "48kHz"
@@ -385,7 +384,6 @@ msgid "Add..."
 msgstr "Dodaj ..."
 
 #: src/wx/config_dialog.cc:394
-#, fuzzy
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -624,7 +622,6 @@ msgid "CPL"
 msgstr "CPL"
 
 #: src/wx/kdm_cpl_panel.cc:56
-#, fuzzy
 msgid "CPL ID"
 msgstr "CPL ID"
 
@@ -788,7 +785,6 @@ msgstr "Prilagoditvena datoteka"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1572 src/wx/player_config_dialog.cc:276
-#, fuzzy
 msgid "Config|Timing"
 msgstr "Config| Časovna usklajenost"
 
@@ -830,7 +826,6 @@ msgid "Contrast"
 msgstr "Kontrast"
 
 #: src/wx/text_panel.cc:108
-#, fuzzy
 msgid "Coord|Y"
 msgstr "Coord| Y"
 
@@ -968,9 +963,8 @@ msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
 #: src/wx/try_unmount_dialog.cc:35
-#, fuzzy
 msgid "DCP-o-matic Disk Writer"
-msgstr "DCP-o-matic Disk Writer"
+msgstr "Zapisovalec diska DCP-o-matic"
 
 #: src/wx/player_config_dialog.cc:347
 msgid "DCP-o-matic Player Preferences"
@@ -1153,7 +1147,6 @@ msgid "Dropped frames: %d"
 msgstr "Izpuščene sličice: %d"
 
 #: src/wx/player_config_dialog.cc:103
-#, fuzzy
 msgid "Dual-screen displays"
 msgstr "Prikaz na dvojnem zaslonu/platnu"
 
@@ -1162,7 +1155,6 @@ msgid "Dummy"
 msgstr "Preizkusno"
 
 #: src/wx/content_panel.cc:120
-#, fuzzy
 msgid "Earlier"
 msgstr "Prej"
 
@@ -1585,14 +1577,12 @@ msgid "Image X position"
 msgstr "Položaj slike X"
 
 #: src/wx/player_config_dialog.cc:105
-#, fuzzy
 msgid "Image on primary, controls on secondary"
-msgstr "Slika na primarni, kontrolniki na sekundarnih"
+msgstr "Slika na primarnem, kontrolniki na sekundarnem"
 
 #: src/wx/player_config_dialog.cc:106
-#, fuzzy
 msgid "Image on secondary, controls on primary"
-msgstr "Slika na sekundarnem, kontrolniki na primarnih"
+msgstr "Slika na sekundarnem, kontrolniki na primarnem"
 
 #: src/wx/config_dialog.cc:657
 msgid "Import all KDM decryption settings..."
@@ -1633,12 +1623,10 @@ msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrirana glasnost %.2f LUFS"
 
 #: src/wx/config_dialog.cc:521
-#, fuzzy
 msgid "Intermediate"
 msgstr "Vmesna kopija (intermediat)"
 
 #: src/wx/make_chain_dialog.cc:99
-#, fuzzy
 msgid "Intermediate common name"
 msgstr "Skupno ime vmesne kopije (intermediata)"
 
@@ -1812,9 +1800,8 @@ msgid "Locations"
 msgstr "Lokacije"
 
 #: src/wx/full_config_dialog.cc:1563 src/wx/player_config_dialog.cc:267
-#, fuzzy
 msgid "Log"
-msgstr "Zapisnik/Logaritemsko"
+msgstr "Zapisnik"
 
 #: src/wx/audio_dialog.cc:436
 #, c-format
@@ -2226,9 +2213,8 @@ msgid "Performance"
 msgstr "Hitrost delovanja"
 
 #: src/wx/full_config_dialog.cc:816
-#, fuzzy
 msgid "Plain"
-msgstr "Pusto/Običajno/Preprosto"
+msgstr "Preprosto"
 
 #: src/wx/playlist_controls.cc:56 src/wx/standard_controls.cc:36
 msgid "Play"
@@ -2681,7 +2667,6 @@ msgid "Set to"
 msgstr "Nastavljeno na"
 
 #: src/wx/system_information_dialog.cc:72
-#, fuzzy
 msgid "Shading language version"
 msgstr "Različica jezika za senčenje"
 

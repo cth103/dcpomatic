@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-17 07:45+0200\n"
+"PO-Revision-Date: 2022-07-24 19:41+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -180,7 +180,6 @@ msgid "2.39 (Scope)"
 msgstr "2,39 (široki/scope)"
 
 #: src/lib/filter.cc:90
-#, fuzzy
 msgid "3D denoiser"
 msgstr "3D-razšumnik"
 
@@ -430,12 +429,10 @@ msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Filter razpletanja Boba Weaverja"
 
 #: src/lib/util.cc:599
-#, fuzzy
 msgid "BsL"
 msgstr "BsL"
 
 #: src/lib/util.cc:600
-#, fuzzy
 msgid "BsR"
 msgstr "BsR (D)"
 
@@ -480,12 +477,10 @@ msgid "Checking existing image data"
 msgstr "Preverjanje obstoječih slikovnih podatkov"
 
 #: src/lib/ffmpeg_content.cc:658
-#, fuzzy
 msgid "Chroma-derived constant luminance"
 msgstr "Konstantna svetilnost iz krome"
 
 #: src/lib/ffmpeg_content.cc:657
-#, fuzzy
 msgid "Chroma-derived non-constant luminance"
 msgstr "Nekonstantna svetilnost iz krome"
 
@@ -569,11 +564,10 @@ msgstr ""
 "ali oba dodatna."
 
 #: src/lib/video_content.cc:223
-#, fuzzy
 msgid "Content to be joined must have all its video used or not used."
 msgstr ""
-"Vsebina, ki jo želite združiti, mora imeti vsa uporabljen videoposnetek ali "
-"pa vsa ne."
+"Vsebina, ki jo želite združiti, mora imeti uporabljene vse videoposnetke ali "
+"pa nobenega."
 
 #: src/lib/text_content.cc:275
 msgid "Content to be joined must have the same 'burn subtitles' setting."
@@ -670,7 +664,6 @@ msgid "Content to be joined must have the same video frame type."
 msgstr "Vsebina, ki jo želite združiti, mora imeti enako vrsto video sličice."
 
 #: src/lib/text_content.cc:312
-#, fuzzy
 msgid "Content to be joined must use the same DCP track."
 msgstr ""
 "Vsebina, ki jo želite združiti, mora uporabljati isto stezo/posnetek DCP."
@@ -764,14 +757,12 @@ msgid "Could not write to remote file (%1)"
 msgstr "Ni mogoče pisati v oddaljeno datoteko (%1)"
 
 #: src/lib/util.cc:570
-#, fuzzy
 msgid "D-BOX primary"
-msgstr "D-BOX primarni"
+msgstr "D-BOX, primarni"
 
 #: src/lib/util.cc:571
-#, fuzzy
 msgid "D-BOX secondary"
-msgstr "D-BOX sekundarni"
+msgstr "D-BOX, sekundarni"
 
 #: src/lib/util.cc:601
 msgid "DBP"
@@ -1000,7 +991,6 @@ msgid "Full"
 msgstr "Polno"
 
 #: src/lib/ffmpeg_content.cc:563
-#, fuzzy
 msgid "Full (0-%1)"
 msgstr "Polno (0-%1)"
 
@@ -1033,12 +1023,10 @@ msgid "Gamma 28 (BT470BG)"
 msgstr "Gama 28 (BT470BG)"
 
 #: src/lib/filter.cc:88
-#, fuzzy
 msgid "Gradient debander"
 msgstr "Razpasovnik preliva"
 
 #: src/lib/util.cc:595
-#, fuzzy
 msgid "HI"
 msgstr "HI"
 
@@ -1047,7 +1035,6 @@ msgid "Hearing impaired"
 msgstr "Za osebe z okvarami sluha"
 
 #: src/lib/filter.cc:91
-#, fuzzy
 msgid "High quality 3D denoiser"
 msgstr "Visokokakovostni 3D-razšumnik"
 
@@ -1130,14 +1117,12 @@ msgid "Length"
 msgstr "Dolžina"
 
 #: src/lib/util.cc:592
-#, fuzzy
 msgid "Lfe"
 msgstr "Lfe"
 
 #: src/lib/util.cc:561
-#, fuzzy
 msgid "Lfe (sub)"
-msgstr "Lfe (pod)"
+msgstr "Lfe (sub/pod)"
 
 #: src/lib/ffmpeg_content.cc:578
 msgid "Limited"
@@ -1164,12 +1149,10 @@ msgid "Lost communication between main and writer processes"
 msgstr "Izgubljena komunikacija med glavnimi in zapisovalnimi procesi"
 
 #: src/lib/util.cc:593
-#, fuzzy
 msgid "Ls"
 msgstr "Ls"
 
 #: src/lib/mid_side_decoder.cc:39
-#, fuzzy
 msgid "Mid-side decoder"
 msgstr "Srednje-stranski dekodirnik"
 
@@ -1265,7 +1248,6 @@ msgid "Out of memory"
 msgstr "Zmanjkalo pomnilnika"
 
 #: src/lib/filter.cc:93
-#, fuzzy
 msgid "Overcomplete wavelet denoiser"
 msgstr "Nadpopoln razšumnik valčkov"
 
@@ -1354,9 +1336,8 @@ msgid "Rotate 90 degrees clockwise"
 msgstr "Zasukaj za 90° v SUK"
 
 #: src/lib/util.cc:594
-#, fuzzy
 msgid "Rs"
-msgstr "Rs (D)"
+msgstr "Rs (Ds)"
 
 #: src/lib/colour_conversion.cc:294
 msgid "S-Gamut3/S-Log3"
@@ -1380,7 +1361,6 @@ msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
 #: src/lib/hints.cc:614
-#, fuzzy
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1438,7 +1418,7 @@ msgstr "Kratki film"
 
 #: src/lib/util.cc:603
 msgid "Sign"
-msgstr "Podpiši"
+msgstr "Sign"
 
 #: src/lib/video_content.cc:523
 msgid "Size"
@@ -1509,12 +1489,10 @@ msgid "Stereo"
 msgstr "Stereo"
 
 #: src/lib/upmixer_a.cc:51
-#, fuzzy
 msgid "Stereo to 5.1 up-mixer A"
 msgstr "Stereo na 5,1; mešalnik/pretvornik A"
 
 #: src/lib/upmixer_b.cc:47
-#, fuzzy
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo na 5,1: mešalnik/pretvornik B"
 
@@ -1605,14 +1583,12 @@ msgid "The file %1 has been moved %2 milliseconds later."
 msgstr "Datoteka %1 je bila premaknjena %2 milisekund nazaj."
 
 #: src/lib/playlist.cc:248
-#, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "Datoteka %1 je bila obrezana %2 milisekundi manj."
+msgstr "Datoteka %1 je bila obrezana za %2 milisekund manj."
 
 #: src/lib/playlist.cc:243
-#, fuzzy
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "Datoteka %1 je bila obrezana %2 milisekundi več."
+msgstr "Datoteka %1 je bila obrezana za %2 milisekund več."
 
 #: src/lib/hints.cc:238
 msgid ""
@@ -1643,7 +1619,6 @@ msgstr ""
 "Nastavitvah."
 
 #: src/lib/util.cc:1099
-#, fuzzy
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
 msgstr ""
 "Ta KDM je bil izdelan za DCP-o-matic, vendar ne za njegovo listno potrdilo."
@@ -1717,7 +1692,6 @@ msgid "Transcoding %1"
 msgstr "Prekodiranje %1"
 
 #: src/lib/dcp_content_type.cc:55
-#, fuzzy
 msgid "Transitional"
 msgstr "Prehodni"
 
@@ -1770,17 +1744,14 @@ msgid "Unused"
 msgstr "Neuporabljeno"
 
 #: src/lib/upmixer_a.cc:138 src/lib/upmixer_b.cc:148
-#, fuzzy
 msgid "Upmix L"
 msgstr "Zmešaj navzgor L"
 
 #: src/lib/upmixer_a.cc:139 src/lib/upmixer_b.cc:149
-#, fuzzy
 msgid "Upmix R"
 msgstr "Zmešaj navzgor R (D)"
 
 #: src/lib/util.cc:596
-#, fuzzy
 msgid "VI"
 msgstr "VI"
 
