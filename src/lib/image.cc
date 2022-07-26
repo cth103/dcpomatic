@@ -292,13 +292,15 @@ Image::crop_scale_window (
 
 	sws_freeContext (scale_context);
 
-	if (corrected_crop != Crop() && cropped_size == inter_size) {
-		/* We are cropping without any scaling or pixel format conversion, so FFmpeg may have left some
-		   data behind in our image.  Clear it out.  It may get to the point where we should just stop
-		   trying to be clever with cropping.
-		*/
-		out->make_part_black (corner.x + cropped_size.width, out_size.width - cropped_size.width);
-	}
+	/* There are some cases where there will be unwanted image data left in the image at this point:
+	 *
+	 * 1. When we are cropping without any scaling or pixel format conversion.
+	 * 2. When we are scaling to certain sizes and placing the result into a larger
+	 *    black frame.
+	 *
+	 * Clear out the left hand side of the image to take care of that.
+	 */
+	out->make_part_black (corner.x + inter_size.width, (out_size.width - inter_size.width) / 2);
 
 	if (
 		video_range == VideoRange::VIDEO &&

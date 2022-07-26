@@ -409,6 +409,23 @@ BOOST_AUTO_TEST_CASE (crop_scale_window_test7)
 }
 
 
+BOOST_AUTO_TEST_CASE (crop_scale_window_test8)
+{
+	using namespace boost::filesystem;
+
+	auto image = make_shared<Image>(AV_PIX_FMT_YUV420P, dcp::Size(800, 600), Image::Alignment::PADDED);
+	memset(image->data()[0], 41, image->stride()[0] * 600);
+	memset(image->data()[1], 240, image->stride()[1] * 300);
+	memset(image->data()[2], 41, image->stride()[2] * 300);
+	auto scaled = image->crop_scale_window(
+		Crop(), dcp::Size(1435, 1080), dcp::Size(1998, 1080), dcp::YUVToRGB::REC709, VideoRange::FULL, AV_PIX_FMT_YUV420P, VideoRange::FULL, Image::Alignment::PADDED, false
+		);
+	auto file = "crop_scale_window_test8.png";
+	write_image(scaled->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, Image::Alignment::COMPACT, false), path("build") / "test" / file);
+	check_image(path("test") / "data" / file, path("build") / "test" / file, 10);
+}
+
+
 BOOST_AUTO_TEST_CASE (as_png_test)
 {
 	auto proxy = make_shared<FFmpegImageProxy>("test/data/3d_test/000001.png");
