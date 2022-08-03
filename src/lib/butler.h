@@ -136,7 +136,7 @@ private:
 
 	/** true to ask PlayerVideo::prepare to only prepare the ImageProxy and not also
 	 *  the final image.  We want to do this when the viewer is intending to call
-	 *  PlayerVideo::raw_image() and do the things in PlayerVideo::make_imgae() itself:
+	 *  PlayerVideo::raw_image() and do the things in PlayerVideo::make_image() itself:
 	 *  this is the case for the GLVideoView which can do scale, pixfmt conversion etc.
 	 *  in the shader.
 	 */
