@@ -590,9 +590,7 @@ void
 Job::cancel ()
 {
 	if (_thread.joinable()) {
-		if (paused_by_user() || paused_by_priority()) {
-			resume ();
-		}
+		resume();
 
 		_thread.interrupt ();
 		_thread.join ();
