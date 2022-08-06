@@ -199,9 +199,7 @@ Job::run_wrapper ()
 		set_state (FINISHED_ERROR);
 
 	} catch (boost::thread_interrupted &) {
-
-		set_state (FINISHED_CANCELLED);
-
+		/* The job was cancelled; there's nothing else we need to do here */
 	} catch (sub::SubripError& e) {
 
 		string extra = "Error is near:\n";
@@ -601,6 +599,8 @@ Job::cancel ()
 
 	_thread.interrupt ();
 	_thread.join ();
+
+	set_state (FINISHED_CANCELLED);
 }
 
 
