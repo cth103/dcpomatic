@@ -589,16 +589,14 @@ Job::remaining_time () const
 void
 Job::cancel ()
 {
-	if (!_thread.joinable()) {
-		return;
-	}
+	if (_thread.joinable()) {
+		if (paused_by_user() || paused_by_priority()) {
+			resume ();
+		}
 
-	if (paused_by_user() || paused_by_priority()) {
-		resume ();
+		_thread.interrupt ();
+		_thread.join ();
 	}
-
-	_thread.interrupt ();
-	_thread.join ();
 
 	set_state (FINISHED_CANCELLED);
 }

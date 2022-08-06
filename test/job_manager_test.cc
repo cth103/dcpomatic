@@ -65,6 +65,7 @@ public:
 			if (finished ()) {
 				return;
 			}
+			boost::this_thread::interruption_point();
 		}
 	}
 
@@ -137,5 +138,26 @@ BOOST_AUTO_TEST_CASE (job_manager_test2)
 	}
 
 	BOOST_REQUIRE (!wait_for_jobs());
+}
+
+
+BOOST_AUTO_TEST_CASE(cancel_job_test)
+{
+	shared_ptr<Film> film;
+
+	vector<shared_ptr<TestJob>> jobs;
+	for (int i = 0; i < 2; ++i) {
+		auto job = make_shared<TestJob>(film);
+		jobs.push_back(job);
+		JobManager::instance()->add(job);
+	}
+
+	jobs[1]->cancel();
+	jobs[0]->cancel();
+
+	dcpomatic_sleep_seconds(1);
+
+	BOOST_CHECK(jobs[0]->finished_cancelled());
+	BOOST_CHECK(jobs[1]->finished_cancelled());
 }
 
