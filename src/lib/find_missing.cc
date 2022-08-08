@@ -37,7 +37,8 @@ static
 void
 search (Replacements& replacement_paths, boost::filesystem::path directory, int depth = 0)
 {
-	for (auto candidate: boost::filesystem::directory_iterator(directory)) {
+	boost::system::error_code ec;
+	for (auto candidate: boost::filesystem::directory_iterator(directory, ec)) {
 		if (boost::filesystem::is_regular_file(candidate.path())) {
 			for (auto& replacement: replacement_paths) {
 				for (auto& path: replacement.second) {
@@ -50,6 +51,10 @@ search (Replacements& replacement_paths, boost::filesystem::path directory, int 
 			search (replacement_paths, candidate, depth + 1);
 		}
 	}
+
+	/* Just ignore errors when creating the directory_iterator; they can be triggered by things like
+	 * macOS' love of creating random directories (see #2291).
+	 */
 }
 
 
