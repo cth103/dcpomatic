@@ -218,6 +218,7 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', ['-DGL_GLEXT_PROTOTYPES', '-DGLX_GLXEXT_PROTOTYPES'])
     if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         conf.env.append_value('CXXFLAGS', ['-DWGL_WGLEXT_PROTOTYPES'])
+    conf.env.append_value('CXXFLAGS', ['-DwxNO_UNSAFE_WXSTRING_CONV'])
 
     if conf.options.static_wxwidgets:
         # wx-config returns its static libraries as full paths, without -l prefixes, which confuses
