@@ -298,9 +298,11 @@ Image::crop_scale_window (
 	 * 2. When we are scaling to certain sizes and placing the result into a larger
 	 *    black frame.
 	 *
-	 * Clear out the left hand side of the image to take care of that.
+	 * Clear out the sides of the image to take care of those cases.
 	 */
-	out->make_part_black (corner.x + inter_size.width, (out_size.width - inter_size.width) / 2);
+	auto const pad = (out_size.width - inter_size.width) / 2;
+	out->make_part_black(0, pad);
+	out->make_part_black(corner.x + inter_size.width, pad);
 
 	if (
 		video_range == VideoRange::VIDEO &&
