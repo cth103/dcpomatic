@@ -741,9 +741,40 @@ write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 
 	png_set_IHDR (png_ptr, info_ptr, image->size().width, image->size().height, bits_per_pixel, png_color_type, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
-	png_byte ** row_pointers = reinterpret_cast<png_byte **>(png_malloc(png_ptr, image->size().height * sizeof(png_byte *)));
-	for (int i = 0; i < image->size().height; ++i) {
-		row_pointers[i] = (png_byte *) (image->data()[0] + i * image->stride()[0]);
+	auto const width = image->size().width;
+	auto const height = image->size().height;
+	auto const stride = image->stride()[0];
+
+	vector<vector<uint8_t>> data_to_write(height);
+	for (int y = 0; y < height; ++y) {
+		data_to_write[y].resize(stride);
+	}
+
+	switch (image->pixel_format()) {
+	case AV_PIX_FMT_RGB24:
+		for (int y = 0; y < height; ++y) {
+			memcpy(data_to_write[y].data(), image->data()[0] + y * stride, stride);
+		}
+		break;
+	case AV_PIX_FMT_XYZ12LE:
+		/* 16-bit pixel values must be written MSB first */
+		for (int y = 0; y < height; ++y) {
+			data_to_write[y].resize(stride);
+			uint8_t* original = image->data()[0] + y * stride;
+			for (int x = 0; x < width * 3; ++x) {
+				data_to_write[y][x * 2] = original[1];
+				data_to_write[y][x * 2 + 1] = original[0];
+				original += 2;
+			}
+		}
+		break;
+	default:
+		break;
+	}
+
+	png_byte ** row_pointers = reinterpret_cast<png_byte**>(png_malloc(png_ptr, image->size().height * sizeof(png_byte *)));
+	for (int y = 0; y < height; ++y) {
+		row_pointers[y] = reinterpret_cast<png_byte*>(data_to_write[y].data());
 	}
 
 	png_write_info (png_ptr, info_ptr);
