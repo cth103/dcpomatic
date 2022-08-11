@@ -715,15 +715,13 @@ png_error_fn (png_structp, char const * message)
 void
 write_image (shared_ptr<const Image> image, boost::filesystem::path file)
 {
-	int png_color_type = 0;
+	int png_color_type = PNG_COLOR_TYPE_RGB;
 	int bits_per_pixel = 0;
 	switch (image->pixel_format()) {
 	case AV_PIX_FMT_RGB24:
-		png_color_type = PNG_COLOR_TYPE_RGB;
 		bits_per_pixel = 8;
 		break;
 	case AV_PIX_FMT_XYZ12LE:
-		png_color_type = PNG_COLOR_TYPE_RGB;
 		bits_per_pixel = 16;
 		break;
 	default:
