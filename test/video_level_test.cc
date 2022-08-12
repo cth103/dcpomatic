@@ -138,6 +138,57 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 }
 
 
+BOOST_AUTO_TEST_CASE(yuv_expanded_into_full_rgb)
+{
+	auto convert = [](int y_val, int u_val, int v_val, AVPixelFormat pix_fmt) {
+		auto const size = dcp::Size(640, 480);
+		auto yuv = make_shared<Image>(AV_PIX_FMT_YUVA444P12LE, size, Image::Alignment::PADDED);
+		BOOST_REQUIRE_EQUAL(yuv->planes(), 4);
+		for (int y = 0; y < size.height; ++y) {
+			uint16_t* Y = reinterpret_cast<uint16_t*>(yuv->data()[0] + y * yuv->stride()[0]);
+			uint16_t* U = reinterpret_cast<uint16_t*>(yuv->data()[1] + y * yuv->stride()[1]);
+			uint16_t* V = reinterpret_cast<uint16_t*>(yuv->data()[2] + y * yuv->stride()[2]);
+			uint16_t* A = reinterpret_cast<uint16_t*>(yuv->data()[3] + y * yuv->stride()[3]);
+			for (int x = 0; x < size.width; ++x) {
+				*Y++ = y_val;
+				*U++ = u_val;
+				*V++ = v_val;
+				*A++ = 4096;
+			}
+		}
+
+		return yuv->crop_scale_window(
+			Crop(), size, size, dcp::YUVToRGB::REC709,
+			VideoRange::VIDEO,
+			pix_fmt,
+			VideoRange::FULL,
+			Image::Alignment::COMPACT,
+			false
+			);
+	};
+
+	auto white24 = convert(3760, 2048, 2048, AV_PIX_FMT_RGB24);
+	BOOST_CHECK_EQUAL(white24->data()[0][0], 255);
+	BOOST_CHECK_EQUAL(white24->data()[0][1], 255);
+	BOOST_CHECK_EQUAL(white24->data()[0][2], 255);
+
+	auto black24 = convert(256, 2048, 2048, AV_PIX_FMT_RGB24);
+	BOOST_CHECK_EQUAL(black24->data()[0][0], 0);
+	BOOST_CHECK_EQUAL(black24->data()[0][1], 0);
+	BOOST_CHECK_EQUAL(black24->data()[0][2], 0);
+
+	auto white48 = convert(3760, 2048, 2048, AV_PIX_FMT_RGB48LE);
+	BOOST_CHECK_EQUAL(reinterpret_cast<uint16_t*>(white48->data()[0])[0], 65283);
+	BOOST_CHECK_EQUAL(reinterpret_cast<uint16_t*>(white48->data()[0])[1], 65283);
+	BOOST_CHECK_EQUAL(reinterpret_cast<uint16_t*>(white48->data()[0])[2], 65283);
+
+	auto black48 = convert(256, 2048, 2048, AV_PIX_FMT_RGB48LE);
+	BOOST_CHECK_EQUAL(reinterpret_cast<uint16_t*>(black48->data()[0])[0], 0);
+	BOOST_CHECK_EQUAL(reinterpret_cast<uint16_t*>(black48->data()[0])[1], 0);
+	BOOST_CHECK_EQUAL(reinterpret_cast<uint16_t*>(black48->data()[0])[2], 0);
+}
+
+
 static
 pair<int, int>
 pixel_range (shared_ptr<const Image> image)
