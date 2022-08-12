@@ -209,8 +209,8 @@ static constexpr char fragment_source[] =
 "\n"
 "vec4 cubic(float x)\n"
 "\n"
-"#define IN_GAMMA 2.2\n"
-"#define OUT_GAMMA 0.384615385\n"       //  1 /  2.6
+"#define IN_GAMMA 2.6\n"
+"#define OUT_GAMMA 0.454545455\n"       //  1 /  2.2
 "#define DCI_COEFFICIENT 0.91655528\n"  // 48 / 53.37
 "\n"
 "{\n"
