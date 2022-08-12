@@ -563,8 +563,6 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	 *  Otherwise we render a RGB image without any shader-side processing.
 	 */
 
-	/* XXX: video range conversion */
-
 	_video_texture->set (video);
 
 	auto const text = pv->text();
