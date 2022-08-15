@@ -372,7 +372,7 @@ public:
 		_film_editor->content_panel()->SelectionChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
 		set_title ();
 
-		JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&DOMFrame::set_menu_sensitivity, this));
+		JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&DOMFrame::active_jobs_changed, this));
 
 		overall_panel->SetSizer (main_sizer);
 
@@ -1198,6 +1198,15 @@ private:
 		_analytics_message_connection.disconnect ();
 
 		ev.Skip ();
+	}
+
+	void active_jobs_changed()
+	{
+		/* ActiveJobsChanged can be called while JobManager holds a lock on its mutex, making
+		 * the call to JobManager::get() in set_menu_sensitivity() deadlock unless we work around
+		 * it by using an idle callback.  This feels quite unpleasant.
+		 */
+		signal_manager->when_idle(boost::bind(&DOMFrame::set_menu_sensitivity, this));
 	}
 
 	void set_menu_sensitivity ()
