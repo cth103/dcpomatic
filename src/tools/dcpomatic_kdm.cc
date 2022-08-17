@@ -35,6 +35,7 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/cinema.h"
+#include "lib/collator.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/cross.h"
@@ -55,6 +56,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
+#include <wx/srchctrl.h>
 #include <wx/treectrl.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
@@ -62,6 +64,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 #include <boost/bind/bind.hpp>
+#include <unordered_set>
 
 #ifdef check
 #undef check
@@ -75,6 +78,7 @@ using std::map;
 using std::pair;
 using std::shared_ptr;
 using std::string;
+using std::unordered_set;
 using std::vector;
 using boost::bind;
 using boost::optional;
@@ -160,11 +164,20 @@ public:
 		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
 		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+
+		_dkdm_search = new wxSearchCtrl(overall_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
+#ifndef __WXGTK3__
+		/* The cancel button seems to be strangely broken in GTK3; clicking on it twice sometimes works */
+		_dkdm_search->ShowCancelButton (true);
+#endif
+
+		right->Add(_dkdm_search, 0, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
+
 		auto dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_dkdm = new wxTreeCtrl (
 			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT
 		);
-		dkdm_sizer->Add (_dkdm, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+		dkdm_sizer->Add(_dkdm, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		wxBoxSizer* dkdm_buttons = new wxBoxSizer(wxVERTICAL);
 		_add_dkdm = new Button (overall_panel, _("Add..."));
 		dkdm_buttons->Add (_add_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
@@ -175,9 +188,9 @@ public:
 		_export_dkdm = new Button (overall_panel, _("Export..."));
 		dkdm_buttons->Add (_export_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
-		right->Add (dkdm_sizer, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
+		right->Add (dkdm_sizer, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
-		add_dkdm_view (Config::instance()->dkdms());
+		update_dkdm_view();
 
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
@@ -196,13 +209,16 @@ public:
 
 		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
 		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
-		_dkdm->Bind (wxEVT_TREE_SEL_CHANGED, boost::bind (&DOMFrame::setup_sensitivity, this));
+		_dkdm->Bind(wxEVT_TREE_SEL_CHANGED, boost::bind(&DOMFrame::dkdm_selection_changed, this));
 		_dkdm->Bind (wxEVT_TREE_BEGIN_DRAG, boost::bind (&DOMFrame::dkdm_begin_drag, this, _1));
 		_dkdm->Bind (wxEVT_TREE_END_DRAG, boost::bind (&DOMFrame::dkdm_end_drag, this, _1));
+		_dkdm->Bind(wxEVT_TREE_ITEM_EXPANDED, boost::bind(&DOMFrame::dkdm_expanded, this, _1));
+		_dkdm->Bind(wxEVT_TREE_ITEM_COLLAPSED, boost::bind(&DOMFrame::dkdm_collapsed, this, _1));
 		_add_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_clicked, this));
 		_add_dkdm_folder->Bind (wxEVT_BUTTON, bind (&DOMFrame::add_dkdm_folder_clicked, this));
 		_remove_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::remove_dkdm_clicked, this));
 		_export_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::export_dkdm_clicked, this));
+		_dkdm_search->Bind(wxEVT_TEXT, boost::bind(&DOMFrame::dkdm_search_changed, this));
 
 		setup_sensitivity ();
 
@@ -417,6 +433,32 @@ private:
 		_export_dkdm->Enable (sel.GetCount() > 0 && dkdm);
 	}
 
+	void dkdm_selection_changed()
+	{
+		_selected_dkdm = selected_dkdm();
+		setup_sensitivity();
+	}
+
+	void dkdm_expanded(wxTreeEvent& ev)
+	{
+		if (_ignore_expand) {
+			return;
+		}
+
+		auto iter = _dkdm_id.find(ev.GetItem());
+		if (iter != _dkdm_id.end()) {
+			_expanded_dkdm_groups.insert(iter->second);
+		}
+	}
+
+	void dkdm_collapsed(wxTreeEvent& ev)
+	{
+		auto iter = _dkdm_id.find(ev.GetItem());
+		if (iter != _dkdm_id.end()) {
+			_expanded_dkdm_groups.erase(iter->second);
+		}
+	}
+
 	void dkdm_begin_drag (wxTreeEvent& ev)
 	{
 		ev.Allow ();
@@ -439,11 +481,9 @@ private:
 		DCPOMATIC_ASSERT (from->second->parent ());
 
 		from->second->parent()->remove (from->second);
-		add_dkdm_model (from->second, group, dynamic_pointer_cast<DKDM>(to->second));
+		add_dkdm(from->second, group, dynamic_pointer_cast<DKDM>(to->second));
 
-		_dkdm->Delete (from->first);
-		_dkdm_id.erase (from->first);
-		add_dkdm_view (from->second, dynamic_pointer_cast<DKDM>(to->second) ? to->first : optional<wxTreeItemId>());
+		update_dkdm_view();
 	}
 
 	void add_dkdm_clicked ()
@@ -474,8 +514,7 @@ private:
 					if (!group) {
 						group = Config::instance()->dkdms ();
 					}
-					add_dkdm_model (new_dkdm, group);
-					add_dkdm_view (new_dkdm);
+					add_dkdm(new_dkdm, group);
 				} catch (dcp::KDMFormatError& e) {
 					error_dialog (
 						this,
@@ -496,6 +535,7 @@ private:
 						);
 				}
 			}
+			update_dkdm_view();
 		}
 		d->Destroy ();
 	}
@@ -509,17 +549,59 @@ private:
 			if (!parent) {
 				parent = Config::instance()->dkdms ();
 			}
-			add_dkdm_model (new_dkdm, parent);
-			add_dkdm_view (new_dkdm);
+			add_dkdm(new_dkdm, parent);
+			update_dkdm_view();
 		}
 		d->Destroy ();
 	}
 
-	/** @param dkdm Thing to add.
-	 *  @param parent Parent group, or 0.
-	 */
-	void add_dkdm_view (shared_ptr<DKDMBase> base, optional<wxTreeItemId> previous = optional<wxTreeItemId>())
+	void update_dkdm_view()
 	{
+		_dkdm->DeleteAllItems();
+		_dkdm_id.clear();
+		add_dkdm_to_view(Config::instance()->dkdms());
+		if (_selected_dkdm) {
+			auto selection_in_id_map = std::find_if(_dkdm_id.begin(), _dkdm_id.end(), [this](pair<wxTreeItemId, shared_ptr<DKDMBase>> const& entry) {
+				return entry.second == _selected_dkdm;
+			});
+			if (selection_in_id_map != _dkdm_id.end()) {
+				_dkdm->SelectItem(selection_in_id_map->first);
+			}
+		}
+	}
+
+	/** @return true if this thing or any of its children match a search string */
+	bool matches(shared_ptr<DKDMBase> base, string const& search)
+	{
+		if (search.empty()) {
+			return true;
+		}
+
+		auto name = base->name();
+		transform(name.begin(), name.end(), name.begin(), ::tolower);
+		if (name.find(search) != string::npos) {
+			return true;
+		}
+
+		auto group = dynamic_pointer_cast<DKDMGroup>(base);
+		if (!group) {
+			return false;
+		}
+
+		auto const children = group->children();
+		return std::any_of(children.begin(), children.end(), [this, search](shared_ptr<DKDMBase> child) {
+			return matches(child, search);
+		});
+	}
+
+	/** Add DKDMs to the view that match the current search */
+	void add_dkdm_to_view(shared_ptr<DKDMBase> base)
+	{
+		auto search = wx_to_std(_dkdm_search->GetValue());
+		transform(search.begin(), search.end(), search.begin(), ::tolower);
+
+		optional<wxTreeItemId> group_to_expand;
+
 		if (!base->parent()) {
 			/* This is the root group */
 			_dkdm_id[_dkdm->AddRoot("root")] = base;
@@ -527,26 +609,38 @@ private:
 			/* Add base to the view */
 			wxTreeItemId added;
 			auto parent_id = dkdm_to_id(base->parent());
-			if (previous) {
-				added = _dkdm->InsertItem(parent_id, *previous, std_to_wx(base->name()));
-			} else {
-				added = _dkdm->AppendItem(parent_id, std_to_wx(base->name()));
+			added = _dkdm->AppendItem(parent_id, std_to_wx(base->name()));
+			/* Expand the group (later) if it matches the search or it was manually expanded */
+			if (!search.empty() || _expanded_dkdm_groups.find(base) != _expanded_dkdm_groups.end()) {
+				group_to_expand = added;
 			}
-			_dkdm->SortChildren(parent_id);
 			_dkdm_id[added] = base;
 		}
 
 		/* Add children */
-		auto g = dynamic_pointer_cast<DKDMGroup>(base);
-		if (g) {
-			for (auto i: g->children()) {
-				add_dkdm_view (i);
+		auto group = dynamic_pointer_cast<DKDMGroup>(base);
+		if (group) {
+			auto children = group->children();
+			children.sort(
+				[this](shared_ptr<DKDMBase> a, shared_ptr<DKDMBase> b) { return _collator.compare(a->name(), b->name()) < 0; }
+			);
+
+			for (auto i: children) {
+				if (matches(i, search)) {
+					add_dkdm_to_view(i);
+				}
 			}
+		}
+
+		if (group_to_expand) {
+			_ignore_expand = true;
+			_dkdm->Expand(*group_to_expand);
+			_ignore_expand = false;
 		}
 	}
 
 	/** @param group Group to add dkdm to */
-	void add_dkdm_model (shared_ptr<DKDMBase> dkdm, shared_ptr<DKDMGroup> group, shared_ptr<DKDM> previous = shared_ptr<DKDM> ())
+	void add_dkdm(shared_ptr<DKDMBase> dkdm, shared_ptr<DKDMGroup> group, shared_ptr<DKDM> previous = shared_ptr<DKDM>())
 	{
 		group->add (dkdm, previous);
 		/* We're messing with a Config-owned object here, so tell it that something has changed.
@@ -609,12 +703,28 @@ private:
 		d->Destroy ();
 	}
 
+	void dkdm_search_changed()
+	{
+		update_dkdm_view();
+	}
+
 	wxPreferencesEditor* _config_dialog;
 	ScreensPanel* _screens;
 	KDMTimingPanel* _timing;
 	wxTreeCtrl* _dkdm;
+	wxSearchCtrl* _dkdm_search;
 	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMBase>> DKDMMap;
 	DKDMMap _dkdm_id;
+	/* Keep a separate track of the selected DKDM so that when a search happens, and some things
+	 * get removed from the view, we can restore the selection when they are re-added.
+	 */
+	shared_ptr<DKDMBase> _selected_dkdm;
+	/* Keep expanded groups for the same reason */
+	unordered_set<shared_ptr<DKDMBase>> _expanded_dkdm_groups;
+	/* true if we are "artificially" expanding a group because it contains something found
+	 * in a search.
+	 */
+	bool _ignore_expand = false;
 	wxButton* _add_dkdm;
 	wxButton* _add_dkdm_folder;
 	wxButton* _remove_dkdm;
@@ -622,6 +732,7 @@ private:
 	wxButton* _create;
 	KDMOutputPanel* _output;
 	JobViewDialog* _job_view;
+	Collator _collator;
 };
 
 
