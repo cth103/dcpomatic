@@ -289,7 +289,7 @@ private:
 			if (id) {
 				*id = 0;
 			}
-			return shared_ptr<DKDMBase> ();
+			return {};
 		}
 
 		if (id) {
@@ -298,7 +298,7 @@ private:
 
 		auto i = _dkdm_id.find (selections[0]);
 		if (i == _dkdm_id.end()) {
-			return shared_ptr<DKDMBase> ();
+			return {};
 		}
 
 		return i->second;
