@@ -29,11 +29,6 @@
 #include "lib/scope_guard.h"
 #include "lib/screen.h"
 #include "lib/timer.h"
-#include <unicode/putil.h>
-#include <unicode/ucol.h>
-#include <unicode/uiter.h>
-#include <unicode/utypes.h>
-#include <unicode/ustring.h>
 
 
 using std::cout;
@@ -120,14 +115,6 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	SetSizer (sizer);
 
-	UErrorCode status = U_ZERO_ERROR;
-	_collator = ucol_open(nullptr, &status);
-	if (_collator) {
-		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
-		ucol_setAttribute(_collator, UCOL_STRENGTH, UCOL_PRIMARY, &status);
-		ucol_setAttribute(_collator, UCOL_ALTERNATE_HANDLING, UCOL_SHIFTED, &status);
-	}
-
 	_config_connection = Config::instance()->Changed.connect(boost::bind(&ScreensPanel::config_changed, this, _1));
 }
 
@@ -136,10 +123,6 @@ ScreensPanel::~ScreensPanel ()
 {
 	_targets->Unbind (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
 	_targets->Unbind (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
-
-	if (_collator) {
-		ucol_close (_collator);
-	}
 }
 
 
@@ -239,7 +222,7 @@ ScreensPanel::add_cinema_clicked ()
 
 		auto cinemas = Config::instance()->cinemas();
 		cinemas.sort(
-			[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return compare(a->name, b->name) < 0; }
+			[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return _collator.compare(a->name, b->name) < 0; }
 			);
 
 		try {
@@ -254,7 +237,7 @@ ScreensPanel::add_cinema_clicked ()
 		wxTreeListItem previous = wxTLI_FIRST;
 		bool found = false;
 		for (auto existing_cinema: cinemas) {
-			if (compare(dialog->name(), existing_cinema->name) < 0) {
+			if (_collator.compare(dialog->name(), existing_cinema->name) < 0) {
 				/* existing_cinema should be after the one we're inserting */
 				found = true;
 				break;
@@ -502,7 +485,7 @@ ScreensPanel::add_cinemas ()
 {
 	auto cinemas = Config::instance()->cinemas();
 	cinemas.sort(
-		[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return compare(a->name, b->name) < 0; }
+		[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return _collator.compare(a->name, b->name) < 0; }
 		);
 
 	for (auto cinema: cinemas) {
@@ -667,22 +650,6 @@ ScreensPanel::screen_to_item (shared_ptr<Screen> screen) const
 }
 
 
-int
-ScreensPanel::compare (string const& utf8_a, string const& utf8_b)
-{
-	if (_collator) {
-		UErrorCode error = U_ZERO_ERROR;
-		boost::scoped_array<uint16_t> utf16_a(new uint16_t[utf8_a.size() + 1]);
-		u_strFromUTF8(reinterpret_cast<UChar*>(utf16_a.get()), utf8_a.size() + 1, nullptr, utf8_a.c_str(), -1, &error);
-		boost::scoped_array<uint16_t> utf16_b(new uint16_t[utf8_b.size() + 1]);
-		u_strFromUTF8(reinterpret_cast<UChar*>(utf16_b.get()), utf8_b.size() + 1, nullptr, utf8_b.c_str(), -1, &error);
-		return ucol_strcoll(_collator, reinterpret_cast<UChar*>(utf16_a.get()), -1, reinterpret_cast<UChar*>(utf16_b.get()), -1);
-	} else {
-		return strcoll(utf8_a.c_str(), utf8_b.c_str());
-	}
-}
-
-
 bool
 ScreensPanel::notify_cinemas_changed()
 {
@@ -707,5 +674,3 @@ ScreensPanel::config_changed(Config::Property property)
 		clear_and_re_add();
 	}
 }
-
-

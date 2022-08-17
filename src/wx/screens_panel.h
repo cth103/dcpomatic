@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/collator.h"
 #include "lib/config.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -38,7 +39,6 @@ namespace dcpomatic {
 
 
 class Cinema;
-struct UCollator;
 
 
 class ScreensPanel : public wxPanel
@@ -69,7 +69,6 @@ private:
 	std::shared_ptr<Cinema> cinema_for_operation () const;
 	void set_screen_checked (wxTreeListItem item, bool checked);
 	void setup_cinema_checked_state (wxTreeListItem screen);
-	int compare (std::string const& utf8_a, std::string const& utf8_b);
 	void check_all ();
 	void uncheck_all ();
 	bool notify_cinemas_changed();
@@ -111,7 +110,7 @@ private:
 	bool _ignore_selection_change = false;
 	bool _ignore_check_change = false;
 
-	UCollator* _collator = nullptr;
+	Collator _collator;
 
 	boost::signals2::scoped_connection _config_connection;
 	bool _ignore_cinemas_changed = false;
