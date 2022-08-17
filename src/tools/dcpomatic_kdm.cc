@@ -526,11 +526,13 @@ private:
 		} else {
 			/* Add base to the view */
 			wxTreeItemId added;
+			auto parent_id = dkdm_to_id(base->parent());
 			if (previous) {
-				added = _dkdm->InsertItem(dkdm_to_id(base->parent()), *previous, std_to_wx(base->name()));
+				added = _dkdm->InsertItem(parent_id, *previous, std_to_wx(base->name()));
 			} else {
-				added = _dkdm->AppendItem(dkdm_to_id(base->parent()), std_to_wx(base->name()));
+				added = _dkdm->AppendItem(parent_id, std_to_wx(base->name()));
 			}
+			_dkdm->SortChildren(parent_id);
 			_dkdm_id[added] = base;
 		}
 
