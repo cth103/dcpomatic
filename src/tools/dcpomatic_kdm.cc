@@ -448,41 +448,53 @@ private:
 
 	void add_dkdm_clicked ()
 	{
-		auto d = new wxFileDialog (this, _("Select DKDM file"));
+		auto d = new wxFileDialog(
+			this,
+			_("Select DKDM file"),
+			wxEmptyString,
+			wxEmptyString,
+			wxT("XML files|*.xml|All files|*.*"),
+			wxFD_MULTIPLE
+			);
+
 		if (d->ShowModal() == wxID_OK) {
 			auto chain = Config::instance()->decryption_chain();
 			DCPOMATIC_ASSERT (chain->key());
 
-			try {
-				dcp::EncryptedKDM ekdm(dcp::file_to_string (wx_to_std (d->GetPath ()), MAX_KDM_SIZE));
-				/* Decrypt the DKDM to make sure that we can */
-				dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
+			wxArrayString paths;
+			d->GetPaths(paths);
+			for (unsigned int i = 0; i < paths.GetCount(); ++i) {
+				try {
+					dcp::EncryptedKDM ekdm(dcp::file_to_string(wx_to_std(paths[i]), MAX_KDM_SIZE));
+					/* Decrypt the DKDM to make sure that we can */
+					dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
 
-				auto new_dkdm = make_shared<DKDM>(ekdm);
-				auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
-				if (!group) {
-					group = Config::instance()->dkdms ();
+					auto new_dkdm = make_shared<DKDM>(ekdm);
+					auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
+					if (!group) {
+						group = Config::instance()->dkdms ();
+					}
+					add_dkdm_model (new_dkdm, group);
+					add_dkdm_view (new_dkdm);
+				} catch (dcp::KDMFormatError& e) {
+					error_dialog (
+						this,
+						_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."),
+						std_to_wx(e.what())
+						);
+					return;
+				} catch (dcp::KDMDecryptionError &) {
+					error_dialog (
+						this,
+						_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
+						);
+				} catch (dcp::MiscError& e) {
+					error_dialog (
+						this,
+						_("Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."),
+						std_to_wx(e.what())
+						);
 				}
-				add_dkdm_model (new_dkdm, group);
-				add_dkdm_view (new_dkdm);
-			} catch (dcp::KDMFormatError& e) {
-				error_dialog (
-					this,
-					_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."),
-					std_to_wx(e.what())
-					);
-				return;
-			} catch (dcp::KDMDecryptionError &) {
-				error_dialog (
-					this,
-					_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
-					);
-			} catch (dcp::MiscError& e) {
-				error_dialog (
-					this,
-					_("Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."),
-					std_to_wx(e.what())
-					);
 			}
 		}
 		d->Destroy ();
