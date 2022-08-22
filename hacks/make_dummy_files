@@ -110,16 +110,19 @@ for c in root.find('Playlist').findall('Content'):
         video_cmd = ''
         audio_cmd = ''
         path = os.path.join(sys.argv[1], 'dummy', ntpath.basename(c.find('Path').text))
-        if c.find('VideoFrameRate') is not None:
-            video_frame_rate = float(c.find('VideoFrameRate').text)
-            video_length = int(c.find('VideoLength').text)
-            video_cmd = '-s qcif -f rawvideo -pix_fmt rgb24 -r %d -i /dev/zero' % video_frame_rate
         if c.find('AudioStream') is not None:
             audio_channels = int(c.find('AudioStream').find('Mapping').find('InputChannels').text)
             audio_frame_rate = int(c.find('AudioStream').find('FrameRate').text)
+            audio_length = int(c.find('AudioStream').find('Length').text)
             names = { 1: 'mono', 2: 'stereo', 3: '3.0', 4: '4.0', 5: '4.1', 6: '5.1', 7: '6.1', 8: '7.1' }
             audio_cmd = '-f lavfi -i anullsrc=channel_layout=%s:sample_rate=%d' % (names[audio_channels], audio_frame_rate)
-        os.system('ffmpeg -t %d %s %s -shortest "%s"' % (float(video_length) / video_frame_rate, video_cmd, audio_cmd, path))
+        if c.find('VideoFrameRate') is not None:
+            video_frame_rate = float(c.find('VideoFrameRate').text)
+            video_length = int(c.find('VideoLength').text)
+            video_cmd = '-s qcif -f rawvideo -pix_fmt rgb24 -r %f -i /dev/zero' % video_frame_rate
+            os.system('ffmpeg -t %f %s %s -shortest "%s"' % (video_length / video_frame_rate, video_cmd, audio_cmd, path))
+        else:
+            os.system('sox -n -r %d -c %d %s trim 0.0 %f' % (audio_frame_rate, audio_channels, path, float(audio_length) / audio_frame_rate))
         c.find('Path').text = path
         c.find('Digest').text = digest_head_tail(path)
     elif type == 'Image':
