@@ -116,6 +116,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Gökhan Aksoy"));
 	translated_by.Add (wxT ("Thiago Andre"));
 	translated_by.Add (wxT ("Felice D'Andrea"));
+	translated_by.Add (wxT ("Németh Áron"));
 	translated_by.Add (wxT ("Grégoire Ausina"));
 	translated_by.Add (wxT ("Tomáš Begeni"));
 	translated_by.Add (wxT ("Fabio \"Zak\" Belli"));

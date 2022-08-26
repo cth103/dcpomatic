@@ -397,11 +397,11 @@ msgstr ""
 
 #: src/lib/util.cc:560
 msgid "Centre"
-msgstr ""
+msgstr "Közép"
 
 #: src/lib/audio_content.cc:320
 msgid "Channels"
-msgstr ""
+msgstr "Csatornák"
 
 #: src/lib/transcode_job.cc:108
 msgid "Check their new settings, then try again."
@@ -1009,7 +1009,7 @@ msgstr ""
 
 #: src/lib/util.cc:562
 msgid "Left surround"
-msgstr ""
+msgstr "Bal térhangzás"
 
 #: src/lib/video_content.cc:522
 msgid "Length"
@@ -1021,7 +1021,7 @@ msgstr ""
 
 #: src/lib/util.cc:561
 msgid "Lfe (sub)"
-msgstr ""
+msgstr "Lfe (mély)"
 
 #: src/lib/ffmpeg_content.cc:579
 msgid "Limited"
@@ -1206,7 +1206,7 @@ msgstr ""
 
 #: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:559
 msgid "Right"
-msgstr ""
+msgstr "Jobb"
 
 #: src/lib/util.cc:567
 msgid "Right centre"
@@ -1218,7 +1218,7 @@ msgstr ""
 
 #: src/lib/util.cc:563
 msgid "Right surround"
-msgstr ""
+msgstr "Jobb térhangzás"
 
 #: src/lib/filter.cc:82
 msgid "Rotate 90 degrees anti-clockwise"

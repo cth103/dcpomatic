@@ -309,7 +309,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:112
 msgid "Add DCP..."
-msgstr ""
+msgstr "DCP hozzáadása"
 
 #: src/wx/new_dkdm_folder_dialog.cc:26
 msgid "Add DKDM folder"
@@ -343,11 +343,11 @@ msgstr ""
 
 #: src/wx/content_panel.cc:104
 msgid "Add file(s)..."
-msgstr ""
+msgstr "Fájlok hozzáadása"
 
 #: src/wx/content_panel.cc:108
 msgid "Add folder..."
-msgstr ""
+msgstr "Mappa hozzáadása"
 
 #: src/wx/image_sequence_dialog.cc:28
 msgid "Add image sequence"
@@ -584,7 +584,7 @@ msgstr ""
 
 #: src/wx/auto_crop_dialog.cc:38 src/wx/video_panel.cc:157
 msgid "Bottom"
-msgstr ""
+msgstr "Alsó"
 
 #: src/wx/dir_picker_ctrl.cc:49 src/wx/kdm_cpl_panel.cc:47
 msgid "Browse..."
@@ -625,7 +625,7 @@ msgstr ""
 
 #: src/wx/audio_panel.cc:95
 msgid "Calculate..."
-msgstr ""
+msgstr "Számítás..."
 
 #: src/wx/job_view.cc:76 src/wx/verify_dcp_progress_dialog.cc:67
 msgid "Cancel"
@@ -749,7 +749,7 @@ msgstr ""
 
 #: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:186
 msgid "Colour"
-msgstr ""
+msgstr "Szín"
 
 #: src/wx/content_colour_conversion_dialog.cc:41
 msgid "Colour conversion"
@@ -783,7 +783,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:779
 msgid "Container"
-msgstr ""
+msgstr "Konténer"
 
 #: src/wx/audio_panel.cc:118 src/wx/film_editor.cc:61
 msgid "Content"
@@ -795,7 +795,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:103
 msgid "Content Type"
-msgstr ""
+msgstr "Tartalom típusa"
 
 #: src/wx/config_dialog.cc:1069
 msgid "Content directory"
@@ -820,7 +820,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:89
 msgid "Copy as name"
-msgstr ""
+msgstr "Másolás névnek"
 
 #: src/wx/config_dialog.cc:977
 msgid "CoreAudio"
@@ -897,7 +897,7 @@ msgstr ""
 
 #: src/wx/video_panel.cc:98
 msgid "Crop"
-msgstr ""
+msgstr "Vágás"
 
 #: src/wx/audio_dialog.cc:469
 #, c-format
@@ -906,7 +906,7 @@ msgstr ""
 
 #: src/wx/audio_dialog.cc:463
 msgid "Cursor: none"
-msgstr ""
+msgstr "Kurzor: nincs"
 
 #: src/wx/rating_dialog.cc:51
 msgid "Custom"
@@ -1079,7 +1079,7 @@ msgstr ""
 
 #: src/wx/audio_panel.cc:97
 msgid "Delay"
-msgstr ""
+msgstr "Késleltetés"
 
 #: src/wx/job_view.cc:80
 msgid "Details..."
@@ -1144,7 +1144,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:120
 msgid "Earlier"
-msgstr ""
+msgstr "Korább"
 
 #: src/wx/screens_panel.cc:76
 msgid "Edit Cinema..."
@@ -1172,7 +1172,7 @@ msgstr ""
 #: src/wx/video_panel.cc:184 src/wx/video_panel.cc:195
 #: src/wx/editable_list.h:138
 msgid "Edit..."
-msgstr ""
+msgstr "Szerkesztés..."
 
 #: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Effect"
@@ -1200,7 +1200,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:106
 msgid "Encrypted"
-msgstr ""
+msgstr "Titkosított"
 
 #: src/wx/text_view.cc:66
 msgid "End"
@@ -1258,7 +1258,7 @@ msgstr ""
 
 #: src/wx/audio_panel.cc:110 src/wx/video_panel.cc:168
 msgid "Fade in"
-msgstr ""
+msgstr "Bemeneti átfedés"
 
 #: src/wx/subtitle_appearance_dialog.cc:99
 msgid "Fade in time"
@@ -1266,7 +1266,7 @@ msgstr ""
 
 #: src/wx/audio_panel.cc:113 src/wx/video_panel.cc:171
 msgid "Fade out"
-msgstr ""
+msgstr "Kimeneti átfedés"
 
 #: src/wx/subtitle_appearance_dialog.cc:102
 msgid "Fade out time"
@@ -1364,16 +1364,16 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:786
 msgid "Frame Rate"
-msgstr ""
+msgstr "Képkockaszám"
 
 #: src/wx/image_sequence_dialog.cc:30
 msgid "Frame rate"
-msgstr ""
+msgstr "Képkockaszám"
 
 #: src/wx/player_information.cc:151
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "Képkockaszám: %d"
 
 #: src/wx/about_dialog.cc:72
 msgid "Free, open-source DCP creation from almost anything."
@@ -1398,7 +1398,7 @@ msgstr ""
 
 #: src/wx/timing_panel.cc:108
 msgid "Full length"
-msgstr ""
+msgstr "Teljes hossz"
 
 #: src/wx/dcp_panel.cc:117
 msgid "GB"
@@ -1709,7 +1709,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:124
 msgid "Later"
-msgstr ""
+msgstr "Később"
 
 #: src/wx/config_dialog.cc:520
 msgid "Leaf"
@@ -1730,7 +1730,7 @@ msgstr ""
 #: src/wx/auto_crop_dialog.cc:32 src/wx/controls.cc:91
 #: src/wx/video_panel.cc:118
 msgid "Left"
-msgstr ""
+msgstr "Bal"
 
 #: src/wx/content_properties_dialog.cc:83
 msgid "Length"
@@ -1841,7 +1841,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:122
 msgid "Markers..."
-msgstr ""
+msgstr "Jelölőpontok..."
 
 #: src/wx/colour_conversion_editor.cc:136
 msgid "Matrix"
@@ -1866,11 +1866,11 @@ msgstr ""
 
 #: src/wx/metadata_dialog.cc:42
 msgid "Metadata"
-msgstr ""
+msgstr "Metaadatok"
 
 #: src/wx/dcp_panel.cc:123
 msgid "Metadata..."
-msgstr ""
+msgstr "Metaadatok..."
 
 #: src/wx/export_video_file_dialog.cc:75
 msgid "Mix audio down to stereo"
@@ -1929,7 +1929,7 @@ msgstr ""
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:70
 #: src/wx/screen_dialog.cc:122
 msgid "Name"
-msgstr ""
+msgstr "Név"
 
 #: src/wx/player_information.cc:143
 msgid "Needs KDM"
@@ -2192,7 +2192,7 @@ msgstr ""
 
 #: src/wx/timing_panel.cc:105
 msgid "Position"
-msgstr ""
+msgstr "Pozíció"
 
 #: src/wx/metadata_dialog.cc:257 src/wx/smpte_metadata_dialog.cc:158
 msgid "Pre-release"
@@ -2200,7 +2200,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:906
 msgid "Processor"
-msgstr ""
+msgstr "Hangprocesszor"
 
 #: src/wx/full_config_dialog.cc:1349
 msgid "Product name"
@@ -2240,7 +2240,7 @@ msgstr ""
 
 #: src/wx/video_panel.cc:197
 msgid "Range"
-msgstr ""
+msgstr "Tartomány"
 
 #: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
 #: src/wx/rating_dialog.cc:294
@@ -2321,7 +2321,7 @@ msgstr ""
 #: src/wx/content_panel.cc:116 src/wx/recipients_panel.cc:73
 #: src/wx/templates_dialog.cc:61 src/wx/editable_list.h:142
 msgid "Remove"
-msgstr ""
+msgstr "Eltávolítás"
 
 #: src/wx/markers_panel.cc:238
 #, c-format
@@ -2382,7 +2382,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:783
 msgid "Resolution"
-msgstr ""
+msgstr "Felbontás"
 
 #: src/wx/player_config_dialog.cc:124
 msgid "Respect KDM validity periods"
@@ -2399,7 +2399,7 @@ msgstr ""
 #: src/wx/auto_crop_dialog.cc:34 src/wx/controls.cc:92
 #: src/wx/video_panel.cc:132
 msgid "Right"
-msgstr ""
+msgstr "Jobb"
 
 #: src/wx/audio_mapping_view.cc:640
 msgid "Right click to change gain."
@@ -2456,7 +2456,7 @@ msgstr ""
 
 #: src/wx/text_panel.cc:104 src/wx/video_panel.cc:181
 msgid "Scale"
-msgstr ""
+msgstr "Skálázás"
 
 #: src/wx/kdm_dialog.cc:79
 msgid "Screens"
@@ -2626,7 +2626,7 @@ msgstr ""
 
 #: src/wx/audio_panel.cc:81 src/wx/dcp_panel.cc:910
 msgid "Show graph of audio levels..."
-msgstr ""
+msgstr "Grafikon mutatása a hangszintekről"
 
 #: src/wx/text_panel.cc:164
 msgid "Show subtitle area"
@@ -3304,7 +3304,7 @@ msgstr ""
 
 #: src/wx/content_panel.cc:128
 msgid "Timeline..."
-msgstr ""
+msgstr "Időrend..."
 
 #: src/wx/content_panel.cc:139
 msgid "Timing"
@@ -3325,7 +3325,7 @@ msgstr ""
 
 #: src/wx/auto_crop_dialog.cc:36 src/wx/video_panel.cc:143
 msgid "Top"
-msgstr ""
+msgstr "Felső"
 
 #: src/wx/closed_captions_dialog.cc:66
 msgid "Track"
@@ -3371,7 +3371,7 @@ msgstr ""
 #: src/wx/audio_dialog.cc:124 src/wx/config_dialog.cc:275
 #: src/wx/video_panel.cc:86
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
 #: src/wx/wx_util.cc:612
 msgid "UTC"
@@ -3511,7 +3511,7 @@ msgstr ""
 
 #: src/wx/dcp_panel.cc:88
 msgid "Use ISDCF name"
-msgstr ""
+msgstr "ISDCF elnevezés használata"
 
 #: src/wx/full_config_dialog.cc:354
 msgid "Use ISDCF name by default"
