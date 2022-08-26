@@ -113,6 +113,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxArrayString translated_by;
 	translated_by.Add (wxT ("Manuel AC"));
 	translated_by.Add (wxT ("Max Aeschlimann"));
+	translated_by.Add (wxT ("Gökhan Aksoy"));
 	translated_by.Add (wxT ("Thiago Andre"));
 	translated_by.Add (wxT ("Felice D'Andrea"));
 	translated_by.Add (wxT ("Grégoire Ausina"));
@@ -147,7 +148,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Igor Voytovich"));
 	translated_by.Add (wxT ("Rov (若文)"));
 	translated_by.Add (wxT ("刘汉源"));
-	translated_by.Add (wxT ("Gökhan Aksoy"));
  	add_section (_("Translated by"), translated_by);
 
 	wxArrayString patrons;
