@@ -269,7 +269,7 @@ function copy_resources {
     cp -r $prefix/share/libdcp/ratings "$dest"
 
     # i18n: DCP-o-matic .mo files
-    for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN tr_TR sl_SI; do
+    for lang in de_DE es_ES fr_FR it_IT sv_SE nl_NL ru_RU pl_PL da_DK pt_PT pt_BR sk_SK cs_CZ uk_UA zh_CN tr_TR sl_SI hu_HU; do
 	mkdir -p "$dest/$lang/LC_MESSAGES"
 	cp $prefix/src/dcpomatic/build/src/lib/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"
 	cp $prefix/src/dcpomatic/build/src/wx/mo/$lang/*.mo "$dest/$lang/LC_MESSAGES"

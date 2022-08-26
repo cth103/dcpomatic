@@ -138,6 +138,7 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 	languages.push_back (make_pair("Slovenský jazyk", "sk_SK"));
 	// languages.push_back (make_pair("Türkçe", "tr_TR"));
 	languages.push_back (make_pair("українська мова", "uk_UA"));
+	languages.push_back (make_pair("Magyar nyelv", "hu_HU"));
 	checked_set (_language, languages);
 	table->Add (_language, wxGBPosition (r, 1));
 	++r;
