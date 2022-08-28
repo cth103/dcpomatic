@@ -37,7 +37,6 @@ class ContentVersionDialog;
 class Film;
 class LanguageTagDialog;
 class LanguageTagWidget;
-class RatingDialog;
 
 
 class SMPTEMetadataDialog : public MetadataDialog
@@ -53,8 +52,6 @@ private:
 	void film_changed (ChangeType type, Film::Property property) override;
 	void setup_sensitivity () override;
 
-	std::vector<dcp::Rating> ratings () const;
-	void set_ratings (std::vector<dcp::Rating> r);
 	std::vector<std::string> content_versions () const;
 	void set_content_versions (std::vector<std::string> v);
 	void name_language_changed (dcp::LanguageTag tag);
@@ -68,6 +65,5 @@ private:
 	wxChoice* _status;
 	wxCheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
-	EditableList<dcp::Rating, RatingDialog>* _ratings;
 	EditableList<std::string, ContentVersionDialog>* _content_versions;
 };

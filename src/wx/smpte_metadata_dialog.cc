@@ -45,17 +45,6 @@ using namespace boost::placeholders;
 
 
 static string
-ratings_column (dcp::Rating r, int c)
-{
-	if (c == 0) {
-		return r.agency;
-	}
-
-	return r.label;
-}
-
-
-static string
 content_versions_column (string v, int)
 {
 	return v;
@@ -84,18 +73,6 @@ SMPTEMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		sizer->Add (m, 0, flags, DCPOMATIC_SIZER_GAP);
 	}
 
-	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn("Agency", 200, true));
-	columns.push_back (EditableListColumn("Label", 50, true));
-	_ratings = new EditableList<dcp::Rating, RatingDialog> (
-		panel,
-		columns,
-		boost::bind(&SMPTEMetadataDialog::ratings, this),
-		boost::bind(&SMPTEMetadataDialog::set_ratings, this, _1),
-		boost::bind(&ratings_column, _1, _2),
-		true,
-		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
-		);
 	sizer->Add (_ratings, 1, wxEXPAND);
 }
 
@@ -205,20 +182,6 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 			checked_set (_distributor, *film()->distributor());
 		}
 	}
-}
-
-
-vector<dcp::Rating>
-SMPTEMetadataDialog::ratings () const
-{
-	return film()->ratings ();
-}
-
-
-void
-SMPTEMetadataDialog::set_ratings (vector<dcp::Rating> r)
-{
-	film()->set_ratings (r);
 }
 
 

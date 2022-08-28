@@ -19,7 +19,6 @@
 */
 
 
-#include "editable_list.h"
 #include "interop_metadata_dialog.h"
 #include "language_tag_widget.h"
 #include "rating_dialog.h"
@@ -60,23 +59,6 @@ InteropMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		sizer->Add (m, 0, flags, DCPOMATIC_SIZER_GAP);
 	}
 
-	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn(_("Agency"), 200, true));
-	columns.push_back (EditableListColumn(_("Label"), 50, true));
-	_ratings = new EditableList<dcp::Rating, RatingDialog> (
-		panel,
-		columns,
-		boost::bind(&InteropMetadataDialog::ratings, this),
-		boost::bind(&InteropMetadataDialog::set_ratings, this, _1),
-		[](dcp::Rating r, int c) {
-			if (c == 0) {
-				return r.agency;
-			}
-			return r.label;
-		},
-		true,
-		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
-		);
 	sizer->Add (_ratings, 1, wxEXPAND);
 
 	add_label_to_sizer (sizer, panel, _("Content version"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
@@ -88,20 +70,6 @@ InteropMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 
 	_content_version->Bind (wxEVT_TEXT, boost::bind(&InteropMetadataDialog::content_version_changed, this));
 	_content_version->SetFocus ();
-}
-
-
-vector<dcp::Rating>
-InteropMetadataDialog::ratings () const
-{
-	return film()->ratings ();
-}
-
-
-void
-InteropMetadataDialog::set_ratings (vector<dcp::Rating> r)
-{
-	film()->set_ratings (r);
 }
 
 

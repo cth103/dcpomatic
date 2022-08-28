@@ -20,9 +20,11 @@
 
 
 #include "dcpomatic_button.h"
+#include "editable_list.h"
 #include "full_language_tag_dialog.h"
 #include "language_tag_widget.h"
 #include "metadata_dialog.h"
+#include "rating_dialog.h"
 #include "wx_util.h"
 #include "lib/film.h"
 #include <dcp/warnings.h>
@@ -36,6 +38,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 using std::weak_ptr;
+using std::vector;
 
 
 MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> weak_film)
@@ -183,6 +186,24 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		s->Add (_edit_release_territory, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
 		sizer->Add (s, 0, wxEXPAND);
 	}
+
+	vector<EditableListColumn> columns;
+	columns.push_back (EditableListColumn("Agency", 200, true));
+	columns.push_back (EditableListColumn("Label", 50, true));
+	_ratings = new EditableList<dcp::Rating, RatingDialog> (
+		panel,
+		columns,
+		boost::bind(&MetadataDialog::ratings, this),
+		boost::bind(&MetadataDialog::set_ratings, this, _1),
+		[](dcp::Rating r, int c) {
+			if (c == 0) {
+				return r.agency;
+			}
+			return r.label;
+		},
+		true,
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
+		);
 }
 
 
@@ -406,5 +427,19 @@ void
 MetadataDialog::sign_language_video_language_changed ()
 {
 	film()->set_sign_language_video_language(_sign_language_video_language->get());
+}
+
+
+vector<dcp::Rating>
+MetadataDialog::ratings() const
+{
+	return film()->ratings();
+}
+
+
+void
+MetadataDialog::set_ratings(vector<dcp::Rating> r)
+{
+	film()->set_ratings(r);
 }
 

@@ -19,7 +19,6 @@
 */
 
 
-#include "editable_list.h"
 #include "metadata_dialog.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
@@ -32,7 +31,6 @@ LIBDCP_ENABLE_WARNINGS
 
 class Film;
 class LanguageTagWidget;
-class RatingDialog;
 
 
 class InteropMetadataDialog : public MetadataDialog
@@ -43,11 +41,7 @@ public:
 private:
 	void setup_standard (wxPanel* panel, wxSizer* sizer) override;
 
-	void set_ratings (std::vector<dcp::Rating> r);
 	void content_version_changed ();
 
-	std::vector<dcp::Rating> ratings () const;
-
-	EditableList<dcp::Rating, RatingDialog>* _ratings;
 	wxTextCtrl* _content_version;
 };

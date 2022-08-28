@@ -23,6 +23,7 @@
 #define DCPOMATIC_METADATA_DIALOG_H
 
 
+#include "editable_list.h"
 #include "lib/change_signaller.h"
 #include "lib/film.h"
 #include "lib/weak_film.h"
@@ -33,6 +34,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class Button;
+class RatingDialog;
 class wxSpinCtrlDouble;
 class LanguageTagWidget;
 
@@ -50,6 +52,8 @@ protected:
 	virtual void film_changed (ChangeType type, Film::Property property);
 	virtual void setup_sensitivity ();
 
+	EditableList<dcp::Rating, RatingDialog>* _ratings;
+
 private:
 	void sign_language_video_language_changed ();
 	void edit_release_territory ();
@@ -66,6 +70,8 @@ private:
 	void enable_chain_changed ();
 	void enable_luminance_changed ();
 	void luminance_changed ();
+	std::vector<dcp::Rating> ratings () const;
+	void set_ratings (std::vector<dcp::Rating> r);
 
 	wxCheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
