@@ -1130,6 +1130,10 @@ public:
 		maybe_set (_last_release_notes_version, version);
 	}
 
+	void unset_last_release_notes_version() {
+		maybe_set(_last_release_notes_version, boost::optional<std::string>());
+	}
+
 	ExportConfig& export_config() {
 		return _export;
 	}
