@@ -75,7 +75,7 @@ InteropMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 			return r.label;
 		},
 		true,
-		false
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 	sizer->Add (_ratings, 1, wxEXPAND);
 

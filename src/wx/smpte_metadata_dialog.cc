@@ -94,7 +94,7 @@ SMPTEMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		boost::bind(&SMPTEMetadataDialog::set_ratings, this, _1),
 		boost::bind(&ratings_column, _1, _2),
 		true,
-		false
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 	sizer->Add (_ratings, 1, wxEXPAND);
 }
