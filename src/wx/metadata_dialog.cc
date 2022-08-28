@@ -188,8 +188,8 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 	}
 
 	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn("Agency", 200, true));
-	columns.push_back (EditableListColumn("Label", 50, true));
+	columns.push_back(EditableListColumn("Agency", 200, true));
+	columns.push_back(EditableListColumn("Label", 400, true));
 	_ratings = new EditableList<dcp::Rating, RatingDialog> (
 		panel,
 		columns,
@@ -204,6 +204,7 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		true,
 		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
+	_ratings->SetMinSize(wxSize(600, -1));
 }
 
 
