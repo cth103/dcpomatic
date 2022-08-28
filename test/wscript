@@ -115,6 +115,7 @@ def build(bld):
                  player_test.cc
                  pulldown_detect_test.cc
                  ratio_test.cc
+                 release_notes_test.cc
                  repeat_frame_test.cc
                  recover_test.cc
                  rect_test.cc

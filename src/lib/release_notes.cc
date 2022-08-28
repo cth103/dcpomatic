@@ -45,7 +45,7 @@ find_release_notes(optional<string> current)
 
 	const string header = String::compose("<h1>DCP-o-matic %1 release notes</h1>", *current);
 
-	if (*current == "2.16.18") {
+	if (!last) {
 		return header +
 			_("In this version there are changes to the way that subtitles are positioned.  "
 			  "Positioning should now be more correct, with respect to the standards, but you "
