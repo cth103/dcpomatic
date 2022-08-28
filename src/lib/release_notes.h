@@ -23,4 +23,4 @@
 #include <string>
 
 
-extern boost::optional<std::string> find_release_notes();
+extern boost::optional<std::string> find_release_notes(boost::optional<std::string> current = boost::optional<std::string>());

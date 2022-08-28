@@ -31,19 +31,21 @@ using boost::optional;
 
 
 optional<string>
-find_release_notes()
+find_release_notes(optional<string> current)
 {
 	auto last = Config::instance()->last_release_notes_version();
-	auto current = string(dcpomatic_version);
-	if (last && *last == current) {
+	if (!current) {
+		current = string(dcpomatic_version);
+	}
+	if (last && *last == *current) {
 		return {};
 	}
 
-	Config::instance()->set_last_release_notes_version(current);
+	Config::instance()->set_last_release_notes_version(*current);
 
-	const string header = String::compose("<h1>DCP-o-matic %1 release notes</h1>", current);
+	const string header = String::compose("<h1>DCP-o-matic %1 release notes</h1>", *current);
 
-	if (current == "2.16.18") {
+	if (*current == "2.16.18") {
 		return header +
 			_("In this version there are changes to the way that subtitles are positioned.  "
 			  "Positioning should now be more correct, with respect to the standards, but you "
