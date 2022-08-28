@@ -31,6 +31,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <unordered_map>
 
 
 class Button;
@@ -53,6 +54,7 @@ protected:
 	virtual void setup_sensitivity ();
 
 	EditableList<dcp::Rating, RatingDialog>* _ratings;
+	std::unordered_map<std::string, std::string> _rating_system_agency_to_name;
 
 private:
 	void sign_language_video_language_changed ();

@@ -45,7 +45,9 @@ MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> weak_film)
 	: wxDialog (parent, wxID_ANY, _("Metadata"))
 	, WeakFilm (weak_film)
 {
-
+	for (auto system: dcp::rating_systems()) {
+		_rating_system_agency_to_name[system.agency] = system.name;
+	}
 }
 
 
@@ -195,8 +197,12 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 		columns,
 		boost::bind(&MetadataDialog::ratings, this),
 		boost::bind(&MetadataDialog::set_ratings, this, _1),
-		[](dcp::Rating r, int c) {
+		[this](dcp::Rating r, int c) {
 			if (c == 0) {
+				auto iter = _rating_system_agency_to_name.find(r.agency);
+				if (iter != _rating_system_agency_to_name.end()) {
+					return iter->second;
+				}
 				return r.agency;
 			}
 			return r.label;
