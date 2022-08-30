@@ -113,7 +113,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_remove_screen->Bind (wxEVT_BUTTON, boost::bind (&ScreensPanel::remove_screen_clicked, this));
 
 	_check_all->Bind     (wxEVT_BUTTON, boost::bind(&ScreensPanel::check_all, this));
-	_uncheck_all->Bind     (wxEVT_BUTTON, boost::bind(&ScreensPanel::uncheck_all, this));
+	_uncheck_all->Bind   (wxEVT_BUTTON, boost::bind(&ScreensPanel::uncheck_all, this));
 
 	SetSizer (sizer);
 
