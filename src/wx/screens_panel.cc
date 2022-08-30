@@ -243,6 +243,8 @@ ScreensPanel::add_cinema_clicked ()
 			);
 
 		try {
+			_ignore_cinemas_changed = true;
+			ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 			Config::instance()->add_cinema(cinema);
 		} catch (FileError& e) {
 			error_dialog(GetParent(), _("Could not write cinema details to the cinemas.xml file.  Check that the location of cinemas.xml is valid in DCP-o-matic's preferences."), std_to_wx(e.what()));
@@ -326,6 +328,8 @@ ScreensPanel::remove_cinema_clicked ()
 	}
 
 	for (auto const& cinema: _selected_cinemas) {
+		_ignore_cinemas_changed = true;
+		ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 		Config::instance()->remove_cinema(cinema);
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);
