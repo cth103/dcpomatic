@@ -251,18 +251,20 @@ ScreensPanel::add_cinema_clicked ()
 			return;
 		}
 
-		optional<wxTreeListItem> item;
+		wxTreeListItem previous = wxTLI_FIRST;
+		bool found = false;
 		for (auto existing_cinema: cinemas) {
-			if (!item && compare(dialog->name(), existing_cinema->name) < 0) {
-				if (auto existing_item = cinema_to_item(existing_cinema)) {
-					item = add_cinema (cinema, *existing_item);
-				}
+			if (compare(dialog->name(), existing_cinema->name) < 0) {
+				/* existing_cinema should be after the one we're inserting */
+				found = true;
+				break;
 			}
+			auto item = cinema_to_item(existing_cinema);
+			DCPOMATIC_ASSERT(item);
+			previous = *item;
 		}
 
-		if (!item) {
-			item = add_cinema (cinema, wxTLI_LAST);
-		}
+		auto item = add_cinema(cinema, found ? previous : wxTLI_LAST);
 
 		if (item) {
 			_targets->UnselectAll ();
