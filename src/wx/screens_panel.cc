@@ -237,6 +237,13 @@ ScreensPanel::add_cinema_clicked ()
 			[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return compare(a->name, b->name) < 0; }
 			);
 
+		try {
+			Config::instance()->add_cinema(cinema);
+		} catch (FileError& e) {
+			error_dialog(GetParent(), _("Could not write cinema details to the cinemas.xml file.  Check that the location of cinemas.xml is valid in DCP-o-matic's preferences."), std_to_wx(e.what()));
+			return;
+		}
+
 		optional<wxTreeListItem> item;
 		for (auto existing_cinema: cinemas) {
 			if (!item && compare(dialog->name(), existing_cinema->name) < 0) {
@@ -254,8 +261,6 @@ ScreensPanel::add_cinema_clicked ()
 			_targets->UnselectAll ();
 			_targets->Select (*item);
 		}
-
-		Config::instance()->add_cinema (cinema);
 	}
 
 	selection_changed ();
@@ -294,10 +299,10 @@ ScreensPanel::edit_cinema_clicked ()
 		cinema->notes = dialog->notes();
 		cinema->set_utc_offset_hour(dialog->utc_offset_hour());
 		cinema->set_utc_offset_minute(dialog->utc_offset_minute());
+		notify_cinemas_changed();
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);
 		_targets->SetItemText (*item, std_to_wx(dialog->name()));
-		Config::instance()->changed (Config::CINEMAS);
 	}
 }
 
@@ -356,12 +361,12 @@ ScreensPanel::add_screen_clicked ()
 
 	auto screen = std::make_shared<Screen>(dialog->name(), dialog->notes(), dialog->recipient(), dialog->recipient_file(), dialog->trusted_devices());
 	cinema->add_screen (screen);
+	notify_cinemas_changed();
+
 	auto id = add_screen (cinema, screen);
 	if (id) {
 		_targets->Expand (id.get ());
 	}
-
-	Config::instance()->changed (Config::CINEMAS);
 }
 
 
@@ -407,10 +412,11 @@ ScreensPanel::edit_screen_clicked ()
 	edit_screen->recipient = dialog->recipient();
 	edit_screen->recipient_file = dialog->recipient_file();
 	edit_screen->trusted_devices = dialog->trusted_devices();
+	notify_cinemas_changed();
+
 	auto item = screen_to_item(edit_screen);
 	DCPOMATIC_ASSERT (item);
 	_targets->SetItemText (*item, std_to_wx(dialog->name()));
-	Config::instance()->changed (Config::CINEMAS);
 }
 
 
@@ -434,7 +440,7 @@ ScreensPanel::remove_screen_clicked ()
 		_targets->DeleteItem(*item);
 	}
 
-	Config::instance()->changed (Config::CINEMAS);
+	notify_cinemas_changed();
 }
 
 
@@ -657,3 +663,19 @@ ScreensPanel::compare (string const& utf8_a, string const& utf8_b)
 		return strcoll(utf8_a.c_str(), utf8_b.c_str());
 	}
 }
+
+
+bool
+ScreensPanel::notify_cinemas_changed()
+{
+	try {
+		Config::instance()->changed(Config::CINEMAS);
+	} catch (FileError& e) {
+		error_dialog(GetParent(), _("Could not write cinema details to the cinemas.xml file.  Check that the location of cinemas.xml is valid in DCP-o-matic's preferences."), std_to_wx(e.what()));
+		return false;
+	}
+
+	return true;
+}
+
+

@@ -71,6 +71,7 @@ private:
 	int compare (std::string const& utf8_a, std::string const& utf8_b);
 	void check_all ();
 	void uncheck_all ();
+	bool notify_cinemas_changed();
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
 	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;
