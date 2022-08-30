@@ -45,6 +45,9 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 using namespace dcpomatic;
 
 
@@ -124,6 +127,8 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 		ucol_setAttribute(_collator, UCOL_STRENGTH, UCOL_PRIMARY, &status);
 		ucol_setAttribute(_collator, UCOL_ALTERNATE_HANDLING, UCOL_SHIFTED, &status);
 	}
+
+	_config_connection = Config::instance()->Changed.connect(boost::bind(&ScreensPanel::config_changed, this, _1));
 }
 
 
@@ -501,7 +506,7 @@ ScreensPanel::add_cinemas ()
 
 
 void
-ScreensPanel::search_changed ()
+ScreensPanel::clear_and_re_add()
 {
 	_targets->DeleteAllItems ();
 
@@ -511,6 +516,13 @@ ScreensPanel::search_changed ()
 	_screen_to_item.clear ();
 
 	add_cinemas ();
+}
+
+
+void
+ScreensPanel::search_changed ()
+{
+	clear_and_re_add();
 
 	_ignore_selection_change = true;
 
@@ -668,6 +680,9 @@ ScreensPanel::compare (string const& utf8_a, string const& utf8_b)
 bool
 ScreensPanel::notify_cinemas_changed()
 {
+	_ignore_cinemas_changed = true;
+	ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
+
 	try {
 		Config::instance()->changed(Config::CINEMAS);
 	} catch (FileError& e) {
@@ -676,6 +691,15 @@ ScreensPanel::notify_cinemas_changed()
 	}
 
 	return true;
+}
+
+
+void
+ScreensPanel::config_changed(Config::Property property)
+{
+	if (property == Config::Property::CINEMAS && !_ignore_cinemas_changed) {
+		clear_and_re_add();
+	}
 }
 
 

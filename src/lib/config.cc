@@ -1291,6 +1291,7 @@ Config::set_cinemas_file (boost::filesystem::path file)
 		read_cinemas (f);
 	}
 
+	changed (CINEMAS);
 	changed (OTHER);
 }
 

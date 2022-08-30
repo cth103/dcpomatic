@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/config.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
@@ -72,6 +73,8 @@ private:
 	void check_all ();
 	void uncheck_all ();
 	bool notify_cinemas_changed();
+	void clear_and_re_add();
+	void config_changed(Config::Property);
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
 	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;
@@ -109,4 +112,7 @@ private:
 	bool _ignore_check_change = false;
 
 	UCollator* _collator = nullptr;
+
+	boost::signals2::scoped_connection _config_connection;
+	bool _ignore_cinemas_changed = false;
 };
