@@ -118,7 +118,7 @@ private:
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
 		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml", true, false);
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
-		Button* export_cinemas = new Button (_panel, _("Export..."));
+		auto export_cinemas = new Button (_panel, _("Export..."));
 		table->Add (export_cinemas, wxGBPosition (r, 2));
 		++r;
 
