@@ -26,6 +26,7 @@
 #include "wx_util.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
+#include "lib/scope_guard.h"
 #include "lib/screen.h"
 #include "lib/timer.h"
 #include <unicode/putil.h>
@@ -225,9 +226,11 @@ ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 void
 ScreensPanel::add_cinema_clicked ()
 {
-	auto d = new CinemaDialog (GetParent(), _("Add Cinema"));
-	if (d->ShowModal () == wxID_OK) {
-		auto cinema = make_shared<Cinema>(d->name(), d->emails(), d->notes(), d->utc_offset_hour(), d->utc_offset_minute());
+	auto dialog = new CinemaDialog (GetParent(), _("Add Cinema"));
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
+	if (dialog->ShowModal() == wxID_OK) {
+		auto cinema = make_shared<Cinema>(dialog->name(), dialog->emails(), dialog->notes(), dialog->utc_offset_hour(), dialog->utc_offset_minute());
 
 		auto cinemas = Config::instance()->cinemas();
 		cinemas.sort(
@@ -236,7 +239,7 @@ ScreensPanel::add_cinema_clicked ()
 
 		optional<wxTreeListItem> item;
 		for (auto existing_cinema: cinemas) {
-			if (!item && compare(d->name(), existing_cinema->name) < 0) {
+			if (!item && compare(dialog->name(), existing_cinema->name) < 0) {
 				if (auto existing_item = cinema_to_item(existing_cinema)) {
 					item = add_cinema (cinema, *existing_item);
 				}
@@ -254,8 +257,6 @@ ScreensPanel::add_cinema_clicked ()
 
 		Config::instance()->add_cinema (cinema);
 	}
-
-	d->Destroy ();
 
 	selection_changed ();
 }
@@ -282,23 +283,22 @@ ScreensPanel::edit_cinema_clicked ()
 		return;
 	}
 
-	auto d = new CinemaDialog (
+	auto dialog = new CinemaDialog(
 		GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset_hour(), cinema->utc_offset_minute()
 		);
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
-	if (d->ShowModal() == wxID_OK) {
-		cinema->name = d->name();
-		cinema->emails = d->emails();
-		cinema->notes = d->notes();
-		cinema->set_utc_offset_hour(d->utc_offset_hour());
-		cinema->set_utc_offset_minute(d->utc_offset_minute());
+	if (dialog->ShowModal() == wxID_OK) {
+		cinema->name = dialog->name();
+		cinema->emails = dialog->emails();
+		cinema->notes = dialog->notes();
+		cinema->set_utc_offset_hour(dialog->utc_offset_hour());
+		cinema->set_utc_offset_minute(dialog->utc_offset_minute());
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);
-		_targets->SetItemText (*item, std_to_wx(d->name()));
+		_targets->SetItemText (*item, std_to_wx(dialog->name()));
 		Config::instance()->changed (Config::CINEMAS);
 	}
-
-	d->Destroy ();
 }
 
 
@@ -334,26 +334,27 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	auto d = new ScreenDialog (GetParent(), _("Add Screen"));
-	if (d->ShowModal () != wxID_OK) {
-		d->Destroy ();
+	auto dialog = new ScreenDialog(GetParent(), _("Add Screen"));
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
+	if (dialog->ShowModal () != wxID_OK) {
 		return;
 	}
 
 	for (auto screen: cinema->screens()) {
-		if (screen->name == d->name()) {
+		if (screen->name == dialog->name()) {
 			error_dialog (
 				GetParent(),
 				wxString::Format (
 					_("You cannot add a screen called '%s' as the cinema already has a screen with this name."),
-					std_to_wx(d->name()).data()
+					std_to_wx(dialog->name()).data()
 					)
 				);
 			return;
 		}
 	}
 
-	auto screen = std::make_shared<Screen>(d->name(), d->notes(), d->recipient(), d->recipient_file(), d->trusted_devices());
+	auto screen = std::make_shared<Screen>(dialog->name(), dialog->notes(), dialog->recipient(), dialog->recipient_file(), dialog->trusted_devices());
 	cinema->add_screen (screen);
 	auto id = add_screen (cinema, screen);
 	if (id) {
@@ -361,8 +362,6 @@ ScreensPanel::add_screen_clicked ()
 	}
 
 	Config::instance()->changed (Config::CINEMAS);
-
-	d->Destroy ();
 }
 
 
@@ -375,7 +374,7 @@ ScreensPanel::edit_screen_clicked ()
 
 	auto edit_screen = _selected_screens[0];
 
-	auto d = new ScreenDialog (
+	auto dialog = new ScreenDialog(
 		GetParent(), _("Edit screen"),
 		edit_screen->name,
 		edit_screen->notes,
@@ -383,37 +382,35 @@ ScreensPanel::edit_screen_clicked ()
 		edit_screen->recipient_file,
 		edit_screen->trusted_devices
 		);
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
-	if (d->ShowModal() != wxID_OK) {
-		d->Destroy ();
+	if (dialog->ShowModal() != wxID_OK) {
 		return;
 	}
 
 	auto cinema = edit_screen->cinema;
 	for (auto screen: cinema->screens()) {
-		if (screen != edit_screen && screen->name == d->name()) {
+		if (screen != edit_screen && screen->name == dialog->name()) {
 			error_dialog (
 				GetParent(),
 				wxString::Format (
 					_("You cannot change this screen's name to '%s' as the cinema already has a screen with this name."),
-					std_to_wx(d->name()).data()
+					std_to_wx(dialog->name()).data()
 					)
 				);
 			return;
 		}
 	}
 
-	edit_screen->name = d->name();
-	edit_screen->notes = d->notes();
-	edit_screen->recipient = d->recipient();
-	edit_screen->recipient_file = d->recipient_file();
-	edit_screen->trusted_devices = d->trusted_devices();
+	edit_screen->name = dialog->name();
+	edit_screen->notes = dialog->notes();
+	edit_screen->recipient = dialog->recipient();
+	edit_screen->recipient_file = dialog->recipient_file();
+	edit_screen->trusted_devices = dialog->trusted_devices();
 	auto item = screen_to_item(edit_screen);
 	DCPOMATIC_ASSERT (item);
-	_targets->SetItemText (*item, std_to_wx(d->name()));
+	_targets->SetItemText (*item, std_to_wx(dialog->name()));
 	Config::instance()->changed (Config::CINEMAS);
-
-	d->Destroy ();
 }
 
 
