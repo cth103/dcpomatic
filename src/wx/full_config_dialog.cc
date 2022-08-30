@@ -173,7 +173,7 @@ private:
                 );
 
 		if (d->ShowModal () == wxID_OK) {
-			boost::filesystem::copy_file (Config::instance()->cinemas_file(), wx_to_std(d->GetPath()));
+			boost::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(d->GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
 		}
 		d->Destroy ();
 	}
