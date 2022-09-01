@@ -61,6 +61,13 @@ namespace EditableListButton
 };
 
 
+enum class EditableListTitle
+{
+	VISIBLE,
+	INVISIBLE
+};
+
+
 /** @param T type of things being edited.
  *  @param S dialog to edit a thing.
  *  @param get Function to get a std::vector of the things being edited.
@@ -77,7 +84,7 @@ public:
 		std::function<std::vector<T> ()> get,
 		std::function<void (std::vector<T>)> set,
 		std::function<std::string (T, int)> column,
-		bool title,
+		EditableListTitle title,
 		int buttons
 		)
 		: wxPanel (parent)
@@ -91,7 +98,7 @@ public:
 		SetSizer (_sizer);
 
 		long style = wxLC_REPORT | wxLC_SINGLE_SEL;
-		if (!title) {
+		if (title == EditableListTitle::INVISIBLE) {
 			style |= wxLC_NO_HEADER;
 		}
 

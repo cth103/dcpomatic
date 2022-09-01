@@ -207,7 +207,7 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 			}
 			return r.label;
 		},
-		true,
+		EditableListTitle::VISIBLE,
 		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 	_ratings->SetMinSize(wxSize(600, -1));

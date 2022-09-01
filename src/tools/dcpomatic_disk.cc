@@ -135,7 +135,7 @@ public:
 			boost::bind(&DOMFrame::dcp_paths, this),
 			boost::bind(&DOMFrame::set_dcp_paths, this, _1),
 			[](boost::filesystem::path p, int) { return p.filename().string(); },
-			false,
+			EditableListTitle::INVISIBLE,
 			EditableListButton::NEW | EditableListButton::REMOVE
 			);
 

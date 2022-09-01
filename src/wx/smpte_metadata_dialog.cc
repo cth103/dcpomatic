@@ -112,8 +112,8 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 		boost::bind(&SMPTEMetadataDialog::content_versions, this),
 		boost::bind(&SMPTEMetadataDialog::set_content_versions, this, _1),
 		boost::bind(&content_versions_column, _1, _2),
-		true,
-		false
+		EditableListTitle::INVISIBLE,
+		EditableListButton::NEW | EditableListButton::REMOVE
 		);
 	sizer->Add (_content_versions, 1, wxEXPAND);
 }

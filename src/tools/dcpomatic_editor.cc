@@ -221,7 +221,7 @@ public:
 			[](shared_ptr<dcp::Reel> reel, int) {
 				return reel->id();
 			},
-			false,
+			EditableListTitle::INVISIBLE,
 			EditableListButton::EDIT
 		);
 		sizer->Add(_reels, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);

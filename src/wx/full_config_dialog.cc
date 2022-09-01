@@ -633,7 +633,7 @@ private:
 			boost::bind (&Config::servers, Config::instance()),
 			boost::bind (&Config::set_servers, Config::instance(), _1),
 			boost::bind (&EncodingServersPage::server_column, this, _1),
-			false,
+			EditableListTitle::INVISIBLE,
 			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 			);
 
@@ -991,7 +991,7 @@ private:
 			[] (string s, int) {
 				return s;
 			},
-			true,
+			EditableListTitle::VISIBLE,
 			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 			);
 		table->Add (_cc, 1, wxEXPAND | wxALL);
@@ -1128,7 +1128,7 @@ private:
 			[] (string s, int) {
 				return s;
 			},
-			true,
+			EditableListTitle::VISIBLE,
 			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 			);
 		table->Add (_cc, 1, wxEXPAND | wxALL);

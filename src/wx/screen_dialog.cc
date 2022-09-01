@@ -178,8 +178,8 @@ ScreenDialog::ScreenDialog (
 		[] (TrustedDevice const& d, int) {
 			return d.thumbprint();
 		},
-		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE,
-		false
+		EditableListTitle::INVISIBLE,
+		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 
 	_sizer->Add (_trusted_device_list, wxGBPosition (r, 0), wxGBSpan (1, 3), wxEXPAND);

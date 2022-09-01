@@ -100,7 +100,7 @@ public:
 			boost::bind(&DOMFrame::inputs, this),
 			boost::bind(&DOMFrame::set_inputs, this, _1),
 			&display_string,
-			true,
+			EditableListTitle::VISIBLE,
 			EditableListButton::NEW | EditableListButton::REMOVE
 			);
 
