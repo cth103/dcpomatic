@@ -804,6 +804,7 @@ private:
 			_dual_screen->SetBackgroundColour (wxColour(0, 0, 0));
 			_dual_screen->ShowFullScreen (true);
 			_viewer->panel()->Reparent (_dual_screen);
+			_viewer->panel()->SetFocus();
 			_dual_screen->Show ();
 			if (wxDisplay::GetCount() > 1) {
 				switch (Config::instance()->image_display()) {
@@ -818,6 +819,7 @@ private:
 					break;
 				}
 			}
+			_dual_screen->Bind(wxEVT_CHAR_HOOK, boost::bind(&DOMFrame::dual_screen_key_press, this, _1));
 		} else {
 			if (_dual_screen) {
 				_viewer->panel()->Reparent (_overall_panel);
@@ -827,6 +829,17 @@ private:
 		}
 
 		setup_main_sizer (_mode);
+	}
+
+	void dual_screen_key_press(wxKeyEvent& ev)
+	{
+		if (ev.GetKeyCode() == WXK_F11) {
+			if (ev.ShiftDown()) {
+				view_dual_screen();
+			} else if (!ev.HasAnyModifiers()) {
+				view_full_screen();
+			}
+		}
 	}
 
 	void view_closed_captions ()
