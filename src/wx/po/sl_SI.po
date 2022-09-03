@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-07-08 22:41+0200\n"
-"PO-Revision-Date: 2022-07-25 14:53+0200\n"
+"PO-Revision-Date: 2022-09-03 23:27+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -2752,7 +2752,7 @@ msgstr "Stabilna različica "
 #: src/wx/dcp_panel.cc:119 src/wx/metadata_dialog.cc:65
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
-msgstr "Navadno"
+msgstr "Standard"
 
 #: src/wx/text_view.cc:58
 msgid "Start"
@@ -3882,7 +3882,7 @@ msgstr "kino"
 
 #: src/wx/text_panel.cc:92 src/wx/text_panel.cc:609
 msgid "closed captions"
-msgstr "zaprti napisi"
+msgstr "zaprti podnapisi"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
@@ -3971,7 +3971,7 @@ msgstr "število kolutov"
 
 #: src/wx/text_panel.cc:91 src/wx/text_panel.cc:607
 msgid "open subtitles"
-msgstr "odpri podnaslove"
+msgstr "odprti podnaslovi"
 
 #: src/wx/config_dialog.cc:871
 msgid "output"
