@@ -973,7 +973,10 @@ Film::isdcf_name (bool if_created_now) const
 		if (_ratings.empty ()) {
 			d += "-NR";
 		} else {
-			d += "-" + _ratings[0].label;
+			auto label = _ratings[0].label;
+			boost::erase_all(label, "+");
+			boost::erase_all(label, "-");
+			d += "-" + label;
 		}
 	}
 

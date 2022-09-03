@@ -96,9 +96,9 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_interop (false);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
-	/* Test to see that RU ratings like 6+ survive */
+	/* Test to see that RU ratings like 6+ are stripped of their + */
 	film->set_ratings({dcp::Rating("RARS", "6+")});
-	BOOST_CHECK_EQUAL (film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6+_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL (film->dcp_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-6_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 	film->set_ratings({dcp::Rating("MPA", "R")});
 
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
