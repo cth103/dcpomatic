@@ -31,6 +31,7 @@
 #include "content.h"
 #include "font.h"
 #include <libcxml/cxml.h>
+#include <dcp/content_kind.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/rating.h>
 

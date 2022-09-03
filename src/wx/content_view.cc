@@ -155,7 +155,7 @@ ContentView::add (shared_ptr<Content> content)
 	if (dcp && dcp->content_kind()) {
 		it.SetId(N);
 		it.SetColumn(1);
-		it.SetText(std_to_wx(dcp::content_kind_to_string(*dcp->content_kind())));
+		it.SetText(std_to_wx(dcp->content_kind()->name()));
 		SetItem(it);
 	}
 

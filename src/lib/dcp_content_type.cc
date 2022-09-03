@@ -58,8 +58,12 @@ DCPContentType::setup_dcp_content_types ()
 		DCPContentType(_("Policy"), dcp::ContentKind::POLICY, N_("POL")),
 		DCPContentType(_("Public Service Announcement"), dcp::ContentKind::PUBLIC_SERVICE_ANNOUNCEMENT, N_("PSA")),
 		DCPContentType(_("Advertisement"), dcp::ContentKind::ADVERTISEMENT, N_("ADV")),
+		DCPContentType(_("Clip"), dcp::ContentKind::CLIP, N_("CLP")),
+		DCPContentType(_("Promo"), dcp::ContentKind::PROMO, N_("PRO")),
+		DCPContentType(_("Stereo card"), dcp::ContentKind::STEREOCARD, N_("STR")),
 		DCPContentType(_("Episode"), dcp::ContentKind::EPISODE, N_("EPS")),
-		DCPContentType(_("Promo"), dcp::ContentKind::PROMO, N_("PRO"))
+		DCPContentType(_("Highlights"), dcp::ContentKind::HIGHLIGHTS, N_("HLT")),
+		DCPContentType(_("Event"), dcp::ContentKind::EVENT, N_("EVT")),
 	};
 }
 

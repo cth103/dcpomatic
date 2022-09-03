@@ -360,7 +360,7 @@ private:
 	{
 		_list->SetItem (N, 0, std_to_wx(e.name));
 		_list->SetItem (N, 1, std_to_wx(e.id));
-		_list->SetItem (N, 2, std_to_wx(dcp::content_kind_to_string(e.kind)));
+		_list->SetItem (N, 2, std_to_wx(e.kind->name()));
 		_list->SetItem (N, 3, e.encrypted ? S_("Question|Y") : S_("Question|N"));
 	}
 

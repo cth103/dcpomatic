@@ -131,7 +131,8 @@ public:
 	}
 
 	dcp::ContentKind content_kind () const {
-		return _content_kind;
+		DCPOMATIC_ASSERT(_content_kind);
+		return *_content_kind;
 	}
 
 	std::string cpl () const {
@@ -194,7 +195,7 @@ private:
 	bool _kdm_valid = false;
 	boost::optional<dcp::Standard> _standard;
 	bool _three_d = false;
-	dcp::ContentKind _content_kind;
+	boost::optional<dcp::ContentKind> _content_kind;
 	std::string _cpl;
 	std::list<int64_t> _reel_lengths;
 	std::map<dcp::Marker, dcp::Time> _markers;

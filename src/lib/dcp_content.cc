@@ -148,7 +148,7 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 
 	auto ck = node->optional_string_child("ContentKind");
 	if (ck) {
-		_content_kind = dcp::content_kind_from_string (*ck);
+		_content_kind = dcp::ContentKind::from_name(*ck);
 	}
 	_cpl = node->optional_string_child("CPL");
 	for (auto i: node->node_children("ReelLength")) {
@@ -388,7 +388,7 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 	node->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	if (_content_kind) {
-		node->add_child("ContentKind")->add_child_text(dcp::content_kind_to_string(*_content_kind));
+		node->add_child("ContentKind")->add_child_text(_content_kind->name());
 	}
 	if (_cpl) {
 		node->add_child("CPL")->add_child_text (_cpl.get ());

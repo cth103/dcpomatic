@@ -24,7 +24,7 @@
 
 
 #include <libcxml/cxml.h>
-#include <dcp/types.h>
+#include <dcp/content_kind.h>
 
 
 namespace xmlpp {
@@ -47,7 +47,7 @@ public:
 	std::string digest;
 	/** CPL ID */
 	std::string id;
-	dcp::ContentKind kind;
+	boost::optional<dcp::ContentKind> kind;
 	bool encrypted;
 
 private:

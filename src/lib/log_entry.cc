@@ -22,6 +22,7 @@
 #include "log_entry.h"
 #include <inttypes.h>
 #include <cstdio>
+#include <ctime>
 
 #include "i18n.h"
 

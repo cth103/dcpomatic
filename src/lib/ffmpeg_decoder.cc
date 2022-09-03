@@ -791,7 +791,8 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 		base,
 		text,
 		_ffmpeg_content->video->size().width,
-		_ffmpeg_content->video->size().height
+		_ffmpeg_content->video->size().height,
+		sub::Colour(1, 1, 1)
 		);
 
 	for (auto const& i: sub::collect<vector<sub::Subtitle>>(raw)) {

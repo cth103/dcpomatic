@@ -377,6 +377,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::UNEXPECTED_DURATION:
 			add(i, _("There is a <Duration> tag inside a <MainMarkers>."));
 			break;
+		case dcp::VerificationNote::Code::INVALID_CONTENT_KIND:
+			add(i, _("An invalid <ContentKind> %n has been used."));
+			break;
 		}
 	}
 

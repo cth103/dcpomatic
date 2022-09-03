@@ -28,6 +28,7 @@
  */
 
 
+#include <dcp/content_kind.h>
 #include <dcp/dcp.h>
 #include <string>
 #include <vector>
