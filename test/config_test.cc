@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 	boost::filesystem::remove (dir / "2.16" / "config.xml");
 	Config::instance();
 
-	check_text_file (dir / "backup_for_test.xml", dir / "cinemas.xml.1");
+	check_text_file(dir / "backup_for_test.xml", dir / "cinemas.xml");
 }
 
 

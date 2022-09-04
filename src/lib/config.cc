@@ -608,7 +608,7 @@ try
 	_export.read(f.optional_node_child("Export"));
 }
 catch (...) {
-	if (have_existing("config.xml") || have_existing("cinemas.xml") || have_existing("dkdm_recipients.xml")) {
+	if (have_existing("config.xml")) {
 		backup ();
 		/* We have a config file but it didn't load */
 		FailedToLoad(LoadFailure::CONFIG);
@@ -618,7 +618,7 @@ catch (...) {
 	_signer_chain = create_certificate_chain ();
 	/* And similar for decryption of KDMs */
 	_decryption_chain = create_certificate_chain ();
-	write ();
+	write_config();
 }
 
 
@@ -626,9 +626,15 @@ void
 Config::read_cinemas()
 {
 	if (boost::filesystem::exists (_cinemas_file)) {
-		cxml::Document f ("Cinemas");
-		f.read_file (_cinemas_file);
-		read_cinemas (f);
+		try {
+			cxml::Document f("Cinemas");
+			f.read_file(_cinemas_file);
+			read_cinemas(f);
+		} catch (...) {
+			backup();
+			FailedToLoad(LoadFailure::CINEMAS);
+			write_cinemas();
+		}
 	}
 }
 
@@ -637,9 +643,15 @@ void
 Config::read_dkdm_recipients()
 {
 	if (boost::filesystem::exists (_dkdm_recipients_file)) {
-		cxml::Document f ("DKDMRecipients");
-		f.read_file (_dkdm_recipients_file);
-		read_dkdm_recipients (f);
+		try {
+			cxml::Document f("DKDMRecipients");
+			f.read_file(_dkdm_recipients_file);
+			read_dkdm_recipients(f);
+		} catch (...) {
+			backup();
+			FailedToLoad(LoadFailure::DKDM_RECIPIENTS);
+			write_dkdm_recipients();
+		}
 	}
 }
 
