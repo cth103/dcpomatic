@@ -28,6 +28,7 @@
 #define DCPOMATIC_WX_UTIL_H
 
 
+#include "lib/config.h"
 #include "lib/dcpomatic_time.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -122,7 +123,7 @@ extern wxSize small_button_size (wxWindow* parent, wxString text);
 extern bool gui_is_dark ();
 extern double dpi_scale_factor (wxWindow* window);
 extern int search_ctrl_height ();
-
+extern void report_config_load_failure(wxWindow* parent, Config::LoadFailure what);
 
 struct Offset
 {

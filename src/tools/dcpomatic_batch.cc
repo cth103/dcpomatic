@@ -401,7 +401,7 @@ class App : public wxApp
 		SetAppName (_("DCP-o-matic Batch Converter"));
 		is_batch_converter = true;
 
-		Config::FailedToLoad.connect (boost::bind(&App::config_failed_to_load, this));
+		Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this, _1));
 		Config::Warning.connect (boost::bind(&App::config_warning, this, _1));
 
 		auto splash = maybe_show_splash ();
@@ -488,9 +488,9 @@ class App : public wxApp
 		return true;
 	}
 
-	void config_failed_to_load ()
+	void config_failed_to_load(Config::LoadFailure what)
 	{
-		message_dialog (_frame, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+		report_config_load_failure(_frame, what);
 	}
 
 	void config_warning (string m)

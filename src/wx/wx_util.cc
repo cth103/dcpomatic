@@ -700,3 +700,27 @@ search_ctrl_height ()
 #endif
 }
 
+
+void
+report_config_load_failure(wxWindow* parent, Config::LoadFailure what)
+{
+	switch (what) {
+	case Config::LoadFailure::CONFIG:
+		message_dialog(parent, _("The existing configuration failed to load.  Default values will be used instead.  These may take a short time to create."));
+		break;
+	case Config::LoadFailure::CINEMAS:
+		message_dialog(
+			parent,
+			_(wxString::Format("The cinemas list for creating KDMs (cinemas.xml) failed to load.  Please check the numbered backup files in %s",
+					   std_to_wx(Config::instance()->cinemas_file().parent_path().string())))
+			);
+		break;
+	case Config::LoadFailure::DKDM_RECIPIENTS:
+		message_dialog(
+			parent,
+			_(wxString::Format("The recipients list for creating DKDMs (dkdm_recipients.xml) failed to load.  Please check the numbered backup files in %s",
+					   std_to_wx(Config::instance()->dkdm_recipients_file().parent_path().string())))
+			);
+		break;
+	}
+}
