@@ -1204,6 +1204,9 @@ public:
 private:
 	Config ();
 	void read () override;
+	void read_config();
+	void read_cinemas();
+	void read_dkdm_recipients();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
 	void set_notification_email_to_default ();

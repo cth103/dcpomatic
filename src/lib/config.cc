@@ -270,6 +270,15 @@ Config::backup ()
 
 void
 Config::read ()
+{
+	read_config();
+	read_cinemas();
+	read_dkdm_recipients();
+}
+
+
+void
+Config::read_config()
 try
 {
 	cxml::Document f ("Config");
@@ -597,18 +606,6 @@ try
 	_last_release_notes_version = f.optional_string_child("LastReleaseNotesVersion");
 
 	_export.read(f.optional_node_child("Export"));
-
-	if (boost::filesystem::exists (_cinemas_file)) {
-		cxml::Document f ("Cinemas");
-		f.read_file (_cinemas_file);
-		read_cinemas (f);
-	}
-
-	if (boost::filesystem::exists (_dkdm_recipients_file)) {
-		cxml::Document f ("DKDMRecipients");
-		f.read_file (_dkdm_recipients_file);
-		read_dkdm_recipients (f);
-	}
 }
 catch (...) {
 	if (have_existing("config.xml") || have_existing("cinemas.xml") || have_existing("dkdm_recipients.xml")) {
@@ -623,6 +620,29 @@ catch (...) {
 	_decryption_chain = create_certificate_chain ();
 	write ();
 }
+
+
+void
+Config::read_cinemas()
+{
+	if (boost::filesystem::exists (_cinemas_file)) {
+		cxml::Document f ("Cinemas");
+		f.read_file (_cinemas_file);
+		read_cinemas (f);
+	}
+}
+
+
+void
+Config::read_dkdm_recipients()
+{
+	if (boost::filesystem::exists (_dkdm_recipients_file)) {
+		cxml::Document f ("DKDMRecipients");
+		f.read_file (_dkdm_recipients_file);
+		read_dkdm_recipients (f);
+	}
+}
+
 
 /** @return Singleton instance */
 Config *
