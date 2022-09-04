@@ -69,7 +69,7 @@ using dcp::raw_convert;
 
 Config* Config::_instance = 0;
 int const Config::_current_version = 3;
-boost::signals2::signal<void ()> Config::FailedToLoad;
+boost::signals2::signal<void (Config::LoadFailure)> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
 boost::signals2::signal<bool (Config::BadReason)> Config::Bad;
 
@@ -611,7 +611,7 @@ catch (...) {
 	if (have_existing("config.xml") || have_existing("cinemas.xml") || have_existing("dkdm_recipients.xml")) {
 		backup ();
 		/* We have a config file but it didn't load */
-		FailedToLoad ();
+		FailedToLoad(LoadFailure::CONFIG);
 	}
 	set_defaults ();
 	/* Make a new set of signing certificates and key */
