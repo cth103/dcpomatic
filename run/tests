@@ -51,6 +51,5 @@ elif [ "$1" == "--helgrind" ]; then
     valgrind --tool="helgrind" build/test/unit-tests $*
 else
     ulimit -c unlimited
-    build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
-#    build/test/unit-tests --catch_system_errors=no $*
+    build/test/unit-tests --catch_system_errors=no $*
 fi
