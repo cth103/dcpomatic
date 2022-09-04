@@ -218,3 +218,34 @@ BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 	check_text_file (dir / "backup_for_test.xml", dir / "cinemas.xml.1");
 }
 
+
+BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
+{
+	ConfigRestorer cr;
+
+	/* Make a new config */
+	boost::filesystem::path dir = "build/test/keep_config_if_cinemas_fail_to_load";
+	Config::override_path = dir;
+	Config::drop();
+	boost::filesystem::remove_all(dir);
+	boost::filesystem::create_directories(dir);
+	Config::instance()->write();
+
+	auto const cinemas = dir / "cinemas.xml";
+
+	/* Back things up */
+	boost::filesystem::copy_file(dir / "2.16" / "config.xml", dir / "config_backup_for_test.xml");
+	boost::filesystem::copy_file(cinemas, dir / "cinemas_backup_for_test.xml");
+
+	/* Corrupt the cinemas */
+	Config::drop();
+	std::ofstream corrupt(cinemas.string().c_str());
+	corrupt << "foo\n";
+	corrupt.close();
+	Config::instance();
+
+	/* We should have a new cinemas.xml and the old config.xml */
+	check_text_file(dir / "2.16" / "config.xml", dir / "config_backup_for_test.xml");
+	check_text_file(cinemas, dir / "cinemas_backup_for_test.xml");
+}
+
