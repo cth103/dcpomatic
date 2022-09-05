@@ -220,16 +220,24 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec)
 		return;
 	}
 
-	uint32_t length;
-	_accept_socket->read (reinterpret_cast<uint8_t*>(&length), sizeof(uint32_t));
-	length = ntohl (length);
+	string server_available;
 
-	scoped_array<char> buffer(new char[length]);
-	_accept_socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
+	try {
+		uint32_t length;
+		_accept_socket->read (reinterpret_cast<uint8_t*>(&length), sizeof(uint32_t));
+		length = ntohl (length);
 
-	string s (buffer.get());
+		scoped_array<char> buffer(new char[length]);
+		_accept_socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
+		server_available = buffer.get();
+	} catch (NetworkError&) {
+		/* Maybe the server went away; let's just try again */
+		start_accept();
+		return;
+	}
+
 	auto xml = make_shared<cxml::Document>("ServerAvailable");
-	xml->read_string (s);
+	xml->read_string(server_available);
 
 	auto const ip = _accept_socket->socket().remote_endpoint().address().to_string();
 	bool changed = false;
