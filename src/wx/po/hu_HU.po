@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-26 20:57+0200\n"
+"POT-Creation-Date: 2022-09-06 10:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,12 +111,12 @@ msgid "0dB (unchanged)"
 msgstr ""
 
 #. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:395
+#: src/wx/verify_dcp_dialog.cc:398
 msgid "1 Bv2.1 error, "
 msgstr ""
 
 #. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:387
+#: src/wx/verify_dcp_dialog.cc:390
 msgid "1 error, "
 msgstr ""
 
@@ -136,7 +136,7 @@ msgstr ""
 msgid "2D"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:265
+#: src/wx/metadata_dialog.cc:293
 msgid "2D version of 3D DCP"
 msgstr ""
 
@@ -299,11 +299,11 @@ msgstr ""
 msgid "About DCP-o-matic"
 msgstr ""
 
-#: src/wx/screens_panel.cc:228
+#: src/wx/screens_panel.cc:234
 msgid "Add Cinema"
 msgstr ""
 
-#: src/wx/screens_panel.cc:74
+#: src/wx/screens_panel.cc:78
 msgid "Add Cinema..."
 msgstr ""
 
@@ -323,11 +323,11 @@ msgstr ""
 msgid "Add OV..."
 msgstr ""
 
-#: src/wx/screens_panel.cc:337
+#: src/wx/screens_panel.cc:353
 msgid "Add Screen"
 msgstr ""
 
-#: src/wx/screens_panel.cc:80
+#: src/wx/screens_panel.cc:84
 msgid "Add Screen..."
 msgstr ""
 
@@ -374,7 +374,7 @@ msgid "Add video, image, sound or subtitle files to the film."
 msgstr ""
 
 #: src/wx/config_dialog.cc:297 src/wx/recipients_panel.cc:69
-#: src/wx/editable_list.h:134
+#: src/wx/editable_list.h:141
 msgid "Add..."
 msgstr ""
 
@@ -398,7 +398,7 @@ msgstr ""
 msgid "Adjust white point to"
 msgstr ""
 
-#: src/wx/full_config_dialog.cc:1436 src/wx/metadata_dialog.cc:66
+#: src/wx/full_config_dialog.cc:1436 src/wx/metadata_dialog.cc:71
 #: src/wx/player_config_dialog.cc:238
 msgid "Advanced"
 msgstr ""
@@ -420,8 +420,7 @@ msgstr ""
 msgid "Advanced..."
 msgstr ""
 
-#: src/wx/interop_metadata_dialog.cc:64 src/wx/rating_dialog.cc:136
-#: src/wx/rating_dialog.cc:292
+#: src/wx/rating_dialog.cc:136 src/wx/rating_dialog.cc:292
 msgid "Agency"
 msgstr ""
 
@@ -445,12 +444,17 @@ msgstr ""
 msgid "Alpha   0"
 msgstr ""
 
-#: src/wx/about_dialog.cc:166
+#: src/wx/about_dialog.cc:167
 msgid "Also supported by"
 msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:133
 msgid "An asset has an empty path in the ASSETMAP."
+msgstr ""
+
+#: src/wx/verify_dcp_dialog.cc:381
+#, c-format
+msgid "An invalid <ContentKind> %n has been used."
 msgstr ""
 
 #: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:322
@@ -465,22 +469,22 @@ msgstr ""
 msgid "Are you sure you want to cancel this job?"
 msgstr ""
 
-#: src/wx/screens_panel.cc:313
+#: src/wx/screens_panel.cc:327
 #, c-format
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr ""
 
-#: src/wx/screens_panel.cc:428
+#: src/wx/screens_panel.cc:442
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr ""
 
-#: src/wx/screens_panel.cc:309
+#: src/wx/screens_panel.cc:323
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr ""
 
-#: src/wx/screens_panel.cc:424
+#: src/wx/screens_panel.cc:438
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr ""
@@ -674,7 +678,7 @@ msgstr ""
 msgid "Certificate downloaded"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:248
+#: src/wx/metadata_dialog.cc:276
 msgid "Chain"
 msgstr ""
 
@@ -686,7 +690,7 @@ msgstr ""
 msgid "Channels"
 msgstr ""
 
-#: src/wx/screens_panel.cc:91
+#: src/wx/screens_panel.cc:95
 msgid "Check all"
 msgstr ""
 
@@ -802,11 +806,11 @@ msgid "Content directory"
 msgstr ""
 
 #: src/wx/content_version_dialog.cc:31 src/wx/content_version_dialog.cc:33
-#: src/wx/interop_metadata_dialog.cc:82
+#: src/wx/interop_metadata_dialog.cc:64
 msgid "Content version"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:126
+#: src/wx/smpte_metadata_dialog.cc:103
 msgid "Content versions"
 msgstr ""
 
@@ -864,7 +868,7 @@ msgid "Could not read certificate file (%1)"
 msgstr ""
 
 #: src/wx/config_dialog.cc:404 src/wx/config_dialog.cc:594
-#: src/wx/recipient_dialog.cc:177 src/wx/recipient_dialog.cc:182
+#: src/wx/recipient_dialog.cc:178 src/wx/recipient_dialog.cc:183
 #: src/wx/screen_dialog.cc:245 src/wx/screen_dialog.cc:251
 msgid "Could not read certificate file."
 msgstr ""
@@ -881,6 +885,12 @@ msgstr ""
 #: src/wx/film_viewer.cc:612
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
+msgstr ""
+
+#: src/wx/screens_panel.cc:250 src/wx/screens_panel.cc:695
+msgid ""
+"Could not write cinema details to the cinemas.xml file.  Check that the "
+"location of cinemas.xml is valid in DCP-o-matic's preferences."
 msgstr ""
 
 #: src/wx/full_config_dialog.cc:1259
@@ -1089,7 +1099,7 @@ msgstr ""
 msgid "Direct Sound"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:116
+#: src/wx/smpte_metadata_dialog.cc:93
 msgid "Distributor"
 msgstr ""
 
@@ -1146,15 +1156,15 @@ msgstr ""
 msgid "Earlier"
 msgstr "Korább"
 
-#: src/wx/screens_panel.cc:76
+#: src/wx/screens_panel.cc:80
 msgid "Edit Cinema..."
 msgstr ""
 
-#: src/wx/screens_panel.cc:82
+#: src/wx/screens_panel.cc:86
 msgid "Edit Screen..."
 msgstr ""
 
-#: src/wx/screens_panel.cc:286
+#: src/wx/screens_panel.cc:301
 msgid "Edit cinema"
 msgstr ""
 
@@ -1162,15 +1172,15 @@ msgstr ""
 msgid "Edit recipient"
 msgstr ""
 
-#: src/wx/screens_panel.cc:379
+#: src/wx/screens_panel.cc:394
 msgid "Edit screen"
 msgstr ""
 
 #: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:74
 #: src/wx/dcp_panel.cc:101 src/wx/language_tag_widget.cc:51
-#: src/wx/metadata_dialog.cc:182 src/wx/recipients_panel.cc:71
+#: src/wx/metadata_dialog.cc:187 src/wx/recipients_panel.cc:71
 #: src/wx/video_panel.cc:184 src/wx/video_panel.cc:195
-#: src/wx/editable_list.h:138
+#: src/wx/editable_list.h:145
 msgid "Edit..."
 msgstr "Szerkesztés..."
 
@@ -1252,7 +1262,7 @@ msgstr ""
 msgid "FTP (for Dolby)"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:238
+#: src/wx/metadata_dialog.cc:266
 msgid "Facility"
 msgstr ""
 
@@ -1297,7 +1307,7 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:159
+#: src/wx/smpte_metadata_dialog.cc:136
 msgid "Final"
 msgstr ""
 
@@ -1426,7 +1436,7 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: src/wx/recipient_dialog.cc:112 src/wx/screen_dialog.cc:145
+#: src/wx/recipient_dialog.cc:113 src/wx/screen_dialog.cc:145
 msgid "Get from file..."
 msgstr ""
 
@@ -1662,10 +1672,6 @@ msgstr ""
 msgid "LEQ(m) %.2fdB"
 msgstr ""
 
-#: src/wx/interop_metadata_dialog.cc:65
-msgid "Label"
-msgstr ""
-
 #: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:51
 #: src/wx/text_panel.cc:169
 msgid "Language"
@@ -1683,7 +1689,7 @@ msgstr ""
 msgid "Language of these subtitles"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:235
+#: src/wx/metadata_dialog.cc:263
 msgid "Language used for any sign language video track"
 msgstr ""
 
@@ -1765,7 +1771,7 @@ msgstr ""
 msgid "Lower priority"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:269
+#: src/wx/metadata_dialog.cc:297
 msgid "Luminance"
 msgstr ""
 
@@ -1864,7 +1870,7 @@ msgstr ""
 msgid "Message box"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:42
+#: src/wx/metadata_dialog.cc:45
 msgid "Metadata"
 msgstr "Metaadatok"
 
@@ -1955,7 +1961,7 @@ msgstr ""
 msgid "No DCP loaded."
 msgstr ""
 
-#: src/wx/verify_dcp_dialog.cc:416
+#: src/wx/verify_dcp_dialog.cc:419
 msgid "No SMPTE Bv2.1 errors found."
 msgstr ""
 
@@ -1968,11 +1974,11 @@ msgstr ""
 msgid "No content found in this folder."
 msgstr ""
 
-#: src/wx/verify_dcp_dialog.cc:412
+#: src/wx/verify_dcp_dialog.cc:415
 msgid "No errors found."
 msgstr ""
 
-#: src/wx/verify_dcp_dialog.cc:420
+#: src/wx/verify_dcp_dialog.cc:423
 msgid "No warnings found."
 msgstr ""
 
@@ -2053,7 +2059,7 @@ msgstr ""
 msgid "Organisational unit"
 msgstr ""
 
-#: src/wx/recipient_dialog.cc:118 src/wx/screen_dialog.cc:163
+#: src/wx/recipient_dialog.cc:119 src/wx/screen_dialog.cc:163
 #: src/wx/screen_dialog.cc:165
 msgid "Other trusted devices"
 msgstr ""
@@ -2134,7 +2140,7 @@ msgstr ""
 msgid "Paste video settings"
 msgstr ""
 
-#: src/wx/about_dialog.cc:158
+#: src/wx/about_dialog.cc:159
 msgid "Patrons"
 msgstr ""
 
@@ -2194,7 +2200,7 @@ msgstr ""
 msgid "Position"
 msgstr "Pozíció"
 
-#: src/wx/metadata_dialog.cc:257 src/wx/smpte_metadata_dialog.cc:158
+#: src/wx/metadata_dialog.cc:285 src/wx/smpte_metadata_dialog.cc:135
 msgid "Pre-release"
 msgstr ""
 
@@ -2247,7 +2253,7 @@ msgstr "Tartomány"
 msgid "Rating"
 msgstr ""
 
-#: src/wx/interop_metadata_dialog.cc:59 src/wx/smpte_metadata_dialog.cc:83
+#: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:72
 msgid "Ratings"
 msgstr ""
 
@@ -2275,7 +2281,7 @@ msgstr ""
 msgid "Rec. 709"
 msgstr ""
 
-#: src/wx/recipient_dialog.cc:107 src/wx/screen_dialog.cc:139
+#: src/wx/recipient_dialog.cc:108 src/wx/screen_dialog.cc:139
 msgid "Recipient certificate"
 msgstr ""
 
@@ -2283,7 +2289,7 @@ msgstr ""
 msgid "Recipients"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:261
+#: src/wx/metadata_dialog.cc:289
 msgid "Red band"
 msgstr ""
 
@@ -2313,13 +2319,13 @@ msgstr ""
 msgid "Region"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:176
+#: src/wx/metadata_dialog.cc:181
 msgid "Release territory"
 msgstr ""
 
 #: src/wx/config_dialog.cc:299 src/wx/content_menu.cc:109
 #: src/wx/content_panel.cc:116 src/wx/recipients_panel.cc:73
-#: src/wx/templates_dialog.cc:61 src/wx/editable_list.h:142
+#: src/wx/templates_dialog.cc:61 src/wx/editable_list.h:149
 msgid "Remove"
 msgstr "Eltávolítás"
 
@@ -2328,11 +2334,11 @@ msgstr "Eltávolítás"
 msgid "Remove %s marker"
 msgstr ""
 
-#: src/wx/screens_panel.cc:78
+#: src/wx/screens_panel.cc:82
 msgid "Remove Cinema"
 msgstr ""
 
-#: src/wx/screens_panel.cc:84
+#: src/wx/screens_panel.cc:88
 msgid "Remove Screen"
 msgstr ""
 
@@ -2475,7 +2481,7 @@ msgid "Select CPL XML file"
 msgstr ""
 
 #: src/wx/config_dialog.cc:369 src/wx/config_dialog.cc:455
-#: src/wx/config_dialog.cc:826 src/wx/recipient_dialog.cc:190
+#: src/wx/config_dialog.cc:826 src/wx/recipient_dialog.cc:191
 #: src/wx/screen_dialog.cc:259
 msgid "Select Certificate File"
 msgstr ""
@@ -2632,7 +2638,7 @@ msgstr "Grafikon mutatása a hangszintekről"
 msgid "Show subtitle area"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:234
+#: src/wx/metadata_dialog.cc:262
 msgid "Sign language video language"
 msgstr ""
 
@@ -2696,7 +2702,7 @@ msgstr ""
 msgid "Stable version "
 msgstr ""
 
-#: src/wx/dcp_panel.cc:119 src/wx/metadata_dialog.cc:65
+#: src/wx/dcp_panel.cc:119 src/wx/metadata_dialog.cc:70
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
 msgstr ""
@@ -2713,7 +2719,7 @@ msgstr ""
 msgid "Start player as"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:112
+#: src/wx/smpte_metadata_dialog.cc:89
 msgid "Status"
 msgstr ""
 
@@ -2725,7 +2731,7 @@ msgstr ""
 msgid "Stream"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:243
+#: src/wx/metadata_dialog.cc:271
 msgid "Studio"
 msgstr ""
 
@@ -2733,7 +2739,7 @@ msgstr ""
 msgid "Subject"
 msgstr ""
 
-#: src/wx/about_dialog.cc:162
+#: src/wx/about_dialog.cc:163
 msgid "Subscribers"
 msgstr ""
 
@@ -2795,11 +2801,11 @@ msgstr ""
 msgid "Templates"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:157
+#: src/wx/smpte_metadata_dialog.cc:134
 msgid "Temporary"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:253
+#: src/wx/metadata_dialog.cc:281
 msgid "Temporary version"
 msgstr ""
 
@@ -2815,7 +2821,7 @@ msgstr ""
 msgid "Test version "
 msgstr ""
 
-#: src/wx/about_dialog.cc:229
+#: src/wx/about_dialog.cc:230
 msgid "Tested by"
 msgstr ""
 
@@ -3032,6 +3038,12 @@ msgid ""
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
 
+#: src/wx/wx_util.cc:709
+msgid ""
+"The existing configuration failed to load.  Default values will be used "
+"instead.  These may take a short time to create."
+msgstr ""
+
 #: src/wx/config_move_dialog.cc:37
 #, c-format
 msgid ""
@@ -3077,7 +3089,7 @@ msgstr ""
 msgid "The invalid language tag %n is used."
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:73
+#: src/wx/smpte_metadata_dialog.cc:62
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
 msgstr ""
@@ -3315,7 +3327,7 @@ msgstr ""
 msgid "Timing|Timing"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:70
+#: src/wx/smpte_metadata_dialog.cc:59
 msgid "Title language"
 msgstr ""
 
@@ -3335,7 +3347,7 @@ msgstr ""
 msgid "Translate"
 msgstr ""
 
-#: src/wx/about_dialog.cc:151
+#: src/wx/about_dialog.cc:152
 msgid "Translated by"
 msgstr ""
 
@@ -3489,7 +3501,7 @@ msgstr ""
 msgid "UTC-9"
 msgstr ""
 
-#: src/wx/screens_panel.cc:93
+#: src/wx/screens_panel.cc:97
 msgid "Uncheck all"
 msgstr ""
 
@@ -3566,7 +3578,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: src/wx/smpte_metadata_dialog.cc:108
+#: src/wx/smpte_metadata_dialog.cc:85
 msgid "Version number"
 msgstr ""
 
@@ -3672,14 +3684,14 @@ msgstr ""
 msgid "YUV to RGB matrix"
 msgstr ""
 
-#: src/wx/screens_panel.cc:348
+#: src/wx/screens_panel.cc:365
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
 
-#: src/wx/screens_panel.cc:398
+#: src/wx/screens_panel.cc:413
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -3726,11 +3738,11 @@ msgid "Zoom out to whole film"
 msgstr ""
 
 #. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:403
+#: src/wx/verify_dcp_dialog.cc:406
 msgid "and 1 warning."
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:283
+#: src/wx/metadata_dialog.cc:311
 msgid "candela per m²"
 msgstr ""
 
@@ -3784,7 +3796,7 @@ msgstr ""
 msgid "film name"
 msgstr ""
 
-#: src/wx/metadata_dialog.cc:284
+#: src/wx/metadata_dialog.cc:312
 msgid "foot lambert"
 msgstr ""
 

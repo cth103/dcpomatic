@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-26 20:57+0200\n"
+"POT-Creation-Date: 2022-09-06 10:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr ""
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:1188
+#: src/lib/config.cc:1220
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -74,7 +74,7 @@ msgid ""
 "Size: $SIZE\n"
 msgstr ""
 
-#: src/lib/config.cc:1166
+#: src/lib/config.cc:1198
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -391,7 +391,7 @@ msgstr ""
 msgid "Cannot handle pixel format %1 during %2"
 msgstr ""
 
-#: src/lib/film.cc:1649
+#: src/lib/film.cc:1652
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
@@ -421,6 +421,10 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:658
 msgid "Chroma-derived non-constant luminance"
+msgstr ""
+
+#: src/lib/dcp_content_type.cc:61
+msgid "Clip"
 msgstr ""
 
 #: src/lib/types.cc:143
@@ -650,7 +654,7 @@ msgstr ""
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr ""
 
-#: src/lib/config.cc:1052
+#: src/lib/config.cc:1084
 msgid "Could not open file for writing"
 msgstr ""
 
@@ -717,13 +721,13 @@ msgid ""
 "is in an unexpected format."
 msgstr ""
 
-#: src/lib/film.cc:1560
+#: src/lib/film.cc:1563
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
 msgstr ""
 
-#: src/lib/film.cc:1528
+#: src/lib/film.cc:1531
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
@@ -734,7 +738,7 @@ msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr ""
 
-#: src/lib/config.cc:399 src/lib/config.cc:1163
+#: src/lib/config.cc:408 src/lib/config.cc:1195
 msgid "DCP-o-matic notification"
 msgstr ""
 
@@ -747,7 +751,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr ""
 
-#: src/lib/config.cc:1151
+#: src/lib/config.cc:1183
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -802,7 +806,7 @@ msgstr ""
 msgid "Encoding"
 msgstr ""
 
-#: src/lib/dcp_content_type.cc:61
+#: src/lib/dcp_content_type.cc:64
 msgid "Episode"
 msgstr ""
 
@@ -812,6 +816,10 @@ msgstr ""
 
 #: src/lib/job.cc:543
 msgid "Error: %1"
+msgstr ""
+
+#: src/lib/dcp_content_type.cc:66
+msgid "Event"
 msgstr ""
 
 #: src/lib/hints.cc:406
@@ -934,6 +942,10 @@ msgstr ""
 msgid "High quality 3D denoiser"
 msgstr ""
 
+#: src/lib/dcp_content_type.cc:65
+msgid "Highlights"
+msgstr ""
+
 #: src/lib/filter.cc:80
 msgid "Horizontal flip"
 msgstr ""
@@ -961,7 +973,7 @@ msgid ""
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
 
-#: src/lib/release_notes.cc:48
+#: src/lib/release_notes.cc:50
 msgid ""
 "In this version there are changes to the way that subtitles are positioned.  "
 "Positioning should now be more correct, with respect to the standards, but "
@@ -983,7 +995,7 @@ msgstr ""
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:389 src/lib/config.cc:1148
+#: src/lib/config.cc:398 src/lib/config.cc:1180
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -1365,6 +1377,10 @@ msgstr ""
 msgid "Stereo"
 msgstr ""
 
+#: src/lib/dcp_content_type.cc:63
+msgid "Stereo card"
+msgstr ""
+
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
 msgstr ""
@@ -1665,7 +1681,7 @@ msgid ""
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/film.cc:1524
+#: src/lib/film.cc:1527
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1707,7 +1723,7 @@ msgid ""
 "audio content."
 msgstr ""
 
-#: src/lib/config.cc:329
+#: src/lib/config.cc:338
 msgid ""
 "Your default container is not valid and has been changed to Flat (1.85:1)"
 msgstr ""
