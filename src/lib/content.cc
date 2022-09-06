@@ -66,7 +66,6 @@ int const ContentProperty::VIDEO_FRAME_RATE = 405;
 
 
 Content::Content ()
-	: _change_signals_frequent (false)
 {
 
 }
@@ -74,21 +73,18 @@ Content::Content ()
 
 Content::Content (DCPTime p)
 	: _position (p)
-	, _change_signals_frequent (false)
 {
 
 }
 
 
 Content::Content (boost::filesystem::path p)
-	: _change_signals_frequent (false)
 {
 	add_path (p);
 }
 
 
 Content::Content (cxml::ConstNodePtr node)
-	: _change_signals_frequent (false)
 {
 	for (auto i: node->node_children("Path")) {
 		_paths.push_back (i->content());
@@ -114,7 +110,6 @@ Content::Content (vector<shared_ptr<Content>> c)
 	, _trim_start (c.front()->trim_start())
 	, _trim_end (c.back()->trim_end())
 	, _video_frame_rate (c.front()->video_frame_rate())
-	, _change_signals_frequent (false)
 {
 	for (size_t i = 0; i < c.size(); ++i) {
 		if (i > 0 && c[i]->trim_start() > ContentTime ()) {

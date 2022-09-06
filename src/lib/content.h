@@ -244,7 +244,7 @@ private:
 	 *  else (either some video happening at the same time, or the rate of the DCP).
 	 */
 	boost::optional<double> _video_frame_rate;
-	bool _change_signals_frequent;
+	bool _change_signals_frequent = false;
 };
 
 
