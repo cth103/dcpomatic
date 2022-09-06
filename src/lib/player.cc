@@ -282,29 +282,29 @@ Player::setup_pieces ()
 		_shuffler->Video.connect(bind(&Player::video, this, _1, _2));
 	}
 
-	for (auto i: playlist()->content()) {
+	for (auto content: playlist()->content()) {
 
-		if (!i->paths_valid ()) {
+		if (!content->paths_valid()) {
 			continue;
 		}
 
-		if (_ignore_video && _ignore_audio && i->text.empty()) {
+		if (_ignore_video && _ignore_audio && content->text.empty()) {
 			/* We're only interested in text and this content has none */
 			continue;
 		}
 
 		shared_ptr<Decoder> old_decoder;
 		for (auto j: old_pieces) {
-			if (j->content == i) {
+			if (j->content == content) {
 				old_decoder = j->decoder;
 				break;
 			}
 		}
 
-		auto decoder = decoder_factory(film, i, _fast, _tolerant, old_decoder);
+		auto decoder = decoder_factory(film, content, _fast, _tolerant, old_decoder);
 		DCPOMATIC_ASSERT (decoder);
 
-		FrameRateChange frc(film, i);
+		FrameRateChange frc(film, content);
 
 		if (decoder->video && _ignore_video) {
 			decoder->video->set_ignore (true);
@@ -328,7 +328,7 @@ Player::setup_pieces ()
 			}
 		}
 
-		auto piece = make_shared<Piece>(i, decoder, frc);
+		auto piece = make_shared<Piece>(content, decoder, frc);
 		_pieces.push_back (piece);
 
 		if (decoder->video) {
