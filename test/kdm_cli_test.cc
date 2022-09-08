@@ -27,6 +27,21 @@
 
 using std::string;
 using std::vector;
+optional<string>
+run(vector<string> const& args, vector<string>& output)
+{
+	std::vector<char*> argv(args.size());
+	for (auto i = 0U; i < args.size(); ++i) {
+		argv[i] = const_cast<char*>(args[i].c_str());
+	}
+
+	auto error = kdm_cli(args.size(), argv.data(), [&output](string s) { output.push_back(s); });
+	if (error) {
+		std::cout << *error << "\n";
+	}
+
+	return error;
+}
 
 
 BOOST_AUTO_TEST_CASE (kdm_cli_test_certificate)
@@ -42,23 +57,15 @@ BOOST_AUTO_TEST_CASE (kdm_cli_test_certificate)
 		"test/data/dkdm.xml"
 	};
 
-	char** argv = new char*[args.size()];
-	for (auto i = 0U; i < args.size(); ++i) {
-		argv[i] = const_cast<char*>(args[i].c_str());
-	}
-
 	boost::filesystem::path const kdm_filename = "build/test/KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV__my_great_screen.xml";
 	boost::system::error_code ec;
 	boost::filesystem::remove(kdm_filename, ec);
 
-	auto error = kdm_cli (args.size(), argv, [](string s) { std::cout << s << "\n"; });
-	if (error) {
-		std::cout << *error << "\n";
-	}
+	vector<string> output;
+	auto error = run(args, output);
 	BOOST_CHECK (!error);
 
 	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
 
-	delete[] argv;
 }
 
