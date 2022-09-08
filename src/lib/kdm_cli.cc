@@ -70,8 +70,8 @@ help (std::function<void (string)> out)
 	out ("  -e, --email                              email KDMs to cinemas");
 	out ("  -z, --zip                                ZIP each cinema's KDMs into its own file");
 	out ("  -v, --verbose                            be verbose");
-	out ("  -c, --cinema                             specify a cinema, either by name or email address");
-	out ("  -S, --screen                             screen description");
+	out ("  -c, --cinema                             cinema name (when using -C) or name/email (to filter cinemas)");
+	out ("  -S, --screen                             screen name (when using -C) or screen name (to filter screens when using -c)");
 	out ("  -C, --certificate                        file containing projector certificate");
 	out ("  -T, --trusted-device                     file containing a trusted device's certificate");
 	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
