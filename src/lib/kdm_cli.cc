@@ -423,7 +423,7 @@ try
 	optional<string> cinema_name;
 	shared_ptr<Cinema> cinema;
 	optional<boost::filesystem::path> certificate;
-	string screen;
+	optional<string> screen;
 	list<shared_ptr<Screen>> screens;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<boost::posix_time::ptime> valid_from;
@@ -439,6 +439,9 @@ try
 	bool email = false;
 
 	program_name = argv[0];
+
+	/* Reset getopt() so we can call this method several times in one test process */
+	optind = 1;
 
 	int option_index = 0;
 	while (true) {
@@ -535,6 +538,9 @@ try
 			cinema = make_shared<Cinema>(optarg, list<string>(), "", 0, 0);
 			break;
 		case 'S':
+			/* Similarly, this could be the name of a new (temporary) screen or the name of a screen
+			 * to search for.
+			 */
 			screen = optarg;
 			break;
 		case 'C':
@@ -558,7 +564,7 @@ try
 	if (certificate) {
 		/* Make a new screen and add it to the current cinema */
 		dcp::CertificateChain chain(dcp::file_to_string(*certificate));
-		auto screen_to_add = std::make_shared<Screen>(screen, "", chain.leaf(), boost::none, vector<TrustedDevice>());
+		auto screen_to_add = std::make_shared<Screen>(screen.get_value_or(""), "", chain.leaf(), boost::none, vector<TrustedDevice>());
 		if (cinema) {
 			cinema->add_screen(screen_to_add);
 		}
@@ -596,6 +602,9 @@ try
 		}
 
 		screens = find_cinema (*cinema_name)->screens ();
+		if (screen) {
+			screens.erase(std::remove_if(screens.begin(), screens.end(), [&screen](shared_ptr<Screen> s) { return s->name != *screen; }), screens.end());
+		}
 	}
 
 	if (duration_string) {
