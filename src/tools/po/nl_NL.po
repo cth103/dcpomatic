@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-06 10:10+0200\n"
-"PO-Revision-Date: 2022-01-21 03:06+0100\n"
+"PO-Revision-Date: 2022-09-07 23:52+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: src/tools/dcpomatic_kdm.cc:392
 #, c-format
@@ -99,9 +99,8 @@ msgid "&Save\tCtrl-S"
 msgstr "&Bewaar\tCtrl-S"
 
 #: src/tools/dcpomatic_player.cc:505
-#, fuzzy
 msgid "&Save frame to file...\tCtrl-S"
-msgstr "Exporteer video-bestand...\tCtrl-E"
+msgstr "&Bewaar frame in bestand...\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1371
 msgid "&Send DCP to TMS"
@@ -477,9 +476,8 @@ msgid "Encrypted"
 msgstr "Versleuteld"
 
 #: src/tools/dcpomatic.cc:1397
-#, fuzzy
 msgid "Export preferences..."
-msgstr "Herstel standaardvoorkeuren"
+msgstr "Exporteer voorkeuren..."
 
 #: src/tools/dcpomatic.cc:1369
 msgid "Export subtitles..."
@@ -630,7 +628,7 @@ msgstr "Maak ondertekenings-certificaten opnieuw"
 
 #: src/tools/dcpomatic.cc:1702
 msgid "Release notes"
-msgstr ""
+msgstr "Release notes"
 
 #: src/tools/dcpomatic_kdm.cc:173 src/tools/dcpomatic_playlist.cc:298
 msgid "Remove"
@@ -685,7 +683,7 @@ msgstr "Bewaar film en dupliceer"
 
 #: src/tools/dcpomatic_player.cc:669
 msgid "Save frame to file"
-msgstr ""
+msgstr "Bewaar frame in bestand"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "Screens"
@@ -733,7 +731,7 @@ msgstr "Pas decodeer-resolutie aan aan weergave"
 
 #: src/tools/dcpomatic.cc:747
 msgid "Specify ZIP file"
-msgstr ""
+msgstr "Specificeer ZIP-bestand"
 
 #: src/tools/dcpomatic.cc:1393 src/tools/dcpomatic_player.cc:550
 msgid "System information..."
@@ -815,7 +813,6 @@ msgstr ""
 "aanmaken?"
 
 #: src/tools/dcpomatic.cc:1875
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period\n"
@@ -824,9 +821,9 @@ msgid ""
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 "De certificaat-keten die DCP-o-matic gebruikt voor het ondertekenen van "
-"DCP's en KDM's bevat\n"
-"een kleine fout die ervoor zorgt dat DCP's als incorrect worden gevalideerd "
-"op sommige systemen.\n"
+"DCP's en KDM's heeft een te lange geldigheidsduur.\n"
+"Dit zal op sommige \"systemen problemen veroorzaken bij het afspelen van "
+"DCP's.\n"
 "Wilt u de certificaat-keten voor het ondertekenen van DCP's en KDM's opnieuw "
 "aanmaken?"
 
@@ -944,15 +941,15 @@ msgid ""
 "this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
 "film and the metadata files within the DCP.\n"
 "\n"
-"You should ensure that these files are <span weight=\"bold\" "
-"size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
+"You should ensure that these files are <span weight=\"bold\" size=\"larger"
+"\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
 "U maakt een versleutelde DCP.  Het is niet mogelijk om KDM's voor deze DCP "
 "te maken, tenzij u kopieën heeft van het bestand <tt>metadata.xml</tt> in de "
 "film-projectmap en de metadata-bestanden in the DCP.\n"
 "\n"
-"U moet ervoor zorgen dat er van deze bestanden <span weight=\"bold\" "
-"size=\"larger\">BACK-UPS GEMAAKT ZIJN</span> als u KDM's voor deze film wilt "
+"U moet ervoor zorgen dat er van deze bestanden <span weight=\"bold\" size="
+"\"larger\">BACK-UPS GEMAAKT ZIJN</span> als u KDM's voor deze film wilt "
 "maken."
 
 #: src/tools/dcpomatic.cc:1663

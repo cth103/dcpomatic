@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-06 10:10+0200\n"
-"PO-Revision-Date: 2022-01-21 03:07+0100\n"
+"PO-Revision-Date: 2022-09-08 01:05+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -17,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: src/wx/player_information.cc:100
 #, c-format
@@ -179,7 +178,7 @@ msgstr "4 - L/C/R/Lfe"
 
 #: src/wx/dcp_panel.cc:920
 msgid "48kHz"
-msgstr ""
+msgstr "48kHz"
 
 #: src/wx/dcp_panel.cc:823
 msgid "4K"
@@ -195,7 +194,7 @@ msgstr "8 - 5.1/HI/VI"
 
 #: src/wx/dcp_panel.cc:921
 msgid "96kHz"
-msgstr ""
+msgstr "96kHz"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -373,9 +372,8 @@ msgid "Add new..."
 msgstr "Voeg nieuwe toe..."
 
 #: src/wx/markers_panel.cc:245
-#, fuzzy
 msgid "Add or move marker to current position"
-msgstr "Wegknippen tot aan huidige positie"
+msgstr "Voeg marker toe op, of verplaats naar, huidige positie"
 
 #: src/wx/recipients_panel.cc:128
 msgid "Add recipient"
@@ -445,16 +443,15 @@ msgstr "Sta elke DCP frame rate toe"
 
 #: src/wx/full_config_dialog.cc:1494
 msgid "Allow creation of DCPs with 96kHz audio"
-msgstr ""
+msgstr "Sta maken van DCP's met 96kHz audio toe"
 
 #: src/wx/full_config_dialog.cc:1488
 msgid "Allow full-frame and non-standard container ratios"
 msgstr "Sta full-container en niet-standaard container-beeldverhoudingen toe"
 
 #: src/wx/full_config_dialog.cc:1498
-#, fuzzy
 msgid "Allow mapping to all audio channels"
-msgstr "Markeer alle audio-kanalen"
+msgstr "Sta mapping naar alle audio-kanalen toe"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
@@ -471,7 +468,7 @@ msgstr "Een asset heeft een leeg pad in de ASSETMAP."
 #: src/wx/verify_dcp_dialog.cc:381
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
-msgstr ""
+msgstr "Er is een ongeldige <ContentKind> %n gebruikt."
 
 #: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:322
 msgid "An unknown exception occurred."
@@ -587,13 +584,12 @@ msgid "Auto"
 msgstr "Auto"
 
 #: src/wx/auto_crop_dialog.cc:30
-#, fuzzy
 msgid "Auto crop"
-msgstr "Bijsnijden boven"
+msgstr "Automatisch bijsnijden"
 
 #: src/wx/content_menu.cc:99
 msgid "Auto-crop..."
-msgstr ""
+msgstr "Automatisch bijsnijden..."
 
 #: src/wx/full_config_dialog.cc:131
 msgid "Automatically analyse content audio"
@@ -721,7 +717,7 @@ msgstr "Kanalen"
 
 #: src/wx/screens_panel.cc:95
 msgid "Check all"
-msgstr ""
+msgstr "Vink alles aan"
 
 #: src/wx/config_dialog.cc:166
 msgid "Check for testing updates on startup"
@@ -924,6 +920,8 @@ msgid ""
 "Could not write cinema details to the cinemas.xml file.  Check that the "
 "location of cinemas.xml is valid in DCP-o-matic's preferences."
 msgstr ""
+"Kan geen bioscoop-details naar het bestand cinemas.xml schrijven.  "
+"Controleer of de locatie van cinemas.xml geldig is bij Voorkeuren."
 
 #: src/wx/full_config_dialog.cc:1259
 msgid "Cover Sheet"
@@ -951,9 +949,8 @@ msgid "Cursor: none"
 msgstr "Cursor: geen"
 
 #: src/wx/rating_dialog.cc:51
-#, fuzzy
 msgid "Custom"
-msgstr "aangepast"
+msgstr "Aangepast"
 
 #: src/wx/custom_scale_dialog.cc:39
 msgid "Custom scale"
@@ -1012,9 +1009,8 @@ msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic audio - %s"
 
 #: src/wx/full_config_dialog.cc:914
-#, fuzzy
 msgid "DCP-o-matic test email"
-msgstr "DCP-o-matic instelling"
+msgstr "DCP-o-matic test e-mail"
 
 #: src/wx/player_config_dialog.cc:128
 msgid "Debug log file"
@@ -1066,14 +1062,12 @@ msgid "Default KDM directory"
 msgstr "Standaard KDM-map"
 
 #: src/wx/full_config_dialog.cc:346
-#, fuzzy
 msgid "Default KDM duration"
-msgstr "Standaard KDM-map"
+msgstr "Standaard KDM-duur"
 
 #: src/wx/full_config_dialog.cc:342
-#, fuzzy
 msgid "Default KDM type"
-msgstr "Standaard KDM-map"
+msgstr "Standaard KDM-type"
 
 #: src/wx/full_config_dialog.cc:310
 msgid "Default audio delay"
@@ -1292,9 +1286,8 @@ msgid "Export..."
 msgstr "Exporteer..."
 
 #: src/wx/extra_kdm_email_dialog.cc:37
-#, fuzzy
 msgid "Extra addresses for KDM delivery"
-msgstr "E-mailadressen voor KDM-levering"
+msgstr "Extra e-mailadressen voor KDM-levering"
 
 #: src/wx/full_config_dialog.cc:716
 msgid "FTP (for Dolby)"
@@ -1330,9 +1323,8 @@ msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
 
 #: src/wx/screen_dialog.cc:153
-#, fuzzy
 msgid "Filename"
-msgstr "Filmnaam"
+msgstr "Bestandsnaam"
 
 #: src/wx/dkdm_output_panel.cc:63 src/wx/kdm_output_panel.cc:86
 msgid "Filename format"
@@ -1715,7 +1707,7 @@ msgstr "Ga naar geselecteerde content"
 
 #: src/wx/full_config_dialog.cc:958
 msgid "KDM Email"
-msgstr "KDM E-mail"
+msgstr "KDM e-mail"
 
 #: src/wx/config_dialog.cc:1079
 msgid "KDM directory"
@@ -1851,14 +1843,12 @@ msgid "MISSING: "
 msgstr "ONTBREKEND: "
 
 #: src/wx/export_video_file_dialog.cc:42
-#, fuzzy
 msgid "MOV / ProRes 4444"
-msgstr "MOV / ProRes"
+msgstr "MOV / ProRes 4444"
 
 #: src/wx/export_video_file_dialog.cc:43
-#, fuzzy
 msgid "MOV / ProRes HQ"
-msgstr "MOV / ProRes"
+msgstr "MOV / ProRes HQ"
 
 #: src/wx/export_video_file_dialog.cc:48 src/wx/export_video_file_dialog.cc:49
 msgid "MOV files (*.mov)|*.mov"
@@ -1912,7 +1902,7 @@ msgstr "Markeer alle audio-kanalen"
 
 #: src/wx/kdm_advanced_dialog.cc:50
 msgid "Mark audio channels up to (and including)"
-msgstr "Markeer audiokanalen tot en met"
+msgstr "Markeer audio-kanalen tot en met"
 
 #: src/wx/markers_dialog.cc:128
 msgid "Markers"
@@ -1956,9 +1946,9 @@ msgid "Mix audio down to stereo"
 msgstr "Mix audio down naar stereo"
 
 #: src/wx/markers_panel.cc:237
-#, fuzzy, c-format
+#, c-format
 msgid "Move %s marker to current position"
-msgstr "Stel in vanaf huidige positie"
+msgstr "Verplaats %s marker naar huidige positie"
 
 #: src/wx/config_move_dialog.cc:31
 msgid "Move configuration"
@@ -2332,9 +2322,8 @@ msgstr "Bereik"
 
 #: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
 #: src/wx/rating_dialog.cc:294
-#, fuzzy
 msgid "Rating"
-msgstr "Ratings"
+msgstr "Rating"
 
 #: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:72
 msgid "Ratings"
@@ -2413,9 +2402,9 @@ msgid "Remove"
 msgstr "Verwijder"
 
 #: src/wx/markers_panel.cc:238
-#, fuzzy, c-format
+#, c-format
 msgid "Remove %s marker"
-msgstr "Verwijder Bioscoop"
+msgstr "Verwijder %s marker"
 
 #: src/wx/screens_panel.cc:82
 msgid "Remove Cinema"
@@ -2532,9 +2521,8 @@ msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Sample-piek is %.2fdB op %s op %s"
 
 #: src/wx/dcp_panel.cc:902
-#, fuzzy
 msgid "Sample rate"
-msgstr "Frame rate"
+msgstr "Sample rate"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Save template"
@@ -2631,14 +2619,12 @@ msgid "Send logs"
 msgstr "Verzend logs"
 
 #: src/wx/send_test_email_dialog.cc:26
-#, fuzzy
 msgid "Send test email"
-msgstr "Verzend via e-mail"
+msgstr "Verzend test e-mail"
 
 #: src/wx/full_config_dialog.cc:832
-#, fuzzy
 msgid "Send test email..."
-msgstr "Verzend via e-mail"
+msgstr "Verzend test e-mail..."
 
 #: src/wx/send_i18n_dialog.cc:36
 msgid "Send translations"
@@ -2666,7 +2652,7 @@ msgstr "Stel in"
 
 #: src/wx/kdm_output_panel.cc:140
 msgid "Set additional email addresses..."
-msgstr ""
+msgstr "Stel extra e-mailadressen in..."
 
 #: src/wx/markers_dialog.cc:59
 msgid "Set from current position"
@@ -2899,14 +2885,12 @@ msgid "Temporary version"
 msgstr "Tijdelijke versie"
 
 #: src/wx/full_config_dialog.cc:924 src/wx/full_config_dialog.cc:927
-#, fuzzy
 msgid "Test email sending failed."
-msgstr "Debug: e-mail verzenden"
+msgstr "Verzenden test e-mail mislukt."
 
 #: src/wx/full_config_dialog.cc:930
-#, fuzzy
 msgid "Test email sent."
-msgstr "Debug: e-mail verzenden"
+msgstr "Test e-mail verzonden."
 
 #: src/wx/update_dialog.cc:59
 msgid "Test version "
@@ -3183,6 +3167,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"De bestaande configuratie kan niet geladen worden.  In plaats daarvan zullen "
+"standaardwaarden gebruikt worden.  Het aanmaken hiervan kan even duren."
 
 #: src/wx/config_move_dialog.cc:37
 #, c-format
@@ -3347,11 +3333,11 @@ msgstr "Er zijn geen hints, alles ziet er goed uit!"
 
 #: src/wx/verify_dcp_dialog.cc:378
 msgid "There is a <Duration> tag inside a <MainMarkers>."
-msgstr ""
+msgstr "Er staat een <Duration> tag binnen een <MainMarkers>."
 
 #: src/wx/verify_dcp_dialog.cc:375
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
-msgstr ""
+msgstr "Er staat een <EntryPoint> tag binnen een <MainMarkers>."
 
 #: src/wx/save_template_dialog.cc:69
 msgid ""
@@ -3412,7 +3398,7 @@ msgstr ""
 
 #: src/wx/full_config_dialog.cc:915
 msgid "This is a test email from DCP-o-matic."
-msgstr ""
+msgstr "Dit is een test e-mail van DCP-o-matic."
 
 #: src/wx/kdm_cpl_panel.cc:153 src/wx/kdm_cpl_panel.cc:156
 msgid "This is not a valid CPL file"
@@ -3489,9 +3475,8 @@ msgid "Threads"
 msgstr "Threads"
 
 #: src/wx/auto_crop_dialog.cc:40
-#, fuzzy
 msgid "Threshold"
-msgstr "drempel"
+msgstr "Drempel"
 
 #: src/wx/config_dialog.cc:283 src/wx/screen_dialog.cc:56
 #: src/wx/screen_dialog.cc:172
@@ -3691,7 +3676,7 @@ msgstr "UTC-9"
 
 #: src/wx/screens_panel.cc:97
 msgid "Uncheck all"
-msgstr ""
+msgstr "Vink alles uit"
 
 #: src/wx/closed_captions_dialog.cc:252
 msgid "Unknown"
@@ -3699,7 +3684,7 @@ msgstr "Onbekend"
 
 #: src/wx/fonts_dialog.cc:118
 msgid "Unspecified"
-msgstr ""
+msgstr "Niet gespecificeerd"
 
 #: src/wx/update_dialog.cc:36
 msgid "Update"
@@ -3714,9 +3699,8 @@ msgid "Use ISDCF name"
 msgstr "Gebruik ISDCF-naam"
 
 #: src/wx/full_config_dialog.cc:354
-#, fuzzy
 msgid "Use ISDCF name by default"
-msgstr "Gebruik ISDCF-naam"
+msgstr "Gebruik standaard de ISDCF-naam"
 
 #: src/wx/text_panel.cc:89
 msgid "Use as"
@@ -3732,7 +3716,7 @@ msgstr "Gebruik voorinstelling"
 
 #: src/wx/audio_panel.cc:116
 msgid "Use same fades as video"
-msgstr ""
+msgstr "Gebruik dezelfde fade-instelling als video"
 
 #: src/wx/audio_panel.cc:73
 msgid "Use this DCP's audio as OV and make VF"
@@ -3842,7 +3826,7 @@ msgstr "Schrijf alle KDM's naar dezelfde map"
 
 #: src/wx/export_video_file_dialog.cc:81
 msgid "Write each audio channel to its own stream"
-msgstr "Schrijf elk audiokanaal naar zijn eigen stream"
+msgstr "Schrijf elk audio-kanaal naar zijn eigen stream"
 
 #: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:78
 msgid "Write reels into separate files"
@@ -3973,7 +3957,7 @@ msgstr "dB"
 
 #: src/wx/full_config_dialog.cc:362
 msgid "days"
-msgstr ""
+msgstr "dagen"
 
 #: src/wx/name_format_editor.cc:82
 #, c-format
@@ -4021,7 +4005,7 @@ msgstr "m"
 
 #: src/wx/full_config_dialog.cc:364
 msgid "months"
-msgstr ""
+msgstr "maanden"
 
 #. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:108 src/wx/full_config_dialog.cc:314
@@ -4107,7 +4091,7 @@ msgstr "vsync"
 
 #: src/wx/full_config_dialog.cc:363
 msgid "weeks"
-msgstr ""
+msgstr "weken"
 
 #: src/wx/player_config_dialog.cc:97
 msgid "window"
@@ -4123,7 +4107,7 @@ msgstr "y"
 
 #: src/wx/full_config_dialog.cc:365
 msgid "years"
-msgstr ""
+msgstr "jaren"
 
 #~ msgid "Label"
 #~ msgstr "Label"

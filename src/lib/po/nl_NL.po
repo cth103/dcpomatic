@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-09-06 10:10+0200\n"
-"PO-Revision-Date: 2022-01-21 02:50+0100\n"
+"PO-Revision-Date: 2022-09-08 01:12+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #: src/lib/video_content.cc:509
 #, c-format
@@ -72,7 +72,6 @@ msgid " on %1"
 msgstr " op %1"
 
 #: src/lib/config.cc:1220
-#, fuzzy
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -87,6 +86,7 @@ msgid ""
 msgstr ""
 "$CPL_NAME\n"
 "\n"
+"CPL Bestandsnaam: $CPL_FILENAME\n"
 "Type: $TYPE\n"
 "Formaat: $CONTAINER\n"
 "Audio: $AUDIO\n"
@@ -166,12 +166,11 @@ msgstr "1,896:1 (Full Container)"
 
 #: src/lib/util.cc:598
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: src/lib/util.cc:604
-#, fuzzy
 msgid "16"
-msgstr "1,66:1"
+msgstr "16"
 
 #: src/lib/ratio.cc:52
 msgid "2.35 (35mm Scope)"
@@ -197,7 +196,7 @@ msgstr ""
 
 #: src/lib/util.cc:597
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #. / TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:175
@@ -210,20 +209,20 @@ msgstr "; %1 resterend; klaar om %2%3"
 
 #: src/lib/analytics.cc:64
 msgid ""
-"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the "
-"developer of DCP-o-matic. I work on it in my spare time (with the help of a "
-"fine volunteer team of testers and translators) and I release it as free "
-"software.<p>If you find DCP-o-matic useful, please consider a donation to "
-"the project. Financial support will help me to spend more time developing "
-"DCP-o-matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to "
-"donate €20</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=10\">Go to Paypal to donate €10</a></ul><p>Thank you!"
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
-"<h2>U heeft %1 DCP's gemaakt met DCP-o-matic!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><p>Hallo.  Ik ben Carl en ik ben de "
+"<h2>U heeft %1 DCP's gemaakt met DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hallo.  Ik ben Carl en ik ben de "
 "ontwikkelaar van DCP-o-matic.  Ik werk eraan in mijn vrije tijd (met de hulp "
 "van een fijn vrijwilligersteam van testers en vertalers) en ik geef het vrij "
 "als gratis software.<p>Als u DCP-o-matic nuttig vindt, overweeg dan een "
@@ -231,9 +230,9 @@ msgstr ""
 "tijd te besteden aan de ontwikkeling van DCP-o-matic en het beter te maken!"
 "<p><ul><li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Ga naar "
 "Paypal om €40 te doneren</a><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 "
-"te doneren</a></ul><p>Dank u wel!"
+"donate_amount?amount=20\">Ga naar Paypal om €20 te doneren</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=10\">Ga naar Paypal om €10 te "
+"doneren</a></ul><p>Dank u wel!"
 
 #: src/lib/hints.cc:166
 msgid ""
@@ -475,9 +474,8 @@ msgid "Check their new settings, then try again."
 msgstr "Controleer hun nieuwe instellingen en probeer het opnieuw."
 
 #: src/lib/check_content_job.cc:55
-#, fuzzy
 msgid "Checking content"
-msgstr "Controleren content op wijzigingen"
+msgstr "Controleren content"
 
 #: src/lib/reel_writer.cc:258
 msgid "Checking existing image data"
@@ -493,7 +491,7 @@ msgstr "Chroma-afgeleide niet-constante luminantie"
 
 #: src/lib/dcp_content_type.cc:61
 msgid "Clip"
-msgstr ""
+msgstr "Clip"
 
 #: src/lib/types.cc:143
 msgid "Closed captions"
@@ -935,7 +933,7 @@ msgstr "Fout: %1"
 
 #: src/lib/dcp_content_type.cc:66
 msgid "Event"
-msgstr ""
+msgstr "Event"
 
 #: src/lib/hints.cc:406
 msgid "Examining audio, subtitles and closed captions"
@@ -982,9 +980,8 @@ msgid "Filename"
 msgstr "Bestandsnaam"
 
 #: src/lib/content.cc:476
-#, fuzzy
 msgid "Filenames"
-msgstr "Bestandsnaam"
+msgstr "Bestandsnamen"
 
 #: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
 msgid "Files have changed since they were added to the project."
@@ -1060,7 +1057,7 @@ msgstr "Hoge kwaliteit 3D-ruisonderdrukking"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Highlights"
-msgstr ""
+msgstr "Highlights"
 
 #: src/lib/filter.cc:80
 msgid "Horizontal flip"
@@ -1101,6 +1098,10 @@ msgid ""
 "you should check any subtitles in your project to make sure that they are "
 "placed where you want them."
 msgstr ""
+"In deze versie zijn er wijzigingen in de manier waarop ondertitels worden "
+"geplaatst. De positionering zou nu correcter moeten zijn, met betrekking tot "
+"de standaarden, maar u moet alle ondertitels in uw project controleren om er "
+"zeker van te zijn dat ze worden geplaatst waar u ze wilt hebben."
 
 #: src/lib/hints.cc:572
 msgid ""
@@ -1296,7 +1297,7 @@ msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "carl@dcpomatic.com"
 msgstr ""
-"Rapporteer dit probleem a.u.b. via \"Help -> Meld een probleem\" of per e-"
+"Rapporteer dit probleem a.u.b. via \"Help -> Meld een probleem...\" of per e-"
 "mail naar carl@dcpomatic.com"
 
 #: src/lib/dcp_content_type.cc:58
@@ -1511,9 +1512,8 @@ msgstr ""
 "tabblad, tenzij uw audio geen gesproken delen heeft."
 
 #: src/lib/make_dcp.cc:73
-#, fuzzy
 msgid "Some of your content is missing"
-msgstr "een deel van uw content ontbreekt"
+msgstr "Een deel van uw content ontbreekt"
 
 #: src/lib/make_dcp.cc:77
 msgid "Some of your content needs a KDM"
@@ -1528,9 +1528,8 @@ msgid "Stereo"
 msgstr "Stereo"
 
 #: src/lib/dcp_content_type.cc:63
-#, fuzzy
 msgid "Stereo card"
-msgstr "Stereo"
+msgstr "Stereo card"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
@@ -1580,6 +1579,12 @@ msgid ""
 "certificate chain by clicking the \"Re-make certificates and key...\" button "
 "in the Keys page of Preferences."
 msgstr ""
+"De certificaat-keten die DCP-o-matic gebruikt voor het ondertekenen van "
+"DCP's en KDM's bevat een kleine fout die ervoor zorgt dat DCP's als "
+"incorrect worden gevalideerd op sommige systemen.  U wordt geadviseerd om "
+"deze certificaat-keten opnieuw aan te maken door op de knop \"Maak "
+"certificaten en sleutel opnieuw...\" in het \"Sleutels\"-tabblad bij "
+"Voorkeuren te klikken."
 
 #: src/lib/hints.cc:674
 msgid ""
@@ -1589,6 +1594,12 @@ msgid ""
 "chain by clicking the \"Re-make certificates and key...\" button in the Keys "
 "page of Preferences."
 msgstr ""
+"De certificaat-keten die DCP-o-matic gebruikt voor het ondertekenen van "
+"DCP's en KDM's heeft een te lange geldigheidsduur.  Dit zal op sommige "
+"systemen problemen veroorzaken bij het afspelen van DCP's.  U wordt "
+"geadviseerd om deze certificaat-keten opnieuw aan te maken door op de knop "
+"\"Maak certificaten en sleutel opnieuw...\" in het \"Sleutels\"-tabblad bij "
+"Voorkeuren te klikken."
 
 #: src/lib/video_decoder.cc:81
 msgid ""
