@@ -20,6 +20,7 @@
 
 
 #include "lib/kdm_cli.h"
+#include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -36,6 +37,8 @@ BOOST_AUTO_TEST_CASE (kdm_cli_test_certificate)
 		"--valid-from", "now",
 		"--valid-duration", "2 weeks",
 		"--certificate", "test/data/cert.pem",
+		"-S", "my great screen",
+		"-o", "build/test",
 		"test/data/dkdm.xml"
 	};
 
@@ -44,11 +47,17 @@ BOOST_AUTO_TEST_CASE (kdm_cli_test_certificate)
 		argv[i] = const_cast<char*>(args[i].c_str());
 	}
 
+	boost::filesystem::path const kdm_filename = "build/test/KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV__my_great_screen.xml";
+	boost::system::error_code ec;
+	boost::filesystem::remove(kdm_filename, ec);
+
 	auto error = kdm_cli (args.size(), argv, [](string s) { std::cout << s << "\n"; });
 	if (error) {
 		std::cout << *error << "\n";
 	}
 	BOOST_CHECK (!error);
+
+	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
 
 	delete[] argv;
 }

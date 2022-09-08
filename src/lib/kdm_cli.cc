@@ -422,7 +422,8 @@ try
 	auto filename_format = Config::instance()->kdm_filename_format();
 	optional<string> cinema_name;
 	shared_ptr<Cinema> cinema;
-	string screen_description;
+	optional<boost::filesystem::path> certificate;
+	string screen;
 	list<shared_ptr<Screen>> screens;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<boost::posix_time::ptime> valid_from;
@@ -534,19 +535,11 @@ try
 			cinema = make_shared<Cinema>(optarg, list<string>(), "", 0, 0);
 			break;
 		case 'S':
-			screen_description = optarg;
+			screen = optarg;
 			break;
 		case 'C':
-		{
-			/* Make a new screen and add it to the current cinema */
-			dcp::CertificateChain chain (dcp::file_to_string(optarg));
-			auto screen = std::make_shared<Screen>(screen_description, "", chain.leaf(), boost::none, vector<TrustedDevice>());
-			if (cinema) {
-				cinema->add_screen (screen);
-			}
-			screens.push_back (screen);
+			certificate = optarg;
 			break;
-		}
 		case 'T':
 			/* A trusted device ends up in the last screen we made */
 			if (!screens.empty ()) {
@@ -560,6 +553,16 @@ try
 			list_dkdm_cpls = true;
 			break;
 		}
+	}
+
+	if (certificate) {
+		/* Make a new screen and add it to the current cinema */
+		dcp::CertificateChain chain(dcp::file_to_string(*certificate));
+		auto screen_to_add = std::make_shared<Screen>(screen, "", chain.leaf(), boost::none, vector<TrustedDevice>());
+		if (cinema) {
+			cinema->add_screen(screen_to_add);
+		}
+		screens.push_back(screen_to_add);
 	}
 
 	if (list_cinemas) {
