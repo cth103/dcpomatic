@@ -25,6 +25,7 @@
 #include "lib/screen.h"
 #include "lib/trusted_device.h"
 #include "test.h"
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -128,7 +129,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_select_cinema)
 	auto error = run(args, output);
 	BOOST_CHECK(!error);
 
-	BOOST_REQUIRE_EQUAL(output.size(), 2);
+	BOOST_REQUIRE_EQUAL(output.size(), 2U);
 	BOOST_CHECK(boost::algorithm::starts_with(output[0], "Making KDMs valid from"));
 	BOOST_CHECK_EQUAL(output[1], "Wrote 2 KDM files to build/test");
 
@@ -164,7 +165,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_select_screen)
 	auto error = run(args, output);
 	BOOST_CHECK(!error);
 
-	BOOST_REQUIRE_EQUAL(output.size(), 2);
+	BOOST_REQUIRE_EQUAL(output.size(), 2U);
 	BOOST_CHECK(boost::algorithm::starts_with(output[0], "Making KDMs valid from"));
 	BOOST_CHECK_EQUAL(output[1], "Wrote 1 KDM files to build/test");
 
