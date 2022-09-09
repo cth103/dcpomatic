@@ -452,6 +452,8 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 	auto frame = audio_frame (stream);
 	auto data = deinterleave_audio (frame);
 
+	auto const time_base = stream->stream(_format_context)->time_base;
+
 	ContentTime ct;
 	if (frame->pts == AV_NOPTS_VALUE) {
 		/* In some streams we see not every frame coming through with a timestamp; for those
@@ -464,8 +466,16 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 	} else {
 		ct = ContentTime::from_seconds (
 			frame->best_effort_timestamp *
-			av_q2d (stream->stream(_format_context)->time_base))
+			av_q2d(time_base))
 			+ _pts_offset;
+		LOG_DEBUG_PLAYER(
+			"Process audio with timestamp %1 (BET %2, timebase %3/%4, (PTS offset %5)",
+			to_string(ct),
+			frame->best_effort_timestamp,
+			time_base.num,
+			time_base.den,
+			to_string(_pts_offset)
+			);
 	}
 
 	_next_time[stream] = ct + ContentTime::from_frames(data->frames(), stream->frame_rate());
@@ -485,7 +495,7 @@ FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 			data->frames(),
 			stream->id(),
 			frame->best_effort_timestamp,
-			av_q2d(stream->stream(_format_context)->time_base),
+			av_q2d(time_base),
 			to_string(_pts_offset)
 			);
 	}
@@ -508,6 +518,7 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 	auto context = _codec_context[stream->index(_format_context)];
 	auto frame = audio_frame (stream);
 
+	LOG_DEBUG_PLAYER("Send audio packet on stream %1", stream->index(_format_context));
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
@@ -516,6 +527,7 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 		r = avcodec_receive_frame (context, frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
+			LOG_DEBUG_PLAYER_NC("EAGAIN after trying to receive auido frame");
 			return;
 		}
 

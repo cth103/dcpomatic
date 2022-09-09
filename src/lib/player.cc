@@ -778,7 +778,7 @@ Player::pass ()
 		);
 
 	if (latest_last_push_end != _stream_states.end()) {
-		LOG_DEBUG_PLAYER("Leading stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end));
+		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end));
 	}
 
 	/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
