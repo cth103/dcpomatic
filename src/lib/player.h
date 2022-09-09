@@ -163,9 +163,9 @@ private:
 	*/
 	mutable boost::mutex _mutex;
 
-	std::shared_ptr<const Film> _film;
+	std::shared_ptr<const Film> const _film;
 	/** Playlist, or 0 if we are using the one from the _film */
-	std::shared_ptr<const Playlist> _playlist;
+	std::shared_ptr<const Playlist> const _playlist;
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
 	boost::atomic<int> _suspended;
@@ -186,7 +186,7 @@ private:
 	/** true if we should try to be fast rather than high quality */
 	bool _fast = false;
 	/** true if we should keep going in the face of `survivable' errors */
-	bool _tolerant = false;
+	bool const _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	bool _play_referenced = false;
 
@@ -230,7 +230,7 @@ private:
 	dcpomatic::DCPTime _playback_length;
 
 	/** Alignment for subtitle images that we create */
-	Image::Alignment _subtitle_alignment = Image::Alignment::PADDED;
+	Image::Alignment const _subtitle_alignment = Image::Alignment::PADDED;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;
