@@ -101,6 +101,7 @@ Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment
 	, _suspended (0)
 	, _ignore_video(false)
 	, _ignore_audio(false)
+	, _ignore_text(false)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
 	, _subtitle_alignment (subtitle_alignment)
@@ -115,6 +116,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _suspended (0)
 	, _ignore_video(false)
 	, _ignore_audio(false)
+	, _ignore_text(false)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
 {
@@ -518,9 +520,8 @@ Player::set_ignore_audio ()
 void
 Player::set_ignore_text ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_text = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 

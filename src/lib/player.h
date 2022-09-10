@@ -181,7 +181,7 @@ private:
 	boost::atomic<bool> _ignore_video;
 	boost::atomic<bool> _ignore_audio;
 	/** true if the player should ignore all text; i.e. never produce any */
-	bool _ignore_text = false;
+	boost::atomic<bool> _ignore_text;
 	bool _always_burn_open_subtitles = false;
 	/** true if we should try to be fast rather than high quality */
 	bool _fast = false;
