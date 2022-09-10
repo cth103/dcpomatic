@@ -99,6 +99,7 @@ int const PlayerProperty::PLAYBACK_LENGTH = 705;
 Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment)
 	: _film (film)
 	, _suspended (0)
+	, _ignore_video(false)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
 	, _subtitle_alignment (subtitle_alignment)
@@ -111,6 +112,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	: _film (film)
 	, _playlist (playlist_)
 	, _suspended (0)
+	, _ignore_video(false)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
 {
@@ -498,9 +500,8 @@ Player::get_subtitle_fonts ()
 void
 Player::set_ignore_video ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_video = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 

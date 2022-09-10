@@ -178,7 +178,7 @@ private:
 	std::shared_ptr<Image> _black_image;
 
 	/** true if the player should ignore all video; i.e. never produce any */
-	bool _ignore_video = false;
+	boost::atomic<bool> _ignore_video;
 	bool _ignore_audio = false;
 	/** true if the player should ignore all text; i.e. never produce any */
 	bool _ignore_text = false;
