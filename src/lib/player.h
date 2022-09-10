@@ -83,7 +83,6 @@ public:
 	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts ();
 	std::list<ReferencedReelAsset> get_reel_assets ();
 	dcp::Size video_container_size () const {
-		boost::mutex::scoped_lock lm (_mutex);
 		return _video_container_size;
 	}
 
@@ -174,7 +173,7 @@ private:
 	/** Size of the image we are rendering to; this may be the DCP frame size, or
 	 *  the size of preview in a window.
 	 */
-	dcp::Size _video_container_size;
+	boost::atomic<dcp::Size> _video_container_size;
 	std::shared_ptr<Image> _black_image;
 
 	/** true if the player should ignore all video; i.e. never produce any */

@@ -345,17 +345,15 @@ Player::set_video_container_size (dcp::Size s)
 {
 	Change (ChangeType::PENDING, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 
+	if (s == _video_container_size) {
+		Change(ChangeType::CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+		return;
+	}
+
+	_video_container_size = s;
+
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-
-		if (s == _video_container_size) {
-			lm.unlock ();
-			Change (ChangeType::CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
-			return;
-		}
-
-		_video_container_size = s;
-
 		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
 		_black_image->make_black ();
 	}
@@ -870,14 +868,14 @@ Player::open_subtitles_for_frame (DCPTime time) const
 			}
 
 			/* i.image will already have been scaled to fit _video_container_size */
-			dcp::Size scaled_size (i.rectangle.width * _video_container_size.width, i.rectangle.height * _video_container_size.height);
+			dcp::Size scaled_size (i.rectangle.width * _video_container_size.load().width, i.rectangle.height * _video_container_size.load().height);
 
 			captions.push_back (
 				PositionImage (
 					i.image,
 					Position<int> (
-						lrint(_video_container_size.width * i.rectangle.x),
-						lrint(_video_container_size.height * i.rectangle.y)
+						lrint(_video_container_size.load().width * i.rectangle.x),
+						lrint(_video_container_size.load().height * i.rectangle.y)
 						)
 					)
 				);
@@ -1140,8 +1138,8 @@ Player::bitmap_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextConten
 		auto image = sub.image;
 
 		/* We will scale the subtitle up to fit _video_container_size */
-		int const width = sub.rectangle.width * _video_container_size.width;
-		int const height = sub.rectangle.height * _video_container_size.height;
+		int const width = sub.rectangle.width * _video_container_size.load().width;
+		int const height = sub.rectangle.height * _video_container_size.load().height;
 		if (width == 0 || height == 0) {
 			return;
 		}
