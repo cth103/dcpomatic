@@ -307,10 +307,9 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 {
 	if (property == VideoContentProperty::CROP) {
 		if (type == ChangeType::DONE) {
-			auto const vcs = video_container_size();
 			boost::mutex::scoped_lock lm (_mutex);
 			for (auto const& i: _delay) {
-				i.first->reset_metadata (_film, vcs);
+				i.first->reset_metadata(_film, _video_container_size);
 			}
 		}
 	} else {
