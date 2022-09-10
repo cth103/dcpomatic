@@ -557,7 +557,7 @@ Player::pass ()
 		return false;
 	}
 
-	if (_playback_length == DCPTime()) {
+	if (_playback_length.load() == DCPTime()) {
 		/* Special; just give one black frame */
 		emit_video (black_player_video_frame(Eyes::BOTH), DCPTime());
 		return true;
@@ -695,7 +695,7 @@ Player::pass ()
 		}
 	}
 
-	auto pull_to = _playback_length;
+	auto pull_to = _playback_length.load();
 	for (auto const& i: alive_stream_states) {
 		if (!i.second.piece->done && i.second.last_push_end < pull_to) {
 			pull_to = i.second.last_push_end;

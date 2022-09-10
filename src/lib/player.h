@@ -225,7 +225,7 @@ private:
 	ActiveText _active_texts[static_cast<int>(TextType::COUNT)];
 	std::shared_ptr<AudioProcessor> _audio_processor;
 
-	dcpomatic::DCPTime _playback_length;
+	boost::atomic<dcpomatic::DCPTime> _playback_length;
 
 	/** Alignment for subtitle images that we create */
 	Image::Alignment const _subtitle_alignment = Image::Alignment::PADDED;
