@@ -1414,18 +1414,13 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 {
 	Change (ChangeType::PENDING, PlayerProperty::DCP_DECODE_REDUCTION, false);
 
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-
-		if (reduction == _dcp_decode_reduction) {
-			lm.unlock ();
-			Change (ChangeType::CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
-			return;
-		}
-
-		_dcp_decode_reduction = reduction;
-		setup_pieces_unlocked ();
+	if (reduction == _dcp_decode_reduction.load()) {
+		Change(ChangeType::CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
+		return;
 	}
+
+	_dcp_decode_reduction = reduction;
+	setup_pieces();
 
 	Change (ChangeType::DONE, PlayerProperty::DCP_DECODE_REDUCTION, false);
 }

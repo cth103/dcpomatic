@@ -196,7 +196,7 @@ private:
 	/** Time of the next audio that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_audio_time;
 
-	boost::optional<int> _dcp_decode_reduction;
+	boost::atomic<boost::optional<int>> _dcp_decode_reduction;
 
 	typedef std::map<std::weak_ptr<Piece>, std::shared_ptr<PlayerVideo>, std::owner_less<std::weak_ptr<Piece>>> LastVideoMap;
 	LastVideoMap _last_video;
