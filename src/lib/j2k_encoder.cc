@@ -34,7 +34,6 @@
 #include "film.h"
 #include "j2k_encoder.h"
 #include "log.h"
-#include "player.h"
 #include "player_video.h"
 #include "util.h"
 #include "writer.h"
