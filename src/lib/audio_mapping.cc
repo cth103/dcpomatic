@@ -169,8 +169,8 @@ AudioMapping::AudioMapping (cxml::ConstNodePtr node, int state_version)
 					);
 			} else {
 				set (
-					i->number_attribute<int>("Input"),
-					i->number_attribute<int>("Output"),
+					number_attribute<int>(i, "Input", "input"),
+					number_attribute<int>(i, "Output", "output"),
 					raw_convert<float>(i->content())
 					);
 			}
@@ -227,8 +227,8 @@ AudioMapping::as_xml (xmlpp::Node* node) const
 	for (int c = 0; c < _input_channels; ++c) {
 		for (int d = 0; d < _output_channels; ++d) {
 			auto t = node->add_child ("Gain");
-			t->set_attribute ("Input", raw_convert<string> (c));
-			t->set_attribute ("Output", raw_convert<string> (d));
+			t->set_attribute("input", raw_convert<string>(c));
+			t->set_attribute("output", raw_convert<string>(d));
 			t->add_child_text (raw_convert<string> (get (c, d)));
 		}
 	}

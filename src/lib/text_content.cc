@@ -236,8 +236,11 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version,
 	if (lang) {
 		try {
 			_language = dcp::LanguageTag(lang->content());
-			auto add = lang->optional_bool_attribute("Additional");
-			_language_is_additional = add && *add;
+			auto additional = lang->optional_bool_attribute("Additional");
+			if (!additional) {
+				additional = lang->optional_bool_attribute("additional");
+			}
+			_language_is_additional = additional.get_value_or(false);
 		} catch (dcp::LanguageTagError&) {
 			/* The language tag can be empty or invalid if it was loaded from a
 			 * 2.14.x metadata file; we'll just ignore it in that case.
@@ -410,7 +413,7 @@ TextContent::as_xml (xmlpp::Node* root) const
 	if (_language) {
 		auto lang = text->add_child("Language");
 		lang->add_child_text (_language->to_string());
-		lang->set_attribute ("Additional", _language_is_additional ? "1" : "0");
+		lang->set_attribute("additional", _language_is_additional ? "1" : "0");
 	}
 }
 
