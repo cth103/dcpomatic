@@ -584,6 +584,7 @@ BOOST_AUTO_TEST_CASE (make_part_black_test)
 		AV_PIX_FMT_BGRA,
 		AV_PIX_FMT_YUV420P,
 		AV_PIX_FMT_YUV422P10LE,
+		AV_PIX_FMT_YUV444P10LE
 	};
 
 	list<std::pair<int, int>> positions = {

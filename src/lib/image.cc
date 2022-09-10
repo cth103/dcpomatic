@@ -478,6 +478,21 @@ Image::make_part_black (int const start, int const width)
 		}
 		break;
 	}
+	case AV_PIX_FMT_YUV444P10LE:
+	{
+		y_part();
+		for (int i = 1; i < 3; ++i) {
+			auto p = reinterpret_cast<int16_t*>(data()[i]);
+			int const h = sample_size(i).height;
+			for (int y = 0; y < h; ++y) {
+				for (int x = start; x < (start + width); ++x) {
+					p[x] = ten_bit_uv;
+				}
+				p += stride()[i] / 2;
+			}
+		}
+		break;
+	}
 	default:
 		throw PixelFormatError ("make_part_black()", _pixel_format);
 	}
