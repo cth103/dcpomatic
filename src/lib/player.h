@@ -173,6 +173,7 @@ private:
 	 *  the size of preview in a window.
 	 */
 	boost::atomic<dcp::Size> _video_container_size;
+	/** Should be accessed using the std::atomic... methods */
 	std::shared_ptr<Image> _black_image;
 
 	/** true if the player should ignore all video; i.e. never produce any */
