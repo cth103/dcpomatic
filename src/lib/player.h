@@ -184,7 +184,7 @@ private:
 	boost::atomic<bool> _ignore_text;
 	boost::atomic<bool> _always_burn_open_subtitles;
 	/** true if we should try to be fast rather than high quality */
-	bool _fast = false;
+	boost::atomic<bool> _fast;
 	/** true if we should keep going in the face of `survivable' errors */
 	bool const _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */

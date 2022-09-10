@@ -103,6 +103,7 @@ Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment
 	, _ignore_audio(false)
 	, _ignore_text(false)
 	, _always_burn_open_subtitles(false)
+	, _fast(false)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
 	, _subtitle_alignment (subtitle_alignment)
@@ -119,6 +120,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _ignore_audio(false)
 	, _ignore_text(false)
 	, _always_burn_open_subtitles(false)
+	, _fast(false)
 	, _tolerant (film->tolerant())
 	, _audio_merger (_film->audio_frame_rate())
 {
@@ -539,9 +541,8 @@ Player::set_always_burn_open_subtitles ()
 void
 Player::set_fast ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_fast = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 
