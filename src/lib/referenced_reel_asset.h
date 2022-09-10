@@ -18,10 +18,18 @@
 
 */
 
+
 #ifndef DCPOMATIC_REFERENCED_REEL_ASSET_H
 #define DCPOMATIC_REFERENCED_REEL_ASSET_H
 
+
+#include "dcpomatic_time.h"
 #include <dcp/reel_asset.h>
+
+
+class Film;
+class Playlist;
+
 
 class ReferencedReelAsset
 {
@@ -36,5 +44,9 @@ public:
 	/** Period that this asset covers in the DCP */
 	dcpomatic::DCPTimePeriod period;
 };
+
+
+std::list<ReferencedReelAsset> get_referenced_reel_assets(std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist);
+
 
 #endif

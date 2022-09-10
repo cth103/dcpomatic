@@ -81,7 +81,7 @@ public:
 	void seek (dcpomatic::DCPTime time, bool accurate);
 
 	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts ();
-	std::list<ReferencedReelAsset> get_reel_assets ();
+
 	dcp::Size video_container_size () const {
 		return _video_container_size;
 	}
