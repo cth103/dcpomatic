@@ -32,6 +32,7 @@
 #include "dcpomatic_time.h"
 #include "pixel_quanta.h"
 #include "types.h"
+#include <libcxml/cxml.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/util.h>
@@ -148,6 +149,17 @@ list_to_vector (std::list<T> v)
 		l.push_back (i);
 	}
 	return l;
+}
+
+template <class T>
+T
+number_attribute(cxml::ConstNodePtr node, std::string name1, std::string name2)
+{
+	auto value = node->optional_number_attribute<T>(name1);
+	if (!value) {
+		value = node->number_attribute<T>(name2);
+	}
+	return *value;
 }
 
 #endif
