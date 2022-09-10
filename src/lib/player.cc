@@ -1421,7 +1421,7 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 
 
 optional<DCPTime>
-Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t)
+Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -1437,7 +1437,7 @@ Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t)
 
 
 optional<ContentTime>
-Player::dcp_to_content_time (shared_ptr<const Content> content, DCPTime t)
+Player::dcp_to_content_time (shared_ptr<const Content> content, DCPTime t) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
