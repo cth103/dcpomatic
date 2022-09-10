@@ -188,7 +188,7 @@ private:
 	/** true if we should keep going in the face of `survivable' errors */
 	bool const _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
-	bool _play_referenced = false;
+	boost::atomic<bool> _play_referenced;
 
 	/** Time of the next video that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_video_time;
