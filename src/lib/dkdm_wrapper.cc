@@ -41,7 +41,11 @@ DKDMBase::read (cxml::ConstNodePtr node)
 	if (node->name() == "DKDM") {
 		return make_shared<DKDM>(dcp::EncryptedKDM(node->content()));
 	} else if (node->name() == "DKDMGroup") {
-		auto group = make_shared<DKDMGroup>(node->string_attribute("Name"));
+		auto name = node->optional_string_attribute("Name");
+		if (!name) {
+			name = node->string_attribute("name");
+		}
+		auto group = make_shared<DKDMGroup>(*name);
 		for (auto i: node->node_children()) {
 			if (auto c = read(i)) {
 				group->add (c);
@@ -72,7 +76,7 @@ void
 DKDMGroup::as_xml (xmlpp::Element* node) const
 {
 	auto f = node->add_child("DKDMGroup");
-	f->set_attribute ("Name", _name);
+	f->set_attribute("name", _name);
 	for (auto i: _children) {
 		i->as_xml (f);
 	}
