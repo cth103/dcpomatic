@@ -486,7 +486,7 @@ try
 	   of the nags.
 	*/
 	for (auto i: f.node_children("Nagged")) {
-		auto const id = i->number_attribute<int>("Id");
+		auto const id = number_attribute<int>(i, "Id", "id");
 		if (id >= 0 && id < NAG_COUNT) {
 			_nagged[id] = raw_convert<int>(i->content());
 		}
@@ -557,7 +557,7 @@ try
 	_default_notify = f.optional_bool_child("DefaultNotify").get_value_or(false);
 
 	for (auto i: f.node_children("Notification")) {
-		int const id = i->number_attribute<int>("Id");
+		int const id = number_attribute<int>(i, "Id", "id");
 		if (id >= 0 && id < NOTIFICATION_COUNT) {
 			_notification[id] = raw_convert<int>(i->content());
 		}
@@ -955,7 +955,7 @@ Config::write_config () const
 	/* [XML] Nagged 1 if a particular nag screen has been shown and should not be shown again, otherwise 0. */
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		xmlpp::Element* e = root->add_child ("Nagged");
-		e->set_attribute ("Id", raw_convert<string>(i));
+		e->set_attribute("id", raw_convert<string>(i));
 		e->add_child_text (_nagged[i] ? "1" : "0");
 	}
 	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0. */
@@ -1010,7 +1010,7 @@ Config::write_config () const
 	/* [XML] Notification 1 if a notification type is enabled, otherwise 0. */
 	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
 		xmlpp::Element* e = root->add_child ("Notification");
-		e->set_attribute ("Id", raw_convert<string>(i));
+		e->set_attribute("id", raw_convert<string>(i));
 		e->add_child_text (_notification[i] ? "1" : "0");
 	}
 
