@@ -416,7 +416,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
 	for (auto const& marker: _markers) {
 		auto m = root->add_child("Marker");
-		m->set_attribute("Type", dcp::marker_to_string(marker.first));
+		m->set_attribute("type", dcp::marker_to_string(marker.first));
 		m->add_child_text(raw_convert<string>(marker.second.get()));
 	}
 	for (auto i: _ratings) {
@@ -603,7 +603,11 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
 	for (auto i: f.node_children("Marker")) {
-		_markers[dcp::marker_from_string(i->string_attribute("Type"))] = DCPTime(dcp::raw_convert<DCPTime::Type>(i->content()));
+		auto type = i->optional_string_attribute("Type");
+		if (!type) {
+			type = i->string_attribute("type");
+		}
+		_markers[dcp::marker_from_string(*type)] = DCPTime(dcp::raw_convert<DCPTime::Type>(i->content()));
 	}
 
 	for (auto i: f.node_children("Rating")) {
