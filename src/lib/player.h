@@ -126,7 +126,6 @@ private:
 
 	void construct ();
 	void setup_pieces ();
-	void setup_pieces_unlocked ();
 	void film_change (ChangeType, Film::Property);
 	void playlist_change (ChangeType);
 	void playlist_content_change (ChangeType, int, bool);

@@ -148,14 +148,6 @@ Player::construct ()
 }
 
 
-void
-Player::setup_pieces ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	setup_pieces_unlocked ();
-}
-
-
 bool
 have_video (shared_ptr<const Content> content)
 {
@@ -171,8 +163,10 @@ have_audio (shared_ptr<const Content> content)
 
 
 void
-Player::setup_pieces_unlocked ()
+Player::setup_pieces ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	_playback_length = _playlist ? _playlist->length(_film) : _film->length();
 
 	auto old_pieces = _pieces;
