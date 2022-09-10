@@ -179,7 +179,7 @@ private:
 
 	/** true if the player should ignore all video; i.e. never produce any */
 	boost::atomic<bool> _ignore_video;
-	bool _ignore_audio = false;
+	boost::atomic<bool> _ignore_audio;
 	/** true if the player should ignore all text; i.e. never produce any */
 	bool _ignore_text = false;
 	bool _always_burn_open_subtitles = false;
