@@ -208,7 +208,11 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 	boost::filesystem::remove_all (dir);
 	boost::filesystem::create_directories (dir);
 
+#ifdef DCPOMATIC_WINDOWS
+	boost::filesystem::copy_file("test/data/2.16.config.windows.xml", dir / "config.xml");
+#else
 	boost::filesystem::copy_file("test/data/2.16.config.xml", dir / "config.xml");
+#endif
 	boost::filesystem::copy_file("test/data/2.14.cinemas.xml", dir / "cinemas.xml");
 	Config::instance();
 	try {
@@ -216,13 +220,14 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 		Config::instance()->write();
 	} catch (...) {}
 
-	check_xml(dir / "config.xml", "test/data/2.16.config.xml", {});
 	check_xml(dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
 #ifdef DCPOMATIC_WINDOWS
 	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
 	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.xml", {});
+	check_xml(dir / "config.xml", "test/data/2.16.config.windows.xml", {});
 #else
 	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.xml", {});
+	check_xml(dir / "config.xml", "test/data/2.16.config.xml", {});
 #endif
 	/* cinemas.xml is not copied into 2.18 as its format has not changed */
 	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.18" / "cinemas.xml"));
