@@ -20,7 +20,6 @@
 
 
 #include "lib/dcpomatic_time.h"
-#include "lib/player.h"
 #include "lib/text_ring_buffers.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

@@ -109,7 +109,7 @@ DCPEncoder::go ()
 
 	while (!_player->pass ()) {}
 
-	for (auto i: _player->get_reel_assets()) {
+	for (auto i: get_referenced_reel_assets(_film, _film->playlist())) {
 		_writer->write (i);
 	}
 

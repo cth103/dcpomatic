@@ -291,8 +291,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	/* Check that the selected reel assets are right */
-	auto player = make_shared<Player>(vf, Image::Alignment::COMPACT);
-	auto a = player->get_reel_assets();
+	auto a = get_referenced_reel_assets(vf, vf->playlist());
 	BOOST_REQUIRE_EQUAL (a.size(), 4U);
 	auto i = a.begin();
 	BOOST_CHECK (i->period == DCPTimePeriod(DCPTime(0), DCPTime(960000)));

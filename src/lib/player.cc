@@ -47,7 +47,6 @@
 #include "playlist.h"
 #include "ratio.h"
 #include "raw_image_proxy.h"
-#include "referenced_reel_asset.h"
 #include "render_text.h"
 #include "shuffler.h"
 #include "text_content.h"
@@ -99,7 +98,13 @@ int const PlayerProperty::PLAYBACK_LENGTH = 705;
 Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment)
 	: _film (film)
 	, _suspended (0)
+	, _ignore_video(false)
+	, _ignore_audio(false)
+	, _ignore_text(false)
+	, _always_burn_open_subtitles(false)
+	, _fast(false)
 	, _tolerant (film->tolerant())
+	, _play_referenced(false)
 	, _audio_merger (_film->audio_frame_rate())
 	, _subtitle_alignment (subtitle_alignment)
 {
@@ -111,7 +116,13 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	: _film (film)
 	, _playlist (playlist_)
 	, _suspended (0)
+	, _ignore_video(false)
+	, _ignore_audio(false)
+	, _ignore_text(false)
+	, _always_burn_open_subtitles(false)
+	, _fast(false)
 	, _tolerant (film->tolerant())
+	, _play_referenced(false)
 	, _audio_merger (_film->audio_frame_rate())
 {
 	construct ();
@@ -136,14 +147,6 @@ Player::construct ()
 }
 
 
-void
-Player::setup_pieces ()
-{
-	boost::mutex::scoped_lock lm (_mutex);
-	setup_pieces_unlocked ();
-}
-
-
 bool
 have_video (shared_ptr<const Content> content)
 {
@@ -159,8 +162,10 @@ have_audio (shared_ptr<const Content> content)
 
 
 void
-Player::setup_pieces_unlocked ()
+Player::setup_pieces ()
 {
+	boost::mutex::scoped_lock lm (_mutex);
+
 	_playback_length = _playlist ? _playlist->length(_film) : _film->length();
 
 	auto old_pieces = _pieces;
@@ -302,10 +307,9 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 {
 	if (property == VideoContentProperty::CROP) {
 		if (type == ChangeType::DONE) {
-			auto const vcs = video_container_size();
 			boost::mutex::scoped_lock lm (_mutex);
 			for (auto const& i: _delay) {
-				i.first->reset_metadata (_film, vcs);
+				i.first->reset_metadata(_film, _video_container_size);
 			}
 		}
 	} else {
@@ -333,20 +337,16 @@ Player::set_video_container_size (dcp::Size s)
 {
 	Change (ChangeType::PENDING, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-
-		if (s == _video_container_size) {
-			lm.unlock ();
-			Change (ChangeType::CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
-			return;
-		}
-
-		_video_container_size = s;
-
-		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
-		_black_image->make_black ();
+	if (s == _video_container_size) {
+		Change(ChangeType::CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+		return;
 	}
+
+	_video_container_size = s;
+
+	auto black = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
+	black->make_black ();
+	std::atomic_store(&_black_image, black);
 
 	Change (ChangeType::DONE, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
@@ -397,8 +397,10 @@ Player::film_change (ChangeType type, Film::Property p)
 shared_ptr<PlayerVideo>
 Player::black_player_video_frame (Eyes eyes) const
 {
+	auto black = std::atomic_load(&_black_image);
+
 	return std::make_shared<PlayerVideo> (
-		std::make_shared<const RawImageProxy>(_black_image),
+		std::make_shared<const RawImageProxy>(black),
 		Crop(),
 		optional<double>(),
 		_video_container_size,
@@ -498,27 +500,24 @@ Player::get_subtitle_fonts ()
 void
 Player::set_ignore_video ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_video = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 
 void
 Player::set_ignore_audio ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_audio = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 
 void
 Player::set_ignore_text ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_ignore_text = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 
@@ -526,7 +525,6 @@ Player::set_ignore_text ()
 void
 Player::set_always_burn_open_subtitles ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_always_burn_open_subtitles = true;
 }
 
@@ -535,110 +533,16 @@ Player::set_always_burn_open_subtitles ()
 void
 Player::set_fast ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_fast = true;
-	setup_pieces_unlocked ();
+	setup_pieces();
 }
 
 
 void
 Player::set_play_referenced ()
 {
-	boost::mutex::scoped_lock lm (_mutex);
 	_play_referenced = true;
-	setup_pieces_unlocked ();
-}
-
-
-static void
-maybe_add_asset (list<ReferencedReelAsset>& a, shared_ptr<dcp::ReelAsset> r, Frame reel_trim_start, Frame reel_trim_end, DCPTime from, int const ffr)
-{
-	DCPOMATIC_ASSERT (r);
-	r->set_entry_point (r->entry_point().get_value_or(0) + reel_trim_start);
-	r->set_duration (r->actual_duration() - reel_trim_start - reel_trim_end);
-	if (r->actual_duration() > 0) {
-		a.push_back (
-			ReferencedReelAsset(r, DCPTimePeriod(from, from + DCPTime::from_frames(r->actual_duration(), ffr)))
-			);
-	}
-}
-
-
-list<ReferencedReelAsset>
-Player::get_reel_assets ()
-{
-	/* Does not require a lock on _mutex as it's only called from DCPEncoder */
-
-	list<ReferencedReelAsset> reel_assets;
-
-	for (auto content: playlist()->content()) {
-		auto dcp = dynamic_pointer_cast<DCPContent>(content);
-		if (!dcp) {
-			continue;
-		}
-
-		if (!dcp->reference_video() && !dcp->reference_audio() && !dcp->reference_text(TextType::OPEN_SUBTITLE) && !dcp->reference_text(TextType::CLOSED_CAPTION)) {
-			continue;
-		}
-
-		scoped_ptr<DCPDecoder> decoder;
-		try {
-			decoder.reset (new DCPDecoder(_film, dcp, false, false, shared_ptr<DCPDecoder>()));
-		} catch (...) {
-			return reel_assets;
-		}
-
-		auto const frame_rate = _film->video_frame_rate();
-		DCPOMATIC_ASSERT (dcp->video_frame_rate());
-		/* We should only be referencing if the DCP rate is the same as the film rate */
-		DCPOMATIC_ASSERT (std::round(dcp->video_frame_rate().get()) == frame_rate);
-
-		Frame const trim_start = dcp->trim_start().frames_round(frame_rate);
-		Frame const trim_end = dcp->trim_end().frames_round(frame_rate);
-
-		/* position in the asset from the start */
-		int64_t offset_from_start = 0;
-		/* position i the asset from the end */
-		int64_t offset_from_end = 0;
-		for (auto reel: decoder->reels()) {
-			/* Assume that main picture duration is the length of the reel */
-			offset_from_end += reel->main_picture()->actual_duration();
-		}
-
-		for (auto reel: decoder->reels()) {
-
-			/* Assume that main picture duration is the length of the reel */
-			int64_t const reel_duration = reel->main_picture()->actual_duration();
-
-			/* See doc/design/trim_reels.svg */
-			Frame const reel_trim_start = min(reel_duration, max(int64_t(0), trim_start - offset_from_start));
-			Frame const reel_trim_end =   min(reel_duration, max(int64_t(0), reel_duration - (offset_from_end - trim_end)));
-
-			auto const from = content->position() + std::max(DCPTime(), DCPTime::from_frames(offset_from_start - trim_start, frame_rate));
-			if (dcp->reference_video()) {
-				maybe_add_asset (reel_assets, reel->main_picture(), reel_trim_start, reel_trim_end, from, frame_rate);
-			}
-
-			if (dcp->reference_audio()) {
-				maybe_add_asset (reel_assets, reel->main_sound(), reel_trim_start, reel_trim_end, from, frame_rate);
-			}
-
-			if (dcp->reference_text(TextType::OPEN_SUBTITLE)) {
-				maybe_add_asset (reel_assets, reel->main_subtitle(), reel_trim_start, reel_trim_end, from, frame_rate);
-			}
-
-			if (dcp->reference_text(TextType::CLOSED_CAPTION)) {
-				for (auto caption: reel->closed_captions()) {
-					maybe_add_asset (reel_assets, caption, reel_trim_start, reel_trim_end, from, frame_rate);
-				}
-			}
-
-			offset_from_start += reel_duration;
-			offset_from_end -= reel_duration;
-		}
-	}
-
-	return reel_assets;
+	setup_pieces();
 }
 
 
@@ -653,7 +557,7 @@ Player::pass ()
 		return false;
 	}
 
-	if (_playback_length == DCPTime()) {
+	if (_playback_length.load() == DCPTime()) {
 		/* Special; just give one black frame */
 		emit_video (black_player_video_frame(Eyes::BOTH), DCPTime());
 		return true;
@@ -778,7 +682,7 @@ Player::pass ()
 		);
 
 	if (latest_last_push_end != _stream_states.end()) {
-		LOG_DEBUG_PLAYER("Leading stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end));
+		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end));
 	}
 
 	/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
@@ -791,7 +695,7 @@ Player::pass ()
 		}
 	}
 
-	auto pull_to = _playback_length;
+	auto pull_to = _playback_length.load();
 	for (auto const& i: alive_stream_states) {
 		if (!i.second.piece->done && i.second.last_push_end < pull_to) {
 			pull_to = i.second.last_push_end;
@@ -864,14 +768,14 @@ Player::open_subtitles_for_frame (DCPTime time) const
 			}
 
 			/* i.image will already have been scaled to fit _video_container_size */
-			dcp::Size scaled_size (i.rectangle.width * _video_container_size.width, i.rectangle.height * _video_container_size.height);
+			dcp::Size scaled_size (i.rectangle.width * _video_container_size.load().width, i.rectangle.height * _video_container_size.load().height);
 
 			captions.push_back (
 				PositionImage (
 					i.image,
 					Position<int> (
-						lrint(_video_container_size.width * i.rectangle.x),
-						lrint(_video_container_size.height * i.rectangle.y)
+						lrint(_video_container_size.load().width * i.rectangle.x),
+						lrint(_video_container_size.load().height * i.rectangle.y)
 						)
 					)
 				);
@@ -1134,8 +1038,8 @@ Player::bitmap_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextConten
 		auto image = sub.image;
 
 		/* We will scale the subtitle up to fit _video_container_size */
-		int const width = sub.rectangle.width * _video_container_size.width;
-		int const height = sub.rectangle.height * _video_container_size.height;
+		int const width = sub.rectangle.width * _video_container_size.load().width;
+		int const height = sub.rectangle.height * _video_container_size.load().height;
 		if (width == 0 || height == 0) {
 			return;
 		}
@@ -1410,25 +1314,20 @@ Player::set_dcp_decode_reduction (optional<int> reduction)
 {
 	Change (ChangeType::PENDING, PlayerProperty::DCP_DECODE_REDUCTION, false);
 
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-
-		if (reduction == _dcp_decode_reduction) {
-			lm.unlock ();
-			Change (ChangeType::CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
-			return;
-		}
-
-		_dcp_decode_reduction = reduction;
-		setup_pieces_unlocked ();
+	if (reduction == _dcp_decode_reduction.load()) {
+		Change(ChangeType::CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
+		return;
 	}
+
+	_dcp_decode_reduction = reduction;
+	setup_pieces();
 
 	Change (ChangeType::DONE, PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
 
 
 optional<DCPTime>
-Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t)
+Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
@@ -1444,7 +1343,7 @@ Player::content_time_to_dcp (shared_ptr<const Content> content, ContentTime t)
 
 
 optional<ContentTime>
-Player::dcp_to_content_time (shared_ptr<const Content> content, DCPTime t)
+Player::dcp_to_content_time (shared_ptr<const Content> content, DCPTime t) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 

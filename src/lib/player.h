@@ -81,9 +81,8 @@ public:
 	void seek (dcpomatic::DCPTime time, bool accurate);
 
 	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts ();
-	std::list<ReferencedReelAsset> get_reel_assets ();
+
 	dcp::Size video_container_size () const {
-		boost::mutex::scoped_lock lm (_mutex);
 		return _video_container_size;
 	}
 
@@ -96,8 +95,8 @@ public:
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
 
-	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t);
-	boost::optional<dcpomatic::ContentTime> dcp_to_content_time (std::shared_ptr<const Content> content, dcpomatic::DCPTime t);
+	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t) const;
+	boost::optional<dcpomatic::ContentTime> dcp_to_content_time (std::shared_ptr<const Content> content, dcpomatic::DCPTime t) const;
 
 	boost::signals2::signal<void (ChangeType, int, bool)> Change;
 
@@ -127,7 +126,6 @@ private:
 
 	void construct ();
 	void setup_pieces ();
-	void setup_pieces_unlocked ();
 	void film_change (ChangeType, Film::Property);
 	void playlist_change (ChangeType);
 	void playlist_content_change (ChangeType, int, bool);
@@ -163,9 +161,9 @@ private:
 	*/
 	mutable boost::mutex _mutex;
 
-	std::shared_ptr<const Film> _film;
+	std::shared_ptr<const Film> const _film;
 	/** Playlist, or 0 if we are using the one from the _film */
-	std::shared_ptr<const Playlist> _playlist;
+	std::shared_ptr<const Playlist> const _playlist;
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
 	boost::atomic<int> _suspended;
@@ -174,21 +172,22 @@ private:
 	/** Size of the image we are rendering to; this may be the DCP frame size, or
 	 *  the size of preview in a window.
 	 */
-	dcp::Size _video_container_size;
+	boost::atomic<dcp::Size> _video_container_size;
+	/** Should be accessed using the std::atomic... methods */
 	std::shared_ptr<Image> _black_image;
 
 	/** true if the player should ignore all video; i.e. never produce any */
-	bool _ignore_video = false;
-	bool _ignore_audio = false;
+	boost::atomic<bool> _ignore_video;
+	boost::atomic<bool> _ignore_audio;
 	/** true if the player should ignore all text; i.e. never produce any */
-	bool _ignore_text = false;
-	bool _always_burn_open_subtitles = false;
+	boost::atomic<bool> _ignore_text;
+	boost::atomic<bool> _always_burn_open_subtitles;
 	/** true if we should try to be fast rather than high quality */
-	bool _fast = false;
+	boost::atomic<bool> _fast;
 	/** true if we should keep going in the face of `survivable' errors */
-	bool _tolerant = false;
+	bool const _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
-	bool _play_referenced = false;
+	boost::atomic<bool> _play_referenced;
 
 	/** Time of the next video that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_video_time;
@@ -197,7 +196,7 @@ private:
 	/** Time of the next audio that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_audio_time;
 
-	boost::optional<int> _dcp_decode_reduction;
+	boost::atomic<boost::optional<int>> _dcp_decode_reduction;
 
 	typedef std::map<std::weak_ptr<Piece>, std::shared_ptr<PlayerVideo>, std::owner_less<std::weak_ptr<Piece>>> LastVideoMap;
 	LastVideoMap _last_video;
@@ -227,10 +226,10 @@ private:
 	ActiveText _active_texts[static_cast<int>(TextType::COUNT)];
 	std::shared_ptr<AudioProcessor> _audio_processor;
 
-	dcpomatic::DCPTime _playback_length;
+	boost::atomic<dcpomatic::DCPTime> _playback_length;
 
 	/** Alignment for subtitle images that we create */
-	Image::Alignment _subtitle_alignment = Image::Alignment::PADDED;
+	Image::Alignment const _subtitle_alignment = Image::Alignment::PADDED;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;
