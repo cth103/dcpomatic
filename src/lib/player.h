@@ -155,7 +155,7 @@ private:
 	void emit_audio (std::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
 	std::shared_ptr<const Playlist> playlist () const;
 
-	/** Mutex to protect the whole Player state.  When it's used for the preview we have
+	/** Mutex to protect the most of the Player state.  When it's used for the preview we have
 	    seek() and pass() called from the Butler thread and lots of other stuff called
 	    from the GUI thread.
 	*/
@@ -173,7 +173,8 @@ private:
 	 *  the size of preview in a window.
 	 */
 	boost::atomic<dcp::Size> _video_container_size;
-	/** Should be accessed using the std::atomic... methods */
+
+	mutable boost::mutex _black_image_mutex;
 	std::shared_ptr<Image> _black_image;
 
 	/** true if the player should ignore all video; i.e. never produce any */

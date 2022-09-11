@@ -344,9 +344,11 @@ Player::set_video_container_size (dcp::Size s)
 
 	_video_container_size = s;
 
-	auto black = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
-	black->make_black ();
-	std::atomic_store(&_black_image, black);
+	{
+		boost::mutex::scoped_lock lm(_black_image_mutex);
+		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
+		_black_image->make_black ();
+	}
 
 	Change (ChangeType::DONE, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
@@ -397,10 +399,10 @@ Player::film_change (ChangeType type, Film::Property p)
 shared_ptr<PlayerVideo>
 Player::black_player_video_frame (Eyes eyes) const
 {
-	auto black = std::atomic_load(&_black_image);
+	boost::mutex::scoped_lock lm(_black_image_mutex);
 
 	return std::make_shared<PlayerVideo> (
-		std::make_shared<const RawImageProxy>(black),
+		std::make_shared<const RawImageProxy>(_black_image),
 		Crop(),
 		optional<double>(),
 		_video_container_size,
