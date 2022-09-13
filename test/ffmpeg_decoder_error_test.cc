@@ -29,7 +29,7 @@
 
 /** @defgroup regression Regression tests */
 
-/** @file  test/ffmpeg_decoder_erro_test.cc
+/** @file  test/ffmpeg_decoder_error_test.cc
  *  @brief Check some bugs in the FFmpegDecoder
  *  @ingroup regression
  */
