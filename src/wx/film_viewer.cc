@@ -303,6 +303,16 @@ FilmViewer::calculate_sizes ()
 	out_size.width = max (64, out_size.width);
 	out_size.height = max (64, out_size.height);
 
+	/* Make sure the video container sizes are always a multiple of 2 so that
+	 * we don't get gaps with subsampled sources (e.g. YUV420)
+	 */
+	if (out_size.width % 2) {
+		out_size.width++;
+	}
+	if (out_size.height % 2) {
+		out_size.height++;
+	}
+
 	_player->set_video_container_size (out_size);
 }
 

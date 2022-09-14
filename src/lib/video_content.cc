@@ -660,7 +660,7 @@ VideoContent::scaled_size (dcp::Size film_container)
 	}
 
 	auto size = size_after_crop ();
-	size.width *= _sample_aspect_ratio.get_value_or(1);
+	size.width = std::lrint(size.width * _sample_aspect_ratio.get_value_or(1));
 
 	/* This is what we will return unless there is any legacy stuff to take into account */
 	auto auto_size = fit_ratio_within (size.ratio(), film_container);
