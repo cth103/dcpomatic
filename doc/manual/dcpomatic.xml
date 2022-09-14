@@ -486,7 +486,7 @@ DCP-o-matic and allows them to create a KDM for you.
 To get DCP-o-matic's decryption certificate, open the Preferences
 dialogue (see <xref linkend="ch-preferences"/>) and go to the
 <guilabel>Keys</guilabel> tab.  Click the <guilabel>Export DCP
-decryption certificate...</guilabel> button at the bottom of this tab
+decryption leaf certificate...</guilabel> button at the top of this tab
 and save the certificate.  Send this certificate to the KDM creators
 and they can make a KDM to allow DCP-o-matic to decrypt the DCP.
 </para>
