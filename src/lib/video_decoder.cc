@@ -96,7 +96,7 @@ VideoDecoder::emit (shared_ptr<const Film> film, shared_ptr<const ImageProxy> im
 	if (!_position) {
 		/* This is the first data we have received since initialisation or seek.  Set
 		   the position based on the frame that was given.  After this first time
-		   we just cound frames, since (as with audio) it seems that ContentTimes
+		   we just count frames, since (as with audio) it seems that ContentTimes
 		   are unreliable from FFmpegDecoder.  They are much better than audio times
 		   but still we get the occasional one which is duplicated.  In this case
 		   ffmpeg seems to carry on regardless, processing the video frame as normal.

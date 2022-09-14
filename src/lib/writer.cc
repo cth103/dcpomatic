@@ -801,7 +801,7 @@ Writer::can_fake_write (Frame frame) const
 
 	/* Make frame relative to the start of the reel */
 	frame -= reel.start ();
-	return (frame != 0 && frame < reel.first_nonexistant_frame());
+	return (frame != 0 && frame < reel.first_nonexistent_frame());
 }
 
 

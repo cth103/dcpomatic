@@ -91,8 +91,8 @@ public:
 		return _period;
 	}
 
-	int first_nonexistant_frame () const {
-		return _first_nonexistant_frame;
+	int first_nonexistent_frame () const {
+		return _first_nonexistent_frame;
 	}
 
 	dcp::FrameInfo read_frame_info (std::shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const;
@@ -123,7 +123,7 @@ private:
 
 	dcpomatic::DCPTimePeriod _period;
 	/** the first picture frame index that does not already exist in our MXF */
-	int _first_nonexistant_frame;
+	int _first_nonexistent_frame;
 	/** the data of the last written frame, if there is one */
 	std::shared_ptr<const dcp::Data> _last_written[static_cast<int>(Eyes::COUNT)];
 	/** index of this reel within the DCP (starting from 0) */

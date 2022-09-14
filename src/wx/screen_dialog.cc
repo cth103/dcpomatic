@@ -70,7 +70,7 @@ public:
 				_certificate = dcp::Certificate(dcp::file_to_string(wx_to_std(d->GetPath())));
 				_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
 			} catch (dcp::MiscError& e) {
-				error_dialog (this, wxString::Format(_("Could not load certficate (%s)"), std_to_wx(e.what())));
+				error_dialog(this, wxString::Format(_("Could not load certificate (%s)"), std_to_wx(e.what())));
 			}
 		}
 	}

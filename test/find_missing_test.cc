@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_single_files)
 		});
 	film->write_metadata ();
 
-	/* Move the content somewhere eles */
+	/* Move the content somewhere else */
 	auto moved = path("build/test") / path(name + "_moved");
 	remove_all (moved);
 	rename (content_dir, moved);

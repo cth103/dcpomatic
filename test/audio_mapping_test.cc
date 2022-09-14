@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (audio_mapping_guess_test)
 	guess_check ("more_Lss_s.wav", 4);
 	guess_check ("other_Rss.aiff", 5);
 
-	/* Only the filename should be taken into acccount */
+	/* Only the filename should be taken into account */
 	guess_check ("-Lfe-/foo_L.wav", 0);
 }
 

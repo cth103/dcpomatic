@@ -970,7 +970,7 @@ private:
 
 		int pos = _history_position;
 
-		/* Clear out non-existant history items before we re-build the menu */
+		/* Clear out non-existent history items before we re-build the menu */
 		Config::instance()->clean_player_history ();
 		auto history = Config::instance()->player_history ();
 

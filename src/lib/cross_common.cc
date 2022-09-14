@@ -156,7 +156,7 @@ analyse_osx_media_path (string path)
 }
 
 
-/* Take soem OSXDisk objects, representing disks that `DARegisterDiskAppearedCallback` told us about,
+/* Take some OSXDisk objects, representing disks that `DARegisterDiskAppearedCallback` told us about,
  * and find those drives that we could write a DCP to.  The drives returned are "real" (not synthesized)
  * and are whole disks (not partitions).  They may be mounted, or contain mounted partitions, in which
  * their mounted() method will return true.

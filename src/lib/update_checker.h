@@ -35,7 +35,7 @@
 struct update_checker_test;
 
 
-/** Class to check for the existance of an update for DCP-o-matic on a remote server */
+/** Class to check for the existence of an update for DCP-o-matic on a remote server */
 class UpdateChecker : public Signaller
 {
 public:

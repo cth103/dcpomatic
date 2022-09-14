@@ -550,7 +550,7 @@ bool
 ContentPanel::remove_clicked (bool hotkey)
 {
 	/* If the method was called because Delete was pressed check that our notebook page
-	   is visible and that the content list is focussed.
+	   is visible and that the content list is focused.
 	*/
 	if (hotkey && (_parent->GetCurrentPage() != _splitter || !_content->HasFocus())) {
 		return true;

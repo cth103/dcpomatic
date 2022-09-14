@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test)
 	boost::filesystem::copy_file ("test/data/2.14.cinemas.xml", dir / "cinemas.xml");
 	Config::instance();
 	try {
-		/* This will fail to write cinemas.xml since the link is to a non-existant directory */
+		/* This will fail to write cinemas.xml since the link is to a non-existent directory */
 		Config::instance()->write();
 	} catch (...) {}
 

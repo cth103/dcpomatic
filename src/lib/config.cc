@@ -734,7 +734,7 @@ Config::write_config () const
 		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
 	if (_default_dcp_content_type) {
-		/* [XML:opt] DefaultDCPContentType Default content type ot use when creating new films (<code>FTR</code>, <code>SHR</code>,
+		/* [XML:opt] DefaultDCPContentType Default content type to use when creating new films (<code>FTR</code>, <code>SHR</code>,
 		   <code>TLR</code>, <code>TST</code>, <code>XSN</code>, <code>RTG</code>, <code>TSR</code>, <code>POL</code>,
 		   <code>PSA</code> or <code>ADV</code>). */
 		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
@@ -1235,7 +1235,7 @@ Config::add_to_history (boost::filesystem::path p)
 	add_to_history_internal (_history, p);
 }
 
-/** Remove non-existant items from the history */
+/** Remove non-existent items from the history */
 void
 Config::clean_history ()
 {

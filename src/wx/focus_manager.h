@@ -31,7 +31,7 @@ class wxFocusEvent;
  *
  *  This allows us to turn off accelerators for the duration of the focus so that they don't steal
  *  keypresses.  It's a hack but the only way I could make it work on all platforms (looking for
- *  the focussed thing and doing ev.Skip() if it's a wxTextCtrl did not work for me on Windows:
+ *  the focused thing and doing ev.Skip() if it's a wxTextCtrl did not work for me on Windows:
  *  ev.Skip() did not cause the event to be delivered).
  */
 class FocusManager

@@ -25,9 +25,9 @@ def seek(dcp_seconds):
         print("W %d" % wait)
         # Seek
         print("S %d" % random.randint(0, 4095))
-        # Make sure we're stil playing
+        # Make sure we're still playing
         print("P")
-        test_seconds -= wait / 1000 
+        test_seconds -= wait / 1000
 
 def repeat(dcp_seconds):
     print("O %s" % args.dcp)

@@ -125,9 +125,9 @@ ReelWriter::ReelWriter (
 	boost::filesystem::path const asset =
 		film()->internal_video_asset_dir() / film()->internal_video_asset_filename(_period);
 
-	_first_nonexistant_frame = check_existing_picture_asset (asset);
+	_first_nonexistent_frame = check_existing_picture_asset (asset);
 
-	if (_first_nonexistant_frame < period.duration().frames_round(film()->video_frame_rate())) {
+	if (_first_nonexistent_frame < period.duration().frames_round(film()->video_frame_rate())) {
 		/* We do not have a complete picture asset.  If there is an
 		   existing asset, break any hard links to it as we are about
 		   to change its contents (if only by changing the IDs); see
@@ -160,7 +160,7 @@ ReelWriter::ReelWriter (
 		}
 
 		_picture_asset->set_file (asset);
-		_picture_asset_writer = _picture_asset->start_write (asset, _first_nonexistant_frame > 0);
+		_picture_asset_writer = _picture_asset->start_write (asset, _first_nonexistent_frame > 0);
 	} else if (!text_only) {
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
@@ -280,28 +280,28 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	int const n = (boost::filesystem::file_size(info_file->get().path()) / _info_size) - 1;
 	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size(info_file->get().path()), _info_size);
 
-	Frame first_nonexistant_frame;
+	Frame first_nonexistent_frame;
 	if (film()->three_d()) {
 		/* Start looking at the last left frame */
-		first_nonexistant_frame = n / 2;
+		first_nonexistent_frame = n / 2;
 	} else {
-		first_nonexistant_frame = n;
+		first_nonexistent_frame = n;
 	}
 
-	while (!existing_picture_frame_ok(asset_file, info_file, first_nonexistant_frame) && first_nonexistant_frame > 0) {
-		--first_nonexistant_frame;
+	while (!existing_picture_frame_ok(asset_file, info_file, first_nonexistent_frame) && first_nonexistent_frame > 0) {
+		--first_nonexistent_frame;
 	}
 
-	if (!film()->three_d() && first_nonexistant_frame > 0) {
+	if (!film()->three_d() && first_nonexistent_frame > 0) {
 		/* If we are doing 3D we might have found a good L frame with no R, so only
 		   do this if we're in 2D and we've just found a good B(oth) frame.
 		*/
-		++first_nonexistant_frame;
+		++first_nonexistent_frame;
 	}
 
-	LOG_GENERAL ("Proceeding with first nonexistant frame %1", first_nonexistant_frame);
+	LOG_GENERAL ("Proceeding with first nonexistent frame %1", first_nonexistent_frame);
 
-	return first_nonexistant_frame;
+	return first_nonexistent_frame;
 }
 
 

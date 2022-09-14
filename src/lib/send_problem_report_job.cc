@@ -38,7 +38,7 @@ using std::shared_ptr;
 using std::string;
 
 
-/** @param film Film thta the problem is with, or 0.
+/** @param film Film that the problem is with, or 0.
  *  @param from Email address to use for From:
  *  @param summary Summary of the problem.
  */
