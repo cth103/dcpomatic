@@ -335,6 +335,15 @@ public:
 };
 
 
+class CPLNotFoundError : public DCPError
+{
+public:
+	CPLNotFoundError(std::string id)
+		: DCPError(String::compose("CPL %1 not found", id))
+	{}
+};
+
+
 class InvalidSignerError : public std::runtime_error
 {
 public:

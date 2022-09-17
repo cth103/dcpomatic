@@ -72,12 +72,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	auto cpls = dcp::find_and_resolve_cpls (content->directories(), tolerant);
 
 	if (content->cpl ()) {
-		/* Use the CPL that the content was using before */
-		for (auto i: cpls) {
-			if (i->id() == content->cpl().get()) {
-				cpl = i;
-			}
+		/* Use the CPL that was specified, or that the content was using before */
+		auto iter = std::find_if(cpls.begin(), cpls.end(), [content](shared_ptr<dcp::CPL> cpl) { return cpl->id() == content->cpl().get(); });
+		if (iter == cpls.end()) {
+			throw CPLNotFoundError(content->cpl().get());
 		}
+		cpl = *iter;
 	} else {
 		/* Choose the CPL with the fewest unsatisfied references */
 
