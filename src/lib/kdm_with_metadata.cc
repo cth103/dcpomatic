@@ -212,6 +212,10 @@ send_emails (
 		throw NetworkError (_("No mail server configured in preferences"));
 	}
 
+	if (config->kdm_from().empty()) {
+		throw NetworkError(_("No KDM from address configured in preferences"));
+	}
+
 	for (auto const& kdms_for_cinema: kdms) {
 
 		auto first = kdms_for_cinema.front();
