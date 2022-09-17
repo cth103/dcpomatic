@@ -176,8 +176,10 @@ main (int argc, char* argv[])
 		if (jm->errors ()) {
 			for (auto i: jm->get()) {
 				if (i->finished_in_error()) {
-					cerr << i->error_summary() << "\n"
-					     << i->error_details() << "\n";
+					cerr << i->error_summary() << "\n";
+					if (!i->error_details().empty()) {
+					     cout << i->error_details() << "\n";
+					}
 				}
 			}
 			exit (EXIT_FAILURE);
