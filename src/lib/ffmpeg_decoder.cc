@@ -527,7 +527,7 @@ FFmpegDecoder::decode_and_process_audio_packet (AVPacket* packet)
 		r = avcodec_receive_frame (context, frame);
 		if (r == AVERROR(EAGAIN)) {
 			/* More input is required */
-			LOG_DEBUG_PLAYER_NC("EAGAIN after trying to receive auido frame");
+			LOG_DEBUG_PLAYER_NC("EAGAIN after trying to receive audio frame");
 			return;
 		}
 
