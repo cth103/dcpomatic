@@ -128,6 +128,9 @@ main (int argc, char* argv[])
 				if (cli_content.kdm) {
 					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(*cli_content.kdm)));
 				}
+				if (cli_content.cpl) {
+					dcp->set_cpl(*cli_content.cpl);
+				}
 			} else {
 				/* I guess it's not a DCP */
 				film_content_list = content_factory (can);

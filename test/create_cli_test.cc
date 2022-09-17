@@ -184,4 +184,10 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_CLOSE (*cc.content[1].gain, -6, 0.001);
 	BOOST_CHECK_EQUAL (cc.content[2].path, "sheila.wav");
 	BOOST_CHECK_CLOSE (*cc.content[2].gain, 2, 0.001);
+
+	cc = run("dcpomatic2_create --cpl 123456-789-0 dcp");
+	BOOST_REQUIRE_EQUAL(cc.content.size(), 1U);
+	BOOST_CHECK_EQUAL(cc.content[0].path, "dcp");
+	BOOST_REQUIRE(static_cast<bool>(cc.content[0].cpl));
+	BOOST_CHECK_EQUAL(*cc.content[0].cpl, "123456-789-0");
 }

@@ -57,6 +57,7 @@ string CreateCLI::_help =
 	"      --right-eye               next piece of content is for the right eye\n"
 	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs\n"
 	"      --gain                    next piece of content should have the given audio gain (in dB)\n"
+	"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
 	"      --kdm <file>              KDM for next piece of content\n";
 
 
@@ -138,6 +139,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	optional<dcp::Channel> channel;
 	optional<float> gain;
 	optional<boost::filesystem::path> kdm;
+	optional<std::string> cpl;
 
 	int i = 1;
 	while (i < argc) {
@@ -210,6 +212,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "", "--channel", &claimed, &error, &channel, convert_channel);
 		argument_option(i, argc, argv, "", "--gain", &claimed, &error, &gain);
 		argument_option(i, argc, argv, "", "--kdm", &claimed, &error, &kdm, string_to_path);
+		argument_option(i, argc, argv, "", "--cpl", &claimed, &error, &cpl);
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
@@ -222,6 +225,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				c.channel = channel;
 				c.gain = gain;
 				c.kdm = kdm;
+				c.cpl = cpl;
 				content.push_back (c);
 				next_frame_type = VideoFrameType::TWO_D;
 				channel = {};
