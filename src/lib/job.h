@@ -115,7 +115,7 @@ protected:
 	};
 
 	void set_state (State);
-	void set_error (std::string s, std::string d);
+	void set_error (std::string s, std::string d = "");
 	void set_message (std::string m);
 	int elapsed_sub_time () const;
 	void check_for_interruption_or_pause ();
