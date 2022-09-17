@@ -250,7 +250,13 @@ send_emails (
 		}
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
-		Emailer email (config->kdm_from(), first->emails(), subject, body);
+		auto emails = first->emails();
+		Emailer email (config->kdm_from(), { emails.front() }, subject, body);
+
+		/* Use CC for the second and subsequent email addresses, so we seem less spammy (#2310) */
+		for (auto cc = std::next(emails.begin()); cc != emails.end(); ++cc) {
+			email.add_cc(*cc);
+		}
 
 		for (auto cc: config->kdm_cc()) {
 			email.add_cc (cc);
