@@ -167,10 +167,10 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				switch (line.vertical_position.reference.get_value_or(sub::BOTTOM_OF_SCREEN)) {
 				case sub::BOTTOM_OF_SCREEN:
 				case sub::TOP_OF_SUBTITLE:
-					/* This 1.015 is an arbitrary value to lift the bottom sub off the bottom
+					/* This 0.9 is an arbitrary value to lift the bottom sub off the bottom
 					   of the screen a bit to a pleasing degree.
 					   */
-					v_position = 1.015 -
+					v_position = 0.9 -
 						(1 + bottom_line.get() - line.vertical_position.line.get()) * multiplier;
 
 					v_align = dcp::VAlign::TOP;
