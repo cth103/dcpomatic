@@ -110,7 +110,7 @@ TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> sub
 		auto string_text = StringText(
 			subtitle,
 			content()->outline_width(),
-			subtitle.font() ? content()->get_font(*subtitle.font()) : shared_ptr<Font>(),
+			content()->get_font(subtitle.font().get_value_or("")),
 			valign_standard
 			);
 		string_text.set_text(escape_text(string_text.text()));

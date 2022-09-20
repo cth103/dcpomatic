@@ -24,6 +24,7 @@
 #include "lib/film.h"
 #include "lib/font.h"
 #include "lib/text_content.h"
+#include <dcp/smpte_subtitle_asset.h>
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -98,5 +99,27 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_mkv)
 	subs[0]->text.front()->set_use(true);
 	subs[0]->text.front()->set_language(dcp::LanguageTag("en-US"));
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
+}
+
+
+BOOST_AUTO_TEST_CASE(make_dcp_with_subs_without_font_tag)
+{
+	auto subs = content_factory("test/data/no_font.xml");
+	auto film = new_test_film2("make_dcp_with_subs_without_font_tag", { subs });
+	subs[0]->text.front()->set_use(true);
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
+
+	auto check_file = subtitle_file(film);
+	dcp::SMPTESubtitleAsset check_asset(check_file);
+	BOOST_CHECK_EQUAL(check_asset.load_font_nodes().size(), 1U);
+	auto check_font_data = check_asset.font_data();
+	BOOST_CHECK_EQUAL(check_font_data.size(), 1U);
+	BOOST_CHECK(check_font_data.begin()->second == dcp::ArrayData(default_font_file()));
 }
 
