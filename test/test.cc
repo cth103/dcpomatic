@@ -836,13 +836,9 @@ dcp_file (shared_ptr<const Film> film, string prefix)
 boost::filesystem::path
 subtitle_file (shared_ptr<Film> film)
 {
-	for (auto i: boost::filesystem::directory_iterator(film->directory().get() / film->dcp_name (false))) {
-		if (boost::filesystem::is_directory(i.path())) {
-			for (auto j: boost::filesystem::directory_iterator(i.path())) {
-				if (boost::algorithm::starts_with(j.path().leaf().string(), "sub_")) {
-					return j.path();
-				}
-			}
+	for (auto i: boost::filesystem::recursive_directory_iterator(film->directory().get() / film->dcp_name(false))) {
+		if (boost::algorithm::starts_with(i.path().leaf().string(), "sub_")) {
+			return i.path();
 		}
 	}
 
