@@ -176,6 +176,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			claimed = true;
 		}
 
+		std::function<optional<string> (string s)> string_to_string = [](string s) {
+			return s;
+		};
+
 		std::function<optional<boost::filesystem::path> (string s)> string_to_path = [](string s) {
 			return boost::filesystem::path(s);
 		};
@@ -212,7 +216,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "", "--channel", &claimed, &error, &channel, convert_channel);
 		argument_option(i, argc, argv, "", "--gain", &claimed, &error, &gain);
 		argument_option(i, argc, argv, "", "--kdm", &claimed, &error, &kdm, string_to_path);
-		argument_option(i, argc, argv, "", "--cpl", &claimed, &error, &cpl);
+		/* It shouldn't be necessary to use this string_to_string here, but using the other argument_option()
+		 * causes an odd compile error on Ubuntu 18.04.
+		 */
+		argument_option(i, argc, argv, "", "--cpl", &claimed, &error, &cpl, string_to_string);
 
 		if (!claimed) {
 			if (a.length() > 2 && a.substr(0, 2) == "--") {
