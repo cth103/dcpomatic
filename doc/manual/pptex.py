@@ -14,15 +14,15 @@ import tempfile
 import shutil
 
 f = open(sys.argv[1])
-t = tempfile.NamedTemporaryFile(delete = False)
+t = tempfile.NamedTemporaryFile(delete=False)
 remove_next = False
-while 1:
+while True:
     l = f.readline()
     if l == '':
         break
 
     if not remove_next:
-        print>>t,l,
+        t.write(l.encode('UTF-8'))
 
     remove_next = False
 
