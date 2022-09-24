@@ -87,7 +87,7 @@ screenshots/audio-map-eg3.pdf: raw-screenshots/audio-map-eg3.pdf
 	python3 pdf_crop_by.py $< $@ 10 75 1350 630
 
 screenshots/dcp-tab.pdf: raw-screenshots/dcp-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 250 1480 30
+	python3 pdf_crop_by.py $< $@ 0 350 1240 30
 
 
 # For HTML: convert diagrams from SVG to PNG
