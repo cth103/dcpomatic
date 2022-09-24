@@ -64,3 +64,14 @@ to load a script file called `stress` and start executing it.
 - Add credit to `src/wx/about_dialog.cc` and database.
 - Add to `i18n.php` on website and `update-i18n-stats` script, then run `update-i18n-stats` script.
 
+
+## Taking screenshots for the manual
+
+The manual PDF looks nice if vector screenshots are used.  These can be taken as follows:
+
+- Build `gtk-vector-screenshot.git` (using meson/ninja)
+- Copy `libgtk-vector-screenshot.so` to `/usr/local/lib/gtk-3.0/modules/`
+- Run DCP-o-matic using `run/dcpomatic --screenshot`
+- Start `take-vector-screenshot`, click "Take screenshot" then click on the DCP-o-matic window.
+- Find a PDF in `/tmp/dcpomatic2.pdf`
+- Copy this to `doc/manual/raw-screenshots` 
