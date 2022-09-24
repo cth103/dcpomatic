@@ -1735,6 +1735,13 @@ scheme as it makes it easier to identify details of the content.
 </para>
 
 <para>
+If there is spoken language in your project's audio you can tick the
+<guilabel>Audio Language</guilabel> checkbox and then specify the language
+of that audio.  This information will be used for the ISDCF name, written into
+the DCP cover sheet, and added as metadata to the audio MXF files in the DCP.
+</para>
+
+<para>
 The <guilabel>Content Type</guilabel> option can be
 &lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
 required type from the drop-down list.  On some projection systems
