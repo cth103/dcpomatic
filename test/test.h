@@ -97,6 +97,20 @@ public:
 };
 
 
+class Editor
+{
+public:
+	Editor(boost::filesystem::path path);
+	~Editor();
+
+	void replace(std::string a, std::string b);
+
+private:
+	boost::filesystem::path _path;
+	std::string _content;
+};
+
+
 namespace dcp {
 
 std::ostream& operator<< (std::ostream& s, dcp::Size i);

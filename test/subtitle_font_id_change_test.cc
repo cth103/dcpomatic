@@ -38,37 +38,6 @@
 using std::string;
 
 
-class Editor
-{
-public:
-	Editor (boost::filesystem::path path)
-		: _path(path)
-		, _content(dcp::file_to_string(path))
-	{
-
-	}
-
-	~Editor ()
-	{
-		auto f = fopen(_path.string().c_str(), "w");
-		BOOST_REQUIRE(f);
-		fwrite(_content.c_str(), _content.length(), 1, f);
-		fclose(f);
-	}
-
-	void replace (string a, string b)
-	{
-		auto old_content = _content;
-		boost::algorithm::replace_all (_content, a, b);
-		BOOST_REQUIRE (_content != old_content);
-	}
-
-private:
-	boost::filesystem::path _path;
-	std::string _content;
-};
-
-
 BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test1)
 {
 	auto film = new_test_film2("subtitle_font_id_change_test1");

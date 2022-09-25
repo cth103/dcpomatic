@@ -980,3 +980,27 @@ find_file (boost::filesystem::path dir, string filename_part)
 	BOOST_REQUIRE (found);
 	return *found;
 }
+
+
+Editor::Editor(boost::filesystem::path path)
+	: _path(path)
+	, _content(dcp::file_to_string(path))
+{
+
+}
+
+Editor::~Editor()
+{
+	auto f = fopen(_path.string().c_str(), "w");
+	BOOST_REQUIRE(f);
+	fwrite(_content.c_str(), _content.length(), 1, f);
+	fclose(f);
+}
+
+void
+Editor::replace(string a, string b)
+{
+	auto old_content = _content;
+	boost::algorithm::replace_all(_content, a, b);
+	BOOST_REQUIRE(_content != old_content);
+}
