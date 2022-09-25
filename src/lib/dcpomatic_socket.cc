@@ -84,8 +84,6 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 
 		boost::asio::socket_base::send_buffer_size new_size(*_send_buffer_size);
 		_socket.set_option(new_size);
-
-		LOG_GENERAL("Changed socket send buffer size from %1 to %2", old_size.value(), *_send_buffer_size);
 	}
 }
 
