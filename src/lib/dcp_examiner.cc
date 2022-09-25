@@ -252,6 +252,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_reel_lengths.push_back (i->atmos()->actual_duration());
 		}
 
+		if (reel_fonts.empty()) {
+			reel_fonts.push_back(make_shared<dcpomatic::Font>(""));
+		}
+
 		_fonts.push_back(reel_fonts);
 	}
 
