@@ -1730,8 +1730,9 @@ generates and modify it, click <guilabel>Copy as name</guilabel> and
 the ISDCF name will be copied into the <guilabel>Name</guilabel> box.
 You can then edit it as you wish.  The DCP name should not matter (in
 that it should not affect how the DCP ingests or plays) but
-projectionists will appreciate it if you use the standard naming
-scheme as it makes it easier to identify details of the content.
+projectionists will appreciate it if you use the
+<ulink url="https://registry-page.isdcf.com/illustratedguide/">standard naming scheme</ulink>
+as it makes it easier to identify details of the content.
 </para>
 
 <para>
