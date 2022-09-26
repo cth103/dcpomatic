@@ -20,6 +20,7 @@
 
 
 #include "content_menu.h"
+#include "lib/enum_indexed_vector.h"
 #include "lib/film.h"
 #include "lib/types.h"
 #include <dcp/warnings.h>
@@ -146,7 +147,7 @@ private:
 	wxButton* _timeline;
 	VideoPanel* _video_panel = nullptr;
 	AudioPanel* _audio_panel = nullptr;
-	TextPanel* _text_panel[static_cast<int>(TextType::COUNT)];
+	EnumIndexedVector<TextPanel*, TextType> _text_panel;
 	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
 	TimelineDialog* _timeline_dialog = nullptr;
