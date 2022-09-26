@@ -29,6 +29,7 @@
 
 
 #include "cross.h"
+#include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
 #include "util.h"
@@ -105,7 +106,7 @@ private:
 	std::shared_ptr<Writer> _writer;
 	Waker _waker;
 
-	std::shared_ptr<PlayerVideo> _last_player_video[static_cast<int>(Eyes::COUNT)];
+	EnumIndexedVector<std::shared_ptr<PlayerVideo>, Eyes> _last_player_video;
 	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;
