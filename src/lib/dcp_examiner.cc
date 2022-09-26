@@ -65,10 +65,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 {
 	shared_ptr<dcp::CPL> cpl;
 
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		_text_count[i] = 0;
-	}
-
 	auto cpls = dcp::find_and_resolve_cpls (content->directories(), tolerant);
 
 	if (content->cpl ()) {
@@ -204,7 +200,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			LOG_GENERAL ("Main subtitle %1 of reel %2 found", i->main_subtitle()->id(), i->id());
 
-			_text_count[static_cast<int>(TextType::OPEN_SUBTITLE)] = 1;
+			_text_count[TextType::OPEN_SUBTITLE] = 1;
 			_open_subtitle_language = try_to_parse_language (i->main_subtitle()->language());
 
 			for (auto const& font: i->main_subtitle()->asset()->font_data()) {
@@ -222,7 +218,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			LOG_GENERAL ("Closed caption %1 of reel %2 found", j->id(), i->id());
 
-			_text_count[static_cast<int>(TextType::CLOSED_CAPTION)]++;
+			_text_count[TextType::CLOSED_CAPTION]++;
 			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text().get_value_or(""), try_to_parse_language(j->language())));
 		}
 

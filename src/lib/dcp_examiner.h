@@ -106,7 +106,7 @@ public:
 	 *  @return Number of assets of this type in this DCP.
 	 */
 	int text_count (TextType type) const {
-		return _text_count[static_cast<int>(type)];
+		return _text_count[type];
 	}
 
 	boost::optional<dcp::LanguageTag> open_subtitle_language () const {
@@ -186,7 +186,7 @@ private:
 	bool _has_audio = false;
 	boost::optional<dcp::LanguageTag> _audio_language;
 	/** number of different assets of each type (OCAP/CCAP) */
-	int _text_count[static_cast<int>(TextType::COUNT)];
+	EnumIndexedVector<int, TextType> _text_count;
 	boost::optional<dcp::LanguageTag> _open_subtitle_language;
 	/** the DCPTextTracks for each of our CCAPs */
 	std::vector<DCPTextTrack> _dcp_text_tracks;
