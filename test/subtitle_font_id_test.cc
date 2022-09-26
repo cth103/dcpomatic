@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 #if BOOST_VERSION >= 107400
 	boost::filesystem::copy_file("test/data/no_font.xml", source_subtitle_file, boost::filesystem::copy_options::overwrite_existing);
 #else
-	boost::filesystem::copy_file("test/data/no_font.xml", source_subtitle_file, boost::filesystem::copy_option::overwrite_existing);
+	boost::filesystem::copy_file("test/data/no_font.xml", source_subtitle_file, boost::filesystem::copy_option::overwrite_if_exists);
 #endif
 
 	/* Fix the <Id> tag */
