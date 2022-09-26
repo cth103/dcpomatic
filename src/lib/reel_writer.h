@@ -22,6 +22,7 @@
 #include "atmos_metadata.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "enum_indexed_vector.h"
 #include "font_id_map.h"
 #include "player_text.h"
 #include "referenced_reel_asset.h"
@@ -125,7 +126,7 @@ private:
 	/** the first picture frame index that does not already exist in our MXF */
 	int _first_nonexistent_frame;
 	/** the data of the last written frame, if there is one */
-	std::shared_ptr<const dcp::Data> _last_written[static_cast<int>(Eyes::COUNT)];
+	EnumIndexedVector<std::shared_ptr<const dcp::Data>, Eyes> _last_written;
 	/** index of this reel within the DCP (starting from 0) */
 	int _reel_index;
 	/** number of reels in the DCP */

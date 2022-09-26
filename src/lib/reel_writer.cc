@@ -315,7 +315,7 @@ ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 
 	auto fin = _picture_asset_writer->write (encoded->data(), encoded->size());
 	write_frame_info (frame, eyes, fin);
-	_last_written[static_cast<int>(eyes)] = encoded;
+	_last_written[eyes] = encoded;
 }
 
 
@@ -355,10 +355,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 		return;
 	}
 
-	auto fin = _picture_asset_writer->write (
-		_last_written[static_cast<int>(eyes)]->data(),
-		_last_written[static_cast<int>(eyes)]->size()
-		);
+	auto fin = _picture_asset_writer->write(_last_written[eyes]->data(), _last_written[eyes]->size());
 	write_frame_info (frame, eyes, fin);
 }
 
