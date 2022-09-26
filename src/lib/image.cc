@@ -27,6 +27,7 @@
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_socket.h"
+#include "enum_indexed_vector.h"
 #include "exceptions.h"
 #include "image.h"
 #include "maths_util.h"
@@ -236,10 +237,9 @@ Image::crop_scale_window (
 	}
 
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
-	int const lut[static_cast<int>(dcp::YUVToRGB::COUNT)] = {
-		SWS_CS_ITU601,
-		SWS_CS_ITU709
-	};
+	EnumIndexedVector<int, dcp::YUVToRGB> lut;
+	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
+	lut[dcp::YUVToRGB::REC709] = SWS_CS_ITU709;
 
 	/* The 3rd parameter here is:
 	   0 -> source range MPEG (i.e. "video", 16-235)
@@ -254,8 +254,8 @@ Image::crop_scale_window (
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
-		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), video_range == VideoRange::VIDEO ? 0 : 1,
-		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), out_video_range == VideoRange::VIDEO ? 0 : 1,
+		sws_getCoefficients(lut[yuv_to_rgb]), video_range == VideoRange::VIDEO ? 0 : 1,
+		sws_getCoefficients(lut[yuv_to_rgb]), out_video_range == VideoRange::VIDEO ? 0 : 1,
 		0, 1 << 16, 1 << 16
 		);
 
@@ -347,10 +347,9 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 		);
 
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
-	int const lut[static_cast<int>(dcp::YUVToRGB::COUNT)] = {
-		SWS_CS_ITU601,
-		SWS_CS_ITU709
-	};
+	EnumIndexedVector<int, dcp::YUVToRGB> lut;
+	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
+	lut[dcp::YUVToRGB::REC709] = SWS_CS_ITU709;
 
 	/* The 3rd parameter here is:
 	   0 -> source range MPEG (i.e. "video", 16-235)
@@ -365,8 +364,8 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	*/
 	sws_setColorspaceDetails (
 		scale_context,
-		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), 0,
-		sws_getCoefficients (lut[static_cast<int>(yuv_to_rgb)]), 0,
+		sws_getCoefficients(lut[yuv_to_rgb]), 0,
+		sws_getCoefficients(lut[yuv_to_rgb]), 0,
 		0, 1 << 16, 1 << 16
 		);
 
