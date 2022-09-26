@@ -28,25 +28,25 @@
  */
 
 
-#include "util.h"
 #include "cross.h"
 #include "event_history.h"
 #include "exception_store.h"
-#include <boost/thread/mutex.hpp>
-#include <boost/thread/condition.hpp>
-#include <boost/thread.hpp>
+#include "util.h"
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
+#include <boost/thread.hpp>
+#include <boost/thread/condition.hpp>
+#include <boost/thread/mutex.hpp>
 #include <list>
 #include <stdint.h>
 
 
-class Film;
-class EncodeServerDescription;
 class DCPVideo;
-class Writer;
+class EncodeServerDescription;
+class Film;
 class Job;
 class PlayerVideo;
+class Writer;
 
 
 /** @class J2KEncoder
