@@ -154,7 +154,11 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 
 	/* Graft in some bad subs with no <Font> tag */
 	auto source_subtitle_file = subtitle_file(source);
+#if BOOST_VERSION >= 107400
 	boost::filesystem::copy_file("test/data/no_font.xml", source_subtitle_file, boost::filesystem::copy_options::overwrite_existing);
+#else
+	boost::filesystem::copy_file("test/data/no_font.xml", source_subtitle_file, boost::filesystem::copy_option::overwrite_existing);
+#endif
 
 	/* Fix the <Id> tag */
 	{
