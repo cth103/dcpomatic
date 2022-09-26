@@ -86,10 +86,6 @@ DCPContent::DCPContent (boost::filesystem::path p)
 
 	read_directory (p);
 	set_default_colour_conversion ();
-
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		_reference_text[i] = false;
-	}
 }
 
 DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
@@ -100,10 +96,6 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	list<string> notes;
 	text = TextContent::from_xml (this, node, version, notes);
 	atmos = AtmosContent::from_xml (this, node);
-
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		_reference_text[i] = false;
-	}
 
 	if (video && audio) {
 		audio->set_stream (
@@ -128,11 +120,11 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	_reference_video = node->optional_bool_child ("ReferenceVideo").get_value_or (false);
 	_reference_audio = node->optional_bool_child ("ReferenceAudio").get_value_or (false);
 	if (version >= 37) {
-		_reference_text[static_cast<int>(TextType::OPEN_SUBTITLE)] = node->optional_bool_child("ReferenceOpenSubtitle").get_value_or(false);
-		_reference_text[static_cast<int>(TextType::CLOSED_CAPTION)] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
+		_reference_text[TextType::OPEN_SUBTITLE] = node->optional_bool_child("ReferenceOpenSubtitle").get_value_or(false);
+		_reference_text[TextType::CLOSED_CAPTION] = node->optional_bool_child("ReferenceClosedCaption").get_value_or(false);
 	} else {
-		_reference_text[static_cast<int>(TextType::OPEN_SUBTITLE)] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
-		_reference_text[static_cast<int>(TextType::CLOSED_CAPTION)] = false;
+		_reference_text[TextType::OPEN_SUBTITLE] = node->optional_bool_child("ReferenceSubtitle").get_value_or(false);
+		_reference_text[TextType::CLOSED_CAPTION] = false;
 	}
 	if (node->optional_string_child("Standard")) {
 		auto const s = node->optional_string_child("Standard").get();
@@ -372,8 +364,8 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
 	node->add_child("ReferenceVideo")->add_child_text (_reference_video ? "1" : "0");
 	node->add_child("ReferenceAudio")->add_child_text (_reference_audio ? "1" : "0");
-	node->add_child("ReferenceOpenSubtitle")->add_child_text(_reference_text[static_cast<int>(TextType::OPEN_SUBTITLE)] ? "1" : "0");
-	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[static_cast<int>(TextType::CLOSED_CAPTION)] ? "1" : "0");
+	node->add_child("ReferenceOpenSubtitle")->add_child_text(_reference_text[TextType::OPEN_SUBTITLE] ? "1" : "0");
+	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[TextType::CLOSED_CAPTION] ? "1" : "0");
 	if (_standard) {
 		switch (_standard.get ()) {
 		case dcp::Standard::INTEROP:
@@ -446,8 +438,8 @@ DCPContent::identifier () const
 	}
 
 	s += string (_reference_video ? "1" : "0");
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		s += string (_reference_text[i] ? "1" : "0");
+	for (auto text: _reference_text) {
+		s += string(text ? "1" : "0");
 	}
 	return s;
 }
@@ -540,7 +532,7 @@ DCPContent::set_reference_text (TextType type, bool r)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_reference_text[static_cast<int>(type)] = r;
+		_reference_text[type] = r;
 	}
 }
 
@@ -785,9 +777,7 @@ DCPContent::take_settings_from (shared_ptr<const Content> c)
 
 	_reference_video = dc->_reference_video;
 	_reference_audio = dc->_reference_audio;
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		_reference_text[i] = dc->_reference_text[i];
-	}
+	_reference_text = dc->_reference_text;
 }
 
 void

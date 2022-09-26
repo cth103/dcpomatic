@@ -29,6 +29,7 @@
 
 
 #include "content.h"
+#include "enum_indexed_vector.h"
 #include "font.h"
 #include <libcxml/cxml.h>
 #include <dcp/content_kind.h>
@@ -123,7 +124,7 @@ public:
 	 */
 	bool reference_text (TextType type) const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _reference_text[static_cast<int>(type)];
+		return _reference_text[type];
 	}
 
 	bool can_reference_text (std::shared_ptr<const Film> film, TextType type, std::string &) const;
@@ -209,7 +210,7 @@ private:
 	 *  rather than by rewrapping.  The types here are the original text types,
 	 *  not what they are being used for.
 	 */
-	bool _reference_text[static_cast<int>(TextType::COUNT)];
+	EnumIndexedVector<bool, TextType> _reference_text;
 
 	boost::optional<dcp::Standard> _standard;
 	boost::optional<dcp::ContentKind> _content_kind;
