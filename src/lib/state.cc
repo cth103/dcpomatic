@@ -35,7 +35,7 @@ boost::optional<boost::filesystem::path> State::override_path;
 /* List of config versions to look for in descending order of preference;
  * i.e. look at the first one, and if that doesn't exist, try the second, etc.
  */
-static std::vector<std::string> config_versions = { "2.16" };
+static std::vector<std::string> config_versions = { "2.18", "2.16" };
 
 
 static
