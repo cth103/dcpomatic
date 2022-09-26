@@ -203,6 +203,7 @@ supported_by.Add (wxT ("Nicolas Damianakis"));
 supported_by.Add (wxT ("Matthias Damm"));
 supported_by.Add (wxT ("Swati Dandekar"));
 supported_by.Add (wxT ("Ugo Danesi"));
+supported_by.Add (wxT ("Baptiste Darricarrère"));
 supported_by.Add (wxT ("JP Davidson"));
 supported_by.Add (wxT ("Carl Davis"));
 supported_by.Add (wxT ("Levi Davis"));
