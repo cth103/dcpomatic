@@ -32,6 +32,7 @@
 #include "content_text.h"
 #include "content_video.h"
 #include "empty.h"
+#include "enum_indexed_vector.h"
 #include "film.h"
 #include "image.h"
 #include "player_text.h"
@@ -224,7 +225,7 @@ private:
 	Empty _black;
 	Empty _silent;
 
-	ActiveText _active_texts[static_cast<int>(TextType::COUNT)];
+	EnumIndexedVector<ActiveText, TextType> _active_texts;
 	std::shared_ptr<AudioProcessor> _audio_processor;
 
 	boost::atomic<dcpomatic::DCPTime> _playback_length;

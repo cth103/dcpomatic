@@ -760,7 +760,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 
 	for (
 		auto j:
-		_active_texts[static_cast<int>(TextType::OPEN_SUBTITLE)].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
+		_active_texts[TextType::OPEN_SUBTITLE].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
 		) {
 
 		/* Bitmap subtitles */
@@ -1051,7 +1051,7 @@ Player::bitmap_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextConten
 	}
 
 	DCPTime from(content_time_to_dcp(piece, subtitle.from()));
-	_active_texts[static_cast<int>(content->type())].add_from(weak_content, ps, from);
+	_active_texts[content->type()].add_from(weak_content, ps, from);
 }
 
 
@@ -1099,7 +1099,7 @@ Player::plain_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextContent
 		ps.string.push_back (s);
 	}
 
-	_active_texts[static_cast<int>(content->type())].add_from(weak_content, ps, from);
+	_active_texts[content->type()].add_from(weak_content, ps, from);
 }
 
 
@@ -1115,7 +1115,7 @@ Player::subtitle_stop (weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> w
 		return;
 	}
 
-	if (!_active_texts[static_cast<int>(content->type())].have(weak_content)) {
+	if (!_active_texts[content->type()].have(weak_content)) {
 		return;
 	}
 
@@ -1130,7 +1130,7 @@ Player::subtitle_stop (weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> w
 		return;
 	}
 
-	auto from = _active_texts[static_cast<int>(content->type())].add_to(weak_content, dcp_to);
+	auto from = _active_texts[content->type()].add_to(weak_content, dcp_to);
 
 	bool const always = (content->type() == TextType::OPEN_SUBTITLE && _always_burn_open_subtitles);
 	if (content->use() && !always && !content->burn()) {
@@ -1161,9 +1161,7 @@ Player::seek (DCPTime time, bool accurate)
 	}
 
 	_audio_merger.clear ();
-	for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-		_active_texts[i].clear ();
-	}
+	std::for_each(_active_texts.begin(), _active_texts.end(), [](ActiveText& a) { a.clear(); });
 
 	for (auto i: _pieces) {
 		if (time < i->content->position()) {
@@ -1238,9 +1236,7 @@ void
 Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
-		for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-			_active_texts[i].clear_before (time);
-		}
+		std::for_each(_active_texts.begin(), _active_texts.end(), [time](ActiveText& a) { a.clear_before(time); });
 	}
 
 	auto subtitles = open_subtitles_for_frame (time);
