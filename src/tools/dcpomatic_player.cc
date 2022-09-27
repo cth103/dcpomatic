@@ -354,7 +354,7 @@ public:
 				wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())),
 				_(
 					"This looks like a DCP-o-matic project folder, which cannot be loaded into the player.  "
-					"Choose the DCP directory inside the DCP-o-matic project folder if that's what you want to play."
+					"Choose the DCP folder inside the DCP-o-matic project folder if that's what you want to play."
 				 )
 				);
 		} catch (dcp::ReadError& e) {

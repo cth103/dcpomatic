@@ -532,7 +532,7 @@ ContentPanel::add_dcp_clicked ()
 			_parent,
 			_(
 				"This looks like a DCP-o-matic project folder, which cannot be added to a different project.  "
-				"Choose the DCP directory inside the DCP-o-matic project folder if that's what you want to import."
+				"Choose the DCP folder inside the DCP-o-matic project folder if that's what you want to import."
 			 )
 			);
 	} catch (exception& e) {
