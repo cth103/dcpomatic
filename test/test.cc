@@ -168,6 +168,16 @@ struct TestConfig
 		signal_manager = new TestSignalManager ();
 
 		dcpomatic_log.reset (new FileLog("build/test/log"));
+
+		auto const& suite = boost::unit_test::framework::master_test_suite();
+		int types = LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR;
+		for (int i = 1; i < suite.argc; ++i) {
+			if (string(suite.argv[i]) == "--log=debug-player") {
+				types |= LogEntry::TYPE_DEBUG_PLAYER;
+			}
+		}
+
+		dcpomatic_log->set_types(types);
 	}
 
 	~TestConfig ()
