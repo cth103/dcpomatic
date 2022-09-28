@@ -152,6 +152,10 @@ public:
 		return *this;
 	}
 
+	Time<S, O> operator* (int o) const {
+		return Time<S, O> (_t * o);
+	}
+
 	Time<S, O> operator/ (int o) const {
 		return Time<S, O> (_t / o);
 	}
