@@ -81,7 +81,6 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 		_kdm_from = add_label_to_sizer(g, _kdm_panel, wxT(""), false, wxGBPosition(0, 1));
 		add_label_to_sizer(g, _kdm_panel, _("Valid to"), true, wxGBPosition(1, 0));
 		_kdm_to = add_label_to_sizer(g, _kdm_panel, wxT(""), false, wxGBPosition(1, 1));
-		auto pad = new wxBoxSizer(wxVERTICAL);
 		s->Add(g, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		_kdm_panel->SetSizer(s);
 		_sizer->Add(_kdm_panel, 1, wxEXPAND | wxALL, 6);
