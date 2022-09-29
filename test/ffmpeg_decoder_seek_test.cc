@@ -64,18 +64,18 @@ store (ContentVideo v)
 
 
 static void
-check (shared_ptr<FFmpegDecoder> decoder, int frame)
+check (shared_ptr<FFmpegDecoder> decoder, ContentTime time)
 {
 	BOOST_REQUIRE (decoder->ffmpeg_content()->video_frame_rate ());
-	decoder->seek (ContentTime::from_frames (frame, decoder->ffmpeg_content()->video_frame_rate().get()), true);
+	decoder->seek(time, true);
 	stored = optional<ContentVideo> ();
 	while (!decoder->pass() && !stored) {}
-	BOOST_CHECK (stored->frame <= frame);
+	BOOST_CHECK(stored->time <= time);
 }
 
 
 static void
-test (boost::filesystem::path file, vector<int> frames)
+test (boost::filesystem::path file, vector<ContentTime> times)
 {
 	auto path = TestPaths::private_data() / file;
 	BOOST_REQUIRE (boost::filesystem::exists (path));
@@ -87,7 +87,7 @@ test (boost::filesystem::path file, vector<int> frames)
 	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
 	decoder->video->Data.connect (bind (&store, _1));
 
-	for (auto i: frames) {
+	for (auto i: times) {
 		check (decoder, i);
 	}
 }
@@ -95,10 +95,43 @@ test (boost::filesystem::path file, vector<int> frames)
 
 BOOST_AUTO_TEST_CASE (ffmpeg_decoder_seek_test)
 {
-	vector<int> frames = { 0, 42, 999, 0 };
+	test(
+		"boon_telly.mkv",
+		{
+			ContentTime::from_frames(0, 29.97),
+			ContentTime::from_frames(42, 29.97),
+			ContentTime::from_frames(999, 29.97),
+			ContentTime::from_frames(0, 29.97),
+		}
+	    );
 
-	test ("boon_telly.mkv", frames);
-	test ("Sintel_Trailer1.480p.DivX_Plus_HD.mkv", frames);
-	test ("prophet_long_clip.mkv", { 15, 42, 999, 15 });
-	test ("dolby_aurora.vob", { 0, 125, 250, 41 });
+	test(
+		"Sintel_Trailer1.480p.DivX_Plus_HD.mkv",
+		{
+			ContentTime::from_frames(0, 24),
+			ContentTime::from_frames(42, 24),
+			ContentTime::from_frames(999, 24),
+			ContentTime::from_frames(0, 24),
+		}
+	    );
+
+	test(
+		"prophet_long_clip.mkv",
+		{
+			ContentTime::from_frames(15, 23.976),
+			ContentTime::from_frames(42, 23.976),
+			ContentTime::from_frames(999, 23.976),
+			ContentTime::from_frames(15, 23.976)
+		}
+	    );
+
+	test(
+		"dolby_aurora.vob",
+		{
+			ContentTime::from_frames(0, 25),
+			ContentTime::from_frames(125, 25),
+			ContentTime::from_frames(250, 25),
+			ContentTime::from_frames(41, 25)
+		}
+	    );
 }
