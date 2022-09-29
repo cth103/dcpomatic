@@ -61,7 +61,7 @@ public:
 	}
 
 	void seek () override;
-	void emit (std::shared_ptr<const Film> film, std::shared_ptr<const ImageProxy>, Frame frame);
+	void emit(std::shared_ptr<const Film> film, std::shared_ptr<const ImageProxy>, dcpomatic::ContentTime time);
 
 	boost::signals2::signal<void (ContentVideo)> Data;
 

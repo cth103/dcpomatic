@@ -45,6 +45,7 @@ using std::weak_ptr;
 using boost::optional;
 using dcp::Data;
 using dcp::raw_convert;
+using namespace dcpomatic;
 
 
 PlayerVideo::PlayerVideo (
@@ -58,7 +59,7 @@ PlayerVideo::PlayerVideo (
 	optional<ColourConversion> colour_conversion,
 	VideoRange video_range,
 	weak_ptr<Content> content,
-	optional<Frame> video_frame,
+	optional<ContentTime> video_time,
 	bool error
 	)
 	: _in (in)
@@ -71,7 +72,7 @@ PlayerVideo::PlayerVideo (
 	, _colour_conversion (colour_conversion)
 	, _video_range (video_range)
 	, _content (content)
-	, _video_frame (video_frame)
+	, _video_time(video_time)
 	, _error (error)
 {
 
@@ -343,7 +344,7 @@ PlayerVideo::shallow_copy () const
 		_colour_conversion,
 		_video_range,
 		_content,
-		_video_frame,
+		_video_time,
 		_error
 		);
 }
@@ -356,12 +357,12 @@ bool
 PlayerVideo::reset_metadata (shared_ptr<const Film> film, dcp::Size player_video_container_size)
 {
 	auto content = _content.lock();
-	if (!content || !_video_frame) {
+	if (!content || !_video_time) {
 		return false;
 	}
 
 	_crop = content->video->actual_crop();
-	_fade = content->video->fade(film, _video_frame.get());
+	_fade = content->video->fade(film, _video_time.get());
 	_inter_size = scale_for_display(
 		content->video->scaled_size(film->frame_size()),
 		player_video_container_size,
