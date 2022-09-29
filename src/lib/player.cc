@@ -71,9 +71,7 @@ using std::dynamic_pointer_cast;
 using std::list;
 using std::make_pair;
 using std::make_shared;
-using std::make_shared;
 using std::max;
-using std::min;
 using std::min;
 using std::pair;
 using std::shared_ptr;
@@ -297,7 +295,6 @@ Player::setup_pieces ()
 	_silent = Empty (_film, playlist(), bind(&have_audio, _1), _playback_length);
 
 	_next_video_time = boost::none;
-	_next_video_eyes = Eyes::BOTH;
 	_next_audio_time = boost::none;
 }
 
@@ -402,7 +399,7 @@ Player::black_player_video_frame (Eyes eyes) const
 	boost::mutex::scoped_lock lm(_black_image_mutex);
 
 	return std::make_shared<PlayerVideo> (
-		std::make_shared<const RawImageProxy>(_black_image),
+		make_shared<const RawImageProxy>(_black_image),
 		Crop(),
 		optional<double>(),
 		_video_container_size,
@@ -412,7 +409,7 @@ Player::black_player_video_frame (Eyes eyes) const
 		PresetColourConversion::all().front().conversion,
 		VideoRange::FULL,
 		std::weak_ptr<Content>(),
-		boost::optional<Frame>(),
+		boost::optional<dcpomatic::ContentTime>(),
 		false
 	);
 }
@@ -561,7 +558,7 @@ Player::pass ()
 
 	if (_playback_length.load() == DCPTime()) {
 		/* Special; just give one black frame */
-		emit_video (black_player_video_frame(Eyes::BOTH), DCPTime());
+		use_video(black_player_video_frame(Eyes::BOTH), DCPTime(), one_video_frame());
 		return true;
 	}
 
@@ -619,18 +616,23 @@ Player::pass ()
 		LOG_DEBUG_PLAYER ("Calling pass() on %1", earliest_content->content->path(0));
 		earliest_content->done = earliest_content->decoder->pass ();
 		auto dcp = dynamic_pointer_cast<DCPContent>(earliest_content->content);
-		if (dcp && !_play_referenced && dcp->reference_audio()) {
-			/* We are skipping some referenced DCP audio content, so we need to update _next_audio_time
-			   to `hide' the fact that no audio was emitted during the referenced DCP (though
-			   we need to behave as though it was).
-			*/
-			_next_audio_time = dcp->end (_film);
+		if (dcp && !_play_referenced) {
+			if (dcp->reference_video()) {
+				_next_video_time = dcp->end(_film);
+			}
+			if (dcp->reference_audio()) {
+				/* We are skipping some referenced DCP audio content, so we need to update _next_audio_time
+				   to `hide' the fact that no audio was emitted during the referenced DCP (though
+				   we need to behave as though it was).
+				*/
+				_next_audio_time = dcp->end(_film);
+			}
 		}
 		break;
 	}
 	case BLACK:
 		LOG_DEBUG_PLAYER ("Emit black for gap at %1", to_string(_black.position()));
-		emit_video (black_player_video_frame(Eyes::BOTH), _black.position());
+		use_video(black_player_video_frame(Eyes::BOTH), _black.position(), _black.period_at_position().to);
 		_black.set_position (_black.position() + one_video_frame());
 		break;
 	case SILENT:
@@ -726,24 +728,13 @@ Player::pass ()
 	}
 
 	if (done) {
+		emit_video_until(_film->length());
+
 		if (_shuffler) {
 			_shuffler->flush ();
 		}
 		for (auto const& i: _delay) {
-			do_emit_video(i.first, i.second);
-		}
-
-		/* Perhaps we should have Empty entries for both eyes in the 3D case (somehow).
-		 * However, if we have L and R video files, and one is shorter than the other,
-		 * the fill code in ::video mostly takes care of filling in the gaps.
-		 * However, since it fills at the point when it knows there is more video coming
-		 * at time t (so it should fill any gap up to t) it can't do anything right at the
-		 * end.  This is particularly bad news if the last frame emitted is a LEFT
-		 * eye, as the MXF writer will complain about the 3D sequence being wrong.
-		 * Here's a hack to workaround that particular case.
-		 */
-		if (_next_video_eyes && _next_video_time && *_next_video_eyes == Eyes::RIGHT) {
-			do_emit_video (black_player_video_frame(Eyes::RIGHT), *_next_video_time);
+			emit_video(i.first, i.second);
 		}
 	}
 
@@ -799,6 +790,57 @@ Player::open_subtitles_for_frame (DCPTime time) const
 
 
 void
+Player::emit_video_until(DCPTime time)
+{
+	auto frame = [this](shared_ptr<PlayerVideo> pv, DCPTime time) {
+		/* We need a delay to give a little wiggle room to ensure that relevant subtitles arrive at the
+		   player before the video that requires them.
+		*/
+		_delay.push_back(make_pair(pv, time));
+
+		if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
+			_next_video_time = time + one_video_frame();
+		}
+
+		if (_delay.size() < 3) {
+			return;
+		}
+
+		auto to_do = _delay.front();
+		_delay.pop_front();
+		emit_video(to_do.first, to_do.second);
+	};
+
+	auto const age_threshold = one_video_frame() * 2;
+
+	while (_next_video_time.get_value_or({}) < time) {
+		auto left = _last_video[Eyes::LEFT];
+		auto right = _last_video[Eyes::RIGHT];
+		auto both = _last_video[Eyes::BOTH];
+
+		auto const next = _next_video_time.get_value_or({});
+
+		if (
+			left.first &&
+			right.first &&
+			(!both.first || (left.second >= both.second && right.second >= both.second)) &&
+			(left.second - next) < age_threshold &&
+			(right.second - next) < age_threshold
+		   ) {
+			frame(left.first, next);
+			frame(right.first, next);
+		} else if (both.first && (both.second - next) < age_threshold) {
+			frame(both.first, next);
+			LOG_DEBUG_PLAYER("Content %1 selected for DCP %2 (age %3)", to_string(both.second), to_string(next), to_string(both.second - next));
+		} else {
+			frame(black_player_video_frame(Eyes::BOTH), next);
+			LOG_DEBUG_PLAYER("Black selected for DCP %1", to_string(next));
+		}
+	}
+}
+
+
+void
 Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
 	if (_suspended) {
@@ -814,20 +856,25 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		return;
 	}
 
-	FrameRateChange frc (_film, piece->content);
-	if (frc.skip && (video.frame % 2) == 1) {
-		return;
+	auto const three_d = _film->three_d();
+
+	if (!three_d) {
+		if (video.eyes == Eyes::LEFT) {
+			/* Use left-eye images for both eyes... */
+			video.eyes = Eyes::BOTH;
+		} else if (video.eyes == Eyes::RIGHT) {
+			/* ...and discard the right */
+			return;
+		}
 	}
 
-	/* Time of the first frame we will emit */
-	DCPTime const time = content_video_to_dcp (piece, video.frame);
-	LOG_DEBUG_PLAYER("Received video frame %1 at %2", video.frame, to_string(time));
+	FrameRateChange frc (_film, piece->content);
 
-	/* Discard if it's before the content's period or the last accurate seek.  We can't discard
-	   if it's after the content's period here as in that case we still need to fill any gap between
-	   `now' and the end of the content's period.
-	*/
-	if (time < piece->content->position() || (_next_video_time && time < *_next_video_time)) {
+	/* Time of the frame we just received within the DCP */
+	auto const time = content_time_to_dcp(piece, video.time);
+	LOG_DEBUG_PLAYER("Received video frame %1 %2 eyes %3", to_string(video.time), to_string(time), static_cast<int>(video.eyes));
+
+	if (time < piece->content->position()) {
 		return;
 	}
 
@@ -835,86 +882,43 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		return;
 	}
 
-	/* Fill gaps that we discover now that we have some video which needs to be emitted.
-	   This is where we need to fill to.
-	*/
-	DCPTime fill_to = min (time, piece->content->end(_film));
-
-	if (_next_video_time) {
-		DCPTime fill_from = max (*_next_video_time, piece->content->position());
-
-		/* Fill if we have more than half a frame to do */
-		if ((fill_to - fill_from) > one_video_frame() / 2) {
-			auto last = _last_video.find (weak_piece);
-			if (_film->three_d()) {
-				auto fill_to_eyes = video.eyes;
-				if (fill_to_eyes == Eyes::BOTH) {
-					fill_to_eyes = Eyes::LEFT;
-				}
-				if (fill_to == piece->content->end(_film)) {
-					/* Don't fill after the end of the content */
-					fill_to_eyes = Eyes::LEFT;
-				}
-				auto j = fill_from;
-				auto eyes = _next_video_eyes.get_value_or(Eyes::LEFT);
-				if (eyes == Eyes::BOTH) {
-					eyes = Eyes::LEFT;
-				}
-				while (j < fill_to || eyes != fill_to_eyes) {
-					if (last != _last_video.end()) {
-						LOG_DEBUG_PLAYER("Fill using last video at %1 in 3D mode", to_string(j));
-						auto copy = last->second->shallow_copy();
-						copy->set_eyes (eyes);
-						emit_video (copy, j);
-					} else {
-						LOG_DEBUG_PLAYER("Fill using black at %1 in 3D mode", to_string(j));
-						emit_video (black_player_video_frame(eyes), j);
-					}
-					if (eyes == Eyes::RIGHT) {
-						j += one_video_frame();
-					}
-					eyes = increment_eyes (eyes);
-				}
-			} else {
-				for (DCPTime j = fill_from; j < fill_to; j += one_video_frame()) {
-					if (last != _last_video.end()) {
-						emit_video (last->second, j);
-					} else {
-						emit_video (black_player_video_frame(Eyes::BOTH), j);
-					}
-				}
-			}
-		}
+	if (!_next_video_time) {
+		_next_video_time = time.round(_film->video_frame_rate());
 	}
 
 	auto const content_video = piece->content->video;
-
-	_last_video[weak_piece] = std::make_shared<PlayerVideo>(
-		video.image,
-		content_video->actual_crop(),
-		content_video->fade (_film, video.frame),
-		scale_for_display(
-			content_video->scaled_size(_film->frame_size()),
+	use_video(
+		std::make_shared<PlayerVideo>(
+			video.image,
+			content_video->actual_crop(),
+			content_video->fade(_film, video.time),
+			scale_for_display(
+				content_video->scaled_size(_film->frame_size()),
+				_video_container_size,
+				_film->frame_size(),
+				content_video->pixel_quanta()
+				),
 			_video_container_size,
-			_film->frame_size(),
-			content_video->pixel_quanta()
+			video.eyes,
+			video.part,
+			content_video->colour_conversion(),
+			content_video->range(),
+			piece->content,
+			video.time,
+			false
 			),
-		_video_container_size,
-		video.eyes,
-		video.part,
-		content_video->colour_conversion(),
-		content_video->range(),
-		piece->content,
-		video.frame,
-		false
-		);
+			time,
+			piece->content->end(_film)
+				);
+}
 
-	DCPTime t = time;
-	for (int i = 0; i < frc.repeat; ++i) {
-		if (t < piece->content->end(_film)) {
-			emit_video (_last_video[weak_piece], t);
-		}
-		t += one_video_frame ();
+
+void
+Player::use_video(shared_ptr<PlayerVideo> pv, DCPTime time, DCPTime end)
+{
+	_last_video[pv->eyes()] = { pv, time };
+	if (pv->eyes() != Eyes::LEFT) {
+		emit_video_until(std::min(time + one_video_frame() / 2, end));
 	}
 }
 
@@ -1184,56 +1188,22 @@ Player::seek (DCPTime time, bool accurate)
 
 	if (accurate) {
 		_next_video_time = time;
-		_next_video_eyes = Eyes::LEFT;
 		_next_audio_time = time;
 	} else {
 		_next_video_time = boost::none;
-		_next_video_eyes = boost::none;
 		_next_audio_time = boost::none;
 	}
 
 	_black.set_position (time);
 	_silent.set_position (time);
 
-	_last_video.clear ();
+	_last_video[Eyes::LEFT] = {};
+	_last_video[Eyes::RIGHT] = {};
+	_last_video[Eyes::BOTH] = {};
 }
 
-
 void
-Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
-{
-	if (!_film->three_d()) {
-		if (pv->eyes() == Eyes::LEFT) {
-			/* Use left-eye images for both eyes... */
-			pv->set_eyes (Eyes::BOTH);
-		} else if (pv->eyes() == Eyes::RIGHT) {
-			/* ...and discard the right */
-			return;
-		}
-	}
-
-	/* We need a delay to give a little wiggle room to ensure that relevant subtitles arrive at the
-	   player before the video that requires them.
-	*/
-	_delay.push_back (make_pair (pv, time));
-
-	if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
-		_next_video_time = time + one_video_frame();
-	}
-	_next_video_eyes = increment_eyes (pv->eyes());
-
-	if (_delay.size() < 3) {
-		return;
-	}
-
-	auto to_do = _delay.front();
-	_delay.pop_front();
-	do_emit_video (to_do.first, to_do.second);
-}
-
-
-void
-Player::do_emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
+Player::emit_video(shared_ptr<PlayerVideo> pv, DCPTime time)
 {
 	if (pv->eyes() == Eyes::BOTH || pv->eyes() == Eyes::RIGHT) {
 		std::for_each(_active_texts.begin(), _active_texts.end(), [time](ActiveText& a) { a.clear_before(time); });

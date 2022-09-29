@@ -10,14 +10,15 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+using namespace dcpomatic;
 
 
 static void
-push (Shuffler& s, int frame, Eyes eyes)
+push(Shuffler& s, int frame, Eyes eyes)
 {
 	shared_ptr<Piece> piece (new Piece (shared_ptr<Content>(), shared_ptr<Decoder>(), FrameRateChange(24, 24)));
 	ContentVideo cv;
-	cv.frame = frame;
+	cv.time = ContentTime::from_frames(frame, 24);
 	cv.eyes = eyes;
 	s.video (piece, cv);
 }
@@ -33,8 +34,9 @@ receive (weak_ptr<Piece>, ContentVideo cv)
 static void
 check (int frame, Eyes eyes, int line)
 {
+	auto const time = ContentTime::from_frames(frame, 24);
 	BOOST_REQUIRE_MESSAGE (!pending_cv.empty(), "Check at " << line << " failed.");
-	BOOST_CHECK_MESSAGE (pending_cv.front().frame == frame, "Check at " << line << " failed.");
+	BOOST_CHECK_MESSAGE (pending_cv.front().time == time, "Check at " << line << " failed.");
 	BOOST_CHECK_MESSAGE (pending_cv.front().eyes == eyes, "Check at " << line << " failed.");
 	pending_cv.pop_front();
 }
