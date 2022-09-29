@@ -876,16 +876,6 @@ remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping m
 	return mapped;
 }
 
-Eyes
-increment_eyes (Eyes e)
-{
-	if (e == Eyes::LEFT) {
-		return Eyes::RIGHT;
-	}
-
-	return Eyes::LEFT;
-}
-
 
 size_t
 utf8_strlen (string s)

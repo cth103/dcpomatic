@@ -23,6 +23,7 @@
 #define DCPOMATIC_CONTENT_VIDEO_H
 
 
+#include "dcpomatic_time.h"
 #include "types.h"
 
 
@@ -36,22 +37,22 @@ class ContentVideo
 {
 public:
 	ContentVideo ()
-		: frame (0)
-		, eyes (Eyes::LEFT)
+		: eyes (Eyes::LEFT)
 		, part (Part::WHOLE)
 	{}
 
-	ContentVideo (std::shared_ptr<const ImageProxy> i, Frame f, Eyes e, Part p)
+	ContentVideo (std::shared_ptr<const ImageProxy> i, dcpomatic::ContentTime t, Eyes e, Part p)
 		: image (i)
-		, frame (f)
+		, time (t)
 		, eyes (e)
 		, part (p)
 	{}
 
 	std::shared_ptr<const ImageProxy> image;
-	Frame frame;
+	dcpomatic::ContentTime time;
 	Eyes eyes;
 	Part part;
 };
+
 
 #endif
