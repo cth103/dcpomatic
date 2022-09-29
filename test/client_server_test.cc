@@ -51,6 +51,7 @@ using std::weak_ptr;
 using boost::thread;
 using boost::optional;
 using dcp::ArrayData;
+using namespace dcpomatic;
 
 
 void
@@ -105,7 +106,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 		ColourConversion(),
 		VideoRange::FULL,
 		weak_ptr<Content>(),
-		optional<Frame>(),
+		optional<ContentTime>(),
 		false
 		);
 
@@ -184,7 +185,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 		ColourConversion(),
 		VideoRange::FULL,
 		weak_ptr<Content>(),
-		optional<Frame>(),
+		optional<ContentTime>(),
 		false
 		);
 
@@ -250,7 +251,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		ColourConversion(),
 		VideoRange::FULL,
 		weak_ptr<Content>(),
-		optional<Frame>(),
+		optional<ContentTime>(),
 		false
 		);
 
@@ -275,7 +276,7 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 		PresetColourConversion::all().front().conversion,
 		VideoRange::FULL,
 		weak_ptr<Content>(),
-		optional<Frame>(),
+		optional<ContentTime>(),
 		false
 		);
 

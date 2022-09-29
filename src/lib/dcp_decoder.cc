@@ -181,7 +181,7 @@ DCPDecoder::pass ()
 					AV_PIX_FMT_XYZ12LE,
 					_forced_reduction
 					),
-				_offset + frame
+				ContentTime::from_frames(_offset + frame, vfr)
 				);
 		} else {
 			video->emit (
@@ -193,7 +193,7 @@ DCPDecoder::pass ()
 					AV_PIX_FMT_XYZ12LE,
 					_forced_reduction
 					),
-				_offset + frame
+				ContentTime::from_frames(_offset + frame, vfr)
 				);
 
 			video->emit (
@@ -205,7 +205,7 @@ DCPDecoder::pass ()
 					AV_PIX_FMT_XYZ12LE,
 					_forced_reduction
 					),
-				_offset + frame
+				ContentTime::from_frames(_offset + frame, vfr)
 				);
 		}
 	}

@@ -40,8 +40,8 @@ int const Shuffler::_max_size = 64;
 struct Comparator
 {
 	bool operator()(Shuffler::Store const & a, Shuffler::Store const & b) {
-		if (a.second.frame != b.second.frame) {
-			return a.second.frame < b.second.frame;
+		if (a.second.time != b.second.time) {
+			return a.second.time < b.second.time;
 		}
 		return a.second.eyes < b.second.eyes;
 	}
@@ -51,7 +51,7 @@ struct Comparator
 void
 Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {
-	LOG_DEBUG_THREE_D ("Shuffler::video frame=%1 eyes=%2 part=%3", video.frame, static_cast<int>(video.eyes), static_cast<int>(video.part));
+	LOG_DEBUG_THREE_D("Shuffler::video time=%1 eyes=%2 part=%3", to_string(video.time), static_cast<int>(video.eyes), static_cast<int>(video.part));
 
 	if (video.eyes != Eyes::LEFT && video.eyes != Eyes::RIGHT) {
 		/* Pass through anything that we don't care about */
@@ -79,13 +79,13 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 			!_store.empty() &&
 			_last &&
 			(
-				(_store.front().second.frame == _last->frame       && _store.front().second.eyes == Eyes::RIGHT && _last->eyes == Eyes::LEFT) ||
-				(_store.front().second.frame >= (_last->frame + 1) && _store.front().second.eyes == Eyes::LEFT  && _last->eyes == Eyes::RIGHT)
+				(_store.front().second.time == _last->time && _store.front().second.eyes == Eyes::RIGHT && _last->eyes == Eyes::LEFT) ||
+				(_store.front().second.time > _last->time  && _store.front().second.eyes == Eyes::LEFT  && _last->eyes == Eyes::RIGHT)
 				);
 
 		if (!store_front_in_sequence) {
-			string const store = _store.empty() ? "store empty" : String::compose("store front frame=%1 eyes=%2", _store.front().second.frame, static_cast<int>(_store.front().second.eyes));
-			string const last = _last ? String::compose("last frame=%1 eyes=%2", _last->frame, static_cast<int>(_last->eyes)) : "no last";
+			string const store = _store.empty() ? "store empty" : String::compose("store front time=%1 eyes=%2", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes));
+			string const last = _last ? String::compose("last time=%1 eyes=%2", to_string(_last->time), static_cast<int>(_last->eyes)) : "no last";
 			LOG_DEBUG_THREE_D("Shuffler not in sequence: %1 %2", store, last);
 		}
 
@@ -98,10 +98,10 @@ Shuffler::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		}
 
 		if (_store.size() > _max_size) {
-			LOG_WARNING ("Shuffler is full after receiving frame %1; 3D sync may be incorrect.", video.frame);
+			LOG_WARNING("Shuffler is full after receiving frame at %1; 3D sync may be incorrect.", to_string(video.time));
 		}
 
-		LOG_DEBUG_THREE_D("Shuffler emits frame=%1 eyes=%2 store=%3", _store.front().second.frame, static_cast<int>(_store.front().second.eyes), _store.size());
+		LOG_DEBUG_THREE_D("Shuffler emits time=%1 eyes=%2 store=%3", to_string(_store.front().second.time), static_cast<int>(_store.front().second.eyes), _store.size());
 		Video (_store.front().first, _store.front().second);
 		_last = _store.front().second;
 		_store.pop_front ();

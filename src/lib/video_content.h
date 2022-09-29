@@ -208,7 +208,7 @@ public:
 	dcp::Size size_after_crop () const;
 	dcp::Size scaled_size (dcp::Size container_size);
 
-	boost::optional<double> fade (std::shared_ptr<const Film> film, Frame) const;
+	boost::optional<double> fade(std::shared_ptr<const Film> film, dcpomatic::ContentTime time) const;
 
 	std::string processing_description (std::shared_ptr<const Film> film);
 
