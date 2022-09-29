@@ -137,6 +137,8 @@ private:
 	dcpomatic::ContentTime dcp_to_content_time (std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
 	dcpomatic::DCPTime content_time_to_dcp (std::shared_ptr<const Piece> piece, dcpomatic::ContentTime t) const;
 	std::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
+	void emit_video_until(dcpomatic::DCPTime time);
+	void insert_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time, dcpomatic::DCPTime end);
 
 	void video (std::weak_ptr<Piece>, ContentVideo);
 	void audio (std::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
@@ -151,8 +153,8 @@ private:
 		std::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time, dcpomatic::DCPTime discard_to
 		) const;
 	boost::optional<PositionImage> open_subtitles_for_frame (dcpomatic::DCPTime time) const;
-	void emit_video (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
-	void do_emit_video (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	void emit_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	void use_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time, dcpomatic::DCPTime end);
 	void emit_audio (std::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
 	std::shared_ptr<const Playlist> playlist () const;
 
@@ -193,15 +195,12 @@ private:
 
 	/** Time of the next video that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_video_time;
-	/** Eyes of the next video that we will emit */
-	boost::optional<Eyes> _next_video_eyes;
 	/** Time of the next audio that we will emit, or the time of the last accurate seek */
 	boost::optional<dcpomatic::DCPTime> _next_audio_time;
 
 	boost::atomic<boost::optional<int>> _dcp_decode_reduction;
 
-	typedef std::map<std::weak_ptr<Piece>, std::shared_ptr<PlayerVideo>, std::owner_less<std::weak_ptr<Piece>>> LastVideoMap;
-	LastVideoMap _last_video;
+	EnumIndexedVector<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime>, Eyes> _last_video;
 
 	AudioMerger _audio_merger;
 	std::unique_ptr<Shuffler> _shuffler;
