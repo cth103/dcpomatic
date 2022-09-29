@@ -79,7 +79,7 @@ ImageDecoder::pass ()
 		}
 	}
 
-	video->emit (film(), _image, _frame_video_position);
+	video->emit(film(), _image, dcpomatic::ContentTime::from_frames(_frame_video_position, _image_content->video_frame_rate().get_value_or(24)));
 	++_frame_video_position;
 	return false;
 }
