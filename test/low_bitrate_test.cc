@@ -31,6 +31,7 @@ extern "C" {
 
 
 using std::make_shared;
+using namespace dcpomatic;
 
 
 BOOST_AUTO_TEST_CASE (low_bitrate_test)
@@ -51,7 +52,7 @@ BOOST_AUTO_TEST_CASE (low_bitrate_test)
 		boost::optional<ColourConversion>(),
 		VideoRange::FULL,
 		std::weak_ptr<Content>(),
-		boost::optional<Frame>(),
+		boost::optional<ContentTime>(),
 		false
 		);
 

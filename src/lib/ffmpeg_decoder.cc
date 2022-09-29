@@ -178,9 +178,8 @@ FFmpegDecoder::flush_fill()
 	full_length = full_length.ceil (frc.source);
 	if (video && !video->ignore()) {
 		double const vfr = _ffmpeg_content->video_frame_rate().get();
-		auto const f = full_length.frames_round (vfr);
-		auto const v = video->position(film()).get_value_or(ContentTime()).frames_round(vfr) + 1;
-		if (v < f) {
+		auto const v = video->position(film()).get_value_or(ContentTime()) + ContentTime::from_frames(1, vfr);
+		if (v < full_length) {
 			video->emit(film(), make_shared<const RawImageProxy>(_black_image), v);
 			did_something = true;
 		}
@@ -622,7 +621,7 @@ FFmpegDecoder::process_video_frame ()
 			video->emit (
 				film(),
 				make_shared<RawImageProxy>(image),
-				llrint(pts * _ffmpeg_content->active_video_frame_rate(film()))
+				ContentTime::from_seconds(pts)
 				);
 		} else {
 			LOG_WARNING_NC ("Dropping frame without PTS");

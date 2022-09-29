@@ -411,27 +411,29 @@ VideoContent::size_after_crop () const
 }
 
 
-/** @param f Frame index within the whole (untrimmed) content.
+/** @param time Time within the whole (untrimmed) content.
  *  @return Fade factor (between 0 and 1) or unset if there is no fade.
  */
 optional<double>
-VideoContent::fade (shared_ptr<const Film> film, Frame f) const
+VideoContent::fade(shared_ptr<const Film> film, ContentTime time) const
 {
-	DCPOMATIC_ASSERT (f >= 0);
+	DCPOMATIC_ASSERT(time.get() >= 0);
 
 	double const vfr = _parent->active_video_frame_rate(film);
 
-	auto const ts = _parent->trim_start().frames_round(vfr);
-	if ((f - ts) < fade_in()) {
-		return double (f - ts) / fade_in();
+	auto const ts = _parent->trim_start();
+	auto const fade_in_time = ContentTime::from_frames(fade_in(), vfr);
+	if ((time - ts) < fade_in_time) {
+		return double(ContentTime(time - ts).get()) / fade_in_time.get();
 	}
 
-	auto fade_out_start = length() - _parent->trim_end().frames_round(vfr) - fade_out();
-	if (f >= fade_out_start) {
-		return 1 - double (f - fade_out_start) / fade_out();
+	auto const fade_out_time = ContentTime::from_frames(fade_out(), vfr);
+	auto fade_out_start = ContentTime::from_frames(length(), vfr) - _parent->trim_end() - fade_out_time;
+	if (time >= fade_out_start) {
+		return 1 - double(ContentTime(time - fade_out_start).get()) / fade_out_time.get();
 	}
 
-	return optional<double> ();
+	return {};
 }
 
 string
