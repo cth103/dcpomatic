@@ -76,18 +76,18 @@ VideoMXFDecoder::pass ()
 		video->emit (
 			film(),
 			std::make_shared<J2KImageProxy>(_mono_reader->get_frame(frame), _size, AV_PIX_FMT_XYZ12LE, optional<int>()),
-			frame
+			_next
 			);
 	} else {
 		video->emit (
 			film(),
 			std::make_shared<J2KImageProxy>(_stereo_reader->get_frame(frame), _size, dcp::Eye::LEFT, AV_PIX_FMT_XYZ12LE, optional<int>()),
-			frame
+			_next
 			);
 		video->emit (
 			film(),
 			std::make_shared<J2KImageProxy>(_stereo_reader->get_frame(frame), _size, dcp::Eye::RIGHT, AV_PIX_FMT_XYZ12LE, optional<int>()),
-			frame
+			_next
 			);
 	}
 
