@@ -152,7 +152,7 @@ BOOST_AUTO_TEST_CASE (content_test6)
 		);
 
 	make_and_verify_dcp (film);
-	check_dcp (TestPaths::private_data() / "fha", film);
+	check_dcp (TestPaths::private_data() / "v2.18.x" / "fha", film);
 
 	cl.run ();
 }

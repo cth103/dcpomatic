@@ -59,7 +59,7 @@ public:
 		boost::optional<ColourConversion> colour_conversion,
 		VideoRange video_range,
 		std::weak_ptr<Content> content,
-		boost::optional<Frame> video_frame,
+		boost::optional<dcpomatic::ContentTime> video_time,
 		bool error
 		);
 
@@ -141,8 +141,8 @@ private:
 	boost::optional<PositionImage> _text;
 	/** Content that we came from.  This is so that reset_metadata() can work. */
 	std::weak_ptr<Content> _content;
-	/** Video frame that we came from.  Again, this is for reset_metadata() */
-	boost::optional<Frame> _video_frame;
+	/** Video time that we came from.  Again, this is for reset_metadata() */
+	boost::optional<dcpomatic::ContentTime> _video_time;
 
 	mutable boost::mutex _mutex;
 	mutable std::shared_ptr<Image> _image;
