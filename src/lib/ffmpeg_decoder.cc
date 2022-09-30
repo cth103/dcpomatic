@@ -227,7 +227,7 @@ deinterleave_audio(shared_ptr<FFmpegAudioStream> stream, AVFrame* frame)
 
 	/* XXX: can't we use swr_convert() to do the format conversion? */
 
-	int const channels = frame->channels;
+	int const channels = frame->ch_layout.nb_channels;
 	int const frames = frame->nb_samples;
 	int const total_samples = frames * channels;
 	auto audio = make_shared<AudioBuffers>(channels, frames);
