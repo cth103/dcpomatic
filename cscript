@@ -441,7 +441,7 @@ def dependencies(target, options):
         ffmpeg_options = {}
 
     if target.platform != 'linux' or target.distro != 'arch':
-        deps = [('ffmpeg-cdist', '4721b55de017702b0d1c8ce1163331378905c637', ffmpeg_options)]
+        deps = [('ffmpeg', 'b5190a92da64ee196a8afa3ededbfc94d0000c68', ffmpeg_options)]
     else:
         # Use distro-provided FFmpeg on Arch
         deps = []
@@ -457,7 +457,7 @@ def dependencies(target, options):
     deps.append(('openssl', '7f29dd5'))
     if can_build_disk(target):
         deps.append(('lwext4', 'ee865fa65f05e348cd4e0bce0552a2725ad5663a'))
-    deps.append(('ffcmp', 'da96af56f3ddf074f2044a0cd6e50c95184fd169'))
+    deps.append(('ffcmp', 'ea340a286078e025dcf9a0c75c6313d318dbf32b'))
 
     return deps
 
