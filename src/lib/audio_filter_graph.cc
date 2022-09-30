@@ -46,11 +46,7 @@ AudioFilterGraph::AudioFilterGraph (int sample_rate, int channels)
 	/* FFmpeg doesn't know any channel layouts for any counts between 8 and 16,
 	   so we need to tell it we're using 16 channels if we are using more than 8.
 	*/
-	if (_channels > 8) {
-		_channel_layout = av_get_default_channel_layout (16);
-	} else {
-		_channel_layout = av_get_default_channel_layout (_channels);
-	}
+	av_channel_layout_default(&_channel_layout, _channels > 8 ? 16 : _channels);
 
 	_in_frame = av_frame_alloc ();
 	if (_in_frame == nullptr) {
@@ -67,7 +63,7 @@ string
 AudioFilterGraph::src_parameters () const
 {
 	char layout[64];
-	av_get_channel_layout_string (layout, sizeof(layout), 0, _channel_layout);
+	av_channel_layout_describe(&_channel_layout, layout, sizeof(layout));
 
 	char buffer[256];
 	snprintf (
@@ -86,8 +82,9 @@ AudioFilterGraph::set_parameters (AVFilterContext* context) const
 	int r = av_opt_set_int_list (context, "sample_fmts", sample_fmts, AV_SAMPLE_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
 	DCPOMATIC_ASSERT (r >= 0);
 
-	int64_t channel_layouts[] = { _channel_layout, -1 };
-	r = av_opt_set_int_list (context, "channel_layouts", channel_layouts, -1, AV_OPT_SEARCH_CHILDREN);
+	char ch_layout[64];
+	av_channel_layout_describe(&_channel_layout, ch_layout, sizeof(ch_layout));
+	r = av_opt_set(context, "ch_layouts", ch_layout, AV_OPT_SEARCH_CHILDREN);
 	DCPOMATIC_ASSERT (r >= 0);
 
 	int sample_rates[] = { _sample_rate, -1 };
@@ -112,7 +109,7 @@ void
 AudioFilterGraph::process (shared_ptr<AudioBuffers> buffers)
 {
 	DCPOMATIC_ASSERT (buffers->frames() > 0);
-	int const process_channels = av_get_channel_layout_nb_channels (_channel_layout);
+	int const process_channels = _channel_layout.nb_channels;
 	DCPOMATIC_ASSERT (process_channels >= buffers->channels());
 
 	if (buffers->channels() < process_channels) {
@@ -142,8 +139,10 @@ AudioFilterGraph::process (shared_ptr<AudioBuffers> buffers)
 	_in_frame->nb_samples = buffers->frames ();
 	_in_frame->format = AV_SAMPLE_FMT_FLTP;
 	_in_frame->sample_rate = _sample_rate;
-	_in_frame->channel_layout = _channel_layout;
+	_in_frame->ch_layout = _channel_layout;
+LIBDCP_DISABLE_WARNINGS
 	_in_frame->channels = process_channels;
+LIBDCP_ENABLE_WARNINGS
 
 	int r = av_buffersrc_write_frame (_buffer_src_context, _in_frame);
 
