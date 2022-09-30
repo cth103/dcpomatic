@@ -73,8 +73,7 @@ public:
 		_codec_context->bit_rate = channels * 128 * 1024;
 		_codec_context->sample_fmt = sample_format;
 		_codec_context->sample_rate = frame_rate;
-		_codec_context->channel_layout = av_get_default_channel_layout (channels);
-		_codec_context->channels = channels;
+		av_channel_layout_default(&_codec_context->ch_layout, channels);
 
 		int r = avcodec_open2 (_codec_context, _codec, 0);
 		if (r < 0) {
@@ -143,7 +142,7 @@ public:
 
 		frame->nb_samples = size;
 		frame->format = _codec_context->sample_fmt;
-		frame->channels = channels;
+		frame->ch_layout.nb_channels = channels;
 		int r = avcodec_fill_audio_frame (frame, channels, _codec_context->sample_fmt, (const uint8_t *) samples, buffer_size, 0);
 		DCPOMATIC_ASSERT (r >= 0);
 
