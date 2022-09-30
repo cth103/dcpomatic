@@ -73,14 +73,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		auto codec = _codec_context[i] ? _codec_context[i]->codec : nullptr;
 		if (s->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && codec) {
 
-			/* This is a hack; sometimes it seems that _audio_codec_context->channel_layout isn't set up,
-			   so bodge it here.  No idea why we should have to do this.
-			*/
-
-			if (s->codecpar->channel_layout == 0) {
-				s->codecpar->channel_layout = av_get_default_channel_layout (s->codecpar->channels);
-			}
-
 			DCPOMATIC_ASSERT (_format_context->duration != AV_NOPTS_VALUE);
 			DCPOMATIC_ASSERT (codec->name);
 
@@ -91,7 +83,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 					s->id,
 					s->codecpar->sample_rate,
 					llrint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
-					s->codecpar->channels,
+					s->codecpar->ch_layout.nb_channels,
 					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
 					)
 				);

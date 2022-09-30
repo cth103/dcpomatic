@@ -47,7 +47,7 @@ protected:
 private:
 	int _sample_rate;
 	int _channels;
-	int64_t _channel_layout;
+	AVChannelLayout _channel_layout;
 	AVFrame* _in_frame;
 };
 
