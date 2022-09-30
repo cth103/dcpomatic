@@ -422,7 +422,7 @@ def configure(conf):
                             int main () { av_ebur128_get_true_peaks (0); }\n
                             """,
                    msg='Checking for EBUR128-patched FFmpeg',
-                   uselib='AVCODEC AVFILTER',
+                   uselib='AVCODEC AVFILTER AVUTIL SWRESAMPLE',
                    define_name='DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG',
                    mandatory=False)
 
