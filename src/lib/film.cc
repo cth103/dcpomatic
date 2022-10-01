@@ -803,7 +803,7 @@ Film::subtitle_languages () const
 string
 Film::isdcf_name (bool if_created_now) const
 {
-	string d;
+	string isdcf_name;
 
 	auto raw_name = name ();
 
@@ -846,10 +846,10 @@ Film::isdcf_name (bool if_created_now) const
 		fixed_name = fixed_name.substr (0, 14);
 	}
 
-	d += fixed_name;
+	isdcf_name += fixed_name;
 
 	if (dcp_content_type()) {
-		d += "_" + dcp_content_type()->isdcf_name();
+		isdcf_name += "_" + dcp_content_type()->isdcf_name();
 		string version = "1";
 		if (_interop) {
 			if (!_content_versions.empty()) {
@@ -861,46 +861,46 @@ Film::isdcf_name (bool if_created_now) const
 		} else {
 			version = dcp::raw_convert<string>(_version_number);
 		}
-		d += "-" + version;
+		isdcf_name += "-" + version;
 	}
 
 	if (_temp_version) {
-		d += "-Temp";
+		isdcf_name += "-Temp";
 	}
 
 	if (_pre_release) {
-		d += "-Pre";
+		isdcf_name += "-Pre";
 	}
 
 	if (_red_band) {
-		d += "-RedBand";
+		isdcf_name += "-RedBand";
 	}
 
 	if (_chain && !_chain->empty()) {
-		d += "-" + *_chain;
+		isdcf_name += "-" + *_chain;
 	}
 
 	if (three_d ()) {
-		d += "-3D";
+		isdcf_name += "-3D";
 	}
 
 	if (_two_d_version_of_three_d) {
-		d += "-2D";
+		isdcf_name += "-2D";
 	}
 
 	if (_luminance) {
 		auto fl = _luminance->value_in_foot_lamberts();
 		char buffer[64];
 		snprintf (buffer, sizeof(buffer), "%.1f", fl);
-		d += String::compose("-%1fl", buffer);
+		isdcf_name += String::compose("-%1fl", buffer);
 	}
 
 	if (video_frame_rate() != 24) {
-		d += "-" + raw_convert<string>(video_frame_rate());
+		isdcf_name += "-" + raw_convert<string>(video_frame_rate());
 	}
 
 	if (container()) {
-		d += "_" + container()->isdcf_name();
+		isdcf_name += "_" + container()->isdcf_name();
 	}
 
 	/* XXX: this uses the first bit of content only */
@@ -913,7 +913,7 @@ Film::isdcf_name (bool if_created_now) const
 			auto first_ratio = lrintf((*first_video)->video->scaled_size(frame_size()).ratio() * 100);
 			auto container_ratio = lrintf(container()->ratio() * 100);
 			if (first_ratio != container_ratio) {
-				d += "-" + dcp::raw_convert<string>(first_ratio);
+				isdcf_name += "-" + dcp::raw_convert<string>(first_ratio);
 			}
 		}
 	}
@@ -931,7 +931,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto audio_language = _audio_language ? entry_for_language(*_audio_language) : "XX";
 
-	d += "_" + to_upper (audio_language);
+	isdcf_name += "_" + to_upper (audio_language);
 
 	/* I'm not clear on the precise details of the convention for CCAP labelling;
 	   for now I'm just appending -CCAP if we have any closed captions.
@@ -958,25 +958,25 @@ Film::isdcf_name (bool if_created_now) const
 			lang = to_upper (lang);
 		}
 
-		d += "-" + lang;
+		isdcf_name += "-" + lang;
 		if (ccap) {
-			d += "-CCAP";
+			isdcf_name += "-CCAP";
 		}
 	} else {
 		/* No subtitles */
-		d += "-XX";
+		isdcf_name += "-XX";
 	}
 
 	if (_release_territory) {
 		auto territory = _release_territory->subtag();
-		d += "_" + to_upper (territory);
+		isdcf_name += "_" + to_upper (territory);
 		if (_ratings.empty ()) {
-			d += "-NR";
+			isdcf_name += "-NR";
 		} else {
 			auto label = _ratings[0].label;
 			boost::erase_all(label, "+");
 			boost::erase_all(label, "-");
-			d += "-" + label;
+			isdcf_name += "-" + label;
 		}
 	}
 
@@ -986,42 +986,42 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto ch = audio_channel_types (mapped, audio_channels());
 	if (!ch.first && !ch.second) {
-		d += "_MOS";
+		isdcf_name += "_MOS";
 	} else if (ch.first) {
-		d += String::compose("_%1%2", ch.first, ch.second);
+		isdcf_name += String::compose("_%1%2", ch.first, ch.second);
 	}
 
 	if (audio_channels() > static_cast<int>(dcp::Channel::HI) && find(mapped.begin(), mapped.end(), static_cast<int>(dcp::Channel::HI)) != mapped.end()) {
-		d += "-HI";
+		isdcf_name += "-HI";
 	}
 	if (audio_channels() > static_cast<int>(dcp::Channel::VI) && find(mapped.begin(), mapped.end(), static_cast<int>(dcp::Channel::VI)) != mapped.end()) {
-		d += "-VI";
+		isdcf_name += "-VI";
 	}
 
-	d += "_" + resolution_to_string (_resolution);
+	isdcf_name += "_" + resolution_to_string (_resolution);
 
 	if (_studio && _studio->length() >= 2) {
-		d += "_" + to_upper (_studio->substr(0, 4));
+		isdcf_name += "_" + to_upper (_studio->substr(0, 4));
 	}
 
 	if (if_created_now) {
-		d += "_" + boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
+		isdcf_name += "_" + boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
 	} else {
-		d += "_" + boost::gregorian::to_iso_string (_isdcf_date);
+		isdcf_name += "_" + boost::gregorian::to_iso_string (_isdcf_date);
 	}
 
 	if (_facility && _facility->length() >= 3) {
-		d += "_" + to_upper(_facility->substr(0, 3));
+		isdcf_name += "_" + to_upper(_facility->substr(0, 3));
 	}
 
 	if (_interop) {
-		d += "_IOP";
+		isdcf_name += "_IOP";
 	} else {
-		d += "_SMPTE";
+		isdcf_name += "_SMPTE";
 	}
 
 	if (three_d ()) {
-		d += "-3D";
+		isdcf_name += "-3D";
 	}
 
 	auto vf = false;
@@ -1043,12 +1043,12 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	if (vf) {
-		d += "_VF";
+		isdcf_name += "_VF";
 	} else {
-		d += "_OV";
+		isdcf_name += "_OV";
 	}
 
-	return d;
+	return isdcf_name;
 }
 
 /** @return name to give the DCP */
