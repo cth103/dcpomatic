@@ -134,9 +134,8 @@ FileGroup::seek (int64_t pos, int whence) const
 /** Try to read some data from the current position into a buffer.
  *  @param buffer Buffer to write data into.
  *  @param amount Number of bytes to read.
- *  @return Number of bytes read.
  */
-int
+FileGroup::Result
 FileGroup::read (uint8_t* buffer, int amount) const
 {
 	DCPOMATIC_ASSERT (_current_file);
@@ -173,13 +172,13 @@ FileGroup::read (uint8_t* buffer, int amount) const
 		if (eof) {
 			/* See if there is another file to use */
 			if ((_current_path + 1) >= _paths.size()) {
-				break;
+				return { read, true };
 			}
 			ensure_open_path (_current_path + 1);
 		}
 	}
 
-	return read;
+	return { read, false };
 }
 
 
