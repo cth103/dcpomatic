@@ -153,7 +153,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 		av_packet_free (&packet);
 
-		if (_first_video && got_all_audio && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
+		if (got_all_audio && (!_video_stream || (_first_video && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)))) {
 			/* All done */
 			break;
 		}
