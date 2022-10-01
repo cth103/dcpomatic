@@ -842,9 +842,7 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	if (fixed_name.length() > 14) {
-		fixed_name = fixed_name.substr (0, 14);
-	}
+	fixed_name = fixed_name.substr(0, 14);
 
 	isdcf_name += fixed_name;
 
