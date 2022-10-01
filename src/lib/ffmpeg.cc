@@ -273,7 +273,11 @@ FFmpeg::subtitle_codec_context () const
 int
 FFmpeg::avio_read (uint8_t* buffer, int const amount)
 {
-	return _file_group.read (buffer, amount);
+	auto result = _file_group.read(buffer, amount);
+	if (result.eof && result.bytes_read == 0) {
+		return AVERROR_EOF;
+	}
+	return result.bytes_read;
 }
 
 

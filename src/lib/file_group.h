@@ -49,8 +49,18 @@ public:
 
 	void set_paths (std::vector<boost::filesystem::path> const &);
 
+	struct Result {
+		Result(int bytes_read_, bool eof_)
+			: bytes_read(bytes_read_)
+			, eof(eof_)
+		{}
+
+		int bytes_read = 0;
+		bool eof = false;
+	};
+
 	int64_t seek (int64_t, int) const;
-	int read (uint8_t*, int) const;
+	Result read (uint8_t*, int) const;
 	int64_t length () const;
 
 private:
