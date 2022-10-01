@@ -79,51 +79,53 @@ BOOST_AUTO_TEST_CASE (file_group_test)
 	int pos = 0;
 
 	/* Basic read from 0 */
-	BOOST_CHECK_EQUAL (fg.read(test, 64), 64);
+	BOOST_CHECK_EQUAL(fg.read(test, 64).bytes_read, 64);
 	BOOST_CHECK_EQUAL (memcmp(data, test, 64), 0);
 	pos += 64;
 
 	/* Another read following the previous */
-	BOOST_CHECK_EQUAL (fg.read(test, 4), 4);
+	BOOST_CHECK_EQUAL(fg.read(test, 4).bytes_read, 4);
 	BOOST_CHECK_EQUAL (memcmp(data + pos, test, 4), 0);
 	pos += 4;
 
 	/* Read overlapping A and B */
-	BOOST_CHECK_EQUAL (fg.read(test, 128), 128);
+	BOOST_CHECK_EQUAL(fg.read(test, 128).bytes_read, 128);
 	BOOST_CHECK_EQUAL (memcmp(data + pos, test, 128), 0);
 	pos += 128;
 
 	/* Read overlapping B/C/D and over-reading by a lot */
-	BOOST_CHECK_EQUAL (fg.read(test, total_length * 3), total_length - pos);
+	BOOST_CHECK_EQUAL(fg.read(test, total_length * 3).bytes_read, total_length - pos);
 	BOOST_CHECK_EQUAL (memcmp(data + pos, test, total_length - pos), 0);
 
 	/* Over-read by a little */
 	BOOST_CHECK_EQUAL (fg.seek(0, SEEK_SET), 0);
-	BOOST_CHECK_EQUAL (fg.read(test, total_length), total_length);
-	BOOST_CHECK_EQUAL (fg.read(test, 1), 0);
+	BOOST_CHECK_EQUAL(fg.read(test, total_length).bytes_read, total_length);
+	BOOST_CHECK_EQUAL(fg.read(test, 1).bytes_read, 0);
 
 	/* Seeking off the end of the file should not give an error */
 	BOOST_CHECK_EQUAL (fg.seek(total_length * 2, SEEK_SET), total_length * 2);
-	/* and attempting to read should return nothing */
-	BOOST_CHECK_EQUAL (fg.read(test, 64), 0);
+	/* and attempting to read should return nothing and EOF */
+	auto result = fg.read(test, 64);
+	BOOST_CHECK_EQUAL(result.bytes_read, 0);
+	BOOST_CHECK(result.eof);
 	/* but the requested seek should be remembered, so if we now go back (relatively) */
 	BOOST_CHECK_EQUAL (fg.seek(-total_length * 2, SEEK_CUR), 0);
 	/* we should be at the start again */
-	BOOST_CHECK_EQUAL (fg.read(test, 64), 64);
+	BOOST_CHECK_EQUAL(fg.read(test, 64).bytes_read, 64);
 	BOOST_CHECK_EQUAL (memcmp(data, test, 64), 0);
 
 	/* SEEK_SET */
 	BOOST_CHECK_EQUAL (fg.seek(999, SEEK_SET), 999);
-	BOOST_CHECK_EQUAL (fg.read(test, 64), 64);
+	BOOST_CHECK_EQUAL(fg.read(test, 64).bytes_read, 64);
 	BOOST_CHECK_EQUAL (memcmp(data + 999, test, 64), 0);
 
 	/* SEEK_CUR */
 	BOOST_CHECK_EQUAL (fg.seek(42, SEEK_CUR), 999 + 64 + 42);
-	BOOST_CHECK_EQUAL (fg.read(test, 64), 64);
+	BOOST_CHECK_EQUAL(fg.read(test, 64).bytes_read, 64);
 	BOOST_CHECK_EQUAL (memcmp(data + 999 + 64 + 42, test, 64), 0);
 
 	/* SEEK_END */
 	BOOST_CHECK_EQUAL (fg.seek(1077, SEEK_END), total_length - 1077);
-	BOOST_CHECK_EQUAL (fg.read(test, 256), 256);
+	BOOST_CHECK_EQUAL(fg.read(test, 256).bytes_read, 256);
 	BOOST_CHECK_EQUAL (memcmp(data + total_length - 1077, test, 256), 0);
 }
