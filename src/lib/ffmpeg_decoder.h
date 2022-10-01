@@ -59,8 +59,6 @@ private:
 
 	bool flush ();
 
-	static std::shared_ptr<AudioBuffers> deinterleave_audio (AVFrame* frame);
-
 	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
 

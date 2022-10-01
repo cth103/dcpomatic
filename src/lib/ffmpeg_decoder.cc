@@ -219,8 +219,9 @@ FFmpegDecoder::pass ()
 /** @param data pointer to array of pointers to buffers.
  *  Only the first buffer will be used for non-planar data, otherwise there will be one per channel.
  */
+static
 shared_ptr<AudioBuffers>
-FFmpegDecoder::deinterleave_audio (AVFrame* frame)
+deinterleave_audio(shared_ptr<FFmpegAudioStream> stream, AVFrame* frame)
 {
 	auto format = static_cast<AVSampleFormat>(frame->format);
 
@@ -326,12 +327,12 @@ FFmpegDecoder::deinterleave_audio (AVFrame* frame)
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		auto p = reinterpret_cast<float**> (frame->data);
-		DCPOMATIC_ASSERT (frame->channels <= channels);
+		DCPOMATIC_ASSERT(channels <= stream->channels());
 		/* Sometimes there aren't as many channels in the frame as in the stream */
-		for (int i = 0; i < frame->channels; ++i) {
+		for (int i = 0; i < channels; ++i) {
 			memcpy (data[i], p[i], frames * sizeof(float));
 		}
-		for (int i = frame->channels; i < channels; ++i) {
+		for (int i = channels; i < stream->channels(); ++i) {
 			audio->make_silent (i);
 		}
 	}
@@ -450,7 +451,7 @@ void
 FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 {
 	auto frame = audio_frame (stream);
-	auto data = deinterleave_audio (frame);
+	auto data = deinterleave_audio(stream, frame);
 
 	auto const time_base = stream->stream(_format_context)->time_base;
 
