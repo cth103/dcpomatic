@@ -255,8 +255,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 /** Test mixdown from 5.1 to stereo */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 {
-	auto film = new_test_film ("ffmpeg_transcoder_h264_test5");
-	film->set_name ("ffmpeg_transcoder_h264_test5");
+	auto film = new_test_film("ffmpeg_encoder_h264_test5");
+	film->set_name("ffmpeg_encoder_h264_test5");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (6);
 
