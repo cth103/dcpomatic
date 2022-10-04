@@ -68,6 +68,7 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	set (tag);
 
 	add->Bind (wxEVT_BUTTON, boost::bind(&LanguageTagDialog::add_language, this));
+	_list->Bind(wxEVT_LIST_ITEM_ACTIVATED, boost::bind(&LanguageTagDialog::EndModal, this, wxID_OK));
 }
 
 
