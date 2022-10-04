@@ -50,6 +50,7 @@
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/display.h>
+#include <wx/dnd.h>
 #include <wx/listctrl.h>
 #include <wx/notebook.h>
 #include <wx/wx.h>
@@ -70,6 +71,51 @@ using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
+
+class ContentDropTarget : public wxFileDropTarget
+{
+public:
+	ContentDropTarget(ContentPanel* owner)
+		: _panel(owner)
+	{}
+
+	bool OnDropFiles(wxCoord, wxCoord, wxArrayString const& filenames) override
+	{
+		vector<boost::filesystem::path> files;
+		vector<boost::filesystem::path> dcps;
+		vector<boost::filesystem::path> folders;
+		for (size_t i = 0; i < filenames.GetCount(); ++i) {
+			auto path = boost::filesystem::path(wx_to_std(filenames[i]));
+			if (boost::filesystem::is_regular_file(path)) {
+				files.push_back(path);
+			} else if (boost::filesystem::is_directory(path)) {
+				if (contains_assetmap(path)) {
+					dcps.push_back(path);
+				} else {
+					folders.push_back(path);
+				}
+			}
+		}
+
+		if (!filenames.empty()) {
+			_panel->add_files(files);
+		}
+
+		for (auto dcp: dcps) {
+			_panel->add_dcp(dcp);
+		}
+
+		for (auto dir: folders) {
+			_panel->add_folder(dir);
+		}
+
+		return true;
+	};
+
+private:
+	ContentPanel* _panel;
+};
 
 
 ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
@@ -146,6 +192,8 @@ ContentPanel::ContentPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmV
 	_earlier->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::earlier_clicked, this));
 	_later->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::later_clicked, this));
 	_timeline->Bind	(wxEVT_BUTTON, boost::bind (&ContentPanel::timeline_clicked, this));
+
+	_content->SetDropTarget(new ContentDropTarget(this));
 }
 
 
@@ -479,10 +527,17 @@ ContentPanel::add_folder_clicked ()
 		return;
 	}
 
+	add_folder(path);
+}
+
+
+void
+ContentPanel::add_folder(boost::filesystem::path folder)
+{
 	vector<shared_ptr<Content>> content;
 
 	try {
-		content = content_factory (path);
+		content = content_factory(folder);
 	} catch (exception& e) {
 		error_dialog (_parent, e.what());
 		return;
@@ -497,7 +552,7 @@ ContentPanel::add_folder_clicked ()
 		auto ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
 			auto e = new ImageSequenceDialog (_splitter);
-			r = e->ShowModal ();
+			int const r = e->ShowModal();
 			auto const frame_rate = e->frame_rate ();
 			e->Destroy ();
 
@@ -525,8 +580,15 @@ ContentPanel::add_dcp_clicked ()
 		return;
 	}
 
+	add_dcp(path);
+}
+
+
+void
+ContentPanel::add_dcp(boost::filesystem::path dcp)
+{
 	try {
-		_film->examine_and_add_content (make_shared<DCPContent>(path));
+		_film->examine_and_add_content(make_shared<DCPContent>(dcp));
 	} catch (ProjectFolderError &) {
 		error_dialog (
 			_parent,
@@ -536,7 +598,7 @@ ContentPanel::add_dcp_clicked ()
 			 )
 			);
 	} catch (exception& e) {
-		error_dialog (_parent, e.what());
+		error_dialog(_parent, e.what());
 	}
 }
 
@@ -808,6 +870,10 @@ ContentPanel::files_dropped (wxDropFilesEvent& event)
 void
 ContentPanel::add_files (vector<boost::filesystem::path> paths)
 {
+	if (!_film) {
+		return;
+	}
+
 	/* It has been reported that the paths returned from e.g. wxFileDialog are not always sorted;
 	   I can't reproduce that, but sort them anyway.  Don't use ImageFilenameSorter as a normal
 	   alphabetical sort is expected here.

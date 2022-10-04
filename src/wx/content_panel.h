@@ -113,6 +113,10 @@ public:
 		return _film_viewer;
 	}
 
+	void add_files(std::vector<boost::filesystem::path> files);
+	void add_dcp(boost::filesystem::path dcp);
+	void add_folder(boost::filesystem::path folder);
+
 	boost::signals2::signal<void (void)> SelectionChanged;
 
 private:
@@ -131,7 +135,6 @@ private:
 	void setup_sensitivity ();
 	void set_selected_state(int item, bool state);
 
-	void add_files (std::vector<boost::filesystem::path>);
 	std::list<ContentSubPanel *> panels () const;
 
 	LimitedSplitter* _splitter;
