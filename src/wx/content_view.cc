@@ -28,6 +28,7 @@
 #include "lib/dcpomatic_assert.h"
 #include "lib/examine_content_job.h"
 #include "lib/job_manager.h"
+#include "lib/util.h"
 #include <dcp/exceptions.h>
 #include <dcp/warnings.h>
 #include <boost/filesystem.hpp>
@@ -94,7 +95,7 @@ ContentView::update ()
 			progress.Pulse ();
 
 			shared_ptr<Content> content;
-			if (is_directory(i) && (is_regular_file(i / "ASSETMAP") || is_regular_file(i / "ASSETMAP.xml"))) {
+			if (is_directory(i) && contains_assetmap(i)) {
 				content = make_shared<DCPContent>(i);
 			} else if (i.path().extension() == ".mp4") {
 				auto all_content = content_factory(i);

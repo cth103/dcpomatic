@@ -1187,3 +1187,11 @@ error_details(boost::system::error_code ec)
 {
 	return String::compose("%1:%2:%3", ec.category().name(), ec.value(), ec.message());
 }
+
+
+bool
+contains_assetmap(boost::filesystem::path dir)
+{
+	return boost::filesystem::is_regular_file(dir / "ASSETMAP") || boost::filesystem::is_regular_file(dir / "ASSETMAP.xml");
+}
+
