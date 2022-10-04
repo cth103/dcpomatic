@@ -44,7 +44,7 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	SetSizer (_sizer);
 
 	auto hs = new wxBoxSizer (wxHORIZONTAL);
-	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize (200, 100), wxLC_REPORT | wxLC_SINGLE_SEL);
+	_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(400, 300), wxLC_REPORT | wxLC_SINGLE_SEL);
 
 	wxListItem ip;
 	ip.SetId (0);
@@ -57,9 +57,9 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	{
 		auto s = new wxBoxSizer (wxVERTICAL);
 		_rename = new Button (this, _("Rename..."));
-		s->Add (_rename, 0, wxTOP | wxBOTTOM, 2);
+		s->Add(_rename, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 		_remove = new Button (this, _("Remove"));
-		s->Add (_remove, 0, wxTOP | wxBOTTOM, 2);
+		s->Add(_remove, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 		hs->Add (s, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	}
 
@@ -77,6 +77,8 @@ TemplatesDialog::TemplatesDialog (wxWindow* parent)
 	_list->Bind (wxEVT_LIST_ITEM_DESELECTED, bind(&TemplatesDialog::selection_changed, this));
 	_list->Bind (wxEVT_SIZE, bind(&TemplatesDialog::resized, this, _1));
 	_config_connection = Config::instance()->Changed.connect (bind(&TemplatesDialog::refresh, this));
+
+	Fit();
 
 	refresh ();
 	selection_changed ();
