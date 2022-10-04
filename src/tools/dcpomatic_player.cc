@@ -71,6 +71,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/cmdline.h>
 #include <wx/display.h>
+#include <wx/dnd.h>
 #include <wx/preferences.h>
 #include <wx/progdlg.h>
 #include <wx/splash.h>
@@ -148,9 +149,48 @@ enum {
 	ID_go_to_end
 };
 
+
 class DOMFrame : public wxFrame
 {
 public:
+
+	class DCPDropTarget : public wxFileDropTarget
+	{
+	public:
+		DCPDropTarget(DOMFrame* owner)
+			: _frame(owner)
+		{}
+
+		bool OnDropFiles(wxCoord, wxCoord, wxArrayString const& filenames) override
+		{
+			if (filenames.GetCount() == 1) {
+				/* Try to load a directory */
+				auto path = boost::filesystem::path(wx_to_std(filenames[0]));
+				if (boost::filesystem::is_directory(path)) {
+					_frame->load_dcp(wx_to_std(filenames[0]));
+					return true;
+				}
+			}
+
+			if (filenames.GetCount() >= 1) {
+				/* Try to load the parent if we drop some files, one if which is an asset map */
+				for (size_t i = 0; i < filenames.GetCount(); ++i) {
+					auto path = boost::filesystem::path(wx_to_std(filenames[i]));
+					if (path.filename() == "ASSETMAP" || path.filename() == "ASSETMAP.xml") {
+						_frame->load_dcp(path.parent_path());
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+	private:
+		DOMFrame* _frame;
+	};
+
+
 	DOMFrame ()
 		: wxFrame (nullptr, -1, _("DCP-o-matic Player"))
 		, _mode (Config::instance()->player_mode())
@@ -260,6 +300,8 @@ public:
 		setup_screen ();
 
 		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
+
+		SetDropTarget(new DCPDropTarget(this));
 	}
 
 	~DOMFrame ()
