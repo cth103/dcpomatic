@@ -1039,8 +1039,9 @@ DCPPanel::edit_audio_language_clicked ()
 {
        DCPOMATIC_ASSERT (_film->audio_language());
        auto d = new LanguageTagDialog (_panel, *_film->audio_language());
-       d->ShowModal ();
-       _film->set_audio_language(d->get());
+       if (d->ShowModal() == wxID_OK) {
+	       _film->set_audio_language(d->get());
+       }
        d->Destroy ();
 }
 

@@ -46,7 +46,7 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	overall_sizer->Add (_list, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	overall_sizer->Add (add, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-	auto buttons = CreateSeparatedButtonSizer (wxOK);
+	auto buttons = CreateSeparatedButtonSizer(wxOK | wxCANCEL);
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}

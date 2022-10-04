@@ -66,9 +66,10 @@ void
 LanguageTagWidget::edit ()
 {
 	auto d = new LanguageTagDialog(_parent, _tag.get_value_or(dcp::LanguageTag("en")));
-	d->ShowModal ();
-	set (d->get());
-	Changed (d->get());
+	if (d->ShowModal() == wxID_OK) {
+		set(d->get());
+		Changed(d->get());
+	}
 	d->Destroy ();
 }
 
