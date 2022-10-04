@@ -74,15 +74,16 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & act
 		sizer->AddSpacer (6);
 	}
 
-	auto buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
 	panel->SetSizer (sizer);
 
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	overall_sizer->Add (panel, 1, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
+
+	auto buttons = CreateSeparatedButtonSizer(wxOK);
+	if (buttons) {
+		overall_sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
 	SetSizerAndFit (overall_sizer);
 }
 
