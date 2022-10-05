@@ -118,6 +118,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	_yuv_to_rgb = new wxChoice (this, wxID_ANY);
 	_yuv_to_rgb->Append (_("Rec. 601"));
 	_yuv_to_rgb->Append (_("Rec. 709"));
+	_yuv_to_rgb->Append (_("Rec. 2020"));
 	table->Add (_yuv_to_rgb, wxGBPosition (r, 1));
 	++r;
 
