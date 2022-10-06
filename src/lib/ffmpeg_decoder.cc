@@ -401,13 +401,10 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		AVSEEK_FLAG_BACKWARD
 		);
 
-	{
-		/* Force re-creation of filter graphs to reset them and hence to make sure
-		   they don't have any pre-seek frames knocking about.
-		*/
-		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
-		_filter_graphs.clear ();
-	}
+	/* Force re-creation of filter graphs to reset them and hence to make sure
+	   they don't have any pre-seek frames knocking about.
+	*/
+	_filter_graphs.clear();
 
 	if (video_codec_context ()) {
 		avcodec_flush_buffers (video_codec_context());
@@ -580,8 +577,6 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 void
 FFmpegDecoder::process_video_frame ()
 {
-	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
-
 	shared_ptr<VideoFilterGraph> graph;
 
 	auto i = _filter_graphs.begin();
