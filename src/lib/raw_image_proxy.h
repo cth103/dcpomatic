@@ -29,7 +29,7 @@
 class RawImageProxy : public ImageProxy
 {
 public:
-	explicit RawImageProxy (std::shared_ptr<Image>);
+	explicit RawImageProxy(std::shared_ptr<const Image>);
 	RawImageProxy (std::shared_ptr<cxml::Node> xml, std::shared_ptr<Socket> socket);
 
 	Result image (
@@ -43,7 +43,7 @@ public:
 	size_t memory_used () const override;
 
 private:
-	std::shared_ptr<Image> _image;
+	std::shared_ptr<const Image> _image;
 };
 
 

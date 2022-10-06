@@ -45,7 +45,7 @@ using boost::optional;
 using dcp::raw_convert;
 
 
-RawImageProxy::RawImageProxy (shared_ptr<Image> image)
+RawImageProxy::RawImageProxy(shared_ptr<const Image> image)
 	: _image (image)
 {
 
@@ -58,8 +58,9 @@ RawImageProxy::RawImageProxy (shared_ptr<cxml::Node> xml, shared_ptr<Socket> soc
 		xml->number_child<int>("Width"), xml->number_child<int>("Height")
 		);
 
-	_image = make_shared<Image>(static_cast<AVPixelFormat>(xml->number_child<int>("PixelFormat")), size, Image::Alignment::PADDED);
-	_image->read_from_socket (socket);
+	auto image = make_shared<Image>(static_cast<AVPixelFormat>(xml->number_child<int>("PixelFormat")), size, Image::Alignment::PADDED);
+	image->read_from_socket (socket);
+	_image = image;
 }
 
 

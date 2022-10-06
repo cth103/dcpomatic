@@ -51,10 +51,10 @@ VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction 
 /** Take an AVFrame and process it using our configured filters, returning a
  *  set of Images.  Caller handles memory management of the input frame.
  */
-list<pair<shared_ptr<Image>, int64_t>>
+list<pair<shared_ptr<const Image>, int64_t>>
 VideoFilterGraph::process (AVFrame* frame)
 {
-	list<pair<shared_ptr<Image>, int64_t>> images;
+	list<pair<shared_ptr<const Image>, int64_t>> images;
 
 	if (_copy) {
 		images.push_back (make_pair(make_shared<Image>(frame, Image::Alignment::PADDED), frame->best_effort_timestamp));
