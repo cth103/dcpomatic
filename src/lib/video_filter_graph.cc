@@ -21,6 +21,7 @@
 
 #include "compose.hpp"
 #include "image.h"
+#include "scope_guard.h"
 #include "video_filter_graph.h"
 extern "C" {
 #include <libavfilter/buffersrc.h>
@@ -45,6 +46,49 @@ VideoFilterGraph::VideoFilterGraph (dcp::Size s, AVPixelFormat p, dcp::Fraction 
 	, _frame_rate (r)
 {
 
+}
+
+
+list<shared_ptr<const Image>>
+VideoFilterGraph::process(shared_ptr<const Image> image)
+{
+	if (_copy) {
+		return { image };
+	}
+
+	auto frame = av_frame_alloc();
+	if (!frame) {
+		throw std::bad_alloc();
+	}
+
+	ScopeGuard sg = [&frame]() { av_frame_free(&frame); };
+
+	for (int i = 0; i < image->planes(); ++i) {
+		frame->data[i] = image->data()[i];
+		frame->linesize[i] = image->stride()[i];
+	}
+
+	frame->width = image->size().width;
+	frame->height = image->size().height;
+	frame->format = image->pixel_format();
+
+	int r = av_buffersrc_write_frame(_buffer_src_context, frame);
+	if (r < 0) {
+		throw DecodeError(String::compose(N_("could not push buffer into filter chain (%1)."), r));
+	}
+
+	list<shared_ptr<const Image>> images;
+
+	while (true) {
+		if (av_buffersink_get_frame(_buffer_sink_context, _frame) < 0) {
+			break;
+		}
+
+		images.push_back(make_shared<Image>(_frame, Image::Alignment::PADDED));
+		av_frame_unref (_frame);
+	}
+
+	return images;
 }
 
 

@@ -29,6 +29,7 @@ public:
 
 	bool can_process (dcp::Size s, AVPixelFormat p) const;
 	std::list<std::pair<std::shared_ptr<const Image>, int64_t>> process (AVFrame * frame);
+	std::list<std::shared_ptr<const Image>> process(std::shared_ptr<const Image> image);
 
 protected:
 	std::string src_parameters () const override;
