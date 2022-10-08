@@ -26,6 +26,8 @@
 #include "lib/butler.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/image.h"
+#include "lib/video_filter_graph.h"
+#include "lib/video_filter_graph_set.h"
 #include <dcp/util.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -46,6 +48,8 @@ using namespace dcpomatic;
 
 SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 	: VideoView (viewer)
+	, _rec2020_filter("convert", "convert", "", "colorspace=all=bt709:iall=bt2020")
+	, _rec2020_filter_graph({ &_rec2020_filter }, dcp::Fraction(24, 1))
 {
 	_panel = new wxPanel (parent);
 
@@ -241,7 +245,11 @@ SimpleVideoView::update ()
 
 	_state_timer.set ("get image");
 
-	_image = player_video().first->image(boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+	auto const pv = player_video();
+	_image = pv.first->image(boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+	if (pv.first->colour_conversion() && pv.first->colour_conversion()->about_equal(dcp::ColourConversion::rec2020_to_xyz(), 1e-6)) {
+		_image = Image::ensure_alignment(_rec2020_filter_graph.get(_image->size(), _image->pixel_format())->process(_image).front(), Image::Alignment::COMPACT);
+	}
 
 	_state_timer.set ("ImageChanged");
 	_viewer->image_changed (player_video().first);
