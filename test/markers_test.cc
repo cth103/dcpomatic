@@ -104,3 +104,39 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 	BOOST_CHECK (*lfoc == dcp::Time(0, 0, 9, 0, 24));
 }
 
+
+
+BOOST_AUTO_TEST_CASE(markers_correct_with_reels)
+{
+	string const name = "markers_correct_with_reels";
+	auto content1 = content_factory("test/data/flat_red.png")[0];
+	auto content2 = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film2(name, { content1, content2});
+
+	film->set_interop(false);
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	make_and_verify_dcp(film);
+
+	dcp::DCP dcp(String::compose("build/test/%1/%2", name, film->dcp_name()));
+	dcp.read ();
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	auto cpl = dcp.cpls()[0];
+	BOOST_REQUIRE_EQUAL(cpl->reels().size(), 2U);
+
+	auto markers1 = cpl->reels()[0]->main_markers();
+	BOOST_REQUIRE(markers1);
+	auto ffoc = markers1->get(dcp::Marker::FFOC);
+	BOOST_REQUIRE(ffoc);
+	BOOST_CHECK(*ffoc == dcp::Time(0, 0, 0, 1, 24));
+	auto no_lfoc = markers1->get(dcp::Marker::LFOC);
+	BOOST_CHECK(!no_lfoc);
+
+	auto markers2 = cpl->reels()[1]->main_markers();
+	BOOST_REQUIRE(markers2);
+	auto no_ffoc = markers2->get(dcp::Marker::FFOC);
+	BOOST_REQUIRE(!no_ffoc);
+	auto lfoc = markers2->get(dcp::Marker::LFOC);
+	BOOST_REQUIRE(lfoc);
+	BOOST_CHECK(*lfoc == dcp::Time(0, 0, 9, 23, 24));
+}
+
