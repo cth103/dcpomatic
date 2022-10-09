@@ -22,25 +22,24 @@
 #include "markers.h"
 
 
-using std::make_pair;
 using std::pair;
 using std::vector;
 
 
 vector<pair<wxString, dcp::Marker>>
-all_markers ()
+all_markers()
 {
-	vector<pair<wxString, dcp::Marker>> out;
-	out.push_back (make_pair(_("First frame of composition"), dcp::Marker::FFOC));
-	out.push_back (make_pair(_("Last frame of composition"), dcp::Marker::LFOC));
-	out.push_back (make_pair(_("First frame of title credits"), dcp::Marker::FFTC));
-	out.push_back (make_pair(_("Last frame of title credits"), dcp::Marker::LFTC));
-	out.push_back (make_pair(_("First frame of intermission"), dcp::Marker::FFOI));
-	out.push_back (make_pair(_("Last frame of intermission"), dcp::Marker::LFOI));
-	out.push_back (make_pair(_("First frame of end credits"), dcp::Marker::FFEC));
-	out.push_back (make_pair(_("Last frame of end credits"), dcp::Marker::LFEC));
-	out.push_back (make_pair(_("First frame of moving credits"), dcp::Marker::FFMC));
-	out.push_back (make_pair(_("Last frame of moving credits"), dcp::Marker::LFMC));
-	return out;
+	return vector<pair<wxString, dcp::Marker>>{
+		{ _("First frame of composition"), dcp::Marker::FFOC },
+		{ _("Last frame of composition"), dcp::Marker::LFOC },
+		{ _("First frame of title credits"), dcp::Marker::FFTC },
+		{ _("Last frame of title credits"), dcp::Marker::LFTC },
+		{ _("First frame of intermission"), dcp::Marker::FFOI },
+		{ _("Last frame of intermission"), dcp::Marker::LFOI },
+		{ _("First frame of end credits"), dcp::Marker::FFEC },
+		{ _("Last frame of end credits"), dcp::Marker::LFEC },
+		{ _("First frame of moving credits"), dcp::Marker::FFMC },
+		{ _("Last frame of moving credits"), dcp::Marker::LFMC }
+	};
 }
 
