@@ -37,13 +37,13 @@ class wxSizer;
 class wxGridBagSizer;
 
 class AudioDialog;
-class MarkersDialog;
-class InteropMetadataDialog;
-class SMPTEMetadataDialog;
+class Choice;
 class Film;
 class FilmViewer;
+class InteropMetadataDialog;
+class MarkersDialog;
 class Ratio;
-
+class SMPTEMetadataDialog;
 
 class DCPPanel
 {
@@ -123,35 +123,35 @@ private:
 	wxStaticText* _audio_language = nullptr;
 	Button* _edit_audio_language = nullptr;
 	wxStaticText* _container_label;
-	wxChoice* _container;
+	Choice* _container;
 	wxStaticText* _container_size;
 	wxButton* _copy_isdcf_name_button;
 	wxStaticText* _j2k_bandwidth_label;
 	wxStaticText* _mbits_label;
  	wxSpinCtrl* _j2k_bandwidth;
 	wxStaticText* _dcp_content_type_label;
-	wxChoice* _dcp_content_type;
+	Choice* _dcp_content_type;
 	wxStaticText* _frame_rate_label;
-	wxChoice* _frame_rate_choice;
+	Choice* _frame_rate_choice;
 	wxSpinCtrl* _frame_rate_spin;
 	wxSizer* _frame_rate_sizer;
 	wxStaticText* _channels_label;
-	wxChoice* _audio_channels;
+	Choice* _audio_channels;
 	wxStaticText* _audio_sample_rate_label = nullptr;
 	wxChoice* _audio_sample_rate = nullptr;
 	wxStaticText* _processor_label;
-	wxChoice* _audio_processor;
+	Choice* _audio_processor;
 	wxButton* _show_audio;
 	wxButton* _best_frame_rate;
 	wxCheckBox* _three_d;
 	wxCheckBox* _reencode_j2k;
 	wxStaticText* _resolution_label;
-	wxChoice* _resolution;
+	Choice* _resolution;
 	wxStaticText* _standard_label;
-	wxChoice* _standard;
+	Choice* _standard;
 	wxCheckBox* _encrypted;
 	wxStaticText* _reels_label;
-	wxChoice* _reel_type;
+	Choice* _reel_type;
 	wxStaticText* _reel_length_label;
 	wxStaticText* _reel_length_gb_label;
 	wxSpinCtrl* _reel_length;

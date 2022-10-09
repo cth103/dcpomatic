@@ -20,6 +20,7 @@
 
 
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "editable_list.h"
 #include "full_language_tag_dialog.h"
 #include "language_tag_widget.h"
@@ -303,14 +304,13 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 		_luminance_value->SetDigits (1);
 		_luminance_value->SetIncrement (0.1);
 		s->Add (_luminance_value, 0);
-		_luminance_unit = new wxChoice (panel, wxID_ANY);
+		_luminance_unit = new Choice(panel);
 		s->Add (_luminance_unit, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		sizer->Add (s, 1, wxEXPAND);
 	}
 
-	_luminance_unit->Append (_("candela per m²"));
-	_luminance_unit->Append (_("foot lambert"));
-
+	_luminance_unit->add(_("candela per m²"));
+	_luminance_unit->add(_("foot lambert"));
 }
 
 
@@ -415,7 +415,8 @@ void
 MetadataDialog::luminance_changed ()
 {
 	dcp::Luminance::Unit unit;
-	switch (_luminance_unit->GetSelection()) {
+	DCPOMATIC_ASSERT(_luminance_unit->get());
+	switch (*_luminance_unit->get()) {
 	case 0:
 		unit = dcp::Luminance::Unit::CANDELA_PER_SQUARE_METRE;
 		break;

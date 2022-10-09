@@ -35,9 +35,10 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class Button;
+class Choice;
+class LanguageTagWidget;
 class RatingDialog;
 class wxSpinCtrlDouble;
-class LanguageTagWidget;
 
 
 class MetadataDialog : public wxDialog, public WeakFilm
@@ -96,7 +97,7 @@ private:
 	wxCheckBox* _two_d_version_of_three_d;
 	wxCheckBox* _enable_luminance;
 	wxSpinCtrlDouble* _luminance_value;
-	wxChoice* _luminance_unit;
+	Choice* _luminance_unit;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 };

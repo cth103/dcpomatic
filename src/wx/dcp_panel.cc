@@ -24,6 +24,7 @@
 #include "check_box.h"
 #include "dcp_panel.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
 #include "focus_manager.h"
 #include "interop_metadata_dialog.h"
@@ -101,7 +102,7 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_edit_audio_language = new Button (_panel, _("Edit..."));
 
 	_dcp_content_type_label = create_label (_panel, _("Content Type"), true);
-	_dcp_content_type = new wxChoice (_panel, wxID_ANY);
+	_dcp_content_type = new Choice(_panel);
 
 	_encrypted = new CheckBox (_panel, _("Encrypted"));
 
@@ -110,14 +111,14 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
         size.SetHeight (-1);
 
 	_reels_label = create_label (_panel, _("Reels"), true);
-	_reel_type = new wxChoice (_panel, wxID_ANY);
+	_reel_type = new Choice(_panel);
 
 	_reel_length_label = create_label (_panel, _("Reel length"), true);
 	_reel_length = new SpinCtrl (_panel, DCPOMATIC_SPIN_CTRL_WIDTH);
 	_reel_length_gb_label = create_label (_panel, _("GB"), false);
 
 	_standard_label = create_label (_panel, _("Standard"), true);
-	_standard = new wxChoice (_panel, wxID_ANY);
+	_standard = new Choice(_panel);
 
 	_markers = new Button (_panel, _("Markers..."));
 	_metadata = new Button (_panel, _("Metadata..."));
@@ -142,18 +143,18 @@ DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> v
 	_edit_audio_language->Bind   (wxEVT_BUTTON,   boost::bind(&DCPPanel::edit_audio_language_clicked, this));
 
 	for (auto i: DCPContentType::all()) {
-		_dcp_content_type->Append (std_to_wx(i->pretty_name()));
+		_dcp_content_type->add(i->pretty_name());
 	}
 
-	_reel_type->Append (_("Single reel"));
-	_reel_type->Append (_("Split by video content"));
+	_reel_type->add(_("Single reel"));
+	_reel_type->add(_("Split by video content"));
 	/// TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-	_reel_type->Append (S_("Reel|Custom"));
+	_reel_type->add(S_("Reel|Custom"));
 
 	_reel_length->SetRange (1, 64);
 
-	_standard->Append (_("SMPTE"));
-	_standard->Append (_("Interop"));
+	_standard->add(_("SMPTE"));
+	_standard->add(_("Interop"));
 
 	Config::instance()->Changed.connect (boost::bind(&DCPPanel::config_changed, this, _1));
 
@@ -265,13 +266,13 @@ DCPPanel::encrypted_toggled ()
 void
 DCPPanel::frame_rate_choice_changed ()
 {
-	if (!_film) {
+	if (!_film || !_frame_rate_choice->get()) {
 		return;
 	}
 
 	_film->set_video_frame_rate (
 		boost::lexical_cast<int>(
-			wx_to_std(_frame_rate_choice->GetString(_frame_rate_choice->GetSelection()))
+			wx_to_std(_frame_rate_choice->GetString(*_frame_rate_choice->get()))
 			),
 		true
 		);
@@ -297,29 +298,29 @@ DCPPanel::audio_channels_changed ()
 		return;
 	}
 
-	_film->set_audio_channels (locale_convert<int>(string_client_data(_audio_channels->GetClientObject(_audio_channels->GetSelection()))));
+	_film->set_audio_channels(locale_convert<int>(string_client_data(_audio_channels->GetClientObject(*_audio_channels->get()))));
 }
 
 
 void
 DCPPanel::resolution_changed ()
 {
-	if (!_film) {
+	if (!_film || !_resolution->get()) {
 		return;
 	}
 
-	_film->set_resolution (_resolution->GetSelection() == 0 ? Resolution::TWO_K : Resolution::FOUR_K);
+	_film->set_resolution(*_resolution->get() == 0 ? Resolution::TWO_K : Resolution::FOUR_K);
 }
 
 
 void
 DCPPanel::standard_changed ()
 {
-	if (!_film) {
+	if (!_film || !_standard->get()) {
 		return;
 	}
 
-	_film->set_interop (_standard->GetSelection() == 1);
+	_film->set_interop(*_standard->get() == 1);
 
 }
 
@@ -557,11 +558,11 @@ DCPPanel::container_changed ()
 		return;
 	}
 
-	int const n = _container->GetSelection ();
-	if (n >= 0) {
+	auto const n = _container->get();
+	if (n) {
 		auto ratios = Ratio::containers ();
-		DCPOMATIC_ASSERT (n < int(ratios.size()));
-		_film->set_container (ratios[n]);
+		DCPOMATIC_ASSERT(*n < int(ratios.size()));
+		_film->set_container(ratios[*n]);
 	}
 }
 
@@ -574,9 +575,9 @@ DCPPanel::dcp_content_type_changed ()
 		return;
 	}
 
-	int const n = _dcp_content_type->GetSelection ();
-	if (n != wxNOT_FOUND) {
-		_film->set_dcp_content_type (DCPContentType::from_index(n));
+	auto n = _dcp_content_type->get();
+	if (n) {
+		_film->set_dcp_content_type(DCPContentType::from_index(*n));
 	}
 }
 
@@ -777,14 +778,14 @@ DCPPanel::make_video_panel ()
 	panel->SetSizer (sizer);
 
 	_container_label = create_label (panel, _("Container"), true);
-	_container = new wxChoice (panel, wxID_ANY);
+	_container = new Choice(panel);
 	_container_size = new StaticText (panel, wxT (""));
 
 	_resolution_label = create_label (panel, _("Resolution"), true);
-	_resolution = new wxChoice (panel, wxID_ANY);
+	_resolution = new Choice(panel);
 
 	_frame_rate_label = create_label (panel, _("Frame Rate"), true);
-	_frame_rate_choice = new wxChoice (panel, wxID_ANY);
+	_frame_rate_choice = new Choice(panel);
 	_frame_rate_spin = new SpinCtrl (panel, DCPOMATIC_SPIN_CTRL_WIDTH);
 	setup_frame_rate_widget ();
 	_best_frame_rate = new Button (panel, _("Use best"));
@@ -809,18 +810,18 @@ DCPPanel::make_video_panel ()
 	_reencode_j2k->Bind      (wxEVT_CHECKBOX, boost::bind(&DCPPanel::reencode_j2k_changed, this));
 
 	for (auto i: Ratio::containers()) {
-		_container->Append (std_to_wx(i->container_nickname()));
+		_container->add(i->container_nickname());
 	}
 
 	for (auto i: Config::instance()->allowed_dcp_frame_rates()) {
-		_frame_rate_choice->Append (std_to_wx (boost::lexical_cast<string> (i)));
+		_frame_rate_choice->add(boost::lexical_cast<string>(i));
 	}
 
 	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
 	_frame_rate_spin->SetRange (1, 480);
 
-	_resolution->Append (_("2K"));
-	_resolution->Append (_("4K"));
+	_resolution->add(_("2K"));
+	_resolution->add(_("4K"));
 
 	add_video_panel_to_grid ();
 
@@ -895,7 +896,7 @@ DCPPanel::make_audio_panel ()
 	panel->SetSizer (_audio_panel_sizer);
 
 	_channels_label = create_label (panel, _("Channels"), true);
-	_audio_channels = new wxChoice (panel, wxID_ANY);
+	_audio_channels = new Choice(panel);
 	setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels ());
 
 	if (Config::instance()->allow_96khz_audio()) {
@@ -904,7 +905,7 @@ DCPPanel::make_audio_panel ()
 	}
 
 	_processor_label = create_label (panel, _("Processor"), true);
-	_audio_processor = new wxChoice (panel, wxID_ANY);
+	_audio_processor = new Choice(panel);
 	add_audio_processors ();
 
 	_show_audio = new Button (panel, _("Show graph of audio levels..."));
@@ -962,11 +963,11 @@ DCPPanel::copy_isdcf_name_button_clicked ()
 void
 DCPPanel::audio_processor_changed ()
 {
-	if (!_film) {
+	if (!_film || !_audio_processor->get()) {
 		return;
 	}
 
-	auto const s = string_client_data (_audio_processor->GetClientObject (_audio_processor->GetSelection ()));
+	auto const s = string_client_data(_audio_processor->GetClientObject(*_audio_processor->get()));
 	_film->set_audio_processor (AudioProcessor::from_id (s));
 }
 
@@ -991,11 +992,11 @@ DCPPanel::show_audio_clicked ()
 void
 DCPPanel::reel_type_changed ()
 {
-	if (!_film) {
+	if (!_film || !_reel_type->get()) {
 		return;
 	}
 
-	_film->set_reel_type (static_cast<ReelType>(_reel_type->GetSelection()));
+	_film->set_reel_type(static_cast<ReelType>(*_reel_type->get()));
 }
 
 
@@ -1015,7 +1016,7 @@ DCPPanel::add_audio_processors ()
 {
 	_audio_processor->Append (_("None"), new wxStringClientData(N_("none")));
 	for (auto ap: AudioProcessor::visible()) {
-		_audio_processor->Append (std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
+		_audio_processor->add(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}
 	_audio_panel_sizer->Layout();
 }

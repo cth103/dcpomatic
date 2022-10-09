@@ -56,6 +56,7 @@ sources = """
           dcp_panel.cc
           dcp_text_track_dialog.cc
           dcpomatic_button.cc
+          dcpomatic_choice.cc
           dcpomatic_spin_ctrl.cc
           dir_picker_ctrl.cc
           disk_warning_dialog.cc

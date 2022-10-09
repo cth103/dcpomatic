@@ -304,7 +304,7 @@ checked_set (wxChoice* widget, vector<pair<string, string>> items)
                current.push_back (
                        make_pair(
                                wx_to_std(widget->GetString(i)),
-                               string_client_data(widget->GetClientObject(i))
+                               widget->GetClientData() ? string_client_data(widget->GetClientObject(i)) : ""
                                )
                        );
        }
@@ -724,3 +724,4 @@ report_config_load_failure(wxWindow* parent, Config::LoadFailure what)
 		break;
 	}
 }
+
