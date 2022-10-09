@@ -27,11 +27,9 @@ using std::vector;
 
 
 vector<pair<wxString, dcp::Marker>>
-all_markers()
+all_editable_markers()
 {
 	return vector<pair<wxString, dcp::Marker>>{
-		{ _("First frame of composition"), dcp::Marker::FFOC },
-		{ _("Last frame of composition"), dcp::Marker::LFOC },
 		{ _("First frame of title credits"), dcp::Marker::FFTC },
 		{ _("Last frame of title credits"), dcp::Marker::LFTC },
 		{ _("First frame of intermission"), dcp::Marker::FFOI },

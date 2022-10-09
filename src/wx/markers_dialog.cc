@@ -132,7 +132,7 @@ MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<Fi
 	auto grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 	int r = 0;
-	for (auto const& marker: all_markers()) {
+	for (auto const& marker: all_editable_markers()) {
 		_markers.push_back (make_shared<Marker>(this, grid, r++, film, viewer, marker.first, marker.second));
 	}
 

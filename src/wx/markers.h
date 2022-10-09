@@ -28,4 +28,4 @@ LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 
-extern std::vector<std::pair<wxString, dcp::Marker>> all_markers ();
+extern std::vector<std::pair<wxString, dcp::Marker>> all_editable_markers();

@@ -65,7 +65,7 @@ MarkersPanel::MarkersPanel (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 
 	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::move_marker_to_current_position, this), ID_move_marker_to_current_position);
 	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::remove_marker, this), ID_remove_marker);
-	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::add_marker, this, _1), ID_add_base, ID_add_base + all_markers().size());
+	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::add_marker, this, _1), ID_add_base, ID_add_base + all_editable_markers().size());
 }
 
 
@@ -239,7 +239,7 @@ MarkersPanel::mouse_right_down (wxMouseEvent& ev)
 	}
 
 	auto add_marker = new wxMenu ();
-	for (auto const& marker: all_markers()) {
+	for (auto const& marker: all_editable_markers()) {
 		add_marker->Append (static_cast<int>(ID_add_base) + static_cast<int>(marker.second), marker.first);
 	}
 	menu.Append (ID_add_marker, _("Add or move marker to current position"), add_marker);
