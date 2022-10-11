@@ -54,13 +54,13 @@ FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
 {
 	auto s = new wxBoxSizer (wxVERTICAL);
 
-	_main_notebook = new wxNotebook (this, wxID_ANY);
-	s->Add (_main_notebook, 1);
+	auto notebook = new wxNotebook(this, wxID_ANY);
+	s->Add(notebook, 1);
 
-	_content_panel = new ContentPanel (_main_notebook, _film, viewer);
-	_main_notebook->AddPage (_content_panel->window(), _("Content"), true);
-	_dcp_panel = new DCPPanel (_main_notebook, _film, viewer);
-	_main_notebook->AddPage (_dcp_panel->panel (), _("DCP"), false);
+	_content_panel = new ContentPanel(notebook, _film, viewer);
+	notebook->AddPage(_content_panel->window(), _("Content"), true);
+	_dcp_panel = new DCPPanel(notebook, _film, viewer);
+	notebook->AddPage(_dcp_panel->panel (), _("DCP"), false);
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind(&FilmEditor::active_jobs_changed, this, _2)

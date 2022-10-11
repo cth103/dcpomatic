@@ -71,7 +71,6 @@ private:
 	void set_general_sensitivity (bool);
 	void active_jobs_changed (boost::optional<std::string>);
 
-	wxNotebook* _main_notebook;
 	ContentPanel* _content_panel;
 	DCPPanel* _dcp_panel;
 
