@@ -25,7 +25,7 @@
 class StandardControls : public Controls
 {
 public:
-	StandardControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer, bool editor_controls);
+	StandardControls(wxWindow* parent, FilmViewer& viewer, bool editor_controls);
 
 	void play () override;
 	void stop () override;

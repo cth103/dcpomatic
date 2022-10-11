@@ -275,6 +275,11 @@ class DOMFrame : public wxFrame
 public:
 	explicit DOMFrame (wxString const& title)
 		: wxFrame (nullptr, -1, title)
+		/* Use a panel as the only child of the Frame so that we avoid
+		   the dark-grey background on Windows.
+		*/
+		, _overall_panel(new wxPanel(this, wxID_ANY))
+		, _film_viewer(_overall_panel)
 	{
 #if defined(DCPOMATIC_WINDOWS)
 		if (Config::instance()->win32_console()) {
@@ -348,18 +353,12 @@ public:
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
 		Bind (wxEVT_SHOW, boost::bind (&DOMFrame::show, this, _1));
 
-		/* Use a panel as the only child of the Frame so that we avoid
-		   the dark-grey background on Windows.
-		*/
-		auto overall_panel = new wxPanel (this, wxID_ANY);
-
-		_film_viewer.reset (new FilmViewer (overall_panel));
-		_controls = new StandardControls (overall_panel, _film_viewer, true);
-		_film_editor = new FilmEditor (overall_panel, _film_viewer);
-		auto job_manager_view = new JobManagerView (overall_panel, false);
+		_controls = new StandardControls(_overall_panel, _film_viewer, true);
+		_film_editor = new FilmEditor(_overall_panel, _film_viewer);
+		auto job_manager_view = new JobManagerView(_overall_panel, false);
 
 		auto right_sizer = new wxBoxSizer (wxVERTICAL);
-		right_sizer->Add (_film_viewer->panel(), 2, wxEXPAND | wxALL, 6);
+		right_sizer->Add(_film_viewer.panel(), 2, wxEXPAND | wxALL, 6);
 		right_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 
@@ -374,7 +373,7 @@ public:
 
 		JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&DOMFrame::active_jobs_changed, this));
 
-		overall_panel->SetSizer (main_sizer);
+		_overall_panel->SetSizer(main_sizer);
 
 		UpdateChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::update_checker_state_changed, this));
 
@@ -481,8 +480,8 @@ public:
 	void set_film (shared_ptr<Film> film)
 	{
 		_film = film;
-		_film_viewer->set_film (_film);
-		_film_editor->set_film (_film);
+		_film_viewer.set_film(_film);
+		_film_editor->set_film(_film);
 		_controls->set_film (_film);
 		if (_video_waveform_dialog) {
 			_video_waveform_dialog->Destroy ();
@@ -1042,7 +1041,7 @@ private:
 
 	void view_closed_captions ()
 	{
-		_film_viewer->show_closed_captions ();
+		_film_viewer.show_closed_captions ();
 	}
 
 	void view_video_waveform ()
@@ -1506,10 +1505,10 @@ private:
 
 	void start_stop_pressed ()
 	{
-		if (_film_viewer->playing()) {
-			_film_viewer->stop();
+		if (_film_viewer.playing()) {
+			_film_viewer.stop();
 		} else {
-			_film_viewer->start();
+			_film_viewer.start();
 		}
 	}
 
@@ -1520,12 +1519,12 @@ private:
 
 	void back_frame ()
 	{
-		_film_viewer->seek_by (-_film_viewer->one_video_frame(), true);
+		_film_viewer.seek_by(-_film_viewer.one_video_frame(), true);
 	}
 
 	void forward_frame ()
 	{
-		_film_viewer->seek_by (_film_viewer->one_video_frame(), true);
+		_film_viewer.seek_by(_film_viewer.one_video_frame(), true);
 	}
 
 	void analytics_message (string title, string html)
@@ -1551,7 +1550,8 @@ private:
 	}
 
 	FilmEditor* _film_editor;
-	std::shared_ptr<FilmViewer> _film_viewer;
+	wxPanel* _overall_panel;
+	FilmViewer _film_viewer;
 	StandardControls* _controls;
 	VideoWaveformDialog* _video_waveform_dialog = nullptr;
 	SystemInformationDialog* _system_information_dialog = nullptr;

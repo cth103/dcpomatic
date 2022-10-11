@@ -31,7 +31,7 @@ LIBDCP_ENABLE_WARNINGS
 using std::shared_ptr;
 
 
-StandardControls::StandardControls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
+StandardControls::StandardControls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	: Controls (parent, viewer, editor_controls)
 	, _play_button (new wxToggleButton(this, wxID_ANY, _("Play")))
 {
@@ -66,15 +66,14 @@ StandardControls::play_clicked ()
 void
 StandardControls::check_play_state ()
 {
-	auto viewer = _viewer.lock ();
-	if (!_film || _film->video_frame_rate() == 0 || !viewer) {
+	if (!_film || _film->video_frame_rate() == 0) {
 		return;
 	}
 
 	if (_play_button->GetValue()) {
-		viewer->start ();
+		_viewer.start();
 	} else {
-		viewer->stop ();
+		_viewer.stop();
 	}
 }
 

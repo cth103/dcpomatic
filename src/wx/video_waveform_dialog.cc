@@ -35,7 +35,7 @@ using namespace boost::placeholders;
 #endif
 
 
-VideoWaveformDialog::VideoWaveformDialog (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
+VideoWaveformDialog::VideoWaveformDialog(wxWindow* parent, weak_ptr<const Film> film, FilmViewer& viewer)
 	: wxDialog (
 		parent,
 		wxID_ANY,
@@ -112,9 +112,7 @@ VideoWaveformDialog::shown (wxShowEvent& ev)
 {
 	_plot->set_enabled (ev.IsShown ());
 	if (ev.IsShown ()) {
-		shared_ptr<FilmViewer> fv = _viewer.lock ();
-		DCPOMATIC_ASSERT (fv);
-		fv->slow_refresh ();
+		_viewer.slow_refresh();
 	}
 }
 

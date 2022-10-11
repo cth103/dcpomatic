@@ -86,7 +86,7 @@ enum {
 };
 
 
-ContentMenu::ContentMenu (wxWindow* p, weak_ptr<FilmViewer> viewer)
+ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	: _menu (new wxMenu)
 	, _parent (p)
 	, _pop_up_open (false)
@@ -501,17 +501,13 @@ ContentMenu::auto_crop ()
 
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	auto viewer = _viewer.lock ();
-	DCPOMATIC_ASSERT (viewer);
 
 	auto update_viewer = [this](Crop crop) {
 		auto film = _film.lock();
 		DCPOMATIC_ASSERT (film);
-		auto viewer = _viewer.lock ();
-		DCPOMATIC_ASSERT (viewer);
 		auto const content = _content.front();
 		auto const current_crop = content->video->actual_crop();
-		viewer->set_crop_guess (
+		_viewer.set_crop_guess(
 			dcpomatic::Rect<float>(
 				static_cast<float>(std::max(0, crop.left - current_crop.left)) / content->video->size().width,
 				static_cast<float>(std::max(0, crop.top - current_crop.top)) / content->video->size().height,
@@ -520,8 +516,8 @@ ContentMenu::auto_crop ()
 				));
 	};
 
-	auto guess_crop_for_content = [this, film, viewer]() {
-		auto position = viewer->position_in_content(_content.front()).get_value_or(
+	auto guess_crop_for_content = [this, film]() {
+		auto position = _viewer.position_in_content(_content.front()).get_value_or(
 			ContentTime::from_frames(_content.front()->video->length(), _content.front()->video_frame_rate().get_value_or(24))
 			);
 		return guess_crop(film, _content.front(), Config::instance()->auto_crop_threshold(), position);
@@ -551,21 +547,21 @@ ContentMenu::auto_crop ()
 	});
 
 	/* Also update the dialog and view when we're looking at a different frame */
-	_auto_crop_viewer_connection = viewer->ImageChanged.connect([this, guess_crop_for_content, update_viewer](shared_ptr<PlayerVideo>) {
+	_auto_crop_viewer_connection = _viewer.ImageChanged.connect([this, guess_crop_for_content, update_viewer](shared_ptr<PlayerVideo>) {
 		auto const crop = guess_crop_for_content();
 		_auto_crop_dialog->set(crop);
 		update_viewer(crop);
 	});
 
 	/* Handle the user closing the dialog (with OK or cancel) */
-	_auto_crop_dialog->Bind (wxEVT_BUTTON, [this, viewer](wxCommandEvent& ev) {
+	_auto_crop_dialog->Bind(wxEVT_BUTTON, [this](wxCommandEvent& ev) {
 		_auto_crop_config_connection.disconnect ();
 		_auto_crop_viewer_connection.disconnect ();
 		if (ev.GetId() == wxID_OK) {
 			_content.front()->video->set_crop(_auto_crop_dialog->get());
 		}
 		_auto_crop_dialog->Show (false);
-		viewer->unset_crop_guess ();
+		_viewer.unset_crop_guess ();
 	});
 
 	/* Update the view when something in the dialog is changed */

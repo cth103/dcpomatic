@@ -51,7 +51,7 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> viewer)
+PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	: Controls (parent, viewer, false)
 	, _play_button (new Button(this, _("Play")))
 	, _pause_button (new Button(this, _("Pause")))
@@ -115,7 +115,7 @@ PlaylistControls::PlaylistControls (wxWindow* parent, shared_ptr<FilmViewer> vie
 	_previous_button->Bind (wxEVT_BUTTON, boost::bind(&PlaylistControls::previous_clicked,  this));
 	_spl_view->Bind        (wxEVT_LIST_ITEM_SELECTED,   boost::bind(&PlaylistControls::spl_selection_changed, this));
 	_spl_view->Bind        (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&PlaylistControls::spl_selection_changed, this));
-	viewer->Finished.connect (boost::bind(&PlaylistControls::viewer_finished, this));
+	_viewer.Finished.connect(boost::bind(&PlaylistControls::viewer_finished, this));
 	_refresh_spl_view->Bind (wxEVT_BUTTON, boost::bind(&PlaylistControls::update_playlist_directory, this));
 	_refresh_content_view->Bind (wxEVT_BUTTON, boost::bind(&ContentView::update, _content_view));
 
@@ -148,32 +148,24 @@ PlaylistControls::deselect_playlist ()
 		_selected_playlist = boost::none;
 		_spl_view->SetItemState (selected, 0, wxLIST_STATE_SELECTED);
 	}
-	ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
+	ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()));
 }
 
 void
 PlaylistControls::play_clicked ()
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->start ();
-	}
+	_viewer.start();
 }
 
 void
 PlaylistControls::setup_sensitivity ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
 	Controls::setup_sensitivity ();
 	bool const active_job = _active_job && *_active_job != "examine_content";
 	bool const c = _film && !_film->content().empty() && !active_job;
-	_play_button->Enable (c && !viewer->playing());
-	_pause_button->Enable (viewer->playing());
-	_spl_view->Enable (!viewer->playing());
+	_play_button->Enable(c && !_viewer.playing());
+	_pause_button->Enable(_viewer.playing());
+	_spl_view->Enable(!_viewer.playing());
 	_next_button->Enable (can_do_next());
 	_previous_button->Enable (can_do_previous());
 }
@@ -181,22 +173,14 @@ PlaylistControls::setup_sensitivity ()
 void
 PlaylistControls::pause_clicked ()
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->stop ();
-	}
+	_viewer.stop();
 }
 
 void
 PlaylistControls::stop_clicked ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
-	viewer->stop ();
-	viewer->seek (DCPTime(), true);
+	_viewer.stop();
+	_viewer.seek(DCPTime(), true);
 	if (_selected_playlist) {
 		_selected_playlist_position = 0;
 		update_current_content ();
@@ -434,8 +418,7 @@ PlaylistControls::update_current_content ()
 void
 PlaylistControls::viewer_finished ()
 {
-	auto viewer = _viewer.lock ();
-	if (!_selected_playlist || !viewer) {
+	if (!_selected_playlist) {
 		return;
 	}
 
@@ -443,11 +426,11 @@ PlaylistControls::viewer_finished ()
 	if (_selected_playlist_position < int(_playlists[*_selected_playlist].get().size())) {
 		/* Next piece of content on the SPL */
 		update_current_content ();
-		viewer->start ();
+		_viewer.start();
 	} else {
 		/* Finished the whole SPL */
 		_selected_playlist_position = 0;
-		ResetFilm (shared_ptr<Film>(new Film(optional<boost::filesystem::path>())));
+		ResetFilm(std::make_shared<Film>(optional<boost::filesystem::path>()));
 		_play_button->Enable (true);
 		_pause_button->Enable (false);
 	}

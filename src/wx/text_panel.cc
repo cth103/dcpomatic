@@ -863,10 +863,7 @@ TextPanel::try_to_load_analysis ()
 void
 TextPanel::update_outline_subtitles_in_viewer ()
 {
-	auto fv = _parent->film_viewer().lock();
-	if (!fv) {
-		return;
-	}
+	auto& fv = _parent->film_viewer();
 
 	if (_analysis) {
 		auto rect = _analysis->bounding_box ();
@@ -876,9 +873,9 @@ TextPanel::update_outline_subtitles_in_viewer ()
 			rect->x += content->text.front()->x_offset() - _analysis->analysis_x_offset();
 			rect->y += content->text.front()->y_offset() - _analysis->analysis_y_offset();
 		}
-		fv->set_outline_subtitles (rect);
+		fv.set_outline_subtitles(rect);
 	} else {
-		fv->set_outline_subtitles ({});
+		fv.set_outline_subtitles({});
 	}
 }
 

@@ -64,7 +64,7 @@ using namespace boost::placeholders;
 using namespace dcpomatic;
 
 
-Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor_controls)
+Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	: wxPanel (parent)
 	, _markers (new MarkersPanel(this, viewer))
 	, _slider (new wxSlider(this, wxID_ANY, 0, 0, 4096))
@@ -154,13 +154,13 @@ Controls::Controls (wxWindow* parent, shared_ptr<FilmViewer> viewer, bool editor
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
 
-	viewer->Started.connect (boost::bind(&Controls::started, this));
-	viewer->Stopped.connect (boost::bind(&Controls::stopped, this));
+	viewer.Started.connect (boost::bind(&Controls::started, this));
+	viewer.Stopped.connect (boost::bind(&Controls::stopped, this));
 
 	Bind (wxEVT_TIMER, boost::bind(&Controls::update_position, this));
 	_timer.Start (80, wxTIMER_CONTINUOUS);
 
-	set_film (viewer->film());
+	set_film(viewer.film());
 
 	setup_sensitivity ();
 
@@ -196,12 +196,7 @@ Controls::stopped ()
 void
 Controls::update_position ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
-	if (!_slider_being_moved && !viewer->pending_idle_get()) {
+	if (!_slider_being_moved && !_viewer.pending_idle_get()) {
 		update_position_label ();
 		update_position_slider ();
 	}
@@ -211,24 +206,14 @@ Controls::update_position ()
 void
 Controls::eye_changed ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
-	viewer->set_eyes (_eye->GetSelection() == 0 ? Eyes::LEFT : Eyes::RIGHT);
+	_viewer.set_eyes(_eye->GetSelection() == 0 ? Eyes::LEFT : Eyes::RIGHT);
 }
 
 
 void
 Controls::outline_content_changed ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
-	viewer->set_outline_content (_outline_content->GetValue());
+	_viewer.set_outline_content(_outline_content->GetValue());
 }
 
 
@@ -236,14 +221,13 @@ Controls::outline_content_changed ()
 void
 Controls::slider_moved (bool page)
 {
-	auto viewer = _viewer.lock ();
-	if (!_film || !viewer) {
+	if (!_film) {
 		return;
 	}
 
 	if (!page && !_slider_being_moved) {
 		/* This is the first event of a drag; stop playback for the duration of the drag */
-		viewer->suspend ();
+		_viewer.suspend();
 		_slider_being_moved = true;
 	}
 
@@ -254,10 +238,10 @@ Controls::slider_moved (bool page)
 	*/
 	bool accurate = false;
 	if (t >= _film->length ()) {
-		t = _film->length() - viewer->one_video_frame();
+		t = _film->length() - _viewer.one_video_frame();
 		accurate = true;
 	}
-	viewer->seek (t, accurate);
+	_viewer.seek(t, accurate);
 	update_position_label ();
 }
 
@@ -265,13 +249,8 @@ Controls::slider_moved (bool page)
 void
 Controls::slider_released ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
 	/* Restart after a drag */
-	viewer->resume ();
+	_viewer.resume();
 	_slider_being_moved = false;
 }
 
@@ -284,15 +263,10 @@ Controls::update_position_slider ()
 		return;
 	}
 
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
 	auto const len = _film->length ();
 
 	if (len.get ()) {
-		int const new_slider_position = 4096 * viewer->position().get() / len.get();
+		int const new_slider_position = 4096 * _viewer.position().get() / len.get();
 		if (new_slider_position != _slider->GetValue()) {
 			_slider->SetValue (new_slider_position);
 		}
@@ -309,15 +283,10 @@ Controls::update_position_label ()
 		return;
 	}
 
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	checked_set (_frame_number, wxString::Format (wxT("%ld"), lrint (viewer->position().seconds() * fps) + 1));
-	checked_set (_timecode, time_to_timecode (viewer->position(), fps));
+	checked_set(_frame_number, wxString::Format (wxT("%ld"), lrint(_viewer.position().seconds() * fps) + 1));
+	checked_set(_timecode, time_to_timecode(_viewer.position(), fps));
 }
 
 
@@ -332,12 +301,7 @@ Controls::active_jobs_changed (optional<string> j)
 DCPTime
 Controls::nudge_amount (wxKeyboardState& ev)
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return {};
-	}
-
-	auto amount = viewer->one_video_frame ();
+	auto amount = _viewer.one_video_frame();
 
 	if (ev.ShiftDown() && !ev.ControlDown()) {
 		amount = DCPTime::from_seconds (1);
@@ -354,10 +318,7 @@ Controls::nudge_amount (wxKeyboardState& ev)
 void
 Controls::rewind_clicked (wxMouseEvent& ev)
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->seek (DCPTime(), true);
-	}
+	_viewer.seek(DCPTime(), true);
 	ev.Skip();
 }
 
@@ -365,40 +326,28 @@ Controls::rewind_clicked (wxMouseEvent& ev)
 void
 Controls::back_frame ()
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->seek_by (-viewer->one_video_frame(), true);
-	}
+	_viewer.seek_by(-_viewer.one_video_frame(), true);
 }
 
 
 void
 Controls::forward_frame ()
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->seek_by (viewer->one_video_frame(), true);
-	}
+	_viewer.seek_by(_viewer.one_video_frame(), true);
 }
 
 
 void
 Controls::back_clicked (wxKeyboardState& ev)
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->seek_by (-nudge_amount(ev), true);
-	}
+	_viewer.seek_by(-nudge_amount(ev), true);
 }
 
 
 void
 Controls::forward_clicked (wxKeyboardState& ev)
 {
-	auto viewer = _viewer.lock ();
-	if (viewer) {
-		viewer->seek_by (nudge_amount(ev), true);
-	}
+	_viewer.seek_by(nudge_amount(ev), true);
 }
 
 
@@ -431,14 +380,9 @@ Controls::setup_sensitivity ()
 void
 Controls::timecode_clicked ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
-	auto dialog = new PlayheadToTimecodeDialog (this, viewer->position(), _film->video_frame_rate());
+	auto dialog = new PlayheadToTimecodeDialog(this, _viewer.position(), _film->video_frame_rate());
 	if (dialog->ShowModal() == wxID_OK) {
-		viewer->seek (dialog->get(), true);
+		_viewer.seek(dialog->get(), true);
 	}
 	dialog->Destroy ();
 }
@@ -447,14 +391,9 @@ Controls::timecode_clicked ()
 void
 Controls::frame_number_clicked ()
 {
-	auto viewer = _viewer.lock ();
-	if (!viewer) {
-		return;
-	}
-
-	auto dialog = new PlayheadToFrameDialog (this, viewer->position(), _film->video_frame_rate());
+	auto dialog = new PlayheadToFrameDialog(this, _viewer.position(), _film->video_frame_rate());
 	if (dialog->ShowModal() == wxID_OK) {
-		viewer->seek (dialog->get(), true);
+		_viewer.seek(dialog->get(), true);
 	}
 	dialog->Destroy ();
 }

@@ -53,7 +53,7 @@ int const VideoWaveformPlot::_pixel_values = 4096;
 int const VideoWaveformPlot::_x_axis_width = 52;
 
 
-VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> film, weak_ptr<FilmViewer> viewer)
+VideoWaveformPlot::VideoWaveformPlot(wxWindow* parent, weak_ptr<const Film> film, FilmViewer& viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _film (film)
 {
@@ -61,10 +61,7 @@ VideoWaveformPlot::VideoWaveformPlot (wxWindow* parent, weak_ptr<const Film> fil
 	SetDoubleBuffered (true);
 #endif
 
-	auto fv = viewer.lock ();
-	DCPOMATIC_ASSERT (fv);
-
-	_viewer_connection = fv->ImageChanged.connect (boost::bind(&VideoWaveformPlot::set_image, this, _1));
+	_viewer_connection = viewer.ImageChanged.connect(boost::bind(&VideoWaveformPlot::set_image, this, _1));
 
 	Bind (wxEVT_PAINT, boost::bind(&VideoWaveformPlot::paint, this));
 	Bind (wxEVT_SIZE,  boost::bind(&VideoWaveformPlot::sized, this, _1));

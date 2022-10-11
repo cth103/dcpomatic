@@ -71,7 +71,7 @@ private:
 class ContentPanel
 {
 public:
-	ContentPanel (wxNotebook *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
+	ContentPanel(wxNotebook *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	ContentPanel (ContentPanel const&) = delete;
 	ContentPanel& operator= (ContentPanel const&) = delete;
@@ -109,7 +109,7 @@ public:
 	bool remove_clicked (bool hotkey);
 	void timeline_clicked ();
 
-	std::weak_ptr<FilmViewer> film_viewer () const {
+	FilmViewer& film_viewer() const {
 		return _film_viewer;
 	}
 
@@ -158,7 +158,7 @@ private:
 	wxWindow* _last_selected_tab = nullptr;
 
 	std::shared_ptr<Film> _film;
-	std::weak_ptr<FilmViewer> _film_viewer;
+	FilmViewer& _film_viewer;
 	bool _generally_sensitive;
 	bool _ignore_deselect;
 	bool _no_check_selection;

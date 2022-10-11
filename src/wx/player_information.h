@@ -32,7 +32,7 @@ class FilmViewer;
 class PlayerInformation : public wxPanel
 {
 public:
-	PlayerInformation (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
+	PlayerInformation(wxWindow* parent, FilmViewer const& viewer);
 
 	void triggered_update ();
 
@@ -40,7 +40,7 @@ private:
 
 	void periodic_update ();
 
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer const& _viewer;
 	wxPanel* _kdm_panel;
 	wxSizer* _sizer;
 	wxStaticText** _dcp;

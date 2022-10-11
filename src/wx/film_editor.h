@@ -45,7 +45,7 @@ class FilmViewer;
 class FilmEditor : public wxPanel
 {
 public:
-	FilmEditor (wxWindow *, std::weak_ptr<FilmViewer> viewer);
+	FilmEditor(wxWindow *, FilmViewer& viewer);
 
 	void set_film (std::shared_ptr<Film>);
 	void first_shown ();

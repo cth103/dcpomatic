@@ -38,7 +38,7 @@ public:
 		std::shared_ptr<Content> content,
 		std::shared_ptr<TextContent> caption,
 		std::shared_ptr<Decoder>,
-		std::weak_ptr<FilmViewer> viewer
+		FilmViewer& viewer
 		);
 
 private:
@@ -52,5 +52,5 @@ private:
 	boost::optional<int> _last_count;
 	std::vector<dcpomatic::ContentTime> _start_times;
 	std::weak_ptr<Content> _content;
-	std::weak_ptr<FilmViewer> _film_viewer;
+	FilmViewer& _film_viewer;
 };

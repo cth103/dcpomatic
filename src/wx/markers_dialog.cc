@@ -47,7 +47,7 @@ using dcpomatic::DCPTime;
 class Marker
 {
 public:
-	Marker (wxWindow* parent, wxGridBagSizer* grid, int row, weak_ptr<Film> film_, weak_ptr<FilmViewer> viewer_, wxString name, dcp::Marker type_)
+	Marker(wxWindow* parent, wxGridBagSizer* grid, int row, weak_ptr<Film> film_, FilmViewer const& viewer_, wxString name, dcp::Marker type_)
 		: film (film_)
 		, viewer (viewer_)
 		, type (type_)
@@ -92,9 +92,7 @@ private:
 	{
 		auto f = film.lock ();
 		DCPOMATIC_ASSERT (f);
-		auto v = viewer.lock ();
-		DCPOMATIC_ASSERT (v);
-		timecode->set (v->position(), f->video_frame_rate());
+		timecode->set(viewer.position(), f->video_frame_rate());
 		changed ();
 	}
 
@@ -116,7 +114,7 @@ private:
 	}
 
 	weak_ptr<Film> film;
-	weak_ptr<FilmViewer> viewer;
+	FilmViewer const& viewer;
 	dcp::Marker type;
 	CheckBox* checkbox;
 	Timecode<dcpomatic::DCPTime>* timecode;
@@ -124,7 +122,7 @@ private:
 };
 
 
-MarkersDialog::MarkersDialog (wxWindow* parent, weak_ptr<Film> film, weak_ptr<FilmViewer> viewer)
+MarkersDialog::MarkersDialog(wxWindow* parent, weak_ptr<Film> film, FilmViewer const& viewer)
 	: wxDialog (parent, wxID_ANY, _("Markers"))
 	, _film (film)
 {

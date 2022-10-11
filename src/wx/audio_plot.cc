@@ -54,7 +54,7 @@ int const AudioPlot::_cursor_size = 8;
 int const AudioPlot::max_smoothing = 128;
 
 
-AudioPlot::AudioPlot (wxWindow* parent, weak_ptr<FilmViewer> viewer)
+AudioPlot::AudioPlot(wxWindow* parent, FilmViewer& viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 	, _viewer (viewer)
 	, _smoothing (max_smoothing / 2)
@@ -445,9 +445,7 @@ void
 AudioPlot::left_down ()
 {
 	if (_cursor) {
-		if (auto fv = _viewer.lock()) {
-			fv->seek (_cursor->time, true);
-		}
+		_viewer.seek(_cursor->time, true);
 	}
 }
 

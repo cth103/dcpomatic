@@ -39,7 +39,7 @@ class FilmViewer;
 class VideoWaveformPlot : public wxPanel
 {
 public:
-	VideoWaveformPlot (wxWindow* parent, std::weak_ptr<const Film> film, std::weak_ptr<FilmViewer> viewer);
+	VideoWaveformPlot(wxWindow* parent, std::weak_ptr<const Film> film, FilmViewer& viewer);
 
 	void set_enabled (bool e);
 	void set_component (int c);

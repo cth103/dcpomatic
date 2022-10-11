@@ -42,7 +42,7 @@ using namespace boost::placeholders;
 #endif
 
 
-TimelineDialog::TimelineDialog (ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
+TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
 	: wxDialog (
 		cp->window(),
 		wxID_ANY,

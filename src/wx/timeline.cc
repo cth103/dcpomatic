@@ -67,7 +67,7 @@ double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
 int const Timeline::_minimum_pixels_per_track = 16;
 
 
-Timeline::Timeline (wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
+Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
 	: wxPanel (parent, wxID_ANY)
 	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
@@ -219,12 +219,9 @@ Timeline::paint_main ()
 
 	/* Playhead */
 
-	auto vp = _viewer.lock ();
-	DCPOMATIC_ASSERT (vp);
-
 	gc->SetPen (*wxRED_PEN);
 	auto path = gc->CreatePath ();
-	double const ph = vp->position().seconds() * pixels_per_second().get_value_or(0);
+	double const ph = _viewer.position().seconds() * pixels_per_second().get_value_or(0);
 	path.MoveToPoint (ph, 0);
 	path.AddLineToPoint (ph, pixels_per_track() * _tracks + 32);
 	gc->StrokePath (path);

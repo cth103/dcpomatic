@@ -42,7 +42,7 @@ class Job;
 class ContentMenu
 {
 public:
-	ContentMenu (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
+	ContentMenu(wxWindow* parent, FilmViewer& viewer);
 
 	ContentMenu (ContentMenu const &) = delete;
 	ContentMenu& operator= (ContentMenu const &) = delete;
@@ -69,7 +69,7 @@ private:
 	std::weak_ptr<Film> _film;
 	wxWindow* _parent;
 	bool _pop_up_open;
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer& _viewer;
 	ContentList _content;
 	TimelineContentViewList _views;
 	wxMenuItem* _repeat;

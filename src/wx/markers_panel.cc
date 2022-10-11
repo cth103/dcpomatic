@@ -53,7 +53,7 @@ enum {
 static constexpr auto line_to_label_gap = 2;
 
 
-MarkersPanel::MarkersPanel (wxWindow* parent, weak_ptr<FilmViewer> viewer)
+MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer)
 	: wxPanel (parent, wxID_ANY, wxDefaultPosition, wxSize(-1, 16))
 	, _viewer (viewer)
 {
@@ -222,9 +222,7 @@ void
 MarkersPanel::mouse_left_down ()
 {
 	if (_over) {
-		auto viewer = _viewer.lock ();
-		DCPOMATIC_ASSERT (viewer);
-		viewer->seek (_markers[*_over].time, true);
+		_viewer.seek(_markers[*_over].time, true);
 	}
 }
 
@@ -253,12 +251,11 @@ void
 MarkersPanel::move_marker_to_current_position ()
 {
 	auto film = _film.lock ();
-	auto viewer = _viewer.lock ();
-	if (!film || !viewer || !_menu_marker) {
+	if (!film || !_menu_marker) {
 		return;
 	}
 
-	film->set_marker (*_menu_marker, viewer->position());
+	film->set_marker(*_menu_marker, _viewer.position());
 }
 
 
@@ -266,12 +263,11 @@ void
 MarkersPanel::remove_marker ()
 {
 	auto film = _film.lock ();
-	auto viewer = _viewer.lock ();
-	if (!film || !viewer || !_menu_marker) {
+	if (!film || !_menu_marker) {
 		return;
 	}
 
-	film->unset_marker (*_menu_marker);
+	film->unset_marker(*_menu_marker);
 }
 
 
@@ -279,12 +275,11 @@ void
 MarkersPanel::add_marker (wxCommandEvent& ev)
 {
 	auto film = _film.lock ();
-	auto viewer = _viewer.lock ();
-	if (!film || !viewer) {
+	if (!film) {
 		return;
 	}
 
 	auto marker = static_cast<dcp::Marker>(ev.GetId() - ID_add_base);
-	film->set_marker (marker, viewer->position());
+	film->set_marker(marker, _viewer.position());
 }
 

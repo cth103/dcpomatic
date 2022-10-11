@@ -34,7 +34,7 @@ class wxTipWindow;
 class MarkersPanel : public wxPanel
 {
 public:
-	MarkersPanel (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
+	MarkersPanel(wxWindow* parent, FilmViewer& viewer);
 
 	void set_film (std::weak_ptr<Film> film);
 
@@ -69,7 +69,7 @@ private:
 	std::weak_ptr<Film> _film;
 	std::map<dcp::Marker, Marker> _markers;
 	boost::optional<dcp::Marker> _over;
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer& _viewer;
 	boost::optional<dcp::Marker> _menu_marker;
 };
 

@@ -42,7 +42,7 @@ using boost::optional;
 static int const dcp_lines = 6;
 
 
-PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> viewer)
+PlayerInformation::PlayerInformation(wxWindow* parent, FilmViewer const& viewer)
 	: wxPanel (parent)
 	, _viewer (viewer)
 	, _sizer (new wxBoxSizer (wxHORIZONTAL))
@@ -107,30 +107,22 @@ PlayerInformation::PlayerInformation (wxWindow* parent, weak_ptr<FilmViewer> vie
 void
 PlayerInformation::periodic_update ()
 {
-	auto fv = _viewer.lock ();
-	if (fv) {
-		auto s = wxString::Format(_("Dropped frames: %d"), fv->dropped() + fv->errored());
-		if (fv->errored() == 1) {
-			s += wxString::Format(_(" (%d error)"), fv->errored());
-		} else if (fv->errored() > 1) {
-			s += wxString::Format(_(" (%d errors)"), fv->errored());
-		}
-		checked_set (_dropped, s);
+	auto s = wxString::Format(_("Dropped frames: %d"), _viewer.dropped() + _viewer.errored());
+	if (_viewer.errored() == 1) {
+		s += wxString::Format(_(" (%d error)"), _viewer.errored());
+	} else if (_viewer.errored() > 1) {
+		s += wxString::Format(_(" (%d errors)"), _viewer.errored());
 	}
+	checked_set (_dropped, s);
 }
 
 
 void
 PlayerInformation::triggered_update ()
 {
-	auto fv = _viewer.lock ();
-	if (!fv) {
-		return;
-	}
-
 	shared_ptr<DCPContent> dcp;
-	if (fv->film()) {
-		auto content = fv->film()->content();
+	if (_viewer.film()) {
+		auto content = _viewer.film()->content();
 		if (content.size() == 1) {
 			dcp = dynamic_pointer_cast<DCPContent>(content.front());
 		}
@@ -180,14 +172,14 @@ PlayerInformation::triggered_update ()
 
 	auto const len = String::compose(
 		wx_to_std(_("Length: %1 (%2 frames)")),
-		time_to_hmsf(dcp->full_length(fv->film()), lrint(*vfr)),
-		dcp->full_length(fv->film()).frames_round(*vfr)
+		time_to_hmsf(dcp->full_length(_viewer.film()), lrint(*vfr)),
+		dcp->full_length(_viewer.film()).frames_round(*vfr)
 		);
 
 	checked_set (_dcp[r++], std_to_wx(len));
 
 	auto decode = dcp->video->size();
-	auto reduction = fv->dcp_decode_reduction();
+	auto reduction = _viewer.dcp_decode_reduction();
 	if (reduction) {
 		decode.width /= pow(2, *reduction);
 		decode.height /= pow(2, *reduction);

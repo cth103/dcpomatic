@@ -49,7 +49,7 @@ using namespace boost::placeholders;
 #endif
 
 
-FilmEditor::FilmEditor (wxWindow* parent, weak_ptr<FilmViewer> viewer)
+FilmEditor::FilmEditor(wxWindow* parent, FilmViewer& viewer)
 	: wxPanel (parent)
 {
 	auto s = new wxBoxSizer (wxVERTICAL);

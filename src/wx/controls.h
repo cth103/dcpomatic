@@ -55,7 +55,7 @@ class Controls : public wxPanel
 public:
 	Controls (
 		wxWindow* parent,
-		std::shared_ptr<FilmViewer>,
+		FilmViewer &,
 		bool editor_controls = true
 		);
 
@@ -81,7 +81,7 @@ protected:
 	std::shared_ptr<Film> _film;
 	MarkersPanel* _markers;
 	wxSlider* _slider;
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer& _viewer;
 	boost::optional<std::string> _active_job;
 
 private:

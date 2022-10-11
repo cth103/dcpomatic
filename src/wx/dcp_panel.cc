@@ -70,7 +70,7 @@ using namespace boost::placeholders;
 using dcp::locale_convert;
 
 
-DCPPanel::DCPPanel (wxNotebook* n, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer)
+DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	: _film (film)
 	, _viewer (viewer)
 	, _generally_sensitive (true)

@@ -29,5 +29,5 @@ class FilmViewer;
 class SystemInformationDialog : public TableDialog
 {
 public:
-	SystemInformationDialog (wxWindow* parent, std::weak_ptr<FilmViewer> viewer);
+	SystemInformationDialog(wxWindow* parent, FilmViewer const& viewer);
 };

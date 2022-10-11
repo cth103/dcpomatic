@@ -35,7 +35,6 @@
 using std::dynamic_pointer_cast;
 using std::list;
 using std::shared_ptr;
-using std::weak_ptr;
 using boost::bind;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
@@ -44,7 +43,7 @@ using namespace boost::placeholders;
 
 
 TextView::TextView (
-	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, weak_ptr<FilmViewer> viewer
+	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, FilmViewer& viewer
 	)
 	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
@@ -148,8 +147,6 @@ TextView::subtitle_selected (wxListEvent& ev)
 	DCPOMATIC_ASSERT (ev.GetIndex() < int(_start_times.size()));
 	auto lc = _content.lock ();
 	DCPOMATIC_ASSERT (lc);
-	auto fv = _film_viewer.lock ();
-	DCPOMATIC_ASSERT (fv);
 	/* Add on a frame here to work around any rounding errors and make sure land in the subtitle */
-	fv->seek (lc, _start_times[ev.GetIndex()] + ContentTime::from_frames(1, _frc->source), true);
+	_film_viewer.seek(lc, _start_times[ev.GetIndex()] + ContentTime::from_frames(1, _frc->source), true);
 }

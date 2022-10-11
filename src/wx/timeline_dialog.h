@@ -32,7 +32,7 @@ class Playlist;
 class TimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog (ContentPanel *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
+	TimelineDialog(ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	void set_selection (ContentList selection);
 

@@ -194,6 +194,11 @@ public:
 	DOMFrame ()
 		: wxFrame (nullptr, -1, _("DCP-o-matic Player"))
 		, _mode (Config::instance()->player_mode())
+		/* Use a panel as the only child of the Frame so that we avoid
+		   the dark-grey background on Windows.
+		*/
+		, _overall_panel(new wxPanel(this, wxID_ANY))
+		, _viewer(_overall_panel)
 		, _main_sizer (new wxBoxSizer(wxVERTICAL))
 	{
 		dcpomatic_log = make_shared<NullLog>();
@@ -237,12 +242,6 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_timing, this), ID_tools_timing);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this), ID_tools_system_information);
 
-		/* Use a panel as the only child of the Frame so that we avoid
-		   the dark-grey background on Windows.
-		*/
-		_overall_panel = new wxPanel (this, wxID_ANY);
-
-		_viewer = make_shared<FilmViewer>(_overall_panel);
 		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
 			auto pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
@@ -250,10 +249,10 @@ public:
 		} else {
 			_controls = new StandardControls (_overall_panel, _viewer, false);
 		}
-		_viewer->set_dcp_decode_reduction (Config::instance()->decode_reduction ());
-		_viewer->set_optimise_for_j2k (true);
-		_viewer->PlaybackPermitted.connect (bind(&DOMFrame::playback_permitted, this));
-		_viewer->TooManyDropped.connect (bind(&DOMFrame::too_many_frames_dropped, this));
+		_viewer.set_dcp_decode_reduction(Config::instance()->decode_reduction());
+		_viewer.set_optimise_for_j2k(true);
+		_viewer.PlaybackPermitted.connect(bind(&DOMFrame::playback_permitted, this));
+		_viewer.TooManyDropped.connect(bind(&DOMFrame::too_many_frames_dropped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
 		setup_main_sizer (Config::instance()->player_mode());
 #ifdef __WXOSX__
@@ -309,16 +308,16 @@ public:
 		/* It's important that this is stopped before our frame starts destroying its children,
 		 * otherwise UI elements that it depends on will disappear from under it.
 		 */
-		_viewer.reset ();
+		_viewer.stop();
 	}
 
 	void setup_main_sizer (Config::PlayerMode mode)
 	{
-		_main_sizer->Detach (_viewer->panel());
+		_main_sizer->Detach(_viewer.panel());
 		_main_sizer->Detach (_controls);
 		_main_sizer->Detach (_info);
 		if (mode != Config::PLAYER_MODE_DUAL) {
-			_main_sizer->Add (_viewer->panel(), 1, wxEXPAND);
+			_main_sizer->Add(_viewer.panel(), 1, wxEXPAND);
 		}
 		_main_sizer->Add (_controls, mode == Config::PLAYER_MODE_DUAL ? 1 : 0, wxEXPAND | wxALL, 6);
 		_main_sizer->Add (_info, 0, wxEXPAND | wxALL, 6);
@@ -351,7 +350,7 @@ public:
 	void too_many_frames_dropped ()
 	{
 		if (!Config::instance()->nagged(Config::NAG_TOO_MANY_DROPPED_FRAMES)) {
-			_viewer->stop ();
+			_viewer.stop();
 		}
 
 		NagDialog::maybe_nag (
@@ -368,7 +367,7 @@ public:
 
 	void set_decode_reduction (optional<int> reduction)
 	{
-		_viewer->set_dcp_decode_reduction (reduction);
+		_viewer.set_dcp_decode_reduction(reduction);
 		_info->triggered_update ();
 		Config::instance()->set_decode_reduction (reduction);
 	}
@@ -434,7 +433,7 @@ public:
 		_film = film;
 		_film->set_tolerant (true);
 		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
-		_viewer->set_film (_film);
+		_viewer.set_film(_film);
 		_controls->set_film (_film);
 		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
 		_info->triggered_update ();
@@ -446,8 +445,8 @@ public:
 			return;
 		}
 
-		if (_viewer->playing ()) {
-			_viewer->stop ();
+		if (_viewer.playing()) {
+			_viewer.stop();
 		}
 
 		/* Start off as Flat */
@@ -474,7 +473,7 @@ public:
 			}
 		}
 
-		_viewer->seek (DCPTime(), true);
+		_viewer.seek(DCPTime(), true);
 		_info->triggered_update ();
 
 		set_menu_sensitivity ();
@@ -689,10 +688,10 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				if (dcp) {
-					_viewer->set_coalesce_player_changes (true);
+					_viewer.set_coalesce_player_changes(true);
 					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
 					examine_content();
-					_viewer->set_coalesce_player_changes (false);
+					_viewer.set_coalesce_player_changes(false);
 				}
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
@@ -715,7 +714,7 @@ private:
 		auto path = boost::filesystem::path (wx_to_std(dialog.GetPath()));
 
 		auto player = make_shared<Player>(_film, Image::Alignment::PADDED);
-		player->seek (_viewer->position(), true);
+		player->seek(_viewer.position(), true);
 
 		bool done = false;
 		player->Video.connect ([path, &done, this](shared_ptr<PlayerVideo> video, DCPTime) {
@@ -792,10 +791,10 @@ private:
 			--id;
 		}
 
-		_viewer->set_coalesce_player_changes (true);
+		_viewer.set_coalesce_player_changes(true);
 		dcp->set_cpl ((*i)->id());
 		examine_content ();
-		_viewer->set_coalesce_player_changes (false);
+		_viewer.set_coalesce_player_changes(false);
 
 		_info->triggered_update ();
 	}
@@ -838,14 +837,14 @@ private:
 		_info->Show (_mode != Config::PLAYER_MODE_FULL);
 		_overall_panel->SetBackgroundColour (_mode == Config::PLAYER_MODE_FULL ? wxColour(0, 0, 0) : wxNullColour);
 		ShowFullScreen (_mode == Config::PLAYER_MODE_FULL);
-		_viewer->set_pad_black (_mode != Config::PLAYER_MODE_WINDOW);
+		_viewer.set_pad_black(_mode != Config::PLAYER_MODE_WINDOW);
 
 		if (_mode == Config::PLAYER_MODE_DUAL) {
 			_dual_screen = new wxFrame (this, wxID_ANY, wxT(""));
 			_dual_screen->SetBackgroundColour (wxColour(0, 0, 0));
 			_dual_screen->ShowFullScreen (true);
-			_viewer->panel()->Reparent (_dual_screen);
-			_viewer->panel()->SetFocus();
+			_viewer.panel()->Reparent(_dual_screen);
+			_viewer.panel()->SetFocus();
 			_dual_screen->Show ();
 			if (wxDisplay::GetCount() > 1) {
 				switch (Config::instance()->image_display()) {
@@ -863,7 +862,7 @@ private:
 			_dual_screen->Bind(wxEVT_CHAR_HOOK, boost::bind(&DOMFrame::dual_screen_key_press, this, _1));
 		} else {
 			if (_dual_screen) {
-				_viewer->panel()->Reparent (_overall_panel);
+				_viewer.panel()->Reparent(_overall_panel);
 				_dual_screen->Destroy ();
 				_dual_screen = 0;
 			}
@@ -885,7 +884,7 @@ private:
 
 	void view_closed_captions ()
 	{
-		_viewer->show_closed_captions ();
+		_viewer.show_closed_captions();
 	}
 
 	void tools_verify ()
@@ -914,7 +913,7 @@ private:
 
 	void tools_timing ()
 	{
-		auto d = new TimerDisplay (this, _viewer->state_timer(), _viewer->gets());
+		auto d = new TimerDisplay(this, _viewer.state_timer(), _viewer.gets());
 		d->ShowModal ();
 		d->Destroy ();
 	}
@@ -1053,36 +1052,36 @@ private:
 
 	void start_stop_pressed ()
 	{
-		if (_viewer->playing()) {
-			_viewer->stop();
+		if (_viewer.playing()) {
+			_viewer.stop();
 		} else {
-			_viewer->start();
+			_viewer.start();
 		}
 	}
 
 	void go_back_frame ()
 	{
-		_viewer->seek_by (-_viewer->one_video_frame(), true);
+		_viewer.seek_by(-_viewer.one_video_frame(), true);
 	}
 
 	void go_forward_frame ()
 	{
-		_viewer->seek_by (_viewer->one_video_frame(), true);
+		_viewer.seek_by(_viewer.one_video_frame(), true);
 	}
 
 	void go_seconds (int s)
 	{
-		_viewer->seek_by (DCPTime::from_seconds(s), true);
+		_viewer.seek_by(DCPTime::from_seconds(s), true);
 	}
 
 	void go_to_start ()
 	{
-		_viewer->seek (DCPTime(), true);
+		_viewer.seek(DCPTime(), true);
 	}
 
 	void go_to_end ()
 	{
-		_viewer->seek (_film->length() - _viewer->one_video_frame(), true);
+		_viewer.seek(_film->length() - _viewer.one_video_frame(), true);
 	}
 
 	wxFrame* _dual_screen = nullptr;
@@ -1097,7 +1096,7 @@ private:
 	int _history_items = 0;
 	int _history_position = 0;
 	wxMenuItem* _history_separator = nullptr;
-	shared_ptr<FilmViewer> _viewer;
+	FilmViewer _viewer;
 	Controls* _controls;
 	SystemInformationDialog* _system_information_dialog = nullptr;
 	std::shared_ptr<Film> _film;

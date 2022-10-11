@@ -29,7 +29,7 @@ class DCPContent;
 class PlaylistControls : public Controls
 {
 public:
-	PlaylistControls (wxWindow* parent, std::shared_ptr<FilmViewer> viewer);
+	PlaylistControls(wxWindow* parent, FilmViewer& viewer);
 
 	void set_film (std::shared_ptr<Film> film) override;
 

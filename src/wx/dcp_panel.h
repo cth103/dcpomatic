@@ -48,7 +48,7 @@ class SMPTEMetadataDialog;
 class DCPPanel
 {
 public:
-	DCPPanel (wxNotebook *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
+	DCPPanel(wxNotebook *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	DCPPanel (DCPPanel const&) = delete;
 	DCPPanel& operator= (DCPPanel const&) = delete;
@@ -165,6 +165,6 @@ private:
 	SMPTEMetadataDialog* _smpte_metadata_dialog = nullptr;
 
 	std::shared_ptr<Film> _film;
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer& _viewer;
 	bool _generally_sensitive;
 };

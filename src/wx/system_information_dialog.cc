@@ -41,20 +41,15 @@ using std::shared_ptr;
 
 #if wxCHECK_VERSION(3, 1, 0)
 
-SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer> weak_viewer)
+SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer const& viewer)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
-	auto viewer = weak_viewer.lock ();
-	shared_ptr<const GLVideoView> gl;
-	if (viewer) {
-		gl = std::dynamic_pointer_cast<const GLVideoView>(viewer->video_view());
-	}
+	auto gl = std::dynamic_pointer_cast<const GLVideoView>(viewer.video_view());
 
 	if (!gl) {
 		add (_("OpenGL version"), true);
 		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
 	} else {
-
 		auto information = gl->information();
 		auto add_string = [this, &information](GLenum name, wxString label) {
 			add (label, true);
@@ -80,7 +75,7 @@ SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<Fil
 
 #else
 
-SystemInformationDialog::SystemInformationDialog (wxWindow* parent, weak_ptr<FilmViewer>)
+SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer&)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
 	add (_("OpenGL version"), true);

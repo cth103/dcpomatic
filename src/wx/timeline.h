@@ -42,7 +42,7 @@ class TimelineView;
 class Timeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, ContentPanel *, std::shared_ptr<Film>, std::weak_ptr<FilmViewer> viewer);
+	Timeline (wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	std::shared_ptr<const Film> film () const;
 
@@ -118,7 +118,7 @@ private:
 	wxScrolledCanvas* _main_canvas;
 	ContentPanel* _content_panel;
 	std::weak_ptr<Film> _film;
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer& _viewer;
 	TimelineViewList _views;
 	std::shared_ptr<TimelineTimeAxisView> _time_axis_view;
 	std::shared_ptr<TimelineReelsView> _reels_view;

@@ -56,7 +56,7 @@ using namespace boost::placeholders;
  *  @param film Film we are using.
  *  @param content Content to analyse, or 0 to analyse all of the film's audio.
  */
-AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, weak_ptr<FilmViewer> viewer, shared_ptr<Content> content)
+AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& viewer, shared_ptr<Content> content)
 	: wxDialog (
 		parent,
 		wxID_ANY,

@@ -37,7 +37,7 @@ class Film;
 class AudioDialog : public wxDialog
 {
 public:
-	AudioDialog (wxWindow* parent, std::shared_ptr<Film> film, std::weak_ptr<FilmViewer> viewer, std::shared_ptr<Content> content = std::shared_ptr<Content>());
+	AudioDialog(wxWindow* parent, std::shared_ptr<Film> film, FilmViewer& viewer, std::shared_ptr<Content> content = std::shared_ptr<Content>());
 
 	bool Show (bool show = true) override;
 
@@ -56,7 +56,7 @@ private:
 
 	std::shared_ptr<AudioAnalysis> _analysis;
 	std::weak_ptr<Film> _film;
-	std::weak_ptr<FilmViewer> _viewer;
+	FilmViewer& _viewer;
 	/** content to analyse, or 0 to analyse all the film's content */
 	std::weak_ptr<Content> _content;
 	int _channels;
