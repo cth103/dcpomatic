@@ -68,12 +68,16 @@ LIBDCP_ENABLE_WARNINGS
 		throw NetworkError (String::compose(_("Failed to authenticate with server (%1)"), ssh_get_error(_session)));
 	}
 
+LIBDCP_DISABLE_WARNINGS
 	_scp = ssh_scp_new (_session, SSH_SCP_WRITE | SSH_SCP_RECURSIVE, Config::instance()->tms_path().c_str());
+LIBDCP_ENABLE_WARNINGS
 	if (!_scp) {
 		throw NetworkError (String::compose(_("SSH error [%1] (%2)"), "ssh_scp_new", ssh_get_error(_session)));
 	}
 
+LIBDCP_DISABLE_WARNINGS
 	r = ssh_scp_init (_scp);
+LIBDCP_ENABLE_WARNINGS
 	if (r != SSH_OK) {
 		throw NetworkError (String::compose(_("SSH error [%1] (%2)"), "ssh_scp_init", ssh_get_error(_session)));
 	}
@@ -82,7 +86,9 @@ LIBDCP_ENABLE_WARNINGS
 
 SCPUploader::~SCPUploader ()
 {
+LIBDCP_DISABLE_WARNINGS
 	ssh_scp_free (_scp);
+LIBDCP_ENABLE_WARNINGS
 	ssh_disconnect (_session);
 	ssh_free (_session);
 }
@@ -92,7 +98,9 @@ void
 SCPUploader::create_directory (boost::filesystem::path directory)
 {
 	/* Use generic_string so that we get forward-slashes in the path, even on Windows */
+LIBDCP_DISABLE_WARNINGS
 	int const r = ssh_scp_push_directory (_scp, directory.generic_string().c_str(), S_IRWXU);
+LIBDCP_ENABLE_WARNINGS
 	if (r != SSH_OK) {
 		throw NetworkError (String::compose(_("Could not create remote directory %1 (%2)"), directory, ssh_get_error(_session)));
 	}
@@ -104,7 +112,9 @@ SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path 
 {
 	auto to_do = boost::filesystem::file_size (from);
 	/* Use generic_string so that we get forward-slashes in the path, even on Windows */
+LIBDCP_DISABLE_WARNINGS
 	ssh_scp_push_file (_scp, to.generic_string().c_str(), to_do, S_IRUSR | S_IWUSR);
+LIBDCP_ENABLE_WARNINGS
 
 	dcp::File f(from, "rb");
 	if (!f) {
@@ -121,7 +131,9 @@ SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path 
 			throw ReadFileError (from);
 		}
 
+LIBDCP_DISABLE_WARNINGS
 		int const r = ssh_scp_write (_scp, buffer, t);
+LIBDCP_ENABLE_WARNINGS
 		if (r != SSH_OK) {
 			throw NetworkError (String::compose(_("Could not write to remote file (%1)"), ssh_get_error(_session)));
 		}

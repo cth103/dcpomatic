@@ -19,8 +19,11 @@
 */
 
 
+#include <dcp/warnings.h>
 #include "uploader.h"
+LIBDCP_DISABLE_WARNINGS
 #include <libssh/libssh.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 class SCPUploader : public Uploader
