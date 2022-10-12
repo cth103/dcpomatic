@@ -73,6 +73,60 @@ using namespace boost::placeholders;
 #endif
 
 
+class LimitedSplitter : public wxSplitterWindow
+{
+public:
+	LimitedSplitter(wxWindow* parent)
+		: wxSplitterWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
+	{
+		/* This value doesn't really mean much but we just want to stop double-click on the
+		   divider from shrinking the bottom panel (#1601).
+		   */
+		SetMinimumPaneSize(64);
+
+		Bind(wxEVT_SIZE, boost::bind(&LimitedSplitter::sized, this, _1));
+	}
+
+	bool OnSashPositionChange(int new_position) override
+	{
+		/* Try to stop the top bit of the splitter getting so small that buttons disappear */
+		return new_position > 220;
+	}
+
+	void first_shown(wxWindow* top, wxWindow* bottom)
+	{
+		int const sn = wxDisplay::GetFromWindow(this);
+		if (sn >= 0) {
+			wxRect const screen = wxDisplay(sn).GetClientArea();
+			/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
+			   enough on small displays to leave space for the content area.
+			   */
+			SplitHorizontally(top, bottom, screen.height > 800 ? -600 : -_top_panel_minimum_size);
+		} else {
+			/* Fallback for when GetFromWindow fails for reasons that aren't clear */
+			SplitHorizontally(top, bottom, -600);
+		}
+		_first_shown = true;
+	}
+
+private:
+	void sized(wxSizeEvent& ev)
+	{
+		if (_first_shown && GetSize().GetHeight() > _top_panel_minimum_size && GetSashPosition() < _top_panel_minimum_size) {
+			/* The window is now fairly big but the top panel is small; this happens when the DCP-o-matic window
+			 * is shrunk and then made larger again.  Try to set a sensible top panel size in this case (#1839).
+			 */
+			SetSashPosition(_top_panel_minimum_size);
+		}
+
+		ev.Skip ();
+	}
+
+	bool _first_shown = false;
+	int const _top_panel_minimum_size = 350;
+};
+
+
 class ContentDropTarget : public wxFileDropTarget
 {
 public:
@@ -921,47 +975,8 @@ ContentPanel::set_selected_state(int item, bool state)
 }
 
 
-LimitedSplitter::LimitedSplitter (wxWindow* parent)
-	: wxSplitterWindow (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
-	, _first_shown (false)
-	, _top_panel_minimum_size (350)
+wxWindow*
+ContentPanel::window() const
 {
-	/* This value doesn't really mean much but we just want to stop double-click on the
-	   divider from shrinking the bottom panel (#1601).
-	*/
-	SetMinimumPaneSize (64);
-
-	Bind (wxEVT_SIZE, boost::bind(&LimitedSplitter::sized, this, _1));
-}
-
-
-void
-LimitedSplitter::first_shown (wxWindow* top, wxWindow* bottom)
-{
-	int const sn = wxDisplay::GetFromWindow(this);
-	if (sn >= 0) {
-		wxRect const screen = wxDisplay(sn).GetClientArea();
-		/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
-		   enough on small displays to leave space for the content area.
-		   */
-		SplitHorizontally (top, bottom, screen.height > 800 ? -600 : -_top_panel_minimum_size);
-	} else {
-		/* Fallback for when GetFromWindow fails for reasons that aren't clear */
-		SplitHorizontally (top, bottom, -600);
-	}
-	_first_shown = true;
-}
-
-
-void
-LimitedSplitter::sized (wxSizeEvent& ev)
-{
-	if (_first_shown && GetSize().GetHeight() > _top_panel_minimum_size && GetSashPosition() < _top_panel_minimum_size) {
-		/* The window is now fairly big but the top panel is small; this happens when the DCP-o-matic window
-		 * is shrunk and then made larger again.  Try to set a sensible top panel size in this case (#1839).
-		 */
-		SetSashPosition (_top_panel_minimum_size);
-	}
-
-	ev.Skip ();
+	return _splitter;
 }

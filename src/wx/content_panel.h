@@ -35,6 +35,7 @@ class ContentSubPanel;
 class Film;
 class FilmEditor;
 class FilmViewer;
+class LimitedSplitter;
 class TextPanel;
 class TimelineDialog;
 class TimingPanel;
@@ -45,27 +46,6 @@ class wxNotebook;
 class wxPanel;
 class wxSizer;
 class wxSplitterWindow;
-
-
-class LimitedSplitter : public wxSplitterWindow
-{
-public:
-	LimitedSplitter (wxWindow* parent);
-
-	bool OnSashPositionChange (int new_position) override
-	{
-		/* Try to stop the top bit of the splitter getting so small that buttons disappear */
-		return new_position > 220;
-	}
-
-	void first_shown (wxWindow* top, wxWindow* bottom);
-
-private:
-	void sized (wxSizeEvent& ev);
-
-	bool _first_shown;
-	int const _top_panel_minimum_size;
-};
 
 
 class ContentPanel
@@ -91,9 +71,7 @@ public:
 
 	void first_shown ();
 
-	wxWindow* window () const {
-		return _splitter;
-	}
+	wxWindow* window () const;
 
 	wxNotebook* notebook () const {
 		return _notebook;
