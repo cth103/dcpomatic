@@ -590,6 +590,14 @@ public:
 		return _last_release_notes_version;
 	}
 
+	boost::optional<int> main_divider_sash_position() const {
+		return _main_divider_sash_position;
+	}
+
+	boost::optional<int> main_content_divider_sash_position() const {
+		return _main_content_divider_sash_position;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1138,6 +1146,14 @@ public:
 		return _export;
 	}
 
+	void set_main_divider_sash_position(int position) {
+		maybe_set(_main_divider_sash_position, position);
+	}
+
+	void set_main_content_divider_sash_position(int position) {
+		maybe_set(_main_content_divider_sash_position, position);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1370,6 +1386,8 @@ private:
 	RoughDuration _default_kdm_duration;
 	double _auto_crop_threshold;
 	boost::optional<std::string> _last_release_notes_version;
+	boost::optional<int> _main_divider_sash_position;
+	boost::optional<int> _main_content_divider_sash_position;
 
 	ExportConfig _export;
 

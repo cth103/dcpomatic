@@ -90,22 +90,26 @@ public:
 	bool OnSashPositionChange(int new_position) override
 	{
 		/* Try to stop the top bit of the splitter getting so small that buttons disappear */
-		return new_position > 220;
+		auto const ok = new_position > 220;
+		if (ok) {
+			Config::instance()->set_main_content_divider_sash_position(new_position);
+		}
+		return ok;
 	}
 
 	void first_shown(wxWindow* top, wxWindow* bottom)
 	{
 		int const sn = wxDisplay::GetFromWindow(this);
+		/* Fallback for when GetFromWindow fails for reasons that aren't clear */
+		int pos = -600;
 		if (sn >= 0) {
 			wxRect const screen = wxDisplay(sn).GetClientArea();
 			/* This is a hack to try and make the content notebook a sensible size; large on big displays but small
 			   enough on small displays to leave space for the content area.
 			   */
-			SplitHorizontally(top, bottom, screen.height > 800 ? -600 : -_top_panel_minimum_size);
-		} else {
-			/* Fallback for when GetFromWindow fails for reasons that aren't clear */
-			SplitHorizontally(top, bottom, -600);
+			pos = screen.height > 800 ? -600 : -_top_panel_minimum_size;
 		}
+		SplitHorizontally(top, bottom, Config::instance()->main_content_divider_sash_position().get_value_or(pos));
 		_first_shown = true;
 	}
 
@@ -117,7 +121,7 @@ private:
 			/* The window is now fairly big but the top panel is small; this happens when the DCP-o-matic window
 			 * is shrunk and then made larger again.  Try to set a sensible top panel size in this case (#1839).
 			 */
-			SetSashPosition(_top_panel_minimum_size);
+			SetSashPosition(Config::instance()->main_content_divider_sash_position().get_value_or(_top_panel_minimum_size));
 		}
 
 		ev.Skip ();

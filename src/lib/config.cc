@@ -207,6 +207,9 @@ Config::set_defaults ()
 	set_notification_email_to_default ();
 	set_cover_sheet_to_default ();
 
+	_main_divider_sash_position = {};
+	_main_content_divider_sash_position = {};
+
 	_export.set_defaults();
 }
 
@@ -604,6 +607,8 @@ try
 	}
 	_auto_crop_threshold = f.optional_number_child<double>("AutoCropThreshold").get_value_or(0.1);
 	_last_release_notes_version = f.optional_string_child("LastReleaseNotesVersion");
+	_main_divider_sash_position = f.optional_number_child<int>("MainDividerSashPosition");
+	_main_content_divider_sash_position = f.optional_number_child<int>("MainContentDividerSashPosition");
 
 	_export.read(f.optional_node_child("Export"));
 }
@@ -1070,6 +1075,12 @@ Config::write_config () const
 	root->add_child("AutoCropThreshold")->add_child_text(raw_convert<string>(_auto_crop_threshold));
 	if (_last_release_notes_version) {
 		root->add_child("LastReleaseNotesVersion")->add_child_text(*_last_release_notes_version);
+	}
+	if (_main_divider_sash_position) {
+		root->add_child("MainDividerSashPosition")->add_child_text(raw_convert<string>(*_main_divider_sash_position));
+	}
+	if (_main_content_divider_sash_position) {
+		root->add_child("MainContentDividerSashPosition")->add_child_text(raw_convert<string>(*_main_content_divider_sash_position));
 	}
 
 	_export.write(root->add_child("Export"));

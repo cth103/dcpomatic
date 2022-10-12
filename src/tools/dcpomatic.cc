@@ -287,7 +287,11 @@ public:
 	bool OnSashPositionChange(int new_position) override
 	{
 		/* Try to stop the left bit of the splitter getting too small */
-		return new_position > _left_panel_minimum_size;
+		auto const ok = new_position > _left_panel_minimum_size;
+		if (ok) {
+			Config::instance()->set_main_divider_sash_position(new_position);
+		}
+		return ok;
 	}
 
 private:
@@ -297,7 +301,7 @@ private:
 			/* The window is now fairly big but the left panel is small; this happens when the DCP-o-matic window
 			 * is shrunk and then made larger again.  Try to set a sensible left panel size in this case.
 			 */
-			SetSashPosition(_left_panel_minimum_size);
+			SetSashPosition(Config::instance()->main_divider_sash_position().get_value_or(_left_panel_minimum_size));
 		}
 
 		ev.Skip();
@@ -410,7 +414,7 @@ public:
 
 		_right_panel->SetSizer(right_sizer);
 
-		_splitter->SplitVertically(left_panel, _right_panel, left_panel->GetSize().GetWidth() + 8);
+		_splitter->SplitVertically(left_panel, _right_panel, Config::instance()->main_divider_sash_position().get_value_or(left_panel->GetSize().GetWidth() + 8));
 
 		set_menu_sensitivity ();
 
