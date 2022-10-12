@@ -270,6 +270,43 @@ enum {
 };
 
 
+class LimitedFrameSplitter : public wxSplitterWindow
+{
+public:
+	LimitedFrameSplitter(wxWindow* parent)
+		: wxSplitterWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
+	{
+		/* This value doesn't really mean much but we just want to stop double-click on the
+		   divider from shrinking the left panel.
+		   */
+		SetMinimumPaneSize(64);
+
+		Bind(wxEVT_SIZE, boost::bind(&LimitedFrameSplitter::sized, this, _1));
+	}
+
+	bool OnSashPositionChange(int new_position) override
+	{
+		/* Try to stop the left bit of the splitter getting too small */
+		return new_position > _left_panel_minimum_size;
+	}
+
+private:
+	void sized(wxSizeEvent& ev)
+	{
+		if (GetSize().GetWidth() > _left_panel_minimum_size && GetSashPosition() < _left_panel_minimum_size) {
+			/* The window is now fairly big but the left panel is small; this happens when the DCP-o-matic window
+			 * is shrunk and then made larger again.  Try to set a sensible left panel size in this case.
+			 */
+			SetSashPosition(_left_panel_minimum_size);
+		}
+
+		ev.Skip();
+	}
+
+	int const _left_panel_minimum_size = 200;
+};
+
+
 class DOMFrame : public wxFrame
 {
 public:
@@ -278,8 +315,9 @@ public:
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
 		*/
-		, _overall_panel(new wxPanel(this, wxID_ANY))
-		, _film_viewer(_overall_panel)
+		, _splitter(new LimitedFrameSplitter(this))
+		, _right_panel(new wxPanel(_splitter, wxID_ANY))
+		, _film_viewer(_right_panel)
 	{
 #if defined(DCPOMATIC_WINDOWS)
 		if (Config::instance()->win32_console()) {
@@ -353,18 +391,26 @@ public:
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind (&DOMFrame::close, this, _1));
 		Bind (wxEVT_SHOW, boost::bind (&DOMFrame::show, this, _1));
 
-		_controls = new StandardControls(_overall_panel, _film_viewer, true);
-		_film_editor = new FilmEditor(_overall_panel, _film_viewer);
-		auto job_manager_view = new JobManagerView(_overall_panel, false);
+		auto left_panel = new wxPanel(_splitter, wxID_ANY);
+
+		_film_editor = new FilmEditor(left_panel, _film_viewer);
+
+		auto left_sizer = new wxBoxSizer(wxHORIZONTAL);
+		left_sizer->Add(_film_editor, 1, wxEXPAND);
+
+		left_panel->SetSizerAndFit(left_sizer);
+
+		_controls = new StandardControls(_right_panel, _film_viewer, true);
+		auto job_manager_view = new JobManagerView(_right_panel, false);
 
 		auto right_sizer = new wxBoxSizer (wxVERTICAL);
 		right_sizer->Add(_film_viewer.panel(), 2, wxEXPAND | wxALL, 6);
 		right_sizer->Add (_controls, 0, wxEXPAND | wxALL, 6);
 		right_sizer->Add (job_manager_view, 1, wxEXPAND | wxALL, 6);
 
-		wxBoxSizer* main_sizer = new wxBoxSizer (wxHORIZONTAL);
-		main_sizer->Add (_film_editor, 0, wxEXPAND | wxALL, 6);
-		main_sizer->Add (right_sizer, 1, wxEXPAND | wxALL, 6);
+		_right_panel->SetSizer(right_sizer);
+
+		_splitter->SplitVertically(left_panel, _right_panel, left_panel->GetSize().GetWidth() + 8);
 
 		set_menu_sensitivity ();
 
@@ -372,8 +418,6 @@ public:
 		set_title ();
 
 		JobManager::instance()->ActiveJobsChanged.connect(boost::bind(&DOMFrame::active_jobs_changed, this));
-
-		_overall_panel->SetSizer(main_sizer);
 
 		UpdateChecker::instance()->StateChanged.connect(boost::bind(&DOMFrame::update_checker_state_changed, this));
 
@@ -1550,7 +1594,8 @@ private:
 	}
 
 	FilmEditor* _film_editor;
-	wxPanel* _overall_panel;
+	LimitedFrameSplitter* _splitter;
+	wxPanel* _right_panel;
 	FilmViewer _film_viewer;
 	StandardControls* _controls;
 	VideoWaveformDialog* _video_waveform_dialog = nullptr;

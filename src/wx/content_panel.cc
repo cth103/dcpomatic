@@ -112,7 +112,8 @@ public:
 private:
 	void sized(wxSizeEvent& ev)
 	{
-		if (_first_shown && GetSize().GetHeight() > _top_panel_minimum_size && GetSashPosition() < _top_panel_minimum_size) {
+		auto const height = GetSize().GetHeight();
+		if (_first_shown && (!_last_height || *_last_height != height) && height > _top_panel_minimum_size && GetSashPosition() < _top_panel_minimum_size) {
 			/* The window is now fairly big but the top panel is small; this happens when the DCP-o-matic window
 			 * is shrunk and then made larger again.  Try to set a sensible top panel size in this case (#1839).
 			 */
@@ -120,10 +121,12 @@ private:
 		}
 
 		ev.Skip ();
+		_last_height = height;
 	}
 
 	bool _first_shown = false;
 	int const _top_panel_minimum_size = 350;
+	boost::optional<int> _last_height;
 };
 
 

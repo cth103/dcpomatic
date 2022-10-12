@@ -55,7 +55,7 @@ FilmEditor::FilmEditor(wxWindow* parent, FilmViewer& viewer)
 	auto s = new wxBoxSizer (wxVERTICAL);
 
 	auto notebook = new wxNotebook(this, wxID_ANY);
-	s->Add(notebook, 1);
+	s->Add(notebook, 1, wxEXPAND);
 
 	_content_panel = new ContentPanel(notebook, _film, viewer);
 	notebook->AddPage(_content_panel->window(), _("Content"), true);
