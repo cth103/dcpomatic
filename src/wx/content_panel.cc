@@ -73,10 +73,10 @@ using namespace boost::placeholders;
 #endif
 
 
-class LimitedSplitter : public wxSplitterWindow
+class LimitedContentPanelSplitter : public wxSplitterWindow
 {
 public:
-	LimitedSplitter(wxWindow* parent)
+	LimitedContentPanelSplitter(wxWindow* parent)
 		: wxSplitterWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER | wxSP_3DSASH | wxSP_LIVE_UPDATE)
 	{
 		/* This value doesn't really mean much but we just want to stop double-click on the
@@ -84,7 +84,7 @@ public:
 		   */
 		SetMinimumPaneSize(64);
 
-		Bind(wxEVT_SIZE, boost::bind(&LimitedSplitter::sized, this, _1));
+		Bind(wxEVT_SIZE, boost::bind(&LimitedContentPanelSplitter::sized, this, _1));
 	}
 
 	bool OnSashPositionChange(int new_position) override
@@ -180,7 +180,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 	, _ignore_deselect (false)
 	, _no_check_selection (false)
 {
-	_splitter = new LimitedSplitter (n);
+	_splitter = new LimitedContentPanelSplitter(n);
 	_top_panel = new wxPanel (_splitter);
 
 	_menu = new ContentMenu (_splitter, _film_viewer);

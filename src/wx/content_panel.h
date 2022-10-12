@@ -35,7 +35,7 @@ class ContentSubPanel;
 class Film;
 class FilmEditor;
 class FilmViewer;
-class LimitedSplitter;
+class LimitedContentPanelSplitter;
 class TextPanel;
 class TimelineDialog;
 class TimingPanel;
@@ -115,7 +115,7 @@ private:
 
 	std::list<ContentSubPanel *> panels () const;
 
-	LimitedSplitter* _splitter;
+	LimitedContentPanelSplitter* _splitter;
 	wxPanel* _top_panel;
 	wxNotebook* _notebook;
 	wxListCtrl* _content;
