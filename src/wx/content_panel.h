@@ -31,6 +31,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class AudioPanel;
+class ContentListCtrl;
 class ContentSubPanel;
 class Film;
 class FilmEditor;
@@ -118,7 +119,7 @@ private:
 	LimitedContentPanelSplitter* _splitter;
 	wxPanel* _top_panel;
 	wxNotebook* _notebook;
-	wxListCtrl* _content;
+	ContentListCtrl* _content;
 	wxButton* _add_file;
 	wxButton* _add_folder;
 	wxButton* _add_dcp;

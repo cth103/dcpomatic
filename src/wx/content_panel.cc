@@ -179,6 +179,47 @@ private:
 };
 
 
+/** A wxListCtrl that can middle-ellipsize its text */
+class ContentListCtrl : public wxListCtrl
+{
+public:
+	ContentListCtrl(wxWindow* parent)
+		: wxListCtrl(parent, wxID_ANY, wxDefaultPosition, wxSize(320, 160), wxLC_REPORT | wxLC_NO_HEADER | wxLC_VIRTUAL)
+	{
+		_red.SetTextColour(*wxRED);
+	}
+
+	struct Item
+	{
+		wxString text;
+		bool error;
+	};
+
+	void set(vector<Item> const& items)
+	{
+		_items = items;
+		SetItemCount(items.size());
+	}
+
+	wxString OnGetItemText(long item, long) const override
+	{
+		DCPOMATIC_ASSERT(item >= 0 && item < static_cast<long>(_items.size()));
+		wxClientDC dc(const_cast<wxWindow*>(static_cast<wxWindow const*>(this)));
+		return wxControl::Ellipsize(_items[item].text, dc, wxELLIPSIZE_MIDDLE, GetSize().GetWidth());
+	}
+
+	wxListItemAttr* OnGetItemAttr(long item) const override
+	{
+		DCPOMATIC_ASSERT(item >= 0 && item < static_cast<long>(_items.size()));
+		return _items[item].error ? const_cast<wxListItemAttr*>(&_red) : nullptr;
+	}
+
+private:
+	std::vector<Item> _items;
+	wxListItemAttr _red;
+};
+
+
 ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	: _parent (n)
 	, _film (film)
@@ -195,12 +236,12 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
 
-		_content = new wxListCtrl (_top_panel, wxID_ANY, wxDefaultPosition, wxSize (320, 160), wxLC_REPORT | wxLC_NO_HEADER);
+		_content = new ContentListCtrl(_top_panel);
 		_content->DragAcceptFiles (true);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
 		_content->InsertColumn (0, wxT(""));
-		_content->SetColumnWidth (0, 512);
+		_content->SetColumnWidth(0, 2048);
 
 		auto b = new wxBoxSizer (wxVERTICAL);
 
@@ -861,7 +902,7 @@ ContentPanel::setup ()
 		selected_content = reinterpret_cast<Content*> (item.GetData ());
 	}
 
-	_content->DeleteAllItems ();
+	vector<ContentListCtrl::Item> items;
 
 	for (auto i: content) {
 		int const t = _content->GetItemCount ();
@@ -885,20 +926,14 @@ ContentPanel::setup ()
 			s = _("NEEDS OV: ") + s;
 		}
 
-		wxListItem item;
-		item.SetId (t);
-		item.SetText (s);
-		item.SetData (i.get ());
-		_content->InsertItem (item);
+		items.push_back({s, !valid || needs_kdm || needs_assets});
 
 		if (i.get() == selected_content) {
 			set_selected_state(t, true);
 		}
-
-		if (!valid || needs_kdm || needs_assets) {
-			_content->SetItemTextColour (t, *wxRED);
-		}
 	}
+
+	_content->set(items);
 
 	if (!selected_content && !content.empty ()) {
 		/* Select the item of content if none was selected before */
