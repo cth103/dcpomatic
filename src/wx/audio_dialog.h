@@ -56,7 +56,6 @@ private:
 
 	std::shared_ptr<AudioAnalysis> _analysis;
 	std::weak_ptr<Film> _film;
-	FilmViewer& _viewer;
 	/** content to analyse, or 0 to analyse all the film's content */
 	std::weak_ptr<Content> _content;
 	int _channels;

@@ -73,7 +73,6 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 #endif
 		)
 	, _film (film)
-	, _viewer (viewer)
 	, _content (content)
 	, _channels (film->audio_channels ())
 	, _plot (nullptr)
