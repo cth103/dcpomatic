@@ -59,65 +59,71 @@ FFmpegEncoder::FFmpegEncoder (
 	int x264_crf
 	)
 	: Encoder (film, job)
+	, _output_audio_channels(mixdown_to_stereo ? 2 : (_film->audio_channels() > 8 ? 16 : _film->audio_channels()))
 	, _history (200)
 	, _output (output)
 	, _format (format)
 	, _split_reels (split_reels)
 	, _audio_stream_per_channel (audio_stream_per_channel)
 	, _x264_crf (x264_crf)
-{
-	_player->set_always_burn_open_subtitles ();
-	_player->set_play_referenced ();
-
-	int const ch = film->audio_channels ();
-
-	AudioMapping map;
-	if (mixdown_to_stereo) {
-		_output_audio_channels = 2;
-		map = AudioMapping (ch, 2);
-		float const overall_gain = 2 / (4 + sqrt(2));
-		float const minus_3dB = 1 / sqrt(2);
-		if (ch == 2) {
-			map.set (dcp::Channel::LEFT, 0, 1);
-			map.set (dcp::Channel::RIGHT, 1, 1);
-		} else if (ch == 4) {
-			map.set (dcp::Channel::LEFT,   0, overall_gain);
-			map.set (dcp::Channel::RIGHT,  1, overall_gain);
-			map.set (dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
-			map.set (dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
-			map.set (dcp::Channel::LS,     0, overall_gain);
-		} else if (ch >= 6) {
-			map.set (dcp::Channel::LEFT,   0, overall_gain);
-			map.set (dcp::Channel::RIGHT,  1, overall_gain);
-			map.set (dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
-			map.set (dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
-			map.set (dcp::Channel::LS,     0, overall_gain);
-			map.set (dcp::Channel::RS,     1, overall_gain);
-		}
-		/* XXX: maybe we should do something better for >6 channel DCPs */
-	} else {
-		/* Our encoders don't really want to encode any channel count between 9 and 15 inclusive,
-		 * so let's just use 16 channel exports for any project with more than 8 channels.
-		 */
-		_output_audio_channels = ch > 8 ? 16 : ch;
-		map = AudioMapping (ch, _output_audio_channels);
-		for (int i = 0; i < ch; ++i) {
-			map.set (i, i, 1);
-		}
-	}
-
-	_butler = std::make_shared<Butler>(
+	, _butler(
 		_film,
 		_player,
-		map,
+		mixdown_to_stereo ? stereo_map() : many_channel_map(),
 		_output_audio_channels,
-		bind(&PlayerVideo::force, FFmpegFileEncoder::pixel_format(format)),
+		boost::bind(&PlayerVideo::force, FFmpegFileEncoder::pixel_format(format)),
 		VideoRange::VIDEO,
 		Image::Alignment::PADDED,
 		false,
 		false,
 		Butler::Audio::ENABLED
-		);
+		)
+{
+	_player->set_always_burn_open_subtitles ();
+	_player->set_play_referenced ();
+}
+
+
+AudioMapping
+FFmpegEncoder::stereo_map() const
+{
+	auto map = AudioMapping(_film->audio_channels(), 2);
+	float const overall_gain = 2 / (4 + sqrt(2));
+	float const minus_3dB = 1 / sqrt(2);
+	switch (_film->audio_channels()) {
+	case 2:
+		map.set(dcp::Channel::LEFT, 0, 1);
+		map.set(dcp::Channel::RIGHT, 1, 1);
+		break;
+	case 4:
+		map.set(dcp::Channel::LEFT,   0, overall_gain);
+		map.set(dcp::Channel::RIGHT,  1, overall_gain);
+		map.set(dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
+		map.set(dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
+		map.set(dcp::Channel::LS,     0, overall_gain);
+		break;
+	case 6:
+		map.set(dcp::Channel::LEFT,   0, overall_gain);
+		map.set(dcp::Channel::RIGHT,  1, overall_gain);
+		map.set(dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
+		map.set(dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
+		map.set(dcp::Channel::LS,     0, overall_gain);
+		map.set(dcp::Channel::RS,     1, overall_gain);
+		break;
+	}
+	/* XXX: maybe we should do something better for >6 channel DCPs */
+	return map;
+}
+
+
+AudioMapping
+FFmpegEncoder::many_channel_map() const
+{
+	auto map = AudioMapping(_film->audio_channels(), _output_audio_channels);
+	for (int i = 0; i < _film->audio_channels(); ++i) {
+		map.set(i, i, 1);
+	}
+	return map;
 }
 
 
@@ -184,8 +190,8 @@ FFmpegEncoder::go ()
 
 		for (int j = 0; j < gets_per_frame; ++j) {
 			Butler::Error e;
-			auto v = _butler->get_video (Butler::Behaviour::BLOCKING, &e);
-			_butler->rethrow ();
+			auto v = _butler.get_video(Butler::Behaviour::BLOCKING, &e);
+			_butler.rethrow();
 			if (v.first) {
 				auto fe = encoder->get (v.first->eyes());
 				if (fe) {
@@ -212,7 +218,7 @@ FFmpegEncoder::go ()
 
 		waker.nudge ();
 
-		_butler->get_audio (Butler::Behaviour::BLOCKING, interleaved.data(), audio_frames);
+		_butler.get_audio(Butler::Behaviour::BLOCKING, interleaved.data(), audio_frames);
 		/* XXX: inefficient; butler interleaves and we deinterleave again */
 		float* p = interleaved.data();
 		for (int j = 0; j < audio_frames; ++j) {

@@ -21,12 +21,12 @@
 #ifndef DCPOMATIC_FFMPEG_ENCODER_H
 #define DCPOMATIC_FFMPEG_ENCODER_H
 
+#include "audio_mapping.h"
+#include "butler.h"
 #include "encoder.h"
 #include "event_history.h"
-#include "audio_mapping.h"
 #include "ffmpeg_file_encoder.h"
 
-class Butler;
 
 class FFmpegEncoder : public Encoder
 {
@@ -76,6 +76,9 @@ private:
 		std::map<Eyes, std::shared_ptr<FFmpegFileEncoder>> _encoders;
 	};
 
+	AudioMapping stereo_map() const;
+	AudioMapping many_channel_map() const;
+
 	int _output_audio_channels;
 
 	mutable boost::mutex _mutex;
@@ -89,7 +92,7 @@ private:
 	bool _audio_stream_per_channel;
 	int _x264_crf;
 
-	std::shared_ptr<Butler> _butler;
+	Butler _butler;
 };
 
 #endif
