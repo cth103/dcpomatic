@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_BUTLER_H
+#define DCPOMATIC_BUTLER_H
+
+
 #include "audio_mapping.h"
 #include "audio_ring_buffers.h"
 #include "change_signaller.h"
@@ -152,3 +156,7 @@ private:
 	boost::signals2::scoped_connection _player_text_connection;
 	boost::signals2::scoped_connection _player_change_connection;
 };
+
+
+#endif
+

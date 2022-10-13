@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_VIDEO_RING_BUFFERS_H
+#define DCPOMATIC_VIDEO_RING_BUFFERS_H
+
+
 #include "dcpomatic_time.h"
 #include "player_video.h"
 #include "types.h"
@@ -53,3 +57,6 @@ private:
 	mutable boost::mutex _mutex;
 	std::list<std::pair<std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime>> _data;
 };
+
+
+#endif
