@@ -480,6 +480,12 @@ ContentMenu::advanced ()
 	if (ffmpeg) {
 		ffmpeg->set_filters(dialog->filters());
 	}
+
+	if (dialog->video_frame_rate()) {
+		content->set_video_frame_rate(*dialog->video_frame_rate());
+	} else {
+		content->unset_video_frame_rate();
+	}
 }
 
 

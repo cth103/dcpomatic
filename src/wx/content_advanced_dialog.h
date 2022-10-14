@@ -23,6 +23,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/optional.hpp>
 #include <memory>
 #include <vector>
 
@@ -38,9 +39,12 @@ public:
 	ContentAdvancedDialog (wxWindow* parent, std::shared_ptr<Content> content);
 
 	bool ignore_video() const;
+
 	std::vector<Filter const*> filters() {
 		return _filters_list;
 	}
+
+	boost::optional<double> video_frame_rate() const;
 
 private:
 	void edit_filters ();

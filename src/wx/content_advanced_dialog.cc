@@ -197,15 +197,20 @@ ContentAdvancedDialog::filters_changed (vector<Filter const *> filters)
 }
 
 
+optional<double>
+ContentAdvancedDialog::video_frame_rate() const
+{
+	if (_video_frame_rate->GetValue() == wxT("")) {
+		return {};
+	}
+
+	return locale_convert<double>(wx_to_std(_video_frame_rate->GetValue()));
+}
+
+
 void
 ContentAdvancedDialog::set_video_frame_rate ()
 {
-	if (_video_frame_rate->GetValue() != wxT("")) {
-		_content->set_video_frame_rate (locale_convert<double>(wx_to_std(_video_frame_rate->GetValue())));
-	} else {
-		_content->unset_video_frame_rate ();
-	}
-
 	_set_video_frame_rate->Enable (false);
 }
 
