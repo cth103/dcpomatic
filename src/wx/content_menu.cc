@@ -475,6 +475,11 @@ ContentMenu::advanced ()
 	if (content->video) {
 		content->video->set_use(!dialog->ignore_video());
 	}
+
+	auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(content);
+	if (ffmpeg) {
+		ffmpeg->set_filters(dialog->filters());
+	}
 }
 
 

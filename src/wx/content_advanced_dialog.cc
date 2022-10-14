@@ -30,6 +30,7 @@
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/image_content.h"
+#include "lib/scope_guard.h"
 #include "lib/video_content.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -114,6 +115,12 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 
 	_ignore_video->Enable(static_cast<bool>(_content->video));
 	_ignore_video->SetValue(_content->video ? !content->video->use() : false);
+
+	auto fcs = dynamic_pointer_cast<FFmpegContent>(content);
+	_filters_allowed = static_cast<bool>(fcs);
+	if (fcs) {
+		_filters_list = fcs->filters();
+	}
 	setup_filters ();
 
 	bool const single_frame_image_content = dynamic_pointer_cast<const ImageContent>(_content) && _content->number_of_paths() == 1;
@@ -148,15 +155,14 @@ ContentAdvancedDialog::ignore_video() const
 void
 ContentAdvancedDialog::setup_filters ()
 {
-	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
-	if (!fcs) {
+	if (!_filters_allowed) {
 		checked_set (_filters, _("None"));
 		_filters->Enable (false);
 		_filters_button->Enable (false);
 		return;
 	}
 
-	auto p = Filter::ffmpeg_string (fcs->filters());
+	auto p = Filter::ffmpeg_string(_filters_list);
 	if (p.empty()) {
 		checked_set (_filters, _("None"));
 	} else {
@@ -171,27 +177,22 @@ ContentAdvancedDialog::setup_filters ()
 void
 ContentAdvancedDialog::edit_filters ()
 {
-	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
-	if (!fcs) {
+	if (!_filters_allowed) {
 		return;
 	}
 
-	auto d = new FilterDialog (this, fcs->filters());
-	d->ActiveChanged.connect (bind(&ContentAdvancedDialog::filters_changed, this, _1));
-	d->ShowModal ();
-	d->Destroy ();
+	auto dialog = new FilterDialog(this, _filters_list);
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
+	dialog->ActiveChanged.connect(bind(&ContentAdvancedDialog::filters_changed, this, _1));
+	dialog->ShowModal();
 }
 
 
 void
 ContentAdvancedDialog::filters_changed (vector<Filter const *> filters)
 {
-	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
-	if (!fcs) {
-		return;
-	}
-
-	fcs->set_filters (filters);
+	_filters_list = filters;
 	setup_filters ();
 }
 

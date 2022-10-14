@@ -38,6 +38,9 @@ public:
 	ContentAdvancedDialog (wxWindow* parent, std::shared_ptr<Content> content);
 
 	bool ignore_video() const;
+	std::vector<Filter const*> filters() {
+		return _filters_list;
+	}
 
 private:
 	void edit_filters ();
@@ -50,6 +53,8 @@ private:
 	void burnt_subtitle_language_changed ();
 
 	std::shared_ptr<Content> _content;
+	bool _filters_allowed = false;
+	std::vector<Filter const*> _filters_list;
 
 	wxStaticText* _filters;
 	wxButton* _filters_button;
