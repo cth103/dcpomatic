@@ -161,14 +161,14 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_closed_captions_dialog->clear ();
 
 	if (!_film) {
-		_player.reset ();
+		_player = boost::none;
 		recreate_butler ();
 		_video_view->update ();
 		return;
 	}
 
 	try {
-		_player = make_shared<Player>(_film, _optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED);
+		_player.emplace(_film, _optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -219,9 +219,11 @@ FilmViewer::recreate_butler ()
 	auto const j2k_gl_optimised = false;
 #endif
 
+	DCPOMATIC_ASSERT(_player);
+
 	_butler = std::make_shared<Butler>(
 		_film,
-		_player,
+		*_player,
 		Config::instance()->audio_mapping(_audio_channels),
 		_audio_channels,
 		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
@@ -517,6 +519,7 @@ FilmViewer::quick_refresh ()
 void
 FilmViewer::seek (shared_ptr<Content> content, ContentTime t, bool accurate)
 {
+	DCPOMATIC_ASSERT(_player);
 	auto dt = _player->content_time_to_dcp (content, t);
 	if (dt) {
 		seek (*dt, accurate);
@@ -722,6 +725,7 @@ FilmViewer::dcp_decode_reduction () const
 optional<ContentTime>
 FilmViewer::position_in_content (shared_ptr<const Content> content) const
 {
+	DCPOMATIC_ASSERT(_player);
 	return _player->dcp_to_content_time (content, position());
 }
 

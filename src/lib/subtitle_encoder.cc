@@ -56,10 +56,10 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 	, _reel_index (0)
 	, _length (film->length())
 {
-	_player->set_play_referenced ();
-	_player->set_ignore_video ();
-	_player->set_ignore_audio ();
-	_player->Text.connect (boost::bind(&SubtitleEncoder::text, this, _1, _2, _3, _4));
+	_player.set_play_referenced();
+	_player.set_ignore_video();
+	_player.set_ignore_audio();
+	_player.Text.connect(boost::bind(&SubtitleEncoder::text, this, _1, _2, _3, _4));
 
 	string const extension = film->interop() ? ".xml" : ".mxf";
 
@@ -99,7 +99,7 @@ SubtitleEncoder::go ()
 
 	_reel_index = 0;
 
-	while (!_player->pass()) {}
+	while (!_player.pass()) {}
 
 	int reel = 0;
 	for (auto& i: _assets) {
@@ -119,7 +119,7 @@ SubtitleEncoder::go ()
 		}
 
 		if (!_film->interop() || _include_font) {
-			for (auto j: _player->get_subtitle_fonts()) {
+			for (auto j: _player.get_subtitle_fonts()) {
 				i.first->add_font(j->id(), j->data().get_value_or(_default_font));
 			}
 		}

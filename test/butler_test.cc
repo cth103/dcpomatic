@@ -60,9 +60,11 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		map.set (i, i, 1);
 	}
 
+	Player player(film, Image::Alignment::COMPACT);
+
 	Butler butler (
 		film,
-		make_shared<Player>(film, Image::Alignment::COMPACT),
+		player,
 		map,
 		6,
 		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
@@ -105,9 +107,11 @@ BOOST_AUTO_TEST_CASE (butler_test2)
 		map.set (i, i, 1);
 	}
 
+	Player player(film, Image::Alignment::COMPACT);
+
 	Butler butler (
 		film,
-		make_shared<Player>(film, Image::Alignment::COMPACT),
+		player,
 		map,
 		6,
 		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),

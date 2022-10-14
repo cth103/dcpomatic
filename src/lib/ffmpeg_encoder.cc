@@ -79,8 +79,8 @@ FFmpegEncoder::FFmpegEncoder (
 		Butler::Audio::ENABLED
 		)
 {
-	_player->set_always_burn_open_subtitles ();
-	_player->set_play_referenced ();
+	_player.set_always_burn_open_subtitles();
+	_player.set_play_referenced();
 }
 
 

@@ -83,9 +83,9 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 
 	accumulated = std::make_shared<AudioBuffers>(film->audio_channels(), 0);
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->Audio.connect (bind (&accumulate, _1, _2));
-	while (!player->pass ()) {}
+	Player player(film, Image::Alignment::COMPACT);
+	player.Audio.connect(bind(&accumulate, _1, _2));
+	while (!player.pass()) {}
 	BOOST_REQUIRE (accumulated->frames() >= 48000);
 	BOOST_CHECK_EQUAL (accumulated->channels(), film->audio_channels ());
 
@@ -163,12 +163,12 @@ BOOST_AUTO_TEST_CASE (player_subframe_test)
 	/* Length should be rounded up from B's length to the next video frame */
 	BOOST_CHECK (film->length() == DCPTime::from_frames(3 * 24 + 1, 24));
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->setup_pieces ();
-	BOOST_REQUIRE_EQUAL (player->_black._periods.size(), 1U);
-	BOOST_CHECK (player->_black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
-	BOOST_REQUIRE_EQUAL (player->_silent._periods.size(), 1U);
-	BOOST_CHECK (player->_silent._periods.front() == DCPTimePeriod(DCPTime(289920), DCPTime::from_frames(3 * 24 + 1, 24)));
+	Player player(film, Image::Alignment::COMPACT);
+	player.setup_pieces();
+	BOOST_REQUIRE_EQUAL(player._black._periods.size(), 1U);
+	BOOST_CHECK(player._black._periods.front() == DCPTimePeriod(DCPTime::from_frames(3 * 24, 24), DCPTime::from_frames(3 * 24 + 1, 24)));
+	BOOST_REQUIRE_EQUAL(player._silent._periods.size(), 1U);
+	BOOST_CHECK(player._silent._periods.front() == DCPTimePeriod(DCPTime(289920), DCPTime::from_frames(3 * 24 + 1, 24)));
 }
 
 
@@ -205,11 +205,11 @@ BOOST_AUTO_TEST_CASE (player_interleave_test)
 	film->examine_and_add_content (s);
 	BOOST_REQUIRE (!wait_for_jobs ());
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->Video.connect (bind (&video, _1, _2));
-	player->Audio.connect (bind (&audio, _1, _2));
+	Player player(film, Image::Alignment::COMPACT);
+	player.Video.connect(bind(&video, _1, _2));
+	player.Audio.connect(bind(&audio, _1, _2));
 	video_frames = audio_frames = 0;
-	while (!player->pass ()) {
+	while (!player.pass()) {
 		BOOST_CHECK (abs(video_frames - (audio_frames / 2000)) <= 8);
 	}
 }
@@ -228,10 +228,10 @@ BOOST_AUTO_TEST_CASE (player_seek_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->set_fast ();
-	player->set_always_burn_open_subtitles ();
-	player->set_play_referenced ();
+	Player player(film, Image::Alignment::COMPACT);
+	player.set_fast();
+	player.set_always_burn_open_subtitles();
+	player.set_play_referenced();
 
 	auto butler = std::make_shared<Butler>(
 		film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
@@ -261,10 +261,10 @@ BOOST_AUTO_TEST_CASE (player_seek_test2)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	dcp->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->set_fast ();
-	player->set_always_burn_open_subtitles ();
-	player->set_play_referenced ();
+	Player player(film, Image::Alignment::COMPACT);
+	player.set_fast();
+	player.set_always_burn_open_subtitles();
+	player.set_play_referenced();
 
 	auto butler = std::make_shared<Butler>
 		(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::DISABLED
@@ -336,13 +336,13 @@ BOOST_AUTO_TEST_CASE (player_ignore_video_and_audio_test)
 	text->only_text()->set_type (TextType::CLOSED_CAPTION);
 	text->only_text()->set_use (true);
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->set_ignore_video ();
-	player->set_ignore_audio ();
+	Player player(film, Image::Alignment::COMPACT);
+	player.set_ignore_video();
+	player.set_ignore_audio();
 
 	list<Sub> out;
-	player->Text.connect (bind (&store, &out, _1, _2, _3, _4));
-	while (!player->pass ()) {}
+	player.Text.connect(bind (&store, &out, _1, _2, _3, _4));
+	while (!player.pass()) {}
 
 	BOOST_CHECK_EQUAL (out.size(), 6U);
 }
@@ -356,8 +356,8 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 	film->examine_and_add_content (boon);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->set_fast ();
+	Player player(film, Image::Alignment::COMPACT);
+	player.set_fast();
 	auto butler = std::make_shared<Butler>(
 		film, player, AudioMapping(), 6, bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::COMPACT, true, false, Butler::Audio::ENABLED
 		);
@@ -489,7 +489,7 @@ BOOST_AUTO_TEST_CASE (encrypted_dcp_with_no_kdm_gives_no_butler_error)
 	auto content2 = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film2 ("encrypted_dcp_with_no_kdm_gives_no_butler_error2", { content2 });
 
-	auto player = std::make_shared<Player>(film2, Image::Alignment::COMPACT);
+	Player player(film, Image::Alignment::COMPACT);
 	Butler butler(film2, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
 
 	float buffer[2000 * 6];
@@ -527,14 +527,14 @@ BOOST_AUTO_TEST_CASE (interleaved_subtitle_are_emitted_correctly)
 	subs1->set_position(film, DCPTime());
 	subs2->set_position(film, DCPTime());
 
-	auto player = std::make_shared<Player>(film, Image::Alignment::COMPACT);
+	Player player(film, Image::Alignment::COMPACT);
 	dcp::Time last;
-	player->Text.connect([&last](PlayerText text, TextType, optional<DCPTextTrack>, dcpomatic::DCPTimePeriod) {
+	player.Text.connect([&last](PlayerText text, TextType, optional<DCPTextTrack>, dcpomatic::DCPTimePeriod) {
 		for (auto sub: text.string) {
 			BOOST_CHECK(sub.in() >= last);
 			last = sub.in();
 		}
 	});
-	while (!player->pass()) {}
+	while (!player.pass()) {}
 }
 

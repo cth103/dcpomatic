@@ -175,7 +175,7 @@ private:
 	bool quick_refresh ();
 
 	std::shared_ptr<Film> _film;
-	std::shared_ptr<Player> _player;
+	boost::optional<Player> _player;
 
 	std::shared_ptr<VideoView> _video_view;
 	bool _coalesce_player_changes = false;

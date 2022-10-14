@@ -62,7 +62,7 @@ using namespace boost::placeholders;
  */
 Butler::Butler (
 	weak_ptr<const Film> film,
-	shared_ptr<Player> player,
+	Player& player,
 	AudioMapping audio_mapping,
 	int audio_channels,
 	function<AVPixelFormat (AVPixelFormat)> pixel_format,
@@ -89,13 +89,13 @@ Butler::Butler (
 	, _fast (fast)
 	, _prepare_only_proxy (prepare_only_proxy)
 {
-	_player_video_connection = _player->Video.connect (bind (&Butler::video, this, _1, _2));
-	_player_audio_connection = _player->Audio.connect (bind (&Butler::audio, this, _1, _2, _3));
-	_player_text_connection = _player->Text.connect (bind (&Butler::text, this, _1, _2, _3, _4));
+	_player_video_connection = _player.Video.connect(bind(&Butler::video, this, _1, _2));
+	_player_audio_connection = _player.Audio.connect(bind(&Butler::audio, this, _1, _2, _3));
+	_player_text_connection = _player.Text.connect(bind(&Butler::text, this, _1, _2, _3, _4));
 	/* The butler must hear about things first, otherwise it might not sort out suspensions in time for
 	   get_video() to be called in response to this signal.
 	*/
-	_player_change_connection = _player->Change.connect (bind (&Butler::player_change, this, _1, _2), boost::signals2::at_front);
+	_player_change_connection = _player.Change.connect(bind(&Butler::player_change, this, _1, _2), boost::signals2::at_front);
 	_thread = boost::thread (bind(&Butler::thread, this));
 #ifdef DCPOMATIC_LINUX
 	pthread_setname_np (_thread.native_handle(), "butler");
@@ -200,7 +200,7 @@ try
 		/* Do any seek that has been requested */
 		if (_pending_seek_position) {
 			_finished = false;
-			_player->seek (*_pending_seek_position, _pending_seek_accurate);
+			_player.seek(*_pending_seek_position, _pending_seek_accurate);
 			_pending_seek_position = optional<DCPTime> ();
 		}
 
@@ -210,7 +210,7 @@ try
 		*/
 		while (should_run() && !_pending_seek_position) {
 			lm.unlock ();
-			bool const r = _player->pass ();
+			bool const r = _player.pass();
 			lm.lock ();
 			if (r) {
 				_finished = true;
@@ -410,7 +410,7 @@ Butler::player_change (ChangeType type, int property)
 		if (type == ChangeType::DONE) {
 			auto film = _film.lock();
 			if (film) {
-				_video.reset_metadata (film, _player->video_container_size());
+				_video.reset_metadata(film, _player.video_container_size());
 			}
 		}
 		return;

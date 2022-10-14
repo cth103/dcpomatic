@@ -50,7 +50,7 @@ public:
 
 	Butler (
 		std::weak_ptr<const Film> film,
-		std::shared_ptr<Player> player,
+		Player& player,
 		AudioMapping map,
 		int audio_channels,
 		std::function<AVPixelFormat (AVPixelFormat)> pixel_format,
@@ -105,7 +105,7 @@ private:
 	void seek_unlocked (dcpomatic::DCPTime position, bool accurate);
 
 	std::weak_ptr<const Film> _film;
-	std::shared_ptr<Player> _player;
+	Player& _player;
 	boost::thread _thread;
 
 	VideoRingBuffers _video;

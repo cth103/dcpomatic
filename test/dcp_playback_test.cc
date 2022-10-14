@@ -43,9 +43,11 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
+	Player player(film, Image::Alignment::PADDED);
+
 	auto butler = std::make_shared<Butler>(
 		film,
-		make_shared<Player>(film, Image::Alignment::PADDED),
+		player,
 		AudioMapping(6, 6),
 		6,
 		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),

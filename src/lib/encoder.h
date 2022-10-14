@@ -23,6 +23,7 @@
 #define DCPOMATIC_ENCODER_H
 
 
+#include "player.h"
 #include "player_text.h"
 #include "types.h"
 #include <boost/signals2.hpp>
@@ -62,7 +63,7 @@ public:
 protected:
 	std::shared_ptr<const Film> _film;
 	std::weak_ptr<Job> _job;
-	std::shared_ptr<Player> _player;
+	Player _player;
 };
 
 
