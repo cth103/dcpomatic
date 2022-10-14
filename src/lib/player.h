@@ -63,6 +63,11 @@ public:
 	static int const FILM_VIDEO_FRAME_RATE;
 	static int const DCP_DECODE_REDUCTION;
 	static int const PLAYBACK_LENGTH;
+	static int const IGNORE_VIDEO;
+	static int const IGNORE_AUDIO;
+	static int const IGNORE_TEXT;
+	static int const ALWAYS_BURN_OPEN_SUBTITLES;
+	static int const PLAY_REFERENCED;
 };
 
 

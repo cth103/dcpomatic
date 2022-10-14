@@ -93,6 +93,11 @@ int const PlayerProperty::FILM_CONTAINER = 702;
 int const PlayerProperty::FILM_VIDEO_FRAME_RATE = 703;
 int const PlayerProperty::DCP_DECODE_REDUCTION = 704;
 int const PlayerProperty::PLAYBACK_LENGTH = 705;
+int const PlayerProperty::IGNORE_VIDEO = 706;
+int const PlayerProperty::IGNORE_AUDIO = 707;
+int const PlayerProperty::IGNORE_TEXT = 708;
+int const PlayerProperty::ALWAYS_BURN_OPEN_SUBTITLES = 709;
+int const PlayerProperty::PLAY_REFERENCED = 710;
 
 
 Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment)
@@ -500,6 +505,7 @@ Player::get_subtitle_fonts ()
 void
 Player::set_ignore_video ()
 {
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::IGNORE_VIDEO);
 	_ignore_video = true;
 	setup_pieces();
 }
@@ -508,6 +514,7 @@ Player::set_ignore_video ()
 void
 Player::set_ignore_audio ()
 {
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::IGNORE_AUDIO);
 	_ignore_audio = true;
 	setup_pieces();
 }
@@ -516,6 +523,7 @@ Player::set_ignore_audio ()
 void
 Player::set_ignore_text ()
 {
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::IGNORE_TEXT);
 	_ignore_text = true;
 	setup_pieces();
 }
@@ -525,6 +533,7 @@ Player::set_ignore_text ()
 void
 Player::set_always_burn_open_subtitles ()
 {
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::ALWAYS_BURN_OPEN_SUBTITLES);
 	_always_burn_open_subtitles = true;
 }
 
@@ -541,6 +550,7 @@ Player::set_fast ()
 void
 Player::set_play_referenced ()
 {
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::PLAY_REFERENCED);
 	_play_referenced = true;
 	setup_pieces();
 }
