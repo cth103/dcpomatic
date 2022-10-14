@@ -335,10 +335,10 @@ Player::playlist_content_change (ChangeType type, int property, bool frequent)
 void
 Player::set_video_container_size (dcp::Size s)
 {
-	Change (ChangeType::PENDING, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::VIDEO_CONTAINER_SIZE);
 
 	if (s == _video_container_size) {
-		Change(ChangeType::CANCELLED, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
+		cc.abort();
 		return;
 	}
 
@@ -349,8 +349,6 @@ Player::set_video_container_size (dcp::Size s)
 		_black_image = make_shared<Image>(AV_PIX_FMT_RGB24, _video_container_size, Image::Alignment::PADDED);
 		_black_image->make_black ();
 	}
-
-	Change (ChangeType::DONE, PlayerProperty::VIDEO_CONTAINER_SIZE, false);
 }
 
 
@@ -1310,17 +1308,15 @@ Player::discard_audio (shared_ptr<const AudioBuffers> audio, DCPTime time, DCPTi
 void
 Player::set_dcp_decode_reduction (optional<int> reduction)
 {
-	Change (ChangeType::PENDING, PlayerProperty::DCP_DECODE_REDUCTION, false);
+	ChangeSignaller<Player, int> cc(this, PlayerProperty::DCP_DECODE_REDUCTION);
 
 	if (reduction == _dcp_decode_reduction.load()) {
-		Change(ChangeType::CANCELLED, PlayerProperty::DCP_DECODE_REDUCTION, false);
+		cc.abort();
 		return;
 	}
 
 	_dcp_decode_reduction = reduction;
 	setup_pieces();
-
-	Change (ChangeType::DONE, PlayerProperty::DCP_DECODE_REDUCTION, false);
 }
 
 
@@ -1381,5 +1377,12 @@ Player::atmos (weak_ptr<Piece> weak_piece, ContentAtmos data)
 	}
 
 	Atmos (data.data, dcp_time, data.metadata);
+}
+
+
+void
+Player::signal_change(ChangeType type, int property)
+{
+	Change(type, property, false);
 }
 

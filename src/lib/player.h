@@ -99,6 +99,8 @@ public:
 	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t) const;
 	boost::optional<dcpomatic::ContentTime> dcp_to_content_time (std::shared_ptr<const Content> content, dcpomatic::DCPTime t) const;
 
+	void signal_change(ChangeType type, int property);
+
 	/** First parameter is PENDING, DONE or CANCELLED.
 	 *  Second parameter is the property.
 	 *  Third parameter is true if these signals are currently likely to be frequent.
