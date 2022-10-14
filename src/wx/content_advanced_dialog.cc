@@ -99,8 +99,8 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	sizer->Add (_burnt_subtitle_language->sizer(), wxGBPosition(r, 1), wxGBSpan(1, 2), wxEXPAND);
 	++r;
 
-	auto ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
-	sizer->Add (ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 3));
+	_ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
+	sizer->Add(_ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 3));
 	++r;
 
 	auto overall = new wxBoxSizer (wxVERTICAL);
@@ -112,8 +112,8 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 
 	SetSizerAndFit (overall);
 
-	ignore_video->Enable (static_cast<bool>(_content->video));
-	ignore_video->SetValue (_content->video ? !content->video->use() : false);
+	_ignore_video->Enable(static_cast<bool>(_content->video));
+	_ignore_video->SetValue(_content->video ? !content->video->use() : false);
 	setup_filters ();
 
 	bool const single_frame_image_content = dynamic_pointer_cast<const ImageContent>(_content) && _content->number_of_paths() == 1;
@@ -128,7 +128,6 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	_burnt_subtitle->SetValue (_content->video && static_cast<bool>(_content->video->burnt_subtitle_language()));
 	_burnt_subtitle_language->set (_content->video ? _content->video->burnt_subtitle_language() : boost::none);
 
-	ignore_video->Bind (wxEVT_CHECKBOX, bind(&ContentAdvancedDialog::ignore_video_changed, this, _1));
 	_filters_button->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::edit_filters, this));
 	_set_video_frame_rate->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::set_video_frame_rate, this));
 	_video_frame_rate->Bind (wxEVT_TEXT, boost::bind(&ContentAdvancedDialog::video_frame_rate_changed, this));
@@ -139,12 +138,10 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 }
 
 
-void
-ContentAdvancedDialog::ignore_video_changed (wxCommandEvent& ev)
+bool
+ContentAdvancedDialog::ignore_video() const
 {
-	 if (_content->video) {
-		 _content->video->set_use (!ev.IsChecked());
-	 }
+	return _ignore_video->GetValue();
 }
 
 

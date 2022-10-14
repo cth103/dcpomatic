@@ -43,6 +43,7 @@
 #include "lib/image_content.h"
 #include "lib/job_manager.h"
 #include "lib/playlist.h"
+#include "lib/scope_guard.h"
 #include "lib/video_content.h"
 #include <dcp/cpl.h>
 #include <dcp/decrypted_kdm.h>
@@ -461,9 +462,19 @@ ContentMenu::properties ()
 void
 ContentMenu::advanced ()
 {
-	auto d = new ContentAdvancedDialog (_parent, _content.front());
-	d->ShowModal ();
-	d->Destroy ();
+	DCPOMATIC_ASSERT(!_content.empty());
+
+	auto content = _content.front();
+	auto dialog = new ContentAdvancedDialog(_parent, content);
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
+	if (dialog->ShowModal() == wxID_CANCEL) {
+		return;
+	}
+
+	if (content->video) {
+		content->video->set_use(!dialog->ignore_video());
+	}
 }
 
 

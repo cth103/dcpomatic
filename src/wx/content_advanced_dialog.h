@@ -37,8 +37,9 @@ class ContentAdvancedDialog : public wxDialog
 public:
 	ContentAdvancedDialog (wxWindow* parent, std::shared_ptr<Content> content);
 
+	bool ignore_video() const;
+
 private:
-	void ignore_video_changed (wxCommandEvent& ev);
 	void edit_filters ();
 	void filters_changed (std::vector<Filter const *> filters);
 	void setup_filters ();
@@ -56,5 +57,6 @@ private:
 	wxButton* _set_video_frame_rate;
 	wxCheckBox* _burnt_subtitle;
 	LanguageTagWidget* _burnt_subtitle_language;
+	wxCheckBox* _ignore_video;
 };
 
