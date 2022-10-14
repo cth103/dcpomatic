@@ -41,12 +41,12 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 
+using std::dynamic_pointer_cast;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::bind;
-using std::dynamic_pointer_cast;
 using boost::optional;
-using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
