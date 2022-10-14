@@ -56,12 +56,15 @@ using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
 
+
 /** Construct a DCP encoder.
  *  @param film Film that we are encoding.
  *  @param job Job that this encoder is being used in.
  */
 DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	: Encoder (film, job)
+	, _writer(film, job)
+	, _j2k_encoder(film, _writer)
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
@@ -91,11 +94,8 @@ DCPEncoder::~DCPEncoder ()
 void
 DCPEncoder::go ()
 {
-	_writer = make_shared<Writer>(_film, _job);
-	_writer->start ();
-
-	_j2k_encoder = make_shared<J2KEncoder>(_film, _writer);
-	_j2k_encoder->begin ();
+	_writer.start();
+	_j2k_encoder.begin();
 
 	{
 		auto job = _job.lock ();
@@ -104,30 +104,30 @@ DCPEncoder::go ()
 	}
 
 	if (_non_burnt_subtitles) {
-		_writer->write(_player->get_subtitle_fonts());
+		_writer.write(_player->get_subtitle_fonts());
 	}
 
 	while (!_player->pass ()) {}
 
 	for (auto i: get_referenced_reel_assets(_film, _film->playlist())) {
-		_writer->write (i);
+		_writer.write(i);
 	}
 
 	_finishing = true;
-	_j2k_encoder->end ();
-	_writer->finish (_film->dir(_film->dcp_name()));
+	_j2k_encoder.end();
+	_writer.finish(_film->dir(_film->dcp_name()));
 }
 
 void
 DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 {
-	_j2k_encoder->encode (data, time);
+	_j2k_encoder.encode(data, time);
 }
 
 void
 DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 {
-	_writer->write (data, time);
+	_writer.write(data, time);
 
 	auto job = _job.lock ();
 	DCPOMATIC_ASSERT (job);
@@ -138,7 +138,7 @@ void
 DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	if (type == TextType::CLOSED_CAPTION || _non_burnt_subtitles) {
-		_writer->write (data, type, track, period);
+		_writer.write(data, type, track, period);
 	}
 }
 
@@ -146,26 +146,18 @@ DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, 
 void
 DCPEncoder::atmos (shared_ptr<const dcp::AtmosFrame> data, DCPTime time, AtmosMetadata metadata)
 {
-	_writer->write (data, time, metadata);
+	_writer.write(data, time, metadata);
 }
 
 
 optional<float>
 DCPEncoder::current_rate () const
 {
-	if (!_j2k_encoder) {
-		return {};
-	}
-
-	return _j2k_encoder->current_encoding_rate ();
+	return _j2k_encoder.current_encoding_rate();
 }
 
 Frame
 DCPEncoder::frames_done () const
 {
-	if (!_j2k_encoder) {
-		return 0;
-	}
-
-	return _j2k_encoder->video_frames_enqueued ();
+	return _j2k_encoder.video_frames_enqueued();
 }

@@ -57,7 +57,7 @@ using namespace dcpomatic;
 /** @param film Film that we are encoding.
  *  @param writer Writer that we are using.
  */
-J2KEncoder::J2KEncoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
+J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	: _film (film)
 	, _history (200)
 	, _writer (writer)
@@ -68,6 +68,8 @@ J2KEncoder::J2KEncoder (shared_ptr<const Film> film, shared_ptr<Writer> writer)
 
 J2KEncoder::~J2KEncoder ()
 {
+	_server_found_connection.disconnect();
+
 	boost::mutex::scoped_lock lm (_threads_mutex);
 	terminate_threads ();
 }
@@ -76,24 +78,9 @@ J2KEncoder::~J2KEncoder ()
 void
 J2KEncoder::begin ()
 {
-	weak_ptr<J2KEncoder> wp = shared_from_this ();
-	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect (
-		boost::bind (&J2KEncoder::call_servers_list_changed, wp)
+	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect(
+		boost::bind(&J2KEncoder::servers_list_changed, this)
 		);
-}
-
-
-/* We don't want the servers-list-changed callback trying to do things
-   during destruction of J2KEncoder, and I think this is the neatest way
-   to achieve that.
-*/
-void
-J2KEncoder::call_servers_list_changed (weak_ptr<J2KEncoder> encoder)
-{
-	auto e = encoder.lock ();
-	if (e) {
-		e->servers_list_changed ();
-	}
 }
 
 
@@ -137,7 +124,7 @@ J2KEncoder::end ()
 	for (auto const& i: _queue) {
 		LOG_GENERAL(N_("Encode left-over frame %1"), i.index());
 		try {
-			_writer->write (
+			_writer.write(
 				make_shared<dcp::ArrayData>(i.encode_locally()),
 				i.index(),
 				i.eyes()
@@ -210,7 +197,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 		LOG_TIMING ("decoder-wake queue=%1 threads=%2", _queue.size(), threads);
 	}
 
-	_writer->rethrow ();
+	_writer.rethrow();
 	/* Re-throw any exception raised by one of our threads.  If more
 	   than one has thrown an exception, only one will be rethrown, I think;
 	   but then, if that happens something has gone badly wrong.
@@ -219,19 +206,19 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 
 	auto const position = time.frames_floor(_film->video_frame_rate());
 
-	if (_writer->can_fake_write (position)) {
+	if (_writer.can_fake_write(position)) {
 		/* We can fake-write this frame */
 		LOG_DEBUG_ENCODE("Frame @ %1 FAKE", to_string(time));
-		_writer->fake_write (position, pv->eyes ());
+		_writer.fake_write(position, pv->eyes ());
 		frame_done ();
 	} else if (pv->has_j2k() && !_film->reencode_j2k()) {
 		LOG_DEBUG_ENCODE("Frame @ %1 J2K", to_string(time));
 		/* This frame already has J2K data, so just write it */
-		_writer->write (pv->j2k(), position, pv->eyes ());
+		_writer.write(pv->j2k(), position, pv->eyes ());
 		frame_done ();
-	} else if (_last_player_video[pv->eyes()] && _writer->can_repeat(position) && pv->same(_last_player_video[pv->eyes()])) {
+	} else if (_last_player_video[pv->eyes()] && _writer.can_repeat(position) && pv->same(_last_player_video[pv->eyes()])) {
 		LOG_DEBUG_ENCODE("Frame @ %1 REPEAT", to_string(time));
-		_writer->repeat (position, pv->eyes ());
+		_writer.repeat(position, pv->eyes());
 	} else {
 		LOG_DEBUG_ENCODE("Frame @ %1 ENCODE", to_string(time));
 		/* Queue this new frame for encoding */
@@ -357,7 +344,7 @@ try
 			}
 
 			if (encoded) {
-				_writer->write (encoded, vf.index(), vf.eyes());
+				_writer.write(encoded, vf.index(), vf.eyes());
 				frame_done ();
 			} else {
 				lock.lock ();
@@ -420,5 +407,5 @@ J2KEncoder::servers_list_changed ()
 		}
 	}
 
-	_writer->set_encoder_threads (_threads->size());
+	_writer.set_encoder_threads(_threads->size());
 }

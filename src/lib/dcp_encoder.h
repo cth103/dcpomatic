@@ -24,17 +24,17 @@
 #include "dcpomatic_time.h"
 #include "encoder.h"
 #include "player_text.h"
+#include "j2k_encoder.h"
 #include "types.h"
+#include "writer.h"
 #include <dcp/atmos_frame.h>
 
 
 class AudioBuffers;
 class Film;
-class J2KEncoder;
 class Job;
 class Player;
 class PlayerVideo;
-class Writer;
 
 
 /** @class DCPEncoder */
@@ -61,8 +61,8 @@ private:
 	void text (PlayerText, TextType, boost::optional<DCPTextTrack>, dcpomatic::DCPTimePeriod);
 	void atmos (std::shared_ptr<const dcp::AtmosFrame>, dcpomatic::DCPTime, AtmosMetadata metadata);
 
-	std::shared_ptr<Writer> _writer;
-	std::shared_ptr<J2KEncoder> _j2k_encoder;
+	Writer _writer;
+	J2KEncoder _j2k_encoder;
 	bool _finishing;
 	bool _non_burnt_subtitles;
 

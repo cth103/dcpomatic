@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_WRITER_H
+#define DCPOMATIC_WRITER_H
+
+
 /** @file  src/lib/writer.h
  *  @brief Writer class.
  */
@@ -225,3 +229,7 @@ private:
 
 	std::vector<HangingText> _hanging_texts;
 };
+
+
+#endif
+

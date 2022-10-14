@@ -33,6 +33,7 @@
 #include "event_history.h"
 #include "exception_store.h"
 #include "util.h"
+#include "writer.h"
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
@@ -47,7 +48,6 @@ class EncodeServerDescription;
 class Film;
 class Job;
 class PlayerVideo;
-class Writer;
 
 
 /** @class J2KEncoder
@@ -59,7 +59,7 @@ class Writer;
 class J2KEncoder : public ExceptionStore, public std::enable_shared_from_this<J2KEncoder>
 {
 public:
-	J2KEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Writer> writer);
+	J2KEncoder(std::shared_ptr<const Film> film, Writer& writer);
 	~J2KEncoder ();
 
 	J2KEncoder (J2KEncoder const&) = delete;
@@ -81,8 +81,6 @@ public:
 
 private:
 
-	static void call_servers_list_changed (std::weak_ptr<J2KEncoder> encoder);
-
 	void frame_done ();
 
 	void encoder_thread (boost::optional<EncodeServerDescription>);
@@ -103,7 +101,7 @@ private:
 	/** condition to manage thread wakeups when we have too much to do */
 	boost::condition _full_condition;
 
-	std::shared_ptr<Writer> _writer;
+	Writer& _writer;
 	Waker _waker;
 
 	EnumIndexedVector<std::shared_ptr<PlayerVideo>, Eyes> _last_player_video;
