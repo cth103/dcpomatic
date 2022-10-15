@@ -19,6 +19,7 @@
 */
 
 
+#include <dcp/language_tag.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -45,6 +46,7 @@ public:
 	}
 
 	boost::optional<double> video_frame_rate() const;
+	boost::optional<dcp::LanguageTag> burnt_subtitle_language() const;
 
 private:
 	void edit_filters ();
@@ -54,7 +56,6 @@ private:
 	void video_frame_rate_changed ();
 	void setup_sensitivity ();
 	void burnt_subtitle_changed ();
-	void burnt_subtitle_language_changed ();
 
 	std::shared_ptr<Content> _content;
 	bool _filters_allowed = false;

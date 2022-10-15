@@ -139,7 +139,6 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	_set_video_frame_rate->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::set_video_frame_rate, this));
 	_video_frame_rate->Bind (wxEVT_TEXT, boost::bind(&ContentAdvancedDialog::video_frame_rate_changed, this));
 	_burnt_subtitle->Bind (wxEVT_CHECKBOX, boost::bind(&ContentAdvancedDialog::burnt_subtitle_changed, this));
-	_burnt_subtitle_language->Changed.connect (boost::bind(&ContentAdvancedDialog::burnt_subtitle_language_changed, this));
 
 	setup_sensitivity ();
 }
@@ -245,10 +244,9 @@ ContentAdvancedDialog::burnt_subtitle_changed ()
 }
 
 
-void
-ContentAdvancedDialog::burnt_subtitle_language_changed ()
+optional<dcp::LanguageTag>
+ContentAdvancedDialog::burnt_subtitle_language() const
 {
-	DCPOMATIC_ASSERT (_content->video);
-	_content->video->set_burnt_subtitle_language (_burnt_subtitle_language->get());
+	return _burnt_subtitle_language->get();
 }
 

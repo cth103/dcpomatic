@@ -474,6 +474,7 @@ ContentMenu::advanced ()
 
 	if (content->video) {
 		content->video->set_use(!dialog->ignore_video());
+		content->video->set_burnt_subtitle_language(dialog->burnt_subtitle_language());
 	}
 
 	auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(content);
