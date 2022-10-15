@@ -30,6 +30,7 @@
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/image_content.h"
+#include "lib/scope_guard.h"
 #include "lib/video_content.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -41,12 +42,12 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 
+using std::dynamic_pointer_cast;
+using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::bind;
-using std::dynamic_pointer_cast;
 using boost::optional;
-using std::shared_ptr;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -99,8 +100,8 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	sizer->Add (_burnt_subtitle_language->sizer(), wxGBPosition(r, 1), wxGBSpan(1, 2), wxEXPAND);
 	++r;
 
-	auto ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
-	sizer->Add (ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 3));
+	_ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
+	sizer->Add(_ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 3));
 	++r;
 
 	auto overall = new wxBoxSizer (wxVERTICAL);
@@ -112,8 +113,14 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 
 	SetSizerAndFit (overall);
 
-	ignore_video->Enable (static_cast<bool>(_content->video));
-	ignore_video->SetValue (_content->video ? !content->video->use() : false);
+	_ignore_video->Enable(static_cast<bool>(_content->video));
+	_ignore_video->SetValue(_content->video ? !content->video->use() : false);
+
+	auto fcs = dynamic_pointer_cast<FFmpegContent>(content);
+	_filters_allowed = static_cast<bool>(fcs);
+	if (fcs) {
+		_filters_list = fcs->filters();
+	}
 	setup_filters ();
 
 	bool const single_frame_image_content = dynamic_pointer_cast<const ImageContent>(_content) && _content->number_of_paths() == 1;
@@ -128,38 +135,33 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	_burnt_subtitle->SetValue (_content->video && static_cast<bool>(_content->video->burnt_subtitle_language()));
 	_burnt_subtitle_language->set (_content->video ? _content->video->burnt_subtitle_language() : boost::none);
 
-	ignore_video->Bind (wxEVT_CHECKBOX, bind(&ContentAdvancedDialog::ignore_video_changed, this, _1));
 	_filters_button->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::edit_filters, this));
 	_set_video_frame_rate->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::set_video_frame_rate, this));
 	_video_frame_rate->Bind (wxEVT_TEXT, boost::bind(&ContentAdvancedDialog::video_frame_rate_changed, this));
 	_burnt_subtitle->Bind (wxEVT_CHECKBOX, boost::bind(&ContentAdvancedDialog::burnt_subtitle_changed, this));
-	_burnt_subtitle_language->Changed.connect (boost::bind(&ContentAdvancedDialog::burnt_subtitle_language_changed, this));
 
 	setup_sensitivity ();
 }
 
 
-void
-ContentAdvancedDialog::ignore_video_changed (wxCommandEvent& ev)
+bool
+ContentAdvancedDialog::ignore_video() const
 {
-	 if (_content->video) {
-		 _content->video->set_use (!ev.IsChecked());
-	 }
+	return _ignore_video->GetValue();
 }
 
 
 void
 ContentAdvancedDialog::setup_filters ()
 {
-	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
-	if (!fcs) {
+	if (!_filters_allowed) {
 		checked_set (_filters, _("None"));
 		_filters->Enable (false);
 		_filters_button->Enable (false);
 		return;
 	}
 
-	auto p = Filter::ffmpeg_string (fcs->filters());
+	auto p = Filter::ffmpeg_string(_filters_list);
 	if (p.empty()) {
 		checked_set (_filters, _("None"));
 	} else {
@@ -174,40 +176,40 @@ ContentAdvancedDialog::setup_filters ()
 void
 ContentAdvancedDialog::edit_filters ()
 {
-	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
-	if (!fcs) {
+	if (!_filters_allowed) {
 		return;
 	}
 
-	auto d = new FilterDialog (this, fcs->filters());
-	d->ActiveChanged.connect (bind(&ContentAdvancedDialog::filters_changed, this, _1));
-	d->ShowModal ();
-	d->Destroy ();
+	auto dialog = new FilterDialog(this, _filters_list);
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
+	dialog->ActiveChanged.connect(bind(&ContentAdvancedDialog::filters_changed, this, _1));
+	dialog->ShowModal();
 }
 
 
 void
 ContentAdvancedDialog::filters_changed (vector<Filter const *> filters)
 {
-	auto fcs = dynamic_pointer_cast<FFmpegContent>(_content);
-	if (!fcs) {
-		return;
+	_filters_list = filters;
+	setup_filters ();
+}
+
+
+optional<double>
+ContentAdvancedDialog::video_frame_rate() const
+{
+	if (_video_frame_rate->GetValue() == wxT("")) {
+		return {};
 	}
 
-	fcs->set_filters (filters);
-	setup_filters ();
+	return locale_convert<double>(wx_to_std(_video_frame_rate->GetValue()));
 }
 
 
 void
 ContentAdvancedDialog::set_video_frame_rate ()
 {
-	if (_video_frame_rate->GetValue() != wxT("")) {
-		_content->set_video_frame_rate (locale_convert<double>(wx_to_std(_video_frame_rate->GetValue())));
-	} else {
-		_content->unset_video_frame_rate ();
-	}
-
 	_set_video_frame_rate->Enable (false);
 }
 
@@ -242,10 +244,9 @@ ContentAdvancedDialog::burnt_subtitle_changed ()
 }
 
 
-void
-ContentAdvancedDialog::burnt_subtitle_language_changed ()
+optional<dcp::LanguageTag>
+ContentAdvancedDialog::burnt_subtitle_language() const
 {
-	DCPOMATIC_ASSERT (_content->video);
-	_content->video->set_burnt_subtitle_language (_burnt_subtitle_language->get());
+	return _burnt_subtitle_language->get();
 }
 

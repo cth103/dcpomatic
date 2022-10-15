@@ -19,10 +19,12 @@
 */
 
 
+#include <dcp/language_tag.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/optional.hpp>
 #include <memory>
 #include <vector>
 
@@ -37,8 +39,16 @@ class ContentAdvancedDialog : public wxDialog
 public:
 	ContentAdvancedDialog (wxWindow* parent, std::shared_ptr<Content> content);
 
+	bool ignore_video() const;
+
+	std::vector<Filter const*> filters() {
+		return _filters_list;
+	}
+
+	boost::optional<double> video_frame_rate() const;
+	boost::optional<dcp::LanguageTag> burnt_subtitle_language() const;
+
 private:
-	void ignore_video_changed (wxCommandEvent& ev);
 	void edit_filters ();
 	void filters_changed (std::vector<Filter const *> filters);
 	void setup_filters ();
@@ -46,9 +56,10 @@ private:
 	void video_frame_rate_changed ();
 	void setup_sensitivity ();
 	void burnt_subtitle_changed ();
-	void burnt_subtitle_language_changed ();
 
 	std::shared_ptr<Content> _content;
+	bool _filters_allowed = false;
+	std::vector<Filter const*> _filters_list;
 
 	wxStaticText* _filters;
 	wxButton* _filters_button;
@@ -56,5 +67,6 @@ private:
 	wxButton* _set_video_frame_rate;
 	wxCheckBox* _burnt_subtitle;
 	LanguageTagWidget* _burnt_subtitle_language;
+	wxCheckBox* _ignore_video;
 };
 
