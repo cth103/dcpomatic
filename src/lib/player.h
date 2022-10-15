@@ -173,7 +173,7 @@ private:
 	*/
 	mutable boost::mutex _mutex;
 
-	std::shared_ptr<const Film> const _film;
+	std::weak_ptr<const Film> const _film;
 	/** Playlist, or 0 if we are using the one from the _film */
 	std::shared_ptr<const Playlist> const _playlist;
 
