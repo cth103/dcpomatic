@@ -399,10 +399,13 @@ AudioDialog::setup_statistics ()
 			)
 		);
 
+	wxColour const peaking = *wxRED;
+	wxColour const not_peaking = gui_is_dark() ? *wxWHITE : *wxBLACK;
+
 	if (peak_dB > -3) {
-		_sample_peak->SetForegroundColour (wxColour (255, 0, 0));
+		_sample_peak->SetForegroundColour(peaking);
 	} else {
-		_sample_peak->SetForegroundColour (wxColour (0, 0, 0));
+		_sample_peak->SetForegroundColour(not_peaking);
 	}
 
 	if (_analysis->overall_true_peak()) {
@@ -412,9 +415,9 @@ AudioDialog::setup_statistics ()
 		_true_peak->SetLabel (wxString::Format (_("True peak is %.2fdB"), peak_dB));
 
 		if (peak_dB > -3) {
-			_true_peak->SetForegroundColour (wxColour (255, 0, 0));
+			_true_peak->SetForegroundColour(peaking);
 		} else {
-			_true_peak->SetForegroundColour (wxColour (0, 0, 0));
+			_true_peak->SetForegroundColour(not_peaking);
 		}
 	}
 
