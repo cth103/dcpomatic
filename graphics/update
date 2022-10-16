@@ -96,7 +96,7 @@ else
 
     # Timeline toolbar icons (all platforms)
     for i in select zoom zoom_all snap sequence; do
-        $INKSCAPE_EXPORT --export-filename=$i.png src/$i.svg -w 32 -h 32
+        inkbatch --inkscape $INKSCAPE -i timeline-$i -o $i.png --width 32 --height 32 src/timeline.svg
     done
 
     # Playlist editor tick/no-tick
