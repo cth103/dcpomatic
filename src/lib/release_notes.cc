@@ -31,7 +31,7 @@ using boost::optional;
 
 
 optional<string>
-find_release_notes(optional<string> current)
+find_release_notes(bool dark, optional<string> current)
 {
 	auto last = Config::instance()->last_release_notes_version();
 	if (!current) {
@@ -43,14 +43,18 @@ find_release_notes(optional<string> current)
 
 	Config::instance()->set_last_release_notes_version(*current);
 
-	const string header = String::compose("<h1>DCP-o-matic %1 release notes</h1>", *current);
+	string const colour = dark ? "white" : "black";
+	auto const span = String::compose("<span style=\"color: %1\">", colour);
+
+	const string header = String::compose("<h1>%1DCP-o-matic %2 release notes</span></h1>", span, *current);
 
 	if (!last) {
-		return header +
+		return header + span +
 			_("In this version there are changes to the way that subtitles are positioned.  "
 			  "Positioning should now be more correct, with respect to the standards, but you "
 			  "should check any subtitles in your project to make sure that they are placed "
-			  "where you want them.");
+			  "where you want them.")
+			+ "</span>";
 	}
 
 	return {};

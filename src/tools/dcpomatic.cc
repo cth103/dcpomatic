@@ -1746,7 +1746,7 @@ private:
 				UpdateChecker::instance()->run ();
 			}
 
-			auto release_notes = find_release_notes();
+			auto release_notes = find_release_notes(gui_is_dark());
 			if (release_notes) {
 				auto notes = new HTMLDialog(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
 				notes->Centre();

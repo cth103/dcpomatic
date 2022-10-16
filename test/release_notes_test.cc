@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(release_notes_test1)
 {
 	for (auto version: { "2.16.19", "2.16.20", "2.18.0", "2.18.1devel6" }) {
 		Config::instance()->unset_last_release_notes_version();
-		auto notes = find_release_notes(string(version));
+		auto notes = find_release_notes(true, string(version));
 		BOOST_CHECK(notes.get_value_or("").find("In this version there are changes to the way that subtitles are positioned.") != string::npos);
 	}
 }
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(release_notes_test2)
 {
 	for (auto version: { "2.16.19", "2.16.20", "2.18.0", "2.18.1devel6" }) {
 		Config::instance()->set_last_release_notes_version("2.16.19");
-		auto notes = find_release_notes(string(version));
+		auto notes = find_release_notes(false, string(version));
 		BOOST_CHECK(!static_cast<bool>(notes));
 	}
 }
