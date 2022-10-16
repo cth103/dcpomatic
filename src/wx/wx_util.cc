@@ -651,6 +651,13 @@ bitmap_path (string name)
 }
 
 
+wxString
+icon_path(string name)
+{
+	return gui_is_dark() ? bitmap_path(String::compose("%1_white.png", name)) : bitmap_path(String::compose("%1_black.png", name));
+}
+
+
 wxSize
 small_button_size (wxWindow* parent, wxString text)
 {

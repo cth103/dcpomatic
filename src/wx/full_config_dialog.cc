@@ -84,16 +84,6 @@ using namespace boost::placeholders;
 using dcp::locale_convert;
 
 
-#ifdef DCPOMATIC_OSX
-static
-wxString
-icon_path(string name)
-{
-	return gui_is_dark() ? bitmap_path(String::compose("%1_white.png", name)) : bitmap_path(String::compose("%1_black.png", name));
-}
-#endif
-
-
 class FullGeneralPage : public GeneralPage
 {
 public:
