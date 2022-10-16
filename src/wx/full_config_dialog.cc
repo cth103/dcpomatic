@@ -84,6 +84,16 @@ using namespace boost::placeholders;
 using dcp::locale_convert;
 
 
+#ifdef DCPOMATIC_OSX
+static
+wxString
+icon_path(string name)
+{
+	return gui_is_dark() ? bitmap_path(String::compose("%1_white.png", name)) : bitmap_path(String::compose("%1_black.png", name));
+}
+#endif
+
+
 class FullGeneralPage : public GeneralPage
 {
 public:
@@ -257,7 +267,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("defaults.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("defaults"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -615,7 +625,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("servers.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("servers"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -678,7 +688,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("tms.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("tms"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -789,7 +799,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("email.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("email"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -961,7 +971,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("kdm_email.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("kdm_email"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1086,7 +1096,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("notifications.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("notifications"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1262,7 +1272,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("cover_sheet.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("cover_sheet"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1321,7 +1331,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("identifiers.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("identifiers"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
@@ -1439,7 +1449,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap(bitmap_path("advanced.png"), wxBITMAP_TYPE_PNG);
+		return wxBitmap(icon_path("advanced"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 

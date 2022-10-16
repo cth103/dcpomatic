@@ -1054,7 +1054,7 @@ LocationsPage::GetName () const
 wxBitmap
 LocationsPage::GetLargeIcon () const
 {
-	return wxBitmap(bitmap_path("locations.png"), wxBITMAP_TYPE_PNG);
+	return wxBitmap(icon_path("locations"), wxBITMAP_TYPE_PNG);
 }
 #endif
 

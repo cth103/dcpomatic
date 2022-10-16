@@ -80,9 +80,11 @@ else
 
     # OS X preferences icons
     mkdir -p osx/preferences
-    for i in defaults email kdm_email cover_sheet keys tms notifications locations sound identifiers servers general advanced; do
-        inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/$i.png --width 32 --height 32 src/preferences.svg
-        inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/$i@2x.png --width 64 --height 64 src/preferences.svg
+    for c in black white; do
+	for i in defaults email kdm_email cover_sheet keys tms notifications locations sound identifiers servers general advanced; do
+	    inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/${i}_${c}.png --width 32 --height 32 src/preferences_$c.svg
+	    inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/${i}@2x_${c}.png --width 64 --height 64 src/preferences_$c.svg
+	done
     done
 
     # OS X menu bar icon for the server (in dark and light mode)
