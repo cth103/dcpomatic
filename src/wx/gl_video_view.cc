@@ -472,14 +472,16 @@ GLVideoView::setup_shaders ()
 		gl[15] = 1.0f;
 	};
 
-	auto conversion = dcp::ColourConversion::rec709_to_xyz();
-	boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
-	GLfloat gl_matrix[16];
-	ublas_to_gl(matrix, gl_matrix);
+	{
+		auto conversion = dcp::ColourConversion::rec709_to_xyz();
+		boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
+		GLfloat gl_matrix[16];
+		ublas_to_gl(matrix, gl_matrix);
 
-	auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
-	check_gl_error ("glGetUniformLocation");
-	glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+		auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
+		check_gl_error ("glGetUniformLocation");
+		glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+	}
 
 	glLineWidth (1.0f);
 	check_gl_error ("glLineWidth");
