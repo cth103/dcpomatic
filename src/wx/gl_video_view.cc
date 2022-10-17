@@ -453,14 +453,29 @@ GLVideoView::setup_shaders ()
 	set_outline_content_colour (program);
 	set_crop_guess_colour (program);
 
+	auto ublas_to_gl = [](boost::numeric::ublas::matrix<double> const& ublas, GLfloat* gl) {
+		gl[0] = static_cast<float>(ublas(0, 0));
+		gl[1] = static_cast<float>(ublas(0, 1));
+		gl[2] = static_cast<float>(ublas(0, 2));
+		gl[3] = 0.0f;
+		gl[4] = static_cast<float>(ublas(1, 0));
+		gl[5] = static_cast<float>(ublas(1, 1));
+		gl[6] = static_cast<float>(ublas(1, 2));
+		gl[7] = 0.0f;
+		gl[8] = static_cast<float>(ublas(2, 0));
+		gl[9] = static_cast<float>(ublas(2, 1));
+		gl[10] = static_cast<float>(ublas(2, 2));
+		gl[11] = 0.0f;
+		gl[12] = 0.0f;
+		gl[13] = 0.0f;
+		gl[14] = 0.0f;
+		gl[15] = 1.0f;
+	};
+
 	auto conversion = dcp::ColourConversion::rec709_to_xyz();
 	boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
-	GLfloat gl_matrix[] = {
-		static_cast<float>(matrix(0, 0)), static_cast<float>(matrix(0, 1)), static_cast<float>(matrix(0, 2)), 0.0f,
-		static_cast<float>(matrix(1, 0)), static_cast<float>(matrix(1, 1)), static_cast<float>(matrix(1, 2)), 0.0f,
-		static_cast<float>(matrix(2, 0)), static_cast<float>(matrix(2, 1)), static_cast<float>(matrix(2, 2)), 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-		};
+	GLfloat gl_matrix[16];
+	ublas_to_gl(matrix, gl_matrix);
 
 	auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
 	check_gl_error ("glGetUniformLocation");
