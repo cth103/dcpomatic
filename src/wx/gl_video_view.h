@@ -134,6 +134,7 @@ private:
 	Last<boost::optional<dcpomatic::Rect<float>>> _last_crop_guess;
 
 	boost::atomic<wxSize> _canvas_size;
+	boost::atomic<bool> _rec2020;
 	std::unique_ptr<Texture> _video_texture;
 	std::unique_ptr<Texture> _subtitle_texture;
 	bool _have_subtitle_to_render = false;

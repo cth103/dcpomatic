@@ -198,12 +198,14 @@ static constexpr char fragment_source[] =
  * type = 1: draw crop guess rectangle
  * type = 2: draw XYZ image
  * type = 3: draw RGB image (with sRGB/Rec709 primaries)
+ * type = 4: draw RGB image (converting from Rec2020 primaries)
  * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
 "uniform vec4 outline_content_colour;\n"
 "uniform vec4 crop_guess_colour;\n"
 "uniform mat4 xyz_rec709_colour_conversion;\n"
+"uniform mat4 rec2020_rec709_colour_conversion;\n"
 "\n"
 "out vec4 FragColor;\n"
 "\n"
@@ -278,6 +280,10 @@ static constexpr char fragment_source[] =
 "			break;\n"
 "		case 3:\n"
 "			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"                       break;\n"
+"		case 4:\n"
+"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			FragColor = rec2020_rec709_colour_conversion * FragColor;\n"
 "			break;\n"
 "	}\n"
 "}\n";
@@ -289,6 +295,7 @@ enum class FragmentType
 	CROP_GUESS = 1,
 	XYZ_IMAGE = 2,
 	REC709_IMAGE = 3,
+	REC2020_IMAGE = 4,
 };
 
 
@@ -483,6 +490,19 @@ GLVideoView::setup_shaders ()
 		glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
 	}
 
+	{
+		auto xyz_rec709 = dcp::ColourConversion::rec709_to_xyz().xyz_to_rgb();
+		auto rec2020_xyz = dcp::ColourConversion::rec2020_to_xyz().rgb_to_xyz();
+		auto product = boost::numeric::ublas::prod(xyz_rec709, rec2020_xyz);
+
+		GLfloat gl_matrix[16];
+		ublas_to_gl(product, gl_matrix);
+
+		auto rec2020_rec709_colour_conversion = glGetUniformLocation(program, "rec2020_rec709_colour_conversion");
+		check_gl_error("glGetUniformLocation");
+		glUniformMatrix4fv(rec2020_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+	}
+
 	glLineWidth (1.0f);
 	check_gl_error ("glLineWidth");
 	glEnable (GL_BLEND);
@@ -539,7 +559,13 @@ GLVideoView::draw ()
 
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
-	glUniform1i(_fragment_type, static_cast<GLint>(_optimise_for_j2k ? FragmentType::XYZ_IMAGE : FragmentType::REC709_IMAGE));
+	if (_optimise_for_j2k) {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::XYZ_IMAGE));
+	} else if (_rec2020) {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC2020_IMAGE));
+	} else {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
+	}
 	_video_texture->bind();
 	glDrawElements (GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
@@ -708,6 +734,8 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_subtitle_offset, subtitle.size(), subtitle.vertices());
 		check_gl_error ("glBufferSubData (subtitle)");
 	}
+
+	_rec2020 = pv->colour_conversion() && pv->colour_conversion()->about_equal(dcp::ColourConversion::rec2020_to_xyz(), 1e-6);
 
 	/* opt: where should these go? */
 
