@@ -67,7 +67,8 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 
 	double const pps = _timeline.pixels_per_second().get ();
 
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
+	wxColour const colour = gui_is_dark() ? *wxWHITE : *wxBLACK;
+	gc->SetPen(*wxThePenList->FindOrCreatePen(colour, 1, wxPENSTYLE_SOLID));
 
 	double const mark_interval = calculate_mark_interval (rint (128 / pps));
 
@@ -78,7 +79,7 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 	path.AddLineToPoint (_timeline.width(), y);
 	gc->StrokePath (path);
 
-	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
+	gc->SetFont(gc->CreateFont(*wxNORMAL_FONT, colour));
 
 	/* Time in seconds */
 	DCPTime t;

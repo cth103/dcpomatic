@@ -21,6 +21,7 @@
 
 #include "timeline.h"
 #include "timeline_labels_view.h"
+#include "wx_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
@@ -64,7 +65,8 @@ void
 TimelineLabelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>>)
 {
 	int const h = _timeline.pixels_per_track ();
-	gc->SetFont (gc->CreateFont(wxNORMAL_FONT->Bold(), wxColour(0, 0, 0)));
+	wxColour const colour = gui_is_dark() ? *wxWHITE : *wxBLACK;
+	gc->SetFont(gc->CreateFont(wxNORMAL_FONT->Bold(), colour));
 
 	int fy = 0;
 	if (_video_tracks) {

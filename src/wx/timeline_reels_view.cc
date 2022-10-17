@@ -21,6 +21,7 @@
 
 #include "timeline.h"
 #include "timeline_reels_view.h"
+#include "wx_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
@@ -65,14 +66,15 @@ TimelineReelsView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>>)
 
 	double const pps = _timeline.pixels_per_second().get ();
 
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 255), 1, wxPENSTYLE_SOLID));
+	wxColour const colour = gui_is_dark() ? wxColour(182, 204, 240) : wxColour(0, 0, 255);
+	gc->SetPen(*wxThePenList->FindOrCreatePen(colour, 1, wxPENSTYLE_SOLID));
 
 	auto path = gc->CreatePath ();
 	path.MoveToPoint (time_x (DCPTime (0)), _y);
 	path.AddLineToPoint (time_x (_timeline.film()->length()), _y);
 	gc->StrokePath (path);
 
-	gc->SetFont (gc->CreateFont (*wxNORMAL_FONT, wxColour (0, 0, 255)));
+	gc->SetFont(gc->CreateFont(*wxNORMAL_FONT, colour));
 
 	int reel = 1;
 	for (auto i: _timeline.film()->reels()) {
