@@ -197,7 +197,7 @@ static constexpr char fragment_source[] =
 /* type = 0: draw outline content rectangle
  * type = 1: draw crop guess rectangle
  * type = 2: draw XYZ image
- * type = 3: draw RGB image
+ * type = 3: draw RGB image (with sRGB/Rec709 primaries)
  * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
@@ -288,7 +288,7 @@ enum class FragmentType
 	OUTLINE_CONTENT = 0,
 	CROP_GUESS = 1,
 	XYZ_IMAGE = 2,
-	RGB_IMAGE = 3,
+	REC709_IMAGE = 3,
 };
 
 
@@ -539,11 +539,11 @@ GLVideoView::draw ()
 
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
-	glUniform1i(_fragment_type, static_cast<GLint>(_optimise_for_j2k ? FragmentType::XYZ_IMAGE : FragmentType::RGB_IMAGE));
+	glUniform1i(_fragment_type, static_cast<GLint>(_optimise_for_j2k ? FragmentType::XYZ_IMAGE : FragmentType::REC709_IMAGE));
 	_video_texture->bind();
 	glDrawElements (GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::RGB_IMAGE));
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
 		_subtitle_texture->bind();
 		glDrawElements (GL_TRIANGLES, indices_subtitle_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture_offset * sizeof(int)));
 	}
