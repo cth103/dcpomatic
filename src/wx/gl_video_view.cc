@@ -203,7 +203,7 @@ static constexpr char fragment_source[] =
 "uniform int type = 0;\n"
 "uniform vec4 outline_content_colour;\n"
 "uniform vec4 crop_guess_colour;\n"
-"uniform mat4 colour_conversion;\n"
+"uniform mat4 xyz_rec709_colour_conversion;\n"
 "\n"
 "out vec4 FragColor;\n"
 "\n"
@@ -271,7 +271,7 @@ static constexpr char fragment_source[] =
 "			FragColor.x = pow(FragColor.x, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.y = pow(FragColor.y, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.z = pow(FragColor.z, IN_GAMMA) / DCI_COEFFICIENT;\n"
-"			FragColor = colour_conversion * FragColor;\n"
+"			FragColor = xyz_rec709_colour_conversion * FragColor;\n"
 "			FragColor.x = pow(FragColor.x, OUT_GAMMA);\n"
 "			FragColor.y = pow(FragColor.y, OUT_GAMMA);\n"
 "			FragColor.z = pow(FragColor.z, OUT_GAMMA);\n"
@@ -462,9 +462,9 @@ GLVideoView::setup_shaders ()
 		0.0f, 0.0f, 0.0f, 1.0f
 		};
 
-	auto colour_conversion = glGetUniformLocation (program, "colour_conversion");
+	auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
 	check_gl_error ("glGetUniformLocation");
-	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
+	glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
 
 	glLineWidth (1.0f);
 	check_gl_error ("glLineWidth");
