@@ -72,7 +72,11 @@ AudioPlot::AudioPlot(wxWindow* parent, FilmViewer& viewer)
 		_type_visible[i] = false;
 	}
 
-	_colours.push_back (wxColour (	0,   0,	  0));
+	if (gui_is_dark()) {
+		_colours.push_back(wxColour(255, 255, 255));
+	} else {
+		_colours.push_back(wxColour(0, 0, 0));
+	}
 	_colours.push_back (wxColour (255,   0,	  0));
 	_colours.push_back (wxColour (	0, 255,	  0));
 	_colours.push_back (wxColour (139,   0, 204));
@@ -165,14 +169,14 @@ AudioPlot::paint ()
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 
 	if (!_analysis || _analysis->channels() == 0) {
-		gc->SetFont (gc->CreateFont (*wxNORMAL_FONT));
+		gc->SetFont(gc->CreateFont(*wxNORMAL_FONT, gui_is_dark() ? *wxWHITE : *wxBLACK));
 		gc->DrawText (_message, 32, 32);
 		delete gc;
 		return;
 	}
 
 	auto h_grid = gc->CreatePath ();
-	gc->SetFont (gc->CreateFont (*wxSMALL_FONT));
+	gc->SetFont(gc->CreateFont(*wxSMALL_FONT, gui_is_dark() ? *wxWHITE : *wxBLACK));
 	wxDouble db_label_height;
 	wxDouble db_label_descent;
 	wxDouble db_label_leading;
@@ -195,7 +199,9 @@ AudioPlot::paint ()
 		gc->DrawText (std_to_wx (String::compose ("%1dB", i)), 0, y - (db_label_height / 2));
 	}
 
-	gc->SetPen (wxPen (wxColour (200, 200, 200)));
+	wxColour const grid_colour = gui_is_dark() ? wxColour(80, 80, 80) : wxColour(200, 200, 200);
+
+	gc->SetPen(wxPen(grid_colour));
 	gc->StrokePath (h_grid);
 
 	/* Draw an x axis with marks */
@@ -204,8 +210,6 @@ AudioPlot::paint ()
 
 	DCPOMATIC_ASSERT (_analysis->samples_per_point() != 0.0);
 	double const pps = _analysis->sample_rate() * metrics.x_scale / _analysis->samples_per_point();
-
-	gc->SetPen (*wxThePenList->FindOrCreatePen (wxColour (0, 0, 0), 1, wxPENSTYLE_SOLID));
 
 	double const mark_interval = calculate_mark_interval (rint (128 / pps));
 
@@ -234,7 +238,7 @@ AudioPlot::paint ()
 		t += DCPTime::from_seconds (mark_interval);
 	}
 
-	gc->SetPen (wxPen (wxColour (200, 200, 200)));
+	gc->SetPen(wxPen(grid_colour));
 	gc->StrokePath (v_grid);
 
 	if (_type_visible[AudioPoint::PEAK]) {
@@ -265,7 +269,7 @@ AudioPlot::paint ()
 	axes.MoveToPoint (metrics.db_label_width, 0);
 	axes.AddLineToPoint (metrics.db_label_width, metrics.height - metrics.y_origin);
 	axes.AddLineToPoint (metrics.db_label_width + data_width, metrics.height - metrics.y_origin);
-	gc->SetPen (wxPen (wxColour (0, 0, 0)));
+	gc->SetPen(wxPen(grid_colour));
 	gc->StrokePath (axes);
 
 	if (_cursor) {

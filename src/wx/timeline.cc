@@ -207,7 +207,7 @@ Timeline::paint_main ()
 	if (_zoom_point) {
 		/* Translate back as _down_point and _zoom_point do not take scroll into account */
 		gc->Translate (vsx * _x_scroll_rate, vsy * _y_scroll_rate);
-		gc->SetPen (*wxBLACK_PEN);
+		gc->SetPen(gui_is_dark() ? *wxWHITE_PEN : *wxBLACK_PEN);
 		gc->SetBrush (*wxTRANSPARENT_BRUSH);
 		gc->DrawRectangle (
 			min (_down_point.x, _zoom_point->x),
