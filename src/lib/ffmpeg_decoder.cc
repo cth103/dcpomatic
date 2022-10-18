@@ -77,6 +77,7 @@ using namespace dcpomatic;
 FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmpegContent> c, bool fast)
 	: FFmpeg (c)
 	, Decoder (film)
+	, _filter_graphs(c->filters(), dcp::Fraction(lrint(_ffmpeg_content->video_frame_rate().get_value_or(24) * 1000), 1000))
 {
 	if (c->video && c->video->use()) {
 		video = make_shared<VideoDecoder>(this, c);
@@ -401,13 +402,10 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 		AVSEEK_FLAG_BACKWARD
 		);
 
-	{
-		/* Force re-creation of filter graphs to reset them and hence to make sure
-		   they don't have any pre-seek frames knocking about.
-		*/
-		boost::mutex::scoped_lock lm (_filter_graphs_mutex);
-		_filter_graphs.clear ();
-	}
+	/* Force re-creation of filter graphs to reset them and hence to make sure
+	   they don't have any pre-seek frames knocking about.
+	*/
+	_filter_graphs.clear();
 
 	if (video_codec_context ()) {
 		avcodec_flush_buffers (video_codec_context());
@@ -580,25 +578,7 @@ FFmpegDecoder::decode_and_process_video_packet (AVPacket* packet)
 void
 FFmpegDecoder::process_video_frame ()
 {
-	boost::mutex::scoped_lock lm (_filter_graphs_mutex);
-
-	shared_ptr<VideoFilterGraph> graph;
-
-	auto i = _filter_graphs.begin();
-	while (i != _filter_graphs.end() && !(*i)->can_process(dcp::Size(_video_frame->width, _video_frame->height), (AVPixelFormat) _video_frame->format)) {
-		++i;
-	}
-
-	if (i == _filter_graphs.end ()) {
-		dcp::Fraction vfr (lrint(_ffmpeg_content->video_frame_rate().get() * 1000), 1000);
-		graph = make_shared<VideoFilterGraph>(dcp::Size(_video_frame->width, _video_frame->height), (AVPixelFormat) _video_frame->format, vfr);
-		graph->setup (_ffmpeg_content->filters ());
-		_filter_graphs.push_back (graph);
-		LOG_GENERAL (N_("New graph for %1x%2, pixel format %3"), _video_frame->width, _video_frame->height, _video_frame->format);
-	} else {
-		graph = *i;
-	}
-
+	auto graph = _filter_graphs.get(dcp::Size(_video_frame->width, _video_frame->height), static_cast<AVPixelFormat>(_video_frame->format));
 	auto images = graph->process (_video_frame);
 
 	for (auto const& i: images) {

@@ -27,6 +27,7 @@
 #include "bitmap_text.h"
 #include "decoder.h"
 #include "ffmpeg.h"
+#include "video_filter_graph_set.h"
 #include "util.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -76,8 +77,7 @@ private:
 
 	void maybe_add_subtitle ();
 
-	std::list<std::shared_ptr<VideoFilterGraph>> _filter_graphs;
-	boost::mutex _filter_graphs_mutex;
+	VideoFilterGraphSet _filter_graphs;
 
 	dcpomatic::ContentTime _pts_offset;
 	boost::optional<dcpomatic::ContentTime> _current_subtitle_to;

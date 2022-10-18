@@ -240,6 +240,7 @@ Image::crop_scale_window (
 	EnumIndexedVector<int, dcp::YUVToRGB> lut;
 	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
 	lut[dcp::YUVToRGB::REC709] = SWS_CS_ITU709;
+	lut[dcp::YUVToRGB::REC2020] = SWS_CS_BT2020;
 
 	/* The 3rd parameter here is:
 	   0 -> source range MPEG (i.e. "video", 16-235)
@@ -350,6 +351,7 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	EnumIndexedVector<int, dcp::YUVToRGB> lut;
 	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
 	lut[dcp::YUVToRGB::REC709] = SWS_CS_ITU709;
+	lut[dcp::YUVToRGB::REC2020] = SWS_CS_BT2020;
 
 	/* The 3rd parameter here is:
 	   0 -> source range MPEG (i.e. "video", 16-235)

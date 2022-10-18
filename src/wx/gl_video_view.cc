@@ -197,13 +197,15 @@ static constexpr char fragment_source[] =
 /* type = 0: draw outline content rectangle
  * type = 1: draw crop guess rectangle
  * type = 2: draw XYZ image
- * type = 3: draw RGB image
+ * type = 3: draw RGB image (with sRGB/Rec709 primaries)
+ * type = 4: draw RGB image (converting from Rec2020 primaries)
  * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
 "uniform vec4 outline_content_colour;\n"
 "uniform vec4 crop_guess_colour;\n"
-"uniform mat4 colour_conversion;\n"
+"uniform mat4 xyz_rec709_colour_conversion;\n"
+"uniform mat4 rec2020_rec709_colour_conversion;\n"
 "\n"
 "out vec4 FragColor;\n"
 "\n"
@@ -271,13 +273,17 @@ static constexpr char fragment_source[] =
 "			FragColor.x = pow(FragColor.x, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.y = pow(FragColor.y, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.z = pow(FragColor.z, IN_GAMMA) / DCI_COEFFICIENT;\n"
-"			FragColor = colour_conversion * FragColor;\n"
+"			FragColor = xyz_rec709_colour_conversion * FragColor;\n"
 "			FragColor.x = pow(FragColor.x, OUT_GAMMA);\n"
 "			FragColor.y = pow(FragColor.y, OUT_GAMMA);\n"
 "			FragColor.z = pow(FragColor.z, OUT_GAMMA);\n"
 "			break;\n"
 "		case 3:\n"
 "			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"                       break;\n"
+"		case 4:\n"
+"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			FragColor = rec2020_rec709_colour_conversion * FragColor;\n"
 "			break;\n"
 "	}\n"
 "}\n";
@@ -288,7 +294,8 @@ enum class FragmentType
 	OUTLINE_CONTENT = 0,
 	CROP_GUESS = 1,
 	XYZ_IMAGE = 2,
-	RGB_IMAGE = 3,
+	REC709_IMAGE = 3,
+	REC2020_IMAGE = 4,
 };
 
 
@@ -453,18 +460,48 @@ GLVideoView::setup_shaders ()
 	set_outline_content_colour (program);
 	set_crop_guess_colour (program);
 
-	auto conversion = dcp::ColourConversion::rec709_to_xyz();
-	boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
-	GLfloat gl_matrix[] = {
-		static_cast<float>(matrix(0, 0)), static_cast<float>(matrix(0, 1)), static_cast<float>(matrix(0, 2)), 0.0f,
-		static_cast<float>(matrix(1, 0)), static_cast<float>(matrix(1, 1)), static_cast<float>(matrix(1, 2)), 0.0f,
-		static_cast<float>(matrix(2, 0)), static_cast<float>(matrix(2, 1)), static_cast<float>(matrix(2, 2)), 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f
-		};
+	auto ublas_to_gl = [](boost::numeric::ublas::matrix<double> const& ublas, GLfloat* gl) {
+		gl[0] = static_cast<float>(ublas(0, 0));
+		gl[1] = static_cast<float>(ublas(0, 1));
+		gl[2] = static_cast<float>(ublas(0, 2));
+		gl[3] = 0.0f;
+		gl[4] = static_cast<float>(ublas(1, 0));
+		gl[5] = static_cast<float>(ublas(1, 1));
+		gl[6] = static_cast<float>(ublas(1, 2));
+		gl[7] = 0.0f;
+		gl[8] = static_cast<float>(ublas(2, 0));
+		gl[9] = static_cast<float>(ublas(2, 1));
+		gl[10] = static_cast<float>(ublas(2, 2));
+		gl[11] = 0.0f;
+		gl[12] = 0.0f;
+		gl[13] = 0.0f;
+		gl[14] = 0.0f;
+		gl[15] = 1.0f;
+	};
 
-	auto colour_conversion = glGetUniformLocation (program, "colour_conversion");
-	check_gl_error ("glGetUniformLocation");
-	glUniformMatrix4fv (colour_conversion, 1, GL_TRUE, gl_matrix);
+	{
+		auto conversion = dcp::ColourConversion::rec709_to_xyz();
+		boost::numeric::ublas::matrix<double> matrix = conversion.xyz_to_rgb ();
+		GLfloat gl_matrix[16];
+		ublas_to_gl(matrix, gl_matrix);
+
+		auto xyz_rec709_colour_conversion = glGetUniformLocation(program, "xyz_rec709_colour_conversion");
+		check_gl_error ("glGetUniformLocation");
+		glUniformMatrix4fv(xyz_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+	}
+
+	{
+		auto xyz_rec709 = dcp::ColourConversion::rec709_to_xyz().xyz_to_rgb();
+		auto rec2020_xyz = dcp::ColourConversion::rec2020_to_xyz().rgb_to_xyz();
+		auto product = boost::numeric::ublas::prod(xyz_rec709, rec2020_xyz);
+
+		GLfloat gl_matrix[16];
+		ublas_to_gl(product, gl_matrix);
+
+		auto rec2020_rec709_colour_conversion = glGetUniformLocation(program, "rec2020_rec709_colour_conversion");
+		check_gl_error("glGetUniformLocation");
+		glUniformMatrix4fv(rec2020_rec709_colour_conversion, 1, GL_TRUE, gl_matrix);
+	}
 
 	glLineWidth (1.0f);
 	check_gl_error ("glLineWidth");
@@ -522,11 +559,17 @@ GLVideoView::draw ()
 
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
-	glUniform1i(_fragment_type, static_cast<GLint>(_optimise_for_j2k ? FragmentType::XYZ_IMAGE : FragmentType::RGB_IMAGE));
+	if (_optimise_for_j2k) {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::XYZ_IMAGE));
+	} else if (_rec2020) {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC2020_IMAGE));
+	} else {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
+	}
 	_video_texture->bind();
 	glDrawElements (GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::RGB_IMAGE));
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
 		_subtitle_texture->bind();
 		glDrawElements (GL_TRIANGLES, indices_subtitle_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture_offset * sizeof(int)));
 	}
@@ -691,6 +734,8 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_subtitle_offset, subtitle.size(), subtitle.vertices());
 		check_gl_error ("glBufferSubData (subtitle)");
 	}
+
+	_rec2020 = pv->colour_conversion() && pv->colour_conversion()->about_equal(dcp::ColourConversion::rec2020_to_xyz(), 1e-6);
 
 	/* opt: where should these go? */
 

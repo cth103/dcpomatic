@@ -20,14 +20,18 @@
 
 
 #include "video_view.h"
+#include "lib/filter.h"
 #include "lib/position.h"
+#include "lib/video_filter_graph_set.h"
 #include <dcp/types.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 
+
 class FilmViewer;
+class Filter;
 
 
 class SimpleVideoView : public VideoView
@@ -53,4 +57,7 @@ private:
 	wxTimer _timer;
 	Position<int> _inter_position;
 	dcp::Size _inter_size;
+
+	Filter _rec2020_filter;
+	VideoFilterGraphSet _rec2020_filter_graph;
 };
