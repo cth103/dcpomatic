@@ -280,8 +280,8 @@ private:
 			);
 	}
 
-	/** @id if not 0 this is filled in with the wxTreeItemId of the selection */
-	shared_ptr<DKDMBase> selected_dkdm (wxTreeItemId* id = 0) const
+	/** @id if not nullptr this is filled in with the wxTreeItemId of the selection */
+	shared_ptr<DKDMBase> selected_dkdm (wxTreeItemId* id = nullptr) const
 	{
 		wxArrayTreeItemIds selections;
 		_dkdm->GetSelections (selections);
