@@ -75,7 +75,7 @@ SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer co
 
 #else
 
-SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer&)
+SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer const&)
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
 	add (_("OpenGL version"), true);
