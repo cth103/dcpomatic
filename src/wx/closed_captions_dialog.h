@@ -33,7 +33,7 @@ class FilmViewer;
 class ClosedCaptionsDialog : public wxDialog
 {
 public:
-	explicit ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer);
+	ClosedCaptionsDialog(wxWindow* parent, FilmViewer* viewer);
 
 	void clear ();
 	void update_tracks (std::shared_ptr<const Film> film);
