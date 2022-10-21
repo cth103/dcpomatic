@@ -538,10 +538,12 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 		video->add_properties (p);
 
 		if (_bits_per_pixel) {
-			/* Assuming there's three components, so bits per pixel component is _bits_per_pixel / 3 */
-			int const lim_start = pow(2, _bits_per_pixel.get() / 3 - 4);
-			int const lim_end = 235 * pow(2, _bits_per_pixel.get() / 3 - 8);
-			int const total = pow(2, _bits_per_pixel.get() / 3);
+			auto pixel_quanta_product = video->pixel_quanta().x * video->pixel_quanta().y;
+			auto bits_per_main_pixel = pixel_quanta_product * _bits_per_pixel.get() / (pixel_quanta_product + 2);
+
+			int const lim_start = pow(2, bits_per_main_pixel - 4);
+			int const lim_end = 235 * pow(2, bits_per_main_pixel - 8);
+			int const total = pow(2, bits_per_main_pixel);
 
 			switch (_color_range.get_value_or(AVCOL_RANGE_UNSPECIFIED)) {
 			case AVCOL_RANGE_UNSPECIFIED:
@@ -554,14 +556,14 @@ FFmpegContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& 
 				/// file is limited, so that not all possible values are valid.
 				p.push_back (
 					UserProperty (
-						UserProperty::VIDEO, _("Colour range"), String::compose(_("Limited (%1-%2)"), lim_start, lim_end)
+						UserProperty::VIDEO, _("Colour range"), String::compose(_("Limited / video (%1-%2)"), lim_start, lim_end)
 						)
 					);
 				break;
 			case AVCOL_RANGE_JPEG:
 				/// TRANSLATORS: this means that the range of pixel values used in this
 				/// file is full, so that all possible pixel values are valid.
-				p.push_back (UserProperty (UserProperty::VIDEO, _("Colour range"), String::compose (_("Full (0-%1)"), total)));
+				p.push_back(UserProperty(UserProperty::VIDEO, _("Colour range"), String::compose(_("Full (0-%1)"), total - 1)));
 				break;
 			default:
 				DCPOMATIC_ASSERT (false);
