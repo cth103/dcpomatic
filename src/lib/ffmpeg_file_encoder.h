@@ -106,9 +106,10 @@ private:
 	std::shared_ptr<AudioBuffers> _pending_audio;
 
 	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
-	    their data have been passed to FFmpeg.
+	    their data have been passed to FFmpeg.  The second part of the pair is
+	    a count of how many copies of the same key must be kept.
 	*/
-	std::map<uint8_t*, std::shared_ptr<const Image>> _pending_images;
+	std::map<uint8_t*, std::pair<std::shared_ptr<const Image>, int>> _pending_images;
 	boost::mutex _pending_images_mutex;
 
 	static int _video_stream_index;

@@ -412,7 +412,13 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 
 	{
 		boost::mutex::scoped_lock lm (_pending_images_mutex);
-		_pending_images[image->data()[0]] = image;
+		auto key = image->data()[0];
+		auto iter = _pending_images.find(key);
+		if (iter != _pending_images.end()) {
+			iter->second.second++;
+		} else {
+			_pending_images[key] = { image, 1 };
+		}
 	}
 
 	for (int i = 0; i < 3; ++i) {
@@ -503,7 +509,11 @@ void
 FFmpegFileEncoder::buffer_free2 (uint8_t* data)
 {
 	boost::mutex::scoped_lock lm (_pending_images_mutex);
-	if (_pending_images.find(data) != _pending_images.end()) {
-		_pending_images.erase (data);
+	auto iter = _pending_images.find(data);
+	if (iter != _pending_images.end()) {
+		iter->second.second--;
+		if (iter->second.second == 0) {
+			_pending_images.erase(data);
+		}
 	}
 }
