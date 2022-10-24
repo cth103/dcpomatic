@@ -1014,7 +1014,7 @@ DCPPanel::reel_length_changed ()
 void
 DCPPanel::add_audio_processors ()
 {
-	_audio_processor->Append (_("None"), new wxStringClientData(N_("none")));
+	_audio_processor->add(_("None"), new wxStringClientData(N_("none")));
 	for (auto ap: AudioProcessor::visible()) {
 		_audio_processor->add(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}
