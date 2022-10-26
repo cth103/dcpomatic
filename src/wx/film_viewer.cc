@@ -160,9 +160,11 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	_video_view->clear ();
 	_closed_captions_dialog->clear ();
 
+	destroy_butler();
+
 	if (!_film) {
 		_player = boost::none;
-		recreate_butler ();
+		resume();
 		_video_view->update ();
 		return;
 	}
@@ -176,6 +178,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	} catch (bad_alloc &) {
 		error_dialog (_video_view->get(), _("There is not enough free memory to do that."));
 		_film.reset ();
+		resume();
 		return;
 	}
 
@@ -195,7 +198,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 	_closed_captions_dialog->update_tracks (_film);
 
-	recreate_butler ();
+	create_butler();
 
 	calculate_sizes ();
 	slow_refresh ();
@@ -203,16 +206,30 @@ FilmViewer::set_film (shared_ptr<Film> film)
 
 
 void
-FilmViewer::recreate_butler ()
+FilmViewer::destroy_butler()
 {
 	suspend ();
 	_butler.reset ();
+}
+
+
+void
+FilmViewer::destroy_and_maybe_create_butler()
+{
+	destroy_butler();
 
 	if (!_film) {
 		resume ();
 		return;
 	}
 
+	create_butler();
+}
+
+
+void
+FilmViewer::create_butler()
+{
 #if wxCHECK_VERSION(3, 1, 0)
 	auto const j2k_gl_optimised = dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k;
 #else
@@ -476,7 +493,7 @@ FilmViewer::film_change (ChangeType type, Film::Property p)
 	}
 
 	if (p == Film::Property::AUDIO_CHANNELS) {
-		recreate_butler ();
+		destroy_and_maybe_create_butler();
 	} else if (p == Film::Property::VIDEO_FRAME_RATE) {
 		_video_view->set_video_frame_rate (_film->video_frame_rate());
 	} else if (p == Film::Property::THREE_D) {
@@ -579,7 +596,7 @@ void
 FilmViewer::config_changed (Config::Property p)
 {
 	if (p == Config::AUDIO_MAPPING) {
-		recreate_butler ();
+		destroy_and_maybe_create_butler();
 		return;
 	}
 
@@ -625,11 +642,11 @@ FilmViewer::config_changed (Config::Property p)
 				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(e.what())
 				);
 		}
-		recreate_butler ();
+		destroy_and_maybe_create_butler();
 
 	} else {
 		_audio_channels = 0;
-		recreate_butler ();
+		destroy_and_maybe_create_butler();
 	}
 }
 

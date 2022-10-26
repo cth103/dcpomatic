@@ -163,7 +163,9 @@ private:
 	void idle_handler ();
 	void request_idle_display_next_frame ();
 	void film_change (ChangeType, Film::Property);
-	void recreate_butler ();
+	void destroy_butler();
+	void create_butler();
+	void destroy_and_maybe_create_butler();
 	void config_changed (Config::Property);
 	void film_length_change ();
 	void ui_finished ();
