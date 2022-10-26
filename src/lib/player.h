@@ -80,8 +80,11 @@ public:
 	Player (std::shared_ptr<const Film>, Image::Alignment subtitle_alignment);
 	Player (std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist);
 
-	Player (Player const& Player) = delete;
-	Player& operator= (Player const& Player) = delete;
+	Player (Player const&) = delete;
+	Player& operator= (Player const&) = delete;
+
+	Player(Player&& other);
+	Player& operator=(Player&& other);
 
 	bool pass ();
 	void seek (dcpomatic::DCPTime time, bool accurate);
@@ -137,6 +140,7 @@ private:
 	friend struct overlap_video_test1;
 
 	void construct ();
+	void connect();
 	void setup_pieces ();
 	void film_change (ChangeType, Film::Property);
 	void playlist_change (ChangeType);
@@ -173,9 +177,9 @@ private:
 	*/
 	mutable boost::mutex _mutex;
 
-	std::weak_ptr<const Film> const _film;
+	std::weak_ptr<const Film> _film;
 	/** Playlist, or 0 if we are using the one from the _film */
-	std::shared_ptr<const Playlist> const _playlist;
+	std::shared_ptr<const Playlist> _playlist;
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
 	boost::atomic<int> _suspended;
@@ -198,7 +202,7 @@ private:
 	/** true if we should try to be fast rather than high quality */
 	boost::atomic<bool> _fast;
 	/** true if we should keep going in the face of `survivable' errors */
-	bool const _tolerant;
+	bool _tolerant;
 	/** true if we should `play' (i.e output) referenced DCP data (e.g. for preview) */
 	boost::atomic<bool> _play_referenced;
 
@@ -242,7 +246,7 @@ private:
 	boost::atomic<dcpomatic::DCPTime> _playback_length;
 
 	/** Alignment for subtitle images that we create */
-	Image::Alignment const _subtitle_alignment = Image::Alignment::PADDED;
+	Image::Alignment _subtitle_alignment = Image::Alignment::PADDED;
 
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _playlist_change_connection;

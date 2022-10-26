@@ -140,18 +140,102 @@ Player::construct ()
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
 
-	_film_changed_connection = film->Change.connect(bind(&Player::film_change, this, _1, _2));
-	/* The butler must hear about this first, so since we are proxying this through to the butler we must
-	   be first.
-	*/
-	_playlist_change_connection = playlist()->Change.connect (bind (&Player::playlist_change, this, _1), boost::signals2::at_front);
-	_playlist_content_change_connection = playlist()->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
+	connect();
 	set_video_container_size(film->frame_size());
 
 	film_change (ChangeType::DONE, Film::Property::AUDIO_PROCESSOR);
 
 	setup_pieces ();
 	seek (DCPTime (), true);
+}
+
+
+void
+Player::connect()
+{
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+
+	_film_changed_connection = film->Change.connect(bind(&Player::film_change, this, _1, _2));
+	/* The butler must hear about this first, so since we are proxying this through to the butler we must
+	   be first.
+	*/
+	_playlist_change_connection = playlist()->Change.connect (bind (&Player::playlist_change, this, _1), boost::signals2::at_front);
+	_playlist_content_change_connection = playlist()->ContentChange.connect (bind(&Player::playlist_content_change, this, _1, _3, _4));
+}
+
+
+Player::Player(Player&& other)
+	: _film(other._film)
+	, _playlist(std::move(other._playlist))
+	, _suspended(other._suspended.load())
+	, _pieces(std::move(other._pieces))
+	, _video_container_size(other._video_container_size.load())
+	, _black_image(std::move(other._black_image))
+	, _ignore_video(other._ignore_video.load())
+	, _ignore_audio(other._ignore_audio.load())
+	, _ignore_text(other._ignore_text.load())
+	, _always_burn_open_subtitles(other._always_burn_open_subtitles.load())
+	, _fast(other._fast.load())
+	, _tolerant(other._tolerant)
+	, _play_referenced(other._play_referenced.load())
+	, _next_video_time(other._next_video_time)
+	, _next_audio_time(other._next_audio_time)
+	, _dcp_decode_reduction(other._dcp_decode_reduction.load())
+	, _last_video(std::move(other._last_video))
+	, _audio_merger(std::move(other._audio_merger))
+	, _shuffler(std::move(other._shuffler))
+	, _delay(std::move(other._delay))
+	, _stream_states(std::move(other._stream_states))
+	, _black(std::move(other._black))
+	, _silent(std::move(other._silent))
+	, _active_texts(std::move(other._active_texts))
+	, _audio_processor(std::move(other._audio_processor))
+	, _playback_length(other._playback_length.load())
+	, _subtitle_alignment(other._subtitle_alignment)
+{
+	connect();
+}
+
+
+Player&
+Player::operator=(Player&& other)
+{
+	if (this == &other) {
+		return *this;
+	}
+
+	_film = std::move(other._film);
+	_playlist = std::move(other._playlist);
+	_suspended = other._suspended.load();
+	_pieces = std::move(other._pieces);
+	_video_container_size = other._video_container_size.load();
+	_black_image = std::move(other._black_image);
+	_ignore_video = other._ignore_video.load();
+	_ignore_audio = other._ignore_audio.load();
+	_ignore_text = other._ignore_text.load();
+	_always_burn_open_subtitles = other._always_burn_open_subtitles.load();
+	_fast = other._fast.load();
+	_tolerant = other._tolerant;
+	_play_referenced = other._play_referenced.load();
+	_next_video_time = other._next_video_time;
+	_next_audio_time = other._next_audio_time;
+	_dcp_decode_reduction = other._dcp_decode_reduction.load();
+	_last_video = std::move(other._last_video);
+	_audio_merger = std::move(other._audio_merger);
+	_shuffler = std::move(other._shuffler);
+	_delay = std::move(other._delay);
+	_stream_states = std::move(other._stream_states);
+	_black = std::move(other._black);
+	_silent = std::move(other._silent);
+	_active_texts = std::move(other._active_texts);
+	_audio_processor = std::move(other._audio_processor);
+	_playback_length = other._playback_length.load();
+	_subtitle_alignment = other._subtitle_alignment;
+
+	connect();
+
+	return *this;
 }
 
 
