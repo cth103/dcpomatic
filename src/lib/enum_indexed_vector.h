@@ -34,19 +34,6 @@ public:
 		: _data(static_cast<int>(Enum::COUNT))
 	{}
 
-	EnumIndexedVector(EnumIndexedVector const& other)
-		: _data(other._data)
-	{}
-
-	EnumIndexedVector& operator=(EnumIndexedVector const& other) {
-		if (this == &other) {
-			return *this;
-		}
-
-		_data = other._data;
-		return *this;
-	}
-
 	typename std::vector<Type>::reference operator[](int index) {
 		return _data[index];
 	}
