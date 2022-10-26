@@ -32,6 +32,23 @@ using boost::optional;
 using namespace dcpomatic;
 
 
+ActiveText::ActiveText(ActiveText&& other)
+	: _data(std::move(other._data))
+{
+
+}
+
+
+ActiveText&
+ActiveText::operator=(ActiveText&& other)
+{
+	if (this != &other) {
+		_data = std::move(other._data);
+	}
+	return *this;
+}
+
+
 /** Get the open captions that should be burnt into a given period.
  *  @param period Period of interest.
  *  @param always_burn_captions Always burn captions even if their content is not set to burn.

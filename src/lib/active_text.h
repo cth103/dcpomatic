@@ -45,6 +45,9 @@ public:
 	ActiveText (ActiveText const&) = delete;
 	ActiveText& operator= (ActiveText const&) = delete;
 
+	ActiveText(ActiveText&& other);
+	ActiveText& operator=(ActiveText&& other);
+
 	std::list<PlayerText> get_burnt (dcpomatic::DCPTimePeriod period, bool always_burn_captions) const;
 	void clear_before (dcpomatic::DCPTime time);
 	void clear ();
