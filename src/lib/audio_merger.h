@@ -73,5 +73,5 @@ private:
 	};
 
 	std::list<Buffer> _buffers;
-	int const _frame_rate;
+	int _frame_rate;
 };
