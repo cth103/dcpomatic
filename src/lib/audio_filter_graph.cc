@@ -53,6 +53,9 @@ AudioFilterGraph::AudioFilterGraph (int sample_rate, int channels)
 	}
 
 	_in_frame = av_frame_alloc ();
+	if (_in_frame == nullptr) {
+		throw std::bad_alloc();
+	}
 }
 
 AudioFilterGraph::~AudioFilterGraph()
