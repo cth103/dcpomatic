@@ -388,6 +388,9 @@ public:
 				return;
 			}
 			Config::instance()->add_to_player_history (dir);
+			if (dcp->video_frame_rate()) {
+				_film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
+			}
 		} catch (ProjectFolderError &) {
 			error_dialog (
 				this,
