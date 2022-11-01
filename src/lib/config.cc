@@ -94,6 +94,7 @@ Config::set_defaults ()
 	_servers.clear ();
 	_only_servers_encode = false;
 	_tms_protocol = FileTransferProtocol::SCP;
+	_tms_passive = true;
 	_tms_ip = "";
 	_tms_path = ".";
 	_tms_user = "";
@@ -325,6 +326,7 @@ try
 
 	_only_servers_encode = f.optional_bool_child ("OnlyServersEncode").get_value_or (false);
 	_tms_protocol = static_cast<FileTransferProtocol>(f.optional_number_child<int>("TMSProtocol").get_value_or(static_cast<int>(FileTransferProtocol::SCP)));
+	_tms_passive = f.optional_bool_child("TMSPassive").get_value_or(true);
 	_tms_ip = f.string_child ("TMSIP");
 	_tms_path = f.string_child ("TMSPath");
 	_tms_user = f.string_child ("TMSUser");
@@ -719,6 +721,8 @@ Config::write_config () const
 	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
 	/* [XML] TMSProtocol Protocol to use to copy files to a TMS; 0 to use SCP, 1 for FTP. */
 	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (static_cast<int> (_tms_protocol)));
+	/* [XML] TMSPassive True to use PASV mode with TMS FTP connections. */
+	root->add_child("TMSPassive")->add_child_text(_tms_passive ? "1" : "0");
 	/* [XML] TMSIP IP address of TMS. */
 	root->add_child("TMSIP")->add_child_text (_tms_ip);
 	/* [XML] TMSPath Path on the TMS to copy files to. */

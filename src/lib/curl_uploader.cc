@@ -58,6 +58,9 @@ CurlUploader::CurlUploader (function<void (string)> set_status, function<void (f
 	curl_easy_setopt (_curl, CURLOPT_READDATA, this);
 	curl_easy_setopt (_curl, CURLOPT_USERNAME, Config::instance()->tms_user().c_str());
 	curl_easy_setopt (_curl, CURLOPT_PASSWORD, Config::instance()->tms_password().c_str());
+	if (!Config::instance()->tms_passive()) {
+		curl_easy_setopt(_curl, CURLOPT_FTPPORT, "-");
+	}
 }
 
 

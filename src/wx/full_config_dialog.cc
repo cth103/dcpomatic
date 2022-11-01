@@ -696,6 +696,10 @@ private:
 		_tms_protocol = new wxChoice (_panel, wxID_ANY);
 		table->Add (_tms_protocol, 1, wxEXPAND);
 
+		_tms_passive = new CheckBox(_panel, _("Passive mode"));
+		table->Add(_tms_passive, 1, wxEXPAND);
+		table->AddSpacer(0);
+
 		add_label_to_sizer (table, _panel, _("IP address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_tms_ip = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_tms_ip, 1, wxEXPAND);
@@ -717,6 +721,8 @@ private:
 
 		_upload->Bind (wxEVT_CHECKBOX, boost::bind(&TMSPage::upload_changed, this));
 		_tms_protocol->Bind (wxEVT_CHOICE, boost::bind (&TMSPage::tms_protocol_changed, this));
+		_tms_passive->bind(&TMSPage::tms_passive_changed, this);
+
 		_tms_ip->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_ip_changed, this));
 		_tms_path->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_path_changed, this));
 		_tms_user->Bind (wxEVT_TEXT, boost::bind (&TMSPage::tms_user_changed, this));
@@ -729,10 +735,13 @@ private:
 
 		checked_set (_upload, config->upload_after_make_dcp());
 		checked_set (_tms_protocol, static_cast<int>(config->tms_protocol()));
+		checked_set(_tms_passive, config->tms_protocol() == FileTransferProtocol::FTP && config->tms_passive());
 		checked_set (_tms_ip, config->tms_ip ());
 		checked_set (_tms_path, config->tms_path ());
 		checked_set (_tms_user, config->tms_user ());
 		checked_set (_tms_password, config->tms_password ());
+
+		_tms_passive->Enable(config->tms_protocol() == FileTransferProtocol::FTP);
 	}
 
 	void upload_changed ()
@@ -743,6 +752,11 @@ private:
 	void tms_protocol_changed ()
 	{
 		Config::instance()->set_tms_protocol(static_cast<FileTransferProtocol>(_tms_protocol->GetSelection()));
+	}
+
+	void tms_passive_changed()
+	{
+		Config::instance()->set_tms_passive(_tms_passive->get());
 	}
 
 	void tms_ip_changed ()
@@ -766,6 +780,7 @@ private:
 	}
 
 	CheckBox* _upload;
+	CheckBox* _tms_passive;
 	wxChoice* _tms_protocol;
 	wxTextCtrl* _tms_ip;
 	wxTextCtrl* _tms_path;

@@ -130,6 +130,10 @@ public:
 		return _tms_protocol;
 	}
 
+	bool tms_passive() const {
+		return _tms_passive;
+	}
+
 	/** @return The IP address of a TMS that we can copy DCPs to */
 	std::string tms_ip () const {
 		return _tms_ip;
@@ -627,6 +631,10 @@ public:
 
 	void set_tms_protocol (FileTransferProtocol p) {
 		maybe_set (_tms_protocol, p);
+	}
+
+	void set_tms_passive(bool passive) {
+		maybe_set(_tms_passive, passive);
 	}
 
 	/** @param i IP address of a TMS that we can copy DCPs to */
@@ -1256,6 +1264,7 @@ private:
 	std::vector<std::string> _servers;
 	bool _only_servers_encode;
 	FileTransferProtocol _tms_protocol;
+	bool _tms_passive;
 	/** The IP address of a TMS that we can copy DCPs to */
 	std::string _tms_ip;
 	/** The path on a TMS that we should write DCPs to */
