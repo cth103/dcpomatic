@@ -31,6 +31,7 @@ public:
 	~CurlUploader ();
 
 	size_t read_callback (void* ptr, size_t size, size_t nmemb);
+	int debug(CURL* curl, curl_infotype type, char* data, size_t size);
 
 protected:
 	void create_directory (boost::filesystem::path directory) override;

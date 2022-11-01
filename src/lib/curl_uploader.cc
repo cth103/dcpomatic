@@ -20,6 +20,7 @@
 
 
 #include "curl_uploader.h"
+#include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "config.h"
 #include "cross.h"
@@ -43,6 +44,13 @@ read_callback (void* ptr, size_t size, size_t nmemb, void* object)
 }
 
 
+static int
+curl_debug_shim (CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
+{
+	return reinterpret_cast<CurlUploader*>(userp)->debug(curl, type, data, size);
+}
+
+
 CurlUploader::CurlUploader (function<void (string)> set_status, function<void (float)> set_progress)
 	: Uploader (set_status, set_progress)
 {
@@ -61,6 +69,9 @@ CurlUploader::CurlUploader (function<void (string)> set_status, function<void (f
 	if (!Config::instance()->tms_passive()) {
 		curl_easy_setopt(_curl, CURLOPT_FTPPORT, "-");
 	}
+	curl_easy_setopt(_curl, CURLOPT_VERBOSE, 1L);
+	curl_easy_setopt(_curl, CURLOPT_DEBUGFUNCTION, curl_debug_shim);
+	curl_easy_setopt(_curl, CURLOPT_DEBUGDATA, this);
 }
 
 
@@ -116,3 +127,14 @@ CurlUploader::read_callback (void* ptr, size_t size, size_t nmemb)
 
 	return r;
 }
+
+
+int
+CurlUploader::debug(CURL *, curl_infotype type, char* data, size_t size)
+{
+	if (type == CURLINFO_TEXT && size > 0) {
+		LOG_GENERAL("CurlUploader: %1", string(data, size - 1));
+	}
+	return 0;
+}
+
