@@ -28,6 +28,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/bind/bind.hpp>
 
 
 class CheckBox : public wxCheckBox, public I18NHook
@@ -37,6 +38,12 @@ public:
 
 	void set_text (wxString text) override;
 	wxString get_text () const override;
+	bool get() const;
+
+	template <typename... Args>
+	void bind(Args... args) {
+		Bind(wxEVT_CHECKBOX, boost::bind(std::forward<Args>(args)...));
+	}
 };
 
 

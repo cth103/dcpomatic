@@ -45,3 +45,11 @@ CheckBox::get_text () const
 {
 	return GetLabel ();
 }
+
+
+bool
+CheckBox::get() const
+{
+	return GetValue();
+}
+
