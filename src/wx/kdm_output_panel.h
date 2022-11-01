@@ -29,6 +29,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
 
+class CheckBox;
 class DirPickerCtrl;
 class Job;
 class KDMChoice;
@@ -72,7 +73,7 @@ private:
 	KDMChoice* _type;
 	NameFormatEditor* _container_name_format;
 	NameFormatEditor* _filename_format;
-	wxCheckBox* _write_to;
+	CheckBox* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;
 #else
@@ -81,7 +82,7 @@ private:
 	wxRadioButton* _write_flat;
 	wxRadioButton* _write_folder;
 	wxRadioButton* _write_zip;
-	wxCheckBox* _email;
+	CheckBox* _email;
 	bool _forensic_mark_video;
 	bool _forensic_mark_audio;
 	boost::optional<int> _forensic_mark_audio_up_to;

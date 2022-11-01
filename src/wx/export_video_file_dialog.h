@@ -53,9 +53,9 @@ private:
 
 	std::string _initial_name;
 	wxChoice* _format;
-	wxCheckBox* _mixdown;
-	wxCheckBox* _split_reels;
-	wxCheckBox* _split_streams;
+	CheckBox* _mixdown;
+	CheckBox* _split_reels;
+	CheckBox* _split_streams;
 	wxSlider* _x264_crf;
 	wxStaticText* _x264_crf_label[2];
 	FilePickerCtrl* _file;

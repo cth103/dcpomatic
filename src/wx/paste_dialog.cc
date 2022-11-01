@@ -19,8 +19,8 @@
 */
 
 
-#include "paste_dialog.h"
 #include "check_box.h"
+#include "paste_dialog.h"
 
 
 PasteDialog::PasteDialog (wxWindow* parent, bool video, bool audio, bool text)

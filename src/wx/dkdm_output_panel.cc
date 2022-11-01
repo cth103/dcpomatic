@@ -94,8 +94,8 @@ DKDMOutputPanel::DKDMOutputPanel (wxWindow* parent)
 	table->Add (_email, 1, wxEXPAND);
 	table->AddSpacer (0);
 
-	_write_to->Bind (wxEVT_CHECKBOX, boost::bind(&DKDMOutputPanel::setup_sensitivity, this));
-	_email->Bind (wxEVT_CHECKBOX, boost::bind(&DKDMOutputPanel::setup_sensitivity, this));
+	_write_to->bind(&DKDMOutputPanel::setup_sensitivity, this);
+	_email->bind(&DKDMOutputPanel::setup_sensitivity, this);
 
 	SetSizer (table);
 }

@@ -19,6 +19,7 @@
 */
 
 
+#include "check_box.h"
 #include "content_version_dialog.h"
 #include "editable_list.h"
 #include "language_tag_dialog.h"
@@ -90,7 +91,7 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	_status = new wxChoice (panel, wxID_ANY);
 	sizer->Add (_status, 0);
 
-	_enable_distributor = new wxCheckBox (panel, wxID_ANY, _("Distributor"));
+	_enable_distributor = new CheckBox(panel, _("Distributor"));
 	sizer->Add (_enable_distributor, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_distributor = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_distributor, 1, wxEXPAND);
@@ -138,7 +139,7 @@ SMPTEMetadataDialog::setup ()
 	_name_language->Changed.connect (boost::bind(&SMPTEMetadataDialog::name_language_changed, this, _1));
 	_version_number->Bind (wxEVT_SPINCTRL, boost::bind(&SMPTEMetadataDialog::version_number_changed, this));
 	_status->Bind (wxEVT_CHOICE, boost::bind(&SMPTEMetadataDialog::status_changed, this));
-	_enable_distributor->Bind (wxEVT_CHECKBOX, boost::bind(&SMPTEMetadataDialog::enable_distributor_changed, this));
+	_enable_distributor->bind(&SMPTEMetadataDialog::enable_distributor_changed, this);
 	_distributor->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::distributor_changed, this));
 
 	film_changed (ChangeType::DONE, Film::Property::NAME_LANGUAGE);

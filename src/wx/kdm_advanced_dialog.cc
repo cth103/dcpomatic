@@ -63,7 +63,7 @@ KDMAdvancedDialog::KDMAdvancedDialog (wxWindow* parent, bool forensic_mark_video
 	setup_sensitivity ();
 
 	_forensic_mark_audio_up_to->SetRange (1, 15);
-	_forensic_mark_audio->Bind (wxEVT_CHECKBOX, boost::bind(&KDMAdvancedDialog::setup_sensitivity, this));
+	_forensic_mark_audio->bind(&KDMAdvancedDialog::setup_sensitivity, this);
 	_forensic_mark_all_audio->Bind (wxEVT_RADIOBUTTON, boost::bind(&KDMAdvancedDialog::setup_sensitivity, this));
 	_forensic_mark_some_audio->Bind (wxEVT_RADIOBUTTON, boost::bind(&KDMAdvancedDialog::setup_sensitivity, this));
 }

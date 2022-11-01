@@ -35,8 +35,8 @@ public:
 private:
 	void setup_sensitivity ();
 
-	wxCheckBox* _forensic_mark_video;
-	wxCheckBox* _forensic_mark_audio;
+	CheckBox* _forensic_mark_video;
+	CheckBox* _forensic_mark_audio;
 	wxRadioButton* _forensic_mark_all_audio;
 	wxRadioButton* _forensic_mark_some_audio;
 	wxSpinCtrl* _forensic_mark_audio_up_to;

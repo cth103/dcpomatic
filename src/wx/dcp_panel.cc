@@ -97,7 +97,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 		wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE | wxST_ELLIPSIZE_MIDDLE
 		);
 
-	_enable_audio_language = new wxCheckBox (_panel, wxID_ANY, _("Audio language"));
+	_enable_audio_language = new CheckBox(_panel, _("Audio language"));
 	_audio_language = new wxStaticText (_panel, wxID_ANY, wxT(""));
 	_edit_audio_language = new Button (_panel, _("Edit..."));
 
@@ -130,16 +130,16 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_notebook->AddPage (make_audio_panel (), _("Audio"), false);
 
 	_name->Bind		     (wxEVT_TEXT,     boost::bind(&DCPPanel::name_changed, this));
-	_use_isdcf_name->Bind	     (wxEVT_CHECKBOX, boost::bind(&DCPPanel::use_isdcf_name_toggled, this));
+	_use_isdcf_name->bind(&DCPPanel::use_isdcf_name_toggled, this);
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind(&DCPPanel::copy_isdcf_name_button_clicked, this));
 	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind(&DCPPanel::dcp_content_type_changed, this));
-	_encrypted->Bind             (wxEVT_CHECKBOX, boost::bind(&DCPPanel::encrypted_toggled, this));
+	_encrypted->bind(&DCPPanel::encrypted_toggled, this);
 	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind(&DCPPanel::reel_type_changed, this));
 	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind(&DCPPanel::reel_length_changed, this));
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind(&DCPPanel::standard_changed, this));
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind(&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind(&DCPPanel::metadata_clicked, this));
-	_enable_audio_language->Bind (wxEVT_CHECKBOX, boost::bind(&DCPPanel::enable_audio_language_toggled, this));
+	_enable_audio_language->bind(&DCPPanel::enable_audio_language_toggled, this);
 	_edit_audio_language->Bind   (wxEVT_BUTTON,   boost::bind(&DCPPanel::edit_audio_language_clicked, this));
 
 	for (auto i: DCPContentType::all()) {
@@ -806,8 +806,8 @@ DCPPanel::make_video_panel ()
 	/* Also listen to wxEVT_TEXT so that typing numbers directly in is always noticed */
 	_j2k_bandwidth->Bind	 (wxEVT_TEXT,     boost::bind(&DCPPanel::j2k_bandwidth_changed, this));
 	_resolution->Bind        (wxEVT_CHOICE,   boost::bind(&DCPPanel::resolution_changed, this));
-	_three_d->Bind	 	 (wxEVT_CHECKBOX, boost::bind(&DCPPanel::three_d_changed, this));
-	_reencode_j2k->Bind      (wxEVT_CHECKBOX, boost::bind(&DCPPanel::reencode_j2k_changed, this));
+	_three_d->bind(&DCPPanel::three_d_changed, this);
+	_reencode_j2k->bind(&DCPPanel::reencode_j2k_changed, this);
 
 	for (auto i: Ratio::containers()) {
 		_container->add(i->container_nickname());

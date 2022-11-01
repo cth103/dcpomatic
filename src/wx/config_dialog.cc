@@ -152,7 +152,7 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 	restart->SetFont (font);
 	++r;
 
-	_set_language->Bind (wxEVT_CHECKBOX, bind (&GeneralPage::set_language_changed, this));
+	_set_language->bind(&GeneralPage::set_language_changed, this);
 	_language->Bind     (wxEVT_CHOICE,   bind (&GeneralPage::language_changed,     this));
 }
 
@@ -167,8 +167,8 @@ GeneralPage::add_update_controls (wxGridBagSizer* table, int& r)
 	table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	_check_for_updates->Bind (wxEVT_CHECKBOX, bind (&GeneralPage::check_for_updates_changed, this));
-	_check_for_test_updates->Bind (wxEVT_CHECKBOX, bind (&GeneralPage::check_for_test_updates_changed, this));
+	_check_for_updates->bind(&GeneralPage::check_for_updates_changed, this);
+	_check_for_test_updates->bind(&GeneralPage::check_for_test_updates_changed, this);
 }
 
 void
@@ -895,7 +895,7 @@ SoundPage::setup ()
 		}
 	}
 
-	_sound->Bind        (wxEVT_CHECKBOX, bind(&SoundPage::sound_changed, this));
+	_sound->bind(&SoundPage::sound_changed, this);
 	_sound_output->Bind (wxEVT_CHOICE,   bind(&SoundPage::sound_output_changed, this));
 	_map->Changed.connect (bind(&SoundPage::map_changed, this, _1));
 	_reset_to_default->Bind (wxEVT_BUTTON,   bind(&SoundPage::reset_to_default, this));

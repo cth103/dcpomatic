@@ -133,7 +133,7 @@ private:
 		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
 		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
 		_video_display_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::video_display_mode_changed, this));
-		_respect_kdm->Bind (wxEVT_CHECKBOX, bind(&PlayerGeneralPage::respect_kdm_changed, this));
+		_respect_kdm->bind(&PlayerGeneralPage::respect_kdm_changed, this);
 		_debug_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
 	}
 
@@ -214,7 +214,7 @@ private:
 	wxChoice* _player_mode;
 	wxChoice* _image_display;
 	wxChoice* _video_display_mode;
-	wxCheckBox* _respect_kdm;
+	CheckBox* _respect_kdm;
 	FilePickerCtrl* _debug_log_file;
 };
 
@@ -284,12 +284,12 @@ private:
 		table->AddSpacer (0);
 #endif
 
-		_log_general->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
-		_log_warning->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
-		_log_error->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
-		_log_timing->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::log_changed, this));
+		_log_general->bind(&PlayerAdvancedPage::log_changed, this);
+		_log_warning->bind(&PlayerAdvancedPage::log_changed, this);
+		_log_error->bind(&PlayerAdvancedPage::log_changed, this);
+		_log_timing->bind(&PlayerAdvancedPage::log_changed, this);
 #ifdef DCPOMATIC_WINDOWS
-		_win32_console->Bind (wxEVT_CHECKBOX, boost::bind (&PlayerAdvancedPage::win32_console_changed, this));
+		_win32_console->bind(&PlayerAdvancedPage::win32_console_changed, this);
 #endif
 	}
 
@@ -331,12 +331,12 @@ private:
 	}
 #endif
 
-	wxCheckBox* _log_general;
-	wxCheckBox* _log_warning;
-	wxCheckBox* _log_error;
-	wxCheckBox* _log_timing;
+	CheckBox* _log_general;
+	CheckBox* _log_warning;
+	CheckBox* _log_error;
+	CheckBox* _log_timing;
 #ifdef DCPOMATIC_WINDOWS
-	wxCheckBox* _win32_console;
+	CheckBox* _win32_console;
 #endif
 };
 

@@ -126,10 +126,10 @@ TextPanel::create ()
 	_y_scale->SetRange (0, 1000);
 	_line_spacing->SetRange (0, 1000);
 
-	_reference->Bind                (wxEVT_CHECKBOX, boost::bind (&TextPanel::reference_clicked, this));
-	_use->Bind                      (wxEVT_CHECKBOX, boost::bind (&TextPanel::use_toggled, this));
+	_reference->bind(&TextPanel::reference_clicked, this);
+	_use->bind(&TextPanel::use_toggled, this);
 	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));
-	_burn->Bind                     (wxEVT_CHECKBOX, boost::bind (&TextPanel::burn_toggled, this));
+	_burn->bind(&TextPanel::burn_toggled, this);
 	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_offset_changed, this));
 	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_offset_changed, this));
 	_x_scale->Bind                  (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_scale_changed, this));
@@ -162,7 +162,7 @@ TextPanel::setup_visibility ()
 		}
 		if (!_outline_subtitles) {
 			_outline_subtitles = new CheckBox (this, _("Show subtitle area"));
-			_outline_subtitles->Bind (wxEVT_CHECKBOX, boost::bind (&TextPanel::outline_subtitles_changed, this));
+			_outline_subtitles->bind(&TextPanel::outline_subtitles_changed, this);
 			_grid->Add (_outline_subtitles, wxGBPosition(_outline_subtitles_row, 0), wxGBSpan(1, 2));
 		}
 		if (!_language) {

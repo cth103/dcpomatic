@@ -40,10 +40,10 @@ ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> ema
 
 	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	wxCheckBox* shut_up = new CheckBox (this, _("Don't ask this again"));
+	auto shut_up = new CheckBox (this, _("Don't ask this again"));
 	_sizer->Add (shut_up, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	shut_up->Bind (wxEVT_CHECKBOX, bind (&ConfirmKDMEmailDialog::shut_up, this, _1));
+	shut_up->bind(&ConfirmKDMEmailDialog::shut_up, this, _1);
 
 	layout ();
 }

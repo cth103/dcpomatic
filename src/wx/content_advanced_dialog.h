@@ -29,6 +29,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 
+class CheckBox;
 class Content;
 class Filter;
 class LanguageTagWidget;
@@ -65,8 +66,8 @@ private:
 	wxButton* _filters_button;
 	wxTextCtrl* _video_frame_rate;
 	wxButton* _set_video_frame_rate;
-	wxCheckBox* _burnt_subtitle;
+	CheckBox* _burnt_subtitle;
 	LanguageTagWidget* _burnt_subtitle_language;
-	wxCheckBox* _ignore_video;
+	CheckBox* _ignore_video;
 };
 

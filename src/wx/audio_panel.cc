@@ -113,7 +113,7 @@ AudioPanel::create ()
 	_fade_out_label = create_label (this, _("Fade out"), true);
 	_fade_out = new Timecode<ContentTime> (this);
 
-	_use_same_fades_as_video = new wxCheckBox (this, wxID_ANY, _("Use same fades as video"));
+	_use_same_fades_as_video = new CheckBox(this, _("Use same fades as video"));
 
 	_mapping = new AudioMappingView (this, _("Content"), _("content"), _("DCP"), _("DCP"));
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
@@ -132,13 +132,13 @@ AudioPanel::create ()
 	film_changed (Film::Property::VIDEO_FRAME_RATE);
 	film_changed (Film::Property::REEL_TYPE);
 
-	_reference->Bind             (wxEVT_CHECKBOX, boost::bind (&AudioPanel::reference_clicked, this));
+	_reference->bind(&AudioPanel::reference_clicked, this);
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
 	_gain_calculate_button->Bind (wxEVT_BUTTON,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
 	_fade_in->Changed.connect (boost::bind(&AudioPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind(&AudioPanel::fade_out_changed, this));
-	_use_same_fades_as_video->Bind (wxEVT_CHECKBOX, boost::bind(&AudioPanel::use_same_fades_as_video_changed, this));
+	_use_same_fades_as_video->bind(&AudioPanel::use_same_fades_as_video_changed, this);
 
 	_mapping_connection = _mapping->Changed.connect (boost::bind (&AudioPanel::mapping_changed, this, _1));
 	_active_jobs_connection = JobManager::instance()->ActiveJobsChanged.connect (boost::bind (&AudioPanel::active_jobs_changed, this, _1, _2));

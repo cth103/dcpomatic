@@ -78,7 +78,7 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 			_template_name->Append (std_to_wx(i));
 		}
 
-		_use_template->Bind (wxEVT_CHECKBOX, bind(&FilmNameLocationDialog::use_template_clicked, this));
+		_use_template->bind(&FilmNameLocationDialog::use_template_clicked, this);
 	}
 
 	layout ();

@@ -22,6 +22,9 @@
 #include "table_dialog.h"
 
 
+class CheckBox;
+
+
 class PasteDialog : public TableDialog
 {
 public:
@@ -32,7 +35,7 @@ public:
 	bool text () const;
 
 private:
-	wxCheckBox* _video;
-	wxCheckBox* _audio;
-	wxCheckBox* _text;
+	CheckBox* _video;
+	CheckBox* _audio;
+	CheckBox* _text;
 };

@@ -19,19 +19,20 @@
 */
 
 
-#include "lib/audio_mapping.h"
 #include "content_sub_panel.h"
 #include "content_widget.h"
 #include "timecode.h"
+#include "lib/audio_mapping.h"
 
 
-class wxSpinCtrlDouble;
+class AudioDialog;
+class AudioMappingView;
+class CheckBox;
+class LanguageTagWidget;
 class wxButton;
 class wxChoice;
+class wxSpinCtrlDouble;
 class wxStaticText;
-class AudioMappingView;
-class AudioDialog;
-class LanguageTagWidget;
 
 
 class AudioPanel : public ContentSubPanel
@@ -61,7 +62,7 @@ private:
 	void fade_out_changed ();
 	void use_same_fades_as_video_changed ();
 
-	wxCheckBox* _reference;
+	CheckBox* _reference;
 	wxStaticText* _reference_note;
 	wxButton* _show;
 	wxStaticText* _gain_label;
@@ -76,7 +77,7 @@ private:
 	Timecode<dcpomatic::ContentTime>* _fade_in;
 	wxStaticText* _fade_out_label;
 	Timecode<dcpomatic::ContentTime>* _fade_out;
-	wxCheckBox* _use_same_fades_as_video;
+	CheckBox* _use_same_fades_as_video;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
 	AudioDialog* _audio_dialog = nullptr;

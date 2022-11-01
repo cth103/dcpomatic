@@ -137,7 +137,7 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 		_eye->Bind (wxEVT_CHOICE, boost::bind (&Controls::eye_changed, this));
 	}
 	if (_outline_content) {
-		_outline_content->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::outline_content_changed, this));
+		_outline_content->bind(&Controls::outline_content_changed, this);
 	}
 
 	_slider->Bind           (wxEVT_SCROLL_THUMBTRACK,    boost::bind(&Controls::slider_moved,    this, false));
@@ -150,7 +150,7 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,            boost::bind(&Controls::frame_number_clicked, this));
 	_timecode->Bind         (wxEVT_LEFT_DOWN,            boost::bind(&Controls::timecode_clicked, this));
 	if (_jump_to_selected) {
-		_jump_to_selected->Bind (wxEVT_CHECKBOX, boost::bind (&Controls::jump_to_selected_clicked, this));
+		_jump_to_selected->bind(&Controls::jump_to_selected_clicked, this);
 		_jump_to_selected->SetValue (Config::instance()->jump_to_selected ());
 	}
 

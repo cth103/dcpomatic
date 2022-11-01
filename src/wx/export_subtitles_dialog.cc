@@ -65,8 +65,8 @@ ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, int reels, bool 
 	_dir = new DirPickerCtrl (this);
 	add (_dir);
 
-	_split_reels->Bind (wxEVT_CHECKBOX, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
-	_include_font->Bind (wxEVT_CHECKBOX, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
+	_split_reels->bind(&ExportSubtitlesDialog::setup_sensitivity, this);
+	_include_font->bind(&ExportSubtitlesDialog::setup_sensitivity, this);
 	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
 	_dir->Bind (wxEVT_DIRPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
 

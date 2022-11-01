@@ -22,7 +22,7 @@
 #include "content_sub_panel.h"
 
 
-class wxCheckBox;
+class CheckBox;
 class wxSpinCtrl;
 class LanguageTagWidget;
 class TextView;
@@ -72,12 +72,12 @@ private:
 	void update_outline_subtitles_in_viewer ();
 	void clear_outline_subtitles ();
 
-	wxCheckBox* _reference;
+	CheckBox* _reference;
 	wxStaticText* _reference_note;
-	wxCheckBox* _outline_subtitles = nullptr;
-	wxCheckBox* _use;
+	CheckBox* _outline_subtitles = nullptr;
+	CheckBox* _use;
 	wxChoice* _type;
-	wxCheckBox* _burn;
+	CheckBox* _burn;
 	wxStaticText* _offset_label;
 	wxStaticText* _x_offset_label;
 	wxStaticText* _x_offset_pc_label;

@@ -29,16 +29,16 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
-class wxRadioButton;
-class wxColourPickerCtrl;
-class wxGridBagSizer;
+class CheckBox;
 class Content;
-class RGBAColourPicker;
 class FFmpegSubtitleStream;
-class wxCheckBox;
-class wxWidget;
 class Film;
 class Job;
+class RGBAColourPicker;
+class wxColourPickerCtrl;
+class wxGridBagSizer;
+class wxRadioButton;
+class wxWidget;
 
 
 class SubtitleAppearanceDialog : public wxDialog
@@ -51,21 +51,21 @@ public:
 private:
 	void setup_sensitivity ();
 	void restore ();
-	wxCheckBox* set_to (wxWindow* w, int& r);
+	CheckBox* set_to (wxWindow* w, int& r);
 	void content_change (ChangeType type);
 	void active_jobs_changed (boost::optional<std::string> last);
 	void add_colours ();
 
 	std::weak_ptr<const Film> _film;
-	wxCheckBox* _force_colour;
+	CheckBox* _force_colour;
 	wxColourPickerCtrl* _colour;
-	wxCheckBox* _force_effect;
+	CheckBox* _force_effect;
 	wxChoice* _effect;
-	wxCheckBox* _force_effect_colour;
+	CheckBox* _force_effect_colour;
 	wxColourPickerCtrl* _effect_colour;
-	wxCheckBox* _force_fade_in;
+	CheckBox* _force_fade_in;
 	Timecode<dcpomatic::ContentTime>* _fade_in;
-	wxCheckBox* _force_fade_out;
+	CheckBox* _force_fade_out;
 	Timecode<dcpomatic::ContentTime>* _fade_out;
 	wxSpinCtrl* _outline_width;
 	wxGridBagSizer* _table;

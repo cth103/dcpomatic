@@ -19,6 +19,7 @@
 */
 
 
+#include "check_box.h"
 #include "dcpomatic_button.h"
 #include "dcpomatic_choice.h"
 #include "editable_list.h"
@@ -85,18 +86,18 @@ MetadataDialog::setup ()
 
 	_sign_language_video_language->Changed.connect (boost::bind(&MetadataDialog::sign_language_video_language_changed, this));
 	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&MetadataDialog::edit_release_territory, this));
-	_enable_release_territory->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_release_territory_changed, this));
-	_enable_facility->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_facility_changed, this));
+	_enable_release_territory->bind(&MetadataDialog::enable_release_territory_changed, this);
+	_enable_facility->bind(&MetadataDialog::enable_facility_changed, this);
 	_facility->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::facility_changed, this));
-	_enable_studio->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_studio_changed, this));
+	_enable_studio->bind(&MetadataDialog::enable_studio_changed, this);
 	_studio->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::studio_changed, this));
-	_enable_chain->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_chain_changed, this));
+	_enable_chain->bind(&MetadataDialog::enable_chain_changed, this);
 	_chain->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::chain_changed, this));
-	_temp_version->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::temp_version_changed, this));
-	_pre_release->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::pre_release_changed, this));
-	_red_band->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::red_band_changed, this));
-	_two_d_version_of_three_d->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::two_d_version_of_three_d_changed, this));
-	_enable_luminance->Bind (wxEVT_CHECKBOX, boost::bind(&MetadataDialog::enable_luminance_changed, this));
+	_temp_version->bind(&MetadataDialog::temp_version_changed, this);
+	_pre_release->bind(&MetadataDialog::pre_release_changed, this);
+	_red_band->bind(&MetadataDialog::red_band_changed, this);
+	_two_d_version_of_three_d->bind(&MetadataDialog::two_d_version_of_three_d_changed, this);
+	_enable_luminance->bind(&MetadataDialog::enable_luminance_changed, this);
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&MetadataDialog::luminance_changed, this));
 	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&MetadataDialog::luminance_changed, this));
 
@@ -179,7 +180,7 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 void
 MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 {
-	_enable_release_territory = new wxCheckBox (panel, wxID_ANY, _("Release territory"));
+	_enable_release_territory = new CheckBox(panel, _("Release territory"));
 	sizer->Add (_enable_release_territory, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
@@ -264,38 +265,38 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	_sign_language_video_language = new LanguageTagWidget (panel, _("Language used for any sign language video track"), {}, {});
 	sizer->Add (_sign_language_video_language->sizer(), 1, wxEXPAND);
 
-	_enable_facility = new wxCheckBox (panel, wxID_ANY, _("Facility"));
+	_enable_facility = new CheckBox(panel, _("Facility"));
 	sizer->Add (_enable_facility, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_facility = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_facility, 1, wxEXPAND);
 
-	_enable_studio = new wxCheckBox (panel, wxID_ANY, _("Studio"));
+	_enable_studio = new CheckBox(panel, _("Studio"));
 	sizer->Add (_enable_studio, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_studio = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_studio, 1, wxEXPAND);
 
-	_enable_chain = new wxCheckBox (panel, wxID_ANY, _("Chain"));
+	_enable_chain = new CheckBox(panel, _("Chain"));
 	sizer->Add (_enable_chain, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	_chain = new wxTextCtrl (panel, wxID_ANY);
 	sizer->Add (_chain, 1, wxEXPAND);
 
-	_temp_version = new wxCheckBox (panel, wxID_ANY, _("Temporary version"));
+	_temp_version = new CheckBox(panel, _("Temporary version"));
 	sizer->Add (_temp_version, 0, wxALIGN_CENTER_VERTICAL);
 	sizer->AddSpacer (0);
 
-	_pre_release = new wxCheckBox (panel, wxID_ANY, _("Pre-release"));
+	_pre_release = new CheckBox(panel, _("Pre-release"));
 	sizer->Add (_pre_release, 0, wxALIGN_CENTER_VERTICAL);
 	sizer->AddSpacer (0);
 
-	_red_band = new wxCheckBox (panel, wxID_ANY, _("Red band"));
+	_red_band = new CheckBox(panel, _("Red band"));
 	sizer->Add (_red_band, 0, wxALIGN_CENTER_VERTICAL);
 	sizer->AddSpacer (0);
 
-	_two_d_version_of_three_d = new wxCheckBox (panel, wxID_ANY, _("2D version of 3D DCP"));
+	_two_d_version_of_three_d = new CheckBox(panel, _("2D version of 3D DCP"));
 	sizer->Add (_two_d_version_of_three_d, 0, wxALIGN_CENTER_VERTICAL);
 	sizer->AddSpacer (0);
 
-	_enable_luminance = new wxCheckBox (panel, wxID_ANY, _("Luminance"));
+	_enable_luminance = new CheckBox(panel, _("Luminance"));
 	sizer->Add (_enable_luminance, 0, wxALIGN_CENTER_VERTICAL);
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);

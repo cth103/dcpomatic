@@ -155,8 +155,8 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	_write_to->SetValue (Config::instance()->write_kdms_to_disk());
 	_email->SetValue (Config::instance()->email_kdms());
 
-	_write_to->Bind     (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::write_to_changed, this));
-	_email->Bind        (wxEVT_CHECKBOX, boost::bind (&KDMOutputPanel::email_changed, this));
+	_write_to->bind(&KDMOutputPanel::write_to_changed, this);
+	_email->bind(&KDMOutputPanel::email_changed, this);
 	add_email_addresses->Bind (wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
 	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
 	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));

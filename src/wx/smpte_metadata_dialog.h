@@ -63,7 +63,7 @@ private:
 	LanguageTagWidget* _name_language;
 	wxSpinCtrl* _version_number;
 	wxChoice* _status;
-	wxCheckBox* _enable_distributor;
+	CheckBox* _enable_distributor;
 	wxTextCtrl* _distributor;
 	EditableList<std::string, ContentVersionDialog>* _content_versions;
 };

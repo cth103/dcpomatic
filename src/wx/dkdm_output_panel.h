@@ -30,6 +30,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
 
+class CheckBox;
 class DirPickerCtrl;
 class Job;
 class KDMTimingPanel;
@@ -55,11 +56,11 @@ public:
 
 private:
 	NameFormatEditor* _filename_format;
-	wxCheckBox* _write_to;
+	CheckBox* _write_to;
 #ifdef DCPOMATIC_USE_OWN_PICKER
 	DirPickerCtrl* _folder;
 #else
 	wxDirPickerCtrl* _folder;
 #endif
-	wxCheckBox* _email;
+	CheckBox* _email;
 };

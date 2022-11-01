@@ -35,6 +35,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class Button;
+class CheckBox;
 class Choice;
 class LanguageTagWidget;
 class RatingDialog;
@@ -76,7 +77,7 @@ private:
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
 
-	wxCheckBox* _enable_release_territory;
+	CheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
 	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag
 	 *  alongside.
@@ -85,17 +86,17 @@ private:
 	wxStaticText* _release_territory_text;
 	Button* _edit_release_territory;
 	LanguageTagWidget* _sign_language_video_language = nullptr;
-	wxCheckBox* _enable_facility;
+	CheckBox* _enable_facility;
 	wxTextCtrl* _facility;
-	wxCheckBox* _enable_chain;
+	CheckBox* _enable_chain;
 	wxTextCtrl* _chain;
-	wxCheckBox* _enable_studio;
+	CheckBox* _enable_studio;
 	wxTextCtrl* _studio;
-	wxCheckBox* _temp_version;
-	wxCheckBox* _pre_release;
-	wxCheckBox* _red_band;
-	wxCheckBox* _two_d_version_of_three_d;
-	wxCheckBox* _enable_luminance;
+	CheckBox* _temp_version;
+	CheckBox* _pre_release;
+	CheckBox* _red_band;
+	CheckBox* _two_d_version_of_three_d;
+	CheckBox* _enable_luminance;
 	wxSpinCtrlDouble* _luminance_value;
 	Choice* _luminance_unit;
 

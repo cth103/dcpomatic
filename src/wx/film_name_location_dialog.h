@@ -28,6 +28,7 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 
 
+class CheckBox;
 class DirPickerCtrl;
 
 
@@ -51,7 +52,7 @@ private:
 #else
 	wxDirPickerCtrl* _folder;
 #endif
-	wxCheckBox* _use_template;
+	CheckBox* _use_template;
 	wxChoice* _template_name;
 	static boost::optional<boost::filesystem::path> _directory;
 };

@@ -18,22 +18,26 @@
 
 */
 
+
 #ifndef DCPOMATIC_JOB_VIEW_H
 #define DCPOMATIC_JOB_VIEW_H
 
+
 #include <boost/signals2.hpp>
 
+
+class CheckBox;
 class Job;
-class wxScrolledWindow;
-class wxWindow;
-class wxFlexGridSizer;
-class wxCommandEvent;
 class wxBoxSizer;
-class wxGauge;
-class wxStaticText;
 class wxButton;
+class wxCommandEvent;
+class wxFlexGridSizer;
+class wxGauge;
+class wxScrolledWindow;
 class wxSizer;
-class wxCheckBox;
+class wxStaticText;
+class wxWindow;
+
 
 class JobView
 {
@@ -81,7 +85,7 @@ private:
 	wxStaticText* _message;
 	wxButton* _cancel;
 	wxButton* _details;
-	wxCheckBox* _notify;
+	CheckBox* _notify;
 	/** sizer for all right-hand-size controls */
 	wxBoxSizer* _controls;
 	std::string _last_message;
@@ -89,5 +93,6 @@ private:
 	boost::signals2::scoped_connection _progress_connection;
 	boost::signals2::scoped_connection _finished_connection;
 };
+
 
 #endif

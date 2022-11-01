@@ -204,11 +204,11 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 
 	_outline_width->SetValue (_text->outline_width ());
 
-	_force_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_effect_colour->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_effect->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_fade_in->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
-	_force_fade_out->Bind (wxEVT_CHECKBOX, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
+	_force_colour->bind(&SubtitleAppearanceDialog::setup_sensitivity, this);
+	_force_effect_colour->bind(&SubtitleAppearanceDialog::setup_sensitivity, this);
+	_force_effect->bind(&SubtitleAppearanceDialog::setup_sensitivity, this);
+	_force_fade_in->bind(&SubtitleAppearanceDialog::setup_sensitivity, this);
+	_force_fade_out->bind(&SubtitleAppearanceDialog::setup_sensitivity, this);
 	_effect->Bind (wxEVT_CHOICE, bind (&SubtitleAppearanceDialog::setup_sensitivity, this));
 	_content_connection = _content->Change.connect (bind (&SubtitleAppearanceDialog::content_change, this, _1));
 
@@ -223,7 +223,7 @@ SubtitleAppearanceDialog::content_change (ChangeType type)
 	}
 }
 
-wxCheckBox*
+CheckBox*
 SubtitleAppearanceDialog::set_to (wxWindow* w, int& r)
 {
 	auto s = new wxBoxSizer (wxHORIZONTAL);

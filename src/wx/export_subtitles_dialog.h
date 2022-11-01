@@ -28,6 +28,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
 
+class CheckBox;
 class FilePickerCtrl;
 
 
@@ -44,8 +45,8 @@ private:
 	void setup_sensitivity ();
 
 	bool _interop;
-	wxCheckBox* _split_reels;
-	wxCheckBox* _include_font;
+	CheckBox* _split_reels;
+	CheckBox* _include_font;
 	wxStaticText* _file_label;
 	FilePickerCtrl* _file;
 	DirPickerCtrl* _dir;

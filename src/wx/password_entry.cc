@@ -35,7 +35,7 @@ PasswordEntry::PasswordEntry (wxWindow* parent)
 	sizer->Add (_show, 0, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	_panel->SetSizerAndFit (sizer);
 
-	_show->Bind (wxEVT_CHECKBOX, bind(&PasswordEntry::show_clicked, this));
+	_show->bind(&PasswordEntry::show_clicked, this);
 	_text->Bind (wxEVT_TEXT, bind(boost::ref(Changed)));
 }
 

@@ -220,7 +220,7 @@ VideoPanel::create ()
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
-	_reference->Bind                     (wxEVT_CHECKBOX, boost::bind (&VideoPanel::reference_clicked, this));
+	_reference->bind(&VideoPanel::reference_clicked, this);
 	_scale_fit->Bind                     (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_fit_clicked, this));
 	_scale_custom->Bind                  (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_custom_clicked, this));
 	_scale_custom_edit->Bind             (wxEVT_BUTTON,   boost::bind (&VideoPanel::scale_custom_edit_clicked, this));

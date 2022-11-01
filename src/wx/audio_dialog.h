@@ -30,6 +30,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class AudioPlot;
+class CheckBox;
 class FilmViewer;
 class Film;
 
@@ -67,8 +68,8 @@ private:
 	wxStaticText* _integrated_loudness;
 	wxStaticText* _loudness_range;
 	wxStaticText* _leqm;
-	wxCheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
-	wxCheckBox* _type_checkbox[AudioPoint::COUNT];
+	CheckBox* _channel_checkbox[MAX_DCP_AUDIO_CHANNELS];
+	CheckBox* _type_checkbox[AudioPoint::COUNT];
 	wxSlider* _smoothing;
 	boost::signals2::scoped_connection _film_connection;
 	boost::signals2::scoped_connection _film_content_connection;

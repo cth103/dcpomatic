@@ -223,7 +223,7 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	_input_power->SetIncrement (0.1);
 
 	_input->Bind (wxEVT_CHOICE, bind (&ColourConversionEditor::changed, this));
-	_input_gamma->Bind (wxEVT_SPINCTRLDOUBLE, bind (&ColourConversionEditor::changed, this, _input_gamma));
+	_input_gamma->Bind(wxEVT_SPINCTRLDOUBLE, bind(&ColourConversionEditor::spin_ctrl_changed, this, _input_gamma));
 	_input_power->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
 	_input_threshold->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
 	_input_A->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::changed, this));
@@ -236,11 +236,11 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	_blue_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
 	_white_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
 	_white_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::chromaticity_changed, this));
-	_adjust_white->Bind (wxEVT_CHECKBOX, bind (&ColourConversionEditor::adjusted_white_changed, this));
+	_adjust_white->bind(&ColourConversionEditor::adjusted_white_changed, this);
 	_adjusted_white_x->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::adjusted_white_changed, this));
 	_adjusted_white_y->Bind (wxEVT_TEXT, bind (&ColourConversionEditor::adjusted_white_changed, this));
 	_yuv_to_rgb->Bind (wxEVT_CHOICE, bind (&ColourConversionEditor::changed, this));
-	_output->Bind (wxEVT_CHECKBOX, bind (&ColourConversionEditor::changed, this));
+	_output->bind(&ColourConversionEditor::changed, this);
 }
 
 
@@ -449,7 +449,7 @@ ColourConversionEditor::update_rgb_to_xyz ()
 
 
 void
-ColourConversionEditor::changed (wxSpinCtrlDouble* sc)
+ColourConversionEditor::spin_ctrl_changed(wxSpinCtrlDouble* sc)
 {
 	/* On OS X, it seems that in some cases when a wxSpinCtrlDouble loses focus
 	   it emits an erroneous changed signal, which messes things up.

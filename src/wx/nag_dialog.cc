@@ -44,7 +44,7 @@ NagDialog::NagDialog (wxWindow* parent, Config::Nag nag, wxString message, bool 
 
 	auto b = new CheckBox (this, _("Don't show this message again"));
 	sizer->Add (b, 0, wxALL, 6);
-	b->Bind (wxEVT_CHECKBOX, bind (&NagDialog::shut_up, this, _1));
+	b->bind(&NagDialog::shut_up, this, _1);
 
 	int flags = wxOK;
 	if (can_cancel) {

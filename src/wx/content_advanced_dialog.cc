@@ -19,6 +19,7 @@
 */
 
 
+#include "check_box.h"
 #include "content_advanced_dialog.h"
 #include "dcpomatic_button.h"
 #include "filter_dialog.h"
@@ -94,13 +95,13 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 
 	/// TRANSLATORS: next to this control is a language selector, so together they will read, for example
 	/// "Video has burnt-in subtitles in the language fr-FR"
-	_burnt_subtitle = new wxCheckBox (this, wxID_ANY, _("Video has burnt-in subtitles in the language"));
+	_burnt_subtitle = new CheckBox(this, _("Video has burnt-in subtitles in the language"));
 	sizer->Add (_burnt_subtitle, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_burnt_subtitle_language = new LanguageTagWidget (this, _("Language of burnt-in subtitles in this content"), content->video ? content->video->burnt_subtitle_language() : boost::none);
 	sizer->Add (_burnt_subtitle_language->sizer(), wxGBPosition(r, 1), wxGBSpan(1, 2), wxEXPAND);
 	++r;
 
-	_ignore_video = new wxCheckBox (this, wxID_ANY, _("Ignore this content's video and use only audio, subtitles and closed captions"));
+	_ignore_video = new CheckBox(this, _("Ignore this content's video and use only audio, subtitles and closed captions"));
 	sizer->Add(_ignore_video, wxGBPosition(r, 0), wxGBSpan(1, 3));
 	++r;
 
@@ -138,7 +139,7 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	_filters_button->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::edit_filters, this));
 	_set_video_frame_rate->Bind (wxEVT_BUTTON, bind(&ContentAdvancedDialog::set_video_frame_rate, this));
 	_video_frame_rate->Bind (wxEVT_TEXT, boost::bind(&ContentAdvancedDialog::video_frame_rate_changed, this));
-	_burnt_subtitle->Bind (wxEVT_CHECKBOX, boost::bind(&ContentAdvancedDialog::burnt_subtitle_changed, this));
+	_burnt_subtitle->bind(&ContentAdvancedDialog::burnt_subtitle_changed, this);
 
 	setup_sensitivity ();
 }

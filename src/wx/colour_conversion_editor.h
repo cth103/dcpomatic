@@ -47,7 +47,7 @@ public:
 
 private:
 	void changed ();
-	void changed (wxSpinCtrlDouble *);
+	void spin_ctrl_changed(wxSpinCtrlDouble *);
 	void chromaticity_changed ();
 	void adjusted_white_changed ();
 	void update_rgb_to_xyz ();
@@ -79,10 +79,10 @@ private:
 	wxTextCtrl* _blue_y;
 	wxTextCtrl* _white_x;
 	wxTextCtrl* _white_y;
-	wxCheckBox* _adjust_white;
+	CheckBox* _adjust_white;
 	wxTextCtrl* _adjusted_white_x;
 	wxTextCtrl* _adjusted_white_y;
-	wxCheckBox* _output;
+	CheckBox* _output;
 	wxStaticText* _rgb_to_xyz[3][3];
 	wxStaticText* _bradford[3][3];
 };

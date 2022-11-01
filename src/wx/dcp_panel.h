@@ -24,12 +24,12 @@
 
 
 class Button;
+class CheckBox;
 class wxNotebook;
 class wxPanel;
 class wxBoxSizer;
 class wxTextCtrl;
 class wxStaticText;
-class wxCheckBox;
 class wxChoice;
 class wxButton;
 class wxSpinCtrl;
@@ -118,8 +118,8 @@ private:
 	wxStaticText* _name_label;
 	wxTextCtrl* _name;
 	wxStaticText* _dcp_name;
-	wxCheckBox* _use_isdcf_name;
-	wxCheckBox* _enable_audio_language = nullptr;
+	CheckBox* _use_isdcf_name;
+	CheckBox* _enable_audio_language = nullptr;
 	wxStaticText* _audio_language = nullptr;
 	Button* _edit_audio_language = nullptr;
 	wxStaticText* _container_label;
@@ -143,13 +143,13 @@ private:
 	Choice* _audio_processor;
 	wxButton* _show_audio;
 	wxButton* _best_frame_rate;
-	wxCheckBox* _three_d;
-	wxCheckBox* _reencode_j2k;
+	CheckBox* _three_d;
+	CheckBox* _reencode_j2k;
 	wxStaticText* _resolution_label;
 	Choice* _resolution;
 	wxStaticText* _standard_label;
 	Choice* _standard;
-	wxCheckBox* _encrypted;
+	CheckBox* _encrypted;
 	wxStaticText* _reels_label;
 	Choice* _reel_type;
 	wxStaticText* _reel_length_label;

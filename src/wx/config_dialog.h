@@ -49,6 +49,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class AudioMappingView;
+class CheckBox;
 
 
 class Page : public wxPreferencesPage
@@ -104,10 +105,10 @@ private:
 	void check_for_updates_changed ();
 	void check_for_test_updates_changed ();
 
-	wxCheckBox* _set_language;
+	CheckBox* _set_language;
 	wxChoice* _language;
-	wxCheckBox* _check_for_updates;
-	wxCheckBox* _check_for_test_updates;
+	CheckBox* _check_for_updates;
+	CheckBox* _check_for_test_updates;
 };
 
 
@@ -212,7 +213,7 @@ private:
 	void map_changed (AudioMapping m);
 	void reset_to_default ();
 
-	wxCheckBox* _sound;
+	CheckBox* _sound;
 	wxChoice* _sound_output;
 	wxStaticText* _sound_output_details;
 	AudioMappingView* _map;

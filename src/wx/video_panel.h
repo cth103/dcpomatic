@@ -29,6 +29,8 @@
 #include "timecode.h"
 #include "lib/film.h"
 
+
+class CheckBox;
 class wxButton;
 class wxChoice;
 class wxSpinCtrl;
@@ -70,7 +72,7 @@ private:
 	void setup_description ();
 	void setup_sensitivity ();
 
-	wxCheckBox* _reference;
+	CheckBox* _reference;
 	wxStaticText* _reference_note;
 	wxStaticText* _type_label;
 	ContentChoice<VideoContent, VideoFrameType>* _frame_type;

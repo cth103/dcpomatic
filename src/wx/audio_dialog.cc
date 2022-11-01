@@ -114,7 +114,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 		_channel_checkbox[i] = new CheckBox (this, std_to_wx(audio_channel_name(i)));
 		_channel_checkbox[i]->SetForegroundColour(wxColour(_plot->colour(i)));
 		right->Add (_channel_checkbox[i], 0, wxEXPAND | wxALL, 3);
-		_channel_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::channel_clicked, this, _1));
+		_channel_checkbox[i]->bind(&AudioDialog::channel_clicked, this, _1);
 	}
 
 	show_or_hide_channel_checkboxes ();
@@ -133,7 +133,7 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 	for (int i = 0; i < AudioPoint::COUNT; ++i) {
 		_type_checkbox[i] = new CheckBox (this, types[i]);
 		right->Add (_type_checkbox[i], 0, wxEXPAND | wxALL, 3);
-		_type_checkbox[i]->Bind (wxEVT_CHECKBOX, boost::bind (&AudioDialog::type_clicked, this, _1));
+		_type_checkbox[i]->bind(&AudioDialog::type_clicked, this, _1);
 	}
 
 	{

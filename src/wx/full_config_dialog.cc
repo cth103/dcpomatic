@@ -144,9 +144,9 @@ private:
 		export_cinemas->Bind (wxEVT_BUTTON, boost::bind (&FullGeneralPage::export_cinemas_file, this));
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-		_analyse_ebur128->Bind (wxEVT_CHECKBOX, boost::bind (&FullGeneralPage::analyse_ebur128_changed, this));
+		_analyse_ebur128->bind(&FullGeneralPage::analyse_ebur128_changed, this);
 #endif
-		_automatic_audio_analysis->Bind (wxEVT_CHECKBOX, boost::bind (&FullGeneralPage::automatic_audio_analysis_changed, this));
+		_automatic_audio_analysis->bind(&FullGeneralPage::automatic_audio_analysis_changed, this);
 	}
 
 	void config_changed () override
@@ -236,9 +236,9 @@ private:
 	FilePickerCtrl* _config_file;
 	FilePickerCtrl* _cinemas_file;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-	wxCheckBox* _analyse_ebur128;
+	CheckBox* _analyse_ebur128;
 #endif
-	wxCheckBox* _automatic_audio_analysis;
+	CheckBox* _automatic_audio_analysis;
 };
 
 
@@ -367,7 +367,7 @@ private:
 		_kdm_duration->Bind (wxEVT_SPINCTRL, boost::bind(&DefaultsPage::kdm_duration_changed, this));
 		_kdm_duration_unit->Bind (wxEVT_CHOICE, boost::bind(&DefaultsPage::kdm_duration_changed, this));
 
-		_use_isdcf_name_by_default->Bind (wxEVT_CHECKBOX, boost::bind(&DefaultsPage::use_isdcf_name_by_default_changed, this));
+		_use_isdcf_name_by_default->bind(&DefaultsPage::use_isdcf_name_by_default_changed, this);
 
 		for (auto i: Ratio::containers()) {
 			_container->Append (std_to_wx(i->container_nickname()));
@@ -395,7 +395,7 @@ private:
 		_standard->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::standard_changed, this));
 
 		for (auto const& i: _enable_metadata) {
-			i.second->Bind (wxEVT_CHECKBOX, boost::bind(&DefaultsPage::metadata_changed, this));
+			i.second->bind(&DefaultsPage::metadata_changed, this);
 		}
 
 		for (auto const& i: _metadata) {
@@ -590,7 +590,7 @@ private:
 	KDMChoice* _kdm_type;
 	wxSpinCtrl* _kdm_duration;
 	wxChoice* _kdm_duration_unit;
-	wxCheckBox* _use_isdcf_name_by_default;
+	CheckBox* _use_isdcf_name_by_default;
 	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
@@ -639,7 +639,7 @@ private:
 
 		_panel->GetSizer()->Add (_servers_list, 1, wxEXPAND | wxALL, _border);
 
-		_use_any_servers->Bind (wxEVT_CHECKBOX, boost::bind(&EncodingServersPage::use_any_servers_changed, this));
+		_use_any_servers->bind(&EncodingServersPage::use_any_servers_changed, this);
 	}
 
 	void config_changed () override
@@ -658,7 +658,7 @@ private:
 		return s;
 	}
 
-	wxCheckBox* _use_any_servers;
+	CheckBox* _use_any_servers;
 	EditableList<string, ServerDialog>* _servers_list;
 };
 
@@ -719,7 +719,7 @@ private:
 		_tms_protocol->Append (_("SCP (for AAM and Doremi)"));
 		_tms_protocol->Append (_("FTP (for Dolby)"));
 
-		_upload->Bind (wxEVT_CHECKBOX, boost::bind(&TMSPage::upload_changed, this));
+		_upload->bind(&TMSPage::upload_changed, this);
 		_tms_protocol->Bind (wxEVT_CHOICE, boost::bind (&TMSPage::tms_protocol_changed, this));
 		_tms_passive->bind(&TMSPage::tms_passive_changed, this);
 
@@ -1160,8 +1160,8 @@ private:
 
 		_cc->layout ();
 
-		_enable_message_box->Bind (wxEVT_CHECKBOX, boost::bind (&NotificationsPage::type_changed, this, _enable_message_box, Config::MESSAGE_BOX));
-		_enable_email->Bind (wxEVT_CHECKBOX, boost::bind (&NotificationsPage::type_changed, this, _enable_email, Config::EMAIL));
+		_enable_message_box->bind(&NotificationsPage::type_changed, this, _enable_message_box, Config::MESSAGE_BOX);
+		_enable_email->bind(&NotificationsPage::type_changed, this, _enable_email, Config::EMAIL);
 
 		_subject->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_subject_changed, this));
 		_from->Bind (wxEVT_TEXT, boost::bind (&NotificationsPage::notification_from_changed, this));
@@ -1237,14 +1237,14 @@ private:
 		checked_set (_email, Config::instance()->notification_email());
 	}
 
-	void type_changed (wxCheckBox* b, Config::Notification n)
+	void type_changed (CheckBox* b, Config::Notification n)
 	{
 		Config::instance()->set_notification(n, b->GetValue());
 		setup_sensitivity ();
 	}
 
-	wxCheckBox* _enable_message_box;
-	wxCheckBox* _enable_email;
+	CheckBox* _enable_message_box;
+	CheckBox* _enable_email;
 
 	wxTextCtrl* _subject;
 	wxTextCtrl* _from;
@@ -1614,27 +1614,27 @@ private:
 		_video_display_mode->Append (_("OpenGL (faster)"));
 #endif
 		_video_display_mode->Bind (wxEVT_CHOICE, boost::bind(&AdvancedPage::video_display_mode_changed, this));
-		_allow_any_dcp_frame_rate->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_dcp_frame_rate_changed, this));
-		_allow_any_container->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::allow_any_container_changed, this));
-		_allow_96khz_audio->Bind (wxEVT_CHECKBOX, boost::bind(&AdvancedPage::allow_96khz_audio_changed, this));
-		_use_all_audio_channels->Bind(wxEVT_CHECKBOX, boost::bind(&AdvancedPage::use_all_channels_changed, this));
-		_show_experimental_audio_processors->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::show_experimental_audio_processors_changed, this));
-		_only_servers_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::only_servers_encode_changed, this));
+		_allow_any_dcp_frame_rate->bind(&AdvancedPage::allow_any_dcp_frame_rate_changed, this);
+		_allow_any_container->bind(&AdvancedPage::allow_any_container_changed, this);
+		_allow_96khz_audio->bind(&AdvancedPage::allow_96khz_audio_changed, this);
+		_use_all_audio_channels->bind(&AdvancedPage::use_all_channels_changed, this);
+		_show_experimental_audio_processors->bind(&AdvancedPage::show_experimental_audio_processors_changed, this);
+		_only_servers_encode->bind(&AdvancedPage::only_servers_encode_changed, this);
 		_frames_in_memory_multiplier->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::frames_in_memory_multiplier_changed, this));
 		_dcp_metadata_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_metadata_filename_format_changed, this));
 		_dcp_asset_filename_format->Changed.connect (boost::bind (&AdvancedPage::dcp_asset_filename_format_changed, this));
-		_log_general->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_warning->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_error->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_timing->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_threed->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_encode->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_email->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_video_view->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_player->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
-		_log_debug_audio_analysis->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::log_changed, this));
+		_log_general->bind(&AdvancedPage::log_changed, this);
+		_log_warning->bind(&AdvancedPage::log_changed, this);
+		_log_error->bind(&AdvancedPage::log_changed, this);
+		_log_timing->bind(&AdvancedPage::log_changed, this);
+		_log_debug_threed->bind(&AdvancedPage::log_changed, this);
+		_log_debug_encode->bind(&AdvancedPage::log_changed, this);
+		_log_debug_email->bind(&AdvancedPage::log_changed, this);
+		_log_debug_video_view->bind(&AdvancedPage::log_changed, this);
+		_log_debug_player->bind(&AdvancedPage::log_changed, this);
+		_log_debug_audio_analysis->bind(&AdvancedPage::log_changed, this);
 #ifdef DCPOMATIC_WINDOWS
-		_win32_console->Bind (wxEVT_CHECKBOX, boost::bind (&AdvancedPage::win32_console_changed, this));
+		_win32_console->bind(&AdvancedPage::win32_console_changed, this);
 #endif
 	}
 
@@ -1778,26 +1778,26 @@ private:
 	wxSpinCtrl* _maximum_j2k_bandwidth = nullptr;
 	wxChoice* _video_display_mode = nullptr;
 	wxSpinCtrl* _frames_in_memory_multiplier = nullptr;
-	wxCheckBox* _allow_any_dcp_frame_rate = nullptr;
-	wxCheckBox* _allow_any_container = nullptr;
-	wxCheckBox* _allow_96khz_audio = nullptr;
-	wxCheckBox* _use_all_audio_channels = nullptr;
-	wxCheckBox* _show_experimental_audio_processors = nullptr;
-	wxCheckBox* _only_servers_encode = nullptr;
+	CheckBox* _allow_any_dcp_frame_rate = nullptr;
+	CheckBox* _allow_any_container = nullptr;
+	CheckBox* _allow_96khz_audio = nullptr;
+	CheckBox* _use_all_audio_channels = nullptr;
+	CheckBox* _show_experimental_audio_processors = nullptr;
+	CheckBox* _only_servers_encode = nullptr;
 	NameFormatEditor* _dcp_metadata_filename_format = nullptr;
 	NameFormatEditor* _dcp_asset_filename_format = nullptr;
-	wxCheckBox* _log_general = nullptr;
-	wxCheckBox* _log_warning = nullptr;
-	wxCheckBox* _log_error = nullptr;
-	wxCheckBox* _log_timing = nullptr;
-	wxCheckBox* _log_debug_threed = nullptr;
-	wxCheckBox* _log_debug_encode = nullptr;
-	wxCheckBox* _log_debug_email = nullptr;
-	wxCheckBox* _log_debug_video_view = nullptr;
-	wxCheckBox* _log_debug_player = nullptr;
-	wxCheckBox* _log_debug_audio_analysis = nullptr;
+	CheckBox* _log_general = nullptr;
+	CheckBox* _log_warning = nullptr;
+	CheckBox* _log_error = nullptr;
+	CheckBox* _log_timing = nullptr;
+	CheckBox* _log_debug_threed = nullptr;
+	CheckBox* _log_debug_encode = nullptr;
+	CheckBox* _log_debug_email = nullptr;
+	CheckBox* _log_debug_video_view = nullptr;
+	CheckBox* _log_debug_player = nullptr;
+	CheckBox* _log_debug_audio_analysis = nullptr;
 #ifdef DCPOMATIC_WINDOWS
-	wxCheckBox* _win32_console = nullptr;
+	CheckBox* _win32_console = nullptr;
 #endif
 };
 

@@ -33,6 +33,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
+class CheckBox;
 class ClosedCaptionsDialog;
 class Content;
 class ContentView;
@@ -108,9 +109,9 @@ private:
 
 	bool _slider_being_moved;
 
-	wxCheckBox* _outline_content;
+	CheckBox* _outline_content;
 	wxChoice* _eye;
-	wxCheckBox* _jump_to_selected;
+	CheckBox* _jump_to_selected;
 	wxButton* _rewind_button;
 	wxButton* _back_button;
 	wxButton* _forward_button;

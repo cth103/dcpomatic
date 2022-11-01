@@ -118,9 +118,9 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 		_x264_crf_label[i]->Enable (false);
 	}
 
-	_mixdown->Bind (wxEVT_CHECKBOX, bind(&ExportVideoFileDialog::mixdown_changed, this));
-	_split_reels->Bind (wxEVT_CHECKBOX, bind(&ExportVideoFileDialog::split_reels_changed, this));
-	_split_streams->Bind (wxEVT_CHECKBOX, bind(&ExportVideoFileDialog::split_streams_changed, this));
+	_mixdown->bind(&ExportVideoFileDialog::mixdown_changed, this);
+	_split_reels->bind(&ExportVideoFileDialog::split_reels_changed, this);
+	_split_streams->bind(&ExportVideoFileDialog::split_streams_changed, this);
 	_x264_crf->Bind (wxEVT_SLIDER, bind(&ExportVideoFileDialog::x264_crf_changed, this));
 	_format->Bind (wxEVT_CHOICE, bind (&ExportVideoFileDialog::format_changed, this));
 	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind (&ExportVideoFileDialog::file_changed, this));
