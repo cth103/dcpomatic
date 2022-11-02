@@ -255,6 +255,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				h_align,
 				v_position,
 				v_align,
+				0,
 				dcp::Direction::LTR,
 				escape_text(block.text),
 				dcp::Effect::NONE,

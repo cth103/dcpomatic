@@ -871,6 +871,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 					dcp::HAlign::CENTER,
 					0.5,
 					dcp::VAlign::CENTER,
+					0,
 					dcp::Direction::LTR,
 					" ",
 					dcp::Effect::NONE,
@@ -940,7 +941,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 				image_as_png(i.image),
 				dcp::Time(period.from.seconds() - _period.from.seconds(), tcr),
 				dcp::Time(period.to.seconds() - _period.from.seconds(), tcr),
-				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP,
+				i.rectangle.x, dcp::HAlign::LEFT, i.rectangle.y, dcp::VAlign::TOP, 0,
 				dcp::Time(), dcp::Time()
 				)
 			);

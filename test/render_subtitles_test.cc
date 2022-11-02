@@ -55,6 +55,7 @@ add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool un
 				dcp::HAlign::LEFT,
 				1,
 				dcp::VAlign::TOP,
+				0,
 				dcp::Direction::LTR,
 				text,
 				dcp::Effect::NONE,
