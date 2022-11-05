@@ -74,7 +74,7 @@ public:
 /** @class Player
  *  @brief A class which can play a Playlist.
  */
-class Player : public std::enable_shared_from_this<Player>
+class Player
 {
 public:
 	Player (std::shared_ptr<const Film>, Image::Alignment subtitle_alignment);
