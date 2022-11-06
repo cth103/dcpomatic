@@ -325,7 +325,7 @@ FFmpegFileEncoder::setup_video ()
 	_video_codec_context->flags |= AV_CODEC_FLAG_QSCALE | AV_CODEC_FLAG_GLOBAL_HEADER;
 
 	if (avcodec_open2 (_video_codec_context, _video_codec, &_video_options) < 0) {
-		throw EncodeError (N_("avcodec_open"), N_("FFmpegFileEncoder::setup_video"));
+		throw EncodeError(N_("avcodec_open2"), N_("FFmpegFileEncoder::setup_video"));
 	}
 
 	_video_stream = avformat_new_stream (_format_context, _video_codec);
