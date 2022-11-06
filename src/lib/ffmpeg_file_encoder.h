@@ -27,6 +27,7 @@
 #include "dcpomatic_time.h"
 #include "encoder.h"
 #include "event_history.h"
+#include "image_store.h"
 #include "log.h"
 #include <dcp/key.h>
 #include <dcp/warnings.h>
@@ -80,9 +81,6 @@ private:
 
 	void audio_frame (int size);
 
-	static void buffer_free(void* opaque, uint8_t* data);
-	void buffer_free2(uint8_t* data);
-
 	AVCodec const * _video_codec = nullptr;
 	AVCodecContext* _video_codec_context = nullptr;
 	std::vector<std::shared_ptr<ExportAudioStream>> _audio_streams;
@@ -105,12 +103,7 @@ private:
 
 	std::shared_ptr<AudioBuffers> _pending_audio;
 
-	/** Store of shared_ptr<Image> to keep them alive whilst raw pointers into
-	    their data have been passed to FFmpeg.  The second part of the pair is
-	    a count of how many copies of the same key must be kept.
-	*/
-	std::map<uint8_t*, std::pair<std::shared_ptr<const Image>, int>> _pending_images;
-	boost::mutex _pending_images_mutex;
+	ImageStore _pending_images;
 
 	static int _video_stream_index;
 	static int _audio_stream_index_base;

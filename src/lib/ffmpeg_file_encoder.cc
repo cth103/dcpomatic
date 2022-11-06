@@ -411,18 +411,7 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	DCPOMATIC_ASSERT (frame);
 
 	for (int i = 0; i < 3; ++i) {
-		{
-			boost::mutex::scoped_lock lm (_pending_images_mutex);
-			auto key = image->data()[i];
-			auto iter = _pending_images.find(key);
-			if (iter != _pending_images.end()) {
-				iter->second.second++;
-			} else {
-				_pending_images[key] = { image, 1 };
-			}
-		}
-
-		auto buffer = av_buffer_create(image->data()[i], image->stride()[i] * image->size().height, &buffer_free, this, 0);
+		auto buffer = _pending_images.create_buffer(image, i);
 		frame->buf[i] = av_buffer_ref (buffer);
 		frame->data[i] = buffer->data;
 		frame->linesize[i] = image->stride()[i];
@@ -495,25 +484,4 @@ void
 FFmpegFileEncoder::subtitle (PlayerText, DCPTimePeriod)
 {
 
-}
-
-
-void
-FFmpegFileEncoder::buffer_free (void* opaque, uint8_t* data)
-{
-	reinterpret_cast<FFmpegFileEncoder*>(opaque)->buffer_free2(data);
-}
-
-
-void
-FFmpegFileEncoder::buffer_free2 (uint8_t* data)
-{
-	boost::mutex::scoped_lock lm (_pending_images_mutex);
-	auto iter = _pending_images.find(data);
-	if (iter != _pending_images.end()) {
-		iter->second.second--;
-		if (iter->second.second == 0) {
-			_pending_images.erase(data);
-		}
-	}
 }

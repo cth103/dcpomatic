@@ -130,6 +130,7 @@ sources = """
           image_jpeg.cc
           image_png.cc
           image_proxy.cc
+          image_store.cc
           j2k_image_proxy.cc
           job.cc
           job_manager.cc
