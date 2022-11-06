@@ -29,5 +29,5 @@ elif [ "$1" == "--screenshot" ]; then
     shift
     GTK_PATH=/usr/local/lib/gtk-3.0 GTK_MODULES=gtk-vector-screenshot $binary "$*"
 else
-    $binary $*
+    $binary $* 2> >(grep -v Gtk-CRITICAL | grep -v Gtk-WARNING)
 fi
