@@ -56,7 +56,7 @@ class PlayerVideo;
  *  This class keeps a queue of frames to be encoded and distributes
  *  the work around threads and encoding servers.
  */
-class J2KEncoder : public ExceptionStore, public std::enable_shared_from_this<J2KEncoder>
+class J2KEncoder : public ExceptionStore
 {
 public:
 	J2KEncoder(std::shared_ptr<const Film> film, Writer& writer);
