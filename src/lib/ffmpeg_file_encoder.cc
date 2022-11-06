@@ -410,18 +410,18 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 	auto frame = av_frame_alloc ();
 	DCPOMATIC_ASSERT (frame);
 
-	{
-		boost::mutex::scoped_lock lm (_pending_images_mutex);
-		auto key = image->data()[0];
-		auto iter = _pending_images.find(key);
-		if (iter != _pending_images.end()) {
-			iter->second.second++;
-		} else {
-			_pending_images[key] = { image, 1 };
-		}
-	}
-
 	for (int i = 0; i < 3; ++i) {
+		{
+			boost::mutex::scoped_lock lm (_pending_images_mutex);
+			auto key = image->data()[i];
+			auto iter = _pending_images.find(key);
+			if (iter != _pending_images.end()) {
+				iter->second.second++;
+			} else {
+				_pending_images[key] = { image, 1 };
+			}
+		}
+
 		auto buffer = av_buffer_create(image->data()[i], image->stride()[i] * image->size().height, &buffer_free, this, 0);
 		frame->buf[i] = av_buffer_ref (buffer);
 		frame->data[i] = buffer->data;
