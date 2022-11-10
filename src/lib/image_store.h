@@ -23,7 +23,7 @@
 #include <map>
 
 
-class AVBufferRef;
+struct AVBufferRef;
 class Image;
 
 
