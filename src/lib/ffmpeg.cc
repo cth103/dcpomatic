@@ -376,6 +376,5 @@ FFmpeg::audio_frame (shared_ptr<const FFmpegAudioStream> stream)
 
 	_audio_frame[stream] = frame;
 	return frame;
-
 }
 
