@@ -167,7 +167,7 @@ content_factory (boost::filesystem::path path)
 
 		if (valid_image_file (path)) {
 			single = make_shared<ImageContent>(path);
-		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass" || ext == ".stl") {
+		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass" || ext == ".stl" || ext == ".vtt") {
 			single = make_shared<StringTextFileContent>(path);
 		} else if (ext == ".xml") {
 			cxml::Document doc;

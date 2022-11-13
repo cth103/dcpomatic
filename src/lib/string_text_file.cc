@@ -28,6 +28,7 @@
 #include <sub/ssa_reader.h>
 #include <sub/stl_binary_reader.h>
 #include <sub/subrip_reader.h>
+#include <sub/web_vtt_reader.h>
 #include <unicode/ucsdet.h>
 #include <unicode/ucnv.h>
 #include <iostream>
@@ -105,6 +106,8 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 			reader.reset(new sub::SubripReader(utf8.get()));
 		} else if (ext == ".ssa" || ext == ".ass") {
 			reader.reset(new sub::SSAReader(utf8.get()));
+		} else if (ext == ".vtt") {
+			reader.reset(new sub::WebVTTReader(utf8.get()));
 		}
 	}
 
