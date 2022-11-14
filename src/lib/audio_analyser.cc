@@ -136,7 +136,7 @@ AudioAnalyser::~AudioAnalyser ()
 void
 AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 {
-	LOG_DEBUG_AUDIO_ANALYSIS("Received %1 frames at %2", b->frames(), to_string(time));
+	LOG_DEBUG_AUDIO_ANALYSIS("AudioAnalyser received %1 frames at %2", b->frames(), to_string(time));
 	DCPOMATIC_ASSERT (time >= _start);
 	/* In bug #2364 we had a lot of frames arriving here (~47s worth) which
 	 * caused an OOM error on Windows.  Check for the number of frames being

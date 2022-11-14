@@ -190,6 +190,7 @@ FFmpegDecoder::pass ()
 	   Hence it makes sense to continue here in that case.
 	*/
 	if (r < 0 && r != AVERROR_INVALIDDATA) {
+		LOG_DEBUG_PLAYER("FFpmegDecoder::pass flushes because av_read_frame returned %1", r);
 		if (r != AVERROR_EOF) {
 			/* Maybe we should fail here, but for now we'll just finish off instead */
 			char buf[256];
