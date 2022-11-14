@@ -218,3 +218,19 @@ BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 	/* The CLI tool of leqm_nrt gives this value for betty_stereo_48k.wav */
 	BOOST_CHECK_CLOSE (analysis.leqm().get_value_or(0), 88.276, 0.001);
 }
+
+
+/** Bug #2364; a file with a lot of silent video at the end (about 50s worth)
+ *  crashed the audio analysis with an OOM on Windows.
+ */
+BOOST_AUTO_TEST_CASE(analyse_audio_with_long_silent_end)
+{
+	auto content = content_factory(TestPaths::private_data() / "2364.mkv")[0];
+	auto film = new_test_film2("analyse_audio_with_long_silent_end", { content });
+
+	auto playlist = make_shared<Playlist>();
+	playlist->add(film, content);
+	boost::signals2::connection c;
+	JobManager::instance()->analyse_audio(film, playlist, false, c, []() {});
+	BOOST_CHECK(!wait_for_jobs());
+}
