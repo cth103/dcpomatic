@@ -58,7 +58,12 @@ public:
 private:
 	friend struct ::ffmpeg_pts_offset_test;
 
-	bool flush ();
+	enum class FlushResult {
+		DONE,
+		AGAIN
+	};
+
+	FlushResult flush();
 
 	AVSampleFormat audio_sample_format (std::shared_ptr<FFmpegAudioStream> stream) const;
 	int bytes_per_audio_sample (std::shared_ptr<FFmpegAudioStream> stream) const;
@@ -77,6 +82,9 @@ private:
 
 	void maybe_add_subtitle ();
 
+	FlushResult flush_codecs();
+	FlushResult flush_fill();
+
 	VideoFilterGraphSet _filter_graphs;
 
 	dcpomatic::ContentTime _pts_offset;
@@ -87,4 +95,12 @@ private:
 	std::shared_ptr<Image> _black_image;
 
 	std::map<std::shared_ptr<FFmpegAudioStream>, boost::optional<dcpomatic::ContentTime>> _next_time;
+
+	enum class FlushState {
+		CODECS,
+		AUDIO_DECODER,
+		FILL,
+	};
+
+	FlushState _flush_state = FlushState::CODECS;
 };

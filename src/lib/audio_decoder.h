@@ -52,7 +52,7 @@ public:
 	AudioDecoder (Decoder* parent, std::shared_ptr<const AudioContent> content, bool fast);
 
 	boost::optional<dcpomatic::ContentTime> position (std::shared_ptr<const Film> film) const override;
-	void emit (std::shared_ptr<const Film> film, AudioStreamPtr stream, std::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime, bool time_already_delayed = false);
+	void emit(std::shared_ptr<const Film> film, AudioStreamPtr stream, std::shared_ptr<const AudioBuffers>, dcpomatic::ContentTime, bool flushing = false);
 	void seek () override;
 	void flush ();
 

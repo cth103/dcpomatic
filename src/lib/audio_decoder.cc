@@ -52,14 +52,14 @@ AudioDecoder::AudioDecoder (Decoder* parent, shared_ptr<const AudioContent> cont
 
 /** @param time_already_delayed true if the delay should not be added to time */
 void
-AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time, bool time_already_delayed)
+AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_ptr<const AudioBuffers> data, ContentTime time, bool flushing)
 {
 	if (ignore ()) {
 		return;
 	}
 
 	int const resampled_rate = _content->resampled_frame_rate(film);
-	if (!time_already_delayed) {
+	if (!flushing) {
 		time += ContentTime::from_seconds (_content->delay() / 1000.0);
 	}
 
@@ -119,7 +119,7 @@ AudioDecoder::emit (shared_ptr<const Film> film, AudioStreamPtr stream, shared_p
 		}
 	}
 
-	if (resampler) {
+	if (resampler && !flushing) {
 		auto ro = resampler->run (data);
 		if (ro->frames() == 0) {
 			return;

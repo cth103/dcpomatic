@@ -106,11 +106,41 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 }
 
 
-bool
+FFmpegDecoder::FlushResult
 FFmpegDecoder::flush ()
 {
-	/* Flush video and audio once */
+	LOG_DEBUG_PLAYER("Flush FFmpeg decoder: current state %1", static_cast<int>(_flush_state));
 
+	switch (_flush_state) {
+	case FlushState::CODECS:
+		if (flush_codecs() == FlushResult::DONE) {
+			LOG_DEBUG_PLAYER_NC("Finished flushing codecs");
+			_flush_state = FlushState::AUDIO_DECODER;
+		}
+		break;
+	case FlushState::AUDIO_DECODER:
+		if (audio) {
+			audio->flush();
+		}
+		LOG_DEBUG_PLAYER_NC("Finished flushing audio decoder");
+		_flush_state = FlushState::FILL;
+		break;
+	case FlushState::FILL:
+		if (flush_fill() == FlushResult::DONE) {
+			LOG_DEBUG_PLAYER_NC("Finished flushing fills");
+			return FlushResult::DONE;
+		}
+		break;
+	}
+
+	return FlushResult::AGAIN;
+}
+
+
+/** @return true if we have finished flushing the codecs */
+FFmpegDecoder::FlushResult
+FFmpegDecoder::flush_codecs()
+{
 	bool did_something = false;
 	if (video) {
 		if (decode_and_process_video_packet(nullptr)) {
@@ -132,48 +162,49 @@ FFmpegDecoder::flush ()
 		}
 	}
 
-	if (did_something) {
-		/* We want to be called again */
-		return false;
-	}
+	return did_something ? FlushResult::AGAIN : FlushResult::DONE;
+}
 
+
+FFmpegDecoder::FlushResult
+FFmpegDecoder::flush_fill()
+{
 	/* Make sure all streams are the same length and round up to the next video frame */
+
+	bool did_something = false;
 
 	auto const frc = film()->active_frame_rate_change(_ffmpeg_content->position());
 	ContentTime full_length (_ffmpeg_content->full_length(film()), frc);
 	full_length = full_length.ceil (frc.source);
-	if (video) {
+	if (video && !video->ignore()) {
 		double const vfr = _ffmpeg_content->video_frame_rate().get();
 		auto const f = full_length.frames_round (vfr);
-		auto v = video->position(film()).get_value_or(ContentTime()).frames_round(vfr) + 1;
-		while (v < f) {
-			video->emit (film(), make_shared<const RawImageProxy>(_black_image), v);
-			++v;
+		auto const v = video->position(film()).get_value_or(ContentTime()).frames_round(vfr) + 1;
+		if (v < f) {
+			video->emit(film(), make_shared<const RawImageProxy>(_black_image), v);
+			did_something = true;
 		}
 	}
 
-	for (auto i: _ffmpeg_content->ffmpeg_audio_streams ()) {
-		auto a = audio->stream_position(film(), i);
-		/* Unfortunately if a is 0 that really means that we don't know the stream position since
-		   there has been no data on it since the last seek.  In this case we'll just do nothing
-		   here.  I'm not sure if that's the right idea.
-		*/
-		if (a > ContentTime()) {
-			while (a < full_length) {
+	if (audio && !audio->ignore()) {
+		for (auto i: _ffmpeg_content->ffmpeg_audio_streams ()) {
+			auto const a = audio->stream_position(film(), i);
+			/* Unfortunately if a is 0 that really means that we don't know the stream position since
+			   there has been no data on it since the last seek.  In this case we'll just do nothing
+			   here.  I'm not sure if that's the right idea.
+			*/
+			if (a > ContentTime() && a < full_length) {
+				LOG_DEBUG_PLAYER("Flush inserts silence at %1", to_string(a));
 				auto to_do = min (full_length - a, ContentTime::from_seconds (0.1));
 				auto silence = make_shared<AudioBuffers>(i->channels(), to_do.frames_ceil (i->frame_rate()));
 				silence->make_silent ();
 				audio->emit (film(), i, silence, a, true);
-				a += to_do;
+				did_something = true;
 			}
 		}
 	}
 
-	if (audio) {
-		audio->flush ();
-	}
-
-	return true;
+	return did_something ? FlushResult::AGAIN : FlushResult::DONE;
 }
 
 
@@ -199,7 +230,7 @@ FFmpegDecoder::pass ()
 		}
 
 		av_packet_free (&packet);
-		return flush ();
+		return flush() == FlushResult::DONE;
 	}
 
 	int const si = packet->stream_index;
