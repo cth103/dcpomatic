@@ -465,6 +465,13 @@ function copy_verify {
 	relink_relative "${rl[@]}"
 }
 
+function copy_kdm {
+	copy $ROOT src/libdcp/build/tools/dcpkdm "$approot/MacOS"
+	mv "$approot/MacOS/dcpkdm" "$approot/MacOS/dcpomatic2_kdm_inspect"
+	rl=("$approot/MacOS/dcpomatic2_kdm_inspect" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+}
+
 if [ "$ARCH2" == "" ]; then
 	prefix=$ROOT
 else
@@ -480,10 +487,11 @@ if [[ "$BUILD" == *main* ]]; then
 	copy $ROOT bin/ffprobe "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2"
+	make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2"
 fi
 
 if [[ "$BUILD" == *kdm* ]]; then
@@ -493,10 +501,11 @@ if [[ "$BUILD" == *kdm* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_kdm_cli "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_kdm.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_kdm" "$approot/MacOS/dcpomatic2_kdm_cli" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic KDM Creator" "dcpomatic2_verify openssl dcpomatic2_kdm_cli dcpomatic2_kdm"
+	make_dmg "$appdir" "" "DCP-o-matic KDM Creator" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_kdm_cli dcpomatic2_kdm"
 fi
 
 if [[ "$BUILD" == *server* ]]; then
@@ -506,10 +515,11 @@ if [[ "$BUILD" == *server* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_server_cli "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_server.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_server" "$approot/MacOS/dcpomatic2_server_cli" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic Encode Server" "dcpomatic2_verify openssl dcpomatic2_server_cli dcpomatic2_server"
+	make_dmg "$appdir" "" "DCP-o-matic Encode Server" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_server_cli dcpomatic2_server"
 fi
 
 if [[ "$BUILD" == *batch* ]]; then
@@ -518,10 +528,11 @@ if [[ "$BUILD" == *batch* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_batch "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_batch.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_batch" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic Batch Converter" "dcpomatic2_verify openssl dcpomatic2_batch"
+	make_dmg "$appdir" "" "DCP-o-matic Batch Converter" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_batch"
 fi
 
 if [[ "$BUILD" == *player* ]]; then
@@ -530,10 +541,11 @@ if [[ "$BUILD" == *player* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_player "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_player.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_player" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic Player" "dcpomatic2_verify openssl dcpomatic2_player"
+	make_dmg "$appdir" "" "DCP-o-matic Player" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_player"
 fi
 
 if [[ "$BUILD" == *playlist* ]]; then
@@ -542,10 +554,11 @@ if [[ "$BUILD" == *playlist* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_playlist "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_playlist.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_playlist" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" "dcpomatic2_verify openssl dcpomatic2_playlist"
+	make_dmg "$appdir" "" "DCP-o-matic Playlist Editor" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_playlist"
 fi
 
 if [[ "$BUILD" == *combiner* ]]; then
@@ -554,10 +567,11 @@ if [[ "$BUILD" == *combiner* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_combiner "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_combiner.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_combiner" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic Combiner" "dcpomatic2_verify openssl dcpomatic2_combiner"
+	make_dmg "$appdir" "" "DCP-o-matic Combiner" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_combiner"
 fi
 
 if [[ "$BUILD" == *editor* ]]; then
@@ -566,10 +580,11 @@ if [[ "$BUILD" == *editor* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_editor "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_editor.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_editor" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic Editor" "dcpomatic2_verify openssl dcpomatic2_editor"
+	make_dmg "$appdir" "" "DCP-o-matic Editor" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_editor"
 fi
 
 if [[ "$BUILD" == *disk* ]]; then 
@@ -578,6 +593,7 @@ if [[ "$BUILD" == *disk* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_disk "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify
+	copy_kdm
 	cp $prefix/src/dcpomatic/platform/osx/uninstall_disk.applescript "$approot/Resources"
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_disk.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2_disk" "$approot/Frameworks/"*.dylib)
@@ -655,6 +671,6 @@ EOF
 	mv $pkgbin/* "$pkgroot/Library/Application Support/com.dcpomatic/"
 	pkgbuild --root $pkgroot --identifier com.dcpomatic.disk.writer --scripts $pkgbase/scripts "DCP-o-matic Disk Writer.pkg"
 
-	make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" "dcpomatic2_verify openssl dcpomatic2_disk"
+	make_dmg "$appdir" "DCP-o-matic Disk Writer.pkg" "DCP-o-matic Disk Writer" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl dcpomatic2_disk"
 fi
 

@@ -354,6 +354,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_openssl', file=f)
     print('%{_bindir}/dcpomatic2_combiner', file=f)
     print('%{_bindir}/dcpomatic2_verify', file=f)
+    print('%{_bindir}/dcpomatic2_kdm_inspect', file=f)
     if can_build_disk(target):
         print('%{_bindir}/dcpomatic2_disk', file=f)
         print('%caps(cap_dac_override=ep) %{_bindir}/dcpomatic2_disk_writer', file=f)
@@ -424,6 +425,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/bin/cp -r %s/src/libdcp/xsd %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
     print('/bin/cp %s/src/libdcp/ratings %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
     print('/bin/mv %s/bin/dcpverify %%{buildroot}/usr/bin/dcpomatic2_verify' % target.directory, file=f)
+    print('/bin/mv %s/bin/dcpkdm %%{buildroot}/usr/bin/dcpomatic2_kdm_inspect' % target.directory, file=f)
     print('', file=f)
     print('%post', file=f)
     print('/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
@@ -723,6 +725,7 @@ def make_appimage(target, nice_name, internal_name, version):
     target.command(f'cp {target.directory}/bin/{internal_name} {appdir}/usr/bin')
     target.command(f'cp {target.directory}/src/openssl/apps/openssl {appdir}/usr/bin/dcpomatic2_openssl')
     target.command(f'cp {target.directory}/bin/dcpverify {appdir}/usr/bin/dcpomatic2_verify')
+    target.command(f'cp {target.directory}/bin/dcpkdm {appdir}/usr/bin/dcpomatic2_kdm_inspect')
     target.command(f'mkdir -p {appdir}/usr/share/libdcp')
     target.command(f'cp -r {target.directory}/share/dcpomatic2 {appdir}/usr/share/')
     target.command(f'cp -r {target.directory}/share/libdcp/xsd {appdir}/usr/share/libdcp/')
