@@ -718,11 +718,11 @@ msgstr "Tout vérifier"
 
 #: src/wx/config_dialog.cc:166
 msgid "Check for testing updates on startup"
-msgstr "Rechercher de mises à jour de test au démarrage"
+msgstr "Rechercher les mises à jour de test au démarrage"
 
 #: src/wx/config_dialog.cc:162
 msgid "Check for updates on startup"
-msgstr "Rechercher de mises à jour au démarrage"
+msgstr "Rechercher les mises à jour au démarrage"
 
 #: src/wx/content_menu.cc:106
 msgid "Choose CPL..."

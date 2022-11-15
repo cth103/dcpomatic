@@ -1249,7 +1249,7 @@ msgstr ""
 
 #: src/lib/types.cc:141
 msgid "Open subtitles"
-msgstr "Sous-titres"
+msgstr "Sous-titres ouverts"
 
 #: src/lib/transcode_job.cc:113
 msgid ""
