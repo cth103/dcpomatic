@@ -15,7 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.6.3\n"
+"X-Generator: Poedit 3.2\n"
 
 #: src/tools/dcpomatic_kdm.cc:392
 #, c-format
@@ -29,11 +29,11 @@ msgstr "%d KDMs créées dans %s"
 
 #: src/tools/dcpomatic_batch.cc:81
 msgid "&Add Film...\tCtrl-A"
-msgstr "&Ajouter Film ... Ctrl-A"
+msgstr "&Ajouter un film...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:502
 msgid "&Add OV..."
-msgstr "&Ajouter OV..."
+msgstr "&Ajouter une OV..."
 
 #: src/tools/dcpomatic_player.cc:510
 msgid "&Close"
@@ -47,7 +47,7 @@ msgstr "&Fermer\tCtrl-W"
 #: src/tools/dcpomatic_kdm.cc:270 src/tools/dcpomatic_player.cc:562
 #: src/tools/dcpomatic_playlist.cc:554
 msgid "&Edit"
-msgstr "&Edition"
+msgstr "&Édition"
 
 #: src/tools/dcpomatic.cc:1333 src/tools/dcpomatic_batch.cc:83
 #: src/tools/dcpomatic_kdm.cc:248 src/tools/dcpomatic_player.cc:514
@@ -69,7 +69,7 @@ msgstr "&Aide"
 
 #: src/tools/dcpomatic.cc:1409
 msgid "&Jobs"
-msgstr "&Travaux"
+msgstr "&Tâches"
 
 #: src/tools/dcpomatic.cc:1357
 msgid "&Make DCP\tCtrl-M"
@@ -98,9 +98,8 @@ msgid "&Save\tCtrl-S"
 msgstr "&Enregistrer\tCtrl+S"
 
 #: src/tools/dcpomatic_player.cc:505
-#, fuzzy
 msgid "&Save frame to file...\tCtrl-S"
-msgstr "Exporter...\tCtrl-E"
+msgstr "&Enregistrer l'image...\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1371
 msgid "&Send DCP to TMS"
@@ -117,17 +116,17 @@ msgstr "&Affichage"
 
 #: src/tools/dcpomatic_playlist.cc:265
 msgid "<b>Playlist:</b>"
-msgstr ""
+msgstr "<b>Liste de lecture :</b>"
 
 #: src/tools/dcpomatic_playlist.cc:111
 msgid "<b>Playlists</b>"
-msgstr ""
+msgstr "<b>Listes de lecture</b>"
 
 #: src/tools/dcpomatic.cc:1403 src/tools/dcpomatic_batch.cc:99
 #: src/tools/dcpomatic_kdm.cc:264 src/tools/dcpomatic_player.cc:556
 #: src/tools/dcpomatic_playlist.cc:549
 msgid "About"
-msgstr "A propos"
+msgstr "À propos"
 
 #: src/tools/dcpomatic.cc:1401 src/tools/dcpomatic_kdm.cc:262
 #: src/tools/dcpomatic_player.cc:554 src/tools/dcpomatic_playlist.cc:547
@@ -139,21 +138,20 @@ msgid "Add"
 msgstr "Ajouter"
 
 #: src/tools/dcpomatic_player.cc:503
-#, fuzzy
 msgid "Add &KDM..."
-msgstr "&Ajouter KDM..."
+msgstr "Ajouter un &KDM..."
 
 #: src/tools/dcpomatic_batch.cc:138
 msgid "Add Film..."
-msgstr "Ajouter Film..."
+msgstr "Ajouter un film..."
 
 #: src/tools/dcpomatic_playlist.cc:66
 msgid "Add content"
-msgstr "Ajouter contenu"
+msgstr "Ajouter du contenu"
 
 #: src/tools/dcpomatic_kdm.cc:171
 msgid "Add folder..."
-msgstr "Ajouter dossier.."
+msgstr "Ajouter un dossier..."
 
 #: src/tools/dcpomatic_kdm.cc:169
 msgid "Add..."
@@ -166,16 +164,16 @@ msgid ""
 "An exception occurred: %s (%s)\n"
 "\n"
 msgstr ""
-"Erreur constatée: %s (%s)\n"
+"Une exception s'est produite : %s (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:1776
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
 "\n"
 msgstr ""
-"Erreur constatée: %s (%s)\n"
+"Une exception s'est produite : %s (%s) (%s)\n"
 "\n"
 
 #: src/tools/dcpomatic.cc:1786 src/tools/dcpomatic_kdm.cc:728
@@ -185,32 +183,32 @@ msgid ""
 "An exception occurred: %s.\n"
 "\n"
 msgstr ""
-"Exception inconnue: %s.\n"
+"Une exception s'est produite : %s.\n"
 "\n"
 
 #: src/tools/dcpomatic_server.cc:354
 msgid "An unknown error has occurred with the DCP-o-matic server."
-msgstr "Erreur inconnue avec le server DCP-o-matic"
+msgstr "Une erreur inconnue s'est produite avec le serveur DCP-o-matic."
 
 #: src/tools/dcpomatic.cc:971 src/tools/dcpomatic.cc:1791
 #: src/tools/dcpomatic_kdm.cc:403 src/tools/dcpomatic_kdm.cc:733
 #: src/tools/dcpomatic_kdm.cc:742 src/tools/dcpomatic_player.cc:1269
 #: src/tools/dcpomatic_playlist.cc:673 src/tools/dcpomatic_playlist.cc:682
 msgid "An unknown exception occurred."
-msgstr "Exception inconnue"
+msgstr "Une exception inconnue s'est produite."
 
 #: src/tools/dcpomatic.cc:731
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
 msgstr ""
-"Etes vous certain de vouloir rétablir les préférences par défaut? Vous ne "
-"pourrez pas revenir en arrière."
+"Êtes-vous sûr de vouloir restaurer les préférences à leurs valeurs par "
+"défaut ?  Cette opération ne peut être annulée."
 
 #: src/tools/dcpomatic.cc:813
 #, c-format
 msgid "Bad setting for %s."
-msgstr "Mauvais réglages pour %s."
+msgstr "Mauvais réglage pour %s."
 
 #: src/tools/dcpomatic_player.cc:532 src/tools/dcpomatic_playlist.cc:278
 msgid "CPL"
@@ -218,20 +216,19 @@ msgstr "CPL"
 
 #: src/tools/dcpomatic.cc:967 src/tools/dcpomatic_kdm.cc:399
 msgid "CPL's content is not encrypted."
-msgstr "Le contenu du CPL n'est pas crypté."
+msgstr "Le contenu de la CPL n'est pas crypté."
 
 #: src/tools/dcpomatic.cc:1391 src/tools/dcpomatic_player.cc:548
 msgid "Check for updates"
-msgstr "Recherche mises à jour"
+msgstr "Rechercher des mises à jour"
 
 #: src/tools/dcpomatic.cc:1892 src/tools/dcpomatic.cc:1909
-#, fuzzy
 msgid "Close DCP-o-matic"
-msgstr "DCP-o-matic"
+msgstr "Fermer DCP-o-matic"
 
 #: src/tools/dcpomatic.cc:157
 msgid "Close without saving film"
-msgstr "Fermer sans sauvegarder le film"
+msgstr "Fermer sans enregistrer"
 
 #: src/tools/dcpomatic.cc:1384 src/tools/dcpomatic_player.cc:538
 msgid "Closed captions..."
@@ -239,43 +236,46 @@ msgstr "Sous-titres codés..."
 
 #: src/tools/dcpomatic.cc:1340
 msgid "Copy settings\tCtrl-C"
-msgstr "Copier les paramètres\tCtrl-C"
+msgstr "Copier les réglages\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:548 src/tools/dcpomatic.cc:557
 msgid "Could not create folder to store film."
-msgstr "Création du dossier pour accueillir votre DCP impossible"
+msgstr "Impossible de créer un dossier pour stocker le DCP."
 
 #: src/tools/dcpomatic_kdm.cc:489
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
 msgstr ""
-"Le décryptage du DKDM a échoué.  Il n'a peut-être pas été créé avec le bon "
-"certificat."
+"Impossible de décrypter le DKDM.  Peut-être n'a-t-il pas été créé avec le "
+"bon certificat."
 
 #: src/tools/dcpomatic.cc:906
 msgid "Could not find batch converter."
-msgstr "Convertisseur par lots introuvable"
+msgstr "Impossible de trouver le convertisseur par lots."
 
 #: src/tools/dcpomatic.cc:921
 msgid "Could not find player."
-msgstr "Lecteur introuvable"
+msgstr "Impossible de trouver le lecteur."
 
 #: src/tools/dcpomatic_player.cc:711 src/tools/dcpomatic_player.cc:1194
 msgid "Could not load DCP %1."
-msgstr "N'a pas pu charger le DCP %1."
+msgstr "Impossible de charger le DCP %1."
 
 #: src/tools/dcpomatic_player.cc:491
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load DCP.\n"
 "\n"
 "%s."
-msgstr "N'a pas pu charger le DCP %1."
+msgstr ""
+"Impossible de charger le DCP.\n"
+"\n"
+"%s."
 
 #: src/tools/dcpomatic_player.cc:657
 msgid "Could not load KDM."
-msgstr "Chargement de KDM impossible."
+msgstr "Impossible de charger le KDM."
 
 #: src/tools/dcpomatic_player.cc:354 src/tools/dcpomatic_player.cc:361
 #: src/tools/dcpomatic_player.cc:363
@@ -285,7 +285,7 @@ msgstr "Impossible de charger un DCP depuis %s"
 
 #: src/tools/dcpomatic_batch.cc:461
 msgid "Could not load film %1"
-msgstr "Chargement du film %1 impossible"
+msgstr "Impossible de charger le film %1"
 
 #: src/tools/dcpomatic.cc:1676
 msgid "Could not load film %1 (%2)"
@@ -293,7 +293,7 @@ msgstr "Impossible de charger le film %1 (%2)"
 
 #: src/tools/dcpomatic.cc:815
 msgid "Could not make DCP."
-msgstr "Création du DCP impossible."
+msgstr "Impossible de créer le DCP."
 
 #: src/tools/dcpomatic.cc:473 src/tools/dcpomatic.cc:478
 #: src/tools/dcpomatic_batch.cc:222
@@ -303,51 +303,54 @@ msgstr "Impossible d'ouvrir le film à %s"
 
 #: src/tools/dcpomatic.cc:468
 msgid "Could not open this folder as a DCP-o-matic project."
-msgstr ""
+msgstr "Impossible d'ouvrir ce dossier en tant que projet DCP-o-matic."
 
 #: src/tools/dcpomatic_kdm.cc:494
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
 msgstr ""
-"Lecture du fichier en tant que KDM impossible. Il est trop lourd. Assurez-"
-"vous qu'il s'agit d'une fichier DKDM (XML)."
+"Impossible de lire le fichier comme un KDM.  Il est trop lourd.  Assurez-"
+"vous que vous chargez un fichier DKDM (XML)."
 
 #: src/tools/dcpomatic_kdm.cc:482
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
 msgstr ""
-"Lecture du fichier en tant que KDM impossible. Peut-être est il mal formaté "
-"ou peut-être ne s'agit il pas du tout d'une KDM."
+"Impossible de lire le fichier comme un KDM.  Peut-être est-il mal formaté, "
+"ou n'est-il pas du tout un KDM."
 
 #: src/tools/dcpomatic.cc:1121
-#, fuzzy
 msgid "Could not send translations"
-msgstr "Démarrage nautilus impossible"
+msgstr "Impossible d'envoyer les traductions"
 
 #: src/tools/dcpomatic.cc:1039
 msgid "Could not show DCP."
-msgstr "Affichage du DCP impossible"
+msgstr "Impossible d'afficher le DCP."
 
 #: src/tools/dcpomatic.cc:904
 msgid ""
 "Could not start the batch converter.  You may need to download it from "
 "dcpomatic.com."
 msgstr ""
+"Impossible de lancer le convertisseur par lots.  Vous devrez peut-être le "
+"télécharger depuis dcpomatic.com."
 
 #: src/tools/dcpomatic.cc:919
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
+"Impossible de lancer le lecteur.  Vous devrez peut-être le télécharger "
+"depuis dcpomatic.com."
 
 #: src/tools/dcpomatic.cc:1425 src/tools/dcpomatic_batch.cc:333
 #, c-format
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
 msgstr ""
-"Ecriture dans le fichier cinemas à %s impossible. Vos modifications n'ont pu "
-"être sauvegardées."
+"Impossible d'écrire dans le fichier cinemas à %s.  Vos modifications n'ont "
+"pas été enregistrées."
 
 #: src/tools/dcpomatic.cc:1437 src/tools/dcpomatic_batch.cc:345
 #: src/tools/dcpomatic_player.cc:944 src/tools/dcpomatic_playlist.cc:568
@@ -355,14 +358,14 @@ msgstr ""
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
 msgstr ""
-"Ecriture dans le fichier de configuration à %s impossible. Vos modifications "
-"n'ont pu être sauvegardées."
+"Impossible d'écrire dans le fichier de configuration à %s.  Vos "
+"modifications n'ont pas été enregistrées."
 
 #: src/tools/dcpomatic_player.cc:952
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
-"Ecriture dans le fichier de configuration impossible. Vos modifications "
-"n'ont pu être sauvegardées."
+"Impossible d'écrire dans le fichier de configuration.  Vos modifications "
+"n'ont pas été enregistrées."
 
 #: src/tools/dcpomatic_kdm.cc:188
 msgid "Create KDMs"
@@ -375,33 +378,33 @@ msgstr "DCP-o-matic"
 
 #: src/tools/dcpomatic_batch.cc:401 src/tools/dcpomatic_batch.cc:437
 msgid "DCP-o-matic Batch Converter"
-msgstr "DCP-o-matic - Convertisseur par lots"
+msgstr "Convertisseur par lots DCP-o-matic"
 
 #: src/tools/dcpomatic_server.cc:151
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic Serveur d'Encodage"
+msgstr "Serveur d'encodage DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:653 src/tools/dcpomatic_kdm.cc:687
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic Créateur de KDM"
+msgstr "Créateur de KDM DCP-o-matic"
 
 #: src/tools/dcpomatic_player.cc:155 src/tools/dcpomatic_player.cc:346
 #: src/tools/dcpomatic_player.cc:622 src/tools/dcpomatic_player.cc:856
 #: src/tools/dcpomatic_player.cc:1135
 msgid "DCP-o-matic Player"
-msgstr "DCP-o-matic Player"
+msgstr "Lecteur DCP-o-matic"
 
 #: src/tools/dcpomatic_player.cc:1217
 msgid "DCP-o-matic Player could not start."
-msgstr "DCP-o-matic Player n'a pas pu démarrer."
+msgstr "Le lecteur DCP-o-matic n'a pas pu démarrer."
 
 #: src/tools/dcpomatic_playlist.cc:600 src/tools/dcpomatic_playlist.cc:634
 msgid "DCP-o-matic Playlist Editor"
-msgstr "DCP-o-matic Editeur de Playliste"
+msgstr "Éditeur de liste de lecture DCP-o-matic"
 
 #: src/tools/dcpomatic_kdm.cc:704 src/tools/dcpomatic_playlist.cc:646
 msgid "DCP-o-matic could not start"
-msgstr "DCP-o-matic n'a pas pu démarré"
+msgstr "DCP-o-matic n'a pas pu démarrer"
 
 #: src/tools/dcpomatic_kdm.cc:160
 msgid "DKDM"
@@ -413,7 +416,7 @@ msgstr "Décoder en pleine résolution"
 
 #: src/tools/dcpomatic_player.cc:542
 msgid "Decode at half resolution"
-msgstr "Décoder en demi-résolution"
+msgstr "Décoder en demi résolution"
 
 #: src/tools/dcpomatic_player.cc:543
 msgid "Decode at quarter resolution"
@@ -421,16 +424,16 @@ msgstr "Décoder en quart de résolution"
 
 #: src/tools/dcpomatic_playlist.cc:124
 msgid "Delete"
-msgstr ""
+msgstr "Supprimer"
 
 #: src/tools/dcpomatic.cc:1861 src/tools/dcpomatic.cc:1878
 msgid "Do nothing"
-msgstr ""
+msgstr "Ne rien faire"
 
 #: src/tools/dcpomatic.cc:800
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
-msgstr "Voulez vous écraser le DCP existant %s?"
+msgstr "Voulez-vous écraser le DCP %s existant ?"
 
 #: src/tools/dcpomatic.cc:157
 msgid "Don't close"
@@ -446,11 +449,11 @@ msgstr "Bas"
 
 #: src/tools/dcpomatic_player.cc:535
 msgid "Dual screen\tShift+F11"
-msgstr "Double Ecran\tShift+F11"
+msgstr "Double écran\tShift+F11"
 
 #: src/tools/dcpomatic.cc:608 src/tools/dcpomatic.cc:623
 msgid "Duplicate Film"
-msgstr "Dupliquer le Projet"
+msgstr "Dupliquer le film"
 
 #: src/tools/dcpomatic.cc:1320
 msgid "Duplicate and open..."
@@ -458,7 +461,7 @@ msgstr "Dupliquer et ouvrir..."
 
 #: src/tools/dcpomatic.cc:194
 msgid "Duplicate without saving film"
-msgstr "Dupliquer sans sauvegarder le film"
+msgstr "Dupliquer sans enregistrer le film"
 
 #: src/tools/dcpomatic.cc:1319
 msgid "Duplicate..."
@@ -466,42 +469,38 @@ msgstr "Dupliquer..."
 
 #: src/tools/dcpomatic.cc:1389 src/tools/dcpomatic_batch.cc:96
 msgid "Encoding servers..."
-msgstr "Serveurs d'encodage"
+msgstr "Serveurs d'encodage..."
 
 #: src/tools/dcpomatic_playlist.cc:280
 msgid "Encrypted"
 msgstr "Encrypté"
 
 #: src/tools/dcpomatic.cc:1397
-#, fuzzy
 msgid "Export preferences..."
-msgstr "Rétablir préférences par défaut"
+msgstr "Exporter les préférences..."
 
 #: src/tools/dcpomatic.cc:1369
-#, fuzzy
 msgid "Export subtitles..."
-msgstr "Exporter...\tCtrl-E"
+msgstr "Exporter les sous-titres..."
 
 #: src/tools/dcpomatic.cc:1368
-#, fuzzy
 msgid "Export video file...\tCtrl-E"
-msgstr "Exporter...\tCtrl-E"
+msgstr "Export le fichier vidéo...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:175
-#, fuzzy
 msgid "Export..."
-msgstr "Exporter...\tCtrl-E"
+msgstr "Exporter..."
 
 #: src/tools/dcpomatic.cc:996 src/tools/dcpomatic_kdm.cc:279
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr "Le fichier %s existe déjà. Etes-vous sûr de vouloir le remplacer ?"
+msgstr "Le fichier %s existe déjà.  Voulez-vous le remplacer ?"
 
 #. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. / project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:152 src/tools/dcpomatic.cc:189
 msgid "Film changed"
-msgstr "Film changé"
+msgstr "Film modifié"
 
 #: src/tools/dcpomatic_server.cc:162
 msgid "Frames per second"
@@ -509,11 +508,11 @@ msgstr "Images par seconde"
 
 #: src/tools/dcpomatic_player.cc:534
 msgid "Full screen\tF11"
-msgstr "Plein Ecran\tF11"
+msgstr "Plein écran\tF11"
 
 #: src/tools/dcpomatic.cc:1388
 msgid "Hints..."
-msgstr "Conseils...\tCtrl-H"
+msgstr "Conseils..."
 
 #: src/tools/dcpomatic.cc:469
 msgid ""
@@ -521,36 +520,39 @@ msgid ""
 "o-matic projects, not DCPs.  To import a DCP, create a new project with File "
 "-> New and then click the \"Add DCP...\" button."
 msgstr ""
+"Il semble que vous essayez d'ouvrir un DCP.  Fichier -> Ouvrier sert à "
+"charger des projets DCP-o-matic, pas des DCPs.  Pour importer un DCP, créez "
+"un nouveau projet avec Fichier -> Nouveau et cliquez ensuite sur le bouton "
+"\"Ajouter un DCP...\"."
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:154
 msgid "KDM|Timing"
-msgstr "Durées"
+msgstr "KDM|Chronologie"
 
 #: src/tools/dcpomatic_playlist.cc:119
 msgid "Length"
-msgstr ""
+msgstr "Durée"
 
 #: src/tools/dcpomatic_player.cc:346 src/tools/dcpomatic_player.cc:622
 msgid "Loading content"
 msgstr "Chargement du contenu"
 
 #: src/tools/dcpomatic.cc:1364
-#, fuzzy
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr "Générer &KDMs...\tCtrl-K"
+msgstr "Générer des &DKDMs...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1362
 msgid "Make &KDMs...\tCtrl-K"
-msgstr "Générer &KDMs...\tCtrl-K"
+msgstr "Générer des &KDMs...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:1359
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr "Produire le DCP dans le &Convertisseur par lot\tCtrl-B"
+msgstr "Créer un DCP dans le &convertisseur par lots\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:1365
 msgid "Make DKDM for DCP-o-matic..."
-msgstr "Créer DKDM pour DCP-o-matic..."
+msgstr "Créer une DKDM pour DCP-o-matic..."
 
 #: src/tools/dcpomatic.cc:1390
 msgid "Manage templates..."
@@ -562,16 +564,15 @@ msgstr "Nom"
 
 #: src/tools/dcpomatic_playlist.cc:122
 msgid "New"
-msgstr ""
+msgstr "Nouveau"
 
 #: src/tools/dcpomatic.cc:532
 msgid "New Film"
-msgstr "Nouveau projet"
+msgstr "Nouveau film"
 
 #: src/tools/dcpomatic_playlist.cc:212
-#, fuzzy
 msgid "New Playlist"
-msgstr "Enregistrer la Playliste"
+msgstr "Nouvelle liste de lecture"
 
 #: src/tools/dcpomatic.cc:1311
 msgid "New...\tCtrl-N"
@@ -582,10 +583,12 @@ msgid ""
 "No playlist folder is specified in preferences.  Please set one and then try "
 "again."
 msgstr ""
+"Aucun dossier de liste de lecture n'est spécifié dans les préférences.  "
+"Veuillez en définir un et réessayer."
 
 #: src/tools/dcpomatic.cc:1381
 msgid "Open DCP in &player"
-msgstr "Ouvrir le DCP dans le lecteur"
+msgstr "Ouvrir le DCP dans le &lecteur"
 
 #: src/tools/dcpomatic_kdm.cc:182
 msgid "Output"
@@ -604,6 +607,8 @@ msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for DCP-o-matic."
 msgstr ""
+"Veuillez vérifier que l'accès aux dossiers contrôlés par Windows n'est pas "
+"activé pour DCP-o-matic."
 
 #: src/tools/dcpomatic_playlist.cc:364
 msgid "Question|N"
@@ -615,16 +620,16 @@ msgstr "Question|O"
 
 #: src/tools/dcpomatic.cc:1904
 msgid "Recreate KDM decryption chain"
-msgstr ""
+msgstr "Recréer la chaîne de décryptage KDM"
 
 #: src/tools/dcpomatic.cc:1857 src/tools/dcpomatic.cc:1874
 #: src/tools/dcpomatic.cc:1888
 msgid "Recreate signing certificates"
-msgstr ""
+msgstr "Recréer les certificats de signature"
 
 #: src/tools/dcpomatic.cc:1702
 msgid "Release notes"
-msgstr ""
+msgstr "Notes de mise à jour"
 
 #: src/tools/dcpomatic_kdm.cc:173 src/tools/dcpomatic_playlist.cc:298
 msgid "Remove"
@@ -633,44 +638,41 @@ msgstr "Supprimer"
 #: src/tools/dcpomatic.cc:1405 src/tools/dcpomatic_kdm.cc:266
 #: src/tools/dcpomatic_player.cc:558
 msgid "Report a problem..."
-msgstr "Signaler un problème"
+msgstr "Signaler un problème..."
 
 #: src/tools/dcpomatic.cc:732 src/tools/dcpomatic.cc:1395
 msgid "Restore default preferences"
-msgstr "Rétablir préférences par défaut"
+msgstr "Rétablir les préférences par défaut"
 
 #: src/tools/dcpomatic_batch.cc:144
 msgid "Resume"
 msgstr "Reprendre"
 
 #: src/tools/dcpomatic.cc:1376
-#, fuzzy
 msgid "S&how DCP in Explorer"
-msgstr "Voir le DCP"
+msgstr "A&fficher le DCP dans l'explorateur"
 
 #: src/tools/dcpomatic.cc:1378
-#, fuzzy
 msgid "S&how DCP in Files"
-msgstr "Voir le DCP"
+msgstr "A&fficher le DCP dans les fichiers"
 
 #: src/tools/dcpomatic.cc:1374
-#, fuzzy
 msgid "S&how DCP in Finder"
-msgstr "Voir le DCP"
+msgstr "A&fficher le DCP dans le Finder"
 
 #: src/tools/dcpomatic.cc:1318
 msgid "Save as &template..."
-msgstr "Enregistrer comme modèle"
+msgstr "Enregistrer comme &modèle..."
 
 #: src/tools/dcpomatic.cc:149
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr "Enregistrer les changements dans le film \"%s\" avant de fermer ?"
+msgstr "Enregistrer les changements du film \"%s\" avant de fermer ?"
 
 #: src/tools/dcpomatic.cc:186
 #, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
-msgstr "Enregistrer les changements dans le projet \"%s\" avant de dupliquer ?"
+msgstr "Enregistrer les changements dans le projet \"%s\" avant de dupliquer ?"
 
 #: src/tools/dcpomatic.cc:157
 msgid "Save film and close"
@@ -678,26 +680,25 @@ msgstr "Enregistrer le film et fermer"
 
 #: src/tools/dcpomatic.cc:194
 msgid "Save film and duplicate"
-msgstr "Enregistrer le projet et dupliquer"
+msgstr "Enregistrer le film et dupliquer"
 
 #: src/tools/dcpomatic_player.cc:669
 msgid "Save frame to file"
-msgstr ""
+msgstr "Enregistrer l'image dans un fichier"
 
 #: src/tools/dcpomatic_kdm.cc:147
 msgid "Screens"
-msgstr "Ecrans"
+msgstr "Écrans"
 
 #: src/tools/dcpomatic_player.cc:576
 msgid "Select DCP to open"
-msgstr "Choisissez le DCP à ouvrir"
+msgstr "Sélectionner le DCP à ouvrir"
 
 #: src/tools/dcpomatic_player.cc:601
 msgid "Select DCP to open as OV"
-msgstr "Choisissez le DCP à ouvrir en tant qu'OV"
+msgstr "Sélectionner le DCP à ouvrir en tant qu'OV"
 
 #: src/tools/dcpomatic_kdm.cc:602
-#, fuzzy
 msgid "Select DKDM File"
 msgstr "Sélectionner le fichier DKDM"
 
@@ -707,11 +708,11 @@ msgstr "Sélectionner le fichier DKDM"
 
 #: src/tools/dcpomatic_player.cc:643
 msgid "Select KDM"
-msgstr "Choisissez KDM"
+msgstr "Sélectionner le KDM"
 
 #: src/tools/dcpomatic.cc:1345
 msgid "Select all\tShift-Ctrl-A"
-msgstr ""
+msgstr "Sélectionner tout\tShift-Ctrl-A"
 
 #: src/tools/dcpomatic.cc:569 src/tools/dcpomatic_batch.cc:299
 msgid "Select film to open"
@@ -723,7 +724,7 @@ msgstr "Envoyer les e-mails de KDM"
 
 #: src/tools/dcpomatic.cc:1392
 msgid "Send translations..."
-msgstr "Envoyer traductions..."
+msgstr "Envoyer les traductions..."
 
 #: src/tools/dcpomatic_player.cc:540
 msgid "Set decode resolution to match display"
@@ -731,11 +732,11 @@ msgstr "Régler la résolution de décodage en fonction de l'affichage"
 
 #: src/tools/dcpomatic.cc:747
 msgid "Specify ZIP file"
-msgstr ""
+msgstr "Spécifier le fichier ZIP"
 
 #: src/tools/dcpomatic.cc:1393 src/tools/dcpomatic_player.cc:550
 msgid "System information..."
-msgstr ""
+msgstr "Informations système..."
 
 #: src/tools/dcpomatic.cc:770
 #, c-format
@@ -745,10 +746,10 @@ msgid ""
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"Le DCP et ses fichiers intermédiaires pour ce film occuperont environ %.1f "
-"GB. Le disque que vous utilisez ne dispose que %.1f GB disponible(s). Vous "
-"auriez besoin de la moitié de cet espace si votre système supportait les "
-"\"hard links\" mais ce n'est pas le cas. Souhaitez vous continuer quand-même?"
+"Les fichiers DCP et intermédiaires de ce film occupent environ %.1f GB, et "
+"le disque que vous utilisez ne dispose que de %.1f GB.  Vous auriez besoin "
+"de moitié moins d'espace si le système de fichiers supportait les liens "
+"durs, mais ce n'est pas le cas.  Voulez-vous quand même continuer ?"
 
 #: src/tools/dcpomatic.cc:768
 #, c-format
@@ -756,12 +757,12 @@ msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
 "using only has %.1f GB available.  Do you want to continue anyway?"
 msgstr ""
-"Le DCP de ce film occupera environ %.1f GB. Le disque que vous utilisez ne "
-"dispose que %.1f GB disponible(s). Souhaitez-vous continuer?"
+"Le DCP de ce film occupera environ %.1f GB, et le disque que vous utilisez "
+"ne dispose que de %.1f GB.  Voulez-vous quand même continuer ?"
 
 #: src/tools/dcpomatic.cc:1499 src/tools/dcpomatic_player.cc:926
 msgid "The DCP-o-matic download server could not be contacted."
-msgstr "Le serveur de téléchargement de DCP-o-matic ne peut être contacté."
+msgstr "Le serveur de téléchargement de DCP-o-matic n'a pas pu être contacté."
 
 #: src/tools/dcpomatic_batch.cc:211
 #, c-format
@@ -770,14 +771,13 @@ msgid ""
 "%.1f GB.  The disks that you are using only have %.1f GB available.  Do you "
 "want to add this film to the queue anyway?"
 msgstr ""
-"Le DCP de ce film et les autres déjà présent en file d'attente occuperont "
-"environ %.1f GB. Le disque que vous utilisez ne dispose que de %.1f Go "
-"disponible(s). Souhaitez-vous continuer à ajouter ce film à la file "
-"d'attente quand même?"
+"Les DCPs de ce film et des films déjà en attente occuperont environ %.1f "
+"GB.  Les disques que vous utilisez ne disposent que de %.1f GB.  Voulez-vous "
+"quand même ajouter ce film à la file d'attente ?"
 
 #: src/tools/dcpomatic_player.cc:302
 msgid "The KDM does not allow playback of this content at this time."
-msgstr "La KDM n'autorise pas la lecture de ce contenu pour le moment."
+msgstr "Le KDM n'autorise pas la lecture de ce contenu pour le moment."
 
 #: src/tools/dcpomatic.cc:1905
 msgid ""
@@ -789,6 +789,13 @@ msgid ""
 "and back up your\n"
 "configuration before continuing."
 msgstr ""
+"La chaîne de certificats que DCP-o-matic utilise pour décrypter les KDM est "
+"incohérente et\n"
+"ne peut pas être utilisée.  DCP-o-matic ne peut pas démarrer si vous ne le "
+"recréez pas.\n"
+"Voulez-vous recréer la chaîne de certificats pour le décryptage des KDM ?  "
+"Il est préférable\n"
+"de dire \"Non\" ici et de sauvegarder votre configuration avant de continuer."
 
 #: src/tools/dcpomatic.cc:1858
 msgid ""
@@ -798,6 +805,11 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"La chaîne de certificats que DCP-o-matic utilise pour signer les DCPs et les "
+"KDMs contient une\n"
+"petite erreur qui empêche la validation correcte des DCPs sur certains "
+"systèmes.  Voulez-vous\n"
+"recréer la chaîne de certificats pour la signature des DCPs et des KDMs ?"
 
 #: src/tools/dcpomatic.cc:1875
 msgid ""
@@ -807,6 +819,12 @@ msgid ""
 "systems.\n"
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"La chaîne de certificats que DCP-o-matic utilise pour signer les DCP et les "
+"KDM a une période\n"
+"de validité trop longue. trop longue.  Cela entraîne des problèmes de "
+"lecture des DCP sur certains\n"
+"systèmes.  Voulez-vous recréer la chaîne de certificats pour signer les DCPs "
+"et les KDMs ?"
 
 #: src/tools/dcpomatic.cc:1889
 msgid ""
@@ -816,14 +834,20 @@ msgid ""
 "want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
+"La chaîne de certificats que DCP-o-matic utilise pour signer les DCPs et les "
+"KDMs est incohérente\n"
+"et ne peut pas être utilisée.  DCP-o-matic ne peut pas démarrer si vous ne "
+"la recréez pas.\n"
+"Voulez-vous recréer la chaîne de certificats pour la signature des DCPs et "
+"des KDMs ?"
 
 #: src/tools/dcpomatic_player.cc:1293
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
-"La configuration existante n'a pu être chargée. Les paramètres par défaut "
-"seront utilisés à la place. Cela peut prendre un peu de temps."
+"La configuration existante n'a pu être chargée.  Les valeurs par défaut "
+"seront utilisées à la place.  Cela peut prendre un peu de temps."
 
 #: src/tools/dcpomatic.cc:1501 src/tools/dcpomatic_player.cc:928
 msgid "There are no new versions of DCP-o-matic available."
@@ -831,7 +855,7 @@ msgstr "Pas de mise à jour disponible de DCP-o-matic pour l'instant."
 
 #: src/tools/dcpomatic.cc:1153 src/tools/dcpomatic_batch.cc:241
 msgid "There are unfinished jobs; are you sure you want to quit?"
-msgstr "Certaines tâches sont inachevées. Voulez-vous vraiment quitter ?"
+msgstr "Il y a des tâches inachevées ; êtes-vous sûr de vouloir quitter ?"
 
 #: src/tools/dcpomatic.cc:451
 msgid ""
@@ -839,8 +863,8 @@ msgid ""
 "correctly in this version.  Please check the film's settings carefully."
 msgstr ""
 "Ce film a été créé avec une ancienne version de DVD-o-matic et pourrait ne "
-"pas s'ouvrir correctement dans cette version. Veuillez vérifier tous les "
-"paramètres de réglages très attentivement."
+"pas se charger correctement dans cette version.  Veuillez vérifier "
+"attentivement les paramètres du film."
 
 #: src/tools/dcpomatic_player.cc:356
 msgid ""
@@ -848,11 +872,13 @@ msgid ""
 "the player.  Choose the DCP directory inside the DCP-o-matic project folder "
 "if that's what you want to play."
 msgstr ""
+"Cela ressemble à un dossier de projet DCP-o-matic, qui ne peut pas être "
+"chargé dans le lecteur.  Choisissez le répertoire DCP à l'intérieur du "
+"dossier de projet DCP-o-matic si c'est ce que vous voulez lire."
 
 #: src/tools/dcpomatic_player.cc:549
-#, fuzzy
 msgid "Timing..."
-msgstr "Durées"
+msgstr "Chronologie..."
 
 #: src/tools/dcpomatic.cc:551
 #, c-format
@@ -865,26 +891,28 @@ msgstr "Type"
 
 #: src/tools/dcpomatic.cc:1154 src/tools/dcpomatic_batch.cc:242
 msgid "Unfinished jobs"
-msgstr "Travaux incomplets"
+msgstr "Tâches inachevées"
 
 #: src/tools/dcpomatic_playlist.cc:295
 msgid "Up"
 msgstr "Haut"
 
 #: src/tools/dcpomatic_player.cc:546
-#, fuzzy
 msgid "Verify DCP..."
-msgstr "Vérifier le DCP"
+msgstr "Vérifier le DCP..."
 
 #: src/tools/dcpomatic.cc:1385
 msgid "Video waveform..."
-msgstr "Forme d'onde vidéo"
+msgstr "Forme d'onde vidéo..."
 
 #: src/tools/dcpomatic_kdm.cc:577
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
 msgstr ""
+"Vous êtes sur le point de supprimer une DKDM.  Cela rendra impossible le "
+"décryptage du DCP pour lequel la DKDM a été créée, et cela ne peut être "
+"annulé.  Êtes-vous sûr ?"
 
 #: src/tools/dcpomatic.cc:942
 #, c-format
@@ -897,12 +925,12 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
-"Vous êtes en train de créer un DKDM qui est crypté par une clé privée "
+"Vous êtes sur le point de créer une DKDM qui est crypté par une clé privée "
 "contenue dans\n"
 "\n"
 "<tt>%s</tt>\n"
 "\n"
-"Il est <span weight=\"bold\" size=\"larger\">TRES IMPORTANT</span> de <span "
+"Il est <span weight=\"bold\" size=\"larger\">TRÈS IMPORTANT</span> de <span "
 "weight=\"bold\" size=\"larger\">SAUVEGARDER CE FICHIER</span> car si vous le "
 "perdez, votre DKDM (et les DCPs qu'il protège) seront inutilisables."
 
@@ -912,16 +940,15 @@ msgid ""
 "this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
 "film and the metadata files within the DCP.\n"
 "\n"
-"You should ensure that these files are <span weight=\"bold\" "
-"size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
+"You should ensure that these files are <span weight=\"bold\" size=\"larger"
+"\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
-"Vous êtes en train de créer un DCP crypté. IL sera impossible de créer des "
-"KDMs pour ce DCP sans avoir de copie du fichier <tt>metadata.xml</tt> à "
-"l'intérieur du projet et une copie des fichiers metadata dans le DCP.\n"
+"Vous êtes sur le point de créer un DCP crypté.  Il sera impossible de créer "
+"des KDMs pour ce DCP sans avoir de copie du fichier <tt>metadata.xml</tt> à "
+"l'intérieur du film et des fichiers métadonnées contenus dans le DCP.\n"
 "\n"
-"Assurez vous que ces fichiers sont <span weight=\"bold\" "
-"size=\"larger\">SAUVEGARDES</span>  si vous souhaitez créer des KDMs pour ce "
-"projet."
+"Assurez-vous que ces fichiers sont <span weight=\"bold\" size=\"larger"
+"\">SAUVEGARDÉS</span> si vous souhaitez créer des KDMs pour ce film."
 
 #: src/tools/dcpomatic.cc:1663
 msgid ""
@@ -930,6 +957,10 @@ msgid ""
 "errors.  You are strongly advised to install the 64-bit version of DCP-o-"
 "matic."
 msgstr ""
+"Vous exécutez la version 32 bits de DCP-o-matic sur une version 64 bits de "
+"Windows.  Cela limite la mémoire disponible pour DCP-o-matic et peut "
+"provoquer des erreurs.  Il vous est fortement conseillé d'installer la "
+"version 64 bits de DCP-o-matic."
 
 #: src/tools/dcpomatic.cc:578 src/tools/dcpomatic_batch.cc:308
 #: src/tools/dcpomatic_player.cc:582 src/tools/dcpomatic_player.cc:610
@@ -937,14 +968,17 @@ msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr ""
-"Aucun dossier sélectionné. Sélectionnez un dossier avant de cliquer sur "
-"Ouvrir"
+"Vous n'avez pas sélectionné de dossier.  Assurez-vous de sélectionner un "
+"dossier avant de cliquer sur Ouvrir."
 
 #: src/tools/dcpomatic.cc:1114
 msgid ""
 "You must enter a valid email address when sending translations, otherwise "
 "the DCP-o-matic maintainers cannot credit you or contact you with questions."
 msgstr ""
+"Vous devez indiquer une adresse e-mail valide lorsque vous envoyez des "
+"traductions, sinon les responsables de DCP-o-matic ne pourront pas vous "
+"créditer ou vous contacter pour vous poser des questions."
 
 #~ msgid "Could not run konqueror"
 #~ msgstr "Démarrage konqueror impossible"
