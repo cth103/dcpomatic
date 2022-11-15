@@ -47,6 +47,8 @@ DCPContentType::DCPContentType (string p, dcp::ContentKind k, string d)
 void
 DCPContentType::setup_dcp_content_types ()
 {
+	/// TRANSLATORS: these are the types that a DCP can have, explained in some
+	/// more detail here: https://registry-page.isdcf.com/contenttypes/
 	_dcp_content_types = {
 		DCPContentType(_("Feature"), dcp::ContentKind::FEATURE, N_("FTR")),
 		DCPContentType(_("Short"), dcp::ContentKind::SHORT, N_("SHR")),
