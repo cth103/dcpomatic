@@ -141,6 +141,7 @@ def build(bld):
                  subtitle_font_id_change_test.cc
                  subtitle_language_test.cc
                  subtitle_metadata_test.cc
+                 subtitle_position_test.cc
                  subtitle_reel_test.cc
                  subtitle_reel_number_test.cc
                  subtitle_timing_test.cc

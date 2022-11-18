@@ -18,14 +18,55 @@
 
 */
 
+
 #include "position_image.h"
 #include "dcpomatic_time.h"
 #include "string_text.h"
 #include <dcp/util.h>
+#include <memory>
+
 
 namespace dcpomatic {
 	class Font;
 }
 
+
 std::string marked_up (std::list<StringText> subtitles, int target_height, float fade_factor, std::string font_name);
 std::list<PositionImage> render_text (std::list<StringText>, dcp::Size, dcpomatic::DCPTime, int);
+
+
+class FontMetrics
+{
+public:
+	FontMetrics(int target_height)
+		: _target_height(target_height)
+	{}
+
+	float baseline_to_bottom(StringText const& subtitle);
+	float height(StringText const& subtitle);
+
+private:
+	/** Class to collect the properties of a subtitle which affect the metrics we care about
+	 *  i.e. baseline position and height.
+	 */
+	class Identifier
+	{
+	public:
+		Identifier(StringText const& subtitle);
+
+		std::shared_ptr<dcpomatic::Font> font;
+		int size;
+		float aspect_adjust;
+
+		bool operator<(Identifier const& other) const;
+	};
+
+	using Cache = std::map<Identifier, std::pair<float, float>>;
+
+	Cache::iterator get(StringText const& subtitle);
+
+	Cache _cache;
+
+	int _target_height;
+};
+

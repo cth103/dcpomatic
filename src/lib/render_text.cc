@@ -171,12 +171,12 @@ create_surface (shared_ptr<Image> image)
 
 
 static string
-setup_font (StringText const& subtitle)
+setup_font(shared_ptr<const dcpomatic::Font> font)
 {
 	auto font_file = default_font_file ();
 
-	if (subtitle.font && subtitle.font->file()) {
-		font_file = *subtitle.font->file();
+	if (font && font->file()) {
+		font_file = *font->file();
 	}
 
 	return FontConfig::instance()->make_font_available(font_file);
@@ -299,7 +299,7 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	DCPOMATIC_ASSERT (!subtitles.empty ());
 	auto const& first = subtitles.front ();
 
-	auto const font_name = setup_font (first);
+	auto const font_name = setup_font(first.font);
 	auto const fade_factor = calculate_fade_factor (first, time, frame_rate);
 	auto const markup = marked_up (subtitles, target.height, fade_factor, font_name);
 	auto layout = create_layout ();
@@ -402,3 +402,63 @@ render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 
 	return images;
 }
+
+
+float
+FontMetrics::height(StringText const& subtitle)
+{
+	return get(subtitle)->second.second;
+}
+
+
+float
+FontMetrics::baseline_to_bottom(StringText const& subtitle)
+{
+	return get(subtitle)->second.first;
+}
+
+
+FontMetrics::Cache::iterator
+FontMetrics::get(StringText const& subtitle)
+{
+	auto id = Identifier(subtitle);
+
+	auto iter = _cache.find(id);
+	if (iter != _cache.end()) {
+		return iter;
+	}
+
+	auto const font_name = setup_font(subtitle.font);
+	auto layout = create_layout();
+	auto copy = subtitle;
+	copy.set_text("Qypjg");
+	setup_layout(layout, font_name, marked_up({copy}, _target_height, 1, font_name));
+	auto ink = layout->get_ink_extents();
+	auto const scale = float(_target_height * Pango::SCALE);
+	return _cache.insert({id, { ink.get_y() / scale, ink.get_height() / scale}}).first;
+}
+
+
+FontMetrics::Identifier::Identifier(StringText const& subtitle)
+	: font(subtitle.font)
+	, size(subtitle.size())
+	, aspect_adjust(subtitle.aspect_adjust())
+{
+
+}
+
+
+bool
+FontMetrics::Identifier::operator<(FontMetrics::Identifier const& other) const
+{
+	if (font != other.font) {
+		return font < other.font;
+	}
+
+	if (size != other.size) {
+	    return size < other.size;
+	}
+
+	return aspect_adjust < other.aspect_adjust;
+}
+
