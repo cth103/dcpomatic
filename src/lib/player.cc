@@ -369,7 +369,7 @@ Player::setup_pieces ()
 	for (auto i: _pieces) {
 		if (i->content->audio) {
 			for (auto j: i->content->audio->streams()) {
-				_stream_states[j] = StreamState (i, i->content->position ());
+				_stream_states[j] = StreamState(i);
 			}
 		}
 	}
@@ -800,21 +800,25 @@ Player::pass ()
 
 	using state_pair = std::pair<AudioStreamPtr, StreamState>;
 
+	/* Find streams that have pushed */
+	std::vector<state_pair> have_pushed;
+	std::copy_if(_stream_states.begin(), _stream_states.end(), std::back_inserter(have_pushed), [](state_pair const& a) { return static_cast<bool>(a.second.last_push_end); });
+
 	/* Find the 'leading' stream (i.e. the one that pushed data most recently) */
 	auto latest_last_push_end = std::max_element(
-		_stream_states.begin(),
-		_stream_states.end(),
-		[](state_pair const& a, state_pair const& b) { return a.second.last_push_end < b.second.last_push_end; }
+		have_pushed.begin(),
+		have_pushed.end(),
+		[](state_pair const& a, state_pair const& b) { return a.second.last_push_end.get() < b.second.last_push_end.get(); }
 		);
 
-	if (latest_last_push_end != _stream_states.end()) {
-		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end));
+	if (latest_last_push_end != have_pushed.end()) {
+		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end.get()));
 	}
 
 	/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
 	std::map<AudioStreamPtr, StreamState> alive_stream_states;
 	for (auto const& i: _stream_states) {
-		if ((latest_last_push_end->second.last_push_end - i.second.last_push_end) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
+		if (!i.second.last_push_end || (latest_last_push_end->second.last_push_end.get() - i.second.last_push_end.get()) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
 			alive_stream_states.insert(i);
 		} else {
 			LOG_DEBUG_PLAYER("Ignoring stream %1 because it is too far behind", i.second.piece->content->path(0));
@@ -823,8 +827,9 @@ Player::pass ()
 
 	auto pull_to = _playback_length.load();
 	for (auto const& i: alive_stream_states) {
-		if (!i.second.piece->done && i.second.last_push_end < pull_to) {
-			pull_to = i.second.last_push_end;
+		auto position = i.second.last_push_end.get_value_or(i.second.piece->content->position());
+		if (!i.second.piece->done && position < pull_to) {
+			pull_to = position;
 		}
 	}
 	if (!_silent.done() && _silent.position() < pull_to) {
@@ -1079,10 +1084,10 @@ Player::audio (weak_ptr<Piece> weak_piece, AudioStreamPtr stream, ContentAudio c
 
 	/* Compute time in the DCP */
 	auto time = resampled_audio_to_dcp (piece, content_audio.frame);
-	LOG_DEBUG_PLAYER("Received audio frame %1 at %2", content_audio.frame, to_string(time));
 
 	/* And the end of this block in the DCP */
 	auto end = time + DCPTime::from_frames(content_audio.audio->frames(), rfr);
+	LOG_DEBUG_PLAYER("Received audio frame %1 covering %2 to %3 (%4)", content_audio.frame, to_string(time), to_string(end), piece->content->path(0).filename());
 
 	/* Remove anything that comes before the start or after the end of the content */
 	if (time < piece->content->position()) {

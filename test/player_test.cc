@@ -28,10 +28,12 @@
 #include "lib/audio_buffers.h"
 #include "lib/butler.h"
 #include "lib/compose.hpp"
+#include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
@@ -536,5 +538,22 @@ BOOST_AUTO_TEST_CASE (interleaved_subtitle_are_emitted_correctly)
 		}
 	});
 	while (!player.pass()) {}
+}
+
+
+BOOST_AUTO_TEST_CASE(multiple_sound_files_bug)
+{
+	Config::instance()->set_log_types(Config::instance()->log_types() | LogEntry::TYPE_DEBUG_PLAYER);
+
+	auto A = content_factory(TestPaths::private_data() / "kook" / "1.wav").front();
+	auto B = content_factory(TestPaths::private_data() / "kook" / "2.wav").front();
+	auto C = content_factory(TestPaths::private_data() / "kook" / "3.wav").front();
+
+	auto film = new_test_film2("multiple_sound_files_bug", { A, B, C });
+	C->set_position(film, DCPTime(3840000));
+
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	check_mxf_audio_file(TestPaths::private_data() / "kook" / "reference.mxf", dcp_file(film, "pcm_"));
 }
 

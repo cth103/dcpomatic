@@ -227,13 +227,12 @@ private:
 	public:
 		StreamState () {}
 
-		StreamState (std::shared_ptr<Piece> p, dcpomatic::DCPTime l)
+		explicit StreamState(std::shared_ptr<Piece> p)
 			: piece(p)
-			, last_push_end(l)
 		{}
 
 		std::shared_ptr<Piece> piece;
-		dcpomatic::DCPTime last_push_end;
+		boost::optional<dcpomatic::DCPTime> last_push_end;
 	};
 	std::map<AudioStreamPtr, StreamState> _stream_states;
 
