@@ -55,15 +55,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 		{ dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE }
 		);
 
-	boost::filesystem::path check;
-
-	for (auto i: boost::filesystem::directory_iterator("build/test/content_test1/" + film->dcp_name())) {
-		if (i.path().leaf().string().substr(0, 4) == "pcm_") {
-			check = i;
-		}
-	}
-
-	check_mxf_audio_file (TestPaths::private_data() / "content_test1.mxf", check);
+	check_mxf_audio_file(TestPaths::private_data() / "content_test1.mxf", dcp_file(film, "pcm_"));
 }
 
 
