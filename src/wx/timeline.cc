@@ -476,7 +476,6 @@ Timeline::event_to_view (wxMouseEvent& ev)
 	Position<int> const p (ev.GetX() + vsx * _x_scroll_rate, ev.GetY() + vsy * _y_scroll_rate);
 
 	while (i != _views.rend() && !(*i)->bbox().contains (p)) {
-		auto cv = dynamic_pointer_cast<TimelineContentView>(*i);
 		++i;
 	}
 
