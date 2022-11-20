@@ -1347,6 +1347,10 @@ Player::seek (DCPTime time, bool accurate)
 	_silent.set_position (time);
 
 	_last_video.clear ();
+
+	for (auto& state: _stream_states) {
+		state.second.last_push_end = {};
+	}
 }
 
 
