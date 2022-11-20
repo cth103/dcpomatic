@@ -520,6 +520,12 @@ Timeline::left_down_select (wxMouseEvent& ev)
 		_down_view_position = content_view->content()->position ();
 	}
 
+	if (dynamic_pointer_cast<TimelineTimeAxisView>(view)) {
+		int vsx, vsy;
+		_main_canvas->GetViewStart(&vsx, &vsy);
+		_viewer.seek(DCPTime::from_seconds((ev.GetPosition().x + vsx * _x_scroll_rate) / _pixels_per_second.get_value_or(1)), true);
+	}
+
 	for (auto i: _views) {
 		auto cv = dynamic_pointer_cast<TimelineContentView>(i);
 		if (!cv) {
