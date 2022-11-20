@@ -58,3 +58,12 @@ TimelineView::time_x (DCPTime t) const
 {
 	return t.seconds() * _timeline.pixels_per_second().get_value_or(0);
 }
+
+
+int
+TimelineView::y_pos(int t) const
+{
+	return t * _timeline.pixels_per_track() + _timeline.tracks_y_offset();
+}
+
+

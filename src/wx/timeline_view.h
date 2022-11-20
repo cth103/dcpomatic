@@ -52,6 +52,7 @@ protected:
 	virtual void do_paint (wxGraphicsContext *, std::list<dcpomatic::Rect<int>> overlaps) = 0;
 
 	int time_x (dcpomatic::DCPTime t) const;
+	int y_pos(int t) const;
 
 	Timeline& _timeline;
 

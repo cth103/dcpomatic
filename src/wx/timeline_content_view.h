@@ -64,7 +64,6 @@ protected:
 private:
 
 	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
-	int y_pos (int t) const;
 	void content_change (ChangeType type, int p);
 
 	boost::optional<int> _track;
