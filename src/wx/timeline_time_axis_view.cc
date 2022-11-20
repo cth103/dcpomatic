@@ -45,7 +45,7 @@ TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
 dcpomatic::Rect<int>
 TimelineTimeAxisView::bbox () const
 {
-	return dcpomatic::Rect<int> (0, _y - 4, _timeline.width(), 24);
+	return dcpomatic::Rect<int>(0, y_pos(_y), _timeline.width(), 48);
 }
 
 
