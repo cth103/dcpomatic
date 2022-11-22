@@ -114,10 +114,12 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	auto font = content[0]->text.front()->get_font("Arial Black");
+	BOOST_REQUIRE(font);
 	BOOST_REQUIRE(font->file());
 	BOOST_CHECK_EQUAL(*font->file(), "test/data/Inconsolata-VF.ttf");
 
 	font = content[0]->text.front()->get_font("Helvetica Neue");
+	BOOST_REQUIRE(font);
 	BOOST_REQUIRE(font->file());
 	BOOST_CHECK_EQUAL(*font->file(), "test/data/Inconsolata-VF.ttf");
 
