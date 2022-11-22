@@ -5,6 +5,13 @@ set -e
 
 PRIVATE_GIT="a462680c7c6df8a84f9ee0bb7b4fb90055b96ca8"
 
+if [ "$1" == "--check" ]; then
+	shift 1
+	check=1
+else
+	check=0
+fi
+
 if [ "$(uname)" == "Linux" ]; then 
   export LD_LIBRARY_PATH=build/src/lib:/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
   rm -f build/test/dcpomatic2_openssl
@@ -30,14 +37,20 @@ if [ "$(uname)" == "Darwin" ]; then
   export PATH=$PATH:/Users/ci/workspace/bin
 fi
 
-pushd ../dcpomatic-test-private
-current=$(git rev-parse HEAD)
-if [ "$current" != "$PRIVATE_GIT" ]; then
-	echo "Unexpected dcpomatic-test-private version"
-	exit 1
+if [ "$check" == "1" ]; then
+	if [ "$DCPOMATIC_TEST_PRIVATE" == "" ]; then
+		pushd ../dcpomatic-test-private
+	else
+		pushd $DCPOMATIC_TEST_PRIVATE
+	fi
+	current=$(git rev-parse HEAD)
+	if [ "$current" != "$PRIVATE_GIT" ]; then
+		echo "Unexpected dcpomatic-test-private version"
+		exit 1
+	fi
+	./check_sums || (echo "dcpomatic-test-private checksums are incorrect"; exit 1)
+	popd
 fi
-./check_sums || (echo "dcpomatic-test-private checksums are incorrect"; exit 1)
-popd
 
 if [ "$1" == "--debug" ]; then
     shift;
