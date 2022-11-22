@@ -241,7 +241,7 @@ public:
 #ifdef DCPOMATIC_OSX
 	wxBitmap GetLargeIcon () const override
 	{
-		return wxBitmap ("advanced", wxBITMAP_TYPE_PNG_RESOURCE);
+		return wxBitmap(icon_path("advanced"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
