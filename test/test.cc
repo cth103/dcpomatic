@@ -283,7 +283,7 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 	for (size_t i = 0; i < ref_desc.ContainerDuration; ++i) {
 		ref_reader.ReadFrame (i, ref_buffer, 0);
 		check_reader.ReadFrame (i, check_buffer, 0);
-		BOOST_REQUIRE (memcmp(ref_buffer.RoData(), check_buffer.RoData(), ref_buffer.Size()) == 0);
+		BOOST_REQUIRE_MESSAGE(memcmp(ref_buffer.RoData(), check_buffer.RoData(), ref_buffer.Size()) == 0, "Audio MXF differs in frame " << i);
 	}
 }
 
