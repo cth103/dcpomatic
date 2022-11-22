@@ -105,12 +105,6 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 	_size.width = node->number_child<int> ("VideoWidth");
 	_size.height = node->number_child<int> ("VideoHeight");
 
-	/* Backwards compatibility */
-	auto r = node->optional_number_child<double>("VideoFrameRate");
-	if (r) {
-		_parent->set_video_frame_rate (r.get ());
-	}
-
 	_use = node->optional_bool_child("Use").get_value_or(true);
 	_length = node->number_child<Frame> ("VideoLength");
 

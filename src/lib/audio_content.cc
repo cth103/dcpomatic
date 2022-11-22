@@ -97,12 +97,6 @@ AudioContent::AudioContent (Content* parent, cxml::ConstNodePtr node)
 	_fade_in = ContentTime(node->optional_number_child<ContentTime::Type>("AudioFadeIn").get_value_or(0));
 	_fade_out = ContentTime(node->optional_number_child<ContentTime::Type>("AudioFadeOut").get_value_or(0));
 	_use_same_fades_as_video = node->optional_bool_child("AudioUseSameFadesAsVideo").get_value_or(false);
-
-	/* Backwards compatibility */
-	auto r = node->optional_number_child<double>("AudioVideoFrameRate");
-	if (r) {
-		_parent->set_video_frame_rate (r.get());
-	}
 }
 
 
