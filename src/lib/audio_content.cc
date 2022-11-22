@@ -422,9 +422,11 @@ AudioContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
 void
 AudioContent::modify_trim_start(shared_ptr<const Film> film, ContentTime& trim) const
 {
-	DCPOMATIC_ASSERT (!_streams.empty());
-	/* XXX: we're in trouble if streams have different rates */
-	trim = trim.round (_streams.front()->frame_rate());
+	/* When this trim is used it the audio will have been resampled, and using the
+	 * DCP rate here reduces the chance of rounding errors causing audio glitches
+	 * due to errors in placement of audio frames (#2373).
+	 */
+	trim = trim.round(film ? film->audio_frame_rate() : 48000);
 }
 
 
