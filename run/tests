@@ -1,6 +1,9 @@
 #!/bin/bash
 #
 # e.g. --run_tests=foo
+set -e
+
+PRIVATE_GIT="a462680c7c6df8a84f9ee0bb7b4fb90055b96ca8"
 
 if [ "$(uname)" == "Linux" ]; then 
   export LD_LIBRARY_PATH=build/src/lib:/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
@@ -26,6 +29,15 @@ if [ "$(uname)" == "Darwin" ]; then
   # We need to find ffcmp in here
   export PATH=$PATH:/Users/ci/workspace/bin
 fi
+
+pushd ../dcpomatic-test-private
+current=$(git rev-parse HEAD)
+if [ "$current" != "$PRIVATE_GIT" ]; then
+	echo "Unexpected dcpomatic-test-private version"
+	exit 1
+fi
+./check_sums || (echo "dcpomatic-test-private checksums are incorrect"; exit 1)
+popd
 
 if [ "$1" == "--debug" ]; then
     shift;
