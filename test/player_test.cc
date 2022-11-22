@@ -575,3 +575,24 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13)
 	check_mxf_audio_file("test/data/trimmed_sound_mix_bug_13.mxf", dcp_file(film, "pcm_"));
 }
 
+
+BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13_frame_rate_change)
+{
+	auto A = content_factory("test/data/sine_16_48_440_10.wav").front();
+	auto B = content_factory("test/data/sine_16_44.1_440_10.wav").front();
+	auto film = new_test_film2("trimmed_sound_mix_bug_13_frame_rate_change", { A, B });
+
+	A->set_position(film, DCPTime());
+	A->audio->set_gain(-12);
+	B->set_position(film, DCPTime());
+	B->audio->set_gain(-12);
+	B->set_trim_start(ContentTime(13));
+
+	A->set_video_frame_rate(24);
+	B->set_video_frame_rate(24);
+	film->set_video_frame_rate(25);
+
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	check_mxf_audio_file("test/data/trimmed_sound_mix_bug_13_frame_rate_change.mxf", dcp_file(film, "pcm_"));
+}
+
