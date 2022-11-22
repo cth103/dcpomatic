@@ -242,7 +242,7 @@ Content::set_position (shared_ptr<const Film> film, DCPTime p, bool force_emit)
 
 
 void
-Content::set_trim_start (ContentTime t)
+Content::set_trim_start(shared_ptr<const Film> film, ContentTime t)
 {
 	DCPOMATIC_ASSERT (t.get() >= 0);
 
@@ -254,7 +254,7 @@ Content::set_trim_start (ContentTime t)
 
 	/* See note in ::set_position */
 	if (!video && audio) {
-		audio->modify_trim_start (t);
+		audio->modify_trim_start(film, t);
 	}
 
 	ContentChangeSignaller cc (this, ContentProperty::TRIM_START);
@@ -402,7 +402,7 @@ Content::reel_split_points (shared_ptr<const Film>) const
 
 
 void
-Content::set_video_frame_rate (double r)
+Content::set_video_frame_rate(shared_ptr<const Film> film, double r)
 {
 	ContentChangeSignaller cc (this, ContentProperty::VIDEO_FRAME_RATE);
 
@@ -416,7 +416,7 @@ Content::set_video_frame_rate (double r)
 
 	/* Make sure trim is still on a frame boundary */
 	if (video) {
-		set_trim_start (trim_start());
+		set_trim_start(film, trim_start());
 	}
 }
 

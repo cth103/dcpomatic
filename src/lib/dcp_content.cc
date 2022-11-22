@@ -229,7 +229,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			boost::mutex::scoped_lock lm (_mutex);
 			video = make_shared<VideoContent>(this);
 		}
-		video->take_from_examiner (examiner);
+		video->take_from_examiner(film, examiner);
 		set_default_colour_conversion ();
 	}
 

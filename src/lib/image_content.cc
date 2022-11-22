@@ -136,7 +136,7 @@ ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	Content::examine (film, job);
 
 	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
-	video->take_from_examiner (examiner);
+	video->take_from_examiner(film, examiner);
 	set_default_colour_conversion ();
 }
 

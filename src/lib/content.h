@@ -153,7 +153,7 @@ public:
 		return _position;
 	}
 
-	void set_trim_start (dcpomatic::ContentTime);
+	void set_trim_start(std::shared_ptr<const Film> film, dcpomatic::ContentTime);
 
 	dcpomatic::ContentTime trim_start () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -179,7 +179,7 @@ public:
 		return _video_frame_rate;
 	}
 
-	void set_video_frame_rate (double r);
+	void set_video_frame_rate(std::shared_ptr<const Film> film, double r);
 	void unset_video_frame_rate ();
 
 	double active_video_frame_rate (std::shared_ptr<const Film> film) const;

@@ -660,7 +660,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 				return;
 			}
 
-			ic->set_video_frame_rate (frame_rate);
+			ic->set_video_frame_rate(_film, frame_rate);
 		}
 
 		_film->examine_and_add_content (i);

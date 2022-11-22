@@ -420,7 +420,7 @@ AudioContent::modify_position (shared_ptr<const Film> film, DCPTime& pos) const
 
 
 void
-AudioContent::modify_trim_start (ContentTime& trim) const
+AudioContent::modify_trim_start(shared_ptr<const Film> film, ContentTime& trim) const
 {
 	DCPOMATIC_ASSERT (!_streams.empty());
 	/* XXX: we're in trouble if streams have different rates */

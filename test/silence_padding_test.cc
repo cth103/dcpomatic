@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE (silence_padding_test2)
 	auto film = new_test_film2 ("silence_padding_test2", { content }, &cl);
 
 	film->set_video_frame_rate (24);
-	content->set_trim_start (dcpomatic::ContentTime(4003));
+	content->set_trim_start(film, dcpomatic::ContentTime(4003));
 
 	make_and_verify_dcp (film);
 

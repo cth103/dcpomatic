@@ -211,7 +211,7 @@ public:
 
 	void set_length (Frame);
 
-	void take_from_examiner (std::shared_ptr<VideoExaminer>);
+	void take_from_examiner(std::shared_ptr<const Film> film, std::shared_ptr<VideoExaminer>);
 	void add_properties (std::list<UserProperty> &) const;
 
 	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;

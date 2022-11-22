@@ -101,7 +101,7 @@ public:
 	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;
 
 	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
-	void modify_trim_start (dcpomatic::ContentTime& pos) const;
+	void modify_trim_start(std::shared_ptr<const Film> film, dcpomatic::ContentTime& pos) const;
 
 	/** @param frame frame within the whole (untrimmed) content.
 	 *  @param frame_rate The frame rate of the audio (it may have been resampled).

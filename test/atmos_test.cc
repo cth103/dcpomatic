@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (atmos_trim_test)
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
 	auto film = new_test_film2 ("atmos_trim_test", content, &cl);
 
-	content[0]->set_trim_start (dcpomatic::ContentTime::from_seconds(1));
+	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
 
 	/* Just check that the encode runs; I'm not sure how to test the MXF */
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });

@@ -166,7 +166,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_in_with_trim)
 
 	content->audio->set_fade_in(dcpomatic::ContentTime::from_frames(2000, 48000));
 	content->audio->set_fade_out(dcpomatic::ContentTime::from_frames(1000, 48000));
-	content->set_trim_start(dcpomatic::ContentTime::from_frames(5200, 48000));
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(5200, 48000));
 
 	/* In the trim */
 	auto const f1 = content->audio->fade(stream, 0, 2000, 48000);
@@ -194,7 +194,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fade_out_with_trim)
 
 	content->audio->set_fade_in(dcpomatic::ContentTime::from_frames(2000, 48000));
 	content->audio->set_fade_out(dcpomatic::ContentTime::from_frames(1000, 48000));
-	content->set_trim_start(dcpomatic::ContentTime::from_frames(5200, 48000));
+	content->set_trim_start(film, dcpomatic::ContentTime::from_frames(5200, 48000));
 	content->set_trim_end(dcpomatic::ContentTime::from_frames(9000, 48000));
 
 	/* In the trim */

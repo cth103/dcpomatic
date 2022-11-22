@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 	auto picture = content_factory("test/data/flat_red.png")[0];
 	auto sub = content_factory("test/data/hour.srt")[0];
 	sub->text.front()->set_language(dcp::LanguageTag("en-GB"));
-	picture->set_video_frame_rate (content_frame_rate);
 
 	auto film = new_test_film2 (name, { picture, sub });
+	picture->set_video_frame_rate(film, content_frame_rate);
 	auto const dcp_frame_rate = film->video_frame_rate();
 
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME, dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });

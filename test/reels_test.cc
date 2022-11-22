@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	}
 
 	{
-		dcp->set_trim_start (ContentTime::from_seconds (0.5));
+		dcp->set_trim_start(film, ContentTime::from_seconds(0.5));
 		auto p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 4U);
 		auto i = p.begin();
@@ -280,7 +280,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 	}
 
 	{
-		dcp->set_trim_start (ContentTime::from_seconds (1.5));
+		dcp->set_trim_start(film, ContentTime::from_seconds(1.5));
 		auto p = dcp->reels (film);
 		BOOST_REQUIRE_EQUAL (p.size(), 3U);
 		auto i = p.begin();
@@ -411,7 +411,7 @@ BOOST_AUTO_TEST_CASE (reels_test11)
 	auto film = new_test_film2 ("reels_test11", {A});
 	film->set_video_frame_rate (24);
 	A->video->set_length (240);
-	A->set_video_frame_rate (24);
+	A->set_video_frame_rate(film, 24);
 	A->set_position (film, DCPTime::from_seconds(1));
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	make_and_verify_dcp (film);
@@ -440,11 +440,11 @@ BOOST_AUTO_TEST_CASE (reels_test12)
 	film->set_sequence (false);
 
 	A->video->set_length (240);
-	A->set_video_frame_rate (24);
+	A->set_video_frame_rate(film, 24);
 	A->set_position (film, DCPTime::from_seconds(1));
 
 	B->video->set_length (120);
-	B->set_video_frame_rate (24);
+	B->set_video_frame_rate(film, 24);
 	B->set_position (film, DCPTime::from_seconds(14));
 
 	auto r = film->reels ();
@@ -617,7 +617,7 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 
 	for (int i = 0; i < 4; ++i) {
 		original_dcp[i]->set_position(film2, DCPTime::from_frames(total_frames * i / 4, frame_rate));
-		original_dcp[i]->set_trim_start(ContentTime::from_frames(total_frames * i / 4, frame_rate));
+		original_dcp[i]->set_trim_start(film2, ContentTime::from_frames(total_frames * i / 4, frame_rate));
 		original_dcp[i]->set_trim_end  (ContentTime::from_frames(total_frames * (4 - i - 1) / 4, frame_rate));
 		original_dcp[i]->set_reference_video(true);
 		original_dcp[i]->set_reference_audio(true);

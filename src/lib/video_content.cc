@@ -305,7 +305,7 @@ VideoContent::as_xml (xmlpp::Node* node) const
 }
 
 void
-VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
+VideoContent::take_from_examiner(shared_ptr<const Film> film, shared_ptr<VideoExaminer> d)
 {
 	/* These examiner calls could call other content methods which take a lock on the mutex */
 	auto const vs = d->video_size ();
@@ -332,7 +332,7 @@ VideoContent::take_from_examiner (shared_ptr<VideoExaminer> d)
 	LOG_GENERAL ("Video length obtained from header as %1 frames", _length);
 
 	if (d->video_frame_rate()) {
-		_parent->set_video_frame_rate (d->video_frame_rate().get());
+		_parent->set_video_frame_rate(film, d->video_frame_rate().get());
 	}
 }
 
