@@ -106,7 +106,6 @@ Config::set_defaults ()
 	_show_experimental_audio_processors = false;
 	_language = optional<string> ();
 	_default_still_length = 10;
-	_default_container = Ratio::from_id ("185");
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_dcp_audio_channels = 6;
 	_default_j2k_bandwidth = 150000000;
@@ -333,16 +332,6 @@ try
 	_tms_password = f.string_child ("TMSPassword");
 
 	_language = f.optional_string_child ("Language");
-
-	auto c = f.optional_string_child ("DefaultContainer");
-	if (c) {
-		_default_container = Ratio::from_id (c.get ());
-	}
-
-	if (_default_container && !_default_container->used_for_container()) {
-		Warning (_("Your default container is not valid and has been changed to Flat (1.85:1)"));
-		_default_container = Ratio::from_id ("185");
-	}
 
 	_default_dcp_content_type = DCPContentType::from_isdcf_name(f.optional_string_child("DefaultDCPContentType").get_value_or("FTR"));
 	_default_dcp_audio_channels = f.optional_number_child<int>("DefaultDCPAudioChannels").get_value_or (6);
@@ -734,13 +723,6 @@ Config::write_config () const
 	if (_language) {
 		/* [XML:opt] Language Language to use in the GUI e.g. <code>fr_FR</code>. */
 		root->add_child("Language")->add_child_text (_language.get());
-	}
-	if (_default_container) {
-		/* [XML:opt] DefaultContainer ID of default container
-		   to use when creating new films (<code>185</code>,<code>239</code> or
-		   <code>190</code>).
-		*/
-		root->add_child("DefaultContainer")->add_child_text (_default_container->id ());
 	}
 	if (_default_dcp_content_type) {
 		/* [XML:opt] DefaultDCPContentType Default content type to use when creating new films (<code>FTR</code>, <code>SHR</code>,

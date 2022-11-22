@@ -285,10 +285,6 @@ private:
 #endif
 		table->Add (_directory, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("Default container"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_container = new wxChoice (_panel, wxID_ANY);
-		table->Add (_container);
-
 		add_label_to_sizer (table, _panel, _("Default content type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_dcp_content_type = new wxChoice (_panel, wxID_ANY);
 		table->Add (_dcp_content_type);
@@ -369,12 +365,6 @@ private:
 
 		_use_isdcf_name_by_default->bind(&DefaultsPage::use_isdcf_name_by_default_changed, this);
 
-		for (auto i: Ratio::containers()) {
-			_container->Append (std_to_wx(i->container_nickname()));
-		}
-
-		_container->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::container_changed, this));
-
 		for (auto i: DCPContentType::all()) {
 			_dcp_content_type->Append (std_to_wx (i->pretty_name ()));
 		}
@@ -406,13 +396,6 @@ private:
 	void config_changed () override
 	{
 		auto config = Config::instance ();
-
-		auto containers = Ratio::containers ();
-		for (size_t i = 0; i < containers.size(); ++i) {
-			if (containers[i] == config->default_container()) {
-				_container->SetSelection (i);
-			}
-		}
 
 		auto const ct = DCPContentType::all ();
 		for (size_t i = 0; i < ct.size(); ++i) {
@@ -541,12 +524,6 @@ private:
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
 
-	void container_changed ()
-	{
-		auto ratio = Ratio::containers ();
-		Config::instance()->set_default_container (ratio[_container->GetSelection()]);
-	}
-
 	void dcp_content_type_changed ()
 	{
 		auto ct = DCPContentType::all ();
@@ -591,7 +568,6 @@ private:
 	wxSpinCtrl* _kdm_duration;
 	wxChoice* _kdm_duration_unit;
 	CheckBox* _use_isdcf_name_by_default;
-	wxChoice* _container;
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;

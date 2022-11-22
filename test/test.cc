@@ -110,7 +110,6 @@ setup_test_config ()
 	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency() / 2);
 	Config::instance()->set_server_encoding_threads (1);
 	Config::instance()->set_server_port_base (61921);
-	Config::instance()->set_default_container (Ratio::from_id ("185"));
 	Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 	Config::instance()->set_default_audio_delay (0);
 	Config::instance()->set_default_j2k_bandwidth (100000000);
