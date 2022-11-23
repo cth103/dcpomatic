@@ -32,6 +32,7 @@
 #include "lib/ratio.h"
 #include "lib/text_content.h"
 #include "test.h"
+#include <dcp/interop_subtitle_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
 
@@ -61,8 +62,16 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
-	/* Find the subtitle file and check it */
-	check_xml (subtitle_file(film), TestPaths::private_data() / "DKH_UT_EN20160601def.xml", {"SubtitleID"});
+	auto ref = make_shared<dcp::InteropSubtitleAsset>(TestPaths::private_data() / "DKH_UT_EN20160601def.xml");
+	auto check = make_shared<dcp::InteropSubtitleAsset>(subtitle_file(film));
+
+	dcp::EqualityOptions options;
+	options.max_subtitle_vertical_position_error = 0.1;
+	BOOST_CHECK(ref->equals(check, options, [](dcp::NoteType t, string n) {
+		if (t == dcp::NoteType::ERROR) {
+			std::cerr << n << "\n";
+		}
+	}));
 
 	cl.run ();
 }

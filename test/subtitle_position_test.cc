@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE(interop_correctly_placed_in_smpte)
 	BOOST_REQUIRE_EQUAL(output_subs.size(), 1U);
 
 	BOOST_CHECK(output_subs[0]->v_align() == dcp::VAlign::BOTTOM);
-	BOOST_CHECK_CLOSE(output_subs[0]->v_position(), 0.07074, 1e-3);
+	BOOST_CHECK_CLOSE(output_subs[0]->v_position(), 0.07074, 2);
 }
 
 
@@ -145,7 +145,7 @@ vpos_test(dcp::VAlign reference, float position, dcp::Standard from, dcp::Standa
 	BOOST_REQUIRE_EQUAL(subtitles.size(), 1U);
 
 	BOOST_CHECK(subtitles[0]->v_align() == reference);
-	BOOST_CHECK_CLOSE(subtitles[0]->v_position(), position, 1e-3);
+	BOOST_CHECK_CLOSE(subtitles[0]->v_position(), position, 2);
 }
 
 
