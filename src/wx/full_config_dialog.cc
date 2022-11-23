@@ -35,6 +35,7 @@
 #include "filter_dialog.h"
 #include "full_config_dialog.h"
 #include "kdm_choice.h"
+#include "language_tag_widget.h"
 #include "make_chain_dialog.h"
 #include "nag_dialog.h"
 #include "name_format_editor.h"
@@ -315,6 +316,11 @@ private:
 		_standard = new wxChoice (_panel, wxID_ANY);
 		table->Add (_standard);
 
+		_enable_audio_language = new CheckBox(_panel, _("Default audio language"));
+		table->Add(_enable_audio_language, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+		_audio_language = new LanguageTagWidget(_panel, _("Default audio language to use for new DCPs"), Config::instance()->default_audio_language(), wxString("cmnr-Hant-"));
+		table->Add(_audio_language->sizer());
+
 		table->Add (_enable_metadata["facility"] = new CheckBox (_panel, _("Default facility")), 0, wxALIGN_CENTRE_VERTICAL);
 		table->Add (_metadata["facility"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
 
@@ -391,6 +397,9 @@ private:
 		for (auto const& i: _metadata) {
 			i.second->Bind (wxEVT_TEXT, boost::bind(&DefaultsPage::metadata_changed, this));
 		}
+
+		_enable_audio_language->bind(&DefaultsPage::enable_audio_language_toggled, this);
+		_audio_language->Changed.connect(boost::bind(&DefaultsPage::audio_language_changed, this));
 	}
 
 	void config_changed () override
@@ -414,6 +423,9 @@ private:
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
+		auto dal = config->default_audio_language();
+		checked_set(_enable_audio_language, static_cast<bool>(dal));
+		checked_set(_audio_language, dal ? dal : boost::none);
 
 		auto metadata = config->default_metadata();
 
@@ -547,8 +559,24 @@ private:
 		setup_sensitivity ();
 	}
 
+	void enable_audio_language_toggled()
+	{
+		setup_sensitivity();
+		audio_language_changed();
+	}
+
+	void audio_language_changed()
+	{
+		if (_enable_audio_language->get()) {
+			Config::instance()->set_default_audio_language(_audio_language->get().get_value_or(dcp::LanguageTag("en-US")));
+		} else {
+			Config::instance()->unset_default_audio_language();
+		}
+	}
+
 	void setup_sensitivity ()
 	{
+		_audio_language->enable(_enable_audio_language->get());
 		for (auto const& i: _enable_metadata) {
 			_metadata[i.first]->Enable(i.second->GetValue());
 		}
@@ -571,6 +599,8 @@ private:
 	wxChoice* _dcp_content_type;
 	wxChoice* _dcp_audio_channels;
 	wxChoice* _standard;
+	CheckBox* _enable_audio_language;
+	LanguageTagWidget* _audio_language;
 	map<string, CheckBox*> _enable_metadata;
 	map<string, wxTextCtrl*> _metadata;
 };

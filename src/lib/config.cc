@@ -357,6 +357,12 @@ try
 	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
+	try {
+		auto al = f.optional_string_child("DefaultAudioLanguage");
+		if (al) {
+			_default_audio_language = dcp::LanguageTag(*al);
+		}
+	} catch (std::runtime_error&) {}
 
 	for (auto const& i: f.node_children("DefaultMetadata")) {
 		_default_metadata[i->string_attribute("key")] = i->content();
@@ -755,6 +761,10 @@ Config::write_config () const
 	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
 	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */
 	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
+	if (_default_audio_language) {
+		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
+		root->add_child("DefaultAudioLanguage")->add_child_text(_default_audio_language->to_string());
+	}
 	for (auto const& i: _default_metadata) {
 		auto c = root->add_child("DefaultMetadata");
 		c->set_attribute("key", i.first);

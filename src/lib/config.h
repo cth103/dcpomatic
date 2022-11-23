@@ -238,6 +238,10 @@ public:
 		return _default_interop;
 	}
 
+	boost::optional<dcp::LanguageTag> default_audio_language() const {
+		return _default_audio_language;
+	}
+
 	std::map<std::string, std::string> default_metadata () const {
 		return _default_metadata;
 	}
@@ -760,6 +764,14 @@ public:
 
 	void set_default_interop (bool i) {
 		maybe_set (_default_interop, i);
+	}
+
+	void set_default_audio_language(dcp::LanguageTag tag) {
+		maybe_set(_default_audio_language, tag);
+	}
+
+	void unset_default_audio_language() {
+		maybe_set(_default_audio_language, boost::optional<dcp::LanguageTag>());
 	}
 
 	void set_default_metadata (std::map<std::string, std::string> const& metadata) {
@@ -1292,6 +1304,7 @@ private:
 	int _default_j2k_bandwidth;
 	int _default_audio_delay;
 	bool _default_interop;
+	boost::optional<dcp::LanguageTag> _default_audio_language;
 	std::map<std::string, std::string> _default_metadata;
 	/** Default directory to offer to write KDMs to; if it's not set,
 	    the home directory will be offered.

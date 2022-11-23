@@ -25,6 +25,7 @@
 
 
 #include "file_picker_ctrl.h"
+#include "language_tag_widget.h"
 #include "password_entry.h"
 #include "static_text.h"
 #include "wx_util.h"
@@ -379,6 +380,24 @@ checked_set (wxRadioButton* widget, bool value)
 {
 	if (widget->GetValue() != value) {
 		widget->SetValue (value);
+	}
+}
+
+
+void
+checked_set(LanguageTagWidget* widget, dcp::LanguageTag value)
+{
+	if (widget->get() != value) {
+		widget->set(value);
+	}
+}
+
+
+void
+checked_set(LanguageTagWidget* widget, optional<dcp::LanguageTag> value)
+{
+	if (widget->get() != value) {
+		widget->set(value);
 	}
 }
 
