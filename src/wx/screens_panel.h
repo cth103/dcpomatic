@@ -74,6 +74,8 @@ private:
 	bool notify_cinemas_changed();
 	void clear_and_re_add();
 	void config_changed(Config::Property);
+	void convert_to_lower(std::string& s);
+	bool matches_search(std::shared_ptr<const Cinema> cinema, std::string lower_case_search);
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
 	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;

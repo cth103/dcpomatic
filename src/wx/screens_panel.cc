@@ -167,18 +167,33 @@ ScreensPanel::setup_sensitivity ()
 }
 
 
+void
+ScreensPanel::convert_to_lower(string& s)
+{
+	transform(s.begin(), s.end(), s.begin(), ::tolower);
+}
+
+
+bool
+ScreensPanel::matches_search(shared_ptr<const Cinema> cinema, string lower_case_search)
+{
+	if (lower_case_search.empty()) {
+		return true;
+	}
+
+	auto name = cinema->name;
+	convert_to_lower(name);
+	return name.find(lower_case_search) != string::npos;
+}
+
+
 optional<wxTreeListItem>
 ScreensPanel::add_cinema (shared_ptr<Cinema> cinema, wxTreeListItem previous)
 {
 	auto search = wx_to_std (_search->GetValue ());
-	transform (search.begin(), search.end(), search.begin(), ::tolower);
-
-	if (!search.empty ()) {
-		auto name = cinema->name;
-		transform (name.begin(), name.end(), name.begin(), ::tolower);
-		if (name.find (search) == string::npos) {
-			return {};
-		}
+	convert_to_lower(search);
+	if (!matches_search(cinema, search)) {
+		return {};
 	}
 
 	auto id = _targets->InsertItem(_targets->GetRootItem(), previous, std_to_wx(cinema->name));
