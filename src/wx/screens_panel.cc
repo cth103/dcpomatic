@@ -249,7 +249,12 @@ ScreensPanel::add_cinema_clicked ()
 
 		wxTreeListItem previous = wxTLI_FIRST;
 		bool found = false;
+		auto search = wx_to_std(_search->GetValue());
+		convert_to_lower(search);
 		for (auto existing_cinema: cinemas) {
+			if (!matches_search(existing_cinema, search)) {
+				continue;
+			}
 			if (_collator.compare(dialog->name(), existing_cinema->name) < 0) {
 				/* existing_cinema should be after the one we're inserting */
 				found = true;
