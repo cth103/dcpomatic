@@ -32,6 +32,7 @@
 
 
 using std::cout;
+using std::list;
 using std::make_pair;
 using std::make_shared;
 using std::map;
@@ -235,10 +236,7 @@ ScreensPanel::add_cinema_clicked ()
 	if (dialog->ShowModal() == wxID_OK) {
 		auto cinema = make_shared<Cinema>(dialog->name(), dialog->emails(), dialog->notes(), dialog->utc_offset_hour(), dialog->utc_offset_minute());
 
-		auto cinemas = Config::instance()->cinemas();
-		cinemas.sort(
-			[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return _collator.compare(a->name, b->name) < 0; }
-			);
+		auto cinemas = sorted_cinemas();
 
 		try {
 			_ignore_cinemas_changed = true;
@@ -495,15 +493,23 @@ ScreensPanel::selection_changed ()
 }
 
 
-void
-ScreensPanel::add_cinemas ()
+list<shared_ptr<Cinema>>
+ScreensPanel::sorted_cinemas() const
 {
 	auto cinemas = Config::instance()->cinemas();
+
 	cinemas.sort(
 		[this](shared_ptr<Cinema> a, shared_ptr<Cinema> b) { return _collator.compare(a->name, b->name) < 0; }
 		);
 
-	for (auto cinema: cinemas) {
+	return cinemas;
+}
+
+
+void
+ScreensPanel::add_cinemas ()
+{
+	for (auto cinema: sorted_cinemas()) {
 		add_cinema (cinema, wxTLI_LAST);
 	}
 }
