@@ -53,7 +53,7 @@ Collator::~Collator()
 
 
 int
-Collator::compare (string const& utf8_a, string const& utf8_b)
+Collator::compare (string const& utf8_a, string const& utf8_b) const
 {
 	if (_collator) {
 		UErrorCode error = U_ZERO_ERROR;
