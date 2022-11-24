@@ -27,6 +27,7 @@
 #include "language_tag_widget.h"
 #include "metadata_dialog.h"
 #include "rating_dialog.h"
+#include "region_subtag_dialog.h"
 #include "wx_util.h"
 #include "lib/film.h"
 #include <dcp/warnings.h>

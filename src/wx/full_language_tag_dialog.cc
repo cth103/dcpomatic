@@ -287,29 +287,3 @@ FullLanguageTagDialog::setup_sensitivity ()
 	_remove->Enable (selected > 0);
 }
 
-
-RegionSubtagDialog::RegionSubtagDialog (wxWindow* parent, dcp::LanguageTag::RegionSubtag region)
-	: wxDialog (parent, wxID_ANY, _("Region"), wxDefaultPosition, wxSize(-1, 500))
-	, _panel (new LanguageSubtagPanel (this))
-{
-	auto sizer = new wxBoxSizer (wxVERTICAL);
-	sizer->Add (_panel, 1);
-
-	auto buttons = CreateSeparatedButtonSizer (wxOK);
-	if (buttons) {
-		sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
-	}
-
-	SetSizer (sizer);
-
-	_panel->set (dcp::LanguageTag::SubtagType::REGION, "", *dcp::LanguageTag::get_subtag_data(region));
-}
-
-
-optional<dcp::LanguageTag::RegionSubtag>
-RegionSubtagDialog::get () const
-{
-	return _panel->get ();
-}
-
-

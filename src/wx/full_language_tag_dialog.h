@@ -76,17 +76,4 @@ private:
 };
 
 
-
-class RegionSubtagDialog : public wxDialog
-{
-public:
-	RegionSubtagDialog (wxWindow* parent, dcp::LanguageTag::RegionSubtag region);
-
-	boost::optional<dcp::LanguageTag::RegionSubtag> get () const;
-
-private:
-	LanguageSubtagPanel* _panel;
-};
-
-
 #endif
