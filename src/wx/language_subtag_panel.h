@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,30 +19,27 @@
 */
 
 
-#ifndef DCPOMATIC_SUBTAG_LIST_CTRL_H
-#define DCPOMATIC_SUBTAG_LIST_CTRL_H
+#include "subtag_list_ctrl.h"
+#include <wx/srchctrl.h>
+#include <wx/wx.h>
+#include <boost/signals2.hpp>
 
 
-#include <dcp/language_tag.h>
-#include <wx/listctrl.h>
-#include <vector>
-
-
-class SubtagListCtrl : public wxListCtrl
+class LanguageSubtagPanel : public wxPanel
 {
 public:
-	SubtagListCtrl(wxWindow* parent);
+	LanguageSubtagPanel(wxWindow* parent);
 
 	void set(dcp::LanguageTag::SubtagType type, std::string search, boost::optional<dcp::LanguageTag::SubtagData> subtag = boost::optional<dcp::LanguageTag::SubtagData>());
-	void set_search(std::string search);
-	boost::optional<dcp::LanguageTag::SubtagData> selected_subtag() const;
+	boost::optional<dcp::LanguageTag::RegionSubtag> get() const;
+
+	boost::signals2::signal<void (boost::optional<dcp::LanguageTag::SubtagData>)> SelectionChanged;
+	boost::signals2::signal<void (std::string)> SearchChanged;
 
 private:
-	wxString OnGetItemText(long item, long column) const override;
+	void search_changed();
+	void selection_changed();
 
-	std::vector<dcp::LanguageTag::SubtagData> _all_subtags;
-	std::vector<dcp::LanguageTag::SubtagData> _matching_subtags;
+	wxSearchCtrl* _search;
+	SubtagListCtrl* _list;
 };
-
-
-#endif

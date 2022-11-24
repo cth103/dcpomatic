@@ -20,6 +20,7 @@
 
 
 #include "full_language_tag_dialog.h"
+#include "language_subtag_panel.h"
 #include "subtag_list_ctrl.h"
 #include "lib/dcpomatic_assert.h"
 #include <dcp/language_tag.h>
@@ -48,70 +49,6 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-
-
-class LanguageSubtagPanel : public wxPanel
-{
-public:
-	LanguageSubtagPanel (wxWindow* parent)
-		: wxPanel (parent, wxID_ANY)
-	{
-#ifdef __WXGTK3__
-		int const height = 30;
-#else
-		int const height = -1;
-#endif
-
-		_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, height));
-		_list = new SubtagListCtrl (this);
-
-		auto sizer = new wxBoxSizer (wxVERTICAL);
-		sizer->Add (_search, 0, wxALL, 8);
-		sizer->Add (_list, 1, wxALL, 8);
-		SetSizer (sizer);
-
-		_search->Bind (wxEVT_TEXT, boost::bind(&LanguageSubtagPanel::search_changed, this));
-		_list->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind(&LanguageSubtagPanel::selection_changed, this));
-		_list->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind(&LanguageSubtagPanel::selection_changed, this));
-	}
-
-	void set (dcp::LanguageTag::SubtagType type, string search, optional<dcp::LanguageTag::SubtagData> subtag = optional<dcp::LanguageTag::SubtagData>())
-	{
-		_list->set (type, search, subtag);
-		_search->SetValue (wxString(search));
-	}
-
-	optional<dcp::LanguageTag::RegionSubtag> get () const
-	{
-		if (!_list->selected_subtag()) {
-			return {};
-		}
-
-		return dcp::LanguageTag::RegionSubtag(_list->selected_subtag()->subtag);
-	}
-
-	boost::signals2::signal<void (optional<dcp::LanguageTag::SubtagData>)> SelectionChanged;
-	boost::signals2::signal<void (string)> SearchChanged;
-
-private:
-	void search_changed ()
-	{
-		auto search = _search->GetValue();
-		_list->set_search (search.ToStdString());
-		if (search.Length() > 0 && _list->GetItemCount() > 0) {
-			_list->EnsureVisible (0);
-		}
-		SearchChanged (_search->GetValue().ToStdString());
-	}
-
-	void selection_changed ()
-	{
-		SelectionChanged (_list->selected_subtag());
-	}
-
-	wxSearchCtrl* _search;
-	SubtagListCtrl* _list;
-};
 
 
 FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
