@@ -20,8 +20,11 @@
 
 
 #include "language_subtag_panel.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::string;
