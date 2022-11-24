@@ -33,6 +33,15 @@ LIBDCP_ENABLE_WARNINGS
 class wxListCtrl;
 
 
+/** A dialog to choose a language e.g.
+ *
+ *      English                en
+ *      German                 de
+ *      Portuguese for Brazil  pt-BR
+ *
+ *  It displays the full names of languages in one column, and the tag in the other,
+ *  and has a button to add a new language using FullLanguageTagDialog.
+ */
 class LanguageTagDialog : public wxDialog
 {
 public:

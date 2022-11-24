@@ -34,6 +34,9 @@ class wxListCtrl;
 class LanguageSubtagPanel;
 
 
+/** A dialog in which the user can make a full new language tag, made up of
+ *  language, script, region, variant and external.
+ */
 class FullLanguageTagDialog : public wxDialog
 {
 public:

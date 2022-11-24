@@ -28,6 +28,9 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
+/** A panel which offers a list of subtags in two columns: subtag and name, and has a search box to
+ *  limit the view to a subset.  The list contained within is a SubtagListCtrl.
+ */
 class LanguageSubtagPanel : public wxPanel
 {
 public:
