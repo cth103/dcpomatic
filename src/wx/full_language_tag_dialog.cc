@@ -20,6 +20,7 @@
 
 
 #include "full_language_tag_dialog.h"
+#include "subtag_list_ctrl.h"
 #include "lib/dcpomatic_assert.h"
 #include <dcp/language_tag.h>
 #include <dcp/warnings.h>
@@ -47,84 +48,6 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-
-
-class SubtagListCtrl : public wxListCtrl
-{
-public:
-	SubtagListCtrl (wxWindow* parent)
-		: wxListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER | wxLC_VIRTUAL)
-	{
-		AppendColumn ("", wxLIST_FORMAT_LEFT, 80);
-		AppendColumn ("", wxLIST_FORMAT_LEFT, 400);
-	}
-
-	void set (dcp::LanguageTag::SubtagType type, string search, optional<dcp::LanguageTag::SubtagData> subtag = optional<dcp::LanguageTag::SubtagData>())
-	{
-		_all_subtags = dcp::LanguageTag::get_all(type);
-		set_search (search);
-		if (subtag) {
-			auto i = find(_matching_subtags.begin(), _matching_subtags.end(), *subtag);
-			if (i != _matching_subtags.end()) {
-				auto item = std::distance(_matching_subtags.begin(), i);
-				SetItemState (item, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
-				EnsureVisible (item);
-			}
-		} else {
-			if (GetItemCount() > 0) {
-				/* The new list sometimes isn't visible without this */
-				EnsureVisible (0);
-			}
-		}
-	}
-
-	void set_search (string search)
-	{
-		if (search == "") {
-			_matching_subtags = _all_subtags;
-		} else {
-			_matching_subtags.clear ();
-
-			boost::algorithm::to_lower(search);
-			for (auto const& i: _all_subtags) {
-				if (
-					(boost::algorithm::to_lower_copy(i.subtag).find(search) != string::npos) ||
-					(boost::algorithm::to_lower_copy(i.description).find(search) != string::npos)) {
-					_matching_subtags.push_back (i);
-				}
-			}
-		}
-
-		SetItemCount (_matching_subtags.size());
-		if (GetItemCount() > 0) {
-			RefreshItems (0, GetItemCount() - 1);
-		}
-	}
-
-	optional<dcp::LanguageTag::SubtagData> selected_subtag () const
-	{
-		auto selected = GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (selected == -1) {
-			return {};
-		}
-
-		DCPOMATIC_ASSERT (static_cast<size_t>(selected) < _matching_subtags.size());
-		return _matching_subtags[selected];
-	}
-
-private:
-	wxString OnGetItemText (long item, long column) const override
-	{
-		if (column == 0) {
-			return _matching_subtags[item].subtag;
-		} else {
-			return _matching_subtags[item].description;
-		}
-	}
-
-	std::vector<dcp::LanguageTag::SubtagData> _all_subtags;
-	std::vector<dcp::LanguageTag::SubtagData> _matching_subtags;
-};
 
 
 class LanguageSubtagPanel : public wxPanel

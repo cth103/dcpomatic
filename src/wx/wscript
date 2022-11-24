@@ -141,6 +141,7 @@ sources = """
           smpte_metadata_dialog.cc
           standard_controls.cc
           static_text.cc
+          subtag_list_ctrl.cc
           subtitle_appearance_dialog.cc
           suspender.cc
           system_font_dialog.cc
