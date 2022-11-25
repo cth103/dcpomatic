@@ -20,8 +20,11 @@
 
 
 #include "subtag_list_ctrl.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
 #include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
