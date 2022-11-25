@@ -21,7 +21,9 @@
 
 #include "subtag_list_ctrl.h"
 #include "lib/dcpomatic_assert.h"
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <boost/algorithm/string.hpp>
 
 
