@@ -24,7 +24,10 @@
 
 
 #include <dcp/language_tag.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
+LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 
