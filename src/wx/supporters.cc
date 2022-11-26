@@ -765,6 +765,7 @@ supported_by.Add (wxT ("Robert Nichol"));
 supported_by.Add (wxT ("Thomas Nicol"));
 supported_by.Add (wxT ("Jesper Svarre Nielsen"));
 supported_by.Add (wxT ("Carl Nielsen"));
+supported_by.Add (wxT ("David Nielsen"));
 supported_by.Add (wxT ("Morten Nielsen"));
 supported_by.Add (wxT ("Robert Niessner"));
 supported_by.Add (wxT ("Thorvald Nilsen"));
