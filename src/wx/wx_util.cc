@@ -27,6 +27,7 @@
 #include "file_picker_ctrl.h"
 #include "language_tag_widget.h"
 #include "password_entry.h"
+#include "region_subtag_widget.h"
 #include "static_text.h"
 #include "wx_util.h"
 #include "lib/config.h"
@@ -395,6 +396,15 @@ checked_set(LanguageTagWidget* widget, dcp::LanguageTag value)
 
 void
 checked_set(LanguageTagWidget* widget, optional<dcp::LanguageTag> value)
+{
+	if (widget->get() != value) {
+		widget->set(value);
+	}
+}
+
+
+void
+checked_set(RegionSubtagWidget* widget, optional<dcp::LanguageTag::RegionSubtag> value)
 {
 	if (widget->get() != value) {
 		widget->set(value);

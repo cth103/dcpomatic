@@ -39,6 +39,7 @@ class CheckBox;
 class Choice;
 class LanguageTagWidget;
 class RatingDialog;
+class RegionSubtagWidget;
 class wxSpinCtrlDouble;
 
 
@@ -60,7 +61,7 @@ protected:
 
 private:
 	void sign_language_video_language_changed ();
-	void edit_release_territory ();
+	void release_territory_changed(boost::optional<dcp::LanguageTag::RegionSubtag> tag);
 	void enable_release_territory_changed ();
 	void facility_changed ();
 	void enable_facility_changed ();
@@ -82,9 +83,8 @@ private:
 	 *  the string in _release_territory_text to a RegionSubtag we just store the RegionSubtag
 	 *  alongside.
 	 */
-	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
-	wxStaticText* _release_territory_text;
-	Button* _edit_release_territory;
+	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory_copy;
+	RegionSubtagWidget* _release_territory;
 	LanguageTagWidget* _sign_language_video_language = nullptr;
 	CheckBox* _enable_facility;
 	wxTextCtrl* _facility;

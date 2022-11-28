@@ -27,7 +27,7 @@
 #include "language_tag_widget.h"
 #include "metadata_dialog.h"
 #include "rating_dialog.h"
-#include "region_subtag_dialog.h"
+#include "region_subtag_widget.h"
 #include "wx_util.h"
 #include "lib/film.h"
 #include <dcp/warnings.h>
@@ -42,6 +42,7 @@ LIBDCP_ENABLE_WARNINGS
 
 using std::weak_ptr;
 using std::vector;
+using boost::optional;
 
 
 MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> weak_film)
@@ -86,8 +87,8 @@ MetadataDialog::setup ()
 	overall_sizer->SetSizeHints (this);
 
 	_sign_language_video_language->Changed.connect (boost::bind(&MetadataDialog::sign_language_video_language_changed, this));
-	_edit_release_territory->Bind (wxEVT_BUTTON, boost::bind(&MetadataDialog::edit_release_territory, this));
 	_enable_release_territory->bind(&MetadataDialog::enable_release_territory_changed, this);
+	_release_territory->Changed.connect(boost::bind(&MetadataDialog::release_territory_changed, this, _1));
 	_enable_facility->bind(&MetadataDialog::enable_facility_changed, this);
 	_facility->Bind (wxEVT_TEXT, boost::bind(&MetadataDialog::facility_changed, this));
 	_enable_studio->bind(&MetadataDialog::enable_studio_changed, this);
@@ -132,8 +133,8 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 		auto rt = film()->release_territory();
 		checked_set (_enable_release_territory, static_cast<bool>(rt));
 		if (rt) {
-			_release_territory = *rt;
-			checked_set (_release_territory_text, std_to_wx(*dcp::LanguageTag::get_subtag_description(*_release_territory)));
+			_release_territory_copy = *rt;
+			checked_set(_release_territory, *_release_territory_copy);
 		}
 	} else if (property == Film::Property::FACILITY) {
 		checked_set (_enable_facility, static_cast<bool>(film()->facility()));
@@ -183,14 +184,8 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 {
 	_enable_release_territory = new CheckBox(panel, _("Release territory"));
 	sizer->Add (_enable_release_territory, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	{
-		auto s = new wxBoxSizer (wxHORIZONTAL);
-		_release_territory_text = new wxStaticText (panel, wxID_ANY, wxT(""));
-		s->Add (_release_territory_text, 1, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-		_edit_release_territory = new Button (panel, _("Edit..."));
-		s->Add (_edit_release_territory, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
-		sizer->Add (s, 0, wxEXPAND);
-	}
+	_release_territory = new RegionSubtagWidget(panel, _("Release territory for this DCP"), film()->release_territory());
+	sizer->Add(_release_territory->sizer(), 0, wxEXPAND);
 
 	vector<EditableListColumn> columns;
 	columns.push_back(EditableListColumn("Agency", 200, true));
@@ -218,17 +213,12 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 
 
 void
-MetadataDialog::edit_release_territory ()
+MetadataDialog::release_territory_changed(optional<dcp::LanguageTag::RegionSubtag> tag)
 {
-	DCPOMATIC_ASSERT (film()->release_territory());
-	auto d = new RegionSubtagDialog(this, *film()->release_territory());
-	d->ShowModal ();
-	auto tag = d->get();
 	if (tag) {
-		_release_territory = *tag;
+		_release_territory_copy = *tag;
 		film()->set_release_territory(*tag);
 	}
-	d->Destroy ();
 }
 
 
@@ -237,8 +227,7 @@ MetadataDialog::setup_sensitivity ()
 {
 	_sign_language_video_language->enable (film()->has_sign_language_video_channel());
 	auto const enabled = _enable_release_territory->GetValue();
-	_release_territory_text->Enable (enabled);
-	_edit_release_territory->Enable (enabled);
+	_release_territory->enable(enabled);
 	_facility->Enable (_enable_facility->GetValue());
 	_chain->Enable (_enable_chain->GetValue());
 	_studio->Enable (_enable_studio->GetValue());
@@ -252,7 +241,7 @@ MetadataDialog::enable_release_territory_changed ()
 {
 	setup_sensitivity ();
 	if (_enable_release_territory->GetValue()) {
-		film()->set_release_territory (_release_territory.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
+		film()->set_release_territory (_release_territory->get().get_value_or(dcp::LanguageTag::RegionSubtag("US")));
 	} else {
 		film()->set_release_territory ();
 	}

@@ -127,6 +127,7 @@ sources = """
           recipient_dialog.cc
           recreate_chain_dialog.cc
           region_subtag_dialog.cc
+          region_subtag_widget.cc
           repeat_dialog.cc
           report_problem_dialog.cc
           rename_template_dialog.cc

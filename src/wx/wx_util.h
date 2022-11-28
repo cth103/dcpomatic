@@ -41,6 +41,7 @@ LIBDCP_ENABLE_WARNINGS
 
 class FilePickerCtrl;
 class LanguageTagWidget;
+class RegionSubtagWidget;
 class wxDirPickerCtrl;
 class wxSpinCtrl;
 class wxSpinCtrlDouble;
@@ -159,6 +160,7 @@ extern void checked_set (wxStaticText* widget, std::string value);
 extern void checked_set (wxStaticText* widget, wxString value);
 extern void checked_set(LanguageTagWidget* widget, dcp::LanguageTag value);
 extern void checked_set(LanguageTagWidget* widget, boost::optional<dcp::LanguageTag> value);
+extern void checked_set(RegionSubtagWidget* widget, boost::optional<dcp::LanguageTag::RegionSubtag> value);
 
 extern int wx_get (wxChoice* widget);
 extern int wx_get (wxSpinCtrl* widget);
