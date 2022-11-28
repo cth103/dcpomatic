@@ -242,6 +242,10 @@ public:
 		return _default_audio_language;
 	}
 
+	boost::optional<dcp::LanguageTag::RegionSubtag> default_territory() const {
+		return _default_territory;
+	}
+
 	std::map<std::string, std::string> default_metadata () const {
 		return _default_metadata;
 	}
@@ -772,6 +776,14 @@ public:
 
 	void unset_default_audio_language() {
 		maybe_set(_default_audio_language, boost::optional<dcp::LanguageTag>());
+	}
+
+	void set_default_territory(dcp::LanguageTag::RegionSubtag tag) {
+		maybe_set(_default_territory, tag);
+	}
+
+	void unset_default_territory() {
+		maybe_set(_default_territory, boost::optional<dcp::LanguageTag::RegionSubtag>());
 	}
 
 	void set_default_metadata (std::map<std::string, std::string> const& metadata) {
@@ -1305,6 +1317,7 @@ private:
 	int _default_audio_delay;
 	bool _default_interop;
 	boost::optional<dcp::LanguageTag> _default_audio_language;
+	boost::optional<dcp::LanguageTag::RegionSubtag> _default_territory;
 	std::map<std::string, std::string> _default_metadata;
 	/** Default directory to offer to write KDMs to; if it's not set,
 	    the home directory will be offered.

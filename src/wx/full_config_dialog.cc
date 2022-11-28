@@ -40,6 +40,7 @@
 #include "nag_dialog.h"
 #include "name_format_editor.h"
 #include "password_entry.h"
+#include "region_subtag_widget.h"
 #include "send_test_email_dialog.h"
 #include "server_dialog.h"
 #include "static_text.h"
@@ -321,6 +322,11 @@ private:
 		_audio_language = new LanguageTagWidget(_panel, _("Default audio language to use for new DCPs"), Config::instance()->default_audio_language(), wxString("cmnr-Hant-"));
 		table->Add(_audio_language->sizer());
 
+		_enable_territory = new CheckBox(_panel, _("Default territory"));
+		table->Add(_enable_territory, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
+		_territory = new RegionSubtagWidget(_panel, _("Default territory to use for new DCPs"), Config::instance()->default_territory(), wxString("cmnr-Hant-"));
+		table->Add(_territory->sizer());
+
 		table->Add (_enable_metadata["facility"] = new CheckBox (_panel, _("Default facility")), 0, wxALIGN_CENTRE_VERTICAL);
 		table->Add (_metadata["facility"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
 
@@ -400,6 +406,9 @@ private:
 
 		_enable_audio_language->bind(&DefaultsPage::enable_audio_language_toggled, this);
 		_audio_language->Changed.connect(boost::bind(&DefaultsPage::audio_language_changed, this));
+
+		_enable_territory->bind(&DefaultsPage::enable_territory_toggled, this);
+		_territory->Changed.connect(boost::bind(&DefaultsPage::territory_changed, this));
 	}
 
 	void config_changed () override
@@ -426,6 +435,9 @@ private:
 		auto dal = config->default_audio_language();
 		checked_set(_enable_audio_language, static_cast<bool>(dal));
 		checked_set(_audio_language, dal ? dal : boost::none);
+		auto dt = config->default_territory();
+		checked_set(_enable_territory, static_cast<bool>(dt));
+		checked_set(_territory, dt ? dt : boost::none);
 
 		auto metadata = config->default_metadata();
 
@@ -574,9 +586,25 @@ private:
 		}
 	}
 
+	void enable_territory_toggled()
+	{
+		setup_sensitivity();
+		territory_changed();
+	}
+
+	void territory_changed()
+	{
+		if (_enable_territory->get()) {
+			Config::instance()->set_default_territory(_territory->get().get_value_or(dcp::LanguageTag::RegionSubtag("US")));
+		} else {
+			Config::instance()->unset_default_territory();
+		}
+	}
+
 	void setup_sensitivity ()
 	{
 		_audio_language->enable(_enable_audio_language->get());
+		_territory->enable(_enable_territory->get());
 		for (auto const& i: _enable_metadata) {
 			_metadata[i.first]->Enable(i.second->GetValue());
 		}
@@ -601,6 +629,8 @@ private:
 	wxChoice* _standard;
 	CheckBox* _enable_audio_language;
 	LanguageTagWidget* _audio_language;
+	CheckBox* _enable_territory;
+	RegionSubtagWidget* _territory;
 	map<string, CheckBox*> _enable_metadata;
 	map<string, wxTextCtrl*> _metadata;
 };
