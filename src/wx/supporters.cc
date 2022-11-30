@@ -431,6 +431,7 @@ supported_by.Add (wxT ("Robert Harrison"));
 supported_by.Add (wxT ("Tim Harrison"));
 supported_by.Add (wxT ("Werner Harter"));
 supported_by.Add (wxT ("Mark Hartsuyker"));
+supported_by.Add (wxT ("Jamie Harvey"));
 supported_by.Add (wxT ("Ethan Hatton-Warham"));
 supported_by.Add (wxT ("Alexander Hay"));
 supported_by.Add (wxT ("Ronald Heaps"));
