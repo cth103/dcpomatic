@@ -25,19 +25,22 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
-#include "lib/film.h"
-#include "lib/dcp_subtitle_content.h"
-#include "lib/dcp_content.h"
-#include "lib/ratio.h"
-#include "lib/dcp_decoder.h"
-#include "lib/dcp_content_type.h"
-#include "lib/dcp_subtitle_decoder.h"
-#include "lib/text_content.h"
 #include "lib/content_text.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/dcp_decoder.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/dcp_subtitle_decoder.h"
+#include "lib/film.h"
 #include "lib/font.h"
+#include "lib/ratio.h"
+#include "lib/text_content.h"
 #include "lib/text_decoder.h"
 #include "test.h"
+#include <dcp/mono_picture_asset.h>
+#include <dcp/openjpeg_image.h>
+#include <dcp/smpte_subtitle_asset.h>
+#include <boost/test/unit_test.hpp>
 #include <iostream>
 
 
@@ -242,5 +245,88 @@ BOOST_AUTO_TEST_CASE (test_font_override)
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 	check_file (subtitle_file(film).parent_path() / "font_0.ttf", "test/data/Inconsolata-VF.ttf");
+}
+
+
+BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
+{
+	std::ofstream source_xml("build/test/entity_from_dcp_source.xml");
+	source_xml
+		<< "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+		<< "<SubtitleReel xmlns=\"http://www.smpte-ra.org/schemas/428-7/2010/DCST\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n"
+		<< "<Id>urn:uuid:9c0a0a67-ffd8-4c65-8b5a-c6be3ef182c5</Id>\n"
+		<< "<ContentTitleText>DCP</ContentTitleText>\n"
+		<< "<IssueDate>2022-11-30T18:13:56.000+01:00</IssueDate>\n"
+		<< "<ReelNumber>1</ReelNumber>\n"
+		<< "<EditRate>24 1</EditRate>\n"
+		<< "<TimeCodeRate>24</TimeCodeRate>\n"
+		<< "<StartTime>00:00:00:00</StartTime>\n"
+		<< "<LoadFont ID=\"font\">urn:uuid:899e5c59-50f6-467b-985b-8282c020e1ee</LoadFont>\n"
+		<< "<SubtitleList>\n"
+		<< "<Font AspectAdjust=\"1.0\" Color=\"FFFFFFFF\" Effect=\"none\" EffectColor=\"FF000000\" ID=\"font\" Italic=\"no\" Script=\"normal\" Size=\"48\" Underline=\"no\" Weight=\"normal\">\n"
+		<< "<Subtitle SpotNumber=\"1\" TimeIn=\"00:00:00:00\" TimeOut=\"00:00:10:00\" FadeUpTime=\"00:00:00:00\" FadeDownTime=\"00:00:00:00\">\n"
+		<< "<Text Valign=\"top\" Vposition=\"82.7273\">Hello &amp; world</Text>\n"
+		<< "</Subtitle>\n"
+		<< "</Font>\n"
+		<< "</SubtitleList>\n"
+		<< "</SubtitleReel>\n";
+	source_xml.close();
+
+	auto content = make_shared<DCPSubtitleContent>("build/test/entity_from_dcp_source.xml");
+	auto film = new_test_film2("entity_from_dcp_source", { content });
+	film->set_interop(false);
+	content->only_text()->set_use(true);
+	content->only_text()->set_burn(false);
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+		});
+
+	dcp::SMPTESubtitleAsset check(dcp_file(film, "sub_"));
+	auto subs = check.subtitles();
+	BOOST_REQUIRE_EQUAL(subs.size(), 1U);
+	auto sub = std::dynamic_pointer_cast<const dcp::SubtitleString>(subs[0]);
+	BOOST_REQUIRE(sub);
+	/* libdcp::SubtitleAsset gets the text from the XML with get_content(), which
+	 * resolves the 5 predefined entities & " < > ' so we shouldn't see any
+	 * entity here.
+	 */
+	BOOST_CHECK_EQUAL(sub->text(), "Hello & world");
+
+	/* It should be escaped in the raw XML though */
+	BOOST_REQUIRE(static_cast<bool>(check.raw_xml()));
+	BOOST_CHECK(check.raw_xml()->find("Hello &amp; world") != std::string::npos);
+
+	/* Remake with burn */
+	content->only_text()->set_burn(true);
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+		});
+
+	dcp::MonoPictureAsset burnt(dcp_file(film, "j2c_"));
+	auto frame = burnt.start_read()->get_frame(12)->xyz_image();
+	auto const size = frame->size();
+	int max_X = 0;
+	for (auto y = 0; y < size.height; ++y) {
+		for (auto x = 0; x < size.width; ++x) {
+			max_X = std::max(frame->data(0)[x + y * size.width], max_X);
+		}
+	}
+
+	/* Check that the subtitle got rendered to the image; if the escaping of the & is wrong Pango
+	 * will throw errors and nothing will be rendered.
+	 */
+	BOOST_CHECK(max_X > 100);
 }
 

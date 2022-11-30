@@ -32,6 +32,8 @@
 #include "lib/ratio.h"
 #include "lib/text_content.h"
 #include "test.h"
+#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/subtitle_string.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
 #include <list>
@@ -202,6 +204,47 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 		});
 
 	check_dcp ("test/data/srt_subtitle_test6", film->dir(film->dcp_name()));
+}
+
+
+/** Test a case where a & in srt ended up in the SMPTE subtitle as &amp;amp */
+BOOST_AUTO_TEST_CASE(srt_subtitle_entity)
+{
+	std::ofstream srt("build/test/srt_subtitle_entity.srt");
+	srt << "1\n";
+	srt << "00:00:01,000 -> 00:00:10,000\n";
+	srt << "Hello & world\n";
+	srt.close();
+
+	auto content = make_shared<StringTextFileContent>("build/test/srt_subtitle_entity.srt");
+	auto film = new_test_film2("srt_subtitle_entity", { content });
+	film->set_interop(false);
+	content->only_text()->set_use(true);
+	content->only_text()->set_burn(false);
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+		});
+
+	dcp::SMPTESubtitleAsset check(dcp_file(film, "sub_"));
+	auto subs = check.subtitles();
+	BOOST_REQUIRE_EQUAL(subs.size(), 1U);
+	auto sub = std::dynamic_pointer_cast<const dcp::SubtitleString>(subs[0]);
+	BOOST_REQUIRE(sub);
+	/* libdcp::SubtitleAsset gets the text from the XML with get_content(), which
+	 * resolves the 5 predefined entities & " < > ' so we shouldn't see any
+	 * entity here.
+	 */
+	BOOST_CHECK_EQUAL(sub->text(), "Hello & world");
+
+	/* It should be escaped in the raw XML though */
+	BOOST_REQUIRE(static_cast<bool>(check.raw_xml()));
+	BOOST_CHECK(check.raw_xml()->find("Hello &amp; world") != string::npos);
 }
 
 
