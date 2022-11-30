@@ -103,6 +103,11 @@ marked_up (list<StringText> subtitles, int target_height, float fade_factor, str
 			span += " " + extra_attribute;
 		}
 		span += ">";
+
+		boost::algorithm::replace_all(text, "&", "&amp;");
+		boost::algorithm::replace_all(text, "<", "&lt;");
+		boost::algorithm::replace_all(text, ">", "&gt;");
+
 		span += text;
 		span += "</span>";
 		return span;

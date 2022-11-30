@@ -66,20 +66,6 @@ TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 
 
 static
-string
-escape_text (string text)
-{
-	/* We must escape some things, otherwise they might confuse our subtitle
-	   renderer (which uses entities and some HTML-esque markup to do bold/italic etc.)
-	*/
-	boost::algorithm::replace_all(text, "&", "&amp;");
-	boost::algorithm::replace_all(text, "<", "&lt;");
-	boost::algorithm::replace_all(text, ">", "&gt;");
-	return text;
-}
-
-
-static
 void
 set_forced_appearance(shared_ptr<const TextContent> content, StringText& subtitle)
 {
@@ -113,7 +99,7 @@ TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> sub
 			content()->get_font(subtitle.font().get_value_or("")),
 			valign_standard
 			);
-		string_text.set_text(escape_text(string_text.text()));
+		string_text.set_text(string_text.text());
 		set_forced_appearance(content(), string_text);
 		string_texts.push_back(string_text);
 	}
@@ -257,7 +243,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				v_align,
 				0,
 				dcp::Direction::LTR,
-				escape_text(block.text),
+				block.text,
 				dcp::Effect::NONE,
 				block.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
 				/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
