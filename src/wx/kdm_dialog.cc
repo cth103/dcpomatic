@@ -172,7 +172,7 @@ KDMDialog::make_clicked ()
 		}
 
 		for (auto i: _screens->screens()) {
-			auto p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
+			auto p = kdm_for_screen(film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
 			if (p) {
 				kdms.push_back (p);
 			}

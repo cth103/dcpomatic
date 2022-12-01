@@ -371,13 +371,10 @@ private:
 						continue;
 					}
 
-					dcp::LocalTime begin(_timing->from(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
-					dcp::LocalTime end(_timing->until(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
-
 					/* Make an empty KDM */
 					dcp::DecryptedKDM kdm (
-						begin,
-						end,
+						_timing->from(),
+						_timing->until(),
 						decrypted.annotation_text().get_value_or (""),
 						title,
 						dcp::LocalTime().as_string()
@@ -397,8 +394,8 @@ private:
 					name_values['c'] = i->cinema->name;
 					name_values['s'] = i->name;
 					name_values['f'] = title;
-					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+					name_values['b'] = _timing->from().date() + " " + _timing->from().time_of_day(true, false);
+					name_values['e'] = _timing->until().date() + " " + _timing->until().time_of_day(true, false);
 					name_values['i'] = encrypted.cpl_id ();
 
 					/* Encrypt */

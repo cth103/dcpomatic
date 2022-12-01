@@ -231,7 +231,7 @@ ScreensPanel::add_cinema_clicked ()
 	CinemaDialog dialog(GetParent(), _("Add Cinema"));
 
 	if (dialog.ShowModal() == wxID_OK) {
-		auto cinema = make_shared<Cinema>(dialog.name(), dialog.emails(), dialog.notes(), dialog.utc_offset_hour(), dialog.utc_offset_minute());
+		auto cinema = make_shared<Cinema>(dialog.name(), dialog.emails(), dialog.notes());
 
 		auto cinemas = sorted_cinemas();
 
@@ -299,16 +299,12 @@ ScreensPanel::edit_cinema_clicked ()
 void
 ScreensPanel::edit_cinema(shared_ptr<Cinema> cinema)
 {
-	CinemaDialog dialog(
-		GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset_hour(), cinema->utc_offset_minute()
-		);
+	CinemaDialog dialog(GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes);
 
 	if (dialog.ShowModal() == wxID_OK) {
 		cinema->name = dialog.name();
 		cinema->emails = dialog.emails();
 		cinema->notes = dialog.notes();
-		cinema->set_utc_offset_hour(dialog.utc_offset_hour());
-		cinema->set_utc_offset_minute(dialog.utc_offset_minute());
 		notify_cinemas_changed();
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);

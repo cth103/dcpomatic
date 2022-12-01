@@ -37,7 +37,7 @@ using namespace boost::placeholders;
 #endif
 
 
-CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, string notes, int utc_offset_hour, int utc_offset_minute)
+CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, string notes)
 	: wxDialog (parent, wxID_ANY, title)
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -49,11 +49,6 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	add_label_to_sizer (sizer, this, _("Name"), true, wxGBPosition(r, 0));
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx(name), wxDefaultPosition, wxSize(500, -1));
 	sizer->Add (_name, wxGBPosition(r, 1));
-	++r;
-
-	add_label_to_sizer (sizer, this, _("UTC offset (time zone)"), true, wxGBPosition(r, 0));
-	_utc_offset = new wxChoice (this, wxID_ANY);
-	sizer->Add (_utc_offset, wxGBPosition(r, 1));
 	++r;
 
 	add_label_to_sizer (sizer, this, _("Notes"), true, wxGBPosition(r, 0));
@@ -83,17 +78,6 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
-
-	/* Default to UTC */
-	size_t sel = get_offsets (_offsets);
-	for (size_t i = 0; i < _offsets.size(); ++i) {
-		_utc_offset->Append (_offsets[i].name);
-		if (_offsets[i].hour == utc_offset_hour && _offsets[i].minute == utc_offset_minute) {
-			sel = i;
-		}
-	}
-
-	_utc_offset->SetSelection (sel);
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
@@ -130,31 +114,6 @@ CinemaDialog::emails () const
 	copy (_emails.begin(), _emails.end(), back_inserter(e));
 	return e;
 }
-
-
-int
-CinemaDialog::utc_offset_hour () const
-{
-	int const sel = _utc_offset->GetSelection();
-	if (sel < 0 || sel > int(_offsets.size())) {
-		return 0;
-	}
-
-	return _offsets[sel].hour;
-}
-
-
-int
-CinemaDialog::utc_offset_minute () const
-{
-	int const sel = _utc_offset->GetSelection();
-	if (sel < 0 || sel > int(_offsets.size())) {
-		return 0;
-	}
-
-	return _offsets[sel].minute;
-}
-
 
 string
 CinemaDialog::notes () const

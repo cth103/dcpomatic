@@ -23,10 +23,11 @@
 #define DCPOMATIC_SCREEN_H
 
 
-#include "kdm_with_metadata.h"
 #include "kdm_recipient.h"
+#include "kdm_with_metadata.h"
 #include "trusted_device.h"
 #include <dcp/certificate.h>
+#include <dcp/utc_offset.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <string>
@@ -77,8 +78,8 @@ kdm_for_screen (
 	std::shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
 	std::shared_ptr<const dcpomatic::Screen> screen,
-	boost::posix_time::ptime valid_from,
-	boost::posix_time::ptime valid_to,
+	dcp::LocalTime valid_from,
+	dcp::LocalTime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	boost::optional<int> disable_forensic_marking_audio
