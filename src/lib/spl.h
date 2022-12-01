@@ -93,6 +93,11 @@ private:
 class SignalSPL : public SPL
 {
 public:
+	enum class Change {
+		NAME,
+		CONTENT,
+	};
+
 	SignalSPL () {}
 
 	SignalSPL (std::string name)
@@ -101,10 +106,10 @@ public:
 
 	void set_name (std::string name) {
 		SPL::set_name (name);
-		NameChanged ();
+		Changed(Change::NAME);
 	}
 
-	boost::signals2::signal<void ()> NameChanged;
+	boost::signals2::signal<void (Change)> Changed;
 };
 
 #endif

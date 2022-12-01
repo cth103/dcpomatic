@@ -166,22 +166,24 @@ private:
 	void add_playlist_to_model (shared_ptr<SignalSPL> playlist)
 	{
 		_playlists.push_back (playlist);
-		playlist->NameChanged.connect (bind(&PlaylistList::name_changed, this, weak_ptr<SignalSPL>(playlist)));
+		playlist->Changed.connect(bind(&PlaylistList::changed, this, weak_ptr<SignalSPL>(playlist), _1));
 	}
 
-	void name_changed (weak_ptr<SignalSPL> wp)
+	void changed(weak_ptr<SignalSPL> wp, SignalSPL::Change change)
 	{
 		auto playlist = wp.lock ();
 		if (!playlist) {
 			return;
 		}
 
-		int N = 0;
-		for (auto i: _playlists) {
-			if (i == playlist) {
-				_list->SetItem (N, 0, std_to_wx(i->name()));
+		if (change == SignalSPL::Change::NAME) {
+			int N = 0;
+			for (auto i: _playlists) {
+				if (i == playlist) {
+					_list->SetItem (N, 0, std_to_wx(i->name()));
+				}
+				++N;
 			}
-			++N;
 		}
 	}
 
