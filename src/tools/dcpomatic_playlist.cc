@@ -402,9 +402,7 @@ private:
 
 		DCPOMATIC_ASSERT (_playlist);
 
-		auto tmp = (*_playlist)[s];
-		(*_playlist)[s] = (*_playlist)[s-1];
-		(*_playlist)[s-1] = tmp;
+		_playlist->swap(s, s - 1);
 
 		set_item (s - 1, (*_playlist)[s-1]);
 		set_item (s, (*_playlist)[s]);
@@ -419,9 +417,7 @@ private:
 
 		DCPOMATIC_ASSERT (_playlist);
 
-		auto tmp = (*_playlist)[s];
-		(*_playlist)[s] = (*_playlist)[s+1];
-		(*_playlist)[s+1] = tmp;
+		_playlist->swap(s, s + 1);
 
 		set_item (s + 1, (*_playlist)[s+1]);
 		set_item (s, (*_playlist)[s]);

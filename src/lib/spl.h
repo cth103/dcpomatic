@@ -26,6 +26,8 @@
 #include "spl_entry.h"
 #include <dcp/util.h>
 #include <boost/signals2.hpp>
+#include <algorithm>
+
 
 class ContentStore;
 
@@ -63,6 +65,8 @@ public:
 
 	SPLEntry const & operator[] (std::size_t index) const {
 		return _spl[index];
+	void swap(size_t a, size_t b) {
+		std::iter_swap(_spl.begin() + a, _spl.begin() + b);
 	}
 
 	void read (boost::filesystem::path path, ContentStore* store);
