@@ -484,8 +484,6 @@ public:
 
 		_playlist_list->Edit.connect (bind(&DOMFrame::change_playlist, this, _1));
 
-		_playlist_content->set (_playlist_list->first_playlist());
-
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::edit_preferences, this), wxID_PREFERENCES);
