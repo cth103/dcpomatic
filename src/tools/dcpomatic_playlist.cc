@@ -106,6 +106,7 @@ public:
 	PlaylistList (wxPanel* parent, ContentStore* content_store)
 		: _sizer (new wxBoxSizer(wxVERTICAL))
 		, _content_store (content_store)
+		, _parent(parent)
 	{
 		auto label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
 		label->SetLabelMarkup (_("<b>Playlists</b>"));
@@ -227,6 +228,12 @@ private:
 
 	void new_playlist ()
 	{
+		auto dir = Config::instance()->player_playlist_directory();
+		if (!dir) {
+			error_dialog(_parent, _("No playlist folder is specified in preferences.  Please set one and then try again."));
+			return;
+		}
+
 		shared_ptr<SignalSPL> spl (new SignalSPL(wx_to_std(_("New Playlist"))));
 		add_playlist_to_model (spl);
 		add_playlist_to_view (spl);
@@ -280,6 +287,7 @@ private:
 	wxButton* _delete;
 	vector<shared_ptr<SignalSPL>> _playlists;
 	ContentStore* _content_store;
+	wxWindow* _parent;
 };
 
 
@@ -546,12 +554,9 @@ private:
 
 	void save_playlist (shared_ptr<SignalSPL> playlist)
 	{
-		auto dir = Config::instance()->player_playlist_directory();
-		if (!dir) {
-			error_dialog (this, _("No playlist folder is specified in preferences.  Please set one and then try again."));
-			return;
+		if (auto dir = Config::instance()->player_playlist_directory()) {
+			playlist->write(*dir / (playlist->id() + ".xml"));
 		}
-		playlist->write (*dir / (playlist->id() + ".xml"));
 	}
 
 	void setup_menu (wxMenuBar* m)
