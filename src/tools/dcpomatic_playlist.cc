@@ -59,6 +59,16 @@ using namespace boost::placeholders;
 #endif
 
 
+static
+void
+save_playlist(shared_ptr<const SPL> playlist)
+{
+	if (auto dir = Config::instance()->player_playlist_directory()) {
+		playlist->write(*dir / (playlist->id() + ".xml"));
+	}
+}
+
+
 class ContentDialog : public wxDialog, public ContentStore
 {
 public:
@@ -197,9 +207,7 @@ private:
 			break;
 		}
 		case SignalSPL::Change::CONTENT:
-			if (auto dir = Config::instance()->player_playlist_directory()) {
-				playlist->write(*dir / (playlist->id() + ".xml"));
-			}
+			save_playlist(playlist);
 			break;
 		}
 	}
@@ -550,13 +558,6 @@ private:
 			save_playlist (old);
 		}
 		_playlist_content->set (playlist);
-	}
-
-	void save_playlist (shared_ptr<SignalSPL> playlist)
-	{
-		if (auto dir = Config::instance()->player_playlist_directory()) {
-			playlist->write(*dir / (playlist->id() + ".xml"));
-		}
 	}
 
 	void setup_menu (wxMenuBar* m)
