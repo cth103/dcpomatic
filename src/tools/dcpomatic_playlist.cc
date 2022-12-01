@@ -323,6 +323,8 @@ public:
 		_down->Bind (wxEVT_BUTTON, bind(&PlaylistContent::down_clicked, this));
 		_add->Bind (wxEVT_BUTTON, bind(&PlaylistContent::add_clicked, this));
 		_remove->Bind (wxEVT_BUTTON, bind(&PlaylistContent::remove_clicked, this));
+
+		setup_sensitivity();
 	}
 
 	wxSizer* sizer ()
