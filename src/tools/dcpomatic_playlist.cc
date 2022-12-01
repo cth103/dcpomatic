@@ -312,6 +312,8 @@ public:
 		title->Add (label, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		_name = new wxTextCtrl (parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		title->Add (_name, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+		_save_name = new Button(parent, _("Save"));
+		title->Add(_save_name);
 		_sizer->Add (title, 0, wxTOP | wxLEFT, DCPOMATIC_SIZER_GAP * 2);
 
 		auto list = new wxBoxSizer (wxHORIZONTAL);
@@ -354,6 +356,7 @@ public:
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, bind(&PlaylistContent::setup_sensitivity, this));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind(&PlaylistContent::setup_sensitivity, this));
 		_name->Bind (wxEVT_TEXT, bind(&PlaylistContent::name_changed, this));
+		_save_name->bind(&PlaylistContent::save_name_clicked, this);
 		_up->Bind (wxEVT_BUTTON, bind(&PlaylistContent::up_clicked, this));
 		_down->Bind (wxEVT_BUTTON, bind(&PlaylistContent::down_clicked, this));
 		_add->Bind (wxEVT_BUTTON, bind(&PlaylistContent::add_clicked, this));
@@ -389,11 +392,18 @@ public:
 
 
 private:
-	void name_changed ()
+	void save_name_clicked()
 	{
 		if (_playlist) {
-			_playlist->set_name (wx_to_std(_name->GetValue()));
+			_playlist->set_name(wx_to_std(_name->GetValue()));
+			save_playlist(_playlist);
 		}
+		setup_sensitivity();
+	}
+
+	void name_changed ()
+	{
+		setup_sensitivity();
 	}
 
 	void add (SPLEntry e)
@@ -418,6 +428,7 @@ private:
 		int const num_selected = _list->GetSelectedItemCount ();
 		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		_name->Enable (have_list);
+		_save_name->Enable(_playlist && _playlist->name() != wx_to_std(_name->GetValue()));
 		_list->Enable (have_list);
 		_up->Enable (have_list && selected > 0);
 		_down->Enable (have_list && selected != -1 && selected < (_list->GetItemCount() - 1));
@@ -484,6 +495,7 @@ private:
 	ContentDialog* _content_dialog;
 	wxBoxSizer* _sizer;
 	wxTextCtrl* _name;
+	Button* _save_name;
 	wxListCtrl* _list;
 	wxButton* _up;
 	wxButton* _down;
