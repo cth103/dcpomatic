@@ -18,14 +18,17 @@
 
 */
 
+
 #ifndef DCPOMATIC_SPL_H
 #define DCPOMATIC_SPL_H
+
 
 #include "spl_entry.h"
 #include <dcp/util.h>
 #include <boost/signals2.hpp>
 
 class ContentStore;
+
 
 class SPL
 {
