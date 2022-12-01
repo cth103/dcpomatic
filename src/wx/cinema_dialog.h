@@ -38,16 +38,12 @@ public:
 		wxString,
 		std::string name = "",
 		std::list<std::string> emails = std::list<std::string> (),
-		std::string notes = "",
-		int utc_offset_hour = 0,
-		int utc_offset_minute = 0
+		std::string notes = ""
 		);
 
 	std::string name () const;
 	std::string notes () const;
 	std::list<std::string> emails () const;
-	int utc_offset_hour () const;
-	int utc_offset_minute () const;
 
 private:
 	std::vector<std::string> get_emails () const;
@@ -57,6 +53,4 @@ private:
 	wxTextCtrl* _notes;
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
-	wxChoice* _utc_offset;
-	std::vector<Offset> _offsets;
 };

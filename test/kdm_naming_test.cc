@@ -59,16 +59,14 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 
 	auto crypt_cert = c->decryption_chain()->leaf();
 
-	/* Cinema A: UTC +4:30 */
-	auto cinema_a = make_shared<Cinema>("Cinema A", list<string>(), "", 4, 30);
+	auto cinema_a = make_shared<Cinema>("Cinema A", list<string>(), "");
 	cinema_a_screen_1 = std::make_shared<dcpomatic::Screen>("Screen 1", "", crypt_cert, boost::none, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_1);
 	cinema_a_screen_2 = std::make_shared<dcpomatic::Screen>("Screen 2", "", crypt_cert, boost::none, vector<TrustedDevice>());
 	cinema_a->add_screen (cinema_a_screen_2);
 	c->add_cinema (cinema_a);
 
-	/* Cinema B: UTC -1:00 */
-	auto cinema_b = make_shared<Cinema>("Cinema B", list<string>(), "", -1, 0);
+	auto cinema_b = make_shared<Cinema>("Cinema B", list<string>(), "");
 	cinema_b_screen_x = std::make_shared<dcpomatic::Screen>("Screen X", "", crypt_cert, boost::none, vector<TrustedDevice>());
 	cinema_b->add_screen (cinema_b_screen_x);
 	cinema_b_screen_y = std::make_shared<dcpomatic::Screen>("Screen Y", "", crypt_cert, boost::none, vector<TrustedDevice>());
@@ -90,13 +88,12 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 
 	auto sign_cert = c->signer_chain()->leaf();
 
-	dcp::LocalTime from (sign_cert.not_before());
+	dcp::LocalTime from = sign_cert.not_before();
+	from.set_offset({ 4, 30 });
 	from.add_months (2);
-	dcp::LocalTime until (sign_cert.not_after());
+	dcp::LocalTime until = sign_cert.not_after();
+	until.set_offset({ 4, 30 });
 	until.add_months (-2);
-
-	auto const from_string = from.date() + " " + from.time_of_day(true, false);
-	auto const until_string = until.date() + " " + until.time_of_day(true, false);
 
 	std::vector<KDMCertificatePeriod> period_checks;
 
@@ -107,8 +104,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	auto kdm = kdm_for_screen (
 			make_kdm,
 			cinema_a_screen_1,
-			boost::posix_time::time_from_string(from_string),
-			boost::posix_time::time_from_string(until_string),
+			from,
+			until,
 			dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 			false,
 			optional<int>(),
@@ -157,9 +154,6 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	dcp::LocalTime until (sign_cert.not_after());
 	until.add_months (-2);
 
-	string const from_string = from.date() + " " + from.time_of_day(true, false);
-	string const until_string = until.date() + " " + until.time_of_day(true, false);
-
 	list<shared_ptr<dcpomatic::Screen>> screens = {
 		cinema_a_screen_2, cinema_b_screen_x, cinema_a_screen_1, (cinema_b_screen_z)
 	};
@@ -178,8 +172,8 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 		auto kdm = kdm_for_screen (
 				make_kdm,
 				i,
-				boost::posix_time::time_from_string(from_string),
-				boost::posix_time::time_from_string(until_string),
+				from,
+				until,
 				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 				false,
 				optional<int>(),
