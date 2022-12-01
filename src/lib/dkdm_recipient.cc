@@ -65,29 +65,26 @@ kdm_for_dkdm_recipient (
 	shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
 	shared_ptr<DKDMRecipient> recipient,
-	boost::posix_time::ptime valid_from,
-	boost::posix_time::ptime valid_to
+	dcp::LocalTime valid_from,
+	dcp::LocalTime valid_to
 	)
 {
 	if (!recipient->recipient) {
 		return {};
 	}
 
-	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(recipient->utc_offset_hour, recipient->utc_offset_minute));
-	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(recipient->utc_offset_hour, recipient->utc_offset_minute));
-
 	auto signer = Config::instance()->signer_chain();
 	if (!signer->valid()) {
 		throw InvalidSignerError();
 	}
 
-	auto const decrypted_kdm = film->make_kdm(cpl, begin, end);
+	auto const decrypted_kdm = film->make_kdm(cpl, valid_from, valid_to);
 	auto const kdm = decrypted_kdm.encrypt(signer, recipient->recipient.get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();
-	name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+	name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
+	name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
 	return make_shared<KDMWithMetadata>(name_values, nullptr, recipient->emails, kdm);

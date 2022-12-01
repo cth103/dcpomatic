@@ -85,13 +85,13 @@ setup_test_config()
 	auto config = Config::instance();
 	auto const cert = dcp::Certificate(dcp::file_to_string("test/data/cert.pem"));
 
-	auto cinema_a = std::make_shared<Cinema>("Dean's Screens", vector<string>(), "", 0, 0);
+	auto cinema_a = std::make_shared<Cinema>("Dean's Screens", vector<string>(), "");
 	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 1", "", cert, boost::none, std::vector<TrustedDevice>()));
 	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 2", "", cert, boost::none, std::vector<TrustedDevice>()));
 	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 3", "", cert, boost::none, std::vector<TrustedDevice>()));
 	config->add_cinema(cinema_a);
 
-	auto cinema_b = std::make_shared<Cinema>("Floyd's Celluloid", vector<string>(), "", 0, 0);
+	auto cinema_b = std::make_shared<Cinema>("Floyd's Celluloid", vector<string>(), "");
 	cinema_b->add_screen(std::make_shared<dcpomatic::Screen>("Foo", "", cert, boost::none, std::vector<TrustedDevice>()));
 	cinema_b->add_screen(std::make_shared<dcpomatic::Screen>("Bar", "", cert, boost::none, std::vector<TrustedDevice>()));
 	config->add_cinema(cinema_b);
@@ -193,5 +193,42 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 	BOOST_CHECK_EQUAL(output[0], "stinking dump ()");
 	BOOST_CHECK_EQUAL(output[1], "classy joint ()");
 	BOOST_CHECK_EQUAL(output[2], "Great ()");
+}
+
+
+BOOST_AUTO_TEST_CASE(kdm_cli_time)
+{
+	ConfigRestorer cr;
+
+	setup_test_config();
+
+	boost::filesystem::path kdm_filename = "build/test/KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV_Deans_Screens_Screen_2.xml";
+
+	boost::system::error_code ec;
+	boost::filesystem::remove(kdm_filename, ec);
+
+	dcp::LocalTime now;
+	now.add_days(2);
+
+	vector<string> args = {
+		"kdm_cli",
+		"--verbose",
+		"--valid-from", now.as_string(),
+		"--valid-duration", "2 weeks",
+		"-c", "Dean's Screens",
+		"-S", "Screen 2",
+		"-o", "build/test",
+		"test/data/dkdm.xml"
+	};
+
+	vector<string> output;
+	auto error = run(args, output);
+	BOOST_CHECK(!error);
+
+	BOOST_REQUIRE_EQUAL(output.size(), 2U);
+	BOOST_CHECK(boost::algorithm::starts_with(output[0], "Making KDMs valid from"));
+	BOOST_CHECK_EQUAL(output[1], "Wrote 1 KDM files to build/test");
+
+	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
 }
 
