@@ -60,7 +60,7 @@ kdm_for_dkdm_recipient (
 	std::shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
 	std::shared_ptr<DKDMRecipient> recipient,
-	boost::posix_time::ptime valid_from,
-	boost::posix_time::ptime valid_to
+	dcp::LocalTime valid_from,
+	dcp::LocalTime valid_to
 	);
 

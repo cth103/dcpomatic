@@ -41,14 +41,6 @@ Cinema::Cinema (cxml::ConstNodePtr node)
 	for (auto i: node->node_children("Email")) {
 		emails.push_back (i->content ());
 	}
-
-	if (node->optional_number_child<int>("UTCOffset")) {
-		_utc_offset_hour = node->number_child<int>("UTCOffset");
-	} else {
-		_utc_offset_hour = node->optional_number_child<int>("UTCOffsetHour").get_value_or (0);
-	}
-
-	_utc_offset_minute = node->optional_number_child<int>("UTCOffsetMinute").get_value_or (0);
 }
 
 /* This is necessary so that we can use shared_from_this in add_screen (which cannot be done from
@@ -73,9 +65,6 @@ Cinema::as_xml (xmlpp::Element* parent) const
 
 	parent->add_child("Notes")->add_child_text (notes);
 
-	parent->add_child("UTCOffsetHour")->add_child_text (raw_convert<string> (_utc_offset_hour));
-	parent->add_child("UTCOffsetMinute")->add_child_text (raw_convert<string> (_utc_offset_minute));
-
 	for (auto i: _screens) {
 		i->as_xml (parent->add_child ("Screen"));
 	}
@@ -97,16 +86,3 @@ Cinema::remove_screen (shared_ptr<Screen> s)
        }
 }
 
-void
-Cinema::set_utc_offset_hour (int h)
-{
-	DCPOMATIC_ASSERT (h >= -11 && h <= 12);
-	_utc_offset_hour = h;
-}
-
-void
-Cinema::set_utc_offset_minute (int m)
-{
-	DCPOMATIC_ASSERT (m >= 0 && m <= 59);
-	_utc_offset_minute = m;
-}

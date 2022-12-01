@@ -18,6 +18,9 @@
 
 */
 
+
+#include "wx_util.h"
+#include <dcp/utc_offset.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -25,18 +28,19 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/signals2.hpp>
 
-class wxDatePickerCtrl;
+
+class Choice;
 class TimePicker;
+class wxDatePickerCtrl;
+
 
 class KDMTimingPanel : public wxPanel
 {
 public:
 	explicit KDMTimingPanel (wxWindow* parent);
 
-	/** @return KDM from time in local time */
-	boost::posix_time::ptime from () const;
-	/** @return KDM until time in local time */
-	boost::posix_time::ptime until () const;
+	dcp::LocalTime from() const;
+	dcp::LocalTime until() const;
 
 	bool valid () const;
 
@@ -44,11 +48,15 @@ public:
 
 private:
 	void changed () const;
-	static boost::posix_time::ptime posix_time (wxDatePickerCtrl *, TimePicker *);
+	dcp::UTCOffset utc_offset() const;
+
+	static dcp::LocalTime local_time(wxDatePickerCtrl *, TimePicker *, dcp::UTCOffset offset);
 
 	wxDatePickerCtrl* _from_date;
 	wxDatePickerCtrl* _until_date;
 	TimePicker* _from_time;
 	TimePicker* _until_time;
+	Choice* _utc_offset;
 	wxStaticText* _warning;
+	std::vector<Offset> _offsets;
 };
