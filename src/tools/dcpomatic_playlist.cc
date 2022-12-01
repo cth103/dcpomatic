@@ -136,6 +136,8 @@ public:
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind(&PlaylistList::selection_changed, this));
 		_new->Bind (wxEVT_BUTTON, bind(&PlaylistList::new_playlist, this));
 		_delete->Bind (wxEVT_BUTTON, bind(&PlaylistList::delete_playlist, this));
+
+		setup_sensitivity();
 	}
 
 	wxSizer* sizer ()
@@ -155,6 +157,11 @@ public:
 	boost::signals2::signal<void (shared_ptr<SignalSPL>)> Edit;
 
 private:
+	void setup_sensitivity()
+	{
+		_delete->Enable(static_cast<bool>(selected()));
+	}
+
 	void add_playlist_to_view (shared_ptr<const SignalSPL> playlist)
 	{
 		wxListItem item;
@@ -263,6 +270,8 @@ private:
 		} else {
 			Edit (_playlists[selected]);
 		}
+
+		setup_sensitivity();
 	}
 
 	wxBoxSizer* _sizer;
