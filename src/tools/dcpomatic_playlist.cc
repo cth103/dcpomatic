@@ -226,10 +226,20 @@ private:
 		_list->SetItemState (_list->GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 
+	boost::optional<int> selected() const
+	{
+		long int selected = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (selected < 0 || selected >= int(_playlists.size())) {
+			return {};
+		}
+
+		return selected;
+	}
+
 	void delete_playlist ()
 	{
-		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (selected < 0 || selected >= int(_playlists.size())) {
+		auto index = selected();
+		if (!index) {
 			return;
 		}
 
@@ -238,11 +248,11 @@ private:
 			return;
 		}
 
-		boost::filesystem::remove (*dir / (_playlists[selected]->id() + ".xml"));
-		_list->DeleteItem (selected);
-		_playlists.erase (_playlists.begin() + selected);
+		boost::filesystem::remove(*dir / (_playlists[*index]->id() + ".xml"));
+		_list->DeleteItem(*index);
+		_playlists.erase(_playlists.begin() + *index);
 
-		Edit (shared_ptr<SignalSPL>());
+		Edit(shared_ptr<SignalSPL>());
 	}
 
 	void selection_changed ()
