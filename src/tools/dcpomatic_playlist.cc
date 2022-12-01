@@ -90,6 +90,7 @@ public:
 
 		overall_sizer->Layout ();
 
+		_content_view->Bind(wxEVT_LIST_ITEM_ACTIVATED, boost::bind(&ContentDialog::EndModal, this, wxID_OK));
 		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&ContentView::update, _content_view));
 	}
 
