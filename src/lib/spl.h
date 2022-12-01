@@ -59,12 +59,10 @@ public:
 		return _spl;
 	}
 
-	SPLEntry & operator[] (std::size_t index) {
+	SPLEntry const & operator[] (std::size_t index) const {
 		return _spl[index];
 	}
 
-	SPLEntry const & operator[] (std::size_t index) const {
-		return _spl[index];
 	void swap(size_t a, size_t b) {
 		std::iter_swap(_spl.begin() + a, _spl.begin() + b);
 	}
