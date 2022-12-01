@@ -114,6 +114,21 @@ public:
 		Changed(Change::NAME);
 	}
 
+	void add(SPLEntry e) {
+		SPL::add(e);
+		Changed(Change::CONTENT);
+	}
+
+	void remove(std::size_t index) {
+		SPL::remove(index);
+		Changed(Change::CONTENT);
+	}
+
+	void swap(size_t a, size_t b) {
+		SPL::swap(a, b);
+		Changed(Change::CONTENT);
+	}
+
 	boost::signals2::signal<void (Change)> Changed;
 };
 

@@ -176,7 +176,9 @@ private:
 			return;
 		}
 
-		if (change == SignalSPL::Change::NAME) {
+		switch (change) {
+		case SignalSPL::Change::NAME:
+		{
 			int N = 0;
 			for (auto i: _playlists) {
 				if (i == playlist) {
@@ -184,6 +186,13 @@ private:
 				}
 				++N;
 			}
+			break;
+		}
+		case SignalSPL::Change::CONTENT:
+			if (auto dir = Config::instance()->player_playlist_directory()) {
+				playlist->write(*dir / (playlist->id() + ".xml"));
+			}
+			break;
 		}
 	}
 
