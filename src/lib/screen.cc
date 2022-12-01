@@ -77,8 +77,8 @@ KDMWithMetadataPtr
 kdm_for_screen (
 	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm,
 	shared_ptr<const dcpomatic::Screen> screen,
-	boost::posix_time::ptime valid_from,
-	boost::posix_time::ptime valid_to,
+	dcp::LocalTime valid_from,
+	dcp::LocalTime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
 	optional<int> disable_forensic_marking_audio,
@@ -90,17 +90,15 @@ kdm_for_screen (
 	}
 
 	auto cinema = screen->cinema;
-	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
-	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
 
-	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema ? cinema->name : "", screen->name, screen->recipient.get(), begin, end));
+	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema ? cinema->name : "", screen->name, screen->recipient.get(), valid_from, valid_to));
 
 	auto signer = Config::instance()->signer_chain();
 	if (!signer->valid()) {
 		throw InvalidSignerError();
 	}
 
-	auto kdm = make_kdm(begin, end).encrypt(
+	auto kdm = make_kdm(valid_from, valid_to).encrypt(
 		signer, screen->recipient.get(), screen->trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
 		);
 
@@ -112,8 +110,8 @@ kdm_for_screen (
 	}
 	name_values['s'] = screen->name;
 	name_values['f'] = kdm.content_title_text();
-	name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+	name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
+	name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
 	return make_shared<KDMWithMetadata>(name_values, cinema.get(), cinema ? cinema->emails : vector<string>(), kdm);

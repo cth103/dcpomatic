@@ -161,7 +161,7 @@ DKDMDialog::make_clicked ()
 	list<KDMWithMetadataPtr> kdms;
 	try {
 		for (auto i: _recipients->recipients()) {
-			auto p = kdm_for_dkdm_recipient (film, _cpl->cpl(), i, _timing->from(), _timing->until());
+			auto p = kdm_for_dkdm_recipient(film, _cpl->cpl(), i, _timing->from(), _timing->until());
 			if (p) {
 				kdms.push_back (p);
 			}
