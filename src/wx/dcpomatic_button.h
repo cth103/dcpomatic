@@ -28,6 +28,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/button.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/bind/bind.hpp>
 
 
 class Button : public wxButton, public I18NHook
@@ -37,6 +38,11 @@ public:
 
 	void set_text (wxString text) override;
 	wxString get_text () const override;
+
+	template <typename... Args>
+	void bind(Args... args) {
+		Bind(wxEVT_BUTTON, boost::bind(std::forward<Args>(args)...));
+	}
 };
 
 

@@ -59,6 +59,16 @@ using namespace boost::placeholders;
 #endif
 
 
+static
+void
+save_playlist(shared_ptr<const SPL> playlist)
+{
+	if (auto dir = Config::instance()->player_playlist_directory()) {
+		playlist->write(*dir / (playlist->id() + ".xml"));
+	}
+}
+
+
 class ContentDialog : public wxDialog, public ContentStore
 {
 public:
@@ -80,6 +90,7 @@ public:
 
 		overall_sizer->Layout ();
 
+		_content_view->Bind(wxEVT_LIST_ITEM_ACTIVATED, boost::bind(&ContentDialog::EndModal, this, wxID_OK));
 		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&ContentView::update, _content_view));
 	}
 
@@ -106,6 +117,7 @@ public:
 	PlaylistList (wxPanel* parent, ContentStore* content_store)
 		: _sizer (new wxBoxSizer(wxVERTICAL))
 		, _content_store (content_store)
+		, _parent(parent)
 	{
 		auto label = new wxStaticText (parent, wxID_ANY, wxEmptyString);
 		label->SetLabelMarkup (_("<b>Playlists</b>"));
@@ -136,6 +148,8 @@ public:
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind(&PlaylistList::selection_changed, this));
 		_new->Bind (wxEVT_BUTTON, bind(&PlaylistList::new_playlist, this));
 		_delete->Bind (wxEVT_BUTTON, bind(&PlaylistList::delete_playlist, this));
+
+		setup_sensitivity();
 	}
 
 	wxSizer* sizer ()
@@ -155,6 +169,11 @@ public:
 	boost::signals2::signal<void (shared_ptr<SignalSPL>)> Edit;
 
 private:
+	void setup_sensitivity()
+	{
+		_delete->Enable(static_cast<bool>(selected()));
+	}
+
 	void add_playlist_to_view (shared_ptr<const SignalSPL> playlist)
 	{
 		wxListItem item;
@@ -166,22 +185,31 @@ private:
 	void add_playlist_to_model (shared_ptr<SignalSPL> playlist)
 	{
 		_playlists.push_back (playlist);
-		playlist->NameChanged.connect (bind(&PlaylistList::name_changed, this, weak_ptr<SignalSPL>(playlist)));
+		playlist->Changed.connect(bind(&PlaylistList::changed, this, weak_ptr<SignalSPL>(playlist), _1));
 	}
 
-	void name_changed (weak_ptr<SignalSPL> wp)
+	void changed(weak_ptr<SignalSPL> wp, SignalSPL::Change change)
 	{
 		auto playlist = wp.lock ();
 		if (!playlist) {
 			return;
 		}
 
-		int N = 0;
-		for (auto i: _playlists) {
-			if (i == playlist) {
-				_list->SetItem (N, 0, std_to_wx(i->name()));
+		switch (change) {
+		case SignalSPL::Change::NAME:
+		{
+			int N = 0;
+			for (auto i: _playlists) {
+				if (i == playlist) {
+					_list->SetItem (N, 0, std_to_wx(i->name()));
+				}
+				++N;
 			}
-			++N;
+			break;
+		}
+		case SignalSPL::Change::CONTENT:
+			save_playlist(playlist);
+			break;
 		}
 	}
 
@@ -209,16 +237,32 @@ private:
 
 	void new_playlist ()
 	{
+		auto dir = Config::instance()->player_playlist_directory();
+		if (!dir) {
+			error_dialog(_parent, _("No playlist folder is specified in preferences.  Please set one and then try again."));
+			return;
+		}
+
 		shared_ptr<SignalSPL> spl (new SignalSPL(wx_to_std(_("New Playlist"))));
 		add_playlist_to_model (spl);
 		add_playlist_to_view (spl);
 		_list->SetItemState (_list->GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);
 	}
 
+	boost::optional<int> selected() const
+	{
+		long int selected = _list->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+		if (selected < 0 || selected >= int(_playlists.size())) {
+			return {};
+		}
+
+		return selected;
+	}
+
 	void delete_playlist ()
 	{
-		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-		if (selected < 0 || selected >= int(_playlists.size())) {
+		auto index = selected();
+		if (!index) {
 			return;
 		}
 
@@ -227,11 +271,11 @@ private:
 			return;
 		}
 
-		boost::filesystem::remove (*dir / (_playlists[selected]->id() + ".xml"));
-		_list->DeleteItem (selected);
-		_playlists.erase (_playlists.begin() + selected);
+		boost::filesystem::remove(*dir / (_playlists[*index]->id() + ".xml"));
+		_list->DeleteItem(*index);
+		_playlists.erase(_playlists.begin() + *index);
 
-		Edit (shared_ptr<SignalSPL>());
+		Edit(shared_ptr<SignalSPL>());
 	}
 
 	void selection_changed ()
@@ -242,6 +286,8 @@ private:
 		} else {
 			Edit (_playlists[selected]);
 		}
+
+		setup_sensitivity();
 	}
 
 	wxBoxSizer* _sizer;
@@ -250,6 +296,7 @@ private:
 	wxButton* _delete;
 	vector<shared_ptr<SignalSPL>> _playlists;
 	ContentStore* _content_store;
+	wxWindow* _parent;
 };
 
 
@@ -266,6 +313,8 @@ public:
 		title->Add (label, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		_name = new wxTextCtrl (parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400, -1));
 		title->Add (_name, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+		_save_name = new Button(parent, _("Save"));
+		title->Add(_save_name);
 		_sizer->Add (title, 0, wxTOP | wxLEFT, DCPOMATIC_SIZER_GAP * 2);
 
 		auto list = new wxBoxSizer (wxHORIZONTAL);
@@ -308,10 +357,13 @@ public:
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_SELECTED, bind(&PlaylistContent::setup_sensitivity, this));
 		_list->Bind (wxEVT_COMMAND_LIST_ITEM_DESELECTED, bind(&PlaylistContent::setup_sensitivity, this));
 		_name->Bind (wxEVT_TEXT, bind(&PlaylistContent::name_changed, this));
+		_save_name->bind(&PlaylistContent::save_name_clicked, this);
 		_up->Bind (wxEVT_BUTTON, bind(&PlaylistContent::up_clicked, this));
 		_down->Bind (wxEVT_BUTTON, bind(&PlaylistContent::down_clicked, this));
 		_add->Bind (wxEVT_BUTTON, bind(&PlaylistContent::add_clicked, this));
 		_remove->Bind (wxEVT_BUTTON, bind(&PlaylistContent::remove_clicked, this));
+
+		setup_sensitivity();
 	}
 
 	wxSizer* sizer ()
@@ -341,11 +393,18 @@ public:
 
 
 private:
-	void name_changed ()
+	void save_name_clicked()
 	{
 		if (_playlist) {
-			_playlist->set_name (wx_to_std(_name->GetValue()));
+			_playlist->set_name(wx_to_std(_name->GetValue()));
+			save_playlist(_playlist);
 		}
+		setup_sensitivity();
+	}
+
+	void name_changed ()
+	{
+		setup_sensitivity();
 	}
 
 	void add (SPLEntry e)
@@ -370,6 +429,7 @@ private:
 		int const num_selected = _list->GetSelectedItemCount ();
 		long int selected = _list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 		_name->Enable (have_list);
+		_save_name->Enable(_playlist && _playlist->name() != wx_to_std(_name->GetValue()));
 		_list->Enable (have_list);
 		_up->Enable (have_list && selected > 0);
 		_down->Enable (have_list && selected != -1 && selected < (_list->GetItemCount() - 1));
@@ -400,9 +460,7 @@ private:
 
 		DCPOMATIC_ASSERT (_playlist);
 
-		auto tmp = (*_playlist)[s];
-		(*_playlist)[s] = (*_playlist)[s-1];
-		(*_playlist)[s-1] = tmp;
+		_playlist->swap(s, s - 1);
 
 		set_item (s - 1, (*_playlist)[s-1]);
 		set_item (s, (*_playlist)[s]);
@@ -417,9 +475,7 @@ private:
 
 		DCPOMATIC_ASSERT (_playlist);
 
-		auto tmp = (*_playlist)[s];
-		(*_playlist)[s] = (*_playlist)[s+1];
-		(*_playlist)[s+1] = tmp;
+		_playlist->swap(s, s + 1);
 
 		set_item (s + 1, (*_playlist)[s+1]);
 		set_item (s, (*_playlist)[s]);
@@ -440,6 +496,7 @@ private:
 	ContentDialog* _content_dialog;
 	wxBoxSizer* _sizer;
 	wxTextCtrl* _name;
+	Button* _save_name;
 	wxListCtrl* _list;
 	wxButton* _up;
 	wxButton* _down;
@@ -476,8 +533,6 @@ public:
 		overall_panel->SetSizer (sizer);
 
 		_playlist_list->Edit.connect (bind(&DOMFrame::change_playlist, this, _1));
-
-		_playlist_content->set (_playlist_list->first_playlist());
 
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::file_exit, this), wxID_EXIT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this), wxID_ABOUT);
@@ -516,16 +571,6 @@ private:
 			save_playlist (old);
 		}
 		_playlist_content->set (playlist);
-	}
-
-	void save_playlist (shared_ptr<SignalSPL> playlist)
-	{
-		auto dir = Config::instance()->player_playlist_directory();
-		if (!dir) {
-			error_dialog (this, _("No playlist folder is specified in preferences.  Please set one and then try again."));
-			return;
-		}
-		playlist->write (*dir / (playlist->id() + ".xml"));
 	}
 
 	void setup_menu (wxMenuBar* m)

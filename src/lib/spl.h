@@ -18,14 +18,19 @@
 
 */
 
+
 #ifndef DCPOMATIC_SPL_H
 #define DCPOMATIC_SPL_H
+
 
 #include "spl_entry.h"
 #include <dcp/util.h>
 #include <boost/signals2.hpp>
+#include <algorithm>
+
 
 class ContentStore;
+
 
 class SPL
 {
@@ -54,12 +59,12 @@ public:
 		return _spl;
 	}
 
-	SPLEntry & operator[] (std::size_t index) {
+	SPLEntry const & operator[] (std::size_t index) const {
 		return _spl[index];
 	}
 
-	SPLEntry const & operator[] (std::size_t index) const {
-		return _spl[index];
+	void swap(size_t a, size_t b) {
+		std::iter_swap(_spl.begin() + a, _spl.begin() + b);
 	}
 
 	void read (boost::filesystem::path path, ContentStore* store);
@@ -93,6 +98,11 @@ private:
 class SignalSPL : public SPL
 {
 public:
+	enum class Change {
+		NAME,
+		CONTENT,
+	};
+
 	SignalSPL () {}
 
 	SignalSPL (std::string name)
@@ -101,10 +111,25 @@ public:
 
 	void set_name (std::string name) {
 		SPL::set_name (name);
-		NameChanged ();
+		Changed(Change::NAME);
 	}
 
-	boost::signals2::signal<void ()> NameChanged;
+	void add(SPLEntry e) {
+		SPL::add(e);
+		Changed(Change::CONTENT);
+	}
+
+	void remove(std::size_t index) {
+		SPL::remove(index);
+		Changed(Change::CONTENT);
+	}
+
+	void swap(size_t a, size_t b) {
+		SPL::swap(a, b);
+		Changed(Change::CONTENT);
+	}
+
+	boost::signals2::signal<void (Change)> Changed;
 };
 
 #endif
