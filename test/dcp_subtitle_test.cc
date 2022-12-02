@@ -305,6 +305,7 @@ BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
 
 	/* Remake with burn */
 	content->only_text()->set_burn(true);
+	boost::filesystem::remove_all(film->dir(film->dcp_name()));
 	make_and_verify_dcp (
 		film,
 		{
