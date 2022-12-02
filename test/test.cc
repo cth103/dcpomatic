@@ -827,7 +827,7 @@ dcp_file (shared_ptr<const Film> film, string prefix)
 	using namespace boost::filesystem;
 
 	vector<directory_entry> matches;
-	std::copy_if(directory_iterator(film->dir(film->dcp_name())), directory_iterator(), std::back_inserter(matches), [&prefix](directory_entry const& entry) {
+	std::copy_if(recursive_directory_iterator(film->dir(film->dcp_name())), recursive_directory_iterator(), std::back_inserter(matches), [&prefix](directory_entry const& entry) {
 		return boost::algorithm::starts_with(entry.path().leaf().string(), prefix);
 	});
 
