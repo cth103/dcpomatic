@@ -232,5 +232,10 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Check that the proper codes are used, not just part of the language code; in this case, QBP instead of PT (#2235) */
 	film->set_audio_language(dcp::LanguageTag("pt-BR"));
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US-R_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+
+	/* Check that nothing is added for non-existant ratings */
+	film->set_ratings({});
+	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+
 }
 

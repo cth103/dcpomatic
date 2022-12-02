@@ -970,9 +970,7 @@ Film::isdcf_name (bool if_created_now) const
 	if (_release_territory) {
 		auto territory = _release_territory->subtag();
 		isdcf_name += "_" + to_upper (territory);
-		if (_ratings.empty ()) {
-			isdcf_name += "-NR";
-		} else {
+		if (!_ratings.empty()) {
 			auto label = _ratings[0].label;
 			boost::erase_all(label, "+");
 			boost::erase_all(label, "-");
