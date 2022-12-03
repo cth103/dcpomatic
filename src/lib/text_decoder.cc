@@ -226,12 +226,16 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 			   content by the other emit_plain_start() above.
 			*/
 
+			auto dcp_colour = [](sub::Colour const& c) {
+				return dcp::Colour(lrintf(c.r * 255), lrintf(c.g * 255), lrintf(c.b * 255));
+				};
+
 			auto dcp_subtitle = dcp::SubtitleString(
 				optional<string>(),
 				block.italic,
 				block.bold,
 				block.underline,
-				block.colour.dcp(),
+				dcp_colour(block.colour),
 				block.font_size.points (72 * 11),
 				1.0,
 				dcp::Time (from.seconds(), 1000),
@@ -245,7 +249,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				dcp::Direction::LTR,
 				block.text,
 				dcp::Effect::NONE,
-				block.effect_colour.get_value_or(sub::Colour(0, 0, 0)).dcp(),
+				dcp_colour(block.effect_colour.get_value_or(sub::Colour(0, 0, 0))),
 				/* Hack: we should use subtitle.fade_up and subtitle.fade_down here
 				   but the times of these often don't have a frame rate associated
 				   with them so the sub::Time won't convert them to milliseconds without
