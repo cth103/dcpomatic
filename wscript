@@ -220,7 +220,7 @@ def configure(conf):
         conf.env.STLIB_CURL = ['curl']
         conf.env.LIB_CURL = ['ssh2', 'idn']
     else:
-        conf.check_cfg(package='libcurl', args='--cflags --libs', atleast_version='7.19.1', uselib_store='CURL', mandatory=True)
+        conf.check_cfg(package='libcurl', args='libcurl >= 7.19.1 --cflags --libs', uselib_store='CURL', mandatory=True)
 
     # libicu
     if conf.check_cfg(package='icu-i18n', args='--cflags --libs', uselib_store='ICU', mandatory=False) is None:
@@ -283,10 +283,10 @@ def configure(conf):
 
     # libcxml
     if conf.options.static_cxml:
-        conf.check_cfg(package='libcxml', atleast_version='0.17.0', args='--cflags', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libcxml', args='libcxml >= 0.17.0 --cflags', uselib_store='CXML', mandatory=True)
         conf.env.STLIB_CXML = ['cxml']
     else:
-        conf.check_cfg(package='libcxml', atleast_version='0.16.0', args='--cflags --libs', uselib_store='CXML', mandatory=True)
+        conf.check_cfg(package='libcxml', args='libcxml >= 0.16.0 --cflags --libs', uselib_store='CXML', mandatory=True)
 
     # libssh
     if conf.options.static_ssh:
@@ -308,21 +308,21 @@ def configure(conf):
 
     # libdcp
     if conf.options.static_dcp:
-        conf.check_cfg(package='libdcp-1.0', atleast_version=libdcp_version, args='--cflags', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', args='libdcp-1.0 >= %s --cflags' % libdcp_version, uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-carl', 'kumu-carl', 'openjp2']
         conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c']
     else:
-        conf.check_cfg(package='libdcp-1.0', atleast_version=libdcp_version, args='--cflags --libs', uselib_store='DCP', mandatory=True)
+        conf.check_cfg(package='libdcp-1.0', args='libdcp-1.0 >= %s --cflags --libs' % libdcp_version, uselib_store='DCP', mandatory=True)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
     # libsub
     if conf.options.static_sub:
-        conf.check_cfg(package='libsub-1.0', atleast_version=libsub_version, args='--cflags', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', args='libsub-1.0 >= %s --cflags' % libsub_version, uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
         conf.env.STLIB_SUB = ['sub-1.0']
     else:
-        conf.check_cfg(package='libsub-1.0', atleast_version=libsub_version, args='--cflags --libs', uselib_store='SUB', mandatory=True)
+        conf.check_cfg(package='libsub-1.0', args='libsub-1.0 >= %s --cflags --libs' % libsub_version, uselib_store='SUB', mandatory=True)
         conf.env.DEFINES_SUB = [f.replace('\\', '') for f in conf.env.DEFINES_SUB]
 
     # libxml++
