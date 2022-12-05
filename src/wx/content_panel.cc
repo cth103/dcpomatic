@@ -43,6 +43,7 @@
 #include "lib/image_content.h"
 #include "lib/log.h"
 #include "lib/playlist.h"
+#include "lib/scope_guard.h"
 #include "lib/string_text_file.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
@@ -619,14 +620,13 @@ void
 ContentPanel::add_folder_clicked ()
 {
 	auto d = new wxDirDialog (_splitter, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 	int r = d->ShowModal ();
-	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
-	d->Destroy ();
-
 	if (r != wxID_OK) {
 		return;
 	}
 
+	boost::filesystem::path const path(wx_to_std(d->GetPath()));
 	add_folder(path);
 }
 
