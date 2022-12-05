@@ -674,14 +674,13 @@ void
 ContentPanel::add_dcp_clicked ()
 {
 	auto d = new wxDirDialog (_splitter, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 	int r = d->ShowModal ();
-	boost::filesystem::path const path (wx_to_std (d->GetPath ()));
-	d->Destroy ();
-
 	if (r != wxID_OK) {
 		return;
 	}
 
+	boost::filesystem::path const path(wx_to_std(d->GetPath()));
 	add_dcp(path);
 }
 
