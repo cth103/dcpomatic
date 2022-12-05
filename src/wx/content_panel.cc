@@ -673,7 +673,9 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	auto d = new wxDirDialog (_splitter, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+	auto const initial_path = Config::instance()->add_files_path();
+
+	auto d = new wxDirDialog(_splitter, _("Choose a DCP folder"), std_to_wx(initial_path ? initial_path->string() : home_directory().string()), wxDD_DIR_MUST_EXIST);
 	ScopeGuard sg = [d]() { d->Destroy(); };
 	int r = d->ShowModal ();
 	if (r != wxID_OK) {
