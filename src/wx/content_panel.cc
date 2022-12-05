@@ -619,7 +619,9 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	auto d = new wxDirDialog (_splitter, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+	auto const initial_path = Config::instance()->add_files_path();
+
+	auto d = new wxDirDialog(_splitter, _("Choose a folder"), std_to_wx(initial_path ? initial_path->string() : home_directory().string()), wxDD_DIR_MUST_EXIST);
 	ScopeGuard sg = [d]() { d->Destroy(); };
 	int r = d->ShowModal ();
 	if (r != wxID_OK) {
