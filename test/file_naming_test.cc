@@ -62,6 +62,19 @@ private:
 };
 
 
+static
+string
+mxf_regex(string part) {
+#ifdef DCPOMATIC_WINDOWS
+	/* Windows replaces . in filenames with _ */
+	return String::compose(".*flat_%1_png_.*\\.mxf", part);
+#else
+	return String::compose(".*flat_%1\\.png_.*\\.mxf", part);
+#endif
+};
+
+
+
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
 	Keep k;
@@ -100,11 +113,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 
 	int got[3] = { 0, 0, 0 };
 	for (auto i: boost::filesystem::directory_iterator(film->file(film->dcp_name()))) {
-		if (boost::regex_match(i.path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
+		if (boost::regex_match(i.path().string(), boost::regex(mxf_regex("red")))) {
 			++got[0];
-		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(mxf_regex("green")))) {
 			++got[1];
-		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(mxf_regex("blue")))) {
 			++got[2];
 		}
 	}
@@ -158,11 +171,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 
 	int got[3] = { 0, 0, 0 };
 	for (auto i: boost::filesystem::directory_iterator (film->file(film->dcp_name()))) {
-		if (boost::regex_match(i.path().string(), boost::regex(".*flat_red\\.png_.*\\.mxf"))) {
+		if (boost::regex_match(i.path().string(), boost::regex(mxf_regex("red")))) {
 			++got[0];
-		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_green\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(mxf_regex("green")))) {
 			++got[1];
-		} else if (boost::regex_match(i.path().string(), boost::regex(".*flat_blue\\.png_.*\\.mxf"))) {
+		} else if (boost::regex_match(i.path().string(), boost::regex(mxf_regex("blue")))) {
 			++got[2];
 		}
 	}
