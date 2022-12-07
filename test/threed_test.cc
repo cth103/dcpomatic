@@ -29,6 +29,7 @@
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
@@ -41,6 +42,8 @@
 #include "lib/util.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <dcp/mono_picture_asset.h>
+#include <dcp/stereo_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -289,5 +292,50 @@ BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
 		butler->get_audio(Butler::Behaviour::BLOCKING, audio.data(), audio_frames);
 	}
 	BOOST_REQUIRE (error.code == Butler::Error::Code::NONE);
+}
+
+
+/** Check that creating a 2D DCP from a 3D DCP passes the J2K data unaltered */
+BOOST_AUTO_TEST_CASE(threed_passthrough_test, * boost::unit_test::depends_on("threed_test6"))
+{
+	using namespace boost::filesystem;
+
+	/* Find the DCP in threed_test6 */
+	boost::optional<path> input_dcp;
+	for (auto i: directory_iterator("build/test/threed_test6")) {
+		if (is_directory(i.path()) && boost::algorithm::starts_with(i.path().filename().string(), "Dcp")) {
+			input_dcp = i.path();
+		}
+	}
+
+	BOOST_REQUIRE(input_dcp);
+
+	auto content = make_shared<DCPContent>(*input_dcp);
+	auto film = new_test_film2("threed_passthrough_test", { content });
+	film->set_three_d(false);
+
+	make_and_verify_dcp(film);
+
+	std::vector<directory_entry> matches;
+	std::copy_if(recursive_directory_iterator(*input_dcp), recursive_directory_iterator(), std::back_inserter(matches), [](directory_entry const& entry) {
+		return boost::algorithm::starts_with(entry.path().leaf().string(), "j2c");
+	});
+
+	BOOST_REQUIRE_EQUAL(matches.size(), 1U);
+
+	auto stereo = dcp::StereoPictureAsset(matches[0]);
+	auto stereo_reader = stereo.start_read();
+
+	auto mono = dcp::MonoPictureAsset(dcp_file(film, "j2c"));
+	auto mono_reader = mono.start_read();
+
+	BOOST_REQUIRE_EQUAL(stereo.intrinsic_duration(), mono.intrinsic_duration());
+
+	for (auto i = 0; i < stereo.intrinsic_duration(); ++i) {
+		auto stereo_frame = stereo_reader->get_frame(i);
+		auto mono_frame = mono_reader->get_frame(i);
+		BOOST_REQUIRE(stereo_frame->left()->size() == mono_frame->size());
+		BOOST_REQUIRE_EQUAL(memcmp(stereo_frame->left()->data(), mono_frame->data(), mono_frame->size()), 0);
+	}
 }
 
