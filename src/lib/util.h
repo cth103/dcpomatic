@@ -104,26 +104,4 @@ extern void capture_asdcp_logs ();
 extern std::string error_details(boost::system::error_code ec);
 extern bool contains_assetmap(boost::filesystem::path dir);
 
-template <class T>
-std::list<T>
-vector_to_list (std::vector<T> v)
-{
-	std::list<T> l;
-	for (auto& i: v) {
-		l.push_back (i);
-	}
-	return l;
-}
-
-template <class T>
-std::vector<T>
-list_to_vector (std::list<T> v)
-{
-	std::vector<T> l;
-	for (auto& i: v) {
-		l.push_back (i);
-	}
-	return l;
-}
-
 #endif
