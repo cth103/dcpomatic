@@ -25,18 +25,18 @@
  */
 
 
-#include "encode_server.h"
-#include "util.h"
-#include "dcpomatic_socket.h"
-#include "image.h"
-#include "dcp_video.h"
-#include "config.h"
-#include "cross.h"
-#include "player_video.h"
 #include "compose.hpp"
-#include "log.h"
+#include "config.h"
+#include "constants.h"
+#include "cross.h"
+#include "dcp_video.h"
 #include "dcpomatic_log.h"
+#include "dcpomatic_socket.h"
+#include "encode_server.h"
 #include "encoded_log_entry.h"
+#include "image.h"
+#include "log.h"
+#include "player_video.h"
 #include "version.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>

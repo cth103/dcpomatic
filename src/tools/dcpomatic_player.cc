@@ -36,6 +36,7 @@
 #include "wx/wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_examiner.h"
@@ -59,7 +60,6 @@
 #include "lib/server.h"
 #include "lib/text_content.h"
 #include "lib/update_checker.h"
-#include "lib/util.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/video_content.h"
 #include <dcp/cpl.h>

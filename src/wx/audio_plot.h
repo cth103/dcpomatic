@@ -18,8 +18,9 @@
 
 */
 
-#include "lib/util.h"
+
 #include "lib/audio_analysis.h"
+#include "lib/constants.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>

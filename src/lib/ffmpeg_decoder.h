@@ -28,7 +28,6 @@
 #include "decoder.h"
 #include "ffmpeg.h"
 #include "video_filter_graph_set.h"
-#include "util.h"
 extern "C" {
 #include <libavcodec/avcodec.h>
 }

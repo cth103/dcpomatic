@@ -20,6 +20,8 @@
 
 
 #include "compose.hpp"
+#include "dcpomatic_assert.h"
+#include "exceptions.h"
 #include "image.h"
 #include "scope_guard.h"
 #include "video_filter_graph.h"

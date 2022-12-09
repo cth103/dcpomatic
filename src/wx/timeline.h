@@ -18,11 +18,11 @@
 
 */
 
+
 #include "content_menu.h"
 #include "timeline_content_view.h"
 #include "lib/film.h"
 #include "lib/rect.h"
-#include "lib/util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>

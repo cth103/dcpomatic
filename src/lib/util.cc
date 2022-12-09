@@ -31,6 +31,7 @@
 #include "cinema_sound_processor.h"
 #include "compose.hpp"
 #include "config.h"
+#include "constants.h"
 #include "cross.h"
 #include "crypto.h"
 #include "dcp_content_type.h"

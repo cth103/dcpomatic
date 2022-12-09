@@ -20,6 +20,7 @@
 
 
 #include "lib/audio_analysis.h"
+#include "lib/constants.h"
 #include "lib/film.h"
 #include "lib/playlist.h"
 #include <dcp/warnings.h>

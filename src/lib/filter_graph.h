@@ -28,13 +28,14 @@
 #define DCPOMATIC_FILTER_GRAPH_H
 
 
-#include "util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavfilter/buffersink.h>
 }
 LIBDCP_ENABLE_WARNINGS
+#include <string>
+#include <vector>
 
 
 struct AVFilterContext;

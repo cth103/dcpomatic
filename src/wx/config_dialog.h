@@ -33,7 +33,6 @@
 #include "lib/filter.h"
 #include "lib/log.h"
 #include "lib/ratio.h"
-#include "lib/util.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
 #include <dcp/locale_convert.h>

@@ -21,8 +21,9 @@
 
 #include "audio_mapping.h"
 #include "audio_processor.h"
+#include "constants.h"
+#include "dcpomatic_assert.h"
 #include "digester.h"
-#include "util.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <libcxml/cxml.h>

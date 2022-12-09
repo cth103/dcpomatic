@@ -27,6 +27,7 @@
 #include "image_content.h"
 #include "image_decoder.h"
 #include "j2k_image_proxy.h"
+#include "util.h"
 #include "video_content.h"
 #include "video_decoder.h"
 #include <boost/filesystem.hpp>

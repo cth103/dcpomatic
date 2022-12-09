@@ -26,12 +26,12 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/spl.h"
 #include "lib/spl_entry.h"
-#include "lib/util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/imaglist.h>

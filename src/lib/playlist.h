@@ -24,8 +24,9 @@
 
 
 #include "change_signaller.h"
+#include "dcpomatic_time.h"
 #include "frame_rate_change.h"
-#include "util.h"
+#include "types.h"
 #include <libcxml/cxml.h>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>

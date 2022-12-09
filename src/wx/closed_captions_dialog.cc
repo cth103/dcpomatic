@@ -18,20 +18,23 @@
 
 */
 
+
 #include "closed_captions_dialog.h"
-#include "wx_util.h"
 #include "film_viewer.h"
-#include "lib/string_text.h"
+#include "wx_util.h"
 #include "lib/butler.h"
-#include "lib/text_content.h"
 #include "lib/compose.hpp"
+#include "lib/constants.h"
+#include "lib/string_text.h"
+#include "lib/text_content.h"
 #include <boost/bind/bind.hpp>
 
-using std::list;
-using std::max;
+
 using std::cout;
-using std::pair;
+using std::list;
 using std::make_pair;
+using std::max;
+using std::pair;
 using std::shared_ptr;
 using std::weak_ptr;
 using boost::optional;
@@ -39,6 +42,7 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 using namespace dcpomatic;
+
 
 ClosedCaptionsDialog::ClosedCaptionsDialog (wxWindow* parent, FilmViewer* viewer)
 	: wxDialog (parent, wxID_ANY, _("Closed captions"), wxDefaultPosition, wxDefaultSize,

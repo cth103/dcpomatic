@@ -31,6 +31,7 @@
 #include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
+#include "lib/constants.h"
 #include "lib/copy_dcp_details_to_film.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_examiner.h"

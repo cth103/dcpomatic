@@ -37,6 +37,7 @@
 #include "lib/cinema.h"
 #include "lib/collator.h"
 #include "lib/compose.hpp"
+#include "lib/constants.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
@@ -47,7 +48,6 @@
 #include "lib/kdm_with_metadata.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
-#include "lib/util.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>

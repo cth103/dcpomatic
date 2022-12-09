@@ -30,6 +30,7 @@
 #include "film.h"
 #include "job.h"
 #include "job_manager.h"
+#include "util.h"
 #include <boost/thread.hpp>
 
 

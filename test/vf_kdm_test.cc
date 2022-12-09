@@ -26,14 +26,15 @@
 
 
 #include "test.h"
-#include "lib/film.h"
-#include "lib/dcp_subtitle_content.h"
-#include "lib/ratio.h"
-#include "lib/dcp_content_type.h"
-#include "lib/dcp_content.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/cross.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/dcp_subtitle_content.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
 #include "lib/screen.h"
 #include <dcp/cpl.h>
 #include <boost/test/unit_test.hpp>

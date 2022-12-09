@@ -27,6 +27,7 @@
 #include "image_examiner.h"
 #include "image_filename_sorter.h"
 #include "job.h"
+#include "util.h"
 #include "video_content.h"
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>

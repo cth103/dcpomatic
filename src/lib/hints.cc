@@ -24,6 +24,7 @@
 #include "audio_processor.h"
 #include "compose.hpp"
 #include "config.h"
+#include "constants.h"
 #include "content.h"
 #include "cross.h"
 #include "dcp_content_type.h"

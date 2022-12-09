@@ -23,10 +23,10 @@
 #include "wx/editable_list.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/null_log.h"
-#include "lib/util.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>

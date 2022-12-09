@@ -24,6 +24,7 @@
 #include "lib/film.h"
 #include "lib/font.h"
 #include "lib/text_content.h"
+#include "lib/util.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>

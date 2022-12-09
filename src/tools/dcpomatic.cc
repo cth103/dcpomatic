@@ -60,6 +60,7 @@
 #include "lib/cinema.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -86,7 +87,6 @@
 #include "lib/text_content.h"
 #include "lib/transcode_job.h"
 #include "lib/update_checker.h"
-#include "lib/util.h"
 #include "lib/version.h"
 #include "lib/video_content.h"
 #include <dcp/exceptions.h>

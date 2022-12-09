@@ -25,6 +25,7 @@
 
 
 #include "compose.hpp"
+#include "constants.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"

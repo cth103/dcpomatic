@@ -28,11 +28,10 @@
 #define DCPOMATIC_VIDEO_DECODER_H
 
 
-#include "decoder.h"
-#include "video_content.h"
-#include "util.h"
 #include "content_video.h"
+#include "decoder.h"
 #include "decoder_part.h"
+#include "video_content.h"
 #include <boost/signals2.hpp>
 
 

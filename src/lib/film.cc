@@ -32,6 +32,7 @@
 #include "cinema.h"
 #include "compose.hpp"
 #include "config.h"
+#include "constants.h"
 #include "cross.h"
 #include "dcp_content.h"
 #include "dcp_content_type.h"
@@ -56,7 +57,6 @@
 #include "text_content.h"
 #include "transcode_job.h"
 #include "upload_job.h"
-#include "util.h"
 #include "video_content.h"
 #include "version.h"
 #include <libcxml/cxml.h>

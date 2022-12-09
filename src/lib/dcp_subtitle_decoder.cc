@@ -23,6 +23,7 @@
 #include "dcp_subtitle_decoder.h"
 #include "font.h"
 #include "text_content.h"
+#include "util.h"
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/load_font_node.h>
 

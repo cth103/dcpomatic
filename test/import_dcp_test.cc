@@ -26,6 +26,7 @@
 
 
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"

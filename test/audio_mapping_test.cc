@@ -27,7 +27,8 @@
 
 #include <boost/test/unit_test.hpp>
 #include "lib/audio_mapping.h"
-#include "lib/util.h"
+#include "lib/constants.h"
+#include "lib/compose.hpp"
 
 
 using std::list;

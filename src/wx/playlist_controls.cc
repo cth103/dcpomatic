@@ -26,6 +26,7 @@
 #include "static_text.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
+#include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"

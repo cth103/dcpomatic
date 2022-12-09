@@ -21,6 +21,7 @@
 
 #include "make_chain_dialog.h"
 #include "static_text.h"
+#include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/util.h"
 #include <dcp/certificate_chain.h>

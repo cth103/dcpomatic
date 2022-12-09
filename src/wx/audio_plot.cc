@@ -25,6 +25,7 @@
 #include "lib/audio_decoder.h"
 #include "lib/audio_analysis.h"
 #include "lib/compose.hpp"
+#include "lib/constants.h"
 #include "lib/maths_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

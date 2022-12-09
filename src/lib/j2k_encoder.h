@@ -32,7 +32,6 @@
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
-#include "util.h"
 #include "writer.h"
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>

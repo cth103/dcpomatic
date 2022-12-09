@@ -21,7 +21,7 @@
 
 #include "audio_stream.h"
 #include "audio_mapping.h"
-#include "util.h"
+#include "constants.h"
 
 
 AudioStream::AudioStream (int frame_rate, Frame length, int channels)

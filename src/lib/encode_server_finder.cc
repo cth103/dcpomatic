@@ -19,13 +19,13 @@
 */
 
 
+#include "config.h"
+#include "constants.h"
+#include "cross.h"
+#include "dcpomatic_socket.h"
+#include "encode_server_description.h"
 #include "encode_server_finder.h"
 #include "exceptions.h"
-#include "util.h"
-#include "config.h"
-#include "cross.h"
-#include "encode_server_description.h"
-#include "dcpomatic_socket.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <boost/bind/placeholders.hpp>

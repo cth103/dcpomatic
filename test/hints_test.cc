@@ -21,6 +21,7 @@
 
 #include "lib/audio_content.h"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -28,7 +29,6 @@
 #include "lib/font.h"
 #include "lib/hints.h"
 #include "lib/text_content.h"
-#include "lib/util.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 

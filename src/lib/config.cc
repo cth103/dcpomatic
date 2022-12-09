@@ -23,6 +23,7 @@
 #include "colour_conversion.h"
 #include "compose.hpp"
 #include "config.h"
+#include "constants.h"
 #include "cross.h"
 #include "crypto.h"
 #include "dcp_content_type.h"
@@ -33,7 +34,6 @@
 #include "log.h"
 #include "ratio.h"
 #include "types.h"
-#include "util.h"
 #include "zipper.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/name_format.h>
