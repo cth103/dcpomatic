@@ -21,7 +21,10 @@
 
 #include "crop.h"
 #include <dcp/raw_convert.h>
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 using std::shared_ptr;
