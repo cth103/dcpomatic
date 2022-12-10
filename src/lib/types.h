@@ -18,8 +18,10 @@
 
 */
 
+
 #ifndef DCPOMATIC_TYPES_H
 #define DCPOMATIC_TYPES_H
+
 
 #include "position.h"
 #include "rect.h"
@@ -27,19 +29,13 @@
 #include <vector>
 #include <stdint.h>
 
+
 class Content;
 class VideoContent;
 class AudioContent;
 class TextContent;
 class FFmpegContent;
 
-namespace cxml {
-	class Node;
-}
-
-namespace xmlpp {
-	class Node;
-}
 
 /** The version number of the protocol used to communicate
  *  with servers.  Intended to be bumped when incompatibilities
