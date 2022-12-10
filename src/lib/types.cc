@@ -167,12 +167,6 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 }
 
 
-bool operator== (NamedChannel const& a, NamedChannel const& b)
-{
-	return a.name == b.name && a.index == b.index;
-}
-
-
 string
 video_range_to_string (VideoRange r)
 {

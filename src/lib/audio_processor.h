@@ -28,7 +28,7 @@
 #define DCPOMATIC_AUDIO_PROCESSOR_H
 
 
-#include "types.h"
+#include "named_channel.h"
 #include <memory>
 #include <string>
 #include <vector>

@@ -33,6 +33,7 @@
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
 #include "frame_rate_change.h"
+#include "named_channel.h"
 #include "resolution.h"
 #include "signaller.h"
 #include "transcode_job.h"

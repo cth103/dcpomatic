@@ -199,19 +199,4 @@ enum class EmailProtocol {
 };
 
 
-class NamedChannel
-{
-public:
-	NamedChannel (std::string name_, int index_)
-		: name(name_)
-		, index(index_)
-	{}
-
-	std::string name;
-	int index;
-};
-
-
-bool operator== (NamedChannel const& a, NamedChannel const& b);
-
 #endif

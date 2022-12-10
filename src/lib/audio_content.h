@@ -28,9 +28,10 @@
 #define DCPOMATIC_AUDIO_CONTENT_H
 
 
-#include "content_part.h"
-#include "audio_stream.h"
 #include "audio_mapping.h"
+#include "audio_stream.h"
+#include "content_part.h"
+#include "named_channel.h"
 
 
 /** @class AudioContentProperty

@@ -25,6 +25,7 @@
 
 
 #include "lib/audio_mapping.h"
+#include "lib/named_channel.h"
 #include "lib/types.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
