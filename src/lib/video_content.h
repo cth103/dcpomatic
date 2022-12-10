@@ -25,9 +25,9 @@
 
 #include "colour_conversion.h"
 #include "content_part.h"
+#include "crop.h"
 #include "dcpomatic_time.h"
 #include "pixel_quanta.h"
-#include "types.h"
 #include "user_property.h"
 #include <dcp/language_tag.h>
 #include <boost/thread/mutex.hpp>

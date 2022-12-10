@@ -20,7 +20,7 @@
 
 
 #include "table_dialog.h"
-#include "lib/types.h"
+#include "lib/crop.h"
 #include <boost/signals2.hpp>
 
 

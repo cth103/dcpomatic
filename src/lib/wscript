@@ -59,6 +59,7 @@ sources = """
           combine_dcp_job.cc
           copy_dcp_details_to_film.cc
           create_cli.cc
+          crop.cc
           cross_common.cc
           crypto.cc
           curl_uploader.cc

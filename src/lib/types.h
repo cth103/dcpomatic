@@ -167,44 +167,6 @@ extern std::string text_type_to_string (TextType t);
 extern std::string text_type_to_name (TextType t);
 extern TextType string_to_text_type (std::string s);
 
-/** @struct Crop
- *  @brief A description of the crop of an image or video.
- */
-struct Crop
-{
-	Crop () : left (0), right (0), top (0), bottom (0) {}
-	Crop (int l, int r, int t, int b) : left (l), right (r), top (t), bottom (b) {}
-	explicit Crop (std::shared_ptr<cxml::Node>);
-
-	/** Number of pixels to remove from the left-hand side */
-	int left;
-	/** Number of pixels to remove from the right-hand side */
-	int right;
-	/** Number of pixels to remove from the top */
-	int top;
-	/** Number of pixels to remove from the bottom */
-	int bottom;
-
-	dcp::Size apply (dcp::Size s, int minimum = 4) const {
-		s.width -= left + right;
-		s.height -= top + bottom;
-
-		if (s.width < minimum) {
-			s.width = minimum;
-		}
-
-		if (s.height < minimum) {
-			s.height = minimum;
-		}
-
-		return s;
-	}
-
-	void as_xml (xmlpp::Node *) const;
-};
-
-extern bool operator== (Crop const & a, Crop const & b);
-extern bool operator!= (Crop const & a, Crop const & b);
 
 struct CPLSummary
 {

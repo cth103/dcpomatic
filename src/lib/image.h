@@ -25,6 +25,8 @@
 #ifndef DCPOMATIC_IMAGE_H
 #define DCPOMATIC_IMAGE_H
 
+
+#include "crop.h"
 #include "position.h"
 #include "position_image.h"
 #include "types.h"
@@ -34,8 +36,10 @@ extern "C" {
 #include <dcp/array_data.h>
 #include <dcp/colour_conversion.h>
 
+
 struct AVFrame;
 class Socket;
+
 
 class Image : public std::enable_shared_from_this<Image>
 {
