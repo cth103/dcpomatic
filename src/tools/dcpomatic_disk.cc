@@ -29,6 +29,7 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/copy_to_drive_job.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
