@@ -18,17 +18,21 @@
 
 */
 
-#include "types.h"
+
 #include "encode_server_description.h"
+#include "resolution.h"
 #include <libcxml/cxml.h>
 #include <dcp/array_data.h>
+
 
 /** @file  src/dcp_video_frame.h
  *  @brief A single frame of video destined for a DCP.
  */
 
+
 class Log;
 class PlayerVideo;
+
 
 /** @class DCPVideo
  *  @brief A single frame of video destined for a DCP.

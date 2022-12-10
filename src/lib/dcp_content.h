@@ -31,6 +31,7 @@
 #include "content.h"
 #include "enum_indexed_vector.h"
 #include "font.h"
+#include "resolution.h"
 #include <libcxml/cxml.h>
 #include <dcp/content_kind.h>
 #include <dcp/encrypted_kdm.h>

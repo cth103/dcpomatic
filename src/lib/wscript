@@ -159,6 +159,7 @@ sources = """
           release_notes.cc
           render_text.cc
           resampler.cc
+          resolution.cc
           rgba.cc
           rng.cc
           scoped_temporary.cc

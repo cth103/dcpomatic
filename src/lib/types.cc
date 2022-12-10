@@ -43,40 +43,6 @@ using std::vector;
 using dcp::raw_convert;
 
 
-/** @param r Resolution.
- *  @return Untranslated string representation.
- */
-string
-resolution_to_string (Resolution r)
-{
-	switch (r) {
-	case Resolution::TWO_K:
-		return "2K";
-	case Resolution::FOUR_K:
-		return "4K";
-	}
-
-	DCPOMATIC_ASSERT (false);
-	return "";
-}
-
-
-Resolution
-string_to_resolution (string s)
-{
-	if (s == "2K") {
-		return Resolution::TWO_K;
-	}
-
-	if (s == "4K") {
-		return Resolution::FOUR_K;
-	}
-
-	DCPOMATIC_ASSERT (false);
-	return Resolution::TWO_K;
-}
-
-
 TextType
 string_to_text_type (string s)
 {

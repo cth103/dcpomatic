@@ -190,14 +190,6 @@ struct CPLSummary
 	time_t last_write_time;
 };
 
-enum class Resolution {
-	TWO_K,
-	FOUR_K
-};
-
-std::string resolution_to_string (Resolution);
-Resolution string_to_resolution (std::string);
-
 enum class FileTransferProtocol {
 	SCP,
 	FTP
