@@ -809,6 +809,11 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto raw_name = name ();
 
+	auto to_upper = [](string s) {
+		transform(s.begin(), s.end(), s.begin(), ::toupper);
+		return s;
+	};
+
 	/* Split the raw name up into words */
 	vector<string> words;
 	split (words, raw_name, is_any_of (" _-"));

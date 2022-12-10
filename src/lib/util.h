@@ -55,7 +55,6 @@ namespace dcp {
 extern std::string program_name;
 extern bool is_batch_converter;
 
-struct AVSubtitle;
 class AudioBuffers;
 class TextDecoder;
 
@@ -80,25 +79,19 @@ extern boost::filesystem::path mo_path ();
 extern std::string tidy_for_filename (std::string);
 extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 extern void set_backtrace_file (boost::filesystem::path);
-extern std::map<std::string, std::string> split_get_request (std::string url);
 extern std::string video_asset_filename (std::shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern std::string audio_asset_filename (std::shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern std::string subtitle_asset_filename (std::shared_ptr<dcp::SubtitleAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary, std::string extension);
 extern std::string atmos_asset_filename (std::shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
-extern float relaxed_string_to_float (std::string);
 extern std::string careful_string_filter (std::string);
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
 extern std::shared_ptr<AudioBuffers> remap (std::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
-extern Eyes increment_eyes (Eyes e);
 extern size_t utf8_strlen (std::string s);
-extern std::string day_of_week_to_string (boost::gregorian::greg_weekday d);
 extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, std::shared_ptr<TextDecoder> decoder);
-extern bool show_jobs_on_console (bool progress);
 extern void copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)>);
 extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta);
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
-extern std::string to_upper (std::string s);
 extern void start_of_thread (std::string name);
 extern void capture_asdcp_logs ();
 extern std::string error_details(boost::system::error_code ec);

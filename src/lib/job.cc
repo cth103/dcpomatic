@@ -514,6 +514,27 @@ Job::status () const
 	int const t = elapsed_sub_time ();
 	int const r = remaining_time ();
 
+	auto day_of_week_to_string = [](boost::gregorian::greg_weekday d) -> std::string {
+		switch (d.as_enum()) {
+		case boost::date_time::Sunday:
+			return _("Sunday");
+		case boost::date_time::Monday:
+			return _("Monday");
+		case boost::date_time::Tuesday:
+			return _("Tuesday");
+		case boost::date_time::Wednesday:
+			return _("Wednesday");
+		case boost::date_time::Thursday:
+			return _("Thursday");
+		case boost::date_time::Friday:
+			return _("Friday");
+		case boost::date_time::Saturday:
+			return _("Saturday");
+		}
+
+		return d.as_long_string();
+	};
+
 	string s;
 	if (!finished () && p) {
 		int pc = lrintf (p.get() * 100);

@@ -932,6 +932,18 @@ Player::open_subtitles_for_frame (DCPTime time) const
 }
 
 
+static
+Eyes
+increment_eyes (Eyes e)
+{
+	if (e == Eyes::LEFT) {
+		return Eyes::RIGHT;
+	}
+
+	return Eyes::LEFT;
+}
+
+
 void
 Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 {

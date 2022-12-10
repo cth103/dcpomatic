@@ -20,10 +20,11 @@
 
 #include "gain_calculator_dialog.h"
 #include "wx_util.h"
-#include "lib/util.h"
 #include "lib/cinema_sound_processor.h"
 
+
 using boost::optional;
+
 
 GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
 	: TableDialog (parent, _("Gain Calculator"), 2, 1, true)
@@ -50,8 +51,18 @@ optional<float>
 GainCalculatorDialog::db_change () const
 {
 	if (_wanted->GetValue().IsEmpty() || _actual->GetValue().IsEmpty()) {
-		return optional<float>();
+		return {};
 	}
+
+	auto relaxed_string_to_float = [](std::string s) {
+		try {
+			boost::algorithm::replace_all(s, ",", ".");
+			return boost::lexical_cast<float>(s);
+		} catch (boost::bad_lexical_cast &) {
+			boost::algorithm::replace_all(s, ".", ",");
+			return boost::lexical_cast<float>(s);
+		}
+	};
 
 	return CinemaSoundProcessor::from_index(
 		_processor->GetSelection())->db_for_fader_change(

@@ -663,53 +663,6 @@ fit_ratio_within (float ratio, dcp::Size full_frame)
 	return dcp::Size (full_frame.width, lrintf (full_frame.width / ratio));
 }
 
-map<string, string>
-split_get_request (string url)
-{
-	enum {
-		AWAITING_QUESTION_MARK,
-		KEY,
-		VALUE
-	} state = AWAITING_QUESTION_MARK;
-
-	map<string, string> r;
-	string k;
-	string v;
-	for (size_t i = 0; i < url.length(); ++i) {
-		switch (state) {
-		case AWAITING_QUESTION_MARK:
-			if (url[i] == '?') {
-				state = KEY;
-			}
-			break;
-		case KEY:
-			if (url[i] == '=') {
-				v.clear ();
-				state = VALUE;
-			} else {
-				k += url[i];
-			}
-			break;
-		case VALUE:
-			if (url[i] == '&') {
-				r.insert (make_pair (k, v));
-				k.clear ();
-				state = KEY;
-			} else {
-				v += url[i];
-			}
-			break;
-		}
-	}
-
-	if (state == VALUE) {
-		r.insert (make_pair (k, v));
-	}
-
-	return r;
-}
-
-
 static
 string
 asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int reel_count, optional<string> summary, string extension)
@@ -752,18 +705,6 @@ atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int ree
 	return asset_filename(asset, "atmos", reel_index, reel_count, summary, ".mxf");
 }
 
-
-float
-relaxed_string_to_float (string s)
-{
-	try {
-		boost::algorithm::replace_all (s, ",", ".");
-		return lexical_cast<float> (s);
-	} catch (bad_lexical_cast &) {
-		boost::algorithm::replace_all (s, ".", ",");
-		return lexical_cast<float> (s);
-	}
-}
 
 string
 careful_string_filter (string s)
@@ -904,28 +845,6 @@ utf8_strlen (string s)
 	return N;
 }
 
-string
-day_of_week_to_string (boost::gregorian::greg_weekday d)
-{
-	switch (d.as_enum()) {
-	case boost::date_time::Sunday:
-		return _("Sunday");
-	case boost::date_time::Monday:
-		return _("Monday");
-	case boost::date_time::Tuesday:
-		return _("Tuesday");
-	case boost::date_time::Wednesday:
-		return _("Wednesday");
-	case boost::date_time::Thursday:
-		return _("Thursday");
-	case boost::date_time::Friday:
-		return _("Friday");
-	case boost::date_time::Saturday:
-		return _("Saturday");
-	}
-
-	return d.as_long_string ();
-}
 
 /** @param size Size of picture that the subtitle will be overlaid onto */
 void
@@ -966,60 +885,6 @@ emit_subtitle_image (ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size
 	decoder->emit_bitmap (period, image, rect);
 }
 
-bool
-show_jobs_on_console (bool progress)
-{
-	bool first = true;
-	bool error = false;
-	while (true) {
-
-		dcpomatic_sleep_seconds (5);
-
-		auto jobs = JobManager::instance()->get();
-
-		if (!first && progress) {
-			for (size_t i = 0; i < jobs.size(); ++i) {
-				cout << "\033[1A\033[2K";
-			}
-			cout.flush ();
-		}
-
-		first = false;
-
-		for (auto i: jobs) {
-			if (progress) {
-				cout << i->name();
-				if (!i->sub_name().empty()) {
-					cout << "; " << i->sub_name();
-				}
-				cout << ": ";
-
-				if (i->progress ()) {
-					cout << i->status() << "			    \n";
-				} else {
-					cout << ": Running	     \n";
-				}
-			}
-
-			if (!progress && i->finished_in_error()) {
-				/* We won't see this error if we haven't been showing progress,
-				   so show it now.
-				*/
-				cout << i->status() << "\n";
-			}
-
-			if (i->finished_in_error()) {
-				error = true;
-			}
-		}
-
-		if (!JobManager::instance()->work_to_do()) {
-			break;
-		}
-	}
-
-	return error;
-}
 
 /** XXX: could use mmap? */
 void
@@ -1127,14 +992,6 @@ default_font_file ()
 	}
 
 	return liberation_normal;
-}
-
-
-string
-to_upper (string s)
-{
-	transform (s.begin(), s.end(), s.begin(), ::toupper);
-	return s;
 }
 
 

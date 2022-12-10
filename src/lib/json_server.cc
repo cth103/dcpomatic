@@ -24,7 +24,6 @@
 #include "job_manager.h"
 #include "json_server.h"
 #include "transcode_job.h"
-#include "util.h"
 #include <dcp/raw_convert.h>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
@@ -149,6 +148,53 @@ JSONServer::handle (shared_ptr<tcp::socket> socket)
 			++p;
 		}
 	}
+}
+
+
+map<string, string>
+split_get_request(string url)
+{
+	enum {
+		AWAITING_QUESTION_MARK,
+		KEY,
+		VALUE
+	} state = AWAITING_QUESTION_MARK;
+
+	map<string, string> r;
+	string k;
+	string v;
+	for (size_t i = 0; i < url.length(); ++i) {
+		switch (state) {
+		case AWAITING_QUESTION_MARK:
+			if (url[i] == '?') {
+				state = KEY;
+			}
+			break;
+		case KEY:
+			if (url[i] == '=') {
+				v.clear();
+				state = VALUE;
+			} else {
+				k += url[i];
+			}
+			break;
+		case VALUE:
+			if (url[i] == '&') {
+				r.insert(make_pair(k, v));
+				k.clear ();
+				state = KEY;
+			} else {
+				v += url[i];
+			}
+			break;
+		}
+	}
+
+	if (state == VALUE) {
+		r.insert (make_pair (k, v));
+	}
+
+	return r;
 }
 
 

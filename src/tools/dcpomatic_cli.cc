@@ -196,6 +196,62 @@ list_servers ()
 }
 
 
+bool
+show_jobs_on_console (bool progress)
+{
+	bool first = true;
+	bool error = false;
+	while (true) {
+
+		dcpomatic_sleep_seconds (5);
+
+		auto jobs = JobManager::instance()->get();
+
+		if (!first && progress) {
+			for (size_t i = 0; i < jobs.size(); ++i) {
+				cout << "\033[1A\033[2K";
+			}
+			cout.flush ();
+		}
+
+		first = false;
+
+		for (auto i: jobs) {
+			if (progress) {
+				cout << i->name();
+				if (!i->sub_name().empty()) {
+					cout << "; " << i->sub_name();
+				}
+				cout << ": ";
+
+				if (i->progress ()) {
+					cout << i->status() << "			    \n";
+				} else {
+					cout << ": Running	     \n";
+				}
+			}
+
+			if (!progress && i->finished_in_error()) {
+				/* We won't see this error if we haven't been showing progress,
+				   so show it now.
+				*/
+				cout << i->status() << "\n";
+			}
+
+			if (i->finished_in_error()) {
+				error = true;
+			}
+		}
+
+		if (!JobManager::instance()->work_to_do()) {
+			break;
+		}
+	}
+
+	return error;
+}
+
+
 int
 main (int argc, char* argv[])
 {
