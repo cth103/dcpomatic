@@ -43,5 +43,5 @@ private:
 	std::vector<std::shared_ptr<const dcp::Subtitle>> _subtitles;
 	std::vector<std::shared_ptr<const dcp::Subtitle>>::const_iterator _next;
 
-	dcp::Standard _standard;
+	dcp::SubtitleStandard _subtitle_standard;
 };

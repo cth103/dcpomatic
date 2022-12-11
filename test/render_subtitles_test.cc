@@ -66,7 +66,7 @@ add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool un
 				),
 			2,
 			std::shared_ptr<dcpomatic::Font>(),
-			dcp::Standard::SMPTE
+			dcp::SubtitleStandard::SMPTE_2014
 			)
 		);
 }

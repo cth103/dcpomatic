@@ -47,11 +47,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	_subtitles = asset->subtitles ();
 	_next = _subtitles.begin ();
 
-	if (dynamic_pointer_cast<dcp::InteropSubtitleAsset>(asset)) {
-		_standard = dcp::Standard::INTEROP;
-	} else {
-		_standard = dcp::Standard::SMPTE;
-	}
+	_subtitle_standard = asset->subtitle_standard();
 
 	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
 	update_position();
@@ -109,7 +105,7 @@ DCPSubtitleDecoder::pass ()
 		}
 	}
 
-	only_text()->emit_plain(p, s, _standard);
+	only_text()->emit_plain(p, s, _subtitle_standard);
 
 	update_position();
 

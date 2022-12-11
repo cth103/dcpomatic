@@ -253,7 +253,8 @@ y_position (StringText const& first, int target_height, int baseline_to_bottom, 
 {
 	int y = 0;
 	switch (first.valign_standard) {
-	case dcp::Standard::INTEROP:
+	case dcp::SubtitleStandard::INTEROP:
+	case dcp::SubtitleStandard::SMPTE_2014:
 		switch (first.v_align()) {
 		case dcp::VAlign::TOP:
 			/* v_position is distance from top of frame to subtitle baseline */
@@ -269,7 +270,8 @@ y_position (StringText const& first, int target_height, int baseline_to_bottom, 
 			break;
 		}
 		break;
-	case dcp::Standard::SMPTE:
+	case dcp::SubtitleStandard::SMPTE_2007:
+	case dcp::SubtitleStandard::SMPTE_2010:
 		switch (first.v_align()) {
 		case dcp::VAlign::TOP:
 			/* v_position is distance from top of frame to top of subtitle */
