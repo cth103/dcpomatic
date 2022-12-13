@@ -357,8 +357,8 @@ from_dkdm (
 			int const offset_hour = i->cinema ? i->cinema->utc_offset_hour() : 0;
 			int const offset_minute = i->cinema ? i->cinema->utc_offset_minute() : 0;
 
-			dcp::LocalTime begin(valid_from, offset_hour, offset_minute);
-			dcp::LocalTime end(valid_to, offset_hour, offset_minute);
+			dcp::LocalTime begin(valid_from, dcp::UTCOffset(offset_hour, offset_minute));
+			dcp::LocalTime end(valid_to, dcp::UTCOffset(offset_hour, offset_minute));
 
 			auto const kdm = kdm_from_dkdm(
 							dkdm,

@@ -350,8 +350,8 @@ private:
 						continue;
 					}
 
-					dcp::LocalTime begin(_timing->from(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
-					dcp::LocalTime end(_timing->until(), i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute());
+					dcp::LocalTime begin(_timing->from(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
+					dcp::LocalTime end(_timing->until(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
 
 					/* Make an empty KDM */
 					dcp::DecryptedKDM kdm (

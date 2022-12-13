@@ -88,8 +88,8 @@ kdm_for_screen (
 	}
 
 	auto cinema = screen->cinema;
-	dcp::LocalTime const begin(valid_from, cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
-	dcp::LocalTime const end  (valid_to,   cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0);
+	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
+	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
 
 	auto const kdm = film->make_kdm (
 			screen->recipient.get(),

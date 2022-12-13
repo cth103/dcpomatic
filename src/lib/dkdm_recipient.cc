@@ -23,6 +23,7 @@
 #include "film.h"
 #include "kdm_with_metadata.h"
 #include <dcp/raw_convert.h>
+#include <dcp/utc_offset.h>
 
 
 using std::make_shared;
@@ -71,8 +72,8 @@ kdm_for_dkdm_recipient (
 		return {};
 	}
 
-	dcp::LocalTime const begin(valid_from, recipient->utc_offset_hour, recipient->utc_offset_minute);
-	dcp::LocalTime const end  (valid_to,   recipient->utc_offset_hour, recipient->utc_offset_minute);
+	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(recipient->utc_offset_hour, recipient->utc_offset_minute));
+	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(recipient->utc_offset_hour, recipient->utc_offset_minute));
 
 	auto const kdm = film->make_kdm (
 			recipient->recipient.get(),
