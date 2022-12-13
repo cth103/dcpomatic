@@ -22,7 +22,6 @@
 #include "audio_analyser.h"
 #include "signaller.h"
 #include "player_text.h"
-#include "types.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
 #include "weak_film.h"

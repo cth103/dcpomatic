@@ -111,32 +111,6 @@ enum class ReelType
 };
 
 
-/** Type of captions.
- *
- *  The generally accepted definitions seem to be:
- *  - subtitles: text for an audience who doesn't speak the film's language
- *  - captions:  text for a hearing-impaired audience
- *  - open:      on-screen
- *  - closed:    only visible by some audience members
- *
- *  At the moment DoM supports open subtitles and closed captions.
- *
- *  There is some use of the word `subtitle' in the code which may mean
- *  caption in some contexts.
- */
-enum class TextType
-{
-	UNKNOWN,
-	OPEN_SUBTITLE,
-	CLOSED_CAPTION,
-	COUNT
-};
-
-extern std::string text_type_to_string (TextType t);
-extern std::string text_type_to_name (TextType t);
-extern TextType string_to_text_type (std::string s);
-
-
 struct CPLSummary
 {
 	CPLSummary (boost::filesystem::path p);

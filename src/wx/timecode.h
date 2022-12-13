@@ -25,7 +25,6 @@
 
 #include "wx_util.h"
 #include "lib/dcpomatic_time.h"
-#include "lib/types.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

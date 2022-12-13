@@ -25,7 +25,6 @@
 
 #include "dcpomatic_time.h"
 #include "player_video.h"
-#include "types.h"
 #include <boost/thread/mutex.hpp>
 #include <utility>
 

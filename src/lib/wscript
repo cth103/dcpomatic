@@ -181,6 +181,7 @@ sources = """
           subtitle_analysis.cc
           subtitle_encoder.cc
           text_ring_buffers.cc
+          text_type.cc
           timer.cc
           transcode_job.cc
           trusted_device.cc

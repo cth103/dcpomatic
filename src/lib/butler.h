@@ -28,6 +28,7 @@
 #include "change_signaller.h"
 #include "exception_store.h"
 #include "text_ring_buffers.h"
+#include "text_type.h"
 #include "video_ring_buffers.h"
 #include <boost/asio.hpp>
 #include <boost/signals2.hpp>

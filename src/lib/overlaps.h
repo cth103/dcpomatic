@@ -19,8 +19,8 @@
 */
 
 
-#include "types.h"
 #include "dcpomatic_time.h"
+#include "types.h"
 
 
 class ContentPart;

@@ -37,6 +37,7 @@
 #include "resolution.h"
 #include "signaller.h"
 #include "transcode_job.h"
+#include "types.h"
 #include "util.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/file.h>

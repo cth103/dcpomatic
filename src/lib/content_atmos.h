@@ -18,12 +18,15 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONTENT_ATMOS_H
 #define DCPOMATIC_CONTENT_ATMOS_H
+
 
 #include "atmos_metadata.h"
 #include "types.h"
 #include <dcp/atmos_asset_reader.h>
+
 
 /** @class ContentAtmos
  *  @brief Some Atmos data that has come out of a decoder.

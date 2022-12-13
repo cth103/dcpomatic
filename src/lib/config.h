@@ -31,7 +31,6 @@
 #include "export_config.h"
 #include "rough_duration.h"
 #include "state.h"
-#include "types.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>

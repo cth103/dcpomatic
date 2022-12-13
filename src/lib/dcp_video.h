@@ -23,6 +23,7 @@
 #include "resolution.h"
 #include <libcxml/cxml.h>
 #include <dcp/array_data.h>
+#include <dcp/openjpeg_image.h>
 
 
 /** @file  src/dcp_video_frame.h

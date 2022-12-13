@@ -25,7 +25,6 @@
 
 #include "player.h"
 #include "player_text.h"
-#include "types.h"
 #include <boost/signals2.hpp>
 
 

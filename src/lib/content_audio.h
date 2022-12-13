@@ -18,15 +18,19 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONTENT_AUDIO_H
 #define DCPOMATIC_CONTENT_AUDIO_H
+
 
 /** @file  src/lib/content_audio.h
  *  @brief ContentAudio class.
  */
 
+
 #include "audio_buffers.h"
 #include "types.h"
+
 
 /** @class ContentAudio
  *  @brief A block of audio from a piece of content, with a timestamp as a frame within that content.
@@ -42,5 +46,6 @@ public:
 	std::shared_ptr<const AudioBuffers> audio;
 	Frame frame;
 };
+
 
 #endif

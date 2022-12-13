@@ -33,7 +33,6 @@
 #include "filter.h"
 #include "log.h"
 #include "ratio.h"
-#include "types.h"
 #include "zipper.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/name_format.h>

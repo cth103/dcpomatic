@@ -24,7 +24,6 @@
 
 
 #include "content_video.h"
-#include "types.h"
 #include <boost/signals2.hpp>
 
 

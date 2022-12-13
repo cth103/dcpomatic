@@ -18,12 +18,16 @@
 
 */
 
+
 #ifndef DCPOMATIC_CONTENT_VIDEO_H
 #define DCPOMATIC_CONTENT_VIDEO_H
 
+
 #include "types.h"
 
+
 class ImageProxy;
+
 
 /** @class ContentVideo
  *  @brief A frame of video straight out of some content.

@@ -31,6 +31,7 @@
 #include "user_property.h"
 #include "video_frame_type.h"
 #include "video_range.h"
+#include "types.h"
 #include <dcp/language_tag.h>
 #include <boost/thread/mutex.hpp>
 

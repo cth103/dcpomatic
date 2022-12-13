@@ -25,7 +25,6 @@
 
 
 #include "pixel_quanta.h"
-#include "types.h"
 #include "video_content.h"
 #include <dcp/types.h>
 

@@ -25,7 +25,6 @@
 #include "encoder.h"
 #include "player_text.h"
 #include "j2k_encoder.h"
-#include "types.h"
 #include "writer.h"
 #include <dcp/atmos_frame.h>
 

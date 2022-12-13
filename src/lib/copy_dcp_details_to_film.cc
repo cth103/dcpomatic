@@ -18,21 +18,21 @@
 
 */
 
+
+#include "audio_content.h"
 #include "copy_dcp_details_to_film.h"
 #include "dcp_content.h"
-#include "film.h"
-#include "types.h"
-#include "video_content.h"
-#include "audio_content.h"
-#include "ratio.h"
 #include "dcp_content_type.h"
+#include "film.h"
+#include "ratio.h"
+#include "video_content.h"
 #include <map>
 
 
 using std::map;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
 
 
 void

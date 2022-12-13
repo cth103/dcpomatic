@@ -19,7 +19,6 @@
 */
 
 #include "image_proxy.h"
-#include "types.h"
 #include <dcp/array_data.h>
 #include <boost/thread/mutex.hpp>
 #include <boost/filesystem.hpp>

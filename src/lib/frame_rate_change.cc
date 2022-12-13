@@ -23,7 +23,6 @@
 #include "content.h"
 #include "film.h"
 #include "frame_rate_change.h"
-#include "types.h"
 #include <cmath>
 
 #include "i18n.h"

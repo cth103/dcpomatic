@@ -18,11 +18,14 @@
 
 */
 
+
 #ifndef DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 #define DCPOMATIC_ENCODE_SERVER_DESCRIPTION_H
 
+
 #include "types.h"
 #include <boost/date_time/posix_time/posix_time.hpp>
+
 
 /** @class EncodeServerDescription
  *  @brief Class to describe a server to which we can send encoding work.

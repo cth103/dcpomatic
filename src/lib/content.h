@@ -31,8 +31,8 @@
 #include "change_signaller.h"
 #include "dcpomatic_time.h"
 #include "signaller.h"
-#include "types.h"
 #include "user_property.h"
+#include "text_type.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>

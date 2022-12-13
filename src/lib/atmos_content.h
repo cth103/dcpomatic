@@ -20,6 +20,7 @@
 
 
 #include "content_part.h"
+#include "types.h"
 
 
 class Content;

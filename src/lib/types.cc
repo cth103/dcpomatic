@@ -43,50 +43,6 @@ using std::vector;
 using dcp::raw_convert;
 
 
-TextType
-string_to_text_type (string s)
-{
-	if (s == "unknown") {
-		return TextType::UNKNOWN;
-	} else if (s == "open-subtitle") {
-		return TextType::OPEN_SUBTITLE;
-	} else if (s == "closed-caption") {
-		return TextType::CLOSED_CAPTION;
-	} else {
-		throw MetadataError (String::compose ("Unknown text type %1", s));
-	}
-}
-
-string
-text_type_to_string (TextType t)
-{
-	switch (t) {
-	case TextType::UNKNOWN:
-		return "unknown";
-	case TextType::OPEN_SUBTITLE:
-		return "open-subtitle";
-	case TextType::CLOSED_CAPTION:
-		return "closed-caption";
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-}
-
-string
-text_type_to_name (TextType t)
-{
-	switch (t) {
-	case TextType::UNKNOWN:
-		return _("Timed text");
-	case TextType::OPEN_SUBTITLE:
-		return _("Open subtitles");
-	case TextType::CLOSED_CAPTION:
-		return _("Closed captions");
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-}
-
 CPLSummary::CPLSummary (boost::filesystem::path p)
 	: dcp_directory (p.leaf().string())
 {

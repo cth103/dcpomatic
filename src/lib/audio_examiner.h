@@ -25,8 +25,6 @@
  *  @brief AudioExaminer class.
  */
 
-#include "types.h"
-
 /** @class AudioExaminer
  *  @brief Parent for classes which examine AudioContent for their pertinent details.
  */

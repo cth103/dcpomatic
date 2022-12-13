@@ -19,8 +19,8 @@
 */
 
 
-#include "types.h"
 #include <samplerate.h>
+#include <memory>
 
 
 class AudioBuffers;

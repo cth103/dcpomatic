@@ -20,8 +20,8 @@
 
 
 #include "job.h"
-#include "types.h"
 #include "player_text.h"
+#include "text_type.h"
 
 
 class Film;

@@ -24,8 +24,8 @@
 
 
 #include "audio_buffers.h"
-#include "types.h"
 #include "dcpomatic_time.h"
+#include "types.h"
 #include <boost/thread.hpp>
 #include <list>
 
