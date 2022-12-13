@@ -27,7 +27,6 @@
 #include "player_text.h"
 #include "referenced_reel_asset.h"
 #include "render_text.h"
-#include "types.h"
 #include "weak_film.h"
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/file.h>

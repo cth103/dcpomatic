@@ -25,7 +25,6 @@
 
 #include "dcpomatic_time.h"
 #include "frame_rate_change.h"
-#include "types.h"
 
 
 class Content;

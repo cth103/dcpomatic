@@ -19,24 +19,24 @@
 */
 
 
-#include "content.h"
-#include "overlaps.h"
+#ifndef DCPOMATIC_VIDEO_RANGE_H
+#define DCPOMATIC_VIDEO_RANGE_H
 
 
-using std::function;
-using std::shared_ptr;
-using namespace dcpomatic;
+#include <string>
 
 
-ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
+enum class VideoRange
 {
-	ContentList overlaps;
-	DCPTimePeriod period (from, to);
-	for (auto i: cl) {
-		if (part(i) && DCPTimePeriod(i->position(), i->end(film)).overlap(period)) {
-			overlaps.push_back (i);
-		}
-	}
+	FULL, ///< full,  or "JPEG" (0-255 for 8-bit)
+	VIDEO ///< video, or "MPEG" (16-235 for 8-bit)
+};
 
-	return overlaps;
-}
+
+extern std::string video_range_to_string(VideoRange r);
+extern VideoRange string_to_video_range(std::string s);
+
+
+#endif
+
+

@@ -28,6 +28,7 @@
 #include "content_widget.h"
 #include "timecode.h"
 #include "lib/film.h"
+#include "lib/video_frame_type.h"
 
 
 class CheckBox;

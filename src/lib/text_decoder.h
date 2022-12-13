@@ -25,7 +25,6 @@
 
 #include "decoder.h"
 #include "rect.h"
-#include "types.h"
 #include "content_text.h"
 #include "decoder_part.h"
 #include <dcp/subtitle_string.h>

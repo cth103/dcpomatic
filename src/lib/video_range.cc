@@ -19,24 +19,38 @@
 */
 
 
-#include "content.h"
-#include "overlaps.h"
+#include "dcpomatic_assert.h"
+#include "video_range.h"
 
 
-using std::function;
-using std::shared_ptr;
-using namespace dcpomatic;
+using std::string;
 
 
-ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
+string
+video_range_to_string(VideoRange r)
 {
-	ContentList overlaps;
-	DCPTimePeriod period (from, to);
-	for (auto i: cl) {
-		if (part(i) && DCPTimePeriod(i->position(), i->end(film)).overlap(period)) {
-			overlaps.push_back (i);
-		}
+	switch (r) {
+	case VideoRange::FULL:
+		return "full";
+	case VideoRange::VIDEO:
+		return "video";
+	default:
+		DCPOMATIC_ASSERT (false);
+	}
+}
+
+
+VideoRange
+string_to_video_range(string s)
+{
+	if (s == "full") {
+		return VideoRange::FULL;
+	} else if (s == "video") {
+		return VideoRange::VIDEO;
 	}
 
-	return overlaps;
+	DCPOMATIC_ASSERT (false);
+	return VideoRange::FULL;
 }
+
+

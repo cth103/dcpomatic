@@ -22,7 +22,6 @@
 #include "content_menu.h"
 #include "lib/enum_indexed_vector.h"
 #include "lib/film.h"
-#include "lib/types.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/splitter.h>

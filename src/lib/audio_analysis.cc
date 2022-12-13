@@ -20,10 +20,10 @@
 
 
 #include "audio_analysis.h"
-#include "cross.h"
-#include "util.h"
-#include "playlist.h"
 #include "audio_content.h"
+#include "cross.h"
+#include "playlist.h"
+#include "util.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

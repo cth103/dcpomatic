@@ -19,12 +19,14 @@
 */
 
 
-#include "lib/types.h"
+#include "lib/video_frame_type.h"
+#include <dcp/types.h>
 #include <dcp/verify.h>
 #include <boost/filesystem.hpp>
 #include <vector>
 
 
+class Content;
 class Film;
 class Image;
 class Log;

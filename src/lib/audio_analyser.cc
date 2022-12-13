@@ -30,7 +30,6 @@
 #include "film.h"
 #include "filter.h"
 #include "playlist.h"
-#include "types.h"
 #include <dcp/warnings.h>
 extern "C" {
 #include <leqm_nrt.h>

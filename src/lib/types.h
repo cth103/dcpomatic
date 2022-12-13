@@ -86,23 +86,6 @@ typedef std::vector<std::shared_ptr<FFmpegContent>> FFmpegContentList;
 
 typedef int64_t Frame;
 
-enum class VideoFrameType
-{
-	TWO_D,
-	/** `True' 3D content, e.g. 3D DCPs */
-	THREE_D,
-	THREE_D_LEFT_RIGHT,
-	THREE_D_TOP_BOTTOM,
-	THREE_D_ALTERNATE,
-	/** This content is all the left frames of some 3D */
-	THREE_D_LEFT,
-	/** This content is all the right frames of some 3D */
-	THREE_D_RIGHT
-};
-
-std::string video_frame_type_to_string (VideoFrameType);
-VideoFrameType string_to_video_frame_type (std::string);
-
 enum class Eyes
 {
 	BOTH,
@@ -126,16 +109,6 @@ enum class ReelType
 	BY_VIDEO_CONTENT,
 	BY_LENGTH
 };
-
-
-enum class VideoRange
-{
-	FULL, ///< full,  or "JPEG" (0-255 for 8-bit)
-	VIDEO ///< video, or "MPEG" (16-235 for 8-bit)
-};
-
-extern std::string video_range_to_string (VideoRange r);
-extern VideoRange string_to_video_range (std::string s);
 
 
 /** Type of captions.

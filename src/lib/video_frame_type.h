@@ -19,24 +19,30 @@
 */
 
 
-#include "content.h"
-#include "overlaps.h"
+#ifndef DCPOMATIC_VIDEO_FRAME_TYPE_H
+#define DCPOMATIC_VIDEO_FRAME_TYPE_H
 
 
-using std::function;
-using std::shared_ptr;
-using namespace dcpomatic;
+#include <string>
 
 
-ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool (shared_ptr<const Content>)> part, DCPTime from, DCPTime to)
+enum class VideoFrameType
 {
-	ContentList overlaps;
-	DCPTimePeriod period (from, to);
-	for (auto i: cl) {
-		if (part(i) && DCPTimePeriod(i->position(), i->end(film)).overlap(period)) {
-			overlaps.push_back (i);
-		}
-	}
+	TWO_D,
+	/** `True' 3D content, e.g. 3D DCPs */
+	THREE_D,
+	THREE_D_LEFT_RIGHT,
+	THREE_D_TOP_BOTTOM,
+	THREE_D_ALTERNATE,
+	/** This content is all the left frames of some 3D */
+	THREE_D_LEFT,
+	/** This content is all the right frames of some 3D */
+	THREE_D_RIGHT
+};
 
-	return overlaps;
-}
+
+std::string video_frame_type_to_string(VideoFrameType);
+VideoFrameType string_to_video_frame_type(std::string);
+
+
+#endif

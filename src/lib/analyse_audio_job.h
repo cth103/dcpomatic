@@ -25,10 +25,9 @@
 
 
 #include "audio_analyser.h"
-#include "job.h"
 #include "audio_point.h"
-#include "types.h"
 #include "dcpomatic_time.h"
+#include "job.h"
 #include <leqm_nrt.h>
 #include <boost/scoped_ptr.hpp>
 

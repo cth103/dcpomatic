@@ -25,7 +25,6 @@
 
 #include "timeline_view.h"
 #include "lib/change_signaller.h"
-#include "lib/types.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>

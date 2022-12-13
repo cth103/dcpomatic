@@ -50,6 +50,9 @@ namespace cxml {
 class Job;
 class Film;
 class AtmosContent;
+class AudioContent;
+class TextContent;
+class VideoContent;
 
 class ContentProperty
 {

@@ -23,7 +23,6 @@
 #include "dcpomatic_spin_ctrl.h"
 #include "wx_util.h"
 #include "lib/config.h"
-#include "lib/types.h"
 
 
 AutoCropDialog::AutoCropDialog (wxWindow* parent, Crop crop)

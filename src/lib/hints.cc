@@ -35,7 +35,6 @@
 #include "player.h"
 #include "ratio.h"
 #include "text_content.h"
-#include "types.h"
 #include "video_content.h"
 #include "writer.h"
 #include <dcp/cpl.h>

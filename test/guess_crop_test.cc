@@ -22,7 +22,6 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/guess_crop.h"
-#include "lib/types.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>

@@ -25,7 +25,6 @@
 #include "font_config.h"
 #include "image.h"
 #include "render_text.h"
-#include "types.h"
 #include "util.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>

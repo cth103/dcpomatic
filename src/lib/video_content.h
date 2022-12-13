@@ -29,6 +29,8 @@
 #include "dcpomatic_time.h"
 #include "pixel_quanta.h"
 #include "user_property.h"
+#include "video_frame_type.h"
+#include "video_range.h"
 #include <dcp/language_tag.h>
 #include <boost/thread/mutex.hpp>
 

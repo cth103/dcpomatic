@@ -87,53 +87,6 @@ text_type_to_name (TextType t)
 	}
 }
 
-string
-video_frame_type_to_string (VideoFrameType t)
-{
-	switch (t) {
-	case VideoFrameType::TWO_D:
-		return "2d";
-	case VideoFrameType::THREE_D:
-		return "3d";
-	case VideoFrameType::THREE_D_LEFT_RIGHT:
-		return "3d-left-right";
-	case VideoFrameType::THREE_D_TOP_BOTTOM:
-		return "3d-top-bottom";
-	case VideoFrameType::THREE_D_ALTERNATE:
-		return "3d-alternate";
-	case VideoFrameType::THREE_D_LEFT:
-		return "3d-left";
-	case VideoFrameType::THREE_D_RIGHT:
-		return "3d-right";
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-
-	DCPOMATIC_ASSERT (false);
-}
-
-VideoFrameType
-string_to_video_frame_type (string s)
-{
-	if (s == "2d") {
-		return VideoFrameType::TWO_D;
-	} else if (s == "3d") {
-		return VideoFrameType::THREE_D;
-	} else if (s == "3d-left-right") {
-		return VideoFrameType::THREE_D_LEFT_RIGHT;
-	} else if (s == "3d-top-bottom") {
-		return VideoFrameType::THREE_D_TOP_BOTTOM;
-	} else if (s == "3d-alternate") {
-		return VideoFrameType::THREE_D_ALTERNATE;
-	} else if (s == "3d-left") {
-		return VideoFrameType::THREE_D_LEFT;
-	} else if (s == "3d-right") {
-		return VideoFrameType::THREE_D_RIGHT;
-	}
-
-	DCPOMATIC_ASSERT (false);
-}
-
 CPLSummary::CPLSummary (boost::filesystem::path p)
 	: dcp_directory (p.leaf().string())
 {
@@ -166,31 +119,4 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	last_write_time = ec ? 0 : last_write;
 }
 
-
-string
-video_range_to_string (VideoRange r)
-{
-	switch (r) {
-	case VideoRange::FULL:
-		return "full";
-	case VideoRange::VIDEO:
-		return "video";
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-}
-
-
-VideoRange
-string_to_video_range (string s)
-{
-	if (s == "full") {
-		return VideoRange::FULL;
-	} else if (s == "video") {
-		return VideoRange::VIDEO;
-	}
-
-	DCPOMATIC_ASSERT (false);
-	return VideoRange::FULL;
-}
 

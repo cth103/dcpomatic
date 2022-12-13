@@ -19,7 +19,7 @@
 */
 
 
-#include "types.h"
+#include "video_frame_type.h"
 #include <dcp/types.h>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>

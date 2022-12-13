@@ -29,7 +29,7 @@
 #include "crop.h"
 #include "position.h"
 #include "position_image.h"
-#include "types.h"
+#include "video_range.h"
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
