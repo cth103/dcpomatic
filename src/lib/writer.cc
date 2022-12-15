@@ -676,8 +676,8 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	auto active_area = film()->active_area();
 	if (active_area.width > 0 && active_area.height > 0) {
-		/* It's not allowed to have a zero active area width or height */
-		cpl->set_main_picture_active_area (active_area);
+		/* It's not allowed to have a zero active area width or height, and the sizes must be multiples of 2 */
+		cpl->set_main_picture_active_area({ active_area.width & ~1, active_area.height & ~1});
 	}
 
 	auto sl = film()->subtitle_languages().second;

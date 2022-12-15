@@ -380,6 +380,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INVALID_CONTENT_KIND:
 			add(i, _("An invalid <ContentKind> %n has been used."));
 			break;
+		case dcp::VerificationNote::Code::INVALID_MAIN_PICTURE_ACTIVE_AREA:
+			add(i, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));
+			break;
 		}
 	}
 

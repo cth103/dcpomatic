@@ -50,3 +50,22 @@ BOOST_AUTO_TEST_CASE (dcp_metadata_test)
 	BOOST_CHECK_EQUAL (cpls[0]->issuer(), "this is the issuer");
 }
 
+
+BOOST_AUTO_TEST_CASE(main_picture_active_area_test)
+{
+	auto content = content_factory(TestPaths::private_data() / "bbc405.png");
+	auto film = new_test_film2("main_picture_active_area_test", content);
+	film->set_resolution(Resolution::FOUR_K);
+	film->set_interop(false);
+
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	dcp::DCP dcp(film->dir(film->dcp_name()));
+	dcp.read();
+	auto cpls = dcp.cpls();
+	BOOST_REQUIRE_EQUAL(cpls.size(), 1U);
+
+	BOOST_REQUIRE(static_cast<bool>(cpls[0]->main_picture_active_area()));
+	BOOST_REQUIRE(cpls[0]->main_picture_active_area() == dcp::Size(2866, 2160));
+}
+
