@@ -639,10 +639,15 @@ private:
 
 	void file_add_ov ()
 	{
+		auto initial_dir = wxStandardPaths::Get().GetDocumentsDir();
+		if (Config::instance()->last_player_load_directory()) {
+			initial_dir = std_to_wx(Config::instance()->last_player_load_directory()->string());
+		}
+
 		auto c = new wxDirDialog (
 			this,
 			_("Select DCP to open as OV"),
-			wxStandardPaths::Get().GetDocumentsDir(),
+			initial_dir,
 			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
 			);
 		ScopeGuard sg = [c]() { c->Destroy(); };
