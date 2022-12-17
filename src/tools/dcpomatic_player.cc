@@ -56,6 +56,7 @@
 #include "lib/player.h"
 #include "lib/player_video.h"
 #include "lib/ratio.h"
+#include "lib/scope_guard.h"
 #include "lib/scoped_temporary.h"
 #include "lib/server.h"
 #include "lib/text_content.h"
@@ -617,6 +618,7 @@ private:
 		}
 
 		auto c = new wxDirDialog (this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		ScopeGuard sg = [c]() { c->Destroy(); };
 
 		int r;
 		while (true) {
@@ -633,8 +635,6 @@ private:
 			load_dcp (dcp);
 			Config::instance()->set_last_player_load_directory (dcp.parent_path());
 		}
-
-		c->Destroy ();
 	}
 
 	void file_add_ov ()
@@ -645,6 +645,7 @@ private:
 			wxStandardPaths::Get().GetDocumentsDir(),
 			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
 			);
+		ScopeGuard sg = [c]() { c->Destroy(); };
 
 		int r;
 		while (true) {
@@ -677,13 +678,13 @@ private:
 			}
 		}
 
-		c->Destroy ();
 		_info->triggered_update ();
 	}
 
 	void file_add_kdm ()
 	{
 		auto d = new wxFileDialog (this, _("Select KDM"));
+		ScopeGuard sg = [d]() { d->Destroy(); };
 
 		if (d->ShowModal() == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);
@@ -698,12 +699,10 @@ private:
 				}
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
-				d->Destroy ();
 				return;
 			}
 		}
 
-		d->Destroy ();
 		_info->triggered_update ();
 	}
 
