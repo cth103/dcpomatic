@@ -43,37 +43,22 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 {
 	video = make_shared<VideoDecoder>(this, content);
 
-	shared_ptr<dcp::MonoPictureAsset> mono;
 	try {
-		mono = make_shared<dcp::MonoPictureAsset>(_content->path(0));
-	} catch (dcp::MXFFileError& e) {
-		/* maybe it's stereo */
-	} catch (dcp::ReadError& e) {
-		/* maybe it's stereo */
-	}
-
-	shared_ptr<dcp::StereoPictureAsset> stereo;
-	try {
-		stereo = make_shared<dcp::StereoPictureAsset>(_content->path(0));
-	} catch (dcp::MXFFileError& e) {
-		if (!mono) {
-			throw;
-		}
-	} catch (dcp::ReadError& e) {
-		if (!mono) {
-			throw;
-		}
-	}
-
-	if (mono) {
+		auto mono = make_shared<dcp::MonoPictureAsset>(_content->path(0));
 		_mono_reader = mono->start_read ();
 		_mono_reader->set_check_hmac (false);
 		_size = mono->size ();
-	} else {
-		_stereo_reader = stereo->start_read ();
-		_stereo_reader->set_check_hmac (false);
-		_size = stereo->size ();
+		return;
+	} catch (dcp::MXFFileError& e) {
+		/* maybe it's stereo */
+	} catch (dcp::ReadError& e) {
+		/* maybe it's stereo */
 	}
+
+	auto stereo = make_shared<dcp::StereoPictureAsset>(_content->path(0));
+	_stereo_reader = stereo->start_read ();
+	_stereo_reader->set_check_hmac (false);
+	_size = stereo->size ();
 }
 
 
