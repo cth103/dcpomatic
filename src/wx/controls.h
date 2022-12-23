@@ -106,11 +106,11 @@ private:
 
 	typedef std::pair<std::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 
-	bool _slider_being_moved;
+	bool _slider_being_moved = false;
 
-	CheckBox* _outline_content;
-	wxChoice* _eye;
-	CheckBox* _jump_to_selected;
+	CheckBox* _outline_content = nullptr;
+	wxChoice* _eye = nullptr;
+	CheckBox* _jump_to_selected = nullptr;
 	wxButton* _rewind_button;
 	wxButton* _back_button;
 	wxButton* _forward_button;
