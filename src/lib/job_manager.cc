@@ -331,7 +331,7 @@ JobManager::pause ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	if (_paused) {
+	if (_paused_job) {
 		return;
 	}
 
@@ -340,8 +340,6 @@ JobManager::pause ()
 			_paused_job = i;
 		}
 	}
-
-	_paused = true;
 }
 
 
@@ -349,14 +347,11 @@ void
 JobManager::resume ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	if (!_paused) {
+
+	if (!_paused_job) {
 		return;
 	}
 
-	if (_paused_job) {
-		_paused_job->resume ();
-	}
-
-	_paused_job.reset ();
-	_paused = false;
+	_paused_job->resume();
+	_paused_job.reset();
 }

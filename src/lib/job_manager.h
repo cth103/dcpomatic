@@ -62,7 +62,7 @@ public:
 	void resume ();
 	bool paused () const {
 		boost::mutex::scoped_lock lm (_mutex);
-		return _paused;
+		return static_cast<bool>(_paused_job);
 	}
 
 	void analyse_audio (
@@ -104,7 +104,6 @@ private:
 	std::list<std::shared_ptr<Job>> _jobs;
 	std::list<boost::signals2::connection> _connections;
 	bool _terminate = false;
-	bool _paused = false;
 	std::shared_ptr<Job> _paused_job;
 
 	boost::optional<std::string> _last_active_job;
