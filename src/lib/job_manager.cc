@@ -295,50 +295,34 @@ JobManager::analyse_subtitles (
 void
 JobManager::increase_priority (shared_ptr<Job> job)
 {
-	bool changed = false;
-
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		auto last = _jobs.end ();
-		for (auto i = _jobs.begin(); i != _jobs.end(); ++i) {
-			if (*i == job && last != _jobs.end()) {
-				swap (*i, *last);
-				changed = true;
-				break;
-			}
-			last = i;
+		auto iter = std::find(_jobs.begin(), _jobs.end(), job);
+		if (iter == _jobs.begin() || iter == _jobs.end()) {
+			return;
 		}
+		swap(*iter, *std::prev(iter));
 	}
 
-	if (changed) {
-		_empty_condition.notify_all ();
-		emit (boost::bind(boost::ref(JobsReordered)));
-	}
+	_empty_condition.notify_all();
+	emit(boost::bind(boost::ref(JobsReordered)));
 }
 
 
 void
 JobManager::decrease_priority (shared_ptr<Job> job)
 {
-	bool changed = false;
-
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		for (auto i = _jobs.begin(); i != _jobs.end(); ++i) {
-			auto next = i;
-			++next;
-			if (*i == job && next != _jobs.end()) {
-				swap (*i, *next);
-				changed = true;
-				break;
-			}
+		auto iter = std::find(_jobs.begin(), _jobs.end(), job);
+		if (iter == _jobs.end() || std::next(iter) == _jobs.end()) {
+			return;
 		}
+		swap(*iter, *std::next(iter));
 	}
 
-	if (changed) {
-		_empty_condition.notify_all ();
-		emit (boost::bind(boost::ref(JobsReordered)));
-	}
+	_empty_condition.notify_all();
+	emit(boost::bind(boost::ref(JobsReordered)));
 }
 
 
