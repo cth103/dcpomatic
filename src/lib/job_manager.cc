@@ -75,7 +75,7 @@ JobManager::~JobManager ()
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_terminate = true;
-		_empty_condition.notify_all ();
+		_schedule_condition.notify_all();
 	}
 
 	try {
@@ -90,7 +90,7 @@ JobManager::add (shared_ptr<Job> j)
 	{
 		boost::mutex::scoped_lock lm (_mutex);
 		_jobs.push_back (j);
-		_empty_condition.notify_all ();
+		_schedule_condition.notify_all();
 	}
 
 	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
@@ -107,7 +107,7 @@ JobManager::add_after (shared_ptr<Job> after, shared_ptr<Job> j)
 		auto i = find (_jobs.begin(), _jobs.end(), after);
 		DCPOMATIC_ASSERT (i != _jobs.end());
 		_jobs.insert (i, j);
-		_empty_condition.notify_all ();
+		_schedule_condition.notify_all();
 	}
 
 	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(j)));
@@ -183,7 +183,7 @@ JobManager::scheduler ()
 			}
 		}
 
-		_empty_condition.wait (lm);
+		_schedule_condition.wait(lm);
 	}
 }
 
@@ -197,7 +197,7 @@ JobManager::job_finished ()
 		_last_active_job = optional<string>();
 	}
 
-	_empty_condition.notify_all ();
+	_schedule_condition.notify_all();
 }
 
 
@@ -250,7 +250,7 @@ JobManager::analyse_audio (
 		job = make_shared<AnalyseAudioJob> (film, playlist, from_zero);
 		connection = job->Finished.connect (ready);
 		_jobs.push_back (job);
-		_empty_condition.notify_all ();
+		_schedule_condition.notify_all ();
 	}
 
 	emit (boost::bind (boost::ref (JobAdded), weak_ptr<Job> (job)));
@@ -285,7 +285,7 @@ JobManager::analyse_subtitles (
 		job = make_shared<AnalyseSubtitlesJob>(film, content);
 		connection = job->Finished.connect (ready);
 		_jobs.push_back (job);
-		_empty_condition.notify_all ();
+		_schedule_condition.notify_all ();
 	}
 
 	emit (boost::bind(boost::ref(JobAdded), weak_ptr<Job>(job)));
@@ -304,7 +304,7 @@ JobManager::increase_priority (shared_ptr<Job> job)
 		swap(*iter, *std::prev(iter));
 	}
 
-	_empty_condition.notify_all();
+	_schedule_condition.notify_all();
 	emit(boost::bind(boost::ref(JobsReordered)));
 }
 
@@ -321,7 +321,7 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 		swap(*iter, *std::next(iter));
 	}
 
-	_empty_condition.notify_all();
+	_schedule_condition.notify_all();
 	emit(boost::bind(boost::ref(JobsReordered)));
 }
 

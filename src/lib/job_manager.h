@@ -99,7 +99,7 @@ private:
 	void job_finished ();
 
 	mutable boost::mutex _mutex;
-	boost::condition _empty_condition;
+	boost::condition _schedule_condition;
 	/** List of jobs in the order that they will be executed */
 	std::list<std::shared_ptr<Job>> _jobs;
 	std::list<boost::signals2::connection> _connections;
