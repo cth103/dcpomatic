@@ -442,8 +442,12 @@ class App : public wxApp
 		}
 		_frame->Show ();
 
-		auto server = new JobServer (_frame);
-		new thread (boost::bind (&JobServer::run, server));
+		try {
+			auto server = new JobServer (_frame);
+			new thread (boost::bind (&JobServer::run, server));
+		} catch (boost::system::system_error& e) {
+			error_dialog(_frame, _("Could not listen for new batch jobs.  Perhaps another instance of the DCP-o-matic Batch Converter is running."));
+		}
 
 		signal_manager = new wxSignalManager (this);
 		this->Bind (wxEVT_IDLE, boost::bind (&App::idle, this));
