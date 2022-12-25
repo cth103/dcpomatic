@@ -110,6 +110,11 @@ setup_menu (wxMenuBar* m)
 class DOMFrame : public wxFrame
 {
 public:
+	enum class Tool {
+		ADD,
+		PAUSE
+	};
+
 	explicit DOMFrame (wxString const & title)
 		: wxFrame (nullptr, -1, title)
 		, _sizer (new wxBoxSizer(wxVERTICAL))
@@ -131,23 +136,21 @@ public:
 		s->Add (panel, 1, wxEXPAND);
 		SetSizer (s);
 
+		wxBitmap add(icon_path("add"), wxBITMAP_TYPE_PNG);
+		wxBitmap pause(icon_path("pause"), wxBITMAP_TYPE_PNG);
+
+		auto toolbar = new wxToolBar(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
+		toolbar->SetMargins(4, 4);
+		toolbar->SetToolBitmapSize(wxSize(32, 32));
+		toolbar->AddTool(static_cast<int>(Tool::ADD), _("Add film"), add, _("Add film for conversion"));
+		toolbar->AddCheckTool(static_cast<int>(Tool::PAUSE), _("Pause/resume"), pause, wxNullBitmap, _("Pause or resume conversion"));
+		toolbar->Realize();
+		_sizer->Add(toolbar, 0, wxALL, 6);
+
+		toolbar->Bind(wxEVT_TOOL, bind(&DOMFrame::tool_clicked, this, _1));
+
 		auto job_manager_view = new JobManagerView (panel, true);
 		_sizer->Add (job_manager_view, 1, wxALL | wxEXPAND, 6);
-
-		auto buttons = new wxBoxSizer (wxHORIZONTAL);
-		auto add = new Button (panel, _("Add Film..."));
-		add->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::add_film, this));
-		buttons->Add (add, 1, wxALL, 6);
-		_pause = new Button (panel, _("Pause"));
-		_pause->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::pause, this));
-		buttons->Add (_pause, 1, wxALL, 6);
-		_resume = new Button (panel, _("Resume"));
-		_resume->Bind (wxEVT_BUTTON, boost::bind(&DOMFrame::resume, this));
-		buttons->Add (_resume, 1, wxALL, 6);
-
-		setup_sensitivity ();
-
-		_sizer->Add (buttons, 0, wxALL, 6);
 
 		panel->SetSizer (_sizer);
 
@@ -155,22 +158,23 @@ public:
 		Bind (wxEVT_SIZE, boost::bind(&DOMFrame::sized, this, _1));
 	}
 
-	void setup_sensitivity ()
+	void tool_clicked(wxCommandEvent& ev)
 	{
-		_pause->Enable (!JobManager::instance()->paused());
-		_resume->Enable (JobManager::instance()->paused());
-	}
-
-	void pause ()
-	{
-		JobManager::instance()->pause();
-		setup_sensitivity ();
-	}
-
-	void resume ()
-	{
-		JobManager::instance()->resume();
-		setup_sensitivity ();
+		switch (static_cast<Tool>(ev.GetId())) {
+		case Tool::ADD:
+			add_film();
+			break;
+		case Tool::PAUSE:
+		{
+			auto jm = JobManager::instance();
+			if (jm->paused()) {
+				jm->resume();
+			} else {
+				jm->pause();
+			}
+			break;
+		}
+		}
 	}
 
 	void start_job (boost::filesystem::path path)
@@ -354,8 +358,6 @@ private:
 	wxSizer* _sizer;
 	wxPreferencesEditor* _config_dialog = nullptr;
 	ServersListDialog* _servers_list_dialog = nullptr;
-	wxButton* _pause;
-	wxButton* _resume;
 };
 
 

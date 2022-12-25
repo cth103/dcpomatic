@@ -101,6 +101,13 @@ else
         done
     done
 
+    # Batch converter toolbar icons (all platforms)
+    for c in black white; do
+        for i in add pause; do
+            inkbatch --inkscape $INKSCAPE -i batch-$i -o ${i}_${c}.png --width 32 --height 32 src/batch_$c.svg
+        done
+    done
+
     # Playlist editor tick/no-tick
     $INKSCAPE_EXPORT --export-filename=tick.png src/tick.svg -w 16 -h 16
     $INKSCAPE_EXPORT --export-filename=no_tick.png src/no_tick.svg -w 16 -h 16

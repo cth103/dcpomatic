@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 793.70081 1122.5197"
+   version="1.1"
+   id="svg831"
+   inkscape:version="1.1.1 (3bf5ae0, 2021-09-20)"
+   sodipodi:docname="batch_black.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview833"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="px"
+     showgrid="true"
+     inkscape:zoom="1.6975968"
+     inkscape:cx="4.4180102"
+     inkscape:cy="221.48958"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1158"
+       spacingx="0.13229167"
+       spacingy="0.13229167"
+       empspacing="2" />
+    <sodipodi:guide
+       position="24.077084,216.30208"
+       orientation="0,18"
+       id="guide1500" />
+    <sodipodi:guide
+       position="30.427083,218.28646"
+       orientation="8.0000013,0"
+       id="guide1617" />
+  </sodipodi:namedview>
+  <defs
+     id="defs828" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Bounding"
+     style="display:none"
+     sodipodi:insensitive="true">
+    <rect
+       y="81"
+       x="-60"
+       height="32"
+       width="32"
+       id="batch-add"
+       style="font-variation-settings:normal;display:inline;vector-effect:none;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.528903;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000" />
+    <rect
+       y="81"
+       x="-24"
+       height="32"
+       width="32"
+       id="batch-pause"
+       style="font-variation-settings:normal;display:inline;vector-effect:none;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.528903;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;stop-color:#000000" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <path
+       style="font-variation-settings:normal;opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;stop-color:#000000;stop-opacity:1"
+       d="M -44,84.666669 V 110.06667"
+       id="path1056" />
+    <path
+       style="font-variation-settings:normal;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;stop-color:#000000"
+       d="M -12.879167,87.108331 V 106.89167"
+       id="path1056-3" />
+    <path
+       style="font-variation-settings:normal;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;stop-color:#000000"
+       d="M -3.120833,87.108331 V 106.89166"
+       id="path1056-56" />
+    <path
+       style="font-variation-settings:normal;display:inline;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;marker-start:none;marker-end:none;stop-color:#000000"
+       d="M -31.300001,97.366669 H -56.699999"
+       id="path1056-5" />
+  </g>
+</svg>
