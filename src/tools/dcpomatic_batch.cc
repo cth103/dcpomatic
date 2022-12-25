@@ -40,6 +40,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/aboutdlg.h>
 #include <wx/cmdline.h>
+#include <wx/dnd.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
 #include <wx/stdpaths.h>
@@ -115,6 +116,31 @@ public:
 		PAUSE
 	};
 
+	class DCPDropTarget : public wxFileDropTarget
+	{
+	public:
+		DCPDropTarget(DOMFrame* owner)
+			: _frame(owner)
+		{}
+
+		bool OnDropFiles(wxCoord, wxCoord, wxArrayString const& filenames) override
+		{
+			if (filenames.GetCount() == 1) {
+				/* Try to load a directory */
+				auto path = boost::filesystem::path(wx_to_std(filenames[0]));
+				if (boost::filesystem::is_directory(path)) {
+					_frame->start_job(wx_to_std(filenames[0]));
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+	private:
+		DOMFrame* _frame;
+	};
+
 	explicit DOMFrame (wxString const & title)
 		: wxFrame (nullptr, -1, title)
 		, _sizer (new wxBoxSizer(wxVERTICAL))
@@ -156,6 +182,8 @@ public:
 
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
 		Bind (wxEVT_SIZE, boost::bind(&DOMFrame::sized, this, _1));
+
+		SetDropTarget(new DCPDropTarget(this));
 	}
 
 	void tool_clicked(wxCommandEvent& ev)
