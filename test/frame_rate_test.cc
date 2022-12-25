@@ -42,9 +42,9 @@ using std::shared_ptr;
 */
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 {
-	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_single");
+	auto film = new_test_film("best_dcp_frame_rate_test_single");
 	/* Get any piece of content, it doesn't matter what */
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/test.mp4"));
+	auto content = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 
 	content->_video_frame_rate = 60;
 	int best = film->best_video_frame_rate ();
-	FrameRateChange frc = FrameRateChange (60, best);
+	auto frc = FrameRateChange(60, best);
 	BOOST_CHECK_EQUAL (best, 30);
 	BOOST_CHECK_EQUAL (frc.skip, true);
 	BOOST_CHECK_EQUAL (frc.repeat, 1);
@@ -220,11 +220,11 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 */
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 {
-	shared_ptr<Film> film = new_test_film ("best_dcp_frame_rate_test_double");
+	auto film = new_test_film("best_dcp_frame_rate_test_double");
 	/* Get any old content, it doesn't matter what */
-	shared_ptr<FFmpegContent> A (new FFmpegContent("test/data/test.mp4"));
+	auto A = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (A);
-	shared_ptr<FFmpegContent> B (new FFmpegContent("test/data/test.mp4"));
+	auto B = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (B);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -251,9 +251,9 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
-	shared_ptr<Film> film = new_test_film ("audio_sampling_rate_test");
+	auto film = new_test_film("audio_sampling_rate_test");
 	/* Get any piece of content, it doesn't matter what */
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/test.mp4"));
+	auto content = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
