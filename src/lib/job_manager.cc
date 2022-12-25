@@ -166,9 +166,11 @@ JobManager::scheduler ()
 
 		bool have_running = false;
 		for (auto i: _jobs) {
-			if (have_running && i->running()) {
+			if ((have_running || _paused) && i->running()) {
+				/* We already have a running job, or are totally paused, so this job should not be running */
 				i->pause_by_priority();
-			} else if (!have_running && (i->is_new() || i->paused_by_priority())) {
+			} else if (!have_running && !_paused && (i->is_new() || i->paused_by_priority())) {
+				/* We don't have a running job, and we should have one, so start/resume this */
 				if (i->is_new()) {
 					_connections.push_back (i->FinishedImmediate.connect(bind(&JobManager::job_finished, this)));
 					i->start ();
@@ -326,32 +328,21 @@ JobManager::decrease_priority (shared_ptr<Job> job)
 }
 
 
+/** Pause all job processing */
 void
 JobManager::pause ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-
-	if (_paused_job) {
-		return;
-	}
-
-	for (auto i: _jobs) {
-		if (i->pause_by_user()) {
-			_paused_job = i;
-		}
-	}
+	_paused = true;
+	_schedule_condition.notify_all();
 }
 
 
+/** Resume processing jobs after a previous pause() */
 void
 JobManager::resume ()
 {
 	boost::mutex::scoped_lock lm (_mutex);
-
-	if (!_paused_job) {
-		return;
-	}
-
-	_paused_job->resume();
-	_paused_job.reset();
+	_paused = false;
+	_schedule_condition.notify_all();
 }
