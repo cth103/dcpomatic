@@ -313,7 +313,7 @@ AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p
 
 	if (stream) {
 		p.push_back (UserProperty(UserProperty::AUDIO, _("Channels"), stream->channels()));
-		p.push_back (UserProperty(UserProperty::AUDIO, _("Content audio sample rate"), stream->frame_rate(), _("Hz")));
+		p.push_back (UserProperty(UserProperty::AUDIO, _("Content sample rate"), stream->frame_rate(), _("Hz")));
 	}
 
 	FrameRateChange const frc (_parent->active_video_frame_rate(film), film->video_frame_rate());
