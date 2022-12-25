@@ -33,8 +33,8 @@ struct audio_sampling_rate_test;
 class AudioStream
 {
 public:
-	AudioStream (int frame_rate, Frame length, int channels);
-	AudioStream (int frame_rate, Frame length, AudioMapping mapping);
+	AudioStream(int frame_rate, Frame length, int channels, boost::optional<int> bit_depth);
+	AudioStream(int frame_rate, Frame length, AudioMapping mapping, boost::optional<int> bit_depth);
 	virtual ~AudioStream () {}
 
 	void set_mapping (AudioMapping mapping);
@@ -55,6 +55,7 @@ public:
 	}
 
 	int channels () const;
+	boost::optional<int> bit_depth() const;
 
 protected:
 	mutable boost::mutex _mutex;
@@ -66,6 +67,7 @@ private:
 	int _frame_rate;
 	Frame _length;
 	AudioMapping _mapping;
+	boost::optional<int> _bit_depth;
 };
 
 

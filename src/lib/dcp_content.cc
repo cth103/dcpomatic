@@ -105,7 +105,8 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 				node->optional_number_child<Frame>("AudioLength").get_value_or (
 					video->length() * node->number_child<int>("AudioFrameRate") / video_frame_rate().get()
 					),
-				AudioMapping (node->node_child ("AudioMapping"), version)
+				AudioMapping(node->node_child("AudioMapping"), version),
+				24
 				)
 			);
 	}
@@ -238,7 +239,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			boost::mutex::scoped_lock lm (_mutex);
 			audio = make_shared<AudioContent>(this);
 		}
-		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels());
+		auto as = make_shared<AudioStream>(examiner->audio_frame_rate(), examiner->audio_length(), examiner->audio_channels(), 24);
 		audio->set_stream (as);
 		auto m = as->mapping ();
 		m.make_default (film ? film->audio_processor() : 0);

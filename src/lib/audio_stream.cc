@@ -24,19 +24,24 @@
 #include "constants.h"
 
 
-AudioStream::AudioStream (int frame_rate, Frame length, int channels)
+using boost::optional;
+
+
+AudioStream::AudioStream(int frame_rate, Frame length, int channels, optional<int> bit_depth)
 	: _frame_rate (frame_rate)
 	, _length (length)
 	, _mapping (AudioMapping (channels, MAX_DCP_AUDIO_CHANNELS))
+	, _bit_depth(bit_depth)
 {
 
 }
 
 
-AudioStream::AudioStream (int frame_rate, Frame length, AudioMapping mapping)
+AudioStream::AudioStream(int frame_rate, Frame length, AudioMapping mapping, optional<int> bit_depth)
 	: _frame_rate (frame_rate)
 	, _length (length)
 	, _mapping (mapping)
+	, _bit_depth(bit_depth)
 {
 
 }
@@ -56,3 +61,11 @@ AudioStream::channels () const
 	boost::mutex::scoped_lock lm (_mutex);
 	return _mapping.input_channels ();
 }
+
+optional<int>
+AudioStream::bit_depth() const
+{
+	boost::mutex::scoped_lock lm(_mutex);
+	return _bit_depth;
+}
+

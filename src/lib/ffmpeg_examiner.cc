@@ -91,7 +91,8 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 					s->id,
 					s->codecpar->sample_rate,
 					llrint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
-					s->codecpar->channels
+					s->codecpar->channels,
+					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
 					)
 				);
 

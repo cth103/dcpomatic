@@ -81,7 +81,8 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 				"Stream", 0,
 				node->number_child<int> ("AudioFrameRate"),
 				node->number_child<Frame> ("AudioLength"),
-				AudioMapping (node->node_child ("AudioMapping"), version)
+				AudioMapping(node->node_child("AudioMapping"), version),
+				16
 				)
 			);
 
