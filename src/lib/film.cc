@@ -632,7 +632,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_sign_language_video_language = dcp::LanguageTag(*sign_language_video_language);
 	}
 
-	_version_number = f.optional_number_child<int>("VersionNumber").get_value_or(0);
+	_version_number = f.optional_number_child<int>("VersionNumber").get_value_or(1);
 
 	auto status = f.optional_string_child("Status");
 	if (status) {
