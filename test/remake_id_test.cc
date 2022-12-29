@@ -19,24 +19,23 @@
 */
 
 
-#include "lib/ffmpeg_content.h"
+#include "lib/config.h"
 #include "lib/content_factory.h"
-#include "lib/text_content.h"
-#include "lib/job_manager.h"
-#include "lib/film.h"
 #include "lib/dcp_content.h"
 #include "lib/examine_content_job.h"
-#include "lib/config.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
 
-using std::string;
-using std::vector;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::string;
+using std::vector;
 using boost::optional;
 
 

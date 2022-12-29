@@ -34,7 +34,6 @@
 
 using std::dynamic_pointer_cast;
 using std::make_shared;
-using std::shared_ptr;
 
 
 void check_within_n (int64_t a, int64_t b, int64_t n)

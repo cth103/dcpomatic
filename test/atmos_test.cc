@@ -28,11 +28,10 @@
 #include <boost/test/unit_test.hpp>
 
 
+using std::make_shared;
 using std::string;
 using std::vector;
-using std::make_shared;
 using boost::optional;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (atmos_passthrough_test)

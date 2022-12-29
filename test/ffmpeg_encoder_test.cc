@@ -40,9 +40,8 @@
 #include <boost/test/unit_test.hpp>
 
 
-using std::string;
-using std::shared_ptr;
 using std::make_shared;
+using std::string;
 using namespace dcpomatic;
 
 
@@ -387,9 +386,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 /** 7.1/HI/VI (i.e. 12-channel) project */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 {
-	shared_ptr<Film> film = new_test_film ("ffmpeg_encoder_prores_test9");
-	film->set_name ("ffmpeg_encoder_prores_test9");
 	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
+	auto film = new_test_film2("ffmpeg_encoder_prores_test9", { c });
+	film->set_name ("ffmpeg_encoder_prores_test9");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (12);
 

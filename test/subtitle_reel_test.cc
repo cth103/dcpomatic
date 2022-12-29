@@ -19,9 +19,9 @@
 */
 
 #include "lib/content_factory.h"
+#include "lib/dcp_subtitle_content.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
-#include "lib/dcp_subtitle_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
 #include "test.h"
@@ -35,9 +35,8 @@
 
 
 using std::list;
-using std::string;
-using std::shared_ptr;
 using std::make_shared;
+using std::string;
 using boost::optional;
 
 
@@ -72,7 +71,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 	dcp::DCP dcp ("build/test/subtitle_reel_test/" + film->dcp_name());
 	dcp.read ();
 	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1U);
-	shared_ptr<dcp::CPL> cpl = dcp.cpls().front();
+	auto cpl = dcp.cpls().front();
 
 	auto reels = cpl->reels ();
 	BOOST_REQUIRE_EQUAL (reels.size(), 2U);

@@ -26,19 +26,18 @@
 
 
 
-#include "lib/film.h"
-#include "lib/video_mxf_content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
+#include "lib/film.h"
 #include "lib/ratio.h"
+#include "lib/video_mxf_content.h"
 #include "test.h"
 #include <dcp/mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
-using std::make_shared;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::make_shared;
 
 
 static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_6a2ffab1-9ea5-4428-9027-9d458363c95f.mxf";

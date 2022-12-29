@@ -25,24 +25,24 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/string_text_file_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/film.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
+#include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "test.h"
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/subtitle_string.h>
-#include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/test/unit_test.hpp>
 #include <list>
 
 
-using std::string;
 using std::list;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using namespace dcpomatic;
 
 

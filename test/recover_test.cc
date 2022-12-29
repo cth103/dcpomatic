@@ -40,7 +40,6 @@
 
 using std::cout;
 using std::make_shared;
-using std::shared_ptr;
 using std::string;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -58,13 +57,13 @@ note (dcp::NoteType t, string n)
 
 BOOST_AUTO_TEST_CASE (recover_test_2d)
 {
-	shared_ptr<Film> film = new_test_film ("recover_test_2d");
+	auto film = new_test_film("recover_test_2d");
 	film->set_interop (false);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
 
-	shared_ptr<FFmpegContent> content (new FFmpegContent("test/data/count300bd24.m2ts"));
+	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -85,8 +84,8 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
-	shared_ptr<dcp::MonoPictureAsset> A (new dcp::MonoPictureAsset ("build/test/recover_test_2d/original.mxf"));
-	shared_ptr<dcp::MonoPictureAsset> B (new dcp::MonoPictureAsset (video));
+	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d/original.mxf");
+	auto B = make_shared<dcp::MonoPictureAsset>(video);
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));

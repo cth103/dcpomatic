@@ -35,7 +35,6 @@
 
 using std::cout;
 using std::make_shared;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (colour_conversion_test1)

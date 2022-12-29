@@ -18,19 +18,21 @@
 
 */
 
+
 #include "lib/film.h"
-#include "lib/text_content.h"
 #include "lib/string_text_file_content.h"
+#include "lib/text_content.h"
 #include "test.h"
-#include <dcp/dcp.h>
 #include <dcp/cpl.h>
+#include <dcp/dcp.h>
 #include <dcp/reel.h>
 #include <dcp/reel_closed_caption_asset.h>
 #include <boost/test/unit_test.hpp>
 
+
 using std::list;
 using std::make_shared;
-using std::shared_ptr;
+
 
 /** Basic test that Interop closed captions are written */
 BOOST_AUTO_TEST_CASE (closed_caption_test1)

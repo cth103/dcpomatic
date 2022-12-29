@@ -38,7 +38,6 @@
 using std::dynamic_pointer_cast;
 using std::getline;
 using std::ifstream;
-using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::starts_with;

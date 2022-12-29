@@ -27,7 +27,6 @@
 #include <boost/test/unit_test.hpp>
 
 
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
 
 

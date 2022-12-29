@@ -43,7 +43,6 @@
 
 using std::dynamic_pointer_cast;
 using std::make_shared;
-using std::shared_ptr;
 
 
 /** Overlay two video-only bits of content, don't use the video on one and

@@ -26,7 +26,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 
 
 static const boost::filesystem::path data_file0 = TestPaths::private_data() / "player_seek_test_0.png";

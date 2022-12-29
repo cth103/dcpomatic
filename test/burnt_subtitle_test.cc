@@ -18,21 +18,23 @@
 
 */
 
+
 /** @file  test/burnt_subtitle_test.cc
  *  @brief Test the burning of subtitles into the DCP.
  *  @ingroup feature
  */
 
-#include "lib/plain_text_content.h"
+
+#include "lib/config.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
 #include "lib/dcp_text_content.h"
 #include "lib/film.h"
-#include "lib/ratio.h"
-#include "lib/dcp_content_type.h"
-#include "lib/text_content.h"
-#include "lib/dcp_content.h"
-#include "lib/content_factory.h"
-#include "lib/config.h"
 #include "lib/log_entry.h"
+#include "lib/plain_text_content.h"
+#include "lib/ratio.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
@@ -45,14 +47,13 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
-using std::cout;
-using std::map;
-using std::shared_ptr;
+
 using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::map;
 using namespace dcpomatic;
+
 
 /** Build a small DCP with no picture and a single subtitle overlaid onto it from a SubRip file */
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)

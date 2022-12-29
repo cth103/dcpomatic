@@ -18,24 +18,26 @@
 
 */
 
+
 /** @file  test/frame_rate_test.cc
  *  @brief Tests for FrameRateChange and the computation of the best
  *  frame rate for the DCP.
  *  @ingroup feature
  */
 
-#include <boost/test/unit_test.hpp>
-#include "lib/film.h"
-#include "lib/config.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/playlist.h"
-#include "lib/ffmpeg_audio_stream.h"
-#include "lib/frame_rate_change.h"
-#include "lib/video_content.h"
-#include "lib/audio_content.h"
-#include "test.h"
 
-using std::shared_ptr;
+#include "lib/audio_content.h"
+#include "lib/config.h"
+#include "lib/ffmpeg_audio_stream.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/frame_rate_change.h"
+#include "lib/playlist.h"
+#include "lib/video_content.h"
+#include "test.h"
+#include <boost/test/unit_test.hpp>
+
+
 
 /* Test Playlist::best_dcp_frame_rate and FrameRateChange
    with a single piece of content.

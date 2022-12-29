@@ -110,21 +110,21 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_red.png"));
+		auto c = make_shared<ImageContent>("test/data/flat_red.png");
 		film->examine_and_add_content (c);
 		BOOST_REQUIRE (!wait_for_jobs());
 		c->video->set_length (24);
 	}
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_green.png"));
+		auto c = make_shared<ImageContent>("test/data/flat_green.png");
 		film->examine_and_add_content (c);
 		BOOST_REQUIRE (!wait_for_jobs());
 		c->video->set_length (24);
 	}
 
 	{
-		shared_ptr<ImageContent> c (new ImageContent("test/data/flat_blue.png"));
+		auto c = make_shared<ImageContent>("test/data/flat_blue.png");
 		film->examine_and_add_content (c);
 		BOOST_REQUIRE (!wait_for_jobs());
 		c->video->set_length (24);
@@ -200,7 +200,7 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	/* 4 piece of 1s-long content */
 	shared_ptr<ImageContent> content[4];
 	for (int i = 0; i < 4; ++i) {
-		content[i].reset (new ImageContent("test/data/flat_green.png"));
+		content[i] = make_shared<ImageContent>("test/data/flat_green.png");
 		film->examine_and_add_content (content[i]);
 		BOOST_REQUIRE (!wait_for_jobs());
 		content[i]->video->set_length (24);

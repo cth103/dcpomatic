@@ -37,7 +37,6 @@
 
 using std::string;
 using boost::optional;
-using std::shared_ptr;
 
 
 /** Check that FFOC and LFOC are automatically added if not specified */

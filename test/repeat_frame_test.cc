@@ -38,7 +38,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (repeat_frame_test)

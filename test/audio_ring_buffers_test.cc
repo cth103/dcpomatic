@@ -18,16 +18,17 @@
 
 */
 
+
 #include "lib/audio_ring_buffers.h"
 #include <boost/test/unit_test.hpp>
-#include <iostream>
 
-using std::cout;
+
 using std::make_shared;
-using std::shared_ptr;
 using namespace dcpomatic;
 
+
 #define CANARY 9999
+
 
 /* XXX: these tests don't check the timestamping in AudioRingBuffers */
 

@@ -42,10 +42,9 @@
 
 
 using std::list;
+using std::make_shared;
 using std::string;
 using std::vector;
-using std::make_shared;
-using std::shared_ptr;
 
 
 /* Check that DCPDecoder reuses old data when it should */

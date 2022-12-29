@@ -35,7 +35,6 @@
 using std::cout;
 using std::make_shared;
 using std::pair;
-using std::shared_ptr;
 
 
 static void

@@ -27,19 +27,18 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/algorithm/string.hpp>
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+#include <boost/test/unit_test.hpp>
 
 
 using std::make_shared;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)

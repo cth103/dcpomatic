@@ -35,7 +35,6 @@
 
 
 using std::list;
-using std::shared_ptr;
 using std::string;
 using std::vector;
 #if BOOST_VERSION >= 106100

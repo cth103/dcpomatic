@@ -47,7 +47,6 @@
 
 using std::cout;
 using std::make_shared;
-using std::shared_ptr;
 using std::string;
 using boost::lexical_cast;
 

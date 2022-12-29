@@ -18,13 +18,15 @@
 
 */
 
+
 /** @test  test/stream_test.cc
  *  @brief Some simple tests of FFmpegAudioStream.
  */
 
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
+
 #include "lib/ffmpeg_audio_stream.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include <libcxml/cxml.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -32,14 +34,15 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 #include <boost/test/unit_test.hpp>
 
-using std::pair;
+
 using std::list;
-using std::shared_ptr;
+using std::pair;
+
 
 BOOST_AUTO_TEST_CASE (stream_test)
 {
 	xmlpp::Document doc;
-	xmlpp::Element* root = doc.create_root_node ("FFmpegAudioStream");
+	auto root = doc.create_root_node("FFmpegAudioStream");
 	root->add_child("Name")->add_child_text ("hello there world");
 	root->add_child("Id")->add_child_text ("4");
 	root->add_child("FrameRate")->add_child_text ("44100");
@@ -47,29 +50,29 @@ BOOST_AUTO_TEST_CASE (stream_test)
 
 	/* This is the state file version 5 description of the mapping */
 
-	xmlpp::Element* mapping = root->add_child("Mapping");
+	auto mapping = root->add_child("Mapping");
 	mapping->add_child("ContentChannels")->add_child_text ("2");
 	{
 		/* L -> L */
-		xmlpp::Element* map = mapping->add_child ("Map");
+		auto map = mapping->add_child("Map");
 		map->add_child("ContentIndex")->add_child_text ("0");
 		map->add_child("DCP")->add_child_text ("0");
 	}
 	{
 		/* L -> C */
-		xmlpp::Element* map = mapping->add_child ("Map");
+		auto map = mapping->add_child("Map");
 		map->add_child("ContentIndex")->add_child_text ("0");
 		map->add_child("DCP")->add_child_text ("2");
 	}
 	{
 		/* R -> R */
-		xmlpp::Element* map = mapping->add_child ("Map");
+		auto map = mapping->add_child("Map");
 		map->add_child("ContentIndex")->add_child_text ("1");
 		map->add_child("DCP")->add_child_text ("1");
 	}
 	{
 		/* R -> C */
-		xmlpp::Element* map = mapping->add_child ("Map");
+		auto map = mapping->add_child("Map");
 		map->add_child("ContentIndex")->add_child_text ("1");
 		map->add_child("DCP")->add_child_text ("2");
 	}

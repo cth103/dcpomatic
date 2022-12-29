@@ -25,13 +25,13 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
-#include "lib/film.h"
-#include "lib/ffmpeg_decoder.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/ffmpeg_audio_stream.h"
 #include "lib/audio_content.h"
+#include "lib/ffmpeg_audio_stream.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/ffmpeg_decoder.h"
+#include "lib/film.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
 
 
 using std::make_shared;

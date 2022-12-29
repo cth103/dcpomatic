@@ -25,11 +25,11 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/image_content.h"
-#include "lib/dcp_content_type.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/dcp_content_type.h"
+#include "lib/film.h"
+#include "lib/image_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
@@ -38,9 +38,8 @@
 
 
 using std::list;
-using std::string;
-using std::shared_ptr;
 using std::make_shared;
+using std::string;
 
 
 static string

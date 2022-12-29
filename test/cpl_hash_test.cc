@@ -35,7 +35,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 using std::string;
 
 
@@ -44,7 +43,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	using namespace boost::filesystem;
 
 	string const ov_name = "hash_added_to_imported_dcp_test_ov";
-	shared_ptr<Film> ov = new_test_film2 (
+	auto ov = new_test_film2(
 		ov_name,
 		content_factory("test/data/flat_red.png")
 		);

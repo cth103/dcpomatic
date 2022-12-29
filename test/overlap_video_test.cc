@@ -35,7 +35,6 @@
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_mono_picture_asset.h>
-#include <boost/shared_ptr.hpp>
 #include <boost/test/unit_test.hpp>
 
 

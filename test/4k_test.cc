@@ -29,17 +29,16 @@
  */
 
 
-#include <boost/test/unit_test.hpp>
-#include "lib/film.h"
-#include "lib/ffmpeg_content.h"
 #include "lib/dcp_content_type.h"
-#include "lib/video_content.h"
-#include "lib/ratio.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
+#include "lib/video_content.h"
 #include "test.h"
+#include <boost/test/unit_test.hpp>
 
 
-using std::shared_ptr;
 using std::make_shared;
 
 

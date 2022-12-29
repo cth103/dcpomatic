@@ -46,7 +46,6 @@
 
 using std::make_shared;
 using std::string;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)

@@ -35,7 +35,6 @@
 using std::cerr;
 using std::cout;
 using std::make_shared;
-using std::shared_ptr;
 
 
 #define CHECK_SAMPLE(c,f,r) \

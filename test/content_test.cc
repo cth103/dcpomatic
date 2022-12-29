@@ -35,7 +35,6 @@
 #include <boost/test/unit_test.hpp>
 
 
-using std::shared_ptr;
 using namespace dcpomatic;
 
 

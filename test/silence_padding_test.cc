@@ -43,7 +43,6 @@
 
 using std::make_shared;
 using std::string;
-using std::shared_ptr;
 using boost::lexical_cast;
 
 

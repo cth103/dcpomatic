@@ -26,7 +26,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 
 
 /** Check for no crash when trimming DCP subtitles (#1275) */

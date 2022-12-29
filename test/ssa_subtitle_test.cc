@@ -25,11 +25,11 @@
  */
 
 
-#include "lib/film.h"
-#include "lib/string_text_file_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/film.h"
 #include "lib/font.h"
 #include "lib/ratio.h"
+#include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "test.h"
 #include <dcp/interop_subtitle_asset.h>
@@ -37,10 +37,9 @@
 #include <boost/algorithm/string.hpp>
 
 
-using std::string;
 using std::list;
-using std::shared_ptr;
 using std::make_shared;
+using std::string;
 
 
 /** Make a DCP with subs from a .ssa file */

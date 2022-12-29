@@ -38,7 +38,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 
 
 /** Interrupt a DCP encode when it is in progress, as this used to (still does?)

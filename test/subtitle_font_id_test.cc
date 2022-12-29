@@ -35,7 +35,6 @@
 
 
 using std::make_shared;
-using std::shared_ptr;
 
 
 BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
