@@ -181,7 +181,7 @@ try
 				if (success) {
 					sent_reply = DiskWriterBackEndResponse::ok().write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 				} else {
-					sent_reply = DiskWriterBackEndResponse::error("Could not unmount drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+					sent_reply = DiskWriterBackEndResponse::error("Could not unmount drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 				}
 				if (!sent_reply) {
 					LOG_DISK_NC("CommunicationFailedError in unmount_finished");
@@ -189,7 +189,7 @@ try
 				}
 			},
 			[]() {
-				if (!DiskWriterBackEndResponse::error("Could not get permission to unmount drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT)) {
+				if (!DiskWriterBackEndResponse::error("Could not get permission to unmount drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT)) {
 					LOG_DISK_NC("CommunicationFailedError in unmount_finished");
 					throw CommunicationFailedError ();
 				}
@@ -221,21 +221,21 @@ try
 #ifdef DCPOMATIC_OSX
 		if (!starts_with(device, "/dev/disk")) {
 			LOG_DISK ("Will not write to %1", device);
-			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 #endif
 #ifdef DCPOMATIC_LINUX
 		if (!starts_with(device, "/dev/sd") && !starts_with(device, "/dev/hd")) {
 			LOG_DISK ("Will not write to %1", device);
-			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 #endif
 #ifdef DCPOMATIC_WINDOWS
 		if (!starts_with(device, "\\\\.\\PHYSICALDRIVE")) {
 			LOG_DISK ("Will not write to %1", device);
-			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 #endif
@@ -251,12 +251,12 @@ try
 
 		if (!on_drive_list) {
 			LOG_DISK ("Will not write to %1 as it's not recognised as a drive", device);
-			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 		if (mounted) {
 			LOG_DISK ("Will not write to %1 as it's mounted", device);
-			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+			DiskWriterBackEndResponse::error("Refusing to write to this drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 			return true;
 		}
 
@@ -286,7 +286,7 @@ try
 			},
 			[]() {
 				if (nanomsg) {
-					DiskWriterBackEndResponse::error("Could not obtain authorization to write to the drive", 1).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
+					DiskWriterBackEndResponse::error("Could not obtain authorization to write to the drive", 1, 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 				}
 			});
 	}

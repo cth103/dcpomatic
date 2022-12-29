@@ -148,10 +148,11 @@ GLError::GLError (char const* message)
 }
 
 
-CopyError::CopyError (string m, optional<int> n)
-	: runtime_error (String::compose("%1%2", m, n ? String::compose(" (%1)", *n) : ""))
+CopyError::CopyError(string m, optional<int> ext4, optional<int> platform)
+	: runtime_error(String::compose("%1%2%3", m, ext4 ? String::compose(" (%1)", *ext4) : "", platform ? String::compose(" (%1)", *platform) : ""))
 	, _message (m)
-	, _number (n)
+	, _ext4_number(ext4)
+	, _platform_number(platform)
 {
 
 }

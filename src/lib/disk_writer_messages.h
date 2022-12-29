@@ -58,6 +58,7 @@ class Nanomsg;
 #define DISK_WRITER_ERROR "E"
 // Error message
 // Error number
+// Additional error number (a platform-specific error from lwext4)
 
 // the drive is being formatted, 40% done
 #define DISK_WRITER_FORMAT_PROGRESS "F"
@@ -106,10 +107,11 @@ public:
 		return DiskWriterBackEndResponse(Type::OK);
 	}
 
-	static DiskWriterBackEndResponse error(std::string message, int number) {
+	static DiskWriterBackEndResponse error(std::string message, int ext4_number, int platform_number) {
 		auto r = DiskWriterBackEndResponse(Type::ERROR);
 		r._error_message = message;
-		r._error_number = number;
+		r._ext4_error_number = ext4_number;
+		r._platform_error_number = platform_number;
 		return r;
 	}
 
@@ -147,8 +149,12 @@ public:
 		return _error_message;
 	}
 
-	int error_number() const {
-		return _error_number;
+	int ext4_error_number() const {
+		return _ext4_error_number;
+	}
+
+	int platform_error_number() const {
+		return _platform_error_number;
 	}
 
 	float progress() const {
@@ -162,7 +168,8 @@ private:
 
 	Type _type;
 	std::string _error_message;
-	int _error_number = 0;
+	int _ext4_error_number = 0;
+	int _platform_error_number = 0;
 	float _progress = 0;
 };
 

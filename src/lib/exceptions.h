@@ -407,20 +407,25 @@ public:
 class CopyError : public std::runtime_error
 {
 public:
-	CopyError (std::string s, boost::optional<int> n = boost::optional<int>());
+	CopyError (std::string s, boost::optional<int> ext4_error = boost::optional<int>(), boost::optional<int> platform_error = boost::optional<int>());
 	virtual ~CopyError () throw () {}
 
 	std::string message () const {
 		return _message;
 	}
 
-	boost::optional<int> number () const {
-		return _number;
+	boost::optional<int> ext4_number() const {
+		return _ext4_number;
+	}
+
+	boost::optional<int> platform_number() const {
+		return _platform_number;
 	}
 
 private:
 	std::string _message;
-	boost::optional<int> _number;
+	boost::optional<int> _ext4_number;
+	boost::optional<int> _platform_number;
 };
 
 

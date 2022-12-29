@@ -109,7 +109,7 @@ CopyToDriveJob::run ()
 		case DiskWriterBackEndResponse::Type::PONG:
 			break;
 		case DiskWriterBackEndResponse::Type::ERROR:
-			throw CopyError(response->error_message(), response->error_number());
+			throw CopyError(response->error_message(), response->ext4_error_number(), response->platform_error_number());
 		case DiskWriterBackEndResponse::Type::FORMAT_PROGRESS:
 			if (state == SETUP) {
 				sub (_("Formatting drive"));

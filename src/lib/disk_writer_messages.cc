@@ -41,7 +41,8 @@ DiskWriterBackEndResponse::read_from_nanomsg(Nanomsg& nanomsg, int timeout)
 	} else if (*s == DISK_WRITER_ERROR) {
 		auto const m = nanomsg.receive(500);
 		auto const n = nanomsg.receive(500);
-		return DiskWriterBackEndResponse::error(m.get_value_or(""), dcp::raw_convert<int>(n.get_value_or("0")));
+		auto const p = nanomsg.receive(500);
+		return DiskWriterBackEndResponse::error(m.get_value_or(""), dcp::raw_convert<int>(n.get_value_or("0")), dcp::raw_convert<int>(p.get_value_or("0")));
 	} else if (*s == DISK_WRITER_PONG) {
 		return DiskWriterBackEndResponse::pong();
 	} else if (*s == DISK_WRITER_FORMAT_PROGRESS) {
@@ -73,7 +74,7 @@ DiskWriterBackEndResponse::write_to_nanomsg(Nanomsg& nanomsg, int timeout) const
 			message = String::compose("%1\n", DISK_WRITER_OK);
 			break;
 		case Type::ERROR:
-			message = String::compose("%1\n%2\n%3\n", DISK_WRITER_ERROR, _error_message, _error_number);
+			message = String::compose("%1\n%2\n%3\n%4\n", DISK_WRITER_ERROR, _error_message, _ext4_error_number, _platform_error_number);
 			break;
 		case Type::PONG:
 			message = String::compose("%1\n", DISK_WRITER_PONG);
