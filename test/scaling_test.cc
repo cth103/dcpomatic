@@ -25,6 +25,7 @@
  */
 
 
+#include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
@@ -93,3 +94,21 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 	/* S: scope image in a scope container */
 	scaling_test_for (film, imc, 2.38695, "239", "239");
 }
+
+
+BOOST_AUTO_TEST_CASE(assertion_failure_when_scaling)
+{
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2("assertion_failure_when_scaling", content);
+
+	content[0]->video->set_custom_size(dcp::Size{3996, 2180});
+	film->set_resolution(Resolution::FOUR_K);
+
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
+}
+

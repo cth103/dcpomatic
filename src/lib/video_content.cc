@@ -650,7 +650,10 @@ VideoContent::scaled_size (dcp::Size film_container)
 	}
 
 	if (_custom_size) {
-		return *_custom_size;
+		if (_custom_size->width <= film_container.width && _custom_size->height <= film_container.height) {
+			return *_custom_size;
+		}
+		return fit_ratio_within(_custom_size->ratio(), film_container);
 	}
 
 	auto size = size_after_crop ();
