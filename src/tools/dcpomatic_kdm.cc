@@ -498,41 +498,47 @@ private:
 			return;
 		}
 
+		for (auto path: dialog->paths()) {
+			add_dkdm(path);
+		}
+	}
+
+	void add_dkdm(boost::filesystem::path path)
+	{
 		auto chain = Config::instance()->decryption_chain();
 		DCPOMATIC_ASSERT (chain->key());
 
-		for (auto path: dialog->paths()) {
-			try {
-				dcp::EncryptedKDM ekdm(dcp::file_to_string(path, MAX_KDM_SIZE));
-				/* Decrypt the DKDM to make sure that we can */
-				dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
+		try {
+			dcp::EncryptedKDM ekdm(dcp::file_to_string(path, MAX_KDM_SIZE));
+			/* Decrypt the DKDM to make sure that we can */
+			dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
 
-				auto new_dkdm = make_shared<DKDM>(ekdm);
-				auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
-				if (!group) {
-					group = Config::instance()->dkdms ();
-				}
-				add_dkdm(new_dkdm, group);
-			} catch (dcp::KDMFormatError& e) {
-				error_dialog (
-					this,
-					_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."),
-					std_to_wx(e.what())
-					);
-				return;
-			} catch (dcp::KDMDecryptionError &) {
-				error_dialog (
-					this,
-					_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
-					);
-			} catch (dcp::MiscError& e) {
-				error_dialog (
-					this,
-					_("Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."),
-					std_to_wx(e.what())
-					);
+			auto new_dkdm = make_shared<DKDM>(ekdm);
+			auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
+			if (!group) {
+				group = Config::instance()->dkdms ();
 			}
+			add_dkdm(new_dkdm, group);
+		} catch (dcp::KDMFormatError& e) {
+			error_dialog (
+				this,
+				_("Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM at all."),
+				std_to_wx(e.what())
+				);
+			return;
+		} catch (dcp::KDMDecryptionError &) {
+			error_dialog (
+				this,
+				_("Could not decrypt the DKDM.  Perhaps it was not created with the correct certificate.")
+				);
+		} catch (dcp::MiscError& e) {
+			error_dialog (
+				this,
+				_("Could not read file as a KDM.  It is much too large.  Make sure you are loading a DKDM (XML) file."),
+				std_to_wx(e.what())
+				);
 		}
+
 		update_dkdm_view();
 	}
 
