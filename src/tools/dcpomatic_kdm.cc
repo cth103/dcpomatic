@@ -180,7 +180,7 @@ public:
 			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT
 		);
 		dkdm_sizer->Add(_dkdm, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
-		wxBoxSizer* dkdm_buttons = new wxBoxSizer(wxVERTICAL);
+		auto dkdm_buttons = new wxBoxSizer(wxVERTICAL);
 		_add_dkdm = new Button (overall_panel, _("Add..."));
 		dkdm_buttons->Add (_add_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_add_dkdm_folder = new Button (overall_panel, _("Add folder..."));
