@@ -21,11 +21,13 @@
 
 #include "dcpomatic_button.h"
 #include "download_certificate_dialog.h"
+#include "file_dialog.h"
 #include "screen_dialog.h"
 #include "static_text.h"
 #include "table_dialog.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
+#include "lib/scope_guard.h"
 #include "lib/util.h"
 #include <dcp/warnings.h>
 #include <dcp/exceptions.h>
@@ -34,14 +36,12 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>
 #include <wx/validate.h>
 LIBDCP_ENABLE_WARNINGS
-#include <iostream>
 
 
 using std::string;
-using std::cout;
 using std::vector;
-using boost::optional;
 using boost::bind;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -64,14 +64,17 @@ public:
 
 	void load_certificate ()
 	{
-		auto d = new wxFileDialog (this, _("Trusted Device certificate"));
-		if (d->ShowModal() == wxID_OK) {
-			try {
-				_certificate = dcp::Certificate(dcp::file_to_string(wx_to_std(d->GetPath())));
-				_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
-			} catch (dcp::MiscError& e) {
-				error_dialog(this, wxString::Format(_("Could not load certificate (%s)"), std_to_wx(e.what())));
-			}
+		auto dialog = new FileDialog(this, _("Trusted Device certificate"), wxEmptyString, wxFD_DEFAULT_STYLE, "SelectCertificatePath");
+		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+		if (!dialog->show()) {
+			return;
+		}
+
+		try {
+			_certificate = dcp::Certificate(dcp::file_to_string(dialog->paths()[0]));
+			_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
+		} catch (dcp::MiscError& e) {
+			error_dialog(this, wxString::Format(_("Could not load certificate (%s)"), std_to_wx(e.what())));
 		}
 	}
 
@@ -256,11 +259,11 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 void
 ScreenDialog::get_recipient_from_file ()
 {
-	auto d = new wxFileDialog (this, _("Select Certificate File"));
-	if (d->ShowModal() == wxID_OK) {
-		load_recipient (boost::filesystem::path(wx_to_std(d->GetPath())));
+	auto dialog = new FileDialog(this, _("Select Certificate File"), wxEmptyString, wxFD_DEFAULT_STYLE , "SelectCertificatePath");
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	if (dialog->show()) {
+		load_recipient(dialog->paths()[0]);
 	}
-	d->Destroy ();
 
 	setup_sensitivity ();
 }
