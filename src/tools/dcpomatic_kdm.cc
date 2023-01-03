@@ -55,6 +55,7 @@
 #include <dcp/exceptions.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/dnd.h>
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
 #include <wx/splash.h>
@@ -175,10 +176,31 @@ public:
 
 		right->Add(_dkdm_search, 0, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
+		class DKDMDropTarget : public wxFileDropTarget
+		{
+		public:
+			DKDMDropTarget(DOMFrame* frame)
+				: _frame(frame)
+			{}
+
+			bool OnDropFiles(wxCoord, wxCoord, wxArrayString const& filenames) override
+			{
+				for (size_t i = 0; i < filenames.GetCount(); ++i) {
+					_frame->add_dkdm(boost::filesystem::path(wx_to_std(filenames[0])));
+				}
+
+				return true;
+			}
+
+		private:
+			DOMFrame* _frame;
+		};
+
 		auto dkdm_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_dkdm = new wxTreeCtrl (
 			overall_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_LINES_AT_ROOT
 		);
+		_dkdm->SetDropTarget(new DKDMDropTarget(this));
 		dkdm_sizer->Add(_dkdm, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		auto dkdm_buttons = new wxBoxSizer(wxVERTICAL);
 		_add_dkdm = new Button (overall_panel, _("Add..."));
