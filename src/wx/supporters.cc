@@ -770,6 +770,7 @@ supported_by.Add (wxT ("Daniel Nestler"));
 supported_by.Add (wxT ("NT Next"));
 supported_by.Add (wxT ("Nguyen Le Khoi Nguyen"));
 supported_by.Add (wxT ("Robert Nichol"));
+supported_by.Add (wxT ("Zebedee Nicholls"));
 supported_by.Add (wxT ("Thomas Nicol"));
 supported_by.Add (wxT ("Jesper Svarre Nielsen"));
 supported_by.Add (wxT ("Carl Nielsen"));
