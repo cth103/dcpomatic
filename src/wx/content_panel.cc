@@ -579,7 +579,7 @@ ContentPanel::add_file_clicked ()
 		return;
 	}
 
-	auto path = Config::instance()->add_files_path();
+	auto path = Config::instance()->initial_path("AddFilesPath");
 
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
@@ -609,7 +609,7 @@ ContentPanel::add_file_clicked ()
 	add_files (path_list);
 
 	if (!path_list.empty()) {
-		Config::instance()->set_add_files_path(path_list[0].parent_path());
+		Config::instance()->set_initial_path("AddFilesPath", path_list[0].parent_path());
 	}
 
 	d->Destroy ();
@@ -619,7 +619,7 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	auto const initial_path = Config::instance()->add_files_path();
+	auto const initial_path = Config::instance()->initial_path("AddFilesPath");
 
 	auto d = new wxDirDialog(_splitter, _("Choose a folder"), std_to_wx(initial_path ? initial_path->string() : home_directory().string()), wxDD_DIR_MUST_EXIST);
 	ScopeGuard sg = [d]() { d->Destroy(); };
@@ -673,7 +673,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	auto const initial_path = Config::instance()->add_files_path();
+	auto const initial_path = Config::instance()->initial_path("AddFilesPath");
 
 	auto d = new wxDirDialog(_splitter, _("Choose a DCP folder"), std_to_wx(initial_path ? initial_path->string() : home_directory().string()), wxDD_DIR_MUST_EXIST);
 	ScopeGuard sg = [d]() { d->Destroy(); };

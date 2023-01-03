@@ -185,7 +185,8 @@ Config::set_defaults ()
 	_player_kdm_directory = boost::none;
 	_audio_mapping = boost::none;
 	_custom_languages.clear ();
-	_add_files_path = boost::none;
+	_initial_paths.clear();
+	_initial_paths["AddFilesPath"] = boost::none;
 	_use_isdcf_name_by_default = true;
 	_write_kdms_to_disk = true;
 	_email_kdms = false;
@@ -599,7 +600,9 @@ try
 		} catch (std::runtime_error& e) {}
 	}
 
-	_add_files_path = f.optional_string_child("AddFilesPath");
+	for (auto& initial: _initial_paths) {
+		initial.second = f.optional_string_child(initial.first);
+	}
 	_use_isdcf_name_by_default = f.optional_bool_child("UseISDCFNameByDefault").get_value_or(true);
 	_write_kdms_to_disk = f.optional_bool_child("WriteKDMsToDisk").get_value_or(true);
 	_email_kdms = f.optional_bool_child("EmailKDMs").get_value_or(false);
@@ -1071,9 +1074,10 @@ Config::write_config () const
 	for (auto const& i: _custom_languages) {
 		root->add_child("CustomLanguage")->add_child_text(i.to_string());
 	}
-	if (_add_files_path) {
-		/* [XML] AddFilesPath The default path that will be offered in the picker when adding files to a film. */
-		root->add_child("AddFilesPath")->add_child_text(_add_files_path->string());
+	for (auto const& initial: _initial_paths) {
+		if (initial.second) {
+			root->add_child(initial.first)->add_child_text(initial.second->string());
+		}
 	}
 	root->add_child("UseISDCFNameByDefault")->add_child_text(_use_isdcf_name_by_default ? "1" : "0");
 	root->add_child("WriteKDMsToDisk")->add_child_text(_write_kdms_to_disk ? "1" : "0");
@@ -1589,5 +1593,24 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 	}
 
 	zipper.close ();
+}
+
+
+void
+Config::set_initial_path(string id, boost::filesystem::path path)
+{
+	auto iter = _initial_paths.find(id);
+	DCPOMATIC_ASSERT(iter != _initial_paths.end());
+	iter->second = path;
+	changed();
+}
+
+
+optional<boost::filesystem::path>
+Config::initial_path(string id) const
+{
+	auto iter = _initial_paths.find(id);
+	DCPOMATIC_ASSERT(iter != _initial_paths.end());
+	return iter->second;
 }
 

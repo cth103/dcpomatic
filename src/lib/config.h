@@ -565,9 +565,7 @@ public:
 		return _custom_languages;
 	}
 
-	boost::optional<boost::filesystem::path> add_files_path () const {
-		return _add_files_path;
-	}
+	boost::optional<boost::filesystem::path> initial_path(std::string id) const;
 
 	bool use_isdcf_name_by_default () const {
 		return _use_isdcf_name_by_default;
@@ -1128,10 +1126,7 @@ public:
 
 	void add_custom_language (dcp::LanguageTag tag);
 
-	void set_add_files_path (boost::filesystem::path p) {
-		_add_files_path = p;
-		changed ();
-	}
+	void set_initial_path(std::string id, boost::filesystem::path path);
 
 	void set_use_isdcf_name_by_default (bool use) {
 		maybe_set (_use_isdcf_name_by_default, use);
@@ -1403,7 +1398,7 @@ private:
 	boost::optional<boost::filesystem::path> _player_kdm_directory;
 	boost::optional<AudioMapping> _audio_mapping;
 	std::vector<dcp::LanguageTag> _custom_languages;
-	boost::optional<boost::filesystem::path> _add_files_path;
+	std::map<std::string, boost::optional<boost::filesystem::path>> _initial_paths;
 	bool _use_isdcf_name_by_default;
 	bool _write_kdms_to_disk;
 	bool _email_kdms;
