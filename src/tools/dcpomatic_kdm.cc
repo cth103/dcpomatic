@@ -22,6 +22,7 @@
 #include "wx/about_dialog.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/editable_list.h"
+#include "wx/file_dialog.h"
 #include "wx/file_picker_ctrl.h"
 #include "wx/full_config_dialog.h"
 #include "wx/job_view_dialog.h"
@@ -489,29 +490,20 @@ private:
 
 	void add_dkdm_clicked ()
 	{
-		auto d = new wxFileDialog(
-			this,
-			_("Select DKDM file"),
-			wxEmptyString,
-			wxEmptyString,
-			wxT("XML files|*.xml|All files|*.*"),
-			wxFD_MULTIPLE
-			);
+		auto dialog = new FileDialog(this, _("Select DKDM file"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
 
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
-		if (d->ShowModal() != wxID_OK) {
+		if (!dialog->show()) {
 			return;
 		}
 
 		auto chain = Config::instance()->decryption_chain();
 		DCPOMATIC_ASSERT (chain->key());
 
-		wxArrayString paths;
-		d->GetPaths(paths);
-		for (unsigned int i = 0; i < paths.GetCount(); ++i) {
+		for (auto path: dialog->paths()) {
 			try {
-				dcp::EncryptedKDM ekdm(dcp::file_to_string(wx_to_std(paths[i]), MAX_KDM_SIZE));
+				dcp::EncryptedKDM ekdm(dcp::file_to_string(path, MAX_KDM_SIZE));
 				/* Decrypt the DKDM to make sure that we can */
 				dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
 

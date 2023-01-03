@@ -187,6 +187,7 @@ Config::set_defaults ()
 	_custom_languages.clear ();
 	_initial_paths.clear();
 	_initial_paths["AddFilesPath"] = boost::none;
+	_initial_paths["AddDKDMPath"] = boost::none;
 	_use_isdcf_name_by_default = true;
 	_write_kdms_to_disk = true;
 	_email_kdms = false;
