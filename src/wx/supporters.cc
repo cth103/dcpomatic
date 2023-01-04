@@ -593,6 +593,7 @@ supported_by.Add (wxT ("Nova Initia Productions LLC"));
 supported_by.Add (wxT ("Movie Geek Enterprises LLC"));
 supported_by.Add (wxT ("Road 28 Productions LLC"));
 supported_by.Add (wxT ("4PM Media LLC"));
+supported_by.Add (wxT ("Fennworld LLC"));
 supported_by.Add (wxT ("The Gem LLC"));
 supported_by.Add (wxT ("ColabDM Productions LLP"));
 supported_by.Add (wxT ("Quiet Heart Film PTY LTD"));
