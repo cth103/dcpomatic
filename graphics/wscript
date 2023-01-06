@@ -53,5 +53,9 @@ def build(bld):
             'me.jpg',
             'tick.png',
             'no_tick.png',
-            'link.png'):
+            'link.png',
+            'add_black.png',
+            'add_white.png',
+            'pause_black.png',
+            'pause_white.png'):
             bld.install_files('${PREFIX}/share/dcpomatic2', icon)

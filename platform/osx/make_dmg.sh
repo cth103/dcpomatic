@@ -251,6 +251,8 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/link.png "$dest"
     cp $prefix/src/dcpomatic/graphics/tick.png "$dest"
     cp $prefix/src/dcpomatic/graphics/no_tick.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/add*.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/pause*.png "$dest"
     cp -r $prefix/share/libdcp/xsd "$dest"
     cp -r $prefix/share/libdcp/tags "$dest"
     cp -r $prefix/share/libdcp/ratings "$dest"
