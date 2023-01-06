@@ -38,18 +38,20 @@ def build(bld):
     # Install stuff for POSIX systems
     if not bld.env.TARGET_WINDOWS_64 and not bld.env.TARGET_WINDOWS_32 and not bld.env.DISABLE_GUI:
         bld.install_as('${PREFIX}/share/dcpomatic2/dcpomatic2_server_small.png', 'linux/16/dcpomatic2.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'splash.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'zoom_white.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'zoom_black.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'select_white.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'select_black.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'snap_white.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'snap_black.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'sequence_white.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'sequence_black.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'zoom_all_white.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'zoom_all_black.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'me.jpg')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'tick.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'no_tick.png')
-        bld.install_files('${PREFIX}/share/dcpomatic2', 'link.png')
+        for icon in (
+            'splash.png',
+            'zoom_white.png',
+            'zoom_black.png',
+            'select_white.png',
+            'select_black.png',
+            'snap_white.png',
+            'snap_black.png',
+            'sequence_white.png',
+            'sequence_black.png',
+            'zoom_all_white.png',
+            'zoom_all_black.png',
+            'me.jpg',
+            'tick.png',
+            'no_tick.png',
+            'link.png'):
+            bld.install_files('${PREFIX}/share/dcpomatic2', icon)
