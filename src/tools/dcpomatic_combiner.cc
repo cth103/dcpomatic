@@ -19,6 +19,7 @@
 */
 
 
+#include "wx/dir_dialog.h"
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
 #include "wx/wx_signal_manager.h"
@@ -56,18 +57,23 @@ display_string (boost::filesystem::path p, int)
 }
 
 
-class DirDialogWrapper : public wxDirDialog
+class DirDialogWrapper : public DirDialog
 {
 public:
 	DirDialogWrapper (wxWindow* parent)
-		: wxDirDialog (parent, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST)
+		: DirDialog (parent, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddCombinerInputPath")
 	{
 
 	}
 
+	virtual int ShowModal() override
+	{
+		return DirDialog::show() ? wxID_OK : wxID_CANCEL;
+	}
+
 	optional<boost::filesystem::path> get () const
 	{
-		return boost::filesystem::path(wx_to_std(GetPath()));
+		return path();
 	}
 
 	void set (boost::filesystem::path)
