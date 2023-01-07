@@ -58,6 +58,7 @@ sources = """
           dcpomatic_button.cc
           dcpomatic_choice.cc
           dcpomatic_spin_ctrl.cc
+          dir_dialog.cc
           dir_picker_ctrl.cc
           disk_warning_dialog.cc
           dkdm_dialog.cc
