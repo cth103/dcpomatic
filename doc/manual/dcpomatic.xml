@@ -2452,6 +2452,68 @@ tab.
 </para>
 
 </section>
+
+<section>
+<title>Creating KDMs for a distributor</title>
+
+<para>
+Sometimes you have an encrypted DCP and you want to allow somebody else
+(for example, a distributor) to make KDMs for the DCP on your behalf.
+</para>
+
+<para>
+The normal way to do this is to send the distributor a KDM which they
+can use with their own KDM creation system.  Such a KDM is often called
+a DKDM (the &lsquo;D&rsquo; stands for <emphasis>Distribution</emphasis>).
+It is the same as a normal KDM except that it is made to work with another
+computer, rather than with a projection system.
+</para>
+
+<para>
+To make a DKDM for a distributor you will first need to ask them to send you
+a decryption certificate.  This should be a small file, usually with the extension
+<code>.pem</code>.
+</para>
+
+<para>
+Once you have the certificate, you will need to add a &lsquo;fake&rsquo; cinema
+and screen to the list in DCP-o-matic.  This is because making a KDM for another
+computer uses the same process internally as making one for a projection system,
+it's just that DCP-o-matic does not have a nice way to present that.
+</para>
+
+<para>
+In either the KDM window in the main DCP-o-matic, or the KDM creator, first add
+a new cinema by clicking <guilabel>Add Cinema...</guilabel>, giving it a name
+(perhaps the name of the distributor).
+</para>
+
+<para>
+Then select this new cinema and click <guilabel>Add Screen...</guilabel> to open
+the screen dialog box, as shown in <xref linkend="fig-add-screen"/>.
+</para>
+
+<figure id="fig-add-screen">
+  <title>Adding a screen</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata scale="30" fileref="screenshots/add-screen&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+Here you can give any name (perhaps just &lsquo;DKDM&rsquo;).  Then click <guilabel>Get from file...</guilabel>
+and choose the certificate file that the distributor gave you.  Finally, click <guilabel>OK</guilabel>.
+</para>
+
+<para>
+Now you can create a KDM for this screen, and send it to the distributor.  Using that KDM the distributor
+can then make KDMs for your DCP for anybody (and also, of course, decrypt the DCP if they wanted to).
+</para>
+
+</section>
+
 </section>
 
 <section>
