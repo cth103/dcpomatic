@@ -2383,7 +2383,6 @@ emailed to the appropriate cinema email addresses.  Click
 
 <section>
 <title>Creating KDMs using a DKDM</title>
-</section>
 
 <para>
 It can be inconvenient to need a whole DCP-o-matic project just to
@@ -2450,9 +2449,9 @@ a target certificate.  You can get DCP-o-matic's target certificate by
 opening <guilabel>Preferences</guilabel> and clicking <guilabel>Export
 DCP decryption certificate...</guilabel> in the <guilabel>Keys</guilabel>
 tab.
-
 </para>
 
+</section>
 </section>
 
 <section>
