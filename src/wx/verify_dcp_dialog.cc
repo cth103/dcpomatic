@@ -383,6 +383,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INVALID_MAIN_PICTURE_ACTIVE_AREA:
 			add(i, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));
 			break;
+		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_PKL:
+			add(i, _("The PKL %n has more than one asset with the same ID."));
+			break;
+		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_ASSETMAP:
+			add(i, _("The ASSETMAP %n has more than one asset with the same ID."));
+			break;
 		}
 	}
 
