@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Farcical script to remove newlines after
 # \begin{sidebar} in dblatex' .tex output;
