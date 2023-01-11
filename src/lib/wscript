@@ -232,7 +232,7 @@ def build(bld):
     obj.source = sources + ' version.cc'
 
     if bld.env.ENABLE_DISK:
-        obj.source += ' copy_to_drive_job.cc ext.cc nanomsg.cc'
+        obj.source += ' copy_to_drive_job.cc disk_writer_messages.cc ext.cc nanomsg.cc'
         obj.uselib += ' LWEXT4 NANOMSG'
         if bld.env.TARGET_LINUX:
             obj.uselib += ' POLKIT'

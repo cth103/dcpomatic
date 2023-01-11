@@ -18,6 +18,14 @@
 
 */
 
+
+#include <boost/optional.hpp>
+#include <string>
+
+
+class Nanomsg;
+
+
 /* We have the front-end application dcpomatic2_disk and the back-end
  * dcpomatic2_disk_writer.  The communication is line-based, separated
  * by \n.
@@ -80,4 +88,79 @@
 // DISK_WRITER_OK
 // or
 // DISK_WRITER_ERROR
+
+
+class DiskWriterBackEndResponse
+{
+public:
+	enum class Type {
+		OK,
+		ERROR,
+		PONG,
+		FORMAT_PROGRESS,
+		COPY_PROGRESS,
+		VERIFY_PROGRESS
+	};
+
+	static DiskWriterBackEndResponse ok() {
+		return DiskWriterBackEndResponse(Type::OK);
+	}
+
+	static DiskWriterBackEndResponse error(std::string message, int number) {
+		auto r = DiskWriterBackEndResponse(Type::ERROR);
+		r._error_message = message;
+		r._error_number = number;
+		return r;
+	}
+
+	static DiskWriterBackEndResponse pong() {
+		return DiskWriterBackEndResponse(Type::PONG);
+	}
+
+	static DiskWriterBackEndResponse format_progress(float p) {
+		auto r = DiskWriterBackEndResponse(Type::FORMAT_PROGRESS);
+		r._progress = p;
+		return r;
+	}
+
+	static DiskWriterBackEndResponse copy_progress(float p) {
+		auto r = DiskWriterBackEndResponse(Type::COPY_PROGRESS);
+		r._progress = p;
+		return r;
+	}
+
+	static DiskWriterBackEndResponse verify_progress(float p) {
+		auto r = DiskWriterBackEndResponse(Type::VERIFY_PROGRESS);
+		r._progress = p;
+		return r;
+	}
+
+	static boost::optional<DiskWriterBackEndResponse> read_from_nanomsg(Nanomsg& nanomsg, int timeout);
+
+	Type type() const {
+		return _type;
+	}
+
+	std::string error_message() const {
+		return _error_message;
+	}
+
+	int error_number() const {
+		return _error_number;
+	}
+
+	float progress() const {
+		return _progress;
+	}
+
+private:
+	DiskWriterBackEndResponse(Type type)
+		: _type(type)
+	{}
+
+	Type _type;
+	std::string _error_message;
+	int _error_number = 0;
+	float _progress = 0;
+};
 
