@@ -284,11 +284,11 @@ private:
 
 		auto ping = [this](int attempt) {
 			if (_nanomsg.send(DISK_WRITER_PING "\n", 1000)) {
-				auto reply = _nanomsg.receive (1000);
-				if (reply && *reply == DISK_WRITER_PONG) {
+				auto reply = DiskWriterBackEndResponse::read_from_nanomsg(_nanomsg, 1000);
+				if (reply && reply->type() == DiskWriterBackEndResponse::Type::PONG) {
 					return true;
 				} else if (reply) {
-					LOG_DISK("Unexpected response %1 to ping received (attempt %2)", *reply, attempt);
+					LOG_DISK("Unexpected response %1 to ping received (attempt %2)", static_cast<int>(reply->type()), attempt);
 				} else {
 					LOG_DISK("No reply received from ping (attempt %1)", attempt);
 				}
@@ -348,12 +348,16 @@ private:
 				throw CommunicationFailedError ();
 			}
 			/* The reply may have to wait for the user to authenticate, so let's wait a while */
-			auto reply = _nanomsg.receive (30000);
-			if (!reply || *reply != DISK_WRITER_OK) {
+			auto const reply = DiskWriterBackEndResponse::read_from_nanomsg(_nanomsg, 30000);
+			if (!reply || reply->type() != DiskWriterBackEndResponse::Type::OK) {
 				auto m = make_wx<MessageDialog>(
 						this,
 						_("DCP-o-matic Disk Writer"),
-						wxString::Format(_("The drive %s could not be unmounted.\nClose any application that is using it, then try again."), std_to_wx(drive.description()))
+						wxString::Format(
+							_("The drive %s could not be unmounted.\nClose any application that is using it, then try again. (%s)"),
+							std_to_wx(drive.description()),
+							reply->error_message()
+							)
 						);
 				m->ShowModal ();
 				return;

@@ -97,44 +97,40 @@ CopyToDriveJob::run ()
 	} state = SETUP;
 
 	while (true) {
-		optional<string> s = _nanomsg.receive (10000);
-		if (!s) {
+		auto response = DiskWriterBackEndResponse::read_from_nanomsg(_nanomsg, 10000);
+		if (!response) {
 			continue;
 		}
-		if (*s == DISK_WRITER_OK) {
+
+		switch (response->type()) {
+		case DiskWriterBackEndResponse::Type::OK:
 			set_state (FINISHED_OK);
 			return;
-		} else if (*s == DISK_WRITER_ERROR) {
-			auto const m = _nanomsg.receive (500);
-			auto const n = _nanomsg.receive (500);
-			throw CopyError (m.get_value_or("Unknown"), raw_convert<int>(n.get_value_or("0")));
-		} else if (*s == DISK_WRITER_FORMAT_PROGRESS) {
+		case DiskWriterBackEndResponse::Type::PONG:
+			break;
+		case DiskWriterBackEndResponse::Type::ERROR:
+			throw CopyError(response->error_message(), response->error_number());
+		case DiskWriterBackEndResponse::Type::FORMAT_PROGRESS:
 			if (state == SETUP) {
 				sub (_("Formatting drive"));
 				state = FORMAT;
 			}
-			auto progress = _nanomsg.receive (500);
-			if (progress) {
-				set_progress (raw_convert<float>(*progress));
-			}
-		} else if (*s == DISK_WRITER_COPY_PROGRESS) {
+			set_progress(response->progress());
+			break;
+		case DiskWriterBackEndResponse::Type::COPY_PROGRESS:
 			if (state == FORMAT) {
 				sub (_("Copying DCP"));
 				state = COPY;
 			}
-			auto progress = _nanomsg.receive (500);
-			if (progress) {
-				set_progress (raw_convert<float>(*progress));
-			}
-		} else if (*s == DISK_WRITER_VERIFY_PROGRESS) {
+			set_progress(response->progress());
+			break;
+		case DiskWriterBackEndResponse::Type::VERIFY_PROGRESS:
 			if (state == COPY) {
 				sub (_("Verifying copied files"));
 				state = VERIFY;
 			}
-			auto progress = _nanomsg.receive (500);
-			if (progress) {
-				set_progress (raw_convert<float>(*progress));
-			}
+			set_progress(response->progress());
+			break;
 		}
 	}
 }
