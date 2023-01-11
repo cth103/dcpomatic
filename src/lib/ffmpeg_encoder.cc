@@ -178,9 +178,9 @@ FFmpegEncoder::go ()
 	std::vector<float> interleaved(_output_audio_channels * audio_frames);
 	auto deinterleaved = make_shared<AudioBuffers>(_output_audio_channels, audio_frames);
 	int const gets_per_frame = _film->three_d() ? 2 : 1;
-	for (DCPTime i; i < _film->length(); i += video_frame) {
+	for (DCPTime time; time < _film->length(); time += video_frame) {
 
-		if (file_encoders.size() > 1 && !reel->contains(i)) {
+		if (file_encoders.size() > 1 && !reel->contains(time)) {
 			/* Next reel and file */
 			++reel;
 			++encoder;
@@ -208,12 +208,12 @@ FFmpegEncoder::go ()
 
 		{
 			boost::mutex::scoped_lock lm (_mutex);
-			_last_time = i;
+			_last_time = time;
 		}
 
 		auto job = _job.lock ();
 		if (job) {
-			job->set_progress (float(i.get()) / _film->length().get());
+			job->set_progress(float(time.get()) / _film->length().get());
 		}
 
 		waker.nudge ();
