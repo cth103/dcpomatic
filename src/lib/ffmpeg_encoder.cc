@@ -190,12 +190,12 @@ FFmpegEncoder::go ()
 
 		for (int j = 0; j < gets_per_frame; ++j) {
 			Butler::Error e;
-			auto v = _butler.get_video(Butler::Behaviour::BLOCKING, &e);
+			auto video = _butler.get_video(Butler::Behaviour::BLOCKING, &e);
 			_butler.rethrow();
-			if (v.first) {
-				auto fe = encoder->get (v.first->eyes());
+			if (video.first) {
+				auto fe = encoder->get(video.first->eyes());
 				if (fe) {
-					fe->video(v.first, v.second - reel->from);
+					fe->video(video.first, video.second - reel->from);
 				}
 			} else {
 				if (e.code != Butler::Error::Code::FINISHED) {
