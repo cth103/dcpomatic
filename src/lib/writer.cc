@@ -153,19 +153,11 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	qi.reel = video_reel (frame);
 	qi.frame = frame - _reels[qi.reel].start ();
 
-	if (film()->three_d() && eyes == Eyes::BOTH) {
-		/* 2D material in a 3D DCP; fake the 3D */
-		qi.eyes = Eyes::LEFT;
-		_queue.push_back (qi);
-		++_queued_full_in_memory;
-		qi.eyes = Eyes::RIGHT;
-		_queue.push_back (qi);
-		++_queued_full_in_memory;
-	} else {
-		qi.eyes = eyes;
-		_queue.push_back (qi);
-		++_queued_full_in_memory;
-	}
+	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
+
+	qi.eyes = eyes;
+	_queue.push_back(qi);
+	++_queued_full_in_memory;
 
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();

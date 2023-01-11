@@ -38,6 +38,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
+#include "lib/image_png.h"
 #include "lib/player.h"
 #include "lib/ratio.h"
 #include "lib/string_text_file_content.h"
@@ -594,5 +595,108 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13_frame_rate_change)
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 	check_mxf_audio_file("test/data/trimmed_sound_mix_bug_13_frame_rate_change.mxf", dcp_file(film, "pcm_"));
+}
+
+
+BOOST_AUTO_TEST_CASE(two_d_in_three_d_duplicates)
+{
+	auto A = content_factory("test/data/flat_red.png").front();
+	auto B = content_factory("test/data/flat_green.png").front();
+	auto film = new_test_film2("two_d_in_three_d_duplicates", { A, B });
+
+	film->set_three_d(true);
+	B->video->set_frame_type(VideoFrameType::THREE_D_LEFT_RIGHT);
+	B->set_position(film, DCPTime::from_seconds(10));
+	B->video->set_custom_size(dcp::Size(1998, 1080));
+
+	auto player = std::make_shared<Player>(film, film->playlist());
+
+	std::vector<uint8_t> red_line(1998 * 3);
+	for (int i = 0; i < 1998; ++i) {
+		red_line[i * 3] = 255;
+	};
+
+	std::vector<uint8_t> green_line(1998 * 3);
+	for (int i = 0; i < 1998; ++i) {
+		green_line[i * 3 + 1] = 255;
+	};
+
+	Eyes last_eyes = Eyes::RIGHT;
+	optional<DCPTime> last_time;
+	player->Video.connect([&last_eyes, &last_time, &red_line, &green_line](shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time) {
+		BOOST_CHECK(last_eyes != video->eyes());
+		last_eyes = video->eyes();
+		if (video->eyes() == Eyes::LEFT) {
+			BOOST_CHECK(!last_time || time == *last_time + DCPTime::from_frames(1, 24));
+		} else {
+			BOOST_CHECK(time == *last_time);
+		}
+		last_time = time;
+
+		auto image = video->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
+		auto const size = image->size();
+		for (int y = 0; y < size.height; ++y) {
+			uint8_t* line = image->data()[0] + y * image->stride()[0];
+			if (time < DCPTime::from_seconds(10)) {
+				BOOST_REQUIRE_EQUAL(memcmp(line, red_line.data(), 1998 * 3), 0);
+			} else {
+				BOOST_REQUIRE_EQUAL(memcmp(line, green_line.data(), 1998 * 3), 0);
+			}
+		}
+	});
+
+	BOOST_CHECK(film->length() == DCPTime::from_seconds(20));
+	while (!player->pass()) {}
+}
+
+
+BOOST_AUTO_TEST_CASE(three_d_in_two_d_chooses_left)
+{
+	auto left = content_factory("test/data/flat_red.png").front();
+	auto right = content_factory("test/data/flat_green.png").front();
+	auto mono = content_factory("test/data/flat_blue.png").front();
+
+	auto film = new_test_film2("three_d_in_two_d_chooses_left", { left, right, mono });
+
+	left->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
+	left->set_position(film, dcpomatic::DCPTime());
+	right->video->set_frame_type(VideoFrameType::THREE_D_RIGHT);
+	right->set_position(film, dcpomatic::DCPTime());
+
+	mono->set_position(film, dcpomatic::DCPTime::from_seconds(10));
+
+	auto player = std::make_shared<Player>(film, film->playlist());
+
+	std::vector<uint8_t> red_line(1998 * 3);
+	for (int i = 0; i < 1998; ++i) {
+		red_line[i * 3] = 255;
+	};
+
+	std::vector<uint8_t> blue_line(1998 * 3);
+	for (int i = 0; i < 1998; ++i) {
+		blue_line[i * 3 + 2] = 255;
+	};
+
+	optional<DCPTime> last_time;
+	player->Video.connect([&last_time, &red_line, &blue_line](shared_ptr<PlayerVideo> video, dcpomatic::DCPTime time) {
+		BOOST_CHECK(video->eyes() == Eyes::BOTH);
+		BOOST_CHECK(!last_time || time == *last_time + DCPTime::from_frames(1, 24));
+		last_time = time;
+
+		std::cout << to_string(time) << "\n";
+		auto image = video->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
+		auto const size = image->size();
+		for (int y = 0; y < size.height; ++y) {
+			uint8_t* line = image->data()[0] + y * image->stride()[0];
+			if (time < DCPTime::from_seconds(10)) {
+				BOOST_REQUIRE_EQUAL(memcmp(line, red_line.data(), 1998 * 3), 0);
+			} else {
+				BOOST_REQUIRE_EQUAL(memcmp(line, blue_line.data(), 1998 * 3), 0);
+			}
+		}
+	});
+
+	BOOST_CHECK(film->length() == DCPTime::from_seconds(20));
+	while (!player->pass()) {}
 }
 

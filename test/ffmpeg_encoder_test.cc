@@ -369,6 +369,18 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 }
 
 
+BOOST_AUTO_TEST_CASE(ffmpeg_encoder_2d_content_in_3d_project)
+{
+	auto content = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
+	auto film = new_test_film2("ffmpeg_encoder_2d_content_in_3d_project", { content });
+	film->set_three_d(true);
+
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	FFmpegEncoder encoder(film, job, "build/test/ffmpeg_encoder_2d_content_in_3d_project.mp4", ExportFormat::H264_AAC, true, false, false, 23);
+	encoder.go();
+}
+
+
 /** Stereo project with mixdown-to-stereo set */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 {

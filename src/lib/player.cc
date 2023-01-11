@@ -970,6 +970,28 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		return;
 	}
 
+	vector<Eyes> eyes_to_emit;
+
+	if (!film->three_d()) {
+		if (video.eyes == Eyes::RIGHT) {
+			/* 2D film, 3D content: discard right */
+			return;
+		} else if (video.eyes == Eyes::LEFT) {
+			/* 2D film, 3D content: emit left as "both" */
+			video.eyes = Eyes::BOTH;
+			eyes_to_emit = { Eyes::BOTH };
+		}
+	} else {
+		if (video.eyes == Eyes::BOTH) {
+			/* 3D film, 2D content; emit "both" for left and right */
+			eyes_to_emit = { Eyes::LEFT, Eyes::RIGHT };
+		}
+	}
+
+	if (eyes_to_emit.empty()) {
+		eyes_to_emit = { video.eyes };
+	}
+
 	/* Time of the first frame we will emit */
 	DCPTime const time = content_video_to_dcp (piece, video.frame);
 	LOG_DEBUG_PLAYER("Received video frame %1 at %2", video.frame, to_string(time));
@@ -998,7 +1020,7 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		if ((fill_to - fill_from) > one_video_frame() / 2) {
 			auto last = _last_video.find (weak_piece);
 			if (film->three_d()) {
-				auto fill_to_eyes = video.eyes;
+				auto fill_to_eyes = eyes_to_emit[0];
 				if (fill_to_eyes == Eyes::BOTH) {
 					fill_to_eyes = Eyes::LEFT;
 				}
@@ -1040,32 +1062,34 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 
 	auto const content_video = piece->content->video;
 
-	_last_video[weak_piece] = std::make_shared<PlayerVideo>(
-		video.image,
-		content_video->actual_crop(),
-		content_video->fade(film, video.frame),
-		scale_for_display(
-			content_video->scaled_size(film->frame_size()),
+	for (auto eyes: eyes_to_emit) {
+		_last_video[weak_piece] = std::make_shared<PlayerVideo>(
+			video.image,
+			content_video->actual_crop(),
+			content_video->fade(film, video.frame),
+			scale_for_display(
+				content_video->scaled_size(film->frame_size()),
+				_video_container_size,
+				film->frame_size(),
+				content_video->pixel_quanta()
+				),
 			_video_container_size,
-			film->frame_size(),
-			content_video->pixel_quanta()
-			),
-		_video_container_size,
-		video.eyes,
-		video.part,
-		content_video->colour_conversion(),
-		content_video->range(),
-		piece->content,
-		video.frame,
-		false
-		);
+			eyes,
+			video.part,
+			content_video->colour_conversion(),
+			content_video->range(),
+			piece->content,
+			video.frame,
+			false
+			);
 
-	DCPTime t = time;
-	for (int i = 0; i < frc.repeat; ++i) {
-		if (t < piece->content->end(film)) {
-			emit_video (_last_video[weak_piece], t);
+		DCPTime t = time;
+		for (int i = 0; i < frc.repeat; ++i) {
+			if (t < piece->content->end(film)) {
+				emit_video (_last_video[weak_piece], t);
+			}
+			t += one_video_frame ();
 		}
-		t += one_video_frame ();
 	}
 }
 
