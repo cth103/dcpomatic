@@ -405,16 +405,23 @@ config_path (optional<string> version)
 }
 
 
+struct UnmountState
+{
+	bool success = false;
+	bool callback = false;
+};
+
+
 void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 {
 	LOG_DISK_NC("Unmount finished");
-	bool* success = reinterpret_cast<bool*> (context);
+	auto state = reinterpret_cast<UnmountState*>(context);
+	state->callback = true;
 	if (dissenter) {
 		LOG_DISK("Error: %1", DADissenterGetStatus(dissenter));
-		*success = false;
 	} else {
 		LOG_DISK_NC("Successful");
-		*success = true;
+		state->success = true;
 	}
 }
 
@@ -434,19 +441,22 @@ Drive::unmount ()
 		return false;
 	}
 	LOG_DISK("Requesting unmount of %1 from %2", _device, thread_id());
-	bool success = false;
-	DADiskUnmount(disk, kDADiskUnmountOptionWhole, &done_callback, &success);
+	UnmountState state;
+	DADiskUnmount(disk, kDADiskUnmountOptionWhole, &done_callback, &state);
 	CFRelease (disk);
 
 	CFRunLoopRef run_loop = CFRunLoopGetCurrent ();
 	DASessionScheduleWithRunLoop (session, run_loop, kCFRunLoopDefaultMode);
 	CFRunLoopStop (run_loop);
-	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, 0);
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5, 0);
 	CFRelease(session);
 
-	LOG_DISK_NC("End of unmount");
-	return success;
+	if (!state.callback) {
+		LOG_DISK_NC("End of unmount: timeout");
+	} else {
+		LOG_DISK("End of unmount: %1", state.success ? "success" : "failure");
+	}
+	return state.success;
 }
 
 
