@@ -442,6 +442,7 @@ Drive::unmount ()
 	DASessionScheduleWithRunLoop (session, run_loop, kCFRunLoopDefaultMode);
 	CFRunLoopStop (run_loop);
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.5, 0);
+	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5, 0);
 	CFRelease(session);
 
 	LOG_DISK_NC("End of unmount");
