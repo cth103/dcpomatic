@@ -603,6 +603,15 @@ public:
 		return _main_content_divider_sash_position;
 	}
 
+	enum class DefaultAddFileLocation {
+		SAME_AS_LAST_TIME,
+		SAME_AS_PROJECT
+	};
+
+	DefaultAddFileLocation default_add_file_location() const {
+		return _default_add_file_location;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1172,6 +1181,10 @@ public:
 		maybe_set(_main_content_divider_sash_position, position);
 	}
 
+	void set_default_add_file_location(DefaultAddFileLocation location) {
+		maybe_set(_default_add_file_location, location);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1408,6 +1421,7 @@ private:
 	boost::optional<std::string> _last_release_notes_version;
 	boost::optional<int> _main_divider_sash_position;
 	boost::optional<int> _main_content_divider_sash_position;
+	DefaultAddFileLocation _default_add_file_location;
 
 	ExportConfig _export;
 

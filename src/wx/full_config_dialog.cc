@@ -28,6 +28,7 @@
 #include "config_dialog.h"
 #include "config_move_dialog.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "dir_picker_ctrl.h"
 #include "editable_list.h"
 #include "email_dialog.h"
@@ -124,6 +125,11 @@ private:
 		table->Add (export_cinemas, wxGBPosition (r, 2));
 		++r;
 
+		add_label_to_sizer(table, _panel, _("Default \"add file\" location"), true, wxGBPosition(r, 0));
+		_default_add_file_location = new Choice(_panel);
+		table->Add(_default_add_file_location, wxGBPosition(r, 1));
+		++r;
+
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128 = new CheckBox (_panel, _("Find integrated loudness, true peak and loudness range when analysing audio"));
 		table->Add (_analyse_ebur128, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -135,6 +141,10 @@ private:
 		++r;
 
 		add_update_controls (table, r);
+
+		_default_add_file_location->add(_("Same place as last time"));
+		_default_add_file_location->add(_("Same place as project"));
+		_default_add_file_location->bind(&FullGeneralPage::default_add_file_location_changed, this);
 
 		_config_file->Bind  (wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::config_file_changed,  this));
 		_cinemas_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::cinemas_file_changed, this));
@@ -163,6 +173,7 @@ private:
 		checked_set (_automatic_audio_analysis, config->automatic_audio_analysis ());
 		checked_set (_config_file, config->config_read_file());
 		checked_set (_cinemas_file, config->cinemas_file());
+		checked_set(_default_add_file_location, config->default_add_file_location() == Config::DefaultAddFileLocation::SAME_AS_LAST_TIME ? 0 : 1);
 
 		GeneralPage::config_changed ();
 	}
@@ -233,6 +244,14 @@ private:
 		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
 	}
 
+	void default_add_file_location_changed()
+	{
+		Config::instance()->set_default_add_file_location(
+			_default_add_file_location->get().get_value_or(0) == 0 ? Config::DefaultAddFileLocation::SAME_AS_LAST_TIME : Config::DefaultAddFileLocation::SAME_AS_PROJECT
+			);
+	}
+
+	Choice* _default_add_file_location;
 	wxSpinCtrl* _master_encoding_threads;
 	wxSpinCtrl* _server_encoding_threads;
 	FilePickerCtrl* _config_file;

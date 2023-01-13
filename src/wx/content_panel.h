@@ -109,6 +109,7 @@ private:
 	void later_clicked ();
 	void right_click (wxListEvent &);
 	void files_dropped (wxDropFilesEvent &);
+	boost::optional<boost::filesystem::path> add_files_override_path() const;
 
 	void setup ();
 	void setup_sensitivity ();

@@ -153,6 +153,7 @@ Config::set_defaults ()
 	_sound_output = optional<string> ();
 	_last_kdm_write_type = KDM_WRITE_FLAT;
 	_last_dkdm_write_type = DKDM_WRITE_INTERNAL;
+	_default_add_file_location = DefaultAddFileLocation::SAME_AS_LAST_TIME;
 
 	/* I think the scaling factor here should be the ratio of the longest frame
 	   encode time to the shortest; if the thread count is T, longest time is L
@@ -619,6 +620,14 @@ try
 	_last_release_notes_version = f.optional_string_child("LastReleaseNotesVersion");
 	_main_divider_sash_position = f.optional_number_child<int>("MainDividerSashPosition");
 	_main_content_divider_sash_position = f.optional_number_child<int>("MainContentDividerSashPosition");
+
+	if (auto loc = f.optional_string_child("DefaultAddFileLocation")) {
+		if (*loc == "last") {
+			_default_add_file_location = DefaultAddFileLocation::SAME_AS_LAST_TIME;
+		} else if (*loc == "project") {
+			_default_add_file_location = DefaultAddFileLocation::SAME_AS_PROJECT;
+		}
+	}
 
 	_export.read(f.optional_node_child("Export"));
 }
@@ -1096,6 +1105,10 @@ Config::write_config () const
 	if (_main_content_divider_sash_position) {
 		root->add_child("MainContentDividerSashPosition")->add_child_text(raw_convert<string>(*_main_content_divider_sash_position));
 	}
+
+	root->add_child("DefaultAddFileLocation")->add_child_text(
+		_default_add_file_location == DefaultAddFileLocation::SAME_AS_LAST_TIME ? "last" : "project"
+		);
 
 	_export.write(root->add_child("Export"));
 

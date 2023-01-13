@@ -22,6 +22,7 @@
 #include "audio_panel.h"
 #include "content_panel.h"
 #include "dcpomatic_button.h"
+#include "dir_dialog.h"
 #include "file_dialog.h"
 #include "film_viewer.h"
 #include "image_sequence_dialog.h"
@@ -570,6 +571,17 @@ ContentPanel::check_selection ()
 }
 
 
+optional<boost::filesystem::path>
+ContentPanel::add_files_override_path() const
+{
+	DCPOMATIC_ASSERT(_film->directory());
+	return Config::instance()->default_add_file_location() == Config::DefaultAddFileLocation::SAME_AS_PROJECT
+		? _film->directory()->parent_path()
+		: boost::optional<boost::filesystem::path>();
+
+}
+
+
 void
 ContentPanel::add_file_clicked ()
 {
@@ -588,7 +600,8 @@ ContentPanel::add_file_clicked ()
 		_("Choose a file or files"),
 		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
 		wxFD_MULTIPLE | wxFD_CHANGE_DIR,
-		"AddFilesPath"
+		"AddFilesPath",
+		add_files_override_path()
 		);
 
 	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
@@ -602,17 +615,11 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	auto const initial_path = Config::instance()->initial_path("AddFilesPath");
-
-	auto d = new wxDirDialog(_splitter, _("Choose a folder"), std_to_wx(initial_path ? initial_path->string() : home_directory().string()), wxDD_DIR_MUST_EXIST);
+	auto d = new DirDialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
 	ScopeGuard sg = [d]() { d->Destroy(); };
-	int r = d->ShowModal ();
-	if (r != wxID_OK) {
-		return;
+	if (d->show()) {
+		add_folder(d->path());
 	}
-
-	boost::filesystem::path const path(wx_to_std(d->GetPath()));
-	add_folder(path);
 }
 
 
@@ -653,17 +660,11 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	auto const initial_path = Config::instance()->initial_path("AddFilesPath");
-
-	auto d = new wxDirDialog(_splitter, _("Choose a DCP folder"), std_to_wx(initial_path ? initial_path->string() : home_directory().string()), wxDD_DIR_MUST_EXIST);
+	auto d = new DirDialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
 	ScopeGuard sg = [d]() { d->Destroy(); };
-	int r = d->ShowModal ();
-	if (r != wxID_OK) {
-		return;
+	if (d->show()) {
+		add_dcp(d->path());
 	}
-
-	boost::filesystem::path const path(wx_to_std(d->GetPath()));
-	add_dcp(path);
 }
 
 
