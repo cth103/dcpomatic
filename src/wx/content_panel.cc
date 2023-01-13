@@ -654,15 +654,12 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 		auto ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
 			auto e = new ImageSequenceDialog (_splitter);
-			int const r = e->ShowModal();
-			auto const frame_rate = e->frame_rate ();
-			e->Destroy ();
+			ScopeGuard sg = [e]() { e->Destroy(); };
 
-			if (r != wxID_OK) {
+			if (e->ShowModal() != wxID_OK) {
 				return;
 			}
-
-			ic->set_video_frame_rate(_film, frame_rate);
+			ic->set_video_frame_rate(_film, e->frame_rate());
 		}
 
 		_film->examine_and_add_content (i);

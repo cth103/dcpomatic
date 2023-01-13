@@ -25,6 +25,7 @@
 
 #include "dcpomatic_button.h"
 #include "wx_util.h"
+#include "lib/scope_guard.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
@@ -233,6 +234,7 @@ private:
 	void add_clicked ()
 	{
 		S* dialog = new S (this);
+		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
 		if (dialog->ShowModal() == wxID_OK) {
 			auto const v = dialog->get ();
@@ -244,8 +246,6 @@ private:
 				_set (all);
 			}
 		}
-
-		dialog->Destroy ();
 	}
 
 	void edit_clicked ()
@@ -259,6 +259,7 @@ private:
 		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 
 		S* dialog = new S (this);
+		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 		dialog->set (all[item]);
 		if (dialog->ShowModal() == wxID_OK) {
 			auto const v = dialog->get ();
@@ -269,7 +270,6 @@ private:
 
 			all[item] = v.get ();
 		}
-		dialog->Destroy ();
 
 		for (size_t i = 0; i < _columns.size(); ++i) {
 			_list->SetItem (item, i, std_to_wx (_column (all[item], i)));

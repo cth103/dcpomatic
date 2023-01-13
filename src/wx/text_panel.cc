@@ -41,6 +41,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/job_manager.h"
+#include "lib/scope_guard.h"
 #include "lib/string_text_file_content.h"
 #include "lib/string_text_file_decoder.h"
 #include "lib/subtitle_analysis.h"
@@ -370,10 +371,10 @@ TextPanel::dcp_track_changed ()
 
 	if (_dcp_track->GetSelection() == int(_dcp_track->GetCount()) - 1) {
 		auto d = new DCPTextTrackDialog (this);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		if (d->ShowModal() == wxID_OK) {
 			track = d->get();
 		}
-		d->Destroy ();
 	} else {
 		/* Find the DCPTextTrack that was selected */
 		for (auto i: _parent->film()->closed_caption_tracks()) {

@@ -36,6 +36,7 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
+#include "lib/scope_guard.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
@@ -381,10 +382,11 @@ void
 Controls::timecode_clicked ()
 {
 	auto dialog = new PlayheadToTimecodeDialog(this, _viewer.position(), _film->video_frame_rate());
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer.seek(dialog->get(), true);
 	}
-	dialog->Destroy ();
 }
 
 
@@ -392,10 +394,11 @@ void
 Controls::frame_number_clicked ()
 {
 	auto dialog = new PlayheadToFrameDialog(this, _viewer.position(), _film->video_frame_rate());
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer.seek(dialog->get(), true);
 	}
-	dialog->Destroy ();
 }
 
 

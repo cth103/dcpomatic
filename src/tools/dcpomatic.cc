@@ -80,6 +80,7 @@
 #include "lib/log.h"
 #include "lib/make_dcp.h"
 #include "lib/release_notes.h"
+#include "lib/scope_guard.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/signal_manager.h"
@@ -577,36 +578,37 @@ private:
 	void file_new ()
 	{
 		auto d = new FilmNameLocationDialog (this, _("New Film"), true);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		int const r = d->ShowModal ();
 
-		if (r == wxID_OK && d->check_path() && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
-			try {
-				new_film (d->path(), d->template_name());
-			} catch (boost::filesystem::filesystem_error& e) {
-#ifdef DCPOMATIC_WINDOWS
-				string bad_chars = "<>:\"/|?*";
-				string const filename = d->path().filename().string();
-				string found_bad_chars;
-				for (size_t i = 0; i < bad_chars.length(); ++i) {
-					if (filename.find(bad_chars[i]) != string::npos && found_bad_chars.find(bad_chars[i]) == string::npos) {
-						found_bad_chars += bad_chars[i];
-					}
-				}
-				wxString message = _("Could not create folder to store film.");
-				message += "  ";
-				if (!found_bad_chars.empty()) {
-					message += wxString::Format (_("Try removing the %s characters from your folder name."), std_to_wx(found_bad_chars).data());
-				} else {
-					message += _("Please check that you do not have Windows controlled folder access enabled for DCP-o-matic.");
-				}
-				error_dialog (this, message, std_to_wx(e.what()));
-#else
-				error_dialog (this, _("Could not create folder to store film."), std_to_wx(e.what()));
-#endif
-			}
+		if (r != wxID_OK || !d->check_path() || !maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
+			return;
 		}
 
-		d->Destroy ();
+		try {
+			new_film (d->path(), d->template_name());
+		} catch (boost::filesystem::filesystem_error& e) {
+#ifdef DCPOMATIC_WINDOWS
+			string bad_chars = "<>:\"/|?*";
+			string const filename = d->path().filename().string();
+			string found_bad_chars;
+			for (size_t i = 0; i < bad_chars.length(); ++i) {
+				if (filename.find(bad_chars[i]) != string::npos && found_bad_chars.find(bad_chars[i]) == string::npos) {
+					found_bad_chars += bad_chars[i];
+				}
+			}
+			wxString message = _("Could not create folder to store film.");
+			message += "  ";
+			if (!found_bad_chars.empty()) {
+				message += wxString::Format (_("Try removing the %s characters from your folder name."), std_to_wx(found_bad_chars).data());
+			} else {
+				message += _("Please check that you do not have Windows controlled folder access enabled for DCP-o-matic.");
+			}
+			error_dialog (this, message, std_to_wx(e.what()));
+#else
+			error_dialog (this, _("Could not create folder to store film."), std_to_wx(e.what()));
+#endif
+		}
 	}
 
 	void file_open ()
@@ -617,6 +619,7 @@ private:
 			std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()),
 			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
 			);
+		ScopeGuard sg = [c]() { c->Destroy(); };
 
 		int r;
 		while (true) {
@@ -631,8 +634,6 @@ private:
 		if (r == wxID_OK && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
 			load_film (wx_to_std (c->GetPath ()));
 		}
-
-		c->Destroy ();
 	}
 
 	void file_save ()
@@ -643,42 +644,37 @@ private:
 	void file_save_as_template ()
 	{
 		auto d = new SaveTemplateDialog (this);
-		int const r = d->ShowModal ();
-		if (r == wxID_OK) {
+		ScopeGuard sg = [d]() { d->Destroy(); };
+		if (d->ShowModal() == wxID_OK) {
 			Config::instance()->save_template (_film, d->name ());
 		}
-		d->Destroy ();
 	}
 
 	void file_duplicate ()
 	{
 		auto d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
-		int const r = d->ShowModal ();
+		ScopeGuard sg = [d]() { d->Destroy(); };
 
-		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
+		if (d->ShowModal() == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
 			shared_ptr<Film> film (new Film (d->path()));
 			film->copy_from (_film);
 			film->set_name (d->path().filename().generic_string());
 			film->write_metadata ();
 		}
-
-		d->Destroy ();
 	}
 
 	void file_duplicate_and_open ()
 	{
 		auto d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
-		int const r = d->ShowModal ();
+		ScopeGuard sg = [d]() { d->Destroy(); };
 
-		if (r == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
+		if (d->ShowModal() == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
 			shared_ptr<Film> film (new Film (d->path()));
 			film->copy_from (_film);
 			film->set_name (d->path().filename().generic_string());
 			film->write_metadata ();
 			set_film (film);
 		}
-
-		d->Destroy ();
 	}
 
 	void file_close ()
@@ -733,29 +729,31 @@ private:
 		DCPOMATIC_ASSERT (_clipboard);
 
 		auto d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
-		if (d->ShowModal() == wxID_OK) {
-			for (auto i: _film_editor->content_panel()->selected()) {
-				if (d->video() && i->video) {
-					DCPOMATIC_ASSERT (_clipboard->video);
-					i->video->take_settings_from (_clipboard->video);
-				}
-				if (d->audio() && i->audio) {
-					DCPOMATIC_ASSERT (_clipboard->audio);
-					i->audio->take_settings_from (_clipboard->audio);
-				}
+		ScopeGuard sg = [d]() { d->Destroy(); };
+		if (d->ShowModal() != wxID_OK) {
+			return;
+		}
 
-				if (d->text()) {
-					auto j = i->text.begin ();
-					auto k = _clipboard->text.begin ();
-					while (j != i->text.end() && k != _clipboard->text.end()) {
-						(*j)->take_settings_from (*k);
-						++j;
-						++k;
-					}
+		for (auto i: _film_editor->content_panel()->selected()) {
+			if (d->video() && i->video) {
+				DCPOMATIC_ASSERT (_clipboard->video);
+				i->video->take_settings_from (_clipboard->video);
+			}
+			if (d->audio() && i->audio) {
+				DCPOMATIC_ASSERT (_clipboard->audio);
+				i->audio->take_settings_from (_clipboard->audio);
+			}
+
+			if (d->text()) {
+				auto j = i->text.begin ();
+				auto k = _clipboard->text.begin ();
+				while (j != i->text.end() && k != _clipboard->text.end()) {
+					(*j)->take_settings_from (*k);
+					++j;
+					++k;
 				}
 			}
 		}
-		d->Destroy ();
 	}
 
 	void edit_select_all ()
@@ -779,11 +777,9 @@ private:
 			_("Restore default preferences"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 
-		int const r = d->ShowModal ();
-		d->Destroy ();
-
-		if (r == wxID_YES) {
+		if (d->ShowModal() == wxID_YES) {
 			Config::restore_defaults ();
 		}
 	}
@@ -794,11 +790,9 @@ private:
 			this, _("Specify ZIP file"), wxEmptyString, wxT("dcpomatic_config.zip"), wxT("ZIP files (*.zip)|*.zip"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
+		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
-		int const r = dialog->ShowModal ();
-		dialog->Destroy ();
-
-		if (r == wxID_OK) {
+		if (dialog->ShowModal() == wxID_OK) {
 			save_all_config_as_zip (wx_to_std(dialog->GetPath()));
 		}
 	}
@@ -823,9 +817,8 @@ private:
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
 			auto hints = new HintsDialog (this, _film, false);
-			int const r = hints->ShowModal();
-			hints->Destroy ();
-			if (r == wxID_CANCEL) {
+			ScopeGuard sg = [hints]() { hints->Destroy(); };
+			if (hints->ShowModal() == wxID_CANCEL) {
 				return;
 			}
 		}
@@ -937,9 +930,8 @@ private:
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
 			auto hints = new HintsDialog (this, _film, false);
-			int const r = hints->ShowModal();
-			hints->Destroy ();
-			if (r == wxID_CANCEL) {
+			ScopeGuard sg = [hints]() { hints->Destroy(); };
+			if (hints->ShowModal() == wxID_CANCEL) {
 				return;
 			}
 		}
@@ -977,8 +969,8 @@ private:
 		}
 
 		auto d = new SelfDKDMDialog (this, _film);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		if (d->ShowModal () != wxID_OK) {
-			d->Destroy ();
 			return;
 		}
 
@@ -1028,49 +1020,49 @@ private:
 				kdm->as_xml (path);
 			}
 		}
-
-		d->Destroy ();
 	}
 
 
 	void jobs_export_video_file ()
 	{
 		auto d = new ExportVideoFileDialog (this, _film->isdcf_name(true));
-		if (d->ShowModal() == wxID_OK) {
-			if (boost::filesystem::exists(d->path())) {
-				bool ok = confirm_dialog(
-						this,
-						wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(d->path().string()).data())
-						);
-
-				if (!ok) {
-					d->Destroy ();
-					return;
-				}
-			}
-
-			auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
-			job->set_encoder (
-				make_shared<FFmpegEncoder> (
-					_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
-				);
-			JobManager::instance()->add (job);
+		ScopeGuard sg = [d]() { d->Destroy(); };
+		if (d->ShowModal() != wxID_OK) {
+			return;
 		}
-		d->Destroy ();
+
+		if (boost::filesystem::exists(d->path())) {
+			bool ok = confirm_dialog(
+					this,
+					wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(d->path().string()).data())
+					);
+
+			if (!ok) {
+				return;
+			}
+		}
+
+		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
+		job->set_encoder (
+			make_shared<FFmpegEncoder> (
+				_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
+			);
+		JobManager::instance()->add (job);
 	}
 
 
 	void jobs_export_subtitles ()
 	{
 		auto d = new ExportSubtitlesDialog (this, _film->reels().size(), _film->interop());
-		if (d->ShowModal() == wxID_OK) {
-			auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
-			job->set_encoder (
-				make_shared<SubtitleEncoder>(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font())
-				);
-			JobManager::instance()->add (job);
+		ScopeGuard sg = [d]() { d->Destroy(); };
+		if (d->ShowModal() != wxID_OK) {
+			return;
 		}
-		d->Destroy ();
+		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
+		job->set_encoder(
+			make_shared<SubtitleEncoder>(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font())
+			);
+		JobManager::instance()->add(job);
 	}
 
 
@@ -1146,6 +1138,7 @@ private:
 	void tools_send_translations ()
 	{
 		auto d = new SendI18NDialog (this);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		if (d->ShowModal() == wxID_OK) {
 			string body;
 			body += d->name() + "\n";
@@ -1169,24 +1162,22 @@ private:
 				}
 			}
 		}
-
-		d->Destroy ();
 	}
 
 	void help_about ()
 	{
 		auto d = new AboutDialog (this);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void help_report_a_problem ()
 	{
 		auto d = new ReportProblemDialog (this, _film);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
-		d->Destroy ();
 	}
 
 	bool should_close ()
@@ -1201,10 +1192,9 @@ private:
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 
-		bool const r = d->ShowModal() == wxID_YES;
-		d->Destroy ();
-		return r;
+		return d->ShowModal() == wxID_YES;
 	}
 
 	void close (wxCloseEvent& ev)
@@ -1540,8 +1530,8 @@ private:
 
 		if (uc->state() == UpdateChecker::State::YES) {
 			auto dialog = new UpdateDialog (this, uc->stable(), uc->test());
+			ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 			dialog->ShowModal ();
-			dialog->Destroy ();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
 		} else {
@@ -1578,8 +1568,8 @@ private:
 	void analytics_message (string title, string html)
 	{
 		auto d = new HTMLDialog(this, std_to_wx(title), std_to_wx(html));
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		d->ShowModal();
-		d->Destroy();
 	}
 
 	void set_title ()
@@ -1749,9 +1739,9 @@ private:
 			auto release_notes = find_release_notes(gui_is_dark());
 			if (release_notes) {
 				auto notes = new HTMLDialog(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
+				ScopeGuard sg = [notes]() { notes->Destroy(); };
 				notes->Centre();
 				notes->ShowModal();
-				notes->Destroy();
 			}
 		}
 		catch (exception& e)
@@ -1873,7 +1863,7 @@ private:
 	{
 		if (_splash) {
 			_splash->Destroy ();
-			_splash = 0;
+			_splash = nullptr;
 		}
 	}
 
@@ -1910,9 +1900,8 @@ private:
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_UTF8
 				);
-			int const r = d->ShowModal ();
-			d->Destroy ();
-			return r == wxID_OK;
+			ScopeGuard sg = [d]() { d->Destroy(); };
+			return d->ShowModal() == wxID_OK;
 		}
 		case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
 		{
@@ -1927,9 +1916,8 @@ private:
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_VALIDITY
 				);
-			int const r = d->ShowModal ();
-			d->Destroy ();
-			return r == wxID_OK;
+			ScopeGuard sg = [d]() { d->Destroy(); };
+			return d->ShowModal() == wxID_OK;
 		}
 		case Config::BAD_SIGNER_INCONSISTENT:
 		{
@@ -1940,9 +1928,8 @@ private:
 				  "the certificate chain for signing DCPs and KDMs?"),
 				_("Close DCP-o-matic")
 				);
-			int const r = d->ShowModal ();
-			d->Destroy ();
-			if (r != wxID_OK) {
+			ScopeGuard sg = [d]() { d->Destroy(); };
+			if (d->ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
 			}
 			return true;
@@ -1957,9 +1944,8 @@ private:
 				  "configuration before continuing."),
 				_("Close DCP-o-matic")
 				);
-			int const r = d->ShowModal ();
-			d->Destroy ();
-			if (r != wxID_OK) {
+			ScopeGuard sg = [d]() { d->Destroy(); };
+			if (d->ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
 			}
 			return true;

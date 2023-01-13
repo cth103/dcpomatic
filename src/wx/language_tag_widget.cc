@@ -23,6 +23,7 @@
 #include "language_tag_dialog.h"
 #include "language_tag_widget.h"
 #include "wx_util.h"
+#include "lib/scope_guard.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -66,11 +67,11 @@ void
 LanguageTagWidget::edit ()
 {
 	auto d = new LanguageTagDialog(_parent, _tag.get_value_or(dcp::LanguageTag("en")));
+	ScopeGuard sg = [d]() { d->Destroy(); };
 	if (d->ShowModal() == wxID_OK) {
 		set(d->get());
 		Changed(d->get());
 	}
-	d->Destroy ();
 }
 
 

@@ -33,6 +33,7 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/make_dcp.h"
+#include "lib/scope_guard.h"
 #include "lib/transcode_job.h"
 #include "lib/util.h"
 #include "lib/version.h"
@@ -274,10 +275,9 @@ private:
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
+		ScopeGuard sg = [d]{ d->Destroy(); };
 
-		bool const r = d->ShowModal() == wxID_YES;
-		d->Destroy ();
-		return r;
+		return d->ShowModal() == wxID_YES;
 	}
 
 	void close (wxCloseEvent& ev)
@@ -322,21 +322,22 @@ private:
 	void help_about ()
 	{
 		auto d = new AboutDialog (this);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void add_film ()
 	{
-		auto c = new wxDirDialog (this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		auto dialog = new wxDirDialog(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 		if (_last_parent) {
-			c->SetPath (std_to_wx(_last_parent.get().string()));
+			dialog->SetPath(std_to_wx(_last_parent.get().string()));
 		}
 
 		int r;
 		while (true) {
-			r = c->ShowModal ();
-			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog->ShowModal();
+			if (r == wxID_OK && dialog->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
@@ -344,12 +345,10 @@ private:
 		}
 
 		if (r == wxID_OK) {
-			start_job (wx_to_std (c->GetPath ()));
+			start_job(wx_to_std(dialog->GetPath()));
 		}
 
-		_last_parent = boost::filesystem::path (wx_to_std (c->GetPath ())).parent_path ();
-
-		c->Destroy ();
+		_last_parent = boost::filesystem::path(wx_to_std(dialog->GetPath())).parent_path();
 	}
 
 	void config_changed (Config::Property what)

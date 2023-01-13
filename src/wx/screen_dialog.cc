@@ -272,12 +272,12 @@ ScreenDialog::get_recipient_from_file ()
 void
 ScreenDialog::download_recipient ()
 {
-	auto d = new DownloadCertificateDialog (this);
-	if (d->ShowModal() == wxID_OK) {
-		set_recipient (d->certificate());
-		checked_set (_recipient_file, d->url());
+	auto dialog = new DownloadCertificateDialog (this);
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	if (dialog->ShowModal() == wxID_OK) {
+		set_recipient(dialog->certificate());
+		checked_set(_recipient_file, dialog->url());
 	}
-	d->Destroy ();
 	setup_sensitivity ();
 }
 

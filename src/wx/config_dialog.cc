@@ -368,6 +368,7 @@ void
 CertificateChainEditor::add_certificate ()
 {
 	auto d = new wxFileDialog (this, _("Select Certificate File"));
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
@@ -377,7 +378,6 @@ CertificateChainEditor::add_certificate ()
 				extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
 			} catch (boost::filesystem::filesystem_error& e) {
 				error_dialog (this, _("Could not import certificate (%s)"), d->GetPath());
-				d->Destroy ();
 				return;
 			}
 
@@ -405,8 +405,6 @@ CertificateChainEditor::add_certificate ()
 			error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 		}
 	}
-
-	d->Destroy ();
 
 	update_sensitivity ();
 }
@@ -456,26 +454,28 @@ CertificateChainEditor::export_certificate ()
 		this, _("Select Certificate File"), wxEmptyString, default_name, wxT ("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	auto j = all.begin ();
 	for (int k = 0; k < i; ++k) {
 		++j;
 	}
 
-	if (d->ShowModal () == wxID_OK) {
-		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		if (path.extension() != ".pem") {
-			path += ".pem";
-		}
-		dcp::File f(path, "w");
-		if (!f) {
-			throw OpenFileError (path, errno, OpenFileError::WRITE);
-		}
-
-		string const s = j->certificate (true);
-		f.checked_write(s.c_str(), s.length());
+	if (d->ShowModal() != wxID_OK) {
+		return;
 	}
-	d->Destroy ();
+
+	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	if (path.extension() != ".pem") {
+		path += ".pem";
+	}
+	dcp::File f(path, "w");
+	if (!f) {
+		throw OpenFileError(path, errno, OpenFileError::WRITE);
+	}
+
+	string const s = j->certificate(true);
+	f.checked_write(s.c_str(), s.length());
 }
 
 void
@@ -485,22 +485,23 @@ CertificateChainEditor::export_chain ()
 		this, _("Select Chain File"), wxEmptyString, wxT("certificate_chain.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
-	if (d->ShowModal () == wxID_OK) {
-		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		if (path.extension() != ".pem") {
-			path += ".pem";
-		}
-		dcp::File f(path, "w");
-		if (!f) {
-			throw OpenFileError (path, errno, OpenFileError::WRITE);
-		}
-
-		auto const s = _get()->chain();
-		f.checked_write (s.c_str(), s.length());
+	if (d->ShowModal() != wxID_OK) {
+		return;
 	}
 
-	d->Destroy ();
+	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	if (path.extension() != ".pem") {
+		path += ".pem";
+	}
+	dcp::File f(path, "w");
+	if (!f) {
+		throw OpenFileError(path, errno, OpenFileError::WRITE);
+	}
+
+	auto const s = _get()->chain();
+	f.checked_write(s.c_str(), s.length());
 }
 
 void
@@ -546,14 +547,13 @@ CertificateChainEditor::remake_certificates ()
 	}
 
 	auto d = new MakeChainDialog (this, _get());
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal () == wxID_OK) {
 		_set (d->get());
 		update_certificate_list ();
 		update_private_key ();
 	}
-
-	d->Destroy ();
 }
 
 void
@@ -575,6 +575,7 @@ void
 CertificateChainEditor::import_private_key ()
 {
 	auto d = new wxFileDialog (this, _("Select Key File"));
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
@@ -596,8 +597,6 @@ CertificateChainEditor::import_private_key ()
 		}
 	}
 
-	d->Destroy ();
-
 	update_sensitivity ();
 }
 
@@ -613,6 +612,7 @@ CertificateChainEditor::export_private_key ()
 		this, _("Select Key File"), wxEmptyString, wxT("private_key.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
@@ -627,7 +627,6 @@ CertificateChainEditor::export_private_key ()
 		auto const s = _get()->key().get ();
 		f.checked_write(s.c_str(), s.length());
 	}
-	d->Destroy ();
 }
 
 wxString
@@ -732,22 +731,23 @@ KeysPage::export_decryption_chain_and_key ()
 		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
-	if (d->ShowModal () == wxID_OK) {
-		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		dcp::File f(path, "w");
-		if (!f) {
-			throw OpenFileError (path, errno, OpenFileError::WRITE);
-		}
-
-		auto const chain = Config::instance()->decryption_chain()->chain();
-		f.checked_write (chain.c_str(), chain.length());
-		auto const key = Config::instance()->decryption_chain()->key();
-		DCPOMATIC_ASSERT (key);
-		f.checked_write(key->c_str(), key->length());
+	if (d->ShowModal() != wxID_OK) {
+		return;
 	}
-	d->Destroy ();
 
+	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	dcp::File f(path, "w");
+	if (!f) {
+		throw OpenFileError(path, errno, OpenFileError::WRITE);
+	}
+
+	auto const chain = Config::instance()->decryption_chain()->chain();
+	f.checked_write(chain.c_str(), chain.length());
+	auto const key = Config::instance()->decryption_chain()->key();
+	DCPOMATIC_ASSERT(key);
+	f.checked_write(key->c_str(), key->length());
 }
 
 void
@@ -765,38 +765,40 @@ KeysPage::import_decryption_chain_and_key ()
 	auto d = new wxFileDialog (
 		_panel, _("Select File To Import"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom")
 		);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
-	if (d->ShowModal () == wxID_OK) {
-		auto new_chain = make_shared<dcp::CertificateChain>();
+	if (d->ShowModal() != wxID_OK) {
+		return;
+	}
 
-		dcp::File f(wx_to_std(d->GetPath()), "r");
-		if (!f) {
-			throw OpenFileError (f.path(), errno, OpenFileError::WRITE);
+	auto new_chain = make_shared<dcp::CertificateChain>();
+
+	dcp::File f(wx_to_std(d->GetPath()), "r");
+	if (!f) {
+		throw OpenFileError(f.path(), errno, OpenFileError::WRITE);
+	}
+
+	string current;
+	while (!f.eof()) {
+		char buffer[128];
+		if (f.gets(buffer, 128) == 0) {
+			break;
 		}
-
-		string current;
-		while (!f.eof()) {
-			char buffer[128];
-			if (f.gets(buffer, 128) == 0) {
-				break;
-			}
-			current += buffer;
-			if (strncmp (buffer, "-----END CERTIFICATE-----", 25) == 0) {
-				new_chain->add (dcp::Certificate (current));
-				current = "";
-			} else if (strncmp (buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
-				new_chain->set_key (current);
-				current = "";
-			}
-		}
-
-		if (new_chain->chain_valid() && new_chain->private_key_valid()) {
-			Config::instance()->set_decryption_chain (new_chain);
-		} else {
-			error_dialog (_panel, _("Invalid DCP-o-matic export file"));
+		current += buffer;
+		if (strncmp (buffer, "-----END CERTIFICATE-----", 25) == 0) {
+			new_chain->add(dcp::Certificate(current));
+			current = "";
+		} else if (strncmp (buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
+			new_chain->set_key(current);
+			current = "";
 		}
 	}
-	d->Destroy ();
+
+	if (new_chain->chain_valid() && new_chain->private_key_valid()) {
+		Config::instance()->set_decryption_chain(new_chain);
+	} else {
+		error_dialog(_panel, _("Invalid DCP-o-matic export file"));
+	}
 }
 
 bool
@@ -827,22 +829,23 @@ KeysPage::export_decryption_certificate ()
 		_panel, _("Select Certificate File"), wxEmptyString, default_name, wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
-	if (d->ShowModal () == wxID_OK) {
-		boost::filesystem::path path (wx_to_std(d->GetPath()));
-		if (path.extension() != ".pem") {
-			path += ".pem";
-		}
-		dcp::File f(path, "w");
-		if (!f) {
-			throw OpenFileError (path, errno, OpenFileError::WRITE);
-		}
-
-		auto const s = Config::instance()->decryption_chain()->leaf().certificate (true);
-		f.checked_write(s.c_str(), s.length());
+	if (d->ShowModal() != wxID_OK) {
+		return;
 	}
 
-	d->Destroy ();
+	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	if (path.extension() != ".pem") {
+		path += ".pem";
+	}
+	dcp::File f(path, "w");
+	if (!f) {
+		throw OpenFileError(path, errno, OpenFileError::WRITE);
+	}
+
+	auto const s = Config::instance()->decryption_chain()->leaf().certificate (true);
+	f.checked_write(s.c_str(), s.length());
 }
 
 wxString

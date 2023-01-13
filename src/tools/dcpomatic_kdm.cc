@@ -267,17 +267,17 @@ private:
 	void help_about ()
 	{
 		auto d = new AboutDialog (this);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void help_report_a_problem ()
 	{
 		auto d = new ReportProblemDialog (this, shared_ptr<Film>());
+		ScopeGuard sg = [d]() { d->Destroy(); };
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
-		d->Destroy ();
 	}
 
 	void setup_menu (wxMenuBar* m)
@@ -567,16 +567,18 @@ private:
 	void add_dkdm_folder_clicked ()
 	{
 		auto d = new NewDKDMFolderDialog (this);
-		if (d->ShowModal() == wxID_OK) {
-			auto new_dkdm = make_shared<DKDMGroup>(wx_to_std(d->get()));
-			auto parent = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
-			if (!parent) {
-				parent = Config::instance()->dkdms ();
-			}
-			add_dkdm(new_dkdm, parent);
-			update_dkdm_view();
+		ScopeGuard sg = [d]() { d->Destroy(); };
+		if (d->ShowModal() != wxID_OK) {
+			return;
 		}
-		d->Destroy ();
+
+		auto new_dkdm = make_shared<DKDMGroup>(wx_to_std(d->get()));
+		auto parent = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
+		if (!parent) {
+			parent = Config::instance()->dkdms ();
+		}
+		add_dkdm(new_dkdm, parent);
+		update_dkdm_view();
 	}
 
 	void update_dkdm_view()
@@ -720,11 +722,11 @@ private:
 			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
+		ScopeGuard sg = [d]() { d->Destroy(); };
 
 		if (d->ShowModal() == wxID_OK) {
 			dkdm->dkdm().as_xml(wx_to_std(d->GetPath()));
 		}
-		d->Destroy ();
 	}
 
 	void dkdm_search_changed()
