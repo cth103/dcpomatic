@@ -22,6 +22,7 @@
 #include "audio_panel.h"
 #include "content_panel.h"
 #include "dcpomatic_button.h"
+#include "file_dialog.h"
 #include "film_viewer.h"
 #include "image_sequence_dialog.h"
 #include "text_panel.h"
@@ -579,40 +580,22 @@ ContentPanel::add_file_clicked ()
 		return;
 	}
 
-	auto path = Config::instance()->initial_path("AddFilesPath");
-
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
-	auto d = new wxFileDialog (
+	auto dialog = new FileDialog(
 		_splitter,
 		_("Choose a file or files"),
-		std_to_wx(path ? path->string() : home_directory().string()),
-		wxT (""),
-		wxT ("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
-		wxFD_MULTIPLE | wxFD_CHANGE_DIR
+		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
+		wxFD_MULTIPLE | wxFD_CHANGE_DIR,
+		"AddFilesPath"
 		);
 
-	int const r = d->ShowModal ();
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
-	if (r != wxID_OK) {
-		d->Destroy ();
-		return;
+	if (dialog->show()) {
+		add_files(dialog->paths());
 	}
-
-	wxArrayString paths;
-	d->GetPaths (paths);
-	vector<boost::filesystem::path> path_list;
-	for (unsigned int i = 0; i < paths.GetCount(); ++i) {
-		path_list.push_back (wx_to_std(paths[i]));
-	}
-	add_files (path_list);
-
-	if (!path_list.empty()) {
-		Config::instance()->set_initial_path("AddFilesPath", path_list[0].parent_path());
-	}
-
-	d->Destroy ();
 }
 
 
