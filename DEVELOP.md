@@ -4,6 +4,19 @@ This file collects a few notes relevant to DCP-o-matic developers.  There is als
 [on the web site](https://dcpomatic.com/development).
 
 
+## Branches
+
+The main dcpomatic repo has the following branches:
+
+* `main` - the main development branch; contains 2.16.x versions
+* `v2.17.x` - development branch for v2.17.x versions; periodically rebased onto `main`
+
+The `test/data` submodule has the following branches:
+
+* `v2.16.x` - branch for use with v2.16.x versions
+* `v2.18.x` - branch for use with v2.17.x versions (as will become v2.18.x)
+
+
 ## Player stress testing
 
 If you configure DCP-o-matic with `--enable-player-stress-test` you can make a script which
