@@ -19,17 +19,18 @@
 */
 
 
-#include "qube_certificate_panel.h"
 #include "download_certificate_dialog.h"
+#include "qube_certificate_panel.h"
 #include "wx_util.h"
-#include "lib/internet.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
-#include <boost/algorithm/string/predicate.hpp>
+#include "lib/internet.h"
+#include <boost/algorithm/string.hpp>
 
 
 using std::string;
 using std::list;
+using namespace boost::algorithm;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -56,7 +57,9 @@ QubeCertificatePanel::do_download ()
 		return;
 	}
 
-	auto const serial = wx_to_std(_serial->GetValue());
+	auto serial = wx_to_std(_serial->GetValue());
+	trim(serial);
+
 	optional<string> name;
 	for (auto i: files) {
 		if (boost::algorithm::starts_with(i, String::compose("%1-%2-", _type, serial))) {

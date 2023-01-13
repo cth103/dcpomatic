@@ -18,18 +18,23 @@
 
 */
 
+
 #include "barco_alchemy_certificate_panel.h"
 #include "download_certificate_dialog.h"
 #include "wx_util.h"
 #include "lib/internet.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include <boost/algorithm/string.hpp>
+
 
 using std::string;
+using namespace boost::algorithm;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 BarcoAlchemyCertificatePanel::BarcoAlchemyCertificatePanel (DownloadCertificateDialog* dialog)
 	: CredentialsDownloadCertificatePanel (
@@ -54,8 +59,9 @@ BarcoAlchemyCertificatePanel::ready_to_download () const
 void
 BarcoAlchemyCertificatePanel::do_download ()
 {
-	string const serial = wx_to_std (_serial->GetValue());
-	string const url = String::compose (
+	string serial = wx_to_std (_serial->GetValue());
+	trim(serial);
+	string url = String::compose (
 		"ftp://%1:%2@certificates.barco.com/%3xxx/%4/Barco-ICMP.%5_cert.pem",
 		Config::instance()->barco_username().get(),
 		Config::instance()->barco_password().get(),
@@ -63,6 +69,7 @@ BarcoAlchemyCertificatePanel::do_download ()
 		serial,
 		serial
 		);
+	trim(url);
 
 	auto error = get_from_url (url, true, false, boost::bind (&DownloadCertificatePanel::load_certificate, this, _1, _2));
 	if (error) {

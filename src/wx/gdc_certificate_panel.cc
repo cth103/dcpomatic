@@ -18,19 +18,24 @@
 
 */
 
-#include "gdc_certificate_panel.h"
+
 #include "download_certificate_dialog.h"
+#include "gdc_certificate_panel.h"
 #include "wx_util.h"
-#include "lib/internet.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/internet.h"
+#include <boost/algorithm/string.hpp>
+
 
 using std::string;
-using boost::optional;
+using namespace boost::algorithm;
 using boost::bind;
+using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
+
 
 GDCCertificatePanel::GDCCertificatePanel (DownloadCertificateDialog* dialog)
 	: CredentialsDownloadCertificatePanel (
@@ -50,16 +55,18 @@ void
 GDCCertificatePanel::do_download ()
 {
 	string serial = wx_to_std (_serial->GetValue());
+	trim(serial);
 	if (!serial.empty() && serial[0] == 'A') {
 		/* We're adding the A ourselves */
 		serial = serial.substr(1);
 	}
-	string const url = String::compose(
+	string url = String::compose(
 		"ftp://%1:%2@ftp.gdc-tech.com/SHA256/A%3.crt.pem",
 		Config::instance()->gdc_username().get(),
 		Config::instance()->gdc_password().get(),
 		serial
 		);
+	trim(url);
 
 	auto error = get_from_url (url, true, false, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 

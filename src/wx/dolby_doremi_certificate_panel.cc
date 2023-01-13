@@ -29,11 +29,13 @@
 #include <dcp/raw_convert.h>
 #include <curl/curl.h>
 #include <zip.h>
+#include <boost/algorithm/string.hpp>
 
 
 using std::function;
 using std::list;
 using std::string;
+using namespace boost::algorithm;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -160,7 +162,8 @@ try_ims3000 (list<string>& urls, list<string>& files, string prefix, string seri
 void
 DolbyDoremiCertificatePanel::do_download ()
 {
-	string const serial = wx_to_std (_serial->GetValue());
+	string serial = wx_to_std(_serial->GetValue());
+	trim(serial);
 
 	/* Try dcp2000, imb and ims prefixes (see mantis #375) */
 
