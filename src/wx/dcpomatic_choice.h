@@ -23,6 +23,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/bind.hpp>
 #include <boost/optional.hpp>
 
 
@@ -36,6 +37,11 @@ public:
 	void add(std::string const& entry);
 	void set(int index);
 	boost::optional<int> get() const;
+
+	template <typename... Args>
+	void bind(Args... args) {
+		Bind(wxEVT_CHOICE, boost::bind(std::forward<Args>(args)...));
+	}
 
 private:
 	bool _needs_clearing = true;
