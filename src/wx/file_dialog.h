@@ -24,6 +24,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 #include <vector>
 
 
@@ -35,7 +36,8 @@ public:
 		wxString title,
 		wxString allowed,
 		long style,
-		std::string initial_path_key
+		std::string initial_path_key,
+		boost::optional<boost::filesystem::path> override_path = boost::optional<boost::filesystem::path>()
 		);
 
 	/** @return true if OK was clicked */

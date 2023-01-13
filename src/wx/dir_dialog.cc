@@ -28,18 +28,23 @@
 
 
 using std::vector;
+using boost::optional;
 
 
 DirDialog::DirDialog(
 	wxWindow* parent,
 	wxString title,
 	long style,
-	std::string initial_path_key
+	std::string initial_path_key,
+	optional<boost::filesystem::path> override_path
 	)
 	: wxDirDialog(
 		parent,
 		title,
-		std_to_wx(Config::instance()->initial_path(initial_path_key).get_value_or(home_directory()).string()),
+		std_to_wx(
+			override_path.get_value_or(
+				Config::instance()->initial_path(initial_path_key).get_value_or(home_directory())
+				).string()),
 		style
 		)
 	, _initial_path_key(initial_path_key)
