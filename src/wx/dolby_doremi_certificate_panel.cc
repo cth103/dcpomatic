@@ -179,6 +179,8 @@ DolbyDoremiCertificatePanel::do_download ()
 		}
 	}
 
+	list<string> errors;
+
 	if (starts_with_digit) {
 		try_dcp2000 (urls, files, prefix, serial);
 		try_imb (urls, files, prefix, serial);
@@ -190,9 +192,10 @@ DolbyDoremiCertificatePanel::do_download ()
 		try_cat745 (urls, files, prefix, serial);
 	} else if (starting_char == 'F') {
 		try_cp850 (urls, files, prefix, serial);
+	} else {
+		errors.push_back(wx_to_std(_("Unrecognised serial number format (does not start with a number, H or F)")));
 	}
 
-	list<string> errors;
 	bool ok = false;
 	auto i = urls.begin ();
 	auto j = files.begin ();
