@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_SCOPE_GUARD_H
+#define DCPOMATIC_SCOPE_GUARD_H
+
+
 #include <functional>
 
 
@@ -48,4 +52,6 @@ private:
 	std::function<void()> _function;
 };
 
+
+#endif
 
