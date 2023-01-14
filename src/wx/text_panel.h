@@ -20,6 +20,7 @@
 
 
 #include "content_sub_panel.h"
+#include "wx_ptr.h"
 
 
 class CheckBox;
@@ -100,9 +101,9 @@ private:
 	wxStaticText* _stream_label;
 	wxChoice* _stream;
 	wxButton* _text_view_button;
-	TextView* _text_view = nullptr;
+	wx_ptr<TextView> _text_view;
 	wxButton* _fonts_dialog_button;
-	FontsDialog* _fonts_dialog = nullptr;
+	wx_ptr<FontsDialog> _fonts_dialog;
 	wxButton* _appearance_dialog_button;
 	TextType _original_type;
 	wxStaticText* _language_label = nullptr;

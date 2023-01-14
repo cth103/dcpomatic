@@ -735,18 +735,13 @@ TextPanel::content_selection_changed ()
 void
 TextPanel::text_view_clicked ()
 {
-	if (_text_view) {
-		_text_view->Destroy ();
-		_text_view = nullptr;
-	}
-
 	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
 	auto decoder = decoder_factory (_parent->film(), c.front(), false, false, shared_ptr<Decoder>());
 
 	if (decoder) {
-		_text_view = new TextView (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
+		_text_view.reset(this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
 		_text_view->Show ();
 	}
 }
@@ -755,15 +750,10 @@ TextPanel::text_view_clicked ()
 void
 TextPanel::fonts_dialog_clicked ()
 {
-	if (_fonts_dialog) {
-		_fonts_dialog->Destroy ();
-		_fonts_dialog = nullptr;
-	}
-
 	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	_fonts_dialog = new FontsDialog (this, c.front(), c.front()->text_of_original_type(_original_type));
+	_fonts_dialog.reset(this, c.front(), c.front()->text_of_original_type(_original_type));
 	_fonts_dialog->Show ();
 }
 
