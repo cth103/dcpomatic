@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_AUTO_CROP_DIALOG_H
+#define DCPOMATIC_AUTO_CROP_DIALOG_H
+
+
 #include "table_dialog.h"
 #include "lib/crop.h"
 #include <boost/signals2.hpp>
@@ -44,4 +48,7 @@ private:
 	SpinCtrl* _bottom;
 	SpinCtrl* _threshold;
 };
+
+
+#endif
 
