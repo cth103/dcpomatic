@@ -23,6 +23,7 @@
 #define DCPOMATIC_WX_PTR_H
 
 
+#include "lib/dcpomatic_assert.h"
 #include <utility>
 
 
@@ -30,6 +31,8 @@ template <class T>
 class wx_ptr
 {
 public:
+	wx_ptr() {}
+
 	explicit wx_ptr(T* wx)
 		: _wx(wx)
 	{}
@@ -60,11 +63,21 @@ public:
 	}
 
 	T* operator->() {
+		DCPOMATIC_ASSERT(_wx);
 		return _wx;
 	}
 
+	template <typename... Args>
+	void reset(Args... args)
+	{
+		if (_wx) {
+			_wx->Destroy();
+		}
+		_wx = new T(std::forward<Args>(args)...);
+	}
+
 private:
-	T* _wx;
+	T* _wx = nullptr;
 };
 
 
