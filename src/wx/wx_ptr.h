@@ -68,7 +68,7 @@ public:
 	}
 
 	template <typename... Args>
-	void reset(Args... args)
+	void reset(Args&&... args)
 	{
 		if (_wx) {
 			_wx->Destroy();
