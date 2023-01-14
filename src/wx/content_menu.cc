@@ -223,9 +223,8 @@ ContentMenu::repeat ()
 		return;
 	}
 
-	auto d = new RepeatDialog (_parent);
+	auto d = make_wx<RepeatDialog>(_parent);
 	if (d->ShowModal() != wxID_OK) {
-		d->Destroy ();
 		return;
 	}
 
@@ -235,7 +234,6 @@ ContentMenu::repeat ()
 	}
 
 	film->repeat_content (_content, d->number ());
-	d->Destroy ();
 
 	_content.clear ();
 	_views.clear ();
@@ -345,15 +343,13 @@ ContentMenu::find_missing ()
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still ()) || dc) {
-		auto d = new wxDirDialog (nullptr, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
+		auto d = make_wx<wxDirDialog>(nullptr, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
 		r = d->ShowModal ();
 		path = wx_to_std (d->GetPath());
-		d->Destroy ();
 	} else {
-		auto d = new wxFileDialog (nullptr, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
+		auto d = make_wx<wxFileDialog>(nullptr, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
 		r = d->ShowModal ();
 		path = wx_to_std (d->GetPath());
-		d->Destroy ();
 	}
 
 	if (r == wxID_CANCEL) {
@@ -384,50 +380,49 @@ ContentMenu::kdm ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	auto d = new wxFileDialog (_parent, _("Select KDM"));
+	auto d = make_wx<wxFileDialog>(_parent, _("Select KDM"));
 
-	if (d->ShowModal() == wxID_OK) {
-		optional<dcp::EncryptedKDM> kdm;
-		try {
-			kdm = dcp::EncryptedKDM (dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE));
-		} catch (exception& e) {
-			error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
-			d->Destroy ();
-			return;
-		}
-
-		/* Try to decrypt it to get an early preview of any errors */
-		try {
-			decrypt_kdm_with_helpful_error (*kdm);
-		} catch (KDMError& e) {
-			error_dialog (_parent, std_to_wx(e.summary()), std_to_wx(e.detail()));
-			return;
-		} catch (exception& e) {
-			error_dialog (_parent, e.what());
-			return;
-		}
-
-		auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
-		bool const kdm_matches_any_cpl = std::any_of(cpls.begin(), cpls.end(), [kdm](shared_ptr<const dcp::CPL> cpl) { return cpl->id() == kdm->cpl_id(); });
-		bool const kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
-
-		if (!kdm_matches_any_cpl) {
-			error_dialog (_parent, _("This KDM was not made for this DCP.  You will need a different one."));
-			return;
-		}
-
-		if (!kdm_matches_selected_cpl && kdm_matches_any_cpl) {
-			message_dialog (_parent, _("This KDM was made for one of the CPLs in this DCP, but not the currently selected one.  To play the currently-selected CPL you will need a different KDM."));
-		}
-
-		dcp->add_kdm (*kdm);
-
-		auto film = _film.lock ();
-		DCPOMATIC_ASSERT (film);
-		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
+	if (d->ShowModal() != wxID_OK) {
+		return;
 	}
 
-	d->Destroy ();
+	optional<dcp::EncryptedKDM> kdm;
+	try {
+		kdm = dcp::EncryptedKDM (dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE));
+	} catch (exception& e) {
+		error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
+		return;
+	}
+
+	/* Try to decrypt it to get an early preview of any errors */
+	try {
+		decrypt_kdm_with_helpful_error (*kdm);
+	} catch (KDMError& e) {
+		error_dialog (_parent, std_to_wx(e.summary()), std_to_wx(e.detail()));
+		return;
+	} catch (exception& e) {
+		error_dialog (_parent, e.what());
+		return;
+	}
+
+	auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
+	bool const kdm_matches_any_cpl = std::any_of(cpls.begin(), cpls.end(), [kdm](shared_ptr<const dcp::CPL> cpl) { return cpl->id() == kdm->cpl_id(); });
+	bool const kdm_matches_selected_cpl = dcp->cpl() || kdm->cpl_id() == dcp->cpl().get();
+
+	if (!kdm_matches_any_cpl) {
+		error_dialog (_parent, _("This KDM was not made for this DCP.  You will need a different one."));
+		return;
+	}
+
+	if (!kdm_matches_selected_cpl && kdm_matches_any_cpl) {
+		message_dialog (_parent, _("This KDM was made for one of the CPLs in this DCP, but not the currently selected one.  To play the currently-selected CPL you will need a different KDM."));
+	}
+
+	dcp->add_kdm (*kdm);
+
+	auto film = _film.lock ();
+	DCPOMATIC_ASSERT (film);
+	JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
 }
 
 void
@@ -437,7 +432,7 @@ ContentMenu::ov ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	auto d = new wxDirDialog (_parent, _("Select OV"));
+	auto d = make_wx<wxDirDialog>(_parent, _("Select OV"));
 
 	if (d->ShowModal() == wxID_OK) {
 		dcp->add_ov (wx_to_std (d->GetPath()));
@@ -445,8 +440,6 @@ ContentMenu::ov ()
 		DCPOMATIC_ASSERT (film);
 		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
 	}
-
-	d->Destroy ();
 }
 
 void
@@ -454,9 +447,8 @@ ContentMenu::properties ()
 {
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	auto d = new ContentPropertiesDialog (_parent, film, _content.front());
+	auto d = make_wx<ContentPropertiesDialog>(_parent, film, _content.front());
 	d->ShowModal ();
-	d->Destroy ();
 }
 
 
