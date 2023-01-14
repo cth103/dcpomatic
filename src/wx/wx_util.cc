@@ -34,6 +34,7 @@
 #include "lib/cross.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
+#include "lib/scope_guard.h"
 #include "lib/util.h"
 #include "lib/version.h"
 #include <dcp/locale_convert.h>
@@ -161,13 +162,13 @@ void
 error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
 	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 	if (e) {
 		wxString em = *e;
 		em[0] = wxToupper (em[0]);
 		d->SetExtendedMessage (em);
 	}
 	d->ShowModal ();
-	d->Destroy ();
 }
 
 
@@ -179,8 +180,8 @@ void
 message_dialog (wxWindow* parent, wxString m)
 {
 	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_INFORMATION);
+	ScopeGuard sg = [d]() { d->Destroy(); };
 	d->ShowModal ();
-	d->Destroy ();
 }
 
 
@@ -189,9 +190,8 @@ bool
 confirm_dialog (wxWindow* parent, wxString m)
 {
 	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
-	int const r = d->ShowModal ();
-	d->Destroy ();
-	return r == wxID_YES;
+	ScopeGuard sg = [d]() { d->Destroy(); };
+	return d->ShowModal() == wxID_YES;
 }
 
 

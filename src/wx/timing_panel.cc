@@ -33,6 +33,7 @@
 #include "lib/dcp_subtitle_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/image_content.h"
+#include "lib/scope_guard.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
@@ -507,11 +508,11 @@ TimingPanel::move_to_start_of_reel_clicked ()
 	}
 
 	auto d = new MoveToDialog(this, position, _parent->film());
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() == wxID_OK) {
 		for (auto i: _parent->selected()) {
 			i->set_position (_parent->film(), d->position());
 		}
 	}
-	d->Destroy ();
 }

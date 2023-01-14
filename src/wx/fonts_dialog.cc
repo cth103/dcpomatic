@@ -25,6 +25,7 @@
 #include "wx_util.h"
 #include "lib/content.h"
 #include "lib/font.h"
+#include "lib/scope_guard.h"
 #include "lib/text_content.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -184,16 +185,13 @@ FontsDialog::set_from_file_clicked ()
 #endif
 
 	auto d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
-	int const r = d->ShowModal ();
+	ScopeGuard sg = [d]() { d->Destroy(); };
 
-	if (r != wxID_OK) {
-		d->Destroy ();
+	if (d->ShowModal() != wxID_OK) {
 		return;
 	}
 
 	font->set_file (wx_to_std(d->GetPath()));
-	d->Destroy ();
-
 	setup ();
 }
 
@@ -207,14 +205,13 @@ FontsDialog::set_from_system_font_clicked()
 	}
 
 	auto dialog = new SystemFontDialog(this);
-	auto const r = dialog->ShowModal();
-	if (r == wxID_OK) {
+	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	if (dialog->ShowModal() == wxID_OK) {
 		auto font_file = dialog->get_font();
 		if (font_file) {
 			font->set_file(*font_file);
 		}
 	}
 
-	dialog->Destroy();
 	setup ();
 }
