@@ -32,6 +32,7 @@
 #include "subtitle_appearance_dialog.h"
 #include "text_panel.h"
 #include "text_view.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/analyse_subtitles_job.h"
 #include "lib/dcp_content.h"
@@ -370,8 +371,7 @@ TextPanel::dcp_track_changed ()
 	optional<DCPTextTrack> track;
 
 	if (_dcp_track->GetSelection() == int(_dcp_track->GetCount()) - 1) {
-		auto d = new DCPTextTrackDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<DCPTextTrackDialog>(this);
 		if (d->ShowModal() == wxID_OK) {
 			track = d->get();
 		}

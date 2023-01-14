@@ -28,6 +28,7 @@
 #include "playhead_to_frame_dialog.h"
 #include "playhead_to_timecode_dialog.h"
 #include "static_text.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -381,8 +382,7 @@ Controls::setup_sensitivity ()
 void
 Controls::timecode_clicked ()
 {
-	auto dialog = new PlayheadToTimecodeDialog(this, _viewer.position(), _film->video_frame_rate());
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<PlayheadToTimecodeDialog>(this, _viewer.position(), _film->video_frame_rate());
 
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer.seek(dialog->get(), true);
@@ -393,8 +393,7 @@ Controls::timecode_clicked ()
 void
 Controls::frame_number_clicked ()
 {
-	auto dialog = new PlayheadToFrameDialog(this, _viewer.position(), _film->video_frame_rate());
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<PlayheadToFrameDialog>(this, _viewer.position(), _film->video_frame_rate());
 
 	if (dialog->ShowModal() == wxID_OK) {
 		_viewer.seek(dialog->get(), true);

@@ -30,6 +30,7 @@
 #include "timeline_dialog.h"
 #include "timing_panel.h"
 #include "video_panel.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/case_insensitive_sorter.h"
@@ -45,7 +46,6 @@
 #include "lib/image_content.h"
 #include "lib/log.h"
 #include "lib/playlist.h"
-#include "lib/scope_guard.h"
 #include "lib/string_text_file.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
@@ -595,7 +595,7 @@ ContentPanel::add_file_clicked ()
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
-	auto dialog = new FileDialog(
+	auto dialog = make_wx<FileDialog>(
 		_splitter,
 		_("Choose a file or files"),
 		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
@@ -603,8 +603,6 @@ ContentPanel::add_file_clicked ()
 		"AddFilesPath",
 		add_files_override_path()
 		);
-
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
 	if (dialog->show()) {
 		add_files(dialog->paths());
@@ -615,8 +613,7 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	auto d = new DirDialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<DirDialog>(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
 	if (d->show()) {
 		add_folder(d->path());
 	}
@@ -643,8 +640,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 	for (auto i: content) {
 		auto ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
-			auto e = new ImageSequenceDialog (_splitter);
-			ScopeGuard sg = [e]() { e->Destroy(); };
+			auto e = make_wx<ImageSequenceDialog>(_splitter);
 
 			if (e->ShowModal() != wxID_OK) {
 				return;
@@ -660,8 +656,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	auto d = new DirDialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<DirDialog>(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
 	if (d->show()) {
 		add_dcp(d->path());
 	}

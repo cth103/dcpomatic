@@ -25,6 +25,7 @@
 #include "screen_dialog.h"
 #include "static_text.h"
 #include "table_dialog.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/scope_guard.h"
@@ -64,8 +65,7 @@ public:
 
 	void load_certificate ()
 	{
-		auto dialog = new FileDialog(this, _("Trusted Device certificate"), wxEmptyString, wxFD_DEFAULT_STYLE, "SelectCertificatePath");
-		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+		auto dialog = make_wx<FileDialog>(this, _("Trusted Device certificate"), wxEmptyString, wxFD_DEFAULT_STYLE, "SelectCertificatePath");
 		if (!dialog->show()) {
 			return;
 		}
@@ -259,8 +259,7 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 void
 ScreenDialog::get_recipient_from_file ()
 {
-	auto dialog = new FileDialog(this, _("Select Certificate File"), wxEmptyString, wxFD_DEFAULT_STYLE , "SelectCertificatePath");
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<FileDialog>(this, _("Select Certificate File"), wxEmptyString, wxFD_DEFAULT_STYLE , "SelectCertificatePath");
 	if (dialog->show()) {
 		load_recipient(dialog->paths()[0]);
 	}
@@ -272,8 +271,7 @@ ScreenDialog::get_recipient_from_file ()
 void
 ScreenDialog::download_recipient ()
 {
-	auto dialog = new DownloadCertificateDialog (this);
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<DownloadCertificateDialog>(this);
 	if (dialog->ShowModal() == wxID_OK) {
 		set_recipient(dialog->certificate());
 		checked_set(_recipient_file, dialog->url());

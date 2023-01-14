@@ -23,6 +23,7 @@
 #include "dcpomatic_button.h"
 #include "screen_dialog.h"
 #include "screens_panel.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
@@ -230,8 +231,7 @@ ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 void
 ScreensPanel::add_cinema_clicked ()
 {
-	auto dialog = new CinemaDialog (GetParent(), _("Add Cinema"));
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<CinemaDialog>(GetParent(), _("Add Cinema"));
 
 	if (dialog->ShowModal() == wxID_OK) {
 		auto cinema = make_shared<Cinema>(dialog->name(), dialog->emails(), dialog->notes(), dialog->utc_offset_hour(), dialog->utc_offset_minute());
@@ -298,10 +298,9 @@ ScreensPanel::edit_cinema_clicked ()
 		return;
 	}
 
-	auto dialog = new CinemaDialog(
+	auto dialog = make_wx<CinemaDialog>(
 		GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset_hour(), cinema->utc_offset_minute()
 		);
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
 	if (dialog->ShowModal() == wxID_OK) {
 		cinema->name = dialog->name();
@@ -351,8 +350,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	auto dialog = new ScreenDialog(GetParent(), _("Add Screen"));
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<ScreenDialog>(GetParent(), _("Add Screen"));
 
 	if (dialog->ShowModal () != wxID_OK) {
 		return;
@@ -391,7 +389,7 @@ ScreensPanel::edit_screen_clicked ()
 
 	auto edit_screen = _selected_screens[0];
 
-	auto dialog = new ScreenDialog(
+	auto dialog = make_wx<ScreenDialog>(
 		GetParent(), _("Edit screen"),
 		edit_screen->name,
 		edit_screen->notes,
@@ -399,7 +397,6 @@ ScreensPanel::edit_screen_clicked ()
 		edit_screen->recipient_file,
 		edit_screen->trusted_devices
 		);
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
 	if (dialog->ShowModal() != wxID_OK) {
 		return;

@@ -23,6 +23,7 @@
 #include "full_language_tag_dialog.h"
 #include "region_subtag_dialog.h"
 #include "region_subtag_widget.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/scope_guard.h"
 #include <dcp/warnings.h>
@@ -67,8 +68,7 @@ RegionSubtagWidget::~RegionSubtagWidget()
 void
 RegionSubtagWidget::edit()
 {
-	auto d = new RegionSubtagDialog(_parent, _tag.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<RegionSubtagDialog>(_parent, _tag.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
 
 	if (d->ShowModal() == wxID_OK) {
 		set(d->get());

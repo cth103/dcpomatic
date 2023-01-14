@@ -53,6 +53,7 @@
 #include "wx/update_dialog.h"
 #include "wx/video_waveform_dialog.h"
 #include "wx/wx_signal_manager.h"
+#include "wx/wx_ptr.h"
 #include "wx/wx_util.h"
 #include "lib/analytics.h"
 #include "lib/audio_content.h"
@@ -80,7 +81,6 @@
 #include "lib/log.h"
 #include "lib/make_dcp.h"
 #include "lib/release_notes.h"
-#include "lib/scope_guard.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/signal_manager.h"
@@ -577,8 +577,7 @@ private:
 
 	void file_new ()
 	{
-		auto d = new FilmNameLocationDialog (this, _("New Film"), true);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<FilmNameLocationDialog>(this, _("New Film"), true);
 		int const r = d->ShowModal ();
 
 		if (r != wxID_OK || !d->check_path() || !maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
@@ -613,13 +612,12 @@ private:
 
 	void file_open ()
 	{
-		auto c = new wxDirDialog (
+		auto c = make_wx<wxDirDialog>(
 			this,
 			_("Select film to open"),
 			std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()),
 			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
 			);
-		ScopeGuard sg = [c]() { c->Destroy(); };
 
 		int r;
 		while (true) {
@@ -643,8 +641,7 @@ private:
 
 	void file_save_as_template ()
 	{
-		auto d = new SaveTemplateDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<SaveTemplateDialog>(this);
 		if (d->ShowModal() == wxID_OK) {
 			Config::instance()->save_template (_film, d->name ());
 		}
@@ -652,8 +649,7 @@ private:
 
 	void file_duplicate ()
 	{
-		auto d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<FilmNameLocationDialog>(this, _("Duplicate Film"), false);
 
 		if (d->ShowModal() == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
 			shared_ptr<Film> film (new Film (d->path()));
@@ -665,11 +661,10 @@ private:
 
 	void file_duplicate_and_open ()
 	{
-		auto d = new FilmNameLocationDialog (this, _("Duplicate Film"), false);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<FilmNameLocationDialog>(this, _("Duplicate Film"), false);
 
 		if (d->ShowModal() == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
-			shared_ptr<Film> film (new Film (d->path()));
+			auto film = make_shared<Film>(d->path());
 			film->copy_from (_film);
 			film->set_name (d->path().filename().generic_string());
 			film->write_metadata ();
@@ -728,8 +723,7 @@ private:
 	{
 		DCPOMATIC_ASSERT (_clipboard);
 
-		auto d = new PasteDialog (this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<PasteDialog>(this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
 		if (d->ShowModal() != wxID_OK) {
 			return;
 		}
@@ -771,13 +765,12 @@ private:
 
 	void tools_restore_default_preferences ()
 	{
-		auto d = new wxMessageDialog (
-			0,
+		auto d = make_wx<wxMessageDialog>(
+			nullptr,
 			_("Are you sure you want to restore preferences to their defaults?  This cannot be undone."),
 			_("Restore default preferences"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
-		ScopeGuard sg = [d]() { d->Destroy(); };
 
 		if (d->ShowModal() == wxID_YES) {
 			Config::restore_defaults ();
@@ -786,11 +779,10 @@ private:
 
 	void tools_export_preferences ()
 	{
-		auto dialog = new wxFileDialog (
+		auto dialog = make_wx<wxFileDialog>(
 			this, _("Specify ZIP file"), wxEmptyString, wxT("dcpomatic_config.zip"), wxT("ZIP files (*.zip)|*.zip"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
-		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
 
 		if (dialog->ShowModal() == wxID_OK) {
 			save_all_config_as_zip (wx_to_std(dialog->GetPath()));
@@ -816,8 +808,7 @@ private:
 		}
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
-			auto hints = new HintsDialog (this, _film, false);
-			ScopeGuard sg = [hints]() { hints->Destroy(); };
+			auto hints = make_wx<HintsDialog>(this, _film, false);
 			if (hints->ShowModal() == wxID_CANCEL) {
 				return;
 			}
@@ -929,8 +920,7 @@ private:
 		}
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
-			auto hints = new HintsDialog (this, _film, false);
-			ScopeGuard sg = [hints]() { hints->Destroy(); };
+			auto hints = make_wx<HintsDialog>(this, _film, false);
 			if (hints->ShowModal() == wxID_CANCEL) {
 				return;
 			}
@@ -968,8 +958,7 @@ private:
 			return;
 		}
 
-		auto d = new SelfDKDMDialog (this, _film);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<SelfDKDMDialog>(this, _film);
 		if (d->ShowModal () != wxID_OK) {
 			return;
 		}
@@ -1025,8 +1014,7 @@ private:
 
 	void jobs_export_video_file ()
 	{
-		auto d = new ExportVideoFileDialog (this, _film->isdcf_name(true));
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<ExportVideoFileDialog>(this, _film->isdcf_name(true));
 		if (d->ShowModal() != wxID_OK) {
 			return;
 		}
@@ -1053,8 +1041,7 @@ private:
 
 	void jobs_export_subtitles ()
 	{
-		auto d = new ExportSubtitlesDialog (this, _film->reels().size(), _film->interop());
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<ExportSubtitlesDialog>(this, _film->reels().size(), _film->interop());
 		if (d->ShowModal() != wxID_OK) {
 			return;
 		}
@@ -1137,44 +1124,43 @@ private:
 
 	void tools_send_translations ()
 	{
-		auto d = new SendI18NDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
-		if (d->ShowModal() == wxID_OK) {
-			string body;
-			body += d->name() + "\n";
-			body += d->language() + "\n";
-			body += string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n";
-			body += "--\n";
-			auto translations = I18NHook::translations ();
-			for (auto i: translations) {
-				body += i.first + "\n" + i.second + "\n\n";
-			}
-			list<string> to = { "carl@dcpomatic.com" };
-			if (d->email().find("@") == string::npos) {
-				error_dialog (this, _("You must enter a valid email address when sending translations, "
-						      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
-			} else {
-				Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
-				try {
-					emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
-				} catch (NetworkError& e) {
-					error_dialog (this, _("Could not send translations"), std_to_wx(e.what()));
-				}
+		auto d = make_wx<SendI18NDialog>(this);
+		if (d->ShowModal() != wxID_OK) {
+			return;
+		}
+
+		string body;
+		body += d->name() + "\n";
+		body += d->language() + "\n";
+		body += string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n";
+		body += "--\n";
+		auto translations = I18NHook::translations ();
+		for (auto i: translations) {
+			body += i.first + "\n" + i.second + "\n\n";
+		}
+		list<string> to = { "carl@dcpomatic.com" };
+		if (d->email().find("@") == string::npos) {
+			error_dialog (this, _("You must enter a valid email address when sending translations, "
+					      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
+		} else {
+			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
+			try {
+				emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
+			} catch (NetworkError& e) {
+				error_dialog (this, _("Could not send translations"), std_to_wx(e.what()));
 			}
 		}
 	}
 
 	void help_about ()
 	{
-		auto d = new AboutDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<AboutDialog>(this);
 		d->ShowModal ();
 	}
 
 	void help_report_a_problem ()
 	{
-		auto d = new ReportProblemDialog (this, _film);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<ReportProblemDialog>(this, _film);
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
@@ -1186,13 +1172,12 @@ private:
 			return true;
 		}
 
-		auto d = new wxMessageDialog (
-			0,
+		auto d = make_wx<wxMessageDialog>(
+			nullptr,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
-		ScopeGuard sg = [d]() { d->Destroy(); };
 
 		return d->ShowModal() == wxID_YES;
 	}
@@ -1529,8 +1514,7 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::State::YES) {
-			auto dialog = new UpdateDialog (this, uc->stable(), uc->test());
-			ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+			auto dialog = make_wx<UpdateDialog>(this, uc->stable(), uc->test());
 			dialog->ShowModal ();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
@@ -1567,8 +1551,7 @@ private:
 
 	void analytics_message (string title, string html)
 	{
-		auto d = new HTMLDialog(this, std_to_wx(title), std_to_wx(html));
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<HTMLDialog>(this, std_to_wx(title), std_to_wx(html));
 		d->ShowModal();
 	}
 
@@ -1738,8 +1721,7 @@ private:
 
 			auto release_notes = find_release_notes(gui_is_dark());
 			if (release_notes) {
-				auto notes = new HTMLDialog(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
-				ScopeGuard sg = [notes]() { notes->Destroy(); };
+				auto notes = make_wx<HTMLDialog>(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
 				notes->Centre();
 				notes->ShowModal();
 			}
@@ -1892,7 +1874,7 @@ private:
 			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN_UTF8)) {
 				return false;
 			}
-			auto d = new RecreateChainDialog (
+			auto d = make_wx<RecreateChainDialog>(
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
 				  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
@@ -1900,7 +1882,6 @@ private:
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_UTF8
 				);
-			ScopeGuard sg = [d]() { d->Destroy(); };
 			return d->ShowModal() == wxID_OK;
 		}
 		case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
@@ -1908,7 +1889,7 @@ private:
 			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN_VALIDITY)) {
 				return false;
 			}
-			auto d = new RecreateChainDialog (
+			auto d = make_wx<RecreateChainDialog>(
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period\n"
 				  "that is too long.  This will cause problems playing back DCPs on some systems.\n"
@@ -1916,19 +1897,17 @@ private:
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_VALIDITY
 				);
-			ScopeGuard sg = [d]() { d->Destroy(); };
 			return d->ShowModal() == wxID_OK;
 		}
 		case Config::BAD_SIGNER_INCONSISTENT:
 		{
-			auto d = new RecreateChainDialog (
+			auto d = make_wx<RecreateChainDialog>(
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is inconsistent and\n"
 				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
 				  "the certificate chain for signing DCPs and KDMs?"),
 				_("Close DCP-o-matic")
 				);
-			ScopeGuard sg = [d]() { d->Destroy(); };
 			if (d->ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
 			}
@@ -1936,7 +1915,7 @@ private:
 		}
 		case Config::BAD_DECRYPTION_INCONSISTENT:
 		{
-			auto d = new RecreateChainDialog (
+			auto d = make_wx<RecreateChainDialog>(
 				_frame, _("Recreate KDM decryption chain"),
 				_("The certificate chain that DCP-o-matic uses for decrypting KDMs is inconsistent and\n"
 				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
@@ -1944,7 +1923,6 @@ private:
 				  "configuration before continuing."),
 				_("Close DCP-o-matic")
 				);
-			ScopeGuard sg = [d]() { d->Destroy(); };
 			if (d->ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
 			}

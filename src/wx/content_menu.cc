@@ -27,6 +27,7 @@
 #include "repeat_dialog.h"
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
@@ -44,7 +45,6 @@
 #include "lib/image_content.h"
 #include "lib/job_manager.h"
 #include "lib/playlist.h"
-#include "lib/scope_guard.h"
 #include "lib/video_content.h"
 #include <dcp/cpl.h>
 #include <dcp/decrypted_kdm.h>
@@ -466,8 +466,7 @@ ContentMenu::advanced ()
 	DCPOMATIC_ASSERT(!_content.empty());
 
 	auto content = _content.front();
-	auto dialog = new ContentAdvancedDialog(_parent, content);
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<ContentAdvancedDialog>(_parent, content);
 
 	if (dialog->ShowModal() == wxID_CANCEL) {
 		return;

@@ -33,6 +33,7 @@
 #include "wx/report_problem_dialog.h"
 #include "wx/screens_panel.h"
 #include "wx/static_text.h"
+#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/cinema.h"
@@ -47,7 +48,6 @@
 #include "lib/file_log.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
-#include "lib/scope_guard.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
 #include <dcp/encrypted_kdm.h>
@@ -266,15 +266,13 @@ private:
 
 	void help_about ()
 	{
-		auto d = new AboutDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<AboutDialog>(this);
 		d->ShowModal ();
 	}
 
 	void help_report_a_problem ()
 	{
-		auto d = new ReportProblemDialog (this, shared_ptr<Film>());
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<ReportProblemDialog>(this, shared_ptr<Film>());
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
@@ -512,10 +510,7 @@ private:
 
 	void add_dkdm_clicked ()
 	{
-		auto dialog = new FileDialog(this, _("Select DKDM file"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
-
-		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
-
+		auto dialog = make_wx<FileDialog>(this, _("Select DKDM file"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
 		if (!dialog->show()) {
 			return;
 		}
@@ -566,8 +561,7 @@ private:
 
 	void add_dkdm_folder_clicked ()
 	{
-		auto d = new NewDKDMFolderDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<NewDKDMFolderDialog>(this);
 		if (d->ShowModal() != wxID_OK) {
 			return;
 		}
@@ -718,11 +712,10 @@ private:
 			return;
 		}
 
-		auto d = new wxFileDialog (
+		auto d = make_wx<wxFileDialog>(
 			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
-		ScopeGuard sg = [d]() { d->Destroy(); };
 
 		if (d->ShowModal() == wxID_OK) {
 			dkdm->dkdm().as_xml(wx_to_std(d->GetPath()));

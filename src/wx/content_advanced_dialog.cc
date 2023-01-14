@@ -25,13 +25,13 @@
 #include "filter_dialog.h"
 #include "language_tag_widget.h"
 #include "static_text.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/content.h"
 #include "lib/dcp_content.h"
 #include "lib/filter.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/image_content.h"
-#include "lib/scope_guard.h"
 #include "lib/video_content.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -181,9 +181,7 @@ ContentAdvancedDialog::edit_filters ()
 		return;
 	}
 
-	auto dialog = new FilterDialog(this, _filters_list);
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
-
+	auto dialog = make_wx<FilterDialog>(this, _filters_list);
 	dialog->ActiveChanged.connect(bind(&ContentAdvancedDialog::filters_changed, this, _1));
 	dialog->ShowModal();
 }

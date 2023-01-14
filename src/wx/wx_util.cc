@@ -29,12 +29,12 @@
 #include "password_entry.h"
 #include "region_subtag_widget.h"
 #include "static_text.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
-#include "lib/scope_guard.h"
 #include "lib/util.h"
 #include "lib/version.h"
 #include <dcp/locale_convert.h>
@@ -161,8 +161,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
 void
 error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
-	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<wxMessageDialog>(parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
 	if (e) {
 		wxString em = *e;
 		em[0] = wxToupper (em[0]);
@@ -179,8 +178,7 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 void
 message_dialog (wxWindow* parent, wxString m)
 {
-	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxOK | wxICON_INFORMATION);
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<wxMessageDialog>(parent, m, _("DCP-o-matic"), wxOK | wxICON_INFORMATION);
 	d->ShowModal ();
 }
 
@@ -189,8 +187,7 @@ message_dialog (wxWindow* parent, wxString m)
 bool
 confirm_dialog (wxWindow* parent, wxString m)
 {
-	auto d = new wxMessageDialog (parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<wxMessageDialog>(parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
 	return d->ShowModal() == wxID_YES;
 }
 

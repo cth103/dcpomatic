@@ -32,6 +32,7 @@
 #include "wx/update_dialog.h"
 #include "wx/verify_dcp_dialog.h"
 #include "wx/verify_dcp_progress_dialog.h"
+#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/compose.hpp"
@@ -617,8 +618,7 @@ private:
 			d = std_to_wx (Config::instance()->last_player_load_directory()->string());
 		}
 
-		auto c = new wxDirDialog (this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
-		ScopeGuard sg = [c]() { c->Destroy(); };
+		auto c = make_wx<wxDirDialog>(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 
 		int r;
 		while (true) {
@@ -644,13 +644,12 @@ private:
 			initial_dir = std_to_wx(Config::instance()->last_player_load_directory()->string());
 		}
 
-		auto c = new wxDirDialog (
+		auto c = make_wx<wxDirDialog>(
 			this,
 			_("Select DCP to open as OV"),
 			initial_dir,
 			wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST
 			);
-		ScopeGuard sg = [c]() { c->Destroy(); };
 
 		int r;
 		while (true) {
@@ -688,8 +687,7 @@ private:
 
 	void file_add_kdm ()
 	{
-		auto d = new wxFileDialog (this, _("Select KDM"));
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<wxFileDialog>(this, _("Select KDM"));
 
 		if (d->ShowModal() == wxID_OK) {
 			DCPOMATIC_ASSERT (_film);

@@ -24,6 +24,7 @@
 #include "wx/full_config_dialog.h"
 #include "wx/job_manager_view.h"
 #include "wx/servers_list_dialog.h"
+#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/compose.hpp"
@@ -33,7 +34,6 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/make_dcp.h"
-#include "lib/scope_guard.h"
 #include "lib/transcode_job.h"
 #include "lib/util.h"
 #include "lib/version.h"
@@ -269,13 +269,12 @@ private:
 			return true;
 		}
 
-		auto d = new wxMessageDialog (
-			0,
+		auto d = make_wx<wxMessageDialog>(
+			nullptr,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
-		ScopeGuard sg = [d]{ d->Destroy(); };
 
 		return d->ShowModal() == wxID_YES;
 	}
@@ -321,15 +320,13 @@ private:
 
 	void help_about ()
 	{
-		auto d = new AboutDialog (this);
-		ScopeGuard sg = [d]() { d->Destroy(); };
+		auto d = make_wx<AboutDialog>(this);
 		d->ShowModal ();
 	}
 
 	void add_film ()
 	{
-		auto dialog = new wxDirDialog(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
-		ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+		auto dialog = make_wx<wxDirDialog>(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		if (_last_parent) {
 			dialog->SetPath(std_to_wx(_last_parent.get().string()));
 		}

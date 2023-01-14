@@ -22,6 +22,7 @@
 #include "dcpomatic_button.h"
 #include "fonts_dialog.h"
 #include "system_font_dialog.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/content.h"
 #include "lib/font.h"
@@ -184,8 +185,7 @@ FontsDialog::set_from_file_clicked ()
         default_dir = "/System/Library/Fonts";
 #endif
 
-	auto d = new wxFileDialog (this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<wxFileDialog>(this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
 
 	if (d->ShowModal() != wxID_OK) {
 		return;
@@ -204,8 +204,7 @@ FontsDialog::set_from_system_font_clicked()
 		return;
 	}
 
-	auto dialog = new SystemFontDialog(this);
-	ScopeGuard sg = [dialog]() { dialog->Destroy(); };
+	auto dialog = make_wx<SystemFontDialog>(this);
 	if (dialog->ShowModal() == wxID_OK) {
 		auto font_file = dialog->get_font();
 		if (font_file) {

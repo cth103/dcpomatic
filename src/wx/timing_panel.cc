@@ -26,6 +26,7 @@
 #include "static_text.h"
 #include "timecode.h"
 #include "timing_panel.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/content.h"
@@ -507,8 +508,7 @@ TimingPanel::move_to_start_of_reel_clicked ()
 		}
 	}
 
-	auto d = new MoveToDialog(this, position, _parent->film());
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<MoveToDialog>(this, position, _parent->film());
 
 	if (d->ShowModal() == wxID_OK) {
 		for (auto i: _parent->selected()) {

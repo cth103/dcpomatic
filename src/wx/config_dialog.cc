@@ -25,6 +25,7 @@
 #include "dcpomatic_button.h"
 #include "nag_dialog.h"
 #include "static_text.h"
+#include "wx_ptr.h"
 #include "lib/constants.h"
 #include <dcp/file.h>
 #include <dcp/raw_convert.h>
@@ -367,8 +368,7 @@ CertificateChainEditor::add_button (wxWindow* button)
 void
 CertificateChainEditor::add_certificate ()
 {
-	auto d = new wxFileDialog (this, _("Select Certificate File"));
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<wxFileDialog>(this, _("Select Certificate File"));
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
@@ -450,11 +450,10 @@ CertificateChainEditor::export_certificate ()
 		default_name = "intermediate.pem";
 	}
 
-	auto d = new wxFileDialog(
+	auto d = make_wx<wxFileDialog>(
 		this, _("Select Certificate File"), wxEmptyString, default_name, wxT ("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
-	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	auto j = all.begin ();
 	for (int k = 0; k < i; ++k) {
@@ -481,11 +480,10 @@ CertificateChainEditor::export_certificate ()
 void
 CertificateChainEditor::export_chain ()
 {
-	auto d = new wxFileDialog (
+	auto d = make_wx<wxFileDialog>(
 		this, _("Select Chain File"), wxEmptyString, wxT("certificate_chain.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
-	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() != wxID_OK) {
 		return;
@@ -546,8 +544,7 @@ CertificateChainEditor::remake_certificates ()
 		return;
 	}
 
-	auto d = new MakeChainDialog (this, _get());
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<MakeChainDialog>(this, _get());
 
 	if (d->ShowModal () == wxID_OK) {
 		_set (d->get());
@@ -574,8 +571,7 @@ CertificateChainEditor::update_private_key ()
 void
 CertificateChainEditor::import_private_key ()
 {
-	auto d = new wxFileDialog (this, _("Select Key File"));
-	ScopeGuard sg = [d]() { d->Destroy(); };
+	auto d = make_wx<wxFileDialog>(this, _("Select Key File"));
 
 	if (d->ShowModal() == wxID_OK) {
 		try {
@@ -608,11 +604,10 @@ CertificateChainEditor::export_private_key ()
 		return;
 	}
 
-	auto d = new wxFileDialog (
+	auto d = make_wx<wxFileDialog>(
 		this, _("Select Key File"), wxEmptyString, wxT("private_key.pem"), wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
-	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal () == wxID_OK) {
 		boost::filesystem::path path (wx_to_std(d->GetPath()));
@@ -727,11 +722,10 @@ KeysPage::signing_advanced ()
 void
 KeysPage::export_decryption_chain_and_key ()
 {
-	auto d = new wxFileDialog (
+	auto d = make_wx<wxFileDialog>(
 		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
-	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() != wxID_OK) {
 		return;
@@ -762,10 +756,9 @@ KeysPage::import_decryption_chain_and_key ()
 		return;
 	}
 
-	auto d = new wxFileDialog (
+	auto d = make_wx<wxFileDialog>(
 		_panel, _("Select File To Import"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom")
 		);
-	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() != wxID_OK) {
 		return;
@@ -825,11 +818,10 @@ KeysPage::export_decryption_certificate ()
 	}
 	default_name += wxT("_kdm_decryption_cert.pem");
 
-	auto d = new wxFileDialog (
+	auto d = make_wx<wxFileDialog>(
 		_panel, _("Select Certificate File"), wxEmptyString, default_name, wxT("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
-	ScopeGuard sg = [d]() { d->Destroy(); };
 
 	if (d->ShowModal() != wxID_OK) {
 		return;
