@@ -62,9 +62,32 @@ public:
 		}
 	}
 
-	T* operator->() {
+	wx_ptr& operator=(T* ptr)
+	{
+		if (_wx) {
+			_wx->Destroy();
+		}
+		_wx = ptr;
+		return *this;
+	}
+
+	T* operator->()
+	{
 		DCPOMATIC_ASSERT(_wx);
 		return _wx;
+	}
+
+	operator bool() const
+	{
+		return _wx != nullptr;
+	}
+
+	void reset()
+	{
+		if (_wx) {
+			_wx->Destroy();
+			_wx = nullptr;
+		}
 	}
 
 	template <typename... Args>

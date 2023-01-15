@@ -898,16 +898,14 @@ private:
 		DCPOMATIC_ASSERT (dcp);
 
 		auto job = make_shared<VerifyDCPJob>(dcp->directories());
-		auto progress = new VerifyDCPProgressDialog(this, _("DCP-o-matic Player"));
+		auto progress = make_wx<VerifyDCPProgressDialog>(this, _("DCP-o-matic Player"));
 		bool const completed = progress->run (job);
-		progress->Destroy ();
 		if (!completed) {
 			return;
 		}
 
-		auto d = new VerifyDCPDialog (this, job);
+		auto d = make_wx<VerifyDCPDialog>(this, job);
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void tools_check_for_updates ()
@@ -918,9 +916,8 @@ private:
 
 	void tools_timing ()
 	{
-		auto d = new TimerDisplay(this, _viewer.state_timer(), _viewer.gets());
+		auto d = make_wx<TimerDisplay>(this, _viewer.state_timer(), _viewer.gets());
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void tools_system_information ()
@@ -934,18 +931,16 @@ private:
 
 	void help_about ()
 	{
-		auto d = new AboutDialog (this);
+		auto d = make_wx<AboutDialog>(this);
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void help_report_a_problem ()
 	{
-		auto d = new ReportProblemDialog (this);
+		auto d = make_wx<ReportProblemDialog>(this);
 		if (d->ShowModal () == wxID_OK) {
 			d->report ();
 		}
-		d->Destroy ();
 	}
 
 	void update_checker_state_changed ()
@@ -964,9 +959,8 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::State::YES) {
-			auto dialog = new UpdateDialog (this, uc->stable (), uc->test ());
+			auto dialog = make_wx<UpdateDialog>(this, uc->stable (), uc->test ());
 			dialog->ShowModal ();
-			dialog->Destroy ();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
 		} else {
@@ -1168,7 +1162,7 @@ private:
 
 	bool OnInit () override
 	{
-		wxSplashScreen* splash = nullptr;
+		wx_ptr<wxSplashScreen> splash;
 		try {
 			wxInitAllImageHandlers ();
 
