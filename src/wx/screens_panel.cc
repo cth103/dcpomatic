@@ -449,6 +449,10 @@ ScreensPanel::remove_screen_clicked ()
 		_targets->DeleteItem(*item);
 	}
 
+	/* This is called by the signal on Linux, but not it seems on Windows, so we call it ourselves
+	 * as well.
+	 */
+	selection_changed();
 	notify_cinemas_changed();
 }
 
