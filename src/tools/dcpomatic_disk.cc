@@ -367,12 +367,12 @@ private:
 		}
 
 
-		auto * d = new DriveWipeWarningDialog (this, _drive->GetString(_drive->GetSelection()));
-		int const r = d->ShowModal ();
-		bool ok = r == wxID_OK && d->confirmed();
-		d->Destroy ();
-
-		if (!ok) {
+		auto d = make_wx<DriveWipeWarningDialog>(this, _drive->GetString(_drive->GetSelection()));
+		if (d->ShowModal() != wxID_OK) {
+			return;
+		}
+		if (!d->confirmed()) {
+			message_dialog(this, _("You did not correctly confirm that you read the warning that was just shown.  Please try again."));
 			return;
 		}
 
@@ -478,12 +478,14 @@ public:
 			Config::drop ();
 
 			if (!_skip_alpha_check) {
-				auto warning = new DiskWarningDialog ();
-				warning->ShowModal ();
-				if (!warning->confirmed()) {
+				auto warning = make_wx<DiskWarningDialog>();
+				if (warning->ShowModal() != wxID_OK) {
 					return false;
 				}
-				warning->Destroy ();
+				if (!warning->confirmed()) {
+					message_dialog(nullptr, _("You did not correctly confirm that you read the warning that was just shown.  DCP-o-matic Disk Writer will close now.  Please try again."));
+					return false;
+				}
 			}
 
 			_frame = new DOMFrame (_("DCP-o-matic Disk Writer"));

@@ -42,11 +42,15 @@ DriveWipeWarningDialog::DriveWipeWarningDialog (wxWindow* parent, wxString drive
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
 
+	/// TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+	/// the warning about a disk being wiped
+	auto const confirmation = _("yes");
+
 	text->SetLabelMarkup (
 		wxString::Format(
 			_("If you continue with this operation\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">ALL DATA</span>\n\n"
 			  "on the drive\n\n<b>%s</b>\n\nwill be\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">PERMANENTLY DESTROYED.</span>\n\n"
-			  "If you are sure you want to continue please type\n\n<tt>yes</tt>\n\ninto the box below, then click OK."), drive
+			  "If you are sure you want to continue please type\n\n<tt>%s</tt>\n\ninto the box below, then click OK."), drive, confirmation
 			)
 		);
 }
@@ -54,5 +58,5 @@ DriveWipeWarningDialog::DriveWipeWarningDialog (wxWindow* parent, wxString drive
 bool
 DriveWipeWarningDialog::confirmed () const
 {
-	return _yes->GetValue() == "yes";
+	return _yes->GetValue() == _("yes");
 }
