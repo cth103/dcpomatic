@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 19:29+0100\n"
+"POT-Creation-Date: 2023-01-15 19:42+0100\n"
 "PO-Revision-Date: 2022-09-13 02:59+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -1534,6 +1534,12 @@ msgstr "Host"
 msgid "Host name or IP address"
 msgstr "Hostnaam of IP-adres"
 
+#. / TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+#. / the warning about using the disk writer.
+#: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
+msgid "I am sure"
+msgstr ""
+
 #: src/wx/gain_calculator_dialog.cc:35
 msgid "I want to play this back at fader"
 msgstr "Ik wil dit afspelen met deze volume-instelling"
@@ -2957,7 +2963,8 @@ msgid ""
 "an asset."
 msgstr ""
 
-#: src/wx/disk_warning_dialog.cc:44
+#: src/wx/disk_warning_dialog.cc:48
+#, c-format
 msgid ""
 "The <b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
@@ -2971,7 +2978,7 @@ msgid ""
 "\n"
 "If you are sure you want to continue please type\n"
 "\n"
-"<tt>I am sure</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "into the box below, then click OK."
 msgstr ""
@@ -2987,7 +2994,7 @@ msgstr ""
 "\n"
 "Als u zeker weet dat u wilt doorgaan, typ dan\n"
 "\n"
-"<tt>I am sure</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "in het onderstaande vak en klik vervolgens op OK."
 

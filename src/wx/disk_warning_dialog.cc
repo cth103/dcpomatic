@@ -40,15 +40,19 @@ DiskWarningDialog::DiskWarningDialog ()
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
 
-	text->SetLabelMarkup (
+	/// TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+	/// the warning about using the disk writer.
+	auto const confirmation = _("I am sure");
+
+	text->SetLabelMarkup(wxString::Format(
 		_("The <b>DCP-o-matic Disk Writer</b> is\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST SOFTWARE</span>\n\n"
 	          "and may\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</span>\n\n"
-		  "If you are sure you want to continue please type\n\n<tt>I am sure</tt>\n\ninto the box below, then click OK.")
-		);
+		  "If you are sure you want to continue please type\n\n<tt>%s</tt>\n\ninto the box below, then click OK."),
+		confirmation));
 }
 
 bool
 DiskWarningDialog::confirmed () const
 {
-	return _yes->GetValue() == "I am sure";
+	return _yes->GetValue() == _("I am sure");
 }

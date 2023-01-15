@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 19:29+0100\n"
+"POT-Creation-Date: 2023-01-15 19:42+0100\n"
 "PO-Revision-Date: 2022-05-10 18:14+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -1544,6 +1544,12 @@ msgstr "Serwer"
 msgid "Host name or IP address"
 msgstr "Nazwa serwera lub adres IP"
 
+#. / TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+#. / the warning about using the disk writer.
+#: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
+msgid "I am sure"
+msgstr ""
+
 #: src/wx/gain_calculator_dialog.cc:35
 msgid "I want to play this back at fader"
 msgstr "Chcę odtwarzać ten plik z wyciszeniem"
@@ -2972,7 +2978,8 @@ msgid ""
 "an asset."
 msgstr ""
 
-#: src/wx/disk_warning_dialog.cc:44
+#: src/wx/disk_warning_dialog.cc:48
+#, c-format
 msgid ""
 "The <b>DCP-o-matic Disk Writer</b> is\n"
 "\n"
@@ -2986,7 +2993,7 @@ msgid ""
 "\n"
 "If you are sure you want to continue please type\n"
 "\n"
-"<tt>I am sure</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "into the box below, then click OK."
 msgstr ""
@@ -3002,7 +3009,7 @@ msgstr ""
 "\n"
 "Jeśli na pewno chcesz kontynuować, wpisz:\n"
 "\n"
-"<tt>I am sure</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "w poniższe pole i wciśnij OK."
 
