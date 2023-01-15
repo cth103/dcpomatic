@@ -17,7 +17,7 @@ elif [ "$1" == "--massif" ]; then
     valgrind --tool="massif" build/src/tools/dcpomatic2_disk $*
 elif [ "$1" == "--i18n" ]; then
     shift
-    LANGUAGE=de_DE.UTF8 LANG=de_DE.UTF8 LC_ALL=de_DE.UTF8 build/src/tools/dcpomatic2_disk "$*"
+    LANGUAGE=de_DE.UTF8 LANG=de_DE.UTF8 LC_ALL=de_DE.UTF8 build/src/tools/dcpomatic2_disk $*
 elif [ "$1" == "--perf" ]; then
     shift
     perf record build/src/tools/dcpomatic2_disk $*
