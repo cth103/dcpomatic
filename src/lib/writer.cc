@@ -657,14 +657,17 @@ Writer::finish (boost::filesystem::path output_dcp)
 		cpl->set_sign_language_video_language (*film()->sign_language_video_language());
 	}
 
-	auto ac = film()->mapped_audio_channels();
-	dcp::MCASoundField field = (
-		find(ac.begin(), ac.end(), static_cast<int>(dcp::Channel::BSL)) != ac.end() ||
-		find(ac.begin(), ac.end(), static_cast<int>(dcp::Channel::BSR)) != ac.end()
-		) ? dcp::MCASoundField::SEVEN_POINT_ONE : dcp::MCASoundField::FIVE_POINT_ONE;
+	dcp::MCASoundField field;
+	if (film()->audio_channels() == 2) {
+		field = dcp::MCASoundField::STEREO;
+	} else if (film()->audio_channels() <= 6) {
+		field = dcp::MCASoundField::FIVE_POINT_ONE;
+	} else {
+		field = dcp::MCASoundField::SEVEN_POINT_ONE;
+	}
 
 	dcp::MainSoundConfiguration msc (field, film()->audio_channels());
-	for (auto i: ac) {
+	for (auto i: film()->mapped_audio_channels()) {
 		if (static_cast<int>(i) < film()->audio_channels()) {
 			msc.set_mapping (i, static_cast<dcp::Channel>(i));
 		}
