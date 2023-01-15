@@ -389,6 +389,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_ASSETMAP:
 			add(i, _("The ASSETMAP %n has more than one asset with the same ID."));
 			break;
+		case dcp::VerificationNote::Code::MISSING_SUBTITLE:
+			add(i, _("The subtitle asset %n contains no subtitles."));
+			break;
 		}
 	}
 
