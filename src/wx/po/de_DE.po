@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 19:42+0100\n"
+"POT-Creation-Date: 2023-01-15 19:59+0100\n"
 "PO-Revision-Date: 2021-08-20 21:46+0200\n"
 "Last-Translator: Carsten Kurz\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -1623,7 +1623,7 @@ msgstr "IP Adresse / Host Name"
 msgid "Identifiers"
 msgstr "Identifier"
 
-#: src/wx/drive_wipe_warning_dialog.cc:47
+#: src/wx/drive_wipe_warning_dialog.cc:51
 #, c-format
 msgid ""
 "If you continue with this operation\n"
@@ -1641,7 +1641,7 @@ msgid ""
 "\n"
 "If you are sure you want to continue please type\n"
 "\n"
-"<tt>yes</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "into the box below, then click OK."
 msgstr ""
@@ -1659,7 +1659,7 @@ msgstr ""
 "\n"
 "Wenn Sie sich sicher sind, mit dem Vorgang fortzufahren, dann geben Sie\n"
 "\n"
-"<tt>Ja</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "in das Eingabefenster ein. Bestätigen Sie anschließend die Eingabe, indem "
 "Sie auf die OK-Drucktaste drücken."
@@ -4246,6 +4246,13 @@ msgstr "y"
 #: src/wx/full_config_dialog.cc:392
 msgid "years"
 msgstr ""
+
+#. / TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+#. / the warning about a disk being wiped
+#: src/wx/drive_wipe_warning_dialog.cc:47
+#: src/wx/drive_wipe_warning_dialog.cc:61
+msgid "yes"
+msgstr "Ja"
 
 #~ msgid "Default container"
 #~ msgstr "Standard Container"

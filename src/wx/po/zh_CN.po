@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-01-15 19:42+0100\n"
+"POT-Creation-Date: 2023-01-15 19:59+0100\n"
 "PO-Revision-Date: 2022-05-05 23:24+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -1554,7 +1554,7 @@ msgstr "IP地址/服务器地址"
 msgid "Identifiers"
 msgstr "身份标识"
 
-#: src/wx/drive_wipe_warning_dialog.cc:47
+#: src/wx/drive_wipe_warning_dialog.cc:51
 #, c-format
 msgid ""
 "If you continue with this operation\n"
@@ -1572,7 +1572,7 @@ msgid ""
 "\n"
 "If you are sure you want to continue please type\n"
 "\n"
-"<tt>yes</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "into the box below, then click OK."
 msgstr ""
@@ -1590,7 +1590,7 @@ msgstr ""
 "\n"
 "如果您确定要继续，请键入\n"
 "\n"
-"<tt>yes</tt>\n"
+"<tt>%s</tt>\n"
 "\n"
 "进入下一步，然后单击确定。"
 
@@ -4101,6 +4101,13 @@ msgstr "y"
 
 #: src/wx/full_config_dialog.cc:392
 msgid "years"
+msgstr ""
+
+#. / TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+#. / the warning about a disk being wiped
+#: src/wx/drive_wipe_warning_dialog.cc:47
+#: src/wx/drive_wipe_warning_dialog.cc:61
+msgid "yes"
 msgstr ""
 
 #~ msgid "Default container"
