@@ -23,7 +23,7 @@
 #include "wx_util.h"
 
 DiskWarningDialog::DiskWarningDialog ()
-	: wxDialog (0, wxID_ANY, _("Important notice"))
+	: wxDialog(nullptr, wxID_ANY, _("Important notice"))
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 	auto text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(400, 300));
