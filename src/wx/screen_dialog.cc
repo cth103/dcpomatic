@@ -154,8 +154,8 @@ ScreenDialog::ScreenDialog (
 	++r;
 
 	add_label_to_sizer (_sizer, this, _("Filename"), true, wxGBPosition(r, 0));
-	_recipient_file = new wxStaticText (this, wxID_ANY, wxT(""));
 	checked_set (_recipient_file, recipient_file.get_value_or(""));
+	_recipient_file = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(600, -1), wxST_ELLIPSIZE_MIDDLE | wxST_NO_AUTORESIZE);
 	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
