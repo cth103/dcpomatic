@@ -179,6 +179,8 @@ ScreenDialog::ScreenDialog (
 	add_certificate_detail(_("Subject organization name"), &_subject_organization_name);
 	add_certificate_detail(_("Issuer common name"), &_issuer_common_name);
 	add_certificate_detail(_("Issuer organization name"), &_issuer_organization_name);
+	add_certificate_detail(_("Not valid before"), &_not_valid_before);
+	add_certificate_detail(_("Not valid after"), &_not_valid_after);
 
 	set_recipient (recipient);
 
@@ -325,6 +327,8 @@ ScreenDialog::set_recipient (optional<dcp::Certificate> r)
 		_subject_organization_name->SetLabel(std_to_wx(_recipient->subject_organization_name()));
 		_issuer_common_name->SetLabel(std_to_wx(_recipient->issuer_common_name()));
 		_issuer_organization_name->SetLabel(std_to_wx(_recipient->issuer_organization_name()));
+		_not_valid_before->SetLabel(std_to_wx(_recipient->not_before().as_string()));
+		_not_valid_after->SetLabel(std_to_wx(_recipient->not_after().as_string()));
 		_sizer->Layout ();
 	}
 }

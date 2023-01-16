@@ -75,6 +75,8 @@ private:
 	wxStaticText* _subject_organization_name;
 	wxStaticText* _issuer_common_name;
 	wxStaticText* _issuer_organization_name;
+	wxStaticText* _not_valid_before;
+	wxStaticText* _not_valid_after;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
 	EditableList<TrustedDevice, TrustedDeviceDialog>* _trusted_device_list;
