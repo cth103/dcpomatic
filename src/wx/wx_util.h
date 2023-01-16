@@ -110,7 +110,7 @@ extern bool confirm_dialog (wxWindow *, wxString);
 extern wxStaticText* create_label (wxWindow* p, wxString t, bool left);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxWindow *, wxString, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
 extern wxStaticText* add_label_to_sizer (wxSizer *, wxStaticText *, bool left, int prop = 0, int flags = wxLEFT | wxRIGHT);
-extern wxStaticText* add_label_to_sizer (wxGridBagSizer *, wxWindow *, wxString, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
+extern wxStaticText* add_label_to_sizer(wxGridBagSizer *, wxWindow *, wxString, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan, bool indent = false);
 extern wxStaticText* add_label_to_sizer (wxGridBagSizer *, wxStaticText *, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);

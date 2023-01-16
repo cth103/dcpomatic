@@ -125,14 +125,14 @@ add_label_to_sizer (wxSizer* s, wxStaticText* t, bool, int prop, int flags)
 
 
 wxStaticText *
-add_label_to_sizer (wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span)
+add_label_to_sizer(wxGridBagSizer* s, wxWindow* p, wxString t, bool left, wxGBPosition pos, wxGBSpan span, bool indent)
 {
-	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT;
+	int flags = wxALIGN_CENTER_VERTICAL | wxLEFT;
 #ifdef __WXOSX__
 	setup_osx_flags (s, left, flags);
 #endif
 	auto m = create_label (p, t, left);
-	s->Add (m, pos, span, flags);
+	s->Add(m, pos, span, flags, indent ? DCPOMATIC_SIZER_X_GAP : 0);
 	return m;
 }
 
