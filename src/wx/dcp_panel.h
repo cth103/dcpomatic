@@ -19,6 +19,7 @@
 */
 
 
+#include "wx_ptr.h"
 #include "lib/config.h"
 #include "lib/film.h"
 
@@ -159,10 +160,10 @@ private:
 	wxButton* _metadata;
 	wxSizer* _audio_panel_sizer;
 
-	AudioDialog* _audio_dialog = nullptr;
-	MarkersDialog* _markers_dialog = nullptr;
-	InteropMetadataDialog* _interop_metadata_dialog = nullptr;
-	SMPTEMetadataDialog* _smpte_metadata_dialog = nullptr;
+	wx_ptr<AudioDialog> _audio_dialog;
+	wx_ptr<MarkersDialog> _markers_dialog;
+	wx_ptr<InteropMetadataDialog> _interop_metadata_dialog;
+	wx_ptr<SMPTEMetadataDialog> _smpte_metadata_dialog;
 
 	std::shared_ptr<Film> _film;
 	FilmViewer& _viewer;

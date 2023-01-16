@@ -249,16 +249,14 @@ private:
 			return true;
 		}
 
-		auto d = new wxMessageDialog (
-			0,
+		auto d = make_wx<wxMessageDialog>(
+			nullptr,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
 
-		bool const r = d->ShowModal() == wxID_YES;
-		d->Destroy ();
-		return r;
+		return d->ShowModal() == wxID_YES;
 	}
 
 
@@ -311,22 +309,20 @@ private:
 
 		if (!have_writer) {
 #if defined(DCPOMATIC_WINDOWS)
-			auto m = new MessageDialog (
+			auto m = make_wx<MessageDialog>(
 				this,
 				_("DCP-o-matic Disk Writer"),
 				_("Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again.")
 				);
 			m->ShowModal ();
-			m->Destroy ();
 			return;
 #elif defined(DCPOMATIC_OSX)
-			auto m = new MessageDialog (
+			auto m = make_wx<MessageDialog>(
 				this,
 				_("DCP-o-matic Disk Writer"),
 				_("Did you install the DCP-o-matic Disk Writer.pkg from the .dmg?  Please check and try again.")
 				);
 			m->ShowModal ();
-			m->Destroy ();
 			return;
 #else
 			LOG_DISK_NC ("Failed to ping writer");
@@ -336,9 +332,8 @@ private:
 
 		auto const& drive = _drives[_drive->GetSelection()];
 		if (drive.mounted()) {
-			auto d = new TryUnmountDialog(this, drive.description());
+			auto d = make_wx<TryUnmountDialog>(this, drive.description());
 			int const r = d->ShowModal ();
-			d->Destroy ();
 			if (r != wxID_OK) {
 				return;
 			}
@@ -355,13 +350,12 @@ private:
 			/* The reply may have to wait for the user to authenticate, so let's wait a while */
 			auto reply = _nanomsg.receive (30000);
 			if (!reply || *reply != DISK_WRITER_OK) {
-				auto * m = new MessageDialog (
+				auto m = make_wx<MessageDialog>(
 						this,
 						_("DCP-o-matic Disk Writer"),
 						wxString::Format(_("The drive %s could not be unmounted.\nClose any application that is using it, then try again."), std_to_wx(drive.description()))
 						);
 				m->ShowModal ();
-				m->Destroy ();
 				return;
 			}
 		}

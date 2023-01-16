@@ -39,7 +39,6 @@ class AudioPanel : public ContentSubPanel
 {
 public:
 	explicit AudioPanel (ContentPanel *);
-	~AudioPanel ();
 
 	void create () override;
 	void film_changed (Film::Property) override;
@@ -80,7 +79,7 @@ private:
 	CheckBox* _use_same_fades_as_video;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
-	AudioDialog* _audio_dialog = nullptr;
+	wx_ptr<AudioDialog> _audio_dialog;
 
 	boost::signals2::scoped_connection _mapping_connection;
 	boost::signals2::scoped_connection _active_jobs_connection;

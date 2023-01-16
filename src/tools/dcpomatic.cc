@@ -145,7 +145,7 @@ class FilmChangedClosingDialog
 public:
 	explicit FilmChangedClosingDialog (string name)
 	{
-		_dialog = new wxMessageDialog (
+		_dialog.reset(
 			nullptr,
 			wxString::Format(_("Save changes to film \"%s\" before closing?"), std_to_wx (name).data()),
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
@@ -159,21 +159,13 @@ public:
 			);
 	}
 
-	~FilmChangedClosingDialog ()
-	{
-		_dialog->Destroy ();
-	}
-
-	FilmChangedClosingDialog (FilmChangedClosingDialog const&) = delete;
-	FilmChangedClosingDialog& operator= (FilmChangedClosingDialog const&) = delete;
-
 	int run ()
 	{
 		return _dialog->ShowModal ();
 	}
 
 private:
-	wxMessageDialog* _dialog;
+	wx_ptr<wxMessageDialog> _dialog;
 };
 
 
@@ -182,7 +174,7 @@ class FilmChangedDuplicatingDialog
 public:
 	explicit FilmChangedDuplicatingDialog (string name)
 	{
-		_dialog = new wxMessageDialog (
+		_dialog.reset(
 			nullptr,
 			wxString::Format(_("Save changes to film \"%s\" before duplicating?"), std_to_wx (name).data()),
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
@@ -196,21 +188,13 @@ public:
 			);
 	}
 
-	~FilmChangedDuplicatingDialog ()
-	{
-		_dialog->Destroy ();
-	}
-
-	FilmChangedDuplicatingDialog (FilmChangedDuplicatingDialog const&) = delete;
-	FilmChangedDuplicatingDialog& operator= (FilmChangedDuplicatingDialog const&) = delete;
-
 	int run ()
 	{
 		return _dialog->ShowModal ();
 	}
 
 private:
-	wxMessageDialog* _dialog;
+	wx_ptr<wxMessageDialog> _dialog;
 };
 
 
@@ -532,10 +516,7 @@ public:
 		_film_viewer.set_film(_film);
 		_film_editor->set_film(_film);
 		_controls->set_film (_film);
-		if (_video_waveform_dialog) {
-			_video_waveform_dialog->Destroy ();
-			_video_waveform_dialog = nullptr;
-		}
+		_video_waveform_dialog.reset();
 		set_menu_sensitivity ();
 		if (_film && _film->directory()) {
 			Config::instance()->add_to_history (_film->directory().get());
@@ -853,12 +834,7 @@ private:
 			return;
 		}
 
-		if (_kdm_dialog) {
-			_kdm_dialog->Destroy ();
-			_kdm_dialog = 0;
-		}
-
-		_kdm_dialog = new KDMDialog (this, _film);
+		_kdm_dialog.reset(this, _film);
 		_kdm_dialog->Show ();
 	}
 
@@ -868,12 +844,7 @@ private:
 			return;
 		}
 
-		if (_dkdm_dialog) {
-			_dkdm_dialog->Destroy ();
-			_dkdm_dialog = nullptr;
-		}
-
-		_dkdm_dialog = new DKDMDialog (this, _film);
+		_dkdm_dialog.reset(this, _film);
 		_dkdm_dialog->Show ();
 	}
 
@@ -1074,7 +1045,7 @@ private:
 	void view_video_waveform ()
 	{
 		if (!_video_waveform_dialog) {
-			_video_waveform_dialog = new VideoWaveformDialog (this, _film, _film_viewer);
+			_video_waveform_dialog.reset(this, _film, _film_viewer);
 		}
 
 		_video_waveform_dialog->Show ();
@@ -1110,7 +1081,7 @@ private:
 	void tools_manage_templates ()
 	{
 		if (!_templates_dialog) {
-			_templates_dialog = new TemplatesDialog (this);
+			_templates_dialog.reset(this);
 		}
 
 		_templates_dialog->Show ();
@@ -1575,14 +1546,14 @@ private:
 	wxPanel* _right_panel;
 	FilmViewer _film_viewer;
 	StandardControls* _controls;
-	VideoWaveformDialog* _video_waveform_dialog = nullptr;
+	wx_ptr<VideoWaveformDialog> _video_waveform_dialog;
 	SystemInformationDialog* _system_information_dialog = nullptr;
 	HintsDialog* _hints_dialog = nullptr;
 	ServersListDialog* _servers_list_dialog = nullptr;
 	wxPreferencesEditor* _config_dialog = nullptr;
-	KDMDialog* _kdm_dialog = nullptr;
-	DKDMDialog* _dkdm_dialog = nullptr;
-	TemplatesDialog* _templates_dialog = nullptr;
+	wx_ptr<KDMDialog> _kdm_dialog;
+	wx_ptr<DKDMDialog> _dkdm_dialog;
+	wx_ptr<TemplatesDialog> _templates_dialog;
 	wxMenu* _file_menu = nullptr;
 	shared_ptr<Film> _film;
 	int _history_items = 0;

@@ -26,6 +26,7 @@
 
 #include "audio_gain_dialog.h"
 #include "audio_mapping_view.h"
+#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_mapping.h"
 #include "lib/maths_util.h"
@@ -550,13 +551,11 @@ AudioMappingView::set_gain_from_menu (double linear)
 void
 AudioMappingView::edit ()
 {
-	auto dialog = new AudioGainDialog (this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
+	auto dialog = make_wx<AudioGainDialog>(this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
 	if (dialog->ShowModal() == wxID_OK) {
 		_map.set (_menu_input, _menu_output, dialog->value ());
 		map_values_changed ();
 	}
-
-	dialog->Destroy ();
 }
 
 void

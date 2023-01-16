@@ -101,16 +101,13 @@ KDMCPLPanel::update_cpl_summary ()
 void
 KDMCPLPanel::cpl_browse_clicked ()
 {
-	wxFileDialog* d = new wxFileDialog (this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, "*.xml");
+	auto d = make_wx<wxFileDialog>(this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, "*.xml");
 	if (d->ShowModal() == wxID_CANCEL) {
-		d->Destroy ();
 		return;
 	}
 
 	boost::filesystem::path cpl_file (wx_to_std (d->GetPath ()));
 	boost::filesystem::path dcp_dir = cpl_file.parent_path ();
-
-	d->Destroy ();
 
 	try {
 		/* XXX: hack alert */

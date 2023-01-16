@@ -195,14 +195,6 @@ AudioPanel::add_to_grid ()
 }
 
 
-AudioPanel::~AudioPanel ()
-{
-	if (_audio_dialog) {
-		_audio_dialog->Destroy ();
-		_audio_dialog = nullptr;
-	}
-}
-
 void
 AudioPanel::film_changed (Film::Property property)
 {
@@ -424,17 +416,14 @@ AudioPanel::setup_sensitivity ()
 void
 AudioPanel::show_clicked ()
 {
-	if (_audio_dialog) {
-		_audio_dialog->Destroy ();
-		_audio_dialog = nullptr;
-	}
+	_audio_dialog.reset();
 
 	auto ac = _parent->selected_audio ();
 	if (ac.size() != 1) {
 		return;
 	}
 
-	_audio_dialog = new AudioDialog (this, _parent->film(), _parent->film_viewer(), ac.front());
+	_audio_dialog.reset(this, _parent->film(), _parent->film_viewer(), ac.front());
 	_audio_dialog->Show ();
 }
 
@@ -533,10 +522,7 @@ void
 AudioPanel::set_film (shared_ptr<Film>)
 {
 	/* We are changing film, so destroy any audio dialog for the old one */
-	if (_audio_dialog) {
-		_audio_dialog->Destroy ();
-		_audio_dialog = nullptr;
-	}
+	_audio_dialog.reset();
 }
 
 

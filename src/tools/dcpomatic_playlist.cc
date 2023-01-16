@@ -551,9 +551,8 @@ private:
 
 	void help_about ()
 	{
-		auto d = new AboutDialog (this);
+		auto d = make_wx<AboutDialog>(this);
 		d->ShowModal ();
-		d->Destroy ();
 	}
 
 	void edit_preferences ()

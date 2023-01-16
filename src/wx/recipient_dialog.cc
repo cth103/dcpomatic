@@ -188,11 +188,10 @@ RecipientDialog::load_recipient (boost::filesystem::path file)
 void
 RecipientDialog::get_recipient_from_file ()
 {
-	auto d = new wxFileDialog (this, _("Select Certificate File"));
+	auto d = make_wx<wxFileDialog>(this, _("Select Certificate File"));
 	if (d->ShowModal () == wxID_OK) {
 		load_recipient (boost::filesystem::path (wx_to_std (d->GetPath ())));
 	}
-	d->Destroy ();
 
 	setup_sensitivity ();
 }

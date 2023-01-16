@@ -709,12 +709,7 @@ ContentPanel::timeline_clicked ()
 		return;
 	}
 
-	if (_timeline_dialog) {
-		_timeline_dialog->Destroy ();
-		_timeline_dialog = nullptr;
-	}
-
-	_timeline_dialog = new TimelineDialog (this, _film, _film_viewer);
+	_timeline_dialog.reset(this, _film, _film_viewer);
 	_timeline_dialog->set_selection (selected());
 	_timeline_dialog->Show ();
 }

@@ -133,7 +133,7 @@ private:
 	EnumIndexedVector<TextPanel*, TextType> _text_panel;
 	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
-	TimelineDialog* _timeline_dialog = nullptr;
+	wx_ptr<TimelineDialog> _timeline_dialog;
 	wxNotebook* _parent;
 	wxWindow* _last_selected_tab = nullptr;
 
