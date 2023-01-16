@@ -121,12 +121,20 @@ ScreenDialog::ScreenDialog (
 	_sizer = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	int r = 0;
 
-	add_label_to_sizer (_sizer, this, _("Name"), true, wxGBPosition(r, 0));
+	wxFont subheading_font(*wxNORMAL_FONT);
+	subheading_font.SetWeight(wxFONTWEIGHT_BOLD);
+
+	auto subheading = new StaticText(this, _("Details"));
+	subheading->SetFont(subheading_font);
+	_sizer->Add(subheading, wxGBPosition(r, 0), wxGBSpan(1, 2));
+	++r;
+
+	add_label_to_sizer(_sizer, this, _("Name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx (name), wxDefaultPosition, wxSize (320, -1));
 	_sizer->Add (_name, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_sizer (_sizer, this, _("Notes"), true, wxGBPosition(r, 0));
+	add_label_to_sizer(_sizer, this, _("Notes"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_notes = new wxTextCtrl (this, wxID_ANY, std_to_wx(notes), wxDefaultPosition, wxSize(320, -1));
 	_sizer->Add (_notes, wxGBPosition(r, 1));
 	++r;
@@ -138,41 +146,47 @@ ScreenDialog::ScreenDialog (
         wxSize size = dc.GetTextExtent (wxT("1234567890123456789012345678"));
         size.SetHeight (-1);
 
-	add_label_to_sizer (_sizer, this, _("Recipient certificate"), true, wxGBPosition(r, 0));
-	auto s = new wxBoxSizer (wxHORIZONTAL);
-	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
-	_recipient_thumbprint->SetFont (font);
+	subheading = new StaticText(this, _("Recipient"));
+	subheading->SetFont(subheading_font);
+	_sizer->Add(subheading, wxGBPosition(r, 0), wxGBSpan(1, 2), wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
+	++r;
 
 	_get_recipient_from_file = new Button (this, _("Get from file..."));
 	_download_recipient = new Button (this, _("Download..."));
-	s->Add (_recipient_thumbprint, 1, wxRIGHT | wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT, DCPOMATIC_SIZER_X_GAP);
+	auto s = new wxBoxSizer (wxHORIZONTAL);
 	s->Add (_get_recipient_from_file, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	s->Add (_download_recipient, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
-	_sizer->Add (s, wxGBPosition (r, 1));
+	_sizer->Add(s, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
-	add_label_to_sizer (_sizer, this, _("Filename"), true, wxGBPosition(r, 0));
+	add_label_to_sizer(_sizer, this, _("Thumbprint"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
+	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
+	_recipient_thumbprint->SetFont (font);
+	_sizer->Add(_recipient_thumbprint, wxGBPosition(r, 1));
+	++r;
+
+	add_label_to_sizer(_sizer, this, _("Filename"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_recipient_file = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(600, -1), wxST_ELLIPSIZE_MIDDLE | wxST_NO_AUTORESIZE);
 	set_recipient_file(recipient_file.get_value_or(""));
 	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
-	add_label_to_sizer(_sizer, this, _("Subject common name"), true, wxGBPosition(r, 0));
+	add_label_to_sizer(_sizer, this, _("Subject common name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_subject_common_name = new wxStaticText(this, wxID_ANY, wxT(""));
 	_sizer->Add(_subject_common_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
-	add_label_to_sizer(_sizer, this, _("Subject organization name"), true, wxGBPosition(r, 0));
+	add_label_to_sizer(_sizer, this, _("Subject organization name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_subject_organization_name = new wxStaticText(this, wxID_ANY, wxT(""));
 	_sizer->Add(_subject_organization_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
-	add_label_to_sizer(_sizer, this, _("Issuer common name"), true, wxGBPosition(r, 0));
+	add_label_to_sizer(_sizer, this, _("Issuer common name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_issuer_common_name = new wxStaticText(this, wxID_ANY, wxT(""));
 	_sizer->Add(_issuer_common_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
-	add_label_to_sizer(_sizer, this, _("Issuer organization name"), true, wxGBPosition(r, 0));
+	add_label_to_sizer(_sizer, this, _("Issuer organization name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_issuer_organization_name = new wxStaticText(this, wxID_ANY, wxT(""));
 	_sizer->Add(_issuer_organization_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
@@ -187,7 +201,8 @@ ScreenDialog::ScreenDialog (
 #else
 		auto m = new StaticText (this, _("Other trusted devices"));
 #endif
-		_sizer->Add (m, wxGBPosition(r, 0), wxDefaultSpan, flags, DCPOMATIC_SIZER_Y_GAP);
+		m->SetFont(subheading_font);
+		_sizer->Add(m, wxGBPosition(r, 0), wxDefaultSpan, flags, DCPOMATIC_SUBHEADING_TOP_PAD);
 	}
 	++r;
 
@@ -205,7 +220,7 @@ ScreenDialog::ScreenDialog (
 		EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
 
-	_sizer->Add (_trusted_device_list, wxGBPosition (r, 0), wxGBSpan (1, 3), wxEXPAND);
+	_sizer->Add(_trusted_device_list, wxGBPosition (r, 0), wxGBSpan (1, 3), wxEXPAND | wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	++r;
 
 	_name->Bind (wxEVT_TEXT, boost::bind (&ScreenDialog::setup_sensitivity, this));
