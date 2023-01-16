@@ -143,7 +143,6 @@ ScreenDialog::ScreenDialog (
 	auto s = new wxBoxSizer (wxHORIZONTAL);
 	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
 	_recipient_thumbprint->SetFont (font);
-	set_recipient (recipient);
 
 	_get_recipient_from_file = new Button (this, _("Get from file..."));
 	_download_recipient = new Button (this, _("Download..."));
@@ -158,6 +157,28 @@ ScreenDialog::ScreenDialog (
 	set_recipient_file(recipient_file.get_value_or(""));
 	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
+
+	add_label_to_sizer(_sizer, this, _("Subject common name"), true, wxGBPosition(r, 0));
+	_subject_common_name = new wxStaticText(this, wxID_ANY, wxT(""));
+	_sizer->Add(_subject_common_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
+	++r;
+
+	add_label_to_sizer(_sizer, this, _("Subject organization name"), true, wxGBPosition(r, 0));
+	_subject_organization_name = new wxStaticText(this, wxID_ANY, wxT(""));
+	_sizer->Add(_subject_organization_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
+	++r;
+
+	add_label_to_sizer(_sizer, this, _("Issuer common name"), true, wxGBPosition(r, 0));
+	_issuer_common_name = new wxStaticText(this, wxID_ANY, wxT(""));
+	_sizer->Add(_issuer_common_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
+	++r;
+
+	add_label_to_sizer(_sizer, this, _("Issuer organization name"), true, wxGBPosition(r, 0));
+	_issuer_organization_name = new wxStaticText(this, wxID_ANY, wxT(""));
+	_sizer->Add(_issuer_organization_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
+	++r;
+
+	set_recipient (recipient);
 
 	{
 		int flags = wxALIGN_CENTER_VERTICAL | wxTOP;
@@ -297,6 +318,10 @@ ScreenDialog::set_recipient (optional<dcp::Certificate> r)
 
 	if (_recipient) {
 		_recipient_thumbprint->SetLabel (std_to_wx (_recipient->thumbprint ()));
+		_subject_common_name->SetLabel(std_to_wx(_recipient->subject_common_name()));
+		_subject_organization_name->SetLabel(std_to_wx(_recipient->subject_organization_name()));
+		_issuer_common_name->SetLabel(std_to_wx(_recipient->issuer_common_name()));
+		_issuer_organization_name->SetLabel(std_to_wx(_recipient->issuer_organization_name()));
 		_sizer->Layout ();
 	}
 }

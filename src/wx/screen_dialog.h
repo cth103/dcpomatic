@@ -71,6 +71,10 @@ private:
 	wxTextCtrl* _notes;
 	wxStaticText* _recipient_thumbprint;
 	wxStaticText* _recipient_file;
+	wxStaticText* _subject_common_name;
+	wxStaticText* _subject_organization_name;
+	wxStaticText* _issuer_common_name;
+	wxStaticText* _issuer_organization_name;
 	wxButton* _get_recipient_from_file;
 	wxButton* _download_recipient;
 	EditableList<TrustedDevice, TrustedDeviceDialog>* _trusted_device_list;
