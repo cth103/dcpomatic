@@ -40,7 +40,6 @@ class RegionSubtagWidget
 {
 public:
 	RegionSubtagWidget(wxWindow* parent, wxString tooltip, boost::optional<dcp::LanguageTag::RegionSubtag> tag, boost::optional<wxString> size_to_fit = boost::none);
-	~RegionSubtagWidget();
 
 	RegionSubtagWidget(RegionSubtagWidget const&) = delete;
 	RegionSubtagWidget& operator=(RegionSubtagWidget const&) = delete;

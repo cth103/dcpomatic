@@ -58,13 +58,6 @@ RegionSubtagWidget::RegionSubtagWidget(wxWindow* parent, wxString tooltip, optio
 }
 
 
-RegionSubtagWidget::~RegionSubtagWidget()
-{
-	_region->Destroy();
-	_edit->Destroy();
-}
-
-
 void
 RegionSubtagWidget::edit()
 {
