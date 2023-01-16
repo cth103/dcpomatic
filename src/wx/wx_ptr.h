@@ -95,6 +95,7 @@ public:
 	{
 		if (_wx) {
 			_wx->Destroy();
+			_wx = nullptr;
 		}
 		_wx = new T(std::forward<Args>(args)...);
 	}
