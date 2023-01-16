@@ -166,7 +166,7 @@ public:
 
 		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
 
 		_dkdm_search = new wxSearchCtrl(overall_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
 #ifndef __WXGTK3__
@@ -218,7 +218,7 @@ public:
 
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
-		right->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
 		_output = new KDMOutputPanel (overall_panel);
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 

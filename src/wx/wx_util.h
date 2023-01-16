@@ -70,6 +70,8 @@ class PasswordEntry;
 #define DCPOMATIC_CHECKBOX_BOTTOM_PAD 0
 #endif
 
+#define DCPOMATIC_SUBHEADING_TOP_PAD 16
+
 /** Amount by which you need to top-pad a choice to make it line up, in some cases */
 #ifdef DCPOMATIC_OSX
 #define DCPOMATIC_CHOICE_TOP_PAD 1

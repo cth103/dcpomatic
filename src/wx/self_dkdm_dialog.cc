@@ -75,7 +75,7 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> fi
 	/* Sub-heading: output */
 	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
-	vertical->Add (h, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP * 2);
+	vertical->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
 
 	_internal = new wxRadioButton (this, wxID_ANY, _("Save to KDM Creator tool's list"));
 	vertical->Add (_internal, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
