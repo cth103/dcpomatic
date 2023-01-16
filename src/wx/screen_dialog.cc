@@ -154,8 +154,8 @@ ScreenDialog::ScreenDialog (
 	++r;
 
 	add_label_to_sizer (_sizer, this, _("Filename"), true, wxGBPosition(r, 0));
-	checked_set (_recipient_file, recipient_file.get_value_or(""));
 	_recipient_file = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(600, -1), wxST_ELLIPSIZE_MIDDLE | wxST_NO_AUTORESIZE);
+	set_recipient_file(recipient_file.get_value_or(""));
 	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
@@ -249,7 +249,7 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 			return;
 		}
 		set_recipient (c.leaf ());
-		checked_set (_recipient_file, file.string());
+		set_recipient_file(file.string());
 	} catch (dcp::MiscError& e) {
 		error_dialog (this, _("Could not read certificate file."), std_to_wx(e.what()));
 	}
@@ -274,7 +274,7 @@ ScreenDialog::download_recipient ()
 	auto dialog = make_wx<DownloadCertificateDialog>(this);
 	if (dialog->ShowModal() == wxID_OK) {
 		set_recipient(dialog->certificate());
-		checked_set(_recipient_file, dialog->url());
+		set_recipient_file(dialog->url());
 	}
 	setup_sensitivity ();
 }
@@ -300,3 +300,11 @@ ScreenDialog::set_recipient (optional<dcp::Certificate> r)
 		_sizer->Layout ();
 	}
 }
+
+
+void
+ScreenDialog::set_recipient_file(string file)
+{
+	checked_set(_recipient_file, file);
+}
+

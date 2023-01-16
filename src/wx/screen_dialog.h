@@ -60,6 +60,7 @@ private:
 	void download_recipient ();
 	void setup_sensitivity ();
 	void set_recipient (boost::optional<dcp::Certificate>);
+	void set_recipient_file(std::string file);
 
 	void set_trusted_devices (std::vector<TrustedDevice> d) {
 		_trusted_devices = d;
