@@ -58,14 +58,17 @@ private:
 	boost::optional<wxTreeListItem> add_screen (std::shared_ptr<Cinema>, std::shared_ptr<dcpomatic::Screen>);
 	void add_cinema_clicked ();
 	void edit_cinema_clicked ();
+	void edit_cinema(std::shared_ptr<Cinema> cinema);
 	void remove_cinema_clicked ();
 	void add_screen_clicked ();
 	void edit_screen_clicked ();
+	void edit_screen(std::shared_ptr<dcpomatic::Screen> screen);
 	void remove_screen_clicked ();
 	void selection_changed_shim (wxTreeListEvent &);
 	void selection_changed ();
 	void search_changed ();
 	void checkbox_changed (wxTreeListEvent& ev);
+	void item_activated(wxTreeListEvent& ev);
 	std::shared_ptr<Cinema> cinema_for_operation () const;
 	void set_screen_checked (wxTreeListItem item, bool checked);
 	void setup_cinema_checked_state (wxTreeListItem screen);

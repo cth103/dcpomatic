@@ -102,6 +102,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_search->Bind        (wxEVT_TEXT, boost::bind (&ScreensPanel::search_changed, this));
 	_targets->Bind       (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
 	_targets->Bind       (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
+	_targets->Bind       (wxEVT_TREELIST_ITEM_ACTIVATED, &ScreensPanel::item_activated, this);
 
 	_add_cinema->Bind    (wxEVT_BUTTON, boost::bind (&ScreensPanel::add_cinema_clicked, this));
 	_edit_cinema->Bind   (wxEVT_BUTTON, boost::bind (&ScreensPanel::edit_cinema_clicked, this));
@@ -293,10 +294,15 @@ void
 ScreensPanel::edit_cinema_clicked ()
 {
 	auto cinema = cinema_for_operation ();
-	if (!cinema) {
-		return;
+	if (cinema) {
+		edit_cinema(cinema);
 	}
+}
 
+
+void
+ScreensPanel::edit_cinema(shared_ptr<Cinema> cinema)
+{
 	CinemaDialog dialog(
 		GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset_hour(), cinema->utc_offset_minute()
 		);
@@ -382,12 +388,15 @@ ScreensPanel::add_screen_clicked ()
 void
 ScreensPanel::edit_screen_clicked ()
 {
-	if (_selected_screens.size() != 1) {
-		return;
+	if (_selected_screens.size() == 1) {
+		edit_screen(_selected_screens[0]);
 	}
+}
 
-	auto edit_screen = _selected_screens[0];
 
+void
+ScreensPanel::edit_screen(shared_ptr<Screen> edit_screen)
+{
 	ScreenDialog dialog(
 		GetParent(), _("Edit screen"),
 		edit_screen->name,
@@ -700,3 +709,20 @@ ScreensPanel::config_changed(Config::Property property)
 		clear_and_re_add();
 	}
 }
+
+
+void
+ScreensPanel::item_activated(wxTreeListEvent& ev)
+{
+	auto iter = _item_to_cinema.find(ev.GetItem());
+	if (iter != _item_to_cinema.end()) {
+		edit_cinema(iter->second);
+	} else {
+		auto iter = _item_to_screen.find(ev.GetItem());
+		if (iter != _item_to_screen.end()) {
+			edit_screen(iter->second);
+		}
+	}
+}
+
+
