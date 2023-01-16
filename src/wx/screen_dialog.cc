@@ -139,13 +139,6 @@ ScreenDialog::ScreenDialog (
 	_sizer->Add (_notes, wxGBPosition(r, 1));
 	++r;
 
-        wxClientDC dc (this);
-	wxFont font = _name->GetFont ();
-	font.SetFamily (wxFONTFAMILY_TELETYPE);
-	dc.SetFont (font);
-        wxSize size = dc.GetTextExtent (wxT("1234567890123456789012345678"));
-        size.SetHeight (-1);
-
 	subheading = new StaticText(this, _("Recipient"));
 	subheading->SetFont(subheading_font);
 	_sizer->Add(subheading, wxGBPosition(r, 0), wxGBSpan(1, 2), wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
@@ -159,11 +152,22 @@ ScreenDialog::ScreenDialog (
 	_sizer->Add(s, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
-	add_label_to_sizer(_sizer, this, _("Thumbprint"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
-	_recipient_thumbprint = new StaticText (this, wxT (""), wxDefaultPosition, size);
-	_recipient_thumbprint->SetFont (font);
-	_sizer->Add(_recipient_thumbprint, wxGBPosition(r, 1));
-	++r;
+	auto add_certificate_detail = [&r, this](wxString name, wxStaticText** value, wxSize size = wxDefaultSize) {
+		add_label_to_sizer(_sizer, this, name, true, wxGBPosition(r, 0), wxDefaultSpan, true);
+		*value = new StaticText(this, wxT (""), wxDefaultPosition, size);
+		_sizer->Add(*value, wxGBPosition(r, 1));
+		++r;
+	};
+
+        wxClientDC dc (this);
+	wxFont teletype_font = _name->GetFont();
+	teletype_font.SetFamily(wxFONTFAMILY_TELETYPE);
+	dc.SetFont(teletype_font);
+        wxSize size = dc.GetTextExtent (wxT("1234567890123456789012345678"));
+        size.SetHeight (-1);
+
+	add_certificate_detail(_("Thumbprint"), &_recipient_thumbprint, size);
+	_recipient_thumbprint->SetFont(teletype_font);
 
 	add_label_to_sizer(_sizer, this, _("Filename"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
 	_recipient_file = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(600, -1), wxST_ELLIPSIZE_MIDDLE | wxST_NO_AUTORESIZE);
@@ -171,25 +175,10 @@ ScreenDialog::ScreenDialog (
 	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
 
-	add_label_to_sizer(_sizer, this, _("Subject common name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
-	_subject_common_name = new wxStaticText(this, wxID_ANY, wxT(""));
-	_sizer->Add(_subject_common_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
-	++r;
-
-	add_label_to_sizer(_sizer, this, _("Subject organization name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
-	_subject_organization_name = new wxStaticText(this, wxID_ANY, wxT(""));
-	_sizer->Add(_subject_organization_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
-	++r;
-
-	add_label_to_sizer(_sizer, this, _("Issuer common name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
-	_issuer_common_name = new wxStaticText(this, wxID_ANY, wxT(""));
-	_sizer->Add(_issuer_common_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
-	++r;
-
-	add_label_to_sizer(_sizer, this, _("Issuer organization name"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
-	_issuer_organization_name = new wxStaticText(this, wxID_ANY, wxT(""));
-	_sizer->Add(_issuer_organization_name, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
-	++r;
+	add_certificate_detail(_("Subject common name"), &_subject_common_name);
+	add_certificate_detail(_("Subject organization name"), &_subject_organization_name);
+	add_certificate_detail(_("Issuer common name"), &_issuer_common_name);
+	add_certificate_detail(_("Issuer organization name"), &_issuer_organization_name);
 
 	set_recipient (recipient);
 
