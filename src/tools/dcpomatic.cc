@@ -53,7 +53,6 @@
 #include "wx/update_dialog.h"
 #include "wx/video_waveform_dialog.h"
 #include "wx/wx_signal_manager.h"
-#include "wx/wx_ptr.h"
 #include "wx/wx_util.h"
 #include "lib/analytics.h"
 #include "lib/audio_content.h"
@@ -144,28 +143,27 @@ class FilmChangedClosingDialog
 {
 public:
 	explicit FilmChangedClosingDialog (string name)
-	{
-		_dialog.reset(
+		: _dialog(
 			nullptr,
 			wxString::Format(_("Save changes to film \"%s\" before closing?"), std_to_wx (name).data()),
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 			/// project (Film) has been changed since it was last saved.
 			_("Film changed"),
 			wxYES_NO | wxCANCEL | wxYES_DEFAULT | wxICON_QUESTION
-			);
-
-		_dialog->SetYesNoCancelLabels (
+			)
+	{
+		_dialog.SetYesNoCancelLabels(
 			_("Save film and close"), _("Close without saving film"), _("Don't close")
 			);
 	}
 
 	int run ()
 	{
-		return _dialog->ShowModal ();
+		return _dialog.ShowModal();
 	}
 
 private:
-	wx_ptr<wxMessageDialog> _dialog;
+	wxMessageDialog _dialog;
 };
 
 
@@ -173,28 +171,27 @@ class FilmChangedDuplicatingDialog
 {
 public:
 	explicit FilmChangedDuplicatingDialog (string name)
-	{
-		_dialog.reset(
+		: _dialog(
 			nullptr,
 			wxString::Format(_("Save changes to film \"%s\" before duplicating?"), std_to_wx (name).data()),
 			/// TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 			/// project (Film) has been changed since it was last saved.
 			_("Film changed"),
 			wxYES_NO | wxCANCEL | wxYES_DEFAULT | wxICON_QUESTION
-			);
-
-		_dialog->SetYesNoCancelLabels (
+			)
+	{
+		_dialog.SetYesNoCancelLabels(
 			_("Save film and duplicate"), _("Duplicate without saving film"), _("Don't duplicate")
 			);
 	}
 
 	int run ()
 	{
-		return _dialog->ShowModal ();
+		return _dialog.ShowModal();
 	}
 
 private:
-	wx_ptr<wxMessageDialog> _dialog;
+	wxMessageDialog _dialog;
 };
 
 
@@ -558,15 +555,15 @@ private:
 
 	void file_new ()
 	{
-		auto d = make_wx<FilmNameLocationDialog>(this, _("New Film"), true);
-		int const r = d->ShowModal ();
+		FilmNameLocationDialog dialog(this, _("New Film"), true);
+		int const r = dialog.ShowModal();
 
-		if (r != wxID_OK || !d->check_path() || !maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
+		if (r != wxID_OK || !dialog.check_path() || !maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
 			return;
 		}
 
 		try {
-			new_film (d->path(), d->template_name());
+			new_film(dialog.path(), dialog.template_name());
 		} catch (boost::filesystem::filesystem_error& e) {
 #ifdef DCPOMATIC_WINDOWS
 			string bad_chars = "<>:\"/|?*";
@@ -593,7 +590,7 @@ private:
 
 	void file_open ()
 	{
-		auto c = make_wx<wxDirDialog>(
+		wxDirDialog dialog(
 			this,
 			_("Select film to open"),
 			std_to_wx (Config::instance()->default_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()),
@@ -602,8 +599,8 @@ private:
 
 		int r;
 		while (true) {
-			r = c->ShowModal ();
-			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog.ShowModal();
+			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
@@ -611,7 +608,7 @@ private:
 		}
 
 		if (r == wxID_OK && maybe_save_then_delete_film<FilmChangedClosingDialog>()) {
-			load_film (wx_to_std (c->GetPath ()));
+			load_film(wx_to_std(dialog.GetPath()));
 		}
 	}
 
@@ -622,32 +619,32 @@ private:
 
 	void file_save_as_template ()
 	{
-		auto d = make_wx<SaveTemplateDialog>(this);
-		if (d->ShowModal() == wxID_OK) {
-			Config::instance()->save_template (_film, d->name ());
+		SaveTemplateDialog dialog(this);
+		if (dialog.ShowModal() == wxID_OK) {
+			Config::instance()->save_template(_film, dialog.name());
 		}
 	}
 
 	void file_duplicate ()
 	{
-		auto d = make_wx<FilmNameLocationDialog>(this, _("Duplicate Film"), false);
+		FilmNameLocationDialog dialog(this, _("Duplicate Film"), false);
 
-		if (d->ShowModal() == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
-			shared_ptr<Film> film (new Film (d->path()));
+		if (dialog.ShowModal() == wxID_OK && dialog.check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
+			auto film = make_shared<Film>(dialog.path());
 			film->copy_from (_film);
-			film->set_name (d->path().filename().generic_string());
+			film->set_name(dialog.path().filename().generic_string());
 			film->write_metadata ();
 		}
 	}
 
 	void file_duplicate_and_open ()
 	{
-		auto d = make_wx<FilmNameLocationDialog>(this, _("Duplicate Film"), false);
+		FilmNameLocationDialog dialog(this, _("Duplicate Film"), false);
 
-		if (d->ShowModal() == wxID_OK && d->check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
-			auto film = make_shared<Film>(d->path());
+		if (dialog.ShowModal() == wxID_OK && dialog.check_path() && maybe_save_film<FilmChangedDuplicatingDialog>()) {
+			auto film = make_shared<Film>(dialog.path());
 			film->copy_from (_film);
-			film->set_name (d->path().filename().generic_string());
+			film->set_name(dialog.path().filename().generic_string());
 			film->write_metadata ();
 			set_film (film);
 		}
@@ -656,12 +653,8 @@ private:
 	void file_close ()
 	{
 		if (_film && _film->dirty ()) {
-
-			auto dialog = new FilmChangedClosingDialog (_film->name ());
-			int const r = dialog->run ();
-			delete dialog;
-
-			switch (r) {
+			FilmChangedClosingDialog dialog(_film->name());
+			switch (dialog.run()) {
 			case wxID_NO:
 				/* Don't save and carry on to close */
 				break;
@@ -704,22 +697,22 @@ private:
 	{
 		DCPOMATIC_ASSERT (_clipboard);
 
-		auto d = make_wx<PasteDialog>(this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
-		if (d->ShowModal() != wxID_OK) {
+		PasteDialog dialog(this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
 
 		for (auto i: _film_editor->content_panel()->selected()) {
-			if (d->video() && i->video) {
+			if (dialog.video() && i->video) {
 				DCPOMATIC_ASSERT (_clipboard->video);
 				i->video->take_settings_from (_clipboard->video);
 			}
-			if (d->audio() && i->audio) {
+			if (dialog.audio() && i->audio) {
 				DCPOMATIC_ASSERT (_clipboard->audio);
 				i->audio->take_settings_from (_clipboard->audio);
 			}
 
-			if (d->text()) {
+			if (dialog.text()) {
 				auto j = i->text.begin ();
 				auto k = _clipboard->text.begin ();
 				while (j != i->text.end() && k != _clipboard->text.end()) {
@@ -746,27 +739,27 @@ private:
 
 	void tools_restore_default_preferences ()
 	{
-		auto d = make_wx<wxMessageDialog>(
+		wxMessageDialog dialog(
 			nullptr,
 			_("Are you sure you want to restore preferences to their defaults?  This cannot be undone."),
 			_("Restore default preferences"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
 
-		if (d->ShowModal() == wxID_YES) {
+		if (dialog.ShowModal() == wxID_YES) {
 			Config::restore_defaults ();
 		}
 	}
 
 	void tools_export_preferences ()
 	{
-		auto dialog = make_wx<wxFileDialog>(
+		wxFileDialog dialog(
 			this, _("Specify ZIP file"), wxEmptyString, wxT("dcpomatic_config.zip"), wxT("ZIP files (*.zip)|*.zip"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
 
-		if (dialog->ShowModal() == wxID_OK) {
-			save_all_config_as_zip (wx_to_std(dialog->GetPath()));
+		if (dialog.ShowModal() == wxID_OK) {
+			save_all_config_as_zip(wx_to_std(dialog.GetPath()));
 		}
 	}
 
@@ -789,8 +782,8 @@ private:
 		}
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
-			auto hints = make_wx<HintsDialog>(this, _film, false);
-			if (hints->ShowModal() == wxID_CANCEL) {
+			HintsDialog hints(this, _film, false);
+			if (hints.ShowModal() == wxID_CANCEL) {
 				return;
 			}
 		}
@@ -891,8 +884,8 @@ private:
 		}
 
 		if (Config::instance()->show_hints_before_make_dcp()) {
-			auto hints = make_wx<HintsDialog>(this, _film, false);
-			if (hints->ShowModal() == wxID_CANCEL) {
+			HintsDialog hints(this, _film, false);
+			if (hints.ShowModal() == wxID_CANCEL) {
 				return;
 			}
 		}
@@ -929,8 +922,8 @@ private:
 			return;
 		}
 
-		auto d = make_wx<SelfDKDMDialog>(this, _film);
-		if (d->ShowModal () != wxID_OK) {
+		SelfDKDMDialog dialog(this, _film);
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
 
@@ -956,7 +949,7 @@ private:
 			kdm = _film->make_kdm (
 				Config::instance()->decryption_chain()->leaf(),
 				vector<string>(),
-				d->cpl (),
+				dialog.cpl(),
 				from, to,
 				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 				true,
@@ -971,12 +964,12 @@ private:
 		}
 
 		if (kdm) {
-			if (d->internal ()) {
+			if (dialog.internal()) {
 				auto dkdms = Config::instance()->dkdms();
 				dkdms->add (make_shared<DKDM>(kdm.get()));
 				Config::instance()->changed ();
 			} else {
-				auto path = d->directory() / (_film->dcp_name(false) + "_DKDM.xml");
+				auto path = dialog.directory() / (_film->dcp_name(false) + "_DKDM.xml");
 				kdm->as_xml (path);
 			}
 		}
@@ -985,15 +978,15 @@ private:
 
 	void jobs_export_video_file ()
 	{
-		auto d = make_wx<ExportVideoFileDialog>(this, _film->isdcf_name(true));
-		if (d->ShowModal() != wxID_OK) {
+		ExportVideoFileDialog dialog(this, _film->isdcf_name(true));
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
 
-		if (boost::filesystem::exists(d->path())) {
+		if (boost::filesystem::exists(dialog.path())) {
 			bool ok = confirm_dialog(
 					this,
-					wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(d->path().string()).data())
+					wxString::Format(_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(dialog.path().string()).data())
 					);
 
 			if (!ok) {
@@ -1004,7 +997,7 @@ private:
 		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		job->set_encoder (
 			make_shared<FFmpegEncoder> (
-				_film, job, d->path(), d->format(), d->mixdown_to_stereo(), d->split_reels(), d->split_streams(), d->x264_crf())
+				_film, job, dialog.path(), dialog.format(), dialog.mixdown_to_stereo(), dialog.split_reels(), dialog.split_streams(), dialog.x264_crf())
 			);
 		JobManager::instance()->add (job);
 	}
@@ -1012,13 +1005,13 @@ private:
 
 	void jobs_export_subtitles ()
 	{
-		auto d = make_wx<ExportSubtitlesDialog>(this, _film->reels().size(), _film->interop());
-		if (d->ShowModal() != wxID_OK) {
+		ExportSubtitlesDialog dialog(this, _film->reels().size(), _film->interop());
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
 		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		job->set_encoder(
-			make_shared<SubtitleEncoder>(_film, job, d->path(), _film->isdcf_name(true), d->split_reels(), d->include_font())
+			make_shared<SubtitleEncoder>(_film, job, dialog.path(), _film->isdcf_name(true), dialog.split_reels(), dialog.include_font())
 			);
 		JobManager::instance()->add(job);
 	}
@@ -1095,14 +1088,14 @@ private:
 
 	void tools_send_translations ()
 	{
-		auto d = make_wx<SendI18NDialog>(this);
-		if (d->ShowModal() != wxID_OK) {
+		SendI18NDialog dialog(this);
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
 
 		string body;
-		body += d->name() + "\n";
-		body += d->language() + "\n";
+		body += dialog.name() + "\n";
+		body += dialog.language() + "\n";
 		body += string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n";
 		body += "--\n";
 		auto translations = I18NHook::translations ();
@@ -1110,11 +1103,11 @@ private:
 			body += i.first + "\n" + i.second + "\n\n";
 		}
 		list<string> to = { "carl@dcpomatic.com" };
-		if (d->email().find("@") == string::npos) {
+		if (dialog.email().find("@") == string::npos) {
 			error_dialog (this, _("You must enter a valid email address when sending translations, "
 					      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
 		} else {
-			Emailer emailer (d->email(), to, "DCP-o-matic translations", body);
+			Emailer emailer(dialog.email(), to, "DCP-o-matic translations", body);
 			try {
 				emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 			} catch (NetworkError& e) {
@@ -1125,15 +1118,15 @@ private:
 
 	void help_about ()
 	{
-		auto d = make_wx<AboutDialog>(this);
-		d->ShowModal ();
+		AboutDialog dialog(this);
+		dialog.ShowModal();
 	}
 
 	void help_report_a_problem ()
 	{
-		auto d = make_wx<ReportProblemDialog>(this, _film);
-		if (d->ShowModal () == wxID_OK) {
-			d->report ();
+		ReportProblemDialog dialog(this, _film);
+		if (dialog.ShowModal() == wxID_OK) {
+			dialog.report();
 		}
 	}
 
@@ -1143,14 +1136,14 @@ private:
 			return true;
 		}
 
-		auto d = make_wx<wxMessageDialog>(
+		wxMessageDialog dialog(
 			nullptr,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
 
-		return d->ShowModal() == wxID_YES;
+		return dialog.ShowModal() == wxID_YES;
 	}
 
 	void close (wxCloseEvent& ev)
@@ -1161,12 +1154,8 @@ private:
 		}
 
 		if (_film && _film->dirty ()) {
-
-			auto dialog = new FilmChangedClosingDialog (_film->name ());
-			int const r = dialog->run ();
-			delete dialog;
-
-			switch (r) {
+			FilmChangedClosingDialog dialog(_film->name());
+			switch (dialog.run()) {
 			case wxID_NO:
 				/* Don't save and carry on to close */
 				break;
@@ -1485,8 +1474,8 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::State::YES) {
-			auto dialog = make_wx<UpdateDialog>(this, uc->stable(), uc->test());
-			dialog->ShowModal ();
+			UpdateDialog dialog(this, uc->stable(), uc->test());
+			dialog.ShowModal();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
 		} else {
@@ -1522,8 +1511,8 @@ private:
 
 	void analytics_message (string title, string html)
 	{
-		auto d = make_wx<HTMLDialog>(this, std_to_wx(title), std_to_wx(html));
-		d->ShowModal();
+		HTMLDialog dialog(this, std_to_wx(title), std_to_wx(html));
+		dialog.ShowModal();
 	}
 
 	void set_title ()
@@ -1692,9 +1681,9 @@ private:
 
 			auto release_notes = find_release_notes(gui_is_dark());
 			if (release_notes) {
-				auto notes = make_wx<HTMLDialog>(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
-				notes->Centre();
-				notes->ShowModal();
+				HTMLDialog notes(nullptr, _("Release notes"), std_to_wx(*release_notes), true);
+				notes.Centre();
+				notes.ShowModal();
 			}
 		}
 		catch (exception& e)
@@ -1838,7 +1827,7 @@ private:
 			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN_UTF8)) {
 				return false;
 			}
-			auto d = make_wx<RecreateChainDialog>(
+			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
 				  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
@@ -1846,14 +1835,14 @@ private:
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_UTF8
 				);
-			return d->ShowModal() == wxID_OK;
+			return dialog.ShowModal() == wxID_OK;
 		}
 		case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
 		{
 			if (config->nagged(Config::NAG_BAD_SIGNER_CHAIN_VALIDITY)) {
 				return false;
 			}
-			auto d = make_wx<RecreateChainDialog>(
+			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period\n"
 				  "that is too long.  This will cause problems playing back DCPs on some systems.\n"
@@ -1861,25 +1850,25 @@ private:
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_VALIDITY
 				);
-			return d->ShowModal() == wxID_OK;
+			return dialog.ShowModal() == wxID_OK;
 		}
 		case Config::BAD_SIGNER_INCONSISTENT:
 		{
-			auto d = make_wx<RecreateChainDialog>(
+			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
 				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is inconsistent and\n"
 				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
 				  "the certificate chain for signing DCPs and KDMs?"),
 				_("Close DCP-o-matic")
 				);
-			if (d->ShowModal() != wxID_OK) {
+			if (dialog.ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
 			}
 			return true;
 		}
 		case Config::BAD_DECRYPTION_INCONSISTENT:
 		{
-			auto d = make_wx<RecreateChainDialog>(
+			RecreateChainDialog dialog(
 				_frame, _("Recreate KDM decryption chain"),
 				_("The certificate chain that DCP-o-matic uses for decrypting KDMs is inconsistent and\n"
 				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
@@ -1887,7 +1876,7 @@ private:
 				  "configuration before continuing."),
 				_("Close DCP-o-matic")
 				);
-			if (d->ShowModal() != wxID_OK) {
+			if (dialog.ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
 			}
 			return true;

@@ -33,7 +33,6 @@
 #include "wx/report_problem_dialog.h"
 #include "wx/screens_panel.h"
 #include "wx/static_text.h"
-#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/cinema.h"
@@ -266,15 +265,15 @@ private:
 
 	void help_about ()
 	{
-		auto d = make_wx<AboutDialog>(this);
-		d->ShowModal ();
+		AboutDialog dialog(this);
+		dialog.ShowModal();
 	}
 
 	void help_report_a_problem ()
 	{
-		auto d = make_wx<ReportProblemDialog>(this, shared_ptr<Film>());
-		if (d->ShowModal () == wxID_OK) {
-			d->report ();
+		ReportProblemDialog dialog(this, shared_ptr<Film>());
+		if (dialog.ShowModal() == wxID_OK) {
+			dialog.report();
 		}
 	}
 
@@ -510,12 +509,12 @@ private:
 
 	void add_dkdm_clicked ()
 	{
-		auto dialog = make_wx<FileDialog>(this, _("Select DKDM file"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
-		if (!dialog->show()) {
+		FileDialog dialog(this, _("Select DKDM file"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
+		if (!dialog.show()) {
 			return;
 		}
 
-		for (auto path: dialog->paths()) {
+		for (auto path: dialog.paths()) {
 			add_dkdm(path);
 		}
 	}
@@ -561,12 +560,12 @@ private:
 
 	void add_dkdm_folder_clicked ()
 	{
-		auto d = make_wx<NewDKDMFolderDialog>(this);
-		if (d->ShowModal() != wxID_OK) {
+		NewDKDMFolderDialog dialog(this);
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
 
-		auto new_dkdm = make_shared<DKDMGroup>(wx_to_std(d->get()));
+		auto new_dkdm = make_shared<DKDMGroup>(wx_to_std(dialog.get()));
 		auto parent = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
 		if (!parent) {
 			parent = Config::instance()->dkdms ();
@@ -712,13 +711,13 @@ private:
 			return;
 		}
 
-		auto d = make_wx<wxFileDialog>(
+		wxFileDialog dialog(
 			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
 
-		if (d->ShowModal() == wxID_OK) {
-			dkdm->dkdm().as_xml(wx_to_std(d->GetPath()));
+		if (dialog.ShowModal() == wxID_OK) {
+			dkdm->dkdm().as_xml(wx_to_std(dialog.GetPath()));
 		}
 	}
 
