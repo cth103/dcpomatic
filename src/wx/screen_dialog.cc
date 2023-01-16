@@ -306,5 +306,6 @@ void
 ScreenDialog::set_recipient_file(string file)
 {
 	checked_set(_recipient_file, file);
+	_recipient_file->SetToolTip(std_to_wx(file));
 }
 
