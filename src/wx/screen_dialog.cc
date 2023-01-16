@@ -25,7 +25,6 @@
 #include "screen_dialog.h"
 #include "static_text.h"
 #include "table_dialog.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/scope_guard.h"
@@ -65,13 +64,13 @@ public:
 
 	void load_certificate ()
 	{
-		auto dialog = make_wx<FileDialog>(this, _("Trusted Device certificate"), wxEmptyString, wxFD_DEFAULT_STYLE, "SelectCertificatePath");
-		if (!dialog->show()) {
+		FileDialog dialog(this, _("Trusted Device certificate"), wxEmptyString, wxFD_DEFAULT_STYLE, "SelectCertificatePath");
+		if (!dialog.show()) {
 			return;
 		}
 
 		try {
-			_certificate = dcp::Certificate(dcp::file_to_string(dialog->paths()[0]));
+			_certificate = dcp::Certificate(dcp::file_to_string(dialog.paths()[0]));
 			_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
 		} catch (dcp::MiscError& e) {
 			error_dialog(this, wxString::Format(_("Could not load certificate (%s)"), std_to_wx(e.what())));
@@ -280,9 +279,9 @@ ScreenDialog::load_recipient (boost::filesystem::path file)
 void
 ScreenDialog::get_recipient_from_file ()
 {
-	auto dialog = make_wx<FileDialog>(this, _("Select Certificate File"), wxEmptyString, wxFD_DEFAULT_STYLE , "SelectCertificatePath");
-	if (dialog->show()) {
-		load_recipient(dialog->paths()[0]);
+	FileDialog dialog(this, _("Select Certificate File"), wxEmptyString, wxFD_DEFAULT_STYLE , "SelectCertificatePath");
+	if (dialog.show()) {
+		load_recipient(dialog.paths()[0]);
 	}
 
 	setup_sensitivity ();
@@ -292,10 +291,10 @@ ScreenDialog::get_recipient_from_file ()
 void
 ScreenDialog::download_recipient ()
 {
-	auto dialog = make_wx<DownloadCertificateDialog>(this);
-	if (dialog->ShowModal() == wxID_OK) {
-		set_recipient(dialog->certificate());
-		set_recipient_file(dialog->url());
+	DownloadCertificateDialog dialog(this);
+	if (dialog.ShowModal() == wxID_OK) {
+		set_recipient(dialog.certificate());
+		set_recipient_file(dialog.url());
 	}
 	setup_sensitivity ();
 }

@@ -23,7 +23,6 @@
 #include "dcpomatic_button.h"
 #include "screen_dialog.h"
 #include "screens_panel.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
@@ -231,10 +230,10 @@ ScreensPanel::add_screen (shared_ptr<Cinema> cinema, shared_ptr<Screen> screen)
 void
 ScreensPanel::add_cinema_clicked ()
 {
-	auto dialog = make_wx<CinemaDialog>(GetParent(), _("Add Cinema"));
+	CinemaDialog dialog(GetParent(), _("Add Cinema"));
 
-	if (dialog->ShowModal() == wxID_OK) {
-		auto cinema = make_shared<Cinema>(dialog->name(), dialog->emails(), dialog->notes(), dialog->utc_offset_hour(), dialog->utc_offset_minute());
+	if (dialog.ShowModal() == wxID_OK) {
+		auto cinema = make_shared<Cinema>(dialog.name(), dialog.emails(), dialog.notes(), dialog.utc_offset_hour(), dialog.utc_offset_minute());
 
 		auto cinemas = sorted_cinemas();
 
@@ -255,7 +254,7 @@ ScreensPanel::add_cinema_clicked ()
 			if (!matches_search(existing_cinema, search)) {
 				continue;
 			}
-			if (_collator.compare(dialog->name(), existing_cinema->name) < 0) {
+			if (_collator.compare(dialog.name(), existing_cinema->name) < 0) {
 				/* existing_cinema should be after the one we're inserting */
 				found = true;
 				break;
@@ -298,20 +297,20 @@ ScreensPanel::edit_cinema_clicked ()
 		return;
 	}
 
-	auto dialog = make_wx<CinemaDialog>(
+	CinemaDialog dialog(
 		GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset_hour(), cinema->utc_offset_minute()
 		);
 
-	if (dialog->ShowModal() == wxID_OK) {
-		cinema->name = dialog->name();
-		cinema->emails = dialog->emails();
-		cinema->notes = dialog->notes();
-		cinema->set_utc_offset_hour(dialog->utc_offset_hour());
-		cinema->set_utc_offset_minute(dialog->utc_offset_minute());
+	if (dialog.ShowModal() == wxID_OK) {
+		cinema->name = dialog.name();
+		cinema->emails = dialog.emails();
+		cinema->notes = dialog.notes();
+		cinema->set_utc_offset_hour(dialog.utc_offset_hour());
+		cinema->set_utc_offset_minute(dialog.utc_offset_minute());
 		notify_cinemas_changed();
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);
-		_targets->SetItemText (*item, std_to_wx(dialog->name()));
+		_targets->SetItemText (*item, std_to_wx(dialog.name()));
 	}
 }
 
@@ -350,26 +349,26 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	auto dialog = make_wx<ScreenDialog>(GetParent(), _("Add Screen"));
+	ScreenDialog dialog(GetParent(), _("Add Screen"));
 
-	if (dialog->ShowModal () != wxID_OK) {
+	if (dialog.ShowModal () != wxID_OK) {
 		return;
 	}
 
 	for (auto screen: cinema->screens()) {
-		if (screen->name == dialog->name()) {
+		if (screen->name == dialog.name()) {
 			error_dialog (
 				GetParent(),
 				wxString::Format (
 					_("You cannot add a screen called '%s' as the cinema already has a screen with this name."),
-					std_to_wx(dialog->name()).data()
+					std_to_wx(dialog.name()).data()
 					)
 				);
 			return;
 		}
 	}
 
-	auto screen = std::make_shared<Screen>(dialog->name(), dialog->notes(), dialog->recipient(), dialog->recipient_file(), dialog->trusted_devices());
+	auto screen = std::make_shared<Screen>(dialog.name(), dialog.notes(), dialog.recipient(), dialog.recipient_file(), dialog.trusted_devices());
 	cinema->add_screen (screen);
 	notify_cinemas_changed();
 
@@ -389,7 +388,7 @@ ScreensPanel::edit_screen_clicked ()
 
 	auto edit_screen = _selected_screens[0];
 
-	auto dialog = make_wx<ScreenDialog>(
+	ScreenDialog dialog(
 		GetParent(), _("Edit screen"),
 		edit_screen->name,
 		edit_screen->notes,
@@ -398,34 +397,34 @@ ScreensPanel::edit_screen_clicked ()
 		edit_screen->trusted_devices
 		);
 
-	if (dialog->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
 	auto cinema = edit_screen->cinema;
 	for (auto screen: cinema->screens()) {
-		if (screen != edit_screen && screen->name == dialog->name()) {
+		if (screen != edit_screen && screen->name == dialog.name()) {
 			error_dialog (
 				GetParent(),
 				wxString::Format (
 					_("You cannot change this screen's name to '%s' as the cinema already has a screen with this name."),
-					std_to_wx(dialog->name()).data()
+					std_to_wx(dialog.name()).data()
 					)
 				);
 			return;
 		}
 	}
 
-	edit_screen->name = dialog->name();
-	edit_screen->notes = dialog->notes();
-	edit_screen->recipient = dialog->recipient();
-	edit_screen->recipient_file = dialog->recipient_file();
-	edit_screen->trusted_devices = dialog->trusted_devices();
+	edit_screen->name = dialog.name();
+	edit_screen->notes = dialog.notes();
+	edit_screen->recipient = dialog.recipient();
+	edit_screen->recipient_file = dialog.recipient_file();
+	edit_screen->trusted_devices = dialog.trusted_devices();
 	notify_cinemas_changed();
 
 	auto item = screen_to_item(edit_screen);
 	DCPOMATIC_ASSERT (item);
-	_targets->SetItemText (*item, std_to_wx(dialog->name()));
+	_targets->SetItemText(*item, std_to_wx(dialog.name()));
 }
 
 
