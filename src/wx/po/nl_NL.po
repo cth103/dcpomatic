@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-15 19:59+0100\n"
-"PO-Revision-Date: 2022-09-13 02:59+0200\n"
+"PO-Revision-Date: 2023-01-16 04:42+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -17,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -78,15 +77,14 @@ msgstr "%d kanalen via %s"
 #: src/wx/player_information.cc:204 src/wx/player_information.cc:206
 #, c-format
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/wx/about_dialog.cc:89
-#, fuzzy
 msgid ""
 "(C) 2012-2023 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
-"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2023 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:51 src/wx/file_picker_ctrl.cc:66
@@ -887,7 +885,7 @@ msgid "Could not load KDM"
 msgstr "Kan KDM niet laden"
 
 #: src/wx/screen_dialog.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certificate (%s)"
 msgstr "Kan certificaat niet laden (%s)"
 
@@ -1057,9 +1055,8 @@ msgid "Decrypting KDMs"
 msgstr "Ontsleutelen KDM's"
 
 #: src/wx/full_config_dialog.cc:128
-#, fuzzy
 msgid "Default \"add file\" location"
-msgstr "Standaard audio-vertraging"
+msgstr "Standaard \"voeg bestand toe\"-locatie"
 
 #: src/wx/full_config_dialog.cc:313
 msgid "Default DCP audio channels"
@@ -1086,14 +1083,12 @@ msgid "Default audio delay"
 msgstr "Standaard audio-vertraging"
 
 #: src/wx/full_config_dialog.cc:339
-#, fuzzy
 msgid "Default audio language"
-msgstr "Standaard audio-vertraging"
+msgstr "Standaard audio-taal"
 
 #: src/wx/full_config_dialog.cc:341
-#, fuzzy
 msgid "Default audio language to use for new DCPs"
-msgstr "Standaard map voor nieuwe films"
+msgstr "Standaard audio-taal voor nieuwe DCP's"
 
 #: src/wx/full_config_dialog.cc:355
 msgid "Default chain"
@@ -1128,14 +1123,12 @@ msgid "Default studio"
 msgstr "Standaard studio"
 
 #: src/wx/full_config_dialog.cc:344
-#, fuzzy
 msgid "Default territory"
-msgstr "Standaard distributeur"
+msgstr "Standaard gebied"
 
 #: src/wx/full_config_dialog.cc:346
-#, fuzzy
 msgid "Default territory to use for new DCPs"
-msgstr "Standaard map voor nieuwe films"
+msgstr "Standaard gebied voor nieuwe DCP's"
 
 #: src/wx/full_config_dialog.cc:275
 msgid "Defaults"
@@ -1538,7 +1531,7 @@ msgstr "Hostnaam of IP-adres"
 #. / the warning about using the disk writer.
 #: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
 msgid "I am sure"
-msgstr ""
+msgstr "Ik weet het zeker"
 
 #: src/wx/gain_calculator_dialog.cc:35
 msgid "I want to play this back at fader"
@@ -1737,7 +1730,7 @@ msgstr "Ga naar geselecteerde content"
 
 #: src/wx/player_information.cc:78
 msgid "KDM"
-msgstr ""
+msgstr "KDM"
 
 #: src/wx/full_config_dialog.cc:1028
 msgid "KDM Email"
@@ -2220,9 +2213,8 @@ msgstr ""
 "onderdelen volgens SMPTE."
 
 #: src/wx/full_config_dialog.cc:754
-#, fuzzy
 msgid "Passive mode"
-msgstr "Eenvoudige modus"
+msgstr "Passive mode"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
 #: src/wx/full_config_dialog.cc:770 src/wx/full_config_dialog.cc:897
@@ -2381,9 +2373,8 @@ msgid "Reading content directory"
 msgstr "Lezen content-map"
 
 #: src/wx/colour_conversion_editor.cc:121
-#, fuzzy
 msgid "Rec. 2020"
-msgstr "Rec. 601"
+msgstr "Rec. 2020"
 
 #: src/wx/colour_conversion_editor.cc:119
 msgid "Rec. 601"
@@ -2436,9 +2427,8 @@ msgid "Release territory"
 msgstr "Releasegebied"
 
 #: src/wx/metadata_dialog.cc:187
-#, fuzzy
 msgid "Release territory for this DCP"
-msgstr "Releasegebied"
+msgstr "Releasegebied voor deze DCP"
 
 #: src/wx/config_dialog.cc:301 src/wx/content_menu.cc:111
 #: src/wx/content_panel.cc:263 src/wx/recipients_panel.cc:73
@@ -2517,7 +2507,7 @@ msgstr "Herstel naar originele kleuren"
 
 #: src/wx/normal_job_view.cc:65
 msgid "Resume"
-msgstr "Vervolg"
+msgstr "Hervat"
 
 #: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:94
 #: src/wx/video_panel.cc:132
@@ -2562,11 +2552,11 @@ msgstr "STARTTLS"
 
 #: src/wx/full_config_dialog.cc:145
 msgid "Same place as last time"
-msgstr ""
+msgstr "Zelfde plek als vorige keer"
 
 #: src/wx/full_config_dialog.cc:146
 msgid "Same place as project"
-msgstr ""
+msgstr "Zelfde plek als project"
 
 #: src/wx/audio_dialog.cc:395
 #, c-format
@@ -2962,6 +2952,7 @@ msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
+"De <MainPictureActiveArea> is geen veelvoud van 2 of is groter dan een asset."
 
 #: src/wx/disk_warning_dialog.cc:48
 #, c-format
@@ -3001,7 +2992,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:390
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr ""
+msgstr "De ASSETMAP %n heeft meer dan één asset met dezelfde ID."
 
 #: src/wx/verify_dcp_dialog.cc:353
 msgid ""
@@ -3137,9 +3128,9 @@ msgid "The PKL %n has encrypted content but is not signed."
 msgstr "De PKL %n heeft versleutelde content, maar is niet ondertekend."
 
 #: src/wx/verify_dcp_dialog.cc:387
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL %n has more than one asset with the same ID."
-msgstr "De PKL %n heeft versleutelde content, maar is niet ondertekend."
+msgstr "De PKL %n heeft meer dan één asset met dezelfde ID."
 
 #: src/wx/verify_dcp_dialog.cc:124
 #, c-format
@@ -3475,7 +3466,6 @@ msgid "This is not a valid CPL file"
 msgstr "Dit is geen geldig CPL-bestand"
 
 #: src/wx/content_panel.cc:675
-#, fuzzy
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be added to a "
 "different project.  Choose the DCP folder inside the DCP-o-matic project "
@@ -3756,7 +3746,7 @@ msgstr "Onbekend"
 #: src/wx/dolby_doremi_certificate_panel.cc:199
 msgid ""
 "Unrecognised serial number format (does not start with a number, H or F)"
-msgstr ""
+msgstr "Niet-herkend serienummer-formaat (begint niet met een cijfer, H of F)"
 
 #: src/wx/fonts_dialog.cc:120
 msgid "Unspecified"
@@ -3821,11 +3811,11 @@ msgstr "Gebruikersnaam"
 
 #: src/wx/player_information.cc:80
 msgid "Valid from"
-msgstr ""
+msgstr "Geldig vanaf"
 
 #: src/wx/player_information.cc:82
 msgid "Valid to"
-msgstr ""
+msgstr "Geldig tot"
 
 #: src/wx/system_information_dialog.cc:64
 msgid "Vendor"
@@ -4197,9 +4187,8 @@ msgstr "jaren"
 #. / the warning about a disk being wiped
 #: src/wx/drive_wipe_warning_dialog.cc:47
 #: src/wx/drive_wipe_warning_dialog.cc:61
-#, fuzzy
 msgid "yes"
-msgstr "jaren"
+msgstr "ja"
 
 #~ msgid "Default container"
 #~ msgstr "Standaard container"

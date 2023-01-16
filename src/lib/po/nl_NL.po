@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-15 19:59+0100\n"
-"PO-Revision-Date: 2022-09-08 01:12+0200\n"
+"PO-Revision-Date: 2023-01-16 04:40+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -241,7 +241,7 @@ msgid ""
 "unlikely to have any visible effect on the image."
 msgstr ""
 "Sommige projectoren hebben afspeelproblemen met DCP's met een hele hoge bit-"
-"rate.  Het is verstandig om de JPEG2000-bandbreedte tot ongeveer 200Mbit/s "
+"rate.  Het is verstandig om de JPEG2000-bandbreedte tot ongeveer 200 Mbit/s "
 "terug te brengen; dit heeft vrijwel zeker geen zichtbaar effect op de "
 "beeldkwaliteit."
 
@@ -394,11 +394,11 @@ msgstr "BT2020 constante luminantie"
 
 #: src/lib/ffmpeg_content.cc:637
 msgid "BT2020 for a 10-bit system"
-msgstr "BT2020 voor een 10-bit systeem"
+msgstr "BT2020 voor een 10-bits systeem"
 
 #: src/lib/ffmpeg_content.cc:638
 msgid "BT2020 for a 12-bit system"
-msgstr "BT2020 voor een 12-bit systeem"
+msgstr "BT2020 voor een 12-bits systeem"
 
 #: src/lib/ffmpeg_content.cc:657
 msgid "BT2020 non-constant luminance"
@@ -546,14 +546,12 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Content en DCP hebben dezelfde frame rate.\n"
 
 #: src/lib/audio_content.cc:318
-#, fuzzy
 msgid "Content bit depth"
-msgstr "content-type"
+msgstr "Content bit depth"
 
 #: src/lib/audio_content.cc:316
-#, fuzzy
 msgid "Content sample rate"
-msgstr "Content audio sample rate"
+msgstr "Content sample rate"
 
 #: src/lib/ffmpeg_content.cc:158
 msgid "Content to be joined must all have or not have audio"
@@ -1011,11 +1009,11 @@ msgstr "Vrijdag"
 
 #: src/lib/ffmpeg_content.cc:586
 msgid "Full"
-msgstr "Volledig"
+msgstr "Full"
 
 #: src/lib/ffmpeg_content.cc:566
 msgid "Full (0-%1)"
-msgstr "Volledig (0-%1)"
+msgstr "Full (0-%1)"
 
 #: src/lib/ratio.cc:54
 msgid "Full frame"
@@ -1167,12 +1165,11 @@ msgstr "Subwoofer (Lfe)"
 
 #: src/lib/ffmpeg_content.cc:581
 msgid "Limited"
-msgstr "Gelimiteerd"
+msgstr "Limited"
 
 #: src/lib/ffmpeg_content.cc:559
-#, fuzzy
 msgid "Limited / video (%1-%2)"
-msgstr "Gelimiteerd (%1-%2)"
+msgstr "Limited / video (%1-%2)"
 
 #: src/lib/ffmpeg_content.cc:631
 msgid "Linear"
@@ -1239,13 +1236,12 @@ msgid "No CPLs found in DCP."
 msgstr "Geen CPL's gevonden in DCP."
 
 #: src/lib/kdm_with_metadata.cc:216
-#, fuzzy
 msgid "No KDM from address configured in preferences"
-msgstr "Geen mail-server geconfigureerd in voorkeuren"
+msgstr "Geen KDM from-adres geconfigureerd bij Voorkeuren"
 
 #: src/lib/kdm_with_metadata.cc:212 src/lib/send_notification_email_job.cc:72
 msgid "No mail server configured in preferences"
-msgstr "Geen mail-server geconfigureerd in voorkeuren"
+msgstr "Geen mail-server geconfigureerd bij Voorkeuren"
 
 #: src/lib/image_content.cc:130
 msgid "No valid image files were found in the folder."
@@ -1414,7 +1410,7 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:639
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
-msgstr "SMPTE ST 2084 voor 10, 12, 14 and 16 bit systemen"
+msgstr "SMPTE ST 2084 voor 10-, 12-, 14- en 16-bits systemen"
 
 #: src/lib/ffmpeg_content.cc:640
 msgid "SMPTE ST 428-1"
@@ -1666,7 +1662,7 @@ msgid ""
 msgstr ""
 "Er was niet genoeg geheugen om dit te doen.  Probeer het aantal encodeer-"
 "threads te verminderen in het \"Algemeen\"-tabblad bij Voorkeuren als u een "
-"32-bit operating system draait."
+"32-bits operating system draait."
 
 #: src/lib/util.cc:965
 msgid "This KDM was made for DCP-o-matic but not for its leaf certificate."
@@ -1986,7 +1982,7 @@ msgstr "_reel%1"
 
 #: src/lib/audio_content.cc:318
 msgid "bits"
-msgstr ""
+msgstr "bits"
 
 #: src/lib/dcpomatic_socket.cc:78
 msgid "connect timed out"

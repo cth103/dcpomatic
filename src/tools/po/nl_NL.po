@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-15 19:59+0100\n"
-"PO-Revision-Date: 2022-09-08 14:43+0200\n"
+"PO-Revision-Date: 2023-01-16 03:07+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/tools/dcpomatic_kdm.cc:430
 #, c-format
@@ -147,13 +147,12 @@ msgid "Add content"
 msgstr "Voeg content toe"
 
 #: src/tools/dcpomatic_batch.cc:172
-#, fuzzy
 msgid "Add film"
-msgstr "Voeg film toe..."
+msgstr "Voeg film toe"
 
 #: src/tools/dcpomatic_batch.cc:172
 msgid "Add film for conversion"
-msgstr ""
+msgstr "Voeg film toe voor conversie"
 
 #: src/tools/dcpomatic_kdm.cc:208
 msgid "Add folder..."
@@ -269,6 +268,8 @@ msgid ""
 "Could not listen for new batch jobs.  Perhaps another instance of the DCP-o-"
 "matic Batch Converter is running."
 msgstr ""
+"Kan niet luisteren naar nieuwe batch-taken.  Misschien draait er al een "
+"andere instantie van de DCP-o-matic Batch Converter."
 
 #: src/tools/dcpomatic_player.cc:756 src/tools/dcpomatic_player.cc:1233
 msgid "Could not load DCP %1."
@@ -610,11 +611,11 @@ msgstr "Plak instellingen...\tCtrl-V"
 
 #: src/tools/dcpomatic_batch.cc:173
 msgid "Pause or resume conversion"
-msgstr ""
+msgstr "Pauzeer of hervat de conversie"
 
 #: src/tools/dcpomatic_batch.cc:173
 msgid "Pause/resume"
-msgstr ""
+msgstr "Pauzeer/hervat"
 
 #: src/tools/dcpomatic.cc:604
 msgid ""
@@ -672,7 +673,7 @@ msgstr "Toon DCP in Finder"
 
 #: src/tools/dcpomatic_playlist.cc:316
 msgid "Save"
-msgstr ""
+msgstr "Bewaar"
 
 #: src/tools/dcpomatic.cc:1340
 msgid "Save as &template..."
@@ -883,7 +884,6 @@ msgstr ""
 "film zorgvuldig."
 
 #: src/tools/dcpomatic_player.cc:401
-#, fuzzy
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be loaded into "
 "the player.  Choose the DCP folder inside the DCP-o-matic project folder if "
@@ -977,7 +977,7 @@ msgid ""
 msgstr ""
 "U gebruikt de 32-bits versie van DCP-o-matic op een 64-bits versie van "
 "Windows.  Dit beperkt het beschikbare geheugen voor DCP-o-matic en kan "
-"fouten veroorzaken.  U wordt sterk aangeraden om de 64-bit versie van DCP-o-"
+"fouten veroorzaken.  U wordt sterk aangeraden om de 64-bits versie van DCP-o-"
 "matic te installeren."
 
 #: src/tools/dcpomatic.cc:626 src/tools/dcpomatic_batch.cc:338
