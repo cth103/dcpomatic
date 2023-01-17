@@ -125,14 +125,12 @@ RecipientsPanel::add_recipient (shared_ptr<DKDMRecipient> r)
 void
 RecipientsPanel::add_recipient_clicked ()
 {
-	auto d = new RecipientDialog (GetParent(), _("Add recipient"));
-	if (d->ShowModal() == wxID_OK) {
-		auto r = std::make_shared<DKDMRecipient>(d->name(), d->notes(), d->recipient(), d->emails(), d->utc_offset_hour(), d->utc_offset_minute());
+	RecipientDialog dialog(GetParent(), _("Add recipient"));
+	if (dialog.ShowModal() == wxID_OK) {
+		auto r = std::make_shared<DKDMRecipient>(dialog.name(), dialog.notes(), dialog.recipient(), dialog.emails(), dialog.utc_offset_hour(), dialog.utc_offset_minute());
 		Config::instance()->add_dkdm_recipient (r);
 		add_recipient (r);
 	}
-
-	d->Destroy ();
 }
 
 
@@ -145,21 +143,19 @@ RecipientsPanel::edit_recipient_clicked ()
 
 	auto c = *_selected.begin();
 
-	auto d = new RecipientDialog (
+	RecipientDialog dialog(
 		GetParent(), _("Edit recipient"), c.second->name, c.second->notes, c.second->emails, c.second->utc_offset_hour, c.second->utc_offset_minute, c.second->recipient
 		);
 
-	if (d->ShowModal () == wxID_OK) {
-		c.second->name = d->name ();
-		c.second->emails = d->emails ();
-		c.second->notes = d->notes ();
-		c.second->utc_offset_hour = d->utc_offset_hour ();
-		c.second->utc_offset_minute = d->utc_offset_minute ();
-		_targets->SetItemText (c.first, std_to_wx (d->name()));
+	if (dialog.ShowModal() == wxID_OK) {
+		c.second->name = dialog.name();
+		c.second->emails = dialog.emails();
+		c.second->notes = dialog.notes();
+		c.second->utc_offset_hour = dialog.utc_offset_hour();
+		c.second->utc_offset_minute = dialog.utc_offset_minute();
+		_targets->SetItemText(c.first, std_to_wx(dialog.name()));
 		Config::instance()->changed (Config::DKDM_RECIPIENTS);
 	}
-
-	d->Destroy ();
 }
 
 
