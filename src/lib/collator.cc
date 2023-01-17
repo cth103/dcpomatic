@@ -25,6 +25,7 @@
 #include <unicode/ucol.h>
 #include <unicode/uiter.h>
 #include <unicode/utypes.h>
+#include <unicode/usearch.h>
 #include <unicode/ustring.h>
 #include <boost/scoped_array.hpp>
 #include <cstring>
@@ -76,6 +77,26 @@ Collator::compare (string const& utf8_a, string const& utf8_b) const
 		return ucol_strcoll(_collator, utf16_a.data(), -1, utf16_b.data(), -1);
 	} else {
 		return strcoll(utf8_a.c_str(), utf8_b.c_str());
+	}
+}
+
+
+bool
+Collator::find(string pattern, string text) const
+{
+	if (_collator) {
+		auto utf16_pattern = utf8_to_utf16(pattern);
+		auto utf16_text = utf8_to_utf16(text);
+		UErrorCode status = U_ZERO_ERROR;
+		auto search = usearch_openFromCollator(utf16_pattern.data(), -1, utf16_text.data(), -1, _collator, nullptr, &status);
+		DCPOMATIC_ASSERT(search);
+		auto const index = usearch_first(search, &status);
+		usearch_close(search);
+		return index != -1;
+	} else {
+		transform(pattern.begin(), pattern.end(), pattern.begin(), ::tolower);
+		transform(text.begin(), text.end(), text.begin(), ::tolower);
+		return pattern.find(text) != string::npos;
 	}
 }
 

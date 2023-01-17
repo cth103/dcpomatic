@@ -39,6 +39,7 @@ public:
 	Collator& operator=(Collator const&) = delete;
 
 	int compare(std::string const& utf8_a, std::string const& utf8_b) const;
+	bool find(std::string pattern, std::string text) const;
 
 private:
 	UCollator* _collator = nullptr;
