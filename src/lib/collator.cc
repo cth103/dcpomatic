@@ -41,6 +41,7 @@ Collator::Collator()
 	_collator = ucol_open(nullptr, &status);
 	if (_collator) {
 		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
+		/* Ignore case and character encoding (and probably some other things) */
 		ucol_setAttribute(_collator, UCOL_STRENGTH, UCOL_PRIMARY, &status);
 		ucol_setAttribute(_collator, UCOL_ALTERNATE_HANDLING, UCOL_SHIFTED, &status);
 	}
