@@ -20,12 +20,28 @@
 
 
 #include "lib/collator.h"
+#include <unicode/uenum.h>
+#include <unicode/coll.h>
 #include <boost/test/unit_test.hpp>
 
 
 BOOST_AUTO_TEST_CASE(collator_compare_works_and_ignores_case)
 {
 	Collator collator("en");
+
+#if 0
+	// Print out available locales
+	// UErrorCode status;
+	// auto available = ucol_openAvailableLocales(&status);
+	// int32_t length = 0;
+	// while (true) {
+	// 	auto next = uenum_next(available, &length, &status);
+	// 	if (!next) {
+	// 		break;
+	// 	}
+	// 	std::cout << next << "\n";
+	// }
+#endif
 
 	BOOST_CHECK_EQUAL(collator.compare("So often YOU won't even notice", "SO OFTEN you won't even NOTiCE"), 0);
 	BOOST_CHECK_EQUAL(collator.compare("So often YOU won't even notice", "SO OFTEN you won't even see"), -1);
