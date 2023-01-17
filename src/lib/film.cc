@@ -908,13 +908,14 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "_" + container()->isdcf_name();
 	}
 
+	auto content_list = content();
+
 	/* XXX: this uses the first bit of content only */
 
 	/* Interior aspect ratio.  The standard says we don't do this for trailers, for some strange reason */
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::ContentKind::TRAILER) {
-		auto cl = content();
-		auto first_video = std::find_if(cl.begin(), cl.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->video); });
-		if (first_video != cl.end()) {
+		auto first_video = std::find_if(content_list.begin(), content_list.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->video); });
+		if (first_video != content_list.end()) {
 			auto first_ratio = lrintf((*first_video)->video->scaled_size(frame_size()).ratio() * 100);
 			auto container_ratio = lrintf(container()->ratio() * 100);
 			if (first_ratio != container_ratio) {
@@ -944,7 +945,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto burnt_in = true;
 	auto ccap = false;
-	for (auto i: content()) {
+	for (auto i: content_list) {
 		for (auto j: i->text) {
 			if (j->type() == TextType::OPEN_SUBTITLE && j->use() && !j->burn()) {
 				burnt_in = false;
@@ -1028,7 +1029,7 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	auto vf = false;
-	for (auto i: content()) {
+	for (auto i: content_list) {
 		auto dc = dynamic_pointer_cast<const DCPContent>(i);
 		if (!dc) {
 			continue;
