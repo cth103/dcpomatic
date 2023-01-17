@@ -20,6 +20,7 @@
 
 
 #include "collator.h"
+#include "dcpomatic_assert.h"
 #include <unicode/putil.h>
 #include <unicode/ucol.h>
 #include <unicode/uiter.h>
@@ -27,9 +28,11 @@
 #include <unicode/ustring.h>
 #include <boost/scoped_array.hpp>
 #include <cstring>
+#include <vector>
 
 
 using std::string;
+using std::vector;
 
 
 Collator::Collator()
@@ -52,16 +55,24 @@ Collator::~Collator()
 }
 
 
+vector<UChar>
+utf8_to_utf16(string const& utf8)
+{
+	vector<UChar> utf16(utf8.size() + 1);
+	UErrorCode error = U_ZERO_ERROR;
+	u_strFromUTF8(utf16.data(), utf8.size() + 1, nullptr, utf8.c_str(), -1, &error);
+	DCPOMATIC_ASSERT(error == U_ZERO_ERROR);
+	return utf16;
+}
+
+
 int
 Collator::compare (string const& utf8_a, string const& utf8_b) const
 {
 	if (_collator) {
-		UErrorCode error = U_ZERO_ERROR;
-		boost::scoped_array<uint16_t> utf16_a(new uint16_t[utf8_a.size() + 1]);
-		u_strFromUTF8(reinterpret_cast<UChar*>(utf16_a.get()), utf8_a.size() + 1, nullptr, utf8_a.c_str(), -1, &error);
-		boost::scoped_array<uint16_t> utf16_b(new uint16_t[utf8_b.size() + 1]);
-		u_strFromUTF8(reinterpret_cast<UChar*>(utf16_b.get()), utf8_b.size() + 1, nullptr, utf8_b.c_str(), -1, &error);
-		return ucol_strcoll(_collator, reinterpret_cast<UChar*>(utf16_a.get()), -1, reinterpret_cast<UChar*>(utf16_b.get()), -1);
+		auto utf16_a = utf8_to_utf16(utf8_a);
+		auto utf16_b = utf8_to_utf16(utf8_b);
+		return ucol_strcoll(_collator, utf16_a.data(), -1, utf16_b.data(), -1);
 	} else {
 		return strcoll(utf8_a.c_str(), utf8_b.c_str());
 	}
