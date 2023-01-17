@@ -1002,6 +1002,10 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "-VI";
 	}
 
+	if (find_if(content_list.begin(), content_list.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->atmos); }) != content_list.end()) {
+		isdcf_name += "-ATMOS";
+	}
+
 	isdcf_name += "_" + resolution_to_string (_resolution);
 
 	if (_studio && _studio->length() >= 2) {

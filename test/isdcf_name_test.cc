@@ -236,6 +236,15 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	/* Check that nothing is added for non-existant ratings */
 	film->set_ratings({});
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
+}
 
+
+BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
+{
+	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
+	auto film = new_test_film2("isdcf_name_with_atmos", content);
+	film->set_name("Hello");
+
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-XX_MOS-ATMOS_2K_20230118_SMPTE_OV");
 }
 
