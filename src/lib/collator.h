@@ -32,7 +32,7 @@ struct UCollator;
 class Collator
 {
 public:
-	Collator();
+	Collator(char const* locale = nullptr);
 	~Collator();
 
 	Collator(Collator const &) = delete;

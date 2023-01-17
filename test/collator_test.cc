@@ -25,7 +25,7 @@
 
 BOOST_AUTO_TEST_CASE(collator_compare_works_and_ignores_case)
 {
-	Collator collator;
+	Collator collator("en");
 
 	BOOST_CHECK_EQUAL(collator.compare("So often YOU won't even notice", "SO OFTEN you won't even NOTiCE"), 0);
 	BOOST_CHECK_EQUAL(collator.compare("So often YOU won't even notice", "SO OFTEN you won't even see"), -1);
@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(collator_compare_works_and_ignores_case)
 
 BOOST_AUTO_TEST_CASE(collator_search_works_and_ignores_case)
 {
-	Collator collator;
+	Collator collator("en");
 
 	BOOST_CHECK(collator.find("outh", "With filthy mouths, and bad attitudes"));
 	BOOST_CHECK(collator.find("with", "With filthy mouths, and bad attitudes"));

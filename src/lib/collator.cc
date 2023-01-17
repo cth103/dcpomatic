@@ -36,10 +36,10 @@ using std::string;
 using std::vector;
 
 
-Collator::Collator()
+Collator::Collator(char const* locale)
 {
 	UErrorCode status = U_ZERO_ERROR;
-	_collator = ucol_open(nullptr, &status);
+	_collator = ucol_open(locale, &status);
 	if (_collator) {
 		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
 		/* Ignore case and character encoding (and probably some other things) */
