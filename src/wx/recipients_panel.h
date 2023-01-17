@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/collator.h"
 #include "lib/dkdm_recipient.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -67,4 +68,6 @@ private:
 	RecipientMap _selected;
 
 	bool _ignore_selection_change;
+
+	Collator _collator;
 };

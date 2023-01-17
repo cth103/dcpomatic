@@ -105,15 +105,10 @@ RecipientsPanel::setup_sensitivity ()
 void
 RecipientsPanel::add_recipient (shared_ptr<DKDMRecipient> r)
 {
-	string search = wx_to_std (_search->GetValue());
-	transform (search.begin(), search.end(), search.begin(), ::tolower);
+	string const search = wx_to_std(_search->GetValue());
 
-	if (!search.empty()) {
-		string name = r->name;
-		transform (name.begin(), name.end(), name.begin(), ::tolower);
-		if (name.find(search) == string::npos) {
-			return;
-		}
+	if (!search.empty() && !_collator.find(search, r->name)) {
+		return;
 	}
 
 	_recipients[_targets->AppendItem(_root, std_to_wx(r->name))] = r;
