@@ -78,7 +78,7 @@ private:
 	void clear_and_re_add();
 	void config_changed(Config::Property);
 	void convert_to_lower(std::string& s);
-	bool matches_search(std::shared_ptr<const Cinema> cinema, std::string lower_case_search);
+	bool matches_search(std::shared_ptr<const Cinema> cinema, std::string search);
 	std::list<std::shared_ptr<Cinema>> sorted_cinemas() const;
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;

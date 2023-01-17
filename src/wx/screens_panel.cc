@@ -177,23 +177,20 @@ ScreensPanel::convert_to_lower(string& s)
 
 
 bool
-ScreensPanel::matches_search(shared_ptr<const Cinema> cinema, string lower_case_search)
+ScreensPanel::matches_search(shared_ptr<const Cinema> cinema, string search)
 {
-	if (lower_case_search.empty()) {
+	if (search.empty()) {
 		return true;
 	}
 
-	auto name = cinema->name;
-	convert_to_lower(name);
-	return name.find(lower_case_search) != string::npos;
+	return _collator.find(search, cinema->name);
 }
 
 
 optional<wxTreeListItem>
 ScreensPanel::add_cinema (shared_ptr<Cinema> cinema, wxTreeListItem previous)
 {
-	auto search = wx_to_std (_search->GetValue ());
-	convert_to_lower(search);
+	auto const search = wx_to_std(_search->GetValue());
 	if (!matches_search(cinema, search)) {
 		return {};
 	}
@@ -249,8 +246,7 @@ ScreensPanel::add_cinema_clicked ()
 
 		wxTreeListItem previous = wxTLI_FIRST;
 		bool found = false;
-		auto search = wx_to_std(_search->GetValue());
-		convert_to_lower(search);
+		auto const search = wx_to_std(_search->GetValue());
 		for (auto existing_cinema: cinemas) {
 			if (!matches_search(existing_cinema, search)) {
 				continue;
