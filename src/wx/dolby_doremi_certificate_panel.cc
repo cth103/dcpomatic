@@ -53,6 +53,15 @@ DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDia
 static void
 try_dcp2000 (list<string>& urls, list<string>& files, string prefix, string serial)
 {
+	urls.push_back(String::compose("%1%2xxx/Dolby-DCP2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back(String::compose("Dolby-DCP2000-%1.cert.sha256.pem", serial));
+
+	urls.push_back(String::compose("%1%2xxx/Dolby-DCP2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back(String::compose("Dolby-DCP2000-%1.cert.sha256.pem", serial));
+
+	urls.push_back(String::compose("%1%2xxx/Dolby-DCP2000-%3.certs.zip", prefix, serial.substr(0, 3), serial));
+	files.push_back(String::compose("Dolby-DCP2000-%1.cert.sha256.pem", serial));
+
 	urls.push_back (String::compose("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial));
 	files.push_back (String::compose("dcp2000-%1.cert.sha256.pem", serial));
 
