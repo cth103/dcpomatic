@@ -97,6 +97,10 @@ BOOST_AUTO_TEST_CASE (audio_mapping_guess_test)
 
 	/* Only the filename should be taken into account */
 	guess_check ("-Lfe-/foo_L.wav", 0);
+
+	/* Dolby-style */
+	guess_check ("jake-Lrs-good.wav", 6);
+	guess_check ("elwood-Rrs-good.wav", 7);
 }
 
 

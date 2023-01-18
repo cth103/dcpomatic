@@ -107,9 +107,11 @@ AudioMapping::make_default (AudioProcessor const * processor, optional<boost::fi
 		ChannelRegex(".*[\\._-]LFE[\\._-].*", 3),
 		ChannelRegex(".*[\\._-]Lss[\\._-].*", 4),
 		ChannelRegex(".*[\\._-]Lsr[\\._-].*", 6),
+		ChannelRegex(".*[\\._-]Lrs[\\._-].*", 6),
 		ChannelRegex(".*[\\._-]Ls[\\._-].*", 4),
 		ChannelRegex(".*[\\._-]Rss[\\._-].*", 5),
 		ChannelRegex(".*[\\._-]Rsr[\\._-].*", 7),
+		ChannelRegex(".*[\\._-]Rrs[\\._-].*", 7),
 		ChannelRegex(".*[\\._-]Rs[\\._-].*", 5),
 	};
 
