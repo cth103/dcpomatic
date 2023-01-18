@@ -595,7 +595,7 @@ ContentPanel::add_file_clicked ()
 	/* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
 	   non-Latin filenames or paths.
 	*/
-	auto dialog = make_wx<FileDialog>(
+	FileDialog dialog(
 		_splitter,
 		_("Choose a file or files"),
 		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
@@ -604,8 +604,8 @@ ContentPanel::add_file_clicked ()
 		add_files_override_path()
 		);
 
-	if (dialog->show()) {
-		add_files(dialog->paths());
+	if (dialog.show()) {
+		add_files(dialog.paths());
 	}
 }
 
@@ -613,9 +613,9 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	auto d = make_wx<DirDialog>(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
-	if (d->show()) {
-		add_folder(d->path());
+	DirDialog dialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
+	if (dialog.show()) {
+		add_folder(dialog.path());
 	}
 }
 
@@ -640,12 +640,12 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 	for (auto i: content) {
 		auto ic = dynamic_pointer_cast<ImageContent> (i);
 		if (ic) {
-			auto e = make_wx<ImageSequenceDialog>(_splitter);
+			ImageSequenceDialog dialog(_splitter);
 
-			if (e->ShowModal() != wxID_OK) {
+			if (dialog.ShowModal() != wxID_OK) {
 				return;
 			}
-			ic->set_video_frame_rate(_film, e->frame_rate());
+			ic->set_video_frame_rate(_film, dialog.frame_rate());
 		}
 
 		_film->examine_and_add_content (i);
@@ -656,9 +656,9 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	auto d = make_wx<DirDialog>(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
-	if (d->show()) {
-		add_dcp(d->path());
+	DirDialog dialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
+	if (dialog.show()) {
+		add_dcp(dialog.path());
 	}
 }
 
