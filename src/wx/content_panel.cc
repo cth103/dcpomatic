@@ -817,14 +817,16 @@ ContentPanel::set_selection (weak_ptr<Content> wc)
 void
 ContentPanel::set_selection (ContentList cl)
 {
-	_no_check_selection = true;
+	{
+		_no_check_selection = true;
+		ScopeGuard sg = [this]() { _no_check_selection = false; };
 
-	auto content = _film->content ();
-	for (size_t i = 0; i < content.size(); ++i) {
-		set_selected_state(i, find(cl.begin(), cl.end(), content[i]) != cl.end());
+		auto content = _film->content ();
+		for (size_t i = 0; i < content.size(); ++i) {
+			set_selected_state(i, find(cl.begin(), cl.end(), content[i]) != cl.end());
+		}
 	}
 
-	_no_check_selection = false;
 	check_selection ();
 }
 
