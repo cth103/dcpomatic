@@ -46,6 +46,7 @@
 #include "lib/image_content.h"
 #include "lib/log.h"
 #include "lib/playlist.h"
+#include "lib/scope_guard.h"
 #include "lib/string_text_file.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
@@ -195,6 +196,7 @@ public:
 	struct Item
 	{
 		wxString text;
+		weak_ptr<Content> content;
 		bool error;
 	};
 
@@ -215,6 +217,14 @@ public:
 	{
 		DCPOMATIC_ASSERT(item >= 0 && item < static_cast<long>(_items.size()));
 		return _items[item].error ? const_cast<wxListItemAttr*>(&_red) : nullptr;
+	}
+
+	weak_ptr<Content> content_at_index(long index)
+	{
+		if (index < 0 || index >= static_cast<long>(_items.size())) {
+			return {};
+		}
+		return _items[index].content;
 	}
 
 private:
@@ -320,9 +330,9 @@ ContentPanel::selected ()
 			break;
 		}
 
-		auto cl = _film->content();
-		if (s < int (cl.size())) {
-			sel.push_back (cl[s]);
+		auto weak = _content->content_at_index(s);
+		if (auto content = weak.lock()) {
+			sel.push_back(content);
 		}
 	}
 
@@ -867,21 +877,11 @@ ContentPanel::setup ()
 	}
 
 	auto content = _film->content ();
-
-	Content* selected_content = nullptr;
-	auto const s = _content->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
-	if (s != -1) {
-		wxListItem item;
-		item.SetId (s);
-		item.SetMask (wxLIST_MASK_DATA);
-		_content->GetItem (item);
-		selected_content = reinterpret_cast<Content*> (item.GetData ());
-	}
+	auto selection = selected();
 
 	vector<ContentListCtrl::Item> items;
 
 	for (auto i: content) {
-		int const t = _content->GetItemCount ();
 		bool const valid = i->paths_valid ();
 
 		auto dcp = dynamic_pointer_cast<DCPContent> (i);
@@ -902,18 +902,15 @@ ContentPanel::setup ()
 			s = _("NEEDS OV: ") + s;
 		}
 
-		items.push_back({s, !valid || needs_kdm || needs_assets});
-
-		if (i.get() == selected_content) {
-			set_selected_state(t, true);
-		}
+		items.push_back({s, i, !valid || needs_kdm || needs_assets});
 	}
 
 	_content->set(items);
 
-	if (!selected_content && !content.empty ()) {
-		/* Select the item of content if none was selected before */
+	if (selection.empty() && !content.empty()) {
 		set_selected_state(0, true);
+	} else {
+		set_selection(selection);
 	}
 
 	setup_sensitivity ();
