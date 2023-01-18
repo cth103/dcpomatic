@@ -4,6 +4,26 @@ This file collects a few notes relevant to DCP-o-matic developers.  There is als
 [on the web site](https://dcpomatic.com/development).
 
 
+## Disk writer logging
+
+As we have no `film' folder to log to during disk writes, the logs end up:
+
+### macOS
+
+* Disk writer backend: `/var/log/dcpomatic_disk_writer_{out,err}.log`
+* Disk writer frontend: `/Users/$USER/Library/Preferences/2/com.dcpomatic/2.16/disk.log`
+
+### Windows
+
+* Disk writer backend: `c:\Users\$USER\AppData\Local\dcpomatic\2.16.0\disk_writer.log`
+* Disk writer frontend: `c:\Users\$USER\AppData\Local\dcpomatic\2.16.0\disk.log`
+
+### Linux
+
+* Disk writer backend: `/home/$USER/.config/dcpomatic/2.16.0/disk_writer.log`
+* Disk writer frontend: `/home/$USER/.config/dcpomatic/2.16.0/disk.log`
+
+
 ## Branches
 
 The main dcpomatic repo has the following branches:
