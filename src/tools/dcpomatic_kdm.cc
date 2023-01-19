@@ -353,57 +353,58 @@ private:
 			string title;
 
 			auto dkdm = std::dynamic_pointer_cast<DKDM>(dkdm_base);
-			if (dkdm) {
+			if (!dkdm) {
+				return;
+			}
 
-				/* Decrypt the DKDM */
-				dcp::DecryptedKDM decrypted (dkdm->dkdm(), Config::instance()->decryption_chain()->key().get());
-				title = decrypted.content_title_text ();
+			/* Decrypt the DKDM */
+			dcp::DecryptedKDM decrypted (dkdm->dkdm(), Config::instance()->decryption_chain()->key().get());
+			title = decrypted.content_title_text ();
 
-				/* This is the signer for our new KDMs */
-				auto signer = Config::instance()->signer_chain ();
-				if (!signer->valid ()) {
-					throw InvalidSignerError ();
+			/* This is the signer for our new KDMs */
+			auto signer = Config::instance()->signer_chain ();
+			if (!signer->valid ()) {
+				throw InvalidSignerError ();
+			}
+
+			for (auto i: _screens->screens()) {
+
+				if (!i->recipient) {
+					continue;
 				}
 
-				for (auto i: _screens->screens()) {
+				dcp::LocalTime begin(_timing->from(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
+				dcp::LocalTime end(_timing->until(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
 
-					if (!i->recipient) {
-						continue;
-					}
+				/* Make an empty KDM */
+				dcp::DecryptedKDM kdm (
+					begin,
+					end,
+					decrypted.annotation_text().get_value_or (""),
+					title,
+					dcp::LocalTime().as_string()
+					);
 
-					dcp::LocalTime begin(_timing->from(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
-					dcp::LocalTime end(_timing->until(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
+				/* Add keys from the DKDM */
+				for (auto const& j: decrypted.keys()) {
+					kdm.add_key (j);
+				}
 
-					/* Make an empty KDM */
-					dcp::DecryptedKDM kdm (
-						begin,
-						end,
-						decrypted.annotation_text().get_value_or (""),
-						title,
-						dcp::LocalTime().as_string()
+				auto const encrypted = kdm.encrypt(
+						signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
+						!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
 						);
 
-					/* Add keys from the DKDM */
-					for (auto const& j: decrypted.keys()) {
-						kdm.add_key (j);
-					}
+				dcp::NameFormat::Map name_values;
+				name_values['c'] = i->cinema->name;
+				name_values['s'] = i->name;
+				name_values['f'] = title;
+				name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
+				name_values['e'] = end.date() + " " + end.time_of_day(true, false);
+				name_values['i'] = encrypted.cpl_id ();
 
-					auto const encrypted = kdm.encrypt(
-							signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
-							!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
-							);
-
-					dcp::NameFormat::Map name_values;
-					name_values['c'] = i->cinema->name;
-					name_values['s'] = i->name;
-					name_values['f'] = title;
-					name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-					name_values['e'] = end.date() + " " + end.time_of_day(true, false);
-					name_values['i'] = encrypted.cpl_id ();
-
-					/* Encrypt */
-					kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, encrypted));
-				}
+				/* Encrypt */
+				kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, encrypted));
 			}
 
 			if (kdms.empty()) {
