@@ -240,14 +240,28 @@ from_film (
 
 	auto cpl = cpls.front().cpl_file;
 
+	std::vector<KDMCertificatePeriod> period_checks;
+
 	try {
 		list<KDMWithMetadataPtr> kdms;
 		for (auto i: screens) {
-			auto p = kdm_for_screen (film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+			auto p = kdm_for_screen(film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio, period_checks);
 			if (p) {
 				kdms.push_back (p);
 			}
 		}
+
+
+		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OUTSIDE_CERTIFICATE) != period_checks.end()) {
+			throw KDMCLIError(
+				"Some KDMs would have validity periods which are completely outside the recipient certificate periods.  Such KDMs are very unlikely to work, so will not be created."
+				);
+		}
+
+		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE) != period_checks.end()) {
+			out("For some of these KDMs the recipient certificate's validity period will not cover the whole of the KDM validity period.  This might cause problems with the KDMs.");
+		}
+
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
 			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name(), {});

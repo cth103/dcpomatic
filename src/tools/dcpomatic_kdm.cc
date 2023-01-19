@@ -46,6 +46,7 @@
 #include "lib/exceptions.h"
 #include "lib/file_log.h"
 #include "lib/job_manager.h"
+#include "lib/kdm_util.h"
 #include "lib/kdm_with_metadata.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
@@ -367,6 +368,8 @@ private:
 				throw InvalidSignerError ();
 			}
 
+			vector<KDMCertificatePeriod> period_checks;
+
 			for (auto i: _screens->screens()) {
 
 				if (!i->recipient) {
@@ -375,6 +378,8 @@ private:
 
 				dcp::LocalTime begin(_timing->from(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
 				dcp::LocalTime end(_timing->until(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
+
+				period_checks.push_back(check_kdm_and_certificate_validity_periods(*i->recipient, begin, end));
 
 				/* Make an empty KDM */
 				dcp::DecryptedKDM kdm (
@@ -409,6 +414,21 @@ private:
 
 			if (kdms.empty()) {
 				return;
+			}
+
+			if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OUTSIDE_CERTIFICATE) != period_checks.end()) {
+				error_dialog(
+					this,
+					_("Some KDMs would have validity periods which are completely outside the recipient certificate periods.  Such KDMs are very unlikely to work, so will not be created.")
+					);
+				return;
+			}
+
+			if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE) != period_checks.end()) {
+				message_dialog(
+					this,
+					_("For some of these KDMs the recipient certificate's validity period will not cover the whole of the KDM validity period.  This might cause problems with the KDMs.")
+					);
 			}
 
 			auto result = _output->make (

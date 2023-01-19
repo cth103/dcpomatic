@@ -98,6 +98,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	auto const from_string = from.date() + " " + from.time_of_day(true, false);
 	auto const until_string = until.date() + " " + until.time_of_day(true, false);
 
+	std::vector<KDMCertificatePeriod> period_checks;
+
 	auto cpl = cpls.front().cpl_file;
 	auto kdm = kdm_for_screen (
 			film,
@@ -107,7 +109,8 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 			boost::posix_time::time_from_string(until_string),
 			dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 			false,
-			optional<int>()
+			optional<int>(),
+			period_checks
 			);
 
 	write_files (
@@ -162,6 +165,7 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	auto const cpl = cpls.front().cpl_file;
 	auto const cpl_id = cpls.front().cpl_id;
 
+	std::vector<KDMCertificatePeriod> period_checks;
 	list<KDMWithMetadataPtr> kdms;
 	for (auto i: screens) {
 		auto kdm = kdm_for_screen (
@@ -172,7 +176,8 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 				boost::posix_time::time_from_string(until_string),
 				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
 				false,
-				optional<int>()
+				optional<int>(),
+				period_checks
 				);
 
 		kdms.push_back (kdm);

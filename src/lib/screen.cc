@@ -19,10 +19,11 @@
 */
 
 
-#include "screen.h"
-#include "kdm_with_metadata.h"
-#include "film.h"
 #include "cinema.h"
+#include "film.h"
+#include "kdm_util.h"
+#include "kdm_with_metadata.h"
+#include "screen.h"
 #include <libxml++/libxml++.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -80,7 +81,8 @@ kdm_for_screen (
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
-	optional<int> disable_forensic_marking_audio
+	optional<int> disable_forensic_marking_audio,
+	vector<KDMCertificatePeriod>& period_checks
 	)
 {
 	if (!screen->recipient) {
@@ -90,6 +92,8 @@ kdm_for_screen (
 	auto cinema = screen->cinema;
 	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
 	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
+
+	period_checks.push_back(check_kdm_and_certificate_validity_periods(screen->recipient.get(), begin, end));
 
 	auto const kdm = film->make_kdm (
 			screen->recipient.get(),

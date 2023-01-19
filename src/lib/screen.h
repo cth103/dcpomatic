@@ -25,6 +25,7 @@
 
 #include "kdm_with_metadata.h"
 #include "kdm_recipient.h"
+#include "kdm_util.h"
 #include "trusted_device.h"
 #include <dcp/certificate.h>
 #include <libcxml/cxml.h>
@@ -81,7 +82,8 @@ kdm_for_screen (
 	boost::posix_time::ptime valid_to,
 	dcp::Formulation formulation,
 	bool disable_forensic_marking_picture,
-	boost::optional<int> disable_forensic_marking_audio
+	boost::optional<int> disable_forensic_marking_audio,
+	std::vector<KDMCertificatePeriod>& period_checks
 	);
 
 

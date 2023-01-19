@@ -33,6 +33,7 @@
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
+#include "lib/kdm_util.h"
 #include "lib/screen.h"
 #include <libcxml/cxml.h>
 #include <dcp/exceptions.h>
@@ -171,12 +172,30 @@ KDMDialog::make_clicked ()
 			for_audio = _output->forensic_mark_audio_up_to();
 		}
 
+		vector<KDMCertificatePeriod> period_checks;
+
 		for (auto i: _screens->screens()) {
-			auto p = kdm_for_screen (film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio);
+			auto p = kdm_for_screen(film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio, period_checks);
 			if (p) {
 				kdms.push_back (p);
 			}
 		}
+
+		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OUTSIDE_CERTIFICATE) != period_checks.end()) {
+			error_dialog(
+				this,
+				_("Some KDMs would have validity periods which are completely outside the recipient certificate periods.  Such KDMs are very unlikely to work, so will not be created.")
+				);
+			return;
+		}
+
+		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE) != period_checks.end()) {
+			message_dialog(
+				this,
+				_("For some of these KDMs the recipient certificate's validity period will not cover the whole of the KDM validity period.  This might cause problems with the KDMs.")
+				);
+		}
+
 	} catch (dcp::BadKDMDateError& e) {
 		if (e.starts_too_early()) {
 			error_dialog (this, _("The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."));
