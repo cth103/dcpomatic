@@ -55,7 +55,7 @@ using namespace dcpomatic;
  *  for the actual render.
  */
 static Glib::RefPtr<Pango::Layout>
-create_layout()
+create_layout(string font_name, string markup)
 {
 	auto c_font_map = pango_cairo_font_map_new ();
 	DCPOMATIC_ASSERT (c_font_map);
@@ -63,17 +63,14 @@ create_layout()
 	auto c_context = pango_font_map_create_context (c_font_map);
 	DCPOMATIC_ASSERT (c_context);
 	auto context = Glib::wrap (c_context);
-	return Pango::Layout::create (context);
-}
+	auto layout = Pango::Layout::create(context);
 
-
-static void
-setup_layout (Glib::RefPtr<Pango::Layout> layout, string font_name, string markup)
-{
 	layout->set_alignment (Pango::ALIGN_LEFT);
 	Pango::FontDescription font (font_name);
 	layout->set_font_description (font);
 	layout->set_markup (markup);
+
+	return layout;
 }
 
 
@@ -120,8 +117,7 @@ marked_up (list<StringText> subtitles, int target_height, float fade_factor, str
 			 * be written with letter_spacing either side.  This means that to get a horizontal space x we
 			 * need to write a " " with letter spacing (x - s) / 2, where s is the width of the " ".
 			 */
-			auto layout = create_layout();
-			setup_layout(layout, font_name, make_span(i, " ", {}));
+			auto layout = create_layout(font_name, make_span(i, " ", {}));
 			int space_width;
 			int dummy;
 			layout->get_pixel_size(space_width, dummy);
@@ -292,6 +288,32 @@ y_position (StringText const& first, int target_height, int baseline_to_bottom, 
 }
 
 
+struct Layout
+{
+	Position<int> position;
+	dcp::Size size;
+	Glib::RefPtr<Pango::Layout> pango;
+};
+
+
+/** @param subtitles A list of subtitles that are all on the same line,
+ *  at the same time and with the same fade in/out.
+ */
+static Layout
+setup_layout(list<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
+{
+	DCPOMATIC_ASSERT(!subtitles.empty());
+	auto const& first = subtitles.front();
+
+	auto const font_name = setup_font(first.font);
+	auto const fade_factor = calculate_fade_factor(first, time, frame_rate);
+	auto const markup = marked_up(subtitles, target.height, fade_factor, font_name);
+	auto layout = create_layout(font_name, markup);
+	auto ink = layout->get_ink_extents();
+	return { { ink.get_x() / Pango::SCALE, ink.get_y() / Pango::SCALE }, { ink.get_width() / Pango::SCALE, ink.get_height() / Pango::SCALE }, layout };
+}
+
+
 /** @param subtitles A list of subtitles that are all on the same line,
  *  at the same time and with the same fade in/out.
  */
@@ -302,16 +324,11 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	   nothing else yet.
 	*/
 
-	DCPOMATIC_ASSERT (!subtitles.empty ());
-	auto const& first = subtitles.front ();
+	DCPOMATIC_ASSERT(!subtitles.empty ());
+	auto const& first = subtitles.front();
+	auto const fade_factor = calculate_fade_factor(first, time, frame_rate);
 
-	auto const font_name = setup_font(first.font);
-	auto const fade_factor = calculate_fade_factor (first, time, frame_rate);
-	auto const markup = marked_up (subtitles, target.height, fade_factor, font_name);
-	auto layout = create_layout ();
-	setup_layout (layout, font_name, markup);
-	auto ink = layout->get_ink_extents();
-	dcp::Size size{ink.get_width() / Pango::SCALE, ink.get_height() / Pango::SCALE};
+	auto layout = setup_layout(subtitles, target, time, frame_rate);
 
 	/* Calculate x and y scale factors.  These are only used to stretch
 	   the font away from its normal aspect ratio.
@@ -329,29 +346,29 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	}
 
 	auto const border_width = first.effect() == dcp::Effect::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
-	size.width += 2 * ceil (border_width);
-	size.height += 2 * ceil (border_width);
+	layout.size.width += 2 * ceil (border_width);
+	layout.size.height += 2 * ceil (border_width);
 
-	size.width *= x_scale;
-	size.height *= y_scale;
+	layout.size.width *= x_scale;
+	layout.size.height *= y_scale;
 
 	/* Shuffle the subtitle over by the border width (if we have any) so it's not cut off */
-	int const x_offset = (-ink.get_x() / Pango::SCALE) + ceil(border_width);
-	int const y_offset = -ink.get_y() / Pango::SCALE + ceil(border_width);
+	int const x_offset = -layout.position.x + ceil(border_width);
+	int const y_offset = -layout.position.y + ceil(border_width);
 
-	auto image = create_image (size);
+	auto image = create_image(layout.size);
 	auto surface = create_surface (image);
 	auto context = Cairo::Context::create (surface);
 
 	context->set_line_width (1);
 	context->scale (x_scale, y_scale);
-	layout->update_from_cairo_context (context);
+	layout.pango->update_from_cairo_context(context);
 
 	if (first.effect() == dcp::Effect::SHADOW) {
 		/* Drop-shadow effect */
 		set_source_rgba (context, first.effect_colour(), fade_factor);
 		context->move_to (x_offset + 4, y_offset + 4);
-		layout->add_to_cairo_context (context);
+		layout.pango->add_to_cairo_context(context);
 		context->fill ();
 	}
 
@@ -361,7 +378,7 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 		context->set_line_width (border_width);
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
 		context->move_to (x_offset, y_offset);
-		layout->add_to_cairo_context (context);
+		layout.pango->add_to_cairo_context (context);
 		context->stroke ();
 	}
 
@@ -370,16 +387,16 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	set_source_rgba (context, first.colour(), fade_factor);
 
 	context->move_to (x_offset, y_offset);
-	layout->add_to_cairo_context (context);
+	layout.pango->add_to_cairo_context (context);
 	context->fill ();
 
 	context->set_line_width (0.5);
 	context->move_to (x_offset, y_offset);
-	layout->add_to_cairo_context (context);
+	layout.pango->add_to_cairo_context (context);
 	context->stroke ();
 
-	int const x = x_position (first, target.width, size.width);
-	int const y = y_position (first, target.height, ink.get_y() / Pango::SCALE, size.height);
+	int const x = x_position(first, target.width, layout.size.width);
+	int const y = y_position(first, target.height, layout.position.y, layout.size.height);
 	return PositionImage (image, Position<int>(max (0, x), max(0, y)));
 }
 
@@ -435,10 +452,9 @@ FontMetrics::get(StringText const& subtitle)
 	}
 
 	auto const font_name = setup_font(subtitle.font);
-	auto layout = create_layout();
 	auto copy = subtitle;
 	copy.set_text("Qypjg");
-	setup_layout(layout, font_name, marked_up({copy}, _target_height, 1, font_name));
+	auto layout = create_layout(font_name, marked_up({copy}, _target_height, 1, font_name));
 	auto ink = layout->get_ink_extents();
 	auto const scale = float(_target_height * Pango::SCALE);
 	return _cache.insert({id, { ink.get_y() / scale, ink.get_height() / scale}}).first;
