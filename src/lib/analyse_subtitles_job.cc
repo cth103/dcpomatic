@@ -92,7 +92,7 @@ AnalyseSubtitlesJob::run ()
 
 
 void
-AnalyseSubtitlesJob::analyse (PlayerText text, TextType type)
+AnalyseSubtitlesJob::analyse(PlayerText const& text, TextType type)
 {
 	if (type != TextType::OPEN_SUBTITLE) {
 		return;
