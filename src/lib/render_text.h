@@ -19,8 +19,9 @@
 */
 
 
-#include "position_image.h"
 #include "dcpomatic_time.h"
+#include "position_image.h"
+#include "rect.h"
 #include "string_text.h"
 #include <dcp/util.h>
 #include <memory>
@@ -33,6 +34,7 @@ namespace dcpomatic {
 
 std::string marked_up (std::list<StringText> subtitles, int target_height, float fade_factor, std::string font_name);
 std::list<PositionImage> render_text (std::list<StringText>, dcp::Size, dcpomatic::DCPTime, int);
+std::list<dcpomatic::Rect<int>> bounding_box(std::list<StringText> subtitles, dcp::Size target);
 
 
 class FontMetrics

@@ -427,6 +427,36 @@ render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 }
 
 
+list<dcpomatic::Rect<int>>
+bounding_box(list<StringText> subtitles, dcp::Size target)
+{
+	list<StringText> pending;
+	list<dcpomatic::Rect<int>> rects;
+
+	auto use_pending = [&pending, &rects, target]() {
+		/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
+		auto layout = setup_layout(pending, target, DCPTime(), 24);
+		int const x = x_position(pending.front(), target.width, layout.size.width);
+		int const y = y_position(pending.front(), target.height, layout.position.y, layout.size.height);
+		rects.push_back({Position<int>(x, y), layout.size.width, layout.size.height});
+	};
+
+	for (auto const& i: subtitles) {
+		if (!pending.empty() && (i.v_align() != pending.back().v_align() || fabs(i.v_position() - pending.back().v_position()) > 1e-4)) {
+			use_pending();
+			pending.clear();
+		}
+		pending.push_back(i);
+	}
+
+	if (!pending.empty()) {
+		use_pending();
+	}
+
+	return rects;
+}
+
+
 float
 FontMetrics::height(StringText const& subtitle)
 {
