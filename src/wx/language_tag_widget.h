@@ -37,6 +37,7 @@ class LanguageTagWidget
 {
 public:
 	LanguageTagWidget (wxWindow* parent, wxString tooltip, boost::optional<dcp::LanguageTag> tag, boost::optional<wxString> size_to_fit = boost::none);
+	~LanguageTagWidget();
 
 	LanguageTagWidget (LanguageTagWidget const&) = delete;
 	LanguageTagWidget& operator= (LanguageTagWidget const&) = delete;

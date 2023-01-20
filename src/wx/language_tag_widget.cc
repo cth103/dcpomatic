@@ -57,6 +57,13 @@ LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, option
 }
 
 
+LanguageTagWidget::~LanguageTagWidget()
+{
+	_language->Destroy();
+	_edit->Destroy();
+}
+
+
 void
 LanguageTagWidget::edit ()
 {
