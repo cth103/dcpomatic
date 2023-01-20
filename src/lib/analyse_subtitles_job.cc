@@ -112,10 +112,10 @@ AnalyseSubtitlesJob::analyse(PlayerText const& text, TextType type)
 
 	/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
 	dcp::Size const frame = _film->frame_size();
-	for (auto i: render_text(text.string, frame, dcpomatic::DCPTime(), 24)) {
+	for (auto i: bounding_box(text.string, frame)) {
 		dcpomatic::Rect<double> rect (
-			double(i.position.x) / frame.width, double(i.position.y) / frame.height,
-			double(i.image->size().width) / frame.width, double(i.image->size().height) / frame.height
+			double(i.x) / frame.width, double(i.y) / frame.height,
+			double(i.width) / frame.width, double(i.height) / frame.height
 			);
 		if (!_bounding_box) {
 			_bounding_box = rect;
