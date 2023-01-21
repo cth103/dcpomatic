@@ -826,7 +826,7 @@ TextPanel::try_to_load_analysis ()
 
 	if (!boost::filesystem::exists(path)) {
 		for (auto i: JobManager::instance()->get()) {
-			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i)) {
+			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i) && !i->finished()) {
 				i->cancel ();
 			}
 		}
