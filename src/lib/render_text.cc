@@ -222,21 +222,21 @@ calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
 
 
 static int
-x_position (StringText const& first, int target_width, int layout_width)
+x_position(dcp::HAlign align, float position, int target_width, int layout_width)
 {
 	int x = 0;
-	switch (first.h_align()) {
+	switch (align) {
 	case dcp::HAlign::LEFT:
 		/* h_position is distance between left of frame and left of subtitle */
-		x = first.h_position() * target_width;
+		x = position * target_width;
 		break;
 	case dcp::HAlign::CENTER:
 		/* h_position is distance between centre of frame and centre of subtitle */
-		x = (0.5 + first.h_position()) * target_width - layout_width / 2;
+		x = (0.5 + position) * target_width - layout_width / 2;
 		break;
 	case dcp::HAlign::RIGHT:
 		/* h_position is distance between right of frame and right of subtitle */
-		x = (1.0 - first.h_position()) * target_width - layout_width;
+		x = (1.0 - position) * target_width - layout_width;
 		break;
 	}
 
@@ -244,42 +244,50 @@ x_position (StringText const& first, int target_width, int layout_width)
 }
 
 
+/** @param align_standard Standard with which to interpret this subtitle's position.
+ *  @param align alignment.
+ *  @param position position (between 0 and 1)
+ *  @param target_height Height of the target screen (in pixels).
+ *  @param baseline_to_bottom Distance from text baseline to the bottom of the bounding box (in pixels).
+ *  @param layout_height Height of the subtitle bounding box (in pixels).
+ *  @return y position of the top of the subtitle bounding box (in pixels) from the top of the screen.
+ */
 static int
-y_position (StringText const& first, int target_height, int baseline_to_bottom, int layout_height)
+y_position(dcp::SubtitleStandard standard, dcp::VAlign align, float position, int target_height, int baseline_to_bottom, int layout_height)
 {
 	int y = 0;
-	switch (first.valign_standard) {
+	switch (standard) {
 	case dcp::SubtitleStandard::INTEROP:
 	case dcp::SubtitleStandard::SMPTE_2014:
-		switch (first.v_align()) {
+		switch (align) {
 		case dcp::VAlign::TOP:
-			/* v_position is distance from top of frame to subtitle baseline */
-			y = first.v_position() * target_height - (layout_height - baseline_to_bottom);
+			/* position is distance from top of frame to subtitle baseline */
+			y = position * target_height - (layout_height - baseline_to_bottom);
 			break;
 		case dcp::VAlign::CENTER:
-			/* v_position is distance from centre of frame to subtitle baseline */
-			y = (0.5 + first.v_position()) * target_height - (layout_height - baseline_to_bottom);
+			/* position is distance from centre of frame to subtitle baseline */
+			y = (0.5 + position) * target_height - (layout_height - baseline_to_bottom);
 			break;
 		case dcp::VAlign::BOTTOM:
-			/* v_position is distance from bottom of frame to subtitle baseline */
-			y = (1.0 - first.v_position()) * target_height - (layout_height - baseline_to_bottom);
+			/* position is distance from bottom of frame to subtitle baseline */
+			y = (1.0 - position) * target_height - (layout_height - baseline_to_bottom);
 			break;
 		}
 		break;
 	case dcp::SubtitleStandard::SMPTE_2007:
 	case dcp::SubtitleStandard::SMPTE_2010:
-		switch (first.v_align()) {
+		switch (align) {
 		case dcp::VAlign::TOP:
 			/* v_position is distance from top of frame to top of subtitle */
-			y = first.v_position() * target_height;
+			y = position * target_height;
 			break;
 		case dcp::VAlign::CENTER:
 			/* v_position is distance from centre of frame to centre of subtitle */
-			y = (0.5 + first.v_position()) * target_height - layout_height / 2;
+			y = (0.5 + position) * target_height - layout_height / 2;
 			break;
 		case dcp::VAlign::BOTTOM:
 			/* v_position is distance from bottom of frame to bottom of subtitle */
-			y = (1.0 - first.v_position()) * target_height - layout_height;
+			y = (1.0 - position) * target_height - layout_height;
 			break;
 		}
 	}
@@ -395,8 +403,8 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	layout.pango->add_to_cairo_context (context);
 	context->stroke ();
 
-	int const x = x_position(first, target.width, layout.size.width);
-	int const y = y_position(first, target.height, layout.position.y, layout.size.height);
+	int const x = x_position(first.h_align(), first.h_position(), target.width, layout.size.width);
+	int const y = y_position(first.valign_standard, first.v_align(), first.v_position(), target.height, layout.position.y, layout.size.height);
 	return PositionImage (image, Position<int>(max (0, x), max(0, y)));
 }
 
@@ -434,10 +442,11 @@ bounding_box(list<StringText> subtitles, dcp::Size target)
 	list<dcpomatic::Rect<int>> rects;
 
 	auto use_pending = [&pending, &rects, target]() {
+		auto const& subtitle = pending.front();
 		/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
 		auto layout = setup_layout(pending, target, DCPTime(), 24);
-		int const x = x_position(pending.front(), target.width, layout.size.width);
-		int const y = y_position(pending.front(), target.height, layout.position.y, layout.size.height);
+		int const x = x_position(subtitle.h_align(), subtitle.h_position(), target.width, layout.size.width);
+		int const y = y_position(subtitle.valign_standard, subtitle.v_align(), subtitle.v_position(), target.height, layout.position.y, layout.size.height);
 		rects.push_back({Position<int>(x, y), layout.size.width, layout.size.height});
 	};
 
