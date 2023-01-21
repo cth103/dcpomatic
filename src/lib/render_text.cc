@@ -47,6 +47,7 @@ using std::min;
 using std::pair;
 using std::shared_ptr;
 using std::string;
+using boost::optional;
 using namespace dcpomatic;
 
 
@@ -436,17 +437,18 @@ render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 
 
 list<dcpomatic::Rect<int>>
-bounding_box(list<StringText> subtitles, dcp::Size target)
+bounding_box(list<StringText> subtitles, dcp::Size target, optional<dcp::SubtitleStandard> override_standard)
 {
 	list<StringText> pending;
 	list<dcpomatic::Rect<int>> rects;
 
-	auto use_pending = [&pending, &rects, target]() {
+	auto use_pending = [&pending, &rects, target, override_standard]() {
 		auto const& subtitle = pending.front();
+		auto standard = override_standard.get_value_or(subtitle.valign_standard);
 		/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
 		auto layout = setup_layout(pending, target, DCPTime(), 24);
 		int const x = x_position(subtitle.h_align(), subtitle.h_position(), target.width, layout.size.width);
-		int const y = y_position(subtitle.valign_standard, subtitle.v_align(), subtitle.v_position(), target.height, layout.position.y, layout.size.height);
+		int const y = y_position(standard, subtitle.v_align(), subtitle.v_position(), target.height, layout.position.y, layout.size.height);
 		rects.push_back({Position<int>(x, y), layout.size.width, layout.size.height});
 	};
 
