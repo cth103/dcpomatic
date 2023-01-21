@@ -344,6 +344,10 @@ Job::set_state (State s)
 
 	{
 		boost::mutex::scoped_lock lm (_state_mutex);
+		if (_state == s) {
+			return;
+		}
+
 		_state = s;
 
 		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
