@@ -809,13 +809,16 @@ TextPanel::try_to_load_analysis ()
 	}
 
 	_loading_analysis = true;
+	ScopeGuard sg = [this]() {
+		_loading_analysis = false;
+		setup_sensitivity();
+	};
+
 	setup_sensitivity ();
 	_analysis.reset ();
 
 	auto content = _analysis_content.lock ();
 	if (!content) {
-		_loading_analysis = false;
-		setup_sensitivity ();
 		return;
 	}
 
@@ -845,8 +848,6 @@ TextPanel::try_to_load_analysis ()
         }
 
 	update_outline_subtitles_in_viewer ();
-	_loading_analysis = false;
-	setup_sensitivity ();
 }
 
 
