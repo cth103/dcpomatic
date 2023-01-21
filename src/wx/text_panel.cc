@@ -845,7 +845,7 @@ TextPanel::try_to_load_analysis ()
 			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this)
 			);
 		return;
-        }
+	}
 
 	update_outline_subtitles_in_viewer ();
 }
