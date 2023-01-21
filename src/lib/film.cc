@@ -353,6 +353,7 @@ Film::subtitle_analysis_path (shared_ptr<const Content> content) const
 
 	Digester digester;
 	digester.add (content->digest());
+	digester.add(_interop ? "1" : "0");
 
 	if (!content->text.empty()) {
 		auto tc = content->text.front();
