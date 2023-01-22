@@ -81,9 +81,9 @@ TextContent::TextContent (Content* parent, TextType type, TextType original_type
 }
 
 /** @return TextContents from node or <Text> nodes under node (according to version).
- *  The list could be empty if no TextContents are found.
+ *  The vector could be empty if no TextContents are found.
  */
-list<shared_ptr<TextContent>>
+vector<shared_ptr<TextContent>>
 TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, list<string>& notes)
 {
 	if (version < 34) {
@@ -104,13 +104,14 @@ TextContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, li
 		return { make_shared<TextContent>(parent, node, version, notes) };
 	}
 
-	list<shared_ptr<TextContent>> c;
+	vector<shared_ptr<TextContent>> content;
 	for (auto i: node->node_children("Text")) {
-		c.push_back (make_shared<TextContent>(parent, i, version, notes));
+		content.push_back(make_shared<TextContent>(parent, i, version, notes));
 	}
 
-	return c;
+	return content;
 }
+
 
 TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version, list<string>& notes)
 	: ContentPart (parent)

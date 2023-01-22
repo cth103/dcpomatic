@@ -199,7 +199,7 @@ public:
 		return _language_is_additional;
 	}
 
-	static std::list<std::shared_ptr<TextContent>> from_xml (Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
+	static std::vector<std::shared_ptr<TextContent>> from_xml(Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
 
 private:
 	friend struct ffmpeg_pts_offset_test;

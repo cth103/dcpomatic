@@ -208,7 +208,7 @@ public:
 
 	std::shared_ptr<VideoContent> video;
 	std::shared_ptr<AudioContent> audio;
-	std::list<std::shared_ptr<TextContent>> text;
+	std::vector<std::shared_ptr<TextContent>> text;
 	std::shared_ptr<AtmosContent> atmos;
 
 	std::shared_ptr<TextContent> only_text () const;
