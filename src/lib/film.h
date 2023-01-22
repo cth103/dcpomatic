@@ -71,6 +71,7 @@ class Ratio;
 class Job;
 class Film;
 struct isdcf_name_test;
+struct isdcf_name_with_atmos;
 struct recover_test_2d_encrypted;
 struct atmos_encrypted_passthrough_test;
 
@@ -493,6 +494,7 @@ public:
 private:
 
 	friend struct ::isdcf_name_test;
+	friend struct ::isdcf_name_with_atmos;
 	friend struct ::recover_test_2d_encrypted;
 	friend struct ::atmos_encrypted_passthrough_test;
 	template <class, class> friend class ChangeSignaller;
