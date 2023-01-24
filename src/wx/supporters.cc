@@ -322,6 +322,7 @@ supported_by.Add (wxT ("Casablanca Filmkunsttheater"));
 supported_by.Add (wxT ("Redscope Filmproducties"));
 supported_by.Add (wxT ("Lukas Thiele Filmproduktion"));
 supported_by.Add (wxT ("Walk On Water Filmproduktion"));
+supported_by.Add (wxT ("Valerie Delpierre, Inicia Films"));
 supported_by.Add (wxT ("Grasshopper Films"));
 supported_by.Add (wxT ("Strohberry Films"));
 supported_by.Add (wxT ("RSVP Films"));
