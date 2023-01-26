@@ -137,6 +137,8 @@ public:
 
 	static boost::optional<DiskWriterBackEndResponse> read_from_nanomsg(Nanomsg& nanomsg, int timeout);
 
+	bool write_to_nanomsg(Nanomsg& nanomsg, int timeout) const;
+
 	Type type() const {
 		return _type;
 	}

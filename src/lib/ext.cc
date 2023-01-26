@@ -153,7 +153,7 @@ write (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total
 
 		++progress_count;
 		if ((progress_count % progress_frequency) == 0 && nanomsg) {
-			nanomsg->send(String::compose(DISK_WRITER_COPY_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
+			DiskWriterBackEndResponse::copy_progress(1 - float(total_remaining) / total).write_to_nanomsg(*nanomsg, SHORT_TIMEOUT);
 		}
 	}
 
@@ -194,7 +194,7 @@ read (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_
 		remaining -= this_time;
 		total_remaining -= this_time;
 		if (nanomsg) {
-			nanomsg->send(String::compose(DISK_WRITER_VERIFY_PROGRESS "\n%1\n", (1 - float(total_remaining) / total)), SHORT_TIMEOUT);
+			DiskWriterBackEndResponse::verify_progress(1 - float(total_remaining) / total).write_to_nanomsg(*nanomsg, SHORT_TIMEOUT);
 		}
 	}
 
@@ -272,7 +272,7 @@ void
 format_progress (void* context, float progress)
 {
 	if (context) {
-		reinterpret_cast<Nanomsg*>(context)->send(String::compose(DISK_WRITER_FORMAT_PROGRESS "\n%1\n", progress), SHORT_TIMEOUT);
+		DiskWriterBackEndResponse::format_progress(progress).write_to_nanomsg(*reinterpret_cast<Nanomsg*>(context), SHORT_TIMEOUT);
 	}
 }
 
@@ -419,7 +419,7 @@ try
 	}
 
 	ext4_device_unregister("ext4_fs");
-	if (nanomsg && !nanomsg->send(DISK_WRITER_OK "\n", LONG_TIMEOUT)) {
+	if (nanomsg && !DiskWriterBackEndResponse::ok().write_to_nanomsg(*nanomsg, LONG_TIMEOUT)) {
 		throw CommunicationFailedError ();
 	}
 
@@ -427,17 +427,17 @@ try
 } catch (CopyError& e) {
 	LOG_DISK("CopyError (from write): %1 %2", e.message(), e.number().get_value_or(0));
 	if (nanomsg) {
-		nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number().get_value_or(0)), LONG_TIMEOUT);
+		DiskWriterBackEndResponse::error(e.message(), e.number().get_value_or(0)).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 	}
 } catch (VerifyError& e) {
 	LOG_DISK("VerifyError (from write): %1 %2", e.message(), e.number());
 	if (nanomsg) {
-		nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n%2\n", e.message(), e.number()), LONG_TIMEOUT);
+		DiskWriterBackEndResponse::error(e.message(), e.number()).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 	}
 } catch (exception& e) {
 	LOG_DISK("Exception (from write): %1", e.what());
 	if (nanomsg) {
-		nanomsg->send(String::compose(DISK_WRITER_ERROR "\n%1\n0\n", e.what()), LONG_TIMEOUT);
+		DiskWriterBackEndResponse::error(e.what(), 0).write_to_nanomsg(*nanomsg, LONG_TIMEOUT);
 	}
 }
 
