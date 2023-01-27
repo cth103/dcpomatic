@@ -541,17 +541,16 @@ VideoPanel::edit_colour_conversion_clicked ()
 {
 	auto vc = _parent->selected_video ();
 
-	auto d = new ContentColourConversionDialog (this, vc.front()->video->yuv ());
-	d->set (vc.front()->video->colour_conversion().get_value_or (PresetColourConversion::all().front().conversion));
-	if (d->ShowModal() == wxID_OK) {
+	ContentColourConversionDialog dialog(this, vc.front()->video->yuv());
+	dialog.set(vc.front()->video->colour_conversion().get_value_or(PresetColourConversion::all().front().conversion));
+	if (dialog.ShowModal() == wxID_OK) {
 		for (auto i: vc) {
-			i->video->set_colour_conversion (d->get ());
+			i->video->set_colour_conversion(dialog.get());
 		}
 	} else {
 		/* Reset the colour conversion choice */
 		film_content_changed (VideoContentProperty::COLOUR_CONVERSION);
 	}
-	d->Destroy ();
 }
 
 
@@ -725,16 +724,17 @@ bool
 VideoPanel::scale_custom_edit_clicked ()
 {
 	auto vc = _parent->selected_video().front()->video;
-	auto d = new CustomScaleDialog (this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
-	int const r = d->ShowModal ();
-	if (r == wxID_OK) {
-		for (auto i: _parent->selected_video()) {
-			i->video->set_custom_ratio (d->custom_ratio());
-			i->video->set_custom_size (d->custom_size());
-		}
+	CustomScaleDialog dialog(this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
+	if (dialog.ShowModal() != wxID_OK) {
+		return false;
 	}
-	d->Destroy ();
-	return r == wxID_OK;
+
+	for (auto i: _parent->selected_video()) {
+		i->video->set_custom_ratio(dialog.custom_ratio());
+		i->video->set_custom_size(dialog.custom_size());
+	}
+
+	return true;
 }
 
 

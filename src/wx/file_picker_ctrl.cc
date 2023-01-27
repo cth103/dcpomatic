@@ -83,12 +83,11 @@ FilePickerCtrl::browse_clicked ()
 	if (_warn_overwrite) {
 		style |= wxFD_OVERWRITE_PROMPT;
 	}
-	wxFileDialog* d = new wxFileDialog (this, _prompt, wxEmptyString, wxEmptyString, _wildcard, style);
-	d->SetPath (_path);
-	if (d->ShowModal () == wxID_OK) {
-		SetPath (d->GetPath ());
+	wxFileDialog dialog(this, _prompt, wxEmptyString, wxEmptyString, _wildcard, style);
+	dialog.SetPath(_path);
+	if (dialog.ShowModal() == wxID_OK) {
+		SetPath(dialog.GetPath());
 	}
-	d->Destroy ();
 }
 
 void

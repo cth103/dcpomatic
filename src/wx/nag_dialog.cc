@@ -79,9 +79,6 @@ NagDialog::maybe_nag (wxWindow* parent, Config::Nag nag, wxString message, bool 
 		return false;
 	}
 
-	auto d = new NagDialog (parent, nag, message, can_cancel);
-	int const r = d->ShowModal();
-	d->Destroy ();
-
-	return r == wxID_CANCEL;
+	NagDialog dialog(parent, nag, message, can_cancel);
+	return dialog.ShowModal() == wxID_CANCEL;
 }

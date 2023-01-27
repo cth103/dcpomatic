@@ -130,17 +130,18 @@ TemplatesDialog::rename_clicked ()
 	li.m_mask = wxLIST_MASK_TEXT;
 	_list->GetItem (li);
 
-	auto d = new RenameTemplateDialog (this);
-	d->set (li.m_text);
-	if (d->ShowModal() == wxID_OK) {
-		if (!d->get().IsEmpty()) {
-			Config::instance()->rename_template (wx_to_std (li.m_text), wx_to_std (d->get ()));
-			_list->SetItem (item, 0, d->get());
-		} else {
-			error_dialog (this, _("Template names must not be empty."));
-		}
+	RenameTemplateDialog dialog(this);
+	dialog.set(li.m_text);
+	if (dialog.ShowModal() != wxID_OK) {
+		return;
 	}
-	d->Destroy ();
+
+	if (!dialog.get().IsEmpty()) {
+		Config::instance()->rename_template(wx_to_std(li.m_text), wx_to_std(dialog.get()));
+		_list->SetItem(item, 0, dialog.get());
+	} else {
+		error_dialog (this, _("Template names must not be empty."));
+	}
 }
 
 

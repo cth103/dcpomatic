@@ -197,12 +197,11 @@ KDMOutputPanel::setup_sensitivity ()
 void
 KDMOutputPanel::advanced_clicked ()
 {
-	auto d = new KDMAdvancedDialog (this, _forensic_mark_video, _forensic_mark_audio, _forensic_mark_audio_up_to);
-	d->ShowModal ();
-	_forensic_mark_video = d->forensic_mark_video ();
-	_forensic_mark_audio = d->forensic_mark_audio ();
-	_forensic_mark_audio_up_to = d->forensic_mark_audio_up_to ();
-	d->Destroy ();
+	KDMAdvancedDialog dialog(this, _forensic_mark_video, _forensic_mark_audio, _forensic_mark_audio_up_to);
+	dialog.ShowModal();
+	_forensic_mark_video = dialog.forensic_mark_video();
+	_forensic_mark_audio = dialog.forensic_mark_audio();
+	_forensic_mark_audio_up_to = dialog.forensic_mark_audio_up_to();
 }
 
 
@@ -343,10 +342,9 @@ KDMOutputPanel::directory () const
 void
 KDMOutputPanel::add_email_addresses_clicked ()
 {
-	auto dialog = new ExtraKDMEmailDialog (this, _extra_addresses);
-	if (dialog->ShowModal() == wxID_OK) {
-		_extra_addresses = dialog->get();
+	ExtraKDMEmailDialog dialog(this, _extra_addresses);
+	if (dialog.ShowModal() == wxID_OK) {
+		_extra_addresses = dialog.get();
 	}
-	dialog->Destroy();
 }
 

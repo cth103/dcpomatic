@@ -781,11 +781,10 @@ TextPanel::appearance_dialog_clicked ()
 	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	auto d = new SubtitleAppearanceDialog (this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type));
-	if (d->ShowModal () == wxID_OK) {
-		d->apply ();
+	SubtitleAppearanceDialog dialog(this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type));
+	if (dialog.ShowModal() == wxID_OK) {
+		dialog.apply();
 	}
-	d->Destroy ();
 }
 
 

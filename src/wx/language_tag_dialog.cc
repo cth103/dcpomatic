@@ -75,13 +75,11 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 void
 LanguageTagDialog::add_language ()
 {
-	auto full = new FullLanguageTagDialog (GetParent());
-	auto r = full->ShowModal ();
-	if (r == wxID_OK) {
-		Config::instance()->add_custom_language (full->get());
-		set (full->get());
+	FullLanguageTagDialog full(GetParent());
+	if (full.ShowModal() == wxID_OK) {
+		Config::instance()->add_custom_language(full.get());
+		set(full.get());
 	}
-	full->Destroy ();
 }
 
 

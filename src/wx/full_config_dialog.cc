@@ -180,15 +180,14 @@ private:
 
 	void export_cinemas_file ()
 	{
-		auto d = new wxFileDialog (
+		wxFileDialog dialog(
 			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
                 );
 
-		if (d->ShowModal () == wxID_OK) {
-			boost::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(d->GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
+		if (dialog.ShowModal() == wxID_OK) {
+			boost::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
 		}
-		d->Destroy ();
 	}
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -222,11 +221,10 @@ private:
 		}
 		bool copy_and_link = true;
 		if (boost::filesystem::exists(new_file)) {
-			auto d = new ConfigMoveDialog (_panel, new_file);
-			if (d->ShowModal() == wxID_OK) {
+			ConfigMoveDialog dialog(_panel, new_file);
+			if (dialog.ShowModal() == wxID_OK) {
 				copy_and_link = false;
 			}
-			d->Destroy ();
 		}
 
 		if (copy_and_link) {
@@ -974,31 +972,31 @@ private:
 
 	void send_test_email_clicked ()
 	{
-		auto dialog = new SendTestEmailDialog(_panel);
-		auto result = dialog->ShowModal();
-		dialog->Destroy();
-		if (result == wxID_OK) {
-			Emailer emailer(
-				wx_to_std(dialog->from()),
-				{ wx_to_std(dialog->to()) },
-				wx_to_std(_("DCP-o-matic test email")),
-				wx_to_std(_("This is a test email from DCP-o-matic."))
-				);
-			auto config = Config::instance();
-			try {
-				emailer.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
-			} catch (NetworkError& e) {
-				error_dialog (_panel, std_to_wx(e.summary()), std_to_wx(e.detail().get_value_or("")));
-				return;
-			} catch (std::exception& e) {
-				error_dialog (_panel, _("Test email sending failed."), std_to_wx(e.what()));
-				return;
-			} catch (...) {
-				error_dialog (_panel, _("Test email sending failed."));
-				return;
-			}
-			message_dialog (_panel, _("Test email sent."));
+		SendTestEmailDialog dialog(_panel);
+		if (dialog.ShowModal() != wxID_OK) {
+			return;
 		}
+
+		Emailer emailer(
+			wx_to_std(dialog.from()),
+			{ wx_to_std(dialog.to()) },
+			wx_to_std(_("DCP-o-matic test email")),
+			wx_to_std(_("This is a test email from DCP-o-matic."))
+			);
+		auto config = Config::instance();
+		try {
+			emailer.send(config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+		} catch (NetworkError& e) {
+			error_dialog(_panel, std_to_wx(e.summary()), std_to_wx(e.detail().get_value_or("")));
+			return;
+		} catch (std::exception& e) {
+			error_dialog(_panel, _("Test email sending failed."), std_to_wx(e.what()));
+			return;
+		} catch (...) {
+			error_dialog(_panel, _("Test email sending failed."));
+			return;
+		}
+		message_dialog(_panel, _("Test email sent."));
 	}
 
 	wxTextCtrl* _server;

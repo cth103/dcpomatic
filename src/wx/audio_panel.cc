@@ -304,18 +304,17 @@ AudioPanel::film_content_changed (int property)
 void
 AudioPanel::gain_calculate_button_clicked ()
 {
-	auto d = new GainCalculatorDialog (this);
-	auto const r = d->ShowModal ();
-	auto c = d->db_change();
+	GainCalculatorDialog dialog(this);
+	auto const r = dialog.ShowModal();
+	auto change = dialog.db_change();
 
-	if (r == wxID_CANCEL || !c) {
-		d->Destroy ();
+	if (r == wxID_CANCEL || !change) {
 		return;
 	}
 
 	auto old_peak_dB = peak ();
 	auto old_value = _gain->wrapped()->GetValue();
-	_gain->wrapped()->SetValue(old_value + *c);
+	_gain->wrapped()->SetValue(old_value + *change);
 
 	/* This appears to be necessary, as the change is not signalled,
 	   I think.
@@ -328,8 +327,6 @@ AudioPanel::gain_calculate_button_clicked ()
 		_gain->wrapped()->SetValue (old_value);
 		_gain->view_changed ();
 	}
-
-	d->Destroy ();
 }
 
 

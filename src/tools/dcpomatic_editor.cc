@@ -362,12 +362,12 @@ private:
 	void file_open ()
 	{
 		auto d = wxStandardPaths::Get().GetDocumentsDir();
-		auto c = new wxDirDialog (this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 
 		int r;
 		while (true) {
-			r = c->ShowModal ();
-			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog.ShowModal();
+			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
@@ -375,11 +375,9 @@ private:
 		}
 
 		if (r == wxID_OK) {
-			boost::filesystem::path const dcp (wx_to_std (c->GetPath ()));
+			boost::filesystem::path const dcp(wx_to_std(dialog.GetPath()));
 			load_dcp (dcp);
 		}
-
-		c->Destroy ();
 	}
 
 	void file_save ()
@@ -394,9 +392,8 @@ private:
 
 	void help_about ()
 	{
-		auto d = new AboutDialog (this);
-		d->ShowModal ();
-		d->Destroy ();
+		AboutDialog dialog(this);
+		dialog.ShowModal();
 	}
 
 	wxPanel* _overall_panel = nullptr;

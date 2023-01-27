@@ -156,9 +156,8 @@ JobView::finished ()
 	}
 
 	if (_job->message()) {
-		auto d = new MessageDialog (_parent, std_to_wx(_job->name()), std_to_wx(_job->message().get()));
-		d->ShowModal ();
-		d->Destroy ();
+		MessageDialog dialog(_parent, std_to_wx(_job->name()), std_to_wx(_job->message().get()));
+		dialog.ShowModal();
 	}
 
 	if (_job->enable_notify() && _notify->GetValue()) {
