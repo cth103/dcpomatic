@@ -453,6 +453,13 @@ private:
 					wxString::Format (s, result.second, std_to_wx(_output->directory().string()).data())
 					);
 			}
+		} catch (dcp::BadKDMDateError& e) {
+			if (e.starts_too_early()) {
+				error_dialog(this, _("The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."));
+			} else {
+				error_dialog(this, _("The KDM end period is after (or close to) the end of the signing certficates' validity period.  Either use an earlier end time for this KDM or re-create your signing certificates in the DCP-o-matic preferences window."));
+			}
+			return;
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
