@@ -28,6 +28,7 @@
 #include "kdm_util.h"
 #include "trusted_device.h"
 #include <dcp/certificate.h>
+#include <dcp/decrypted_kdm.h>
 #include <libcxml/cxml.h>
 #include <boost/optional.hpp>
 #include <string>
@@ -75,8 +76,7 @@ public:
 
 KDMWithMetadataPtr
 kdm_for_screen (
-	std::shared_ptr<const Film> film,
-	boost::filesystem::path cpl,
+	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm,
 	std::shared_ptr<const dcpomatic::Screen> screen,
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,

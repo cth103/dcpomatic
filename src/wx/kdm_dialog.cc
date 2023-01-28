@@ -174,8 +174,12 @@ KDMDialog::make_clicked ()
 
 		vector<KDMCertificatePeriod> period_checks;
 
+		std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, this](dcp::LocalTime begin, dcp::LocalTime end) {
+			return film->make_kdm(_cpl->cpl(), begin, end);
+		};
+
 		for (auto i: _screens->screens()) {
-			auto p = kdm_for_screen(film, _cpl->cpl(), i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio, period_checks);
+			auto p = kdm_for_screen(make_kdm, i, _timing->from(), _timing->until(), _output->formulation(), !_output->forensic_mark_video(), for_audio, period_checks);
 			if (p) {
 				kdms.push_back (p);
 			}

@@ -245,7 +245,10 @@ from_film (
 	try {
 		list<KDMWithMetadataPtr> kdms;
 		for (auto i: screens) {
-			auto p = kdm_for_screen(film, cpl, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio, period_checks);
+			std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, cpl](dcp::LocalTime begin, dcp::LocalTime end) {
+				return film->make_kdm(cpl, begin, end);
+			};
+			auto p = kdm_for_screen(make_kdm, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio, period_checks);
 			if (p) {
 				kdms.push_back (p);
 			}

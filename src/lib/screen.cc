@@ -75,8 +75,7 @@ Screen::trusted_device_thumbprints () const
 
 KDMWithMetadataPtr
 kdm_for_screen (
-	shared_ptr<const Film> film,
-	boost::filesystem::path cpl,
+	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm,
 	shared_ptr<const dcpomatic::Screen> screen,
 	boost::posix_time::ptime valid_from,
 	boost::posix_time::ptime valid_to,
@@ -101,8 +100,9 @@ kdm_for_screen (
 		throw InvalidSignerError();
 	}
 
-	auto const decrypted_kdm = film->make_kdm(cpl, begin, end);
-	auto kdm = decrypted_kdm.encrypt(signer, screen->recipient.get(), screen->trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+	auto kdm = make_kdm(begin, end).encrypt(
+		signer, screen->recipient.get(), screen->trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
+		);
 
 	dcp::NameFormat::Map name_values;
 	if (cinema) {

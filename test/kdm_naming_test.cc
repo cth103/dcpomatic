@@ -101,9 +101,11 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	std::vector<KDMCertificatePeriod> period_checks;
 
 	auto cpl = cpls.front().cpl_file;
+	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, cpl](dcp::LocalTime begin, dcp::LocalTime end) {
+		return film->make_kdm(cpl, begin, end);
+	};
 	auto kdm = kdm_for_screen (
-			film,
-			cpls.front().cpl_file,
+			make_kdm,
 			cinema_a_screen_1,
 			boost::posix_time::time_from_string(from_string),
 			boost::posix_time::time_from_string(until_string),
@@ -167,10 +169,14 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 
 	std::vector<KDMCertificatePeriod> period_checks;
 	list<KDMWithMetadataPtr> kdms;
+
+	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, cpls](dcp::LocalTime begin, dcp::LocalTime end) {
+		return film->make_kdm(cpls.front().cpl_file, begin, end);
+	};
+
 	for (auto i: screens) {
 		auto kdm = kdm_for_screen (
-				film,
-				cpls.front().cpl_file,
+				make_kdm,
 				i,
 				boost::posix_time::time_from_string(from_string),
 				boost::posix_time::time_from_string(until_string),
