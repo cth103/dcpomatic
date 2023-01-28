@@ -312,10 +312,17 @@ private:
 
 	bool confirm_overwrite (boost::filesystem::path path)
 	{
-		return confirm_dialog (
-			this,
-			wxString::Format (_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
-			);
+		if (boost::filesystem::is_directory(path)) {
+			return confirm_dialog (
+				this,
+				wxString::Format(_("Folder %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
+				);
+		} else {
+			return confirm_dialog (
+				this,
+				wxString::Format(_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())
+				);
+		}
 	}
 
 	/** @id if not nullptr this is filled in with the wxTreeItemId of the selection */
