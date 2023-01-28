@@ -74,15 +74,11 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	Config::instance()->set_decryption_chain (make_shared<dcp::CertificateChain>(openssl_path(), CERTIFICATE_VALIDITY_PERIOD));
 
-	auto kdm = A->make_kdm (
-		Config::instance()->decryption_chain()->leaf (),
-		vector<string>(),
-		A_dcp.cpls().front()->file().get(),
-		dcp::LocalTime ("2030-07-21T00:00:00+00:00"),
-		dcp::LocalTime ("2031-07-21T00:00:00+00:00"),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		true, 0
-		);
+	auto signer = Config::instance()->signer_chain();
+	BOOST_REQUIRE(signer->valid());
+
+	auto const decrypted_kdm = A->make_kdm(A_dcp.cpls().front()->file().get(), dcp::LocalTime ("2030-07-21T00:00:00+00:00"), dcp::LocalTime ("2031-07-21T00:00:00+00:00"));
+	auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	auto B = new_test_film ("import_dcp_test2");
 	B->set_container (Ratio::from_id ("185"));

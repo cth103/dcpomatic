@@ -68,15 +68,11 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 
 	Config::instance()->set_decryption_chain (make_shared<dcp::CertificateChain>(openssl_path(), CERTIFICATE_VALIDITY_PERIOD));
 
-	auto A_kdm = A->make_kdm (
-		Config::instance()->decryption_chain()->leaf(),
-		vector<string>(),
-		A_dcp.cpls().front()->file().get(),
-		dcp::LocalTime("2030-07-21T00:00:00+00:00"),
-		dcp::LocalTime("2031-07-21T00:00:00+00:00"),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		true, 0
-		);
+	auto signer = Config::instance()->signer_chain();
+	BOOST_REQUIRE(signer->valid());
+
+	auto const A_decrypted_kdm = A->make_kdm(A_dcp.cpls().front()->file().get(), dcp::LocalTime("2030-07-21T00:00:00+00:00"), dcp::LocalTime("2031-07-21T00:00:00+00:00"));
+	auto const A_kdm = A_decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	/* Import A into a new project, with the required KDM, and make a VF that refers to it */
 
@@ -97,15 +93,8 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	dcp::DCP B_dcp ("build/test/vf_kdm_test_vf/" + B->dcp_name());
 	B_dcp.read ();
 
-	auto B_kdm = B->make_kdm (
-		Config::instance()->decryption_chain()->leaf (),
-		vector<string>(),
-		B_dcp.cpls().front()->file().get(),
-		dcp::LocalTime ("2030-07-21T00:00:00+00:00"),
-		dcp::LocalTime ("2031-07-21T00:00:00+00:00"),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		true, 0
-		);
+	auto const B_decrypted_kdm = B->make_kdm(B_dcp.cpls().front()->file().get(), dcp::LocalTime ("2030-07-21T00:00:00+00:00"), dcp::LocalTime ("2031-07-21T00:00:00+00:00"));
+	auto const B_kdm = B_decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	/* Import the OV and VF into a new project with the KDM that was created for the VF.
 	   This KDM should decrypt assets from the OV too.

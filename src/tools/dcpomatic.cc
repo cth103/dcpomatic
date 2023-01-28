@@ -944,34 +944,30 @@ private:
 		dcp::LocalTime to (Config::instance()->signer_chain()->leaf().not_after());
 		to.add_days (-1);
 
+		auto signer = Config::instance()->signer_chain();
+		if (!signer->valid()) {
+			error_dialog(this, _("The certificate chain for signing is invalid"));
+			return;
+		}
+
 		optional<dcp::EncryptedKDM> kdm;
 		try {
-			kdm = _film->make_kdm (
-				Config::instance()->decryption_chain()->leaf(),
-				vector<string>(),
-				dialog.cpl(),
-				from, to,
-				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-				true,
-				0
-				);
+			auto const decrypted_kdm = _film->make_kdm(dialog.cpl(), from, to);
+			auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
+			if (dialog.internal()) {
+				auto dkdms = Config::instance()->dkdms();
+				dkdms->add(make_shared<DKDM>(kdm));
+				Config::instance()->changed ();
+			} else {
+				auto path = dialog.directory() / (_film->dcp_name(false) + "_DKDM.xml");
+				kdm.as_xml(path);
+			}
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
 			error_dialog (this, e.what ());
 		} catch (...) {
 			error_dialog (this, _("An unknown exception occurred."));
-		}
-
-		if (kdm) {
-			if (dialog.internal()) {
-				auto dkdms = Config::instance()->dkdms();
-				dkdms->add (make_shared<DKDM>(kdm.get()));
-				Config::instance()->changed ();
-			} else {
-				auto path = dialog.directory() / (_film->dcp_name(false) + "_DKDM.xml");
-				kdm->as_xml (path);
-			}
 		}
 	}
 

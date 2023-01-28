@@ -80,15 +80,11 @@ BOOST_AUTO_TEST_CASE (dcp_digest_file_test2)
 	auto ov_cpl = find_cpl.cpls()[0]->file();
 	BOOST_REQUIRE (static_cast<bool>(ov_cpl));
 
-	auto kdm = ov->make_kdm (
-		Config::instance()->decryption_chain()->leaf(),
-		{},
-		ov_cpl.get(),
-		dcp::LocalTime(), dcp::LocalTime(),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		true,
-		0
-		);
+	auto signer = Config::instance()->signer_chain();
+	BOOST_REQUIRE(signer->valid());
+
+	auto decrypted_kdm = ov->make_kdm(ov_cpl.get(), dcp::LocalTime(), dcp::LocalTime());
+	auto kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	ov_dcp->add_kdm (kdm);

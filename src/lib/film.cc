@@ -1634,37 +1634,18 @@ Film::active_area () const
 }
 
 
-/** @param recipient KDM recipient certificate.
- *  @param trusted_devices Certificate thumbprints of other trusted devices (can be empty).
- *  @param cpl_file CPL filename.
+/*  @param cpl_file CPL filename.
  *  @param from KDM from time expressed as a local time with an offset from UTC.
  *  @param until KDM to time expressed as a local time with an offset from UTC.
- *  @param formulation KDM formulation to use.
- *  @param disable_forensic_marking_picture true to disable forensic marking of picture.
- *  @param disable_forensic_marking_audio if not set, don't disable forensic marking of audio.  If set to 0,
- *  disable all forensic marking; if set above 0, disable forensic marking above that channel.
  */
-dcp::EncryptedKDM
-Film::make_kdm (
-	dcp::Certificate recipient,
-	vector<string> trusted_devices,
-	boost::filesystem::path cpl_file,
-	dcp::LocalTime from,
-	dcp::LocalTime until,
-	dcp::Formulation formulation,
-	bool disable_forensic_marking_picture,
-	optional<int> disable_forensic_marking_audio
-	) const
+dcp::DecryptedKDM
+Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::LocalTime until) const
 {
 	if (!_encrypted) {
 		throw runtime_error (_("Cannot make a KDM as this project is not encrypted."));
 	}
 
 	auto cpl = make_shared<dcp::CPL>(cpl_file);
-	auto signer = Config::instance()->signer_chain();
-	if (!signer->valid ()) {
-		throw InvalidSignerError ();
-	}
 
 	/* Find keys that have been added to imported, encrypted DCP content */
 	list<dcp::DecryptedKDMKey> imported_keys;
@@ -1703,7 +1684,7 @@ Film::make_kdm (
 
 	return dcp::DecryptedKDM (
 		cpl->id(), keys, from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
-		).encrypt (signer, recipient, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+		);
 }
 
 

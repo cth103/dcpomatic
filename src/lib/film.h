@@ -167,16 +167,7 @@ public:
 	FrameRateChange active_frame_rate_change (dcpomatic::DCPTime) const;
 	std::pair<double, double> speed_up_range (int dcp_frame_rate) const;
 
-	dcp::EncryptedKDM make_kdm (
-		dcp::Certificate recipient,
-		std::vector<std::string> trusted_devices,
-		boost::filesystem::path cpl_file,
-		dcp::LocalTime from,
-		dcp::LocalTime until,
-		dcp::Formulation formulation,
-		bool disable_forensic_marking_picture,
-		boost::optional<int> disable_forensic_marking_audio
-		) const;
+	dcp::DecryptedKDM make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::LocalTime until) const;
 
 	int state_version () const {
 		return _state_version;

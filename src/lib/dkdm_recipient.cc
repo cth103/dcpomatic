@@ -19,6 +19,7 @@
 */
 
 
+#include "config.h"
 #include "dkdm_recipient.h"
 #include "film.h"
 #include "kdm_with_metadata.h"
@@ -75,16 +76,13 @@ kdm_for_dkdm_recipient (
 	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(recipient->utc_offset_hour, recipient->utc_offset_minute));
 	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(recipient->utc_offset_hour, recipient->utc_offset_minute));
 
-	auto const kdm = film->make_kdm (
-			recipient->recipient.get(),
-			vector<string>(),
-			cpl,
-			begin,
-			end,
-			dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-			true,
-			0
-			);
+	auto signer = Config::instance()->signer_chain();
+	if (!signer->valid()) {
+		throw InvalidSignerError();
+	}
+
+	auto const decrypted_kdm = film->make_kdm(cpl, begin, end);
+	auto const kdm = decrypted_kdm.encrypt(signer, recipient->recipient.get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();

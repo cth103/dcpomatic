@@ -84,17 +84,12 @@ BOOST_AUTO_TEST_CASE (remake_id_test2)
 	}
 	BOOST_REQUIRE(cpl);
 
+	auto signer = Config::instance()->signer_chain();
+	BOOST_REQUIRE(signer->valid());
+
 	/* Make a DKDM */
-	auto kdm = film->make_kdm (
-		Config::instance()->decryption_chain()->leaf(),
-		vector<string>(),
-		*cpl,
-		dcp::LocalTime ("2030-01-01T01:00:00+00:00"),
-		dcp::LocalTime ("2031-01-01T01:00:00+00:00"),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		true,
-		0
-		);
+	auto const decrypted_kdm = film->make_kdm(*cpl, dcp::LocalTime ("2030-01-01T01:00:00+00:00"), dcp::LocalTime ("2031-01-01T01:00:00+00:00"));
+	auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	/* Import the DCP into a new film */
 	auto dcp_content = make_shared<DCPContent>(film->dir(film->dcp_name()));

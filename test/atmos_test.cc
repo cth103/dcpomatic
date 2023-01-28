@@ -74,16 +74,11 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 
 	BOOST_REQUIRE (!mxf_atmos_files_same(ref, dcp_file(film, "atmos")));
 
-	auto kdm = film->make_kdm (
-		Config::instance()->decryption_chain()->leaf(),
-		vector<string>(),
-		dcp_file(film, "cpl"),
-		dcp::LocalTime(),
-		dcp::LocalTime(),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		false,
-		optional<int>()
-		);
+	auto signer = Config::instance()->signer_chain();
+	BOOST_REQUIRE(signer->valid());
+
+	auto const decrypted_kdm = film->make_kdm(dcp_file(film, "cpl"), dcp::LocalTime(), dcp::LocalTime());
+	auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, false, {});
 
 	auto content2 = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	content2->add_kdm (kdm);

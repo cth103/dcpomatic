@@ -20,6 +20,7 @@
 
 
 #include "cinema.h"
+#include "config.h"
 #include "film.h"
 #include "kdm_util.h"
 #include "kdm_with_metadata.h"
@@ -95,16 +96,13 @@ kdm_for_screen (
 
 	period_checks.push_back(check_kdm_and_certificate_validity_periods(screen->recipient.get(), begin, end));
 
-	auto const kdm = film->make_kdm (
-			screen->recipient.get(),
-			screen->trusted_device_thumbprints(),
-			cpl,
-			begin,
-			end,
-			formulation,
-			disable_forensic_marking_picture,
-			disable_forensic_marking_audio
-			);
+	auto signer = Config::instance()->signer_chain();
+	if (!signer->valid()) {
+		throw InvalidSignerError();
+	}
+
+	auto const decrypted_kdm = film->make_kdm(cpl, begin, end);
+	auto kdm = decrypted_kdm.encrypt(signer, screen->recipient.get(), screen->trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 
 	dcp::NameFormat::Map name_values;
 	if (cinema) {

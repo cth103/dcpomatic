@@ -55,16 +55,11 @@ BOOST_AUTO_TEST_CASE (smpte_dcp_with_subtitles_can_be_decrypted)
 	auto cpl = dcp.cpls()[0];
 	BOOST_REQUIRE (cpl->file());
 
-	auto kdm = film->make_kdm (
-		Config::instance()->decryption_chain()->leaf(),
-		{},
-		*cpl->file(),
-		dcp::LocalTime(),
-		dcp::LocalTime(),
-		dcp::Formulation::MODIFIED_TRANSITIONAL_1,
-		true,
-		0
-		);
+	auto signer = Config::instance()->signer_chain();
+	BOOST_REQUIRE(signer->valid());
+
+	auto const decrypted_kdm = film->make_kdm(*cpl->file(), dcp::LocalTime(), dcp::LocalTime());
+	auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	auto dcp_content = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	dcp_content->add_kdm (kdm);
