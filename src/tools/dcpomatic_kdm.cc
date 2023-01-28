@@ -377,46 +377,40 @@ private:
 
 			vector<KDMCertificatePeriod> period_checks;
 
-			for (auto i: _screens->screens()) {
-
-				if (!i->recipient) {
-					continue;
-				}
-
-				dcp::LocalTime begin(_timing->from(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
-				dcp::LocalTime end(_timing->until(), dcp::UTCOffset(i->cinema->utc_offset_hour(), i->cinema->utc_offset_minute()));
-
-				period_checks.push_back(check_kdm_and_certificate_validity_periods(*i->recipient, begin, end));
-
+			std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [decrypted, title](dcp::LocalTime begin, dcp::LocalTime end) {
 				/* Make an empty KDM */
 				dcp::DecryptedKDM kdm (
 					begin,
 					end,
-					decrypted.annotation_text().get_value_or (""),
+					decrypted.annotation_text().get_value_or(""),
 					title,
 					dcp::LocalTime().as_string()
 					);
 
 				/* Add keys from the DKDM */
 				for (auto const& j: decrypted.keys()) {
-					kdm.add_key (j);
+					kdm.add_key(j);
 				}
 
-				auto const encrypted = kdm.encrypt(
-						signer, i->recipient.get(), i->trusted_device_thumbprints(), _output->formulation(),
-						!_output->forensic_mark_video(), _output->forensic_mark_audio() ? boost::optional<int>() : 0
-						);
+				return kdm;
+			};
 
-				dcp::NameFormat::Map name_values;
-				name_values['c'] = i->cinema->name;
-				name_values['s'] = i->name;
-				name_values['f'] = title;
-				name_values['b'] = begin.date() + " " + begin.time_of_day(true, false);
-				name_values['e'] = end.date() + " " + end.time_of_day(true, false);
-				name_values['i'] = encrypted.cpl_id ();
+			for (auto i: _screens->screens()) {
 
-				/* Encrypt */
-				kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema->emails, encrypted));
+				auto kdm = kdm_for_screen(
+					make_kdm,
+					i,
+					_timing->from(),
+					_timing->until(),
+					_output->formulation(),
+					!_output->forensic_mark_video(),
+					_output->forensic_mark_audio() ? boost::optional<int>() : 0,
+					period_checks
+					);
+
+				if (kdm) {
+					kdms.push_back(kdm);
+				}
 			}
 
 			if (kdms.empty()) {
