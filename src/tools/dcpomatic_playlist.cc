@@ -576,6 +576,7 @@ private:
 	{
 		auto file = new wxMenu;
 #ifdef __WXOSX__
+		file->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 		file->Append (wxID_EXIT, _("&Exit"));
 #else
 		file->Append (wxID_EXIT, _("&Quit"));
