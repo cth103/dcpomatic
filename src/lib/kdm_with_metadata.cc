@@ -153,8 +153,8 @@ write_directories (
 		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
 			boost::filesystem::create_directories (path);
 			write_files(kdm, path, filename_format, confirm_overwrite);
+			written += kdm.size();
 		}
-		written += kdm.size();
 	}
 
 	return written;
