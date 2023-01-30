@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-15 19:59+0100\n"
-"PO-Revision-Date: 2022-07-24 19:41+0200\n"
+"PO-Revision-Date: 2023-01-30 21:11+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -486,7 +486,7 @@ msgstr "Nekonstantna svetilnost iz krome"
 
 #: src/lib/dcp_content_type.cc:63
 msgid "Clip"
-msgstr ""
+msgstr "Posnetek"
 
 #: src/lib/text_type.cc:72
 msgid "Closed captions"
@@ -541,14 +541,12 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Vsebina in DCP imata enako hitrost.\n"
 
 #: src/lib/audio_content.cc:318
-#, fuzzy
 msgid "Content bit depth"
-msgstr "vrsta vsebine"
+msgstr "Bitna globina vsebine"
 
 #: src/lib/audio_content.cc:316
-#, fuzzy
 msgid "Content sample rate"
-msgstr "Mera vzorčenja zvoka vsebine"
+msgstr "Mera vzorčenja vsebine"
 
 #: src/lib/ffmpeg_content.cc:158
 msgid "Content to be joined must all have or not have audio"
@@ -801,7 +799,7 @@ msgstr "Mera vzorčenja DCP"
 #: src/lib/frame_rate_change.cc:102
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
-msgstr "DCP bo predvajan pri %.1f% % hitrosti vsebine.\n"
+msgstr "DCP bo predvajan pri %.1f%% hitrosti vsebine.\n"
 
 #: src/lib/frame_rate_change.cc:92
 msgid "DCP will use every other frame of the content.\n"
@@ -930,7 +928,7 @@ msgstr " Napaka: %1"
 
 #: src/lib/dcp_content_type.cc:68
 msgid "Event"
-msgstr ""
+msgstr "Dogodek"
 
 #: src/lib/hints.cc:406
 msgid "Examining audio, subtitles and closed captions"
@@ -1054,7 +1052,7 @@ msgstr "Visokokakovostni 3D-razšumnik"
 
 #: src/lib/dcp_content_type.cc:67
 msgid "Highlights"
-msgstr ""
+msgstr "Svetli toni"
 
 #: src/lib/filter.cc:80
 msgid "Horizontal flip"
@@ -1093,6 +1091,10 @@ msgid ""
 "you should check any subtitles in your project to make sure that they are "
 "placed where you want them."
 msgstr ""
+"V tej različici je prišlo do sprememb načina postavitve podnaslovov. "
+"Umeščanje mora biti zdaj bolj pravilno glede na standarde, vendar morate "
+"preveriti vse podnaslove v svojem projektu, da se prepričate, da so umeščeni "
+"na želeno mesto."
 
 #: src/lib/hints.cc:572
 msgid ""
@@ -1155,9 +1157,8 @@ msgid "Limited"
 msgstr "Omejeno"
 
 #: src/lib/ffmpeg_content.cc:559
-#, fuzzy
 msgid "Limited / video (%1-%2)"
-msgstr "Omejeno (%1-%2)"
+msgstr "Omejeno/video (%1-%2)"
 
 #: src/lib/ffmpeg_content.cc:631
 msgid "Linear"
@@ -1224,9 +1225,8 @@ msgid "No CPLs found in DCP."
 msgstr "V DCP-ju ni CPL-jev."
 
 #: src/lib/kdm_with_metadata.cc:216
-#, fuzzy
 msgid "No KDM from address configured in preferences"
-msgstr "Noben poštni strežnik ni določen v nastavitvah"
+msgstr "Noben KDM iz naslova ni določen v nastavitvah"
 
 #: src/lib/kdm_with_metadata.cc:212 src/lib/send_notification_email_job.cc:72
 msgid "No mail server configured in preferences"
@@ -1513,9 +1513,8 @@ msgid "Stereo"
 msgstr "Stereo"
 
 #: src/lib/dcp_content_type.cc:65
-#, fuzzy
 msgid "Stereo card"
-msgstr "Stereo"
+msgstr "Stereo kartica"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
@@ -1962,7 +1961,7 @@ msgstr "_reel%1"
 
 #: src/lib/audio_content.cc:318
 msgid "bits"
-msgstr ""
+msgstr "bitov"
 
 #: src/lib/dcpomatic_socket.cc:78
 msgid "connect timed out"
@@ -2165,15 +2164,3 @@ msgstr "neznano"
 #: src/lib/video_content.cc:516
 msgid "video frames"
 msgstr "video sličice"
-
-#~ msgid ""
-#~ "Please report this problem by using Help -> Report a problem or via email "
-#~ "to carl@dcpomatic.com"
-#~ msgstr ""
-#~ "O tej težavi poročajte s pomočjo Pomoč > Poročaj o težavi ali prek e-"
-#~ "pošte na naslov carl@dcpomatic.com"
-
-#~ msgid ""
-#~ "Your default container is not valid and has been changed to Flat (1.85:1)"
-#~ msgstr ""
-#~ "Privzeta posoda ni veljavna in je bila spremenjena v plosko (flat; 1,85:1)"

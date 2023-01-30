@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-15 19:59+0100\n"
-"PO-Revision-Date: 2022-09-03 23:27+0200\n"
+"PO-Revision-Date: 2023-01-30 18:53+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -75,15 +74,14 @@ msgstr "%d kanalov na %s"
 #: src/wx/player_information.cc:204 src/wx/player_information.cc:206
 #, c-format
 msgid "%s %s"
-msgstr ""
+msgstr "%s %s"
 
 #: src/wx/about_dialog.cc:89
-#, fuzzy
 msgid ""
 "(C) 2012-2023 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
-"(C) 2012-2022 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2023 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:51 src/wx/file_picker_ctrl.cc:66
@@ -470,7 +468,7 @@ msgstr "Sredstvo ima prazno pot v ASSETMAP."
 #: src/wx/verify_dcp_dialog.cc:381
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
-msgstr ""
+msgstr "Uporabljen je bil neveljaven <ContentKind> %n."
 
 #: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:322
 msgid "An unknown exception occurred."
@@ -871,7 +869,7 @@ msgid "Could not load KDM"
 msgstr "KDM-ja ni bilo mogoče naložiti"
 
 #: src/wx/screen_dialog.cc:77
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load certificate (%s)"
 msgstr "Potrdila ni bilo mogoče naložiti (%s)"
 
@@ -910,6 +908,8 @@ msgid ""
 "Could not write cinema details to the cinemas.xml file.  Check that the "
 "location of cinemas.xml is valid in DCP-o-matic's preferences."
 msgstr ""
+"Podrobnosti o kinodvorani ni bilo mogoče zapisati v datoteko cinemas.xml.  "
+"Preverite, ali je mesto cinemas.xml v nastavitvah DCP-o-matic veljavno."
 
 #: src/wx/full_config_dialog.cc:1329
 msgid "Cover Sheet"
@@ -1038,9 +1038,8 @@ msgid "Decrypting KDMs"
 msgstr "Dešifriranje KDM-jev"
 
 #: src/wx/full_config_dialog.cc:128
-#, fuzzy
 msgid "Default \"add file\" location"
-msgstr "Privzeta zakasnitev zvoka"
+msgstr "Privzeto mesto za »dodaj datoteko«"
 
 #: src/wx/full_config_dialog.cc:313
 msgid "Default DCP audio channels"
@@ -1067,14 +1066,12 @@ msgid "Default audio delay"
 msgstr "Privzeta zakasnitev zvoka"
 
 #: src/wx/full_config_dialog.cc:339
-#, fuzzy
 msgid "Default audio language"
-msgstr "Privzeta zakasnitev zvoka"
+msgstr "Privzeti jezik zvoka"
 
 #: src/wx/full_config_dialog.cc:341
-#, fuzzy
 msgid "Default audio language to use for new DCPs"
-msgstr "Privzeta mapa za nove filme"
+msgstr "Privzeti jezik zvoka, ki se uporablja za nove DCP-je"
 
 #: src/wx/full_config_dialog.cc:355
 msgid "Default chain"
@@ -1109,14 +1106,12 @@ msgid "Default studio"
 msgstr "Privzeti studio"
 
 #: src/wx/full_config_dialog.cc:344
-#, fuzzy
 msgid "Default territory"
-msgstr "Privzeti distributer"
+msgstr "Privzeto ozemlje"
 
 #: src/wx/full_config_dialog.cc:346
-#, fuzzy
 msgid "Default territory to use for new DCPs"
-msgstr "Privzeta mapa za nove filme"
+msgstr "Privzeto ozemlje objave, ki se uporablja za nove filme"
 
 #: src/wx/full_config_dialog.cc:275
 msgid "Defaults"
@@ -1518,7 +1513,7 @@ msgstr "Ime gostitelja ali naslov IP."
 #. / the warning about using the disk writer.
 #: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
 msgid "I am sure"
-msgstr ""
+msgstr "Prepričan_a sem"
 
 #: src/wx/gain_calculator_dialog.cc:35
 msgid "I want to play this back at fader"
@@ -1718,7 +1713,7 @@ msgstr "Skoči na izbrano vsebino"
 
 #: src/wx/player_information.cc:78
 msgid "KDM"
-msgstr ""
+msgstr "KDM"
 
 #: src/wx/full_config_dialog.cc:1028
 msgid "KDM Email"
@@ -2197,9 +2192,8 @@ msgstr ""
 "SMPTE."
 
 #: src/wx/full_config_dialog.cc:754
-#, fuzzy
 msgid "Passive mode"
-msgstr "Geslo"
+msgstr "Pasivni način"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
 #: src/wx/full_config_dialog.cc:770 src/wx/full_config_dialog.cc:897
@@ -2358,9 +2352,8 @@ msgid "Reading content directory"
 msgstr "Branje mape vsebine"
 
 #: src/wx/colour_conversion_editor.cc:121
-#, fuzzy
 msgid "Rec. 2020"
-msgstr "Rec. 601"
+msgstr "Rec. 2020"
 
 #: src/wx/colour_conversion_editor.cc:119
 msgid "Rec. 601"
@@ -2413,9 +2406,8 @@ msgid "Release territory"
 msgstr "Ozemlje objave"
 
 #: src/wx/metadata_dialog.cc:187
-#, fuzzy
 msgid "Release territory for this DCP"
-msgstr "Ozemlje objave"
+msgstr "Ozemlje objave za ta DCP"
 
 #: src/wx/config_dialog.cc:301 src/wx/content_menu.cc:111
 #: src/wx/content_panel.cc:263 src/wx/recipients_panel.cc:73
@@ -2539,11 +2531,11 @@ msgstr "STARTTLS"
 
 #: src/wx/full_config_dialog.cc:145
 msgid "Same place as last time"
-msgstr ""
+msgstr "Isto mesto kot zadnjikrat"
 
 #: src/wx/full_config_dialog.cc:146
 msgid "Same place as project"
-msgstr ""
+msgstr "Isto mesto kot projekt"
 
 #: src/wx/audio_dialog.cc:395
 #, c-format
@@ -2939,7 +2931,7 @@ msgstr "Čas »do« mora slediti času »od«."
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
-msgstr ""
+msgstr "<MainPictureActiveArea> ni večkratnik 2 ali pa je večji od sredstva."
 
 #: src/wx/disk_warning_dialog.cc:48
 #, c-format
@@ -2979,7 +2971,7 @@ msgstr ""
 #: src/wx/verify_dcp_dialog.cc:390
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr ""
+msgstr "ASSETMAP %n ima več kot eno sredstvo z istim ID-jem."
 
 #: src/wx/verify_dcp_dialog.cc:353
 msgid ""
@@ -3104,9 +3096,9 @@ msgid "The PKL %n has encrypted content but is not signed."
 msgstr "PKL %n ima šifrirano vsebino, vendar ni podpisan."
 
 #: src/wx/verify_dcp_dialog.cc:387
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL %n has more than one asset with the same ID."
-msgstr "PKL %n ima šifrirano vsebino, vendar ni podpisan."
+msgstr "PKL %n ima več kot eno sredstvo z istim ID."
 
 #: src/wx/verify_dcp_dialog.cc:124
 #, c-format
@@ -3203,6 +3195,8 @@ msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"Obstoječe prilagoditve ni bilo mogoče naložiti.  Namesto tega bodo "
+"uporabljene privzete vrednosti.  To lahko terja kratek čas za ustvarjanje."
 
 #: src/wx/config_move_dialog.cc:37
 #, c-format
@@ -3440,7 +3434,6 @@ msgid "This is not a valid CPL file"
 msgstr "To ni veljavna datoteka CPL"
 
 #: src/wx/content_panel.cc:675
-#, fuzzy
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be added to a "
 "different project.  Choose the DCP folder inside the DCP-o-matic project "
@@ -3718,6 +3711,7 @@ msgstr "Neznano"
 msgid ""
 "Unrecognised serial number format (does not start with a number, H or F)"
 msgstr ""
+"Neprepoznana oblika serijske številke (ne začne se s številko, H ali F)"
 
 #: src/wx/fonts_dialog.cc:120
 msgid "Unspecified"
@@ -3782,11 +3776,11 @@ msgstr "Uporabniško ime"
 
 #: src/wx/player_information.cc:80
 msgid "Valid from"
-msgstr ""
+msgstr "Veljaven od"
 
 #: src/wx/player_information.cc:82
 msgid "Valid to"
-msgstr ""
+msgstr "Veljaven do"
 
 #: src/wx/system_information_dialog.cc:64
 msgid "Vendor"
@@ -4160,15 +4154,3 @@ msgstr "let"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "da"
-
-#~ msgid "Default container"
-#~ msgstr "Privzeti vsebnik"
-
-#~ msgid "First frame of composition"
-#~ msgstr "Prva sličica sestave"
-
-#~ msgid "Last frame of composition"
-#~ msgstr "Zadnja sličica sestave"
-
-#~ msgid "Label"
-#~ msgstr "Oznaka"
