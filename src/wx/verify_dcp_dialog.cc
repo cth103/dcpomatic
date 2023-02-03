@@ -392,6 +392,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE:
 			add(i, _("The subtitle asset %n contains no subtitles."));
 			break;
+		case dcp::VerificationNote::Code::INVALID_SUBTITLE_ISSUE_DATE:
+			add(i, _("<IssueDate> has an invalid value %n"));
+			break;
 		}
 	}
 
