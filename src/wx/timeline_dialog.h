@@ -39,6 +39,7 @@ public:
 private:
 	void film_change (ChangeType type, Film::Property);
 	void tool_clicked (wxCommandEvent& id);
+	void keypress(wxKeyEvent const& event);
 
 	std::weak_ptr<Film> _film;
 	Timeline _timeline;

@@ -950,3 +950,14 @@ Timeline::zoom_all ()
 	_labels_canvas->Scroll (0, 0);
 	Refresh ();
 }
+
+
+void
+Timeline::keypress(wxKeyEvent const& event)
+{
+	if (event.GetKeyCode() == WXK_DELETE) {
+		auto film = _film.lock();
+		film->remove_content(selected_content());
+	}
+}
+

@@ -95,6 +95,8 @@ TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmView
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
 
+	Bind(wxEVT_CHAR_HOOK, boost::bind(&TimelineDialog::keypress, this, _1));
+
         _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
 	film_change (ChangeType::DONE, Film::Property::SEQUENCE);
 
@@ -140,4 +142,11 @@ TimelineDialog::tool_clicked (wxCommandEvent& ev)
 			film->set_sequence (_toolbar->GetToolState(static_cast<int>(t)));
 		}
 	}
+}
+
+
+void
+TimelineDialog::keypress(wxKeyEvent const& event)
+{
+	_timeline.keypress(event);
 }

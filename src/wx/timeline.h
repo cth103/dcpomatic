@@ -82,6 +82,8 @@ public:
 
 	int tracks_y_offset () const;
 
+	void keypress(wxKeyEvent const &);
+
 private:
 	void paint_labels ();
 	void paint_main ();
