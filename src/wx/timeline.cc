@@ -151,6 +151,11 @@ Timeline::paint_labels ()
 {
 	wxPaintDC dc (_labels_canvas);
 
+	auto film = _film.lock();
+	if (film->content().empty()) {
+		return;
+	}
+
 	auto gc = wxGraphicsContext::Create (dc);
 	if (!gc) {
 		return;
@@ -170,6 +175,12 @@ void
 Timeline::paint_main ()
 {
 	wxPaintDC dc (_main_canvas);
+
+	auto film = _film.lock();
+	if (film->content().empty()) {
+		return;
+	}
+
 	_main_canvas->DoPrepareDC (dc);
 
 	auto gc = wxGraphicsContext::Create (dc);
