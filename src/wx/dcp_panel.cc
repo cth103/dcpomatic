@@ -738,6 +738,7 @@ DCPPanel::setup_frame_rate_widget ()
 		_frame_rate_choice->Show ();
 		_frame_rate_spin->Hide ();
 	}
+	_frame_rate_sizer->Layout();
 }
 
 
@@ -760,7 +761,6 @@ DCPPanel::make_video_panel ()
 	_frame_rate_label = create_label (panel, _("Frame Rate"), true);
 	_frame_rate_choice = new Choice(panel);
 	_frame_rate_spin = new SpinCtrl (panel, DCPOMATIC_SPIN_CTRL_WIDTH);
-	setup_frame_rate_widget ();
 	_best_frame_rate = new Button (panel, _("Use best"));
 
 	_three_d = new CheckBox (panel, _("3D"));
@@ -797,6 +797,7 @@ DCPPanel::make_video_panel ()
 	_resolution->add(_("4K"));
 
 	add_video_panel_to_grid ();
+	setup_frame_rate_widget();
 
 	return panel;
 }
