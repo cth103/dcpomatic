@@ -1556,7 +1556,7 @@ private:
 		_allow_any_container = new CheckBox (_panel, _("Allow full-frame and non-standard container ratios"));
 		table->Add (_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		restart = new StaticText (_panel, _("(restart DCP-o-matic to see all ratios)"));
-		table->Add (restart, 1, wxEXPAND | wxALL | wxALIGN_CENTRE_VERTICAL);
+		table->Add(restart, 1, wxALIGN_CENTRE_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
 		restart->SetFont (font);
 
 		_allow_96khz_audio = new CheckBox (_panel, _("Allow creation of DCPs with 96kHz audio"));
