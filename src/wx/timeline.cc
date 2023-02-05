@@ -35,6 +35,7 @@
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/playlist.h"
+#include "lib/scope_guard.h"
 #include "lib/text_content.h"
 #include "lib/timer.h"
 #include "lib/video_content.h"
@@ -155,13 +156,13 @@ Timeline::paint_labels ()
 		return;
 	}
 
+	ScopeGuard sg = [gc]() { delete gc; };
+
 	int vsx, vsy;
 	_labels_canvas->GetViewStart (&vsx, &vsy);
 	gc->Translate (-vsx * _x_scroll_rate, -vsy * _y_scroll_rate + tracks_y_offset());
 
 	_labels_view->paint (gc, {});
-
-	delete gc;
 }
 
 
@@ -175,6 +176,8 @@ Timeline::paint_main ()
 	if (!gc) {
 		return;
 	}
+
+	ScopeGuard sg = [gc]() { delete gc; };
 
 	int vsx, vsy;
 	_main_canvas->GetViewStart (&vsx, &vsy);
@@ -225,8 +228,6 @@ Timeline::paint_main ()
 	path.MoveToPoint (ph, 0);
 	path.AddLineToPoint (ph, pixels_per_track() * _tracks + 32);
 	gc->StrokePath (path);
-
-	delete gc;
 }
 
 
