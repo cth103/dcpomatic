@@ -175,6 +175,10 @@ public:
 		return position() + length_after_trim(film);
 	}
 
+	dcpomatic::DCPTimePeriod period(std::shared_ptr<const Film> film) const {
+		return { position(), end(film) };
+	}
+
 	dcpomatic::DCPTime length_after_trim (std::shared_ptr<const Film> film) const;
 
 	boost::optional<double> video_frame_rate () const {

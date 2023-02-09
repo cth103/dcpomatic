@@ -33,7 +33,7 @@ ContentList overlaps (shared_ptr<const Film> film, ContentList cl, function<bool
 	ContentList overlaps;
 	DCPTimePeriod period (from, to);
 	for (auto i: cl) {
-		if (part(i) && DCPTimePeriod(i->position(), i->end(film)).overlap(period)) {
+		if (part(i) && i->period(film).overlap(period)) {
 			overlaps.push_back (i);
 		}
 	}

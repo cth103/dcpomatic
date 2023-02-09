@@ -381,10 +381,10 @@ Player::setup_pieces ()
 	for (auto piece = _pieces.begin(); piece != _pieces.end(); ++piece) {
 		if (ignore_overlap((*piece)->content->video)) {
 			/* Look for content later in the content list with in-use video that overlaps this */
-			auto const period = DCPTimePeriod((*piece)->content->position(), (*piece)->content->end(film));
+			auto const period = (*piece)->content->period(film);
 			for (auto later_piece = std::next(piece); later_piece != _pieces.end(); ++later_piece) {
 				if (ignore_overlap((*later_piece)->content->video)) {
-					(*piece)->ignore_video = DCPTimePeriod((*later_piece)->content->position(), (*later_piece)->content->end(film)).overlap(period);
+					(*piece)->ignore_video = (*later_piece)->content->period(film).overlap(period);
 				}
 			}
 		}

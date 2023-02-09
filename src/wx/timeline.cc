@@ -330,7 +330,7 @@ place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
 		int t = base;
 
 		auto content = cv->content();
-		DCPTimePeriod const content_period (content->position(), content->end(film));
+		DCPTimePeriod const content_period = content->period(film);
 
 		while (true) {
 			auto j = views.begin();
@@ -344,7 +344,8 @@ place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
 				auto test_content = test->content();
 				if (
 					test->track() && test->track().get() == t &&
-					content_period.overlap(DCPTimePeriod(test_content->position(), test_content->end(film)))) {
+					content_period.overlap(test_content->period(film))
+				   ) {
 					/* we have an overlap on track `t' */
 					++t;
 					break;

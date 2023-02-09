@@ -43,7 +43,7 @@ Empty::Empty (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, 
 	list<DCPTimePeriod> full;
 	for (auto i: playlist->content()) {
 		if (part(i) && i->paths_valid()) {
-			full.push_back (DCPTimePeriod(i->position(), i->end(film)));
+			full.push_back(i->period(film));
 		}
 	}
 
