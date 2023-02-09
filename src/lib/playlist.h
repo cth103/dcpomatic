@@ -98,7 +98,7 @@ private:
 	void reconnect (std::shared_ptr<const Film> film);
 
 	mutable boost::mutex _mutex;
-	/** List of content.  Kept sorted in position order. */
+	/** List of content, kept sorted by ContentSorter() */
 	ContentList _content;
 	bool _sequence = true;
 	bool _sequencing = false;
