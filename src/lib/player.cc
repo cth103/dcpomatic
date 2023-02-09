@@ -378,13 +378,13 @@ Player::setup_pieces ()
 		return v && v->use() && v->frame_type() != VideoFrameType::THREE_D_LEFT && v->frame_type() != VideoFrameType::THREE_D_RIGHT;
 	};
 
-	for (auto i = _pieces.begin(); i != _pieces.end(); ++i) {
-		if (ignore_overlap((*i)->content->video)) {
+	for (auto piece = _pieces.begin(); piece != _pieces.end(); ++piece) {
+		if (ignore_overlap((*piece)->content->video)) {
 			/* Look for content later in the content list with in-use video that overlaps this */
-			auto const period = DCPTimePeriod((*i)->content->position(), (*i)->content->end(film));
-			for (auto j = std::next(i); j != _pieces.end(); ++j) {
-				if (ignore_overlap((*j)->content->video)) {
-					(*i)->ignore_video = DCPTimePeriod((*j)->content->position(), (*j)->content->end(film)).overlap(period);
+			auto const period = DCPTimePeriod((*piece)->content->position(), (*piece)->content->end(film));
+			for (auto later_piece = std::next(piece); later_piece != _pieces.end(); ++later_piece) {
+				if (ignore_overlap((*later_piece)->content->video)) {
+					(*piece)->ignore_video = DCPTimePeriod((*later_piece)->content->position(), (*later_piece)->content->end(film)).overlap(period);
 				}
 			}
 		}
