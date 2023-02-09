@@ -25,6 +25,7 @@
 
 #include "dcpomatic_time.h"
 #include "frame_rate_change.h"
+#include <vector>
 
 
 class Content;
@@ -43,7 +44,7 @@ public:
 
 	std::shared_ptr<Content> content;
 	std::shared_ptr<Decoder> decoder;
-	boost::optional<dcpomatic::DCPTimePeriod> ignore_video;
+	std::vector<dcpomatic::DCPTimePeriod> ignore_video;
 	FrameRateChange frc;
 	bool done;
 };

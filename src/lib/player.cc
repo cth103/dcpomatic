@@ -384,7 +384,9 @@ Player::setup_pieces ()
 			auto const period = (*piece)->content->period(film);
 			for (auto later_piece = std::next(piece); later_piece != _pieces.end(); ++later_piece) {
 				if (ignore_overlap((*later_piece)->content->video)) {
-					(*piece)->ignore_video = (*later_piece)->content->period(film).overlap(period);
+					if (auto overlap = (*later_piece)->content->period(film).overlap(period)) {
+						(*piece)->ignore_video.push_back(*overlap);
+					}
 				}
 			}
 		}
@@ -1004,7 +1006,12 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 		return;
 	}
 
-	if (piece->ignore_video && piece->ignore_video->contains(time)) {
+	auto ignore_video = std::find_if(
+		piece->ignore_video.begin(),
+		piece->ignore_video.end(),
+		[time](DCPTimePeriod period) { return period.contains(time); }
+		);
+	if (ignore_video != piece->ignore_video.end()) {
 		return;
 	}
 

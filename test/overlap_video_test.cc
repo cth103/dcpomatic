@@ -40,29 +40,41 @@
 
 using std::dynamic_pointer_cast;
 using std::make_shared;
+using std::shared_ptr;
+using std::vector;
 
 
 BOOST_AUTO_TEST_CASE (overlap_video_test1)
 {
-	auto film = new_test_film2 ("overlap_video_test1");
-	film->set_sequence (false);
 	auto A = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (A);
 	auto B = content_factory("test/data/flat_green.png")[0];
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto C = content_factory("test/data/flat_blue.png")[0];
+	auto film = new_test_film2("overlap_video_test1", { A, B, C });
+	film->set_sequence (false);
 
-	A->video->set_length (72);
-	B->video->set_length (24);
-	B->set_position (film, dcpomatic::DCPTime::from_seconds(1));
+	auto const fps = 24;
+
+	// 01234
+	// AAAAA
+	//  B
+	//    C
+
+	A->video->set_length(5 * fps);
+	B->video->set_length(1 * fps);
+	C->video->set_length(1 * fps);
+
+	B->set_position(film, dcpomatic::DCPTime::from_seconds(1));
+	C->set_position(film, dcpomatic::DCPTime::from_seconds(3));
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
 	auto pieces = player->_pieces;
-	BOOST_REQUIRE_EQUAL (pieces.size(), 2U);
-	BOOST_CHECK_EQUAL (pieces.front()->content, A);
-	BOOST_CHECK_EQUAL (pieces.back()->content, B);
-	BOOST_CHECK (pieces.front()->ignore_video);
-	BOOST_CHECK (pieces.front()->ignore_video.get() == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime::from_seconds(1), dcpomatic::DCPTime::from_seconds(1) + B->length_after_trim(film)));
+	BOOST_REQUIRE_EQUAL (pieces.size(), 3U);
+	BOOST_CHECK_EQUAL(pieces[0]->content, A);
+	BOOST_CHECK_EQUAL(pieces[1]->content, B);
+	BOOST_CHECK_EQUAL(pieces[2]->content, C);
+	BOOST_CHECK_EQUAL(pieces[0]->ignore_video.size(), 2U);
+	BOOST_CHECK(pieces[0]->ignore_video[0] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime::from_seconds(1), dcpomatic::DCPTime::from_seconds(1) + B->length_after_trim(film)));
+	BOOST_CHECK(pieces[0]->ignore_video[1] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime::from_seconds(3), dcpomatic::DCPTime::from_seconds(3) + C->length_after_trim(film)));
 
 	BOOST_CHECK (player->_black.done());
 
@@ -79,35 +91,33 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 	BOOST_REQUIRE (mono_picture);
 	auto asset = mono_picture->mono_asset();
 	BOOST_REQUIRE (asset);
-	BOOST_CHECK_EQUAL (asset->intrinsic_duration(), 72);
+	BOOST_CHECK_EQUAL (asset->intrinsic_duration(), fps * 5);
 	auto reader = asset->start_read ();
 
-	auto close = [](int a, int b, int d) {
-		BOOST_CHECK (std::abs(a - b) < d);
+	auto close = [](shared_ptr<const dcp::OpenJPEGImage> image, vector<int> rgb) {
+		for (int component = 0; component < 3; ++component) {
+			BOOST_REQUIRE(std::abs(image->data(component)[0] - rgb[component]) < 2);
+		}
 	};
 
-	for (int i = 0; i < 24; ++i) {
-		auto frame = reader->get_frame (i);
-		auto image = dcp::decompress_j2k(*frame.get(), 0);
-		close (image->data(0)[0], 2808, 2);
-		close (image->data(1)[0], 2176, 2);
-		close (image->data(2)[0], 865, 2);
-	}
+	vector<int> const red = { 2808, 2176, 865 };
+	vector<int> const blue = { 2657, 3470, 1742 };
+	vector<int> const green = { 2044, 1437, 3871 };
 
-	for (int i = 24; i < 48; ++i) {
+	for (int i = 0; i < 5 * fps; ++i) {
 		auto frame = reader->get_frame (i);
 		auto image = dcp::decompress_j2k(*frame.get(), 0);
-		close (image->data(0)[0], 2657, 2);
-		close (image->data(1)[0], 3470, 2);
-		close (image->data(2)[0], 1742, 2);
-	}
-
-	for (int i = 48; i < 72; ++i) {
-		auto frame = reader->get_frame (i);
-		auto image = dcp::decompress_j2k(*frame.get(), 0);
-		close (image->data(0)[0], 2808, 2);
-		close (image->data(1)[0], 2176, 2);
-		close (image->data(2)[0], 865, 2);
+		if (i < fps) {
+			close(image, red);
+		} else if (i < 2 * fps) {
+			close(image, blue);
+		} else if (i < 3 * fps) {
+			close(image, red);
+		} else if (i < 4 * fps) {
+			close(image, green);
+		} else if (i < 5 * fps) {
+			close(image, red);
+		}
 	}
 }
 
