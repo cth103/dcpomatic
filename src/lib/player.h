@@ -183,7 +183,7 @@ private:
 
 	/** > 0 if we are suspended (i.e. pass() and seek() do nothing) */
 	boost::atomic<int> _suspended;
-	std::list<std::shared_ptr<Piece>> _pieces;
+	std::vector<std::shared_ptr<Piece>> _pieces;
 
 	/** Size of the image we are rendering to; this may be the DCP frame size, or
 	 *  the size of preview in a window.
