@@ -45,6 +45,7 @@ public:
 	std::shared_ptr<Content> content;
 	std::shared_ptr<Decoder> decoder;
 	std::vector<dcpomatic::DCPTimePeriod> ignore_video;
+	std::vector<dcpomatic::DCPTimePeriod> ignore_atmos;
 	FrameRateChange frc;
 	bool done;
 };

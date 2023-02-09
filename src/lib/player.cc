@@ -392,6 +392,20 @@ Player::setup_pieces ()
 		}
 	}
 
+	for (auto piece = _pieces.begin(); piece != _pieces.end(); ++piece) {
+		if ((*piece)->content->atmos) {
+			/* Look for content later in the content list with ATMOS that overlaps this */
+			auto const period = (*piece)->content->period(film);
+			for (auto later_piece = std::next(piece); later_piece != _pieces.end(); ++later_piece) {
+				if ((*later_piece)->content->atmos) {
+					if (auto overlap = (*later_piece)->content->period(film).overlap(period)) {
+						(*piece)->ignore_atmos.push_back(*overlap);
+					}
+				}
+			}
+		}
+	}
+
 	_black = Empty(film, playlist(), bind(&have_video, _1), _playback_length);
 	_silent = Empty(film, playlist(), bind(&have_audio, _1), _playback_length);
 
@@ -1596,6 +1610,15 @@ Player::atmos (weak_ptr<Piece> weak_piece, ContentAtmos data)
 
 	DCPTime const dcp_time = DCPTime::from_frames(data.frame, vfr) - DCPTime(piece->content->trim_start(), FrameRateChange(vfr, vfr));
 	if (dcp_time < piece->content->position() || dcp_time >= (piece->content->end(film))) {
+		return;
+	}
+
+	auto ignore_atmos = std::find_if(
+		piece->ignore_atmos.begin(),
+		piece->ignore_atmos.end(),
+		[dcp_time](DCPTimePeriod period) { return period.contains(dcp_time); }
+		);
+	if (ignore_atmos != piece->ignore_atmos.end()) {
 		return;
 	}
 
