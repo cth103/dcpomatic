@@ -387,7 +387,7 @@ msgstr "DCP-o-matic 编码服务器"
 
 #: src/tools/dcpomatic_kdm.cc:783 src/tools/dcpomatic_kdm.cc:817
 msgid "DCP-o-matic KDM Creator"
-msgstr "DCP-o-matic KMD 创建器"
+msgstr "DCP-o-matic KDM 创建器"
 
 #: src/tools/dcpomatic_player.cc:197 src/tools/dcpomatic_player.cc:388
 #: src/tools/dcpomatic_player.cc:670 src/tools/dcpomatic_player.cc:901
