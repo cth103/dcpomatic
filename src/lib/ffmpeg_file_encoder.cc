@@ -229,16 +229,16 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 
 	switch (format) {
 	case ExportFormat::PRORES_4444:
-		_sample_format = AV_SAMPLE_FMT_S16;
+		_sample_format = AV_SAMPLE_FMT_S32;
 		_video_codec_name = "prores_ks";
-		_audio_codec_name = "pcm_s16le";
+		_audio_codec_name = "pcm_s24le";
 		av_dict_set(&_video_options, "profile", "4", 0);
 		av_dict_set(&_video_options, "threads", "auto", 0);
 		break;
 	case ExportFormat::PRORES_HQ:
-		_sample_format = AV_SAMPLE_FMT_S16;
+		_sample_format = AV_SAMPLE_FMT_S32;
 		_video_codec_name = "prores_ks";
-		_audio_codec_name = "pcm_s16le";
+		_audio_codec_name = "pcm_s24le";
 		av_dict_set (&_video_options, "profile", "3", 0);
 		av_dict_set (&_video_options, "threads", "auto", 0);
 		break;
