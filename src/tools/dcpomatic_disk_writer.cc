@@ -300,6 +300,8 @@ try
 int
 main ()
 {
+	dcpomatic_setup_path_encoding();
+
 #ifdef DCPOMATIC_OSX
 	/* On macOS this is running as root, so config_path() will be somewhere in root's
 	 * home.  Instead, just write to stdout as the macOS process control stuff will
