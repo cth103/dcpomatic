@@ -622,10 +622,18 @@ FilmViewer::config_changed (Config::Property p)
 				++st;
 			}
 			if (st == _audio.getDeviceCount()) {
-				st = _audio.getDefaultOutputDevice();
+				try {
+					st = _audio.getDefaultOutputDevice();
+				} catch (RtAudioError&) {
+					/* Something went wrong with that device so we don't want to use it anyway */
+				}
 			}
 		} else {
-			st = _audio.getDefaultOutputDevice();
+			try {
+				st = _audio.getDefaultOutputDevice();
+			} catch (RtAudioError&) {
+				/* Something went wrong with that device so we don't want to use it anyway */
+			}
 		}
 
 		try {
