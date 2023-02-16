@@ -368,7 +368,7 @@ DCPDecoder::get_readers ()
 		return;
 	}
 
-	if ((*_reel)->main_picture()) {
+	if (!video->ignore() && (*_reel)->main_picture()) {
 		auto asset = (*_reel)->main_picture()->asset ();
 		auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
 		auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
@@ -387,7 +387,7 @@ DCPDecoder::get_readers ()
 		_stereo_reader.reset ();
 	}
 
-	if ((*_reel)->main_sound()) {
+	if (!audio->ignore() && (*_reel)->main_sound()) {
 		_sound_reader = (*_reel)->main_sound()->asset()->start_read ();
 		_sound_reader->set_check_hmac (false);
 	} else {
