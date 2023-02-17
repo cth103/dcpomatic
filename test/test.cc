@@ -937,12 +937,9 @@ void progress (float) {}
 
 
 void
-make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore)
+verify_dcp(boost::filesystem::path dir, vector<dcp::VerificationNote::Code> ignore)
 {
-	film->write_metadata ();
-	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
-	BOOST_REQUIRE (!wait_for_jobs());
-	auto notes = dcp::verify({film->dir(film->dcp_name())}, &stage, &progress, {}, TestPaths::xsd());
+	auto notes = dcp::verify({dir}, &stage, &progress, {}, TestPaths::xsd());
 	bool ok = true;
 	for (auto i: notes) {
 		if (find(ignore.begin(), ignore.end(), i.code()) == ignore.end()) {
@@ -951,6 +948,16 @@ make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> 
 		}
 	}
 	BOOST_CHECK(ok);
+}
+
+
+void
+make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore)
+{
+	film->write_metadata ();
+	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE (!wait_for_jobs());
+	verify_dcp({film->dir(film->dcp_name())}, ignore);
 }
 
 

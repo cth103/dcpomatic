@@ -75,6 +75,7 @@ boost::filesystem::path dcp_file (std::shared_ptr<const Film> film, std::string 
 void check_one_frame (boost::filesystem::path dcp, int64_t index, boost::filesystem::path ref);
 extern boost::filesystem::path subtitle_file (std::shared_ptr<Film> film);
 extern void make_random_file (boost::filesystem::path path, size_t size);
+extern void verify_dcp(boost::filesystem::path dir, std::vector<dcp::VerificationNote::Code> ignore);
 extern void make_and_verify_dcp (std::shared_ptr<Film> film, std::vector<dcp::VerificationNote::Code> ignore = {});
 extern void check_int_close (int a, int b, int d);
 extern void check_int_close (std::pair<int, int>, std::pair<int, int>, int d);
