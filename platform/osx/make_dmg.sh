@@ -487,6 +487,7 @@ if [[ "$BUILD" == *main* ]]; then
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2 "$approot/MacOS"
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_cli "$approot/MacOS"
 	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_create "$approot/MacOS"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_map "$approot/MacOS"
 	copy $ROOT bin/ffprobe "$approot/MacOS"
 	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
 	copy_verify

@@ -113,6 +113,7 @@ def build(bld):
                  kdm_util_test.cc
                  low_bitrate_test.cc
                  markers_test.cc
+                 map_cli_test.cc
                  mca_subdescriptors_test.cc
                  no_use_video_test.cc
                  optimise_stills_test.cc

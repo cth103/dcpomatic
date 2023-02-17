@@ -132,6 +132,7 @@ setup_test_config ()
 	auto decryption = make_shared<dcp::CertificateChain>(dcp::file_to_string("test/data/decryption_chain"));
 	decryption->set_key(dcp::file_to_string("test/data/decryption_key"));
 	Config::instance()->set_decryption_chain (decryption);
+	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%t"));
 }
 
 
