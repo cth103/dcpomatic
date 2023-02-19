@@ -866,7 +866,6 @@ SoundPage::setup ()
 
 	add_label_to_sizer (table, _panel, _("Mapping"), true, wxGBPosition(r, 0));
 	_map = new AudioMappingView (_panel, _("DCP"), _("DCP"), _("Output"), _("output"));
-	_map->SetSize (-1, 400);
 	table->Add (_map, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 

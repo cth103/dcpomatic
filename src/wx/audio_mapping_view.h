@@ -86,11 +86,9 @@ private:
 	void paint_row_lines (wxDC& dc);
 	void paint_indicators (wxDC& dc);
 	void size (wxSizeEvent &);
-	void scroll ();
 	void left_down (wxMouseEvent &);
 	void right_down (wxMouseEvent &);
 	void motion (wxMouseEvent &);
-	void mouse_wheel (wxMouseEvent &);
 	boost::optional<std::pair<NamedChannel, NamedChannel>> mouse_event_to_channels (wxMouseEvent& ev) const;
 	boost::optional<std::string> mouse_event_to_input_group_name (wxMouseEvent& ev) const;
 	void setup ();
@@ -102,9 +100,6 @@ private:
 	AudioMapping _map;
 
 	wxMenu* _menu = nullptr;
-	wxPanel* _body = nullptr;
-	wxScrollBar* _vertical_scroll = nullptr;
-	wxScrollBar* _horizontal_scroll = nullptr;
 	int _menu_input;
 	int _menu_output;
 

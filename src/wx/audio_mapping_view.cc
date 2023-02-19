@@ -90,75 +90,25 @@ AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxStr
 	_menu->Append (ID_plus3dB, _("+3dB"));
 	_menu->Append (ID_edit, _("Edit..."));
 
-	_body = new wxPanel (this, wxID_ANY);
-	_vertical_scroll = new wxScrollBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSB_VERTICAL);
-	_horizontal_scroll = new wxScrollBar (this, wxID_ANY);
-
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
 #endif
 
-	Bind (wxEVT_SIZE, boost::bind(&AudioMappingView::size, this, _1));
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 0), ID_off);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(-6)), ID_minus6dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 1), ID_0dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(3)), ID_plus3dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::edit, this), ID_edit);
-	Bind (wxEVT_MOUSEWHEEL, boost::bind(&AudioMappingView::mouse_wheel, this, _1));
-	_body->Bind (wxEVT_PAINT, boost::bind(&AudioMappingView::paint, this));
-	_body->Bind (wxEVT_LEFT_DOWN, boost::bind(&AudioMappingView::left_down, this, _1));
-	_body->Bind (wxEVT_RIGHT_DOWN, boost::bind(&AudioMappingView::right_down, this, _1));
-	_body->Bind (wxEVT_MOTION, boost::bind(&AudioMappingView::motion, this, _1));
-	_vertical_scroll->Bind (wxEVT_SCROLL_TOP, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_BOTTOM, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_LINEUP, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_LINEDOWN, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_PAGEUP, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_PAGEDOWN, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_THUMBTRACK, boost::bind(&AudioMappingView::scroll, this));
-	_vertical_scroll->Bind (wxEVT_SCROLL_THUMBRELEASE, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_TOP, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_BOTTOM, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_LINEUP, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_LINEDOWN, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_PAGEUP, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_PAGEDOWN, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_THUMBTRACK, boost::bind(&AudioMappingView::scroll, this));
-	_horizontal_scroll->Bind (wxEVT_SCROLL_THUMBRELEASE, boost::bind(&AudioMappingView::scroll, this));
-}
-
-
-void
-AudioMappingView::size (wxSizeEvent& ev)
-{
-	setup ();
-	ev.Skip ();
+	Bind (wxEVT_PAINT, boost::bind(&AudioMappingView::paint, this));
+	Bind (wxEVT_LEFT_DOWN, boost::bind(&AudioMappingView::left_down, this, _1));
+	Bind (wxEVT_RIGHT_DOWN, boost::bind(&AudioMappingView::right_down, this, _1));
+	Bind (wxEVT_MOTION, boost::bind(&AudioMappingView::motion, this, _1));
 }
 
 
 void
 AudioMappingView::setup ()
 {
-	auto const s = GetSize();
-	int const w = _vertical_scroll->GetSize().GetWidth();
-	int const h = _horizontal_scroll->GetSize().GetHeight();
-
-	_vertical_scroll->SetPosition (wxPoint(s.GetWidth() - w, 0));
-	_vertical_scroll->SetSize (wxSize(w, max(0, s.GetHeight() - h)));
-
-	_body->SetSize (wxSize(max(0, s.GetWidth() - w), max(0, s.GetHeight() - h)));
-
-	_horizontal_scroll->SetPosition (wxPoint(0, s.GetHeight() - h));
-	_horizontal_scroll->SetSize (wxSize(max(0, s.GetWidth() - w), h));
-
-	_vertical_scroll->SetScrollbar (
-		_vertical_scroll->GetThumbPosition(),
-		s.GetHeight() - h - 8,
-		ROW_HEIGHT * (2 + _input_channels.size()),
-		ROW_HEIGHT,
-		true
-		);
-
 	wxClientDC dc (GetParent());
 	dc.SetFont (wxSWISS_FONT->Bold());
 
@@ -175,19 +125,7 @@ AudioMappingView::setup ()
 		_column_widths_total += this_width;
 	}
 
-	_horizontal_scroll->SetScrollbar (
-		_horizontal_scroll->GetThumbPosition(),
-		s.GetWidth() - w - 8,
-		LEFT_WIDTH + _column_widths_total,
-		HORIZONTAL_PAGE_SIZE,
-		true);
-}
-
-
-void
-AudioMappingView::scroll ()
-{
-	Refresh ();
+	SetMinSize({8 + LEFT_WIDTH + _column_widths_total, static_cast<int>(8 + TOP_HEIGHT + ROW_HEIGHT * _input_channels.size())});
 }
 
 
@@ -381,10 +319,7 @@ void restore (wxDC& dc)
 void
 AudioMappingView::paint ()
 {
-	wxPaintDC dc (_body);
-
-	int const hs = _horizontal_scroll->GetThumbPosition ();
-	int const vs = _vertical_scroll->GetThumbPosition ();
+	wxPaintDC dc(this);
 
 	paint_static (dc);
 
@@ -394,7 +329,6 @@ AudioMappingView::paint ()
 		_column_widths_total,
 		ROW_HEIGHT * (2 + _input_channels.size())
 		);
-	dc.SetLogicalOrigin (hs, 0);
 	paint_column_labels (dc);
 	restore (dc);
 
@@ -404,7 +338,6 @@ AudioMappingView::paint ()
 		LEFT_WIDTH,
 		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT) + 1
 	     );
-	dc.SetLogicalOrigin  (0, vs);
 	paint_row_labels (dc);
 	restore (dc);
 
@@ -414,7 +347,6 @@ AudioMappingView::paint ()
 		MINIMUM_COLUMN_WIDTH + _column_widths_total,
 		min(int(ROW_HEIGHT * (2 + _input_channels.size())), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
-	dc.SetLogicalOrigin (hs, vs);
 	paint_row_lines (dc);
 	restore (dc);
 
@@ -424,7 +356,6 @@ AudioMappingView::paint ()
 		MINIMUM_COLUMN_WIDTH + _column_widths_total,
 		min(int(ROW_HEIGHT * (1 + _input_channels.size())), GetSize().GetHeight() - ROW_HEIGHT)
 	     );
-	dc.SetLogicalOrigin(hs, vs);
 	paint_column_lines (dc);
 	restore (dc);
 
@@ -434,7 +365,6 @@ AudioMappingView::paint ()
 		_column_widths_total,
 		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
 	     );
-	dc.SetLogicalOrigin(hs, vs);
 	paint_indicators (dc);
 	restore (dc);
 }
@@ -443,8 +373,8 @@ AudioMappingView::paint ()
 optional<pair<NamedChannel, NamedChannel>>
 AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 {
-	int x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
-	int const y = ev.GetY() + _vertical_scroll->GetThumbPosition();
+	int x = ev.GetX();
+	int const y = ev.GetY();
 
 	if (x <= LEFT_WIDTH || y < TOP_HEIGHT) {
 		return {};
@@ -472,12 +402,12 @@ AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 optional<string>
 AudioMappingView::mouse_event_to_input_group_name (wxMouseEvent& ev) const
 {
-	int const x = ev.GetX() + _horizontal_scroll->GetThumbPosition();
+	int const x = ev.GetX();
 	if (x < MINIMUM_COLUMN_WIDTH || x > (2 * MINIMUM_COLUMN_WIDTH)) {
 		return {};
 	}
 
-	int const y = (ev.GetY() + _vertical_scroll->GetThumbPosition() - TOP_HEIGHT) / ROW_HEIGHT;
+	int const y = (ev.GetY() - TOP_HEIGHT) / ROW_HEIGHT;
 	for (auto i: _input_groups) {
 		if (i.from <= y && y <= i.to) {
 			return i.name;
@@ -517,21 +447,6 @@ AudioMappingView::right_down (wxMouseEvent& ev)
 	PopupMenu (_menu, ev.GetPosition());
 }
 
-void
-AudioMappingView::mouse_wheel (wxMouseEvent& ev)
-{
-	if (ev.ShiftDown()) {
-		_horizontal_scroll->SetThumbPosition (
-			_horizontal_scroll->GetThumbPosition() + (ev.GetWheelRotation() > 0 ? -HORIZONTAL_PAGE_SIZE : HORIZONTAL_PAGE_SIZE)
-			);
-
-	} else {
-		_vertical_scroll->SetThumbPosition (
-			_vertical_scroll->GetThumbPosition() + (ev.GetWheelRotation() > 0 ? -ROW_HEIGHT : ROW_HEIGHT)
-			);
-	}
-	Refresh ();
-}
 
 /** Called when any gain value has changed */
 void
