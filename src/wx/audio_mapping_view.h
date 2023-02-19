@@ -93,6 +93,7 @@ private:
 	boost::optional<std::string> mouse_event_to_input_group_name (wxMouseEvent& ev) const;
 	void setup ();
 	wxString input_channel_name_with_group (NamedChannel const& n) const;
+	int left_width() const;
 
 	void set_gain_from_menu (double linear);
 	void edit ();

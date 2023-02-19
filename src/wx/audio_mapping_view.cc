@@ -59,7 +59,6 @@ using dcp::locale_convert;
 static constexpr auto INDICATOR_SIZE = 20;
 static constexpr auto ROW_HEIGHT = 32;
 static constexpr auto MINIMUM_COLUMN_WIDTH = 32;
-static constexpr auto LEFT_WIDTH = MINIMUM_COLUMN_WIDTH * 3;
 static constexpr auto TOP_HEIGHT = ROW_HEIGHT * 2;
 static constexpr auto COLUMN_PADDING = 16;
 static constexpr auto HORIZONTAL_PAGE_SIZE = 32;
@@ -125,7 +124,7 @@ AudioMappingView::setup ()
 		_column_widths_total += this_width;
 	}
 
-	SetMinSize({8 + LEFT_WIDTH + _column_widths_total, static_cast<int>(8 + TOP_HEIGHT + ROW_HEIGHT * _input_channels.size())});
+	SetMinSize({8 + left_width() + _column_widths_total, static_cast<int>(8 + TOP_HEIGHT + ROW_HEIGHT * _input_channels.size())});
 }
 
 
@@ -137,7 +136,7 @@ AudioMappingView::paint_static (wxDC& dc)
 	wxCoord label_height;
 
 	dc.GetTextExtent (_top_label, &label_width, &label_height);
-	dc.DrawText (_top_label, LEFT_WIDTH + (_column_widths_total - label_width) / 2, (ROW_HEIGHT - label_height) / 2);
+	dc.DrawText (_top_label, left_width() + (_column_widths_total - label_width) / 2, (ROW_HEIGHT - label_height) / 2);
 
 	dc.GetTextExtent (_left_label, &label_width, &label_height);
 	dc.DrawRotatedText (
@@ -156,7 +155,7 @@ AudioMappingView::paint_column_labels (wxDC& dc)
 {
 	wxCoord label_width;
 	wxCoord label_height;
-	int x = LEFT_WIDTH;
+	int x = left_width();
 	for (auto i = 0U; i < _output_channels.size(); ++i) {
 		auto const name = std_to_wx(_output_channels[i].name);
 		dc.GetTextExtent (name, &label_width, &label_height);
@@ -164,15 +163,15 @@ AudioMappingView::paint_column_labels (wxDC& dc)
 		x += _column_widths[i];
 	}
 
-	dc.DrawLine(wxPoint(LEFT_WIDTH, ROW_HEIGHT), wxPoint(LEFT_WIDTH + _column_widths_total, ROW_HEIGHT));
-	dc.DrawLine(wxPoint(LEFT_WIDTH, ROW_HEIGHT * 2), wxPoint(LEFT_WIDTH + _column_widths_total, ROW_HEIGHT * 2));
+	dc.DrawLine(wxPoint(left_width(), ROW_HEIGHT), wxPoint(left_width() + _column_widths_total, ROW_HEIGHT));
+	dc.DrawLine(wxPoint(left_width(), ROW_HEIGHT * 2), wxPoint(left_width() + _column_widths_total, ROW_HEIGHT * 2));
 }
 
 
 void
 AudioMappingView::paint_column_lines (wxDC& dc)
 {
-	int x = LEFT_WIDTH;
+	int x = left_width();
 	for (size_t i = 0; i < _output_channels.size(); ++i) {
 		dc.DrawLine (
 			wxPoint(x, ROW_HEIGHT),
@@ -182,8 +181,8 @@ AudioMappingView::paint_column_lines (wxDC& dc)
 	}
 
 	dc.DrawLine (
-		wxPoint(LEFT_WIDTH + _column_widths_total, ROW_HEIGHT),
-		wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + _input_channels.size() * ROW_HEIGHT)
+		wxPoint(left_width() + _column_widths_total, ROW_HEIGHT),
+		wxPoint(left_width() + _column_widths_total, TOP_HEIGHT + _input_channels.size() * ROW_HEIGHT)
 		);
 }
 
@@ -199,7 +198,7 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 	for (auto i = 0U; i < _input_channels.size(); ++i) {
 		auto const name = std_to_wx(_input_channels[i].name);
 		dc.GetTextExtent (name, &label_width, &label_height);
-		dc.DrawText (name, LEFT_WIDTH - MINIMUM_COLUMN_WIDTH + (MINIMUM_COLUMN_WIDTH - label_width) / 2, TOP_HEIGHT + ROW_HEIGHT * i + (ROW_HEIGHT - label_height) / 2);
+		dc.DrawText (name, left_width() - MINIMUM_COLUMN_WIDTH + (MINIMUM_COLUMN_WIDTH - label_width) / 2, TOP_HEIGHT + ROW_HEIGHT * i + (ROW_HEIGHT - label_height) / 2);
 	}
 
 	/* Vertical lines on the left */
@@ -260,7 +259,7 @@ AudioMappingView::paint_row_lines (wxDC& dc)
 	for (size_t i = 0; i < _input_channels.size() + 1; ++i) {
 		dc.DrawLine (
 			wxPoint(MINIMUM_COLUMN_WIDTH * 2, TOP_HEIGHT + ROW_HEIGHT * i),
-			wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + ROW_HEIGHT * i)
+			wxPoint(left_width() + _column_widths_total, TOP_HEIGHT + ROW_HEIGHT * i)
 			);
 	}
 }
@@ -273,7 +272,7 @@ AudioMappingView::paint_indicators (wxDC& dc)
 	size_t const output = min(_output_channels.size(), size_t(_map.output_channels()));
 	size_t const input = min(_input_channels.size(), size_t(_map.input_channels()));
 
-	int xp = LEFT_WIDTH;
+	int xp = left_width();
 	for (size_t x = 0; x < output; ++x) {
 		for (size_t y = 0; y < input; ++y) {
 			dc.SetBrush (*wxWHITE_BRUSH);
@@ -324,7 +323,7 @@ AudioMappingView::paint ()
 	paint_static (dc);
 
 	dc.SetClippingRegion (
-		LEFT_WIDTH,
+		left_width(),
 		0,
 		_column_widths_total,
 		ROW_HEIGHT * (2 + _input_channels.size())
@@ -335,7 +334,7 @@ AudioMappingView::paint ()
 	dc.SetClippingRegion(
 		0,
 		TOP_HEIGHT,
-		LEFT_WIDTH,
+		left_width(),
 		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT) + 1
 	     );
 	paint_row_labels (dc);
@@ -351,7 +350,7 @@ AudioMappingView::paint ()
 	restore (dc);
 
 	dc.SetClippingRegion(
-		LEFT_WIDTH,
+		left_width(),
 		MINIMUM_COLUMN_WIDTH,
 		MINIMUM_COLUMN_WIDTH + _column_widths_total,
 		min(int(ROW_HEIGHT * (1 + _input_channels.size())), GetSize().GetHeight() - ROW_HEIGHT)
@@ -360,7 +359,7 @@ AudioMappingView::paint ()
 	restore (dc);
 
 	dc.SetClippingRegion (
-		LEFT_WIDTH,
+		left_width(),
 		TOP_HEIGHT,
 		_column_widths_total,
 		min(int(ROW_HEIGHT * _input_channels.size()), GetSize().GetHeight() - TOP_HEIGHT)
@@ -376,13 +375,13 @@ AudioMappingView::mouse_event_to_channels (wxMouseEvent& ev) const
 	int x = ev.GetX();
 	int const y = ev.GetY();
 
-	if (x <= LEFT_WIDTH || y < TOP_HEIGHT) {
+	if (x <= left_width() || y < TOP_HEIGHT) {
 		return {};
 	}
 
 	int const input = (y - TOP_HEIGHT) / ROW_HEIGHT;
 
-	x -= LEFT_WIDTH;
+	x -= left_width();
 	int output = 0;
 	for (auto const i: _column_widths) {
 		x -= i;
@@ -572,3 +571,12 @@ AudioMappingView::set_input_groups (vector<Group> const & groups)
 {
 	_input_groups = groups;
 }
+
+
+int
+AudioMappingView::left_width() const
+{
+	return _input_groups.empty() ? (MINIMUM_COLUMN_WIDTH * 2) : (MINIMUM_COLUMN_WIDTH * 3);
+}
+
+
