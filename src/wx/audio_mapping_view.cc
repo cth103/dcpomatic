@@ -280,6 +280,11 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 	}
 	dc.DrawLine (wxPoint(MINIMUM_COLUMN_WIDTH, y), wxPoint(MINIMUM_COLUMN_WIDTH * 2, y));
 
+	if (_input_groups.empty()) {
+		auto const bottom = TOP_HEIGHT + _input_channels.size() * ROW_HEIGHT;
+		dc.DrawLine(wxPoint(MINIMUM_COLUMN_WIDTH, bottom), wxPoint(MINIMUM_COLUMN_WIDTH * 2, bottom));
+	}
+
 	/* Group labels and lines; be careful here as wxDCClipper does not restore the old
 	 * clipping rectangle after it is destroyed
 	 */
