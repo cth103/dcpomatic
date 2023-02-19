@@ -319,16 +319,12 @@ AudioMappingView::paint_row_labels (wxDC& dc)
 void
 AudioMappingView::paint_row_lines (wxDC& dc)
 {
-	for (size_t i = 0; i < _input_channels.size(); ++i) {
+	for (size_t i = 0; i < _input_channels.size() + 1; ++i) {
 		dc.DrawLine (
 			wxPoint(MINIMUM_COLUMN_WIDTH * 2, TOP_HEIGHT + ROW_HEIGHT * i),
 			wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + ROW_HEIGHT * i)
 			);
 	}
-	dc.DrawLine (
-		wxPoint(MINIMUM_COLUMN_WIDTH * 2, TOP_HEIGHT + ROW_HEIGHT * _input_channels.size()),
-		wxPoint(LEFT_WIDTH + _column_widths_total, TOP_HEIGHT + ROW_HEIGHT * _input_channels.size())
-		);
 }
 
 
