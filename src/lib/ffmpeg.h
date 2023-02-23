@@ -93,8 +93,6 @@ private:
 	void setup_general ();
 	void setup_decoders ();
 
-	static void ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl);
-
 	/** AVFrames used for decoding audio streams; accessed with audio_frame() */
 	std::map<std::shared_ptr<const FFmpegAudioStream>, AVFrame*> _audio_frame;
 };

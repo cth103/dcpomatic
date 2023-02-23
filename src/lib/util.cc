@@ -388,6 +388,31 @@ capture_asdcp_logs ()
 }
 
 
+static
+void
+ffmpeg_log_callback(void* ptr, int level, const char* fmt, va_list vl)
+{
+	if (level > AV_LOG_WARNING) {
+		return;
+	}
+
+	char line[1024];
+	static int prefix = 0;
+	av_log_format_line(ptr, level, fmt, vl, line, sizeof (line), &prefix);
+	string str(line);
+	boost::algorithm::trim(str);
+	dcpomatic_log->log(String::compose("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
+}
+
+
+static
+void
+capture_ffmpeg_logs()
+{
+	av_log_set_callback(ffmpeg_log_callback);
+}
+
+
 /** Call the required functions to set up DCP-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
@@ -455,6 +480,7 @@ LIBDCP_ENABLE_WARNINGS
 	ui_thread = boost::this_thread::get_id ();
 
 	capture_asdcp_logs ();
+	capture_ffmpeg_logs();
 }
 
 #ifdef DCPOMATIC_WINDOWS

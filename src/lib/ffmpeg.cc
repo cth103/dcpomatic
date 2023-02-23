@@ -97,29 +97,8 @@ avio_seek_wrapper (void* data, int64_t offset, int whence)
 
 
 void
-FFmpeg::ffmpeg_log_callback (void* ptr, int level, const char* fmt, va_list vl)
-{
-	if (level > AV_LOG_WARNING) {
-		return;
-	}
-
-	char line[1024];
-	static int prefix = 0;
-	av_log_format_line (ptr, level, fmt, vl, line, sizeof (line), &prefix);
-	string str (line);
-	boost::algorithm::trim (str);
-	dcpomatic_log->log (String::compose ("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
-}
-
-
-void
 FFmpeg::setup_general ()
 {
-	/* This might not work too well in some cases of multiple FFmpeg decoders,
-	   but it's probably good enough.
-	*/
-	av_log_set_callback (FFmpeg::ffmpeg_log_callback);
-
 	_file_group.set_paths (_ffmpeg_content->paths ());
 	_avio_buffer = static_cast<uint8_t*> (wrapped_av_malloc(_avio_buffer_size));
 	_avio_context = avio_alloc_context (_avio_buffer, _avio_buffer_size, 0, this, avio_read_wrapper, 0, avio_seek_wrapper);
