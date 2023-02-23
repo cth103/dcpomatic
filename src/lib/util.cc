@@ -360,6 +360,34 @@ dcpomatic_setup_path_encoding ()
 #endif
 }
 
+
+class LogSink : public Kumu::ILogSink
+{
+public:
+	LogSink () {}
+	LogSink (LogSink const&) = delete;
+	LogSink& operator= (LogSink const&) = delete;
+
+	void WriteEntry(const Kumu::LogEntry& entry) override {
+		Kumu::AutoMutex L(m_lock);
+		WriteEntryToListeners(entry);
+		if (entry.TestFilter(m_filter)) {
+			string buffer;
+			entry.CreateStringWithOptions(buffer, m_options);
+			LOG_GENERAL("asdcplib: %1", buffer);
+		}
+	}
+};
+
+
+void
+capture_asdcp_logs ()
+{
+	static LogSink log_sink;
+	Kumu::SetDefaultLogSink(&log_sink);
+}
+
+
 /** Call the required functions to set up DCP-o-matic's static arrays, etc.
  *  Must be called from the UI thread, if there is one.
  */
@@ -1010,33 +1038,6 @@ start_of_thread (string)
 
 }
 #endif
-
-
-class LogSink : public Kumu::ILogSink
-{
-public:
-	LogSink () {}
-	LogSink (LogSink const&) = delete;
-	LogSink& operator= (LogSink const&) = delete;
-
-	void WriteEntry(const Kumu::LogEntry& entry) override {
-		Kumu::AutoMutex L(m_lock);
-		WriteEntryToListeners(entry);
-		if (entry.TestFilter(m_filter)) {
-			string buffer;
-			entry.CreateStringWithOptions(buffer, m_options);
-			LOG_GENERAL("asdcplib: %1", buffer);
-		}
-	}
-};
-
-
-void
-capture_asdcp_logs ()
-{
-	static LogSink log_sink;
-	Kumu::SetDefaultLogSink(&log_sink);
-}
 
 
 string

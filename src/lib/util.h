@@ -93,7 +93,6 @@ extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dc
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);
 extern boost::filesystem::path default_font_file ();
 extern void start_of_thread (std::string name);
-extern void capture_asdcp_logs ();
 extern std::string error_details(boost::system::error_code ec);
 extern bool contains_assetmap(boost::filesystem::path dir);
 
