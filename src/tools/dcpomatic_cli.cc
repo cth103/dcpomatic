@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/ansi.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
 #include "lib/cross.h"
@@ -209,7 +210,7 @@ show_jobs_on_console (bool progress)
 
 		if (!first && progress) {
 			for (size_t i = 0; i < jobs.size(); ++i) {
-				cout << "\033[1A\033[2K";
+				cout << UP_ONE_LINE_AND_ERASE;
 			}
 			cout.flush ();
 		}
