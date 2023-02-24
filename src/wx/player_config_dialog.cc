@@ -275,6 +275,8 @@ private:
 			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 			_log_timing = new CheckBox (_panel, S_("Config|Timing"));
 			t->Add (_log_timing, 1, wxEXPAND | wxALL);
+			_log_debug_video_view = new CheckBox(_panel, _("Debug: video view"));
+			t->Add(_log_debug_video_view, 1, wxEXPAND | wxALL);
 			table->Add (t, 0, wxALL, 6);
 		}
 
@@ -288,6 +290,7 @@ private:
 		_log_warning->bind(&PlayerAdvancedPage::log_changed, this);
 		_log_error->bind(&PlayerAdvancedPage::log_changed, this);
 		_log_timing->bind(&PlayerAdvancedPage::log_changed, this);
+		_log_debug_video_view->bind(&PlayerAdvancedPage::log_changed, this);
 #ifdef DCPOMATIC_WINDOWS
 		_win32_console->bind(&PlayerAdvancedPage::win32_console_changed, this);
 #endif
@@ -321,6 +324,9 @@ private:
 		if (_log_timing->GetValue ()) {
 			types |= LogEntry::TYPE_TIMING;
 		}
+		if (_log_debug_video_view->GetValue()) {
+			types |= LogEntry::TYPE_DEBUG_VIDEO_VIEW;
+		}
 		Config::instance()->set_log_types (types);
 	}
 
@@ -335,6 +341,7 @@ private:
 	CheckBox* _log_warning;
 	CheckBox* _log_error;
 	CheckBox* _log_timing;
+	CheckBox* _log_debug_video_view;
 #ifdef DCPOMATIC_WINDOWS
 	CheckBox* _win32_console;
 #endif
