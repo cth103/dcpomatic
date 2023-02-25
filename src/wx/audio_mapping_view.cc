@@ -61,7 +61,6 @@ static constexpr auto ROW_HEIGHT = 32;
 static constexpr auto MINIMUM_COLUMN_WIDTH = 32;
 static constexpr auto TOP_HEIGHT = ROW_HEIGHT * 2;
 static constexpr auto COLUMN_PADDING = 16;
-static constexpr auto HORIZONTAL_PAGE_SIZE = 32;
 
 
 enum {
