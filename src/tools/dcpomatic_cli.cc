@@ -28,6 +28,7 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/filter.h"
+#include "lib/hints.h"
 #include "lib/job_manager.h"
 #include "lib/json_server.h"
 #include "lib/log.h"
@@ -77,6 +78,7 @@ help (string n)
 	     << "      --no-check                    don't check project's content files for changes before making the DCP\n"
 	     << "      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n"
 	     << "      --export-filename <filename>  filename to export to with --export-format\n"
+	     << "      --hints                       show hints and stop if any are given\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
@@ -270,6 +272,7 @@ main (int argc, char* argv[])
 	bool check = true;
 	optional<string> export_format;
 	optional<boost::filesystem::path> export_filename;
+	bool hints = false;
 
 	int option_index = 0;
 	while (true) {
@@ -291,10 +294,11 @@ main (int argc, char* argv[])
 			{ "no-check", no_argument, 0, 'B' },
 			{ "export-format", required_argument, 0, 'C' },
 			{ "export-filename", required_argument, 0, 'D' },
+			{ "hints", no_argument, 0, 'E' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:BC:D:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:BC:D:E", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -349,6 +353,9 @@ main (int argc, char* argv[])
 			break;
 		case 'D':
 			export_filename = optarg;
+			break;
+		case 'E':
+			hints = true;
 			break;
 		}
 	}
@@ -439,6 +446,49 @@ main (int argc, char* argv[])
 				cerr << argv[0] << ": content file " << j << " not found.\n";
 				exit (EXIT_FAILURE);
 			}
+		}
+	}
+
+	if (!export_format && hints) {
+		string const prefix = "Checking project for hints";
+		bool pulse_phase = false;
+		vector<string> hints;
+		bool finished = false;
+
+		Hints hint_finder(film);
+		hint_finder.Progress.connect([prefix](string progress) {
+					     std::cout << UP_ONE_LINE_AND_ERASE << prefix << ": " << progress << "\n";
+					     std::cout.flush();
+					     });
+		hint_finder.Pulse.connect([prefix, &pulse_phase]() {
+					  std::cout << UP_ONE_LINE_AND_ERASE << prefix << ": " << (pulse_phase ? "X" : "x") << "\n";
+					  std::cout.flush();
+					  pulse_phase = !pulse_phase;
+					  });
+		hint_finder.Hint.connect([&hints](string hint) {
+					 hints.push_back(hint);
+					 });
+		hint_finder.Finished.connect([&finished]() {
+					     finished = true;
+					     });
+
+		std::cout << prefix << ":\n";
+		std::cout.flush();
+
+		hint_finder.start();
+		while (!finished) {
+			signal_manager->ui_idle();
+			dcpomatic_sleep_milliseconds(200);
+		}
+
+		std::cout << UP_ONE_LINE_AND_ERASE;
+
+		if (!hints.empty()) {
+			std::cout << "Hints:\n\n";
+			for (auto hint: hints) {
+				std::cout << word_wrap("* " + hint, 70) << "\n";
+			}
+			exit(EXIT_FAILURE);
 		}
 	}
 
