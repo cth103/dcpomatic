@@ -147,3 +147,11 @@ BOOST_AUTO_TEST_CASE (copy_in_bits_test)
 		check_file ("build/test/random.dat", "build/test/random.dat2");
 	}
 }
+
+
+BOOST_AUTO_TEST_CASE(word_wrap_test)
+{
+	BOOST_CHECK_EQUAL(word_wrap("hello world", 8), "hello \nworld\n");
+	BOOST_CHECK(word_wrap("hello this is a longer bit of text and it should be word-wrapped", 31) == string{"hello this is a longer bit of \ntext and it should be word-\nwrapped\n"});
+	BOOST_CHECK_EQUAL(word_wrap("hellocan'twrapthissadly", 5), "hello\ncan't\nwrapt\nhissa\ndly\n");
+}

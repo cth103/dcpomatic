@@ -47,6 +47,7 @@
 #include "ratio.h"
 #include "rect.h"
 #include "render_text.h"
+#include "scope_guard.h"
 #include "string_text.h"
 #include "text_decoder.h"
 #include "util.h"
@@ -73,6 +74,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <unicode/utypes.h>
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
+#include <unicode/brkiter.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
@@ -1077,5 +1079,40 @@ bool
 contains_assetmap(boost::filesystem::path dir)
 {
 	return boost::filesystem::is_regular_file(dir / "ASSETMAP") || boost::filesystem::is_regular_file(dir / "ASSETMAP.xml");
+}
+
+
+string
+word_wrap(string input, int columns)
+{
+	icu::Locale locale;
+	UErrorCode status = U_ZERO_ERROR;
+	auto iter = icu::BreakIterator::createLineInstance(locale, status);
+	ScopeGuard sg = [iter]() { delete iter; };
+	if (U_FAILURE(status)) {
+		return input;
+	}
+
+	auto input_icu = icu::UnicodeString::fromUTF8(icu::StringPiece(input));
+	iter->setText(input_icu);
+
+	int position = 0;
+	string output;
+	while (position < input_icu.length()) {
+		int end_of_line = iter->preceding(position + columns + 1);
+		icu::UnicodeString line;
+		if (end_of_line <= position) {
+			/* There's no good line-break position; just break in the middle of a word */
+			line = input_icu.tempSubString(position, columns);
+			position += columns;
+		} else {
+			line = input_icu.tempSubString(position, end_of_line - position);
+			position = end_of_line;
+		}
+		line.toUTF8String(output);
+		output += "\n";
+	}
+
+	return output;
 }
 

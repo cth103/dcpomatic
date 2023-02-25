@@ -95,5 +95,6 @@ extern boost::filesystem::path default_font_file ();
 extern void start_of_thread (std::string name);
 extern std::string error_details(boost::system::error_code ec);
 extern bool contains_assetmap(boost::filesystem::path dir);
+extern std::string word_wrap(std::string input, int columns);
 
 #endif
