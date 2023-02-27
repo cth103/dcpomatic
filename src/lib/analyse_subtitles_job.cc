@@ -92,7 +92,7 @@ AnalyseSubtitlesJob::run ()
 
 
 void
-AnalyseSubtitlesJob::analyse (PlayerText text, TextType type)
+AnalyseSubtitlesJob::analyse(PlayerText const& text, TextType type)
 {
 	if (type != TextType::OPEN_SUBTITLE) {
 		return;
@@ -106,14 +106,34 @@ AnalyseSubtitlesJob::analyse (PlayerText text, TextType type)
 		}
 	}
 
-	if (!text.string.empty()) {
-		/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
-		dcp::Size const frame = _film->frame_size();
-		for (auto i: render_text(text.string, frame, dcpomatic::DCPTime(), 24)) {
+	if (text.string.empty()) {
+		return;
+	}
+
+	/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
+	dcp::Size const frame = _film->frame_size();
+	std::vector<dcp::SubtitleStandard> override_standard;
+	if (_film->interop()) {
+		/* Since the film is Interop there is only one way the vpositions in the subs can be interpreted
+		 * (we assume).
+		 */
+		override_standard.push_back(dcp::SubtitleStandard::INTEROP);
+	} else {
+		/* We're using the great new SMPTE standard, which means there are two different ways that vposition
+		 * could be interpreted; we will write SMPTE-2014 standard assets, but if the projection system uses
+		 * SMPTE 20{07,10} instead they won't be placed how we intended.  To show the user this, make the
+		 * bounding rectangle enclose both possibilities.
+		 */
+		override_standard.push_back(dcp::SubtitleStandard::SMPTE_2007);
+		override_standard.push_back(dcp::SubtitleStandard::SMPTE_2014);
+	}
+
+	for (auto standard: override_standard) {
+		for (auto i: bounding_box(text.string, frame, standard)) {
 			dcpomatic::Rect<double> rect (
-					double(i.position.x) / frame.width, double(i.position.y) / frame.height,
-					double(i.image->size().width) / frame.width, double(i.image->size().height) / frame.height
-					);
+				double(i.x) / frame.width, double(i.y) / frame.height,
+				double(i.width) / frame.width, double(i.height) / frame.height
+				);
 			if (!_bounding_box) {
 				_bounding_box = rect;
 			} else {

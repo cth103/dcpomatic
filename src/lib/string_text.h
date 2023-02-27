@@ -24,6 +24,7 @@
 
 
 #include "font.h"
+#include <dcp/subtitle_standard.h>
 #include <dcp/subtitle_string.h>
 
 
@@ -40,7 +41,7 @@
 class StringText : public dcp::SubtitleString
 {
 public:
-	StringText(dcp::SubtitleString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_, dcp::Standard valign_standard_)
+	StringText(dcp::SubtitleString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_, dcp::SubtitleStandard valign_standard_)
 		: dcp::SubtitleString (dcp_)
 		, outline_width (outline_width_)
 		, font (font_)
@@ -49,18 +50,24 @@ public:
 
 	int outline_width;
 	std::shared_ptr<dcpomatic::Font> font;
+
 	/** Interop and SMPTE use the same VAlign choices (top, center, bottom) but give them different
-	 *  meanings.  This is the standard which should be used to interpret v_align() in this subtitle;
-	 *  valign_standard == SMPTE means:
+	 *  meanings.  To add some extra confusion, it seems that SMPTE changed their minds on this topic
+	 *  between the 2010 and 2014 versions of standard 428-7, so there isn't even one answer for SMPTE.
+	 *
+	 *  This is the standard which should be used to interpret v_align() in this subtitle.
+         *
+	 *  valign_standard == SMPTE_{2007,2010} means:
 	 *     top - top of screen to top of subtitle
 	 *     center - centre of screen to center of subtitle
 	 *     bottom - bottom of screen to bottom of subtitle
-	 *  valign_standard == Interop means:
+	 *
+	 *  valign_standard == {INTEROP,SMPTE_2014} means:
 	 *     top - top of screen to baseline of subtitle
 	 *     center - centre of screen to baseline of subtitle
 	 *     bottom - bottom of screen to baseline of subtitle
 	 */
-	dcp::Standard valign_standard;
+	dcp::SubtitleStandard valign_standard;
 };
 
 

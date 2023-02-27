@@ -88,7 +88,7 @@ set_forced_appearance(shared_ptr<const TextContent> content, StringText& subtitl
 
 
 void
-TextDecoder::emit_plain_start (ContentTime from, vector<dcp::SubtitleString> subtitles, dcp::Standard valign_standard)
+TextDecoder::emit_plain_start(ContentTime from, vector<dcp::SubtitleString> subtitles, dcp::SubtitleStandard valign_standard)
 {
 	vector<StringText> string_texts;
 
@@ -153,13 +153,20 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				switch (line.vertical_position.reference.get_value_or(sub::BOTTOM_OF_SCREEN)) {
 				case sub::BOTTOM_OF_SCREEN:
 				case sub::TOP_OF_SUBTITLE:
-					/* This 0.9 is an arbitrary value to lift the bottom sub off the bottom
+					/* This 0.1 is an arbitrary value to lift the bottom sub off the bottom
 					   of the screen a bit to a pleasing degree.
 					   */
-					v_position = 0.9 -
+					v_position = 0.1 +
 						(1 + bottom_line.get() - line.vertical_position.line.get()) * multiplier;
 
-					v_align = dcp::VAlign::TOP;
+					/* Align our subtitles to the bottom of the screen, because if we are making a SMPTE
+					 * DCP and the projection system uses the wrong standard to interpret vertical position,
+					 * a bottom-aligned subtitle will be less wrong than a top-aligned one.  This is because
+					 * in the top-aligned case the difference will be the distance between bbox top an
+					 * baseline, but in the bottom-aligned case the difference will be between bbox bottom
+					 * and baseline (which is shorter).
+					 */
+					v_align = dcp::VAlign::BOTTOM;
 					break;
 				case sub::TOP_OF_SCREEN:
 					/* This 0.1 is another fudge factor to bring the top line away from the top of the screen a little */
@@ -265,7 +272,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				dcp_subtitle,
 				content()->outline_width(),
 				content()->get_font(block.font.get_value_or("")),
-				dcp::Standard::SMPTE
+				dcp::SubtitleStandard::SMPTE_2014
 				);
 			set_forced_appearance(content(), string_text);
 			string_texts.push_back(string_text);
@@ -285,7 +292,7 @@ TextDecoder::emit_stop (ContentTime to)
 
 
 void
-TextDecoder::emit_plain (ContentTimePeriod period, vector<dcp::SubtitleString> subtitles, dcp::Standard valign_standard)
+TextDecoder::emit_plain(ContentTimePeriod period, vector<dcp::SubtitleString> subtitles, dcp::SubtitleStandard valign_standard)
 {
 	emit_plain_start (period.from, subtitles, valign_standard);
 	emit_stop (period.to);

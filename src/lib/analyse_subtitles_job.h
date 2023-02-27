@@ -42,7 +42,7 @@ public:
 	}
 
 private:
-	void analyse (PlayerText text, TextType type);
+	void analyse(PlayerText const& text, TextType type);
 
 	std::weak_ptr<Content> _content;
 	boost::filesystem::path _path;

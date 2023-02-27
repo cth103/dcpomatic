@@ -258,7 +258,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		atmos->set_length (examiner->atmos_length());
 	}
 
-	list<shared_ptr<TextContent>> new_text;
+	vector<shared_ptr<TextContent>> new_text;
 
 	for (int i = 0; i < examiner->text_count(TextType::OPEN_SUBTITLE); ++i) {
 		auto c = make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE);

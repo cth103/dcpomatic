@@ -23,10 +23,13 @@
 #define DCPOMATIC_CAPTION_DECODER_H
 
 
+#include "content_text.h"
 #include "decoder.h"
+#include "decoder_part.h"
 #include "rect.h"
 #include "content_text.h"
-#include "decoder_part.h"
+#include "types.h"
+#include <dcp/subtitle_standard.h>
 #include <dcp/subtitle_string.h>
 #include <boost/signals2.hpp>
 
@@ -49,9 +52,9 @@ public:
 
 	void emit_bitmap_start (ContentBitmapText const& bitmap);
 	void emit_bitmap (dcpomatic::ContentTimePeriod period, std::shared_ptr<const Image> image, dcpomatic::Rect<double> rect);
-	void emit_plain_start (dcpomatic::ContentTime from, std::vector<dcp::SubtitleString> s, dcp::Standard valign_standard);
+	void emit_plain_start(dcpomatic::ContentTime from, std::vector<dcp::SubtitleString> s, dcp::SubtitleStandard valign_standard);
 	void emit_plain_start (dcpomatic::ContentTime from, sub::Subtitle const & subtitle);
-	void emit_plain (dcpomatic::ContentTimePeriod period, std::vector<dcp::SubtitleString> s, dcp::Standard valign_standard);
+	void emit_plain(dcpomatic::ContentTimePeriod period, std::vector<dcp::SubtitleString> s, dcp::SubtitleStandard valign_standard);
 	void emit_plain (dcpomatic::ContentTimePeriod period, sub::Subtitle const & subtitle);
 	void emit_stop (dcpomatic::ContentTime to);
 

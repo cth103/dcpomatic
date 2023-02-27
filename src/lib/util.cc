@@ -412,7 +412,7 @@ LIBDCP_ENABLE_WARNINGS
 		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, 0, dcp::Direction::LTR,
 		"Hello dolly", dcp::Effect::NONE, dcp::Colour(), dcp::Time(), dcp::Time(), 0
 		);
-	subs.push_back (StringText(ss, 0, {}, dcp::Standard::SMPTE));
+	subs.push_back(StringText(ss, 0, {}, dcp::SubtitleStandard::SMPTE_2014));
 	render_text (subs, dcp::Size(640, 480), DCPTime(), 24);
 #endif
 

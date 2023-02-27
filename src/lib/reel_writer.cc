@@ -892,9 +892,10 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 
 
 float
-ReelWriter::convert_vertical_position(StringText const& subtitle, dcp::Standard to) const
+ReelWriter::convert_vertical_position(StringText const& subtitle, dcp::SubtitleStandard to) const
 {
-	if (subtitle.valign_standard == to) {
+	if (dcp::uses_baseline(subtitle.valign_standard) == dcp::uses_baseline(to)) {
+		/* The from and to standards use the same alignment reference */
 		return subtitle.v_position();
 	}
 
@@ -914,7 +915,7 @@ ReelWriter::convert_vertical_position(StringText const& subtitle, dcp::Standard 
 		break;
 	}
 
-	return subtitle.v_position() + ((subtitle.valign_standard == dcp::Standard::SMPTE) ? correction : -correction);
+	return subtitle.v_position() + (dcp::uses_bounding_box(subtitle.valign_standard) ? correction : -correction);
 }
 
 
@@ -957,7 +958,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 	for (auto i: subs.string) {
 		i.set_in  (dcp::Time(period.from.seconds() - _period.from.seconds(), tcr));
 		i.set_out (dcp::Time(period.to.seconds() - _period.from.seconds(), tcr));
-		i.set_v_position(convert_vertical_position(i, film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE));
+		i.set_v_position(convert_vertical_position(i, film()->interop() ? dcp::SubtitleStandard::INTEROP : dcp::SubtitleStandard::SMPTE_2014));
 		auto sub = make_shared<dcp::SubtitleString>(i);
 		if (type == TextType::OPEN_SUBTITLE) {
 			sub->set_font(fonts.get(i.font));

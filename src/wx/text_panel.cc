@@ -809,13 +809,16 @@ TextPanel::try_to_load_analysis ()
 	}
 
 	_loading_analysis = true;
+	ScopeGuard sg = [this]() {
+		_loading_analysis = false;
+		setup_sensitivity();
+	};
+
 	setup_sensitivity ();
 	_analysis.reset ();
 
 	auto content = _analysis_content.lock ();
 	if (!content) {
-		_loading_analysis = false;
-		setup_sensitivity ();
 		return;
 	}
 
@@ -823,7 +826,7 @@ TextPanel::try_to_load_analysis ()
 
 	if (!boost::filesystem::exists(path)) {
 		for (auto i: JobManager::instance()->get()) {
-			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i)) {
+			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i) && !i->finished()) {
 				i->cancel ();
 			}
 		}
@@ -842,11 +845,9 @@ TextPanel::try_to_load_analysis ()
 			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this)
 			);
 		return;
-        }
+	}
 
 	update_outline_subtitles_in_viewer ();
-	_loading_analysis = false;
-	setup_sensitivity ();
 }
 
 

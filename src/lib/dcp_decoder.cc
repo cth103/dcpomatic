@@ -304,7 +304,7 @@ DCPDecoder::pass_texts (
 							ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 							),
 						strings,
-						_dcp_content->standard()
+						asset->subtitle_standard()
 						);
 					strings.clear ();
 				}
@@ -340,7 +340,7 @@ DCPDecoder::pass_texts (
 					ContentTime::from_frames(_offset - entry_point, vfr) + ContentTime::from_seconds(b.out().as_seconds())
 					),
 				strings,
-				_dcp_content->standard()
+				asset->subtitle_standard()
 				);
 			strings.clear ();
 		}
