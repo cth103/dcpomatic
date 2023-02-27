@@ -683,7 +683,6 @@ BOOST_AUTO_TEST_CASE(three_d_in_two_d_chooses_left)
 		BOOST_CHECK(!last_time || time == *last_time + DCPTime::from_frames(1, 24));
 		last_time = time;
 
-		std::cout << to_string(time) << "\n";
 		auto image = video->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
 		auto const size = image->size();
 		for (int y = 0; y < size.height; ++y) {
