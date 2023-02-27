@@ -149,6 +149,7 @@ def build(bld):
                  subtitle_timing_test.cc
                  subtitle_trim_test.cc
                  test.cc
+                 text_decoder_test.cc
                  threed_test.cc
                  time_calculation_test.cc
                  torture_test.cc

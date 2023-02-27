@@ -66,6 +66,8 @@ public:
 		return _content;
 	}
 
+	static std::string remove_invalid_characters_for_xml(std::string text);
+
 	boost::signals2::signal<void (ContentBitmapText)> BitmapStart;
 	boost::signals2::signal<void (ContentStringText)> PlainStart;
 	boost::signals2::signal<void (dcpomatic::ContentTime)> Stop;

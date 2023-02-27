@@ -87,6 +87,45 @@ set_forced_appearance(shared_ptr<const TextContent> content, StringText& subtitl
 }
 
 
+string
+TextDecoder::remove_invalid_characters_for_xml(string text)
+{
+	string output;
+
+	/* https://www.w3.org/TR/REC-xml/#charsets says that XML may only contain 0x9, 0xa, 0xd below 0x32.
+	 * Not sure if we should be doing direct UTF-8 manipulation here.
+	 */
+	for (size_t i = 0; i < text.length(); ++i) {
+		auto const c = text[i];
+		if ((c & 0xe0) == 0xc0) {
+			// start of 2-byte code point
+			output += c;
+			output += text[i + 1];
+			++i;
+		} else if ((c & 0xf0) == 0xe0) {
+			// start of 3-byte code point
+			output += c;
+			output += text[i + 1];
+			output += text[i + 2];
+			i += 2;
+		} else if ((c & 0xf8) == 0xf0) {
+			// start of 4-byte code point
+			output += c;
+			output += text[i + 1];
+			output += text[i + 2];
+			output += text[i + 3];
+			i += 3;
+		} else {
+			if (c >= 0x20 || c == 0x9 || c == 0xa || c == 0xd) {
+				output += c;
+			}
+		}
+	}
+
+	return output;
+}
+
+
 void
 TextDecoder::emit_plain_start(ContentTime from, vector<dcp::SubtitleString> subtitles, dcp::SubtitleStandard valign_standard)
 {
@@ -99,7 +138,7 @@ TextDecoder::emit_plain_start(ContentTime from, vector<dcp::SubtitleString> subt
 			content()->get_font(subtitle.font().get_value_or("")),
 			valign_standard
 			);
-		string_text.set_text(string_text.text());
+		string_text.set_text(remove_invalid_characters_for_xml(string_text.text()));
 		set_forced_appearance(content(), string_text);
 		string_texts.push_back(string_text);
 	}
@@ -254,7 +293,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				v_align,
 				0,
 				dcp::Direction::LTR,
-				block.text,
+				remove_invalid_characters_for_xml(block.text),
 				dcp::Effect::NONE,
 				dcp_colour(block.effect_colour.get_value_or(sub::Colour(0, 0, 0))),
 				/* Hack: we should use subtitle.fade_up and subtitle.fade_down here

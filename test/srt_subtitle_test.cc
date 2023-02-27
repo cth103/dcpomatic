@@ -248,6 +248,30 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_entity)
 }
 
 
+/** A control code in a .srt file should not make it into the XML */
+BOOST_AUTO_TEST_CASE(srt_subtitle_control_code)
+{
+	std::ofstream srt("build/test/srt_subtitle_control_code.srt");
+	srt << "1\n";
+	srt << "00:00:01,000 -> 00:00:10,000\n";
+	srt << "Hello \x0c world\n";
+	srt.close();
+
+	auto content = make_shared<StringTextFileContent>("build/test/srt_subtitle_control_code.srt");
+	auto film = new_test_film2("srt_subtitle_control_code", { content });
+	film->set_interop(false);
+	content->only_text()->set_use(true);
+	content->only_text()->set_burn(false);
+	make_and_verify_dcp (
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+		});
+}
+
+
 #if 0
 /* XXX: this is disabled; there is some difference in font rendering
    between the test machine and others.
