@@ -1524,9 +1524,13 @@ private:
 			table->Add(s, 1);
 		}
 
-		_allow_any_dcp_frame_rate = new CheckBox(_panel, _("Allow any DCP frame rate"));
-		table->Add(_allow_any_dcp_frame_rate, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		table->AddSpacer(0);
+		auto checkbox = [this, table](wxString name, CheckBox*& variable) {
+			variable = new CheckBox(_panel, name);
+			table->Add(variable, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+			table->AddSpacer(0);
+		};
+
+		checkbox(_("Allow any DCP frame rate"),  _allow_any_dcp_frame_rate);
 
 		_allow_any_container = new CheckBox(_panel, _("Allow full-frame and non-standard container ratios"));
 		table->Add(_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
@@ -1538,13 +1542,8 @@ private:
 		table->Add(restart, 1, wxALIGN_CENTRE_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
 		restart->SetFont(font);
 
-		_allow_96khz_audio = new CheckBox(_panel, _("Allow creation of DCPs with 96kHz audio"));
-		table->Add(_allow_96khz_audio, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		table->AddSpacer (0);
-
-		_use_all_audio_channels = new CheckBox(_panel, _("Allow mapping to all audio channels"));
-		table->Add(_use_all_audio_channels, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		table->AddSpacer(0);
+		checkbox(_("Allow creation of DCPs with 96kHz audio"), _allow_96khz_audio);
+		checkbox(_("Allow mapping to all audio channels"), _use_all_audio_channels);
 
 		_maximum_j2k_bandwidth->SetRange(1, 1000);
 		_maximum_j2k_bandwidth->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_j2k_bandwidth_changed, this));
