@@ -1489,6 +1489,116 @@ private:
 };
 
 
+class NonStandardPage : public Page
+{
+public:
+	NonStandardPage(wxSize panel_size, int border)
+		: Page(panel_size, border)
+	{}
+
+	wxString GetName() const override
+	{
+		return _("Non-standard");
+	}
+
+#ifdef DCPOMATIC_OSX
+	wxBitmap GetLargeIcon() const override
+	{
+		return wxBitmap(icon_path("non_standard"), wxBITMAP_TYPE_PNG);
+	}
+#endif
+
+private:
+	void setup() override
+	{
+		auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol(1, 1);
+		_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
+
+		{
+			add_label_to_sizer(table, _panel, _("Maximum JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			wxBoxSizer* s = new wxBoxSizer(wxHORIZONTAL);
+			_maximum_j2k_bandwidth = new wxSpinCtrl(_panel);
+			s->Add(_maximum_j2k_bandwidth, 1);
+			add_label_to_sizer(s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxALIGN_CENTRE_VERTICAL);
+			table->Add(s, 1);
+		}
+
+		_allow_any_dcp_frame_rate = new CheckBox(_panel, _("Allow any DCP frame rate"));
+		table->Add(_allow_any_dcp_frame_rate, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		table->AddSpacer(0);
+
+		_allow_any_container = new CheckBox(_panel, _("Allow full-frame and non-standard container ratios"));
+		table->Add(_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		auto restart = new StaticText(_panel, _("(restart DCP-o-matic to see all ratios)"));
+		auto font = restart->GetFont();
+		font.SetStyle(wxFONTSTYLE_ITALIC);
+		font.SetPointSize(font.GetPointSize() - 1);
+		restart->SetFont(font);
+		table->Add(restart, 1, wxALIGN_CENTRE_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
+		restart->SetFont(font);
+
+		_allow_96khz_audio = new CheckBox(_panel, _("Allow creation of DCPs with 96kHz audio"));
+		table->Add(_allow_96khz_audio, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		table->AddSpacer (0);
+
+		_use_all_audio_channels = new CheckBox(_panel, _("Allow mapping to all audio channels"));
+		table->Add(_use_all_audio_channels, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
+		table->AddSpacer(0);
+
+		_maximum_j2k_bandwidth->SetRange(1, 1000);
+		_maximum_j2k_bandwidth->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_j2k_bandwidth_changed, this));
+		_allow_any_dcp_frame_rate->bind(&NonStandardPage::allow_any_dcp_frame_rate_changed, this);
+		_allow_any_container->bind(&NonStandardPage::allow_any_container_changed, this);
+		_allow_96khz_audio->bind(&NonStandardPage::allow_96khz_audio_changed, this);
+		_use_all_audio_channels->bind(&NonStandardPage::use_all_channels_changed, this);
+	}
+
+	void config_changed() override
+	{
+		auto config = Config::instance();
+
+		checked_set(_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
+		checked_set(_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate());
+		checked_set(_allow_any_container, config->allow_any_container());
+		checked_set(_allow_96khz_audio, config->allow_96khz_audio());
+		checked_set(_use_all_audio_channels, config->use_all_audio_channels());
+	}
+
+	void maximum_j2k_bandwidth_changed()
+	{
+		Config::instance()->set_maximum_j2k_bandwidth(_maximum_j2k_bandwidth->GetValue() * 1000000);
+	}
+
+	void allow_any_dcp_frame_rate_changed()
+	{
+		Config::instance()->set_allow_any_dcp_frame_rate(_allow_any_dcp_frame_rate->GetValue());
+	}
+
+	void allow_any_container_changed()
+	{
+		Config::instance()->set_allow_any_container(_allow_any_container->GetValue());
+	}
+
+	void allow_96khz_audio_changed()
+	{
+		Config::instance()->set_allow_96hhz_audio(_allow_96khz_audio->GetValue());
+	}
+
+	void use_all_channels_changed()
+	{
+		Config::instance()->set_use_all_audio_channels(_use_all_audio_channels->GetValue());
+	}
+
+	wxSpinCtrl* _maximum_j2k_bandwidth = nullptr;
+	CheckBox* _allow_any_dcp_frame_rate = nullptr;
+	CheckBox* _allow_any_container = nullptr;
+	CheckBox* _allow_96khz_audio = nullptr;
+	CheckBox* _use_all_audio_channels = nullptr;
+};
+
+
+
 /** @class AdvancedPage
  *  @brief Advanced page of the preferences dialog.
  */
@@ -1529,15 +1639,6 @@ private:
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
-		{
-			add_label_to_sizer (table, _panel, _("Maximum JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-			wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-			_maximum_j2k_bandwidth = new wxSpinCtrl (_panel);
-			s->Add (_maximum_j2k_bandwidth, 1);
-			add_label_to_sizer (s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxALIGN_CENTRE_VERTICAL);
-			table->Add (s, 1);
-		}
-
 		add_label_to_sizer (table, _panel, _("Video display mode"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_video_display_mode = new wxChoice (_panel, wxID_ANY);
 		table->Add (_video_display_mode);
@@ -1548,24 +1649,6 @@ private:
 		font.SetPointSize (font.GetPointSize() - 1);
 		restart->SetFont (font);
 		table->AddSpacer (0);
-
-		_allow_any_dcp_frame_rate = new CheckBox (_panel, _("Allow any DCP frame rate"));
-		table->Add (_allow_any_dcp_frame_rate, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		table->AddSpacer (0);
-
-		_allow_any_container = new CheckBox (_panel, _("Allow full-frame and non-standard container ratios"));
-		table->Add (_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		restart = new StaticText (_panel, _("(restart DCP-o-matic to see all ratios)"));
-		table->Add(restart, 1, wxALIGN_CENTRE_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
-		restart->SetFont (font);
-
-		_allow_96khz_audio = new CheckBox (_panel, _("Allow creation of DCPs with 96kHz audio"));
-		table->Add (_allow_96khz_audio, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		table->AddSpacer (0);
-
-		_use_all_audio_channels = new CheckBox(_panel, _("Allow mapping to all audio channels"));
-		table->Add(_use_all_audio_channels, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		table->AddSpacer(0);
 
 		_show_experimental_audio_processors = new CheckBox (_panel, _("Show experimental audio processors"));
 		table->Add (_show_experimental_audio_processors, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
@@ -1660,17 +1743,11 @@ private:
 		table->AddSpacer (0);
 #endif
 
-		_maximum_j2k_bandwidth->SetRange (1, 1000);
-		_maximum_j2k_bandwidth->Bind (wxEVT_SPINCTRL, boost::bind (&AdvancedPage::maximum_j2k_bandwidth_changed, this));
 		_video_display_mode->Append (_("Simple (safer)"));
 #if wxCHECK_VERSION(3, 1, 0)
 		_video_display_mode->Append (_("OpenGL (faster)"));
 #endif
 		_video_display_mode->Bind (wxEVT_CHOICE, boost::bind(&AdvancedPage::video_display_mode_changed, this));
-		_allow_any_dcp_frame_rate->bind(&AdvancedPage::allow_any_dcp_frame_rate_changed, this);
-		_allow_any_container->bind(&AdvancedPage::allow_any_container_changed, this);
-		_allow_96khz_audio->bind(&AdvancedPage::allow_96khz_audio_changed, this);
-		_use_all_audio_channels->bind(&AdvancedPage::use_all_channels_changed, this);
 		_show_experimental_audio_processors->bind(&AdvancedPage::show_experimental_audio_processors_changed, this);
 		_only_servers_encode->bind(&AdvancedPage::only_servers_encode_changed, this);
 		_frames_in_memory_multiplier->Bind (wxEVT_SPINCTRL, boost::bind(&AdvancedPage::frames_in_memory_multiplier_changed, this));
@@ -1695,7 +1772,6 @@ private:
 	{
 		auto config = Config::instance ();
 
-		checked_set (_maximum_j2k_bandwidth, config->maximum_j2k_bandwidth() / 1000000);
 		switch (config->video_view_type()) {
 		case Config::VIDEO_VIEW_SIMPLE:
 			checked_set (_video_display_mode, 0);
@@ -1704,10 +1780,6 @@ private:
 			checked_set (_video_display_mode, 1);
 			break;
 		}
-		checked_set (_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate ());
-		checked_set (_allow_any_container, config->allow_any_container ());
-		checked_set (_allow_96khz_audio, config->allow_96khz_audio());
-		checked_set (_use_all_audio_channels, config->use_all_audio_channels());
 		checked_set (_show_experimental_audio_processors, config->show_experimental_audio_processors ());
 		checked_set (_only_servers_encode, config->only_servers_encode ());
 		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
@@ -1726,11 +1798,6 @@ private:
 #endif
 	}
 
-	void maximum_j2k_bandwidth_changed ()
-	{
-		Config::instance()->set_maximum_j2k_bandwidth(_maximum_j2k_bandwidth->GetValue() * 1000000);
-	}
-
 	void video_display_mode_changed ()
 	{
 		if (_video_display_mode->GetSelection() == 0) {
@@ -1743,26 +1810,6 @@ private:
 	void frames_in_memory_multiplier_changed ()
 	{
 		Config::instance()->set_frames_in_memory_multiplier(_frames_in_memory_multiplier->GetValue());
-	}
-
-	void allow_any_dcp_frame_rate_changed ()
-	{
-		Config::instance()->set_allow_any_dcp_frame_rate(_allow_any_dcp_frame_rate->GetValue());
-	}
-
-	void allow_any_container_changed ()
-	{
-		Config::instance()->set_allow_any_container(_allow_any_container->GetValue());
-	}
-
-	void allow_96khz_audio_changed ()
-	{
-		Config::instance()->set_allow_96hhz_audio(_allow_96khz_audio->GetValue());
-	}
-
-	void use_all_channels_changed ()
-	{
-		Config::instance()->set_use_all_audio_channels(_use_all_audio_channels->GetValue());
 	}
 
 	void show_experimental_audio_processors_changed ()
@@ -1828,13 +1875,8 @@ private:
 	}
 #endif
 
-	wxSpinCtrl* _maximum_j2k_bandwidth = nullptr;
 	wxChoice* _video_display_mode = nullptr;
 	wxSpinCtrl* _frames_in_memory_multiplier = nullptr;
-	CheckBox* _allow_any_dcp_frame_rate = nullptr;
-	CheckBox* _allow_any_container = nullptr;
-	CheckBox* _allow_96khz_audio = nullptr;
-	CheckBox* _use_all_audio_channels = nullptr;
 	CheckBox* _show_experimental_audio_processors = nullptr;
 	CheckBox* _only_servers_encode = nullptr;
 	NameFormatEditor* _dcp_metadata_filename_format = nullptr;
@@ -1883,6 +1925,7 @@ create_full_config_dialog ()
 	e->AddPage (new NotificationsPage  (ps, border));
 	e->AddPage (new CoverSheetPage     (ps, border));
 	e->AddPage (new IdentifiersPage    (ps, border));
+	e->AddPage (new NonStandardPage    (ps, border));
 	e->AddPage (new AdvancedPage       (ps, border));
 	return e;
 }

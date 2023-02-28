@@ -81,7 +81,7 @@ else
     # OS X preferences icons
     mkdir -p osx/preferences
     for c in black white; do
-	for i in defaults email kdm_email cover_sheet keys tms notifications locations sound identifiers servers general advanced; do
+	for i in defaults email kdm_email cover_sheet keys tms notifications locations sound identifiers servers general advanced non_standard; do
 	    inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/${i}_${c}.png --width 32 --height 32 src/preferences_$c.svg
 	    inkbatch --inkscape $INKSCAPE -i bounds-$i -o osx/preferences/${i}@2x_${c}.png --width 64 --height 64 src/preferences_$c.svg
 	done
