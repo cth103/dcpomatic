@@ -150,11 +150,13 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_reel_type->add(_("Split by video content"));
 	/// TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
 	_reel_type->add(S_("Reel|Custom"));
+	_reel_type->SetToolTip(_("How the DCP should be split into parts internally.  If in doubt, choose 'Single reel'"));
 
 	_reel_length->SetRange (1, 64);
 
 	_standard->add(_("SMPTE"));
 	_standard->add(_("Interop"));
+	_standard->SetToolTip(_("Which standard the DCP should use.  Interop is older and SMPTE is the modern standard.  If in doubt, choose 'SMPTE'"));
 
 	Config::instance()->Changed.connect (boost::bind(&DCPPanel::config_changed, this, _1));
 
