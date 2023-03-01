@@ -207,9 +207,7 @@ public:
 
 	bool last_written_by_earlier_than(int major, int minor, int micro) const;
 
-	/** Identifiers for the parts of our state;
-	    used for signalling changes.
-	*/
+	/** Identifiers for the parts of our state; used for signalling changes */
 	enum class Property {
 		NONE,
 		NAME,
