@@ -166,6 +166,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _three_d (false)
 	, _sequence (true)
 	, _interop (Config::instance()->default_interop ())
+	, _limit_to_smpte_bv20(false)
 	, _audio_processor (0)
 	, _reel_type (ReelType::SINGLE)
 	, _reel_length (2000000000)
@@ -269,6 +270,11 @@ Film::video_identifier () const
 		s += "_I";
 	} else {
 		s += "_S";
+		if (_limit_to_smpte_bv20) {
+			s += "_L20";
+		} else {
+			s += "_L21";
+		}
 	}
 
 	if (_three_d) {
@@ -416,6 +422,7 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
 	root->add_child("Sequence")->add_child_text (_sequence ? "1" : "0");
 	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
+	root->add_child("LimitToSMPTEBv20")->add_child_text(_limit_to_smpte_bv20 ? "1" : "0");
 	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	root->add_child("Key")->add_child_text (_key.hex ());
 	root->add_child("ContextID")->add_child_text (_context_id);
@@ -586,6 +593,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
+	_limit_to_smpte_bv20 = f.optional_bool_child("LimitToSMPTEBv20").get_value_or(false);
 	_key = dcp::Key (f.string_child ("Key"));
 	_context_id = f.optional_string_child("ContextID").get_value_or (dcp::make_uuid ());
 
@@ -1178,6 +1186,15 @@ Film::set_interop (bool i)
 	FilmChangeSignaller ch (this, Property::INTEROP);
 	_interop = i;
 }
+
+
+void
+Film::set_limit_to_smpte_bv20(bool limit)
+{
+	FilmChangeSignaller ch(this, Property::LIMIT_TO_SMPTE_BV20);
+	_limit_to_smpte_bv20 = limit;
+}
+
 
 void
 Film::set_audio_processor (AudioProcessor const * processor)

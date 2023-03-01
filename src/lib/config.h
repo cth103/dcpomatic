@@ -93,6 +93,7 @@ public:
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 		AUDIO_MAPPING,
 		AUTO_CROP_THRESHOLD,
+		ALLOW_SMPTE_BV20,
 		OTHER
 	};
 
@@ -610,6 +611,10 @@ public:
 
 	DefaultAddFileLocation default_add_file_location() const {
 		return _default_add_file_location;
+	}
+
+	bool allow_smpte_bv20() const {
+		return _allow_smpte_bv20;
 	}
 
 	/* SET (mostly) */
@@ -1185,6 +1190,10 @@ public:
 		maybe_set(_default_add_file_location, location);
 	}
 
+	void set_allow_smpte_bv20(bool allow) {
+		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1422,6 +1431,7 @@ private:
 	boost::optional<int> _main_divider_sash_position;
 	boost::optional<int> _main_content_divider_sash_position;
 	DefaultAddFileLocation _default_add_file_location;
+	bool _allow_smpte_bv20;
 
 	ExportConfig _export;
 

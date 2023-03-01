@@ -198,6 +198,7 @@ Config::set_defaults ()
 	_default_kdm_duration = RoughDuration(1, RoughDuration::Unit::WEEKS);
 	_auto_crop_threshold = 0.1;
 	_last_release_notes_version = boost::none;
+	_allow_smpte_bv20 = false;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -628,6 +629,8 @@ try
 			_default_add_file_location = DefaultAddFileLocation::SAME_AS_PROJECT;
 		}
 	}
+
+	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
 
 	_export.read(f.optional_node_child("Export"));
 }
@@ -1109,6 +1112,9 @@ Config::write_config () const
 	root->add_child("DefaultAddFileLocation")->add_child_text(
 		_default_add_file_location == DefaultAddFileLocation::SAME_AS_LAST_TIME ? "last" : "project"
 		);
+
+	/* [XML] AllowSMPTEBv20 1 to allow the user to choose SMPTE (Bv2.0 only) as a standard, otherwise 0 */
+	root->add_child("AllowSMPTEBv20")->add_child_text(_allow_smpte_bv20 ? "1" : "0");
 
 	_export.write(root->add_child("Export"));
 

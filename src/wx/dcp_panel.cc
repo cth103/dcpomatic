@@ -154,14 +154,64 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 
 	_reel_length->SetRange (1, 64);
 
-	_standard->add(_("SMPTE"));
-	_standard->add(_("Interop"));
+	add_standards();
 	_standard->SetToolTip(_("Which standard the DCP should use.  Interop is older and SMPTE is the modern standard.  If in doubt, choose 'SMPTE'"));
 
 	Config::instance()->Changed.connect (boost::bind(&DCPPanel::config_changed, this, _1));
 
 	add_to_grid ();
 }
+
+
+void
+DCPPanel::add_standards()
+{
+	_standard->add(_("SMPTE"), N_("smpte"));
+	if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
+		_standard->add(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
+	}
+	_standard->add(_("Interop"), N_("interop"));
+}
+
+
+void
+DCPPanel::set_standard()
+{
+	DCPOMATIC_ASSERT(_film);
+	DCPOMATIC_ASSERT(!_film->limit_to_smpte_bv20() || _standard->GetCount() == 3);
+
+	if (_film->interop()) {
+		checked_set(_standard, "interop");
+	} else {
+		checked_set(_standard, _film->limit_to_smpte_bv20() ? "smpte-bv20" : "smpte");
+	}
+}
+
+
+void
+DCPPanel::standard_changed ()
+{
+	if (!_film || !_standard->get()) {
+		return;
+	}
+
+	auto const data = _standard->get_data();
+	if (!data) {
+		return;
+	}
+
+	if (*data == N_("interop")) {
+		_film->set_interop(true);
+		_film->set_limit_to_smpte_bv20(false);
+	} else if (*data == N_("smpte")) {
+		_film->set_interop(false);
+		_film->set_limit_to_smpte_bv20(false);
+	} else if (*data == N_("smpte-bv20")) {
+		_film->set_interop(false);
+		_film->set_limit_to_smpte_bv20(true);
+	}
+}
+
 
 void
 DCPPanel::add_to_grid ()
@@ -316,17 +366,6 @@ DCPPanel::resolution_changed ()
 
 
 void
-DCPPanel::standard_changed ()
-{
-	if (!_film || !_standard->get()) {
-		return;
-	}
-
-	_film->set_interop(*_standard->get() == 1);
-
-}
-
-void
 DCPPanel::markers_clicked ()
 {
 	_markers_dialog.reset(_panel, _film, _viewer);
@@ -434,9 +473,12 @@ DCPPanel::film_changed (Film::Property p)
 		checked_set (_reencode_j2k, _film->reencode_j2k());
 		break;
 	case Film::Property::INTEROP:
-		checked_set (_standard, _film->interop() ? 1 : 0);
+		set_standard();
 		setup_dcp_name ();
 		_markers->Enable (!_film->interop());
+		break;
+	case Film::Property::LIMIT_TO_SMPTE_BV20:
+		set_standard();
 		break;
 	case Film::Property::AUDIO_PROCESSOR:
 		if (_film->audio_processor()) {
@@ -587,6 +629,9 @@ DCPPanel::set_film (shared_ptr<Film> film)
 		return;
 	}
 
+	_standard->Clear();
+	add_standards();
+
 	film_changed (Film::Property::NAME);
 	film_changed (Film::Property::USE_ISDCF_NAME);
 	film_changed (Film::Property::CONTENT);
@@ -606,6 +651,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed (Film::Property::REENCODE_J2K);
 	film_changed (Film::Property::AUDIO_LANGUAGE);
 	film_changed (Film::Property::AUDIO_FRAME_RATE);
+	film_changed (Film::Property::LIMIT_TO_SMPTE_BV20);
 
 	set_general_sensitivity(static_cast<bool>(_film));
 }
@@ -725,6 +771,13 @@ DCPPanel::config_changed (Config::Property p)
 		add_audio_processors ();
 		if (_film) {
 			film_changed (Film::Property::AUDIO_PROCESSOR);
+		}
+	} else if (p == Config::ALLOW_SMPTE_BV20) {
+		_standard->Clear();
+		add_standards();
+		if (_film) {
+			film_changed(Film::Property::INTEROP);
+			film_changed(Film::Property::LIMIT_TO_SMPTE_BV20);
 		}
 	}
 }

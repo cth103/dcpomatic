@@ -98,6 +98,8 @@ private:
 	void add_video_panel_to_grid ();
 	void add_audio_panel_to_grid ();
 	void add_audio_processors ();
+	void add_standards();
+	void set_standard();
 
 	int minimum_allowed_audio_channels () const;
 

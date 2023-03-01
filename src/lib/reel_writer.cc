@@ -195,7 +195,8 @@ ReelWriter::ReelWriter (
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
 			film()->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
-			film()->contains_atmos_content()
+			film()->contains_atmos_content(),
+			!film()->limit_to_smpte_bv20()
 			);
 	}
 
