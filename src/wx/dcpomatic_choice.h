@@ -34,6 +34,7 @@ public:
 
 	void add(wxString const& entry);
 	void add(wxString const& entry, wxClientData* data);
+	void add(wxString const& entry, wxString const& data);
 	void add(std::string const& entry);
 	void set(int index);
 	boost::optional<int> get() const;

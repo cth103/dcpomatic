@@ -71,6 +71,18 @@ Choice::add(wxString const& entry, wxClientData* data)
 
 
 void
+Choice::add(wxString const& entry, wxString const& data)
+{
+	if (_needs_clearing) {
+		Clear();
+		_needs_clearing = false;
+	}
+
+	Append(entry, new wxStringClientData(data));
+}
+
+
+void
 Choice::set(int index)
 {
 	SetSelection(index);
