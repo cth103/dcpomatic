@@ -88,3 +88,15 @@ Choice::get() const
 	return sel;
 }
 
+
+optional<wxString>
+Choice::get_data() const
+{
+	auto index = get();
+	if (!index) {
+		return {};
+	}
+
+	return dynamic_cast<wxStringClientData*>(GetClientObject(*index))->GetData();
+}
+

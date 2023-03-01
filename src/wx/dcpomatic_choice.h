@@ -37,6 +37,7 @@ public:
 	void add(std::string const& entry);
 	void set(int index);
 	boost::optional<int> get() const;
+	boost::optional<wxString> get_data() const;
 
 	template <typename... Args>
 	void bind(Args... args) {
