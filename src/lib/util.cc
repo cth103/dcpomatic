@@ -81,7 +81,6 @@ LIBDCP_DISABLE_WARNINGS
 #include <boost/locale.hpp>
 LIBDCP_ENABLE_WARNINGS
 #ifdef DCPOMATIC_WINDOWS
-#include <boost/locale.hpp>
 #include <dbghelp.h>
 #endif
 #include <signal.h>
