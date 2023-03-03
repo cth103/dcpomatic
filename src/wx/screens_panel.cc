@@ -333,6 +333,9 @@ ScreensPanel::remove_cinema_clicked ()
 	for (auto const& cinema: _selected_cinemas) {
 		_ignore_cinemas_changed = true;
 		ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
+		for (auto screen: cinema->screens()) {
+			_checked_screens.erase(screen);
+		}
 		Config::instance()->remove_cinema(cinema);
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);
@@ -446,7 +449,8 @@ ScreensPanel::remove_screen_clicked ()
 		}
 	}
 
-	for (auto const& screen: _selected_screens) {
+	for (auto screen: _selected_screens) {
+		_checked_screens.erase(screen);
 		screen->cinema->remove_screen(screen);
 		auto item = screen_to_item(screen);
 		DCPOMATIC_ASSERT(item);
