@@ -171,6 +171,7 @@ DCPPanel::add_standards()
 		_standard->add(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
 	}
 	_standard->add(_("Interop"), N_("interop"));
+	_sizer->Layout();
 }
 
 
