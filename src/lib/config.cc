@@ -140,9 +140,9 @@ Config::set_defaults ()
 	_dkdm_recipients_file = read_path ("dkdm_recipients.xml");
 	_show_hints_before_make_dcp = true;
 	_confirm_kdm_email = true;
-	_kdm_container_name_format = dcp::NameFormat ("KDM %f %c");
-	_kdm_filename_format = dcp::NameFormat ("KDM %f %c %s");
-	_dkdm_filename_format = dcp::NameFormat ("DKDM %f %c %s");
+	_kdm_container_name_format = dcp::NameFormat("KDM_%f_%c");
+	_kdm_filename_format = dcp::NameFormat("KDM_%f_%c_%s");
+	_dkdm_filename_format = dcp::NameFormat("DKDM_%f_%c_%s");
 	_dcp_metadata_filename_format = dcp::NameFormat ("%t");
 	_dcp_asset_filename_format = dcp::NameFormat ("%t");
 	_jump_to_selected = true;
