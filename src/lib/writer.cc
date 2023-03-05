@@ -231,17 +231,12 @@ Writer::fake_write (Frame frame, Eyes eyes)
 		qi.size = _reels[reel].read_frame_info(info_file, frame_in_reel, eyes).size;
 	}
 
+	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
+
 	qi.reel = reel;
 	qi.frame = frame_in_reel;
-	if (film()->three_d() && eyes == Eyes::BOTH) {
-		qi.eyes = Eyes::LEFT;
-		_queue.push_back (qi);
-		qi.eyes = Eyes::RIGHT;
-		_queue.push_back (qi);
-	} else {
-		qi.eyes = eyes;
-		_queue.push_back (qi);
-	}
+	qi.eyes = eyes;
+	_queue.push_back(qi);
 
 	/* Now there's something to do: wake anything wait()ing on _empty_condition */
 	_empty_condition.notify_all ();

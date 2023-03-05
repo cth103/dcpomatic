@@ -1422,16 +1422,6 @@ Player::emit_video (shared_ptr<PlayerVideo> pv, DCPTime time)
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
 
-	if (!film->three_d()) {
-		if (pv->eyes() == Eyes::LEFT) {
-			/* Use left-eye images for both eyes... */
-			pv->set_eyes (Eyes::BOTH);
-		} else if (pv->eyes() == Eyes::RIGHT) {
-			/* ...and discard the right */
-			return;
-		}
-	}
-
 	/* We need a delay to give a little wiggle room to ensure that relevant subtitles arrive at the
 	   player before the video that requires them.
 	*/
