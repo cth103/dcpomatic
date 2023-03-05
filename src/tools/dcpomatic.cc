@@ -614,14 +614,22 @@ private:
 
 	void file_save ()
 	{
-		_film->write_metadata ();
+		try {
+			_film->write_metadata ();
+		} catch (exception& e) {
+			error_dialog(this, _("Could not save project."), std_to_wx(e.what()));
+		}
 	}
 
 	void file_save_as_template ()
 	{
 		SaveTemplateDialog dialog(this);
 		if (dialog.ShowModal() == wxID_OK) {
-			Config::instance()->save_template(_film, dialog.name());
+			try {
+				Config::instance()->save_template(_film, dialog.name());
+			} catch (exception& e) {
+				error_dialog(this, _("Could not save template."), std_to_wx(e.what()));
+			}
 		}
 	}
 
@@ -633,7 +641,11 @@ private:
 			auto film = make_shared<Film>(dialog.path());
 			film->copy_from (_film);
 			film->set_name(dialog.path().filename().generic_string());
-			film->write_metadata ();
+			try {
+				film->write_metadata();
+			} catch (exception& e) {
+				error_dialog(this, _("Could not duplicate project."), std_to_wx(e.what()));
+			}
 		}
 	}
 
@@ -645,8 +657,12 @@ private:
 			auto film = make_shared<Film>(dialog.path());
 			film->copy_from (_film);
 			film->set_name(dialog.path().filename().generic_string());
-			film->write_metadata ();
-			set_film (film);
+			try {
+				film->write_metadata ();
+				set_film (film);
+			} catch (exception& e) {
+				error_dialog(this, _("Could not duplicate project."), std_to_wx(e.what()));
+			}
 		}
 	}
 
