@@ -770,7 +770,12 @@ Player::pass ()
 	}
 	case BLACK:
 		LOG_DEBUG_PLAYER ("Emit black for gap at %1", to_string(_black.position()));
-		emit_video (black_player_video_frame(Eyes::BOTH), _black.position());
+		if (film->three_d()) {
+			emit_video(black_player_video_frame(Eyes::LEFT), _black.position());
+			emit_video(black_player_video_frame(Eyes::RIGHT), _black.position());
+		} else {
+			emit_video(black_player_video_frame(Eyes::BOTH), _black.position());
+		}
 		_black.set_position (_black.position() + one_video_frame());
 		break;
 	case SILENT:
