@@ -145,7 +145,7 @@ AudioPanel::create ()
 
 	add_to_grid ();
 
-	_sizer->Layout ();
+	layout();
 }
 
 
