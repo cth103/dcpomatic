@@ -83,6 +83,7 @@ ContentSubPanel::layout ()
 	GetViewStart (&x, &y);
 	Scroll (0, 0);
 	_sizer->Layout ();
+	_sizer->FitInside(this);
 	Scroll (x, y);
 }
 
