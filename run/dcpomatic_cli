@@ -3,16 +3,18 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $DIR/environment
 
+binary=$DIR/../build/src/tools/dcpomatic2_cli
+
 if [ "$1" == "--debug" ]; then
     shift
-    gdb --args build/src/tools/dcpomatic2_cli "$@"
+    gdb --args $binary "$@"
 elif [ "$1" == "--valgrind" ]; then
     shift
 #    valgrind --tool="memcheck" --num-callers=24 --suppressions=suppressions build/src/tools/dcpomatic2_cli "$@"
-    valgrind --tool="memcheck" --leak-check=full --show-reachable=yes --num-callers=24 --suppressions=suppressions build/src/tools/dcpomatic2_cli "$@"
+    valgrind --tool="memcheck" --leak-check=full --show-reachable=yes --num-callers=24 --suppressions=suppressions $binary "$@"
 elif [ "$1" == "--callgrind" ]; then
     shift
-    valgrind --tool="callgrind" build/src/tools/dcpomatic2_cli "$@"
+    valgrind --tool="callgrind" $binary "$@"
 else
-    build/src/tools/dcpomatic2_cli "$@"
+    $binary "$@"
 fi
