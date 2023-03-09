@@ -78,7 +78,7 @@ help (string n)
 	     << "      --no-check                    don't check project's content files for changes before making the DCP\n"
 	     << "      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n"
 	     << "      --export-filename <filename>  filename to export to with --export-format\n"
-	     << "      --hints                       show hints and stop if any are given\n"
+	     << "      --hints                       analyze film for hints before encoding and abort if any are found\n"
 	     << "\n"
 	     << "<FILM> is the film directory.\n";
 }
@@ -488,6 +488,9 @@ main (int argc, char* argv[])
 			for (auto hint: hints) {
 				std::cout << word_wrap("* " + hint, 70) << "\n";
 			}
+			std::cout << "*** Encoding aborted because hints were found ***\n\n";
+			std::cout << "Modify your settings and run the command again, or run without\n";
+			std::cout << "the `--hints' option to ignore these hints and encode anyway.\n";
 			exit(EXIT_FAILURE);
 		}
 	}

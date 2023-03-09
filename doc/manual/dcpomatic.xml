@@ -320,7 +320,20 @@ making the DCP.</para>
 
 <para>
 Choose <guilabel>Make DCP</guilabel> from the
-<guilabel>Jobs</guilabel> menu.  DCP-o-matic will encode your DCP.
+<guilabel>Jobs</guilabel> menu.  Before encoding your DCP, DCP-o-matic
+will run a series of checks on your film to look for various conditions
+that might cause problems when playing back the DCP.  If any potential
+problems are found, DCP-o-matic will show you a list of hints.
+Each hint describes the condition that was found and gives
+advice on how to resolve it.  If hints are found and reported, you can
+either <guilabel>Make DCP</guilabel> anyway (without adjusting any
+settings), or <guilabel>Go back</guilabel> in order to make
+adjustments before encoding the DCP.
+</para>
+
+<para>
+If no hints were found (or you pressed <guilabel>Make DCP</guilabel>
+after hints were displayed), DCP-o-matic will encode your DCP.
 This may take some time (many hours in some cases).  While the job is
 in progress, DCP-o-matic will update you on how it is getting on with
 the progress bar in the bottom of its window, as shown in <xref
