@@ -13,5 +13,9 @@
 <listitem><code>-d</code>, <code>--dcp-path</code> &#8212; echo DCP's path to stdout on successful completion (implies -n)</listitem>
 <listitem><code>-c</code>, <code>--config &lt;dir&gt;</code> &#8212; directory containing config.xml and cinemas.xml</listitem>
 <listitem><code>--dump</code> &#8212; just dump a summary of the film's settings; don't encode</listitem>
+<listitem><code>--no-check</code> &#8212; don't check project's content files for changes before making the DCP</listitem>
+<listitem><code>--export-format &lt;format&gt;</code> &#8212; export project to a file, rather than making a DCP: specify mov or mp4</listitem>
+<listitem><code>--export-filename &lt;filename&gt;</code> &#8212; filename to export to with --export-format</listitem>
+<listitem><code>--hints</code> &#8212; analyze film for hints before encoding and abort if any are found</listitem>
 </itemizedlist>
 </para>
