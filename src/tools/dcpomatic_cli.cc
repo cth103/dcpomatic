@@ -484,13 +484,13 @@ main (int argc, char* argv[])
 		std::cout << UP_ONE_LINE_AND_ERASE;
 
 		if (!hints.empty()) {
-			std::cout << "Hints:\n\n";
+			std::cerr << "Hints:\n\n";
 			for (auto hint: hints) {
-				std::cout << word_wrap("* " + hint, 70) << "\n";
+				std::cerr << word_wrap("* " + hint, 70) << "\n";
 			}
-			std::cout << "*** Encoding aborted because hints were found ***\n\n";
-			std::cout << "Modify your settings and run the command again, or run without\n";
-			std::cout << "the `--hints' option to ignore these hints and encode anyway.\n";
+			std::cerr << "*** Encoding aborted because hints were found ***\n\n";
+			std::cerr << "Modify your settings and run the command again, or run without\n";
+			std::cerr << "the `--hints' option to ignore these hints and encode anyway.\n";
 			exit(EXIT_FAILURE);
 		}
 	}
