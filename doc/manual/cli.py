@@ -7,7 +7,7 @@ print('<para>')
 print('<itemizedlist>')
 
 os.chdir('../..')
-for l in subprocess.run(['run/%s' % sys.argv[1], '--help'], stderr=subprocess.PIPE).stderr.splitlines():
+for l in subprocess.run(['run/%s' % sys.argv[1], '--help'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.splitlines():
     l = l.strip().decode('UTF-8')
     if not l.startswith('-'):
         continue
