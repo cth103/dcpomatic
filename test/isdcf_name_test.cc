@@ -246,6 +246,6 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
 	film->set_name("Hello");
 
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-XX_MOS-ATMOS_2K_20230118_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-XX_MOS-IAB_2K_20230118_SMPTE_OV");
 }
 
