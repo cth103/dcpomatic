@@ -13,15 +13,15 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-01-15 19:59+0100\n"
-"PO-Revision-Date: 2022-05-05 23:40+0800\n"
+"PO-Revision-Date: 2023-03-11 19:30+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.2.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/tools/dcpomatic_kdm.cc:430
@@ -76,7 +76,7 @@ msgstr "帮助(&H)"
 
 #: src/tools/dcpomatic.cc:1431
 msgid "&Jobs"
-msgstr "创建(&J)"
+msgstr "任务(&J)"
 
 #: src/tools/dcpomatic.cc:1379
 msgid "&Make DCP\tCtrl-M"
@@ -105,9 +105,8 @@ msgid "&Save\tCtrl-S"
 msgstr "保存(&S)\tCtrl+S"
 
 #: src/tools/dcpomatic_player.cc:550
-#, fuzzy
 msgid "&Save frame to file...\tCtrl-S"
-msgstr "导出视频文件...\tCtrl-E"
+msgstr "保存场景（帧）到文件...\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1393
 msgid "&Send DCP to TMS"
@@ -154,13 +153,12 @@ msgid "Add content"
 msgstr "添加内容"
 
 #: src/tools/dcpomatic_batch.cc:172
-#, fuzzy
 msgid "Add film"
-msgstr "添加工程..."
+msgstr "添加影片"
 
 #: src/tools/dcpomatic_batch.cc:172
 msgid "Add film for conversion"
-msgstr ""
+msgstr "添加影片以转换"
 
 #: src/tools/dcpomatic_kdm.cc:208
 msgid "Add folder..."
@@ -219,7 +217,7 @@ msgstr "确定要恢复默认设置？ 该操作不能撤销."
 #: src/tools/dcpomatic.cc:844
 #, c-format
 msgid "Bad setting for %s."
-msgstr "配置错误 %s."
+msgstr "%s的配置错误。"
 
 #: src/tools/dcpomatic_player.cc:577 src/tools/dcpomatic_playlist.cc:327
 msgid "CPL"
@@ -271,7 +269,7 @@ msgstr "无法找到播放器."
 msgid ""
 "Could not listen for new batch jobs.  Perhaps another instance of the DCP-o-"
 "matic Batch Converter is running."
-msgstr ""
+msgstr "未能侦测到新的批量任务。 可能另一个DCP-o-matic批量转换正在运行."
 
 #: src/tools/dcpomatic_player.cc:756 src/tools/dcpomatic_player.cc:1233
 msgid "Could not load DCP %1."
@@ -300,7 +298,7 @@ msgstr "无法从 %s 载入DCP"
 
 #: src/tools/dcpomatic_batch.cc:491
 msgid "Could not load film %1"
-msgstr "无法载入工程 %1"
+msgstr "无法加载工程 %1"
 
 #: src/tools/dcpomatic.cc:1698
 msgid "Could not load film %1 (%2)"
@@ -330,7 +328,7 @@ msgstr "不能读取KDM。文件过大。请确保打开了正确的DKDM（XML�
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
-msgstr "不能读取KDM。文件可能被损坏或者使用了不兼容的格式."
+msgstr "不能读取KDM。文件可能使用了不兼容的格式，或者并非KDM。"
 
 #: src/tools/dcpomatic.cc:1150
 msgid "Could not send translations"
@@ -355,7 +353,7 @@ msgstr "无法启动播放器，你可能需要从dcpomatic.com下载。"
 #, c-format
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
-msgstr "不能保存设置%s。设置没有被保存。"
+msgstr "不能保存影院数据%s。设置没有被保存。"
 
 #: src/tools/dcpomatic.cc:1459 src/tools/dcpomatic_batch.cc:373
 #: src/tools/dcpomatic_player.cc:983 src/tools/dcpomatic_playlist.cc:613
@@ -370,7 +368,7 @@ msgstr "不能保存设置到文件。更改没有被保存。"
 
 #: src/tools/dcpomatic_kdm.cc:225
 msgid "Create KDMs"
-msgstr "创建KDMs"
+msgstr "创建KDM"
 
 #: src/tools/dcpomatic.cc:1560 src/tools/dcpomatic.cc:1636
 #: src/tools/dcpomatic.cc:1677
@@ -477,9 +475,8 @@ msgid "Encrypted"
 msgstr "加密的"
 
 #: src/tools/dcpomatic.cc:1419
-#, fuzzy
 msgid "Export preferences..."
-msgstr "恢复默认设置"
+msgstr "导出首选项设置..."
 
 #: src/tools/dcpomatic.cc:1391
 msgid "Export subtitles..."
@@ -522,13 +519,13 @@ msgid ""
 "o-matic projects, not DCPs.  To import a DCP, create a new project with File "
 "-> New and then click the \"Add DCP...\" button."
 msgstr ""
-"您正在尝试打开一个DCP，文件->打开是用于加载动态链接库项目，而不是动态链接库。"
-"要导入DCP，请使用文件->新建一个新项目，然后单击“添加DCP …”按钮按钮。"
+"您正在尝试打开一个DCP，文件->打开是用于加载DCP-o-matic项目的，而不是DCP本"
+"身。 要导入DCP，请使用文件->新建以新建一个新项目，然后单击“添加DCP …”按钮。"
 
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:161
 msgid "KDM|Timing"
-msgstr "KDM有效期"
+msgstr "KDM|有效期"
 
 #: src/tools/dcpomatic_playlist.cc:131
 msgid "Length"
@@ -544,7 +541,7 @@ msgstr "制作 &DKDM...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1384
 msgid "Make &KDMs...\tCtrl-K"
-msgstr "制作 KDM \tCtrl+K"
+msgstr "制作 &KDM \tCtrl+K"
 
 #: src/tools/dcpomatic.cc:1381
 msgid "Make DCP in &batch converter\tCtrl-B"
@@ -568,7 +565,7 @@ msgstr "新建"
 
 #: src/tools/dcpomatic.cc:580
 msgid "New Film"
-msgstr "新建电影"
+msgstr "新建影片"
 
 #: src/tools/dcpomatic_playlist.cc:246
 msgid "New Playlist"
@@ -576,7 +573,7 @@ msgstr "新建播放列表"
 
 #: src/tools/dcpomatic.cc:1333
 msgid "New...\tCtrl-N"
-msgstr "新建工程\tCtrl+N"
+msgstr "新建工程...\tCtrl+N"
 
 #: src/tools/dcpomatic_playlist.cc:242
 msgid ""
@@ -586,7 +583,7 @@ msgstr "首选项中未指定播放列表文件夹，请设置一个，然后重
 
 #: src/tools/dcpomatic.cc:1403
 msgid "Open DCP in &player"
-msgstr "打开并使用播放器播放DCP"
+msgstr "在播放器中打开DCP"
 
 #: src/tools/dcpomatic_kdm.cc:219
 msgid "Output"
@@ -594,15 +591,15 @@ msgstr "输出"
 
 #: src/tools/dcpomatic.cc:1364
 msgid "Paste settings...\tCtrl-V"
-msgstr "黏贴设置....\tCtrl+V"
+msgstr "粘贴设置...\tCtrl+V"
 
 #: src/tools/dcpomatic_batch.cc:173
 msgid "Pause or resume conversion"
-msgstr ""
+msgstr "暂停/继续转换"
 
 #: src/tools/dcpomatic_batch.cc:173
 msgid "Pause/resume"
-msgstr ""
+msgstr "暂停/继续"
 
 #: src/tools/dcpomatic.cc:604
 msgid ""
@@ -629,7 +626,7 @@ msgstr "重新创建签名证书"
 
 #: src/tools/dcpomatic.cc:1724
 msgid "Release notes"
-msgstr ""
+msgstr "发行说明"
 
 #: src/tools/dcpomatic_kdm.cc:210 src/tools/dcpomatic_playlist.cc:347
 msgid "Remove"
@@ -654,21 +651,21 @@ msgstr "&查看DCP文件"
 
 #: src/tools/dcpomatic.cc:1396
 msgid "S&how DCP in Finder"
-msgstr "&查看Finder中查看DCP"
+msgstr "&在Finder中查看DCP"
 
 #: src/tools/dcpomatic_playlist.cc:316
-#, fuzzy
 msgid "Save"
-msgstr "&Guardar"
+msgstr "保存"
 
 #: src/tools/dcpomatic.cc:1340
+#, fuzzy
 msgid "Save as &template..."
 msgstr "保存为模板…"
 
 #: src/tools/dcpomatic.cc:150
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
-msgstr "是否保存 \"%s\" ?"
+msgstr "关闭前是否保存 \"%s\" ?"
 
 #: src/tools/dcpomatic.cc:187
 #, c-format
@@ -685,11 +682,11 @@ msgstr "保存并复制"
 
 #: src/tools/dcpomatic_player.cc:714
 msgid "Save frame to file"
-msgstr ""
+msgstr "保存场景（帧）到文件"
 
 #: src/tools/dcpomatic_kdm.cc:154
 msgid "Screens"
-msgstr "厅放映服务器"
+msgstr "影厅放映服务器（屏幕）"
 
 #: src/tools/dcpomatic_player.cc:621
 msgid "Select DCP to open"
@@ -705,7 +702,7 @@ msgstr "选择 DKDM 文件"
 
 #: src/tools/dcpomatic_kdm.cc:513
 msgid "Select DKDM file"
-msgstr "选择DKDM文件"
+msgstr "选择 DKDM 文件"
 
 #: src/tools/dcpomatic_player.cc:690
 msgid "Select KDM"
@@ -721,19 +718,19 @@ msgstr "选择打开工程文件"
 
 #: src/tools/dcpomatic_kdm.cc:424
 msgid "Send KDM emails"
-msgstr "发送KDM电子邮件"
+msgstr "通过电子邮件发送KDM"
 
 #: src/tools/dcpomatic.cc:1414
 msgid "Send translations..."
-msgstr "发送翻译……"
+msgstr "发送翻译..."
 
 #: src/tools/dcpomatic_player.cc:585
 msgid "Set decode resolution to match display"
-msgstr "将解码分辨率设置为适应屏幕分辨率"
+msgstr "将解码分辨率设置为适应屏幕"
 
 #: src/tools/dcpomatic.cc:783
 msgid "Specify ZIP file"
-msgstr ""
+msgstr "指定ZIP文件"
 
 #: src/tools/dcpomatic.cc:1415 src/tools/dcpomatic_player.cc:595
 msgid "System information..."
@@ -747,8 +744,8 @@ msgid ""
 "as much space if the filesystem supported hard links, but it does not.  Do "
 "you want to continue anyway?"
 msgstr ""
-"创造该DCP包时大约需要缓存空间 %.1f GB，您当前可用磁盘空间只有 %.1f GB。DCP-o-"
-"matic工作至少需要2倍的空间来继续。您是否仍然继续?"
+"创建该DCP包时大约需要 %.1f GB的缓存空间，而您当前的可用磁盘空间只有 %.1f GB。"
+"如果文件系统支持硬链接则只需一半的空间即可，但它并不支持。您是否仍然继续?"
 
 #: src/tools/dcpomatic.cc:801
 #, c-format
@@ -787,10 +784,10 @@ msgid ""
 "and back up your\n"
 "configuration before continuing."
 msgstr ""
-"解密kdm的证书链不一致\n"
-"除非重新创建，否则DCP-o-matic无法启动。\n"
-"如果您想重新创建解密KDM的证书链？你可以选择“否”，\n"
-"继续之前的配置。"
+"DCP-o-matic用于解密KDM的证书链不一致，无法被使用。\n"
+"除非您重新创建它，否则DCP-o-matic将无法运行。\n"
+"您是否希望重新创建解密KDM所用的证书链？ 您可能需要先选择“否”并在继续之前\n"
+"先备份您的配置。"
 
 #: src/tools/dcpomatic.cc:1872
 msgid ""
@@ -801,11 +798,10 @@ msgid ""
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 "DCP-o-matic用于签署DCP和KDMs的证书链错误\n"
-"这将无法确验证DCP。\n"
+"这将使得一些系统无法准确验证DCP。\n"
 "您需要重新创建签署DCPs和KDMs的证书链吗？"
 
 #: src/tools/dcpomatic.cc:1887
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period\n"
@@ -813,8 +809,8 @@ msgid ""
 "systems.\n"
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"DCP-o-matic用于签署DCP和KDMs的证书链错误\n"
-"这将无法确验证DCP。\n"
+"DCP-o-matic用于签署DCP和KDMs的证书链具有时长过长的有效期，\n"
+"这将导致在某些系统上回放DCP时出现问题。\n"
 "您需要重新创建签署DCPs和KDMs的证书链吗？"
 
 #: src/tools/dcpomatic.cc:1899
@@ -825,8 +821,8 @@ msgid ""
 "want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"DCP-o-matic用于签署DCP和KDMs的证书链不一致\n"
-"不能使用。除非重新创建，否则DCP-o-matic无法启动。\n"
+"DCP-o-matic用于签署DCP和KDMs的证书链不一致且\n"
+"不能使用。除非重新创建，否则DCP-o-matic无法运行。\n"
 "您想重新创建签署DCPs和KDMs的证书链吗？"
 
 #: src/tools/dcpomatic_player.cc:1332
@@ -847,17 +843,17 @@ msgstr "有未完成的操作，确定退出吗？"
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
-msgstr "老版本中创建的工程无法在高于创建版本中被打开，具体请参考设置."
+msgstr ""
+"老版本DVD-o-matic中创建的工程无法在高于创建版本中被打开，具体请参考设置."
 
 #: src/tools/dcpomatic_player.cc:401
-#, fuzzy
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be loaded into "
 "the player.  Choose the DCP folder inside the DCP-o-matic project folder if "
 "that's what you want to play."
 msgstr ""
-"这是DCP-o-matic项目文件夹，播放器无法加载。如果要播放，请选择DCP-o-matic项目"
-"文件夹中的DCP目录。"
+"这似乎是DCP-o-matic项目文件夹，播放器无法加载。如果要播放，请选择DCP-o-matic"
+"项目文件夹中的DCP目录。"
 
 #: src/tools/dcpomatic_player.cc:594
 msgid "Timing..."
@@ -866,7 +862,7 @@ msgstr "计时..."
 #: src/tools/dcpomatic.cc:602
 #, c-format
 msgid "Try removing the %s characters from your folder name."
-msgstr "尝试把文件夹名中的 %s 字符移除."
+msgstr "尝试将文件夹名中的 %s 字符移除."
 
 #: src/tools/dcpomatic_playlist.cc:328
 msgid "Type"
@@ -907,13 +903,14 @@ msgid ""
 "you <span weight=\"bold\" size=\"larger\">BACK UP THIS FILE</span> since if "
 "it is lost your DKDMs (and the DCPs they protect) will become useless."
 msgstr ""
-"您已经制作了一个数字母版文件，私人秘钥private key保存在\n"
+"您已经制作了一个通过私人密钥（private key）加密的DKDM，私人秘钥private key保"
+"存在\n"
 "\n"
 "<tt>%s</tt>\n"
 "\n"
 "这个文件 <span weight=\"bold\" size=\"larger\">非常重要</span> 请务必 <span "
-"weight=\"bold\" size=\"larger\">备份这个文件</span> 如果丢失，您的数字模板文"
-"件（包括生成的DCP包）将无法使用。"
+"weight=\"bold\" size=\"larger\">备份这个文件</span> 如果丢失，您的DKDM（包括"
+"生成的DCP包）将无法使用。"
 
 #: src/tools/dcpomatic.cc:821
 msgid ""
