@@ -61,6 +61,9 @@ using std::string;
 using std::vector;
 using boost::bind;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 /** @param t Original text type of the content, if known */
@@ -832,7 +835,7 @@ TextPanel::try_to_load_analysis ()
 		}
 
 		JobManager::instance()->analyse_subtitles (
-			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this)
+			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this, _1)
 			);
 		return;
 	}
@@ -842,7 +845,7 @@ TextPanel::try_to_load_analysis ()
 	} catch (OldFormatError& e) {
 		/* An old analysis file: recreate it */
 		JobManager::instance()->analyse_subtitles (
-			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this)
+			_parent->film(), content, _analysis_finished_connection, bind(&TextPanel::analysis_finished, this, _1)
 			);
 		return;
 	}
@@ -884,20 +887,19 @@ TextPanel::clear_outline_subtitles ()
 
 
 void
-TextPanel::analysis_finished ()
+TextPanel::analysis_finished(Job::Result result)
 {
 	_loading_analysis = false;
 
 	auto content = _analysis_content.lock ();
-	if (!content) {
-		setup_sensitivity ();
+	if (!content || result == Job::Result::RESULT_CANCELLED) {
+		clear_outline_subtitles();
+		setup_sensitivity();
 		return;
 	}
 
 	if (!boost::filesystem::exists(_parent->film()->subtitle_analysis_path(content))) {
-		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
-		   Give up.
-		*/
+		/* We analysed and still nothing showed up, so maybe it failed.  Give up. */
 		error_dialog (_parent->window(), _("Could not analyse subtitles."));
 		clear_outline_subtitles ();
 		setup_sensitivity ();

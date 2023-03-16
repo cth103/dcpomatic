@@ -63,7 +63,7 @@ private:
 	void update_dcp_track_selection ();
 	void add_to_grid () override;
 	void try_to_load_analysis ();
-	void analysis_finished ();
+	void analysis_finished(Job::Result result);
 	void language_changed ();
 	void language_is_additional_changed ();
 
