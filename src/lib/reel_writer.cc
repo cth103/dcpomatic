@@ -22,6 +22,7 @@
 #include "audio_buffers.h"
 #include "compose.hpp"
 #include "config.h"
+#include "constants.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "digester.h"
@@ -161,7 +162,7 @@ ReelWriter::ReelWriter (
 		}
 
 		_picture_asset->set_file (asset);
-		_picture_asset_writer = _picture_asset->start_write (asset, _first_nonexistent_frame > 0);
+		_picture_asset_writer = _picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::PictureAsset::Behaviour::OVERWRITE_EXISTING : dcp::PictureAsset::Behaviour::MAKE_NEW);
 	} else if (!text_only) {
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
@@ -177,7 +178,8 @@ ReelWriter::ReelWriter (
 		_sound_asset = make_shared<dcp::SoundAsset> (
 			dcp::Fraction(film()->video_frame_rate(), 1),
 			film()->audio_frame_rate(),
-			film()->audio_channels(),
+			/* Always make 16-channel sound assets for SMPTE; libdcp will pad unused channels for us */
+			standard == dcp::Standard::SMPTE ? MAX_DCP_AUDIO_CHANNELS : film()->audio_channels(),
 			lang ? *lang : dcp::LanguageTag("en-US"),
 			standard
 			);
@@ -195,8 +197,9 @@ ReelWriter::ReelWriter (
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
 			film()->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
-			film()->contains_atmos_content(),
-			!film()->limit_to_smpte_bv20()
+			film()->audio_channels(),
+			film()->contains_atmos_content() ? dcp::SoundAsset::AtmosSync::ENABLED : dcp::SoundAsset::AtmosSync::DISABLED,
+			film()->limit_to_smpte_bv20() ? dcp::SoundAsset::MCASubDescriptors::DISABLED : dcp::SoundAsset::MCASubDescriptors::ENABLED
 			);
 	}
 
@@ -821,7 +824,7 @@ ReelWriter::write (shared_ptr<const AudioBuffers> audio)
 	}
 
 	DCPOMATIC_ASSERT (audio);
-	_sound_asset_writer->write (audio->data(), audio->frames());
+	_sound_asset_writer->write(audio->data(), audio->channels(), audio->frames());
 }
 
 

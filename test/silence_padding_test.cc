@@ -47,7 +47,7 @@ using boost::lexical_cast;
 
 
 static void
-test_silence_padding (int channels)
+test_silence_padding(int channels, dcp::Standard standard)
 {
 	string const film_name = "silence_padding_test_" + lexical_cast<string> (channels);
 	auto film = new_test_film2 (
@@ -57,8 +57,16 @@ test_silence_padding (int channels)
 			make_shared<FFmpegContent>("test/data/staircase.wav")
 		});
 
+	if (standard == dcp::Standard::INTEROP) {
+		film->set_interop(true);
+	}
 	film->set_audio_channels (channels);
-	make_and_verify_dcp (film);
+
+	std::vector<dcp::VerificationNote::Code> codes;
+	if (standard == dcp::Standard::INTEROP) {
+		codes.push_back(dcp::VerificationNote::Code::INVALID_STANDARD);
+	}
+	make_and_verify_dcp(film, codes);
 
 	boost::filesystem::path path = "build/test";
 	path /= film_name;
@@ -74,6 +82,13 @@ test_silence_padding (int channels)
 	int n = 0;
 	/* DCP sound asset frame */
 	int frame = 0;
+
+	auto const asset_channels = sound_asset->asset()->channels();
+	if (standard == dcp::Standard::SMPTE) {
+		DCP_ASSERT(asset_channels == MAX_DCP_AUDIO_CHANNELS)
+	} else {
+		DCP_ASSERT(asset_channels == channels);
+	}
 
 	while (n < sound_asset->asset()->intrinsic_duration()) {
 		auto sound_frame = sound_asset->asset()->start_read()->get_frame(frame++);
@@ -101,8 +116,10 @@ test_silence_padding (int channels)
 BOOST_AUTO_TEST_CASE (silence_padding_test)
 {
 	for (int i = 1; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
-		test_silence_padding (i);
+		test_silence_padding(i, dcp::Standard::INTEROP);
 	}
+
+	test_silence_padding(MAX_DCP_AUDIO_CHANNELS, dcp::Standard::SMPTE);
 }
 
 

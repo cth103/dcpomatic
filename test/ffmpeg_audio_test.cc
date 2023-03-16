@@ -25,14 +25,15 @@
  */
 
 
+#include "lib/constants.h"
+#include "lib/content_factory.h"
+#include "lib/dcp_content_type.h"
+#include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
-#include "lib/dcp_content_type.h"
-#include "lib/video_content.h"
-#include "lib/ratio.h"
-#include "lib/ffmpeg_content.h"
-#include "lib/content_factory.h"
 #include "lib/player.h"
+#include "lib/ratio.h"
+#include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
@@ -70,7 +71,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 
 	auto sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
-	BOOST_CHECK_EQUAL (sound_asset->asset()->channels (), 6);
+	BOOST_CHECK_EQUAL(sound_asset->asset()->channels (), 16);
 
 	/* Sample index in the DCP */
 	int n = 0;
@@ -80,46 +81,17 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 	while (n < sound_asset->asset()->intrinsic_duration()) {
 		auto sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
-
-		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
-
-			if (sound_asset->asset()->channels() > 0) {
-				/* L should be silent */
-				int const sample = d[i + 0] | (d[i + 1] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
+		for (int offset = 0; offset < sound_frame->size(); offset += (3 * sound_asset->asset()->channels())) {
+			for (auto channel = 0; channel < MAX_DCP_AUDIO_CHANNELS; ++channel) {
+				auto const sample = d[offset + channel * 3 + 1] | (d[offset + channel * 3 + 2] << 8);
+				if (channel == 2) {
+					/* Input should be on centre */
+					BOOST_CHECK_EQUAL(sample, n);
+				} else {
+					/* Everything else should be silent */
+					BOOST_CHECK_EQUAL(sample, 0);
+				}
 			}
-
-			if (sound_asset->asset()->channels() > 1) {
-				/* R should be silent */
-				int const sample = d[i + 2] | (d[i + 3] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-			if (sound_asset->asset()->channels() > 2) {
-				/* Mono input so it will appear on centre */
-				int const sample = d[i + 7] | (d[i + 8] << 8);
-				BOOST_CHECK_EQUAL (sample, n);
-			}
-
-			if (sound_asset->asset()->channels() > 3) {
-				/* Lfe should be silent */
-				int const sample = d[i + 9] | (d[i + 10] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-			if (sound_asset->asset()->channels() > 4) {
-				/* Ls should be silent */
-				int const sample = d[i + 11] | (d[i + 12] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-
-			if (sound_asset->asset()->channels() > 5) {
-				/* Rs should be silent */
-				int const sample = d[i + 13] | (d[i + 14] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
 			++n;
 		}
 	}

@@ -645,9 +645,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	}
 
 	dcp::MCASoundField field;
-	if (film()->audio_channels() == 2) {
-		field = dcp::MCASoundField::STEREO;
-	} else if (film()->audio_channels() <= 6) {
+	if (film()->audio_channels() <= 6) {
 		field = dcp::MCASoundField::FIVE_POINT_ONE;
 	} else {
 		field = dcp::MCASoundField::SEVEN_POINT_ONE;
