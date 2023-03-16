@@ -80,7 +80,9 @@ AnalyseSubtitlesJob::run ()
 	set_progress_unknown ();
 
 	if (!content->text.empty()) {
-		while (!player->pass ()) {}
+		while (!player->pass ()) {
+			boost::this_thread::interruption_point();
+		}
 	}
 
 	SubtitleAnalysis analysis (_bounding_box, content->text.front()->x_offset(), content->text.front()->y_offset());
