@@ -24,6 +24,7 @@
  */
 
 
+#include "job.h"
 #include "signaller.h"
 #include <boost/thread/mutex.hpp>
 #include <boost/thread.hpp>
@@ -32,7 +33,6 @@
 #include <list>
 
 
-class Job;
 class Film;
 class Playlist;
 class Content;
@@ -70,14 +70,14 @@ public:
 		std::shared_ptr<const Playlist> playlist,
 		bool from_zero,
 		boost::signals2::connection& connection,
-		std::function<void()> ready
+		std::function<void (Job::Result)> ready
 		);
 
 	void analyse_subtitles (
 		std::shared_ptr<const Film> film,
 		std::shared_ptr<Content> content,
 		boost::signals2::connection& connection,
-		std::function<void()> ready
+		std::function<void (Job::Result)> ready
 		);
 
 	boost::signals2::signal<void (std::weak_ptr<Job>)> JobAdded;

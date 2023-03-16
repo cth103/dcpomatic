@@ -358,9 +358,28 @@ Job::set_state (State s)
 	}
 
 	if (finished) {
-		emit (boost::bind (boost::ref (Finished)));
-		FinishedImmediate ();
+		auto const result = state_to_result(s);
+		emit(boost::bind(boost::ref(Finished), result));
+		FinishedImmediate(result);
 	}
+}
+
+
+Job::Result
+Job::state_to_result(State state) const
+{
+	switch (state) {
+	case FINISHED_OK:
+		return Result::RESULT_OK;
+	case FINISHED_ERROR:
+		return Result::RESULT_ERROR;
+	case FINISHED_CANCELLED:
+		return Result::RESULT_CANCELLED;
+	default:
+		DCPOMATIC_ASSERT(false);
+	};
+
+	DCPOMATIC_ASSERT(false);
 }
 
 
@@ -677,11 +696,11 @@ Job::resume ()
 
 
 void
-Job::when_finished (boost::signals2::connection& connection, function<void()> finished)
+Job::when_finished(boost::signals2::connection& connection, function<void(Result)> finished)
 {
 	boost::mutex::scoped_lock lm (_state_mutex);
 	if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
-		finished ();
+		finished(state_to_result(_state));
 	} else {
 		connection = Finished.connect (finished);
 	}

@@ -193,7 +193,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 	auto playlist = make_shared<Playlist>();
 	playlist->add (film, content);
 	boost::signals2::connection c;
-	JobManager::instance()->analyse_audio(film, playlist, false, c, []() {});
+	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
 	BOOST_CHECK (!wait_for_jobs ());
 }
 
@@ -209,7 +209,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 	auto playlist = make_shared<Playlist>();
 	playlist->add (film, content);
 	boost::signals2::connection c;
-	JobManager::instance()->analyse_audio(film, playlist, false, c, []() {});
+	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
 	BOOST_CHECK (!wait_for_jobs());
 
 	AudioAnalysis analysis(film->audio_analysis_path(playlist));
@@ -230,6 +230,6 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_long_silent_end)
 	auto playlist = make_shared<Playlist>();
 	playlist->add(film, content);
 	boost::signals2::connection c;
-	JobManager::instance()->analyse_audio(film, playlist, false, c, []() {});
+	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
 	BOOST_CHECK(!wait_for_jobs());
 }

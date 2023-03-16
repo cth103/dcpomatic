@@ -91,13 +91,19 @@ public:
 		return _film;
 	}
 
-	void when_finished (boost::signals2::connection& connection, std::function<void()> finished);
+	enum class Result {
+		RESULT_OK,
+		RESULT_ERROR,     // we can't have plain ERROR on Windows
+		RESULT_CANCELLED
+	};
+
+	void when_finished(boost::signals2::connection& connection, std::function<void(Result)> finished);
 
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
-	boost::signals2::signal<void()> Finished;
+	boost::signals2::signal<void (Result)> Finished;
 	/** Emitted from the job thread when the job is finished */
-	boost::signals2::signal<void()> FinishedImmediate;
+	boost::signals2::signal<void (Result)> FinishedImmediate;
 
 protected:
 
@@ -114,6 +120,7 @@ protected:
 		FINISHED_CANCELLED ///< the job was cancelled
 	};
 
+	Result state_to_result(State state) const;
 	void set_state (State);
 	void set_error (std::string s, std::string d = "");
 	void set_message (std::string m);

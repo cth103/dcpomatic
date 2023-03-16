@@ -229,7 +229,7 @@ JobManager::analyse_audio (
 	shared_ptr<const Playlist> playlist,
 	bool from_zero,
 	boost::signals2::connection& connection,
-	function<void()> ready
+	function<void (Job::Result)> ready
 	)
 {
 	{
@@ -264,7 +264,7 @@ JobManager::analyse_subtitles (
 	shared_ptr<const Film> film,
 	shared_ptr<Content> content,
 	boost::signals2::connection& connection,
-	function<void()> ready
+	function<void (Job::Result)> ready
 	)
 {
 	{
