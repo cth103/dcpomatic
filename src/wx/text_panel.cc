@@ -886,9 +886,10 @@ TextPanel::clear_outline_subtitles ()
 void
 TextPanel::analysis_finished ()
 {
+	_loading_analysis = false;
+
 	auto content = _analysis_content.lock ();
 	if (!content) {
-		_loading_analysis = false;
 		setup_sensitivity ();
 		return;
 	}
@@ -899,12 +900,10 @@ TextPanel::analysis_finished ()
 		*/
 		error_dialog (_parent->window(), _("Could not analyse subtitles."));
 		clear_outline_subtitles ();
-		_loading_analysis = false;
 		setup_sensitivity ();
 		return;
 	}
 
-	_loading_analysis = false;
 	try_to_load_analysis ();
 }
 
