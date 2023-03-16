@@ -272,7 +272,7 @@ JobManager::analyse_subtitles (
 
 		for (auto i: _jobs) {
 			auto a = dynamic_pointer_cast<AnalyseSubtitlesJob> (i);
-			if (a && a->path() == film->subtitle_analysis_path(content)) {
+			if (a && a->path() == film->subtitle_analysis_path(content) && !i->finished_cancelled()) {
 				i->when_finished (connection, ready);
 				return;
 			}
