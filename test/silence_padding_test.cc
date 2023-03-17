@@ -79,49 +79,22 @@ test_silence_padding (int channels)
 		auto sound_frame = sound_asset->asset()->start_read()->get_frame(frame++);
 		uint8_t const * d = sound_frame->data ();
 
-		for (int i = 0; i < sound_frame->size(); i += (3 * sound_asset->asset()->channels())) {
+		for (int offset = 0; offset < sound_frame->size(); offset += (3 * asset_channels)) {
 
-			if (sound_asset->asset()->channels() > 0) {
-				/* L should be silent */
-				int const sample = d[i + 1] | (d[i + 2] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-			if (sound_asset->asset()->channels() > 1) {
-				/* R should be silent */
-				int const sample = d[i + 4] | (d[i + 5] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-			if (sound_asset->asset()->channels() > 2) {
-				/* Mono input so it will appear on centre */
-				int const sample = d[i + 7] | (d[i + 8] << 8);
-				BOOST_CHECK_EQUAL (sample, n);
-			}
-
-			if (sound_asset->asset()->channels() > 3) {
-				/* Lfe should be silent */
-				int const sample = d[i + 10] | (d[i + 11] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-			if (sound_asset->asset()->channels() > 4) {
-				/* Ls should be silent */
-				int const sample = d[i + 13] | (d[i + 14] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
-			}
-
-
-			if (sound_asset->asset()->channels() > 5) {
-				/* Rs should be silent */
-				int const sample = d[i + 16] | (d[i + 17] << 8);
-				BOOST_CHECK_EQUAL (sample, 0);
+			for (auto channel = 0; channel < asset_channels; ++channel) {
+				auto const sample = d[offset + channel * 3 + 1] | (d[offset + channel * 3 + 2] << 8);
+				if (channel == 2) {
+					/* Input should be on centre */
+					BOOST_CHECK_EQUAL(sample, n);
+				} else {
+					/* Everything else should be silent */
+					BOOST_CHECK_EQUAL(sample, 0);
+				}
 			}
 
 			++n;
 		}
 	}
-
 }
 
 
