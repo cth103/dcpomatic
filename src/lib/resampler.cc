@@ -81,6 +81,8 @@ Resampler::set_fast ()
 shared_ptr<const AudioBuffers>
 Resampler::run (shared_ptr<const AudioBuffers> in)
 {
+	DCPOMATIC_ASSERT(in->channels() == _channels);
+
 	int in_frames = in->frames ();
 	int in_offset = 0;
 	int out_offset = 0;
