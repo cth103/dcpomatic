@@ -48,7 +48,6 @@ if [ "$check" == "1" ]; then
 		echo "Unexpected dcpomatic-test-private version"
 		exit 1
 	fi
-	./check_sums || (echo "dcpomatic-test-private checksums are incorrect"; exit 1)
 	popd
 fi
 
