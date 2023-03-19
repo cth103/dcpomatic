@@ -40,9 +40,6 @@ using std::dynamic_pointer_cast;
 using std::make_shared;
 
 
-static boost::filesystem::path ref_mxf = "test/data/scaling_test_185_185/j2c_6a2ffab1-9ea5-4428-9027-9d458363c95f.mxf";
-
-
 static void note (dcp::NoteType, std::string)
 {
 
@@ -56,6 +53,8 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("video_mxf_content_test");
+
+	auto const ref_mxf = find_file("test/data/scaling_test_185_185", "j2c");
 
 	auto content = content_factory(ref_mxf)[0];
 	auto check = dynamic_pointer_cast<VideoMXFContent> (content);
