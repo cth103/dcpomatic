@@ -94,7 +94,13 @@ TestPaths::TestPaths::private_data ()
 		return boost::filesystem::path(env);
 	}
 
-	return boost::filesystem::canonical(boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private"));
+	auto relative = boost::filesystem::path ("..") / boost::filesystem::path ("dcpomatic-test-private");
+	if (!boost::filesystem::exists(relative)) {
+		std::cerr << "No private test data found! Tests may fail.\n";
+		return relative;
+	}
+
+	return boost::filesystem::canonical(relative);
 }
 
 
