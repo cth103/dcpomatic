@@ -192,12 +192,25 @@ ReelWriter::ReelWriter (
 
 		DCPOMATIC_ASSERT (film()->directory());
 
+		auto mapped = film()->mapped_audio_channels();
+		std::vector<dcp::Channel> extra_active_channels;
+		auto add_if_mapped = [mapped, &extra_active_channels](dcp::Channel channel) {
+			if (std::find(mapped.begin(), mapped.end(), static_cast<int>(channel)) != mapped.end()) {
+				extra_active_channels.push_back(channel);
+			}
+		};
+
+		add_if_mapped(dcp::Channel::HI);
+		add_if_mapped(dcp::Channel::VI);
+		add_if_mapped(dcp::Channel::BSL);
+		add_if_mapped(dcp::Channel::BSR);
+
 		/* Write the sound asset into the film directory so that we leave the creation
 		   of the DCP directory until the last minute.
 		*/
 		_sound_asset_writer = _sound_asset->start_write (
 			film()->directory().get() / audio_asset_filename (_sound_asset, _reel_index, _reel_count, _content_summary),
-			film()->audio_channels(),
+			extra_active_channels,
 			film()->contains_atmos_content() ? dcp::SoundAsset::AtmosSync::ENABLED : dcp::SoundAsset::AtmosSync::DISABLED,
 			film()->limit_to_smpte_bv20() ? dcp::SoundAsset::MCASubDescriptors::DISABLED : dcp::SoundAsset::MCASubDescriptors::ENABLED
 			);
