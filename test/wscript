@@ -149,6 +149,7 @@ def build(bld):
                  subtitle_reel_number_test.cc
                  subtitle_timing_test.cc
                  subtitle_trim_test.cc
+                 template_test.cc
                  test.cc
                  text_decoder_test.cc
                  threed_test.cc

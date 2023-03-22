@@ -409,7 +409,9 @@ AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 	size_t j = 0;
 
 	while (i < _streams.size() && j < c->_streams.size()) {
-		_streams[i]->set_mapping (c->_streams[j]->mapping());
+		auto mapping = _streams[i]->mapping();
+		mapping.take_from(c->_streams[j]->mapping());
+		_streams[i]->set_mapping(mapping);
 		++i;
 		++j;
 	}
