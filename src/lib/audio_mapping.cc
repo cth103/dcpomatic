@@ -61,12 +61,9 @@ AudioMapping::AudioMapping (int input_channels, int output_channels)
 void
 AudioMapping::setup (int input_channels, int output_channels)
 {
-	_input_channels = input_channels;
-	_output_channels = output_channels;
-
-	_gain.resize (_input_channels);
-	for (int i = 0; i < _input_channels; ++i) {
-		_gain[i].resize (_output_channels);
+	_gain.resize(input_channels);
+	for (int i = 0; i < input_channels; ++i) {
+		_gain[i].resize(output_channels);
 	}
 
 	make_zero ();
@@ -76,9 +73,9 @@ AudioMapping::setup (int input_channels, int output_channels)
 void
 AudioMapping::make_zero ()
 {
-	for (int i = 0; i < _input_channels; ++i) {
-		for (int j = 0; j < _output_channels; ++j) {
-			_gain[i][j] = 0;
+	for (auto& input: _gain) {
+		for (auto& output: input) {
+			output = 0;
 		}
 	}
 }
@@ -224,11 +221,14 @@ AudioMapping::get (int input_channel, int output_channel) const
 void
 AudioMapping::as_xml (xmlpp::Node* node) const
 {
-	node->add_child ("InputChannels")->add_child_text (raw_convert<string> (_input_channels));
-	node->add_child ("OutputChannels")->add_child_text (raw_convert<string> (_output_channels));
+	auto const input = input_channels();
+	auto const output = output_channels();
 
-	for (int c = 0; c < _input_channels; ++c) {
-		for (int d = 0; d < _output_channels; ++d) {
+	node->add_child("InputChannels")->add_child_text(raw_convert<string>(input));
+	node->add_child("OutputChannels")->add_child_text(raw_convert<string>(output));
+
+	for (int c = 0; c < input; ++c) {
+		for (int d = 0; d < output; ++d) {
 			auto t = node->add_child ("Gain");
 			t->set_attribute ("Input", raw_convert<string> (c));
 			t->set_attribute ("Output", raw_convert<string> (d));
@@ -245,11 +245,11 @@ string
 AudioMapping::digest () const
 {
 	Digester digester;
-	digester.add (_input_channels);
-	digester.add (_output_channels);
-	for (int i = 0; i < _input_channels; ++i) {
-		for (int j = 0; j < _output_channels; ++j) {
-			digester.add (_gain[i][j]);
+	digester.add(input_channels());
+	digester.add(output_channels());
+	for (auto const& input: _gain) {
+		for (auto output: input) {
+			digester.add(output);
 		}
 	}
 

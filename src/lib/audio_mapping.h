@@ -64,11 +64,11 @@ public:
 	float get (int input_channel, dcp::Channel output_channel) const;
 
 	int input_channels () const {
-		return _input_channels;
+		return _gain.size();
 	}
 
 	int output_channels () const {
-		return _output_channels;
+		return _gain.empty() ? 0 : _gain[0].size();
 	}
 
 	std::string digest () const;
@@ -79,8 +79,6 @@ public:
 private:
 	void setup (int input_channels, int output_channels);
 
-	int _input_channels = 0;
-	int _output_channels = 0;
 	/** Linear gains */
 	std::vector<std::vector<float>> _gain;
 };
