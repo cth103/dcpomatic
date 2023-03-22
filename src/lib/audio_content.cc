@@ -405,15 +405,12 @@ AudioContent::take_settings_from (shared_ptr<const AudioContent> c)
 	set_fade_in (c->fade_in());
 	set_fade_out (c->fade_out());
 
-	size_t i = 0;
-	size_t j = 0;
+	auto const streams_to_take = std::min(_streams.size(), c->_streams.size());
 
-	while (i < _streams.size() && j < c->_streams.size()) {
+	for (auto i = 0U; i < streams_to_take; ++i) {
 		auto mapping = _streams[i]->mapping();
-		mapping.take_from(c->_streams[j]->mapping());
+		mapping.take_from(c->_streams[i]->mapping());
 		_streams[i]->set_mapping(mapping);
-		++i;
-		++j;
 	}
 }
 
