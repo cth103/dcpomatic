@@ -288,3 +288,18 @@ AudioMapping::unmap_all ()
 		}
 	}
 }
+
+
+void
+AudioMapping::take_from(AudioMapping const& other)
+{
+	auto input = std::min(input_channels(), other.input_channels());
+	auto output = std::min(output_channels(), other.output_channels());
+
+	for (auto i = 0; i < input; ++i) {
+		for (auto o = 0; o < output; ++o) {
+			set(i, o, other.get(i, o));
+		}
+	}
+}
+

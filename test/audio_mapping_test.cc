@@ -104,3 +104,47 @@ BOOST_AUTO_TEST_CASE (audio_mapping_guess_test)
 }
 
 
+BOOST_AUTO_TEST_CASE(audio_mapping_take_from_larger)
+{
+	AudioMapping A(4, 9);
+	AudioMapping B(2, 3);
+
+	A.set(0, 0, 4);
+	A.set(1, 0, 8);
+	A.set(0, 1, 3);
+	A.set(1, 1, 6);
+	A.set(0, 2, 1);
+	A.set(1, 2, 9);
+
+	B.take_from(A);
+
+	BOOST_CHECK_CLOSE(B.get(0, 0), 4, 0.01);
+	BOOST_CHECK_CLOSE(B.get(1, 0), 8, 0.01);
+	BOOST_CHECK_CLOSE(B.get(0, 1), 3, 0.01);
+	BOOST_CHECK_CLOSE(B.get(1, 1), 6, 0.01);
+	BOOST_CHECK_CLOSE(B.get(0, 2), 1, 0.01);
+	BOOST_CHECK_CLOSE(B.get(1, 2), 9, 0.01);
+}
+
+
+BOOST_AUTO_TEST_CASE(audio_mapping_take_from_smaller)
+{
+	AudioMapping A(4, 9);
+	AudioMapping B(2, 3);
+
+	B.set(0, 0, 4);
+	B.set(1, 0, 8);
+	B.set(0, 1, 3);
+	B.set(1, 1, 6);
+	B.set(0, 2, 1);
+	B.set(1, 2, 9);
+
+	A.take_from(B);
+
+	BOOST_CHECK_CLOSE(A.get(0, 0), 4, 0.01);
+	BOOST_CHECK_CLOSE(A.get(1, 0), 8, 0.01);
+	BOOST_CHECK_CLOSE(A.get(0, 1), 3, 0.01);
+	BOOST_CHECK_CLOSE(A.get(1, 1), 6, 0.01);
+	BOOST_CHECK_CLOSE(A.get(0, 2), 1, 0.01);
+	BOOST_CHECK_CLOSE(A.get(1, 2), 9, 0.01);
+}
