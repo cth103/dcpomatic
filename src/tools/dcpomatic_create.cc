@@ -118,6 +118,18 @@ main (int argc, char* argv[])
 			film->set_j2k_bandwidth (*cc.j2k_bandwidth);
 		}
 
+		int channels = 6;
+		for (auto cli_content: cc.content) {
+			if (cli_content.channel) {
+				channels = std::max(channels, static_cast<int>(*cli_content.channel) + 1);
+			}
+		}
+		if (channels % 1) {
+			++channels;
+		}
+
+		film->set_audio_channels(channels);
+
 		for (auto cli_content: cc.content) {
 			auto const can = boost::filesystem::canonical (cli_content.path);
 			vector<shared_ptr<Content>> film_content_list;

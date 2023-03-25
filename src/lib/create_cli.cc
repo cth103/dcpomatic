@@ -55,7 +55,7 @@ string CreateCLI::_help =
 	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
 	"      --left-eye                next piece of content is for the left eye\n"
 	"      --right-eye               next piece of content is for the right eye\n"
-	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs\n"
+	"      --channel <channel>       next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI\n"
 	"      --gain                    next piece of content should have the given audio gain (in dB)\n"
 	"      --cpl <id>                CPL ID to use from the next piece of content (which is a DCP)\n"
 	"      --kdm <file>              KDM for next piece of content\n";
@@ -208,6 +208,14 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				return dcp::Channel::LS;
 			} else if (channel == "Rs") {
 				return dcp::Channel::RS;
+			} else if (channel == "BsL") {
+				return dcp::Channel::BSL;
+			} else if (channel == "BsR") {
+				return dcp::Channel::BSR;
+			} else if (channel == "HI") {
+				return dcp::Channel::HI;
+			} else if (channel == "VI") {
+				return dcp::Channel::VI;
 			} else {
 				return {};
 			}
