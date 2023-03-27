@@ -711,7 +711,7 @@ private:
 
 	void file_save_frame ()
 	{
-		wxFileDialog dialog (this, _("Save frame to file"), "", "", "PNG files (*.png)|*.png|JPEG files (*.jpg,*.jpeg)|*.jpg,*.jpeg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		wxFileDialog dialog (this, _("Save frame to file"), "", "", "PNG files (*.png)|*.png|JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (dialog.ShowModal() == wxID_CANCEL) {
 			return;
 		}
