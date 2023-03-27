@@ -469,7 +469,7 @@ msgstr "允许映射到所有音频通道"
 
 #: src/wx/full_config_dialog.cc:1547
 msgid "Allow use of SMPTE Bv2.0"
-msgstr ""
+msgstr "允许使用SMPTE Bv2.0"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
@@ -1065,7 +1065,7 @@ msgstr "默认DCP音频通道"
 
 #: src/wx/full_config_dialog.cc:316
 msgid "Default JPEG2000 bandwidth"
-msgstr "默认JPEG2000带宽"
+msgstr "默认JPEG2000码率"
 
 #: src/wx/full_config_dialog.cc:359
 msgid "Default KDM directory"
@@ -1124,9 +1124,8 @@ msgid "Default studio"
 msgstr "默认片厂"
 
 #: src/wx/full_config_dialog.cc:342
-#, fuzzy
 msgid "Default territory"
-msgstr "默认地区"
+msgstr "默认发行地区"
 
 #: src/wx/full_config_dialog.cc:344
 #, fuzzy
@@ -1734,8 +1733,7 @@ msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
 msgstr ""
-"JPEG2000码率\n"
-"对于新编码的数据"
+"JPEG2000码率 (对于新编码的数据)"
 
 #: src/wx/full_config_dialog.cc:1427
 msgid "JPEG2000 comment"
@@ -1768,7 +1766,7 @@ msgstr "KDM类型"
 #. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/wx/dkdm_dialog.cc:85 src/wx/kdm_dialog.cc:88
 msgid "KDM|Timing"
-msgstr "KDM|有效期"
+msgstr "有效期"
 
 #: src/wx/timeline_dialog.cc:79
 msgid "Keep video and subtitles in sequence"
@@ -2332,7 +2330,7 @@ msgstr "预发布(点映版)"
 
 #: src/wx/dcp_panel.cc:937
 msgid "Processor"
-msgstr "处理器"
+msgstr "处理方式"
 
 #: src/wx/full_config_dialog.cc:1417
 msgid "Product name"
@@ -2900,7 +2898,7 @@ msgstr "片厂"
 
 #: src/wx/full_config_dialog.cc:1043 src/wx/full_config_dialog.cc:1176
 msgid "Subject"
-msgstr "类目"
+msgstr "标题"
 
 #: src/wx/screen_dialog.cc:178
 #, fuzzy

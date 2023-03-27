@@ -446,7 +446,7 @@ msgstr "不能生成KDM，因为项目没有被加密."
 
 #: src/lib/util.cc:616
 msgid "Centre"
-msgstr "居中对齐"
+msgstr "中置"
 
 #: src/lib/audio_content.cc:315
 msgid "Channels"
