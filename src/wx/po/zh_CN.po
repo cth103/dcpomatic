@@ -1051,7 +1051,7 @@ msgstr "解码分辨率: %dx%d"
 
 #: src/wx/config_dialog.cc:642 src/wx/config_dialog.cc:700
 msgid "Decrypting KDMs"
-msgstr "解密KDM中"
+msgstr "KDM解密设置"
 
 #: src/wx/full_config_dialog.cc:128
 msgid "Default \"add file\" location"
@@ -1123,7 +1123,7 @@ msgstr "默认片厂"
 
 #: src/wx/full_config_dialog.cc:342
 msgid "Default territory"
-msgstr "默认发行地区"
+msgstr "真峰值为"
 
 #: src/wx/full_config_dialog.cc:344
 #, fuzzy
@@ -2087,9 +2087,8 @@ msgid "No warnings found."
 msgstr "没有发现任何警告。"
 
 #: src/wx/full_config_dialog.cc:1501
-#, fuzzy
 msgid "Non-standard"
-msgstr "标准"
+msgstr "非标准设置（高级)"
 
 #: src/wx/content_advanced_dialog.cc:75 src/wx/content_advanced_dialog.cc:159
 #: src/wx/content_advanced_dialog.cc:167 src/wx/dcp_panel.cc:1042
@@ -2595,7 +2594,7 @@ msgstr "和项目相同的位置"
 #: src/wx/audio_dialog.cc:395
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr "最佳值 %.2fdB 到 %s 在 %s"
+msgstr "样本峰值为 %.2fdB 位于 %s, %s"
 
 #: src/wx/dcp_panel.cc:933
 msgid "Sample rate"
@@ -2894,7 +2893,7 @@ msgstr "片厂"
 
 #: src/wx/full_config_dialog.cc:1043 src/wx/full_config_dialog.cc:1176
 msgid "Subject"
-msgstr "标题"
+msgstr "主题"
 
 #: src/wx/screen_dialog.cc:178
 #, fuzzy
@@ -3597,7 +3596,7 @@ msgstr "裁剪至当前位置"
 #: src/wx/audio_dialog.cc:415
 #, c-format
 msgid "True peak is %.2fdB"
-msgstr "最佳值为 %.2fdB"
+msgstr "真峰值为 %.2fdB"
 
 #: src/wx/screen_dialog.cc:54
 msgid "Trusted Device"

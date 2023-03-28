@@ -457,9 +457,8 @@ msgid "Check their new settings, then try again."
 msgstr "检查其新设置后再试。"
 
 #: src/lib/check_content_job.cc:55
-#, fuzzy
 msgid "Checking content"
-msgstr "检查媒体内容"
+msgstr "检查媒体内容中"
 
 #: src/lib/reel_writer.cc:260
 msgid "Checking existing image data"
@@ -895,7 +894,7 @@ msgstr "检查音频、字幕和隐藏式字幕中"
 
 #: src/lib/examine_content_job.cc:54
 msgid "Examining content"
-msgstr "检查媒体内容中"
+msgstr "分析内容中"
 
 #: src/lib/examine_ffmpeg_subtitles_job.cc:54
 msgid "Examining subtitles"
@@ -1203,7 +1202,7 @@ msgstr "无"
 
 #: src/lib/job.cc:592
 msgid "OK (ran for %1)"
-msgstr "确认 (运行 %1)"
+msgstr "完成 (运行用时 %1)"
 
 #: src/lib/content.cc:116
 msgid "Only the first piece of content to be joined can have a start trim."
