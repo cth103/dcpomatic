@@ -175,7 +175,7 @@ private:
 
 		auto jm = JobManager::instance ();
 		jm->add (make_shared<CombineDCPJob>(_inputs, output, wx_to_std(_annotation_text->GetValue())));
-		bool const ok = display_progress (_("DCP-o-matic Combine"), _("Combining DCPs"));
+		bool const ok = display_progress(_("DCP-o-matic Combiner"), _("Combining DCPs"));
 		if (!ok) {
 			return;
 		}
