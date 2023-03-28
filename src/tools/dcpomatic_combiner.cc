@@ -253,7 +253,7 @@ public:
 			*/
 			Config::drop ();
 
-			_frame = new DOMFrame (_("DCP-o-matic DCP Combiner"));
+			_frame = new DOMFrame(_("DCP-o-matic Combiner"));
 			SetTopWindow (_frame);
 
 			_frame->Show ();
@@ -263,7 +263,7 @@ public:
 		}
 		catch (exception& e)
 		{
-			error_dialog (nullptr, wxString::Format ("DCP-o-matic DCP Combiner could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, wxString::Format("DCP-o-matic Combiner could not start."), std_to_wx(e.what()));
 			return false;
 		}
 
