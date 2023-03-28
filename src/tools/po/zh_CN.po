@@ -224,7 +224,7 @@ msgstr "出现未知错误."
 #: src/tools/dcpomatic_combiner.cc:116 src/tools/dcpomatic_editor.cc:78
 #: src/tools/dcpomatic_editor.cc:193
 msgid "Annotation text"
-msgstr ""
+msgstr "注释文本"
 
 #: src/tools/dcpomatic.cc:760
 msgid ""
@@ -268,7 +268,7 @@ msgstr "隐藏式字幕..."
 
 #: src/tools/dcpomatic_combiner.cc:124
 msgid "Combine"
-msgstr ""
+msgstr "组合DCP"
 
 #: src/tools/dcpomatic_combiner.cc:178
 msgid "Combining DCPs"
@@ -276,11 +276,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_editor.cc:208
 msgid "Content title text"
-msgstr ""
+msgstr "内容标题文本"
 
 #: src/tools/dcpomatic_disk.cc:160
 msgid "Copy DCP"
-msgstr ""
+msgstr "写入DCP"
 
 #: src/tools/dcpomatic.cc:1334
 msgid "Copy settings\tCtrl-C"
@@ -443,9 +443,8 @@ msgstr "DCP-o-matic 批量转换"
 
 #: src/tools/dcpomatic_combiner.cc:178 src/tools/dcpomatic_combiner.cc:222
 #: src/tools/dcpomatic_combiner.cc:256
-#, fuzzy
 msgid "DCP-o-matic Combiner"
-msgstr "DCP-o-matic 播放器"
+msgstr "DCP-o-matic 组合工具"
 
 #: src/tools/dcpomatic_disk.cc:314 src/tools/dcpomatic_disk.cc:322
 #: src/tools/dcpomatic_disk.cc:355 src/tools/dcpomatic_disk.cc:443
@@ -549,7 +548,7 @@ msgstr "下"
 
 #: src/tools/dcpomatic_disk.cc:147
 msgid "Drive"
-msgstr ""
+msgstr "目标驱动器"
 
 #: src/tools/dcpomatic_player.cc:580
 msgid "Dual screen\tShift+F11"
@@ -644,7 +643,7 @@ msgstr "提示..."
 
 #: src/tools/dcpomatic_combiner.cc:101
 msgid "Input DCP"
-msgstr ""
+msgstr "导入DCP"
 
 #: src/tools/dcpomatic_editor.cc:93
 msgid "Intrinsic duration"
@@ -666,7 +665,7 @@ msgstr ""
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:161
 msgid "KDM|Timing"
-msgstr "KDM|有效期"
+msgstr "有效期"
 
 #: src/tools/dcpomatic_playlist.cc:131
 msgid "Length"
@@ -742,7 +741,7 @@ msgstr "输出"
 
 #: src/tools/dcpomatic_combiner.cc:120
 msgid "Output DCP folder"
-msgstr ""
+msgstr "导出DCP到文件夹"
 
 #: src/tools/dcpomatic.cc:1336
 msgid "Paste settings...\tCtrl-V"
@@ -789,7 +788,7 @@ msgstr ""
 
 #: src/tools/dcpomatic_disk.cc:151
 msgid "Refresh"
-msgstr ""
+msgstr "刷新"
 
 #: src/tools/dcpomatic.cc:1696
 msgid "Release notes"
