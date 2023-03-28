@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 23:02+0200\n"
+"POT-Creation-Date: 2023-03-29 01:43+0200\n"
 "PO-Revision-Date: 2022-02-11 22:17+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
@@ -64,8 +64,8 @@ msgstr ""
 msgid " (%.2f:1)"
 msgstr " (%.2f:1)"
 
-#. / TRANSLATORS: the %1 in this string will be filled in with a day of the week
-#. / to say what day a job will finish.
+#. TRANSLATORS: the %1 in this string will be filled in with a day of the week
+#. to say what day a job will finish.
 #: src/lib/job.cc:582
 msgid " on %1"
 msgstr " на %1"
@@ -198,7 +198,7 @@ msgstr ""
 msgid "9"
 msgstr ""
 
-#. / TRANSLATORS: fps here is an abbreviation for frames per second
+#. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:175
 msgid "; %1 fps"
 msgstr "; %1 кадр/сек"
@@ -501,16 +501,16 @@ msgstr "Скрытые субтитры"
 msgid "Colour primaries"
 msgstr "Основные цвета"
 
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is unknown (not specified in the file).
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is full, so that all possible pixel values are valid.
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is unknown (not specified in the file).
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is limited, so that not all possible values are valid.
-#. / TRANSLATORS: this means that the range of pixel values used in this
-#. / file is full, so that all possible pixel values are valid.
+#. TRANSLATORS: this means that the range of pixel values used in this
+#. file is unknown (not specified in the file).
+#. TRANSLATORS: this means that the range of pixel values used in this
+#. file is full, so that all possible pixel values are valid.
+#. TRANSLATORS: this means that the range of pixel values used in this
+#. file is unknown (not specified in the file).
+#. TRANSLATORS: this means that the range of pixel values used in this
+#. file is limited, so that not all possible values are valid.
+#. TRANSLATORS: this means that the range of pixel values used in this
+#. file is full, so that all possible pixel values are valid.
 #: src/lib/ffmpeg_content.cc:552 src/lib/ffmpeg_content.cc:559
 #: src/lib/ffmpeg_content.cc:566 src/lib/ffmpeg_content.cc:576
 #: src/lib/ffmpeg_content.cc:581 src/lib/ffmpeg_content.cc:586
@@ -1122,6 +1122,7 @@ msgstr "Доставка KDM: $CPL_NAME"
 msgid "Kernel deinterlacer"
 msgstr "Деинтерлейсинг ядром"
 
+#. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 #: src/lib/ffmpeg_encoder.cc:267 src/lib/util.cc:645
 msgid "L"
 msgstr "L"
@@ -1311,6 +1312,7 @@ msgstr "PRO (Промо-ролик)"
 msgid "Public Service Announcement"
 msgstr "PSA (Социальная реклама)"
 
+#. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 #: src/lib/ffmpeg_encoder.cc:272 src/lib/util.cc:646
 msgid "R"
 msgstr "R"
@@ -1950,8 +1952,8 @@ msgstr "[статичный]"
 msgid "[subtitles]"
 msgstr "[субтитры]"
 
-#. / TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
-#. / which reel it is.  Preserve the %1; it will be replaced with the reel number.
+#. TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
+#. which reel it is.  Preserve the %1; it will be replaced with the reel number.
 #: src/lib/ffmpeg_encoder.cc:153
 msgid "_reel%1"
 msgstr "_reel%1"
@@ -2028,73 +2030,73 @@ msgstr "ошибка во время async_write (%1)"
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
-#. / TRANSLATORS: h here is an abbreviation for hours
+#. TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:206
 msgid "h"
 msgstr "ч"
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:748
 msgid "it does not have closed captions in all its reels."
 msgstr "во всех частях фильма нет скрытых субтитров (CC)."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:737
 msgid "it does not have open subtitles in all its reels."
 msgstr "во всех частях фильма нет открытых (вшитых) субтитров."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:704
 msgid "it does not have sound in all its reels."
 msgstr "во всех частях фильма нет звука."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:608
 msgid "it has a different frame rate to the film."
 msgstr "частота кадров проекта отличается от частоты кадров DCP."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:763
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr "имеется обрезка с начала, поэтому субтитры должны быть перезаписаны."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:665
 msgid "it is 2K and the film is 4K."
 msgstr "является 2K, а проект - 4K."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:662
 msgid "it is 4K and the film is 2K."
 msgstr "является 4K, а проект - 2K."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:596
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "является Interop, а проект настроен как SMPTE."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:600
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "является SMPTE, а проект настроен как Interop."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:710
 msgid "it overlaps other audio content; remove the other content."
 msgstr "перекрывает другой аудиоконтент; удалите другой контент."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:768
 msgid "it overlaps other text content; remove the other content."
 msgstr "перекрывает другой текстовый контент; удалите другой контент."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:675
 msgid "it overlaps other video content; remove the other content."
 msgstr "перекрывает другой видеоконтент; удалите другой контент."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:631
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
@@ -2103,12 +2105,12 @@ msgstr ""
 "длительность частей фильма в проекте отличаются от таковых в DCP; установите "
 "режим частей фильма \"Разделять по видеоконтенту\"."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:670
 msgid "its video frame size differs from the film's."
 msgstr "размер кадра видео в проекте отличается от размера видео DCP."
 
-#. / TRANSLATORS: m here is an abbreviation for minutes
+#. TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:215
 msgid "m"
 msgstr "м"
@@ -2121,7 +2123,7 @@ msgstr "движущийся"
 msgid "name"
 msgstr "название"
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:754
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
@@ -2130,7 +2132,7 @@ msgstr ""
 "один из файлов скрытых субтитров имеет ненулевой индекс, поэтому он должен "
 "быть перезаписан."
 
-#. / TRANSLATORS: this string will follow "Cannot reference this DCP: "
+#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:741
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
@@ -2139,7 +2141,7 @@ msgstr ""
 "одна из частей файла субтитров имеет ненулевой индекс, поэтому он должен "
 "быть перезаписан."
 
-#. / TRANSLATORS: s here is an abbreviation for seconds
+#. TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:225
 msgid "s"
 msgstr "с"

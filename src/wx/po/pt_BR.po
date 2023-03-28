@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 23:02+0200\n"
+"POT-Creation-Date: 2023-03-29 01:43+0200\n"
 "PO-Revision-Date: 2018-01-15 18:18-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -121,12 +121,12 @@ msgstr ""
 msgid "0dB (unchanged)"
 msgstr ""
 
-#. / TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+#. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:413
 msgid "1 Bv2.1 error, "
 msgstr ""
 
-#. / TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+#. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:405
 msgid "1 error, "
 msgstr ""
@@ -216,8 +216,6 @@ msgstr "<b>Nova cor</b>"
 msgid "<b>Original colour</b>"
 msgstr "<b>Cor original</b>"
 
-#. //trac.wxwidgets.org/ticket/13389
-#.
 #: src/wx/report_problem_dialog.cc:86
 msgid ""
 "<i>It is important that you enter a valid email address here, otherwise I "
@@ -810,7 +808,7 @@ msgstr "Cor"
 msgid "Colour conversion"
 msgstr "Conversão de cor"
 
-#. / TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
+#. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:194
 msgid "Colour|Custom"
 msgstr "Cor|Customizar"
@@ -828,7 +826,7 @@ msgstr "Componente"
 msgid "Configuration file"
 msgstr "Arquivo de configuração"
 
-#. / TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1731 src/wx/player_config_dialog.cc:276
 msgid "Config|Timing"
 msgstr "Configuração|Timing"
@@ -1599,8 +1597,8 @@ msgid ""
 "'Single reel'"
 msgstr ""
 
-#. / TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
-#. / the warning about using the disk writer.
+#. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+#. the warning about using the disk writer.
 #: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
 msgid "I am sure"
 msgstr ""
@@ -1804,7 +1802,7 @@ msgstr "Diretório do DCP"
 msgid "KDM type"
 msgstr "Tipo de KDM"
 
-#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/wx/dkdm_dialog.cc:85 src/wx/kdm_dialog.cc:88
 msgid "KDM|Timing"
 msgstr "KDM|Timing"
@@ -1951,8 +1949,8 @@ msgstr "H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Arquivos MP4 (*.mp4)|*.mp4"
 
-#. / TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
-#. / film or an "additional" language.
+#. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
+#. film or an "additional" language.
 #: src/wx/text_panel.cc:183
 msgid "Main"
 msgstr ""
@@ -2143,7 +2141,6 @@ msgstr ""
 msgid "Non-standard"
 msgstr "Padrão"
 
-#. /OUTLINE/SHADOW variables
 #: src/wx/content_advanced_dialog.cc:75 src/wx/content_advanced_dialog.cc:159
 #: src/wx/content_advanced_dialog.cc:167 src/wx/dcp_panel.cc:1042
 #: src/wx/subtitle_appearance_dialog.cc:151 src/wx/video_panel.cc:188
@@ -2511,7 +2508,7 @@ msgstr "Duração do rolo"
 msgid "Reels"
 msgstr "Rolos"
 
-#. / TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
+#. TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
 #: src/wx/dcp_panel.cc:152
 msgid "Reel|Custom"
 msgstr "Rolo|Customizar"
@@ -3612,7 +3609,7 @@ msgstr "Timeline..."
 msgid "Timing"
 msgstr "KDM|Timing"
 
-#. / TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:68
 msgid "Timing|Timing"
 msgstr "Timing|Timing"
@@ -3924,8 +3921,8 @@ msgstr "Taxa de quadros do vídeo"
 msgid "Video frame rate that content was prepared for"
 msgstr ""
 
-#. / TRANSLATORS: next to this control is a language selector, so together they will read, for example
-#. / "Video has burnt-in subtitles in the language fr-FR"
+#. TRANSLATORS: next to this control is a language selector, so together they will read, for example
+#. "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:98
 #, fuzzy
 msgid "Video has burnt-in subtitles in the language"
@@ -4070,7 +4067,7 @@ msgstr ""
 msgid "Zoom out to whole film"
 msgstr ""
 
-#. / TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+#. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:421
 msgid "and 1 warning."
 msgstr ""
@@ -4122,7 +4119,7 @@ msgstr "e.g. %s"
 msgid "enabled"
 msgstr ""
 
-#. // TRANSLATORS: this is an abbreviation for "frames"
+#. TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:102
 msgid "f"
 msgstr "f"
@@ -4149,12 +4146,12 @@ msgstr "Editar tela"
 msgid "full screen with controls on other monitor"
 msgstr ""
 
-#. // TRANSLATORS: this is an abbreviation for "hours"
+#. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:86
 msgid "h"
 msgstr "h"
 
-#. // TRANSLATORS: this is an abbreviation for "minutes"
+#. TRANSLATORS: this is an abbreviation for "minutes"
 #: src/wx/timing_panel.cc:92
 msgid "m"
 msgstr "m"
@@ -4163,7 +4160,7 @@ msgstr "m"
 msgid "months"
 msgstr ""
 
-#. / TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
+#. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:108 src/wx/full_config_dialog.cc:329
 msgid "ms"
 msgstr "ms"
@@ -4201,7 +4198,7 @@ msgstr "Protocolo"
 msgid "reel number"
 msgstr "Número de série"
 
-#. // TRANSLATORS: this is an abbreviation for "seconds"
+#. TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:295 src/wx/timing_panel.cc:97
 msgid "s"
 msgstr "s"
@@ -4272,8 +4269,8 @@ msgstr "y"
 msgid "years"
 msgstr ""
 
-#. / TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
-#. / the warning about a disk being wiped
+#. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
+#. the warning about a disk being wiped
 #: src/wx/drive_wipe_warning_dialog.cc:47
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"

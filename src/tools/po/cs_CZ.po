@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 23:02+0200\n"
+"POT-Creation-Date: 2023-03-29 01:43+0200\n"
 "PO-Revision-Date: 2021-05-07 12:02+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
@@ -520,8 +520,8 @@ msgstr "Export…"
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Soubor %s již existuje. Chcete soubor přepsat?"
 
-#. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
-#. / project (Film) has been changed since it was last saved.
+#. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
+#. project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:151 src/tools/dcpomatic.cc:179
 msgid "Film changed"
 msgstr "Film byl změněn"
@@ -561,7 +561,7 @@ msgstr ""
 "DCP, vytvořte nový projekt pomocí funkce Soubor -> Nový a klepněte na "
 "tlačítko „Přidat DCP…“."
 
-#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:161
 msgid "KDM|Timing"
 msgstr "KDM|Timing"

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 23:02+0200\n"
+"POT-Creation-Date: 2023-03-29 01:43+0200\n"
 "PO-Revision-Date: 2023-03-11 19:30+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -510,8 +510,8 @@ msgstr "导出..."
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "已存在文件 %s ，是否覆盖？"
 
-#. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
-#. / project (Film) has been changed since it was last saved.
+#. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
+#. project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:151 src/tools/dcpomatic.cc:179
 msgid "Film changed"
 msgstr "工程已被编辑"
@@ -549,7 +549,7 @@ msgstr ""
 "您正在尝试打开一个DCP，文件->打开是用于加载DCP-o-matic项目的，而不是DCP本"
 "身。 要导入DCP，请使用文件->新建以新建一个新项目，然后单击“添加DCP …”按钮。"
 
-#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:161
 msgid "KDM|Timing"
 msgstr "KDM|有效期"

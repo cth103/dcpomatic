@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-27 23:02+0200\n"
+"POT-Creation-Date: 2023-03-29 01:43+0200\n"
 "PO-Revision-Date: 2022-09-17 10:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -520,8 +520,8 @@ msgstr "Exportálás…"
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "A(z) %s fájl már létezik. Felül kívánod írni?"
 
-#. / TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
-#. / project (Film) has been changed since it was last saved.
+#. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
+#. project (Film) has been changed since it was last saved.
 #: src/tools/dcpomatic.cc:151 src/tools/dcpomatic.cc:179
 msgid "Film changed"
 msgstr "Film megváltozott"
@@ -560,7 +560,7 @@ msgstr ""
 "matic projekt megnyitására van, DCP importálásához készíts egy új projektet "
 "a Fájl -> Új menüpont alatt és használd a “DCP hozzáadása” gombot."
 
-#. / TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
+#. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:161
 msgid "KDM|Timing"
 msgstr "KDM|Timing"
