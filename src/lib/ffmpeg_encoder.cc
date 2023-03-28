@@ -261,14 +261,14 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 	)
 {
 	if (three_d) {
-		/// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 		_encoders[Eyes::LEFT] = make_shared<FFmpegFileEncoder>(
 			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+			// TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 			audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("L"), extension)
 			);
-		/// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 		_encoders[Eyes::RIGHT] = make_shared<FFmpegFileEncoder>(
 			video_frame_size, video_frame_rate, audio_frame_rate, channels, format,
+			// TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 			audio_stream_per_channel, x264_crf, String::compose("%1_%2%3", output.string(), _("R"), extension)
 			);
 	} else {
