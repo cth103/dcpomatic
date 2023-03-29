@@ -66,6 +66,7 @@ UpdateChecker::UpdateChecker ()
 	curl_easy_setopt (_curl, CURLOPT_WRITEFUNCTION, write_callback_wrapper);
 	curl_easy_setopt (_curl, CURLOPT_WRITEDATA, this);
 	curl_easy_setopt (_curl, CURLOPT_TIMEOUT, 20);
+	curl_easy_setopt (_curl, CURLOPT_NOSIGNAL, 1L);
 
 	string const agent = "dcpomatic/" + string (dcpomatic_version);
 	curl_easy_setopt (_curl, CURLOPT_USERAGENT, agent.c_str ());
