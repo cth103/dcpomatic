@@ -35,6 +35,8 @@
 
 BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 {
+	Cleanup cl;
+
 	using boost::filesystem::path;
 
 	constexpr auto content_frame_rate = 29.976f;
@@ -44,7 +46,7 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 	auto sub = content_factory("test/data/hour.srt")[0];
 	sub->text.front()->set_language(dcp::LanguageTag("en-GB"));
 
-	auto film = new_test_film2 (name, { picture, sub });
+	auto film = new_test_film2(name, { picture, sub }, &cl);
 	picture->set_video_frame_rate(film, content_frame_rate);
 	auto const dcp_frame_rate = film->video_frame_rate();
 
@@ -66,5 +68,7 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 		BOOST_CHECK (error < (1.0f / dcp_frame_rate));
 		++index;
 	}
+
+	cl.run();
 }
 

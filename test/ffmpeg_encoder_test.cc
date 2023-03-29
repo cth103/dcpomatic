@@ -475,18 +475,25 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 /** Regression test for "Error during decoding: Butler finished" (#2097) */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
 {
+	Cleanup cl;
+
 	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv")[0];
 	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_1", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES_HQ, false, true, false, 23);
 	encoder.go ();
+
+	cl.add("build/test/ffmpeg_encoder_prores_regression_1.mov");
+	cl.run();
 }
 
 
 /** Regression test for Butler video buffers reached 480 frames (audio is 0) (#2101) */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 {
+	Cleanup cl;
+
 	auto logs = dcpomatic_log->types();
 	dcpomatic_log->set_types(logs | LogEntry::TYPE_DEBUG_PLAYER);
 
@@ -498,5 +505,8 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 	encoder.go ();
 
 	dcpomatic_log->set_types(logs);
+
+	cl.add("build/test/ffmpeg_encoder_prores_regression_2.mov");
+	cl.run();
 }
 
