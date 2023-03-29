@@ -969,7 +969,17 @@ Timeline::keypress(wxKeyEvent const& event)
 {
 	if (event.GetKeyCode() == WXK_DELETE) {
 		auto film = _film.lock();
+		DCPOMATIC_ASSERT(film);
 		film->remove_content(selected_content());
+	} else {
+		switch (event.GetRawKeyCode()) {
+		case '+':
+			set_pixels_per_second(_pixels_per_second.get_value_or(1) * 2);
+			break;
+		case '-':
+			set_pixels_per_second(_pixels_per_second.get_value_or(1) / 2);
+			break;
+		}
 	}
 }
 
