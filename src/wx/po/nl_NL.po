@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-29 01:56+0200\n"
-"PO-Revision-Date: 2023-01-16 04:42+0100\n"
+"PO-Revision-Date: 2023-04-01 02:06+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -205,7 +204,7 @@ msgstr "96kHz"
 #: src/wx/verify_dcp_dialog.cc:396
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
-msgstr ""
+msgstr "<IssueDate> heeft een ongeldige waarde %n"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -464,7 +463,7 @@ msgstr "Sta mapping naar alle audio-kanalen toe"
 
 #: src/wx/full_config_dialog.cc:1547
 msgid "Allow use of SMPTE Bv2.0"
-msgstr ""
+msgstr "Sta gebruik van SMPTE Bv2.0 toe"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
@@ -532,7 +531,7 @@ msgstr ""
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
-"Ten minste één asset in een reel heeft niet dezelfde duur als de andere."
+"Ten minste één asset in een reel heeft niet dezelfde duration als de andere."
 
 #: src/wx/verify_dcp_dialog.cc:161
 #, c-format
@@ -659,7 +658,7 @@ msgstr "CPL ID"
 
 #: src/wx/kdm_cpl_panel.cc:59
 msgid "CPL annotation text"
-msgstr "CPL annotatie-tekst"
+msgstr "CPL annotation text"
 
 #: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:317
 msgid "CPL's content is not encrypted."
@@ -946,7 +945,7 @@ msgstr "Aanmaken in map"
 
 #: src/wx/full_config_dialog.cc:1407
 msgid "Creator"
-msgstr "Maker"
+msgstr "Creator"
 
 #: src/wx/video_panel.cc:98
 msgid "Crop"
@@ -1152,9 +1151,8 @@ msgid "Delay"
 msgstr "Vertraging"
 
 #: src/wx/screen_dialog.cc:127
-#, fuzzy
 msgid "Details"
-msgstr "Details..."
+msgstr "Details"
 
 #: src/wx/job_view.cc:80
 msgid "Details..."
@@ -1429,6 +1427,9 @@ msgid ""
 "cover the whole of the KDM validity period.  This might cause problems with "
 "the KDMs."
 msgstr ""
+"Voor sommige van deze KDM's dekt de geldigheidsduur van het certificaat van "
+"de ontvanger niet de gehele geldigheidsduur van de KDM.  Dit kan problemen "
+"met de KDM's veroorzaken."
 
 #: src/wx/kdm_advanced_dialog.cc:41
 msgid "Forensically mark audio"
@@ -1552,6 +1553,8 @@ msgid ""
 "How the DCP should be split into parts internally.  If in doubt, choose "
 "'Single reel'"
 msgstr ""
+"Hoe de DCP intern in delen moet worden opgesplitst.  Kies bij twijfel voor "
+"'Single reel'"
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about using the disk writer.
@@ -1719,16 +1722,15 @@ msgstr "Inverse 2.6 output-gammacorrectie"
 
 #: src/wx/full_config_dialog.cc:1402
 msgid "Issuer"
-msgstr "Uitgever"
+msgstr "Issuer"
 
 #: src/wx/screen_dialog.cc:180
-#, fuzzy
 msgid "Issuer common name"
-msgstr "Leaf common name"
+msgstr "Issuer common name"
 
 #: src/wx/screen_dialog.cc:181
 msgid "Issuer organization name"
-msgstr ""
+msgstr "Issuer organization name"
 
 #: src/wx/audio_panel.cc:326
 msgid ""
@@ -2105,9 +2107,8 @@ msgid "No warnings found."
 msgstr "Geen waarschuwingen gevonden."
 
 #: src/wx/full_config_dialog.cc:1501
-#, fuzzy
 msgid "Non-standard"
-msgstr "Standaard"
+msgstr "Niet-standaard"
 
 #: src/wx/content_advanced_dialog.cc:75 src/wx/content_advanced_dialog.cc:159
 #: src/wx/content_advanced_dialog.cc:167 src/wx/dcp_panel.cc:1042
@@ -2121,11 +2122,11 @@ msgstr "Niet alle ondertitel-assets specificeren dezelfde <Language> tag."
 
 #: src/wx/screen_dialog.cc:183
 msgid "Not valid after"
-msgstr ""
+msgstr "Niet geldig na"
 
 #: src/wx/screen_dialog.cc:182
 msgid "Not valid before"
-msgstr ""
+msgstr "Niet geldig voor"
 
 #: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:75
 #: src/wx/screen_dialog.cc:137
@@ -2340,7 +2341,7 @@ msgstr ""
 
 #: src/wx/audio_plot.cc:119
 msgid "Please wait; audio is being analysed..."
-msgstr "Een ogenblik geduld; de audio wordt geanalyseerd..."
+msgstr "Een ogenblik geduld a.u.b.; de audio wordt geanalyseerd..."
 
 #: src/wx/timing_panel.cc:107
 msgid "Position"
@@ -2432,9 +2433,8 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:142
-#, fuzzy
 msgid "Recipient"
-msgstr "Ontvangers"
+msgstr "Ontvanger"
 
 #: src/wx/recipient_dialog.cc:108
 msgid "Recipient certificate"
@@ -2551,7 +2551,7 @@ msgstr "Resolutie"
 
 #: src/wx/player_config_dialog.cc:124
 msgid "Respect KDM validity periods"
-msgstr "Respecteer KDM-geldigheidsperioden"
+msgstr "Respecteer KDM-geldigheidsduren"
 
 #: src/wx/subtitle_appearance_dialog.cc:137
 msgid "Restore to original colours"
@@ -2591,9 +2591,8 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/dcp_panel.cc:171
-#, fuzzy
 msgid "SMPTE (Bv2.0 only)"
-msgstr "SMPTE Bv2.1-fouten"
+msgstr "SMPTE (alleen Bv2.0)"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "SMPTE Bv2.1 errors"
@@ -2832,7 +2831,7 @@ msgstr "Eenvoudige gamma, gelineariseerd voor kleine waarden"
 
 #: src/wx/dcp_panel.cc:149
 msgid "Single reel"
-msgstr "Enkele reel"
+msgstr "Single reel"
 
 #: src/wx/player_information.cc:164
 #, c-format
@@ -2853,6 +2852,9 @@ msgid ""
 "recipient certificate periods.  Such KDMs are very unlikely to work, so will "
 "not be created."
 msgstr ""
+"Sommige KDM's zouden geldigheidsduren hebben die volledig buiten de "
+"certificaatduren van de ontvanger vallen.  Het is zeer onwaarschijnlijk dat "
+"dergelijke KDM's werken, dus worden ze niet gemaakt."
 
 #: src/wx/verify_dcp_dialog.cc:369
 msgid ""
@@ -2922,14 +2924,12 @@ msgid "Subject"
 msgstr "Onderwerp"
 
 #: src/wx/screen_dialog.cc:178
-#, fuzzy
 msgid "Subject common name"
-msgstr "Root common name"
+msgstr "Subject common name"
 
 #: src/wx/screen_dialog.cc:179
-#, fuzzy
 msgid "Subject organization name"
-msgstr "Selecteer configuratiebestand"
+msgstr "Subject organization name"
 
 #: src/wx/about_dialog.cc:165
 msgid "Subscribers"
@@ -3057,7 +3057,7 @@ msgstr ""
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">DATA VERNIETIGEN!</"
 "span>\n"
 "\n"
-"Als u zeker weet dat u wilt doorgaan, typ dan\n"
+"Als u zeker weet dat u wilt doorgaan, typ dan a.u.b.\n"
 "\n"
 "<tt>%s</tt>\n"
 "\n"
@@ -3124,8 +3124,8 @@ msgstr "De DCP heeft een FFOC (first frame of content) van %n in plaats van 1."
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr ""
-"De DCP heeft een LFOC (last frame of content) van %n in plaats van de reel-"
-"duur min één."
+"De DCP heeft een LFOC (last frame of content) van %n in plaats van de reel "
+"duration min één."
 
 #: src/wx/verify_dcp_dialog.cc:248
 msgid ""
@@ -3255,7 +3255,8 @@ msgstr "De asset %f ontbreekt."
 #: src/wx/verify_dcp_dialog.cc:155
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr "De asset %n heeft een duur van minder dan 1 seconde, wat ongeldig is."
+msgstr ""
+"De asset %n heeft een duration van minder dan 1 seconde, wat ongeldig is."
 
 #: src/wx/verify_dcp_dialog.cc:152
 #, c-format
@@ -3263,7 +3264,7 @@ msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
 "invalid."
 msgstr ""
-"De asset %n heeft een intrinsieke duur van minder dan 1 seconde, wat "
+"De asset %n heeft een intrinsic duration van minder dan 1 seconde, wat "
 "ongeldig is."
 
 #: src/wx/verify_dcp_dialog.cc:263
@@ -3378,7 +3379,7 @@ msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr ""
-"De reel-duur (%s) van sommige timed text is niet hetzelfde als de "
+"De reel duration (%s) van sommige timed text is niet hetzelfde als de "
 "ContainerDuration (%s) van zijn MXF."
 
 #: src/wx/verify_dcp_dialog.cc:233
@@ -3402,9 +3403,9 @@ msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr "De ondertitel-asset %f heeft een <StartTime> die niet nul is."
 
 #: src/wx/verify_dcp_dialog.cc:393
-#, fuzzy, c-format
+#, c-format
 msgid "The subtitle asset %n contains no subtitles."
-msgstr "De ondertitel-asset %f bevat geen <StartTime> tag."
+msgstr "De ondertitel-asset %n bevat geen ondertitels."
 
 #: src/wx/verify_dcp_dialog.cc:251
 #, c-format
@@ -3494,7 +3495,7 @@ msgid ""
 "output device in Preferences."
 msgstr ""
 "Er is een probleem opgetreden bij het starten van het afspelen van audio.  "
-"Probeer een ander audio-uitvoerapparaat bij Voorkeuren."
+"Probeer a.u.b. een ander audio-uitvoerapparaat bij Voorkeuren."
 
 #: src/wx/kdm_cpl_panel.cc:131
 msgid "This CPL contains no encrypted assets."
@@ -3958,6 +3959,8 @@ msgid ""
 "Which standard the DCP should use.  Interop is older and SMPTE is the modern "
 "standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
+"Welke standaard de DCP moet gebruiken.  Interop is ouder en SMPTE is de "
+"moderne standaard.  Kies bij twijfel voor 'SMPTE'"
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"

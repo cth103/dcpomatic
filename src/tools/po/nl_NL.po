@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-29 01:56+0200\n"
-"PO-Revision-Date: 2023-01-16 03:07+0100\n"
+"PO-Revision-Date: 2023-04-01 02:19+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -21,6 +21,7 @@ msgstr ""
 #: src/tools/dcpomatic_combiner.cc:171
 msgid "%1 already exists as a file, so you cannot use it for a DCP."
 msgstr ""
+"%1 bestaat al als bestand, daarom kunt u het niet gebruiken voor een DCP."
 
 #: src/tools/dcpomatic_kdm.cc:451
 #, c-format
@@ -217,7 +218,7 @@ msgstr "Er is een onbekende uitzondering opgetreden."
 #: src/tools/dcpomatic_combiner.cc:116 src/tools/dcpomatic_editor.cc:78
 #: src/tools/dcpomatic_editor.cc:193
 msgid "Annotation text"
-msgstr ""
+msgstr "Annotation text"
 
 #: src/tools/dcpomatic.cc:760
 msgid ""
@@ -247,7 +248,7 @@ msgstr "Controleer op updates"
 
 #: src/tools/dcpomatic_combiner.cc:64 src/tools/dcpomatic_disk.cc:80
 msgid "Choose a DCP folder"
-msgstr ""
+msgstr "Kies een DCP-map"
 
 #: src/tools/dcpomatic.cc:1874 src/tools/dcpomatic.cc:1889
 msgid "Close DCP-o-matic"
@@ -263,19 +264,19 @@ msgstr "Closed captions..."
 
 #: src/tools/dcpomatic_combiner.cc:124
 msgid "Combine"
-msgstr ""
+msgstr "Combineer"
 
 #: src/tools/dcpomatic_combiner.cc:178
 msgid "Combining DCPs"
-msgstr ""
+msgstr "Combineren DCP's"
 
 #: src/tools/dcpomatic_editor.cc:208
 msgid "Content title text"
-msgstr ""
+msgstr "Content title text"
 
 #: src/tools/dcpomatic_disk.cc:160
 msgid "Copy DCP"
-msgstr ""
+msgstr "Kopieer DCP"
 
 #: src/tools/dcpomatic.cc:1334
 msgid "Copy settings\tCtrl-C"
@@ -294,9 +295,8 @@ msgstr ""
 "certificaat aangemaakt."
 
 #: src/tools/dcpomatic.cc:647 src/tools/dcpomatic.cc:664
-#, fuzzy
 msgid "Could not duplicate project."
-msgstr "Kan Player niet vinden."
+msgstr "Kan project niet dupliceren."
 
 #: src/tools/dcpomatic.cc:915
 msgid "Could not find batch converter."
@@ -378,14 +378,12 @@ msgstr ""
 "geformatteerd, of helemaal geen KDM."
 
 #: src/tools/dcpomatic.cc:620
-#, fuzzy
 msgid "Could not save project."
-msgstr "Kan DCP niet maken."
+msgstr "Kan project niet bewaren."
 
 #: src/tools/dcpomatic.cc:631
-#, fuzzy
 msgid "Could not save template."
-msgstr "Kan Player niet vinden."
+msgstr "Kan template niet bewaren."
 
 #: src/tools/dcpomatic.cc:1126
 msgid "Could not send translations"
@@ -438,7 +436,7 @@ msgstr "Maak KDM's"
 
 #: src/tools/dcpomatic_editor.cc:203
 msgid "Creator"
-msgstr ""
+msgstr "Creator"
 
 #: src/tools/dcpomatic_disk.cc:131 src/tools/dcpomatic_disk.cc:135
 msgid "DCP"
@@ -455,26 +453,22 @@ msgstr "DCP-o-matic Batch Converter"
 
 #: src/tools/dcpomatic_combiner.cc:178 src/tools/dcpomatic_combiner.cc:222
 #: src/tools/dcpomatic_combiner.cc:256
-#, fuzzy
 msgid "DCP-o-matic Combiner"
-msgstr "DCP-o-matic Player"
+msgstr "DCP-o-matic Combiner"
 
 #: src/tools/dcpomatic_disk.cc:314 src/tools/dcpomatic_disk.cc:322
 #: src/tools/dcpomatic_disk.cc:355 src/tools/dcpomatic_disk.cc:443
 #: src/tools/dcpomatic_disk.cc:489
-#, fuzzy
 msgid "DCP-o-matic Disk Writer"
-msgstr "DCP-o-matic KDM Creator"
+msgstr "DCP-o-matic Disk Writer"
 
 #: src/tools/dcpomatic_editor.cc:288 src/tools/dcpomatic_editor.cc:437
-#, fuzzy
 msgid "DCP-o-matic Editor"
-msgstr "DCP-o-matic Playlist Editor"
+msgstr "DCP-o-matic Editor"
 
 #: src/tools/dcpomatic_editor.cc:488
-#, fuzzy
 msgid "DCP-o-matic Editor could not start."
-msgstr "Kan DCP-o-matic niet starten"
+msgstr "Kan DCP-o-matic niet starten."
 
 #: src/tools/dcpomatic_server.cc:151
 msgid "DCP-o-matic Encode Server"
@@ -504,7 +498,7 @@ msgstr "Kan DCP-o-matic niet starten"
 
 #: src/tools/dcpomatic_combiner.cc:188
 msgid "DCPs combined successfully."
-msgstr ""
+msgstr "DCP's met succes gecombineerd."
 
 #: src/tools/dcpomatic_kdm.cc:167
 msgid "DKDM"
@@ -531,6 +525,8 @@ msgid ""
 "Did you install the DCP-o-matic Disk Writer.pkg from the .dmg?  Please check "
 "and try again."
 msgstr ""
+"Heeft u de DCP-o-matic Disk Writer.pkg geïnstalleerd vanuit de .dmg?  "
+"Controleer a.u.b. en probeer het opnieuw."
 
 #: src/tools/dcpomatic.cc:1847 src/tools/dcpomatic.cc:1862
 msgid "Do nothing"
@@ -541,6 +537,8 @@ msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
 msgstr ""
+"Ziet u een dialoogvenster 'Gebruikersaccountbeheer' waarin wordt gevraagd "
+"naar dcpomatic2_disk_writer.exe?  Klik dan op 'Ja' en probeer het opnieuw."
 
 #: src/tools/dcpomatic.cc:821
 #, c-format
@@ -561,7 +559,7 @@ msgstr "Omlaag"
 
 #: src/tools/dcpomatic_disk.cc:147
 msgid "Drive"
-msgstr ""
+msgstr "Schijf"
 
 #: src/tools/dcpomatic_player.cc:580
 msgid "Dual screen\tShift+F11"
@@ -585,11 +583,11 @@ msgstr "Dupliceer..."
 
 #: src/tools/dcpomatic_editor.cc:88
 msgid "Duration"
-msgstr ""
+msgstr "Duration"
 
 #: src/tools/dcpomatic_editor.cc:148
 msgid "Edit reel"
-msgstr ""
+msgstr "Wijzig reel"
 
 #: src/tools/dcpomatic_batch.cc:98 src/tools/dcpomatic.cc:1383
 msgid "Encoding servers..."
@@ -601,7 +599,7 @@ msgstr "Versleuteld"
 
 #: src/tools/dcpomatic_editor.cc:83
 msgid "Entry point"
-msgstr ""
+msgstr "Entry point"
 
 #: src/tools/dcpomatic.cc:1391
 msgid "Export preferences..."
@@ -631,9 +629,9 @@ msgid "Film changed"
 msgstr "Film is gewijzigd"
 
 #: src/tools/dcpomatic_kdm.cc:318
-#, fuzzy, c-format
+#, c-format
 msgid "Folder %s already exists.  Do you want to overwrite it?"
-msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
+msgstr "Map %s bestaat al.  Wilt u deze overschrijven?"
 
 #: src/tools/dcpomatic_kdm.cc:431
 msgid ""
@@ -641,6 +639,9 @@ msgid ""
 "cover the whole of the KDM validity period.  This might cause problems with "
 "the KDMs."
 msgstr ""
+"Voor sommige van deze KDM's dekt de geldigheidsduur van het certificaat van "
+"de ontvanger niet de gehele geldigheidsduur van de KDM.  Dit kan problemen "
+"met de KDM's veroorzaken."
 
 #: src/tools/dcpomatic_server.cc:162
 msgid "Frames per second"
@@ -656,15 +657,15 @@ msgstr "Hints..."
 
 #: src/tools/dcpomatic_combiner.cc:101
 msgid "Input DCP"
-msgstr ""
+msgstr "Input-DCP"
 
 #: src/tools/dcpomatic_editor.cc:93
 msgid "Intrinsic duration"
-msgstr ""
+msgstr "Intrinsic duration"
 
 #: src/tools/dcpomatic_editor.cc:198
 msgid "Issuer"
-msgstr ""
+msgstr "Issuer"
 
 #: src/tools/dcpomatic.cc:498
 msgid ""
@@ -734,14 +735,15 @@ msgid ""
 "No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP "
 "folder."
 msgstr ""
+"Geen ASSETMAP of ASSETMAP.xml gevonden in deze map.  Kies a.u.b. een DCP-map."
 
 #: src/tools/dcpomatic_playlist.cc:242
 msgid ""
 "No playlist folder is specified in preferences.  Please set one and then try "
 "again."
 msgstr ""
-"Er is geen afspeellijst-map gespecificeerd bij Voorkeuren.  Stel in en "
-"probeer het opnieuw."
+"Er is geen afspeellijst-map gespecificeerd bij Voorkeuren.  Stel a.u.b. in "
+"en probeer het opnieuw."
 
 #: src/tools/dcpomatic.cc:1375
 msgid "Open DCP in &player"
@@ -749,7 +751,7 @@ msgstr "Open DCP in &Player"
 
 #: src/tools/dcpomatic_editor.cc:276
 msgid "Open a DCP using File -> Open"
-msgstr ""
+msgstr "Open een DCP met \"Bestand -> Open\""
 
 #: src/tools/dcpomatic_kdm.cc:219
 msgid "Output"
@@ -757,7 +759,7 @@ msgstr "Output"
 
 #: src/tools/dcpomatic_combiner.cc:120
 msgid "Output DCP folder"
-msgstr ""
+msgstr "Output DCP-map"
 
 #: src/tools/dcpomatic.cc:1336
 msgid "Paste settings...\tCtrl-V"
@@ -773,7 +775,7 @@ msgstr "Pauzeer/hervat"
 
 #: src/tools/dcpomatic_editor.cc:166
 msgid "Picture"
-msgstr ""
+msgstr "Picture"
 
 #: src/tools/dcpomatic.cc:582
 msgid ""
@@ -802,11 +804,11 @@ msgstr "Maak ondertekenings-certificaten opnieuw"
 
 #: src/tools/dcpomatic_editor.cc:213
 msgid "Reels"
-msgstr ""
+msgstr "Reels"
 
 #: src/tools/dcpomatic_disk.cc:151
 msgid "Refresh"
-msgstr ""
+msgstr "Vernieuwen"
 
 #: src/tools/dcpomatic.cc:1696
 msgid "Release notes"
@@ -917,10 +919,13 @@ msgid ""
 "recipient certificate periods.  Such KDMs are very unlikely to work, so will "
 "not be created."
 msgstr ""
+"Sommige KDM's zouden geldigheidsduren hebben die volledig buiten de "
+"certificaatduren van de ontvanger vallen.  Het is zeer onwaarschijnlijk dat "
+"dergelijke KDM's werken, dus worden ze niet gemaakt."
 
 #: src/tools/dcpomatic_editor.cc:169
 msgid "Sound"
-msgstr ""
+msgstr "Sound"
 
 #: src/tools/dcpomatic.cc:773
 msgid "Specify ZIP file"
@@ -928,7 +933,7 @@ msgstr "Specificeer ZIP-bestand"
 
 #: src/tools/dcpomatic_editor.cc:172
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtitle"
 
 #: src/tools/dcpomatic.cc:1387 src/tools/dcpomatic_player.cc:595
 msgid "System information..."
@@ -981,16 +986,22 @@ msgid ""
 "certficates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the DCP-o-matic preferences window."
 msgstr ""
+"De KDM-eindtijd is na (of nabij) het einde van de geldigheidsduur van de "
+"ondertekenings-certificaten.  Gebruik een eerdere eindtijd voor deze KDM of "
+"maak uw ondertekenings-certificaten opnieuw aan bij de DCP-o-matic "
+"Voorkeuren."
 
 #: src/tools/dcpomatic_kdm.cc:459
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
+"De KDM-starttijd is voor (of nabij) het begin van de geldigheidsduur van de "
+"ondertekenings-certificaten.  Gebruik een latere starttijd voor deze KDM."
 
 #: src/tools/dcpomatic.cc:965
 msgid "The certificate chain for signing is invalid"
-msgstr ""
+msgstr "De certificaat-keten voor ondertekening is ongeldig"
 
 #: src/tools/dcpomatic.cc:1885
 msgid ""
@@ -1035,9 +1046,9 @@ msgid ""
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
 "De certificaat-keten die DCP-o-matic gebruikt voor het ondertekenen van "
-"DCP's en KDM's heeft een te lange geldigheidsduur.\n"
-"Dit zal op sommige systemen problemen veroorzaken bij het afspelen van "
-"DCP's.\n"
+"DCP's en KDM's heeft een\n"
+"te lange geldigheidsduur.  Dit zal op sommige systemen problemen veroorzaken "
+"bij het afspelen van DCP's.\n"
 "Wilt u de certificaat-keten voor het ondertekenen van DCP's en KDM's opnieuw "
 "aanmaken?"
 
@@ -1057,15 +1068,15 @@ msgstr ""
 "aanmaken?"
 
 #: src/tools/dcpomatic_combiner.cc:161
-#, fuzzy
 msgid ""
 "The directory %1 already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "Er zijn nog onvoltooide taken; weet u zeker dat u wilt stoppen?"
+msgstr "De map %1 bestaat al en is niet leeg.  Wilt u deze toch gebruiken?"
 
 #: src/tools/dcpomatic_disk.cc:278
 msgid "The disk you selected is no longer available.  Please choose another."
 msgstr ""
+"De geselecteerde schijf is niet meer beschikbaar.  Kies a.u.b. een andere."
 
 #: src/tools/dcpomatic_disk.cc:357
 #, c-format
@@ -1073,6 +1084,8 @@ msgid ""
 "The drive %s could not be unmounted.\n"
 "Close any application that is using it, then try again. (%s)"
 msgstr ""
+"De schijf %s kon niet worden ontkoppeld.\n"
+"Sluit alle toepassingen die er gebruik van maken en probeer het opnieuw. (%s)"
 
 #: src/tools/dcpomatic_disk.cc:530 src/tools/dcpomatic_player.cc:1332
 msgid ""
@@ -1115,9 +1128,8 @@ msgid "Timing..."
 msgstr "Timing..."
 
 #: src/tools/dcpomatic_disk.cc:115
-#, fuzzy
 msgid "Tools"
-msgstr "&Tools"
+msgstr "Tools"
 
 #: src/tools/dcpomatic.cc:580
 #, c-format
@@ -1135,7 +1147,7 @@ msgstr "Onvoltooide taken"
 
 #: src/tools/dcpomatic_disk.cc:114
 msgid "Uninstall..."
-msgstr ""
+msgstr "Verwijderen..."
 
 #: src/tools/dcpomatic_playlist.cc:344
 msgid "Up"
@@ -1212,12 +1224,17 @@ msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  DCP-o-matic Disk Writer will close now.  Please try again."
 msgstr ""
+"U heeft niet correct bevestigd dat u de waarschuwing heeft gelezen die "
+"zojuist is weergegeven.  DCP-o-matic Disk Writer wordt nu afgesloten.  "
+"Probeer het a.u.b. opnieuw."
 
 #: src/tools/dcpomatic_disk.cc:373
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  Please try again."
 msgstr ""
+"U heeft niet correct bevestigd dat u de waarschuwing heeft gelezen die "
+"zojuist is weergegeven.  Probeer het a.u.b. opnieuw."
 
 #: src/tools/dcpomatic_batch.cc:338 src/tools/dcpomatic.cc:604
 #: src/tools/dcpomatic_editor.cc:371 src/tools/dcpomatic_player.cc:627
