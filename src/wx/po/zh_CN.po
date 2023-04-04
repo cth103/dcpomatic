@@ -1123,7 +1123,7 @@ msgstr "默认片厂"
 
 #: src/wx/full_config_dialog.cc:342
 msgid "Default territory"
-msgstr "真峰值为"
+msgstr "默认发行地区"
 
 #: src/wx/full_config_dialog.cc:344
 #, fuzzy
@@ -1771,7 +1771,7 @@ msgstr "保持视频序列和字幕序列"
 
 #: src/wx/config_dialog.cc:630
 msgid "Keys"
-msgstr "键值"
+msgstr "密钥"
 
 #: src/wx/audio_dialog.cc:447
 #, c-format
