@@ -702,6 +702,7 @@ Timeline::mouse_moved_zoom (wxMouseEvent& ev)
 	}
 
 	_zoom_point = ev.GetPosition ();
+	setup_scrollbars();
 	Refresh ();
 }
 
@@ -969,9 +970,11 @@ Timeline::keypress(wxKeyEvent const& event)
 		switch (event.GetRawKeyCode()) {
 		case '+':
 			set_pixels_per_second(_pixels_per_second.get_value_or(1) * 2);
+			setup_scrollbars();
 			break;
 		case '-':
 			set_pixels_per_second(_pixels_per_second.get_value_or(1) / 2);
+			setup_scrollbars();
 			break;
 		}
 	}
