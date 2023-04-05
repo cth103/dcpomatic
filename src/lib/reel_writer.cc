@@ -491,16 +491,18 @@ maybe_add_text (
 	shared_ptr<Result> reel_asset;
 
 	if (asset) {
-		if (film->interop()) {
-			if (chosen_interop_font) {
-				/* We only add one font, as Interop will ignore subsequent ones (and some validators will
-				 * complain if they are even present)
-				 */
-				asset->add_font(fonts.get(chosen_interop_font), chosen_interop_font->data().get_value_or(default_font));
-			}
-		} else {
-			for (auto const& font: fonts.map()) {
-				asset->add_font(font.second, font.first->data().get_value_or(default_font));
+		if (!std::is_same<Result, dcp::ReelClosedCaptionAsset>::value) {
+			if (film->interop()) {
+				if (chosen_interop_font) {
+					/* We only add one font, as Interop will ignore subsequent ones (and some validators will
+					 * complain if they are even present)
+					 */
+					asset->add_font(fonts.get(chosen_interop_font), chosen_interop_font->data().get_value_or(default_font));
+				}
+			} else {
+				for (auto const& font: fonts.map()) {
+					asset->add_font(font.second, font.first->data().get_value_or(default_font));
+				}
 			}
 		}
 
