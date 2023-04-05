@@ -23,6 +23,7 @@
 #include "audio_mapping.h"
 #include "compose.hpp"
 #include "config.h"
+#include "constants.h"
 #include "cross.h"
 #include "dcp_content_type.h"
 #include "dcp_video.h"
@@ -651,14 +652,12 @@ Writer::finish (boost::filesystem::path output_dcp)
 		field = dcp::MCASoundField::SEVEN_POINT_ONE;
 	}
 
-	dcp::MainSoundConfiguration msc (field, film()->audio_channels());
+	dcp::MainSoundConfiguration msc(field, MAX_DCP_AUDIO_CHANNELS);
 	for (auto i: film()->mapped_audio_channels()) {
-		if (static_cast<int>(i) < film()->audio_channels()) {
-			msc.set_mapping (i, static_cast<dcp::Channel>(i));
-		}
+		msc.set_mapping(i, static_cast<dcp::Channel>(i));
 	}
 
-	cpl->set_main_sound_configuration (msc.to_string());
+	cpl->set_main_sound_configuration(msc);
 	cpl->set_main_sound_sample_rate (film()->audio_frame_rate());
 	cpl->set_main_picture_stored_area (film()->frame_size());
 

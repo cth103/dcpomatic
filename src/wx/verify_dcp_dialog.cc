@@ -395,6 +395,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_ISSUE_DATE:
 			add(i, _("<IssueDate> has an invalid value %n"));
 			break;
+		case dcp::VerificationNote::Code::MISMATCHED_SOUND_CHANNEL_COUNTS:
+			add(i, _("Sound assets do not all have the same channel count."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_MAIN_SOUND_CONFIGURATION:
+			add(i, _("<MainSoundConfiguration> describes incorrect number of channels (%n)"));
+			break;
 		}
 	}
 
