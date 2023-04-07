@@ -31,14 +31,19 @@ class FontConfig
 public:
 	static FontConfig* instance();
 
-	std::string make_font_available(boost::filesystem::path font_file);
+	std::string make_font_available(std::shared_ptr<dcpomatic::Font> font);
 	boost::optional<boost::filesystem::path> system_font_with_name(std::string name);
+
+	static void drop();
 
 private:
 	FontConfig();
+	~FontConfig();
 
 	FcConfig* _config = nullptr;
-	std::map<boost::filesystem::path, std::string> _available_fonts;
+	std::map<std::string, std::string> _available_fonts;
+
+	std::vector<boost::filesystem::path> _temp_files;
 
 	static FontConfig* _instance;
 };

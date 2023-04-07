@@ -47,6 +47,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/file_log.h"
 #include "lib/film.h"
+#include "lib/font_config.h"
 #include "lib/image.h"
 #include "lib/image_jpeg.h"
 #include "lib/image_png.h"
@@ -244,6 +245,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_timing, this), ID_tools_timing);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this), ID_tools_system_information);
 
+		Bind(wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
+
 		if (Config::instance()->player_mode() == Config::PLAYER_MODE_DUAL) {
 			auto pc = new PlaylistControls (_overall_panel, _viewer);
 			_controls = pc;
@@ -311,6 +314,12 @@ public:
 		 * otherwise UI elements that it depends on will disappear from under it.
 		 */
 		_viewer.stop();
+	}
+
+	void close(wxCloseEvent& ev)
+	{
+		FontConfig::drop();
+		ev.Skip();
 	}
 
 	void setup_main_sizer (Config::PlayerMode mode)

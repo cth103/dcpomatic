@@ -171,19 +171,6 @@ create_surface (shared_ptr<Image> image)
 }
 
 
-static string
-setup_font(shared_ptr<const dcpomatic::Font> font)
-{
-	auto font_file = default_font_file ();
-
-	if (font && font->file()) {
-		font_file = *font->file();
-	}
-
-	return FontConfig::instance()->make_font_available(font_file);
-}
-
-
 static float
 calculate_fade_factor (StringText const& first, DCPTime time, int frame_rate)
 {
@@ -314,7 +301,7 @@ setup_layout(list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 	DCPOMATIC_ASSERT(!subtitles.empty());
 	auto const& first = subtitles.front();
 
-	auto const font_name = setup_font(first.font);
+	auto const font_name = FontConfig::instance()->make_font_available(first.font);
 	auto const fade_factor = calculate_fade_factor(first, time, frame_rate);
 	auto const markup = marked_up(subtitles, target.height, fade_factor, font_name);
 	auto layout = create_layout(font_name, markup);
@@ -492,7 +479,7 @@ FontMetrics::get(StringText const& subtitle)
 		return iter;
 	}
 
-	auto const font_name = setup_font(subtitle.font);
+	auto const font_name = FontConfig::instance()->make_font_available(subtitle.font);
 	auto copy = subtitle;
 	copy.set_text("Qypjg");
 	auto layout = create_layout(font_name, marked_up({copy}, _target_height, 1, font_name));

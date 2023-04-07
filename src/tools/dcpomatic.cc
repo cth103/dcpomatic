@@ -74,6 +74,7 @@
 #include "lib/exceptions.h"
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
+#include "lib/font_config.h"
 #include "lib/hints.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
@@ -1190,6 +1191,8 @@ private:
 
 		/* Also stop hearing about analytics-related stuff */
 		_analytics_message_connection.disconnect ();
+
+		FontConfig::drop();
 
 		ev.Skip ();
 	}

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -21,12 +21,15 @@
 
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
+#include "font.h"
 #include "font_config.h"
+#include "util.h"
 #include <fontconfig/fontconfig.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
 
 
+using std::shared_ptr;
 using std::string;
 using boost::optional;
 
@@ -41,13 +44,37 @@ FontConfig::FontConfig()
 }
 
 
-string
-FontConfig::make_font_available(boost::filesystem::path font_file)
+FontConfig::~FontConfig()
 {
-	auto existing = _available_fonts.find(font_file);
+	for (auto file: _temp_files) {
+		boost::system::error_code ec;
+		boost::filesystem::remove(file, ec);
+	}
+}
+
+
+string
+FontConfig::make_font_available(shared_ptr<dcpomatic::Font> font)
+{
+	auto existing = _available_fonts.find(font->id());
 	if (existing != _available_fonts.end()) {
 		return existing->second;
 	}
+
+	boost::filesystem::path font_file = default_font_file();
+	if (font->file()) {
+		font_file = *font->file();
+	} else if (font->data()) {
+		/* This font only exists in memory (so far) but FontConfig doesn't have an API to add a font
+		 * from a memory buffer (AFAICS).
+		 * https://gitlab.freedesktop.org/fontconfig/fontconfig/-/issues/12
+		 * As a workaround, write the font data to a temporary file and use that.
+		 */
+		font_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
+		_temp_files.push_back(font_file);
+		font->data()->write(font_file);
+	}
+
 
 	/* Make this font available to DCP-o-matic */
 	optional<string> font_name;
@@ -80,7 +107,7 @@ FontConfig::make_font_available(boost::filesystem::path font_file)
 
 	DCPOMATIC_ASSERT(font_name);
 
-	_available_fonts[font_file] = *font_name;
+	_available_fonts[font->id()] = *font_name;
 
 	FcConfigBuildFonts(_config);
 	return *font_name;
@@ -133,5 +160,13 @@ FontConfig::instance()
 	}
 
 	return _instance;
+}
+
+
+void
+FontConfig::drop()
+{
+	delete _instance;
+	_instance = nullptr;
 }
 
