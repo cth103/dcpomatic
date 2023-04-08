@@ -72,7 +72,7 @@ public:
 		}
 
 		try {
-			_certificate = dcp::Certificate(dcp::file_to_string(dialog.paths()[0]));
+			_certificate = dcp::CertificateChain(dcp::file_to_string(dialog.paths()[0])).leaf();
 			_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
 			setup_sensitivity();
 		} catch (dcp::MiscError& e) {
