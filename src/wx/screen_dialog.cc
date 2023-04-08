@@ -54,12 +54,14 @@ public:
 		: TableDialog (parent, _("Trusted Device"), 3, 1, true)
 	{
 		add (_("Thumbprint"), true);
-		_thumbprint = add (new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1)));
+		_thumbprint = add(new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1), wxTE_READONLY));
 		_file = add (new Button(this, _("Load certificate...")));
 
 		layout ();
 
 		_file->Bind (wxEVT_BUTTON, bind(&TrustedDeviceDialog::load_certificate, this));
+
+		setup_sensitivity();
 	}
 
 	void load_certificate ()
@@ -72,6 +74,7 @@ public:
 		try {
 			_certificate = dcp::Certificate(dcp::file_to_string(dialog.paths()[0]));
 			_thumbprint->SetValue (std_to_wx(_certificate->thumbprint()));
+			setup_sensitivity();
 		} catch (dcp::MiscError& e) {
 			error_dialog(this, wxString::Format(_("Could not load certificate (%s)"), std_to_wx(e.what())));
 		}
@@ -81,6 +84,7 @@ public:
 	{
 		_certificate = t.certificate ();
 		_thumbprint->SetValue (std_to_wx(t.thumbprint()));
+		setup_sensitivity();
 	}
 
 	optional<TrustedDevice> get ()
@@ -96,6 +100,13 @@ public:
 	}
 
 private:
+	void setup_sensitivity()
+	{
+		auto ok = dynamic_cast<wxButton*>(FindWindowById(wxID_OK, this));
+		DCPOMATIC_ASSERT(ok);
+		ok->Enable(static_cast<bool>(_certificate));
+	}
+
 	wxTextCtrl* _thumbprint;
 	wxButton* _file;
 	boost::optional<dcp::Certificate> _certificate;
