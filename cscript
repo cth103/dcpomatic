@@ -472,7 +472,7 @@ def dependencies(target, options):
         ffmpeg_options = {}
 
     if target.platform != 'linux' or target.distro != 'arch':
-        deps = [('ffmpeg', '26d3c81bc5ef2f8c3f09d45eaeacfb4b1139a777', ffmpeg_options)]
+        deps = [('ffmpeg', '2fb5e99b45e92880bd7953cb98c2027a34884c14', ffmpeg_options)]
     else:
         # Use distro-provided FFmpeg on Arch
         deps = []
