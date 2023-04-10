@@ -52,7 +52,7 @@ public:
 	DCPContentType const * dcp_content_type;
 	boost::optional<int> dcp_frame_rate;
 	Ratio const * container_ratio;
-	int still_length;
+	boost::optional<int> still_length;
 	dcp::Standard standard;
 	bool no_use_isdcf_name;
 	boost::optional<boost::filesystem::path> config_dir;

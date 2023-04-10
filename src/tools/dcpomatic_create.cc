@@ -184,7 +184,7 @@ main (int argc, char* argv[])
 		for (auto i: film->content()) {
 			auto ic = dynamic_pointer_cast<ImageContent> (i);
 			if (ic && ic->still()) {
-				ic->video->set_length (cc.still_length * 24);
+				ic->video->set_length(cc.still_length.get_value_or(10) * 24);
 			}
 		}
 

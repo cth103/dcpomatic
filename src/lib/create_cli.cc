@@ -123,7 +123,6 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	, threed (false)
 	, dcp_content_type (nullptr)
 	, container_ratio (nullptr)
-	, still_length (10)
 	, standard (dcp::Standard::SMPTE)
 	, no_use_isdcf_name (false)
 	, twok (false)
@@ -184,12 +183,20 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			return boost::filesystem::path(s);
 		};
 
+		std::function<optional<int> (string s)> string_to_nonzero_int = [](string s) {
+			auto const value = dcp::raw_convert<int>(s);
+			if (value == 0) {
+				return boost::optional<int>();
+			}
+			return boost::optional<int>(value);
+		};
+
 		argument_option(i, argc, argv, "-n", "--name",             &claimed, &error, &name);
 		argument_option(i, argc, argv, "-t", "--template",         &claimed, &error, &template_name_string);
 		argument_option(i, argc, argv, "-c", "--dcp-content-type", &claimed, &error, &dcp_content_type_string);
 		argument_option(i, argc, argv, "-f", "--dcp-frame-rate",   &claimed, &error, &dcp_frame_rate_int);
 		argument_option(i, argc, argv, "",   "--container-ratio",  &claimed, &error, &container_ratio_string);
-		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length);
+		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length, string_to_nonzero_int);
 		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string);
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);

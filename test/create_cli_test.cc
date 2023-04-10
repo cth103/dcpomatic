@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --still-length 42");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.still_length, 42);
+	BOOST_CHECK_EQUAL(cc.still_length.get_value_or(0), 42);
 
 	cc = run ("dcpomatic2_create x --standard SMPTE");
 	BOOST_CHECK (!cc.error);
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK (!cc.error);
 	BOOST_REQUIRE (cc.config_dir);
 	BOOST_CHECK_EQUAL (*cc.config_dir, "foo/bar");
-	BOOST_CHECK_EQUAL (cc.still_length, 42);
+	BOOST_CHECK_EQUAL(cc.still_length.get_value_or(0), 42);
 	BOOST_REQUIRE (cc.output_dir);
 	BOOST_CHECK_EQUAL (*cc.output_dir, "flaps");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 3U);
@@ -190,4 +190,8 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL(cc.content[0].path, "dcp");
 	BOOST_REQUIRE(static_cast<bool>(cc.content[0].cpl));
 	BOOST_CHECK_EQUAL(*cc.content[0].cpl, "123456-789-0");
+
+	cc = run("dcpomatic2_create -s SMPTE sheila.wav");
+	BOOST_CHECK(!cc.still_length);
+	BOOST_CHECK(cc.error);
 }
