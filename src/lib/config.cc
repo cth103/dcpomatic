@@ -1292,7 +1292,7 @@ Config::add_to_player_history (boost::filesystem::path p)
 	add_to_history_internal (_player_history, p);
 }
 
-/** Remove non-existant items from the player history */
+/** Remove non-existent items from the player history */
 void
 Config::clean_player_history ()
 {

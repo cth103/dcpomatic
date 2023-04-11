@@ -328,7 +328,7 @@ Image::convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format,
 /** @param out_size Size to scale to.
  *  @param yuv_to_rgb YUVToRGB transform transform to use, if required.
  *  @param out_format Output pixel format.
- *  @param out_aligment Output alignment.
+ *  @param out_alignment Output alignment.
  *  @param fast Try to be fast at the possible expense of quality; at present this means using
  *  fast bilinear rather than bicubic scaling.
  */

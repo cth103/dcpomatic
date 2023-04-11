@@ -233,7 +233,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_audio_language(dcp::LanguageTag("pt-BR"));
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US-R_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 
-	/* Check that nothing is added for non-existant ratings */
+	/* Check that nothing is added for non-existent ratings */
 	film->set_ratings({});
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "LikeShouting_XSN-2_F-133_QBP-fr_US_71-HI-VI_4K_DI_20140704_PPF_SMPTE_OV");
 }
