@@ -39,7 +39,7 @@ class Film;
 class SubtitleEncoder : public Encoder
 {
 public:
-	SubtitleEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string intial_name, bool split_reels, bool include_font);
+	SubtitleEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string initial_name, bool split_reels, bool include_font);
 
 	void go () override;
 
