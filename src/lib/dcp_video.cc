@@ -71,9 +71,6 @@ using namespace boost::placeholders;
 #endif
 
 
-#define DCI_COEFFICENT (48.0 / 52.37)
-
-
 /** Construct a DCP video frame.
  *  @param frame Input frame.
  *  @param index Index of the frame within the DCP.
