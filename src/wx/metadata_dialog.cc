@@ -173,6 +173,7 @@ MetadataDialog::film_changed (ChangeType type, Film::Property property)
 				break;
 			}
 		} else {
+			checked_set(_luminance_value, 14);
 			checked_set (_luminance_unit, 1);
 		}
 	}
