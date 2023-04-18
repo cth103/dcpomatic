@@ -1269,14 +1269,20 @@ private:
 			return true;
 		}
 
-		if (_film->dirty ()) {
+		while (_film->dirty()) {
 			T dialog(_film->name());
 			switch (dialog.run()) {
 			case wxID_NO:
 				return true;
 			case wxID_YES:
-				_film->write_metadata ();
-				return true;
+				try {
+					_film->write_metadata();
+					return true;
+				} catch (exception& e) {
+					error_dialog(this, _("Could not save project."), std_to_wx(e.what()));
+					/* Go round again for another try */
+				}
+				break;
 			case wxID_CANCEL:
 				return false;
 			}
