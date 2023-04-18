@@ -495,7 +495,12 @@ Film::write_metadata ()
 {
 	DCPOMATIC_ASSERT (directory());
 	boost::filesystem::create_directories (directory().get());
-	metadata()->write_to_file_formatted(file(metadata_file).string());
+	auto const filename = file(metadata_file);
+	try {
+		metadata()->write_to_file_formatted(filename.string());
+	} catch (xmlpp::exception& e) {
+		throw FileError(String::compose("Could not write metadata file (%1)", e.what()), filename);
+	}
 	set_dirty (false);
 }
 
