@@ -1270,8 +1270,8 @@ private:
 		}
 
 		if (_film->dirty ()) {
-			T d (_film->name ());
-			switch (d.run ()) {
+			T dialog(_film->name());
+			switch (dialog.run()) {
 			case wxID_NO:
 				return true;
 			case wxID_YES:
