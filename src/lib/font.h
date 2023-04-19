@@ -44,13 +44,15 @@ public:
 
 	Font (std::string id, boost::filesystem::path file)
 		: _id (id)
-		, _file (file)
-	{}
+	{
+		_content.file = file;
+	}
 
 	Font (std::string id, dcp::ArrayData data)
 		: _id (id)
-		, _data (data)
-	{}
+	{
+		_content.data = data;
+	}
 
 	void as_xml (xmlpp::Node* node);
 
@@ -63,11 +65,11 @@ public:
 	}
 
 	boost::optional<boost::filesystem::path> file () const {
-		return _file;
+		return _content.file;
 	}
 
 	void set_file (boost::filesystem::path file) {
-		_file = file;
+		_content.file = file;
 		Changed ();
 	}
 
@@ -76,6 +78,13 @@ public:
 	 */
 	boost::optional<dcp::ArrayData> data() const;
 
+	/** The actual TTF/OTF font data, as either a filename or the raw data itself */
+	struct Content
+	{
+		boost::optional<dcp::ArrayData> data;
+		boost::optional<boost::filesystem::path> file;
+	};
+
 	boost::signals2::signal<void()> Changed;
 
 private:
@@ -83,8 +92,7 @@ private:
 	 *  font family name or an ID from some DCP font XML.
 	 */
 	std::string _id;
-	boost::optional<dcp::ArrayData> _data;
-	boost::optional<boost::filesystem::path> _file;
+	Content _content;
 };
 
 

@@ -38,7 +38,7 @@ Font::Font (cxml::NodePtr node)
 	for (auto i: node->node_children("File")) {
 		string variant = i->optional_string_attribute("Variant").get_value_or("Normal");
 		if (variant == "Normal") {
-			_file = i->content();
+			_content.file = i->content();
 		}
 	}
 }
@@ -48,8 +48,8 @@ void
 Font::as_xml (xmlpp::Node* node)
 {
 	node->add_child("Id")->add_child_text(_id);
-	if (_file) {
-		node->add_child("File")->add_child_text(_file->string());
+	if (_content.file) {
+		node->add_child("File")->add_child_text(_content.file->string());
 	}
 }
 
@@ -60,6 +60,11 @@ dcpomatic::operator== (Font const & a, Font const & b)
 	if (a.id() != b.id()) {
 		return false;
 	}
+
+	/* XXX: it's dubious that this ignores _data, though I think it's OK for the cases
+	 * where operator== is used.  Perhaps we should remove operator== and have a more
+	 * specific comparator.
+	 */
 
 	return a.file() == b.file();
 }
@@ -75,12 +80,12 @@ dcpomatic::operator!= (Font const & a, Font const & b)
 optional<dcp::ArrayData>
 Font::data () const
 {
-	if (_data) {
-		return _data;
+	if (_content.data) {
+		return _content.data;
 	}
 
-	if (_file) {
-		return dcp::ArrayData(*_file);
+	if (_content.file) {
+		return dcp::ArrayData(*_content.file);
 	}
 
 	return {};
