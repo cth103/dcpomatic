@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -71,6 +71,9 @@ public:
 		Changed ();
 	}
 
+	/** @return the data set passed to the dcp::ArrayData constructor,
+	 *  otherwise the contents of _file, otherwise boost::none.
+	 */
 	boost::optional<dcp::ArrayData> data() const;
 
 	boost::signals2::signal<void()> Changed;
