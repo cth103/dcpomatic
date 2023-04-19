@@ -56,7 +56,7 @@ FontConfig::~FontConfig()
 string
 FontConfig::make_font_available(shared_ptr<dcpomatic::Font> font)
 {
-	auto existing = _available_fonts.find(font->id());
+	auto existing = _available_fonts.find(font->content());
 	if (existing != _available_fonts.end()) {
 		return existing->second;
 	}
@@ -107,7 +107,10 @@ FontConfig::make_font_available(shared_ptr<dcpomatic::Font> font)
 
 	DCPOMATIC_ASSERT(font_name);
 
-	_available_fonts[font->id()] = *font_name;
+	/* We need to use the font object as the key, as we may be passed the same shared_ptr to a modified
+	 * Font object in the future and in that case we need to load the new font.
+	 */
+	_available_fonts[font->content()] = *font_name;
 
 	FcConfigBuildFonts(_config);
 	return *font_name;

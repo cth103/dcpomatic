@@ -19,6 +19,7 @@
 */
 
 
+#include "font_comparator.h"
 #include <fontconfig/fontconfig.h>
 #include <boost/filesystem.hpp>
 #include <map>
@@ -41,7 +42,7 @@ private:
 	~FontConfig();
 
 	FcConfig* _config = nullptr;
-	std::map<std::string, std::string> _available_fonts;
+	std::map<dcpomatic::Font::Content, std::string, FontComparator> _available_fonts;
 
 	std::vector<boost::filesystem::path> _temp_files;
 

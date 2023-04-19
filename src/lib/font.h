@@ -85,6 +85,10 @@ public:
 		boost::optional<boost::filesystem::path> file;
 	};
 
+	Content content() const {
+		return _content;
+	}
+
 	boost::signals2::signal<void()> Changed;
 
 private:
