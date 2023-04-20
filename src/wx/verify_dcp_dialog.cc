@@ -401,6 +401,15 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INVALID_MAIN_SOUND_CONFIGURATION:
 			add(i, _("<MainSoundConfiguration> describes incorrect number of channels (%n)"));
 			break;
+		case dcp::VerificationNote::Code::MISSING_FONT:
+			add(i, _("The font file for font ID \"%n\" was not found, or was not referred to in the ASSETMAP."));
+			break;
+		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE:
+			add(i, _("Frame %frame has an image component that is too large (component %component is %size bytes in size)."));
+			break;
+		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_NAMESPACE_COUNT:
+			add(i, _("The XML in the subtitle asset %n has more than one namespace declaration."));
+			break;
 		}
 	}
 
