@@ -220,10 +220,6 @@ send_emails (
 
 		auto first = kdms_for_cinema.front();
 
-		if (first->emails().empty()) {
-			continue;
-		}
-
 		auto zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		boost::filesystem::create_directories (zip_file);
 		zip_file /= container_name_format.get(first->name_values(), ".zip");
@@ -251,6 +247,11 @@ send_emails (
 		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
 
 		auto emails = first->emails();
+		std::copy(extra_addresses.begin(), extra_addresses.end(), std::back_inserter(emails));
+		if (emails.empty()) {
+			continue;
+		}
+
 		Emailer email (config->kdm_from(), { emails.front() }, subject, body);
 
 		/* Use CC for the second and subsequent email addresses, so we seem less spammy (#2310) */
@@ -283,21 +284,6 @@ send_emails (
 		}
 
 		log_details (email);
-
-		for (auto extra: extra_addresses) {
-			Emailer email (config->kdm_from(), { extra }, subject, body);
-			email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
-
-			try {
-				email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
-			} catch (...) {
-				boost::filesystem::remove (zip_file);
-				log_details (email);
-				throw;
-			}
-
-			log_details (email);
-		}
 
 		boost::filesystem::remove (zip_file);
 	}
