@@ -176,7 +176,9 @@ deb_depends['23.04'].extend(['libboost-filesystem1.74.0',
                              'libcurl4',
                              'libpulse0',
                              'libxerces-c3.2',
-                             'libnanomsg5'])
+                             'libnanomsg5',
+                             'libwxgtk3.2-1',
+                             'libwxgtk-gl3.2-1'])
 
 deb_depends['9'] = copy.deepcopy(deb_depends_base)
 deb_depends['9'].extend(['libboost-filesystem1.62.0',
