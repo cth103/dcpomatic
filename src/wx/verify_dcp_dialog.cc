@@ -97,6 +97,15 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		if (note.line()) {
 			message.Replace("%l", std_to_wx(dcp::raw_convert<string>(note.line().get())));
 		}
+		if (note.frame()) {
+			message.Replace("%frame", std_to_wx(dcp::raw_convert<string>(note.frame().get())));
+		}
+		if (note.component()) {
+			message.Replace("%component", std_to_wx(dcp::raw_convert<string>(note.component().get())));
+		}
+		if (note.size()) {
+			message.Replace("%size", std_to_wx(dcp::raw_convert<string>(note.size().get())));
+		}
 		add_bullet (note.type(), message);
 		counts[note.type()]++;
 	};
