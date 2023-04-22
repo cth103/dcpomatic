@@ -58,7 +58,8 @@ check (int target_bits_per_second)
 			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
 			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE,
 			dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES,
-			dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES
+			dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES,
+			dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE,
 		});
 
 	boost::filesystem::directory_iterator i (boost::filesystem::path("build") / "test" / name / "video");
@@ -80,4 +81,9 @@ BOOST_AUTO_TEST_CASE (bandwidth_test)
 	check (150000000);
 	check (200000000);
 	check (250000000);
+	check (300000000);
+	check (350000000);
+	check (400000000);
+	check (450000000);
+	check (500000000);
 }
