@@ -229,7 +229,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 
 		/* Send XML metadata */
 		auto xml = doc.write_to_string ("UTF-8");
-		socket->write (xml.length() + 1);
+		socket->write(xml.bytes() + 1);
 		socket->write ((uint8_t *) xml.c_str(), xml.bytes() + 1);
 
 		/* Send binary data */
