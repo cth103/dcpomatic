@@ -1709,7 +1709,7 @@ private:
 		}
 		catch (exception& e)
 		{
-			_splash.reset();
+			close_splash();
 			error_dialog (nullptr, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
 		}
 
@@ -1821,7 +1821,8 @@ private:
 
 	void close_splash ()
 	{
-		_splash.reset();
+		_splash->Destroy();
+		_splash = nullptr;
 	}
 
 	void config_failed_to_load (Config::LoadFailure what)
@@ -1839,7 +1840,7 @@ private:
 		/* Destroy the splash screen here, as otherwise bad things seem to happen (for reasons unknown)
 		   when we open our recreate dialog, close it, *then* try to Destroy the splash (the Destroy fails).
 		*/
-		_splash.reset();
+		close_splash();
 
 		auto config = Config::instance();
 		switch (reason) {
@@ -1908,7 +1909,7 @@ private:
 	}
 
 	DOMFrame* _frame = nullptr;
-	wx_ptr<wxSplashScreen> _splash;
+	wxSplashScreen* _splash;
 	shared_ptr<wxTimer> _timer;
 	string _film_to_load;
 	string _film_to_create;

@@ -1171,7 +1171,7 @@ private:
 
 	bool OnInit () override
 	{
-		wx_ptr<wxSplashScreen> splash;
+		wxSplashScreen* splash;
 		try {
 			wxInitAllImageHandlers ();
 

@@ -537,10 +537,10 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 }
 
 
-wx_ptr<wxSplashScreen>
+wxSplashScreen*
 maybe_show_splash ()
 {
-	wx_ptr<wxSplashScreen> splash;
+	wxSplashScreen* splash;
 
 	try {
 		wxBitmap bitmap;
@@ -555,9 +555,9 @@ maybe_show_splash ()
 			}
 #ifdef DCPOMATIC_WINDOWS
 			/* Having wxSTAY_ON_TOP means error dialogues hide behind the splash screen on Windows, no matter what I try */
-			splash.reset(bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, nullptr, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxFRAME_NO_TASKBAR);
+			splash = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, nullptr, -1, wxDefaultPosition, wxDefaultSize, wxBORDER_SIMPLE | wxFRAME_NO_TASKBAR);
 #else
-			splash.reset(bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, nullptr, -1);
+			splash = new wxSplashScreen(bitmap, wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_NO_TIMEOUT, 0, nullptr, -1);
 #endif
 			wxYield ();
 		}

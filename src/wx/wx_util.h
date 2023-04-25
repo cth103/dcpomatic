@@ -119,7 +119,7 @@ extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
 extern wxString time_to_timecode (dcpomatic::DCPTime t, double fps);
 extern void setup_audio_channels_choice (wxChoice* choice, int minimum);
-extern wx_ptr<wxSplashScreen> maybe_show_splash();
+extern wxSplashScreen* maybe_show_splash();
 extern double calculate_mark_interval (double start);
 extern bool display_progress (wxString title, wxString task);
 extern bool report_errors_from_last_job (wxWindow* parent);
