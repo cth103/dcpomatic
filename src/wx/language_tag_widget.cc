@@ -22,7 +22,6 @@
 #include "dcpomatic_button.h"
 #include "language_tag_dialog.h"
 #include "language_tag_widget.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/scope_guard.h"
 #include <dcp/warnings.h>

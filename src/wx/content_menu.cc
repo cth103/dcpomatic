@@ -27,7 +27,6 @@
 #include "repeat_dialog.h"
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"

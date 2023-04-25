@@ -22,7 +22,6 @@
 #include "dcpomatic_button.h"
 #include "fonts_dialog.h"
 #include "system_font_dialog.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/content.h"
 #include "lib/font.h"

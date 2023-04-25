@@ -30,7 +30,6 @@
 #include "timeline_dialog.h"
 #include "timing_panel.h"
 #include "video_panel.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/case_insensitive_sorter.h"

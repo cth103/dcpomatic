@@ -22,7 +22,6 @@
 #include "dcpomatic_button.h"
 #include "dir_picker_ctrl.h"
 #include "static_text.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

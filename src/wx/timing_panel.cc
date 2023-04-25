@@ -26,7 +26,6 @@
 #include "static_text.h"
 #include "timecode.h"
 #include "timing_panel.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/content.h"

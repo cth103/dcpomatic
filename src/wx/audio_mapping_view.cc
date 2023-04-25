@@ -26,7 +26,6 @@
 
 #include "audio_gain_dialog.h"
 #include "audio_mapping_view.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/audio_mapping.h"
 #include "lib/maths_util.h"

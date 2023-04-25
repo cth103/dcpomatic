@@ -25,7 +25,6 @@
 #include "dcpomatic_button.h"
 #include "nag_dialog.h"
 #include "static_text.h"
-#include "wx_ptr.h"
 #include "lib/constants.h"
 #include <dcp/file.h>
 #include <dcp/raw_convert.h>

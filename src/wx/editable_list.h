@@ -24,7 +24,6 @@
 
 
 #include "dcpomatic_button.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

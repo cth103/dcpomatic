@@ -28,7 +28,6 @@
 #include "playhead_to_frame_dialog.h"
 #include "playhead_to_timecode_dialog.h"
 #include "static_text.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"

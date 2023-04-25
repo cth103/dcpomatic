@@ -25,7 +25,6 @@
 #include "filter_dialog.h"
 #include "language_tag_widget.h"
 #include "static_text.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/content.h"
 #include "lib/dcp_content.h"

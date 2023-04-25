@@ -32,7 +32,6 @@
 #include "subtitle_appearance_dialog.h"
 #include "text_panel.h"
 #include "text_view.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "lib/analyse_subtitles_job.h"
 #include "lib/dcp_content.h"
