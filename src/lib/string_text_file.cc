@@ -103,7 +103,12 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 		ucnv_close (to_utf8);
 
 		if (ext == ".srt") {
-			reader.reset(new sub::SubripReader(utf8.get()));
+			try {
+				reader.reset(new sub::SubripReader(utf8.get()));
+			} catch (...) {
+				/* Sometimes files are have the .srt extension but are really WEBVTT */
+				reader.reset(new sub::WebVTTReader(utf8.get()));
+			}
 		} else if (ext == ".ssa" || ext == ".ass") {
 			reader.reset(new sub::SSAReader(utf8.get()));
 		} else if (ext == ".vtt") {
