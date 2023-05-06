@@ -63,7 +63,7 @@ using boost::optional;
 
 DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 {
-	shared_ptr<dcp::CPL> cpl;
+	shared_ptr<dcp::CPL> selected_cpl;
 
 	auto cpls = dcp::find_and_resolve_cpls (content->directories(), tolerant);
 
@@ -73,47 +73,47 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		if (iter == cpls.end()) {
 			throw CPLNotFoundError(content->cpl().get());
 		}
-		cpl = *iter;
+		selected_cpl = *iter;
 	} else {
 		/* Choose the CPL with the fewest unsatisfied references */
 
 		int least_unsatisfied = INT_MAX;
 
-		for (auto i: cpls) {
+		for (auto cpl: cpls) {
 			int unsatisfied = 0;
-			for (auto j: i->reels()) {
-				if (j->main_picture() && !j->main_picture()->asset_ref().resolved()) {
+			for (auto reel: cpl->reels()) {
+				if (reel->main_picture() && !reel->main_picture()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
-				if (j->main_sound() && !j->main_sound()->asset_ref().resolved()) {
+				if (reel->main_sound() && !reel->main_sound()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
-				if (j->main_subtitle() && !j->main_subtitle()->asset_ref().resolved()) {
+				if (reel->main_subtitle() && !reel->main_subtitle()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
-				if (j->atmos() && !j->atmos()->asset_ref().resolved()) {
+				if (reel->atmos() && !reel->atmos()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
 			}
 
 			if (unsatisfied < least_unsatisfied) {
 				least_unsatisfied = unsatisfied;
-				cpl = i;
+				selected_cpl = cpl;
 			}
 		}
 	}
 
-	if (!cpl) {
+	if (!selected_cpl) {
 		throw DCPError ("No CPLs found in DCP");
 	}
 
 	if (content->kdm()) {
-		cpl->add (decrypt_kdm_with_helpful_error(content->kdm().get()));
+		selected_cpl->add(decrypt_kdm_with_helpful_error(content->kdm().get()));
 	}
 
-	_cpl = cpl->id ();
-	_name = cpl->content_title_text ();
-	_content_kind = cpl->content_kind ();
+	_cpl = selected_cpl->id();
+	_name = selected_cpl->content_title_text();
+	_content_kind = selected_cpl->content_kind();
 
 	LOG_GENERAL ("Selected CPL %1", _cpl);
 
@@ -126,9 +126,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		return boost::none;
 	};
 
-	LOG_GENERAL ("Looking at %1 reels", cpl->reels().size());
+	LOG_GENERAL("Looking at %1 reels", selected_cpl->reels().size());
 
-	for (auto reel: cpl->reels()) {
+	for (auto reel: selected_cpl->reels()) {
 		LOG_GENERAL("Reel %1", reel->id());
 		vector<shared_ptr<dcpomatic::Font>> reel_fonts;
 
@@ -208,18 +208,18 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 		}
 
-		for (auto j: reel->closed_captions()) {
-			if (!j->asset_ref().resolved()) {
+		for (auto ccap: reel->closed_captions()) {
+			if (!ccap->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
-				LOG_GENERAL("Closed caption %1 of reel %2 is missing", j->id(), reel->id());
+				LOG_GENERAL("Closed caption %1 of reel %2 is missing", ccap->id(), reel->id());
 				return;
 			}
 
-			LOG_GENERAL("Closed caption %1 of reel %2 found", j->id(), reel->id());
+			LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
 
 			_text_count[TextType::CLOSED_CAPTION]++;
-			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text().get_value_or(""), try_to_parse_language(j->language())));
+			_dcp_text_tracks.push_back(DCPTextTrack(ccap->annotation_text().get_value_or(""), try_to_parse_language(ccap->language())));
 		}
 
 		if (reel->main_markers ()) {
@@ -255,7 +255,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		_fonts.push_back(reel_fonts);
 	}
 
-	_encrypted = cpl->any_encrypted ();
+	_encrypted = selected_cpl->any_encrypted();
 	_kdm_valid = true;
 
 	LOG_GENERAL_NC ("Check that everything encrypted has a key");
@@ -266,7 +266,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	 * asset in each reel.  This checks that when we do have a key it's the right one.
 	 */
 	try {
-		for (auto i: cpl->reels()) {
+		for (auto i: selected_cpl->reels()) {
 			LOG_GENERAL ("Reel %1", i->id());
 			auto pic = i->main_picture()->asset();
 			if (pic->encrypted() && !pic->key()) {
@@ -330,13 +330,13 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		LOG_GENERAL ("KDM is invalid: %1", e.what());
 	}
 
-	_standard = cpl->standard();
-	_three_d = !cpl->reels().empty() && cpl->reels().front()->main_picture() &&
-		dynamic_pointer_cast<dcp::StereoPictureAsset> (cpl->reels().front()->main_picture()->asset());
-	_ratings = cpl->ratings();
-	for (auto i: cpl->content_versions()) {
-		_content_versions.push_back (i.label_text);
+	_standard = selected_cpl->standard();
+	_three_d = !selected_cpl->reels().empty() && selected_cpl->reels().front()->main_picture() &&
+		dynamic_pointer_cast<dcp::StereoPictureAsset>(selected_cpl->reels().front()->main_picture()->asset());
+	_ratings = selected_cpl->ratings();
+	for (auto version: selected_cpl->content_versions()) {
+		_content_versions.push_back(version.label_text);
 	}
 
-	_cpl = cpl->id ();
+	_cpl = selected_cpl->id();
 }
