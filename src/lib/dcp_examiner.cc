@@ -128,21 +128,21 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	LOG_GENERAL ("Looking at %1 reels", cpl->reels().size());
 
-	for (auto i: cpl->reels()) {
-		LOG_GENERAL ("Reel %1", i->id());
+	for (auto reel: cpl->reels()) {
+		LOG_GENERAL("Reel %1", reel->id());
 		vector<shared_ptr<dcpomatic::Font>> reel_fonts;
 
-		if (i->main_picture ()) {
-			if (!i->main_picture()->asset_ref().resolved()) {
+		if (reel->main_picture()) {
+			if (!reel->main_picture()->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
-				LOG_GENERAL ("Main picture %1 of reel %2 is missing", i->main_picture()->id(), i->id());
+				LOG_GENERAL("Main picture %1 of reel %2 is missing", reel->main_picture()->id(), reel->id());
 				return;
 			}
 
-			LOG_GENERAL ("Main picture %1 of reel %2 found", i->main_picture()->id(), i->id());
+			LOG_GENERAL("Main picture %1 of reel %2 found", reel->main_picture()->id(), reel->id());
 
-			auto const frac = i->main_picture()->edit_rate ();
+			auto const frac = reel->main_picture()->edit_rate();
 			float const fr = float(frac.numerator) / frac.denominator;
 			if (!_video_frame_rate) {
 				_video_frame_rate = fr;
@@ -151,28 +151,28 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 
 			_has_video = true;
-			auto asset = i->main_picture()->asset();
+			auto asset = reel->main_picture()->asset();
 			if (!_video_size) {
 				_video_size = asset->size ();
 			} else if (_video_size.get() != asset->size ()) {
 				throw DCPError (_("Mismatched video sizes in DCP"));
 			}
 
-			_video_length += i->main_picture()->actual_duration();
+			_video_length += reel->main_picture()->actual_duration();
 		}
 
-		if (i->main_sound ()) {
-			if (!i->main_sound()->asset_ref().resolved()) {
+		if (reel->main_sound()) {
+			if (!reel->main_sound()->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
-				LOG_GENERAL ("Main sound %1 of reel %2 is missing", i->main_sound()->id(), i->id());
+				LOG_GENERAL("Main sound %1 of reel %2 is missing", reel->main_sound()->id(), reel->id());
 				return;
 			}
 
-			LOG_GENERAL ("Main sound %1 of reel %2 found", i->main_sound()->id(), i->id());
+			LOG_GENERAL("Main sound %1 of reel %2 found", reel->main_sound()->id(), reel->id());
 
 			_has_audio = true;
-			auto asset = i->main_sound()->asset();
+			auto asset = reel->main_sound()->asset();
 
 			if (!_audio_channels) {
 				_audio_channels = asset->channels ();
@@ -186,66 +186,66 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				throw DCPError (_("Mismatched audio sample rates in DCP"));
 			}
 
-			_audio_length += i->main_sound()->actual_duration();
+			_audio_length += reel->main_sound()->actual_duration();
 			_audio_language = try_to_parse_language (asset->language());
 		}
 
-		if (i->main_subtitle ()) {
-			if (!i->main_subtitle()->asset_ref().resolved()) {
+		if (reel->main_subtitle()) {
+			if (!reel->main_subtitle()->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
-				LOG_GENERAL ("Main subtitle %1 of reel %2 is missing", i->main_subtitle()->id(), i->id());
+				LOG_GENERAL("Main subtitle %1 of reel %2 is missing", reel->main_subtitle()->id(), reel->id());
 				return;
 			}
 
-			LOG_GENERAL ("Main subtitle %1 of reel %2 found", i->main_subtitle()->id(), i->id());
+			LOG_GENERAL("Main subtitle %1 of reel %2 found", reel->main_subtitle()->id(), reel->id());
 
 			_text_count[TextType::OPEN_SUBTITLE] = 1;
-			_open_subtitle_language = try_to_parse_language (i->main_subtitle()->language());
+			_open_subtitle_language = try_to_parse_language(reel->main_subtitle()->language());
 
-			for (auto const& font: i->main_subtitle()->asset()->font_data()) {
+			for (auto const& font: reel->main_subtitle()->asset()->font_data()) {
 				reel_fonts.push_back(make_shared<dcpomatic::Font>(font.first, font.second));
 			}
 		}
 
-		for (auto j: i->closed_captions()) {
+		for (auto j: reel->closed_captions()) {
 			if (!j->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
 				_needs_assets = true;
-				LOG_GENERAL ("Closed caption %1 of reel %2 is missing", j->id(), i->id());
+				LOG_GENERAL("Closed caption %1 of reel %2 is missing", j->id(), reel->id());
 				return;
 			}
 
-			LOG_GENERAL ("Closed caption %1 of reel %2 found", j->id(), i->id());
+			LOG_GENERAL("Closed caption %1 of reel %2 found", j->id(), reel->id());
 
 			_text_count[TextType::CLOSED_CAPTION]++;
 			_dcp_text_tracks.push_back (DCPTextTrack(j->annotation_text().get_value_or(""), try_to_parse_language(j->language())));
 		}
 
-		if (i->main_markers ()) {
-			auto rm = i->main_markers()->get();
+		if (reel->main_markers ()) {
+			auto rm = reel->main_markers()->get();
 			_markers.insert (rm.begin(), rm.end());
 		}
 
-		if (i->atmos()) {
+		if (reel->atmos()) {
 			_has_atmos = true;
-			_atmos_length += i->atmos()->actual_duration();
+			_atmos_length += reel->atmos()->actual_duration();
 			if (_atmos_edit_rate != dcp::Fraction()) {
-				DCPOMATIC_ASSERT (i->atmos()->edit_rate() == _atmos_edit_rate);
+				DCPOMATIC_ASSERT(reel->atmos()->edit_rate() == _atmos_edit_rate);
 			}
-			_atmos_edit_rate = i->atmos()->edit_rate();
+			_atmos_edit_rate = reel->atmos()->edit_rate();
 		}
 
-		if (i->main_picture()) {
-			_reel_lengths.push_back (i->main_picture()->actual_duration());
-		} else if (i->main_sound()) {
-			_reel_lengths.push_back (i->main_sound()->actual_duration());
-		} else if (i->main_subtitle()) {
-			_reel_lengths.push_back (i->main_subtitle()->actual_duration());
-		} else if (!i->closed_captions().empty()) {
-			_reel_lengths.push_back (i->closed_captions().front()->actual_duration());
-		} else if (!i->atmos()) {
-			_reel_lengths.push_back (i->atmos()->actual_duration());
+		if (reel->main_picture()) {
+			_reel_lengths.push_back(reel->main_picture()->actual_duration());
+		} else if (reel->main_sound()) {
+			_reel_lengths.push_back(reel->main_sound()->actual_duration());
+		} else if (reel->main_subtitle()) {
+			_reel_lengths.push_back(reel->main_subtitle()->actual_duration());
+		} else if (!reel->closed_captions().empty()) {
+			_reel_lengths.push_back(reel->closed_captions().front()->actual_duration());
+		} else if (!reel->atmos()) {
+			_reel_lengths.push_back(reel->atmos()->actual_duration());
 		}
 
 		if (reel_fonts.empty()) {
