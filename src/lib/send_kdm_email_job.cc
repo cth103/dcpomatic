@@ -57,7 +57,7 @@ SendKDMEmailJob::SendKDMEmailJob (
 
 
 /** @param kdms KDMs to email.
- *  @param container_name_format Format to ues for folders / ZIP files.
+ *  @param container_name_format Format to use for folders / ZIP files.
  *  @param filename_format Format to use for filenames.
  *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
