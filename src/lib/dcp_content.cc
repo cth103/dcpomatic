@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2014-2022 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2014-2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -31,6 +31,7 @@
 #include "job.h"
 #include "log.h"
 #include "overlaps.h"
+#include "scope_guard.h"
 #include "text_content.h"
 #include "video_content.h"
 #include <dcp/dcp.h>
@@ -212,6 +213,11 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
 	string const old_name = name ();
+
+	ContentChangeSignalDespatcher::instance()->suspend();
+	ScopeGuard sg = []() {
+		ContentChangeSignalDespatcher::instance()->resume();
+	};
 
 	ContentChangeSignaller cc_texts (this, DCPContentProperty::TEXTS);
 	ContentChangeSignaller cc_assets (this, DCPContentProperty::NEEDS_ASSETS);

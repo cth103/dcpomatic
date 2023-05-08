@@ -234,7 +234,7 @@ private:
 	friend struct best_dcp_frame_rate_test_double;
 	friend struct audio_sampling_rate_test;
 	friend struct subtitle_font_id_change_test2;
-	template<class, class> friend class ChangeSignaller;
+	template<class, class> friend class ChangeSignalDespatcher;
 
 	void signal_change (ChangeType, int);
 
@@ -256,6 +256,7 @@ private:
 
 
 typedef ChangeSignaller<Content, int> ContentChangeSignaller;
+typedef ChangeSignalDespatcher<Content, int> ContentChangeSignalDespatcher;
 
 
 #endif

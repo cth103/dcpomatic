@@ -23,6 +23,10 @@
 #define DCPOMATIC_CHANGE_SIGNALLER_H
 
 
+#include <boost/thread.hpp>
+#include <vector>
+
+
 enum class ChangeType
 {
 	PENDING,
@@ -32,28 +36,102 @@ enum class ChangeType
 
 
 template <class T, class P>
+class ChangeSignal
+{
+public:
+	ChangeSignal(T* thing_, P property_, ChangeType type_)
+		: thing(thing_)
+		, property(property_)
+		, type(type_)
+	{}
+
+	T* thing;
+	P property;
+	ChangeType type;
+};
+
+
+class ChangeSignalDespatcherBase
+{
+protected:
+	static boost::mutex _instance_mutex;
+};
+
+
+template <class T, class P>
+class ChangeSignalDespatcher : public ChangeSignalDespatcherBase
+{
+public:
+	ChangeSignalDespatcher() = default;
+
+	ChangeSignalDespatcher(ChangeSignalDespatcher const&) = delete;
+	ChangeSignalDespatcher& operator=(ChangeSignalDespatcher const&) = delete;
+
+	void signal_change(ChangeSignal<T, P> const& signal)
+	{
+		if (_suspended) {
+			boost::mutex::scoped_lock lm(_mutex);
+			_pending.push_back(signal);
+		} else {
+			signal.thing->signal_change(signal.type, signal.property);
+		}
+	}
+
+	void suspend()
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		_suspended = true;
+	}
+
+	void resume()
+	{
+		boost::mutex::scoped_lock lm(_mutex);
+		auto pending = _pending;
+		lm.unlock();
+
+		for (auto signal: pending) {
+			signal.thing->signal_change(signal.type, signal.property);
+		}
+
+		lm.lock();
+		_pending.clear();
+		_suspended = false;
+	}
+
+	static ChangeSignalDespatcher* instance()
+	{
+		static boost::mutex _instance_mutex;
+		static boost::mutex::scoped_lock lm(_instance_mutex);
+		static ChangeSignalDespatcher<T, P>* _instance;
+		if (!_instance) {
+			_instance = new ChangeSignalDespatcher<T, P>();
+		}
+		return _instance;
+	}
+
+private:
+	std::vector<ChangeSignal<T, P>> _pending;
+	bool _suspended = false;
+	boost::mutex _mutex;
+};
+
+
+template <class T, class P>
 class ChangeSignaller
 {
 public:
 	ChangeSignaller (T* t, P p)
-		: _thing (t)
-		, _property (p)
-		, _done (true)
+		: _thing(t)
+		, _property(p)
+		, _done(true)
 	{
-		_thing->signal_change (ChangeType::PENDING, _property);
+		ChangeSignalDespatcher<T, P>::instance()->signal_change({_thing, _property, ChangeType::PENDING});
 	}
 
 	~ChangeSignaller ()
 	{
-		if (_done) {
-			_thing->signal_change (ChangeType::DONE, _property);
-		} else {
-			_thing->signal_change (ChangeType::CANCELLED, _property);
-		}
+		ChangeSignalDespatcher<T, P>::instance()->signal_change({_thing, _property, _done ? ChangeType::DONE : ChangeType::CANCELLED});
 	}
-
-	ChangeSignaller (ChangeSignaller const&) = delete;
-	ChangeSignaller& operator= (ChangeSignaller const&) = delete;
 
 	void abort ()
 	{

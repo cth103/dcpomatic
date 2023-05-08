@@ -492,7 +492,7 @@ private:
 	friend struct ::isdcf_name_with_atmos;
 	friend struct ::recover_test_2d_encrypted;
 	friend struct ::atmos_encrypted_passthrough_test;
-	template <class, class> friend class ChangeSignaller;
+	template <class, class> friend class ChangeSignalDespatcher;
 
 	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
 
