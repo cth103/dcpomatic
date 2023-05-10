@@ -540,7 +540,7 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 wxSplashScreen*
 maybe_show_splash ()
 {
-	wxSplashScreen* splash;
+	wxSplashScreen* splash = nullptr;
 
 	try {
 		wxBitmap bitmap;
