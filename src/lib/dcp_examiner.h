@@ -103,7 +103,9 @@ public:
 	}
 
 	/** @param type TEXT_OPEN_SUBTITLE or TEXT_CLOSED_CAPTION.
-	 *  @return Number of assets of this type in this DCP.
+	 *  @return the number of "streams" of this type in the DCP.
+	 *  Reels do not affect the return value of this method: if a DCP
+	 *  has any subtitles, type=TEXT_OPEN_SUBTITLE will return 1.
 	 */
 	int text_count (TextType type) const {
 		return _text_count[type];
