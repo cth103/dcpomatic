@@ -361,12 +361,8 @@ deinterleave_audio(shared_ptr<FFmpegAudioStream> stream, AVFrame* frame)
 	{
 		auto p = reinterpret_cast<float**> (frame->data);
 		DCPOMATIC_ASSERT(channels <= stream->channels());
-		/* Sometimes there aren't as many channels in the frame as in the stream */
 		for (int i = 0; i < channels; ++i) {
 			memcpy (data[i], p[i], frames * sizeof(float));
-		}
-		for (int i = channels; i < stream->channels(); ++i) {
-			audio->make_silent (i);
 		}
 	}
 	break;
