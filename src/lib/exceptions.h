@@ -351,8 +351,8 @@ public:
 	explicit InvalidSignerError (std::string reason);
 };
 
-class ProgrammingError : public std::runtime_error
 
+class ProgrammingError : public std::runtime_error
 {
 public:
 	ProgrammingError (std::string file, int line, std::string message = "");
