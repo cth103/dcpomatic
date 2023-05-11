@@ -831,8 +831,9 @@ add_fonts_from_examiner(shared_ptr<TextContent> text, vector<vector<shared_ptr<F
 			 * by prepending the reel number.  We do the same disambiguation when emitting the
 			 * subtitles in the DCP decoder.
 			 */
-			font->set_id(id_for_font_in_reel(font->id(), reel_number));
-			text->add_font(font);
+			auto font_copy = make_shared<dcpomatic::Font>(*font);
+			font_copy->set_id(id_for_font_in_reel(font->id(), reel_number));
+			text->add_font(font_copy);
 		}
 		++reel_number;
 	}
