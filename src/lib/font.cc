@@ -44,6 +44,24 @@ Font::Font (cxml::NodePtr node)
 }
 
 
+Font::Font(Font const& other)
+	: _id(other._id)
+	, _content(other._content)
+{
+
+}
+
+
+Font& Font::operator=(Font const& other)
+{
+	if (&other != this) {
+		_id = other._id;
+		_content = other._content;
+	}
+	return *this;
+}
+
+
 void
 Font::as_xml (xmlpp::Node* node)
 {
