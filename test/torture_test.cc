@@ -26,28 +26,31 @@
 
 
 #include "lib/audio_content.h"
-#include "lib/film.h"
-#include "lib/dcp_content_type.h"
-#include "lib/ratio.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
+#include "lib/dcp_content_type.h"
+#include "lib/film.h"
+#include "lib/ratio.h"
+#include "lib/text_content.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
-#include <dcp/reel.h>
-#include <dcp/reel_sound_asset.h>
-#include <dcp/reel_picture_asset.h>
-#include <dcp/sound_asset.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/openjpeg_image.h>
+#include <dcp/reel.h>
+#include <dcp/reel_picture_asset.h>
+#include <dcp/reel_sound_asset.h>
+#include <dcp/sound_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
 
-using std::list;
 using std::cout;
-using std::shared_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
 using namespace dcpomatic;
 
 
