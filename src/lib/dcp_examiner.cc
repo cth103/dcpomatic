@@ -208,6 +208,18 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 		}
 
+		_text_count[TextType::CLOSED_CAPTION] = std::max(_text_count[TextType::CLOSED_CAPTION], static_cast<int>(reel->closed_captions().size()));
+		if (_dcp_text_tracks.size() < reel->closed_captions().size()) {
+			/* We only want to add 1 DCPTextTrack to _dcp_text_tracks per closed caption.  I guess it's possible that different
+			 * reels have different numbers of tracks (though I don't think they should) so make sure that _dcp_text_tracks ends
+			 * up with the maximum.
+			 */
+			_dcp_text_tracks.clear();
+			for (auto ccap: reel->closed_captions()) {
+				_dcp_text_tracks.push_back(DCPTextTrack(ccap->annotation_text().get_value_or(""), try_to_parse_language(ccap->language())));
+			}
+		}
+
 		for (auto ccap: reel->closed_captions()) {
 			if (!ccap->asset_ref().resolved()) {
 				/* We are missing this asset so we can't continue; examination will be repeated later */
@@ -218,8 +230,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
 
-			_text_count[TextType::CLOSED_CAPTION]++;
-			_dcp_text_tracks.push_back(DCPTextTrack(ccap->annotation_text().get_value_or(""), try_to_parse_language(ccap->language())));
 		}
 
 		if (reel->main_markers ()) {
