@@ -276,6 +276,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	for (int i = 0; i < examiner->text_count(TextType::CLOSED_CAPTION); ++i) {
 		auto c = make_shared<TextContent>(this, TextType::CLOSED_CAPTION, TextType::CLOSED_CAPTION);
 		c->set_dcp_track (examiner->dcp_text_track(i));
+		add_fonts_from_examiner(c, examiner->fonts());
 		new_text.push_back (c);
 	}
 

@@ -491,18 +491,17 @@ maybe_add_text (
 	shared_ptr<Result> reel_asset;
 
 	if (asset) {
-		if (!std::is_same<Result, dcp::ReelClosedCaptionAsset>::value) {
-			if (film->interop()) {
-				if (chosen_interop_font) {
-					/* We only add one font, as Interop will ignore subsequent ones (and some validators will
-					 * complain if they are even present)
-					 */
-					asset->add_font(fonts.get(chosen_interop_font), chosen_interop_font->data().get_value_or(default_font));
-				}
+		if (film->interop()) {
+			if (chosen_interop_font) {
+				/* We only add one font, as Interop will ignore subsequent ones (and some validators will
+				 * complain if they are even present)
+				 */
+				asset->add_font(fonts.get(chosen_interop_font), chosen_interop_font->data().get_value_or(default_font));
 			} else {
-				for (auto const& font: fonts.map()) {
-					asset->add_font(font.second, font.first->data().get_value_or(default_font));
-				}
+			}
+		} else {
+			for (auto const& font: fonts.map()) {
+				asset->add_font(font.second, font.first->data().get_value_or(default_font));
 			}
 		}
 
@@ -979,9 +978,7 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		i.set_out (dcp::Time(period.to.seconds() - _period.from.seconds(), tcr));
 		i.set_v_position(convert_vertical_position(i, film()->interop() ? dcp::SubtitleStandard::INTEROP : dcp::SubtitleStandard::SMPTE_2014));
 		auto sub = make_shared<dcp::SubtitleString>(i);
-		if (type == TextType::OPEN_SUBTITLE) {
-			sub->set_font(fonts.get(i.font));
-		}
+		sub->set_font(fonts.get(i.font));
 		asset->add(sub);
 	}
 

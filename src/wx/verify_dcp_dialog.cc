@@ -106,6 +106,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		if (note.size()) {
 			message.Replace("%size", std_to_wx(dcp::raw_convert<string>(note.size().get())));
 		}
+		if (note.id()) {
+			message.Replace("%id", std_to_wx(note.id().get()));
+		}
 		add_bullet (note.type(), message);
 		counts[note.type()]++;
 	};
@@ -418,6 +421,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_NAMESPACE_COUNT:
 			add(i, _("The XML in the subtitle asset %n has more than one namespace declaration."));
+			break;
+		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
+			add(i, _("A subtitle or closed caption refers to a font with ID %id that does not have a corresponding <LoadFont> node."));
 			break;
 		}
 	}

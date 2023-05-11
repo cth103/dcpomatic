@@ -230,6 +230,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
 
+			for (auto const& font: ccap->asset()->font_data()) {
+				reel_fonts.push_back(make_shared<dcpomatic::Font>(font.first, font.second));
+			}
 		}
 
 		if (reel->main_markers ()) {

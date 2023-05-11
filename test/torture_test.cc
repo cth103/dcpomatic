@@ -299,3 +299,29 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 	}
 
 }
+
+
+BOOST_AUTO_TEST_CASE(multi_reel_interop_ccap_test)
+{
+	auto pic1 = content_factory("test/data/flat_red.png").front();
+	auto ccap1 = content_factory("test/data/15s.srt").front();
+	auto pic2 = content_factory("test/data/flat_red.png").front();
+	auto ccap2 = content_factory("test/data/15s.srt").front();
+	auto film1 = new_test_film2("multi_reel_interop_ccap_test1", { pic1, ccap1, pic2, ccap2 });
+	film1->set_interop(true);
+	film1->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	ccap1->text[0]->set_type(TextType::CLOSED_CAPTION);
+	pic1->video->set_length(15 * 24);
+	ccap2->text[0]->set_type(TextType::CLOSED_CAPTION);
+	pic2->video->set_length(15 * 24);
+	make_and_verify_dcp(film1, { dcp::VerificationNote::Code::INVALID_STANDARD, dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING });
+
+	auto reload = make_shared<DCPContent>(film1->dir(film1->dcp_name()));
+	auto film2 = new_test_film2("multi_reel_interop_ccap_test2", { reload });
+	for (auto i: reload->text) {
+		i->set_use(true);
+	}
+	film2->set_interop(true);
+	make_and_verify_dcp(film2, { dcp::VerificationNote::Code::INVALID_STANDARD, dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING });
+}
+
