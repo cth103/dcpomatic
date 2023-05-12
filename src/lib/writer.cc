@@ -593,7 +593,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	/* Add reels */
 
 	for (auto& i: _reels) {
-		cpl->add (i.create_reel(_reel_assets, _fonts, _chosen_interop_font, output_dcp, _have_subtitles, _have_closed_captions));
+		cpl->add(i.create_reel(_reel_assets, output_dcp, _have_subtitles, _have_closed_captions));
 	}
 
 	/* Add metadata */
@@ -842,7 +842,7 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 		period = back_off(period);
 	}
 
-	(*reel)->write(text, type, track, period, _fonts);
+	(*reel)->write(text, type, track, period, _fonts, _chosen_interop_font);
 }
 
 
@@ -1016,7 +1016,7 @@ Writer::write_hanging_text (ReelWriter& reel)
 	vector<HangingText> new_hanging_texts;
 	for (auto i: _hanging_texts) {
 		if (i.period.from == reel.period().from) {
-			reel.write (i.text, i.type, i.track, i.period, _fonts);
+			reel.write(i.text, i.type, i.track, i.period, _fonts, _chosen_interop_font);
 		} else {
 			new_hanging_texts.push_back (i);
 		}

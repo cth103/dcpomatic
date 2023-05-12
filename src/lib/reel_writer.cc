@@ -477,9 +477,6 @@ maybe_add_text (
 	int reel_count,
 	optional<string> content_summary,
 	list<ReferencedReelAsset> const & refs,
-	FontIdMap const& fonts,
-	shared_ptr<dcpomatic::Font> chosen_interop_font,
-	dcp::ArrayData default_font,
 	shared_ptr<const Film> film,
 	DCPTimePeriod period,
 	boost::filesystem::path output_dcp,
@@ -491,20 +488,6 @@ maybe_add_text (
 	shared_ptr<Result> reel_asset;
 
 	if (asset) {
-		if (film->interop()) {
-			if (chosen_interop_font) {
-				/* We only add one font, as Interop will ignore subsequent ones (and some validators will
-				 * complain if they are even present)
-				 */
-				asset->add_font(fonts.get(chosen_interop_font), chosen_interop_font->data().get_value_or(default_font));
-			} else {
-			}
-		} else {
-			for (auto const& font: fonts.map()) {
-				asset->add_font(font.second, font.first->data().get_value_or(default_font));
-			}
-		}
-
 		if (auto interop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(asset)) {
 			auto directory = output_dcp / interop->id ();
 			boost::filesystem::create_directories (directory);
@@ -662,8 +645,6 @@ void
 ReelWriter::create_reel_text (
 	shared_ptr<dcp::Reel> reel,
 	list<ReferencedReelAsset> const & refs,
-	FontIdMap const& fonts,
-	shared_ptr<dcpomatic::Font> chosen_interop_font,
 	int64_t duration,
 	boost::filesystem::path output_dcp,
 	bool ensure_subtitles,
@@ -671,7 +652,7 @@ ReelWriter::create_reel_text (
 	) const
 {
 	auto subtitle = maybe_add_text<dcp::ReelInteropSubtitleAsset, dcp::ReelSMPTESubtitleAsset, dcp::ReelSubtitleAsset> (
-		_subtitle_asset, duration, reel, _reel_index, _reel_count, _content_summary, refs, fonts, chosen_interop_font, _default_font, film(), _period, output_dcp, _text_only
+		_subtitle_asset, duration, reel, _reel_index, _reel_count, _content_summary, refs, film(), _period, output_dcp, _text_only
 		);
 
 	if (subtitle) {
@@ -689,9 +670,6 @@ ReelWriter::create_reel_text (
 			_reel_count,
 			_content_summary,
 			refs,
-			fonts,
-			chosen_interop_font,
-			_default_font,
 			film(),
 			_period,
 			output_dcp,
@@ -701,7 +679,7 @@ ReelWriter::create_reel_text (
 
 	for (auto const& i: _closed_caption_assets) {
 		auto a = maybe_add_text<dcp::ReelInteropClosedCaptionAsset, dcp::ReelSMPTEClosedCaptionAsset, dcp::ReelClosedCaptionAsset> (
-			i.second, duration, reel, _reel_index, _reel_count, _content_summary, refs, fonts, chosen_interop_font, _default_font, film(), _period, output_dcp, _text_only
+			i.second, duration, reel, _reel_index, _reel_count, _content_summary, refs, film(), _period, output_dcp, _text_only
 			);
 		DCPOMATIC_ASSERT (a);
 		a->set_annotation_text (i.first.name);
@@ -722,9 +700,6 @@ ReelWriter::create_reel_text (
 			_reel_count,
 			_content_summary,
 			refs,
-			fonts,
-			chosen_interop_font,
-			_default_font,
 			film(),
 			_period,
 			output_dcp,
@@ -769,8 +744,6 @@ ReelWriter::create_reel_markers (shared_ptr<dcp::Reel> reel) const
 shared_ptr<dcp::Reel>
 ReelWriter::create_reel (
 	list<ReferencedReelAsset> const & refs,
-	FontIdMap const & fonts,
-	shared_ptr<dcpomatic::Font> chosen_interop_font,
 	boost::filesystem::path output_dcp,
 	bool ensure_subtitles,
 	set<DCPTextTrack> ensure_closed_captions
@@ -792,7 +765,7 @@ ReelWriter::create_reel (
 		create_reel_markers (reel);
 	}
 
-	create_reel_text (reel, refs, fonts, chosen_interop_font, duration, output_dcp, ensure_subtitles, ensure_closed_captions);
+	create_reel_text(reel, refs, duration, output_dcp, ensure_subtitles, ensure_closed_captions);
 
 	if (_atmos_asset) {
 		reel->add (make_shared<dcp::ReelAtmosAsset>(_atmos_asset, 0));
@@ -938,7 +911,7 @@ ReelWriter::convert_vertical_position(StringText const& subtitle, dcp::SubtitleS
 
 
 void
-ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period, FontIdMap const& fonts)
+ReelWriter::write(PlayerText subs, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period, FontIdMap const& fonts, shared_ptr<dcpomatic::Font> chosen_interop_font)
 {
 	shared_ptr<dcp::SubtitleAsset> asset;
 
@@ -978,8 +951,18 @@ ReelWriter::write (PlayerText subs, TextType type, optional<DCPTextTrack> track,
 		i.set_out (dcp::Time(period.to.seconds() - _period.from.seconds(), tcr));
 		i.set_v_position(convert_vertical_position(i, film()->interop() ? dcp::SubtitleStandard::INTEROP : dcp::SubtitleStandard::SMPTE_2014));
 		auto sub = make_shared<dcp::SubtitleString>(i);
-		sub->set_font(fonts.get(i.font));
+		/* i.font is a shared_ptr<Font> which uniquely identifies the font we want,
+		 * though if we are Interop we can only have one font, so we'll use the chosen
+		 * one instead.
+		 */
+		auto font = film()->interop() ? chosen_interop_font : i.font;
+		/* We can get the corresponding ID from fonts */
+		auto const font_id_to_use = fonts.get(font);
+		/* Give this subtitle the correct font ID */
+		sub->set_font(font_id_to_use);
 		asset->add(sub);
+		/* Make sure the asset LoadFonts the font we just asked for */
+		asset->ensure_font(font_id_to_use, font->data().get_value_or(_default_font));
 	}
 
 	for (auto i: subs.bitmap) {

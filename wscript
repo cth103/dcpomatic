@@ -35,7 +35,7 @@ except ImportError:
 from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
-libdcp_version = '1.8.68'
+libdcp_version = '1.8.69'
 libsub_version = '1.6.42'
 
 this_version = subprocess.Popen(shlex.split('git tag -l --points-at HEAD'), stdout=subprocess.PIPE).communicate()[0]
