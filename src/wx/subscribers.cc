@@ -1,3 +1,4 @@
+subscribers.Add (wxT ("Stephen van Vuuren (SV2DCP)"));
 subscribers.Add (wxT ("Mark Allender"));
 subscribers.Add (wxT ("Luiz Amoasei"));
 subscribers.Add (wxT ("Sem Rumo - Projetos Audiovisuais"));
