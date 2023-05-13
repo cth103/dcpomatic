@@ -192,16 +192,18 @@ DCPContent::read_directory (boost::filesystem::path p)
 void
 DCPContent::read_sub_directory (boost::filesystem::path p)
 {
+	using namespace boost::filesystem;
+
 	LOG_GENERAL ("DCPContent::read_sub_directory reads %1", p.string());
-	for (auto i: boost::filesystem::directory_iterator(p)) {
-		if (boost::filesystem::is_regular_file(i.path())) {
+	for (auto i: directory_iterator(p)) {
+		if (is_regular_file(i.path())) {
 			LOG_GENERAL ("Inside there's regular file %1", i.path().string());
 			add_path (i.path());
-		} else if (boost::filesystem::is_directory(i.path()) && i.path().filename() != ".AppleDouble") {
+		} else if (is_directory(i.path()) && i.path().filename() != ".AppleDouble") {
 			LOG_GENERAL ("Inside there's directory %1", i.path().string());
 			read_sub_directory (i.path());
 		} else {
-			LOG_GENERAL("Ignoring %1 from inside: status is %2", i.path().string(), static_cast<int>(boost::filesystem::status(i.path()).type()));
+			LOG_GENERAL("Ignoring %1 from inside: status is %2", i.path().string(), static_cast<int>(status(i.path()).type()));
 		}
 	}
 }
