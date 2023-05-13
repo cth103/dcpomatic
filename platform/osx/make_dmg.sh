@@ -495,7 +495,7 @@ if [[ "$BUILD" == *main* ]]; then
 	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2.Info.plist "$approot/Info.plist"
 	rl=("$approot/MacOS/dcpomatic2" "$approot/MacOS/dcpomatic2_cli" "$approot/MacOS/dcpomatic2_create" "$approot/MacOS/ffprobe" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
-	make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2"
+	make_dmg "$appdir" "" "DCP-o-matic" "dcpomatic2_verify dcpomatic2_kdm_inspect openssl ffprobe dcpomatic2_cli dcpomatic2_create dcpomatic2 dcpomatic2_map"
 fi
 
 if [[ "$BUILD" == *kdm* ]]; then
