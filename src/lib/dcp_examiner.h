@@ -38,7 +38,7 @@ class DCPContent;
 class DCPExaminer : public VideoExaminer, public AudioExaminer
 {
 public:
-	explicit DCPExaminer (std::shared_ptr<const DCPContent>, bool tolerant);
+	DCPExaminer(std::shared_ptr<const DCPContent>, bool tolerant);
 
 	bool has_video () const override {
 		return _has_video;
