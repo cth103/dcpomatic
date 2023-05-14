@@ -53,3 +53,10 @@ CheckBox::get() const
 	return GetValue();
 }
 
+
+void
+CheckBox::set(bool state)
+{
+	SetValue(state);
+}
+
