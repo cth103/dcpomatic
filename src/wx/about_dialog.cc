@@ -154,10 +154,9 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString patrons;
-	patrons.Add ("Luproduction");
 	patrons.Add ("Lightbender Post");
 	patrons.Add ("Drop-out Cinema");
-	patrons.Add ("Pilotkino LLC");
+	patrons.Add ("Root & Rust Creative");
 	add_section (_("Patrons"), patrons);
 
 	wxArrayString subscribers;
