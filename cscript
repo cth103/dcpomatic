@@ -377,6 +377,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_combiner', file=f)
     print('%{_bindir}/dcpomatic2_verify', file=f)
     print('%{_bindir}/dcpomatic2_kdm_inspect', file=f)
+    print('%{_bindir}/dcpomatic2_map', file=f)
     if can_build_disk(target):
         print('%{_bindir}/dcpomatic2_disk', file=f)
         print('%caps(cap_dac_override=ep) %{_bindir}/dcpomatic2_disk_writer', file=f)
