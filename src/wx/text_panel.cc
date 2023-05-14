@@ -84,14 +84,6 @@ TextPanel::create ()
 		refer = _("Use this DCP's closed caption as OV and make VF");
 	}
 
-	_reference = new CheckBox (this, refer);
-	_reference_note = new StaticText (this, wxT(""));
-	_reference_note->Wrap (200);
-	auto font = _reference_note->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_reference_note->SetFont(font);
-
 	_use = new CheckBox (this, _("Use as"));
 	_type = new wxChoice (this, wxID_ANY);
 	_type->Append (_("open subtitles"));
@@ -132,7 +124,6 @@ TextPanel::create ()
 	_y_scale->SetRange (0, 1000);
 	_line_spacing->SetRange (0, 1000);
 
-	_reference->bind(&TextPanel::reference_clicked, this);
 	_use->bind(&TextPanel::use_toggled, this);
 	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));
 	_burn->bind(&TextPanel::burn_toggled, this);
@@ -231,12 +222,6 @@ void
 TextPanel::add_to_grid ()
 {
 	int r = 0;
-
-	auto reference_sizer = new wxBoxSizer (wxVERTICAL);
-	reference_sizer->Add (_reference, 0);
-	reference_sizer->Add (_reference_note, 0);
-	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
-	++r;
 
 	auto use = new wxBoxSizer (wxHORIZONTAL);
 	use->Add (_use, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
@@ -496,15 +481,6 @@ TextPanel::film_content_changed (int property)
 		if (_language_type) {
 			_language_type->SetSelection (text ? (text->language_is_additional() ? 1 : 0) : 0);
 		}
-	} else if (property == DCPContentProperty::REFERENCE_TEXT) {
-		if (scs) {
-			auto dcp = dynamic_pointer_cast<DCPContent> (scs);
-			checked_set (_reference, dcp ? dcp->reference_text(_original_type) : false);
-		} else {
-			checked_set (_reference, false);
-		}
-
-		setup_sensitivity ();
 	} else if (property == DCPContentProperty::TEXTS) {
 		setup_sensitivity ();
 	} else if (property == ContentProperty::TRIM_START) {
@@ -593,17 +569,7 @@ TextPanel::setup_sensitivity ()
 		dcp = dynamic_pointer_cast<DCPContent>(sel.front());
 	}
 
-	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_text (_parent->film(), _original_type, why_not);
-	wxString cannot;
-	if (why_not.empty()) {
-		cannot = _("Cannot reference this DCP's subtitles or captions.");
-	} else {
-		cannot = _("Cannot reference this DCP's subtitles or captions: ") + std_to_wx(why_not);
-	}
-	setup_refer_button (_reference, _reference_note, dcp, can_reference, cannot);
-
-	bool const reference = _reference->GetValue ();
+	auto const reference = dcp && dcp->reference_text(_original_type);
 
 	auto const type = current_type ();
 
@@ -759,23 +725,6 @@ TextPanel::fonts_dialog_clicked ()
 
 	_fonts_dialog.reset(this, c.front(), c.front()->text_of_original_type(_original_type));
 	_fonts_dialog->Show ();
-}
-
-
-void
-TextPanel::reference_clicked ()
-{
-	auto c = _parent->selected ();
-	if (c.size() != 1) {
-		return;
-	}
-
-	auto d = dynamic_pointer_cast<DCPContent> (c.front ());
-	if (!d) {
-		return;
-	}
-
-	d->set_reference_text (_original_type, _reference->GetValue ());
 }
 
 
