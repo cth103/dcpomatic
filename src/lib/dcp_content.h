@@ -186,12 +186,8 @@ private:
 	void read_directory (boost::filesystem::path);
 	void read_sub_directory (boost::filesystem::path);
 	std::list<dcpomatic::DCPTimePeriod> reels (std::shared_ptr<const Film> film) const;
-	bool can_reference (
-		std::shared_ptr<const Film> film,
-		std::function <bool (std::shared_ptr<const Content>)>,
-		std::string overlapping,
-		std::string& why_not
-		) const;
+	bool can_reference(std::shared_ptr<const Film> film, std::string& why_not) const;
+	bool overlaps(std::shared_ptr<const Film> film, std::function<bool (std::shared_ptr<const Content>)> part) const;
 
 	std::string _name;
 	/** true if our DCP is encrypted */
