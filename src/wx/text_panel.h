@@ -56,7 +56,6 @@ private:
 	void stream_changed ();
 	void text_view_clicked ();
 	void fonts_dialog_clicked ();
-	void reference_clicked ();
 	void appearance_dialog_clicked ();
 	void outline_subtitles_changed ();
 	TextType current_type () const;
@@ -74,8 +73,6 @@ private:
 	void update_outline_subtitles_in_viewer ();
 	void clear_outline_subtitles ();
 
-	CheckBox* _reference;
-	wxStaticText* _reference_note;
 	CheckBox* _outline_subtitles = nullptr;
 	CheckBox* _use;
 	wxChoice* _type;

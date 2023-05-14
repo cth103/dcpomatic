@@ -76,14 +76,6 @@ VideoPanel::VideoPanel (ContentPanel* p)
 void
 VideoPanel::create ()
 {
-	_reference = new CheckBox (this, _("Use this DCP's video as OV and make VF"));
-	_reference_note = new StaticText (this, wxT(""));
-	_reference_note->Wrap (200);
-	auto font = _reference_note->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_reference_note->SetFont(font);
-
 	_type_label = create_label (this, _("Type"), true);
 	_frame_type = new ContentChoice<VideoContent, VideoFrameType> (
 		this,
@@ -201,6 +193,9 @@ VideoPanel::create ()
 	_range->Append (_("Video (MPEG, 16-235)"));
 
 	_description = new StaticText (this, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
+	auto font = _description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
 	_description->SetFont(font);
 
 	_left_crop->wrapped()->SetRange (0, 4096);
@@ -221,7 +216,6 @@ VideoPanel::create ()
 	_fade_in->Changed.connect (boost::bind (&VideoPanel::fade_in_changed, this));
 	_fade_out->Changed.connect (boost::bind (&VideoPanel::fade_out_changed, this));
 
-	_reference->bind(&VideoPanel::reference_clicked, this);
 	_scale_fit->Bind                     (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_fit_clicked, this));
 	_scale_custom->Bind                  (wxEVT_RADIOBUTTON, boost::bind (&VideoPanel::scale_custom_clicked, this));
 	_scale_custom_edit->Bind             (wxEVT_BUTTON,   boost::bind (&VideoPanel::scale_custom_edit_clicked, this));
@@ -241,12 +235,6 @@ void
 VideoPanel::add_to_grid ()
 {
 	int r = 0;
-
-	auto reference_sizer = new wxBoxSizer (wxVERTICAL);
-	reference_sizer->Add (_reference, 0);
-	reference_sizer->Add (_reference_note, 0);
-	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 3));
-	++r;
 
 	add_label_to_sizer (_grid, _type_label, true, wxGBPosition(r, 0));
 	_frame_type->add (_grid, wxGBPosition(r, 1), wxGBSpan(1, 2));
@@ -456,15 +444,6 @@ VideoPanel::film_content_changed (int property)
 		} else {
 			_fade_out->clear ();
 		}
-	} else if (property == DCPContentProperty::REFERENCE_VIDEO) {
-		if (vc.size() == 1) {
-			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (vc.front ());
-			checked_set (_reference, dcp ? dcp->reference_video () : false);
-		} else {
-			checked_set (_reference, false);
-		}
-
-		setup_sensitivity ();
 	} else if (property == VideoContentProperty::RANGE) {
 		if (vcs) {
 			checked_set (_range, vcs->video->range() == VideoRange::FULL ? 0 : 1);
@@ -592,15 +571,7 @@ VideoPanel::setup_sensitivity ()
 		dcp = dynamic_pointer_cast<DCPContent> (sel.front ());
 	}
 
-	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_video (_parent->film(), why_not);
-	wxString cannot;
-	if (why_not.empty()) {
-		cannot = _("Cannot reference this DCP's video.");
-	} else {
-		cannot = _("Cannot reference this DCP's video: ") + std_to_wx(why_not);
-	}
-	setup_refer_button (_reference, _reference_note, dcp, can_reference, cannot);
+	bool const reference = dcp && dcp->reference_video();
 
 	bool any_use = false;
 	for (auto i: _parent->selected_video()) {
@@ -609,7 +580,7 @@ VideoPanel::setup_sensitivity ()
 		}
 	}
 
-	bool const enable = !_reference->GetValue() && any_use;
+	bool const enable = !reference && any_use;
 
 	if (!enable) {
 		_frame_type->wrapped()->Enable (false);
@@ -678,23 +649,6 @@ VideoPanel::fade_out_changed ()
 		auto const vfr = i->active_video_frame_rate (_parent->film());
 		i->video->set_fade_out (dcpomatic::ContentTime(hmsf, vfr).frames_round(vfr));
 	}
-}
-
-
-void
-VideoPanel::reference_clicked ()
-{
-	auto c = _parent->selected ();
-	if (c.size() != 1) {
-		return;
-	}
-
-	auto d = dynamic_pointer_cast<DCPContent> (c.front ());
-	if (!d) {
-		return;
-	}
-
-	d->set_reference_video (_reference->GetValue ());
 }
 
 

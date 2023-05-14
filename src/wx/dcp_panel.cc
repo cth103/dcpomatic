@@ -155,7 +155,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_reel_length->SetRange (1, 64);
 
 	add_standards();
-	_standard->SetToolTip(_("Which standard the DCP should use.  Interop is older and SMPTE is the modern standard.  If in doubt, choose 'SMPTE'"));
+	_standard->SetToolTip(_("The standard that the DCP should use.  Interop is older, and SMPTE is the newer (current) standard.  If in doubt, choose 'SMPTE'"));
 
 	Config::instance()->Changed.connect (boost::bind(&DCPPanel::config_changed, this, _1));
 

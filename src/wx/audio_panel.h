@@ -54,15 +54,12 @@ private:
 	void setup_peak ();
 	void active_jobs_changed (boost::optional<std::string>, boost::optional<std::string>);
 	void setup_sensitivity ();
-	void reference_clicked ();
 	void add_to_grid () override;
 	boost::optional<float> peak () const;
 	void fade_in_changed ();
 	void fade_out_changed ();
 	void use_same_fades_as_video_changed ();
 
-	CheckBox* _reference;
-	wxStaticText* _reference_note;
 	wxButton* _show;
 	wxStaticText* _gain_label;
 	wxStaticText* _gain_db_label;

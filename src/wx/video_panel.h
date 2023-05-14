@@ -53,7 +53,6 @@ public:
 	void content_selection_changed () override;
 
 private:
-	void reference_clicked ();
 	void colour_conversion_changed ();
 	void edit_colour_conversion_clicked ();
 	void range_changed ();
@@ -73,8 +72,6 @@ private:
 	void setup_description ();
 	void setup_sensitivity ();
 
-	CheckBox* _reference;
-	wxStaticText* _reference_note;
 	wxStaticText* _type_label;
 	ContentChoice<VideoContent, VideoFrameType>* _frame_type;
 	wxStaticText* _crop_label;

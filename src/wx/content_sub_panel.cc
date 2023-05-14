@@ -53,29 +53,6 @@ ContentSubPanel::ContentSubPanel (ContentPanel* p, wxString name)
 }
 
 void
-ContentSubPanel::setup_refer_button (wxCheckBox* button, wxStaticText* note, shared_ptr<DCPContent> dcp, bool can_reference, wxString cannot)
-{
-	button->Enable (can_reference);
-
-	if (dcp && !can_reference) {
-		note->SetLabel (cannot);
-	} else {
-		note->SetLabel (wxT(""));
-	}
-
-	note->Wrap (400);
-
-	if (cannot.IsEmpty()) {
-		note->Hide ();
-	} else {
-		note->Show ();
-	}
-
-	layout ();
-}
-
-
-void
 ContentSubPanel::layout ()
 {
 	int x;

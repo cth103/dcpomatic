@@ -71,14 +71,6 @@ AudioPanel::AudioPanel (ContentPanel* p)
 void
 AudioPanel::create ()
 {
-	_reference = new CheckBox (this, _("Use this DCP's audio as OV and make VF"));
-	_reference_note = new StaticText (this, wxT(""));
-	_reference_note->Wrap (200);
-	auto font = _reference_note->GetFont();
-	font.SetStyle(wxFONTSTYLE_ITALIC);
-	font.SetPointSize(font.GetPointSize() - 1);
-	_reference_note->SetFont(font);
-
 	_show = new Button (this, _("Show graph of audio levels..."));
 	_peak = new StaticText (this, wxT (""));
 
@@ -121,6 +113,9 @@ AudioPanel::create ()
 
 	_description = new StaticText (this, wxT(" \n"), wxDefaultPosition, wxDefaultSize);
 	_sizer->Add (_description, 0, wxALL, 12);
+	auto font = _description->GetFont();
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
 	_description->SetFont (font);
 
 	_gain->wrapped()->SetRange (-60, 60);
@@ -133,7 +128,6 @@ AudioPanel::create ()
 	film_changed(FilmProperty::VIDEO_FRAME_RATE);
 	film_changed(FilmProperty::REEL_TYPE);
 
-	_reference->bind(&AudioPanel::reference_clicked, this);
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
 	_gain_calculate_button->Bind (wxEVT_BUTTON,   boost::bind (&AudioPanel::gain_calculate_button_clicked, this));
 
@@ -154,12 +148,6 @@ void
 AudioPanel::add_to_grid ()
 {
 	int r = 0;
-
-	auto reference_sizer = new wxBoxSizer (wxVERTICAL);
-	reference_sizer->Add (_reference, 0);
-	reference_sizer->Add (_reference_note, 0);
-	_grid->Add (reference_sizer, wxGBPosition(r, 0), wxGBSpan(1, 4));
-	++r;
 
 	_grid->Add (_show, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	_grid->Add (_peak, wxGBPosition (r, 2), wxGBSpan (1, 2), wxALIGN_CENTER_VERTICAL);
@@ -257,15 +245,6 @@ AudioPanel::film_content_changed (int property)
 		/* This is a bit aggressive but probably not so bad */
 		_peak_cache.clear();
 		setup_peak ();
-	} else if (property == DCPContentProperty::REFERENCE_AUDIO) {
-		if (ac.size() == 1) {
-			shared_ptr<DCPContent> dcp = dynamic_pointer_cast<DCPContent> (ac.front ());
-			checked_set (_reference, dcp ? dcp->reference_audio () : false);
-		} else {
-			checked_set (_reference, false);
-		}
-
-		setup_sensitivity ();
 	} else if (property == ContentProperty::VIDEO_FRAME_RATE) {
 		setup_description ();
 	} else if (property == AudioContentProperty::FADE_IN) {
@@ -383,19 +362,8 @@ AudioPanel::setup_sensitivity ()
 		dcp = dynamic_pointer_cast<DCPContent> (sel.front ());
 	}
 
-	string why_not;
-	bool const can_reference = dcp && dcp->can_reference_audio (_parent->film(), why_not);
-	wxString cannot;
-	if (why_not.empty()) {
-		cannot = _("Cannot reference this DCP's audio.");
-	} else {
-		cannot = _("Cannot reference this DCP's audio: ") + std_to_wx(why_not);
-	}
-	setup_refer_button (_reference, _reference_note, dcp, can_reference, cannot);
-
-	auto const ref = _reference->GetValue();
+	auto const ref = dcp && dcp->reference_audio();
 	auto const single = sel.size() == 1;
-
 	auto const all_have_video = std::all_of(sel.begin(), sel.end(), [](shared_ptr<const Content> c) { return static_cast<bool>(c->video); });
 
 	_gain->wrapped()->Enable (!ref);
@@ -496,23 +464,6 @@ AudioPanel::active_jobs_changed (optional<string> old_active, optional<string> n
 	} else if (new_active && *new_active == "analyse_audio") {
 		_mapping->Enable (false);
 	}
-}
-
-
-void
-AudioPanel::reference_clicked ()
-{
-	auto c = _parent->selected ();
-	if (c.size() != 1) {
-		return;
-	}
-
-	auto d = dynamic_pointer_cast<DCPContent>(c.front());
-	if (!d) {
-		return;
-	}
-
-	d->set_reference_audio (_reference->GetValue ());
 }
 
 
