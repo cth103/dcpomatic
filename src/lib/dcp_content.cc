@@ -612,7 +612,7 @@ DCPContent::reel_split_points (shared_ptr<const Film> film) const
 }
 
 bool
-DCPContent::can_reference(shared_ptr<const Film> film, string& why_not) const
+DCPContent::can_reference_anything(shared_ptr<const Film> film, string& why_not) const
 {
 	/* We must be using the same standard as the film */
 	if (_standard) {
@@ -702,7 +702,7 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 		return false;
 	}
 
-	return can_reference(film, why_not);
+	return can_reference_anything(film, why_not);
 }
 
 
@@ -733,7 +733,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 		return false;
 	}
 
-	return can_reference(film, why_not);
+	return can_reference_anything(film, why_not);
 }
 
 
@@ -786,7 +786,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 		return false;
 	}
 
-	return can_reference(film, why_not);
+	return can_reference_anything(film, why_not);
 }
 
 void
