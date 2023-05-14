@@ -612,7 +612,7 @@ DCPContent::reel_split_points (shared_ptr<const Film> film) const
 }
 
 bool
-DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_ptr<const Content>)> part, string overlapping, string& why_not) const
+DCPContent::can_reference(shared_ptr<const Film> film, string& why_not) const
 {
 	/* We must be using the same standard as the film */
 	if (_standard) {
@@ -658,13 +658,14 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 		}
 	}
 
-	auto a = overlaps (film, film->content(), part, position(), end(film));
-	if (a.size() != 1 || a.front().get() != this) {
-		why_not = overlapping;
-		return false;
-	}
-
 	return true;
+}
+
+bool
+DCPContent::overlaps(shared_ptr<const Film> film, function<bool (shared_ptr<const Content>)> part) const
+{
+	auto const a = dcpomatic::overlaps(film, film->content(), part, position(), end(film));
+	return a.size() != 1 || a.front().get() != this;
 }
 
 
@@ -691,15 +692,17 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 		return false;
 	}
 
-	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference(
-		film,
-		[](shared_ptr<const Content> c) {
-			return static_cast<bool>(c->video) && c->video->use();
-		},
-		_("it overlaps other video content; remove the other content."),
-		why_not
-	);
+	auto part = [](shared_ptr<const Content> c) {
+		return static_cast<bool>(c->video) && c->video->use();
+	};
+
+	if (overlaps(film, part)) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it overlaps other video content; remove the other content.");
+		return false;
+	}
+
+	return can_reference(film, why_not);
 }
 
 
@@ -728,14 +731,17 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
                 }
         }
 
-	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference(
-		film, [](shared_ptr<const Content> c) {
-			return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
-		},
-		_("it overlaps other audio content; remove the other content."),
-		why_not
-	);
+	auto part = [](shared_ptr<const Content> c) {
+		return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
+	};
+
+	if (overlaps(film, part)) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it overlaps other audio content; remove the other content.");
+		return true;
+	}
+
+	return can_reference(film, why_not);
 }
 
 
@@ -787,15 +793,16 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 		return false;
 	}
 
-	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference(
-		film,
-		[type](shared_ptr<const Content> c) {
-			return std::find_if(c->text.begin(), c->text.end(), [type](shared_ptr<const TextContent> t) { return t->type() == type; }) != c->text.end();
-		},
-		_("they overlap other text content; remove the other content."),
-		why_not
-	);
+	auto part = [type](shared_ptr<const Content> c) {
+		return std::find_if(c->text.begin(), c->text.end(), [type](shared_ptr<const TextContent> t) { return t->type() == type; }) != c->text.end();
+	};
+
+	if (overlaps(film, part)) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("it overlaps other text content; remove the other content.");
+	}
+
+	return can_reference(film, why_not);
 }
 
 void
