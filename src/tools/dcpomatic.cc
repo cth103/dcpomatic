@@ -26,6 +26,7 @@
 
 #include "wx/about_dialog.h"
 #include "wx/content_panel.h"
+#include "wx/dcp_referencing_dialog.h"
 #include "wx/dkdm_dialog.h"
 #include "wx/export_subtitles_dialog.h"
 #include "wx/export_video_file_dialog.h"
@@ -209,6 +210,7 @@ private:
 #define NEEDS_SELECTED_VIDEO_CONTENT  0x20
 #define NEEDS_CLIPBOARD               0x40
 #define NEEDS_ENCRYPTION              0x80
+#define NEEDS_DCP_CONTENT             0x100
 
 
 map<wxMenuItem*, int> menu_items;
@@ -238,6 +240,7 @@ enum {
 	ID_jobs_open_dcp_in_player,
 	ID_view_closed_captions,
 	ID_view_video_waveform,
+	ID_tools_version_file,
 	ID_tools_hints,
 	ID_tools_encoding_servers,
 	ID_tools_manage_templates,
@@ -349,6 +352,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::jobs_open_dcp_in_player, this), ID_jobs_open_dcp_in_player);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this),    ID_view_closed_captions);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_video_waveform, this),     ID_view_video_waveform);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_version_file, this),      ID_tools_version_file);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_hints, this),             ID_tools_hints);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_manage_templates, this),  ID_tools_manage_templates);
@@ -1065,6 +1069,17 @@ private:
 		_system_information_dialog->Show ();
 	}
 
+	void tools_version_file()
+	{
+		if (_dcp_referencing_dialog) {
+			_dcp_referencing_dialog->Destroy();
+			_dcp_referencing_dialog = nullptr;
+		}
+
+		_dcp_referencing_dialog = new DCPReferencingDialog(this, _film);
+		_dcp_referencing_dialog->Show();
+	}
+
 	void tools_hints ()
 	{
 		if (!_hints_dialog) {
@@ -1217,6 +1232,13 @@ private:
 		bool const have_single_selected_content = _film_editor->content_panel()->selected().size() == 1;
 		bool const have_selected_content = !_film_editor->content_panel()->selected().empty();
 		bool const have_selected_video_content = !_film_editor->content_panel()->selected_video().empty();
+		vector<shared_ptr<Content>> content;
+		if (_film) {
+			content = _film->content();
+		}
+		bool const have_dcp_content = std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> content) {
+			return static_cast<bool>(dynamic_pointer_cast<const DCPContent>(content));
+		}) != content.end();
 
 		for (auto j: menu_items) {
 
@@ -1251,6 +1273,10 @@ private:
 			}
 
 			if ((j.second & NEEDS_ENCRYPTION) && (!_film || !_film->encrypted())) {
+				enabled = false;
+			}
+
+			if ((j.second & NEEDS_DCP_CONTENT) && !have_dcp_content) {
 				enabled = false;
 			}
 
@@ -1387,6 +1413,7 @@ private:
 		add_item (view, _("Video waveform..."), ID_view_video_waveform, NEEDS_FILM);
 
 		auto tools = new wxMenu;
+		add_item (tools, _("Version File (VF)..."), ID_tools_version_file, NEEDS_FILM | NEEDS_DCP_CONTENT);
 		add_item (tools, _("Hints..."), ID_tools_hints, NEEDS_FILM);
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
@@ -1557,6 +1584,7 @@ private:
 	StandardControls* _controls;
 	wx_ptr<VideoWaveformDialog> _video_waveform_dialog;
 	SystemInformationDialog* _system_information_dialog = nullptr;
+	DCPReferencingDialog* _dcp_referencing_dialog = nullptr;
 	HintsDialog* _hints_dialog = nullptr;
 	ServersListDialog* _servers_list_dialog = nullptr;
 	wxPreferencesEditor* _config_dialog = nullptr;
