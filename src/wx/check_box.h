@@ -39,6 +39,7 @@ public:
 	void set_text (wxString text) override;
 	wxString get_text () const override;
 	bool get() const;
+	void set(bool state);
 
 	template <typename... Args>
 	void bind(Args... args) {
