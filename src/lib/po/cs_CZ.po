@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-29 01:56+0200\n"
-"PO-Revision-Date: 2022-07-07 10:13+0200\n"
+"PO-Revision-Date: 2023-05-15 09:32+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -72,7 +72,6 @@ msgid " on %1"
 msgstr " na %1"
 
 #: src/lib/config.cc:1264
-#, fuzzy
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -87,6 +86,7 @@ msgid ""
 msgstr ""
 "$CPL_NAME\n"
 "\n"
+"Název souboru CPL: $CPL_FILENAME\n"
 "Typ: $TYPE\n"
 "Formát: $CONTAINER\n"
 "Audio: $AUDIO\n"
@@ -166,12 +166,11 @@ msgstr "1.90 (Full frame)"
 
 #: src/lib/util.cc:654
 msgid "10"
-msgstr ""
+msgstr "10"
 
 #: src/lib/util.cc:660
-#, fuzzy
 msgid "16"
-msgstr "1.66"
+msgstr "16"
 
 #: src/lib/ratio.cc:52
 msgid "2.35 (35mm Scope)"
@@ -197,7 +196,7 @@ msgstr ""
 
 #: src/lib/util.cc:653
 msgid "9"
-msgstr ""
+msgstr "9"
 
 #. TRANSLATORS: fps here is an abbreviation for frames per second
 #: src/lib/transcode_job.cc:175
@@ -469,9 +468,8 @@ msgid "Check their new settings, then try again."
 msgstr "Zkontrolujte jejich nové nastavení a zkuste to znovu."
 
 #: src/lib/check_content_job.cc:55
-#, fuzzy
 msgid "Checking content"
-msgstr "Zkontrolovat změny v obsahu"
+msgstr "Kontrola obsahu"
 
 #: src/lib/reel_writer.cc:260
 msgid "Checking existing image data"
@@ -487,7 +485,7 @@ msgstr "Chroma-derived nekonstantní svítivost"
 
 #: src/lib/dcp_content_type.cc:63
 msgid "Clip"
-msgstr ""
+msgstr "Klip"
 
 #: src/lib/text_type.cc:72
 msgid "Closed captions"
@@ -542,14 +540,12 @@ msgid "Content and DCP have the same rate.\n"
 msgstr "Obsah a DCP mají stejný bitrate,\n"
 
 #: src/lib/audio_content.cc:318
-#, fuzzy
 msgid "Content bit depth"
-msgstr "typ obsahu"
+msgstr "Bitová hloubka obsahu"
 
 #: src/lib/audio_content.cc:316
-#, fuzzy
 msgid "Content sample rate"
-msgstr "Snímková frekvence audio obsahu"
+msgstr "Vzorkovací frekvence obsahu"
 
 #: src/lib/ffmpeg_content.cc:158
 msgid "Content to be joined must all have or not have audio"
@@ -914,7 +910,7 @@ msgstr "Chyba: %1"
 
 #: src/lib/dcp_content_type.cc:68
 msgid "Event"
-msgstr ""
+msgstr "Událost"
 
 #: src/lib/hints.cc:406
 msgid "Examining audio, subtitles and closed captions"
@@ -961,9 +957,8 @@ msgid "Filename"
 msgstr "Jméno souboru"
 
 #: src/lib/content.cc:471
-#, fuzzy
 msgid "Filenames"
-msgstr "Jméno souboru"
+msgstr "Jména souborů"
 
 #: src/lib/transcode_job.cc:108 src/lib/transcode_job.cc:113
 msgid "Files have changed since they were added to the project."
@@ -1039,7 +1034,7 @@ msgstr "Vysoká kvalita 3D denoiser"
 
 #: src/lib/dcp_content_type.cc:67
 msgid "Highlights"
-msgstr ""
+msgstr "Zvýraznění"
 
 #: src/lib/filter.cc:80
 msgid "Horizontal flip"
@@ -1078,6 +1073,10 @@ msgid ""
 "you should check any subtitles in your project to make sure that they are "
 "placed where you want them."
 msgstr ""
+"V této verzi došlo ke změnám v umístění titulků.  Umístění by nyní mělo být "
+"správnější s ohledem na normy, ale měli byste zkontrolovat všechny titulky "
+"ve svém projektu, abyste se ujistili, že jsou umístěny tam, kde je chcete "
+"mít."
 
 #: src/lib/hints.cc:572
 msgid ""
@@ -1141,9 +1140,8 @@ msgid "Limited"
 msgstr "Limitovaný"
 
 #: src/lib/ffmpeg_content.cc:559
-#, fuzzy
 msgid "Limited / video (%1-%2)"
-msgstr "Limitovaný (%1-%2)"
+msgstr "Omezené / video (%1-%2)"
 
 #: src/lib/ffmpeg_content.cc:631
 msgid "Linear"
@@ -1210,9 +1208,8 @@ msgid "No CPLs found in DCP."
 msgstr "V DCP nebyla nalezena žádná CPLs."
 
 #: src/lib/kdm_with_metadata.cc:216
-#, fuzzy
 msgid "No KDM from address configured in preferences"
-msgstr "V konfiguraci není nastaven emailový server"
+msgstr "Žádný KDM z adresy nakonfigurované v předvolbách"
 
 #: src/lib/kdm_with_metadata.cc:212 src/lib/send_notification_email_job.cc:72
 msgid "No mail server configured in preferences"
@@ -1482,9 +1479,8 @@ msgstr ""
 "části."
 
 #: src/lib/make_dcp.cc:73
-#, fuzzy
 msgid "Some of your content is missing"
-msgstr "část obsahu chybí"
+msgstr "Chybí část obsahu"
 
 #: src/lib/make_dcp.cc:77
 msgid "Some of your content needs a KDM"
@@ -1499,9 +1495,8 @@ msgid "Stereo"
 msgstr "Stereo"
 
 #: src/lib/dcp_content_type.cc:65
-#, fuzzy
 msgid "Stereo card"
-msgstr "Stereo"
+msgstr "Stereo karta"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
@@ -1551,6 +1546,11 @@ msgid ""
 "certificate chain by clicking the \"Re-make certificates and key...\" button "
 "in the Keys page of Preferences."
 msgstr ""
+"Řetězec certifikátů, který DCP-o-matic používá pro podepisování DCP a KDM, "
+"obsahuje malou chybu, která v některých systémech brání správnému ověření "
+"DCP.  Doporučujeme vám znovu vytvořit řetězec podpisových certifikátů "
+"kliknutím na tlačítko „Re-make certificates and key…“ (Znovu vytvořit "
+"certifikáty a klíče…) na stránce Keys (Klíče) v Předvolbách."
 
 #: src/lib/hints.cc:674
 msgid ""
@@ -1560,6 +1560,12 @@ msgid ""
 "chain by clicking the \"Re-make certificates and key...\" button in the Keys "
 "page of Preferences."
 msgstr ""
+"Řetězec certifikátů, který DCP-o-matic používá pro podepisování DCP a KDM, "
+"má příliš dlouhou dobu platnosti.  To způsobuje problémy s přehráváním DCP "
+"na některých systémech. Doporučujeme znovu vytvořit řetězec podpisových "
+"certifikátů kliknutím na tlačítko „Re-make certificates and key…“ (Znovu "
+"vytvořit certifikáty a klíč…) na stránce Keys (Klíče) v okně Preferences "
+"(Předvolby)."
 
 #: src/lib/video_decoder.cc:81
 msgid ""
@@ -1931,7 +1937,7 @@ msgstr "_reel%1"
 
 #: src/lib/audio_content.cc:318
 msgid "bits"
-msgstr ""
+msgstr "bity"
 
 #: src/lib/dcpomatic_socket.cc:78
 msgid "connect timed out"
