@@ -44,7 +44,7 @@ namespace dcpomatic {
 class Cinema : public std::enable_shared_from_this<Cinema>
 {
 public:
-	Cinema (std::string const & name_, std::list<std::string> const & e, std::string notes_, int utc_offset_hour, int utc_offset_minute)
+	Cinema(std::string const & name_, std::vector<std::string> const & e, std::string notes_, int utc_offset_hour, int utc_offset_minute)
 		: name (name_)
 		, emails (e)
 		, notes (notes_)
@@ -65,7 +65,7 @@ public:
 	void set_utc_offset_minute (int m);
 
 	std::string name;
-	std::list<std::string> emails;
+	std::vector<std::string> emails;
 	std::string notes;
 
 	int utc_offset_hour () const {
@@ -76,12 +76,12 @@ public:
 		return _utc_offset_minute;
 	}
 
-	std::list<std::shared_ptr<dcpomatic::Screen>> screens () const {
+	std::vector<std::shared_ptr<dcpomatic::Screen>> screens() const {
 		return _screens;
 	}
 
 private:
-	std::list<std::shared_ptr<dcpomatic::Screen>> _screens;
+	std::vector<std::shared_ptr<dcpomatic::Screen>> _screens;
 	/** Offset such that the equivalent time in UTC can be determined
 	    by subtracting the offset from the local time.
 	*/

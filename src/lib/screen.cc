@@ -116,6 +116,6 @@ kdm_for_screen (
 	name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
-	return make_shared<KDMWithMetadata>(name_values, cinema.get(), cinema ? cinema->emails : list<string>(), kdm);
+	return make_shared<KDMWithMetadata>(name_values, cinema.get(), cinema ? cinema->emails : vector<string>(), kdm);
 }
 

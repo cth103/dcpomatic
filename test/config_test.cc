@@ -26,10 +26,10 @@
 #include <fstream>
 
 
-using std::list;
-using std::ofstream;
 using std::make_shared;
+using std::ofstream;
 using std::string;
+using std::vector;
 using boost::optional;
 
 
@@ -206,7 +206,7 @@ BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 
 	Config::instance()->write();
 
-	Config::instance()->add_cinema(make_shared<Cinema>("My Great Cinema", list<string>(), "", 0, 0));
+	Config::instance()->add_cinema(make_shared<Cinema>("My Great Cinema", vector<string>(), "", 0, 0));
 	Config::instance()->write();
 
 	boost::filesystem::copy_file (dir / "cinemas.xml", dir / "backup_for_test.xml");

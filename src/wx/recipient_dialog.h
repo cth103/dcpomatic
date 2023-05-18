@@ -43,7 +43,7 @@ public:
 		wxString,
 		std::string name = "",
 		std::string notes = "",
-		std::list<std::string> emails = std::list<std::string>(),
+		std::vector<std::string> emails = std::vector<std::string>(),
 		int utc_offset_hour = 0,
 		int utc_offset_minute = 0,
 		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate>()
@@ -52,7 +52,7 @@ public:
 	std::string name () const;
 	std::string notes () const;
 	boost::optional<dcp::Certificate> recipient () const;
-	std::list<std::string> emails () const;
+	std::vector<std::string> emails () const;
 	int utc_offset_hour () const;
 	int utc_offset_minute () const;
 

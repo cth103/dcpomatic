@@ -28,7 +28,6 @@
 using std::back_inserter;
 using std::copy;
 using std::cout;
-using std::list;
 using std::string;
 using std::vector;
 using boost::bind;
@@ -37,7 +36,7 @@ using namespace boost::placeholders;
 #endif
 
 
-CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<string> emails, string notes, int utc_offset_hour, int utc_offset_minute)
+CinemaDialog::CinemaDialog(wxWindow* parent, wxString title, string name, vector<string> emails, string notes, int utc_offset_hour, int utc_offset_minute)
 	: wxDialog (parent, wxID_ANY, title)
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -69,7 +68,7 @@ CinemaDialog::CinemaDialog (wxWindow* parent, wxString title, string name, list<
 	vector<EditableListColumn> columns;
 	columns.push_back (EditableListColumn(_("Address"), 500, true));
 	_email_list = new EditableList<string, EmailDialog> (
-		this, columns, bind (&CinemaDialog::get_emails, this), bind (&CinemaDialog::set_emails, this, _1), [](string s, int) {
+		this, columns, bind(&CinemaDialog::emails, this), bind (&CinemaDialog::set_emails, this, _1), [](string s, int) {
 			return s;
 		}, EditableListTitle::INVISIBLE, EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
 		);
@@ -117,18 +116,9 @@ CinemaDialog::set_emails (vector<string> e)
 
 
 vector<string>
-CinemaDialog::get_emails () const
+CinemaDialog::emails() const
 {
 	return _emails;
-}
-
-
-list<string>
-CinemaDialog::emails () const
-{
-	list<string> e;
-	copy (_emails.begin(), _emails.end(), back_inserter(e));
-	return e;
 }
 
 

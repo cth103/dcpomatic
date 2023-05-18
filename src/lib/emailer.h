@@ -26,7 +26,7 @@
 class Emailer
 {
 public:
-	Emailer (std::string from, std::list<std::string> to, std::string subject, std::string body);
+	Emailer(std::string from, std::vector<std::string> to, std::string subject, std::string body);
 
 	void add_cc (std::string cc);
 	void add_bcc (std::string bcc);
@@ -46,7 +46,7 @@ public:
 		return _email;
 	}
 
-	static std::string address_list (std::list<std::string> addresses);
+	static std::string address_list(std::vector<std::string> addresses);
 
 private:
 
@@ -54,11 +54,11 @@ private:
 	static std::string encode_rfc1342 (std::string subject);
 
 	std::string _from;
-	std::list<std::string> _to;
+	std::vector<std::string> _to;
 	std::string _subject;
 	std::string _body;
-	std::list<std::string> _cc;
-	std::list<std::string> _bcc;
+	std::vector<std::string> _cc;
+	std::vector<std::string> _bcc;
 
 	struct Attachment {
 		boost::filesystem::path file;
@@ -66,7 +66,7 @@ private:
 		std::string mime_type;
 	};
 
-	std::list<Attachment> _attachments;
+	std::vector<Attachment> _attachments;
 	std::string _email;
 	size_t _offset;
 	std::string _notes;

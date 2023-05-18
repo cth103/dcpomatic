@@ -91,7 +91,10 @@ Cinema::add_screen (shared_ptr<Screen> s)
 void
 Cinema::remove_screen (shared_ptr<Screen> s)
 {
-	_screens.remove (s);
+       auto iter = std::find(_screens.begin(), _screens.end(), s);
+       if (iter != _screens.end()) {
+               _screens.erase(iter);
+       }
 }
 
 void

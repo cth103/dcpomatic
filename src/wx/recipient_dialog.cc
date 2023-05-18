@@ -38,7 +38,6 @@ LIBDCP_ENABLE_WARNINGS
 
 
 using std::cout;
-using std::list;
 using std::string;
 using std::vector;
 using boost::bind;
@@ -56,7 +55,7 @@ column (string s)
 
 
 RecipientDialog::RecipientDialog (
-	wxWindow* parent, wxString title, string name, string notes, list<string> emails, int utc_offset_hour, int utc_offset_minute, optional<dcp::Certificate> recipient
+	wxWindow* parent, wxString title, string name, string notes, vector<string> emails, int utc_offset_hour, int utc_offset_minute, optional<dcp::Certificate> recipient
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
@@ -233,12 +232,10 @@ RecipientDialog::set_emails (vector<string> e)
 }
 
 
-list<string>
+vector<string>
 RecipientDialog::emails () const
 {
-	list<string> e;
-	copy (_emails.begin(), _emails.end(), back_inserter(e));
-	return e;
+	return _emails;
 }
 
 

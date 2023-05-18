@@ -33,7 +33,7 @@ class Cinema;
 class KDMWithMetadata
 {
 public:
-	KDMWithMetadata (dcp::NameFormat::Map const& name_values, void const* group, std::list<std::string> emails, dcp::EncryptedKDM kdm)
+	KDMWithMetadata(dcp::NameFormat::Map const& name_values, void const* group, std::vector<std::string> emails, dcp::EncryptedKDM kdm)
 		: _name_values (name_values)
 		, _group (group)
 		, _emails (emails)
@@ -58,14 +58,14 @@ public:
 		return _group;
 	}
 
-	std::list<std::string> emails () const {
+	std::vector<std::string> emails() const {
 		return _emails;
 	}
 
 private:
 	dcp::NameFormat::Map _name_values;
 	void const* _group;
-	std::list<std::string> _emails;
+	std::vector<std::string> _emails;
 	dcp::EncryptedKDM _kdm;
 };
 

@@ -203,7 +203,7 @@ find_cinema (string cinema_name)
 static
 void
 from_film (
-	list<shared_ptr<Screen>> screens,
+	vector<shared_ptr<Screen>> screens,
 	boost::filesystem::path film_dir,
 	bool verbose,
 	boost::filesystem::path output,
@@ -346,7 +346,7 @@ kdm_from_dkdm (
 static
 void
 from_dkdm (
-	list<shared_ptr<Screen>> screens,
+	vector<shared_ptr<Screen>> screens,
 	dcp::DecryptedKDM dkdm,
 	bool verbose,
  	boost::filesystem::path output,
@@ -396,7 +396,7 @@ from_dkdm (
 			name_values['e'] = end.date() + " " + end.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();
 
-			kdms.push_back (make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema ? i->cinema->emails : list<string>(), kdm));
+			kdms.push_back(make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema ? i->cinema->emails : vector<string>(), kdm));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
@@ -441,7 +441,7 @@ try
 	shared_ptr<Cinema> cinema;
 	optional<boost::filesystem::path> certificate;
 	optional<string> screen;
-	list<shared_ptr<Screen>> screens;
+	vector<shared_ptr<Screen>> screens;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<boost::posix_time::ptime> valid_from;
 	optional<boost::posix_time::ptime> valid_to;
@@ -552,7 +552,7 @@ try
 			   (for lookup) and by creating a Cinema which the next Screen will be added to.
 			*/
 			cinema_name = optarg;
-			cinema = make_shared<Cinema>(optarg, list<string>(), "", 0, 0);
+			cinema = make_shared<Cinema>(optarg, vector<string>(), "", 0, 0);
 			break;
 		case 'S':
 			/* Similarly, this could be the name of a new (temporary) screen or the name of a screen

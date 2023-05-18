@@ -24,13 +24,11 @@
 #include "config.h"
 #include "emailer.h"
 #include "compose.hpp"
-#include <list>
 
 #include "i18n.h"
 
 
 using std::string;
-using std::list;
 using std::shared_ptr;
 
 
@@ -73,9 +71,7 @@ SendNotificationEmailJob::run ()
 	}
 
 	set_progress_unknown ();
-	list<string> to;
-	to.push_back (config->notification_to());
-	Emailer email (config->notification_from(), to, config->notification_subject(), _body);
+	Emailer email (config->notification_from(), { config->notification_to() }, config->notification_subject(), _body);
 	for (auto i: config->notification_cc()) {
 		email.add_cc (i);
 	}

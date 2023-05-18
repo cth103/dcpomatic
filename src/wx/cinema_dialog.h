@@ -37,7 +37,7 @@ public:
 		wxWindow *,
 		wxString,
 		std::string name = "",
-		std::list<std::string> emails = std::list<std::string> (),
+		std::vector<std::string> emails = std::vector<std::string>(),
 		std::string notes = "",
 		int utc_offset_hour = 0,
 		int utc_offset_minute = 0
@@ -45,12 +45,11 @@ public:
 
 	std::string name () const;
 	std::string notes () const;
-	std::list<std::string> emails () const;
+	std::vector<std::string> emails () const;
 	int utc_offset_hour () const;
 	int utc_offset_minute () const;
 
 private:
-	std::vector<std::string> get_emails () const;
 	void set_emails (std::vector<std::string>);
 
 	wxTextCtrl* _name;

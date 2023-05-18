@@ -31,15 +31,15 @@
 
 
 using std::cout;
-using std::list;
 using std::min;
 using std::pair;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using dcp::ArrayData;
 
 
-Emailer::Emailer (string from, list<string> to, string subject, string body)
+Emailer::Emailer(string from, vector<string> to, string subject, string body)
 	: _from (from)
 	, _to (to)
 	, _subject (subject)
@@ -247,7 +247,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 
 string
-Emailer::address_list (list<string> addresses)
+Emailer::address_list(vector<string> addresses)
 {
 	string o;
 	for (auto i: addresses) {
