@@ -25,7 +25,6 @@
 #include <libcxml/cxml.h>
 #include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
-#include <iostream>
 
 
 using std::list;
