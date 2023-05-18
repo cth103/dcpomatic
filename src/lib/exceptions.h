@@ -466,8 +466,8 @@ class PrivilegeError : public std::runtime_error
 {
 public:
 	explicit PrivilegeError (std::string s)
-			: std::runtime_error (s)
-		{}
+		: std::runtime_error (s)
+	{}
 };
 
 
