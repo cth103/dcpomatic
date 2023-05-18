@@ -27,10 +27,9 @@
 #include <libxml++/libxml++.h>
 
 
-using std::list;
-using std::string;
-using std::shared_ptr;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
 using dcp::raw_convert;
 using dcpomatic::Screen;
 
