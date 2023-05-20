@@ -20,6 +20,7 @@
 
 
 #include "cinema.h"
+#include "cinema_list.h"
 #include "config.h"
 #include "film.h"
 #include "kdm_util.h"
@@ -39,29 +40,6 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-Screen::Screen (cxml::ConstNodePtr node)
-	: KDMRecipient (node)
-{
-	for (auto i: node->node_children ("TrustedDevice")) {
-		if (boost::algorithm::starts_with(i->content(), "-----BEGIN CERTIFICATE-----")) {
-			trusted_devices.push_back (TrustedDevice(dcp::Certificate(i->content())));
-		} else {
-			trusted_devices.push_back (TrustedDevice(i->content()));
-		}
-	}
-}
-
-
-void
-Screen::as_xml (xmlpp::Element* parent) const
-{
-	KDMRecipient::as_xml (parent);
-	for (auto i: trusted_devices) {
-		cxml::add_text_child(parent, "TrustedDevice", i.as_string());
-	}
-}
-
-
 vector<string>
 Screen::trusted_device_thumbprints () const
 {
@@ -76,7 +54,9 @@ Screen::trusted_device_thumbprints () const
 KDMWithMetadataPtr
 kdm_for_screen (
 	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm,
-	shared_ptr<const dcpomatic::Screen> screen,
+	CinemaID cinema_id,
+	Cinema const& cinema,
+	Screen const& screen,
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to,
 	dcp::Formulation formulation,
@@ -85,13 +65,11 @@ kdm_for_screen (
 	vector<KDMCertificatePeriod>& period_checks
 	)
 {
-	if (!screen->recipient) {
+	if (!screen.recipient) {
 		return {};
 	}
 
-	auto cinema = screen->cinema;
-
-	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema ? cinema->name : "", screen->name, screen->recipient.get(), valid_from, valid_to));
+	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema.name, screen.name, screen.recipient.get(), valid_from, valid_to));
 
 	auto signer = Config::instance()->signer_chain();
 	if (!signer->valid()) {
@@ -99,21 +77,17 @@ kdm_for_screen (
 	}
 
 	auto kdm = make_kdm(valid_from, valid_to).encrypt(
-		signer, screen->recipient.get(), screen->trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
+		signer, screen.recipient.get(), screen.trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
 		);
 
 	dcp::NameFormat::Map name_values;
-	if (cinema) {
-		name_values['c'] = cinema->name;
-	} else {
-		name_values['c'] = "";
-	}
-	name_values['s'] = screen->name;
+	name_values['c'] = cinema.name;
+	name_values['s'] = screen.name;
 	name_values['f'] = kdm.content_title_text();
 	name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
 	name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
-	return make_shared<KDMWithMetadata>(name_values, cinema.get(), cinema ? cinema->emails : vector<string>(), kdm);
+	return make_shared<KDMWithMetadata>(name_values, cinema_id, cinema.emails, kdm);
 }
 

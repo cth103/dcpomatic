@@ -49,7 +49,7 @@ sources = """
           text_decoder.cc
           case_insensitive_sorter.cc
           check_content_job.cc
-          cinema.cc
+          cinema_list.cc
           cinema_sound_processor.cc
           change_signaller.cc
           collator.cc
@@ -85,6 +85,7 @@ sources = """
           decoder_part.cc
           digester.cc
           dkdm_recipient.cc
+          dkdm_recipient_list.cc
           dkdm_wrapper.cc
           dolby_cp750.cc
           email.cc
@@ -126,6 +127,7 @@ sources = """
           frame_rate_change.cc
           guess_crop.cc
           hints.cc
+          id.cc
           internet.cc
           image.cc
           image_content.cc
@@ -184,6 +186,9 @@ sources = """
           state.cc
           spl.cc
           spl_entry.cc
+          sqlite_statement.cc
+          sqlite_table.cc
+          sqlite_transaction.cc
           string_log_entry.cc
           string_text_file.cc
           string_text_file_content.cc
@@ -239,7 +244,7 @@ def build(bld):
                  BOOST_FILESYSTEM BOOST_THREAD BOOST_DATETIME BOOST_SIGNALS2 BOOST_REGEX
                  SAMPLERATE POSTPROC TIFF SSH DCP CXML GLIB LZMA XML++
                  CURL ZIP BZ2 FONTCONFIG PANGOMM CAIROMM XMLSEC SUB ICU NETTLE PNG JPEG LEQM_NRT
-                 LIBZ
+                 LIBZ SQLITE3
                  """
 
     if bld.env.TARGET_OSX:

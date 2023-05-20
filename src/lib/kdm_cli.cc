@@ -25,6 +25,7 @@
 
 
 #include "cinema.h"
+#include "cinema_list.h"
 #include "config.h"
 #include "dkdm_wrapper.h"
 #include "email.h"
@@ -43,6 +44,7 @@
 using std::dynamic_pointer_cast;
 using std::list;
 using std::make_shared;
+using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
 using std::string;
@@ -175,32 +177,25 @@ write_files (
 }
 
 
-static
-shared_ptr<Cinema>
-find_cinema (string cinema_name)
+class ScreenDetails
 {
-	auto cinemas = Config::instance()->cinemas ();
-	auto i = cinemas.begin();
-	while (
-		i != cinemas.end() &&
-		(*i)->name != cinema_name &&
-		find ((*i)->emails.begin(), (*i)->emails.end(), cinema_name) == (*i)->emails.end()) {
+public:
+	ScreenDetails(CinemaID const& cinema_id, Cinema const& cinema, Screen const& screen)
+		: cinema_id(cinema_id)
+		, cinema(cinema)
+		, screen(screen)
+	{}
 
-		++i;
-	}
-
-	if (i == cinemas.end ()) {
-		throw KDMCLIError (String::compose("could not find cinema \"%1\"", cinema_name));
-	}
-
-	return *i;
-}
+	CinemaID cinema_id;
+	Cinema cinema;
+	Screen screen;
+};
 
 
 static
 void
 from_film (
-	vector<shared_ptr<Screen>> screens,
+	vector<ScreenDetails> const& screens,
 	boost::filesystem::path film_dir,
 	bool verbose,
 	boost::filesystem::path output,
@@ -241,11 +236,22 @@ from_film (
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
-		for (auto i: screens) {
+		for (auto screen_details: screens) {
 			std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, cpl](dcp::LocalTime begin, dcp::LocalTime end) {
 				return film->make_kdm(cpl, begin, end);
 			};
-			auto p = kdm_for_screen(make_kdm, i, valid_from, valid_to, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio, period_checks);
+			auto p = kdm_for_screen(
+				make_kdm,
+				screen_details.cinema_id,
+				screen_details.cinema,
+				screen_details.screen,
+				valid_from,
+				valid_to,
+				formulation,
+				disable_forensic_marking_picture,
+				disable_forensic_marking_audio,
+				period_checks
+				);
 			if (p) {
 				kdms.push_back (p);
 			}
@@ -350,7 +356,7 @@ kdm_from_dkdm (
 static
 void
 from_dkdm (
-	vector<shared_ptr<Screen>> screens,
+	vector<ScreenDetails> const& screens,
 	dcp::DecryptedKDM dkdm,
 	bool verbose,
  	boost::filesystem::path output,
@@ -370,15 +376,15 @@ from_dkdm (
 
 	try {
 		list<KDMWithMetadataPtr> kdms;
-		for (auto i: screens) {
-			if (!i->recipient) {
+		for (auto const& screen_details: screens) {
+			if (!screen_details.screen.recipient) {
 				continue;
 			}
 
 			auto const kdm = kdm_from_dkdm(
 							dkdm,
-							i->recipient.get(),
-							i->trusted_device_thumbprints(),
+							screen_details.screen.recipient.get(),
+							screen_details.screen.trusted_device_thumbprints(),
 							valid_from,
 							valid_to,
 							formulation,
@@ -387,14 +393,14 @@ from_dkdm (
 							);
 
 			dcp::NameFormat::Map name_values;
-			name_values['c'] = i->cinema ? i->cinema->name : "";
-			name_values['s'] = i->name;
+			name_values['c'] = screen_details.cinema.name;
+			name_values['s'] = screen_details.screen.name;
 			name_values['f'] = kdm.content_title_text();
 			name_values['b'] = valid_from.date() + " " + valid_from.time_of_day(true, false);
 			name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
 			name_values['i'] = kdm.cpl_id();
 
-			kdms.push_back(make_shared<KDMWithMetadata>(name_values, i->cinema.get(), i->cinema ? i->cinema->emails : vector<string>(), kdm));
+			kdms.push_back(make_shared<KDMWithMetadata>(name_values, screen_details.cinema_id, screen_details.cinema.emails, kdm));
 		}
 		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
@@ -451,12 +457,15 @@ try
 	boost::filesystem::path output = dcp::filesystem::current_path();
 	auto container_name_format = Config::instance()->kdm_container_name_format();
 	auto filename_format = Config::instance()->kdm_filename_format();
+	/* either a cinema name to search for, or the name of a cinema to associate with certificate */
 	optional<string> cinema_name;
-	shared_ptr<Cinema> cinema;
+	/* either a screen name to search for, or the name of a screen to associate with certificate */
+	optional<string> screen_name;
+	/* a certificate that we will use to make up a temporary cinema and screen */
 	optional<boost::filesystem::path> projector_certificate;
 	optional<boost::filesystem::path> decryption_key;
-	optional<string> screen;
-	vector<shared_ptr<Screen>> screens;
+	/* trusted devices that we will use to make up a temporary cinema and screen */
+	vector<TrustedDevice> trusted_devices;
 	optional<dcp::EncryptedKDM> dkdm;
 	optional<dcp::LocalTime> valid_from;
 	optional<dcp::LocalTime> valid_to;
@@ -562,27 +571,16 @@ try
 			verbose = true;
 			break;
 		case 'c':
-			/* This could be a cinema to search for in the configured list or the name of a cinema being
-			   built up on-the-fly in the option.  Cater for both possilibities here by storing the name
-			   (for lookup) and by creating a Cinema which the next Screen will be added to.
-			*/
 			cinema_name = optarg;
-			cinema = make_shared<Cinema>(optarg, vector<string>(), "", dcp::UTCOffset());
 			break;
 		case 'S':
-			/* Similarly, this could be the name of a new (temporary) screen or the name of a screen
-			 * to search for.
-			 */
-			screen = optarg;
+			screen_name = optarg;
 			break;
 		case 'C':
 			projector_certificate = optarg;
 			break;
 		case 'T':
-			/* A trusted device ends up in the last screen we made */
-			if (!screens.empty ()) {
-				screens.back()->trusted_devices.push_back(TrustedDevice(dcp::Certificate(dcp::file_to_string(optarg))));
-			}
+			trusted_devices.push_back(TrustedDevice(dcp::Certificate(dcp::file_to_string(optarg))));
 			break;
 		case 'G':
 			decryption_key = optarg;
@@ -618,20 +616,21 @@ try
 		Config::instance()->set_cinemas_file(*cinemas_file);
 	}
 
+	/* If we've been given a certificate we can make up a temporary cinema and screen (not written to the
+	 * database) to then use for making KDMs.
+	 */
+	optional<Cinema> temp_cinema;
+	optional<Screen> temp_screen;
 	if (projector_certificate) {
-		/* Make a new screen and add it to the current cinema */
+		temp_cinema = Cinema(cinema_name.get_value_or(""), {}, "", dcp::UTCOffset());
 		dcp::CertificateChain chain(dcp::file_to_string(*projector_certificate));
-		auto screen_to_add = std::make_shared<Screen>(screen.get_value_or(""), "", chain.leaf(), boost::none, vector<TrustedDevice>());
-		if (cinema) {
-			cinema->add_screen(screen_to_add);
-		}
-		screens.push_back(screen_to_add);
+		temp_screen = Screen(screen_name.get_value_or(""), "", chain.leaf(), boost::none, trusted_devices);
 	}
 
 	if (command == "list-cinemas") {
-		auto cinemas = Config::instance()->cinemas ();
-		for (auto i: cinemas) {
-			out (String::compose("%1 (%2)", i->name, Email::address_list(i->emails)));
+		CinemaList cinemas;
+		for (auto const& cinema: cinemas.cinemas()) {
+			out(String::compose("%1 (%2)", cinema.second.name, Email::address_list(cinema.second.emails)));
 		}
 		return {};
 	}
@@ -660,15 +659,32 @@ try
 		throw KDMCLIError ("you must specify --valid-from");
 	}
 
-	if (screens.empty()) {
+	if (optind >= argc) {
+		throw KDMCLIError ("no film, CPL ID or DKDM specified");
+	}
+
+	vector<ScreenDetails> screens;
+
+	if (!temp_cinema) {
 		if (!cinema_name) {
-			throw KDMCLIError ("you must specify either a cinema or one or more screens using certificate files");
+			throw KDMCLIError("you must specify either a cinema or one or more screens using certificate files");
 		}
 
-		screens = find_cinema (*cinema_name)->screens ();
-		if (screen) {
-			screens.erase(std::remove_if(screens.begin(), screens.end(), [&screen](shared_ptr<Screen> s) { return s->name != *screen; }), screens.end());
+		CinemaList cinema_list;
+		if (auto cinema = cinema_list.cinema_by_name_or_email(*cinema_name)) {
+			if (screen_name) {
+				for (auto screen: cinema_list.screens_by_cinema_and_name(cinema->first, *screen_name)) {
+					screens.push_back({cinema->first, cinema->second, screen.second});
+				}
+			} else {
+				for (auto screen: cinema_list.screens(cinema->first)) {
+					screens.push_back({cinema->first, cinema->second, screen.second});
+				}
+			}
 		}
+	} else {
+		DCPOMATIC_ASSERT(temp_screen);
+		screens.push_back({CinemaID(0), *temp_cinema, *temp_screen});
 	}
 
 	if (duration_string) {

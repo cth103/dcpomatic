@@ -23,6 +23,7 @@
 #define DCPOMATIC_KDM_WITH_METADATA_H
 
 
+#include "id.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/name_format.h>
 
@@ -33,7 +34,7 @@ class Cinema;
 class KDMWithMetadata
 {
 public:
-	KDMWithMetadata(dcp::NameFormat::Map const& name_values, void const* group, std::vector<std::string> emails, dcp::EncryptedKDM kdm)
+	KDMWithMetadata(dcp::NameFormat::Map const& name_values, ID group, std::vector<std::string> emails, dcp::EncryptedKDM kdm)
 		: _name_values (name_values)
 		, _group (group)
 		, _emails (emails)
@@ -54,7 +55,7 @@ public:
 
 	boost::optional<std::string> get (char k) const;
 
-	void const* group () const {
+	ID group() const {
 		return _group;
 	}
 
@@ -64,7 +65,7 @@ public:
 
 private:
 	dcp::NameFormat::Map _name_values;
-	void const* _group;
+	ID _group;
 	std::vector<std::string> _emails;
 	dcp::EncryptedKDM _kdm;
 };

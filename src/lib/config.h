@@ -50,6 +50,8 @@ class DKDMRecipient;
 class Film;
 class Ratio;
 
+#undef IGNORE
+
 
 extern void save_all_config_as_zip (boost::filesystem::path zip_file);
 
@@ -81,13 +83,28 @@ public:
 	boost::filesystem::path default_directory_or (boost::filesystem::path a) const;
 	boost::filesystem::path default_kdm_directory_or (boost::filesystem::path a) const;
 
-	void load_from_zip(boost::filesystem::path zip_file);
+	enum class CinemasAction
+	{
+		/** Copy the cinemas.{xml,sqlite3} in the ZIP file to the path
+		 *  specified in the current config, overwriting whatever is there,
+		 *  and use that path.
+		 */
+		WRITE_TO_CURRENT_PATH,
+		/** Copy the cinemas.{xml,sqlite3} in the ZIP file over the path
+		 *  specified in the config.xml from the ZIP, overwriting whatever
+		 *  is there and creating any required directories, and use
+		 *  that path.
+		 */
+		WRITE_TO_PATH_IN_ZIPPED_CONFIG,
+		/** Do nothing with the cinemas.{xml,sqlite3} in the ZIP file */
+		IGNORE
+	};
+
+	void load_from_zip(boost::filesystem::path zip_file, CinemasAction action);
 
 	enum Property {
 		USE_ANY_SERVERS,
 		SERVERS,
-		CINEMAS,
-		DKDM_RECIPIENTS,
 		SOUND,
 		SOUND_OUTPUT,
 		PLAYER_CONTENT_DIRECTORY,
@@ -161,14 +178,6 @@ public:
 	/** @return Password to log into the TMS with */
 	std::string tms_password () const {
 		return _tms_password;
-	}
-
-	std::list<std::shared_ptr<Cinema>> cinemas () const {
-		return _cinemas;
-	}
-
-	std::list<std::shared_ptr<DKDMRecipient>> dkdm_recipients () const {
-		return _dkdm_recipients;
 	}
 
 	std::list<int> allowed_dcp_frame_rates () const {
@@ -716,26 +725,6 @@ public:
 		maybe_set (_tms_password, p);
 	}
 
-	void add_cinema (std::shared_ptr<Cinema> c) {
-		_cinemas.push_back (c);
-		changed (CINEMAS);
-	}
-
-	void remove_cinema (std::shared_ptr<Cinema> c) {
-		_cinemas.remove (c);
-		changed (CINEMAS);
-	}
-
-	void add_dkdm_recipient (std::shared_ptr<DKDMRecipient> c) {
-		_dkdm_recipients.push_back (c);
-		changed (DKDM_RECIPIENTS);
-	}
-
-	void remove_dkdm_recipient (std::shared_ptr<DKDMRecipient> c) {
-		_dkdm_recipients.remove (c);
-		changed (DKDM_RECIPIENTS);
-	}
-
 	void set_allowed_dcp_frame_rates (std::list<int> const & r) {
 		maybe_set (_allowed_dcp_frame_rates, r);
 	}
@@ -964,6 +953,8 @@ public:
 	}
 
 	void set_cinemas_file (boost::filesystem::path file);
+
+	void set_dkdm_recipients_file(boost::filesystem::path file);
 
 	void set_show_hints_before_make_dcp (bool s) {
 		maybe_set (_show_hints_before_make_dcp, s);
@@ -1254,8 +1245,6 @@ public:
 	*/
 	enum class LoadFailure {
 		CONFIG,
-		CINEMAS,
-		DKDM_RECIPIENTS
 	};
 	static boost::signals2::signal<void (LoadFailure)> FailedToLoad;
 	/** Emitted if read() issued a warning which the user might want to know about */
@@ -1275,8 +1264,6 @@ public:
 
 	void write () const override;
 	void write_config () const;
-	void write_cinemas () const;
-	void write_dkdm_recipients () const;
 	void link (boost::filesystem::path new_file) const;
 	void copy_and_link (boost::filesystem::path new_file) const;
 	bool have_write_permission () const;
@@ -1297,6 +1284,9 @@ public:
 	static bool have_existing (std::string);
 	static boost::filesystem::path config_read_file ();
 	static boost::filesystem::path config_write_file ();
+	static bool zip_contains_cinemas(boost::filesystem::path zip);
+	static boost::filesystem::path cinemas_file_from_zip(boost::filesystem::path zip);
+
 
 	template <class T>
 	void maybe_set (T& member, T new_value, Property prop = OTHER) {
@@ -1319,15 +1309,10 @@ public:
 private:
 	Config ();
 	void read () override;
-	void read_config();
-	void read_cinemas();
-	void read_dkdm_recipients();
 	void set_defaults ();
 	void set_kdm_email_to_default ();
 	void set_notification_email_to_default ();
 	void set_cover_sheet_to_default ();
-	void read_cinemas (cxml::Document const & f);
-	void read_dkdm_recipients (cxml::Document const & f);
 	std::shared_ptr<dcp::CertificateChain> create_certificate_chain ();
 	boost::filesystem::path directory_or (boost::optional<boost::filesystem::path> dir, boost::filesystem::path a) const;
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
@@ -1394,8 +1379,6 @@ private:
 	*/
 	boost::optional<boost::filesystem::path> _default_kdm_directory;
 	bool _upload_after_make_dcp;
-	std::list<std::shared_ptr<Cinema>> _cinemas;
-	std::list<std::shared_ptr<DKDMRecipient>> _dkdm_recipients;
 	std::string _mail_server;
 	int _mail_port;
 	EmailProtocol _mail_protocol;

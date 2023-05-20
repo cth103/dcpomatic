@@ -23,7 +23,7 @@
 #include "wx_util.h"
 #include "recipient_dialog.h"
 #include "dcpomatic_button.h"
-#include "lib/config.h"
+#include "lib/dkdm_recipient_list.h"
 #include <list>
 #include <iostream>
 
@@ -103,15 +103,15 @@ RecipientsPanel::setup_sensitivity ()
 
 
 void
-RecipientsPanel::add_recipient (shared_ptr<DKDMRecipient> r)
+RecipientsPanel::add_recipient(DKDMRecipientID id, DKDMRecipient const& recipient)
 {
 	string const search = wx_to_std(_search->GetValue());
 
-	if (!search.empty() && !_collator.find(search, r->name)) {
+	if (!search.empty() && !_collator.find(search, recipient.name)) {
 		return;
 	}
 
-	_recipients[_targets->AppendItem(_root, std_to_wx(r->name))] = r;
+	_recipients.emplace(make_pair(_targets->AppendItem(_root, std_to_wx(recipient.name)), id));
 
 	_targets->SortChildren (_root);
 }
@@ -122,9 +122,10 @@ RecipientsPanel::add_recipient_clicked ()
 {
 	RecipientDialog dialog(GetParent(), _("Add recipient"));
 	if (dialog.ShowModal() == wxID_OK) {
-		auto r = std::make_shared<DKDMRecipient>(dialog.name(), dialog.notes(), dialog.recipient(), dialog.emails());
-		Config::instance()->add_dkdm_recipient (r);
-		add_recipient (r);
+		auto recipient = DKDMRecipient(dialog.name(), dialog.notes(), dialog.recipient(), dialog.emails());
+		DKDMRecipientList recipient_list;
+		auto const id = recipient_list.add_dkdm_recipient(recipient);
+		add_recipient(id, recipient);
 	}
 }
 
@@ -136,18 +137,28 @@ RecipientsPanel::edit_recipient_clicked ()
 		return;
 	}
 
-	auto c = *_selected.begin();
+	DKDMRecipientList recipients;
+	auto selection = *_selected.begin();
+	auto const recipient_id = selection.second;
+	auto recipient = recipients.dkdm_recipient(recipient_id);
+	DCPOMATIC_ASSERT(recipient);
 
 	RecipientDialog dialog(
-		GetParent(), _("Edit recipient"), c.second->name, c.second->notes, c.second->emails, c.second->recipient
+		GetParent(),
+		_("Edit recipient"),
+		recipient->name,
+		recipient->notes,
+		recipient->emails,
+		recipient->recipient
 		);
 
 	if (dialog.ShowModal() == wxID_OK) {
-		c.second->name = dialog.name();
-		c.second->emails = dialog.emails();
-		c.second->notes = dialog.notes();
-		_targets->SetItemText(c.first, std_to_wx(dialog.name()));
-		Config::instance()->changed (Config::DKDM_RECIPIENTS);
+		recipient->name = dialog.name();
+		recipient->emails = dialog.emails();
+		recipient->notes = dialog.notes();
+		recipient->recipient = dialog.recipient();
+		recipients.update_dkdm_recipient(recipient_id, *recipient);
+		_targets->SetItemText(selection.first, std_to_wx(dialog.name()));
 	}
 }
 
@@ -156,7 +167,8 @@ void
 RecipientsPanel::remove_recipient_clicked ()
 {
 	for (auto const& i: _selected) {
-		Config::instance()->remove_dkdm_recipient (i.second);
+		DKDMRecipientList recipient_list;
+		recipient_list.remove_dkdm_recipient(i.second);
 		_targets->Delete (i.first);
 	}
 
@@ -164,19 +176,15 @@ RecipientsPanel::remove_recipient_clicked ()
 }
 
 
-list<shared_ptr<DKDMRecipient>>
+list<DKDMRecipient>
 RecipientsPanel::recipients () const
 {
-	list<shared_ptr<DKDMRecipient>> r;
-
-	for (auto const& i: _selected) {
-		r.push_back (i.second);
+	list<DKDMRecipient> all;
+	DKDMRecipientList recipients;
+	for (auto const& recipient: recipients.dkdm_recipients()) {
+		all.push_back(recipient.second);
 	}
-
-	r.sort ();
-	r.unique ();
-
-	return r;
+	return all;
 }
 
 
@@ -202,7 +210,7 @@ RecipientsPanel::selection_changed ()
 	for (size_t i = 0; i < s.GetCount(); ++i) {
 		RecipientMap::const_iterator j = _recipients.find (s[i]);
 		if (j != _recipients.end ()) {
-			_selected[j->first] = j->second;
+			_selected.emplace(*j);
 		}
 	}
 
@@ -216,8 +224,9 @@ RecipientsPanel::add_recipients ()
 {
 	_root = _targets->AddRoot ("Foo");
 
-	for (auto i: Config::instance()->dkdm_recipients()) {
-		add_recipient (i);
+	DKDMRecipientList recipients;
+	for (auto const& recipient: recipients.dkdm_recipients()) {
+		add_recipient(recipient.first, recipient.second);
 	}
 }
 

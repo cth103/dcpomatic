@@ -20,7 +20,12 @@
 
 
 #include "lib/cinema.h"
+#include "lib/cinema_list.h"
 #include "lib/config.h"
+#include "lib/dkdm_recipient.h"
+#include "lib/dkdm_recipient_list.h"
+#include "lib/unzipper.h"
+#include "lib/zipper.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 #include <fstream>
@@ -178,19 +183,20 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 
 	boost::filesystem::copy_file ("test/data/2.14.config.xml", dir / "config.xml");
 	boost::filesystem::copy_file ("test/data/2.14.cinemas.xml", dir / "cinemas.xml");
-	Config::instance();
 	try {
-		/* This will fail to write cinemas.xml since the link is to a non-existent directory */
-		Config::instance()->write();
+		/* This will fail to read cinemas.xml since the link is to a non-existent directory */
+		Config::instance();
 	} catch (...) {}
+
+	Config::instance()->write();
 
 	check_xml (dir / "config.xml", "test/data/2.14.config.xml", {});
 	check_xml (dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
 #ifdef DCPOMATIC_WINDOWS
 	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.xml", {});
+	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.sqlite.xml", {});
 #else
-	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.xml", {});
+	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.sqlite.xml", {});
 #endif
 	/* cinemas.xml is not copied into 2.18 as its format has not changed */
 	BOOST_REQUIRE (!boost::filesystem::exists(dir / "2.18" / "cinemas.xml"));
@@ -214,11 +220,12 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 	boost::filesystem::copy_file("test/data/2.16.config.xml", dir / "config.xml");
 #endif
 	boost::filesystem::copy_file("test/data/2.14.cinemas.xml", dir / "cinemas.xml");
-	Config::instance();
 	try {
-		/* This will fail to write cinemas.xml since the link is to a non-existent directory */
-		Config::instance()->write();
+		/* This will fail to read cinemas.xml since the link is to a non-existent directory */
+		Config::instance();
 	} catch (...) {}
+
+	Config::instance()->write();
 
 	check_xml(dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
 #ifdef DCPOMATIC_WINDOWS
@@ -246,16 +253,16 @@ BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 
 	Config::instance()->write();
 
-	Config::instance()->add_cinema(make_shared<Cinema>("My Great Cinema", vector<string>(), "", dcp::UTCOffset()));
-	Config::instance()->write();
+	CinemaList cinemas;
+	cinemas.add_cinema({"My Great Cinema", {}, "", dcp::UTCOffset()});
 
-	boost::filesystem::copy_file (dir / "cinemas.xml", dir / "backup_for_test.xml");
+	boost::filesystem::copy_file(dir / "cinemas.sqlite3", dir / "backup_for_test.sqlite3");
 
 	Config::drop ();
 	boost::filesystem::remove (dir / "2.18" / "config.xml");
 	Config::instance();
 
-	check_text_file(dir / "backup_for_test.xml", dir / "cinemas.xml");
+	check_file(dir / "backup_for_test.sqlite3", dir / "cinemas.sqlite3");
 }
 
 
@@ -271,11 +278,14 @@ BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
 	boost::filesystem::create_directories(dir);
 	Config::instance()->write();
 
-	auto const cinemas = dir / "cinemas.xml";
+	CinemaList cinema_list;
+	cinema_list.add_cinema(Cinema("Foo", {}, "Bar", dcp::UTCOffset()));
+
+	auto const cinemas = dir / "cinemas.sqlite3";
 
 	/* Back things up */
 	boost::filesystem::copy_file(dir / "2.18" / "config.xml", dir / "config_backup_for_test.xml");
-	boost::filesystem::copy_file(cinemas, dir / "cinemas_backup_for_test.xml");
+	boost::filesystem::copy_file(cinemas, dir / "cinemas_backup_for_test.sqlite3");
 
 	/* Corrupt the cinemas */
 	Config::drop();
@@ -284,8 +294,241 @@ BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
 	corrupt.close();
 	Config::instance();
 
-	/* We should have a new cinemas.xml and the old config.xml */
+	/* We should have the old config.xml */
 	check_text_file(dir / "2.18" / "config.xml", dir / "config_backup_for_test.xml");
-	check_text_file(cinemas, dir / "cinemas_backup_for_test.xml");
 }
 
+
+BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
+{
+	ConfigRestorer cr;
+
+	/* Set up a config with an XML cinemas file */
+	boost::filesystem::path dir = "build/test/read_cinemas_xml_and_write_sqlite";
+	boost::filesystem::remove_all(dir);
+	boost::filesystem::create_directories(dir);
+	boost::filesystem::create_directories(dir / "2.18");
+
+	boost::filesystem::copy_file("test/data/cinemas.xml", dir / "cinemas.xml");
+	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "2.18" / "config.xml");
+	{
+		Editor editor(dir / "2.18" / "config.xml");
+		editor.replace(
+			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			boost::filesystem::canonical(dir / "cinemas.xml").string()
+			);
+	}
+
+	Config::override_path = dir;
+	Config::drop();
+
+	/* This should make a sqlite3 file containing the recipients from cinemas.xml */
+	Config::instance();
+
+	{
+		CinemaList test(dir / "cinemas.sqlite3");
+
+		/* The detailed creation of sqlite3 from XML is tested in cinema_list_test.cc */
+		auto cinemas = test.cinemas();
+		BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
+		BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
+		BOOST_CHECK_EQUAL(cinemas[1].second.name, "classy joint");
+		BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
+
+		/* Add another recipient to the sqlite */
+		test.add_cinema({"The ol' 1-seater", {}, "Quiet but lonely", dcp::UTCOffset()});
+	}
+
+	/* Reload the config; the old XML should not clobber the new sqlite3 */
+	Config::drop();
+	Config::instance();
+
+	{
+		CinemaList test(dir / "cinemas.sqlite3");
+
+		auto cinemas = test.cinemas();
+		BOOST_REQUIRE_EQUAL(cinemas.size(), 4U);
+		BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
+		BOOST_CHECK_EQUAL(cinemas[1].second.name, "The ol' 1-seater");
+		BOOST_CHECK_EQUAL(cinemas[2].second.name, "classy joint");
+		BOOST_CHECK_EQUAL(cinemas[3].second.name, "stinking dump");
+	}
+}
+
+
+BOOST_AUTO_TEST_CASE(read_dkdm_recipients_xml_and_write_sqlite)
+{
+	ConfigRestorer cr;
+
+	/* Set up a config with an XML cinemas file */
+	boost::filesystem::path dir = "build/test/read_dkdm_recipients_xml_and_write_sqlite";
+	boost::filesystem::remove_all(dir);
+	boost::filesystem::create_directories(dir);
+	boost::filesystem::create_directories(dir / "2.18");
+
+	boost::filesystem::copy_file("test/data/dkdm_recipients.xml", dir / "dkdm_recipients.xml");
+	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "2.18" / "config.xml");
+	{
+		Editor editor(dir / "2.18" / "config.xml");
+		editor.replace(
+			"build/test/config_upgrade_test/dkdm_recipients.xml",
+			boost::filesystem::canonical(dir / "dkdm_recipients.xml").string()
+			);
+	}
+
+	Config::override_path = dir;
+	Config::drop();
+
+	/* This should make a sqlite3 file containing the recipients from dkdm_recipients.xml */
+	Config::instance();
+
+	{
+		DKDMRecipientList test(dir / "dkdm_recipients.sqlite3");
+
+		/* The detailed creation of sqlite3 from XML is tested in dkdm_recipient_list_test.cc */
+		auto recipients = test.dkdm_recipients();
+		BOOST_REQUIRE_EQUAL(recipients.size(), 2U);
+		BOOST_CHECK_EQUAL(recipients[0].second.name, "Bob's Epics");
+		BOOST_CHECK_EQUAL(recipients[1].second.name, "Sharon's Shorts");
+
+		/* Add another recipient to the sqlite */
+		test.add_dkdm_recipient({"Carl's Classics", "Oldies but goodies", {}, {}});
+	}
+
+	/* Reload the config; the old XML should not clobber the new sqlite3 */
+	Config::drop();
+	Config::instance();
+
+	{
+		DKDMRecipientList test(dir / "dkdm_recipients.sqlite3");
+
+		auto recipients = test.dkdm_recipients();
+		BOOST_REQUIRE_EQUAL(recipients.size(), 3U);
+		BOOST_CHECK_EQUAL(recipients[0].second.name, "Bob's Epics");
+		BOOST_CHECK_EQUAL(recipients[1].second.name, "Carl's Classics");
+		BOOST_CHECK_EQUAL(recipients[2].second.name, "Sharon's Shorts");
+	}
+}
+
+
+BOOST_AUTO_TEST_CASE(save_config_as_zip_test)
+{
+	ConfigRestorer cr;
+
+	CinemaList cinemas;
+	cinemas.add_cinema({"My Great Cinema", {}, "", dcp::UTCOffset()});
+	DKDMRecipientList recipients;
+	recipients.add_dkdm_recipient({"Carl's Classics", "Oldies but goodies", {}, {}});
+
+	boost::filesystem::path const zip = "build/test/save.zip";
+	boost::system::error_code ec;
+	boost::filesystem::remove(zip, ec);
+	save_all_config_as_zip(zip);
+	Unzipper unzipper(zip);
+
+	BOOST_CHECK(unzipper.contains("config.xml"));
+	BOOST_CHECK(unzipper.contains("cinemas.sqlite3"));
+	BOOST_CHECK(unzipper.contains("dkdm_recipients.sqlite3"));
+}
+
+
+/** Load a config ZIP file, which contains an XML cinemas file, and ask to overwrite
+ *  the existing cinemas file that we had.
+ */
+BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_current)
+{
+	ConfigRestorer cr;
+
+	auto cinemas_file = Config::instance()->cinemas_file();
+
+	boost::filesystem::path const zip = "build/test/load.zip";
+	boost::system::error_code ec;
+	boost::filesystem::remove(zip, ec);
+
+	Zipper zipper(zip);
+	zipper.add(
+		"config.xml",
+		boost::algorithm::replace_all_copy(
+			dcp::file_to_string("test/data/2.18.config.xml"),
+			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			""
+			)
+		);
+
+	zipper.add("cinemas.xml", dcp::file_to_string("test/data/cinemas.xml"));
+	zipper.close();
+
+	Config::instance()->load_from_zip(zip, Config::CinemasAction::WRITE_TO_CURRENT_PATH);
+
+	CinemaList cinema_list(cinemas_file);
+	auto cinemas = cinema_list.cinemas();
+	BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
+	BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
+	BOOST_CHECK_EQUAL(cinemas[1].second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
+}
+
+
+/** Load a config ZIP file, which contains an XML cinemas file, and ask to write it to
+ *  the location specified by the zipped config.xml.
+ */
+BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_zip)
+{
+	ConfigRestorer cr;
+
+	boost::filesystem::path const zip = "build/test/load.zip";
+	boost::system::error_code ec;
+	boost::filesystem::remove(zip, ec);
+
+	Zipper zipper(zip);
+	zipper.add(
+		"config.xml",
+		boost::algorithm::replace_all_copy(
+			dcp::file_to_string("test/data/2.18.config.xml"),
+			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			"build/test/hide/it/here/cinemas.sqlite3"
+			)
+		);
+
+	zipper.add("cinemas.xml", dcp::file_to_string("test/data/cinemas.xml"));
+	zipper.close();
+
+	Config::instance()->load_from_zip(zip, Config::CinemasAction::WRITE_TO_PATH_IN_ZIPPED_CONFIG);
+
+	CinemaList cinema_list("build/test/hide/it/here/cinemas.sqlite3");
+	auto cinemas = cinema_list.cinemas();
+	BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
+	BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
+	BOOST_CHECK_EQUAL(cinemas[1].second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
+}
+
+
+/** Load a config ZIP file, which contains an XML cinemas file, and ask to ignore it */
+BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_ignore)
+{
+	ConfigRestorer cr;
+
+	boost::filesystem::path const zip = "build/test/load.zip";
+	boost::system::error_code ec;
+	boost::filesystem::remove(zip, ec);
+
+	Zipper zipper(zip);
+	zipper.add(
+		"config.xml",
+		boost::algorithm::replace_all_copy(
+			dcp::file_to_string("test/data/2.18.config.xml"),
+			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			"build/test/hide/it/here/cinemas.sqlite3"
+			)
+		);
+
+	zipper.add("cinemas.xml", "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Cinemas/>");
+	zipper.close();
+
+	Config::instance()->load_from_zip(zip, Config::CinemasAction::IGNORE);
+
+	CinemaList cinema_list("build/test/hide/it/here/cinemas.sqlite3");
+	auto cinemas = cinema_list.cinemas();
+	BOOST_CHECK(!cinemas.empty());
+}

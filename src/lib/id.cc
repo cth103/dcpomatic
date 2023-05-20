@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,34 +19,12 @@
 */
 
 
-/** @file  src/lib/cinema.h
- *  @brief Cinema class.
- */
+#include "id.h"
 
 
-#include <dcp/utc_offset.h>
-#include <memory>
-#include <string>
-#include <vector>
-
-
-/** @class Cinema
- *  @brief A description of a Cinema for KDM generation.
- *
- *  This is a cinema name and some metadata.
- */
-class Cinema
+bool
+operator==(ID const& a, ID const& b)
 {
-public:
-	Cinema(std::string const & name_, std::vector<std::string> const & e, std::string notes_, dcp::UTCOffset utc_offset_)
-		: name (name_)
-		, emails (e)
-		, notes (notes_)
-		, utc_offset(std::move(utc_offset_))
-	{}
+	return a.get() == b.get();
+}
 
-	std::string name;
-	std::vector<std::string> emails;
-	std::string notes;
-	dcp::UTCOffset utc_offset;
-};

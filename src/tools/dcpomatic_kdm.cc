@@ -405,11 +405,15 @@ private:
 				return kdm;
 			};
 
+			CinemaList cinemas;
+
 			for (auto i: _screens->screens()) {
 
 				auto kdm = kdm_for_screen(
 					make_kdm,
-					i,
+					i.first,
+					*cinemas.cinema(i.first),
+					*cinemas.screen(i.second),
 					_timing->from(),
 					_timing->until(),
 					_output->formulation(),

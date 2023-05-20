@@ -34,6 +34,7 @@ extern "C" {
 }
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
+#include <sqlite3.h>
 #include <cstring>
 #include <stdexcept>
 
@@ -477,6 +478,60 @@ public:
 	explicit MissingConfigurationError(std::string s)
 		: std::runtime_error(s)
 	{}
+};
+
+
+class SQLError : public std::runtime_error
+{
+public:
+	SQLError(sqlite3* db, char const* s)
+		: std::runtime_error(get_message(db, s))
+	{
+		_filename = get_filename(db);
+	}
+
+	SQLError(sqlite3* db, int rc)
+		: std::runtime_error(get_message(db, rc))
+	{
+		_filename = get_filename(db);
+	}
+
+	SQLError(sqlite3* db, int rc, std::string doing)
+		: std::runtime_error(get_message(db, rc, doing))
+	{
+		_filename = get_filename(db);
+	}
+
+	boost::filesystem::path filename() const {
+		return _filename;
+	}
+
+private:
+	boost::filesystem::path get_filename(sqlite3* db)
+	{
+		if (auto filename = sqlite3_db_filename(db, "main")) {
+			return filename;
+		}
+
+		return {};
+	}
+
+	std::string get_message(sqlite3* db, char const* s)
+	{
+		return String::compose("%1 (in %2)", s, get_filename(db));
+	}
+
+	std::string get_message(sqlite3* db, int rc)
+	{
+		return String::compose("%1 (in %2)", sqlite3_errstr(rc), get_filename(db));
+	}
+
+	std::string get_message(sqlite3* db, int rc, std::string doing)
+	{
+		return String::compose("%1 (while doing %2) (in %3)", sqlite3_errstr(rc), doing, get_filename(db));
+	}
+
+	boost::filesystem::path _filename;
 };
 
 

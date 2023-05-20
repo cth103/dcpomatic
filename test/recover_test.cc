@@ -63,6 +63,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 
 	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
 	film->examine_and_add_content (content);
@@ -110,6 +111,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("recover_test");
 	film->set_three_d (true);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 
 	auto content = make_shared<ImageContent>("test/data/3d_test");
 	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
@@ -154,6 +156,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 	film->set_name ("recover_test");
 	film->set_encrypted (true);
 	film->_key = dcp::Key("eafcb91c9f5472edf01f3a2404c57258");
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 
 	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
 	film->examine_and_add_content (content);

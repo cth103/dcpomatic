@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2024 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,34 +19,36 @@
 */
 
 
-/** @file  src/lib/cinema.h
- *  @brief Cinema class.
- */
+#ifndef DCPOMATIC_SQLITE_TABLE_H
+#define DCPOMATIC_SQLITE_TABLE_H
 
-
-#include <dcp/utc_offset.h>
-#include <memory>
 #include <string>
 #include <vector>
 
 
-/** @class Cinema
- *  @brief A description of a Cinema for KDM generation.
- *
- *  This is a cinema name and some metadata.
- */
-class Cinema
+class SQLiteTable
 {
 public:
-	Cinema(std::string const & name_, std::vector<std::string> const & e, std::string notes_, dcp::UTCOffset utc_offset_)
-		: name (name_)
-		, emails (e)
-		, notes (notes_)
-		, utc_offset(std::move(utc_offset_))
+	SQLiteTable(std::string name)
+		: _name(std::move(name))
 	{}
 
-	std::string name;
-	std::vector<std::string> emails;
-	std::string notes;
-	dcp::UTCOffset utc_offset;
+	SQLiteTable(SQLiteTable const&) = default;
+	SQLiteTable(SQLiteTable&&) = default;
+
+	void add_column(std::string const& name, std::string const& type);
+
+	std::string create() const;
+	std::string insert() const;
+	std::string update(std::string const& condition) const;
+	std::string select(std::string const& condition) const;
+
+private:
+	std::string _name;
+	std::vector<std::string> _columns;
+	std::vector<std::string> _types;
 };
+
+
+#endif
+

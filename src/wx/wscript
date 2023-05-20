@@ -113,6 +113,7 @@ sources = """
           language_subtag_panel.cc
           language_tag_dialog.cc
           language_tag_widget.cc
+          load_config_from_zip_dialog.cc
           kdm_choice.cc
           make_chain_dialog.cc
           markers.cc

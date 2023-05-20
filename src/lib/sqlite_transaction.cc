@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,34 +19,32 @@
 */
 
 
-/** @file  src/lib/cinema.h
- *  @brief Cinema class.
- */
+#include "sqlite_statement.h"
+#include "sqlite_transaction.h"
 
 
-#include <dcp/utc_offset.h>
-#include <memory>
-#include <string>
-#include <vector>
-
-
-/** @class Cinema
- *  @brief A description of a Cinema for KDM generation.
- *
- *  This is a cinema name and some metadata.
- */
-class Cinema
+SQLiteTransaction::SQLiteTransaction(sqlite3* db)
+	: _db(db)
 {
-public:
-	Cinema(std::string const & name_, std::vector<std::string> const & e, std::string notes_, dcp::UTCOffset utc_offset_)
-		: name (name_)
-		, emails (e)
-		, notes (notes_)
-		, utc_offset(std::move(utc_offset_))
-	{}
+	SQLiteStatement statement(_db, "BEGIN TRANSACTION");
+	statement.execute();
+}
 
-	std::string name;
-	std::vector<std::string> emails;
-	std::string notes;
-	dcp::UTCOffset utc_offset;
-};
+
+SQLiteTransaction::~SQLiteTransaction()
+{
+	if (_rollback) {
+		SQLiteStatement rollback(_db, "ROLLBACK");
+		rollback.execute();
+	}
+}
+
+
+void
+SQLiteTransaction::commit()
+{
+	SQLiteStatement commit(_db, "COMMIT");
+	commit.execute();
+	_rollback = false;
+}
+

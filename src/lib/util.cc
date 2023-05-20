@@ -89,10 +89,11 @@ LIBDCP_ENABLE_WARNINGS
 #include <dbghelp.h>
 #endif
 #include <signal.h>
+#include <climits>
 #include <iomanip>
 #include <iostream>
 #include <fstream>
-#include <climits>
+#include <numeric>
 #include <stdexcept>
 #ifdef DCPOMATIC_POSIX
 #include <execinfo.h>
@@ -121,9 +122,6 @@ using std::vector;
 using std::wstring;
 using boost::thread;
 using boost::optional;
-using boost::lexical_cast;
-using boost::bad_lexical_cast;
-using boost::scoped_array;
 using dcp::Size;
 using dcp::raw_convert;
 using dcp::locale_convert;
@@ -1151,6 +1149,7 @@ setup_grok_library_path()
 }
 #endif
 
+
 string
 screen_names_to_string(vector<string> names)
 {
@@ -1183,5 +1182,18 @@ string
 report_problem()
 {
 	return String::compose(_("Please report this problem by using Help -> Report a problem or via email to %1"), variant::report_problem_email());
+}
+
+
+string
+join_strings(vector<string> const& in, string const& separator)
+{
+	if (in.empty()) {
+		return {};
+	}
+
+	return std::accumulate(std::next(in.begin()), in.end(), in.front(), [separator](string a, string b) {
+		return a + separator + b;
+	});
 }
 

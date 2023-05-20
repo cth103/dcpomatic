@@ -629,6 +629,18 @@ def configure(conf):
                            lib=deps,
                            uselib_store='BOOST_PROCESS')
 
+    # sqlite3
+    conf.check_cfg(package="sqlite3", args='--cflags --libs', uselib_store='SQLITE3', mandatory=True)
+    conf.check_cxx(fragment="""
+                       #include <sqlite3.h>
+                       int main() { sqlite3_prepare_v3(nullptr, "", -1, 0, nullptr, nullptr); }
+                       """,
+                   msg='Checking for sqlite3_prepare_v3',
+                   uselib='SQLITE3',
+                   define_name="DCPOMATIC_HAVE_SQLITE3_PREPARE_V3",
+                   mandatory=False)
+
+
     # Other stuff
 
     conf.find_program('msgfmt', var='MSGFMT')

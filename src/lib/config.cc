@@ -19,14 +19,14 @@
 */
 
 
-#include "cinema.h"
+#include "cinema_list.h"
 #include "colour_conversion.h"
 #include "compose.hpp"
 #include "config.h"
 #include "constants.h"
 #include "cross.h"
 #include "dcp_content_type.h"
-#include "dkdm_recipient.h"
+#include "dkdm_recipient_list.h"
 #include "dkdm_wrapper.h"
 #include "film.h"
 #include "filter.h"
@@ -139,8 +139,8 @@ Config::set_defaults ()
 	/* At the moment we don't write these files anywhere new after a version change, so they will be read from
 	 * ~/.config/dcpomatic2 (or equivalent) and written back there.
 	 */
-	_cinemas_file = read_path ("cinemas.xml");
-	_dkdm_recipients_file = read_path ("dkdm_recipients.xml");
+	_cinemas_file = read_path("cinemas.sqlite3");
+	_dkdm_recipients_file = read_path("dkdm_recipients.sqlite3");
 	_show_hints_before_make_dcp = true;
 	_confirm_kdm_email = true;
 	_kdm_container_name_format = dcp::NameFormat("KDM_%f_%c");
@@ -276,7 +276,7 @@ Config::backup ()
 		copy_file(path_to_copy, add_number(path_to_copy, n), ec);
 	};
 
-	/* Make a backup copy of any config.xml, cinemas.xml, dkdm_recipients.xml that we might be about
+	/* Make a backup copy of any config.xml, cinemas.sqlite3, dkdm_recipients.sqlite3 that we might be about
 	 * to write over.  This is more intended for the situation where we have a corrupted config.xml,
 	 * and decide to overwrite it with a new one (possibly losing important details in the corrupted
 	 * file).  But we might as well back up the other files while we're about it.
@@ -296,15 +296,6 @@ Config::backup ()
 
 void
 Config::read ()
-{
-	read_config();
-	read_cinemas();
-	read_dkdm_recipients();
-}
-
-
-void
-Config::read_config()
 try
 {
 	cxml::Document f ("Config");
@@ -405,11 +396,6 @@ try
 	}
 
 	_default_kdm_directory = f.optional_string_child("DefaultKDMDirectory");
-
-	/* Read any cinemas that are still lying around in the config file
-	 * from an old version.
-	 */
-	read_cinemas (f);
 
 	_mail_server = f.string_child ("MailServer");
 	_mail_port = f.optional_number_child<int> ("MailPort").get_value_or (25);
@@ -548,8 +534,8 @@ try
 			_dkdms->add (DKDMBase::read (i));
 		}
 	}
-	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or(read_path("cinemas.xml").string());
-	_dkdm_recipients_file = f.optional_string_child("DKDMRecipientsFile").get_value_or(read_path("dkdm_recipients.xml").string());
+	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or(read_path("cinemas.sqlite3").string());
+	_dkdm_recipients_file = f.optional_string_child("DKDMRecipientsFile").get_value_or(read_path("dkdm_recipients.sqlite3").string());
 	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
 	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or (true);
 	_kdm_container_name_format = dcp::NameFormat (f.optional_string_child("KDMContainerNameFormat").get_value_or ("KDM %f %c"));
@@ -688,40 +674,6 @@ catch (...) {
 }
 
 
-void
-Config::read_cinemas()
-{
-	if (dcp::filesystem::exists(_cinemas_file)) {
-		try {
-			cxml::Document f("Cinemas");
-			f.read_file(dcp::filesystem::fix_long_path(_cinemas_file));
-			read_cinemas(f);
-		} catch (...) {
-			backup();
-			FailedToLoad(LoadFailure::CINEMAS);
-			write_cinemas();
-		}
-	}
-}
-
-
-void
-Config::read_dkdm_recipients()
-{
-	if (dcp::filesystem::exists(_dkdm_recipients_file)) {
-		try {
-			cxml::Document f("DKDMRecipients");
-			f.read_file(dcp::filesystem::fix_long_path(_dkdm_recipients_file));
-			read_dkdm_recipients(f);
-		} catch (...) {
-			backup();
-			FailedToLoad(LoadFailure::DKDM_RECIPIENTS);
-			write_dkdm_recipients();
-		}
-	}
-}
-
-
 /** @return Singleton instance */
 Config *
 Config::instance ()
@@ -729,6 +681,30 @@ Config::instance ()
 	if (_instance == nullptr) {
 		_instance = new Config;
 		_instance->read ();
+
+		auto cinemas_file = _instance->cinemas_file();
+		if (cinemas_file.extension() == ".xml") {
+			auto sqlite = cinemas_file;
+			sqlite.replace_extension(".sqlite3");
+
+			if (dcp::filesystem::exists(cinemas_file) && !dcp::filesystem::exists(sqlite)) {
+				_instance->set_cinemas_file(sqlite);
+				CinemaList cinemas;
+				cinemas.read_legacy_file(cinemas_file);
+			}
+		}
+
+		auto dkdm_recipients_file = _instance->dkdm_recipients_file();
+		if (dkdm_recipients_file.extension() == ".xml") {
+			auto sqlite = dkdm_recipients_file;
+			sqlite.replace_extension(".sqlite3");
+
+			if (dcp::filesystem::exists(dkdm_recipients_file) && !dcp::filesystem::exists(sqlite)) {
+				_instance->set_dkdm_recipients_file(sqlite);
+				DKDMRecipientList recipients;
+				recipients.read_legacy_file(dkdm_recipients_file);
+			}
+		}
 	}
 
 	return _instance;
@@ -739,8 +715,6 @@ void
 Config::write () const
 {
 	write_config ();
-	write_cinemas ();
-	write_dkdm_recipients ();
 }
 
 void
@@ -1222,20 +1196,6 @@ write_file (string root_node, string node, string version, list<shared_ptr<T>> t
 }
 
 
-void
-Config::write_cinemas () const
-{
-	write_file ("Cinemas", "Cinema", "1", _cinemas, _cinemas_file);
-}
-
-
-void
-Config::write_dkdm_recipients () const
-{
-	write_file ("DKDMRecipients", "DKDMRecipient", "1", _dkdm_recipients, _dkdm_recipients_file);
-}
-
-
 boost::filesystem::path
 Config::default_directory_or (boost::filesystem::path a) const
 {
@@ -1397,20 +1357,6 @@ Config::have_existing (string file)
 
 
 void
-Config::read_cinemas (cxml::Document const & f)
-{
-	_cinemas.clear ();
-	for (auto i: f.node_children("Cinema")) {
-		/* Slightly grotty two-part construction of Cinema here so that we can use
-		   shared_from_this.
-		*/
-		auto cinema = make_shared<Cinema>(i);
-		cinema->read_screens (i);
-		_cinemas.push_back (cinema);
-	}
-}
-
-void
 Config::set_cinemas_file (boost::filesystem::path file)
 {
 	if (file == _cinemas_file) {
@@ -1419,25 +1365,20 @@ Config::set_cinemas_file (boost::filesystem::path file)
 
 	_cinemas_file = file;
 
-	if (dcp::filesystem::exists(_cinemas_file)) {
-		/* Existing file; read it in */
-		cxml::Document f ("Cinemas");
-		f.read_file(dcp::filesystem::fix_long_path(_cinemas_file));
-		read_cinemas (f);
-	}
-
-	changed (CINEMAS);
 	changed (OTHER);
 }
 
 
 void
-Config::read_dkdm_recipients (cxml::Document const & f)
+Config::set_dkdm_recipients_file(boost::filesystem::path file)
 {
-	_dkdm_recipients.clear ();
-	for (auto i: f.node_children("DKDMRecipient")) {
-		_dkdm_recipients.push_back (make_shared<DKDMRecipient>(i));
+	if (file == _dkdm_recipients_file) {
+		return;
 	}
+
+	_dkdm_recipients_file = file;
+
+	changed(OTHER);
 }
 
 
@@ -1670,10 +1611,10 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 	auto config = Config::instance();
 	zipper.add ("config.xml", dcp::file_to_string(config->config_read_file()));
 	if (dcp::filesystem::exists(config->cinemas_file())) {
-		zipper.add ("cinemas.xml", dcp::file_to_string(config->cinemas_file()));
+		zipper.add("cinemas.sqlite3", dcp::file_to_string(config->cinemas_file()));
 	}
 	if (dcp::filesystem::exists(config->dkdm_recipients_file())) {
-		zipper.add ("dkdm_recipients.xml", dcp::file_to_string(config->dkdm_recipients_file()));
+		zipper.add("dkdm_recipients.sqlite3", dcp::file_to_string(config->dkdm_recipients_file()));
 	}
 
 	zipper.close ();
@@ -1681,22 +1622,58 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 
 
 void
-Config::load_from_zip(boost::filesystem::path zip_file)
+Config::load_from_zip(boost::filesystem::path zip_file, CinemasAction action)
 {
+	backup();
+
+	auto const current_cinemas = cinemas_file();
+	/* This is (unfortunately) a full path, and the user can't change it, so
+	 * we always want to use that same path in the future no matter what is in the
+	 * config.xml that we are about to load.
+	 */
+	auto const current_dkdm_recipients = dkdm_recipients_file();
+
 	Unzipper unzipper(zip_file);
 	dcp::write_string_to_file(unzipper.get("config.xml"), config_write_file());
 
-	try {
-		dcp::write_string_to_file(unzipper.get("cinemas.xml"), cinemas_file());
-		dcp::write_string_to_file(unzipper.get("dkdm_recipient.xml"), dkdm_recipients_file());
-	} catch (std::runtime_error&) {}
+	if (action == CinemasAction::WRITE_TO_PATH_IN_ZIPPED_CONFIG) {
+		/* Read the zipped config, so that the cinemas file path is the new one and
+		 * we write the cinemas to it.
+		 */
+		read();
+		boost::filesystem::create_directories(cinemas_file().parent_path());
+		set_dkdm_recipients_file(current_dkdm_recipients);
+	}
 
-	read();
+	if (unzipper.contains("cinemas.xml") && action != CinemasAction::IGNORE) {
+		CinemaList cinemas;
+		cinemas.clear();
+		cinemas.read_legacy_string(unzipper.get("cinemas.xml"));
+	}
+
+	if (unzipper.contains("dkdm_recipients.xml")) {
+		DKDMRecipientList recipients;
+		recipients.clear();
+		recipients.read_legacy_string(unzipper.get("dkdm_recipients.xml"));
+	}
+
+	if (unzipper.contains("cinemas.sqlite3") && action != CinemasAction::IGNORE) {
+		dcp::write_string_to_file(unzipper.get("cinemas.sqlite3"), cinemas_file());
+	}
+
+	if (unzipper.contains("dkdm_recipients.sqlite3")) {
+		dcp::write_string_to_file(unzipper.get("dkdm_recipients.sqlite3"), dkdm_recipients_file());
+	}
+
+	if (action != CinemasAction::WRITE_TO_PATH_IN_ZIPPED_CONFIG) {
+		/* Read the zipped config, then reset the cinemas file to be the old one */
+		read();
+		set_cinemas_file(current_cinemas);
+		set_dkdm_recipients_file(current_dkdm_recipients);
+	}
 
 	changed(Property::USE_ANY_SERVERS);
 	changed(Property::SERVERS);
-	changed(Property::CINEMAS);
-	changed(Property::DKDM_RECIPIENTS);
 	changed(Property::SOUND);
 	changed(Property::SOUND_OUTPUT);
 	changed(Property::PLAYER_CONTENT_DIRECTORY);
@@ -1730,6 +1707,25 @@ Config::initial_path(string id) const
 		return {};
 	}
 	return iter->second;
+}
+
+
+bool
+Config::zip_contains_cinemas(boost::filesystem::path zip)
+{
+	Unzipper unzipper(zip);
+	return unzipper.contains("cinemas.sqlite3") || unzipper.contains("cinemas.xml");
+}
+
+
+boost::filesystem::path
+Config::cinemas_file_from_zip(boost::filesystem::path zip)
+{
+	Unzipper unzipper(zip);
+	DCPOMATIC_ASSERT(unzipper.contains("config.xml"));
+	cxml::Document document("Config");
+	document.read_string(unzipper.get("config.xml"));
+	return document.string_child("CinemasFile");
 }
 
 

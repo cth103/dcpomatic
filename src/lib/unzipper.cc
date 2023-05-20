@@ -56,8 +56,20 @@ Unzipper::~Unzipper()
 }
 
 
+bool
+Unzipper::contains(string const& filename) const
+{
+	auto file = zip_fopen(_zip, filename.c_str(), 0);
+	bool exists = file != nullptr;
+	if (file) {
+		zip_fclose(file);
+	}
+	return exists;
+}
+
+
 string
-Unzipper::get(string const& filename)
+Unzipper::get(string const& filename) const
 {
 	auto file = zip_fopen(_zip, filename.c_str(), 0);
 	if (!file) {

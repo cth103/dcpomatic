@@ -21,6 +21,7 @@
 
 #include "lib/collator.h"
 #include "lib/dkdm_recipient.h"
+#include "lib/dkdm_recipient_list.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
@@ -43,12 +44,12 @@ public:
 
 	void setup_sensitivity ();
 
-	std::list<std::shared_ptr<DKDMRecipient>> recipients () const;
+	std::list<DKDMRecipient> recipients() const;
 	boost::signals2::signal<void ()> RecipientsChanged;
 
 private:
 	void add_recipients ();
-	void add_recipient (std::shared_ptr<DKDMRecipient>);
+	void add_recipient(DKDMRecipientID id, DKDMRecipient const& recipient);
 	void add_recipient_clicked ();
 	void edit_recipient_clicked ();
 	void remove_recipient_clicked ();
@@ -63,7 +64,7 @@ private:
 	wxButton* _remove_recipient;
 	wxTreeItemId _root;
 
-	typedef std::map<wxTreeItemId, std::shared_ptr<DKDMRecipient>> RecipientMap;
+	typedef std::map<wxTreeItemId, DKDMRecipientID> RecipientMap;
 	RecipientMap _recipients;
 	RecipientMap _selected;
 

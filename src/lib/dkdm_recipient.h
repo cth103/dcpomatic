@@ -41,10 +41,6 @@ public:
 
 	}
 
-	explicit DKDMRecipient (cxml::ConstNodePtr);
-
-	void as_xml (xmlpp::Element *) const override;
-
 	std::vector<std::string> emails;
 };
 
@@ -53,7 +49,7 @@ KDMWithMetadataPtr
 kdm_for_dkdm_recipient (
 	std::shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	std::shared_ptr<DKDMRecipient> recipient,
+	DKDMRecipient const& recipient,
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to
 	);

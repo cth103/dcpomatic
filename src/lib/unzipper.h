@@ -33,7 +33,8 @@ public:
 	Unzipper(Unzipper const&) = delete;
 	Unzipper& operator=(Unzipper const&) = delete;
 
-	std::string get(std::string const& filename);
+	std::string get(std::string const& filename) const;
+	bool contains(std::string const& filename) const;
 
 private:
 	struct zip* _zip;

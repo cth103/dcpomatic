@@ -20,6 +20,7 @@
 
 
 #include "lib/cinema.h"
+#include "lib/cinema_list.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -154,16 +155,16 @@ setup_test_config()
 	auto config = Config::instance();
 	auto const cert = dcp::Certificate(dcp::file_to_string("test/data/cert.pem"));
 
-	auto cinema_a = std::make_shared<Cinema>("Dean's Screens", vector<string>(), "", dcp::UTCOffset());
-	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 1", "", cert, boost::none, std::vector<TrustedDevice>()));
-	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 2", "", cert, boost::none, std::vector<TrustedDevice>()));
-	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 3", "", cert, boost::none, std::vector<TrustedDevice>()));
-	config->add_cinema(cinema_a);
+	CinemaList cinemas(config->cinemas_file());
 
-	auto cinema_b = std::make_shared<Cinema>("Floyd's Celluloid", vector<string>(), "", dcp::UTCOffset());
-	cinema_b->add_screen(std::make_shared<dcpomatic::Screen>("Foo", "", cert, boost::none, std::vector<TrustedDevice>()));
-	cinema_b->add_screen(std::make_shared<dcpomatic::Screen>("Bar", "", cert, boost::none, std::vector<TrustedDevice>()));
-	config->add_cinema(cinema_b);
+	auto cinema_a = cinemas.add_cinema({"Dean's Screens", {}, "", dcp::UTCOffset()});
+	cinemas.add_screen(cinema_a, {"Screen 1", "", cert, boost::none, {}});
+	cinemas.add_screen(cinema_a, {"Screen 2", "", cert, boost::none, {}});
+	cinemas.add_screen(cinema_a, {"Screen 3", "", cert, boost::none, {}});
+
+	auto cinema_b = cinemas.add_cinema({"Floyd's Celluloid", {}, "", dcp::UTCOffset()});
+	cinemas.add_screen(cinema_b, {"Foo", "", cert, boost::none, std::vector<TrustedDevice>()});
+	cinemas.add_screen(cinema_b, {"Bar", "", cert, boost::none, std::vector<TrustedDevice>()});
 }
 
 
@@ -250,7 +251,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 	vector<string> args = {
 		"kdm_cli",
 		"--cinemas-file",
-		"test/data/cinemas.xml",
+		"test/data/cinemas.sqlite3",
 		"list-cinemas"
 	};
 
@@ -259,9 +260,9 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 	BOOST_CHECK(!error);
 
 	BOOST_REQUIRE_EQUAL(output.size(), 3U);
-	BOOST_CHECK_EQUAL(output[0], "stinking dump ()");
+	BOOST_CHECK_EQUAL(output[0], "Great (julie@tinyscreen.com)");
 	BOOST_CHECK_EQUAL(output[1], "classy joint ()");
-	BOOST_CHECK_EQUAL(output[2], "Great ()");
+	BOOST_CHECK_EQUAL(output[2], "stinking dump (bob@odourscreen.com, alice@whiff.com)");
 }
 
 

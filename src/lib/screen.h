@@ -23,6 +23,7 @@
 #define DCPOMATIC_SCREEN_H
 
 
+#include "cinema_list.h"
 #include "kdm_recipient.h"
 #include "kdm_util.h"
 #include "kdm_with_metadata.h"
@@ -63,12 +64,7 @@ public:
 		, trusted_devices (trusted_devices_)
 	{}
 
-	explicit Screen (cxml::ConstNodePtr);
-
-	void as_xml (xmlpp::Element *) const override;
 	std::vector<std::string> trusted_device_thumbprints () const;
-
-	std::shared_ptr<Cinema> cinema;
 	std::vector<TrustedDevice> trusted_devices;
 };
 
@@ -78,7 +74,9 @@ public:
 KDMWithMetadataPtr
 kdm_for_screen (
 	std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm,
-	std::shared_ptr<const dcpomatic::Screen> screen,
+	CinemaID cinema_id,
+	Cinema const& cinema,
+	dcpomatic::Screen const& screen,
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to,
 	dcp::Formulation formulation,

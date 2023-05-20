@@ -42,6 +42,7 @@
 #include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/kdm_dialog.h"
+#include "wx/load_config_from_zip_dialog.h"
 #include "wx/nag_dialog.h"
 #include "wx/paste_dialog.h"
 #include "wx/recreate_chain_dialog.h"
@@ -94,6 +95,7 @@
 #include "lib/subtitle_film_encoder.h"
 #include "lib/text_content.h"
 #include "lib/transcode_job.h"
+#include "lib/unzipper.h"
 #include "lib/update_checker.h"
 #include "lib/variant.h"
 #include "lib/version.h"
@@ -328,7 +330,7 @@ public:
 #endif
 
 		_config_changed_connection = Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
-		config_changed (Config::OTHER);
+		config_changed(Config::OTHER);
 
 		_analytics_message_connection = Analytics::instance()->Message.connect(boost::bind(&DOMFrame::analytics_message, this, _1, _2));
 
@@ -795,9 +797,22 @@ private:
 	{
 		FileDialog dialog(this, _("Specify ZIP file"), wxT("ZIP files (*.zip)|*.zip"), wxFD_OPEN, "Preferences");
 
-		if (dialog.show()) {
-			Config::instance()->load_from_zip(dialog.path());
+		if (!dialog.show()) {
+			return;
 		}
+
+		auto action = Config::CinemasAction::WRITE_TO_CURRENT_PATH;
+
+		if (Config::zip_contains_cinemas(dialog.path()) && Config::cinemas_file_from_zip(dialog.path()) != Config::instance()->cinemas_file()) {
+			LoadConfigFromZIPDialog how(this, dialog.path());
+			if (how.ShowModal() == wxID_CANCEL) {
+				return;
+			}
+
+			action = how.action();
+		}
+
+		Config::instance()->load_from_zip(dialog.path(), action);
 	}
 
 	void jobs_make_dcp ()
@@ -1466,48 +1481,19 @@ private:
 		m->Append (help, _("&Help"));
 	}
 
-	void config_changed (Config::Property what)
+	void config_changed(Config::Property what)
 	{
 		/* Instantly save any config changes when using the DCP-o-matic GUI */
-		switch (what) {
-		case Config::CINEMAS:
-			try {
-				Config::instance()->write_cinemas();
-			} catch (exception& e) {
-				error_dialog (
-					this,
-					wxString::Format (
-						_("Could not write to cinemas file at %s.  Your changes have not been saved."),
-						std_to_wx (Config::instance()->cinemas_file().string()).data()
-						)
-					);
-			}
-			break;
-		case Config::DKDM_RECIPIENTS:
-			try {
-				Config::instance()->write_dkdm_recipients();
-			} catch (exception& e) {
-				error_dialog (
-					this,
-					wxString::Format (
-						_("Could not write to DKDM recipients file at %s.  Your changes have not been saved."),
-						std_to_wx(Config::instance()->dkdm_recipients_file().string()).data()
-						)
-					);
-			}
-			break;
-		default:
-			try {
-				Config::instance()->write_config();
-			} catch (exception& e) {
-				error_dialog (
-					this,
-					wxString::Format (
-						_("Could not write to config file at %s.  Your changes have not been saved."),
-						std_to_wx (Config::instance()->cinemas_file().string()).data()
-						)
-					);
-			}
+		try {
+			Config::instance()->write_config();
+		} catch (exception& e) {
+			error_dialog (
+				this,
+				wxString::Format (
+					_("Could not write to config file at %s.  Your changes have not been saved."),
+					std_to_wx (Config::instance()->cinemas_file().string()).data()
+					)
+				);
 		}
 
 		for (int i = 0; i < _history_items; ++i) {
@@ -1548,6 +1534,8 @@ private:
 		if (what == Config::GROK) {
 			setup_grok_library_path();
 		}
+#else
+		LIBDCP_UNUSED(what);
 #endif
 	}
 

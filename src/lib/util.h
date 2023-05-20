@@ -101,6 +101,7 @@ extern void capture_ffmpeg_logs();
 #ifdef DCPOMATIC_GROK
 extern void setup_grok_library_path();
 #endif
+extern std::string join_strings(std::vector<std::string> const& in, std::string const& separator = " ");
 
 
 template <class T>

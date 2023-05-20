@@ -358,36 +358,24 @@ private:
 	void config_changed (Config::Property what)
 	{
 		/* Instantly save any config changes when using the DCP-o-matic GUI */
-		if (what == Config::CINEMAS) {
-			try {
-				Config::instance()->write_cinemas();
-			} catch (exception& e) {
-				error_dialog (
-					this,
-					wxString::Format(
-						_("Could not write to cinemas file at %s.  Your changes have not been saved."),
-						std_to_wx (Config::instance()->cinemas_file().string()).data()
-						)
-					);
-			}
-		} else {
-			try {
-				Config::instance()->write_config();
-			} catch (exception& e) {
-				error_dialog (
-					this,
-					wxString::Format(
-						_("Could not write to config file at %s.  Your changes have not been saved."),
-						std_to_wx (Config::instance()->cinemas_file().string()).data()
-						)
-					);
-			}
+		try {
+			Config::instance()->write_config();
+		} catch (exception& e) {
+			error_dialog (
+				this,
+				wxString::Format(
+					_("Could not write to config file at %s.  Your changes have not been saved."),
+					std_to_wx (Config::instance()->cinemas_file().string()).data()
+					)
+				);
 		}
 
 #ifdef DCPOMATIC_GROK
 		if (what == Config::GROK) {
 			setup_grok_library_path();
 		}
+#else
+		LIBDCP_UNUSED(what);
 #endif
 	}
 

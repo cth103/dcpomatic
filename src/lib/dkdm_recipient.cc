@@ -19,6 +19,7 @@
 */
 
 
+#include "cinema_list.h"
 #include "config.h"
 #include "dkdm_recipient.h"
 #include "film.h"
@@ -33,36 +34,16 @@ using std::vector;
 using dcp::raw_convert;
 
 
-DKDMRecipient::DKDMRecipient (cxml::ConstNodePtr node)
-	: KDMRecipient (node)
-{
-	for (auto i: node->node_children("Email")) {
-		emails.push_back (i->content());
-	}
-}
-
-
-void
-DKDMRecipient::as_xml (xmlpp::Element* node) const
-{
-	KDMRecipient::as_xml (node);
-
-	for (auto i: emails) {
-		cxml::add_text_child(node, "Email", i);
-	}
-}
-
-
 KDMWithMetadataPtr
 kdm_for_dkdm_recipient (
 	shared_ptr<const Film> film,
 	boost::filesystem::path cpl,
-	shared_ptr<DKDMRecipient> recipient,
+	DKDMRecipient const& recipient,
 	dcp::LocalTime valid_from,
 	dcp::LocalTime valid_to
 	)
 {
-	if (!recipient->recipient) {
+	if (!recipient.recipient) {
 		return {};
 	}
 
@@ -72,7 +53,7 @@ kdm_for_dkdm_recipient (
 	}
 
 	auto const decrypted_kdm = film->make_kdm(cpl, valid_from, valid_to);
-	auto const kdm = decrypted_kdm.encrypt(signer, recipient->recipient.get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
+	auto const kdm = decrypted_kdm.encrypt(signer, recipient.recipient.get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();
@@ -80,6 +61,6 @@ kdm_for_dkdm_recipient (
 	name_values['e'] = valid_to.date() + " " + valid_to.time_of_day(true, false);
 	name_values['i'] = kdm.cpl_id();
 
-	return make_shared<KDMWithMetadata>(name_values, nullptr, recipient->emails, kdm);
+	return make_shared<KDMWithMetadata>(name_values, CinemaID(0), recipient.emails, kdm);
 }
 

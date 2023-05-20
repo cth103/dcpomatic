@@ -20,6 +20,7 @@
 
 
 #include "lib/cinema.h"
+#include "lib/cinema_list.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/film.h"
@@ -32,6 +33,7 @@
 using std::dynamic_pointer_cast;
 using std::list;
 using std::make_shared;
+using std::pair;
 using std::shared_ptr;
 using std::string;
 using std::vector;
@@ -46,34 +48,40 @@ confirm_overwrite (boost::filesystem::path)
 }
 
 
-static shared_ptr<dcpomatic::Screen> cinema_a_screen_1;
-static shared_ptr<dcpomatic::Screen> cinema_a_screen_2;
-static shared_ptr<dcpomatic::Screen> cinema_b_screen_x;
-static shared_ptr<dcpomatic::Screen> cinema_b_screen_y;
-static shared_ptr<dcpomatic::Screen> cinema_b_screen_z;
+struct Context
+{
+	Context()
+	{
+		CinemaList cinemas;
+
+		auto crypt_cert = Config::instance()->decryption_chain()->leaf();
+
+		cinema_a = cinemas.add_cinema({"Cinema A", {}, "", dcp::UTCOffset(4, 30)});
+		cinema_a_screen_1 = cinemas.add_screen(cinema_a, {"Screen 1", "", crypt_cert, boost::none, {}});
+		cinema_a_screen_2 = cinemas.add_screen(cinema_a, {"Screen 2", "", crypt_cert, boost::none, {}});
+
+		cinema_b = cinemas.add_cinema({"Cinema B", {}, "", dcp::UTCOffset(-1, 0)});
+		cinema_b_screen_x = cinemas.add_screen(cinema_b, {"Screen X", "", crypt_cert, boost::none, {}});
+		cinema_b_screen_y = cinemas.add_screen(cinema_b, {"Screen Y", "", crypt_cert, boost::none, {}});
+		cinema_b_screen_z = cinemas.add_screen(cinema_b, {"Screen Z", "", crypt_cert, boost::none, {}});
+	}
+
+	CinemaID cinema_a = 0;
+	CinemaID cinema_b = 0;
+	ScreenID cinema_a_screen_1 = 0;
+	ScreenID cinema_a_screen_2 = 0;
+	ScreenID cinema_b_screen_x = 0;
+	ScreenID cinema_b_screen_y = 0;
+	ScreenID cinema_b_screen_z = 0;
+};
 
 
 BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 {
 	auto c = Config::instance();
 
-	auto crypt_cert = c->decryption_chain()->leaf();
-
-	auto cinema_a = make_shared<Cinema>("Cinema A", vector<string>(), "", dcp::UTCOffset{4, 30});
-	cinema_a_screen_1 = std::make_shared<dcpomatic::Screen>("Screen 1", "", crypt_cert, boost::none, vector<TrustedDevice>());
-	cinema_a->add_screen (cinema_a_screen_1);
-	cinema_a_screen_2 = std::make_shared<dcpomatic::Screen>("Screen 2", "", crypt_cert, boost::none, vector<TrustedDevice>());
-	cinema_a->add_screen (cinema_a_screen_2);
-	c->add_cinema (cinema_a);
-
-	auto cinema_b = make_shared<Cinema>("Cinema B", vector<string>(), "", dcp::UTCOffset{-1, 0});
-	cinema_b_screen_x = std::make_shared<dcpomatic::Screen>("Screen X", "", crypt_cert, boost::none, vector<TrustedDevice>());
-	cinema_b->add_screen (cinema_b_screen_x);
-	cinema_b_screen_y = std::make_shared<dcpomatic::Screen>("Screen Y", "", crypt_cert, boost::none, vector<TrustedDevice>());
-	cinema_b->add_screen (cinema_b_screen_y);
-	cinema_b_screen_z = std::make_shared<dcpomatic::Screen>("Screen Z", "", crypt_cert, boost::none, vector<TrustedDevice>());
-	cinema_b->add_screen (cinema_b_screen_z);
-	c->add_cinema (cinema_a);
+	Context context;
+	CinemaList cinemas;
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/single_kdm_naming_test");
@@ -101,7 +109,9 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 	};
 	auto kdm = kdm_for_screen (
 			make_kdm,
-			cinema_a_screen_1,
+			context.cinema_a,
+			*cinemas.cinema(context.cinema_a),
+			*cinemas.screen(context.cinema_a_screen_1),
 			from,
 			until,
 			dcp::Formulation::MODIFIED_TRANSITIONAL_1,
@@ -128,9 +138,12 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 }
 
 
-BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on("single_kdm_naming_test"))
+BOOST_AUTO_TEST_CASE(directory_kdm_naming_test)
 {
 	using boost::filesystem::path;
+
+	Context context;
+	CinemaList cinemas;
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/directory_kdm_naming_test");
@@ -152,8 +165,11 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 	dcp::LocalTime until (sign_cert.not_after());
 	until.add_months (-2);
 
-	vector<shared_ptr<dcpomatic::Screen>> screens = {
-		cinema_a_screen_2, cinema_b_screen_x, cinema_a_screen_1, (cinema_b_screen_z)
+	vector<pair<CinemaID, ScreenID>> screens = {
+		{ context.cinema_a, context.cinema_a_screen_2 },
+		{ context.cinema_b, context.cinema_b_screen_x },
+		{ context.cinema_a, context.cinema_a_screen_1 },
+		{ context.cinema_b, context.cinema_b_screen_z }
 	};
 
 	auto const cpl = cpls.front().cpl_file;
@@ -166,10 +182,12 @@ BOOST_AUTO_TEST_CASE (directory_kdm_naming_test, * boost::unit_test::depends_on(
 		return film->make_kdm(cpls.front().cpl_file, begin, end);
 	};
 
-	for (auto i: screens) {
+	for (auto screen: screens) {
 		auto kdm = kdm_for_screen (
 				make_kdm,
-				i,
+				screen.first,
+				*cinemas.cinema(screen.first),
+				*cinemas.screen(screen.second),
 				from,
 				until,
 				dcp::Formulation::MODIFIED_TRANSITIONAL_1,
