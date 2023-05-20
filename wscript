@@ -251,6 +251,16 @@ def configure(conf):
     # linked and others that should be dynamic.  This doesn't work too well with waf
     # as it wants them separate.
 
+    def check_via_pkg_config(conf, package, uselib_store, mandatory, static, minimum_version):
+        args = package if minimum_version is None else '%s >= %s' % (package, minimum_version)
+        args += ' --cflags'
+        if not static:
+            args += ' --libs'
+        msg = 'Checking for %s' % package
+        if minimum_version is not None:
+            msg += ' >= %s' % minimum_version
+        conf.check_cfg(package=package, args=args, uselib_store=uselib_store, mandatory=mandatory, msg=msg)
+
     # libcurl
     if conf.options.static_curl:
         conf.env.STLIB_CURL = ['curl']
