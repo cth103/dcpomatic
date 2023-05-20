@@ -384,12 +384,12 @@ def configure(conf):
 
     # libdcp
     if conf.options.static_dcp:
-        conf.check_cfg(package='libdcp-1.0', args='libdcp-1.0 >= %s --cflags' % libdcp_version, uselib_store='DCP', mandatory=True)
+        check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=True, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-dcpomatic', 'kumu-dcpomatic', 'openjp2']
         conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c']
     else:
-        conf.check_cfg(package='libdcp-1.0', args='libdcp-1.0 >= %s --cflags --libs' % libdcp_version, uselib_store='DCP', mandatory=True)
+        check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=False, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
 
     # libsub
