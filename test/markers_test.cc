@@ -139,3 +139,16 @@ BOOST_AUTO_TEST_CASE(markers_correct_with_reels)
 	BOOST_CHECK(*lfoc == dcp::Time(0, 0, 9, 23, 24));
 }
 
+
+BOOST_AUTO_TEST_CASE(no_markers_with_interop)
+{
+	string const name = "no_markers_with_interop";
+	auto film = new_test_film2(name, content_factory("test/data/flat_red.png"));
+
+	film->set_interop(true);
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_STANDARD });
+
+	auto cpl = find_file(film->dir(film->dcp_name()), "cpl_");
+	BOOST_CHECK(dcp::file_to_string(cpl).find("MainMarkers") == std::string::npos);
+}
+

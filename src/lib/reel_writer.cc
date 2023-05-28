@@ -762,7 +762,9 @@ ReelWriter::create_reel (
 		auto reel_picture_asset = create_reel_picture (reel, refs);
 		duration = reel_picture_asset->actual_duration ();
 		create_reel_sound (reel, refs);
-		create_reel_markers (reel);
+		if (!film()->interop()) {
+			create_reel_markers(reel);
+		}
 	}
 
 	create_reel_text(reel, refs, duration, output_dcp, ensure_subtitles, ensure_closed_captions);
