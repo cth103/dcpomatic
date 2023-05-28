@@ -175,8 +175,8 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			auto asset = reel->main_sound()->asset();
 
 			if (!_audio_channels) {
-				_audio_channels = asset->channels ();
-			} else if (_audio_channels.get() != asset->channels ()) {
+				_audio_channels = asset->active_channels();
+			} else if (_audio_channels.get() != asset->active_channels()) {
 				throw DCPError (_("Mismatched audio channel counts in DCP"));
 			}
 
