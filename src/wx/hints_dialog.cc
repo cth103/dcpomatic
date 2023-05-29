@@ -69,14 +69,19 @@ HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 
 	auto buttons = CreateStdDialogButtonSizer (0);
 	sizer->Add (CreateSeparatedSizer(buttons), wxSizerFlags().Expand().DoubleBorder());
+	wxButton* default_button = nullptr;
 	if (ok) {
-		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK));
+		default_button = new wxButton(this, wxID_OK);
+		buttons->SetAffirmativeButton(default_button);
 	} else {
-		buttons->SetAffirmativeButton (new wxButton (this, wxID_OK, _("Make DCP")));
+		default_button = new wxButton(this, wxID_OK, _("Make DCP"));
+		buttons->SetAffirmativeButton(default_button);
 		buttons->SetNegativeButton (new wxButton (this, wxID_CANCEL, _("Go back")));
 	}
 
 	buttons->Realize ();
+
+	default_button->SetFocus();
 
 	SetSizer (sizer);
 	sizer->Layout ();
