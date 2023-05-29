@@ -527,6 +527,15 @@ private:
 			group = to->second->parent();
 		}
 
+		/* Check we're not adding a group to one of its children */
+		auto to_parent = group;
+		while (to_parent) {
+			if (from->second == to_parent) {
+				return;
+			}
+			to_parent = to_parent->parent();
+		}
+
 		DCPOMATIC_ASSERT (group);
 		DCPOMATIC_ASSERT (from->second->parent ());
 
