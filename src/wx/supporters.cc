@@ -425,6 +425,7 @@ supported_by.Add (wxT ("John Gray"));
 supported_by.Add (wxT ("Charles Greenough"));
 supported_by.Add (wxT ("Vincent Grenier"));
 supported_by.Add (wxT ("Torsten Groh"));
+supported_by.Add (wxT ("Unstable Ground"));
 supported_by.Add (wxT ("Alpha Multimedia Group"));
 supported_by.Add (wxT ("Gerhard Gruber"));
 supported_by.Add (wxT ("Bobby B. Grubic"));
