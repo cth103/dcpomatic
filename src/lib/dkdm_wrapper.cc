@@ -131,3 +131,15 @@ DKDMGroup::contains(string dkdm_id) const
 	return false;
 }
 
+
+bool
+DKDMGroup::contains_dkdm() const
+{
+	for (auto child: _children) {
+		if (child->contains_dkdm()) {
+			return true;
+		}
+	}
+
+	return false;
+}

@@ -38,6 +38,8 @@ public:
 	virtual ~DKDMBase () {}
 	virtual std::string name () const = 0;
 	virtual void as_xml (xmlpp::Element *) const = 0;
+	/** @return true if this thing is, or contains, any actual DKDM */
+	virtual bool contains_dkdm() const = 0;
 
 	static std::shared_ptr<DKDMBase> read (cxml::ConstNodePtr node);
 
@@ -63,6 +65,9 @@ public:
 
 	std::string name () const override;
 	void as_xml (xmlpp::Element *) const override;
+	bool contains_dkdm() const override {
+		return true;
+	}
 
 	dcp::EncryptedKDM dkdm () const {
 		return _dkdm;
@@ -85,6 +90,8 @@ public:
 	}
 
 	void as_xml (xmlpp::Element *) const override;
+
+	bool contains_dkdm() const override;
 
 	std::list<std::shared_ptr<DKDMBase>> children () const {
 		return _children;

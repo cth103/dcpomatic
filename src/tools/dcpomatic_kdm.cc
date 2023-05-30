@@ -732,12 +732,14 @@ private:
 			return;
 		}
 
-		if (NagDialog::maybe_nag (
-			    this, Config::NAG_DELETE_DKDM,
-			    _("You are about to remove a DKDM.  This will make it impossible to decrypt the DCP that the DKDM was made for, and it cannot be undone.  "
-			      "Are you sure?"),
-			    true)) {
-			return;
+		if (removed->contains_dkdm()) {
+			if (NagDialog::maybe_nag(
+				    this, Config::NAG_DELETE_DKDM,
+				    _("You are about to remove a DKDM.  This will make it impossible to decrypt the DCP that the DKDM was made for, and it cannot be undone.  "
+				      "Are you sure?"),
+				    true)) {
+				return;
+			}
 		}
 
 		_dkdm->Delete (dkdm_to_id (removed));
