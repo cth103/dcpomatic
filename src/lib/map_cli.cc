@@ -63,6 +63,7 @@ help(std::function<void (string)> out)
 	out("  -s, --soft-link  using soft links instead of copying");
 	out("  -d, --assets-dir look in this directory for assets (can be given more than once)");
 	out("  -r, --rename     rename all files to <uuid>.<mxf|xml>");
+	out("  --config <dir>   directory containing config.xml and cinemas.xml");
 }
 
 
@@ -74,6 +75,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	bool soft_link = false;
 	bool rename = false;
 	vector<boost::filesystem::path> assets_dir;
+	optional<boost::filesystem::path> config_dir;
 
 	/* This makes it possible to call getopt several times in the same executable, for tests */
 	optind = 0;
@@ -87,10 +89,11 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 			{ "soft-link", no_argument, 0, 's' },
 			{ "assets-dir", required_argument, 0, 'd' },
 			{ "rename", no_argument, 0, 'r' },
+			{ "config", required_argument, 0, 'c' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long(argc, argv, "ho:lsd:r", long_options, &option_index);
+		int c = getopt_long(argc, argv, "ho:lsd:rc:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -117,6 +120,9 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		case 'r':
 			rename = true;
 			break;
+		case 'c':
+			config_dir = optarg;
+			break;
 		}
 	}
 
@@ -125,6 +131,10 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	if (argc <= optind) {
 		help(out);
 		exit(EXIT_FAILURE);
+	}
+
+	if (config_dir) {
+		State::override_path = *config_dir;
 	}
 
 	vector<boost::filesystem::path> cpl_filenames;

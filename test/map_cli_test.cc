@@ -353,3 +353,32 @@ BOOST_AUTO_TEST_CASE(map_two_smpte_cpls_each_with_subs)
 {
 	test_two_cpls_each_with_subs("map_two_smpte_cpls_each_with_subs", false);
 }
+
+
+BOOST_AUTO_TEST_CASE(map_with_given_config)
+{
+	string const name = "map_with_given_config";
+	string const out = String::compose("build/test/%1_out", name);
+
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2(name + "_in", content);
+	make_and_verify_dcp(film);
+
+	vector<string> const args = {
+		"map_cli",
+		"-o", out,
+		"-d", film->dir(film->dcp_name()).string(),
+		"--config", "test/data/map_with_given_config",
+		find_cpl(film->dir(film->dcp_name())).string()
+	};
+
+	boost::filesystem::remove_all(out);
+
+	Config::instance()->drop();
+	vector<string> output_messages;
+	auto error = run(args, output_messages);
+	BOOST_CHECK(!error);
+
+	/* It should be signed by the key in test/data/map_with_given_config, not the one in test/data/signer_key */
+	BOOST_CHECK(dcp::file_to_string(find_file(out, "cpl_")).find("dnQualifier=\\+uOcNN2lPuxpxgd/5vNkkBER0GE=,CN=CS.dcpomatic.smpte-430-2.LEAF,OU=dcpomatic.com,O=dcpomatic.com") != std::string::npos);
+}
