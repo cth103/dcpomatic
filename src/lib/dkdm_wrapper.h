@@ -93,6 +93,8 @@ public:
 	void add (std::shared_ptr<DKDMBase> child, std::shared_ptr<DKDM> previous = std::shared_ptr<DKDM>());
         void remove (std::shared_ptr<DKDMBase> child);
 
+	bool contains(std::string dkdm_id) const;
+
 private:
 	std::string _name;
 	std::list<std::shared_ptr<DKDMBase>> _children;

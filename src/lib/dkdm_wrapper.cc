@@ -111,3 +111,23 @@ DKDMGroup::remove (shared_ptr<DKDMBase> child)
 		}
 	}
 }
+
+
+bool
+DKDMGroup::contains(string dkdm_id) const
+{
+	for (auto child: _children) {
+		if (auto child_group = dynamic_pointer_cast<DKDMGroup>(child)) {
+			if (child_group->contains(dkdm_id)) {
+				return true;
+			}
+		} else if (auto child_dkdm = dynamic_pointer_cast<DKDM>(child)) {
+			if (child_dkdm->dkdm().id() == dkdm_id) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+

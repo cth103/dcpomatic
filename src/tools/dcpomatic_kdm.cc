@@ -568,6 +568,15 @@ private:
 			dcp::DecryptedKDM dkdm(ekdm, chain->key().get());
 
 			auto new_dkdm = make_shared<DKDM>(ekdm);
+
+			if (Config::instance()->dkdms()->contains(new_dkdm->dkdm().id())) {
+				error_dialog(
+					this,
+					wxString::Format(_("DKDM %s is already in the DKDM list and will not be added again."), std_to_wx(new_dkdm->dkdm().id()))
+					);
+				return;
+			}
+
 			auto group = dynamic_pointer_cast<DKDMGroup> (selected_dkdm());
 			if (!group) {
 				group = Config::instance()->dkdms ();
