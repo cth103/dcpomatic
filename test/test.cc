@@ -989,11 +989,11 @@ find_file (boost::filesystem::path dir, string filename_part)
 	boost::optional<boost::filesystem::path> found;
 	for (auto i: boost::filesystem::directory_iterator(dir)) {
 		if (i.path().filename().string().find(filename_part) != string::npos) {
-			BOOST_REQUIRE (!found);
+			BOOST_REQUIRE_MESSAGE(!found, "File " << filename_part << " found more than once in " << dir);
 			found = i;
 		}
 	}
-	BOOST_REQUIRE (found);
+	BOOST_REQUIRE_MESSAGE(found, "Could not find " << filename_part << " in " << dir);
 	return *found;
 }
 
