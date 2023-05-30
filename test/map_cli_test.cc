@@ -209,8 +209,9 @@ BOOST_AUTO_TEST_CASE(map_simple_interop_dcp_with_subs)
 }
 
 
-/** Map an OV and a VF into a single DCP */
-BOOST_AUTO_TEST_CASE(map_ov_vf_copy)
+static
+void
+test_map_ov_vf_copy()
 {
 	string const name = "map_ov_vf_copy";
 	string const out = String::compose("build/test/%1_out", name);
@@ -250,6 +251,12 @@ BOOST_AUTO_TEST_CASE(map_ov_vf_copy)
 	check_file(find_file(out, "pcm_"), find_file(vf_dir, "pcm_"));
 }
 
+
+/** Map an OV and a VF into a single DCP */
+BOOST_AUTO_TEST_CASE(map_ov_vf_copy)
+{
+	test_map_ov_vf_copy();
+}
 
 /** Map a single DCP into a new DCP using the rename option */
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_rename)
