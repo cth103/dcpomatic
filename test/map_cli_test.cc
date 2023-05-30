@@ -211,7 +211,7 @@ BOOST_AUTO_TEST_CASE(map_simple_interop_dcp_with_subs)
 
 static
 void
-test_map_ov_vf_copy()
+test_map_ov_vf_copy(vector<string> extra_args = {})
 {
 	string const name = "map_ov_vf_copy";
 	string const out = String::compose("build/test/%1_out", name);
@@ -230,13 +230,15 @@ test_map_ov_vf_copy()
 
 	auto const vf_dir = vf_film->dir(vf_film->dcp_name());
 
-	vector<string> const args = {
+	vector<string> args = {
 		"map_cli",
 		"-o", out,
 		"-d", ov_dir.string(),
 		"-d", vf_dir.string(),
 		find_cpl(vf_dir).string()
 	};
+
+	args.insert(std::end(args), std::begin(extra_args), std::end(extra_args));
 
 	boost::filesystem::remove_all(out);
 
@@ -256,6 +258,7 @@ test_map_ov_vf_copy()
 BOOST_AUTO_TEST_CASE(map_ov_vf_copy)
 {
 	test_map_ov_vf_copy();
+	test_map_ov_vf_copy({"-l"});
 }
 
 /** Map a single DCP into a new DCP using the rename option */
