@@ -196,13 +196,20 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		CopyError(std::string message) : std::runtime_error(message) {}
 	};
 
-	auto maybe_copy = [&assets, output_dir](
+	vector<string> already_copied;
+
+	auto maybe_copy = [&assets, &already_copied, output_dir](
 		string asset_id,
 		bool rename,
 		bool hard_link,
 		bool soft_link,
 		boost::optional<boost::filesystem::path> extra = boost::none
 		) {
+
+		if (std::find(already_copied.begin(), already_copied.end(), asset_id) != already_copied.end()) {
+			return;
+		}
+
 		auto iter = std::find_if(assets.begin(), assets.end(), [asset_id](shared_ptr<const dcp::Asset> a) { return a->id() == asset_id; });
 		if (iter != assets.end()) {
 			DCP_ASSERT((*iter)->file());
@@ -240,6 +247,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 				}
 			}
 			(*iter)->set_file(output_path);
+			already_copied.push_back(asset_id);
 		} else {
 			boost::system::error_code ec;
 			boost::filesystem::remove_all(*output_dir, ec);

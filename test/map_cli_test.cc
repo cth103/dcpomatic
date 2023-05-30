@@ -261,6 +261,53 @@ BOOST_AUTO_TEST_CASE(map_ov_vf_copy)
 	test_map_ov_vf_copy({"-l"});
 }
 
+
+/** Map an OV and VF into a single DCP, where the VF refers to the OV's assets multiple times */
+BOOST_AUTO_TEST_CASE(map_ov_vf_copy_multiple_reference)
+{
+	string const name = "map_ov_vf_copy_multiple_reference";
+	string const out = String::compose("build/test/%1_out", name);
+
+	auto ov_content = content_factory("test/data/flat_red.png");
+	auto ov_film = new_test_film2(name + "_ov", ov_content);
+	make_and_verify_dcp(ov_film);
+
+	auto const ov_dir = ov_film->dir(ov_film->dcp_name());
+
+	auto vf_ov1 = make_shared<DCPContent>(ov_dir);
+	auto vf_ov2 = make_shared<DCPContent>(ov_dir);
+	auto vf_sound = content_factory("test/data/sine_440.wav").front();
+	auto vf_film = new_test_film2(name + "_vf", { vf_ov1, vf_ov2, vf_sound });
+	vf_film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	vf_ov2->set_position(vf_film, vf_ov1->end(vf_film));
+	vf_ov1->set_reference_video(true);
+	vf_ov2->set_reference_video(true);
+	make_and_verify_dcp(vf_film, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+
+	auto const vf_dir = vf_film->dir(vf_film->dcp_name());
+
+	vector<string> const args = {
+		"map_cli",
+		"-o", out,
+		"-d", ov_dir.string(),
+		"-d", vf_dir.string(),
+		"-l",
+		find_cpl(vf_dir).string()
+	};
+
+	boost::filesystem::remove_all(out);
+
+	vector<string> output_messages;
+	auto error = run(args, output_messages);
+	BOOST_CHECK(!error);
+
+	verify_dcp(out, {});
+
+	check_file(find_file(out, "cpl_"), find_file(vf_dir, "cpl_"));
+	check_file(find_file(out, "j2c_"), find_file(ov_dir, "j2c_"));
+}
+
+
 /** Map a single DCP into a new DCP using the rename option */
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_rename)
 {
