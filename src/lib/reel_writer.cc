@@ -655,12 +655,7 @@ ReelWriter::create_reel_text (
 		_subtitle_asset, duration, reel, _reel_index, _reel_count, _content_summary, refs, film(), _period, output_dcp, _text_only
 		);
 
-	if (subtitle) {
-		/* We have a subtitle asset that we either made or are referencing */
-		if (auto main_language = film()->subtitle_languages().first) {
-			subtitle->set_language (*main_language);
-		}
-	} else if (ensure_subtitles) {
+	if (!subtitle && ensure_subtitles) {
 		/* We had no subtitle asset, but we've been asked to make sure there is one */
 		subtitle = maybe_add_text<dcp::ReelInteropSubtitleAsset, dcp::ReelSMPTESubtitleAsset, dcp::ReelSubtitleAsset> (
 			empty_text_asset(TextType::OPEN_SUBTITLE, optional<DCPTextTrack>(), true),
@@ -675,6 +670,13 @@ ReelWriter::create_reel_text (
 			output_dcp,
 			_text_only
 			);
+	}
+
+	if (subtitle) {
+		/* We have a subtitle asset that we either made or are referencing */
+		if (auto main_language = film()->subtitle_languages().first) {
+			subtitle->set_language (*main_language);
+		}
 	}
 
 	for (auto const& i: _closed_caption_assets) {

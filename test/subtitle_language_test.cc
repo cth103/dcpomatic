@@ -81,3 +81,32 @@ BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 	check_dcp (String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()));
 }
 
+
+BOOST_AUTO_TEST_CASE(subtitle_language_in_cpl_test)
+{
+	auto subs = content_factory("test/data/frames.srt")[0];
+	auto video1 = content_factory("test/data/flat_red.png")[0];
+	auto video2 = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film2(boost::unit_test::framework::current_test_unit().full_name(), { subs, video1, video2 });
+	video2->set_position(film, dcpomatic::DCPTime::from_seconds(5));
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	subs->only_text()->set_language(dcp::LanguageTag("fr-FR"));
+
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING
+		});
+
+	cxml::Document cpl("CompositionPlaylist");
+	cpl.read_file(find_file(film->dir(film->dcp_name()), "cpl_"));
+
+	for (auto reel: cpl.node_child("ReelList")->node_children("Reel")) {
+		auto subtitle = reel->node_child("AssetList")->node_child("MainSubtitle");
+		BOOST_REQUIRE(subtitle);
+		BOOST_CHECK(subtitle->optional_node_child("Language"));
+	}
+}
+
