@@ -746,7 +746,7 @@ def package_rpm(target, cpu, version, options):
 
     return rpms
 
-def make_appimage(target, nice_name, internal_name, version):
+def make_appimage(target, nice_name, internal_name, version, extra_binaries=None):
     nice_filename = nice_name.replace(' ', '_')
     appdir = f'build/{nice_filename}.AppDir'
     os.makedirs(f'{appdir}/usr/bin')
@@ -754,6 +754,9 @@ def make_appimage(target, nice_name, internal_name, version):
     target.command(f'cp {target.directory}/src/openssl/apps/openssl {appdir}/usr/bin/dcpomatic2_openssl')
     target.command(f'cp {target.directory}/bin/dcpverify {appdir}/usr/bin/dcpomatic2_verify')
     target.command(f'cp {target.directory}/bin/dcpkdm {appdir}/usr/bin/dcpomatic2_kdm_inspect')
+    if extra_binaries:
+        for bin in extra_binaries:
+            target.command(f'cp {target.directory}/bin/{bin} {appdir}/usr/bin')
     target.command(f'mkdir -p {appdir}/usr/share/libdcp')
     target.command(f'cp -r {target.directory}/share/dcpomatic2 {appdir}/usr/share/')
     target.command(f'cp -r {target.directory}/share/libdcp/xsd {appdir}/usr/share/libdcp/')
@@ -803,7 +806,7 @@ def package(target, version, options):
     elif target.platform == 'linux':
         if target.detail == 'appimage':
             out = []
-            out.append(make_appimage(target, 'DCP-o-matic', 'dcpomatic2', version))
+            out.append(make_appimage(target, 'DCP-o-matic', 'dcpomatic2', version, ('dcpomatic2_map', 'dcpomatic2_cli')))
             out.append(make_appimage(target, 'DCP-o-matic Player', 'dcpomatic2_player', version))
             out.append(make_appimage(target, 'DCP-o-matic Playlist Editor', 'dcpomatic2_playlist', version))
             out.append(make_appimage(target, 'DCP-o-matic KDM Creator', 'dcpomatic2_kdm', version))
