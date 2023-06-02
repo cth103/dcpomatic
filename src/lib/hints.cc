@@ -584,7 +584,30 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 		hint (_("At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames."));
 	}
 
-	if (text.string.size() > 3 && !_too_many_subtitle_lines) {
+	struct VPos
+	{
+	public:
+		dcp::VAlign align;
+		float position;
+
+		bool operator<(VPos const& other) const {
+			if (static_cast<int>(align) != static_cast<int>(other.align)) {
+				return static_cast<int>(align) < static_cast<int>(other.align);
+			}
+			return position < other.position;
+		}
+	};
+
+	/* This is rather an approximate way to count distinct lines, but I guess it will do;
+	 * to make it better we need to take into account font metrics, and the SMPTE alignment
+	 * debacle, and so on.
+	 */
+	std::set<VPos> lines;
+	for (auto const& line: text.string) {
+		lines.insert({ line.v_align(), line.v_position() });
+	}
+
+	if (lines.size() > 3 && !_too_many_subtitle_lines) {
 		_too_many_subtitle_lines = true;
 		hint (_("At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines."));
 	}

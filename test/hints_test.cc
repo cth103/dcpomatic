@@ -153,6 +153,12 @@ BOOST_AUTO_TEST_CASE (hint_many_subtitle_lines)
 }
 
 
+BOOST_AUTO_TEST_CASE(hint_many_subtitle_lines2)
+{
+	check(TextType::OPEN_SUBTITLE, "hint_many_subtitle_lines2");
+}
+
+
 BOOST_AUTO_TEST_CASE (hint_subtitle_too_long)
 {
 	check (
