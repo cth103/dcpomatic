@@ -84,7 +84,11 @@ check (TextType type, string name, optional<string> expected_hint = optional<str
 		BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 		BOOST_CHECK_EQUAL (hints[0], *expected_hint);
 	} else {
-		BOOST_CHECK (hints.empty());
+		string message;
+		for (auto hint: hints) {
+			message += hint + "\n";
+		}
+		BOOST_CHECK_MESSAGE(hints.empty(), "Found: " << message);
 	}
 }
 
