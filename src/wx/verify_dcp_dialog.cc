@@ -422,8 +422,11 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_NAMESPACE_COUNT:
 			add(i, _("The XML in the subtitle asset %n has more than one namespace declaration."));
 			break;
-		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
+		case dcp::VerificationNote::Code::MISSING_LOAD_FONT_FOR_FONT:
 			add(i, _("A subtitle or closed caption refers to a font with ID %id that does not have a corresponding <LoadFont> node."));
+			break;
+		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
+			add(i, "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node");
 			break;
 		}
 	}

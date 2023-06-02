@@ -823,6 +823,7 @@ shared_ptr<dcp::SubtitleAsset>
 ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool with_dummy) const
 {
 	shared_ptr<dcp::SubtitleAsset> asset;
+	optional<string> font;
 
 	auto lang = film()->subtitle_languages();
 	if (film()->interop()) {
@@ -857,7 +858,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 	if (with_dummy) {
 		asset->add(
 			std::make_shared<dcp::SubtitleString>(
-				optional<std::string>(),
+				font,
 				false,
 				false,
 				false,
@@ -880,6 +881,12 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 				0
 				)
 		       );
+
+		if (!film()->interop()) {
+			/* We must have a LoadFont since we have a Text */
+			font = "font";
+			asset->ensure_font(*font, _default_font);
+		}
 	}
 
 	return asset;

@@ -187,3 +187,25 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 	BOOST_CHECK(check_font_data.begin()->second == dcp::ArrayData(default_font_file()));
 }
 
+
+BOOST_AUTO_TEST_CASE(filler_subtitle_reels_have_load_font_tags)
+{
+	auto const name = boost::unit_test::framework::current_test_case().full_name();
+
+	auto subs = content_factory("test/data/short.srt")[0];
+	auto video1 = content_factory("test/data/flat_red.png")[0];
+	auto video2 = content_factory("test/data/flat_red.png")[0];
+
+	auto film = new_test_film2(name, { video1, video2, subs });
+	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
+}
+
