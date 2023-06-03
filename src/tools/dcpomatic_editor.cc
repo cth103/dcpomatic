@@ -328,10 +328,15 @@ public:
 
 	void load_dcp (boost::filesystem::path path)
 	{
-		_notebook->DeleteAllPages();
+		try {
+			_dcp = dcp::DCP(path);
+			_dcp->read();
+		} catch (std::runtime_error& e) {
+			error_dialog(this, _("Could not load DCP"), std_to_wx(e.what()));
+			return;
+		}
 
-		_dcp = dcp::DCP(path);
-		_dcp->read();
+		_notebook->DeleteAllPages();
 		for (auto cpl: _dcp->cpls()) {
 			_notebook->AddPage(new CPLPanel(_notebook, cpl), wx_to_std(cpl->annotation_text().get_value_or(cpl->id())));
 		}
