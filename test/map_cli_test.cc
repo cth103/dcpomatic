@@ -414,6 +414,8 @@ BOOST_AUTO_TEST_CASE(map_two_smpte_cpls_each_with_subs)
 
 BOOST_AUTO_TEST_CASE(map_with_given_config)
 {
+	ConfigRestorer cr;
+
 	string const name = "map_with_given_config";
 	string const out = String::compose("build/test/%1_out", name);
 
