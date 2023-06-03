@@ -147,10 +147,10 @@ public:
 	ReelEditor(wxWindow* parent)
 		: wxDialog(parent, wxID_ANY, _("Edit reel"))
 	{
-		auto sizer = new wxBoxSizer(wxVERTICAL);
+		_sizer = new wxBoxSizer(wxVERTICAL);
 		_notebook = new wxNotebook(this, wxID_ANY);
-		sizer->Add(_notebook, wxEXPAND | wxALL, 1, DCPOMATIC_DIALOG_BORDER);
-		SetSizerAndFit(sizer);
+		_sizer->Add(_notebook, wxEXPAND | wxALL, 1, DCPOMATIC_DIALOG_BORDER);
+		SetSizerAndFit(_sizer);
 	}
 
 	optional<shared_ptr<dcp::Reel>> get() {
@@ -171,10 +171,14 @@ public:
 		if (_reel->main_subtitle()) {
 			_notebook->AddPage(new AssetPanel(_notebook, _reel->main_subtitle()), _("Subtitle"));
 		}
+
+		_sizer->Layout();
+		_sizer->SetSizeHints(this);
 	}
 
 private:
 	wxNotebook* _notebook = nullptr;
+	wxSizer* _sizer = nullptr;
 	shared_ptr<dcp::Reel> _reel;
 };
 
