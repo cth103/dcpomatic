@@ -174,6 +174,8 @@ public:
 		return _content_versions;
 	}
 
+	int active_audio_channels() const;
+
 	void check_font_ids();
 
 private:
@@ -225,6 +227,8 @@ private:
 	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
+
+	boost::optional<int> _active_audio_channels;
 };
 
 

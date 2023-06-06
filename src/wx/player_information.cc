@@ -166,7 +166,7 @@ PlayerInformation::triggered_update ()
 		checked_set (_dcp[r++], wxString::Format(_("Frame rate: %d"), (int) lrint(*dcp->video_frame_rate())));
 	}
 	if (dcp->audio && !dcp->audio->streams().empty()) {
-		checked_set (_dcp[r++], wxString::Format(_("Audio channels: %d"), dcp->audio->streams().front()->channels()));
+		checked_set(_dcp[r++], wxString::Format(_("Audio channels: %d"), dcp->active_audio_channels()));
 	}
 	if (!dcp->text.empty()) {
 		checked_set (_dcp[r++], _("Subtitles: yes"));

@@ -90,6 +90,10 @@ public:
 		return _audio_channels.get_value_or (0);
 	}
 
+	int active_audio_channels() const {
+		return _active_audio_channels.get_value_or(0);
+	}
+
 	Frame audio_length () const override {
 		return _audio_length;
 	}
@@ -179,6 +183,7 @@ private:
 	boost::optional<dcp::Size> _video_size;
 	Frame _video_length = 0;
 	boost::optional<int> _audio_channels;
+	boost::optional<int> _active_audio_channels;
 	boost::optional<int> _audio_frame_rate;
 	Frame _audio_length = 0;
 	std::string _name;

@@ -160,6 +160,8 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	for (auto i: node->node_children("ContentVersion")) {
 		_content_versions.push_back (i->content());
 	}
+
+	_active_audio_channels = node->optional_number_child<int>("ActiveAudioChannels");
 }
 
 void
@@ -252,6 +254,8 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		auto m = as->mapping ();
 		m.make_default (film ? film->audio_processor() : 0);
 		as->set_mapping (m);
+
+		_active_audio_channels = examiner->active_audio_channels();
 	}
 
 	if (examiner->has_atmos()) {
@@ -412,6 +416,10 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 
 	for (auto i: _content_versions) {
 		node->add_child("ContentVersion")->add_child_text(i);
+	}
+
+	if (_active_audio_channels) {
+		node->add_child("ActiveAudioChannels")->add_child_text(raw_convert<string>(*_active_audio_channels));
 	}
 }
 
@@ -860,5 +868,14 @@ DCPContent::check_font_ids()
 
 	DCPExaminer examiner(shared_from_this(), true);
 	add_fonts_from_examiner(text.front(), examiner.fonts());
+}
+
+
+int
+DCPContent::active_audio_channels() const
+{
+	return _active_audio_channels.get_value_or(
+		(audio && audio->stream()) ? audio->stream()->channels() : 0
+		);
 }
 
