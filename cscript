@@ -44,6 +44,9 @@ for v in ['9', '10']:
 for v in ['11']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-gcrypt-dev', 'python3.9'])
+for v in ['12']
+    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
+    deb_build_depends[v].extend(['libssh-gcrypt-dev', 'python3.11'])
 deb_build_depends['unstable'] = copy.deepcopy(deb_build_depends_base)
 deb_build_depends['unstable'].extend(['python3'])
 
@@ -247,6 +250,29 @@ deb_depends['11'].extend(['libboost-filesystem1.74.0',
                           'libdav1d4'])
 
 deb_depends_gui['11'] = [ 'libxcb-xfixes0',
+                          'libxcb-shape0',
+                          'libasound2',
+                          'libpulse0' ]
+
+deb_depends['12'] = copy.deepcopy(deb_depends_base)
+deb_depends['12'].extend(['libboost-filesystem1.74.0',
+                          'libboost-thread1.74.0',
+                          'libboost-regex1.74.0',
+                          'libboost-date-time1.74.0',
+                          'libxml++2.6-2v5',
+                          'libzip4',
+                          'libcairomm-1.0-1v5',
+                          'libpangomm-1.4-1v5',
+                          'libicu72',
+                          'libssh-4',
+                          'libssh-gcrypt-4',
+                          'libnettle8',
+                          'libx264-164',
+                          'libcurl4',
+                          'libxerces-c3.2',
+                          'libnanomsg5'])
+
+deb_depends_gui['12'] = [ 'libxcb-xfixes0',
                           'libxcb-shape0',
                           'libasound2',
                           'libpulse0' ]
