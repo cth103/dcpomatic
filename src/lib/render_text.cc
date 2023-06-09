@@ -506,7 +506,7 @@ FontMetrics::Identifier::operator<(FontMetrics::Identifier const& other) const
 	}
 
 	if (size != other.size) {
-	    return size < other.size;
+		return size < other.size;
 	}
 
 	return aspect_adjust < other.aspect_adjust;
