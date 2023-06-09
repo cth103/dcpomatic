@@ -391,12 +391,11 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 };
 
 
-class JobServer : public Server
+class JobServer : public Server, public Signaller
 {
 public:
-	explicit JobServer (DOMFrame* frame)
+	JobServer()
 		: Server (BATCH_JOB_PORT)
-		, _frame (frame)
 	{}
 
 	void handle (shared_ptr<Socket> socket) override
@@ -406,15 +405,14 @@ public:
 			scoped_array<char> buffer(new char[length]);
 			socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
 			string s (buffer.get());
-			_frame->start_job (s);
+			emit(boost::bind(boost::ref(StartJob), s));
 			socket->write (reinterpret_cast<uint8_t const *>("OK"), 3);
 		} catch (...) {
 
 		}
 	}
 
-private:
-	DOMFrame* _frame;
+	boost::signals2::signal<void(std::string)> StartJob;
 };
 
 
@@ -469,7 +467,8 @@ class App : public wxApp
 		_frame->Show ();
 
 		try {
-			auto server = new JobServer (_frame);
+			auto server = new JobServer();
+			server->StartJob.connect(bind(&DOMFrame::start_job, _frame, _1));
 			new thread (boost::bind (&JobServer::run, server));
 		} catch (boost::system::system_error& e) {
 			error_dialog(_frame, _("Could not listen for new batch jobs.  Perhaps another instance of the DCP-o-matic Batch Converter is running."));
