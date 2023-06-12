@@ -911,12 +911,10 @@ private:
 		bool const completed = progress.run(job);
 		progress.Close();
 
-		if (!completed) {
-			return;
+		if (completed) {
+			VerifyDCPDialog dialog(this, job);
+			dialog.ShowModal();
 		}
-
-		VerifyDCPDialog dialog(this, job);
-		dialog.ShowModal();
 	}
 
 	void tools_check_for_updates ()
