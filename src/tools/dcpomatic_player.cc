@@ -907,14 +907,14 @@ private:
 		DCPOMATIC_ASSERT (dcp);
 
 		auto job = make_shared<VerifyDCPJob>(dcp->directories());
-		auto progress = make_wx<VerifyDCPProgressDialog>(this, _("DCP-o-matic Player"));
-		bool const completed = progress->run (job);
+		VerifyDCPProgressDialog progress(this, _("DCP-o-matic Player"));
+		bool const completed = progress.run(job);
 		if (!completed) {
 			return;
 		}
 
-		auto d = make_wx<VerifyDCPDialog>(this, job);
-		d->ShowModal ();
+		VerifyDCPDialog dialog(this, job);
+		dialog.ShowModal();
 	}
 
 	void tools_check_for_updates ()
