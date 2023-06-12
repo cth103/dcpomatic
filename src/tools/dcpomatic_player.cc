@@ -909,6 +909,8 @@ private:
 		auto job = make_shared<VerifyDCPJob>(dcp->directories());
 		VerifyDCPProgressDialog progress(this, _("DCP-o-matic Player"));
 		bool const completed = progress.run(job);
+		progress.Close();
+
 		if (!completed) {
 			return;
 		}
