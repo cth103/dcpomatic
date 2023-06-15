@@ -258,7 +258,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 		auto b = new wxBoxSizer (wxVERTICAL);
 
 		_add_file = new Button (_top_panel, _("Add file(s)..."));
-		_add_file->SetToolTip (_("Add video, image, sound or subtitle files to the film."));
+		_add_file->SetToolTip(_("Add video, image, sound or subtitle files to the film (Ctrl+A)."));
 		b->Add (_add_file, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_add_folder = new Button (_top_panel, _("Add folder..."));
@@ -270,7 +270,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 		b->Add (_add_dcp, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_remove = new Button (_top_panel, _("Remove"));
-		_remove->SetToolTip (_("Remove the selected piece of content from the film."));
+		_remove->SetToolTip(_("Remove the selected piece of content from the film (Delete)."));
 		b->Add (_remove, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_earlier = new Button (_top_panel, _("Earlier"));
@@ -282,7 +282,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 		b->Add (_later, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		_timeline = new Button (_top_panel, _("Timeline..."));
-		_timeline->SetToolTip (_("Open the timeline for the film."));
+		_timeline->SetToolTip(_("Open the timeline for the film (Ctrl+T)."));
 		b->Add (_timeline, 0, wxEXPAND | wxALL, DCPOMATIC_BUTTON_STACK_GAP);
 
 		s->Add (b, 0, wxALL, 4);
