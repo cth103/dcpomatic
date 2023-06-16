@@ -170,7 +170,11 @@ SimpleVideoView::timer ()
 	_timer.Start (max(1, time_until_next_frame().get_value_or(0)), wxTIMER_ONE_SHOT);
 
 	if (_viewer->butler()) {
-		_viewer->butler()->rethrow ();
+		try {
+			_viewer->butler()->rethrow();
+		} catch (dcp::FileError& e) {
+			error_dialog(_panel, _("Could not play content"), std_to_wx(e.what()));
+		}
 	}
 }
 
