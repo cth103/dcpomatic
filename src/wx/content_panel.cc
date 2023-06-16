@@ -714,7 +714,7 @@ ContentPanel::remove_clicked (bool hotkey)
 void
 ContentPanel::timeline_clicked ()
 {
-	if (!_film) {
+	if (!_film || _film->content().empty()) {
 		return;
 	}
 
