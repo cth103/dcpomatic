@@ -950,8 +950,8 @@ Timeline::zoom_all ()
 {
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	set_pixels_per_second ((_main_canvas->GetSize().GetWidth() - 32) / film->length().seconds());
-	set_pixels_per_track ((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / _tracks);
+	set_pixels_per_second((_main_canvas->GetSize().GetWidth() - 32) / std::max(1.0, film->length().seconds()));
+	set_pixels_per_track((_main_canvas->GetSize().GetHeight() - tracks_y_offset() - _time_axis_view->bbox().height - 32) / std::max(1, _tracks));
 	setup_scrollbars ();
 	_main_canvas->Scroll (0, 0);
 	_labels_canvas->Scroll (0, 0);
