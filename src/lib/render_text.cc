@@ -104,6 +104,7 @@ marked_up(vector<StringText> subtitles, int target_height, float fade_factor, st
 		boost::algorithm::replace_all(text, "&", "&amp;");
 		boost::algorithm::replace_all(text, "<", "&lt;");
 		boost::algorithm::replace_all(text, ">", "&gt;");
+		boost::algorithm::replace_all(text, "\n", "");
 
 		span += text;
 		span += "</span>";
