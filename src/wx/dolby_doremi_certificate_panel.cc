@@ -112,6 +112,11 @@ static void
 try_ims(vector<Location>& locations, string prefix, string serial)
 {
 	locations.push_back({
+		String::compose("%1%2xxx/Dolby-IMB-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
+		String::compose("Dolby-IMB-%1.cert.sha256.pem", serial)
+	});
+
+	locations.push_back({
 		String::compose("%1%2xxx/ims-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
 		String::compose("ims-%1.cert.sha256.pem", serial)
 	});
