@@ -246,7 +246,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 					throw CopyError(String::compose("Could not copy asset %1: %2", input_path.string(), ec.message()));
 				}
 			}
-			(*iter)->set_file(output_path);
+			(*iter)->set_file_preserving_hash(output_path);
 			already_copied.push_back(asset_id);
 		} else {
 			boost::system::error_code ec;
