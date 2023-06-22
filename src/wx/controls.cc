@@ -159,8 +159,6 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 
 	set_film(viewer.film());
 
-	setup_sensitivity ();
-
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind (&Controls::active_jobs_changed, this, _2)
 		);
