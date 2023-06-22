@@ -164,7 +164,6 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 		);
 
 	_config_changed_connection = Config::instance()->Changed.connect (bind(&Controls::config_changed, this, _1));
-	config_changed (Config::OTHER);
 }
 
 void
