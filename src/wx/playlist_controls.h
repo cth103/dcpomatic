@@ -31,8 +31,6 @@ class PlaylistControls : public Controls
 public:
 	PlaylistControls(wxWindow* parent, FilmViewer& viewer);
 
-	void set_film (std::shared_ptr<Film> film) override;
-
 	/** This is so that we can tell our parent player to reset the film
 	    when we have created one from a SPL.  We could call a method
 	    in the player's DOMFrame but we don't have that in a header.

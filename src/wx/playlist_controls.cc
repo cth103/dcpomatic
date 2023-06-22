@@ -396,12 +396,6 @@ PlaylistControls::config_changed (int property)
 	}
 }
 
-void
-PlaylistControls::set_film (shared_ptr<Film> film)
-{
-	Controls::set_film (film);
-	setup_sensitivity ();
-}
 
 void
 PlaylistControls::update_current_content ()
