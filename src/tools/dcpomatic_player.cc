@@ -254,6 +254,7 @@ public:
 		} else {
 			_controls = new StandardControls (_overall_panel, _viewer, false);
 		}
+		_controls->set_film(_viewer.film());
 		_viewer.set_dcp_decode_reduction(Config::instance()->decode_reduction());
 		_viewer.set_optimise_for_j2k(true);
 		_viewer.PlaybackPermitted.connect(bind(&DOMFrame::playback_permitted, this));

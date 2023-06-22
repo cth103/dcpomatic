@@ -388,6 +388,7 @@ public:
 		left_panel->SetSizerAndFit(left_sizer);
 
 		_controls = new StandardControls(_right_panel, _film_viewer, true);
+		_controls->set_film(_film_viewer.film());
 		auto job_manager_view = new JobManagerView(_right_panel, false);
 
 		auto right_sizer = new wxBoxSizer (wxVERTICAL);
