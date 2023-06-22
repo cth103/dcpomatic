@@ -59,7 +59,7 @@ public:
 		bool editor_controls = true
 		);
 
-	virtual void set_film (std::shared_ptr<Film> film);
+	void set_film (std::shared_ptr<Film> film);
 
 	virtual void play () {};
 	virtual void stop () {};
