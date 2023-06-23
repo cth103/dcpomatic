@@ -199,6 +199,7 @@ Config::set_defaults ()
 	_auto_crop_threshold = 0.1;
 	_last_release_notes_version = boost::none;
 	_allow_smpte_bv20 = false;
+	_isdcf_name_part_length = 14;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -631,6 +632,7 @@ try
 	}
 
 	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
+	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
 
 	_export.read(f.optional_node_child("Export"));
 }
@@ -1115,6 +1117,8 @@ Config::write_config () const
 
 	/* [XML] AllowSMPTEBv20 1 to allow the user to choose SMPTE (Bv2.0 only) as a standard, otherwise 0 */
 	root->add_child("AllowSMPTEBv20")->add_child_text(_allow_smpte_bv20 ? "1" : "0");
+	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
+	root->add_child("ISDCFNamePartLength")->add_child_text(raw_convert<string>(_isdcf_name_part_length));
 
 	_export.write(root->add_child("Export"));
 

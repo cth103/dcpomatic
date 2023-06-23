@@ -94,6 +94,7 @@ public:
 		AUDIO_MAPPING,
 		AUTO_CROP_THRESHOLD,
 		ALLOW_SMPTE_BV20,
+		ISDCF_NAME_PART_LENGTH,
 		OTHER
 	};
 
@@ -615,6 +616,10 @@ public:
 
 	bool allow_smpte_bv20() const {
 		return _allow_smpte_bv20;
+	}
+
+	int isdcf_name_part_length() const {
+		return _isdcf_name_part_length;
 	}
 
 	/* SET (mostly) */
@@ -1194,6 +1199,10 @@ public:
 		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
 	}
 
+	void set_isdcf_name_part_length(int length) {
+		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
+	}
+
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
 	/** Emitted if read() failed on an existing Config file.  There is nothing
@@ -1432,6 +1441,7 @@ private:
 	boost::optional<int> _main_content_divider_sash_position;
 	DefaultAddFileLocation _default_add_file_location;
 	bool _allow_smpte_bv20;
+	int _isdcf_name_part_length;
 
 	ExportConfig _export;
 

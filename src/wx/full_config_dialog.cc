@@ -1517,7 +1517,7 @@ private:
 
 		{
 			add_label_to_sizer(table, _panel, _("Maximum JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-			wxBoxSizer* s = new wxBoxSizer(wxHORIZONTAL);
+			auto s = new wxBoxSizer(wxHORIZONTAL);
 			_maximum_j2k_bandwidth = new wxSpinCtrl(_panel);
 			s->Add(_maximum_j2k_bandwidth, 1);
 			add_label_to_sizer(s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxALIGN_CENTRE_VERTICAL);
@@ -1546,6 +1546,14 @@ private:
 		checkbox(_("Allow mapping to all audio channels"), _use_all_audio_channels);
 		checkbox(_("Allow use of SMPTE Bv2.0"), _allow_smpte_bv20);
 
+		{
+			add_label_to_sizer(table, _panel, _("ISDCF name part length"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			auto s = new wxBoxSizer(wxHORIZONTAL);
+			_isdcf_name_part_length = new wxSpinCtrl(_panel);
+			s->Add(_isdcf_name_part_length, 1);
+			table->Add(s, 1);
+		}
+
 		_maximum_j2k_bandwidth->SetRange(1, 1000);
 		_maximum_j2k_bandwidth->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_j2k_bandwidth_changed, this));
 		_allow_any_dcp_frame_rate->bind(&NonStandardPage::allow_any_dcp_frame_rate_changed, this);
@@ -1553,6 +1561,8 @@ private:
 		_allow_96khz_audio->bind(&NonStandardPage::allow_96khz_audio_changed, this);
 		_use_all_audio_channels->bind(&NonStandardPage::use_all_channels_changed, this);
 		_allow_smpte_bv20->bind(&NonStandardPage::allow_smpte_bv20_changed, this);
+		_isdcf_name_part_length->SetRange(14, 256);
+		_isdcf_name_part_length->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::isdcf_name_part_length_changed, this));
 	}
 
 	void config_changed() override
@@ -1565,6 +1575,7 @@ private:
 		checked_set(_allow_96khz_audio, config->allow_96khz_audio());
 		checked_set(_use_all_audio_channels, config->use_all_audio_channels());
 		checked_set(_allow_smpte_bv20, config->allow_smpte_bv20());
+		checked_set(_isdcf_name_part_length, config->isdcf_name_part_length());
 	}
 
 	void maximum_j2k_bandwidth_changed()
@@ -1597,12 +1608,18 @@ private:
 		Config::instance()->set_allow_smpte_bv20(_allow_smpte_bv20->GetValue());
 	}
 
+	void isdcf_name_part_length_changed()
+	{
+		Config::instance()->set_isdcf_name_part_length(_isdcf_name_part_length->GetValue());
+	}
+
 	wxSpinCtrl* _maximum_j2k_bandwidth = nullptr;
 	CheckBox* _allow_any_dcp_frame_rate = nullptr;
 	CheckBox* _allow_any_container = nullptr;
 	CheckBox* _allow_96khz_audio = nullptr;
 	CheckBox* _use_all_audio_channels = nullptr;
 	CheckBox* _allow_smpte_bv20 = nullptr;
+	wxSpinCtrl* _isdcf_name_part_length = nullptr;
 };
 
 

@@ -780,6 +780,8 @@ DCPPanel::config_changed (Config::Property p)
 			film_changed(Film::Property::INTEROP);
 			film_changed(Film::Property::LIMIT_TO_SMPTE_BV20);
 		}
+	} else if (p == Config::ISDCF_NAME_PART_LENGTH) {
+		setup_dcp_name();
 	}
 }
 

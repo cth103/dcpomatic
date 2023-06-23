@@ -863,7 +863,7 @@ Film::isdcf_name (bool if_created_now) const
 		}
 	}
 
-	fixed_name = fixed_name.substr(0, 14);
+	fixed_name = fixed_name.substr(0, Config::instance()->isdcf_name_part_length());
 
 	isdcf_name += fixed_name;
 
