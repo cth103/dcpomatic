@@ -857,28 +857,7 @@ def package(target, version, options):
         if 'part' in options:
             cmd += ' -b ' + options['part']
         target.command(cmd)
-        packages = []
-        for x in glob.glob('build/platform/osx/DCP-o-matic*.dmg'):
-            a = os.path.abspath(x)
-            if x.find("Player") != -1:
-                packages.append((a, "com.dcpomatic.player"))
-            elif x.find("Playlist Editor") != -1:
-                packages.append((a, "com.dcpomatic.playlist"))
-            elif x.find("KDM Creator") != -1:
-                packages.append((a, "com.dcpomatic.kdm"))
-            elif x.find("Batch Converter") != -1:
-                packages.append((a, "com.dcpomatic.batch"))
-            elif x.find("Encode Server") != -1:
-                packages.append((a, "com.dcpomatic.server"))
-            elif x.find("Disk Writer") != -1:
-                packages.append((a, "com.dcpomatic.disk"))
-            elif x.find("Combiner") != -1:
-                packages.append((a, "com.dcpomatic.combiner"))
-            elif x.find("Editor") != -1:
-                packages.append((a, "com.dcpomatic.editor"))
-            else:
-                packages.append((a, "com.dcpomatic"))
-        return packages
+        return glob.glob('build/platform/osx/DCP-o-matic*.dmg')
     elif target.platform == 'docker':
         shutil.copyfile(target.deb, 'build/platform/docker')
         f = open('build/platform/docker/Dockerfile', 'w')
