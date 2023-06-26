@@ -429,7 +429,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			add(i, _("A subtitle or closed caption refers to a font with ID %id that does not have a corresponding <LoadFont> node."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
-			add(i, "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node");
+			add(i, _("The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_ASSET_MAP_ID:
 			add(i, _("The asset with ID %id in the asset map actually has an id of %other_id"));
