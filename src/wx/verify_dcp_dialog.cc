@@ -109,6 +109,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		if (note.id()) {
 			message.Replace("%id", std_to_wx(note.id().get()));
 		}
+		if (note.other_id()) {
+			message.Replace("%other_id", std_to_wx(note.other_id().get()));
+		}
 		add_bullet (note.type(), message);
 		counts[note.type()]++;
 	};
@@ -427,6 +430,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
 			add(i, "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node");
+			break;
+		case dcp::VerificationNote::Code::MISMATCHED_ASSET_MAP_ID:
+			add(i, _("The asset with ID %id in the asset map actually has an id of %other_id"));
 			break;
 		}
 	}
