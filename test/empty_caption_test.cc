@@ -29,8 +29,10 @@
 
 BOOST_AUTO_TEST_CASE (check_for_no_empty_text_nodes_in_failure_case)
 {
+	Cleanup cl;
+
 	auto content = content_factory("test/data/empty.srt");
-	auto film = new_test_film2 ("check_for_no_empty_text_nodes_in_failure_case", content);
+	auto film = new_test_film2("check_for_no_empty_text_nodes_in_failure_case", content, &cl);
 	auto text = content[0]->text.front();
 	text->set_type (TextType::CLOSED_CAPTION);
 	text->set_dcp_track({"English", dcp::LanguageTag("en-GB")});
@@ -38,5 +40,7 @@ BOOST_AUTO_TEST_CASE (check_for_no_empty_text_nodes_in_failure_case)
 	make_and_verify_dcp (film, {
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
+
+	cl.run();
 }
 

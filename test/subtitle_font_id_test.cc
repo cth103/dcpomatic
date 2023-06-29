@@ -90,10 +90,14 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_interop_dcp)
 
 BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_smpte_dcp)
 {
+	Cleanup cl;
+
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	auto film = new_test_film2("make_dcp_with_subs_from_smpte_dcp", { dcp });
+	auto film = new_test_film2("make_dcp_with_subs_from_smpte_dcp", { dcp }, &cl);
 	dcp->text.front()->set_use(true);
 	make_and_verify_dcp(film);
+
+	cl.run();
 }
 
 

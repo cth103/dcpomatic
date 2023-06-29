@@ -545,18 +545,22 @@ BOOST_AUTO_TEST_CASE (interleaved_subtitle_are_emitted_correctly)
 
 BOOST_AUTO_TEST_CASE(multiple_sound_files_bug)
 {
+	Cleanup cl;
+
 	Config::instance()->set_log_types(Config::instance()->log_types() | LogEntry::TYPE_DEBUG_PLAYER);
 
 	auto A = content_factory(TestPaths::private_data() / "kook" / "1.wav").front();
 	auto B = content_factory(TestPaths::private_data() / "kook" / "2.wav").front();
 	auto C = content_factory(TestPaths::private_data() / "kook" / "3.wav").front();
 
-	auto film = new_test_film2("multiple_sound_files_bug", { A, B, C });
+	auto film = new_test_film2("multiple_sound_files_bug", { A, B, C }, &cl);
 	C->set_position(film, DCPTime(3840000));
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	check_mxf_audio_file(TestPaths::private_data() / "kook" / "reference.mxf", dcp_file(film, "pcm_"));
+
+	cl.run();
 }
 
 
