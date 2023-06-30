@@ -67,6 +67,7 @@ def build(bld):
                  config_test.cc
                  content_test.cc
                  cpl_hash_test.cc
+                 cpl_metadata_test.cc
                  create_cli_test.cc
                  crypto_test.cc
                  dcpomatic_time_test.cc

@@ -29,6 +29,7 @@
 #include "dcp_video.h"
 #include "dcpomatic_log.h"
 #include "film.h"
+#include "film_util.h"
 #include "job.h"
 #include "log.h"
 #include "ratio.h"
@@ -646,10 +647,10 @@ Writer::finish (boost::filesystem::path output_dcp)
 	}
 
 	dcp::MCASoundField field;
-	if (film()->audio_channels() <= 6) {
-		field = dcp::MCASoundField::FIVE_POINT_ONE;
-	} else {
+	if (channel_is_mapped(film(), dcp::Channel::BSL) || channel_is_mapped(film(), dcp::Channel::BSR)) {
 		field = dcp::MCASoundField::SEVEN_POINT_ONE;
+	} else {
+		field = dcp::MCASoundField::FIVE_POINT_ONE;
 	}
 
 	dcp::MainSoundConfiguration msc(field, MAX_DCP_AUDIO_CHANNELS);
