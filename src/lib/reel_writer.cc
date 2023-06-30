@@ -27,6 +27,7 @@
 #include "dcpomatic_log.h"
 #include "digester.h"
 #include "film.h"
+#include "film_util.h"
 #include "image.h"
 #include "image_png.h"
 #include "job.h"
@@ -192,10 +193,9 @@ ReelWriter::ReelWriter (
 
 		DCPOMATIC_ASSERT (film()->directory());
 
-		auto mapped = film()->mapped_audio_channels();
 		std::vector<dcp::Channel> extra_active_channels;
-		auto add_if_mapped = [mapped, &extra_active_channels](dcp::Channel channel) {
-			if (std::find(mapped.begin(), mapped.end(), static_cast<int>(channel)) != mapped.end()) {
+		auto add_if_mapped = [this, &extra_active_channels](dcp::Channel channel) {
+			if (channel_is_mapped(film(), channel)) {
 				extra_active_channels.push_back(channel);
 			}
 		};

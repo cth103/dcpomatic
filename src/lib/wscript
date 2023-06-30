@@ -115,6 +115,7 @@ sources = """
           ffmpeg_subtitle_stream.cc
           ffmpeg_wrapper.cc
           film.cc
+          film_util.cc
           filter.cc
           font.cc
           font_config.cc
