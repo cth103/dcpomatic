@@ -1821,8 +1821,10 @@ private:
 
 	void close_splash ()
 	{
-		_splash->Destroy();
-		_splash = nullptr;
+		if (_splash) {
+			_splash->Destroy();
+			_splash = nullptr;
+		}
 	}
 
 	void config_failed_to_load (Config::LoadFailure what)
@@ -1909,7 +1911,7 @@ private:
 	}
 
 	DOMFrame* _frame = nullptr;
-	wxSplashScreen* _splash;
+	wxSplashScreen* _splash = nullptr;
 	shared_ptr<wxTimer> _timer;
 	string _film_to_load;
 	string _film_to_create;
