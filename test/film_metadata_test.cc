@@ -210,3 +210,24 @@ BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_png)
 	BOOST_REQUIRE(film->content()[0]->video);
 	BOOST_CHECK(film->content()[0]->video->range() == VideoRange::FULL);
 }
+
+
+/* Bug #2581 */
+BOOST_AUTO_TEST_CASE(effect_node_not_inserted_incorrectly)
+{
+	auto sub = content_factory("test/data/15s.srt");
+	auto film = new_test_film2("effect_node_not_inserted_incorrectly", sub);
+	film->write_metadata();
+
+	namespace fs = boost::filesystem;
+	auto film2 = make_shared<Film>(fs::path("build/test/effect_node_not_inserted_incorrectly"));
+	film2->read_metadata();
+	film2->write_metadata();
+
+	cxml::Document doc("Metadata");
+	doc.read_file("build/test/effect_node_not_inserted_incorrectly/metadata.xml");
+
+	/* There should be no <Effect> node in the text, since we don't want to force the effect to "none" */
+	BOOST_CHECK(!doc.node_child("Playlist")->node_child("Content")->node_child("Text")->optional_node_child("Effect"));
+}
+

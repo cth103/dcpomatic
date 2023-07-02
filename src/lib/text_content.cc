@@ -148,8 +148,6 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version,
 		_effect = dcp::Effect::BORDER;
 	} else if (node->optional_bool_child("Shadow").get_value_or(false)) {
 		_effect = dcp::Effect::SHADOW;
-	} else {
-		_effect = dcp::Effect::NONE;
 	}
 
 	auto effect = node->optional_string_child("Effect");
