@@ -58,6 +58,8 @@ public:
 	/** @return the number of frames that are done */
 	virtual Frame frames_done () const = 0;
 	virtual bool finishing () const = 0;
+	virtual void pause(void) {}
+	virtual void resume(void) {}
 
 protected:
 	std::shared_ptr<const Film> _film;

@@ -62,9 +62,10 @@ public:
 	}
 
 	void start ();
+	virtual void pause() {}
 	bool pause_by_user ();
 	void pause_by_priority ();
-	void resume ();
+	virtual void resume ();
 	void cancel ();
 
 	bool is_new () const;
