@@ -29,6 +29,7 @@
 
 
 #include "cross.h"
+#include "dcp_video.h"
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
@@ -41,8 +42,8 @@
 #include <list>
 #include <stdint.h>
 
+#include "grok_context.h"
 
-class DCPVideo;
 class EncodeServerDescription;
 class Film;
 class Job;
@@ -70,8 +71,11 @@ public:
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
 	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 
+	void pause(void);
+	void resume(void);
+
 	/** Called when a processing run has finished */
-	void end ();
+	void end (bool isFinal);
 
 	boost::optional<float> current_encoding_rate () const;
 	int video_frames_enqueued () const;
@@ -107,6 +111,9 @@ private:
 	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;
+
+	grk_plugin::DcpomaticContext dcpomaticContext_;
+	grk_plugin::GrokContext *context_;
 };
 
 
