@@ -45,6 +45,7 @@
 #include "send_test_email_dialog.h"
 #include "server_dialog.h"
 #include "static_text.h"
+#include "gpu_config_panel.h"
 #include "wx_util.h"
 #include "lib/config.h"
 #include "lib/cross.h"
@@ -1946,6 +1947,7 @@ create_full_config_dialog ()
 	e->AddPage (new SoundPage          (ps, border));
 	e->AddPage (new DefaultsPage       (ps, border));
 	e->AddPage (new EncodingServersPage(ps, border));
+	e->AddPage (new GPUPage     	   (ps, border));
 	e->AddPage (new KeysPage           (ps, border));
 	e->AddPage (new TMSPage            (ps, border));
 	e->AddPage (new EmailPage          (ps, border));

@@ -619,6 +619,28 @@ public:
 		return _allow_smpte_bv20;
 	}
 
+	std::string gpu_binary_location () const {
+		return _gpu_binary_location;
+	}
+
+	bool enable_gpu () const {
+		return _enable_gpu;
+	}
+
+	int selected_gpu () const {
+		return _selected_gpu;
+	}
+	std::string gpu_license_server () const {
+		return _gpu_license_server;
+	}
+
+	int gpu_license_port () const {
+		return _gpu_license_port;
+	}
+	std::string gpu_license () const {
+		return _gpu_license;
+	}
+
 	int isdcf_name_part_length() const {
 		return _isdcf_name_part_length;
 	}
@@ -1199,10 +1221,28 @@ public:
 	void set_allow_smpte_bv20(bool allow) {
 		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
 	}
-
+	void set_gpu_binary_location (std::string location) {
+		maybe_set (_gpu_binary_location, location);
+	}
+	void set_enable_gpu (bool enable) {
+		maybe_set (_enable_gpu, enable);
+	}
+	void set_selected_gpu (int selected) {
+		maybe_set (_selected_gpu, selected);
+	}
+	void set_gpu_license_server (std::string s) {
+		maybe_set (_gpu_license_server, s);
+	}
+	void set_gpu_license_port (int p) {
+		maybe_set (_gpu_license_port, p);
+	}
+	void set_gpu_license (std::string p) {
+		maybe_set (_gpu_license, p);
+	}
 	void set_isdcf_name_part_length(int length) {
 		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
 	}
+
 
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
@@ -1444,6 +1484,14 @@ private:
 	DefaultAddFileLocation _default_add_file_location;
 	bool _allow_smpte_bv20;
 	int _isdcf_name_part_length;
+
+	/* GPU */
+	bool _enable_gpu;
+	std::string _gpu_binary_location;
+	int _selected_gpu;
+	std::string _gpu_license_server;
+	int _gpu_license_port;
+	std::string _gpu_license;
 
 	ExportConfig _export;
 

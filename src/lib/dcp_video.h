@@ -17,6 +17,8 @@
     along with DCP-o-matic.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+#ifndef DCPOMATIC_DCP_VIDEO_H
+#define DCPOMATIC_DCP_VIDEO_H
 
 
 #include "encode_server_description.h"
@@ -47,6 +49,7 @@ class PlayerVideo;
 class DCPVideo
 {
 public:
+	DCPVideo (void) : DCPVideo(nullptr,0,0,0,Resolution::TWO_K){}
 	DCPVideo (std::shared_ptr<const PlayerVideo>, int index, int dcp_fps, int bandwidth, Resolution r);
 	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
@@ -66,6 +69,8 @@ public:
 
 	static std::shared_ptr<dcp::OpenJPEGImage> convert_to_xyz(std::shared_ptr<const PlayerVideo> frame);
 
+	void convert_to_xyz (uint16_t *dst);
+	dcp::Size get_size(void);
 private:
 
 	void add_metadata (xmlpp::Element *) const;
@@ -76,3 +81,5 @@ private:
 	int _j2k_bandwidth;		 ///< J2K bandwidth to use
 	Resolution _resolution;          ///< Resolution (2K or 4K)
 };
+
+#endif
