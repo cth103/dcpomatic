@@ -27,6 +27,7 @@
  *  @brief J2KEncoder class.
  */
 
+#include "grok/context.h"
 
 #include "cross.h"
 #include "dcp_video.h"
@@ -41,8 +42,6 @@
 #include <boost/thread/mutex.hpp>
 #include <list>
 #include <stdint.h>
-
-#include "grok_context.h"
 
 class EncodeServerDescription;
 class Film;
