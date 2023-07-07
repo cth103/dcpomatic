@@ -49,7 +49,7 @@ class PlayerVideo;
 class DCPVideo
 {
 public:
-	DCPVideo (void) : DCPVideo(nullptr,0,0,0,Resolution::TWO_K){}
+	DCPVideo() : DCPVideo(nullptr, 0, 0, 0, Resolution::TWO_K) {}
 	DCPVideo (std::shared_ptr<const PlayerVideo>, int index, int dcp_fps, int bandwidth, Resolution r);
 	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 
@@ -69,8 +69,9 @@ public:
 
 	static std::shared_ptr<dcp::OpenJPEGImage> convert_to_xyz(std::shared_ptr<const PlayerVideo> frame);
 
-	void convert_to_xyz (uint16_t *dst);
-	dcp::Size get_size(void);
+	void convert_to_xyz(uint16_t* dst) const;
+	dcp::Size get_size() const;
+
 private:
 
 	void add_metadata (xmlpp::Element *) const;

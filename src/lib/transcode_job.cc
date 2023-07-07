@@ -147,14 +147,20 @@ TranscodeJob::run ()
 	}
 }
 
-void TranscodeJob::pause() {
+
+void
+TranscodeJob::pause()
+{
 	_encoder->pause();
 }
 
-void TranscodeJob::resume() {
+
+void TranscodeJob::resume()
+{
 	_encoder->resume();
 	Job::resume();
 }
+
 
 string
 TranscodeJob::status () const

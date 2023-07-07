@@ -70,8 +70,8 @@ public:
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
 	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 
-	void pause(void);
-	void resume(void);
+	void pause();
+	void resume();
 
 	/** Called when a processing run has finished */
 	void end (bool isFinal);
@@ -111,8 +111,8 @@ private:
 
 	boost::signals2::scoped_connection _server_found_connection;
 
-	grk_plugin::DcpomaticContext dcpomaticContext_;
-	grk_plugin::GrokContext *context_;
+	grk_plugin::DcpomaticContext _dcpomatic_context;
+	grk_plugin::GrokContext *_context;
 };
 
 
