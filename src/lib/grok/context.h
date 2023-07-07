@@ -68,8 +68,6 @@ struct GrokInitializer {
 };
 
 struct FrameProxy {
-	FrameProxy(void) : FrameProxy(0,Eyes::LEFT,DCPVideo())
-	{}
 	FrameProxy(int index, Eyes eyes, DCPVideo dcpv) : index_(index), eyes_(eyes), vf(dcpv)
 	{}
 	int index() const {
@@ -157,13 +155,13 @@ public:
 						bool needsRecompression = compressedFrameLength < minimum_size;
 						messenger_->processCompressed(str, processor, needsRecompression);
 						if (needsRecompression) {
-							bool success = false;
-							auto fp = messenger_->retrieve(clientFrameId, success);
-							if (!success)
+							auto fp = messenger_->retrieve(clientFrameId);
+							if (!fp) {
 								return;
+							}
 
-							auto encoded = std::make_shared<dcp::ArrayData>(fp.vf.encode_locally());
-							dcpomaticContext_.writer_.write(encoded, fp.vf.index(), fp.vf.eyes());
+							auto encoded = std::make_shared<dcp::ArrayData>(fp->vf.encode_locally());
+							dcpomaticContext_.writer_.write(encoded, fp->vf.index(), fp->vf.eyes());
 							frame_done ();
 						}
 					}
@@ -210,11 +208,11 @@ public:
 
 		return launched_;
 	}
-	bool scheduleCompress(const DCPVideo &vf){
+	bool scheduleCompress(DCPVideo const& vf){
 		if (!messenger_)
 			return false;
 
-		auto fp = FrameProxy(vf.index(),vf.eyes(),vf);
+		auto fp = FrameProxy(vf.index(), vf.eyes(), vf);
 		auto cvt = [this, &fp](BufferSrc src){
 			// xyz conversion
 			fp.vf.convert_to_xyz((uint16_t*)src.framePtr_);
