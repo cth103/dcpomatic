@@ -49,7 +49,6 @@ class PlayerVideo;
 class DCPVideo
 {
 public:
-	DCPVideo() : DCPVideo(nullptr, 0, 0, 0, Resolution::TWO_K) {}
 	DCPVideo (std::shared_ptr<const PlayerVideo>, int index, int dcp_fps, int bandwidth, Resolution r);
 	DCPVideo (std::shared_ptr<const PlayerVideo>, cxml::ConstNodePtr);
 

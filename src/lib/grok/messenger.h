@@ -825,22 +825,20 @@ static void processorThread(Messenger* messenger, std::function<void(std::string
 template<typename F>
 struct ScheduledFrames
 {
-	void store(F& val)
+	void store(F const& val)
 	{
 		std::unique_lock<std::mutex> lk(mapMutex_);
 		auto it = map_.find(val.index());
 		if (it == map_.end())
-			map_[val.index()] = val;
+			map_.emplace(std::make_pair(val.index(), val));
 	}
-	F retrieve(size_t index, bool &success)
+	boost::optional<F> retrieve(size_t index)
 	{
 		std::unique_lock<std::mutex> lk(mapMutex_);
-		success = false;
 		auto it = map_.find(index);
 		if(it == map_.end())
-			return F();
+			return {};
 
-		success = true;
 		F val = it->second;
 		map_.erase(index);
 
@@ -862,7 +860,7 @@ struct ScheduledMessenger : public Messenger
 	~ScheduledMessenger(void) {
 		shutdown();
 	}
-	bool scheduleCompress(F proxy, std::function<void(BufferSrc)> converter){
+	bool scheduleCompress(F const& proxy, std::function<void(BufferSrc const&)> converter){
 		size_t frameSize = init_.uncompressedFrameSize_;
 		assert(frameSize >= init_.uncompressedFrameSize_);
 		BufferSrc src;
@@ -882,11 +880,11 @@ struct ScheduledMessenger : public Messenger
 		auto compressedFrameId = msg.nextUint();
 		auto compressedFrameLength = msg.nextUint();
 		if (!needsRecompression) {
-			bool success = false;
-			auto srcFrame = scheduledFrames_.retrieve(clientFrameId,success);
-			if (!success)
+			auto src_frame = scheduledFrames_.retrieve(clientFrameId);
+			if (!src_frame) {
 				return;
-			processor(srcFrame, getCompressedFrame(compressedFrameId),compressedFrameLength);
+			}
+			processor(*src_frame, getCompressedFrame(compressedFrameId),compressedFrameLength);
 		}
 		++framesCompressed_;
 		send(GRK_MSGR_BATCH_PROCESSSED_COMPRESSED, compressedFrameId);
@@ -914,9 +912,11 @@ struct ScheduledMessenger : public Messenger
 		}
 
 	}
-	F retrieve(size_t index, bool &success) {
-		return scheduledFrames_.retrieve(index, success);
+
+	boost::optional<F> retrieve(size_t index) {
+		return scheduledFrames_.retrieve(index);
 	}
+
 	void store(F& val) {
 		scheduledFrames_.store(val);
 	}
