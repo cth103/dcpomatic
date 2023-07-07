@@ -118,13 +118,20 @@ DCPEncoder::go ()
 	_writer.finish(_film->dir(_film->dcp_name()));
 }
 
-void DCPEncoder::pause(void) {
+
+void
+DCPEncoder::pause()
+{
 	_j2k_encoder.pause();
 }
 
-void DCPEncoder::resume(void) {
+
+void
+DCPEncoder::resume()
+{
 	_j2k_encoder.resume();
 }
+
 void
 DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
 {

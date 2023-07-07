@@ -61,9 +61,9 @@ static grk_plugin::GrokInitializer grokInitializer;
 J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	: _film (film)
 	, _history (200)
-	, _writer (writer) ,
-	dcpomaticContext_(film,writer,_history, Config::instance()->gpu_binary_location ()),
-	context_(Config::instance()->enable_gpu () ? new grk_plugin::GrokContext(dcpomaticContext_) : nullptr)
+	, _writer (writer)
+	, _dcpomatic_context(film, writer, _history, Config::instance()->gpu_binary_location())
+	, _context(Config::instance()->enable_gpu() ? new grk_plugin::GrokContext(_dcpomatic_context) : nullptr)
 {
 	servers_list_changed ();
 }
@@ -78,7 +78,7 @@ J2KEncoder::~J2KEncoder ()
 	terminate_threads ();
 	}
 
-	delete context_;
+	delete _context;
 }
 
 void
@@ -89,17 +89,24 @@ J2KEncoder::begin ()
 		);
 }
 
-void J2KEncoder::pause(void){
-	if (Config::instance()->enable_gpu ())
-		end(false);
-}
 
-void J2KEncoder::resume(void){
-	if (Config::instance()->enable_gpu ()) {
-		context_ = new grk_plugin::GrokContext(dcpomaticContext_);
-		servers_list_changed ();
+void
+J2KEncoder::pause()
+{
+	if (Config::instance()->enable_gpu()) {
+		end(false);
 	}
 }
+
+
+void J2KEncoder::resume()
+{
+	if (Config::instance()->enable_gpu()) {
+		_context = new grk_plugin::GrokContext(_dcpomatic_context);
+		servers_list_changed();
+	}
+}
+
 
 void
 J2KEncoder::end (bool isFinal)
@@ -141,7 +148,7 @@ J2KEncoder::end (bool isFinal)
 	if (isFinal) {
 		for (auto & i: _queue) {
 			if (Config::instance()->enable_gpu ()) {
-				if (!context_->scheduleCompress(i)){
+				if (!_context->scheduleCompress(i)){
 					LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
 					// handle error
 				}
@@ -161,8 +168,8 @@ J2KEncoder::end (bool isFinal)
 			}
 		}
 	}
-	delete context_;
-	context_ = nullptr;
+	delete _context;
+	_context = nullptr;
 }
 
 
@@ -367,8 +374,8 @@ try
 				}
 
 			} else {
-				if (context_) {
-					if (!context_->launch(vf, config->selected_gpu()) || !context_->scheduleCompress(vf)) {
+				if (_context) {
+					if (!_context->launch(vf, config->selected_gpu()) || !_context->scheduleCompress(vf)) {
 						LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), vf.index());
 						_queue.push_front (vf);
 					}

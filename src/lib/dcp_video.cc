@@ -119,15 +119,17 @@ DCPVideo::convert_to_xyz (shared_ptr<const PlayerVideo> frame, dcp::NoteHandler 
 }
 
 dcp::Size
-DCPVideo::get_size(void) {
-	auto image = _frame->image (bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, false);
+DCPVideo::get_size() const
+{
+	auto image = _frame->image(bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, false);
 	return image->size();
 }
 
-void
-DCPVideo::convert_to_xyz (uint16_t *dst) {
 
-	auto image = _frame->image (bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, false);
+void
+DCPVideo::convert_to_xyz(uint16_t* dst) const
+{
+	auto image = _frame->image(bind(&PlayerVideo::keep_xyz_or_rgb, _1), VideoRange::FULL, false);
 	if (_frame->colour_conversion()) {
 		dcp::rgb_to_xyz (
 			image->data()[0],
@@ -138,6 +140,7 @@ DCPVideo::convert_to_xyz (uint16_t *dst) {
 			);
 	}
 }
+
 
 /** J2K-encode this frame on the local host.
  *  @return Encoded data.
