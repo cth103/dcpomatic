@@ -47,32 +47,32 @@ using dcpomatic::DCPTime;
 class Marker
 {
 public:
-	Marker(wxWindow* parent, wxGridBagSizer* grid, int row, weak_ptr<Film> film_, FilmViewer const& viewer_, wxString name, dcp::Marker type_)
-		: film (film_)
-		, viewer (viewer_)
-		, type (type_)
+	Marker(wxWindow* parent, wxGridBagSizer* grid, int row, weak_ptr<Film> film, FilmViewer const& viewer, wxString name, dcp::Marker type)
+		: _film(film)
+		, _viewer(viewer)
+		, _type(type)
 	{
-		checkbox = new CheckBox(parent, name);
-		grid->Add (checkbox, wxGBPosition(row, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-		timecode = new Timecode<DCPTime> (parent);
-		grid->Add (timecode, wxGBPosition(row, 1));
-		set_button = new Button (parent, _("Set from current position"));
-		grid->Add (set_button, wxGBPosition(row, 2));
+		_checkbox = new CheckBox(parent, name);
+		grid->Add(_checkbox, wxGBPosition(row, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+		_timecode = new Timecode<DCPTime>(parent);
+		grid->Add(_timecode, wxGBPosition(row, 1));
+		_set_button = new Button(parent, _("Set from current position"));
+		grid->Add(_set_button, wxGBPosition(row, 2));
 
-		auto f = film.lock ();
+		auto f = _film.lock();
 		DCPOMATIC_ASSERT (f);
 
-		auto t = f->marker (type);
-		checkbox->SetValue (static_cast<bool>(t));
+		auto t = f->marker(_type);
+		_checkbox->SetValue(static_cast<bool>(t));
 		if (t) {
-			timecode->set (*t, f->video_frame_rate());
+			_timecode->set(*t, f->video_frame_rate());
 		}
 
 		set_sensitivity ();
 
-		set_button->Bind (wxEVT_BUTTON, bind(&Marker::set, this));
-		checkbox->bind(&Marker::checkbox_clicked, this);
-		timecode->Changed.connect (bind(&Marker::changed, this));
+		_set_button->Bind(wxEVT_BUTTON, bind(&Marker::set, this));
+		_checkbox->bind(&Marker::checkbox_clicked, this);
+		_timecode->Changed.connect(bind(&Marker::changed, this));
 	}
 
 private:
@@ -84,41 +84,41 @@ private:
 
 	void set_sensitivity ()
 	{
-		timecode->Enable (checkbox->GetValue());
-		set_button->Enable (checkbox->GetValue());
+		_timecode->Enable(_checkbox->GetValue());
+		_set_button->Enable(_checkbox->GetValue());
 	}
 
 	void set ()
 	{
-		auto f = film.lock ();
+		auto f = _film.lock();
 		DCPOMATIC_ASSERT (f);
-		timecode->set(viewer.position(), f->video_frame_rate());
+		_timecode->set(_viewer.position(), f->video_frame_rate());
 		changed ();
 	}
 
 	void changed ()
 	{
-		auto f = film.lock ();
+		auto f = _film.lock();
 		DCPOMATIC_ASSERT (f);
 		auto vfr = f->video_frame_rate();
-		auto tc = timecode->get(vfr);
+		auto tc = _timecode->get(vfr);
 		if (tc >= f->length()) {
 			tc = f->length() - DCPTime::from_frames(1, vfr);
-			timecode->set (tc, vfr);
+			_timecode->set(tc, vfr);
 		}
-		if (checkbox->GetValue()) {
-			f->set_marker (type, tc);
+		if (_checkbox->GetValue()) {
+			f->set_marker(_type, tc);
 		} else {
-			f->unset_marker (type);
+			f->unset_marker(_type);
 		}
 	}
 
-	weak_ptr<Film> film;
-	FilmViewer const& viewer;
-	dcp::Marker type;
-	CheckBox* checkbox;
-	Timecode<dcpomatic::DCPTime>* timecode;
-	Button* set_button;
+	weak_ptr<Film> _film;
+	FilmViewer const& _viewer;
+	dcp::Marker _type;
+	CheckBox* _checkbox;
+	Timecode<dcpomatic::DCPTime>* _timecode;
+	Button* _set_button;
 };
 
 
