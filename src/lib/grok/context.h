@@ -20,11 +20,12 @@
 
 #pragma once
 
-#include "config.h"
-#include "log.h"
-#include "dcpomatic_log.h"
-#include "writer.h"
-#include "grok_messenger.h"
+#include "../config.h"
+#include "../dcp_video.h"
+#include "../log.h"
+#include "../dcpomatic_log.h"
+#include "../writer.h"
+#include "messenger.h"
 
 class Film;
 using dcp::Data;
