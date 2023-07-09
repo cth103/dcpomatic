@@ -27,10 +27,9 @@
  *  @brief J2KEncoder class.
  */
 
-#include "grok/context.h"
 
+#include "grok/context.h"
 #include "cross.h"
-#include "dcp_video.h"
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
@@ -43,6 +42,8 @@
 #include <list>
 #include <stdint.h>
 
+
+class DCPVideo;
 class EncodeServerDescription;
 class Film;
 class Job;

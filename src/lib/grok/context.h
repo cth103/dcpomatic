@@ -22,6 +22,7 @@
 
 #include "../config.h"
 #include "../dcp_video.h"
+#include "../film.h"
 #include "../log.h"
 #include "../dcpomatic_log.h"
 #include "../writer.h"
