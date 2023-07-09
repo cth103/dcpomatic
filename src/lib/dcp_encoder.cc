@@ -114,7 +114,7 @@ DCPEncoder::go ()
 	}
 
 	_finishing = true;
-	_j2k_encoder.end(true);
+	_j2k_encoder.end();
 	_writer.finish(_film->dir(_film->dcp_name()));
 }
 

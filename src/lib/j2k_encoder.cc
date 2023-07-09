@@ -93,37 +93,48 @@ J2KEncoder::begin ()
 void
 J2KEncoder::pause()
 {
-	if (Config::instance()->enable_gpu()) {
-		end(false);
+	if (!Config::instance()->enable_gpu()) {
+		return;
 	}
+
+	{
+		boost::mutex::scoped_lock lm (_threads_mutex);
+		terminate_threads ();
+	}
+
+	/* Something might have been thrown during terminate_threads */
+	rethrow ();
+
+	delete _context;
+	_context = nullptr;
 }
 
 
 void J2KEncoder::resume()
 {
-	if (Config::instance()->enable_gpu()) {
-		_context = new grk_plugin::GrokContext(_dcpomatic_context);
-		servers_list_changed();
+	if (!Config::instance()->enable_gpu()) {
+		return;
 	}
+
+	_context = new grk_plugin::GrokContext(_dcpomatic_context);
+	servers_list_changed();
 }
 
 
 void
-J2KEncoder::end (bool isFinal)
+J2KEncoder::end()
 {
-	if (isFinal) {
-		boost::mutex::scoped_lock lock (_queue_mutex);
+	boost::mutex::scoped_lock lock (_queue_mutex);
 
-		LOG_GENERAL (N_("Clearing queue of %1"), _queue.size ());
+	LOG_GENERAL (N_("Clearing queue of %1"), _queue.size ());
 
-		/* Keep waking workers until the queue is empty */
-			while (!_queue.empty ()) {
-				rethrow ();
-				_empty_condition.notify_all ();
-				_full_condition.wait (lock);
-			}
-		lock.unlock ();
-	}
+	/* Keep waking workers until the queue is empty */
+		while (!_queue.empty ()) {
+			rethrow ();
+			_empty_condition.notify_all ();
+			_full_condition.wait (lock);
+		}
+	lock.unlock ();
 
 	LOG_GENERAL_NC (N_("Terminating encoder threads"));
 
@@ -145,29 +156,28 @@ J2KEncoder::end (bool isFinal)
 
 		 So just mop up anything left in the queue here.
 	*/
-	if (isFinal) {
-		for (auto & i: _queue) {
-			if (Config::instance()->enable_gpu ()) {
-				if (!_context->scheduleCompress(i)){
-					LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
-					// handle error
-				}
+	for (auto & i: _queue) {
+		if (Config::instance()->enable_gpu ()) {
+			if (!_context->scheduleCompress(i)){
+				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
+				// handle error
 			}
-			else {
-				LOG_GENERAL(N_("Encode left-over frame %1"), i.index());
-				try {
-					_writer.write(
-							make_shared<dcp::ArrayData>(i.encode_locally()),
-						i.index(),
-						i.eyes()
-						);
-					frame_done ();
-				} catch (std::exception& e) {
-					LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
-				}
+		}
+		else {
+			LOG_GENERAL(N_("Encode left-over frame %1"), i.index());
+			try {
+				_writer.write(
+						make_shared<dcp::ArrayData>(i.encode_locally()),
+					i.index(),
+					i.eyes()
+					);
+				frame_done ();
+			} catch (std::exception& e) {
+				LOG_ERROR (N_("Local encode failed (%1)"), e.what ());
 			}
 		}
 	}
+
 	delete _context;
 	_context = nullptr;
 }

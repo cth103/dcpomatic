@@ -74,7 +74,7 @@ public:
 	void resume();
 
 	/** Called when a processing run has finished */
-	void end (bool isFinal);
+	void end();
 
 	boost::optional<float> current_encoding_rate () const;
 	int video_frames_enqueued () const;
