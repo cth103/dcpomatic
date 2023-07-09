@@ -129,11 +129,11 @@ J2KEncoder::end()
 	LOG_GENERAL (N_("Clearing queue of %1"), _queue.size ());
 
 	/* Keep waking workers until the queue is empty */
-		while (!_queue.empty ()) {
-			rethrow ();
-			_empty_condition.notify_all ();
-			_full_condition.wait (lock);
-		}
+	while (!_queue.empty ()) {
+		rethrow ();
+		_empty_condition.notify_all ();
+		_full_condition.wait (lock);
+	}
 	lock.unlock ();
 
 	LOG_GENERAL_NC (N_("Terminating encoder threads"));
@@ -149,12 +149,12 @@ J2KEncoder::end()
 	LOG_GENERAL (N_("Mopping up %1"), _queue.size());
 
 	/* The following sequence of events can occur in the above code:
-		 1. a remote worker takes the last image off the queue
-		 2. the loop above terminates
-		 3. the remote worker fails to encode the image and puts it back on the queue
-		 4. the remote worker is then terminated by terminate_threads
+	     1. a remote worker takes the last image off the queue
+	     2. the loop above terminates
+	     3. the remote worker fails to encode the image and puts it back on the queue
+	     4. the remote worker is then terminated by terminate_threads
 
-		 So just mop up anything left in the queue here.
+	     So just mop up anything left in the queue here.
 	*/
 	for (auto & i: _queue) {
 		if (Config::instance()->enable_gpu ()) {
@@ -389,7 +389,6 @@ try
 						LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), vf.index());
 						_queue.push_front (vf);
 					}
-
 				} else {
 					try {
 						LOG_TIMING ("start-local-encode thread=%1 frame=%2", thread_id(), vf.index());
