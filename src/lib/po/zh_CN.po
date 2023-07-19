@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-29 01:56+0200\n"
-"PO-Revision-Date: 2023-03-11 20:28+0800\n"
+"PO-Revision-Date: 2023-07-15 00:03+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/lib/video_content.cc:503
@@ -226,15 +226,15 @@ msgid ""
 "donate €20</a><li><a href=\"https://dcpomatic.com/donate_amount?"
 "amount=10\">Go to Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
-"<h2>您已经用 DCP-o-matic 创建了%1 DCPs！</h2><img width=“20%%” src=“memory:"
-"me.jpg” align=“center”><p>你好。我是卡尔，我是DCP-o-matic的开发者。我在业余时"
-"间(在一个优秀的测试员和翻译志愿者团队的帮助下)开发它，并将其作为开源软件发布."
-"<p>如果您觉得DCP-o-matic对您有帮助，请考虑向该项目捐款。资金支持将帮助我花更"
-"多的时间开发DCP-o-matic并使其变得更好！<p><ul><li><a href=“https://dcpomatic."
-"com/donate_amount?amount=40”>去贝宝(Paypal)捐款40欧元</a><li><a "
-"href=“https://dcpomatic.com/donate_amount?amount=20”>去贝宝(Paypal)捐款20欧元"
-"</a><li><a href=“https://dcpomatic.com/donate_amount?amount=10”>去贝宝"
-"(Paypal)捐款10欧元</a></ul><p>谢谢您！"
+"<h2>您已经用 DCP-o-matic 创建了%1 DCP！</h2><img width=\"20%%\" src=\"memory:"
+"me.jpg\" align=\"center\"><p>你好。我是卡尔，我是DCP-o-matic的开发者。我在业"
+"余时间（在一个优秀的测试员和翻译志愿者团队的帮助下）开发它，并将其作为开源软"
+"件发布。<p>如果您觉得DCP-o-matic对您有帮助，请考虑向该项目捐款。资金支持将帮"
+"助我花更多的时间开发DCP-o-matic并使其变得更好！<p><ul><li><a href=\"https://"
+"dcpomatic.com/donate_amount?amount=40\">去Paypal捐款40欧元</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=20\">去Paypal捐款20欧元</"
+"a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">去Paypal捐款"
+"10欧元</a></ul><p>谢谢您！"
 
 #: src/lib/hints.cc:166
 msgid ""
@@ -242,8 +242,8 @@ msgid ""
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
 "unlikely to have any visible effect on the image."
 msgstr ""
-"有些放映设备不支持高码率DCP,我们推荐使用200Mbit/s以内的码率来进行打包，这种细"
-"微的调整是肉眼很难分辨的。"
+"有些放映设备不支持高码率DCP，我们推荐使用200Mbit/s以内的码率来进行打包，这种"
+"细微的调整是肉眼很难分辨的。"
 
 #: src/lib/text_content.cc:249
 msgid ""
@@ -442,7 +442,7 @@ msgstr "在 %2 不能处理图片格式 %1"
 
 #: src/lib/film.cc:1663
 msgid "Cannot make a KDM as this project is not encrypted."
-msgstr "不能生成KDM，因为项目没有被加密."
+msgstr "不能生成KDM，因为项目没有被加密。"
 
 #: src/lib/util.cc:616
 msgid "Centre"
@@ -538,15 +538,15 @@ msgstr "源音频采样率"
 
 #: src/lib/ffmpeg_content.cc:158
 msgid "Content to be joined must all have or not have audio"
-msgstr "添加的内容必须都有或都没有音频。"
+msgstr "添加的内容必须都有或都没有音频"
 
 #: src/lib/ffmpeg_content.cc:161
 msgid "Content to be joined must all have or not have subtitles or captions"
-msgstr "添加的内容必须都有或都没有隐藏式字幕。"
+msgstr "添加的内容必须都有或都没有隐藏式字幕"
 
 #: src/lib/ffmpeg_content.cc:155
 msgid "Content to be joined must all have or not have video"
-msgstr "添加的内容必须都有或都没有视频。"
+msgstr "添加的内容必须都有或都没有视频"
 
 #: src/lib/text_content.cc:321
 msgid ""
@@ -631,7 +631,7 @@ msgstr "添加的内容字幕行距必须相同。"
 
 #: src/lib/content.cc:127 src/lib/content.cc:131
 msgid "Content to be joined must have the same video frame rate"
-msgstr "添加的内容内容帧率必须相同。"
+msgstr "添加的内容内容帧率必须相同"
 
 #: src/lib/video_content.cc:225
 msgid "Content to be joined must have the same video frame type."
@@ -745,11 +745,11 @@ msgstr "DBS"
 
 #: src/lib/ratio.cc:51
 msgid "DCI Flat"
-msgstr "DCI Flat(遮幅/1.77/1.78/1.85) "
+msgstr "DCI Flat(遮幅/1.77/1.78/1.85)"
 
 #: src/lib/ratio.cc:53
 msgid "DCI Scope"
-msgstr "DCI Scope(宽银幕/2.35/2.39) "
+msgstr "DCI Scope(宽银幕/2.35/2.39)"
 
 #: src/lib/dcp_subtitle_content.cc:114
 msgid "DCP XML subtitles"
@@ -762,11 +762,11 @@ msgstr "DCP 采样率"
 #: src/lib/frame_rate_change.cc:102
 #, c-format
 msgid "DCP will run at %.1f%% of the content speed.\n"
-msgstr "DCP队列将在速度 %.1f%% 下运行.\n"
+msgstr "DCP队列将在速度 %.1f%% 下运行。\n"
 
 #: src/lib/frame_rate_change.cc:92
 msgid "DCP will use every other frame of the content.\n"
-msgstr "将使用隔帧打包DCP.\n"
+msgstr "将使用隔帧打包DCP。\n"
 
 #: src/lib/job.cc:172 src/lib/job.cc:187
 msgid ""
@@ -1059,7 +1059,7 @@ msgstr "建议在DCP开始后至少4秒放置您的第一个字幕，以确保�
 
 #: src/lib/job.cc:160 src/lib/job.cc:195 src/lib/job.cc:249 src/lib/job.cc:259
 msgid "It is not known what caused this error."
-msgstr "未知原因错误."
+msgstr "未知原因错误。"
 
 #: src/lib/ffmpeg_content.cc:616
 msgid "JEDEC P22"
@@ -1111,7 +1111,6 @@ msgid "Limited"
 msgstr "限制"
 
 #: src/lib/ffmpeg_content.cc:559
-#, fuzzy
 msgid "Limited / video (%1-%2)"
 msgstr "限制/视频 (%1-%2)"
 
@@ -1180,9 +1179,8 @@ msgid "No CPLs found in DCP."
 msgstr "DCP中没有找到CPL文件。"
 
 #: src/lib/kdm_with_metadata.cc:216
-#, fuzzy
 msgid "No KDM from address configured in preferences"
-msgstr "首选项中未配置来自此称呼的KDM"
+msgstr "首选项中配置的地址没有 KDM"
 
 #: src/lib/kdm_with_metadata.cc:212 src/lib/send_notification_email_job.cc:72
 msgid "No mail server configured in preferences"
@@ -1457,12 +1455,11 @@ msgstr "一些内容需要OV"
 
 #: src/lib/writer.cc:755
 msgid "Stereo"
-msgstr "双声道"
+msgstr "立体声"
 
 #: src/lib/dcp_content_type.cc:65
-#, fuzzy
 msgid "Stereo card"
-msgstr "双声道"
+msgstr "立体声卡"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
@@ -1541,23 +1538,23 @@ msgstr ""
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
-msgstr "磁盘空间不足，清理磁盘空间以继续."
+msgstr "磁盘空间不足，清理磁盘空间以继续。"
 
 #: src/lib/playlist.cc:228
 msgid "The file %1 has been moved %2 milliseconds earlier."
-msgstr "文件 %1 被向前移动了 %2 毫秒."
+msgstr "文件 %1 被向前移动了 %2 毫秒。"
 
 #: src/lib/playlist.cc:223
 msgid "The file %1 has been moved %2 milliseconds later."
-msgstr "文件 %1 被向后移动了 %2 毫秒."
+msgstr "文件 %1 被向后移动了 %2 毫秒。"
 
 #: src/lib/playlist.cc:248
 msgid "The file %1 has been trimmed by %2 milliseconds less."
-msgstr "文件 %1 被缩短了 %2 毫秒."
+msgstr "文件 %1 被缩短了 %2 毫秒。"
 
 #: src/lib/playlist.cc:243
 msgid "The file %1 has been trimmed by %2 milliseconds more."
-msgstr "文件 %1 被延长了 %2 毫秒."
+msgstr "文件 %1 被延长了 %2 毫秒。"
 
 #: src/lib/hints.cc:238
 msgid ""
@@ -1847,13 +1844,13 @@ msgstr "您的音频增益过大 (在%1)，请降低音频增益。"
 #: src/lib/playlist.cc:219
 msgid ""
 "Your project contains video content that was not aligned to a frame boundary."
-msgstr "您的项目包含不与帧边界对齐的视频内容."
+msgstr "您的项目包含不与帧边界对齐的视频内容。"
 
 #: src/lib/playlist.cc:239
 msgid ""
 "Your project contains video content whose trim was not aligned to a frame "
 "boundary."
-msgstr "您的项目包含的视频内容包含修剪不对齐的帧边界."
+msgstr "您的项目包含的视频内容包含修剪不对齐的帧边界。"
 
 #: src/lib/image_content.cc:77
 msgid "[moving images]"
@@ -1874,7 +1871,6 @@ msgid "_reel%1"
 msgstr "_卷号%1"
 
 #: src/lib/audio_content.cc:318
-#, fuzzy
 msgid "bits"
 msgstr "位"
 
@@ -1896,7 +1892,7 @@ msgstr "打包类型"
 
 #: src/lib/uploader.cc:79
 msgid "copying %1"
-msgstr "复制 %1 中..."
+msgstr "复制 %1 中"
 
 #: src/lib/ffmpeg.cc:121
 msgid "could not find stream information"
