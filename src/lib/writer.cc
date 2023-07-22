@@ -72,12 +72,12 @@ using dcp::ArrayData;
 using namespace dcpomatic;
 
 
-/** @param j Job to report progress to, or 0.
+/** @param weak_job Job to report progress to, or 0.
  *  @param text_only true to enable only the text (subtitle/ccap) parts of the writer.
  */
-Writer::Writer (weak_ptr<const Film> weak_film, weak_ptr<Job> j, bool text_only)
+Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, bool text_only)
 	: WeakConstFilm (weak_film)
-	, _job (j)
+	, _job(weak_job)
 	/* These will be reset to sensible values when J2KEncoder is created */
 	, _maximum_frames_in_memory (8)
 	, _maximum_queue_size (8)
@@ -454,12 +454,12 @@ try
 
 			/* Find one from the back of the queue */
 			_queue.sort ();
-			auto i = _queue.rbegin ();
-			while (i != _queue.rend() && (i->type != QueueItem::Type::FULL || !i->encoded)) {
-				++i;
+			auto item = _queue.rbegin();
+			while (item != _queue.rend() && (item->type != QueueItem::Type::FULL || !item->encoded)) {
+				++item;
 			}
 
-			DCPOMATIC_ASSERT (i != _queue.rend());
+			DCPOMATIC_ASSERT(item != _queue.rend());
 			++_pushed_to_disk;
 			/* For the log message below */
 			int const awaiting = _last_written[_queue.front().reel].frame() + 1;
@@ -470,15 +470,15 @@ try
 			   thread could erase the last item in the list.
 			*/
 
-			LOG_GENERAL ("Writer full; pushes %1 to disk while awaiting %2", i->frame, awaiting);
+			LOG_GENERAL("Writer full; pushes %1 to disk while awaiting %2", item->frame, awaiting);
 
-			i->encoded->write_via_temp (
-				film()->j2c_path(i->reel, i->frame, i->eyes, true),
-				film()->j2c_path(i->reel, i->frame, i->eyes, false)
+			item->encoded->write_via_temp(
+				film()->j2c_path(item->reel, item->frame, item->eyes, true),
+				film()->j2c_path(item->reel, item->frame, item->eyes, false)
 				);
 
 			lock.lock ();
-			i->encoded.reset ();
+			item->encoded.reset();
 			--_queued_full_in_memory;
 			_full_condition.notify_all ();
 		}
@@ -572,9 +572,9 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	LOG_GENERAL_NC ("Finishing ReelWriters");
 
-	for (auto& i: _reels) {
-		write_hanging_text (i);
-		i.finish (output_dcp);
+	for (auto& reel: _reels) {
+		write_hanging_text(reel);
+		reel.finish(output_dcp);
 	}
 
 	LOG_GENERAL_NC ("Writing XML");
@@ -698,8 +698,8 @@ void
 Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 {
 	auto const cover = film()->file("COVER_SHEET.txt");
-	dcp::File f(cover, "w");
-	if (!f) {
+	dcp::File file(cover, "w");
+	if (!file) {
 		throw OpenFileError (cover, errno, OpenFileError::WRITE);
 	}
 
@@ -766,7 +766,7 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 
 	boost::algorithm::replace_all (text, "$LENGTH", length);
 
-	f.checked_write(text.c_str(), text.length());
+	file.checked_write(text.c_str(), text.length());
 }
 
 
@@ -962,13 +962,13 @@ size_t
 Writer::video_reel (int frame) const
 {
 	auto t = DCPTime::from_frames (frame, film()->video_frame_rate());
-	size_t i = 0;
-	while (i < _reels.size() && !_reels[i].period().contains (t)) {
-		++i;
+	size_t reel_index = 0;
+	while (reel_index < _reels.size() && !_reels[reel_index].period().contains(t)) {
+		++reel_index;
 	}
 
-	DCPOMATIC_ASSERT (i < _reels.size ());
-	return i;
+	DCPOMATIC_ASSERT(reel_index < _reels.size ());
+	return reel_index;
 }
 
 
