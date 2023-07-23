@@ -91,7 +91,7 @@ to load a script file called `stress` and start executing it.
 - ./waf pot
 - cp build/src/lib/libdcpomatic.pot src/lib/po/$LANG.po
 - cp build/src/wx/libdcpomatic-wx.pot src/wx/po/$LANG.po
-- cp build/src/tools/libdcpomatic-wx.pot src/tools/po/$LANG.po
+- cp build/src/tools/dcpomatic.pot src/tools/po/$LANG.po
 - sed -i "s/CHARSET/UTF-8/" src/{lib,wx,tools}/po/$LANG.po
 - Commit / push
 - Add credit to `src/wx/about_dialog.cc` and database.
