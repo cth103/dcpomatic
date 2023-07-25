@@ -106,7 +106,7 @@ Config::set_defaults ()
 	_language = optional<string> ();
 	_default_still_length = 10;
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
-	_default_dcp_audio_channels = 6;
+	_default_dcp_audio_channels = 8;
 	_default_j2k_bandwidth = 150000000;
 	_default_audio_delay = 0;
 	_default_interop = false;

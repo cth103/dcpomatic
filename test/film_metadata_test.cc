@@ -63,6 +63,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	film->set_distributor (string(""));
 	film->set_facility (string(""));
 	film->set_release_territory (dcp::LanguageTag::RegionSubtag("US"));
+	film->set_audio_channels(6);
 	film->write_metadata ();
 
 	list<string> ignore = { "Key", "ContextID", "LastWrittenBy" };
