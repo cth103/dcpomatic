@@ -558,6 +558,7 @@ BOOST_AUTO_TEST_CASE(multiple_sound_files_bug)
 	auto C = content_factory(TestPaths::private_data() / "kook" / "3.wav").front();
 
 	auto film = new_test_film2("multiple_sound_files_bug", { A, B, C }, &cl);
+	film->set_audio_channels(16);
 	C->set_position(film, DCPTime(3840000));
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
@@ -573,6 +574,7 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13)
 	auto A = content_factory("test/data/sine_16_48_440_10.wav").front();
 	auto B = content_factory("test/data/sine_16_44.1_440_10.wav").front();
 	auto film = new_test_film2("trimmed_sound_mix_bug_13", { A, B });
+	film->set_audio_channels(16);
 
 	A->set_position(film, DCPTime());
 	A->audio->set_gain(-12);
@@ -600,6 +602,7 @@ BOOST_AUTO_TEST_CASE(trimmed_sound_mix_bug_13_frame_rate_change)
 	A->set_video_frame_rate(film, 24);
 	B->set_video_frame_rate(film, 24);
 	film->set_video_frame_rate(25);
+	film->set_audio_channels(16);
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 	check_mxf_audio_file("test/data/trimmed_sound_mix_bug_13_frame_rate_change.mxf", dcp_file(film, "pcm_"));

@@ -134,6 +134,8 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	BOOST_CHECK_EQUAL (film->reels().size(), 3U);
 	BOOST_REQUIRE (!wait_for_jobs());
 
+	film->set_audio_channels(16);
+
 	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/reels_test2", film->dir (film->dcp_name()));
@@ -141,6 +143,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	auto c = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto film2 = new_test_film2 ("reels_test2b", {c});
 	film2->set_reel_type (ReelType::BY_VIDEO_CONTENT);
+	film2->set_audio_channels(16);
 
 	auto r = film2->reels ();
 	BOOST_CHECK_EQUAL (r.size(), 3U);
@@ -209,6 +212,8 @@ BOOST_AUTO_TEST_CASE (reels_test4)
 	auto subs = make_shared<StringTextFileContent>("test/data/subrip3.srt");
 	film->examine_and_add_content (subs);
 	BOOST_REQUIRE (!wait_for_jobs());
+
+	film->set_audio_channels(16);
 
 	auto reels = film->reels();
 	BOOST_REQUIRE_EQUAL (reels.size(), 4U);

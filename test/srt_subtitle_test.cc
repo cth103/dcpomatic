@@ -55,6 +55,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 	film->set_name ("frobozz");
 	film->set_audio_channels (6);
 	film->set_interop (false);
+	film->set_audio_channels(16);
 	auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());

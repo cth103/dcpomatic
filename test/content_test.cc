@@ -45,6 +45,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_name ("content_test1");
 	film->set_container (Ratio::from_id ("185"));
+	film->set_audio_channels(16);
 
 	auto content = content_factory(TestPaths::private_data() / "demo_sound_bug.mkv")[0];
 	film->examine_and_add_content (content);
@@ -149,6 +150,8 @@ BOOST_AUTO_TEST_CASE (content_test6)
 		content_factory(TestPaths::private_data() / "fha.mkv"),
 		&cl
 		);
+
+	film->set_audio_channels(16);
 
 	make_and_verify_dcp (film);
 	check_dcp (TestPaths::private_data() / "fha", film);

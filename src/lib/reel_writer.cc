@@ -179,8 +179,7 @@ ReelWriter::ReelWriter (
 		_sound_asset = make_shared<dcp::SoundAsset> (
 			dcp::Fraction(film()->video_frame_rate(), 1),
 			film()->audio_frame_rate(),
-			/* Always make 16-channel sound assets for SMPTE; libdcp will pad unused channels for us */
-			standard == dcp::Standard::SMPTE ? MAX_DCP_AUDIO_CHANNELS : film()->audio_channels(),
+			film()->audio_channels(),
 			lang ? *lang : dcp::LanguageTag("en-US"),
 			standard
 			);

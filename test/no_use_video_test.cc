@@ -61,6 +61,8 @@ BOOST_AUTO_TEST_CASE (no_use_video_test1)
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);
 
+	film->set_audio_channels(16);
+
 	make_and_verify_dcp (film);
 
 	check_dcp ("test/data/no_use_video_test1", film);
@@ -80,6 +82,8 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 	A->set_position (film, dcpomatic::DCPTime());
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);
+
+	film->set_audio_channels(16);
 
 	make_and_verify_dcp (film);
 

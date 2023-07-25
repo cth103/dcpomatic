@@ -58,8 +58,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 
 	BOOST_REQUIRE (!wait_for_jobs());
 
+	int constexpr audio_channels = 6;
+
 	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
+	film->set_audio_channels(audio_channels);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	make_and_verify_dcp (film);
 
@@ -71,7 +73,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 
 	auto sound_asset = check.cpls().front()->reels().front()->main_sound ();
 	BOOST_CHECK (sound_asset);
-	BOOST_CHECK_EQUAL(sound_asset->asset()->channels (), 16);
+	BOOST_REQUIRE_EQUAL(sound_asset->asset()->channels (), audio_channels);
 
 	/* Sample index in the DCP */
 	int n = 0;
@@ -82,7 +84,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 		auto sound_frame = sound_asset->asset()->start_read()->get_frame (frame++);
 		uint8_t const * d = sound_frame->data ();
 		for (int offset = 0; offset < sound_frame->size(); offset += (3 * sound_asset->asset()->channels())) {
-			for (auto channel = 0; channel < MAX_DCP_AUDIO_CHANNELS; ++channel) {
+			for (auto channel = 0; channel < audio_channels; ++channel) {
 				auto const sample = d[offset + channel * 3 + 1] | (d[offset + channel * 3 + 2] << 8);
 				if (channel == 2) {
 					/* Input should be on centre */

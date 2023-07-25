@@ -85,6 +85,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	B->set_name ("frobozz");
 	B->set_interop (false);
+	B->set_audio_channels(16);
 
 	auto d = make_shared<DCPContent>("build/test/import_dcp_test/" + A->dcp_name());
 	B->examine_and_add_content (d);

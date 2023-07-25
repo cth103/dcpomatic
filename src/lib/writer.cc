@@ -653,9 +653,12 @@ Writer::finish (boost::filesystem::path output_dcp)
 		field = dcp::MCASoundField::FIVE_POINT_ONE;
 	}
 
-	dcp::MainSoundConfiguration msc(field, MAX_DCP_AUDIO_CHANNELS);
+	auto const audio_channels = film()->audio_channels();
+	dcp::MainSoundConfiguration msc(field, audio_channels);
 	for (auto i: film()->mapped_audio_channels()) {
-		msc.set_mapping(i, static_cast<dcp::Channel>(i));
+		if (i < audio_channels) {
+			msc.set_mapping(i, static_cast<dcp::Channel>(i));
+		}
 	}
 
 	cpl->set_main_sound_configuration(msc);

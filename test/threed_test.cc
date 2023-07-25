@@ -168,6 +168,7 @@ BOOST_AUTO_TEST_CASE (threed_test6)
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/3dR.mp4");
 	film->examine_and_add_content (R);
+	film->set_audio_channels(16);
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
