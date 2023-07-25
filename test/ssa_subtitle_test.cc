@@ -32,6 +32,7 @@
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "test.h"
+#include <dcp/equality_options.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/algorithm/string.hpp>

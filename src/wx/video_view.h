@@ -29,6 +29,7 @@
 #include "lib/timer.h"
 #include "lib/types.h"
 #include <dcp/warnings.h>
+#include <dcp/types.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS

@@ -45,6 +45,7 @@
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
+#include <dcp/equality_options.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/openjpeg_image.h>

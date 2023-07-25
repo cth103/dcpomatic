@@ -32,6 +32,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/video_content.h"
 #include "lib/ratio.h"
+#include <dcp/equality_options.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/stereo_picture_asset.h>
 #include <boost/test/unit_test.hpp>

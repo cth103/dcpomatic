@@ -21,6 +21,7 @@
 
 #include "content_part.h"
 #include "types.h"
+#include <dcp/types.h>
 
 
 class Content;

@@ -29,6 +29,8 @@
 #include <IOKit/pwr_mgt/IOPMLib.h>
 #endif
 #include <boost/filesystem.hpp>
+/* windows.h defines this but we want to use it */
+#undef ERROR
 #include <boost/thread/mutex.hpp>
 #include <boost/optional.hpp>
 

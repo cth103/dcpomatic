@@ -32,6 +32,7 @@
 #include "lib/ratio.h"
 #include "lib/video_mxf_content.h"
 #include "test.h"
+#include <dcp/equality_options.h>
 #include <dcp/mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
