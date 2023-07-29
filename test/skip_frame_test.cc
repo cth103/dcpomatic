@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (skip_frame_test)
 	make_and_verify_dcp (film);
 
 	/* Should be white numbers on a black background counting up from 2 in steps of 2
-	   up to 300.
-	*/
-	check_dcp ("test/data/skip_frame_test", film->dir (film->dcp_name ()));
+	 * up to 300.  The sound is irrelevant here.
+	 */
+	check_dcp("test/data/skip_frame_test", film->dir(film->dcp_name()), true);
 }

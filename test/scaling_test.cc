@@ -63,7 +63,11 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content
 	check /= "scaling_test";
 	check /= film->dcp_name();
 
-	check_dcp (ref.string(), check.string());
+	/* This test is concerned with the image, so we'll ignore any
+	 * differences in sound between the DCP and the reference to avoid test
+	 * failures for unrelated reasons.
+	 */
+	check_dcp(ref.string(), check.string(), true);
 }
 
 

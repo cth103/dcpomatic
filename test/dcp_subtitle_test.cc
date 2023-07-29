@@ -96,7 +96,11 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
 
-	check_dcp ("test/data/dcp_subtitle_test", film->dir(film->dcp_name()));
+	/* This test is concerned with the subtitles, so we'll ignore any
+	 * differences in sound between the DCP and the reference to avoid test
+	 * failures for unrelated reasons.
+	 */
+	check_dcp("test/data/dcp_subtitle_test", film->dir(film->dcp_name()), true);
 }
 
 

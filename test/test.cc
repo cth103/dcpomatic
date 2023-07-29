@@ -544,7 +544,7 @@ check_dcp (boost::filesystem::path ref, shared_ptr<const Film> film)
 
 
 void
-check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
+check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound_can_differ)
 {
 	dcp::DCP ref_dcp (ref);
 	ref_dcp.read ();
@@ -561,6 +561,7 @@ check_dcp (boost::filesystem::path ref, boost::filesystem::path check)
 	options.asset_hashes_can_differ = true;
 	options.issue_dates_can_differ = true;
 	options.max_subtitle_vertical_position_error = 0.001;
+	options.sound_assets_can_differ = sound_can_differ;
 
 	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
 }

@@ -78,7 +78,11 @@ BOOST_AUTO_TEST_CASE (subtitle_language_smpte_test)
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
 
-	check_dcp (String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()));
+	/* This test is concerned with the subtitles, so we'll ignore any
+	 * differences in sound between the DCP and the reference to avoid test
+	 * failures for unrelated reasons.
+	 */
+	check_dcp(String::compose("test/data/%1", name), String::compose("build/test/%1/%2", name, film->dcp_name()), true);
 }
 
 

@@ -101,8 +101,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
 
-	/* Should be blank video with a subtitle MXF */
-	check_dcp ("test/data/srt_subtitle_test2", film->dir (film->dcp_name ()));
+	/* Should be blank video with a subtitle MXF; sound is irrelevant */
+	check_dcp("test/data/srt_subtitle_test2", film->dir(film->dcp_name()), true);
 }
 
 
@@ -158,8 +158,8 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
 
-	/* Should be blank video with MXF subtitles */
-	check_dcp ("test/data/xml_subtitle_test", film->dir (film->dcp_name ()));
+	/* Should be blank video with MXF subtitles; sound is irrelevant */
+	check_dcp("test/data/xml_subtitle_test", film->dir(film->dcp_name()), true);
 }
 
 
@@ -203,7 +203,11 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
-	check_dcp ("test/data/srt_subtitle_test6", film->dir(film->dcp_name()));
+	/* This test is concerned with the subtitles, so we'll ignore any
+	 * differences in sound between the DCP and the reference to avoid test
+	 * failures for unrelated reasons.
+	 */
+	check_dcp("test/data/srt_subtitle_test6", film->dir(film->dcp_name()), true);
 }
 
 

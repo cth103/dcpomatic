@@ -41,5 +41,9 @@ BOOST_AUTO_TEST_CASE (image_content_fade_test)
 	content->video->set_fade_in (1);
 	make_and_verify_dcp (film);
 
-	check_dcp ("test/data/image_content_fade_test", film->dir(film->dcp_name()));
+	/* This test is concerned with the image, so we'll ignore any
+	 * differences in sound between the DCP and the reference to avoid test
+	 * failures for unrelated reasons.
+	 */
+	check_dcp("test/data/image_content_fade_test", film->dir(film->dcp_name()), true);
 }

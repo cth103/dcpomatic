@@ -50,6 +50,8 @@ BOOST_AUTO_TEST_CASE (repeat_frame_test)
 	film->set_video_frame_rate (48);
 	make_and_verify_dcp (film);
 
-	/* Should be 32 frames of red followed by 16 frames of black to fill the DCP up to 1 second */
-	check_dcp ("test/data/repeat_frame_test", film->dir (film->dcp_name ()));
+	/* Should be 32 frames of red followed by 16 frames of black to fill the DCP up to 1 second;
+	 * no need to check sound.
+	 */
+	check_dcp("test/data/repeat_frame_test", film->dir(film->dcp_name()), true);
 }

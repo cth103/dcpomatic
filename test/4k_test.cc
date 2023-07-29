@@ -64,5 +64,9 @@ BOOST_AUTO_TEST_CASE (fourk_test)
 	boost::filesystem::path p (test_film_dir("4k_test"));
 	p /= film->dcp_name ();
 
-	check_dcp ("test/data/4k_test", p.string());
+	/* This test is concerned with the image and its metadata, so we'll
+	 * ignore any differences in sound between the DCP and the reference to
+	 * avoid test failures for unrelated reasons.
+	 */
+	check_dcp("test/data/4k_test", p.string(), true);
 }
