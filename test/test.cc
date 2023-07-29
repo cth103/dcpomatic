@@ -284,6 +284,7 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 	BOOST_REQUIRE (!ASDCP_FAILURE (check_reader.FillAudioDescriptor (check_desc)));
 
 	BOOST_REQUIRE_EQUAL (ref_desc.ContainerDuration, check_desc.ContainerDuration);
+	BOOST_REQUIRE_MESSAGE(ref_desc.ChannelCount, check_desc.ChannelCount);
 
 	ASDCP::PCM::FrameBuffer ref_buffer (Kumu::Megabyte);
 	ASDCP::PCM::FrameBuffer check_buffer (Kumu::Megabyte);
