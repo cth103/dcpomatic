@@ -82,6 +82,7 @@ private:
 	void check_out_of_range_markers ();
 	void check_subtitle_languages();
 	void check_audio_language ();
+	void check_8_or_16_audio_channels();
 
 	boost::thread _thread;
 	/** This is used to make a partial DCP containing only the subtitles and closed captions that

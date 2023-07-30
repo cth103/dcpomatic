@@ -399,6 +399,7 @@ try
 	check_out_of_range_markers ();
 	check_subtitle_languages();
 	check_audio_language ();
+	check_8_or_16_audio_channels();
 
 	if (check_loudness_done) {
 		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
@@ -702,6 +703,16 @@ Hints::check_certificates ()
 	default:
 		/* Some bad situations can't happen here as DCP-o-matic would have refused to start until they are fixed */
 		break;
+	}
+}
+
+
+void
+Hints::check_8_or_16_audio_channels()
+{
+	auto const channels = film()->audio_channels();
+	if (channels != 8 && channels != 16) {
+		hint(String::compose(_("Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some distributors to raise QC errors when they check your DCP.  To avoid this, set the DCP audio channels to 8 or 16."), channels));
 	}
 }
 
