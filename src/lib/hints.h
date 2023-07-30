@@ -80,7 +80,7 @@ private:
 	bool check_loudness ();
 	void check_ffec_and_ffmc_in_smpte_feature ();
 	void check_out_of_range_markers ();
-	void check_text_languages ();
+	void check_subtitle_languages();
 	void check_audio_language ();
 
 	boost::thread _thread;

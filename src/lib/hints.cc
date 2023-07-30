@@ -397,7 +397,7 @@ try
 	auto const check_loudness_done = check_loudness ();
 	check_ffec_and_ffmc_in_smpte_feature ();
 	check_out_of_range_markers ();
-	check_text_languages ();
+	check_subtitle_languages();
 	check_audio_language ();
 
 	if (check_loudness_done) {
@@ -647,14 +647,14 @@ Hints::join ()
 
 
 void
-Hints::check_text_languages ()
+Hints::check_subtitle_languages()
 {
 	for (auto i: film()->content()) {
 		for (auto j: i->text) {
-			if (j->use() && !j->language()) {
-				hint (_("At least one piece of subtitle or closed caption content has no specified language.  "
-					"It is advisable to set the language for each piece of subtitle or closed caption content "
-					"in the \"Content→Timed text\", \"Content→Open subtitles\" or \"Content→Closed captions\" tab."));
+			if (j->use() && j->type() == TextType::OPEN_SUBTITLE && !j->language()) {
+				hint (_("At least one piece of subtitle content has no specified language.  "
+					"It is advisable to set the language for each piece of subtitle content "
+					"in the \"Content→Timed text\" or \"Content→Open subtitles\" tab."));
 				return;
 			}
 		}
