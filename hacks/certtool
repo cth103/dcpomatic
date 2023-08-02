@@ -1,0 +1,75 @@
+#!/usr/bin/python3
+
+import argparse
+import os
+from pathlib import Path
+import subprocess
+import sys
+import tempfile
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--check', help='check a .dom settings export file on stdin', action='store_true')
+parser.add_argument('-s', '--split', help='split certificates and private keys from stdin', action='store_true')
+parser.add_argument('-p', '--prefix', help='output filename prefix when doing --split', type=Path, default='./')
+args = parser.parse_args()
+
+cert = None
+certs = []
+private_key = None
+
+for line in sys.stdin.readlines():
+    if line.find('BEGIN CERTIFICATE') != -1:
+        cert = line
+    elif line.find('END CERTIFICATE') != -1:
+        cert += line
+        certs.append(cert)
+        cert = None
+    elif cert:
+        cert += line
+    elif line.find('BEGIN RSA PRIVATE KEY') != -1:
+        private_key = line
+    elif line.find('END RSA PRIVATE') != -1:
+        private_key += line
+    elif private_key:
+        private_key += line
+
+if len(certs) != 3:
+    print(f'Expected 3 certificates but found {len(certs)}.', file=sys.stderr)
+    exit(1)
+
+if args.check:
+    if private_key is None:
+        print('Found no private key', file=sys.stderr)
+        exit(1)
+
+    leaf_cert_modulus = None
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as leaf:
+        print(certs[2], file=leaf)
+        leaf.close()
+        process = subprocess.run(['openssl', 'x509', '-modulus', '-noout', '-in', leaf.name], capture_output=True)
+        leaf_cert_modulus = process.stdout
+
+    leaf_key_modulus = None
+    with tempfile.NamedTemporaryFile('w', delete=False) as key:
+        print(private_key, file=key)
+        key.close()
+        process = subprocess.run(['openssl', 'rsa', '-modulus', '-noout', '-in', key.name], capture_output=True, check=True)
+        leaf_key_modulus = process.stdout
+
+    if leaf_cert_modulus != leaf_key_modulus:
+        print('Leaf certificate and private key don''t match.', file=sys.stderr)
+        exit(1)
+    else:
+        print('Leaf certificates and private key match.')
+
+elif args.split:
+
+    for index, cert in enumerate(certs):
+        with open(f'{args.prefix.name}cert_{index}.pem', 'w') as output:
+            print(cert, file=output)
+
+    if private_key:
+        with open(f'{args.prefix.name}private_key.pem', 'w') as output:
+            print(private_key, file=output)
+
