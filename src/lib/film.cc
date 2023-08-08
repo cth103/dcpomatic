@@ -316,13 +316,13 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 	auto p = dir ("analysis");
 
 	Digester digester;
-	for (auto i: playlist->content()) {
-		if (!i->audio) {
+	for (auto content: playlist->content()) {
+		if (!content->audio) {
 			continue;
 		}
 
-		digester.add (i->digest());
-		digester.add (i->audio->mapping().digest());
+		digester.add(content->digest());
+		digester.add(content->audio->mapping().digest());
 		if (playlist->content().size() != 1) {
 			/* Analyses should be considered equal regardless of gain
 			   if they were made from just one piece of content.  This
@@ -330,14 +330,14 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 			   analysis at the plotting stage rather than having to
 			   recompute it.
 			*/
-			digester.add (i->audio->gain());
+			digester.add(content->audio->gain());
 
 			/* Likewise we only care about position if we're looking at a
 			 * whole-project view.
 			 */
-			digester.add (i->position().get());
-			digester.add (i->trim_start().get());
-			digester.add (i->trim_end().get());
+			digester.add(content->position().get());
+			digester.add(content->trim_start().get());
+			digester.add(content->trim_end().get());
 		}
 	}
 
@@ -433,10 +433,10 @@ Film::metadata (bool with_content_paths) const
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
 	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
 	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
-	for (map<dcp::Marker, DCPTime>::const_iterator i = _markers.begin(); i != _markers.end(); ++i) {
+	for (auto const& marker: _markers) {
 		auto m = root->add_child("Marker");
-		m->set_attribute("Type", dcp::marker_to_string(i->first));
-		m->add_child_text(raw_convert<string>(i->second.get()));
+		m->set_attribute("Type", dcp::marker_to_string(marker.first));
+		m->add_child_text(raw_convert<string>(marker.second.get()));
 	}
 	for (auto i: _ratings) {
 		i.as_xml (root->add_child("Rating"));
@@ -794,12 +794,12 @@ Film::subtitle_languages () const
 {
 	pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>> result;
 	for (auto i: content()) {
-		for (auto j: i->text) {
-			if (j->use() && j->type() == TextType::OPEN_SUBTITLE && j->language()) {
-				if (j->language_is_additional()) {
-					result.second.push_back (j->language().get());
+		for (auto text: i->text) {
+			if (text->use() && text->type() == TextType::OPEN_SUBTITLE && text->language()) {
+				if (text->language_is_additional()) {
+					result.second.push_back(text->language().get());
 				} else {
-					result.first = j->language().get();
+					result.first = text->language().get();
 				}
 			}
 		}
@@ -960,10 +960,10 @@ Film::isdcf_name (bool if_created_now) const
 	auto burnt_in = true;
 	auto ccap = false;
 	for (auto i: content_list) {
-		for (auto j: i->text) {
-			if (j->type() == TextType::OPEN_SUBTITLE && j->use() && !j->burn()) {
+		for (auto text: i->text) {
+			if (text->type() == TextType::OPEN_SUBTITLE && text->use() && !text->burn()) {
 				burnt_in = false;
-			} else if (j->type() == TextType::CLOSED_CAPTION && j->use()) {
+			} else if (text->type() == TextType::CLOSED_CAPTION && text->use()) {
 				ccap = true;
 			}
 		}
@@ -1047,19 +1047,19 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	auto vf = false;
-	for (auto i: content_list) {
-		auto dc = dynamic_pointer_cast<const DCPContent>(i);
-		if (!dc) {
+	for (auto content: content_list) {
+		auto dcp = dynamic_pointer_cast<const DCPContent>(content);
+		if (!dcp) {
 			continue;
 		}
 
 		bool any_text = false;
 		for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-			if (dc->reference_text(static_cast<TextType>(i))) {
+			if (dcp->reference_text(static_cast<TextType>(i))) {
 				any_text = true;
 			}
 		}
-		if (dc->reference_video() || dc->reference_audio() || any_text) {
+		if (dcp->reference_video() || dcp->reference_audio() || any_text) {
 			vf = true;
 		}
 	}
@@ -1316,14 +1316,14 @@ Film::cpls () const
 	vector<CPLSummary> out;
 
 	auto const dir = directory().get();
-	for (auto i: boost::filesystem::directory_iterator(dir)) {
+	for (auto const& item: boost::filesystem::directory_iterator(dir)) {
 		if (
-			boost::filesystem::is_directory (i) &&
-			i.path().leaf() != "j2c" && i.path().leaf() != "video" && i.path().leaf() != "info" && i.path().leaf() != "analysis"
+			boost::filesystem::is_directory(item) &&
+			item.path().leaf() != "j2c" && item.path().leaf() != "video" && item.path().leaf() != "info" && item.path().leaf() != "analysis"
 			) {
 
 			try {
-				out.push_back (CPLSummary(i));
+				out.push_back(CPLSummary(item));
 			} catch (...) {
 
 			}
@@ -1425,10 +1425,10 @@ Film::maybe_set_container_and_resolution ()
 {
 	/* Get the only piece of video content, if there is only one */
 	shared_ptr<VideoContent> video;
-	for (auto i: _playlist->content()) {
-		if (i->video) {
+	for (auto content: _playlist->content()) {
+		if (content->video) {
 			if (!video) {
-				video = i->video;
+				video = content->video;
 			} else {
 				video.reset ();
 			}
@@ -1683,25 +1683,25 @@ Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::Local
 
 	map<shared_ptr<const dcp::ReelFileAsset>, dcp::Key> keys;
 
-	for (auto i: cpl->reel_file_assets()) {
-		if (!i->encrypted()) {
+	for (auto asset: cpl->reel_file_assets()) {
+		if (!asset->encrypted()) {
 			continue;
 		}
 
 		/* Get any imported key for this ID */
 		bool done = false;
-		for (auto j: imported_keys) {
-			if (j.id() == i->key_id().get()) {
-				LOG_GENERAL ("Using imported key for %1", i->key_id().get());
-				keys[i] = j.key();
+		for (auto const& k: imported_keys) {
+			if (k.id() == asset->key_id().get()) {
+				LOG_GENERAL("Using imported key for %1", asset->key_id().get());
+				keys[asset] = k.key();
 				done = true;
 			}
 		}
 
 		if (!done) {
 			/* No imported key; it must be an asset that we encrypted */
-			LOG_GENERAL ("Using our own key for %1", i->key_id().get());
-			keys[i] = key();
+			LOG_GENERAL("Using our own key for %1", asset->key_id().get());
+			keys[asset] = key();
 		}
 	}
 
