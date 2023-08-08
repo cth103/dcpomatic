@@ -527,7 +527,7 @@ ContentPanel::check_selection ()
 		_video_panel->create ();
 	} else if (!have_video && _video_panel) {
 		_notebook->DeletePage (off);
-		_video_panel = 0;
+		_video_panel = nullptr;
 	}
 
 	if (have_video) {
@@ -540,7 +540,7 @@ ContentPanel::check_selection ()
 		_audio_panel->create ();
 	} else if (!have_audio && _audio_panel) {
 		_notebook->DeletePage (off);
-		_audio_panel = 0;
+		_audio_panel = nullptr;
 	}
 
 	if (have_audio) {
