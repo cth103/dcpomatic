@@ -94,6 +94,7 @@ def build(bld):
                  file_group_test.cc
                  file_log_test.cc
                  file_naming_test.cc
+                 film_test.cc
                  film_metadata_test.cc
                  find_missing_test.cc
                  font_comparator_test.cc
