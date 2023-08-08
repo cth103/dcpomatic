@@ -1304,7 +1304,7 @@ vector<CPLSummary>
 Film::cpls () const
 {
 	if (!directory ()) {
-		return vector<CPLSummary> ();
+		return {};
 	}
 
 	vector<CPLSummary> out;
