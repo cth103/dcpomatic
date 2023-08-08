@@ -1941,10 +1941,10 @@ Film::closed_caption_tracks () const
 {
 	list<DCPTextTrack> tt;
 	for (auto i: content()) {
-		for (auto j: i->text) {
+		for (auto text: i->text) {
 			/* XXX: Empty DCPTextTrack ends up being a magic value here - the "unknown" or "not specified" track */
-			auto dtt = j->dcp_track().get_value_or(DCPTextTrack());
-			if (j->type() == TextType::CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {
+			auto dtt = text->dcp_track().get_value_or(DCPTextTrack());
+			if (text->type() == TextType::CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {
 				tt.push_back (dtt);
 			}
 		}
