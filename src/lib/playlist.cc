@@ -629,24 +629,18 @@ void
 Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 {
 	auto cont = content ();
-	auto i = cont.begin();
-	while (i != cont.end() && *i != c) {
-		++i;
-	}
 
-	DCPOMATIC_ASSERT (i != cont.end());
+	auto iter = std::find(cont.begin(), cont.end(), c);
+	DCPOMATIC_ASSERT(iter != cont.end());
 
-	ContentList::iterator next = i;
-	++next;
-
+	ContentList::iterator next = std::next(iter);
 	if (next == cont.end()) {
+		/* This content is already at the end */
 		return;
 	}
 
-	auto next_c = *next;
-
-	next_c->set_position (film, c->position());
-	c->set_position (film, c->position() + next_c->length_after_trim(film));
+	(*next)->set_position(film, c->position());
+	c->set_position(film, c->position() + (*next)->length_after_trim(film));
 }
 
 
