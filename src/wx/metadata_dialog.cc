@@ -37,13 +37,16 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/weak_ptr.hpp>
 
 
 using std::weak_ptr;
 using std::vector;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 MetadataDialog::MetadataDialog (wxWindow* parent, weak_ptr<Film> weak_film)

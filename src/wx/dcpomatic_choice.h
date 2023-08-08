@@ -23,7 +23,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include <boost/optional.hpp>
 
 
