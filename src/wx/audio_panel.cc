@@ -34,6 +34,7 @@
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_audio_stream.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/maths_util.h"
 #include <dcp/warnings.h>
@@ -128,9 +129,9 @@ AudioPanel::create ()
 	_delay->wrapped()->SetRange (-1000, 1000);
 
 	content_selection_changed ();
-	film_changed (Film::Property::AUDIO_CHANNELS);
-	film_changed (Film::Property::VIDEO_FRAME_RATE);
-	film_changed (Film::Property::REEL_TYPE);
+	film_changed(FilmProperty::AUDIO_CHANNELS);
+	film_changed(FilmProperty::VIDEO_FRAME_RATE);
+	film_changed(FilmProperty::REEL_TYPE);
 
 	_reference->bind(&AudioPanel::reference_clicked, this);
 	_show->Bind                  (wxEVT_BUTTON,   boost::bind (&AudioPanel::show_clicked, this));
@@ -196,23 +197,23 @@ AudioPanel::add_to_grid ()
 
 
 void
-AudioPanel::film_changed (Film::Property property)
+AudioPanel::film_changed (FilmProperty property)
 {
 	if (!_parent->film()) {
 		return;
 	}
 
 	switch (property) {
-	case Film::Property::AUDIO_CHANNELS:
-	case Film::Property::AUDIO_PROCESSOR:
+	case FilmProperty::AUDIO_CHANNELS:
+	case FilmProperty::AUDIO_PROCESSOR:
 		_mapping->set_output_channels (_parent->film()->audio_output_names ());
 		setup_peak ();
 		break;
-	case Film::Property::VIDEO_FRAME_RATE:
+	case FilmProperty::VIDEO_FRAME_RATE:
 		setup_description ();
 		break;
-	case Film::Property::REEL_TYPE:
-	case Film::Property::INTEROP:
+	case FilmProperty::REEL_TYPE:
+	case FilmProperty::INTEROP:
 		setup_sensitivity ();
 		break;
 	default:

@@ -21,7 +21,7 @@
 
 #include "wx_ptr.h"
 #include "lib/config.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 
 
 class Button;
@@ -57,7 +57,7 @@ public:
 	void set_film (std::shared_ptr<Film>);
 	void set_general_sensitivity (bool);
 
-	void film_changed (Film::Property);
+	void film_changed(FilmProperty);
 	void film_content_changed (int);
 
 	wxPanel* panel () const {

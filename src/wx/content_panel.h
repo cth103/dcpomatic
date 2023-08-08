@@ -21,7 +21,7 @@
 
 #include "content_menu.h"
 #include "lib/enum_indexed_vector.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include "lib/text_type.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -67,7 +67,7 @@ public:
 	void set_selection (ContentList cl);
 	void select_all ();
 
-	void film_changed (Film::Property p);
+	void film_changed(FilmProperty p);
 	void film_content_changed (int p);
 
 	void first_shown ();

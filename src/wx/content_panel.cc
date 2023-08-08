@@ -42,6 +42,7 @@
 #include "lib/dcp_subtitle_decoder.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/log.h"
 #include "lib/playlist.h"
@@ -401,11 +402,11 @@ ContentPanel::selected_ffmpeg ()
 
 
 void
-ContentPanel::film_changed (Film::Property p)
+ContentPanel::film_changed(FilmProperty p)
 {
 	switch (p) {
-	case Film::Property::CONTENT:
-	case Film::Property::CONTENT_ORDER:
+	case FilmProperty::CONTENT:
+	case FilmProperty::CONTENT_ORDER:
 		setup ();
 		break;
 	default:
@@ -772,8 +773,8 @@ ContentPanel::set_film (shared_ptr<Film> film)
 
 	_film = film;
 
-	film_changed (Film::Property::CONTENT);
-	film_changed (Film::Property::AUDIO_CHANNELS);
+	film_changed(FilmProperty::CONTENT);
+	film_changed(FilmProperty::AUDIO_CHANNELS);
 
 	if (_film) {
 		check_selection ();

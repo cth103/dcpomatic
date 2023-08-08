@@ -22,8 +22,7 @@
 #include "editable_list.h"
 #include "full_language_tag_dialog.h"
 #include "metadata_dialog.h"
-#include "lib/film.h"
-#include "lib/weak_film.h"
+#include "lib/film_property.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
 #include <dcp/warnings.h>
@@ -49,7 +48,7 @@ public:
 private:
 	void setup_standard (wxPanel* parent, wxSizer* sizer) override;
 	void setup_advanced (wxPanel* parent, wxSizer* sizer) override;
-	void film_changed (ChangeType type, Film::Property property) override;
+	void film_changed(ChangeType type, FilmProperty property) override;
 	void setup_sensitivity () override;
 
 	std::vector<std::string> content_versions () const;

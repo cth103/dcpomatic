@@ -22,6 +22,7 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcpomatic_time.h"
+#include "lib/film.h"
 #include "lib/player.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>

@@ -30,6 +30,7 @@
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/internet.h"
 #include "lib/player_video.h"
 #include "lib/scoped_temporary.h"

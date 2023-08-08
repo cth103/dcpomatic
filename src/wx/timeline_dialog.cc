@@ -25,6 +25,7 @@
 #include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/cross.h"
+#include "lib/film.h"
 #include "lib/playlist.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -98,14 +99,14 @@ TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmView
 	Bind(wxEVT_CHAR_HOOK, boost::bind(&TimelineDialog::keypress, this, _1));
 
         _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
-	film_change (ChangeType::DONE, Film::Property::SEQUENCE);
+	film_change(ChangeType::DONE, FilmProperty::SEQUENCE);
 
 	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
 }
 
 
 void
-TimelineDialog::film_change (ChangeType type, Film::Property p)
+TimelineDialog::film_change(ChangeType type, FilmProperty p)
 {
 	if (type != ChangeType::DONE) {
 		return;
@@ -116,7 +117,7 @@ TimelineDialog::film_change (ChangeType type, Film::Property p)
 		return;
 	}
 
-	if (p == Film::Property::SEQUENCE) {
+	if (p == FilmProperty::SEQUENCE) {
 		_toolbar->ToggleTool ((int) Timeline::SEQUENCE, film->sequence ());
 	}
 }

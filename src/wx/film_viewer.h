@@ -26,7 +26,7 @@
 
 #include "video_view.h"
 #include "lib/config.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include "lib/player_text.h"
 #include "lib/signaller.h"
 #include "lib/timer.h"
@@ -162,7 +162,7 @@ private:
 	void player_change (std::vector<int> properties);
 	void idle_handler ();
 	void request_idle_display_next_frame ();
-	void film_change (ChangeType, Film::Property);
+	void film_change(ChangeType, FilmProperty);
 	void destroy_butler();
 	void create_butler();
 	void destroy_and_maybe_create_butler();

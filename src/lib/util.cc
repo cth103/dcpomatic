@@ -54,6 +54,7 @@
 #include "video_content.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/file.h>
 #include <dcp/locale_convert.h>
 #include <dcp/picture_asset.h>
 #include <dcp/raw_convert.h>

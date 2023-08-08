@@ -21,6 +21,7 @@
 
 #include "dcp_subtitle_content.h"
 #include "dcp_subtitle_decoder.h"
+#include "film.h"
 #include "font.h"
 #include "text_content.h"
 #include "util.h"

@@ -20,6 +20,7 @@
 
 
 #include "decoder.h"
+#include "types.h"
 
 
 class ImageContent;

@@ -37,7 +37,7 @@ public:
 	void set_selection (ContentList selection);
 
 private:
-	void film_change (ChangeType type, Film::Property);
+	void film_change(ChangeType type, FilmProperty);
 	void tool_clicked (wxCommandEvent& id);
 	void keypress(wxKeyEvent const& event);
 

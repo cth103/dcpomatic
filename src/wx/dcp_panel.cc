@@ -390,19 +390,19 @@ DCPPanel::metadata_clicked ()
 
 
 void
-DCPPanel::film_changed (Film::Property p)
+DCPPanel::film_changed(FilmProperty p)
 {
 	switch (p) {
-	case Film::Property::NONE:
+	case FilmProperty::NONE:
 		break;
-	case Film::Property::CONTAINER:
+	case FilmProperty::CONTAINER:
 		setup_container ();
 		break;
-	case Film::Property::NAME:
+	case FilmProperty::NAME:
 		checked_set (_name, _film->name());
 		setup_dcp_name ();
 		break;
-	case Film::Property::DCP_CONTENT_TYPE:
+	case FilmProperty::DCP_CONTENT_TYPE:
 	{
 		auto index = DCPContentType::as_index(_film->dcp_content_type());
 		DCPOMATIC_ASSERT (index);
@@ -410,18 +410,18 @@ DCPPanel::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	}
-	case Film::Property::ENCRYPTED:
+	case FilmProperty::ENCRYPTED:
 		checked_set (_encrypted, _film->encrypted ());
 		break;
-	case Film::Property::RESOLUTION:
+	case FilmProperty::RESOLUTION:
 		checked_set (_resolution, _film->resolution() == Resolution::TWO_K ? 0 : 1);
 		setup_container ();
 		setup_dcp_name ();
 		break;
-	case Film::Property::J2K_BANDWIDTH:
+	case FilmProperty::J2K_BANDWIDTH:
 		checked_set (_j2k_bandwidth, _film->j2k_bandwidth() / 1000000);
 		break;
-	case Film::Property::USE_ISDCF_NAME:
+	case FilmProperty::USE_ISDCF_NAME:
 	{
 		checked_set (_use_isdcf_name, _film->use_isdcf_name());
 		if (_film->use_isdcf_name()) {
@@ -437,7 +437,7 @@ DCPPanel::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	}
-	case Film::Property::VIDEO_FRAME_RATE:
+	case FilmProperty::VIDEO_FRAME_RATE:
 	{
 		bool done = false;
 		for (unsigned int i = 0; i < _frame_rate_choice->GetCount(); ++i) {
@@ -458,7 +458,7 @@ DCPPanel::film_changed (Film::Property p)
 		setup_dcp_name ();
 		break;
 	}
-	case Film::Property::AUDIO_CHANNELS:
+	case FilmProperty::AUDIO_CHANNELS:
 		if (_film->audio_channels() < minimum_allowed_audio_channels()) {
 			_film->set_audio_channels (minimum_allowed_audio_channels());
 		} else {
@@ -466,42 +466,42 @@ DCPPanel::film_changed (Film::Property p)
 			setup_dcp_name ();
 		}
 		break;
-	case Film::Property::THREE_D:
+	case FilmProperty::THREE_D:
 		checked_set (_three_d, _film->three_d());
 		setup_dcp_name ();
 		break;
-	case Film::Property::REENCODE_J2K:
+	case FilmProperty::REENCODE_J2K:
 		checked_set (_reencode_j2k, _film->reencode_j2k());
 		break;
-	case Film::Property::INTEROP:
+	case FilmProperty::INTEROP:
 		set_standard();
 		setup_dcp_name ();
 		_markers->Enable (!_film->interop());
 		break;
-	case Film::Property::LIMIT_TO_SMPTE_BV20:
+	case FilmProperty::LIMIT_TO_SMPTE_BV20:
 		set_standard();
 		break;
-	case Film::Property::AUDIO_PROCESSOR:
+	case FilmProperty::AUDIO_PROCESSOR:
 		if (_film->audio_processor()) {
 			checked_set (_audio_processor, _film->audio_processor()->id());
 		} else {
 			checked_set (_audio_processor, 0);
 		}
 		setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels());
-		film_changed (Film::Property::AUDIO_CHANNELS);
+		film_changed (FilmProperty::AUDIO_CHANNELS);
 		break;
-	case Film::Property::REEL_TYPE:
+	case FilmProperty::REEL_TYPE:
 		checked_set (_reel_type, static_cast<int>(_film->reel_type()));
 		_reel_length->Enable (_film->reel_type() == ReelType::BY_LENGTH);
 		break;
-	case Film::Property::REEL_LENGTH:
+	case FilmProperty::REEL_LENGTH:
 		checked_set (_reel_length, _film->reel_length() / 1000000000LL);
 		break;
-	case Film::Property::CONTENT:
+	case FilmProperty::CONTENT:
 		setup_dcp_name ();
 		setup_sensitivity ();
 		break;
-	case Film::Property::AUDIO_LANGUAGE:
+	case FilmProperty::AUDIO_LANGUAGE:
 	{
 		auto al = _film->audio_language();
 		checked_set (_enable_audio_language, static_cast<bool>(al));
@@ -510,23 +510,23 @@ DCPPanel::film_changed (Film::Property p)
 		setup_sensitivity ();
 		break;
 	}
-	case Film::Property::AUDIO_FRAME_RATE:
+	case FilmProperty::AUDIO_FRAME_RATE:
 		if (_audio_sample_rate) {
 			checked_set (_audio_sample_rate, _film->audio_frame_rate() == 48000 ? 0 : 1);
 		}
 		break;
-	case Film::Property::CONTENT_VERSIONS:
-	case Film::Property::VERSION_NUMBER:
-	case Film::Property::RELEASE_TERRITORY:
-	case Film::Property::RATINGS:
-	case Film::Property::FACILITY:
-	case Film::Property::STUDIO:
-	case Film::Property::TEMP_VERSION:
-	case Film::Property::PRE_RELEASE:
-	case Film::Property::RED_BAND:
-	case Film::Property::TWO_D_VERSION_OF_THREE_D:
-	case Film::Property::CHAIN:
-	case Film::Property::LUMINANCE:
+	case FilmProperty::CONTENT_VERSIONS:
+	case FilmProperty::VERSION_NUMBER:
+	case FilmProperty::RELEASE_TERRITORY:
+	case FilmProperty::RATINGS:
+	case FilmProperty::FACILITY:
+	case FilmProperty::STUDIO:
+	case FilmProperty::TEMP_VERSION:
+	case FilmProperty::PRE_RELEASE:
+	case FilmProperty::RED_BAND:
+	case FilmProperty::TWO_D_VERSION_OF_THREE_D:
+	case FilmProperty::CHAIN:
+	case FilmProperty::LUMINANCE:
 		setup_dcp_name ();
 		break;
 	default:
@@ -631,26 +631,26 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	_standard->Clear();
 	add_standards();
 
-	film_changed (Film::Property::NAME);
-	film_changed (Film::Property::USE_ISDCF_NAME);
-	film_changed (Film::Property::CONTENT);
-	film_changed (Film::Property::DCP_CONTENT_TYPE);
-	film_changed (Film::Property::CONTAINER);
-	film_changed (Film::Property::RESOLUTION);
-	film_changed (Film::Property::ENCRYPTED);
-	film_changed (Film::Property::J2K_BANDWIDTH);
-	film_changed (Film::Property::VIDEO_FRAME_RATE);
-	film_changed (Film::Property::AUDIO_CHANNELS);
-	film_changed (Film::Property::SEQUENCE);
-	film_changed (Film::Property::THREE_D);
-	film_changed (Film::Property::INTEROP);
-	film_changed (Film::Property::AUDIO_PROCESSOR);
-	film_changed (Film::Property::REEL_TYPE);
-	film_changed (Film::Property::REEL_LENGTH);
-	film_changed (Film::Property::REENCODE_J2K);
-	film_changed (Film::Property::AUDIO_LANGUAGE);
-	film_changed (Film::Property::AUDIO_FRAME_RATE);
-	film_changed (Film::Property::LIMIT_TO_SMPTE_BV20);
+	film_changed(FilmProperty::NAME);
+	film_changed(FilmProperty::USE_ISDCF_NAME);
+	film_changed(FilmProperty::CONTENT);
+	film_changed(FilmProperty::DCP_CONTENT_TYPE);
+	film_changed(FilmProperty::CONTAINER);
+	film_changed(FilmProperty::RESOLUTION);
+	film_changed(FilmProperty::ENCRYPTED);
+	film_changed(FilmProperty::J2K_BANDWIDTH);
+	film_changed(FilmProperty::VIDEO_FRAME_RATE);
+	film_changed(FilmProperty::AUDIO_CHANNELS);
+	film_changed(FilmProperty::SEQUENCE);
+	film_changed(FilmProperty::THREE_D);
+	film_changed(FilmProperty::INTEROP);
+	film_changed(FilmProperty::AUDIO_PROCESSOR);
+	film_changed(FilmProperty::REEL_TYPE);
+	film_changed(FilmProperty::REEL_LENGTH);
+	film_changed(FilmProperty::REENCODE_J2K);
+	film_changed(FilmProperty::AUDIO_LANGUAGE);
+	film_changed(FilmProperty::AUDIO_FRAME_RATE);
+	film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
 
 	set_general_sensitivity(static_cast<bool>(_film));
 }
@@ -769,14 +769,14 @@ DCPPanel::config_changed (Config::Property p)
 		_audio_processor->Clear ();
 		add_audio_processors ();
 		if (_film) {
-			film_changed (Film::Property::AUDIO_PROCESSOR);
+			film_changed(FilmProperty::AUDIO_PROCESSOR);
 		}
 	} else if (p == Config::ALLOW_SMPTE_BV20) {
 		_standard->Clear();
 		add_standards();
 		if (_film) {
-			film_changed(Film::Property::INTEROP);
-			film_changed(Film::Property::LIMIT_TO_SMPTE_BV20);
+			film_changed(FilmProperty::INTEROP);
+			film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
 		}
 	} else if (p == Config::ISDCF_NAME_PART_LENGTH) {
 		setup_dcp_name();

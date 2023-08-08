@@ -21,6 +21,7 @@
 
 #include "film_viewer.h"
 #include "standard_controls.h"
+#include "lib/film.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/tglbtn.h>

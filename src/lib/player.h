@@ -31,9 +31,10 @@
 #include "content_audio.h"
 #include "content_text.h"
 #include "content_video.h"
+#include "dcp_text_track.h"
 #include "empty.h"
 #include "enum_indexed_vector.h"
-#include "film.h"
+#include "film_property.h"
 #include "image.h"
 #include "player_text.h"
 #include "position_image.h"
@@ -49,6 +50,7 @@ namespace dcp {
 class AtmosContent;
 class AudioBuffers;
 class Content;
+class Film;
 class PlayerVideo;
 class Playlist;
 class ReferencedReelAsset;
@@ -142,7 +144,7 @@ private:
 	void construct ();
 	void connect();
 	void setup_pieces ();
-	void film_change (ChangeType, Film::Property);
+	void film_change(ChangeType, FilmProperty);
 	void playlist_change (ChangeType);
 	void playlist_content_change (ChangeType, int, bool);
 	Frame dcp_to_content_video (std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;

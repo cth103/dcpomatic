@@ -24,7 +24,7 @@
  */
 
 
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -65,7 +65,7 @@ public:
 private:
 
 	/* Handle changes to the model */
-	void film_change (ChangeType, Film::Property);
+	void film_change(ChangeType, FilmProperty);
 	void film_content_change (ChangeType type, int);
 
 	void set_general_sensitivity (bool);

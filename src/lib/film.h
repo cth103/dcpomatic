@@ -32,6 +32,7 @@
 #include "change_signaller.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "film_property.h"
 #include "frame_rate_change.h"
 #include "named_channel.h"
 #include "resolution.h"
@@ -44,6 +45,7 @@
 #include <dcp/key.h>
 #include <dcp/language_tag.h>
 #include <dcp/rating.h>
+#include <dcp/types.h>
 #include <boost/filesystem.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
@@ -206,53 +208,6 @@ public:
 	}
 
 	bool last_written_by_earlier_than(int major, int minor, int micro) const;
-
-	/** Identifiers for the parts of our state; used for signalling changes */
-	enum class Property {
-		NONE,
-		NAME,
-		USE_ISDCF_NAME,
-		/** The playlist's content list has changed (i.e. content has been added or removed) */
-		CONTENT,
-		/** The order of content in the playlist has changed */
-		CONTENT_ORDER,
-		DCP_CONTENT_TYPE,
-		CONTAINER,
-		RESOLUTION,
-		ENCRYPTED,
-		J2K_BANDWIDTH,
-		VIDEO_FRAME_RATE,
-		AUDIO_FRAME_RATE,
-		AUDIO_CHANNELS,
-		/** The setting of _three_d has changed */
-		THREE_D,
-		SEQUENCE,
-		INTEROP,
-		LIMIT_TO_SMPTE_BV20,
-		AUDIO_PROCESSOR,
-		REEL_TYPE,
-		REEL_LENGTH,
-		REENCODE_J2K,
-		MARKERS,
-		RATINGS,
-		CONTENT_VERSIONS,
-		NAME_LANGUAGE,
-		AUDIO_LANGUAGE,
-		RELEASE_TERRITORY,
-		SIGN_LANGUAGE_VIDEO_LANGUAGE,
-		VERSION_NUMBER,
-		STATUS,
-		CHAIN,
-		DISTRIBUTOR,
-		FACILITY,
-		STUDIO,
-		TEMP_VERSION,
-		PRE_RELEASE,
-		RED_BAND,
-		TWO_D_VERSION_OF_THREE_D,
-		LUMINANCE,
-	};
-
 
 	/* GET */
 
@@ -468,7 +423,7 @@ public:
 	void add_ffoc_lfoc (Markers& markers) const;
 
 	/** Emitted when some property has of the Film is about to change or has changed */
-	mutable boost::signals2::signal<void (ChangeType, Property)> Change;
+	mutable boost::signals2::signal<void (ChangeType, FilmProperty)> Change;
 
 	/** Emitted when some property of our content has changed */
 	mutable boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> ContentChange;
@@ -496,7 +451,7 @@ private:
 
 	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
 
-	void signal_change (ChangeType, Property);
+	void signal_change (ChangeType, FilmProperty);
 	void signal_change (ChangeType, int);
 	std::string video_identifier () const;
 	void playlist_change (ChangeType);
@@ -606,7 +561,7 @@ private:
 };
 
 
-typedef ChangeSignaller<Film, Film::Property> FilmChangeSignaller;
+typedef ChangeSignaller<Film, FilmProperty> FilmChangeSignaller;
 
 
 #endif

@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/job.h"
 #include "content_sub_panel.h"
 #include "wx_ptr.h"
 
@@ -38,7 +39,7 @@ public:
 	TextPanel (ContentPanel *, TextType t);
 
 	void create () override;
-	void film_changed (Film::Property) override;
+	void film_changed(FilmProperty) override;
 	void film_content_changed (int) override;
 	void content_selection_changed () override;
 

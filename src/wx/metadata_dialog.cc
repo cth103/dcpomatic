@@ -30,6 +30,7 @@
 #include "region_subtag_widget.h"
 #include "wx_util.h"
 #include "lib/film.h"
+#include "lib/film_property.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/notebook.h>
@@ -105,61 +106,61 @@ MetadataDialog::setup ()
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&MetadataDialog::film_changed, this, _1, _2));
 
-	film_changed (ChangeType::DONE, Film::Property::RELEASE_TERRITORY);
-	film_changed (ChangeType::DONE, Film::Property::SIGN_LANGUAGE_VIDEO_LANGUAGE);
-	film_changed (ChangeType::DONE, Film::Property::FACILITY);
-	film_changed (ChangeType::DONE, Film::Property::STUDIO);
-	film_changed (ChangeType::DONE, Film::Property::TEMP_VERSION);
-	film_changed (ChangeType::DONE, Film::Property::PRE_RELEASE);
-	film_changed (ChangeType::DONE, Film::Property::RED_BAND);
-	film_changed (ChangeType::DONE, Film::Property::TWO_D_VERSION_OF_THREE_D);
-	film_changed (ChangeType::DONE, Film::Property::CHAIN);
-	film_changed (ChangeType::DONE, Film::Property::LUMINANCE);
+	film_changed(ChangeType::DONE, FilmProperty::RELEASE_TERRITORY);
+	film_changed(ChangeType::DONE, FilmProperty::SIGN_LANGUAGE_VIDEO_LANGUAGE);
+	film_changed(ChangeType::DONE, FilmProperty::FACILITY);
+	film_changed(ChangeType::DONE, FilmProperty::STUDIO);
+	film_changed(ChangeType::DONE, FilmProperty::TEMP_VERSION);
+	film_changed(ChangeType::DONE, FilmProperty::PRE_RELEASE);
+	film_changed(ChangeType::DONE, FilmProperty::RED_BAND);
+	film_changed(ChangeType::DONE, FilmProperty::TWO_D_VERSION_OF_THREE_D);
+	film_changed(ChangeType::DONE, FilmProperty::CHAIN);
+	film_changed(ChangeType::DONE, FilmProperty::LUMINANCE);
 
 	setup_sensitivity ();
 }
 
 
 void
-MetadataDialog::film_changed (ChangeType type, Film::Property property)
+MetadataDialog::film_changed(ChangeType type, FilmProperty property)
 {
 	if (type != ChangeType::DONE) {
 		return;
 	}
 
-	if (property == Film::Property::SIGN_LANGUAGE_VIDEO_LANGUAGE) {
+	if (property == FilmProperty::SIGN_LANGUAGE_VIDEO_LANGUAGE) {
 		_sign_language_video_language->set (film()->sign_language_video_language());
-	} else if (property == Film::Property::RELEASE_TERRITORY) {
+	} else if (property == FilmProperty::RELEASE_TERRITORY) {
 		auto rt = film()->release_territory();
 		checked_set (_enable_release_territory, static_cast<bool>(rt));
 		if (rt) {
 			_release_territory_copy = *rt;
 			checked_set(_release_territory, *_release_territory_copy);
 		}
-	} else if (property == Film::Property::FACILITY) {
+	} else if (property == FilmProperty::FACILITY) {
 		checked_set (_enable_facility, static_cast<bool>(film()->facility()));
 		if (film()->facility()) {
 			checked_set (_facility, *film()->facility());
 		}
-	} else if (property == Film::Property::STUDIO) {
+	} else if (property == FilmProperty::STUDIO) {
 		checked_set (_enable_studio, static_cast<bool>(film()->studio()));
 		if (film()->studio()) {
 			checked_set (_studio, *film()->studio());
 		}
-	} else if (property == Film::Property::CHAIN) {
+	} else if (property == FilmProperty::CHAIN) {
 		checked_set (_enable_chain, static_cast<bool>(film()->chain()));
 		if (film()->chain()) {
 			checked_set (_chain, *film()->chain());
 		}
-	} else if (property == Film::Property::TEMP_VERSION) {
+	} else if (property == FilmProperty::TEMP_VERSION) {
 		checked_set (_temp_version, film()->temp_version());
-	} else if (property == Film::Property::PRE_RELEASE) {
+	} else if (property == FilmProperty::PRE_RELEASE) {
 		checked_set (_pre_release, film()->pre_release());
-	} else if (property == Film::Property::RED_BAND) {
+	} else if (property == FilmProperty::RED_BAND) {
 		checked_set (_red_band, film()->red_band());
-	} else if (property == Film::Property::TWO_D_VERSION_OF_THREE_D) {
+	} else if (property == FilmProperty::TWO_D_VERSION_OF_THREE_D) {
 		checked_set (_two_d_version_of_three_d, film()->two_d_version_of_three_d());
-	} else if (property == Film::Property::LUMINANCE) {
+	} else if (property == FilmProperty::LUMINANCE) {
 		auto lum = film()->luminance();
 		checked_set (_enable_luminance, static_cast<bool>(lum));
 		if (lum) {

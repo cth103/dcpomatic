@@ -29,7 +29,6 @@
 
 
 #include "dcpomatic_time.h"
-#include "film.h"
 #include "weak_film.h"
 #include <boost/utility.hpp>
 

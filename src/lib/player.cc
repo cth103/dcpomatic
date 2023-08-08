@@ -143,7 +143,7 @@ Player::construct ()
 	connect();
 	set_video_container_size(film->frame_size());
 
-	film_change (ChangeType::DONE, Film::Property::AUDIO_PROCESSOR);
+	film_change(ChangeType::DONE, FilmProperty::AUDIO_PROCESSOR);
 
 	setup_pieces ();
 	seek (DCPTime (), true);
@@ -481,7 +481,7 @@ Player::playlist_change (ChangeType type)
 
 
 void
-Player::film_change (ChangeType type, Film::Property p)
+Player::film_change(ChangeType type, FilmProperty p)
 {
 	/* Here we should notice Film properties that affect our output, and
 	   alert listeners that our output now would be different to how it was
@@ -493,9 +493,9 @@ Player::film_change (ChangeType type, Film::Property p)
 		return;
 	}
 
-	if (p == Film::Property::CONTAINER) {
+	if (p == FilmProperty::CONTAINER) {
 		Change (type, PlayerProperty::FILM_CONTAINER, false);
-	} else if (p == Film::Property::VIDEO_FRAME_RATE) {
+	} else if (p == FilmProperty::VIDEO_FRAME_RATE) {
 		/* Pieces contain a FrameRateChange which contains the DCP frame rate,
 		   so we need new pieces here.
 		*/
@@ -503,12 +503,12 @@ Player::film_change (ChangeType type, Film::Property p)
 			setup_pieces ();
 		}
 		Change (type, PlayerProperty::FILM_VIDEO_FRAME_RATE, false);
-	} else if (p == Film::Property::AUDIO_PROCESSOR) {
+	} else if (p == FilmProperty::AUDIO_PROCESSOR) {
 		if (type == ChangeType::DONE && film->audio_processor ()) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_processor = film->audio_processor()->clone(film->audio_frame_rate());
 		}
-	} else if (p == Film::Property::AUDIO_CHANNELS) {
+	} else if (p == FilmProperty::AUDIO_CHANNELS) {
 		if (type == ChangeType::DONE) {
 			boost::mutex::scoped_lock lm (_mutex);
 			_audio_merger.clear ();

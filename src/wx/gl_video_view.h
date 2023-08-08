@@ -25,6 +25,10 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 
+#undef None
+#undef Success
+#undef Status
+
 
 /* The OpenGL API in wxWidgets 3.0.x is sufficiently different to make it awkward to support,
  * and I think it may even have things missing that we require (e.g. the attributes parameter
@@ -34,6 +38,7 @@ LIBDCP_ENABLE_WARNINGS
  */
 #if wxCHECK_VERSION(3,1,0)
 
+
 #include "video_view.h"
 #include "lib/signaller.h"
 #include "lib/position.h"
@@ -41,9 +46,6 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/atomic.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
-#undef None
-#undef Success
-#undef Status
 
 
 class Texture

@@ -25,6 +25,7 @@
 #include "lib/butler.h"
 #include "lib/compose.hpp"
 #include "lib/constants.h"
+#include "lib/film.h"
 #include "lib/string_text.h"
 #include "lib/text_content.h"
 #include <boost/bind/bind.hpp>

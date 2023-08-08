@@ -32,6 +32,7 @@
 #include "lib/dcp_content.h"
 #include "lib/dcp_subtitle_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/scope_guard.h"
 #include "lib/string_text_file_content.h"
@@ -421,9 +422,9 @@ TimingPanel::content_selection_changed ()
 }
 
 void
-TimingPanel::film_changed (Film::Property p)
+TimingPanel::film_changed(FilmProperty p)
 {
-	if (p == Film::Property::VIDEO_FRAME_RATE) {
+	if (p == FilmProperty::VIDEO_FRAME_RATE) {
 		update_full_length ();
 		update_play_length ();
 	}

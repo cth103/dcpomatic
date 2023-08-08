@@ -25,8 +25,9 @@
 
 #include "editable_list.h"
 #include "lib/change_signaller.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include "lib/weak_film.h"
+#include <dcp/rating.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -53,7 +54,7 @@ public:
 protected:
 	virtual void setup_standard (wxPanel*, wxSizer*);
 	virtual void setup_advanced (wxPanel*, wxSizer*);
-	virtual void film_changed (ChangeType type, Film::Property property);
+	virtual void film_changed(ChangeType type, FilmProperty property);
 	virtual void setup_sensitivity ();
 
 	EditableList<dcp::Rating, RatingDialog>* _ratings;

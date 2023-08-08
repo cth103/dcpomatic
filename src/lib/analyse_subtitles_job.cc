@@ -21,6 +21,7 @@
 
 #include "analyse_subtitles_job.h"
 #include "bitmap_text.h"
+#include "film.h"
 #include "image.h"
 #include "player.h"
 #include "playlist.h"

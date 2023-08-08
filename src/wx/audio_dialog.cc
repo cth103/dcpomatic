@@ -320,13 +320,13 @@ AudioDialog::channel_clicked (wxCommandEvent& ev)
 }
 
 void
-AudioDialog::film_change (ChangeType type, Film::Property p)
+AudioDialog::film_change(ChangeType type, FilmProperty p)
 {
 	if (type != ChangeType::DONE) {
 		return;
 	}
 
-	if (p == Film::Property::AUDIO_CHANNELS) {
+	if (p == FilmProperty::AUDIO_CHANNELS) {
 		auto film = _film.lock ();
 		if (film) {
 			_channels = film->audio_channels ();

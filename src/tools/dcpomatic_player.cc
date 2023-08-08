@@ -454,9 +454,9 @@ public:
 		_info->triggered_update ();
 	}
 
-	void film_changed (ChangeType type, Film::Property property)
+	void film_changed (ChangeType type, FilmProperty property)
 	{
-		if (type != ChangeType::DONE || property != Film::Property::CONTENT) {
+		if (type != ChangeType::DONE || property != FilmProperty::CONTENT) {
 			return;
 		}
 

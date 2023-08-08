@@ -21,7 +21,7 @@
 
 #include "content_menu.h"
 #include "timeline_content_view.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include "lib/rect.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -97,7 +97,7 @@ private:
 	void mouse_moved (wxMouseEvent &);
 	void mouse_moved_select (wxMouseEvent &);
 	void mouse_moved_zoom (wxMouseEvent &);
-	void film_change (ChangeType type, Film::Property);
+	void film_change(ChangeType type, FilmProperty);
 	void film_content_change (ChangeType type, int, bool frequent);
 	void resized ();
 	void assign_tracks ();

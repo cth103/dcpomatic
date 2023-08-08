@@ -23,6 +23,7 @@
 #include "markers.h"
 #include "markers_panel.h"
 #include "wx_util.h"
+#include "lib/film.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
@@ -82,7 +83,7 @@ MarkersPanel::set_film (weak_ptr<Film> weak_film)
 
 
 void
-MarkersPanel::film_changed (ChangeType type, Film::Property property)
+MarkersPanel::film_changed(ChangeType type, FilmProperty property)
 {
 	if (type != ChangeType::DONE) {
 		return;
@@ -93,7 +94,7 @@ MarkersPanel::film_changed (ChangeType type, Film::Property property)
 		return;
 	}
 
-	if (property == Film::Property::MARKERS || property == Film::Property::CONTENT || property == Film::Property::CONTENT_ORDER || property == Film::Property::VIDEO_FRAME_RATE) {
+	if (property == FilmProperty::MARKERS || property == FilmProperty::CONTENT || property == FilmProperty::CONTENT_ORDER || property == FilmProperty::VIDEO_FRAME_RATE) {
 		update_from_film (film);
 	}
 }

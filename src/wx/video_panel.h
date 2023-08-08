@@ -27,7 +27,7 @@
 #include "content_sub_panel.h"
 #include "content_widget.h"
 #include "timecode.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include "lib/video_frame_type.h"
 
 
@@ -48,7 +48,7 @@ public:
 	explicit VideoPanel (ContentPanel *);
 
 	void create () override;
-	void film_changed (Film::Property) override;
+	void film_changed(FilmProperty) override;
 	void film_content_changed (int) override;
 	void content_selection_changed () override;
 

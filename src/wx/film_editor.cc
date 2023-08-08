@@ -76,7 +76,7 @@ FilmEditor::FilmEditor(wxWindow* parent, FilmViewer& viewer)
  *  @param p Property of the Film that has changed.
  */
 void
-FilmEditor::film_change (ChangeType type, Film::Property p)
+FilmEditor::film_change(ChangeType type, FilmProperty p)
 {
 	if (type != ChangeType::DONE) {
 		return;
@@ -91,7 +91,7 @@ FilmEditor::film_change (ChangeType type, Film::Property p)
 	_content_panel->film_changed (p);
 	_dcp_panel->film_changed (p);
 
-	if (p == Film::Property::CONTENT && !_film->content().empty()) {
+	if (p == FilmProperty::CONTENT && !_film->content().empty()) {
 		/* Select newly-added content */
 		_content_panel->set_selection (_film->content().back ());
 	}

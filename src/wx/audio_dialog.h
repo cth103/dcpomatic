@@ -21,7 +21,7 @@
 
 #include "lib/audio_analysis.h"
 #include "lib/constants.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include "lib/playlist.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -46,7 +46,7 @@ public:
 	void set_cursor (boost::optional<dcpomatic::DCPTime> time, boost::optional<float> db);
 
 private:
-	void film_change (ChangeType, Film::Property);
+	void film_change(ChangeType, FilmProperty);
 	void content_change (ChangeType, int);
 	void channel_clicked (wxCommandEvent &);
 	void type_clicked (wxCommandEvent &);

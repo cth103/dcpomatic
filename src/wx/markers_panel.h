@@ -20,7 +20,7 @@
 
 
 #include "lib/dcpomatic_time.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -47,7 +47,7 @@ private:
 	void move_marker_to_current_position ();
 	void remove_marker ();
 	void add_marker (wxCommandEvent& ev);
-	void film_changed (ChangeType type, Film::Property property);
+	void film_changed(ChangeType type, FilmProperty property);
 	void update_from_film (std::shared_ptr<Film> film);
 
 	wxTipWindow* _tip = nullptr;

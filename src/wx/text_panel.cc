@@ -40,6 +40,7 @@
 #include "lib/decoder_factory.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
+#include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/scope_guard.h"
 #include "lib/string_text_file_content.h"
@@ -400,9 +401,9 @@ TextPanel::dcp_track_changed ()
 
 
 void
-TextPanel::film_changed (Film::Property property)
+TextPanel::film_changed(FilmProperty property)
 {
-	if (property == Film::Property::CONTENT || property == Film::Property::REEL_TYPE || property == Film::Property::INTEROP) {
+	if (property == FilmProperty::CONTENT || property == FilmProperty::REEL_TYPE || property == FilmProperty::INTEROP) {
 		setup_sensitivity ();
 	}
 }

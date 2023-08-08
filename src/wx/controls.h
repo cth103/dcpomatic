@@ -23,8 +23,9 @@
 #define DCPOMATIC_CONTROLS_H
 
 
+#include "lib/change_signaller.h"
 #include "lib/dcpomatic_time.h"
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -102,7 +103,7 @@ private:
 	void outline_content_changed ();
 	void eye_changed ();
 	void update_position ();
-	void film_change (ChangeType, Film::Property);
+	void film_change(ChangeType, FilmProperty);
 
 	typedef std::pair<std::shared_ptr<dcp::CPL>, boost::filesystem::path> CPL;
 

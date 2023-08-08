@@ -33,6 +33,7 @@
 #include "lib/config.h"
 #include "lib/dcp_content.h"
 #include "lib/ffmpeg_content.h"
+#include "lib/film.h"
 #include "lib/filter.h"
 #include "lib/frame_rate_change.h"
 #include "lib/ratio.h"
@@ -343,17 +344,17 @@ VideoPanel::range_changed ()
 
 
 void
-VideoPanel::film_changed (Film::Property property)
+VideoPanel::film_changed(FilmProperty property)
 {
 	switch (property) {
-	case Film::Property::VIDEO_FRAME_RATE:
-	case Film::Property::CONTAINER:
-	case Film::Property::RESOLUTION:
+	case FilmProperty::VIDEO_FRAME_RATE:
+	case FilmProperty::CONTAINER:
+	case FilmProperty::RESOLUTION:
 		setup_description ();
 		setup_sensitivity ();
 		break;
-	case Film::Property::REEL_TYPE:
-	case Film::Property::INTEROP:
+	case FilmProperty::REEL_TYPE:
+	case FilmProperty::INTEROP:
 		setup_sensitivity ();
 		break;
 	default:

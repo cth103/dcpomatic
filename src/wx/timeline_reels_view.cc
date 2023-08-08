@@ -22,6 +22,7 @@
 #include "timeline.h"
 #include "timeline_reels_view.h"
 #include "wx_util.h"
+#include "lib/film.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>

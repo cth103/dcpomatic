@@ -23,11 +23,12 @@
 #define DCPOMATIC_CONTENT_SUB_PANEL_H
 
 
-#include "lib/film.h"
+#include "lib/film_property.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <memory>
 
 class ContentPanel;
 class Content;
@@ -42,7 +43,7 @@ public:
 
 	virtual void create () = 0;
 
-	virtual void film_changed (Film::Property) {}
+	virtual void film_changed(FilmProperty) {}
 	/** Called when a given property of one of the selected Contents changes */
 	virtual void film_content_changed (int) = 0;
 	/** Called when the list of selected Contents changes */

@@ -142,18 +142,18 @@ SMPTEMetadataDialog::setup ()
 	_enable_distributor->bind(&SMPTEMetadataDialog::enable_distributor_changed, this);
 	_distributor->Bind (wxEVT_TEXT, boost::bind(&SMPTEMetadataDialog::distributor_changed, this));
 
-	film_changed (ChangeType::DONE, Film::Property::NAME_LANGUAGE);
-	film_changed (ChangeType::DONE, Film::Property::VERSION_NUMBER);
-	film_changed (ChangeType::DONE, Film::Property::STATUS);
-	film_changed (ChangeType::DONE, Film::Property::DISTRIBUTOR);
-	film_changed (ChangeType::DONE, Film::Property::CONTENT_VERSIONS);
+	film_changed(ChangeType::DONE, FilmProperty::NAME_LANGUAGE);
+	film_changed(ChangeType::DONE, FilmProperty::VERSION_NUMBER);
+	film_changed(ChangeType::DONE, FilmProperty::STATUS);
+	film_changed(ChangeType::DONE, FilmProperty::DISTRIBUTOR);
+	film_changed(ChangeType::DONE, FilmProperty::CONTENT_VERSIONS);
 
 	setup_sensitivity ();
 }
 
 
 void
-SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
+SMPTEMetadataDialog::film_changed(ChangeType type, FilmProperty property)
 {
 	MetadataDialog::film_changed (type, property);
 
@@ -161,11 +161,11 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 		return;
 	}
 
-	if (property == Film::Property::NAME_LANGUAGE) {
+	if (property == FilmProperty::NAME_LANGUAGE) {
 		_name_language->set (film()->name_language());
-	} else if (property == Film::Property::VERSION_NUMBER) {
+	} else if (property == FilmProperty::VERSION_NUMBER) {
 		checked_set (_version_number, film()->version_number());
-	} else if (property == Film::Property::STATUS) {
+	} else if (property == FilmProperty::STATUS) {
 		switch (film()->status()) {
 		case dcp::Status::TEMP:
 			checked_set (_status, 0);
@@ -177,7 +177,7 @@ SMPTEMetadataDialog::film_changed (ChangeType type, Film::Property property)
 			checked_set (_status, 2);
 			break;
 		}
-	} else if (property == Film::Property::DISTRIBUTOR) {
+	} else if (property == FilmProperty::DISTRIBUTOR) {
 		checked_set (_enable_distributor, static_cast<bool>(film()->distributor()));
 		if (film()->distributor()) {
 			checked_set (_distributor, *film()->distributor());

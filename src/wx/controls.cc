@@ -33,6 +33,7 @@
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/examine_content_job.h"
+#include "lib/film.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
@@ -430,14 +431,14 @@ Controls::film () const
 
 
 void
-Controls::film_change (ChangeType type, Film::Property p)
+Controls::film_change(ChangeType type, FilmProperty p)
 {
 	if (type == ChangeType::DONE) {
-		if (p == Film::Property::CONTENT) {
+		if (p == FilmProperty::CONTENT) {
 			setup_sensitivity ();
 			update_position_label ();
 			update_position_slider ();
-		} else if (p == Film::Property::THREE_D) {
+		} else if (p == FilmProperty::THREE_D) {
 			setup_sensitivity ();
 		}
 	}

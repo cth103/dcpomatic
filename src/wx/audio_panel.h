@@ -41,7 +41,7 @@ public:
 	explicit AudioPanel (ContentPanel *);
 
 	void create () override;
-	void film_changed (Film::Property) override;
+	void film_changed(FilmProperty) override;
 	void film_content_changed (int) override;
 	void content_selection_changed () override;
 	void set_film (std::shared_ptr<Film>);
