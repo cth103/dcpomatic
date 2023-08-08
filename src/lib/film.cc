@@ -1929,13 +1929,10 @@ Film::references_dcp_audio () const
 bool
 Film::contains_atmos_content () const
 {
-	for (auto i: _playlist->content()) {
-		if (i->atmos) {
-			return true;
-		}
-	}
-
-	return false;
+	auto const content = _playlist->content();
+	return std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> content) {
+		return static_cast<bool>(content->atmos);
+	}) != content.end();
 }
 
 
