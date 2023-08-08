@@ -36,12 +36,6 @@
 class Film;
 
 
-struct ContentSorter
-{
-	bool operator() (std::shared_ptr<Content> a, std::shared_ptr<Content> b);
-};
-
-
 /** @class Playlist
  *  @brief A set of Content objects with knowledge of how they should be arranged into
  *  a DCP.
@@ -49,7 +43,8 @@ struct ContentSorter
 class Playlist
 {
 public:
-	Playlist ();
+	Playlist() = default;
+
 	~Playlist ();
 
 	Playlist (Playlist const&) = delete;

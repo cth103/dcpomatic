@@ -58,10 +58,26 @@ using namespace boost::placeholders;
 #endif
 
 
-Playlist::Playlist ()
+class ContentSorter
 {
+public:
+	bool operator()(shared_ptr<Content> a, shared_ptr<Content> b)
+	{
+		if (a->position() != b->position()) {
+			return a->position() < b->position();
+		}
 
-}
+		/* Put video before audio if they start at the same time */
+		if (a->video && !b->video) {
+			return true;
+		} else if (!a->video && b->video) {
+			return false;
+		}
+
+		/* Last resort */
+		return a->digest() < b->digest();
+	}
+};
 
 
 Playlist::~Playlist ()
@@ -539,25 +555,6 @@ void
 Playlist::set_sequence (bool s)
 {
 	_sequence = s;
-}
-
-
-bool
-ContentSorter::operator() (shared_ptr<Content> a, shared_ptr<Content> b)
-{
-	if (a->position() != b->position()) {
-		return a->position() < b->position();
-	}
-
-	/* Put video before audio if they start at the same time */
-	if (a->video && !b->video) {
-		return true;
-	} else if (!a->video && b->video) {
-		return false;
-	}
-
-	/* Last resort */
-	return a->digest() < b->digest();
 }
 
 
