@@ -588,11 +588,10 @@ DCPPanel::container_changed ()
 		return;
 	}
 
-	auto const n = _container->get();
-	if (n) {
+	if (auto const container = _container->get()) {
 		auto ratios = Ratio::containers ();
-		DCPOMATIC_ASSERT(*n < int(ratios.size()));
-		_film->set_container(ratios[*n]);
+		DCPOMATIC_ASSERT(*container < int(ratios.size()));
+		_film->set_container(ratios[*container]);
 	}
 }
 
@@ -605,9 +604,8 @@ DCPPanel::dcp_content_type_changed ()
 		return;
 	}
 
-	auto n = _dcp_content_type->get();
-	if (n) {
-		_film->set_dcp_content_type(DCPContentType::from_index(*n));
+	if (auto const type = _dcp_content_type->get()) {
+		_film->set_dcp_content_type(DCPContentType::from_index(*type));
 	}
 }
 
