@@ -110,6 +110,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	e->add_kdm (B_kdm);
 	e->add_ov ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	C->examine_and_add_content (e);
+	C->set_audio_channels(6);
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (C, {dcp::VerificationNote::Code::INVALID_STANDARD});
 

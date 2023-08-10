@@ -173,6 +173,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 	film->set_name ("frobozz");
 	film->set_interop (true);
 	film->set_sequence (false);
+	film->set_audio_channels(6);
 	for (auto i = 0; i < 2; ++i) {
 		auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
 		content->only_text()->set_use (true);

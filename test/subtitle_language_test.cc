@@ -46,6 +46,7 @@ BOOST_AUTO_TEST_CASE (subtitle_language_interop_test)
 
 	fr[0]->only_text()->set_language (dcp::LanguageTag("fr-FR"));
 	film->set_interop (true);
+	film->set_audio_channels(6);
 
 	make_and_verify_dcp (
 		film,
