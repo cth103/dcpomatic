@@ -76,5 +76,10 @@ InteropMetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 void
 InteropMetadataDialog::content_version_changed ()
 {
-	film()->set_content_versions ({ wx_to_std(_content_version->GetValue()) });
+	auto version = wx_to_std(_content_version->GetValue());
+	if (version.empty()) {
+		film()->set_content_versions({});
+	} else {
+		film()->set_content_versions({version});
+	}
 }

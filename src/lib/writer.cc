@@ -616,7 +616,10 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	vector<dcp::ContentVersion> cv;
 	for (auto i: film()->content_versions()) {
-		cv.push_back (dcp::ContentVersion(i));
+		/* Make sure we don't end up writing an empty <LabelText> node as some validators
+		 * complain about that.
+		 */
+		cv.push_back(!i.empty() ? dcp::ContentVersion(i) : dcp::ContentVersion("1"));
 	}
 	if (cv.empty()) {
 		cv = { dcp::ContentVersion("1") };
