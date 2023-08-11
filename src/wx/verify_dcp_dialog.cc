@@ -434,6 +434,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::MISMATCHED_ASSET_MAP_ID:
 			add(i, _("The asset with ID %id in the asset map actually has an id of %other_id"));
 			break;
+		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
+			add(i, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
+			break;
 		}
 	}
 
