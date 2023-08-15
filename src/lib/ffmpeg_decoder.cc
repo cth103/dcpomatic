@@ -360,7 +360,6 @@ deinterleave_audio(shared_ptr<FFmpegAudioStream> stream, AVFrame* frame)
 	case AV_SAMPLE_FMT_FLTP:
 	{
 		auto p = reinterpret_cast<float**> (frame->data);
-		DCPOMATIC_ASSERT(channels <= stream->channels());
 		for (int i = 0; i < channels; ++i) {
 			memcpy (data[i], p[i], frames * sizeof(float));
 		}

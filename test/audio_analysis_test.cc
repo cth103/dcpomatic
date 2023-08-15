@@ -233,3 +233,17 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_long_silent_end)
 	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
 	BOOST_CHECK(!wait_for_jobs());
 }
+
+
+BOOST_AUTO_TEST_CASE(analyse_audio_with_strange_channel_count)
+{
+	auto content = content_factory(TestPaths::private_data() / "mali.mkv")[0];
+	auto film = new_test_film2("analyse_audio_with_strange_channel_count", { content });
+
+	auto playlist = make_shared<Playlist>();
+	playlist->add(film, content);
+	boost::signals2::connection c;
+	JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
+	BOOST_CHECK(!wait_for_jobs());
+}
+
