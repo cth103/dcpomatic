@@ -254,7 +254,7 @@ FFmpegDecoder::pass ()
  */
 static
 shared_ptr<AudioBuffers>
-deinterleave_audio(shared_ptr<FFmpegAudioStream> stream, AVFrame* frame)
+deinterleave_audio(AVFrame* frame)
 {
 	auto format = static_cast<AVSampleFormat>(frame->format);
 
@@ -476,7 +476,7 @@ void
 FFmpegDecoder::process_audio_frame (shared_ptr<FFmpegAudioStream> stream)
 {
 	auto frame = audio_frame (stream);
-	auto data = deinterleave_audio(stream, frame);
+	auto data = deinterleave_audio(frame);
 
 	auto const time_base = stream->stream(_format_context)->time_base;
 
