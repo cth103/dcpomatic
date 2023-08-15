@@ -65,6 +65,8 @@ public:
 
 	void set_frames (int f);
 
+	void set_channels(int new_channels);
+
 	void make_silent ();
 	void make_silent (int channel);
 	void make_silent (int from, int frames);

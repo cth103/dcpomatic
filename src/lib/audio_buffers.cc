@@ -335,3 +335,22 @@ AudioBuffers::update_data_pointers ()
         }
 }
 
+
+/** Set a new channel count, either discarding data (if new_channels is less than the current
+ *  channels()), or filling with silence (if new_channels is more than the current channels()
+ */
+void
+AudioBuffers::set_channels(int new_channels)
+{
+	DCPOMATIC_ASSERT(new_channels > 0);
+
+	ScopeGuard sg = [this]() { update_data_pointers(); };
+
+	int const old_channels = channels();
+	_data.resize(new_channels);
+
+	for (int channel = old_channels; channel < new_channels; ++channel) {
+		_data[channel].resize(frames());
+	}
+}
+

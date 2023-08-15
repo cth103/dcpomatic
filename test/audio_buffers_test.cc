@@ -344,3 +344,44 @@ BOOST_AUTO_TEST_CASE (audio_buffers_trim_start)
        }
 }
 
+
+BOOST_AUTO_TEST_CASE(audio_buffers_set_channels_lower)
+{
+	AudioBuffers buffers(9, 9933);
+	srand(4);
+	random_fill(buffers);
+
+	buffers.set_channels(4);
+	BOOST_REQUIRE_EQUAL(buffers.channels(), 4U);
+
+	srand(4);
+	for (int i = 0; i < 9933; ++i) {
+		for (int c = 0; c < 4; ++c) {
+			BOOST_CHECK_EQUAL(buffers.data(c)[i], random_float());
+		}
+		for (int c = 4; c < 9; ++c) {
+			random_float();
+		}
+	}
+}
+
+
+BOOST_AUTO_TEST_CASE(audio_buffers_set_channels_higher)
+{
+	AudioBuffers buffers(9, 9933);
+	srand(4);
+	random_fill(buffers);
+
+	buffers.set_channels(13);
+	BOOST_REQUIRE_EQUAL(buffers.channels(), 13U);
+
+	srand(4);
+	for (int i = 0; i < 9933; ++i) {
+		for (int c = 0; c < 9; ++c) {
+			BOOST_CHECK_EQUAL(buffers.data(c)[i], random_float());
+		}
+		for (int c = 9; c < 13; ++c) {
+			BOOST_CHECK_EQUAL(buffers.data(c)[i], 0);
+		}
+	}
+}
