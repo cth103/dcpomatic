@@ -40,6 +40,10 @@ public:
 	void reset ();
 	void set_fast ();
 
+	int channels() const {
+		return _channels;
+	}
+
 private:
 	SRC_STATE* _src = nullptr;
 	int _in_rate;
