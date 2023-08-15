@@ -120,11 +120,23 @@ AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_pt
 	}
 
 	if (resampler && !flushing) {
-		auto ro = resampler->run (data);
-		if (ro->frames() == 0) {
+		/* It can be the the data here has a different number of channels than the stream
+		 * it comes from (e.g. the files decoded by FFmpegDecoder sometimes have a random
+		 * frame, often at the end, with more channels).  Insert silence or discard channels
+		 * here.
+		 */
+		if (resampler->channels() != data->channels()) {
+			LOG_WARNING("Received audio data with an unexpected channel count of %1 instead of %2", data->channels(), resampler->channels());
+			auto data_copy = data->clone();
+			data_copy->set_channels(resampler->channels());
+			data = resampler->run(data_copy);
+		} else {
+			data = resampler->run(data);
+		}
+
+		if (data->frames() == 0) {
 			return;
 		}
-		data = ro;
 	}
 
 	Data(stream, ContentAudio (data, _positions[stream]));
