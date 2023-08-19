@@ -352,7 +352,7 @@ BOOST_AUTO_TEST_CASE(audio_buffers_set_channels_lower)
 	random_fill(buffers);
 
 	buffers.set_channels(4);
-	BOOST_REQUIRE_EQUAL(buffers.channels(), 4U);
+	BOOST_REQUIRE_EQUAL(buffers.channels(), 4);
 
 	srand(4);
 	for (int i = 0; i < 9933; ++i) {
