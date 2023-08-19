@@ -3,7 +3,7 @@
 # e.g. --run_tests=foo
 set -e
 
-PRIVATE_GIT="891d926e807e77c57b7ca7648d11b150fa50c6a1"
+PRIVATE_GIT="6d4c7d83847e4583c51f4008e4a5d11c7c9816b7"
 
 if [ "$1" == "--check" ]; then
 	shift 1
