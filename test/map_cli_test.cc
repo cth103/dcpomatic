@@ -25,6 +25,7 @@
 #include "lib/content_factory.h"
 #include "lib/film.h"
 #include "lib/map_cli.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
@@ -441,3 +442,65 @@ BOOST_AUTO_TEST_CASE(map_with_given_config)
 	/* It should be signed by the key in test/data/map_with_given_config, not the one in test/data/signer_key */
 	BOOST_CHECK(dcp::file_to_string(find_file(out, "cpl_")).find("dnQualifier=\\+uOcNN2lPuxpxgd/5vNkkBER0GE=,CN=CS.dcpomatic.smpte-430-2.LEAF,OU=dcpomatic.com,O=dcpomatic.com") != std::string::npos);
 }
+
+
+BOOST_AUTO_TEST_CASE(map_multireel_interop_ov_and_vf_adding_ccaps)
+{
+	string const name = "map_multireel_interop_ov_and_vf_adding_ccaps";
+	string const out = String::compose("build/test/%1_out", name);
+
+	vector<shared_ptr<Content>> video = {
+		content_factory("test/data/flat_red.png")[0],
+		content_factory("test/data/flat_red.png")[0],
+		content_factory("test/data/flat_red.png")[0]
+	};
+
+	auto ov = new_test_film2(name + "_ov", { video[0], video[1], video[2] });
+	ov->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	ov->set_interop(true);
+	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::INVALID_STANDARD });
+
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
+
+	vector<shared_ptr<Content>> ccap = {
+		content_factory("test/data/short.srt")[0],
+		content_factory("test/data/short.srt")[0],
+		content_factory("test/data/short.srt")[0]
+	};
+
+	auto vf = new_test_film2(name + "_vf", { ov_dcp, ccap[0], ccap[1], ccap[2] });
+	vf->set_interop(true);
+	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	ov_dcp->set_reference_video(true);
+	ov_dcp->set_reference_audio(true);
+	for (auto i = 0; i < 3; ++i) {
+		ccap[i]->text[0]->set_use(true);
+		ccap[i]->text[0]->set_type(TextType::CLOSED_CAPTION);
+	}
+	make_and_verify_dcp(
+		vf,
+		{
+			dcp::VerificationNote::Code::INVALID_STANDARD,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::EXTERNAL_ASSET
+		});
+
+	vector<string> const args = {
+		"map_cli",
+		"-o", out,
+		"-d", ov->dir(ov->dcp_name()).string(),
+		"-d", vf->dir(vf->dcp_name()).string(),
+		find_cpl(vf->dir(vf->dcp_name())).string()
+	};
+
+	boost::filesystem::remove_all(out);
+
+	vector<string> output_messages;
+	auto error = run(args, output_messages);
+	BOOST_CHECK(!error);
+
+	verify_dcp(out, { dcp::VerificationNote::Code::INVALID_STANDARD });
+}
+
+

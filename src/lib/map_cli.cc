@@ -267,25 +267,31 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		}
 	};
 
+	auto maybe_copy_font = [&maybe_copy](shared_ptr<const dcp::SubtitleAsset> asset, bool rename, bool hard_link, bool soft_link) {
+		auto interop = dynamic_pointer_cast<const dcp::InteropSubtitleAsset>(asset);
+		boost::optional<boost::filesystem::path> extra;
+		if (interop) {
+			extra = interop->id();
+			for (auto font_asset: interop->font_assets()) {
+				maybe_copy(font_asset->id(), rename, hard_link, soft_link, extra);
+			}
+		}
+		return extra;
+	};
+
 	/* Copy assets that the CPLs need */
 	try {
 		for (auto cpl: cpls) {
 			for (auto reel: cpl->reels()) {
 				maybe_copy_from_reel(reel->main_picture(), rename, hard_link, soft_link);
 				maybe_copy_from_reel(reel->main_sound(), rename, hard_link, soft_link);
-				boost::optional<boost::filesystem::path> extra;
 				if (reel->main_subtitle()) {
-					auto interop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(reel->main_subtitle()->asset());
-					if (interop) {
-						extra = interop->id();
-						for (auto font_asset: interop->font_assets()) {
-							maybe_copy(font_asset->id(), rename, hard_link, soft_link, extra);
-						}
-					}
+					auto extra = maybe_copy_font(reel->main_subtitle()->asset(), rename, hard_link, soft_link);
+					maybe_copy_from_reel(reel->main_subtitle(), rename, hard_link, soft_link, extra);
 				}
-				maybe_copy_from_reel(reel->main_subtitle(), rename, hard_link, soft_link, extra);
 				for (auto ccap: reel->closed_captions()) {
-					maybe_copy_from_reel(ccap, rename, hard_link, soft_link);
+					auto extra = maybe_copy_font(ccap->asset(), rename, hard_link, soft_link);
+					maybe_copy_from_reel(ccap, rename, hard_link, soft_link, extra);
 				}
 				maybe_copy_from_reel(reel->atmos(), rename, hard_link, soft_link);
 			}
