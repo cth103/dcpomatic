@@ -157,6 +157,7 @@ struct TestConfig
 
 		dcpomatic_setup ();
 		setup_test_config ();
+		capture_ffmpeg_logs();
 
 		EncodeServerFinder::instance()->stop ();
 
