@@ -74,6 +74,7 @@ help (std::function<void (string)> out)
 	out ("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
 	out ("  -C, --certificate <file>                 file containing projector certificate");
 	out ("  -T, --trusted-device <file>              file containing a trusted device's certificate");
+	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
 	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
 	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
 	out ("");
@@ -454,6 +455,7 @@ try
 	bool disable_forensic_marking_picture = false;
 	optional<int> disable_forensic_marking_audio;
 	bool email = false;
+	optional<boost::filesystem::path> cinemas_file;
 
 	program_name = argv[0];
 
@@ -482,10 +484,11 @@ try
 			{ "trusted-device", required_argument, 0, 'T' },
 			{ "list-cinemas", no_argument, 0, 'B' },
 			{ "list-dkdm-cpls", no_argument, 0, 'D' },
+			{ "cinemas-file", required_argument, 0, 'E' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BD", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -575,7 +578,14 @@ try
 		case 'D':
 			list_dkdm_cpls = true;
 			break;
+		case 'E':
+			cinemas_file = optarg;
+			break;
 		}
+	}
+
+	if (cinemas_file) {
+		Config::instance()->set_cinemas_file(*cinemas_file);
 	}
 
 	if (certificate) {

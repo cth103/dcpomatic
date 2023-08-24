@@ -172,3 +172,26 @@ BOOST_AUTO_TEST_CASE(kdm_cli_select_screen)
 }
 
 
+BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
+{
+	ConfigRestorer cr;
+
+	setup_test_config();
+
+	vector<string> args = {
+		"kdm_cli",
+		"--cinemas-file",
+		"test/data/cinemas.xml",
+		"--list-cinemas"
+	};
+
+	vector<string> output;
+	auto const error = run(args, output);
+	BOOST_CHECK(!error);
+
+	BOOST_REQUIRE_EQUAL(output.size(), 3U);
+	BOOST_CHECK_EQUAL(output[0], "stinking dump ()");
+	BOOST_CHECK_EQUAL(output[1], "classy joint ()");
+	BOOST_CHECK_EQUAL(output[2], "Great ()");
+}
+
