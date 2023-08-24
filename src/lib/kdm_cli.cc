@@ -494,7 +494,7 @@ try
 		switch (c) {
 		case 'h':
 			help (out);
-			exit (EXIT_SUCCESS);
+			return {};
 		case 'o':
 			output = optarg;
 			break;
@@ -593,12 +593,12 @@ try
 		for (auto i: cinemas) {
 			out (String::compose("%1 (%2)", i->name, Emailer::address_list (i->emails)));
 		}
-		exit (EXIT_SUCCESS);
+		return {};
 	}
 
 	if (list_dkdm_cpls) {
 		dump_dkdm_group (Config::instance()->dkdms(), 0, out);
-		exit (EXIT_SUCCESS);
+		return {};
 	}
 
 	if (!duration_string && !valid_to) {
