@@ -99,9 +99,10 @@ libdcp_resources_path ()
 
 
 void
-run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
+run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err, string args)
 {
-	string ffprobe = "ffprobe \"" + content.string() + "\" 2> \"" + out.string() + "\"";
+	string const redirect = err ? "2>" : ">";
+	auto const ffprobe = String::compose("ffprobe %1 \"%2\" %3 \"%4\"", args.empty() ? " " : args, content.string(), redirect, out.string());
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
 	int const r = system (ffprobe.c_str());
 	if (r == -1 || (WIFEXITED(r) && WEXITSTATUS(r) != 0)) {

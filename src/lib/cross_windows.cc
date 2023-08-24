@@ -125,17 +125,22 @@ cpu_info ()
 
 
 void
-run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
+run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err, string args)
 {
 	SECURITY_ATTRIBUTES security;
 	security.nLength = sizeof (security);
 	security.bInheritHandle = TRUE;
 	security.lpSecurityDescriptor = 0;
 
-	HANDLE child_stderr_read;
-	HANDLE child_stderr_write;
-	if (!CreatePipe (&child_stderr_read, &child_stderr_write, &security, 0)) {
+	HANDLE child_out_read;
+	HANDLE child_out_write;
+	if (!CreatePipe(&child_out_read, &child_out_write, &security, 0)) {
 		LOG_ERROR_NC ("ffprobe call failed (could not CreatePipe)");
+		return;
+	}
+
+	if (!SetHandleInformation(child_out_read, HANDLE_FLAG_INHERIT, 0)) {
+		LOG_ERROR_NC("ffprobe call failed (could not SetHandleInformation)");
 		return;
 	}
 
@@ -145,17 +150,26 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 	STARTUPINFO startup_info;
 	ZeroMemory (&startup_info, sizeof (startup_info));
 	startup_info.cb = sizeof (startup_info);
-	startup_info.hStdError = child_stderr_write;
+	if (err) {
+		startup_info.hStdError = child_out_write;
+	} else {
+		startup_info.hStdOutput = child_out_write;
+	}
 	startup_info.dwFlags |= STARTF_USESTDHANDLES;
 
 	wchar_t command[512];
-	wcscpy (command, L"ffprobe.exe \"");
+	wcscpy(command, L"ffprobe.exe ");
 
-	wchar_t file[512];
-	MultiByteToWideChar (CP_UTF8, 0, content.string().c_str(), -1, file, sizeof(file));
-	wcscat (command, file);
+	wchar_t tmp[512];
+	MultiByteToWideChar(CP_UTF8, 0, args.c_str(), -1, tmp, sizeof(tmp));
+	wcscat(command, tmp);
 
-	wcscat (command, L"\"");
+	wcscat(command, L" \"");
+
+	MultiByteToWideChar(CP_UTF8, 0, boost::filesystem::canonical(content).make_preferred().string().c_str(), -1, tmp, sizeof(tmp));
+	wcscat(command, tmp);
+
+	wcscat(command, L"\"");
 
 	PROCESS_INFORMATION process_info;
 	ZeroMemory (&process_info, sizeof (process_info));
@@ -170,12 +184,12 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 		return;
 	}
 
-	CloseHandle (child_stderr_write);
+	CloseHandle(child_out_write);
 
 	while (true) {
 		char buffer[512];
 		DWORD read;
-		if (!ReadFile(child_stderr_read, buffer, sizeof(buffer), &read, 0) || read == 0) {
+		if (!ReadFile(child_out_read, buffer, sizeof(buffer), &read, 0) || read == 0) {
 			break;
 		}
 		o.write(buffer, read, 1);
@@ -186,7 +200,7 @@ run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
 	WaitForSingleObject (process_info.hProcess, INFINITE);
 	CloseHandle (process_info.hProcess);
 	CloseHandle (process_info.hThread);
-	CloseHandle (child_stderr_read);
+	CloseHandle(child_out_read);
 }
 
 

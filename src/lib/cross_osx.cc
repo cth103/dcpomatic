@@ -103,13 +103,18 @@ libdcp_resources_path ()
 
 
 void
-run_ffprobe (boost::filesystem::path content, boost::filesystem::path out)
+run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err, string args)
 {
 	auto path = directory_containing_executable () / "ffprobe";
+	if (!boost::filesystem::exists(path)) {
+		/* This is a hack but we need ffprobe during tests */
+		path = "/Users/ci/workspace/bin/ffprobe";
+	}
+	string const redirect = err ? "2>" : ">";
 
-	string ffprobe = "\"" + path.string() + "\" \"" + content.string() + "\" 2> \"" + out.string() + "\"";
+	auto const ffprobe = String::compose("\"%1\" %2 \"%3\" %4 \"%5\"", path, args.empty() ? " " : args, content.string(), redirect, out.string());
 	LOG_GENERAL (N_("Probing with %1"), ffprobe);
-	system (ffprobe.c_str ());
+	system (ffprobe.c_str());
 }
 
 
