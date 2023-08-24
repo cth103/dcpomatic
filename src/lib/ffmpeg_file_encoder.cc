@@ -394,7 +394,8 @@ FFmpegFileEncoder::flush ()
 		}
 	}
 
-	av_write_trailer (_format_context);
+	auto const r = av_write_trailer(_format_context);
+	DCPOMATIC_ASSERT(r == 0);
 }
 
 
