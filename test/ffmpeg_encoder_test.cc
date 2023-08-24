@@ -24,6 +24,7 @@
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
@@ -37,11 +38,14 @@
 #include "lib/transcode_job.h"
 #include "lib/video_content.h"
 #include "test.h"
+#include <dcp/file.h>
+#include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 
 
 using std::make_shared;
 using std::string;
+using std::vector;
 using namespace dcpomatic;
 
 
@@ -508,5 +512,44 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 
 	cl.add("build/test/ffmpeg_encoder_prores_regression_2.mov");
 	cl.run();
+}
+
+
+BOOST_AUTO_TEST_CASE(ffmpeg_encoder_missing_frame_at_end)
+{
+	auto content = content_factory(TestPaths::private_data() / "1s1f.mov");
+	auto film = new_test_film2("ffmpeg_encoder_missing_frame_at_end", content);
+
+	boost::filesystem::path output("build/test/ffmpeg_encoder_missing_frame_at_end.mov");
+	boost::filesystem::path log("build/test/ffmpeg_encoder_missing_frame_at_end.log");
+
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	FFmpegEncoder encoder(film, job, output, ExportFormat::PRORES_HQ, false, true, false, 23);
+	encoder.go();
+
+	run_ffprobe(output, log, false, "-show_frames -show_format -show_streams -select_streams v:0");
+
+	dcp::File read_log(log, "r");
+	BOOST_REQUIRE(read_log);
+
+	int nb_read_frames = 0;
+	int nb_frames = 0;
+	char buffer[256];
+
+	while (!read_log.eof()) {
+		read_log.gets(buffer, sizeof(buffer));
+		vector<string> parts;
+		boost::algorithm::split(parts, buffer, boost::is_any_of("="));
+		if (parts.size() == 2) {
+			if (parts[0] == "nb_read_frames") {
+				nb_read_frames = dcp::raw_convert<int>(parts[1]);
+			} else if (parts[0] == "nb_frames") {
+				nb_frames = dcp::raw_convert<int>(parts[1]);
+			}
+		}
+	}
+
+	BOOST_CHECK_EQUAL(nb_frames, 26);
+	BOOST_CHECK_EQUAL(nb_read_frames, 26);
 }
 

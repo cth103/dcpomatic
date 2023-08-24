@@ -383,6 +383,7 @@ FFmpegFileEncoder::flush ()
 			throw EncodeError (N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::flush"), r);
 		} else {
 			packet->stream_index = _video_stream_index;
+			packet->duration = _video_stream->time_base.den / _video_frame_rate;
 			av_interleaved_write_frame (_format_context, packet.get());
 		}
 
@@ -438,6 +439,7 @@ FFmpegFileEncoder::video (shared_ptr<PlayerVideo> video, DCPTime time)
 		throw EncodeError (N_("avcodec_receive_packet"), N_("FFmpegFileEncoder::video"), r);
 	} else if (r >= 0) {
 		packet->stream_index = _video_stream_index;
+		packet->duration = _video_stream->time_base.den / _video_frame_rate;
 		av_interleaved_write_frame (_format_context, packet.get());
 	}
 }
