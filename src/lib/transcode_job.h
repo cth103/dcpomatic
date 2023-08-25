@@ -65,6 +65,7 @@ public:
 
 private:
 	virtual void post_transcode () {}
+	float frames_per_second() const;
 
 	int remaining_time () const override;
 

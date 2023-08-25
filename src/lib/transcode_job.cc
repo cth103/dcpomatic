@@ -124,12 +124,7 @@ TranscodeJob::run ()
 		DCPOMATIC_ASSERT (_encoder);
 		_encoder->go ();
 
-		float fps = 0;
-		if (_finish_time != _start_time) {
-			fps = _encoder->frames_done() / (_finish_time - _start_time);
-		}
-
-		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(fps, 2, true));
+		LOG_GENERAL(N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
 
 		if (dynamic_pointer_cast<DCPEncoder>(_encoder)) {
 			try {
@@ -197,3 +192,15 @@ TranscodeJob::remaining_time () const
 	/* Compute approximate proposed length here, as it's only here that we need it */
 	return (_film->length().frames_round(_film->video_frame_rate()) - e->frames_done()) / *fps;
 }
+
+
+float
+TranscodeJob::frames_per_second() const
+{
+	if (_finish_time != _start_time) {
+		return _encoder->frames_done() / (_finish_time - _start_time);
+	} else {
+		return 0;
+	}
+}
+
