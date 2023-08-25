@@ -38,6 +38,7 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
+#include <time.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -59,7 +60,6 @@ Job::Job (shared_ptr<const Film> film)
 	, _start_time (0)
 	, _sub_start_time (0)
 	, _progress (0)
-	, _ran_for (0)
 {
 
 }
@@ -351,7 +351,7 @@ Job::set_state (State s)
 		_state = s;
 
 		if (_state == FINISHED_OK || _state == FINISHED_ERROR || _state == FINISHED_CANCELLED) {
-			_ran_for = time(0) - _start_time;
+			_finish_time = time(nullptr);
 			finished = true;
 			_sub_name.clear ();
 		}
@@ -589,7 +589,19 @@ Job::status () const
 				);
 		}
 	} else if (finished_ok ()) {
-		s = String::compose (_("OK (ran for %1)"), seconds_to_hms (_ran_for));
+		auto time_string = [](time_t time) {
+			auto tm = localtime(&time);
+			char buffer[8];
+			snprintf(buffer, sizeof(buffer), "%02d:%02d", tm->tm_hour, tm->tm_min);
+			return string(buffer);
+		};
+		auto const duration = _finish_time - _start_time;
+		if (duration < 600) {
+			/* It took less than 10 minutes; it doesn't seem worth saying when it started and finished */
+			s = String::compose(_("OK (ran for %1)"), seconds_to_hms(duration));
+		} else {
+			s = String::compose(_("OK (ran for %1 from %2 to %3)"),  seconds_to_hms(duration), time_string(_start_time), time_string(_finish_time));
+		}
 	} else if (finished_in_error ()) {
 		s = String::compose (_("Error: %1"), error_summary ());
 	} else if (finished_cancelled ()) {

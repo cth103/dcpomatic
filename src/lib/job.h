@@ -152,6 +152,7 @@ private:
 	/** time that this sub-job was started */
 	time_t _sub_start_time;
 	std::string _sub_name;
+	time_t _finish_time = 0;
 
 	/** mutex for _progress and _last_progress_update */
 	mutable boost::mutex _progress_mutex;
@@ -162,8 +163,6 @@ private:
 	    this could be a general _state_change if it made more sense.
 	*/
 	boost::condition_variable _pause_changed;
-
-	int _ran_for;
 };
 
 #endif
