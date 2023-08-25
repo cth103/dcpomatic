@@ -130,6 +130,9 @@ protected:
 
 	std::shared_ptr<const Film> _film;
 
+	time_t _start_time = 0;
+	time_t _finish_time = 0;
+
 private:
 
 	void run_wrapper ();
@@ -147,12 +150,9 @@ private:
 	/** a message that should be given to the user when the job finishes */
 	boost::optional<std::string> _message;
 
-	/** time that this job was started */
-	time_t _start_time;
 	/** time that this sub-job was started */
 	time_t _sub_start_time;
 	std::string _sub_name;
-	time_t _finish_time = 0;
 
 	/** mutex for _progress and _last_progress_update */
 	mutable boost::mutex _progress_mutex;

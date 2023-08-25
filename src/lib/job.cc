@@ -57,7 +57,6 @@ using namespace dcpomatic;
 Job::Job (shared_ptr<const Film> film)
 	: _film (film)
 	, _state (NEW)
-	, _start_time (0)
 	, _sub_start_time (0)
 	, _progress (0)
 {

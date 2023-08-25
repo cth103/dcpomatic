@@ -119,19 +119,14 @@ TranscodeJob::run ()
 			}
 		}
 
-		struct timeval start;
-		gettimeofday (&start, 0);
 		LOG_GENERAL_NC (N_("Transcode job starting"));
 
 		DCPOMATIC_ASSERT (_encoder);
 		_encoder->go ();
 
-		struct timeval finish;
-		gettimeofday (&finish, 0);
-
 		float fps = 0;
-		if (finish.tv_sec != start.tv_sec) {
-			fps = _encoder->frames_done() / (finish.tv_sec - start.tv_sec);
+		if (_finish_time != _start_time) {
+			fps = _encoder->frames_done() / (_finish_time - _start_time);
 		}
 
 		LOG_GENERAL (N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(fps, 2, true));
