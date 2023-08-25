@@ -595,7 +595,10 @@ Job::status () const
 			return string(buffer);
 		};
 		auto const duration = _finish_time - _start_time;
-		if (duration < 600) {
+		if (duration < 10) {
+			/* It took less than 10 seconds; it doesn't seem worth saying how long it took */
+			s = _("OK");
+		} else if (duration < 600) {
 			/* It took less than 10 minutes; it doesn't seem worth saying when it started and finished */
 			s = String::compose(_("OK (ran for %1)"), seconds_to_hms(duration));
 		} else {
