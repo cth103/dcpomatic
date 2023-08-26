@@ -790,7 +790,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 		[](shared_ptr<const Content> c) {
 			return !c->text.empty();
 		},
-		_("it overlaps other text content; remove the other content."),
+		_("they overlap other text content; remove the other content."),
 		why_not
 	);
 }
