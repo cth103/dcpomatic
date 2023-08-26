@@ -664,11 +664,6 @@ DCPContent::can_reference (shared_ptr<const Film> film, function<bool (shared_pt
 	return true;
 }
 
-static
-bool check_video (shared_ptr<const Content> c)
-{
-	return static_cast<bool>(c->video) && c->video->use();
-}
 
 bool
 DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) const
@@ -694,14 +689,16 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 	}
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (film, bind (&check_video, _1), _("it overlaps other video content; remove the other content."), why_not);
+	return can_reference(
+		film,
+		[](shared_ptr<const Content> c) {
+			return static_cast<bool>(c->video) && c->video->use();
+		},
+		_("it overlaps other video content; remove the other content."),
+		why_not
+	);
 }
 
-static
-bool check_audio (shared_ptr<const Content> c)
-{
-	return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
-}
 
 bool
 DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) const
@@ -729,14 +726,15 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
         }
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (film, bind (&check_audio, _1), _("it overlaps other audio content; remove the other content."), why_not);
+	return can_reference(
+		film, [](shared_ptr<const Content> c) {
+			return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
+		},
+		_("it overlaps other audio content; remove the other content."),
+		why_not
+	);
 }
 
-static
-bool check_text (shared_ptr<const Content> c)
-{
-	return !c->text.empty();
-}
 
 bool
 DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, string& why_not) const
@@ -787,7 +785,14 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 	}
 
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-	return can_reference (film, bind (&check_text, _1), _("it overlaps other text content; remove the other content."), why_not);
+	return can_reference(
+		film,
+		[](shared_ptr<const Content> c) {
+			return !c->text.empty();
+		},
+		_("it overlaps other text content; remove the other content."),
+		why_not
+	);
 }
 
 void
