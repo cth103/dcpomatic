@@ -787,8 +787,8 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 	return can_reference(
 		film,
-		[](shared_ptr<const Content> c) {
-			return !c->text.empty();
+		[type](shared_ptr<const Content> c) {
+			return std::find_if(c->text.begin(), c->text.end(), [type](shared_ptr<const TextContent> t) { return t->type() == type; }) != c->text.end();
 		},
 		_("they overlap other text content; remove the other content."),
 		why_not

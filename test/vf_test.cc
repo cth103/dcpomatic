@@ -31,6 +31,7 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/player.h"
+#include "lib/text_content.h"
 #include "lib/referenced_reel_asset.h"
 #include "lib/video_content.h"
 #include "test.h"
@@ -395,5 +396,30 @@ BOOST_AUTO_TEST_CASE (test_vf_with_trimmed_multi_reel_dcp)
 	vf_dcp->set_trim_start(vf, ContentTime::from_seconds(10));
 	vf_dcp->set_position(vf, DCPTime::from_seconds(10));
 	make_and_verify_dcp (vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+}
+
+
+/** Test bug #2599: unable to reference open subtitles in an OV when creating a VF that adds closed captions */
+BOOST_AUTO_TEST_CASE(test_referencing_ov_with_subs_when_adding_ccaps)
+{
+	string const name("test_referencing_ov_with_subs_when_adding_ccaps");
+	auto subs = content_factory("test/data/15s.srt");
+	auto ov = new_test_film2(name + "_ov", subs);
+	make_and_verify_dcp(
+		ov,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
+
+	auto ccaps = content_factory("test/data/15s.srt")[0];
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
+	auto vf = new_test_film2(name + "_vf", { ov_dcp, ccaps });
+	ccaps->text[0]->set_type(TextType::CLOSED_CAPTION);
+
+	string why_not;
+	BOOST_CHECK(ov_dcp->can_reference_text(vf, TextType::OPEN_SUBTITLE, why_not));
+	std::cout << why_not << "\n";
 }
 
