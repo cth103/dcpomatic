@@ -37,8 +37,8 @@ class PlayerText
 {
 public:
 	/** BitmapTexts, with their rectangles transformed as specified by their content */
-	std::list<BitmapText> bitmap;
-	std::list<StringText> string;
+	std::vector<BitmapText> bitmap;
+	std::vector<StringText> string;
 };
 
 

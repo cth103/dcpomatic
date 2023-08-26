@@ -39,7 +39,6 @@ LIBDCP_ENABLE_WARNINGS
 
 using std::cerr;
 using std::cout;
-using std::list;
 using std::make_pair;
 using std::make_shared;
 using std::max;
@@ -47,6 +46,7 @@ using std::min;
 using std::pair;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using boost::optional;
 using namespace dcpomatic;
 
@@ -76,7 +76,7 @@ create_layout(string font_name, string markup)
 
 
 string
-marked_up (list<StringText> subtitles, int target_height, float fade_factor, string font_name)
+marked_up(vector<StringText> subtitles, int target_height, float fade_factor, string font_name)
 {
 	auto constexpr pixels_to_1024ths_point = 72 * 1024 / 96;
 
@@ -296,7 +296,7 @@ struct Layout
  *  at the same time and with the same fade in/out.
  */
 static Layout
-setup_layout(list<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
+setup_layout(vector<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
 {
 	DCPOMATIC_ASSERT(!subtitles.empty());
 	auto const& first = subtitles.front();
@@ -314,7 +314,7 @@ setup_layout(list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
  *  at the same time and with the same fade in/out.
  */
 static PositionImage
-render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
+render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
 {
 	/* XXX: this method can only handle italic / bold changes mid-line,
 	   nothing else yet.
@@ -401,11 +401,11 @@ render_line (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
  *  @param target Size of the container that this subtitle will end up in.
  *  @param frame_rate DCP frame rate.
  */
-list<PositionImage>
-render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
+vector<PositionImage>
+render_text(vector<StringText> subtitles, dcp::Size target, DCPTime time, int frame_rate)
 {
-	list<StringText> pending;
-	list<PositionImage> images;
+	vector<StringText> pending;
+	vector<PositionImage> images;
 
 	for (auto const& i: subtitles) {
 		if (!pending.empty() && (i.v_align() != pending.back().v_align() || fabs(i.v_position() - pending.back().v_position()) > 1e-4)) {
@@ -423,11 +423,11 @@ render_text (list<StringText> subtitles, dcp::Size target, DCPTime time, int fra
 }
 
 
-list<dcpomatic::Rect<int>>
-bounding_box(list<StringText> subtitles, dcp::Size target, optional<dcp::SubtitleStandard> override_standard)
+vector<dcpomatic::Rect<int>>
+bounding_box(vector<StringText> subtitles, dcp::Size target, optional<dcp::SubtitleStandard> override_standard)
 {
-	list<StringText> pending;
-	list<dcpomatic::Rect<int>> rects;
+	vector<StringText> pending;
+	vector<dcpomatic::Rect<int>> rects;
 
 	auto use_pending = [&pending, &rects, target, override_standard]() {
 		auto const& subtitle = pending.front();

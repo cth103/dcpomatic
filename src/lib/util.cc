@@ -461,7 +461,7 @@ LIBDCP_ENABLE_WARNINGS
 
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	/* Render something to fontconfig to create its cache */
-	list<StringText> subs;
+	vector<StringText> subs;
 	dcp::SubtitleString ss(
 		optional<string>(), false, false, false, dcp::Colour(), 42, 1, dcp::Time(), dcp::Time(), 0, dcp::HAlign::CENTER, 0, dcp::VAlign::CENTER, 0, dcp::Direction::LTR,
 		"Hello dolly", dcp::Effect::NONE, dcp::Colour(), dcp::Time(), dcp::Time(), 0

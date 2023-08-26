@@ -37,7 +37,7 @@ using std::shared_ptr;
 
 
 static void
-add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool underline)
+add(std::vector<StringText>& s, std::string text, bool italic, bool bold, bool underline)
 {
 	s.push_back (
 		StringText (
@@ -74,7 +74,7 @@ add (std::list<StringText>& s, std::string text, bool italic, bool bold, bool un
 
 BOOST_AUTO_TEST_CASE (marked_up_test1)
 {
-	std::list<StringText> s;
+	std::vector<StringText> s;
 	add (s, "Hello", false, false, false);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (marked_up_test1)
 
 BOOST_AUTO_TEST_CASE (marked_up_test2)
 {
-	std::list<StringText> s;
+	std::vector<StringText> s;
 	add (s, "Hello", false, true, false);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
@@ -90,21 +90,21 @@ BOOST_AUTO_TEST_CASE (marked_up_test2)
 
 BOOST_AUTO_TEST_CASE (marked_up_test3)
 {
-	std::list<StringText> s;
+	std::vector<StringText> s;
 	add (s, "Hello", true, true, false);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 BOOST_AUTO_TEST_CASE (marked_up_test4)
 {
-	std::list<StringText> s;
+	std::vector<StringText> s;
 	add (s, "Hello", true, true, true);
 	BOOST_CHECK_EQUAL(marked_up(s, 1024, 1, ""), "<span style=\"italic\" weight=\"bold\" underline=\"single\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span>");
 }
 
 BOOST_AUTO_TEST_CASE (marked_up_test5)
 {
-	std::list<StringText> s;
+	std::vector<StringText> s;
 	add (s, "Hello", false, true, false);
 	add (s, " world.", false, false, false);
 	BOOST_CHECK_EQUAL (marked_up(s, 1024, 1, ""), "<span weight=\"bold\" size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\">Hello</span><span size=\"41705\" alpha=\"65535\" color=\"#FFFFFF\"> world.</span>");
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (marked_up_test5)
 
 BOOST_AUTO_TEST_CASE (marked_up_test6)
 {
-	std::list<StringText> s;
+	std::vector<StringText> s;
 	add (s, "Hello", true, false, false);
 	add (s, " world ", false, false, false);
 	add (s, "we are bold.", false, true, false);

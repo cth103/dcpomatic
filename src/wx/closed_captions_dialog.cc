@@ -201,7 +201,7 @@ ClosedCaptionsDialog::update ()
 			_lines[j] = "";
 		}
 
-		to_show.sort (ClosedCaptionSorter());
+		std::sort(to_show.begin(), to_show.end(), ClosedCaptionSorter());
 
 		auto j = to_show.begin();
 		int k = 0;
