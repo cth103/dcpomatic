@@ -567,7 +567,7 @@ check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound
 	options.max_subtitle_vertical_position_error = 0.001;
 	options.sound_assets_can_differ = sound_can_differ;
 
-	BOOST_CHECK (ref_dcp.equals (check_dcp, options, boost::bind (note, _1, _2)));
+	BOOST_CHECK_MESSAGE(ref_dcp.equals(check_dcp, options, boost::bind (note, _1, _2)), check << " does not match " << ref);
 }
 
 void
