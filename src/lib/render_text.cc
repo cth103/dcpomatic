@@ -287,8 +287,14 @@ y_position(dcp::SubtitleStandard standard, dcp::VAlign align, float position, in
 struct Layout
 {
 	Position<int> position;
+	int baseline_position;
 	dcp::Size size;
 	Glib::RefPtr<Pango::Layout> pango;
+
+	int baseline_to_bottom(int border_width)
+	{
+		return position.y + size.height - baseline_position - border_width;
+	}
 };
 
 
@@ -306,7 +312,22 @@ setup_layout(vector<StringText> subtitles, dcp::Size target, DCPTime time, int f
 	auto const markup = marked_up(subtitles, target.height, fade_factor, font_name);
 	auto layout = create_layout(font_name, markup);
 	auto ink = layout->get_ink_extents();
-	return { { ink.get_x() / Pango::SCALE, ink.get_y() / Pango::SCALE }, { ink.get_width() / Pango::SCALE, ink.get_height() / Pango::SCALE }, layout };
+
+	Layout description;
+	description.position = { ink.get_x() / Pango::SCALE, ink.get_y() / Pango::SCALE };
+	description.baseline_position = layout->get_baseline() / Pango::SCALE;
+	description.size = { ink.get_width() / Pango::SCALE, ink.get_height() / Pango::SCALE };
+	description.pango = layout;
+
+	return description;
+}
+
+
+static
+int
+border_width_for_subtitle(StringText const& subtitle, dcp::Size target)
+{
+	return subtitle.effect() == dcp::Effect::BORDER ? (subtitle.outline_width * target.width / 2048.0) : 0;
 }
 
 
@@ -341,7 +362,7 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 		}
 	}
 
-	auto const border_width = first.effect() == dcp::Effect::BORDER ? (first.outline_width * target.width / 2048.0) : 0;
+	auto const border_width = border_width_for_subtitle(first, target);
 	layout.size.width += 2 * ceil (border_width);
 	layout.size.height += 2 * ceil (border_width);
 
@@ -392,7 +413,7 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	context->stroke ();
 
 	int const x = x_position(first.h_align(), first.h_position(), target.width, layout.size.width);
-	int const y = y_position(first.valign_standard, first.v_align(), first.v_position(), target.height, layout.position.y, layout.size.height);
+	int const y = y_position(first.valign_standard, first.v_align(), first.v_position(), target.height, layout.baseline_to_bottom(border_width), layout.size.height);
 	return PositionImage (image, Position<int>(max (0, x), max(0, y)));
 }
 
@@ -441,7 +462,8 @@ bounding_box(vector<StringText> subtitles, dcp::Size target, optional<dcp::Subti
 		/* We can provide dummy values for time and frame rate here as they are only used to calculate fades */
 		auto layout = setup_layout(pending, target, DCPTime(), 24);
 		int const x = x_position(subtitle.h_align(), subtitle.h_position(), target.width, layout.size.width);
-		int const y = y_position(standard, subtitle.v_align(), subtitle.v_position(), target.height, layout.position.y, layout.size.height);
+		auto const border_width = border_width_for_subtitle(subtitle, target);
+		int const y = y_position(standard, subtitle.v_align(), subtitle.v_position(), target.height, layout.baseline_to_bottom(border_width), layout.size.height);
 		rects.push_back({Position<int>(x, y), layout.size.width, layout.size.height});
 	};
 

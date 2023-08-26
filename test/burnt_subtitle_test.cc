@@ -149,3 +149,34 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	check_dcp("test/data/burnt_subtitle_test_onto_dcp2", film2);
 #endif
 }
+
+
+
+/** Check positioning of some burnt subtitles from XML files */
+BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
+{
+	auto check = [](string alignment)
+	{
+		auto const name = String::compose("burnt_subtitle_test_position_%1", alignment);
+		auto subs = content_factory(String::compose("test/data/burn_%1.xml", alignment));
+		auto film = new_test_film2(name, subs);
+		subs[0]->text[0]->set_use(true);
+		subs[0]->text[0]->set_burn(true);
+		make_and_verify_dcp(
+			film,
+			{
+				dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+				dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+				dcp::VerificationNote::Code::MISSING_CPL_METADATA
+			});
+
+		check_dcp(String::compose("test/data/%1", name), film);
+	};
+
+	/* Should have a baseline 216 pixels from the top (0.2 * 1080) */
+	check("top");
+	/* Should have a baseline 756 pixels from the top ((0.5 + 0.2) * 1080) */
+	check("center");
+	/* Should have a baseline 864 pixels from the top ((1 - 0.2) * 1080) */
+	check("bottom");
+}
