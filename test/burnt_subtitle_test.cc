@@ -29,10 +29,8 @@
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
-#include "lib/dcp_text_content.h"
 #include "lib/film.h"
 #include "lib/log_entry.h"
-#include "lib/plain_text_content.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
 #include "test.h"
@@ -52,6 +50,7 @@
 using std::dynamic_pointer_cast;
 using std::make_shared;
 using std::map;
+using std::string;
 using namespace dcpomatic;
 
 
@@ -62,14 +61,21 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	auto content = make_shared<StringText>(film, "test/data/subrip2.srt");
-	content->subtitle->set_use (true);
-	content->subtitle->set_burn (true);
+	auto content = content_factory("test/data/subrip2.srt")[0];
+	content->text[0]->set_use(true);
+	content->text[0]->set_burn(true);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	make_and_verify_dcp (film);
+	make_and_verify_dcp(
+		film,
+		{ dcp::VerificationNote::Code::MISSING_CPL_METADATA }
+		);
 
-	check_dcp ("test/data/burnt_subtitle_test_subrip", film->dir (film->dcp_name ()));
+#ifdef DCPOMATIC_WINDOWS
+	check_dcp("test/data/windows/burnt_subtitle_test_subrip", film);
+#else
+	check_dcp("test/data/burnt_subtitle_test_subrip", film);
+#endif
 }
 
 /** Build a small DCP with no picture and a single subtitle overlaid onto it from a DCP XML file */
@@ -79,13 +85,19 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	auto content = make_shared<DCPTextContent>(film, "test/data/dcp_sub.xml");
-	content->subtitle->set_use (true);
+	auto content = content_factory("test/data/dcp_sub.xml")[0];
+	content->text[0]->set_use(true);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	make_and_verify_dcp (film);
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
 
-	check_dcp ("test/data/burnt_subtitle_test_dcp", film->dir (film->dcp_name ()));
+	check_dcp("test/data/burnt_subtitle_test_dcp", film);
 }
 
 /** Burn some subtitles into an existing DCP to check the colour conversion */
@@ -95,7 +107,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	film->set_container (Ratio::from_id ("185"));
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film->set_name ("frobozz");
-	film->examine_and_add_content (content_factory(film, "test/data/flat_black.png")[0]);
+	film->examine_and_add_content(content_factory("test/data/flat_black.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (film);
 
@@ -104,13 +116,11 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	film2->set_container (Ratio::from_id ("185"));
 	film2->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
 	film2->set_name ("frobozz");
-	auto background_dcp = make_shared<DCPContent>(film2, film->dir(film->dcp_name()));
+	auto background_dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	film2->examine_and_add_content (background_dcp);
-	auto sub = dynamic_pointer_cast<StringText> (
-		content_factory(film2, "test/data/subrip2.srt")[0]
-		);
-	sub->subtitle->set_burn (true);
-	sub->subtitle->set_outline (true);
+	auto sub = content_factory("test/data/subrip2.srt")[0];
+	sub->text[0]->set_burn(true);
+	sub->text[0]->set_effect(dcp::Effect::BORDER);
 	film2->examine_and_add_content (sub);
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (film2);
@@ -120,8 +130,8 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 
 	dcp::DCP dcp (film2->dir (film2->dcp_name ()));
 	dcp.read ();
-	BOOST_REQUIRE_EQUAL (dcp.cpls().size(), 1);
-	BOOST_REQUIRE_EQUAL (dcp.cpls().front()->reels().size(), 1);
+	BOOST_REQUIRE_EQUAL(dcp.cpls().size(), 1U);
+	BOOST_REQUIRE_EQUAL(dcp.cpls().front()->reels().size(), 1U);
 	BOOST_REQUIRE (dcp.cpls().front()->reels().front()->main_picture());
 	BOOST_REQUIRE (dcp.cpls().front()->reels().front()->main_picture()->asset());
 	auto pic = dynamic_pointer_cast<dcp::ReelMonoPictureAsset> (
@@ -133,5 +143,9 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	BOOST_CHECK_EQUAL (xyz->size().width, 1998);
 	BOOST_CHECK_EQUAL (xyz->size().height, 1080);
 
-	check_dcp ("test/data/burnt_subtitle_test_onto_dcp", film->dir(film->dcp_name()));
+#ifdef DCPOMATIC_WINDOWS
+	check_dcp("test/data/windows/burnt_subtitle_test_onto_dcp2", film2);
+#else
+	check_dcp("test/data/burnt_subtitle_test_onto_dcp2", film2);
+#endif
 }

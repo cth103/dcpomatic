@@ -57,6 +57,7 @@ def build(bld):
                  audio_processor_test.cc
                  audio_processor_delay_test.cc
                  audio_ring_buffers_test.cc
+                 burnt_subtitle_test.cc
                  butler_test.cc
                  bv20_test.cc
                  cinema_sound_processor_test.cc
@@ -178,8 +179,6 @@ def build(bld):
         obj.source += " disk_writer_test.cc"
         obj.uselib += "LWEXT4 NANOMSG "
 
-    # Some difference in font rendering between the test machine and others...
-    # burnt_subtitle_test.cc
     # This one doesn't check anything
     # resampler_test.cc
 

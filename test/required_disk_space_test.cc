@@ -58,8 +58,8 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 
 	check_within_n (
 		film->required_disk_space(),
-		289LL * (100000000 / 8) / 24 +  // video
-		289LL * 48000 * 6 * 3 / 24 +    // audio
+		288LL * (100000000 / 8) / 24 +  // video
+		288LL * 48000 * 6 * 3 / 24 +    // audio
 		65536,                          // extra
 		16
 		);
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	check_within_n (
 		film->required_disk_space(),
 		240LL * (100000000 / 8) / 24 +  // video
-		289LL * 48000 * 6 * 3 / 24 +    // audio
+		288LL * 48000 * 6 * 3 / 24 +    // audio
 		65536,                          // extra
 		16
 		);
