@@ -7,6 +7,7 @@ subscribers.Add (wxT ("Drop-Out Cinema"));
 subscribers.Add (wxT ("Root & Rust Creative"));
 subscribers.Add (wxT ("Gerard Elmore"));
 subscribers.Add (wxT ("Barak Epstein"));
+subscribers.Add (wxT ("Bears Rebecca Fonte"));
 subscribers.Add (wxT ("José Delio Ares García"));
 subscribers.Add (wxT ("Glyndebourne"));
 subscribers.Add (wxT ("Luke Granger-Brown"));
