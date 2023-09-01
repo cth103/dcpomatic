@@ -170,7 +170,11 @@ BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
 				dcp::VerificationNote::Code::MISSING_CPL_METADATA
 			});
 
+#ifdef DCPOMATIC_WINDOWS
+		check_dcp(String::compose("test/data/windows/%1", name), film);
+#else
 		check_dcp(String::compose("test/data/%1", name), film);
+#endif
 	};
 
 	/* Should have a baseline 216 pixels from the top (0.2 * 1080) */
