@@ -707,13 +707,16 @@ private:
 	void edit_copy ()
 	{
 		auto const sel = _film_editor->content_panel()->selected();
-		DCPOMATIC_ASSERT (sel.size() == 1);
-		_clipboard = sel.front()->clone();
+		if (sel.size() == 1) {
+			_clipboard = sel.front()->clone();
+		}
 	}
 
 	void edit_paste ()
 	{
-		DCPOMATIC_ASSERT (_clipboard);
+		if (!_clipboard) {
+			return;
+		}
 
 		PasteDialog dialog(this, static_cast<bool>(_clipboard->video), static_cast<bool>(_clipboard->audio), !_clipboard->text.empty());
 		if (dialog.ShowModal() != wxID_OK) {
