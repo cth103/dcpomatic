@@ -448,7 +448,13 @@ LIBDCP_ENABLE_WARNINGS
 
 #ifdef DCPOMATIC_WINDOWS
 	putenv ("PANGOCAIRO_BACKEND=fontconfig");
-	putenv (String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
+	if (boost::filesystem::exists(resources_path() / "fonts.conf")) {
+		/* The actual application after installation */
+		putenv(String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
+	} else {
+		/* The place where fonts.conf is during tests */
+		putenv("FONTCONFIG_PATH=build\\fonts");
+	}
 #endif
 
 #ifdef DCPOMATIC_OSX
