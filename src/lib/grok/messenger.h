@@ -276,7 +276,8 @@ struct SharedMemoryManager
 			if(rc)
 				getMessengerLogger()->error("Error closing shared memory: %s", strerror(errno));
 			rc = shm_unlink(name.c_str());
-			if(rc)
+			// 2 == No such file or directory
+			if(rc && errno != 2)
 				getMessengerLogger()->error("Error unlinking shared memory: %s", strerror(errno));
 			return false;
 		}
@@ -288,7 +289,8 @@ struct SharedMemoryManager
 			if(rc)
 				getMessengerLogger()->error("Error closing shared memory: %s", strerror(errno));
 			rc = shm_unlink(name.c_str());
-			if(rc)
+			// 2 == No such file or directory
+			if(rc && errno != 2)
 				getMessengerLogger()->error("Error unlinking shared memory: %s", strerror(errno));
 		}
 
@@ -308,7 +310,8 @@ struct SharedMemoryManager
 		if(rc)
 			getMessengerLogger()->error("Error closing shared memory %s: %s", name.c_str(), strerror(errno));
 		rc = shm_unlink(name.c_str());
-		if(rc)
+		// 2 == No such file or directory
+		if(rc && errno != 2)
 			fprintf(stderr,"Error unlinking shared memory %s : %s\n", name.c_str(), strerror(errno));
 
 		return true;
@@ -499,27 +502,6 @@ struct Messenger
 		for(size_t i = 0; i < init_.numProcessingThreads_; ++i)
 			processors_.push_back(std::thread(processorThread, this, init_.processor_));
 	}
-	size_t serialize(const std::string &dir, size_t clientFrameId, uint8_t* compressedPtr,
-					 size_t compressedLength)
-	{
-		char fname[512];
-		if(!compressedPtr || !compressedLength)
-			return 0;
-		sprintf(fname, "%s/test_%d.j2k", dir.c_str(), (int)clientFrameId);
-		auto fp = fopen(fname, "wb");
-		if(!fp)
-			return 0;
-		size_t written = fwrite(compressedPtr, 1, compressedLength, fp);
-		if(written != compressedLength)
-		{
-			fclose(fp);
-			return 0;
-		}
-		fflush(fp);
-		fclose(fp);
-
-		return written;
-	}
 	bool initBuffers(void)
 	{
 		bool rc = true;
@@ -560,32 +542,6 @@ struct Messenger
 
 		sendQueue.push(oss.str());
 	}
-	static pid_t get_pid_by_process_name(const char* name)
-	{
-		char command[256];
-		snprintf(command, sizeof(command), "pgrep %s", name);
-		auto pgrep = popen(command, "r");
-		if(!pgrep)
-			return -1;
-		pid_t pid;
-		if(fscanf(pgrep, "%d", &pid) != 1)
-			pid = -1;
-		pclose(pgrep);
-
-		return pid;
-	}
-	static bool terminate_process(const char* name)
-	{
-		auto pid = get_pid_by_process_name(name);
-
-		return (pid != -1 && kill(pid, SIGTERM) != -1);
-	}
-	static bool kill_process(const char* name)
-	{
-		auto pid = get_pid_by_process_name(name);
-
-		return (pid != -1 && kill(pid, SIGKILL) != -1);
-	}
 	void launchGrok(const std::string &dir, uint32_t width, uint32_t stride,
 								uint32_t height, uint32_t samplesPerPixel, uint32_t depth,
 								int device, bool is4K, uint32_t fps, uint32_t bandwidth,
@@ -602,7 +558,7 @@ struct Messenger
 		char _cmd[4096];
 		auto fullServer = server + ":" + std::to_string(port);
 		sprintf(_cmd,
-				"./grk_compress -batch_src %s,%d,%d,%d,%d,%d -out_fmt j2k -out_dir - -k 1 "
+				"./grk_compress -batch_src %s,%d,%d,%d,%d,%d -out_fmt j2k -k 1 "
 				"-G %d -%s %d,%d -j %s -J %s",
 				GRK_MSGR_BATCH_IMAGE.c_str(), width, stride, height, samplesPerPixel, depth,
 				device, is4K ? "cinema4K" : "cinema2K", fps, bandwidth,
