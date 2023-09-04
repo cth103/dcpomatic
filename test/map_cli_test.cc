@@ -504,3 +504,41 @@ BOOST_AUTO_TEST_CASE(map_multireel_interop_ov_and_vf_adding_ccaps)
 }
 
 
+BOOST_AUTO_TEST_CASE(map_uses_config_for_issuer_and_creator)
+{
+	ConfigRestorer cr;
+
+	Config::instance()->set_dcp_issuer("ostrabagalous");
+	Config::instance()->set_dcp_creator("Fred");
+
+	string const name = "map_uses_config_for_issuer_and_creator";
+	string const out = String::compose("build/test/%1_out", name);
+
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2(name + "_in", content);
+	make_and_verify_dcp(film);
+
+	vector<string> const args = {
+		"map_cli",
+		"-o", out,
+		"-d", film->dir(film->dcp_name()).string(),
+		find_cpl(film->dir(film->dcp_name())).string()
+	};
+
+	boost::filesystem::remove_all(out);
+
+	vector<string> output_messages;
+	auto error = run(args, output_messages);
+	BOOST_CHECK(!error);
+
+	cxml::Document assetmap("AssetMap");
+	assetmap.read_file(film->dir(film->dcp_name()) / "ASSETMAP.xml");
+	BOOST_CHECK(assetmap.string_child("Issuer") == "ostrabagalous");
+	BOOST_CHECK(assetmap.string_child("Creator") == "Fred");
+
+	cxml::Document pkl("PackingList");
+	pkl.read_file(find_prefix(out, "pkl_"));
+	BOOST_CHECK(pkl.string_child("Issuer") == "ostrabagalous");
+	BOOST_CHECK(pkl.string_child("Creator") == "Fred");
+}
+

@@ -305,6 +305,8 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	dcp.resolve_refs(assets);
 	dcp.set_annotation_text(cpls[0]->annotation_text().get_value_or(""));
 	try {
+		dcp.set_creator(Config::instance()->dcp_creator());
+		dcp.set_issuer(Config::instance()->dcp_issuer());
 		dcp.write_xml(Config::instance()->signer_chain());
 	} catch (dcp::UnresolvedRefError& e) {
 		return String::compose("%1\nPerhaps you need to give a -d parameter to say where this asset is located.", e.what());
