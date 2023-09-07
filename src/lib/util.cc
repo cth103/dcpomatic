@@ -799,7 +799,7 @@ careful_string_filter (string s)
 
 	/* Then remove anything that's not in a very limited character set */
 	wstring out;
-	wstring const allowed = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_%.+";
+	wstring const allowed = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_.+";
 	for (int i = 0; i < transliterated_more.length(); ++i) {
 		wchar_t c = transliterated_more[i];
 		if (allowed.find(c) != string::npos) {
