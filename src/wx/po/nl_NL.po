@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-05 14:06+0200\n"
-"PO-Revision-Date: 2023-04-01 02:06+0200\n"
+"PO-Revision-Date: 2023-09-07 02:36+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -17,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -210,7 +209,7 @@ msgstr "<IssueDate> heeft een ongeldige waarde %n"
 #: src/wx/verify_dcp_dialog.cc:417
 #, c-format
 msgid "<MainSoundConfiguration> describes incorrect number of channels (%n)"
-msgstr ""
+msgstr "<MainSoundConfiguration> beschrijft een verkeerd aantal kanalen (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -315,6 +314,8 @@ msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
+"Een ondertitel of closed caption refereert aan een font met ID %id dat geen "
+"corresponderende <LoadFont> node heeft."
 
 #: src/wx/config_dialog.cc:977
 msgid "ALSA"
@@ -401,9 +402,9 @@ msgid "Add recipient"
 msgstr "Voeg ontvanger toe"
 
 #: src/wx/content_panel.cc:262
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
-msgstr "Voeg video-, beeld-, audio-, of ondertitelbestanden aan de film toe."
+msgstr ""
+"Voeg video-, beeld-, audio-, of ondertitelbestanden aan de film toe (Ctrl+A)."
 
 #: src/wx/config_dialog.cc:299 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
@@ -775,11 +776,11 @@ msgstr "Kies een map"
 
 #: src/wx/system_font_dialog.cc:36
 msgid "Choose a font"
-msgstr "Kies een lettertype"
+msgstr "Kies een font"
 
 #: src/wx/fonts_dialog.cc:187
 msgid "Choose a font file"
-msgstr "Kies een lettertype-bestand"
+msgstr "Kies een font-bestand"
 
 #: src/wx/christie_certificate_panel.cc:92
 msgid "Christie"
@@ -911,9 +912,8 @@ msgid "Could not load certificate (%s)"
 msgstr "Kan certificaat niet laden (%s)"
 
 #: src/wx/simple_video_view.cc:176
-#, fuzzy
 msgid "Could not play content"
-msgstr "Kan KDM niet laden"
+msgstr "Kan content niet afspelen"
 
 #: src/wx/gl_video_view.cc:139
 #, c-format
@@ -1162,8 +1162,7 @@ msgstr "Standaard-instellingen"
 
 #: src/wx/export_subtitles_dialog.cc:50
 msgid "Define font in output and export font file"
-msgstr ""
-"Definieer het lettertype in de output en exporteer het lettertype-bestand"
+msgstr "Definieer het font in de output en exporteer het font-bestand"
 
 #: src/wx/audio_panel.cc:98
 msgid "Delay"
@@ -1434,11 +1433,11 @@ msgstr "Mapnaam"
 
 #: src/wx/fonts_dialog.cc:44
 msgid "Fonts"
-msgstr "Lettertypen"
+msgstr "Fonts"
 
 #: src/wx/text_panel.cc:125
 msgid "Fonts..."
-msgstr "Lettertypen..."
+msgstr "Fonts..."
 
 #: src/wx/kdm_dialog.cc:199
 msgid ""
@@ -1468,6 +1467,8 @@ msgid ""
 "Frame %frame has an image component that is too large (component %component "
 "is %size bytes in size)."
 msgstr ""
+"Frame %frame bevat een beeldcomponent die te groot is (component %component "
+"is %size bytes groot)."
 
 #: src/wx/dcp_panel.cc:817
 msgid "Frame Rate"
@@ -1605,9 +1606,8 @@ msgid "IP address / host name"
 msgstr "Hostnaam / IP-adres"
 
 #: src/wx/full_config_dialog.cc:1550
-#, fuzzy
 msgid "ISDCF name part length"
-msgstr "ISDCF-naam"
+msgstr "ISDCF-naam onderdeel lengte"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Identifiers"
@@ -2149,7 +2149,7 @@ msgstr "Geen"
 
 #: src/wx/verify_dcp_dialog.cc:215
 msgid "Not all subtitle assets specify the same <Language> tag."
-msgstr "Niet alle ondertitel-assets specificeren dezelfde <Language> tag."
+msgstr "Niet alle subtitle assets specificeren dezelfde <Language> tag."
 
 #: src/wx/screen_dialog.cc:194
 msgid "Not valid after"
@@ -2201,9 +2201,8 @@ msgid "Open console window"
 msgstr "Open console-venster"
 
 #: src/wx/content_panel.cc:286
-#, fuzzy
 msgid "Open the timeline for the film (Ctrl+T)."
-msgstr "Open de tijdlijn voor de film."
+msgstr "Open de tijdlijn voor de film (Ctrl+T)."
 
 #: src/wx/full_config_dialog.cc:1773 src/wx/player_config_dialog.cc:113
 msgid "OpenGL (faster)"
@@ -2534,9 +2533,8 @@ msgid "Remove Screen"
 msgstr "Verwijder Scherm"
 
 #: src/wx/content_panel.cc:274
-#, fuzzy
 msgid "Remove the selected piece of content from the film (Delete)."
-msgstr "Verwijder het geselecteerde stuk content uit de film."
+msgstr "Verwijder het geselecteerde stuk content uit de film (Delete)."
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "Rename template"
@@ -2796,7 +2794,7 @@ msgstr "Stel in uit bestand..."
 
 #: src/wx/fonts_dialog.cc:76
 msgid "Set from system font..."
-msgstr "Stel in uit syteem-lettertype..."
+msgstr "Stel in uit syteem-font..."
 
 #: src/wx/config_dialog.cc:120
 msgid "Set language"
@@ -2909,7 +2907,7 @@ msgstr "Audio"
 
 #: src/wx/verify_dcp_dialog.cc:414
 msgid "Sound assets do not all have the same channel count."
-msgstr ""
+msgstr "Sound assets hebben niet allemaal hetzelfde aantal kanalen."
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "Sound processor"
@@ -2979,7 +2977,7 @@ msgstr "Ondertitel-uiterlijk"
 #: src/wx/verify_dcp_dialog.cc:269
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr "Ondertitel-asset %n heeft een <EntryPoint> dat niet nul is."
+msgstr "Subtitle asset %n heeft een <EntryPoint> dat niet nul is."
 
 #: src/wx/export_subtitles_dialog.cc:58
 msgid "Subtitle files (.mxf)|*.mxf"
@@ -3061,7 +3059,7 @@ msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 #: src/wx/verify_dcp_dialog.cc:438
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %id is empty"
-msgstr ""
+msgstr "De <LabelText> in een <ContentVersion> in CPL %id is leeg"
 
 #: src/wx/verify_dcp_dialog.cc:399
 msgid ""
@@ -3193,8 +3191,7 @@ msgstr "De DCP heeft geen LFOC (last frame of content) marker."
 #: src/wx/verify_dcp_dialog.cc:260
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
-"De DCP heeft ondertitels, maar ten minste één reel heeft geen ondertitel-"
-"asset."
+"De DCP heeft ondertitels, maar ten minste één reel heeft geen subtitle asset."
 
 #: src/wx/verify_dcp_dialog.cc:281
 msgid ""
@@ -3211,14 +3208,13 @@ msgstr ""
 "marker."
 
 #: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:207
-#, fuzzy
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the DCP-o-matic preferences window."
 msgstr ""
-"De KDM-eindtijd is na (of nabij) het einde van de geldigheidsduur van de "
-"ondertekenings-certificaten.  Gebruik een eerdere eindtijd voor deze KDM of "
+"De KDM-eindtijd is na (of nabij) het einde van de geldigheidsduur van het "
+"ondertekenings-certificaat.  Gebruik een eerdere eindtijd voor deze KDM of "
 "maak uw ondertekenings-certificaten opnieuw aan bij de DCP-o-matic "
 "Voorkeuren."
 
@@ -3227,8 +3223,8 @@ msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
-"De KDM-starttijd is voor (of nabij) het begin van de geldigheidsduur van de "
-"ondertekenings-certificaten.  Gebruik een latere starttijd voor deze KDM."
+"De KDM-starttijd is voor (of nabij) het begin van de geldigheidsduur van het "
+"ondertekenings-certificaat.  Gebruik een latere starttijd voor deze KDM."
 
 #: src/wx/verify_dcp_dialog.cc:317
 #, c-format
@@ -3271,6 +3267,7 @@ msgstr ""
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
+"De SMPTE subtitle asset %id heeft <Text> nodes maar geen <LoadFont> node"
 
 #: src/wx/verify_dcp_dialog.cc:160
 #, c-format
@@ -3295,6 +3292,7 @@ msgstr ""
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr ""
+"De XML in de subtitle asset %n heeft meer dan één namespace declaratie."
 
 #: src/wx/verify_dcp_dialog.cc:182
 #, c-format
@@ -3330,6 +3328,7 @@ msgstr "De asset %n heeft geen <Hash> in de CPL."
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr ""
+"De asset met ID %id in de asset map heeft in werkelijkheid een ID %other_id"
 
 #: src/wx/verify_dcp_dialog.cc:272
 #, c-format
@@ -3387,6 +3386,8 @@ msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
+"Het font-bestand voor font ID \"%n\" is niet gevonden of er wordt niet aan "
+"gerefereerd in de ASSETMAP."
 
 #: src/wx/verify_dcp_dialog.cc:209
 #, c-format
@@ -3394,8 +3395,8 @@ msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr ""
-"De lettertypen in de timed text asset %f nemen %n bytes in beslag, wat de "
-"limiet van 10 MB overschrijdt."
+"De fonts in de timed text asset %f nemen %n bytes in beslag, wat de limiet "
+"van 10 MB overschrijdt."
 
 #: src/wx/verify_dcp_dialog.cc:130
 #, c-format
@@ -3456,27 +3457,27 @@ msgstr "De sound asset %f heeft een ongeldige frame rate van %n."
 #: src/wx/verify_dcp_dialog.cc:212
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
-msgstr "De ondertitel-asset %f bevat geen <Language> tag."
+msgstr "De subtitle asset %f bevat geen <Language> tag."
 
 #: src/wx/verify_dcp_dialog.cc:218
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
-msgstr "De ondertitel-asset %f bevat geen <StartTime> tag."
+msgstr "De subtitle asset %f bevat geen <StartTime> tag."
 
 #: src/wx/verify_dcp_dialog.cc:221
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
-msgstr "De ondertitel-asset %f heeft een <StartTime> die niet nul is."
+msgstr "De subtitle asset %f heeft een <StartTime> die niet nul is."
 
 #: src/wx/verify_dcp_dialog.cc:408
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
-msgstr "De ondertitel-asset %n bevat geen ondertitels."
+msgstr "De subtitle asset %n bevat geen ondertitels."
 
 #: src/wx/verify_dcp_dialog.cc:266
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr "De ondertitel-asset %n heeft geen <EntryPoint> tag."
+msgstr "De subtitle asset %n heeft geen <EntryPoint> tag."
 
 #: src/wx/verify_dcp_dialog.cc:206
 #, c-format
@@ -3573,7 +3574,7 @@ msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
 "it is a \"version file\" (VF)"
 msgstr ""
-"Deze DCP verwijst naar de asset %n in een andere DCP (en misschien andere), "
+"Deze DCP refereert aan de asset %n in een andere DCP (en misschien andere), "
 "dus het is een \"version file\" (VF)"
 
 #: src/wx/verify_dcp_dialog.cc:185

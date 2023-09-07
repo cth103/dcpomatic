@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-05 14:06+0200\n"
-"PO-Revision-Date: 2023-04-01 01:59+0200\n"
+"PO-Revision-Date: 2023-09-07 02:54+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -357,16 +357,15 @@ msgstr ""
 "Het is verstandig om minstens 2 frames tussen ondertitels te laten."
 
 #: src/lib/hints.cc:656
-#, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
 "\"Content→Timed text\" or \"Content→Open subtitles\" tab."
 msgstr ""
-"Ten minste één deel van de ondertitel of closed caption content heeft geen "
-"gespecificeerde taal.  Het is raadzaam om de taal voor elk stuk ondertitel "
-"of closed caption content in te stellen in het \"Content/Timed text\"-, "
-"\"Content/Open ondertitels\"- of \"Content/Closed captions\"-tabblad."
+"Ten minste één deel van de ondertitel content heeft geen gespecificeerde "
+"taal.  Het is raadzaam om de taal voor elk stuk ondertitel content in te "
+"stellen in het \"Content/Timed text\"- of \"Content/Open ondertitels\"-"
+"tabblad."
 
 #: src/lib/audio_content.cc:277
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -685,7 +684,7 @@ msgstr "Samen te voegen content moet dezelfde DCP track gebruiken."
 
 #: src/lib/text_content.cc:307 src/lib/text_content.cc:327
 msgid "Content to be joined must use the same fonts."
-msgstr "Samen te voegen content moet hetzelfde lettertype gebruiken."
+msgstr "Samen te voegen content moet dezelfde fonts gebruiken."
 
 #: src/lib/ffmpeg_content.cc:182
 msgid "Content to be joined must use the same subtitle stream."
@@ -1258,12 +1257,11 @@ msgstr "Geen"
 
 #: src/lib/job.cc:600
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/lib/job.cc:605
-#, fuzzy
 msgid "OK (ran for %1 from %2 to %3)"
-msgstr "OK (%1 bezig)"
+msgstr "OK (%1 bezig, van %2 tot %3)"
 
 #: src/lib/job.cc:603
 msgid "OK (ran for %1)"
@@ -1923,8 +1921,8 @@ msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
 msgstr ""
-"U heeft een lettertype-bestand gespecificeerd dat groter is dan 640kB.  Dit "
-"zal zeer waarschijnlijk problemen bij het afspelen geven."
+"U heeft een font-bestand gespecificeerd dat groter is dan 640kB.  Dit zal "
+"zeer waarschijnlijk problemen bij het afspelen geven."
 
 #: src/lib/make_dcp.cc:56
 msgid "You must add some content to the DCP before creating it"
@@ -1936,6 +1934,10 @@ msgid ""
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
+"Uw DCP heeft %1 audio-kanalen in plaats van 8 of 16.  Dit kan ertoe leiden "
+"dat sommige distributeurs QC-fouten (Quality Control) melden wanneer zij uw "
+"DCP controleren.  Om dit te voorkomen, stelt u het aantal audio-kanalen van "
+"de DCP in op 8 of 16."
 
 #: src/lib/hints.cc:109
 msgid ""
@@ -2190,9 +2192,8 @@ msgid "still"
 msgstr "stilstaand beeld"
 
 #: src/lib/dcp_content.cc:793
-#, fuzzy
 msgid "they overlap other text content; remove the other content."
-msgstr "hij overlapt met andere tekst-content; verwijder deze andere content."
+msgstr "ze overlappen met andere tekst-content; verwijder deze andere content."
 
 #: src/lib/ffmpeg_examiner.cc:342
 msgid "unknown"
