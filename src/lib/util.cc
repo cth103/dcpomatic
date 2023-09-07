@@ -733,9 +733,9 @@ asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int r
 	values['r'] = raw_convert<string>(reel_index + 1);
 	values['n'] = raw_convert<string>(reel_count);
 	if (summary) {
-		values['c'] = careful_string_filter(summary.get());
+		values['c'] = summary.get();
 	}
-	return Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + extension);
+	return careful_string_filter(Config::instance()->dcp_asset_filename_format().get(values, "_" + asset->id() + extension));
 }
 
 

@@ -197,3 +197,23 @@ BOOST_AUTO_TEST_CASE (subtitle_file_naming)
 	BOOST_CHECK_EQUAL(got, 1);
 }
 
+
+BOOST_AUTO_TEST_CASE(remove_bad_characters_from_template)
+{
+	ConfigRestorer cr;
+
+	/* %z is not recognised, so the % should be discarded so it won't trip
+	 * an invalid URI check in make_and_verify_dcp
+	 */
+	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%c%z"));
+
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2("remove_bad_characters_from_template", content);
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
+		});
+}
+
