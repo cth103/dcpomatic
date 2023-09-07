@@ -1,5 +1,5 @@
 #!/bin/bash
-changes=`git status -s | grep "^ M"`
+changes=`git status -s | grep "^.*M"`
 check=`echo "$changes" | grep -v /po/`
 if [ "$check" != "" ]; then
   echo "Non i18n updates would be committed"
