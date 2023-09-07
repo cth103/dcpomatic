@@ -43,24 +43,6 @@ using std::make_shared;
 using std::string;
 
 
-class Keep
-{
-public:
-	Keep ()
-	{
-		_format = Config::instance()->dcp_asset_filename_format ();
-	}
-
-	~Keep ()
-	{
-		Config::instance()->set_dcp_asset_filename_format (_format);
-	}
-
-private:
-	dcp::NameFormat _format;
-};
-
-
 static
 string
 mxf_regex(string part) {
@@ -76,7 +58,7 @@ mxf_regex(string part) {
 
 BOOST_AUTO_TEST_CASE (file_naming_test)
 {
-	Keep k;
+	ConfigRestorer cr;
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat("%c"));
 
 	auto film = new_test_film ("file_naming_test");
@@ -129,7 +111,8 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 
 BOOST_AUTO_TEST_CASE (file_naming_test2)
 {
-	Keep k;
+	ConfigRestorer cr;
+
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
 
 	auto film = new_test_film ("file_naming_test2");
@@ -187,7 +170,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 
 BOOST_AUTO_TEST_CASE (subtitle_file_naming)
 {
-	Keep keep;
+	ConfigRestorer cr;
 
 	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%t ostrabagalous %c"));
 
