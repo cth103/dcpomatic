@@ -306,25 +306,6 @@ public:
 		, _right_panel(new wxPanel(_splitter, wxID_ANY))
 		, _film_viewer(_right_panel)
 	{
-#if defined(DCPOMATIC_WINDOWS)
-		if (Config::instance()->win32_console()) {
-			AllocConsole();
-
-			HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
-			int hCrt = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
-			FILE* hf_out = _fdopen(hCrt, "w");
-			setvbuf(hf_out, NULL, _IONBF, 1);
-			*stdout = *hf_out;
-
-			HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
-			hCrt = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
-			FILE* hf_in = _fdopen(hCrt, "r");
-			setvbuf(hf_in, NULL, _IONBF, 128);
-			*stdin = *hf_in;
-
-			cout << "DCP-o-matic is starting." << "\n";
-		}
-#endif
 
 		auto bar = new wxMenuBar;
 		setup_menu (bar);
@@ -1610,6 +1591,26 @@ private:
 	bool OnInit () override
 	{
 		try {
+
+#if defined(DCPOMATIC_WINDOWS)
+		if (Config::instance()->win32_console()) {
+			AllocConsole();
+
+			HANDLE handle_out = GetStdHandle(STD_OUTPUT_HANDLE);
+			int hCrt = _open_osfhandle((intptr_t) handle_out, _O_TEXT);
+			FILE* hf_out = _fdopen(hCrt, "w");
+			setvbuf(hf_out, NULL, _IONBF, 1);
+			*stdout = *hf_out;
+
+			HANDLE handle_in = GetStdHandle(STD_INPUT_HANDLE);
+			hCrt = _open_osfhandle((intptr_t) handle_in, _O_TEXT);
+			FILE* hf_in = _fdopen(hCrt, "r");
+			setvbuf(hf_in, NULL, _IONBF, 128);
+			*stdin = *hf_in;
+
+			cout << "DCP-o-matic is starting." << "\n";
+		}
+#endif
 			wxInitAllImageHandlers ();
 
 			Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this, _1));
