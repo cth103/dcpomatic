@@ -443,8 +443,9 @@ dcpomatic_setup_i18n ()
 		locale->AddCatalog (wxT ("wxstd3"));
 #endif
 
-		locale->AddCatalog (wxT ("libdcpomatic2-wx"));
-		locale->AddCatalog (wxT ("dcpomatic2"));
+		locale->AddCatalog(wxT("wxstd"));
+		locale->AddCatalog(wxT("libdcpomatic2-wx"));
+		locale->AddCatalog(wxT("dcpomatic2"));
 
 		if (!locale->IsOk()) {
 			delete locale;
