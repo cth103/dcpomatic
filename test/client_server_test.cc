@@ -121,9 +121,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 
 	auto locally_encoded = frame->encode_locally ();
 
-	auto server = new EncodeServer (true, 2);
+	auto server = make_shared<EncodeServer>(true, 2);
 
-	auto server_thread = new thread (boost::bind(&EncodeServer::run, server));
+	thread server_thread(boost::bind(&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep_seconds (1);
@@ -131,23 +131,19 @@ BOOST_AUTO_TEST_CASE (client_server_test_rgb)
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
 	EncodeServerDescription description ("127.0.0.1", 1, SERVER_LINK_VERSION);
 
-	list<thread*> threads;
+	list<thread> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread (boost::bind (do_remote_encode, frame, description, locally_encoded)));
+		threads.push_back(thread(boost::bind(do_remote_encode, frame, description, locally_encoded)));
 	}
 
-	for (auto i: threads) {
-		i->join ();
+	for (auto& i: threads) {
+		i.join();
 	}
 
-	for (auto i: threads) {
-		delete i;
-	}
+	threads.clear();
 
 	server->stop ();
-	server_thread->join ();
-	delete server_thread;
-	delete server;
+	server_thread.join();
 }
 
 
@@ -204,9 +200,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 
 	auto locally_encoded = frame->encode_locally ();
 
-	auto server = new EncodeServer (true, 2);
+	auto server = make_shared<EncodeServer>(true, 2);
 
-	auto server_thread = new thread(boost::bind(&EncodeServer::run, server));
+	thread server_thread(boost::bind(&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep_seconds (1);
@@ -214,23 +210,19 @@ BOOST_AUTO_TEST_CASE (client_server_test_yuv)
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
 	EncodeServerDescription description ("127.0.0.1", 2, SERVER_LINK_VERSION);
 
-	list<thread*> threads;
+	list<thread> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread(boost::bind(do_remote_encode, frame, description, locally_encoded)));
+		threads.push_back(thread(boost::bind(do_remote_encode, frame, description, locally_encoded)));
 	}
 
-	for (auto i: threads) {
-		i->join ();
+	for (auto& i: threads) {
+		i.join();
 	}
 
-	for (auto i: threads) {
-		delete i;
-	}
+	threads.clear();
 
 	server->stop ();
-	server_thread->join ();
-	delete server_thread;
-	delete server;
+	server_thread.join();
 }
 
 
@@ -297,9 +289,9 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	auto j2k_locally_encoded = j2k_frame->encode_locally ();
 
-	auto server = new EncodeServer (true, 2);
+	auto server = make_shared<EncodeServer>(true, 2);
 
-	auto server_thread = new thread (boost::bind (&EncodeServer::run, server));
+	thread server_thread(boost::bind (&EncodeServer::run, server));
 
 	/* Let the server get itself ready */
 	dcpomatic_sleep_seconds (1);
@@ -307,21 +299,19 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	/* "localhost" rather than "127.0.0.1" here fails on docker; go figure */
 	EncodeServerDescription description ("127.0.0.1", 2, SERVER_LINK_VERSION);
 
-	list<thread*> threads;
+	list<thread> threads;
 	for (int i = 0; i < 8; ++i) {
-		threads.push_back (new thread(boost::bind(do_remote_encode, j2k_frame, description, j2k_locally_encoded)));
+		threads.push_back(thread(boost::bind(do_remote_encode, j2k_frame, description, j2k_locally_encoded)));
 	}
 
-	for (auto i: threads) {
-		i->join ();
+	for (auto& i: threads) {
+		i.join();
 	}
 
-	for (auto i: threads) {
-		delete i;
-	}
+	threads.clear();
 
 	server->stop ();
-	server_thread->join ();
-	delete server_thread;
-	delete server;
+	server_thread.join();
 }
+
+
