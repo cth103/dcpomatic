@@ -73,8 +73,8 @@ J2KEncoder::~J2KEncoder ()
 	_server_found_connection.disconnect();
 
 	{
-	boost::mutex::scoped_lock lm (_threads_mutex);
-	terminate_threads ();
+		boost::mutex::scoped_lock lm(_threads_mutex);
+		terminate_threads();
 	}
 
 	delete _context;
