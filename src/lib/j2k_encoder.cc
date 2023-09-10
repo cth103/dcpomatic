@@ -229,10 +229,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 	size_t threads = 0;
 	{
 		boost::mutex::scoped_lock lm (_threads_mutex);
-		if (_threads)
-			threads = _threads->size();
-		else
-			threads = std::thread::hardware_concurrency();
+		threads = _threads->size();
 	}
 
 	boost::mutex::scoped_lock queue_lock (_queue_mutex);
