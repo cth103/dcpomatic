@@ -979,12 +979,13 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		isdcf_name += "-" + lang;
-		if (ccap) {
-			isdcf_name += "-CCAP";
-		}
 	} else {
 		/* No subtitles */
 		isdcf_name += "-XX";
+	}
+
+	if (ccap) {
+		isdcf_name += "-CCAP";
 	}
 
 	if (_release_territory) {
