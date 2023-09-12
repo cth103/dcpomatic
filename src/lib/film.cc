@@ -815,6 +815,22 @@ Film::subtitle_languages () const
 }
 
 
+vector<dcp::LanguageTag>
+Film::closed_caption_languages() const
+{
+	vector<dcp::LanguageTag> result;
+	for (auto i: content()) {
+		for (auto text: i->text) {
+			if (text->use() && text->type() == TextType::CLOSED_CAPTION && text->dcp_track() && text->dcp_track()->language) {
+				result.push_back(*text->dcp_track()->language);
+			}
+		}
+	}
+
+	return result;
+}
+
+
 /** @return a ISDCF-compliant name for a DCP of this film */
 string
 Film::isdcf_name (bool if_created_now) const

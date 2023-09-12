@@ -192,6 +192,8 @@ public:
 
 	/** @return pair containing the main subtitle language, and additional languages */
 	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> subtitle_languages () const;
+	/** @return all closed caption languages in the film */
+	std::vector<dcp::LanguageTag> closed_caption_languages() const;
 
 	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
 
