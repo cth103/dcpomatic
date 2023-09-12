@@ -969,23 +969,17 @@ Film::isdcf_name (bool if_created_now) const
 
 	isdcf_name += "_" + to_upper (audio_language);
 
-	/* I'm not clear on the precise details of the convention for CCAP labelling;
-	   for now I'm just appending -CCAP if we have any closed captions.
-	*/
-
 	auto burnt_in = true;
-	auto ccap = false;
 	for (auto i: content_list) {
 		for (auto text: i->text) {
 			if (text->type() == TextType::OPEN_SUBTITLE && text->use() && !text->burn()) {
 				burnt_in = false;
-			} else if (text->type() == TextType::CLOSED_CAPTION && text->use()) {
-				ccap = true;
 			}
 		}
 	}
 
 	auto sub_langs = subtitle_languages();
+	auto ccap_langs = closed_caption_languages();
 	if (sub_langs.first && sub_langs.first->language()) {
 		auto lang = entry_for_language(*sub_langs.first);
 		if (burnt_in) {
@@ -995,13 +989,11 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		isdcf_name += "-" + lang;
+	} else if (!ccap_langs.empty()) {
+		isdcf_name += "-" + to_upper(entry_for_language(ccap_langs[0])) + "-CCAP";
 	} else {
 		/* No subtitles */
 		isdcf_name += "-XX";
-	}
-
-	if (ccap) {
-		isdcf_name += "-CCAP";
 	}
 
 	if (_release_territory) {

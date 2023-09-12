@@ -249,3 +249,17 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-XX_MOS-IAB_2K_20230118_SMPTE_OV");
 }
 
+
+BOOST_AUTO_TEST_CASE(isdcf_name_with_ccap)
+{
+	auto content = content_factory("test/data/short.srt")[0];
+	auto film = new_test_film2("isdcf_name_with_ccap", { content });
+	content->text[0]->set_use(true);
+	content->text[0]->set_type(TextType::CLOSED_CAPTION);
+	content->text[0]->set_dcp_track(DCPTextTrack("Foo", dcp::LanguageTag("de-DE")));
+	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
+	film->set_name("Hello");
+
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE-CCAP_MOS_2K_20230118_SMPTE_OV");
+}
+
