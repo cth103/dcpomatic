@@ -598,6 +598,7 @@ supported_by.Add (wxT ("Kevin Knipstein"));
 supported_by.Add (wxT ("Max Knoth"));
 supported_by.Add (wxT ("Erik Knudsen"));
 supported_by.Add (wxT ("Roald Koger"));
+supported_by.Add (wxT ("Fritz Kohle"));
 supported_by.Add (wxT ("Detlev Konnerth"));
 supported_by.Add (wxT ("Arnold Kopff"));
 supported_by.Add (wxT ("Frank Koppelmans"));
