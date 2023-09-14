@@ -3,20 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-05 14:06+0200\n"
-"PO-Revision-Date: 2023-01-30 18:53+0100\n"
+"PO-Revision-Date: 2023-09-14 22:45+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -202,12 +201,12 @@ msgstr "96 kHz"
 #: src/wx/verify_dcp_dialog.cc:411
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
-msgstr ""
+msgstr "<IssueDate> ima neveljavno vrednost %n"
 
 #: src/wx/verify_dcp_dialog.cc:417
 #, c-format
 msgid "<MainSoundConfiguration> describes incorrect number of channels (%n)"
-msgstr ""
+msgstr "<MainSoundConfiguration> opisuje nepravilno število kanalov (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
 msgid "<b>New colour</b>"
@@ -310,6 +309,8 @@ msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
 "a corresponding <LoadFont> node."
 msgstr ""
+"Podnaslov ali zaprti napis se slicuje na pisavo z ID %id, ki nima ustreznega "
+"vozlišča <LoadFont>."
 
 #: src/wx/config_dialog.cc:977
 msgid "ALSA"
@@ -396,9 +397,9 @@ msgid "Add recipient"
 msgstr "Dodaj prejemnika"
 
 #: src/wx/content_panel.cc:262
-#, fuzzy
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
-msgstr "V film dodajte datoteke videa, slik, zvoka ali podnaslovov."
+msgstr ""
+"V film dodajte datoteke videa, slik, zvoka ali podnaslovov (krmilka+A)."
 
 #: src/wx/config_dialog.cc:299 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
@@ -472,7 +473,7 @@ msgstr "Dovoli preslikavo na vse zvočne kanale"
 
 #: src/wx/full_config_dialog.cc:1547
 msgid "Allow use of SMPTE Bv2.0"
-msgstr ""
+msgstr "Dovoli uporabo SMPTE Bv2.0"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
@@ -533,7 +534,7 @@ msgstr ""
 
 #: src/wx/verify_dcp_dialog.cc:381
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
-msgstr "Vsaj eno vozlišče <Text> v podnapisu ali zaprtem napisu je prazno."
+msgstr "Vsaj eno vozlišče <Text> v podnaslovu ali zaprtem napisu je prazno."
 
 #: src/wx/verify_dcp_dialog.cc:257
 msgid ""
@@ -895,9 +896,8 @@ msgid "Could not load certificate (%s)"
 msgstr "Potrdila ni bilo mogoče naložiti (%s)"
 
 #: src/wx/simple_video_view.cc:176
-#, fuzzy
 msgid "Could not play content"
-msgstr "KDM-ja ni bilo mogoče naložiti"
+msgstr "Vsebine ni mogoče predvajati"
 
 #: src/wx/gl_video_view.cc:139
 #, c-format
@@ -1152,9 +1152,8 @@ msgid "Delay"
 msgstr "Zakasnitev"
 
 #: src/wx/screen_dialog.cc:138
-#, fuzzy
 msgid "Details"
-msgstr "Podrobnosti ..."
+msgstr "Podrobnosti"
 
 #: src/wx/job_view.cc:80
 msgid "Details..."
@@ -1429,6 +1428,9 @@ msgid ""
 "cover the whole of the KDM validity period.  This might cause problems with "
 "the KDMs."
 msgstr ""
+"Pri nekaterih od teh KDM-jev obdobje veljavnosti prejemnikovega potrdila ne "
+"pokriva celotnega obdobja veljavnosti KDM.  To lahko povzroči težave s KDM-"
+"ji."
 
 #: src/wx/kdm_advanced_dialog.cc:41
 msgid "Forensically mark audio"
@@ -1448,6 +1450,8 @@ msgid ""
 "Frame %frame has an image component that is too large (component %component "
 "is %size bytes in size)."
 msgstr ""
+"Okvir %frame ima slikovno komponento, ki je prevelika (komponenta %component "
+"je velika %size bajtov)."
 
 #: src/wx/dcp_panel.cc:817
 msgid "Frame Rate"
@@ -1559,6 +1563,8 @@ msgid ""
 "How the DCP should be split into parts internally.  If in doubt, choose "
 "'Single reel'"
 msgstr ""
+"Kako naj bo DCP interno razdeljen po kosih.  Če niste prepričan, izberite "
+"»Enojni kolut«"
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about using the disk writer.
@@ -1584,7 +1590,7 @@ msgstr "IP-naslov / ime gostitelja"
 
 #: src/wx/full_config_dialog.cc:1550
 msgid "ISDCF name part length"
-msgstr ""
+msgstr "Dolžina dela imena ISDCF"
 
 #: src/wx/full_config_dialog.cc:1386
 msgid "Identifiers"
@@ -1735,13 +1741,12 @@ msgid "Issuer"
 msgstr "Izdajatelj"
 
 #: src/wx/screen_dialog.cc:191
-#, fuzzy
 msgid "Issuer common name"
-msgstr "Skupno ime za list"
+msgstr "Splošno ime izdajatelja"
 
 #: src/wx/screen_dialog.cc:192
 msgid "Issuer organization name"
-msgstr ""
+msgstr "Ime organizacije izdajatelja"
 
 #: src/wx/audio_panel.cc:327
 msgid ""
@@ -2116,9 +2121,8 @@ msgid "No warnings found."
 msgstr "Opozorila niso bila najdena."
 
 #: src/wx/full_config_dialog.cc:1501
-#, fuzzy
 msgid "Non-standard"
-msgstr "Standard"
+msgstr "Nestandardno"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:158
 #: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1042
@@ -2132,11 +2136,11 @@ msgstr "Vsa podnaslovna sredstva ne določajo iste oznake <Language>."
 
 #: src/wx/screen_dialog.cc:194
 msgid "Not valid after"
-msgstr ""
+msgstr "Ni veljaven po"
 
 #: src/wx/screen_dialog.cc:193
 msgid "Not valid before"
-msgstr ""
+msgstr "Ni veljaven pred"
 
 #: src/wx/cinema_dialog.cc:58 src/wx/recipient_dialog.cc:74
 #: src/wx/screen_dialog.cc:148
@@ -2180,9 +2184,8 @@ msgid "Open console window"
 msgstr "Odpri okno konzole"
 
 #: src/wx/content_panel.cc:286
-#, fuzzy
 msgid "Open the timeline for the film (Ctrl+T)."
-msgstr "Odprite časovnico filma."
+msgstr "Odprite časovnico filma (krmilka+T)."
 
 #: src/wx/full_config_dialog.cc:1773 src/wx/player_config_dialog.cc:113
 msgid "OpenGL (faster)"
@@ -2441,9 +2444,8 @@ msgid "Rec. 709"
 msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:153
-#, fuzzy
 msgid "Recipient"
-msgstr "Prejemniki"
+msgstr "Prejemnik"
 
 #: src/wx/recipient_dialog.cc:107
 msgid "Recipient certificate"
@@ -2511,9 +2513,8 @@ msgid "Remove Screen"
 msgstr "Odstrani zaslon"
 
 #: src/wx/content_panel.cc:274
-#, fuzzy
 msgid "Remove the selected piece of content from the film (Delete)."
-msgstr "Odstrani izbrani del vsebine iz filma."
+msgstr "Odstrani izbrani del vsebine iz filma (brisalka oz. Izbriši)."
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "Rename template"
@@ -2601,9 +2602,8 @@ msgid "SMPTE"
 msgstr "SMPTE"
 
 #: src/wx/dcp_panel.cc:171
-#, fuzzy
 msgid "SMPTE (Bv2.0 only)"
-msgstr "Napake SMPTE Bv2.1"
+msgstr "SMPTE (samo Bv2.0)"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "SMPTE Bv2.1 errors"
@@ -2863,6 +2863,9 @@ msgid ""
 "recipient certificate periods.  Such KDMs are very unlikely to work, so will "
 "not be created."
 msgstr ""
+"Nekateri KDM bi imeli obdobja veljavnosti, ki so povsem zunaj obdobij "
+"veljavnosti prejemnikovega potrdila.  Takšni KDM najverjetneje ne bodo "
+"delovali, zato ne bodo ustvarjeni."
 
 #: src/wx/verify_dcp_dialog.cc:384
 msgid ""
@@ -2885,7 +2888,7 @@ msgstr "Zvok"
 
 #: src/wx/verify_dcp_dialog.cc:414
 msgid "Sound assets do not all have the same channel count."
-msgstr ""
+msgstr "Sredstva zvoka nimajo enakega števila kanalov."
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "Sound processor"
@@ -2934,17 +2937,15 @@ msgstr "Studio"
 
 #: src/wx/full_config_dialog.cc:1043 src/wx/full_config_dialog.cc:1176
 msgid "Subject"
-msgstr "Zadeva"
+msgstr "Tema"
 
 #: src/wx/screen_dialog.cc:189
-#, fuzzy
 msgid "Subject common name"
-msgstr "Splošno korensko ime"
+msgstr "Splošno ime teme"
 
 #: src/wx/screen_dialog.cc:190
-#, fuzzy
 msgid "Subject organization name"
-msgstr "Izberite prilagoditveno datoteko"
+msgstr "Ime organizacije teme"
 
 #: src/wx/about_dialog.cc:165
 msgid "Subscribers"
@@ -3039,7 +3040,7 @@ msgstr "Čas »do« mora slediti času »od«."
 #: src/wx/verify_dcp_dialog.cc:438
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %id is empty"
-msgstr ""
+msgstr "<LabelText> v <ContentVersion> v CPL %id je prazen"
 
 #: src/wx/verify_dcp_dialog.cc:399
 msgid ""
@@ -3179,15 +3180,14 @@ msgstr ""
 "DCP je celovečerec, vendar nima oznake FFMC (prva sličica gibljivih napisov)."
 
 #: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:207
-#, fuzzy
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the DCP-o-matic preferences window."
 msgstr ""
-"Konec obdobja KDM je po (ali blizu) koncu veljavnosti potrdil podpisa.  "
-"Uporabite zgodnejši končni čas za ta KDM ali pa znova ustvarite potrdila o "
-"podpisovanju v oknu za nastavitve DCP-o-matic."
+"Konec obdobja KDM je čez (ali blizu) konec veljavnosti potrdil podpisa.  "
+"Uporabite zgodnejši končni čas za ta KDM ali pa znova ustvarite potrdila za "
+"podpisovanje v oknu nastavitev DCP-o-matic."
 
 #: src/wx/dkdm_dialog.cc:170 src/wx/kdm_dialog.cc:205
 msgid ""
@@ -3237,6 +3237,8 @@ msgstr ""
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
+"Sredstvo podnaslovov SMPTE %id ima vozlišča <Text>, nima pa vozlišča "
+"<LoadFont> "
 
 #: src/wx/verify_dcp_dialog.cc:160
 #, c-format
@@ -3260,6 +3262,7 @@ msgstr ""
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr ""
+"XML v sredstvu podnaslova %n ima več kot eno deklaracijo imenskega prostora."
 
 #: src/wx/verify_dcp_dialog.cc:182
 #, c-format
@@ -3292,7 +3295,7 @@ msgstr "Sredstvo %n nima kontrolne vsote <Hash> v CPL."
 #: src/wx/verify_dcp_dialog.cc:435
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr ""
+msgstr "Sredstvo z ID %id v mapi sredstev ima dejansko ID %other_id"
 
 #: src/wx/verify_dcp_dialog.cc:272
 #, c-format
@@ -3342,7 +3345,7 @@ msgstr ""
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
-"Prvi podnapis ali zaprt napis se pojavi pred 4 sekundami na prvem kolutu."
+"Prvi podnaslov ali zaprt napis se pojavi pred 4 sekundami na prvem kolutu."
 
 #: src/wx/verify_dcp_dialog.cc:420
 #, c-format
@@ -3350,6 +3353,8 @@ msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
+"Datoteka pisave za pisavo z ID »%n« ni mogoče najti ali pa se nanjo ne "
+"sklicuje ASSETMAP."
 
 #: src/wx/verify_dcp_dialog.cc:209
 #, c-format
@@ -3433,9 +3438,9 @@ msgstr ""
 "Sredstvo podnaslovov %f ima ne-ničelno vrednost začetnega časa <StartTime>."
 
 #: src/wx/verify_dcp_dialog.cc:408
-#, fuzzy, c-format
+#, c-format
 msgid "The subtitle asset %n contains no subtitles."
-msgstr "Sredstvo podnaslovov %f ne vsebuje oznake časa pričetka <StartTime>."
+msgstr "Sredstvo podnaslovov %n ne vsebuje podnaslovov."
 
 #: src/wx/verify_dcp_dialog.cc:266
 #, c-format
@@ -3480,7 +3485,7 @@ msgstr "Na vsaj enem mestu so v zaprtih napisih več kot 3 vrstice."
 
 #: src/wx/verify_dcp_dialog.cc:233
 msgid "There are more than 3 subtitle lines in at least one place."
-msgstr "Na vsaj enem mestu so v podnapisih več kot 3 vrstice."
+msgstr "Na vsaj enem mestu so v podnaslovih več kot 3 vrstice."
 
 #: src/wx/verify_dcp_dialog.cc:245
 msgid "There are more than 32 characters in at least one closed caption line."
@@ -3967,7 +3972,7 @@ msgstr "Hitrost video sličic, s katero je bila pripravljena vsebina"
 #. "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:97
 msgid "Video has burnt-in subtitles in the language"
-msgstr "Video ima vžgane podnapise v jeziku"
+msgstr "Video ima vžgane podnaslove v jeziku"
 
 #: src/wx/text_panel.cc:124
 msgid "View..."
@@ -3987,6 +3992,8 @@ msgid ""
 "Which standard the DCP should use.  Interop is older and SMPTE is the modern "
 "standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
+"Kateri standard naj uporablja DCP.  Interop je starejši, SMPTE pa je sodobni "
+"standard.  Če ste v dvomu, izberite »SMPTE«."
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"
@@ -4121,7 +4128,7 @@ msgstr "kino"
 
 #: src/wx/text_panel.cc:97 src/wx/text_panel.cc:613
 msgid "closed captions"
-msgstr "zaprti podnapisi"
+msgstr "zaprti napisi"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-05 14:06+0200\n"
-"PO-Revision-Date: 2023-01-30 21:11+0100\n"
+"PO-Revision-Date: 2023-09-14 22:18+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -208,17 +208,17 @@ msgstr "; %1 preostalo; zaključevanje ob %2%3"
 
 #: src/lib/analytics.cc:64
 msgid ""
-"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the "
-"developer of DCP-o-matic. I work on it in my spare time (with the help of a "
-"fine volunteer team of testers and translators) and I release it as free "
-"software.<p>If you find DCP-o-matic useful, please consider a donation to "
-"the project. Financial support will help me to spend more time developing "
-"DCP-o-matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to "
-"donate €20</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=10\">Go to Paypal to donate €10</a></ul><p>Thank you!"
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
 "<h2>%1 DCP ste izdelali z DCP-o-matic!</h2><img width=\"20%%\" src=\"memory:"
 "me.jpg\" align=\"center\"><p>Pozdravljeni. Jaz sem Carl in sem razvijalec "
@@ -352,16 +352,14 @@ msgstr ""
 "Priporočljivo je, da je vrzel med podnaslovi vsaj 2 sličici."
 
 #: src/lib/hints.cc:656
-#, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
 "\"Content→Timed text\" or \"Content→Open subtitles\" tab."
 msgstr ""
-"Vsaj en del vsebine podnaslovov ali zaprtih napisov nima določenega jezika.  "
-"Priporočljivo je, da jezik za vsak kos vsebine podnaslovov ali zaprtih "
-"napisov nastavite v zavihku »Vsebina → Časovno opredeljeno besedilo«, "
-"»Vsebina → Odpri podnaslove« ali »Vsebina → Zaprti napisi«."
+"Vsaj en del vsebine podnaslovov nima določenega jezika.  Priporočljivo je, "
+"da jezik za vsak kos vsebine podnaslovov nastavite v zavihku »Vsebina → "
+"Časovno opredeljeno besedilo«, »Vsebina → Odpri podnaslove«."
 
 #: src/lib/audio_content.cc:277
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -1247,12 +1245,11 @@ msgstr "Brez"
 
 #: src/lib/job.cc:600
 msgid "OK"
-msgstr ""
+msgstr "V redu"
 
 #: src/lib/job.cc:605
-#, fuzzy
 msgid "OK (ran for %1 from %2 to %3)"
-msgstr "V redu (potekalo %1)"
+msgstr "V redu (potekalo %1 od %2 do %3)"
 
 #: src/lib/job.cc:603
 msgid "OK (ran for %1)"
@@ -1915,6 +1912,9 @@ msgid ""
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
+"Vaš DCP ima %1 zvočnih kanalov in ne 8 ali 16.  Zaradi tega lahko nekateri "
+"distributerji pri preverjanju kakovosti vašega DCP sporočijo napake.  Če se "
+"želite temu izogniti, nastavite število zvočnih kanalov DCP na 8 ali 16."
 
 #: src/lib/hints.cc:109
 msgid ""
@@ -2169,9 +2169,8 @@ msgid "still"
 msgstr "fotografija"
 
 #: src/lib/dcp_content.cc:793
-#, fuzzy
 msgid "they overlap other text content; remove the other content."
-msgstr "prekriva drugo besedilno vsebino; odstranite drugo vsebino."
+msgstr "prekrivajo drugo besedilno vsebino; odstranite drugo vsebino."
 
 #: src/lib/ffmpeg_examiner.cc:342
 msgid "unknown"
