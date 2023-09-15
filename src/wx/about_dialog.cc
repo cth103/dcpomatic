@@ -152,6 +152,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	translated_by.Add (wxT ("Igor Voytovich"));
 	translated_by.Add (wxT ("Rov (若文)"));
 	translated_by.Add (wxT ("刘汉源"));
+	translated_by.Add (wxT ("poppinzhang"));
 	add_section (_("Translated by"), translated_by);
 
 	wxArrayString patrons;

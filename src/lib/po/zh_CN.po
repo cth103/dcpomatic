@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-05 14:06+0200\n"
-"PO-Revision-Date: 2023-07-15 00:03+0800\n"
+"PO-Revision-Date: 2023-09-15 00:45+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -342,14 +342,13 @@ msgstr ""
 "至少有一个字幕在前一个字幕后不到2帧开始，  建议字幕之间的间隔至少为2帧。"
 
 #: src/lib/hints.cc:656
-#, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
 "\"Content→Timed text\" or \"Content→Open subtitles\" tab."
 msgstr ""
-"至少有一个字幕或隐藏字幕内容没有指定的语言，  建议在“内容→时间轴”、“内容→打开"
-"字幕”或“内容→隐藏字幕”选项卡中设置每段字幕或隐藏字幕内容的语言。"
+"至少有一个字幕内容没有指定的语言，  建议在“内容→时间轴”或“内容→打开字幕”选项"
+"卡中为每段字幕内容设置语言。"
 
 #: src/lib/audio_content.cc:277
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -1200,12 +1199,11 @@ msgstr "无"
 
 #: src/lib/job.cc:600
 msgid "OK"
-msgstr ""
+msgstr "完成"
 
 #: src/lib/job.cc:605
-#, fuzzy
 msgid "OK (ran for %1 from %2 to %3)"
-msgstr "完成 (运行用时 %1)"
+msgstr "完成 (运行用时 %1，预计从 %2 到 %3)"
 
 #: src/lib/job.cc:603
 msgid "OK (ran for %1)"
@@ -1832,6 +1830,8 @@ msgid ""
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
+"您的DCP具有 %1 个音频通道，而不是8或16个通道。这可能导致一些发行商在检查您的 "
+"DCP 时出现 QC 报错。为防止这种情况，建议设置8或16个DCP音频通道。"
 
 #: src/lib/hints.cc:109
 msgid ""
@@ -2071,7 +2071,6 @@ msgid "still"
 msgstr "静止图像"
 
 #: src/lib/dcp_content.cc:793
-#, fuzzy
 msgid "they overlap other text content; remove the other content."
 msgstr "与其他文字内容重叠；请删除其他内容。"
 
