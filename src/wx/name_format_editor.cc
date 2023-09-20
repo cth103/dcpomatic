@@ -77,9 +77,9 @@ NameFormatEditor::update_example ()
 		return;
 	}
 
-	_name.set_specification (careful_string_filter(wx_to_std(_specification->GetValue())));
+	_name.set_specification(wx_to_std(_specification->GetValue()));
 
-	auto example = wxString::Format (_("e.g. %s"), std_to_wx (_name.get (_examples, _suffix)));
+	auto example = wxString::Format(_("e.g. %s"), std_to_wx(careful_string_filter(_name.get(_examples, _suffix))));
 	wxString wrapped;
 	for (size_t i = 0; i < example.Length(); ++i) {
 		if (i > 0 && (i % 40) == 0) {
