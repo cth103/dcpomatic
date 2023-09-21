@@ -29,13 +29,13 @@ deb_build_depends = dict()
 
 deb_build_depends_base = ['debhelper', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev', 'libx264-dev']
 
-for v in ['16.04', '18.04', '20.04', '20.10', '21.04', '21.10']:
+for v in ['16.04', '18.04', '20.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python'])
-for v in ['22.04', '22.10']:
+for v in ['22.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.10'])
-for v in ['23.04']:
+for v in ['23.04', '23.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.11'])
 for v in ['9', '10']:
@@ -145,8 +145,8 @@ deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libnanomsg5',
                              'libdav1d5'])
 
-deb_depends['22.10'] = copy.deepcopy(deb_depends_base)
-deb_depends['22.10'].extend(['libboost-filesystem1.74.0',
+deb_depends['23.04'] = copy.deepcopy(deb_depends_base)
+deb_depends['23.04'].extend(['libboost-filesystem1.74.0',
                              'libboost-thread1.74.0',
                              'libboost-regex1.74.0',
                              'libboost-date-time1.74.0',
@@ -154,17 +154,19 @@ deb_depends['22.10'].extend(['libboost-filesystem1.74.0',
                              'libpangomm-1.4-1v5',
                              'libxml++2.6-2v5',
                              'libzip4',
-                             'libicu71',
+                             'libicu72',
                              'libnettle8',
                              'libssh-4',
                              'libx264-164',
                              'libcurl4',
                              'libpulse0',
                              'libxerces-c3.2',
-                             'libnanomsg5'])
+                             'libnanomsg5',
+                             'libwxgtk3.2-1',
+                             'libwxgtk-gl3.2-1'])
 
-deb_depends['23.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['23.04'].extend(['libboost-filesystem1.74.0',
+deb_depends['23.10'] = copy.deepcopy(deb_depends_base)
+deb_depends['23.10'].extend(['libboost-filesystem1.74.0',
                              'libboost-thread1.74.0',
                              'libboost-regex1.74.0',
                              'libboost-date-time1.74.0',
@@ -727,7 +729,7 @@ def package_debian(target, cpu, version, options):
 
     target.set('CDIST_CONFIGURE', '"' + configure_options(target, options, for_package=True) + '"')
     target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
-    target.set('CDIST_WX_VERSION', "3.2" if target.version == "23.04" else "3.1")
+    target.set('CDIST_WX_VERSION', "3.2" if target.version in ("23.04", "23.10") else "3.1")
     if not target.debug:
         target.set('CDIST_DEBUG_PACKAGE_FLAG', '--no-ddebs')
 
