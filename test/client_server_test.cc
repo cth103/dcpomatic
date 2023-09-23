@@ -20,20 +20,18 @@
 
 
 /** @file  test/client_server_test.cc
- *  @brief Test the server class.
+ *  @brief Test the remote encoding code.
  *  @ingroup feature
- *
- *  Create a test image and then encode it using the standard mechanism
- *  and also using a EncodeServer object running on localhost.  Compare the resulting
- *  encoded data to check that they are the same.
  */
 
 
+#include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/dcp_video.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/encode_server.h"
 #include "lib/encode_server_description.h"
+#include "lib/encode_server_finder.h"
 #include "lib/file_log.h"
 #include "lib/image.h"
 #include "lib/j2k_image_proxy.h"
@@ -315,4 +313,23 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 	server_thread.join();
 }
 
+
+BOOST_AUTO_TEST_CASE(real_encode_with_server)
+{
+	auto content = content_factory(TestPaths::private_data() / "dolby_aurora.vob");
+	auto film = new_test_film2("real_encode_with_server", content);
+
+	EncodeServerFinder::instance();
+
+	EncodeServer server(true, 4);
+	thread server_thread(boost::bind(&EncodeServer::run, &server));
+
+	make_and_verify_dcp(film);
+
+	server.stop();
+	server_thread.join();
+
+	BOOST_CHECK(server.frames_encoded() > 0);
+	EncodeServerFinder::drop();
+}
 
