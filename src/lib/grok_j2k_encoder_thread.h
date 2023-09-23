@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,11 +19,23 @@
 */
 
 
-#include "transcode_job.h"
+#include "exception_store.h"
+#include "j2k_encoder_thread.h"
 
 
-class Film;
+namespace grk_plugin {
+	class GrokContext;
+}
 
 
-std::shared_ptr<TranscodeJob> make_dcp(std::shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour);
+class GrokJ2KEncoderThread : public J2KEncoderThread, public ExceptionStore
+{
+public:
+	GrokJ2KEncoderThread(J2KEncoder& encoder, grk_plugin::GrokContext* context);
+
+	void run() override;
+
+private:
+	grk_plugin::GrokContext* _context;
+};
 

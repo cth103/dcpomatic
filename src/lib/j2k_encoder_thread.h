@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,11 +19,35 @@
 */
 
 
-#include "transcode_job.h"
+#ifndef DCPOMATIC_J2K_ENCODER_THREAD
+#define DCPOMATIC_J2K_ENCODER_THREAD
 
 
-class Film;
+#include <boost/thread.hpp>
 
 
-std::shared_ptr<TranscodeJob> make_dcp(std::shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour);
+class J2KEncoder;
 
+
+class J2KEncoderThread
+{
+public:
+	J2KEncoderThread(J2KEncoder& encoder);
+
+	J2KEncoderThread(J2KEncoderThread const&) = delete;
+	J2KEncoderThread& operator=(J2KEncoderThread const&) = delete;
+
+	void start();
+	void stop();
+
+	virtual void run() = 0;
+
+protected:
+	J2KEncoder& _encoder;
+
+private:
+	boost::thread _thread;
+};
+
+
+#endif

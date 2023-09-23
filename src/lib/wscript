@@ -59,6 +59,7 @@ sources = """
           content_factory.cc
           combine_dcp_job.cc
           copy_dcp_details_to_film.cc
+          cpu_j2k_encoder_thread.cc
           create_cli.cc
           crop.cc
           cross_common.cc
@@ -122,6 +123,7 @@ sources = """
           font_id_map.cc
           frame_interval_checker.cc
           frame_rate_change.cc
+          grok_j2k_encoder_thread.cc
           guess_crop.cc
           hints.cc
           internet.cc
@@ -138,6 +140,8 @@ sources = """
           job.cc
           job_manager.cc
           j2k_encoder.cc
+          j2k_encoder_thread.cc
+          j2k_sync_encoder_thread.cc
           json_server.cc
           kdm_cli.cc
           kdm_recipient.cc
@@ -163,6 +167,7 @@ sources = """
           referenced_reel_asset.cc
           release_notes.cc
           render_text.cc
+          remote_j2k_encoder_thread.cc
           resampler.cc
           resolution.cc
           rgba.cc

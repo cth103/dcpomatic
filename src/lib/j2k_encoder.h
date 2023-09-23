@@ -33,6 +33,7 @@
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
+#include "j2k_encoder_thread.h"
 #include "writer.h"
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
@@ -48,6 +49,10 @@ class EncodeServerDescription;
 class Film;
 class Job;
 class PlayerVideo;
+
+struct local_threads_created_and_destroyed;
+struct remote_threads_created_and_destroyed;
+struct frames_not_lost_when_threads_disappear;
 
 
 /** @class J2KEncoder
@@ -80,13 +85,18 @@ public:
 	boost::optional<float> current_encoding_rate () const;
 	int video_frames_enqueued () const;
 
-	void servers_list_changed ();
+	DCPVideo pop();
+	void retry(DCPVideo frame);
+	void write(std::shared_ptr<const dcp::Data> data, int index, Eyes eyes);
 
 private:
+	friend struct ::local_threads_created_and_destroyed;
+	friend struct ::remote_threads_created_and_destroyed;
+	friend struct ::frames_not_lost_when_threads_disappear;
 
 	void frame_done ();
-
-	void encoder_thread (boost::optional<EncodeServerDescription>);
+	void servers_list_changed ();
+	void remake_threads(int cpu, int gpu, std::list<EncodeServerDescription> servers);
 	void terminate_threads ();
 
 	/** Film that we are encoding */
@@ -95,7 +105,7 @@ private:
 	EventHistory _history;
 
 	boost::mutex _threads_mutex;
-	std::shared_ptr<boost::thread_group> _threads;
+	std::vector<std::shared_ptr<J2KEncoderThread>> _threads;
 
 	mutable boost::mutex _queue_mutex;
 	std::list<DCPVideo> _queue;
@@ -114,6 +124,8 @@ private:
 
 	grk_plugin::DcpomaticContext _dcpomatic_context;
 	grk_plugin::GrokContext *_context;
+
+	bool _ending = false;
 };
 
 
