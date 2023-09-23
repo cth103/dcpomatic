@@ -45,11 +45,19 @@ public:
 
 	~ScopeGuard ()
 	{
-		_function();
+		if (!_cancelled) {
+			_function();
+		}
+	}
+
+	void cancel()
+	{
+		_cancelled = true;
 	}
 
 private:
 	std::function<void()> _function;
+	bool _cancelled = false;
 };
 
 

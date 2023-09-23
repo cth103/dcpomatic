@@ -81,6 +81,7 @@ EncodeServer::EncodeServer (bool verbose, int num_threads)
 #endif
 	, _verbose (verbose)
 	, _num_threads (num_threads)
+	, _frames_encoded(0)
 {
 
 }
@@ -164,6 +165,8 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 		LOG_ERROR ("Send failed; frame %1", dcp_video_frame.index());
 		throw;
 	}
+
+	++_frames_encoded;
 
 	return dcp_video_frame.index ();
 }

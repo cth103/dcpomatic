@@ -25,5 +25,5 @@
 class Film;
 
 
-void make_dcp (std::shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour);
+std::shared_ptr<TranscodeJob> make_dcp(std::shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour);
 

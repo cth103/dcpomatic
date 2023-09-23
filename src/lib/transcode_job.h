@@ -37,6 +37,8 @@
 
 class Encoder;
 
+struct frames_not_lost_when_threads_disappear;
+
 
 /** @class TranscodeJob
  *  @brief A job which transcodes a Film to another format.
@@ -66,6 +68,8 @@ public:
 	void set_encoder (std::shared_ptr<Encoder> t);
 
 private:
+	friend struct ::frames_not_lost_when_threads_disappear;
+
 	virtual void post_transcode () {}
 	float frames_per_second() const;
 
