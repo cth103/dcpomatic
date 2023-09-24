@@ -76,6 +76,7 @@ def options(opt):
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
+    opt.add_option('--enable-grok',       action='store_true', default=False, help='build with support for grok J2K encoder')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
     opt.add_option('--wx-config',         help='path to wx-config')
 
@@ -96,6 +97,7 @@ def configure(conf):
     conf.env.DEBUG = conf.options.enable_debug
     conf.env.STATIC_DCPOMATIC = conf.options.static_dcpomatic
     conf.env.ENABLE_DISK = conf.options.enable_disk
+    conf.env.ENABLE_GROK = conf.options.enable_grok
     if conf.options.destdir == '':
         conf.env.INSTALL_PREFIX = conf.options.prefix
     else:
@@ -139,6 +141,9 @@ def configure(conf):
 
     if conf.options.enable_disk:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_DISK')
+
+    if conf.options.enable_grok:
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GROK')
 
     if conf.options.use_lld:
         try:

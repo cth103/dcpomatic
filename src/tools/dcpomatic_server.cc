@@ -23,7 +23,9 @@
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/config.h"
+#ifdef DCPOMATIC_GROK
 #include "lib/grok/context.h"
+#endif
 #include "lib/log.h"
 #include "lib/signaller.h"
 #include "lib/cross.h"
@@ -330,7 +332,9 @@ private:
 
 		SetExitOnFrameDelete (false);
 
+#ifdef DCPOMATIC_GROK
 		grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+#endif
 
 		return true;
 	}
