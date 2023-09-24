@@ -1140,7 +1140,7 @@ Config::write_config () const
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
 	root->add_child("ISDCFNamePartLength")->add_child_text(raw_convert<string>(_isdcf_name_part_length));
 
-	root->add_child("GpuBinaryLocation")->add_child_text (_gpu_binary_location);
+	root->add_child("GpuBinaryLocation")->add_child_text (_gpu_binary_location.string());
 	root->add_child("EnableGpu")->add_child_text ((_enable_gpu ? "1" : "0"));
 	root->add_child("SelectedGpu")->add_child_text (raw_convert<string> (_selected_gpu));
 	root->add_child("GpuLicenseServer")->add_child_text (_gpu_license_server);

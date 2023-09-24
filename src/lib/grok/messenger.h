@@ -542,11 +542,22 @@ struct Messenger
 
 		sendQueue.push(oss.str());
 	}
-	void launchGrok(const std::string &dir, uint32_t width, uint32_t stride,
-								uint32_t height, uint32_t samplesPerPixel, uint32_t depth,
-								int device, bool is4K, uint32_t fps, uint32_t bandwidth,
-								const std::string server, uint32_t port,
-								const std::string license)
+
+	void launchGrok(
+		boost::filesystem::path const& dir,
+		uint32_t width,
+		uint32_t stride,
+		uint32_t height,
+		uint32_t samplesPerPixel,
+		uint32_t depth,
+		int device,
+		bool is4K,
+		uint32_t fps,
+		uint32_t bandwidth,
+		const std::string server,
+		uint32_t port,
+		const std::string license
+		)
 	{
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
@@ -640,13 +651,14 @@ struct Messenger
   protected:
 	std::condition_variable clientInitializedCondition_;
   private:
-	void launch(const std::string &cmd, const std::string &dir)
+	void launch(std::string const& cmd, boost::filesystem::path const& dir)
 	{
 		// Change the working directory
 		if(!dir.empty())
 		{
-			if(chdir(dir.c_str()) != 0)
-			{
+			boost::system::error_code ec;
+			boost::filesystem::current_path(dir, ec);
+			if (ec) {
 				getMessengerLogger()->error("Error: failed to change the working directory");
 				return;
 			}

@@ -74,12 +74,22 @@ struct FrameProxy {
 };
 
 struct DcpomaticContext {
-	DcpomaticContext(std::shared_ptr<const Film> film, Writer& writer,
-						EventHistory &history, const std::string &location) :
-									film_(film), writer_(writer),
-									history_(history), location_(location),
-									width_(0), height_(0)
-	{}
+	DcpomaticContext(
+		std::shared_ptr<const Film> film,
+		Writer& writer,
+		EventHistory& history,
+		boost::filesystem::path const& location
+		)
+		: film_(film)
+		, writer_(writer)
+		, history_(history)
+		, _location(location)
+		, width_(0)
+		, height_(0)
+	{
+
+	}
+
 	void setDimensions(uint32_t w, uint32_t h) {
 		width_ = w;
 		height_ = h;
@@ -87,7 +97,7 @@ struct DcpomaticContext {
 	std::shared_ptr<const Film> film_;
 	Writer& writer_;
 	EventHistory &history_;
-	std::string location_;
+	boost::filesystem::path _location;
 	uint32_t width_;
 	uint32_t height_;
 };
@@ -100,12 +110,13 @@ public:
 								launched_(false)
 	{
 		if (Config::instance()->enable_gpu ())  {
-		    boost::filesystem::path folder(dcpomaticContext_.location_);
+		    boost::filesystem::path folder(dcpomaticContext_._location);
 		    boost::filesystem::path binaryPath = folder / "grk_compress";
 		    if (!boost::filesystem::exists(binaryPath)) {
-		    	getMessengerLogger()->error("Invalid binary location %s",
-		    			dcpomaticContext_.location_.c_str());
-				return;
+			    getMessengerLogger()->error(
+				    "Invalid binary location %s", dcpomaticContext_._location.c_str()
+				    );
+			    return;
 		    }
 			auto proc = [this](const std::string& str) {
 				try {
@@ -166,16 +177,18 @@ public:
 			auto s = dcpv.get_size();
 			dcpomaticContext_.setDimensions(s.width, s.height);
 			auto config = Config::instance();
-			messenger_->launchGrok(dcpomaticContext_.location_,
-					dcpomaticContext_.width_,dcpomaticContext_.width_,
-					dcpomaticContext_.height_,
-					3, 12, device,
-					dcpomaticContext_.film_->resolution() == Resolution::FOUR_K,
-					dcpomaticContext_.film_->video_frame_rate(),
-					dcpomaticContext_.film_->j2k_bandwidth(),
-					config->gpu_license_server(),
-					config->gpu_license_port(),
-					config->gpu_license());
+			messenger_->launchGrok(
+				dcpomaticContext_._location,
+				dcpomaticContext_.width_,dcpomaticContext_.width_,
+				dcpomaticContext_.height_,
+				3, 12, device,
+				dcpomaticContext_.film_->resolution() == Resolution::FOUR_K,
+				dcpomaticContext_.film_->video_frame_rate(),
+				dcpomaticContext_.film_->j2k_bandwidth(),
+				config->gpu_license_server(),
+				config->gpu_license_port(),
+				config->gpu_license()
+				);
 		}
 		launched_ =  messenger_->waitForClientInit();
 
