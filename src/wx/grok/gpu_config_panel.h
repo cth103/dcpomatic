@@ -56,7 +56,8 @@ public:
     }
 
 private:
-    void OnComboBox([[maybe_unused]] wxCommandEvent& event) {
+    void OnComboBox(wxCommandEvent&)
+    {
         selection = comboBox->GetSelection();
         if (selection != wxNOT_FOUND)
     		Config::instance ()->set_selected_gpu(selection);
