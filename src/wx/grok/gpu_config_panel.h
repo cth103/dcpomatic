@@ -91,22 +91,22 @@ private:
 	{
 		auto config = Config::instance ();
 
-		_enable_gpu = new CheckBox (_panel, _("Enable GPU Acceleration"));
+		_enable_gpu = new CheckBox(_panel, _("Enable GPU acceleration"));
 		_panel->GetSizer()->Add (_enable_gpu, 0, wxALL | wxEXPAND, _border);
 
 		wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		table->AddGrowableCol (1, 1);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
-		add_label_to_sizer (table, _panel, _("Acceleration Binary Folder"), true, 0, wxLEFT | wxLEFT | wxALIGN_CENTRE_VERTICAL);
+		add_label_to_sizer(table, _panel, _("Acceleration binary folder"), true, 0, wxLEFT | wxLEFT | wxALIGN_CENTRE_VERTICAL);
 		_binary_location = new wxDirPickerCtrl (_panel, wxDD_DIR_MUST_EXIST);
 		table->Add (_binary_location, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("GPU Selection"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+		add_label_to_sizer(table, _panel, _("GPU selection"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_gpu_list_control = new GpuList(_panel);
 		table->Add (_gpu_list_control, 1, wxEXPAND);
 
-		add_label_to_sizer (table, _panel, _("License Server"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+		add_label_to_sizer(table, _panel, _("License server"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_server = new wxTextCtrl (_panel, wxID_ANY);
 		table->Add (_server, 1, wxEXPAND | wxALL);
 
