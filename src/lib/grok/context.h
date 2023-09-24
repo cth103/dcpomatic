@@ -27,6 +27,7 @@
 #include "../dcpomatic_log.h"
 #include "../writer.h"
 #include "messenger.h"
+#include <dcp/array_data.h>
 
 
 static std::mutex launchMutex;
@@ -98,24 +99,6 @@ public:
 								messenger_(nullptr),
 								launched_(false)
 	{
-		struct CompressedData : public dcp::Data {
-			explicit CompressedData(int dataLen) : data_(new uint8_t[dataLen]), dataLen_(dataLen)
-			{}
-			~CompressedData(void){
-				delete[] data_;
-			}
-			uint8_t const * data () const override {
-				return data_;
-			}
-			uint8_t * data () override {
-				return data_;
-			}
-			int size () const override {
-				return dataLen_;
-			}
-			uint8_t *data_;
-			int dataLen_;
-		};
 		if (Config::instance()->enable_gpu ())  {
 		    boost::filesystem::path folder(dcpomaticContext_.location_);
 		    boost::filesystem::path binaryPath = folder / "grk_compress";
@@ -137,9 +120,8 @@ public:
 						auto  processor =
 								[this](FrameProxy srcFrame, uint8_t* compressed, uint32_t compressedFrameLength)
 						{
-							auto compressedData = std::make_shared<CompressedData>(compressedFrameLength);
-							memcpy(compressedData->data_,compressed,compressedFrameLength );
-							dcpomaticContext_.writer_.write(compressedData, srcFrame.index(), srcFrame.eyes());
+							auto compressed_data = std::make_shared<dcp::ArrayData>(compressed, compressedFrameLength);
+							dcpomaticContext_.writer_.write(compressed_data, srcFrame.index(), srcFrame.eyes());
 							frame_done ();
 						};
 						int const minimum_size = 16384;
