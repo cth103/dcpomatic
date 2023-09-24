@@ -123,7 +123,6 @@ sources = """
           font_id_map.cc
           frame_interval_checker.cc
           frame_rate_change.cc
-          grok_j2k_encoder_thread.cc
           guess_crop.cc
           hints.cc
           internet.cc
@@ -245,6 +244,9 @@ def build(bld):
         obj.uselib += ' LWEXT4 NANOMSG'
         if bld.env.TARGET_LINUX:
             obj.uselib += ' POLKIT'
+
+    if bld.env.ENABLE_GROK:
+        obj.source += ' grok_j2k_encoder_thread.cc'
 
     if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE SETUPAPI OLE32 UUID'
