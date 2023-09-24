@@ -33,7 +33,9 @@
 #include "encode_server_finder.h"
 #include "film.h"
 #include "cpu_j2k_encoder_thread.h"
+#ifdef DCPOMATIC_GROK
 #include "grok_j2k_encoder_thread.h"
+#endif
 #include "remote_j2k_encoder_thread.h"
 #include "j2k_encoder.h"
 #include "log.h"
@@ -65,8 +67,10 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	: _film (film)
 	, _history (200)
 	, _writer (writer)
+#ifdef DCPOMATIC_GROK
 	, _dcpomatic_context(film, writer, _history, Config::instance()->gpu_binary_location())
 	, _context(Config::instance()->enable_gpu() ? new grk_plugin::GrokContext(_dcpomatic_context) : nullptr)
+#endif
 {
 	servers_list_changed ();
 }
@@ -78,7 +82,9 @@ J2KEncoder::~J2KEncoder ()
 
 	terminate_threads();
 
+#ifdef DCPOMATIC_GROK
 	delete _context;
+#endif
 }
 
 
@@ -115,8 +121,10 @@ J2KEncoder::pause()
 	/* Something might have been thrown during terminate_threads */
 	rethrow ();
 
+#ifdef DCPOMATIC_GROK
 	delete _context;
 	_context = nullptr;
+#endif
 }
 
 
@@ -126,7 +134,9 @@ void J2KEncoder::resume()
 		return;
 	}
 
+#ifdef DCPOMATIC_GROK
 	_context = new grk_plugin::GrokContext(_dcpomatic_context);
+#endif
 	servers_list_changed();
 }
 
@@ -163,13 +173,16 @@ J2KEncoder::end()
 	     So just mop up anything left in the queue here.
 	*/
 	for (auto & i: _queue) {
+#ifdef DCPOMATIC_GROK
 		if (Config::instance()->enable_gpu ()) {
 			if (!_context->scheduleCompress(i)){
 				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
 				// handle error
 			}
-		}
-		else {
+		} else {
+#else
+		{
+#endif
 			LOG_GENERAL(N_("Encode left-over frame %1"), i.index());
 			try {
 				_writer.write(
@@ -184,8 +197,10 @@ J2KEncoder::end()
 		}
 	}
 
+#ifdef DCPOMATIC_GROK
 	delete _context;
 	_context = nullptr;
+#endif
 }
 
 
@@ -311,7 +326,11 @@ J2KEncoder::terminate_threads ()
 
 
 void
+#ifdef DCPOMATIC_GROK
 J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> servers)
+#else
+J2KEncoder::remake_threads(int cpu, int, list<EncodeServerDescription> servers)
+#endif
 {
 	boost::mutex::scoped_lock lm (_threads_mutex);
 	if (_ending) {
@@ -345,7 +364,7 @@ J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> serve
 
 	remove_threads(cpu, current_cpu_threads, is_cpu_thread);
 
-
+#ifdef DCPOMATIC_GROK
 	/* GPU */
 
 	auto const is_grok_thread = [](shared_ptr<J2KEncoderThread> thread) {
@@ -361,7 +380,7 @@ J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> serve
 	}
 
 	remove_threads(gpu, current_gpu_threads, is_grok_thread);
-
+#endif
 
 	/* Remote */
 

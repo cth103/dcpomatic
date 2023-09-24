@@ -28,11 +28,13 @@
  */
 
 
-#include "grok/context.h"
 #include "cross.h"
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
+#ifdef DCPOMATIC_GROK
+#include "grok/context.h"
+#endif
 #include "j2k_encoder_thread.h"
 #include "writer.h"
 #include <boost/optional.hpp>
@@ -122,8 +124,10 @@ private:
 
 	boost::signals2::scoped_connection _server_found_connection;
 
+#ifdef DCPOMATIC_GROK
 	grk_plugin::DcpomaticContext _dcpomatic_context;
 	grk_plugin::GrokContext *_context;
+#endif
 
 	bool _ending = false;
 };
