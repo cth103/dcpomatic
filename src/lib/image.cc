@@ -627,6 +627,266 @@ Image::make_transparent ()
 }
 
 
+struct TargetParams
+{
+	int start_x;
+	int start_y;
+	dcp::Size size;
+	uint8_t* const* data;
+	int const* stride;
+	int bpp;
+
+	uint8_t* line_pointer(int y) const {
+		return data[0] + y * stride[0] + start_x * bpp;
+	}
+};
+
+
+struct OtherParams
+{
+	int start_x;
+	int start_y;
+	dcp::Size size;
+	uint8_t* const* data;
+	int const* stride;
+	int bpp;
+
+	uint8_t* line_pointer(int y) const {
+		return data[0] + y * stride[0];
+	}
+};
+
+
+static
+void
+alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int red, int blue)
+{
+	/* Going onto RGB24.  First byte is red, second green, third blue */
+	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
+		uint8_t* tp = target.line_pointer(ty);
+		uint8_t* op = other.line_pointer(oy);
+		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+			tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
+			tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
+			tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
+
+			tp += target.bpp;
+			op += other.bpp;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int red, int blue)
+{
+	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
+		uint8_t* tp = target.line_pointer(ty);
+		uint8_t* op = other.line_pointer(oy);
+		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+			tp[0] = op[blue] * alpha + tp[0] * (1 - alpha);
+			tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
+			tp[2] = op[red] * alpha + tp[2] * (1 - alpha);
+			tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
+
+			tp += target.bpp;
+			op += other.bpp;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int red, int blue)
+{
+	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
+		uint8_t* tp = target.line_pointer(ty);
+		uint8_t* op = other.line_pointer(oy);
+		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+			tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
+			tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
+			tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
+			tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
+
+			tp += target.bpp;
+			op += other.bpp;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, int red, int blue)
+{
+	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
+		uint8_t* tp = target.line_pointer(ty);
+		uint8_t* op = other.line_pointer(oy);
+		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+			/* Blend high bytes */
+			tp[1] = op[red] * alpha + tp[1] * (1 - alpha);
+			tp[3] = op[1] * alpha + tp[3] * (1 - alpha);
+			tp[5] = op[blue] * alpha + tp[5] * (1 - alpha);
+
+			tp += target.bpp;
+			op += other.bpp;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, int red, int blue)
+{
+	auto conv = dcp::ColourConversion::srgb_to_xyz();
+	double fast_matrix[9];
+	dcp::combined_rgb_to_xyz(conv, fast_matrix);
+	auto lut_in = conv.in()->lut(0, 1, 8, false);
+	auto lut_out = conv.out()->lut(0, 1, 16, true);
+	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
+		uint16_t* tp = reinterpret_cast<uint16_t*>(target.data[0] + ty * target.stride[0] + target.start_x * target.bpp);
+		uint8_t* op = other.data[0] + oy * other.stride[0];
+		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
+			float const alpha = float (op[3]) / 255;
+
+			/* Convert sRGB to XYZ; op is BGRA.  First, input gamma LUT */
+			double const r = lut_in[op[red]];
+			double const g = lut_in[op[1]];
+			double const b = lut_in[op[blue]];
+
+			/* RGB to XYZ, including Bradford transform and DCI companding */
+			double const x = max(0.0, min(1.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
+			double const y = max(0.0, min(1.0, r * fast_matrix[3] + g * fast_matrix[4] + b * fast_matrix[5]));
+			double const z = max(0.0, min(1.0, r * fast_matrix[6] + g * fast_matrix[7] + b * fast_matrix[8]));
+
+			/* Out gamma LUT and blend */
+			tp[0] = lrint(lut_out[lrint(x * 65535)] * 65535) * alpha + tp[0] * (1 - alpha);
+			tp[1] = lrint(lut_out[lrint(y * 65535)] * 65535) * alpha + tp[1] * (1 - alpha);
+			tp[2] = lrint(lut_out[lrint(z * 65535)] * 65535) * alpha + tp[2] * (1 - alpha);
+
+			tp += target.bpp / 2;
+			op += other.bpp;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+{
+	auto const ts = target.size;
+	auto const os = other.size;
+	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
+		int const hty = ty / 2;
+		int const hoy = oy / 2;
+		uint8_t* tY = target.data[0] + (ty * target.stride[0]) + target.start_x;
+		uint8_t* tU = target.data[1] + (hty * target.stride[1]) + target.start_x / 2;
+		uint8_t* tV = target.data[2] + (hty * target.stride[2]) + target.start_x / 2;
+		uint8_t* oY = other.data[0] + (oy * other.stride[0]) + other.start_x;
+		uint8_t* oU = other.data[1] + (hoy * other.stride[1]) + other.start_x / 2;
+		uint8_t* oV = other.data[2] + (hoy * other.stride[2]) + other.start_x / 2;
+		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+			float const a = float(alpha[3]) / 255;
+			*tY = *oY * a + *tY * (1 - a);
+			*tU = *oU * a + *tU * (1 - a);
+			*tV = *oV * a + *tV * (1 - a);
+			++tY;
+			++oY;
+			if (tx % 2) {
+				++tU;
+				++tV;
+			}
+			if (ox % 2) {
+				++oU;
+				++oV;
+			}
+			alpha += 4;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+{
+	auto const ts = target.size;
+	auto const os = other.size;
+	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
+		int const hty = ty / 2;
+		int const hoy = oy / 2;
+		uint16_t* tY = reinterpret_cast<uint16_t*>(target.data[0] + (ty * target.stride[0])) + target.start_x;
+		uint16_t* tU = reinterpret_cast<uint16_t*>(target.data[1] + (hty * target.stride[1])) + target.start_x / 2;
+		uint16_t* tV = reinterpret_cast<uint16_t*>(target.data[2] + (hty * target.stride[2])) + target.start_x / 2;
+		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
+		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (hoy * other.stride[1])) + other.start_x / 2;
+		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (hoy * other.stride[2])) + other.start_x / 2;
+		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+			float const a = float(alpha[3]) / 255;
+			*tY = *oY * a + *tY * (1 - a);
+			*tU = *oU * a + *tU * (1 - a);
+			*tV = *oV * a + *tV * (1 - a);
+			++tY;
+			++oY;
+			if (tx % 2) {
+				++tU;
+				++tV;
+			}
+			if (ox % 2) {
+				++oU;
+				++oV;
+			}
+			alpha += 4;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_yuv422p10le(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+{
+	auto const ts = target.size;
+	auto const os = other.size;
+	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
+		uint16_t* tY = reinterpret_cast<uint16_t*>(target.data[0] + (ty * target.stride[0])) + target.start_x;
+		uint16_t* tU = reinterpret_cast<uint16_t*>(target.data[1] + (ty * target.stride[1])) + target.start_x / 2;
+		uint16_t* tV = reinterpret_cast<uint16_t*>(target.data[2] + (ty * target.stride[2])) + target.start_x / 2;
+		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
+		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (oy * other.stride[1])) + other.start_x / 2;
+		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (oy * other.stride[2])) + other.start_x / 2;
+		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+			float const a = float(alpha[3]) / 255;
+			*tY = *oY * a + *tY * (1 - a);
+			*tU = *oU * a + *tU * (1 - a);
+			*tV = *oV * a + *tV * (1 - a);
+			++tY;
+			++oY;
+			if (tx % 2) {
+				++tU;
+				++tV;
+			}
+			if (ox % 2) {
+				++oU;
+				++oV;
+			}
+			alpha += 4;
+		}
+	}
+}
+
+
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
@@ -634,8 +894,6 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	DCPOMATIC_ASSERT (other->pixel_format() == AV_PIX_FMT_BGRA || other->pixel_format() == AV_PIX_FMT_RGBA);
 	int const blue = other->pixel_format() == AV_PIX_FMT_BGRA ? 0 : 2;
 	int const red = other->pixel_format() == AV_PIX_FMT_BGRA ? 2 : 0;
-
-	int const other_bpp = 4;
 
 	int start_tx = position.x;
 	int start_ox = 0;
@@ -653,219 +911,67 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		start_ty = 0;
 	}
 
+	TargetParams target_params = {
+		start_tx,
+		start_ty,
+		size(),
+		data(),
+		stride(),
+		0
+	};
+
+	OtherParams other_params = {
+		start_ox,
+		start_oy,
+		other->size(),
+		other->data(),
+		other->stride(),
+		4
+	};
+
 	switch (_pixel_format) {
 	case AV_PIX_FMT_RGB24:
-	{
-		/* Going onto RGB24.  First byte is red, second green, third blue */
-		int const this_bpp = 3;
-		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
-			uint8_t* op = other->data()[0] + oy * other->stride()[0];
-			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
-				float const alpha = float (op[3]) / 255;
-				tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
-				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
-
-				tp += this_bpp;
-				op += other_bpp;
-			}
-		}
+		target_params.bpp = 3;
+		alpha_blend_onto_rgb24(target_params, other_params, red, blue);
 		break;
-	}
 	case AV_PIX_FMT_BGRA:
-	{
-		int const this_bpp = 4;
-		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
-			uint8_t* op = other->data()[0] + oy * other->stride()[0];
-			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
-				float const alpha = float (op[3]) / 255;
-				tp[0] = op[blue] * alpha + tp[0] * (1 - alpha);
-				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[red] * alpha + tp[2] * (1 - alpha);
-				tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
-
-				tp += this_bpp;
-				op += other_bpp;
-			}
-		}
+		target_params.bpp = 4;
+		alpha_blend_onto_bgra(target_params, other_params, red, blue);
 		break;
-	}
 	case AV_PIX_FMT_RGBA:
-	{
-		int const this_bpp = 4;
-		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
-			uint8_t* op = other->data()[0] + oy * other->stride()[0];
-			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
-				float const alpha = float (op[3]) / 255;
-				tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
-				tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-				tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
-				tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
-
-				tp += this_bpp;
-				op += other_bpp;
-			}
-		}
+		target_params.bpp = 4;
+		alpha_blend_onto_rgba(target_params, other_params, red, blue);
 		break;
-	}
 	case AV_PIX_FMT_RGB48LE:
-	{
-		int const this_bpp = 6;
-		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-			uint8_t* tp = data()[0] + ty * stride()[0] + start_tx * this_bpp;
-			uint8_t* op = other->data()[0] + oy * other->stride()[0];
-			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
-				float const alpha = float (op[3]) / 255;
-				/* Blend high bytes */
-				tp[1] = op[red] * alpha + tp[1] * (1 - alpha);
-				tp[3] = op[1] * alpha + tp[3] * (1 - alpha);
-				tp[5] = op[blue] * alpha + tp[5] * (1 - alpha);
-
-				tp += this_bpp;
-				op += other_bpp;
-			}
-		}
+		target_params.bpp = 6;
+		alpha_blend_onto_rgb48le(target_params, other_params, red, blue);
 		break;
-	}
 	case AV_PIX_FMT_XYZ12LE:
-	{
-		auto conv = dcp::ColourConversion::srgb_to_xyz();
-		double fast_matrix[9];
-		dcp::combined_rgb_to_xyz (conv, fast_matrix);
-		auto lut_in = conv.in()->lut(0, 1, 8, false);
-		auto lut_out = conv.out()->lut(0, 1, 16, true);
-		int const this_bpp = 6;
-		for (int ty = start_ty, oy = start_oy; ty < size().height && oy < other->size().height; ++ty, ++oy) {
-			uint16_t* tp = reinterpret_cast<uint16_t*> (data()[0] + ty * stride()[0] + start_tx * this_bpp);
-			uint8_t* op = other->data()[0] + oy * other->stride()[0];
-			for (int tx = start_tx, ox = start_ox; tx < size().width && ox < other->size().width; ++tx, ++ox) {
-				float const alpha = float (op[3]) / 255;
-
-				/* Convert sRGB to XYZ; op is BGRA.  First, input gamma LUT */
-				double const r = lut_in[op[red]];
-				double const g = lut_in[op[1]];
-				double const b = lut_in[op[blue]];
-
-				/* RGB to XYZ, including Bradford transform and DCI companding */
-				double const x = max(0.0, min(1.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
-				double const y = max(0.0, min(1.0, r * fast_matrix[3] + g * fast_matrix[4] + b * fast_matrix[5]));
-				double const z = max(0.0, min(1.0, r * fast_matrix[6] + g * fast_matrix[7] + b * fast_matrix[8]));
-
-				/* Out gamma LUT and blend */
-				tp[0] = lrint(lut_out[lrint(x * 65535)] * 65535) * alpha + tp[0] * (1 - alpha);
-				tp[1] = lrint(lut_out[lrint(y * 65535)] * 65535) * alpha + tp[1] * (1 - alpha);
-				tp[2] = lrint(lut_out[lrint(z * 65535)] * 65535) * alpha + tp[2] * (1 - alpha);
-
-				tp += this_bpp / 2;
-				op += other_bpp;
-			}
-		}
+		target_params.bpp = 6;
+		alpha_blend_onto_xyz12le(target_params, other_params, red, blue);
 		break;
-	}
 	case AV_PIX_FMT_YUV420P:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		dcp::Size const ts = size();
-		dcp::Size const os = yuv->size();
-		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
-			int const hty = ty / 2;
-			int const hoy = oy / 2;
-			uint8_t* tY = data()[0] + (ty * stride()[0]) + start_tx;
-			uint8_t* tU = data()[1] + (hty * stride()[1]) + start_tx / 2;
-			uint8_t* tV = data()[2] + (hty * stride()[2]) + start_tx / 2;
-			uint8_t* oY = yuv->data()[0] + (oy * yuv->stride()[0]) + start_ox;
-			uint8_t* oU = yuv->data()[1] + (hoy * yuv->stride()[1]) + start_ox / 2;
-			uint8_t* oV = yuv->data()[2] + (hoy * yuv->stride()[2]) + start_ox / 2;
-			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
-			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
-				float const a = float(alpha[3]) / 255;
-				*tY = *oY * a + *tY * (1 - a);
-				*tU = *oU * a + *tU * (1 - a);
-				*tV = *oV * a + *tV * (1 - a);
-				++tY;
-				++oY;
-				if (tx % 2) {
-					++tU;
-					++tV;
-				}
-				if (ox % 2) {
-					++oU;
-					++oV;
-				}
-				alpha += 4;
-			}
-		}
+		other_params.data = yuv->data();
+		other_params.stride = yuv->stride();
+		alpha_blend_onto_yuv420p(target_params, other_params, other->data(), other->stride());
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		dcp::Size const ts = size();
-		dcp::Size const os = yuv->size();
-		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
-			int const hty = ty / 2;
-			int const hoy = oy / 2;
-			uint16_t* tY = ((uint16_t *) (data()[0] + (ty * stride()[0]))) + start_tx;
-			uint16_t* tU = ((uint16_t *) (data()[1] + (hty * stride()[1]))) + start_tx / 2;
-			uint16_t* tV = ((uint16_t *) (data()[2] + (hty * stride()[2]))) + start_tx / 2;
-			uint16_t* oY = ((uint16_t *) (yuv->data()[0] + (oy * yuv->stride()[0]))) + start_ox;
-			uint16_t* oU = ((uint16_t *) (yuv->data()[1] + (hoy * yuv->stride()[1]))) + start_ox / 2;
-			uint16_t* oV = ((uint16_t *) (yuv->data()[2] + (hoy * yuv->stride()[2]))) + start_ox / 2;
-			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
-			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
-				float const a = float(alpha[3]) / 255;
-				*tY = *oY * a + *tY * (1 - a);
-				*tU = *oU * a + *tU * (1 - a);
-				*tV = *oV * a + *tV * (1 - a);
-				++tY;
-				++oY;
-				if (tx % 2) {
-					++tU;
-					++tV;
-				}
-				if (ox % 2) {
-					++oU;
-					++oV;
-				}
-				alpha += 4;
-			}
-		}
+		other_params.data = yuv->data();
+		other_params.stride = yuv->stride();
+		alpha_blend_onto_yuv420p10(target_params, other_params, other->data(), other->stride());
 		break;
 	}
 	case AV_PIX_FMT_YUV422P10LE:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		dcp::Size const ts = size();
-		dcp::Size const os = yuv->size();
-		for (int ty = start_ty, oy = start_oy; ty < ts.height && oy < os.height; ++ty, ++oy) {
-			uint16_t* tY = ((uint16_t *) (data()[0] + (ty * stride()[0]))) + start_tx;
-			uint16_t* tU = ((uint16_t *) (data()[1] + (ty * stride()[1]))) + start_tx / 2;
-			uint16_t* tV = ((uint16_t *) (data()[2] + (ty * stride()[2]))) + start_tx / 2;
-			uint16_t* oY = ((uint16_t *) (yuv->data()[0] + (oy * yuv->stride()[0]))) + start_ox;
-			uint16_t* oU = ((uint16_t *) (yuv->data()[1] + (oy * yuv->stride()[1]))) + start_ox / 2;
-			uint16_t* oV = ((uint16_t *) (yuv->data()[2] + (oy * yuv->stride()[2]))) + start_ox / 2;
-			uint8_t* alpha = other->data()[0] + (oy * other->stride()[0]) + start_ox * 4;
-			for (int tx = start_tx, ox = start_ox; tx < ts.width && ox < os.width; ++tx, ++ox) {
-				float const a = float(alpha[3]) / 255;
-				*tY = *oY * a + *tY * (1 - a);
-				*tU = *oU * a + *tU * (1 - a);
-				*tV = *oV * a + *tV * (1 - a);
-				++tY;
-				++oY;
-				if (tx % 2) {
-					++tU;
-					++tV;
-				}
-				if (ox % 2) {
-					++oU;
-					++oV;
-				}
-				alpha += 4;
-			}
-		}
+		other_params.data = yuv->data();
+		other_params.stride = yuv->stride();
+		alpha_blend_onto_yuv422p10le(target_params, other_params, other->data(), other->stride());
 		break;
 	}
 	default:
