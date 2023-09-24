@@ -28,7 +28,6 @@
 #include "../writer.h"
 #include "messenger.h"
 
-class Film;
 
 static std::mutex launchMutex;
 
