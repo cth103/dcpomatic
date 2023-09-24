@@ -3,7 +3,9 @@
 static std::vector<std::string> get_gpu_names(std::string binary, std::string filename)
 {
     // Execute the GPU listing program and redirect its output to a file
-    std::system((binary + " > " +  filename).c_str());
+    if (std::system((binary + " > " +  filename).c_str()) < 0) {
+	    return {};
+    }
 
     std::vector<std::string> gpu_names;
     std::ifstream file(filename);
