@@ -75,6 +75,7 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/font_config.h"
+#include "lib/grok/context.h"
 #include "lib/hints.h"
 #include "lib/job_manager.h"
 #include "lib/kdm_with_metadata.h"
@@ -1721,6 +1722,8 @@ private:
 				notes.Centre();
 				notes.ShowModal();
 			}
+
+			grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
 		}
 		catch (exception& e)
 		{

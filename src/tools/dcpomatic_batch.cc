@@ -31,6 +31,7 @@
 #include "lib/config.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/film.h"
+#include "lib/grok/context.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/make_dcp.h"
@@ -497,6 +498,8 @@ class App : public wxApp
 				}
 			}
 		}
+
+		grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
 
 		return true;
 	}
