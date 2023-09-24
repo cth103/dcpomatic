@@ -112,6 +112,8 @@ def configure(conf):
                                        '-Wextra',
                                        '-Wwrite-strings',
                                        '-Wno-error=deprecated',
+                                       # getMessengerLogger() in the grok code triggers these warnings
+                                       '-Wno-nonnull',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64',
