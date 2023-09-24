@@ -29,8 +29,6 @@
 #include "messenger.h"
 
 class Film;
-using dcp::Data;
-using namespace dcpomatic;
 
 static std::mutex launchMutex;
 
