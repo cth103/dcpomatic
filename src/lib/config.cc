@@ -647,12 +647,12 @@ try
 	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
 	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
 
-	_enable_gpu = f.optional_bool_child("EnableGpu").get_value_or(false);
-	_gpu_binary_location = f.string_child("GpuBinaryLocation");
-	_selected_gpu = f.number_child<int>("SelectedGpu");
-	_gpu_license_server = f.string_child ("GpuLicenseServer");
-	_gpu_license_port = f.number_child<int> ("GpuLicensePort");
-	_gpu_license = f.string_child("GpuLicense");
+	_enable_gpu = f.optional_bool_child("EnableGPU").get_value_or(false);
+	_gpu_binary_location = f.string_child("GPUBinaryLocation");
+	_selected_gpu = f.number_child<int>("SelectedGPU");
+	_gpu_license_server = f.string_child ("GPULicenseServer");
+	_gpu_license_port = f.number_child<int> ("GPULicensePort");
+	_gpu_license = f.string_child("GPULicense");
 
 	_export.read(f.optional_node_child("Export"));
 }
@@ -1140,12 +1140,12 @@ Config::write_config () const
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
 	root->add_child("ISDCFNamePartLength")->add_child_text(raw_convert<string>(_isdcf_name_part_length));
 
-	root->add_child("GpuBinaryLocation")->add_child_text (_gpu_binary_location.string());
-	root->add_child("EnableGpu")->add_child_text ((_enable_gpu ? "1" : "0"));
-	root->add_child("SelectedGpu")->add_child_text (raw_convert<string> (_selected_gpu));
-	root->add_child("GpuLicenseServer")->add_child_text (_gpu_license_server);
-	root->add_child("GpuLicensePort")->add_child_text (raw_convert<string> (_gpu_license_port));
-	root->add_child("GpuLicense")->add_child_text (_gpu_license);
+	root->add_child("GPUBinaryLocation")->add_child_text (_gpu_binary_location.string());
+	root->add_child("EnableGPU")->add_child_text ((_enable_gpu ? "1" : "0"));
+	root->add_child("SelectedGPU")->add_child_text (raw_convert<string> (_selected_gpu));
+	root->add_child("GPULicenseServer")->add_child_text (_gpu_license_server);
+	root->add_child("GPULicensePort")->add_child_text (raw_convert<string> (_gpu_license_port));
+	root->add_child("GPULicense")->add_child_text (_gpu_license);
 
 	_export.write(root->add_child("Export"));
 
