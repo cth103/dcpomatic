@@ -618,7 +618,7 @@ public:
 		return _allow_smpte_bv20;
 	}
 
-	std::string gpu_binary_location () const {
+	boost::filesystem::path gpu_binary_location() const {
 		return _gpu_binary_location;
 	}
 
@@ -1220,24 +1220,31 @@ public:
 	void set_allow_smpte_bv20(bool allow) {
 		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
 	}
-	void set_gpu_binary_location (std::string location) {
+
+	void set_gpu_binary_location(boost::filesystem::path location) {
 		maybe_set (_gpu_binary_location, location);
 	}
+
 	void set_enable_gpu (bool enable) {
 		maybe_set (_enable_gpu, enable);
 	}
+
 	void set_selected_gpu (int selected) {
 		maybe_set (_selected_gpu, selected);
 	}
+
 	void set_gpu_license_server (std::string s) {
 		maybe_set (_gpu_license_server, s);
 	}
+
 	void set_gpu_license_port (int p) {
 		maybe_set (_gpu_license_port, p);
 	}
+
 	void set_gpu_license (std::string p) {
 		maybe_set (_gpu_license, p);
 	}
+
 	void set_isdcf_name_part_length(int length) {
 		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
 	}
@@ -1485,7 +1492,7 @@ private:
 
 	/* GPU */
 	bool _enable_gpu;
-	std::string _gpu_binary_location;
+	boost::filesystem::path _gpu_binary_location;
 	int _selected_gpu;
 	std::string _gpu_license_server;
 	int _gpu_license_port;
