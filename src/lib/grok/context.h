@@ -59,13 +59,6 @@ struct GrokLogger : public MessengerLogger {
 	}
 };
 
-struct GrokInitializer {
-	GrokInitializer(void) {
-		setMessengerLogger(new GrokLogger("[GROK] "));
-	}
-	~GrokInitializer()  = default;
-};
-
 struct FrameProxy {
 	FrameProxy(int index, Eyes eyes, DCPVideo dcpv) : index_(index), eyes_(eyes), vf(dcpv)
 	{}

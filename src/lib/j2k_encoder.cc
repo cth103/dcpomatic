@@ -58,8 +58,6 @@ using dcp::Data;
 using namespace dcpomatic;
 
 
-static grk_plugin::GrokInitializer grokInitializer;
-
 /** @param film Film that we are encoding.
  *  @param writer Writer that we are using.
  */

@@ -25,6 +25,7 @@
 #include "lib/encoded_log_entry.h"
 #include "lib/encode_server.h"
 #include "lib/config.h"
+#include "lib/grok/context.h"
 #include "lib/log.h"
 #include "lib/signaller.h"
 #include "lib/cross.h"
@@ -325,6 +326,8 @@ private:
 		}
 
 		SetExitOnFrameDelete (false);
+
+		grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
 
 		return true;
 	}
