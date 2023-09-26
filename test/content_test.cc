@@ -168,3 +168,12 @@ BOOST_AUTO_TEST_CASE (content_test7)
 	content[0]->audio->set_delay(-1000);
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
 }
+
+
+/** WAVs with markers (I think) can end up making audio packets with no channels and no frames (#2617) */
+BOOST_AUTO_TEST_CASE(wav_with_markers_zero_channels_test)
+{
+	auto content = content_factory(TestPaths::private_data() / "wav_with_markers.wav");
+	auto film = new_test_film2("wav_with_markers_zero_channels_test", content);
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+}

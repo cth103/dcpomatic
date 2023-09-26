@@ -266,6 +266,10 @@ deinterleave_audio(AVFrame* frame)
 	auto audio = make_shared<AudioBuffers>(channels, frames);
 	auto data = audio->data();
 
+	if (frames == 0) {
+		return audio;
+	}
+
 	switch (format) {
 	case AV_SAMPLE_FMT_U8:
 	{

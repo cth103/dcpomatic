@@ -81,7 +81,7 @@ void
 AudioBuffers::allocate (int channels, int frames)
 {
 	DCPOMATIC_ASSERT (frames >= 0);
-	DCPOMATIC_ASSERT (channels > 0);
+	DCPOMATIC_ASSERT(frames == 0 || channels > 0);
 
 	ScopeGuard sg = [this]() { update_data_pointers(); };
 

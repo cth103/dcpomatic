@@ -60,7 +60,7 @@ public:
 	}
 
 	int frames () const {
-		return _data[0].size();
+		return _data.empty() ? 0 : _data[0].size();
 	}
 
 	void set_frames (int f);
