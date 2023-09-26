@@ -622,6 +622,18 @@ def configure(conf):
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
 
+    # waf can't find these dependencies by itself because they are only included if DCPOMATIC_GROK is defined,
+    # and I can't find a way to pass that to waf's dependency scanner
+    if bld.env.ENABLE_GROK:
+        for dep in (
+                'src/lib/j2k_encoder.cc',
+                'src/tools/dcpomatic.cc',
+                'src/tools/dcpomatic_server.cc',
+                'src/tools/dcpomatic_server_cli.cc',
+                'src/tools/dcpomatic_batch.cc'
+        ):
+            bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/context.h'))
+
     bld.recurse('src')
     bld.recurse('graphics')
 
