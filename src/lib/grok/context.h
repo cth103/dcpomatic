@@ -102,19 +102,21 @@ struct DcpomaticContext {
 	uint32_t height_;
 };
 
-class GrokContext {
+
+class GrokContext
+{
 public:
-	explicit GrokContext(const DcpomaticContext &dcpomaticContext) :
-								dcpomaticContext_(dcpomaticContext),
-								messenger_(nullptr),
-								launched_(false)
+	explicit GrokContext(DcpomaticContext const& dcpomatic_context)
+		: _dcpomatic_context(dcpomatic_context)
+		, messenger_(nullptr)
+		, launched_(false)
 	{
 		if (Config::instance()->enable_gpu ())  {
-		    boost::filesystem::path folder(dcpomaticContext_._location);
+		    boost::filesystem::path folder(_dcpomatic_context._location);
 		    boost::filesystem::path binaryPath = folder / "grk_compress";
 		    if (!boost::filesystem::exists(binaryPath)) {
 			    getMessengerLogger()->error(
-				    "Invalid binary location %s", dcpomaticContext_._location.c_str()
+				    "Invalid binary location %s", _dcpomatic_context._location.c_str()
 				    );
 			    return;
 		    }
@@ -132,7 +134,7 @@ public:
 								[this](FrameProxy srcFrame, uint8_t* compressed, uint32_t compressedFrameLength)
 						{
 							auto compressed_data = std::make_shared<dcp::ArrayData>(compressed, compressedFrameLength);
-							dcpomaticContext_.writer_.write(compressed_data, srcFrame.index(), srcFrame.eyes());
+							_dcpomatic_context.writer_.write(compressed_data, srcFrame.index(), srcFrame.eyes());
 							frame_done ();
 						};
 						int const minimum_size = 16384;
@@ -145,7 +147,7 @@ public:
 							}
 
 							auto encoded = std::make_shared<dcp::ArrayData>(fp->vf.encode_locally());
-							dcpomaticContext_.writer_.write(encoded, fp->vf.index(), fp->vf.eyes());
+							_dcpomatic_context.writer_.write(encoded, fp->vf.index(), fp->vf.eyes());
 							frame_done ();
 						}
 					}
@@ -175,16 +177,16 @@ public:
 			return true;
 		if (MessengerInit::firstLaunch(true)) {
 			auto s = dcpv.get_size();
-			dcpomaticContext_.setDimensions(s.width, s.height);
+			_dcpomatic_context.setDimensions(s.width, s.height);
 			auto config = Config::instance();
 			messenger_->launchGrok(
-				dcpomaticContext_._location,
-				dcpomaticContext_.width_,dcpomaticContext_.width_,
-				dcpomaticContext_.height_,
+				_dcpomatic_context._location,
+				_dcpomatic_context.width_,_dcpomatic_context.width_,
+				_dcpomatic_context.height_,
 				3, 12, device,
-				dcpomaticContext_.film_->resolution() == Resolution::FOUR_K,
-				dcpomaticContext_.film_->video_frame_rate(),
-				dcpomaticContext_.film_->j2k_bandwidth(),
+				_dcpomatic_context.film_->resolution() == Resolution::FOUR_K,
+				_dcpomatic_context.film_->video_frame_rate(),
+				_dcpomatic_context.film_->j2k_bandwidth(),
 				config->gpu_license_server(),
 				config->gpu_license_port(),
 				config->gpu_license()
@@ -218,10 +220,10 @@ public:
 		messenger_ = nullptr;
 	}
 	void frame_done () {
-		dcpomaticContext_.history_.event ();
+		_dcpomatic_context.history_.event();
 	}
 private:
-	DcpomaticContext dcpomaticContext_;
+	DcpomaticContext _dcpomatic_context;
 	ScheduledMessenger<FrameProxy> *messenger_;
 	bool launched_;
 };
