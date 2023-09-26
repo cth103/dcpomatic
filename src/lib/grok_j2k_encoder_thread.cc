@@ -1,6 +1,8 @@
+#include "config.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "dcp_video.h"
+#include "grok/context.h"
 #include "grok_j2k_encoder_thread.h"
 #include "j2k_encoder.h"
 #include "scope_guard.h"
