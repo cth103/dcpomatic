@@ -633,6 +633,7 @@ def build(bld):
                 'src/tools/dcpomatic_batch.cc'
         ):
             bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/context.h'))
+            bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/messenger.h'))
 
     bld.recurse('src')
     bld.recurse('graphics')
