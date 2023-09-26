@@ -461,7 +461,7 @@ static void processorThread(Messenger* messenger, std::function<void(std::string
 struct Messenger
 {
 	explicit Messenger(MessengerInit init)
-		: running(true), initialized_(false), shutdown_(false), init_(init),
+		: running(true), _initialized(false), _shutdown(false), init_(init),
 		  outboundSynch_(nullptr),
 		  inboundSynch_(nullptr), uncompressed_buffer_(nullptr), compressed_buffer_(nullptr),
 		  uncompressed_fd_(0), compressed_fd_(0)
@@ -591,23 +591,29 @@ struct Messenger
 		}
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
-		initialized_ = true;
+		_initialized = true;
 		clientInitializedCondition_.notify_all();
 	}
-	bool waitForClientInit(void)
+
+	bool waitForClientInit()
 	{
-		if(initialized_)
+		if (_initialized) {
 			return true;
+		}
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
-		if(initialized_)
-			return true;
-		else if (shutdown_)
-			return false;
-		clientInitializedCondition_.wait(lk, [this]{return initialized_ || shutdown_;});
 
-		return initialized_ && !shutdown_;
+		if (_initialized) {
+			return true;
+		} else if (_shutdown) {
+			return false;
+		}
+
+		clientInitializedCondition_.wait(lk, [this] { return _initialized || _shutdown; });
+
+		return _initialized && !_shutdown;
 	}
+
 	static size_t uncompressedFrameSize(uint32_t w, uint32_t h, uint32_t samplesPerPixel)
 	{
 		return sizeof(uint16_t) * w * h * samplesPerPixel;
@@ -637,8 +643,8 @@ struct Messenger
 		return (uint8_t*)(compressed_buffer_ + frameId * init_.compressedFrameSize_);
 	}
 	std::atomic_bool running;
-	bool initialized_;
-	bool shutdown_;
+	bool _initialized;
+	bool _shutdown;
 	MessengerBlockingQueue<std::string> sendQueue;
 	MessengerBlockingQueue<std::string> receiveQueue;
 	MessengerBlockingQueue<BufferSrc> availableBuffers_;
@@ -754,11 +760,11 @@ struct Msg
 };
 static void processorThread(Messenger* messenger, std::function<void(std::string)> processor)
 {
-	while(messenger->running)
-	{
+	while (messenger->running) {
 		std::string message;
-		if(!messenger->receiveQueue.waitAndPop(message))
+		if (!messenger->receiveQueue.waitAndPop(message)) {
 			break;
+		}
 		if(!messenger->running)
 			break;
 		Msg msg(message);
@@ -856,7 +862,7 @@ struct ScheduledMessenger : public Messenger
 		}
 		++framesCompressed_;
 		send(GRK_MSGR_BATCH_PROCESSSED_COMPRESSED, compressedFrameId);
-		if (shutdown_ && framesCompressed_ == framesScheduled_)
+		if (_shutdown && framesCompressed_ == framesScheduled_)
 			shutdownCondition_.notify_all();
 	}
 	void shutdown(void){
@@ -864,7 +870,7 @@ struct ScheduledMessenger : public Messenger
 			std::unique_lock<std::mutex> lk(shutdownMutex_);
 			if (!async_result_.valid())
 				return;
-			shutdown_ = true;
+			_shutdown = true;
 			if (framesScheduled_) {
 				uint32_t scheduled = framesScheduled_;
 				send(GRK_MSGR_BATCH_FLUSH, scheduled);
