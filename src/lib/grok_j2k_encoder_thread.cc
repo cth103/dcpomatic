@@ -23,6 +23,7 @@
 #include "cross.h"
 #include "dcpomatic_log.h"
 #include "dcp_video.h"
+#include "grok/context.h"
 #include "grok_j2k_encoder_thread.h"
 #include "j2k_encoder.h"
 #include "util.h"
@@ -52,15 +53,8 @@ try
 		LOG_TIMING("encoder-sleep thread=%1", thread_id());
 		auto frame = _encoder.pop();
 
-<<<<<<< HEAD
-		ScopeGuard frame_guard([this, &frame]() {
-||||||| parent of 04d2316ac (fixup! Rearrange encoder threading.)
-		ScopeGuard frame_guard([this, &frame]() {
-			LOG_ERROR("Failed to schedule encode of %1 using grok", frame.index());
-=======
 		dcp::ScopeGuard frame_guard([this, &frame]() {
 			LOG_ERROR("Failed to schedule encode of %1 using grok", frame.index());
->>>>>>> 04d2316ac (fixup! Rearrange encoder threading.)
 			_encoder.retry(frame);
 		});
 

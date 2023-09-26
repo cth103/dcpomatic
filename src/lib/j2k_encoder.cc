@@ -34,6 +34,7 @@
 #include "film.h"
 #include "cpu_j2k_encoder_thread.h"
 #ifdef DCPOMATIC_GROK
+#include "grok/context.h"
 #include "grok_j2k_encoder_thread.h"
 #endif
 #include "remote_j2k_encoder_thread.h"
