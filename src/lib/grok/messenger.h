@@ -758,6 +758,7 @@ struct Msg
 	std::vector<std::string> cs_;
 	size_t ct_;
 };
+
 static void processorThread(Messenger* messenger, std::function<void(std::string)> processor)
 {
 	while (messenger->running) {
@@ -765,31 +766,26 @@ static void processorThread(Messenger* messenger, std::function<void(std::string
 		if (!messenger->receiveQueue.waitAndPop(message)) {
 			break;
 		}
-		if(!messenger->running)
+
+		if (!messenger->running) {
 			break;
+		}
+
 		Msg msg(message);
 		auto tag = msg.next();
-		if(tag == GRK_MSGR_BATCH_COMPRESS_INIT)
-		{
+		if (tag == GRK_MSGR_BATCH_COMPRESS_INIT) {
 			auto width = msg.nextUint();
-			auto stride = msg.nextUint();
-			(void)stride;
+			msg.nextUint(); // stride
 			auto height = msg.nextUint();
-			auto samplesPerPixel = msg.nextUint();
-			auto depth = msg.nextUint();
-			(void)depth;
-			messenger->init_.uncompressedFrameSize_ =
-				Messenger::uncompressedFrameSize(width, height, samplesPerPixel);
-			auto compressedFrameSize = msg.nextUint();
-			auto numFrames = msg.nextUint();
-			messenger->initClient(compressedFrameSize, compressedFrameSize, numFrames);
-		}
-		else if(tag == GRK_MSGR_BATCH_PROCESSED_UNCOMPRESSED)
-		{
+			auto samples_per_pixel = msg.nextUint();
+			msg.nextUint(); // depth
+			messenger->init_.uncompressedFrameSize_ = Messenger::uncompressedFrameSize(width, height, samples_per_pixel);
+			auto compressed_frame_size = msg.nextUint();
+			auto num_frames = msg.nextUint();
+			messenger->initClient(compressed_frame_size, compressed_frame_size, num_frames);
+		} else if (tag == GRK_MSGR_BATCH_PROCESSED_UNCOMPRESSED) {
 			messenger->reclaimUncompressed(msg.nextUint());
-		}
-		else if(tag == GRK_MSGR_BATCH_PROCESSSED_COMPRESSED)
-		{
+		} else if (tag == GRK_MSGR_BATCH_PROCESSSED_COMPRESSED) {
 			messenger->reclaimCompressed(msg.nextUint());
 		}
 		processor(message);
