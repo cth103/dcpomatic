@@ -32,9 +32,6 @@
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
-#ifdef DCPOMATIC_GROK
-#include "grok/context.h"
-#endif
 #include "j2k_encoder_thread.h"
 #include "writer.h"
 #include <boost/optional.hpp>
@@ -51,6 +48,11 @@ class EncodeServerDescription;
 class Film;
 class Job;
 class PlayerVideo;
+
+namespace grk_plugin {
+	struct DcpomaticContext;
+	struct GrokContext;
+}
 
 struct local_threads_created_and_destroyed;
 struct remote_threads_created_and_destroyed;
