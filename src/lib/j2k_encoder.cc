@@ -68,7 +68,7 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	, _history (200)
 	, _writer (writer)
 #ifdef DCPOMATIC_GROK
-	, _dcpomatic_context(film, writer, _history, Config::instance()->gpu_binary_location())
+	, _dcpomatic_context(new grk_plugin::DcpomaticContext(film, writer, _history, Config::instance()->gpu_binary_location()))
 	, _context(Config::instance()->enable_gpu() ? new grk_plugin::GrokContext(_dcpomatic_context) : nullptr)
 #endif
 {
@@ -83,6 +83,7 @@ J2KEncoder::~J2KEncoder ()
 
 #ifdef DCPOMATIC_GROK
 	delete _context;
+	delete _dcpomatic_context;
 #endif
 }
 

@@ -125,7 +125,7 @@ private:
 	boost::signals2::scoped_connection _server_found_connection;
 
 #ifdef DCPOMATIC_GROK
-	grk_plugin::DcpomaticContext _dcpomatic_context;
+	grk_plugin::DcpomaticContext* _dcpomatic_context;
 	grk_plugin::GrokContext *_context;
 #endif
 
