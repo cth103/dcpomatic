@@ -145,8 +145,9 @@ BOOST_AUTO_TEST_CASE (compact_image_test)
 }
 
 
+static
 void
-alpha_blend_test_one (AVPixelFormat format, string suffix)
+alpha_blend_test_bgra_onto(AVPixelFormat format, string suffix)
 {
 	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "prophet_frame.tiff");
 	auto raw = proxy->image(Image::Alignment::PADDED).image;
@@ -191,13 +192,13 @@ alpha_blend_test_one (AVPixelFormat format, string suffix)
 /** Test Image::alpha_blend */
 BOOST_AUTO_TEST_CASE (alpha_blend_test)
 {
-	alpha_blend_test_one (AV_PIX_FMT_RGB24, "rgb24");
-	alpha_blend_test_one (AV_PIX_FMT_BGRA, "bgra");
-	alpha_blend_test_one (AV_PIX_FMT_RGBA, "rgba");
-	alpha_blend_test_one (AV_PIX_FMT_RGB48LE, "rgb48le");
-	alpha_blend_test_one (AV_PIX_FMT_YUV420P, "yuv420p");
-	alpha_blend_test_one (AV_PIX_FMT_YUV420P10, "yuv420p10");
-	alpha_blend_test_one (AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_RGB24, "rgb24");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_BGRA, "bgra");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_RGBA, "rgba");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_RGB48LE, "rgb48le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P, "yuv420p");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
 }
 
 
