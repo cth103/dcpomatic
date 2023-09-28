@@ -184,8 +184,52 @@ alpha_blend_test_bgra_onto(AVPixelFormat format, string suffix)
 
 	auto save = background->convert_pixel_format (dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, Image::Alignment::COMPACT, false);
 
-	write_image (save, "build/test/image_test_" + suffix + ".png");
-	check_image ("build/test/image_test_" + suffix + ".png", TestPaths::private_data() / ("image_test_" + suffix + ".png"));
+	write_image(save, "build/test/image_test_bgra_" + suffix + ".png");
+	check_image("build/test/image_test_bgra_" + suffix + ".png", TestPaths::private_data() / ("image_test_bgra_" + suffix + ".png"));
+}
+
+
+static
+void
+alpha_blend_test_rgba64be_onto(AVPixelFormat format, string suffix)
+{
+	auto proxy = make_shared<FFmpegImageProxy>(TestPaths::private_data() / "prophet_frame.tiff");
+	auto raw = proxy->image(Image::Alignment::PADDED).image;
+	auto background = raw->convert_pixel_format (dcp::YUVToRGB::REC709, format, Image::Alignment::PADDED, false);
+
+	auto overlay = make_shared<Image>(AV_PIX_FMT_RGBA64BE, dcp::Size(431, 891), Image::Alignment::PADDED);
+	overlay->make_transparent();
+
+	for (int y = 0; y < 128; ++y) {
+		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + y * overlay->stride()[0]);
+		for (int x = 0; x < 128; ++x) {
+			p[x * 4 + 2] = 65535;
+			p[x * 4 + 3] = 65535;
+		}
+	}
+
+	for (int y = 128; y < 256; ++y) {
+		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + y * overlay->stride()[0]);
+		for (int x = 0; x < 128; ++x) {
+			p[x * 4 + 1] = 65535;
+			p[x * 4 + 3] = 65535;
+		}
+	}
+
+	for (int y = 256; y < 384; ++y) {
+		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + y * overlay->stride()[0]);
+		for (int x = 0; x < 128; ++x) {
+			p[x * 4] = 65535;
+			p[x * 4 + 3] = 65535;
+		}
+	}
+
+	background->alpha_blend(overlay, Position<int>(13, 17));
+
+	auto save = background->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGB24, Image::Alignment::COMPACT, false);
+
+	write_image(save, "build/test/image_test_rgba64_" + suffix + ".png");
+	check_image("build/test/image_test_rgba64_" + suffix + ".png", TestPaths::private_data() / ("image_test_rgba64_" + suffix + ".png"));
 }
 
 
@@ -199,11 +243,19 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P, "yuv420p");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
+
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_RGB24, "rgb24");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_BGRA, "bgra");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_RGBA, "rgba");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_RGB48LE, "rgb48le");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV420P, "yuv420p");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
 }
 
 
-/** Test Image::alpha_blend when the "base" image is XYZ12LE */
-BOOST_AUTO_TEST_CASE (alpha_blend_test_onto_xyz)
+/** Test Image::alpha_blend when blending RGBA onto XYZ12LE */
+BOOST_AUTO_TEST_CASE(alpha_blend_test_rgba_onto_xyz)
 {
 	Image xyz(AV_PIX_FMT_XYZ12LE, dcp::Size(50, 50), Image::Alignment::PADDED);
 	xyz.make_black();
@@ -236,6 +288,57 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test_onto_xyz)
 			p += 3;
 		}
 	}
+}
+
+
+/** Test Image::alpha_blend when blending RGBA64BE onto XYZ12LE */
+BOOST_AUTO_TEST_CASE(alpha_blend_test_rgba64be_onto_xyz)
+{
+	Image xyz(AV_PIX_FMT_XYZ12LE, dcp::Size(50, 50), Image::Alignment::PADDED);
+	xyz.make_black();
+
+	auto overlay = make_shared<Image>(AV_PIX_FMT_RGBA64BE, dcp::Size(8, 8), Image::Alignment::PADDED);
+	for (int y = 0; y < 8; ++y) {
+		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + (y * overlay->stride()[0]));
+		for (int x = 0; x < 8; ++x) {
+			*p++ = 65535;
+			*p++ = 0;
+			*p++ = 0;
+			*p++ = 65535;
+		}
+	}
+
+	xyz.alpha_blend(overlay, Position<int>(4, 4));
+
+	for (int y = 0; y < 50; ++y) {
+		auto p = reinterpret_cast<uint16_t*>(xyz.data()[0]) + (y * xyz.stride()[0] / 2);
+		for (int x = 0; x < 50; ++x) {
+			if (4 <= x && x < 12 && 4 <= y && y < 12) {
+				BOOST_REQUIRE_EQUAL(p[0], 45078U);
+				BOOST_REQUIRE_EQUAL(p[1], 34939U);
+				BOOST_REQUIRE_EQUAL(p[2], 13892U);
+			} else {
+				BOOST_REQUIRE_EQUAL(p[0], 0U);
+				BOOST_REQUIRE_EQUAL(p[1], 0U);
+				BOOST_REQUIRE_EQUAL(p[2], 0U);
+			}
+			p += 3;
+		}
+	}
+}
+
+
+BOOST_AUTO_TEST_CASE(alpha_blend_text)
+{
+	Image target(AV_PIX_FMT_RGB24, dcp::Size(1998, 1080), Image::Alignment::PADDED);
+	target.make_black();
+
+	FFmpegImageProxy subtitle_proxy(TestPaths::private_data() / "16-bit-sub.png");
+	auto subtitle = subtitle_proxy.image(Image::Alignment::COMPACT);
+
+	target.alpha_blend(subtitle.image, Position<int>(0, 0));
+	write_image(make_shared<Image>(target), "build/test/alpha_blend_text.png");
+	check_image("build/test/alpha_blend_text.png", TestPaths::private_data() / "16-bit-sub-blended.png");
 }
 
 

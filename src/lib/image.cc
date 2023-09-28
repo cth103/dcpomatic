@@ -619,7 +619,7 @@ Image::make_black ()
 void
 Image::make_transparent ()
 {
-	if (_pixel_format != AV_PIX_FMT_BGRA && _pixel_format != AV_PIX_FMT_RGBA) {
+	if (_pixel_format != AV_PIX_FMT_BGRA && _pixel_format != AV_PIX_FMT_RGBA && _pixel_format != AV_PIX_FMT_RGBA64BE) {
 		throw PixelFormatError ("make_transparent()", _pixel_format);
 	}
 
@@ -654,112 +654,120 @@ struct OtherParams
 	uint8_t* line_pointer(int y) const {
 		return data[0] + y * stride[0];
 	}
+
+	float alpha_divisor() const {
+		return pow(2, bpp * 2) - 1;
+	}
 };
 
 
-static
+template <class OtherType>
 void
-alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int red, int blue)
+alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	/* Going onto RGB24.  First byte is red, second green, third blue */
+	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
-		uint8_t* tp = target.line_pointer(ty);
-		uint8_t* op = other.line_pointer(oy);
+		auto tp = target.line_pointer(ty);
+		auto op = reinterpret_cast<OtherType*>(other.line_pointer(oy));
 		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
-			float const alpha = float (op[3]) / 255;
-			tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
-			tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-			tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
+			float const alpha = get(op + 3) / alpha_divisor;
+			tp[0] = (get(op + red) / value_divisor) * alpha + tp[0] * (1 - alpha);
+			tp[1] = (get(op + 1) / value_divisor) * alpha + tp[1] * (1 - alpha);
+			tp[2] = (get(op + blue) / value_divisor) * alpha + tp[2] * (1 - alpha);
 
 			tp += target.bpp;
-			op += other.bpp;
+			op += other.bpp / sizeof(OtherType);
 		}
 	}
 }
 
 
-static
+template <class OtherType>
 void
-alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int red, int blue)
+alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
+	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
-		uint8_t* tp = target.line_pointer(ty);
-		uint8_t* op = other.line_pointer(oy);
+		auto tp = target.line_pointer(ty);
+		auto op = reinterpret_cast<OtherType*>(other.line_pointer(oy));
 		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
-			float const alpha = float (op[3]) / 255;
-			tp[0] = op[blue] * alpha + tp[0] * (1 - alpha);
-			tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-			tp[2] = op[red] * alpha + tp[2] * (1 - alpha);
-			tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
+			float const alpha = get(op + 3) / alpha_divisor;
+			tp[0] = (get(op + blue) / value_divisor) * alpha + tp[0] * (1 - alpha);
+			tp[1] = (get(op + 1) / value_divisor) * alpha + tp[1] * (1 - alpha);
+			tp[2] = (get(op + red) / value_divisor) * alpha + tp[2] * (1 - alpha);
+			tp[3] = (get(op + 3) / value_divisor) * alpha + tp[3] * (1 - alpha);
 
 			tp += target.bpp;
-			op += other.bpp;
+			op += other.bpp / sizeof(OtherType);
 		}
 	}
 }
 
 
-static
+template <class OtherType>
 void
-alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int red, int blue)
+alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
+	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
-		uint8_t* tp = target.line_pointer(ty);
-		uint8_t* op = other.line_pointer(oy);
+		auto tp = target.line_pointer(ty);
+		auto op = reinterpret_cast<OtherType*>(other.line_pointer(oy));
 		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
-			float const alpha = float (op[3]) / 255;
-			tp[0] = op[red] * alpha + tp[0] * (1 - alpha);
-			tp[1] = op[1] * alpha + tp[1] * (1 - alpha);
-			tp[2] = op[blue] * alpha + tp[2] * (1 - alpha);
-			tp[3] = op[3] * alpha + tp[3] * (1 - alpha);
+			float const alpha = get(op + 3) / alpha_divisor;
+			tp[0] = (get(op + red) / value_divisor) * alpha + tp[0] * (1 - alpha);
+			tp[1] = (get(op + 1) / value_divisor) * alpha + tp[1] * (1 - alpha);
+			tp[2] = (get(op + blue) / value_divisor) * alpha + tp[2] * (1 - alpha);
+			tp[3] = (get(op + 3) / value_divisor) * alpha + tp[3] * (1 - alpha);
 
 			tp += target.bpp;
-			op += other.bpp;
+			op += other.bpp / sizeof(OtherType);
 		}
 	}
 }
 
 
-static
+template <class OtherType>
 void
-alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, int red, int blue)
+alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_scale)
 {
+	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
-		uint8_t* tp = target.line_pointer(ty);
-		uint8_t* op = other.line_pointer(oy);
+		auto tp = reinterpret_cast<uint16_t*>(target.line_pointer(ty));
+		auto op = reinterpret_cast<OtherType*>(other.line_pointer(oy));
 		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
-			float const alpha = float (op[3]) / 255;
-			/* Blend high bytes */
-			tp[1] = op[red] * alpha + tp[1] * (1 - alpha);
-			tp[3] = op[1] * alpha + tp[3] * (1 - alpha);
-			tp[5] = op[blue] * alpha + tp[5] * (1 - alpha);
+			float const alpha = get(op + 3) / alpha_divisor;
+			tp[0] = get(op + red) * value_scale * alpha + tp[0] * (1 - alpha);
+			tp[1] = get(op + 1) * value_scale * alpha + tp[1] * (1 - alpha);
+			tp[2] = get(op + blue) * value_scale * alpha + tp[2] * (1 - alpha);
 
-			tp += target.bpp;
-			op += other.bpp;
+			tp += target.bpp / 2;
+			op += other.bpp / sizeof(OtherType);
 		}
 	}
 }
 
 
-static
+template <class OtherType>
 void
-alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, int red, int blue)
+alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
+	auto const alpha_divisor = other.alpha_divisor();
 	auto conv = dcp::ColourConversion::srgb_to_xyz();
 	double fast_matrix[9];
 	dcp::combined_rgb_to_xyz(conv, fast_matrix);
 	auto lut_in = conv.in()->lut(0, 1, 8, false);
 	auto lut_out = conv.out()->lut(0, 1, 16, true);
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
-		uint16_t* tp = reinterpret_cast<uint16_t*>(target.data[0] + ty * target.stride[0] + target.start_x * target.bpp);
-		uint8_t* op = other.data[0] + oy * other.stride[0];
+		auto tp = reinterpret_cast<uint16_t*>(target.data[0] + ty * target.stride[0] + target.start_x * target.bpp);
+		auto op = reinterpret_cast<OtherType*>(other.data[0] + oy * other.stride[0]);
 		for (int tx = target.start_x, ox = other.start_x; tx < target.size.width && ox < other.size.width; ++tx, ++ox) {
-			float const alpha = float (op[3]) / 255;
+			float const alpha = get(op + 3) / alpha_divisor;
 
 			/* Convert sRGB to XYZ; op is BGRA.  First, input gamma LUT */
-			double const r = lut_in[op[red]];
-			double const g = lut_in[op[1]];
-			double const b = lut_in[op[blue]];
+			double const r = lut_in[get(op + red) / value_divisor];
+			double const g = lut_in[get(op + 1) / value_divisor];
+			double const b = lut_in[get(op + blue) / value_divisor];
 
 			/* RGB to XYZ, including Bradford transform and DCI companding */
 			double const x = max(0.0, min(1.0, r * fast_matrix[0] + g * fast_matrix[1] + b * fast_matrix[2]));
@@ -772,7 +780,7 @@ alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, i
 			tp[2] = lrint(lut_out[lrint(z * 65535)] * 65535) * alpha + tp[2] * (1 - alpha);
 
 			tp += target.bpp / 2;
-			op += other.bpp;
+			op += other.bpp / sizeof(OtherType);
 		}
 	}
 }
@@ -890,8 +898,12 @@ alpha_blend_onto_yuv422p10le(TargetParams const& target, OtherParams const& othe
 void
 Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 {
-	/* We're blending RGBA or BGRA images */
-	DCPOMATIC_ASSERT (other->pixel_format() == AV_PIX_FMT_BGRA || other->pixel_format() == AV_PIX_FMT_RGBA);
+	DCPOMATIC_ASSERT(
+		other->pixel_format() == AV_PIX_FMT_BGRA ||
+		other->pixel_format() == AV_PIX_FMT_RGBA ||
+		other->pixel_format() == AV_PIX_FMT_RGBA64BE
+		);
+
 	int const blue = other->pixel_format() == AV_PIX_FMT_BGRA ? 0 : 2;
 	int const red = other->pixel_format() == AV_PIX_FMT_BGRA ? 2 : 0;
 
@@ -926,29 +938,57 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		other->size(),
 		other->data(),
 		other->stride(),
-		4
+		other->pixel_format() == AV_PIX_FMT_RGBA64BE ? 8 : 4
+	};
+
+	auto byteswap = [](uint16_t* p) {
+		return (*p >> 8) | ((*p & 0xff) << 8);
+	};
+
+	auto pass = [](uint8_t* p) {
+		return *p;
 	};
 
 	switch (_pixel_format) {
 	case AV_PIX_FMT_RGB24:
 		target_params.bpp = 3;
-		alpha_blend_onto_rgb24(target_params, other_params, red, blue);
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_rgb24<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+		} else {
+			alpha_blend_onto_rgb24<uint8_t>(target_params, other_params, red, blue, pass, 1);
+		}
 		break;
 	case AV_PIX_FMT_BGRA:
 		target_params.bpp = 4;
-		alpha_blend_onto_bgra(target_params, other_params, red, blue);
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_bgra<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+		} else {
+			alpha_blend_onto_bgra<uint8_t>(target_params, other_params, red, blue, pass, 1);
+		}
 		break;
 	case AV_PIX_FMT_RGBA:
 		target_params.bpp = 4;
-		alpha_blend_onto_rgba(target_params, other_params, red, blue);
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_rgba<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+		} else {
+			alpha_blend_onto_rgba<uint8_t>(target_params, other_params, red, blue, pass, 1);
+		}
 		break;
 	case AV_PIX_FMT_RGB48LE:
 		target_params.bpp = 6;
-		alpha_blend_onto_rgb48le(target_params, other_params, red, blue);
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_rgb48le<uint16_t>(target_params, other_params, red, blue, byteswap, 1);
+		} else {
+			alpha_blend_onto_rgb48le<uint8_t>(target_params, other_params, red, blue, pass, 256);
+		}
 		break;
 	case AV_PIX_FMT_XYZ12LE:
 		target_params.bpp = 6;
-		alpha_blend_onto_xyz12le(target_params, other_params, red, blue);
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_xyz12le<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+		} else {
+			alpha_blend_onto_xyz12le<uint8_t>(target_params, other_params, red, blue, pass, 1);
+		}
 		break;
 	case AV_PIX_FMT_YUV420P:
 	{
