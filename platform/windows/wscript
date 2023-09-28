@@ -373,6 +373,7 @@ SectionEnd
         print('Section "DCP-o-matic 2" SEC_MASTER', file=f)
 
     print('SetOutPath "$INSTDIR\\bin"', file=f)
+    print("SetShellVarContext all", file=f)
 
     if debug:
         print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2 debug"', file=f)
