@@ -60,17 +60,17 @@ public:
 private:
 	friend struct ::create_cli_test;
 
-	boost::optional<std::string> template_name;
-	std::string name;
-	Ratio const * container_ratio = nullptr;
-	bool encrypt = false;
-	bool threed = false;
-	DCPContentType const * dcp_content_type = nullptr;
-	dcp::Standard standard = dcp::Standard::SMPTE;
-	bool no_use_isdcf_name = false;
-	bool twok = false;
-	bool fourk = false;
-	boost::optional<int> j2k_bandwidth;
+	boost::optional<std::string> _template_name;
+	std::string _name;
+	Ratio const* _container_ratio = nullptr;
+	bool _encrypt = false;
+	bool _threed = false;
+	DCPContentType const* _dcp_content_type = nullptr;
+	dcp::Standard _standard = dcp::Standard::SMPTE;
+	bool _no_use_isdcf_name = false;
+	bool _twok = false;
+	bool _fourk = false;
+	boost::optional<int> _j2k_bandwidth;
 
 	static std::string _help;
 };

@@ -153,11 +153,11 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		}
 
 		if (a == "-e" || a == "--encrypt") {
-			encrypt = claimed = true;
+			_encrypt = claimed = true;
 		} else if (a == "--no-use-isdcf-name") {
-			no_use_isdcf_name = claimed = true;
+			_no_use_isdcf_name = claimed = true;
 		} else if (a == "--threed") {
-			threed = claimed = true;
+			_threed = claimed = true;
 		} else if (a == "--left-eye") {
 			next_frame_type = VideoFrameType::THREE_D_LEFT;
 			claimed = true;
@@ -165,10 +165,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			next_frame_type = VideoFrameType::THREE_D_RIGHT;
 			claimed = true;
 		} else if (a == "--twok") {
-			twok = true;
+			_twok = true;
 			claimed = true;
 		} else if (a == "--fourk") {
-			fourk = true;
+			_fourk = true;
 			claimed = true;
 		}
 
@@ -188,7 +188,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			return boost::optional<int>(value);
 		};
 
-		argument_option(i, argc, argv, "-n", "--name",             &claimed, &error, &name);
+		argument_option(i, argc, argv, "-n", "--name",             &claimed, &error, &_name);
 		argument_option(i, argc, argv, "-t", "--template",         &claimed, &error, &template_name_string);
 		argument_option(i, argc, argv, "-c", "--dcp-content-type", &claimed, &error, &dcp_content_type_string);
 		argument_option(i, argc, argv, "-f", "--dcp-frame-rate",   &claimed, &error, &dcp_frame_rate_int);
@@ -256,7 +256,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	}
 
 	if (!template_name_string.empty()) {
-		template_name = template_name_string;
+		_template_name = template_name_string;
 	}
 
 	if (dcp_frame_rate_int) {
@@ -264,18 +264,18 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	}
 
 	if (j2k_bandwidth_int) {
-		j2k_bandwidth = j2k_bandwidth_int * 1000000;
+		_j2k_bandwidth = j2k_bandwidth_int * 1000000;
 	}
 
-	dcp_content_type = DCPContentType::from_isdcf_name(dcp_content_type_string);
-	if (!dcp_content_type) {
+	_dcp_content_type = DCPContentType::from_isdcf_name(dcp_content_type_string);
+	if (!_dcp_content_type) {
 		error = String::compose("%1: unrecognised DCP content type '%2'", argv[0], dcp_content_type_string);
 		return;
 	}
 
 	if (!container_ratio_string.empty()) {
-		container_ratio = Ratio::from_id (container_ratio_string);
-		if (!container_ratio) {
+		_container_ratio = Ratio::from_id (container_ratio_string);
+		if (!_container_ratio) {
 			error = String::compose("%1: unrecognised container ratio %2", argv[0], container_ratio_string);
 			return;
 		}
@@ -287,7 +287,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	}
 
 	if (standard_string == "interop") {
-		standard = dcp::Standard::INTEROP;
+		_standard = dcp::Standard::INTEROP;
 	}
 
 	if (content.empty()) {
@@ -295,11 +295,11 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		return;
 	}
 
-	if (name.empty()) {
-		name = content[0].path.leaf().string();
+	if (_name.empty()) {
+		_name = content[0].path.leaf().string();
 	}
 
-	if (j2k_bandwidth && (*j2k_bandwidth < 10000000 || *j2k_bandwidth > Config::instance()->maximum_j2k_bandwidth())) {
+	if (_j2k_bandwidth && (*_j2k_bandwidth < 10000000 || *_j2k_bandwidth > Config::instance()->maximum_j2k_bandwidth())) {
 		error = String::compose("%1: j2k-bandwidth must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_j2k_bandwidth() / 1000000));
 		return;
 	}
@@ -312,27 +312,27 @@ CreateCLI::make_film() const
 	auto film = std::make_shared<Film>(output_dir);
 	dcpomatic_log = film->log();
 	dcpomatic_log->set_types(Config::instance()->log_types());
-	if (template_name) {
-		film->use_template(template_name.get());
+	if (_template_name) {
+		film->use_template(_template_name.get());
 	}
-	film->set_name(name);
+	film->set_name(_name);
 
-	if (container_ratio) {
-		film->set_container(container_ratio);
+	if (_container_ratio) {
+		film->set_container(_container_ratio);
 	}
-	film->set_dcp_content_type(dcp_content_type);
-	film->set_interop(standard == dcp::Standard::INTEROP);
-	film->set_use_isdcf_name(!no_use_isdcf_name);
-	film->set_encrypted(encrypt);
-	film->set_three_d(threed);
-	if (twok) {
+	film->set_dcp_content_type(_dcp_content_type);
+	film->set_interop(_standard == dcp::Standard::INTEROP);
+	film->set_use_isdcf_name(!_no_use_isdcf_name);
+	film->set_encrypted(_encrypt);
+	film->set_three_d(_threed);
+	if (_twok) {
 		film->set_resolution(Resolution::TWO_K);
 	}
-	if (fourk) {
+	if (_fourk) {
 		film->set_resolution(Resolution::FOUR_K);
 	}
-	if (j2k_bandwidth) {
-		film->set_j2k_bandwidth(*j2k_bandwidth);
+	if (_j2k_bandwidth) {
+		film->set_j2k_bandwidth(*_j2k_bandwidth);
 	}
 
 	int channels = 6;

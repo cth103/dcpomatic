@@ -71,13 +71,13 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --name frobozz --template bar");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.name, "frobozz");
-	BOOST_REQUIRE (cc.template_name);
-	BOOST_CHECK_EQUAL (*cc.template_name, "bar");
+	BOOST_CHECK_EQUAL(cc._name, "frobozz");
+	BOOST_REQUIRE(cc._template_name);
+	BOOST_CHECK_EQUAL(*cc._template_name, "bar");
 
 	cc = run ("dcpomatic2_create x --dcp-content-type FTR");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.dcp_content_type, DCPContentType::from_isdcf_name("FTR"));
+	BOOST_CHECK_EQUAL(cc._dcp_content_type, DCPContentType::from_isdcf_name("FTR"));
 
 	cc = run ("dcpomatic2_create x --dcp-frame-rate 30");
 	BOOST_CHECK (!cc.error);
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --container-ratio 185");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.container_ratio, Ratio::from_id("185"));
+	BOOST_CHECK_EQUAL(cc._container_ratio, Ratio::from_id("185"));
 
 	cc = run ("dcpomatic2_create x --container-ratio XXX");
 	BOOST_CHECK (cc.error);
@@ -97,11 +97,11 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --standard SMPTE");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.standard, dcp::Standard::SMPTE);
+	BOOST_CHECK_EQUAL(cc._standard, dcp::Standard::SMPTE);
 
 	cc = run ("dcpomatic2_create x --standard interop");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL (cc.standard, dcp::Standard::INTEROP);
+	BOOST_CHECK_EQUAL(cc._standard, dcp::Standard::INTEROP);
 
 	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);
@@ -140,25 +140,25 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL (cc.content[0].frame_type, VideoFrameType::THREE_D_LEFT);
 	BOOST_CHECK_EQUAL (cc.content[1].path, "right.mp4");
 	BOOST_CHECK_EQUAL (cc.content[1].frame_type, VideoFrameType::THREE_D_RIGHT);
-	BOOST_CHECK_EQUAL (cc.fourk, false);
+	BOOST_CHECK_EQUAL(cc._fourk, false);
 
 	cc = run ("dcpomatic2_create --twok foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
-	BOOST_CHECK_EQUAL (cc.twok, true);
+	BOOST_CHECK_EQUAL(cc._twok, true);
 	BOOST_CHECK (!cc.error);
 
 	cc = run ("dcpomatic2_create --fourk foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
-	BOOST_CHECK_EQUAL (cc.fourk, true);
+	BOOST_CHECK_EQUAL(cc._fourk, true);
 	BOOST_CHECK (!cc.error);
 
 	cc = run ("dcpomatic2_create --j2k-bandwidth 120 foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
-	BOOST_REQUIRE (cc.j2k_bandwidth);
-	BOOST_CHECK_EQUAL (*cc.j2k_bandwidth, 120000000);
+	BOOST_REQUIRE(cc._j2k_bandwidth);
+	BOOST_CHECK_EQUAL(*cc._j2k_bandwidth, 120000000);
 	BOOST_CHECK (!cc.error);
 
 	cc = run ("dcpomatic2_create --channel L fred.wav --channel R jim.wav sheila.wav");
