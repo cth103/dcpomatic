@@ -30,6 +30,8 @@ class DCPContentType;
 class Film;
 class Ratio;
 
+struct create_cli_test;
+
 
 class CreateCLI
 {
@@ -46,26 +48,29 @@ public:
 	};
 
 	bool version;
-	std::string name;
-	boost::optional<std::string> template_name;
-	bool encrypt;
-	bool threed;
-	DCPContentType const * dcp_content_type;
 	boost::optional<int> dcp_frame_rate;
-	Ratio const * container_ratio;
 	boost::optional<int> still_length;
-	dcp::Standard standard;
-	bool no_use_isdcf_name;
 	boost::optional<boost::filesystem::path> config_dir;
 	boost::optional<boost::filesystem::path> output_dir;
 	boost::optional<std::string> error;
 	std::vector<Content> content;
-	bool twok;
-	bool fourk;
-	boost::optional<int> j2k_bandwidth;
 
 	std::shared_ptr<Film> make_film() const;
 
 private:
+	friend struct ::create_cli_test;
+
+	boost::optional<std::string> template_name;
+	std::string name;
+	Ratio const * container_ratio = nullptr;
+	bool encrypt = false;
+	bool threed = false;
+	DCPContentType const * dcp_content_type = nullptr;
+	dcp::Standard standard = dcp::Standard::SMPTE;
+	bool no_use_isdcf_name = false;
+	bool twok = false;
+	bool fourk = false;
+	boost::optional<int> j2k_bandwidth;
+
 	static std::string _help;
 };

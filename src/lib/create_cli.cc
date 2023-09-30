@@ -124,14 +124,6 @@ argument_option (
 
 CreateCLI::CreateCLI (int argc, char* argv[])
 	: version (false)
-	, encrypt (false)
-	, threed (false)
-	, dcp_content_type (nullptr)
-	, container_ratio (nullptr)
-	, standard (dcp::Standard::SMPTE)
-	, no_use_isdcf_name (false)
-	, twok (false)
-	, fourk (false)
 {
 	string dcp_content_type_string = "TST";
 	string container_ratio_string;
