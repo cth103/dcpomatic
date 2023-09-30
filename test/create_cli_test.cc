@@ -304,5 +304,9 @@ BOOST_AUTO_TEST_CASE(create_cli_defaults_test)
 	auto film = cc.make_film();
 	BOOST_CHECK(!film->interop());
 
+	Config::instance()->set_default_dcp_content_type(DCPContentType::from_isdcf_name("FT"));
+	cc = run("dcpomatic2_create test/data/flat_red.png");
+	film = cc.make_film();
+	BOOST_CHECK_EQUAL(film->dcp_content_type()->isdcf_name(), "TST");
 }
 

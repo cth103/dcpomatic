@@ -127,7 +127,7 @@ argument_option (
 CreateCLI::CreateCLI (int argc, char* argv[])
 	: version (false)
 {
-	string dcp_content_type_string = "TST";
+	optional<string> dcp_content_type_string;
 	string container_ratio_string;
 	optional<string> standard_string;
 	int dcp_frame_rate_int = 0;
@@ -273,10 +273,12 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		_j2k_bandwidth = j2k_bandwidth_int * 1000000;
 	}
 
-	_dcp_content_type = DCPContentType::from_isdcf_name(dcp_content_type_string);
-	if (!_dcp_content_type) {
-		error = String::compose("%1: unrecognised DCP content type '%2'", argv[0], dcp_content_type_string);
-		return;
+	if (dcp_content_type_string) {
+		_dcp_content_type = DCPContentType::from_isdcf_name(*dcp_content_type_string);
+		if (!_dcp_content_type) {
+			error = String::compose("%1: unrecognised DCP content type '%2'", argv[0], *dcp_content_type_string);
+			return;
+		}
 	}
 
 	if (!container_ratio_string.empty()) {
@@ -337,13 +339,16 @@ CreateCLI::make_film() const
 		 * or not.
 		 */
 		film->set_interop(false);
+		film->set_dcp_content_type(DCPContentType::from_isdcf_name("TST"));
 	}
 	film->set_name(_name);
 
 	if (_container_ratio) {
 		film->set_container(_container_ratio);
 	}
-	film->set_dcp_content_type(_dcp_content_type);
+	if (_dcp_content_type) {
+		film->set_dcp_content_type(_dcp_content_type);
+	}
 	if (_standard) {
 		film->set_interop(*_standard == dcp::Standard::INTEROP);
 	}
