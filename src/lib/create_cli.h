@@ -64,6 +64,7 @@ private:
 	std::string _name;
 	Ratio const* _container_ratio = nullptr;
 	bool _encrypt = false;
+	bool _twod = false;
 	bool _threed = false;
 	DCPContentType const* _dcp_content_type = nullptr;
 	dcp::Standard _standard = dcp::Standard::SMPTE;

@@ -18,7 +18,10 @@
 
 */
 
+
+#include "lib/config.h"
 #include "lib/create_cli.h"
+#include "lib/film.h"
 #include "lib/ratio.h"
 #include "lib/dcp_content_type.h"
 #include "test.h"
@@ -27,7 +30,9 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <iostream>
 
+
 using std::string;
+
 
 static CreateCLI
 run (string cmd)
@@ -105,6 +110,15 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);
+
+	cc = run("dcpomatic2_create x --twod");
+	BOOST_CHECK(cc._twod);
+
+	cc = run("dcpomatic2_create x --threed");
+	BOOST_CHECK(cc._threed);
+
+	cc = run("dcpomatic2_create x --twod --threed");
+	BOOST_CHECK(cc.error);
 
 	cc = run ("dcpomatic2_create x --config foo/bar");
 	BOOST_CHECK (!cc.error);
@@ -195,3 +209,28 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK(!cc.still_length);
 	BOOST_CHECK(cc.error);
 }
+
+
+BOOST_AUTO_TEST_CASE(create_cli_template_test)
+{
+	ConfigRestorer cr;
+
+	Config::override_path = "test/data";
+
+	auto cc = run("dcpomatic2_create test/data/flat_red.png --template 2d");
+	auto film = cc.make_film();
+	BOOST_CHECK(!film->three_d());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template 2d --threed");
+	film = cc.make_film();
+	BOOST_CHECK(film->three_d());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template 3d");
+	film = cc.make_film();
+	BOOST_CHECK(film->three_d());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template 3d --twod");
+	film = cc.make_film();
+	BOOST_CHECK(!film->three_d());
+}
+

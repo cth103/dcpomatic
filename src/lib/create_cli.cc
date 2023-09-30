@@ -56,6 +56,7 @@ string CreateCLI::_help =
 	"      --twok                    make a 2K DCP instead of choosing a resolution based on the content\n"
 	"      --fourk                   make a 4K DCP instead of choosing a resolution based on the content\n"
 	"  -o, --output <dir>            output directory\n"
+	"      --twod                    make a 2D DCP\n"
 	"      --threed                  make a 3D DCP\n"
 	"      --j2k-bandwidth <Mbit/s>  J2K bandwidth in Mbit/s\n"
 	"      --left-eye                next piece of content is for the left eye\n"
@@ -156,6 +157,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			_encrypt = claimed = true;
 		} else if (a == "--no-use-isdcf-name") {
 			_no_use_isdcf_name = claimed = true;
+		} else if (a == "--twod") {
+			_twod = claimed = true;
 		} else if (a == "--threed") {
 			_threed = claimed = true;
 		} else if (a == "--left-eye") {
@@ -290,6 +293,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		_standard = dcp::Standard::INTEROP;
 	}
 
+	if (_twod && _threed) {
+		error = String::compose("%1: specify one of --twod or --threed, not both", argv[0]);
+	}
+
 	if (content.empty()) {
 		error = String::compose("%1: no content specified", argv[0]);
 		return;
@@ -324,7 +331,11 @@ CreateCLI::make_film() const
 	film->set_interop(_standard == dcp::Standard::INTEROP);
 	film->set_use_isdcf_name(!_no_use_isdcf_name);
 	film->set_encrypted(_encrypt);
-	film->set_three_d(_threed);
+	if (_twod) {
+		film->set_three_d(false);
+	} else if (_threed) {
+		film->set_three_d(true);
+	}
 	if (_twok) {
 		film->set_resolution(Resolution::TWO_K);
 	}
