@@ -102,11 +102,13 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 	cc = run ("dcpomatic2_create x --standard SMPTE");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL(cc._standard, dcp::Standard::SMPTE);
+	BOOST_REQUIRE(cc._standard);
+	BOOST_CHECK_EQUAL(*cc._standard, dcp::Standard::SMPTE);
 
 	cc = run ("dcpomatic2_create x --standard interop");
 	BOOST_CHECK (!cc.error);
-	BOOST_CHECK_EQUAL(cc._standard, dcp::Standard::INTEROP);
+	BOOST_REQUIRE(cc._standard);
+	BOOST_CHECK_EQUAL(*cc._standard, dcp::Standard::INTEROP);
 
 	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);
@@ -265,5 +267,42 @@ BOOST_AUTO_TEST_CASE(create_cli_template_test)
 	cc = run("dcpomatic2_create test/data/flat_red.png --template encrypted --no-encrypt");
 	film = cc.make_film();
 	BOOST_CHECK(!film->encrypted());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png");
+	film = cc.make_film();
+	BOOST_CHECK(!film->interop());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template interop");
+	film = cc.make_film();
+	BOOST_CHECK(film->interop());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template interop --standard SMPTE");
+	film = cc.make_film();
+	BOOST_CHECK(!film->interop());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template smpte");
+	film = cc.make_film();
+	BOOST_CHECK(!film->interop());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template smpte --standard interop");
+	film = cc.make_film();
+	BOOST_CHECK(film->interop());
+}
+
+
+BOOST_AUTO_TEST_CASE(create_cli_defaults_test)
+{
+	ConfigRestorer cr;
+
+	/* I think on balance dcpomatic2_create should not use the defaults from Config;
+	 * it seems a bit surprising that settings from a GUI tool can change the behaviour of
+	 * a CLI tool, and at some point we're probably going to remove all the default config
+	 * options from the main DoM anyway (in favour of a default template).
+	 */
+	Config::instance()->set_default_interop(true);
+	auto cc = run("dcpomatic2_create test/data/flat_red.png");
+	auto film = cc.make_film();
+	BOOST_CHECK(!film->interop());
+
 }
 

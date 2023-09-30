@@ -68,7 +68,7 @@ private:
 	bool _twod = false;
 	bool _threed = false;
 	DCPContentType const* _dcp_content_type = nullptr;
-	dcp::Standard _standard = dcp::Standard::SMPTE;
+	boost::optional<dcp::Standard> _standard;
 	bool _no_use_isdcf_name = false;
 	bool _twok = false;
 	bool _fourk = false;

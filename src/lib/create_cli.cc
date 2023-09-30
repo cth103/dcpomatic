@@ -129,7 +129,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 {
 	string dcp_content_type_string = "TST";
 	string container_ratio_string;
-	string standard_string = "SMPTE";
+	optional<string> standard_string;
 	int dcp_frame_rate_int = 0;
 	string template_name_string;
 	int j2k_bandwidth_int = 0;
@@ -287,13 +287,15 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		}
 	}
 
-	if (standard_string != "SMPTE" && standard_string != "interop") {
-		error = String::compose("%1: standard must be SMPTE or interop", argv[0]);
-		return;
-	}
-
-	if (standard_string == "interop") {
-		_standard = dcp::Standard::INTEROP;
+	if (standard_string) {
+		if (*standard_string == "interop") {
+			_standard = dcp::Standard::INTEROP;
+		} else if (*standard_string == "SMPTE") {
+			_standard = dcp::Standard::SMPTE;
+		} else {
+			error = String::compose("%1: standard must be SMPTE or interop", argv[0]);
+			return;
+		}
 	}
 
 	if (_twod && _threed) {
@@ -328,6 +330,13 @@ CreateCLI::make_film() const
 	dcpomatic_log->set_types(Config::instance()->log_types());
 	if (_template_name) {
 		film->use_template(_template_name.get());
+	} else {
+		/* No template: apply our own CLI tool defaults to override the ones in Config.
+		 * Maybe one day there will be no defaults in Config any more (as they'll be in
+		 * a default template) and we can decide whether to use the default template
+		 * or not.
+		 */
+		film->set_interop(false);
 	}
 	film->set_name(_name);
 
@@ -335,7 +344,9 @@ CreateCLI::make_film() const
 		film->set_container(_container_ratio);
 	}
 	film->set_dcp_content_type(_dcp_content_type);
-	film->set_interop(_standard == dcp::Standard::INTEROP);
+	if (_standard) {
+		film->set_interop(*_standard == dcp::Standard::INTEROP);
+	}
 	film->set_use_isdcf_name(!_no_use_isdcf_name);
 	if (_no_encrypt) {
 		film->set_encrypted(false);
