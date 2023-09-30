@@ -63,6 +63,7 @@ private:
 	boost::optional<std::string> _template_name;
 	std::string _name;
 	Ratio const* _container_ratio = nullptr;
+	bool _no_encrypt = false;
 	bool _encrypt = false;
 	bool _twod = false;
 	bool _threed = false;

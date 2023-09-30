@@ -111,6 +111,15 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	cc = run ("dcpomatic2_create x --standard SMPTEX");
 	BOOST_CHECK (cc.error);
 
+	cc = run("dcpomatic2_create x --no-encrypt");
+	BOOST_CHECK(cc._no_encrypt);
+
+	cc = run("dcpomatic2_create x --encrypt");
+	BOOST_CHECK(cc._encrypt);
+
+	cc = run("dcpomatic2_create x --no-encrypt --encrypt");
+	BOOST_CHECK(cc.error);
+
 	cc = run("dcpomatic2_create x --twod");
 	BOOST_CHECK(cc._twod);
 
@@ -217,8 +226,12 @@ BOOST_AUTO_TEST_CASE(create_cli_template_test)
 
 	Config::override_path = "test/data";
 
-	auto cc = run("dcpomatic2_create test/data/flat_red.png --template 2d");
+	auto cc = run("dcpomatic2_create test/data/flat_red.png");
 	auto film = cc.make_film();
+	BOOST_CHECK(!film->three_d());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template 2d");
+	film = cc.make_film();
 	BOOST_CHECK(!film->three_d());
 
 	cc = run("dcpomatic2_create test/data/flat_red.png --template 2d --threed");
@@ -232,5 +245,25 @@ BOOST_AUTO_TEST_CASE(create_cli_template_test)
 	cc = run("dcpomatic2_create test/data/flat_red.png --template 3d --twod");
 	film = cc.make_film();
 	BOOST_CHECK(!film->three_d());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png");
+	film = cc.make_film();
+	BOOST_CHECK(!film->encrypted());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template unencrypted");
+	film = cc.make_film();
+	BOOST_CHECK(!film->encrypted());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template unencrypted --encrypt");
+	film = cc.make_film();
+	BOOST_CHECK(film->encrypted());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template encrypted");
+	film = cc.make_film();
+	BOOST_CHECK(film->encrypted());
+
+	cc = run("dcpomatic2_create test/data/flat_red.png --template encrypted --no-encrypt");
+	film = cc.make_film();
+	BOOST_CHECK(!film->encrypted());
 }
 

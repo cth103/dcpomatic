@@ -45,6 +45,7 @@ string CreateCLI::_help =
 	"  -h, --help                    show this help\n"
 	"  -n, --name <name>             film name\n"
 	"  -t, --template <name>         template name\n"
+	"      --no-encrypt              make an unencrypted DCP\n"
 	"  -e, --encrypt                 make an encrypted DCP\n"
 	"  -c, --dcp-content-type <type> FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV\n"
 	"  -f, --dcp-frame-rate <rate>   set DCP video frame rate (otherwise guessed from content)\n"
@@ -153,7 +154,9 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			return;
 		}
 
-		if (a == "-e" || a == "--encrypt") {
+		if (a == "--no-encrypt") {
+			_no_encrypt = claimed = true;
+		} else if (a == "-e" || a == "--encrypt") {
 			_encrypt = claimed = true;
 		} else if (a == "--no-use-isdcf-name") {
 			_no_use_isdcf_name = claimed = true;
@@ -297,6 +300,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		error = String::compose("%1: specify one of --twod or --threed, not both", argv[0]);
 	}
 
+	if (_no_encrypt && _encrypt) {
+		error = String::compose("%1: specify one of --no-encrypt or --encrypt, not both", argv[0]);
+	}
+
 	if (content.empty()) {
 		error = String::compose("%1: no content specified", argv[0]);
 		return;
@@ -330,7 +337,11 @@ CreateCLI::make_film() const
 	film->set_dcp_content_type(_dcp_content_type);
 	film->set_interop(_standard == dcp::Standard::INTEROP);
 	film->set_use_isdcf_name(!_no_use_isdcf_name);
-	film->set_encrypted(_encrypt);
+	if (_no_encrypt) {
+		film->set_encrypted(false);
+	} else if (_encrypt) {
+		film->set_encrypted(true);
+	}
 	if (_twod) {
 		film->set_three_d(false);
 	} else if (_threed) {
