@@ -623,6 +623,7 @@ VideoContent::take_settings_from (shared_ptr<const VideoContent> c)
 	set_fade_in (c->_fade_in);
 	set_fade_out (c->_fade_out);
 	set_burnt_subtitle_language (c->_burnt_subtitle_language);
+	set_range(c->_range);
 }
 
 
