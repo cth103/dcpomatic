@@ -148,15 +148,6 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 }
 
 
-static bool done = false;
-
-static void
-analysis_finished ()
-{
-	done = true;
-}
-
-
 /* Test a case which was reported to throw an exception; analysing
  * a 12-channel DCP's audio.
  */
@@ -173,7 +164,8 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 
 	film->set_audio_channels (12);
 	boost::signals2::connection connection;
-	JobManager::instance()->analyse_audio(film, film->playlist(), false, connection, boost::bind(&analysis_finished));
+	bool done = false;
+	JobManager::instance()->analyse_audio(film, film->playlist(), false, connection, [&done](Job::Result) { done = true; });
 	BOOST_REQUIRE (!wait_for_jobs());
 	BOOST_CHECK (done);
 }
