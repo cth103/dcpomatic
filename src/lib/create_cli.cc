@@ -23,14 +23,19 @@
 #include "config.h"
 #include "create_cli.h"
 #include "dcp_content_type.h"
+#include "dcpomatic_log.h"
+#include "film.h"
 #include "ratio.h"
 #include <dcp/raw_convert.h>
 #include <iostream>
 #include <string>
 
 
-using std::string;
 using std::cout;
+using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
 
 
@@ -307,3 +312,49 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		return;
 	}
 }
+
+
+shared_ptr<Film>
+CreateCLI::make_film() const
+{
+	auto film = std::make_shared<Film>(output_dir);
+	dcpomatic_log = film->log();
+	dcpomatic_log->set_types(Config::instance()->log_types());
+	if (template_name) {
+		film->use_template(template_name.get());
+	}
+	film->set_name(name);
+
+	if (container_ratio) {
+		film->set_container(container_ratio);
+	}
+	film->set_dcp_content_type(dcp_content_type);
+	film->set_interop(standard == dcp::Standard::INTEROP);
+	film->set_use_isdcf_name(!no_use_isdcf_name);
+	film->set_encrypted(encrypt);
+	film->set_three_d(threed);
+	if (twok) {
+		film->set_resolution(Resolution::TWO_K);
+	}
+	if (fourk) {
+		film->set_resolution(Resolution::FOUR_K);
+	}
+	if (j2k_bandwidth) {
+		film->set_j2k_bandwidth(*j2k_bandwidth);
+	}
+
+	int channels = 6;
+	for (auto cli_content: content) {
+		if (cli_content.channel) {
+			channels = std::max(channels, static_cast<int>(*cli_content.channel) + 1);
+		}
+	}
+	if (channels % 1) {
+		++channels;
+	}
+
+	film->set_audio_channels(channels);
+
+	return film;
+}
+

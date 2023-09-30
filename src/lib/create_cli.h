@@ -27,6 +27,7 @@
 
 
 class DCPContentType;
+class Film;
 class Ratio;
 
 
@@ -62,6 +63,8 @@ public:
 	bool twok;
 	bool fourk;
 	boost::optional<int> j2k_bandwidth;
+
+	std::shared_ptr<Film> make_film() const;
 
 private:
 	static std::string _help;

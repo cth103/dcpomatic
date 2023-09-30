@@ -25,7 +25,6 @@
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
-#include "lib/dcpomatic_log.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/job.h"
@@ -92,43 +91,7 @@ main (int argc, char* argv[])
 	auto jm = JobManager::instance ();
 
 	try {
-		auto film = std::make_shared<Film>(cc.output_dir);
-		dcpomatic_log = film->log ();
-		dcpomatic_log->set_types (Config::instance()->log_types());
-		if (cc.template_name) {
-			film->use_template (cc.template_name.get());
-		}
-		film->set_name (cc.name);
-
-		if (cc.container_ratio) {
-			film->set_container (cc.container_ratio);
-		}
-		film->set_dcp_content_type (cc.dcp_content_type);
-		film->set_interop (cc.standard == dcp::Standard::INTEROP);
-		film->set_use_isdcf_name (!cc.no_use_isdcf_name);
-		film->set_encrypted (cc.encrypt);
-		film->set_three_d (cc.threed);
-		if (cc.twok) {
-			film->set_resolution (Resolution::TWO_K);
-		}
-		if (cc.fourk) {
-			film->set_resolution (Resolution::FOUR_K);
-		}
-		if (cc.j2k_bandwidth) {
-			film->set_j2k_bandwidth (*cc.j2k_bandwidth);
-		}
-
-		int channels = 6;
-		for (auto cli_content: cc.content) {
-			if (cli_content.channel) {
-				channels = std::max(channels, static_cast<int>(*cli_content.channel) + 1);
-			}
-		}
-		if (channels % 1) {
-			++channels;
-		}
-
-		film->set_audio_channels(channels);
+		auto film = cc.make_film();
 
 		for (auto cli_content: cc.content) {
 			auto const can = boost::filesystem::canonical (cli_content.path);
