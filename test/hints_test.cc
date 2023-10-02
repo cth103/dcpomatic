@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE (hints_certificate_validity)
 		hints[0],
 		"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period "
 		"that is too long.  This will cause problems playing back DCPs on some systems. "
-		"You are advised to re-create the signing certificate chain by clicking the "
+		"It is advisable to re-create the signing certificate chain by clicking the "
 		"\"Re-make certificates and key...\" button in the Keys page of Preferences."
 		);
 }

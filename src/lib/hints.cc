@@ -195,7 +195,7 @@ Hints::check_frame_rate ()
 	case 50:
 	case 60:
 		/* You almost certainly want to go to half frame rate */
-		hint (String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  You are advised to change the DCP frame rate to %2 fps."), f->video_frame_rate(), f->video_frame_rate() / 2));
+		hint (String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  It is advisable to change the DCP frame rate to %2 fps."), f->video_frame_rate(), f->video_frame_rate() / 2));
 		break;
 	}
 }
@@ -235,7 +235,7 @@ Hints::check_speed_up ()
 	}
 
 	if (worst_speed_up > 25.5/24.0) {
-		hint (_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  You are advised to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
+		hint (_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  It is advisable to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
 	}
 
 }
@@ -245,7 +245,7 @@ void
 Hints::check_interop ()
 {
 	if (film()->interop()) {
-		hint (_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  You are advised to set your DCP to use the SMPTE standard in the \"DCP\" tab."));
+		hint (_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  It is advisable to set your DCP to use the SMPTE standard in the \"DCP\" tab."));
 	}
 }
 
@@ -690,14 +690,14 @@ Hints::check_certificates ()
 	switch (*bad) {
 	case Config::BAD_SIGNER_UTF8_STRINGS:
 		hint(_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error "
-		       "which will prevent DCPs from being validated correctly on some systems.  You are advised to "
+		       "which will prevent DCPs from being validated correctly on some systems.  It is advisable to "
 		       "re-create the signing certificate chain by clicking the \"Re-make certificates and key...\" "
 		       "button in the Keys page of Preferences."));
 		break;
 	case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
 		hint(_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period "
 		       "that is too long.  This will cause problems playing back DCPs on some systems. "
-		       "You are advised to re-create the signing certificate chain by clicking the "
+		       "It is advisable to re-create the signing certificate chain by clicking the "
 		       "\"Re-make certificates and key...\" button in the Keys page of Preferences."));
 		break;
 	default:
