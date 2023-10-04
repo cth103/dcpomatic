@@ -108,11 +108,11 @@ struct DcpomaticContext {
 class GrokContext
 {
 public:
-	explicit GrokContext(DcpomaticContext* dcpomatic_context) :
-								_dcpomatic_context(dcpomatic_context),
-								messenger_(nullptr),
-								launched_(false),
-								launchFailed_(false)
+	explicit GrokContext(DcpomaticContext* dcpomatic_context)
+		: _dcpomatic_context(dcpomatic_context)
+		, messenger_(nullptr)
+		, launched_(false)
+		, launchFailed_(false)
 	{
 		if (Config::instance()->enable_gpu ())  {
 		    boost::filesystem::path folder(_dcpomatic_context->_location);
@@ -193,7 +193,8 @@ public:
 			auto s = dcpv.get_size();
 			_dcpomatic_context->setDimensions(s.width, s.height);
 			auto config = Config::instance();
-			if (!messenger_->launchGrok(_dcpomatic_context->_location,
+			if (!messenger_->launchGrok(
+					_dcpomatic_context->_location,
 					_dcpomatic_context->width_,_dcpomatic_context->width_,
 					_dcpomatic_context->height_,
 					3, 12, device,
