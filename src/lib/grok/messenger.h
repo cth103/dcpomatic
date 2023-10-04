@@ -585,16 +585,19 @@ struct Messenger
 
 	bool waitForClientInit()
 	{
-		if(_initialized)
+		if (_initialized) {
 			return true;
-		else if (_shutdown)
+		} else if (_shutdown) {
 			return false;
+		}
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
-		if(_initialized)
+
+		if (_initialized) {
 			return true;
-		else if (_shutdown)
+		} else if (_shutdown) {
 			return false;
+		}
 
         while (true) {
         	if (clientInitializedCondition_.wait_for(lk, std::chrono::seconds(1), [this]{ return _initialized || _shutdown; })) {
