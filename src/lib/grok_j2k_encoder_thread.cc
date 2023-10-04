@@ -33,6 +33,7 @@ try
 		auto frame = _encoder.pop();
 
 		ScopeGuard frame_guard([this, &frame]() {
+			LOG_ERROR("Failed to schedule encode of %1 using grok", frame.index());
 			_encoder.retry(frame);
 		});
 
