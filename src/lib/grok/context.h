@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include <boost/filesystem.hpp>
+namespace fs = boost::filesystem;
+
 #include "../config.h"
 #include "../dcp_video.h"
 #include "../film.h"
@@ -106,10 +109,11 @@ struct DcpomaticContext {
 class GrokContext
 {
 public:
-	explicit GrokContext(DcpomaticContext* dcpomatic_context)
-		: _dcpomatic_context(dcpomatic_context)
-		, messenger_(nullptr)
-		, launched_(false)
+	explicit GrokContext(DcpomaticContext* dcpomatic_context) :
+								_dcpomatic_context(dcpomatic_context),
+								messenger_(nullptr),
+								launched_(false),
+								launchFailed_(false)
 	{
 		if (Config::instance()->enable_gpu ())  {
 		    boost::filesystem::path folder(_dcpomatic_context->_location);
@@ -170,29 +174,40 @@ public:
 			return false;
 		if (launched_)
 			return true;
+		if (launchFailed_)
+			return false;
 		std::unique_lock<std::mutex> lk_global(launchMutex);
 		if (!messenger_)
 			return false;
 		if (launched_)
 			return true;
+		if (launchFailed_)
+			return false;
 		if (MessengerInit::firstLaunch(true)) {
+
+		    if (!fs::exists(_dcpomatic_context->_location) || !fs::is_directory(_dcpomatic_context->_location)) {
+		    	getMessengerLogger()->error("Invalid directory %s", _dcpomatic_context->_location.c_str());
+				return false;
+		    }
 			auto s = dcpv.get_size();
 			_dcpomatic_context->setDimensions(s.width, s.height);
 			auto config = Config::instance();
-			messenger_->launchGrok(
-				_dcpomatic_context->_location,
-				_dcpomatic_context->width_,_dcpomatic_context->width_,
-				_dcpomatic_context->height_,
-				3, 12, device,
-				_dcpomatic_context->film_->resolution() == Resolution::FOUR_K,
-				_dcpomatic_context->film_->video_frame_rate(),
-				_dcpomatic_context->film_->j2k_bandwidth(),
-				config->gpu_license_server(),
-				config->gpu_license_port(),
-				config->gpu_license()
-				);
+			if (!messenger_->launchGrok(_dcpomatic_context->_location,
+					_dcpomatic_context->width_,_dcpomatic_context->width_,
+					_dcpomatic_context->height_,
+					3, 12, device,
+					_dcpomatic_context->film_->resolution() == Resolution::FOUR_K,
+					_dcpomatic_context->film_->video_frame_rate(),
+					_dcpomatic_context->film_->j2k_bandwidth(),
+					config->gpu_license_server(),
+					config->gpu_license_port(),
+					config->gpu_license())) {
+				launchFailed_ = true;
+				return false;
+			}
 		}
 		launched_ =  messenger_->waitForClientInit();
+		launchFailed_ = launched_;
 
 		return launched_;
 	}
@@ -226,6 +241,7 @@ private:
 	DcpomaticContext* _dcpomatic_context;
 	ScheduledMessenger<FrameProxy> *messenger_;
 	bool launched_;
+	bool launchFailed_;
 };
 
 }
