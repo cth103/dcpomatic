@@ -25,6 +25,7 @@
 #include "dcpomatic_log.h"
 #include "config.h"
 #include "exceptions.h"
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <glib.h>
 #include <boost/algorithm/string.hpp>
@@ -84,7 +85,7 @@ cpu_info ()
 boost::filesystem::path
 directory_containing_executable ()
 {
-	return boost::filesystem::canonical(boost::dll::program_location()).parent_path();
+	return dcp::filesystem::canonical(boost::dll::program_location()).parent_path();
 }
 
 
@@ -106,7 +107,7 @@ void
 run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err, string args)
 {
 	auto path = directory_containing_executable () / "ffprobe";
-	if (!boost::filesystem::exists(path)) {
+	if (!dcp::filesystem::exists(path)) {
 		/* This is a hack but we need ffprobe during tests */
 		path = "/Users/ci/workspace/bin/ffprobe";
 	}

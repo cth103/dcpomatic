@@ -30,6 +30,7 @@
 #include "dcpomatic_assert.h"
 #include "util.h"
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
@@ -166,7 +167,7 @@ run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool e
 
 	wcscat(command, L" \"");
 
-	MultiByteToWideChar(CP_UTF8, 0, boost::filesystem::canonical(content).make_preferred().string().c_str(), -1, tmp, sizeof(tmp));
+	MultiByteToWideChar(CP_UTF8, 0, dcp::filesystem::canonical(content).make_preferred().string().c_str(), -1, tmp, sizeof(tmp));
 	wcscat(command, tmp);
 
 	wcscat(command, L"\"");

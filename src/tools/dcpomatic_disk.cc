@@ -39,6 +39,7 @@
 #include "lib/signal_manager.h"
 #include "lib/util.h"
 #include "lib/version.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 #include <wx/cmdline.h>
 #include <wx/wx.h>
@@ -85,7 +86,7 @@ public:
 	boost::optional<boost::filesystem::path> get () const
 	{
 		auto const dcp = boost::filesystem::path(wx_to_std(GetPath()));
-		if (!boost::filesystem::exists(dcp / "ASSETMAP") && !boost::filesystem::exists(dcp / "ASSETMAP.xml")) {
+		if (!dcp::filesystem::exists(dcp / "ASSETMAP") && !dcp::filesystem::exists(dcp / "ASSETMAP.xml")) {
 			error_dialog (nullptr, _("No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP folder."));
 			return {};
 		}

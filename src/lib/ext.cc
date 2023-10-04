@@ -28,6 +28,7 @@
 #include "ext.h"
 #include "nanomsg.h"
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 
 #ifdef DCPOMATIC_LINUX
 #include <linux/fs.h>
@@ -83,7 +84,7 @@ count (std::vector<boost::filesystem::path> dirs, uint64_t& total_bytes)
 	using namespace boost::filesystem;
 
 	for (auto dir: dirs) {
-		dir = dcp::fix_long_path(dir);
+		dir = dcp::filesystem::fix_long_path(dir);
 		for (auto path: directory_iterator(dir)) {
 			if (is_directory(path)) {
 				count({path}, total_bytes);
@@ -228,7 +229,7 @@ void
 copy (boost::filesystem::path from, boost::filesystem::path to, uint64_t& total_remaining, uint64_t total, vector<CopiedFile>& copied_files, Nanomsg* nanomsg)
 {
 	LOG_DISK ("Copy %1 -> %2", from.string(), to.generic_string());
-	from = dcp::fix_long_path (from);
+	from = dcp::filesystem::fix_long_path(from);
 
 	using namespace boost::filesystem;
 
