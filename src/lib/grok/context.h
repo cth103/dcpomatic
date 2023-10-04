@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include <boost/filesystem.hpp>
 
 #include "../config.h"
 #include "../dcp_video.h"
@@ -30,6 +29,7 @@
 #include "../writer.h"
 #include "messenger.h"
 #include <dcp/array_data.h>
+#include <boost/filesystem.hpp>
 
 
 static std::mutex launchMutex;
