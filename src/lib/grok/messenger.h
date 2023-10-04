@@ -119,23 +119,10 @@ struct MessengerLogger : public IMessengerLogger
 	std::string preamble_;
 };
 
-static IMessengerLogger* sLogger = nullptr;
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-function"
-#endif
-static void setMessengerLogger(IMessengerLogger* logger)
-{
- 	delete sLogger;
- 	sLogger = logger;
-}
-#if defined(__GNUC__) || defined(__clang__)
-#pragma GCC diagnostic pop
-#endif
-static IMessengerLogger* getMessengerLogger(void)
-{
-	return sLogger;
-}
+extern IMessengerLogger* sLogger;
+void setMessengerLogger(IMessengerLogger* logger);
+IMessengerLogger* getMessengerLogger(void);
+
 struct MessengerInit
 {
 	MessengerInit(const std::string &outBuf, const std::string &outSent,
@@ -543,7 +530,7 @@ struct Messenger
 		sendQueue.push(oss.str());
 	}
 
-	void launchGrok(
+	bool launchGrok(
 		boost::filesystem::path const& dir,
 		uint32_t width,
 		uint32_t stride,
@@ -562,7 +549,7 @@ struct Messenger
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
 		if (async_result_.valid())
-			return;
+			return true;
 		if(MessengerInit::firstLaunch(true))
 			init_.unlink();
 		startThreads();
@@ -570,11 +557,12 @@ struct Messenger
 		auto fullServer = server + ":" + std::to_string(port);
 		sprintf(_cmd,
 				"./grk_compress -batch_src %s,%d,%d,%d,%d,%d -out_fmt j2k -k 1 "
-				"-G %d -%s %d,%d -j %s -J %s",
+				"-G %d -%s %d,%d -j %s -J %s -v",
 				GRK_MSGR_BATCH_IMAGE.c_str(), width, stride, height, samplesPerPixel, depth,
 				device, is4K ? "cinema4K" : "cinema2K", fps, bandwidth,
 				license.c_str(), fullServer.c_str());
-		launch(_cmd, dir);
+
+		return launch(_cmd, dir);
 	}
 	void initClient(size_t uncompressedFrameSize, size_t compressedFrameSize, size_t numFrames)
 	{
@@ -597,19 +585,27 @@ struct Messenger
 
 	bool waitForClientInit()
 	{
-		if (_initialized) {
+		if(_initialized)
 			return true;
-		}
+		else if (_shutdown)
+			return false;
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
-
-		if (_initialized) {
+		if(_initialized)
 			return true;
-		} else if (_shutdown) {
+		else if (_shutdown)
 			return false;
-		}
 
-		clientInitializedCondition_.wait(lk, [this] { return _initialized || _shutdown; });
+        while (true) {
+        	if (clientInitializedCondition_.wait_for(lk, std::chrono::seconds(1), [this]{ return _initialized || _shutdown; })) {
+                break;
+            }
+            auto status = async_result_.wait_for(std::chrono::milliseconds(100));
+            if (status == std::future_status::ready) {
+            	getMessengerLogger()->error("Grok exited unexpectedly during initialization");
+                return false;
+            }
+        }
 
 		return _initialized && !_shutdown;
 	}
@@ -657,7 +653,7 @@ struct Messenger
   protected:
 	std::condition_variable clientInitializedCondition_;
   private:
-	void launch(std::string const& cmd, boost::filesystem::path const& dir)
+	bool launch(std::string const& cmd, boost::filesystem::path const& dir)
 	{
 		// Change the working directory
 		if(!dir.empty())
@@ -666,12 +662,19 @@ struct Messenger
 			boost::filesystem::current_path(dir, ec);
 			if (ec) {
 				getMessengerLogger()->error("Error: failed to change the working directory");
-				return;
+				return false;
 			}
 		}
 		// Execute the command using std::async and std::system
 		cmd_ = cmd;
+		getMessengerLogger()->info(cmd.c_str());
 		async_result_ = std::async(std::launch::async, [this]() { return std::system(cmd_.c_str()); });
+		bool success = async_result_.valid();
+		if (!success)
+			getMessengerLogger()->error("Grok launch failed");
+
+		return success;
+
 	}
 	std::thread outbound;
 	Synch* outboundSynch_;
