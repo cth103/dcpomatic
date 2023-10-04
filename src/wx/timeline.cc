@@ -175,6 +175,7 @@ void
 Timeline::paint_main ()
 {
 	wxPaintDC dc (_main_canvas);
+	dc.Clear();
 
 	auto film = _film.lock();
 	if (film->content().empty()) {
