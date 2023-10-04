@@ -21,7 +21,6 @@
 #pragma once
 
 #include <boost/filesystem.hpp>
-namespace fs = boost::filesystem;
 
 #include "../config.h"
 #include "../dcp_video.h"
@@ -170,6 +169,8 @@ public:
 		shutdown();
 	}
 	bool launch(DCPVideo dcpv, int device){
+		namespace fs = boost::filesystem;
+
 		if (!messenger_ )
 			return false;
 		if (launched_)
