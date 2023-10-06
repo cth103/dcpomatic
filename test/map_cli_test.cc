@@ -433,6 +433,7 @@ BOOST_AUTO_TEST_CASE(map_with_given_config)
 	};
 
 	boost::filesystem::remove_all(out);
+	boost::filesystem::remove_all("test/data/map_with_given_config/2.18");
 
 	Config::instance()->drop();
 	vector<string> output_messages;
