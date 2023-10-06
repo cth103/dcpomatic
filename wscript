@@ -635,6 +635,8 @@ def build(bld):
             bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/context.h'))
             bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/messenger.h'))
 
+        bld.add_manual_dependency(bld.path.find_node('src/wx/full_config_dialog.cc'), bld.path.find_node('src/wx/grok/gpu_config_panel.h'))
+
     bld.recurse('src')
     bld.recurse('graphics')
 
