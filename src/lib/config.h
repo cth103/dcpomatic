@@ -619,27 +619,27 @@ public:
 		return _allow_smpte_bv20;
 	}
 
-	boost::filesystem::path gpu_binary_location() const {
-		return _gpu_binary_location;
-	}
+#ifdef DCPOMATIC_GROK
+	class Grok
+	{
+	public:
+		Grok() = default;
+		Grok(cxml::ConstNodePtr node);
 
-	bool enable_gpu () const {
-		return _enable_gpu;
-	}
+		void as_xml(xmlpp::Element* node) const;
 
-	int selected_gpu () const {
-		return _selected_gpu;
-	}
-	std::string gpu_license_server () const {
-		return _gpu_license_server;
-	}
+		bool enable = false;
+		boost::filesystem::path binary_location;
+		int selected = 0;
+		std::string licence_server;
+		int licence_port = 5000;
+		std::string licence;
+	};
 
-	int gpu_license_port () const {
-		return _gpu_license_port;
+	boost::optional<Grok> grok() const {
+		return _grok;
 	}
-	std::string gpu_license () const {
-		return _gpu_license;
-	}
+#endif
 
 	int isdcf_name_part_length() const {
 		return _isdcf_name_part_length;
@@ -1222,29 +1222,9 @@ public:
 		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
 	}
 
-	void set_gpu_binary_location(boost::filesystem::path location) {
-		maybe_set (_gpu_binary_location, location);
-	}
-
-	void set_enable_gpu (bool enable) {
-		maybe_set (_enable_gpu, enable);
-	}
-
-	void set_selected_gpu (int selected) {
-		maybe_set (_selected_gpu, selected);
-	}
-
-	void set_gpu_license_server (std::string s) {
-		maybe_set (_gpu_license_server, s);
-	}
-
-	void set_gpu_license_port (int p) {
-		maybe_set (_gpu_license_port, p);
-	}
-
-	void set_gpu_license (std::string p) {
-		maybe_set (_gpu_license, p);
-	}
+#ifdef DCPOMATIC_GROK
+	void set_grok(Grok const& grok);
+#endif
 
 	void set_isdcf_name_part_length(int length) {
 		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
@@ -1492,13 +1472,9 @@ private:
 	bool _allow_smpte_bv20;
 	int _isdcf_name_part_length;
 
-	/* GPU */
-	bool _enable_gpu;
-	boost::filesystem::path _gpu_binary_location;
-	int _selected_gpu;
-	std::string _gpu_license_server;
-	int _gpu_license_port;
-	std::string _gpu_license;
+#ifdef DCPOMATIC_GROK
+	boost::optional<Grok> _grok;
+#endif
 
 	ExportConfig _export;
 
