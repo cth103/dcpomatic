@@ -59,9 +59,9 @@ public:
 
 	void update()
 	{
-		auto cfg = Config::instance();
-		auto lister_binary = cfg->gpu_binary_location() / "gpu_lister";
-		auto lister_file = cfg->gpu_binary_location () / "gpus.txt";
+		auto grok = Config::instance()->grok().get_value_or({});
+		auto lister_binary = grok.binary_location / "gpu_lister";
+		auto lister_file = grok.binary_location / "gpus.txt";
 		if (boost::filesystem::exists(lister_binary)) {
 			auto gpu_names = get_gpu_names(lister_binary, lister_file);
 
@@ -84,7 +84,9 @@ private:
 	{
 		auto selection = _combo_box->GetSelection();
 		if (selection != wxNOT_FOUND) {
-			Config::instance()->set_selected_gpu(selection);
+			auto grok = Config::instance()->grok().get_value_or({});
+			grok.selected = selection;
+			Config::instance()->set_grok(grok);
 		}
 	}
 
@@ -141,68 +143,79 @@ private:
 		table->Add(_port);
 
 		add_label_to_sizer(table, _panel, _("License"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_license = new PasswordEntry(_panel);
-		table->Add(_license->get_panel(), 1, wxEXPAND | wxALL);
+		_licence = new PasswordEntry(_panel);
+		table->Add(_licence->get_panel(), 1, wxEXPAND | wxALL);
 
 		_enable_gpu->bind(&GPUPage::enable_gpu_changed, this);
 		_binary_location->Bind(wxEVT_DIRPICKER_CHANGED, boost::bind (&GPUPage::binary_location_changed, this));
 		_server->Bind(wxEVT_TEXT, boost::bind(&GPUPage::server_changed, this));
 		_port->Bind(wxEVT_SPINCTRL, boost::bind(&GPUPage::port_changed, this));
-		_license->Changed.connect(boost::bind(&GPUPage::license_changed, this));
+		_licence->Changed.connect(boost::bind(&GPUPage::licence_changed, this));
 
 		setup_sensitivity();
 	}
 
 	void setup_sensitivity()
 	{
-		auto config = Config::instance();
+		auto grok = Config::instance()->grok().get_value_or({});
 
-		_binary_location->Enable(config->enable_gpu());
-		_gpu_list_control->Enable(config->enable_gpu());
-		_server->Enable(config->enable_gpu());
-		_port->Enable(config->enable_gpu());
-		_license->get_panel()->Enable(config->enable_gpu());
+		_binary_location->Enable(grok.enable);
+		_gpu_list_control->Enable(grok.enable);
+		_server->Enable(grok.enable);
+		_port->Enable(grok.enable);
+		_licence->get_panel()->Enable(grok.enable);
 	}
 
 	void config_changed() override
 	{
-		auto config = Config::instance();
+		auto grok = Config::instance()->grok().get_value_or({});
 
-		checked_set(_enable_gpu, config->enable_gpu());
-		_binary_location->SetPath(std_to_wx(config->gpu_binary_location().string()));
+		checked_set(_enable_gpu, grok.enable);
+		_binary_location->SetPath(std_to_wx(grok.binary_location.string()));
 		_gpu_list_control->update();
-		_gpu_list_control->set_selection(config->selected_gpu());
-		checked_set(_server, config->gpu_license_server());
-		checked_set(_port, config->gpu_license_port());
-		checked_set(_license, config->gpu_license());
+		_gpu_list_control->set_selection(grok.selected);
+		checked_set(_server, grok.licence_server);
+		checked_set(_port, grok.licence_port);
+		checked_set(_licence, grok.licence);
 	}
 
 	void enable_gpu_changed()
 	{
-		auto config = Config::instance();
-		config->set_enable_gpu(_enable_gpu->GetValue());
+		auto grok = Config::instance()->grok().get_value_or({});
+		grok.enable = _enable_gpu->GetValue();
+		Config::instance()->set_grok(grok);
+
 		setup_sensitivity();
 	}
 
 	void binary_location_changed()
 	{
-		Config::instance()->set_gpu_binary_location(wx_to_std(_binary_location->GetPath()));
+		auto grok = Config::instance()->grok().get_value_or({});
+		grok.binary_location = wx_to_std(_binary_location->GetPath());
+		Config::instance()->set_grok(grok);
+
 		_gpu_list_control->update();
 	}
 
 	void server_changed()
 	{
-		Config::instance()->set_gpu_license_server(wx_to_std(_server->GetValue()));
+		auto grok = Config::instance()->grok().get_value_or({});
+		grok.licence_server = wx_to_std(_server->GetValue());
+		Config::instance()->set_grok(grok);
 	}
 
 	void port_changed()
 	{
-		Config::instance()->set_gpu_license_port(_port->GetValue());
+		auto grok = Config::instance()->grok().get_value_or({});
+		grok.licence_port = _port->GetValue();
+		Config::instance()->set_grok(grok);
 	}
 
-	void license_changed()
+	void licence_changed()
 	{
-		Config::instance()->set_gpu_license(_license->get());
+		auto grok = Config::instance()->grok().get_value_or({});
+		grok.licence = wx_to_std(_licence->get());
+		Config::instance()->set_grok(grok);
 	}
 
 	CheckBox* _enable_gpu = nullptr;
@@ -210,5 +223,5 @@ private:
 	GpuList* _gpu_list_control = nullptr;
 	wxTextCtrl* _server = nullptr;
 	wxSpinCtrl* _port = nullptr;
-	PasswordEntry* _license = nullptr;
+	PasswordEntry* _licence = nullptr;
 };

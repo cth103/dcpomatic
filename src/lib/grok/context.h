@@ -112,7 +112,8 @@ public:
 	explicit GrokContext(DcpomaticContext* dcpomatic_context)
 		: _dcpomatic_context(dcpomatic_context)
 	{
-		if (!Config::instance()->enable_gpu()) {
+		auto grok = Config::instance()->grok().get_value_or({});
+		if (!grok.enable) {
 			return;
 		}
 
@@ -214,7 +215,7 @@ public:
 
 			auto s = dcpv.get_size();
 			_dcpomatic_context->set_dimensions(s.width, s.height);
-			auto config = Config::instance();
+			auto grok = Config::instance()->grok().get_value_or({});
 			if (!_messenger->launchGrok(
 					_dcpomatic_context->location,
 					_dcpomatic_context->width,
@@ -226,9 +227,9 @@ public:
 					_dcpomatic_context->film->resolution() == Resolution::FOUR_K,
 					_dcpomatic_context->film->video_frame_rate(),
 					_dcpomatic_context->film->j2k_bandwidth(),
-					config->gpu_license_server(),
-					config->gpu_license_port(),
-					config->gpu_license())) {
+					grok.licence_server,
+					grok.licence_port,
+					grok.licence)) {
 				_launch_failed = true;
 				return false;
 			}

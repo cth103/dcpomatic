@@ -213,12 +213,9 @@ Config::set_defaults ()
 	set_notification_email_to_default ();
 	set_cover_sheet_to_default ();
 
-	_gpu_binary_location = "";
-	_enable_gpu = false;
-	_selected_gpu = 0;
-	_gpu_license_server = "";
-	_gpu_license_port = 5000;
-	_gpu_license = "";
+#ifdef DCPOMATIC_GROK
+	_grok = boost::none;
+#endif
 
 	_main_divider_sash_position = {};
 	_main_content_divider_sash_position = {};
@@ -641,12 +638,11 @@ try
 	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
 	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
 
-	_enable_gpu = f.optional_bool_child("EnableGPU").get_value_or(false);
-	_gpu_binary_location = f.string_child("GPUBinaryLocation");
-	_selected_gpu = f.number_child<int>("SelectedGPU");
-	_gpu_license_server = f.string_child ("GPULicenseServer");
-	_gpu_license_port = f.number_child<int> ("GPULicensePort");
-	_gpu_license = f.string_child("GPULicense");
+#ifdef DCPOMATIC_GROK
+	if (auto grok = f.optional_node_child("Grok")) {
+		_grok = Grok(grok);
+	}
+#endif
 
 	_export.read(f.optional_node_child("Export"));
 }
@@ -1134,12 +1130,11 @@ Config::write_config () const
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
 	root->add_child("ISDCFNamePartLength")->add_child_text(raw_convert<string>(_isdcf_name_part_length));
 
-	root->add_child("GPUBinaryLocation")->add_child_text (_gpu_binary_location.string());
-	root->add_child("EnableGPU")->add_child_text ((_enable_gpu ? "1" : "0"));
-	root->add_child("SelectedGPU")->add_child_text (raw_convert<string> (_selected_gpu));
-	root->add_child("GPULicenseServer")->add_child_text (_gpu_license_server);
-	root->add_child("GPULicensePort")->add_child_text (raw_convert<string> (_gpu_license_port));
-	root->add_child("GPULicense")->add_child_text (_gpu_license);
+#ifdef DCPOMATIC_GROK
+	if (_grok) {
+		_grok->as_xml(root->add_child("Grok"));
+	}
+#endif
 
 	_export.write(root->add_child("Export"));
 
@@ -1661,3 +1656,38 @@ Config::initial_path(string id) const
 	return iter->second;
 }
 
+
+#ifdef DCPOMATIC_GROK
+
+Config::Grok::Grok(cxml::ConstNodePtr node)
+	: enable(node->bool_child("Enable"))
+	, binary_location(node->string_child("BinaryLocation"))
+	, selected(node->number_child<int>("Selected"))
+	, licence_server(node->string_child("LicenceServer"))
+	, licence_port(node->number_child<int>("LicencePort"))
+	, licence(node->string_child("Licence"))
+{
+
+}
+
+
+void
+Config::Grok::as_xml(xmlpp::Element* node) const
+{
+	node->add_child("BinaryLocation")->add_child_text(binary_location.string());
+	node->add_child("Enable")->add_child_text((enable ? "1" : "0"));
+	node->add_child("Selected")->add_child_text(raw_convert<string>(selected));
+	node->add_child("LicenceServer")->add_child_text(licence_server);
+	node->add_child("LicencePort")->add_child_text(raw_convert<string>(licence_port));
+	node->add_child("Licence")->add_child_text(licence);
+}
+
+
+void
+Config::set_grok(Grok const& grok)
+{
+	_grok = grok;
+	changed(OTHER);
+}
+
+#endif
