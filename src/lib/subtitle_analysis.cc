@@ -22,6 +22,7 @@
 #include "subtitle_analysis.h"
 #include "exceptions.h"
 #include <libcxml/cxml.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -42,7 +43,7 @@ SubtitleAnalysis::SubtitleAnalysis (boost::filesystem::path path)
 {
 	cxml::Document f ("SubtitleAnalysis");
 
-	f.read_file (path);
+	f.read_file(dcp::filesystem::fix_long_path(path));
 
 	if (f.optional_number_child<int>("Version").get_value_or(1) < _current_state_version) {
 		/* Too old.  Throw an exception so that this analysis is re-run. */

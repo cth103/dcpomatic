@@ -55,6 +55,7 @@
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 #include <dcp/locale_convert.h>
 #include <dcp/picture_asset.h>
 #include <dcp/raw_convert.h>
@@ -448,7 +449,7 @@ LIBDCP_ENABLE_WARNINGS
 
 #ifdef DCPOMATIC_WINDOWS
 	putenv ("PANGOCAIRO_BACKEND=fontconfig");
-	if (boost::filesystem::exists(resources_path() / "fonts.conf")) {
+	if (dcp::filesystem::exists(resources_path() / "fonts.conf")) {
 		/* The actual application after installation */
 		putenv(String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
 	} else {
@@ -562,7 +563,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
 		}
 
-		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
+		auto this_time = min(to_do, dcp::filesystem::file_size(files[i]));
 		f.checked_read(p, this_time);
 		p += this_time;
  		to_do -= this_time;
@@ -581,7 +582,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
 		}
 
-		boost::uintmax_t this_time = min (to_do, boost::filesystem::file_size (files[i]));
+		auto this_time = min(to_do, dcp::filesystem::file_size(files[i]));
 		f.seek(-this_time, SEEK_END);
 		f.checked_read(p, this_time);
 		p += this_time;
@@ -598,7 +599,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 string
 simple_digest (vector<boost::filesystem::path> paths)
 {
-	return digest_head_tail(paths, 1000000) + raw_convert<string>(boost::filesystem::file_size(paths.front()));
+	return digest_head_tail(paths, 1000000) + raw_convert<string>(dcp::filesystem::file_size(paths.front()));
 }
 
 
@@ -965,7 +966,7 @@ copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::fun
 
 	std::vector<uint8_t> buffer(chunk);
 
-	boost::uintmax_t const total = boost::filesystem::file_size (from);
+	auto const total = dcp::filesystem::file_size(from);
 	boost::uintmax_t remaining = total;
 
 	while (remaining) {
@@ -1037,7 +1038,7 @@ default_font_file ()
 	boost::filesystem::path liberation_normal;
 	try {
 		liberation_normal = resources_path() / "LiberationSans-Regular.ttf";
-		if (!boost::filesystem::exists (liberation_normal)) {
+		if (!dcp::filesystem::exists(liberation_normal)) {
 			/* Hack for unit tests */
 			liberation_normal = resources_path() / "fonts" / "LiberationSans-Regular.ttf";
 		}
@@ -1045,10 +1046,10 @@ default_font_file ()
 
 	}
 
-	if (!boost::filesystem::exists(liberation_normal)) {
+	if (!dcp::filesystem::exists(liberation_normal)) {
 		liberation_normal = "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf";
 	}
-	if (!boost::filesystem::exists(liberation_normal)) {
+	if (!dcp::filesystem::exists(liberation_normal)) {
 		liberation_normal = "/usr/share/fonts/liberation-sans/LiberationSans-Regular.ttf";
 	}
 
@@ -1084,7 +1085,7 @@ error_details(boost::system::error_code ec)
 bool
 contains_assetmap(boost::filesystem::path dir)
 {
-	return boost::filesystem::is_regular_file(dir / "ASSETMAP") || boost::filesystem::is_regular_file(dir / "ASSETMAP.xml");
+	return dcp::filesystem::is_regular_file(dir / "ASSETMAP") || dcp::filesystem::is_regular_file(dir / "ASSETMAP.xml");
 }
 
 

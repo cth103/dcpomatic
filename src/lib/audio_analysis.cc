@@ -66,7 +66,7 @@ AudioAnalysis::AudioAnalysis (int channels)
 AudioAnalysis::AudioAnalysis (boost::filesystem::path filename)
 {
 	cxml::Document f ("AudioAnalysis");
-	f.read_file (filename);
+	f.read_file(dcp::filesystem::fix_long_path(filename));
 
 	if (f.optional_number_child<int>("Version").get_value_or(1) < _current_state_version) {
 		/* Too old.  Throw an exception so that this analysis is re-run. */

@@ -19,23 +19,24 @@
 */
 
 
-#include "zipper.h"
-#include "exceptions.h"
 #include "dcpomatic_assert.h"
+#include "exceptions.h"
+#include "zipper.h"
+#include <dcp/filesystem.h>
 #include <zip.h>
 #include <boost/filesystem.hpp>
 #include <stdexcept>
 
 
-using std::string;
 using std::runtime_error;
 using std::shared_ptr;
+using std::string;
 
 
 Zipper::Zipper (boost::filesystem::path file)
 {
 	int error;
-	_zip = zip_open (file.string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
+	_zip = zip_open(dcp::filesystem::fix_long_path(file).string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
 	if (!_zip) {
 		if (error == ZIP_ER_EXISTS) {
 			throw FileError ("ZIP file already exists", file);

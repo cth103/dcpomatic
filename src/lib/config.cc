@@ -291,7 +291,7 @@ Config::read_config()
 try
 {
 	cxml::Document f ("Config");
-	f.read_file (config_read_file());
+	f.read_file(dcp::filesystem::fix_long_path(config_read_file()));
 
 	auto version = f.optional_number_child<int> ("Version");
 	if (version && *version < _current_version) {
@@ -654,10 +654,10 @@ catch (...) {
 void
 Config::read_cinemas()
 {
-	if (boost::filesystem::exists (_cinemas_file)) {
+	if (dcp::filesystem::exists(_cinemas_file)) {
 		try {
 			cxml::Document f("Cinemas");
-			f.read_file(_cinemas_file);
+			f.read_file(dcp::filesystem::fix_long_path(_cinemas_file));
 			read_cinemas(f);
 		} catch (...) {
 			backup();
@@ -671,10 +671,10 @@ Config::read_cinemas()
 void
 Config::read_dkdm_recipients()
 {
-	if (boost::filesystem::exists (_dkdm_recipients_file)) {
+	if (dcp::filesystem::exists(_dkdm_recipients_file)) {
 		try {
 			cxml::Document f("DKDMRecipients");
-			f.read_file(_dkdm_recipients_file);
+			f.read_file(dcp::filesystem::fix_long_path(_dkdm_recipients_file));
 			read_dkdm_recipients(f);
 		} catch (...) {
 			backup();
@@ -1133,8 +1133,8 @@ Config::write_config () const
 		}
 		f.checked_write(s.c_str(), s.bytes());
 		f.close();
-		boost::filesystem::remove (target);
-		boost::filesystem::rename (tmp, target);
+		dcp::filesystem::remove(target);
+		dcp::filesystem::rename(tmp, target);
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
@@ -1157,8 +1157,8 @@ write_file (string root_node, string node, string version, list<shared_ptr<T>> t
 
 	try {
 		doc.write_to_file_formatted (file.string() + ".tmp");
-		boost::filesystem::remove (file);
-		boost::filesystem::rename (file.string() + ".tmp", file);
+		dcp::filesystem::remove(file);
+		dcp::filesystem::rename(file.string() + ".tmp", file);
 	} catch (xmlpp::exception& e) {
 		string s = e.what ();
 		trim (s);
@@ -1201,7 +1201,7 @@ Config::directory_or (optional<boost::filesystem::path> dir, boost::filesystem::
 	}
 
 	boost::system::error_code ec;
-	auto const e = boost::filesystem::exists (*dir, ec);
+	auto const e = dcp::filesystem::exists(*dir, ec);
 	if (ec || !e) {
 		return a;
 	}
@@ -1324,7 +1324,7 @@ Config::clean_history_internal (vector<boost::filesystem::path>& h)
 	h.clear ();
 	for (auto i: old) {
 		try {
-			if (boost::filesystem::is_directory(i)) {
+			if (dcp::filesystem::is_directory(i)) {
 				h.push_back (i);
 			}
 		} catch (...) {
@@ -1337,7 +1337,7 @@ Config::clean_history_internal (vector<boost::filesystem::path>& h)
 bool
 Config::have_existing (string file)
 {
-	return boost::filesystem::exists (read_path(file));
+	return dcp::filesystem::exists(read_path(file));
 }
 
 
@@ -1364,10 +1364,10 @@ Config::set_cinemas_file (boost::filesystem::path file)
 
 	_cinemas_file = file;
 
-	if (boost::filesystem::exists (_cinemas_file)) {
+	if (dcp::filesystem::exists(_cinemas_file)) {
 		/* Existing file; read it in */
 		cxml::Document f ("Cinemas");
-		f.read_file (_cinemas_file);
+		f.read_file(dcp::filesystem::fix_long_path(_cinemas_file));
 		read_cinemas (f);
 	}
 
@@ -1396,12 +1396,12 @@ Config::save_template (shared_ptr<const Film> film, string name) const
 list<string>
 Config::templates () const
 {
-	if (!boost::filesystem::exists(read_path("templates"))) {
+	if (!dcp::filesystem::exists(read_path("templates"))) {
 		return {};
 	}
 
 	list<string> n;
-	for (auto const& i: boost::filesystem::directory_iterator(read_path("templates"))) {
+	for (auto const& i: dcp::filesystem::directory_iterator(read_path("templates"))) {
 		n.push_back (i.path().filename().string());
 	}
 	return n;
@@ -1410,7 +1410,7 @@ Config::templates () const
 bool
 Config::existing_template (string name) const
 {
-	return boost::filesystem::exists (template_read_path(name));
+	return dcp::filesystem::exists(template_read_path(name));
 }
 
 
@@ -1431,13 +1431,13 @@ Config::template_write_path (string name) const
 void
 Config::rename_template (string old_name, string new_name) const
 {
-	boost::filesystem::rename (template_read_path(old_name), template_write_path(new_name));
+	dcp::filesystem::rename(template_read_path(old_name), template_write_path(new_name));
 }
 
 void
 Config::delete_template (string name) const
 {
-	boost::filesystem::remove (template_write_path(name));
+	dcp::filesystem::remove(template_write_path(name));
 }
 
 /** @return Path to the config.xml containing the actual settings, following a link if required */
@@ -1445,14 +1445,14 @@ boost::filesystem::path
 config_file (boost::filesystem::path main)
 {
 	cxml::Document f ("Config");
-	if (!boost::filesystem::exists (main)) {
+	if (!dcp::filesystem::exists(main)) {
 		/* It doesn't exist, so there can't be any links; just return it */
 		return main;
 	}
 
 	/* See if there's a link */
 	try {
-		f.read_file (main);
+		f.read_file(dcp::filesystem::fix_long_path(main));
 		auto link = f.optional_string_child("Link");
 		if (link) {
 			return *link;
@@ -1506,7 +1506,7 @@ void
 Config::copy_and_link (boost::filesystem::path new_file) const
 {
 	write ();
-	boost::filesystem::copy_file (config_read_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
+	dcp::filesystem::copy_file(config_read_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
 	link (new_file);
 }
 
@@ -1611,10 +1611,10 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 
 	auto config = Config::instance();
 	zipper.add ("config.xml", dcp::file_to_string(config->config_read_file()));
-	if (boost::filesystem::exists(config->cinemas_file())) {
+	if (dcp::filesystem::exists(config->cinemas_file())) {
 		zipper.add ("cinemas.xml", dcp::file_to_string(config->cinemas_file()));
 	}
-	if (boost::filesystem::exists(config->dkdm_recipients_file())) {
+	if (dcp::filesystem::exists(config->dkdm_recipients_file())) {
 		zipper.add ("dkdm_recipients.xml", dcp::file_to_string(config->dkdm_recipients_file()));
 	}
 

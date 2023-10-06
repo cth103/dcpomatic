@@ -29,6 +29,7 @@
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 #include "file_group.h"
+#include <dcp/filesystem.h>
 #include <sndfile.h>
 #include <cstdio>
 
@@ -88,7 +89,7 @@ FileGroup::ensure_open_path (size_t p) const
 	if (!_current_file) {
 		throw OpenFileError (_paths[_current_path], errno, OpenFileError::READ);
 	}
-	_current_size = boost::filesystem::file_size (_paths[_current_path]);
+	_current_size = dcp::filesystem::file_size(_paths[_current_path]);
 }
 
 
@@ -111,7 +112,7 @@ FileGroup::seek (int64_t pos, int whence) const
 	size_t i = 0;
 	int64_t sub_pos = _position;
 	while (i < _paths.size()) {
-		boost::uintmax_t len = boost::filesystem::file_size (_paths[i]);
+		boost::uintmax_t len = dcp::filesystem::file_size(_paths[i]);
 		if (sub_pos < int64_t(len)) {
 			break;
 		}
@@ -188,7 +189,7 @@ FileGroup::length () const
 {
 	int64_t len = 0;
 	for (size_t i = 0; i < _paths.size(); ++i) {
-		len += boost::filesystem::file_size (_paths[i]);
+		len += dcp::filesystem::file_size(_paths[i]);
 	}
 
 	return len;

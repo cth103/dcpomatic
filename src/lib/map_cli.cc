@@ -25,6 +25,7 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/interop_subtitle_asset.h>
+#include <dcp/filesystem.h>
 #include <dcp/font_asset.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/reel.h>
@@ -150,7 +151,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		return string{"Missing -o or --output"};
 	}
 
-	if (boost::filesystem::exists(*output_dir)) {
+	if (dcp::filesystem::exists(*output_dir)) {
 		return String::compose("Output directory %1 already exists.", *output_dir);
 	}
 
@@ -159,7 +160,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 	}
 
 	boost::system::error_code ec;
-	boost::filesystem::create_directory(*output_dir, ec);
+	dcp::filesystem::create_directory(*output_dir, ec);
 	if (ec) {
 		return String::compose("Could not create output directory %1: %2", *output_dir, ec.message());
 	}
@@ -221,27 +222,27 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 			}
 
 			if (rename) {
-				output_path /= String::compose("%1%2", (*iter)->id(), boost::filesystem::extension((*iter)->file().get()));
+				output_path /= String::compose("%1%2", (*iter)->id(), dcp::filesystem::extension((*iter)->file().get()));
 				(*iter)->rename_file(output_path);
 			} else {
 				output_path /= (*iter)->file()->filename();
 			}
 
-			boost::filesystem::create_directories(output_path.parent_path());
+			dcp::filesystem::create_directories(output_path.parent_path());
 
 			boost::system::error_code ec;
 			if (hard_link) {
-				boost::filesystem::create_hard_link(input_path, output_path, ec);
+				dcp::filesystem::create_hard_link(input_path, output_path, ec);
 				if (ec) {
 					throw CopyError(String::compose("Could not hard-link asset %1: %2", input_path.string(), ec.message()));
 				}
 			} else if (soft_link) {
-				boost::filesystem::create_symlink(input_path, output_path, ec);
+				dcp::filesystem::create_symlink(input_path, output_path, ec);
 				if (ec) {
 					throw CopyError(String::compose("Could not soft-link asset %1: %2", input_path.string(), ec.message()));
 				}
 			} else {
-				boost::filesystem::copy_file(input_path, output_path, ec);
+				dcp::filesystem::copy_file(input_path, output_path, ec);
 				if (ec) {
 					throw CopyError(String::compose("Could not copy asset %1: %2", input_path.string(), ec.message()));
 				}
@@ -250,7 +251,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 			already_copied.push_back(asset_id);
 		} else {
 			boost::system::error_code ec;
-			boost::filesystem::remove_all(*output_dir, ec);
+			dcp::filesystem::remove_all(*output_dir, ec);
 			throw CopyError(String::compose("Could not find required asset %1", asset_id));
 		}
 	};

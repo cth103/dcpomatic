@@ -32,6 +32,7 @@
 #include "lib/film.h"
 #include "lib/spl.h"
 #include "lib/spl_entry.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/imaglist.h>
@@ -222,7 +223,7 @@ private:
 
 		_list->DeleteAllItems ();
 		_playlists.clear ();
-		for (auto i: boost::filesystem::directory_iterator(*path)) {
+		for (auto i: dcp::filesystem::directory_iterator(*path)) {
 			auto spl = make_shared<SignalSPL>();
 			try {
 				spl->read (i, _content_store);
@@ -271,7 +272,7 @@ private:
 			return;
 		}
 
-		boost::filesystem::remove(*dir / (_playlists[*index]->id() + ".xml"));
+		dcp::filesystem::remove(*dir / (_playlists[*index]->id() + ".xml"));
 		_list->DeleteItem(*index);
 		_playlists.erase(_playlists.begin() + *index);
 

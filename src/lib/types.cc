@@ -23,6 +23,7 @@
 #include "dcpomatic_assert.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel_asset.h>
 #include <dcp/reel_file_asset.h>
@@ -71,7 +72,7 @@ CPLSummary::CPLSummary (boost::filesystem::path p)
 	}
 
 	boost::system::error_code ec;
-	auto last_write = boost::filesystem::last_write_time (p, ec);
+	auto last_write = dcp::filesystem::last_write_time(p, ec);
 	last_write_time = ec ? 0 : last_write;
 }
 

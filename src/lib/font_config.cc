@@ -24,6 +24,7 @@
 #include "font.h"
 #include "font_config.h"
 #include "util.h"
+#include <dcp/filesystem.h>
 #include <fontconfig/fontconfig.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
@@ -48,7 +49,7 @@ FontConfig::~FontConfig()
 {
 	for (auto file: _temp_files) {
 		boost::system::error_code ec;
-		boost::filesystem::remove(file, ec);
+		dcp::filesystem::remove(file, ec);
 	}
 }
 

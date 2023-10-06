@@ -19,9 +19,10 @@
 */
 
 
-#include "scoped_temporary.h"
-#include "exceptions.h"
 #include "cross.h"
+#include "exceptions.h"
+#include "scoped_temporary.h"
+#include <dcp/filesystem.h>
 
 
 /** Construct a ScopedTemporary.  A temporary filename is decided but the file is not opened
@@ -40,7 +41,7 @@ ScopedTemporary::~ScopedTemporary ()
 		_file->close();
 	}
 	boost::system::error_code ec;
-	boost::filesystem::remove (_path, ec);
+	dcp::filesystem::remove(_path, ec);
 }
 
 

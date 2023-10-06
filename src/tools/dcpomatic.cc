@@ -91,6 +91,7 @@
 #include "lib/version.h"
 #include "lib/video_content.h"
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -475,7 +476,7 @@ public:
 	}
 	catch (FileNotFoundError& e) {
 		auto const dir = e.file().parent_path();
-		if (boost::filesystem::exists(dir / "ASSETMAP") || boost::filesystem::exists(dir / "ASSETMAP.xml")) {
+		if (dcp::filesystem::exists(dir / "ASSETMAP") || dcp::filesystem::exists(dir / "ASSETMAP.xml")) {
 			error_dialog (
 				this, _("Could not open this folder as a DCP-o-matic project."),
 				_("It looks like you are trying to open a DCP.  File -> Open is for loading DCP-o-matic projects, not DCPs.  To import a DCP, create a new project with File -> New and then click the \"Add DCP...\" button.")
@@ -803,11 +804,11 @@ private:
 
 		/* Remove any existing DCP if the user agrees */
 		auto const dcp_dir = _film->dir (_film->dcp_name(), false);
-		if (boost::filesystem::exists(dcp_dir)) {
+		if (dcp::filesystem::exists(dcp_dir)) {
 			if (!confirm_dialog (this, wxString::Format (_("Do you want to overwrite the existing DCP %s?"), std_to_wx(dcp_dir.string()).data()))) {
 				return;
 			}
-			boost::filesystem::remove_all (dcp_dir);
+			dcp::filesystem::remove_all(dcp_dir);
 		}
 
 		try {
@@ -981,7 +982,7 @@ private:
 			return;
 		}
 
-		if (boost::filesystem::exists(dialog.path())) {
+		if (dcp::filesystem::exists(dialog.path())) {
 			bool ok = confirm_dialog(
 					this,
 					wxString::Format(_("File %s already exists.  Do you want to overwrite it?"), std_to_wx(dialog.path().string()).data())
@@ -1676,7 +1677,7 @@ private:
 			signal_manager = new wxSignalManager (this);
 			Bind (wxEVT_IDLE, boost::bind (&App::idle, this, _1));
 
-			if (!_film_to_load.empty() && boost::filesystem::is_directory(_film_to_load)) {
+			if (!_film_to_load.empty() && dcp::filesystem::is_directory(_film_to_load)) {
 				try {
 					_frame->load_film (_film_to_load);
 				} catch (exception& e) {

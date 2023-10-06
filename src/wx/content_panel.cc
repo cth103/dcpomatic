@@ -51,6 +51,7 @@
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/display.h>
@@ -152,9 +153,9 @@ public:
 		vector<boost::filesystem::path> folders;
 		for (size_t i = 0; i < filenames.GetCount(); ++i) {
 			auto path = boost::filesystem::path(wx_to_std(filenames[i]));
-			if (boost::filesystem::is_regular_file(path)) {
+			if (dcp::filesystem::is_regular_file(path)) {
 				files.push_back(path);
-			} else if (boost::filesystem::is_directory(path)) {
+			} else if (dcp::filesystem::is_directory(path)) {
 				if (contains_assetmap(path)) {
 					dcps.push_back(path);
 				} else {

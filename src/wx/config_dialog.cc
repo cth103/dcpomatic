@@ -27,6 +27,7 @@
 #include "static_text.h"
 #include "lib/constants.h"
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 
 
@@ -576,7 +577,7 @@ CertificateChainEditor::import_private_key ()
 	if (d->ShowModal() == wxID_OK) {
 		try {
 			boost::filesystem::path p (wx_to_std (d->GetPath ()));
-			if (boost::filesystem::file_size (p) > 8192) {
+			if (dcp::filesystem::file_size(p) > 8192) {
 				error_dialog (
 					this,
 					wxString::Format (_("Could not read key file; file is too long (%s)"), std_to_wx (p.string ()))

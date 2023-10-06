@@ -29,6 +29,7 @@
 #include "util.h"
 #include "zipper.h"
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 
 #include "i18n.h"
 
@@ -62,14 +63,14 @@ write_files (
 		return written;
 	}
 
-	if (!boost::filesystem::exists (directory)) {
-		boost::filesystem::create_directories (directory);
+	if (!dcp::filesystem::exists(directory)) {
+		dcp::filesystem::create_directories(directory);
 	}
 
 	/* Write KDMs to the specified directory */
 	for (auto i: kdms) {
-		auto out = dcp::fix_long_path(directory / careful_string_filter(name_format.get(i->name_values(), ".xml")));
-		if (!boost::filesystem::exists (out) || confirm_overwrite (out)) {
+		auto out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
+		if (!dcp::filesystem::exists(out) || confirm_overwrite(out)) {
 			i->kdm_as_xml (out);
 			++written;
 		}
@@ -150,8 +151,8 @@ write_directories (
 	for (auto const& kdm: kdms) {
 		auto path = directory;
 		path /= container_name_format.get(kdm.front()->name_values(), "", "s");
-		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
-			boost::filesystem::create_directories (path);
+		if (!dcp::filesystem::exists(path) || confirm_overwrite(path)) {
+			dcp::filesystem::create_directories(path);
 			write_files(kdm, path, filename_format, confirm_overwrite);
 			written += kdm.size();
 		}
@@ -176,10 +177,10 @@ write_zip_files (
 	for (auto const& kdm: kdms) {
 		auto path = directory;
 		path /= container_name_format.get(kdm.front()->name_values(), ".zip", "s");
-		if (!boost::filesystem::exists (path) || confirm_overwrite (path)) {
-			if (boost::filesystem::exists (path)) {
+		if (!dcp::filesystem::exists(path) || confirm_overwrite(path)) {
+			if (dcp::filesystem::exists(path)) {
 				/* Creating a new zip file over an existing one is an error */
-				boost::filesystem::remove (path);
+				dcp::filesystem::remove(path);
 			}
 			make_zip_file(kdm, path, filename_format);
 			written += kdm.size();
@@ -221,7 +222,7 @@ send_emails (
 		auto first = kdms_for_cinema.front();
 
 		auto zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
-		boost::filesystem::create_directories (zip_file);
+		dcp::filesystem::create_directories(zip_file);
 		zip_file /= container_name_format.get(first->name_values(), ".zip");
 		make_zip_file (kdms_for_cinema, zip_file, filename_format);
 
@@ -278,13 +279,13 @@ send_emails (
 		try {
 			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (...) {
-			boost::filesystem::remove (zip_file);
+			dcp::filesystem::remove(zip_file);
 			log_details (email);
 			throw;
 		}
 
 		log_details (email);
 
-		boost::filesystem::remove (zip_file);
+		dcp::filesystem::remove(zip_file);
 	}
 }

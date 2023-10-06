@@ -26,6 +26,7 @@
 #include "cross.h"
 #include "compose.hpp"
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 #include <sys/stat.h>
 
@@ -110,7 +111,7 @@ LIBDCP_ENABLE_WARNINGS
 void
 SCPUploader::upload_file (boost::filesystem::path from, boost::filesystem::path to, boost::uintmax_t& transferred, boost::uintmax_t total_size)
 {
-	auto to_do = boost::filesystem::file_size (from);
+	auto to_do = dcp::filesystem::file_size(from);
 	/* Use generic_string so that we get forward-slashes in the path, even on Windows */
 LIBDCP_DISABLE_WARNINGS
 	ssh_scp_push_file (_scp, to.generic_string().c_str(), to_do, S_IRUSR | S_IWUSR);

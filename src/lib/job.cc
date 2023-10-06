@@ -114,7 +114,7 @@ Job::run_wrapper ()
 		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
 
 		try {
-			auto const s = boost::filesystem::space (e.filename());
+			auto const s = dcp::filesystem::space(e.filename());
 			if (s.available < pow (1024, 3)) {
 				m += N_("\n\n");
 				m += _("The drive that the film is stored on is low in disc space.  Free some more space and try again.");
@@ -169,7 +169,7 @@ Job::run_wrapper ()
 			String::compose (_("Could not open %1"), e.file().string()),
 			String::compose (
 				_("DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or is in an unexpected format."),
-				boost::filesystem::absolute (e.file()).string(),
+				dcp::filesystem::absolute(e.file()).string(),
 				e.what()
 				)
 			);
@@ -184,7 +184,7 @@ Job::run_wrapper ()
 				String::compose (_("Could not open %1"), e.path1().string ()),
 				String::compose (
 					_("DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or is in an unexpected format."),
-					boost::filesystem::absolute (e.path1()).string(),
+					dcp::filesystem::absolute(e.path1()).string(),
 					e.what()
 					)
 				);

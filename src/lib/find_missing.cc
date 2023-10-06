@@ -22,7 +22,7 @@
 #include "content.h"
 #include "find_missing.h"
 #include "util.h"
-#include <boost/filesystem.hpp>
+#include <dcp/filesystem.h>
 
 
 using std::map;
@@ -38,16 +38,16 @@ void
 search (Replacements& replacement_paths, boost::filesystem::path directory, int depth = 0)
 {
 	boost::system::error_code ec;
-	for (auto candidate: boost::filesystem::directory_iterator(directory, ec)) {
-		if (boost::filesystem::is_regular_file(candidate.path())) {
+	for (auto candidate: dcp::filesystem::directory_iterator(directory, ec)) {
+		if (dcp::filesystem::is_regular_file(candidate.path())) {
 			for (auto& replacement: replacement_paths) {
 				for (auto& path: replacement.second) {
-					if (!boost::filesystem::exists(path) && path.filename() == candidate.path().filename()) {
+					if (!dcp::filesystem::exists(path) && path.filename() == candidate.path().filename()) {
 						path = candidate.path();
 					}
 				}
 			}
-		} else if (boost::filesystem::is_directory(candidate.path()) && depth <= 2) {
+		} else if (dcp::filesystem::is_directory(candidate.path()) && depth <= 2) {
 			search (replacement_paths, candidate, depth + 1);
 		}
 	}

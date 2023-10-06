@@ -30,6 +30,7 @@
 #include "util.h"
 #include "video_content.h"
 #include <libcxml/cxml.h>
+#include <dcp/filesystem.h>
 #include <libxml++/libxml++.h>
 #include <iostream>
 
@@ -49,7 +50,7 @@ ImageContent::ImageContent (boost::filesystem::path p)
 {
 	video = make_shared<VideoContent>(this);
 
-	if (boost::filesystem::is_regular_file (p) && valid_image_file (p)) {
+	if (dcp::filesystem::is_regular_file(p) && valid_image_file(p)) {
 		add_path (p);
 	} else {
 		_path_to_scan = p;
@@ -116,8 +117,8 @@ ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		job->sub (_("Scanning image files"));
 		vector<boost::filesystem::path> paths;
 		int n = 0;
-		for (auto i: boost::filesystem::directory_iterator(*_path_to_scan)) {
-			if (boost::filesystem::is_regular_file(i.path()) && valid_image_file (i.path())) {
+		for (auto i: dcp::filesystem::directory_iterator(*_path_to_scan)) {
+			if (dcp::filesystem::is_regular_file(i.path()) && valid_image_file(i.path())) {
 				paths.push_back (i.path());
 			}
 			++n;

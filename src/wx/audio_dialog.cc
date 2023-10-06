@@ -30,6 +30,7 @@
 #include "lib/film.h"
 #include "lib/job_manager.h"
 #include "lib/maths_util.h"
+#include <dcp/filesystem.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <iostream>
@@ -207,7 +208,7 @@ AudioDialog::try_to_load_analysis ()
 	auto check = _content.lock();
 
 	auto const path = film->audio_analysis_path (_playlist);
-	if (!boost::filesystem::exists (path)) {
+	if (!dcp::filesystem::exists(path)) {
 		_plot->set_analysis (shared_ptr<AudioAnalysis> ());
 		_analysis.reset ();
 
@@ -295,7 +296,7 @@ AudioDialog::analysis_finished ()
 		return;
 	}
 
-	if (!boost::filesystem::exists (film->audio_analysis_path (_playlist))) {
+	if (!dcp::filesystem::exists(film->audio_analysis_path(_playlist))) {
 		/* We analysed and still nothing showed up, so maybe it was cancelled or it failed.
 		   Give up.
 		*/

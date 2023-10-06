@@ -68,6 +68,7 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/search.h>
 #include <dcp/warnings.h>
@@ -169,7 +170,7 @@ public:
 			if (filenames.GetCount() == 1) {
 				/* Try to load a directory */
 				auto path = boost::filesystem::path(wx_to_std(filenames[0]));
-				if (boost::filesystem::is_directory(path)) {
+				if (dcp::filesystem::is_directory(path)) {
 					_frame->load_dcp(wx_to_std(filenames[0]));
 					return true;
 				}
@@ -1236,7 +1237,7 @@ private:
 				LOG_DEBUG_PLAYER ("Failed to start play server (%1)", e.what());
 			}
 
-			if (!_dcp_to_load.empty() && boost::filesystem::is_directory (_dcp_to_load)) {
+			if (!_dcp_to_load.empty() && dcp::filesystem::is_directory(_dcp_to_load)) {
 				try {
 					_frame->load_dcp (_dcp_to_load);
 				} catch (exception& e) {

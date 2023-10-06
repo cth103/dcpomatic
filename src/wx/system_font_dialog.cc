@@ -21,6 +21,7 @@
 
 #include "system_font_dialog.h"
 #include "wx_util.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
@@ -43,7 +44,7 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 		fonts = boost::filesystem::path (windir) / "Fonts";
 	}
 
-	for (auto i: boost::filesystem::directory_iterator (fonts)) {
+	for (auto i: dcp::filesystem::directory_iterator(fonts)) {
 		auto ext = i.path().extension().string();
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 

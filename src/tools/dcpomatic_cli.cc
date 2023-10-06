@@ -39,6 +39,7 @@
 #include "lib/util.h"
 #include "lib/version.h"
 #include "lib/video_content.h"
+#include <dcp/filesystem.h>
 #include <dcp/version.h>
 #include <getopt.h>
 #include <iostream>
@@ -442,7 +443,7 @@ main (int argc, char* argv[])
 	for (auto i: film->content()) {
 		auto paths = i->paths();
 		for (auto j: paths) {
-			if (!boost::filesystem::exists(j)) {
+			if (!dcp::filesystem::exists(j)) {
 				cerr << argv[0] << ": content file " << j << " not found.\n";
 				exit (EXIT_FAILURE);
 			}

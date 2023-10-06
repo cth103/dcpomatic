@@ -38,6 +38,7 @@
 #include <dcp/certificate_chain.h>
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
+#include <dcp/filesystem.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/raw_convert.h>
@@ -136,15 +137,15 @@ ReelWriter::ReelWriter (
 		   to change its contents (if only by changing the IDs); see
 		   #1126.
 		*/
-		if (boost::filesystem::exists(asset) && boost::filesystem::hard_link_count(asset) > 1) {
+		if (dcp::filesystem::exists(asset) && dcp::filesystem::hard_link_count(asset) > 1) {
 			if (job) {
 				job->sub (_("Copying old video file"));
 				copy_in_bits (asset, asset.string() + ".tmp", bind(&Job::set_progress, job.get(), _1, false));
 			} else {
-				boost::filesystem::copy_file (asset, asset.string() + ".tmp");
+				dcp::filesystem::copy_file(asset, asset.string() + ".tmp");
 			}
-			boost::filesystem::remove (asset);
-			boost::filesystem::rename (asset.string() + ".tmp", asset);
+			dcp::filesystem::remove(asset);
+			dcp::filesystem::rename(asset.string() + ".tmp", asset);
 		}
 
 
@@ -294,8 +295,8 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
-	int const n = (boost::filesystem::file_size(info_file->get().path()) / _info_size) - 1;
-	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, boost::filesystem::file_size(info_file->get().path()), _info_size);
+	int const n = (dcp::filesystem::file_size(info_file->get().path()) / _info_size) - 1;
+	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(info_file->get().path()), _info_size);
 
 	Frame first_nonexistent_frame;
 	if (film()->three_d()) {
@@ -401,9 +402,9 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		   changing any video.
 		*/
 		boost::system::error_code ec;
-		boost::filesystem::remove (video_to, ec);
+		dcp::filesystem::remove(video_to, ec);
 
-		boost::filesystem::create_hard_link (video_from, video_to, ec);
+		dcp::filesystem::create_hard_link(video_from, video_to, ec);
 		if (ec) {
 			LOG_WARNING("Hard-link failed (%1); copying instead", error_details(ec));
 			auto job = _job.lock ();
@@ -416,7 +417,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 					throw FileError (e.what(), video_from);
 				}
 			} else {
-				boost::filesystem::copy_file (video_from, video_to, ec);
+				dcp::filesystem::copy_file(video_from, video_to, ec);
 				if (ec) {
 					LOG_ERROR("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), error_details(ec));
 					throw FileError (ec.message(), video_from);
@@ -434,7 +435,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		audio_to /= aaf;
 
 		boost::system::error_code ec;
-		boost::filesystem::rename (film()->file(aaf), audio_to, ec);
+		dcp::filesystem::rename(film()->file(aaf), audio_to, ec);
 		if (ec) {
 			throw FileError (
 				String::compose(_("could not move audio asset into the DCP (%1)"), error_details(ec)), aaf
@@ -451,7 +452,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		atmos_to /= aaf;
 
 		boost::system::error_code ec;
-		boost::filesystem::rename (film()->file(aaf), atmos_to, ec);
+		dcp::filesystem::rename(film()->file(aaf), atmos_to, ec);
 		if (ec) {
 			throw FileError (
 				String::compose(_("could not move atmos asset into the DCP (%1)"), error_details(ec)), aaf
@@ -489,7 +490,7 @@ maybe_add_text (
 	if (asset) {
 		if (auto interop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(asset)) {
 			auto directory = output_dcp / interop->id ();
-			boost::filesystem::create_directories (directory);
+			dcp::filesystem::create_directories(directory);
 			interop->write (directory / subtitle_asset_filename(asset, reel_index, reel_count, content_summary, ".xml"));
 			reel_asset = make_shared<Interop> (
 				interop,

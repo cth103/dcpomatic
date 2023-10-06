@@ -36,6 +36,7 @@
 #include "lib/version.h"
 #include "lib/video_content.h"
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <libxml++/libxml++.h>
 #include <boost/filesystem.hpp>
 #include <getopt.h>
@@ -94,10 +95,10 @@ main (int argc, char* argv[])
 		auto film = cc.make_film();
 
 		for (auto cli_content: cc.content) {
-			auto const can = boost::filesystem::canonical (cli_content.path);
+			auto const can = dcp::filesystem::canonical(cli_content.path);
 			vector<shared_ptr<Content>> film_content_list;
 
-			if (boost::filesystem::exists (can / "ASSETMAP") || (boost::filesystem::exists (can / "ASSETMAP.xml"))) {
+			if (dcp::filesystem::exists(can / "ASSETMAP") || (dcp::filesystem::exists(can / "ASSETMAP.xml"))) {
 				auto dcp = make_shared<DCPContent>(can);
 				film_content_list.push_back (dcp);
 				if (cli_content.kdm) {

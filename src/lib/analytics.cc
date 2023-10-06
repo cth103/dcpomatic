@@ -22,6 +22,7 @@
 #include "analytics.h"
 #include "compose.hpp"
 #include "exceptions.h"
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <libcxml/cxml.h>
@@ -110,7 +111,7 @@ Analytics::read ()
 try
 {
 	cxml::Document f ("Analytics");
-	f.read_file (read_path("analytics.xml"));
+	f.read_file(dcp::filesystem::fix_long_path(read_path("analytics.xml")));
 	_successful_dcp_encodes = f.number_child<int>("SuccessfulDCPEncodes");
 } catch (...) {
 	/* Never mind */

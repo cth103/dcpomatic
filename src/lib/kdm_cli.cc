@@ -35,6 +35,7 @@
 #include <dcp/certificate.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
+#include <dcp/filesystem.h>
 #include <getopt.h>
 
 
@@ -435,7 +436,7 @@ optional<string>
 kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
 {
-	boost::filesystem::path output = boost::filesystem::current_path();
+	boost::filesystem::path output = dcp::filesystem::current_path();
 	auto container_name_format = Config::instance()->kdm_container_name_format();
 	auto filename_format = Config::instance()->kdm_filename_format();
 	optional<string> cinema_name;
@@ -643,7 +644,7 @@ try
 	}
 
 	string const thing = argv[optind];
-	if (boost::filesystem::is_directory(thing) && boost::filesystem::is_regular_file(boost::filesystem::path(thing) / "metadata.xml")) {
+	if (dcp::filesystem::is_directory(thing) && dcp::filesystem::is_regular_file(boost::filesystem::path(thing) / "metadata.xml")) {
 		from_film (
 			screens,
 			thing,
@@ -661,7 +662,7 @@ try
 			out
 			);
 	} else {
-		if (boost::filesystem::is_regular_file(thing)) {
+		if (dcp::filesystem::is_regular_file(thing)) {
 			dkdm = dcp::EncryptedKDM (dcp::file_to_string (thing));
 		} else {
 			dkdm = find_dkdm (thing);

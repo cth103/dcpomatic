@@ -30,6 +30,7 @@
 #include "lib/job_manager.h"
 #include "lib/util.h"
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 #include <boost/filesystem.hpp>
 #include <boost/optional.hpp>
@@ -81,7 +82,7 @@ ContentView::update ()
 	DeleteAllItems ();
 	_content.clear ();
 	auto dir = Config::instance()->player_content_directory();
-	if (!dir || !boost::filesystem::is_directory(*dir)) {
+	if (!dir || !dcp::filesystem::is_directory(*dir)) {
 		dir = home_directory ();
 	}
 

@@ -144,8 +144,8 @@ FFmpegEncoder::go ()
 	for (int i = 0; i < files; ++i) {
 
 		boost::filesystem::path filename = _output;
-		string extension = boost::filesystem::extension (filename);
-		filename = boost::filesystem::change_extension (filename, "");
+		auto extension = dcp::filesystem::extension(filename);
+		filename = dcp::filesystem::change_extension(filename, "");
 
 		if (files > 1) {
 			/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate

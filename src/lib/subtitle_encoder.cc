@@ -24,6 +24,7 @@
 #include "job.h"
 #include "player.h"
 #include "subtitle_encoder.h"
+#include <dcp/filesystem.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/smpte_subtitle_asset.h>
@@ -68,7 +69,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 	for (int i = 0; i < files; ++i) {
 
 		boost::filesystem::path filename = output;
-		if (boost::filesystem::is_directory(filename)) {
+		if (dcp::filesystem::is_directory(filename)) {
 			if (files > 1) {
 				/// TRANSLATORS: _reel%1 here is to be added to an export filename to indicate
 				/// which reel it is.  Preserve the %1; it will be replaced with the reel number.
@@ -78,7 +79,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 			}
 		}
 
-		_assets.push_back (make_pair(shared_ptr<dcp::SubtitleAsset>(), boost::filesystem::change_extension(filename, extension)));
+		_assets.push_back(make_pair(shared_ptr<dcp::SubtitleAsset>(), dcp::filesystem::change_extension(filename, extension)));
 	}
 
 	for (auto i: film->reels()) {

@@ -38,6 +38,7 @@
 #include "video_content.h"
 #include "writer.h"
 #include <dcp/cpl.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -259,7 +260,7 @@ Hints::check_big_font_files ()
 			for (auto j: i->text) {
 				for (auto k: j->fonts()) {
 					auto const p = k->file ();
-					if (p && boost::filesystem::file_size(p.get()) >= (MAX_FONT_FILE_SIZE - SIZE_SLACK)) {
+					if (p && dcp::filesystem::file_size(p.get()) >= (MAX_FONT_FILE_SIZE - SIZE_SLACK)) {
 						big_font_files = true;
 					}
 				}
@@ -310,7 +311,7 @@ bool
 Hints::check_loudness ()
 {
 	auto path = film()->audio_analysis_path(film()->playlist());
-	if (!boost::filesystem::exists(path)) {
+	if (!dcp::filesystem::exists(path)) {
 		return false;
 	}
 
@@ -352,7 +353,7 @@ static
 bool
 subtitle_mxf_too_big (shared_ptr<dcp::SubtitleAsset> asset)
 {
-	return asset && asset->file() && boost::filesystem::file_size(*asset->file()) >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK);
+	return asset && asset->file() && dcp::filesystem::file_size(*asset->file()) >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK);
 }
 
 
@@ -452,7 +453,7 @@ try
 	bool subs_mxf_too_big = false;
 
 	auto dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
-	boost::filesystem::remove_all (dcp_dir);
+	dcp::filesystem::remove_all(dcp_dir);
 
 	_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
 
@@ -484,7 +485,7 @@ try
 			subs_mxf_too_big = true;
 		}
 	}
-	boost::filesystem::remove_all (dcp_dir);
+	dcp::filesystem::remove_all(dcp_dir);
 
 	emit (bind(boost::ref(Finished)));
 }

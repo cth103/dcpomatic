@@ -31,6 +31,7 @@
 #include "job.h"
 #include <dcp/openjpeg_image.h>
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <dcp/j2k_transcode.h>
 #include <iostream>
 
@@ -50,7 +51,7 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 {
 	auto path = content->path(0);
 	if (valid_j2k_file (path)) {
-		auto size = boost::filesystem::file_size (path);
+		auto size = dcp::filesystem::file_size(path);
 		dcp::File f(path, "rb");
 		if (!f) {
 			throw FileError ("Could not open file for reading", path);

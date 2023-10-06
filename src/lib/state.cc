@@ -22,6 +22,7 @@
 #include "cross.h"
 #include "state.h"
 #include "util.h"
+#include <dcp/filesystem.h>
 #include <glib.h>
 
 
@@ -60,11 +61,9 @@ config_path_or_override (optional<string> version)
 boost::filesystem::path
 State::read_path (string file)
 {
-	using namespace boost::filesystem;
-
 	for (auto i: config_versions) {
 		auto full = config_path_or_override(i) / file;
-		if (exists(full)) {
+		if (dcp::filesystem::exists(full)) {
 			return full;
 		}
 	}
@@ -79,9 +78,9 @@ State::read_path (string file)
 boost::filesystem::path
 State::write_path (string file)
 {
-	boost::filesystem::path p = config_path_or_override(config_versions.front());
+	auto p = config_path_or_override(config_versions.front());
 	boost::system::error_code ec;
-	boost::filesystem::create_directories (p, ec);
+	dcp::filesystem::create_directories(p, ec);
 	p /= file;
 	return p;
 }

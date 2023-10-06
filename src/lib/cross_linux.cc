@@ -26,6 +26,7 @@
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "log.h"
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <glib.h>
@@ -94,7 +95,7 @@ libdcp_resources_path ()
 	if (auto appdir = getenv("APPDIR")) {
 		return boost::filesystem::path(appdir) / "usr" / "share" / "libdcp";
 	}
-	return boost::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp";
+	return dcp::filesystem::canonical(LINUX_SHARE_PREFIX) / "libdcp";
 }
 
 
@@ -153,7 +154,7 @@ boost::filesystem::path
 openssl_path ()
 {
 	auto p = directory_containing_executable() / "dcpomatic2_openssl";
-	if (boost::filesystem::is_regular_file(p)) {
+	if (dcp::filesystem::is_regular_file(p)) {
 		return p;
 	}
 

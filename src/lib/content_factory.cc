@@ -40,6 +40,7 @@
 #include "log.h"
 #include "compose.hpp"
 #include <libcxml/cxml.h>
+#include <dcp/filesystem.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/algorithm/string.hpp>
 
@@ -111,11 +112,11 @@ content_factory (boost::filesystem::path path)
 {
 	vector<shared_ptr<Content>> content;
 
-	if (boost::filesystem::is_directory (path)) {
+	if (dcp::filesystem::is_directory(path)) {
 
 		LOG_GENERAL ("Look in directory %1", path);
 
-		if (boost::filesystem::is_empty (path)) {
+		if (dcp::filesystem::is_empty(path)) {
 			return content;
 		}
 
@@ -124,7 +125,7 @@ content_factory (boost::filesystem::path path)
 		int image_files = 0;
 		int sound_files = 0;
 		int read = 0;
-		for (boost::filesystem::directory_iterator i(path); i != boost::filesystem::directory_iterator() && read < 10; ++i) {
+		for (dcp::filesystem::directory_iterator i(path); i != dcp::filesystem::directory_iterator() && read < 10; ++i) {
 
 			LOG_GENERAL ("Checking file %1", i->path());
 
@@ -134,7 +135,7 @@ content_factory (boost::filesystem::path path)
 				continue;
 			}
 
-			if (!boost::filesystem::is_regular_file(i->path())) {
+			if (!dcp::filesystem::is_regular_file(i->path())) {
 				/* Ignore things which aren't files (probably directories) */
 				LOG_GENERAL ("Ignored %1 (not a regular file)", i->path());
 				continue;
@@ -154,7 +155,7 @@ content_factory (boost::filesystem::path path)
 		if (image_files > 0 && sound_files == 0)  {
 			content.push_back (make_shared<ImageContent>(path));
 		} else if (image_files == 0 && sound_files > 0) {
-			for (auto i: boost::filesystem::directory_iterator(path)) {
+			for (auto i: dcp::filesystem::directory_iterator(path)) {
 				content.push_back (make_shared<FFmpegContent>(i.path()));
 			}
 		}
@@ -172,7 +173,7 @@ content_factory (boost::filesystem::path path)
 			single = make_shared<StringTextFileContent>(path);
 		} else if (ext == ".xml") {
 			cxml::Document doc;
-			doc.read_file (path);
+			doc.read_file(dcp::filesystem::fix_long_path(path));
 			if (doc.root_name() == "DCinemaSecurityMessage") {
 				throw KDMAsContentError ();
 			}

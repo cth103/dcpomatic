@@ -150,7 +150,7 @@ FilmNameLocationDialog::check_path ()
 			    )) {
 			return false;
 		}
-	} else if (boost::filesystem::is_regular_file(path())) {
+	} else if (filesystem::is_regular_file(path())) {
 		error_dialog (
 			this,
 			String::compose (wx_to_std(_("%1 already exists as a file, so you cannot use it for a film.")), path().c_str())

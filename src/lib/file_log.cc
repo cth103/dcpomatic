@@ -23,6 +23,7 @@
 #include "cross.h"
 #include "config.h"
 #include <dcp/file.h>
+#include <dcp/filesystem.h>
 #include <cstdio>
 #include <iostream>
 #include <cerrno>
@@ -70,7 +71,7 @@ FileLog::head_and_tail (int amount) const
 	uintmax_t head_amount = amount;
 	uintmax_t tail_amount = amount;
 	boost::system::error_code ec;
-	uintmax_t size = boost::filesystem::file_size (_file, ec);
+	uintmax_t size = dcp::filesystem::file_size(_file, ec);
 	if (size == static_cast<uintmax_t>(-1)) {
 		return "";
 	}

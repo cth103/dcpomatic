@@ -47,6 +47,7 @@
 #include "lib/string_text_file_decoder.h"
 #include "lib/subtitle_analysis.h"
 #include "lib/text_content.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
@@ -827,7 +828,7 @@ TextPanel::try_to_load_analysis ()
 
 	auto const path = _parent->film()->subtitle_analysis_path(content);
 
-	if (!boost::filesystem::exists(path)) {
+	if (!dcp::filesystem::exists(path)) {
 		for (auto i: JobManager::instance()->get()) {
 			if (dynamic_pointer_cast<AnalyseSubtitlesJob>(i) && !i->finished()) {
 				i->cancel ();
@@ -898,7 +899,7 @@ TextPanel::analysis_finished(Job::Result result)
 		return;
 	}
 
-	if (!boost::filesystem::exists(_parent->film()->subtitle_analysis_path(content))) {
+	if (!dcp::filesystem::exists(_parent->film()->subtitle_analysis_path(content))) {
 		/* We analysed and still nothing showed up, so maybe it failed.  Give up. */
 		error_dialog (_parent->window(), _("Could not analyse subtitles."));
 		clear_outline_subtitles ();

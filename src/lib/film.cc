@@ -63,6 +63,7 @@
 #include <dcp/certificate_chain.h>
 #include <dcp/cpl.h>
 #include <dcp/decrypted_kdm.h>
+#include <dcp/filesystem.h>
 #include <dcp/local_time.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel_asset.h>
@@ -205,27 +206,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	_playlist_length_change_connection = _playlist->LengthChange.connect (bind(&Film::playlist_length_change, this));
 
 	if (dir) {
-		/* Make state.directory a complete path without ..s (where possible)
-		   (Code swiped from Adam Bowen on stackoverflow)
-		   XXX: couldn't/shouldn't this just be boost::filesystem::canonical?
-		*/
-
-		boost::filesystem::path p (boost::filesystem::system_complete (dir.get()));
-		boost::filesystem::path result;
-		for (auto i: p) {
-			if (i == "..") {
-				boost::system::error_code ec;
-				if (boost::filesystem::is_symlink(result, ec) || result.filename() == "..") {
-					result /= i;
-				} else {
-					result = result.parent_path ();
-				}
-			} else if (i != ".") {
-				result /= i;
-			}
-		}
-
-		set_directory (result.make_preferred ());
+		set_directory(dcp::filesystem::weakly_canonical(*dir));
 	}
 
 	if (_directory) {
@@ -494,7 +475,7 @@ void
 Film::write_metadata ()
 {
 	DCPOMATIC_ASSERT (directory());
-	boost::filesystem::create_directories (directory().get());
+	dcp::filesystem::create_directories(directory().get());
 	auto const filename = file(metadata_file);
 	try {
 		metadata()->write_to_file_formatted(filename.string());
@@ -508,7 +489,7 @@ Film::write_metadata ()
 void
 Film::write_template (boost::filesystem::path path) const
 {
-	boost::filesystem::create_directories (path.parent_path());
+	dcp::filesystem::create_directories(path.parent_path());
 	shared_ptr<xmlpp::Document> doc = metadata (false);
 	metadata(false)->write_to_file_formatted(path.string());
 }
@@ -520,19 +501,19 @@ list<string>
 Film::read_metadata (optional<boost::filesystem::path> path)
 {
 	if (!path) {
-		if (boost::filesystem::exists (file ("metadata")) && !boost::filesystem::exists (file (metadata_file))) {
+		if (dcp::filesystem::exists(file("metadata")) && !dcp::filesystem::exists(file(metadata_file))) {
 			throw runtime_error (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
 		}
 
 		path = file (metadata_file);
 	}
 
-	if (!boost::filesystem::exists(*path)) {
+	if (!dcp::filesystem::exists(*path)) {
 		throw FileNotFoundError(*path);
 	}
 
 	cxml::Document f ("Metadata");
-	f.read_file (path.get ());
+	f.read_file(dcp::filesystem::fix_long_path(path.get()));
 
 	_state_version = f.number_child<int> ("Version");
 	if (_state_version > current_state_version) {
@@ -540,9 +521,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	} else if (_state_version < current_state_version) {
 		/* This is an older version; save a copy (if we haven't already) */
 		auto const older = path->parent_path() / String::compose("metadata.%1.xml", _state_version);
-		if (!boost::filesystem::is_regular_file(older)) {
+		if (!dcp::filesystem::is_regular_file(older)) {
 			try {
-				boost::filesystem::copy_file(*path, older);
+				dcp::filesystem::copy_file(*path, older);
 			} catch (...) {
 				/* Never mind; at least we tried */
 			}
@@ -740,7 +721,7 @@ Film::dir (boost::filesystem::path d, bool create) const
 	p /= d;
 
 	if (create) {
-		boost::filesystem::create_directories (p);
+		dcp::filesystem::create_directories(p);
 	}
 
 	return p;
@@ -758,7 +739,7 @@ Film::file (boost::filesystem::path f) const
 	p /= _directory.get();
 	p /= f;
 
-	boost::filesystem::create_directories (p.parent_path ());
+	dcp::filesystem::create_directories(p.parent_path());
 
 	return p;
 }
@@ -1319,9 +1300,9 @@ Film::cpls () const
 	vector<CPLSummary> out;
 
 	auto const dir = directory().get();
-	for (auto const& item: boost::filesystem::directory_iterator(dir)) {
+	for (auto const& item: dcp::filesystem::directory_iterator(dir)) {
 		if (
-			boost::filesystem::is_directory(item) &&
+			dcp::filesystem::is_directory(item) &&
 			item.path().leaf() != "j2c" && item.path().leaf() != "video" && item.path().leaf() != "info" && item.path().leaf() != "analysis"
 			) {
 
@@ -1743,15 +1724,15 @@ Film::should_be_enough_disk_space (double& required, double& available, bool& ca
 	if (f) {
 		f.close();
 		boost::system::error_code ec;
-		boost::filesystem::create_hard_link (test, test2, ec);
+		dcp::filesystem::create_hard_link(test, test2, ec);
 		if (ec) {
 			can_hard_link = false;
 		}
-		boost::filesystem::remove (test);
-		boost::filesystem::remove (test2);
+		dcp::filesystem::remove(test);
+		dcp::filesystem::remove(test2);
 	}
 
-	auto s = boost::filesystem::space (internal_video_asset_dir ());
+	auto s = dcp::filesystem::space(internal_video_asset_dir());
 	required = double (required_disk_space ()) / 1073741824.0f;
 	if (!can_hard_link) {
 		required *= 2;
@@ -2091,10 +2072,10 @@ Film::info_file_handle (DCPTimePeriod period, bool read) const
 
 InfoFileHandle::InfoFileHandle (boost::mutex& mutex, boost::filesystem::path path, bool read)
 	: _lock (mutex)
-	, _file (path, read ? "rb" : (boost::filesystem::exists(path) ? "r+b" : "wb"))
+	, _file(path, read ? "rb" : (dcp::filesystem::exists(path) ? "r+b" : "wb"))
 {
 	if (!_file) {
-		throw OpenFileError (path, errno, read ? OpenFileError::READ : (boost::filesystem::exists(path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE));
+		throw OpenFileError(path, errno, read ? OpenFileError::READ : (dcp::filesystem::exists(path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE));
 	}
 }
 

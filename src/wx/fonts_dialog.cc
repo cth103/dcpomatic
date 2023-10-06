@@ -27,6 +27,7 @@
 #include "lib/font.h"
 #include "lib/scope_guard.h"
 #include "lib/text_content.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -174,7 +175,7 @@ FontsDialog::set_from_file_clicked ()
         */
         wxString default_dir = "";
 #ifdef DCPOMATIC_LINUX
-        if (boost::filesystem::exists ("/usr/share/fonts/truetype")) {
+        if (dcp::filesystem::exists("/usr/share/fonts/truetype")) {
                 default_dir = "/usr/share/fonts/truetype";
         } else {
                 default_dir = "/usr/share/fonts";

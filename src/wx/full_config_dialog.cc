@@ -57,6 +57,7 @@
 #include "lib/util.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <dcp/locale_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -186,7 +187,7 @@ private:
                 );
 
 		if (dialog.ShowModal() == wxID_OK) {
-			boost::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
+			dcp::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
 		}
 	}
 
@@ -220,7 +221,7 @@ private:
 			return;
 		}
 		bool copy_and_link = true;
-		if (boost::filesystem::exists(new_file)) {
+		if (dcp::filesystem::exists(new_file)) {
 			ConfigMoveDialog dialog(_panel, new_file);
 			if (dialog.ShowModal() == wxID_OK) {
 				copy_and_link = false;

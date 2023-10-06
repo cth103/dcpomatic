@@ -22,6 +22,7 @@
 #include "content_store.h"
 #include "spl.h"
 #include <libcxml/cxml.h>
+#include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -42,7 +43,7 @@ SPL::read (boost::filesystem::path path, ContentStore* store)
 	_spl.clear ();
 	_missing = false;
 	cxml::Document doc ("SPL");
-	doc.read_file (path);
+	doc.read_file(dcp::filesystem::fix_long_path(path));
 	_id = doc.string_child("Id");
 	_name = doc.string_child("Name");
 	for (auto i: doc.node_children("Entry")) {

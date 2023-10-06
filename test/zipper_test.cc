@@ -28,6 +28,7 @@
 #include "lib/exceptions.h"
 #include "lib/zipper.h"
 #include "test.h"
+#include <dcp/filesystem.h>
 #include <dcp/util.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
@@ -43,6 +44,11 @@ BOOST_AUTO_TEST_CASE (zipper_test1)
 	zipper.add ("foo.txt", "1234567890");
 	zipper.add ("bar.txt", "xxxxxxCCCCbbbbbbb1");
 	zipper.close ();
+
+	/* Make sure we aren't in a UNC current working directory otherwise the use of cmd.exe
+	 * in system() below will fail.
+	 */
+	boost::filesystem::current_path(dcp::filesystem::unfix_long_path(boost::filesystem::current_path()));
 
 	boost::filesystem::remove_all ("build/test/zipper_test1", ec);
 #ifdef DCPOMATIC_WINDOWS

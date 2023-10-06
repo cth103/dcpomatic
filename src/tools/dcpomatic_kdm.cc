@@ -53,6 +53,7 @@
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/dnd.h>
@@ -312,7 +313,7 @@ private:
 
 	bool confirm_overwrite (boost::filesystem::path path)
 	{
-		if (boost::filesystem::is_directory(path)) {
+		if (dcp::filesystem::is_directory(path)) {
 			return confirm_dialog (
 				this,
 				wxString::Format(_("Folder %s already exists.  Do you want to overwrite it?"), std_to_wx(path.string()).data())

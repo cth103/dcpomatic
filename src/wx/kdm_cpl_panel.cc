@@ -112,7 +112,7 @@ KDMCPLPanel::cpl_browse_clicked ()
 	try {
 		/* XXX: hack alert */
 		cxml::Document cpl_document ("CompositionPlaylist");
-		cpl_document.read_file (cpl_file);
+		cpl_document.read_file(dcp::filesystem::fix_long_path(cpl_file));
 
 		bool encrypted = false;
 		for (auto i: cpl_document.node_children("ReelList")) {

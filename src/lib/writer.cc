@@ -734,11 +734,11 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 
 	boost::uintmax_t size = 0;
 	for (
-		auto i = boost::filesystem::recursive_directory_iterator(output_dcp);
-		i != boost::filesystem::recursive_directory_iterator();
+		auto i = dcp::filesystem::recursive_directory_iterator(output_dcp);
+		i != dcp::filesystem::recursive_directory_iterator();
 		++i) {
-		if (boost::filesystem::is_regular_file (i->path())) {
-			size += boost::filesystem::file_size (i->path());
+		if (dcp::filesystem::is_regular_file(i->path())) {
+			size += dcp::filesystem::file_size(i->path());
 		}
 	}
 

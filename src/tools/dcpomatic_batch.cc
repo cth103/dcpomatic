@@ -37,6 +37,7 @@
 #include "lib/transcode_job.h"
 #include "lib/util.h"
 #include "lib/version.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/aboutdlg.h>
@@ -129,7 +130,7 @@ public:
 			if (filenames.GetCount() == 1) {
 				/* Try to load a directory */
 				auto path = boost::filesystem::path(wx_to_std(filenames[0]));
-				if (boost::filesystem::is_directory(path)) {
+				if (dcp::filesystem::is_directory(path)) {
 					_frame->start_job(wx_to_std(filenames[0]));
 					return true;
 				}
@@ -479,7 +480,7 @@ class App : public wxApp
 
 		shared_ptr<Film> film;
 		for (auto i: films_to_load) {
-			if (boost::filesystem::is_directory(i)) {
+			if (dcp::filesystem::is_directory(i)) {
 				try {
 					film = make_shared<Film>(i);
 					film->read_metadata ();

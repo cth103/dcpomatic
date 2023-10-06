@@ -46,6 +46,7 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/equality_options.h>
+#include <dcp/filesystem.h>
 #include <dcp/mono_picture_asset.h>
 #include <dcp/mono_picture_frame.h>
 #include <dcp/openjpeg_image.h>
@@ -107,7 +108,7 @@ TestPaths::TestPaths::private_data ()
 
 boost::filesystem::path TestPaths::xsd ()
 {
-	return boost::filesystem::canonical(boost::filesystem::path("..") / boost::filesystem::path("libdcp") / boost::filesystem::path("xsd"));
+	return boost::filesystem::current_path().parent_path() / "libdcp" / "xsd";
 }
 
 
