@@ -39,7 +39,9 @@ try
 
 		LOG_TIMING("encoder-pop thread=%1 frame=%2 eyes=%3", thread_id(), frame.index(), static_cast<int>(frame.eyes()));
 
-		if (_context->launch(frame, Config::instance()->selected_gpu()) && _context->scheduleCompress(frame)) {
+		auto grok = Config::instance()->grok().get_value_or({});
+
+		if (_context->launch(frame, grok.selected) && _context->scheduleCompress(frame)) {
 			frame_guard.cancel();
 		}
 	}

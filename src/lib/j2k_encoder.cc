@@ -95,11 +95,14 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	: _film (film)
 	, _history (200)
 	, _writer (writer)
-#ifdef DCPOMATIC_GROK
-	, _dcpomatic_context(new grk_plugin::DcpomaticContext(film, writer, _history, Config::instance()->gpu_binary_location()))
-	, _context(Config::instance()->enable_gpu() ? new grk_plugin::GrokContext(_dcpomatic_context) : nullptr)
-#endif
 {
+#ifdef DCPOMATIC_GROK
+	auto grok = Config::instance()->grok().get_value_or({});
+	_dcpomatic_context = new grk_plugin::DcpomaticContext(film, writer, _history, grok.binary_location);
+	if (grok.enable) {
+		_context = new grk_plugin::GrokContext(_dcpomatic_context);
+	}
+#endif
 	servers_list_changed ();
 }
 
@@ -121,9 +124,14 @@ void
 J2KEncoder::servers_list_changed()
 {
 	auto config = Config::instance();
+#ifdef DCPOMATIC_GROK
+	auto const grok_enable = config->grok().get_value_or({}).enable;
+#else
+	auto const grok_enable = false;
+#endif
 
-	auto const cpu = (config->enable_gpu() || config->only_servers_encode()) ? 0 : config->master_encoding_threads();
-	auto const gpu = config->enable_gpu() ? config->master_encoding_threads() : 0;
+	auto const cpu = (grok_enable || config->only_servers_encode()) ? 0 : config->master_encoding_threads();
+	auto const gpu = grok_enable ? config->master_encoding_threads() : 0;
 
 	remake_threads(cpu, gpu, EncodeServerFinder::instance()->servers());
 }
@@ -141,16 +149,17 @@ J2KEncoder::begin ()
 void
 J2KEncoder::pause()
 {
-	if (!Config::instance()->enable_gpu()) {
+#ifdef DCPOMATIC_GROK
+	if (!Config::instance()->grok().get_value_or({}).enable) {
 		return;
 	}
+	return;
 
 	terminate_threads ();
 
 	/* Something might have been thrown during terminate_threads */
 	rethrow ();
 
-#ifdef DCPOMATIC_GROK
 	delete _context;
 	_context = nullptr;
 #endif
@@ -159,14 +168,14 @@ J2KEncoder::pause()
 
 void J2KEncoder::resume()
 {
-	if (!Config::instance()->enable_gpu()) {
+#ifdef DCPOMATIC_GROK
+	if (!Config::instance()->grok().get_value_or({}).enable) {
 		return;
 	}
 
-#ifdef DCPOMATIC_GROK
 	_context = new grk_plugin::GrokContext(_dcpomatic_context);
-#endif
 	servers_list_changed();
+#endif
 }
 
 
@@ -203,7 +212,7 @@ J2KEncoder::end()
 	*/
 	for (auto & i: _queue) {
 #ifdef DCPOMATIC_GROK
-		if (Config::instance()->enable_gpu ()) {
+		if (Config::instance()->grok().get_value_or({}).enable) {
 			if (!_context->scheduleCompress(i)){
 				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
 				// handle error
