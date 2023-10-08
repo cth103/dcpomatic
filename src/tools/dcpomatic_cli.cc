@@ -413,7 +413,7 @@ main (int argc, char* argv[])
 	signal_manager = new SignalManager ();
 
 	if (no_remote || export_format) {
-		EncodeServerFinder::instance()->stop ();
+		EncodeServerFinder::drop();
 	}
 
 	if (json_port) {

@@ -163,7 +163,7 @@ struct TestConfig
 		setup_test_config ();
 		capture_ffmpeg_logs();
 
-		EncodeServerFinder::instance()->stop ();
+		EncodeServerFinder::drop();
 
 		signal_manager = new TestSignalManager ();
 
