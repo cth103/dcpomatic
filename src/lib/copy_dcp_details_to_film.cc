@@ -36,7 +36,7 @@ using std::vector;
 
 
 void
-copy_dcp_details_to_film (shared_ptr<const DCPContent> dcp, shared_ptr<Film> film)
+copy_dcp_settings_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> film)
 {
 	auto name = dcp->name ();
 	name = name.substr (0, name.find("_"));

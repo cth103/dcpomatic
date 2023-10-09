@@ -211,7 +211,7 @@ ContentMenu::set_dcp_settings ()
 	DCPOMATIC_ASSERT (_content.size() == 1);
 	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
 	DCPOMATIC_ASSERT (dcp);
-	copy_dcp_details_to_film (dcp, film);
+	copy_dcp_settings_to_film(dcp, film);
 }
 
 
