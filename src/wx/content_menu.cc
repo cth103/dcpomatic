@@ -83,6 +83,7 @@ enum {
 	ID_ov,
 	ID_choose_cpl,
 	ID_set_dcp_settings,
+	ID_set_dcp_markers,
 	ID_remove
 };
 
@@ -106,6 +107,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_cpl_menu = new wxMenu ();
 	_choose_cpl = _menu->Append (ID_choose_cpl, _("Choose CPL..."), _cpl_menu);
 	_set_dcp_settings = _menu->Append (ID_set_dcp_settings, _("Set project DCP settings from this DCP"));
+	_set_dcp_markers = _menu->Append(ID_set_dcp_markers, _("Set project markers from this DCP"));
 	_menu->AppendSeparator ();
 	_remove = _menu->Append (ID_remove, _("Remove"));
 
@@ -119,6 +121,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_settings, this), ID_set_dcp_settings);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_markers, this), ID_set_dcp_markers);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::remove, this), ID_remove);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::cpl_selected, this, _1), 1, ID_repeat - 1);
 }
@@ -158,6 +161,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			_kdm->Enable (dcp->encrypted ());
 			_ov->Enable (dcp->needs_assets ());
 			_set_dcp_settings->Enable (static_cast<bool>(dcp));
+			_set_dcp_markers->Enable(static_cast<bool>(dcp));
 			try {
 				auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
 				_choose_cpl->Enable (cpls.size() > 1);
@@ -186,10 +190,12 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			_ov->Enable (false);
 			_choose_cpl->Enable (false);
 			_set_dcp_settings->Enable (false);
+			_set_dcp_markers->Enable(false);
 		}
 	} else {
 		_kdm->Enable (false);
 		_set_dcp_settings->Enable (false);
+		_set_dcp_markers->Enable(false);
 	}
 
 	_remove->Enable (!_content.empty ());
@@ -212,6 +218,21 @@ ContentMenu::set_dcp_settings ()
 	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
 	DCPOMATIC_ASSERT (dcp);
 	copy_dcp_settings_to_film(dcp, film);
+}
+
+
+void
+ContentMenu::set_dcp_markers()
+{
+	auto film = _film.lock();
+	if (!film) {
+		return;
+	}
+
+	DCPOMATIC_ASSERT(_content.size() == 1);
+	auto dcp = dynamic_pointer_cast<DCPContent>(_content.front());
+	DCPOMATIC_ASSERT(dcp);
+	copy_dcp_markers_to_film(dcp, film);
 }
 
 

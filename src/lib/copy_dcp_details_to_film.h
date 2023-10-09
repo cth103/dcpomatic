@@ -27,3 +27,4 @@ class Film;
 
 
 extern void copy_dcp_settings_to_film(std::shared_ptr<const DCPContent> dcp, std::shared_ptr<Film> film);
+extern void copy_dcp_markers_to_film(std::shared_ptr<const DCPContent> dcp, std::shared_ptr<Film> film);

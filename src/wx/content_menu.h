@@ -61,6 +61,7 @@ private:
 	void kdm ();
 	void ov ();
 	void set_dcp_settings ();
+	void set_dcp_markers();
 	void remove ();
 	void cpl_selected (wxCommandEvent& ev);
 
@@ -84,6 +85,7 @@ private:
 	wxMenuItem* _ov;
 	wxMenuItem* _choose_cpl;
 	wxMenuItem* _set_dcp_settings;
+	wxMenuItem* _set_dcp_markers;
 	wxMenuItem* _remove;
 
 	wx_ptr<AutoCropDialog> _auto_crop_dialog;
