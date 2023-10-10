@@ -201,7 +201,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "-f", "--dcp-frame-rate",   &claimed, &error, &dcp_frame_rate_int);
 		argument_option(i, argc, argv, "",   "--container-ratio",  &claimed, &error, &container_ratio_string);
 		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length, string_to_nonzero_int);
-		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string);
+		/* See comment below about --cpl */
+		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string, string_to_string);
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);
 		argument_option(i, argc, argv, "",   "--j2k-bandwidth",    &claimed, &error, &j2k_bandwidth_int);
