@@ -196,7 +196,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 
 		argument_option(i, argc, argv, "-n", "--name",             &claimed, &error, &_name);
 		argument_option(i, argc, argv, "-t", "--template",         &claimed, &error, &template_name_string);
-		argument_option(i, argc, argv, "-c", "--dcp-content-type", &claimed, &error, &dcp_content_type_string);
+		/* See comment below about --cpl */
+		argument_option(i, argc, argv, "-c", "--dcp-content-type", &claimed, &error, &dcp_content_type_string, string_to_string);
 		argument_option(i, argc, argv, "-f", "--dcp-frame-rate",   &claimed, &error, &dcp_frame_rate_int);
 		argument_option(i, argc, argv, "",   "--container-ratio",  &claimed, &error, &container_ratio_string);
 		argument_option(i, argc, argv, "-s", "--still-length",     &claimed, &error, &still_length, string_to_nonzero_int);
