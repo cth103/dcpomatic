@@ -137,7 +137,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	optional<dcp::Channel> channel;
 	optional<float> gain;
 	optional<boost::filesystem::path> kdm;
-	optional<std::string> cpl;
+	optional<string> cpl;
 
 	int i = 1;
 	while (i < argc) {
