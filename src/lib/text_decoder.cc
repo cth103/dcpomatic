@@ -132,12 +132,9 @@ TextDecoder::emit_plain_start(ContentTime from, vector<dcp::SubtitleString> subt
 	vector<StringText> string_texts;
 
 	for (auto& subtitle: subtitles) {
-		auto string_text = StringText(
-			subtitle,
-			content()->outline_width(),
-			content()->get_font(subtitle.font().get_value_or("")),
-			valign_standard
-			);
+		auto font = content()->get_font(subtitle.font().get_value_or(""));
+		DCPOMATIC_ASSERT(font);
+		auto string_text = StringText(subtitle, content()->outline_width(), font, valign_standard);
 		string_text.set_text(remove_invalid_characters_for_xml(string_text.text()));
 		set_forced_appearance(content(), string_text);
 		string_texts.push_back(string_text);
@@ -307,10 +304,13 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				0
 				);
 
+			auto font = content()->get_font(block.font.get_value_or(""));
+			DCPOMATIC_ASSERT(font);
+
 			auto string_text = StringText(
 				dcp_subtitle,
 				content()->outline_width(),
-				content()->get_font(block.font.get_value_or("")),
+				font,
 				dcp::SubtitleStandard::SMPTE_2014
 				);
 			set_forced_appearance(content(), string_text);
