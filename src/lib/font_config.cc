@@ -57,6 +57,8 @@ FontConfig::~FontConfig()
 string
 FontConfig::make_font_available(shared_ptr<dcpomatic::Font> font)
 {
+	DCPOMATIC_ASSERT(font);
+
 	auto existing = _available_fonts.find(font->content());
 	if (existing != _available_fonts.end()) {
 		return existing->second;
