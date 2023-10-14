@@ -57,10 +57,10 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 {
 	Content::examine (film, job);
 
-	auto sc = load (path(0));
+	auto subtitle_asset = load(path(0));
 
-	auto iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(sc);
-	auto smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(sc);
+	auto iop = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(subtitle_asset);
+	auto smpte = dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(subtitle_asset);
 	if (smpte) {
 		set_video_frame_rate(film, smpte->edit_rate().numerator);
 	}
@@ -70,12 +70,12 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	/* Default to turning these subtitles on */
 	only_text()->set_use (true);
 
-	_length = ContentTime::from_seconds (sc->latest_subtitle_out().as_seconds());
+	_length = ContentTime::from_seconds(subtitle_asset->latest_subtitle_out().as_seconds());
 
-	sc->fix_empty_font_ids ();
+	subtitle_asset->fix_empty_font_ids();
 
-	auto font_data = sc->font_data();
-	for (auto node: sc->load_font_nodes()) {
+	auto font_data = subtitle_asset->font_data();
+	for (auto node: subtitle_asset->load_font_nodes()) {
 		auto data = font_data.find(node->id);
 		if (data != font_data.end()) {
 			only_text()->add_font(make_shared<Font>(node->id, data->second));
