@@ -20,11 +20,13 @@
 
 
 #include "config.h"
+#include "constants.h"
 #include "dcp_content.h"
 #include "dcp_examiner.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
 #include "image.h"
+#include "text_content.h"
 #include "util.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
@@ -128,9 +130,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	LOG_GENERAL("Looking at %1 reels", selected_cpl->reels().size());
 
+	int reel_index = 0;
 	for (auto reel: selected_cpl->reels()) {
 		LOG_GENERAL("Reel %1", reel->id());
-		vector<shared_ptr<dcpomatic::Font>> reel_fonts;
 
 		if (reel->main_picture()) {
 			if (!reel->main_picture()->asset_ref().resolved()) {
@@ -205,8 +207,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_text_count[TextType::OPEN_SUBTITLE] = 1;
 			_open_subtitle_language = try_to_parse_language(reel->main_subtitle()->language());
 
-			for (auto const& font: reel->main_subtitle()->asset()->font_data()) {
-				reel_fonts.push_back(make_shared<dcpomatic::Font>(font.first, font.second));
+			auto asset = reel->main_subtitle()->asset();
+			for (auto const& font: asset->font_data()) {
+				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+			}
+			if (asset->font_data().empty()) {
+				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
 			}
 		}
 
@@ -232,8 +238,12 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 			LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
 
-			for (auto const& font: ccap->asset()->font_data()) {
-				reel_fonts.push_back(make_shared<dcpomatic::Font>(font.first, font.second));
+			auto asset = ccap->asset();
+			for (auto const& font: asset->font_data()) {
+				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+			}
+			if (asset->font_data().empty()) {
+				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
 			}
 		}
 
@@ -263,11 +273,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_reel_lengths.push_back(reel->atmos()->actual_duration());
 		}
 
-		if (reel_fonts.empty()) {
-			reel_fonts.push_back(make_shared<dcpomatic::Font>(""));
-		}
-
-		_fonts.push_back(reel_fonts);
+		++reel_index;
 	}
 
 	_encrypted = selected_cpl->any_encrypted();
@@ -355,3 +361,21 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 	_cpl = selected_cpl->id();
 }
+
+
+void
+DCPExaminer::add_fonts(shared_ptr<TextContent> content)
+{
+	for (auto const& font: _fonts) {
+		_font_id_allocator.add_font(font.reel_index, font.asset_id, font.font->id());
+	}
+
+	_font_id_allocator.allocate();
+
+	for (auto const& font: _fonts) {
+		auto font_copy = make_shared<dcpomatic::Font>(*font.font);
+		font_copy->set_id(_font_id_allocator.font_id(font.reel_index, font.asset_id, font.font->id()));
+		content->add_font(font_copy);
+	}
+}
+

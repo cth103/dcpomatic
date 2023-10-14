@@ -875,53 +875,9 @@ Writer::write (vector<shared_ptr<Font>> fonts)
 		}
 		_chosen_interop_font = fonts[0];
 	} else {
-		set<string> used_ids;
-
-		/* Return the index of a _N at the end of a string, or string::npos */
-		auto underscore_number_position = [](string s) {
-			auto last_underscore = s.find_last_of("_");
-			if (last_underscore == string::npos) {
-				return string::npos;
-			}
-
-			for (auto i = last_underscore + 1; i < s.size(); ++i) {
-				if (!isdigit(s[i])) {
-					return string::npos;
-				}
-			}
-
-			return last_underscore;
-		};
-
-		/* Write fonts to _fonts, changing any duplicate IDs so that they are unique */
 		for (auto font: fonts) {
-			auto id = fix_id(font->id());
-			if (used_ids.find(id) == used_ids.end()) {
-				/* This ID is unique so we can just use it as-is */
-				_fonts.put(font, id);
-				used_ids.insert(id);
-			} else {
-				auto end = underscore_number_position(id);
-				if (end == string::npos) {
-					/* This string has no _N suffix, so add one */
-					id += "_0";
-					end = underscore_number_position(id);
-				}
-
-				++end;
-
-				/* Increment the suffix until we find a unique one */
-				auto number = dcp::raw_convert<int>(id.substr(end));
-				while (used_ids.find(id) != used_ids.end()) {
-					++number;
-					id = String::compose("%1_%2", id.substr(0, end - 1), number);
-				}
-				used_ids.insert(id);
-			}
-			_fonts.put(font, id);
+			_fonts.put(font, fix_id(font->id()));
 		}
-
-		DCPOMATIC_ASSERT(_fonts.map().size() == used_ids.size());
 	}
 }
 

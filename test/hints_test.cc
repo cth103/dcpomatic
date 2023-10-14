@@ -193,12 +193,13 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 		}
 		fake_font.close();
 
-		auto content = content_factory("test/data/" + name + ".srt")[0];
+		auto content = content_factory(String::compose("test/data/%1%2.xml", name, i))[0];
 		content->text[0]->set_type(TextType::OPEN_SUBTITLE);
 		content->text[0]->set_language(dcp::LanguageTag("en-US"));
 		film->examine_and_add_content(content);
 		BOOST_REQUIRE (!wait_for_jobs());
-		content->text[0]->get_font("")->set_file("build/test/hint_subtitle_mxf_too_big.ttf");
+		auto const font = content->text[0]->get_font(String::compose("font_%1", i));
+		font->set_file("build/test/hint_subtitle_mxf_too_big.ttf");
 	}
 
 	auto hints = get_hints (film);

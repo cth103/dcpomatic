@@ -232,9 +232,4 @@ private:
 };
 
 
-extern std::string id_for_font_in_reel(std::string id, int reel);
-extern void add_fonts_from_examiner(std::shared_ptr<TextContent> text, std::vector<std::vector<std::shared_ptr<dcpomatic::Font>>> const& fonts);
-
-
-
 #endif

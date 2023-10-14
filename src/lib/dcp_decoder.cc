@@ -23,6 +23,7 @@
 #include "audio_content.h"
 #include "audio_decoder.h"
 #include "config.h"
+#include "constants.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"
 #include "digester.h"
@@ -136,6 +137,9 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 
 	_reel = _reels.begin ();
 	get_readers ();
+
+	_font_id_allocator.add_fonts_from_reels(_reels);
+	_font_id_allocator.allocate();
 }
 
 
@@ -310,7 +314,7 @@ DCPDecoder::pass_texts (
 				}
 
 				dcp::SubtitleString is_copy = *is;
-				is_copy.set_font(id_for_font_in_reel(is_copy.font().get_value_or(""), _reel - _reels.begin()));
+				is_copy.set_font(_font_id_allocator.font_id(_reel - _reels.begin(), asset->id(), is_copy.font().get_value_or("")));
 				strings.push_back(is_copy);
 			}
 

@@ -99,6 +99,7 @@ def build(bld):
                  film_metadata_test.cc
                  find_missing_test.cc
                  font_comparator_test.cc
+                 font_id_allocator_test.cc
                  frame_interval_checker_test.cc
                  frame_rate_test.cc
                  guess_crop_test.cc

@@ -28,8 +28,11 @@
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
+#include "lib/examine_content_job.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/job_manager.h"
+#include "lib/make_dcp.h"
 #include "lib/player.h"
 #include "lib/text_content.h"
 #include "lib/referenced_reel_asset.h"
@@ -421,5 +424,49 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_subs_when_adding_ccaps)
 	string why_not;
 	BOOST_CHECK(ov_dcp->can_reference_text(vf, TextType::OPEN_SUBTITLE, why_not));
 	std::cout << why_not << "\n";
+}
+
+
+BOOST_AUTO_TEST_CASE(test_duplicate_font_id_in_vf)
+{
+	string const name("test_duplicate_font_id_in_vf");
+	auto subs = content_factory("test/data/15s.srt");
+	auto ov = new_test_film2(name + "_ov", subs);
+	make_and_verify_dcp(
+		ov,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
+
+	auto ccaps = content_factory("test/data/15s.srt")[0];
+	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
+	auto vf = new_test_film2(name + "_vf", { ov_dcp, ccaps });
+	ov_dcp->set_reference_audio(true);
+	ov_dcp->set_reference_video(true);
+	ov_dcp->text[0]->set_use(true);
+	ccaps->text[0]->set_type(TextType::CLOSED_CAPTION);
+	string why_not;
+	BOOST_CHECK_MESSAGE(ov_dcp->can_reference_text(vf, TextType::OPEN_SUBTITLE, why_not), why_not);
+	ov_dcp->set_reference_text(TextType::OPEN_SUBTITLE, true);
+	vf->write_metadata();
+	make_dcp(vf, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	auto vf_dcp = make_shared<DCPContent>(vf->dir(vf->dcp_name(false)));
+
+	auto test = new_test_film2(name + "_test", { vf_dcp });
+	vf_dcp->add_ov(ov->dir(ov->dcp_name(false)));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(test, vf_dcp));
+	BOOST_CHECK(!wait_for_jobs());
+
+	make_and_verify_dcp(
+		test,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+		});
 }
 

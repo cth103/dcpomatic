@@ -27,6 +27,7 @@
 #include "audio_examiner.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_assert.h"
+#include "font_id_allocator.h"
 #include "video_examiner.h"
 #include <dcp/dcp_time.h>
 #include <dcp/rating.h>
@@ -173,10 +174,7 @@ public:
 		return _atmos_edit_rate;
 	}
 
-	/** @return fonts in each reel */
-	std::vector<std::vector<std::shared_ptr<dcpomatic::Font>>> fonts() const {
-		return _fonts;
-	}
+	void add_fonts(std::shared_ptr<TextContent> content);
 
 private:
 	boost::optional<double> _video_frame_rate;
@@ -211,5 +209,20 @@ private:
 	bool _has_atmos = false;
 	Frame _atmos_length = 0;
 	dcp::Fraction _atmos_edit_rate;
-	std::vector<std::vector<std::shared_ptr<dcpomatic::Font>>> _fonts;
+
+	struct Font
+	{
+		Font(int reel_index_, std::string asset_id_, std::shared_ptr<dcpomatic::Font> font_)
+			: reel_index(reel_index_)
+			, asset_id(asset_id_)
+			, font(font_)
+		{}
+
+		int reel_index;
+		std::string asset_id;
+		std::shared_ptr<dcpomatic::Font> font;
+	};
+
+	std::vector<Font> _fonts;
+	FontIDAllocator _font_id_allocator;
 };

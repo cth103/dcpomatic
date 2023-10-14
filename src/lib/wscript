@@ -119,6 +119,7 @@ sources = """
           filter.cc
           font.cc
           font_config.cc
+          font_id_allocator.cc
           font_id_map.cc
           frame_interval_checker.cc
           frame_rate_change.cc

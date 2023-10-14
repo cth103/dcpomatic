@@ -26,6 +26,7 @@
 
 #include "atmos_metadata.h"
 #include "decoder.h"
+#include "font_id_allocator.h"
 #include <dcp/mono_picture_asset_reader.h>
 #include <dcp/stereo_picture_asset_reader.h>
 #include <dcp/sound_asset_reader.h>
@@ -106,4 +107,6 @@ private:
 	boost::optional<int> _forced_reduction;
 
 	std::string _lazy_digest;
+
+	FontIDAllocator _font_id_allocator;
 };

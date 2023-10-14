@@ -280,14 +280,14 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	for (int i = 0; i < examiner->text_count(TextType::OPEN_SUBTITLE); ++i) {
 		auto c = make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE);
 		c->set_language (examiner->open_subtitle_language());
-		add_fonts_from_examiner(c, examiner->fonts());
+		examiner->add_fonts(c);
 		new_text.push_back (c);
 	}
 
 	for (int i = 0; i < examiner->text_count(TextType::CLOSED_CAPTION); ++i) {
 		auto c = make_shared<TextContent>(this, TextType::CLOSED_CAPTION, TextType::CLOSED_CAPTION);
 		c->set_dcp_track (examiner->dcp_text_track(i));
-		add_fonts_from_examiner(c, examiner->fonts());
+		examiner->add_fonts(c);
 		new_text.push_back (c);
 	}
 
@@ -843,33 +843,6 @@ DCPContent::resolution () const
 
 
 void
-add_fonts_from_examiner(shared_ptr<TextContent> text, vector<vector<shared_ptr<Font>>> const & all_fonts)
-{
-	int reel_number = 0;
-	for (auto reel_fonts: all_fonts) {
-		for (auto font: reel_fonts) {
-			/* Each reel could have its own font with the same ID, so we disambiguate them here
-			 * by prepending the reel number.  We do the same disambiguation when emitting the
-			 * subtitles in the DCP decoder.
-			 */
-			auto font_copy = make_shared<dcpomatic::Font>(*font);
-			font_copy->set_id(id_for_font_in_reel(font->id(), reel_number));
-			text->add_font(font_copy);
-		}
-		++reel_number;
-	}
-
-}
-
-
-string
-id_for_font_in_reel(string id, int reel)
-{
-	return String::compose("%1_%2", reel, id);
-}
-
-
-void
 DCPContent::check_font_ids()
 {
 	if (text.empty()) {
@@ -877,7 +850,7 @@ DCPContent::check_font_ids()
 	}
 
 	DCPExaminer examiner(shared_from_this(), true);
-	add_fonts_from_examiner(text.front(), examiner.fonts());
+	examiner.add_fonts(text.front());
 }
 
 

@@ -1,0 +1,59 @@
+How a font makes its way through the encoding process
+
+
+Import a DCP containing some subtitles with fonts.
+
+* Examiner
+
+Builds _fonts containing (font-ID, font-TTF-data)
+Add to allocator (asset-ID, font-ID)
+
+font-ID will be unique in its own asset, but not more widely.
+
+Use the allocator to set the font ID to N_font-ID where N is an integer unique for all fonts in the DCP.
+
+If there's no fonts in the DCP, add one with an empty ID - we want something in the content for users
+to edit.
+
+
+Now the text content contains fonts with IDs unique within the content.
+
+
+* DCP Decoder
+
+Some subtitle arrives with an "original" font ID.
+Use an allocator (built the same way as in the examiner) to replace the ID with a new one N_font-ID.
+
+
+Q: Why do we need the allocator?
+A: Because we need an ID to refer to each font in the content (to be stored in metadata.xml)
+   and we need to turn this ID back into an actual Font C++ object so it must be unique within
+   the content.  Also we allow these fonts to have their settings altered so they must have unique
+   IDs for that.
+
+
+* Text Decoder
+
+Calls content->get_font() to get the Font C++ object by the (newly-allocated) ID.  This works because
+the allocated font-ID is unique within the content.
+
+The Font C++ object pointer is written to the subtitle.
+
+
+* Player
+
+Passes subtitles through.
+
+
+* Writer
+
+Gets all fonts, puts them in the font ID map using the font's original ID.  This is OK because we
+don't need uniqueness in the DCP any more.
+
+
+* Reel Writer
+
+Gets subtitles, uses font ID map to find the ID from the Font C++ object pointer.  Puts this ID in
+the font and writes it to the asset.  Ensures the required LoadFont is added.
+
+
