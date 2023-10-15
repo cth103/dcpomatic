@@ -493,6 +493,7 @@ supported_by.Add (wxT ("Mark Hensley"));
 supported_by.Add (wxT ("Ronny Hermansen"));
 supported_by.Add (wxT ("Antonio Ruiz Hernandez"));
 supported_by.Add (wxT ("Javier Hernandez"));
+supported_by.Add (wxT ("Mark Van Heusden"));
 supported_by.Add (wxT ("Michael Higgins"));
 supported_by.Add (wxT ("Erin Hill"));
 supported_by.Add (wxT ("Kimberly Hill"));
