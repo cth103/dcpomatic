@@ -369,6 +369,7 @@ supported_by.Add (wxT ("Yellow House Films"));
 supported_by.Add (wxT ("Goldcrest Films"));
 supported_by.Add (wxT ("Indigo Republic Films"));
 supported_by.Add (wxT ("Lifetime Heritage Films"));
+supported_by.Add (wxT ("Trinder Films"));
 supported_by.Add (wxT ("Hevadis Films"));
 supported_by.Add (wxT ("Artio Films"));
 supported_by.Add (wxT ("Substantial Films"));
