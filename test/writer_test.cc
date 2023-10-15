@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 	auto image = make_shared<dcp::OpenJPEGImage>(size);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < (size.width * size.height); ++j) {
-			image->data(i)[j] = rand();
+			image->data(i)[j] = rand() % 4095;
 		}
 	}
 
