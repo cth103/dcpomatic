@@ -25,7 +25,6 @@
 #include "config.h"
 #include "constants.h"
 #include "cross.h"
-#include "crypto.h"
 #include "dcp_content_type.h"
 #include "dkdm_recipient.h"
 #include "dkdm_wrapper.h"

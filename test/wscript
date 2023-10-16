@@ -70,7 +70,6 @@ def build(bld):
                  cpl_hash_test.cc
                  cpl_metadata_test.cc
                  create_cli_test.cc
-                 crypto_test.cc
                  dcpomatic_time_test.cc
                  dcp_decoder_test.cc
                  dcp_digest_file_test.cc
