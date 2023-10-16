@@ -36,17 +36,18 @@ using std::vector;
 
 static
 void
-test_descriptors(vector<dcp::Channel> channels, vector<string> mca_tag_symbols, string group_name)
+test_descriptors(int mxf_channels, vector<dcp::Channel> active_channels, vector<string> mca_tag_symbols, string group_name)
 {
 	auto content = content_factory("test/data/flat_red.png");
-	for (auto i = 0U; i < channels.size(); ++i) {
+	for (auto i = 0; i < mxf_channels; ++i) {
 		content.push_back(content_factory("test/data/C.wav").front());
 	}
 	auto film = new_test_film2("mca_subdescriptors_written_correctly", content);
 	film->set_interop(false);
+	film->set_audio_channels(mxf_channels);
 
 	int N = 1;
-	for (auto channel: channels) {
+	for (auto channel: active_channels) {
 		auto mapping = AudioMapping(1, MAX_DCP_AUDIO_CHANNELS);
 		mapping.set(0, channel, 1);
 		content[N]->audio->set_mapping(mapping);
@@ -71,21 +72,21 @@ test_descriptors(vector<dcp::Channel> channels, vector<string> mca_tag_symbols, 
 }
 
 
-BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_mono)
+BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_mono_in_6_channel)
 {
-	test_descriptors({ dcp::Channel::CENTRE }, { "chL", "chR", "chC", "chLFE", "chLs", "chRs" }, "sg51");
+	test_descriptors(6, { dcp::Channel::CENTRE }, { "chL", "chR", "chC", "chLFE", "chLs", "chRs" }, "sg51");
 }
 
 
-BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_stereo)
+BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_stereo_in_6_channel)
 {
-	test_descriptors({ dcp::Channel::LEFT, dcp::Channel::RIGHT }, { "chL", "chR", "chC", "chLFE", "chLs", "chRs" }, "sg51");
+	test_descriptors(6, { dcp::Channel::LEFT, dcp::Channel::RIGHT }, { "chL", "chR", "chC", "chLFE", "chLs", "chRs" }, "sg51");
 }
 
 
 BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_51)
 {
-	test_descriptors(
+	test_descriptors(6,
 		{
 			dcp::Channel::LEFT,
 			dcp::Channel::RIGHT,
@@ -102,7 +103,7 @@ BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_51)
 
 BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_51_with_hi_vi)
 {
-	test_descriptors(
+	test_descriptors(8,
 		{
 			dcp::Channel::LEFT,
 			dcp::Channel::RIGHT,
@@ -121,7 +122,7 @@ BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_51_with_hi_vi)
 
 BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_71)
 {
-	test_descriptors(
+	test_descriptors(16,
 		{
 			dcp::Channel::LEFT,
 			dcp::Channel::RIGHT,
@@ -140,7 +141,7 @@ BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_71)
 
 BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_71_with_hi_vi)
 {
-	test_descriptors(
+	test_descriptors(16,
 		{
 			dcp::Channel::LEFT,
 			dcp::Channel::RIGHT,
