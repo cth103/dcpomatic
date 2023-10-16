@@ -72,9 +72,23 @@ test_descriptors(int mxf_channels, vector<dcp::Channel> active_channels, vector<
 }
 
 
+/* This seems like an impossible case but let's check it anyway */
+BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_mono_in_2_channel)
+{
+	test_descriptors(2, { dcp::Channel::CENTRE }, { "chL", "chR" }, "sg51");
+}
+
+
 BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_mono_in_6_channel)
 {
 	test_descriptors(6, { dcp::Channel::CENTRE }, { "chL", "chR", "chC", "chLFE", "chLs", "chRs" }, "sg51");
+}
+
+
+/* If we only have two channels in the MXF we shouldn't see any extra descriptors */
+BOOST_AUTO_TEST_CASE(mca_subdescriptors_written_correctly_stereo_in_2_channel)
+{
+	test_descriptors(2, { dcp::Channel::LEFT, dcp::Channel::RIGHT }, { "chL", "chR" }, "sg51");
 }
 
 
