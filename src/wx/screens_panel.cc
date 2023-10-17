@@ -19,6 +19,7 @@
 */
 
 
+#include "check_box.h"
 #include "cinema_dialog.h"
 #include "dcpomatic_button.h"
 #include "screen_dialog.h"
@@ -50,14 +51,21 @@ using namespace dcpomatic;
 ScreensPanel::ScreensPanel (wxWindow* parent)
 	: wxPanel (parent, wxID_ANY)
 {
-	auto sizer = new wxBoxSizer (wxVERTICAL);
+	_overall_sizer = new wxBoxSizer(wxVERTICAL);
+
+	auto search_sizer = new wxBoxSizer(wxHORIZONTAL);
 
 	_search = new wxSearchCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
 #ifndef __WXGTK3__
 	/* The cancel button seems to be strangely broken in GTK3; clicking on it twice sometimes works */
 	_search->ShowCancelButton (true);
 #endif
-	sizer->Add (_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
+	search_sizer->Add(_search, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
+
+	_show_only_checked = new CheckBox(this, _("Show only checked"));
+	search_sizer->Add(_show_only_checked, 1, wxEXPAND | wxLEFT | wxBOTTOM, DCPOMATIC_SIZER_GAP);
+
+	_overall_sizer->Add(search_sizer);
 
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER);
@@ -97,9 +105,10 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	targets->Add (side_buttons, 0, 0);
 
-	sizer->Add (targets, 1, wxEXPAND);
+	_overall_sizer->Add (targets, 1, wxEXPAND);
 
-	_search->Bind        (wxEVT_TEXT, boost::bind (&ScreensPanel::search_changed, this));
+	_search->Bind        (wxEVT_TEXT, boost::bind (&ScreensPanel::display_filter_changed, this));
+	_show_only_checked->Bind(wxEVT_CHECKBOX, boost::bind(&ScreensPanel::display_filter_changed, this));
 	_targets->Bind       (wxEVT_TREELIST_SELECTION_CHANGED, &ScreensPanel::selection_changed_shim, this);
 	_targets->Bind       (wxEVT_TREELIST_ITEM_CHECKED, &ScreensPanel::checkbox_changed, this);
 	_targets->Bind       (wxEVT_TREELIST_ITEM_ACTIVATED, &ScreensPanel::item_activated, this);
@@ -115,7 +124,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	_check_all->Bind     (wxEVT_BUTTON, boost::bind(&ScreensPanel::check_all, this));
 	_uncheck_all->Bind   (wxEVT_BUTTON, boost::bind(&ScreensPanel::uncheck_all, this));
 
-	SetSizer (sizer);
+	SetSizer(_overall_sizer);
 
 	_config_connection = Config::instance()->Changed.connect(boost::bind(&ScreensPanel::config_changed, this, _1));
 }
@@ -166,6 +175,8 @@ ScreensPanel::setup_sensitivity ()
 	_add_screen->Enable (sc || ss);
 	_edit_screen->Enable (ss);
 	_remove_screen->Enable (_selected_screens.size() >= 1);
+
+	_show_only_checked->Enable(!_checked_screens.empty());
 }
 
 
@@ -193,6 +204,16 @@ ScreensPanel::add_cinema (shared_ptr<Cinema> cinema, wxTreeListItem previous)
 	auto const search = wx_to_std(_search->GetValue());
 	if (!matches_search(cinema, search)) {
 		return {};
+	}
+
+	if (_show_only_checked->get()) {
+		auto screens = cinema->screens();
+		auto iter = std::find_if(screens.begin(), screens.end(), [this](shared_ptr<dcpomatic::Screen> screen) {
+			return _checked_screens.find(screen) != _checked_screens.end();
+		});
+		if (iter == screens.end()) {
+			return {};
+		}
 	}
 
 	auto id = _targets->InsertItem(_targets->GetRootItem(), previous, std_to_wx(cinema->name));
@@ -345,6 +366,7 @@ ScreensPanel::remove_cinema_clicked ()
 	}
 
 	selection_changed ();
+	setup_show_only_checked();
 }
 
 
@@ -464,6 +486,7 @@ ScreensPanel::remove_screen_clicked ()
 	 */
 	selection_changed();
 	notify_cinemas_changed();
+	setup_show_only_checked();
 }
 
 
@@ -545,8 +568,9 @@ ScreensPanel::clear_and_re_add()
 }
 
 
+/** Search and/or "show only checked" changed */
 void
-ScreensPanel::search_changed ()
+ScreensPanel::display_filter_changed()
 {
 	clear_and_re_add();
 
@@ -589,6 +613,8 @@ ScreensPanel::set_screen_checked (wxTreeListItem item, bool checked)
 	} else {
 		_checked_screens.erase(screen);
 	}
+
+	setup_show_only_checked();
 }
 
 
@@ -727,4 +753,17 @@ ScreensPanel::item_activated(wxTreeListEvent& ev)
 	}
 }
 
+
+void
+ScreensPanel::setup_show_only_checked()
+{
+	if (_checked_screens.empty()) {
+		_show_only_checked->set_text(_("Show only checked"));
+	} else {
+		_show_only_checked->set_text(wxString::Format(_("Show only %d checked"), static_cast<int>(_checked_screens.size())));
+	}
+
+	_overall_sizer->Layout();
+	setup_sensitivity();
+}
 

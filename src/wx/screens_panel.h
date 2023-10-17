@@ -39,6 +39,7 @@ namespace dcpomatic {
 
 
 class Cinema;
+class CheckBox;
 
 
 class ScreensPanel : public wxPanel
@@ -66,7 +67,7 @@ private:
 	void remove_screen_clicked ();
 	void selection_changed_shim (wxTreeListEvent &);
 	void selection_changed ();
-	void search_changed ();
+	void display_filter_changed();
 	void checkbox_changed (wxTreeListEvent& ev);
 	void item_activated(wxTreeListEvent& ev);
 	std::shared_ptr<Cinema> cinema_for_operation () const;
@@ -80,13 +81,16 @@ private:
 	void convert_to_lower(std::string& s);
 	bool matches_search(std::shared_ptr<const Cinema> cinema, std::string search);
 	std::list<std::shared_ptr<Cinema>> sorted_cinemas() const;
+	void setup_show_only_checked();
 
 	std::shared_ptr<Cinema> item_to_cinema (wxTreeListItem item) const;
 	std::shared_ptr<dcpomatic::Screen> item_to_screen (wxTreeListItem item) const;
 	boost::optional<wxTreeListItem> cinema_to_item (std::shared_ptr<Cinema> cinema) const;
 	boost::optional<wxTreeListItem> screen_to_item (std::shared_ptr<dcpomatic::Screen> screen) const;
 
+	wxBoxSizer* _overall_sizer;
 	wxSearchCtrl* _search;
+	CheckBox* _show_only_checked;
 	wxTreeListCtrl* _targets;
 	wxButton* _add_cinema;
 	wxButton* _edit_cinema;
