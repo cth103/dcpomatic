@@ -330,7 +330,9 @@ ScreensPanel::remove_cinema_clicked ()
 		}
 	}
 
-	for (auto const& cinema: _selected_cinemas) {
+	auto cinemas_to_remove = _selected_cinemas;
+
+	for (auto const& cinema: cinemas_to_remove) {
 		_ignore_cinemas_changed = true;
 		ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 		for (auto screen: cinema->screens()) {
