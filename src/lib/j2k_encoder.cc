@@ -364,12 +364,10 @@ J2KEncoder::terminate_threads ()
 
 
 void
-#ifdef DCPOMATIC_GROK
 J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> servers)
-#else
-J2KEncoder::remake_threads(int cpu, int, list<EncodeServerDescription> servers)
-#endif
 {
+	LOG_GENERAL("Making threads: CPU=%1, GPU=%2, Remote=%3", cpu, gpu, servers.size());
+
 	boost::mutex::scoped_lock lm (_threads_mutex);
 	if (_ending) {
 		return;
