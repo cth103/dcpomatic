@@ -91,11 +91,6 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 		LOG_GENERAL ("Content: %1", content->technical_summary());
 	}
 	LOG_GENERAL ("DCP video rate %1 fps", film->video_frame_rate());
-	if (Config::instance()->only_servers_encode()) {
-		LOG_GENERAL_NC ("0 threads: ONLY SERVERS SET TO ENCODE");
-	} else {
-		LOG_GENERAL ("%1 threads", Config::instance()->master_encoding_threads());
-	}
 	LOG_GENERAL ("J2K bandwidth %1", film->j2k_bandwidth());
 
 	auto tj = make_shared<DCPTranscodeJob>(film, behaviour);
