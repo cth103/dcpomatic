@@ -35,6 +35,8 @@ class Job;
 class Player;
 class PlayerVideo;
 
+struct frames_not_lost_when_threads_disappear;
+
 
 /** @class DCPEncoder */
 class DCPEncoder : public Encoder
@@ -53,7 +55,12 @@ public:
 		return _finishing;
 	}
 
+	void pause() override;
+	void resume() override;
+
 private:
+
+	friend struct ::frames_not_lost_when_threads_disappear;
 
 	void video (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime);
 	void audio (std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime);

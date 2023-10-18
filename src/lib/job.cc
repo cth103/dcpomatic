@@ -655,7 +655,7 @@ void
 Job::cancel ()
 {
 	if (_thread.joinable()) {
-		resume();
+		Job::resume();
 
 		_thread.interrupt ();
 		_thread.join ();
@@ -682,6 +682,7 @@ Job::pause_by_user ()
 	}
 
 	if (paused) {
+		pause();
 		_pause_changed.notify_all ();
 	}
 
@@ -694,6 +695,7 @@ Job::pause_by_priority ()
 {
 	if (running ()) {
 		set_state (PAUSED_BY_PRIORITY);
+		pause();
 		_pause_changed.notify_all ();
 	}
 }

@@ -18,6 +18,7 @@
 
 */
 
+
 /** @file  src/dcp_encoder.cc
  *  @brief A class which takes a Film and some Options, then uses those to encode the film into a DCP.
  *
@@ -25,31 +26,33 @@
  *  as a parameter to the constructor.
  */
 
-#include "dcp_encoder.h"
-#include "j2k_encoder.h"
-#include "film.h"
-#include "video_decoder.h"
+
 #include "audio_decoder.h"
-#include "player.h"
-#include "job.h"
-#include "writer.h"
 #include "compose.hpp"
+#include "dcp_encoder.h"
+#include "film.h"
+#include "j2k_encoder.h"
+#include "job.h"
+#include "player.h"
+#include "player_video.h"
 #include "referenced_reel_asset.h"
 #include "text_content.h"
-#include "player_video.h"
+#include "video_decoder.h"
+#include "writer.h"
 #include <boost/signals2.hpp>
 #include <iostream>
 
 #include "i18n.h"
 
-using std::string;
+
 using std::cout;
-using std::list;
-using std::vector;
-using std::shared_ptr;
-using std::weak_ptr;
 using std::dynamic_pointer_cast;
+using std::list;
 using std::make_shared;
+using std::shared_ptr;
+using std::string;
+using std::vector;
+using std::weak_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -116,6 +119,20 @@ DCPEncoder::go ()
 	_finishing = true;
 	_j2k_encoder.end();
 	_writer.finish(_film->dir(_film->dcp_name()));
+}
+
+
+void
+DCPEncoder::pause()
+{
+	_j2k_encoder.pause();
+}
+
+
+void
+DCPEncoder::resume()
+{
+	_j2k_encoder.resume();
 }
 
 void

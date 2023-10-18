@@ -32,6 +32,7 @@
 #include "enum_indexed_vector.h"
 #include "event_history.h"
 #include "exception_store.h"
+#include "j2k_encoder_thread.h"
 #include "writer.h"
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
@@ -47,6 +48,15 @@ class EncodeServerDescription;
 class Film;
 class Job;
 class PlayerVideo;
+
+namespace grk_plugin {
+	struct DcpomaticContext;
+	struct GrokContext;
+}
+
+struct local_threads_created_and_destroyed;
+struct remote_threads_created_and_destroyed;
+struct frames_not_lost_when_threads_disappear;
 
 
 /** @class J2KEncoder
@@ -70,19 +80,27 @@ public:
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
 	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 
+	void pause();
+	void resume();
+
 	/** Called when a processing run has finished */
-	void end ();
+	void end();
 
 	boost::optional<float> current_encoding_rate () const;
 	int video_frames_enqueued () const;
 
-	void servers_list_changed ();
+	DCPVideo pop();
+	void retry(DCPVideo frame);
+	void write(std::shared_ptr<const dcp::Data> data, int index, Eyes eyes);
 
 private:
+	friend struct ::local_threads_created_and_destroyed;
+	friend struct ::remote_threads_created_and_destroyed;
+	friend struct ::frames_not_lost_when_threads_disappear;
 
 	void frame_done ();
-
-	void encoder_thread (boost::optional<EncodeServerDescription>);
+	void servers_list_changed ();
+	void remake_threads(int cpu, int gpu, std::list<EncodeServerDescription> servers);
 	void terminate_threads ();
 
 	/** Film that we are encoding */
@@ -91,7 +109,7 @@ private:
 	EventHistory _history;
 
 	boost::mutex _threads_mutex;
-	std::shared_ptr<boost::thread_group> _threads;
+	std::vector<std::shared_ptr<J2KEncoderThread>> _threads;
 
 	mutable boost::mutex _queue_mutex;
 	std::list<DCPVideo> _queue;
@@ -107,6 +125,13 @@ private:
 	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;
+
+#ifdef DCPOMATIC_GROK
+	grk_plugin::DcpomaticContext* _dcpomatic_context = nullptr;
+	grk_plugin::GrokContext *_context = nullptr;
+#endif
+
+	bool _ending = false;
 };
 
 

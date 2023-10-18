@@ -40,8 +40,8 @@ using std::shared_ptr;
 using std::string;
 
 
-/** Add suitable Jobs to the JobManager to create a DCP for a Film */
-void
+/** Add suitable Job to the JobManager to create a DCP for a Film */
+shared_ptr<TranscodeJob>
 make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 {
 	if (film->dcp_name().find("/") != string::npos) {
@@ -101,5 +101,7 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 	auto tj = make_shared<DCPTranscodeJob>(film, behaviour);
 	tj->set_encoder (make_shared<DCPEncoder>(film, tj));
 	JobManager::instance()->add (tj);
+
+	return tj;
 }
 

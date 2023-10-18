@@ -50,8 +50,6 @@ public:
 	static EncodeServerFinder* instance ();
 	static void drop ();
 
-	void stop ();
-
 	std::list<EncodeServerDescription> servers () const;
 
 	/** Emitted whenever the list of servers changes */
@@ -62,6 +60,7 @@ private:
 	~EncodeServerFinder ();
 
 	void start ();
+	void stop ();
 
 	void search_thread ();
 	void listen_thread ();

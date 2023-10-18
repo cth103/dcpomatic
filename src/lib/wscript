@@ -59,6 +59,7 @@ sources = """
           content_factory.cc
           combine_dcp_job.cc
           copy_dcp_details_to_film.cc
+          cpu_j2k_encoder_thread.cc
           create_cli.cc
           crop.cc
           cross_common.cc
@@ -138,6 +139,8 @@ sources = """
           job.cc
           job_manager.cc
           j2k_encoder.cc
+          j2k_encoder_thread.cc
+          j2k_sync_encoder_thread.cc
           json_server.cc
           kdm_cli.cc
           kdm_recipient.cc
@@ -163,6 +166,7 @@ sources = """
           referenced_reel_asset.cc
           release_notes.cc
           render_text.cc
+          remote_j2k_encoder_thread.cc
           resampler.cc
           resolution.cc
           rgba.cc
@@ -240,6 +244,9 @@ def build(bld):
         obj.uselib += ' LWEXT4 NANOMSG'
         if bld.env.TARGET_LINUX:
             obj.uselib += ' POLKIT'
+
+    if bld.env.ENABLE_GROK:
+        obj.source += ' grok_j2k_encoder_thread.cc'
 
     if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE SETUPAPI OLE32 UUID'

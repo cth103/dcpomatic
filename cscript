@@ -508,7 +508,7 @@ def dependencies(target, options):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', 'v1.8.85'))
+    deps.append(('libdcp', 'v1.8.87'))
     deps.append(('libsub', 'v1.6.44'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
@@ -563,6 +563,9 @@ def configure_options(target, options, for_package=False):
 
     if target.platform == 'osx' and target.arch == 'arm64':
         opt += ' --target-macos-arm64 --wx-config=%s/wx-config' % target.bin
+
+    if target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['22.04']:
+        opt += ' --enable-grok'
 
     return opt
 

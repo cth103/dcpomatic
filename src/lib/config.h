@@ -618,6 +618,28 @@ public:
 		return _allow_smpte_bv20;
 	}
 
+#ifdef DCPOMATIC_GROK
+	class Grok
+	{
+	public:
+		Grok() = default;
+		Grok(cxml::ConstNodePtr node);
+
+		void as_xml(xmlpp::Element* node) const;
+
+		bool enable = false;
+		boost::filesystem::path binary_location;
+		int selected = 0;
+		std::string licence_server;
+		int licence_port = 5000;
+		std::string licence;
+	};
+
+	boost::optional<Grok> grok() const {
+		return _grok;
+	}
+#endif
+
 	int isdcf_name_part_length() const {
 		return _isdcf_name_part_length;
 	}
@@ -1199,9 +1221,14 @@ public:
 		maybe_set(_allow_smpte_bv20, allow, ALLOW_SMPTE_BV20);
 	}
 
+#ifdef DCPOMATIC_GROK
+	void set_grok(Grok const& grok);
+#endif
+
 	void set_isdcf_name_part_length(int length) {
 		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
 	}
+
 
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
@@ -1442,6 +1469,10 @@ private:
 	DefaultAddFileLocation _default_add_file_location;
 	bool _allow_smpte_bv20;
 	int _isdcf_name_part_length;
+
+#ifdef DCPOMATIC_GROK
+	boost::optional<Grok> _grok;
+#endif
 
 	ExportConfig _export;
 

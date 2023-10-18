@@ -76,6 +76,7 @@ def options(opt):
     opt.add_option('--workaround-gssapi', action='store_true', default=False, help='link to gssapi_krb5')
     opt.add_option('--use-lld',           action='store_true', default=False, help='use lld linker')
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
+    opt.add_option('--enable-grok',       action='store_true', default=False, help='build with support for grok J2K encoder')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
     opt.add_option('--wx-config',         help='path to wx-config')
 
@@ -96,6 +97,7 @@ def configure(conf):
     conf.env.DEBUG = conf.options.enable_debug
     conf.env.STATIC_DCPOMATIC = conf.options.static_dcpomatic
     conf.env.ENABLE_DISK = conf.options.enable_disk
+    conf.env.ENABLE_GROK = conf.options.enable_grok
     if conf.options.destdir == '':
         conf.env.INSTALL_PREFIX = conf.options.prefix
     else:
@@ -110,6 +112,8 @@ def configure(conf):
                                        '-Wextra',
                                        '-Wwrite-strings',
                                        '-Wno-error=deprecated',
+                                       # getMessengerLogger() in the grok code triggers these warnings
+                                       '-Wno-nonnull',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64',
@@ -139,6 +143,9 @@ def configure(conf):
 
     if conf.options.enable_disk:
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_DISK')
+
+    if conf.options.enable_grok:
+        conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_GROK')
 
     if conf.options.use_lld:
         try:
@@ -605,6 +612,21 @@ def configure(conf):
 
 def build(bld):
     create_version_cc(VERSION, bld.env.CXXFLAGS)
+
+    # waf can't find these dependencies by itself because they are only included if DCPOMATIC_GROK is defined,
+    # and I can't find a way to pass that to waf's dependency scanner
+    if bld.env.ENABLE_GROK:
+        for dep in (
+                'src/lib/j2k_encoder.cc',
+                'src/tools/dcpomatic.cc',
+                'src/tools/dcpomatic_server.cc',
+                'src/tools/dcpomatic_server_cli.cc',
+                'src/tools/dcpomatic_batch.cc'
+        ):
+            bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/context.h'))
+            bld.add_manual_dependency(bld.path.find_node(dep), bld.path.find_node('src/lib/grok/messenger.h'))
+
+        bld.add_manual_dependency(bld.path.find_node('src/wx/full_config_dialog.cc'), bld.path.find_node('src/wx/grok/gpu_config_panel.h'))
 
     bld.recurse('src')
     bld.recurse('graphics')

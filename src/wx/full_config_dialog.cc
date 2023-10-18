@@ -45,6 +45,9 @@
 #include "send_test_email_dialog.h"
 #include "server_dialog.h"
 #include "static_text.h"
+#ifdef DCPOMATIC_GROK
+#include "grok/gpu_config_panel.h"
+#endif
 #include "wx_util.h"
 #include "lib/config.h"
 #include "lib/cross.h"
@@ -1944,6 +1947,9 @@ create_full_config_dialog ()
 	e->AddPage (new SoundPage          (ps, border));
 	e->AddPage (new DefaultsPage       (ps, border));
 	e->AddPage (new EncodingServersPage(ps, border));
+#ifdef DCPOMATIC_GROK
+	e->AddPage (new GPUPage     	   (ps, border));
+#endif
 	e->AddPage (new KeysPage           (ps, border));
 	e->AddPage (new TMSPage            (ps, border));
 	e->AddPage (new EmailPage          (ps, border));

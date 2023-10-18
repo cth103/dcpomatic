@@ -25,6 +25,9 @@
 #include "lib/config.h"
 #include "lib/image.h"
 #include "lib/file_log.h"
+#ifdef DCPOMATIC_GROK
+#include "lib/grok/context.h"
+#endif
 #include "lib/null_log.h"
 #include "lib/version.h"
 #include "lib/encode_server.h"
@@ -108,6 +111,10 @@ main (int argc, char* argv[])
 	if (write_log) {
 		dcpomatic_log.reset (new FileLog("dcpomatic_server_cli.log"));
 	}
+
+#ifdef DCPOMATIC_GROK
+	setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+#endif
 
 	EncodeServer server (verbose, num_threads);
 
