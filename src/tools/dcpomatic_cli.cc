@@ -28,6 +28,9 @@
 #include "lib/ffmpeg_encoder.h"
 #include "lib/film.h"
 #include "lib/filter.h"
+#ifdef DCPOMATIC_GROK
+#include "lib/grok/context.h"
+#endif
 #include "lib/hints.h"
 #include "lib/job_manager.h"
 #include "lib/json_server.h"
@@ -495,6 +498,10 @@ main (int argc, char* argv[])
 			exit(EXIT_FAILURE);
 		}
 	}
+
+#ifdef DCPOMATIC_GROK
+			grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+#endif
 
 	if (progress) {
 		if (export_format) {
