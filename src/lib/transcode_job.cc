@@ -124,6 +124,9 @@ TranscodeJob::run ()
 		DCPOMATIC_ASSERT (_encoder);
 		_encoder->go ();
 
+		set_progress (1);
+		set_state (FINISHED_OK);
+
 		LOG_GENERAL(N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
 
 		if (dynamic_pointer_cast<DCPEncoder>(_encoder)) {
@@ -137,9 +140,6 @@ TranscodeJob::run ()
 		post_transcode ();
 
 		_encoder.reset ();
-
-		set_progress (1);
-		set_state (FINISHED_OK);
 
 	} catch (...) {
 		_encoder.reset ();
