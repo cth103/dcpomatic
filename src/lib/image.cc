@@ -756,8 +756,8 @@ alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, i
 	auto conv = dcp::ColourConversion::srgb_to_xyz();
 	double fast_matrix[9];
 	dcp::combined_rgb_to_xyz(conv, fast_matrix);
-	auto lut_in = conv.in()->lut(0, 1, 8, false);
-	auto lut_out = conv.out()->lut(0, 1, 16, true);
+	auto lut_in = conv.in()->double_lut(0, 1, 8, false);
+	auto lut_out = conv.out()->int_lut(0, 1, 16, true, 65535);
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
 		auto tp = reinterpret_cast<uint16_t*>(target.data[0] + ty * target.stride[0] + target.start_x * target.bpp);
 		auto op = reinterpret_cast<OtherType*>(other.data[0] + oy * other.stride[0]);
@@ -775,9 +775,9 @@ alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, i
 			double const z = max(0.0, min(1.0, r * fast_matrix[6] + g * fast_matrix[7] + b * fast_matrix[8]));
 
 			/* Out gamma LUT and blend */
-			tp[0] = lrint(lut_out[lrint(x * 65535)] * 65535) * alpha + tp[0] * (1 - alpha);
-			tp[1] = lrint(lut_out[lrint(y * 65535)] * 65535) * alpha + tp[1] * (1 - alpha);
-			tp[2] = lrint(lut_out[lrint(z * 65535)] * 65535) * alpha + tp[2] * (1 - alpha);
+			tp[0] = lut_out[lrint(x * 65535)] * alpha + tp[0] * (1 - alpha);
+			tp[1] = lut_out[lrint(y * 65535)] * alpha + tp[1] * (1 - alpha);
+			tp[2] = lut_out[lrint(z * 65535)] * alpha + tp[2] * (1 - alpha);
 
 			tp += target.bpp / 2;
 			op += other.bpp / sizeof(OtherType);

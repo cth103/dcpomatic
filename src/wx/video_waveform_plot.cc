@@ -195,7 +195,7 @@ VideoWaveformPlot::set_image (shared_ptr<PlayerVideo> image)
 	/* We must copy the PlayerVideo here as we will call ::image() on it, potentially
 	   with a different pixel_format than was used when ::prepare() was called.
 	*/
-	_image = DCPVideo::convert_to_xyz (image->shallow_copy(), [](dcp::NoteType, string) {});
+	_image = DCPVideo::convert_to_xyz(image->shallow_copy());
 	_dirty = true;
 	Refresh ();
 }
