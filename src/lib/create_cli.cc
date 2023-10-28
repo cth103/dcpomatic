@@ -381,7 +381,7 @@ CreateCLI::make_film() const
 			channels = std::max(channels, static_cast<int>(*cli_content.channel) + 1);
 		}
 	}
-	if (channels % 1) {
+	if (channels % 2) {
 		++channels;
 	}
 
