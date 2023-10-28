@@ -321,6 +321,7 @@ place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
 		}
 
 		auto cv = dynamic_pointer_cast<TimelineContentView> (i);
+		DCPOMATIC_ASSERT(cv);
 
 		int t = base;
 
