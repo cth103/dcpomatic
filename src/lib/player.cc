@@ -832,17 +832,18 @@ Player::pass ()
 		[](state_pair const& a, state_pair const& b) { return a.second.last_push_end.get() < b.second.last_push_end.get(); }
 		);
 
+	std::map<AudioStreamPtr, StreamState> alive_stream_states;
+
 	if (latest_last_push_end != have_pushed.end()) {
 		LOG_DEBUG_PLAYER("Leading audio stream is in %1 at %2", latest_last_push_end->second.piece->content->path(0), to_string(latest_last_push_end->second.last_push_end.get()));
-	}
 
-	/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
-	std::map<AudioStreamPtr, StreamState> alive_stream_states;
-	for (auto const& i: _stream_states) {
-		if (!i.second.last_push_end || (latest_last_push_end->second.last_push_end.get() - i.second.last_push_end.get()) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
-			alive_stream_states.insert(i);
-		} else {
-			LOG_DEBUG_PLAYER("Ignoring stream %1 because it is too far behind", i.second.piece->content->path(0));
+		/* Now make a list of those streams that are less than ignore_streams_behind behind the leader */
+		for (auto const& i: _stream_states) {
+			if (!i.second.last_push_end || (latest_last_push_end->second.last_push_end.get() - i.second.last_push_end.get()) < dcpomatic::DCPTime::from_seconds(ignore_streams_behind)) {
+				alive_stream_states.insert(i);
+			} else {
+				LOG_DEBUG_PLAYER("Ignoring stream %1 because it is too far behind", i.second.piece->content->path(0));
+			}
 		}
 	}
 
