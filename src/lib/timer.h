@@ -99,7 +99,7 @@ private:
 	/** current state */
 	boost::optional<std::string> _state;
 	/** time that _state was entered */
-	double _time;
+	double _time = 0;
 	/** total time and number of entries for each state */
 	std::map<std::string, Counts> _counts;
 };
