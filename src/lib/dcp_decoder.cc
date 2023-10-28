@@ -447,10 +447,12 @@ DCPDecoder::seek (ContentTime t, bool accurate)
 
 	/* Pass texts in the pre-roll */
 
-	auto const vfr = _dcp_content->active_video_frame_rate (film());
-	for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
-		pass_texts (pre, (*_reel)->main_picture()->asset()->size());
-		pre += ContentTime::from_frames (1, vfr);
+	if (_reel != _reels.end()) {
+		auto const vfr = _dcp_content->active_video_frame_rate (film());
+		for (int i = 0; i < pre_roll_seconds * vfr; ++i) {
+			pass_texts (pre, (*_reel)->main_picture()->asset()->size());
+			pre += ContentTime::from_frames (1, vfr);
+		}
 	}
 
 	/* Seek to correct position */
