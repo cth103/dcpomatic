@@ -688,10 +688,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		}
 		_studio = isdcf->optional_string_child("Studio");
 		_facility = isdcf->optional_string_child("Facility");
-		_temp_version = isdcf->optional_bool_child("TempVersion").get_value_or("false");
-		_pre_release = isdcf->optional_bool_child("PreRelease").get_value_or("false");
-		_red_band = isdcf->optional_bool_child("RedBand").get_value_or("false");
-		_two_d_version_of_three_d = isdcf->optional_bool_child("TwoDVersionOfThreeD").get_value_or("false");
+		_temp_version = isdcf->optional_bool_child("TempVersion").get_value_or(false);
+		_pre_release = isdcf->optional_bool_child("PreRelease").get_value_or(false);
+		_red_band = isdcf->optional_bool_child("RedBand").get_value_or(false);
+		_two_d_version_of_three_d = isdcf->optional_bool_child("TwoDVersionOfThreeD").get_value_or(false);
 		_chain = isdcf->optional_string_child("Chain");
 	}
 
