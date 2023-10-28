@@ -647,8 +647,8 @@ Playlist::move_later (shared_ptr<const Film> film, shared_ptr<Content> c)
 int64_t
 Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const
 {
-	int64_t video = uint64_t (j2k_bandwidth / 8) * length(film).seconds();
-	int64_t audio = uint64_t (audio_channels * audio_frame_rate * 3) * length(film).seconds();
+	int64_t video = uint64_t(j2k_bandwidth / 8) * length(film).seconds();
+	int64_t audio = uint64_t(audio_channels) * audio_frame_rate * 3 * length(film).seconds();
 
 	for (auto i: content()) {
 		auto d = dynamic_pointer_cast<DCPContent> (i);
@@ -657,7 +657,7 @@ Playlist::required_disk_space (shared_ptr<const Film> film, int j2k_bandwidth, i
 				video -= uint64_t (j2k_bandwidth / 8) * d->length_after_trim(film).seconds();
 			}
 			if (d->reference_audio()) {
-				audio -= uint64_t (audio_channels * audio_frame_rate * 3) * d->length_after_trim(film).seconds();
+				audio -= uint64_t(audio_channels) * audio_frame_rate * 3 * d->length_after_trim(film).seconds();
 			}
 		}
 	}
