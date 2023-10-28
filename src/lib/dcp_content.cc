@@ -461,6 +461,8 @@ DCPContent::identifier () const
 		s += i->identifier () + " ";
 	}
 
+	boost::mutex::scoped_lock lm(_mutex);
+
 	s += string (_reference_video ? "1" : "0");
 	for (auto text: _reference_text) {
 		s += string(text ? "1" : "0");
@@ -803,6 +805,13 @@ DCPContent::take_settings_from (shared_ptr<const Content> c)
 	if (!dc) {
 		return;
 	}
+
+	if (this == dc.get()) {
+		return;
+	}
+
+	boost::mutex::scoped_lock lm(_mutex);
+	boost::mutex::scoped_lock lm2(dc->_mutex);
 
 	_reference_video = dc->_reference_video;
 	_reference_audio = dc->_reference_audio;
