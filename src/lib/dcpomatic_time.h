@@ -217,11 +217,11 @@ public:
 		HMSF hmsf;
 
 		hmsf.h = ff / (3600 * r);
-		ff -= hmsf.h * 3600 * r;
+		ff -= static_cast<int64_t>(hmsf.h) * 3600 * r;
 		hmsf.m = ff / (60 * r);
-		ff -= hmsf.m * 60 * r;
+		ff -= static_cast<int64_t>(hmsf.m) * 60 * r;
 		hmsf.s = ff / r;
-		ff -= hmsf.s * r;
+		ff -= static_cast<int64_t>(hmsf.s) * r;
 
 		hmsf.f = static_cast<int> (ff);
 		return hmsf;
