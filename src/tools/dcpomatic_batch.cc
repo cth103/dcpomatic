@@ -402,12 +402,14 @@ public:
 	void handle (shared_ptr<Socket> socket) override
 	{
 		try {
-			int const length = socket->read_uint32 ();
-			scoped_array<char> buffer(new char[length]);
-			socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
-			string s (buffer.get());
-			emit(boost::bind(boost::ref(StartJob), s));
-			socket->write (reinterpret_cast<uint8_t const *>("OK"), 3);
+			auto const length = socket->read_uint32();
+			if (length < 65536) {
+				scoped_array<char> buffer(new char[length]);
+				socket->read(reinterpret_cast<uint8_t*>(buffer.get()), length);
+				string s(buffer.get());
+				emit(boost::bind(boost::ref(StartJob), s));
+				socket->write (reinterpret_cast<uint8_t const *>("OK"), 3);
+			}
 		} catch (...) {
 
 		}

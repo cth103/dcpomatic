@@ -1140,7 +1140,10 @@ public:
 	void handle (shared_ptr<Socket> socket) override
 	{
 		try {
-			int const length = socket->read_uint32 ();
+			uint32_t const length = socket->read_uint32 ();
+			if (length > 65536) {
+				return;
+			}
 			scoped_array<char> buffer (new char[length]);
 			socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
 			string s (buffer.get());

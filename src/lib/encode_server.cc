@@ -126,6 +126,10 @@ EncodeServer::process (shared_ptr<Socket> socket, struct timeval& after_read, st
 	Socket::ReadDigestScope ds (socket);
 
 	auto length = socket->read_uint32 ();
+	if (length > 65536) {
+		throw NetworkError("Malformed encode request (too large)");
+	}
+
 	scoped_array<char> buffer (new char[length]);
 	socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
 

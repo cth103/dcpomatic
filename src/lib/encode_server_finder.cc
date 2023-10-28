@@ -227,6 +227,11 @@ EncodeServerFinder::handle_accept (boost::system::error_code ec)
 		_accept_socket->read (reinterpret_cast<uint8_t*>(&length), sizeof(uint32_t));
 		length = ntohl (length);
 
+		if (length > 65536) {
+			start_accept();
+			return;
+		}
+
 		scoped_array<char> buffer(new char[length]);
 		_accept_socket->read (reinterpret_cast<uint8_t*>(buffer.get()), length);
 		server_available = buffer.get();
