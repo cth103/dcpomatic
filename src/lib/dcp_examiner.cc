@@ -83,7 +83,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		for (auto cpl: cpls) {
 			int unsatisfied = 0;
-			for (auto reel: cpl->reels()) {
+			for (auto const& reel: cpl->reels()) {
 				if (reel->main_picture() && !reel->main_picture()->asset_ref().resolved()) {
 					++unsatisfied;
 				}

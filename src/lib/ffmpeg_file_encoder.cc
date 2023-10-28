@@ -388,7 +388,7 @@ FFmpegFileEncoder::flush ()
 		}
 
 		flushed_audio = true;
-		for (auto i: _audio_streams) {
+		for (auto const& i: _audio_streams) {
 			if (!i->flush()) {
 				flushed_audio = false;
 			}

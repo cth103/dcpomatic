@@ -766,7 +766,7 @@ VideoPanel::left_crop_changed ()
 {
 	_left_changed_last = true;
 	if (_left_right_link->GetValue()) {
-		for (auto i: _parent->selected_video()) {
+		for (auto const& i: _parent->selected_video()) {
 			i->video->set_right_crop (i->video->requested_left_crop());
 		}
 	}
@@ -778,7 +778,7 @@ VideoPanel::right_crop_changed ()
 {
 	_left_changed_last = false;
 	if (_left_right_link->GetValue()) {
-		for (auto i: _parent->selected_video()) {
+		for (auto const& i: _parent->selected_video()) {
 			i->video->set_left_crop (i->video->requested_right_crop());
 		}
 	}

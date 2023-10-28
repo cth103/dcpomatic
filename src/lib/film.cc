@@ -775,7 +775,7 @@ Film::subtitle_languages () const
 {
 	pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>> result;
 	for (auto i: content()) {
-		for (auto text: i->text) {
+		for (auto const& text: i->text) {
 			if (text->use() && text->type() == TextType::OPEN_SUBTITLE && text->language()) {
 				if (text->language_is_additional()) {
 					result.second.push_back(text->language().get());
