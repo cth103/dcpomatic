@@ -374,6 +374,7 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
+
 	node->add_child("Name")->add_child_text (_name);
 	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
 	node->add_child("NeedsAssets")->add_child_text (_needs_assets ? "1" : "0");
