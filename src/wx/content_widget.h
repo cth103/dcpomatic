@@ -77,12 +77,12 @@ public:
 		, _sizer (0)
 		, _button (new wxButton (parent, wxID_ANY, _("Multiple values")))
 		, _property (property)
-		, _part (part)
-		, _model_getter (model_getter)
-		, _model_setter (model_setter)
-		, _view_changed (view_changed)
-		, _view_to_model (view_to_model)
-		, _model_to_view (model_to_view)
+		, _part(std::move(part))
+		, _model_getter(std::move(model_getter))
+		, _model_setter(std::move(model_setter))
+		, _view_changed(std::move(view_changed))
+		, _view_to_model(std::move(view_to_model))
+		, _model_to_view(std::move(model_to_view))
 		, _ignore_model_changes (false)
 	{
 		_button->SetToolTip (_("Click the button to set all selected content to the same value."));
