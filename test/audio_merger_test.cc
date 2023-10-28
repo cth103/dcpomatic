@@ -172,6 +172,7 @@ BOOST_AUTO_TEST_CASE (audio_merger_test4)
 			BOOST_REQUIRE (i != tokens.end());
 			merger.reset (new AudioMerger(dcp::raw_convert<int>(*i++)));
 		} else if (cmd == "clear") {
+			BOOST_REQUIRE(merger);
 			merger->clear ();
 		} else if (cmd == "push") {
 			BOOST_REQUIRE (i != tokens.end());
