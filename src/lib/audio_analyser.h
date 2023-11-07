@@ -20,6 +20,7 @@
 
 
 #include "audio_analysis.h"
+#include "audio_filter_graph.h"
 #include "dcpomatic_time.h"
 #include "types.h"
 #include <leqm_nrt.h>
@@ -29,7 +30,6 @@
 
 class AudioAnalysis;
 class AudioBuffers;
-class AudioFilterGraph;
 class AudioPoint;
 class Film;
 class Filter;
@@ -65,7 +65,7 @@ private:
 
 	dcpomatic::DCPTime _start;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-	std::shared_ptr<AudioFilterGraph> _ebur128;
+	AudioFilterGraph _ebur128;
 #endif
 	std::vector<Filter const *> _filters;
 	Frame _samples_per_point = 1;

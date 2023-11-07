@@ -57,7 +57,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 	, _playlist (playlist)
 	, _set_progress (set_progress)
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-	, _ebur128 (new AudioFilterGraph(film->audio_frame_rate(), film->audio_channels()))
+	, _ebur128(film->audio_frame_rate(), film->audio_channels())
 #endif
 	, _sample_peak (film->audio_channels())
 	, _sample_peak_frame (film->audio_channels())
@@ -66,7 +66,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	_filters.push_back (new Filter("ebur128", "ebur128", "audio", "ebur128=peak=true"));
-	_ebur128->setup (_filters);
+	_ebur128.setup(_filters);
 #endif
 
 	_current = std::vector<AudioPoint>(_film->audio_channels());
@@ -145,7 +145,7 @@ AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	if (Config::instance()->analyse_ebur128 ()) {
-		_ebur128->process (b);
+		_ebur128.process(b);
 	}
 #endif
 
@@ -204,7 +204,7 @@ AudioAnalyser::finish ()
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	if (Config::instance()->analyse_ebur128 ()) {
-		void* eb = _ebur128->get("Parsed_ebur128_0")->priv;
+		void* eb = _ebur128.get("Parsed_ebur128_0")->priv;
 		vector<float> true_peak;
 		for (int i = 0; i < _film->audio_channels(); ++i) {
 			true_peak.push_back (av_ebur128_get_true_peaks(eb)[i]);
