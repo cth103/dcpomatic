@@ -24,6 +24,7 @@
  */
 
 
+#include "dcpomatic_assert.h"
 #include "filter.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -31,11 +32,13 @@ extern "C" {
 #include <libavfilter/avfilter.h>
 }
 LIBDCP_ENABLE_WARNINGS
+#include <algorithm>
 
 #include "i18n.h"
 
 
 using namespace std;
+using boost::optional;
 
 
 vector<Filter> Filter::_filters;
@@ -57,14 +60,10 @@ Filter::Filter (string i, string n, string c, string f)
 
 
 /** @return All available filters */
-vector<Filter const *>
+vector<Filter>
 Filter::all ()
 {
-	vector<Filter const *> raw;
-	for (auto& filter: _filters) {
-		raw.push_back (&filter);
-	}
-	return raw;
+	return _filters;
 }
 
 
@@ -113,15 +112,15 @@ Filter::maybe_add (string i, string n, string c, string f)
  *  @return String to pass to FFmpeg for the video filters.
  */
 string
-Filter::ffmpeg_string (vector<Filter const *> const & filters)
+Filter::ffmpeg_string(vector<Filter> const& filters)
 {
 	string ff;
 
-	for (auto const i: filters) {
+	for (auto const& i: filters) {
 		if (!ff.empty ()) {
 			ff += N_(",");
 		}
-		ff += i->ffmpeg ();
+		ff += i.ffmpeg();
 	}
 
 	return ff;
@@ -129,19 +128,47 @@ Filter::ffmpeg_string (vector<Filter const *> const & filters)
 
 
 /** @param d Our id.
- *  @return Corresponding Filter, or 0.
+ *  @return Corresponding Filter, if found.
  */
-Filter const *
-Filter::from_id (string d)
+optional<Filter>
+Filter::from_id(string id)
 {
-	auto i = _filters.begin ();
-	while (i != _filters.end() && i->id() != d) {
-		++i;
+	auto iter = std::find_if(_filters.begin(), _filters.end(), [id](Filter const& filter) { return filter.id() == id; });
+	if (iter == _filters.end()) {
+		return {};
+	}
+	return *iter;
+}
+
+
+bool
+operator==(Filter const& a, Filter const& b)
+{
+	return a.id() == b.id() && a.name() == b.name() && a.category() == b.category() && a.ffmpeg() == b.ffmpeg();
+}
+
+
+bool
+operator!=(Filter const& a, Filter const& b)
+{
+	return a.id() != b.id() || a.name() != b.name() || a.category() != b.category() || a.ffmpeg() != b.ffmpeg();
+}
+
+
+bool
+operator<(Filter const& a, Filter const& b)
+{
+	if (a.id() != b.id()) {
+		return a.id() < b.id();
 	}
 
-	if (i == _filters.end ()) {
-		return nullptr;
+	if (a.name() != b.name()) {
+		return a.name() < b.name();
 	}
 
-	return &(*i);
+	if (a.category() != b.category()) {
+		return a.category() < b.category();
+	}
+
+	return a.ffmpeg() < b.ffmpeg();
 }

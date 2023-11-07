@@ -42,7 +42,7 @@ public:
 
 	bool ignore_video() const;
 
-	std::vector<Filter const*> filters() {
+	std::vector<Filter> filters() {
 		return _filters_list;
 	}
 
@@ -51,7 +51,7 @@ public:
 
 private:
 	void edit_filters ();
-	void filters_changed (std::vector<Filter const *> filters);
+	void filters_changed(std::vector<Filter> const& filters);
 	void setup_filters ();
 	void set_video_frame_rate ();
 	void video_frame_rate_changed ();
@@ -60,7 +60,7 @@ private:
 
 	std::shared_ptr<Content> _content;
 	bool _filters_allowed = false;
-	std::vector<Filter const*> _filters_list;
+	std::vector<Filter> _filters_list;
 
 	wxStaticText* _filters;
 	wxButton* _filters_button;

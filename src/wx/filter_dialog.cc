@@ -36,7 +36,7 @@ using namespace std;
 using boost::bind;
 
 
-FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & active)
+FilterDialog::FilterDialog(wxWindow* parent, vector<Filter> const& active)
 	: wxDialog (parent, wxID_ANY, wxString(_("Filters")))
 {
 	auto panel = new wxPanel (this);
@@ -44,29 +44,29 @@ FilterDialog::FilterDialog (wxWindow* parent, vector<Filter const *> const & act
 
 	auto filters = Filter::all ();
 
-	map<string, list<Filter const *>> categories;
+	map<string, list<Filter>> categories;
 
 	for (auto i: filters) {
-		auto j = categories.find (i->category());
+		auto j = categories.find(i.category());
 		if (j == categories.end ()) {
-			categories[i->category()] = { i };
+			categories[i.category()] = { i };
 		} else {
 			j->second.push_back (i);
 		}
 	}
 
-	for (auto const& i: categories) {
-		auto c = new StaticText (panel, std_to_wx(i.first));
+	for (auto const& category: categories) {
+		auto c = new StaticText(panel, std_to_wx(category.first));
 		auto font = c->GetFont();
 		font.SetWeight(wxFONTWEIGHT_BOLD);
 		c->SetFont(font);
 		sizer->Add (c, 1, wxTOP | wxBOTTOM, DCPOMATIC_SIZER_GAP);
 
-		for (auto j: i.second) {
-			auto b = new CheckBox(panel, std_to_wx(j->name()));
-			bool const a = find (active.begin(), active.end(), j) != active.end();
+		for (auto const& filter: category.second) {
+			auto b = new CheckBox(panel, std_to_wx(filter.name()));
+			bool const a = find(active.begin(), active.end(), filter) != active.end();
 			b->SetValue (a);
-			_filters[j] = b;
+			_filters[filter] = b;
 			b->bind(&FilterDialog::filter_toggled, this);
 			sizer->Add (b);
 		}
@@ -95,10 +95,10 @@ FilterDialog::filter_toggled ()
 }
 
 
-vector<Filter const*>
+vector<Filter>
 FilterDialog::active () const
 {
-	vector<Filter const *> active;
+	vector<Filter> active;
 	for (auto const& i: _filters) {
 		if (i.second->IsChecked()) {
 			active.push_back(i.first);

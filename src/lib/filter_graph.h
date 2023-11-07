@@ -28,6 +28,7 @@
 #define DCPOMATIC_FILTER_GRAPH_H
 
 
+#include "filter.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 extern "C" {
@@ -38,10 +39,10 @@ LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 
+class Filter;
+class Image;
 struct AVFilterContext;
 struct AVFrame;
-class Image;
-class Filter;
 
 
 /** @class FilterGraph
@@ -56,7 +57,7 @@ public:
 	FilterGraph (FilterGraph const&) = delete;
 	FilterGraph& operator== (FilterGraph const&) = delete;
 
-	void setup (std::vector<Filter const *>);
+	void setup(std::vector<Filter> const&);
 	AVFilterContext* get (std::string name);
 
 protected:

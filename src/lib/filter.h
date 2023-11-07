@@ -28,6 +28,7 @@
 #define DCPOMATIC_FILTER_H
 
 
+#include <boost/optional.hpp>
 #include <string>
 #include <vector>
 
@@ -63,10 +64,10 @@ public:
 		return _category;
 	}
 
-	static std::vector<Filter const *> all ();
-	static Filter const * from_id (std::string d);
+	static std::vector<Filter> all ();
+	static boost::optional<Filter> from_id(std::string d);
 	static void setup_filters ();
-	static std::string ffmpeg_string (std::vector<Filter const *> const & filters);
+	static std::string ffmpeg_string(std::vector<Filter> const& filters);
 
 private:
 
@@ -82,6 +83,11 @@ private:
 	static std::vector<Filter> _filters;
 	static void maybe_add (std::string, std::string, std::string, std::string);
 };
+
+
+bool operator==(Filter const& a, Filter const& b);
+bool operator!=(Filter const& a, Filter const& b);
+bool operator<(Filter const& a, Filter const& b);
 
 
 #endif

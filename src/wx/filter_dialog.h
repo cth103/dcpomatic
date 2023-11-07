@@ -41,14 +41,14 @@ class Filter;
 class FilterDialog : public wxDialog
 {
 public:
-	FilterDialog (wxWindow *, std::vector<Filter const *> const &);
+	FilterDialog(wxWindow *, std::vector<Filter> const&);
 
-	boost::signals2::signal<void (std::vector<Filter const *>)> ActiveChanged;
+	boost::signals2::signal<void (std::vector<Filter>)> ActiveChanged;
 
 private:
 	void active_changed ();
 	void filter_toggled ();
-	std::vector<Filter const *> active () const;
+	std::vector<Filter> active() const;
 
-	std::map<Filter const *, wxCheckBox *> _filters;
+	std::map<Filter, wxCheckBox *> _filters;
 };

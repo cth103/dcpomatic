@@ -18,21 +18,27 @@
 
 */
 
+
 #ifndef DCPOMATIC_FFMPEG_CONTENT_H
 #define DCPOMATIC_FFMPEG_CONTENT_H
 
-#include "content.h"
+
 #include "audio_stream.h"
+#include "content.h"
+#include "filter.h"
+
 
 struct AVFormatContext;
 struct AVStream;
 
-class Filter;
-class FFmpegSubtitleStream;
+
 class FFmpegAudioStream;
+class FFmpegSubtitleStream;
+class Filter;
 class VideoContent;
 struct ffmpeg_pts_offset_test;
 struct audio_sampling_rate_test;
+
 
 class FFmpegContentProperty
 {
@@ -43,6 +49,7 @@ public:
 	static int const FILTERS;
 	static int const KDM;
 };
+
 
 class FFmpegContent : public Content
 {
@@ -71,7 +78,7 @@ public:
 
 	void set_default_colour_conversion ();
 
-	void set_filters (std::vector<Filter const *> const &);
+	void set_filters(std::vector<Filter> const&);
 
 	std::vector<std::shared_ptr<FFmpegSubtitleStream>> subtitle_streams () const {
 		boost::mutex::scoped_lock lm (_mutex);
@@ -85,7 +92,7 @@ public:
 
 	std::vector<std::shared_ptr<FFmpegAudioStream>> ffmpeg_audio_streams () const;
 
-	std::vector<Filter const *> filters () const {
+	std::vector<Filter> filters() const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _filters;
 	}
@@ -109,7 +116,7 @@ private:
 	std::shared_ptr<FFmpegSubtitleStream> _subtitle_stream;
 	boost::optional<dcpomatic::ContentTime> _first_video;
 	/** Video filters that should be used when generating DCPs */
-	std::vector<Filter const *> _filters;
+	std::vector<Filter> _filters;
 
 	boost::optional<AVColorRange> _color_range;
 	boost::optional<AVColorPrimaries> _color_primaries;

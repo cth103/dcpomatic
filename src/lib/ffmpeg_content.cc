@@ -115,9 +115,8 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 	}
 
 	for (auto i: node->node_children("Filter")) {
-		Filter const * f = Filter::from_id(i->content());
-		if (f) {
-			_filters.push_back (f);
+		if (auto filter = Filter::from_id(i->content())) {
+			_filters.push_back(*filter);
 		} else {
 			notes.push_back (String::compose (_("DCP-o-matic no longer supports the `%1' filter, so it has been turned off."), i->content()));
 		}
@@ -232,7 +231,7 @@ FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
 	}
 
 	for (auto i: _filters) {
-		node->add_child("Filter")->add_child_text(i->id());
+		node->add_child("Filter")->add_child_text(i.id());
 	}
 
 	if (_first_video) {
@@ -292,12 +291,12 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 			if (examiner->rotation()) {
 				auto rot = *examiner->rotation ();
 				if (fabs (rot - 180) < 1.0) {
-					_filters.push_back (Filter::from_id ("vflip"));
-					_filters.push_back (Filter::from_id ("hflip"));
+					_filters.push_back(*Filter::from_id("vflip"));
+					_filters.push_back(*Filter::from_id("hflip"));
 				} else if (fabs (rot - 90) < 1.0) {
-					_filters.push_back (Filter::from_id ("90clock"));
+					_filters.push_back(*Filter::from_id("90clock"));
 				} else if (fabs (rot - 270) < 1.0) {
-					_filters.push_back (Filter::from_id ("90anticlock"));
+					_filters.push_back(*Filter::from_id("90anticlock"));
 				}
 			}
 		}
@@ -455,7 +454,7 @@ FFmpegContent::approximate_length () const
 
 
 void
-FFmpegContent::set_filters (vector<Filter const *> const & filters)
+FFmpegContent::set_filters(vector<Filter> const& filters)
 {
 	ContentChangeSignaller cc (this, FFmpegContentProperty::FILTERS);
 
@@ -486,7 +485,7 @@ FFmpegContent::identifier () const
 	}
 
 	for (auto i: _filters) {
-		s += "_" + i->id();
+		s += "_" + i.id();
 	}
 
 	return s;

@@ -38,7 +38,7 @@ class VideoFilterGraph;
 class VideoFilterGraphSet
 {
 public:
-	VideoFilterGraphSet(std::vector<Filter const*> filters, dcp::Fraction frame_rate)
+	VideoFilterGraphSet(std::vector<Filter> const& filters, dcp::Fraction frame_rate)
 		: _filters(filters)
 		, _frame_rate(frame_rate)
 	{}
@@ -51,7 +51,7 @@ public:
 	void clear();
 
 private:
-	std::vector<Filter const*> _filters;
+	std::vector<Filter> _filters;
 	dcp::Fraction _frame_rate;
 	std::vector<std::shared_ptr<VideoFilterGraph>> _graphs;
 };

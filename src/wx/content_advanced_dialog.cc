@@ -187,7 +187,7 @@ ContentAdvancedDialog::edit_filters ()
 
 
 void
-ContentAdvancedDialog::filters_changed (vector<Filter const *> filters)
+ContentAdvancedDialog::filters_changed(vector<Filter> const& filters)
 {
 	_filters_list = filters;
 	setup_filters ();

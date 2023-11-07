@@ -40,7 +40,6 @@ class AudioAnalyser
 {
 public:
 	AudioAnalyser (std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist, bool from_zero, std::function<void (float)> set_progress);
-	~AudioAnalyser ();
 
 	AudioAnalyser (AudioAnalyser const&) = delete;
 	AudioAnalyser& operator= (AudioAnalyser const&) = delete;
@@ -67,7 +66,7 @@ private:
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	AudioFilterGraph _ebur128;
 #endif
-	std::vector<Filter const *> _filters;
+	std::vector<Filter> _filters;
 	Frame _samples_per_point = 1;
 
 	boost::scoped_ptr<leqm_nrt::Calculator> _leqm;

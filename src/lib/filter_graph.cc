@@ -51,7 +51,7 @@ using dcp::Size;
 
 
 void
-FilterGraph::setup (vector<Filter const *> filters)
+FilterGraph::setup(vector<Filter> const& filters)
 {
 	auto const filters_string = Filter::ffmpeg_string (filters);
 	if (filters.empty()) {

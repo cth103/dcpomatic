@@ -65,7 +65,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 {
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
-	_filters.push_back (new Filter("ebur128", "ebur128", "audio", "ebur128=peak=true"));
+	_filters.push_back({"ebur128", "ebur128", "audio", "ebur128=peak=true"});
 	_ebur128.setup(_filters);
 #endif
 
@@ -121,14 +121,6 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 
 	Frame const len = DCPTime (length - _start).frames_round (film->audio_frame_rate());
 	_samples_per_point = max (int64_t (1), len / num_points);
-}
-
-
-AudioAnalyser::~AudioAnalyser ()
-{
-	for (auto i: _filters) {
-		delete const_cast<Filter*> (i);
-	}
 }
 
 

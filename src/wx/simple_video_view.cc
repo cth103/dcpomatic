@@ -49,7 +49,7 @@ using namespace dcpomatic;
 SimpleVideoView::SimpleVideoView (FilmViewer* viewer, wxWindow* parent)
 	: VideoView (viewer)
 	, _rec2020_filter("convert", "convert", "", "colorspace=all=bt709:iall=bt2020")
-	, _rec2020_filter_graph({ &_rec2020_filter }, dcp::Fraction(24, 1))
+	, _rec2020_filter_graph({ _rec2020_filter }, dcp::Fraction(24, 1))
 {
 	_panel = new wxPanel (parent);
 
