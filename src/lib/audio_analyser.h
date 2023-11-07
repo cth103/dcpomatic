@@ -71,6 +71,7 @@ private:
 	Frame _samples_per_point = 1;
 
 	boost::scoped_ptr<leqm_nrt::Calculator> _leqm;
+	int _leqm_channels = 0;
 	Frame _done = 0;
 	std::vector<float> _sample_peak;
 	std::vector<Frame> _sample_peak_frame;

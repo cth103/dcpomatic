@@ -31,6 +31,7 @@
 #include "lib/audio_analysis.h"
 #include "lib/audio_content.h"
 #include "lib/content_factory.h"
+#include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_content.h"
@@ -208,6 +209,29 @@ BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 
 	/* The CLI tool of leqm_nrt gives this value for betty_stereo_48k.wav */
 	BOOST_CHECK_CLOSE (analysis.leqm().get_value_or(0), 88.276, 0.001);
+}
+
+
+BOOST_AUTO_TEST_CASE(analyse_audio_leqm_same_with_empty_channels)
+{
+	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
+	auto film = new_test_film2("analyse_audio_leqm_test2", { dcp });
+	film->set_audio_channels(8);
+
+	auto analyse = [film, dcp](int channels) {
+		film->set_audio_channels(channels);
+		auto playlist = make_shared<Playlist>();
+		playlist->add(film, dcp);
+		boost::signals2::connection c;
+		JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
+		BOOST_CHECK(!wait_for_jobs());
+		AudioAnalysis analysis(film->audio_analysis_path(playlist));
+		return analysis.leqm().get_value_or(0);
+	};
+
+	BOOST_CHECK_CLOSE(analyse( 6), 84.51411, 0.001);
+	BOOST_CHECK_CLOSE(analyse( 8), 84.51411, 0.001);
+	BOOST_CHECK_CLOSE(analyse(16), 84.51411, 0.001);
 }
 
 

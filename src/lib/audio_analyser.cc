@@ -86,14 +86,14 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 		}
 	};
 
-	int leqm_channels = film->audio_channels();
+	_leqm_channels = film->audio_channels();
 	auto content = _playlist->content();
 	if (content.size() == 1 && content[0]->audio) {
-		leqm_channels = content[0]->audio->mapping().mapped_output_channels().size();
+		_leqm_channels = content[0]->audio->mapping().mapped_output_channels().size();
 	}
 
 	/* XXX: is this right?  Especially for more than 5.1? */
-	vector<double> channel_corrections(leqm_channels, 1);
+	vector<double> channel_corrections(_leqm_channels, 1);
 	add_if_required (channel_corrections,  4,   -3); // Ls
 	add_if_required (channel_corrections,  5,   -3); // Rs
 	add_if_required (channel_corrections,  6, -144); // HI
@@ -108,7 +108,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 	add_if_required (channel_corrections, 15, -144); // Unused
 
 	_leqm.reset(new leqm_nrt::Calculator(
-		leqm_channels,
+		_leqm_channels,
 		film->audio_frame_rate(),
 		24,
 		channel_corrections,
@@ -150,15 +150,14 @@ AudioAnalyser::analyse (shared_ptr<AudioBuffers> b, DCPTime time)
 #endif
 
 	int const frames = b->frames ();
-	int const channels = b->channels ();
-	vector<double> interleaved(frames * channels);
+	vector<double> interleaved(frames * _leqm_channels);
 
-	for (int j = 0; j < channels; ++j) {
+	for (int j = 0; j < _leqm_channels; ++j) {
 		float const* data = b->data(j);
 		for (int i = 0; i < frames; ++i) {
 			float s = data[i];
 
-			interleaved[i * channels + j] = s;
+			interleaved[i * _leqm_channels + j] = s;
 
 			float as = fabsf (s);
 			if (as < 10e-7) {
