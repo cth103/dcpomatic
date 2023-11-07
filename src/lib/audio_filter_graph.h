@@ -18,6 +18,11 @@
 
 */
 
+
+#ifndef DCPOMATIC_AUDIO_FILTER_GRAPH_H
+#define DCPOMATIC_AUDIO_FILTER_GRAPH_H
+
+
 #include "filter_graph.h"
 extern "C" {
 #include <libavfilter/buffersink.h>
@@ -45,3 +50,7 @@ private:
 	int64_t _channel_layout;
 	AVFrame* _in_frame;
 };
+
+
+#endif
+
