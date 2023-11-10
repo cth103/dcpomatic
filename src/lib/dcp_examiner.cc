@@ -211,9 +211,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			for (auto const& font: asset->font_data()) {
 				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
 			}
-			if (asset->font_data().empty()) {
-				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
-			}
+			_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
 		}
 
 		_text_count[TextType::CLOSED_CAPTION] = std::max(_text_count[TextType::CLOSED_CAPTION], static_cast<int>(reel->closed_captions().size()));

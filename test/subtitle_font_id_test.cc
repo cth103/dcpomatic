@@ -47,7 +47,8 @@ BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
 	auto text = content[0]->only_text();
 	BOOST_REQUIRE(text);
 
-	BOOST_REQUIRE_EQUAL(text->fonts().size(), 1U);
+	/* There's the font from the DCP and also a dummy one with an empty ID */
+	BOOST_REQUIRE_EQUAL(text->fonts().size(), 2U);
 	auto font = text->fonts().front();
 	BOOST_CHECK_EQUAL(font->id(), "0_theFontId");
 	BOOST_REQUIRE(font->data());
@@ -65,7 +66,8 @@ BOOST_AUTO_TEST_CASE(dcp_subtitle_font_id_test)
 	auto text = content[0]->only_text();
 	BOOST_REQUIRE(text);
 
-	BOOST_REQUIRE_EQUAL(text->fonts().size(), 1U);
+	/* There's the font from the DCP and also a dummy one with an empty ID */
+	BOOST_REQUIRE_EQUAL(text->fonts().size(), 2U);
 	auto font = text->fonts().front();
 	BOOST_CHECK_EQUAL(font->id(), "theFontId");
 	BOOST_REQUIRE(font->data());
@@ -211,5 +213,51 @@ BOOST_AUTO_TEST_CASE(filler_subtitle_reels_have_load_font_tags)
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
 		});
+}
+
+
+BOOST_AUTO_TEST_CASE(subtitle_with_no_font_test)
+{
+	auto const name_base = boost::unit_test::framework::current_test_case().full_name();
+
+	auto video1 = content_factory("test/data/flat_red.png")[0];
+	auto video2 = content_factory("test/data/flat_red.png")[0];
+	auto subs = content_factory("test/data/short.srt")[0];
+
+	auto bad_film = new_test_film2(name_base + "_bad", { video1, video2, subs });
+	bad_film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	video2->set_position(bad_film, video1->end(bad_film));
+	subs->set_position(bad_film, video1->end(bad_film));
+	subs->text[0]->add_font(make_shared<dcpomatic::Font>("foo", "test/data/LiberationSans-Regular.ttf"));
+
+	make_and_verify_dcp(
+		bad_film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
+		});
+
+	/* When this test was written, this DCP would have one reel whose subtitles had <LoadFont>s
+	 * but the subtitles specified no particular font.  This triggers bug #2649, which this test
+	 * is intended to trigger.  First, make sure that the DCP has the required characteristics,
+	 * to guard against a case where for some reason the DCP here is different enough that it
+	 * doesn't trigger the bug.
+	 */
+	dcp::DCP check(bad_film->dir(bad_film->dcp_name()));
+	check.read();
+	BOOST_REQUIRE_EQUAL(check.cpls().size(), 1U);
+	auto cpl = check.cpls()[0];
+	BOOST_REQUIRE_EQUAL(cpl->reels().size(), 2U);
+	auto check_subs_reel = cpl->reels()[0]->main_subtitle();
+	BOOST_REQUIRE(check_subs_reel);
+	auto check_subs = check_subs_reel->asset();
+	BOOST_REQUIRE(check_subs);
+
+	BOOST_CHECK_EQUAL(check_subs->font_data().size(), 1U);
+	BOOST_REQUIRE_EQUAL(check_subs->subtitles().size(), 1U);
+	BOOST_CHECK(!std::dynamic_pointer_cast<const dcp::SubtitleString>(check_subs->subtitles()[0])->font().has_value());
+
+	auto check_film = new_test_film2(name_base + "_check", { make_shared<DCPContent>(bad_film->dir(bad_film->dcp_name())) });
+	make_and_verify_dcp(check_film);
 }
 

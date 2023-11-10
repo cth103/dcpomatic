@@ -84,9 +84,7 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		}
 	}
 
-	if (only_text()->fonts().empty()) {
-		only_text()->add_font(make_shared<Font>(""));
-	}
+	only_text()->add_font(make_shared<Font>(""));
 }
 
 DCPTime

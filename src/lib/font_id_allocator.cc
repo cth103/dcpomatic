@@ -63,9 +63,7 @@ FontIDAllocator::add_fonts_from_asset(int reel_index, shared_ptr<const dcp::Subt
 		_map[Font(reel_index, asset->id(), font.first)] = 0;
 	}
 
-	if (asset->font_data().empty()) {
-		_map[Font(reel_index, asset->id(), "")] = 0;
-	}
+	_map[Font(reel_index, asset->id(), "")] = 0;
 }
 
 
