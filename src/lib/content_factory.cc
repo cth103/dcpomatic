@@ -129,7 +129,7 @@ content_factory (boost::filesystem::path path)
 
 			LOG_GENERAL ("Checking file %1", i->path());
 
-			if (boost::starts_with (i->path().leaf().string(), ".")) {
+			if (boost::starts_with(i->path().filename().string(), ".")) {
 				/* We ignore hidden files */
 				LOG_GENERAL ("Ignored %1 (starts with .)", i->path());
 				continue;

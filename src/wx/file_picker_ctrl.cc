@@ -61,7 +61,7 @@ FilePickerCtrl::SetPath (wxString p)
 	_path = p;
 
 	if (!_path.IsEmpty ()) {
-		_file->SetLabel (std_to_wx (filesystem::path (wx_to_std (_path)).leaf().string()));
+		_file->SetLabel(std_to_wx(filesystem::path(wx_to_std(_path)).filename().string()));
 	} else {
 		_file->SetLabel (_("(None)"));
 	}

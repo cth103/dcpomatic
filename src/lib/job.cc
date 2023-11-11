@@ -111,7 +111,7 @@ Job::run_wrapper ()
 
 	} catch (dcp::FileError& e) {
 
-		string m = String::compose (_("An error occurred whilst handling the file %1."), boost::filesystem::path (e.filename()).leaf());
+		string m = String::compose(_("An error occurred whilst handling the file %1."), e.filename().filename());
 
 		try {
 			auto const s = dcp::filesystem::space(e.filename());

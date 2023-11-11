@@ -684,7 +684,7 @@ Playlist::content_summary (shared_ptr<const Film> film, DCPTimePeriod period) co
 		}
 
 		if (score > best_score) {
-			best_summary = i->path(0).leaf().string();
+			best_summary = i->path(0).filename().string();
 			best_score = score;
 		}
 	}

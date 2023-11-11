@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_have_dcp_test, * boost::unit_test::depends_on("ffmp
 
 	p /= film->dcp_name();
 	auto i = boost::filesystem::directory_iterator (p);
-	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with (i->path().leaf().string(), "j2c")) {
+	while (i != boost::filesystem::directory_iterator() && !boost::algorithm::starts_with(i->path().filename().string(), "j2c")) {
 		++i;
 	}
 

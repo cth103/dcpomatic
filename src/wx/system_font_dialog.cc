@@ -62,7 +62,7 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 
 	int n = 0;
 	for (auto i: _fonts) {
-		_list->InsertItem (n++, std_to_wx (i.leaf().stem().string ()));
+		_list->InsertItem(n++, std_to_wx(i.filename().stem().string()));
 	}
 
 	auto buttons = CreateSeparatedButtonSizer (wxOK | wxCANCEL);

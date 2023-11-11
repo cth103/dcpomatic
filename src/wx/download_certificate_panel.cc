@@ -74,7 +74,7 @@ optional<string>
 DownloadCertificatePanel::load_certificate_from_chain (boost::filesystem::path file, string url)
 {
 	try {
-		_certificate = dcp::CertificateChain (dcp::file_to_string(file)).leaf();
+		_certificate = dcp::CertificateChain(dcp::file_to_string(file)).leaf();
 		_url = url;
 	} catch (dcp::MiscError& e) {
 		return String::compose(wx_to_std(_("Could not read certificate file (%1)")), e.what());

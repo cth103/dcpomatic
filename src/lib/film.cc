@@ -1303,7 +1303,7 @@ Film::cpls () const
 	for (auto const& item: dcp::filesystem::directory_iterator(dir)) {
 		if (
 			dcp::filesystem::is_directory(item) &&
-			item.path().leaf() != "j2c" && item.path().leaf() != "video" && item.path().leaf() != "info" && item.path().leaf() != "analysis"
+			item.path().filename() != "j2c" && item.path().filename() != "video" && item.path().filename() != "info" && item.path().filename() != "analysis"
 			) {
 
 			try {

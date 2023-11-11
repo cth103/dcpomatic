@@ -54,7 +54,7 @@ string
 ImageFilenameSorter::extract_numbers (boost::filesystem::path p)
 {
 	string numbers;
-	auto const ps = p.leaf().string();
+	auto const ps = p.filename().string();
 	for (size_t i = 0; i < ps.size(); ++i) {
 		if (isdigit (ps[i])) {
 			numbers += ps[i];

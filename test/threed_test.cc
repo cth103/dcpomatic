@@ -319,7 +319,7 @@ BOOST_AUTO_TEST_CASE(threed_passthrough_test, * boost::unit_test::depends_on("th
 
 	std::vector<directory_entry> matches;
 	std::copy_if(recursive_directory_iterator(*input_dcp), recursive_directory_iterator(), std::back_inserter(matches), [](directory_entry const& entry) {
-		return boost::algorithm::starts_with(entry.path().leaf().string(), "j2c");
+		return boost::algorithm::starts_with(entry.path().filename().string(), "j2c");
 	});
 
 	BOOST_REQUIRE_EQUAL(matches.size(), 1U);

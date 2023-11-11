@@ -45,7 +45,7 @@ using dcp::raw_convert;
 
 
 CPLSummary::CPLSummary (boost::filesystem::path p)
-	: dcp_directory (p.leaf().string())
+	: dcp_directory(p.filename().string())
 {
 	dcp::DCP dcp (p);
 

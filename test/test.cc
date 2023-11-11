@@ -843,7 +843,7 @@ dcp_file (shared_ptr<const Film> film, string prefix)
 
 	vector<directory_entry> matches;
 	std::copy_if(recursive_directory_iterator(film->dir(film->dcp_name())), recursive_directory_iterator(), std::back_inserter(matches), [&prefix](directory_entry const& entry) {
-		return boost::algorithm::starts_with(entry.path().leaf().string(), prefix);
+		return boost::algorithm::starts_with(entry.path().filename().string(), prefix);
 	});
 
 	BOOST_REQUIRE_MESSAGE(matches.size() == 1, "Found " << matches.size() << " files with prefix " << prefix);
@@ -854,7 +854,7 @@ boost::filesystem::path
 subtitle_file (shared_ptr<Film> film)
 {
 	for (auto i: boost::filesystem::recursive_directory_iterator(film->directory().get() / film->dcp_name(false))) {
-		if (boost::algorithm::starts_with(i.path().leaf().string(), "sub_")) {
+		if (boost::algorithm::starts_with(i.path().filename().string(), "sub_")) {
 			return i.path();
 		}
 	}

@@ -673,7 +673,7 @@ short_audio_channel_name (int c)
 bool
 valid_image_file (boost::filesystem::path f)
 {
-	if (boost::starts_with (f.leaf().string(), "._")) {
+	if (boost::starts_with(f.filename().string(), "._")) {
 		return false;
 	}
 
@@ -690,7 +690,7 @@ valid_image_file (boost::filesystem::path f)
 bool
 valid_sound_file (boost::filesystem::path f)
 {
-	if (boost::starts_with (f.leaf().string(), "._")) {
+	if (boost::starts_with(f.filename().string(), "._")) {
 		return false;
 	}
 

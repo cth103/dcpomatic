@@ -316,7 +316,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	}
 
 	if (_name.empty()) {
-		_name = content[0].path.leaf().string();
+		_name = content[0].path.filename().string();
 	}
 
 	if (_j2k_bandwidth && (*_j2k_bandwidth < 10000000 || *_j2k_bandwidth > Config::instance()->maximum_j2k_bandwidth())) {

@@ -121,7 +121,7 @@ FontsDialog::setup ()
 		_fonts->SetItem(n, 0, id);
 		_fonts->SetItemData(n, i->id().empty());
 		if (i->file()) {
-			_fonts->SetItem(n, 1, i->file()->leaf().string());
+			_fonts->SetItem(n, 1, i->file()->filename().string());
 		}
 		++n;
 	}
