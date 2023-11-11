@@ -456,7 +456,7 @@ ContentMenu::ov ()
 
 	if (d->ShowModal() == wxID_OK) {
 		dcp->add_ov (wx_to_std (d->GetPath()));
-		shared_ptr<Film> film = _film.lock ();
+		auto film = _film.lock();
 		DCPOMATIC_ASSERT (film);
 		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
 	}
