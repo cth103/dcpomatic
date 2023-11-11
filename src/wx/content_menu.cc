@@ -23,6 +23,7 @@
 #include "content_advanced_dialog.h"
 #include "content_menu.h"
 #include "content_properties_dialog.h"
+#include "dir_dialog.h"
 #include "film_viewer.h"
 #include "repeat_dialog.h"
 #include "timeline_video_content_view.h"
@@ -39,6 +40,7 @@
 #include "lib/exceptions.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/film_util.h"
 #include "lib/find_missing.h"
 #include "lib/guess_crop.h"
 #include "lib/image_content.h"
@@ -452,10 +454,12 @@ ContentMenu::ov ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	wxDirDialog dialog(_parent, _("Select OV"));
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+	DirDialog dialog(_parent, _("Select OV"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path(film));
 
-	if (dialog.ShowModal() == wxID_OK) {
-		dcp->add_ov(wx_to_std(dialog.GetPath()));
+	if (dialog.show()) {
+		dcp->add_ov(dialog.path());
 		auto film = _film.lock();
 		DCPOMATIC_ASSERT (film);
 		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
