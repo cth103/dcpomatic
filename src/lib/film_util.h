@@ -26,3 +26,4 @@ class Film;
 
 
 bool channel_is_mapped(std::shared_ptr<const Film> film, dcp::Channel channel);
+boost::optional<boost::filesystem::path> add_files_override_path(std::shared_ptr<const Film> film);

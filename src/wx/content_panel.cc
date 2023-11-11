@@ -43,6 +43,7 @@
 #include "lib/dcpomatic_log.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
+#include "lib/film_util.h"
 #include "lib/image_content.h"
 #include "lib/log.h"
 #include "lib/playlist.h"
@@ -582,17 +583,6 @@ ContentPanel::check_selection ()
 }
 
 
-optional<boost::filesystem::path>
-ContentPanel::add_files_override_path() const
-{
-	DCPOMATIC_ASSERT(_film->directory());
-	return Config::instance()->default_add_file_location() == Config::DefaultAddFileLocation::SAME_AS_PROJECT
-		? _film->directory()->parent_path()
-		: boost::optional<boost::filesystem::path>();
-
-}
-
-
 void
 ContentPanel::add_file_clicked ()
 {
@@ -612,7 +602,7 @@ ContentPanel::add_file_clicked ()
 		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
 		wxFD_MULTIPLE | wxFD_CHANGE_DIR,
 		"AddFilesPath",
-		add_files_override_path()
+		add_files_override_path(_film)
 		);
 
 	if (dialog.show()) {
@@ -624,7 +614,7 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	DirDialog dialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
+	DirDialog dialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path(_film));
 	if (dialog.show()) {
 		add_folder(dialog.path());
 	}
@@ -667,7 +657,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	DirDialog dialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path());
+	DirDialog dialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path(_film));
 	if (dialog.show()) {
 		add_dcp(dialog.path());
 	}
