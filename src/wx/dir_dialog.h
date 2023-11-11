@@ -31,6 +31,9 @@ LIBDCP_ENABLE_WARNINGS
 class DirDialog : public wxDirDialog
 {
 public:
+	/** @param initial_path_key key used to find the directory seen on opening the dialog, if @ref override_path is empty.
+	 *  @param override_path path to show on opening the dialog.
+	 */
 	DirDialog(
 		wxWindow* parent,
 		wxString title,
