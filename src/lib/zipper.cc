@@ -57,7 +57,7 @@ Zipper::add (string name, string content)
 		throw runtime_error ("could not create ZIP source");
 	}
 
-	if (zip_add(_zip, name.c_str(), source) == -1) {
+	if (zip_file_add(_zip, name.c_str(), source, ZIP_FL_ENC_GUESS) == -1) {
 		throw runtime_error(String::compose("failed to add data to ZIP archive (%1)", zip_strerror(_zip)));
 	}
 }
