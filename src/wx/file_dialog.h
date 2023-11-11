@@ -43,6 +43,7 @@ public:
 	/** @return true if OK was clicked */
 	bool show();
 
+	boost::filesystem::path path() const;
 	std::vector<boost::filesystem::path> paths() const;
 
 private:

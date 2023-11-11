@@ -56,6 +56,13 @@ FileDialog::FileDialog(
 }
 
 
+boost::filesystem::path
+FileDialog::path() const
+{
+	return wx_to_std(GetPath());
+}
+
+
 vector<boost::filesystem::path>
 FileDialog::paths() const
 {
