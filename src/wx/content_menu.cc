@@ -452,10 +452,10 @@ ContentMenu::ov ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	auto d = make_wx<wxDirDialog>(_parent, _("Select OV"));
+	wxDirDialog dialog(_parent, _("Select OV"));
 
-	if (d->ShowModal() == wxID_OK) {
-		dcp->add_ov (wx_to_std (d->GetPath()));
+	if (dialog.ShowModal() == wxID_OK) {
+		dcp->add_ov(wx_to_std(dialog.GetPath()));
 		auto film = _film.lock();
 		DCPOMATIC_ASSERT (film);
 		JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
