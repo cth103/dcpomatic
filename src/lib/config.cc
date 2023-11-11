@@ -187,6 +187,7 @@ Config::set_defaults ()
 	_custom_languages.clear ();
 	_initial_paths.clear();
 	_initial_paths["AddFilesPath"] = boost::none;
+	_initial_paths["AddKDMPath"] = boost::none;
 	_initial_paths["AddDKDMPath"] = boost::none;
 	_initial_paths["SelectCertificatePath"] = boost::none;
 	_initial_paths["AddCombinerInputPath"] = boost::none;

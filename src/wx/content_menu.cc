@@ -24,6 +24,7 @@
 #include "content_menu.h"
 #include "content_properties_dialog.h"
 #include "dir_dialog.h"
+#include "file_dialog.h"
 #include "film_viewer.h"
 #include "repeat_dialog.h"
 #include "timeline_video_content_view.h"
@@ -402,15 +403,15 @@ ContentMenu::kdm ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	wxFileDialog dialog(_parent, _("Select KDM"));
+	FileDialog dialog(_parent, _("Select KDM"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
 
-	if (dialog.ShowModal() != wxID_OK) {
+	if (!dialog.show()) {
 		return;
 	}
 
 	optional<dcp::EncryptedKDM> kdm;
 	try {
-		kdm = dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(dialog.GetPath()), MAX_KDM_SIZE));
+		kdm = dcp::EncryptedKDM(dcp::file_to_string(dialog.path(), MAX_KDM_SIZE));
 	} catch (exception& e) {
 		error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
 		return;
