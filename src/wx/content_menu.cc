@@ -402,15 +402,15 @@ ContentMenu::kdm ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	auto d = make_wx<wxFileDialog>(_parent, _("Select KDM"));
+	wxFileDialog dialog(_parent, _("Select KDM"));
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
 	optional<dcp::EncryptedKDM> kdm;
 	try {
-		kdm = dcp::EncryptedKDM (dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE));
+		kdm = dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(dialog.GetPath()), MAX_KDM_SIZE));
 	} catch (exception& e) {
 		error_dialog (_parent, _("Could not load KDM"), std_to_wx(e.what()));
 		return;
