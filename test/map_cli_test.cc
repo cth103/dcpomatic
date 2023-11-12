@@ -542,3 +542,38 @@ BOOST_AUTO_TEST_CASE(map_uses_config_for_issuer_and_creator)
 	BOOST_CHECK(pkl.string_child("Creator") == "Fred");
 }
 
+
+BOOST_AUTO_TEST_CASE(map_handles_interop_png_subs)
+{
+	string const name = "map_handles_interop_png_subs";
+	auto arrietty = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv")[0];
+	auto film = new_test_film2(name + "_input", { arrietty });
+	film->set_interop(true);
+	arrietty->set_trim_end(dcpomatic::ContentTime::from_seconds(110));
+	arrietty->text[0]->set_use(true);
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_STANDARD
+		});
+
+	auto const out = boost::filesystem::path("build") / "test" / (name + "_output");
+
+	vector<string> const args = {
+		"map_cli",
+		"-o", out.string(),
+		"-d", film->dir(film->dcp_name()).string(),
+		find_cpl(film->dir(film->dcp_name())).string()
+	};
+
+	boost::filesystem::remove_all(out);
+
+	vector<string> output_messages;
+	auto error = run(args, output_messages);
+	BOOST_CHECK(!error);
+
+	verify_dcp(out, { dcp::VerificationNote::Code::INVALID_STANDARD });
+}
+
