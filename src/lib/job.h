@@ -99,6 +99,8 @@ public:
 
 	void when_finished(boost::signals2::connection& connection, std::function<void(Result)> finished);
 
+	void set_rate_limit_progress(bool rate_limit);
+
 	boost::signals2::signal<void()> Progress;
 	/** Emitted from the UI thread when the job is finished */
 	boost::signals2::signal<void (Result)> Finished;
@@ -158,6 +160,11 @@ private:
 	mutable boost::mutex _progress_mutex;
 	boost::optional<float> _progress;
 	boost::optional<struct timeval> _last_progress_update;
+
+	/** true to limit emissions of the progress signal so that they don't
+	 *  come too often.
+	 */
+	boost::atomic<bool> _rate_limit_progress;
 
 	/** condition to signal changes to pause/resume so that we know when to wake;
 	    this could be a general _state_change if it made more sense.

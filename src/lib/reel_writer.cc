@@ -773,21 +773,39 @@ ReelWriter::create_reel (
 	return reel;
 }
 
+
+/** @param set_progress Method to call with progress; first parameter is the number of bytes
+ *  done, second parameter is the number of bytes in total.
+ */
 void
-ReelWriter::calculate_digests (std::function<void (float)> set_progress)
+ReelWriter::calculate_digests(std::function<void (int64_t, int64_t)> set_progress)
 try
 {
+	vector<shared_ptr<const dcp::Asset>> assets;
+
 	if (_picture_asset) {
-		_picture_asset->hash (set_progress);
+		assets.push_back(_picture_asset);
 	}
-
 	if (_sound_asset) {
-		_sound_asset->hash (set_progress);
+		assets.push_back(_sound_asset);
+	}
+	if (_atmos_asset) {
+		assets.push_back(_atmos_asset);
 	}
 
-	if (_atmos_asset) {
-		_atmos_asset->hash (set_progress);
+	int64_t total_size = 0;
+	for (auto asset: assets) {
+		total_size += asset->file() ? boost::filesystem::file_size(*asset->file()) : 0;
 	}
+
+	int64_t total_done = 0;
+	for (auto asset: assets) {
+		asset->hash([&total_done, total_size, set_progress](int64_t done, int64_t) {
+			set_progress(total_done + done, total_size);
+		});
+		total_done += asset->file() ? boost::filesystem::file_size(*asset->file()) : 0;
+	}
+
 } catch (boost::thread_interrupted) {
 	/* set_progress contains an interruption_point, so any of these methods
 	 * may throw thread_interrupted, at which point we just give up.

@@ -82,7 +82,7 @@ public:
 		bool ensure_subtitles,
 		std::set<DCPTextTrack> ensure_closed_captions
 		);
-	void calculate_digests (std::function<void (float)> set_progress);
+	void calculate_digests(std::function<void (int64_t, int64_t)> set_progress);
 
 	Frame start () const;
 

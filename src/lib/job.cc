@@ -59,6 +59,7 @@ Job::Job (shared_ptr<const Film> film)
 	, _state (NEW)
 	, _sub_start_time (0)
 	, _progress (0)
+	, _rate_limit_progress(true)
 {
 
 }
@@ -432,7 +433,7 @@ Job::set_progress (float p, bool force)
 {
 	check_for_interruption_or_pause ();
 
-	if (!force) {
+	if (!force && _rate_limit_progress) {
 		/* Check for excessively frequent progress reporting */
 		boost::mutex::scoped_lock lm (_progress_mutex);
 		struct timeval now;
@@ -735,3 +736,11 @@ Job::set_message (string m)
 	boost::mutex::scoped_lock lm (_state_mutex);
 	_message = m;
 }
+
+
+void
+Job::set_rate_limit_progress(bool rate_limit)
+{
+	_rate_limit_progress = rate_limit;
+}
+

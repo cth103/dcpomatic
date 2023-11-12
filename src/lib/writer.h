@@ -134,9 +134,9 @@ private:
 	void terminate_thread (bool);
 	bool have_sequenced_image_at_queue_head ();
 	size_t video_reel (int frame) const;
-	void set_digest_progress (Job* job, float progress);
+	void set_digest_progress(Job* job, int id, int64_t done, int64_t size);
 	void write_cover_sheet (boost::filesystem::path output_dcp);
-	void calculate_referenced_digests (std::function<void (float)> set_progress);
+	void calculate_referenced_digests(std::function<void (int64_t, int64_t)> set_progress);
 	void write_hanging_text (ReelWriter& reel);
 	void calculate_digests ();
 
@@ -204,7 +204,7 @@ private:
 	bool _text_only;
 
 	boost::mutex _digest_progresses_mutex;
-	std::map<boost::thread::id, float> _digest_progresses;
+	std::map<int, std::pair<int64_t, int64_t>> _digest_progresses;
 
 	std::list<ReferencedReelAsset> _reel_assets;
 
