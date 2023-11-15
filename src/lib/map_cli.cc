@@ -199,7 +199,34 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 
 	vector<string> already_copied;
 
-	auto maybe_copy = [&assets, &already_copied, output_dir](
+	auto copy = [](
+		boost::filesystem::path input_path,
+		boost::filesystem::path output_path,
+		bool hard_link,
+		bool soft_link
+		) {
+		dcp::filesystem::create_directories(output_path.parent_path());
+
+		boost::system::error_code ec;
+		if (hard_link) {
+			dcp::filesystem::create_hard_link(input_path, output_path, ec);
+			if (ec) {
+				throw CopyError(String::compose("Could not hard-link asset %1: %2", input_path.string(), ec.message()));
+			}
+		} else if (soft_link) {
+			dcp::filesystem::create_symlink(input_path, output_path, ec);
+			if (ec) {
+				throw CopyError(String::compose("Could not soft-link asset %1: %2", input_path.string(), ec.message()));
+			}
+		} else {
+			dcp::filesystem::copy_file(input_path, output_path, ec);
+			if (ec) {
+				throw CopyError(String::compose("Could not copy asset %1: %2", input_path.string(), ec.message()));
+			}
+		}
+	};
+
+	auto maybe_copy = [&assets, &already_copied, output_dir, copy](
 		string asset_id,
 		bool rename,
 		bool hard_link,
@@ -228,25 +255,7 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 				output_path /= (*iter)->file()->filename();
 			}
 
-			dcp::filesystem::create_directories(output_path.parent_path());
-
-			boost::system::error_code ec;
-			if (hard_link) {
-				dcp::filesystem::create_hard_link(input_path, output_path, ec);
-				if (ec) {
-					throw CopyError(String::compose("Could not hard-link asset %1: %2", input_path.string(), ec.message()));
-				}
-			} else if (soft_link) {
-				dcp::filesystem::create_symlink(input_path, output_path, ec);
-				if (ec) {
-					throw CopyError(String::compose("Could not soft-link asset %1: %2", input_path.string(), ec.message()));
-				}
-			} else {
-				dcp::filesystem::copy_file(input_path, output_path, ec);
-				if (ec) {
-					throw CopyError(String::compose("Could not copy asset %1: %2", input_path.string(), ec.message()));
-				}
-			}
+			copy(input_path, output_path, hard_link, soft_link);
 			(*iter)->set_file_preserving_hash(output_path);
 			already_copied.push_back(asset_id);
 		} else {
