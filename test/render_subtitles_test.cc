@@ -64,7 +64,8 @@ add(std::vector<StringText>& s, std::string text, bool italic, bool bold, bool u
 				dcp::Colour (0, 0, 0),
 				dcp::Time (),
 				dcp::Time (),
-				0
+				0,
+				std::vector<dcp::Ruby>()
 				),
 			2,
 			std::shared_ptr<dcpomatic::Font>(),
@@ -135,7 +136,8 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 			"Hello                     world",
 			dcp::Effect::NONE, dcp::Colour(0, 0, 0),
 			{}, {},
-			0
+			0,
+			std::vector<dcp::Ruby>()
 		},
 		{
 			{}, true, false, false, dcp::Colour(255, 255, 255), 42, 1.0,
@@ -147,7 +149,8 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 			"\n",
 			dcp::Effect::NONE, dcp::Colour(0, 0, 0),
 			{}, {},
-			0
+			0,
+			std::vector<dcp::Ruby>()
 		}
 	};
 

@@ -873,7 +873,8 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 				dcp::Colour(),
 				dcp::Time(),
 				dcp::Time(),
-				0
+				0,
+				std::vector<dcp::Ruby>()
 				)
 		       );
 

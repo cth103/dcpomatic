@@ -301,7 +301,8 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				*/
 				dcp::Time (),
 				dcp::Time (),
-				0
+				0,
+				std::vector<dcp::Ruby>()
 				);
 
 			auto font = content()->get_font(block.font.get_value_or(""));
