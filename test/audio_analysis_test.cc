@@ -263,3 +263,23 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_strange_channel_count)
 	BOOST_CHECK(!wait_for_jobs());
 }
 
+
+BOOST_AUTO_TEST_CASE(analyse_audio_with_more_channels_than_film)
+{
+	auto picture = content_factory("test/data/flat_red.png");
+	auto film_16ch = new_test_film2("analyse_audio_with_more_channels_than_film_16ch", picture);
+	film_16ch->set_audio_channels(16);
+	make_and_verify_dcp(film_16ch);
+
+	auto pcm_16ch = find_file(film_16ch->dir(film_16ch->dcp_name()), "pcm_");
+	auto sound = content_factory(pcm_16ch)[0];
+
+	auto film_6ch = new_test_film2("analyse_audio_with_more_channels_than_film_6ch", { sound });
+
+	auto playlist = make_shared<Playlist>();
+	playlist->add(film_6ch, sound);
+	boost::signals2::connection c;
+	JobManager::instance()->analyse_audio(film_6ch, playlist, false, c, [](Job::Result) {});
+	BOOST_CHECK(!wait_for_jobs());
+}
+

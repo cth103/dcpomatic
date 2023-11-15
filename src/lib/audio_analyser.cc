@@ -86,10 +86,18 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 		}
 	};
 
-	_leqm_channels = film->audio_channels();
 	auto content = _playlist->content();
 	if (content.size() == 1 && content[0]->audio) {
-		_leqm_channels = content[0]->audio->mapping().mapped_output_channels().size();
+		_leqm_channels = 0;
+		for (auto channel: content[0]->audio->mapping().mapped_output_channels()) {
+			/* This means that if, for example, a file only maps C we will
+			 * calculate LEQ(m) for L, R and C.  I'm not sure if this is
+			 * right or not.
+			 */
+			_leqm_channels = std::min(film->audio_channels(), channel + 1);
+		}
+	} else {
+		_leqm_channels = film->audio_channels();
 	}
 
 	/* XXX: is this right?  Especially for more than 5.1? */
