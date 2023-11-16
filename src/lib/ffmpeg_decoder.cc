@@ -634,9 +634,14 @@ FFmpegDecoder::process_video_frame ()
 void
 FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 {
+	auto context = subtitle_codec_context();
+	if (!context) {
+		return;
+	}
+
 	int got_subtitle;
 	AVSubtitle sub;
-	if (avcodec_decode_subtitle2 (subtitle_codec_context(), &sub, &got_subtitle, packet) < 0 || !got_subtitle) {
+	if (avcodec_decode_subtitle2(context, &sub, &got_subtitle, packet) < 0 || !got_subtitle) {
 		return;
 	}
 
