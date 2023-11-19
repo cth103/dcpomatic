@@ -32,10 +32,27 @@ namespace dcp {
 }
 
 
-enum class KDMCertificatePeriod {
+enum class KDMCertificateOverlap {
 	KDM_WITHIN_CERTIFICATE,
 	KDM_OVERLAPS_CERTIFICATE,
 	KDM_OUTSIDE_CERTIFICATE
+};
+
+
+struct KDMCertificatePeriod
+{
+	KDMCertificatePeriod(std::string cinema_name_, std::string screen_name_, dcp::LocalTime from_, dcp::LocalTime to_)
+		: cinema_name(std::move(cinema_name_))
+		, screen_name(std::move(screen_name_))
+		, from(std::move(from_))
+		, to(std::move(to_))
+	{}
+
+	std::string cinema_name;
+	std::string screen_name;
+	KDMCertificateOverlap overlap = KDMCertificateOverlap::KDM_WITHIN_CERTIFICATE;
+	dcp::LocalTime from;
+	dcp::LocalTime to;
 };
 
 
@@ -45,8 +62,13 @@ enum class KDMCertificatePeriod {
  *  @return Relationship between certificate and KDM validity periods.
  */
 
-KDMCertificatePeriod
-check_kdm_and_certificate_validity_periods(dcp::Certificate const& recipient, dcp::LocalTime kdm_from, dcp::LocalTime kdm_to);
+KDMCertificatePeriod check_kdm_and_certificate_validity_periods(
+	std::string const& cinema_name,
+	std::string const& screen_name,
+	dcp::Certificate const& recipient,
+	dcp::LocalTime kdm_from,
+	dcp::LocalTime kdm_to
+	);
 
 
 #endif

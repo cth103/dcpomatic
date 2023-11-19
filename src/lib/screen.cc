@@ -93,7 +93,7 @@ kdm_for_screen (
 	dcp::LocalTime const begin(valid_from, dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
 	dcp::LocalTime const end  (valid_to,   dcp::UTCOffset(cinema ? cinema->utc_offset_hour() : 0, cinema ? cinema->utc_offset_minute() : 0));
 
-	period_checks.push_back(check_kdm_and_certificate_validity_periods(screen->recipient.get(), begin, end));
+	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema->name, screen->name, screen->recipient.get(), begin, end));
 
 	auto signer = Config::instance()->signer_chain();
 	if (!signer->valid()) {

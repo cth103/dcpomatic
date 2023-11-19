@@ -257,13 +257,21 @@ from_film (
 		}
 
 
-		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OUTSIDE_CERTIFICATE) != period_checks.end()) {
+		if (find_if(
+			period_checks.begin(),
+			period_checks.end(),
+			[](KDMCertificatePeriod const& p) { return p.overlap == KDMCertificateOverlap::KDM_OUTSIDE_CERTIFICATE; }
+		   ) != period_checks.end()) {
 			throw KDMCLIError(
 				"Some KDMs would have validity periods which are completely outside the recipient certificate periods.  Such KDMs are very unlikely to work, so will not be created."
 				);
 		}
 
-		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE) != period_checks.end()) {
+		if (find_if(
+			period_checks.begin(),
+			period_checks.end(),
+			[](KDMCertificatePeriod const& p) { return p.overlap == KDMCertificateOverlap::KDM_OVERLAPS_CERTIFICATE; }
+		   ) != period_checks.end()) {
 			out("For some of these KDMs the recipient certificate's validity period will not cover the whole of the KDM validity period.  This might cause problems with the KDMs.");
 		}
 

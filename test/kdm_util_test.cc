@@ -28,58 +28,68 @@
 BOOST_AUTO_TEST_CASE(check_kdm_and_certificate_validity_periods_good)
 {
 	auto const result = check_kdm_and_certificate_validity_periods(
+		"Bob's Place",
+		"Country",
 		dcp::Certificate(dcp::file_to_string("test/data/cert.pem")),
 		dcp::LocalTime("2023-01-03T10:30:00"),
 		dcp::LocalTime("2050-10-20T14:00:00")
 		);
 
-	BOOST_CHECK(result == KDMCertificatePeriod::KDM_WITHIN_CERTIFICATE);
+	BOOST_CHECK(result.overlap == KDMCertificateOverlap::KDM_WITHIN_CERTIFICATE);
 }
 
 
 BOOST_AUTO_TEST_CASE(check_kdm_and_certificate_validity_periods_overlap_start)
 {
 	auto const result = check_kdm_and_certificate_validity_periods(
+		"Bob's Place",
+		"Western",
 		dcp::Certificate(dcp::file_to_string("test/data/cert.pem")),
 		dcp::LocalTime("2011-01-03T10:30:00"),
 		dcp::LocalTime("2050-10-20T14:00:00")
 		);
 
-	BOOST_CHECK(result == KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE);
+	BOOST_CHECK(result.overlap == KDMCertificateOverlap::KDM_OVERLAPS_CERTIFICATE);
 }
 
 
 BOOST_AUTO_TEST_CASE(check_kdm_and_certificate_validity_periods_overlap_end)
 {
 	auto const result = check_kdm_and_certificate_validity_periods(
+		"Palace Hotel Ballroom",
+		"Lobby",
 		dcp::Certificate(dcp::file_to_string("test/data/cert.pem")),
 		dcp::LocalTime("2033-01-03T10:30:00"),
 		dcp::LocalTime("2095-10-20T14:00:00")
 		);
 
-	BOOST_CHECK(result == KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE);
+	BOOST_CHECK(result.overlap == KDMCertificateOverlap::KDM_OVERLAPS_CERTIFICATE);
 }
 
 
 BOOST_AUTO_TEST_CASE(check_kdm_and_certificate_validity_periods_overlap_start_and_end)
 {
 	auto const result = check_kdm_and_certificate_validity_periods(
+		"Palace Hotel Ballroom",
+		"Stage",
 		dcp::Certificate(dcp::file_to_string("test/data/cert.pem")),
 		dcp::LocalTime("2011-01-03T10:30:00"),
 		dcp::LocalTime("2095-10-20T14:00:00")
 		);
 
-	BOOST_CHECK(result == KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE);
+	BOOST_CHECK(result.overlap == KDMCertificateOverlap::KDM_OVERLAPS_CERTIFICATE);
 }
 
 
 BOOST_AUTO_TEST_CASE(check_kdm_and_certificate_validity_periods_outside)
 {
 	auto const result = check_kdm_and_certificate_validity_periods(
+		"Palace Hotel Ballroom",
+		"Drum Riser",
 		dcp::Certificate(dcp::file_to_string("test/data/cert.pem")),
 		dcp::LocalTime("2011-01-03T10:30:00"),
 		dcp::LocalTime("2012-10-20T14:00:00")
 		);
 
-	BOOST_CHECK(result == KDMCertificatePeriod::KDM_OUTSIDE_CERTIFICATE);
+	BOOST_CHECK(result.overlap == KDMCertificateOverlap::KDM_OUTSIDE_CERTIFICATE);
 }

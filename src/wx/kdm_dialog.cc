@@ -21,6 +21,7 @@
 
 #include "confirm_kdm_email_dialog.h"
 #include "dcpomatic_button.h"
+#include "invalid_certificate_period_dialog.h"
 #include "kdm_cpl_panel.h"
 #include "kdm_dialog.h"
 #include "kdm_output_panel.h"
@@ -185,19 +186,16 @@ KDMDialog::make_clicked ()
 			}
 		}
 
-		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OUTSIDE_CERTIFICATE) != period_checks.end()) {
-			error_dialog(
-				this,
-				_("Some KDMs would have validity periods which are completely outside the recipient certificate periods.  Such KDMs are very unlikely to work, so will not be created.")
-				);
-			return;
-		}
-
-		if (find(period_checks.begin(), period_checks.end(), KDMCertificatePeriod::KDM_OVERLAPS_CERTIFICATE) != period_checks.end()) {
-			message_dialog(
-				this,
-				_("For some of these KDMs the recipient certificate's validity period will not cover the whole of the KDM validity period.  This might cause problems with the KDMs.")
-				);
+		if (
+			find_if(
+				period_checks.begin(),
+				period_checks.end(),
+				[](KDMCertificatePeriod const& p) { return p.overlap != KDMCertificateOverlap::KDM_WITHIN_CERTIFICATE; }
+			       ) != period_checks.end()) {
+			InvalidCertificatePeriodDialog dialog(this, period_checks);
+			if (dialog.ShowModal() == wxID_CANCEL) {
+				return;
+			}
 		}
 
 	} catch (dcp::BadKDMDateError& e) {
