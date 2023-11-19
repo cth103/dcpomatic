@@ -23,8 +23,8 @@
 #define DCPOMATIC_KDM_UTIL_H
 
 
-#include <utility>
 #include <dcp/local_time.h>
+#include <utility>
 
 
 namespace dcp {
