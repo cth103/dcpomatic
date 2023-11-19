@@ -19,6 +19,7 @@
 */
 
 #include "wx/about_dialog.h"
+#include "wx/file_dialog.h"
 #include "wx/film_viewer.h"
 #include "wx/nag_dialog.h"
 #include "wx/player_config_dialog.h"
@@ -698,9 +699,9 @@ private:
 
 	void file_add_kdm ()
 	{
-		auto d = make_wx<wxFileDialog>(this, _("Select KDM"));
+		FileDialog dialog(this, _("Select KDM"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
 
-		if (d->ShowModal() == wxID_OK) {
+		if (dialog.show()) {
 			DCPOMATIC_ASSERT (_film);
 			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT (dcp);
@@ -710,7 +711,9 @@ private:
 						_viewer.set_coalesce_player_changes(false);
 					});
 					_viewer.set_coalesce_player_changes(true);
-					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
+					for (auto path: dialog.paths()) {
+						dcp->add_kdm(dcp::EncryptedKDM(dcp::file_to_string(path)));
+					}
 					examine_content();
 				}
 			} catch (exception& e) {
