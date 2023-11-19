@@ -172,7 +172,7 @@ osx_disks_to_drives (vector<OSXDisk> disks)
 			continue;
 		}
 		for (auto& j: disks) {
-			if (!j.mount_points.empty() && starts_with(j.device, i.device)) {
+			if (&i != &j && !j.mount_points.empty() && starts_with(j.device, i.device)) {
 				LOG_DISK("Marking %1 as mounted because %2 is", i.device, j.device);
 				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
 			}
