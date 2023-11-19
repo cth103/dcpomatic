@@ -503,7 +503,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 	make_and_verify_dcp (film);
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
-	auto notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	auto notes = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }
@@ -528,7 +528,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
 	make_and_verify_dcp (film);
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
-	auto const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	auto const notes = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }
@@ -549,7 +549,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short3)
 
 	make_and_verify_dcp (film);
 
-	auto const notes = dcp::verify({}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	auto const notes = dcp::verify({}, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }
@@ -579,7 +579,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
-	auto const notes = dcp::verify(dirs, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	auto const notes = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
 	dump_notes (notes);
 	BOOST_REQUIRE (notes.empty());
 }

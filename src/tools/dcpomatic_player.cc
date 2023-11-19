@@ -713,6 +713,7 @@ private:
 					_viewer.set_coalesce_player_changes(true);
 					for (auto path: dialog.paths()) {
 						dcp->add_kdm(dcp::EncryptedKDM(dcp::file_to_string(path)));
+						_kdms.push_back(path);
 					}
 					examine_content();
 				}
@@ -913,7 +914,7 @@ private:
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 
-		auto job = make_shared<VerifyDCPJob>(dcp->directories());
+		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms);
 		VerifyDCPProgressDialog progress(this, _("DCP-o-matic Player"));
 		bool const completed = progress.run(job);
 		progress.Close();
@@ -1125,6 +1126,8 @@ private:
 	wxMenuItem* _view_dual_screen = nullptr;
 	wxSizer* _main_sizer = nullptr;
 	PlayerStressTester _stress;
+	/** KDMs that have been loaded, so that we can pass them to the verifier */
+	std::vector<boost::filesystem::path> _kdms;
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {

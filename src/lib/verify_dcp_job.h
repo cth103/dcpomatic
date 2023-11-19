@@ -29,7 +29,7 @@ class Content;
 class VerifyDCPJob : public Job
 {
 public:
-	explicit VerifyDCPJob (std::vector<boost::filesystem::path> directories);
+	VerifyDCPJob(std::vector<boost::filesystem::path> directories, std::vector<boost::filesystem::path> kdms);
 	~VerifyDCPJob ();
 
 	std::string name () const override;
@@ -44,5 +44,6 @@ private:
 	void update_stage (std::string s, boost::optional<boost::filesystem::path> path);
 
 	std::vector<boost::filesystem::path> _directories;
+	std::vector<boost::filesystem::path> _kdms;
 	std::vector<dcp::VerificationNote> _notes;
 };

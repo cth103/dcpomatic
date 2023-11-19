@@ -19,6 +19,7 @@
 */
 
 
+#include "config.h"
 #include "cross.h"
 #include "verify_dcp_job.h"
 #include "content.h"
@@ -35,9 +36,10 @@ using namespace boost::placeholders;
 #endif
 
 
-VerifyDCPJob::VerifyDCPJob (vector<boost::filesystem::path> directories)
+VerifyDCPJob::VerifyDCPJob(vector<boost::filesystem::path> directories, vector<boost::filesystem::path> kdms)
 	: Job (shared_ptr<Film>())
 	, _directories (directories)
+	, _kdms(kdms)
 {
 
 }
@@ -76,7 +78,22 @@ VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
 void
 VerifyDCPJob::run ()
 {
-	_notes = dcp::verify(_directories, bind(&VerifyDCPJob::update_stage, this, _1, _2), bind(&VerifyDCPJob::set_progress, this, _1, false), {}, libdcp_resources_path() / "xsd");
+	vector<dcp::DecryptedKDM> decrypted_kdms;
+	auto key = Config::instance()->decryption_chain()->key();
+	if (key) {
+		for (auto kdm: _kdms) {
+			decrypted_kdms.push_back(dcp::DecryptedKDM{dcp::EncryptedKDM(dcp::file_to_string(kdm)), *key});
+		}
+	}
+
+	_notes = dcp::verify(
+		_directories,
+		decrypted_kdms,
+		bind(&VerifyDCPJob::update_stage, this, _1, _2),
+		bind(&VerifyDCPJob::set_progress, this, _1, false),
+		{},
+		libdcp_resources_path() / "xsd"
+		);
 
 	bool failed = false;
 	for (auto i: _notes) {
