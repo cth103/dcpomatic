@@ -706,10 +706,12 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				if (dcp) {
+					ScopeGuard sg([this]() {
+						_viewer.set_coalesce_player_changes(false);
+					});
 					_viewer.set_coalesce_player_changes(true);
 					dcp->add_kdm (dcp::EncryptedKDM(dcp::file_to_string(wx_to_std(d->GetPath()), MAX_KDM_SIZE)));
 					examine_content();
-					_viewer.set_coalesce_player_changes(false);
 				}
 			} catch (exception& e) {
 				error_dialog (this, wxString::Format (_("Could not load KDM.")), std_to_wx(e.what()));
