@@ -22,8 +22,11 @@
 #include "invalid_certificate_period_dialog.h"
 #include "wx_util.h"
 #include "lib/kdm_util.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
 #include <wx/scrolwin.h>
+LIBDCP_ENABLE_WARNINGS
 
 
 InvalidCertificatePeriodDialog::InvalidCertificatePeriodDialog(wxWindow* parent, std::vector<KDMCertificatePeriod> const& periods)

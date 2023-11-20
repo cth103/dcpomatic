@@ -24,6 +24,7 @@
 
 
 #include <wx/wx.h>
+#include <vector>
 
 
 class KDMCertificatePeriod;
