@@ -18,20 +18,25 @@
 
 */
 
+
 /** @file src/job.h
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
  */
 
+
 #ifndef DCPOMATIC_JOB_H
 #define DCPOMATIC_JOB_H
 
+
 #include "signaller.h"
-#include <boost/thread/mutex.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
+#include <boost/thread/mutex.hpp>
 #include <string>
 
+
 class Film;
+
 
 /** @class Job
  *  @brief A parent class to represent long-running tasks which are run in their own thread.
