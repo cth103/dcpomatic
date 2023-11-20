@@ -27,7 +27,7 @@
 #include <vector>
 
 
-class KDMCertificatePeriod;
+struct KDMCertificatePeriod;
 class wxListCtrl;
 
 
