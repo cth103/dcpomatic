@@ -23,7 +23,10 @@
 #define DCPOMATIC_INVALID_CERTIFICATE_PERIOD_DIALOG_H
 
 
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 
