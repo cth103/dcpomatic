@@ -57,7 +57,11 @@ Zipper::add (string name, string content)
 		throw runtime_error ("could not create ZIP source");
 	}
 
+#ifdef DCPOMATIC_HAVE_ZIP_FILE_ADD
 	if (zip_file_add(_zip, name.c_str(), source, ZIP_FL_ENC_GUESS) == -1) {
+#else
+	if (zip_add(_zip, name.c_str(), source) == -1) {
+#endif
 		throw runtime_error(String::compose("failed to add data to ZIP archive (%1)", zip_strerror(_zip)));
 	}
 }

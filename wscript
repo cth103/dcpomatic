@@ -256,6 +256,15 @@ def configure(conf):
                    uselib="ZIP",
                    define_name='DCPOMATIC_HAVE_ZIP_SOURCE_T'
                    )
+    conf.check_cxx(fragment="""
+                            #include <zip.h>
+                            int main() { struct zip* zip; zip_source_t* source; zip_file_add(zip, "foo", source, ZIP_FL_ENC_GUESS); }
+                            """,
+                   mandatory=False,
+                   msg="Checking for zip_file_add",
+                   uselib="ZIP",
+                   define_name='DCPOMATIC_HAVE_ZIP_FILE_ADD'
+                   )
 
     # libbz2; must be explicitly linked on macOS for some reason
     conf.check_cxx(fragment="""
