@@ -114,6 +114,7 @@ main (int argc, char* argv[])
 
 #ifdef DCPOMATIC_GROK
 	setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+	setup_grok_library_path();
 #endif
 
 	EncodeServer server (verbose, num_threads);

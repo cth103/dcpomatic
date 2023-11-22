@@ -334,6 +334,7 @@ private:
 
 #ifdef DCPOMATIC_GROK
 		grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+		setup_grok_library_path();
 #endif
 
 		return true;
