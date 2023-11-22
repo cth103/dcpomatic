@@ -428,6 +428,11 @@ dcpomatic_setup ()
 	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
+#ifdef DCPOMATIC_GROK
+	/* This makes grok support work with CUDA 12.2 */
+	setenv("CUDA_MODULE_LOADING", "EAGER", 1);
+#endif
+
 #ifdef DCPOMATIC_HAVE_AVREGISTER
 LIBDCP_DISABLE_WARNINGS
 	av_register_all ();
