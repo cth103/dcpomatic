@@ -500,7 +500,7 @@ main (int argc, char* argv[])
 	}
 
 #ifdef DCPOMATIC_GROK
-			grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+	grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
 #endif
 
 	if (progress) {
