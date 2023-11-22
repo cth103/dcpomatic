@@ -1696,7 +1696,7 @@ void
 Config::set_grok(Grok const& grok)
 {
 	_grok = grok;
-	changed(OTHER);
+	changed(GROK);
 }
 
 #endif
