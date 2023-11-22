@@ -1503,6 +1503,12 @@ private:
 		_history_items = history.size ();
 
 		dcpomatic_log->set_types (Config::instance()->log_types());
+
+#ifdef DCPOMATIC_GROK
+		if (what == Config::GROK) {
+			setup_grok_library_path();
+		}
+#endif
 	}
 
 	void update_checker_state_changed ()
@@ -1755,6 +1761,7 @@ private:
 
 #ifdef DCPOMATIC_GROK
 			grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+			setup_grok_library_path();
 #endif
 		}
 		catch (exception& e)
