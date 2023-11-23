@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-09-05 14:06+0200\n"
-"PO-Revision-Date: 2023-07-14 23:02+0800\n"
+"PO-Revision-Date: 2023-11-23 10:09+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.1\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/tools/dcpomatic_combiner.cc:171
@@ -497,7 +497,7 @@ msgstr "DKDM"
 #: src/tools/dcpomatic_kdm.cc:575
 #, c-format
 msgid "DKDM %s is already in the DKDM list and will not be added again."
-msgstr ""
+msgstr "DKDM %s 已在 DKDM 列表中，不会再次添加。"
 
 #: src/tools/dcpomatic_player.cc:596
 msgid "Decode at full resolution"
@@ -962,14 +962,13 @@ msgid "The KDM does not allow playback of this content at this time."
 msgstr "这个KDM不允许在现在这个时间播放这个内容。"
 
 #: src/tools/dcpomatic_kdm.cc:461
-#, fuzzy
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the DCP-o-matic preferences window."
 msgstr ""
-"KDM结束期限在签名证书的有效期结束之后（或接近）。请为此KDM使用较早的结束时"
-"间，或在DCP-o-matic首选项窗口中重新创建签名证书。"
+"KDM结束期限在签名证书的有效期结束之后（或接近）。请调整该KDM的结束期限，或在"
+"DCP-o-matic首选项窗口中重新创建签名证书。"
 
 #: src/tools/dcpomatic_kdm.cc:459
 msgid ""
