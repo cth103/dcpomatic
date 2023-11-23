@@ -62,7 +62,6 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	, _history (200)
 	, _writer (writer)
 {
-	servers_list_changed ();
 }
 
 
@@ -81,6 +80,7 @@ J2KEncoder::begin ()
 	_server_found_connection = EncodeServerFinder::instance()->ServersListChanged.connect(
 		boost::bind(&J2KEncoder::servers_list_changed, this)
 		);
+	servers_list_changed ();
 }
 
 
