@@ -67,7 +67,7 @@ SendNotificationEmailJob::run ()
 	auto config = Config::instance ();
 
 	if (config->mail_server().empty()) {
-		throw NetworkError (_("No mail server configured in preferences"));
+		throw MissingConfigurationError(_("No outgoing mail server configured in the Email tab of preferences"));
 	}
 
 	set_progress_unknown ();

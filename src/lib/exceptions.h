@@ -471,4 +471,13 @@ public:
 };
 
 
+class MissingConfigurationError : public std::runtime_error
+{
+public:
+	explicit MissingConfigurationError(std::string s)
+		: std::runtime_error(s)
+	{}
+};
+
+
 #endif

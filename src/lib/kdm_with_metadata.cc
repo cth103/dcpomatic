@@ -210,11 +210,11 @@ send_emails (
 	auto config = Config::instance ();
 
 	if (config->mail_server().empty()) {
-		throw NetworkError (_("No mail server configured in preferences"));
+		throw MissingConfigurationError(_("No outgoing mail server configured in the Email tab of preferences"));
 	}
 
 	if (config->kdm_from().empty()) {
-		throw NetworkError(_("No KDM from address configured in preferences"));
+		throw MissingConfigurationError(_("No from address configured in the KDM Email tab of preferences"));
 	}
 
 	for (auto const& kdms_for_cinema: kdms) {
