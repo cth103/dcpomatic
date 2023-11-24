@@ -403,7 +403,7 @@ ContentMenu::kdm ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	FileDialog dialog(_parent, _("Select KDM"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
+	FileDialog dialog(_parent, _("Select KDM"), wxT("XML files|*.xml|All files|*.*"), 0, "AddKDMPath");
 
 	if (!dialog.show()) {
 		return;
