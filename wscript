@@ -249,7 +249,7 @@ def configure(conf):
     conf.check_cfg(package='libzip', args='--cflags --libs', uselib_store='ZIP', mandatory=True)
     conf.check_cxx(fragment="""
                             #include <zip.h>
-                            int main() { zip_source_t* foo; }
+                            int main() { zip_source_t* foo; (void)foo; }
                             """,
                    mandatory=False,
                    msg="Checking for zip_source_t",
@@ -258,7 +258,7 @@ def configure(conf):
                    )
     conf.check_cxx(fragment="""
                             #include <zip.h>
-                            int main() { struct zip* zip; zip_source_t* source; zip_file_add(zip, "foo", source, ZIP_FL_ENC_GUESS); }
+                            int main() { struct zip* zip = nullptr; zip_source_t* source = nullptr; zip_file_add(zip, "foo", source, ZIP_FL_ENC_GUESS); }
                             """,
                    mandatory=False,
                    msg="Checking for zip_file_add",
