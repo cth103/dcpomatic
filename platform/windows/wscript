@@ -1,6 +1,14 @@
 from __future__ import print_function
 import os
 
+
+def start_menu_shortcut(file, link, target, debug=False):
+    if debug:
+        print(f'CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\{link}.lnk" "$INSTDIR\\{target}"', file=file)
+    else:
+        print(f'CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\{link}.lnk" "$INSTDIR\\{target}"', file=file)
+
+
 def write_installer(bits, dcpomatic_version, debug, disk):
 
     tools = [
@@ -392,17 +400,17 @@ File "%resources%/dcpomatic2_disk_writer.exe.manifest"
     """, file=f)
 
     if debug:
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat"', file=f)
+        start_menu_shortcut(f, 'DCP-o-matic 2 debug', 'bin\\dcpomatic2_debug.bat', debug=True)
         for s, l in tools:
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\DCP-o-matic 2 %s debug.lnk" "$INSTDIR\\bin\\dcpomatic2_%s_debug.bat" ""' % (l, s), file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\Uninstall DCP-o-matic 2 debug.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
+            start_menu_shortcut(f, f'DCP-o-matic 2 {l} debug', f'bin\\dcpomatic2_{s}_debug.bat', debug=True)
+        start_menu_shortcut(f, 'Uninstall DCP-o-matic 2 debug', 'Uninstall.exe', debug=True)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "DisplayName" "DCP-o-matic 2 debug (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
     else:
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe"', file=f)
+        start_menu_shortcut(f, 'DCP-o-matic 2', 'bin\\dcpomatic2.exe')
         for s, l in tools:
-            print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 %s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s.exe"' % (l, s), file=f)
-        print('CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe"', file=f)
+            start_menu_shortcut(f, f'DCP-o-matic 2 {l}', f'bin\\dcpomatic2_{s}.exe')
+        start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe')
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
         print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
 
@@ -427,8 +435,12 @@ SetOutPath "$INSTDIR\\bin"
 CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"
 File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_server.exe"
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" "" "$INSTDIR\\bin\\dcpomatic2_server.exe" 0
-CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\Uninstall DCP-o-matic 2.lnk" "$INSTDIR\\Uninstall.exe" "" "$INSTDIR\\Uninstall.exe" 0
+    """, file=f)
+
+    start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe')
+    start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe')
+
+    print("""
 SectionEnd
 Section "Encode server desktop shortcuts" SEC_SERVER_DESKTOP
 CreateShortCut "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk" "$INSTDIR\\bin\\dcpomatic2_server.exe" ""
