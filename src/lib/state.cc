@@ -23,7 +23,6 @@
 #include "state.h"
 #include "util.h"
 #include <dcp/filesystem.h>
-#include <glib.h>
 
 
 using std::string;
