@@ -1592,6 +1592,7 @@ public:
 	App ()
 		: wxApp ()
 	{
+		dcpomatic_setup_path_encoding ();
 #ifdef DCPOMATIC_LINUX
 		XInitThreads ();
 #endif
@@ -1643,8 +1644,6 @@ private:
 			dcpomatic_sleep_seconds (1);
 			make_foreground_application ();
 #endif
-
-			dcpomatic_setup_path_encoding ();
 
 			/* Enable i18n; this will create a Config object
 			   to look for a force-configured language.  This Config
