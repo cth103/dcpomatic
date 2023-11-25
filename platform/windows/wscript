@@ -497,6 +497,7 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
         print('Delete "$DESKTOP\\DCP-o-matic 2.lnk"', file=f)
         for s, l in tools:
             print('Delete "$DESKTOP\\DCP-o-matic 2 %s.lnk"' % l, file=f)
+        print('Delete "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk"', file=f)
 
         print("""
 Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"
