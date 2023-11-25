@@ -462,14 +462,14 @@ SectionEnd
 !insertmacro MUI_LANGUAGE "English"
     """, file=f)
 
-    if debug:
-        print("""
+    print("""
 Section "Uninstall"
 RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
-Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"
-        """, file=f)
+    """, file=f)
 
+    if debug:
+        print('Delete "$DESKTOP\\DCP-o-matic 2 debug.lnk"', file=f)
         for s, l in tools:
             print('Delete "$DESKTOP\\DCP-o-matic 2 %s debug.lnk"' % l, file=f)
 
@@ -481,13 +481,7 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
  SectionEnd
         """, file=f)
     else:
-        print("""
-Section "Uninstall"
-RMDir /r "$INSTDIR\\*.*"
-RMDir "$INSTDIR"
-Delete "$DESKTOP\\DCP-o-matic 2.lnk"
-        """, file=f)
-
+        print('Delete "$DESKTOP\\DCP-o-matic 2.lnk"', file=f)
         for s, l in tools:
             print('Delete "$DESKTOP\\DCP-o-matic 2 %s.lnk"' % l)
 
