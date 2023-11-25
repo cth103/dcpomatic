@@ -79,8 +79,7 @@ boost::filesystem::path
 State::write_path (string file)
 {
 	auto p = config_path_or_override(config_versions.front());
-	boost::system::error_code ec;
-	dcp::filesystem::create_directories(p, ec);
+	dcp::filesystem::create_directories(p);
 	p /= file;
 	return p;
 }
