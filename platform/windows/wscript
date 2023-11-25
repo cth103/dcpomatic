@@ -476,6 +476,7 @@ SectionEnd
 
     print("""
 Section "Uninstall"
+SetShellVarContext all
 RMDir /r "$INSTDIR\\*.*"
 RMDir "$INSTDIR"
     """, file=f)
