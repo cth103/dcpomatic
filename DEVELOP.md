@@ -11,7 +11,7 @@ As we have no `film' folder to log to during disk writes, the logs end up:
 ### macOS
 
 * Disk writer backend: `/var/log/dcpomatic_disk_writer_{out,err}.log`
-* Disk writer frontend: `/Users/$USER/Library/Preferences/2/com.dcpomatic/2.16/disk.log`
+* Disk writer frontend: `/Users/$USER/Library/Preferences/com.dcpomatic/2/2.16/disk.log`
 
 ### Windows
 
