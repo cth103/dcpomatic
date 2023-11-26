@@ -396,7 +396,9 @@ FFmpegFileEncoder::flush ()
 	}
 
 	auto const r = av_write_trailer(_format_context);
-	DCPOMATIC_ASSERT(r == 0);
+	if (r) {
+		throw EncodeError(N_("av_write_trailer"), N_("FFmpegFileEncoder::flush"), r);
+	}
 }
 
 
