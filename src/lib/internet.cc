@@ -75,7 +75,7 @@ ls_url (string url)
 	for (size_t i = 0; i < ls.size(); ++i) {
 		if (ls[i] == '\n') {
 			result.push_back("");
-		} else {
+		} else if (ls[i] != '\r') {
 			result.back() += ls[i];
 		}
 	}
