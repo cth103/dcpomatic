@@ -232,6 +232,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	tested_by.Add (wxT ("Andreas Weiss"));
 	tested_by.Add (wxT ("Paul Willmott"));
 	tested_by.Add (wxT ("Wolfgang Woehl"));
+	tested_by.Add (wxT ("Дима Агатов"));
 	add_section (_("Tested by"), tested_by);
 
 	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16));
