@@ -862,7 +862,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other,
 
 static
 void
-alpha_blend_onto_yuv422p10le(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -1006,12 +1006,13 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		alpha_blend_onto_yuv420p10(target_params, other_params, other->data(), other->stride());
 		break;
 	}
+	case AV_PIX_FMT_YUV422P9LE:
 	case AV_PIX_FMT_YUV422P10LE:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_params.data = yuv->data();
 		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv422p10le(target_params, other_params, other->data(), other->stride());
+		alpha_blend_onto_yuv422p9or10le(target_params, other_params, other->data(), other->stride());
 		break;
 	}
 	default:
