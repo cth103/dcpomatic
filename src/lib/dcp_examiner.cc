@@ -35,6 +35,8 @@
 #include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/mono_j2k_picture_asset_reader.h>
 #include <dcp/mono_j2k_picture_frame.h>
+#include <dcp/mono_mpeg2_picture_asset.h>
+#include <dcp/mpeg2_transcode.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -295,6 +297,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				}
 				auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(pic);
 				auto j2k_stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(pic);
+				auto mpeg2_mono = dynamic_pointer_cast<dcp::MonoMPEG2PictureAsset>(pic);
 
 				if (j2k_mono) {
 					auto reader = j2k_mono->start_read();
@@ -304,6 +307,11 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					auto reader = j2k_stereo->start_read();
 					reader->set_check_hmac (false);
 					reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
+				} else if (mpeg2_mono) {
+					auto reader = mpeg2_mono->start_read();
+					reader->set_check_hmac(false);
+					dcp::MPEG2Decompressor decompressor;
+					decompressor.decompress_frame(reader->get_frame(0));
 				}
 			}
 

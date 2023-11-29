@@ -533,19 +533,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
 
 def dependencies(target, options):
-
-    if target.platform == 'linux':
-        ffmpeg_options = { 'shared': False }
-    else:
-        ffmpeg_options = {}
-
-    if target.platform != 'linux' or target.distro != 'arch':
-        deps = [('ffmpeg', '0b73d2f5e70a04a67aa902902c42e3025ef3bb77', ffmpeg_options)]
-    else:
-        # Use distro-provided FFmpeg on Arch
-        deps = []
-
-    deps.append(('libdcp', '816365d20e0c6ef37b6bf499a42a0d3ecad22c05', {'c++17': target.platform == 'osx'}))
+    deps = [('libdcp', 'v1.9.6', {'c++17': target.platform == 'osx'})]
     deps.append(('libsub', 'v1.6.47'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))

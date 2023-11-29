@@ -26,11 +26,13 @@
 #include "constants.h"
 #include "dcp_content.h"
 #include "dcp_decoder.h"
+#include "dcpomatic_log.h"
 #include "digester.h"
 #include "ffmpeg_image_proxy.h"
 #include "frame_interval_checker.h"
 #include "image.h"
 #include "j2k_image_proxy.h"
+#include "raw_image_proxy.h"
 #include "text_decoder.h"
 #include "util.h"
 #include "video_decoder.h"
@@ -40,6 +42,7 @@
 #include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/mono_j2k_picture_asset_reader.h>
 #include <dcp/mono_j2k_picture_frame.h>
+#include <dcp/mono_mpeg2_picture_asset.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -170,7 +173,7 @@ DCPDecoder::pass ()
 	*/
 	pass_texts (_next, picture_asset->size());
 
-	if ((_j2k_mono_reader || _j2k_stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
+	if ((_j2k_mono_reader || _j2k_stereo_reader || _mpeg2_mono_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		auto const entry_point = (*_reel)->main_picture()->entry_point().get_value_or(0);
 		if (_j2k_mono_reader) {
 			video->emit (
@@ -207,6 +210,23 @@ DCPDecoder::pass ()
 					),
 				ContentTime::from_frames(_offset + frame, vfr)
 				);
+		} else if (_mpeg2_mono_reader) {
+			/* XXX: got to flush this at some point */
+			try {
+				for (auto const& image: _mpeg2_decompressor->decompress_frame(_mpeg2_mono_reader->get_frame(entry_point + frame))) {
+					video->emit(
+						film(),
+						/* XXX: should this be PADDED? */
+						std::make_shared<RawImageProxy>(std::make_shared<Image>(image.frame(), Image::Alignment::COMPACT)),
+						/* XXX: this will be wrong */
+						ContentTime::from_frames(_offset + frame, vfr)
+					);
+				}
+			} catch (dcp::MPEG2DecompressionError& e) {
+				LOG_ERROR("Failed to decompress MPEG video frame %1 (%2)", entry_point + frame, e.what());
+			} catch (dcp::ReadError& e) {
+				LOG_ERROR("Failed to read MPEG2 video frame %1 (%2)", entry_point + frame, e.what());
+			}
 		}
 	}
 
@@ -370,8 +390,10 @@ DCPDecoder::get_readers ()
 {
 	_j2k_mono_reader.reset();
 	_j2k_stereo_reader.reset();
+	_mpeg2_mono_reader.reset();
 	_sound_reader.reset();
 	_atmos_reader.reset();
+	_mpeg2_decompressor.reset();
 	_atmos_metadata = boost::none;
 
 	if (_reel == _reels.end() || !_dcp_content->can_be_played ()) {
@@ -382,13 +404,18 @@ DCPDecoder::get_readers ()
 		auto asset = (*_reel)->main_picture()->asset ();
 		auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(asset);
 		auto j2k_stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(asset);
-		DCPOMATIC_ASSERT(j2k_mono || j2k_stereo)
+		auto mpeg2_mono = dynamic_pointer_cast<dcp::MonoMPEG2PictureAsset>(asset);
+		DCPOMATIC_ASSERT(j2k_mono || j2k_stereo || mpeg2_mono)
 		if (j2k_mono) {
 			_j2k_mono_reader = j2k_mono->start_read();
 			_j2k_mono_reader->set_check_hmac(false);
 		} else if (j2k_stereo) {
 			_j2k_stereo_reader = j2k_stereo->start_read();
 			_j2k_stereo_reader->set_check_hmac(false);
+		} else {
+			_mpeg2_mono_reader = mpeg2_mono->start_read();
+			_mpeg2_mono_reader->set_check_hmac(false);
+			_mpeg2_decompressor = std::make_shared<dcp::MPEG2Decompressor>();
 		}
 	}
 
