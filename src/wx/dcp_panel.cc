@@ -500,6 +500,9 @@ DCPPanel::film_changed(FilmProperty p)
 	case FilmProperty::CONTENT:
 		setup_dcp_name ();
 		setup_sensitivity ();
+		/* Maybe we now have ATMOS content which changes our minimum_allowed_audio_channels */
+		setup_audio_channels_choice(_audio_channels, minimum_allowed_audio_channels());
+		film_changed(FilmProperty::AUDIO_CHANNELS);
 		break;
 	case FilmProperty::AUDIO_LANGUAGE:
 	{
@@ -683,7 +686,7 @@ DCPPanel::setup_sensitivity ()
 	_metadata->Enable               (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
 	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
-	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio() && !_film->contains_atmos_content());
+	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_audio_processor->Enable        (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_j2k_bandwidth->Enable          (_generally_sensitive && _film && !_film->references_dcp_video());
 	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video());
@@ -906,8 +909,13 @@ int
 DCPPanel::minimum_allowed_audio_channels () const
 {
 	int min = 2;
-	if (_film && _film->audio_processor ()) {
-		min = _film->audio_processor()->out_channels ();
+	if (_film) {
+		if (_film->audio_processor()) {
+			min = _film->audio_processor()->out_channels();
+		}
+		if (_film->contains_atmos_content()) {
+			min = std::max(min, 14);
+		}
 	}
 
 	if (min % 2 == 1) {
