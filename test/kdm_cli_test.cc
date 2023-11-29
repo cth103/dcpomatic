@@ -21,6 +21,8 @@
 
 #include "lib/cinema.h"
 #include "lib/config.h"
+#include "lib/content_factory.h"
+#include "lib/film.h"
 #include "lib/kdm_cli.h"
 #include "lib/screen.h"
 #include "lib/trusted_device.h"
@@ -193,5 +195,36 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 	BOOST_CHECK_EQUAL(output[0], "stinking dump ()");
 	BOOST_CHECK_EQUAL(output[1], "classy joint ()");
 	BOOST_CHECK_EQUAL(output[2], "Great ()");
+}
+
+
+BOOST_AUTO_TEST_CASE(kdm_cli_specify_cert)
+{
+	boost::filesystem::path kdm_filename = "build/test/KDM_KDMCLI__.xml";
+
+	boost::system::error_code ec;
+	boost::filesystem::remove(kdm_filename, ec);
+
+	auto film = new_test_film2("kdm_cli_specify_cert", content_factory("test/data/flat_red.png"));
+	film->set_encrypted(true);
+	film->set_name("KDMCLI");
+	film->set_use_isdcf_name(false);
+	make_and_verify_dcp(film);
+
+	vector<string> args = {
+		"kdm_cli",
+		"--valid-from", "2024-01-01 10:10:10",
+		"--valid-duration", "2 weeks",
+		"-C", "test/data/cert.pem",
+		"-o", "build/test",
+		"build/test/kdm_cli_specify_cert"
+	};
+
+	vector<string> output;
+	auto error = run(args, output);
+	BOOST_CHECK(!error);
+
+	BOOST_CHECK(output.empty());
+	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
 }
 
