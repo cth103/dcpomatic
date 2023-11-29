@@ -36,9 +36,9 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -48,9 +48,9 @@
 #include <dcp/search.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/sound_frame.h>
-#include <dcp/stereo_picture_asset.h>
-#include <dcp/stereo_picture_asset_reader.h>
-#include <dcp/stereo_picture_frame.h>
+#include <dcp/stereo_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset_reader.h>
+#include <dcp/stereo_j2k_picture_frame.h>
 #include <dcp/subtitle_image.h>
 #include <iostream>
 
@@ -169,24 +169,24 @@ DCPDecoder::pass ()
 	*/
 	pass_texts (_next, picture_asset->size());
 
-	if ((_mono_reader || _stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
+	if ((_j2k_mono_reader || _j2k_stereo_reader) && (_decode_referenced || !_dcp_content->reference_video())) {
 		auto const entry_point = (*_reel)->main_picture()->entry_point().get_value_or(0);
-		if (_mono_reader) {
+		if (_j2k_mono_reader) {
 			video->emit (
 				film(),
 				std::make_shared<J2KImageProxy>(
-					_mono_reader->get_frame (entry_point + frame),
+					_j2k_mono_reader->get_frame(entry_point + frame),
 					picture_asset->size(),
 					AV_PIX_FMT_XYZ12LE,
 					_forced_reduction
 					),
 				ContentTime::from_frames(_offset + frame, vfr)
 				);
-		} else {
+		} else if (_j2k_stereo_reader) {
 			video->emit (
 				film(),
 				std::make_shared<J2KImageProxy>(
-					_stereo_reader->get_frame (entry_point + frame),
+					_j2k_stereo_reader->get_frame (entry_point + frame),
 					picture_asset->size(),
 					dcp::Eye::LEFT,
 					AV_PIX_FMT_XYZ12LE,
@@ -198,7 +198,7 @@ DCPDecoder::pass ()
 			video->emit (
 				film(),
 				std::make_shared<J2KImageProxy>(
-					_stereo_reader->get_frame (entry_point + frame),
+					_j2k_stereo_reader->get_frame (entry_point + frame),
 					picture_asset->size(),
 					dcp::Eye::RIGHT,
 					AV_PIX_FMT_XYZ12LE,
@@ -367,38 +367,33 @@ DCPDecoder::next_reel ()
 void
 DCPDecoder::get_readers ()
 {
+	_j2k_mono_reader.reset();
+	_j2k_stereo_reader.reset();
+	_sound_reader.reset();
+	_atmos_reader.reset();
+	_atmos_metadata = boost::none;
+
 	if (_reel == _reels.end() || !_dcp_content->can_be_played ()) {
-		_mono_reader.reset ();
-		_stereo_reader.reset ();
-		_sound_reader.reset ();
-		_atmos_reader.reset ();
 		return;
 	}
 
 	if (video && !video->ignore() && (*_reel)->main_picture()) {
 		auto asset = (*_reel)->main_picture()->asset ();
-		auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (asset);
-		auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (asset);
-		DCPOMATIC_ASSERT (mono || stereo);
-		if (mono) {
-			_mono_reader = mono->start_read ();
-			_mono_reader->set_check_hmac (false);
-			_stereo_reader.reset ();
-		} else {
-			_stereo_reader = stereo->start_read ();
-			_stereo_reader->set_check_hmac (false);
-			_mono_reader.reset ();
+		auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(asset);
+		auto j2k_stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(asset);
+		DCPOMATIC_ASSERT(j2k_mono || j2k_stereo)
+		if (j2k_mono) {
+			_j2k_mono_reader = j2k_mono->start_read();
+			_j2k_mono_reader->set_check_hmac(false);
+		} else if (j2k_stereo) {
+			_j2k_stereo_reader = j2k_stereo->start_read();
+			_j2k_stereo_reader->set_check_hmac(false);
 		}
-	} else {
-		_mono_reader.reset ();
-		_stereo_reader.reset ();
 	}
 
 	if (audio && !audio->ignore() && (*_reel)->main_sound()) {
 		_sound_reader = (*_reel)->main_sound()->asset()->start_read ();
 		_sound_reader->set_check_hmac (false);
-	} else {
-		_sound_reader.reset ();
 	}
 
 	if ((*_reel)->atmos()) {
@@ -406,9 +401,6 @@ DCPDecoder::get_readers ()
 		_atmos_reader = asset->start_read();
 		_atmos_reader->set_check_hmac (false);
 		_atmos_metadata = AtmosMetadata (asset);
-	} else {
-		_atmos_reader.reset ();
-		_atmos_metadata = boost::none;
 	}
 }
 

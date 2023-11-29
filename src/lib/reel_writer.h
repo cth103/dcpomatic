@@ -30,7 +30,7 @@
 #include "weak_film.h"
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/file.h>
-#include <dcp/picture_asset_writer.h>
+#include <dcp/j2k_picture_asset_writer.h>
 
 
 class AudioBuffers;
@@ -41,17 +41,17 @@ struct write_frame_info_test;
 
 namespace dcp {
 	class AtmosAsset;
-	class MonoPictureAsset;
-	class MonoPictureAssetWriter;
-	class PictureAsset;
-	class PictureAssetWriter;
+	class MonoJ2KPictureAsset;
+	class MonoJ2KPictureAssetWriter;
+	class J2KPictureAsset;
+	class J2KPictureAssetWriter;
 	class Reel;
 	class ReelAsset;
 	class ReelPictureAsset;
 	class SoundAsset;
 	class SoundAssetWriter;
-	class StereoPictureAsset;
-	class StereoPictureAssetWriter;
+	class StereoJ2KPictureAsset;
+	class StereoJ2KPictureAssetWriter;
 	class SubtitleAsset;
 }
 
@@ -134,9 +134,9 @@ private:
 
 	dcp::ArrayData _default_font;
 
-	std::shared_ptr<dcp::PictureAsset> _picture_asset;
+	std::shared_ptr<dcp::J2KPictureAsset> _picture_asset;
 	/** picture asset writer, or 0 if we are not writing any picture because we already have one */
-	std::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
+	std::shared_ptr<dcp::J2KPictureAssetWriter> _picture_asset_writer;
 	std::shared_ptr<dcp::SoundAsset> _sound_asset;
 	std::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
 	std::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;

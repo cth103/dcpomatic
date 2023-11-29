@@ -47,8 +47,8 @@
 #include <dcp/dcp.h>
 #include <dcp/equality_options.h>
 #include <dcp/filesystem.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
@@ -829,10 +829,10 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 {
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
-	auto asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
+	auto asset = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (asset);
 	auto frame = asset->start_read()->get_frame(index);
-	dcp::MonoPictureFrame ref_frame(ref);
+	dcp::MonoJ2KPictureFrame ref_frame(ref);
 
 	auto image = frame->xyz_image ();
 	auto ref_image = ref_frame.xyz_image();

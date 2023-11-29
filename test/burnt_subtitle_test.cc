@@ -39,9 +39,9 @@
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
 #include <dcp/j2k_transcode.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_mono_picture_asset.h>

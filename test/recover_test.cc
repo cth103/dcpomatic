@@ -33,8 +33,8 @@
 #include "lib/video_content.h"
 #include "lib/ratio.h"
 #include <dcp/equality_options.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -94,8 +94,8 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 		false
 		);
 
-	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d/original.mxf");
-	auto B = make_shared<dcp::MonoPictureAsset>(video);
+	auto A = make_shared<dcp::MonoJ2KPictureAsset>("build/test/recover_test_2d/original.mxf");
+	auto B = make_shared<dcp::MonoJ2KPictureAsset>(video);
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
@@ -137,8 +137,8 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 		false
 		);
 
-	auto A = make_shared<dcp::StereoPictureAsset>("build/test/recover_test_3d/original.mxf");
-	auto B = make_shared<dcp::StereoPictureAsset>(video);
+	auto A = make_shared<dcp::StereoJ2KPictureAsset>("build/test/recover_test_3d/original.mxf");
+	auto B = make_shared<dcp::StereoJ2KPictureAsset>(video);
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
@@ -181,9 +181,9 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 		false
 		);
 
-	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d_encrypted/original.mxf");
+	auto A = make_shared<dcp::MonoJ2KPictureAsset>("build/test/recover_test_2d_encrypted/original.mxf");
 	A->set_key (film->key ());
-	auto B = make_shared<dcp::MonoPictureAsset>(video);
+	auto B = make_shared<dcp::MonoJ2KPictureAsset>(video);
 	B->set_key (film->key ());
 
 	dcp::EqualityOptions eq;

@@ -45,8 +45,8 @@
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
@@ -275,7 +275,7 @@ pixel_range (boost::filesystem::path dcp_path)
 	dcp::DCP dcp (dcp_path);
 	dcp.read ();
 
-	auto picture = dynamic_pointer_cast<dcp::MonoPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
+	auto picture = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (picture);
 	auto frame = picture->start_read()->get_frame(0)->xyz_image();
 

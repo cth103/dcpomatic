@@ -26,8 +26,8 @@
 
 
 namespace dcp {
-	class MonoPictureFrame;
-	class StereoPictureFrame;
+	class MonoJ2KPictureFrame;
+	class StereoJ2KPictureFrame;
 }
 
 
@@ -37,14 +37,14 @@ public:
 	J2KImageProxy (boost::filesystem::path path, dcp::Size, AVPixelFormat pixel_format);
 
 	J2KImageProxy (
-		std::shared_ptr<const dcp::MonoPictureFrame> frame,
+		std::shared_ptr<const dcp::MonoJ2KPictureFrame> frame,
 		dcp::Size,
 		AVPixelFormat pixel_format,
 		boost::optional<int> forced_reduction
 		);
 
 	J2KImageProxy (
-		std::shared_ptr<const dcp::StereoPictureFrame> frame,
+		std::shared_ptr<const dcp::StereoJ2KPictureFrame> frame,
 		dcp::Size,
 		dcp::Eye,
 		AVPixelFormat pixel_format,

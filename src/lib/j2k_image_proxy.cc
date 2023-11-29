@@ -25,11 +25,11 @@
 #include "j2k_image_proxy.h"
 #include <dcp/colour_conversion.h>
 #include <dcp/j2k_transcode.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/raw_convert.h>
 #include <dcp/rgb_xyz.h>
-#include <dcp/stereo_picture_frame.h>
+#include <dcp/stereo_j2k_picture_frame.h>
 #include <dcp/warnings.h>
 #include <libcxml/cxml.h>
 LIBDCP_DISABLE_WARNINGS
@@ -64,7 +64,7 @@ J2KImageProxy::J2KImageProxy (boost::filesystem::path path, dcp::Size size, AVPi
 
 
 J2KImageProxy::J2KImageProxy (
-	shared_ptr<const dcp::MonoPictureFrame> frame,
+	shared_ptr<const dcp::MonoJ2KPictureFrame> frame,
 	dcp::Size size,
 	AVPixelFormat pixel_format,
 	optional<int> forced_reduction
@@ -81,7 +81,7 @@ J2KImageProxy::J2KImageProxy (
 
 
 J2KImageProxy::J2KImageProxy (
-	shared_ptr<const dcp::StereoPictureFrame> frame,
+	shared_ptr<const dcp::StereoJ2KPictureFrame> frame,
 	dcp::Size size,
 	dcp::Eye eye,
 	AVPixelFormat pixel_format,

@@ -20,8 +20,8 @@
 
 
 #include "decoder.h"
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/stereo_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/stereo_j2k_picture_asset_reader.h>
 
 
 class VideoMXFContent;
@@ -42,7 +42,7 @@ private:
 	/** Time of next thing to return from pass */
 	dcpomatic::ContentTime _next;
 
-	std::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
-	std::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
+	std::shared_ptr<dcp::MonoJ2KPictureAssetReader> _mono_reader;
+	std::shared_ptr<dcp::StereoJ2KPictureAssetReader> _stereo_reader;
 	dcp::Size _size;
 };

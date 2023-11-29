@@ -33,7 +33,7 @@
 #include "lib/video_mxf_content.h"
 #include "test.h"
 #include <dcp/equality_options.h>
-#include <dcp/mono_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
@@ -70,9 +70,9 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 			dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_2K
 		});
 
-	auto ref = make_shared<dcp::MonoPictureAsset>(ref_mxf);
+	auto ref = make_shared<dcp::MonoJ2KPictureAsset>(ref_mxf);
 	boost::filesystem::directory_iterator i ("build/test/video_mxf_content_test/video");
-	auto comp = make_shared<dcp::MonoPictureAsset>(*i);
+	auto comp = make_shared<dcp::MonoJ2KPictureAsset>(*i);
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));
 }

@@ -40,7 +40,7 @@
 #include <dcp/dcp.h>
 #include <dcp/filesystem.h>
 #include <dcp/interop_subtitle_asset.h>
-#include <dcp/mono_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
@@ -55,7 +55,7 @@
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_writer.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 #include <dcp/subtitle_image.h>
 
 #include "i18n.h"
@@ -150,9 +150,9 @@ ReelWriter::ReelWriter (
 
 
 		if (film()->three_d()) {
-			_picture_asset.reset (new dcp::StereoPictureAsset(dcp::Fraction(film()->video_frame_rate(), 1), standard));
+			_picture_asset = std::make_shared<dcp::StereoJ2KPictureAsset>(dcp::Fraction(film()->video_frame_rate(), 1), standard);
 		} else {
-			_picture_asset.reset (new dcp::MonoPictureAsset(dcp::Fraction(film()->video_frame_rate(), 1), standard));
+			_picture_asset = std::make_shared<dcp::MonoJ2KPictureAsset>(dcp::Fraction(film()->video_frame_rate(), 1), standard);
 		}
 
 		_picture_asset->set_size (film()->frame_size());
@@ -164,14 +164,14 @@ ReelWriter::ReelWriter (
 		}
 
 		_picture_asset->set_file (asset);
-		_picture_asset_writer = _picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::PictureAsset::Behaviour::OVERWRITE_EXISTING : dcp::PictureAsset::Behaviour::MAKE_NEW);
+		_picture_asset_writer = _picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW);
 	} else if (!text_only) {
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
 		if (film()->three_d()) {
-			_picture_asset = make_shared<dcp::StereoPictureAsset>(asset);
+			_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(asset);
 		} else {
-			_picture_asset = make_shared<dcp::MonoPictureAsset>(asset);
+			_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(asset);
 		}
 	}
 
@@ -546,12 +546,12 @@ ReelWriter::create_reel_picture (shared_ptr<dcp::Reel> reel, list<ReferencedReel
 
 	if (_picture_asset) {
 		/* We have made a picture asset of our own.  Put it into the reel */
-		auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
+		auto mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(_picture_asset);
 		if (mono) {
 			reel_asset = make_shared<dcp::ReelMonoPictureAsset>(mono, 0);
 		}
 
-		auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
+		auto stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(_picture_asset);
 		if (stereo) {
 			reel_asset = make_shared<dcp::ReelStereoPictureAsset>(stereo, 0);
 		}
