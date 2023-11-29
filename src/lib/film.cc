@@ -1400,7 +1400,9 @@ Film::add_content (shared_ptr<Content> c)
 
 	maybe_set_container_and_resolution ();
 	if (c->atmos) {
-		set_audio_channels (14);
+		if (_audio_channels < 14) {
+			set_audio_channels(14);
+		}
 		set_interop (false);
 	}
 }
