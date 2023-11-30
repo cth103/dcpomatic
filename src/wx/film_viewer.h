@@ -171,6 +171,13 @@ private:
 	void ui_finished ();
 	void start_audio_stream_if_open ();
 
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	void rtaudio_error_callback(std::string const& error);
+	mutable boost::mutex _last_rtaudio_error_mutex;
+	std::string _last_rtaudio_error;
+	std::string last_rtaudio_error() const;
+#endif
+
 	dcpomatic::DCPTime uncorrected_time () const;
 	Frame average_latency () const;
 

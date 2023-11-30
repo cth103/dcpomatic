@@ -880,6 +880,14 @@ SoundPage::setup ()
 	_sound_output_details->SetFont (font);
 
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	for (auto device_id: audio.getDeviceIds()) {
+		auto dev = audio.getDeviceInfo(device_id);
+		if (dev.outputChannels > 0) {
+			_sound_output->Append(std_to_wx(dev.name));
+		}
+	}
+#else
 	for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
 		try {
 			auto dev = audio.getDeviceInfo (i);
@@ -890,6 +898,7 @@ SoundPage::setup ()
 			/* Something went wrong so let's just ignore that device */
 		}
 	}
+#endif
 
 	_sound->bind(&SoundPage::sound_changed, this);
 	_sound_output->Bind (wxEVT_CHOICE,   bind(&SoundPage::sound_output_changed, this));
@@ -921,11 +930,15 @@ SoundPage::sound_output_changed ()
 	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 	auto const so = get_sound_output();
 	string default_device;
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+#else
 	try {
 		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
 	} catch (RtAudioError&) {
 		/* Never mind */
 	}
+#endif
 	if (!so || *so == default_device) {
 		Config::instance()->unset_sound_output ();
 	} else {
@@ -948,11 +961,15 @@ SoundPage::config_changed ()
 	} else {
 		/* No configured output means we should use the default */
 		RtAudio audio (DCPOMATIC_RTAUDIO_API);
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+		configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
+#else
 		try {
 			configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
 		} catch (RtAudioError&) {
 			/* Probably no audio devices at all */
 		}
+#endif
 	}
 
 	if (configured_so && current_so != configured_so) {
@@ -982,6 +999,14 @@ SoundPage::config_changed ()
 
 	int channels = 0;
 	if (configured_so) {
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+		for (auto device_id: audio.getDeviceIds()) {
+			auto info = audio.getDeviceInfo(device_id);
+			if (info.name == *configured_so && info.outputChannels > 0) {
+				channels = info.outputChannels;
+			}
+		}
+#else
 		for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
 			try {
 				auto info = audio.getDeviceInfo(i);
@@ -992,6 +1017,7 @@ SoundPage::config_changed ()
 				/* Never mind */
 			}
 		}
+#endif
 	}
 
 	_sound_output_details->SetLabel (

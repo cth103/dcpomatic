@@ -86,7 +86,11 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 
 
 FilmViewer::FilmViewer (wxWindow* p)
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	: _audio(DCPOMATIC_RTAUDIO_API, boost::bind(&FilmViewer::rtaudio_error_callback, this, _2))
+#else
 	: _audio (DCPOMATIC_RTAUDIO_API)
+#endif
 	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 {
 #if wxCHECK_VERSION(3, 1, 0)
@@ -351,6 +355,15 @@ FilmViewer::start_audio_stream_if_open ()
 {
 	if (_audio.isStreamOpen()) {
 		_audio.setStreamTime (_video_view->position().seconds());
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+		if (_audio.startStream() != RTAUDIO_NO_ERROR) {
+			_audio_channels = 0;
+			error_dialog(
+				_video_view->get(),
+				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(last_rtaudio_error())
+				);
+		}
+#else
 		try {
 			_audio.startStream ();
 		} catch (RtAudioError& e) {
@@ -360,6 +373,7 @@ FilmViewer::start_audio_stream_if_open ()
 				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(e.what())
 				);
 		}
+#endif
 	}
 }
 
@@ -609,6 +623,33 @@ FilmViewer::config_changed (Config::Property p)
 	}
 
 	if (Config::instance()->sound() && _audio.getDeviceCount() > 0) {
+		optional<unsigned int> chosen_device_id;
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+		if (Config::instance()->sound_output()) {
+			for (auto device_id: _audio.getDeviceIds()) {
+				if (_audio.getDeviceInfo(device_id).name == Config::instance()->sound_output().get()) {
+					chosen_device_id = device_id;
+					break;
+				}
+			}
+		}
+
+		if (!chosen_device_id) {
+			chosen_device_id = _audio.getDefaultOutputDevice();
+		}
+		_audio_channels = _audio.getDeviceInfo(*chosen_device_id).outputChannels;
+		RtAudio::StreamParameters sp;
+		sp.deviceId = *chosen_device_id;
+		sp.nChannels = _audio_channels;
+		sp.firstChannel = 0;
+		if (_audio.openStream(&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this) != RTAUDIO_NO_ERROR) {
+			_audio_channels = 0;
+			error_dialog(
+				_video_view->get(),
+				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(last_rtaudio_error())
+				);
+		}
+#else
 		unsigned int st = 0;
 		if (Config::instance()->sound_output()) {
 			while (st < _audio.getDeviceCount()) {
@@ -650,6 +691,7 @@ FilmViewer::config_changed (Config::Property p)
 				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(e.what())
 				);
 		}
+#endif
 		destroy_and_maybe_create_butler();
 
 	} else {
@@ -855,4 +897,22 @@ FilmViewer::unset_crop_guess ()
 	_crop_guess = boost::none;
 	_video_view->update ();
 }
+
+
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+void
+FilmViewer::rtaudio_error_callback(string const& error)
+{
+	boost::mutex::scoped_lock lm(_last_rtaudio_error_mutex);
+	_last_rtaudio_error = error;
+}
+
+
+string
+FilmViewer::last_rtaudio_error() const
+{
+	boost::mutex::scoped_lock lm(_last_rtaudio_error_mutex);
+	return _last_rtaudio_error;
+}
+#endif
 
