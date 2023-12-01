@@ -513,6 +513,7 @@ supported_by.Add (wxT ("RHI Media Robert Hoelzel"));
 supported_by.Add (wxT ("Robert Hofer"));
 supported_by.Add (wxT ("Johannes Hoffmann"));
 supported_by.Add (wxT ("Henning Hoffmann-Heyden (Media_2435)"));
+supported_by.Add (wxT ("Elijah Holston"));
 supported_by.Add (wxT ("Sky Hopinka"));
 supported_by.Add (wxT ("IJsbrand Hortensius"));
 supported_by.Add (wxT ("Joseph Howes"));
