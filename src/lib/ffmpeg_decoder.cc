@@ -781,11 +781,23 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
 	if (target_height == 0 && video_codec_context()) {
 		target_height = video_codec_context()->height;
 	}
-	DCPOMATIC_ASSERT (target_width);
-	DCPOMATIC_ASSERT (target_height);
+
+	int x_offset = 0;
+	int y_offset = 0;
+	if (_ffmpeg_content->video && _ffmpeg_content->video->use()) {
+		auto const crop = _ffmpeg_content->video->actual_crop();
+		target_width -= crop.left + crop.right;
+		target_height -= crop.top + crop.bottom;
+		x_offset = -crop.left;
+		y_offset = -crop.top;
+	}
+
+	DCPOMATIC_ASSERT(target_width > 0);
+	DCPOMATIC_ASSERT(target_height > 0);
+
 	dcpomatic::Rect<double> const scaled_rect (
-		static_cast<double>(rect->x) / target_width,
-		static_cast<double>(rect->y) / target_height,
+		static_cast<double>(rect->x + x_offset) / target_width,
+		static_cast<double>(rect->y + y_offset) / target_height,
 		static_cast<double>(rect->w) / target_width,
 		static_cast<double>(rect->h) / target_height
 		);
