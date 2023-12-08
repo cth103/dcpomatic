@@ -370,6 +370,54 @@ Hints::check_out_of_range_markers ()
 
 
 void
+Hints::scan_content(shared_ptr<const Film> film)
+{
+	auto const check_loudness_done = check_loudness();
+
+	if (check_loudness_done) {
+		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
+	} else {
+		emit (bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
+	}
+
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	player->set_ignore_video();
+	if (check_loudness_done || _disable_audio_analysis) {
+		/* We don't need to analyse audio because we already loaded a suitable analysis */
+		player->set_ignore_audio();
+	} else {
+		/* Send auto to the analyser to check loudness */
+		player->Audio.connect(bind(&Hints::audio, this, _1, _2));
+	}
+	player->Text.connect(bind(&Hints::text, this, _1, _2, _3, _4));
+
+	struct timeval last_pulse;
+	gettimeofday(&last_pulse, 0);
+
+	_writer->write(player->get_subtitle_fonts());
+
+	while (!player->pass()) {
+
+		struct timeval now;
+		gettimeofday(&now, 0);
+		if ((seconds(now) - seconds(last_pulse)) > 1) {
+			if (_stop) {
+				return;
+			}
+			emit(bind(boost::ref(Pulse)));
+			last_pulse = now;
+		}
+	}
+
+	if (!check_loudness_done) {
+		_analyser.finish();
+		_analyser.get().write(film->audio_analysis_path(film->playlist()));
+		check_loudness();
+	}
+}
+
+
+void
 Hints::thread ()
 try
 {
@@ -395,52 +443,13 @@ try
 	check_speed_up ();
 	check_vob ();
 	check_3d_in_2d ();
-	auto const check_loudness_done = check_loudness ();
 	check_ffec_and_ffmc_in_smpte_feature ();
 	check_out_of_range_markers ();
 	check_subtitle_languages();
 	check_audio_language ();
 	check_8_or_16_audio_channels();
 
-	if (check_loudness_done) {
-		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
-	} else {
-		emit (bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
-	}
-
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
-	player->set_ignore_video ();
-	if (check_loudness_done || _disable_audio_analysis) {
-		/* We don't need to analyse audio because we already loaded a suitable analysis */
-		player->set_ignore_audio ();
-	}
-	player->Audio.connect (bind(&Hints::audio, this, _1, _2));
-	player->Text.connect (bind(&Hints::text, this, _1, _2, _3, _4));
-
-	struct timeval last_pulse;
-	gettimeofday (&last_pulse, 0);
-
-	_writer->write (player->get_subtitle_fonts());
-
-	while (!player->pass()) {
-
-		struct timeval now;
-		gettimeofday (&now, 0);
-		if ((seconds(now) - seconds(last_pulse)) > 1) {
-			if (_stop) {
-				return;
-			}
-			emit (bind (boost::ref(Pulse)));
-			last_pulse = now;
-		}
-	}
-
-	if (!check_loudness_done) {
-		_analyser.finish ();
-		_analyser.get().write(film->audio_analysis_path(film->playlist()));
-		check_loudness ();
-	}
-
+	scan_content(film);
 
 	if (_long_subtitle && !_very_long_subtitle) {
 		hint (_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));

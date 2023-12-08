@@ -58,11 +58,13 @@ private:
 	friend struct hint_subtitle_too_early;
 
 	void thread ();
+	void scan_content(std::shared_ptr<const Film> film);
 	void hint (std::string h);
 	void audio (std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time);
 	void text (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
 	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
+
 
 	void check_certificates ();
 	void check_interop ();
