@@ -374,8 +374,27 @@ Hints::scan_content(shared_ptr<const Film> film)
 {
 	auto const check_loudness_done = check_loudness();
 
-	if (check_loudness_done) {
+	auto content = film->playlist()->content();
+	auto iter = std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> content) {
+		auto text_iter = std::find_if(content->text.begin(), content->text.end(), [](shared_ptr<const TextContent> text) {
+			return text->use();
+		});
+		return text_iter != content->text.end();
+	});
+
+	auto const have_text = iter != content.end();
+
+	if (check_loudness_done && !have_text) {
+		/* We don't need to check loudness, and we don't have any active text to check,
+		 * so a scan of the content is pointless.
+		 */
+		return;
+	}
+
+	if (check_loudness_done && have_text) {
 		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
+	} else if (!check_loudness_done && !have_text) {
+		emit (bind(boost::ref(Progress), _("Examining audio")));
 	} else {
 		emit (bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
 	}
