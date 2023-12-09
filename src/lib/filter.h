@@ -43,7 +43,7 @@
 class Filter
 {
 public:
-	Filter (std::string i, std::string n, std::string c, std::string f);
+	Filter(std::string id, std::string name, std::string category, std::string ffmpeg_string);
 
 	/** @return our id */
 	std::string id () const {

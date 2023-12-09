@@ -44,16 +44,16 @@ using boost::optional;
 vector<Filter> Filter::_filters;
 
 
-/** @param i Our id.
- *  @param n User-visible name.
- *  @param c User-visible category.
- *  @param f String for a FFmpeg filter descriptor.
+/** @param id Our id.
+ *  @param name User-visible name.
+ *  @param category User-visible category.
+ *  @param ffmpeg_string String for a FFmpeg filter descriptor.
  */
-Filter::Filter (string i, string n, string c, string f)
-	: _id (i)
-	, _name (n)
-	, _category (c)
-	, _ffmpeg (f)
+Filter::Filter(string id, string name, string category, string ffmpeg_string)
+	: _id(id)
+	, _name(name)
+	, _category(category)
+	, _ffmpeg(ffmpeg_string)
 {
 
 }
