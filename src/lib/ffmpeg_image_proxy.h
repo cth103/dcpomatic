@@ -50,6 +50,6 @@ private:
 	    failed-decode errors can give more detail.
 	*/
 	boost::optional<boost::filesystem::path> _path;
-	mutable std::shared_ptr<Image> _image;
+	mutable std::shared_ptr<const Image> _image;
 	mutable boost::mutex _mutex;
 };
