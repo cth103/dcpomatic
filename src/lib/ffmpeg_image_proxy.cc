@@ -27,6 +27,7 @@
 #include "ffmpeg_image_proxy.h"
 #include "image.h"
 #include "memory_util.h"
+#include "video_filter_graph.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -206,7 +207,20 @@ FFmpegImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 		throw DecodeError (N_("avcodec_receive_frame"), name_for_errors, r, *_path);
 	}
 
-	_image = make_shared<Image>(frame, alignment);
+	if (av_pix_fmt_desc_get(context->pix_fmt)->flags & AV_PIX_FMT_FLAG_ALPHA) {
+		/* XXX: this repeated setup of a the filter graph could be really slow
+		 * (haven't measured it though).
+		 */
+		VideoFilterGraph graph(dcp::Size(frame->width, frame->height), context->pix_fmt, dcp::Fraction(24, 1));
+		auto filter = Filter::from_id("premultiply");
+		DCPOMATIC_ASSERT(filter);
+		graph.setup({*filter});
+		auto images = graph.process(frame);
+		DCPOMATIC_ASSERT(images.size() == 1);
+		_image = images.front().first;
+	} else {
+		_image = make_shared<Image>(frame, alignment);
+	}
 
 	av_packet_unref (&packet);
 	av_frame_free (&frame);
