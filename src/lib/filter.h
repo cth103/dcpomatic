@@ -81,7 +81,6 @@ private:
 
 	/** all available filters */
 	static std::vector<Filter> _filters;
-	static void maybe_add (std::string, std::string, std::string, std::string);
 };
 
 

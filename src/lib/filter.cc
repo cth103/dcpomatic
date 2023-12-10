@@ -75,6 +75,19 @@ Filter::setup_filters ()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 
+	auto maybe_add = [](string id, string name, string category, string ffmpeg)
+	{
+		string check_name = ffmpeg;
+		size_t end = check_name.find("=");
+		if (end != string::npos) {
+			check_name = check_name.substr(0, end);
+		}
+
+		if (avfilter_get_by_name(check_name.c_str())) {
+			_filters.push_back(Filter(id, name, category, ffmpeg));
+		}
+	};
+
 	maybe_add (N_("vflip"),       _("Vertical flip"),                    _("Orientation"),     N_("vflip"));
 	maybe_add (N_("hflip"),       _("Horizontal flip"),                  _("Orientation"),     N_("hflip"));
 	maybe_add (N_("90clock"),     _("Rotate 90 degrees clockwise"),      _("Orientation"),     N_("transpose=dir=clock"));
@@ -90,21 +103,6 @@ Filter::setup_filters ()
 	maybe_add (N_("hqdn3d"),      _("High quality 3D denoiser"),         _("Noise reduction"), N_("hqdn3d"));
 	maybe_add (N_("telecine"),    _("Telecine filter"),	             _("Misc"),	           N_("telecine"));
 	maybe_add (N_("ow"),	      _("Overcomplete wavelet denoiser"),    _("Noise reduction"), N_("mp=ow"));
-}
-
-
-void
-Filter::maybe_add (string i, string n, string c, string f)
-{
-	string check_name = f;
-	size_t end = check_name.find("=");
-	if (end != string::npos) {
-		check_name = check_name.substr (0, end);
-	}
-
-	if (avfilter_get_by_name(check_name.c_str())) {
-		_filters.push_back (Filter(i, n, c, f));
-	}
 }
 
 
