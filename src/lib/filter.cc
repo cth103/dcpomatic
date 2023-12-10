@@ -103,6 +103,7 @@ Filter::setup_filters ()
 	maybe_add (N_("hqdn3d"),      _("High quality 3D denoiser"),         _("Noise reduction"), N_("hqdn3d"));
 	maybe_add (N_("telecine"),    _("Telecine filter"),	             _("Misc"),	           N_("telecine"));
 	maybe_add (N_("ow"),	      _("Overcomplete wavelet denoiser"),    _("Noise reduction"), N_("mp=ow"));
+	maybe_add (N_("premultiply"), _("Premultiply alpha channel"),        _("Misc"),            N_("premultiply=inplace=1"));
 }
 
 

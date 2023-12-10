@@ -299,6 +299,9 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 					_filters.push_back(*Filter::from_id("90anticlock"));
 				}
 			}
+			if (examiner->has_alpha()) {
+				_filters.push_back(*Filter::from_id("premultiply"));
+			}
 		}
 
 		if (!examiner->audio_streams().empty()) {
