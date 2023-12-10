@@ -55,9 +55,10 @@ FilterGraph::setup(vector<Filter> const& filters)
 {
 	auto const filters_string = Filter::ffmpeg_string (filters);
 	if (filters.empty()) {
-		_copy = true;
 		return;
 	}
+
+	_copy = false;
 
 	_frame = av_frame_alloc ();
 

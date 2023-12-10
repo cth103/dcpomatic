@@ -68,7 +68,7 @@ protected:
 
 	AVFilterGraph* _graph = nullptr;
 	/** true if this graph has no filters in, so it just copies stuff straight through */
-	bool _copy = false;
+	bool _copy = true;
 	AVFilterContext* _buffer_src_context = nullptr;
 	AVFilterContext* _buffer_sink_context = nullptr;
 	AVFrame* _frame = nullptr;
