@@ -384,6 +384,19 @@ FFmpegExaminer::bits_per_pixel () const
 
 
 bool
+FFmpegExaminer::has_alpha() const
+{
+	if (video_codec_context()->pix_fmt == -1) {
+		return false;
+	}
+
+	auto const d = av_pix_fmt_desc_get(video_codec_context()->pix_fmt);
+	DCPOMATIC_ASSERT(d);
+	return d->flags & AV_PIX_FMT_FLAG_ALPHA;
+}
+
+
+bool
 FFmpegExaminer::yuv () const
 {
 	switch (video_codec_context()->pix_fmt) {
