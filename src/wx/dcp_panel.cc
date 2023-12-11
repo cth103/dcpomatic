@@ -141,8 +141,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 
 	_reel_type->add(_("Single reel"));
 	_reel_type->add(_("Split by video content"));
-	/// TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-	_reel_type->add(S_("Reel|Custom"));
+	_reel_type->add(S_("Split by maximum reel size"));
 	_reel_type->SetToolTip(_("How the DCP should be split into parts internally.  If in doubt, choose 'Single reel'"));
 
 	_reel_length->SetRange (1, 64);
