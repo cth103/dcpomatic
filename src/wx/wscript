@@ -62,6 +62,9 @@ sources = """
           custom_scale_dialog.cc
           dcp_referencing_dialog.cc
           dcp_panel.cc
+          dcp_timeline.cc
+          dcp_timeline_dialog.cc
+          dcp_timeline_reel_marker_view.cc
           dcp_text_track_dialog.cc
           dcpomatic_button.cc
           dcpomatic_choice.cc

@@ -39,6 +39,7 @@ class wxGridBagSizer;
 
 class AudioDialog;
 class Choice;
+class DCPTimelineDialog;
 class Film;
 class FilmViewer;
 class InteropMetadataDialog;
@@ -84,6 +85,7 @@ private:
 	void show_audio_clicked ();
 	void markers_clicked ();
 	void metadata_clicked ();
+	void reels_clicked();
 	void reencode_j2k_changed ();
 	void enable_audio_language_toggled ();
 	void edit_audio_language_clicked ();
@@ -153,12 +155,14 @@ private:
 	CheckBox* _encrypted;
 	wxButton* _markers;
 	wxButton* _metadata;
+	Button* _reels;
 	wxSizer* _audio_panel_sizer;
 
 	wx_ptr<AudioDialog> _audio_dialog;
 	wx_ptr<MarkersDialog> _markers_dialog;
 	wx_ptr<InteropMetadataDialog> _interop_metadata_dialog;
 	wx_ptr<SMPTEMetadataDialog> _smpte_metadata_dialog;
+	wx_ptr<DCPTimelineDialog> _dcp_timeline;
 
 	std::shared_ptr<Film> _film;
 	FilmViewer& _viewer;

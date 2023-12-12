@@ -23,6 +23,7 @@
 #include "check_box.h"
 #include "check_box.h"
 #include "dcp_panel.h"
+#include "dcp_timeline_dialog.h"
 #include "dcpomatic_button.h"
 #include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
@@ -111,6 +112,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 
 	_markers = new Button (_panel, _("Markers..."));
 	_metadata = new Button (_panel, _("Metadata..."));
+	_reels = new Button(_panel, _("Reels..."));
 
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
@@ -126,6 +128,8 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind(&DCPPanel::standard_changed, this));
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind(&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind(&DCPPanel::metadata_clicked, this));
+	_reels->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::reels_clicked, this));
+
 	for (auto i: DCPContentType::all()) {
 		_dcp_content_type->add(i->pretty_name());
 	}
@@ -231,6 +235,7 @@ DCPPanel::add_to_grid ()
 	auto extra = new wxBoxSizer (wxHORIZONTAL);
 	extra->Add (_markers, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 	extra->Add (_metadata, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+	extra->Add(_reels, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 	_grid->Add (extra, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 }
@@ -340,6 +345,14 @@ DCPPanel::metadata_clicked ()
 		_smpte_metadata_dialog->setup ();
 		_smpte_metadata_dialog->Show ();
 	}
+}
+
+
+void
+DCPPanel::reels_clicked()
+{
+	_dcp_timeline.reset(_panel, _film);
+	_dcp_timeline->Show();
 }
 
 

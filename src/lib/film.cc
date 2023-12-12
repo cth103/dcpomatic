@@ -1616,6 +1616,23 @@ Film::check_settings_consistency ()
 	if (change_made) {
 		Message (_("DCP-o-matic had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want."));
 	}
+
+	if (reel_type() == ReelType::CUSTOM) {
+		auto boundaries = custom_reel_boundaries();
+		auto too_late = std::find_if(boundaries.begin(), boundaries.end(), [this](dcpomatic::DCPTime const& time) {
+			return time >= length();
+		});
+
+		if (too_late != boundaries.end()) {
+			if (std::distance(too_late, boundaries.end()) > 1) {
+				Message(_("DCP-o-matic had to remove some of your custom reel boundaries as they no longer lie within the film."));
+			} else {
+				Message(_("DCP-o-matic had to remove one of your custom reel boundaries as it no longer lies within the film."));
+			}
+			boundaries.erase(too_late, boundaries.end());
+			set_custom_reel_boundaries(boundaries);
+		}
+	}
 }
 
 void
