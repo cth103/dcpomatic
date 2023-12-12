@@ -18,20 +18,24 @@
 
 */
 
+
 #include "timeline_audio_content_view.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/util.h"
 
+
+using std::dynamic_pointer_cast;
 using std::list;
 using std::shared_ptr;
-using std::dynamic_pointer_cast;
+
 
 /** @class TimelineAudioContentView
  *  @brief Timeline view for AudioContent.
  */
 
-TimelineAudioContentView::TimelineAudioContentView (Timeline& tl, shared_ptr<Content> c)
+
+TimelineAudioContentView::TimelineAudioContentView(ContentTimeline& tl, shared_ptr<Content> c)
 	: TimelineContentView (tl, c)
 {
 

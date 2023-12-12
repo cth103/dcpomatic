@@ -39,10 +39,10 @@ class TimelineTimeAxisView;
 class TimelineView;
 
 
-class Timeline : public wxPanel
+class ContentTimeline : public wxPanel
 {
 public:
-	Timeline (wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
+	ContentTimeline(wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	std::shared_ptr<const Film> film () const;
 

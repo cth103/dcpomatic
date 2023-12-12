@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline.h"
+#include "content_timeline.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -42,7 +42,7 @@ private:
 	void keypress(wxKeyEvent const& event);
 
 	std::weak_ptr<Film> _film;
-	Timeline _timeline;
+	ContentTimeline _timeline;
 	wxToolBar* _toolbar;
 	boost::signals2::scoped_connection _film_changed_connection;
 };

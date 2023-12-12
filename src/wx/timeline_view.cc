@@ -19,8 +19,8 @@
 */
 
 
+#include "content_timeline.h"
 #include "timeline_view.h"
-#include "timeline.h"
 
 
 using std::list;
@@ -30,7 +30,7 @@ using namespace dcpomatic;
 /** @class TimelineView
  *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
  */
-TimelineView::TimelineView (Timeline& t)
+TimelineView::TimelineView(ContentTimeline& t)
 	: _timeline (t)
 {
 

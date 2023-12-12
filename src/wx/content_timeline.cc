@@ -19,9 +19,9 @@
 */
 
 #include "content_panel.h"
+#include "content_timeline.h"
 #include "film_editor.h"
 #include "film_viewer.h"
-#include "timeline.h"
 #include "timeline_atmos_content_view.h"
 #include "timeline_audio_content_view.h"
 #include "timeline_labels_view.h"
@@ -64,11 +64,11 @@ using namespace boost::placeholders;
 
 
 /* 3 hours in 640 pixels */
-double const Timeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
-int const Timeline::_minimum_pixels_per_track = 16;
+double const ContentTimeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
+int const ContentTimeline::_minimum_pixels_per_track = 16;
 
 
-Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
+ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
 	: wxPanel (parent, wxID_ANY)
 	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
@@ -102,30 +102,30 @@ Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, Fi
 	sizer->Add (_main_canvas, 1, wxEXPAND);
 	SetSizer (sizer);
 
-	_labels_canvas->Bind (wxEVT_PAINT,      boost::bind (&Timeline::paint_labels, this));
-	_main_canvas->Bind   (wxEVT_PAINT,      boost::bind (&Timeline::paint_main,   this));
-	_main_canvas->Bind   (wxEVT_LEFT_DOWN,  boost::bind (&Timeline::left_down,    this, _1));
-	_main_canvas->Bind   (wxEVT_LEFT_UP,    boost::bind (&Timeline::left_up,      this, _1));
-	_main_canvas->Bind   (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
-	_main_canvas->Bind   (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
-	_main_canvas->Bind   (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
-	_main_canvas->Bind   (wxEVT_MOUSEWHEEL, boost::bind(&Timeline::mouse_wheel_turned, this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_TOP,        boost::bind (&Timeline::scrolled,     this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_BOTTOM,     boost::bind (&Timeline::scrolled,     this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_LINEUP,     boost::bind (&Timeline::scrolled,     this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_LINEDOWN,   boost::bind (&Timeline::scrolled,     this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_PAGEUP,     boost::bind (&Timeline::scrolled,     this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind (&Timeline::scrolled,     this, _1));
-	_main_canvas->Bind   (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind (&Timeline::scrolled,     this, _1));
+	_labels_canvas->Bind(wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_labels, this));
+	_main_canvas->Bind  (wxEVT_PAINT,      boost::bind(&ContentTimeline::paint_main,   this));
+	_main_canvas->Bind  (wxEVT_LEFT_DOWN,  boost::bind(&ContentTimeline::left_down,    this, _1));
+	_main_canvas->Bind  (wxEVT_LEFT_UP,    boost::bind(&ContentTimeline::left_up,      this, _1));
+	_main_canvas->Bind  (wxEVT_RIGHT_DOWN, boost::bind(&ContentTimeline::right_down,   this, _1));
+	_main_canvas->Bind  (wxEVT_MOTION,     boost::bind(&ContentTimeline::mouse_moved,  this, _1));
+	_main_canvas->Bind  (wxEVT_SIZE,       boost::bind(&ContentTimeline::resized,      this));
+	_main_canvas->Bind  (wxEVT_MOUSEWHEEL, boost::bind(&ContentTimeline::mouse_wheel_turned, this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_TOP,        boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_BOTTOM,     boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_LINEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_LINEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_PAGEUP,     boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_PAGEDOWN,   boost::bind(&ContentTimeline::scrolled,     this, _1));
+	_main_canvas->Bind  (wxEVT_SCROLLWIN_THUMBTRACK, boost::bind(&ContentTimeline::scrolled,     this, _1));
 
 	film_change(ChangeType::DONE, FilmProperty::CONTENT);
 
 	SetMinSize (wxSize (640, 4 * pixels_per_track() + 96));
 
-	_film_changed_connection = film->Change.connect (bind (&Timeline::film_change, this, _1, _2));
-	_film_content_change_connection = film->ContentChange.connect (bind (&Timeline::film_content_change, this, _1, _3, _4));
+	_film_changed_connection = film->Change.connect(bind(&ContentTimeline::film_change, this, _1, _2));
+	_film_content_change_connection = film->ContentChange.connect(bind(&ContentTimeline::film_content_change, this, _1, _3, _4));
 
-	Bind (wxEVT_TIMER, boost::bind(&Timeline::update_playhead, this));
+	Bind(wxEVT_TIMER, boost::bind(&ContentTimeline::update_playhead, this));
 	_timer.Start (200, wxTIMER_CONTINUOUS);
 
 	setup_scrollbars ();
@@ -134,7 +134,7 @@ Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, Fi
 
 
 void
-Timeline::mouse_wheel_turned(wxMouseEvent& event)
+ContentTimeline::mouse_wheel_turned(wxMouseEvent& event)
 {
 	auto const rotation = event.GetWheelRotation();
 
@@ -178,21 +178,21 @@ Timeline::mouse_wheel_turned(wxMouseEvent& event)
 
 
 void
-Timeline::update_playhead ()
+ContentTimeline::update_playhead()
 {
 	Refresh ();
 }
 
 
 void
-Timeline::set_pixels_per_second (double pps)
+ContentTimeline::set_pixels_per_second(double pps)
 {
 	_pixels_per_second = max (_minimum_pixels_per_second, pps);
 }
 
 
 void
-Timeline::paint_labels ()
+ContentTimeline::paint_labels()
 {
 	wxPaintDC dc (_labels_canvas);
 
@@ -217,7 +217,7 @@ Timeline::paint_labels ()
 
 
 void
-Timeline::paint_main ()
+ContentTimeline::paint_main()
 {
 	wxPaintDC dc (_main_canvas);
 	dc.Clear();
@@ -283,7 +283,7 @@ Timeline::paint_main ()
 
 
 void
-Timeline::film_change(ChangeType type, FilmProperty p)
+ContentTimeline::film_change(ChangeType type, FilmProperty p)
 {
 	if (type != ChangeType::DONE) {
 		return;
@@ -299,7 +299,7 @@ Timeline::film_change(ChangeType type, FilmProperty p)
 
 
 void
-Timeline::recreate_views ()
+ContentTimeline::recreate_views()
 {
 	auto film = _film.lock ();
 	if (!film) {
@@ -335,7 +335,7 @@ Timeline::recreate_views ()
 
 
 void
-Timeline::film_content_change (ChangeType type, int property, bool frequent)
+ContentTimeline::film_content_change(ChangeType type, int property, bool frequent)
 {
 	if (type != ChangeType::DONE) {
 		return;
@@ -432,7 +432,7 @@ struct AudioMappingComparator {
 
 
 void
-Timeline::assign_tracks ()
+ContentTimeline::assign_tracks()
 {
 	/* Tracks are:
 	   Video 1
@@ -496,14 +496,14 @@ Timeline::assign_tracks ()
 
 
 int
-Timeline::tracks () const
+ContentTimeline::tracks() const
 {
 	return _tracks;
 }
 
 
 void
-Timeline::setup_scrollbars ()
+ContentTimeline::setup_scrollbars()
 {
 	auto film = _film.lock ();
 	if (!film || !_pixels_per_second) {
@@ -520,7 +520,7 @@ Timeline::setup_scrollbars ()
 
 
 shared_ptr<TimelineView>
-Timeline::event_to_view (wxMouseEvent& ev)
+ContentTimeline::event_to_view(wxMouseEvent& ev)
 {
 	/* Search backwards through views so that we find the uppermost one first */
 	auto i = _views.rbegin();
@@ -542,7 +542,7 @@ Timeline::event_to_view (wxMouseEvent& ev)
 
 
 void
-Timeline::left_down (wxMouseEvent& ev)
+ContentTimeline::left_down(wxMouseEvent& ev)
 {
 	_left_down = true;
 	_down_point = ev.GetPosition ();
@@ -562,7 +562,7 @@ Timeline::left_down (wxMouseEvent& ev)
 
 
 void
-Timeline::left_down_select (wxMouseEvent& ev)
+ContentTimeline::left_down_select(wxMouseEvent& ev)
 {
 	auto view = event_to_view (ev);
 	auto content_view = dynamic_pointer_cast<TimelineContentView>(view);
@@ -625,7 +625,7 @@ Timeline::left_down_select (wxMouseEvent& ev)
 
 
 void
-Timeline::left_up (wxMouseEvent& ev)
+ContentTimeline::left_up(wxMouseEvent& ev)
 {
 	_left_down = false;
 
@@ -645,7 +645,7 @@ Timeline::left_up (wxMouseEvent& ev)
 
 
 void
-Timeline::left_up_select (wxMouseEvent& ev)
+ContentTimeline::left_up_select(wxMouseEvent& ev)
 {
 	if (_down_view) {
 		_down_view->content()->set_change_signals_frequent (false);
@@ -670,7 +670,7 @@ Timeline::left_up_select (wxMouseEvent& ev)
 
 
 void
-Timeline::left_up_zoom (wxMouseEvent& ev)
+ContentTimeline::left_up_zoom(wxMouseEvent& ev)
 {
 	_zoom_point = ev.GetPosition ();
 
@@ -706,14 +706,14 @@ Timeline::left_up_zoom (wxMouseEvent& ev)
 
 
 void
-Timeline::set_pixels_per_track (int h)
+ContentTimeline::set_pixels_per_track(int h)
 {
 	_pixels_per_track = max(_minimum_pixels_per_track, h);
 }
 
 
 void
-Timeline::mouse_moved (wxMouseEvent& ev)
+ContentTimeline::mouse_moved(wxMouseEvent& ev)
 {
 	switch (_tool) {
 	case SELECT:
@@ -731,7 +731,7 @@ Timeline::mouse_moved (wxMouseEvent& ev)
 
 
 void
-Timeline::mouse_moved_select (wxMouseEvent& ev)
+ContentTimeline::mouse_moved_select(wxMouseEvent& ev)
 {
 	if (!_left_down) {
 		return;
@@ -742,7 +742,7 @@ Timeline::mouse_moved_select (wxMouseEvent& ev)
 
 
 void
-Timeline::mouse_moved_zoom (wxMouseEvent& ev)
+ContentTimeline::mouse_moved_zoom(wxMouseEvent& ev)
 {
 	if (!_left_down) {
 		return;
@@ -755,7 +755,7 @@ Timeline::mouse_moved_zoom (wxMouseEvent& ev)
 
 
 void
-Timeline::right_down (wxMouseEvent& ev)
+ContentTimeline::right_down(wxMouseEvent& ev)
 {
 	switch (_tool) {
 	case SELECT:
@@ -777,7 +777,7 @@ Timeline::right_down (wxMouseEvent& ev)
 
 
 void
-Timeline::right_down_select (wxMouseEvent& ev)
+ContentTimeline::right_down_select(wxMouseEvent& ev)
 {
 	auto view = event_to_view (ev);
 	auto cv = dynamic_pointer_cast<TimelineContentView> (view);
@@ -795,7 +795,7 @@ Timeline::right_down_select (wxMouseEvent& ev)
 
 
 void
-Timeline::maybe_snap (DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance) const
+ContentTimeline::maybe_snap(DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance) const
 {
 	auto const d = a - b;
 	if (!nearest_distance || d.abs() < nearest_distance.get().abs()) {
@@ -805,7 +805,7 @@ Timeline::maybe_snap (DCPTime a, DCPTime b, optional<DCPTime>& nearest_distance)
 
 
 void
-Timeline::set_position_from_event (wxMouseEvent& ev, bool force_emit)
+ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 {
 	if (!_pixels_per_second) {
 		return;
@@ -871,21 +871,21 @@ Timeline::set_position_from_event (wxMouseEvent& ev, bool force_emit)
 
 
 void
-Timeline::force_redraw (dcpomatic::Rect<int> const & r)
+ContentTimeline::force_redraw(dcpomatic::Rect<int> const & r)
 {
 	_main_canvas->RefreshRect (wxRect (r.x, r.y, r.width, r.height), false);
 }
 
 
 shared_ptr<const Film>
-Timeline::film () const
+ContentTimeline::film() const
 {
 	return _film.lock ();
 }
 
 
 void
-Timeline::resized ()
+ContentTimeline::resized()
 {
 	if (_main_canvas->GetSize().GetWidth() > 0 && _first_resize) {
 		zoom_all ();
@@ -896,7 +896,7 @@ Timeline::resized ()
 
 
 void
-Timeline::clear_selection ()
+ContentTimeline::clear_selection()
 {
 	for (auto i: _views) {
 		shared_ptr<TimelineContentView> cv = dynamic_pointer_cast<TimelineContentView>(i);
@@ -908,7 +908,7 @@ Timeline::clear_selection ()
 
 
 TimelineContentViewList
-Timeline::selected_views () const
+ContentTimeline::selected_views() const
 {
 	TimelineContentViewList sel;
 
@@ -924,7 +924,7 @@ Timeline::selected_views () const
 
 
 ContentList
-Timeline::selected_content () const
+ContentTimeline::selected_content() const
 {
 	ContentList sel;
 
@@ -937,7 +937,7 @@ Timeline::selected_content () const
 
 
 void
-Timeline::set_selection (ContentList selection)
+ContentTimeline::set_selection(ContentList selection)
 {
 	for (auto i: _views) {
 		auto cv = dynamic_pointer_cast<TimelineContentView> (i);
@@ -949,21 +949,21 @@ Timeline::set_selection (ContentList selection)
 
 
 int
-Timeline::tracks_y_offset () const
+ContentTimeline::tracks_y_offset() const
 {
 	return _reels_view->bbox().height + 4;
 }
 
 
 int
-Timeline::width () const
+ContentTimeline::width() const
 {
 	return _main_canvas->GetVirtualSize().GetWidth();
 }
 
 
 void
-Timeline::scrolled (wxScrollWinEvent& ev)
+ContentTimeline::scrolled(wxScrollWinEvent& ev)
 {
 	if (ev.GetOrientation() == wxVERTICAL) {
 		int x, y;
@@ -975,7 +975,7 @@ Timeline::scrolled (wxScrollWinEvent& ev)
 
 
 void
-Timeline::tool_clicked (Tool t)
+ContentTimeline::tool_clicked(Tool t)
 {
 	switch (t) {
 	case ZOOM:
@@ -993,7 +993,7 @@ Timeline::tool_clicked (Tool t)
 
 
 void
-Timeline::zoom_all ()
+ContentTimeline::zoom_all()
 {
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
@@ -1007,7 +1007,7 @@ Timeline::zoom_all ()
 
 
 void
-Timeline::keypress(wxKeyEvent const& event)
+ContentTimeline::keypress(wxKeyEvent const& event)
 {
 	if (event.GetKeyCode() == WXK_DELETE) {
 		auto film = _film.lock();

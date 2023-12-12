@@ -29,7 +29,7 @@ using std::shared_ptr;
  *  @brief Timeline view for AtmosContent.
  */
 
-TimelineAtmosContentView::TimelineAtmosContentView (Timeline& tl, shared_ptr<Content> c)
+TimelineAtmosContentView::TimelineAtmosContentView(ContentTimeline& tl, shared_ptr<Content> c)
 	: TimelineContentView (tl, c)
 {
 

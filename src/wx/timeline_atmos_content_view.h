@@ -28,7 +28,7 @@
 class TimelineAtmosContentView : public TimelineContentView
 {
 public:
-	TimelineAtmosContentView (Timeline& tl, std::shared_ptr<Content> c);
+	TimelineAtmosContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const override {

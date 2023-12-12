@@ -73,11 +73,11 @@ TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmView
 	_toolbar = new wxToolBar (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL);
 	_toolbar->SetMargins (4, 4);
 	_toolbar->SetToolBitmapSize (wxSize(32, 32));
-	_toolbar->AddRadioTool ((int) Timeline::SELECT, _("Select"), select, wxNullBitmap, _("Select and move content"));
-	_toolbar->AddRadioTool ((int) Timeline::ZOOM, _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
-	_toolbar->AddTool ((int) Timeline::ZOOM_ALL, _("Zoom all"), zoom_all, _("Zoom out to whole film"));
-	_toolbar->AddCheckTool ((int) Timeline::SNAP, _("Snap"), snap, wxNullBitmap, _("Snap"));
-	_toolbar->AddCheckTool ((int) Timeline::SEQUENCE, _("Sequence"), sequence, wxNullBitmap, _("Keep video and subtitles in sequence"));
+	_toolbar->AddRadioTool(static_cast<int>(ContentTimeline::SELECT), _("Select"), select, wxNullBitmap, _("Select and move content"));
+	_toolbar->AddRadioTool(static_cast<int>(ContentTimeline::ZOOM), _("Zoom"), zoom, wxNullBitmap, _("Zoom in / out"));
+	_toolbar->AddTool(static_cast<int>(ContentTimeline::ZOOM_ALL), _("Zoom all"), zoom_all, _("Zoom out to whole film"));
+	_toolbar->AddCheckTool(static_cast<int>(ContentTimeline::SNAP), _("Snap"), snap, wxNullBitmap, _("Snap"));
+	_toolbar->AddCheckTool(static_cast<int>(ContentTimeline::SEQUENCE), _("Sequence"), sequence, wxNullBitmap, _("Keep video and subtitles in sequence"));
 	_toolbar->Realize ();
 
 	_toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
@@ -98,7 +98,7 @@ TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmView
 
 	Bind(wxEVT_CHAR_HOOK, boost::bind(&TimelineDialog::keypress, this, _1));
 
-        _toolbar->ToggleTool ((int) Timeline::SNAP, _timeline.snap ());
+        _toolbar->ToggleTool(static_cast<int>(ContentTimeline::SNAP), _timeline.snap ());
 	film_change(ChangeType::DONE, FilmProperty::SEQUENCE);
 
 	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
@@ -118,7 +118,7 @@ TimelineDialog::film_change(ChangeType type, FilmProperty p)
 	}
 
 	if (p == FilmProperty::SEQUENCE) {
-		_toolbar->ToggleTool ((int) Timeline::SEQUENCE, film->sequence ());
+		_toolbar->ToggleTool(static_cast<int>(ContentTimeline::SEQUENCE), film->sequence());
 	}
 }
 
@@ -133,11 +133,11 @@ TimelineDialog::set_selection (ContentList selection)
 void
 TimelineDialog::tool_clicked (wxCommandEvent& ev)
 {
-	Timeline::Tool t = static_cast<Timeline::Tool>(ev.GetId());
+	auto t = static_cast<ContentTimeline::Tool>(ev.GetId());
 	_timeline.tool_clicked (t);
-	if (t == Timeline::SNAP) {
+	if (t == ContentTimeline::SNAP) {
 		_timeline.set_snap (_toolbar->GetToolState(static_cast<int>(t)));
-	} else if (t == Timeline::SEQUENCE) {
+	} else if (t == ContentTimeline::SEQUENCE) {
 		auto film = _film.lock ();
 		if (film) {
 			film->set_sequence (_toolbar->GetToolState(static_cast<int>(t)));

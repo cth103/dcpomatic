@@ -18,14 +18,17 @@
 
 */
 
+
 #include "lib/image_content.h"
 #include "lib/video_content.h"
 #include "timeline_video_content_view.h"
 
+
 using std::dynamic_pointer_cast;
 using std::shared_ptr;
 
-TimelineVideoContentView::TimelineVideoContentView (Timeline& tl, shared_ptr<Content> c)
+
+TimelineVideoContentView::TimelineVideoContentView(ContentTimeline& tl, shared_ptr<Content> c)
 	: TimelineContentView (tl, c)
 {
 

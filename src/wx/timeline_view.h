@@ -28,7 +28,7 @@
 
 
 class wxGraphicsContext;
-class Timeline;
+class ContentTimeline;
 
 
 /** @class TimelineView
@@ -37,7 +37,7 @@ class Timeline;
 class TimelineView
 {
 public:
-	explicit TimelineView (Timeline& t);
+	explicit TimelineView(ContentTimeline& t);
 	virtual ~TimelineView () {}
 
 	TimelineView (TimelineView const&) = delete;
@@ -54,7 +54,7 @@ protected:
 	int time_x (dcpomatic::DCPTime t) const;
 	int y_pos(int t) const;
 
-	Timeline& _timeline;
+	ContentTimeline& _timeline;
 
 private:
 	dcpomatic::Rect<int> _last_paint_bbox;

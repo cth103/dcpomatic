@@ -18,10 +18,12 @@
 
 */
 
+
 #include "timeline_content_view.h"
 
+
 class TextContent;
-class TextContent;
+
 
 /** @class TimelineTextContentView
  *  @brief Timeline view for TextContent.
@@ -29,7 +31,7 @@ class TextContent;
 class TimelineTextContentView : public TimelineContentView
 {
 public:
-	TimelineTextContentView (Timeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
+	TimelineTextContentView(ContentTimeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
 
 private:
 	bool active () const override;

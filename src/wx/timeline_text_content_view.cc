@@ -27,7 +27,7 @@
 using std::shared_ptr;
 
 
-TimelineTextContentView::TimelineTextContentView (Timeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
+TimelineTextContentView::TimelineTextContentView(ContentTimeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
 	: TimelineContentView (tl, c)
 	, _caption (caption)
 {

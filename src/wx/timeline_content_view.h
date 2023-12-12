@@ -40,7 +40,7 @@ class Content;
 class TimelineContentView : public TimelineView
 {
 public:
-	TimelineContentView (Timeline& tl, std::shared_ptr<Content> c);
+	TimelineContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 	dcpomatic::Rect<int> bbox () const override;
 

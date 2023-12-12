@@ -28,7 +28,7 @@ class wxWindow;
 class TimelineLabelsView : public TimelineView
 {
 public:
-	explicit TimelineLabelsView (Timeline& tl);
+	explicit TimelineLabelsView(ContentTimeline& tl);
 
 	dcpomatic::Rect<int> bbox () const override;
 

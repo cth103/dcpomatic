@@ -48,6 +48,7 @@ sources = """
           content_panel.cc
           content_properties_dialog.cc
           content_sub_panel.cc
+          content_timeline.cc
           content_version_dialog.cc
           content_view.cc
           controls.cc
@@ -160,7 +161,6 @@ sources = """
           time_picker.cc
           timer_display.cc
           timecode.cc
-          timeline.cc
           timeline_atmos_content_view.cc
           timeline_content_view.cc
           timeline_dialog.cc

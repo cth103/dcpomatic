@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline.h"
+#include "content_timeline.h"
 #include "timeline_reels_view.h"
 #include "wx_util.h"
 #include "lib/film.h"
@@ -35,7 +35,7 @@ using std::list;
 using namespace dcpomatic;
 
 
-TimelineReelsView::TimelineReelsView (Timeline& tl, int y)
+TimelineReelsView::TimelineReelsView(ContentTimeline& tl, int y)
 	: TimelineView (tl)
 	, _y (y)
 {

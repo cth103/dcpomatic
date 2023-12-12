@@ -23,7 +23,7 @@
 class TimelineTimeAxisView : public TimelineView
 {
 public:
-	TimelineTimeAxisView (Timeline& tl, int y);
+	TimelineTimeAxisView(ContentTimeline& tl, int y);
 
 	dcpomatic::Rect<int> bbox () const override;
 	void set_y (int y);

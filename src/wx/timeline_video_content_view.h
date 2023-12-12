@@ -28,7 +28,7 @@
 class TimelineVideoContentView : public TimelineContentView
 {
 public:
-	TimelineVideoContentView (Timeline& tl, std::shared_ptr<Content> c);
+	TimelineVideoContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const override;

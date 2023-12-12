@@ -25,7 +25,7 @@
 class TimelineReelsView : public TimelineView
 {
 public:
-	TimelineReelsView (Timeline& tl, int y);
+	TimelineReelsView(ContentTimeline& tl, int y);
 
 	dcpomatic::Rect<int> bbox () const override;
 	void set_y (int y);

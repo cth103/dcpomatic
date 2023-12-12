@@ -28,7 +28,7 @@
 class TimelineAudioContentView : public TimelineContentView
 {
 public:
-	TimelineAudioContentView (Timeline& tl, std::shared_ptr<Content> c);
+	TimelineAudioContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const override {
