@@ -27,38 +27,11 @@ using std::list;
 using namespace dcpomatic;
 
 
-/** @class ContentContentTimelineView
- *  @brief Parent class for components of the content timeline (e.g. a piece of content or an axis).
- */
-ContentTimelineView::ContentTimelineView(ContentTimeline& t)
-	: _timeline (t)
+ContentTimelineView::ContentTimelineView(ContentTimeline& timeline)
+	: TimelineView(timeline)
 {
 
 }
-
-
-void
-ContentTimelineView::paint(wxGraphicsContext* g, list<dcpomatic::Rect<int>> overlaps)
-{
-	_last_paint_bbox = bbox ();
-	do_paint (g, overlaps);
-}
-
-
-void
-ContentTimelineView::force_redraw()
-{
-	_timeline.force_redraw (_last_paint_bbox.extended(4));
-	_timeline.force_redraw (bbox().extended(4));
-}
-
-
-int
-ContentTimelineView::time_x(DCPTime t) const
-{
-	return t.seconds() * _timeline.pixels_per_second().get_value_or(0);
-}
-
 
 int
 ContentTimelineView::y_pos(int t) const

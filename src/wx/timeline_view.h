@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,42 +19,51 @@
 */
 
 
-#ifndef DCPOMATIC_CONTENT_TIMELINE_VIEW_H
-#define DCPOMATIC_CONTENT_TIMELINE_VIEW_H
+#ifndef DCPOMATIC_TIMELINE_VIEW_H
+#define DCPOMATIC_TIMELINE_VIEW_H
 
 
-#include "timeline_view.h"
 #include "lib/rect.h"
 #include "lib/dcpomatic_time.h"
 
 
 class wxGraphicsContext;
-class ContentTimeline;
 
 
 /** @class ContentTimelineView
  *  @brief Parent class for components of the content timeline (e.g. a piece of content or an axis).
  */
-class ContentTimelineView : public TimelineView<ContentTimeline>
+template <class Timeline>
+class TimelineView
 {
 public:
-	explicit ContentTimelineView(ContentTimeline& t);
-	virtual ~ContentTimelineView () = default;
+	explicit TimelineView(Timeline& timeline)
+		: _timeline(timeline)
+	{}
 
-	void paint(wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps)
+	virtual ~TimelineView () = default;
+
+	TimelineView(TimelineView const&) = delete;
+	TimelineView& operator=(TimelineView const&) = delete;
+
+	void force_redraw()
 	{
-		_last_paint_bbox = bbox();
-		do_paint(gc, overlaps);
+		_timeline.force_redraw(_last_paint_bbox.extended(4));
+		_timeline.force_redraw(bbox().extended(4));
 	}
 
-protected:
-	virtual void do_paint(wxGraphicsContext *, std::list<dcpomatic::Rect<int>> overlaps) = 0;
+	virtual dcpomatic::Rect<int> bbox() const = 0;
 
-	int y_pos(int t) const;
+protected:
+	int time_x(dcpomatic::DCPTime t) const
+	{
+		return t.seconds() * _timeline.pixels_per_second().get_value_or(0);
+	}
+
+	Timeline& _timeline;
+	dcpomatic::Rect<int> _last_paint_bbox;
 };
 
 
-typedef std::vector<std::shared_ptr<ContentTimelineView>> ContentTimelineViewList;
-
-
 #endif
+
