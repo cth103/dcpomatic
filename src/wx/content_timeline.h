@@ -20,6 +20,7 @@
 
 
 #include "content_menu.h"
+#include "timeline.h"
 #include "timeline_content_view.h"
 #include "lib/film_property.h"
 #include "lib/rect.h"
@@ -39,7 +40,7 @@ class TimelineReelsView;
 class TimelineTimeAxisView;
 
 
-class ContentTimeline : public wxPanel
+class ContentTimeline : public Timeline
 {
 public:
 	ContentTimeline(wxWindow *, ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
@@ -52,10 +53,6 @@ public:
 
 	int pixels_per_track () const {
 		return _pixels_per_track;
-	}
-
-	boost::optional<double> pixels_per_second () const {
-		return _pixels_per_second;
 	}
 
 	int tracks () const;
@@ -106,7 +103,6 @@ private:
 	void recreate_views ();
 	void setup_scrollbars ();
 	void scrolled (wxScrollWinEvent& ev);
-	void set_pixels_per_second (double pps);
 	void set_pixels_per_track (int h);
 	void zoom_all ();
 	void update_playhead ();
@@ -127,7 +123,6 @@ private:
 	std::shared_ptr<TimelineReelsView> _reels_view;
 	std::shared_ptr<TimelineLabelsView> _labels_view;
 	int _tracks;
-	boost::optional<double> _pixels_per_second;
 	bool _left_down;
 	wxPoint _down_point;
 	boost::optional<wxPoint> _zoom_point;
@@ -147,7 +142,6 @@ private:
 	boost::optional<int> _last_mouse_wheel_x;
 	boost::optional<double> _last_mouse_wheel_time;
 
-	static double const _minimum_pixels_per_second;
 	static int const _minimum_pixels_per_track;
 
 	boost::signals2::scoped_connection _film_changed_connection;

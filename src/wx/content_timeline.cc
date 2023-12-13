@@ -63,13 +63,11 @@ using namespace boost::placeholders;
 #endif
 
 
-/* 3 hours in 640 pixels */
-double const ContentTimeline::_minimum_pixels_per_second = 640.0 / (60 * 60 * 3);
 int const ContentTimeline::_minimum_pixels_per_track = 16;
 
 
 ContentTimeline::ContentTimeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
-	: wxPanel (parent, wxID_ANY)
+	: Timeline(parent)
 	, _labels_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _main_canvas (new wxScrolledCanvas (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE))
 	, _content_panel (cp)
@@ -181,13 +179,6 @@ void
 ContentTimeline::update_playhead()
 {
 	Refresh ();
-}
-
-
-void
-ContentTimeline::set_pixels_per_second(double pps)
-{
-	_pixels_per_second = max (_minimum_pixels_per_second, pps);
 }
 
 

@@ -162,6 +162,7 @@ sources = """
           time_picker.cc
           timer_display.cc
           timecode.cc
+          timeline.cc
           timeline_atmos_content_view.cc
           timeline_content_view.cc
           timeline_dialog.cc
