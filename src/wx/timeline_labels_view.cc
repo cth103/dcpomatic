@@ -35,7 +35,7 @@ using std::min;
 
 
 TimelineLabelsView::TimelineLabelsView(ContentTimeline& tl)
-	: TimelineView (tl)
+	: ContentTimelineView(tl)
 {
 	wxString labels[] = {
 		_("Video"),

@@ -18,9 +18,11 @@
 
 */
 
-#include "timeline_view.h"
 
-class TimelineTimeAxisView : public TimelineView
+#include "content_timeline_view.h"
+
+
+class TimelineTimeAxisView : public ContentTimelineView
 {
 public:
 	TimelineTimeAxisView(ContentTimeline& tl, int y);

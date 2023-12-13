@@ -356,7 +356,7 @@ ContentTimeline::film_content_change(ChangeType type, int property, bool frequen
 
 template <class T>
 int
-place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
+place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 {
 	int const base = tracks;
 
@@ -413,7 +413,7 @@ place (shared_ptr<const Film> film, TimelineViewList& views, int& tracks)
  *  order of first mapped DCP channel.
  */
 struct AudioMappingComparator {
-	bool operator()(shared_ptr<TimelineView> a, shared_ptr<TimelineView> b) {
+	bool operator()(shared_ptr<ContentTimelineView> a, shared_ptr<ContentTimelineView> b) {
 		int la = -1;
 		auto cva = dynamic_pointer_cast<TimelineAudioContentView>(a);
 		if (cva) {
@@ -519,7 +519,7 @@ ContentTimeline::setup_scrollbars()
 }
 
 
-shared_ptr<TimelineView>
+shared_ptr<ContentTimelineView>
 ContentTimeline::event_to_view(wxMouseEvent& ev)
 {
 	/* Search backwards through views so that we find the uppermost one first */

@@ -49,6 +49,7 @@ sources = """
           content_properties_dialog.cc
           content_sub_panel.cc
           content_timeline.cc
+          content_timeline_view.cc
           content_version_dialog.cc
           content_view.cc
           controls.cc
@@ -170,7 +171,6 @@ sources = """
           timeline_reels_view.cc
           timeline_time_axis_view.cc
           timeline_video_content_view.cc
-          timeline_view.cc
           timing_panel.cc
           try_unmount_dialog.cc
           update_dialog.cc

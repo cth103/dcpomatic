@@ -36,7 +36,7 @@ using namespace dcpomatic;
 
 
 TimelineReelsView::TimelineReelsView(ContentTimeline& tl, int y)
-	: TimelineView (tl)
+	: ContentTimelineView(tl)
 	, _y (y)
 {
 

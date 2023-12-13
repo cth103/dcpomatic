@@ -19,8 +19,8 @@
 */
 
 
-#ifndef DCPOMATIC_TIMELINE_VIEW_H
-#define DCPOMATIC_TIMELINE_VIEW_H
+#ifndef DCPOMATIC_CONTENT_TIMELINE_VIEW_H
+#define DCPOMATIC_CONTENT_TIMELINE_VIEW_H
 
 
 #include "lib/rect.h"
@@ -31,17 +31,17 @@ class wxGraphicsContext;
 class ContentTimeline;
 
 
-/** @class TimelineView
- *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
+/** @class ContentTimelineView
+ *  @brief Parent class for components of the content timeline (e.g. a piece of content or an axis).
  */
-class TimelineView
+class ContentTimelineView
 {
 public:
-	explicit TimelineView(ContentTimeline& t);
-	virtual ~TimelineView () {}
+	explicit ContentTimelineView(ContentTimeline& t);
+	virtual ~ContentTimelineView () = default;
 
-	TimelineView (TimelineView const&) = delete;
-	TimelineView& operator= (TimelineView const&) = delete;
+	ContentTimelineView(ContentTimelineView const&) = delete;
+	ContentTimelineView& operator=(ContentTimelineView const&) = delete;
 
 	void paint (wxGraphicsContext* g, std::list<dcpomatic::Rect<int>> overlaps);
 	void force_redraw ();
@@ -61,7 +61,7 @@ private:
 };
 
 
-typedef std::vector<std::shared_ptr<TimelineView>> TimelineViewList;
+typedef std::vector<std::shared_ptr<ContentTimelineView>> ContentTimelineViewList;
 
 
 #endif

@@ -20,17 +20,17 @@
 
 
 #include "content_timeline.h"
-#include "timeline_view.h"
+#include "content_timeline_view.h"
 
 
 using std::list;
 using namespace dcpomatic;
 
 
-/** @class TimelineView
- *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
+/** @class ContentContentTimelineView
+ *  @brief Parent class for components of the content timeline (e.g. a piece of content or an axis).
  */
-TimelineView::TimelineView(ContentTimeline& t)
+ContentTimelineView::ContentTimelineView(ContentTimeline& t)
 	: _timeline (t)
 {
 
@@ -38,7 +38,7 @@ TimelineView::TimelineView(ContentTimeline& t)
 
 
 void
-TimelineView::paint (wxGraphicsContext* g, list<dcpomatic::Rect<int>> overlaps)
+ContentTimelineView::paint(wxGraphicsContext* g, list<dcpomatic::Rect<int>> overlaps)
 {
 	_last_paint_bbox = bbox ();
 	do_paint (g, overlaps);
@@ -46,7 +46,7 @@ TimelineView::paint (wxGraphicsContext* g, list<dcpomatic::Rect<int>> overlaps)
 
 
 void
-TimelineView::force_redraw ()
+ContentTimelineView::force_redraw()
 {
 	_timeline.force_redraw (_last_paint_bbox.extended(4));
 	_timeline.force_redraw (bbox().extended(4));
@@ -54,14 +54,14 @@ TimelineView::force_redraw ()
 
 
 int
-TimelineView::time_x (DCPTime t) const
+ContentTimelineView::time_x(DCPTime t) const
 {
 	return t.seconds() * _timeline.pixels_per_second().get_value_or(0);
 }
 
 
 int
-TimelineView::y_pos(int t) const
+ContentTimelineView::y_pos(int t) const
 {
 	return t * _timeline.pixels_per_track() + _timeline.tracks_y_offset();
 }

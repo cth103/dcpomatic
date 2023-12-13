@@ -31,12 +31,12 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class ContentPanel;
+class ContentTimelineView;
 class Film;
 class FilmViewer;
 class TimelineLabelsView;
 class TimelineReelsView;
 class TimelineTimeAxisView;
-class TimelineView;
 
 
 class ContentTimeline : public wxPanel
@@ -112,7 +112,7 @@ private:
 	void update_playhead ();
 	void mouse_wheel_turned(wxMouseEvent& event);
 
-	std::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
+	std::shared_ptr<ContentTimelineView> event_to_view(wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
 	ContentList selected_content () const;
 	void maybe_snap (dcpomatic::DCPTime a, dcpomatic::DCPTime b, boost::optional<dcpomatic::DCPTime>& nearest_distance) const;
@@ -122,7 +122,7 @@ private:
 	ContentPanel* _content_panel;
 	std::weak_ptr<Film> _film;
 	FilmViewer& _viewer;
-	TimelineViewList _views;
+	ContentTimelineViewList _views;
 	std::shared_ptr<TimelineTimeAxisView> _time_axis_view;
 	std::shared_ptr<TimelineReelsView> _reels_view;
 	std::shared_ptr<TimelineLabelsView> _labels_view;

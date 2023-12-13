@@ -19,13 +19,13 @@
 */
 
 
-#include "timeline_view.h"
+#include "content_timeline_view.h"
 
 
 class wxWindow;
 
 
-class TimelineLabelsView : public TimelineView
+class TimelineLabelsView : public ContentTimelineView
 {
 public:
 	explicit TimelineLabelsView(ContentTimeline& tl);

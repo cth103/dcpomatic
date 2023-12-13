@@ -35,7 +35,7 @@ using namespace dcpomatic;
 
 
 TimelineTimeAxisView::TimelineTimeAxisView(ContentTimeline& tl, int y)
-	: TimelineView (tl)
+	: ContentTimelineView(tl)
 	, _y (y)
 {
 

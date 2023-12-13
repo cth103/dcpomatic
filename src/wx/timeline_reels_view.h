@@ -19,10 +19,10 @@
 */
 
 
-#include "timeline_view.h"
+#include "content_timeline_view.h"
 
 
-class TimelineReelsView : public TimelineView
+class TimelineReelsView : public ContentTimelineView
 {
 public:
 	TimelineReelsView(ContentTimeline& tl, int y);
