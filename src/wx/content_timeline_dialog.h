@@ -29,10 +29,10 @@ LIBDCP_ENABLE_WARNINGS
 class Playlist;
 
 
-class TimelineDialog : public wxDialog
+class ContentTimelineDialog : public wxDialog
 {
 public:
-	TimelineDialog(ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
+	ContentTimelineDialog(ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
 	void set_selection (ContentList selection);
 

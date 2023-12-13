@@ -49,6 +49,7 @@ sources = """
           content_properties_dialog.cc
           content_sub_panel.cc
           content_timeline.cc
+          content_timeline_dialog.cc
           content_timeline_view.cc
           content_version_dialog.cc
           content_view.cc
@@ -165,7 +166,6 @@ sources = """
           timeline.cc
           timeline_atmos_content_view.cc
           timeline_content_view.cc
-          timeline_dialog.cc
           timeline_audio_content_view.cc
           timeline_labels_view.cc
           timeline_text_content_view.cc

@@ -20,8 +20,8 @@
 
 
 #include "content_panel.h"
+#include "content_timeline_dialog.h"
 #include "film_editor.h"
-#include "timeline_dialog.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
 #include "lib/cross.h"
@@ -43,7 +43,7 @@ using namespace boost::placeholders;
 #endif
 
 
-TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
+ContentTimelineDialog::ContentTimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmViewer& viewer)
 	: wxDialog (
 		cp->window(),
 		wxID_ANY,
@@ -80,7 +80,7 @@ TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmView
 	_toolbar->AddCheckTool(static_cast<int>(ContentTimeline::SEQUENCE), _("Sequence"), sequence, wxNullBitmap, _("Keep video and subtitles in sequence"));
 	_toolbar->Realize ();
 
-	_toolbar->Bind (wxEVT_TOOL, bind (&TimelineDialog::tool_clicked, this, _1));
+	_toolbar->Bind(wxEVT_TOOL, bind(&ContentTimelineDialog::tool_clicked, this, _1));
 
 	sizer->Add (_toolbar, 0, wxALL, 12);
 	sizer->Add (&_timeline, 1, wxEXPAND | wxALL, 12);
@@ -96,17 +96,17 @@ TimelineDialog::TimelineDialog(ContentPanel* cp, shared_ptr<Film> film, FilmView
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
 
-	Bind(wxEVT_CHAR_HOOK, boost::bind(&TimelineDialog::keypress, this, _1));
+	Bind(wxEVT_CHAR_HOOK, boost::bind(&ContentTimelineDialog::keypress, this, _1));
 
         _toolbar->ToggleTool(static_cast<int>(ContentTimeline::SNAP), _timeline.snap ());
 	film_change(ChangeType::DONE, FilmProperty::SEQUENCE);
 
-	_film_changed_connection = film->Change.connect (bind (&TimelineDialog::film_change, this, _1, _2));
+	_film_changed_connection = film->Change.connect(bind(&ContentTimelineDialog::film_change, this, _1, _2));
 }
 
 
 void
-TimelineDialog::film_change(ChangeType type, FilmProperty p)
+ContentTimelineDialog::film_change(ChangeType type, FilmProperty p)
 {
 	if (type != ChangeType::DONE) {
 		return;
@@ -124,14 +124,14 @@ TimelineDialog::film_change(ChangeType type, FilmProperty p)
 
 
 void
-TimelineDialog::set_selection (ContentList selection)
+ContentTimelineDialog::set_selection(ContentList selection)
 {
 	_timeline.set_selection (selection);
 }
 
 
 void
-TimelineDialog::tool_clicked (wxCommandEvent& ev)
+ContentTimelineDialog::tool_clicked(wxCommandEvent& ev)
 {
 	auto t = static_cast<ContentTimeline::Tool>(ev.GetId());
 	_timeline.tool_clicked (t);
@@ -147,7 +147,7 @@ TimelineDialog::tool_clicked (wxCommandEvent& ev)
 
 
 void
-TimelineDialog::keypress(wxKeyEvent const& event)
+ContentTimelineDialog::keypress(wxKeyEvent const& event)
 {
 	_timeline.keypress(event);
 }

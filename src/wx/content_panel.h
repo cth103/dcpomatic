@@ -33,12 +33,12 @@ LIBDCP_ENABLE_WARNINGS
 class AudioPanel;
 class ContentListCtrl;
 class ContentSubPanel;
+class ContentTimelineDialog;
 class Film;
 class FilmEditor;
 class FilmViewer;
 class LimitedContentPanelSplitter;
 class TextPanel;
-class TimelineDialog;
 class TimingPanel;
 class VideoPanel;
 class wxListCtrl;
@@ -132,7 +132,7 @@ private:
 	EnumIndexedVector<TextPanel*, TextType> _text_panel;
 	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
-	wx_ptr<TimelineDialog> _timeline_dialog;
+	wx_ptr<ContentTimelineDialog> _timeline_dialog;
 	wxNotebook* _parent;
 	wxWindow* _last_selected_tab = nullptr;
 
