@@ -50,6 +50,7 @@ sources = """
           content_sub_panel.cc
           content_timeline.cc
           content_timeline_atmos_view.cc
+          content_timeline_audio_view.cc
           content_timeline_dialog.cc
           content_timeline_view.cc
           content_version_dialog.cc
@@ -166,7 +167,6 @@ sources = """
           timecode.cc
           timeline.cc
           timeline_content_view.cc
-          timeline_audio_content_view.cc
           timeline_labels_view.cc
           timeline_text_content_view.cc
           timeline_reels_view.cc

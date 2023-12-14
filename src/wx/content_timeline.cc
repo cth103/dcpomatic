@@ -23,7 +23,7 @@
 #include "film_editor.h"
 #include "film_viewer.h"
 #include "content_timeline_atmos_view.h"
-#include "timeline_audio_content_view.h"
+#include "content_timeline_audio_view.h"
 #include "timeline_labels_view.h"
 #include "timeline_reels_view.h"
 #include "timeline_text_content_view.h"
@@ -307,7 +307,7 @@ ContentTimeline::recreate_views()
 		}
 
 		if (i->audio && !i->audio->mapping().mapped_output_channels().empty ()) {
-			_views.push_back (make_shared<TimelineAudioContentView>(*this, i));
+			_views.push_back(make_shared<ContentTimelineAudioView>(*this, i));
 		}
 
 		for (auto j: i->text) {
@@ -406,13 +406,13 @@ place(shared_ptr<const Film> film, ContentTimelineViewList& views, int& tracks)
 struct AudioMappingComparator {
 	bool operator()(shared_ptr<ContentTimelineView> a, shared_ptr<ContentTimelineView> b) {
 		int la = -1;
-		auto cva = dynamic_pointer_cast<TimelineAudioContentView>(a);
+		auto cva = dynamic_pointer_cast<ContentTimelineAudioView>(a);
 		if (cva) {
 			auto oc = cva->content()->audio->mapping().mapped_output_channels();
 			la = *min_element(boost::begin(oc), boost::end(oc));
 		}
 		int lb = -1;
-		auto cvb = dynamic_pointer_cast<TimelineAudioContentView>(b);
+		auto cvb = dynamic_pointer_cast<ContentTimelineAudioView>(b);
 		if (cvb) {
 			auto oc = cvb->content()->audio->mapping().mapped_output_channels();
 			lb = *min_element(boost::begin(oc), boost::end(oc));
@@ -474,7 +474,7 @@ ContentTimeline::assign_tracks()
 
 	auto views = _views;
 	sort(views.begin(), views.end(), AudioMappingComparator());
-	int const audio_tracks = place<TimelineAudioContentView> (film, views, _tracks);
+	int const audio_tracks = place<ContentTimelineAudioView>(film, views, _tracks);
 
 	_labels_view->set_video_tracks (video_tracks);
 	_labels_view->set_audio_tracks (audio_tracks);

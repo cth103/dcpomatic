@@ -22,13 +22,13 @@
 #include "timeline_content_view.h"
 
 
-/** @class TimelineAudioContentView
- *  @brief Timeline view for AudioContent.
+/** @class ContentTimelineAudioView
+ *  @brief Content timeline view for AudioContent.
  */
-class TimelineAudioContentView : public TimelineContentView
+class ContentTimelineAudioView : public TimelineContentView
 {
 public:
-	TimelineAudioContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
+	ContentTimelineAudioView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
 	bool active () const override {

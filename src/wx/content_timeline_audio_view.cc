@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline_audio_content_view.h"
+#include "content_timeline_audio_view.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/util.h"
@@ -30,31 +30,31 @@ using std::list;
 using std::shared_ptr;
 
 
-/** @class TimelineAudioContentView
- *  @brief Timeline view for AudioContent.
+/** @class ContentTimelineAudioView
+ *  @brief Content timeline view for AudioContent.
  */
 
 
-TimelineAudioContentView::TimelineAudioContentView(ContentTimeline& tl, shared_ptr<Content> c)
+ContentTimelineAudioView::ContentTimelineAudioView(ContentTimeline& tl, shared_ptr<Content> c)
 	: TimelineContentView (tl, c)
 {
 
 }
 
 wxColour
-TimelineAudioContentView::background_colour () const
+ContentTimelineAudioView::background_colour () const
 {
 	return wxColour (149, 121, 232, 255);
 }
 
 wxColour
-TimelineAudioContentView::foreground_colour () const
+ContentTimelineAudioView::foreground_colour () const
 {
 	return wxColour (0, 0, 0, 255);
 }
 
 wxString
-TimelineAudioContentView::label () const
+ContentTimelineAudioView::label () const
 {
 	wxString s = TimelineContentView::label ();
 	shared_ptr<AudioContent> ac = content()->audio;
