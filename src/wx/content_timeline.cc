@@ -22,7 +22,7 @@
 #include "content_timeline.h"
 #include "film_editor.h"
 #include "film_viewer.h"
-#include "timeline_atmos_content_view.h"
+#include "content_timeline_atmos_view.h"
 #include "timeline_audio_content_view.h"
 #include "timeline_labels_view.h"
 #include "timeline_reels_view.h"
@@ -315,7 +315,7 @@ ContentTimeline::recreate_views()
 		}
 
 		if (i->atmos) {
-			_views.push_back (make_shared<TimelineAtmosContentView>(*this, i));
+			_views.push_back(make_shared<ContentTimelineAtmosView>(*this, i));
 		}
 	}
 
@@ -457,7 +457,7 @@ ContentTimeline::assign_tracks()
 
 	bool have_atmos = false;
 	for (auto i: _views) {
-		auto cv = dynamic_pointer_cast<TimelineAtmosContentView>(i);
+		auto cv = dynamic_pointer_cast<ContentTimelineAtmosView>(i);
 		if (cv) {
 			cv->set_track (_tracks);
 			have_atmos = true;

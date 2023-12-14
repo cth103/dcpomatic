@@ -19,22 +19,32 @@
 */
 
 
-#include "timeline_content_view.h"
+#include "content_timeline_atmos_view.h"
 
 
-/** @class TimelineAtmosContentView
- *  @brief Timeline view for AtmosContent.
+using std::shared_ptr;
+
+
+/** @class ContentTimelineContentView
+ *  @brief Content timeline view for AtmosContent.
  */
-class TimelineAtmosContentView : public TimelineContentView
+
+ContentTimelineAtmosView::ContentTimelineAtmosView(ContentTimeline& tl, shared_ptr<Content> c)
+	: TimelineContentView (tl, c)
 {
-public:
-	TimelineAtmosContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
-private:
-	bool active () const override {
-		return true;
-	}
+}
 
-	wxColour background_colour () const override;
-	wxColour foreground_colour () const override;
-};
+
+wxColour
+ContentTimelineAtmosView::background_colour() const
+{
+	return wxColour (149, 121, 232, 255);
+}
+
+
+wxColour
+ContentTimelineAtmosView::foreground_colour() const
+{
+	return wxColour (0, 0, 0, 255);
+}
