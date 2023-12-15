@@ -52,6 +52,7 @@ sources = """
           content_timeline_atmos_view.cc
           content_timeline_audio_view.cc
           content_timeline_dialog.cc
+          content_timeline_text_view.cc
           content_timeline_video_view.cc
           content_timeline_view.cc
           content_version_dialog.cc
@@ -169,7 +170,6 @@ sources = """
           timeline.cc
           timeline_content_view.cc
           timeline_labels_view.cc
-          timeline_text_content_view.cc
           timeline_reels_view.cc
           timeline_time_axis_view.cc
           timing_panel.cc

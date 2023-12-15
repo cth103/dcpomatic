@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline_text_content_view.h"
+#include "content_timeline_text_view.h"
 #include "lib/text_content.h"
 #include "lib/content.h"
 
@@ -27,7 +27,7 @@
 using std::shared_ptr;
 
 
-TimelineTextContentView::TimelineTextContentView(ContentTimeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
+ContentTimelineTextView::ContentTimelineTextView(ContentTimeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
 	: TimelineContentView (tl, c)
 	, _caption (caption)
 {
@@ -35,7 +35,7 @@ TimelineTextContentView::TimelineTextContentView(ContentTimeline& tl, shared_ptr
 }
 
 wxColour
-TimelineTextContentView::background_colour () const
+ContentTimelineTextView::background_colour() const
 {
 	if (!active ()) {
 		return wxColour (210, 210, 210, 128);
@@ -45,7 +45,7 @@ TimelineTextContentView::background_colour () const
 }
 
 wxColour
-TimelineTextContentView::foreground_colour () const
+ContentTimelineTextView::foreground_colour() const
 {
 	if (!active ()) {
 		return wxColour (180, 180, 180, 128);
@@ -55,7 +55,7 @@ TimelineTextContentView::foreground_colour () const
 }
 
 bool
-TimelineTextContentView::active () const
+ContentTimelineTextView::active() const
 {
 	return _caption->use();
 }

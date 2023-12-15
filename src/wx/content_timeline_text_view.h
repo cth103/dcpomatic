@@ -25,13 +25,13 @@
 class TextContent;
 
 
-/** @class TimelineTextContentView
- *  @brief Timeline view for TextContent.
+/** @class ContentTimelineTextView
+ *  @brief Content timeline view for TextContent.
  */
-class TimelineTextContentView : public TimelineContentView
+class ContentTimelineTextView : public TimelineContentView
 {
 public:
-	TimelineTextContentView(ContentTimeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
+	ContentTimelineTextView(ContentTimeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
 
 private:
 	bool active () const override;
