@@ -24,11 +24,11 @@
 #include "film_viewer.h"
 #include "content_timeline_atmos_view.h"
 #include "content_timeline_audio_view.h"
+#include "content_timeline_video_view.h"
 #include "timeline_labels_view.h"
 #include "timeline_reels_view.h"
 #include "timeline_text_content_view.h"
 #include "timeline_time_axis_view.h"
-#include "timeline_video_content_view.h"
 #include "wx_util.h"
 #include "lib/atmos_mxf_content.h"
 #include "lib/audio_content.h"
@@ -303,7 +303,7 @@ ContentTimeline::recreate_views()
 
 	for (auto i: film->content ()) {
 		if (i->video) {
-			_views.push_back (make_shared<TimelineVideoContentView>(*this, i));
+			_views.push_back(make_shared<ContentTimelineVideoView>(*this, i));
 		}
 
 		if (i->audio && !i->audio->mapping().mapped_output_channels().empty ()) {
@@ -450,7 +450,7 @@ ContentTimeline::assign_tracks()
 		}
 	}
 
-	int const video_tracks = place<TimelineVideoContentView> (film, _views, _tracks);
+	int const video_tracks = place<ContentTimelineVideoView>(film, _views, _tracks);
 	int const text_tracks = place<TimelineTextContentView> (film, _views, _tracks);
 
 	/* Atmos */

@@ -21,21 +21,21 @@
 
 #include "lib/image_content.h"
 #include "lib/video_content.h"
-#include "timeline_video_content_view.h"
+#include "content_timeline_video_view.h"
 
 
 using std::dynamic_pointer_cast;
 using std::shared_ptr;
 
 
-TimelineVideoContentView::TimelineVideoContentView(ContentTimeline& tl, shared_ptr<Content> c)
+ContentTimelineVideoView::ContentTimelineVideoView(ContentTimeline& tl, shared_ptr<Content> c)
 	: TimelineContentView (tl, c)
 {
 
 }
 
 wxColour
-TimelineVideoContentView::background_colour () const
+ContentTimelineVideoView::background_colour() const
 {
 	if (!active()) {
 		return wxColour (210, 210, 210, 128);
@@ -45,7 +45,7 @@ TimelineVideoContentView::background_colour () const
 }
 
 wxColour
-TimelineVideoContentView::foreground_colour () const
+ContentTimelineVideoView::foreground_colour() const
 {
 	if (!active()) {
 		return wxColour (180, 180, 180, 128);
@@ -55,9 +55,9 @@ TimelineVideoContentView::foreground_colour () const
 }
 
 bool
-TimelineVideoContentView::active () const
+ContentTimelineVideoView::active() const
 {
-	shared_ptr<Content> c = _content.lock ();
+	auto c = _content.lock();
 	DCPOMATIC_ASSERT (c);
 	return c->video && c->video->use();
 }
