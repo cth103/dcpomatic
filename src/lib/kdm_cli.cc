@@ -425,6 +425,22 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent, std::function<void (st
 }
 
 
+static
+dcp::LocalTime
+time_from_string(string time)
+{
+	if (time == "now") {
+		return {};
+	}
+
+	if (time.length() > 10 && time[10] == ' ') {
+		time[10] = 'T';
+	}
+
+	return dcp::LocalTime(time);
+}
+
+
 optional<string>
 kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
@@ -502,11 +518,7 @@ try
 			container_name_format = dcp::NameFormat (optarg);
 			break;
 		case 'f':
-			if (string(optarg) == "now") {
-				valid_from = dcp::LocalTime();
-			} else {
-				valid_from = dcp::LocalTime(optarg);
-			}
+			valid_from = time_from_string(optarg);
 			break;
 		case 't':
 			valid_to = dcp::LocalTime(optarg);
