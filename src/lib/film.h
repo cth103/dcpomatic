@@ -186,7 +186,7 @@ public:
 		return _playlist;
 	}
 
-	std::list<dcpomatic::DCPTimePeriod> reels () const;
+	std::vector<dcpomatic::DCPTimePeriod> reels() const;
 	std::list<int> mapped_audio_channels () const;
 
 	boost::optional<dcp::LanguageTag> audio_language () const {

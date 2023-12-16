@@ -1804,15 +1804,16 @@ Film::audio_analysis_finished ()
 	/* XXX */
 }
 
-list<DCPTimePeriod>
+
+vector<DCPTimePeriod>
 Film::reels () const
 {
-	list<DCPTimePeriod> p;
+	vector<DCPTimePeriod> periods;
 	auto const len = length();
 
 	switch (reel_type ()) {
 	case ReelType::SINGLE:
-		p.push_back (DCPTimePeriod (DCPTime (), len));
+		periods.emplace_back(DCPTime(), len);
 		break;
 	case ReelType::BY_VIDEO_CONTENT:
 	{
@@ -1837,7 +1838,7 @@ Film::reels () const
 		for (auto t: split_points) {
 			if (last && (t - *last) >= DCPTime::from_seconds(1)) {
 				/* Period from *last to t is long enough; use it and start a new one */
-				p.push_back (DCPTimePeriod(*last, t));
+				periods.emplace_back(*last, t);
 				last = t;
 			} else if (!last) {
 				/* That was the first time, so start a new period */
@@ -1845,8 +1846,8 @@ Film::reels () const
 			}
 		}
 
-		if (!p.empty()) {
-			p.back().to = split_points.back();
+		if (!periods.empty()) {
+			periods.back().to = split_points.back();
 		}
 		break;
 	}
@@ -1859,15 +1860,16 @@ Film::reels () const
 		Frame const reel_in_frames = max(_reel_length / ((j2k_bandwidth() / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
 		while (current < len) {
 			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
-			p.push_back (DCPTimePeriod (current, end));
+			periods.emplace_back(current, end);
 			current = end;
 		}
 		break;
 	}
 	}
 
-	return p;
+	return periods;
 }
+
 
 /** @param period A period within the DCP
  *  @return Name of the content which most contributes to the given period.
