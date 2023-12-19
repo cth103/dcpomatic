@@ -881,17 +881,14 @@ private:
 				LOG_DEBUG_PLAYER("  Primary?   %1", static_cast<int>(display.IsPrimary()));
 			}
 			if (wxDisplay::GetCount() > 1) {
-				switch (Config::instance()->image_display()) {
-				case 0:
-					_dual_screen->Move (0, 0);
-					Move (wxDisplay(0U).GetClientArea().GetWidth(), 0);
-					break;
-				case 1:
-					_dual_screen->Move (wxDisplay(0U).GetClientArea().GetWidth(), 0);
-					// (0, 0) doesn't seem to work for some strange reason
-					Move (8, 8);
-					break;
-				}
+				wxRect geometry[2] = {
+					wxDisplay(0U).GetGeometry(),
+					wxDisplay(1U).GetGeometry()
+				};
+				auto const image_display = Config::instance()->image_display();
+				_dual_screen->Move(geometry[image_display].GetX(), geometry[image_display].GetY());
+				_viewer.panel()->SetSize(geometry[image_display].GetWidth(), geometry[image_display].GetHeight());
+				Move(geometry[1 - image_display].GetX(), geometry[1 - image_display].GetY());
 			}
 			_dual_screen->Bind(wxEVT_CHAR_HOOK, boost::bind(&DOMFrame::dual_screen_key_press, this, _1));
 		} else {
