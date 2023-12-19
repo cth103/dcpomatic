@@ -413,6 +413,9 @@ Film::metadata (bool with_content_paths) const
 	}
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
+	for (auto boundary: _custom_reel_boundaries) {
+		root->add_child("CustomReelBoundary")->add_child_text(raw_convert<string>(boundary.get()));
+	}
 	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
 	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
 	for (auto const& marker: _markers) {
@@ -600,6 +603,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(ReelType::SINGLE)));
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
+	for (auto boundary: f.node_children("CustomReelBoundary")) {
+		_custom_reel_boundaries.push_back(DCPTime(raw_convert<int64_t>(boundary->content())));
+	}
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
@@ -1233,6 +1239,16 @@ Film::set_reel_length (int64_t r)
 	_reel_length = r;
 }
 
+
+void
+Film::set_custom_reel_boundaries(vector<DCPTime> boundaries)
+{
+	FilmChangeSignaller ch(this, FilmProperty::CUSTOM_REEL_BOUNDARIES);
+	std::sort(boundaries.begin(), boundaries.end());
+	_custom_reel_boundaries = std::move(boundaries);
+}
+
+
 void
 Film::set_reencode_j2k (bool r)
 {
@@ -1863,6 +1879,18 @@ Film::reels () const
 			periods.emplace_back(current, end);
 			current = end;
 		}
+		break;
+	}
+	case ReelType::CUSTOM:
+	{
+		DCPTimePeriod current;
+		for (auto boundary: _custom_reel_boundaries) {
+			current.to = boundary;
+			periods.push_back(current);
+			current.from = boundary;
+		}
+		current.to = len;
+		periods.push_back(current);
 		break;
 	}
 	}

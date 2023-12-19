@@ -291,6 +291,10 @@ public:
 		return _reel_length;
 	}
 
+	std::vector<dcpomatic::DCPTime> custom_reel_boundaries() const {
+		return _custom_reel_boundaries;
+	}
+
 	std::string context_id () const {
 		return _context_id;
 	}
@@ -408,6 +412,7 @@ public:
 	void set_audio_processor (AudioProcessor const * processor);
 	void set_reel_type (ReelType);
 	void set_reel_length (int64_t);
+	void set_custom_reel_boundaries(std::vector<dcpomatic::DCPTime> boundaries);
 	void set_reencode_j2k (bool);
 	void set_marker (dcp::Marker type, dcpomatic::DCPTime time);
 	void unset_marker (dcp::Marker type);
@@ -527,8 +532,10 @@ private:
 	bool _limit_to_smpte_bv20;
 	AudioProcessor const * _audio_processor;
 	ReelType _reel_type;
-	/** Desired reel length in bytes, if _reel_type == REELTYPE_BY_LENGTH */
+	/** Desired reel length in bytes, if _reel_type == BY_LENGTH */
 	int64_t _reel_length;
+	/** Reel boundaries (excluding those at the start and end, sorted in ascending order) if _reel_type == CUSTOM */
+	std::vector<dcpomatic::DCPTime> _custom_reel_boundaries;
 	bool _reencode_j2k;
 	/** true if the user has ever explicitly set the video frame rate of this film */
 	bool _user_explicit_video_frame_rate;
