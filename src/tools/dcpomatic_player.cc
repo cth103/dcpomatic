@@ -868,6 +868,18 @@ private:
 			_viewer.panel()->Reparent(_dual_screen);
 			_viewer.panel()->SetFocus();
 			_dual_screen->Show ();
+			LOG_DEBUG_PLAYER("Setting up dual screen mode with %1 displays", wxDisplay::GetCount());
+			for (auto index = 0U; index < wxDisplay::GetCount(); ++index) {
+				wxDisplay display(index);
+				auto client = display.GetClientArea();
+				auto mode = display.GetCurrentMode();
+				auto geometry = display.GetGeometry();
+				LOG_DEBUG_PLAYER("Display %1", index);
+				LOG_DEBUG_PLAYER("  ClientArea position=(%1, %2) size=(%3, %4)", client.GetX(), client.GetY(), client.GetWidth(), client.GetHeight());
+				LOG_DEBUG_PLAYER("  Geometry   position=(%1, %2) size=(%3, %4)", geometry.GetX(), geometry.GetY(), geometry.GetWidth(), geometry.GetHeight());
+				LOG_DEBUG_PLAYER("  Mode       size=(%1, %2)", mode.GetWidth(), mode.GetHeight());
+				LOG_DEBUG_PLAYER("  Primary?   %1", static_cast<int>(display.IsPrimary()));
+			}
 			if (wxDisplay::GetCount() > 1) {
 				switch (Config::instance()->image_display()) {
 				case 0:
