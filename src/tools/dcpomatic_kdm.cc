@@ -246,6 +246,7 @@ public:
 		_export_dkdm->Bind (wxEVT_BUTTON, bind (&DOMFrame::export_dkdm_clicked, this));
 		_dkdm_search->Bind(wxEVT_TEXT, boost::bind(&DOMFrame::dkdm_search_changed, this));
 		_timing->TimingChanged.connect(boost::bind(&DOMFrame::setup_sensitivity, this));
+		_output->MethodChanged.connect(boost::bind(&DOMFrame::setup_sensitivity, this));
 
 		setup_sensitivity ();
 
@@ -478,7 +479,7 @@ private:
 		_dkdm->GetSelections (sel);
 		auto group = dynamic_pointer_cast<DKDMGroup>(selected_dkdm());
 		auto dkdm = dynamic_pointer_cast<DKDM>(selected_dkdm());
-		_create->Enable(!_screens->screens().empty() && _timing->valid() && sel.GetCount() > 0 && dkdm);
+		_create->Enable(!_screens->screens().empty() && _timing->valid() && sel.GetCount() > 0 && dkdm && _output->method_selected());
 		_remove_dkdm->Enable (sel.GetCount() > 0 && (!group || group->name() != "root"));
 		_export_dkdm->Enable (sel.GetCount() > 0 && dkdm);
 	}
