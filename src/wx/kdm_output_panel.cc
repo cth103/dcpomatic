@@ -172,6 +172,7 @@ KDMOutputPanel::write_to_changed ()
 {
 	Config::instance()->set_write_kdms_to_disk(_write_to->GetValue());
 	setup_sensitivity ();
+	MethodChanged();
 }
 
 
@@ -180,6 +181,7 @@ KDMOutputPanel::email_changed ()
 {
 	Config::instance()->set_email_kdms(_email->GetValue());
 	setup_sensitivity ();
+	MethodChanged();
 }
 
 
@@ -346,5 +348,12 @@ KDMOutputPanel::add_email_addresses_clicked ()
 	if (dialog.ShowModal() == wxID_OK) {
 		_extra_addresses = dialog.get();
 	}
+}
+
+
+bool
+KDMOutputPanel::method_selected() const
+{
+	return _write_to->GetValue() || _email->GetValue();
 }
 

@@ -63,6 +63,10 @@ public:
 		std::function<bool (boost::filesystem::path)> confirm_overwrite
 		);
 
+	bool method_selected() const;
+
+	boost::signals2::signal<void ()> MethodChanged;
+
 private:
 	void kdm_write_type_changed ();
 	void advanced_clicked ();
