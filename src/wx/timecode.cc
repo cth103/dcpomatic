@@ -114,7 +114,7 @@ void
 TimecodeBase::changed ()
 {
 	if (_set_button && !_ignore_changed) {
-		_set_button->Enable (true);
+		_set_button->Enable(valid());
 	}
 }
 

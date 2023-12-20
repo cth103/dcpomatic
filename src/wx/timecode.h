@@ -50,6 +50,7 @@ public:
 protected:
 	void changed ();
 	void set_clicked ();
+	virtual bool valid() const = 0;
 
 	wxSizer* _sizer;
 	wxPanel* _editable;
@@ -96,6 +97,11 @@ public:
 		_frames->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.f)));
 	}
 
+	void set_maximum(dcpomatic::HMSF maximum)
+	{
+		_maximum = std::move(maximum);
+	}
+
 	dcpomatic::HMSF get () const
 	{
 		auto value_or_hint = [](wxTextCtrl const * t) {
@@ -116,6 +122,13 @@ public:
 	{
 		return T(get(), fps);
 	}
+
+private:
+	bool valid() const override {
+		return !_maximum || get() <= *_maximum;
+	}
+
+	boost::optional<dcpomatic::HMSF> _maximum;
 };
 
 #endif
