@@ -32,11 +32,11 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
-class wxNotebook;
-class Film;
 class ContentPanel;
 class DCPPanel;
+class Film;
 class FilmViewer;
+class wxNotebook;
 
 
 /** @class FilmEditor
