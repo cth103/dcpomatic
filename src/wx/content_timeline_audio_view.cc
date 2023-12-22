@@ -19,6 +19,7 @@
 */
 
 
+#include "colours.h"
 #include "content_timeline_audio_view.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
@@ -44,7 +45,7 @@ ContentTimelineAudioView::ContentTimelineAudioView(ContentTimeline& tl, shared_p
 wxColour
 ContentTimelineAudioView::background_colour () const
 {
-	return wxColour (149, 121, 232, 255);
+	return AUDIO_CONTENT_COLOUR;
 }
 
 wxColour

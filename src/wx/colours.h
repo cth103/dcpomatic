@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,33 +19,7 @@
 */
 
 
-#include "colours.h"
-#include "content_timeline_atmos_view.h"
-
-
-using std::shared_ptr;
-
-
-/** @class ContentTimelineContentView
- *  @brief Content timeline view for AtmosContent.
- */
-
-ContentTimelineAtmosView::ContentTimelineAtmosView(ContentTimeline& tl, shared_ptr<Content> c)
-	: TimelineContentView (tl, c)
-{
-
-}
-
-
-wxColour
-ContentTimelineAtmosView::background_colour() const
-{
-	return ATMOS_CONTENT_COLOUR;
-}
-
-
-wxColour
-ContentTimelineAtmosView::foreground_colour() const
-{
-	return wxColour (0, 0, 0, 255);
-}
+#define VIDEO_CONTENT_COLOUR (wxColour(242, 92, 120, 255))
+#define AUDIO_CONTENT_COLOUR (wxColour(149, 121, 232, 255))
+#define TEXT_CONTENT_COLOUR (wxColour(163, 255, 154, 255))
+#define ATMOS_CONTENT_COLOUR (wxColour(149, 121, 232, 255))

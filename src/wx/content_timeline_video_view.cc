@@ -19,9 +19,10 @@
 */
 
 
+#include "colours.h"
+#include "content_timeline_video_view.h"
 #include "lib/image_content.h"
 #include "lib/video_content.h"
-#include "content_timeline_video_view.h"
 
 
 using std::dynamic_pointer_cast;
@@ -41,7 +42,7 @@ ContentTimelineVideoView::background_colour() const
 		return wxColour (210, 210, 210, 128);
 	}
 
-	return wxColour (242, 92, 120, 255);
+	return VIDEO_CONTENT_COLOUR;
 }
 
 wxColour

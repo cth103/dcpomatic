@@ -19,6 +19,7 @@
 */
 
 
+#include "colours.h"
 #include "content_timeline_text_view.h"
 #include "lib/text_content.h"
 #include "lib/content.h"
@@ -41,7 +42,7 @@ ContentTimelineTextView::background_colour() const
 		return wxColour (210, 210, 210, 128);
 	}
 
-	return wxColour (163, 255, 154, 255);
+	return TEXT_CONTENT_COLOUR;
 }
 
 wxColour
