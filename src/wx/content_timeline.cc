@@ -32,6 +32,7 @@
 #include "wx_util.h"
 #include "lib/atmos_mxf_content.h"
 #include "lib/audio_content.h"
+#include "lib/constants.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/playlist.h"
@@ -845,7 +846,7 @@ ContentTimeline::set_position_from_event(wxMouseEvent& ev, bool force_emit)
 
 		if (nearest_distance) {
 			/* Snap if it's close; `close' means within a proportion of the time on the timeline */
-			if (nearest_distance.get().abs() < DCPTime::from_seconds ((width() / pps) / 64)) {
+			if (nearest_distance.get().abs() < DCPTime::from_seconds ((width() / pps) / SNAP_SUBDIVISION)) {
 				new_position += nearest_distance.get ();
 			}
 		}
