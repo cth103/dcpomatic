@@ -465,6 +465,7 @@ public:
 	{
 		auto film = make_shared<Film>(file);
 		auto const notes = film->read_metadata ();
+		film->read_ui_state();
 
 		if (film->state_version() == 4) {
 			error_dialog (

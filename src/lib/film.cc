@@ -114,6 +114,7 @@ using namespace dcpomatic;
 
 
 static constexpr char metadata_file[] = "metadata.xml";
+static constexpr char ui_state_file[] = "ui.xml";
 
 
 /* 5 -> 6
@@ -2231,3 +2232,53 @@ Film::set_territory_type(TerritoryType type)
 	_territory_type = type;
 }
 
+
+void
+Film::set_ui_state(string key, string value)
+{
+	_ui_state[key] = value;
+	write_ui_state();
+}
+
+
+boost::optional<std::string>
+Film::ui_state(string key) const
+{
+	auto iter = _ui_state.find(key);
+	if (iter == _ui_state.end()) {
+		return {};
+	}
+
+	return iter->second;
+}
+
+
+void
+Film::write_ui_state() const
+{
+	auto doc = make_shared<xmlpp::Document>();
+	auto root = doc->create_root_node("UI");
+
+	for (auto state: _ui_state) {
+		root->add_child(state.first)->add_child_text(state.second);
+	}
+
+	try {
+		doc->write_to_file_formatted(dcp::filesystem::fix_long_path(file(ui_state_file)).string());
+	} catch (...) {}
+}
+
+
+void
+Film::read_ui_state()
+{
+	try {
+		cxml::Document xml("UI");
+		xml.read_file(dcp::filesystem::fix_long_path(file(ui_state_file)));
+		for (auto node: xml.node_children()) {
+			if (!node->is_text()) {
+				_ui_state[node->name()] = node->content();
+			}
+		}
+	} catch (...) {}
+}

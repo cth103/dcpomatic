@@ -36,6 +36,7 @@ class ContentPanel;
 class DCPPanel;
 class Film;
 class FilmViewer;
+class wxBookCtrlEvent;
 class wxNotebook;
 
 
@@ -71,6 +72,9 @@ private:
 	void set_general_sensitivity (bool);
 	void active_jobs_changed (boost::optional<std::string>);
 
+	void page_changed(wxBookCtrlEvent& ev);
+
+	wxNotebook* _notebook;
 	ContentPanel* _content_panel;
 	DCPPanel* _dcp_panel;
 

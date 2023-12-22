@@ -54,13 +54,15 @@ FilmEditor::FilmEditor(wxWindow* parent, FilmViewer& viewer)
 {
 	auto s = new wxBoxSizer (wxVERTICAL);
 
-	auto notebook = new wxNotebook(this, wxID_ANY);
-	s->Add(notebook, 1, wxEXPAND);
+	_notebook = new wxNotebook(this, wxID_ANY);
+	s->Add(_notebook, 1, wxEXPAND);
 
-	_content_panel = new ContentPanel(notebook, _film, viewer);
-	notebook->AddPage(_content_panel->window(), _("Content"), true);
-	_dcp_panel = new DCPPanel(notebook, _film, viewer);
-	notebook->AddPage(_dcp_panel->panel (), _("DCP"), false);
+	_content_panel = new ContentPanel(_notebook, _film, viewer);
+	_notebook->AddPage(_content_panel->window(), _("Content"), true);
+	_dcp_panel = new DCPPanel(_notebook, _film, viewer);
+	_notebook->AddPage(_dcp_panel->panel (), _("DCP"), false);
+
+	_notebook->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, boost::bind(&FilmEditor::page_changed, this, _1));
 
 	JobManager::instance()->ActiveJobsChanged.connect (
 		bind(&FilmEditor::active_jobs_changed, this, _2)
@@ -68,6 +70,18 @@ FilmEditor::FilmEditor(wxWindow* parent, FilmViewer& viewer)
 
 	set_film (shared_ptr<Film> ());
 	SetSizerAndFit (s);
+}
+
+
+void
+FilmEditor::page_changed(wxBookCtrlEvent& ev)
+{
+	/* One of these events arrives early on with GetOldSelection() being a non-existent tab,
+	 * and we want to ignore that.
+	 */
+	if (_film && ev.GetOldSelection() < 2) {
+		_film->set_ui_state("FilmEditorTab", ev.GetSelection() == 0 ? "content" : "dcp");
+	}
 }
 
 
@@ -143,6 +157,13 @@ FilmEditor::set_film (shared_ptr<Film> film)
 
 	if (!_film->content().empty()) {
 		_content_panel->set_selection (_film->content().front());
+	}
+
+	auto tab = _film->ui_state("FilmEditorTab").get_value_or("content");
+	if (tab == "content") {
+		_notebook->SetSelection(0);
+	} else if (tab == "dcp") {
+		_notebook->SetSelection(1);
 	}
 }
 

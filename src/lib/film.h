@@ -434,6 +434,10 @@ public:
 
 	void add_ffoc_lfoc (Markers& markers) const;
 
+	void set_ui_state(std::string key, std::string value);
+	boost::optional<std::string> ui_state(std::string key) const;
+	void read_ui_state();
+
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, FilmProperty)> Change;
 
@@ -477,6 +481,7 @@ private:
 	void check_settings_consistency ();
 	void maybe_set_container_and_resolution ();
 	void set_dirty (bool dirty);
+	void write_ui_state() const;
 
 	/** Log to write to */
 	std::shared_ptr<Log> _log;
@@ -561,6 +566,8 @@ private:
 	    Not saved as state.
 	*/
 	bool _tolerant;
+
+	std::map<std::string, std::string> _ui_state;
 
 	mutable boost::mutex _info_file_mutex;
 
