@@ -223,13 +223,15 @@ private:
 
 		_list->DeleteAllItems ();
 		_playlists.clear ();
-		for (auto i: dcp::filesystem::directory_iterator(*path)) {
-			auto spl = make_shared<SignalSPL>();
-			try {
-				spl->read (i, _content_store);
-				add_playlist_to_model (spl);
-			} catch (...) {}
-		}
+		try {
+			for (auto i: dcp::filesystem::directory_iterator(*path)) {
+				auto spl = make_shared<SignalSPL>();
+				try {
+					spl->read (i, _content_store);
+					add_playlist_to_model (spl);
+				} catch (...) {}
+			}
+		} catch (...) {}
 
 		for (auto i: _playlists) {
 			add_playlist_to_view (i);
