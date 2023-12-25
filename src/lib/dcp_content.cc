@@ -747,7 +747,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 
         for (auto i: decoder->reels()) {
                 if (type == TextType::OPEN_SUBTITLE) {
-			if (i->main_subtitle()->entry_point().get_value_or(0) != 0) {
+			if (i->main_subtitle() && i->main_subtitle()->entry_point().get_value_or(0) != 0) {
 				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 				why_not = _("one of its subtitle reels has a non-zero entry point so it must be re-written.");
 				return false;
