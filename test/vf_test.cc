@@ -34,14 +34,20 @@
 #include "lib/job_manager.h"
 #include "lib/make_dcp.h"
 #include "lib/player.h"
+#include "lib/ratio.h"
 #include "lib/text_content.h"
 #include "lib/referenced_reel_asset.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
+#include <dcp/mono_picture_asset.h>
+#include <dcp/picture_asset_writer.h>
 #include <dcp/reel.h>
-#include <dcp/reel_picture_asset.h>
+#include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
+#include <dcp/reel_smpte_subtitle_asset.h>
+#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/subtitle_string.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -52,6 +58,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using namespace dcpomatic;
 
 
@@ -468,5 +475,83 @@ BOOST_AUTO_TEST_CASE(test_duplicate_font_id_in_vf)
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
 		});
+}
+
+
+BOOST_AUTO_TEST_CASE(test_referencing_ov_with_missing_subtitle_in_some_reels)
+{
+	auto const path = boost::filesystem::path("build/test/test_referencing_ov_with_missing_subtitle_in_some_reels");
+	boost::filesystem::remove_all(path);
+
+	boost::filesystem::create_directories(path / "ov");
+	dcp::DCP ov(path / "ov");
+
+	auto make_picture = [path](string filename) {
+		auto pic = make_shared<dcp::MonoPictureAsset>(dcp::Fraction(24, 1), dcp::Standard::SMPTE);
+		auto writer = pic->start_write(path / "ov" / filename, dcp::PictureAsset::Behaviour::MAKE_NEW);
+		auto frame = dcp::ArrayData("test/data/picture.j2c");
+		for (int i = 0; i < 240; ++i) {
+			writer->write(frame);
+		}
+		writer->finalize();
+		return pic;
+	};
+
+	auto pic1 = make_picture("pic1.mxf");
+	auto pic2 = make_picture("pic2.mxf");
+
+	auto sub1 = make_shared<dcp::SMPTESubtitleAsset>();
+
+	sub1->add(std::make_shared<dcp::SubtitleString>(
+		boost::optional<string>(), false, false, false, dcp::Colour(255, 255, 255),
+		42, 1, dcp::Time(0, 0, 5, 0, 24), dcp::Time(0, 0, 9, 0, 24),
+		0, dcp::HAlign::CENTER,
+		0, dcp::VAlign::CENTER,
+		0, dcp::Direction::LTR,
+		"Hello",
+		dcp::Effect::NONE, dcp::Colour(0, 0, 0),
+		dcp::Time{}, dcp::Time{},
+		0, vector<dcp::Ruby>{}
+		));
+	sub1->write(path / "ov" / "sub.mxf");
+
+	auto reel1_pic = make_shared<dcp::ReelMonoPictureAsset>(pic1, 0);
+	auto reel1_sub = make_shared<dcp::ReelSMPTESubtitleAsset>(sub1, dcp::Fraction(24, 1), 240, 0);
+
+	auto reel2_pic = make_shared<dcp::ReelMonoPictureAsset>(pic1, 0);
+
+	auto reel1 = make_shared<dcp::Reel>(reel1_pic, shared_ptr<dcp::ReelSoundAsset>(), reel1_sub);
+	auto reel2 = make_shared<dcp::Reel>(reel2_pic);
+
+	auto cpl = make_shared<dcp::CPL>("Test CPL", dcp::ContentKind::FEATURE, dcp::Standard::SMPTE);
+	cpl->add(reel1);
+	cpl->add(reel2);
+
+	ov.add(cpl);
+	ov.write_xml();
+
+	auto dcp_ov = make_shared<DCPContent>(path / "ov");
+	auto vf = make_shared<Film>(path / "vf");
+	vf->set_dcp_content_type(DCPContentType::from_isdcf_name("TST"));
+	vf->set_container(Ratio::from_id("185"));
+	vf->write_metadata();
+	vf->examine_and_add_content(dcp_ov);
+	BOOST_REQUIRE(!wait_for_jobs());
+	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
+	dcp_ov->set_reference_video(true);
+	dcp_ov->set_reference_text(TextType::OPEN_SUBTITLE, true);
+
+	vf->write_metadata();
+	make_dcp(vf, TranscodeJob::ChangedBehaviour::IGNORE);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	vector<dcp::VerificationNote::Code> ignore = {
+		dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+		dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+		dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
+		dcp::VerificationNote::Code::EXTERNAL_ASSET,
+	};
+
+	verify_dcp(vf->dir(vf->dcp_name()), ignore);
 }
 
