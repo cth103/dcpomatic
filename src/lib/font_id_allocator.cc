@@ -44,11 +44,15 @@ FontIDAllocator::add_fonts_from_reels(vector<shared_ptr<dcp::Reel>> const& reels
 	int reel_index = 0;
 	for (auto reel: reels) {
 		if (auto sub = reel->main_subtitle()) {
-			add_fonts_from_asset(reel_index, sub->asset());
+			if (sub->asset_ref().resolved()) {
+				add_fonts_from_asset(reel_index, sub->asset());
+			}
 		}
 
 		for (auto ccap: reel->closed_captions()) {
-			add_fonts_from_asset(reel_index, ccap->asset());
+			if (ccap->asset_ref().resolved()) {
+				add_fonts_from_asset(reel_index, ccap->asset());
+			}
 		}
 
 		++reel_index;
