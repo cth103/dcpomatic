@@ -116,7 +116,7 @@ get_referenced_reel_assets(shared_ptr<const Film> film, shared_ptr<const Playlis
 				maybe_add_asset (reel_assets, reel->main_sound(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}
 
-			if (dcp->reference_text(TextType::OPEN_SUBTITLE)) {
+			if (dcp->reference_text(TextType::OPEN_SUBTITLE) && reel->main_subtitle()) {
 				maybe_add_asset (reel_assets, reel->main_subtitle(), reel_trim_start, reel_trim_end, from, frame_rate);
 			}
 
