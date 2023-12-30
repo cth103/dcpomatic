@@ -378,10 +378,14 @@ Drive::get ()
 	using namespace boost::algorithm;
 	vector<OSXDisk> disks;
 
+	LOG_DISK_NC("Drive::get() starts");
+
 	auto session = DASessionCreate(kCFAllocatorDefault);
 	if (!session) {
 		return {};
 	}
+
+	LOG_DISK_NC("Drive::get() has session");
 
 	DARegisterDiskAppearedCallback (session, NULL, disk_appeared, &disks);
 	auto run_loop = CFRunLoopGetCurrent ();
@@ -391,7 +395,14 @@ Drive::get ()
 	DAUnregisterCallback(session, (void *) disk_appeared, &disks);
 	CFRelease(session);
 
-	return osx_disks_to_drives (disks);
+	auto drives = osx_disks_to_drives(disks);
+
+	LOG_DISK("Drive::get() found %1 drives:", drives.size());
+	for (auto const& drive: drives) {
+		LOG_DISK("%1 %2 mounted=%3", drive.description(), drive.device(), drive.mounted());
+	}
+
+	return drives;
 }
 
 
