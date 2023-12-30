@@ -96,7 +96,7 @@ private:
 		_player_mode = new wxChoice (_panel, wxID_ANY);
 		_player_mode->Append (_("window"));
 		_player_mode->Append (_("full screen"));
-		_player_mode->Append (_("full screen with controls on other monitor"));
+		_player_mode->Append (_("full screen with separate advanced controls"));
 		table->Add (_player_mode, wxGBPosition(r, 1));
 		++r;
 

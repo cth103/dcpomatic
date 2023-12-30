@@ -1043,7 +1043,7 @@ Config::write_config () const
 	}
 
 	/* [XML] PlayerMode <code>window</code> for a single window, <code>full</code> for full-screen and <code>dual</code> for full screen playback
-	   with controls on another monitor.
+	   with separate (advanced) controls.
 	*/
 	switch (_player_mode) {
 	case PLAYER_MODE_WINDOW:
