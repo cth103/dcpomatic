@@ -70,15 +70,15 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
 	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
 
-	wxBoxSizer* left_sizer = new wxBoxSizer (wxVERTICAL);
-	wxBoxSizer* e_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto left_sizer = new wxBoxSizer(wxVERTICAL);
+	auto e_sizer = new wxBoxSizer(wxHORIZONTAL);
 
 	wxFont subheading_font (*wxNORMAL_FONT);
 	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	wxBoxSizer* spl_header = new wxBoxSizer (wxHORIZONTAL);
+	auto spl_header = new wxBoxSizer(wxHORIZONTAL);
 	{
-		wxStaticText* m = new StaticText (this, "Playlists");
+		auto m = new StaticText(this, "Playlists");
 		m->SetFont (subheading_font);
 		spl_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
 	}
@@ -90,9 +90,9 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 
 	_content_view = new ContentView (this);
 
-	wxBoxSizer* content_header = new wxBoxSizer (wxHORIZONTAL);
+	auto content_header = new wxBoxSizer(wxHORIZONTAL);
 	{
-		wxStaticText* m = new StaticText (this, "Content");
+		auto m = new StaticText(this, "Content");
 		m->SetFont (subheading_font);
 		content_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
 	}
