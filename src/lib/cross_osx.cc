@@ -399,7 +399,7 @@ Drive::get ()
 
 	LOG_DISK("Drive::get() found %1 drives:", drives.size());
 	for (auto const& drive: drives) {
-		LOG_DISK("%1 %2 mounted=%3", drive.description(), drive.device(), drive.mounted());
+		LOG_DISK("%1 %2 mounted=%3", drive.description(), drive.device(), drive.mounted() ? "yes" : "no");
 	}
 
 	return drives;
