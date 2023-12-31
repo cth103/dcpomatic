@@ -108,7 +108,7 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	h_sizer->Add (_forward_button, 0, wxALL | wxALIGN_CENTER_VERTICAL, 2);
 
 	_button_sizer = new wxBoxSizer (wxHORIZONTAL);
-	h_sizer->Add (_button_sizer, 0, wxEXPAND);
+	h_sizer->Add(_button_sizer, 0, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	{
 		auto box = new wxBoxSizer (wxVERTICAL);
