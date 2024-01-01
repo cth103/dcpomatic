@@ -621,9 +621,9 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	auto const canvas_size = _canvas_size.load();
 	int const canvas_width = canvas_size.GetWidth();
 	int const canvas_height = canvas_size.GetHeight();
-	auto const inter_position = player_video().first->inter_position();
-	auto const inter_size = player_video().first->inter_size();
-	auto const out_size = player_video().first->out_size();
+	auto const inter_position = pv->inter_position();
+	auto const inter_size = pv->inter_size();
+	auto const out_size = pv->out_size();
 	auto const crop_guess = _viewer->crop_guess();
 
 	auto x_offset = std::max(0, (canvas_width - out_size.width) / 2);
