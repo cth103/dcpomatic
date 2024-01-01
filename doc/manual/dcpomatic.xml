@@ -3822,6 +3822,96 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
   have problems.
   </para>
 
+
+<section>
+<title>Advanced playback mode</title>
+
+<para>
+By default, the DCP-o-matic player is set up to load and play back single DCPs, mostly for checking purposes.
+There is also a second, more experimental mode, which is more suited to using DCP-o-matic for &lsquo;presentation&rsquo;
+applications, such as playing back DCPs via a projector.  In this mode you can set up basic playlists, in a similar
+way to how most commercial playback servers work.
+</para>
+
+<para>
+<emphasis>Using DCP-o-matic for theatrical exhibition is not widely tested, and I would not advise depending
+on it without plenty of testing in your particular environment.</emphasis>
+</para>
+
+<para>
+The &lsquo;advanced&rsquo; playback mode uses two windows (instead of the usual one):
+<itemizedlist>
+  <listitem>Full-screen playback window.</listitem>
+  <listitem>Control window.</listitem>
+</itemizedlist>
+The idea is that these windows are spread over two monitors (or one monitor and one projector).
+</para>
+
+<para>
+To enable &lsquo;advanced&rsquo; mode, load the player and go to the preferences and open the <guilabel>General</guilabel>
+tab of preferences, then choose <guilabel>full screen with separate advanced controls</guilabel> from the
+<guilabel>Start player as</guilabel> drop-down list.  Then close and re-start the player.
+</para>
+</section>
+
+<para>
+On loading the player in &lsquo;advanced&rsquo; mode you will see a control window like the one in <xref linkend="fig-advanced-player"/>.
+</para>
+
+<figure id="fig-advanced-player">
+  <title>Player in advanced mode</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata scale="30" fileref="screenshots/advanced-player&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+The important parts are the list of playlists, in the top left, and the current playlist, on the right.  Double-click a playlist to load it,
+and then press the <guilabel>Play</guilabel> button to start playback.
+</para>
+
+<para>
+Creating playlists must be done using the separate DCP-o-matic Playlist Editor.  As with the other tools, this is included
+with the normal installer on Windows and most Linux distributions, but must be downloaded separately on macOS or if you are using AppImage.
+</para>
+
+<para>
+The first important step after loading the playlist editor for the first time is to set the location of your playlists, the content (i.e. DCPs)
+that they will use, and a folder containing any KDMs that the content needs.  This can be done in the Playlist Editor preferences window,
+as shown in <xref linkend="fig-playlist-editor-prefs"/>.
+</para>
+
+<figure id="fig-playlist-editor-prefs">
+  <title>Playlist editor preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/playlist-editor-prefs&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+Once you have done this you can start creating playlists in the main editor window.  Each playlist you create will be shown in the player and
+so be available for playback.  The playlist editor is shown in <xref linkend="fig-playlist-editor"/>.
+</para>
+
+<figure id="fig-playlist-editor">
+  <title>Playlist editor</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/playlist-editor&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+The top half of the window shows the current list of playlists.  Create a new one by clicking the <guilabel>New</guilabel> button.  You can
+then edit its name and add remove, or reorder content in the bottom half of the window.  Playlists are saved automatically each time they
+are changed.
+</para>
+
 </chapter>
 
 
