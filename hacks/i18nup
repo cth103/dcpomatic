@@ -51,6 +51,9 @@ elif [[ `echo $changes | grep sl_SI` != "" ]]; then
 elif [[ `echo $changes | grep hu_HU` != "" ]]; then
   language="hu_HU"
   translator="Áron Németh"
+elif [[ `echo $changes | grep fa_IR` != "" ]]; then
+  language="fa_IR"
+  translator="Soleyman Rahmani"
 else
   echo "Unknown language"
   exit 1
