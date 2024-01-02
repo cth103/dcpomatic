@@ -49,7 +49,7 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	vertical->Add (s, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 
 	/* CPL details */
-	wxFlexGridSizer* table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("DCP directory"), true);
 	_dcp_directory = new StaticText (this, "");
 	table->Add (_dcp_directory);
