@@ -127,6 +127,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 	_timing->TimingChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 	_make->Bind (wxEVT_BUTTON, boost::bind (&KDMDialog::make_clicked, this));
+	_cpl->Changed.connect(boost::bind(&KDMDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 

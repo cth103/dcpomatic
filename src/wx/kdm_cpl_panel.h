@@ -25,6 +25,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
+#include <boost/signals2.hpp>
 
 
 class KDMCPLPanel : public wxPanel
@@ -34,6 +35,8 @@ public:
 
 	boost::filesystem::path cpl () const;
 	bool has_selected () const;
+
+	boost::signals2::signal<void ()> Changed;
 
 private:
 	void update_cpl_choice ();

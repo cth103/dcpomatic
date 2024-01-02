@@ -123,6 +123,7 @@ DKDMDialog::DKDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	_recipients->RecipientsChanged.connect (boost::bind(&DKDMDialog::setup_sensitivity, this));
 	_timing->TimingChanged.connect (boost::bind(&DKDMDialog::setup_sensitivity, this));
 	_make->Bind (wxEVT_BUTTON, boost::bind(&DKDMDialog::make_clicked, this));
+	_cpl->Changed.connect(boost::bind(&DKDMDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 

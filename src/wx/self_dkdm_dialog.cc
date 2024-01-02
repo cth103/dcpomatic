@@ -123,6 +123,7 @@ SelfDKDMDialog::SelfDKDMDialog (wxWindow* parent, std::shared_ptr<const Film> fi
 
 	_internal->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::dkdm_write_type_changed, this));
 	_write_to->Bind (wxEVT_RADIOBUTTON, bind (&SelfDKDMDialog::dkdm_write_type_changed, this));
+	_cpl->Changed.connect(boost::bind(&SelfDKDMDialog::setup_sensitivity, this));
 }
 
 
