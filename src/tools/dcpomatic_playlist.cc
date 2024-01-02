@@ -331,16 +331,6 @@ public:
 		_list->AppendColumn (_("Type"), wxLIST_FORMAT_LEFT, 100);
 		_list->AppendColumn (_("Encrypted"), wxLIST_FORMAT_CENTRE, 90);
 
-		auto images = new wxImageList (16, 16);
-		wxIcon tick_icon;
-		wxIcon no_tick_icon;
-		tick_icon.LoadFile (bitmap_path("tick.png"), wxBITMAP_TYPE_PNG);
-		no_tick_icon.LoadFile (bitmap_path("no_tick.png"), wxBITMAP_TYPE_PNG);
-		images->Add (tick_icon);
-		images->Add (no_tick_icon);
-
-		_list->SetImageList (images, wxIMAGE_LIST_SMALL);
-
 		list->Add (_list, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 		auto button_sizer = new wxBoxSizer (wxVERTICAL);

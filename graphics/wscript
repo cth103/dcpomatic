@@ -51,8 +51,6 @@ def build(bld):
             'zoom_all_white.png',
             'zoom_all_black.png',
             'me.jpg',
-            'tick.png',
-            'no_tick.png',
             'link.png',
             'add_black.png',
             'add_white.png',
