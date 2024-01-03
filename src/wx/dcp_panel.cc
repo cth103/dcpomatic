@@ -97,10 +97,6 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 		wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE | wxST_ELLIPSIZE_MIDDLE
 		);
 
-	_enable_audio_language = new CheckBox(_panel, _("Audio language"));
-	_audio_language = new wxStaticText (_panel, wxID_ANY, wxT(""));
-	_edit_audio_language = new Button (_panel, _("Edit..."));
-
 	_dcp_content_type_label = create_label (_panel, _("Content Type"), true);
 	_dcp_content_type = new Choice(_panel);
 
@@ -139,9 +135,6 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind(&DCPPanel::standard_changed, this));
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind(&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind(&DCPPanel::metadata_clicked, this));
-	_enable_audio_language->bind(&DCPPanel::enable_audio_language_toggled, this);
-	_edit_audio_language->Bind   (wxEVT_BUTTON,   boost::bind(&DCPPanel::edit_audio_language_clicked, this));
-
 	for (auto i: DCPContentType::all()) {
 		_dcp_content_type->add(i->pretty_name());
 	}
@@ -239,15 +232,6 @@ DCPPanel::add_to_grid ()
 	++r;
 
 	_grid->Add (_dcp_name, wxGBPosition(r, 0), wxGBSpan(1, 2), wxALIGN_CENTER_VERTICAL | wxEXPAND);
-	++r;
-
-	{
-		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (_enable_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
-		s->Add (_audio_language, 1, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
-		s->Add (_edit_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
-		_grid->Add (s, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL);
-	}
 	++r;
 
 	add_label_to_sizer (_grid, _dcp_content_type_label, true, wxGBPosition(r, 0));
@@ -511,6 +495,7 @@ DCPPanel::film_changed(FilmProperty p)
 		checked_set (_audio_language, al ? std_to_wx(al->to_string()) : wxT(""));
 		setup_dcp_name ();
 		setup_sensitivity ();
+		_audio_panel_sizer->Layout();
 		break;
 	}
 	case FilmProperty::AUDIO_FRAME_RATE:
@@ -953,6 +938,10 @@ DCPPanel::make_audio_panel ()
 	_audio_processor = new Choice(panel);
 	add_audio_processors ();
 
+	_enable_audio_language = new CheckBox(panel, _("Language"));
+	_audio_language = new wxStaticText(panel, wxID_ANY, wxT(""));
+	_edit_audio_language = new Button(panel, _("Edit..."));
+
 	_show_audio = new Button (panel, _("Show graph of audio levels..."));
 
 	_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_channels_changed, this));
@@ -960,6 +949,10 @@ DCPPanel::make_audio_panel ()
 		_audio_sample_rate->Bind (wxEVT_CHOICE, boost::bind(&DCPPanel::audio_sample_rate_changed, this));
 	}
 	_audio_processor->Bind (wxEVT_CHOICE, boost::bind (&DCPPanel::audio_processor_changed, this));
+
+	_enable_audio_language->bind(&DCPPanel::enable_audio_language_toggled, this);
+	_edit_audio_language->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::edit_audio_language_clicked, this));
+
 	_show_audio->Bind (wxEVT_BUTTON, boost::bind (&DCPPanel::show_audio_clicked, this));
 
 	if (_audio_sample_rate) {
@@ -990,6 +983,16 @@ DCPPanel::add_audio_panel_to_grid ()
 
 	add_label_to_sizer (_audio_grid, _processor_label, true, wxGBPosition (r, 0));
 	_audio_grid->Add (_audio_processor, wxGBPosition (r, 1));
+	++r;
+
+	{
+		auto s = new wxBoxSizer (wxHORIZONTAL);
+		s->Add(_enable_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_GAP);
+		s->Add(_audio_language, 1, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
+		s->Add(DCPOMATIC_SIZER_X_GAP, 0);
+		s->Add(_edit_audio_language, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
+		_audio_grid->Add(s, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND | wxALIGN_CENTER_VERTICAL);
+	}
 	++r;
 
 	_audio_grid->Add (_show_audio, wxGBPosition (r, 0), wxGBSpan (1, 2));
