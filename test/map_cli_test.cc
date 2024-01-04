@@ -116,6 +116,38 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy)
 }
 
 
+/** Map a single DCP into a new DCP, referring to the CPL by ID */
+BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_by_id)
+{
+	string const name = "map_simple_dcp_copy_by_id";
+	string const out = String::compose("build/test/%1_out", name);
+
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film2(name + "_in", content);
+	make_and_verify_dcp(film);
+
+	dcp::CPL cpl(find_cpl(film->dir(film->dcp_name())));
+
+	vector<string> const args = {
+		"map_cli",
+		"-o", out,
+		"-d", film->dir(film->dcp_name()).string(),
+		cpl.id()
+	};
+
+	boost::filesystem::remove_all(out);
+
+	vector<string> output_messages;
+	auto error = run(args, output_messages);
+	BOOST_CHECK(!error);
+
+	verify_dcp(out, {});
+
+	BOOST_CHECK(boost::filesystem::is_regular_file(find_prefix(out, "j2c_")));
+	BOOST_CHECK(boost::filesystem::is_regular_file(find_prefix(out, "pcm_")));
+}
+
+
 /** Map a single DCP into a new DCP using the symlink option */
 BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_symlinks)
 {

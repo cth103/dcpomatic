@@ -56,7 +56,7 @@ using boost::optional;
 static void
 help(std::function<void (string)> out)
 {
-	out(String::compose("Syntax: %1 [OPTION} <cpl-file> [<cpl-file> ... ]", program_name));
+	out(String::compose("Syntax: %1 [OPTION} <cpl-file|ID> [<cpl-file|ID> ... ]", program_name));
 	out("  -V, --version    show libdcp version");
 	out("  -h, --help       show this help");
 	out("  -o, --output     output directory");
@@ -138,12 +138,12 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 		State::override_path = *config_dir;
 	}
 
-	vector<boost::filesystem::path> cpl_filenames;
+	vector<string> cpl_filenames_or_ids;
 	for (int i = optind; i < argc; ++i) {
-		cpl_filenames.push_back(argv[i]);
+		cpl_filenames_or_ids.push_back(argv[i]);
 	}
 
-	if (cpl_filenames.empty()) {
+	if (cpl_filenames_or_ids.empty()) {
 		return string{"No CPL specified."};
 	}
 
@@ -181,13 +181,28 @@ map_cli(int argc, char* argv[], std::function<void (string)> out)
 
 	/* Find all the CPLs */
 	vector<shared_ptr<dcp::CPL>> cpls;
-	for (auto filename: cpl_filenames) {
-		try {
-			auto cpl = make_shared<dcp::CPL>(filename);
-			cpl->resolve_refs(assets);
-			cpls.push_back(cpl);
-		} catch (std::exception& e) {
-			return String::compose("Could not read CPL %1: %2", filename, e.what());
+	for (auto filename_or_id: cpl_filenames_or_ids) {
+		if (boost::filesystem::exists(filename_or_id)) {
+			try {
+				auto cpl = make_shared<dcp::CPL>(filename_or_id);
+				cpl->resolve_refs(assets);
+				cpls.push_back(cpl);
+			} catch (std::exception& e) {
+				return String::compose("Could not read CPL %1: %2", filename_or_id, e.what());
+			}
+		} else {
+			auto cpl_iter = std::find_if(assets.begin(), assets.end(), [filename_or_id](shared_ptr<dcp::Asset> asset) {
+				return asset->id() == filename_or_id;
+			});
+			if (cpl_iter == assets.end()) {
+				return String::compose("Could not find CPL with ID %1", filename_or_id);
+			}
+			if (auto cpl = dynamic_pointer_cast<dcp::CPL>(*cpl_iter)) {
+				cpl->resolve_refs(assets);
+				cpls.push_back(cpl);
+			} else {
+				return String::compose("Could not find CPL with ID %1", filename_or_id);
+			}
 		}
 	}
 
