@@ -127,7 +127,7 @@ FFmpeg::setup_general ()
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
 		auto stream = _format_context->streams[i];
-		if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(stream->codecpar->codec_id)) {
+		if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(stream->codecpar->codec_id) && stream->disposition != AV_DISPOSITION_ATTACHED_PIC) {
 			auto const frame_rate = av_q2d(stream->avg_frame_rate);
 			if (frame_rate < 1 || frame_rate > 1000) {
 				/* Ignore video streams with crazy frame rates.  These are usually things like album art on MP3s. */
