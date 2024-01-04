@@ -126,14 +126,14 @@ FFmpeg::setup_general ()
 	optional<int> video_stream_undefined_frame_rate;
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
-		auto s = _format_context->streams[i];
-		if (s->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(s->codecpar->codec_id)) {
-			auto const frame_rate = av_q2d(s->avg_frame_rate);
+		auto stream = _format_context->streams[i];
+		if (stream->codecpar->codec_type == AVMEDIA_TYPE_VIDEO && avcodec_find_decoder(stream->codecpar->codec_id)) {
+			auto const frame_rate = av_q2d(stream->avg_frame_rate);
 			if (frame_rate < 1 || frame_rate > 1000) {
 				/* Ignore video streams with crazy frame rates.  These are usually things like album art on MP3s. */
 				continue;
 			}
-			if (s->avg_frame_rate.num > 0 && s->avg_frame_rate.den > 0) {
+			if (stream->avg_frame_rate.num > 0 && stream->avg_frame_rate.den > 0) {
 				/* This is definitely our video stream */
 				_video_stream = i;
 			} else {
