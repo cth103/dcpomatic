@@ -37,6 +37,7 @@
 #include "named_channel.h"
 #include "resolution.h"
 #include "signaller.h"
+#include "territory_type.h"
 #include "transcode_job.h"
 #include "types.h"
 #include "util.h"
@@ -314,6 +315,10 @@ public:
 		return _name_language;
 	}
 
+	TerritoryType territory_type() const {
+		return _territory_type;
+	}
+
 	boost::optional<dcp::LanguageTag::RegionSubtag> release_territory () const {
 		return _release_territory;
 	}
@@ -407,6 +412,7 @@ public:
 	void set_ratings (std::vector<dcp::Rating> r);
 	void set_content_versions (std::vector<std::string> v);
 	void set_name_language (dcp::LanguageTag lang);
+	void set_territory_type(TerritoryType type);
 	void set_release_territory (boost::optional<dcp::LanguageTag::RegionSubtag> region = boost::none);
 	void set_sign_language_video_language (boost::optional<dcp::LanguageTag> tag);
 	void set_version_number (int v);
@@ -523,6 +529,7 @@ private:
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
 	dcp::LanguageTag _name_language;
+	TerritoryType _territory_type = TerritoryType::SPECIFIC;
 	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory;
 	boost::optional<dcp::LanguageTag> _sign_language_video_language;
 	int _version_number;

@@ -78,6 +78,7 @@ private:
 	void luminance_changed ();
 	std::vector<dcp::Rating> ratings () const;
 	void set_ratings (std::vector<dcp::Rating> r);
+	void territory_type_changed();
 
 	CheckBox* _enable_release_territory;
 	/** The current release territory displayed in the UI; since we can't easily convert
@@ -86,6 +87,7 @@ private:
 	 */
 	boost::optional<dcp::LanguageTag::RegionSubtag> _release_territory_copy;
 	RegionSubtagWidget* _release_territory;
+	Choice* _territory_type;
 	LanguageTagWidget* _sign_language_video_language = nullptr;
 	CheckBox* _enable_facility;
 	wxTextCtrl* _facility;

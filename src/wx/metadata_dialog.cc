@@ -106,6 +106,7 @@ MetadataDialog::setup ()
 	_enable_luminance->bind(&MetadataDialog::enable_luminance_changed, this);
 	_luminance_value->Bind (wxEVT_SPINCTRLDOUBLE, boost::bind(&MetadataDialog::luminance_changed, this));
 	_luminance_unit->Bind (wxEVT_CHOICE, boost::bind(&MetadataDialog::luminance_changed, this));
+	_territory_type->bind(&MetadataDialog::territory_type_changed, this);
 
 	_film_changed_connection = film()->Change.connect(boost::bind(&MetadataDialog::film_changed, this, _1, _2));
 
@@ -119,8 +120,19 @@ MetadataDialog::setup ()
 	film_changed(ChangeType::DONE, FilmProperty::TWO_D_VERSION_OF_THREE_D);
 	film_changed(ChangeType::DONE, FilmProperty::CHAIN);
 	film_changed(ChangeType::DONE, FilmProperty::LUMINANCE);
+	film_changed(ChangeType::DONE, FilmProperty::TERRITORY_TYPE);
 
 	setup_sensitivity ();
+}
+
+
+void
+MetadataDialog::territory_type_changed()
+{
+	auto data = _territory_type->get_data();
+	if (data) {
+		film()->set_territory_type(string_to_territory_type(wx_to_std(data->data())));
+	}
 }
 
 
@@ -180,6 +192,9 @@ MetadataDialog::film_changed(ChangeType type, FilmProperty property)
 			checked_set(_luminance_value, 14);
 			checked_set (_luminance_unit, 1);
 		}
+	} else if (property == FilmProperty::TERRITORY_TYPE) {
+		_territory_type->set_by_data(territory_type_to_string(film()->territory_type()));
+		setup_sensitivity();
 	}
 }
 
@@ -187,6 +202,13 @@ MetadataDialog::film_changed(ChangeType type, FilmProperty property)
 void
 MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 {
+	add_label_to_sizer(sizer, panel, _("Territory type"), true, 0, wxALIGN_CENTER_VERTICAL);
+	_territory_type = new Choice(panel);
+	_territory_type->add(_("Specific"), wx_to_std(territory_type_to_string(TerritoryType::SPECIFIC)));
+	_territory_type->add(_("International texted"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTED)));
+	_territory_type->add(_("International textless"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTLESS)));
+	sizer->Add(_territory_type);
+
 	_enable_release_territory = new CheckBox(panel, _("Release territory"));
 	sizer->Add (_enable_release_territory, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
 	_release_territory = new RegionSubtagWidget(panel, _("Release territory for this DCP"), film()->release_territory());
@@ -230,9 +252,12 @@ MetadataDialog::release_territory_changed(optional<dcp::LanguageTag::RegionSubta
 void
 MetadataDialog::setup_sensitivity ()
 {
+	auto const territory_type = film()->territory_type();
+	_enable_release_territory->Enable(territory_type == TerritoryType::SPECIFIC);
 	_sign_language_video_language->enable (film()->has_sign_language_video_channel());
 	auto const enabled = _enable_release_territory->GetValue();
-	_release_territory->enable(enabled);
+	_release_territory->enable(enabled && territory_type == TerritoryType::SPECIFIC);
+	_ratings->Enable(territory_type == TerritoryType::SPECIFIC);
 	_facility->Enable (_enable_facility->GetValue());
 	_chain->Enable (_enable_chain->GetValue());
 	_studio->Enable (_enable_studio->GetValue());

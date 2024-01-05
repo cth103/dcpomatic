@@ -426,6 +426,7 @@ Film::metadata (bool with_content_paths) const
 		root->add_child("ContentVersion")->add_child_text(i);
 	}
 	root->add_child("NameLanguage")->add_child_text(_name_language.to_string());
+	root->add_child("TerritoryType")->add_child_text(territory_type_to_string(_territory_type));
 	if (_release_territory) {
 		root->add_child("ReleaseTerritory")->add_child_text(_release_territory->subtag());
 	}
@@ -616,6 +617,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	auto name_language = f.optional_string_child("NameLanguage");
 	if (name_language) {
 		_name_language = dcp::LanguageTag (*name_language);
+	}
+	auto territory_type = f.optional_string_child("TerritoryType");
+	if (territory_type) {
+		_territory_type = string_to_territory_type(*territory_type);
 	}
 	auto release_territory = f.optional_string_child("ReleaseTerritory");
 	if (release_territory) {
@@ -977,7 +982,11 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "-XX";
 	}
 
-	if (_release_territory) {
+	if (_territory_type == TerritoryType::INTERNATIONAL_TEXTED) {
+		isdcf_name += "_INT-TD";
+	} else if (_territory_type == TerritoryType::INTERNATIONAL_TEXTLESS) {
+		isdcf_name += "_INT-TL";
+	} else if (_release_territory) {
 		auto territory = _release_territory->subtag();
 		isdcf_name += "_" + to_upper (territory);
 		if (!_ratings.empty()) {
@@ -2205,5 +2214,13 @@ Film::last_written_by_earlier_than(int major, int minor, int micro) const
 	}
 
 	return our_micro < micro;
+}
+
+
+void
+Film::set_territory_type(TerritoryType type)
+{
+	FilmChangeSignaller ch(this, FilmProperty::TERRITORY_TYPE);
+	_territory_type = type;
 }
 

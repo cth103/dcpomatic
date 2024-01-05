@@ -70,6 +70,7 @@ enum class FilmProperty {
 	RED_BAND,
 	TWO_D_VERSION_OF_THREE_D,
 	LUMINANCE,
+	TERRITORY_TYPE,
 };
 
 

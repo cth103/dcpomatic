@@ -530,6 +530,7 @@ DCPPanel::film_changed(FilmProperty p)
 	case FilmProperty::TWO_D_VERSION_OF_THREE_D:
 	case FilmProperty::CHAIN:
 	case FilmProperty::LUMINANCE:
+	case FilmProperty::TERRITORY_TYPE:
 		setup_dcp_name ();
 		break;
 	default:
