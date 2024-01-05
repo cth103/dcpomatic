@@ -96,7 +96,6 @@ public:
 
 	void add_stream (AudioStreamPtr stream);
 	void set_stream (AudioStreamPtr stream);
-	void set_streams (std::vector<AudioStreamPtr> streams);
 	AudioStreamPtr stream () const;
 
 	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty> &) const;

@@ -351,18 +351,6 @@ AudioContent::add_properties (shared_ptr<const Film> film, list<UserProperty>& p
 }
 
 
-void
-AudioContent::set_streams (vector<AudioStreamPtr> streams)
-{
-	ContentChangeSignaller cc (_parent, AudioContentProperty::STREAMS);
-
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_streams = streams;
-	}
-}
-
-
 AudioStreamPtr
 AudioContent::stream () const
 {
