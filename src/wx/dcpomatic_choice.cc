@@ -89,6 +89,20 @@ Choice::set(int index)
 }
 
 
+void
+Choice::set_by_data(wxString const& data)
+{
+	for (unsigned int i = 0; i < GetCount(); ++i) {
+		if (auto client_data = dynamic_cast<wxStringClientData*>(GetClientObject(i))) {
+			if (client_data->GetData() == data) {
+				set(i);
+				return;
+			}
+		}
+	}
+}
+
+
 optional<int>
 Choice::get() const
 {

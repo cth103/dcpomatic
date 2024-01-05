@@ -184,6 +184,7 @@ sources = """
           string_text_file_decoder.cc
           subtitle_analysis.cc
           subtitle_encoder.cc
+          territory_type.cc
           text_ring_buffers.cc
           text_type.cc
           timer.cc

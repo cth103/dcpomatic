@@ -37,6 +37,7 @@ public:
 	void add(wxString const& entry, wxString const& data);
 	void add(std::string const& entry);
 	void set(int index);
+	void set_by_data(wxString const& data);
 	boost::optional<int> get() const;
 	boost::optional<wxString> get_data() const;
 
