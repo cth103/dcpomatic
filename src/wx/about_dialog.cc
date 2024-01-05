@@ -158,8 +158,6 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	wxArrayString patrons;
 	patrons.Add ("Lightbender Post");
-	patrons.Add ("Drop-out Cinema");
-	patrons.Add ("Root & Rust Creative");
 	add_section (_("Patrons"), patrons);
 
 	wxArrayString subscribers;
