@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-24 17:08+0100\n"
-"PO-Revision-Date: 2024-01-01 20:34+0330\n"
+"PO-Revision-Date: 2024-01-05 14:38+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -1228,15 +1228,15 @@ msgstr "هیچکدام"
 
 #: src/lib/job.cc:607
 msgid "OK"
-msgstr "خوب"
+msgstr "تایید"
 
 #: src/lib/job.cc:612
 msgid "OK (ran for %1 from %2 to %3)"
-msgstr "خوب(اجرا شد %1از %2 تا %3)"
+msgstr "تایید (اجرا شد %1 از %2 تا %3)"
 
 #: src/lib/job.cc:610
 msgid "OK (ran for %1)"
-msgstr "خوب(اجرا شد %1)"
+msgstr "تایید (اجرا شد %1)"
 
 #: src/lib/content.cc:116
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1702,7 +1702,7 @@ msgstr "تبلیغ فیلم"
 
 #: src/lib/transcode_job.cc:74
 msgid "Transcoding %1"
-msgstr "ترنسکدینگ%1"
+msgstr "ترنسکدینگ %1"
 
 #: src/lib/dcp_content_type.cc:57
 msgid "Transitional"
@@ -1936,7 +1936,7 @@ msgstr "[تصاویر متحرک]"
 
 #: src/lib/image_content.cc:76
 msgid "[still]"
-msgstr "[ثابت]"
+msgstr "[تصویرثابت]"
 
 #: src/lib/dcp_subtitle_content.cc:106 src/lib/string_text_file_content.cc:112
 msgid "[subtitles]"
@@ -2133,7 +2133,7 @@ msgstr "اس آر جی بی"
 
 #: src/lib/image_content.cc:92
 msgid "still"
-msgstr "ثابت"
+msgstr "تصویرثابت"
 
 #: src/lib/dcp_content.cc:796
 msgid "they overlap other text content; remove the other content."

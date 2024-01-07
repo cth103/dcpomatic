@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-24 17:08+0100\n"
-"PO-Revision-Date: 2023-12-28 20:12+0330\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2024-01-07 17:11+0330\n"
+"Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
 "MIME-Version: 1.0\n"
@@ -22,20 +22,20 @@ msgstr ""
 #: src/wx/player_information.cc:112
 #, c-format
 msgid " (%d error)"
-msgstr " (%d خطا)"
+msgstr " (خطای %d )"
 
 #: src/wx/player_information.cc:114
 #, c-format
 msgid " (%d errors)"
-msgstr " (%d خطاها)"
+msgstr " (خطاهای %d )"
 
 #: src/wx/timeline_audio_content_view.cc:68
-#, c-format
+#, fuzzy, c-format
 msgid " advanced by %dms"
 msgstr " پیشرفته توسط %dms"
 
 #: src/wx/timeline_audio_content_view.cc:66
-#, c-format
+#, fuzzy, c-format
 msgid " delayed by %dms"
 msgstr " به تاخیر افتاده توسط %dms"
 
@@ -47,8 +47,7 @@ msgstr "%"
 #: src/wx/film_name_location_dialog.cc:156
 msgid "%1 already exists as a file, so you cannot use it for a film."
 msgstr ""
-"1% به عنوان فایل وجود دارد، بنابر این نمیتوانید از آن برای یک فیلم استفاده "
-"کنید."
+"1% به عنوان فایل وجود دارد، بنابر این نمیتوانید از آن برای یک فیلم استفاده کنید."
 
 #: src/wx/dkdm_dialog.cc:187
 #, c-format
@@ -124,12 +123,12 @@ msgstr "صفر دسیبل(بدون تغییر)"
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:455
 msgid "1 Bv2.1 error, "
-msgstr "خطای 1 Bv2.1, "
+msgstr "یک خطای 1 Bv2.1, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:447
 msgid "1 error, "
-msgstr "خطای 1, "
+msgstr "یک خطا 1, "
 
 #: src/wx/wx_util.cc:531
 msgid "12 - 7.1/HI/VI"
@@ -149,7 +148,7 @@ msgstr "دو بعدی"
 
 #: src/wx/metadata_dialog.cc:290
 msgid "2D version of 3D DCP"
-msgstr "نسخه دو بعدی دی سی پی سه بعدی"
+msgstr "نسخه دو بعدی از دی سی پی سه بعدی"
 
 #: src/wx/dcp_panel.cc:857
 msgid "2K"
@@ -223,11 +222,11 @@ msgstr "<b>رنگ اصلی</b>"
 
 #: src/wx/report_problem_dialog.cc:86
 msgid ""
-"<i>It is important that you enter a valid email address here, otherwise I "
-"can't ask you for more details on your problem.</i>"
+"<i>It is important that you enter a valid email address here, otherwise I can't "
+"ask you for more details on your problem.</i>"
 msgstr ""
-"<i>شما باید یک آدرس ایمیل معتبر وارد کنید در غیر اینصورت دریافت جزئیات بیشتر "
-"در خصوص مشکل شما مقدور نیست.</i>"
+"<i>شما باید یک آدرس ایمیل معتبر وارد کنید در غیر اینصورت دریافت جزئیات بیشتر در "
+"خصوص مشکل شما مقدور نیست.</i>"
 
 #: src/wx/colour_conversion_editor.cc:87
 msgid "A"
@@ -302,7 +301,7 @@ msgstr "یک فریم تصویر دارای یک رشته کد نامعتبر JP
 #: src/wx/hints_dialog.cc:183
 #, c-format
 msgid "A problem occurred when looking for hints (%s)"
-msgstr "هنگام جستجوی راهنما خطایی رخ داد(%s)"
+msgstr "هنگام جستجوی نکات خطایی رخ داد (%s)"
 
 #: src/wx/verify_dcp_dialog.cc:362
 msgid "A subtitle lasts longer than the reel it is in."
@@ -311,8 +310,8 @@ msgstr "یک زیرنویس طولانی تر از حلقه فیلمش است."
 #: src/wx/verify_dcp_dialog.cc:429
 #, c-format
 msgid ""
-"A subtitle or closed caption refers to a font with ID %id that does not have "
-"a corresponding <LoadFont> node."
+"A subtitle or closed caption refers to a font with ID %id that does not have a "
+"corresponding <LoadFont> node."
 msgstr ""
 "یک زیرنویس به فونتی با شناسه%i اشاره دارد که یک گره متناظر <LoadFont>ندارد."
 
@@ -366,8 +365,8 @@ msgstr "اضافه کردن یک دی سی پی."
 
 #: src/wx/content_panel.cc:268
 msgid ""
-"Add a folder of image files (which will be used as a moving image sequence) "
-"or a folder of sound files."
+"Add a folder of image files (which will be used as a moving image sequence) or "
+"a folder of sound files."
 msgstr ""
 "اضافه کردن یک پوشه شامل تصاویر(که به عنوان تصاویرِ پشتِ سرِ همِ یک فیلم استفاده "
 "میشوند) یا یک پوشه شامل فایلهای صدا."
@@ -402,7 +401,7 @@ msgstr "اضافه کردن گیرنده"
 
 #: src/wx/content_panel.cc:264
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
-msgstr "اضافه کردن فایلهای ویدیو، عکس، صدا و زیرنویس به فیلم(Ctrl-A)."
+msgstr "اضافه کردن فایلهای ویدیو، عکس، صدا و زیرنویس به فیلم (Ctrl-A)."
 
 #: src/wx/config_dialog.cc:301 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
@@ -415,7 +414,7 @@ msgid ""
 "added. Add certificates in order from root to intermediate to leaf."
 msgstr ""
 "افزودن این گواهینامه باعث ناسازگاری زنجیره می شود، بنابراین اضافه نخواهد شد. "
-"گواهی ها را به ترتیب از ریشه به میانه به برگ اضافه کنید."
+"گواهی ها را به ترتیب از ریشه، میانه و برگ اضافه کنید."
 
 #: src/wx/text_panel.cc:185
 msgid "Additional"
@@ -438,7 +437,7 @@ msgstr "پیشرفته"
 
 #: src/wx/kdm_advanced_dialog.cc:35
 msgid "Advanced KDM options"
-msgstr "گزینه های پیشرفت کلید"
+msgstr "گزینه های پیشرفته کلید"
 
 #: src/wx/content_advanced_dialog.cc:59
 msgid "Advanced content settings"
@@ -479,7 +478,7 @@ msgstr "اجازه استفاده از SMPTE Bv2.0"
 
 #: src/wx/rgba_colour_picker.cc:37
 msgid "Alpha   0"
-msgstr "آلفا  0"
+msgstr "آلفا   0"
 
 #: src/wx/about_dialog.cc:170
 msgid "Also supported by"
@@ -492,7 +491,7 @@ msgstr "یکی از محتواها دارای یک مسیر خالی در فای
 #: src/wx/verify_dcp_dialog.cc:396
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
-msgstr "یک <ContentKind> %n نامعتبر اسفاده شده است."
+msgstr "یک ContentKind> %n>  نا معتبر استفاده شده است."
 
 #: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:323
 msgid "An unknown exception occurred."
@@ -504,7 +503,7 @@ msgstr "ظاهر..."
 
 #: src/wx/job_view.cc:189
 msgid "Are you sure you want to cancel this job?"
-msgstr "آیا از ابطال این کار اطمینان دارید؟"
+msgstr "آیا از لغو این کار اطمینان دارید؟"
 
 #: src/wx/screens_panel.cc:349
 #, c-format
@@ -519,19 +518,19 @@ msgstr "آیا از حذف سالنهای %d اطمینان دارید؟"
 #: src/wx/screens_panel.cc:345
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
-msgstr "آیا از حذف این سینما اطمینان دارید'%s'؟"
+msgstr "آیا از حذف این سینما اطمینان دارید '%s' ؟"
 
 #: src/wx/screens_panel.cc:467
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
-msgstr "آیا از حذف این سالن اطمینان دارید'%s'؟"
+msgstr "آیا از حذف این سالن سینما اطمینان دارید '%s' ؟"
 
 #: src/wx/confirm_kdm_email_dialog.cc:36
 msgid ""
 "Are you sure you want to send emails to the following addresses?\n"
 "\n"
 msgstr ""
-"آیا از ارسال ایمیل به آدرسهای زیر اطمینان دارید؟\n"
+"آیا از ارسال ایمیل به آدرس های زیر اطمینان دارید؟ \n"
 "\n"
 
 #: src/wx/verify_dcp_dialog.cc:381
@@ -547,13 +546,12 @@ msgstr "حداقل یک محتوا در یک ریل مدت زمان مساوی �
 #, c-format
 msgid ""
 "At least one frame of the video asset %f is close to the limit of 250MBit/s."
-msgstr "حداقل یک فریم از فایل ویدیوی%f نزدیک به مرز 250 مگابیت بر ثانیه است."
+msgstr "حداقل یک فریم از فایل ویدیوی %f نزدیک به مرز 250 مگا بیت بر ثانیه است."
 
 #: src/wx/verify_dcp_dialog.cc:173
 #, c-format
-msgid ""
-"At least one frame of the video asset %f is over the limit of 250Mbit/s."
-msgstr "حداقل یک فریم از فایل ویدیوی%f فراتر از مرز 250 مگابیت بر ثانیه است."
+msgid "At least one frame of the video asset %f is over the limit of 250Mbit/s."
+msgstr "حداقل یک فریم از فایل ویدیوی %f فراتر از مرز 250 مگا بیت بر ثانیه است."
 
 #: src/wx/verify_dcp_dialog.cc:230
 msgid "At least one pair of subtitles is separated by less than 2 frames."
@@ -576,7 +574,7 @@ msgstr "صدا"
 #: src/wx/player_information.cc:169
 #, c-format
 msgid "Audio channels: %d"
-msgstr "زبان صدا%d "
+msgstr "زبان صدا: %d"
 
 #: src/wx/dcp_panel.cc:100
 msgid "Audio language"
@@ -589,9 +587,8 @@ msgstr "صدا از %s کانال %s به  %s کانال %s بدون تغییر 
 
 #: src/wx/audio_mapping_view.cc:543
 #, c-format
-msgid ""
-"Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
-msgstr "صدا از %s کانال %s به  %s کانال %s با گین %1f دسیبل ارسال میشود."
+msgid "Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
+msgstr "صدا از %s کانال %s به  %s کانال %s با گین %.1f دسیبل ارسال میشود."
 
 #: src/wx/full_config_dialog.cc:884
 msgid "Auto"
@@ -611,990 +608,995 @@ msgstr "تحلیل خودکار صدای محتوا"
 
 #: src/wx/colour_conversion_editor.cc:90
 msgid "B"
-msgstr ""
+msgstr "بی"
 
 #: src/wx/full_config_dialog.cc:1068 src/wx/full_config_dialog.cc:1205
 msgid "BCC address"
-msgstr ""
+msgstr "آدرس رونوشتِ پنهان"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:87
 msgid "Barco Alchemy"
-msgstr ""
+msgstr "Barco Alchemy"
 
 #: src/wx/colour_conversion_editor.cc:154
 msgid "Blue chromaticity"
-msgstr ""
+msgstr "کیفیت رنگی مولفه آبی"
 
 #: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:158
 msgid "Bottom"
-msgstr ""
+msgstr "بخش پایین"
 
 #: src/wx/dir_picker_ctrl.cc:49 src/wx/kdm_cpl_panel.cc:47
 msgid "Browse..."
-msgstr ""
+msgstr "مرور..."
 
 #: src/wx/text_panel.cc:100
 msgid "Burn subtitles into image"
-msgstr ""
+msgstr "حک زیرنویس روی تصویر"
 
 #: src/wx/gain_calculator_dialog.cc:38
 msgid "But I have to use fader"
-msgstr ""
+msgstr "اما مجبورم از فیدر استفاده کنم"
 
 #: src/wx/full_config_dialog.cc:1054 src/wx/full_config_dialog.cc:1191
 msgid "CC addresses"
-msgstr ""
+msgstr "آدرس رونوشت عیان"
 
 #: src/wx/text_panel.cc:206
 msgid "CCAP track"
-msgstr ""
+msgstr "ترک CCAP"
 
 #: src/wx/dkdm_dialog.cc:92 src/wx/kdm_cpl_panel.cc:44 src/wx/kdm_dialog.cc:96
 #: src/wx/self_dkdm_dialog.cc:69
 msgid "CPL"
-msgstr ""
+msgstr "سی پی ال"
 
 #: src/wx/kdm_cpl_panel.cc:56
 msgid "CPL ID"
-msgstr ""
+msgstr "شناسه سی پی ال"
 
 #: src/wx/kdm_cpl_panel.cc:59
 msgid "CPL annotation text"
-msgstr ""
+msgstr "متن یادداشت سی پی ال"
 
 #: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:319
 msgid "CPL's content is not encrypted."
-msgstr ""
+msgstr "محتوای سی پی ال رمزگذاری نشده است."
 
 #: src/wx/audio_panel.cc:96
 msgid "Calculate..."
-msgstr ""
+msgstr "محاسبه..."
 
 #: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:76
 #: src/wx/verify_dcp_progress_dialog.cc:67
 msgid "Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: src/wx/audio_panel.cc:390
 msgid "Cannot reference this DCP's audio."
-msgstr ""
+msgstr "نمیتوان صدای این دی سی پی را مرجع گذاشت."
 
 #: src/wx/audio_panel.cc:392
 msgid "Cannot reference this DCP's audio: "
-msgstr ""
+msgstr "نمیتوان صدای این دی سی پی را مرجع گذاشت: "
 
 #: src/wx/text_panel.cc:600
 msgid "Cannot reference this DCP's subtitles or captions."
-msgstr ""
+msgstr "نمیتوان زیرنویس این دی سی پی را مرجع گذاشت."
 
 #: src/wx/text_panel.cc:602
 msgid "Cannot reference this DCP's subtitles or captions: "
-msgstr ""
+msgstr "نمیتوان زیرنویس این دی سی پی را مرجع گذاشت: "
 
 #: src/wx/video_panel.cc:599
 msgid "Cannot reference this DCP's video."
-msgstr ""
+msgstr "نمیتوان ویدیوی این دی سی پی را مرجع گذاشت."
 
 #: src/wx/video_panel.cc:601
 msgid "Cannot reference this DCP's video: "
-msgstr ""
+msgstr "نمیتوان ویدیوی این دی سی پی را مرجع گذاشت: "
 
 #: src/wx/text_view.cc:73
 msgid "Caption"
-msgstr ""
+msgstr "عنوان"
 
 #: src/wx/text_view.cc:48
 msgid "Captions"
-msgstr ""
+msgstr "عناوین"
 
 #: src/wx/recreate_chain_dialog.cc:35
 msgid "Certificate chain"
-msgstr ""
+msgstr "زنجیره گواهینامه"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:79
 #: src/wx/christie_certificate_panel.cc:81
-#: src/wx/dolby_doremi_certificate_panel.cc:272
-#: src/wx/gdc_certificate_panel.cc:73 src/wx/qube_certificate_panel.cc:83
+#: src/wx/dolby_doremi_certificate_panel.cc:272 src/wx/gdc_certificate_panel.cc:73
+#: src/wx/qube_certificate_panel.cc:83
 msgid "Certificate downloaded"
-msgstr ""
+msgstr "گواهینامه دانلود شد"
 
 #: src/wx/invalid_certificate_period_dialog.cc:63
 msgid "Certificate end"
-msgstr ""
+msgstr "پایان گواهینامه"
 
 #: src/wx/invalid_certificate_period_dialog.cc:55
 msgid "Certificate start"
-msgstr ""
+msgstr "شروع گواهینامه"
 
 #: src/wx/metadata_dialog.cc:273
 msgid "Chain"
-msgstr ""
+msgstr "زنجیر"
 
 #: src/wx/audio_gain_dialog.cc:33
 msgid "Channel gain"
-msgstr ""
+msgstr "گین کانال"
 
 #: src/wx/audio_dialog.cc:109 src/wx/dcp_panel.cc:938
 msgid "Channels"
-msgstr ""
+msgstr "کانالها"
 
 #: src/wx/screens_panel.cc:99
 msgid "Check all"
-msgstr ""
+msgstr "بررسی همه"
 
 #: src/wx/config_dialog.cc:170
 msgid "Check for testing updates on startup"
-msgstr ""
+msgstr "بررسی نسخه آزمایشی به روز شده هنگام شروع ویندوز"
 
 #: src/wx/config_dialog.cc:166
 msgid "Check for updates on startup"
-msgstr ""
+msgstr "استعلام نسخه به روز شده هنگام شروع ویندوز"
 
 #: src/wx/content_menu.cc:111
 msgid "Choose CPL..."
-msgstr ""
+msgstr "انتخاب سی پی ال..."
 
 #: src/wx/content_panel.cc:660
 msgid "Choose a DCP folder"
-msgstr ""
+msgstr "انتخاب یک پوشه دی سی پی"
 
 #: src/wx/content_menu.cc:373
 msgid "Choose a file"
-msgstr ""
+msgstr "انتخاب یک فایل"
 
 #: src/wx/content_panel.cc:601
 msgid "Choose a file or files"
-msgstr ""
+msgstr "انتخاب یک فایل یا فایلها"
 
 #: src/wx/content_menu.cc:369 src/wx/content_panel.cc:617
 msgid "Choose a folder"
-msgstr ""
+msgstr "انتخاب یک پوشه"
 
 #: src/wx/system_font_dialog.cc:37
 msgid "Choose a font"
-msgstr ""
+msgstr "انتخاب یک فونت"
 
 #: src/wx/fonts_dialog.cc:188
 msgid "Choose a font file"
-msgstr ""
+msgstr "انتخاب یک فایل فونت"
 
 #: src/wx/christie_certificate_panel.cc:92
 msgid "Christie"
-msgstr ""
+msgstr "کریستی"
 
 #: src/wx/invalid_certificate_period_dialog.cc:39
 msgid "Cinema"
-msgstr ""
+msgstr "سینما"
 
 #: src/wx/full_config_dialog.cc:122
 msgid "Cinema and screen database file"
-msgstr ""
+msgstr "فایل پایگاه داده سینما و سالن"
 
 #: src/wx/content_widget.h:88
 msgid "Click the button to set all selected content to the same value."
-msgstr ""
+msgstr "روی دکمه کلیک کنید تا تمام محتوای انتخاب شده روی یک مقدار تنظیم شود."
 
 #: src/wx/verify_dcp_dialog.cc:275
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "محتوای فایل زیرنویس فیلم %n یک غیر-صفردارد <EntryPoint>."
 
 #: src/wx/closed_captions_dialog.cc:49
 msgid "Closed captions"
-msgstr ""
+msgstr "زیرنویس فیلم"
 
 #: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:187
 msgid "Colour"
-msgstr ""
+msgstr "رنگ"
 
 #: src/wx/content_colour_conversion_dialog.cc:41
 msgid "Colour conversion"
-msgstr ""
+msgstr "تبدیل رنگ"
 
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
 #: src/wx/video_panel.cc:195
 msgid "Colour|Custom"
-msgstr ""
+msgstr "دلخواه"
 
 #: src/wx/full_config_dialog.cc:1413
 msgid "Company name"
-msgstr ""
+msgstr "نام شرکت"
 
 #: src/wx/video_waveform_dialog.cc:64
 msgid "Component"
-msgstr ""
+msgstr "مولفه"
 
 #: src/wx/full_config_dialog.cc:117
 msgid "Configuration file"
-msgstr ""
+msgstr "فایل پیکربندی"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
 #: src/wx/full_config_dialog.cc:1749 src/wx/player_config_dialog.cc:276
 msgid "Config|Timing"
-msgstr ""
+msgstr "زمانبندی"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Confirm KDM email"
-msgstr ""
+msgstr "تایید ایمیل کلید"
 
 #: src/wx/dcp_panel.cc:815
 msgid "Container"
-msgstr ""
+msgstr "ظرف"
 
 #: src/wx/audio_panel.cc:119 src/wx/film_editor.cc:61
 msgid "Content"
-msgstr ""
+msgstr "محتوا"
 
 #: src/wx/content_properties_dialog.cc:40
 msgid "Content Properties"
-msgstr ""
+msgstr "ویژگی های محتوا"
 
 #: src/wx/dcp_panel.cc:104
 msgid "Content Type"
-msgstr ""
+msgstr "نوع محتوا"
 
 #: src/wx/config_dialog.cc:1092
 msgid "Content directory"
-msgstr ""
+msgstr "دایرکتوری محتوا"
 
 #: src/wx/content_version_dialog.cc:31 src/wx/content_version_dialog.cc:33
 #: src/wx/interop_metadata_dialog.cc:64
 msgid "Content version"
-msgstr ""
+msgstr "نسخه محتوا"
 
 #: src/wx/smpte_metadata_dialog.cc:104
 msgid "Content versions"
-msgstr ""
+msgstr "نسخه های محتوا"
 
 #: src/wx/video_waveform_dialog.cc:67
 msgid "Contrast"
-msgstr ""
+msgstr "کنتراست"
 
 #: src/wx/text_panel.cc:114
 msgid "Coord|Y"
-msgstr ""
+msgstr "محور عمودی"
 
 #: src/wx/dcp_panel.cc:90
 msgid "Copy as name"
-msgstr ""
+msgstr "کپی به عنوان نام"
 
 #: src/wx/config_dialog.cc:991
 msgid "CoreAudio"
-msgstr ""
+msgstr "هسته صدا"
 
 #: src/wx/audio_dialog.cc:303
 msgid "Could not analyse audio."
-msgstr ""
+msgstr "صدا آنالیز نشد."
 
 #: src/wx/text_panel.cc:904
 msgid "Could not analyse subtitles."
-msgstr ""
+msgstr "زیرنویس آنالیز نشد."
 
 #: src/wx/qube_certificate_panel.cc:73
 #, c-format
 msgid "Could not find serial number %s"
-msgstr ""
+msgstr "شماره سریال پیدا نشد %s"
 
 #: src/wx/config_dialog.cc:382
 #, c-format
 msgid "Could not import certificate (%s)"
-msgstr ""
+msgstr "گواهی نامه وارد نشد (%s)"
 
 #: src/wx/content_menu.cc:416
 msgid "Could not load KDM"
-msgstr ""
+msgstr "کلید بارگذاری نشد"
 
 #: src/wx/screen_dialog.cc:79
 #, c-format
 msgid "Could not load certificate (%s)"
-msgstr ""
+msgstr "گواهی نامه بارگذاری نشد (%s)"
 
 #: src/wx/simple_video_view.cc:176
 msgid "Could not play content"
-msgstr ""
+msgstr "محتوا پلی نشد"
 
 #: src/wx/gl_video_view.cc:139
 #, c-format
 msgid "Could not read DCP: %s"
-msgstr ""
+msgstr "دی سی پی خوانده نشد: %s"
 
-#: src/wx/download_certificate_panel.cc:67
-#: src/wx/download_certificate_panel.cc:80
+#: src/wx/download_certificate_panel.cc:67 src/wx/download_certificate_panel.cc:80
 msgid "Could not read certificate file (%1)"
-msgstr ""
+msgstr "فایل گواهی نامه خوانده نشد (%1)"
 
 #: src/wx/config_dialog.cc:407 src/wx/config_dialog.cc:594
 #: src/wx/recipient_dialog.cc:177 src/wx/recipient_dialog.cc:182
 #: src/wx/screen_dialog.cc:285 src/wx/screen_dialog.cc:291
 msgid "Could not read certificate file."
-msgstr ""
+msgstr "فایل گواهی نامه خوانده نشد."
 
 #: src/wx/qube_certificate_panel.cc:56
 msgid "Could not read certificates from Qube server."
-msgstr ""
+msgstr "فایل گواهی نامه از سرور شرکت کیوب خوانده نشد."
 
 #: src/wx/config_dialog.cc:584
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
-msgstr ""
+msgstr "فایل کلید خوانده نشد; فایل خیلی طولانی است (%s)"
 
 #: src/wx/film_viewer.cc:649 src/wx/film_viewer.cc:691
-msgid ""
-"Could not set up audio output.  There will be no audio during the preview."
-msgstr ""
+msgid "Could not set up audio output.  There will be no audio during the preview."
+msgstr "خروجی صدا تنظیم نشد.  حین پیش نمایش صدا وجود ندارد."
 
 #: src/wx/screens_panel.cc:264 src/wx/screens_panel.cc:725
 msgid ""
 "Could not write cinema details to the cinemas.xml file.  Check that the "
 "location of cinemas.xml is valid in DCP-o-matic's preferences."
 msgstr ""
+"جزئیات سینما در فایل cinemas.xml نوشته نشد.  بررسی کنید که محل این فایل در "
+"اولویتهای دی سی پی-او-ماتیک معتبر باشد."
 
 #: src/wx/full_config_dialog.cc:1328
 msgid "Cover Sheet"
-msgstr ""
+msgstr "ورق جلد"
 
 #: src/wx/invalid_certificate_period_dialog.cc:98
 msgid "Create KDMs anyway"
-msgstr ""
+msgstr "به هر حال کلید(ها) را بسازید"
 
 #: src/wx/film_name_location_dialog.cc:51
 msgid "Create in folder"
-msgstr ""
+msgstr "در پوشه بساز"
 
 #: src/wx/full_config_dialog.cc:1408
 msgid "Creator"
-msgstr ""
+msgstr "سازنده"
 
 #: src/wx/video_panel.cc:99
 msgid "Crop"
-msgstr ""
+msgstr "برش"
 
 #: src/wx/audio_dialog.cc:472
 #, c-format
 msgid "Cursor: %.1fdB at %s"
-msgstr ""
+msgstr "کرسر: %.1fدسیبل در %s"
 
 #: src/wx/audio_dialog.cc:466
 msgid "Cursor: none"
-msgstr ""
+msgstr "کرسر: هیچکدام"
 
 #: src/wx/rating_dialog.cc:51
 msgid "Custom"
-msgstr ""
+msgstr "دلخواه"
 
 #: src/wx/custom_scale_dialog.cc:39
 msgid "Custom scale"
-msgstr ""
+msgstr "مقیاس دلخواه"
 
-#: src/wx/audio_panel.cc:119 src/wx/config_dialog.cc:870
-#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
+#: src/wx/audio_panel.cc:119 src/wx/config_dialog.cc:870 src/wx/film_editor.cc:63
+#: src/wx/player_information.cc:59
 msgid "DCP"
-msgstr ""
+msgstr "دی سی پی"
 
 #: src/wx/dcp_text_track_dialog.cc:31
 msgid "DCP Text Track"
-msgstr ""
+msgstr "ترک متن دی سی پی"
 
 #: src/wx/full_config_dialog.cc:1715
 msgid "DCP asset filename format"
-msgstr ""
+msgstr "فرمت اسم فایل asset دی سی پی"
 
 #: src/wx/kdm_cpl_panel.cc:53
 msgid "DCP directory"
-msgstr ""
+msgstr "دایرکتوری دی سی پی"
 
 #: src/wx/full_config_dialog.cc:1696
 msgid "DCP metadata filename format"
-msgstr ""
+msgstr "فرمت اسم فایل metadata دی سی پی"
 
 #: src/wx/verify_dcp_dialog.cc:74
 msgid "DCP validates OK."
-msgstr ""
+msgstr "اعتبار دی سی پی مورد تایید است."
 
 #: src/wx/verify_dcp_dialog.cc:43
 msgid "DCP verification"
-msgstr ""
+msgstr "صحت سنجی دی سی پی"
 
 #: src/wx/about_dialog.cc:56 src/wx/content_view.cc:89 src/wx/job_view.cc:165
 #: src/wx/playlist_controls.cc:334 src/wx/playlist_controls.cc:406
 #: src/wx/wx_util.cc:164 src/wx/wx_util.cc:181 src/wx/wx_util.cc:190
 msgid "DCP-o-matic"
-msgstr ""
+msgstr "دی سی پی-او-ماتیک"
 
 #: src/wx/try_unmount_dialog.cc:35
 msgid "DCP-o-matic Disk Writer"
-msgstr ""
+msgstr "دیسک رایتر دی سی پی-او-ماتیک"
 
 #: src/wx/player_config_dialog.cc:354
 msgid "DCP-o-matic Player Preferences"
-msgstr ""
+msgstr "اولویتهای پلیر دی سی پی-او-ماتیک"
 
 #: src/wx/playlist_editor_config_dialog.cc:31
 msgid "DCP-o-matic Playlist Editor Preferences"
-msgstr ""
+msgstr "اولویتهای تدوینگر لیست نمایش دی سی پی-او-ماتیک"
 
 #: src/wx/audio_dialog.cc:169 src/wx/audio_dialog.cc:171
 #, c-format
 msgid "DCP-o-matic audio - %s"
-msgstr ""
+msgstr "صدای دی سی پی-او-ماتیک - %s"
 
 #: src/wx/full_config_dialog.cc:984
 msgid "DCP-o-matic test email"
-msgstr ""
+msgstr "ایمیل آزمایشی دی سی پی-او-ماتیک"
 
 #: src/wx/player_config_dialog.cc:128
 msgid "Debug log file"
-msgstr ""
+msgstr "فایل گزارش اشکال زدایی"
 
 #: src/wx/full_config_dialog.cc:1751
 msgid "Debug: 3D"
-msgstr ""
+msgstr "اشکال زدایی: سه بعدی"
 
 #: src/wx/full_config_dialog.cc:1761
 msgid "Debug: audio analysis"
-msgstr ""
+msgstr "اشکال زدایی: آنالیز صدا"
 
 #: src/wx/full_config_dialog.cc:1755
 msgid "Debug: email sending"
-msgstr ""
+msgstr "اشکال زدایی: ارسال ایمیل"
 
 #: src/wx/full_config_dialog.cc:1753
 msgid "Debug: encode"
-msgstr ""
+msgstr "اشکال زدایی: رمزگذاری"
 
 #: src/wx/full_config_dialog.cc:1759
 msgid "Debug: player"
-msgstr ""
+msgstr "اشکال زدایی: پلیر"
 
 #: src/wx/full_config_dialog.cc:1757 src/wx/player_config_dialog.cc:278
 msgid "Debug: video view"
-msgstr ""
+msgstr "اشکال زدایی: نمایش ویدیو"
 
 #: src/wx/player_information.cc:196
 #, c-format
 msgid "Decode resolution: %dx%d"
-msgstr ""
+msgstr "رزولوشن رمزگشایی: %dx%d"
 
 #: src/wx/config_dialog.cc:644 src/wx/config_dialog.cc:702
 msgid "Decrypting KDMs"
-msgstr ""
+msgstr "کلید(ها) رمز گشایی"
 
 #: src/wx/full_config_dialog.cc:129
 msgid "Default \"add file\" location"
-msgstr ""
+msgstr "محل پیش فرض \"اضافه کردن فایل\""
 
 #: src/wx/full_config_dialog.cc:312
 msgid "Default DCP audio channels"
-msgstr ""
+msgstr "کانال های صدای پیش فرض دی سی پی"
 
 #: src/wx/full_config_dialog.cc:317
 msgid "Default JPEG2000 bandwidth"
-msgstr ""
+msgstr "عرض باند پیش فرض JPEG2000"
 
 #: src/wx/full_config_dialog.cc:360
 msgid "Default KDM directory"
-msgstr ""
+msgstr "دایرکتوری پیش فرض کلید"
 
 #: src/wx/full_config_dialog.cc:372
 msgid "Default KDM duration"
-msgstr ""
+msgstr "مدت پیش فرض کلید"
 
 #: src/wx/full_config_dialog.cc:368
 msgid "Default KDM type"
-msgstr ""
+msgstr "نوع پیش فرض کلید"
 
 #: src/wx/full_config_dialog.cc:326
 msgid "Default audio delay"
-msgstr ""
+msgstr "تاخیر پیش فرض صدا"
 
 #: src/wx/full_config_dialog.cc:338
 msgid "Default audio language"
-msgstr ""
+msgstr "زبان پیش فرض"
 
 #: src/wx/full_config_dialog.cc:340
 msgid "Default audio language to use for new DCPs"
-msgstr ""
+msgstr "زبان پیش فرض مورد استفاده برای دی سی پی جدید"
 
 #: src/wx/full_config_dialog.cc:354
 msgid "Default chain"
-msgstr ""
+msgstr "زنجیره پیش فرض"
 
 #: src/wx/full_config_dialog.cc:308
 msgid "Default content type"
-msgstr ""
+msgstr "پیش فرض نوع محتوا"
 
 #: src/wx/full_config_dialog.cc:300
 msgid "Default directory for new films"
-msgstr ""
+msgstr "دایرکتوری پیش فرض برای فیلم جدید"
 
 #: src/wx/full_config_dialog.cc:357
 msgid "Default distributor"
-msgstr ""
+msgstr "پیش فرض توزیع کننده"
 
 #: src/wx/full_config_dialog.cc:292
 msgid "Default duration of still images"
-msgstr ""
+msgstr "مدت پیش فرض تصاویر ثابت"
 
 #: src/wx/full_config_dialog.cc:348
 msgid "Default facility"
-msgstr ""
+msgstr "پیش فرض تسهیلات"
 
 #: src/wx/full_config_dialog.cc:334
 msgid "Default standard"
-msgstr ""
+msgstr "استاندارد پیش فرض"
 
 #: src/wx/full_config_dialog.cc:351
 msgid "Default studio"
-msgstr ""
+msgstr "استودیوی پیش فرض"
 
 #: src/wx/full_config_dialog.cc:343
 msgid "Default territory"
-msgstr ""
+msgstr "کشور پیش فرض"
 
 #: src/wx/full_config_dialog.cc:345
 msgid "Default territory to use for new DCPs"
-msgstr ""
+msgstr "کشور پیش فرض برای استفاده در دی سی پی جدید"
 
 #: src/wx/full_config_dialog.cc:274
 msgid "Defaults"
-msgstr ""
+msgstr "پیش فرض ها"
 
 #: src/wx/export_subtitles_dialog.cc:50
 msgid "Define font in output and export font file"
-msgstr ""
+msgstr "فونت خروجی و فایل اکسپورت را تعیین کنید"
 
 #: src/wx/audio_panel.cc:98
 msgid "Delay"
-msgstr ""
+msgstr "تاخیر"
 
 #: src/wx/screen_dialog.cc:138
 msgid "Details"
-msgstr ""
+msgstr "جزئیات"
 
 #: src/wx/job_view.cc:80
 msgid "Details..."
-msgstr ""
+msgstr "جزئیات..."
 
 #: src/wx/config_dialog.cc:993
 msgid "Direct Sound"
-msgstr ""
+msgstr "صدای مستقیم"
 
 #: src/wx/smpte_metadata_dialog.cc:94
 msgid "Distributor"
-msgstr ""
+msgstr "توزیع کننده"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:290
 msgid "Dolby / Doremi"
-msgstr ""
+msgstr "دالبی / دورمی"
 
 #: src/wx/confirm_kdm_email_dialog.cc:43 src/wx/recreate_chain_dialog.cc:41
 msgid "Don't ask this again"
-msgstr ""
+msgstr "این را دوباره مپرس"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Don't send emails"
-msgstr ""
+msgstr "ایمیل ها را نفرست"
 
 #: src/wx/hints_dialog.cc:65
 msgid "Don't show hints again"
-msgstr ""
+msgstr "نکات را دوباره نشان ندهید"
 
 #: src/wx/nag_dialog.cc:45
 msgid "Don't show this message again"
-msgstr ""
+msgstr "این پیغام را دوباره نشان نده"
 
 #: src/wx/download_certificate_dialog.cc:45
 msgid "Download"
-msgstr ""
+msgstr "دانلود"
 
 #: src/wx/download_certificate_dialog.cc:38
 msgid "Download certificate"
-msgstr ""
+msgstr "دانلود گواهی نامه"
 
 #: src/wx/screen_dialog.cc:159
 msgid "Download..."
-msgstr ""
+msgstr "دانلود..."
 
 #: src/wx/download_certificate_panel.cc:104
 msgid "Downloading certificate"
-msgstr ""
+msgstr "در حال دانلود گواهی نامه"
 
 #: src/wx/player_information.cc:110
 #, c-format
 msgid "Dropped frames: %d"
-msgstr ""
+msgstr "فریم های از قلم افتاده: %d"
 
 #: src/wx/player_config_dialog.cc:103
 msgid "Dual-screen displays"
-msgstr ""
+msgstr "نمایش دو صفحه ای"
 
 #: src/wx/config_dialog.cc:999
 msgid "Dummy"
-msgstr ""
+msgstr "ساختگی"
 
 #: src/wx/content_panel.cc:279
 msgid "Earlier"
-msgstr ""
+msgstr "جلوتر"
 
 #: src/wx/screens_panel.cc:84
 msgid "Edit Cinema..."
-msgstr ""
+msgstr "ویرایش سینما..."
 
 #: src/wx/screens_panel.cc:90
 msgid "Edit Screen..."
-msgstr ""
+msgstr "ویرایش سالن سینما..."
 
 #: src/wx/screens_panel.cc:324
 msgid "Edit cinema"
-msgstr ""
+msgstr "ویرایش سینما"
 
 #: src/wx/recipients_panel.cc:142
 msgid "Edit recipient"
-msgstr ""
+msgstr "ویرایش گیرنده"
 
 #: src/wx/screens_panel.cc:424
 msgid "Edit screen"
-msgstr ""
+msgstr "ویرایش سالن سینما"
 
 #: src/wx/audio_mapping_view.cc:88 src/wx/content_advanced_dialog.cc:75
 #: src/wx/dcp_panel.cc:102 src/wx/language_tag_widget.cc:52
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:53
-#: src/wx/video_panel.cc:185 src/wx/video_panel.cc:196
-#: src/wx/editable_list.h:145
+#: src/wx/video_panel.cc:185 src/wx/video_panel.cc:196 src/wx/editable_list.h:145
 msgid "Edit..."
-msgstr ""
+msgstr "ویرایش..."
 
 #: src/wx/subtitle_appearance_dialog.cc:88
 msgid "Effect"
-msgstr ""
+msgstr "افکت"
 
 #: src/wx/subtitle_appearance_dialog.cc:91
 msgid "Effect colour"
-msgstr ""
+msgstr "رنگ افکت"
 
 #: src/wx/full_config_dialog.cc:855 src/wx/full_config_dialog.cc:1173
 msgid "Email"
-msgstr ""
+msgstr "ایمیل"
 
 #: src/wx/email_dialog.cc:32 src/wx/email_dialog.cc:34
 msgid "Email address"
-msgstr ""
+msgstr "آدرس ایمیل"
 
 #: src/wx/cinema_dialog.cc:63 src/wx/recipient_dialog.cc:84
 msgid "Email addresses for KDM delivery"
-msgstr ""
+msgstr "آدرس های ایمیل برای تحویل کلید"
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
-msgstr ""
+msgstr "سرورهای رمزگذاری"
 
 #: src/wx/dcp_panel.cc:107
 msgid "Encrypted"
-msgstr ""
+msgstr "رمزگذاری شده"
 
 #: src/wx/text_view.cc:65
 msgid "End"
-msgstr ""
+msgstr "پایان"
 
 #: src/wx/report_problem_dialog.cc:121
 #, c-format
 msgid "Enter your email address for the contact, not %s"
-msgstr ""
+msgstr "آدرس ایمیل خود را برای مخاطب وارد کنید، نه %s"
 
 #: src/wx/full_config_dialog.cc:1746 src/wx/player_config_dialog.cc:273
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "Errors"
-msgstr ""
+msgstr "خطاها"
 
 #: src/wx/config_dialog.cc:651
 msgid "Export KDM decryption leaf certificate..."
-msgstr ""
+msgstr "اکسپورت گواهی نامه برگ رمزگشایی کلید..."
 
 #: src/wx/config_dialog.cc:653
 msgid "Export all KDM decryption settings..."
-msgstr ""
+msgstr "اکسپورت همه تنظیمات رمزگشایی کلید..."
 
 #: src/wx/config_dialog.cc:305
 msgid "Export certificate..."
-msgstr ""
+msgstr "اکسپورت گواهی نامه..."
 
 #: src/wx/config_dialog.cc:307
 msgid "Export chain..."
-msgstr ""
+msgstr "اکسپورت زنجیره..."
 
 #: src/wx/export_subtitles_dialog.cc:38
 msgid "Export subtitles"
-msgstr ""
+msgstr "اکسپورت زیرنویسها"
 
 #: src/wx/export_video_file_dialog.cc:66
 msgid "Export video file"
-msgstr ""
+msgstr "اکسپورت فایل ویدیو"
 
 #: src/wx/config_dialog.cc:324 src/wx/full_config_dialog.cc:125
 msgid "Export..."
-msgstr ""
+msgstr "اکسپورت..."
 
 #: src/wx/extra_kdm_email_dialog.cc:37
 msgid "Extra addresses for KDM delivery"
-msgstr ""
+msgstr "آدرس‌های اضافی برای تحویل کلید"
 
 #: src/wx/full_config_dialog.cc:774
 msgid "FTP (for Dolby)"
-msgstr ""
+msgstr "FTP (برای دالبی)"
 
 #: src/wx/metadata_dialog.cc:263
 msgid "Facility"
-msgstr ""
+msgstr "تسهیلات"
 
 #: src/wx/audio_panel.cc:111 src/wx/video_panel.cc:169
 msgid "Fade in"
-msgstr ""
+msgstr "محو شدن در"
 
 #: src/wx/subtitle_appearance_dialog.cc:99
 msgid "Fade in time"
-msgstr ""
+msgstr "زمان محو شدن"
 
 #: src/wx/audio_panel.cc:114 src/wx/video_panel.cc:172
 msgid "Fade out"
-msgstr ""
+msgstr "از محو خارج شدن"
 
 #: src/wx/subtitle_appearance_dialog.cc:102
 msgid "Fade out time"
-msgstr ""
+msgstr "زمان از محو خارج شدن"
 
 #: src/wx/fonts_dialog.cc:62
 msgid "File"
-msgstr ""
+msgstr "فایل"
 
 #: src/wx/dkdm_dialog.cc:149 src/wx/kdm_dialog.cc:153
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
-msgstr ""
+msgstr "فایل %s وجود دارد.  آیا میخواهید بر روی آن بنویسید؟"
 
 #: src/wx/screen_dialog.cc:183
 msgid "Filename"
-msgstr ""
+msgstr "اسم فایل"
 
 #: src/wx/dkdm_output_panel.cc:63 src/wx/kdm_output_panel.cc:86
 msgid "Filename format"
-msgstr ""
+msgstr "فرمت اسم فایل"
 
 #: src/wx/film_name_location_dialog.cc:48
 msgid "Film name"
-msgstr ""
+msgstr "اسم فیلم"
 
 #: src/wx/filter_dialog.cc:40
 msgid "Filters"
-msgstr ""
+msgstr "فیلترها"
 
 #: src/wx/smpte_metadata_dialog.cc:137
 msgid "Final"
-msgstr ""
+msgstr "نهایی"
 
 #: src/wx/full_config_dialog.cc:135
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
+"هنگام آنالیز صدا، بلندی صدای یکپارچه، اوج واقعی و محدوده بلندی صدا را بیابید"
 
 #: src/wx/content_menu.cc:102
 msgid "Find missing..."
-msgstr ""
+msgstr "گم شده را پیدا کنید..."
 
 #: src/wx/subtitle_appearance_dialog.cc:130
 msgid "Finding the colours in these subtitles..."
-msgstr ""
+msgstr "پیدا کردن رنگ ها در این زیرنویس ها ..."
 
 #: src/wx/markers.cc:37
 msgid "First frame of end credits"
-msgstr ""
+msgstr "فریم اول تیتراژ پایانی"
 
 #: src/wx/markers.cc:35
+#, fuzzy
 msgid "First frame of intermission"
-msgstr ""
+msgstr "اولین فریم توقف"
 
 #: src/wx/markers.cc:39
+#, fuzzy
 msgid "First frame of moving credits"
-msgstr ""
+msgstr "اولین فریم تیتراژ متحرک"
 
 #: src/wx/markers.cc:33
+#, fuzzy
 msgid "First frame of title credits"
-msgstr ""
+msgstr "اولین فریم تیتراژ عنوان"
 
 #: src/wx/kdm_output_panel.cc:82
 msgid "Folder / ZIP name format"
-msgstr ""
+msgstr "پوشه / اسم فرمت فایل فشرده ZIP"
 
 #: src/wx/new_dkdm_folder_dialog.cc:28
 msgid "Folder name"
-msgstr ""
+msgstr "اسم پوشه"
 
 #: src/wx/fonts_dialog.cc:45
 msgid "Fonts"
-msgstr ""
+msgstr "فونت ها"
 
 #: src/wx/text_panel.cc:126
 msgid "Fonts..."
-msgstr ""
+msgstr "فونت ها..."
 
 #: src/wx/kdm_advanced_dialog.cc:41
 msgid "Forensically mark audio"
-msgstr ""
+msgstr "نشان گذاری صدا از نظر قانونی"
 
 #: src/wx/kdm_advanced_dialog.cc:37
 msgid "Forensically mark video"
-msgstr ""
+msgstr "نشان گذاری ویدیو از نظر قانونی"
 
 #: src/wx/export_video_file_dialog.cc:71
 msgid "Format"
-msgstr ""
+msgstr "فرمت"
 
 #: src/wx/verify_dcp_dialog.cc:423
 #, c-format
 msgid ""
-"Frame %frame has an image component that is too large (component %component "
-"is %size bytes in size)."
-msgstr ""
+"Frame %frame has an image component that is too large (component %component is "
+"%size bytes in size)."
+msgstr "اجزا تصویری فریم %f بسیار بزرگ است(اندازه جز%c برابر %s بایت است)."
 
 #: src/wx/dcp_panel.cc:822
 msgid "Frame Rate"
-msgstr ""
+msgstr "نرخ فریم"
 
 #: src/wx/image_sequence_dialog.cc:30
 msgid "Frame rate"
-msgstr ""
+msgstr "نرخ فریم"
 
 #: src/wx/player_information.cc:166
 #, c-format
 msgid "Frame rate: %d"
-msgstr ""
+msgstr "نرخ فریم: %d"
 
 #: src/wx/about_dialog.cc:72
 msgid "Free, open-source DCP creation from almost anything."
-msgstr ""
+msgstr "نرم افزار رایگان و متن باز ساخت دی سی پی تقریبا از هر چیزی."
 
 #: src/wx/kdm_timing_panel.cc:54
 msgid "From"
-msgstr ""
+msgstr "از"
 
 #: src/wx/full_config_dialog.cc:1048 src/wx/full_config_dialog.cc:1181
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
-msgstr ""
+msgstr "از آدرس"
 
 #: src/wx/film_name_location_dialog.cc:66
 msgid "From template"
-msgstr ""
+msgstr "از قالب"
 
 #: src/wx/video_panel.cc:200
 msgid "Full (JPEG, 0-255)"
-msgstr ""
+msgstr "کامل (JPEG, 0-255)"
 
 #: src/wx/timing_panel.cc:110
 msgid "Full length"
-msgstr ""
+msgstr "مدت کامل"
 
 #: src/wx/dcp_panel.cc:118
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: src/wx/gdc_certificate_panel.cc:81
 msgid "GDC"
-msgstr ""
+msgstr "GDC"
 
 #: src/wx/audio_panel.cc:85
 msgid "Gain"
-msgstr ""
+msgstr "گین"
 
 #: src/wx/gain_calculator_dialog.cc:30
 msgid "Gain Calculator"
-msgstr ""
+msgstr "محاسبه گر گین"
 
 #: src/wx/audio_gain_dialog.cc:35
 #, c-format
 msgid "Gain for content channel %d in DCP channel %d"
-msgstr ""
+msgstr "گین کانال محتوا %d در کانال دی سی پی %d"
 
 #: src/wx/config_dialog.cc:114 src/wx/content_properties_dialog.cc:74
 #: src/wx/full_config_dialog.cc:1742 src/wx/player_config_dialog.cc:269
 msgid "General"
-msgstr ""
+msgstr "کلی"
 
 #: src/wx/recipient_dialog.cc:112 src/wx/screen_dialog.cc:158
 msgid "Get from file..."
-msgstr ""
+msgstr "از فایل بیاور..."
 
 #: src/wx/hints_dialog.cc:79
 msgid "Go back"
-msgstr ""
+msgstr "برگشت"
 
-#: src/wx/playhead_to_timecode_dialog.cc:29
-#: src/wx/playhead_to_frame_dialog.cc:32
+#: src/wx/playhead_to_timecode_dialog.cc:29 src/wx/playhead_to_frame_dialog.cc:32
 msgid "Go to"
-msgstr ""
+msgstr "برو به"
 
 #: src/wx/playhead_to_frame_dialog.cc:29
 msgid "Go to frame"
-msgstr ""
+msgstr "برو به فریم"
 
 #: src/wx/playhead_to_timecode_dialog.cc:26
 msgid "Go to timecode"
-msgstr ""
+msgstr "برو به زمان"
 
 #: src/wx/colour_conversion_editor.cc:147
 msgid "Green chromaticity"
-msgstr ""
+msgstr "کیفیت رنگی مولفه سبز"
 
 #: src/wx/batch_job_view.cc:53
 msgid "Higher priority"
-msgstr ""
+msgstr "اولویت بالاتر"
 
 #: src/wx/hints_dialog.cc:49
 msgid "Hints"
-msgstr ""
+msgstr "نکات"
 
 #: src/wx/servers_list_dialog.cc:45
 msgid "Host"
-msgstr ""
+msgstr "میزبان"
 
 #: src/wx/server_dialog.cc:40
 msgid "Host name or IP address"
-msgstr ""
+msgstr "نام میزبان یا آدرس آی پی"
 
 #: src/wx/dcp_panel.cc:153
 msgid ""
-"How the DCP should be split into parts internally.  If in doubt, choose "
-"'Single reel'"
+"How the DCP should be split into parts internally.  If in doubt, choose 'Single "
+"reel'"
 msgstr ""
+"اگر شک دارید و نمیدانید که دی سی پی به چند بخش تقسیم شود. \"تک حلقه\" را انتخاب "
+"کنید."
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about using the disk writer.
 #: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
 msgid "I am sure"
-msgstr ""
+msgstr "مطمئن هستم"
 
 #: src/wx/gain_calculator_dialog.cc:35
+#, fuzzy
 msgid "I want to play this back at fader"
-msgstr ""
+msgstr "I want to play this back at fader"
 
 #: src/wx/fonts_dialog.cc:54
 msgid "ID"
-msgstr ""
+msgstr "شناسه"
 
 #: src/wx/full_config_dialog.cc:757
 msgid "IP address"
-msgstr ""
+msgstr "آدرس آی پی"
 
 #: src/wx/full_config_dialog.cc:683
 msgid "IP address / host name"
-msgstr ""
+msgstr "آدرس آی پی / نام میزبان"
 
 #: src/wx/full_config_dialog.cc:1551
 msgid "ISDCF name part length"
-msgstr ""
+msgstr "طول قسمت نام ISDCF"
 
 #: src/wx/full_config_dialog.cc:1387
 msgid "Identifiers"
-msgstr ""
+msgstr "شناسه ها"
 
 #: src/wx/drive_wipe_warning_dialog.cc:51
 #, c-format
@@ -1609,8 +1611,8 @@ msgid ""
 "\n"
 "will be\n"
 "\n"
-"<span weight=\"bold\" size=\"20480\" foreground=\"red\">PERMANENTLY "
-"DESTROYED.</span>\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">PERMANENTLY DESTROYED.</"
+"span>\n"
 "\n"
 "If you are sure you want to continue please type\n"
 "\n"
@@ -1618,1412 +1620,1459 @@ msgid ""
 "\n"
 "into the box below, then click OK."
 msgstr ""
+"اگر ادامه دهید\n"
+"\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">همه داده</span>\n"
+"\n"
+"موجود در درایو\n"
+"\n"
+"<b>%s</b>\n"
+"\n"
+"\n"
+"\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">برای همیشه پاک خواهند "
+"شد.</span>\n"
+"\n"
+"اگر مطمئن هستید که ادامه دهید لطفا درکادر مستطیل عبارت\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"را تایپ کرده و کلید تایید را بزنید."
 
 #: src/wx/config_dialog.cc:755
 msgid ""
-"If you continue with this operation you will no longer be able to use any "
-"DKDMs that you have created with the current certificates and key.  Also, "
-"any KDMs that have been sent to you for those certificates will become "
-"useless.  Proceed with caution!"
+"If you continue with this operation you will no longer be able to use any DKDMs "
+"that you have created with the current certificates and key.  Also, any KDMs "
+"that have been sent to you for those certificates will become useless.  Proceed "
+"with caution!"
 msgstr ""
+"اگر ادامه دهید دیگر نمیتوانید ازکلیدهای توزیع که با گواهی نامه و کلید کنونی "
+"ایجاد کرده اید استفاده کنید.  هم چنین هر کلیدی هم که برای گواهینامه فعلی شما "
+"ارسال شده است بی فایده خواهد شد.  با احتیاط ادامه دهید!"
 
 #: src/wx/config_dialog.cc:805
 msgid ""
-"If you continue with this operation you will no longer be able to use any "
-"DKDMs that you have created.  Also, any KDMs that have been sent to you will "
-"become useless.  Proceed with caution!"
+"If you continue with this operation you will no longer be able to use any DKDMs "
+"that you have created.  Also, any KDMs that have been sent to you will become "
+"useless.  Proceed with caution!"
 msgstr ""
+"اگر ادامه دهید دیگر نمیتوانید ازکلیدهای توزیع که ایجاد کرده اید استفاده کنید.  "
+"هم چنین هر کلیدی هم که برای شما ارسال شده است بی فایده خواهد شد.  با احتیاط "
+"ادامه دهید!"
 
 #: src/wx/content_advanced_dialog.cc:103
 msgid ""
 "Ignore this content's video and use only audio, subtitles and closed captions"
-msgstr ""
+msgstr "از ویدیوی محتوا صرف نظر کرده و فقط از صدا و زیرنویس آن استفاده کنید"
 
 #: src/wx/video_waveform_dialog.cc:74
 msgid "Image X position"
-msgstr ""
+msgstr "موقعیت تصویر روی محور افقی"
 
 #: src/wx/player_config_dialog.cc:105
 msgid "Image on primary, controls on secondary"
-msgstr ""
+msgstr "تصویر روی صفحه اصلی، کنترل روی صفحه دوم"
 
 #: src/wx/player_config_dialog.cc:106
 msgid "Image on secondary, controls on primary"
-msgstr ""
+msgstr "تصویر روی صفحه دوم، کنترل روی صفحه اصلی"
 
 #: src/wx/config_dialog.cc:655
 msgid "Import all KDM decryption settings..."
-msgstr ""
+msgstr "ورود تمام تنظیمات رمزگشایی کلید..."
 
 #: src/wx/config_dialog.cc:322
 msgid "Import..."
-msgstr ""
+msgstr "وارد کردن..."
 
 #: src/wx/disk_warning_dialog.cc:26 src/wx/drive_wipe_warning_dialog.cc:28
 #: src/wx/nag_dialog.cc:38
 msgid "Important notice"
-msgstr ""
+msgstr "اطلاعیه مهم"
 
 #: src/wx/servers_list_dialog.cc:91
 msgid "Incorrect version"
-msgstr ""
+msgstr "نسخه نادرست"
 
 #: src/wx/colour_conversion_editor.cc:74
 msgid "Input gamma"
-msgstr ""
+msgstr "گامای ورودی"
 
 #: src/wx/colour_conversion_editor.cc:64
 msgid "Input gamma correction"
-msgstr ""
+msgstr "تصحیح گامای ورودی"
 
 #: src/wx/colour_conversion_editor.cc:79
 msgid "Input power"
-msgstr ""
+msgstr "توان ورودی"
 
 #: src/wx/colour_conversion_editor.cc:66
 msgid "Input transfer function"
-msgstr ""
+msgstr "تابع تبدیل ورودی"
 
 #: src/wx/audio_dialog.cc:430
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
-msgstr ""
+msgstr "بلندی صدای یکپارچه %.2f برجسب LUFS"
 
 #: src/wx/config_dialog.cc:524
 msgid "Intermediate"
-msgstr ""
+msgstr "میانه"
 
 #: src/wx/make_chain_dialog.cc:100
 msgid "Intermediate common name"
-msgstr ""
+msgstr "اسم متداول میانه"
 
 #: src/wx/dcp_panel.cc:173 src/wx/full_config_dialog.cc:414
 msgid "Interop"
-msgstr ""
+msgstr "اینتروپ"
 
 #: src/wx/config_dialog.cc:795
 msgid "Invalid DCP-o-matic export file"
-msgstr ""
+msgstr "فایل اکسپورت نامعتبر دی سی پی-او-ماتیک"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
 msgid "Invalid certificates"
-msgstr ""
+msgstr "گواهی نامه نامعتبر"
 
 #: src/wx/colour_conversion_editor.cc:215
 msgid "Inverse 2.6 gamma correction on output"
-msgstr ""
+msgstr "تصیحی گامای معکوس 2/6 روی خروجی"
 
 #: src/wx/full_config_dialog.cc:1403
 msgid "Issuer"
-msgstr ""
+msgstr "صادر کننده"
 
 #: src/wx/screen_dialog.cc:191
 msgid "Issuer common name"
-msgstr ""
+msgstr "اسم متداول صادرکننده"
 
 #: src/wx/screen_dialog.cc:192
 msgid "Issuer organization name"
-msgstr ""
+msgstr "نام سازمان صادرکننده"
 
 #: src/wx/audio_panel.cc:327
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
 msgstr ""
+"تنظیم گین محتوا برای این تغییر فیدر ممکن نیست زیرا باعث می شود صدای دی سی پی "
+"قطع شود. گین تغییر نکرده است."
 
 #: src/wx/config_dialog.cc:995
 msgid "JACK"
-msgstr ""
+msgstr "JACK"
 
 #: src/wx/dcp_panel.cc:829
 msgid ""
 "JPEG2000 bandwidth\n"
 "for newly-encoded data"
-msgstr ""
+msgstr "عرض باند JPEG2000  برای داده رمزگذاری شده اخیر"
 
 #: src/wx/full_config_dialog.cc:1428
 msgid "JPEG2000 comment"
-msgstr ""
+msgstr "یادداشت JPEG2000"
 
 #: src/wx/content_menu.cc:101
 msgid "Join"
-msgstr ""
+msgstr "الحاق"
 
 #: src/wx/controls.cc:93
 msgid "Jump to selected content"
-msgstr ""
+msgstr "برو به محتوای انتخاب شده"
 
 #: src/wx/player_information.cc:78
 msgid "KDM"
-msgstr ""
+msgstr "کلید"
 
 #: src/wx/full_config_dialog.cc:1027
 msgid "KDM Email"
-msgstr ""
+msgstr "ایمیل کلید"
 
 #: src/wx/config_dialog.cc:1102
 msgid "KDM directory"
-msgstr ""
+msgstr "دایرکتوری کلید"
 
 #: src/wx/kdm_output_panel.cc:72
 msgid "KDM type"
-msgstr ""
+msgstr "نوع کلید"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/wx/dkdm_dialog.cc:85 src/wx/kdm_dialog.cc:89
 msgid "KDM|Timing"
-msgstr ""
+msgstr "کلید|زمان بندی"
 
 #: src/wx/timeline_dialog.cc:80
 msgid "Keep video and subtitles in sequence"
-msgstr ""
+msgstr "حفظ ترتیب ویدیو و زیرنویس"
 
 #: src/wx/config_dialog.cc:632
 msgid "Keys"
-msgstr ""
+msgstr "کلیدها"
 
 #: src/wx/audio_dialog.cc:448
 #, c-format
 msgid "LEQ(m) %.2fdB"
-msgstr ""
+msgstr "LEQ(m) %.2fdB"
 
 #: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:51
 #: src/wx/text_panel.cc:175
 msgid "Language"
-msgstr ""
+msgstr "زبان"
 
 #: src/wx/full_language_tag_dialog.cc:55 src/wx/language_tag_dialog.cc:38
 msgid "Language Tag"
-msgstr ""
+msgstr "برچسب زبان"
 
 #: src/wx/content_advanced_dialog.cc:99
 msgid "Language of burnt-in subtitles in this content"
-msgstr ""
+msgstr "زبان زیرنویس حک شده در این محتوا"
 
 #: src/wx/text_panel.cc:178
 msgid "Language of these subtitles"
-msgstr ""
+msgstr "زبان این زیرنویسها"
 
 #: src/wx/metadata_dialog.cc:260
 msgid "Language used for any sign language video track"
-msgstr ""
+msgstr "زبان استفاده شده برای هر ترک ویدیوی زبان اشاره"
 
 #: src/wx/markers.cc:38
 msgid "Last frame of end credits"
-msgstr ""
+msgstr "فریم آخر تیتراژ یایانی"
 
 #: src/wx/markers.cc:36
+#, fuzzy
 msgid "Last frame of intermission"
-msgstr ""
+msgstr "آخرین فریم توقف"
 
 #: src/wx/markers.cc:40
+#, fuzzy
 msgid "Last frame of moving credits"
-msgstr ""
+msgstr "فریم آخر تیتراژ متحرک"
 
 #: src/wx/markers.cc:34
+#, fuzzy
 msgid "Last frame of title credits"
-msgstr ""
+msgstr "آخرین فریم تیتراژ عنوان"
 
 #: src/wx/content_panel.cc:283
 msgid "Later"
-msgstr ""
+msgstr "بعد"
 
 #: src/wx/config_dialog.cc:522
 msgid "Leaf"
-msgstr ""
+msgstr "برگ"
 
 #: src/wx/make_chain_dialog.cc:111
 msgid "Leaf common name"
-msgstr ""
+msgstr "اسم متداول برگ"
 
 #: src/wx/config_dialog.cc:316
 msgid "Leaf private key"
-msgstr ""
+msgstr "کلید خصوصی برگ"
 
 #: src/wx/config_dialog.cc:334
 msgid "Leaf private key does not match leaf certificate!"
-msgstr ""
+msgstr "کلید خصوصی برگ با گواهی نامه برگ سازگار نیست!"
 
-#: src/wx/auto_crop_dialog.cc:31 src/wx/controls.cc:89
-#: src/wx/video_panel.cc:119
+#: src/wx/auto_crop_dialog.cc:31 src/wx/controls.cc:89 src/wx/video_panel.cc:119
 msgid "Left"
-msgstr ""
+msgstr "باقی مانده"
 
 #: src/wx/content_properties_dialog.cc:83
 msgid "Length"
-msgstr ""
+msgstr "مدت"
 
 #: src/wx/player_information.cc:182
 msgid "Length: %1 (%2 frames)"
-msgstr ""
+msgstr "مدت: %1 (%2 فریم)"
 
 #: src/wx/text_panel.cc:118
 msgid "Line spacing"
-msgstr ""
+msgstr "فاصله خطوط"
 
 #: src/wx/screen_dialog.cc:58
 msgid "Load certificate..."
-msgstr ""
+msgstr "بارگذاری گواهینامه..."
 
 #: src/wx/config_dialog.cc:1073
 msgid "Locations"
-msgstr ""
+msgstr "محل ها"
 
 #: src/wx/full_config_dialog.cc:1740 src/wx/player_config_dialog.cc:267
 msgid "Log"
-msgstr ""
+msgstr "گزارش"
 
 #: src/wx/audio_dialog.cc:439
 #, c-format
 msgid "Loudness range %.2f LU"
-msgstr ""
+msgstr "محدوده بلندی %.2f برحسب LU"
 
 #: src/wx/batch_job_view.cc:56
 msgid "Lower priority"
-msgstr ""
+msgstr "اولویت پایین تر"
 
 #: src/wx/metadata_dialog.cc:294
 msgid "Luminance"
-msgstr ""
+msgstr "روشنایی"
 
 #: src/wx/content_panel.cc:885
 msgid "MISSING: "
-msgstr ""
+msgstr "وجود ندارد : "
 
 #: src/wx/export_video_file_dialog.cc:42
 msgid "MOV / ProRes 4444"
-msgstr ""
+msgstr "MOV / ProRes 4444"
 
 #: src/wx/export_video_file_dialog.cc:43
 msgid "MOV / ProRes HQ"
-msgstr ""
+msgstr "MOV / ProRes HQ"
 
 #: src/wx/export_video_file_dialog.cc:48 src/wx/export_video_file_dialog.cc:49
 msgid "MOV files (*.mov)|*.mov"
-msgstr ""
+msgstr "MOV files (*.mov)|*.mov"
 
 #: src/wx/export_video_file_dialog.cc:44
 msgid "MP4 / H.264"
-msgstr ""
+msgstr "MP4 / H.264"
 
 #: src/wx/export_video_file_dialog.cc:50
 msgid "MP4 files (*.mp4)|*.mp4"
-msgstr ""
+msgstr "MP4 files (*.mp4)|*.mp4"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
 #: src/wx/text_panel.cc:184
 msgid "Main"
-msgstr ""
+msgstr "اصلی"
 
 #: src/wx/hints_dialog.cc:77
 msgid "Make DCP"
-msgstr ""
+msgstr "ساخت دی سی پی"
 
 #: src/wx/self_dkdm_dialog.cc:59
 msgid "Make DKDM for DCP-o-matic"
-msgstr ""
+msgstr "ساخت کلید توزیع برای دی سی پی-او-ماتیک"
 
 #: src/wx/dkdm_dialog.cc:61 src/wx/dkdm_dialog.cc:113
 msgid "Make DKDMs"
-msgstr ""
+msgstr "ساخت کلید توزیع"
 
 #: src/wx/kdm_dialog.cc:65 src/wx/kdm_dialog.cc:117
 msgid "Make KDMs"
-msgstr ""
+msgstr "ساخت کلید"
 
 #: src/wx/make_chain_dialog.cc:40
 msgid "Make certificate chain"
-msgstr ""
+msgstr "ساخت زنجیره گواهی نامه"
 
 #: src/wx/video_panel.cc:423
 msgid "Many"
-msgstr ""
+msgstr "تعداد زیاد"
 
 #: src/wx/config_dialog.cc:869
 msgid "Mapping"
-msgstr ""
+msgstr "نگاشتن"
 
 #: src/wx/kdm_advanced_dialog.cc:46
 msgid "Mark all audio channels"
-msgstr ""
+msgstr "نشان گذاری همه کانالهای صدا"
 
 #: src/wx/kdm_advanced_dialog.cc:50
 msgid "Mark audio channels up to (and including)"
-msgstr ""
+msgstr "نشان گذاری کانال های صدا تا (و شامل)"
 
 #: src/wx/markers_dialog.cc:126
 msgid "Markers"
-msgstr ""
+msgstr "نشانه گذارها"
 
 #: src/wx/dcp_panel.cc:123
 msgid "Markers..."
-msgstr ""
+msgstr "نشانه گذارها..."
 
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Matrix"
-msgstr ""
+msgstr "ماتریس"
 
 #: src/wx/full_config_dialog.cc:1520
 msgid "Maximum JPEG2000 bandwidth"
-msgstr ""
+msgstr "حداکثر عرض باند JPEG2000"
 
 #: src/wx/full_config_dialog.cc:1688
 msgid "Maximum number of frames to store per thread"
-msgstr ""
+msgstr "حداکثر تعداد فریم برای ذخیره برهر رشته سی پی یو"
 
 #: src/wx/dcp_panel.cc:831 src/wx/full_config_dialog.cc:321
 #: src/wx/full_config_dialog.cc:1524
 msgid "Mbit/s"
-msgstr ""
+msgstr "مگابیت بر ثانیه"
 
 #: src/wx/full_config_dialog.cc:1169
 msgid "Message box"
-msgstr ""
+msgstr "صندوق پیام"
 
 #: src/wx/metadata_dialog.cc:53
 msgid "Metadata"
-msgstr ""
+msgstr "متا دیتا"
 
 #: src/wx/dcp_panel.cc:124
 msgid "Metadata..."
-msgstr ""
+msgstr "متا دیتا..."
 
 #: src/wx/export_video_file_dialog.cc:75
 msgid "Mix audio down to stereo"
-msgstr ""
+msgstr "میکس صدا به استریو"
 
 #: src/wx/markers_panel.cc:236
 #, c-format
 msgid "Move %s marker to current position"
-msgstr ""
+msgstr "انتقال نشانه گذار %s به موقعیت فعلی"
 
 #: src/wx/config_move_dialog.cc:31
 msgid "Move configuration"
-msgstr ""
+msgstr "انتقال پیکربندی"
 
 #: src/wx/move_to_dialog.cc:37
 msgid "Move content"
-msgstr ""
+msgstr "انتقال محتوا"
 
 #: src/wx/content_panel.cc:280
 msgid "Move the selected piece of content earlier in the film."
-msgstr ""
+msgstr "انتقال بخش انتخاب شده به قبل تر در فیلم."
 
 #: src/wx/content_panel.cc:284
 msgid "Move the selected piece of content later in the film."
-msgstr ""
+msgstr "انتقال بخش انتخاب شده به بعدتر در فیلم."
 
 #: src/wx/timing_panel.cc:109
 msgid "Move to start of reel"
-msgstr ""
+msgstr "انتقال به شروع حلقه"
 
 #: src/wx/video_panel.cc:502
 msgid "Multiple content selected"
-msgstr ""
+msgstr "چندین محتوا انتخاب شده است"
 
 #: src/wx/content_widget.h:78
 msgid "Multiple values"
-msgstr ""
+msgstr "چندین مقدار"
 
 #: src/wx/dir_picker_ctrl.cc:63
 msgid "My Documents"
-msgstr ""
+msgstr "اسناد من"
 
 #: src/wx/report_problem_dialog.cc:60
 msgid "My problem is"
-msgstr ""
+msgstr "مشکل من است"
 
 #: src/wx/content_panel.cc:889
 msgid "NEEDS KDM: "
-msgstr ""
+msgstr "نیاز به کلید دارد: "
 
 #: src/wx/content_panel.cc:893
 msgid "NEEDS OV: "
-msgstr ""
+msgstr "نیاز به نسخه اصلی دارد: "
 
 #: src/wx/cinema_dialog.cc:48 src/wx/dcp_panel.cc:85
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:69
 #: src/wx/screen_dialog.cc:143
 msgid "Name"
-msgstr ""
+msgstr "اسم"
 
 #: src/wx/player_information.cc:158
 msgid "Needs KDM"
-msgstr ""
+msgstr "نیاز به کلید دارد"
 
 #: src/wx/player_information.cc:153
 msgid "Needs OV"
-msgstr ""
+msgstr "نیاز به نسخه اصلی دارد"
 
 #: src/wx/rename_template_dialog.cc:28
 msgid "New name"
-msgstr ""
+msgstr "اسم جدید"
 
 #: src/wx/update_dialog.cc:45
 msgid "New versions of DCP-o-matic are available."
-msgstr ""
+msgstr "نسخ جدید دی سی پی-او-ماتیک در دسترس است."
 
 #: src/wx/verify_dcp_dialog.cc:164
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
-msgstr ""
+msgstr "هیچ فایل ASSETMAP یا ASSETMAP.xml پیدا نشد."
 
 #: src/wx/player_information.cc:132
 msgid "No DCP loaded."
-msgstr ""
+msgstr "دی سی پی بارگذاری نشد."
 
 #: src/wx/verify_dcp_dialog.cc:476
 msgid "No SMPTE Bv2.1 errors found."
-msgstr ""
+msgstr "هیچ خطای SMPTE Bv2/1پیدا نشد."
 
 #: src/wx/audio_mapping_view.cc:526
 #, c-format
 msgid "No audio will be passed from %s channel '%s' to %s channel '%s'."
-msgstr ""
+msgstr "هیچ صدایی از %s  کانال '%s' به %s کانال '%s' منتقل نمیشود."
 
 #: src/wx/content_panel.cc:637
 msgid "No content found in this folder."
-msgstr ""
+msgstr "هیچ محتوایی در این پوشه یافت نشد."
 
 #: src/wx/verify_dcp_dialog.cc:472
 msgid "No errors found."
-msgstr ""
+msgstr "هیچ خطایی یافت نشد."
 
 #: src/wx/verify_dcp_dialog.cc:480
 msgid "No warnings found."
-msgstr ""
+msgstr "هیچ هشداری یافت نشد."
 
 #: src/wx/full_config_dialog.cc:1502
 msgid "Non-standard"
-msgstr ""
+msgstr "غیر استاندارد"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:158
 #: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1052
 #: src/wx/subtitle_appearance_dialog.cc:151 src/wx/video_panel.cc:189
 msgid "None"
-msgstr ""
+msgstr "هیچکدام"
 
 #: src/wx/verify_dcp_dialog.cc:215
 msgid "Not all subtitle assets specify the same <Language> tag."
-msgstr ""
+msgstr "همه فایلهای زیرنویس برچسب مشابه <Language> را مشخص نمیکنند."
 
 #: src/wx/screen_dialog.cc:194
 msgid "Not valid after"
-msgstr ""
+msgstr "فاقد اعتبار بعد از"
 
 #: src/wx/screen_dialog.cc:193
 msgid "Not valid before"
-msgstr ""
+msgstr "فاقد اعتبار قبل از"
 
 #: src/wx/cinema_dialog.cc:58 src/wx/recipient_dialog.cc:74
 #: src/wx/screen_dialog.cc:148
 msgid "Notes"
-msgstr ""
+msgstr "یادداشتها"
 
 #: src/wx/full_config_dialog.cc:1152
 msgid "Notifications"
-msgstr ""
+msgstr "اعلان ها"
 
 #: src/wx/job_view.cc:89
 msgid "Notify when complete"
-msgstr ""
+msgstr "تمام شد خبر بده"
 
 #: src/wx/full_config_dialog.cc:112
 msgid "Number of threads DCP-o-matic encode server should use"
 msgstr ""
+"تعداد رشته های سی پی یو که سرور رمزگذاری دی سی پی-او-ماتیک باید استفاده کند"
 
 #: src/wx/full_config_dialog.cc:107
 msgid "Number of threads DCP-o-matic should use"
-msgstr ""
+msgstr "تعداد رشته های سی پی یو که دی سی پی-او-ماتیک باید استفاده کند"
 
 #: src/wx/config_dialog.cc:998
 msgid "OSS"
-msgstr ""
+msgstr "OSS"
 
 #: src/wx/audio_mapping_view.cc:84
 msgid "Off"
-msgstr ""
+msgstr "خاموش"
 
 #: src/wx/text_panel.cc:102
+#, fuzzy
 msgid "Offset"
-msgstr ""
+msgstr "انحراف"
 
 #: src/wx/full_config_dialog.cc:1683
 msgid "Only servers encode"
-msgstr ""
+msgstr "فقط سرورها رمزگذاری کنند"
 
 #: src/wx/full_config_dialog.cc:1767 src/wx/player_config_dialog.cc:284
 msgid "Open console window"
-msgstr ""
+msgstr "پنجره کنسول را باز کن"
 
 #: src/wx/content_panel.cc:288
 msgid "Open the timeline for the film (Ctrl+T)."
-msgstr ""
+msgstr "جدول زمانی فیلم را باز کن (Ctrl+T)."
 
 #: src/wx/full_config_dialog.cc:1774 src/wx/player_config_dialog.cc:113
 msgid "OpenGL (faster)"
-msgstr ""
+msgstr "OpenGL (سریعتر)"
 
 #: src/wx/system_information_dialog.cc:82
 msgid "OpenGL renderer not supported by this DCP-o-matic version"
-msgstr ""
+msgstr "رندر OpenGL توسط این نسخه دی سی پی-او-ماتیک پشتیبانی نمیشود"
 
-#: src/wx/system_information_dialog.cc:50
-#: src/wx/system_information_dialog.cc:81
+#: src/wx/system_information_dialog.cc:50 src/wx/system_information_dialog.cc:81
 msgid "OpenGL version"
-msgstr ""
+msgstr "نسخه OpenGL"
 
 #: src/wx/make_chain_dialog.cc:84
 msgid "Organisation"
-msgstr ""
+msgstr "سازمان"
 
 #: src/wx/make_chain_dialog.cc:86
 msgid "Organisational unit"
-msgstr ""
+msgstr "واحد سازمانی"
 
 #: src/wx/recipient_dialog.cc:118 src/wx/screen_dialog.cc:202
 #: src/wx/screen_dialog.cc:204
 msgid "Other trusted devices"
-msgstr ""
+msgstr "سایر دستگاه های قابل اعتماد"
 
 #: src/wx/full_config_dialog.cc:872
 msgid "Outgoing mail server"
-msgstr ""
+msgstr "سرور ایمیل خروجی"
 
 #: src/wx/subtitle_appearance_dialog.cc:152
+#, fuzzy
 msgid "Outline"
-msgstr ""
+msgstr "لبه بیرونی"
 
 #: src/wx/controls.cc:86
 msgid "Outline content"
-msgstr ""
+msgstr "لبه بیرونی محتوا"
 
 #: src/wx/subtitle_appearance_dialog.cc:94
 msgid "Outline width"
-msgstr ""
+msgstr "عرض لبه بیرونی"
 
 #: src/wx/subtitle_appearance_dialog.cc:316
 msgid "Outline width cannot be set unless you are burning in subtitles."
-msgstr ""
+msgstr "عرض لبه بیرونی قابل اعمال نیست تا زیرنویس حک نشود."
 
-#: src/wx/config_dialog.cc:870 src/wx/dkdm_dialog.cc:107
-#: src/wx/kdm_dialog.cc:111 src/wx/self_dkdm_dialog.cc:76
+#: src/wx/config_dialog.cc:870 src/wx/dkdm_dialog.cc:107 src/wx/kdm_dialog.cc:111
+#: src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
-msgstr ""
+msgstr "خروجی"
 
 #: src/wx/export_subtitles_dialog.cc:60 src/wx/export_video_file_dialog.cc:93
 msgid "Output file"
-msgstr ""
+msgstr "فایل خروجی"
 
 #: src/wx/export_subtitles_dialog.cc:64
 msgid "Output folder"
-msgstr ""
+msgstr "پوشه خروجی"
 
 #: src/wx/colour_conversion_editor.cc:213
 msgid "Output gamma correction"
-msgstr ""
+msgstr "تصحیح گامای خروجی"
 
 #: src/wx/content_advanced_dialog.cc:84
 msgid "Override detected video frame rate"
-msgstr ""
+msgstr "نرخ ویدیوی شناسایی شده را نادیده بگیر"
 
 #: src/wx/config_move_dialog.cc:33
 msgid "Overwrite this file with current configuration"
-msgstr ""
+msgstr "این فایل را با پیکربندی فعلی بازنویسی کنید"
 
 #: src/wx/verify_dcp_dialog.cc:378
 msgid "Part of the DCP could not be checked because no KDM was available."
-msgstr ""
+msgstr "بخشی از دی سی پی قابل بررسی نیست چون کلید آن در دسترس نبود."
 
 #: src/wx/verify_dcp_dialog.cc:154
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
 msgstr ""
+"بخشی از دی سی پی مطابق استاندارد اینتروپ و بخشی دیگر توسط استاندارد اس ام پی تی "
+"ای نوشته شده است."
 
 #: src/wx/full_config_dialog.cc:753
 msgid "Passive mode"
-msgstr ""
+msgstr "حالت غیر فعال"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
 #: src/wx/full_config_dialog.cc:769 src/wx/full_config_dialog.cc:896
 msgid "Password"
-msgstr ""
+msgstr "کلمه عبور"
 
 #: src/wx/paste_dialog.cc:27
 msgid "Paste"
-msgstr ""
+msgstr "چسباندن"
 
 #: src/wx/paste_dialog.cc:32
 msgid "Paste audio settings"
-msgstr ""
+msgstr "چسباندن تنظیمات صدا"
 
 #: src/wx/paste_dialog.cc:35
 msgid "Paste subtitle and caption settings"
-msgstr ""
+msgstr "چسباندن تنظیمات زیرنویس"
 
 #: src/wx/paste_dialog.cc:29
 msgid "Paste video settings"
-msgstr ""
+msgstr "چسباندن تنظیمات ویدیو"
 
 #: src/wx/about_dialog.cc:162
 msgid "Patrons"
-msgstr ""
+msgstr "حامیان"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
 #: src/wx/playlist_controls.cc:59
 msgid "Pause"
-msgstr ""
+msgstr "مکث"
 
 #: src/wx/audio_dialog.cc:130
 msgid "Peak"
-msgstr ""
+msgstr "قله"
 
 #: src/wx/audio_panel.cc:472
 #, c-format
 msgid "Peak: %.2fdB"
-msgstr ""
+msgstr "فله: %.2f دسیبل"
 
 #: src/wx/audio_panel.cc:474
 msgid "Peak: unknown"
-msgstr ""
+msgstr "قله: ناشناخته"
 
 #: src/wx/player_information.cc:91
 msgid "Performance"
-msgstr ""
+msgstr "کارایی"
 
 #: src/wx/full_config_dialog.cc:885
+#, fuzzy
 msgid "Plain"
-msgstr ""
+msgstr "تخت"
 
 #: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
-msgstr ""
+msgstr "پلی"
 
 #: src/wx/timing_panel.cc:118
 msgid "Play length"
-msgstr ""
+msgstr "مدت پلی"
 
 #: src/wx/config_dialog.cc:859
 msgid "Play sound via"
-msgstr ""
+msgstr "پلی صدا با"
 
 #: src/wx/config_dialog.cc:1097
 msgid "Playlist directory"
-msgstr ""
+msgstr "دایرکتوری لیست نمایش"
 
 #: src/wx/report_problem_dialog.cc:116
 msgid ""
-"Please enter an email address so that we can contact you with any queries "
-"about the problem."
-msgstr ""
+"Please enter an email address so that we can contact you with any queries about "
+"the problem."
+msgstr "لطفاً یک آدرس ایمیل وارد کنید تا بتوانیم در مورد مشکل با شما تماس بگیریم."
 
 #: src/wx/audio_plot.cc:119
 msgid "Please wait; audio is being analysed..."
-msgstr ""
+msgstr "لطفا صبر کنید، صدا در حال آنالیز شدن است..."
 
 #: src/wx/timing_panel.cc:107
 msgid "Position"
-msgstr ""
+msgstr "موقعیت"
 
 #: src/wx/metadata_dialog.cc:282 src/wx/smpte_metadata_dialog.cc:136
 msgid "Pre-release"
-msgstr ""
+msgstr "پیش از انتشار"
 
 #: src/wx/dcp_panel.cc:947
 msgid "Processor"
-msgstr ""
+msgstr "پردازشگر"
 
 #: src/wx/full_config_dialog.cc:1418
 msgid "Product name"
-msgstr ""
+msgstr "اسم محصول"
 
 #: src/wx/full_config_dialog.cc:1423
 msgid "Product version"
-msgstr ""
+msgstr "نسخه محصول"
 
 #: src/wx/content_menu.cc:105
 msgid "Properties..."
-msgstr ""
+msgstr "ویژگی ها..."
 
 #: src/wx/full_config_dialog.cc:749
 msgid "Protocol"
-msgstr ""
+msgstr "پروتکل"
 
 #: src/wx/config_dialog.cc:997
+#, fuzzy
 msgid "PulseAudio"
-msgstr ""
+msgstr "PulseAudio"
 
 #: src/wx/export_video_file_dialog.cc:83
 msgid "Quality"
-msgstr ""
+msgstr "کیفیت"
 
 #: src/wx/qube_certificate_panel.cc:92
 msgid "Qube"
-msgstr ""
+msgstr "شرکت کیوب"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "RGB to XYZ conversion"
-msgstr ""
+msgstr "تبدیل آر جی بی به ایکس وای زد"
 
 #: src/wx/audio_dialog.cc:131
+#, fuzzy
 msgid "RMS"
-msgstr ""
+msgstr "RMS"
 
 #: src/wx/video_panel.cc:198
 msgid "Range"
-msgstr ""
+msgstr "محدوده"
 
 #: src/wx/rating_dialog.cc:43 src/wx/rating_dialog.cc:142
 #: src/wx/rating_dialog.cc:294
+#, fuzzy
 msgid "Rating"
-msgstr ""
+msgstr "رتبه بندی"
 
 #: src/wx/interop_metadata_dialog.cc:58 src/wx/smpte_metadata_dialog.cc:73
+#, fuzzy
 msgid "Ratings"
-msgstr ""
+msgstr "Ratings"
 
 #: src/wx/dcp_panel.cc:833
 msgid "Re-encode JPEG2000 data from input"
-msgstr ""
+msgstr "رمزگذاری مجدد داده های JPEG2000 از ورودی"
 
 #: src/wx/content_menu.cc:103
 msgid "Re-examine..."
-msgstr ""
+msgstr "امتحان مجدد..."
 
 #: src/wx/config_dialog.cc:329 src/wx/config_dialog.cc:677
 msgid "Re-make certificates and key..."
-msgstr ""
+msgstr "ساخت مجدد گواهی نامه ها و کلید..."
 
 #: src/wx/content_view.cc:89
 msgid "Reading content directory"
-msgstr ""
+msgstr "در حال خواندن دایرکتوری محتوا"
 
 #: src/wx/colour_conversion_editor.cc:121
 msgid "Rec. 2020"
-msgstr ""
+msgstr "Rec. 2020"
 
 #: src/wx/colour_conversion_editor.cc:119
 msgid "Rec. 601"
-msgstr ""
+msgstr "Rec. 601"
 
 #: src/wx/colour_conversion_editor.cc:120
 msgid "Rec. 709"
-msgstr ""
+msgstr "Rec. 709"
 
 #: src/wx/screen_dialog.cc:153
 msgid "Recipient"
-msgstr ""
+msgstr "گیرنده"
 
 #: src/wx/recipient_dialog.cc:107
 msgid "Recipient certificate"
-msgstr ""
+msgstr "گواهی نامه گیرنده"
 
 #: src/wx/dkdm_dialog.cc:77
 msgid "Recipients"
-msgstr ""
+msgstr "گیرندگان"
 
 #: src/wx/metadata_dialog.cc:286
+#, fuzzy
 msgid "Red band"
-msgstr ""
+msgstr "نوار قرمز"
 
 #: src/wx/colour_conversion_editor.cc:140
 msgid "Red chromaticity"
-msgstr ""
+msgstr "کیفیت رنگی مولفه قرمز"
 
 #: src/wx/timeline_reels_view.cc:96
 #, c-format
 msgid "Reel %d"
-msgstr ""
+msgstr "حلقه %d"
 
 #: src/wx/dcp_panel.cc:116
 msgid "Reel length"
-msgstr ""
+msgstr "مدت حلقه"
 
 #: src/wx/dcp_panel.cc:113
 msgid "Reels"
-msgstr ""
+msgstr "ریلها"
 
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
 #: src/wx/dcp_panel.cc:152
 msgid "Reel|Custom"
-msgstr ""
+msgstr "ریل| دلخواه"
 
 #: src/wx/region_subtag_dialog.cc:31
 msgid "Region"
-msgstr ""
+msgstr "ناحیه"
 
 #: src/wx/metadata_dialog.cc:190
 msgid "Release territory"
-msgstr ""
+msgstr "قلمرو انتشار"
 
 #: src/wx/metadata_dialog.cc:192
 msgid "Release territory for this DCP"
-msgstr ""
+msgstr "قلمرو انتشار برای این دی سی پی"
 
 #: src/wx/config_dialog.cc:303 src/wx/content_menu.cc:115
 #: src/wx/content_panel.cc:275 src/wx/recipients_panel.cc:73
 #: src/wx/templates_dialog.cc:61 src/wx/editable_list.h:149
 msgid "Remove"
-msgstr ""
+msgstr "حذف"
 
 #: src/wx/markers_panel.cc:237
 #, c-format
 msgid "Remove %s marker"
-msgstr ""
+msgstr "حذف نشانگر %s"
 
 #: src/wx/screens_panel.cc:86
 msgid "Remove Cinema"
-msgstr ""
+msgstr "حذف سینما"
 
 #: src/wx/screens_panel.cc:92
 msgid "Remove Screen"
-msgstr ""
+msgstr "حذف سالن سینما"
 
 #: src/wx/content_panel.cc:276
 msgid "Remove the selected piece of content from the film (Delete)."
-msgstr ""
+msgstr "حذف بخش انتخاب شده محتوا از فیلم (پاک شدن)."
 
 #: src/wx/rename_template_dialog.cc:26
 msgid "Rename template"
-msgstr ""
+msgstr "تغییر نام قالب"
 
 #: src/wx/templates_dialog.cc:59
 msgid "Rename..."
-msgstr ""
+msgstr "تغییر نام..."
 
 #: src/wx/system_information_dialog.cc:65
 msgid "Renderer"
-msgstr ""
+msgstr "رندر"
 
 #: src/wx/repeat_dialog.cc:27
 msgid "Repeat"
-msgstr ""
+msgstr "تکرار"
 
 #: src/wx/repeat_dialog.cc:25
 msgid "Repeat Content"
-msgstr ""
+msgstr "تکرار محتوا"
 
 #: src/wx/content_menu.cc:100
 msgid "Repeat..."
-msgstr ""
+msgstr "تکرار..."
 
 #: src/wx/report_problem_dialog.cc:44
 msgid "Report A Problem"
-msgstr ""
+msgstr "گزارش یک مشکل"
 
 #: src/wx/config_dialog.cc:874
 msgid "Reset to default"
-msgstr ""
+msgstr "تنظیم مجدد به حالت پیش فرض"
 
 #: src/wx/full_config_dialog.cc:1075 src/wx/full_config_dialog.cc:1212
 msgid "Reset to default subject and text"
-msgstr ""
+msgstr "تنظیم مجدد به موضوع و متن پیش فرض"
 
 #: src/wx/full_config_dialog.cc:1344
 msgid "Reset to default text"
-msgstr ""
+msgstr "تنظیم مجدد به متن پیش فرض"
 
 #: src/wx/dcp_panel.cc:819
 msgid "Resolution"
-msgstr ""
+msgstr "رزولوشن"
 
 #: src/wx/player_config_dialog.cc:124
 msgid "Respect KDM validity periods"
-msgstr ""
+msgstr "احترام به دوره اعتبار کلید"
 
 #: src/wx/subtitle_appearance_dialog.cc:137
 msgid "Restore to original colours"
-msgstr ""
+msgstr "بازگشت به رنگهای اصلی"
 
 #: src/wx/normal_job_view.cc:65
 msgid "Resume"
-msgstr ""
+msgstr "ادامه"
 
-#: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:90
-#: src/wx/video_panel.cc:133
+#: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:90 src/wx/video_panel.cc:133
 msgid "Right"
-msgstr ""
+msgstr "راست"
 
 #: src/wx/audio_mapping_view.cc:552
 msgid "Right click to change gain."
-msgstr ""
+msgstr "کلیک راست برای تغییر گین."
 
 #: src/wx/config_dialog.cc:520
 msgid "Root"
-msgstr ""
+msgstr "ریشه"
 
 #: src/wx/make_chain_dialog.cc:89
 msgid "Root common name"
-msgstr ""
+msgstr "اسم متداول ریشه"
 
 #: src/wx/colour_conversion_editor.cc:70
 msgid "S-Gamut3"
-msgstr ""
+msgstr "S-Gamut3"
 
 #: src/wx/full_config_dialog.cc:773
 msgid "SCP (for AAM and Doremi)"
-msgstr ""
+msgstr "SCP (for AAM and Doremi)"
 
 #: src/wx/dcp_panel.cc:169 src/wx/full_config_dialog.cc:413
 msgid "SMPTE"
-msgstr ""
+msgstr "SMPTE"
 
 #: src/wx/dcp_panel.cc:171
 msgid "SMPTE (Bv2.0 only)"
-msgstr ""
+msgstr "SMPTE (Bv2.0 only)"
 
 #: src/wx/verify_dcp_dialog.cc:53
 msgid "SMPTE Bv2.1 errors"
-msgstr ""
+msgstr "خطاهای SMPTE Bv2.1"
 
 #: src/wx/full_config_dialog.cc:887
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 #: src/wx/full_config_dialog.cc:886
 msgid "STARTTLS"
-msgstr ""
+msgstr "STARTTLS"
 
 #: src/wx/full_config_dialog.cc:146
 msgid "Same place as last time"
-msgstr ""
+msgstr "همان محل آخرین بار"
 
 #: src/wx/full_config_dialog.cc:147
 msgid "Same place as project"
-msgstr ""
+msgstr "همان محل پروژه"
 
 #: src/wx/audio_dialog.cc:396
-#, c-format
+#, fuzzy, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
-msgstr ""
+msgstr "قله نمونه %.2f دسیبل است در %s روی %s"
 
 #: src/wx/dcp_panel.cc:943
 msgid "Sample rate"
-msgstr ""
+msgstr "نرخ نمونه"
 
 #: src/wx/save_template_dialog.cc:31
 msgid "Save template"
-msgstr ""
+msgstr "ذخیره قالب"
 
 #: src/wx/self_dkdm_dialog.cc:80
 msgid "Save to KDM Creator tool's list"
-msgstr ""
+msgstr "ذخیره در لیست ابزار سازنده کلید"
 
 #: src/wx/text_panel.cc:110 src/wx/video_panel.cc:182
 msgid "Scale"
-msgstr ""
+msgstr "مقیاس"
 
 #: src/wx/invalid_certificate_period_dialog.cc:47
+#, fuzzy
 msgid "Screen"
-msgstr ""
+msgstr "سالن سینما"
 
 #: src/wx/kdm_dialog.cc:81
+#, fuzzy
 msgid "Screens"
-msgstr ""
+msgstr "سالن های سینما"
 
 #: src/wx/full_config_dialog.cc:679
 msgid "Search network for servers"
-msgstr ""
+msgstr "جستجوی شبکه برای سرورها"
 
 #: src/wx/timeline_dialog.cc:76
 msgid "Select"
-msgstr ""
+msgstr "انتخاب"
 
 #: src/wx/kdm_cpl_panel.cc:104
 msgid "Select CPL XML file"
-msgstr ""
+msgstr "انتخاب فایل CPL XML"
 
 #: src/wx/config_dialog.cc:373 src/wx/config_dialog.cc:456
 #: src/wx/config_dialog.cc:824 src/wx/recipient_dialog.cc:190
 #: src/wx/screen_dialog.cc:299
 msgid "Select Certificate File"
-msgstr ""
+msgstr "انتخاب فایل گواهینامه"
 
 #: src/wx/config_dialog.cc:486
 msgid "Select Chain File"
-msgstr ""
+msgstr "انتخاب فایل زنجیره"
 
 #: src/wx/full_config_dialog.cc:185
 msgid "Select Cinemas File"
-msgstr ""
+msgstr "انتخاب فایل سینماها"
 
 #: src/wx/config_dialog.cc:728
 msgid "Select Export File"
-msgstr ""
+msgstr "انتخاب فایل اکسپورت"
 
 #: src/wx/config_dialog.cc:762
 msgid "Select File To Import"
-msgstr ""
+msgstr "انتخاب فایل برای ورود"
 
 #: src/wx/content_menu.cc:406
 msgid "Select KDM"
-msgstr ""
+msgstr "انتخاب کلید"
 
 #: src/wx/config_dialog.cc:576 src/wx/config_dialog.cc:610
+#, fuzzy
 msgid "Select Key File"
-msgstr ""
+msgstr "انتخاب فایل شاسی"
 
 #: src/wx/content_menu.cc:460
 msgid "Select OV"
-msgstr ""
+msgstr "انتخاب نسخه اصلی"
 
 #: src/wx/timeline_dialog.cc:76
 msgid "Select and move content"
-msgstr ""
+msgstr "انتخاب و انتقال محتوا"
 
 #: src/wx/full_config_dialog.cc:123
 msgid "Select cinema and screen database file"
-msgstr ""
+msgstr "انتخاب فایل پایگاه داده سینما و سالن"
 
 #: src/wx/full_config_dialog.cc:118
 msgid "Select configuration file"
-msgstr ""
+msgstr "انتخاب فایل پیکربندی"
 
 #: src/wx/player_config_dialog.cc:129
+#, fuzzy
 msgid "Select debug log file"
-msgstr ""
+msgstr "انتخاب فایل گزارش اشکال زدایی"
 
 #: src/wx/export_subtitles_dialog.cc:61 src/wx/export_video_file_dialog.cc:99
 msgid "Select output file"
-msgstr ""
+msgstr "انتخاب فایل خروجی"
 
 #: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:138
 msgid "Send by email"
-msgstr ""
+msgstr "ارسال از طریق ایمیل"
 
 #: src/wx/confirm_kdm_email_dialog.cc:34
 msgid "Send emails"
-msgstr ""
+msgstr "ارسال ایمیل"
 
 #: src/wx/report_problem_dialog.cc:72
 msgid "Send logs"
-msgstr ""
+msgstr "ارسال فایل گزارش"
 
 #: src/wx/send_test_email_dialog.cc:26
 msgid "Send test email"
-msgstr ""
+msgstr "ارسال ایمیل تست"
 
 #: src/wx/full_config_dialog.cc:901
 msgid "Send test email..."
-msgstr ""
+msgstr "ارسال ایمیل تست..."
 
 #: src/wx/send_i18n_dialog.cc:36
 msgid "Send translations"
-msgstr ""
+msgstr "ارسال ترجمه ها"
 
 #: src/wx/timeline_dialog.cc:80
 msgid "Sequence"
-msgstr ""
+msgstr "پشت سر هم"
 
 #: src/wx/download_certificate_panel.cc:49
 msgid "Serial number"
-msgstr ""
+msgstr "شماره سریال"
 
 #: src/wx/server_dialog.cc:30
 msgid "Server"
-msgstr ""
+msgstr "سرور"
 
 #: src/wx/full_config_dialog.cc:666
 msgid "Servers"
-msgstr ""
+msgstr "سرورها"
 
 #: src/wx/content_advanced_dialog.cc:90 src/wx/timecode.cc:68
 msgid "Set"
-msgstr ""
+msgstr "تنظیم"
 
 #: src/wx/kdm_output_panel.cc:140
 msgid "Set additional email addresses..."
-msgstr ""
+msgstr "تنظیم آدرس های ایمیل اضافی..."
 
 #: src/wx/markers_dialog.cc:59
 msgid "Set from current position"
-msgstr ""
+msgstr "از موقعیت فعلی تنظیم کنید"
 
 #: src/wx/fonts_dialog.cc:73
 msgid "Set from file..."
-msgstr ""
+msgstr "تنظیم از فایل..."
 
 #: src/wx/fonts_dialog.cc:77
 msgid "Set from system font..."
-msgstr ""
+msgstr "تنظیم از فونت سیستم..."
 
 #: src/wx/config_dialog.cc:121
 msgid "Set language"
-msgstr ""
+msgstr "تنظیم زبان"
 
 #: src/wx/content_menu.cc:112
 msgid "Set project DCP settings from this DCP"
-msgstr ""
+msgstr "تنظیمات دی سی پی پروژه را از این دی سی پی تنظیم کنید"
 
 #: src/wx/content_menu.cc:113
 msgid "Set project markers from this DCP"
-msgstr ""
+msgstr "نشانگرهای پروژه را از این دی سی پی تنظیم کنید"
 
 #: src/wx/custom_scale_dialog.cc:42
 msgid "Set ratio and fit to DCP container"
-msgstr ""
+msgstr "نسبت ابعاد را متناسب با ظرف دی سی پی تنظیم کنید"
 
 #: src/wx/custom_scale_dialog.cc:52
 msgid "Set size"
-msgstr ""
+msgstr "تنظیم اندازه"
 
 #: src/wx/subtitle_appearance_dialog.cc:230
+#, fuzzy
 msgid "Set to"
-msgstr ""
+msgstr "تنظیم کنید به"
 
 #: src/wx/system_information_dialog.cc:67
+#, fuzzy
 msgid "Shading language version"
-msgstr ""
+msgstr "نسخه زبان سایه"
 
 #: src/wx/subtitle_appearance_dialog.cc:153
 msgid "Shadow"
-msgstr ""
+msgstr "سایه"
 
 #: src/wx/password_entry.cc:34
 msgid "Show"
-msgstr ""
+msgstr "نمایش دادن"
 
 #: src/wx/full_config_dialog.cc:1679
 msgid "Show experimental audio processors"
-msgstr ""
+msgstr "نمایش پردازنده های صوتی آزمایشی"
 
 #: src/wx/audio_panel.cc:82 src/wx/dcp_panel.cc:951
 msgid "Show graph of audio levels..."
-msgstr ""
+msgstr "نمایش گرافیکی لول های صدا..."
 
 #: src/wx/screens_panel.cc:763
 #, c-format
 msgid "Show only %d checked"
-msgstr ""
+msgstr "فقط %d که علامت زده شده اند را نمایش بده"
 
 #: src/wx/screens_panel.cc:65 src/wx/screens_panel.cc:761
 msgid "Show only checked"
-msgstr ""
+msgstr "فقط علامت زده ها را نمایش بده"
 
 #: src/wx/text_panel.cc:170
 msgid "Show subtitle area"
-msgstr ""
+msgstr "نمایش محدوده زیرنویس"
 
 #: src/wx/metadata_dialog.cc:259
 msgid "Sign language video language"
-msgstr ""
+msgstr "زبان اشاره زبان ویدیو"
 
 #: src/wx/config_dialog.cc:668 src/wx/config_dialog.cc:715
 msgid "Signing DCPs and KDMs"
-msgstr ""
+msgstr "امضا دی سی پی ها و کلیدها"
 
 #: src/wx/full_config_dialog.cc:1772 src/wx/player_config_dialog.cc:112
 msgid "Simple (safer)"
-msgstr ""
+msgstr "ساده (ایمن تر)"
 
 #: src/wx/colour_conversion_editor.cc:68
 msgid "Simple gamma"
-msgstr ""
+msgstr "گامای ساده"
 
 #: src/wx/colour_conversion_editor.cc:69
 msgid "Simple gamma, linearised for small values"
-msgstr ""
+msgstr "گامای ساده، خطی شده برای مقادیر کوچک"
 
 #: src/wx/dcp_panel.cc:149
 msgid "Single reel"
-msgstr ""
+msgstr "تک حلقه"
 
 #: src/wx/player_information.cc:164
-#, c-format
+#, fuzzy, c-format
 msgid "Size: %dx%d"
-msgstr ""
+msgstr "اندازه: %dx%d"
 
 #: src/wx/audio_dialog.cc:141
+#, fuzzy
 msgid "Smoothing"
-msgstr ""
+msgstr "هموار کردن"
 
 #: src/wx/timeline_dialog.cc:79
+#, fuzzy
 msgid "Snap"
-msgstr ""
+msgstr "Snap"
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
 msgid ""
 "Some KDMs would have validity periods which are outside the recipient "
 "certificate validity periods.  What do you want to do?"
 msgstr ""
+"برخی از کلیدها دارای مدت زمان اعتباری هستند که خارج از مدت زمان اعتبار "
+"گواهینامه گیرنده است.  میخوای چیکار کنی؟"
 
 #: src/wx/verify_dcp_dialog.cc:384
 msgid ""
-"Some closed <Text> or <Image> nodes have different vertical alignments "
-"within a <Subtitle>."
-msgstr ""
+"Some closed <Text> or <Image> nodes have different vertical alignments within a "
+"<Subtitle>."
+msgstr "برخی از <Text> یا <Image> در راستای عمودی متفاوتی با یک <Subtitle> هستند."
 
 #: src/wx/verify_dcp_dialog.cc:387
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
-msgstr ""
+msgstr "برخی از زیرنویس‌ها به ترتیب موقعیت عمودی فهرست نشده‌اند."
 
 #: src/wx/config_dialog.cc:848
 msgid "Sound"
-msgstr ""
+msgstr "صدا"
 
 #: src/wx/verify_dcp_dialog.cc:414
 msgid "Sound assets do not all have the same channel count."
-msgstr ""
+msgstr "فایلهای صدا همه تعداد کانال یکسانی ندارند."
 
 #: src/wx/gain_calculator_dialog.cc:32
 msgid "Sound processor"
-msgstr ""
+msgstr "پردازشگر صدا"
 
 #: src/wx/dcp_panel.cc:150
 msgid "Split by video content"
-msgstr ""
+msgstr "تقسیم بر اساس محتوای ویدیو"
 
 #: src/wx/update_dialog.cc:53
 msgid "Stable version "
-msgstr ""
+msgstr "نسخه پایدار "
 
-#: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
-#: src/wx/rating_dialog.cc:50
+#: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78 src/wx/rating_dialog.cc:50
 msgid "Standard"
-msgstr ""
+msgstr "استاندارد"
 
 #: src/wx/text_view.cc:57
 msgid "Start"
-msgstr ""
+msgstr "شروع"
 
 #: src/wx/move_to_dialog.cc:40
 msgid "Start of reel"
-msgstr ""
+msgstr "شروع حلقه"
 
 #: src/wx/player_config_dialog.cc:95
 msgid "Start player as"
-msgstr ""
+msgstr "شروع پلیر"
 
 #: src/wx/smpte_metadata_dialog.cc:90
 msgid "Status"
-msgstr ""
+msgstr "وضعیت"
 
 #: src/wx/playlist_controls.cc:60
 msgid "Stop"
-msgstr ""
+msgstr "توقف"
 
 #: src/wx/text_panel.cc:122
+#, fuzzy
 msgid "Stream"
-msgstr ""
+msgstr "جریان"
 
 #: src/wx/metadata_dialog.cc:268
 msgid "Studio"
-msgstr ""
+msgstr "استودیو"
 
 #: src/wx/full_config_dialog.cc:1044 src/wx/full_config_dialog.cc:1177
 msgid "Subject"
-msgstr ""
+msgstr "موضوع"
 
 #: src/wx/screen_dialog.cc:189
 msgid "Subject common name"
-msgstr ""
+msgstr "نام متداول موضوع"
 
 #: src/wx/screen_dialog.cc:190
 msgid "Subject organization name"
-msgstr ""
+msgstr "نام سازمان موضوع"
 
 #: src/wx/about_dialog.cc:166
 msgid "Subscribers"
-msgstr ""
+msgstr "مشترکین"
 
 #: src/wx/subtitle_appearance_dialog.cc:61
 msgid "Subtitle appearance"
-msgstr ""
+msgstr "ظاهر زیرنویس"
 
 #: src/wx/verify_dcp_dialog.cc:269
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
-msgstr ""
+msgstr "محتوای زیرنویس %n یک غیر صفر در <EntryPoint> دارد."
 
 #: src/wx/export_subtitles_dialog.cc:58
 msgid "Subtitle files (.mxf)|*.mxf"
-msgstr ""
+msgstr "فایلهای زیرنویس (.mxf)|*.mxf"
 
 #: src/wx/export_subtitles_dialog.cc:58
 msgid "Subtitle files (.xml)|*.xml"
-msgstr ""
+msgstr "فایلهای زیرنویس (.xml)|*.xml"
 
 #: src/wx/timeline_labels_view.cc:43 src/wx/timeline_labels_view.cc:80
+#, fuzzy
 msgid "Subtitles/captions"
-msgstr ""
+msgstr "زیرنویس/کپشن"
 
 #: src/wx/player_information.cc:174
 msgid "Subtitles: no"
-msgstr ""
+msgstr "زیرنویس: خیر"
 
 #: src/wx/player_information.cc:172
 msgid "Subtitles: yes"
-msgstr ""
+msgstr "زیرنویس: بله"
 
-#: src/wx/system_information_dialog.cc:45
-#: src/wx/system_information_dialog.cc:79
+#: src/wx/system_information_dialog.cc:45 src/wx/system_information_dialog.cc:79
 msgid "System information"
-msgstr ""
+msgstr "اظلاعات سیستم"
 
 #: src/wx/full_config_dialog.cc:729
 msgid "TMS"
-msgstr ""
+msgstr "TMS"
 
 #: src/wx/full_config_dialog.cc:761
 msgid "Target path"
-msgstr ""
+msgstr "مسیر مقصد"
 
 #: src/wx/templates_dialog.cc:51
 msgid "Template"
-msgstr ""
+msgstr "قالب"
 
 #: src/wx/save_template_dialog.cc:33
 msgid "Template name"
-msgstr ""
+msgstr "نام قالب"
 
 #: src/wx/templates_dialog.cc:143
 msgid "Template names must not be empty."
-msgstr ""
+msgstr "نام قالب نباید خالی باشد."
 
 #: src/wx/templates_dialog.cc:41
 msgid "Templates"
-msgstr ""
+msgstr "قالبها"
 
 #: src/wx/smpte_metadata_dialog.cc:135
 msgid "Temporary"
-msgstr ""
+msgstr "موقت"
 
 #: src/wx/metadata_dialog.cc:278
 msgid "Temporary version"
-msgstr ""
+msgstr "نسخه موقت"
 
 #: src/wx/full_config_dialog.cc:994 src/wx/full_config_dialog.cc:997
 msgid "Test email sending failed."
-msgstr ""
+msgstr "خطا در ارسال ایمیل آزمایشی."
 
 #: src/wx/full_config_dialog.cc:1000
 msgid "Test email sent."
-msgstr ""
+msgstr "ایمیل آزمایشی ارسال شد."
 
 #: src/wx/update_dialog.cc:59
 msgid "Test version "
-msgstr ""
+msgstr "نسخه آزمایشی "
 
 #: src/wx/about_dialog.cc:236
 msgid "Tested by"
-msgstr ""
+msgstr "آزمایش شده توسط"
 
 #: src/wx/kdm_timing_panel.cc:171
 msgid "The 'until' time must be after the 'from' time."
-msgstr ""
+msgstr "زمان 'تا' باید بعد از زمان 'از' باشد."
 
 #: src/wx/verify_dcp_dialog.cc:438
-#, c-format
+#, fuzzy, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %id is empty"
-msgstr ""
+msgstr "مقدار <LabelText> در یک <ContentVersion> در سی پی ال %id خالی است"
 
 #: src/wx/verify_dcp_dialog.cc:399
 msgid ""
-"The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
-"an asset."
-msgstr ""
+"The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an "
+"asset."
+msgstr "مقدار<MainPictureActiveArea> یا ضریب 2 نیست یا از محتوا بیشتر است."
 
 #: src/wx/disk_warning_dialog.cc:48
 #, c-format
@@ -3035,8 +3084,7 @@ msgid ""
 "\n"
 "and may\n"
 "\n"
-"<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</"
-"span>\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</span>\n"
 "\n"
 "If you are sure you want to continue please type\n"
 "\n"
@@ -3044,22 +3092,38 @@ msgid ""
 "\n"
 "into the box below, then click OK."
 msgstr ""
+"این <b>نویسنده دیسک دی سی پی-او-ماتیک</b> هست\n"
+"\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">نرم افزار در حال تست از "
+"درجه بتا </span>\n"
+"\n"
+"و ممکن است\n"
+"\n"
+"<span weight=\"bold\" size=\"20480\" foreground=\"red\">داده ها را پاک کند</"
+"span>\n"
+"\n"
+"اگر اطمینان دارید که ادامه دهید لطفا در کادر بنویسید\n"
+"\n"
+"<tt>%s</tt>\n"
+"\n"
+"سپس تایید را کلیک کنید."
 
 #: src/wx/verify_dcp_dialog.cc:405
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
-msgstr ""
+msgstr "در فایل ASSETMAP بنام %n بیش از یک محتوا با شتاسه یکسان وجود دارد."
 
 #: src/wx/verify_dcp_dialog.cc:368
+#, fuzzy
 msgid ""
-"The Asset ID in a timed text MXF is the same as the Resource ID or that of "
-"the contained XML."
-msgstr ""
+"The Asset ID in a timed text MXF is the same as the Resource ID or that of the "
+"contained XML."
+msgstr "شناسه محتوا در متن زمان‌بندی‌شده MXF همان شناسه منبع یا XML موجود است."
 
 #: src/wx/verify_dcp_dialog.cc:308
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
-msgstr ""
+msgstr "فایل سی پی ال %f دارای یک برچسب متادیتای پسوند سی پی ال نامعتبر است (%n)"
 
 #: src/wx/verify_dcp_dialog.cc:254
 #, c-format
@@ -3067,86 +3131,94 @@ msgid ""
 "The CPL %n has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr ""
+"قایل سی پی ال %n شامل یک  <AnnotationText> است که مشابه <ContentTitleText> اش "
+"نیست."
 
 #: src/wx/verify_dcp_dialog.cc:311
 #, c-format
 msgid "The CPL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "فایل سی پی ال %n محتوای رمزگذاری شده دارد اما امضا نشده."
 
 #: src/wx/verify_dcp_dialog.cc:251
 #, c-format
 msgid "The CPL %n has no <AnnotationText> tag."
-msgstr ""
+msgstr "فایل سی پی ال %n برچسب  <AnnotationText> ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:305
 #, c-format
 msgid "The CPL %n has no CPL extension metadata tag."
-msgstr ""
+msgstr "فایل سی پی ال %n برچسب متادیتای پسوند سی پی ال ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:299
 #, c-format
 msgid "The CPL %n has no CPL metadata tag."
-msgstr ""
+msgstr "فایل سی پی ال %n برچسب متادیتای سی پی ال ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:302
 #, c-format
 msgid "The CPL %n has no CPL metadata version number tag."
-msgstr ""
+msgstr "فایل سی پی ال %n برچسب شماره نسخه متادیتای سی پی ال ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:293
-#, c-format
+#, fuzzy, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
-msgstr ""
+msgstr "دی سی پی به جای 1 دارای یک FFOC از %n است."
 
 #: src/wx/verify_dcp_dialog.cc:296
-#, c-format
+#, fuzzy, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
-msgstr ""
+msgstr "دی سی پی به جای مدت حلقه منهای یک دارای یک LFOC از %n است."
 
 #: src/wx/verify_dcp_dialog.cc:263
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
-msgstr ""
+msgstr "دی سی پی زیرنویس دارد اما همه حلقه ها تعداد محتوای زیرنویس یکسانی ندارند."
 
 #: src/wx/verify_dcp_dialog.cc:320
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
+"دی سی پی دارای محتوای رمزگذاری شده است، اما همه محتواهای آن رمزگذاری شده نیستند."
 
 #: src/wx/verify_dcp_dialog.cc:287
 msgid "The DCP has no FFOC (first frame of content) marker."
-msgstr ""
+msgstr "دی سی پی فاقد نشانه در اولین فریم محتوا است(FFOC ندارد)."
 
 #: src/wx/verify_dcp_dialog.cc:290
 msgid "The DCP has no LFOC (last frame of content) marker."
-msgstr ""
+msgstr "دی سی پی فاقد نشانه در آخرین فریم محتوا است(LFOC ندارد)."
 
 #: src/wx/verify_dcp_dialog.cc:260
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
-msgstr ""
+msgstr "دی سی پی دارای زیرنویس است اما دست کم یک حلقه آن محتوای زیرنویس ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:281
-msgid ""
-"The DCP is a feature but has no FFEC (first frame of end credits) marker."
-msgstr ""
+msgid "The DCP is a feature but has no FFEC (first frame of end credits) marker."
+msgstr "این دی سی پی یک فیلم بلند است اما نشانه اولین فریم تیتراژ پایانی ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:284
+#, fuzzy
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
-msgstr ""
+msgstr "این دی سی پی یک فیلم بلند است اما نشانه FFMCندارد."
 
 #: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:205
 msgid ""
-"The KDM end period is after (or close to) the end of the signing "
-"certificates' validity period.  Either use an earlier end time for this KDM "
-"or re-create your signing certificates in the DCP-o-matic preferences window."
+"The KDM end period is after (or close to) the end of the signing certificates' "
+"validity period.  Either use an earlier end time for this KDM or re-create your "
+"signing certificates in the DCP-o-matic preferences window."
 msgstr ""
+"تاریخ پایان اعتبار این کلید بعد از(یا خیلی نزدیک به) پایان مدت اعتبار گواهینامه "
+"دستگاه است.  یا تاریخ اعتبار کلید را کمتر کنید و یا دوباره از طریق پنجره اولویت "
+"ها گواهینامه جدید برای دستگاه ایجاد کنید."
 
 #: src/wx/dkdm_dialog.cc:170 src/wx/kdm_dialog.cc:203
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
 msgstr ""
+"تاریخ شروع اعتبار این کلید قبل از(یا خیلی نزدیک به) شروع مدت اعتبار گواهینامه "
+"دستگاه است. تاریخ شروع اعتبار کلید را دیرتر انتخاب کنید."
 
 #: src/wx/verify_dcp_dialog.cc:317
 #, c-format
@@ -3154,46 +3226,49 @@ msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
 "<ContentTitleText>."
 msgstr ""
+"فهرست- فایل (PKL) بنام: %n دارای یک <AnnotationText> است که با "
+"<ContentTitleText> موجود در ترکیب پلی لیست (CPL) مطابقت ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:314
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
-msgstr ""
+msgstr "فهرست- فایل(PKL) بنام: %n دارای محتوای رمزگذاری شده است اما امضا ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:402
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
-msgstr ""
+msgstr "فهرست- فایل (PKL) بنام: %n دارای بیش از یک محتوا با شناسه مشابه است."
 
 #: src/wx/verify_dcp_dialog.cc:139
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
-msgstr ""
+msgstr "هش های سی پی ال و پی کی ال برای محتوای تصویر %f مخالف هم هستند."
 
 #: src/wx/verify_dcp_dialog.cc:145
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
-msgstr ""
+msgstr "هش های سی پی ال و پی کی ال برای محتوای صدای %f مخالف هم هستند."
 
 #: src/wx/verify_dcp_dialog.cc:365
 msgid ""
-"The Resource ID in a timed text MXF did not match the ID of the contained "
-"XML."
-msgstr ""
+"The Resource ID in a timed text MXF did not match the ID of the contained XML."
+msgstr "شناسه منبع در متن زمان‌بندی‌شده MXF با شناسه XML موجود مطابقت ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:432
-#, c-format
+#, fuzzy, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
+"فایل زیرنویس اس ام پی تی ای %i یک گره <Text> دارد اما گره <LoadFont> ندارد"
 
 #: src/wx/verify_dcp_dialog.cc:160
 #, c-format
 msgid "The XML in %f is malformed (%n)."
-msgstr ""
+msgstr "فایل XML در %f نادرست است (%n)."
 
 #: src/wx/verify_dcp_dialog.cc:158
+#, fuzzy
 msgid "The XML in %f is malformed on line %l (%n)."
-msgstr ""
+msgstr "فایل XML در %f نادرست است در خط %i (%n)."
 
 #: src/wx/verify_dcp_dialog.cc:203
 #, c-format
@@ -3201,55 +3276,54 @@ msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
 "256KB limit."
 msgstr ""
+"حجم فایل XML زیرنویس %f بیش از %n بایت است که خارج از حد مجاز 256 کیلو بایت است."
 
 #: src/wx/verify_dcp_dialog.cc:426
 #, c-format
-msgid ""
-"The XML in the subtitle asset %n has more than one namespace declaration."
-msgstr ""
+msgid "The XML in the subtitle asset %n has more than one namespace declaration."
+msgstr "این XML فایل زیرنویس %n بیش از یک اعلان فضای نام دارد."
 
 #: src/wx/verify_dcp_dialog.cc:182
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
-msgstr ""
+msgstr "فایل %f سه بعدی است اما فایل MXF آن به عنوان دو بعدی علامت زده شده است."
 
 #: src/wx/verify_dcp_dialog.cc:151
 #, c-format
 msgid "The asset %f is missing."
-msgstr ""
+msgstr "فایل %f موجود نیست."
 
 #: src/wx/verify_dcp_dialog.cc:170
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
-msgstr ""
+msgstr "مدت فایل %n کمتر از یک ثانیه است که معتبر نیست."
 
 #: src/wx/verify_dcp_dialog.cc:167
 #, c-format
 msgid ""
-"The asset %n has an intrinsic duration of less than 1 second, which is "
-"invalid."
-msgstr ""
+"The asset %n has an intrinsic duration of less than 1 second, which is invalid."
+msgstr "مدت زمان حقیقی فایل %n کمتر از یک ثانیه است که معتبر نیست."
 
 #: src/wx/verify_dcp_dialog.cc:278
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
-msgstr ""
+msgstr "فایل %n در سی پی ال فاقد <Hash> است."
 
 #: src/wx/verify_dcp_dialog.cc:435
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
-msgstr ""
+msgstr "فایل با شناسه %id در ASSETMAP در واقع شناسه %other_id دارد"
 
 #: src/wx/verify_dcp_dialog.cc:272
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "فایل زیرنویس %n فاقد برچسب <EntryPoint> است."
 
 #: src/wx/film_name_location_dialog.cc:146
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
-"use it?"
-msgstr ""
+"The directory %1 already exists and is not empty.  Are you sure you want to use "
+"it?"
+msgstr "دایرکتوری %1 وجود دارد و خالی نیست. آیا در استفاده از آن مطمئن هستید؟"
 
 #: src/wx/try_unmount_dialog.cc:42
 #, c-format
@@ -3260,31 +3334,42 @@ msgid ""
 "\n"
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
+"درایو <b>%s</b> نصب شده است.\n"
+"\n"
+"قبل از اینکه دی سی پی-او-ماتیک بتواند روی آن بنویسد باید آن را جدا کرد.\n"
+"\n"
+"آیا دی سی پی-او-ماتیک باید اکنون آن را جدا کند؟"
 
 #: src/wx/wx_util.cc:744
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
 msgstr ""
+"فایل پیکربندی موجود فراخوانی نشد. در عوض مقادیر پیش فرض استفاده میشوند. ایجاد "
+"آن زمان کوتاهی نیاز دارد."
 
 #: src/wx/config_move_dialog.cc:37
 #, c-format
 msgid ""
-"The file %s already exists.  Do you want to use it as your new configuration "
-"or overwrite it with your current configuration?"
+"The file %s already exists.  Do you want to use it as your new configuration or "
+"overwrite it with your current configuration?"
 msgstr ""
+"فایل %s وجود دارد. آیا می خواهید به عنوان پیکربندی جدید استفاده شود یا پیکربندی "
+"فعلی را بر روی آن بنویسید؟"
 
 #: src/wx/verify_dcp_dialog.cc:224
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
-msgstr ""
+msgstr "اولین زیرنویس 4 ثانیه قبل از شروع حلقه اول فیلم است."
 
 #: src/wx/verify_dcp_dialog.cc:420
 #, c-format
 msgid ""
-"The font file for font ID \"%n\" was not found, or was not referred to in "
-"the ASSETMAP."
+"The font file for font ID \"%n\" was not found, or was not referred to in the "
+"ASSETMAP."
 msgstr ""
+"فایل فونت برای فونت با شناسه \"%n\" موجود نیست و یا در فایل ASSETMAP به آن "
+"ارجاع نشده است."
 
 #: src/wx/verify_dcp_dialog.cc:209
 #, c-format
@@ -3292,6 +3377,7 @@ msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
 "limit."
 msgstr ""
+"فونتهای فایل زیرنویس %f بیش از %n بایت هستند که بیش از حجم مجاز 10 مگابایت است."
 
 #: src/wx/verify_dcp_dialog.cc:130
 #, c-format
@@ -3299,6 +3385,8 @@ msgid ""
 "The hash of the CPL %n in the PKL does not agree with the CPL file.  This "
 "probably means that the CPL file is corrupt."
 msgstr ""
+"هش فایل سی پی ال %n در فایل پی کی ال با فایل سی پی ال یکسان نیست.  ممکن است که "
+"فایل سی پی ال صدمه دیده باشد."
 
 #: src/wx/verify_dcp_dialog.cc:136
 #, c-format
@@ -3306,28 +3394,32 @@ msgid ""
 "The hash of the picture asset %f does not agree with the PKL file.  This "
 "probably means that the asset file is corrupt."
 msgstr ""
+"هش فایل تصویر %f با فایل پی کی ال یکسان نیست.  ممکن است که فایل ASSETMAP صدمه "
+"دیده باشد."
 
 #: src/wx/verify_dcp_dialog.cc:142
 #, c-format
 msgid ""
-"The hash of the sound asset %f does not agree with the PKL file.  This "
-"probably means that the asset file is corrupt."
+"The hash of the sound asset %f does not agree with the PKL file.  This probably "
+"means that the asset file is corrupt."
 msgstr ""
+"هش فایل صدای %f با فایل پی کی ال یکسان نیست.  ممکن است که فایل ASSETMAP صدمه "
+"دیده باشد."
 
 #: src/wx/verify_dcp_dialog.cc:188
 #, c-format
 msgid "The invalid language tag %n is used."
-msgstr ""
+msgstr "برچسب زبان %n مورد استفاده نادرست است."
 
 #: src/wx/smpte_metadata_dialog.cc:63
 #, c-format
 msgid "The language that the film's title (\"%s\") is in"
-msgstr ""
+msgstr "زبانی که عنوان فیلم (\"%s \") به آن است"
 
 #: src/wx/verify_dcp_dialog.cc:133
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
-msgstr ""
+msgstr "این تصویردر یک حلقه نرخ فریم آن %n است که معتبر نیست."
 
 #: src/wx/verify_dcp_dialog.cc:374
 #, c-format
@@ -3335,608 +3427,643 @@ msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
 "ContainerDuration (%s) of its MXF."
 msgstr ""
+"مدت زمان حلقه (%s ) فیلم مربوط به برخی زیرنویسها با ContainerDuration آن (%s) "
+"در فایل MXF یکسان نیست."
 
 #: src/wx/verify_dcp_dialog.cc:248
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
-msgstr ""
+msgstr "فایل صدای %f دارای نرخ فریم نامعتبر %n است."
 
 #: src/wx/verify_dcp_dialog.cc:212
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
-msgstr ""
+msgstr "فایل زیرنویس %f برچسب <Language> ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:218
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
-msgstr ""
+msgstr "فایل زیرنویس %f برچسب <StartTime>  ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:221
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
-msgstr ""
+msgstr "فایل زیرنویس %f یک <StartTime> دارد که صفر نیست."
 
 #: src/wx/verify_dcp_dialog.cc:408
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
-msgstr ""
+msgstr "فایل زیرنویس %n فاقد متن زیرنویس است."
 
 #: src/wx/verify_dcp_dialog.cc:266
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
-msgstr ""
+msgstr "فایل زیرنویس %n برچسب  <EntryPoint> ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:206
 #, c-format
-msgid ""
-"The timed text asset %f takes up %n bytes which is over the 115MB limit."
+msgid "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr ""
+"فایل زیرنویس %f بیش از %n بایت حجم دارد که بیش از حجم مجاز 115 مگابایت است."
 
 #: src/wx/verify_dcp_dialog.cc:200
 #, c-format
-msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 3D video."
-msgstr ""
+msgid "The video asset %f uses the frame rate %n which is invalid for 3D video."
+msgstr "فایل ویدیوی %f  نرخ فریم %n  دارد که برای تصویر سه بعدی درست نیست."
 
 #: src/wx/verify_dcp_dialog.cc:197
 #, c-format
-msgid ""
-"The video asset %f uses the frame rate %n which is invalid for 4K video."
-msgstr ""
+msgid "The video asset %f uses the frame rate %n which is invalid for 4K video."
+msgstr "فایل ویدیوی %f  نرخ فریم %n  دارد که برای ویدیوی 4k درست نیست."
 
 #: src/wx/verify_dcp_dialog.cc:194
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
-msgstr ""
+msgstr "فایل ویدیوی %f از نرخ فریم نادرست %n  استفاده میکند."
 
 #: src/wx/verify_dcp_dialog.cc:191
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
-msgstr ""
+msgstr "فایل ویدیوی %f از اندازه تصویرنادرست %n  استفاده میکند."
 
 #: src/wx/verify_dcp_dialog.cc:242
 msgid "There are more than 3 closed caption lines in at least one place."
-msgstr ""
+msgstr "حداقل در یک محل بیش از سه خط زیرنویس وجود دارد."
 
 #: src/wx/verify_dcp_dialog.cc:233
 msgid "There are more than 3 subtitle lines in at least one place."
-msgstr ""
+msgstr "حداقل در یک محل بیش از سه خط زیرنویس وجود دارد."
 
 #: src/wx/verify_dcp_dialog.cc:245
 msgid "There are more than 32 characters in at least one closed caption line."
-msgstr ""
+msgstr "حداقل در یک خط زیرنویس بیش از 32 کاراکتر وجود دارد."
 
 #: src/wx/verify_dcp_dialog.cc:236
 msgid "There are more than 52 characters in at least one subtitle line."
-msgstr ""
+msgstr "حداقل در یک خط زیرنویس بیش از 52 کاراکتر وجود دارد."
 
 #: src/wx/verify_dcp_dialog.cc:239
 msgid "There are more than 79 characters in at least one subtitle line."
-msgstr ""
+msgstr "حداقل در یک خط زیرنویس بیش از 79 کاراکتر وجود دارد."
 
 #: src/wx/hints_dialog.cc:146
 msgid "There are no hints yet: project check in progress."
-msgstr ""
+msgstr "هنوز هیچ نکته ای وجود ندارد: بررسی پروژه در حال انجام است."
 
 #: src/wx/hints_dialog.cc:144
 msgid "There are no hints: everything looks good!"
-msgstr ""
+msgstr "نکته ای وجود ندارد: همه چیز درست به نظر میرسد!"
 
 #: src/wx/verify_dcp_dialog.cc:393
 msgid "There is a <Duration> tag inside a <MainMarkers>."
-msgstr ""
+msgstr "یک برچسب <Duration> در داخل یک <MainMarkers> است."
 
 #: src/wx/verify_dcp_dialog.cc:390
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
-msgstr ""
+msgstr "یک برچسب <EntryPoint> در داخل یک <MainMarkers> است."
 
 #: src/wx/save_template_dialog.cc:69
-msgid ""
-"There is already a template with this name.  Do you want to overwrite it?"
-msgstr ""
+msgid "There is already a template with this name.  Do you want to overwrite it?"
+msgstr "یک قالب با همین نام وجود دارد. آیا می خواهید بر روی آن بنویسید؟"
 
 #: src/wx/film_viewer.cc:183
 msgid "There is not enough free memory to do that."
-msgstr ""
+msgstr "فضای کافی برای انجام این کار وجود ندارد."
 
 #: src/wx/film_viewer.cc:363 src/wx/film_viewer.cc:373
 msgid ""
-"There was a problem starting audio playback.  Please try another audio "
-"output device in Preferences."
+"There was a problem starting audio playback.  Please try another audio output "
+"device in Preferences."
 msgstr ""
+"مشکلی برای پلی کردن صدا وجود دارد. لطفا در اولویتها وسیله خروحی دیگری برای صدا "
+"انتخاب کنید."
 
 #: src/wx/kdm_cpl_panel.cc:131
 msgid "This CPL contains no encrypted assets."
-msgstr ""
+msgstr "این سی پی ال محتوای رمزگذاری شده ندارد."
 
 #: src/wx/verify_dcp_dialog.cc:179
 #, c-format
 msgid ""
-"This DCP refers to at the asset %n in another DCP (and perhaps others), so "
-"it is a \"version file\" (VF)"
+"This DCP refers to at the asset %n in another DCP (and perhaps others), so it "
+"is a \"version file\" (VF)"
 msgstr ""
+"این دی سی پی در  ASSETMAPفایل %n به دی سی پی دیگری اشاره دارد، بنابر این یک "
+"\"نسخه فایل\"(VF) است"
 
 #: src/wx/verify_dcp_dialog.cc:185
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
+"این دی سی پی از استاندارد اینتروپ استفاده میکند اما باید با استاندارد اس ام پی "
+"تی ای ساخته شود."
 
 #: src/wx/content_menu.cc:441
 msgid ""
 "This KDM was made for one of the CPLs in this DCP, but not the currently "
-"selected one.  To play the currently-selected CPL you will need a different "
-"KDM."
+"selected one.  To play the currently-selected CPL you will need a different KDM."
 msgstr ""
+"این کلید برای یکی از سی پی ال های موجود در این دی سی پی ساخته شده است اما نه "
+"برای سی پی ال انتخاب شده. برای پلی کردن سی پی ال انتخاب شده نیاز به کلید دیگری "
+"دارید."
 
 #: src/wx/content_menu.cc:436
 msgid "This KDM was not made for this DCP.  You will need a different one."
 msgstr ""
+"این کلید برای این دی سی پی ساخته نشده است.  شما به یک کلید دیگر نیاز دارید."
 
 #: src/wx/config_dialog.cc:389
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
 msgstr ""
+"در این فایل گواهینامه (یا داده) دیگری بعد از گواهینامه اول آمده است. فقط "
+"گواهینامه اولی استفاده میشود."
 
 #: src/wx/full_config_dialog.cc:985
 msgid "This is a test email from DCP-o-matic."
-msgstr ""
+msgstr "این یک ایمیل آزمایشی از طرف دی سی پی-او-ماتیک است."
 
 #: src/wx/kdm_cpl_panel.cc:150 src/wx/kdm_cpl_panel.cc:153
 msgid "This is not a valid CPL file"
-msgstr ""
+msgstr "این فایل سی پی ال اعتبار ندارد"
 
 #: src/wx/content_panel.cc:676
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be added to a "
-"different project.  Choose the DCP folder inside the DCP-o-matic project "
-"folder if that's what you want to import."
+"different project.  Choose the DCP folder inside the DCP-o-matic project folder "
+"if that's what you want to import."
 msgstr ""
+"این پوشه شبیه به یک پوشه پروژه دی سی پی-او-ماتیک است که نمیتوان آن را به پروژه "
+"دیگری اضافه کرد. اگر می خواهید پوشه دی سی پی انتخاب کنید از داخل پوشه پروژه دی "
+"سی پی-او-ماتیک آن را انتخاب کنید، اگر این همان چیزی است که میخواهید وارد کنید."
 
 #: src/wx/full_config_dialog.cc:1430
 msgid ""
-"This will be written to the DCP's JPEG2000 data as a comment.  If it is "
-"blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
-"will be used."
+"This will be written to the DCP's JPEG2000 data as a comment.  If it is blank, "
+"a default value mentioning libdcp (an internal DCP-o-matic library) will be "
+"used."
 msgstr ""
+"این به عنوان یادداشت در داده های JPEG2000 دی سی پی نوشته خواهد شد. اگر خالی "
+"باشد، یک مقدار پیش فرض که به libdcp (که یک کتابخانه داخلی دی سی پی-او-ماتیک) "
+"اشاره دارد استفاده میشود."
 
 #: src/wx/full_config_dialog.cc:1415
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
-"blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
-"will be used."
+"blank, a default value mentioning libdcp (an internal DCP-o-matic library) will "
+"be used."
 msgstr ""
+"این به عنوان \"نام شرکت\" در فایل MXF دی سی پی نوشته خواهد شد. اگر خالی باشد، "
+"یک مقدار پیش فرض که به libdcp (که یک کتابخانه داخلی دی سی پی-او-ماتیک) اشاره "
+"دارد استفاده میشود."
 
 #: src/wx/full_config_dialog.cc:1420
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
-"blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
-"will be used."
+"blank, a default value mentioning libdcp (an internal DCP-o-matic library) will "
+"be used."
 msgstr ""
+"این به عنوان \"نام محصول\" در فایل MXF دی سی پی نوشته خواهد شد. اگر خالی باشد، "
+"یک مقدار پیش فرض که به libdcp (که یک کتابخانه داخلی دی سی پی-او-ماتیک) اشاره "
+"دارد استفاده میشود."
 
 #: src/wx/full_config_dialog.cc:1425
 msgid ""
-"This will be written to the DCP's MXF files as the 'product version'.  If it "
-"is blank, a default value mentioning libdcp (an internal DCP-o-matic "
-"library) will be used."
+"This will be written to the DCP's MXF files as the 'product version'.  If it is "
+"blank, a default value mentioning libdcp (an internal DCP-o-matic library) will "
+"be used."
 msgstr ""
+"این به عنوان \"نسخه محصول\" در فایل MXF دی سی پی نوشته خواهد شد. اگر خالی باشد، "
+"یک مقدار پیش فرض که به libdcp (که یک کتابخانه داخلی دی سی پی-او-ماتیک) اشاره "
+"دارد استفاده میشود."
 
 #: src/wx/full_config_dialog.cc:1410
 msgid ""
-"This will be written to the DCP's XML files as the <Creator>.  If it is "
-"blank, a default value mentioning DCP-o-matic will be used."
+"This will be written to the DCP's XML files as the <Creator>.  If it is blank, "
+"a default value mentioning DCP-o-matic will be used."
 msgstr ""
+"این به عنوان <Creator> در فایل xml دی سی پی نوشته خواهد شد. اگر خالی باشد، یک "
+"مقدار پیش فرض که به دی سی پی-او-ماتیک اشاره دارد استفاده میشود."
 
 #: src/wx/full_config_dialog.cc:1405
 msgid ""
-"This will be written to the DCP's XML files as the <Issuer>.  If it is "
-"blank, a default value mentioning DCP-o-matic will be used."
+"This will be written to the DCP's XML files as the <Issuer>.  If it is blank, a "
+"default value mentioning DCP-o-matic will be used."
 msgstr ""
+"این به عنوان <Issuer> در فایل xml دی سی پی نوشته خواهد شد. اگر خالی باشد، یک "
+"مقدار پیش فرض که به دی سی پی-او-ماتیک اشاره دارد استفاده میشود."
 
 #: src/wx/servers_list_dialog.cc:53
 msgid "Threads"
-msgstr ""
+msgstr "رشته های سی پی یو"
 
 #: src/wx/auto_crop_dialog.cc:39
 msgid "Threshold"
-msgstr ""
+msgstr "آستانه"
 
 #: src/wx/config_dialog.cc:287 src/wx/screen_dialog.cc:56
 #: src/wx/screen_dialog.cc:180 src/wx/screen_dialog.cc:212
 msgid "Thumbprint"
-msgstr ""
+msgstr "اثر انگشت"
 
 #: src/wx/timeline_dialog.cc:50
 msgid "Timeline"
-msgstr ""
+msgstr "جدول زمانی"
 
 #: src/wx/content_panel.cc:287
 msgid "Timeline..."
-msgstr ""
+msgstr "جدول زمانی..."
 
 #: src/wx/content_panel.cc:298
 msgid "Timing"
-msgstr ""
+msgstr "زمان بندی"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Timing|" prefix
 #: src/wx/timing_panel.cc:68
+#, fuzzy
 msgid "Timing|Timing"
-msgstr ""
+msgstr "جدول زمانی|جدول زمانی"
 
 #: src/wx/smpte_metadata_dialog.cc:60
 msgid "Title language"
-msgstr ""
+msgstr "زبان عنوان"
 
 #: src/wx/full_config_dialog.cc:1185 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
-msgstr ""
+msgstr "به آدرس"
 
 #: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:144
 msgid "Top"
-msgstr ""
+msgstr "بالا"
 
 #: src/wx/closed_captions_dialog.cc:71
 msgid "Track"
-msgstr ""
+msgstr "ترک"
 
 #: src/wx/instant_i18n_dialog.cc:28
 msgid "Translate"
-msgstr ""
+msgstr "ترجمه"
 
 #: src/wx/about_dialog.cc:156
 msgid "Translated by"
-msgstr ""
+msgstr "مترجم"
 
 #: src/wx/timing_panel.cc:117
 msgid "Trim from current position to end"
-msgstr ""
+msgstr "از موقعیت فعلی به انتها برش دهید"
 
 #: src/wx/timing_panel.cc:115
 msgid "Trim from end"
-msgstr ""
+msgstr "برش از آخر"
 
 #: src/wx/timing_panel.cc:112
 msgid "Trim from start"
-msgstr ""
+msgstr "برش از شروع"
 
 #: src/wx/timing_panel.cc:114
 msgid "Trim up to current position"
-msgstr ""
+msgstr "برش تا محل فعلی"
 
 #: src/wx/audio_dialog.cc:416
-#, c-format
+#, fuzzy, c-format
 msgid "True peak is %.2fdB"
-msgstr ""
+msgstr "قله واقعی %.2f دسیبل است"
 
 #: src/wx/screen_dialog.cc:54
 msgid "Trusted Device"
-msgstr ""
+msgstr "دستگاه های قابل اعتماد"
 
 #: src/wx/screen_dialog.cc:69
 msgid "Trusted Device certificate"
-msgstr ""
+msgstr "گواهینامه دستگاه قابل اعتماد"
 
-#: src/wx/audio_dialog.cc:124 src/wx/config_dialog.cc:279
-#: src/wx/video_panel.cc:87
+#: src/wx/audio_dialog.cc:124 src/wx/config_dialog.cc:279 src/wx/video_panel.cc:87
 msgid "Type"
-msgstr ""
+msgstr "نوع"
 
 #: src/wx/wx_util.cc:640
 msgid "UTC"
-msgstr ""
+msgstr "UTC"
 
 #: src/wx/cinema_dialog.cc:53 src/wx/recipient_dialog.cc:79
 msgid "UTC offset (time zone)"
-msgstr ""
+msgstr "UTC offset (time zone)"
 
 #: src/wx/wx_util.cc:641
 msgid "UTC+1"
-msgstr ""
+msgstr "UTC+1"
 
 #: src/wx/wx_util.cc:652
 msgid "UTC+10"
-msgstr ""
+msgstr "UTC+10"
 
 #: src/wx/wx_util.cc:653
 msgid "UTC+11"
-msgstr ""
+msgstr "UTC+11"
 
 #: src/wx/wx_util.cc:654
 msgid "UTC+12"
-msgstr ""
+msgstr "UTC+12"
 
 #: src/wx/wx_util.cc:642
 msgid "UTC+2"
-msgstr ""
+msgstr "UTC+2"
 
 #: src/wx/wx_util.cc:643
 msgid "UTC+3"
-msgstr ""
+msgstr "UTC+3"
 
 #: src/wx/wx_util.cc:644
 msgid "UTC+4"
-msgstr ""
+msgstr "UTC+4"
 
 #: src/wx/wx_util.cc:645
 msgid "UTC+5"
-msgstr ""
+msgstr "UTC+5"
 
 #: src/wx/wx_util.cc:646
 msgid "UTC+5:30"
-msgstr ""
+msgstr "UTC+5:30"
 
 #: src/wx/wx_util.cc:647
 msgid "UTC+6"
-msgstr ""
+msgstr "UTC+6"
 
 #: src/wx/wx_util.cc:648
 msgid "UTC+7"
-msgstr ""
+msgstr "UTC+7"
 
 #: src/wx/wx_util.cc:649
 msgid "UTC+8"
-msgstr ""
+msgstr "UTC+8"
 
 #: src/wx/wx_util.cc:650
 msgid "UTC+9"
-msgstr ""
+msgstr "UTC+9"
 
 #: src/wx/wx_util.cc:651
 msgid "UTC+9:30"
-msgstr ""
+msgstr "UTC+9:30"
 
 #: src/wx/wx_util.cc:638
 msgid "UTC-1"
-msgstr ""
+msgstr "UTC-1"
 
 #: src/wx/wx_util.cc:627
 msgid "UTC-10"
-msgstr ""
+msgstr "UTC-10"
 
 #: src/wx/wx_util.cc:626
 msgid "UTC-11"
-msgstr ""
+msgstr "UTC-11"
 
 #: src/wx/wx_util.cc:637
 msgid "UTC-2"
-msgstr ""
+msgstr "UTC-2"
 
 #: src/wx/wx_util.cc:636
 msgid "UTC-3"
-msgstr ""
+msgstr "UTC-3"
 
 #: src/wx/wx_util.cc:635
 msgid "UTC-3:30"
-msgstr ""
+msgstr "UTC-3:30"
 
 #: src/wx/wx_util.cc:634
 msgid "UTC-4"
-msgstr ""
+msgstr "UTC-4"
 
 #: src/wx/wx_util.cc:633
 msgid "UTC-4:30"
-msgstr ""
+msgstr "UTC-4:30"
 
 #: src/wx/wx_util.cc:632
 msgid "UTC-5"
-msgstr ""
+msgstr "UTC-5"
 
 #: src/wx/wx_util.cc:631
 msgid "UTC-6"
-msgstr ""
+msgstr "UTC-6"
 
 #: src/wx/wx_util.cc:630
 msgid "UTC-7"
-msgstr ""
+msgstr "UTC-7"
 
 #: src/wx/wx_util.cc:629
 msgid "UTC-8"
-msgstr ""
+msgstr "UTC-8"
 
 #: src/wx/wx_util.cc:628
 msgid "UTC-9"
-msgstr ""
+msgstr "UTC-9"
 
 #: src/wx/screens_panel.cc:101
 msgid "Uncheck all"
-msgstr ""
+msgstr "همه موارد را از حالت انتخاب خارج کنید"
 
 #: src/wx/closed_captions_dialog.cc:257
 msgid "Unknown"
-msgstr ""
+msgstr "ناشناخته"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:256
-msgid ""
-"Unrecognised serial number format (does not start with a number, H or F)"
-msgstr ""
+msgid "Unrecognised serial number format (does not start with a number, H or F)"
+msgstr "فرمت شماره سریال ناشناخته (با عدد H یا F شروع نمی شود)"
 
 #: src/wx/fonts_dialog.cc:120
 msgid "Unspecified"
-msgstr ""
+msgstr "نامشخص"
 
 #: src/wx/update_dialog.cc:36
 msgid "Update"
-msgstr ""
+msgstr "به روز"
 
 #: src/wx/full_config_dialog.cc:742
 msgid "Upload DCP to TMS after creation"
-msgstr ""
+msgstr "پس از ساخت دی سی پی آنرا به تی ام اس آپلود کنید"
 
 #: src/wx/dcp_panel.cc:89
 msgid "Use ISDCF name"
-msgstr ""
+msgstr "از نام گذاری ISDCF استفاده کنید"
 
 #: src/wx/full_config_dialog.cc:380
 msgid "Use ISDCF name by default"
-msgstr ""
+msgstr "از نام گذاری ISDCF به صورت پیش فرض استفاده کنید"
 
 #: src/wx/text_panel.cc:95
 msgid "Use as"
-msgstr ""
+msgstr "استفاده کنید به عنوان"
 
 #: src/wx/dcp_panel.cc:825
 msgid "Use best"
-msgstr ""
+msgstr "از بهترین استفاده کنید"
 
 #: src/wx/content_colour_conversion_dialog.cc:49
 msgid "Use preset"
-msgstr ""
+msgstr "از پیش تنظیم استفاده کنید"
 
 #: src/wx/audio_panel.cc:117
 msgid "Use same fades as video"
-msgstr ""
+msgstr "از فید مشابه ویدیو استفاده کنید"
 
 #: src/wx/audio_panel.cc:74
 msgid "Use this DCP's audio as OV and make VF"
-msgstr ""
+msgstr "ازصدای این دی سی پی به عنوان نسخه اصلی استفاده کن و یک نسخه فایل VF بساز"
 
 #: src/wx/text_panel.cc:84
 msgid "Use this DCP's closed caption as OV and make VF"
 msgstr ""
+"از زیرنویس این دی سی پی به عنوان نسخه اصلی استفاده کن و یک نسخه فایل VF بساز"
 
 #: src/wx/text_panel.cc:82
 msgid "Use this DCP's subtitle as OV and make VF"
 msgstr ""
+"از زیرنویس این دی سی پی به عنوان نسخه اصلی استفاده کن و یک نسخه فایل VF بساز"
 
 #: src/wx/video_panel.cc:79
 msgid "Use this DCP's video as OV and make VF"
 msgstr ""
+"از ویدیوی این دی سی پی به عنوان نسخه اصلی استفاده کن و یک نسخه فایل VF بساز"
 
 #: src/wx/config_move_dialog.cc:32
 msgid "Use this file as new configuration"
-msgstr ""
+msgstr "استفاده از این فایل به عنوان پیکربندی جدید"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
 #: src/wx/full_config_dialog.cc:765 src/wx/full_config_dialog.cc:892
 msgid "User name"
-msgstr ""
+msgstr "نام کاربری"
 
 #: src/wx/player_information.cc:80
 msgid "Valid from"
-msgstr ""
+msgstr "معتبر از"
 
 #: src/wx/player_information.cc:82
 msgid "Valid to"
-msgstr ""
+msgstr "معتبر تا"
 
 #: src/wx/system_information_dialog.cc:64
 msgid "Vendor"
-msgstr ""
+msgstr "فروشنده"
 
 #: src/wx/system_information_dialog.cc:66
 msgid "Version"
-msgstr ""
+msgstr "نسخه"
 
 #: src/wx/smpte_metadata_dialog.cc:86
 msgid "Version number"
-msgstr ""
+msgstr "شماره نسخه"
 
 #: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:129
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
-msgstr ""
+msgstr "ویدیو"
 
 #: src/wx/video_panel.cc:201
 msgid "Video (MPEG, 16-235)"
-msgstr ""
+msgstr "ویدیو (MPEG, 16-235)"
 
 #: src/wx/video_waveform_dialog.cc:42
 msgid "Video Waveform"
-msgstr ""
+msgstr "شکل موج ویدیو"
 
 #: src/wx/full_config_dialog.cc:1668 src/wx/player_config_dialog.cc:110
 msgid "Video display mode"
-msgstr ""
+msgstr "مد صفحه نمایش"
 
 #: src/wx/content_advanced_dialog.cc:73
 msgid "Video filters"
-msgstr ""
+msgstr "فیلترهای ویدیو"
 
 #: src/wx/content_advanced_dialog.cc:86
 msgid "Video frame rate that content was prepared for"
-msgstr ""
+msgstr "نرخ فریم ویدیویی که محتوا برای آن آماده شده است"
 
 #. TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. "Video has burnt-in subtitles in the language fr-FR"
 #: src/wx/content_advanced_dialog.cc:97
+#, fuzzy
 msgid "Video has burnt-in subtitles in the language"
-msgstr ""
+msgstr "ویدیو دارای زیرنویس حک شده در زبان است"
 
 #: src/wx/text_panel.cc:125
+#, fuzzy
 msgid "View..."
-msgstr ""
+msgstr "دیدن..."
 
 #: src/wx/config_dialog.cc:994
 msgid "WASAPI"
-msgstr ""
+msgstr "WASAPI"
 
 #: src/wx/full_config_dialog.cc:1744 src/wx/player_config_dialog.cc:271
 #: src/wx/verify_dcp_dialog.cc:55
 msgid "Warnings"
-msgstr ""
+msgstr "اخطارها"
 
 #: src/wx/dcp_panel.cc:158
 msgid ""
 "Which standard the DCP should use.  Interop is older and SMPTE is the modern "
 "standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
+"دی سی پی از چه استانداردی استفاده کند؟  اینروپ قدیمی است و اس ام پی تی ای "
+"استاندارد جدید.  اگر شک دارید، \"اس ام پی تی ای\" را انتخاب کنید"
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"
-msgstr ""
+msgstr "نقطه سفید"
 
 #: src/wx/colour_conversion_editor.cc:185
 msgid "White point adjustment"
-msgstr ""
+msgstr "تنظیم نقطه سفید"
 
 #: src/wx/about_dialog.cc:111
 msgid "With help from"
-msgstr ""
+msgstr "با کمک از"
 
 #: src/wx/kdm_output_panel.cc:133
 msgid "Write a ZIP file for each cinema's KDMs"
-msgstr ""
+msgstr "هر کلید سینما را در یک فایل فشرده zip بنویس"
 
 #: src/wx/kdm_output_panel.cc:131
 msgid "Write a folder for each cinema's KDMs"
-msgstr ""
+msgstr "کلید هر سینما را در یک پوشه جداگانه بنویس"
 
 #: src/wx/kdm_output_panel.cc:129
 msgid "Write all KDMs to the same folder"
-msgstr ""
+msgstr "تمام کلیدها را در یک پوشه بنویس"
 
 #: src/wx/export_video_file_dialog.cc:81
 msgid "Write each audio channel to its own stream"
-msgstr ""
+msgstr "هر کانال صدا را در رشته داده خودش بنویس"
 
 #: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:78
 msgid "Write reels into separate files"
-msgstr ""
+msgstr "حلقه ها را در فایلهای جدا بنویس"
 
 #: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:110
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
-msgstr ""
+msgstr "نوشتن به"
 
 #: src/wx/about_dialog.cc:102
 msgid "Written by"
-msgstr ""
+msgstr "نوشته شده توسط"
 
 #: src/wx/text_panel.cc:103 src/wx/text_panel.cc:111
 msgid "X"
-msgstr ""
+msgstr "X"
 
 #: src/wx/text_panel.cc:106
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/wx/colour_conversion_editor.cc:115
 msgid "YUV to RGB conversion"
-msgstr ""
+msgstr "تبدیل وای یو وی به آر چی بی"
 
 #: src/wx/colour_conversion_editor.cc:117
 msgid "YUV to RGB matrix"
-msgstr ""
+msgstr "ماتریس وای یو وی به آر جی بی"
 
 #: src/wx/screens_panel.cc:392
 #, c-format
@@ -3944,247 +4071,253 @@ msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
 "this name."
 msgstr ""
+"شما نمیتوانید یک سالن بنام '%s' اضافه کنید چون سینما یک سالن با همین نام دارد."
 
 #: src/wx/screens_panel.cc:442
 #, c-format
 msgid ""
-"You cannot change this screen's name to '%s' as the cinema already has a "
-"screen with this name."
+"You cannot change this screen's name to '%s' as the cinema already has a screen "
+"with this name."
 msgstr ""
+"اسم این سالن را نمیتوان به '%s' تغییر داد چون سینما یک سالن مشابه با این اسم "
+"دارد."
 
 #: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:248
 msgid ""
-"You have selected some cinemas that have no configured email address.  Do "
-"you want to continue?"
+"You have selected some cinemas that have no configured email address.  Do you "
+"want to continue?"
 msgstr ""
+"برخی از سینماهایی که انتخاب کرده اید آدرس ایمیل ندارند. آیا می خواهید ادامه "
+"دهید؟"
 
 #: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:238
-msgid ""
-"You must set up a mail server in Preferences before you can send emails."
+msgid "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
+"قبل از اینکه بتوانید ایمیل ارسال کنید، باید تنظیمات سرور ایمیل را در اولویتها "
+"انجام دهید."
 
 #: src/wx/send_i18n_dialog.cc:47
 msgid "Your email"
-msgstr ""
+msgstr "ایمیل شما"
 
 #: src/wx/report_problem_dialog.cc:77
 msgid "Your email address"
-msgstr ""
+msgstr "آدرس ایمیل شما"
 
 #: src/wx/send_i18n_dialog.cc:43
 msgid "Your name"
-msgstr ""
+msgstr "اسم شما"
 
 #: src/wx/timeline_dialog.cc:77
 msgid "Zoom"
-msgstr ""
+msgstr "بزرگ نمایی"
 
 #: src/wx/timeline_dialog.cc:78
 msgid "Zoom all"
-msgstr ""
+msgstr "بزرگ نمایی همه"
 
 #: src/wx/timeline_dialog.cc:77
 msgid "Zoom in / out"
-msgstr ""
+msgstr "بزرگ نمایی / کوچک نمایی"
 
 #: src/wx/timeline_dialog.cc:78
 msgid "Zoom out to whole film"
-msgstr ""
+msgstr "بزرگ نمایی به کل فیلم"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_dialog.cc:463
 msgid "and 1 warning."
-msgstr ""
+msgstr "و یک اخطار."
 
 #: src/wx/metadata_dialog.cc:308
 msgid "candela per m²"
-msgstr ""
+msgstr "candela per m²"
 
 #: src/wx/kdm_output_panel.cc:97
 msgid "cinema"
-msgstr ""
+msgstr "سینما"
 
 #: src/wx/text_panel.cc:98 src/wx/text_panel.cc:614
 msgid "closed captions"
-msgstr ""
+msgstr "زیرنویس بسته"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
-msgstr ""
+msgstr "مقدار مولفه"
 
 #: src/wx/audio_panel.cc:119
 msgid "content"
-msgstr ""
+msgstr "محتوا"
 
 #: src/wx/full_config_dialog.cc:1727
 msgid "content filename"
-msgstr ""
+msgstr "اسم فایل محتوا"
 
 #: src/wx/video_panel.cc:184
 msgid "custom"
-msgstr ""
+msgstr "دلخواه"
 
 #: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:95
 msgid "dB"
-msgstr ""
+msgstr "دسیبل"
 
 #: src/wx/full_config_dialog.cc:388
 msgid "days"
-msgstr ""
+msgstr "روزها"
 
 #: src/wx/name_format_editor.cc:82
 #, c-format
 msgid "e.g. %s"
-msgstr ""
+msgstr "مانند: %s"
 
 #: src/wx/system_information_dialog.cc:70
 msgid "enabled"
-msgstr ""
+msgstr "فعال"
 
 #. TRANSLATORS: this is an abbreviation for "frames"
 #: src/wx/timing_panel.cc:102
 msgid "f"
-msgstr ""
+msgstr "اف"
 
 #: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:96
 msgid "film name"
-msgstr ""
+msgstr "نام فایل"
 
 #: src/wx/metadata_dialog.cc:309
+#, fuzzy
 msgid "foot lambert"
-msgstr ""
+msgstr "foot lambert"
 
 #: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:99
 msgid "from date/time"
-msgstr ""
+msgstr "از تاریخ/ساعت"
 
 #: src/wx/player_config_dialog.cc:98
 msgid "full screen"
-msgstr ""
+msgstr "تمام صفحه"
 
 #: src/wx/player_config_dialog.cc:99
 msgid "full screen with controls on other monitor"
-msgstr ""
+msgstr "تمام صفحه با کنترل در مانیتور دیگر"
 
 #. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:86
 msgid "h"
-msgstr ""
+msgstr "ساعت"
 
 #. TRANSLATORS: this is an abbreviation for "minutes"
 #: src/wx/timing_panel.cc:92
 msgid "m"
-msgstr ""
+msgstr "دقیقه"
 
 #: src/wx/full_config_dialog.cc:390
 msgid "months"
-msgstr ""
+msgstr "ماه ها"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
 #: src/wx/audio_panel.cc:109 src/wx/full_config_dialog.cc:330
 msgid "ms"
-msgstr ""
+msgstr "میلی ثانبه"
 
 #: src/wx/system_information_dialog.cc:70
 msgid "not enabled"
-msgstr ""
+msgstr "غیر فعال"
 
 #: src/wx/full_config_dialog.cc:1726
 msgid "number of reels"
-msgstr ""
+msgstr "تعداد حلقه ها"
 
 #: src/wx/text_panel.cc:97 src/wx/text_panel.cc:612
 msgid "open subtitles"
-msgstr ""
+msgstr "بازکردن زیرنویس"
 
 #: src/wx/config_dialog.cc:870
 msgid "output"
-msgstr ""
+msgstr "خروجی"
 
 #: src/wx/full_config_dialog.cc:877
 msgid "port"
-msgstr ""
+msgstr "پورت"
 
 #: src/wx/full_config_dialog.cc:881
 msgid "protocol"
-msgstr ""
+msgstr "پروتکل"
 
 #: src/wx/full_config_dialog.cc:1725
 msgid "reel number"
-msgstr ""
+msgstr "شماره حلقه"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
 #: src/wx/full_config_dialog.cc:296 src/wx/timing_panel.cc:97
 msgid "s"
-msgstr ""
+msgstr "اس"
 
 #: src/wx/kdm_output_panel.cc:98
 msgid "screen"
-msgstr ""
+msgstr "پرده"
 
 #: src/wx/colour_conversion_editor.cc:84
 msgid "threshold"
-msgstr ""
+msgstr "آستانه"
 
 #: src/wx/repeat_dialog.cc:29
 msgid "times"
-msgstr ""
+msgstr "مرتبه"
 
 #: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:100
 msgid "to date/time"
-msgstr ""
+msgstr "تا تاریخ/ساعت"
 
 #: src/wx/video_panel.cc:183
 msgid "to fit DCP"
-msgstr ""
+msgstr "هم اندازه با دی سی پی"
 
 #: src/wx/full_config_dialog.cc:1705
 msgid "type (cpl/pkl)"
-msgstr ""
+msgstr "نوع (cpl/pkl)"
 
 #: src/wx/full_config_dialog.cc:1724
 msgid "type (j2c/pcm/sub)"
-msgstr ""
+msgstr "نوع (j2c/pcm/sub)"
 
 #: src/wx/system_information_dialog.cc:60
 msgid "unknown"
-msgstr ""
+msgstr "ناشناخته"
 
 #: src/wx/system_information_dialog.cc:51
 msgid "unknown (OpenGL not enabled in DCP-o-matic)"
-msgstr ""
+msgstr "ناشناخته (OpenGL در دی سی پی-او-ماتیک فعال نشده است)"
 
 #: src/wx/kdm_timing_panel.cc:73
 msgid "until"
-msgstr ""
+msgstr "تا"
 
 #: src/wx/system_information_dialog.cc:69
 msgid "vsync"
-msgstr ""
+msgstr "سینک عمودی"
 
 #: src/wx/full_config_dialog.cc:389
 msgid "weeks"
-msgstr ""
+msgstr "هفته ها"
 
 #: src/wx/player_config_dialog.cc:97
 msgid "window"
-msgstr ""
+msgstr "پنجره"
 
 #: src/wx/colour_conversion_editor.cc:135
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: src/wx/colour_conversion_editor.cc:136
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: src/wx/full_config_dialog.cc:391
 msgid "years"
-msgstr ""
+msgstr "سالها"
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about a disk being wiped
-#: src/wx/drive_wipe_warning_dialog.cc:47
-#: src/wx/drive_wipe_warning_dialog.cc:61
+#: src/wx/drive_wipe_warning_dialog.cc:47 src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
-msgstr ""
+msgstr "بله"
