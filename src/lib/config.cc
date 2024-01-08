@@ -501,6 +501,7 @@ try
 			case BAD_SIGNER_UTF8_STRINGS:
 			case BAD_SIGNER_INCONSISTENT:
 			case BAD_SIGNER_VALIDITY_TOO_LONG:
+			case BAD_SIGNER_DN_QUALIFIER:
 				_signer_chain = create_certificate_chain ();
 				break;
 			case BAD_DECRYPTION_INCONSISTENT:
@@ -1589,6 +1590,9 @@ Config::check_certificates () const
 		}
 		if ((i.not_after().year() - i.not_before().year()) > 15) {
 			bad = BAD_SIGNER_VALIDITY_TOO_LONG;
+		}
+		if (dcp::escape_digest(i.subject_dn_qualifier()) != dcp::public_key_digest(i.public_key())) {
+			bad = BAD_SIGNER_DN_QUALIFIER;
 		}
 	}
 

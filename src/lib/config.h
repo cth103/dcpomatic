@@ -430,6 +430,7 @@ public:
 		NAG_32_ON_64,
 		NAG_TOO_MANY_DROPPED_FRAMES,
 		NAG_BAD_SIGNER_CHAIN_VALIDITY,
+		NAG_BAD_SIGNER_DN_QUALIFIER,
 		NAG_COUNT
 	};
 
@@ -1224,6 +1225,7 @@ public:
 		BAD_SIGNER_INCONSISTENT,      ///< signer chain is somehow inconsistent
 		BAD_DECRYPTION_INCONSISTENT,  ///< KDM decryption chain is somehow inconsistent
 		BAD_SIGNER_VALIDITY_TOO_LONG, ///< signer certificate validity periods are >10 years
+		BAD_SIGNER_DN_QUALIFIER,      ///< some signer certificate has a bad dnQualifier (DoM #2716).
 	};
 
 	static boost::signals2::signal<bool (BadReason)> Bad;

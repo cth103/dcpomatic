@@ -1919,6 +1919,19 @@ private:
 			}
 			return true;
 		}
+		case Config::BAD_SIGNER_DN_QUALIFIER:
+		{
+			RecreateChainDialog dialog(
+				_frame, _("Recreate signing certificates"),
+				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
+				  "which will prevent DCPs from being validated correctly on some systems.  This error was caused\n"
+				  "by a bug in DCP-o-matic which has now been fixed. Do you want to re-create the certificate chain\n"
+				  "for signing DCPs and KDMs?"),
+				_("Do nothing"),
+				Config::NAG_BAD_SIGNER_DN_QUALIFIER
+				);
+			return dialog.ShowModal() == wxID_OK;
+		}
 		default:
 			DCPOMATIC_ASSERT (false);
 		}
