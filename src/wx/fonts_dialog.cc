@@ -25,7 +25,6 @@
 #include "wx_util.h"
 #include "lib/content.h"
 #include "lib/font.h"
-#include "lib/scope_guard.h"
 #include "lib/text_content.h"
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>

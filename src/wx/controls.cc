@@ -37,7 +37,6 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/player_video.h"
-#include "lib/scope_guard.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>

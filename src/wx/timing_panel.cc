@@ -34,7 +34,6 @@
 #include "lib/ffmpeg_content.h"
 #include "lib/film.h"
 #include "lib/image_content.h"
-#include "lib/scope_guard.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"

@@ -23,8 +23,8 @@
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 #include "image.h"
-#include "scope_guard.h"
 #include "video_filter_graph.h"
+#include <dcp/scope_guard.h>
 extern "C" {
 #include <libavfilter/buffersrc.h>
 #include <libavfilter/buffersink.h>
@@ -63,7 +63,7 @@ VideoFilterGraph::process(shared_ptr<const Image> image)
 		throw std::bad_alloc();
 	}
 
-	ScopeGuard sg = [&frame]() { av_frame_free(&frame); };
+	dcp::ScopeGuard sg = [&frame]() { av_frame_free(&frame); };
 
 	for (int i = 0; i < image->planes(); ++i) {
 		frame->data[i] = image->data()[i];

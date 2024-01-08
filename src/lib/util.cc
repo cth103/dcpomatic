@@ -46,7 +46,6 @@
 #include "ratio.h"
 #include "rect.h"
 #include "render_text.h"
-#include "scope_guard.h"
 #include "string_text.h"
 #include "text_decoder.h"
 #include "util.h"
@@ -58,6 +57,7 @@
 #include <dcp/locale_convert.h>
 #include <dcp/picture_asset.h>
 #include <dcp/raw_convert.h>
+#include <dcp/scope_guard.h>
 #include <dcp/sound_asset.h>
 #include <dcp/subtitle_asset.h>
 #include <dcp/util.h>
@@ -1094,7 +1094,7 @@ word_wrap(string input, int columns)
 	icu::Locale locale;
 	UErrorCode status = U_ZERO_ERROR;
 	auto iter = icu::BreakIterator::createLineInstance(locale, status);
-	ScopeGuard sg = [iter]() { delete iter; };
+	dcp::ScopeGuard sg = [iter]() { delete iter; };
 	if (U_FAILURE(status)) {
 		return input;
 	}

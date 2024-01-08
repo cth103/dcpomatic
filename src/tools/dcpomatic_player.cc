@@ -59,7 +59,6 @@
 #include "lib/player.h"
 #include "lib/player_video.h"
 #include "lib/ratio.h"
-#include "lib/scope_guard.h"
 #include "lib/scoped_temporary.h"
 #include "lib/server.h"
 #include "lib/text_content.h"
@@ -71,6 +70,7 @@
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
+#include <dcp/scope_guard.h>
 #include <dcp/search.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -707,7 +707,7 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			try {
 				if (dcp) {
-					ScopeGuard sg([this]() {
+					dcp::ScopeGuard sg([this]() {
 						_viewer.set_coalesce_player_changes(false);
 					});
 					_viewer.set_coalesce_player_changes(true);

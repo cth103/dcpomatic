@@ -22,7 +22,7 @@
 #include "audio_buffers.h"
 #include "dcpomatic_assert.h"
 #include "maths_util.h"
-#include "scope_guard.h"
+#include <dcp/scope_guard.h>
 #include <cassert>
 #include <cstring>
 #include <cmath>
@@ -83,7 +83,7 @@ AudioBuffers::allocate (int channels, int frames)
 	DCPOMATIC_ASSERT (frames >= 0);
 	DCPOMATIC_ASSERT(frames == 0 || channels > 0);
 
-	ScopeGuard sg = [this]() { update_data_pointers(); };
+	dcp::ScopeGuard sg = [this]() { update_data_pointers(); };
 
 	_data.resize(channels);
 	for (int channel = 0; channel < channels; ++channel) {
@@ -344,7 +344,7 @@ AudioBuffers::set_channels(int new_channels)
 {
 	DCPOMATIC_ASSERT(new_channels > 0);
 
-	ScopeGuard sg = [this]() { update_data_pointers(); };
+	dcp::ScopeGuard sg = [this]() { update_data_pointers(); };
 
 	int const old_channels = channels();
 	_data.resize(new_channels);

@@ -27,7 +27,6 @@
 #include "table_dialog.h"
 #include "wx_util.h"
 #include "lib/compose.hpp"
-#include "lib/scope_guard.h"
 #include "lib/util.h"
 #include <dcp/warnings.h>
 #include <dcp/exceptions.h>

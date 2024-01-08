@@ -24,7 +24,6 @@
 #include "region_subtag_dialog.h"
 #include "region_subtag_widget.h"
 #include "wx_util.h"
-#include "lib/scope_guard.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>

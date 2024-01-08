@@ -47,12 +47,12 @@
 #include "lib/image_content.h"
 #include "lib/log.h"
 #include "lib/playlist.h"
-#include "lib/scope_guard.h"
 #include "lib/string_text_file.h"
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "lib/video_content.h"
 #include <dcp/filesystem.h>
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/display.h>
@@ -820,7 +820,7 @@ ContentPanel::set_selection (ContentList cl)
 {
 	{
 		_no_check_selection = true;
-		ScopeGuard sg = [this]() { _no_check_selection = false; };
+		dcp::ScopeGuard sg = [this]() { _no_check_selection = false; };
 
 		auto content = _film->content ();
 		for (size_t i = 0; i < content.size(); ++i) {

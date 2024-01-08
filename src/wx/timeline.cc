@@ -35,10 +35,10 @@
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/playlist.h"
-#include "lib/scope_guard.h"
 #include "lib/text_content.h"
 #include "lib/timer.h"
 #include "lib/video_content.h"
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>
@@ -161,7 +161,7 @@ Timeline::paint_labels ()
 		return;
 	}
 
-	ScopeGuard sg = [gc]() { delete gc; };
+	dcp::ScopeGuard sg = [gc]() { delete gc; };
 
 	int vsx, vsy;
 	_labels_canvas->GetViewStart (&vsx, &vsy);
@@ -189,7 +189,7 @@ Timeline::paint_main ()
 		return;
 	}
 
-	ScopeGuard sg = [gc]() { delete gc; };
+	dcp::ScopeGuard sg = [gc]() { delete gc; };
 
 	gc->SetAntialiasMode (wxANTIALIAS_DEFAULT);
 

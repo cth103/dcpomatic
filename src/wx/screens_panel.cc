@@ -27,9 +27,9 @@
 #include "wx_util.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
-#include "lib/scope_guard.h"
 #include "lib/screen.h"
 #include "lib/timer.h"
+#include <dcp/scope_guard.h>
 
 
 using std::cout;
@@ -258,7 +258,7 @@ ScreensPanel::add_cinema_clicked ()
 
 		try {
 			_ignore_cinemas_changed = true;
-			ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
+			dcp::ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 			Config::instance()->add_cinema(cinema);
 		} catch (FileError& e) {
 			error_dialog(GetParent(), _("Could not write cinema details to the cinemas.xml file.  Check that the location of cinemas.xml is valid in DCP-o-matic's preferences."), std_to_wx(e.what()));
@@ -355,7 +355,7 @@ ScreensPanel::remove_cinema_clicked ()
 
 	for (auto const& cinema: cinemas_to_remove) {
 		_ignore_cinemas_changed = true;
-		ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
+		dcp::ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 		for (auto screen: cinema->screens()) {
 			_checked_screens.erase(screen);
 		}
@@ -717,7 +717,7 @@ bool
 ScreensPanel::notify_cinemas_changed()
 {
 	_ignore_cinemas_changed = true;
-	ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
+	dcp::ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 
 	try {
 		Config::instance()->changed(Config::CINEMAS);

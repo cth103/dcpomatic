@@ -31,7 +31,6 @@
 #include "job.h"
 #include "log.h"
 #include "overlaps.h"
-#include "scope_guard.h"
 #include "text_content.h"
 #include "video_content.h"
 #include <dcp/dcp.h>
@@ -41,6 +40,7 @@
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/reel.h>
+#include <dcp/scope_guard.h>
 #include <libxml++/libxml++.h>
 #include <iterator>
 #include <iostream>
@@ -224,7 +224,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	string const old_name = name ();
 
 	ContentChangeSignalDespatcher::instance()->suspend();
-	ScopeGuard sg = []() {
+	dcp::ScopeGuard sg = []() {
 		ContentChangeSignalDespatcher::instance()->resume();
 	};
 

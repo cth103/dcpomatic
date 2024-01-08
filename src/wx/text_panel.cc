@@ -42,12 +42,12 @@
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"
-#include "lib/scope_guard.h"
 #include "lib/string_text_file_content.h"
 #include "lib/string_text_file_decoder.h"
 #include "lib/subtitle_analysis.h"
 #include "lib/text_content.h"
 #include <dcp/filesystem.h>
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/spinctrl.h>
@@ -813,7 +813,7 @@ TextPanel::try_to_load_analysis ()
 	}
 
 	_loading_analysis = true;
-	ScopeGuard sg = [this]() {
+	dcp::ScopeGuard sg = [this]() {
 		_loading_analysis = false;
 		setup_sensitivity();
 	};
