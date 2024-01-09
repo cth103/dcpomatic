@@ -235,6 +235,8 @@ ColourConversion::identifier () const
 		digester.add (_adjusted_white.get().y);
 	}
 
+	digester.add(static_cast<int>(_yuv_to_rgb));
+
 	auto gf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out);
 	if (gf) {
 		digester.add (gf->gamma ());
