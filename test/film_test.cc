@@ -42,6 +42,5 @@ BOOST_AUTO_TEST_CASE(film_contains_atmos_content_test)
 
 	auto film4 = new_test_film2("film_contains_atmos_content_test4", { image, sound });
 	BOOST_CHECK(!film4->contains_atmos_content());
-
 }
 
