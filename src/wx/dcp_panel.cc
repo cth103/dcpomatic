@@ -727,6 +727,10 @@ DCPPanel::use_isdcf_name_toggled ()
 void
 DCPPanel::setup_dcp_name ()
 {
+	if (!_film) {
+		return;
+	}
+
 	_dcp_name->SetLabel (std_to_wx(_film->dcp_name(true)));
 	_dcp_name->SetToolTip (std_to_wx(_film->dcp_name(true)));
 }
