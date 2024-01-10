@@ -135,83 +135,83 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		LOG_GENERAL("Reel %1", reel->id());
 
 		if (reel->main_picture()) {
-			if (!reel->main_picture()->asset_ref().resolved()) {
-				/* We are missing this asset so we can't continue; examination will be repeated later */
-				_needs_assets = true;
-				LOG_GENERAL("Main picture %1 of reel %2 is missing", reel->main_picture()->id(), reel->id());
-				return;
-			}
-
-			LOG_GENERAL("Main picture %1 of reel %2 found", reel->main_picture()->id(), reel->id());
-
-			auto const frac = reel->main_picture()->edit_rate();
-			float const fr = float(frac.numerator) / frac.denominator;
-			if (!_video_frame_rate) {
-				_video_frame_rate = fr;
-			} else if (_video_frame_rate.get() != fr) {
-				throw DCPError (_("Mismatched frame rates in DCP"));
-			}
-
+			/* This will mean a VF can be displayed in the timeline even if its picture asset
+			 * is yet be resolved.
+			 */
 			_has_video = true;
-			auto asset = reel->main_picture()->asset();
-			if (!_video_size) {
-				_video_size = asset->size ();
-			} else if (_video_size.get() != asset->size ()) {
-				throw DCPError (_("Mismatched video sizes in DCP"));
-			}
-
 			_video_length += reel->main_picture()->actual_duration();
+
+			if (!reel->main_picture()->asset_ref().resolved()) {
+				LOG_GENERAL("Main picture %1 of reel %2 is missing", reel->main_picture()->id(), reel->id());
+				_needs_assets = true;
+				/* Use a dummy value here; it will be replaced when the VF is re-examined. */
+				_video_size = dcp::Size(1998, 1080);
+			} else {
+				LOG_GENERAL("Main picture %1 of reel %2 found", reel->main_picture()->id(), reel->id());
+
+				auto const frac = reel->main_picture()->edit_rate();
+				float const fr = float(frac.numerator) / frac.denominator;
+				if (!_video_frame_rate) {
+					_video_frame_rate = fr;
+				} else if (_video_frame_rate.get() != fr) {
+					throw DCPError (_("Mismatched frame rates in DCP"));
+				}
+
+				auto asset = reel->main_picture()->asset();
+				if (!_video_size) {
+					_video_size = asset->size ();
+				} else if (_video_size.get() != asset->size ()) {
+					throw DCPError (_("Mismatched video sizes in DCP"));
+				}
+			}
 		}
 
 		if (reel->main_sound()) {
-			if (!reel->main_sound()->asset_ref().resolved()) {
-				/* We are missing this asset so we can't continue; examination will be repeated later */
-				_needs_assets = true;
-				LOG_GENERAL("Main sound %1 of reel %2 is missing", reel->main_sound()->id(), reel->id());
-				return;
-			}
-
-			LOG_GENERAL("Main sound %1 of reel %2 found", reel->main_sound()->id(), reel->id());
-
 			_has_audio = true;
-			auto asset = reel->main_sound()->asset();
-
-			if (!_audio_channels) {
-				_audio_channels = asset->channels();
-			} else if (_audio_channels.get() != asset->channels()) {
-				throw DCPError (_("Mismatched audio channel counts in DCP"));
-			}
-
-			_active_audio_channels = std::max(_active_audio_channels.get_value_or(0), asset->active_channels());
-
-			if (!_audio_frame_rate) {
-				_audio_frame_rate = asset->sampling_rate ();
-			} else if (_audio_frame_rate.get() != asset->sampling_rate ()) {
-				throw DCPError (_("Mismatched audio sample rates in DCP"));
-			}
-
 			_audio_length += reel->main_sound()->actual_duration();
-			_audio_language = try_to_parse_language (asset->language());
+
+			if (!reel->main_sound()->asset_ref().resolved()) {
+				LOG_GENERAL("Main sound %1 of reel %2 is missing", reel->main_sound()->id(), reel->id());
+				_needs_assets = true;
+			} else {
+				LOG_GENERAL("Main sound %1 of reel %2 found", reel->main_sound()->id(), reel->id());
+
+				auto asset = reel->main_sound()->asset();
+
+				if (!_audio_channels) {
+					_audio_channels = asset->channels();
+				} else if (_audio_channels.get() != asset->channels()) {
+					throw DCPError (_("Mismatched audio channel counts in DCP"));
+				}
+
+				_active_audio_channels = std::max(_active_audio_channels.get_value_or(0), asset->active_channels());
+
+				if (!_audio_frame_rate) {
+					_audio_frame_rate = asset->sampling_rate ();
+				} else if (_audio_frame_rate.get() != asset->sampling_rate ()) {
+					throw DCPError (_("Mismatched audio sample rates in DCP"));
+				}
+
+				_audio_language = try_to_parse_language (asset->language());
+			}
 		}
 
 		if (reel->main_subtitle()) {
 			if (!reel->main_subtitle()->asset_ref().resolved()) {
-				/* We are missing this asset so we can't continue; examination will be repeated later */
-				_needs_assets = true;
 				LOG_GENERAL("Main subtitle %1 of reel %2 is missing", reel->main_subtitle()->id(), reel->id());
-				return;
+				_needs_assets = true;
+			} else {
+				LOG_GENERAL("Main subtitle %1 of reel %2 found", reel->main_subtitle()->id(), reel->id());
+
+				_text_count[TextType::OPEN_SUBTITLE] = 1;
+				_open_subtitle_language = try_to_parse_language(reel->main_subtitle()->language());
+
+				auto asset = reel->main_subtitle()->asset();
+				for (auto const& font: asset->font_data()) {
+					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+				}
+				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
 			}
-
-			LOG_GENERAL("Main subtitle %1 of reel %2 found", reel->main_subtitle()->id(), reel->id());
-
-			_text_count[TextType::OPEN_SUBTITLE] = 1;
-			_open_subtitle_language = try_to_parse_language(reel->main_subtitle()->language());
-
-			auto asset = reel->main_subtitle()->asset();
-			for (auto const& font: asset->font_data()) {
-				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
-			}
-			_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
 		}
 
 		_text_count[TextType::CLOSED_CAPTION] = std::max(_text_count[TextType::CLOSED_CAPTION], static_cast<int>(reel->closed_captions().size()));
@@ -228,20 +228,18 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		for (auto ccap: reel->closed_captions()) {
 			if (!ccap->asset_ref().resolved()) {
-				/* We are missing this asset so we can't continue; examination will be repeated later */
-				_needs_assets = true;
 				LOG_GENERAL("Closed caption %1 of reel %2 is missing", ccap->id(), reel->id());
-				return;
-			}
+				_needs_assets = true;
+			} else {
+				LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
 
-			LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
-
-			auto asset = ccap->asset();
-			for (auto const& font: asset->font_data()) {
-				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
-			}
-			if (asset->font_data().empty()) {
-				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
+				auto asset = ccap->asset();
+				for (auto const& font: asset->font_data()) {
+					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+				}
+				if (asset->font_data().empty()) {
+					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
+				}
 			}
 		}
 
@@ -287,38 +285,40 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	try {
 		for (auto i: selected_cpl->reels()) {
 			LOG_GENERAL ("Reel %1", i->id());
-			auto pic = i->main_picture()->asset();
-			if (pic->encrypted() && !pic->key()) {
-				_kdm_valid = false;
-				LOG_GENERAL_NC ("Picture has no key");
-				break;
-			}
-			auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(pic);
-			auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
+			if (i->main_picture() && i->main_picture()->asset_ref().resolved()) {
+				auto pic = i->main_picture()->asset();
+				if (pic->encrypted() && !pic->key()) {
+					_kdm_valid = false;
+					LOG_GENERAL_NC ("Picture has no key");
+					break;
+				}
+				auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(pic);
+				auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
 
-			if (mono) {
-				auto reader = mono->start_read();
-				reader->set_check_hmac (false);
-				reader->get_frame(0)->xyz_image();
-			} else {
-				auto reader = stereo->start_read();
-				reader->set_check_hmac (false);
-				reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
+				if (mono) {
+					auto reader = mono->start_read();
+					reader->set_check_hmac (false);
+					reader->get_frame(0)->xyz_image();
+				} else {
+					auto reader = stereo->start_read();
+					reader->set_check_hmac (false);
+					reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
+				}
 			}
 
-			if (i->main_sound()) {
-				auto sound = i->main_sound()->asset ();
+			if (i->main_sound() && i->main_sound()->asset_ref().resolved()) {
+				auto sound = i->main_sound()->asset();
 				if (sound->encrypted() && !sound->key()) {
 					_kdm_valid = false;
 					LOG_GENERAL_NC ("Sound has no key");
 					break;
 				}
-				auto reader = i->main_sound()->asset()->start_read();
+				auto reader = sound->start_read();
 				reader->set_check_hmac (false);
 				reader->get_frame(0);
 			}
 
-			if (i->main_subtitle()) {
+			if (i->main_subtitle() && i->main_subtitle()->asset_ref().resolved()) {
 				auto sub = i->main_subtitle()->asset();
 				auto mxf_sub = dynamic_pointer_cast<dcp::MXF>(sub);
 				if (mxf_sub && mxf_sub->encrypted() && !mxf_sub->key()) {
@@ -329,16 +329,17 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				sub->subtitles ();
 			}
 
-			if (i->atmos()) {
-				auto atmos = i->atmos()->asset();
-				if (atmos->encrypted() && !atmos->key()) {
-					_kdm_valid = false;
-					LOG_GENERAL_NC ("ATMOS sound has no key");
-					break;
+			if (i->atmos() && i->atmos()->asset_ref().resolved()) {
+				if (auto atmos = i->atmos()->asset()) {
+					if (atmos->encrypted() && !atmos->key()) {
+						_kdm_valid = false;
+						LOG_GENERAL_NC ("ATMOS sound has no key");
+						break;
+					}
+					auto reader = atmos->start_read();
+					reader->set_check_hmac (false);
+					reader->get_frame(0);
 				}
-				auto reader = atmos->start_read();
-				reader->set_check_hmac (false);
-				reader->get_frame(0);
 			}
 		}
 	} catch (dcp::ReadError& e) {
@@ -350,8 +351,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	}
 
 	_standard = selected_cpl->standard();
-	_three_d = !selected_cpl->reels().empty() && selected_cpl->reels().front()->main_picture() &&
-		dynamic_pointer_cast<dcp::StereoPictureAsset>(selected_cpl->reels().front()->main_picture()->asset());
+	if (!selected_cpl->reels().empty()) {
+		auto first_reel = selected_cpl->reels()[0];
+		_three_d = first_reel->main_picture() && first_reel->main_picture()->asset_ref().resolved() && dynamic_pointer_cast<dcp::StereoPictureAsset>(first_reel->main_picture()->asset());
+	}
 	_ratings = selected_cpl->ratings();
 	for (auto version: selected_cpl->content_versions()) {
 		_content_versions.push_back(version.label_text);
