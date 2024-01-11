@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(atmos_replace_test)
 	auto vf = new_test_film2("atmos_merge_test_vf", { ov_content, atmos_1.front() });
 	ov_content->set_reference_video(true);
 	atmos_1.front()->set_position(vf, dcpomatic::DCPTime());
-	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::MISSING_CPL_METADATA, dcp::VerificationNote::Code::EXTERNAL_ASSET });
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::MISSING_CPL_METADATA, dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 	// atmos_1.mxf should contain all ones for its data, and it should have replaced atmos_0 in this DCP
 	check(vf, 1);
 }

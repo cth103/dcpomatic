@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	A->set_reference_audio (true);
 	B->set_reference_video (true);
 
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	dcp::DCP ov_a_check (ov_a->dir(ov_a->dcp_name()));
 	ov_a_check.read ();

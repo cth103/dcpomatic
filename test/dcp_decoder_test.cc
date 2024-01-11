@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	auto ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
 	auto vf = new_test_film2 ("check_reuse_old_data_vf", {ov_content, content_factory("test/data/L.wav")[0]});
 	ov_content->set_reference_video (true);
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	auto encrypted = new_test_film2 ("check_reuse_old_data_decrypted");
 	encrypted->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);

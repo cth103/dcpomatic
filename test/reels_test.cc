@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	c->set_reference_video (true);
 	c->set_reference_audio (true);
 
-	make_and_verify_dcp (film2, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(film2, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 }
 
 
@@ -306,12 +306,14 @@ BOOST_AUTO_TEST_CASE (reels_test6)
 	film->set_reel_type (ReelType::BY_LENGTH);
 	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
 	film->set_reel_length (31253154);
+	/* dcp_inspect gives error about reel <1s in length */
 	make_and_verify_dcp (
 		film,
 		{
 			dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION,
 			dcp::VerificationNote::Code::INVALID_DURATION,
-		});
+		},
+		false);
 }
 
 
@@ -403,7 +405,8 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
-		});
+		},
+		false);
 }
 
 
@@ -628,7 +631,7 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 		original_dcp[i]->set_reference_audio(true);
 	}
 
-	make_and_verify_dcp(film2, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+	make_and_verify_dcp(film2, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 
 	dcp::DCP check1(film1->dir(film1->dcp_name()));
 	check1.read();

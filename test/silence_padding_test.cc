@@ -66,7 +66,7 @@ test_silence_padding(int channels, dcp::Standard standard)
 	if (standard == dcp::Standard::INTEROP) {
 		codes.push_back(dcp::VerificationNote::Code::INVALID_STANDARD);
 	}
-	make_and_verify_dcp(film, codes);
+	make_and_verify_dcp(film, codes, channels == 2 || channels == 6 || channels >= 8);
 
 	boost::filesystem::path path = "build/test";
 	path /= film_name;

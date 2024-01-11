@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (dcp_digest_file_test2)
 	ov_dcp->set_reference_audio (true);
 	auto vf = new_test_film2 ("dcp_digest_file_test2_vf", { ov_dcp });
 	vf->set_encrypted (true);
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	auto vf_key_check = get_key_from_digest ("build/test/dcp_digest_file_test2_vf/" + vf->dcp_name() + ".dcpdig");
 	BOOST_REQUIRE (static_cast<bool>(vf_key_check));

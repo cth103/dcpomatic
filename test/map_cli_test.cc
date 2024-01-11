@@ -254,12 +254,11 @@ test_map_ov_vf_copy(vector<string> extra_args = {})
 	make_and_verify_dcp(ov_film);
 
 	auto const ov_dir = ov_film->dir(ov_film->dcp_name());
-
 	auto vf_ov = make_shared<DCPContent>(ov_dir);
 	auto vf_sound = content_factory("test/data/sine_440.wav").front();
 	auto vf_film = new_test_film2(name + "_vf", { vf_ov, vf_sound });
 	vf_ov->set_reference_video(true);
-	make_and_verify_dcp(vf_film, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf_film, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	auto const vf_dir = vf_film->dir(vf_film->dcp_name());
 
@@ -315,7 +314,7 @@ BOOST_AUTO_TEST_CASE(map_ov_vf_copy_multiple_reference)
 	vf_ov2->set_position(vf_film, vf_ov1->end(vf_film));
 	vf_ov1->set_reference_video(true);
 	vf_ov2->set_reference_video(true);
-	make_and_verify_dcp(vf_film, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf_film, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	auto const vf_dir = vf_film->dir(vf_film->dcp_name());
 

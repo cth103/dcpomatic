@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 		);
 
 	ov_content->set_reference_video (true);
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	/* Check for Hash tags in the VF DCP */
 	int hashes = 0;

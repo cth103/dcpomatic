@@ -142,7 +142,9 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION
-		});
+		},
+		false
+		);
 
 	dcp::DCP ov_c (ov->dir(ov->dcp_name()));
 	ov_c.read ();
@@ -197,7 +199,7 @@ BOOST_AUTO_TEST_CASE (vf_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	dcp::DCP vf_c (vf->dir(vf->dcp_name()));
 	vf_c.read ();
@@ -246,7 +248,7 @@ BOOST_AUTO_TEST_CASE (vf_test4)
 	BOOST_REQUIRE (!wait_for_jobs());
 	more_video->set_position (vf, DCPTime());
 	vf->write_metadata ();
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	dcp::DCP ov_c (ov->dir(ov->dcp_name()));
 	ov_c.read ();
@@ -299,7 +301,7 @@ BOOST_AUTO_TEST_CASE (vf_test5)
 	dcp->set_reference_video (true);
 	dcp->set_reference_audio (true);
 	dcp->set_trim_end (ContentTime::from_seconds(15));
-	make_and_verify_dcp (vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET});
+	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
 	/* Check that the selected reel assets are right */
 	auto a = get_referenced_reel_assets(vf, vf->playlist());
@@ -351,7 +353,9 @@ BOOST_AUTO_TEST_CASE (vf_test6)
 			dcp::VerificationNote::Code::EXTERNAL_ASSET,
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
-		});
+		},
+		false
+		);
 }
 
 
@@ -405,7 +409,7 @@ BOOST_AUTO_TEST_CASE (test_vf_with_trimmed_multi_reel_dcp)
 	vf_dcp->set_reference_audio(true);
 	vf_dcp->set_trim_start(vf, ContentTime::from_seconds(10));
 	vf_dcp->set_position(vf, DCPTime::from_seconds(10));
-	make_and_verify_dcp (vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 }
 
 

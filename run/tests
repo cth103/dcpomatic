@@ -19,6 +19,10 @@ if [ "$(uname)" == "Linux" ]; then
   if [ ! -f build/test/dcpomatic2_openssl ]; then 
     ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
   fi
+  export DCPOMATIC_TEST_TOOLS_PATH=/opt/asdcplib/bin
+  if [ -f /src/backports/dcp_inspect ]; then
+    export DCPOMATIC_DCP_INSPECT=/src/backports/dcp_inspect
+  fi
 fi
 
 if [ "$(uname)" == "Darwin" ]; then

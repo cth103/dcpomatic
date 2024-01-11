@@ -52,6 +52,7 @@
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 #include <asdcp/AS_DCP.h>
 #include <png.h>
@@ -81,6 +82,7 @@ using std::min;
 using std::shared_ptr;
 using std::string;
 using std::vector;
+using boost::optional;
 using boost::scoped_array;
 using std::dynamic_pointer_cast;
 #if BOOST_VERSION >= 106100
@@ -961,12 +963,46 @@ verify_dcp(boost::filesystem::path dir, vector<dcp::VerificationNote::Code> igno
 
 
 void
-make_and_verify_dcp (shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore)
+#ifdef  DCPOMATIC_LINUX
+make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool dcp_inspect)
+#else
+make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool)
+#endif
 {
 	film->write_metadata ();
 	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
 	BOOST_REQUIRE (!wait_for_jobs());
 	verify_dcp({film->dir(film->dcp_name())}, ignore);
+
+#ifdef DCPOMATIC_LINUX
+	auto test_tools_path_env = getenv("DCPOMATIC_TEST_TOOLS_PATH");
+	string test_tools_path;
+	if (test_tools_path_env) {
+		test_tools_path = test_tools_path_env;
+	}
+
+	auto old_path_env = getenv("PATH");
+	string old_path;
+	if (old_path_env) {
+		old_path = old_path_env;
+	}
+
+	dcp::ScopeGuard sg = [old_path]() { setenv("PATH", old_path.c_str(), 1); };
+	string new_path = old_path;
+	if (!new_path.empty()) {
+		new_path += ":";
+	}
+	new_path += test_tools_path;
+	setenv("PATH", new_path.c_str(), 1);
+
+	auto dcp_inspect_env = getenv("DCPOMATIC_DCP_INSPECT");
+	if (dcp_inspect && dcp_inspect_env) {
+		boost::filesystem::path dcp_inspect(dcp_inspect_env);
+		auto cmd = String::compose("%1 %2 > %3 2>&1", dcp_inspect, film->dir(film->dcp_name()), film->file("dcp_inspect.log"));
+		auto result = system(cmd.c_str());
+		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
+	}
+#endif
 }
 
 
