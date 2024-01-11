@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-05 14:06+0200\n"
+"POT-Creation-Date: 2024-01-12 00:54+0100\n"
 "PO-Revision-Date: 2023-09-14 22:18+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -66,11 +66,11 @@ msgstr " (%.2f:1)"
 
 #. TRANSLATORS: the %1 in this string will be filled in with a day of the week
 #. to say what day a job will finish.
-#: src/lib/job.cc:581
+#: src/lib/job.cc:588
 msgid " on %1"
 msgstr " na %1"
 
-#: src/lib/config.cc:1268
+#: src/lib/config.cc:1269
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "Dolžina: $LENGTH\n"
 "Velikost: $SIZE\n"
 
-#: src/lib/config.cc:1246
+#: src/lib/config.cc:1247
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -110,15 +110,15 @@ msgstr "%1 [Atmos]"
 msgid "%1 [DCP]"
 msgstr "%1 [DCP]"
 
-#: src/lib/ffmpeg_content.cc:349
+#: src/lib/ffmpeg_content.cc:351
 msgid "%1 [audio]"
 msgstr "%1 [zvok]"
 
-#: src/lib/ffmpeg_content.cc:345
+#: src/lib/ffmpeg_content.cc:347
 msgid "%1 [movie]"
 msgstr "%1 [film]"
 
-#: src/lib/ffmpeg_content.cc:347 src/lib/video_mxf_content.cc:105
+#: src/lib/ffmpeg_content.cc:349 src/lib/video_mxf_content.cc:105
 msgid "%1 [video]"
 msgstr "%1 [video]"
 
@@ -179,11 +179,11 @@ msgstr "2,35 (35-mm široki/scope)"
 msgid "2.39 (Scope)"
 msgstr "2,39 (široki/scope)"
 
-#: src/lib/filter.cc:90
+#: src/lib/filter.cc:102
 msgid "3D denoiser"
 msgstr "3D-razšumnik"
 
-#: src/lib/hints.cc:209
+#: src/lib/hints.cc:210
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
@@ -202,23 +202,23 @@ msgstr "9"
 msgid "; %1 fps"
 msgstr "; %1 sl/s"
 
-#: src/lib/job.cc:586
+#: src/lib/job.cc:593
 msgid "; %1 remaining; finishing at %2%3"
 msgstr "; %1 preostalo; zaključevanje ob %2%3"
 
-#: src/lib/analytics.cc:64
+#: src/lib/analytics.cc:65
 msgid ""
-"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
-"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
-"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
-"volunteer team of testers and translators) and I release it as free software."
-"<p>If you find DCP-o-matic useful, please consider a donation to the "
-"project. Financial support will help me to spend more time developing DCP-o-"
-"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a href="
-"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
-"€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
-"Paypal to donate €10</a></ul><p>Thank you!"
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" "
+"src=\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the "
+"developer of DCP-o-matic. I work on it in my spare time (with the help of a "
+"fine volunteer team of testers and translators) and I release it as free "
+"software.<p>If you find DCP-o-matic useful, please consider a donation to "
+"the project. Financial support will help me to spend more time developing "
+"DCP-o-matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a "
+"href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to "
+"donate €20</a><li><a href=\"https://dcpomatic.com/donate_amount?"
+"amount=10\">Go to Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
 "<h2>%1 DCP ste izdelali z DCP-o-matic!</h2><img width=\"20%%\" src=\"memory:"
 "me.jpg\" align=\"center\"><p>Pozdravljeni. Jaz sem Carl in sem razvijalec "
@@ -232,7 +232,7 @@ msgstr ""
 "donirajte €20</a></li><li><a href=\"https://dcpomatic.com/donate_amount?"
 "amount=10\">Pojdite na PayPal in donirajte 10 €</a></li></ul><p>Hvala!"
 
-#: src/lib/hints.cc:166
+#: src/lib/hints.cc:167
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is "
@@ -251,7 +251,7 @@ msgstr ""
 "Datoteka podnaslovov ali zaprtih napisov v tem projektu je označena z "
 "jezikom »%1«, ki ga DCP-o-matic ne prepozna.  Jezik datoteke je počiščen."
 
-#: src/lib/ffmpeg_content.cc:641
+#: src/lib/ffmpeg_content.cc:643
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
 msgstr "ARIB STD-B67 (»Hibridna log-gama«)"
 
@@ -259,7 +259,7 @@ msgstr "ARIB STD-B67 (»Hibridna log-gama«)"
 msgid "Advertisement"
 msgstr "Oglas"
 
-#: src/lib/hints.cc:143
+#: src/lib/hints.cc:144
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -271,7 +271,7 @@ msgstr ""
 "zgoraj in spodaj v ravnem prikazu (1,85:1, Flat).  Vsebnik DCP-ja bi morda "
 "raje nastavili na ukrivljeni format (2,39:1, Scope) na zavihku »DCP«."
 
-#: src/lib/hints.cc:147
+#: src/lib/hints.cc:148
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -282,7 +282,7 @@ msgstr ""
 "levem in desnem robu.  Morda bi raje nastavili vsebnik DCP, da ima enako "
 "razmerje kot vaša vsebina."
 
-#: src/lib/job.cc:114
+#: src/lib/job.cc:115
 msgid "An error occurred whilst handling the file %1."
 msgstr "Pri obravnavi datoteke %1 je prišlo do napake."
 
@@ -294,24 +294,24 @@ msgstr "Analiziranje zvoka"
 msgid "Analysing subtitles"
 msgstr "Analiziranje podnaslovov"
 
-#: src/lib/hints.cc:365
+#: src/lib/hints.cc:366
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr "Vsaj ena oznaka sledi po koncu projekta in bo prezrta."
 
-#: src/lib/hints.cc:473
+#: src/lib/hints.cc:502
 msgid "At least one of your closed caption files is larger than "
 msgstr "Vsaj ena od datotek z zaprtimi napisi je večja od "
 
-#: src/lib/hints.cc:466
+#: src/lib/hints.cc:495
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr "Vsaj en del datotek XML zaprtih napisov je večji od "
 
-#: src/lib/hints.cc:481
+#: src/lib/hints.cc:510
 msgid "At least one of your subtitle files is larger than "
 msgstr "Vsaj ena od datotek podnaslovov je večja od "
 
-#: src/lib/hints.cc:445
+#: src/lib/hints.cc:474
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
@@ -319,7 +319,7 @@ msgstr ""
 "Vsaj ena od vrstic podnaslovov ima več kot 52 znakov.  Priporočljivo je, da "
 "ima vsaka vrstica največ 52 znakov."
 
-#: src/lib/hints.cc:447
+#: src/lib/hints.cc:476
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
@@ -327,7 +327,7 @@ msgstr ""
 "Vsaj ena od vrstic podnaslovov ima več kot 79 znakov.  Priporočljivo je, da "
 "ima vsaka vrstica največ 79 znakov."
 
-#: src/lib/hints.cc:613
+#: src/lib/hints.cc:642
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -335,7 +335,7 @@ msgstr ""
 "Vsaj eden od vaših podnaslovov ima več kot 3 vrstice.  Priporočljivo je "
 "uporabiti največ 3 vrstice."
 
-#: src/lib/hints.cc:580
+#: src/lib/hints.cc:609
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -343,7 +343,7 @@ msgstr ""
 "Vsaj en vaš podnaslov traja manj kot 15 sličic.  Priporočljivo je, da vsak "
 "podnaslov dolg vsaj 15 sličic."
 
-#: src/lib/hints.cc:585
+#: src/lib/hints.cc:614
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -351,7 +351,7 @@ msgstr ""
 "Vsaj eden od vaših podnaslovov se začne manj kot 2 sličici po prejšnjem.  "
 "Priporočljivo je, da je vrzel med podnaslovi vsaj 2 sličici."
 
-#: src/lib/hints.cc:656
+#: src/lib/hints.cc:685
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -373,56 +373,56 @@ msgstr "Zvok bo prevzorčen na %1 Hz"
 msgid "Audio will not be resampled"
 msgstr "Zvok ne bo prevzročen"
 
-#: src/lib/ffmpeg_content.cc:635
+#: src/lib/ffmpeg_content.cc:637
 msgid "BT1361 extended colour gamut"
 msgstr "BT1361 z razširjenim barvnim gamutom"
 
-#: src/lib/ffmpeg_content.cc:603
+#: src/lib/ffmpeg_content.cc:605
 msgid "BT2020"
 msgstr "BT2020"
 
-#: src/lib/ffmpeg_content.cc:658
+#: src/lib/ffmpeg_content.cc:660
 msgid "BT2020 constant luminance"
 msgstr "BT2020 s konstantno svetilnostjo"
 
-#: src/lib/ffmpeg_content.cc:637
+#: src/lib/ffmpeg_content.cc:639
 msgid "BT2020 for a 10-bit system"
 msgstr "BT2020 za 10-bitni sistem"
 
-#: src/lib/ffmpeg_content.cc:638
+#: src/lib/ffmpeg_content.cc:640
 msgid "BT2020 for a 12-bit system"
 msgstr "BT2020 za 12-bitni sistem"
 
-#: src/lib/ffmpeg_content.cc:657
+#: src/lib/ffmpeg_content.cc:659
 msgid "BT2020 non-constant luminance"
 msgstr "BT2020 s spremenljivo svetilnostjo"
 
-#: src/lib/ffmpeg_content.cc:662
+#: src/lib/ffmpeg_content.cc:664
 msgid "BT2100"
 msgstr "BT2100"
 
-#: src/lib/ffmpeg_content.cc:599
+#: src/lib/ffmpeg_content.cc:601
 msgid "BT470BG"
 msgstr "BT470BG"
 
-#: src/lib/ffmpeg_content.cc:653
+#: src/lib/ffmpeg_content.cc:655
 msgid "BT470BG (BT601-6)"
 msgstr "BT470BG (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:598
+#: src/lib/ffmpeg_content.cc:600
 msgid "BT470M"
 msgstr "BT470M"
 
-#: src/lib/ffmpeg_content.cc:595 src/lib/ffmpeg_content.cc:624
-#: src/lib/ffmpeg_content.cc:649
+#: src/lib/ffmpeg_content.cc:597 src/lib/ffmpeg_content.cc:626
+#: src/lib/ffmpeg_content.cc:651
 msgid "BT709"
 msgstr "BT709"
 
-#: src/lib/ffmpeg_content.cc:669
+#: src/lib/ffmpeg_content.cc:671
 msgid "Bits per pixel"
 msgstr "Bitov na slik. točko"
 
-#: src/lib/filter.cc:86
+#: src/lib/filter.cc:98
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr "Filter razpletanja Boba Weaverja"
 
@@ -438,7 +438,7 @@ msgstr "BsR (D)"
 msgid "C"
 msgstr "C"
 
-#: src/lib/job.cc:610
+#: src/lib/job.cc:617
 msgid "Cancelled"
 msgstr "Preklicano"
 
@@ -450,7 +450,7 @@ msgstr "Ne sme vsebovati poševnic"
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Formata slikovne točke %1 ni mogoče procesirati med %2"
 
-#: src/lib/film.cc:1664
+#: src/lib/film.cc:1665
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "KDM ni mogoče narediti, ker ta projekt ni šifriran."
 
@@ -470,15 +470,15 @@ msgstr "Preverite njihove nove nastavitve in poskusite znova."
 msgid "Checking content"
 msgstr "Preverjanje vsebine"
 
-#: src/lib/reel_writer.cc:275
+#: src/lib/reel_writer.cc:271
 msgid "Checking existing image data"
 msgstr "Preverjanje obstoječih slikovnih podatkov"
 
-#: src/lib/ffmpeg_content.cc:661
+#: src/lib/ffmpeg_content.cc:663
 msgid "Chroma-derived constant luminance"
 msgstr "Konstantna svetilnost iz krome"
 
-#: src/lib/ffmpeg_content.cc:660
+#: src/lib/ffmpeg_content.cc:662
 msgid "Chroma-derived non-constant luminance"
 msgstr "Nekonstantna svetilnost iz krome"
 
@@ -490,7 +490,7 @@ msgstr "Posnetek"
 msgid "Closed captions"
 msgstr "Zaprti napisi"
 
-#: src/lib/ffmpeg_content.cc:620
+#: src/lib/ffmpeg_content.cc:622
 msgid "Colour primaries"
 msgstr "Primarne barve"
 
@@ -504,17 +504,17 @@ msgstr "Primarne barve"
 #. file is limited, so that not all possible values are valid.
 #. TRANSLATORS: this means that the range of pixel values used in this
 #. file is full, so that all possible pixel values are valid.
-#: src/lib/ffmpeg_content.cc:552 src/lib/ffmpeg_content.cc:559
-#: src/lib/ffmpeg_content.cc:566 src/lib/ffmpeg_content.cc:576
-#: src/lib/ffmpeg_content.cc:581 src/lib/ffmpeg_content.cc:586
+#: src/lib/ffmpeg_content.cc:554 src/lib/ffmpeg_content.cc:561
+#: src/lib/ffmpeg_content.cc:568 src/lib/ffmpeg_content.cc:578
+#: src/lib/ffmpeg_content.cc:583 src/lib/ffmpeg_content.cc:588
 msgid "Colour range"
 msgstr "Barvni obseg"
 
-#: src/lib/ffmpeg_content.cc:645
+#: src/lib/ffmpeg_content.cc:647
 msgid "Colour transfer characteristic"
 msgstr "Značilnost barvnega prenosa"
 
-#: src/lib/ffmpeg_content.cc:666
+#: src/lib/ffmpeg_content.cc:668
 msgid "Colourspace"
 msgstr "Barvni prostor"
 
@@ -526,11 +526,11 @@ msgstr "Združi DCP-je"
 msgid "Computing digest"
 msgstr "Računanje povzetka"
 
-#: src/lib/writer.cc:520
+#: src/lib/writer.cc:522
 msgid "Computing digests"
 msgstr "Računanje povzetkov"
 
-#: src/lib/analytics.cc:62
+#: src/lib/analytics.cc:63
 msgid "Congratulations!"
 msgstr "Čestitamo!"
 
@@ -546,17 +546,17 @@ msgstr "Bitna globina vsebine"
 msgid "Content sample rate"
 msgstr "Mera vzorčenja vsebine"
 
-#: src/lib/ffmpeg_content.cc:158
+#: src/lib/ffmpeg_content.cc:157
 msgid "Content to be joined must all have or not have audio"
 msgstr "Vsebina, ki jo želite združiti, mora imeti vse ali ne imeti zvoka"
 
-#: src/lib/ffmpeg_content.cc:161
+#: src/lib/ffmpeg_content.cc:160
 msgid "Content to be joined must all have or not have subtitles or captions"
 msgstr ""
 "Vsebina, ki jo želite združiti, mora imeti vsa podnaslove oz. napise ali pa "
 "jih sploh ne imeti."
 
-#: src/lib/ffmpeg_content.cc:155
+#: src/lib/ffmpeg_content.cc:154
 msgid "Content to be joined must all have or not have video"
 msgstr ""
 "Vsebina, ki jo želite združiti, mora imeti vsa videoposnetek ali ga sploh ne "
@@ -678,7 +678,7 @@ msgstr ""
 msgid "Content to be joined must use the same fonts."
 msgstr "Vsebina, ki jo želite združiti, mora uporabljati iste pisave."
 
-#: src/lib/ffmpeg_content.cc:182
+#: src/lib/ffmpeg_content.cc:181
 msgid "Content to be joined must use the same subtitle stream."
 msgstr "Vsebina, ki jo želite združiti, mora uporabljati isti tok podnaslovov."
 
@@ -694,27 +694,27 @@ msgstr "Video vsebine je %1x%2"
 msgid "Copy DCP to TMS"
 msgstr "Kopiraj DCP v TMS"
 
-#: src/lib/reel_writer.cc:141
+#: src/lib/reel_writer.cc:142
 msgid "Copying old video file"
 msgstr "Kopiranje stare video datoteke"
 
-#: src/lib/reel_writer.cc:411
+#: src/lib/reel_writer.cc:407
 msgid "Copying video file into DCP"
 msgstr "Kopiranje video datoteke v DCP"
 
-#: src/lib/scp_uploader.cc:56
+#: src/lib/scp_uploader.cc:57
 msgid "Could not connect to server %1 (%2)"
 msgstr "Ni mogoče vzpostaviti povezave s strežnikom %1 (%2)"
 
-#: src/lib/scp_uploader.cc:105
+#: src/lib/scp_uploader.cc:106
 msgid "Could not create remote directory %1 (%2)"
 msgstr "Oddaljene mape %1 (%2) ni mogoče ustvariti"
 
-#: src/lib/image_examiner.cc:64
+#: src/lib/image_examiner.cc:65
 msgid "Could not decode JPEG2000 file %1 (%2)"
 msgstr "Datoteke JPEG2000 %1 (%2) ni mogoče dekodirati"
 
-#: src/lib/ffmpeg_image_proxy.cc:164
+#: src/lib/ffmpeg_image_proxy.cc:165
 msgid "Could not decode image (%1)"
 msgstr "Slike ni mogoče dekodirati (%1)"
 
@@ -726,11 +726,11 @@ msgstr ""
 "Ni bilo mogoče prisluhniti oddaljenim strežnikom kodiranja.  Morda je zagnan "
 "še en primerek programa DCP-o-matic."
 
-#: src/lib/job.cc:169 src/lib/job.cc:184
+#: src/lib/job.cc:170 src/lib/job.cc:185
 msgid "Could not open %1"
 msgstr "Ni mogoče odpreti: %1"
 
-#: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:121
+#: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
 msgid "Could not open %1 to send"
 msgstr "Za pošiljanje ni bilo mogoče odpreti %1"
 
@@ -742,7 +742,7 @@ msgstr "Ni bilo mogoče odpreti prenesene datoteke ZIP"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Ni bilo mogoče odpreti prenesene datoteke ZIP (%1:%2: %3)"
 
-#: src/lib/config.cc:1132
+#: src/lib/config.cc:1133
 msgid "Could not open file for writing"
 msgstr "Ni bilo mogoče odpreti datoteke za pisanje"
 
@@ -758,7 +758,7 @@ msgstr "Ni mogoče prebrati podnaslovov (%1 / %2)"
 msgid "Could not start transfer"
 msgstr "Prenosa ni mogoče začeti"
 
-#: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:138
+#: src/lib/curl_uploader.cc:110 src/lib/scp_uploader.cc:139
 msgid "Could not write to remote file (%1)"
 msgstr "Ni mogoče pisati v oddaljeno datoteko (%1)"
 
@@ -786,7 +786,7 @@ msgstr "DCI, ploski (flat)"
 msgid "DCI Scope"
 msgstr "DCI, ukrivljeni (scope)"
 
-#: src/lib/dcp_subtitle_content.cc:114
+#: src/lib/dcp_subtitle_content.cc:112
 msgid "DCP XML subtitles"
 msgstr "Podnaslovi DCP XML"
 
@@ -803,7 +803,7 @@ msgstr "DCP bo predvajan pri %.1f%% hitrosti vsebine.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP bo uporabil vsako drugo sličico vsebine.\n"
 
-#: src/lib/job.cc:171 src/lib/job.cc:186
+#: src/lib/job.cc:172 src/lib/job.cc:187
 msgid ""
 "DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or "
 "is in an unexpected format."
@@ -811,7 +811,7 @@ msgstr ""
 "DCP-o-matic ne more odpreti datoteke %1 (%2).  Morda ne obstaja ali pa je v "
 "nepričakovani obliki."
 
-#: src/lib/film.cc:1590
+#: src/lib/film.cc:1591
 msgid ""
 "DCP-o-matic had to change your settings for referring to DCPs as OV.  Please "
 "review those settings to make sure they are what you want."
@@ -820,7 +820,7 @@ msgstr ""
 "OV.  Preglejte te nastavitve, da se prepričate, da so skladne z vašimi "
 "željami."
 
-#: src/lib/film.cc:1558
+#: src/lib/film.cc:1559
 msgid ""
 "DCP-o-matic had to change your settings so that the film's frame rate is the "
 "same as that of your Atmos content."
@@ -828,12 +828,12 @@ msgstr ""
 "DCP-o-matic je moral spremeniti nastavitve, tako da je hitrost sličic filma "
 "enaka tisti vaše vsebine Atmos."
 
-#: src/lib/ffmpeg_content.cc:122
+#: src/lib/ffmpeg_content.cc:121
 msgid ""
 "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
 msgstr "DCP-o-matic ne podpira več filtra »%1«, zato je bil izklopljen."
 
-#: src/lib/config.cc:422 src/lib/config.cc:1243
+#: src/lib/config.cc:422 src/lib/config.cc:1244
 msgid "DCP-o-matic notification"
 msgstr "Obvestilo DCP-o-matic"
 
@@ -841,12 +841,12 @@ msgstr "Obvestilo DCP-o-matic"
 msgid "Datasat AP20 or AP25"
 msgstr "Datasat AP20 ali AP25"
 
-#: src/lib/filter.cc:83 src/lib/filter.cc:84 src/lib/filter.cc:85
-#: src/lib/filter.cc:86 src/lib/filter.cc:87
+#: src/lib/filter.cc:95 src/lib/filter.cc:96 src/lib/filter.cc:97
+#: src/lib/filter.cc:98 src/lib/filter.cc:99
 msgid "De-interlacing"
 msgstr "Razpletanje"
 
-#: src/lib/config.cc:1231
+#: src/lib/config.cc:1232
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -920,7 +920,7 @@ msgstr "Epizoda"
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Napaka v datoteki podnaslovov: zaznano %1, pričakovano %2"
 
-#: src/lib/job.cc:608
+#: src/lib/job.cc:615
 msgid "Error: %1"
 msgstr " Napaka: %1"
 
@@ -928,7 +928,12 @@ msgstr " Napaka: %1"
 msgid "Event"
 msgstr "Dogodek"
 
-#: src/lib/hints.cc:407
+#: src/lib/hints.cc:397
+#, fuzzy
+msgid "Examining audio"
+msgstr "Preučevanje podnaslovov"
+
+#: src/lib/hints.cc:399
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Preučevanje zvoka, podnaslovov in zaprtih napisov"
 
@@ -940,23 +945,23 @@ msgstr "Preučevanje vsebine"
 msgid "Examining subtitles"
 msgstr "Preučevanje podnaslovov"
 
-#: src/lib/hints.cc:405
+#: src/lib/hints.cc:395
 msgid "Examining subtitles and closed captions"
 msgstr "Preučevanje podnaslovov in zaprtih napisov"
 
-#: src/lib/subtitle_encoder.cc:98
+#: src/lib/subtitle_encoder.cc:99
 msgid "Extracting"
 msgstr "Razširjanje"
 
-#: src/lib/ffmpeg_content.cc:652
+#: src/lib/ffmpeg_content.cc:654
 msgid "FCC"
 msgstr "FCC"
 
-#: src/lib/scp_uploader.cc:68
+#: src/lib/scp_uploader.cc:69
 msgid "Failed to authenticate with server (%1)"
 msgstr "Preverjanje pristnosti s strežnikom (%1) je spodletelo"
 
-#: src/lib/job.cc:138 src/lib/job.cc:148
+#: src/lib/job.cc:139 src/lib/job.cc:149
 msgid "Failed to encode the DCP."
 msgstr "Kodiranje DCP-ja je spodletelo."
 
@@ -980,7 +985,7 @@ msgstr "Imena datotek"
 msgid "Files have changed since they were added to the project."
 msgstr "Datoteke so se spremenile, odkar so bile dodane v projekt."
 
-#: src/lib/ffmpeg_content.cc:602
+#: src/lib/ffmpeg_content.cc:604
 msgid "Film"
 msgstr "Film"
 
@@ -992,15 +997,15 @@ msgstr "Iskanje dolžine"
 msgid "Frame rate"
 msgstr "Hitrost sličic"
 
-#: src/lib/job.cc:552
+#: src/lib/job.cc:559
 msgid "Friday"
 msgstr "Petek"
 
-#: src/lib/ffmpeg_content.cc:586
+#: src/lib/ffmpeg_content.cc:588
 msgid "Full"
 msgstr "Polno"
 
-#: src/lib/ffmpeg_content.cc:566
+#: src/lib/ffmpeg_content.cc:568
 msgid "Full (0-%1)"
 msgstr "Polno (0-%1)"
 
@@ -1024,15 +1029,15 @@ msgstr "Polna dolžina v video sličicah pri hitrosti DCP"
 msgid "Full length in video frames at content rate"
 msgstr "Polna dolžina v video sličicah pri hitrosti vsebine"
 
-#: src/lib/ffmpeg_content.cc:627
+#: src/lib/ffmpeg_content.cc:629
 msgid "Gamma 22 (BT470M)"
 msgstr "Gama 22 (BT470M)"
 
-#: src/lib/ffmpeg_content.cc:628
+#: src/lib/ffmpeg_content.cc:630
 msgid "Gamma 28 (BT470BG)"
 msgstr "Gama 28 (BT470BG)"
 
-#: src/lib/filter.cc:88
+#: src/lib/filter.cc:100
 msgid "Gradient debander"
 msgstr "Razpasovnik preliva"
 
@@ -1044,7 +1049,7 @@ msgstr "HI"
 msgid "Hearing impaired"
 msgstr "Za osebe z okvarami sluha"
 
-#: src/lib/filter.cc:91
+#: src/lib/filter.cc:103
 msgid "High quality 3D denoiser"
 msgstr "Visokokakovostni 3D-razšumnik"
 
@@ -1052,7 +1057,7 @@ msgstr "Visokokakovostni 3D-razšumnik"
 msgid "Highlights"
 msgstr "Svetli toni"
 
-#: src/lib/filter.cc:80
+#: src/lib/filter.cc:92
 msgid "Horizontal flip"
 msgstr "Vodoravno preobrni"
 
@@ -1060,22 +1065,23 @@ msgstr "Vodoravno preobrni"
 msgid "Hz"
 msgstr "Hz"
 
-#: src/lib/ffmpeg_content.cc:636
+#: src/lib/ffmpeg_content.cc:638
 msgid "IEC61966-2-1 (sRGB or sYCC)"
 msgstr "IEC61966-2-1 (sRGB ali SYCC)"
 
-#: src/lib/ffmpeg_content.cc:634
+#: src/lib/ffmpeg_content.cc:636
 msgid "IEC61966-2-4"
 msgstr "IEC61966-2-4"
 
-#: src/lib/hints.cc:185
+#: src/lib/hints.cc:186
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "Če uporabljate 25 sl/s, morate spremeniti standard DCP v SMPTE."
 
-#: src/lib/hints.cc:248
+#: src/lib/hints.cc:249
+#, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
-"particular reason to use Interop.  You are advised to set your DCP to use "
+"particular reason to use Interop.  It is advisable to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
 "Na splošno je zdaj priporočljivo, da izdelujete DCP-je SMPTE, razen če imate "
@@ -1094,7 +1100,7 @@ msgstr ""
 "preveriti vse podnaslove v svojem projektu, da se prepričate, da so umeščeni "
 "na želeno mesto."
 
-#: src/lib/hints.cc:573
+#: src/lib/hints.cc:602
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1102,19 +1108,19 @@ msgstr ""
 "Priporočljivo je, da postavite svoj prvi podnaslov vsaj 4 sekunde po začetku "
 "DCP, da se prepričate, da je viden."
 
-#: src/lib/job.cc:159 src/lib/job.cc:194 src/lib/job.cc:248 src/lib/job.cc:258
+#: src/lib/job.cc:160 src/lib/job.cc:195 src/lib/job.cc:255 src/lib/job.cc:265
 msgid "It is not known what caused this error."
 msgstr "Ni znano, kaj je povzročilo to napako."
 
-#: src/lib/ffmpeg_content.cc:616
+#: src/lib/ffmpeg_content.cc:618
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:412 src/lib/config.cc:1228
+#: src/lib/config.cc:412 src/lib/config.cc:1229
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Dostava KDM: $CPL_NAME"
 
-#: src/lib/filter.cc:84
+#: src/lib/filter.cc:96
 msgid "Kernel deinterlacer"
 msgstr "Razpletalnik jedra"
 
@@ -1151,23 +1157,23 @@ msgstr "Lfe"
 msgid "Lfe (sub)"
 msgstr "Lfe (sub/pod)"
 
-#: src/lib/ffmpeg_content.cc:581
+#: src/lib/ffmpeg_content.cc:583
 msgid "Limited"
 msgstr "Omejeno"
 
-#: src/lib/ffmpeg_content.cc:559
+#: src/lib/ffmpeg_content.cc:561
 msgid "Limited / video (%1-%2)"
 msgstr "Omejeno/video (%1-%2)"
 
-#: src/lib/ffmpeg_content.cc:631
+#: src/lib/ffmpeg_content.cc:633
 msgid "Linear"
 msgstr "Linearno"
 
-#: src/lib/ffmpeg_content.cc:632
+#: src/lib/ffmpeg_content.cc:634
 msgid "Logarithmic (100:1 range)"
 msgstr "Logaritemsko (obseg 100:1)"
 
-#: src/lib/ffmpeg_content.cc:633
+#: src/lib/ffmpeg_content.cc:635
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritemsko (obseg 316:1)"
 
@@ -1183,23 +1189,24 @@ msgstr "Ls"
 msgid "Mid-side decoder"
 msgstr "Srednje-stranski dekodirnik"
 
-#: src/lib/filter.cc:88 src/lib/filter.cc:89 src/lib/filter.cc:92
+#: src/lib/filter.cc:100 src/lib/filter.cc:101 src/lib/filter.cc:104
+#: src/lib/filter.cc:106
 msgid "Misc"
 msgstr "Razno"
 
-#: src/lib/dcp_examiner.cc:180
+#: src/lib/dcp_examiner.cc:184
 msgid "Mismatched audio channel counts in DCP"
 msgstr "Neskladno število zvočnih kanalov v DCP"
 
-#: src/lib/dcp_examiner.cc:188
+#: src/lib/dcp_examiner.cc:192
 msgid "Mismatched audio sample rates in DCP"
 msgstr "Neskladne mere vzorčenja zvoka v DCP"
 
-#: src/lib/dcp_examiner.cc:150
+#: src/lib/dcp_examiner.cc:157
 msgid "Mismatched frame rates in DCP"
 msgstr "Neskladna hitrost v sličicah v DCP"
 
-#: src/lib/dcp_examiner.cc:158
+#: src/lib/dcp_examiner.cc:164
 msgid "Mismatched video sizes in DCP"
 msgstr "Neskladna velikost videa v DCP"
 
@@ -1207,51 +1214,53 @@ msgstr "Neskladna velikost videa v DCP"
 msgid "Missing required setting %1"
 msgstr "Manjka zahtevana nastavitev %1"
 
-#: src/lib/job.cc:544
+#: src/lib/job.cc:551
 msgid "Monday"
 msgstr "Ponedeljek"
 
-#: src/lib/writer.cc:757
+#: src/lib/writer.cc:772
 msgid "Mono"
 msgstr "Mono"
 
-#: src/lib/filter.cc:83
+#: src/lib/filter.cc:95
 msgid "Motion compensating deinterlacer"
 msgstr "Razpletalnik s kompenzacijo gibanja"
 
-#: src/lib/dcp_decoder.cc:111
+#: src/lib/dcp_decoder.cc:112
 msgid "No CPLs found in DCP."
 msgstr "V DCP-ju ni CPL-jev."
 
-#: src/lib/kdm_with_metadata.cc:216
-msgid "No KDM from address configured in preferences"
+#: src/lib/kdm_with_metadata.cc:217
+#, fuzzy
+msgid "No from address configured in the KDM Email tab of preferences"
 msgstr "Noben KDM iz naslova ni določen v nastavitvah"
 
-#: src/lib/kdm_with_metadata.cc:212 src/lib/send_notification_email_job.cc:70
-msgid "No mail server configured in preferences"
+#: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:70
+#, fuzzy
+msgid "No outgoing mail server configured in the Email tab of preferences"
 msgstr "Noben poštni strežnik ni določen v nastavitvah"
 
-#: src/lib/image_content.cc:130
+#: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
 msgstr "V mapi ni najdenih veljavnih slikovnih datotek."
 
-#: src/lib/filter.cc:90 src/lib/filter.cc:91 src/lib/filter.cc:93
+#: src/lib/filter.cc:102 src/lib/filter.cc:103 src/lib/filter.cc:105
 msgid "Noise reduction"
 msgstr "Zmanjšanje šuma"
 
-#: src/lib/writer.cc:725 src/lib/writer.cc:732 src/lib/writer.cc:755
+#: src/lib/writer.cc:740 src/lib/writer.cc:747 src/lib/writer.cc:770
 msgid "None"
 msgstr "Brez"
 
-#: src/lib/job.cc:600
+#: src/lib/job.cc:607
 msgid "OK"
 msgstr "V redu"
 
-#: src/lib/job.cc:605
+#: src/lib/job.cc:612
 msgid "OK (ran for %1 from %2 to %3)"
 msgstr "V redu (potekalo %1 od %2 do %3)"
 
-#: src/lib/job.cc:603
+#: src/lib/job.cc:610
 msgid "OK (ran for %1)"
 msgstr "V redu (potekalo %1)"
 
@@ -1277,26 +1286,30 @@ msgstr ""
 "Odprite projekt v DCP-o-matic, preverite nastavitve in ga shranite, preden "
 "poskusite znova."
 
-#: src/lib/filter.cc:79 src/lib/filter.cc:80 src/lib/filter.cc:81
-#: src/lib/filter.cc:82
+#: src/lib/filter.cc:91 src/lib/filter.cc:92 src/lib/filter.cc:93
+#: src/lib/filter.cc:94
 msgid "Orientation"
 msgstr "Usmerjenost"
 
-#: src/lib/job.cc:216
+#: src/lib/job.cc:217
 msgid "Out of memory"
 msgstr "Zmanjkalo pomnilnika"
 
-#: src/lib/filter.cc:93
+#: src/lib/filter.cc:105
 msgid "Overcomplete wavelet denoiser"
 msgstr "Nadpopoln razšumnik valčkov"
 
-#: src/lib/colour_conversion.cc:291
+#: src/lib/colour_conversion.cc:293
 msgid "P3"
 msgstr "P3"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Policy"
 msgstr "Politika"
+
+#: src/lib/filter.cc:106
+msgid "Premultiply alpha channel"
+msgstr ""
 
 #: src/lib/content.cc:494
 msgid "Prepared for video frame rate"
@@ -1319,7 +1332,7 @@ msgstr "Obvestilo o javnih storitvah"
 msgid "R"
 msgstr "R"
 
-#: src/lib/ffmpeg_content.cc:648
+#: src/lib/ffmpeg_content.cc:650
 msgid "RGB / sRGB (IEC61966-2-1)"
 msgstr "RGB / sRGB (IEC61966-2-1)"
 
@@ -1327,19 +1340,19 @@ msgstr "RGB / sRGB (IEC61966-2-1)"
 msgid "Rating"
 msgstr "Ocena"
 
-#: src/lib/colour_conversion.cc:292
+#: src/lib/colour_conversion.cc:294
 msgid "Rec. 1886"
 msgstr "Rec. 1886"
 
-#: src/lib/colour_conversion.cc:293
+#: src/lib/colour_conversion.cc:295
 msgid "Rec. 2020"
 msgstr "Rec. 2020"
 
-#: src/lib/colour_conversion.cc:289
+#: src/lib/colour_conversion.cc:291
 msgid "Rec. 601"
 msgstr "Rec. 601"
 
-#: src/lib/colour_conversion.cc:290
+#: src/lib/colour_conversion.cc:292
 msgid "Rec. 709"
 msgstr "Rec. 709"
 
@@ -1359,11 +1372,11 @@ msgstr "Desno, zadaj, okolica"
 msgid "Right surround"
 msgstr "Desno, okolica"
 
-#: src/lib/filter.cc:82
+#: src/lib/filter.cc:94
 msgid "Rotate 90 degrees anti-clockwise"
 msgstr "Zasukaj za 90° v nasprotni SUK"
 
-#: src/lib/filter.cc:81
+#: src/lib/filter.cc:93
 msgid "Rotate 90 degrees clockwise"
 msgstr "Zasukaj za 90° v SUK"
 
@@ -1371,28 +1384,28 @@ msgstr "Zasukaj za 90° v SUK"
 msgid "Rs"
 msgstr "Rs (Ds)"
 
-#: src/lib/colour_conversion.cc:294
+#: src/lib/colour_conversion.cc:296
 msgid "S-Gamut3/S-Log3"
 msgstr "S-Gamut3/S-Log3"
 
-#: src/lib/ffmpeg_content.cc:600 src/lib/ffmpeg_content.cc:629
+#: src/lib/ffmpeg_content.cc:602 src/lib/ffmpeg_content.cc:631
 msgid "SMPTE 170M (BT601)"
 msgstr "SMPTE 170M (BT601)"
 
-#: src/lib/ffmpeg_content.cc:654
+#: src/lib/ffmpeg_content.cc:656
 msgid "SMPTE 170M (BT601-6)"
 msgstr "SMPTE 170M (BT601-6)"
 
-#: src/lib/ffmpeg_content.cc:659
+#: src/lib/ffmpeg_content.cc:661
 msgid "SMPTE 2085, Y'D'zD'x"
 msgstr "SMPTE 2085, Y'D'zD'x"
 
-#: src/lib/ffmpeg_content.cc:601 src/lib/ffmpeg_content.cc:630
-#: src/lib/ffmpeg_content.cc:655
+#: src/lib/ffmpeg_content.cc:603 src/lib/ffmpeg_content.cc:632
+#: src/lib/ffmpeg_content.cc:657
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:638
+#: src/lib/hints.cc:667
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1403,40 +1416,40 @@ msgstr ""
 "napisov (FFMC).  Te oznake morate dodati z gumbom »Označevalci« na zavihku "
 "»DCP«."
 
-#: src/lib/ffmpeg_content.cc:639
+#: src/lib/ffmpeg_content.cc:641
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
 msgstr "SMPTE ST 2084 za 10-, 12-, 14- in 16-bitne sisteme"
 
-#: src/lib/ffmpeg_content.cc:640
+#: src/lib/ffmpeg_content.cc:642
 msgid "SMPTE ST 428-1"
 msgstr "SMPTE ST 428-1"
 
-#: src/lib/ffmpeg_content.cc:604
+#: src/lib/ffmpeg_content.cc:606
 msgid "SMPTE ST 428-1 (CIE 1931 XYZ)"
 msgstr "SMPTE ST 428-1 (CIE 1931 XYZ)"
 
-#: src/lib/ffmpeg_content.cc:605
+#: src/lib/ffmpeg_content.cc:607
 msgid "SMPTE ST 431-2 (2011)"
 msgstr "SMPTE ST 431-2 (2011)"
 
-#: src/lib/ffmpeg_content.cc:606
+#: src/lib/ffmpeg_content.cc:608
 msgid "SMPTE ST 432-1 D65 (2010)"
 msgstr "SMPTE ST 432-1 D65 (2010)"
 
-#: src/lib/scp_uploader.cc:46
+#: src/lib/scp_uploader.cc:47
 msgid "SSH error [%1]"
 msgstr "Napaka SSH [%1]"
 
-#: src/lib/scp_uploader.cc:62 src/lib/scp_uploader.cc:75
-#: src/lib/scp_uploader.cc:82
+#: src/lib/scp_uploader.cc:63 src/lib/scp_uploader.cc:76
+#: src/lib/scp_uploader.cc:83
 msgid "SSH error [%1] (%2)"
 msgstr "Napaka SSH [%1] (%2)"
 
-#: src/lib/job.cc:554
+#: src/lib/job.cc:561
 msgid "Saturday"
 msgstr "Sobota"
 
-#: src/lib/image_content.cc:116
+#: src/lib/image_content.cc:117
 msgid "Scanning image files"
 msgstr "Pregledovanje slikovnih datotek"
 
@@ -1487,14 +1500,14 @@ msgstr ""
 "Te datoteke bodo zdaj ponovno pregledane, zato boste morda morali preveriti "
 "njihove nastavitve."
 
-#: src/lib/hints.cc:554
+#: src/lib/hints.cc:583
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 "Nekateri vaši zaprti napisi segajo presegajo %1 vrstic, zato bodo odrezani."
 
-#: src/lib/hints.cc:676
+#: src/lib/hints.cc:705
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1516,7 +1529,7 @@ msgstr "Nekatere vaše vsebine potrebujejo KDM"
 msgid "Some of your content needs an OV"
 msgstr "Nekatere vaše vsebine potrebujejo OV"
 
-#: src/lib/writer.cc:759
+#: src/lib/writer.cc:774
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1532,7 +1545,7 @@ msgstr "Stereo na 5,1; mešalnik/pretvornik A"
 msgid "Stereo to 5.1 up-mixer B"
 msgstr "Stereo na 5,1: mešalnik/pretvornik B"
 
-#: src/lib/job.cc:542
+#: src/lib/job.cc:549
 msgid "Sunday"
 msgstr "Nedelja"
 
@@ -1540,7 +1553,7 @@ msgstr "Nedelja"
 msgid "Teaser"
 msgstr "Dražilnik (teaser)"
 
-#: src/lib/filter.cc:92
+#: src/lib/filter.cc:104
 msgid "Telecine filter"
 msgstr "Filter telekiniranja"
 
@@ -1564,11 +1577,12 @@ msgstr "Veriga potrdil za podpisovanje ni veljavna"
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Veriga potrdil za podpisovanje ni veljavna (%1)"
 
-#: src/lib/hints.cc:692
+#: src/lib/hints.cc:721
+#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error which will prevent DCPs from being validated "
-"correctly on some systems.  You are advised to re-create the signing "
+"correctly on some systems.  It is advisable to re-create the signing "
 "certificate chain by clicking the \"Re-make certificates and key...\" button "
 "in the Keys page of Preferences."
 msgstr ""
@@ -1578,11 +1592,12 @@ msgstr ""
 "podpisovanje s klikom gumba »Ponovno izdelaj potrdila in ključ …« na strani "
 "Ključi v Nastavitvah."
 
-#: src/lib/hints.cc:698
+#: src/lib/hints.cc:727
+#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period that is too long.  This will cause problems playing back "
-"DCPs on some systems. You are advised to re-create the signing certificate "
+"DCPs on some systems. It is advisable to re-create the signing certificate "
 "chain by clicking the \"Re-make certificates and key...\" button in the Keys "
 "page of Preferences."
 msgstr ""
@@ -1602,7 +1617,7 @@ msgstr ""
 "Nastavite jo na 2D.  Iz te vsebine lahko še vedno naredite 3D-DCP, tako da "
 "na zavihku videoposnetka DCP potrdite možnost 3D."
 
-#: src/lib/job.cc:120
+#: src/lib/job.cc:121
 msgid ""
 "The drive that the film is stored on is low in disc space.  Free some more "
 "space and try again."
@@ -1626,11 +1641,12 @@ msgstr "Datoteka %1 je bila obrezana za %2 milisekund manj."
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Datoteka %1 je bila obrezana za %2 milisekund več."
 
-#: src/lib/hints.cc:238
+#: src/lib/hints.cc:239
+#, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
-"lower or higher pitch than it should.  You are advised to set your DCP frame "
+"lower or higher pitch than it should.  It is advisable to set your DCP frame "
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
@@ -1640,11 +1656,11 @@ msgstr ""
 "DCP na takšno, ki je bližje vaši vsebini, pod pogojem, da ciljni sistemi "
 "projekcije podpirajo izbrano hitrost DCP."
 
-#: src/lib/dcp_content.cc:672
+#: src/lib/dcp_content.cc:675
 msgid "There is no video in this DCP"
 msgstr "V tem DCP-ju ni videa"
 
-#: src/lib/job.cc:216
+#: src/lib/job.cc:217
 msgid ""
 "There was not enough memory to do this.  If you are running a 32-bit "
 "operating system try reducing the number of encoding threads in the General "
@@ -1663,7 +1679,7 @@ msgstr ""
 msgid "This KDM was not made for DCP-o-matic's decryption certificate."
 msgstr "Ta KDM ni bil narejen za potrdilo za dešifriranje DCP-o-matic."
 
-#: src/lib/job.cc:139
+#: src/lib/job.cc:140
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of DCP-o-matic and trying to use too many encoding threads.  Please reduce "
@@ -1675,7 +1691,7 @@ msgstr ""
 "»število niti, ki naj jih uporablja DCP-o-matic« na zavihku Splošno v "
 "nastavitvah in poskusite znova."
 
-#: src/lib/job.cc:149
+#: src/lib/job.cc:150
 msgid ""
 "This error has probably occurred because you are running the 32-bit version "
 "of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and "
@@ -1693,7 +1709,7 @@ msgstr ""
 "Ta datoteka je KDM.  KDM-je je treba dodati vsebini DCP vsebini tako, da z "
 "desno tipko miške kliknete vsebino in izberete »Dodaj KDM«."
 
-#: src/lib/film.cc:539
+#: src/lib/film.cc:521
 msgid ""
 "This film was created with a newer version of DCP-o-matic, and it cannot be "
 "loaded into this version.  Sorry!"
@@ -1701,7 +1717,7 @@ msgstr ""
 "Ta film je nastal z novejšo različico DCP-o-matic in ga ni mogoče naložiti v "
 "to različico.  Oprostite!"
 
-#: src/lib/film.cc:524
+#: src/lib/film.cc:506
 msgid ""
 "This film was created with an older version of DCP-o-matic, and "
 "unfortunately it cannot be loaded into this version.  You will need to "
@@ -1711,7 +1727,7 @@ msgstr ""
 "naložiti v to različico.  Ustvariti morate nov film, znova dodati vsebino in "
 "jo znova nastaviti.  Oprostite!"
 
-#: src/lib/job.cc:550
+#: src/lib/job.cc:557
 msgid "Thursday"
 msgstr "Četrtek"
 
@@ -1731,7 +1747,7 @@ msgstr "Prekodiranje %1"
 msgid "Transitional"
 msgstr "Prehodni"
 
-#: src/lib/job.cc:546
+#: src/lib/job.cc:553
 msgid "Tuesday"
 msgstr "Torek"
 
@@ -1751,27 +1767,27 @@ msgstr "Nepričakovana vrsta slike, ki jo je prejel strežnik"
 msgid "Unknown"
 msgstr "Neznano"
 
-#: src/lib/job.cc:257
+#: src/lib/job.cc:264
 msgid "Unknown error"
 msgstr "Neznana napaka"
 
-#: src/lib/ffmpeg_decoder.cc:370
+#: src/lib/ffmpeg_decoder.cc:374
 msgid "Unrecognised audio sample format (%1)"
 msgstr "Neprepoznana oblika vzorca zvoka (%1)"
 
-#: src/lib/filter.cc:89
+#: src/lib/filter.cc:101
 msgid "Unsharp mask and Gaussian blur"
 msgstr "Razostri masko in Gaussova zabrisanost"
 
-#: src/lib/ffmpeg_content.cc:552 src/lib/ffmpeg_content.cc:576
-#: src/lib/ffmpeg_content.cc:594 src/lib/ffmpeg_content.cc:596
-#: src/lib/ffmpeg_content.cc:597 src/lib/ffmpeg_content.cc:623
-#: src/lib/ffmpeg_content.cc:625 src/lib/ffmpeg_content.cc:626
-#: src/lib/ffmpeg_content.cc:650 src/lib/ffmpeg_content.cc:651
+#: src/lib/ffmpeg_content.cc:554 src/lib/ffmpeg_content.cc:578
+#: src/lib/ffmpeg_content.cc:596 src/lib/ffmpeg_content.cc:598
+#: src/lib/ffmpeg_content.cc:599 src/lib/ffmpeg_content.cc:625
+#: src/lib/ffmpeg_content.cc:627 src/lib/ffmpeg_content.cc:628
+#: src/lib/ffmpeg_content.cc:652 src/lib/ffmpeg_content.cc:653
 msgid "Unspecified"
 msgstr "Nedoločeno"
 
-#: src/lib/colour_conversion.cc:247
+#: src/lib/colour_conversion.cc:249
 msgid "Untitled"
 msgstr "Neimenovano"
 
@@ -1791,11 +1807,11 @@ msgstr "Zmešaj navzgor R (D)"
 msgid "VI"
 msgstr "VI"
 
-#: src/lib/verify_dcp_job.cc:55
+#: src/lib/verify_dcp_job.cc:57
 msgid "Verify DCP"
 msgstr "Preveri DCP"
 
-#: src/lib/filter.cc:79
+#: src/lib/filter.cc:91
 msgid "Vertical flip"
 msgstr "Navpično preobrni"
 
@@ -1807,33 +1823,34 @@ msgstr "Za slabovidne osebe"
 msgid "Waiting"
 msgstr "Čakanje"
 
-#: src/lib/filter.cc:87
+#: src/lib/filter.cc:99
 msgid "Weave filter"
 msgstr "Filter tkanja"
 
-#: src/lib/job.cc:548
+#: src/lib/job.cc:555
 msgid "Wednesday"
 msgstr "Sreda"
 
-#: src/lib/ffmpeg_content.cc:656
+#: src/lib/ffmpeg_content.cc:658
 msgid "YCOCG"
 msgstr "YCOCG"
 
-#: src/lib/filter.cc:85
+#: src/lib/filter.cc:97
 msgid "Yet Another Deinterlacing Filter"
 msgstr "Še en filter za razpletanje"
 
-#: src/lib/hints.cc:198
+#: src/lib/hints.cc:199
+#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
-"supported by all projectors.  You are advised to change the DCP frame rate "
+"supported by all projectors.  It is advisable to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
 "Nastavljeno imate za DCP s hitrostjo %1 sl/s.  Te hitrosti sličic ne "
 "podpirajo vsi projektorji.  Svetujemo vam, da spremenite hitrost sličic DCP "
 "na %2 sl/s."
 
-#: src/lib/hints.cc:182
+#: src/lib/hints.cc:183
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
@@ -1843,7 +1860,7 @@ msgstr ""
 "podpirajo vsi projektorji.  Morda boste želeli razmisliti o spremembi "
 "hitrosti sličic na %2 sl/s."
 
-#: src/lib/hints.cc:192
+#: src/lib/hints.cc:193
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
@@ -1851,7 +1868,7 @@ msgstr ""
 "Nastavljeno imate za hitrost sličic DCP 30 sl/s, ki je ne podpirajo vsi "
 "projektorji.  Zavedajte se, da imate morda težave z združljivostjo."
 
-#: src/lib/hints.cc:303
+#: src/lib/hints.cc:304
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
@@ -1859,7 +1876,7 @@ msgstr ""
 "Uporabljate 3D-vsebino, vendar je vaš DCP nastavljen na 2D.  Nastavite DCP "
 "na 3D, če ga želite predvajati na 3D-sistemu (npr. Real-D, MasterImage itn.)"
 
-#: src/lib/hints.cc:119
+#: src/lib/hints.cc:120
 msgid ""
 "You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and "
 "may result in poor-quality audio.  If you continue, you should listen to the "
@@ -1870,7 +1887,7 @@ msgstr ""
 "kakovost zvoka.  Če nadaljujete, morate poslušati rezultat DCP v "
 "kinodvorani, da se prepričate, da je slišati dobro."
 
-#: src/lib/hints.cc:287
+#: src/lib/hints.cc:288
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
@@ -1878,7 +1895,7 @@ msgstr ""
 "Imate %1 datotek, za katere kaže, da so datoteke VOB z DVD-ja. Združite jih, "
 "da zagotovite gladke spoje med datotekami."
 
-#: src/lib/film.cc:1554
+#: src/lib/film.cc:1555
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1886,7 +1903,7 @@ msgstr ""
 "Imate več kot en kos vsebine Atmos, in nimajo enake hitrosti sličic.  "
 "Odstraniti morate nekaj vsebine Atmos."
 
-#: src/lib/hints.cc:561
+#: src/lib/hints.cc:590
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -1894,7 +1911,7 @@ msgstr ""
 "Imate prekrivanje zaprtih napisov, ki niso dovoljeni v DCP-jih Interop.  "
 "Spremenite standard DCP v SMPTE."
 
-#: src/lib/hints.cc:271
+#: src/lib/hints.cc:272
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1906,7 +1923,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Preden jo ustvarite, morate DCP-ju dodati nekaj vsebin"
 
-#: src/lib/hints.cc:715
+#: src/lib/hints.cc:744
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -1916,7 +1933,7 @@ msgstr ""
 "distributerji pri preverjanju kakovosti vašega DCP sporočijo napake.  Če se "
 "želite temu izogniti, nastavite število zvočnih kanalov DCP na 8 ali 16."
 
-#: src/lib/hints.cc:109
+#: src/lib/hints.cc:110
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -1928,7 +1945,7 @@ msgstr ""
 "pomembno, ali ima vaša vsebina manj kanalov, saj bo DCP-o-matic dodatne "
 "napolnil s tišino."
 
-#: src/lib/hints.cc:157
+#: src/lib/hints.cc:158
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
@@ -1937,7 +1954,7 @@ msgstr ""
 "nekaterih projektorjih.  Če je mogoče, uporabite plosko (flat) ali široko "
 "(scope) za razmerje vsebnika DCP."
 
-#: src/lib/hints.cc:337
+#: src/lib/hints.cc:338
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1959,15 +1976,15 @@ msgstr ""
 "Vaš projekt vsebuje video vsebino, katere porezava ni poravnana z robom "
 "sličic."
 
-#: src/lib/image_content.cc:77
+#: src/lib/image_content.cc:78
 msgid "[moving images]"
 msgstr "[gibljive slike]"
 
-#: src/lib/image_content.cc:75
+#: src/lib/image_content.cc:76
 msgid "[still]"
 msgstr "[fotografija]"
 
-#: src/lib/dcp_subtitle_content.cc:108 src/lib/string_text_file_content.cc:112
+#: src/lib/dcp_subtitle_content.cc:106 src/lib/string_text_file_content.cc:112
 msgid "[subtitles]"
 msgstr "[podnaslovi]"
 
@@ -2005,11 +2022,11 @@ msgstr "kopiranje %1"
 msgid "could not find stream information"
 msgstr "podatkov o toku ni mogoče najti"
 
-#: src/lib/reel_writer.cc:457
+#: src/lib/reel_writer.cc:453
 msgid "could not move atmos asset into the DCP (%1)"
 msgstr "sredstva atmos ni bilo mogoče premakniti v DCP (%1)"
 
-#: src/lib/reel_writer.cc:440
+#: src/lib/reel_writer.cc:436
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "zvočnega sredstva ni bilo mogoče premakniti v DCP (%1)"
 
@@ -2055,27 +2072,12 @@ msgid "h"
 msgstr "u"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:768
-msgid "it does not have closed captions in all its reels."
-msgstr "nima zaprtih napisov v vseh svojih kolutih."
-
-#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:757
-msgid "it does not have open subtitles in all its reels."
-msgstr "nima odprtih podnaslovov v vseh svojih kolutih."
-
-#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:723
-msgid "it does not have sound in all its reels."
-msgstr "nima zvoka v vseh svojih kolutih."
-
-#. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:630
+#: src/lib/dcp_content.cc:633
 msgid "it has a different frame rate to the film."
 msgstr "ima drugačno hitrost sličic kot film."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:783
+#: src/lib/dcp_content.cc:769
 msgid ""
 "it has a start trim so its subtitles or closed captions must be re-written."
 msgstr ""
@@ -2083,35 +2085,35 @@ msgstr ""
 "napisi ponovno zapisani."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:682
+#: src/lib/dcp_content.cc:685
 msgid "it is 2K and the film is 4K."
 msgstr "Je 2K, film pa 4K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:679
+#: src/lib/dcp_content.cc:682
 msgid "it is 4K and the film is 2K."
 msgstr "Je 4K, film pa 2K."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:618
+#: src/lib/dcp_content.cc:621
 msgid "it is Interop and the film is set to SMPTE."
 msgstr "je Interop in film je nastavljen na SMPTE."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:622
+#: src/lib/dcp_content.cc:625
 msgid "it is SMPTE and the film is set to Interop."
 msgstr "je SMPTE in film je nastavljen na Interop."
 
-#: src/lib/dcp_content.cc:733
+#: src/lib/dcp_content.cc:728
 msgid "it overlaps other audio content; remove the other content."
 msgstr "prekriva druge zvočne vsebine; odstranite drugo vsebino."
 
-#: src/lib/dcp_content.cc:697
+#: src/lib/dcp_content.cc:700
 msgid "it overlaps other video content; remove the other content."
 msgstr "prekriva drugo video vsebino; odstranite drugo vsebino."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:653
+#: src/lib/dcp_content.cc:656
 msgid ""
 "its reel lengths differ from those in the film; set the reel mode to 'split "
 "by video content'."
@@ -2120,7 +2122,7 @@ msgstr ""
 "kolutov na »razdeli po video vsebini«."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:687
+#: src/lib/dcp_content.cc:690
 msgid "its video frame size differs from the film's."
 msgstr "njegova velikost video sličice se razlikuje od velikosti v filmu."
 
@@ -2129,7 +2131,7 @@ msgstr "njegova velikost video sličice se razlikuje od velikosti v filmu."
 msgid "m"
 msgstr "m"
 
-#: src/lib/image_content.cc:93
+#: src/lib/image_content.cc:94
 msgid "moving"
 msgstr "gibljive slike"
 
@@ -2138,7 +2140,7 @@ msgid "name"
 msgstr "ime"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:774
+#: src/lib/dcp_content.cc:760
 msgid ""
 "one of its closed caption has a non-zero entry point so it must be re-"
 "written."
@@ -2147,7 +2149,7 @@ msgstr ""
 "ponovno zapisati."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
-#: src/lib/dcp_content.cc:761
+#: src/lib/dcp_content.cc:752
 msgid ""
 "one of its subtitle reels has a non-zero entry point so it must be re-"
 "written."
@@ -2160,15 +2162,15 @@ msgstr ""
 msgid "s"
 msgstr "s"
 
-#: src/lib/colour_conversion.cc:288
+#: src/lib/colour_conversion.cc:290
 msgid "sRGB"
 msgstr "sRGB"
 
-#: src/lib/image_content.cc:91
+#: src/lib/image_content.cc:92
 msgid "still"
 msgstr "fotografija"
 
-#: src/lib/dcp_content.cc:793
+#: src/lib/dcp_content.cc:779
 msgid "they overlap other text content; remove the other content."
 msgstr "prekrivajo drugo besedilno vsebino; odstranite drugo vsebino."
 
@@ -2179,3 +2181,12 @@ msgstr "neznano"
 #: src/lib/video_content.cc:516
 msgid "video frames"
 msgstr "video sličice"
+
+#~ msgid "it does not have closed captions in all its reels."
+#~ msgstr "nima zaprtih napisov v vseh svojih kolutih."
+
+#~ msgid "it does not have open subtitles in all its reels."
+#~ msgstr "nima odprtih podnaslovov v vseh svojih kolutih."
+
+#~ msgid "it does not have sound in all its reels."
+#~ msgstr "nima zvoka v vseh svojih kolutih."

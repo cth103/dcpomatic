@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-05 14:06+0200\n"
+"POT-Creation-Date: 2024-01-12 00:54+0100\n"
 "PO-Revision-Date: 2023-09-14 22:47+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -21,156 +21,156 @@ msgstr ""
 msgid "%1 already exists as a file, so you cannot use it for a DCP."
 msgstr "%1 že obstaja kot datoteka, zato je ne morete uporabiti za DCP."
 
-#: src/tools/dcpomatic_kdm.cc:451
+#: src/tools/dcpomatic_kdm.cc:453
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM, zapisan v %s"
 
-#: src/tools/dcpomatic_kdm.cc:451
+#: src/tools/dcpomatic_kdm.cc:453
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDM-jev, zapisanih v %s"
 
-#: src/tools/dcpomatic_batch.cc:83
+#: src/tools/dcpomatic_batch.cc:85
 msgid "&Add Film...\tCtrl-A"
 msgstr "&Dodaj film...\tKrmilka+A"
 
-#: src/tools/dcpomatic_player.cc:557
+#: src/tools/dcpomatic_player.cc:560
 msgid "&Add OV..."
 msgstr "Dodaj OV ..."
 
-#: src/tools/dcpomatic_player.cc:565
+#: src/tools/dcpomatic_player.cc:568
 msgid "&Close"
 msgstr "&Zapri"
 
-#: src/tools/dcpomatic.cc:1332
+#: src/tools/dcpomatic.cc:1325
 msgid "&Close\tCtrl-W"
 msgstr "&Zapri\tKrmilka+W"
 
-#: src/tools/dcpomatic_batch.cc:105 src/tools/dcpomatic.cc:1414
-#: src/tools/dcpomatic_kdm.cc:308 src/tools/dcpomatic_player.cc:617
-#: src/tools/dcpomatic_playlist.cc:599
+#: src/tools/dcpomatic_batch.cc:107 src/tools/dcpomatic.cc:1407
+#: src/tools/dcpomatic_kdm.cc:313 src/tools/dcpomatic_player.cc:620
+#: src/tools/dcpomatic_playlist.cc:592
 msgid "&Edit"
 msgstr "Ur&edi"
 
-#: src/tools/dcpomatic_batch.cc:85 src/tools/dcpomatic.cc:1339
-#: src/tools/dcpomatic_editor.cc:355 src/tools/dcpomatic_kdm.cc:286
-#: src/tools/dcpomatic_player.cc:569 src/tools/dcpomatic_playlist.cc:580
+#: src/tools/dcpomatic_batch.cc:87 src/tools/dcpomatic.cc:1332
+#: src/tools/dcpomatic_editor.cc:356 src/tools/dcpomatic_kdm.cc:291
+#: src/tools/dcpomatic_player.cc:572 src/tools/dcpomatic_playlist.cc:573
 msgid "&Exit"
 msgstr "&Izhod"
 
-#: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1413
-#: src/tools/dcpomatic_editor.cc:367 src/tools/dcpomatic_kdm.cc:306
-#: src/tools/dcpomatic_player.cc:615 src/tools/dcpomatic_playlist.cc:597
+#: src/tools/dcpomatic_batch.cc:105 src/tools/dcpomatic.cc:1406
+#: src/tools/dcpomatic_editor.cc:368 src/tools/dcpomatic_kdm.cc:311
+#: src/tools/dcpomatic_player.cc:618 src/tools/dcpomatic_playlist.cc:590
 msgid "&File"
 msgstr "&Datoteka"
 
-#: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1418
-#: src/tools/dcpomatic_editor.cc:368 src/tools/dcpomatic_kdm.cc:310
-#: src/tools/dcpomatic_player.cc:621 src/tools/dcpomatic_playlist.cc:601
+#: src/tools/dcpomatic_batch.cc:110 src/tools/dcpomatic.cc:1411
+#: src/tools/dcpomatic_editor.cc:369 src/tools/dcpomatic_kdm.cc:315
+#: src/tools/dcpomatic_player.cc:624 src/tools/dcpomatic_playlist.cc:594
 msgid "&Help"
 msgstr "Po&moč"
 
-#: src/tools/dcpomatic.cc:1415
+#: src/tools/dcpomatic.cc:1408
 msgid "&Jobs"
 msgstr "&Opravila"
 
-#: src/tools/dcpomatic.cc:1363
+#: src/tools/dcpomatic.cc:1356
 msgid "&Make DCP\tCtrl-M"
 msgstr "&Izdelaj DCP\tKrmilka+M"
 
-#: src/tools/dcpomatic.cc:1319 src/tools/dcpomatic_editor.cc:350
-#: src/tools/dcpomatic_player.cc:556
+#: src/tools/dcpomatic.cc:1312 src/tools/dcpomatic_editor.cc:351
+#: src/tools/dcpomatic_player.cc:559
 msgid "&Open...\tCtrl-O"
 msgstr "&Odpri ...\tKrmilka+O"
 
-#: src/tools/dcpomatic_batch.cc:91 src/tools/dcpomatic_batch.cc:94
-#: src/tools/dcpomatic.cc:1354 src/tools/dcpomatic.cc:1358
-#: src/tools/dcpomatic_kdm.cc:292 src/tools/dcpomatic_kdm.cc:295
-#: src/tools/dcpomatic_player.cc:575 src/tools/dcpomatic_player.cc:578
-#: src/tools/dcpomatic_playlist.cc:579 src/tools/dcpomatic_playlist.cc:587
+#: src/tools/dcpomatic_batch.cc:93 src/tools/dcpomatic_batch.cc:96
+#: src/tools/dcpomatic.cc:1347 src/tools/dcpomatic.cc:1351
+#: src/tools/dcpomatic_kdm.cc:297 src/tools/dcpomatic_kdm.cc:300
+#: src/tools/dcpomatic_player.cc:578 src/tools/dcpomatic_player.cc:581
+#: src/tools/dcpomatic_playlist.cc:572 src/tools/dcpomatic_playlist.cc:580
 msgid "&Preferences...\tCtrl-P"
 msgstr "&Nastavitve ...\tKrmilka+P"
 
-#: src/tools/dcpomatic_batch.cc:87 src/tools/dcpomatic.cc:1341
-#: src/tools/dcpomatic_editor.cc:357 src/tools/dcpomatic_kdm.cc:288
-#: src/tools/dcpomatic_player.cc:571 src/tools/dcpomatic_playlist.cc:582
+#: src/tools/dcpomatic_batch.cc:89 src/tools/dcpomatic.cc:1334
+#: src/tools/dcpomatic_editor.cc:358 src/tools/dcpomatic_kdm.cc:293
+#: src/tools/dcpomatic_player.cc:574 src/tools/dcpomatic_playlist.cc:575
 msgid "&Quit"
 msgstr "&Izhod"
 
-#: src/tools/dcpomatic.cc:1322 src/tools/dcpomatic_editor.cc:352
+#: src/tools/dcpomatic.cc:1315 src/tools/dcpomatic_editor.cc:353
 msgid "&Save\tCtrl-S"
 msgstr "&Shrani\tKrmilka+S"
 
-#: src/tools/dcpomatic_player.cc:560
+#: src/tools/dcpomatic_player.cc:563
 msgid "&Save frame to file...\tCtrl-S"
 msgstr "&Shrani sličico v datoteko ...\tKrmilka+S"
 
-#: src/tools/dcpomatic.cc:1377
+#: src/tools/dcpomatic.cc:1370
 msgid "&Send DCP to TMS"
 msgstr "&Pošlji DCP V TMS"
 
-#: src/tools/dcpomatic_batch.cc:107 src/tools/dcpomatic.cc:1417
-#: src/tools/dcpomatic_player.cc:620
+#: src/tools/dcpomatic_batch.cc:109 src/tools/dcpomatic.cc:1410
+#: src/tools/dcpomatic_player.cc:623
 msgid "&Tools"
 msgstr "O&rodja"
 
-#: src/tools/dcpomatic.cc:1416 src/tools/dcpomatic_player.cc:619
+#: src/tools/dcpomatic.cc:1409 src/tools/dcpomatic_player.cc:622
 msgid "&View"
 msgstr "Po&gled"
 
-#: src/tools/dcpomatic_playlist.cc:312
+#: src/tools/dcpomatic_playlist.cc:315
 msgid "<b>Playlist:</b>"
 msgstr "<b>Seznam predvajanja:</b>"
 
-#: src/tools/dcpomatic_playlist.cc:123
+#: src/tools/dcpomatic_playlist.cc:124
 msgid "<b>Playlists</b>"
 msgstr "<b>Seznami predvajanja</b>"
 
-#: src/tools/dcpomatic_batch.cc:101 src/tools/dcpomatic.cc:1409
-#: src/tools/dcpomatic_editor.cc:364 src/tools/dcpomatic_kdm.cc:302
-#: src/tools/dcpomatic_player.cc:611 src/tools/dcpomatic_playlist.cc:594
+#: src/tools/dcpomatic_batch.cc:103 src/tools/dcpomatic.cc:1402
+#: src/tools/dcpomatic_editor.cc:365 src/tools/dcpomatic_kdm.cc:307
+#: src/tools/dcpomatic_player.cc:614 src/tools/dcpomatic_playlist.cc:587
 msgid "About"
 msgstr "O programu"
 
-#: src/tools/dcpomatic.cc:1407 src/tools/dcpomatic_editor.cc:362
-#: src/tools/dcpomatic_kdm.cc:300 src/tools/dcpomatic_player.cc:609
-#: src/tools/dcpomatic_playlist.cc:592
+#: src/tools/dcpomatic.cc:1400 src/tools/dcpomatic_editor.cc:363
+#: src/tools/dcpomatic_kdm.cc:305 src/tools/dcpomatic_player.cc:612
+#: src/tools/dcpomatic_playlist.cc:585
 msgid "About DCP-o-matic"
 msgstr "O programu DCP-o-matic"
 
-#: src/tools/dcpomatic_playlist.cc:346
+#: src/tools/dcpomatic_playlist.cc:339
 msgid "Add"
 msgstr "Dodaj"
 
-#: src/tools/dcpomatic_player.cc:558
+#: src/tools/dcpomatic_player.cc:561
 msgid "Add &KDM..."
 msgstr "Dodaj &KDM ..."
 
-#: src/tools/dcpomatic_playlist.cc:76
+#: src/tools/dcpomatic_playlist.cc:77
 msgid "Add content"
 msgstr "Dodaj vsebino"
 
-#: src/tools/dcpomatic_batch.cc:172
+#: src/tools/dcpomatic_batch.cc:174
 msgid "Add film"
 msgstr "Dodaj film"
 
-#: src/tools/dcpomatic_batch.cc:172
+#: src/tools/dcpomatic_batch.cc:174
 msgid "Add film for conversion"
 msgstr "Dodajte film za pretvorbo"
 
-#: src/tools/dcpomatic_kdm.cc:208
+#: src/tools/dcpomatic_kdm.cc:211
 msgid "Add folder..."
 msgstr "Dodaj mapo …"
 
-#: src/tools/dcpomatic_kdm.cc:206
+#: src/tools/dcpomatic_kdm.cc:209
 msgid "Add..."
 msgstr "Dodaj ..."
 
-#: src/tools/dcpomatic.cc:1769 src/tools/dcpomatic_combiner.cc:297
-#: src/tools/dcpomatic_disk.cc:552 src/tools/dcpomatic_editor.cc:526
-#: src/tools/dcpomatic_kdm.cc:897 src/tools/dcpomatic_player.cc:1304
-#: src/tools/dcpomatic_playlist.cc:704
+#: src/tools/dcpomatic.cc:1781 src/tools/dcpomatic_combiner.cc:297
+#: src/tools/dcpomatic_disk.cc:553 src/tools/dcpomatic_editor.cc:527
+#: src/tools/dcpomatic_kdm.cc:899 src/tools/dcpomatic_player.cc:1326
+#: src/tools/dcpomatic_playlist.cc:697
 #, c-format
 msgid ""
 "An exception occurred: %s (%s)\n"
@@ -179,7 +179,7 @@ msgstr ""
 "Prišlo je do izjeme: %s (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1778
+#: src/tools/dcpomatic.cc:1790
 #, c-format
 msgid ""
 "An exception occurred: %s (%s) (%s)\n"
@@ -188,10 +188,10 @@ msgstr ""
 "Prišlo je do izjeme: %s (%s) (%s)\n"
 "\n"
 
-#: src/tools/dcpomatic.cc:1788 src/tools/dcpomatic_combiner.cc:306
-#: src/tools/dcpomatic_disk.cc:561 src/tools/dcpomatic_editor.cc:535
-#: src/tools/dcpomatic_kdm.cc:906 src/tools/dcpomatic_player.cc:1313
-#: src/tools/dcpomatic_playlist.cc:713
+#: src/tools/dcpomatic.cc:1800 src/tools/dcpomatic_combiner.cc:306
+#: src/tools/dcpomatic_disk.cc:562 src/tools/dcpomatic_editor.cc:536
+#: src/tools/dcpomatic_kdm.cc:908 src/tools/dcpomatic_player.cc:1335
+#: src/tools/dcpomatic_playlist.cc:706
 #, c-format
 msgid ""
 "An exception occurred: %s.\n"
@@ -200,25 +200,25 @@ msgstr ""
 "Prišlo je do izjeme: %s.\n"
 "\n"
 
-#: src/tools/dcpomatic_server.cc:354
+#: src/tools/dcpomatic_server.cc:355
 msgid "An unknown error has occurred with the DCP-o-matic server."
 msgstr "Pri strežniku DCP-o-matic je prišlo do neznane napake."
 
-#: src/tools/dcpomatic.cc:991 src/tools/dcpomatic.cc:1793
-#: src/tools/dcpomatic_combiner.cc:311 src/tools/dcpomatic_disk.cc:566
-#: src/tools/dcpomatic_editor.cc:540 src/tools/dcpomatic_kdm.cc:469
-#: src/tools/dcpomatic_kdm.cc:911 src/tools/dcpomatic_kdm.cc:920
-#: src/tools/dcpomatic_player.cc:1318 src/tools/dcpomatic_playlist.cc:718
-#: src/tools/dcpomatic_playlist.cc:727
+#: src/tools/dcpomatic.cc:984 src/tools/dcpomatic.cc:1805
+#: src/tools/dcpomatic_combiner.cc:311 src/tools/dcpomatic_disk.cc:567
+#: src/tools/dcpomatic_editor.cc:541 src/tools/dcpomatic_kdm.cc:471
+#: src/tools/dcpomatic_kdm.cc:913 src/tools/dcpomatic_kdm.cc:922
+#: src/tools/dcpomatic_player.cc:1340 src/tools/dcpomatic_playlist.cc:711
+#: src/tools/dcpomatic_playlist.cc:720
 msgid "An unknown exception occurred."
 msgstr "Prišlo je do neznane izjeme."
 
-#: src/tools/dcpomatic_combiner.cc:116 src/tools/dcpomatic_editor.cc:78
-#: src/tools/dcpomatic_editor.cc:197
+#: src/tools/dcpomatic_combiner.cc:116 src/tools/dcpomatic_editor.cc:79
+#: src/tools/dcpomatic_editor.cc:198
 msgid "Annotation text"
 msgstr "Besedilo pripombe"
 
-#: src/tools/dcpomatic.cc:765
+#: src/tools/dcpomatic.cc:748
 msgid ""
 "Are you sure you want to restore preferences to their defaults?  This cannot "
 "be undone."
@@ -226,37 +226,37 @@ msgstr ""
 "Ali ste prepričani, da želite obnoviti nastavitve na privzete nastavitve?  "
 "Tega ni mogoče razveljaviti."
 
-#: src/tools/dcpomatic.cc:839
+#: src/tools/dcpomatic.cc:832
 #, c-format
 msgid "Bad setting for %s."
 msgstr "Slaba nastavitev za %s."
 
-#: src/tools/dcpomatic_editor.cc:323 src/tools/dcpomatic_player.cc:587
-#: src/tools/dcpomatic_playlist.cc:327
+#: src/tools/dcpomatic_editor.cc:324 src/tools/dcpomatic_player.cc:590
+#: src/tools/dcpomatic_playlist.cc:330
 msgid "CPL"
 msgstr "CPL"
 
-#: src/tools/dcpomatic.cc:987 src/tools/dcpomatic_kdm.cc:465
+#: src/tools/dcpomatic.cc:980 src/tools/dcpomatic_kdm.cc:467
 msgid "CPL's content is not encrypted."
 msgstr "Vsebina CPL ni šifrirana."
 
-#: src/tools/dcpomatic.cc:1397 src/tools/dcpomatic_player.cc:603
+#: src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_player.cc:606
 msgid "Check for updates"
 msgstr "Preveri obstoj posodobitev"
 
-#: src/tools/dcpomatic_combiner.cc:64 src/tools/dcpomatic_disk.cc:80
+#: src/tools/dcpomatic_combiner.cc:64 src/tools/dcpomatic_disk.cc:81
 msgid "Choose a DCP folder"
 msgstr "Izberite mapo DCP"
 
-#: src/tools/dcpomatic.cc:1889 src/tools/dcpomatic.cc:1904
+#: src/tools/dcpomatic.cc:1901 src/tools/dcpomatic.cc:1916
 msgid "Close DCP-o-matic"
 msgstr "Zapri DCP-o-matic"
 
-#: src/tools/dcpomatic.cc:157
+#: src/tools/dcpomatic.cc:159
 msgid "Close without saving film"
 msgstr "Zapri brez shranjevanje filma"
 
-#: src/tools/dcpomatic.cc:1390 src/tools/dcpomatic_player.cc:593
+#: src/tools/dcpomatic.cc:1383 src/tools/dcpomatic_player.cc:596
 msgid "Closed captions..."
 msgstr "Zaprti napisi ..."
 
@@ -268,23 +268,23 @@ msgstr "Združi"
 msgid "Combining DCPs"
 msgstr "Združevanje DCP-jev"
 
-#: src/tools/dcpomatic_editor.cc:212
+#: src/tools/dcpomatic_editor.cc:213
 msgid "Content title text"
 msgstr "Besedilo naslova vsebine"
 
-#: src/tools/dcpomatic_disk.cc:160
+#: src/tools/dcpomatic_disk.cc:161
 msgid "Copy DCP"
 msgstr "Kopiraj DCP"
 
-#: src/tools/dcpomatic.cc:1346
+#: src/tools/dcpomatic.cc:1339
 msgid "Copy settings\tCtrl-C"
 msgstr "Kopiraj nastavitve\tKrmilka+C"
 
-#: src/tools/dcpomatic.cc:579 src/tools/dcpomatic.cc:588
+#: src/tools/dcpomatic.cc:562 src/tools/dcpomatic.cc:571
 msgid "Could not create folder to store film."
 msgstr "Za shranjevanje filma ni bilo mogoče ustvariti mape."
 
-#: src/tools/dcpomatic_kdm.cc:595
+#: src/tools/dcpomatic_kdm.cc:597
 msgid ""
 "Could not decrypt the DKDM.  Perhaps it was not created with the correct "
 "certificate."
@@ -292,19 +292,19 @@ msgstr ""
 "DKDM ni bilo mogoče dešifrirati.  Morda ni bil ustvarjen s pravilnim "
 "potrdilom."
 
-#: src/tools/dcpomatic.cc:649 src/tools/dcpomatic.cc:666
+#: src/tools/dcpomatic.cc:632 src/tools/dcpomatic.cc:649
 msgid "Could not duplicate project."
 msgstr "Projekta ni mogoče podvojiti."
 
-#: src/tools/dcpomatic.cc:920
+#: src/tools/dcpomatic.cc:913
 msgid "Could not find batch converter."
 msgstr "Paketnega pretvornika ni mogoče najti."
 
-#: src/tools/dcpomatic.cc:935
+#: src/tools/dcpomatic.cc:928
 msgid "Could not find player."
 msgstr "Predvajalnika ni mogoče najti."
 
-#: src/tools/dcpomatic_batch.cc:474
+#: src/tools/dcpomatic_batch.cc:478
 msgid ""
 "Could not listen for new batch jobs.  Perhaps another instance of the DCP-o-"
 "matic Batch Converter is running."
@@ -312,15 +312,15 @@ msgstr ""
 "Novim paketnim obdelavam ni bilo mogoče prisluhniti.  Morda se izvaja še en "
 "primerek paketnega pretvornika DCP-o-matic."
 
-#: src/tools/dcpomatic_editor.cc:335
+#: src/tools/dcpomatic_editor.cc:336
 msgid "Could not load DCP"
 msgstr "DCP-ja ni mogoče naložiti."
 
-#: src/tools/dcpomatic_player.cc:766 src/tools/dcpomatic_player.cc:1243
+#: src/tools/dcpomatic_player.cc:774 src/tools/dcpomatic_player.cc:1265
 msgid "Could not load DCP %1."
 msgstr "DCP-ja %1 ni bilo mogoče naložiti."
 
-#: src/tools/dcpomatic_player.cc:546
+#: src/tools/dcpomatic_player.cc:549
 #, c-format
 msgid ""
 "Could not load DCP.\n"
@@ -331,39 +331,39 @@ msgstr ""
 "\n"
 "%s."
 
-#: src/tools/dcpomatic_player.cc:714
+#: src/tools/dcpomatic_player.cc:722
 msgid "Could not load KDM."
 msgstr "KDM ni bilo mogoče naložiti."
 
-#: src/tools/dcpomatic_player.cc:409 src/tools/dcpomatic_player.cc:416
-#: src/tools/dcpomatic_player.cc:418
+#: src/tools/dcpomatic_player.cc:412 src/tools/dcpomatic_player.cc:419
+#: src/tools/dcpomatic_player.cc:421
 #, c-format
 msgid "Could not load a DCP from %s"
 msgstr "DCP-ja ni bilo mogoče naložiti iz %s"
 
-#: src/tools/dcpomatic_batch.cc:490
+#: src/tools/dcpomatic_batch.cc:494
 msgid "Could not load film %1"
 msgstr "Filma %1 ni bilo mogoče naložiti"
 
-#: src/tools/dcpomatic.cc:1682
+#: src/tools/dcpomatic.cc:1694
 msgid "Could not load film %1 (%2)"
 msgstr "Filma %1 (%2) ni bilo mogoče naložiti"
 
-#: src/tools/dcpomatic.cc:841
+#: src/tools/dcpomatic.cc:834
 msgid "Could not make DCP."
 msgstr "DCP-ja ni bilo mogoče izdelati."
 
-#: src/tools/dcpomatic_batch.cc:255 src/tools/dcpomatic.cc:504
-#: src/tools/dcpomatic.cc:509
+#: src/tools/dcpomatic_batch.cc:257 src/tools/dcpomatic.cc:487
+#: src/tools/dcpomatic.cc:492
 #, c-format
 msgid "Could not open film at %s"
 msgstr "Ni bilo mogoče odpreti filma na %s"
 
-#: src/tools/dcpomatic.cc:499
+#: src/tools/dcpomatic.cc:482
 msgid "Could not open this folder as a DCP-o-matic project."
 msgstr "Te mape ni bilo mogoče odpreti kot projekta DCP-o-matic."
 
-#: src/tools/dcpomatic_kdm.cc:600
+#: src/tools/dcpomatic_kdm.cc:602
 msgid ""
 "Could not read file as a KDM.  It is much too large.  Make sure you are "
 "loading a DKDM (XML) file."
@@ -371,7 +371,7 @@ msgstr ""
 "Datoteke ni bilo mogoče prebrati kot KDM.  Prevelika je.  Preverite, ali "
 "nalagate datoteko DKDM (XML)."
 
-#: src/tools/dcpomatic_kdm.cc:588
+#: src/tools/dcpomatic_kdm.cc:590
 msgid ""
 "Could not read file as a KDM.  Perhaps it is badly formatted, or not a KDM "
 "at all."
@@ -379,23 +379,27 @@ msgstr ""
 "Datoteke ni bilo mogoče prebrati kot KDM.  Morda je slabo oblikovana ali pa "
 "sploh ni KDM."
 
-#: src/tools/dcpomatic.cc:622 src/tools/dcpomatic.cc:1285
+#: src/tools/dcpomatic.cc:771
+msgid "Could not remove existing preferences file"
+msgstr ""
+
+#: src/tools/dcpomatic.cc:605 src/tools/dcpomatic.cc:1278
 msgid "Could not save project."
 msgstr "Projekta ni mogoče shraniti."
 
-#: src/tools/dcpomatic.cc:633
+#: src/tools/dcpomatic.cc:616
 msgid "Could not save template."
 msgstr "Predloge ni mogoče shraniti."
 
-#: src/tools/dcpomatic.cc:1130
+#: src/tools/dcpomatic.cc:1123
 msgid "Could not send translations"
 msgstr "Prevodov ni bilo mogoče poslati"
 
-#: src/tools/dcpomatic.cc:1046
+#: src/tools/dcpomatic.cc:1039
 msgid "Could not show DCP."
 msgstr "DCP ni mogoče pokazati."
 
-#: src/tools/dcpomatic.cc:918
+#: src/tools/dcpomatic.cc:911
 msgid ""
 "Could not start the batch converter.  You may need to download it from "
 "dcpomatic.com."
@@ -403,14 +407,14 @@ msgstr ""
 "Paketnega pretvornika ni bilo mogoče zagnati.  Morda ga boste morali "
 "prenesti z dcpomatic.com."
 
-#: src/tools/dcpomatic.cc:933
+#: src/tools/dcpomatic.cc:926
 msgid ""
 "Could not start the player.  You may need to download it from dcpomatic.com."
 msgstr ""
 "Predvajalnika ni bilo mogoče zagnati.  Morda ga boste morali prenesti z "
 "dcpomatic.com."
 
-#: src/tools/dcpomatic_batch.cc:361 src/tools/dcpomatic.cc:1431
+#: src/tools/dcpomatic_batch.cc:363 src/tools/dcpomatic.cc:1424
 #, c-format
 msgid ""
 "Could not write to cinemas file at %s.  Your changes have not been saved."
@@ -418,8 +422,8 @@ msgstr ""
 "V datoteko kinodvoran ni bilo mogoče pisati pri %s.  Spremembe niso bile "
 "shranjene."
 
-#: src/tools/dcpomatic_batch.cc:373 src/tools/dcpomatic.cc:1443
-#: src/tools/dcpomatic_player.cc:993 src/tools/dcpomatic_playlist.cc:613
+#: src/tools/dcpomatic_batch.cc:375 src/tools/dcpomatic.cc:1436
+#: src/tools/dcpomatic_player.cc:1010 src/tools/dcpomatic_playlist.cc:606
 #, c-format
 msgid ""
 "Could not write to config file at %s.  Your changes have not been saved."
@@ -427,30 +431,30 @@ msgstr ""
 "V prilagoditveno datoteko ni bilo mogoče pisati pri %s.  Spremembe niso bile "
 "shranjene."
 
-#: src/tools/dcpomatic_player.cc:1001
+#: src/tools/dcpomatic_player.cc:1018
 msgid "Could not write to config file.  Your changes have not been saved."
 msgstr ""
 "V prilagoditveno datoteko ni bilo mogoče pisati.  Spremembe niso bile "
 "shranjene."
 
-#: src/tools/dcpomatic_kdm.cc:225
+#: src/tools/dcpomatic_kdm.cc:228
 msgid "Create KDMs"
 msgstr "Ustvari KDM-je"
 
-#: src/tools/dcpomatic_editor.cc:207
+#: src/tools/dcpomatic_editor.cc:208
 msgid "Creator"
 msgstr "Ustvarjalec"
 
-#: src/tools/dcpomatic_disk.cc:131 src/tools/dcpomatic_disk.cc:135
+#: src/tools/dcpomatic_disk.cc:132 src/tools/dcpomatic_disk.cc:136
 msgid "DCP"
 msgstr "DCP"
 
-#: src/tools/dcpomatic.cc:1544 src/tools/dcpomatic.cc:1620
-#: src/tools/dcpomatic.cc:1661
+#: src/tools/dcpomatic.cc:1537 src/tools/dcpomatic.cc:1634
+#: src/tools/dcpomatic.cc:1673
 msgid "DCP-o-matic"
 msgstr "DCP-o-matic"
 
-#: src/tools/dcpomatic_batch.cc:425 src/tools/dcpomatic_batch.cc:461
+#: src/tools/dcpomatic_batch.cc:429 src/tools/dcpomatic_batch.cc:465
 msgid "DCP-o-matic Batch Converter"
 msgstr "Paketni pretvornik DCP-o-matic"
 
@@ -459,43 +463,43 @@ msgstr "Paketni pretvornik DCP-o-matic"
 msgid "DCP-o-matic Combiner"
 msgstr "Združevalnik DCP-o-matic"
 
-#: src/tools/dcpomatic_disk.cc:314 src/tools/dcpomatic_disk.cc:322
-#: src/tools/dcpomatic_disk.cc:355 src/tools/dcpomatic_disk.cc:443
-#: src/tools/dcpomatic_disk.cc:489
+#: src/tools/dcpomatic_disk.cc:315 src/tools/dcpomatic_disk.cc:323
+#: src/tools/dcpomatic_disk.cc:356 src/tools/dcpomatic_disk.cc:444
+#: src/tools/dcpomatic_disk.cc:490
 msgid "DCP-o-matic Disk Writer"
 msgstr "Zapisovalec na disk DCP-o-matic"
 
-#: src/tools/dcpomatic_editor.cc:292 src/tools/dcpomatic_editor.cc:446
+#: src/tools/dcpomatic_editor.cc:293 src/tools/dcpomatic_editor.cc:447
 msgid "DCP-o-matic Editor"
 msgstr "Urejevalnik DCP-o-matic"
 
-#: src/tools/dcpomatic_editor.cc:497
+#: src/tools/dcpomatic_editor.cc:498
 msgid "DCP-o-matic Editor could not start."
 msgstr "Urejevalnika DCP-o-matic ni mogoče zagnati."
 
-#: src/tools/dcpomatic_server.cc:151
+#: src/tools/dcpomatic_server.cc:152
 msgid "DCP-o-matic Encode Server"
 msgstr "Strežnik kodiranja DCP-o-matic"
 
-#: src/tools/dcpomatic_kdm.cc:831 src/tools/dcpomatic_kdm.cc:865
+#: src/tools/dcpomatic_kdm.cc:833 src/tools/dcpomatic_kdm.cc:867
 msgid "DCP-o-matic KDM Creator"
 msgstr "Izdelovalec KDM DCP-o-matic"
 
-#: src/tools/dcpomatic_player.cc:198 src/tools/dcpomatic_player.cc:398
-#: src/tools/dcpomatic_player.cc:680 src/tools/dcpomatic_player.cc:911
-#: src/tools/dcpomatic_player.cc:1184
+#: src/tools/dcpomatic_player.cc:201 src/tools/dcpomatic_player.cc:401
+#: src/tools/dcpomatic_player.cc:683 src/tools/dcpomatic_player.cc:928
+#: src/tools/dcpomatic_player.cc:1206
 msgid "DCP-o-matic Player"
 msgstr "Predvajalnik DCP-o-matic"
 
-#: src/tools/dcpomatic_player.cc:1266
+#: src/tools/dcpomatic_player.cc:1288
 msgid "DCP-o-matic Player could not start."
 msgstr "Predvajalnik DCP-o-matic se ni mogel zagnati."
 
-#: src/tools/dcpomatic_playlist.cc:645 src/tools/dcpomatic_playlist.cc:679
+#: src/tools/dcpomatic_playlist.cc:638 src/tools/dcpomatic_playlist.cc:672
 msgid "DCP-o-matic Playlist Editor"
 msgstr "Urejevalnik seznamov predvajanja DCP-o-matic"
 
-#: src/tools/dcpomatic_kdm.cc:882 src/tools/dcpomatic_playlist.cc:691
+#: src/tools/dcpomatic_kdm.cc:884 src/tools/dcpomatic_playlist.cc:684
 msgid "DCP-o-matic could not start"
 msgstr "DCP-o-matic se ni mogel zagnati"
 
@@ -503,32 +507,32 @@ msgstr "DCP-o-matic se ni mogel zagnati"
 msgid "DCPs combined successfully."
 msgstr "DCP-ji so bili uspešno združeni."
 
-#: src/tools/dcpomatic_kdm.cc:167
+#: src/tools/dcpomatic_kdm.cc:170
 msgid "DKDM"
 msgstr "DKDM"
 
-#: src/tools/dcpomatic_kdm.cc:575
+#: src/tools/dcpomatic_kdm.cc:577
 #, c-format
 msgid "DKDM %s is already in the DKDM list and will not be added again."
 msgstr "DKDM %s je že na seznamu DKDM in ne bo ponovno dodan."
 
-#: src/tools/dcpomatic_player.cc:596
+#: src/tools/dcpomatic_player.cc:599
 msgid "Decode at full resolution"
 msgstr "Dekodiranje pri polni ločljivosti"
 
-#: src/tools/dcpomatic_player.cc:597
+#: src/tools/dcpomatic_player.cc:600
 msgid "Decode at half resolution"
 msgstr "Dekodiranje pri polovični ločljivosti"
 
-#: src/tools/dcpomatic_player.cc:598
+#: src/tools/dcpomatic_player.cc:601
 msgid "Decode at quarter resolution"
 msgstr "Dekodiranje pri četrtinski ločljivosti"
 
-#: src/tools/dcpomatic_playlist.cc:136
+#: src/tools/dcpomatic_playlist.cc:137
 msgid "Delete"
 msgstr "Izbriši"
 
-#: src/tools/dcpomatic_disk.cc:323
+#: src/tools/dcpomatic_disk.cc:324
 msgid ""
 "Did you install the DCP-o-matic Disk Writer.pkg from the .dmg?  Please check "
 "and try again."
@@ -536,11 +540,12 @@ msgstr ""
 "Ali ste namestili DCP-o-matic Disk Writer.pkg iz .dmg?  Preverite in "
 "poskusite znova."
 
-#: src/tools/dcpomatic.cc:1862 src/tools/dcpomatic.cc:1877
+#: src/tools/dcpomatic.cc:1874 src/tools/dcpomatic.cc:1889
+#: src/tools/dcpomatic.cc:1931
 msgid "Do nothing"
 msgstr "Ne naredi ničesar"
 
-#: src/tools/dcpomatic_disk.cc:315
+#: src/tools/dcpomatic_disk.cc:316
 msgid ""
 "Do you see a 'User Account Control' dialogue asking about "
 "dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again."
@@ -548,118 +553,108 @@ msgstr ""
 "Ali vidite pogovorno okno »Nadzor uporabniških računov« z vprašanjem o "
 "dcpomatic2_disk_writer.exe?  Če je tako, kliknite »Da« in poskusite znova."
 
-#: src/tools/dcpomatic.cc:826
+#: src/tools/dcpomatic.cc:819
 #, c-format
 msgid "Do you want to overwrite the existing DCP %s?"
 msgstr "Ali želite prepisati obstoječi DCP %s?"
 
-#: src/tools/dcpomatic.cc:157
+#: src/tools/dcpomatic.cc:159
 msgid "Don't close"
 msgstr "Ne zapri"
 
-#: src/tools/dcpomatic.cc:185
+#: src/tools/dcpomatic.cc:187
 msgid "Don't duplicate"
 msgstr "Ne podvoji"
 
-#: src/tools/dcpomatic_playlist.cc:345
+#: src/tools/dcpomatic_playlist.cc:338
 msgid "Down"
 msgstr "Navzdol"
 
-#: src/tools/dcpomatic_disk.cc:147
+#: src/tools/dcpomatic_disk.cc:148
 msgid "Drive"
 msgstr "Pogon"
 
-#: src/tools/dcpomatic_player.cc:590
+#: src/tools/dcpomatic_player.cc:593
 msgid "Dual screen\tShift+F11"
 msgstr "Dvojni zaslon\tDvigalka+F11"
 
-#: src/tools/dcpomatic.cc:640 src/tools/dcpomatic.cc:656
+#: src/tools/dcpomatic.cc:623 src/tools/dcpomatic.cc:639
 msgid "Duplicate Film"
 msgstr "Podvoji film"
 
-#: src/tools/dcpomatic.cc:1326
+#: src/tools/dcpomatic.cc:1319
 msgid "Duplicate and open..."
 msgstr "Podvoji in odpri ..."
 
-#: src/tools/dcpomatic.cc:185
+#: src/tools/dcpomatic.cc:187
 msgid "Duplicate without saving film"
 msgstr "Podvoji brez shranjevanje filma"
 
-#: src/tools/dcpomatic.cc:1325
+#: src/tools/dcpomatic.cc:1318
 msgid "Duplicate..."
 msgstr "Podvoji …"
 
-#: src/tools/dcpomatic_editor.cc:88
+#: src/tools/dcpomatic_editor.cc:89
 msgid "Duration"
 msgstr "Trajanje"
 
-#: src/tools/dcpomatic_editor.cc:148
+#: src/tools/dcpomatic_editor.cc:149
 msgid "Edit reel"
 msgstr "Uredi kolut"
 
-#: src/tools/dcpomatic_batch.cc:98 src/tools/dcpomatic.cc:1395
+#: src/tools/dcpomatic_batch.cc:100 src/tools/dcpomatic.cc:1388
 msgid "Encoding servers..."
 msgstr "Strežniki kodiranja ..."
 
-#: src/tools/dcpomatic_playlist.cc:329
+#: src/tools/dcpomatic_playlist.cc:332
 msgid "Encrypted"
 msgstr "Šifrirano"
 
-#: src/tools/dcpomatic_editor.cc:83
+#: src/tools/dcpomatic_editor.cc:84
 msgid "Entry point"
 msgstr "Vstopna točka"
 
-#: src/tools/dcpomatic.cc:1403
+#: src/tools/dcpomatic.cc:1396
 msgid "Export preferences..."
 msgstr "Nastavitve izvoza ..."
 
-#: src/tools/dcpomatic.cc:1375
+#: src/tools/dcpomatic.cc:1368
 msgid "Export subtitles..."
 msgstr "Izvozi podnaslove ..."
 
-#: src/tools/dcpomatic.cc:1374
+#: src/tools/dcpomatic.cc:1367
 msgid "Export video file...\tCtrl-E"
 msgstr "Izvozi video datoteko ...\tKrmilka+E"
 
-#: src/tools/dcpomatic_kdm.cc:212
+#: src/tools/dcpomatic_kdm.cc:215
 msgid "Export..."
 msgstr "Izvozi ..."
 
-#: src/tools/dcpomatic.cc:1006 src/tools/dcpomatic_kdm.cc:323
+#: src/tools/dcpomatic.cc:999 src/tools/dcpomatic_kdm.cc:328
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Datoteka %s že obstaja. Ali jo želite prepisati?"
 
 #. TRANSLATORS: this is the heading for a dialog box, which tells the user that the current
 #. project (Film) has been changed since it was last saved.
-#: src/tools/dcpomatic.cc:152 src/tools/dcpomatic.cc:180
+#: src/tools/dcpomatic.cc:154 src/tools/dcpomatic.cc:182
 msgid "Film changed"
 msgstr "Film je spremenjen"
 
-#: src/tools/dcpomatic_kdm.cc:318
+#: src/tools/dcpomatic_kdm.cc:323
 #, c-format
 msgid "Folder %s already exists.  Do you want to overwrite it?"
 msgstr "Mapa %s že obstaja. Ali jo želite prepisati?"
 
-#: src/tools/dcpomatic_kdm.cc:431
-msgid ""
-"For some of these KDMs the recipient certificate's validity period will not "
-"cover the whole of the KDM validity period.  This might cause problems with "
-"the KDMs."
-msgstr ""
-"Pri nekaterih od teh KDM-jev obdobje veljavnosti prejemnikovega potrdila ne "
-"pokriva celotnega obdobja veljavnosti KDM.  To lahko povzroči težave s KDM-"
-"ji."
-
-#: src/tools/dcpomatic_server.cc:162
+#: src/tools/dcpomatic_server.cc:163
 msgid "Frames per second"
 msgstr "Sličic na sekundo"
 
-#: src/tools/dcpomatic_player.cc:589
+#: src/tools/dcpomatic_player.cc:592
 msgid "Full screen\tF11"
 msgstr "Celozaslonsko\tF11"
 
-#: src/tools/dcpomatic.cc:1394
+#: src/tools/dcpomatic.cc:1387
 msgid "Hints..."
 msgstr "Namigi ..."
 
@@ -667,15 +662,15 @@ msgstr "Namigi ..."
 msgid "Input DCP"
 msgstr "Vhodni DCP"
 
-#: src/tools/dcpomatic_editor.cc:93
+#: src/tools/dcpomatic_editor.cc:94
 msgid "Intrinsic duration"
 msgstr "Lastno trajanje"
 
-#: src/tools/dcpomatic_editor.cc:202
+#: src/tools/dcpomatic_editor.cc:203
 msgid "Issuer"
 msgstr "Izdajatelj"
 
-#: src/tools/dcpomatic.cc:500
+#: src/tools/dcpomatic.cc:483
 msgid ""
 "It looks like you are trying to open a DCP.  File -> Open is for loading DCP-"
 "o-matic projects, not DCPs.  To import a DCP, create a new project with File "
@@ -686,66 +681,66 @@ msgstr ""
 "projekt z Datoteka -> Nov in nato kliknite gumb »Dodaj DCP …«."
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/tools/dcpomatic_kdm.cc:161
+#: src/tools/dcpomatic_kdm.cc:164
 msgid "KDM|Timing"
 msgstr "KDM|Časovna usklajenost"
 
-#: src/tools/dcpomatic_playlist.cc:131
+#: src/tools/dcpomatic_playlist.cc:132
 msgid "Length"
 msgstr "Dolžina"
 
-#: src/tools/dcpomatic_player.cc:398 src/tools/dcpomatic_player.cc:680
+#: src/tools/dcpomatic_player.cc:401 src/tools/dcpomatic_player.cc:683
 msgid "Loading content"
 msgstr "Nalaganje vsebine"
 
-#: src/tools/dcpomatic.cc:1370
+#: src/tools/dcpomatic.cc:1363
 msgid "Make &DKDMs...\tCtrl-D"
 msgstr "Naredi &DKDM-je …\tKrmilka+D"
 
-#: src/tools/dcpomatic.cc:1368
+#: src/tools/dcpomatic.cc:1361
 msgid "Make &KDMs...\tCtrl-K"
 msgstr "Naredi &KDM-je ...\tKrmilka+K"
 
-#: src/tools/dcpomatic.cc:1365
+#: src/tools/dcpomatic.cc:1358
 msgid "Make DCP in &batch converter\tCtrl-B"
 msgstr "Naredi DCP s &paketnim pretvornikom\tKrmilka+B"
 
-#: src/tools/dcpomatic.cc:1371
+#: src/tools/dcpomatic.cc:1364
 msgid "Make DKDM for DCP-o-matic..."
 msgstr "Naredi DKDM za DCP-o-matic ..."
 
-#: src/tools/dcpomatic.cc:1396
+#: src/tools/dcpomatic.cc:1389
 msgid "Manage templates..."
 msgstr "Upravljaj predloge …"
 
-#: src/tools/dcpomatic_playlist.cc:130 src/tools/dcpomatic_playlist.cc:326
+#: src/tools/dcpomatic_playlist.cc:131 src/tools/dcpomatic_playlist.cc:329
 msgid "Name"
 msgstr "Ime"
 
-#: src/tools/dcpomatic_playlist.cc:134
+#: src/tools/dcpomatic_playlist.cc:135
 msgid "New"
 msgstr "Nov"
 
-#: src/tools/dcpomatic.cc:560
+#: src/tools/dcpomatic.cc:543
 msgid "New Film"
 msgstr "Nov film"
 
-#: src/tools/dcpomatic_playlist.cc:246
+#: src/tools/dcpomatic_playlist.cc:249
 msgid "New Playlist"
 msgstr "Nov seznam predvajanja"
 
-#: src/tools/dcpomatic.cc:1317
+#: src/tools/dcpomatic.cc:1310
 msgid "New...\tCtrl-N"
 msgstr "Nov ...\tKrmilka+N"
 
-#: src/tools/dcpomatic_disk.cc:89
+#: src/tools/dcpomatic_disk.cc:90
 msgid ""
 "No ASSETMAP or ASSETMAP.xml found in this folder.  Please choose a DCP "
 "folder."
 msgstr ""
 "V tej mapi ni mogoče najti ASSETMAP ali ASSETMAP.xml.  Izberite mapo DCP."
 
-#: src/tools/dcpomatic_playlist.cc:242
+#: src/tools/dcpomatic_playlist.cc:245
 msgid ""
 "No playlist folder is specified in preferences.  Please set one and then try "
 "again."
@@ -753,15 +748,15 @@ msgstr ""
 "V nastavitvah ni navedena nobena mapa seznama predvajanja.  Nastavite eno in "
 "poskusite znova."
 
-#: src/tools/dcpomatic.cc:1387
+#: src/tools/dcpomatic.cc:1380
 msgid "Open DCP in &player"
 msgstr "Odpri DCP v &predvajalniku"
 
-#: src/tools/dcpomatic_editor.cc:280
+#: src/tools/dcpomatic_editor.cc:281
 msgid "Open a DCP using File -> Open"
 msgstr "Odprite DCP z uporabo ukaza Datoteka -> Odpri"
 
-#: src/tools/dcpomatic_kdm.cc:219
+#: src/tools/dcpomatic_kdm.cc:222
 msgid "Output"
 msgstr "Izhod"
 
@@ -769,23 +764,23 @@ msgstr "Izhod"
 msgid "Output DCP folder"
 msgstr "Izhodna mapa DCP"
 
-#: src/tools/dcpomatic.cc:1348
+#: src/tools/dcpomatic.cc:1341
 msgid "Paste settings...\tCtrl-V"
 msgstr "Prilepi nastavitve ...\tKrmilka+V"
 
-#: src/tools/dcpomatic_batch.cc:173
+#: src/tools/dcpomatic_batch.cc:175
 msgid "Pause or resume conversion"
 msgstr "Začasno ustavite ali nadaljujte s pretvorbo"
 
-#: src/tools/dcpomatic_batch.cc:173
+#: src/tools/dcpomatic_batch.cc:175
 msgid "Pause/resume"
 msgstr "Premor / nadaljuj"
 
-#: src/tools/dcpomatic_editor.cc:166
+#: src/tools/dcpomatic_editor.cc:167
 msgid "Picture"
 msgstr "Slika"
 
-#: src/tools/dcpomatic.cc:584
+#: src/tools/dcpomatic.cc:567
 msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for DCP-o-matic."
@@ -793,161 +788,151 @@ msgstr ""
 "Preverite, če za DCP-o-matic ni omogočen dostop do mape pod nadzorom sistema "
 "Windows."
 
-#: src/tools/dcpomatic_playlist.cc:423
+#: src/tools/dcpomatic_playlist.cc:416
 msgid "Question|N"
 msgstr "Vprašanje|N"
 
-#: src/tools/dcpomatic_playlist.cc:423
+#: src/tools/dcpomatic_playlist.cc:416
 msgid "Question|Y"
 msgstr "Vprašanje|D"
 
-#: src/tools/dcpomatic.cc:1899
+#: src/tools/dcpomatic.cc:1911
 msgid "Recreate KDM decryption chain"
 msgstr "Ponovno izdelaj verigo za dešifriranje KDM"
 
-#: src/tools/dcpomatic.cc:1858 src/tools/dcpomatic.cc:1873
-#: src/tools/dcpomatic.cc:1885
+#: src/tools/dcpomatic.cc:1870 src/tools/dcpomatic.cc:1885
+#: src/tools/dcpomatic.cc:1897 src/tools/dcpomatic.cc:1926
 msgid "Recreate signing certificates"
 msgstr "Ponovno izdelaj potrdila za podpisovanje"
 
-#: src/tools/dcpomatic_editor.cc:217
+#: src/tools/dcpomatic_editor.cc:218
 msgid "Reels"
 msgstr "Koluti"
 
-#: src/tools/dcpomatic_disk.cc:151
+#: src/tools/dcpomatic_disk.cc:152
 msgid "Refresh"
 msgstr "Osveži"
 
-#: src/tools/dcpomatic.cc:1708
+#: src/tools/dcpomatic.cc:1720
 msgid "Release notes"
 msgstr "Opombe ob izdaji"
 
-#: src/tools/dcpomatic_kdm.cc:210 src/tools/dcpomatic_playlist.cc:347
+#: src/tools/dcpomatic_kdm.cc:213 src/tools/dcpomatic_playlist.cc:340
 msgid "Remove"
 msgstr "Odstrani"
 
-#: src/tools/dcpomatic.cc:1411 src/tools/dcpomatic_kdm.cc:304
-#: src/tools/dcpomatic_player.cc:613
+#: src/tools/dcpomatic.cc:1404 src/tools/dcpomatic_kdm.cc:309
+#: src/tools/dcpomatic_player.cc:616
 msgid "Report a problem..."
 msgstr "Prijavi težavo ..."
 
-#: src/tools/dcpomatic.cc:766 src/tools/dcpomatic.cc:1401
+#: src/tools/dcpomatic.cc:749 src/tools/dcpomatic.cc:1394
 msgid "Restore default preferences"
 msgstr "Obnovi privzete nastavitve"
 
-#: src/tools/dcpomatic.cc:1382
+#: src/tools/dcpomatic.cc:1375
 msgid "S&how DCP in Explorer"
 msgstr "P&okaži DCP v Raziskovalcu"
 
-#: src/tools/dcpomatic.cc:1384
+#: src/tools/dcpomatic.cc:1377
 msgid "S&how DCP in Files"
 msgstr "Po&kaži DCP v Datotekah"
 
-#: src/tools/dcpomatic.cc:1380
+#: src/tools/dcpomatic.cc:1373
 msgid "S&how DCP in Finder"
 msgstr "P&okaži DCP v Finderju"
 
-#: src/tools/dcpomatic_playlist.cc:316
+#: src/tools/dcpomatic_playlist.cc:319
 msgid "Save"
 msgstr "Shrani"
 
-#: src/tools/dcpomatic.cc:1324
+#: src/tools/dcpomatic.cc:1317
 msgid "Save as &template..."
 msgstr "Shrani kot pred&logo ..."
 
-#: src/tools/dcpomatic.cc:149
+#: src/tools/dcpomatic.cc:151
 #, c-format
 msgid "Save changes to film \"%s\" before closing?"
 msgstr "Ali želite shraniti spremembe v film »%s« pred zaprtjem?"
 
-#: src/tools/dcpomatic.cc:177
+#: src/tools/dcpomatic.cc:179
 #, c-format
 msgid "Save changes to film \"%s\" before duplicating?"
 msgstr "Ali želite shraniti spremembe v film »%s« pred podvajanjem?"
 
-#: src/tools/dcpomatic.cc:157
+#: src/tools/dcpomatic.cc:159
 msgid "Save film and close"
 msgstr "Shrani film in zapri"
 
-#: src/tools/dcpomatic.cc:185
+#: src/tools/dcpomatic.cc:187
 msgid "Save film and duplicate"
 msgstr "Shrani film in podvoji"
 
-#: src/tools/dcpomatic_player.cc:724
+#: src/tools/dcpomatic_player.cc:732
 msgid "Save frame to file"
 msgstr "Shrani sličico v datoteko"
 
-#: src/tools/dcpomatic_kdm.cc:154
+#: src/tools/dcpomatic_kdm.cc:157
 msgid "Screens"
 msgstr "Platna"
 
-#: src/tools/dcpomatic_editor.cc:374 src/tools/dcpomatic_player.cc:631
+#: src/tools/dcpomatic_editor.cc:375 src/tools/dcpomatic_player.cc:634
 msgid "Select DCP to open"
 msgstr "Izberite DCP za odpiranje"
 
-#: src/tools/dcpomatic_player.cc:659
+#: src/tools/dcpomatic_player.cc:662
 msgid "Select DCP to open as OV"
 msgstr "Izberite DCP, da ga odprete kot OV"
 
-#: src/tools/dcpomatic_kdm.cc:764
+#: src/tools/dcpomatic_kdm.cc:766
 msgid "Select DKDM File"
 msgstr "Izberite datoteko DKDM"
 
-#: src/tools/dcpomatic_kdm.cc:550
+#: src/tools/dcpomatic_kdm.cc:552
 msgid "Select DKDM file"
 msgstr "Izberite datoteko DKDM"
 
-#: src/tools/dcpomatic_player.cc:700
+#: src/tools/dcpomatic_player.cc:703
 msgid "Select KDM"
 msgstr "Izberite KDM"
 
-#: src/tools/dcpomatic.cc:1351
+#: src/tools/dcpomatic.cc:1344
 msgid "Select all\tShift-Ctrl-A"
 msgstr "Izberi vse Dvigalka+krmilka+A"
 
-#: src/tools/dcpomatic_batch.cc:329 src/tools/dcpomatic.cc:597
+#: src/tools/dcpomatic_batch.cc:331 src/tools/dcpomatic.cc:580
 msgid "Select film to open"
 msgstr "Izberite film, ki ga želite odpreti"
 
-#: src/tools/dcpomatic_kdm.cc:445
+#: src/tools/dcpomatic_kdm.cc:447
 msgid "Send KDM emails"
 msgstr "Pošiljanje e-sporočila KDM"
 
-#: src/tools/dcpomatic.cc:1398
+#: src/tools/dcpomatic.cc:1391
 msgid "Send translations..."
 msgstr "Pošlji prevode ..."
 
-#: src/tools/dcpomatic_player.cc:595
+#: src/tools/dcpomatic_player.cc:598
 msgid "Set decode resolution to match display"
 msgstr "Nastavi ločljivost dekodiranja, tako da se ujema s prikazanim"
 
-#: src/tools/dcpomatic_kdm.cc:423
-msgid ""
-"Some KDMs would have validity periods which are completely outside the "
-"recipient certificate periods.  Such KDMs are very unlikely to work, so will "
-"not be created."
-msgstr ""
-"Nekateri KDM bi imeli obdobja veljavnosti, ki so povsem zunaj obdobij "
-"veljavnosti prejemnikovega potrdila.  Takšni KDM najverjetneje ne bodo "
-"delovali, zato ne bodo ustvarjeni."
-
-#: src/tools/dcpomatic_editor.cc:169
+#: src/tools/dcpomatic_editor.cc:170
 msgid "Sound"
 msgstr "Zvok"
 
-#: src/tools/dcpomatic.cc:778
+#: src/tools/dcpomatic.cc:761
 msgid "Specify ZIP file"
 msgstr "Navedite datoteko ZIP"
 
-#: src/tools/dcpomatic_editor.cc:172
+#: src/tools/dcpomatic_editor.cc:173
 msgid "Subtitle"
 msgstr "Podnaslov"
 
-#: src/tools/dcpomatic.cc:1399 src/tools/dcpomatic_player.cc:605
+#: src/tools/dcpomatic.cc:1392 src/tools/dcpomatic_player.cc:608
 msgid "System information..."
 msgstr "Podatki o sistemu …"
 
-#: src/tools/dcpomatic.cc:798
+#: src/tools/dcpomatic.cc:791
 #, c-format
 msgid ""
 "The DCP and intermediate files for this film will take up about %.1f GB, and "
@@ -960,7 +945,7 @@ msgstr ""
 "če bi datotečni sistem podpiral trdne povezave, vendar jih ne.  Ali želite "
 "kljub temu nadaljevati?"
 
-#: src/tools/dcpomatic.cc:796
+#: src/tools/dcpomatic.cc:789
 #, c-format
 msgid ""
 "The DCP for this film will take up about %.1f GB, and the disk that you are "
@@ -969,11 +954,11 @@ msgstr ""
 "DCP za ta film zahteva %.1f GB prostora, na disku, ki ga uporabljate, pa je "
 "na voljo %.1f GB.  Ali želite kljub temu nadaljevati?"
 
-#: src/tools/dcpomatic.cc:1504 src/tools/dcpomatic_player.cc:975
+#: src/tools/dcpomatic.cc:1497 src/tools/dcpomatic_player.cc:992
 msgid "The DCP-o-matic download server could not be contacted."
 msgstr "S strežnikom za prenos DCP-o-matic ni bilo mogoče stopiti v stik."
 
-#: src/tools/dcpomatic_batch.cc:244
+#: src/tools/dcpomatic_batch.cc:246
 #, c-format
 msgid ""
 "The DCPs for this film and the films already in the queue will take up about "
@@ -984,11 +969,11 @@ msgstr ""
 "%.1f GB prostora.  Na diskih, ki jih uporabljate, je na voljo %.1f GB "
 "prostora.  Ali želite kljub temu dodati ta film v čakalno vrsto?"
 
-#: src/tools/dcpomatic_player.cc:355
+#: src/tools/dcpomatic_player.cc:358
 msgid "The KDM does not allow playback of this content at this time."
 msgstr "KDM trenutno ne omogoča predvajanja te vsebine."
 
-#: src/tools/dcpomatic_kdm.cc:461
+#: src/tools/dcpomatic_kdm.cc:463
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
@@ -998,7 +983,7 @@ msgstr ""
 "Uporabite zgodnejši končni čas za ta KDM ali pa znova ustvarite potrdila za "
 "podpisovanje v oknu nastavitev DCP-o-matic."
 
-#: src/tools/dcpomatic_kdm.cc:459
+#: src/tools/dcpomatic_kdm.cc:461
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
@@ -1006,11 +991,11 @@ msgstr ""
 "Začetek obdobja KDM je pred (ali blizu) začetkom veljavnosti potrdila o "
 "podpisovanju.  Uporabite kasnejši začetni čas za ta KDM."
 
-#: src/tools/dcpomatic.cc:970
+#: src/tools/dcpomatic.cc:963
 msgid "The certificate chain for signing is invalid"
 msgstr "Veriga potrdil za podpisovanje ni veljavna"
 
-#: src/tools/dcpomatic.cc:1900
+#: src/tools/dcpomatic.cc:1912
 msgid ""
 "The certificate chain that DCP-o-matic uses for decrypting KDMs is "
 "inconsistent and\n"
@@ -1028,7 +1013,7 @@ msgstr ""
 "Morda je smiselno,\n"
 "da izberete »Ne« in varnostno kopirate svoje nastavitve, preden nadaljujete."
 
-#: src/tools/dcpomatic.cc:1859
+#: src/tools/dcpomatic.cc:1871
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error\n"
@@ -1042,7 +1027,24 @@ msgstr ""
 "Ali želite ponovno ustvariti\n"
 "verigo potrdil za podpisovanje DCP-jev in KDM-jev?"
 
-#: src/tools/dcpomatic.cc:1874
+#: src/tools/dcpomatic.cc:1927
+#, fuzzy
+msgid ""
+"The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
+"contains a small error\n"
+"which will prevent DCPs from being validated correctly on some systems.  "
+"This error was caused\n"
+"by a bug in DCP-o-matic which has now been fixed. Do you want to re-create "
+"the certificate chain\n"
+"for signing DCPs and KDMs?"
+msgstr ""
+"Veriga potrdil, ki jo DCP-o-matic uporablja za podpisovanje DCP-jev in KDM-"
+"jev, vsebuje majhno\n"
+"napako, ki bo preprečila pravilno validacijo DCP-jev v nekaterih sistemih.  "
+"Ali želite ponovno ustvariti\n"
+"verigo potrdil za podpisovanje DCP-jev in KDM-jev?"
+
+#: src/tools/dcpomatic.cc:1886
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period\n"
@@ -1057,7 +1059,7 @@ msgstr ""
 "Ali želite ponovno ustvariti verigo potrdil za podpisovanje DCP-jev in KDM-"
 "jev?"
 
-#: src/tools/dcpomatic.cc:1886
+#: src/tools/dcpomatic.cc:1898
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is "
 "inconsistent and\n"
@@ -1079,11 +1081,11 @@ msgid ""
 msgstr ""
 "Mapa %1 že obstaja in ni prazna; ali ste prepričani, da jo želite uporabiti?"
 
-#: src/tools/dcpomatic_disk.cc:278
+#: src/tools/dcpomatic_disk.cc:279
 msgid "The disk you selected is no longer available.  Please choose another."
 msgstr "Disk, ki ste ga izbrali, ni več na voljo. Izberite drugega."
 
-#: src/tools/dcpomatic_disk.cc:357
+#: src/tools/dcpomatic_disk.cc:358
 #, c-format
 msgid ""
 "The drive %s could not be unmounted.\n"
@@ -1092,7 +1094,7 @@ msgstr ""
 "Pogona %s ni možno odklopiti.\n"
 "Zaprite vse programe, ki ga uporabljajo, nato poskusite znova (%s)."
 
-#: src/tools/dcpomatic_disk.cc:530 src/tools/dcpomatic_player.cc:1342
+#: src/tools/dcpomatic_disk.cc:531 src/tools/dcpomatic_player.cc:1364
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -1100,18 +1102,18 @@ msgstr ""
 "Obstoječe prilagoditve ni bilo mogoče naložiti.  Namesto tega bodo "
 "uporabljene privzete vrednosti.  To lahko terja kratek čas za ustvarjanje."
 
-#: src/tools/dcpomatic.cc:1506 src/tools/dcpomatic_player.cc:977
+#: src/tools/dcpomatic.cc:1499 src/tools/dcpomatic_player.cc:994
 msgid "There are no new versions of DCP-o-matic available."
 msgstr "Na voljo ni novih različic programa DCP-o-matic."
 
-#: src/tools/dcpomatic_batch.cc:274 src/tools/dcpomatic.cc:1157
-#: src/tools/dcpomatic_disk.cc:254
+#: src/tools/dcpomatic_batch.cc:276 src/tools/dcpomatic.cc:1150
+#: src/tools/dcpomatic_disk.cc:255
 msgid "There are unfinished jobs; are you sure you want to quit?"
 msgstr ""
 "Obstajajo nedokončana opravila; ali ste prepričani, da želite zapustiti "
 "program?"
 
-#: src/tools/dcpomatic.cc:482
+#: src/tools/dcpomatic.cc:465
 msgid ""
 "This film was created with an old version of DVD-o-matic and may not load "
 "correctly in this version.  Please check the film's settings carefully."
@@ -1120,7 +1122,7 @@ msgstr ""
 "tej različici morda ne bo pravilno naložil.  Skrbno preverite nastavitve "
 "filma."
 
-#: src/tools/dcpomatic_player.cc:411
+#: src/tools/dcpomatic_player.cc:414
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be loaded into "
 "the player.  Choose the DCP folder inside the DCP-o-matic project folder if "
@@ -1130,45 +1132,45 @@ msgstr ""
 "predvajalnik.  Izberite mapo DCP znotraj projektne mape DCP-o-matic, če "
 "želite to predvajati."
 
-#: src/tools/dcpomatic_player.cc:604
+#: src/tools/dcpomatic_player.cc:607
 msgid "Timing..."
 msgstr "Časovna usklajenost …"
 
-#: src/tools/dcpomatic_disk.cc:115
+#: src/tools/dcpomatic_disk.cc:116
 msgid "Tools"
 msgstr "Orodja"
 
-#: src/tools/dcpomatic.cc:582
+#: src/tools/dcpomatic.cc:565
 #, c-format
 msgid "Try removing the %s characters from your folder name."
 msgstr "Poskusite odstraniti %s znakov iz imena mape."
 
-#: src/tools/dcpomatic_playlist.cc:328
+#: src/tools/dcpomatic_playlist.cc:331
 msgid "Type"
 msgstr "Vrsta"
 
-#: src/tools/dcpomatic_batch.cc:275 src/tools/dcpomatic.cc:1158
-#: src/tools/dcpomatic_disk.cc:255
+#: src/tools/dcpomatic_batch.cc:277 src/tools/dcpomatic.cc:1151
+#: src/tools/dcpomatic_disk.cc:256
 msgid "Unfinished jobs"
 msgstr "Nedokončana opravila"
 
-#: src/tools/dcpomatic_disk.cc:114
+#: src/tools/dcpomatic_disk.cc:115
 msgid "Uninstall..."
 msgstr "Odstrani namestitev …"
 
-#: src/tools/dcpomatic_playlist.cc:344
+#: src/tools/dcpomatic_playlist.cc:337
 msgid "Up"
 msgstr "Navzgor"
 
-#: src/tools/dcpomatic_player.cc:601
+#: src/tools/dcpomatic_player.cc:604
 msgid "Verify DCP..."
 msgstr "Preveri DCP ..."
 
-#: src/tools/dcpomatic.cc:1391
+#: src/tools/dcpomatic.cc:1384
 msgid "Video waveform..."
 msgstr "Signalna oblika videa …"
 
-#: src/tools/dcpomatic_kdm.cc:738
+#: src/tools/dcpomatic_kdm.cc:740
 msgid ""
 "You are about to remove a DKDM.  This will make it impossible to decrypt the "
 "DCP that the DKDM was made for, and it cannot be undone.  Are you sure?"
@@ -1176,7 +1178,7 @@ msgstr ""
 "Odstranili boste DKDM.  Tako bo nemogoče dešifrirati DCP, za kar je bil "
 "narejen DKDM, česar ni mogoče razveljaviti.  Ali ste prepričani?"
 
-#: src/tools/dcpomatic.cc:955
+#: src/tools/dcpomatic.cc:948
 #, c-format
 msgid ""
 "You are making a DKDM which is encrypted by a private key held in\n"
@@ -1191,18 +1193,18 @@ msgstr ""
 "\n"
 "<tt>%s</tt>\n"
 "\n"
-"<span weight=\"bold\" size=\"larger\">POMEMBNO JE,</span> da <span weight="
-"\"bold\" size=\"larger\">DA VARNOSTNO KOPIRATE TO DATOTEKO</span>, ker če "
-"izgubite DKDM (in DCP-ji, ki jih ščitijo), bodo postali neuporabni."
+"<span weight=\"bold\" size=\"larger\">POMEMBNO JE,</span> da <span "
+"weight=\"bold\" size=\"larger\">DA VARNOSTNO KOPIRATE TO DATOTEKO</span>, "
+"ker če izgubite DKDM (in DCP-ji, ki jih ščitijo), bodo postali neuporabni."
 
-#: src/tools/dcpomatic.cc:816
+#: src/tools/dcpomatic.cc:809
 msgid ""
 "You are making an encrypted DCP.  It will not be possible to make KDMs for "
 "this DCP unless you have copies of the <tt>metadata.xml</tt> file within the "
 "film and the metadata files within the DCP.\n"
 "\n"
-"You should ensure that these files are <span weight=\"bold\" size=\"larger"
-"\">BACKED UP</span> if you want to make KDMs for this film."
+"You should ensure that these files are <span weight=\"bold\" "
+"size=\"larger\">BACKED UP</span> if you want to make KDMs for this film."
 msgstr ""
 "Izdelujete šifriran DCP.  KDM-jev za ta DCP ne bo mogoče izdelati, razen če "
 "imate kopije datoteke <tt>metadata.xml</tt> znotraj filma in datotek "
@@ -1212,7 +1214,7 @@ msgstr ""
 "Če želite narediti KDM-je za tafilm, morate zagotoviti, da so te datoteke  "
 "<span weight=\"bold\" size=\"larger\">VARNOSTNO KOPIRANE</span>."
 
-#: src/tools/dcpomatic.cc:1669
+#: src/tools/dcpomatic.cc:1681
 msgid ""
 "You are running the 32-bit version of DCP-o-matic on a 64-bit version of "
 "Windows.  This will limit the memory available to DCP-o-matic and may cause "
@@ -1224,7 +1226,7 @@ msgstr ""
 "lahko povzroči napake.  Svetujemo vam, da namestite 64-bitno različico DCP-o-"
 "matic."
 
-#: src/tools/dcpomatic_disk.cc:484
+#: src/tools/dcpomatic_disk.cc:485
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  DCP-o-matic Disk Writer will close now.  Please try again."
@@ -1233,7 +1235,7 @@ msgstr ""
 "Program Zapisovalec na disk DCP-o-matic se bo zdaj zaprl.  Prosimo, "
 "poskusite znova."
 
-#: src/tools/dcpomatic_disk.cc:373
+#: src/tools/dcpomatic_disk.cc:374
 msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  Please try again."
@@ -1241,15 +1243,15 @@ msgstr ""
 "Niste pravilno potrdili, da ste prebrali pravkar prikazano opozorilo.  "
 "Poskusite znova."
 
-#: src/tools/dcpomatic_batch.cc:338 src/tools/dcpomatic.cc:606
-#: src/tools/dcpomatic_editor.cc:380 src/tools/dcpomatic_player.cc:637
-#: src/tools/dcpomatic_player.cc:668
+#: src/tools/dcpomatic_batch.cc:340 src/tools/dcpomatic.cc:589
+#: src/tools/dcpomatic_editor.cc:381 src/tools/dcpomatic_player.cc:640
+#: src/tools/dcpomatic_player.cc:671
 msgid ""
 "You did not select a folder.  Make sure that you select a folder before "
 "clicking Open."
 msgstr "Mape niste izbrali.  Preden kliknete Odpri, izberite mapo."
 
-#: src/tools/dcpomatic.cc:1123
+#: src/tools/dcpomatic.cc:1116
 msgid ""
 "You must enter a valid email address when sending translations, otherwise "
 "the DCP-o-matic maintainers cannot credit you or contact you with questions."
@@ -1257,3 +1259,21 @@ msgstr ""
 "Pri pošiljanju prevodov morate vnesti veljaven e-poštni naslov, sicer vam "
 "vzdrževalci DCP-o-matic ne morejo pripisati zaslug ali se obrniti na vas z "
 "vprašanji."
+
+#~ msgid ""
+#~ "For some of these KDMs the recipient certificate's validity period will "
+#~ "not cover the whole of the KDM validity period.  This might cause "
+#~ "problems with the KDMs."
+#~ msgstr ""
+#~ "Pri nekaterih od teh KDM-jev obdobje veljavnosti prejemnikovega potrdila "
+#~ "ne pokriva celotnega obdobja veljavnosti KDM.  To lahko povzroči težave s "
+#~ "KDM-ji."
+
+#~ msgid ""
+#~ "Some KDMs would have validity periods which are completely outside the "
+#~ "recipient certificate periods.  Such KDMs are very unlikely to work, so "
+#~ "will not be created."
+#~ msgstr ""
+#~ "Nekateri KDM bi imeli obdobja veljavnosti, ki so povsem zunaj obdobij "
+#~ "veljavnosti prejemnikovega potrdila.  Takšni KDM najverjetneje ne bodo "
+#~ "delovali, zato ne bodo ustvarjeni."
