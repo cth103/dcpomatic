@@ -82,25 +82,23 @@ TimingPanel::create ()
 	}
 
 	//// TRANSLATORS: this is an abbreviation for "hours"
-	_h_label = new StaticText (this, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef TIMING_PANEL_ALIGNMENT_HACK
-	/* Hack to work around failure to centre text on GTK */
-	gtk_label_set_line_wrap (GTK_LABEL(_h_label->GetHandle()), FALSE);
-#endif
+	_label.push_back(new StaticText(this, _("h"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
 	//// TRANSLATORS: this is an abbreviation for "minutes"
-	_m_label = new StaticText (this, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef TIMING_PANEL_ALIGNMENT_HACK
-	gtk_label_set_line_wrap (GTK_LABEL (_m_label->GetHandle()), FALSE);
-#endif
+	_label.push_back(new StaticText(this, _("m"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
 	//// TRANSLATORS: this is an abbreviation for "seconds"
-	_s_label = new StaticText (this, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
-#ifdef TIMING_PANEL_ALIGNMENT_HACK
-	gtk_label_set_line_wrap (GTK_LABEL(_s_label->GetHandle()), FALSE);
-#endif
+	_label.push_back(new StaticText (this, _("s"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
 	//// TRANSLATORS: this is an abbreviation for "frames"
-	_f_label = new StaticText (this, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL);
+	_label.push_back(new StaticText (this, _("f"), wxDefaultPosition, size, wxALIGN_CENTRE_HORIZONTAL));
+
+	if (GetLayoutDirection() == wxLayout_RightToLeft) {
+		std::reverse(_label.begin(), _label.end());
+	}
+
 #ifdef TIMING_PANEL_ALIGNMENT_HACK
-	gtk_label_set_line_wrap (GTK_LABEL(_f_label->GetHandle()), FALSE);
+	for (auto label: _label) {
+		/* Hack to work around failure to centre text on GTK */
+		gtk_label_set_line_wrap(GTK_LABEL(label->GetHandle()), FALSE);
+	}
 #endif
 
 	_position_label = create_label (this, _("Position"), true);
@@ -139,14 +137,14 @@ TimingPanel::add_to_grid ()
 {
 	int r = 0;
 
-	wxSizer* labels = new wxBoxSizer (wxHORIZONTAL);
-	labels->Add (_h_label, 1, wxEXPAND);
-	add_label_to_sizer (labels, _colon[0], false);
-	labels->Add (_m_label, 1, wxEXPAND);
-	add_label_to_sizer (labels, _colon[1], false);
-	labels->Add (_s_label, 1, wxEXPAND);
-	add_label_to_sizer (labels, _colon[2], false);
-	labels->Add (_f_label, 1, wxEXPAND);
+	auto labels = new wxBoxSizer(wxHORIZONTAL);
+	int index = 0;
+	for (auto label: _label) {
+		labels->Add(label, 1, wxEXPAND);
+		if (index < 3) {
+			add_label_to_sizer(labels, _colon[index++], false);
+		}
+	}
 	_grid->Add (labels, wxGBPosition(r, 1));
 	++r;
 

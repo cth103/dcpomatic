@@ -46,23 +46,30 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
+	std::vector<wxTextCtrl*> controls;
+
 	_editable = new wxPanel (this);
 	auto editable_sizer = new wxBoxSizer (wxHORIZONTAL);
 	_hours = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
-	_hours->SetMaxLength (2);
-	editable_sizer->Add (_hours);
-	add_label_to_sizer (editable_sizer, _editable, wxT(":"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	controls.push_back(_hours);
 	_minutes = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
-	_minutes->SetMaxLength (2);
-	editable_sizer->Add (_minutes);
-	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	controls.push_back(_minutes);
 	_seconds = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
-	_seconds->SetMaxLength (2);
-	editable_sizer->Add (_seconds);
-	add_label_to_sizer (editable_sizer, _editable, wxT (":"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	controls.push_back(_seconds);
 	_frames = new wxTextCtrl (_editable, wxID_ANY, wxT(""), wxDefaultPosition, s, 0, validator);
-	_frames->SetMaxLength (2);
-	editable_sizer->Add (_frames);
+	controls.push_back(_frames);
+
+	if (parent->GetLayoutDirection() == wxLayout_RightToLeft) {
+		std::reverse(controls.begin(), controls.end());
+	}
+
+	for (auto i = controls.begin(); i != controls.end(); ++i) {
+		(*i)->SetMaxLength(2);
+		editable_sizer->Add(*i);
+		if (std::next(i) != controls.end()) {
+			add_label_to_sizer(editable_sizer, _editable, wxT (":"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+		}
+	}
 
 	if (set_button) {
 		_set_button = new Button (_editable, _("Set"), wxDefaultPosition, small_button_size(parent, _("Set")));

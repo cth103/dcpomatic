@@ -50,10 +50,7 @@ private:
 
 	FilmViewer& _viewer;
 
-	wxStaticText* _h_label;
-	wxStaticText* _m_label;
-	wxStaticText* _s_label;
-	wxStaticText* _f_label;
+	std::vector<wxStaticText*> _label;
 	wxStaticText* _colon[3];
 	wxStaticText* _position_label;
 	Timecode<dcpomatic::DCPTime>* _position;
