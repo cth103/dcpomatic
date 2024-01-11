@@ -29,3 +29,5 @@ LIBDCP_ENABLE_WARNINGS
 
 
 extern std::vector<std::pair<wxString, dcp::Marker>> all_editable_markers();
+
+auto constexpr uneditable_markers = 2;

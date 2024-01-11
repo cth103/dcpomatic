@@ -67,7 +67,7 @@ MarkersPanel::MarkersPanel(wxWindow* parent, FilmViewer& viewer)
 
 	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::move_marker_to_current_position, this), ID_move_marker_to_current_position);
 	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::remove_marker, this), ID_remove_marker);
-	Bind (wxEVT_MENU, boost::bind(&MarkersPanel::add_marker, this, _1), ID_add_base, ID_add_base + all_editable_markers().size());
+	Bind(wxEVT_MENU, boost::bind(&MarkersPanel::add_marker, this, _1), ID_add_base, ID_add_base + all_editable_markers().size() + uneditable_markers);
 }
 
 
