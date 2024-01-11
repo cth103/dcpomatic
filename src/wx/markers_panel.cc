@@ -211,11 +211,23 @@ MarkersPanel::paint ()
 		line.MoveToPoint (pos, 0);
 		line.AddLineToPoint (pos, panel_height);
 		gc->StrokePath (line);
-		if (marker.second.line_before_label) {
-			gc->DrawText (label, pos + line_to_label_gap, 0);
+
+		auto label_x = 0;
+
+		if (GetLayoutDirection() == wxLayout_RightToLeft) {
+			auto matrix = dc.GetTransformMatrix();
+			matrix.Translate(0, 0);
+			matrix.Mirror(wxHORIZONTAL);
+			dc.SetTransformMatrix(matrix);
+			label_x = marker.second.line_before_label ? (pos + line_to_label_gap + marker.second.width) : (pos - line_to_label_gap);
+			label_x = -label_x;
 		} else {
-			gc->DrawText (label, pos - line_to_label_gap - marker.second.width, 0);
+			label_x = marker.second.line_before_label ? (pos + line_to_label_gap) : (pos - line_to_label_gap - marker.second.width);
 		}
+
+		gc->DrawText(label, label_x, 0);
+
+		dc.ResetTransformMatrix();
 	}
 }
 
