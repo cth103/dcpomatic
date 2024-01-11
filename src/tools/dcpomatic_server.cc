@@ -18,17 +18,17 @@
 
 */
 
-#include "wx/wx_util.h"
-#include "wx/wx_signal_manager.h"
 #include "wx/static_text.h"
-#include "lib/util.h"
-#include "lib/encoded_log_entry.h"
-#include "lib/encode_server.h"
+#include "wx/wx_signal_manager.h"
+#include "wx/wx_util.h"
 #include "lib/config.h"
-#include "lib/log.h"
-#include "lib/signaller.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
+#include "lib/encode_server.h"
+#include "lib/encoded_log_entry.h"
+#include "lib/log.h"
+#include "lib/signaller.h"
+#include "lib/util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/icon.h>
@@ -41,16 +41,16 @@ LIBDCP_ENABLE_WARNINGS
 
 
 using std::cout;
-using std::string;
+using std::dynamic_pointer_cast;
 using std::exception;
-using std::list;
 using std::fixed;
+using std::list;
 using std::setprecision;
 using std::shared_ptr;
-using boost::thread;
+using std::string;
 using boost::bind;
 using boost::optional;
-using std::dynamic_pointer_cast;
+using boost::thread;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
