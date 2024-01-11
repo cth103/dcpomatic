@@ -1562,7 +1562,7 @@ private:
 		_allow_96khz_audio->bind(&NonStandardPage::allow_96khz_audio_changed, this);
 		_use_all_audio_channels->bind(&NonStandardPage::use_all_channels_changed, this);
 		_allow_smpte_bv20->bind(&NonStandardPage::allow_smpte_bv20_changed, this);
-		_isdcf_name_part_length->SetRange(14, 256);
+		_isdcf_name_part_length->SetRange(1, 256);
 		_isdcf_name_part_length->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::isdcf_name_part_length_changed, this));
 	}
 
