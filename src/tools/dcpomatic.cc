@@ -37,6 +37,7 @@
 #include "wx/hints_dialog.h"
 #include "wx/html_dialog.h"
 #include "wx/i18n_hook.h"
+#include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/kdm_dialog.h"
 #include "wx/nag_dialog.h"
@@ -211,7 +212,7 @@ private:
 map<wxMenuItem*, int> menu_items;
 
 enum {
-	ID_file_new = 1,
+	ID_file_new = DCPOMATIC_MAIN_MENU,
 	ID_file_open,
 	ID_file_save,
 	ID_file_save_as_template,
@@ -219,7 +220,7 @@ enum {
 	ID_file_duplicate_and_open,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
-	ID_file_close = 100,
+	ID_file_close = DCPOMATIC_MAIN_MENU + 100,
 	ID_edit_copy,
 	ID_edit_paste,
 	ID_edit_select_all,

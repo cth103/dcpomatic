@@ -26,6 +26,7 @@
 #include "dir_dialog.h"
 #include "file_dialog.h"
 #include "film_viewer.h"
+#include "id.h"
 #include "repeat_dialog.h"
 #include "timeline_video_content_view.h"
 #include "timeline_audio_content_view.h"
@@ -74,8 +75,7 @@ using namespace dcpomatic;
 
 
 enum {
-	/* Start at 256 so we can have IDs on _cpl_menu from 1 to 255 */
-	ID_repeat = 256,
+	ID_repeat = DCPOMATIC_CONTENT_MENU,
 	ID_join,
 	ID_find_missing,
 	ID_properties,
@@ -168,8 +168,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 			try {
 				auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
 				_choose_cpl->Enable (cpls.size() > 1);
-				/* We can't have 0 as a menu item ID on OS X */
-				int id = 1;
+				int id = DCPOMATIC_CPL_MENU;
 				for (auto i: cpls) {
 					auto item = _cpl_menu->AppendRadioItem (
 						id++,

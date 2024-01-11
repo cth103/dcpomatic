@@ -18,6 +18,7 @@
 
 */
 
+#include "wx/id.h"
 #include "wx/static_text.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
@@ -57,7 +58,7 @@ using namespace boost::placeholders;
 
 
 enum {
-	ID_status = 1,
+	ID_status = DCPOMATIC_MAIN_MENU,
 	ID_quit,
 	ID_timer
 };

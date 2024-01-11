@@ -21,6 +21,7 @@
 #include "wx/about_dialog.h"
 #include "wx/file_dialog.h"
 #include "wx/film_viewer.h"
+#include "wx/id.h"
 #include "wx/nag_dialog.h"
 #include "wx/player_config_dialog.h"
 #include "wx/player_information.h"
@@ -119,16 +120,16 @@ using namespace dcpomatic;
 
 
 enum {
-	ID_file_open = 1,
+	ID_file_open = DCPOMATIC_MAIN_MENU,
 	ID_file_add_ov,
 	ID_file_add_kdm,
 	ID_file_save_frame,
 	ID_file_history,
 	/* Allow spare IDs after _history for the recent files list */
-	ID_file_close = 100,
+	ID_file_close = DCPOMATIC_MAIN_MENU + 100,
 	ID_view_cpl,
 	/* Allow spare IDs for CPLs */
-	ID_view_full_screen = 200,
+	ID_view_full_screen = DCPOMATIC_MAIN_MENU + 200,
 	ID_view_dual_screen,
 	ID_view_closed_captions,
 	ID_view_scale_appropriate,

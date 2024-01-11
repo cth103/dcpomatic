@@ -69,7 +69,7 @@ using namespace boost::placeholders;
 
 #ifdef DCPOMATIC_OSX
 enum {
-	ID_tools_uninstall = 1,
+	ID_tools_uninstall = DCPOMATIC_MAIN_MENU,
 };
 #endif
 

@@ -26,6 +26,7 @@
 
 #include "audio_gain_dialog.h"
 #include "audio_mapping_view.h"
+#include "id.h"
 #include "wx_util.h"
 #include "lib/audio_mapping.h"
 #include "lib/maths_util.h"
@@ -63,11 +64,11 @@ static constexpr auto COLUMN_PADDING = 16;
 
 
 enum {
-	ID_off = 1,
-	ID_minus6dB = 2,
-	ID_0dB = 3,
-	ID_plus3dB = 4,
-	ID_edit = 5
+	ID_off = DCPOMATIC_AUDIO_GAIN_MENU,
+	ID_minus6dB,
+	ID_0dB,
+	ID_plus3dB,
+	ID_edit
 };
 
 

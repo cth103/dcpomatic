@@ -20,6 +20,7 @@
 
 
 #include "film_viewer.h"
+#include "id.h"
 #include "markers.h"
 #include "markers_panel.h"
 #include "wx_util.h"
@@ -41,7 +42,7 @@ using namespace boost::placeholders;
 
 
 enum {
-	ID_move_marker_to_current_position,
+	ID_move_marker_to_current_position = DCPOMATIC_MARKERS_PANEL_MENU,
 	ID_remove_marker,
 	ID_add_marker,
 	/* Leave some space after this one as we use an ID for each marker type

@@ -21,6 +21,7 @@
 
 #include "wx/about_dialog.h"
 #include "wx/editable_list.h"
+#include "wx/id.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "lib/constants.h"
@@ -59,7 +60,7 @@ using namespace boost::placeholders;
 
 
 enum {
-	ID_file_open = 1,
+	ID_file_open = DCPOMATIC_MAIN_MENU,
 	ID_file_save,
 };
 

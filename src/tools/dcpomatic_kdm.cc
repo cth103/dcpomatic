@@ -22,6 +22,7 @@
 #include "wx/about_dialog.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/editable_list.h"
+#include "wx/id.h"
 #include "wx/invalid_certificate_period_dialog.h"
 #include "wx/file_dialog.h"
 #include "wx/file_picker_ctrl.h"
@@ -96,7 +97,7 @@ using namespace dcpomatic;
 
 
 enum {
-	ID_help_report_a_problem = 1,
+	ID_help_report_a_problem = DCPOMATIC_MAIN_MENU,
 };
 
 

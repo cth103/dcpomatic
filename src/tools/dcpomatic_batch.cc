@@ -22,6 +22,7 @@
 #include "wx/about_dialog.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/full_config_dialog.h"
+#include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/servers_list_dialog.h"
 #include "wx/wx_ptr.h"
@@ -71,7 +72,7 @@ static list<boost::filesystem::path> films_to_load;
 
 
 enum {
-	ID_file_add_film = 1,
+	ID_file_add_film = DCPOMATIC_MAIN_MENU,
 	ID_tools_encoding_servers,
 	ID_help_about
 };
