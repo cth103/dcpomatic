@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-24 17:08+0100\n"
-"PO-Revision-Date: 2024-01-05 14:38+0330\n"
+"PO-Revision-Date: 2024-01-11 18:23+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -90,14 +90,14 @@ msgstr ""
 "نوع: $TYPE\n"
 "قالب: $CONTAINER\n"
 "صدا: $AUDIO\n"
-"زبان: $AUDIO_LANGUAGE\n"
+"زبان فیلم: $AUDIO_LANGUAGE\n"
 "زبان زیرنویس: $SUBTITLE_LANGUAGE\n"
 "مدت: $LENGTH\n"
 "حجم: $SIZE\n"
 
 #: src/lib/config.cc:1246
 msgid "$JOB_NAME: $JOB_STATUS"
-msgstr "$نام_وظیفه: $JOB_STATUS"
+msgstr "$نام_عملیات: $JOB_STATUS"
 
 #: src/lib/cross_common.cc:102
 msgid "%1 (%2 GB) [%3]"
@@ -105,7 +105,7 @@ msgstr "%1 (%2 GB) [%3]"
 
 #: src/lib/atmos_mxf_content.cc:96
 msgid "%1 [Atmos]"
-msgstr "%1 [اتمز]"
+msgstr "%1 [دالبی اتمز]"
 
 #: src/lib/dcp_content.cc:334
 msgid "%1 [DCP]"
@@ -117,7 +117,7 @@ msgstr "%1 [صدا]"
 
 #: src/lib/ffmpeg_content.cc:347
 msgid "%1 [movie]"
-msgstr "%1 [فیلم سینمایی]"
+msgstr "%1 [فیلم]"
 
 #: src/lib/ffmpeg_content.cc:349 src/lib/video_mxf_content.cc:105
 msgid "%1 [video]"
@@ -125,7 +125,7 @@ msgstr "%1 [ویدیو]"
 
 #: src/lib/transcode_job.cc:162
 msgid "%1; %2/%3 frames"
-msgstr "%1; %2/%3 فریمها"
+msgstr "%1 ; %2/%3 فریمها"
 
 #: src/lib/video_content.cc:454
 #, c-format
@@ -205,7 +205,7 @@ msgstr "; %1 فریم بر ثانیه"
 
 #: src/lib/job.cc:593
 msgid "; %1 remaining; finishing at %2%3"
-msgstr "; %1 باقیمانده; پایان در %2%3"
+msgstr "; %1 باقیمانده ; پایان در %2%3"
 
 #: src/lib/analytics.cc:65
 msgid ""
@@ -221,16 +221,20 @@ msgid ""
 "dcpomatic.com/donate_amount?amount=10\">Go to Paypal to donate €10</a></"
 "ul><p>Thank you!"
 msgstr ""
-"<h2>شما %1 دی سی پی با دی سی پی-او-ماتیک ساخته اید!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><p>سلام، من کارل هستم توسعه دهنده دی سی "
-"پی-او-ماتیک. من در اوقات فراغت(با کمک داوطلبان و مترجمین خوب) روی آن کار میکنم "
-"و آترا رایگان منتشر میکنم.<p>Iاگر دی سی پی-او-ماتیک برای شما سودمند است، لطفاً "
-"به این پروژه کمک کنید. پشتیبانی مالی به من کمک میکند تا وقت بیشتری صرف توسعه و "
-"بهبود آن کنم! <p><ul><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=40\">برو به پی پال برای پرداخت 40 یورو!</a><li><a href=\"https://"
-"dcpomatic.com/donate_amount?amount=20\">برو به پی پال برای پرداخت 20 یورو!</"
-"a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">برو به پی پال "
-"برای پرداخت 10 یورو!</a></ul><p>متشکرم!"
+"<h2>شما %1 دی سی پی با دی سی پی-او-ماتیک ساخته اید! \n"
+"</h2><img width=\"20%%\" src=\"memory:me.jpg\" align=\"center\"><p> \n"
+"سلام، من کارل هستم توسعه دهنده دی سی پی-او-ماتیک. من در اوقات فراغت (با کمک "
+"داوطلبان و مترجمین خوب) روی آن کار میکنم و آنرا رایگان منتشر میکنم. \n"
+"<p> اگر دی سی پی-او-ماتیک برای شما سودمند است، لطفاً به این پروژه کمک کنید."
+"پشتیبانی مالی به من کمک میکند تا وقت بیشتری صرف توسعه و بهبود آن کنم!<p> n\n"
+"برو به پی پال برای پرداخت 40 یورو!<ul><li><a ref=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">\n"
+" برو به پی پال برای پرداخت 20 یورو!a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=20\">\n"
+"برو به پی پال برای پرداخت 10 یورو!  a><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=10\">\n"
+"</a></ul><p>\n"
+"متشکرم!"
 
 #: src/lib/hints.cc:167
 msgid ""
@@ -248,8 +252,8 @@ msgid ""
 "'%1', which DCP-o-matic does not recognise.  The file's language has been "
 "cleared."
 msgstr ""
-"یک زیر نویس یا فایل زیرنویس با زبان '%1 در این پروژه مشخص شده است، که برای دی "
-"سی پی-او-ماتیک قابل تشخیص نیست. زبان فایل پاک شده است."
+"یک زیرنویس یا فایل زیرنویس با زبان '%1 در این پروژه مشخص شده است، که برای دی سی "
+"پی-او-ماتیک قابل تشخیص نیست. زبان فایل پاک شده است."
 
 #: src/lib/ffmpeg_content.cc:643
 msgid "ARIB STD-B67 ('Hybrid log-gamma')"
@@ -266,9 +270,9 @@ msgid ""
 "may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."
 msgstr ""
 "محتوای شما با نسبت 2/39 به 1 است(اسکوپ)، اما ظرف دی سی پی شما کوچکتر و 1/85 به "
-"1 است(تخت). تصویر شما کوچک شده و در داخل یک قاب تخت(1/85 به 1) قرار میگیرد. "
-"ممکن است ترجیح دهید ظرف دی سی پی را در زبانه \"دی سی پی\" بزرگتر و روی "
-"اسکوپ(2/39 به 1) قرار دهید."
+"1 است(تخت). تصویر شما کوچک شده و در داخل یک قاب تخت (1/85 به 1) قرار میگیرد. "
+"ممکن است ترجیح دهید ظرف دی سی پی را در زبانه \"دی سی پی\" بزرگتر و روی اسکوپ "
+"(2/39 به 1) قرار دهید."
 
 #: src/lib/hints.cc:148
 msgid ""
@@ -276,9 +280,9 @@ msgid ""
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your DCP's "
 "container to have the same ratio as your content."
 msgstr ""
-"عرض مختوای شما کمتر از 1/90 است اما ظرف دی سی پی شما اسکوپ(2/39 به 1) است. باعث "
-"میشود کناره های محتوا سییاه شود. ممکن است ترجیح دهید که ظرف دی سی پی خود را "
-"مشابه با نسبت ابعاد محتوا تغییر دهید."
+"عرض محتوای شما کمتر از 1/90 است اما ظرف دی سی پی شما اسکوپ (2/39 به 1) است. "
+"باعث میشود کناره های محتوا سییاه شود. ممکن است ترجیح دهید که ظرف دی سی پی خود "
+"را مشابه با نسبت ابعاد محتوا تغییر دهید."
 
 #: src/lib/job.cc:115
 msgid "An error occurred whilst handling the file %1."
@@ -434,11 +438,11 @@ msgstr "BsR"
 
 #: src/lib/util.cc:653
 msgid "C"
-msgstr "سی"
+msgstr "c"
 
 #: src/lib/job.cc:617
 msgid "Cancelled"
-msgstr "صرف نظر شد"
+msgstr "لغو شد"
 
 #: src/lib/make_dcp.cc:48
 msgid "Cannot contain slashes"
@@ -490,7 +494,7 @@ msgstr "زیرنویس فیلم"
 
 #: src/lib/ffmpeg_content.cc:622
 msgid "Colour primaries"
-msgstr "رنگهای اولیه"
+msgstr "رنگهای اصلی"
 
 #. TRANSLATORS: this means that the range of pixel values used in this
 #. file is unknown (not specified in the file).
@@ -522,11 +526,11 @@ msgstr "ترکیب دی سی پی ها"
 
 #: src/lib/content.cc:179
 msgid "Computing digest"
-msgstr "هضم محاسبات"
+msgstr "در حال محاسبات"
 
 #: src/lib/writer.cc:520
 msgid "Computing digests"
-msgstr "هضم محاسباتی"
+msgstr "در حال محاسبات"
 
 #: src/lib/analytics.cc:63
 msgid "Congratulations!"
@@ -685,15 +689,15 @@ msgstr "ارتباط با سرور ممکن نیست %1(%2)"
 
 #: src/lib/scp_uploader.cc:106
 msgid "Could not create remote directory %1 (%2)"
-msgstr "دایرکتوری راه دور ساخته نشد%1(%2)"
+msgstr "دایرکتوری راه دور ساخته نشد %1(%2)"
 
 #: src/lib/image_examiner.cc:65
 msgid "Could not decode JPEG2000 file %1 (%2)"
-msgstr "فایل JPEG2000 رمزگشایی نشد%1(%2)"
+msgstr "فایل JPEG2000 رمزگشایی نشد %1(%2)"
 
 #: src/lib/ffmpeg_image_proxy.cc:165
 msgid "Could not decode image (%1)"
-msgstr "تصویر رمزگشایی نشد(%1)"
+msgstr "تصویر رمزگشایی نشد (%1)"
 
 #: src/lib/encode_server_finder.cc:191
 msgid ""
@@ -709,7 +713,7 @@ msgstr "باز نشد %1"
 
 #: src/lib/curl_uploader.cc:102 src/lib/scp_uploader.cc:122
 msgid "Could not open %1 to send"
-msgstr "برای ارسال باز نشد%1"
+msgstr "برای ارسال باز نشد %1"
 
 #: src/lib/internet.cc:165 src/lib/internet.cc:170
 msgid "Could not open downloaded ZIP file"
@@ -717,7 +721,7 @@ msgstr "فایل فشرده دانلود شده باز نشد"
 
 #: src/lib/internet.cc:177
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
-msgstr "فایل فشرده دانلود شده باز نشد(%1:%2:%3)"
+msgstr "فایل فشرده دانلود شده باز نشد (%1:%2:%3)"
 
 #: src/lib/config.cc:1132
 msgid "Could not open file for writing"
@@ -725,7 +729,7 @@ msgstr "فایل برای نوشتن باز نشد"
 
 #: src/lib/ffmpeg_file_encoder.cc:265
 msgid "Could not open output file %1 (%2)"
-msgstr "فایل خروجی باز نشد%1(%2)"
+msgstr "فایل خروجی باز نشد %1(%2)"
 
 #: src/lib/dcp_subtitle.cc:60
 msgid "Could not read subtitles (%1 / %2)"
@@ -741,7 +745,7 @@ msgstr "نمیتوان در فایل راه دور نوشت(%1)"
 
 #: src/lib/util.cc:632
 msgid "D-BOX primary"
-msgstr "دی-باکس اولیه"
+msgstr "دی-باکس اصلی"
 
 #: src/lib/util.cc:633
 msgid "D-BOX secondary"
@@ -803,7 +807,7 @@ msgid ""
 "same as that of your Atmos content."
 msgstr ""
 "دی سی پی-او-ماتیک مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر "
-"محتوای اتمز شما شود."
+"محتوای دالبی اتمز شما شود."
 
 #: src/lib/ffmpeg_content.cc:121
 msgid "DCP-o-matic no longer supports the `%1' filter, so it has been turned off."
@@ -923,7 +927,7 @@ msgstr "بررسی زیرنویس"
 
 #: src/lib/hints.cc:395
 msgid "Examining subtitles and closed captions"
-msgstr "بررسی زیرنویس و فایل زیرنویس"
+msgstr "بررسی فایل های زیرنویس"
 
 #: src/lib/subtitle_encoder.cc:99
 msgid "Extracting"
@@ -931,7 +935,7 @@ msgstr "استخراج کردن"
 
 #: src/lib/ffmpeg_content.cc:654
 msgid "FCC"
-msgstr "اف سی سی"
+msgstr "FCC"
 
 #: src/lib/scp_uploader.cc:69
 msgid "Failed to authenticate with server (%1)"
@@ -967,7 +971,7 @@ msgstr "فیلم"
 
 #: src/lib/ffmpeg_examiner.cc:113
 msgid "Finding length"
-msgstr "یافتن مدت"
+msgstr "در حال یافتن مدت"
 
 #: src/lib/content.cc:485
 msgid "Frame rate"
@@ -1019,7 +1023,7 @@ msgstr "Gradient debander"
 
 #: src/lib/util.cc:657
 msgid "HI"
-msgstr "HI"
+msgstr "اختلال شنوایی"
 
 #: src/lib/util.cc:626
 msgid "Hearing impaired"
@@ -1103,7 +1107,7 @@ msgstr "ضد اینترلیسر هسته"
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
 #: src/lib/ffmpeg_encoder.cc:267 src/lib/util.cc:651
 msgid "L"
-msgstr "ال"
+msgstr "چپ"
 
 #: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:620
 msgid "Left"
@@ -1127,11 +1131,11 @@ msgstr "مدت"
 
 #: src/lib/util.cc:654
 msgid "Lfe"
-msgstr "Lfe"
+msgstr "افکت فرکانس پایین"
 
 #: src/lib/util.cc:623
 msgid "Lfe (sub)"
-msgstr "Lfe (sub)"
+msgstr "افکت فرکانس پایین (sub)"
 
 #: src/lib/ffmpeg_content.cc:583
 msgid "Limited"
@@ -1159,11 +1163,11 @@ msgstr "قطع ارتباط بین پردازش های اصلی و رایتر"
 
 #: src/lib/util.cc:655
 msgid "Ls"
-msgstr "Ls"
+msgstr "سراوند چپ"
 
 #: src/lib/mid_side_decoder.cc:39
 msgid "Mid-side decoder"
-msgstr "رمزگشای سمت وسط"
+msgstr "رمزگشای میانه"
 
 #: src/lib/filter.cc:100 src/lib/filter.cc:101 src/lib/filter.cc:104
 #: src/lib/filter.cc:106
@@ -1220,7 +1224,7 @@ msgstr "در این پوشه فایل تصویر معتبری پیدا نشد."
 
 #: src/lib/filter.cc:102 src/lib/filter.cc:103 src/lib/filter.cc:105
 msgid "Noise reduction"
-msgstr "کاهنده نویز"
+msgstr "کاهش نویز"
 
 #: src/lib/writer.cc:738 src/lib/writer.cc:745 src/lib/writer.cc:768
 msgid "None"
@@ -1228,15 +1232,15 @@ msgstr "هیچکدام"
 
 #: src/lib/job.cc:607
 msgid "OK"
-msgstr "تایید"
+msgstr "مورد تایید"
 
 #: src/lib/job.cc:612
 msgid "OK (ran for %1 from %2 to %3)"
-msgstr "تایید (اجرا شد %1 از %2 تا %3)"
+msgstr "مورد تایید (اجرا شد %1 از %2 تا %3)"
 
 #: src/lib/job.cc:610
 msgid "OK (ran for %1)"
-msgstr "تایید (اجرا شد %1)"
+msgstr "مورد تایید (اجرا شد %1)"
 
 #: src/lib/content.cc:116
 msgid "Only the first piece of content to be joined can have a start trim."
@@ -1304,7 +1308,7 @@ msgstr "سرویس اعلان عمومی"
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
 #: src/lib/ffmpeg_encoder.cc:272 src/lib/util.cc:652
 msgid "R"
-msgstr "آر"
+msgstr "راست"
 
 #: src/lib/ffmpeg_content.cc:650
 msgid "RGB / sRGB (IEC61966-2-1)"
@@ -1312,7 +1316,7 @@ msgstr "آر جی بی / اس آر جی بی (IEC61966-2-1)"
 
 #: src/lib/dcp_content_type.cc:58
 msgid "Rating"
-msgstr "نرخ بندی"
+msgstr "رتبه بندی"
 
 #: src/lib/colour_conversion.cc:292
 msgid "Rec. 1886"
@@ -1340,11 +1344,11 @@ msgstr "مرکز- راست"
 
 #: src/lib/util.cc:631
 msgid "Right rear surround"
-msgstr "پشت سر- راست سراوند"
+msgstr "پشت سر- سراوند راست"
 
 #: src/lib/util.cc:625
 msgid "Right surround"
-msgstr "راست سراوند"
+msgstr "سراوند راست"
 
 #: src/lib/filter.cc:94
 msgid "Rotate 90 degrees anti-clockwise"
@@ -1356,7 +1360,7 @@ msgstr "چرخش 90 درجه در جهت عقربه ساعت"
 
 #: src/lib/util.cc:656
 msgid "Rs"
-msgstr "Rs"
+msgstr "سراوند راست"
 
 #: src/lib/colour_conversion.cc:294
 msgid "S-Gamut3/S-Log3"
@@ -1386,8 +1390,8 @@ msgid ""
 "add these markers using the 'Markers' button in the \"DCP\" tab."
 msgstr ""
 "دی سی پی های استاندارد اس ام پی تی ای از نوع فیلم بلند(FTR) باید برای اولین "
-"فریم شروع تیتراژ پایانی و آغاز دارای نشانگرباشند. در زبانه دی سی پی توسط "
-"\"نشانگر\" آنها را اضافه کنید."
+"فریم شروع تیتراژ پایانی و آغاز دارای نشانگر باشند. در زبانه دی سی پی توسط "
+"\"نشانه گذار\" آنها را اضافه کنید."
 
 #: src/lib/ffmpeg_content.cc:641
 msgid "SMPTE ST 2084 for 10, 12, 14 and 16 bit systems"
@@ -1505,7 +1509,7 @@ msgstr "استریو"
 
 #: src/lib/dcp_content_type.cc:65
 msgid "Stereo card"
-msgstr "کارت صدا"
+msgstr "تصویر استریوگراف"
 
 #: src/lib/upmixer_a.cc:51
 msgid "Stereo to 5.1 up-mixer A"
@@ -1766,7 +1770,7 @@ msgstr "Upmix R"
 
 #: src/lib/util.cc:658
 msgid "VI"
-msgstr "VI"
+msgstr "اختلال بینایی"
 
 #: src/lib/verify_dcp_job.cc:57
 msgid "Verify DCP"
@@ -1962,7 +1966,7 @@ msgstr "در حال اتصال"
 
 #: src/lib/make_dcp.cc:52
 msgid "container"
-msgstr "ظرف"
+msgstr "ظرف محتوا"
 
 #: src/lib/make_dcp.cc:64
 msgid "content type"
@@ -1978,7 +1982,7 @@ msgstr "اطلاعات رشته پیدا نشد"
 
 #: src/lib/reel_writer.cc:453
 msgid "could not move atmos asset into the DCP (%1)"
-msgstr "اتمز قابل انتقال به داخل دی س پی نیست(%1)"
+msgstr "دالبی اتمز قابل انتقال به داخل دی س پی نیست(%1)"
 
 #: src/lib/reel_writer.cc:436
 msgid "could not move audio asset into the DCP (%1)"
@@ -2023,7 +2027,7 @@ msgstr "فریم بر ثانیه"
 #. TRANSLATORS: h here is an abbreviation for hours
 #: src/lib/util.cc:207
 msgid "h"
-msgstr "اچ"
+msgstr "ساعت"
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:771
@@ -2096,11 +2100,11 @@ msgstr "اندازه این فریم ویدیوبا اندازه فریم فیل
 #. TRANSLATORS: m here is an abbreviation for minutes
 #: src/lib/util.cc:216
 msgid "m"
-msgstr "ام"
+msgstr "دقیقه"
 
 #: src/lib/image_content.cc:94
 msgid "moving"
-msgstr "در حال حرکت"
+msgstr "متحرک"
 
 #: src/lib/make_dcp.cc:48
 msgid "name"
@@ -2125,7 +2129,7 @@ msgstr ""
 #. TRANSLATORS: s here is an abbreviation for seconds
 #: src/lib/util.cc:226
 msgid "s"
-msgstr "اس"
+msgstr "ثانیه"
 
 #: src/lib/colour_conversion.cc:288
 msgid "sRGB"

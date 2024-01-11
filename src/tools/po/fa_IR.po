@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-12-24 17:08+0100\n"
-"PO-Revision-Date: 2024-01-01 20:38+0330\n"
+"PO-Revision-Date: 2024-01-11 18:22+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
 "Language: fa_IR\n"
@@ -48,7 +48,7 @@ msgstr "&بستن"
 
 #: src/tools/dcpomatic.cc:1324
 msgid "&Close\tCtrl-W"
-msgstr "&بستن، کلید میانبر Ctrl-W"
+msgstr "&بستن ... Ctrl-W"
 
 #: src/tools/dcpomatic_batch.cc:106 src/tools/dcpomatic.cc:1406
 #: src/tools/dcpomatic_kdm.cc:312 src/tools/dcpomatic_player.cc:619
@@ -76,16 +76,16 @@ msgstr "&راهنما"
 
 #: src/tools/dcpomatic.cc:1407
 msgid "&Jobs"
-msgstr "& عملیات"
+msgstr "&عملیات"
 
 #: src/tools/dcpomatic.cc:1355
 msgid "&Make DCP\tCtrl-M"
-msgstr "& ساخت دی سی پی ….Ctrl-M"
+msgstr "&ساخت دی سی پی ...Ctrl-M"
 
 #: src/tools/dcpomatic.cc:1311 src/tools/dcpomatic_editor.cc:350
 #: src/tools/dcpomatic_player.cc:558
 msgid "&Open...\tCtrl-O"
-msgstr "& باز کردن... Ctrl-O"
+msgstr "&باز کردن... Ctrl-O"
 
 #: src/tools/dcpomatic_batch.cc:92 src/tools/dcpomatic_batch.cc:95
 #: src/tools/dcpomatic.cc:1346 src/tools/dcpomatic.cc:1350
@@ -93,7 +93,7 @@ msgstr "& باز کردن... Ctrl-O"
 #: src/tools/dcpomatic_player.cc:577 src/tools/dcpomatic_player.cc:580
 #: src/tools/dcpomatic_playlist.cc:582 src/tools/dcpomatic_playlist.cc:590
 msgid "&Preferences...\tCtrl-P"
-msgstr "& اولویتها.... Ctrl-P"
+msgstr "&اولویتها... Ctrl-P"
 
 #: src/tools/dcpomatic_batch.cc:88 src/tools/dcpomatic.cc:1333
 #: src/tools/dcpomatic_editor.cc:357 src/tools/dcpomatic_kdm.cc:292
@@ -103,7 +103,7 @@ msgstr "&خروج از برنامه"
 
 #: src/tools/dcpomatic.cc:1314 src/tools/dcpomatic_editor.cc:352
 msgid "&Save\tCtrl-S"
-msgstr "& ذخیره کردن …. Ctrl-S"
+msgstr "&ذخیره کردن ... Ctrl-S"
 
 #: src/tools/dcpomatic_player.cc:562
 msgid "&Save frame to file...\tCtrl-S"
@@ -116,11 +116,11 @@ msgstr "& ارسال دی سی پی به نرم افزار سامانه مدیر
 #: src/tools/dcpomatic_batch.cc:108 src/tools/dcpomatic.cc:1409
 #: src/tools/dcpomatic_player.cc:622
 msgid "&Tools"
-msgstr "& ابزارها"
+msgstr "&ابزارها"
 
 #: src/tools/dcpomatic.cc:1408 src/tools/dcpomatic_player.cc:621
 msgid "&View"
-msgstr "& مشاهده"
+msgstr "&مشاهده"
 
 #: src/tools/dcpomatic_playlist.cc:315
 msgid "<b>Playlist:</b>"
@@ -128,7 +128,7 @@ msgstr "<b>لیست نمایش:</b>"
 
 #: src/tools/dcpomatic_playlist.cc:124
 msgid "<b>Playlists</b>"
-msgstr "<b>لیستهای نمایش:</b>"
+msgstr "<b>لیست نمایش:</b>"
 
 #: src/tools/dcpomatic_batch.cc:102 src/tools/dcpomatic.cc:1401
 #: src/tools/dcpomatic_editor.cc:364 src/tools/dcpomatic_kdm.cc:306
@@ -280,11 +280,11 @@ msgstr "کپی دی سی پی"
 
 #: src/tools/dcpomatic.cc:1338
 msgid "Copy settings\tCtrl-C"
-msgstr "کپی تنظیمات......کلید میانبرCtrl-C"
+msgstr "کپی تنظیمات...Ctrl-C"
 
 #: src/tools/dcpomatic.cc:561 src/tools/dcpomatic.cc:570
 msgid "Could not create folder to store film."
-msgstr "نیتوان پوشه برای ذخیره فیلم ساخت."
+msgstr "نمیتوان پوشه برای ذخیره فیلم ساخت."
 
 #: src/tools/dcpomatic_kdm.cc:596
 msgid ""
@@ -572,7 +572,7 @@ msgstr "درایو"
 
 #: src/tools/dcpomatic_player.cc:592
 msgid "Dual screen\tShift+F11"
-msgstr "نمایش فیلم در صفحه دوم.....Shift+F11"
+msgstr "نمایش فیلم در صفحه دوم....Shift+F11"
 
 #: src/tools/dcpomatic.cc:622 src/tools/dcpomatic.cc:638
 msgid "Duplicate Film"
@@ -596,7 +596,7 @@ msgstr "مدت زمان"
 
 #: src/tools/dcpomatic_editor.cc:148
 msgid "Edit reel"
-msgstr "تدوین حلقه"
+msgstr "تغییرحلقه"
 
 #: src/tools/dcpomatic_batch.cc:99 src/tools/dcpomatic.cc:1387
 msgid "Encoding servers..."
@@ -673,8 +673,8 @@ msgid ""
 "> New and then click the \"Add DCP...\" button."
 msgstr ""
 "به نظر میرسد میخواهید یک دی سی پی باز کنید. \"فایل---> بازکردن\"برای فراخوانی "
-"یک پروژه دی سی پی-او-ماتیک است، نه دی سی پی. برای وارد کردن یک دی سی پی، از "
-"\"فایل---->جدید\"یک پروژه جدید ایجاد و سپس \"اضافه کردن دی سی پی\" را کلیک "
+"یک پروژه دی سی پی-او-ماتیک است، نه دی سی پی. برای ایمپورت کردن یک دی سی پی، "
+"از \"فایل---->جدید\"یک پروژه جدید ایجاد و سپس \"اضافه کردن دی سی پی\" را کلیک "
 "کنید."
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
@@ -692,15 +692,15 @@ msgstr "بارگذاری محتوا"
 
 #: src/tools/dcpomatic.cc:1362
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr "ساخت &کلیدهای توزیع....Ctrl-D"
+msgstr "ساخت &کلیدهای توزیع...Ctrl-D"
 
 #: src/tools/dcpomatic.cc:1360
 msgid "Make &KDMs...\tCtrl-K"
-msgstr "ساخت &کلیدها....Ctrl-K"
+msgstr "ساخت &کلیدها...Ctrl-K"
 
 #: src/tools/dcpomatic.cc:1357
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr "ساخت دی سی پی در &مبدل دسته ای.... Ctrl-B"
+msgstr "ساخت دی سی پی در &مبدل دسته ای... Ctrl-B"
 
 #: src/tools/dcpomatic.cc:1363
 msgid "Make DKDM for DCP-o-matic..."
@@ -762,7 +762,7 @@ msgstr "پوشه خروجی دی سی پی"
 
 #: src/tools/dcpomatic.cc:1340
 msgid "Paste settings...\tCtrl-V"
-msgstr "چسباندن تنظیمات....Ctrl-V"
+msgstr "چسباندن تنظیمات...Ctrl-V"
 
 #: src/tools/dcpomatic_batch.cc:174
 msgid "Pause or resume conversion"
@@ -786,11 +786,11 @@ msgstr ""
 
 #: src/tools/dcpomatic_playlist.cc:426
 msgid "Question|N"
-msgstr "سوال|N"
+msgstr "خیر"
 
 #: src/tools/dcpomatic_playlist.cc:426
 msgid "Question|Y"
-msgstr "سوال|Y"
+msgstr "بله"
 
 #: src/tools/dcpomatic.cc:1910
 msgid "Recreate KDM decryption chain"
@@ -1188,8 +1188,8 @@ msgstr ""
 "<tt>metadata.xml</tt> در فیلم و فایلهای متا دیتا در پوشه دی سی پی ، امکان "
 "ساخت کلید وجود نخواهد داشت.\n"
 "\n"
-"مطمئن شوید که از فایلهای موجود در<span weight=\"bold\" "
-"size=\"larger\">پشتیبان تهیه شده</span>اگر میخواهید برای این فیلم کلید بسازید."
+"مطمئن شوید که از فایلهای نامبرده فوق ر<span weight=\"bold\" size=\"larger\"> "
+"پشتیبان تهیه کرده اید </span> اگر میخواهید برای این فیلم کلید بسازید."
 
 #: src/tools/dcpomatic.cc:1680
 msgid ""
