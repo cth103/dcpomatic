@@ -135,7 +135,13 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	R->set_trim_end (dcpomatic::ContentTime::from_seconds(22));
 
 	film->set_three_d (true);
-	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D});
+	make_and_verify_dcp(
+		film,
+		{dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D},
+		true,
+		/* XXX: Clairmeta error about invalid edit rate 24 for 4K 3D */
+		false
+		);
 }
 
 

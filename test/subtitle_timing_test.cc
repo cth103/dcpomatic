@@ -44,7 +44,7 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 
 	auto picture = content_factory("test/data/flat_red.png")[0];
 	auto sub = content_factory("test/data/hour.srt")[0];
-	sub->text.front()->set_language(dcp::LanguageTag("en-GB"));
+	sub->text.front()->set_language(dcp::LanguageTag("en"));
 
 	auto film = new_test_film2(name, { picture, sub }, &cl);
 	picture->set_video_frame_rate(film, content_frame_rate);

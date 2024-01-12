@@ -50,6 +50,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test1)
 	BOOST_REQUIRE_EQUAL(content[0]->text.size(), 1U);
 
 	content[0]->set_paths({"test/data/short.srt"});
+	content[0]->only_text()->set_language(dcp::LanguageTag("de"));
 
 	CheckContentJob check(film);
 	check.run();
@@ -108,6 +109,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 	BOOST_REQUIRE_EQUAL(content[0]->text.size(), 1U);
 
 	content[0]->set_paths({"test/data/fonts.ass"});
+	content[0]->only_text()->set_language(dcp::LanguageTag("de"));
 
 	CheckContentJob check(film);
 	check.run();

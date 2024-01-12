@@ -3,7 +3,7 @@
 # e.g. --run_tests=foo
 set -e
 
-PRIVATE_GIT="b6277c54428e0abe2003c27868fe8f02119ef869"
+PRIVATE_GIT="59b62615a48a1f3a70e9c028b92dfba75c1719ba"
 
 if [ "$1" == "--check" ]; then
 	shift 1
@@ -23,6 +23,12 @@ if [ "$(uname)" == "Linux" ]; then
   if [ -f /src/backports/dcp_inspect ]; then
     export DCPOMATIC_DCP_INSPECT=/src/backports/dcp_inspect
   fi
+  set +e
+  python3 -m clairmeta.cli --help > /dev/null 2>&1
+  if [ "$?" == "0" ]; then
+    export DCPOMATIC_CLAIRMETA=1
+  fi
+  set -e
 fi
 
 if [ "$(uname)" == "Darwin" ]; then

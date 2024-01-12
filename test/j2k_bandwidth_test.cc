@@ -61,6 +61,7 @@ check (int target_bits_per_second)
 			dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES,
 			dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE,
 		},
+		target_bits_per_second <= 250000000,
 		target_bits_per_second <= 250000000
 		);
 

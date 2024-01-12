@@ -223,6 +223,7 @@ BOOST_AUTO_TEST_CASE(map_simple_interop_dcp_with_subs)
 	auto subs = content_factory("test/data/15s.srt").front();
 	auto film = new_test_film2(name + "_in", { picture, subs });
 	film->set_interop(true);
+	subs->only_text()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	vector<string> const args = {
@@ -410,6 +411,7 @@ test_two_cpls_each_with_subs(string name, bool interop)
 		auto subs = content_factory("test/data/15s.srt").front();
 		films[i] = new_test_film2(String::compose("%1_%2_in", name, i), { picture, subs });
 		films[i]->set_interop(interop);
+		subs->only_text()->set_language(dcp::LanguageTag("de"));
 		make_and_verify_dcp(films[i], acceptable_errors);
 	}
 
@@ -582,6 +584,7 @@ BOOST_AUTO_TEST_CASE(map_handles_interop_png_subs)
 	film->set_interop(true);
 	arrietty->set_trim_end(dcpomatic::ContentTime::from_seconds(110));
 	arrietty->text[0]->set_use(true);
+	arrietty->text[0]->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(
 		film,
 		{

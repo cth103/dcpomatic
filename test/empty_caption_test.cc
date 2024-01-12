@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE (check_for_no_empty_text_nodes_in_failure_case)
 	auto film = new_test_film2("check_for_no_empty_text_nodes_in_failure_case", content, &cl);
 	auto text = content[0]->text.front();
 	text->set_type (TextType::CLOSED_CAPTION);
-	text->set_dcp_track({"English", dcp::LanguageTag("en-GB")});
+	text->set_dcp_track({"English", dcp::LanguageTag("en")});
 
 	make_and_verify_dcp (film, {
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA

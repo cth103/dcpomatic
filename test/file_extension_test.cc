@@ -19,8 +19,10 @@
 */
 
 
+#include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/film.h"
+#include "lib/text_content.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -36,6 +38,7 @@ BOOST_AUTO_TEST_CASE (interop_file_extension_test)
 	auto sub = content_factory("test/data/15s.srt")[0];
 	auto film = new_test_film2("interop_file_extension_test", { video, audio, sub });
 	film->set_interop(true);
+	sub->only_text()->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp(
 		film, {

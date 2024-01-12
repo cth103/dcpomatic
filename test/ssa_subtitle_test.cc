@@ -59,6 +59,7 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
+	content->only_text()->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 

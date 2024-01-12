@@ -42,6 +42,7 @@ BOOST_AUTO_TEST_CASE(srt_correctly_placed_in_interop)
 	string const name = "srt_in_interop_position_test";
 	auto fr = content_factory("test/data/short.srt");
 	auto film = new_test_film2(name, fr);
+	fr[0]->only_text()->set_language(dcp::LanguageTag("de"));
 
 	film->set_interop(true);
 
@@ -70,7 +71,7 @@ BOOST_AUTO_TEST_CASE(srt_correctly_placed_in_smpte)
 	auto fr = content_factory("test/data/short.srt");
 	auto film = new_test_film2(name, fr);
 
-	fr[0]->text[0]->set_language(dcp::LanguageTag("en-GB"));
+	fr[0]->text[0]->set_language(dcp::LanguageTag("en"));
 	film->set_interop(false);
 
 	make_and_verify_dcp (

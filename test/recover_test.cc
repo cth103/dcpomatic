@@ -83,7 +83,16 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE,
+			dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE
+		},
+		true,
+		/* We end up with two CPLs in this directory, which Clairmeta gives an error for */
+		false
+		);
 
 	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d/original.mxf");
 	auto B = make_shared<dcp::MonoPictureAsset>(video);
@@ -118,7 +127,15 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE
+		},
+		true,
+		/* We end up with two CPLs in this directory, which Clairmeta gives an error for */
+		false
+		);
 
 	auto A = make_shared<dcp::StereoPictureAsset>("build/test/recover_test_3d/original.mxf");
 	auto B = make_shared<dcp::StereoPictureAsset>(video);
@@ -154,7 +171,15 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 
 	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
 
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE
+		},
+		true,
+		/* We end up with two CPLs in this directory, which Clairmeta gives an error for */
+		false
+		);
 
 	auto A = make_shared<dcp::MonoPictureAsset>("build/test/recover_test_2d_encrypted/original.mxf");
 	A->set_key (film->key ());

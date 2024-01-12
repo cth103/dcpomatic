@@ -964,9 +964,9 @@ verify_dcp(boost::filesystem::path dir, vector<dcp::VerificationNote::Code> igno
 
 void
 #ifdef  DCPOMATIC_LINUX
-make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool dcp_inspect)
+make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool dcp_inspect, bool clairmeta)
 #else
-make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool)
+make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool, bool)
 #endif
 {
 	film->write_metadata ();
@@ -999,6 +999,12 @@ make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> i
 	if (dcp_inspect && dcp_inspect_env) {
 		boost::filesystem::path dcp_inspect(dcp_inspect_env);
 		auto cmd = String::compose("%1 %2 > %3 2>&1", dcp_inspect, film->dir(film->dcp_name()), film->file("dcp_inspect.log"));
+		auto result = system(cmd.c_str());
+		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
+	}
+
+	if (clairmeta && getenv("DCPOMATIC_CLAIRMETA")) {
+		auto cmd = String::compose("python3 -m clairmeta.cli check -type dcp %1 > %2 2>&1", film->dir(film->dcp_name()), film->file("clairmeta.log"));
 		auto result = system(cmd.c_str());
 		BOOST_CHECK_EQUAL(WEXITSTATUS(result), 0);
 	}

@@ -53,6 +53,7 @@ BOOST_AUTO_TEST_CASE(crash_rendering_vf_interop_subs_test)
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video(true);
 	ov_dcp->set_reference_audio(true);
+	subtitles[0]->text[0]->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp(
 		vf,

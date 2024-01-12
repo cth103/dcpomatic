@@ -49,7 +49,8 @@ BOOST_AUTO_TEST_CASE(remake_video_after_yub_rgb_matrix_changed)
 	content->video->set_colour_conversion(*conversion);
 
 	auto calculate_picture_hashes = [](shared_ptr<Film> film) {
-		make_and_verify_dcp(film);
+		/* >1 CPLs in the DCP raises an error in ClairMeta */
+		make_and_verify_dcp(film, {}, true, false);
 		dcp::DCP dcp(film->dir(film->dcp_name()));
 		dcp.read();
 		BOOST_REQUIRE(!dcp.cpls().empty());

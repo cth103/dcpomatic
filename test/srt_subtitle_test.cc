@@ -100,7 +100,11 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA
-		});
+		},
+		true,
+		/* ClairMeta tries to inspect the font file and fails because it isn't one */
+		false
+		);
 
 	/* Should be blank video with a subtitle MXF; sound is irrelevant */
 	check_dcp("test/data/srt_subtitle_test2", film->dir(film->dcp_name()), true);
@@ -129,6 +133,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
+	content->only_text()->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
@@ -178,6 +183,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 		auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
 		content->only_text()->set_use (true);
 		content->only_text()->set_burn (false);
+		content->only_text()->set_language(dcp::LanguageTag("de"));
 		film->examine_and_add_content (content);
 		BOOST_REQUIRE (!wait_for_jobs());
 		content->set_position (film, DCPTime());

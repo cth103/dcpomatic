@@ -306,14 +306,16 @@ BOOST_AUTO_TEST_CASE (reels_test6)
 	film->set_reel_type (ReelType::BY_LENGTH);
 	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
 	film->set_reel_length (31253154);
-	/* dcp_inspect gives error about reel <1s in length */
+	/* dcp_inspect and clairmeta both give errors about reel <1s in length */
 	make_and_verify_dcp (
 		film,
 		{
 			dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION,
 			dcp::VerificationNote::Code::INVALID_DURATION,
 		},
-		false);
+		false,
+		false
+		);
 }
 
 

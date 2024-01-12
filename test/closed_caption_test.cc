@@ -90,7 +90,12 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 			dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH,
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
-		}
+		},
+		true,
+		/* Clairmeta gives an error about having duplicate ClosedCaption entries,
+		 * which seems wrong.
+		 */
+		false
 		);
 
 	dcp::DCP check (film->dir(film->dcp_name()));

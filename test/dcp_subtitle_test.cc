@@ -161,6 +161,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 	film->set_interop (true);
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
 	film->examine_and_add_content (content);
+	content->only_text()->set_language(dcp::LanguageTag("de"));
 	BOOST_REQUIRE (!wait_for_jobs ());
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
@@ -196,6 +197,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 
 	content->only_text()->add_font(make_shared<Font>("font1"));
 	content2->only_text()->add_font(make_shared<Font>("font2"));
+	content->only_text()->set_language(dcp::LanguageTag("de"));
+	content2->only_text()->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
@@ -226,6 +229,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub6.xml");
 	auto film = new_test_film2 ("dcp_subtitle_test5", {content});
 	film->set_interop (true);
+	content->only_text()->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 
@@ -244,6 +248,7 @@ BOOST_AUTO_TEST_CASE (test_font_override)
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub4.xml");
 	auto film = new_test_film2("test_font_override", {content});
 	film->set_interop(true);
+	content->only_text()->set_language(dcp::LanguageTag("de"));
 
 	BOOST_REQUIRE_EQUAL(content->text.size(), 1U);
 	auto font = content->text.front()->get_font("0_theFontId");

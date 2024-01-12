@@ -51,6 +51,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	BOOST_REQUIRE (!wait_for_jobs ());
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
+	content->only_text()->set_language(dcp::LanguageTag("de"));
 	film->set_reel_type (ReelType::BY_LENGTH);
 	film->set_interop (true);
 	film->set_reel_length (1024 * 1024 * 512);

@@ -126,7 +126,8 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 
 	/* Change the audio and re-make */
 	audio->audio->set_gain (-3);
-	make_and_verify_dcp (film);
+	/* >1 CPLs in the DCP raises an error in ClairMeta */
+	make_and_verify_dcp(film, {}, true, false);
 
 	/* Video ID should be the same, sound different */
 	dcp::DCP dcp2 (film->dir(film->dcp_name()));
@@ -140,7 +141,8 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 
 	/* Crop video and re-make */
 	video->video->set_left_crop (5);
-	make_and_verify_dcp (film);
+	/* >1 CPLs in the DCP raises an error in ClairMeta */
+	make_and_verify_dcp(film, {}, true, false);
 
 	/* Video and sound IDs should be different */
 	dcp::DCP dcp3 (film->dir(film->dcp_name()));
