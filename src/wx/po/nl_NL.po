@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2023-09-07 02:36+0200\n"
+"PO-Revision-Date: 2024-01-12 23:05+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -81,12 +81,11 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #: src/wx/about_dialog.cc:89
-#, fuzzy
 msgid ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
-"(C) 2012-2023 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:51 src/wx/file_picker_ctrl.cc:66
@@ -734,14 +733,12 @@ msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
 
 #: src/wx/invalid_certificate_period_dialog.cc:63
-#, fuzzy
 msgid "Certificate end"
-msgstr "Certificaat-keten"
+msgstr "Certificaat eind"
 
 #: src/wx/invalid_certificate_period_dialog.cc:55
-#, fuzzy
 msgid "Certificate start"
-msgstr "Certificaat-keten"
+msgstr "Certificaat start"
 
 #: src/wx/metadata_dialog.cc:298
 msgid "Chain"
@@ -800,9 +797,8 @@ msgid "Christie"
 msgstr "Christie"
 
 #: src/wx/invalid_certificate_period_dialog.cc:39
-#, fuzzy
 msgid "Cinema"
-msgstr "bioscoop"
+msgstr "Bioscoop"
 
 #: src/wx/full_config_dialog.cc:122
 msgid "Cinema and screen database file"
@@ -977,9 +973,8 @@ msgid "Cover Sheet"
 msgstr "Voorblad"
 
 #: src/wx/invalid_certificate_period_dialog.cc:98
-#, fuzzy
 msgid "Create KDMs anyway"
-msgstr "Maak DCP toch"
+msgstr "Maak KDM's toch"
 
 #: src/wx/film_name_location_dialog.cc:51
 msgid "Create in folder"
@@ -1594,7 +1589,7 @@ msgid ""
 "'Single reel'"
 msgstr ""
 "Hoe de DCP intern in delen moet worden opgesplitst.  Kies bij twijfel voor "
-"'Single reel'"
+"'Single reel'."
 
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about using the disk writer.
@@ -1753,13 +1748,12 @@ msgid "Intermediate common name"
 msgstr "Intermediate common name"
 
 #: src/wx/metadata_dialog.cc:208
-#, fuzzy
 msgid "International texted"
-msgstr "CPL annotation text"
+msgstr "Internationaal met tekst"
 
 #: src/wx/metadata_dialog.cc:209
 msgid "International textless"
-msgstr ""
+msgstr "Internationaal tekstloos"
 
 #: src/wx/dcp_panel.cc:173 src/wx/full_config_dialog.cc:414
 msgid "Interop"
@@ -1770,9 +1764,8 @@ msgid "Invalid DCP-o-matic export file"
 msgstr "Ongeldig DCP-o-matic export-bestand"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
-#, fuzzy
 msgid "Invalid certificates"
-msgstr "Download certificaat"
+msgstr "Ongeldige certificaten"
 
 #: src/wx/colour_conversion_editor.cc:215
 msgid "Inverse 2.6 gamma correction on output"
@@ -2694,9 +2687,8 @@ msgid "Scale"
 msgstr "Schaling"
 
 #: src/wx/invalid_certificate_period_dialog.cc:47
-#, fuzzy
 msgid "Screen"
-msgstr "Schermen"
+msgstr "Scherm"
 
 #: src/wx/kdm_dialog.cc:81
 msgid "Screens"
@@ -2837,9 +2829,8 @@ msgid "Set project DCP settings from this DCP"
 msgstr "Stel project DCP-instellingen in aan de hand van deze DCP"
 
 #: src/wx/content_menu.cc:113
-#, fuzzy
 msgid "Set project markers from this DCP"
-msgstr "Stel project DCP-instellingen in aan de hand van deze DCP"
+msgstr "Stel project markers in aan de hand van deze DCP"
 
 #: src/wx/custom_scale_dialog.cc:42
 msgid "Set ratio and fit to DCP container"
@@ -2876,11 +2867,11 @@ msgstr "Toon grafiek van de audio-niveaus ..."
 #: src/wx/screens_panel.cc:763
 #, c-format
 msgid "Show only %d checked"
-msgstr ""
+msgstr "Alleen %d aangevinkt weergeven"
 
 #: src/wx/screens_panel.cc:65 src/wx/screens_panel.cc:761
 msgid "Show only checked"
-msgstr ""
+msgstr "Alleen aangevinkt weergeven"
 
 #: src/wx/text_panel.cc:170
 msgid "Show subtitle area"
@@ -2924,14 +2915,12 @@ msgid "Snap"
 msgstr "Vastklikken"
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
-#, fuzzy
 msgid ""
 "Some KDMs would have validity periods which are outside the recipient "
 "certificate validity periods.  What do you want to do?"
 msgstr ""
-"Sommige KDM's zouden geldigheidsduren hebben die volledig buiten de "
-"certificaatduren van de ontvanger vallen.  Het is zeer onwaarschijnlijk dat "
-"dergelijke KDM's werken, dus worden ze niet gemaakt."
+"Sommige KDM's zouden geldigheidsduren hebben die buiten de certificaatduren "
+"van de ontvanger vallen.  Wat wilt u doen?"
 
 #: src/wx/verify_dcp_dialog.cc:384
 msgid ""
@@ -2960,9 +2949,8 @@ msgid "Sound processor"
 msgstr "Sound processor"
 
 #: src/wx/metadata_dialog.cc:207
-#, fuzzy
 msgid "Specific"
-msgstr "Niet gespecificeerd"
+msgstr "Specifiek"
 
 #: src/wx/dcp_panel.cc:150
 msgid "Split by video content"
@@ -3088,9 +3076,8 @@ msgid "Temporary version"
 msgstr "Tijdelijke versie"
 
 #: src/wx/metadata_dialog.cc:205
-#, fuzzy
 msgid "Territory type"
-msgstr "Gebied (bv. NL)"
+msgstr "Gebied type"
 
 #: src/wx/full_config_dialog.cc:994 src/wx/full_config_dialog.cc:997
 msgid "Test email sending failed."
@@ -4083,7 +4070,7 @@ msgid ""
 "standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
 "Welke standaard de DCP moet gebruiken.  Interop is ouder en SMPTE is de "
-"moderne standaard.  Kies bij twijfel voor 'SMPTE'"
+"moderne standaard.  Kies bij twijfel voor 'SMPTE'."
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"
@@ -4275,9 +4262,8 @@ msgid "full screen"
 msgstr "volledig scherm"
 
 #: src/wx/player_config_dialog.cc:99
-#, fuzzy
 msgid "full screen with separate advanced controls"
-msgstr "volledig scherm met bediening op andere monitor"
+msgstr "volledig scherm met aparte geavanceerde bediening"
 
 #. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:85

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2023-09-07 01:56+0200\n"
+"PO-Revision-Date: 2024-01-12 23:27+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: src/tools/dcpomatic_combiner.cc:171
 msgid "%1 already exists as a file, so you cannot use it for a DCP."
@@ -383,7 +383,7 @@ msgstr ""
 
 #: src/tools/dcpomatic.cc:771
 msgid "Could not remove existing preferences file"
-msgstr ""
+msgstr "Kan bestaand voorkeurenbestand niet verwijderen"
 
 #: src/tools/dcpomatic.cc:605 src/tools/dcpomatic.cc:1278
 msgid "Could not save project."
@@ -1033,7 +1033,6 @@ msgstr ""
 "aanmaken?"
 
 #: src/tools/dcpomatic.cc:1927
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error\n"
@@ -1047,6 +1046,8 @@ msgstr ""
 "DCP's en KDM's bevat\n"
 "een kleine fout die ervoor zorgt dat DCP's als incorrect worden gevalideerd "
 "op sommige systemen.\n"
+"Deze fout is veroorzaakt door een bug in DCP-o-matic die inmiddels is "
+"opgelost.\n"
 "Wilt u de certificaat-keten voor het ondertekenen van DCP's en KDM's opnieuw "
 "aanmaken?"
 

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2023-09-07 02:54+0200\n"
+"PO-Revision-Date: 2024-01-12 22:12+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -939,9 +939,8 @@ msgid "Event"
 msgstr "Event"
 
 #: src/lib/hints.cc:397
-#, fuzzy
 msgid "Examining audio"
-msgstr "Onderzoeken ondertitels"
+msgstr "Onderzoeken audio"
 
 #: src/lib/hints.cc:399
 msgid "Examining audio, subtitles and closed captions"
@@ -1090,7 +1089,6 @@ msgstr ""
 "in SMPTE."
 
 #: src/lib/hints.cc:249
-#, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1243,14 +1241,16 @@ msgid "No CPLs found in DCP."
 msgstr "Geen CPL's gevonden in DCP."
 
 #: src/lib/kdm_with_metadata.cc:217
-#, fuzzy
 msgid "No from address configured in the KDM Email tab of preferences"
-msgstr "Geen KDM from-adres geconfigureerd bij Voorkeuren"
+msgstr ""
+"Geen KDM From-adres geconfigureerd in het \"KDM e-mail\"-tabblad bij "
+"Voorkeuren"
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:70
-#, fuzzy
 msgid "No outgoing mail server configured in the Email tab of preferences"
-msgstr "Geen mail-server geconfigureerd bij Voorkeuren"
+msgstr ""
+"Geen Uitgaande mailserver geconfigureerd in het \"E-mail\"-tabblad bij "
+"Voorkeuren"
 
 #: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
@@ -1323,7 +1323,7 @@ msgstr "Policy"
 
 #: src/lib/filter.cc:106
 msgid "Premultiply alpha channel"
-msgstr ""
+msgstr "Premultiply alpha channel"
 
 #: src/lib/content.cc:494
 msgid "Prepared for video frame rate"
@@ -1594,7 +1594,6 @@ msgid "The certificate chain for signing is invalid (%1)"
 msgstr "De certificaat-keten voor ondertekening is ongeldig (%1)"
 
 #: src/lib/hints.cc:721
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error which will prevent DCPs from being validated "
@@ -1610,7 +1609,6 @@ msgstr ""
 "Voorkeuren te klikken."
 
 #: src/lib/hints.cc:727
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period that is too long.  This will cause problems playing back "
@@ -1660,7 +1658,6 @@ msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Van het bestand %1 is %2 milliseconden meer weggeknipt."
 
 #: src/lib/hints.cc:239
-#, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1861,7 +1858,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Yet Another Deinterlacing Filter"
 
 #: src/lib/hints.cc:199
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
