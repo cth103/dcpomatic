@@ -598,6 +598,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 string
 simple_digest (vector<boost::filesystem::path> paths)
 {
+	DCP_ASSERT(!paths.empty());
 	return digest_head_tail(paths, 1000000) + raw_convert<string>(dcp::filesystem::file_size(paths.front()));
 }
 
