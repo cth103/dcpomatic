@@ -43,15 +43,22 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	: Decoder (film)
 {
 	/* Load the XML or MXF file */
-	auto const asset = load (content->path(0));
-	asset->fix_empty_font_ids ();
-	_subtitles = asset->subtitles ();
+	_asset = load(content->path(0));
+	_asset->fix_empty_font_ids();
+	_subtitles = _asset->subtitles();
 	_next = _subtitles.begin ();
 
-	_subtitle_standard = asset->subtitle_standard();
+	_subtitle_standard = _asset->subtitle_standard();
 
 	text.push_back (make_shared<TextDecoder>(this, content->only_text()));
 	update_position();
+
+	FontIDAllocator font_id_allocator;
+
+	for (auto node: _asset->load_font_nodes()) {
+		_font_id_allocator.add_font(0, _asset->id(), node->id);
+	}
+	_font_id_allocator.allocate();
 }
 
 
@@ -91,7 +98,13 @@ DCPSubtitleDecoder::pass ()
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
 		auto ns = dynamic_pointer_cast<const dcp::SubtitleString>(*_next);
 		if (ns) {
-			s.push_back (*ns);
+			dcp::SubtitleString ns_copy = *ns;
+			if (ns_copy.font()) {
+				ns_copy.set_font(_font_id_allocator.font_id(0, _asset->id(), ns_copy.font().get()));
+			} else {
+				ns_copy.set_font(_font_id_allocator.default_font_id());
+			}
+			s.push_back(ns_copy);
 			++_next;
 		} else {
 			/* XXX: perhaps these image subs should also be collected together like the string ones are;

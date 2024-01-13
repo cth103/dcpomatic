@@ -246,7 +246,9 @@ BOOST_AUTO_TEST_CASE (test_font_override)
 	film->set_interop(true);
 
 	BOOST_REQUIRE_EQUAL(content->text.size(), 1U);
-	content->text.front()->get_font("theFontId")->set_file("test/data/Inconsolata-VF.ttf");
+	auto font = content->text.front()->get_font("0_theFontId");
+	BOOST_REQUIRE(font);
+	font->set_file("test/data/Inconsolata-VF.ttf");
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 	check_file (subtitle_file(film).parent_path() / "font_0.ttf", "test/data/Inconsolata-VF.ttf");

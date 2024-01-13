@@ -64,17 +64,19 @@ void
 FontIDAllocator::add_fonts_from_asset(int reel_index, shared_ptr<const dcp::SubtitleAsset> asset)
 {
 	for (auto const& font: asset->font_data()) {
-		_map[Font(reel_index, asset->id(), font.first)] = 0;
+		add_font(reel_index, asset->id(), font.first);
 	}
-
-	_map[Font(reel_index, asset->id(), "")] = 0;
 }
 
 
 void
 FontIDAllocator::add_font(int reel_index, string asset_id, string font_id)
 {
-	_map[Font(reel_index, asset_id, font_id)] = 0;
+	auto font = Font(reel_index, asset_id, font_id);
+	if (!_default_font) {
+		_default_font = font;
+	}
+	_map[font] = 0;
 }
 
 
@@ -119,3 +121,13 @@ FontIDAllocator::font_id(int reel_index, string asset_id, string font_id) const
 	return String::compose("%1_%2", iter->second, font_id);
 }
 
+
+string
+FontIDAllocator::default_font_id() const
+{
+	if (_default_font) {
+		return font_id(_default_font->reel_index, _default_font->asset_id, _default_font->font_id);
+	}
+
+	return "default";
+}

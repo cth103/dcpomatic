@@ -25,6 +25,7 @@
 #include "dcp_examiner.h"
 #include "dcpomatic_log.h"
 #include "exceptions.h"
+#include "font_id_allocator.h"
 #include "image.h"
 #include "text_content.h"
 #include "util.h"
@@ -210,7 +211,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				for (auto const& font: asset->font_data()) {
 					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
 				}
-				_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>("")});
 			}
 		}
 
@@ -367,16 +367,22 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 void
 DCPExaminer::add_fonts(shared_ptr<TextContent> content)
 {
+	FontIDAllocator font_id_allocator;
+
 	for (auto const& font: _fonts) {
-		_font_id_allocator.add_font(font.reel_index, font.asset_id, font.font->id());
+		font_id_allocator.add_font(font.reel_index, font.asset_id, font.font->id());
 	}
 
-	_font_id_allocator.allocate();
+	font_id_allocator.allocate();
 
 	for (auto const& font: _fonts) {
 		auto font_copy = make_shared<dcpomatic::Font>(*font.font);
-		font_copy->set_id(_font_id_allocator.font_id(font.reel_index, font.asset_id, font.font->id()));
+		font_copy->set_id(font_id_allocator.font_id(font.reel_index, font.asset_id, font.font->id()));
 		content->add_font(font_copy);
+	}
+
+	if (!font_id_allocator.has_default_font()) {
+		content->add_font(make_shared<dcpomatic::Font>(font_id_allocator.default_font_id(), default_font_file()));
 	}
 }
 

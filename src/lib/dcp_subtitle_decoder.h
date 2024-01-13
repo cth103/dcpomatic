@@ -19,8 +19,9 @@
 */
 
 
-#include "text_decoder.h"
 #include "dcp_subtitle.h"
+#include "font_id_allocator.h"
+#include "text_decoder.h"
 
 
 class DCPSubtitleContent;
@@ -44,4 +45,7 @@ private:
 	std::vector<std::shared_ptr<const dcp::Subtitle>>::const_iterator _next;
 
 	dcp::SubtitleStandard _subtitle_standard;
+
+	std::shared_ptr<dcp::SubtitleAsset> _asset;
+	FontIDAllocator _font_id_allocator;
 };

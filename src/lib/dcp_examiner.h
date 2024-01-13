@@ -27,7 +27,6 @@
 #include "audio_examiner.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_assert.h"
-#include "font_id_allocator.h"
 #include "video_examiner.h"
 #include <dcp/dcp_time.h>
 #include <dcp/rating.h>
@@ -224,5 +223,4 @@ private:
 	};
 
 	std::vector<Font> _fonts;
-	FontIDAllocator _font_id_allocator;
 };

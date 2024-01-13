@@ -27,6 +27,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <boost/optional.hpp>
 
 
 namespace dcp {
@@ -66,6 +67,11 @@ public:
 	void allocate();
 
 	std::string font_id(int reel_index, std::string asset_id, std::string font_id) const;
+	std::string default_font_id() const;
+
+	bool has_default_font() const {
+		return static_cast<bool>(_default_font);
+	}
 
 private:
 	void add_fonts_from_asset(int reel_index, std::shared_ptr<const dcp::SubtitleAsset> asset);
@@ -96,6 +102,7 @@ private:
 	};
 
 	std::map<Font, int> _map;
+	boost::optional<Font> _default_font;
 };
 
 

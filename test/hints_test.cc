@@ -198,7 +198,8 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 		content->text[0]->set_language(dcp::LanguageTag("en-US"));
 		film->examine_and_add_content(content);
 		BOOST_REQUIRE (!wait_for_jobs());
-		auto const font = content->text[0]->get_font(String::compose("font_%1", i));
+		auto const font = content->text[0]->get_font(String::compose("0_font_%1", i));
+		BOOST_REQUIRE(font);
 		font->set_file("build/test/hint_subtitle_mxf_too_big.ttf");
 	}
 

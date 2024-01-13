@@ -314,7 +314,11 @@ DCPDecoder::pass_texts (
 				}
 
 				dcp::SubtitleString is_copy = *is;
-				is_copy.set_font(_font_id_allocator.font_id(_reel - _reels.begin(), asset->id(), is_copy.font().get_value_or("")));
+				if (is_copy.font()) {
+					is_copy.set_font(_font_id_allocator.font_id(_reel - _reels.begin(), asset->id(), is_copy.font().get()));
+				} else {
+					is_copy.set_font(_font_id_allocator.default_font_id());
+				}
 				strings.push_back(is_copy);
 			}
 

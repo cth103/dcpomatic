@@ -21,6 +21,7 @@
 #include "font.h"
 #include "dcp_subtitle_content.h"
 #include "film.h"
+#include "font_id_allocator.h"
 #include "text_content.h"
 #include <dcp/raw_convert.h>
 #include <dcp/interop_subtitle_asset.h>
@@ -73,19 +74,42 @@ DCPSubtitleContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	_length = ContentTime::from_seconds(subtitle_asset->latest_subtitle_out().as_seconds());
 
 	subtitle_asset->fix_empty_font_ids();
+	add_fonts(only_text(), subtitle_asset);
+}
+
+
+void
+DCPSubtitleContent::add_fonts(shared_ptr<TextContent> content, shared_ptr<dcp::SubtitleAsset> subtitle_asset)
+{
+	FontIDAllocator font_id_allocator;
+
+	for (auto node: subtitle_asset->load_font_nodes()) {
+		font_id_allocator.add_font(0, subtitle_asset->id(), node->id);
+	}
+	font_id_allocator.allocate();
 
 	auto font_data = subtitle_asset->font_data();
 	for (auto node: subtitle_asset->load_font_nodes()) {
 		auto data = font_data.find(node->id);
+		shared_ptr<dcpomatic::Font> font;
 		if (data != font_data.end()) {
-			only_text()->add_font(make_shared<Font>(node->id, data->second));
+			font = make_shared<Font>(
+				font_id_allocator.font_id(0, subtitle_asset->id(), node->id),
+				data->second
+				);
 		} else {
-			only_text()->add_font(make_shared<Font>(node->id));
+			font = make_shared<Font>(
+				font_id_allocator.font_id(0, subtitle_asset->id(), node->id)
+				);
 		}
+		content->add_font(font);
 	}
 
-	only_text()->add_font(make_shared<Font>(""));
+	if (!font_id_allocator.has_default_font()) {
+		content->add_font(make_shared<dcpomatic::Font>(font_id_allocator.default_font_id(), default_font_file()));
+	}
 }
+
 
 DCPTime
 DCPSubtitleContent::full_length (shared_ptr<const Film> film) const

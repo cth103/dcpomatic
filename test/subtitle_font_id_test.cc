@@ -47,8 +47,7 @@ BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
 	auto text = content[0]->only_text();
 	BOOST_REQUIRE(text);
 
-	/* There's the font from the DCP and also a dummy one with an empty ID */
-	BOOST_REQUIRE_EQUAL(text->fonts().size(), 2U);
+	BOOST_REQUIRE_EQUAL(text->fonts().size(), 1U);
 	auto font = text->fonts().front();
 	BOOST_CHECK_EQUAL(font->id(), "0_theFontId");
 	BOOST_REQUIRE(font->data());
@@ -66,10 +65,9 @@ BOOST_AUTO_TEST_CASE(dcp_subtitle_font_id_test)
 	auto text = content[0]->only_text();
 	BOOST_REQUIRE(text);
 
-	/* There's the font from the DCP and also a dummy one with an empty ID */
-	BOOST_REQUIRE_EQUAL(text->fonts().size(), 2U);
+	BOOST_REQUIRE_EQUAL(text->fonts().size(), 1U);
 	auto font = text->fonts().front();
-	BOOST_CHECK_EQUAL(font->id(), "theFontId");
+	BOOST_CHECK_EQUAL(font->id(), "0_theFontId");
 	BOOST_REQUIRE(font->data());
 	BOOST_CHECK_EQUAL(font->data()->size(), 367112);
 }
@@ -261,3 +259,33 @@ BOOST_AUTO_TEST_CASE(subtitle_with_no_font_test)
 	make_and_verify_dcp(check_film);
 }
 
+
+BOOST_AUTO_TEST_CASE(load_dcp_with_empty_font_id_test)
+{
+	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "kr_vf");
+	auto film = new_test_film2("load_dcp_with_empty_font_id_test", { dcp });
+}
+
+
+BOOST_AUTO_TEST_CASE(use_first_loadfont_as_default)
+{
+	auto dcp = std::make_shared<DCPContent>("test/data/use_default_font");
+	auto film = new_test_film2("use_first_loadfont_as_default", { dcp });
+	dcp->only_text()->set_use(true);
+	dcp->only_text()->set_language(dcp::LanguageTag("de"));
+	make_and_verify_dcp(
+		film,
+		{ dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME }
+		);
+
+	dcp::DCP test(film->dir(film->dcp_name()));
+	test.read();
+	BOOST_REQUIRE(!test.cpls().empty());
+	auto cpl = test.cpls()[0];
+	BOOST_REQUIRE(!cpl->reels().empty());
+	auto reel = cpl->reels()[0];
+	BOOST_REQUIRE(reel->main_subtitle()->asset());
+	auto subtitle = std::dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(reel->main_subtitle()->asset());
+	BOOST_REQUIRE_EQUAL(subtitle->font_data().size(), 1U);
+	BOOST_CHECK(subtitle->font_data().begin()->second == dcp::ArrayData("test/data/Inconsolata-VF.ttf"));
+}
