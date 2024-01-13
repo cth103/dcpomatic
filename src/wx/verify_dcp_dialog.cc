@@ -88,6 +88,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 	};
 
 	auto add = [&counts, &add_bullet](dcp::VerificationNote note, wxString message) {
+		if (note.reference_hash()) {
+			message.Replace("%reference_hash", std_to_wx(note.reference_hash().get()));
+		}
+		if (note.calculated_hash()) {
+			message.Replace("%calculated_hash", std_to_wx(note.calculated_hash().get()));
+		}
 		if (note.note()) {
 			message.Replace("%n", std_to_wx(note.note().get()));
 		}
@@ -127,19 +133,19 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			add (i, std_to_wx(*i.note()));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
-			add(i, _("The hash of the CPL %n in the PKL does not agree with the CPL file.  This probably means that the CPL file is corrupt."));
+			add(i, _("The hash (%reference_hash) of the CPL %n in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE:
 			add(i, _("The picture in a reel has a frame rate of %n, which is not valid."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_PICTURE_HASH:
-			add(i, _("The hash of the picture asset %f does not agree with the PKL file.  This probably means that the asset file is corrupt."));
+			add(i, _("The hash (%calculated_hash) of the picture asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_PICTURE_HASHES:
 			add(i, _("The PKL and CPL hashes disagree for picture asset %f."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SOUND_HASH:
-			add(i, _("The hash of the sound asset %f does not agree with the PKL file.  This probably means that the asset file is corrupt."));
+			add(i, _("The hash (%calculated_hash) of the sound asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_SOUND_HASHES:
 			add(i, _("The PKL and CPL hashes disagree for sound asset %f."));
