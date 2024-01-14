@@ -107,7 +107,7 @@ JobView::maybe_pulse ()
 {
 	if (_gauge && _job->running()) {
 		auto elapsed = _job->seconds_since_last_progress_update();
-		if (!_job->progress() || !elapsed || *elapsed > 2) {
+		if (!_job->progress() || !elapsed || *elapsed > 4) {
 			_gauge->Pulse ();
 		}
 	}
