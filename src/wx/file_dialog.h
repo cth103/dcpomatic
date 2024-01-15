@@ -31,6 +31,9 @@ LIBDCP_ENABLE_WARNINGS
 class FileDialog : public wxFileDialog
 {
 public:
+	/** @param initial_path_key key in config to use to store and read the initial path
+	 *  @param override_path if not-none, this is used as the initial path regardless of the initial_path_key
+	 */
 	FileDialog(
 		wxWindow* parent,
 		wxString title,
