@@ -18,25 +18,28 @@
 
 */
 
+
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/filesystem.hpp>
+
 
 class FilePickerCtrl : public wxPanel
 {
 public:
 	FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open, bool warn_overwrite);
 
-	wxString GetPath () const;
-	void SetPath (wxString);
-	void SetWildcard (wxString);
+	boost::filesystem::path path() const;
+	void set_path(boost::filesystem::path path);
+	void set_wildcard(wxString);
 
 private:
 	void browse_clicked ();
 
 	wxButton* _file;
-	wxString _path;
+	boost::filesystem::path _path;
 	wxSizer* _sizer;
 	wxString _prompt;
 	wxString _wildcard;

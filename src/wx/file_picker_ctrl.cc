@@ -55,13 +55,14 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
 	_file->Bind (wxEVT_BUTTON, boost::bind (&FilePickerCtrl::browse_clicked, this));
 }
 
-void
-FilePickerCtrl::SetPath (wxString p)
-{
-	_path = p;
 
-	if (!_path.IsEmpty ()) {
-		_file->SetLabel(std_to_wx(filesystem::path(wx_to_std(_path)).filename().string()));
+void
+FilePickerCtrl::set_path(boost::filesystem::path path)
+{
+	_path = path;
+
+	if (!_path.empty()) {
+		_file->SetLabel(std_to_wx(_path.filename().string()));
 	} else {
 		_file->SetLabel (_("(None)"));
 	}
@@ -70,11 +71,13 @@ FilePickerCtrl::SetPath (wxString p)
 	GetEventHandler()->ProcessEvent (ev);
 }
 
-wxString
-FilePickerCtrl::GetPath () const
+
+boost::filesystem::path
+FilePickerCtrl::path() const
 {
 	return _path;
 }
+
 
 void
 FilePickerCtrl::browse_clicked ()
@@ -84,14 +87,14 @@ FilePickerCtrl::browse_clicked ()
 		style |= wxFD_OVERWRITE_PROMPT;
 	}
 	wxFileDialog dialog(this, _prompt, wxEmptyString, wxEmptyString, _wildcard, style);
-	dialog.SetPath(_path);
+	dialog.SetPath(std_to_wx(_path.string()));
 	if (dialog.ShowModal() == wxID_OK) {
-		SetPath(dialog.GetPath());
+		set_path(boost::filesystem::path(wx_to_std(dialog.GetPath())));
 	}
 }
 
 void
-FilePickerCtrl::SetWildcard (wxString w)
+FilePickerCtrl::set_wildcard(wxString w)
 {
 	_wildcard = w;
 }

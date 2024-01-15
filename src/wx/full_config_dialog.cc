@@ -216,7 +216,7 @@ private:
 	void config_file_changed ()
 	{
 		auto config = Config::instance();
-		boost::filesystem::path new_file = wx_to_std(_config_file->GetPath());
+		auto const new_file = _config_file->path();
 		if (new_file == config->config_read_file()) {
 			return;
 		}
@@ -240,7 +240,7 @@ private:
 
 	void cinemas_file_changed ()
 	{
-		Config::instance()->set_cinemas_file (wx_to_std (_cinemas_file->GetPath ()));
+		Config::instance()->set_cinemas_file(_cinemas_file->path());
 	}
 
 	void default_add_file_location_changed()

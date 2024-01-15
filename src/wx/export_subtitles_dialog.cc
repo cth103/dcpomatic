@@ -97,7 +97,7 @@ boost::filesystem::path
 ExportSubtitlesDialog::path () const
 {
 	if (_file->IsEnabled()) {
-		wxFileName fn (_file->GetPath());
+		wxFileName fn(std_to_wx(_file->path().string()));
 		fn.SetExt (_interop ? "xml" : "mxf");
 		return wx_to_std (fn.GetFullPath());
 	}

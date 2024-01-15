@@ -208,7 +208,7 @@ private:
 
 	void debug_log_file_changed ()
 	{
-		Config::instance()->set_player_debug_log_file(wx_to_std(_debug_log_file->GetPath()));
+		Config::instance()->set_player_debug_log_file(_debug_log_file->path());
 	}
 
 	wxChoice* _player_mode;

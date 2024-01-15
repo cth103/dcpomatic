@@ -222,14 +222,14 @@ string_client_data (wxClientData* o)
 void
 checked_set (FilePickerCtrl* widget, boost::filesystem::path value)
 {
-	if (widget->GetPath() != std_to_wx (value.string())) {
+	if (widget->path() != value) {
 		if (value.empty()) {
 			/* Hack to make wxWidgets clear the control when we are passed
 			   an empty value.
 			*/
 			value = " ";
 		}
-		widget->SetPath (std_to_wx (value.string()));
+		widget->set_path(value);
 	}
 }
 
