@@ -27,8 +27,22 @@
 #include <vector>
 
 
+using std::string;
 using std::vector;
 using boost::optional;
+
+
+wxString initial_path(
+	std::string initial_path_key,
+	optional<boost::filesystem::path> override_path
+	)
+{
+	if (override_path) {
+		return std_to_wx(override_path->string());
+	}
+
+	return std_to_wx(Config::instance()->initial_path(initial_path_key).get_value_or(home_directory()).string());
+}
 
 
 FileDialog::FileDialog(
@@ -37,16 +51,14 @@ FileDialog::FileDialog(
 	wxString allowed,
 	long style,
 	std::string initial_path_key,
+	boost::optional<std::string> initial_filename,
 	optional<boost::filesystem::path> override_path
 	)
 	: wxFileDialog(
 		parent,
 		title,
-		std_to_wx(
-			override_path.get_value_or(
-				Config::instance()->initial_path(initial_path_key).get_value_or(home_directory())
-				).string()),
-		wxEmptyString,
+		initial_path(initial_path_key, override_path),
+		std_to_wx(initial_filename.get_value_or("")),
 		allowed,
 		style
 		)

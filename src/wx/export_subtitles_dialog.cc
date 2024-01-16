@@ -58,7 +58,7 @@ ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, int reels, bool 
 	wxString const wildcard = _interop ? _("Subtitle files (.xml)|*.xml") : _("Subtitle files (.mxf)|*.mxf");
 
 	_file_label = add (_("Output file"), true);
-	_file = new FilePickerCtrl (this, _("Select output file"), wildcard, false, true);
+	_file = new FilePickerCtrl(this, _("Select output file"), wildcard, false, true, "ExportSubtitlesPath");
 	add (_file);
 
 	_dir_label = add (_("Output folder"), true);
@@ -97,9 +97,11 @@ boost::filesystem::path
 ExportSubtitlesDialog::path () const
 {
 	if (_file->IsEnabled()) {
-		wxFileName fn(std_to_wx(_file->path().string()));
-		fn.SetExt (_interop ? "xml" : "mxf");
-		return wx_to_std (fn.GetFullPath());
+		if (auto path = _file->path()) {
+			wxFileName fn(std_to_wx(path->string()));
+			fn.SetExt(_interop ? "xml" : "mxf");
+			return wx_to_std(fn.GetFullPath());
+		}
 	}
 
 	return wx_to_std (_dir->GetPath());

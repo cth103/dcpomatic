@@ -20,6 +20,7 @@
 
 
 #include "dcpomatic_button.h"
+#include "file_dialog.h"
 #include "file_picker_ctrl.h"
 #include "wx_util.h"
 #include <dcp/warnings.h>
@@ -35,12 +36,24 @@ using namespace std;
 using namespace boost;
 
 
-FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open, bool warn_overwrite)
+FilePickerCtrl::FilePickerCtrl(
+	wxWindow* parent,
+	wxString prompt,
+	wxString wildcard,
+	bool open,
+	bool warn_overwrite,
+	std::string initial_path_key,
+	optional<std::string> initial_filename,
+	optional<filesystem::path> override_path
+	)
 	: wxPanel (parent)
 	, _prompt (prompt)
 	, _wildcard (wildcard)
 	, _open (open)
 	, _warn_overwrite (warn_overwrite)
+	, _initial_path_key(initial_path_key)
+	, _initial_filename(initial_filename)
+	, _override_path(override_path)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -53,18 +66,31 @@ FilePickerCtrl::FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wild
 
 	SetSizerAndFit (_sizer);
 	_file->Bind (wxEVT_BUTTON, boost::bind (&FilePickerCtrl::browse_clicked, this));
+
+	set_filename(_initial_filename);
 }
 
 
 void
-FilePickerCtrl::set_path(boost::filesystem::path path)
+FilePickerCtrl::set_filename(optional<string> filename)
+{
+	if (filename) {
+		_file->SetLabel(std_to_wx(*filename));
+	} else {
+		_file->SetLabel(_("None"));
+	}
+}
+
+
+void
+FilePickerCtrl::set_path(optional<boost::filesystem::path> path)
 {
 	_path = path;
 
-	if (!_path.empty()) {
-		_file->SetLabel(std_to_wx(_path.filename().string()));
+	if (_path) {
+		set_filename(_path->filename().string());
 	} else {
-		_file->SetLabel (_("(None)"));
+		set_filename({});
 	}
 
 	wxCommandEvent ev (wxEVT_FILEPICKER_CHANGED, wxID_ANY);
@@ -72,7 +98,7 @@ FilePickerCtrl::set_path(boost::filesystem::path path)
 }
 
 
-boost::filesystem::path
+boost::optional<boost::filesystem::path>
 FilePickerCtrl::path() const
 {
 	return _path;
@@ -86,10 +112,9 @@ FilePickerCtrl::browse_clicked ()
 	if (_warn_overwrite) {
 		style |= wxFD_OVERWRITE_PROMPT;
 	}
-	wxFileDialog dialog(this, _prompt, wxEmptyString, wxEmptyString, _wildcard, style);
-	dialog.SetPath(std_to_wx(_path.string()));
-	if (dialog.ShowModal() == wxID_OK) {
-		set_path(boost::filesystem::path(wx_to_std(dialog.GetPath())));
+	FileDialog dialog(this, _prompt, _wildcard, style, _initial_path_key, _initial_filename, _path);
+	if (dialog.show()) {
+		set_path(dialog.path());
 	}
 }
 

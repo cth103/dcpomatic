@@ -24,25 +24,39 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
+#include <boost/optional.hpp>
 
 
 class FilePickerCtrl : public wxPanel
 {
 public:
-	FilePickerCtrl (wxWindow* parent, wxString prompt, wxString wildcard, bool open, bool warn_overwrite);
+	FilePickerCtrl(
+		wxWindow* parent,
+		wxString prompt,
+		wxString wildcard,
+		bool open,
+		bool warn_overwrite,
+		std::string initial_path_key,
+		boost::optional<std::string> initial_filename = boost::optional<std::string>(),
+		boost::optional<boost::filesystem::path> override_path = boost::optional<boost::filesystem::path>()
+		);
 
-	boost::filesystem::path path() const;
-	void set_path(boost::filesystem::path path);
+	boost::optional<boost::filesystem::path> path() const;
+	void set_path(boost::optional<boost::filesystem::path> path);
 	void set_wildcard(wxString);
 
 private:
 	void browse_clicked ();
+	void set_filename(boost::optional<std::string> filename);
 
 	wxButton* _file;
-	boost::filesystem::path _path;
+	boost::optional<boost::filesystem::path> _path;
 	wxSizer* _sizer;
 	wxString _prompt;
 	wxString _wildcard;
 	bool _open;
 	bool _warn_overwrite;
+	std::string _initial_path_key;
+	boost::optional<std::string> _initial_filename;
+	boost::optional<boost::filesystem::path> _override_path;
 };

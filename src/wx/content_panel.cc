@@ -602,6 +602,7 @@ ContentPanel::add_file_clicked ()
 		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
 		wxFD_MULTIPLE | wxFD_CHANGE_DIR,
 		"AddFilesPath",
+		{},
 		add_files_override_path(_film)
 		);
 

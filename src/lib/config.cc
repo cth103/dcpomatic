@@ -191,6 +191,11 @@ Config::set_defaults ()
 	_initial_paths["AddDKDMPath"] = boost::none;
 	_initial_paths["SelectCertificatePath"] = boost::none;
 	_initial_paths["AddCombinerInputPath"] = boost::none;
+	_initial_paths["ExportSubtitlesPath"] = boost::none;
+	_initial_paths["ExportVideoPath"] = boost::none;
+	_initial_paths["DebugLogPath"] = boost::none;
+	_initial_paths["CinemaDatabasePath"] = boost::none;
+	_initial_paths["ConfigFilePath"] = boost::none;
 	_use_isdcf_name_by_default = true;
 	_write_kdms_to_disk = true;
 	_email_kdms = false;

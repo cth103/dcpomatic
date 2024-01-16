@@ -126,7 +126,7 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Debug log file"), true, wxGBPosition (r, 0));
-		_debug_log_file = new FilePickerCtrl (_panel, _("Select debug log file"), "*", false, true);
+		_debug_log_file = new FilePickerCtrl(_panel, _("Select debug log file"), "*", false, true, "DebugLogPath");
 		table->Add (_debug_log_file, wxGBPosition(r, 1));
 		++r;
 
@@ -208,7 +208,9 @@ private:
 
 	void debug_log_file_changed ()
 	{
-		Config::instance()->set_player_debug_log_file(_debug_log_file->path());
+		if (auto path = _debug_log_file->path()) {
+			Config::instance()->set_player_debug_log_file(*path);
+		}
 	}
 
 	wxChoice* _player_mode;

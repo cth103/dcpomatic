@@ -40,6 +40,7 @@ public:
 		wxString allowed,
 		long style,
 		std::string initial_path_key,
+		boost::optional<std::string> initial_filename = boost::optional<std::string>(),
 		boost::optional<boost::filesystem::path> override_path = boost::optional<boost::filesystem::path>()
 		);
 

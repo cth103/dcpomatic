@@ -115,12 +115,12 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Configuration file"), true, wxGBPosition (r, 0));
-		_config_file = new FilePickerCtrl (_panel, _("Select configuration file"), "*.xml", true, false);
+		_config_file = new FilePickerCtrl(_panel, _("Select configuration file"), "*.xml", true, false, "ConfigFilePath");
 		table->Add (_config_file, wxGBPosition (r, 1));
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
-		_cinemas_file = new FilePickerCtrl (_panel, _("Select cinema and screen database file"), "*.xml", true, false);
+		_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), "*.xml", true, false, "CinemaDatabasePath");
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		auto export_cinemas = new Button (_panel, _("Export..."));
 		table->Add (export_cinemas, wxGBPosition (r, 2));
@@ -217,12 +217,12 @@ private:
 	{
 		auto config = Config::instance();
 		auto const new_file = _config_file->path();
-		if (new_file == config->config_read_file()) {
+		if (!new_file || *new_file == config->config_read_file()) {
 			return;
 		}
 		bool copy_and_link = true;
-		if (dcp::filesystem::exists(new_file)) {
-			ConfigMoveDialog dialog(_panel, new_file);
+		if (dcp::filesystem::exists(*new_file)) {
+			ConfigMoveDialog dialog(_panel, *new_file);
 			if (dialog.ShowModal() == wxID_OK) {
 				copy_and_link = false;
 			}
@@ -231,16 +231,18 @@ private:
 		if (copy_and_link) {
 			config->write ();
 			if (new_file != config->config_read_file()) {
-				config->copy_and_link (new_file);
+				config->copy_and_link(*new_file);
 			}
 		} else {
-			config->link (new_file);
+			config->link(*new_file);
 		}
 	}
 
 	void cinemas_file_changed ()
 	{
-		Config::instance()->set_cinemas_file(_cinemas_file->path());
+		if (auto path = _cinemas_file->path()) {
+			Config::instance()->set_cinemas_file(*path);
+		}
 	}
 
 	void default_add_file_location_changed()

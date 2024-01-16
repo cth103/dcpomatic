@@ -96,8 +96,7 @@ ExportVideoFileDialog::ExportVideoFileDialog (wxWindow* parent, string name)
 	   need to check if foo.mov (or similar) exists.  I can't find a way to make wxWidgets do this,
 	   so disable its check and the caller will have to do it themselves.
 	*/
-	_file = new FilePickerCtrl (this, _("Select output file"), format_filters[0], false, false);
-	_file->set_path(_initial_name);
+	_file = new FilePickerCtrl(this, _("Select output file"), format_filters[0], false, false, "ExportVideoPath", _initial_name);
 	add (_file);
 
 	for (int i = 0; i < FORMATS; ++i) {
@@ -168,7 +167,6 @@ ExportVideoFileDialog::format_changed ()
 	auto const selection = _format->GetSelection();
 	DCPOMATIC_ASSERT (selection >= 0 && selection < FORMATS);
 	_file->set_wildcard(format_filters[selection]);
-	_file->set_path(_initial_name);
 	_x264_crf->Enable (formats[selection] == ExportFormat::H264_AAC);
 	for (int i = 0; i < 2; ++i) {
 		_x264_crf_label[i]->Enable(formats[selection] == ExportFormat::H264_AAC);
@@ -180,7 +178,9 @@ ExportVideoFileDialog::format_changed ()
 boost::filesystem::path
 ExportVideoFileDialog::path () const
 {
-	wxFileName fn(std_to_wx(_file->path().string()));
+	auto path = _file->path();
+	DCPOMATIC_ASSERT(path);
+	wxFileName fn(std_to_wx(path->string()));
 	fn.SetExt (format_extensions[_format->GetSelection()]);
 	return wx_to_std (fn.GetFullPath());
 }
