@@ -22,6 +22,7 @@
 #include "wx/disk_warning_dialog.h"
 #include "wx/drive_wipe_warning_dialog.h"
 #include "wx/editable_list.h"
+#include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/message_dialog.h"
 #include "wx/try_unmount_dialog.h"
