@@ -365,13 +365,13 @@ ContentMenu::find_missing ()
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still ()) || dc) {
-		auto d = make_wx<wxDirDialog>(nullptr, _("Choose a folder"), wxT (""), wxDD_DIR_MUST_EXIST);
-		r = d->ShowModal ();
-		path = wx_to_std (d->GetPath());
+		wxDirDialog dialog(nullptr, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+		r = dialog.ShowModal();
+		path = wx_to_std(dialog.GetPath());
 	} else {
-		auto d = make_wx<wxFileDialog>(nullptr, _("Choose a file"), wxT (""), wxT (""), wxT ("*.*"));
-		r = d->ShowModal ();
-		path = wx_to_std (d->GetPath());
+		wxFileDialog dialog(nullptr, _("Choose a file"), wxT(""), wxT(""), wxT("*.*"));
+		r = dialog.ShowModal();
+		path = wx_to_std(dialog.GetPath());
 	}
 
 	if (r == wxID_CANCEL) {
