@@ -784,8 +784,10 @@ Film::subtitle_languages(bool* burnt_in) const
 
 	pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>> result;
 	for (auto i: content()) {
+		auto dcp = dynamic_pointer_cast<DCPContent>(i);
 		for (auto const& text: i->text) {
-			if (text->use() && text->type() == TextType::OPEN_SUBTITLE) {
+			auto const use = text->use() || (dcp && dcp->reference_text(TextType::OPEN_SUBTITLE));
+			if (use && text->type() == TextType::OPEN_SUBTITLE) {
 				if (!text->burn() && burnt_in) {
 					*burnt_in = false;
 				}

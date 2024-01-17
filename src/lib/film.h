@@ -77,6 +77,7 @@ struct atmos_encrypted_passthrough_test;
 struct isdcf_name_test;
 struct isdcf_name_with_atmos;
 struct isdcf_name_with_ccap;
+struct ov_subs_in_vf_name;
 struct recover_test_2d_encrypted;
 
 
@@ -459,6 +460,7 @@ private:
 	friend struct ::isdcf_name_with_ccap;
 	friend struct ::recover_test_2d_encrypted;
 	friend struct ::atmos_encrypted_passthrough_test;
+	friend struct ::ov_subs_in_vf_name;
 	template <class, class> friend class ChangeSignalDespatcher;
 
 	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
