@@ -192,8 +192,10 @@ public:
 		return _audio_language;
 	}
 
-	/** @return pair containing the main subtitle language, and additional languages */
-	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> subtitle_languages () const;
+	/** @param burnt_in If non-null, filled with true if all subtitles are burnt in, otherwise false.
+	 *  @return pair containing the main subtitle language, and additional languages
+	 */
+	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> subtitle_languages(bool* burnt_in = nullptr) const;
 	/** @return all closed caption languages in the film */
 	std::vector<dcp::LanguageTag> closed_caption_languages() const;
 

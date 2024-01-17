@@ -776,16 +776,25 @@ Film::mapped_audio_channels () const
 
 
 pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>>
-Film::subtitle_languages () const
+Film::subtitle_languages(bool* burnt_in) const
 {
+	if (burnt_in) {
+		*burnt_in = true;
+	}
+
 	pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>> result;
 	for (auto i: content()) {
 		for (auto const& text: i->text) {
-			if (text->use() && text->type() == TextType::OPEN_SUBTITLE && text->language()) {
-				if (text->language_is_additional()) {
-					result.second.push_back(text->language().get());
-				} else {
-					result.first = text->language().get();
+			if (text->use() && text->type() == TextType::OPEN_SUBTITLE) {
+				if (!text->burn() && burnt_in) {
+					*burnt_in = false;
+				}
+				if (text->language()) {
+					if (text->language_is_additional()) {
+						result.second.push_back(text->language().get());
+					} else {
+						result.first = text->language().get();
+					}
 				}
 			}
 		}
@@ -955,16 +964,8 @@ Film::isdcf_name (bool if_created_now) const
 
 	isdcf_name += "_" + to_upper (audio_language);
 
-	auto burnt_in = true;
-	for (auto i: content_list) {
-		for (auto text: i->text) {
-			if (text->type() == TextType::OPEN_SUBTITLE && text->use() && !text->burn()) {
-				burnt_in = false;
-			}
-		}
-	}
-
-	auto sub_langs = subtitle_languages();
+	bool burnt_in;
+	auto sub_langs = subtitle_languages(&burnt_in);
 	auto ccap_langs = closed_caption_languages();
 	if (sub_langs.first && sub_langs.first->language()) {
 		auto lang = entry_for_language(*sub_langs.first);
