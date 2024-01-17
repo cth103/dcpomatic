@@ -64,20 +64,20 @@ namespace dcpomatic {
 	class Screen;
 }
 
-class DCPContentType;
-class Log;
-class Content;
-class Playlist;
 class AudioContent;
 class AudioProcessor;
-class Ratio;
-class Job;
+class Content;
+class DCPContentType;
 class Film;
+class Job;
+class Log;
+class Playlist;
+class Ratio;
+struct atmos_encrypted_passthrough_test;
 struct isdcf_name_test;
 struct isdcf_name_with_atmos;
 struct isdcf_name_with_ccap;
 struct recover_test_2d_encrypted;
-struct atmos_encrypted_passthrough_test;
 
 
 class InfoFileHandle
