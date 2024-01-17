@@ -89,7 +89,7 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	align->Add (format, 0, wxTOP, 2);
 	table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
 #else
-	align->Add (format, 0, wxLEFT, DCPOMATIC_SIZER_GAP - 2);
+	align->Add (format, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
 	table->Add (align, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
 #endif
 	dcp::NameFormat::Map titles;
