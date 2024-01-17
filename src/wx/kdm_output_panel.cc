@@ -79,6 +79,10 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	type->Add (advanced, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	table->Add (type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
 
+	add_label_to_sizer(table, this, _("Annotation text"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	_annotation_text = new wxTextCtrl(this, wxID_ANY);
+	table->Add(_annotation_text, 1, wxEXPAND);
+
 	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
 	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
 	table->Add (_container_name_format->panel(), 1, wxEXPAND);
@@ -355,5 +359,19 @@ bool
 KDMOutputPanel::method_selected() const
 {
 	return _write_to->GetValue() || _email->GetValue();
+}
+
+
+void
+KDMOutputPanel::set_annotation_text(string text)
+{
+	checked_set(_annotation_text, std::move(text));
+}
+
+
+string
+KDMOutputPanel::annotation_text() const
+{
+	return wx_to_std(_annotation_text->GetValue());
 }
 

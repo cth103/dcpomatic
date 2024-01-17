@@ -65,6 +65,9 @@ public:
 
 	bool method_selected() const;
 
+	void set_annotation_text(std::string text);
+	std::string annotation_text() const;
+
 	boost::signals2::signal<void ()> MethodChanged;
 
 private:
@@ -75,6 +78,7 @@ private:
 	void add_email_addresses_clicked ();
 
 	KDMChoice* _type;
+	wxTextCtrl* _annotation_text;
 	NameFormatEditor* _container_name_format;
 	NameFormatEditor* _filename_format;
 	CheckBox* _write_to;

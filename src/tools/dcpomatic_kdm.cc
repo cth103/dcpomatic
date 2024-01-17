@@ -382,12 +382,12 @@ private:
 
 			vector<KDMCertificatePeriod> period_checks;
 
-			std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [decrypted, title](dcp::LocalTime begin, dcp::LocalTime end) {
+			std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [this, decrypted, title](dcp::LocalTime begin, dcp::LocalTime end) {
 				/* Make an empty KDM */
 				dcp::DecryptedKDM kdm (
 					begin,
 					end,
-					decrypted.annotation_text().get_value_or(""),
+					_output->annotation_text(),
 					title,
 					dcp::LocalTime().as_string()
 					);
@@ -487,7 +487,17 @@ private:
 
 	void dkdm_selection_changed()
 	{
-		_selected_dkdm = selected_dkdm();
+		if (_selected_dkdm = selected_dkdm()) {
+			auto dkdm = std::dynamic_pointer_cast<DKDM>(_selected_dkdm);
+			if (dkdm) {
+				try {
+					dcp::DecryptedKDM decrypted(dkdm->dkdm(), Config::instance()->decryption_chain()->key().get());
+					if (decrypted.annotation_text()) {
+						_output->set_annotation_text(*decrypted.annotation_text());
+					}
+				} catch (...) {}
+			}
+		}
 		setup_sensitivity();
 	}
 

@@ -37,6 +37,7 @@
 #include "lib/kdm_util.h"
 #include "lib/screen.h"
 #include <libcxml/cxml.h>
+#include <dcp/cpl.h>
 #include <dcp/exceptions.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -127,13 +128,28 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 	_timing->TimingChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 	_make->Bind (wxEVT_BUTTON, boost::bind (&KDMDialog::make_clicked, this));
-	_cpl->Changed.connect(boost::bind(&KDMDialog::setup_sensitivity, this));
+	_cpl->Changed.connect(boost::bind(&KDMDialog::cpl_changed, this));
 
+	cpl_changed();
 	setup_sensitivity ();
 
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+}
+
+
+void
+KDMDialog::cpl_changed()
+{
+	try {
+		dcp::CPL cpl(_cpl->cpl());
+		if (auto text = cpl.annotation_text()) {
+			_output->set_annotation_text(*text);
+		}
+	} catch (...) {}
+
+	setup_sensitivity();
 }
 
 
