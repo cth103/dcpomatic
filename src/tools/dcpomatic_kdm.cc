@@ -487,7 +487,8 @@ private:
 
 	void dkdm_selection_changed()
 	{
-		if (_selected_dkdm = selected_dkdm()) {
+		_selected_dkdm = selected_dkdm();
+		if (_selected_dkdm) {
 			auto dkdm = std::dynamic_pointer_cast<DKDM>(_selected_dkdm);
 			if (dkdm) {
 				try {
