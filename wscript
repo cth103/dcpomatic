@@ -278,6 +278,18 @@ def configure(conf):
                    uselib_store="BZ2"
                    )
 
+    # libz; must be explicitly linked on macOS for some reason
+    conf.check_cxx(fragment="""
+                            #include <zlib.h>
+                            int main() { zlibVersion(); }
+                            """,
+                   mandatory=True,
+                   msg="Checking for libz",
+                   okmsg='yes',
+                   lib='z',
+                   uselib_store="LIBZ"
+                   )
+
     # fontconfig
     conf.check_cfg(package='fontconfig', args='--cflags --libs', uselib_store='FONTCONFIG', mandatory=True)
 
