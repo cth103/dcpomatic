@@ -720,7 +720,7 @@ FFmpegDecoder::process_bitmap_subtitle (AVSubtitleRect const * rect)
 	/* sub_p looks up into a BGRA palette which is at rect->pict.data[1];
 	   (i.e. first byte B, second G, third R, fourth A)
 	*/
-	auto const palette = rect->pict.data[1];
+	auto const* palette = rect->pict.data[1];
 #else
 	/* Start of the first line in the subtitle */
 	auto sub_p = rect->data[0];
