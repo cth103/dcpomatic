@@ -192,7 +192,6 @@ AudioContent::mapping () const
 	merged.make_zero ();
 
 	int c = 0;
-	int s = 0;
 	for (auto i: streams()) {
 		auto mapping = i->mapping ();
 		for (int j = 0; j < mapping.input_channels(); ++j) {
@@ -203,7 +202,6 @@ AudioContent::mapping () const
 			}
 			++c;
 		}
-		++s;
 	}
 
 	return merged;
