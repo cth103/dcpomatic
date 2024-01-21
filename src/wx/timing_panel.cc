@@ -286,19 +286,15 @@ TimingPanel::film_content_changed (int property)
 	if (property == ContentProperty::VIDEO_FRAME_RATE) {
 		set<double> check_vc;
 		shared_ptr<const Content> content;
-		int count_ac = 0;
-		int count_sc = 0;
 		for (auto i: _parent->selected()) {
 			if (i->video && i->video_frame_rate()) {
 				check_vc.insert (i->video_frame_rate().get());
 				content = i;
 			}
 			if (i->audio && i->video_frame_rate()) {
-				++count_ac;
 				content = i;
 			}
 			if (!i->text.empty() && i->video_frame_rate()) {
-				++count_sc;
 				content = i;
 			}
 
