@@ -267,7 +267,7 @@ function copy_resources {
     # i18n: wxWidgets .mo files
     for lang in de es fr it sv nl ru pl da cs sl; do
 	mkdir "$dest/$lang"
-	cp $ENV/$ARCH1/share/locale/$lang/LC_MESSAGES/wxstd.mo "$dest/$lang"
+	cp $ENV/$ARCH1/share/locale/$lang/LC_MESSAGES/wxstd*.mo "$dest/$lang"
     done
 }
 
