@@ -654,7 +654,6 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 		AV_PIX_FMT_RGB555LE, // 46
 	};
 
-	int N = 0;
 	for (auto i: pix_fmts) {
 		auto foo = make_shared<Image>(i, in_size, Image::Alignment::PADDED);
 		foo->make_black ();
@@ -671,8 +670,6 @@ BOOST_AUTO_TEST_CASE (make_black_test)
 			}
 			p += bar->stride()[0];
 		}
-
-		++N;
 	}
 }
 
@@ -698,7 +695,6 @@ BOOST_AUTO_TEST_CASE (make_part_black_test)
 		{ 128, 64 },
 	};
 
-	int N = 0;
 	for (auto i: pix_fmts) {
 		for (auto j: positions) {
 			auto foo = original->convert_pixel_format(dcp::YUVToRGB::REC601, i, Image::Alignment::PADDED, false);
@@ -731,8 +727,6 @@ BOOST_AUTO_TEST_CASE (make_part_black_test)
 				}
 				p += bar->stride()[0];
 			}
-
-			++N;
 		}
 	}
 }
