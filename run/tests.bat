@@ -1,4 +1,4 @@
-set PATH=%PATH%;c:\users\ci\bin;c:\users\ci\workspace\dcpomatic\bin;c:\users\ci\workspace\dcpomatic\lib
+set PATH=%PATH%;c:\users\ci\bin_v2.17.x;c:\users\ci\workspace\dcpomatic\bin;c:\users\ci\workspace\dcpomatic\lib
 set DCPOMATIC_TEST_PRIVATE=c:\users\ci\dcpomatic-test-private
 xcopy ..\libdcp\tags build\tags\
 copy ..\libdcp\ratings build\
