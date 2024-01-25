@@ -173,7 +173,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		/* This code taken from get_rotation() in ffmpeg:cmdutils.c */
 		auto stream = _format_context->streams[*_video_stream];
 		auto rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
-		uint8_t* displaymatrix = av_stream_get_side_data (stream, AV_PKT_DATA_DISPLAYMATRIX, 0);
 		_rotation = 0;
 
 		if (rotate_tag && *rotate_tag->value && strcmp(rotate_tag->value, "0")) {
@@ -184,8 +183,9 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			}
 		}
 
-		if (displaymatrix && !_rotation) {
-			_rotation = - av_display_rotation_get ((int32_t*) displaymatrix);
+		auto side_data = av_packet_side_data_get(stream->codecpar->coded_side_data, stream->codecpar->nb_coded_side_data, AV_PKT_DATA_DISPLAYMATRIX);
+		if (side_data && !_rotation) {
+			_rotation = - av_display_rotation_get(reinterpret_cast<int32_t*>(side_data->data));
 		}
 
 		_rotation = *_rotation - 360 * floor (*_rotation / 360 + 0.9 / 360);
@@ -244,7 +244,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 			).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
 	}
 	if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
-		temporal_reference += (_video_frame->top_field_first ? "T" : "B");
+		temporal_reference += ((_video_frame->flags & AV_FRAME_FLAG_TOP_FIELD_FIRST) ? "T" : "B");
 		temporal_reference += (_video_frame->repeat_pict ? "3" : "2");
 	}
 

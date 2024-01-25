@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_examiner_probesize_test)
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[0]->frame_rate(), 48000);
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[0]->channels(), 2);
 	BOOST_CHECK_EQUAL (examiner->audio_streams()[1]->frame_rate(), 48000);
-	BOOST_CHECK_EQUAL (examiner->audio_streams()[1]->channels(), 5);
+	BOOST_CHECK_EQUAL (examiner->audio_streams()[1]->channels(), 6);
 }
 
 

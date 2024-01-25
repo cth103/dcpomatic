@@ -26,6 +26,7 @@
 #include "filter_graph.h"
 extern "C" {
 #include <libavfilter/buffersink.h>
+#include <libavutil/channel_layout.h>
 }
 
 class AudioBuffers;
