@@ -243,6 +243,7 @@ addr2line (void const * const addr)
 {
 	char addr2line_cmd[512] = { 0 };
 	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str());
+	std::cout << addr2line_cmd << "\n";
 	return system(addr2line_cmd);
 }
 
