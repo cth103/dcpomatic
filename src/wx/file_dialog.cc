@@ -63,6 +63,7 @@ FileDialog::FileDialog(
 		style
 		)
 	, _initial_path_key(initial_path_key)
+	, _multiple(style & wxFD_MULTIPLE)
 {
 
 }
@@ -96,9 +97,14 @@ FileDialog::show()
 		return false;
 	}
 
-	auto p = paths();
-	DCPOMATIC_ASSERT(!p.empty());
-	Config::instance()->set_initial_path(_initial_path_key, p[0].parent_path());
+	if (_multiple) {
+		auto p = paths();
+		DCPOMATIC_ASSERT(!p.empty());
+		Config::instance()->set_initial_path(_initial_path_key, p[0].parent_path());
+	} else {
+		Config::instance()->set_initial_path(_initial_path_key, path().parent_path());
+	}
+
 	return true;
 }
 

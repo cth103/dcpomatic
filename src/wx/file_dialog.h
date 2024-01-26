@@ -52,5 +52,6 @@ public:
 
 private:
 	std::string _initial_path_key;
+	bool _multiple;
 };
 
