@@ -673,6 +673,7 @@ struct OtherYUVParams
 
 	uint8_t* const* alpha_data;
 	int const* alpha_stride;
+	int alpha_bpp;
 };
 
 
@@ -816,7 +817,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other
 		uint8_t* oY = other.data[0] + (oy * other.stride[0]) + other.start_x;
 		uint8_t* oU = other.data[1] + (hoy * other.stride[1]) + other.start_x / 2;
 		uint8_t* oV = other.data[2] + (hoy * other.stride[2]) + other.start_x / 2;
-		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
 			float const a = float(alpha[3]) / 255;
 			*tY = *oY * a + *tY * (1 - a);
@@ -832,7 +833,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other
 				++oU;
 				++oV;
 			}
-			alpha += 4;
+			alpha += other.alpha_bpp;
 		}
 	}
 }
@@ -853,7 +854,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& oth
 		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (hoy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (hoy * other.stride[2])) + other.start_x / 2;
-		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
 			float const a = float(alpha[3]) / 255;
 			*tY = *oY * a + *tY * (1 - a);
@@ -869,7 +870,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& oth
 				++oU;
 				++oV;
 			}
-			alpha += 4;
+			alpha += other.alpha_bpp;
 		}
 	}
 }
@@ -888,7 +889,7 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const
 		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (oy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (oy * other.stride[2])) + other.start_x / 2;
-		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
 			float const a = float(alpha[3]) / 255;
 			*tY = *oY * a + *tY * (1 - a);
@@ -904,7 +905,7 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const
 				++oU;
 				++oV;
 			}
-			alpha += 4;
+			alpha += other.alpha_bpp;
 		}
 	}
 }
@@ -963,7 +964,8 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		other->data(),
 		other->stride(),
 		nullptr,
-		nullptr
+		nullptr,
+		other->pixel_format() == AV_PIX_FMT_RGBA64BE ? 8 : 4
 	};
 
 	auto byteswap = [](uint16_t* p) {
