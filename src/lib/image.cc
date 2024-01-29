@@ -642,7 +642,8 @@ struct TargetParams
 };
 
 
-struct OtherParams
+/** Parameters of the other image (the one being blended onto the target) when target and other are RGB */
+struct OtherRGBParams
 {
 	int start_x;
 	int start_y;
@@ -661,9 +662,20 @@ struct OtherParams
 };
 
 
+/** Parameters of the other image (the one being blended onto the target) when target and other are YUV */
+struct OtherYUVParams
+{
+	int start_x;
+	int start_y;
+	dcp::Size size;
+	uint8_t* const* data;
+	int const* stride;
+};
+
+
 template <class OtherType>
 void
-alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_rgb24(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	/* Going onto RGB24.  First byte is red, second green, third blue */
 	auto const alpha_divisor = other.alpha_divisor();
@@ -685,7 +697,7 @@ alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int
 
 template <class OtherType>
 void
-alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_bgra(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
@@ -707,7 +719,7 @@ alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int 
 
 template <class OtherType>
 void
-alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_rgba(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
@@ -729,7 +741,7 @@ alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int 
 
 template <class OtherType>
 void
-alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_scale)
+alpha_blend_onto_rgb48le(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_scale)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
@@ -750,7 +762,7 @@ alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, i
 
 template <class OtherType>
 void
-alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_xyz12le(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	auto conv = dcp::ColourConversion::srgb_to_xyz();
@@ -788,7 +800,7 @@ alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, i
 
 static
 void
-alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -825,7 +837,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, u
 
 static
 void
-alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -862,7 +874,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other,
 
 static
 void
-alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -932,13 +944,21 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		0
 	};
 
-	OtherParams other_params = {
+	OtherRGBParams other_rgb_params = {
 		start_ox,
 		start_oy,
 		other->size(),
 		other->data(),
 		other->stride(),
 		other->pixel_format() == AV_PIX_FMT_RGBA64BE ? 8 : 4
+	};
+
+	OtherYUVParams other_yuv_params = {
+		start_ox,
+		start_oy,
+		other->size(),
+		other->data(),
+		other->stride(),
 	};
 
 	auto byteswap = [](uint16_t* p) {
@@ -953,66 +973,66 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 	case AV_PIX_FMT_RGB24:
 		target_params.bpp = 3;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_rgb24<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_rgb24<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_rgb24<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_rgb24<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_BGRA:
 		target_params.bpp = 4;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_bgra<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_bgra<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_bgra<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_bgra<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_RGBA:
 		target_params.bpp = 4;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_rgba<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_rgba<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_rgba<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_rgba<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_RGB48LE:
 		target_params.bpp = 6;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_rgb48le<uint16_t>(target_params, other_params, red, blue, byteswap, 1);
+			alpha_blend_onto_rgb48le<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 1);
 		} else {
-			alpha_blend_onto_rgb48le<uint8_t>(target_params, other_params, red, blue, pass, 256);
+			alpha_blend_onto_rgb48le<uint8_t>(target_params, other_rgb_params, red, blue, pass, 256);
 		}
 		break;
 	case AV_PIX_FMT_XYZ12LE:
 		target_params.bpp = 6;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_xyz12le<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_xyz12le<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_xyz12le<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_xyz12le<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_YUV420P:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		other_params.data = yuv->data();
-		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv420p(target_params, other_params, other->data(), other->stride());
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		alpha_blend_onto_yuv420p(target_params, other_yuv_params, other->data(), other->stride());
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		other_params.data = yuv->data();
-		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv420p10(target_params, other_params, other->data(), other->stride());
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		alpha_blend_onto_yuv420p10(target_params, other_yuv_params, other->data(), other->stride());
 		break;
 	}
 	case AV_PIX_FMT_YUV422P9LE:
 	case AV_PIX_FMT_YUV422P10LE:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		other_params.data = yuv->data();
-		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv422p9or10le(target_params, other_params, other->data(), other->stride());
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		alpha_blend_onto_yuv422p9or10le(target_params, other_yuv_params, other->data(), other->stride());
 		break;
 	}
 	default:
