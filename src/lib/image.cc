@@ -670,6 +670,9 @@ struct OtherYUVParams
 	dcp::Size size;
 	uint8_t* const* data;
 	int const* stride;
+
+	uint8_t* const* alpha_data;
+	int const* alpha_stride;
 };
 
 
@@ -800,7 +803,7 @@ alpha_blend_onto_xyz12le(TargetParams const& target, OtherRGBParams const& other
 
 static
 void
-alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -813,7 +816,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other
 		uint8_t* oY = other.data[0] + (oy * other.stride[0]) + other.start_x;
 		uint8_t* oU = other.data[1] + (hoy * other.stride[1]) + other.start_x / 2;
 		uint8_t* oV = other.data[2] + (hoy * other.stride[2]) + other.start_x / 2;
-		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * 4;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
 			float const a = float(alpha[3]) / 255;
 			*tY = *oY * a + *tY * (1 - a);
@@ -837,7 +840,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other
 
 static
 void
-alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& other)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -850,7 +853,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& oth
 		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (hoy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (hoy * other.stride[2])) + other.start_x / 2;
-		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * 4;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
 			float const a = float(alpha[3]) / 255;
 			*tY = *oY * a + *tY * (1 - a);
@@ -874,7 +877,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& oth
 
 static
 void
-alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const& other)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -885,7 +888,7 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const
 		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (oy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (oy * other.stride[2])) + other.start_x / 2;
-		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * 4;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
 			float const a = float(alpha[3]) / 255;
 			*tY = *oY * a + *tY * (1 - a);
@@ -959,6 +962,8 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		other->size(),
 		other->data(),
 		other->stride(),
+		nullptr,
+		nullptr
 	};
 
 	auto byteswap = [](uint16_t* p) {
@@ -1015,7 +1020,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
-		alpha_blend_onto_yuv420p(target_params, other_yuv_params, other->data(), other->stride());
+		other_yuv_params.alpha_data = other->data();
+		other_yuv_params.alpha_stride = other->stride();
+		alpha_blend_onto_yuv420p(target_params, other_yuv_params);
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
@@ -1023,7 +1030,9 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
-		alpha_blend_onto_yuv420p10(target_params, other_yuv_params, other->data(), other->stride());
+		other_yuv_params.alpha_data = other->data();
+		other_yuv_params.alpha_stride = other->stride();
+		alpha_blend_onto_yuv420p10(target_params, other_yuv_params);
 		break;
 	}
 	case AV_PIX_FMT_YUV422P9LE:
@@ -1032,7 +1041,7 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
 		other_yuv_params.data = yuv->data();
 		other_yuv_params.stride = yuv->stride();
-		alpha_blend_onto_yuv422p9or10le(target_params, other_yuv_params, other->data(), other->stride());
+		alpha_blend_onto_yuv422p9or10le(target_params, other_yuv_params);
 		break;
 	}
 	default:
