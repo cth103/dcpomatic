@@ -244,6 +244,8 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P9LE, "yuv422p9le");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV444P9LE, "yuv444p9le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV444P10LE, "yuv444p10le");
 
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_RGB24, "rgb24");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_BGRA, "bgra");
@@ -253,6 +255,8 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV422P9LE, "yuv422p9le");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV444P9LE, "yuv444p9le");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV444P10LE, "yuv444p10le");
 }
 
 
