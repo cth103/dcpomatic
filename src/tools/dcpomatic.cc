@@ -1344,7 +1344,7 @@ private:
 		add_item (edit, _("Select all\tShift-Ctrl-A"), ID_edit_select_all, NEEDS_FILM);
 
 #ifdef __WXOSX__
-		add_item (_file_menu, _("&Preferences...\tCtrl-P"), wxID_PREFERENCES, ALWAYS);
+		add_item(_file_menu, _("&Preferences...\tCtrl-,"), wxID_PREFERENCES, ALWAYS);
 #else
 		edit->AppendSeparator ();
 		/* [Shortcut] Ctrl+P:Open preferences window */

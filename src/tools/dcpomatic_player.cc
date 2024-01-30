@@ -575,7 +575,7 @@ private:
 #endif
 
 #ifdef __WXOSX__
-		auto prefs = _file_menu->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		auto prefs = _file_menu->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 #else
 		auto edit = new wxMenu;
 		auto prefs = edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));

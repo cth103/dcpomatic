@@ -90,7 +90,7 @@ setup_menu (wxMenuBar* m)
 #endif
 
 #ifdef DCPOMATIC_OSX
-	file->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+	file->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 #else
 	auto edit = new wxMenu;
 	edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
