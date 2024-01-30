@@ -263,20 +263,21 @@ AboutDialog::add_section (wxString name, wxArrayString credits)
 	panel->SetScrollRate (0, 32);
 	auto overall_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	vector<wxSizer*> sizers;
-
-	for (int i = 0; i < N; ++i) {
-		sizers.push_back (new wxBoxSizer (wxVERTICAL));
-		overall_sizer->Add (sizers.back (), 1, wxEXPAND | wxALL, 6);
-	}
-
+	vector<wxString> strings(N);
 	int c = 0;
 	for (size_t i = 0; i < credits.Count(); ++i) {
-		add_label_to_sizer (sizers[c], panel, credits[i], false);
+		strings[c] += credits[i] + wxT("\n");
 		++c;
 		if (c == N) {
 			c = 0;
 		}
+	}
+
+	for (int i = 0; i < N; ++i) {
+		auto label = new wxStaticText(panel, wxID_ANY, strings[i]);
+		auto sizer = new wxBoxSizer(wxVERTICAL);
+		sizer->Add(label);
+		overall_sizer->Add(sizer, 1, wxEXPAND | wxALL, 6);
 	}
 
 	panel->SetSizerAndFit (overall_sizer);
