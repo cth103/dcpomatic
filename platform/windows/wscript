@@ -170,6 +170,7 @@ File "%static_deps%/bin/libx264-155.dll"
 File "%static_deps%/bin/libwebp-7.dll"
 File "%static_deps%/bin/GLEW.dll"
 File "%static_deps%/bin/libdav1d.dll"
+File "%static_deps%/bin/libbrotlidec.dll"
     """, file=f)
 
     if bits == 32:
