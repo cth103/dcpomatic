@@ -255,7 +255,7 @@ void
 AboutDialog::add_section (wxString name, wxArrayString credits)
 {
 	static auto first = true;
-	int const N = 4;
+	int const N = 3;
 
 	auto panel = new wxScrolledWindow (_notebook);
 	panel->SetMaxSize (wxSize (-1, 380));
