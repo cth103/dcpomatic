@@ -78,6 +78,7 @@ def options(opt):
     opt.add_option('--enable-disk',       action='store_true', default=False, help='build dcpomatic2_disk tool; requires Boost process, lwext4 and nanomsg libraries')
     opt.add_option('--warnings-are-errors', action='store_true', default=False, help='build with -Werror')
     opt.add_option('--wx-config',         help='path to wx-config')
+    opt.add_option('--enable-asan',       action='store_true', help='build with asan')
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -120,6 +121,10 @@ def configure(conf):
 
     if not conf.options.target_macos_arm64:
         conf.env.append_value('CXXFLAGS', '-msse')
+
+    if conf.options.enable_asan:
+        conf.env.append_value('CXXFLAGS', '-fsanitize=address')
+        conf.env.append_value('LINKFLAGS', '-fsanitize=address')
 
     if conf.env['CXX_NAME'] == 'gcc':
         gcc = conf.env['CC_VERSION']
