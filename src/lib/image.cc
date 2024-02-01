@@ -339,6 +339,10 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	   the input image alignment is not PADDED.
 	*/
 	DCPOMATIC_ASSERT (alignment() == Alignment::PADDED);
+	DCPOMATIC_ASSERT(size().width > 0);
+	DCPOMATIC_ASSERT(size().height > 0);
+	DCPOMATIC_ASSERT(out_size.width > 0);
+	DCPOMATIC_ASSERT(out_size.height > 0);
 
 	auto scaled = make_shared<Image>(out_format, out_size, out_alignment);
 	auto scale_context = sws_getContext (
