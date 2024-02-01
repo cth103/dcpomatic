@@ -921,7 +921,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 
 		/* Bitmap subtitles */
 		for (auto i: j.bitmap) {
-			if (!i.image) {
+			if (!i.image || i.image->size().width == 0 || i.image->size().height == 0) {
 				continue;
 			}
 
@@ -942,7 +942,10 @@ Player::open_subtitles_for_frame (DCPTime time) const
 		/* String subtitles (rendered to an image) */
 		if (!j.string.empty()) {
 			auto s = render_text(j.string, _video_container_size, time, vfr);
-			copy (s.begin(), s.end(), back_inserter (captions));
+			copy_if(s.begin(), s.end(), back_inserter(captions), [](PositionImage const& image) {
+				return image.image->size().width && image.image->size().height;
+			});
+
 		}
 	}
 
