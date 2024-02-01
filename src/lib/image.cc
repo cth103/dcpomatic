@@ -351,6 +351,8 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 		(fast ? SWS_FAST_BILINEAR : SWS_BICUBIC) | SWS_ACCURATE_RND, 0, 0, 0
 		);
 
+	DCPOMATIC_ASSERT(scale_context);
+
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
 	EnumIndexedVector<int, dcp::YUVToRGB> lut;
 	lut[dcp::YUVToRGB::REC601] = SWS_CS_ITU601;
