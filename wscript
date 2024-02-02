@@ -153,7 +153,7 @@ def configure(conf):
             pass
 
     #
-    # Windows/Linux/OS X specific
+    # Windows/Linux/macOS specific
     #
 
     # Windows
@@ -606,7 +606,7 @@ def configure(conf):
     elif conf.env.TARGET_LINUX:
         Logs.pprint('YELLOW', '\t' + 'Target'.ljust(25) + ': Linux')
     elif conf.env.TARGET_OSX:
-        Logs.pprint('YELLOW', '\t' + 'Target'.ljust(25) + ': OS X')
+        Logs.pprint('YELLOW', '\t' + 'Target'.ljust(25) + ': macOS')
 
     def report(name, variable):
         linkage = ''
