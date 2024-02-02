@@ -150,9 +150,9 @@ public:
 		add_label_to_sizer (grid, overall_panel, _("Drive"), true, wxGBPosition(r, 0));
 		auto drive_sizer = new wxBoxSizer (wxHORIZONTAL);
 		_drive = new wxChoice (overall_panel, wxID_ANY);
-		drive_sizer->Add (_drive, 1, wxALIGN_CENTER_VERTICAL | wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+		drive_sizer->Add(_drive, 1, wxTOP, 2);
 		_drive_refresh = new wxButton (overall_panel, wxID_ANY, _("Refresh"));
-		drive_sizer->Add (_drive_refresh, 0);
+		drive_sizer->Add(_drive_refresh, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 		grid->Add (drive_sizer, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 		++r;
 

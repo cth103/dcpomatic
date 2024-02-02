@@ -41,11 +41,11 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 
 	/* CPL choice */
 	auto s = new wxBoxSizer (wxHORIZONTAL);
-	add_label_to_sizer (s, this, _("CPL"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
+	add_label_to_sizer (s, this, _("CPL"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	_cpl = new wxChoice (this, wxID_ANY);
-	s->Add (_cpl, 1, wxEXPAND);
+	s->Add (_cpl, 1, wxTOP | wxEXPAND, DCPOMATIC_CHOICE_TOP_PAD);
 	_cpl_browse = new Button (this, _("Browse..."));
-	s->Add (_cpl_browse, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
+	s->Add (_cpl_browse, 0, wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	vertical->Add (s, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 
 	/* CPL details */

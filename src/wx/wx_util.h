@@ -74,7 +74,7 @@ class PasswordEntry;
 
 /** Amount by which you need to top-pad a choice to make it line up, in some cases */
 #ifdef DCPOMATIC_OSX
-#define DCPOMATIC_CHOICE_TOP_PAD 1
+#define DCPOMATIC_CHOICE_TOP_PAD 2
 #else
 #define DCPOMATIC_CHOICE_TOP_PAD 0
 #endif
