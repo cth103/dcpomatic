@@ -203,7 +203,7 @@ alpha_blend_test_rgba64be_onto(AVPixelFormat format, string suffix)
 	for (int y = 0; y < 128; ++y) {
 		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + y * overlay->stride()[0]);
 		for (int x = 0; x < 128; ++x) {
-			p[x * 4 + 2] = 65535;
+			p[x * 4 + 0] = 65535;
 			p[x * 4 + 3] = 65535;
 		}
 	}
@@ -219,7 +219,7 @@ alpha_blend_test_rgba64be_onto(AVPixelFormat format, string suffix)
 	for (int y = 256; y < 384; ++y) {
 		auto p = reinterpret_cast<uint16_t*>(overlay->data()[0] + y * overlay->stride()[0]);
 		for (int x = 0; x < 128; ++x) {
-			p[x * 4] = 65535;
+			p[x * 4 + 2] = 65535;
 			p[x * 4 + 3] = 65535;
 		}
 	}
@@ -242,8 +242,10 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_RGB48LE, "rgb48le");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P, "yuv420p");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
-	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p9le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P9LE, "yuv422p9le");
 	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV444P9LE, "yuv444p9le");
+	alpha_blend_test_bgra_onto(AV_PIX_FMT_YUV444P10LE, "yuv444p10le");
 
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_RGB24, "rgb24");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_BGRA, "bgra");
@@ -251,8 +253,10 @@ BOOST_AUTO_TEST_CASE (alpha_blend_test)
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_RGB48LE, "rgb48le");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV420P, "yuv420p");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV420P10, "yuv420p10");
-	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p9le");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV422P9LE, "yuv422p9le");
 	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV422P10LE, "yuv422p10le");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV444P9LE, "yuv444p9le");
+	alpha_blend_test_rgba64be_onto(AV_PIX_FMT_YUV444P10LE, "yuv444p10le");
 }
 
 

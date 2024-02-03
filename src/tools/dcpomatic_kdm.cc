@@ -294,7 +294,7 @@ private:
 #endif
 
 #ifdef __WXOSX__
-		file->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
+		file->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 #else
 		wxMenu* edit = new wxMenu;
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));

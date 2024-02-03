@@ -339,6 +339,10 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 	   the input image alignment is not PADDED.
 	*/
 	DCPOMATIC_ASSERT (alignment() == Alignment::PADDED);
+	DCPOMATIC_ASSERT(size().width > 0);
+	DCPOMATIC_ASSERT(size().height > 0);
+	DCPOMATIC_ASSERT(out_size.width > 0);
+	DCPOMATIC_ASSERT(out_size.height > 0);
 
 	auto scaled = make_shared<Image>(out_format, out_size, out_alignment);
 	auto scale_context = sws_getContext (
@@ -346,6 +350,8 @@ Image::scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_fo
 		out_size.width, out_size.height, out_format,
 		(fast ? SWS_FAST_BILINEAR : SWS_BICUBIC) | SWS_ACCURATE_RND, 0, 0, 0
 		);
+
+	DCPOMATIC_ASSERT(scale_context);
 
 	DCPOMATIC_ASSERT (yuv_to_rgb < dcp::YUVToRGB::COUNT);
 	EnumIndexedVector<int, dcp::YUVToRGB> lut;
@@ -642,7 +648,8 @@ struct TargetParams
 };
 
 
-struct OtherParams
+/** Parameters of the other image (the one being blended onto the target) when target and other are RGB */
+struct OtherRGBParams
 {
 	int start_x;
 	int start_y;
@@ -661,9 +668,24 @@ struct OtherParams
 };
 
 
+/** Parameters of the other image (the one being blended onto the target) when target and other are YUV */
+struct OtherYUVParams
+{
+	int start_x;
+	int start_y;
+	dcp::Size size;
+	uint8_t* const* data;
+	int const* stride;
+
+	uint8_t* const* alpha_data;
+	int const* alpha_stride;
+	int alpha_bpp;
+};
+
+
 template <class OtherType>
 void
-alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_rgb24(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	/* Going onto RGB24.  First byte is red, second green, third blue */
 	auto const alpha_divisor = other.alpha_divisor();
@@ -685,7 +707,7 @@ alpha_blend_onto_rgb24(TargetParams const& target, OtherParams const& other, int
 
 template <class OtherType>
 void
-alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_bgra(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
@@ -707,7 +729,7 @@ alpha_blend_onto_bgra(TargetParams const& target, OtherParams const& other, int 
 
 template <class OtherType>
 void
-alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_rgba(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
@@ -729,7 +751,7 @@ alpha_blend_onto_rgba(TargetParams const& target, OtherParams const& other, int 
 
 template <class OtherType>
 void
-alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_scale)
+alpha_blend_onto_rgb48le(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_scale)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	for (int ty = target.start_y, oy = other.start_y; ty < target.size.height && oy < other.size.height; ++ty, ++oy) {
@@ -750,7 +772,7 @@ alpha_blend_onto_rgb48le(TargetParams const& target, OtherParams const& other, i
 
 template <class OtherType>
 void
-alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
+alpha_blend_onto_xyz12le(TargetParams const& target, OtherRGBParams const& other, int red, int blue, std::function<float (OtherType*)> get, int value_divisor)
 {
 	auto const alpha_divisor = other.alpha_divisor();
 	auto conv = dcp::ColourConversion::srgb_to_xyz();
@@ -788,7 +810,7 @@ alpha_blend_onto_xyz12le(TargetParams const& target, OtherParams const& other, i
 
 static
 void
-alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv420p(TargetParams const& target, OtherYUVParams const& other, std::function<float (uint8_t* data)> get_alpha)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -801,9 +823,9 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, u
 		uint8_t* oY = other.data[0] + (oy * other.stride[0]) + other.start_x;
 		uint8_t* oU = other.data[1] + (hoy * other.stride[1]) + other.start_x / 2;
 		uint8_t* oV = other.data[2] + (hoy * other.stride[2]) + other.start_x / 2;
-		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
-			float const a = float(alpha[3]) / 255;
+			float const a = get_alpha(alpha);
 			*tY = *oY * a + *tY * (1 - a);
 			*tU = *oU * a + *tU * (1 - a);
 			*tV = *oV * a + *tV * (1 - a);
@@ -817,7 +839,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, u
 				++oU;
 				++oV;
 			}
-			alpha += 4;
+			alpha += other.alpha_bpp;
 		}
 	}
 }
@@ -825,7 +847,7 @@ alpha_blend_onto_yuv420p(TargetParams const& target, OtherParams const& other, u
 
 static
 void
-alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv420p10(TargetParams const& target, OtherYUVParams const& other, std::function<float (uint8_t* data)> get_alpha)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -838,9 +860,9 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other,
 		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (hoy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (hoy * other.stride[2])) + other.start_x / 2;
-		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
-			float const a = float(alpha[3]) / 255;
+			float const a = get_alpha(alpha);
 			*tY = *oY * a + *tY * (1 - a);
 			*tU = *oU * a + *tU * (1 - a);
 			*tV = *oV * a + *tV * (1 - a);
@@ -854,7 +876,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other,
 				++oU;
 				++oV;
 			}
-			alpha += 4;
+			alpha += other.alpha_bpp;
 		}
 	}
 }
@@ -862,7 +884,7 @@ alpha_blend_onto_yuv420p10(TargetParams const& target, OtherParams const& other,
 
 static
 void
-alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherParams const& other, uint8_t* const* alpha_data, int const* alpha_stride)
+alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherYUVParams const& other, std::function<float (uint8_t* data)> get_alpha)
 {
 	auto const ts = target.size;
 	auto const os = other.size;
@@ -873,9 +895,9 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherParams const& o
 		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
 		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (oy * other.stride[1])) + other.start_x / 2;
 		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (oy * other.stride[2])) + other.start_x / 2;
-		uint8_t* alpha = alpha_data[0] + (oy * alpha_stride[0]) + other.start_x * 4;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
 		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
-			float const a = float(alpha[3]) / 255;
+			float const a = get_alpha(alpha);
 			*tY = *oY * a + *tY * (1 - a);
 			*tU = *oU * a + *tU * (1 - a);
 			*tV = *oV * a + *tV * (1 - a);
@@ -889,7 +911,38 @@ alpha_blend_onto_yuv422p9or10le(TargetParams const& target, OtherParams const& o
 				++oU;
 				++oV;
 			}
-			alpha += 4;
+			alpha += other.alpha_bpp;
+		}
+	}
+}
+
+
+static
+void
+alpha_blend_onto_yuv444p9or10le(TargetParams const& target, OtherYUVParams const& other, std::function<float (uint8_t* data)> get_alpha)
+{
+	auto const ts = target.size;
+	auto const os = other.size;
+	for (int ty = target.start_y, oy = other.start_y; ty < ts.height && oy < os.height; ++ty, ++oy) {
+		uint16_t* tY = reinterpret_cast<uint16_t*>(target.data[0] + (ty * target.stride[0])) + target.start_x;
+		uint16_t* tU = reinterpret_cast<uint16_t*>(target.data[1] + (ty * target.stride[1])) + target.start_x;
+		uint16_t* tV = reinterpret_cast<uint16_t*>(target.data[2] + (ty * target.stride[2])) + target.start_x;
+		uint16_t* oY = reinterpret_cast<uint16_t*>(other.data[0] + (oy * other.stride[0])) + other.start_x;
+		uint16_t* oU = reinterpret_cast<uint16_t*>(other.data[1] + (oy * other.stride[1])) + other.start_x;
+		uint16_t* oV = reinterpret_cast<uint16_t*>(other.data[2] + (oy * other.stride[2])) + other.start_x;
+		uint8_t* alpha = other.alpha_data[0] + (oy * other.alpha_stride[0]) + other.start_x * other.alpha_bpp;
+		for (int tx = target.start_x, ox = other.start_x; tx < ts.width && ox < os.width; ++tx, ++ox) {
+			float const a = get_alpha(alpha);
+			*tY = *oY * a + *tY * (1 - a);
+			*tU = *oU * a + *tU * (1 - a);
+			*tV = *oV * a + *tV * (1 - a);
+			++tY;
+			++oY;
+			++tU;
+			++tV;
+			++oU;
+			++oV;
+			alpha += other.alpha_bpp;
 		}
 	}
 }
@@ -932,12 +985,23 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		0
 	};
 
-	OtherParams other_params = {
+	OtherRGBParams other_rgb_params = {
 		start_ox,
 		start_oy,
 		other->size(),
 		other->data(),
 		other->stride(),
+		other->pixel_format() == AV_PIX_FMT_RGBA64BE ? 8 : 4
+	};
+
+	OtherYUVParams other_yuv_params = {
+		start_ox,
+		start_oy,
+		other->size(),
+		other->data(),
+		other->stride(),
+		nullptr,
+		nullptr,
 		other->pixel_format() == AV_PIX_FMT_RGBA64BE ? 8 : 4
 	};
 
@@ -949,70 +1013,111 @@ Image::alpha_blend (shared_ptr<const Image> other, Position<int> position)
 		return *p;
 	};
 
+	auto get_alpha_64be = [](uint8_t* p) {
+		return ((static_cast<int16_t>(p[6]) << 8) | p[7]) / 65535.0f;
+	};
+
+	auto get_alpha_byte = [](uint8_t* p) {
+		return p[3] / 255.0f;
+	};
+
 	switch (_pixel_format) {
 	case AV_PIX_FMT_RGB24:
 		target_params.bpp = 3;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_rgb24<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_rgb24<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_rgb24<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_rgb24<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_BGRA:
 		target_params.bpp = 4;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_bgra<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_bgra<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_bgra<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_bgra<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_RGBA:
 		target_params.bpp = 4;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_rgba<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_rgba<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_rgba<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_rgba<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_RGB48LE:
 		target_params.bpp = 6;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_rgb48le<uint16_t>(target_params, other_params, red, blue, byteswap, 1);
+			alpha_blend_onto_rgb48le<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 1);
 		} else {
-			alpha_blend_onto_rgb48le<uint8_t>(target_params, other_params, red, blue, pass, 256);
+			alpha_blend_onto_rgb48le<uint8_t>(target_params, other_rgb_params, red, blue, pass, 256);
 		}
 		break;
 	case AV_PIX_FMT_XYZ12LE:
 		target_params.bpp = 6;
 		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
-			alpha_blend_onto_xyz12le<uint16_t>(target_params, other_params, red, blue, byteswap, 256);
+			alpha_blend_onto_xyz12le<uint16_t>(target_params, other_rgb_params, red, blue, byteswap, 256);
 		} else {
-			alpha_blend_onto_xyz12le<uint8_t>(target_params, other_params, red, blue, pass, 1);
+			alpha_blend_onto_xyz12le<uint8_t>(target_params, other_rgb_params, red, blue, pass, 1);
 		}
 		break;
 	case AV_PIX_FMT_YUV420P:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		other_params.data = yuv->data();
-		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv420p(target_params, other_params, other->data(), other->stride());
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		other_yuv_params.alpha_data = other->data();
+		other_yuv_params.alpha_stride = other->stride();
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_yuv420p(target_params, other_yuv_params, get_alpha_64be);
+		} else {
+			alpha_blend_onto_yuv420p(target_params, other_yuv_params, get_alpha_byte);
+		}
 		break;
 	}
 	case AV_PIX_FMT_YUV420P10:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		other_params.data = yuv->data();
-		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv420p10(target_params, other_params, other->data(), other->stride());
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		other_yuv_params.alpha_data = other->data();
+		other_yuv_params.alpha_stride = other->stride();
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_yuv420p10(target_params, other_yuv_params, get_alpha_64be);
+		} else {
+			alpha_blend_onto_yuv420p10(target_params, other_yuv_params, get_alpha_byte);
+		}
 		break;
 	}
 	case AV_PIX_FMT_YUV422P9LE:
 	case AV_PIX_FMT_YUV422P10LE:
 	{
 		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
-		other_params.data = yuv->data();
-		other_params.stride = yuv->stride();
-		alpha_blend_onto_yuv422p9or10le(target_params, other_params, other->data(), other->stride());
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		other_yuv_params.alpha_data = other->data();
+		other_yuv_params.alpha_stride = other->stride();
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_yuv422p9or10le(target_params, other_yuv_params, get_alpha_64be);
+		} else {
+			alpha_blend_onto_yuv422p9or10le(target_params, other_yuv_params, get_alpha_byte);
+		}
+		break;
+	}
+	case AV_PIX_FMT_YUV444P9LE:
+	case AV_PIX_FMT_YUV444P10LE:
+	{
+		auto yuv = other->convert_pixel_format (dcp::YUVToRGB::REC709, _pixel_format, Alignment::COMPACT, false);
+		other_yuv_params.data = yuv->data();
+		other_yuv_params.stride = yuv->stride();
+		other_yuv_params.alpha_data = other->data();
+		other_yuv_params.alpha_stride = other->stride();
+		if (other->pixel_format() == AV_PIX_FMT_RGBA64BE) {
+			alpha_blend_onto_yuv444p9or10le(target_params, other_yuv_params, get_alpha_64be);
+		} else {
+			alpha_blend_onto_yuv444p9or10le(target_params, other_yuv_params, get_alpha_byte);
+		}
 		break;
 	}
 	default:

@@ -137,7 +137,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_views = v;
 
 	int const N = _cpl_menu->GetMenuItemCount();
-	for (int i = 1; i <= N; ++i) {
+	for (int i = DCPOMATIC_CPL_MENU; i < DCPOMATIC_CPL_MENU + N; ++i) {
 		_cpl_menu->Delete (i);
 	}
 

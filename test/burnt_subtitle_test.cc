@@ -30,6 +30,7 @@
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
+#include "lib/ffmpeg_encoder.h"
 #include "lib/log_entry.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
@@ -184,3 +185,24 @@ BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
 	/* Should have a baseline 864 pixels from the top ((1 - 0.2) * 1080) */
 	check("bottom");
 }
+
+
+/* Bug #2743 */
+BOOST_AUTO_TEST_CASE(burn_empty_subtitle_test)
+{
+	Cleanup cl;
+
+	auto content = content_factory("test/data/empty_sub.xml")[0];
+	auto film = new_test_film2("burnt_empty_subtitle_test", { content });
+	content->text[0]->set_use(true);
+
+	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
+	auto file = boost::filesystem::path("build") / "test" / "burnt_empty_subtitle_test.mov";
+	cl.add(file);
+	FFmpegEncoder encoder(film, job, file, ExportFormat::PRORES_4444, false, false, false, 23);
+	encoder.go();
+
+	cl.run();
+}
+
+
