@@ -131,7 +131,7 @@ public:
 		auto grid = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
 		int r = 0;
-		add_label_to_sizer (grid, overall_panel, _("DCP"), true, wxGBPosition(r, 0));
+		add_label_to_sizer(grid, overall_panel, _("DCPs"), true, wxGBPosition(r, 0));
 		auto dcp_sizer = new wxBoxSizer (wxHORIZONTAL);
 		auto dcps = new EditableList<boost::filesystem::path, DirDialogWrapper>(
 			overall_panel,
@@ -160,7 +160,7 @@ public:
 		grid->Add (_jobs, wxGBPosition(r, 0), wxGBSpan(6, 2), wxEXPAND);
 		r += 6;
 
-		_copy = new wxButton (overall_panel, wxID_ANY, _("Copy DCP"));
+		_copy = new wxButton(overall_panel, wxID_ANY, _("Copy DCPs"));
 		grid->Add (_copy, wxGBPosition(r, 0), wxGBSpan(1, 2), wxEXPAND);
 		++r;
 
