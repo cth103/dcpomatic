@@ -240,44 +240,6 @@ get_model (CFDictionaryRef& description)
 }
 
 
-static optional<OSXMediaPath>
-analyse_media_path (CFDictionaryRef& description)
-{
-	using namespace boost::algorithm;
-
-	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionMediaPathKey);
-	if (!str) {
-		LOG_DISK_NC("There is no MediaPathKey (no dictionary value)");
-		return {};
-	}
-
-	auto path_key_cstr = CFStringGetCStringPtr((CFStringRef) str, kCFStringEncodingUTF8);
-	if (!path_key_cstr) {
-		LOG_DISK_NC("There is no MediaPathKey (no cstring)");
-		return {};
-	}
-
-	string path(path_key_cstr);
-	LOG_DISK("MediaPathKey is %1", path);
-	return analyse_osx_media_path (path);
-}
-
-
-static bool
-is_whole_drive (DADiskRef& disk)
-{
-	io_service_t service = DADiskCopyIOMedia (disk);
-        CFTypeRef whole_media_ref = IORegistryEntryCreateCFProperty (service, CFSTR(kIOMediaWholeKey), kCFAllocatorDefault, 0);
-	bool whole_media = false;
-        if (whole_media_ref) {
-		whole_media = CFBooleanGetValue((CFBooleanRef) whole_media_ref);
-                CFRelease (whole_media_ref);
-        }
-	IOObjectRelease (service);
-	return whole_media;
-}
-
-
 static optional<boost::filesystem::path>
 mount_point (CFDictionaryRef& description)
 {
@@ -294,29 +256,17 @@ mount_point (CFDictionaryRef& description)
 }
 
 
-/* Here follows some rather intricate and (probably) fragile code to find the list of available
- * "real" drives on macOS that we might want to write a DCP to.
- *
- * We use the Disk Arbitration framework to give us a series of mount_points (/dev/disk0, /dev/disk1,
- * /dev/disk1s1 and so on) and we use the API to gather useful information about these mount_points into
- * a vector of Disk structs.
- *
- * Then we read the Disks that we found and try to derive a list of drives that we should offer to the
- * user, with details of whether those drives are currently mounted or not.
- *
- * At the basic level we find the "disk"-level mount_points, looking at whether any of their partitions are mounted.
- *
- * This is complicated enormously by recent-ish macOS versions' habit of making `synthesized' volumes which
- * reflect data in `real' partitions.  So, for example, we might have a real (physical) drive /dev/disk2 with
- * a partition /dev/disk2s2 whose content is made into a synthesized /dev/disk3, itself containing some partitions
- * which are mounted.  /dev/disk2s2 is not considered to be mounted, in this case.  So we need to know that
- * disk2s2 is related to disk3 so we can consider disk2s2 as mounted if any parts of disk3 are.  In order to do
- * this I am taking the first two parts of the IODeviceTree and seeing if they exist anywhere in a
- * IOService identifier.  If they do, I am assuming the IOService device is on the matching IODeviceTree device.
- *
- * Lots of this is guesswork and may be broken.  In my defence the documentation that I have been able to
- * unearth is, to put it impolitely, crap.
- */
+static bool
+get_bool(CFDictionaryRef& description, void const* key)
+{
+	auto value = CFDictionaryGetValue(description, key);
+	if (!value) {
+		return false;
+	}
+
+	return CFBooleanGetValue(reinterpret_cast<CFBooleanRef>(value));
+}
+
 
 static void
 disk_appeared (DADiskRef disk, void* context)
@@ -339,31 +289,29 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.model = get_model (description);
 	LOG_DISK("Vendor/model: %1 %2", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
 
-	auto media_path = analyse_media_path (description);
-	if (!media_path) {
-		LOG_DISK("Finding media path for %1 failed", bsd_name);
-		return;
-	}
-
-	this_disk.media_path = *media_path;
-	this_disk.whole = is_whole_drive (disk);
 	auto mp = mount_point (description);
 	if (mp) {
 		this_disk.mount_points.push_back (*mp);
 	}
-
-	LOG_DISK(
-		"%1 %2 mounted at %3",
-		 this_disk.media_path.real ? "Real" : "Synth",
-		 this_disk.whole ? "whole" : "part",
-		 mp ? mp->string() : "[nowhere]"
-		);
 
 	auto media_size_cstr = CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey);
 	if (!media_size_cstr) {
 		LOG_DISK_NC("Could not read media size");
 		return;
 	}
+
+	this_disk.system = get_bool(description, kDADiskDescriptionDeviceInternalKey) && !get_bool(description, kDADiskDescriptionMediaRemovableKey);
+	this_disk.writeable = get_bool(description, kDADiskDescriptionMediaWritableKey);
+	this_disk.partition = string(bsd_name).find("s", 5) != std::string::npos;
+
+	LOG_DISK(
+		"%1 %2 %3 %4 mounted at %5",
+		bsd_name,
+		this_disk.system ? "system" : "non-system",
+		this_disk.writeable ? "writeable" : "read-only",
+		this_disk.partition ? "partition" : "drive",
+		mp ? mp->string() : "[nowhere]"
+		);
 
 	CFNumberGetValue ((CFNumberRef) media_size_cstr, kCFNumberLongType, &this_disk.size);
 	CFRelease (description);
@@ -395,7 +343,12 @@ Drive::get ()
 	DAUnregisterCallback(session, (void *) disk_appeared, &disks);
 	CFRelease(session);
 
-	auto drives = osx_disks_to_drives(disks);
+	vector<Drive> drives;
+	for (auto const& disk: disks) {
+		if (!disk.system && !disk.partition && disk.writeable) {
+			drives.push_back({disk.device, disk.mount_points, disk.size, disk.vendor, disk.model});
+		}
+	}
 
 	LOG_DISK("Drive::get() found %1 drives:", drives.size());
 	for (auto const& drive: drives) {

@@ -138,27 +138,17 @@ private:
 void disk_write_finished ();
 
 
-struct OSXMediaPath
-{
-	bool real; ///< true for a "real" disk, false for a synthesized APFS one
-	std::vector<std::string> parts; ///< parts of the media path after the :
-};
-
-
 struct OSXDisk
 {
 	std::string device;
 	boost::optional<std::string> vendor;
 	boost::optional<std::string> model;
-	OSXMediaPath media_path;
-	bool whole;
 	std::vector<boost::filesystem::path> mount_points;
 	unsigned long size;
+	bool system;
+	bool writeable;
+	bool partition;
 };
-
-
-boost::optional<OSXMediaPath> analyse_osx_media_path (std::string path);
-std::vector<Drive> osx_disks_to_drives (std::vector<OSXDisk> disks);
 
 
 class ArgFixer

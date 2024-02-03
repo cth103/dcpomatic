@@ -40,9 +40,6 @@ using std::vector;
 using boost::optional;
 
 
-auto constexpr MEDIA_PATH_REQUIRED_MATCHES = 3;
-
-
 Drive::Drive (string xml)
 {
 	cxml::Document doc;
@@ -122,97 +119,3 @@ Drive::log_summary () const
 			);
 }
 
-
-
-/* This is in _common so we can use it in unit tests */
-optional<OSXMediaPath>
-analyse_osx_media_path (string path)
-{
-	if (path.find("/IOHDIXController") != string::npos) {
-		/* This is a disk image, so we completely ignore it */
-		LOG_DISK_NC("Ignoring this as it seems to be a disk image");
-		return {};
-	}
-
-	OSXMediaPath mp;
-	vector<string> parts;
-	split(parts, path, boost::is_any_of("/"));
-	std::copy(parts.begin() + 1, parts.end(), back_inserter(mp.parts));
-
-	if (!parts.empty() && parts[0] == "IODeviceTree:") {
-		mp.real = true;
-		if (mp.parts.size() < MEDIA_PATH_REQUIRED_MATCHES) {
-			/* Later we expect at least MEDIA_PATH_REQUIRED_MATCHES parts in a IODeviceTree */
-			LOG_DISK_NC("Ignoring this as it has a strange media path");
-			return {};
-		}
-	} else if (!parts.empty() && parts[0] == "IOService:") {
-		mp.real = false;
-	} else {
-		return {};
-	}
-
-	return mp;
-}
-
-
-/* Take some OSXDisk objects, representing disks that `DARegisterDiskAppearedCallback` told us about,
- * and find those drives that we could write a DCP to.  The drives returned are "real" (not synthesized)
- * and are whole disks (not partitions).  They may be mounted, or contain mounted partitions, in which
- * their mounted() method will return true.
- */
-vector<Drive>
-osx_disks_to_drives (vector<OSXDisk> disks)
-{
-	using namespace boost::algorithm;
-
-	/* Mark disks containing mounted partitions as themselves mounted */
-	for (auto& i: disks) {
-		if (!i.whole) {
-			continue;
-		}
-		for (auto& j: disks) {
-			if (&i != &j && !j.mount_points.empty() && starts_with(j.device, i.device)) {
-				LOG_DISK("Marking %1 as mounted because %2 is", i.device, j.device);
-				std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
-			}
-		}
-	}
-
-	/* Mark containers of mounted synths as themselves mounted */
-	for (auto& i: disks) {
-		if (i.media_path.real) {
-			for (auto& j: disks) {
-				if (!j.media_path.real && !j.mount_points.empty()) {
-					/* i is real, j is a mounted synth; if we see the first MEDIA_PATH_REQUIRED_MATCHES parts
-					 * of i anywhere in j we assume they are related and so i shares j's mount points.
-					 */
-					bool one_missing = false;
-					string all_parts;
-					DCPOMATIC_ASSERT (i.media_path.parts.size() >= MEDIA_PATH_REQUIRED_MATCHES);
-					for (auto k = 0; k < MEDIA_PATH_REQUIRED_MATCHES; ++k) {
-						if (find(j.media_path.parts.begin(), j.media_path.parts.end(), i.media_path.parts[k]) == j.media_path.parts.end()) {
-							one_missing = true;
-						}
-						all_parts += i.media_path.parts[k] + " ";
-					}
-
-					if (!one_missing) {
-						LOG_DISK("Marking %1 as mounted because %2 is (found %3)", i.device, j.device, all_parts);
-						std::copy(j.mount_points.begin(), j.mount_points.end(), back_inserter(i.mount_points));
-					}
-				}
-			}
-		}
-	}
-
-	vector<Drive> drives;
-	for (auto const& i: disks) {
-		if (i.whole && i.media_path.real) {
-			drives.push_back(Drive(i.device, i.mount_points, i.size, i.vendor, i.model));
-			LOG_DISK_NC(drives.back().log_summary());
-		}
-	}
-
-	return drives;
-}
