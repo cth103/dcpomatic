@@ -210,6 +210,7 @@ def configure(conf):
     if conf.env.TARGET_OSX:
         conf.env.append_value('CXXFLAGS', ['-DDCPOMATIC_OSX', '-DGL_SILENCE_DEPRECATION'])
         conf.env.append_value('LINKFLAGS', '-headerpad_max_install_names')
+        conf.env.append_value('LINKFLAGS', '-llzma')
 
     #
     # Dependencies.
