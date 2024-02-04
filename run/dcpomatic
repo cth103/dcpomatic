@@ -4,6 +4,14 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $DIR/environment
 binary=$build/src/tools/dcpomatic2
 
+if [[ "$(uname -m)" == arm64 ]]; then
+    env=arm64/11.0
+else
+    env=x86_64/10.10
+fi
+
+export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
+
 if [ "$1" == "--debug" ]; then
     shift
     gdb --args $binary $*
