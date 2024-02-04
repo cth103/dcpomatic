@@ -3,9 +3,15 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $DIR/environment
 
+if [[ "$(uname -m)" == arm64 ]]; then
+    env=arm64/11.0
+else
+    env=x86_64/10.10
+fi
+
+export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
+
 exe=build/src/tools/dcpomatic2_disk_writer
-sudo chown root $exe
-sudo chmod 4755 $exe
 
 if [ "$1" == "--debug" ]; then
     shift
@@ -29,5 +35,5 @@ elif [ "$1" == "--scaled" ]; then
     shift
     ~/src/run_scaled/run_scaled --sleep=5 --scale=0.5 $exe $*
 else
-    $exe $*
+    sudo DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH $exe $*
 fi
