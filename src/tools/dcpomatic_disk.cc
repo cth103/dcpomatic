@@ -43,6 +43,7 @@
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 #include <wx/cmdline.h>
+#include <wx/progdlg.h>
 #include <wx/wx.h>
 LIBDCP_DISABLE_WARNINGS
 #include <boost/process.hpp>
@@ -181,7 +182,17 @@ public:
 		dcpomatic_log->set_types (dcpomatic_log->types() | LogEntry::TYPE_DISK);
 		LOG_DISK("dcpomatic_disk %1 started", dcpomatic_git_commit);
 
-		drive_refresh ();
+		{
+			int constexpr seconds_to_look = 3;
+			wxProgressDialog find_drives_progress(_("Disk Writer"), _("Finding disks"), seconds_to_look * 4, this);
+			for (auto i = 0; i < seconds_to_look * 4; ++i) {
+				if (!find_drives_progress.Update(i)) {
+					break;
+				}
+				drive_refresh();
+				dcpomatic_sleep_milliseconds(250);
+			}
+		}
 
 		Bind (wxEVT_SIZE, boost::bind(&DOMFrame::sized, this, _1));
 		Bind (wxEVT_CLOSE_WINDOW, boost::bind(&DOMFrame::close, this, _1));
