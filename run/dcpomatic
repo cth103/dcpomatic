@@ -16,7 +16,11 @@ export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
 
 if [ "$1" == "--debug" ]; then
     shift
-    gdb --args $binary $*
+    if [[ "$(uname)" == Darwin ]]; then
+        /Applications/Xcode.app/Contents/Developer/usr/bin/lldb $binary $*
+    else
+        gdb --args $binary $*
+    fi
 elif [ "$1" == "--valgrind" ]; then
     shift
     valgrind --tool="memcheck" --suppressions=suppressions --track-fds=yes --show-leak-kinds=all --leak-check=full $binary $*
