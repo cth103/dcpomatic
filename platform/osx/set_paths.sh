@@ -1,5 +1,9 @@
 base=$HOME/workspace
-env=$HOME/osx-environment/x86_64/10.10
+if [[ "$(uname -m)" == arm64 ]]; then
+	env=$HOME/osx-environment/arm64/11.0
+else
+	env=$HOME/osx-environment/x86_64/10.10
+fi
 sdk=$HOME/SDK
 
 export CPPFLAGS= LDFLAGS="-L$base/lib -L$env/lib -isysroot $sdk/MacOSX11.0.sdk -arch x86_64"
