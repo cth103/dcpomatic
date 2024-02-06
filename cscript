@@ -508,7 +508,7 @@ def dependencies(target, options):
         deps = []
 
     deps.append(('libdcp', 'v1.8.94'))
-    deps.append(('libsub', 'v1.6.46'))
+    deps.append(('libsub', 'v1.6.47'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
     # We get our OpenSSL libraries from the environment, but we

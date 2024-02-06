@@ -25,6 +25,7 @@
 #include "string_text_file_content.h"
 #include <dcp/file.h>
 #include <sub/collect.h>
+#include <sub/exceptions.h>
 #include <sub/ssa_reader.h>
 #include <sub/stl_binary_reader.h>
 #include <sub/subrip_reader.h>
@@ -105,9 +106,14 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 		if (ext == ".srt") {
 			try {
 				reader.reset(new sub::SubripReader(utf8.get()));
-			} catch (...) {
-				/* Sometimes files are have the .srt extension but are really WEBVTT */
-				reader.reset(new sub::WebVTTReader(utf8.get()));
+			} catch (sub::SubripError& subrip_error) {
+				/* Sometimes files are have the .srt extension but are really WEBVTT... */
+				try {
+					reader.reset(new sub::WebVTTReader(utf8.get()));
+				} catch (sub::WebVTTHeaderError&) {
+					/* ...but in this case there isn't even a WebVTT error */
+					throw subrip_error;
+				}
 			}
 		} else if (ext == ".ssa" || ext == ".ass") {
 			reader.reset(new sub::SSAReader(utf8.get()));
