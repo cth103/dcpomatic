@@ -52,7 +52,7 @@ public:
 
 	/* Default copy constructor is fine */
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 
 	void make_zero ();
 	void make_default (AudioProcessor const * processor, boost::optional<boost::filesystem::path> filename = boost::optional<boost::filesystem::path>());

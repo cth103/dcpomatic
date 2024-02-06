@@ -48,7 +48,7 @@ public:
 
 	FFmpegAudioStream (cxml::ConstNodePtr, int);
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 
 	/* XXX: should probably be locked */
 

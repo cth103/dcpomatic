@@ -380,91 +380,91 @@ Film::metadata (bool with_content_paths) const
 	auto doc = make_shared<xmlpp::Document>();
 	auto root = doc->create_root_node ("Metadata");
 
-	root->add_child("Version")->add_child_text (raw_convert<string> (current_state_version));
-	auto last_write = root->add_child("LastWrittenBy");
+	cxml::add_text_child(root, "Version", raw_convert<string>(current_state_version));
+	auto last_write = cxml::add_child(root, "LastWrittenBy");
 	last_write->add_child_text (dcpomatic_version);
 	last_write->set_attribute("git", dcpomatic_git_commit);
-	root->add_child("Name")->add_child_text (_name);
-	root->add_child("UseISDCFName")->add_child_text (_use_isdcf_name ? "1" : "0");
+	cxml::add_text_child(root, "Name", _name);
+	cxml::add_text_child(root, "UseISDCFName", _use_isdcf_name ? "1" : "0");
 
 	if (_dcp_content_type) {
-		root->add_child("DCPContentType")->add_child_text (_dcp_content_type->isdcf_name ());
+		cxml::add_text_child(root, "DCPContentType", _dcp_content_type->isdcf_name());
 	}
 
 	if (_container) {
-		root->add_child("Container")->add_child_text (_container->id ());
+		cxml::add_text_child(root, "Container", _container->id());
 	}
 
-	root->add_child("Resolution")->add_child_text (resolution_to_string (_resolution));
-	root->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
-	root->add_child("VideoFrameRate")->add_child_text (raw_convert<string> (_video_frame_rate));
-	root->add_child("AudioFrameRate")->add_child_text(raw_convert<string>(_audio_frame_rate));
-	root->add_child("ISDCFDate")->add_child_text (boost::gregorian::to_iso_string (_isdcf_date));
-	root->add_child("AudioChannels")->add_child_text (raw_convert<string> (_audio_channels));
-	root->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
-	root->add_child("Sequence")->add_child_text (_sequence ? "1" : "0");
-	root->add_child("Interop")->add_child_text (_interop ? "1" : "0");
-	root->add_child("LimitToSMPTEBv20")->add_child_text(_limit_to_smpte_bv20 ? "1" : "0");
-	root->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
-	root->add_child("Key")->add_child_text (_key.hex ());
-	root->add_child("ContextID")->add_child_text (_context_id);
+	cxml::add_text_child(root, "Resolution", resolution_to_string(_resolution));
+	cxml::add_text_child(root, "J2KBandwidth", raw_convert<string>(_j2k_bandwidth));
+	cxml::add_text_child(root, "VideoFrameRate", raw_convert<string>(_video_frame_rate));
+	cxml::add_text_child(root, "AudioFrameRate", raw_convert<string>(_audio_frame_rate));
+	cxml::add_text_child(root, "ISDCFDate", boost::gregorian::to_iso_string(_isdcf_date));
+	cxml::add_text_child(root, "AudioChannels", raw_convert<string>(_audio_channels));
+	cxml::add_text_child(root, "ThreeD", _three_d ? "1" : "0");
+	cxml::add_text_child(root, "Sequence", _sequence ? "1" : "0");
+	cxml::add_text_child(root, "Interop", _interop ? "1" : "0");
+	cxml::add_text_child(root, "LimitToSMPTEBv20", _limit_to_smpte_bv20 ? "1" : "0");
+	cxml::add_text_child(root, "Encrypted", _encrypted ? "1" : "0");
+	cxml::add_text_child(root, "Key", _key.hex ());
+	cxml::add_text_child(root, "ContextID", _context_id);
 	if (_audio_processor) {
-		root->add_child("AudioProcessor")->add_child_text (_audio_processor->id ());
+		cxml::add_text_child(root, "AudioProcessor", _audio_processor->id());
 	}
-	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
-	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
+	cxml::add_text_child(root, "ReelType", raw_convert<string>(static_cast<int> (_reel_type)));
+	cxml::add_text_child(root, "ReelLength", raw_convert<string>(_reel_length));
 	for (auto boundary: _custom_reel_boundaries) {
-		root->add_child("CustomReelBoundary")->add_child_text(raw_convert<string>(boundary.get()));
+		cxml::add_text_child(root, "CustomReelBoundary", raw_convert<string>(boundary.get()));
 	}
-	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
-	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
+	cxml::add_text_child(root, "ReencodeJ2K", _reencode_j2k ? "1" : "0");
+	cxml::add_text_child(root, "UserExplicitVideoFrameRate", _user_explicit_video_frame_rate ? "1" : "0");
 	for (auto const& marker: _markers) {
-		auto m = root->add_child("Marker");
+		auto m = cxml::add_child(root, "Marker");
 		m->set_attribute("type", dcp::marker_to_string(marker.first));
 		m->add_child_text(raw_convert<string>(marker.second.get()));
 	}
 	for (auto i: _ratings) {
-		i.as_xml (root->add_child("Rating"));
+		i.as_xml(cxml::add_child(root, "Rating"));
 	}
 	for (auto i: _content_versions) {
-		root->add_child("ContentVersion")->add_child_text(i);
+		cxml::add_text_child(root, "ContentVersion", i);
 	}
-	root->add_child("NameLanguage")->add_child_text(_name_language.to_string());
-	root->add_child("TerritoryType")->add_child_text(territory_type_to_string(_territory_type));
+	cxml::add_text_child(root, "NameLanguage", _name_language.to_string());
+	cxml::add_text_child(root, "TerritoryType", territory_type_to_string(_territory_type));
 	if (_release_territory) {
-		root->add_child("ReleaseTerritory")->add_child_text(_release_territory->subtag());
+		cxml::add_text_child(root, "ReleaseTerritory", _release_territory->subtag());
 	}
 	if (_sign_language_video_language) {
-		root->add_child("SignLanguageVideoLanguage")->add_child_text(_sign_language_video_language->to_string());
+		cxml::add_text_child(root, "SignLanguageVideoLanguage", _sign_language_video_language->to_string());
 	}
-	root->add_child("VersionNumber")->add_child_text(raw_convert<string>(_version_number));
-	root->add_child("Status")->add_child_text(dcp::status_to_string(_status));
+	cxml::add_text_child(root, "VersionNumber", raw_convert<string>(_version_number));
+	cxml::add_text_child(root, "Status", dcp::status_to_string(_status));
 	if (_chain) {
-		root->add_child("Chain")->add_child_text(*_chain);
+		cxml::add_text_child(root, "Chain", *_chain);
 	}
 	if (_distributor) {
-		root->add_child("Distributor")->add_child_text(*_distributor);
+		cxml::add_text_child(root, "Distributor", *_distributor);
 	}
 	if (_facility) {
-		root->add_child("Facility")->add_child_text(*_facility);
+		cxml::add_text_child(root, "Facility", *_facility);
 	}
 	if (_studio) {
-		root->add_child("Studio")->add_child_text(*_studio);
+		cxml::add_text_child(root, "Studio", *_studio);
 	}
-	root->add_child("TempVersion")->add_child_text(_temp_version ? "1" : "0");
-	root->add_child("PreRelease")->add_child_text(_pre_release ? "1" : "0");
-	root->add_child("RedBand")->add_child_text(_red_band ? "1" : "0");
-	root->add_child("TwoDVersionOfThreeD")->add_child_text(_two_d_version_of_three_d ? "1" : "0");
+	cxml::add_text_child(root, "TempVersion", _temp_version ? "1" : "0");
+	cxml::add_text_child(root, "PreRelease", _pre_release ? "1" : "0");
+	cxml::add_text_child(root, "RedBand", _red_band ? "1" : "0");
+	cxml::add_text_child(root, "TwoDVersionOfThreeD", _two_d_version_of_three_d ? "1" : "0");
 	if (_luminance) {
-		root->add_child("LuminanceValue")->add_child_text(raw_convert<string>(_luminance->value()));
-		root->add_child("LuminanceUnit")->add_child_text(dcp::Luminance::unit_to_string(_luminance->unit()));
+		cxml::add_text_child(root, "LuminanceValue", raw_convert<string>(_luminance->value()));
+		cxml::add_text_child(root, "LuminanceUnit", dcp::Luminance::unit_to_string(_luminance->unit()));
 	}
-	root->add_child("UserExplicitContainer")->add_child_text(_user_explicit_container ? "1" : "0");
-	root->add_child("UserExplicitResolution")->add_child_text(_user_explicit_resolution ? "1" : "0");
+	cxml::add_text_child(root, "UserExplicitContainer", _user_explicit_container ? "1" : "0");
+	cxml::add_text_child(root, "UserExplicitResolution", _user_explicit_resolution ? "1" : "0");
 	if (_audio_language) {
-		root->add_child("AudioLanguage")->add_child_text(_audio_language->to_string());
+		cxml::add_text_child(root, "AudioLanguage", _audio_language->to_string());
 	}
-	_playlist->as_xml (root->add_child ("Playlist"), with_content_paths);
+	_playlist->as_xml(cxml::add_child(root, "Playlist"), with_content_paths);
 
 	return doc;
 }
@@ -2310,7 +2310,7 @@ Film::write_ui_state() const
 	auto root = doc->create_root_node("UI");
 
 	for (auto state: _ui_state) {
-		root->add_child(state.first)->add_child_text(state.second);
+		cxml::add_text_child(root, state.first, state.second);
 	}
 
 	try {

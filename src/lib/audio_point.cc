@@ -72,6 +72,6 @@ AudioPoint::operator= (AudioPoint const & other)
 void
 AudioPoint::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child("Peak")->add_child_text(raw_convert<string>(_data[PEAK]));
-	parent->add_child("RMS")->add_child_text(raw_convert<string>(_data[RMS]));
+	cxml::add_text_child(parent, "Peak", raw_convert<string>(_data[PEAK]));
+	cxml::add_text_child(parent, "RMS", raw_convert<string>(_data[RMS]));
 }

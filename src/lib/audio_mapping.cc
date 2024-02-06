@@ -220,17 +220,17 @@ AudioMapping::get (int input_channel, int output_channel) const
 
 
 void
-AudioMapping::as_xml (xmlpp::Node* node) const
+AudioMapping::as_xml(xmlpp::Element* element) const
 {
 	auto const input = input_channels();
 	auto const output = output_channels();
 
-	node->add_child("InputChannels")->add_child_text(raw_convert<string>(input));
-	node->add_child("OutputChannels")->add_child_text(raw_convert<string>(output));
+	cxml::add_text_child(element, "InputChannels", raw_convert<string>(input));
+	cxml::add_text_child(element, "OutputChannels", raw_convert<string>(output));
 
 	for (int c = 0; c < input; ++c) {
 		for (int d = 0; d < output; ++d) {
-			auto t = node->add_child ("Gain");
+			auto t = cxml::add_child(element, "Gain");
 			t->set_attribute("input", raw_convert<string>(c));
 			t->set_attribute("output", raw_convert<string>(d));
 			t->add_child_text (raw_convert<string> (get (c, d)));

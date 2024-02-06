@@ -63,11 +63,11 @@ Font& Font::operator=(Font const& other)
 
 
 void
-Font::as_xml (xmlpp::Node* node)
+Font::as_xml(xmlpp::Element* element)
 {
-	node->add_child("Id")->add_child_text(_id);
+	cxml::add_text_child(element, "Id", _id);
 	if (_content.file) {
-		node->add_child("File")->add_child_text(_content.file->string());
+		cxml::add_text_child(element, "File", _content.file->string());
 	}
 }
 

@@ -48,7 +48,7 @@ DKDMRecipient::as_xml (xmlpp::Element* node) const
 	KDMRecipient::as_xml (node);
 
 	for (auto i: emails) {
-		node->add_child("Email")->add_child_text(i);
+		cxml::add_text_child(node, "Email", i);
 	}
 }
 

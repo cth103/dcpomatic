@@ -192,15 +192,15 @@ J2KImageProxy::image (Image::Alignment alignment, optional<dcp::Size> target_siz
 
 
 void
-J2KImageProxy::add_metadata (xmlpp::Node* node) const
+J2KImageProxy::add_metadata(xmlpp::Element* element) const
 {
-	node->add_child("Type")->add_child_text(N_("J2K"));
-	node->add_child("Width")->add_child_text(raw_convert<string>(_size.width));
-	node->add_child("Height")->add_child_text(raw_convert<string>(_size.height));
+	cxml::add_text_child(element, "Type", N_("J2K"));
+	cxml::add_text_child(element, "Width", raw_convert<string>(_size.width));
+	cxml::add_text_child(element, "Height", raw_convert<string>(_size.height));
 	if (_eye) {
-		node->add_child("Eye")->add_child_text(raw_convert<string>(static_cast<int>(_eye.get())));
+		cxml::add_text_child(element, "Eye", raw_convert<string>(static_cast<int>(_eye.get())));
 	}
-	node->add_child("Size")->add_child_text(raw_convert<string>(_data->size()));
+	cxml::add_text_child(element, "Size", raw_convert<string>(_data->size()));
 }
 
 

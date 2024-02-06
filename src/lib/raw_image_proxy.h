@@ -37,7 +37,7 @@ public:
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const override;
 
-	void add_metadata (xmlpp::Node *) const override;
+	void add_metadata(xmlpp::Element*) const override;
 	void write_to_socket (std::shared_ptr<Socket>) const override;
 	bool same (std::shared_ptr<const ImageProxy>) const override;
 	size_t memory_used () const override;

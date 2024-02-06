@@ -77,7 +77,7 @@ ExportConfig::read(cxml::ConstNodePtr node)
 
 
 void
-ExportConfig::write(xmlpp::Element* node) const
+ExportConfig::write(xmlpp::Element* element) const
 {
 	string name;
 
@@ -97,11 +97,11 @@ ExportConfig::write(xmlpp::Element* node) const
 			break;
 	}
 
-	node->add_child("Format")->add_child_text(name);
-	node->add_child("MixdownToStereo")->add_child_text(_mixdown_to_stereo ? "1" : "0");
-	node->add_child("SplitReels")->add_child_text(_split_reels ? "1" : "0");
-	node->add_child("SplitStreams")->add_child_text(_split_streams ? "1" : "0");
-	node->add_child("X264CRF")->add_child_text(dcp::raw_convert<string>(_x264_crf));
+	cxml::add_text_child(element, "Format", name);
+	cxml::add_text_child(element, "MixdownToStereo", _mixdown_to_stereo ? "1" : "0");
+	cxml::add_text_child(element, "SplitReels", _split_reels ? "1" : "0");
+	cxml::add_text_child(element, "SplitStreams", _split_streams ? "1" : "0");
+	cxml::add_text_child(element, "X264CRF", dcp::raw_convert<string>(_x264_crf));
 }
 
 

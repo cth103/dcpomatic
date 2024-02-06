@@ -63,10 +63,10 @@ AtmosContent::from_xml (Content* parent, cxml::ConstNodePtr node)
 
 
 void
-AtmosContent::as_xml (xmlpp::Node* node) const
+AtmosContent::as_xml(xmlpp::Element* element) const
 {
-	node->add_child("AtmosLength")->add_child_text(dcp::raw_convert<string>(_length));
-	node->add_child("AtmosEditRate")->add_child_text(_edit_rate.as_string());
+	cxml::add_text_child(element, "AtmosLength", dcp::raw_convert<string>(_length));
+	cxml::add_text_child(element, "AtmosEditRate", _edit_rate.as_string());
 }
 
 

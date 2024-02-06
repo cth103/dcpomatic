@@ -355,95 +355,97 @@ DCPContent::technical_summary () const
 	return s;
 }
 
-void
-DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
-{
-	node->add_child("Type")->add_child_text ("DCP");
 
-	Content::as_xml (node, with_paths);
+void
+DCPContent::as_xml(xmlpp::Element* element, bool with_paths) const
+{
+	cxml::add_text_child(element, "Type", "DCP");
+
+	Content::as_xml(element, with_paths);
 
 	if (video) {
-		video->as_xml (node);
+		video->as_xml(element);
 	}
 
 	if (audio) {
-		audio->as_xml (node);
-		node->add_child("AudioFrameRate")->add_child_text (raw_convert<string> (audio->stream()->frame_rate()));
-		node->add_child("AudioLength")->add_child_text (raw_convert<string> (audio->stream()->length()));
-		audio->stream()->mapping().as_xml (node->add_child("AudioMapping"));
+		audio->as_xml(element);
+		cxml::add_text_child(element, "AudioFrameRate", raw_convert<string>(audio->stream()->frame_rate()));
+		cxml::add_text_child(element, "AudioLength", raw_convert<string>(audio->stream()->length()));
+		audio->stream()->mapping().as_xml(cxml::add_child(element, "AudioMapping"));
 	}
 
 	for (auto i: text) {
-		i->as_xml (node);
+		i->as_xml(element);
 	}
 
 	if (atmos) {
-		atmos->as_xml (node);
+		atmos->as_xml(element);
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
 
-	node->add_child("Name")->add_child_text (_name);
-	node->add_child("Encrypted")->add_child_text (_encrypted ? "1" : "0");
-	node->add_child("NeedsAssets")->add_child_text (_needs_assets ? "1" : "0");
+	cxml::add_text_child(element, "Name", _name);
+	cxml::add_text_child(element, "Encrypted", _encrypted ? "1" : "0");
+	cxml::add_text_child(element, "NeedsAssets", _needs_assets ? "1" : "0");
 	if (_kdm) {
-		node->add_child("KDM")->add_child_text (_kdm->as_xml ());
+		cxml::add_text_child(element, "KDM", _kdm->as_xml());
 	}
-	node->add_child("KDMValid")->add_child_text (_kdm_valid ? "1" : "0");
-	node->add_child("ReferenceVideo")->add_child_text (_reference_video ? "1" : "0");
-	node->add_child("ReferenceAudio")->add_child_text (_reference_audio ? "1" : "0");
-	node->add_child("ReferenceOpenSubtitle")->add_child_text(_reference_text[TextType::OPEN_SUBTITLE] ? "1" : "0");
-	node->add_child("ReferenceClosedCaption")->add_child_text(_reference_text[TextType::CLOSED_CAPTION] ? "1" : "0");
+	cxml::add_text_child(element, "KDMValid", _kdm_valid ? "1" : "0");
+	cxml::add_text_child(element, "ReferenceVideo", _reference_video ? "1" : "0");
+	cxml::add_text_child(element, "ReferenceAudio", _reference_audio ? "1" : "0");
+	cxml::add_text_child(element, "ReferenceOpenSubtitle", _reference_text[TextType::OPEN_SUBTITLE] ? "1" : "0");
+	cxml::add_text_child(element, "ReferenceClosedCaption", _reference_text[TextType::CLOSED_CAPTION] ? "1" : "0");
 	if (_standard) {
 		switch (_standard.get ()) {
 		case dcp::Standard::INTEROP:
-			node->add_child("Standard")->add_child_text ("Interop");
+			cxml::add_text_child(element, "Standard", "Interop");
 			break;
 		case dcp::Standard::SMPTE:
-			node->add_child("Standard")->add_child_text ("SMPTE");
+			cxml::add_text_child(element, "Standard", "SMPTE");
 			break;
 		default:
 			DCPOMATIC_ASSERT (false);
 		}
 	}
-	node->add_child("ThreeD")->add_child_text (_three_d ? "1" : "0");
+	cxml::add_text_child(element, "ThreeD", _three_d ? "1" : "0");
 	if (_content_kind) {
-		node->add_child("ContentKind")->add_child_text(_content_kind->name());
+		cxml::add_text_child(element, "ContentKind", _content_kind->name());
 	}
 	if (_cpl) {
-		node->add_child("CPL")->add_child_text (_cpl.get ());
+		cxml::add_text_child(element, "CPL", _cpl.get());
 	}
 	for (auto i: _reel_lengths) {
-		node->add_child("ReelLength")->add_child_text (raw_convert<string> (i));
+		cxml::add_text_child(element, "ReelLength", raw_convert<string>(i));
 	}
 
 	for (auto const& i: _markers) {
-		auto marker = node->add_child("Marker");
+		auto marker = cxml::add_child(element, "Marker");
 		marker->set_attribute("type", dcp::marker_to_string(i.first));
 		marker->add_child_text(raw_convert<string>(i.second.get()));
 	}
 
 	for (auto i: _ratings) {
-		auto rating = node->add_child("Rating");
+		auto rating = cxml::add_child(element, "Rating");
 		i.as_xml (rating);
 	}
 
 	for (auto i: _content_versions) {
-		node->add_child("ContentVersion")->add_child_text(i);
+		cxml::add_text_child(element, "ContentVersion", i);
 	}
 
 	if (_active_audio_channels) {
-		node->add_child("ActiveAudioChannels")->add_child_text(raw_convert<string>(*_active_audio_channels));
+		cxml::add_text_child(element, "ActiveAudioChannels", raw_convert<string>(*_active_audio_channels));
 	}
 
 	for (auto i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
 		if (_has_non_zero_entry_point[i]) {
-			auto has = node->add_child("HasNonZeroEntryPoint");
+			auto has = cxml::add_child(element, "HasNonZeroEntryPoint");
 			has->add_child_text("1");
 			has->set_attribute("type", text_type_to_string(static_cast<TextType>(i)));
 		}
 	}
 }
+
 
 DCPTime
 DCPContent::full_length (shared_ptr<const Film> film) const

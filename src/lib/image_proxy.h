@@ -41,7 +41,7 @@ class Image;
 class Socket;
 
 namespace xmlpp {
-	class Node;
+	class Element;
 }
 
 namespace cxml {
@@ -101,7 +101,7 @@ public:
 		boost::optional<dcp::Size> size = boost::optional<dcp::Size> ()
 		) const = 0;
 
-	virtual void add_metadata (xmlpp::Node *) const = 0;
+	virtual void add_metadata(xmlpp::Element *) const = 0;
 	virtual void write_to_socket (std::shared_ptr<Socket>) const = 0;
 	/** @return true if our image is definitely the same as another, false if it is probably not */
 	virtual bool same (std::shared_ptr<const ImageProxy>) const = 0;

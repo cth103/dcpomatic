@@ -140,23 +140,23 @@ Content::Content (vector<shared_ptr<Content>> c)
 
 
 void
-Content::as_xml (xmlpp::Node* node, bool with_paths) const
+Content::as_xml(xmlpp::Element* element, bool with_paths) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (with_paths) {
 		for (size_t i = 0; i < _paths.size(); ++i) {
-			auto p = node->add_child("Path");
+			auto p = cxml::add_child(element, "Path");
 			p->add_child_text (_paths[i].string());
 			p->set_attribute ("mtime", raw_convert<string>(_last_write_times[i]));
 		}
 	}
-	node->add_child("Digest")->add_child_text(_digest);
-	node->add_child("Position")->add_child_text(raw_convert<string>(_position.get()));
-	node->add_child("TrimStart")->add_child_text(raw_convert<string>(_trim_start.get()));
-	node->add_child("TrimEnd")->add_child_text(raw_convert<string>(_trim_end.get()));
+	cxml::add_text_child(element, "Digest", _digest);
+	cxml::add_text_child(element, "Position", raw_convert<string>(_position.get()));
+	cxml::add_text_child(element, "TrimStart", raw_convert<string>(_trim_start.get()));
+	cxml::add_text_child(element, "TrimEnd", raw_convert<string>(_trim_end.get()));
 	if (_video_frame_rate) {
-		node->add_child("VideoFrameRate")->add_child_text(raw_convert<string>(_video_frame_rate.get()));
+		cxml::add_text_child(element, "VideoFrameRate", raw_convert<string>(_video_frame_rate.get()));
 	}
 }
 

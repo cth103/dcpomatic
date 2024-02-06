@@ -197,61 +197,61 @@ FFmpegContent::FFmpegContent (vector<shared_ptr<Content>> c)
 
 
 void
-FFmpegContent::as_xml (xmlpp::Node* node, bool with_paths) const
+FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text("FFmpeg");
-	Content::as_xml (node, with_paths);
+	cxml::add_text_child(element, "Type", "FFmpeg");
+	Content::as_xml(element, with_paths);
 
 	if (video) {
-		video->as_xml (node);
+		video->as_xml(element);
 	}
 
 	if (audio) {
-		audio->as_xml (node);
+		audio->as_xml(element);
 
 		for (auto i: audio->streams()) {
 			auto f = dynamic_pointer_cast<FFmpegAudioStream> (i);
 			DCPOMATIC_ASSERT (f);
-			f->as_xml (node->add_child("AudioStream"));
+			f->as_xml(cxml::add_child(element, "AudioStream"));
 		}
 	}
 
 	if (only_text()) {
-		only_text()->as_xml (node);
+		only_text()->as_xml(element);
 	}
 
 	boost::mutex::scoped_lock lm (_mutex);
 
 	for (auto i: _subtitle_streams) {
-		auto t = node->add_child("SubtitleStream");
+		auto t = cxml::add_child(element, "SubtitleStream");
 		if (_subtitle_stream && i == _subtitle_stream) {
-			t->add_child("Selected")->add_child_text("1");
+			cxml::add_text_child(t, "Selected", "1");
 		}
 		i->as_xml (t);
 	}
 
 	for (auto i: _filters) {
-		node->add_child("Filter")->add_child_text(i.id());
+		cxml::add_text_child(element, "Filter", i.id());
 	}
 
 	if (_first_video) {
-		node->add_child("FirstVideo")->add_child_text(raw_convert<string>(_first_video.get().get()));
+		cxml::add_text_child(element, "FirstVideo", raw_convert<string>(_first_video.get().get()));
 	}
 
 	if (_color_range) {
-		node->add_child("ColorRange")->add_child_text(raw_convert<string>(static_cast<int>(*_color_range)));
+		cxml::add_text_child(element, "ColorRange", raw_convert<string>(static_cast<int>(*_color_range)));
 	}
 	if (_color_primaries) {
-		node->add_child("ColorPrimaries")->add_child_text(raw_convert<string>(static_cast<int>(*_color_primaries)));
+		cxml::add_text_child(element, "ColorPrimaries", raw_convert<string>(static_cast<int>(*_color_primaries)));
 	}
 	if (_color_trc) {
-		node->add_child("ColorTransferCharacteristic")->add_child_text(raw_convert<string>(static_cast<int>(*_color_trc)));
+		cxml::add_text_child(element, "ColorTransferCharacteristic", raw_convert<string>(static_cast<int>(*_color_trc)));
 	}
 	if (_colorspace) {
-		node->add_child("Colorspace")->add_child_text(raw_convert<string>(static_cast<int>(*_colorspace)));
+		cxml::add_text_child(element, "Colorspace", raw_convert<string>(static_cast<int>(*_colorspace)));
 	}
 	if (_bits_per_pixel) {
-		node->add_child("BitsPerPixel")->add_child_text(raw_convert<string>(*_bits_per_pixel));
+		cxml::add_text_child(element, "BitsPerPixel", raw_convert<string>(*_bits_per_pixel));
 	}
 }
 

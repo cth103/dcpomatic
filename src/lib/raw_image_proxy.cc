@@ -73,12 +73,12 @@ RawImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 
 
 void
-RawImageProxy::add_metadata (xmlpp::Node* node) const
+RawImageProxy::add_metadata(xmlpp::Element* element) const
 {
-	node->add_child("Type")->add_child_text(N_("Raw"));
-	node->add_child("Width")->add_child_text(raw_convert<string>(_image->size().width));
-	node->add_child("Height")->add_child_text(raw_convert<string>(_image->size().height));
-	node->add_child("PixelFormat")->add_child_text(raw_convert<string>(static_cast<int>(_image->pixel_format())));
+	cxml::add_text_child(element, "Type", N_("Raw"));
+	cxml::add_text_child(element, "Width", raw_convert<string>(_image->size().width));
+	cxml::add_text_child(element, "Height", raw_convert<string>(_image->size().height));
+	cxml::add_text_child(element, "PixelFormat", raw_convert<string>(static_cast<int>(_image->pixel_format())));
 }
 
 

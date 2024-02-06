@@ -56,7 +56,7 @@ public:
 	AudioContent (Content* parent, std::vector<std::shared_ptr<Content>>);
 	AudioContent (Content* parent, cxml::ConstNodePtr);
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 	std::string technical_summary () const;
 	void take_settings_from (std::shared_ptr<const AudioContent> c);
 

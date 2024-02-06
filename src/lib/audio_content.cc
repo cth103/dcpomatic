@@ -124,14 +124,14 @@ AudioContent::AudioContent (Content* parent, vector<shared_ptr<Content>> c)
 
 
 void
-AudioContent::as_xml (xmlpp::Node* node) const
+AudioContent::as_xml(xmlpp::Element* element) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("AudioGain")->add_child_text(raw_convert<string>(_gain));
-	node->add_child("AudioDelay")->add_child_text(raw_convert<string>(_delay));
-	node->add_child("AudioFadeIn")->add_child_text(raw_convert<string>(_fade_in.get()));
-	node->add_child("AudioFadeOut")->add_child_text(raw_convert<string>(_fade_out.get()));
-	node->add_child("AudioUseSameFadesAsVideo")->add_child_text(_use_same_fades_as_video ? "1" : "0");
+	cxml::add_text_child(element, "AudioGain", raw_convert<string>(_gain));
+	cxml::add_text_child(element, "AudioDelay", raw_convert<string>(_delay));
+	cxml::add_text_child(element, "AudioFadeIn", raw_convert<string>(_fade_in.get()));
+	cxml::add_text_child(element, "AudioFadeOut", raw_convert<string>(_fade_out.get()));
+	cxml::add_text_child(element, "AudioUseSameFadesAsVideo", _use_same_fades_as_video ? "1" : "0");
 }
 
 

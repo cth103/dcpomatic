@@ -44,7 +44,7 @@ public:
 
 	explicit RGBA (cxml::ConstNodePtr node);
 
-	void as_xml (xmlpp::Node* parent) const;
+	void as_xml(xmlpp::Element* parent) const;
 
 	uint8_t r = 0;
 	uint8_t g = 0;

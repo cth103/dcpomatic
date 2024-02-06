@@ -42,14 +42,14 @@ template <class R, class A>
 void add_asset(string film_key, shared_ptr<R> reel_asset, shared_ptr<A> asset, xmlpp::Element* reel, string name)
 {
 	if (asset) {
-		auto out = reel->add_child(name);
-		out->add_child("Id")->add_child_text("urn:uuid:" + asset->id());
+		auto out = cxml::add_child(reel, name);
+		cxml::add_text_child(out, "Id", "urn:uuid:" + asset->id());
 		if (reel_asset->annotation_text()) {
-			out->add_child("AnnotationText")->add_child_text(reel_asset->annotation_text().get());
+			cxml::add_text_child(out, "AnnotationText", reel_asset->annotation_text().get());
 		}
 		if (asset->key_id()) {
-			out->add_child("KeyId")->add_child_text("urn:uuid:" + asset->key_id().get());
-			out->add_child("Key")->add_child_text(asset->key() ? asset->key()->hex() : film_key);
+			cxml::add_text_child(out, "KeyId", "urn:uuid:" + asset->key_id().get());
+			cxml::add_text_child(out, "Key", asset->key() ? asset->key()->hex() : film_key);
 		}
 	}
 };
@@ -64,16 +64,16 @@ write_dcp_digest_file (
 {
 	xmlpp::Document doc;
 	auto root = doc.create_root_node("FHG_DCP_DIGEST", "http://www.fhg.de/2009/04/02/dcpdig");
-	root->add_child("InteropMode")->add_child_text(cpl->standard() == dcp::Standard::INTEROP ? "true" : "false");
-	auto composition = root->add_child("CompositionList")->add_child("Composition");
-	composition->add_child("Id")->add_child_text("urn:uuid:" + cpl->id());
-	composition->add_child("AnnotationText")->add_child_text(cpl->annotation_text().get_value_or(""));
-	composition->add_child("ContentTitleText")->add_child_text(cpl->content_title_text());
-	auto reel_list = composition->add_child("ReelList");
+	cxml::add_text_child(root, "InteropMode", cpl->standard() == dcp::Standard::INTEROP ? "true" : "false");
+	auto composition = cxml::add_child(cxml::add_child(root, "CompositionList"), "Composition");
+	cxml::add_text_child(composition, "Id", "urn:uuid:" + cpl->id());
+	cxml::add_text_child(composition, "AnnotationText", cpl->annotation_text().get_value_or(""));
+	cxml::add_text_child(composition, "ContentTitleText", cpl->content_title_text());
+	auto reel_list = cxml::add_child(composition, "ReelList");
 	for (auto in_reel: cpl->reels()) {
-		auto out_reel = reel_list->add_child("Reel");
-		out_reel->add_child("Id")->add_child_text("urn:uuid:" + in_reel->id());
-		out_reel->add_child("AnnotationText");
+		auto out_reel = cxml::add_child(reel_list, "Reel");
+		cxml::add_text_child(out_reel, "Id", "urn:uuid:" + in_reel->id());
+		cxml::add_child(out_reel, "AnnotationText");
 		if (in_reel->main_picture()) {
 			add_asset(film_key, in_reel->main_picture(), in_reel->main_picture()->asset(), out_reel, "MainPicture");
 		}

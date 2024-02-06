@@ -65,7 +65,7 @@ struct Crop
 		return s;
 	}
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 };
 
 

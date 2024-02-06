@@ -57,7 +57,7 @@ public:
 	Font(Font const& other);
 	Font& operator=(Font const& other);
 
-	void as_xml (xmlpp::Node* node);
+	void as_xml(xmlpp::Element* element);
 
 	std::string id () const {
 		return _id;

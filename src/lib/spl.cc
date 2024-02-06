@@ -62,10 +62,10 @@ SPL::write (boost::filesystem::path path) const
 {
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("SPL");
-	root->add_child("Id")->add_child_text (_id);
-	root->add_child("Name")->add_child_text (_name);
+	cxml::add_text_child(root, "Id", _id);
+	cxml::add_text_child(root, "Name", _name);
 	for (auto i: _spl) {
-		i.as_xml (root->add_child("Entry"));
+		i.as_xml(cxml::add_child(root, "Entry"));
 	}
 	doc.write_to_file_formatted (path.string());
 }

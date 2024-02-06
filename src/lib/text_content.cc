@@ -356,61 +356,61 @@ TextContent::TextContent (Content* parent, vector<shared_ptr<Content>> c)
 
 /** _mutex must not be held on entry */
 void
-TextContent::as_xml (xmlpp::Node* root) const
+TextContent::as_xml(xmlpp::Element* root) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
-	auto text = root->add_child ("Text");
+	auto text = cxml::add_child(root, "Text");
 
-	text->add_child("Use")->add_child_text (_use ? "1" : "0");
-	text->add_child("Burn")->add_child_text (_burn ? "1" : "0");
-	text->add_child("XOffset")->add_child_text (raw_convert<string> (_x_offset));
-	text->add_child("YOffset")->add_child_text (raw_convert<string> (_y_offset));
-	text->add_child("XScale")->add_child_text (raw_convert<string> (_x_scale));
-	text->add_child("YScale")->add_child_text (raw_convert<string> (_y_scale));
+	cxml::add_text_child(text, "Use", _use ? "1" : "0");
+	cxml::add_text_child(text, "Burn", _burn ? "1" : "0");
+	cxml::add_text_child(text, "XOffset", raw_convert<string>(_x_offset));
+	cxml::add_text_child(text, "YOffset", raw_convert<string>(_y_offset));
+	cxml::add_text_child(text, "XScale", raw_convert<string>(_x_scale));
+	cxml::add_text_child(text, "YScale", raw_convert<string>(_y_scale));
 	if (_colour) {
-		text->add_child("Red")->add_child_text (raw_convert<string> (_colour->r));
-		text->add_child("Green")->add_child_text (raw_convert<string> (_colour->g));
-		text->add_child("Blue")->add_child_text (raw_convert<string> (_colour->b));
+		cxml::add_text_child(text, "Red", raw_convert<string>(_colour->r));
+		cxml::add_text_child(text, "Green", raw_convert<string>(_colour->g));
+		cxml::add_text_child(text, "Blue", raw_convert<string>(_colour->b));
 	}
 	if (_effect) {
 		switch (*_effect) {
 		case dcp::Effect::NONE:
-			text->add_child("Effect")->add_child_text("none");
+			cxml::add_text_child(text, "Effect", "none");
 			break;
 		case dcp::Effect::BORDER:
-			text->add_child("Effect")->add_child_text("outline");
+			cxml::add_text_child(text, "Effect", "outline");
 			break;
 		case dcp::Effect::SHADOW:
-			text->add_child("Effect")->add_child_text("shadow");
+			cxml::add_text_child(text, "Effect", "shadow");
 			break;
 		}
 	}
 	if (_effect_colour) {
-		text->add_child("EffectRed")->add_child_text (raw_convert<string> (_effect_colour->r));
-		text->add_child("EffectGreen")->add_child_text (raw_convert<string> (_effect_colour->g));
-		text->add_child("EffectBlue")->add_child_text (raw_convert<string> (_effect_colour->b));
+		cxml::add_text_child(text, "EffectRed", raw_convert<string>(_effect_colour->r));
+		cxml::add_text_child(text, "EffectGreen", raw_convert<string>(_effect_colour->g));
+		cxml::add_text_child(text, "EffectBlue", raw_convert<string>(_effect_colour->b));
 	}
-	text->add_child("LineSpacing")->add_child_text (raw_convert<string> (_line_spacing));
+	cxml::add_text_child(text, "LineSpacing", raw_convert<string>(_line_spacing));
 	if (_fade_in) {
-		text->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in->get()));
+		cxml::add_text_child(text, "FadeIn", raw_convert<string>(_fade_in->get()));
 	}
 	if (_fade_out) {
-		text->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out->get()));
+		cxml::add_text_child(text, "FadeOut", raw_convert<string>(_fade_out->get()));
 	}
-	text->add_child("OutlineWidth")->add_child_text (raw_convert<string> (_outline_width));
+	cxml::add_text_child(text, "OutlineWidth", raw_convert<string>(_outline_width));
 
 	for (auto i: _fonts) {
-		i->as_xml (text->add_child("Font"));
+		i->as_xml(cxml::add_child(text, "Font"));
 	}
 
-	text->add_child("Type")->add_child_text (text_type_to_string(_type));
-	text->add_child("OriginalType")->add_child_text (text_type_to_string(_original_type));
+	cxml::add_text_child(text, "Type", text_type_to_string(_type));
+	cxml::add_text_child(text, "OriginalType", text_type_to_string(_original_type));
 	if (_dcp_track) {
-		_dcp_track->as_xml(text->add_child("DCPTrack"));
+		_dcp_track->as_xml(cxml::add_child(text, "DCPTrack"));
 	}
 	if (_language) {
-		auto lang = text->add_child("Language");
+		auto lang = cxml::add_child(text, "Language");
 		lang->add_child_text (_language->to_string());
 		lang->set_attribute("additional", _language_is_additional ? "1" : "0");
 	}

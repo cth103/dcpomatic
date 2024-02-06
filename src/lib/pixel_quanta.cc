@@ -34,8 +34,8 @@ PixelQuanta::PixelQuanta (cxml::ConstNodePtr node)
 void
 PixelQuanta::as_xml (xmlpp::Element* node) const
 {
-	node->add_child("X")->add_child_text(dcp::raw_convert<std::string>(x));
-	node->add_child("Y")->add_child_text(dcp::raw_convert<std::string>(y));
+	cxml::add_text_child(node, "X", dcp::raw_convert<std::string>(x));
+	cxml::add_text_child(node, "Y", dcp::raw_convert<std::string>(y));
 }
 
 

@@ -52,19 +52,19 @@ FFmpegAudioStream::FFmpegAudioStream (cxml::ConstNodePtr node, int version)
 
 
 void
-FFmpegAudioStream::as_xml (xmlpp::Node* root) const
+FFmpegAudioStream::as_xml(xmlpp::Element* root) const
 {
 	FFmpegStream::as_xml (root);
-	root->add_child("FrameRate")->add_child_text(raw_convert<string>(frame_rate()));
-	root->add_child("Length")->add_child_text(raw_convert<string>(length()));
-	mapping().as_xml (root->add_child("Mapping"));
+	cxml::add_text_child(root, "FrameRate", raw_convert<string>(frame_rate()));
+	cxml::add_text_child(root, "Length", raw_convert<string>(length()));
+	mapping().as_xml(cxml::add_child(root, "Mapping"));
 	if (first_audio) {
-		root->add_child("FirstAudio")->add_child_text(raw_convert<string>(first_audio.get().get()));
+		cxml::add_text_child(root, "FirstAudio", raw_convert<string>(first_audio.get().get()));
 	}
 	if (codec_name) {
-		root->add_child("CodecName")->add_child_text(codec_name.get());
+		cxml::add_text_child(root, "CodecName", codec_name.get());
 	}
 	if (bit_depth()) {
-		root->add_child("BitDepth")->add_child_text(raw_convert<string>(bit_depth().get()));
+		cxml::add_text_child(root, "BitDepth", raw_convert<string>(bit_depth().get()));
 	}
 }

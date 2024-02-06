@@ -273,37 +273,37 @@ VideoContent::VideoContent (Content* parent, vector<shared_ptr<Content> > c)
 
 
 void
-VideoContent::as_xml (xmlpp::Node* node) const
+VideoContent::as_xml(xmlpp::Element* element) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	node->add_child("Use")->add_child_text (_use ? "1" : "0");
-	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_length));
+	cxml::add_text_child(element, "Use", _use ? "1" : "0");
+	cxml::add_text_child(element, "VideoLength", raw_convert<string>(_length));
 	if (_size) {
-		node->add_child("VideoWidth")->add_child_text(raw_convert<string>(_size->width));
-		node->add_child("VideoHeight")->add_child_text(raw_convert<string>(_size->height));
+		cxml::add_text_child(element, "VideoWidth", raw_convert<string>(_size->width));
+		cxml::add_text_child(element, "VideoHeight", raw_convert<string>(_size->height));
 	}
-	node->add_child("VideoFrameType")->add_child_text (video_frame_type_to_string (_frame_type));
+	cxml::add_text_child(element, "VideoFrameType", video_frame_type_to_string(_frame_type));
 	if (_sample_aspect_ratio) {
-		node->add_child("SampleAspectRatio")->add_child_text (raw_convert<string> (_sample_aspect_ratio.get ()));
+		cxml::add_text_child(element, "SampleAspectRatio", raw_convert<string> (_sample_aspect_ratio.get ()));
 	}
-	_crop.as_xml (node);
+	_crop.as_xml(element);
 	if (_custom_ratio) {
-		node->add_child("CustomRatio")->add_child_text(raw_convert<string>(*_custom_ratio));
+		cxml::add_text_child(element, "CustomRatio", raw_convert<string>(*_custom_ratio));
 	}
 	if (_custom_size) {
-		node->add_child("CustomWidth")->add_child_text(raw_convert<string>(_custom_size->width));
-		node->add_child("CustomHeight")->add_child_text(raw_convert<string>(_custom_size->height));
+		cxml::add_text_child(element, "CustomWidth", raw_convert<string>(_custom_size->width));
+		cxml::add_text_child(element, "CustomHeight", raw_convert<string>(_custom_size->height));
 	}
 	if (_colour_conversion) {
-		_colour_conversion.get().as_xml (node->add_child("ColourConversion"));
+		_colour_conversion.get().as_xml(cxml::add_child(element, "ColourConversion"));
 	}
-	node->add_child("YUV")->add_child_text (_yuv ? "1" : "0");
-	node->add_child("FadeIn")->add_child_text (raw_convert<string> (_fade_in));
-	node->add_child("FadeOut")->add_child_text (raw_convert<string> (_fade_out));
-	node->add_child("Range")->add_child_text(_range == VideoRange::FULL ? "full" : "video");
-	_pixel_quanta.as_xml(node->add_child("PixelQuanta"));
+	cxml::add_text_child(element, "YUV", _yuv ? "1" : "0");
+	cxml::add_text_child(element, "FadeIn", raw_convert<string>(_fade_in));
+	cxml::add_text_child(element, "FadeOut", raw_convert<string>(_fade_out));
+	cxml::add_text_child(element, "Range", _range == VideoRange::FULL ? "full" : "video");
+	_pixel_quanta.as_xml(cxml::add_child(element, "PixelQuanta"));
 	if (_burnt_subtitle_language) {
-		node->add_child("BurntSubtitleLanguage")->add_child_text(_burnt_subtitle_language->to_string());
+		cxml::add_text_child(element, "BurntSubtitleLanguage", _burnt_subtitle_language->to_string());
 	}
 }
 

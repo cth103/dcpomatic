@@ -33,7 +33,7 @@ public:
 
 	FFmpegSubtitleStream (cxml::ConstNodePtr node, int version);
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 
 	void set_colour (RGBA from, RGBA to);
 	std::map<RGBA, RGBA> colours () const;

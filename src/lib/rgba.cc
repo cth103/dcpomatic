@@ -41,12 +41,12 @@ RGBA::RGBA (cxml::ConstNodePtr node)
 
 
 void
-RGBA::as_xml (xmlpp::Node* parent) const
+RGBA::as_xml(xmlpp::Element* parent) const
 {
-	parent->add_child("R")->add_child_text(lexical_cast<string>(int(r)));
-	parent->add_child("G")->add_child_text(lexical_cast<string>(int(g)));
-	parent->add_child("B")->add_child_text(lexical_cast<string>(int(b)));
-	parent->add_child("A")->add_child_text(lexical_cast<string>(int(a)));
+	cxml::add_text_child(parent, "R", lexical_cast<string>(int(r)));
+	cxml::add_text_child(parent, "G", lexical_cast<string>(int(g)));
+	cxml::add_text_child(parent, "B", lexical_cast<string>(int(b)));
+	cxml::add_text_child(parent, "A", lexical_cast<string>(int(a)));
 }
 
 

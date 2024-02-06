@@ -37,7 +37,7 @@ public:
 
 	explicit FFmpegStream (cxml::ConstNodePtr);
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 
 	/** @param c An AVFormatContext.
 	 *  @param index A stream index within the AVFormatContext.

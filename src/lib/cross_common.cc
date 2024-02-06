@@ -59,16 +59,16 @@ Drive::as_xml () const
 {
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("Drive");
-	root->add_child("Device")->add_child_text(_device);
+	cxml::add_text_child(root, "Device", _device);
 	for (auto i: _mount_points) {
-		root->add_child("MountPoint")->add_child_text(i.string());
+		cxml::add_text_child(root, "MountPoint", i.string());
 	}
-	root->add_child("Size")->add_child_text(dcp::raw_convert<string>(_size));
+	cxml::add_text_child(root, "Size", dcp::raw_convert<string>(_size));
 	if (_vendor) {
-		root->add_child("Vendor")->add_child_text(*_vendor);
+		cxml::add_text_child(root, "Vendor", *_vendor);
 	}
 	if (_model) {
-		root->add_child("Model")->add_child_text(*_model);
+		cxml::add_text_child(root, "Model", *_model);
 	}
 
 	return doc.write_to_string("UTF-8");

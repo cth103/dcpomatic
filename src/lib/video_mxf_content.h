@@ -40,7 +40,7 @@ public:
 	std::string summary () const override;
 	std::string technical_summary () const override;
 	std::string identifier () const override;
-	void as_xml (xmlpp::Node* node, bool with_paths) const override;
+	void as_xml(xmlpp::Element* element, bool with_paths) const override;
 	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
 	dcpomatic::DCPTime approximate_length () const override;
 	void add_properties (std::shared_ptr<const Film> film, std::list<UserProperty>& p) const override;

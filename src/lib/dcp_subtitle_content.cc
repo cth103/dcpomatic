@@ -137,14 +137,14 @@ DCPSubtitleContent::technical_summary () const
 }
 
 void
-DCPSubtitleContent::as_xml (xmlpp::Node* node, bool with_paths) const
+DCPSubtitleContent::as_xml(xmlpp::Element* element, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text ("DCPSubtitle");
-	Content::as_xml (node, with_paths);
+	cxml::add_text_child(element, "Type", "DCPSubtitle");
+	Content::as_xml(element, with_paths);
 
 	if (only_text()) {
-		only_text()->as_xml (node);
+		only_text()->as_xml(element);
 	}
 
-	node->add_child("Length")->add_child_text (raw_convert<string> (_length.get ()));
+	cxml::add_text_child(element, "Length", raw_convert<string>(_length.get()));
 }

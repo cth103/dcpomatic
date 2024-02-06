@@ -53,5 +53,5 @@ SPLEntry::SPLEntry (shared_ptr<Content> c)
 void
 SPLEntry::as_xml (xmlpp::Element* e)
 {
-	e->add_child("Digest")->add_child_text(digest);
+	cxml::add_text_child(e, "Digest", digest);
 }

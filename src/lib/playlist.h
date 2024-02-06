@@ -50,7 +50,7 @@ public:
 	Playlist (Playlist const&) = delete;
 	Playlist& operator= (Playlist const&) = delete;
 
-	void as_xml (xmlpp::Node *, bool with_content_paths);
+	void as_xml(xmlpp::Element*, bool with_content_paths);
 	void set_from_xml (std::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
 
 	void add (std::shared_ptr<const Film> film, std::shared_ptr<Content>);

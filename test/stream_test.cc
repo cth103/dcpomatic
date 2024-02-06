@@ -43,38 +43,38 @@ BOOST_AUTO_TEST_CASE (stream_test)
 {
 	xmlpp::Document doc;
 	auto root = doc.create_root_node("FFmpegAudioStream");
-	root->add_child("Name")->add_child_text ("hello there world");
-	root->add_child("Id")->add_child_text ("4");
-	root->add_child("FrameRate")->add_child_text ("44100");
-	root->add_child("Channels")->add_child_text ("2");
+	cxml::add_text_child(root, "Name", "hello there world");
+	cxml::add_text_child(root, "Id", "4");
+	cxml::add_text_child(root, "FrameRate", "44100");
+	cxml::add_text_child(root, "Channels", "2");
 
 	/* This is the state file version 5 description of the mapping */
 
-	auto mapping = root->add_child("Mapping");
-	mapping->add_child("ContentChannels")->add_child_text ("2");
+	auto mapping = cxml::add_child(root, "Mapping");
+	cxml::add_text_child(mapping, "ContentChannels", "2");
 	{
 		/* L -> L */
-		auto map = mapping->add_child("Map");
-		map->add_child("ContentIndex")->add_child_text ("0");
-		map->add_child("DCP")->add_child_text ("0");
+		auto map = cxml::add_child(mapping, "Map");
+		cxml::add_text_child(map, "ContentIndex", "0");
+		cxml::add_text_child(map, "DCP", "0");
 	}
 	{
 		/* L -> C */
-		auto map = mapping->add_child("Map");
-		map->add_child("ContentIndex")->add_child_text ("0");
-		map->add_child("DCP")->add_child_text ("2");
+		auto map = cxml::add_child(mapping, "Map");
+		cxml::add_text_child(map, "ContentIndex", "0");
+		cxml::add_text_child(map, "DCP", "2");
 	}
 	{
 		/* R -> R */
-		auto map = mapping->add_child("Map");
-		map->add_child("ContentIndex")->add_child_text ("1");
-		map->add_child("DCP")->add_child_text ("1");
+		auto map = cxml::add_child(mapping, "Map");
+		cxml::add_text_child(map, "ContentIndex", "1");
+		cxml::add_text_child(map, "DCP", "1");
 	}
 	{
 		/* R -> C */
-		auto map = mapping->add_child("Map");
-		map->add_child("ContentIndex")->add_child_text ("1");
-		map->add_child("DCP")->add_child_text ("2");
+		auto map = cxml::add_child(mapping, "Map");
+		cxml::add_text_child(map, "ContentIndex", "1");
+		cxml::add_text_child(map, "DCP", "2");
 	}
 
 	FFmpegAudioStream a (cxml::NodePtr (new cxml::Node (root)), 5);

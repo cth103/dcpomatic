@@ -99,13 +99,13 @@ ImageContent::technical_summary () const
 
 
 void
-ImageContent::as_xml (xmlpp::Node* node, bool with_paths) const
+ImageContent::as_xml(xmlpp::Element* element, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text ("Image");
-	Content::as_xml (node, with_paths);
+	cxml::add_text_child(element, "Type", "Image");
+	Content::as_xml(element, with_paths);
 
 	if (video) {
-		video->as_xml (node);
+		video->as_xml(element);
 	}
 }
 

@@ -234,9 +234,9 @@ FFmpegImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 
 
 void
-FFmpegImageProxy::add_metadata (xmlpp::Node* node) const
+FFmpegImageProxy::add_metadata(xmlpp::Element* element) const
 {
-	node->add_child("Type")->add_child_text (N_("FFmpeg"));
+	cxml::add_text_child(element, "Type", N_("FFmpeg"));
 }
 
 void

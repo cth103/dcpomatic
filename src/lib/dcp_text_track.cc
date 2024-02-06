@@ -56,9 +56,9 @@ DCPTextTrack::summary () const
 void
 DCPTextTrack::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child("Name")->add_child_text(name);
+	cxml::add_text_child(parent, "Name", name);
 	if (language) {
-		parent->add_child("Language")->add_child_text(language->to_string());
+		cxml::add_text_child(parent, "Language", language->to_string());
 	}
 }
 

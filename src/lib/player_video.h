@@ -82,7 +82,7 @@ public:
 	static AVPixelFormat force (AVPixelFormat);
 	static AVPixelFormat keep_xyz_or_rgb (AVPixelFormat);
 
-	void add_metadata (xmlpp::Node* node) const;
+	void add_metadata(xmlpp::Element* element) const;
 	void write_to_socket (std::shared_ptr<Socket> socket) const;
 
 	bool reset_metadata (std::shared_ptr<const Film> film, dcp::Size player_video_container_size);

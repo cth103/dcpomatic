@@ -41,7 +41,7 @@ public:
 	ColourConversion (cxml::NodePtr, int version);
 	virtual ~ColourConversion () {}
 
-	virtual void as_xml (xmlpp::Node *) const;
+	virtual void as_xml(xmlpp::Element*) const;
 	std::string identifier () const;
 
 	boost::optional<size_t> preset () const;

@@ -301,8 +301,8 @@ EncodeServer::broadcast_received ()
 		/* Reply to the client saying what we can do */
 		xmlpp::Document doc;
 		auto root = doc.create_root_node ("ServerAvailable");
-		root->add_child("Threads")->add_child_text (raw_convert<string> (_worker_threads.size ()));
-		root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
+		cxml::add_text_child(root, "Threads", raw_convert<string>(_worker_threads.size()));
+		cxml::add_text_child(root, "Version", raw_convert<string>(SERVER_LINK_VERSION));
 		auto xml = doc.write_to_string ("UTF-8");
 
 		if (_verbose) {

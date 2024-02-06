@@ -66,16 +66,16 @@ DKDM::name () const
 
 
 void
-DKDM::as_xml (xmlpp::Element* node) const
+DKDM::as_xml(xmlpp::Element* element) const
 {
-	node->add_child("DKDM")->add_child_text (_dkdm.as_xml ());
+	cxml::add_text_child(element, "DKDM", _dkdm.as_xml());
 }
 
 
 void
-DKDMGroup::as_xml (xmlpp::Element* node) const
+DKDMGroup::as_xml(xmlpp::Element* element) const
 {
-	auto f = node->add_child("DKDMGroup");
+	auto f = cxml::add_child(element, "DKDMGroup");
 	f->set_attribute("name", _name);
 	for (auto i: _children) {
 		i->as_xml (f);

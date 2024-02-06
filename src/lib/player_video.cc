@@ -200,29 +200,29 @@ PlayerVideo::make_image (function<AVPixelFormat (AVPixelFormat)> pixel_format, V
 
 
 void
-PlayerVideo::add_metadata (xmlpp::Node* node) const
+PlayerVideo::add_metadata(xmlpp::Element* element) const
 {
-	_crop.as_xml (node);
+	_crop.as_xml(element);
 	if (_fade) {
-		node->add_child("Fade")->add_child_text (raw_convert<string> (_fade.get ()));
+		cxml::add_text_child(element, "Fade", raw_convert<string>(_fade.get()));
 	}
-	_in->add_metadata (node->add_child ("In"));
-	node->add_child("InterWidth")->add_child_text (raw_convert<string> (_inter_size.width));
-	node->add_child("InterHeight")->add_child_text (raw_convert<string> (_inter_size.height));
-	node->add_child("OutWidth")->add_child_text (raw_convert<string> (_out_size.width));
-	node->add_child("OutHeight")->add_child_text (raw_convert<string> (_out_size.height));
-	node->add_child("Eyes")->add_child_text (raw_convert<string> (static_cast<int> (_eyes)));
-	node->add_child("Part")->add_child_text (raw_convert<string> (static_cast<int> (_part)));
-	node->add_child("VideoRange")->add_child_text(raw_convert<string>(static_cast<int>(_video_range)));
-	node->add_child("Error")->add_child_text(_error ? "1" : "0");
+	_in->add_metadata(cxml::add_child(element, "In"));
+	cxml::add_text_child(element, "InterWidth", raw_convert<string>(_inter_size.width));
+	cxml::add_text_child(element, "InterHeight", raw_convert<string>(_inter_size.height));
+	cxml::add_text_child(element, "OutWidth", raw_convert<string>(_out_size.width));
+	cxml::add_text_child(element, "OutHeight", raw_convert<string>(_out_size.height));
+	cxml::add_text_child(element, "Eyes", raw_convert<string>(static_cast<int>(_eyes)));
+	cxml::add_text_child(element, "Part", raw_convert<string>(static_cast<int>(_part)));
+	cxml::add_text_child(element, "VideoRange", raw_convert<string>(static_cast<int>(_video_range)));
+	cxml::add_text_child(element, "Error", _error ? "1" : "0");
 	if (_colour_conversion) {
-		_colour_conversion.get().as_xml (node);
+		_colour_conversion.get().as_xml(element);
 	}
 	if (_text) {
-		node->add_child ("SubtitleWidth")->add_child_text (raw_convert<string> (_text->image->size().width));
-		node->add_child ("SubtitleHeight")->add_child_text (raw_convert<string> (_text->image->size().height));
-		node->add_child ("SubtitleX")->add_child_text (raw_convert<string> (_text->position.x));
-		node->add_child ("SubtitleY")->add_child_text (raw_convert<string> (_text->position.y));
+		cxml::add_text_child(element, "SubtitleWidth", raw_convert<string>(_text->image->size().width));
+		cxml::add_text_child(element, "SubtitleHeight", raw_convert<string>(_text->image->size().height));
+		cxml::add_text_child(element, "SubtitleX", raw_convert<string>(_text->position.x));
+		cxml::add_text_child(element, "SubtitleY", raw_convert<string>(_text->position.y));
 	}
 }
 

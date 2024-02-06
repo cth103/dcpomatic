@@ -66,7 +66,7 @@ public:
 	VideoContent (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint);
 	VideoContent (Content* parent, std::vector<std::shared_ptr<Content>>);
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 	std::string technical_summary () const;
 	std::string identifier () const;
 	void take_settings_from (std::shared_ptr<const VideoContent> c);

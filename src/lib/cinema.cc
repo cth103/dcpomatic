@@ -57,16 +57,16 @@ Cinema::read_screens (cxml::ConstNodePtr node)
 void
 Cinema::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child("Name")->add_child_text (name);
+	cxml::add_text_child(parent, "Name", name);
 
 	for (auto i: emails) {
-		parent->add_child("Email")->add_child_text (i);
+		cxml::add_text_child(parent, "Email", i);
 	}
 
-	parent->add_child("Notes")->add_child_text (notes);
+	cxml::add_text_child(parent, "Notes", notes);
 
 	for (auto i: _screens) {
-		i->as_xml (parent->add_child ("Screen"));
+		i->as_xml(cxml::add_child(parent, "Screen"));
 	}
 }
 

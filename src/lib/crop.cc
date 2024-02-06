@@ -42,12 +42,12 @@ Crop::Crop(shared_ptr<cxml::Node> node)
 
 
 void
-Crop::as_xml(xmlpp::Node* node) const
+Crop::as_xml(xmlpp::Element* element) const
 {
-	node->add_child("LeftCrop")->add_child_text(raw_convert<string>(left));
-	node->add_child("RightCrop")->add_child_text(raw_convert<string>(right));
-	node->add_child("TopCrop")->add_child_text(raw_convert<string>(top));
-	node->add_child("BottomCrop")->add_child_text(raw_convert<string>(bottom));
+	cxml::add_text_child(element, "LeftCrop", raw_convert<string>(left));
+	cxml::add_text_child(element, "RightCrop", raw_convert<string>(right));
+	cxml::add_text_child(element, "TopCrop", raw_convert<string>(top));
+	cxml::add_text_child(element, "BottomCrop", raw_convert<string>(bottom));
 }
 
 

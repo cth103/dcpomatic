@@ -736,218 +736,218 @@ Config::write_config () const
 	auto root = doc.create_root_node ("Config");
 
 	/* [XML] Version The version number of the configuration file format. */
-	root->add_child("Version")->add_child_text (raw_convert<string>(_current_version));
+	cxml::add_text_child(root, "Version", raw_convert<string>(_current_version));
 	/* [XML] MasterEncodingThreads Number of encoding threads to use when running as master. */
-	root->add_child("MasterEncodingThreads")->add_child_text (raw_convert<string> (_master_encoding_threads));
+	cxml::add_text_child(root, "MasterEncodingThreads", raw_convert<string>(_master_encoding_threads));
 	/* [XML] ServerEncodingThreads Number of encoding threads to use when running as server. */
-	root->add_child("ServerEncodingThreads")->add_child_text (raw_convert<string> (_server_encoding_threads));
+	cxml::add_text_child(root, "ServerEncodingThreads", raw_convert<string>(_server_encoding_threads));
 	if (_default_directory) {
 		/* [XML:opt] DefaultDirectory Default directory when creating a new film in the GUI. */
-		root->add_child("DefaultDirectory")->add_child_text (_default_directory->string ());
+		cxml::add_text_child(root, "DefaultDirectory", _default_directory->string());
 	}
 	/* [XML] ServerPortBase Port number to use for frame encoding requests.  <code>ServerPortBase</code> + 1 and
 	   <code>ServerPortBase</code> + 2 are used for querying servers.  <code>ServerPortBase</code> + 3 is used
 	   by the batch converter to listen for job requests.
 	*/
-	root->add_child("ServerPortBase")->add_child_text (raw_convert<string> (_server_port_base));
+	cxml::add_text_child(root, "ServerPortBase", raw_convert<string>(_server_port_base));
 	/* [XML] UseAnyServers 1 to broadcast to look for encoding servers to use, 0 to use only those configured. */
-	root->add_child("UseAnyServers")->add_child_text (_use_any_servers ? "1" : "0");
+	cxml::add_text_child(root, "UseAnyServers", _use_any_servers ? "1" : "0");
 
 	for (auto i: _servers) {
 		/* [XML:opt] Server IP address or hostname of an encoding server to use; you can use as many of these tags
 		   as you like.
 		*/
-		root->add_child("Server")->add_child_text (i);
+		cxml::add_text_child(root, "Server", i);
 	}
 
 	/* [XML] OnlyServersEncode 1 to set the master to do decoding of source content no JPEG2000 encoding; all encoding
 	   is done by the encoding servers.  0 to set the master to do some encoding as well as coordinating the job.
 	*/
-	root->add_child("OnlyServersEncode")->add_child_text (_only_servers_encode ? "1" : "0");
+	cxml::add_text_child(root, "OnlyServersEncode", _only_servers_encode ? "1" : "0");
 	/* [XML] TMSProtocol Protocol to use to copy files to a TMS; 0 to use SCP, 1 for FTP. */
-	root->add_child("TMSProtocol")->add_child_text (raw_convert<string> (static_cast<int> (_tms_protocol)));
+	cxml::add_text_child(root, "TMSProtocol", raw_convert<string>(static_cast<int>(_tms_protocol)));
 	/* [XML] TMSPassive True to use PASV mode with TMS FTP connections. */
-	root->add_child("TMSPassive")->add_child_text(_tms_passive ? "1" : "0");
+	cxml::add_text_child(root, "TMSPassive", _tms_passive ? "1" : "0");
 	/* [XML] TMSIP IP address of TMS. */
-	root->add_child("TMSIP")->add_child_text (_tms_ip);
+	cxml::add_text_child(root, "TMSIP", _tms_ip);
 	/* [XML] TMSPath Path on the TMS to copy files to. */
-	root->add_child("TMSPath")->add_child_text (_tms_path);
+	cxml::add_text_child(root, "TMSPath", _tms_path);
 	/* [XML] TMSUser Username to log into the TMS with. */
-	root->add_child("TMSUser")->add_child_text (_tms_user);
+	cxml::add_text_child(root, "TMSUser", _tms_user);
 	/* [XML] TMSPassword Password to log into the TMS with. */
-	root->add_child("TMSPassword")->add_child_text (_tms_password);
+	cxml::add_text_child(root, "TMSPassword", _tms_password);
 	if (_language) {
 		/* [XML:opt] Language Language to use in the GUI e.g. <code>fr_FR</code>. */
-		root->add_child("Language")->add_child_text (_language.get());
+		cxml::add_text_child(root, "Language", _language.get());
 	}
 	if (_default_dcp_content_type) {
 		/* [XML:opt] DefaultDCPContentType Default content type to use when creating new films (<code>FTR</code>, <code>SHR</code>,
 		   <code>TLR</code>, <code>TST</code>, <code>XSN</code>, <code>RTG</code>, <code>TSR</code>, <code>POL</code>,
 		   <code>PSA</code> or <code>ADV</code>). */
-		root->add_child("DefaultDCPContentType")->add_child_text (_default_dcp_content_type->isdcf_name ());
+		cxml::add_text_child(root, "DefaultDCPContentType", _default_dcp_content_type->isdcf_name());
 	}
 	/* [XML] DefaultDCPAudioChannels Default number of audio channels to use when creating new films. */
-	root->add_child("DefaultDCPAudioChannels")->add_child_text (raw_convert<string> (_default_dcp_audio_channels));
+	cxml::add_text_child(root, "DefaultDCPAudioChannels", raw_convert<string>(_default_dcp_audio_channels));
 	/* [XML] DCPIssuer Issuer text to write into CPL files. */
-	root->add_child("DCPIssuer")->add_child_text (_dcp_issuer);
+	cxml::add_text_child(root, "DCPIssuer", _dcp_issuer);
 	/* [XML] DCPCreator Creator text to write into CPL files. */
-	root->add_child("DCPCreator")->add_child_text (_dcp_creator);
+	cxml::add_text_child(root, "DCPCreator", _dcp_creator);
 	/* [XML] Company name to write into MXF files. */
-	root->add_child("DCPCompanyName")->add_child_text (_dcp_company_name);
+	cxml::add_text_child(root, "DCPCompanyName", _dcp_company_name);
 	/* [XML] Product name to write into MXF files. */
-	root->add_child("DCPProductName")->add_child_text (_dcp_product_name);
+	cxml::add_text_child(root, "DCPProductName", _dcp_product_name);
 	/* [XML] Product version to write into MXF files. */
-	root->add_child("DCPProductVersion")->add_child_text (_dcp_product_version);
+	cxml::add_text_child(root, "DCPProductVersion", _dcp_product_version);
 	/* [XML] Comment to write into JPEG2000 data. */
-	root->add_child("DCPJ2KComment")->add_child_text (_dcp_j2k_comment);
+	cxml::add_text_child(root, "DCPJ2KComment", _dcp_j2k_comment);
 	/* [XML] UploadAfterMakeDCP 1 to upload to a TMS after making a DCP, 0 for no upload. */
-	root->add_child("UploadAfterMakeDCP")->add_child_text (_upload_after_make_dcp ? "1" : "0");
+	cxml::add_text_child(root, "UploadAfterMakeDCP", _upload_after_make_dcp ? "1" : "0");
 
 	/* [XML] DefaultStillLength Default length (in seconds) for still images in new films. */
-	root->add_child("DefaultStillLength")->add_child_text (raw_convert<string> (_default_still_length));
+	cxml::add_text_child(root, "DefaultStillLength", raw_convert<string>(_default_still_length));
 	/* [XML] DefaultJ2KBandwidth Default bitrate (in bits per second) for JPEG2000 data in new films. */
-	root->add_child("DefaultJ2KBandwidth")->add_child_text (raw_convert<string> (_default_j2k_bandwidth));
+	cxml::add_text_child(root, "DefaultJ2KBandwidth", raw_convert<string>(_default_j2k_bandwidth));
 	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
-	root->add_child("DefaultAudioDelay")->add_child_text (raw_convert<string> (_default_audio_delay));
+	cxml::add_text_child(root, "DefaultAudioDelay", raw_convert<string>(_default_audio_delay));
 	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */
-	root->add_child("DefaultInterop")->add_child_text (_default_interop ? "1" : "0");
+	cxml::add_text_child(root, "DefaultInterop", _default_interop ? "1" : "0");
 	if (_default_audio_language) {
 		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
-		root->add_child("DefaultAudioLanguage")->add_child_text(_default_audio_language->to_string());
+		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->to_string());
 	}
 	if (_default_territory) {
 		/* [XML] DefaultTerritory Default territory to use for new films */
-		root->add_child("DefaultTerritory")->add_child_text(_default_territory->subtag());
+		cxml::add_text_child(root, "DefaultTerritory", _default_territory->subtag());
 	}
 	for (auto const& i: _default_metadata) {
-		auto c = root->add_child("DefaultMetadata");
+		auto c = cxml::add_child(root, "DefaultMetadata");
 		c->set_attribute("key", i.first);
 		c->add_child_text(i.second);
 	}
 	if (_default_kdm_directory) {
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
-		root->add_child("DefaultKDMDirectory")->add_child_text (_default_kdm_directory->string ());
+		cxml::add_text_child(root, "DefaultKDMDirectory", _default_kdm_directory->string ());
 	}
-	_default_kdm_duration.as_xml(root->add_child("DefaultKDMDuration"));
+	_default_kdm_duration.as_xml(cxml::add_child(root, "DefaultKDMDuration"));
 	/* [XML] MailServer Hostname of SMTP server to use. */
-	root->add_child("MailServer")->add_child_text (_mail_server);
+	cxml::add_text_child(root, "MailServer", _mail_server);
 	/* [XML] MailPort Port number to use on SMTP server. */
-	root->add_child("MailPort")->add_child_text (raw_convert<string> (_mail_port));
+	cxml::add_text_child(root, "MailPort", raw_convert<string>(_mail_port));
 	/* [XML] MailProtocol Protocol to use on SMTP server (Auto, Plain, STARTTLS or SSL) */
 	switch (_mail_protocol) {
 	case EmailProtocol::AUTO:
-		root->add_child("MailProtocol")->add_child_text("Auto");
+		cxml::add_text_child(root, "MailProtocol", "Auto");
 		break;
 	case EmailProtocol::PLAIN:
-		root->add_child("MailProtocol")->add_child_text("Plain");
+		cxml::add_text_child(root, "MailProtocol", "Plain");
 		break;
 	case EmailProtocol::STARTTLS:
-		root->add_child("MailProtocol")->add_child_text("STARTTLS");
+		cxml::add_text_child(root, "MailProtocol", "STARTTLS");
 		break;
 	case EmailProtocol::SSL:
-		root->add_child("MailProtocol")->add_child_text("SSL");
+		cxml::add_text_child(root, "MailProtocol", "SSL");
 		break;
 	}
 	/* [XML] MailUser Username to use on SMTP server. */
-	root->add_child("MailUser")->add_child_text (_mail_user);
+	cxml::add_text_child(root, "MailUser", _mail_user);
 	/* [XML] MailPassword Password to use on SMTP server. */
-	root->add_child("MailPassword")->add_child_text (_mail_password);
+	cxml::add_text_child(root, "MailPassword", _mail_password);
 
 	/* [XML] KDMSubject Subject to use for KDM emails. */
-	root->add_child("KDMSubject")->add_child_text (_kdm_subject);
+	cxml::add_text_child(root, "KDMSubject", _kdm_subject);
 	/* [XML] KDMFrom From address to use for KDM emails. */
-	root->add_child("KDMFrom")->add_child_text (_kdm_from);
+	cxml::add_text_child(root, "KDMFrom", _kdm_from);
 	for (auto i: _kdm_cc) {
 		/* [XML] KDMCC CC address to use for KDM emails; you can use as many of these tags as you like. */
-		root->add_child("KDMCC")->add_child_text (i);
+		cxml::add_text_child(root, "KDMCC", i);
 	}
 	/* [XML] KDMBCC BCC address to use for KDM emails. */
-	root->add_child("KDMBCC")->add_child_text (_kdm_bcc);
+	cxml::add_text_child(root, "KDMBCC", _kdm_bcc);
 	/* [XML] KDMEmail Text of KDM email. */
-	root->add_child("KDMEmail")->add_child_text (_kdm_email);
+	cxml::add_text_child(root, "KDMEmail", _kdm_email);
 
 	/* [XML] NotificationSubject Subject to use for notification emails. */
-	root->add_child("NotificationSubject")->add_child_text (_notification_subject);
+	cxml::add_text_child(root, "NotificationSubject", _notification_subject);
 	/* [XML] NotificationFrom From address to use for notification emails. */
-	root->add_child("NotificationFrom")->add_child_text (_notification_from);
+	cxml::add_text_child(root, "NotificationFrom", _notification_from);
 	/* [XML] NotificationFrom To address to use for notification emails. */
-	root->add_child("NotificationTo")->add_child_text (_notification_to);
+	cxml::add_text_child(root, "NotificationTo", _notification_to);
 	for (auto i: _notification_cc) {
 		/* [XML] NotificationCC CC address to use for notification emails; you can use as many of these tags as you like. */
-		root->add_child("NotificationCC")->add_child_text (i);
+		cxml::add_text_child(root, "NotificationCC", i);
 	}
 	/* [XML] NotificationBCC BCC address to use for notification emails. */
-	root->add_child("NotificationBCC")->add_child_text (_notification_bcc);
+	cxml::add_text_child(root, "NotificationBCC", _notification_bcc);
 	/* [XML] NotificationEmail Text of notification email. */
-	root->add_child("NotificationEmail")->add_child_text (_notification_email);
+	cxml::add_text_child(root, "NotificationEmail", _notification_email);
 
 	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new versions, 0 to check only on request. */
-	root->add_child("CheckForUpdates")->add_child_text (_check_for_updates ? "1" : "0");
+	cxml::add_text_child(root, "CheckForUpdates", _check_for_updates ? "1" : "0");
 	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request. */
-	root->add_child("CheckForTestUpdates")->add_child_text (_check_for_test_updates ? "1" : "0");
+	cxml::add_text_child(root, "CheckForTestUpdates", _check_for_test_updates ? "1" : "0");
 
 	/* [XML] MaximumJ2KBandwidth Maximum J2K bandwidth (in bits per second) that can be specified in the GUI. */
-	root->add_child("MaximumJ2KBandwidth")->add_child_text (raw_convert<string> (_maximum_j2k_bandwidth));
+	cxml::add_text_child(root, "MaximumJ2KBandwidth", raw_convert<string>(_maximum_j2k_bandwidth));
 	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates. */
-	root->add_child("AllowAnyDCPFrameRate")->add_child_text (_allow_any_dcp_frame_rate ? "1" : "0");
+	cxml::add_text_child(root, "AllowAnyDCPFrameRate", _allow_any_dcp_frame_rate ? "1" : "0");
 	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to DCI Flat/Scope */
-	root->add_child("AllowAnyContainer")->add_child_text (_allow_any_container ? "1" : "0");
+	cxml::add_text_child(root, "AllowAnyContainer", _allow_any_container ? "1" : "0");
 	/* [XML] Allow96kHzAudio 1 to allow users to make DCPs with 96kHz audio, 0 to always make 48kHz DCPs */
-	root->add_child("Allow96kHzAudio")->add_child_text(_allow_96khz_audio ? "1" : "0");
+	cxml::add_text_child(root, "Allow96kHzAudio", _allow_96khz_audio ? "1" : "0");
 	/* [XML] UseAllAudioChannels 1 to allow users to map audio to all 16 DCP channels, 0 to limit to the channels used in standard DCPs */
-	root->add_child("UseAllAudioChannels")->add_child_text(_use_all_audio_channels ? "1" : "0");
+	cxml::add_text_child(root, "UseAllAudioChannels", _use_all_audio_channels ? "1" : "0");
 	/* [XML] ShowExperimentalAudioProcessors 1 to offer users the (experimental) audio upmixer processors, 0 to hide them */
-	root->add_child("ShowExperimentalAudioProcessors")->add_child_text (_show_experimental_audio_processors ? "1" : "0");
+	cxml::add_text_child(root, "ShowExperimentalAudioProcessors", _show_experimental_audio_processors ? "1" : "0");
 	/* [XML] LogTypes Types of logging to write; a bitfield where 1 is general notes, 2 warnings, 4 errors, 8 debug information related
 	   to 3D, 16 debug information related to encoding, 32 debug information for timing purposes, 64 debug information related
 	   to sending email, 128 debug information related to the video view, 256 information about disk writing, 512 debug information
 	   related to the player, 1024 debug information related to audio analyses.
 	*/
-	root->add_child("LogTypes")->add_child_text (raw_convert<string> (_log_types));
+	cxml::add_text_child(root, "LogTypes", raw_convert<string> (_log_types));
 	/* [XML] AnalyseEBUR128 1 to do EBUR128 analyses when analysing audio, otherwise 0. */
-	root->add_child("AnalyseEBUR128")->add_child_text (_analyse_ebur128 ? "1" : "0");
+	cxml::add_text_child(root, "AnalyseEBUR128", _analyse_ebur128 ? "1" : "0");
 	/* [XML] AutomaticAudioAnalysis 1 to run audio analysis automatically when audio content is added to the film, otherwise 0. */
-	root->add_child("AutomaticAudioAnalysis")->add_child_text (_automatic_audio_analysis ? "1" : "0");
+	cxml::add_text_child(root, "AutomaticAudioAnalysis", _automatic_audio_analysis ? "1" : "0");
 #ifdef DCPOMATIC_WINDOWS
 	if (_win32_console) {
 		/* [XML] Win32Console 1 to open a console when running on Windows, otherwise 0.
 		 * We only write this if it's true, which is a bit of a hack to allow unit tests to work
 		 * more easily on Windows (without a platform-specific reference in config_write_utf8_test)
 		 */
-		root->add_child("Win32Console")->add_child_text ("1");
+		cxml::add_text_child(root, "Win32Console", "1");
 	}
 #endif
 
 	/* [XML] Signer Certificate chain and private key to use when signing DCPs and KDMs.  Should contain <code>&lt;Certificate&gt;</code>
 	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
 	*/
-	auto signer = root->add_child ("Signer");
+	auto signer = cxml::add_child(root, "Signer");
 	DCPOMATIC_ASSERT (_signer_chain);
 	for (auto const& i: _signer_chain->unordered()) {
-		signer->add_child("Certificate")->add_child_text (i.certificate (true));
+		cxml::add_text_child(signer, "Certificate", i.certificate (true));
 	}
-	signer->add_child("PrivateKey")->add_child_text (_signer_chain->key().get ());
+	cxml::add_text_child(signer, "PrivateKey", _signer_chain->key().get ());
 
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
-	auto decryption = root->add_child ("Decryption");
+	auto decryption = cxml::add_child(root, "Decryption");
 	DCPOMATIC_ASSERT (_decryption_chain);
 	for (auto const& i: _decryption_chain->unordered()) {
-		decryption->add_child("Certificate")->add_child_text (i.certificate (true));
+		cxml::add_text_child(decryption, "Certificate", i.certificate (true));
 	}
-	decryption->add_child("PrivateKey")->add_child_text (_decryption_chain->key().get ());
+	cxml::add_text_child(decryption, "PrivateKey", _decryption_chain->key().get());
 
 	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the GUI; there can be more than one
 	   of these tags.
 	*/
 	for (auto i: _history) {
-		root->add_child("History")->add_child_text (i.string ());
+		cxml::add_text_child(root, "History", i.string());
 	}
 
 	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the player; there can be more than one
 	   of these tags.
 	*/
 	for (auto i: _player_history) {
-		root->add_child("PlayerHistory")->add_child_text (i.string ());
+		cxml::add_text_child(root, "PlayerHistory", i.string());
 	}
 
 	/* [XML] DKDMGroup A group of DKDMs, each with a <code>Name</code> attribute, containing other <code>&lt;DKDMGroup&gt;</code>
@@ -957,53 +957,53 @@ Config::write_config () const
 	_dkdms->as_xml (root);
 
 	/* [XML] CinemasFile Filename of cinemas list file. */
-	root->add_child("CinemasFile")->add_child_text (_cinemas_file.string());
+	cxml::add_text_child(root, "CinemasFile", _cinemas_file.string());
 	/* [XML] DKDMRecipientsFile Filename of DKDM recipients list file. */
-	root->add_child("DKDMRecipientsFile")->add_child_text (_dkdm_recipients_file.string());
+	cxml::add_text_child(root, "DKDMRecipientsFile", _dkdm_recipients_file.string());
 	/* [XML] ShowHintsBeforeMakeDCP 1 to show hints in the GUI before making a DCP, otherwise 0. */
-	root->add_child("ShowHintsBeforeMakeDCP")->add_child_text (_show_hints_before_make_dcp ? "1" : "0");
+	cxml::add_text_child(root, "ShowHintsBeforeMakeDCP", _show_hints_before_make_dcp ? "1" : "0");
 	/* [XML] ConfirmKDMEmail 1 to confirm before sending KDM emails in the GUI, otherwise 0. */
-	root->add_child("ConfirmKDMEmail")->add_child_text (_confirm_kdm_email ? "1" : "0");
+	cxml::add_text_child(root, "ConfirmKDMEmail", _confirm_kdm_email ? "1" : "0");
 	/* [XML] KDMFilenameFormat Format for KDM filenames. */
-	root->add_child("KDMFilenameFormat")->add_child_text (_kdm_filename_format.specification ());
+	cxml::add_text_child(root, "KDMFilenameFormat", _kdm_filename_format.specification());
 	/* [XML] KDMFilenameFormat Format for DKDM filenames. */
-	root->add_child("DKDMFilenameFormat")->add_child_text(_dkdm_filename_format.specification());
+	cxml::add_text_child(root, "DKDMFilenameFormat", _dkdm_filename_format.specification());
 	/* [XML] KDMContainerNameFormat Format for KDM containers (directories or ZIP files). */
-	root->add_child("KDMContainerNameFormat")->add_child_text (_kdm_container_name_format.specification ());
+	cxml::add_text_child(root, "KDMContainerNameFormat", _kdm_container_name_format.specification());
 	/* [XML] DCPMetadataFilenameFormat Format for DCP metadata filenames. */
-	root->add_child("DCPMetadataFilenameFormat")->add_child_text (_dcp_metadata_filename_format.specification ());
+	cxml::add_text_child(root, "DCPMetadataFilenameFormat", _dcp_metadata_filename_format.specification());
 	/* [XML] DCPAssetFilenameFormat Format for DCP asset filenames. */
-	root->add_child("DCPAssetFilenameFormat")->add_child_text (_dcp_asset_filename_format.specification ());
+	cxml::add_text_child(root, "DCPAssetFilenameFormat", _dcp_asset_filename_format.specification());
 	/* [XML] JumpToSelected 1 to make the GUI jump to the start of content when it is selected, otherwise 0. */
-	root->add_child("JumpToSelected")->add_child_text (_jump_to_selected ? "1" : "0");
+	cxml::add_text_child(root, "JumpToSelected", _jump_to_selected ? "1" : "0");
 	/* [XML] Nagged 1 if a particular nag screen has been shown and should not be shown again, otherwise 0. */
 	for (int i = 0; i < NAG_COUNT; ++i) {
-		xmlpp::Element* e = root->add_child ("Nagged");
+		auto e = cxml::add_child(root, "Nagged");
 		e->set_attribute("id", raw_convert<string>(i));
 		e->add_child_text (_nagged[i] ? "1" : "0");
 	}
 	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0. */
-	root->add_child("PreviewSound")->add_child_text (_sound ? "1" : "0");
+	cxml::add_text_child(root, "PreviewSound", _sound ? "1" : "0");
 	if (_sound_output) {
 		/* [XML:opt] PreviewSoundOutput Name of the audio output to use. */
-		root->add_child("PreviewSoundOutput")->add_child_text (_sound_output.get());
+		cxml::add_text_child(root, "PreviewSoundOutput", _sound_output.get());
 	}
 	/* [XML] CoverSheet Text of the cover sheet to write when making DCPs. */
-	root->add_child("CoverSheet")->add_child_text (_cover_sheet);
+	cxml::add_text_child(root, "CoverSheet", _cover_sheet);
 	if (_last_player_load_directory) {
-		root->add_child("LastPlayerLoadDirectory")->add_child_text(_last_player_load_directory->string());
+		cxml::add_text_child(root, "LastPlayerLoadDirectory", _last_player_load_directory->string());
 	}
 	/* [XML] LastKDMWriteType Last type of KDM-write: <code>flat</code> for a flat file, <code>folder</code> for a folder or <code>zip</code> for a ZIP file. */
 	if (_last_kdm_write_type) {
 		switch (_last_kdm_write_type.get()) {
 		case KDM_WRITE_FLAT:
-			root->add_child("LastKDMWriteType")->add_child_text("flat");
+			cxml::add_text_child(root, "LastKDMWriteType", "flat");
 			break;
 		case KDM_WRITE_FOLDER:
-			root->add_child("LastKDMWriteType")->add_child_text("folder");
+			cxml::add_text_child(root, "LastKDMWriteType", "folder");
 			break;
 		case KDM_WRITE_ZIP:
-			root->add_child("LastKDMWriteType")->add_child_text("zip");
+			cxml::add_text_child(root, "LastKDMWriteType", "zip");
 			break;
 		}
 	}
@@ -1011,58 +1011,58 @@ Config::write_config () const
 	if (_last_dkdm_write_type) {
 		switch (_last_dkdm_write_type.get()) {
 		case DKDM_WRITE_INTERNAL:
-			root->add_child("LastDKDMWriteType")->add_child_text("internal");
+			cxml::add_text_child(root, "LastDKDMWriteType", "internal");
 			break;
 		case DKDM_WRITE_FILE:
-			root->add_child("LastDKDMWriteType")->add_child_text("file");
+			cxml::add_text_child(root, "LastDKDMWriteType", "file");
 			break;
 		}
 	}
 	/* [XML] FramesInMemoryMultiplier value to multiply the encoding threads count by to get the maximum number of
 	   frames to be held in memory at once.
 	*/
-	root->add_child("FramesInMemoryMultiplier")->add_child_text(raw_convert<string>(_frames_in_memory_multiplier));
+	cxml::add_text_child(root, "FramesInMemoryMultiplier", raw_convert<string>(_frames_in_memory_multiplier));
 
 	/* [XML] DecodeReduction power of 2 to reduce DCP images by before decoding in the player. */
 	if (_decode_reduction) {
-		root->add_child("DecodeReduction")->add_child_text(raw_convert<string>(_decode_reduction.get()));
+		cxml::add_text_child(root, "DecodeReduction", raw_convert<string>(_decode_reduction.get()));
 	}
 
 	/* [XML] DefaultNotify 1 to default jobs to notify when complete, otherwise 0. */
-	root->add_child("DefaultNotify")->add_child_text(_default_notify ? "1" : "0");
+	cxml::add_text_child(root, "DefaultNotify", _default_notify ? "1" : "0");
 
 	/* [XML] Notification 1 if a notification type is enabled, otherwise 0. */
 	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
-		xmlpp::Element* e = root->add_child ("Notification");
-		e->set_attribute("id", raw_convert<string>(i));
+		auto e = cxml::add_child(root, "Notification");
+		e->set_attribute ("id", raw_convert<string>(i));
 		e->add_child_text (_notification[i] ? "1" : "0");
 	}
 
 	if (_barco_username) {
 		/* [XML] BarcoUsername Username for logging into Barco's servers when downloading server certificates. */
-		root->add_child("BarcoUsername")->add_child_text(*_barco_username);
+		cxml::add_text_child(root, "BarcoUsername", *_barco_username);
 	}
 	if (_barco_password) {
 		/* [XML] BarcoPassword Password for logging into Barco's servers when downloading server certificates. */
-		root->add_child("BarcoPassword")->add_child_text(*_barco_password);
+		cxml::add_text_child(root, "BarcoPassword", *_barco_password);
 	}
 
 	if (_christie_username) {
 		/* [XML] ChristieUsername Username for logging into Christie's servers when downloading server certificates. */
-		root->add_child("ChristieUsername")->add_child_text(*_christie_username);
+		cxml::add_text_child(root, "ChristieUsername", *_christie_username);
 	}
 	if (_christie_password) {
 		/* [XML] ChristiePassword Password for logging into Christie's servers when downloading server certificates. */
-		root->add_child("ChristiePassword")->add_child_text(*_christie_password);
+		cxml::add_text_child(root, "ChristiePassword", *_christie_password);
 	}
 
 	if (_gdc_username) {
 		/* [XML] GDCUsername Username for logging into GDC's servers when downloading server certificates. */
-		root->add_child("GDCUsername")->add_child_text(*_gdc_username);
+		cxml::add_text_child(root, "GDCUsername", *_gdc_username);
 	}
 	if (_gdc_password) {
 		/* [XML] GDCPassword Password for logging into GDC's servers when downloading server certificates. */
-		root->add_child("GDCPassword")->add_child_text(*_gdc_password);
+		cxml::add_text_child(root, "GDCPassword", *_gdc_password);
 	}
 
 	/* [XML] PlayerMode <code>window</code> for a single window, <code>full</code> for full-screen and <code>dual</code> for full screen playback
@@ -1070,18 +1070,18 @@ Config::write_config () const
 	*/
 	switch (_player_mode) {
 	case PLAYER_MODE_WINDOW:
-		root->add_child("PlayerMode")->add_child_text("window");
+		cxml::add_text_child(root, "PlayerMode", "window");
 		break;
 	case PLAYER_MODE_FULL:
-		root->add_child("PlayerMode")->add_child_text("full");
+		cxml::add_text_child(root, "PlayerMode", "full");
 		break;
 	case PLAYER_MODE_DUAL:
-		root->add_child("PlayerMode")->add_child_text("dual");
+		cxml::add_text_child(root, "PlayerMode", "dual");
 		break;
 	}
 
 	if (_player_restricted_menus) {
-		root->add_child("PlayerRestrictedMenus")->add_child_text("1");
+		cxml::add_text_child(root, "PlayerRestrictedMenus", "1");
 	}
 
 	if (_playlist_editor_restricted_menus) {
@@ -1089,75 +1089,75 @@ Config::write_config () const
 	}
 
 	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */
-	root->add_child("ImageDisplay")->add_child_text(raw_convert<string>(_image_display));
+	cxml::add_text_child(root, "ImageDisplay", raw_convert<string>(_image_display));
 	switch (_video_view_type) {
 	case VIDEO_VIEW_SIMPLE:
-		root->add_child("VideoViewType")->add_child_text("simple");
+		cxml::add_text_child(root, "VideoViewType", "simple");
 		break;
 	case VIDEO_VIEW_OPENGL:
-		root->add_child("VideoViewType")->add_child_text("opengl");
+		cxml::add_text_child(root, "VideoViewType", "opengl");
 		break;
 	}
 	/* [XML] RespectKDMValidityPeriods 1 to refuse to use KDMs that are out of date, 0 to ignore KDM dates. */
-	root->add_child("RespectKDMValidityPeriods")->add_child_text(_respect_kdm_validity_periods ? "1" : "0");
+	cxml::add_text_child(root, "RespectKDMValidityPeriods", _respect_kdm_validity_periods ? "1" : "0");
 	if (_player_debug_log_file) {
 		/* [XML] PlayerLogFile Filename to use for player debug logs. */
-		root->add_child("PlayerDebugLogFile")->add_child_text(_player_debug_log_file->string());
+		cxml::add_text_child(root, "PlayerDebugLogFile", _player_debug_log_file->string());
 	}
 	if (_player_content_directory) {
 		/* [XML] PlayerContentDirectory Directory to use for player content in the dual-screen mode. */
-		root->add_child("PlayerContentDirectory")->add_child_text(_player_content_directory->string());
+		cxml::add_text_child(root, "PlayerContentDirectory", _player_content_directory->string());
 	}
 	if (_player_playlist_directory) {
 		/* [XML] PlayerPlaylistDirectory Directory to use for player playlists in the dual-screen mode. */
-		root->add_child("PlayerPlaylistDirectory")->add_child_text(_player_playlist_directory->string());
+		cxml::add_text_child(root, "PlayerPlaylistDirectory", _player_playlist_directory->string());
 	}
 	if (_player_kdm_directory) {
 		/* [XML] PlayerKDMDirectory Directory to use for player KDMs in the dual-screen mode. */
-		root->add_child("PlayerKDMDirectory")->add_child_text(_player_kdm_directory->string());
+		cxml::add_text_child(root, "PlayerKDMDirectory", _player_kdm_directory->string());
 	}
 	if (_audio_mapping) {
-		_audio_mapping->as_xml (root->add_child("AudioMapping"));
+		_audio_mapping->as_xml(cxml::add_child(root, "AudioMapping"));
 	}
 	for (auto const& i: _custom_languages) {
-		root->add_child("CustomLanguage")->add_child_text(i.to_string());
+		cxml::add_text_child(root, "CustomLanguage", i.to_string());
 	}
 	for (auto const& initial: _initial_paths) {
 		if (initial.second) {
-			root->add_child(initial.first)->add_child_text(initial.second->string());
+			cxml::add_text_child(root, initial.first, initial.second->string());
 		}
 	}
-	root->add_child("UseISDCFNameByDefault")->add_child_text(_use_isdcf_name_by_default ? "1" : "0");
-	root->add_child("WriteKDMsToDisk")->add_child_text(_write_kdms_to_disk ? "1" : "0");
-	root->add_child("EmailKDMs")->add_child_text(_email_kdms ? "1" : "0");
-	root->add_child("DefaultKDMType")->add_child_text(dcp::formulation_to_string(_default_kdm_type));
-	root->add_child("AutoCropThreshold")->add_child_text(raw_convert<string>(_auto_crop_threshold));
+	cxml::add_text_child(root, "UseISDCFNameByDefault", _use_isdcf_name_by_default ? "1" : "0");
+	cxml::add_text_child(root, "WriteKDMsToDisk", _write_kdms_to_disk ? "1" : "0");
+	cxml::add_text_child(root, "EmailKDMs", _email_kdms ? "1" : "0");
+	cxml::add_text_child(root, "DefaultKDMType", dcp::formulation_to_string(_default_kdm_type));
+	cxml::add_text_child(root, "AutoCropThreshold", raw_convert<string>(_auto_crop_threshold));
 	if (_last_release_notes_version) {
-		root->add_child("LastReleaseNotesVersion")->add_child_text(*_last_release_notes_version);
+		cxml::add_text_child(root, "LastReleaseNotesVersion", *_last_release_notes_version);
 	}
 	if (_main_divider_sash_position) {
-		root->add_child("MainDividerSashPosition")->add_child_text(raw_convert<string>(*_main_divider_sash_position));
+		cxml::add_text_child(root, "MainDividerSashPosition", raw_convert<string>(*_main_divider_sash_position));
 	}
 	if (_main_content_divider_sash_position) {
-		root->add_child("MainContentDividerSashPosition")->add_child_text(raw_convert<string>(*_main_content_divider_sash_position));
+		cxml::add_text_child(root, "MainContentDividerSashPosition", raw_convert<string>(*_main_content_divider_sash_position));
 	}
 
-	root->add_child("DefaultAddFileLocation")->add_child_text(
+	cxml::add_text_child(root, "DefaultAddFileLocation",
 		_default_add_file_location == DefaultAddFileLocation::SAME_AS_LAST_TIME ? "last" : "project"
 		);
 
 	/* [XML] AllowSMPTEBv20 1 to allow the user to choose SMPTE (Bv2.0 only) as a standard, otherwise 0 */
-	root->add_child("AllowSMPTEBv20")->add_child_text(_allow_smpte_bv20 ? "1" : "0");
+	cxml::add_text_child(root, "AllowSMPTEBv20", _allow_smpte_bv20 ? "1" : "0");
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
-	root->add_child("ISDCFNamePartLength")->add_child_text(raw_convert<string>(_isdcf_name_part_length));
+	cxml::add_text_child(root, "ISDCFNamePartLength", raw_convert<string>(_isdcf_name_part_length));
 
 #ifdef DCPOMATIC_GROK
 	if (_grok) {
-		_grok->as_xml(root->add_child("Grok"));
+		_grok->as_xml(cxml::add_child(root, "Grok"));
 	}
 #endif
 
-	_export.write(root->add_child("Export"));
+	_export.write(cxml::add_child(root, "Export"));
 
 	auto target = config_write_file();
 
@@ -1186,10 +1186,10 @@ write_file (string root_node, string node, string version, list<shared_ptr<T>> t
 {
 	xmlpp::Document doc;
 	auto root = doc.create_root_node (root_node);
-	root->add_child("Version")->add_child_text(version);
+	cxml::add_text_child(root, "Version", version);
 
 	for (auto i: things) {
-		i->as_xml (root->add_child(node));
+		i->as_xml(cxml::add_child(root, node));
 	}
 
 	try {
@@ -1529,7 +1529,7 @@ void
 Config::link (boost::filesystem::path new_file) const
 {
 	xmlpp::Document doc;
-	doc.create_root_node("Config")->add_child("Link")->add_child_text(new_file.string());
+	cxml::add_text_child(doc.create_root_node("Config"), "Link", new_file.string());
 	try {
 		doc.write_to_file_formatted(write_path("config.xml").string());
 	} catch (xmlpp::exception& e) {

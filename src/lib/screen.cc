@@ -57,7 +57,7 @@ Screen::as_xml (xmlpp::Element* parent) const
 {
 	KDMRecipient::as_xml (parent);
 	for (auto i: trusted_devices) {
-		parent->add_child("TrustedDevice")->add_child_text(i.as_string());
+		cxml::add_text_child(parent, "TrustedDevice", i.as_string());
 	}
 }
 

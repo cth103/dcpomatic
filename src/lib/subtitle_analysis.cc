@@ -70,18 +70,18 @@ SubtitleAnalysis::write (boost::filesystem::path path) const
 	auto doc = make_shared<xmlpp::Document>();
 	xmlpp::Element* root = doc->create_root_node ("SubtitleAnalysis");
 
-	root->add_child("Version")->add_child_text (raw_convert<string>(_current_state_version));
+	cxml::add_text_child(root, "Version", raw_convert<string>(_current_state_version));
 
 	if (_bounding_box) {
-		auto bounding_box = root->add_child("BoundingBox");
-		bounding_box->add_child("X")->add_child_text(raw_convert<string>(_bounding_box->x));
-		bounding_box->add_child("Y")->add_child_text(raw_convert<string>(_bounding_box->y));
-		bounding_box->add_child("Width")->add_child_text(raw_convert<string>(_bounding_box->width));
-		bounding_box->add_child("Height")->add_child_text(raw_convert<string>(_bounding_box->height));
+		auto bounding_box = cxml::add_child(root, "BoundingBox");
+		cxml::add_text_child(bounding_box, "X", raw_convert<string>(_bounding_box->x));
+		cxml::add_text_child(bounding_box, "Y", raw_convert<string>(_bounding_box->y));
+		cxml::add_text_child(bounding_box, "Width", raw_convert<string>(_bounding_box->width));
+		cxml::add_text_child(bounding_box, "Height", raw_convert<string>(_bounding_box->height));
 	}
 
-	root->add_child("AnalysisXOffset")->add_child_text(raw_convert<string>(_analysis_x_offset));
-	root->add_child("AnalysisYOffset")->add_child_text(raw_convert<string>(_analysis_y_offset));
+	cxml::add_text_child(root, "AnalysisXOffset", raw_convert<string>(_analysis_x_offset));
+	cxml::add_text_child(root, "AnalysisYOffset", raw_convert<string>(_analysis_y_offset));
 
 	doc->write_to_file_formatted (path.string());
 }

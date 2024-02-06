@@ -49,15 +49,15 @@ FFmpegSubtitleStream::FFmpegSubtitleStream (cxml::ConstNodePtr node, int version
 }
 
 void
-FFmpegSubtitleStream::as_xml (xmlpp::Node* root) const
+FFmpegSubtitleStream::as_xml(xmlpp::Element* root) const
 {
-	FFmpegStream::as_xml (root);
+	FFmpegStream::as_xml(root);
 
 	boost::mutex::scoped_lock lm (_mutex);
 	for (map<RGBA, RGBA>::const_iterator i = _colours.begin(); i != _colours.end(); ++i) {
-		xmlpp::Node* node = root->add_child("Colour");
-		i->first.as_xml (node->add_child("From"));
-		i->second.as_xml (node->add_child("To"));
+		auto node = cxml::add_child(root, "Colour");
+		i->first.as_xml(cxml::add_child(node, "From"));
+		i->second.as_xml(cxml::add_child(node, "To"));
 	}
 }
 

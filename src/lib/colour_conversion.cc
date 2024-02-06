@@ -151,41 +151,40 @@ ColourConversion::from_xml (cxml::NodePtr node, int version)
 }
 
 void
-ColourConversion::as_xml (xmlpp::Node* node) const
+ColourConversion::as_xml(xmlpp::Element* element) const
 {
-	auto in_node = node->add_child ("InputTransferFunction");
+	auto in_node = cxml::add_child(element, "InputTransferFunction");
 	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in)) {
 		auto tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);
-		in_node->add_child("Type")->add_child_text ("Gamma");
-		in_node->add_child("Gamma")->add_child_text (raw_convert<string> (tf->gamma ()));
+		cxml::add_text_child(in_node, "Type", "Gamma");
+		cxml::add_text_child(in_node, "Gamma", raw_convert<string>(tf->gamma()));
 	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in)) {
 		auto tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in);
-		in_node->add_child("Type")->add_child_text ("ModifiedGamma");
-		in_node->add_child("Power")->add_child_text (raw_convert<string> (tf->power ()));
-		in_node->add_child("Threshold")->add_child_text (raw_convert<string> (tf->threshold ()));
-		in_node->add_child("A")->add_child_text (raw_convert<string> (tf->A ()));
-		in_node->add_child("B")->add_child_text (raw_convert<string> (tf->B ()));
-	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction> (_in)) {
-		in_node->add_child("Type")->add_child_text ("SGamut3");
+		cxml::add_text_child(in_node, "Type", "ModifiedGamma");
+		cxml::add_text_child(in_node, "Power", raw_convert<string>(tf->power ()));
+		cxml::add_text_child(in_node, "Threshold", raw_convert<string>(tf->threshold ()));
+		cxml::add_text_child(in_node, "A", raw_convert<string>(tf->A()));
+		cxml::add_text_child(in_node, "B", raw_convert<string>(tf->B()));
+	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction>(_in)) {
+		cxml::add_text_child(in_node, "Type", "SGamut3");
 	}
 
-	node->add_child("YUVToRGB")->add_child_text (raw_convert<string> (static_cast<int> (_yuv_to_rgb)));
-	node->add_child("RedX")->add_child_text (raw_convert<string> (_red.x));
-	node->add_child("RedY")->add_child_text (raw_convert<string> (_red.y));
-	node->add_child("GreenX")->add_child_text (raw_convert<string> (_green.x));
-	node->add_child("GreenY")->add_child_text (raw_convert<string> (_green.y));
-	node->add_child("BlueX")->add_child_text (raw_convert<string> (_blue.x));
-	node->add_child("BlueY")->add_child_text (raw_convert<string> (_blue.y));
-	node->add_child("WhiteX")->add_child_text (raw_convert<string> (_white.x));
-	node->add_child("WhiteY")->add_child_text (raw_convert<string> (_white.y));
+	cxml::add_text_child(element, "YUVToRGB", raw_convert<string>(static_cast<int>(_yuv_to_rgb)));
+	cxml::add_text_child(element, "RedX", raw_convert<string>(_red.x));
+	cxml::add_text_child(element, "RedY", raw_convert<string>(_red.y));
+	cxml::add_text_child(element, "GreenX", raw_convert<string>(_green.x));
+	cxml::add_text_child(element, "GreenY", raw_convert<string>(_green.y));
+	cxml::add_text_child(element, "BlueX", raw_convert<string>(_blue.x));
+	cxml::add_text_child(element, "BlueY", raw_convert<string>(_blue.y));
+	cxml::add_text_child(element, "WhiteX", raw_convert<string>(_white.x));
+	cxml::add_text_child(element, "WhiteY", raw_convert<string>(_white.y));
 	if (_adjusted_white) {
-		node->add_child("AdjustedWhiteX")->add_child_text (raw_convert<string> (_adjusted_white.get().x));
-		node->add_child("AdjustedWhiteY")->add_child_text (raw_convert<string> (_adjusted_white.get().y));
+		cxml::add_text_child(element, "AdjustedWhiteX", raw_convert<string>(_adjusted_white.get().x));
+		cxml::add_text_child(element, "AdjustedWhiteY", raw_convert<string>(_adjusted_white.get().y));
 	}
 
-	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out)) {
-		shared_ptr<const dcp::GammaTransferFunction> gf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_out);
-		node->add_child("OutputGamma")->add_child_text (raw_convert<string> (gf->gamma ()));
+	if (auto gf = dynamic_pointer_cast<const dcp::GammaTransferFunction>(_out)) {
+		cxml::add_text_child(element, "OutputGamma", raw_convert<string>(gf->gamma()));
 	}
 }
 

@@ -72,7 +72,7 @@ public:
 	TextContent (Content* parent, std::vector<std::shared_ptr<Content>>);
 	TextContent (Content* parent, cxml::ConstNodePtr, int version, std::list<std::string>& notes);
 
-	void as_xml (xmlpp::Node *) const;
+	void as_xml(xmlpp::Element*) const;
 	std::string identifier () const;
 	void take_settings_from (std::shared_ptr<const TextContent> c);
 

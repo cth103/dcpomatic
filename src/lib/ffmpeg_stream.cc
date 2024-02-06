@@ -40,10 +40,10 @@ FFmpegStream::FFmpegStream (cxml::ConstNodePtr node)
 }
 
 void
-FFmpegStream::as_xml (xmlpp::Node* root) const
+FFmpegStream::as_xml(xmlpp::Element* root) const
 {
-	root->add_child("Name")->add_child_text (name);
-	root->add_child("Id")->add_child_text (raw_convert<string> (_id));
+	cxml::add_text_child(root, "Name", name);
+	cxml::add_text_child(root, "Id", raw_convert<string>(_id));
 }
 
 bool

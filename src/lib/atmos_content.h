@@ -42,7 +42,7 @@ public:
 
 	static std::shared_ptr<AtmosContent> from_xml (Content* parent, cxml::ConstNodePtr node);
 
-	void as_xml (xmlpp::Node* node) const;
+	void as_xml(xmlpp::Element* element) const;
 
 	void set_length (Frame len);
 

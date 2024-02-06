@@ -239,7 +239,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 	/* Collect all XML metadata */
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("EncodingRequest");
-	root->add_child("Version")->add_child_text (raw_convert<string> (SERVER_LINK_VERSION));
+	cxml::add_text_child(root, "Version", raw_convert<string>(SERVER_LINK_VERSION));
 	add_metadata (root);
 
 	LOG_DEBUG_ENCODE (N_("Sending frame %1 to remote"), _index);
@@ -278,10 +278,10 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 void
 DCPVideo::add_metadata (xmlpp::Element* el) const
 {
-	el->add_child("Index")->add_child_text (raw_convert<string> (_index));
-	el->add_child("FramesPerSecond")->add_child_text (raw_convert<string> (_frames_per_second));
-	el->add_child("J2KBandwidth")->add_child_text (raw_convert<string> (_j2k_bandwidth));
-	el->add_child("Resolution")->add_child_text (raw_convert<string> (int (_resolution)));
+	cxml::add_text_child(el, "Index", raw_convert<string>(_index));
+	cxml::add_text_child(el, "FramesPerSecond", raw_convert<string>(_frames_per_second));
+	cxml::add_text_child(el, "J2KBandwidth", raw_convert<string>(_j2k_bandwidth));
+	cxml::add_text_child(el, "Resolution", raw_convert<string>(int(_resolution)));
 	_frame->add_metadata (el);
 }
 

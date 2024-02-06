@@ -75,7 +75,7 @@ public:
 	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
 	std::string summary () const override;
 	std::string technical_summary () const override;
-	void as_xml (xmlpp::Node *, bool with_paths) const override;
+	void as_xml(xmlpp::Element*, bool with_paths) const override;
 	std::string identifier () const override;
 	void take_settings_from (std::shared_ptr<const Content> c) override;
 

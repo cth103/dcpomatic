@@ -93,8 +93,8 @@ Analytics::write () const
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("Analytics");
 
-	root->add_child("Version")->add_child_text(raw_convert<string>(_current_version));
-	root->add_child("SuccessfulDCPEncodes")->add_child_text(raw_convert<string>(_successful_dcp_encodes));
+	cxml::add_text_child(root, "Version", raw_convert<string>(_current_version));
+	cxml::add_text_child(root, "SuccessfulDCPEncodes", raw_convert<string>(_successful_dcp_encodes));
 
 	try {
 		doc.write_to_file_formatted(write_path("analytics.xml").string());

@@ -121,11 +121,11 @@ VideoMXFContent::identifier () const
 
 
 void
-VideoMXFContent::as_xml (xmlpp::Node* node, bool with_paths) const
+VideoMXFContent::as_xml(xmlpp::Element* element, bool with_paths) const
 {
-	node->add_child("Type")->add_child_text("VideoMXF");
-	Content::as_xml (node, with_paths);
-	video->as_xml (node);
+	cxml::add_text_child(element, "Type", "VideoMXF");
+	Content::as_xml(element, with_paths);
+	video->as_xml(element);
 }
 
 

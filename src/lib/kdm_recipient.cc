@@ -39,14 +39,14 @@ KDMRecipient::KDMRecipient (cxml::ConstNodePtr node)
 void
 KDMRecipient::as_xml (xmlpp::Element* parent) const
 {
-	parent->add_child("Name")->add_child_text(name);
+	cxml::add_text_child(parent, "Name", name);
 	if (recipient) {
-		parent->add_child("Recipient")->add_child_text(recipient->certificate(true));
+		cxml::add_text_child(parent, "Recipient", recipient->certificate(true));
 	}
 	if (recipient_file) {
-		parent->add_child("RecipientFile")->add_child_text(*recipient_file);
+		cxml::add_text_child(parent, "RecipientFile", *recipient_file);
 	}
 
-	parent->add_child("Notes")->add_child_text(notes);
+	cxml::add_text_child(parent, "Notes", notes);
 }
 

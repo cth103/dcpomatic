@@ -37,7 +37,7 @@ public:
 
 	void set_defaults();
 	void read(cxml::ConstNodePtr node);
-	void write(xmlpp::Element* node) const;
+	void write(xmlpp::Element* element) const;
 
 	ExportFormat format() const {
 		return _format;
