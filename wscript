@@ -111,6 +111,7 @@ def configure(conf):
                                        '-Wall',
                                        '-Wextra',
                                        '-Wwrite-strings',
+                                       '-Wno-error=deprecated',
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64',
@@ -120,8 +121,7 @@ def configure(conf):
         # These are for Xcode 15.0.1 with the v2.16.x-era
         # dependencies; maybe they aren't necessary when building
         # v2.1{7,8}.x
-        conf.env.append_value('CXXFLAGS', ['-Wno-error=deprecated',
-                                           '-Wno-deprecated-builtins',
+        conf.env.append_value('CXXFLAGS', ['-Wno-deprecated-builtins',
                                            '-Wno-deprecated-declarations',
                                            '-Wno-enum-constexpr-conversion',
                                            '-Wno-deprecated-copy'])
