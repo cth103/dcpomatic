@@ -558,6 +558,7 @@ supported_by.Add (wxT ("Inskino"));
 supported_by.Add (wxT ("Bryn Mawr Film Institute"));
 supported_by.Add (wxT ("IntergalacticFM"));
 supported_by.Add (wxT ("20minmax International Short Film Festival"));
+supported_by.Add (wxT ("Shinya Isobe"));
 supported_by.Add (wxT ("Theodore Ivanov"));
 supported_by.Add (wxT ("Julien Ivanowich"));
 supported_by.Add (wxT ("Denis Ivashvkevych"));
