@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2023-09-14 22:45+0200\n"
+"PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -78,12 +77,11 @@ msgid "%s %s"
 msgstr "%s %s"
 
 #: src/wx/about_dialog.cc:89
-#, fuzzy
 msgid ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 msgstr ""
-"(C) 2012-2023 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 
 #: src/wx/file_picker_ctrl.cc:51 src/wx/file_picker_ctrl.cc:66
@@ -719,14 +717,12 @@ msgid "Certificate downloaded"
 msgstr "Preneseno potrdilo"
 
 #: src/wx/invalid_certificate_period_dialog.cc:63
-#, fuzzy
 msgid "Certificate end"
-msgstr "Veriga potrdil"
+msgstr "Konec potrdila"
 
 #: src/wx/invalid_certificate_period_dialog.cc:55
-#, fuzzy
 msgid "Certificate start"
-msgstr "Veriga potrdil"
+msgstr "Začetek potrdila"
 
 #: src/wx/metadata_dialog.cc:298
 msgid "Chain"
@@ -785,9 +781,8 @@ msgid "Christie"
 msgstr "Christie"
 
 #: src/wx/invalid_certificate_period_dialog.cc:39
-#, fuzzy
 msgid "Cinema"
-msgstr "kino"
+msgstr "Kino"
 
 #: src/wx/full_config_dialog.cc:122
 msgid "Cinema and screen database file"
@@ -961,7 +956,7 @@ msgstr "Naslovnica"
 
 #: src/wx/invalid_certificate_period_dialog.cc:98
 msgid "Create KDMs anyway"
-msgstr ""
+msgstr "Vseeno ustvari KDM-je"
 
 #: src/wx/film_name_location_dialog.cc:51
 msgid "Create in folder"
@@ -1737,13 +1732,12 @@ msgid "Intermediate common name"
 msgstr "Skupno ime vmesne kopije (intermediata)"
 
 #: src/wx/metadata_dialog.cc:208
-#, fuzzy
 msgid "International texted"
-msgstr "Besedilo pripombe CPL"
+msgstr "Mednarodno, z besedilom"
 
 #: src/wx/metadata_dialog.cc:209
 msgid "International textless"
-msgstr ""
+msgstr "Mednarodno, brez besedila"
 
 #: src/wx/dcp_panel.cc:173 src/wx/full_config_dialog.cc:414
 msgid "Interop"
@@ -1754,9 +1748,8 @@ msgid "Invalid DCP-o-matic export file"
 msgstr "Neveljavna izvozna datoteka DCP-o-matic"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
-#, fuzzy
 msgid "Invalid certificates"
-msgstr "Prenesi potrdilo"
+msgstr "Neveljavna potrdila"
 
 #: src/wx/colour_conversion_editor.cc:215
 msgid "Inverse 2.6 gamma correction on output"
@@ -2673,9 +2666,8 @@ msgid "Scale"
 msgstr "Umeri"
 
 #: src/wx/invalid_certificate_period_dialog.cc:47
-#, fuzzy
 msgid "Screen"
-msgstr "Platna"
+msgstr "Zaslon"
 
 #: src/wx/kdm_dialog.cc:81
 msgid "Screens"
@@ -2816,9 +2808,8 @@ msgid "Set project DCP settings from this DCP"
 msgstr "Nastavi DCP-nastavitve projekta iz tega DCP"
 
 #: src/wx/content_menu.cc:113
-#, fuzzy
 msgid "Set project markers from this DCP"
-msgstr "Nastavi DCP-nastavitve projekta iz tega DCP"
+msgstr "Nastavi oznake projekta iz tega DCP"
 
 #: src/wx/custom_scale_dialog.cc:42
 msgid "Set ratio and fit to DCP container"
@@ -2855,11 +2846,11 @@ msgstr "Pokaži grafikon ravni zvoka ..."
 #: src/wx/screens_panel.cc:763
 #, c-format
 msgid "Show only %d checked"
-msgstr ""
+msgstr "Pokaži le %d potrjenih"
 
 #: src/wx/screens_panel.cc:65 src/wx/screens_panel.cc:761
 msgid "Show only checked"
-msgstr ""
+msgstr "Pokaži le potrjene"
 
 #: src/wx/text_panel.cc:170
 msgid "Show subtitle area"
@@ -2903,14 +2894,12 @@ msgid "Snap"
 msgstr "Pripni"
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
-#, fuzzy
 msgid ""
 "Some KDMs would have validity periods which are outside the recipient "
 "certificate validity periods.  What do you want to do?"
 msgstr ""
-"Nekateri KDM bi imeli obdobja veljavnosti, ki so povsem zunaj obdobij "
-"veljavnosti prejemnikovega potrdila.  Takšni KDM najverjetneje ne bodo "
-"delovali, zato ne bodo ustvarjeni."
+"Nekateri KDM bi imeli obdobja veljavnosti, ki so zunaj obdobij veljavnosti "
+"prejemnikovega potrdila.  Kaj želite storiti?"
 
 #: src/wx/verify_dcp_dialog.cc:384
 msgid ""
@@ -2940,9 +2929,8 @@ msgid "Sound processor"
 msgstr "Zvočni procesor"
 
 #: src/wx/metadata_dialog.cc:207
-#, fuzzy
 msgid "Specific"
-msgstr "Nedoločeno"
+msgstr "Posebno"
 
 #: src/wx/dcp_panel.cc:150
 msgid "Split by video content"
@@ -3069,7 +3057,7 @@ msgstr "Začasna različica"
 
 #: src/wx/metadata_dialog.cc:205
 msgid "Territory type"
-msgstr ""
+msgstr "Vrsta ozemlja"
 
 #: src/wx/full_config_dialog.cc:994 src/wx/full_config_dialog.cc:997
 msgid "Test email sending failed."
@@ -4239,9 +4227,8 @@ msgid "full screen"
 msgstr "celozaslonsko"
 
 #: src/wx/player_config_dialog.cc:99
-#, fuzzy
 msgid "full screen with separate advanced controls"
-msgstr "celozaslonsko s kontrolniki na drugem zaslonu"
+msgstr "celozaslonsko z ločenimi naprednimi kontrolniki"
 
 #. TRANSLATORS: this is an abbreviation for "hours"
 #: src/wx/timing_panel.cc:85
@@ -4365,12 +4352,3 @@ msgstr "let"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "da"
-
-#~ msgid ""
-#~ "For some of these KDMs the recipient certificate's validity period will "
-#~ "not cover the whole of the KDM validity period.  This might cause "
-#~ "problems with the KDMs."
-#~ msgstr ""
-#~ "Pri nekaterih od teh KDM-jev obdobje veljavnosti prejemnikovega potrdila "
-#~ "ne pokriva celotnega obdobja veljavnosti KDM.  To lahko povzroči težave s "
-#~ "KDM-ji."
