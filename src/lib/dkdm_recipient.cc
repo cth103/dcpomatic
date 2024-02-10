@@ -24,7 +24,6 @@
 #include "film.h"
 #include "kdm_with_metadata.h"
 #include <dcp/raw_convert.h>
-#include <dcp/utc_offset.h>
 
 
 using std::make_shared;
@@ -40,9 +39,6 @@ DKDMRecipient::DKDMRecipient (cxml::ConstNodePtr node)
 	for (auto i: node->node_children("Email")) {
 		emails.push_back (i->content());
 	}
-
-	utc_offset_hour = node->number_child<int>("UTCOffsetHour");
-	utc_offset_minute = node->number_child<int>("UTCOffsetMinute");
 }
 
 
@@ -54,9 +50,6 @@ DKDMRecipient::as_xml (xmlpp::Element* node) const
 	for (auto i: emails) {
 		node->add_child("Email")->add_child_text(i);
 	}
-
-	node->add_child("UTCOffsetHour")->add_child_text(raw_convert<string>(utc_offset_hour));
-	node->add_child("UTCOffsetMinute")->add_child_text(raw_convert<string>(utc_offset_minute));
 }
 
 

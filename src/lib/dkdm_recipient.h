@@ -33,14 +33,10 @@ public:
 		std::string const& name_,
 		std::string const& notes_,
 		boost::optional<dcp::Certificate> recipient_,
-		std::vector<std::string> emails_,
-		int utc_offset_hour_,
-		int utc_offset_minute_
+		std::vector<std::string> emails_
 		)
 		: KDMRecipient (name_, notes_, recipient_, boost::none)
 	  	, emails (emails_)
-		, utc_offset_hour (utc_offset_hour_)
-		, utc_offset_minute (utc_offset_minute_)
 	{
 
 	}
@@ -50,8 +46,6 @@ public:
 	void as_xml (xmlpp::Element *) const override;
 
 	std::vector<std::string> emails;
-	int utc_offset_hour;
-	int utc_offset_minute;
 };
 
 

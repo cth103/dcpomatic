@@ -55,7 +55,7 @@ column (string s)
 
 
 RecipientDialog::RecipientDialog (
-	wxWindow* parent, wxString title, string name, string notes, vector<string> emails, int utc_offset_hour, int utc_offset_minute, optional<dcp::Certificate> recipient
+	wxWindow* parent, wxString title, string name, string notes, vector<string> emails, optional<dcp::Certificate> recipient
 	)
 	: wxDialog (parent, wxID_ANY, title)
 	, _recipient (recipient)
@@ -74,11 +74,6 @@ RecipientDialog::RecipientDialog (
 	add_label_to_sizer (_sizer, this, _("Notes"), true, wxGBPosition (r, 0));
 	_notes = new wxTextCtrl (this, wxID_ANY, std_to_wx (notes), wxDefaultPosition, wxSize (320, -1));
 	_sizer->Add (_notes, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_sizer (_sizer, this, _("UTC offset (time zone)"), true, wxGBPosition (r, 0));
-	_utc_offset = new wxChoice (this, wxID_ANY);
-	_sizer->Add (_utc_offset, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_sizer (_sizer, this, _("Email addresses for KDM delivery"), false, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -127,17 +122,6 @@ RecipientDialog::RecipientDialog (
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
-
-	/* Default to UTC */
-	size_t sel = get_offsets (_offsets);
-	for (size_t i = 0; i < _offsets.size(); ++i) {
-		_utc_offset->Append (_offsets[i].name);
-		if (_offsets[i].hour == utc_offset_hour && _offsets[i].minute == utc_offset_minute) {
-			sel = i;
-		}
-	}
-
-	_utc_offset->SetSelection (sel);
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
@@ -237,28 +221,3 @@ RecipientDialog::emails () const
 {
 	return _emails;
 }
-
-
-int
-RecipientDialog::utc_offset_hour () const
-{
-	int const sel = _utc_offset->GetSelection();
-	if (sel < 0 || sel > int (_offsets.size())) {
-		return 0;
-	}
-
-	return _offsets[sel].hour;
-}
-
-int
-RecipientDialog::utc_offset_minute () const
-{
-	int const sel = _utc_offset->GetSelection();
-	if (sel < 0 || sel > int (_offsets.size())) {
-		return 0;
-	}
-
-	return _offsets[sel].minute;
-}
-
-

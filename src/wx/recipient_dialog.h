@@ -44,8 +44,6 @@ public:
 		std::string name = "",
 		std::string notes = "",
 		std::vector<std::string> emails = std::vector<std::string>(),
-		int utc_offset_hour = 0,
-		int utc_offset_minute = 0,
 		boost::optional<dcp::Certificate> c = boost::optional<dcp::Certificate>()
 		);
 
@@ -53,8 +51,6 @@ public:
 	std::string notes () const;
 	boost::optional<dcp::Certificate> recipient () const;
 	std::vector<std::string> emails () const;
-	int utc_offset_hour () const;
-	int utc_offset_minute () const;
 
 private:
 	void get_recipient_from_file ();
@@ -71,8 +67,6 @@ private:
 	wxButton* _get_recipient_from_file;
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
-	wxChoice* _utc_offset;
-	std::vector<Offset> _offsets;
 
 	boost::optional<dcp::Certificate> _recipient;
 };
