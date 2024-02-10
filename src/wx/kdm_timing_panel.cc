@@ -122,7 +122,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_warning->SetFont(font);
 
 	/* Default to UTC */
-	size_t sel = 0;
+	size_t sel = get_offsets(_offsets);
 	for (size_t i = 0; i < _offsets.size(); ++i) {
 		_utc_offset->add(_offsets[i].name);
 		if (_offsets[i].hour == 0 && _offsets[i].minute == 0) {
