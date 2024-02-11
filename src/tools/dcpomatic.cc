@@ -1414,7 +1414,8 @@ private:
 	void config_changed (Config::Property what)
 	{
 		/* Instantly save any config changes when using the DCP-o-matic GUI */
-		if (what == Config::CINEMAS) {
+		switch (what) {
+		case Config::CINEMAS:
 			try {
 				Config::instance()->write_cinemas();
 			} catch (exception& e) {
@@ -1426,7 +1427,21 @@ private:
 						)
 					);
 			}
-		} else {
+			break;
+		case Config::DKDM_RECIPIENTS:
+			try {
+				Config::instance()->write_dkdm_recipients();
+			} catch (exception& e) {
+				error_dialog (
+					this,
+					wxString::Format (
+						_("Could not write to DKDM recipients file at %s.  Your changes have not been saved."),
+						std_to_wx(Config::instance()->dkdm_recipients_file().string()).data()
+						)
+					);
+			}
+			break;
+		default:
 			try {
 				Config::instance()->write_config();
 			} catch (exception& e) {
