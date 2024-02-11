@@ -70,6 +70,7 @@ supported_by.Add (wxT ("Tahirih Association"));
 supported_by.Add (wxT ("Cine Trianon Athens"));
 supported_by.Add (wxT ("Kirk Attard"));
 supported_by.Add (wxT ("Eric Audurier"));
+supported_by.Add (wxT ("Francesco De Augustinis"));
 supported_by.Add (wxT ("Dylan Avery"));
 supported_by.Add (wxT ("Christian Bachmayer"));
 supported_by.Add (wxT ("John Bacon"));
