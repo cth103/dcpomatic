@@ -115,9 +115,6 @@ RecipientDialog::RecipientDialog (
 	_sizer->Add (s, wxGBPosition (r, 1));
 	++r;
 
-	add_label_to_sizer (_sizer, this, _("Other trusted devices"), true, wxGBPosition (r, 0));
-	++r;
-
 	_name->Bind (wxEVT_TEXT, boost::bind (&RecipientDialog::setup_sensitivity, this));
 	_get_recipient_from_file->Bind (wxEVT_BUTTON, boost::bind (&RecipientDialog::get_recipient_from_file, this));
 
