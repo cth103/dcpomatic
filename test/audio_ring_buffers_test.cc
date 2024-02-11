@@ -30,8 +30,6 @@ using namespace dcpomatic;
 #define CANARY 9999
 
 
-/* XXX: these tests don't check the timestamping in AudioRingBuffers */
-
 /** Basic tests fetching the same number of channels as went in */
 BOOST_AUTO_TEST_CASE (audio_ring_buffers_test1)
 {

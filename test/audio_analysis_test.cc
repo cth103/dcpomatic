@@ -41,6 +41,7 @@
 #include "lib/ratio.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
+#include <numeric>
 
 
 using std::make_shared;
@@ -281,5 +282,29 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_more_channels_than_film)
 	boost::signals2::connection c;
 	JobManager::instance()->analyse_audio(film_6ch, playlist, false, c, [](Job::Result) {});
 	BOOST_CHECK(!wait_for_jobs());
+}
+
+
+BOOST_AUTO_TEST_CASE(analyse_audio_uses_processor_when_analysing_whole_film)
+{
+	auto sound = content_factory(TestPaths::private_data() / "betty_stereo.wav")[0];
+	auto film = new_test_film2("analyse_audio_uses_processor_when_analysing_whole_film", { sound });
+
+	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), true);
+	JobManager::instance()->add(job);
+	BOOST_REQUIRE(!wait_for_jobs());
+
+	AudioAnalysis analysis(job->path());
+
+	BOOST_REQUIRE(analysis.channels() > 2);
+	bool centre_non_zero = false;
+	/* Make sure there's something from the mid-side decoder on the centre channel */
+	for (auto point = 0; point < analysis.points(2); ++point) {
+		if (std::abs(analysis.get_point(2, point)[AudioPoint::Type::PEAK]) > 0) {
+			centre_non_zero = true;
+		}
+	}
+
+	BOOST_CHECK(centre_non_zero);
 }
 

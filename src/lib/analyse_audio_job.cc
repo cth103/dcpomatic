@@ -47,12 +47,16 @@ using namespace boost::placeholders;
 #endif
 
 
-/** @param from_zero true to analyse audio from time 0 in the playlist, otherwise begin at Playlist::start */
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool from_zero)
+/** @param whole_film true to analyse the whole film' audio (i.e. start from time 0 and use processors), false
+ *  to analyse just the single piece of content in the playlist (i.e. start from Playlist::start() and do not
+ *  use processors.
+ */
+AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film)
 	: Job (film)
-	, _analyser (film, playlist, from_zero, boost::bind(&Job::set_progress, this, _1, false))
+	, _analyser(film, playlist, whole_film, boost::bind(&Job::set_progress, this, _1, false))
 	, _playlist (playlist)
 	, _path (film->audio_analysis_path(playlist))
+	, _whole_film(whole_film)
 {
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::AnalyseAudioJob");
 }
@@ -89,6 +93,9 @@ AnalyseAudioJob::run ()
 	player->set_fast ();
 	player->set_play_referenced ();
 	player->Audio.connect (bind(&AudioAnalyser::analyse, &_analyser, _1, _2));
+	if (!_whole_film) {
+		player->set_disable_audio_processor();
+	}
 
 	bool has_any_audio = false;
 	for (auto c: _playlist->content()) {

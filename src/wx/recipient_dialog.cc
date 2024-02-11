@@ -82,7 +82,7 @@ RecipientDialog::RecipientDialog (
 	copy (emails.begin(), emails.end(), back_inserter (_emails));
 
 	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn(_("Address")));
+	columns.push_back(EditableListColumn(_("Address"), 400, true));
 	_email_list = new EditableList<string, EmailDialog> (
 		this, columns, bind(&RecipientDialog::get_emails, this), bind(&RecipientDialog::set_emails, this, _1), bind(&column, _1),
 		EditableListTitle::VISIBLE,
@@ -108,9 +108,6 @@ RecipientDialog::RecipientDialog (
 	s->Add (_recipient_thumbprint, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
 	s->Add (_get_recipient_from_file, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_X_GAP);
 	_sizer->Add (s, wxGBPosition (r, 1));
-	++r;
-
-	add_label_to_sizer (_sizer, this, _("Other trusted devices"), true, wxGBPosition (r, 0));
 	++r;
 
 	_name->Bind (wxEVT_TEXT, boost::bind (&RecipientDialog::setup_sensitivity, this));

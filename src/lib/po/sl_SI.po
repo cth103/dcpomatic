@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2023-09-14 22:18+0200\n"
+"PO-Revision-Date: 2024-02-10 16:15+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
 "Language: sl_SI\n"
@@ -208,17 +208,17 @@ msgstr "; %1 preostalo; zaključevanje ob %2%3"
 
 #: src/lib/analytics.cc:65
 msgid ""
-"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" "
-"src=\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the "
-"developer of DCP-o-matic. I work on it in my spare time (with the help of a "
-"fine volunteer team of testers and translators) and I release it as free "
-"software.<p>If you find DCP-o-matic useful, please consider a donation to "
-"the project. Financial support will help me to spend more time developing "
-"DCP-o-matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
-"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a "
-"href=\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to "
-"donate €20</a><li><a href=\"https://dcpomatic.com/donate_amount?"
-"amount=10\">Go to Paypal to donate €10</a></ul><p>Thank you!"
+"<h2>You have made %1 DCPs with DCP-o-matic!</h2><img width=\"20%%\" src="
+"\"memory:me.jpg\" align=\"center\"><p>Hello. I'm Carl and I'm the developer "
+"of DCP-o-matic. I work on it in my spare time (with the help of a fine "
+"volunteer team of testers and translators) and I release it as free software."
+"<p>If you find DCP-o-matic useful, please consider a donation to the "
+"project. Financial support will help me to spend more time developing DCP-o-"
+"matic and making it better!<p><ul><li><a href=\"https://dcpomatic.com/"
+"donate_amount?amount=40\">Go to Paypal to donate €40</a><li><a href="
+"\"https://dcpomatic.com/donate_amount?amount=20\">Go to Paypal to donate "
+"€20</a><li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to "
+"Paypal to donate €10</a></ul><p>Thank you!"
 msgstr ""
 "<h2>%1 DCP ste izdelali z DCP-o-matic!</h2><img width=\"20%%\" src=\"memory:"
 "me.jpg\" align=\"center\"><p>Pozdravljeni. Jaz sem Carl in sem razvijalec "
@@ -929,9 +929,8 @@ msgid "Event"
 msgstr "Dogodek"
 
 #: src/lib/hints.cc:397
-#, fuzzy
 msgid "Examining audio"
-msgstr "Preučevanje podnaslovov"
+msgstr "Preučevanje zvoka"
 
 #: src/lib/hints.cc:399
 msgid "Examining audio, subtitles and closed captions"
@@ -1078,7 +1077,6 @@ msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "Če uporabljate 25 sl/s, morate spremeniti standard DCP v SMPTE."
 
 #: src/lib/hints.cc:249
-#, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1086,7 +1084,7 @@ msgid ""
 msgstr ""
 "Na splošno je zdaj priporočljivo, da izdelujete DCP-je SMPTE, razen če imate "
 "poseben razlog za uporabo Interop.  Svetujemo, da vaš DCP uporablja standard "
-"SMPTE, ki ga določite na zavihku »DCP«."
+"SMPTE, kar določite na zavihku »DCP«."
 
 #: src/lib/release_notes.cc:53
 msgid ""
@@ -1231,14 +1229,13 @@ msgid "No CPLs found in DCP."
 msgstr "V DCP-ju ni CPL-jev."
 
 #: src/lib/kdm_with_metadata.cc:217
-#, fuzzy
 msgid "No from address configured in the KDM Email tab of preferences"
-msgstr "Noben KDM iz naslova ni določen v nastavitvah"
+msgstr "Noben dohodni naslov ni določen v nastavitvah na zavihku e-naslova KDM"
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:70
-#, fuzzy
 msgid "No outgoing mail server configured in the Email tab of preferences"
-msgstr "Noben poštni strežnik ni določen v nastavitvah"
+msgstr ""
+"Noben odhodni poštni strežnik ni določen v nastavitvah na zavihku e-pošte"
 
 #: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
@@ -1309,7 +1306,7 @@ msgstr "Politika"
 
 #: src/lib/filter.cc:106
 msgid "Premultiply alpha channel"
-msgstr ""
+msgstr "Vnaprej pomnoži kanal alfa"
 
 #: src/lib/content.cc:494
 msgid "Prepared for video frame rate"
@@ -1578,7 +1575,6 @@ msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Veriga potrdil za podpisovanje ni veljavna (%1)"
 
 #: src/lib/hints.cc:721
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error which will prevent DCPs from being validated "
@@ -1586,14 +1582,13 @@ msgid ""
 "certificate chain by clicking the \"Re-make certificates and key...\" button "
 "in the Keys page of Preferences."
 msgstr ""
-"Veriga potrdil, ki jo DCP-o-matic uporablja za podpisovanje DCP in KDM-jev, "
-"vsebuje majhno napako, ki bo preprečila pravilno preverjanje veljavnosti DCP "
-"v nekaterih sistemih.  Svetujemo vam, da znova ustvarite verigo potrdil za "
-"podpisovanje s klikom gumba »Ponovno izdelaj potrdila in ključ …« na strani "
-"Ključi v Nastavitvah."
+"Veriga potrdil, ki jo DCP-o-matic uporablja za podpisovanje DCP-jev in KDM-"
+"jev, vsebuje majhno napako, ki bo preprečila pravilno preverjanje "
+"veljavnosti DCP v nekaterih sistemih.  Svetujemo vam, da znova ustvarite "
+"verigo potrdil za podpisovanje s klikom gumba »Ponovno izdelaj potrdila in "
+"ključ …« na strani Ključi v Nastavitvah."
 
 #: src/lib/hints.cc:727
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period that is too long.  This will cause problems playing back "
@@ -1642,7 +1637,6 @@ msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Datoteka %1 je bila obrezana za %2 milisekund več."
 
 #: src/lib/hints.cc:239
-#, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1651,7 +1645,7 @@ msgid ""
 "systems support your chosen DCP rate."
 msgstr ""
 "Velika razlika je med hitrostjo sličic vašega DCP-ja in nekaterih vaših "
-"vsebin.  To bo povzročilo predvajanje zvoka na precej nižjem ali višjem "
+"vsebin.  To bo povzročilo predvajanje zvoka pri precej nižji ali višji "
 "frekvenci, kot bi bilo potrebno.  Svetujemo vam, da nastavite hitrost sličic "
 "DCP na takšno, ki je bližje vaši vsebini, pod pogojem, da ciljni sistemi "
 "projekcije podpirajo izbrano hitrost DCP."
@@ -1840,15 +1834,14 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Še en filter za razpletanje"
 
 #: src/lib/hints.cc:199
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
 "Nastavljeno imate za DCP s hitrostjo %1 sl/s.  Te hitrosti sličic ne "
-"podpirajo vsi projektorji.  Svetujemo vam, da spremenite hitrost sličic DCP "
-"na %2 sl/s."
+"podpirajo vsi projektorji.  Svetujemo vam, da spremenite hitrost predvajanja "
+"DCP na %2 sl/s."
 
 #: src/lib/hints.cc:183
 msgid ""
@@ -2181,12 +2174,3 @@ msgstr "neznano"
 #: src/lib/video_content.cc:516
 msgid "video frames"
 msgstr "video sličice"
-
-#~ msgid "it does not have closed captions in all its reels."
-#~ msgstr "nima zaprtih napisov v vseh svojih kolutih."
-
-#~ msgid "it does not have open subtitles in all its reels."
-#~ msgstr "nima odprtih podnaslovov v vseh svojih kolutih."
-
-#~ msgid "it does not have sound in all its reels."
-#~ msgstr "nima zvoka v vseh svojih kolutih."

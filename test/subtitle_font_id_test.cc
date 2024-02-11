@@ -23,6 +23,7 @@
 #include "lib/dcp_content.h"
 #include "lib/film.h"
 #include "lib/font.h"
+#include "lib/player.h"
 #include "lib/text_content.h"
 #include "lib/util.h"
 #include <dcp/cpl.h>
@@ -291,3 +292,13 @@ BOOST_AUTO_TEST_CASE(use_first_loadfont_as_default)
 	BOOST_REQUIRE_EQUAL(subtitle->font_data().size(), 1U);
 	BOOST_CHECK(subtitle->font_data().begin()->second == dcp::ArrayData("test/data/Inconsolata-VF.ttf"));
 }
+
+
+BOOST_AUTO_TEST_CASE(no_error_with_ccap_that_mentions_no_font)
+{
+	auto dcp = make_shared<DCPContent>("test/data/ccap_only");
+	auto film = new_test_film2("no_error_with_ccap_that_mentions_no_font", { dcp });
+	auto player = Player(film, film->playlist());
+	while (!player.pass()) {}
+}
+

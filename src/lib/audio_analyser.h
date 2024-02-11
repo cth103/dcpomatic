@@ -39,7 +39,7 @@ class Playlist;
 class AudioAnalyser
 {
 public:
-	AudioAnalyser (std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist, bool from_zero, std::function<void (float)> set_progress);
+	AudioAnalyser(std::shared_ptr<const Film> film, std::shared_ptr<const Playlist> playlist, bool whole_film, std::function<void (float)> set_progress);
 
 	AudioAnalyser (AudioAnalyser const&) = delete;
 	AudioAnalyser& operator= (AudioAnalyser const&) = delete;

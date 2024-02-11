@@ -52,7 +52,7 @@ using namespace dcpomatic;
 static auto constexpr num_points = 1024;
 
 
-AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool from_zero, std::function<void (float)> set_progress)
+AudioAnalyser::AudioAnalyser(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film, std::function<void (float)> set_progress)
 	: _film (film)
 	, _playlist (playlist)
 	, _set_progress (set_progress)
@@ -71,7 +71,7 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 
 	_current = std::vector<AudioPoint>(_film->audio_channels());
 
-	if (!from_zero) {
+	if (!whole_film) {
 		_start = _playlist->start().get_value_or(DCPTime());
 	}
 
@@ -87,7 +87,9 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 	};
 
 	auto content = _playlist->content();
-	if (content.size() == 1 && content[0]->audio) {
+	if (whole_film) {
+		_leqm_channels = film->audio_channels();
+	} else {
 		_leqm_channels = 0;
 		for (auto channel: content[0]->audio->mapping().mapped_output_channels()) {
 			/* This means that if, for example, a file only maps C we will
@@ -96,8 +98,6 @@ AudioAnalyser::AudioAnalyser (shared_ptr<const Film> film, shared_ptr<const Play
 			 */
 			_leqm_channels = std::min(film->audio_channels(), channel + 1);
 		}
-	} else {
-		_leqm_channels = film->audio_channels();
 	}
 
 	/* XXX: is this right?  Especially for more than 5.1? */

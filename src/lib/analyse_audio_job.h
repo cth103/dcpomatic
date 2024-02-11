@@ -50,7 +50,7 @@ class Filter;
 class AnalyseAudioJob : public Job
 {
 public:
-	AnalyseAudioJob (std::shared_ptr<const Film>, std::shared_ptr<const Playlist>, bool from_zero);
+	AnalyseAudioJob(std::shared_ptr<const Film>, std::shared_ptr<const Playlist>, bool whole_film);
 	~AnalyseAudioJob ();
 
 	std::string name () const override;
@@ -70,6 +70,7 @@ private:
 	std::shared_ptr<const Playlist> _playlist;
 	/** playlist's audio analysis path when the job was created */
 	boost::filesystem::path _path;
+	bool _whole_film;
 
 	static const int _num_points;
 };
