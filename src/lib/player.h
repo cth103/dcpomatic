@@ -105,6 +105,7 @@ public:
 	void set_fast ();
 	void set_play_referenced ();
 	void set_dcp_decode_reduction (boost::optional<int> reduction);
+	void set_disable_audio_processor();
 
 	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t) const;
 	boost::optional<dcpomatic::ContentTime> dcp_to_content_time (std::shared_ptr<const Content> content, dcpomatic::DCPTime t) const;
@@ -243,6 +244,7 @@ private:
 
 	EnumIndexedVector<ActiveText, TextType> _active_texts;
 	std::shared_ptr<AudioProcessor> _audio_processor;
+	bool _disable_audio_processor = false;
 
 	boost::atomic<dcpomatic::DCPTime> _playback_length;
 

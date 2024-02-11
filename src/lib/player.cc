@@ -191,6 +191,7 @@ Player::Player(Player&& other)
 	, _silent(std::move(other._silent))
 	, _active_texts(std::move(other._active_texts))
 	, _audio_processor(std::move(other._audio_processor))
+	, _disable_audio_processor(other._disable_audio_processor)
 	, _playback_length(other._playback_length.load())
 	, _subtitle_alignment(other._subtitle_alignment)
 {
@@ -230,6 +231,7 @@ Player::operator=(Player&& other)
 	_silent = std::move(other._silent);
 	_active_texts = std::move(other._active_texts);
 	_audio_processor = std::move(other._audio_processor);
+	_disable_audio_processor = other._disable_audio_processor;
 	_playback_length = other._playback_length.load();
 	_subtitle_alignment = other._subtitle_alignment;
 
@@ -1207,7 +1209,7 @@ Player::audio (weak_ptr<Piece> weak_piece, AudioStreamPtr stream, ContentAudio c
 
 	/* Process */
 
-	if (_audio_processor) {
+	if (_audio_processor && !_disable_audio_processor) {
 		content_audio.audio = _audio_processor->run(content_audio.audio, film->audio_channels());
 	}
 
@@ -1629,5 +1631,13 @@ void
 Player::signal_change(ChangeType type, int property)
 {
 	Change(type, property, false);
+}
+
+
+/** Must be called from the same thread that calls ::pass() */
+void
+Player::set_disable_audio_processor()
+{
+	_disable_audio_processor = true;
 }
 
