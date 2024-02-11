@@ -87,7 +87,7 @@ RecipientDialog::RecipientDialog (
 	copy (emails.begin(), emails.end(), back_inserter (_emails));
 
 	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn(_("Address")));
+	columns.push_back(EditableListColumn(_("Address"), 400, true));
 	_email_list = new EditableList<string, EmailDialog> (
 		this, columns, bind(&RecipientDialog::get_emails, this), bind(&RecipientDialog::set_emails, this, _1), bind(&column, _1),
 		EditableListTitle::VISIBLE,
