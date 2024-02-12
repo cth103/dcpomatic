@@ -94,6 +94,14 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		if (note.calculated_hash()) {
 			message.Replace("%calculated_hash", std_to_wx(note.calculated_hash().get()));
 		}
+		if (note.frame()) {
+			message.Replace("%frame", std_to_wx(dcp::raw_convert<string>(note.frame().get())));
+			message.Replace(
+				"%timecode",
+				std_to_wx(
+					dcp::Time(note.frame().get(), note.frame_rate().get(), note.frame_rate().get()).as_string(dcp::Standard::SMPTE)
+					));
+		}
 		if (note.note()) {
 			message.Replace("%n", std_to_wx(note.note().get()));
 		}
@@ -102,9 +110,6 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		}
 		if (note.line()) {
 			message.Replace("%l", std_to_wx(dcp::raw_convert<string>(note.line().get())));
-		}
-		if (note.frame()) {
-			message.Replace("%frame", std_to_wx(dcp::raw_convert<string>(note.frame().get())));
 		}
 		if (note.component()) {
 			message.Replace("%component", std_to_wx(dcp::raw_convert<string>(note.component().get())));
@@ -179,7 +184,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 			add(i, _("At least one frame of the video asset %f is over the limit of 250Mbit/s."));
 			break;
 		case dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
-			add(i, _("At least one frame of the video asset %f is close to the limit of 250MBit/s."));
+			add(i, _("Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate that is close to the limit of 250Mbit/s."));
 			break;
 		case dcp::VerificationNote::Code::EXTERNAL_ASSET:
 			add(i, _("This DCP refers to at the asset %n in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
