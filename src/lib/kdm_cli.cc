@@ -62,8 +62,6 @@ help (std::function<void (string)> out)
 	out ("  -o, --output <path>                      output file or directory");
 	out ("  -K, --filename-format <format>           filename format for KDMs");
 	out ("  -Z, --container-name-format <format>     filename format for ZIP containers");
-	out ("  -f, --valid-from <time>                  valid from time (e.g. \"2013-09-2 01:41:51\") or \"now\"");
-	out ("  -t, --valid-to <time>                    valid to time (in local time zone of the cinema) (e.g. \"2014-09-28 01:41:51\")");
 	out ("  -f, --valid-from <time>                  valid from time (e.g. \"2013-09-28T01:41:51+04:00\", \"2018-01-01T12:00:30\") or \"now\"");
 	out ("  -t, --valid-to <time>                    valid to time (e.g. \"2014-09-28T01:41:51\")");
 	out ("  -d, --valid-duration <duration>          valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")");
