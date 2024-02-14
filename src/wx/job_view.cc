@@ -125,6 +125,9 @@ JobView::progress ()
 	/* Watch out for < > in the error string */
 	boost::algorithm::replace_all (s, "<", "&lt;");
 	boost::algorithm::replace_all (s, ">", "&gt;");
+#ifdef DCPOMATIC_LINUX
+	boost::algorithm::replace_all(s, "_", "__");
+#endif
 	whole += s;
 	if (whole != _last_message) {
 		_message->SetLabelMarkup (std_to_wx (whole));
