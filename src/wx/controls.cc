@@ -243,6 +243,10 @@ Controls::slider_moved (bool page)
 void
 Controls::slider_released ()
 {
+	if (!_film) {
+		return;
+	}
+
 	/* Restart after a drag */
 	_viewer.resume();
 	_slider_being_moved = false;
