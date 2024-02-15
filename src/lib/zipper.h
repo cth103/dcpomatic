@@ -27,7 +27,7 @@
 class Zipper
 {
 public:
-	Zipper (boost::filesystem::path file);
+	explicit Zipper(boost::filesystem::path file);
 	~Zipper ();
 
 	Zipper (Zipper const&) = delete;
