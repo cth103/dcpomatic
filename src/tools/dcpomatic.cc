@@ -36,6 +36,7 @@
 #include "wx/full_config_dialog.h"
 #include "wx/hints_dialog.h"
 #include "wx/html_dialog.h"
+#include "wx/file_dialog.h"
 #include "wx/i18n_hook.h"
 #include "wx/id.h"
 #include "wx/job_manager_view.h"
@@ -244,6 +245,7 @@ enum {
 	ID_tools_system_information,
 	ID_tools_restore_default_preferences,
 	ID_tools_export_preferences,
+	ID_tools_import_preferences,
 	ID_help_report_a_problem,
 	/* IDs for shortcuts (with no associated menu item) */
 	ID_add_file,
@@ -355,6 +357,7 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this),ID_tools_system_information);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_export_preferences, this), ID_tools_export_preferences);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_import_preferences, this), ID_tools_import_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_about, this),              wxID_ABOUT);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::help_report_a_problem, this),   ID_help_report_a_problem);
 
@@ -773,6 +776,15 @@ private:
 			}
 
 			save_all_config_as_zip(path);
+		}
+	}
+
+	void tools_import_preferences()
+	{
+		FileDialog dialog(this, _("Specify ZIP file"), wxT("ZIP files (*.zip)|*.zip"), wxFD_OPEN, "Preferences");
+
+		if (dialog.show()) {
+			Config::instance()->load_from_zip(dialog.path());
 		}
 	}
 
@@ -1393,6 +1405,7 @@ private:
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
 		tools->AppendSeparator ();
 		add_item (tools, _("Export preferences..."), ID_tools_export_preferences, ALWAYS);
+		add_item (tools, _("Import preferences..."), ID_tools_import_preferences, ALWAYS);
 
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__

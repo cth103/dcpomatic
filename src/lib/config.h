@@ -79,6 +79,8 @@ public:
 	boost::filesystem::path default_directory_or (boost::filesystem::path a) const;
 	boost::filesystem::path default_kdm_directory_or (boost::filesystem::path a) const;
 
+	void load_from_zip(boost::filesystem::path zip_file);
+
 	enum Property {
 		USE_ANY_SERVERS,
 		SERVERS,

@@ -32,6 +32,7 @@
 #include "filter.h"
 #include "log.h"
 #include "ratio.h"
+#include "unzipper.h"
 #include "zipper.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/name_format.h>
@@ -1629,6 +1630,38 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 	}
 
 	zipper.close ();
+}
+
+
+void
+Config::load_from_zip(boost::filesystem::path zip_file)
+{
+	Unzipper unzipper(zip_file);
+	dcp::write_string_to_file(unzipper.get("config.xml"), config_write_file());
+
+	try {
+		dcp::write_string_to_file(unzipper.get("cinemas.xml"), cinemas_file());
+		dcp::write_string_to_file(unzipper.get("dkdm_recipient.xml"), dkdm_recipients_file());
+	} catch (std::runtime_error&) {}
+
+	read();
+
+	changed(Property::USE_ANY_SERVERS);
+	changed(Property::SERVERS);
+	changed(Property::CINEMAS);
+	changed(Property::DKDM_RECIPIENTS);
+	changed(Property::SOUND);
+	changed(Property::SOUND_OUTPUT);
+	changed(Property::PLAYER_CONTENT_DIRECTORY);
+	changed(Property::PLAYER_PLAYLIST_DIRECTORY);
+	changed(Property::PLAYER_DEBUG_LOG);
+	changed(Property::HISTORY);
+	changed(Property::SHOW_EXPERIMENTAL_AUDIO_PROCESSORS);
+	changed(Property::AUDIO_MAPPING);
+	changed(Property::AUTO_CROP_THRESHOLD);
+	changed(Property::ALLOW_SMPTE_BV20);
+	changed(Property::ISDCF_NAME_PART_LENGTH);
+	changed(Property::OTHER);
 }
 
 
