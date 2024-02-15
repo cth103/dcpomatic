@@ -314,6 +314,7 @@ supported_by.Add (wxT ("Simon Edwards"));
 supported_by.Add (wxT ("Arthur Edwards"));
 supported_by.Add (wxT ("Si Edwards"));
 supported_by.Add (wxT ("Thomas Eingartner"));
+supported_by.Add (wxT ("Gabriel Eiriz"));
 supported_by.Add (wxT ("Chris Eller"));
 supported_by.Add (wxT ("Thore Engebretsen"));
 supported_by.Add (wxT ("Mark Engebretson"));
