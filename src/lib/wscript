@@ -194,6 +194,7 @@ sources = """
           rough_duration.cc
           signal_manager.cc
           stdout_log.cc
+          unzipper.cc
           update_checker.cc
           upload_job.cc
           uploader.cc
