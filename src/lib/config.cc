@@ -1645,7 +1645,9 @@ optional<boost::filesystem::path>
 Config::initial_path(string id) const
 {
 	auto iter = _initial_paths.find(id);
-	DCPOMATIC_ASSERT(iter != _initial_paths.end());
+	if (iter == _initial_paths.end()) {
+		return {};
+	}
 	return iter->second;
 }
 
