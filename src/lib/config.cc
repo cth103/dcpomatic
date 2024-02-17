@@ -1219,7 +1219,7 @@ void
 Config::drop ()
 {
 	delete _instance;
-	_instance = 0;
+	_instance = nullptr;
 }
 
 void
