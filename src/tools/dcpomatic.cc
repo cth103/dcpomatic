@@ -757,9 +757,8 @@ private:
 
 	void tools_export_preferences ()
 	{
-		wxFileDialog dialog(
-			this, _("Specify ZIP file"), wxEmptyString, wxT("dcpomatic_config.zip"), wxT("ZIP files (*.zip)|*.zip"),
-			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+		FileDialog dialog(
+			this, _("Specify ZIP file"), wxT("ZIP files (*.zip)|*.zip"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT, "Preferences", string("dcpomatic_config.zip")
 			);
 
 		if (dialog.ShowModal() == wxID_OK) {
