@@ -96,7 +96,7 @@ print_dump (shared_ptr<Film> film)
 
 	for (auto c: film->content()) {
 		cout << "\n"
-		     << c->path(0) << "\n"
+		     << c->path(0).string() << "\n"
 		     << "\tat " << c->position().seconds ()
 		     << " length " << c->full_length(film).seconds ()
 		     << " start trim " << c->trim_start().seconds ()
