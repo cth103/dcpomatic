@@ -774,6 +774,12 @@ Player::pass ()
 	}
 	case BLACK:
 		LOG_DEBUG_PLAYER ("Emit black for gap at %1", to_string(_black.position()));
+		if (!_next_video_time) {
+			/* Deciding to emit black has the same effect as getting some video from the content
+			 * when we are inaccurately seeking.
+			 */
+			_next_video_time = _black.position();
+		}
 		if (film->three_d()) {
 			use_video(black_player_video_frame(Eyes::LEFT), _black.position(), _black.period_at_position().to);
 			use_video(black_player_video_frame(Eyes::RIGHT), _black.position(), _black.period_at_position().to);

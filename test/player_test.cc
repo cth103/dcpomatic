@@ -54,6 +54,7 @@ using std::cout;
 using std::list;
 using std::shared_ptr;
 using std::make_shared;
+using std::vector;
 using boost::bind;
 using boost::optional;
 #if BOOST_VERSION >= 106100
@@ -708,5 +709,33 @@ BOOST_AUTO_TEST_CASE(three_d_in_two_d_chooses_left)
 
 	BOOST_CHECK(film->length() == DCPTime::from_seconds(20));
 	while (!player->pass()) {}
+}
+
+
+BOOST_AUTO_TEST_CASE(check_seek_with_no_video)
+{
+	auto content = content_factory(TestPaths::private_data() / "Fight.Club.1999.720p.BRRip.x264-x0r.srt")[0];
+	auto film = new_test_film2("check_seek_with_no_video", { content });
+	auto player = std::make_shared<Player>(film, film->playlist());
+
+	boost::signals2::signal<void (std::shared_ptr<PlayerVideo>, dcpomatic::DCPTime)> Video;
+
+	optional<dcpomatic::DCPTime> earliest;
+
+	player->Video.connect(
+		[&earliest](shared_ptr<PlayerVideo>, dcpomatic::DCPTime time) {
+			if (!earliest || time < *earliest) {
+				earliest = time;
+			}
+		});
+
+	player->seek(dcpomatic::DCPTime::from_seconds(60 * 60), false);
+
+	for (int i = 0; i < 10; ++i) {
+		player->pass();
+	}
+
+	BOOST_REQUIRE(earliest);
+	BOOST_CHECK(*earliest >= dcpomatic::DCPTime(60 * 60));
 }
 
