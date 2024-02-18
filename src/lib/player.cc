@@ -881,6 +881,7 @@ Player::pass ()
 	}
 
 	if (done) {
+		LOG_DEBUG_PLAYER("Done: emit video until end of film at %1", to_string(film->length()));
 		emit_video_until(film->length());
 
 		if (_shuffler) {
@@ -953,6 +954,7 @@ Player::open_subtitles_for_frame (DCPTime time) const
 void
 Player::emit_video_until(DCPTime time)
 {
+	LOG_DEBUG_PLAYER("emit_video_until %1; next video time is %2", to_string(time), to_string(_next_video_time.get_value_or({})));
 	auto frame = [this](shared_ptr<PlayerVideo> pv, DCPTime time) {
 		/* We need a delay to give a little wiggle room to ensure that relevant subtitles arrive at the
 		   player before the video that requires them.
