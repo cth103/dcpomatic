@@ -746,6 +746,9 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 	} catch (dcp::ReadError &) {
 		/* We couldn't read the DCP, so it's probably missing */
 		return false;
+	} catch (DCPError &) {
+		/* We couldn't read the DCP, so it's probably missing */
+		return false;
 	} catch (dcp::KDMDecryptionError &) {
 		/* We have an incorrect KDM */
 		return false;

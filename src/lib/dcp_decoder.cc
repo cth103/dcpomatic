@@ -105,7 +105,6 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 	if (old && old->lazy_digest() == _lazy_digest) {
 		_reels = old->_reels;
 	} else {
-
 		auto cpl_list = dcp::find_and_resolve_cpls(content->directories(), tolerant);
 
 		if (cpl_list.empty()) {
