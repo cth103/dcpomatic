@@ -75,7 +75,7 @@ SimpleVideoView::paint ()
 	auto scale = 1 / dpi_scale_factor (_panel);
 	dc.SetLogicalScale (scale, scale);
 
-	auto const panel_size = dcp::Size(_panel->GetSize().GetWidth(), _panel->GetSize().GetHeight());
+	auto const panel_size = dcp::Size(_panel->GetSize().GetWidth() / scale, _panel->GetSize().GetHeight() / scale);
 	auto pad = pad_colour();
 
 	dcp::Size out_size;
