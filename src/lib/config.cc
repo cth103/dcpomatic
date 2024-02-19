@@ -32,6 +32,7 @@
 #include "filter.h"
 #include "log.h"
 #include "ratio.h"
+#include "unzipper.h"
 #include "zipper.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/name_format.h>
@@ -196,6 +197,7 @@ Config::set_defaults ()
 	_initial_paths["DebugLogPath"] = boost::none;
 	_initial_paths["CinemaDatabasePath"] = boost::none;
 	_initial_paths["ConfigFilePath"] = boost::none;
+	_initial_paths["Preferences"] = boost::none;
 	_use_isdcf_name_by_default = true;
 	_write_kdms_to_disk = true;
 	_email_kdms = false;
@@ -1235,7 +1237,7 @@ void
 Config::drop ()
 {
 	delete _instance;
-	_instance = 0;
+	_instance = nullptr;
 }
 
 void
@@ -1648,6 +1650,38 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 
 
 void
+Config::load_from_zip(boost::filesystem::path zip_file)
+{
+	Unzipper unzipper(zip_file);
+	dcp::write_string_to_file(unzipper.get("config.xml"), config_write_file());
+
+	try {
+		dcp::write_string_to_file(unzipper.get("cinemas.xml"), cinemas_file());
+		dcp::write_string_to_file(unzipper.get("dkdm_recipient.xml"), dkdm_recipients_file());
+	} catch (std::runtime_error&) {}
+
+	read();
+
+	changed(Property::USE_ANY_SERVERS);
+	changed(Property::SERVERS);
+	changed(Property::CINEMAS);
+	changed(Property::DKDM_RECIPIENTS);
+	changed(Property::SOUND);
+	changed(Property::SOUND_OUTPUT);
+	changed(Property::PLAYER_CONTENT_DIRECTORY);
+	changed(Property::PLAYER_PLAYLIST_DIRECTORY);
+	changed(Property::PLAYER_DEBUG_LOG);
+	changed(Property::HISTORY);
+	changed(Property::SHOW_EXPERIMENTAL_AUDIO_PROCESSORS);
+	changed(Property::AUDIO_MAPPING);
+	changed(Property::AUTO_CROP_THRESHOLD);
+	changed(Property::ALLOW_SMPTE_BV20);
+	changed(Property::ISDCF_NAME_PART_LENGTH);
+	changed(Property::OTHER);
+}
+
+
+void
 Config::set_initial_path(string id, boost::filesystem::path path)
 {
 	auto iter = _initial_paths.find(id);
@@ -1661,7 +1695,9 @@ optional<boost::filesystem::path>
 Config::initial_path(string id) const
 {
 	auto iter = _initial_paths.find(id);
-	DCPOMATIC_ASSERT(iter != _initial_paths.end());
+	if (iter == _initial_paths.end()) {
+		return {};
+	}
 	return iter->second;
 }
 

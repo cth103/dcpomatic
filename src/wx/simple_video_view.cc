@@ -75,7 +75,7 @@ SimpleVideoView::paint ()
 	auto scale = 1 / dpi_scale_factor (_panel);
 	dc.SetLogicalScale (scale, scale);
 
-	auto const panel_size = _panel->GetSize ();
+	auto const panel_size = dcp::Size(_panel->GetSize().GetWidth() / scale, _panel->GetSize().GetHeight() / scale);
 	auto pad = pad_colour();
 
 	dcp::Size out_size;
@@ -88,32 +88,32 @@ SimpleVideoView::paint ()
 		out_size = _image->size();
 		wxImage frame (out_size.width, out_size.height, _image->data()[0], true);
 		wxBitmap frame_bitmap (frame);
-		dc.DrawBitmap (frame_bitmap, 0, max(0, (panel_size.GetHeight() - out_size.height) / 2));
+		dc.DrawBitmap(frame_bitmap, 0, max(0, (panel_size.height - out_size.height) / 2));
 	}
 
-	if (out_size.width < panel_size.GetWidth()) {
+	if (out_size.width < panel_size.width) {
 		wxPen   p (pad);
 		wxBrush b (pad);
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		dc.DrawRectangle (out_size.width, 0, panel_size.GetWidth() - out_size.width, panel_size.GetHeight());
+		dc.DrawRectangle(out_size.width, 0, panel_size.width - out_size.width, panel_size.height);
 	}
 
-	if (out_size.height < panel_size.GetHeight()) {
+	if (out_size.height < panel_size.height) {
 		wxPen   p (pad);
 		wxBrush b (pad);
 		dc.SetPen (p);
 		dc.SetBrush (b);
-		int const gap = (panel_size.GetHeight() - out_size.height) / 2;
-		dc.DrawRectangle (0, 0, panel_size.GetWidth(), gap);
-		dc.DrawRectangle (0, gap + out_size.height + 1, panel_size.GetWidth(), gap + 1);
+		int const gap = (panel_size.height - out_size.height) / 2;
+		dc.DrawRectangle(0, 0, panel_size.width, gap);
+		dc.DrawRectangle(0, gap + out_size.height + 1, panel_size.width, gap + 1);
 	}
 
 	if (_viewer->outline_content()) {
 		wxPen p (outline_content_colour(), 2);
 		dc.SetPen (p);
 		dc.SetBrush (*wxTRANSPARENT_BRUSH);
-		dc.DrawRectangle (_inter_position.x, _inter_position.y + (panel_size.GetHeight() - out_size.height) / 2, _inter_size.width, _inter_size.height);
+		dc.DrawRectangle(_inter_position.x, _inter_position.y + (panel_size.height - out_size.height) / 2, _inter_size.width, _inter_size.height);
 	}
 
 	auto subs = _viewer->outline_subtitles();

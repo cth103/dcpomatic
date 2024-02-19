@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2020-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2024 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -24,20 +24,20 @@
 #include <vector>
 
 
-class Zipper
+class Unzipper
 {
 public:
-	explicit Zipper(boost::filesystem::path file);
-	~Zipper ();
+	explicit Unzipper(boost::filesystem::path file);
+	~Unzipper();
 
-	Zipper (Zipper const&) = delete;
-	Zipper& operator= (Zipper const&) = delete;
+	Unzipper(Unzipper const&) = delete;
+	Unzipper& operator=(Unzipper const&) = delete;
 
-	void add (std::string name, std::string content);
-	void close ();
+	std::string get(std::string const& filename);
 
 private:
 	struct zip* _zip;
 	std::vector<std::shared_ptr<std::string>> _store;
 };
+
 
