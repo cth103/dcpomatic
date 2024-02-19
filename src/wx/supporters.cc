@@ -283,6 +283,7 @@ supported_by.Add (wxT ("Thomas Dickens"));
 supported_by.Add (wxT ("Callen Diederichs"));
 supported_by.Add (wxT ("Ageless Digitworks"));
 supported_by.Add (wxT ("Philippe Diier"));
+supported_by.Add (wxT ("Thomas Dineen"));
 supported_by.Add (wxT ("Uwe Dittes"));
 supported_by.Add (wxT ("Dizale"));
 supported_by.Add (wxT ("Hadzi-Aleksandar Djurovic"));
