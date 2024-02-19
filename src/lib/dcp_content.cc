@@ -698,7 +698,7 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 
 	if (overlaps(film, part)) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-		why_not = _("it overlaps other video content; remove the other content.");
+		why_not = _("it overlaps other video content.");
 		return false;
 	}
 
@@ -729,7 +729,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 
 	if (overlaps(film, part)) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-		why_not = _("it overlaps other audio content; remove the other content.");
+		why_not = _("it overlaps other audio content.");
 		return false;
 	}
 
@@ -785,7 +785,7 @@ DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, stri
 
 	if (overlaps(film, part)) {
 		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-		why_not = _("it overlaps other text content; remove the other content.");
+		why_not = _("it overlaps other text content.");
 		return false;
 	}
 
