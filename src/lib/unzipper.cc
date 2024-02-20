@@ -39,7 +39,11 @@ using std::string;
 Unzipper::Unzipper(boost::filesystem::path file)
 {
 	int error;
+#ifdef DCPOMATIC_HAVE_ZIP_RDONLY
 	_zip = zip_open(dcp::filesystem::fix_long_path(file).string().c_str(), ZIP_RDONLY, &error);
+#else
+	_zip = zip_open(dcp::filesystem::fix_long_path(file).string().c_str(), 0, &error);
+#endif
 	if (!_zip) {
 		throw FileError("could not open ZIP file", file);
 	}
