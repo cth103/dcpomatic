@@ -147,8 +147,10 @@ def configure(conf):
             conf.env.append_value('CXXFLAGS', ['-Wno-cast-function-type'])
         # Most gccs still give these warnings from boost::optional
         conf.env.append_value('CXXFLAGS', ['-Wno-maybe-uninitialized'])
-        if int(gcc[0]) > 4:
+        if int(gcc[0]) > 7:
             # gcc 4.8.5 on Centos 7 does not have this warning
+            # gcc 7.5.0 on Ubuntu 18.04 does, but I didn't manage to turn it
+            # back off again with a pragma
             conf.env.append_value('CXXFLAGS', ['-Wsuggest-override'])
 
     if conf.options.enable_debug:
