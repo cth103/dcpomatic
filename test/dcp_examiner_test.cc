@@ -40,11 +40,11 @@ BOOST_AUTO_TEST_CASE(check_examine_vfs)
 
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	auto second_reel = content_factory("test/data/scope_red.png")[0];
-	auto vf = new_test_film2("check_examine_vf_vf", { ov_dcp, second_reel });
+	auto vf = new_test_film2("check_examine_vfs_vf", { ov_dcp, second_reel });
 	vf->set_container(Ratio::from_id("239"));
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video(true);
-	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET });
+	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);
 
 	auto vf_dcp = make_shared<DCPContent>(vf->dir(vf->dcp_name()));
 	DCPExaminer examiner(vf_dcp, false);

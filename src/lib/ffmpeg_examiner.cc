@@ -305,7 +305,7 @@ FFmpegExaminer::video_frame_rate () const
 }
 
 
-dcp::Size
+optional<dcp::Size>
 FFmpegExaminer::video_size () const
 {
 	return dcp::Size (video_codec_context()->width, video_codec_context()->height);

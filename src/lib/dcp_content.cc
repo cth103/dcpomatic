@@ -830,7 +830,7 @@ DCPContent::kdm_timing_window_valid () const
 Resolution
 DCPContent::resolution () const
 {
-	if (video->size().width > 2048 || video->size().height > 1080) {
+	if (video->size() && (video->size()->width > 2048 || video->size()->height > 1080)) {
 		return Resolution::FOUR_K;
 	}
 

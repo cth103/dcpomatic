@@ -73,7 +73,9 @@ ImageDecoder::pass ()
 			/* We can't extract image size from a JPEG2000 codestream without decoding it,
 			   so pass in the image content's size here.
 			*/
-			_image = make_shared<J2KImageProxy>(path, _image_content->video->size(), pf);
+			auto size = _image_content->video->size();
+			DCPOMATIC_ASSERT(size);
+			_image = make_shared<J2KImageProxy>(path, *size, pf);
 		} else {
 			_image = make_shared<FFmpegImageProxy>(path);
 		}

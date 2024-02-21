@@ -161,7 +161,13 @@ PlayerInformation::triggered_update ()
 
 	DCPOMATIC_ASSERT (dcp->video);
 
-	checked_set (_dcp[r++], wxString::Format(_("Size: %dx%d"), dcp->video->size().width, dcp->video->size().height));
+	auto const size = dcp->video->size();
+
+	if (size) {
+		checked_set(_dcp[r++], wxString::Format(_("Size: %dx%d"), size->width, size->height));
+	} else {
+		checked_set(_dcp[r++], _("Size: unknown"));
+	}
 	if (dcp->video_frame_rate()) {
 		checked_set (_dcp[r++], wxString::Format(_("Frame rate: %d"), (int) lrint(*dcp->video_frame_rate())));
 	}
@@ -186,14 +192,18 @@ PlayerInformation::triggered_update ()
 
 	checked_set (_dcp[r++], std_to_wx(len));
 
-	auto decode = dcp->video->size();
+	auto decode = size;
 	auto reduction = _viewer.dcp_decode_reduction();
-	if (reduction) {
-		decode.width /= pow(2, *reduction);
-		decode.height /= pow(2, *reduction);
+	if (reduction && decode) {
+		decode->width /= pow(2, *reduction);
+		decode->height /= pow(2, *reduction);
 	}
 
-	checked_set (_decode_resolution, wxString::Format(_("Decode resolution: %dx%d"), decode.width, decode.height));
+	if (decode) {
+		checked_set(_decode_resolution, wxString::Format(_("Decode resolution: %dx%d"), decode->width, decode->height));
+	} else {
+		checked_set(_decode_resolution, _("Decode resolution: unknown"));
+	}
 
 	DCPOMATIC_ASSERT(r <= dcp_lines);
 

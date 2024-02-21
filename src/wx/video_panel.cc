@@ -725,7 +725,10 @@ bool
 VideoPanel::scale_custom_edit_clicked ()
 {
 	auto vc = _parent->selected_video().front()->video;
-	CustomScaleDialog dialog(this, vc->size(), _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
+	auto size = vc->size();
+	DCPOMATIC_ASSERT(size);
+
+	CustomScaleDialog dialog(this, *size, _parent->film()->frame_size(), vc->custom_ratio(), vc->custom_size());
 	if (dialog.ShowModal() != wxID_OK) {
 		return false;
 	}

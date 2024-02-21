@@ -85,7 +85,7 @@ public:
 		return _length;
 	}
 
-	dcp::Size size () const {
+	boost::optional<dcp::Size> size () const {
 		boost::mutex::scoped_lock lm (_mutex);
 		return _size;
 	}
@@ -204,9 +204,9 @@ public:
 
 
 	/* XXX: names for these? */
-	dcp::Size size_after_3d_split () const;
-	dcp::Size size_after_crop () const;
-	dcp::Size scaled_size (dcp::Size container_size);
+	boost::optional<dcp::Size> size_after_3d_split() const;
+	boost::optional<dcp::Size> size_after_crop() const;
+	boost::optional<dcp::Size> scaled_size(dcp::Size container_size);
 
 	boost::optional<double> fade (std::shared_ptr<const Film> film, Frame) const;
 
@@ -237,7 +237,7 @@ private:
 	bool _use;
 	Frame _length;
 	boost::optional<ColourConversion> _colour_conversion;
-	dcp::Size _size;
+	boost::optional<dcp::Size> _size;
 	VideoFrameType _frame_type;
 	Crop _crop;
 	/** ratio to scale cropped image to (or none to guess); i.e. if set, scale to _custom_ratio:1 */

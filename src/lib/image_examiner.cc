@@ -77,10 +77,10 @@ ImageExaminer::ImageExaminer (shared_ptr<const Film> film, shared_ptr<const Imag
 }
 
 
-dcp::Size
+optional<dcp::Size>
 ImageExaminer::video_size () const
 {
-	return _video_size.get ();
+	return _video_size;
 }
 
 

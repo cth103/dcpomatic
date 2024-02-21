@@ -35,7 +35,7 @@ public:
 		return true;
 	}
 	boost::optional<double> video_frame_rate () const override;
-	dcp::Size video_size () const override;
+	boost::optional<dcp::Size> video_size() const override;
 	Frame video_length () const override;
 	boost::optional<double> sample_aspect_ratio () const override;
 	bool yuv () const override;

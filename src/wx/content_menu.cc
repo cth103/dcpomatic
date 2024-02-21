@@ -548,12 +548,13 @@ ContentMenu::auto_crop ()
 		DCPOMATIC_ASSERT (film);
 		auto const content = _content.front();
 		auto const current_crop = content->video->actual_crop();
+		auto const video_size_guess = content->video->size().get_value_or(dcp::Size(1998, 1080));
 		_viewer.set_crop_guess(
 			dcpomatic::Rect<float>(
-				static_cast<float>(std::max(0, crop.left - current_crop.left)) / content->video->size().width,
-				static_cast<float>(std::max(0, crop.top - current_crop.top)) / content->video->size().height,
-				1.0f - (static_cast<float>(std::max(0, crop.left - current_crop.left + crop.right - current_crop.right)) / content->video->size().width),
-				1.0f - (static_cast<float>(std::max(0, crop.top - current_crop.top + crop.bottom - current_crop.bottom)) / content->video->size().height)
+				static_cast<float>(std::max(0, crop.left - current_crop.left)) / video_size_guess.width,
+				static_cast<float>(std::max(0, crop.top - current_crop.top)) / video_size_guess.height,
+				1.0f - (static_cast<float>(std::max(0, crop.left - current_crop.left + crop.right - current_crop.right)) / video_size_guess.width),
+				1.0f - (static_cast<float>(std::max(0, crop.top - current_crop.top + crop.bottom - current_crop.bottom)) / video_size_guess.height)
 				));
 	};
 
