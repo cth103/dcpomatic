@@ -21,6 +21,10 @@
 #ifndef DCPOMATIC_AUDIO_EXAMINER_H
 #define DCPOMATIC_AUDIO_EXAMINER_H
 
+
+#include "types.h"
+
+
 /** @file  src/lib/audio_examiner.h
  *  @brief AudioExaminer class.
  */

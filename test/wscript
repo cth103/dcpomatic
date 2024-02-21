@@ -73,6 +73,7 @@ def build(bld):
                  dcpomatic_time_test.cc
                  dcp_decoder_test.cc
                  dcp_digest_file_test.cc
+                 dcp_examiner_test.cc
                  dcp_metadata_test.cc
                  dcp_playback_test.cc
                  dcp_subtitle_test.cc
