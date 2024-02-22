@@ -37,7 +37,8 @@ LIBDCP_ENABLE_WARNINGS
 #include "i18n.h"
 
 
-using namespace std;
+using std::string;
+using std::vector;
 using boost::optional;
 
 

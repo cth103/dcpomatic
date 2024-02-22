@@ -28,8 +28,9 @@
 #include "i18n.h"
 
 
+using std::string;
+using std::vector;
 using boost::optional;
-using namespace std;
 
 
 vector<DCPContentType> DCPContentType::_dcp_content_types;

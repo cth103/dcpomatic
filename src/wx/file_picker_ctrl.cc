@@ -32,8 +32,8 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/filesystem.hpp>
 
 
-using namespace std;
-using namespace boost;
+using std::string;
+using boost::optional;
 
 
 FilePickerCtrl::FilePickerCtrl(
@@ -42,9 +42,9 @@ FilePickerCtrl::FilePickerCtrl(
 	wxString wildcard,
 	bool open,
 	bool warn_overwrite,
-	std::string initial_path_key,
+	string initial_path_key,
 	optional<std::string> initial_filename,
-	optional<filesystem::path> override_path
+	optional<boost::filesystem::path> override_path
 	)
 	: wxPanel (parent)
 	, _prompt (prompt)
