@@ -145,8 +145,6 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			if (!reel->main_picture()->asset_ref().resolved()) {
 				LOG_GENERAL("Main picture %1 of reel %2 is missing", reel->main_picture()->id(), reel->id());
 				_needs_assets = true;
-				/* Use a dummy value here; it will be replaced when the VF is re-examined. */
-				_video_size = dcp::Size(1998, 1080);
 			} else {
 				LOG_GENERAL("Main picture %1 of reel %2 found", reel->main_picture()->id(), reel->id());
 

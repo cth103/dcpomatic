@@ -1081,6 +1081,9 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 
 	auto const content_video = piece->content->video;
 
+	auto scaled_size = content_video->scaled_size(film->frame_size());
+	DCPOMATIC_ASSERT(scaled_size);
+
 	for (auto eyes: eyes_to_emit) {
 		use_video(
 			std::make_shared<PlayerVideo>(
@@ -1088,7 +1091,7 @@ Player::video (weak_ptr<Piece> weak_piece, ContentVideo video)
 				content_video->actual_crop(),
 				content_video->fade(film, video.time),
 				scale_for_display(
-					content_video->scaled_size(film->frame_size()),
+					*scaled_size,
 					_video_container_size,
 					film->frame_size(),
 					content_video->pixel_quanta()

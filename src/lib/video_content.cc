@@ -102,8 +102,7 @@ VideoContent::from_xml (Content* parent, cxml::ConstNodePtr node, int version, V
 VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint)
 	: ContentPart (parent)
 {
-	_size.width = node->number_child<int> ("VideoWidth");
-	_size.height = node->number_child<int> ("VideoHeight");
+	_size = dcp::Size(node->number_child<int>("VideoWidth"), node->number_child<int>("VideoHeight"));
 
 	_use = node->optional_bool_child("Use").get_value_or(true);
 	_length = node->number_child<Frame> ("VideoLength");
@@ -154,10 +153,12 @@ VideoContent::VideoContent (Content* parent, cxml::ConstNodePtr node, int versio
 		if (scale) {
 			if (*scale) {
 				/* This is what we used to call "no stretch" */
-				_legacy_ratio = _size.ratio();
+				DCPOMATIC_ASSERT(_size);
+				_legacy_ratio = _size->ratio();
 			} else {
 				/* This is what we used to call "no scale" */
-				_custom_size = _size;
+				DCPOMATIC_ASSERT(_size);
+				_custom_size = *_size;
 			}
 		}
 
@@ -277,8 +278,10 @@ VideoContent::as_xml (xmlpp::Node* node) const
 	boost::mutex::scoped_lock lm (_mutex);
 	node->add_child("Use")->add_child_text (_use ? "1" : "0");
 	node->add_child("VideoLength")->add_child_text (raw_convert<string> (_length));
-	node->add_child("VideoWidth")->add_child_text (raw_convert<string> (_size.width));
-	node->add_child("VideoHeight")->add_child_text (raw_convert<string> (_size.height));
+	if (_size) {
+		node->add_child("VideoWidth")->add_child_text(raw_convert<string>(_size->width));
+		node->add_child("VideoHeight")->add_child_text(raw_convert<string>(_size->height));
+	}
 	node->add_child("VideoFrameType")->add_child_text (video_frame_type_to_string (_frame_type));
 	if (_sample_aspect_ratio) {
 		node->add_child("SampleAspectRatio")->add_child_text (raw_convert<string> (_sample_aspect_ratio.get ()));
@@ -369,11 +372,12 @@ VideoContent::identifier () const
 string
 VideoContent::technical_summary () const
 {
+	string const size_string = size() ? String::compose("%1x%2", size()->width, size()->height) : _("unknown");
+
 	string s = String::compose (
-		N_("video: length %1 frames, size %2x%3"),
+		N_("video: length %1 frames, size %2"),
 		length_after_3d_combine(),
-		size().width,
-		size().height
+		size_string
 		);
 
 	if (sample_aspect_ratio ()) {
@@ -383,31 +387,40 @@ VideoContent::technical_summary () const
 	return s;
 }
 
-dcp::Size
+optional<dcp::Size>
 VideoContent::size_after_3d_split () const
 {
 	auto const s = size ();
+	if (!s) {
+		return {};
+	}
+
 	switch (frame_type ()) {
 	case VideoFrameType::TWO_D:
 	case VideoFrameType::THREE_D:
 	case VideoFrameType::THREE_D_ALTERNATE:
 	case VideoFrameType::THREE_D_LEFT:
 	case VideoFrameType::THREE_D_RIGHT:
-		return s;
+		return *s;
 	case VideoFrameType::THREE_D_LEFT_RIGHT:
-		return dcp::Size (s.width / 2, s.height);
+		return dcp::Size(s->width / 2, s->height);
 	case VideoFrameType::THREE_D_TOP_BOTTOM:
-		return dcp::Size (s.width, s.height / 2);
+		return dcp::Size(s->width, s->height / 2);
 	}
 
 	DCPOMATIC_ASSERT (false);
 }
 
 /** @return Video size after 3D split and crop */
-dcp::Size
+optional<dcp::Size>
 VideoContent::size_after_crop () const
 {
-	return actual_crop().apply(size_after_3d_split());
+	auto const after_3d = size_after_3d_split();
+	if (!after_3d) {
+		return {};
+	}
+
+	return actual_crop().apply(*after_3d);
 }
 
 
@@ -442,15 +455,15 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 	string d;
 	char buffer[256];
 
-	if (size().width && size().height) {
+	if (size() && size()->width && size()->height) {
 		d += String::compose (
 			_("Content video is %1x%2"),
-			size_after_3d_split().width,
-			size_after_3d_split().height
+			size_after_3d_split()->width,
+			size_after_3d_split()->height
 			);
 
 
-		double ratio = size_after_3d_split().ratio ();
+		auto ratio = size_after_3d_split()->ratio();
 
 		if (sample_aspect_ratio ()) {
 			snprintf (buffer, sizeof(buffer), _(", pixel aspect ratio %.2f:1"), sample_aspect_ratio().get());
@@ -466,29 +479,31 @@ VideoContent::processing_description (shared_ptr<const Film> film)
 
 	if ((crop.left || crop.right || crop.top || crop.bottom) && size() != dcp::Size(0, 0)) {
 		auto const cropped = size_after_crop ();
-		d += String::compose (
-			_("\nCropped to %1x%2"),
-			cropped.width, cropped.height
-			);
+		if (cropped) {
+			d += String::compose (
+				_("\nCropped to %1x%2"),
+				cropped->width, cropped->height
+				);
 
-		snprintf (buffer, sizeof(buffer), " (%.2f:1)", cropped.ratio());
-		d += buffer;
+			snprintf(buffer, sizeof(buffer), " (%.2f:1)", cropped->ratio());
+			d += buffer;
+		}
 	}
 
 	auto const container_size = film->frame_size ();
 	auto const scaled = scaled_size (container_size);
 
-	if (scaled != size_after_crop ()) {
+	if (scaled && *scaled != size_after_crop()) {
 		d += String::compose (
 			_("\nScaled to %1x%2"),
-			scaled.width, scaled.height
+			scaled->width, scaled->height
 			);
 
-		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)"), scaled.ratio());
+		snprintf (buffer, sizeof(buffer), _(" (%.2f:1)"), scaled->ratio());
 		d += buffer;
 	}
 
-	if (scaled != container_size) {
+	if (scaled && *scaled != container_size) {
 		d += String::compose (
 			_("\nPadded with black to fit container %1 (%2x%3)"),
 			film->container()->container_nickname (),
@@ -516,7 +531,9 @@ void
 VideoContent::add_properties (list<UserProperty>& p) const
 {
 	p.push_back (UserProperty (UserProperty::VIDEO, _("Length"), length (), _("video frames")));
-	p.push_back (UserProperty (UserProperty::VIDEO, _("Size"), String::compose ("%1x%2", size().width, size().height)));
+	if (auto s = size()) {
+		p.push_back(UserProperty(UserProperty::VIDEO, _("Size"), String::compose("%1x%2", s->width, s->height)));
+	}
 }
 
 void
@@ -645,7 +662,7 @@ VideoContent::modify_trim_start (ContentTime& trim) const
 
 
 /** @param film_container The size of the container for the DCP that we are working on */
-dcp::Size
+optional<dcp::Size>
 VideoContent::scaled_size (dcp::Size film_container)
 {
 	if (_custom_ratio) {
@@ -660,18 +677,22 @@ VideoContent::scaled_size (dcp::Size film_container)
 	}
 
 	auto size = size_after_crop ();
-	size.width = std::lrint(size.width * _sample_aspect_ratio.get_value_or(1));
+	if (!size) {
+		return {};
+	}
+
+	size->width = std::lrint(size->width * _sample_aspect_ratio.get_value_or(1));
 
 	/* This is what we will return unless there is any legacy stuff to take into account */
-	auto auto_size = fit_ratio_within (size.ratio(), film_container);
+	auto auto_size = fit_ratio_within(size->ratio(), film_container);
 
 	if (_legacy_ratio) {
 		if (fit_ratio_within(*_legacy_ratio, film_container) != auto_size) {
 			_custom_ratio = *_legacy_ratio;
-			_legacy_ratio = optional<float>();
+			_legacy_ratio = {};
 			return fit_ratio_within(*_custom_ratio, film_container);
 		}
-		_legacy_ratio = boost::optional<float>();
+		_legacy_ratio = {};
 	}
 
 	return _pixel_quanta.round (auto_size);

@@ -477,8 +477,8 @@ public:
 				j->set_use (true);
 			}
 
-			if (i->video) {
-				auto const r = Ratio::nearest_from_ratio(i->video->size().ratio());
+			if (i->video && i->video->size()) {
+				auto const r = Ratio::nearest_from_ratio(i->video->size()->ratio());
 				if (r->id() == "239") {
 					/* Any scope content means we use scope */
 					_film->set_container(r);
@@ -687,8 +687,8 @@ private:
 			for (auto i: dcp->text) {
 				i->set_use (true);
 			}
-			if (dcp->video) {
-				auto const r = Ratio::nearest_from_ratio(dcp->video->size().ratio());
+			if (dcp->video && dcp->video->size()) {
+				auto const r = Ratio::nearest_from_ratio(dcp->video->size()->ratio());
 				if (r) {
 					_film->set_container(r);
 				}

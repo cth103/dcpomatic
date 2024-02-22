@@ -51,7 +51,9 @@ copy_dcp_settings_to_film(shared_ptr<const DCPContent> dcp, shared_ptr<Film> fil
 	film->set_three_d (dcp->three_d());
 
 	if (dcp->video) {
-		film->set_container (Ratio::nearest_from_ratio(dcp->video->size().ratio()));
+		if (auto size = dcp->video->size()) {
+			film->set_container(Ratio::nearest_from_ratio(size->ratio()));
+		}
 		film->set_resolution (dcp->resolution());
 		DCPOMATIC_ASSERT (dcp->video_frame_rate());
 		film->set_video_frame_rate (*dcp->video_frame_rate());

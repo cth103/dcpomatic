@@ -290,6 +290,15 @@ def configure(conf):
                    uselib="ZIP",
                    define_name='DCPOMATIC_HAVE_ZIP_FILE_ADD'
                    )
+    conf.check_cxx(fragment="""
+                            #include <zip.h>
+                            int main() { int error; zip_open("foo", ZIP_RDONLY, &error); }
+                            """,
+                   mandatory=False,
+                   msg="Checking for ZIP_RDONLY",
+                   uselib="ZIP",
+                   define_name='DCPOMATIC_HAVE_ZIP_RDONLY'
+                   )
 
     # libbz2; must be explicitly linked on macOS for some reason
     conf.check_cxx(fragment="""

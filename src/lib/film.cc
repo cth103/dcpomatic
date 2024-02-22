@@ -948,10 +948,12 @@ Film::isdcf_name (bool if_created_now) const
 	if (dcp_content_type() && dcp_content_type()->libdcp_kind() != dcp::ContentKind::TRAILER) {
 		auto first_video = std::find_if(content_list.begin(), content_list.end(), [](shared_ptr<Content> c) { return static_cast<bool>(c->video); });
 		if (first_video != content_list.end()) {
-			auto first_ratio = lrintf((*first_video)->video->scaled_size(frame_size()).ratio() * 100);
-			auto container_ratio = lrintf(container()->ratio() * 100);
-			if (first_ratio != container_ratio) {
-				isdcf_name += "-" + dcp::raw_convert<string>(first_ratio);
+			if (auto scaled_size = (*first_video)->video->scaled_size(frame_size())) {
+				auto first_ratio = lrintf(scaled_size->ratio() * 100);
+				auto container_ratio = lrintf(container()->ratio() * 100);
+				if (first_ratio != container_ratio) {
+					isdcf_name += "-" + dcp::raw_convert<string>(first_ratio);
+				}
 			}
 		}
 	}
@@ -1440,13 +1442,13 @@ Film::maybe_set_container_and_resolution ()
 		}
 	}
 
-	if (video) {
+	if (video && video->size()) {
 		/* This is the only piece of video content in this Film.  Use it to make a guess for
 		 * DCP container size and resolution, unless the user has already explicitly set these
 		 * things.
 		 */
 		if (!_user_explicit_container) {
-			if (video->size().ratio() > 2.3) {
+			if (video->size()->ratio() > 2.3) {
 				set_container (Ratio::from_id("239"), false);
 			} else {
 				set_container (Ratio::from_id("185"), false);
@@ -1454,7 +1456,7 @@ Film::maybe_set_container_and_resolution ()
 		}
 
 		if (!_user_explicit_resolution) {
-			if (video->size_after_crop().width > 2048 || video->size_after_crop().height > 1080) {
+			if (video->size_after_crop()->width > 2048 || video->size_after_crop()->height > 1080) {
 				set_resolution (Resolution::FOUR_K, false);
 			} else {
 				set_resolution (Resolution::TWO_K, false);
@@ -1652,9 +1654,10 @@ Film::active_area () const
 
 	for (auto i: content()) {
 		if (i->video) {
-			dcp::Size s = i->video->scaled_size (frame);
-			active.width = max(active.width, s.width);
-			active.height = max(active.height, s.height);
+			if (auto s = i->video->scaled_size(frame)) {
+				active.width = max(active.width, s->width);
+				active.height = max(active.height, s->height);
+			}
 		}
 	}
 

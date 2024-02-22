@@ -48,7 +48,7 @@ VideoMXFExaminer::video_frame_rate () const
 	return _asset->frame_rate().as_float ();
 }
 
-dcp::Size
+optional<dcp::Size>
 VideoMXFExaminer::video_size () const
 {
 	return _asset->size ();

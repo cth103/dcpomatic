@@ -48,10 +48,8 @@ public:
 		return _video_frame_rate;
 	}
 
-	dcp::Size video_size () const override {
-		DCPOMATIC_ASSERT (_has_video);
-		DCPOMATIC_ASSERT (_video_size);
-		return *_video_size;
+	boost::optional<dcp::Size> video_size() const override {
+		return _video_size;
 	}
 
 	Frame video_length () const override {

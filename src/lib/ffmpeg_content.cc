@@ -521,7 +521,7 @@ FFmpegContent::set_default_colour_conversion ()
 		video->set_colour_conversion (PresetColourConversion::from_id ("rec2020").conversion);
 		break;
 	default:
-		if (s.width < 1080) {
+		if (s && s->width < 1080) {
 			video->set_colour_conversion (PresetColourConversion::from_id ("rec601").conversion);
 		} else {
 			video->set_colour_conversion (PresetColourConversion::from_id ("rec709").conversion);

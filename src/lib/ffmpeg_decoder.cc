@@ -827,11 +827,14 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 	}
 
 	sub::RawSubtitle base;
+	auto video_size = _ffmpeg_content->video->size();
+	DCPOMATIC_ASSERT(video_size);
+
 	auto raw = sub::SSAReader::parse_line (
 		base,
 		text,
-		_ffmpeg_content->video->size().width,
-		_ffmpeg_content->video->size().height,
+		video_size->width,
+		video_size->height,
 		sub::Colour(1, 1, 1)
 		);
 
