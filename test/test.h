@@ -22,6 +22,7 @@
 #include "lib/video_frame_type.h"
 #include <dcp/types.h>
 #include <dcp/verify.h>
+#include <glibmm.h>
 #include <boost/filesystem.hpp>
 #include <vector>
 
@@ -66,7 +67,7 @@ extern void check_text_file (boost::filesystem::path ref, boost::filesystem::pat
 extern void check_wav_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern void check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check);
 extern bool mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check, bool verbose = false);
-extern void check_xml (boost::filesystem::path, boost::filesystem::path, std::list<std::string>);
+extern void check_xml(boost::filesystem::path, boost::filesystem::path, std::list<Glib::ustring>);
 extern void check_ffmpeg (boost::filesystem::path, boost::filesystem::path, int audio_tolerance);
 extern void check_image (boost::filesystem::path, boost::filesystem::path, double threshold = 4);
 extern boost::filesystem::path test_film_dir (std::string);

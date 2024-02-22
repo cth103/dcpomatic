@@ -19,10 +19,10 @@ int main ()
 
 	Cairo::RefPtr<Cairo::ImageSurface> surface = Cairo::ImageSurface::create (
 		data,
-		Cairo::FORMAT_ARGB32,
+		Cairo::ImageSurface::Format::ARGB32,
 		width, height,
 		/* Cairo ARGB32 means first byte blue, second byte green, third byte red, fourth byte alpha */
-		Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, width)
+		Cairo::ImageSurface::format_stride_for_width(Cairo::ImageSurface::Format::ARGB32, width)
 		);
 
 	Cairo::RefPtr<Cairo::Context> context = Cairo::Context::create (surface);
@@ -33,7 +33,7 @@ int main ()
 	context->rectangle (0, 0, width, height);
 	context->fill ();
 
-	layout->set_alignment (Pango::ALIGN_LEFT);
+	layout->set_alignment (Pango::Alignment::LEFT);
 
 	context->set_line_width (1);
 	// Cairo::FontOptions fo;

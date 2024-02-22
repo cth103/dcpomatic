@@ -584,7 +584,7 @@ check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound
 }
 
 void
-check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
+check_xml(xmlpp::Element* ref, xmlpp::Element* test, list<Glib::ustring> ignore)
 {
 	BOOST_CHECK_EQUAL (ref->get_name (), test->get_name ());
 	BOOST_CHECK_EQUAL (ref->get_namespace_prefix (), test->get_namespace_prefix ());
@@ -640,7 +640,7 @@ check_xml (xmlpp::Element* ref, xmlpp::Element* test, list<string> ignore)
 }
 
 void
-check_xml (boost::filesystem::path ref, boost::filesystem::path test, list<string> ignore)
+check_xml(boost::filesystem::path ref, boost::filesystem::path test, list<Glib::ustring> ignore)
 {
 	auto ref_parser = new xmlpp::DomParser(ref.string());
 	auto ref_root = ref_parser->get_document()->get_root_node();

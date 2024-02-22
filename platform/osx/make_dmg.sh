@@ -168,7 +168,7 @@ function copy_libs {
     copy_lib_env libxml++ "$dest"
     copy_lib_env libxslt "$dest"
     copy_lib_env libxml2 "$dest"
-    copy_lib_env libglibmm-2.4 "$dest"
+    copy_lib_env libglibmm "$dest"
     copy_lib_env libgobject "$dest"
     copy_lib_env libgthread "$dest"
     copy_lib_env libgmodule "$dest"

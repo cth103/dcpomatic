@@ -51,6 +51,15 @@ using boost::optional;
 using namespace dcpomatic;
 
 
+#if CAIROMM_MAJOR_VERSION == 1 && CAIROMM_MINOR_VERSION <= 14
+#define DCPOMATIC_OLD_CAIROMM_API
+#endif
+
+#if PANGOMM_MAJOR_VERSION == 2 && PANGOMM_MINOR_VERSION <= 46
+#define DCPOMATIC_OLD_PANGOMM_API
+#endif
+
+
 /** Create a Pango layout using a dummy context which we can use to calculate the size
  *  of the text we will render.  Then we can transfer the layout over to the real context
  *  for the actual render.
@@ -66,7 +75,11 @@ create_layout(string font_name, string markup)
 	auto context = Glib::wrap (c_context);
 	auto layout = Pango::Layout::create(context);
 
-	layout->set_alignment (Pango::ALIGN_LEFT);
+#ifdef DCPOMATIC_OLD_PANGOMM_API
+	layout->set_alignment(Pango::ALIGN_LEFT);
+#else
+	layout->set_alignment(Pango::Alignment::LEFT);
+#endif
 	Pango::FontDescription font (font_name);
 	layout->set_font_description (font);
 	layout->set_markup (markup);
@@ -163,11 +176,22 @@ create_surface (shared_ptr<Image> image)
 	DCPOMATIC_ASSERT (image->pixel_format() == AV_PIX_FMT_BGRA);
 	return Cairo::ImageSurface::create (
 		image->data()[0],
+#ifdef DCPOMATIC_OLD_CAIROMM_API
 		Cairo::FORMAT_ARGB32,
+#else
+		Cairo::ImageSurface::Format::ARGB32,
+#endif
 		image->size().width,
 		image->size().height,
 		/* Cairo ARGB32 means first byte blue, second byte green, third byte red, fourth byte alpha */
-		Cairo::ImageSurface::format_stride_for_width (Cairo::FORMAT_ARGB32, image->size().width)
+		Cairo::ImageSurface::format_stride_for_width(
+#ifdef DCPOMATIC_OLD_CAIROMM_API
+			Cairo::FORMAT_ARGB32,
+#else
+			Cairo::ImageSurface::Format::ARGB32,
+#endif
+			image->size().width
+			)
 		);
 }
 
@@ -394,7 +418,11 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 		/* Border effect */
 		set_source_rgba (context, first.effect_colour(), fade_factor);
 		context->set_line_width (border_width);
+#ifdef DCPOMATIC_OLD_CAIROMM_API
 		context->set_line_join (Cairo::LINE_JOIN_ROUND);
+#else
+		context->set_line_join (Cairo::Context::LineJoin::ROUND);
+#endif
 		context->move_to (x_offset, y_offset);
 		layout.pango->add_to_cairo_context (context);
 		context->stroke ();

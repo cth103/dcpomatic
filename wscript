@@ -81,12 +81,24 @@ def options(opt):
     opt.add_option('--wx-config',         help='path to wx-config')
     opt.add_option('--enable-asan',       action='store_true', help='build with asan')
     opt.add_option('--disable-more-warnings', action='store_true', default=False, help='disable some warnings raised by Xcode 15 with the 2.16 branch')
+    opt.add_option('--c++17', action='store_true', default=False, help='build with C++17 and libxml++-4.0')
 
 def configure(conf):
     conf.load('compiler_cxx')
     conf.load('clang_compilation_database', tooldir=['waf-tools'])
     if conf.options.target_windows_64 or conf.options.target_windows_32:
         conf.load('winres')
+
+    if vars(conf.options)['c++17']:
+        cpp_std = '17'
+        conf.env.XMLPP_API = '4.0'
+        conf.env.PANGOMM_API = '2.48'
+        conf.env.CAIROMM_API = '1.16'
+    else:
+        cpp_std = '11'
+        conf.env.XMLPP_API = '2.6'
+        conf.env.PANGOMM_API = '1.4'
+        conf.env.CAIROMM_API = '1.0'
 
     # Save conf.options that we need elsewhere in conf.env
     conf.env.DISABLE_GUI = conf.options.disable_gui
@@ -119,7 +131,7 @@ def configure(conf):
                                        # I tried and failed to ignore these with _Pragma
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64',
-                                       '-std=c++11'])
+                                       '-std=c++' + cpp_std])
 
     if conf.options.disable_more_warnings:
         # These are for Xcode 15.0.1 with the v2.16.x-era
@@ -328,10 +340,10 @@ def configure(conf):
     conf.check_cfg(package='fontconfig', args='--cflags --libs', uselib_store='FONTCONFIG', mandatory=True)
 
     # pangomm
-    conf.check_cfg(package='pangomm-1.4', args='--cflags --libs', uselib_store='PANGOMM', mandatory=True)
+    conf.check_cfg(package='pangomm-' + conf.env.PANGOMM_API, args='--cflags --libs', uselib_store='PANGOMM', mandatory=True)
 
     # cairomm
-    conf.check_cfg(package='cairomm-1.0', args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
+    conf.check_cfg(package='cairomm-' + conf.env.CAIROMM_API, args='--cflags --libs', uselib_store='CAIROMM', mandatory=True)
 
     # leqm_nrt
     conf.check_cfg(package='leqm_nrt', args='--cflags --libs', uselib_store='LEQM_NRT', mandatory=True)
@@ -382,10 +394,10 @@ def configure(conf):
 
     # libxml++
     if conf.options.static_xmlpp:
-        conf.env.STLIB_XMLPP = ['xml++-2.6']
+        conf.env.STLIB_XMLPP = ['xml++-' + conf.env.XMLPP_API]
         conf.env.LIB_XMLPP = ['xml2']
     else:
-        conf.check_cfg(package='libxml++-2.6', args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
+        conf.check_cfg(package='libxml++-' + conf.env.XMLPP_API, args='--cflags --libs', uselib_store='XMLPP', mandatory=True)
 
     # libxmlsec
     if conf.options.static_xmlsec:
