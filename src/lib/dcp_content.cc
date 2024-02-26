@@ -720,6 +720,14 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 		return false;
 	}
 
+	if (audio && audio->stream()) {
+		auto const channels = audio->stream()->channels();
+		if (channels != film->audio_channels()) {
+			why_not = String::compose(_("it has a different number of audio channels than the project; set the project to have %1 channels."), channels);
+			return false;
+		}
+	}
+
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 	return can_reference(
 		film, [](shared_ptr<const Content> c) {
