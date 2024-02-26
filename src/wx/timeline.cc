@@ -109,6 +109,7 @@ Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, Fi
 	_main_canvas->Bind   (wxEVT_RIGHT_DOWN, boost::bind (&Timeline::right_down,   this, _1));
 	_main_canvas->Bind   (wxEVT_MOTION,     boost::bind (&Timeline::mouse_moved,  this, _1));
 	_main_canvas->Bind   (wxEVT_SIZE,       boost::bind (&Timeline::resized,      this));
+	_main_canvas->Bind   (wxEVT_MOUSEWHEEL, boost::bind(&Timeline::mouse_wheel_turned, this, _1));
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_TOP,        boost::bind (&Timeline::scrolled,     this, _1));
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_BOTTOM,     boost::bind (&Timeline::scrolled,     this, _1));
 	_main_canvas->Bind   (wxEVT_SCROLLWIN_LINEUP,     boost::bind (&Timeline::scrolled,     this, _1));
@@ -129,6 +130,43 @@ Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, Fi
 
 	setup_scrollbars ();
 	_labels_canvas->ShowScrollbars (wxSHOW_SB_NEVER, wxSHOW_SB_NEVER);
+}
+
+
+void
+Timeline::mouse_wheel_turned(wxMouseEvent& event)
+{
+	if (event.ControlDown()) {
+		auto const rotation = event.GetWheelRotation();
+		/* On my mouse one click of the scroll wheel is 120, and it's -ve when
+		 * scrolling the wheel towards me.
+		 */
+		auto const scale = rotation > 0 ?
+			(1.0 / (rotation / 90.0)) :
+			(-rotation / 90.0);
+
+		int before_start_x;
+		int before_start_y;
+		_main_canvas->GetViewStart(&before_start_x, &before_start_y);
+
+		auto const before_pps = _pixels_per_second.get_value_or(1);
+		auto const before_pos = _last_mouse_wheel_x && *_last_mouse_wheel_x == event.GetX() ?
+			*_last_mouse_wheel_time :
+			(before_start_x * _x_scroll_rate + event.GetX()) / before_pps;
+
+		set_pixels_per_second(before_pps * scale);
+		setup_scrollbars();
+
+		auto after_left = std::max(0.0, before_pos * _pixels_per_second.get_value_or(1) - event.GetX());
+		_main_canvas->Scroll(after_left / _x_scroll_rate, before_start_y);
+		_labels_canvas->Scroll(0, before_start_y);
+		Refresh();
+
+		if (!_last_mouse_wheel_x || *_last_mouse_wheel_x != event.GetX()) {
+			_last_mouse_wheel_x = event.GetX();
+			_last_mouse_wheel_time = before_pos;
+		}
+	}
 }
 
 

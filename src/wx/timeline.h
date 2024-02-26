@@ -110,6 +110,7 @@ private:
 	void set_pixels_per_track (int h);
 	void zoom_all ();
 	void update_playhead ();
+	void mouse_wheel_turned(wxMouseEvent& event);
 
 	std::shared_ptr<TimelineView> event_to_view (wxMouseEvent &);
 	TimelineContentViewList selected_views () const;
@@ -143,6 +144,8 @@ private:
 	int _pixels_per_track;
 	bool _first_resize;
 	wxTimer _timer;
+	boost::optional<int> _last_mouse_wheel_x;
+	boost::optional<double> _last_mouse_wheel_time;
 
 	static double const _minimum_pixels_per_second;
 	static int const _minimum_pixels_per_track;
