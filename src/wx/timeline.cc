@@ -136,8 +136,9 @@ Timeline::Timeline(wxWindow* parent, ContentPanel* cp, shared_ptr<Film> film, Fi
 void
 Timeline::mouse_wheel_turned(wxMouseEvent& event)
 {
+	auto const rotation = event.GetWheelRotation();
+
 	if (event.ControlDown()) {
-		auto const rotation = event.GetWheelRotation();
 		/* On my mouse one click of the scroll wheel is 120, and it's -ve when
 		 * scrolling the wheel towards me.
 		 */
@@ -166,6 +167,12 @@ Timeline::mouse_wheel_turned(wxMouseEvent& event)
 			_last_mouse_wheel_x = event.GetX();
 			_last_mouse_wheel_time = before_pos;
 		}
+	} else if (event.ShiftDown()) {
+		int before_start_x;
+		int before_start_y;
+		_main_canvas->GetViewStart(&before_start_x, &before_start_y);
+		auto const width = _main_canvas->GetSize().GetWidth();
+		_main_canvas->Scroll(std::max(0.0, before_start_x - rotation * 100.0 / width), before_start_y);
 	}
 }
 
