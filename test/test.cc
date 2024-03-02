@@ -830,10 +830,10 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 	auto asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (asset);
 	auto frame = asset->start_read()->get_frame(index);
-	auto ref_frame (new dcp::MonoPictureFrame (ref));
+	dcp::MonoPictureFrame ref_frame(ref);
 
 	auto image = frame->xyz_image ();
-	auto ref_image = ref_frame->xyz_image ();
+	auto ref_image = ref_frame.xyz_image();
 
 	BOOST_REQUIRE (image->size() == ref_image->size());
 
