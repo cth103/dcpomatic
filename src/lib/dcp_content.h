@@ -224,6 +224,7 @@ private:
 	std::map<dcp::Marker, dcpomatic::ContentTime> _markers;
 	std::vector<dcp::Rating> _ratings;
 	std::vector<std::string> _content_versions;
+	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
 
 	boost::optional<int> _active_audio_channels;
 };

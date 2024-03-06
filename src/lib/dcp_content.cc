@@ -163,6 +163,13 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 	}
 
 	_active_audio_channels = node->optional_number_child<int>("ActiveAudioChannels");
+
+	for (auto non_zero: node->node_children("HasNonZeroEntryPoint")) {
+		try {
+			auto type = string_to_text_type(non_zero->string_attribute("type"));
+			_has_non_zero_entry_point[type] = non_zero->content() == "1";
+		} catch (MetadataError&) {}
+	}
 }
 
 void
@@ -308,6 +315,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		}
 		_ratings = examiner->ratings ();
 		_content_versions = examiner->content_versions ();
+		_has_non_zero_entry_point = examiner->has_non_zero_entry_point();
 	}
 
 	if (needed_assets == needs_assets()) {
@@ -426,6 +434,14 @@ DCPContent::as_xml (xmlpp::Node* node, bool with_paths) const
 
 	if (_active_audio_channels) {
 		node->add_child("ActiveAudioChannels")->add_child_text(raw_convert<string>(*_active_audio_channels));
+	}
+
+	for (auto i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
+		if (_has_non_zero_entry_point[i]) {
+			auto has = node->add_child("HasNonZeroEntryPoint");
+			has->add_child_text("1");
+			has->set_attribute("type", text_type_to_string(static_cast<TextType>(i)));
+		}
 	}
 }
 
