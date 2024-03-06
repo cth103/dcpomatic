@@ -195,17 +195,17 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 		}
 
-		if (reel->main_subtitle()) {
-			if (!reel->main_subtitle()->asset_ref().resolved()) {
-				LOG_GENERAL("Main subtitle %1 of reel %2 is missing", reel->main_subtitle()->id(), reel->id());
+		if (auto sub = reel->main_subtitle()) {
+			if (!sub->asset_ref().resolved()) {
+				LOG_GENERAL("Main subtitle %1 of reel %2 is missing", sub->id(), reel->id());
 				_needs_assets = true;
 			} else {
-				LOG_GENERAL("Main subtitle %1 of reel %2 found", reel->main_subtitle()->id(), reel->id());
+				LOG_GENERAL("Main subtitle %1 of reel %2 found", sub->id(), reel->id());
 
 				_text_count[TextType::OPEN_SUBTITLE] = 1;
-				_open_subtitle_language = try_to_parse_language(reel->main_subtitle()->language());
+				_open_subtitle_language = try_to_parse_language(sub->language());
 
-				auto asset = reel->main_subtitle()->asset();
+				auto asset = sub->asset();
 				for (auto const& font: asset->font_data()) {
 					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
 				}
