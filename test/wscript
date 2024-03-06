@@ -162,6 +162,7 @@ def build(bld):
                  template_test.cc
                  test.cc
                  text_decoder_test.cc
+                 text_entry_point_test.cc
                  threed_test.cc
                  time_calculation_test.cc
                  torture_test.cc

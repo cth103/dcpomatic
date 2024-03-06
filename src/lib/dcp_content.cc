@@ -750,37 +750,16 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 bool
 DCPContent::can_reference_text (shared_ptr<const Film> film, TextType type, string& why_not) const
 {
-	shared_ptr<DCPDecoder> decoder;
-	try {
-		decoder = make_shared<DCPDecoder>(film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>());
-	} catch (dcp::ReadError &) {
-		/* We couldn't read the DCP, so it's probably missing */
-		return false;
-	} catch (DCPError &) {
-		/* We couldn't read the DCP, so it's probably missing */
-		return false;
-	} catch (dcp::KDMDecryptionError &) {
-		/* We have an incorrect KDM */
+	if (_has_non_zero_entry_point[TextType::OPEN_SUBTITLE]) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("one of its subtitle reels has a non-zero entry point so it must be re-written.");
 		return false;
 	}
 
-        for (auto i: decoder->reels()) {
-                if (type == TextType::OPEN_SUBTITLE) {
-			if (i->main_subtitle() && i->main_subtitle()->entry_point().get_value_or(0) != 0) {
-				/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-				why_not = _("one of its subtitle reels has a non-zero entry point so it must be re-written.");
-				return false;
-			}
-                }
-		if (type == TextType::CLOSED_CAPTION) {
-			for (auto j: i->closed_captions()) {
-				if (j->entry_point().get_value_or(0) != 0) {
-					/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
-					why_not = _("one of its closed caption has a non-zero entry point so it must be re-written.");
-					return false;
-				}
-			}
-		}
+	if (_has_non_zero_entry_point[TextType::CLOSED_CAPTION]) {
+		/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
+		why_not = _("one of its closed caption has a non-zero entry point so it must be re-written.");
+		return false;
         }
 
 	if (trim_start() != dcpomatic::ContentTime()) {
