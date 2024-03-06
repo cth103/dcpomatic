@@ -196,6 +196,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		}
 
 		if (auto sub = reel->main_subtitle()) {
+			if (sub->entry_point().get_value_or(0) != 0) {
+				_has_non_zero_entry_point[TextType::OPEN_SUBTITLE] = true;
+			}
 			if (!sub->asset_ref().resolved()) {
 				LOG_GENERAL("Main subtitle %1 of reel %2 is missing", sub->id(), reel->id());
 				_needs_assets = true;
@@ -225,6 +228,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 		}
 
 		for (auto ccap: reel->closed_captions()) {
+			if (ccap->entry_point().get_value_or(0) != 0) {
+				_has_non_zero_entry_point[TextType::CLOSED_CAPTION] = true;
+			}
 			if (!ccap->asset_ref().resolved()) {
 				LOG_GENERAL("Closed caption %1 of reel %2 is missing", ccap->id(), reel->id());
 				_needs_assets = true;

@@ -171,6 +171,10 @@ public:
 		return _atmos_edit_rate;
 	}
 
+	EnumIndexedVector<bool, TextType> has_non_zero_entry_point() const {
+		return _has_non_zero_entry_point;
+	}
+
 	void add_fonts(std::shared_ptr<TextContent> content);
 
 private:
@@ -206,6 +210,7 @@ private:
 	bool _has_atmos = false;
 	Frame _atmos_length = 0;
 	dcp::Fraction _atmos_edit_rate;
+	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
 
 	struct Font
 	{
