@@ -709,20 +709,6 @@ DCPContent::can_reference_video (shared_ptr<const Film> film, string& why_not) c
 bool
 DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) const
 {
-	shared_ptr<DCPDecoder> decoder;
-	try {
-		decoder = make_shared<DCPDecoder>(film, shared_from_this(), false, film->tolerant(), shared_ptr<DCPDecoder>());
-	} catch (dcp::ReadError &) {
-		/* We couldn't read the DCP, so it's probably missing */
-		return false;
-	} catch (DCPError &) {
-		/* We couldn't read the DCP, so it's probably missing */
-		return false;
-	} catch (dcp::KDMDecryptionError &) {
-		/* We have an incorrect KDM */
-		return false;
-	}
-
 	if (audio && audio->stream()) {
 		auto const channels = audio->stream()->channels();
 		if (channels != film->audio_channels()) {
