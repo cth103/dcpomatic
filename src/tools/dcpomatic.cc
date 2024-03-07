@@ -71,7 +71,7 @@
 #include "lib/dcpomatic_log.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/dkdm_wrapper.h"
-#include "lib/emailer.h"
+#include "lib/email.h"
 #include "lib/encode_server_finder.h"
 #include "lib/exceptions.h"
 #include "lib/ffmpeg_encoder.h"
@@ -1127,9 +1127,9 @@ private:
 			error_dialog (this, _("You must enter a valid email address when sending translations, "
 					      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
 		} else {
-			Emailer emailer(dialog.email(), { "carl@dcpomatic.com" }, "DCP-o-matic translations", body);
+			Email email(dialog.email(), { "carl@dcpomatic.com" }, "DCP-o-matic translations", body);
 			try {
-				emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
+				email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 			} catch (NetworkError& e) {
 				error_dialog (this, _("Could not send translations"), std_to_wx(e.what()));
 			}

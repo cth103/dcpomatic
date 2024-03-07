@@ -26,7 +26,7 @@
 #include "film.h"
 #include "log.h"
 #include "version.h"
-#include "emailer.h"
+#include "email.h"
 #include "environment_info.h"
 #include <libxml++/libxml++.h>
 
@@ -108,8 +108,8 @@ SendProblemReportJob::run ()
 		body += "---<8----\n";
 	}
 
-	Emailer emailer (_from, {"carl@dcpomatic.com"}, "DCP-o-matic problem report", body);
-	emailer.send ("main.carlh.net", 2525, EmailProtocol::STARTTLS);
+	Email email(_from, {"carl@dcpomatic.com"}, "DCP-o-matic problem report", body);
+	email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 
 	set_progress (1);
 	set_state (FINISHED_OK);

@@ -22,7 +22,7 @@
 #include "send_notification_email_job.h"
 #include "exceptions.h"
 #include "config.h"
-#include "emailer.h"
+#include "email.h"
 #include "compose.hpp"
 
 #include "i18n.h"
@@ -71,7 +71,7 @@ SendNotificationEmailJob::run ()
 	}
 
 	set_progress_unknown ();
-	Emailer email (config->notification_from(), { config->notification_to() }, config->notification_subject(), _body);
+	Email email(config->notification_from(), { config->notification_to() }, config->notification_subject(), _body);
 	for (auto i: config->notification_cc()) {
 		email.add_cc (i);
 	}

@@ -23,10 +23,10 @@
 #include <boost/scoped_array.hpp>
 
 
-class Emailer
+class Email
 {
 public:
-	Emailer(std::string from, std::vector<std::string> to, std::string subject, std::string body);
+	Email(std::string from, std::vector<std::string> to, std::string subject, std::string body);
 
 	void add_cc (std::string cc);
 	void add_bcc (std::string bcc);

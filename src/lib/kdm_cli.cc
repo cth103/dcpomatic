@@ -27,7 +27,7 @@
 #include "cinema.h"
 #include "config.h"
 #include "dkdm_wrapper.h"
-#include "emailer.h"
+#include "email.h"
 #include "exceptions.h"
 #include "film.h"
 #include "kdm_with_metadata.h"
@@ -610,7 +610,7 @@ try
 	if (list_cinemas) {
 		auto cinemas = Config::instance()->cinemas ();
 		for (auto i: cinemas) {
-			out (String::compose("%1 (%2)", i->name, Emailer::address_list (i->emails)));
+			out (String::compose("%1 (%2)", i->name, Email::address_list(i->emails)));
 		}
 		return {};
 	}

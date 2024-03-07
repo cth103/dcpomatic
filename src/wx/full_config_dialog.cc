@@ -49,7 +49,7 @@
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content_type.h"
-#include "lib/emailer.h"
+#include "lib/email.h"
 #include "lib/exceptions.h"
 #include "lib/filter.h"
 #include "lib/log.h"
@@ -980,7 +980,7 @@ private:
 			return;
 		}
 
-		Emailer emailer(
+		Email email(
 			wx_to_std(dialog.from()),
 			{ wx_to_std(dialog.to()) },
 			wx_to_std(_("DCP-o-matic test email")),
@@ -988,7 +988,7 @@ private:
 			);
 		auto config = Config::instance();
 		try {
-			emailer.send(config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+			email.send(config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (NetworkError& e) {
 			error_dialog(_panel, std_to_wx(e.summary()), std_to_wx(e.detail().get_value_or("")));
 			return;

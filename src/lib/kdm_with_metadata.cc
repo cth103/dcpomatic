@@ -23,7 +23,7 @@
 #include "config.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
-#include "emailer.h"
+#include "email.h"
 #include "kdm_with_metadata.h"
 #include "screen.h"
 #include "util.h"
@@ -253,7 +253,7 @@ send_emails (
 			continue;
 		}
 
-		Emailer email (config->kdm_from(), { emails.front() }, subject, body);
+		Email email(config->kdm_from(), { emails.front() }, subject, body);
 
 		/* Use CC for the second and subsequent email addresses, so we seem less spammy (#2310) */
 		for (auto cc = std::next(emails.begin()); cc != emails.end(); ++cc) {
@@ -269,7 +269,7 @@ send_emails (
 
 		email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
 
-		auto log_details = [](Emailer& email) {
+		auto log_details = [](Email& email) {
 			dcpomatic_log->log("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
 			dcpomatic_log->log(email.email(), LogEntry::TYPE_DEBUG_EMAIL);
 			dcpomatic_log->log("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
