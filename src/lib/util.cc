@@ -1123,3 +1123,31 @@ word_wrap(string input, int columns)
 	return output;
 }
 
+
+string
+screen_names_to_string(vector<string> names)
+{
+	if (names.empty()) {
+		return {};
+	}
+
+	auto number = [](string const& s) {
+		return s.find_first_not_of("0123456789") == string::npos;
+	};
+
+	if (std::find_if(names.begin(), names.end(), [number](string const& s) { return !number(s); }) == names.end()) {
+		std::sort(names.begin(), names.end(), [](string const& a, string const& b) {
+			return dcp::raw_convert<int>(a) < dcp::raw_convert<int>(b);
+		});
+	} else {
+		std::sort(names.begin(), names.end());
+	}
+
+	string result;
+	for (auto const& name: names) {
+		result += name + ", ";
+	}
+
+	return result.substr(0, result.length() - 2);
+}
+

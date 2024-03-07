@@ -238,14 +238,13 @@ send_emails (
 		auto subject = substitute_variables(config->kdm_subject());
 		auto body = substitute_variables(config->kdm_email());
 
-		string screens;
+		vector<string> screens;
 		for (auto kdm: kdms_for_cinema) {
-			auto screen_name = kdm->get('s');
-			if (screen_name) {
-				screens += *screen_name + ", ";
+			if (auto screen_name = kdm->get('s')) {
+				screens.push_back(*screen_name);
 			}
 		}
-		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
+		boost::algorithm::replace_all(body, "$SCREENS", screen_names_to_string(screens));
 
 		auto emails = first->emails();
 		std::copy(extra_addresses.begin(), extra_addresses.end(), std::back_inserter(emails));

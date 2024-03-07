@@ -97,5 +97,6 @@ extern std::string error_details(boost::system::error_code ec);
 extern bool contains_assetmap(boost::filesystem::path dir);
 extern std::string word_wrap(std::string input, int columns);
 extern void capture_ffmpeg_logs();
+extern std::string screen_names_to_string(std::vector<std::string> names);
 
 #endif
