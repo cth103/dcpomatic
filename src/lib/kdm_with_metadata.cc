@@ -268,6 +268,7 @@ send_emails (
 		}
 
 		email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
+		dcp::filesystem::remove(zip_file);
 
 		auto log_details = [](Email& email) {
 			dcpomatic_log->log("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
@@ -279,13 +280,10 @@ send_emails (
 		try {
 			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (...) {
-			dcp::filesystem::remove(zip_file);
 			log_details (email);
 			throw;
 		}
 
 		log_details (email);
-
-		dcp::filesystem::remove(zip_file);
 	}
 }

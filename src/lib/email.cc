@@ -77,7 +77,7 @@ void
 Email::add_attachment(boost::filesystem::path file, string name, string mime_type)
 {
 	Attachment a;
-	a.file = file;
+	a.file = dcp::ArrayData(file);
 	a.name = name;
 	a.mime_type = mime_type;
 	_attachments.push_back (a);
@@ -171,8 +171,7 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 		}
 		bio = BIO_push (b64, bio);
 
-		ArrayData data (i.file);
-		BIO_write (bio, data.data(), data.size());
+		BIO_write(bio, i.file.data(), i.file.size());
 		(void) BIO_flush (bio);
 
 		char* out;
