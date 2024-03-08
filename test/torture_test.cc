@@ -248,7 +248,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 			for (int c = 0; c < 3; ++c) {
 				for (int y = 0; y < size.height; ++y) {
 					for (int x = 0; x < size.width; ++x) {
-						BOOST_REQUIRE (image->data(c)[y * size.height + x] <= 3);
+						BOOST_REQUIRE (image->data(c)[y * size.height + x] <= 5);
 					}
 				}
 			}

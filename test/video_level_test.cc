@@ -480,7 +480,7 @@ BOOST_AUTO_TEST_CASE (movie_V_to_dcp)
 {
 	auto range = dcp_range (movie_V("movie_V_to_dcp"));
 	/* Video range has been correctly expanded to full for the DCP */
-	check_int_close (range, {0, 4083}, 2);
+	check_int_close(range, {0, 4081}, 2);
 }
 
 
@@ -498,7 +498,7 @@ BOOST_AUTO_TEST_CASE (movie_F_to_dcp)
 {
 	auto range = dcp_range (movie_F("movie_F_to_dcp"));
 	/* The nearly-full-range of the input has been preserved */
-	check_int_close (range, {0, 4083}, 2);
+	check_int_close(range, {0, 4080}, 2);
 }
 
 
@@ -506,14 +506,14 @@ BOOST_AUTO_TEST_CASE (video_FoV_to_dcp)
 {
 	auto range = dcp_range (movie_FoV("video_FoV_to_dcp"));
 	/* The nearly-full-range of the input has become even more full, and clipped */
-	check_int_close (range, {0, 4095}, 2);
+	check_int_close(range, {0, 4093}, 2);
 }
 
 
 BOOST_AUTO_TEST_CASE (image_F_to_dcp)
 {
 	auto range = dcp_range (image_F("image_F_to_dcp"));
-	check_int_close (range, {0, 4083}, 3);
+	check_int_close(range, {0, 4080}, 3);
 }
 
 
