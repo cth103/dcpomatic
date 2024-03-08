@@ -840,9 +840,12 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 	int off = 0;
 	for (int y = 0; y < ref_image->size().height; ++y) {
 		for (int x = 0; x < ref_image->size().width; ++x) {
-			BOOST_REQUIRE_EQUAL (ref_image->data(0)[off], image->data(0)[off]);
-			BOOST_REQUIRE_EQUAL (ref_image->data(1)[off], image->data(1)[off]);
-			BOOST_REQUIRE_EQUAL (ref_image->data(2)[off], image->data(2)[off]);
+			auto x_error = std::abs(ref_image->data(0)[off] - image->data(0)[off]);
+			BOOST_REQUIRE_MESSAGE(x_error == 0, "x component at " << x << "," << y << " differs by " << x_error);
+			auto y_error = std::abs(ref_image->data(1)[off] - image->data(1)[off]);
+			BOOST_REQUIRE_MESSAGE(y_error == 0, "y component at " << x << "," << y << " differs by " << y_error);
+			auto z_error = std::abs(ref_image->data(2)[off] - image->data(2)[off]);
+			BOOST_REQUIRE_MESSAGE(z_error == 0, "z component at " << x << "," << y << " differs by " << z_error);
 			++off;
 		}
 	}
