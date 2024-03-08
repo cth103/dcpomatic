@@ -155,3 +155,14 @@ BOOST_AUTO_TEST_CASE(word_wrap_test)
 	BOOST_CHECK(word_wrap("hello this is a longer bit of text and it should be word-wrapped", 31) == string{"hello this is a longer bit of \ntext and it should be word-\nwrapped\n"});
 	BOOST_CHECK_EQUAL(word_wrap("hellocan'twrapthissadly", 5), "hello\ncan't\nwrapt\nhissa\ndly\n");
 }
+
+
+BOOST_AUTO_TEST_CASE(screen_names_to_string_test)
+{
+	BOOST_CHECK_EQUAL(screen_names_to_string({"1", "2", "3"}), "1, 2, 3");
+	BOOST_CHECK_EQUAL(screen_names_to_string({"3", "2", "1"}), "1, 2, 3");
+	BOOST_CHECK_EQUAL(screen_names_to_string({"39", "3", "10", "1", "2"}), "1, 2, 3, 10, 39");
+	BOOST_CHECK_EQUAL(screen_names_to_string({"Sheila", "Fred", "Jim"}), "Fred, Jim, Sheila");
+	BOOST_CHECK_EQUAL(screen_names_to_string({"Sheila", "Fred", "Jim", "1"}), "1, Fred, Jim, Sheila");
+}
+

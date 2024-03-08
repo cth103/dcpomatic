@@ -196,6 +196,7 @@ AudioPanel::film_changed (FilmProperty property)
 	case FilmProperty::AUDIO_PROCESSOR:
 		_mapping->set_output_channels (_parent->film()->audio_output_names ());
 		setup_peak ();
+		setup_sensitivity();
 		break;
 	case FilmProperty::VIDEO_FRAME_RATE:
 		setup_description ();

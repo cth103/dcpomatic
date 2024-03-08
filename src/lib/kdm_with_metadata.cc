@@ -23,7 +23,7 @@
 #include "config.h"
 #include "cross.h"
 #include "dcpomatic_log.h"
-#include "emailer.h"
+#include "email.h"
 #include "kdm_with_metadata.h"
 #include "screen.h"
 #include "util.h"
@@ -238,14 +238,13 @@ send_emails (
 		auto subject = substitute_variables(config->kdm_subject());
 		auto body = substitute_variables(config->kdm_email());
 
-		string screens;
+		vector<string> screens;
 		for (auto kdm: kdms_for_cinema) {
-			auto screen_name = kdm->get('s');
-			if (screen_name) {
-				screens += *screen_name + ", ";
+			if (auto screen_name = kdm->get('s')) {
+				screens.push_back(*screen_name);
 			}
 		}
-		boost::algorithm::replace_all (body, "$SCREENS", screens.substr (0, screens.length() - 2));
+		boost::algorithm::replace_all(body, "$SCREENS", screen_names_to_string(screens));
 
 		auto emails = first->emails();
 		std::copy(extra_addresses.begin(), extra_addresses.end(), std::back_inserter(emails));
@@ -253,7 +252,7 @@ send_emails (
 			continue;
 		}
 
-		Emailer email (config->kdm_from(), { emails.front() }, subject, body);
+		Email email(config->kdm_from(), { emails.front() }, subject, body);
 
 		/* Use CC for the second and subsequent email addresses, so we seem less spammy (#2310) */
 		for (auto cc = std::next(emails.begin()); cc != emails.end(); ++cc) {
@@ -268,8 +267,9 @@ send_emails (
 		}
 
 		email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
+		dcp::filesystem::remove(zip_file);
 
-		auto log_details = [](Emailer& email) {
+		auto log_details = [](Email& email) {
 			dcpomatic_log->log("Email content follows", LogEntry::TYPE_DEBUG_EMAIL);
 			dcpomatic_log->log(email.email(), LogEntry::TYPE_DEBUG_EMAIL);
 			dcpomatic_log->log("Email session follows", LogEntry::TYPE_DEBUG_EMAIL);
@@ -279,13 +279,10 @@ send_emails (
 		try {
 			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (...) {
-			dcp::filesystem::remove(zip_file);
 			log_details (email);
 			throw;
 		}
 
 		log_details (email);
-
-		dcp::filesystem::remove(zip_file);
 	}
 }

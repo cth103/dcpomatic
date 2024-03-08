@@ -114,4 +114,6 @@ number_attribute(cxml::ConstNodePtr node, std::string name1, std::string name2)
 	return *value;
 }
 
+extern std::string screen_names_to_string(std::vector<std::string> names);
+
 #endif

@@ -21,7 +21,7 @@
 
 #include "compose.hpp"
 #include "config.h"
-#include "emailer.h"
+#include "email.h"
 #include "exceptions.h"
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
@@ -39,7 +39,7 @@ using std::vector;
 using dcp::ArrayData;
 
 
-Emailer::Emailer(string from, vector<string> to, string subject, string body)
+Email::Email(string from, vector<string> to, string subject, string body)
 	: _from (from)
 	, _to (to)
 	, _subject (subject)
@@ -51,7 +51,7 @@ Emailer::Emailer(string from, vector<string> to, string subject, string body)
 
 
 string
-Emailer::fix (string s) const
+Email::fix(string s) const
 {
 	boost::algorithm::replace_all (s, "\n", "\r\n");
 	boost::algorithm::replace_all (s, "\0", " ");
@@ -60,24 +60,24 @@ Emailer::fix (string s) const
 
 
 void
-Emailer::add_cc (string cc)
+Email::add_cc(string cc)
 {
 	_cc.push_back (cc);
 }
 
 
 void
-Emailer::add_bcc (string bcc)
+Email::add_bcc(string bcc)
 {
 	_bcc.push_back (bcc);
 }
 
 
 void
-Emailer::add_attachment (boost::filesystem::path file, string name, string mime_type)
+Email::add_attachment(boost::filesystem::path file, string name, string mime_type)
 {
 	Attachment a;
-	a.file = file;
+	a.file = dcp::ArrayData(file);
 	a.name = name;
 	a.mime_type = mime_type;
 	_attachments.push_back (a);
@@ -87,19 +87,19 @@ Emailer::add_attachment (boost::filesystem::path file, string name, string mime_
 static size_t
 curl_data_shim (void* ptr, size_t size, size_t nmemb, void* userp)
 {
-	return reinterpret_cast<Emailer*>(userp)->get_data (ptr, size, nmemb);
+	return reinterpret_cast<Email*>(userp)->get_data (ptr, size, nmemb);
 }
 
 
 static int
 curl_debug_shim (CURL* curl, curl_infotype type, char* data, size_t size, void* userp)
 {
-	return reinterpret_cast<Emailer*>(userp)->debug (curl, type, data, size);
+	return reinterpret_cast<Email*>(userp)->debug (curl, type, data, size);
 }
 
 
 size_t
-Emailer::get_data (void* ptr, size_t size, size_t nmemb)
+Email::get_data(void* ptr, size_t size, size_t nmemb)
 {
 	size_t const t = min (_email.length() - _offset, size * nmemb);
 	memcpy (ptr, _email.substr (_offset, t).c_str(), t);
@@ -109,7 +109,7 @@ Emailer::get_data (void* ptr, size_t size, size_t nmemb)
 
 
 void
-Emailer::send (string server, int port, EmailProtocol protocol, string user, string password)
+Email::send(string server, int port, EmailProtocol protocol, string user, string password)
 {
 	char date_buffer[128];
 	time_t now = time (0);
@@ -171,8 +171,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 		}
 		bio = BIO_push (b64, bio);
 
-		ArrayData data (i.file);
-		BIO_write (bio, data.data(), data.size());
+		BIO_write(bio, i.file.data(), i.file.size());
 		(void) BIO_flush (bio);
 
 		char* out;
@@ -247,7 +246,7 @@ Emailer::send (string server, int port, EmailProtocol protocol, string user, str
 
 
 string
-Emailer::address_list(vector<string> addresses)
+Email::address_list(vector<string> addresses)
 {
 	string o;
 	for (auto i: addresses) {
@@ -259,7 +258,7 @@ Emailer::address_list(vector<string> addresses)
 
 
 int
-Emailer::debug (CURL *, curl_infotype type, char* data, size_t size)
+Email::debug(CURL *, curl_infotype type, char* data, size_t size)
 {
 	if (type == CURLINFO_TEXT) {
 		_notes += string (data, size);
@@ -273,7 +272,7 @@ Emailer::debug (CURL *, curl_infotype type, char* data, size_t size)
 
 
 string
-Emailer::encode_rfc1342 (string subject)
+Email::encode_rfc1342(string subject)
 {
 	auto b64 = BIO_new(BIO_f_base64());
 	if (!b64) {

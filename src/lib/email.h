@@ -23,13 +23,14 @@
 #include <boost/scoped_array.hpp>
 
 
-class Emailer
+class Email
 {
 public:
-	Emailer(std::string from, std::vector<std::string> to, std::string subject, std::string body);
+	Email(std::string from, std::vector<std::string> to, std::string subject, std::string body);
 
 	void add_cc (std::string cc);
 	void add_bcc (std::string bcc);
+	/** Add attachment, copying the contents of the file into memory */
 	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
 
 	void send (std::string server, int port, EmailProtocol protocol, std::string user = "", std::string password = "");
@@ -61,7 +62,7 @@ private:
 	std::vector<std::string> _bcc;
 
 	struct Attachment {
-		boost::filesystem::path file;
+		dcp::ArrayData file;
 		std::string name;
 		std::string mime_type;
 	};

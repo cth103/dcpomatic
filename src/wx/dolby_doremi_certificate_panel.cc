@@ -117,8 +117,18 @@ static void
 try_ims(vector<Location>& locations, string prefix, string serial)
 {
 	locations.push_back({
+		String::compose("%1%2xxx/Dolby-IMS1000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
+		String::compose("Dolby-IMS1000-%1.cert.sha256.pem", serial)
+	});
+
+	locations.push_back({
 		String::compose("%1%2xxx/Dolby-IMS2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
 		String::compose("Dolby-IMS2000-%1.cert.sha256.pem", serial)
+	});
+
+	locations.push_back({
+		String::compose("%1%2xxx/cert_Dolby-IMS3000-%3-SMPTE.zip", prefix, serial.substr(0, 3), serial),
+		String::compose("cert_Dolby-IMS3000-%1-SMPTE.pem", serial)
 	});
 
 	locations.push_back({

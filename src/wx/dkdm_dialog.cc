@@ -178,7 +178,7 @@ DKDMDialog::make_clicked ()
 		return;
 	}
 
-	auto result = _output->make (kdms, film->name(), bind(&DKDMDialog::confirm_overwrite, this, _1));
+	auto result = _output->make(kdms, film->dcp_name(), bind(&DKDMDialog::confirm_overwrite, this, _1));
 	if (result.first) {
 		JobManager::instance()->add (result.first);
 	}
