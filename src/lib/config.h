@@ -534,6 +534,10 @@ public:
 		return _player_mode;
 	}
 
+	bool player_restricted_menus() const {
+		return _player_restricted_menus;
+	}
+
 	int image_display () const {
 		return _image_display;
 	}
@@ -1449,6 +1453,7 @@ private:
 	boost::optional<std::string> _gdc_username;
 	boost::optional<std::string> _gdc_password;
 	PlayerMode _player_mode;
+	bool _player_restricted_menus = false;
 	int _image_display;
 	VideoViewType _video_view_type;
 	bool _respect_kdm_validity_periods;

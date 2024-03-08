@@ -616,12 +616,14 @@ private:
 		help->Append (ID_help_report_a_problem, _("Report a problem..."));
 
 		m->Append (_file_menu, _("&File"));
+		if (!Config::instance()->player_restricted_menus()) {
 #ifndef __WXOSX__
-		m->Append (edit, _("&Edit"));
+			m->Append (edit, _("&Edit"));
 #endif
-		m->Append (view, _("&View"));
-		m->Append (tools, _("&Tools"));
-		m->Append (help, _("&Help"));
+			m->Append (view, _("&View"));
+			m->Append (tools, _("&Tools"));
+			m->Append (help, _("&Help"));
+		}
 	}
 
 	void file_open ()
