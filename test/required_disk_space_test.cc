@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 {
 	auto film = new_test_film ("required_disk_space_test");
 	film->set_j2k_bandwidth (100000000);
-	film->set_audio_channels (6);
+	film->set_audio_channels(8);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	auto content_a = content_factory("test/data/flat_blue.png")[0];
 	BOOST_REQUIRE (content_a);
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	check_within_n (
 		film->required_disk_space(),
 		288LL * (100000000 / 8) / 24 +  // video
-		288LL * 48000 * 6 * 3 / 24 +    // audio
+		288LL * 48000 * 8 * 3 / 24 +    // audio
 		65536,                          // extra
 		16
 		);
@@ -69,17 +69,19 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 	check_within_n (
 		film->required_disk_space(),
 		240LL * (100000000 / 8) / 24 +  // video
-		288LL * 48000 * 6 * 3 / 24 +    // audio
+		288LL * 48000 * 8 * 3 / 24 +    // audio
 		65536,                          // extra
 		16
 		);
 
+	std::string why_not;
+	BOOST_CHECK(content_b->can_reference_audio(film, why_not));
 	content_b->set_reference_audio (true);
 
 	check_within_n (
 		film->required_disk_space(),
 		240LL * (100000000 / 8) / 24 +  // video
-		240LL * 48000 * 6 * 3 / 24 +    // audio
+		240LL * 48000 * 8 * 3 / 24 +    // audio
 		65536,                          // extra
 		16
 		);

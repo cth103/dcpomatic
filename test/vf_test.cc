@@ -73,6 +73,7 @@ BOOST_AUTO_TEST_CASE (vf_test1)
 
 	/* Multi-reel DCP can't be referenced if we are using a single reel for the project */
 	film->set_reel_type (ReelType::SINGLE);
+	film->set_audio_channels(16);
 	string why_not;
 	BOOST_CHECK (!dcp->can_reference_video(film, why_not));
 	BOOST_CHECK (!dcp->can_reference_audio(film, why_not));
