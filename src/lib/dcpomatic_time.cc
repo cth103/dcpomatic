@@ -27,6 +27,25 @@ using std::string;
 using namespace dcpomatic;
 
 
+bool
+dcpomatic::operator<=(HMSF const& a, HMSF const& b)
+{
+	if (a.h != b.h) {
+		return a.h <= b.h;
+	}
+
+	if (a.m != b.m) {
+		return a.m <= b.m;
+	}
+
+	if (a.s != b.s) {
+		return a.s <= b.s;
+	}
+
+	return a.f <= b.f;
+}
+
+
 template <>
 Time<ContentTimeDifferentiator, DCPTimeDifferentiator>::Time (DCPTime d, FrameRateChange f)
 	: _t (llrint(d.get() * f.speed_up))

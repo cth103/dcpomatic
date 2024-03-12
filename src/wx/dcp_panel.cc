@@ -23,6 +23,7 @@
 #include "check_box.h"
 #include "check_box.h"
 #include "dcp_panel.h"
+#include "dcp_timeline_dialog.h"
 #include "dcpomatic_button.h"
 #include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
@@ -106,18 +107,12 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
         auto size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
         size.SetHeight (-1);
 
-	_reels_label = create_label (_panel, _("Reels"), true);
-	_reel_type = new Choice(_panel);
-
-	_reel_length_label = create_label (_panel, _("Reel length"), true);
-	_reel_length = new SpinCtrl (_panel, DCPOMATIC_SPIN_CTRL_WIDTH);
-	_reel_length_gb_label = create_label (_panel, _("GB"), false);
-
 	_standard_label = create_label (_panel, _("Standard"), true);
 	_standard = new Choice(_panel);
 
 	_markers = new Button (_panel, _("Markers..."));
 	_metadata = new Button (_panel, _("Metadata..."));
+	_reels = new Button(_panel, _("Reels..."));
 
 	_notebook = new wxNotebook (_panel, wxID_ANY);
 	_sizer->Add (_notebook, 1, wxEXPAND | wxTOP, 6);
@@ -130,22 +125,14 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_copy_isdcf_name_button->Bind(wxEVT_BUTTON,   boost::bind(&DCPPanel::copy_isdcf_name_button_clicked, this));
 	_dcp_content_type->Bind	     (wxEVT_CHOICE,   boost::bind(&DCPPanel::dcp_content_type_changed, this));
 	_encrypted->bind(&DCPPanel::encrypted_toggled, this);
-	_reel_type->Bind             (wxEVT_CHOICE,   boost::bind(&DCPPanel::reel_type_changed, this));
-	_reel_length->Bind           (wxEVT_SPINCTRL, boost::bind(&DCPPanel::reel_length_changed, this));
 	_standard->Bind              (wxEVT_CHOICE,   boost::bind(&DCPPanel::standard_changed, this));
 	_markers->Bind               (wxEVT_BUTTON,   boost::bind(&DCPPanel::markers_clicked, this));
 	_metadata->Bind              (wxEVT_BUTTON,   boost::bind(&DCPPanel::metadata_clicked, this));
+	_reels->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::reels_clicked, this));
+
 	for (auto i: DCPContentType::all()) {
 		_dcp_content_type->add(i->pretty_name());
 	}
-
-	_reel_type->add(_("Single reel"));
-	_reel_type->add(_("Split by video content"));
-	/// TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-	_reel_type->add(S_("Reel|Custom"));
-	_reel_type->SetToolTip(_("How the DCP should be split into parts internally.  If in doubt, choose 'Single reel'"));
-
-	_reel_length->SetRange (1, 64);
 
 	add_standards();
 	_standard->SetToolTip(_("The standard that the DCP should use.  Interop is older, and SMPTE is the newer (current) standard.  If in doubt, choose 'SMPTE'"));
@@ -241,19 +228,6 @@ DCPPanel::add_to_grid ()
 	_grid->Add (_encrypted, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
-	add_label_to_sizer (_grid, _reels_label, true, wxGBPosition(r, 0));
-	_grid->Add (_reel_type, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	++r;
-
-	add_label_to_sizer (_grid, _reel_length_label, true, wxGBPosition(r, 0));
-	{
-		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (_reel_length);
-		add_label_to_sizer (s, _reel_length_gb_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
-		_grid->Add (s, wxGBPosition(r, 1));
-	}
-	++r;
-
 	add_label_to_sizer (_grid, _standard_label, true, wxGBPosition(r, 0));
 	_grid->Add (_standard, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
@@ -261,6 +235,7 @@ DCPPanel::add_to_grid ()
 	auto extra = new wxBoxSizer (wxHORIZONTAL);
 	extra->Add (_markers, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 	extra->Add (_metadata, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
+	extra->Add(_reels, 1, wxRIGHT, DCPOMATIC_SIZER_X_GAP);
 	_grid->Add (extra, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 }
@@ -374,6 +349,14 @@ DCPPanel::metadata_clicked ()
 
 
 void
+DCPPanel::reels_clicked()
+{
+	_dcp_timeline.reset(_panel, _film);
+	_dcp_timeline->Show();
+}
+
+
+void
 DCPPanel::film_changed(FilmProperty p)
 {
 	switch (p) {
@@ -473,13 +456,6 @@ DCPPanel::film_changed(FilmProperty p)
 		}
 		setup_audio_channels_choice (_audio_channels, minimum_allowed_audio_channels());
 		film_changed (FilmProperty::AUDIO_CHANNELS);
-		break;
-	case FilmProperty::REEL_TYPE:
-		checked_set (_reel_type, static_cast<int>(_film->reel_type()));
-		_reel_length->Enable (_film->reel_type() == ReelType::BY_LENGTH);
-		break;
-	case FilmProperty::REEL_LENGTH:
-		checked_set (_reel_length, _film->reel_length() / 1000000000LL);
 		break;
 	case FilmProperty::CONTENT:
 		setup_dcp_name ();
@@ -666,8 +642,6 @@ DCPPanel::setup_sensitivity ()
 	_audio_language->Enable         (_enable_audio_language->GetValue());
 	_edit_audio_language->Enable    (_enable_audio_language->GetValue());
 	_encrypted->Enable              (_generally_sensitive);
-	_reel_type->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->references_dcp_audio());
-	_reel_length->Enable            (_generally_sensitive && _film && _film->reel_type() == ReelType::BY_LENGTH);
 	_markers->Enable                (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable               (_generally_sensitive);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
@@ -1029,28 +1003,6 @@ DCPPanel::show_audio_clicked ()
 
 	_audio_dialog.reset(_panel, _film, _viewer);
 	_audio_dialog->Show();
-}
-
-
-void
-DCPPanel::reel_type_changed ()
-{
-	if (!_film || !_reel_type->get()) {
-		return;
-	}
-
-	_film->set_reel_type(static_cast<ReelType>(*_reel_type->get()));
-}
-
-
-void
-DCPPanel::reel_length_changed ()
-{
-	if (!_film) {
-		return;
-	}
-
-	_film->set_reel_length (_reel_length->GetValue() * 1000000000LL);
 }
 
 

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,22 +19,33 @@
 */
 
 
-#include "timeline_content_view.h"
+#include "colours.h"
+#include "content_timeline_atmos_view.h"
 
 
-/** @class TimelineAudioContentView
- *  @brief Timeline view for AudioContent.
+using std::shared_ptr;
+
+
+/** @class ContentTimelineContentView
+ *  @brief Content timeline view for AtmosContent.
  */
-class TimelineAudioContentView : public TimelineContentView
-{
-public:
-	TimelineAudioContentView (Timeline& tl, std::shared_ptr<Content> c);
 
-private:
-	bool active () const override {
-		return true;
-	}
-	wxColour background_colour () const override;
-	wxColour foreground_colour () const override;
-	wxString label () const override;
-};
+ContentTimelineAtmosView::ContentTimelineAtmosView(ContentTimeline& tl, shared_ptr<Content> c)
+	: TimelineContentView (tl, c)
+{
+
+}
+
+
+wxColour
+ContentTimelineAtmosView::background_colour() const
+{
+	return ATMOS_CONTENT_COLOUR;
+}
+
+
+wxColour
+ContentTimelineAtmosView::foreground_colour() const
+{
+	return wxColour (0, 0, 0, 255);
+}

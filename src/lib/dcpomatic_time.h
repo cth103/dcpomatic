@@ -64,6 +64,9 @@ public:
 };
 
 
+bool operator<=(HMSF const& a, HMSF const& b);
+
+
 /** A time in seconds, expressed as a number scaled up by Time::HZ.  We want two different
  *  versions of this class, dcpomatic::ContentTime and dcpomatic::DCPTime, and we want it to be impossible to
  *  convert implicitly between the two.  Hence there's this template hack.  I'm not

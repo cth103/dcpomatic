@@ -107,7 +107,8 @@ enum class ReelType
 {
 	SINGLE,
 	BY_VIDEO_CONTENT,
-	BY_LENGTH
+	BY_LENGTH,
+	CUSTOM
 };
 
 

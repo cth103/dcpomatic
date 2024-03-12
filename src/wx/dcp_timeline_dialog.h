@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,30 +19,21 @@
 */
 
 
-#include "content_timeline_view.h"
+#include "dcp_timeline.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
+#include <memory>
 
 
-class wxWindow;
-
-
-class TimelineLabelsView : public ContentTimelineView
+class DCPTimelineDialog : public wxDialog
 {
 public:
-	explicit TimelineLabelsView(ContentTimeline& tl);
-
-	dcpomatic::Rect<int> bbox () const override;
-
-	void set_video_tracks (int n);
-	void set_audio_tracks (int n);
-	void set_text_tracks (int n);
-	void set_atmos (bool s);
+	DCPTimelineDialog(wxWindow* parent, std::shared_ptr<Film> film);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
-
-	int _width = 0;
-	int _video_tracks = 0;
-	int _audio_tracks = 0;
-	int _text_tracks = 0;
-	bool _atmos = true;
+	std::weak_ptr<Film> _film;
+	DCPTimeline _timeline;
 };
+

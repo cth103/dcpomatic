@@ -23,7 +23,7 @@
 #define DCPOMATIC_TIMELINE_CONTENT_VIEW_H
 
 
-#include "timeline_view.h"
+#include "content_timeline_view.h"
 #include "lib/change_signaller.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -37,10 +37,10 @@ class Content;
 /** @class TimelineContentView
  *  @brief Parent class for views of pieces of content.
  */
-class TimelineContentView : public TimelineView
+class TimelineContentView : public ContentTimelineView
 {
 public:
-	TimelineContentView (Timeline& tl, std::shared_ptr<Content> c);
+	TimelineContentView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 	dcpomatic::Rect<int> bbox () const override;
 

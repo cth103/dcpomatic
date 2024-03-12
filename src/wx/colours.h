@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2016 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,23 +18,8 @@
 
 */
 
-#include "timeline_content_view.h"
 
-class TextContent;
-class TextContent;
-
-/** @class TimelineTextContentView
- *  @brief Timeline view for TextContent.
- */
-class TimelineTextContentView : public TimelineContentView
-{
-public:
-	TimelineTextContentView (Timeline& tl, std::shared_ptr<Content>, std::shared_ptr<TextContent>);
-
-private:
-	bool active () const override;
-	wxColour background_colour () const override;
-	wxColour foreground_colour () const override;
-
-	std::shared_ptr<TextContent> _caption;
-};
+#define VIDEO_CONTENT_COLOUR (wxColour(242, 92, 120, 255))
+#define AUDIO_CONTENT_COLOUR (wxColour(149, 121, 232, 255))
+#define TEXT_CONTENT_COLOUR (wxColour(163, 255, 154, 255))
+#define ATMOS_CONTENT_COLOUR (wxColour(149, 121, 232, 255))

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2015 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,30 +19,19 @@
 */
 
 
-#include "content_timeline_view.h"
+#include "timeline_content_view.h"
 
 
-class wxWindow;
-
-
-class TimelineLabelsView : public ContentTimelineView
+/** @class ContentTimelineVideoView
+ *  @brief Content timeline view for VideoContent.
+ */
+class ContentTimelineVideoView : public TimelineContentView
 {
 public:
-	explicit TimelineLabelsView(ContentTimeline& tl);
-
-	dcpomatic::Rect<int> bbox () const override;
-
-	void set_video_tracks (int n);
-	void set_audio_tracks (int n);
-	void set_text_tracks (int n);
-	void set_atmos (bool s);
+	ContentTimelineVideoView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
-
-	int _width = 0;
-	int _video_tracks = 0;
-	int _audio_tracks = 0;
-	int _text_tracks = 0;
-	bool _atmos = true;
+	bool active () const override;
+	wxColour background_colour () const override;
+	wxColour foreground_colour () const override;
 };

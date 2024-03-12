@@ -22,16 +22,19 @@
 #include "timeline_content_view.h"
 
 
-/** @class TimelineVideoContentView
- *  @brief Timeline view for VideoContent.
+/** @class ContentTimelineAudioView
+ *  @brief Content timeline view for AudioContent.
  */
-class TimelineVideoContentView : public TimelineContentView
+class ContentTimelineAudioView : public TimelineContentView
 {
 public:
-	TimelineVideoContentView (Timeline& tl, std::shared_ptr<Content> c);
+	ContentTimelineAudioView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
-	bool active () const override;
+	bool active () const override {
+		return true;
+	}
 	wxColour background_colour () const override;
 	wxColour foreground_colour () const override;
+	wxString label () const override;
 };

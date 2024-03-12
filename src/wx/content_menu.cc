@@ -23,13 +23,13 @@
 #include "content_advanced_dialog.h"
 #include "content_menu.h"
 #include "content_properties_dialog.h"
+#include "content_timeline_audio_view.h"
+#include "content_timeline_video_view.h"
 #include "dir_dialog.h"
 #include "file_dialog.h"
 #include "film_viewer.h"
 #include "id.h"
 #include "repeat_dialog.h"
-#include "timeline_video_content_view.h"
-#include "timeline_audio_content_view.h"
 #include "wx_util.h"
 #include "lib/audio_content.h"
 #include "lib/config.h"
@@ -314,12 +314,12 @@ ContentMenu::remove ()
 				continue;
 			}
 
-			shared_ptr<TimelineVideoContentView> video;
-			shared_ptr<TimelineAudioContentView> audio;
+			shared_ptr<ContentTimelineVideoView> video;
+			shared_ptr<ContentTimelineAudioView> audio;
 
 			for (auto j: _views) {
-				auto v = dynamic_pointer_cast<TimelineVideoContentView>(j);
-				auto a = dynamic_pointer_cast<TimelineAudioContentView>(j);
+				auto v = dynamic_pointer_cast<ContentTimelineVideoView>(j);
+				auto a = dynamic_pointer_cast<ContentTimelineAudioView>(j);
 				if (v && v->content() == fc) {
 					video = v;
 				} else if (a && a->content() == fc) {

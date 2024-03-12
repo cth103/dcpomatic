@@ -48,6 +48,13 @@ sources = """
           content_panel.cc
           content_properties_dialog.cc
           content_sub_panel.cc
+          content_timeline.cc
+          content_timeline_atmos_view.cc
+          content_timeline_audio_view.cc
+          content_timeline_dialog.cc
+          content_timeline_text_view.cc
+          content_timeline_video_view.cc
+          content_timeline_view.cc
           content_version_dialog.cc
           content_view.cc
           controls.cc
@@ -55,6 +62,9 @@ sources = """
           custom_scale_dialog.cc
           dcp_referencing_dialog.cc
           dcp_panel.cc
+          dcp_timeline.cc
+          dcp_timeline_dialog.cc
+          dcp_timeline_reel_marker_view.cc
           dcp_text_track_dialog.cc
           dcpomatic_button.cc
           dcpomatic_choice.cc
@@ -161,16 +171,10 @@ sources = """
           timer_display.cc
           timecode.cc
           timeline.cc
-          timeline_atmos_content_view.cc
           timeline_content_view.cc
-          timeline_dialog.cc
-          timeline_audio_content_view.cc
           timeline_labels_view.cc
-          timeline_text_content_view.cc
           timeline_reels_view.cc
           timeline_time_axis_view.cc
-          timeline_video_content_view.cc
-          timeline_view.cc
           timing_panel.cc
           try_unmount_dialog.cc
           update_dialog.cc

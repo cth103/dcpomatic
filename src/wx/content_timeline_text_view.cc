@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2019 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2018 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -18,33 +18,37 @@
 
 */
 
-#include "lib/image_content.h"
-#include "lib/video_content.h"
-#include "timeline_video_content_view.h"
 
-using std::dynamic_pointer_cast;
+#include "colours.h"
+#include "content_timeline_text_view.h"
+#include "lib/text_content.h"
+#include "lib/content.h"
+
+
 using std::shared_ptr;
 
-TimelineVideoContentView::TimelineVideoContentView (Timeline& tl, shared_ptr<Content> c)
+
+ContentTimelineTextView::ContentTimelineTextView(ContentTimeline& tl, shared_ptr<Content> c, shared_ptr<TextContent> caption)
 	: TimelineContentView (tl, c)
+	, _caption (caption)
 {
 
 }
 
 wxColour
-TimelineVideoContentView::background_colour () const
+ContentTimelineTextView::background_colour() const
 {
-	if (!active()) {
+	if (!active ()) {
 		return wxColour (210, 210, 210, 128);
 	}
 
-	return wxColour (242, 92, 120, 255);
+	return TEXT_CONTENT_COLOUR;
 }
 
 wxColour
-TimelineVideoContentView::foreground_colour () const
+ContentTimelineTextView::foreground_colour() const
 {
-	if (!active()) {
+	if (!active ()) {
 		return wxColour (180, 180, 180, 128);
 	}
 
@@ -52,9 +56,7 @@ TimelineVideoContentView::foreground_colour () const
 }
 
 bool
-TimelineVideoContentView::active () const
+ContentTimelineTextView::active() const
 {
-	shared_ptr<Content> c = _content.lock ();
-	DCPOMATIC_ASSERT (c);
-	return c->video && c->video->use();
+	return _caption->use();
 }

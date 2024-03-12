@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,30 +19,41 @@
 */
 
 
-#include "timeline.h"
-#include <dcp/warnings.h>
-LIBDCP_DISABLE_WARNINGS
-#include <wx/wx.h>
-LIBDCP_ENABLE_WARNINGS
+#include "dcp_timeline_view.h"
 
 
-class Playlist;
+class DCPTimeline;
 
 
-class TimelineDialog : public wxDialog
+class DCPTimelineReelMarkerView : public DCPTimelineView
 {
 public:
-	TimelineDialog(ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
+	DCPTimelineReelMarkerView(DCPTimeline& timeline, int y_pos);
 
-	void set_selection (ContentList selection);
+	dcpomatic::Rect<int> bbox() const override;
+
+	dcpomatic::DCPTime time() const {
+		return _time;
+	}
+
+	void set_time(dcpomatic::DCPTime time) {
+		_time = time;
+	}
+
+	void set_active(bool active) {
+		_active = active;
+	}
+
+	static auto constexpr HEAD_SIZE = 16;
+	static auto constexpr TAIL_LENGTH = 28;
+	static auto constexpr HEIGHT = HEAD_SIZE + TAIL_LENGTH;
 
 private:
-	void film_change(ChangeType type, FilmProperty);
-	void tool_clicked (wxCommandEvent& id);
-	void keypress(wxKeyEvent const& event);
+	void do_paint(wxGraphicsContext* gc) override;
+	int x_pos() const;
 
-	std::weak_ptr<Film> _film;
-	Timeline _timeline;
-	wxToolBar* _toolbar;
-	boost::signals2::scoped_connection _film_changed_connection;
+	dcpomatic::DCPTime _time;
+	int _y_pos;
+	bool _active = false;
 };
+

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,32 +19,30 @@
 */
 
 
-#include "timeline_atmos_content_view.h"
+#include "content_timeline.h"
+#include <dcp/warnings.h>
+LIBDCP_DISABLE_WARNINGS
+#include <wx/wx.h>
+LIBDCP_ENABLE_WARNINGS
 
 
-using std::shared_ptr;
+class Playlist;
 
 
-/** @class TimelineAtmosContentView
- *  @brief Timeline view for AtmosContent.
- */
-
-TimelineAtmosContentView::TimelineAtmosContentView (Timeline& tl, shared_ptr<Content> c)
-	: TimelineContentView (tl, c)
+class ContentTimelineDialog : public wxDialog
 {
+public:
+	ContentTimelineDialog(ContentPanel *, std::shared_ptr<Film>, FilmViewer& viewer);
 
-}
+	void set_selection (ContentList selection);
 
+private:
+	void film_change(ChangeType type, FilmProperty);
+	void tool_clicked (wxCommandEvent& id);
+	void keypress(wxKeyEvent const& event);
 
-wxColour
-TimelineAtmosContentView::background_colour () const
-{
-	return wxColour (149, 121, 232, 255);
-}
-
-
-wxColour
-TimelineAtmosContentView::foreground_colour () const
-{
-	return wxColour (0, 0, 0, 255);
-}
+	std::weak_ptr<Film> _film;
+	ContentTimeline _timeline;
+	wxToolBar* _toolbar;
+	boost::signals2::scoped_connection _film_changed_connection;
+};

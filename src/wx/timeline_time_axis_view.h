@@ -18,12 +18,14 @@
 
 */
 
-#include "timeline_view.h"
 
-class TimelineTimeAxisView : public TimelineView
+#include "content_timeline_view.h"
+
+
+class TimelineTimeAxisView : public ContentTimelineView
 {
 public:
-	TimelineTimeAxisView (Timeline& tl, int y);
+	TimelineTimeAxisView(ContentTimeline& tl, int y);
 
 	dcpomatic::Rect<int> bbox () const override;
 	void set_y (int y);

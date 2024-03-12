@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2016-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,22 +19,24 @@
 */
 
 
-#include "timeline_content_view.h"
+#include "content_timeline.h"
+#include "content_timeline_view.h"
 
 
-/** @class TimelineAtmosContentView
- *  @brief Timeline view for AtmosContent.
- */
-class TimelineAtmosContentView : public TimelineContentView
+using std::list;
+using namespace dcpomatic;
+
+
+ContentTimelineView::ContentTimelineView(ContentTimeline& timeline)
+	: TimelineView(timeline)
 {
-public:
-	TimelineAtmosContentView (Timeline& tl, std::shared_ptr<Content> c);
 
-private:
-	bool active () const override {
-		return true;
-	}
+}
 
-	wxColour background_colour () const override;
-	wxColour foreground_colour () const override;
-};
+int
+ContentTimelineView::y_pos(int t) const
+{
+	return t * _timeline.pixels_per_track() + _timeline.tracks_y_offset();
+}
+
+

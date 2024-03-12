@@ -19,30 +19,22 @@
 */
 
 
-#include "content_timeline_view.h"
+#include "timeline_content_view.h"
 
 
-class wxWindow;
-
-
-class TimelineLabelsView : public ContentTimelineView
+/** @class ContentTimelineAtmosContentView
+ *  @brief Content timeline view for AtmosContent.
+ */
+class ContentTimelineAtmosView : public TimelineContentView
 {
 public:
-	explicit TimelineLabelsView(ContentTimeline& tl);
-
-	dcpomatic::Rect<int> bbox () const override;
-
-	void set_video_tracks (int n);
-	void set_audio_tracks (int n);
-	void set_text_tracks (int n);
-	void set_atmos (bool s);
+	ContentTimelineAtmosView(ContentTimeline& tl, std::shared_ptr<Content> c);
 
 private:
-	void do_paint (wxGraphicsContext* gc, std::list<dcpomatic::Rect<int>> overlaps) override;
+	bool active () const override {
+		return true;
+	}
 
-	int _width = 0;
-	int _video_tracks = 0;
-	int _audio_tracks = 0;
-	int _text_tracks = 0;
-	bool _atmos = true;
+	wxColour background_colour () const override;
+	wxColour foreground_colour () const override;
 };

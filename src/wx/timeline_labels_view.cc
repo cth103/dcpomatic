@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline.h"
+#include "content_timeline.h"
 #include "timeline_labels_view.h"
 #include "wx_util.h"
 #include <dcp/warnings.h>
@@ -34,8 +34,8 @@ using std::max;
 using std::min;
 
 
-TimelineLabelsView::TimelineLabelsView (Timeline& tl)
-	: TimelineView (tl)
+TimelineLabelsView::TimelineLabelsView(ContentTimeline& tl)
+	: ContentTimelineView(tl)
 {
 	wxString labels[] = {
 		_("Video"),

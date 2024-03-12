@@ -19,51 +19,26 @@
 */
 
 
+#include "dcp_timeline.h"
 #include "timeline_view.h"
-#include "timeline.h"
 
 
-using std::list;
-using namespace dcpomatic;
-
-
-/** @class TimelineView
- *  @brief Parent class for components of the timeline (e.g. a piece of content or an axis).
- */
-TimelineView::TimelineView (Timeline& t)
-	: _timeline (t)
+class DCPTimelineView : public TimelineView<DCPTimeline>
 {
+public:
+	explicit DCPTimelineView(DCPTimeline& timeline)
+		: TimelineView(timeline)
+	{}
 
-}
+	void paint(wxGraphicsContext* gc)
+	{
+		_last_paint_bbox = bbox();
+		do_paint(gc);
+	}
 
+protected:
+	virtual void do_paint(wxGraphicsContext* context) = 0;
+};
 
-void
-TimelineView::paint (wxGraphicsContext* g, list<dcpomatic::Rect<int>> overlaps)
-{
-	_last_paint_bbox = bbox ();
-	do_paint (g, overlaps);
-}
-
-
-void
-TimelineView::force_redraw ()
-{
-	_timeline.force_redraw (_last_paint_bbox.extended(4));
-	_timeline.force_redraw (bbox().extended(4));
-}
-
-
-int
-TimelineView::time_x (DCPTime t) const
-{
-	return t.seconds() * _timeline.pixels_per_second().get_value_or(0);
-}
-
-
-int
-TimelineView::y_pos(int t) const
-{
-	return t * _timeline.pixels_per_track() + _timeline.tracks_y_offset();
-}
 
 

@@ -413,6 +413,9 @@ Film::metadata (bool with_content_paths) const
 	}
 	root->add_child("ReelType")->add_child_text (raw_convert<string> (static_cast<int> (_reel_type)));
 	root->add_child("ReelLength")->add_child_text (raw_convert<string> (_reel_length));
+	for (auto boundary: _custom_reel_boundaries) {
+		root->add_child("CustomReelBoundary")->add_child_text(raw_convert<string>(boundary.get()));
+	}
 	root->add_child("ReencodeJ2K")->add_child_text (_reencode_j2k ? "1" : "0");
 	root->add_child("UserExplicitVideoFrameRate")->add_child_text(_user_explicit_video_frame_rate ? "1" : "0");
 	for (auto const& marker: _markers) {
@@ -600,6 +603,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(ReelType::SINGLE)));
 	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
+	for (auto boundary: f.node_children("CustomReelBoundary")) {
+		_custom_reel_boundaries.push_back(DCPTime(raw_convert<int64_t>(boundary->content())));
+	}
 	_reencode_j2k = f.optional_bool_child("ReencodeJ2K").get_value_or(false);
 	_user_explicit_video_frame_rate = f.optional_bool_child("UserExplicitVideoFrameRate").get_value_or(false);
 
@@ -1233,6 +1239,16 @@ Film::set_reel_length (int64_t r)
 	_reel_length = r;
 }
 
+
+void
+Film::set_custom_reel_boundaries(vector<DCPTime> boundaries)
+{
+	FilmChangeSignaller ch(this, FilmProperty::CUSTOM_REEL_BOUNDARIES);
+	std::sort(boundaries.begin(), boundaries.end());
+	_custom_reel_boundaries = std::move(boundaries);
+}
+
+
 void
 Film::set_reencode_j2k (bool r)
 {
@@ -1600,6 +1616,23 @@ Film::check_settings_consistency ()
 	if (change_made) {
 		Message (_("DCP-o-matic had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want."));
 	}
+
+	if (reel_type() == ReelType::CUSTOM) {
+		auto boundaries = custom_reel_boundaries();
+		auto too_late = std::find_if(boundaries.begin(), boundaries.end(), [this](dcpomatic::DCPTime const& time) {
+			return time >= length();
+		});
+
+		if (too_late != boundaries.end()) {
+			if (std::distance(too_late, boundaries.end()) > 1) {
+				Message(_("DCP-o-matic had to remove some of your custom reel boundaries as they no longer lie within the film."));
+			} else {
+				Message(_("DCP-o-matic had to remove one of your custom reel boundaries as it no longer lies within the film."));
+			}
+			boundaries.erase(too_late, boundaries.end());
+			set_custom_reel_boundaries(boundaries);
+		}
+	}
 }
 
 void
@@ -1804,15 +1837,16 @@ Film::audio_analysis_finished ()
 	/* XXX */
 }
 
-list<DCPTimePeriod>
+
+vector<DCPTimePeriod>
 Film::reels () const
 {
-	list<DCPTimePeriod> p;
+	vector<DCPTimePeriod> periods;
 	auto const len = length();
 
 	switch (reel_type ()) {
 	case ReelType::SINGLE:
-		p.push_back (DCPTimePeriod (DCPTime (), len));
+		periods.emplace_back(DCPTime(), len);
 		break;
 	case ReelType::BY_VIDEO_CONTENT:
 	{
@@ -1837,7 +1871,7 @@ Film::reels () const
 		for (auto t: split_points) {
 			if (last && (t - *last) >= DCPTime::from_seconds(1)) {
 				/* Period from *last to t is long enough; use it and start a new one */
-				p.push_back (DCPTimePeriod(*last, t));
+				periods.emplace_back(*last, t);
 				last = t;
 			} else if (!last) {
 				/* That was the first time, so start a new period */
@@ -1845,8 +1879,8 @@ Film::reels () const
 			}
 		}
 
-		if (!p.empty()) {
-			p.back().to = split_points.back();
+		if (!periods.empty()) {
+			periods.back().to = split_points.back();
 		}
 		break;
 	}
@@ -1859,15 +1893,28 @@ Film::reels () const
 		Frame const reel_in_frames = max(_reel_length / ((j2k_bandwidth() / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
 		while (current < len) {
 			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
-			p.push_back (DCPTimePeriod (current, end));
+			periods.emplace_back(current, end);
 			current = end;
 		}
 		break;
 	}
+	case ReelType::CUSTOM:
+	{
+		DCPTimePeriod current;
+		for (auto boundary: _custom_reel_boundaries) {
+			current.to = boundary;
+			periods.push_back(current);
+			current.from = boundary;
+		}
+		current.to = len;
+		periods.push_back(current);
+		break;
+	}
 	}
 
-	return p;
+	return periods;
 }
+
 
 /** @param period A period within the DCP
  *  @return Name of the content which most contributes to the given period.

@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline.h"
+#include "content_timeline.h"
 #include "timeline_content_view.h"
 #include "wx_util.h"
 #include "lib/content.h"
@@ -37,8 +37,8 @@ using namespace boost::placeholders;
 #endif
 
 
-TimelineContentView::TimelineContentView (Timeline& tl, shared_ptr<Content> c)
-	: TimelineView (tl)
+TimelineContentView::TimelineContentView(ContentTimeline& tl, shared_ptr<Content> c)
+	: ContentTimelineView(tl)
 	, _content (c)
 {
 	_content_connection = c->Change.connect (bind (&TimelineContentView::content_change, this, _1, _3));

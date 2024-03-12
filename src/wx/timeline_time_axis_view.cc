@@ -19,7 +19,7 @@
 */
 
 
-#include "timeline.h"
+#include "content_timeline.h"
 #include "timeline_time_axis_view.h"
 #include "wx_util.h"
 #include <dcp/warnings.h>
@@ -34,8 +34,8 @@ using std::list;
 using namespace dcpomatic;
 
 
-TimelineTimeAxisView::TimelineTimeAxisView (Timeline& tl, int y)
-	: TimelineView (tl)
+TimelineTimeAxisView::TimelineTimeAxisView(ContentTimeline& tl, int y)
+	: ContentTimelineView(tl)
 	, _y (y)
 {
 
