@@ -369,7 +369,7 @@ DCPTimeline::paint_reels(wxGraphicsContext* gc)
 
 	auto const y = reel_marker_y_pos + DCPTimelineReelMarkerView::HEIGHT * 3 / 4;
 
-	auto paint_reel = [gc, y](double from, double to, int index) {
+	auto paint_reel = [gc](double from, double to, int index) {
 		auto path = gc->CreatePath();
 		path.MoveToPoint(from, y);
 		path.AddLineToPoint(to, y);
