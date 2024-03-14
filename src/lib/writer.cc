@@ -79,9 +79,10 @@ using namespace dcpomatic;
 /** @param weak_job Job to report progress to, or 0.
  *  @param text_only true to enable only the text (subtitle/ccap) parts of the writer.
  */
-Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, bool text_only)
-	: WeakConstFilm (weak_film)
+Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::filesystem::path output_dir, bool text_only)
+	: WeakConstFilm(weak_film)
 	, _job(weak_job)
+	, _output_dir(output_dir)
 	/* These will be reset to sensible values when J2KEncoder is created */
 	, _maximum_frames_in_memory (8)
 	, _maximum_queue_size (8)
@@ -92,7 +93,7 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, bool text
 	int reel_index = 0;
 	auto const reels = film()->reels();
 	for (auto p: reels) {
-		_reels.push_back (ReelWriter(weak_film, p, job, reel_index++, reels.size(), text_only));
+		_reels.push_back(ReelWriter(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir));
 	}
 
 	_last_written.resize (reels.size());
@@ -588,9 +589,8 @@ Writer::calculate_digests ()
 }
 
 
-/** @param output_dcp Path to DCP folder to write */
 void
-Writer::finish (boost::filesystem::path output_dcp)
+Writer::finish()
 {
 	if (_thread.joinable()) {
 		LOG_GENERAL_NC ("Terminating writer thread");
@@ -601,12 +601,12 @@ Writer::finish (boost::filesystem::path output_dcp)
 
 	for (auto& reel: _reels) {
 		write_hanging_text(reel);
-		reel.finish(output_dcp);
+		reel.finish(_output_dir);
 	}
 
 	LOG_GENERAL_NC ("Writing XML");
 
-	dcp::DCP dcp (output_dcp);
+	dcp::DCP dcp(_output_dir);
 
 	auto cpl = make_shared<dcp::CPL>(
 		film()->dcp_name(),
@@ -621,7 +621,7 @@ Writer::finish (boost::filesystem::path output_dcp)
 	/* Add reels */
 
 	for (auto& i: _reels) {
-		cpl->add(i.create_reel(_reel_assets, output_dcp, _have_subtitles, _have_closed_captions));
+		cpl->add(i.create_reel(_reel_assets, _output_dir, _have_subtitles, _have_closed_captions));
 	}
 
 	/* Add metadata */
@@ -723,12 +723,12 @@ Writer::finish (boost::filesystem::path output_dcp)
 		N_("Wrote %1 FULL, %2 FAKE, %3 REPEAT, %4 pushed to disk"), _full_written, _fake_written, _repeat_written, _pushed_to_disk
 		);
 
-	write_cover_sheet (output_dcp);
+	write_cover_sheet();
 }
 
 
 void
-Writer::write_cover_sheet (boost::filesystem::path output_dcp)
+Writer::write_cover_sheet()
 {
 	auto const cover = film()->file("COVER_SHEET.txt");
 	dcp::File file(cover, "w");
@@ -761,7 +761,7 @@ Writer::write_cover_sheet (boost::filesystem::path output_dcp)
 
 	boost::uintmax_t size = 0;
 	for (
-		auto i = dcp::filesystem::recursive_directory_iterator(output_dcp);
+		auto i = dcp::filesystem::recursive_directory_iterator(_output_dir);
 		i != dcp::filesystem::recursive_directory_iterator();
 		++i) {
 		if (dcp::filesystem::is_regular_file(i->path())) {

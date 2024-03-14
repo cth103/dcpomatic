@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (test_write_odd_amount_of_silence)
 	auto content = content_factory("test/data/flat_red.png");
 	auto film = new_test_film2 ("test_write_odd_amount_of_silence", content);
 	content[0]->video->set_length(24);
-	auto writer = make_shared<Writer>(film, shared_ptr<Job>());
+	auto writer = make_shared<Writer>(film, shared_ptr<Job>(), "foo");
 
 	auto audio = make_shared<AudioBuffers>(6, 48000);
 	audio->make_silent ();
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 	auto video_ptr = make_shared<dcp::ArrayData>(video.data(), video.size());
 	auto audio = make_shared<AudioBuffers>(6, 48000 / 24);
 
-	auto writer = make_shared<Writer>(film, shared_ptr<Job>());
+	auto writer = make_shared<Writer>(film, shared_ptr<Job>(), film->dir(film->dcp_name()));
 	writer->start ();
 
 	for (int i = 0; i < frames; ++i) {
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 
 	/* Start digest calculations then abort them; there should be no crash or error */
 	boost::thread thread([film, writer]() {
-		writer->finish(film->dir(film->dcp_name()));
+		writer->finish();
 	});
 
 	dcpomatic_sleep_seconds	(1);

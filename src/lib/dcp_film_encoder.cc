@@ -67,7 +67,7 @@ using namespace dcpomatic;
  */
 DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	: FilmEncoder(film, job)
-	, _writer(film, job)
+	, _writer(film, job, film->dir(film->dcp_name()))
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
@@ -81,6 +81,9 @@ DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	case VideoEncoding::COUNT:
 		DCPOMATIC_ASSERT(false);
 	}
+
+	/* Now that we have a Writer we can clear out the assets directory */
+	clean_up_asset_directory(film->assets_path());
 
 	_player_video_connection = _player.Video.connect(bind(&DCPFilmEncoder::video, this, _1, _2));
 	_player_audio_connection = _player.Audio.connect(bind(&DCPFilmEncoder::audio, this, _1, _2));
@@ -129,7 +132,7 @@ DCPFilmEncoder::go()
 
 	_finishing = true;
 	_encoder->end();
-	_writer.finish(_film->dir(_film->dcp_name()));
+	_writer.finish();
 }
 
 

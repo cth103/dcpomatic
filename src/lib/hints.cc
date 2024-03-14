@@ -77,7 +77,7 @@ using namespace boost::placeholders;
 
 Hints::Hints (weak_ptr<const Film> weak_film)
 	: WeakConstFilm (weak_film)
-	, _writer (new Writer(weak_film, weak_ptr<Job>(), true))
+	, _writer(new Writer(weak_film, weak_ptr<Job>(), film()->dir("hints") / dcpomatic::get_process_id(), true))
 	, _analyser (film(), film()->playlist(), true, [](float) {})
 	, _stop (false)
 {
@@ -495,7 +495,7 @@ try
 	auto dcp_dir = film->dir("hints") / dcpomatic::get_process_id();
 	dcp::filesystem::remove_all(dcp_dir);
 
-	_writer->finish (film->dir("hints") / dcpomatic::get_process_id());
+	_writer->finish();
 
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();

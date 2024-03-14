@@ -36,6 +36,7 @@
 #include "film_property.h"
 #include "frame_rate_change.h"
 #include "named_channel.h"
+#include "remembered_asset.h"
 #include "resolution.h"
 #include "signaller.h"
 #include "territory_type.h"
@@ -118,11 +119,10 @@ public:
 
 	std::shared_ptr<InfoFileHandle> info_file_handle (dcpomatic::DCPTimePeriod period, bool read) const;
 	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;
-	boost::filesystem::path internal_video_asset_dir () const;
-	boost::filesystem::path internal_video_asset_filename (dcpomatic::DCPTimePeriod p) const;
 
 	boost::filesystem::path audio_analysis_path (std::shared_ptr<const Playlist>) const;
 	boost::filesystem::path subtitle_analysis_path (std::shared_ptr<const Content>) const;
+	boost::filesystem::path assets_path() const;
 
 	void send_dcp_to_tms ();
 
@@ -162,7 +162,7 @@ public:
 	std::list<DCPTextTrack> closed_caption_tracks () const;
 
 	uint64_t required_disk_space () const;
-	bool should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const;
+	bool should_be_enough_disk_space(double& required, double& available) const;
 
 	bool has_sign_language_video_channel () const;
 
@@ -450,6 +450,10 @@ public:
 	boost::optional<std::string> ui_state(std::string key) const;
 	void read_ui_state();
 
+	std::vector<RememberedAsset> read_remembered_assets() const;
+	void write_remembered_assets(std::vector<RememberedAsset> const& assets) const;
+	std::string video_identifier() const;
+
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, FilmProperty)> Change;
 
@@ -483,7 +487,6 @@ private:
 
 	void signal_change (ChangeType, FilmProperty);
 	void signal_change (ChangeType, int);
-	std::string video_identifier () const;
 	void playlist_change (ChangeType);
 	void playlist_order_changed ();
 	void playlist_content_change (ChangeType type, std::weak_ptr<Content>, int, bool frequent);

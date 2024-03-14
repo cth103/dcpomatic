@@ -220,9 +220,8 @@ public:
 
 			double total_required;
 			double available;
-			bool can_hard_link;
 
-			film->should_be_enough_disk_space (total_required, available, can_hard_link);
+			film->should_be_enough_disk_space(total_required, available);
 
 			set<shared_ptr<const Film>> films;
 
@@ -239,7 +238,7 @@ public:
 				}
 
 				double required;
-				i->should_be_enough_disk_space (required, available, can_hard_link);
+				i->should_be_enough_disk_space(required, available);
 				total_required += (1 - progress) * required;
 			}
 

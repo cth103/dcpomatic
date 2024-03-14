@@ -207,8 +207,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_hardlinks)
 
 	verify_dcp(out, {});
 
-	/* The video file will have 3 links because DoM also makes a link into the video directory */
-	BOOST_CHECK_EQUAL(boost::filesystem::hard_link_count(find_prefix(out, "j2c_")), 3U);
+	BOOST_CHECK_EQUAL(boost::filesystem::hard_link_count(find_prefix(out, "j2c_")), 2U);
 	BOOST_CHECK_EQUAL(boost::filesystem::hard_link_count(find_prefix(out, "pcm_")), 2U);
 }
 

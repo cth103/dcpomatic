@@ -116,6 +116,7 @@ using namespace dcpomatic;
 
 static constexpr char metadata_file[] = "metadata.xml";
 static constexpr char ui_state_file[] = "ui.xml";
+static constexpr char assets_file[] = "assets.xml";
 
 
 /* 5 -> 6
@@ -288,17 +289,6 @@ Film::info_file (DCPTimePeriod period) const
 	return file (p);
 }
 
-boost::filesystem::path
-Film::internal_video_asset_dir () const
-{
-	return dir ("video");
-}
-
-boost::filesystem::path
-Film::internal_video_asset_filename (DCPTimePeriod p) const
-{
-	return video_identifier() + "_" + raw_convert<string> (p.from.get()) + "_" + raw_convert<string> (p.to.get()) + ".mxf";
-}
 
 boost::filesystem::path
 Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
@@ -339,6 +329,13 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 
 	p /= digester.get ();
 	return p;
+}
+
+
+boost::filesystem::path
+Film::assets_path() const
+{
+	return dir("assets");
 }
 
 
@@ -1818,30 +1815,11 @@ Film::required_disk_space () const
  *  Note: the decision made by this method isn't, of course, 100% reliable.
  */
 bool
-Film::should_be_enough_disk_space (double& required, double& available, bool& can_hard_link) const
+Film::should_be_enough_disk_space(double& required, double& available) const
 {
-	/* Create a test file and see if we can hard-link it */
-	boost::filesystem::path test = internal_video_asset_dir() / "test";
-	boost::filesystem::path test2 = internal_video_asset_dir() / "test2";
-	can_hard_link = true;
-	dcp::File f(test, "w");
-	if (f) {
-		f.close();
-		boost::system::error_code ec;
-		dcp::filesystem::create_hard_link(test, test2, ec);
-		if (ec) {
-			can_hard_link = false;
-		}
-		dcp::filesystem::remove(test);
-		dcp::filesystem::remove(test2);
-	}
-
-	auto s = dcp::filesystem::space(internal_video_asset_dir());
-	required = double (required_disk_space ()) / 1073741824.0f;
-	if (!can_hard_link) {
-		required *= 2;
-	}
-	available = double (s.available) / 1073741824.0f;
+	DCPOMATIC_ASSERT(directory());
+	required = required_disk_space() / 1073741824.0f;
+	available = dcp::filesystem::space(*directory()).available / 1073741824.0f;
 	return (available - required) > 1;
 }
 
@@ -2383,3 +2361,45 @@ Film::read_ui_state()
 		}
 	} catch (...) {}
 }
+
+
+vector<RememberedAsset>
+Film::read_remembered_assets() const
+{
+	vector<RememberedAsset> assets;
+
+	try {
+		cxml::Document xml("Assets");
+		xml.read_file(dcp::filesystem::fix_long_path(file(assets_file)));
+		for (auto node: xml.node_children("Asset")) {
+			assets.push_back(RememberedAsset(node));
+		}
+	} catch (std::exception& e) {
+		LOG_ERROR("Could not read assets file %1 (%2)", file(assets_file), e.what());
+	} catch (...) {
+		LOG_ERROR("Could not read assets file %1", file(assets_file));
+	}
+
+	return assets;
+}
+
+
+void
+Film::write_remembered_assets(vector<RememberedAsset> const& assets) const
+{
+	auto doc = make_shared<xmlpp::Document>();
+	auto root = doc->create_root_node("Assets");
+
+	for (auto asset: assets) {
+		asset.as_xml(root->add_child("Asset"));
+	}
+
+	try {
+		doc->write_to_file_formatted(dcp::filesystem::fix_long_path(file(assets_file)).string());
+	} catch (std::exception& e) {
+		LOG_ERROR("Could not write assets file %1 (%2)", file(assets_file), e.what());
+	} catch (...) {
+		LOG_ERROR("Could not write assets file %1", file(assets_file));
+	}
+}
+

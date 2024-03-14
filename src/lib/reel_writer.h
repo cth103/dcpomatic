@@ -70,7 +70,8 @@ public:
 		std::shared_ptr<Job> job,
 		int reel_index,
 		int reel_count,
-		bool text_only
+		bool text_only,
+		boost::filesystem::path output_dir
 		);
 
 	void write (std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
@@ -121,9 +122,10 @@ private:
 	void create_reel_markers (std::shared_ptr<dcp::Reel> reel) const;
 	float convert_vertical_position(StringText const& subtitle, dcp::SubtitleStandard to) const;
 
+	boost::filesystem::path _output_dir;
 	dcpomatic::DCPTimePeriod _period;
 	/** the first picture frame index that does not already exist in our MXF */
-	int _first_nonexistent_frame;
+	int _first_nonexistent_frame = 0;
 	/** the data of the last written frame, if there is one */
 	EnumIndexedVector<std::shared_ptr<const dcp::Data>, Eyes> _last_written;
 	/** index of this reel within the DCP (starting from 0) */

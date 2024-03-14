@@ -65,10 +65,7 @@ check (int target_bits_per_second)
 		target_bits_per_second <= 250000000
 		);
 
-	boost::filesystem::directory_iterator i (boost::filesystem::path("build") / "test" / name / "video");
-	boost::filesystem::path test = *i++;
-	BOOST_REQUIRE (i == boost::filesystem::directory_iterator());
-
+	auto test = find_file(film->dir(film->dcp_name()), "j2c_");
 	double actual_bits_per_second = boost::filesystem::file_size(test) * 8.0 / duration;
 
 	/* Check that we're within 85% to 115% of target on average */

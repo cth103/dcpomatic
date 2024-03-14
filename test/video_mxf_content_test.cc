@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 		});
 
 	auto ref = make_shared<dcp::MonoJ2KPictureAsset>(ref_mxf);
-	auto comp_mxf = find_file("build/test/video_mxf_content_test/video", ".mxf");
+	auto comp_mxf = find_file(film->file(film->dcp_name()), "j2c_");
 	auto comp = make_shared<dcp::MonoJ2KPictureAsset>(comp_mxf);
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));

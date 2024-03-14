@@ -102,6 +102,7 @@
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
+#include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/cmdline.h>
@@ -816,15 +817,9 @@ private:
 	{
 		double required;
 		double available;
-		bool can_hard_link;
 
-		if (!_film->should_be_enough_disk_space (required, available, can_hard_link)) {
-			wxString message;
-			if (can_hard_link) {
-				message = wxString::Format (_("The DCP for this film will take up about %.1f GB, and the disk that you are using only has %.1f GB available.  Do you want to continue anyway?"), required, available);
-			} else {
-				message = wxString::Format (_("The DCP and intermediate files for this film will take up about %.1f GB, and the disk that you are using only has %.1f GB available.  You would need half as much space if the filesystem supported hard links, but it does not.  Do you want to continue anyway?"), required, available);
-			}
+		if (!_film->should_be_enough_disk_space(required, available)) {
+			auto const message = wxString::Format(_("The DCP for this film will take up about %.1f GB, and the disk that you are using only has %.1f GB available.  Do you want to continue anyway?"), required, available);
 			if (!confirm_dialog (this, message)) {
 				return;
 			}
@@ -854,6 +849,8 @@ private:
 			if (!confirm_dialog (this, wxString::Format (_("Do you want to overwrite the existing DCP %s?"), std_to_wx(dcp_dir.string()).data()))) {
 				return;
 			}
+
+			preserve_assets(dcp_dir, _film->assets_path());
 			dcp::filesystem::remove_all(dcp_dir);
 		}
 

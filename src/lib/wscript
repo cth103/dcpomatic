@@ -169,6 +169,7 @@ sources = """
           reel_writer.cc
           referenced_reel_asset.cc
           release_notes.cc
+          remembered_asset.cc
           render_text.cc
           remote_j2k_encoder_thread.cc
           resampler.cc

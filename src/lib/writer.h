@@ -106,7 +106,7 @@ bool operator== (QueueItem const & a, QueueItem const & b);
 class Writer : public ExceptionStore, public WeakConstFilm
 {
 public:
-	Writer (std::weak_ptr<const Film>, std::weak_ptr<Job>, bool text_only = false);
+	Writer(std::weak_ptr<const Film>, std::weak_ptr<Job>, boost::filesystem::path output_dir, bool text_only = false);
 	~Writer ();
 
 	Writer (Writer const &) = delete;
@@ -126,7 +126,7 @@ public:
 	void write (ReferencedReelAsset asset);
 	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
 	void write (std::shared_ptr<dcp::MonoMPEG2PictureFrame> image, Frame frame);
-	void finish (boost::filesystem::path output_dcp);
+	void finish();
 
 	void set_encoder_threads (int threads);
 
@@ -142,7 +142,7 @@ private:
 	bool have_sequenced_image_at_queue_head ();
 	size_t video_reel (int frame) const;
 	void set_digest_progress(Job* job, int id, int64_t done, int64_t size);
-	void write_cover_sheet (boost::filesystem::path output_dcp);
+	void write_cover_sheet();
 	void calculate_referenced_digests(std::function<void (int64_t, int64_t)> set_progress);
 	void write_hanging_text (ReelWriter& reel);
 	void calculate_digests ();
@@ -154,6 +154,7 @@ private:
 	std::map<DCPTextTrack, std::vector<ReelWriter>::iterator> _caption_reels;
 	std::vector<ReelWriter>::iterator _atmos_reel;
 
+	boost::filesystem::path _output_dir;
 	/** our thread */
 	boost::thread _thread;
 	/** true if our thread should finish */

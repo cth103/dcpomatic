@@ -44,7 +44,7 @@ using std::list;
 BOOST_AUTO_TEST_CASE(local_threads_created_and_destroyed)
 {
 	auto film = new_test_film2("local_threads_created_and_destroyed", {});
-	Writer writer(film, {});
+	Writer writer(film, {}, "foo");
 	J2KEncoder encoder(film, writer);
 
 	encoder.remake_threads(32, 0, {});
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(local_threads_created_and_destroyed)
 BOOST_AUTO_TEST_CASE(remote_threads_created_and_destroyed)
 {
 	auto film = new_test_film2("remote_threads_created_and_destroyed", {});
-	Writer writer(film, {});
+	Writer writer(film, {}, "foo");
 	J2KEncoder encoder(film, writer);
 
 	list<EncodeServerDescription> servers = {

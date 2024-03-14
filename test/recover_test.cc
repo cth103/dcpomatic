@@ -76,13 +76,16 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 			dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE
 		});
 
-	boost::filesystem::path const video = "build/test/recover_test_2d/video/185_2K_4650f318cea570763a0c6411c8c098ce_24_100000000_P_S_L21_0_1200000.mxf";
+	auto video = [film]() {
+		return find_file(boost::filesystem::path("build/test/recover_test_2d") / film->dcp_name(false), "j2c_");
+	};
+
 	boost::filesystem::copy_file (
-		video,
+		video(),
 		"build/test/recover_test_2d/original.mxf"
 		);
 
-	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
+	boost::filesystem::resize_file(video(), 2 * 1024 * 1024);
 
 	make_and_verify_dcp(
 		film,
@@ -96,7 +99,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 		);
 
 	auto A = make_shared<dcp::MonoJ2KPictureAsset>("build/test/recover_test_2d/original.mxf");
-	auto B = make_shared<dcp::MonoJ2KPictureAsset>(video);
+	auto B = make_shared<dcp::MonoJ2KPictureAsset>(video());
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
@@ -120,14 +123,16 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
-	boost::filesystem::path const video = "build/test/recover_test_3d/video/185_2K_60a75a531ca9546bdd513163117e2214_24_100000000_P_S_L21_3D_0_96000.mxf";
+	auto video = [film]() {
+		return find_file(boost::filesystem::path("build/test/recover_test_3d") / film->dcp_name(false), "j2c_");
+	};
 
 	boost::filesystem::copy_file (
-		video,
+		video(),
 		"build/test/recover_test_3d/original.mxf"
 		);
 
-	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
+	boost::filesystem::resize_file(video(), 2 * 1024 * 1024);
 
 	make_and_verify_dcp(
 		film,
@@ -140,7 +145,7 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 		);
 
 	auto A = make_shared<dcp::StereoJ2KPictureAsset>("build/test/recover_test_3d/original.mxf");
-	auto B = make_shared<dcp::StereoJ2KPictureAsset>(video);
+	auto B = make_shared<dcp::StereoJ2KPictureAsset>(video());
 
 	dcp::EqualityOptions eq;
 	BOOST_CHECK (A->equals (B, eq, boost::bind (&note, _1, _2)));
@@ -164,15 +169,16 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
-	boost::filesystem::path const video =
-		"build/test/recover_test_2d_encrypted/video/185_2K_4650f318cea570763a0c6411c8c098ce_24_100000000_Eeafcb91c9f5472edf01f3a2404c57258_S_L21_0_1200000.mxf";
+	auto video = [film]() {
+		return find_file(boost::filesystem::path("build/test/recover_test_2d_encrypted") / film->dcp_name(false), "j2c_");
+	};
 
 	boost::filesystem::copy_file (
-		video,
+		video(),
 		"build/test/recover_test_2d_encrypted/original.mxf"
 		);
 
-	boost::filesystem::resize_file (video, 2 * 1024 * 1024);
+	boost::filesystem::resize_file(video(), 2 * 1024 * 1024);
 
 	make_and_verify_dcp(
 		film,
@@ -186,7 +192,7 @@ BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on(
 
 	auto A = make_shared<dcp::MonoJ2KPictureAsset>("build/test/recover_test_2d_encrypted/original.mxf");
 	A->set_key (film->key ());
-	auto B = make_shared<dcp::MonoJ2KPictureAsset>(video);
+	auto B = make_shared<dcp::MonoJ2KPictureAsset>(video());
 	B->set_key (film->key ());
 
 	dcp::EqualityOptions eq;

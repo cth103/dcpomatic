@@ -34,6 +34,7 @@
 #include "job.h"
 #include "log.h"
 #include "reel_writer.h"
+#include "remembered_asset.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/certificate_chain.h>
@@ -106,9 +107,10 @@ mxf_metadata ()
  *  subtitle / closed caption files.
  */
 ReelWriter::ReelWriter (
-	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, bool text_only
+	weak_ptr<const Film> weak_film, DCPTimePeriod period, shared_ptr<Job> job, int reel_index, int reel_count, bool text_only, boost::filesystem::path output_dir
 	)
-	: WeakConstFilm (weak_film)
+	: WeakConstFilm(weak_film)
+	, _output_dir(std::move(output_dir))
 	, _period (period)
 	, _reel_index (reel_index)
 	, _reel_count (reel_count)
@@ -117,34 +119,24 @@ ReelWriter::ReelWriter (
 	, _text_only (text_only)
 	, _font_metrics(film()->frame_size().height)
 {
-	/* Create or find our picture asset in a subdirectory, named
-	   according to those film's parameters which affect the video
-	   output.  We will hard-link it into the DCP later.
-	*/
+	_default_font = dcp::ArrayData(default_font_file());
+
+	if (text_only) {
+		return;
+	}
 
 	auto const standard = film()->interop() ? dcp::Standard::INTEROP : dcp::Standard::SMPTE;
 
-	boost::filesystem::path const asset =
-		film()->internal_video_asset_dir() / film()->internal_video_asset_filename(_period);
+	auto remembered_assets = film()->read_remembered_assets();
+	DCPOMATIC_ASSERT(film()->directory());
 
-	_first_nonexistent_frame = check_existing_picture_asset (asset);
+	auto existing_asset_filename = find_asset(remembered_assets, *film()->directory(), period, film()->video_identifier());
+	if (existing_asset_filename) {
+		_first_nonexistent_frame = check_existing_picture_asset(*existing_asset_filename);
+	}
 
 	if (_first_nonexistent_frame < period.duration().frames_round(film()->video_frame_rate())) {
-		/* We do not have a complete picture asset.  If there is an
-		   existing asset, break any hard links to it as we are about
-		   to change its contents (if only by changing the IDs); see
-		   #1126.
-		*/
-		if (dcp::filesystem::exists(asset) && dcp::filesystem::hard_link_count(asset) > 1) {
-			if (job) {
-				job->sub (_("Copying old video file"));
-				copy_in_bits (asset, asset.string() + ".tmp", bind(&Job::set_progress, job.get(), _1, false));
-			} else {
-				dcp::filesystem::copy_file(asset, asset.string() + ".tmp");
-			}
-			dcp::filesystem::remove(asset);
-			dcp::filesystem::rename(asset.string() + ".tmp", asset);
-		}
+		/* No existing asset, or an incomplete one */
 
 		auto const rate = dcp::Fraction(film()->video_frame_rate(), 1);
 
@@ -158,6 +150,8 @@ ReelWriter::ReelWriter (
 			}
 		};
 
+		shared_ptr<dcp::PictureAsset> picture_asset;
+
 		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
 			if (film()->three_d()) {
 				_j2k_picture_asset = std::make_shared<dcp::StereoJ2KPictureAsset>(rate, standard);
@@ -165,26 +159,47 @@ ReelWriter::ReelWriter (
 				_j2k_picture_asset = std::make_shared<dcp::MonoJ2KPictureAsset>(rate, standard);
 			}
 			setup(_j2k_picture_asset);
-			_j2k_picture_asset->set_file(asset);
-			_j2k_picture_asset_writer = _j2k_picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW);
+			picture_asset = _j2k_picture_asset;
 		} else {
 			_mpeg2_picture_asset = std::make_shared<dcp::MonoMPEG2PictureAsset>(rate);
 			setup(_mpeg2_picture_asset);
-			_mpeg2_picture_asset->set_file(asset);
-			_mpeg2_picture_asset_writer = _mpeg2_picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW);
+			picture_asset = _mpeg2_picture_asset;
 		}
 
-	} else if (!text_only) {
+		auto new_asset_filename = _output_dir / video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
+		if (_first_nonexistent_frame > 0) {
+			LOG_GENERAL("Re-using partial asset %1: has frames up to %2", *existing_asset_filename, _first_nonexistent_frame);
+			dcp::filesystem::rename(*existing_asset_filename, new_asset_filename);
+		}
+		remembered_assets.push_back(RememberedAsset(new_asset_filename.filename(), period, film()->video_identifier()));
+		film()->write_remembered_assets(remembered_assets);
+		picture_asset->set_file(new_asset_filename);
+
+		dcp::Behaviour const behaviour = _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW;
+		if (_j2k_picture_asset) {
+			_j2k_picture_asset_writer = _j2k_picture_asset->start_write(new_asset_filename, behaviour);
+		} else {
+			_mpeg2_picture_asset_writer = _mpeg2_picture_asset->start_write(new_asset_filename, behaviour);
+		}
+	} else {
+		LOG_GENERAL("Re-using complete asset %1", *existing_asset_filename);
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
+		auto new_asset_filename = _output_dir / existing_asset_filename->filename();
+		if (new_asset_filename != *existing_asset_filename) {
+			dcp::filesystem::copy(*existing_asset_filename, new_asset_filename);
+			remembered_assets.push_back(RememberedAsset(new_asset_filename, period, film()->video_identifier()));
+		}
+		film()->write_remembered_assets(remembered_assets);
+
 		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
 			if (film()->three_d()) {
-				_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(asset);
+				_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(new_asset_filename);
 			} else {
-				_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(asset);
+				_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(new_asset_filename);
 			}
 		} else {
-			_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(asset);
+			_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(new_asset_filename);
 		}
 	}
 
@@ -223,8 +238,6 @@ ReelWriter::ReelWriter (
 			film()->limit_to_smpte_bv20() ? dcp::SoundAsset::MCASubDescriptors::DISABLED : dcp::SoundAsset::MCASubDescriptors::ENABLED
 			);
 	}
-
-	_default_font = dcp::ArrayData(default_font_file());
 }
 
 
@@ -364,51 +377,6 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 	if (_sound_asset_writer && !_sound_asset_writer->finalize ()) {
 		/* Nothing was written to the sound asset */
 		_sound_asset.reset ();
-	}
-
-	shared_ptr<dcp::PictureAsset> picture_asset;
-	if (_j2k_picture_asset) {
-		picture_asset = _j2k_picture_asset;
-	} else if (_mpeg2_picture_asset) {
-		picture_asset = _mpeg2_picture_asset;
-	}
-
-	/* Hard-link any video asset file into the DCP */
-	if (picture_asset) {
-		auto const file = picture_asset->file();
-		DCPOMATIC_ASSERT(file);
-
-		auto video_from = *file;
-		auto video_to = output_dcp;
-		video_to /= video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
-		/* There may be an existing "to" file if we are recreating a DCP in the same place without
-		   changing any video.
-		*/
-		boost::system::error_code ec;
-		dcp::filesystem::remove(video_to, ec);
-
-		dcp::filesystem::create_hard_link(video_from, video_to, ec);
-		if (ec) {
-			LOG_WARNING("Hard-link failed (%1); copying instead", error_details(ec));
-			auto job = _job.lock ();
-			if (job) {
-				job->sub (_("Copying video file into DCP"));
-				try {
-					copy_in_bits (video_from, video_to, bind(&Job::set_progress, job.get(), _1, false));
-				} catch (exception& e) {
-					LOG_ERROR ("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), e.what());
-					throw FileError (e.what(), video_from);
-				}
-			} else {
-				dcp::filesystem::copy_file(video_from, video_to, ec);
-				if (ec) {
-					LOG_ERROR("Failed to copy video file from %1 to %2 (%3)", video_from.string(), video_to.string(), error_details(ec));
-					throw FileError (ec.message(), video_from);
-				}
-			}
-		}
-
-		picture_asset->set_file(video_to);
 	}
 
 	/* Move the audio asset into the DCP */
