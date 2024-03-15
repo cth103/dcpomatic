@@ -251,7 +251,7 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/snap*.png "$dest"
     cp $prefix/src/dcpomatic/graphics/sequence*.png "$dest"
     cp $prefix/src/dcpomatic/graphics/me.jpg "$dest"
-    cp $prefix/src/dcpomatic/graphics/link.png "$dest"
+    cp $prefix/src/dcpomatic/graphics/link*.png "$dest"
     cp $prefix/src/dcpomatic/graphics/add*.png "$dest"
     cp $prefix/src/dcpomatic/graphics/pause*.png "$dest"
     cp -r $prefix/share/libdcp/xsd "$dest"

@@ -109,7 +109,9 @@ else
     done
 
     # Link icon
-    $INKSCAPE_EXPORT --export-filename=link.png src/link.svg -w 9 -h 16
+    for c in black white; do
+        $INKSCAPE_EXPORT --export-filename=link_$c.png src/link_$c.svg -w 9 -h 16
+    done
 
     # favicon
     mkdir -p web
