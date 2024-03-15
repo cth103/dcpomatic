@@ -108,7 +108,7 @@ VideoPanel::create ()
 	int const link_height = 32;
 #elif defined(DCPOMATIC_OSX)
 	int const crop_width = 56;
-	int const link_width = 23;
+	int const link_width = 8 + 15 / dpi_scale_factor(this);
 	int const link_height = 28;
 #else
 	int const crop_width = 56;
