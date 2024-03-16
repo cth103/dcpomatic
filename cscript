@@ -587,8 +587,10 @@ def configure_options(target, options, for_package=False):
     if can_build_disk(target):
         opt += ' --enable-disk'
 
-    if target.platform == 'osx' and target.arch == 'arm64':
-        opt += ' --target-macos-arm64 --wx-config=%s/wx-config' % target.bin
+    if target.platform == 'osx':
+        opt += ' --c++17'
+        if target.arch == 'arm64':
+            opt += ' --target-macos-arm64 --wx-config=%s/wx-config' % target.bin
 
     if target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['22.04']:
         opt += ' --enable-grok'
