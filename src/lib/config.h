@@ -538,6 +538,10 @@ public:
 		return _player_restricted_menus;
 	}
 
+	bool playlist_editor_restricted_menus() const {
+		return _playlist_editor_restricted_menus;
+	}
+
 	int image_display () const {
 		return _image_display;
 	}
@@ -1454,6 +1458,7 @@ private:
 	boost::optional<std::string> _gdc_password;
 	PlayerMode _player_mode;
 	bool _player_restricted_menus = false;
+	bool _playlist_editor_restricted_menus = false;
 	int _image_display;
 	VideoViewType _video_view_type;
 	bool _respect_kdm_validity_periods;

@@ -178,6 +178,7 @@ Config::set_defaults ()
 	_gdc_password = optional<string>();
 	_player_mode = PLAYER_MODE_WINDOW;
 	_player_restricted_menus = false;
+	_playlist_editor_restricted_menus = false;
 	_image_display = 0;
 	_video_view_type = VIDEO_VIEW_SIMPLE;
 	_respect_kdm_validity_periods = true;
@@ -594,6 +595,7 @@ try
 	}
 
 	_player_restricted_menus = f.optional_bool_child("PlayerRestrictedMenus").get_value_or(false);
+	_playlist_editor_restricted_menus = f.optional_bool_child("PlaylistEditorRestrictedMenus").get_value_or(false);
 
 	_image_display = f.optional_number_child<int>("ImageDisplay").get_value_or(0);
 	auto vc = f.optional_string_child("VideoViewType");
@@ -1080,6 +1082,10 @@ Config::write_config () const
 
 	if (_player_restricted_menus) {
 		root->add_child("PlayerRestrictedMenus")->add_child_text("1");
+	}
+
+	if (_playlist_editor_restricted_menus) {
+		root->add_child("PlaylistEditorRestrictedMenus")->add_child_text("1");
 	}
 
 	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */

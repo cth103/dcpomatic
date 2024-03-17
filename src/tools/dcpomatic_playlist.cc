@@ -572,7 +572,9 @@ private:
 		/* These just need to be appended somewhere, it seems - they magically
 		 * get moved to the right place.
 		 */
-		help->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
+		if (!Config::instance()->playlist_editor_restricted_menus()) {
+			help->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
+		}
 		help->Append(wxID_EXIT, _("&Exit"));
 		help->Append(wxID_ABOUT, _("About DCP-o-matic"));
 
@@ -588,8 +590,10 @@ private:
 		help->Append(wxID_ABOUT, _("About"));
 
 		m->Append(file, _("&File"));
-		m->Append(edit, _("&Edit"));
-		m->Append(help, _("&Help"));
+		if (!Config::instance()->playlist_editor_restricted_menus()) {
+			m->Append(edit, _("&Edit"));
+			m->Append(help, _("&Help"));
+		}
 #endif
 	}
 
