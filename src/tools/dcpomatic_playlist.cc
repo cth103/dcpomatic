@@ -567,33 +567,31 @@ private:
 
 	void setup_menu (wxMenuBar* m)
 	{
-		auto file = new wxMenu;
-#ifdef __WXOSX__
-		file->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
-		file->Append (wxID_EXIT, _("&Exit"));
-#else
-		file->Append (wxID_EXIT, _("&Quit"));
-#endif
+#ifdef DCPOMATIC_OSX
+		auto help = new wxMenu;
+		/* These just need to be appended somewhere, it seems - they magically
+		 * get moved to the right place.
+		 */
+		help->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
+		help->Append(wxID_EXIT, _("&Exit"));
+		help->Append(wxID_ABOUT, _("About DCP-o-matic"));
 
-#ifndef __WXOSX__
+		m->Append(help, _("&Help"));
+#else
+		auto file = new wxMenu;
+		file->Append(wxID_EXIT, _("&Quit"));
+
 		auto edit = new wxMenu;
-		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
-#endif
+		edit->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 
 		auto help = new wxMenu;
-#ifdef __WXOSX__
-		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
-#else
-		help->Append (wxID_ABOUT, _("About"));
-#endif
+		help->Append(wxID_ABOUT, _("About"));
 
-		m->Append (file, _("&File"));
-#ifndef __WXOSX__
-		m->Append (edit, _("&Edit"));
+		m->Append(file, _("&File"));
+		m->Append(edit, _("&Edit"));
+		m->Append(help, _("&Help"));
 #endif
-		m->Append (help, _("&Help"));
 	}
-
 
 	void config_changed ()
 	{
