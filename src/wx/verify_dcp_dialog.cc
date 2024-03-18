@@ -130,6 +130,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 	if (job->finished_in_error() && job->error_summary() != "") {
 		/* We have an error that did not come from dcp::verify */
 		add_bullet (dcp::VerificationNote::Type::ERROR, std_to_wx(job->error_summary()));
+		++counts[dcp::VerificationNote::Type::ERROR];
 	}
 
 	for (auto i: job->notes()) {
