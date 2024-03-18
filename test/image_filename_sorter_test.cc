@@ -28,9 +28,10 @@
 #include "lib/image_filename_sorter.h"
 #include "lib/compose.hpp"
 #include <boost/test/unit_test.hpp>
+#include <algorithm>
+#include <random>
 
 
-using std::random_shuffle;
 using std::sort;
 using std::vector;
 
@@ -69,7 +70,11 @@ BOOST_AUTO_TEST_CASE (image_filename_sorter_test2)
 	for (int i = 0; i < 100000; ++i) {
 		paths.push_back(String::compose("some.filename.with.%1.number.tiff", i));
 	}
-	random_shuffle (paths.begin(), paths.end());
+
+	std::random_device rd;
+	std::mt19937 generator(rd());
+	std::shuffle(paths.begin(), paths.end(), generator);
+
 	sort (paths.begin(), paths.end(), ImageFilenameSorter());
 	for (int i = 0; i < 100000; ++i) {
 		BOOST_CHECK_EQUAL(paths[i].string(), String::compose("some.filename.with.%1.number.tiff", i));
