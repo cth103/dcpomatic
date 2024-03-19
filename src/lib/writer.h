@@ -37,6 +37,8 @@
 #include "text_type.h"
 #include "weak_film.h"
 #include <dcp/atmos_frame.h>
+#include <dcp/frame_info.h>
+#include <dcp/mono_mpeg2_picture_frame.h>
 #include <boost/thread.hpp>
 #include <boost/thread/condition.hpp>
 #include <list>
@@ -74,8 +76,8 @@ public:
 
 	/** encoded data for FULL */
 	std::shared_ptr<const dcp::Data> encoded;
-	/** size of data for FAKE */
-	int size = 0;
+	/** info for FAKE */
+	dcp::J2KFrameInfo info;
 	/** reel index */
 	size_t reel = 0;
 	/** frame index within the reel */
@@ -122,6 +124,7 @@ public:
 	void write (std::vector<std::shared_ptr<dcpomatic::Font>> fonts);
 	void write (ReferencedReelAsset asset);
 	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, dcpomatic::DCPTime time, AtmosMetadata metadata);
+	void write (std::shared_ptr<dcp::MonoMPEG2PictureFrame> image, Frame frame);
 	void finish (boost::filesystem::path output_dcp);
 
 	void set_encoder_threads (int threads);

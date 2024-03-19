@@ -151,6 +151,7 @@ DCPPanel::add_standards()
 		_standard->add(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
 	}
 	_standard->add(_("Interop"), N_("interop"));
+	_standard->add(_("MPEG2 Interop"), N_("mpeg2-interop"));
 	_sizer->Layout();
 }
 
@@ -162,7 +163,11 @@ DCPPanel::set_standard()
 	DCPOMATIC_ASSERT(!_film->limit_to_smpte_bv20() || _standard->GetCount() == 3);
 
 	if (_film->interop()) {
-		checked_set(_standard, "interop");
+		if (_film->video_encoding() == VideoEncoding::JPEG2000) {
+			checked_set(_standard, "interop");
+		} else {
+			checked_set(_standard, "mpeg2-interop");
+		}
 	} else {
 		checked_set(_standard, _film->limit_to_smpte_bv20() ? "smpte-bv20" : "smpte");
 	}
@@ -184,12 +189,18 @@ DCPPanel::standard_changed ()
 	if (*data == N_("interop")) {
 		_film->set_interop(true);
 		_film->set_limit_to_smpte_bv20(false);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == N_("smpte")) {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(false);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == N_("smpte-bv20")) {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(true);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
+	} else if (*data == N_("mpeg2-interop")) {
+		_film->set_interop(true);
+		_film->set_video_encoding(VideoEncoding::MPEG2);
 	}
 }
 
@@ -444,6 +455,9 @@ DCPPanel::film_changed(FilmProperty p)
 		set_standard();
 		setup_dcp_name ();
 		_markers->Enable (!_film->interop());
+		break;
+	case FilmProperty::VIDEO_ENCODING:
+		set_standard();
 		break;
 	case FilmProperty::LIMIT_TO_SMPTE_BV20:
 		set_standard();

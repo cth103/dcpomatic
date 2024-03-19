@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	BOOST_REQUIRE (dcp.cpls().front()->reels().front()->main_picture()->asset());
 	auto pic = dynamic_pointer_cast<dcp::ReelMonoPictureAsset> (
 		dcp.cpls().front()->reels().front()->main_picture()
-		)->mono_asset();
+		)->mono_j2k_asset();
 	BOOST_REQUIRE (pic);
 	auto frame = pic->start_read()->get_frame(12);
 	auto xyz = frame->xyz_image ();

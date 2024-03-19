@@ -33,6 +33,7 @@
 #include "film.h"
 #include "j2k_encoder.h"
 #include "job.h"
+#include "mpeg2_encoder.h"
 #include "player.h"
 #include "player_video.h"
 #include "referenced_reel_asset.h"
@@ -67,10 +68,18 @@ using namespace dcpomatic;
 DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	: FilmEncoder(film, job)
 	, _writer(film, job)
-	, _encoder(new J2KEncoder(film, _writer))
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
+	switch (_film->video_encoding()) {
+	case VideoEncoding::JPEG2000:
+		_encoder.reset(new J2KEncoder(film, _writer));
+		break;
+	case VideoEncoding::MPEG2:
+		_encoder.reset(new MPEG2Encoder(film, _writer));
+		break;
+	}
+
 	_player_video_connection = _player.Video.connect(bind(&DCPFilmEncoder::video, this, _1, _2));
 	_player_audio_connection = _player.Audio.connect(bind(&DCPFilmEncoder::audio, this, _1, _2));
 	_player_text_connection = _player.Text.connect(bind(&DCPFilmEncoder::text, this, _1, _2, _3, _4));

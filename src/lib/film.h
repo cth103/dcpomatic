@@ -41,6 +41,7 @@
 #include "transcode_job.h"
 #include "types.h"
 #include "util.h"
+#include "video_encoding.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/file.h>
 #include <dcp/key.h>
@@ -275,6 +276,10 @@ public:
 		return _interop;
 	}
 
+	VideoEncoding video_encoding() const {
+		return _video_encoding;
+	}
+
 	bool limit_to_smpte_bv20() const {
 		return _limit_to_smpte_bv20;
 	}
@@ -408,6 +413,7 @@ public:
 	void set_isdcf_date_today ();
 	void set_sequence (bool);
 	void set_interop (bool);
+	void set_video_encoding(VideoEncoding encoding);
 	void set_limit_to_smpte_bv20(bool);
 	void set_audio_processor (AudioProcessor const * processor);
 	void set_reel_type (ReelType);
@@ -529,6 +535,7 @@ private:
 	bool _three_d;
 	bool _sequence;
 	bool _interop;
+	VideoEncoding _video_encoding;
 	bool _limit_to_smpte_bv20;
 	AudioProcessor const * _audio_processor;
 	ReelType _reel_type;

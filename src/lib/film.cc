@@ -169,6 +169,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _three_d (false)
 	, _sequence (true)
 	, _interop (Config::instance()->default_interop ())
+	, _video_encoding(VideoEncoding::JPEG2000)
 	, _limit_to_smpte_bv20(false)
 	, _audio_processor (0)
 	, _reel_type (ReelType::SINGLE)
@@ -251,6 +252,9 @@ Film::video_identifier () const
 
 	if (_interop) {
 		s += "_I";
+		if (_video_encoding == VideoEncoding::MPEG2) {
+			s += "_M";
+		}
 	} else {
 		s += "_S";
 		if (_limit_to_smpte_bv20) {
@@ -405,6 +409,7 @@ Film::metadata (bool with_content_paths) const
 	cxml::add_text_child(root, "ThreeD", _three_d ? "1" : "0");
 	cxml::add_text_child(root, "Sequence", _sequence ? "1" : "0");
 	cxml::add_text_child(root, "Interop", _interop ? "1" : "0");
+	cxml::add_text_child(root, "VideoEncoding", video_encoding_to_string(_video_encoding));
 	cxml::add_text_child(root, "LimitToSMPTEBv20", _limit_to_smpte_bv20 ? "1" : "0");
 	cxml::add_text_child(root, "Encrypted", _encrypted ? "1" : "0");
 	cxml::add_text_child(root, "Key", _key.hex ());
@@ -595,6 +600,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_three_d = f.bool_child ("ThreeD");
 	_interop = f.bool_child ("Interop");
+	if (auto encoding = f.optional_string_child("VideoEncoding")) {
+		_video_encoding = video_encoding_from_string(*encoding);
+	}
 	_limit_to_smpte_bv20 = f.optional_bool_child("LimitToSMPTEBv20").get_value_or(false);
 	_key = dcp::Key (f.string_child ("Key"));
 	_context_id = f.optional_string_child("ContextID").get_value_or (dcp::make_uuid ());
@@ -1216,6 +1224,14 @@ Film::set_interop (bool i)
 {
 	FilmChangeSignaller ch(this, FilmProperty::INTEROP);
 	_interop = i;
+}
+
+
+void
+Film::set_video_encoding(VideoEncoding encoding)
+{
+	FilmChangeSignaller ch(this, FilmProperty::VIDEO_ENCODING);
+	_video_encoding = encoding;
 }
 
 

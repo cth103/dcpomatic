@@ -40,6 +40,7 @@
 #include "version.h"
 #include "writer.h"
 #include <dcp/cpl.h>
+#include <dcp/mono_mpeg2_picture_frame.h>
 #include <dcp/locale_convert.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -169,6 +170,13 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 }
 
 
+void
+Writer::write(shared_ptr<dcp::MonoMPEG2PictureFrame> image, Frame frame)
+{
+	_reels[video_reel(frame)].write(image);
+}
+
+
 bool
 Writer::can_repeat (Frame frame) const
 {
@@ -230,7 +238,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 
 	QueueItem qi;
 	qi.type = QueueItem::Type::FAKE;
-	qi.size = J2KFrameInfo(film()->info_file_handle(_reels[reel].period(), true), frame_in_reel, eyes).size;
+	qi.info = J2KFrameInfo(film()->info_file_handle(_reels[reel].period(), true), frame_in_reel, eyes);
 
 	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
 
@@ -401,7 +409,7 @@ try
 					if (i.type == QueueItem::Type::FULL) {
 						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i.frame, (int) i.eyes);
 					} else {
-						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i.size, i.frame, (int) i.eyes);
+						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i.info.size, i.frame, (int) i.eyes);
 					}
 				}
 			}
@@ -432,7 +440,7 @@ try
 				break;
 			case QueueItem::Type::FAKE:
 				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
-				reel.fake_write (qi.size);
+				reel.fake_write(qi.info);
 				++_fake_written;
 				break;
 			case QueueItem::Type::REPEAT:

@@ -154,6 +154,7 @@ sources = """
           maths_util.cc
           memory_util.cc
           mid_side_decoder.cc
+          mpeg2_encoder.cc
           named_channel.cc
           overlaps.cc
           pixel_quanta.cc
@@ -212,6 +213,7 @@ sources = """
           video_content.cc
           video_decoder.cc
           video_encoder.cc
+          video_encoding.cc
           video_filter_graph.cc
           video_filter_graph_set.cc
           video_frame_type.cc
