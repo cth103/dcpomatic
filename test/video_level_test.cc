@@ -36,7 +36,7 @@
 #include "lib/image.h"
 #include "lib/image_content.h"
 #include "lib/image_decoder.h"
-#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_film_encoder.h"
 #include "lib/job_manager.h"
 #include "lib/player.h"
 #include "lib/player_video.h"
@@ -459,7 +459,7 @@ V_movie_range (shared_ptr<Film> film)
 {
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	job->set_encoder (
-		make_shared<FFmpegEncoder>(film, job, film->file("export.mov"), ExportFormat::PRORES_HQ, true, false, false, 23)
+		make_shared<FFmpegFilmEncoder>(film, job, film->file("export.mov"), ExportFormat::PRORES_HQ, true, false, false, 23)
 		);
 	JobManager::instance()->add (job);
 	BOOST_REQUIRE (!wait_for_jobs());

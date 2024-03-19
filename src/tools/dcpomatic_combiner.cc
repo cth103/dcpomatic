@@ -30,6 +30,7 @@
 #include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/job_manager.h"
+#include "lib/util.h"
 #include <dcp/combine.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/filepicker.h>

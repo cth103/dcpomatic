@@ -23,7 +23,7 @@
 #include "film.h"
 #include "job.h"
 #include "player.h"
-#include "subtitle_encoder.h"
+#include "subtitle_film_encoder.h"
 #include <dcp/filesystem.h>
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/raw_convert.h>
@@ -51,8 +51,8 @@ using dcp::raw_convert;
  *  @param initial_name Hint that may be used to create filenames, if @ref output is a directory.
  *  @param include_font true to refer to and export any font file (for Interop; ignored for SMPTE).
  */
-SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, string initial_name, bool split_reels, bool include_font)
-	: Encoder (film, job)
+SubtitleFilmEncoder::SubtitleFilmEncoder(shared_ptr<const Film> film, shared_ptr<Job> job, boost::filesystem::path output, string initial_name, bool split_reels, bool include_font)
+	: FilmEncoder(film, job)
 	, _split_reels (split_reels)
 	, _include_font (include_font)
 	, _reel_index (0)
@@ -61,7 +61,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 	_player.set_play_referenced();
 	_player.set_ignore_video();
 	_player.set_ignore_audio();
-	_player.Text.connect(boost::bind(&SubtitleEncoder::text, this, _1, _2, _3, _4));
+	_player.Text.connect(boost::bind(&SubtitleFilmEncoder::text, this, _1, _2, _3, _4));
 
 	string const extension = film->interop() ? ".xml" : ".mxf";
 
@@ -91,7 +91,7 @@ SubtitleEncoder::SubtitleEncoder (shared_ptr<const Film> film, shared_ptr<Job> j
 
 
 void
-SubtitleEncoder::go ()
+SubtitleFilmEncoder::go()
 {
 	{
 		shared_ptr<Job> job = _job.lock ();
@@ -133,7 +133,7 @@ SubtitleEncoder::go ()
 
 
 void
-SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period)
+SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period)
 {
 	if (type != TextType::OPEN_SUBTITLE) {
 		return;
@@ -193,7 +193,7 @@ SubtitleEncoder::text (PlayerText subs, TextType type, optional<DCPTextTrack> tr
 
 
 Frame
-SubtitleEncoder::frames_done () const
+SubtitleFilmEncoder::frames_done() const
 {
 	if (!_last) {
 		return 0;

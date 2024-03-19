@@ -32,6 +32,7 @@
 #include "image.h"
 #include "j2k_image_proxy.h"
 #include "text_decoder.h"
+#include "util.h"
 #include "video_decoder.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>

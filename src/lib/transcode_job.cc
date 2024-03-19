@@ -28,11 +28,11 @@
 #include "compose.hpp"
 #include "content.h"
 #include "config.h"
-#include "dcp_encoder.h"
+#include "dcp_film_encoder.h"
 #include "dcpomatic_log.h"
-#include "encoder.h"
 #include "examine_content_job.h"
 #include "film.h"
+#include "film_encoder.h"
 #include "job_manager.h"
 #include "log.h"
 #include "transcode_job.h"
@@ -84,7 +84,7 @@ TranscodeJob::json_name () const
 
 
 void
-TranscodeJob::set_encoder (shared_ptr<Encoder> e)
+TranscodeJob::set_encoder(shared_ptr<FilmEncoder> e)
 {
 	_encoder = e;
 }
@@ -133,7 +133,7 @@ TranscodeJob::run ()
 
 		LOG_GENERAL(N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
 
-		if (dynamic_pointer_cast<DCPEncoder>(_encoder)) {
+		if (dynamic_pointer_cast<DCPFilmEncoder>(_encoder)) {
 			try {
 				Analytics::instance()->successful_dcp_encode();
 			} catch (FileError& e) {

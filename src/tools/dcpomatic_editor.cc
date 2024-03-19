@@ -29,6 +29,7 @@
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/null_log.h"
+#include "lib/util.h"
 #include "lib/variant.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>

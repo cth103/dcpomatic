@@ -23,6 +23,7 @@
 #include "kdm_cpl_panel.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>

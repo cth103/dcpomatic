@@ -27,6 +27,7 @@
 #include "static_text.h"
 #include "wx_variant.h"
 #include "lib/constants.h"
+#include "lib/util.h"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>

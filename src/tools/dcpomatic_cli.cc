@@ -25,7 +25,7 @@
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/encode_server_finder.h"
-#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_film_encoder.h"
 #include "lib/film.h"
 #include "lib/filter.h"
 #ifdef DCPOMATIC_GROK
@@ -519,7 +519,7 @@ main (int argc, char* argv[])
 	if (export_format) {
 		auto job = std::make_shared<TranscodeJob>(film, behaviour);
 		job->set_encoder (
-			std::make_shared<FFmpegEncoder> (
+			std::make_shared<FFmpegFilmEncoder>(
 				film, job, *export_filename, *export_format == "mp4" ? ExportFormat::H264_AAC : ExportFormat::PRORES_HQ, false, false, false, 23
 				)
 			);

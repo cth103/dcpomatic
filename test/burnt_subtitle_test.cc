@@ -30,7 +30,7 @@
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
-#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_film_encoder.h"
 #include "lib/log_entry.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE(burn_empty_subtitle_test)
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	auto file = boost::filesystem::path("build") / "test" / "burnt_empty_subtitle_test.mov";
 	cl.add(file);
-	FFmpegEncoder encoder(film, job, file, ExportFormat::PRORES_4444, false, false, false, 23);
+	FFmpegFilmEncoder encoder(film, job, file, ExportFormat::PRORES_4444, false, false, false, 23);
 	encoder.go();
 
 	cl.run();

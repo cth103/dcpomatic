@@ -19,7 +19,7 @@
 */
 
 
-/** @file  src/encoder.cc
+/** @file  src/film_encoder.cc
  *  @brief A class which takes a Film and some Options, then uses those to encode the film
  *  into some output format.
  *
@@ -28,17 +28,17 @@
  */
 
 
-#include "encoder.h"
+#include "film_encoder.h"
 #include "player.h"
 
 #include "i18n.h"
 
 
-/** Construct an encoder.
+/** Construct a FilmEncoder.
  *  @param film Film that we are encoding.
  *  @param job Job that this encoder is being used in.
  */
-Encoder::Encoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job)
+FilmEncoder::FilmEncoder(std::shared_ptr<const Film> film, std::weak_ptr<Job> job)
 	: _film (film)
 	, _job (job)
 	, _player(film, Image::Alignment::PADDED)

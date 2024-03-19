@@ -21,7 +21,7 @@
 
 #include "lib/config.h"
 #include "lib/content_factory.h"
-#include "lib/dcp_encoder.h"
+#include "lib/dcp_film_encoder.h"
 #include "lib/dcp_transcode_job.h"
 #include "lib/encode_server_description.h"
 #include "lib/film.h"
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE(frames_not_lost_when_threads_disappear)
 	auto film = new_test_film2("frames_not_lost", content);
 	film->write_metadata();
 	auto job = make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	auto& encoder = dynamic_pointer_cast<DCPEncoder>(job->_encoder)->_j2k_encoder;
+	auto& encoder = dynamic_pointer_cast<DCPFilmEncoder>(job->_encoder)->_j2k_encoder;
 
 	while (JobManager::instance()->work_to_do()) {
 		encoder.remake_threads(rand() % 8, 0, {});

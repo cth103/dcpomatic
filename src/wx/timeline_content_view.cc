@@ -23,6 +23,7 @@
 #include "timeline_content_view.h"
 #include "wx_util.h"
 #include "lib/content.h"
+#include "lib/util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/graphics.h>

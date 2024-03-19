@@ -21,7 +21,7 @@
 
 #include "compose.hpp"
 #include "cross.h"
-#include "ffmpeg_encoder.h"
+#include "ffmpeg_file_encoder.h"
 #include "ffmpeg_wrapper.h"
 #include "film.h"
 #include "image.h"

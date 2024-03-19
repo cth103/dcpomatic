@@ -23,12 +23,14 @@
 #define DCPOMATIC_FFMPEG_FILE_ENCODER_H
 
 
+#include "audio_buffers.h"
 #include "audio_mapping.h"
 #include "dcpomatic_time.h"
-#include "encoder.h"
 #include "event_history.h"
 #include "image_store.h"
 #include "log.h"
+#include "player_text.h"
+#include "player_video.h"
 #include <dcp/key.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

@@ -23,15 +23,15 @@
 
 #include "audio_mapping.h"
 #include "butler.h"
-#include "encoder.h"
 #include "event_history.h"
 #include "ffmpeg_file_encoder.h"
+#include "film_encoder.h"
 
 
-class FFmpegEncoder : public Encoder
+class FFmpegFilmEncoder : public FilmEncoder
 {
 public:
-	FFmpegEncoder (
+	FFmpegFilmEncoder(
 		std::shared_ptr<const Film> film,
 		std::weak_ptr<Job> job,
 		boost::filesystem::path output,

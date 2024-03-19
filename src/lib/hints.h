@@ -20,15 +20,16 @@
 
 
 #include "audio_analyser.h"
-#include "signaller.h"
-#include "player_text.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "player_text.h"
+#include "signaller.h"
+#include "text_type.h"
 #include "weak_film.h"
-#include <boost/signals2.hpp>
 #include <boost/atomic.hpp>
-#include <vector>
+#include <boost/signals2.hpp>
 #include <string>
+#include <vector>
 
 
 class Film;

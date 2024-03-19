@@ -36,7 +36,7 @@
 #include "cross.h"
 #include "dcp_content.h"
 #include "dcp_content_type.h"
-#include "dcp_encoder.h"
+#include "dcp_film_encoder.h"
 #include "dcpomatic_log.h"
 #include "digester.h"
 #include "environment_info.h"

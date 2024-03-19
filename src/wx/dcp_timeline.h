@@ -25,6 +25,8 @@
 
 #include "timecode.h"
 #include "timeline.h"
+#include "lib/change_signaller.h"
+#include "lib/film_property.h"
 #include "lib/rect.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS

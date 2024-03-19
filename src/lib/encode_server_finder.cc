@@ -26,6 +26,7 @@
 #include "encode_server_description.h"
 #include "encode_server_finder.h"
 #include "exceptions.h"
+#include "util.h"
 #include "variant.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>

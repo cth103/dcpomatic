@@ -22,7 +22,7 @@
 #include "atmos_metadata.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
-#include "encoder.h"
+#include "film_encoder.h"
 #include "player_text.h"
 #include "j2k_encoder.h"
 #include "writer.h"
@@ -38,12 +38,12 @@ class PlayerVideo;
 struct frames_not_lost_when_threads_disappear;
 
 
-/** @class DCPEncoder */
-class DCPEncoder : public Encoder
+/** @class DCPFilmEncoder */
+class DCPFilmEncoder : public FilmEncoder
 {
 public:
-	DCPEncoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
-	~DCPEncoder ();
+	DCPFilmEncoder(std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
+	~DCPFilmEncoder();
 
 	void go () override;
 

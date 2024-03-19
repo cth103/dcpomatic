@@ -21,7 +21,7 @@
 
 #include "butler.h"
 #include "cross.h"
-#include "ffmpeg_encoder.h"
+#include "ffmpeg_film_encoder.h"
 #include "film.h"
 #include "image.h"
 #include "job.h"
@@ -48,7 +48,7 @@ using namespace boost::placeholders;
 #endif
 
 
-FFmpegEncoder::FFmpegEncoder (
+FFmpegFilmEncoder::FFmpegFilmEncoder(
 	shared_ptr<const Film> film,
 	weak_ptr<Job> job,
 	boost::filesystem::path output,
@@ -58,7 +58,7 @@ FFmpegEncoder::FFmpegEncoder (
 	bool audio_stream_per_channel,
 	int x264_crf
 	)
-	: Encoder (film, job)
+	: FilmEncoder(film, job)
 	, _output_audio_channels(mixdown_to_stereo ? 2 : (_film->audio_channels() > 8 ? 16 : _film->audio_channels()))
 	, _history (200)
 	, _output (output)
@@ -85,7 +85,7 @@ FFmpegEncoder::FFmpegEncoder (
 
 
 AudioMapping
-FFmpegEncoder::stereo_map() const
+FFmpegFilmEncoder::stereo_map() const
 {
 	auto map = AudioMapping(_film->audio_channels(), 2);
 	float const overall_gain = 2 / (4 + sqrt(2));
@@ -117,7 +117,7 @@ FFmpegEncoder::stereo_map() const
 
 
 AudioMapping
-FFmpegEncoder::many_channel_map() const
+FFmpegFilmEncoder::many_channel_map() const
 {
 	auto map = AudioMapping(_film->audio_channels(), _output_audio_channels);
 	for (int i = 0; i < _film->audio_channels(); ++i) {
@@ -128,7 +128,7 @@ FFmpegEncoder::many_channel_map() const
 
 
 void
-FFmpegEncoder::go ()
+FFmpegFilmEncoder::go()
 {
 	{
 		auto job = _job.lock ();
@@ -235,19 +235,19 @@ FFmpegEncoder::go ()
 }
 
 optional<float>
-FFmpegEncoder::current_rate () const
+FFmpegFilmEncoder::current_rate() const
 {
 	return _history.rate ();
 }
 
 Frame
-FFmpegEncoder::frames_done () const
+FFmpegFilmEncoder::frames_done() const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	return _last_time.frames_round (_film->video_frame_rate ());
 }
 
-FFmpegEncoder::FileEncoderSet::FileEncoderSet (
+FFmpegFilmEncoder::FileEncoderSet::FileEncoderSet(
 	dcp::Size video_frame_size,
 	int video_frame_rate,
 	int audio_frame_rate,
@@ -280,7 +280,7 @@ FFmpegEncoder::FileEncoderSet::FileEncoderSet (
 }
 
 shared_ptr<FFmpegFileEncoder>
-FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
+FFmpegFilmEncoder::FileEncoderSet::get(Eyes eyes) const
 {
 	if (_encoders.size() == 1) {
 		/* We are doing a 2D export... */
@@ -299,7 +299,7 @@ FFmpegEncoder::FileEncoderSet::get (Eyes eyes) const
 }
 
 void
-FFmpegEncoder::FileEncoderSet::flush ()
+FFmpegFilmEncoder::FileEncoderSet::flush()
 {
 	for (auto& i: _encoders) {
 		i.second->flush ();
@@ -307,7 +307,7 @@ FFmpegEncoder::FileEncoderSet::flush ()
 }
 
 void
-FFmpegEncoder::FileEncoderSet::audio (shared_ptr<AudioBuffers> a)
+FFmpegFilmEncoder::FileEncoderSet::audio(shared_ptr<AudioBuffers> a)
 {
 	for (auto& i: _encoders) {
 		i.second->audio (a);
