@@ -210,6 +210,7 @@ sources = """
           verify_dcp_job.cc
           video_content.cc
           video_decoder.cc
+          video_encoder.cc
           video_filter_graph.cc
           video_filter_graph_set.cc
           video_frame_type.cc

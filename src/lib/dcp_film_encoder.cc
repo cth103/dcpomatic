@@ -67,7 +67,7 @@ using namespace dcpomatic;
 DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	: FilmEncoder(film, job)
 	, _writer(film, job)
-	, _j2k_encoder(film, _writer)
+	, _encoder(new J2KEncoder(film, _writer))
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
@@ -98,7 +98,7 @@ void
 DCPFilmEncoder::go()
 {
 	_writer.start();
-	_j2k_encoder.begin();
+	_encoder->begin();
 
 	{
 		auto job = _job.lock ();
@@ -117,7 +117,7 @@ DCPFilmEncoder::go()
 	}
 
 	_finishing = true;
-	_j2k_encoder.end();
+	_encoder->end();
 	_writer.finish(_film->dir(_film->dcp_name()));
 }
 
@@ -125,20 +125,20 @@ DCPFilmEncoder::go()
 void
 DCPFilmEncoder::pause()
 {
-	_j2k_encoder.pause();
+	_encoder->pause();
 }
 
 
 void
 DCPFilmEncoder::resume()
 {
-	_j2k_encoder.resume();
+	_encoder->resume();
 }
 
 void
 DCPFilmEncoder::video(shared_ptr<PlayerVideo> data, DCPTime time)
 {
-	_j2k_encoder.encode(data, time);
+	_encoder->encode(data, time);
 }
 
 void
@@ -170,11 +170,11 @@ DCPFilmEncoder::atmos(shared_ptr<const dcp::AtmosFrame> data, DCPTime time, Atmo
 optional<float>
 DCPFilmEncoder::current_rate() const
 {
-	return _j2k_encoder.current_encoding_rate();
+	return _encoder->current_encoding_rate();
 }
 
 Frame
 DCPFilmEncoder::frames_done() const
 {
-	return _j2k_encoder.video_frames_enqueued();
+	return _encoder->video_frames_enqueued();
 }
