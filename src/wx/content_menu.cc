@@ -520,15 +520,11 @@ ContentMenu::cpl_selected (wxCommandEvent& ev)
 	DCPOMATIC_ASSERT (dcp);
 
 	auto cpls = dcp::find_and_resolve_cpls (dcp->directories(), true);
-	DCPOMATIC_ASSERT (ev.GetId() > 0);
-	DCPOMATIC_ASSERT (ev.GetId() <= int (cpls.size()));
 
-	auto i = cpls.begin ();
-	for (int j = 0; j < ev.GetId() - 1; ++j) {
-		++i;
-	}
+	DCPOMATIC_ASSERT(ev.GetId() >= DCPOMATIC_CPL_MENU);
+	DCPOMATIC_ASSERT(ev.GetId() < int(DCPOMATIC_CPL_MENU + cpls.size()));
+	dcp->set_cpl(cpls[ev.GetId() - DCPOMATIC_CPL_MENU]->id());
 
-	dcp->set_cpl ((*i)->id ());
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
 	JobManager::instance()->add (make_shared<ExamineContentJob>(film, dcp));
