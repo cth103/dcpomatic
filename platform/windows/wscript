@@ -188,8 +188,8 @@ File "%static_deps%/bin/libdl.dll"
 File /oname=dcpomatic2_verify.exe "%cdist_deps%/bin/dcpverify.exe"
 File /oname=dcpomatic2_kdm_inspect.exe "%cdist_deps%/bin/dcpkdm.exe"
 File "%cdist_deps%/bin/leqm_nrt.dll"
-File "%cdist_deps%/bin/asdcp-carl.dll"
-File "%cdist_deps%/bin/kumu-carl.dll"
+File "%cdist_deps%/bin/asdcp-dcpomatic.dll"
+File "%cdist_deps%/bin/kumu-dcpomatic.dll"
     """, file=f)
 
     if disk:

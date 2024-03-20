@@ -1085,7 +1085,7 @@ Config::write_config () const
 	}
 
 	if (_playlist_editor_restricted_menus) {
-		root->add_child("PlaylistEditorRestrictedMenus")->add_child_text("1");
+		cxml::add_text_child(root, "PlaylistEditorRestrictedMenus", "1");
 	}
 
 	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */

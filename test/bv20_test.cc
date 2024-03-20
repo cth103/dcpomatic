@@ -49,7 +49,8 @@ has_mxf_mca_subdescriptors(shared_ptr<const Film> film)
 	 * whether they exist.
 	 */
 
-	ASDCP::PCM::MXFReader reader;
+	Kumu::FileReaderFactory factory;
+	ASDCP::PCM::MXFReader reader(factory);
 	auto r = reader.OpenRead(find_file(film->dir(film->dcp_name()), "pcm_").string());
 	BOOST_REQUIRE(!ASDCP_FAILURE(r));
 

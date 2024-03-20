@@ -287,13 +287,14 @@ check_wav_file (boost::filesystem::path ref, boost::filesystem::path check)
 void
 check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check)
 {
-	ASDCP::PCM::MXFReader ref_reader;
+	Kumu::FileReaderFactory factory;
+	ASDCP::PCM::MXFReader ref_reader(factory);
 	BOOST_REQUIRE (!ASDCP_FAILURE (ref_reader.OpenRead (ref.string().c_str())));
 
 	ASDCP::PCM::AudioDescriptor ref_desc;
 	BOOST_REQUIRE (!ASDCP_FAILURE (ref_reader.FillAudioDescriptor (ref_desc)));
 
-	ASDCP::PCM::MXFReader check_reader;
+	ASDCP::PCM::MXFReader check_reader(factory);
 	BOOST_REQUIRE (!ASDCP_FAILURE (check_reader.OpenRead (check.string().c_str())));
 
 	ASDCP::PCM::AudioDescriptor check_desc;
@@ -316,13 +317,14 @@ check_mxf_audio_file (boost::filesystem::path ref, boost::filesystem::path check
 bool
 mxf_atmos_files_same (boost::filesystem::path ref, boost::filesystem::path check, bool verbose)
 {
-	ASDCP::ATMOS::MXFReader ref_reader;
+	Kumu::FileReaderFactory factory;
+	ASDCP::ATMOS::MXFReader ref_reader(factory);
 	BOOST_REQUIRE (!ASDCP_FAILURE(ref_reader.OpenRead(ref.string().c_str())));
 
 	ASDCP::ATMOS::AtmosDescriptor ref_desc;
 	BOOST_REQUIRE (!ASDCP_FAILURE(ref_reader.FillAtmosDescriptor(ref_desc)));
 
-	ASDCP::ATMOS::MXFReader check_reader;
+	ASDCP::ATMOS::MXFReader check_reader(factory);
 	BOOST_REQUIRE (!ASDCP_FAILURE(check_reader.OpenRead(check.string().c_str())));
 
 	ASDCP::ATMOS::AtmosDescriptor check_desc;
