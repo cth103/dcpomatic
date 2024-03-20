@@ -67,7 +67,7 @@ Digester::get () const
 
 		char hex[MD5_DIGEST_SIZE * 2 + 1];
 		for (int i = 0; i < MD5_DIGEST_SIZE; ++i) {
-			sprintf(hex + i * 2, "%02x", digest[i]);
+			snprintf(hex + i * 2, MD5_DIGEST_SIZE * 2 + 1, "%02x", digest[i]);
 		}
 
 		_digest = hex;

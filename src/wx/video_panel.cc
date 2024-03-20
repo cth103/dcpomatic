@@ -100,7 +100,7 @@ VideoPanel::create ()
 	int const link_height = 32;
 #elif defined(DCPOMATIC_OSX)
 	int const crop_width = 56;
-	int const link_width = 23;
+	int const link_width = 8 + 15 / dpi_scale_factor(this);
 	int const link_height = 28;
 #else
 	int const crop_width = 56;
@@ -119,8 +119,10 @@ VideoPanel::create ()
 		boost::bind (&VideoPanel::left_crop_changed, this)
 		);
 
+	auto const link_path = bitmap_path(gui_is_dark() ? "link_white.png" : "link_black.png");
+
 	_left_right_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
-	_left_right_link->SetBitmap (wxBitmap(bitmap_path("link.png"), wxBITMAP_TYPE_PNG));
+	_left_right_link->SetBitmap(wxBitmap(link_path, wxBITMAP_TYPE_PNG));
 
 	_right_crop_label = create_label (this, _("Right"), true);
 	_right_crop = new ContentSpinCtrl<VideoContent> (
@@ -145,7 +147,7 @@ VideoPanel::create ()
 		);
 
 	_top_bottom_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
-	_top_bottom_link->SetBitmap (wxBitmap(bitmap_path("link.png"), wxBITMAP_TYPE_PNG));
+	_top_bottom_link->SetBitmap(wxBitmap(link_path, wxBITMAP_TYPE_PNG));
 
 	_bottom_crop_label = create_label (this, _("Bottom"), true);
 	_bottom_crop = new ContentSpinCtrl<VideoContent> (

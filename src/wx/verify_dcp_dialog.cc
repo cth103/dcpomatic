@@ -130,12 +130,13 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 	if (job->finished_in_error() && job->error_summary() != "") {
 		/* We have an error that did not come from dcp::verify */
 		add_bullet (dcp::VerificationNote::Type::ERROR, std_to_wx(job->error_summary()));
+		++counts[dcp::VerificationNote::Type::ERROR];
 	}
 
 	for (auto i: job->notes()) {
 		switch (i.code()) {
 		case dcp::VerificationNote::Code::FAILED_READ:
-			add (i, std_to_wx(*i.note()));
+			add (i, _("Could not read DCP (%n)"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
 			add(i, _("The hash (%reference_hash) of the CPL %n in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));

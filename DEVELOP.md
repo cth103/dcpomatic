@@ -4,6 +4,16 @@ This file collects a few notes relevant to DCP-o-matic developers.  There is als
 [on the web site](https://dcpomatic.com/development).
 
 
+## Building on macOS/arm64
+
+Build `osx-environment` in `$HOME`
+```
+bash platform/osx/copy_resources.sh
+source platform/osx/set_paths.sh
+./waf configure --target-macos-arm64
+```
+
+
 ## Disk writer logging
 
 As we have no `film' folder to log to during disk writes, the logs end up:
