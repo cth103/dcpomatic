@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (kdm_cli_test_certificate)
 		"--verbose",
 		"--valid-from", "now",
 		"--valid-duration", "2 weeks",
-		"--certificate", "test/data/cert.pem",
+		"--projector-certificate", "test/data/cert.pem",
 		"-S", "my great screen",
 		"-o", "build/test",
 		"test/data/dkdm.xml"

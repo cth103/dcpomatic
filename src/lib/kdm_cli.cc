@@ -73,8 +73,8 @@ help (std::function<void (string)> out)
 	out ("  -v, --verbose                            be verbose");
 	out ("  -c, --cinema <name|email>                cinema name (when using -C) or name/email (to filter cinemas)");
 	out ("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
-	out ("  -C, --certificate <file>                 file containing projector certificate");
 	out ("  -T, --trusted-device <file>              file containing a trusted device's certificate");
+	out ("  -C, --projector-certificate <file>       file containing projector certificate");
 	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
 	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
 	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
@@ -448,7 +448,7 @@ try
 	auto filename_format = Config::instance()->kdm_filename_format();
 	optional<string> cinema_name;
 	shared_ptr<Cinema> cinema;
-	optional<boost::filesystem::path> certificate;
+	optional<boost::filesystem::path> projector_certificate;
 	optional<string> screen;
 	vector<shared_ptr<Screen>> screens;
 	optional<dcp::EncryptedKDM> dkdm;
@@ -488,8 +488,8 @@ try
 			{ "verbose", no_argument, 0, 'v' },
 			{ "cinema", required_argument, 0, 'c' },
 			{ "screen", required_argument, 0, 'S' },
-			{ "certificate", required_argument, 0, 'C' },
 			{ "trusted-device", required_argument, 0, 'T' },
+			{ "projector-certificate", required_argument, 0, 'C' },
 			{ "list-cinemas", no_argument, 0, 'B' },
 			{ "list-dkdm-cpls", no_argument, 0, 'D' },
 			{ "cinemas-file", required_argument, 0, 'E' },
@@ -572,7 +572,7 @@ try
 			screen = optarg;
 			break;
 		case 'C':
-			certificate = optarg;
+			projector_certificate = optarg;
 			break;
 		case 'T':
 			/* A trusted device ends up in the last screen we made */
@@ -596,9 +596,9 @@ try
 		Config::instance()->set_cinemas_file(*cinemas_file);
 	}
 
-	if (certificate) {
+	if (projector_certificate) {
 		/* Make a new screen and add it to the current cinema */
-		dcp::CertificateChain chain(dcp::file_to_string(*certificate));
+		dcp::CertificateChain chain(dcp::file_to_string(*projector_certificate));
 		auto screen_to_add = std::make_shared<Screen>(screen.get_value_or(""), "", chain.leaf(), boost::none, vector<TrustedDevice>());
 		if (cinema) {
 			cinema->add_screen(screen_to_add);
