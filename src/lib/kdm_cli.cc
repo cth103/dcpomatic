@@ -62,6 +62,7 @@ help (std::function<void (string)> out)
 	out ("create          create KDMs; default if no other command is specified");
 	out ("list-cinemas    list known cinemas from DCP-o-matic settings");
 	out ("list-dkdm-cpls  list CPLs for which DCP-o-matic has DKDMs");
+	out ("add-dkdm        add DKDM to DCP-o-matic's list");
 	out ("  -h, --help                               show this help");
 	out ("  -o, --output <path>                      output file or directory");
 	out ("  -K, --filename-format <format>           filename format for KDMs");
@@ -594,7 +595,8 @@ try
 	vector<string> commands = {
 		"create",
 		"list-cinemas",
-		"list-dkdm-cpls"
+		"list-dkdm-cpls",
+		"add-dkdm"
 	};
 
 	if (optind < argc - 1) {
@@ -603,7 +605,7 @@ try
 	} else if (optind < argc) {
 		/* Look for a valid command, hoping that it's not the name of the KDM / CPL / whatever */
 		if (std::find(commands.begin(), commands.end(), argv[optind]) != commands.end()) {
-			command = argv[optind];
+			command = argv[optind++];
 		}
 	}
 
@@ -638,16 +640,23 @@ try
 		return {};
 	}
 
+	if (optind >= argc) {
+		throw KDMCLIError("no film, CPL ID or DKDM specified");
+	}
+
+	if (command == "add-dkdm") {
+		auto dkdms = Config::instance()->dkdms();
+		dkdms->add(make_shared<DKDM>(dcp::EncryptedKDM(dcp::file_to_string(argv[optind]))));
+		Config::instance()->write_config();
+		return {};
+	}
+
 	if (!duration_string && !valid_to) {
 		throw KDMCLIError ("you must specify a --valid-duration or --valid-to");
 	}
 
 	if (!valid_from) {
 		throw KDMCLIError ("you must specify --valid-from");
-	}
-
-	if (optind >= argc) {
-		throw KDMCLIError ("no film, CPL ID or DKDM specified");
 	}
 
 	if (screens.empty()) {

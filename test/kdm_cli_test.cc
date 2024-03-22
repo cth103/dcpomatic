@@ -23,6 +23,7 @@
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
+#include "lib/dkdm_wrapper.h"
 #include "lib/film.h"
 #include "lib/kdm_cli.h"
 #include "lib/screen.h"
@@ -34,6 +35,7 @@
 #include <iostream>
 
 
+using std::dynamic_pointer_cast;
 using std::string;
 using std::vector;
 using boost::optional;
@@ -329,5 +331,31 @@ BOOST_AUTO_TEST_CASE(kdm_cli_time)
 	BOOST_CHECK_EQUAL(output[1], "Wrote 1 KDM files to build/test");
 
 	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
+}
+
+
+BOOST_AUTO_TEST_CASE(kdm_cli_add_dkdm)
+{
+	ConfigRestorer cr;
+
+	setup_test_config();
+
+	BOOST_CHECK_EQUAL(Config::instance()->dkdms()->children().size(), 0U);
+
+	vector<string> args = {
+		"kdm_cli",
+		"add-dkdm",
+		"test/data/dkdm.xml"
+	};
+
+	vector<string> output;
+	auto error = run(args, output);
+	BOOST_CHECK(!error);
+
+	auto dkdms = Config::instance()->dkdms()->children();
+	BOOST_CHECK_EQUAL(dkdms.size(), 1U);
+	auto dkdm = dynamic_pointer_cast<DKDM>(dkdms.front());
+	BOOST_CHECK(dkdm);
+	BOOST_CHECK_EQUAL(dkdm->dkdm().as_xml(), dcp::file_to_string("test/data/dkdm.xml"));
 }
 
