@@ -73,8 +73,8 @@ help (std::function<void (string)> out)
 	out ("  -v, --verbose                            be verbose");
 	out ("  -c, --cinema <name|email>                cinema name (when using -C) or name/email (to filter cinemas)");
 	out ("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
-	out ("  -T, --trusted-device <file>              file containing a trusted device's certificate");
 	out ("  -C, --projector-certificate <file>       file containing projector certificate");
+	out ("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
 	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
 	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
 	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
@@ -488,8 +488,8 @@ try
 			{ "verbose", no_argument, 0, 'v' },
 			{ "cinema", required_argument, 0, 'c' },
 			{ "screen", required_argument, 0, 'S' },
-			{ "trusted-device", required_argument, 0, 'T' },
 			{ "projector-certificate", required_argument, 0, 'C' },
+			{ "trusted-device-certificate", required_argument, 0, 'T' },
 			{ "list-cinemas", no_argument, 0, 'B' },
 			{ "list-dkdm-cpls", no_argument, 0, 'D' },
 			{ "cinemas-file", required_argument, 0, 'E' },
