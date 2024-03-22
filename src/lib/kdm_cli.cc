@@ -245,7 +245,6 @@ from_film (
 			}
 		}
 
-
 		if (find_if(
 			period_checks.begin(),
 			period_checks.end(),
