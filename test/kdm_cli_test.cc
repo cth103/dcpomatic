@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 		"kdm_cli",
 		"--cinemas-file",
 		"test/data/cinemas.xml",
-		"--list-cinemas"
+		"list-cinemas"
 	};
 
 	vector<string> output;
@@ -282,6 +282,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cert)
 		"--valid-duration", "2 weeks",
 		"-C", "test/data/cert.pem",
 		"-o", "build/test",
+		"create",
 		"build/test/kdm_cli_specify_cert"
 	};
 

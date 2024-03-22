@@ -57,7 +57,11 @@ using namespace dcpomatic;
 static void
 help (std::function<void (string)> out)
 {
-	out (String::compose("Syntax: %1 [OPTION] <FILM|CPL-ID|DKDM>", program_name));
+	out (String::compose("Syntax: %1 [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
+	out ("Commands:");
+	out ("create          create KDMs; default if no other command is specified");
+	out ("list-cinemas    list known cinemas from DCP-o-matic settings");
+	out ("list-dkdm-cpls  list CPLs for which DCP-o-matic has DKDMs");
 	out ("  -h, --help                               show this help");
 	out ("  -o, --output <path>                      output file or directory");
 	out ("  -K, --filename-format <format>           filename format for KDMs");
@@ -78,8 +82,6 @@ help (std::function<void (string)> out)
 	out ("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
 	out ("                                           (DCP-o-matic's configured private key will be used otherwise)");
 	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
-	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
-	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
 	out ("");
 	out ("CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.");
 	out ("");
@@ -457,8 +459,7 @@ try
 	optional<dcp::LocalTime> valid_from;
 	optional<dcp::LocalTime> valid_to;
 	bool zip = false;
-	bool list_cinemas = false;
-	bool list_dkdm_cpls = false;
+	string command = "create";
 	optional<string> duration_string;
 	bool verbose = false;
 	dcp::Formulation formulation = dcp::Formulation::MODIFIED_TRANSITIONAL_1;
@@ -493,13 +494,11 @@ try
 			{ "projector-certificate", required_argument, 0, 'C' },
 			{ "trusted-device-certificate", required_argument, 0, 'T' },
 			{ "decryption-key", required_argument, 0, 'G' },
-			{ "list-cinemas", no_argument, 0, 'B' },
-			{ "list-dkdm-cpls", no_argument, 0, 'D' },
 			{ "cinemas-file", required_argument, 0, 'E' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:G:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:E:G:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -586,16 +585,30 @@ try
 		case 'G':
 			decryption_key = optarg;
 			break;
-		case 'B':
-			list_cinemas = true;
-			break;
-		case 'D':
-			list_dkdm_cpls = true;
-			break;
 		case 'E':
 			cinemas_file = optarg;
 			break;
 		}
+	}
+
+	vector<string> commands = {
+		"create",
+		"list-cinemas",
+		"list-dkdm-cpls"
+	};
+
+	if (optind < argc - 1) {
+		/* Command with some KDM / CPL / whever specified afterwards */
+		command = argv[optind++];
+	} else if (optind < argc) {
+		/* Look for a valid command, hoping that it's not the name of the KDM / CPL / whatever */
+		if (std::find(commands.begin(), commands.end(), argv[optind]) != commands.end()) {
+			command = argv[optind];
+		}
+	}
+
+	if (std::find(commands.begin(), commands.end(), command) == commands.end()) {
+		throw KDMCLIError(String::compose("Unrecognised command %1", command));
 	}
 
 	if (cinemas_file) {
@@ -612,7 +625,7 @@ try
 		screens.push_back(screen_to_add);
 	}
 
-	if (list_cinemas) {
+	if (command == "list-cinemas") {
 		auto cinemas = Config::instance()->cinemas ();
 		for (auto i: cinemas) {
 			out (String::compose("%1 (%2)", i->name, Email::address_list(i->emails)));
@@ -620,7 +633,7 @@ try
 		return {};
 	}
 
-	if (list_dkdm_cpls) {
+	if (command == "list-dkdm-cpls") {
 		dump_dkdm_group (Config::instance()->dkdms(), 0, out);
 		return {};
 	}
