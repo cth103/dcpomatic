@@ -22,6 +22,7 @@
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
+#include "lib/cross.h"
 #include "lib/film.h"
 #include "lib/kdm_cli.h"
 #include "lib/screen.h"
@@ -39,7 +40,7 @@ using boost::optional;
 
 
 optional<string>
-run(vector<string> const& args, vector<string>& output)
+run(vector<string> const& args, vector<string>& output, bool dump_errors = true)
 {
 	std::vector<char*> argv(args.size());
 	for (auto i = 0U; i < args.size(); ++i) {
@@ -47,7 +48,7 @@ run(vector<string> const& args, vector<string>& output)
 	}
 
 	auto error = kdm_cli(args.size(), argv.data(), [&output](string s) { output.push_back(s); });
-	if (error) {
+	if (error && dump_errors) {
 		std::cout << *error << "\n";
 	}
 
@@ -77,6 +78,70 @@ BOOST_AUTO_TEST_CASE (kdm_cli_test_certificate)
 	BOOST_CHECK (!error);
 
 	BOOST_CHECK(boost::filesystem::exists(kdm_filename));
+}
+
+
+BOOST_AUTO_TEST_CASE(kdm_cli_specify_decryption_key_test)
+{
+	using boost::filesystem::path;
+
+	ConfigRestorer cr;
+
+	path const dir = "build/test/kdm_cli_specify_decryption_key_test";
+
+	boost::system::error_code ec;
+	boost::filesystem::remove_all(dir, ec);
+	boost::filesystem::create_directories(dir);
+
+	dcp::CertificateChain chain(openssl_path(), 365);
+	dcp::write_string_to_file(chain.leaf().certificate(true), dir / "cert.pem");
+	dcp::write_string_to_file(*chain.key(), dir / "key.pem");
+
+	vector<string> make_args = {
+		"kdm_cli",
+		"--valid-from", "now",
+		"--valid-duration", "2 weeks",
+		"--projector-certificate", path(dir / "cert.pem").string(),
+		"-S", "base",
+		"-o", dir.string(),
+		"test/data/dkdm.xml"
+	};
+
+	vector<string> output;
+	auto error = run(make_args, output);
+	BOOST_CHECK(!error);
+
+	vector<string> bad_args = {
+		"kdm_cli",
+		"--valid-from", "now",
+		"--valid-duration", "2 weeks",
+		"--projector-certificate", path(dir / "cert.pem").string(),
+		"-S", "bad",
+		"-o", dir.string(),
+		path(dir / "KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV__base.xml").string()
+	};
+
+	/* This should fail because we're using the wrong decryption certificate */
+	output.clear();
+	error = run(bad_args, output, false);
+	BOOST_REQUIRE(error);
+	BOOST_CHECK(error->find("oaep decoding error") != string::npos);
+
+	vector<string> good_args = {
+		"kdm_cli",
+		"--valid-from", "now",
+		"--valid-duration", "2 weeks",
+		"--projector-certificate", path(dir / "cert.pem").string(),
+		"--decryption-key", path(dir / "key.pem").string(),
+		"-S", "good",
+		"-o", dir.string(),
+		path(dir / "KDM_Test_FTR-1_F-133_XX-XX_MOS_2K_20220109_SMPTE_OV__base.xml").string()
+	};
+
+	/* This should succeed */
+	output.clear();
+	error = run(good_args, output);
+	BOOST_CHECK(!error);
 }
 
 

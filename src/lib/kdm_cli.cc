@@ -75,6 +75,8 @@ help (std::function<void (string)> out)
 	out ("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
 	out ("  -C, --projector-certificate <file>       file containing projector certificate");
 	out ("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
+	out ("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
+	out ("                                           (DCP-o-matic's configured private key will be used otherwise)");
 	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
 	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
 	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
@@ -448,6 +450,7 @@ try
 	optional<string> cinema_name;
 	shared_ptr<Cinema> cinema;
 	optional<boost::filesystem::path> projector_certificate;
+	optional<boost::filesystem::path> decryption_key;
 	optional<string> screen;
 	vector<shared_ptr<Screen>> screens;
 	optional<dcp::EncryptedKDM> dkdm;
@@ -489,13 +492,14 @@ try
 			{ "screen", required_argument, 0, 'S' },
 			{ "projector-certificate", required_argument, 0, 'C' },
 			{ "trusted-device-certificate", required_argument, 0, 'T' },
+			{ "decryption-key", required_argument, 0, 'G' },
 			{ "list-cinemas", no_argument, 0, 'B' },
 			{ "list-dkdm-cpls", no_argument, 0, 'D' },
 			{ "cinemas-file", required_argument, 0, 'E' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:G:", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -578,6 +582,9 @@ try
 			if (!screens.empty ()) {
 				screens.back()->trusted_devices.push_back(TrustedDevice(dcp::Certificate(dcp::file_to_string(optarg))));
 			}
+			break;
+		case 'G':
+			decryption_key = optarg;
 			break;
 		case 'B':
 			list_cinemas = true;
@@ -679,9 +686,11 @@ try
 			throw KDMCLIError ("could not find film or CPL ID corresponding to " + thing);
 		}
 
+		string const key = decryption_key ? dcp::file_to_string(*decryption_key) : Config::instance()->decryption_chain()->key().get();
+
 		from_dkdm (
 			screens,
-			dcp::DecryptedKDM (*dkdm, Config::instance()->decryption_chain()->key().get()),
+			dcp::DecryptedKDM(*dkdm, key),
 			verbose,
 			output,
 			container_name_format,
