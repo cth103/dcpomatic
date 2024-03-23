@@ -31,6 +31,7 @@
 #include <cairomm/cairomm.h>
 LIBDCP_DISABLE_WARNINGS
 #include <pangomm.h>
+#include <pangommconfig.h>
 LIBDCP_ENABLE_WARNINGS
 #include <pango/pangocairo.h>
 #include <boost/algorithm/string.hpp>
