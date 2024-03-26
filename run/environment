@@ -4,6 +4,6 @@ export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:/usr/local/lib64:/usr/local/
 if [[ $(readlink -f $DIR/..) =~ (.*build/[^/]*) ]]; then
   export LD_LIBRARY_PATH=${BASH_REMATCH[1]}/lib:$LD_LIBRARY_PATH
 fi
-export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$build/src/asdcplib/src:/Users/ci/osx-environment/x86_64/10.10/lib:/Users/ci/workspace/lib
+export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:/Users/ci/osx-environment/x86_64/10.10/lib:/Users/ci/workspace/lib
 export DCPOMATIC_GRAPHICS=$DIR/../graphics
 
