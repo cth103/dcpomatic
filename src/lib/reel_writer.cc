@@ -28,6 +28,7 @@
 #include "digester.h"
 #include "film.h"
 #include "film_util.h"
+#include "frame_info.h"
 #include "image.h"
 #include "image_png.h"
 #include "job.h"
@@ -79,9 +80,6 @@ using dcp::ArrayData;
 using dcp::Data;
 using dcp::raw_convert;
 using namespace dcpomatic;
-
-
-int const ReelWriter::_info_size = 48;
 
 
 static dcp::MXFMetadata
@@ -215,53 +213,6 @@ ReelWriter::ReelWriter (
 }
 
 
-/** @param frame reel-relative frame */
-void
-ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
-{
-	auto handle = film()->info_file_handle(_period, false);
-	handle->get().seek(frame_info_position(frame, eyes), SEEK_SET);
-	handle->get().checked_write(&info.offset, sizeof(info.offset));
-	handle->get().checked_write(&info.size, sizeof(info.size));
-	handle->get().checked_write(info.hash.c_str(), info.hash.size());
-}
-
-
-dcp::FrameInfo
-ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const
-{
-	dcp::FrameInfo frame_info;
-	info->get().seek(frame_info_position(frame, eyes), SEEK_SET);
-	info->get().checked_read(&frame_info.offset, sizeof(frame_info.offset));
-	info->get().checked_read(&frame_info.size, sizeof(frame_info.size));
-
-	char hash_buffer[33];
-	info->get().checked_read(hash_buffer, 32);
-	hash_buffer[32] = '\0';
-	frame_info.hash = hash_buffer;
-
-	return frame_info;
-}
-
-
-long
-ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
-{
-	switch (eyes) {
-	case Eyes::BOTH:
-		return frame * _info_size;
-	case Eyes::LEFT:
-		return frame * _info_size * 2;
-	case Eyes::RIGHT:
-		return frame * _info_size * 2 + _info_size;
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-
-	DCPOMATIC_ASSERT (false);
-}
-
-
 Frame
 ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 {
@@ -290,8 +241,8 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
-	int const n = (dcp::filesystem::file_size(info_file->get().path()) / _info_size) - 1;
-	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(info_file->get().path()), _info_size);
+	int const n = (dcp::filesystem::file_size(info_file->get().path()) / J2KFrameInfo::size_on_disk()) - 1;
+	LOG_GENERAL("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(info_file->get().path()), J2KFrameInfo::size_on_disk())
 
 	Frame first_nonexistent_frame;
 	if (film()->three_d()) {
@@ -326,8 +277,8 @@ ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 		return;
 	}
 
-	auto fin = _picture_asset_writer->write (encoded->data(), encoded->size());
-	write_frame_info (frame, eyes, fin);
+	auto fin = J2KFrameInfo(_j2k_picture_asset_writer->write(encoded->data(), encoded->size()));
+	fin.write(film()->info_file_handle(_period, false), frame, eyes);
 	_last_written[eyes] = encoded;
 }
 
@@ -368,8 +319,8 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 		return;
 	}
 
-	auto fin = _picture_asset_writer->write(_last_written[eyes]->data(), _last_written[eyes]->size());
-	write_frame_info (frame, eyes, fin);
+	auto fin = J2KFrameInfo(_j2k_picture_asset_writer->write(_last_written[eyes]->data(), _last_written[eyes]->size()));
+	fin.write(film()->info_file_handle(_period, false), frame, eyes);
 }
 
 
@@ -1012,7 +963,7 @@ ReelWriter::existing_picture_frame_ok (dcp::File& asset_file, shared_ptr<InfoFil
 	/* Read the data from the info file; for 3D we just check the left
 	   frames until we find a good one.
 	*/
-	auto const info = read_frame_info (info_file, frame, film()->three_d() ? Eyes::LEFT : Eyes::BOTH);
+	auto const info = J2KFrameInfo(info_file, frame, film()->three_d() ? Eyes::LEFT : Eyes::BOTH);
 
 	bool ok = true;
 

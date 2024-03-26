@@ -95,14 +95,10 @@ public:
 		return _first_nonexistent_frame;
 	}
 
-	dcp::FrameInfo read_frame_info (std::shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const;
-
 private:
 
 	friend struct ::write_frame_info_test;
 
-	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
-	long frame_info_position (Frame frame, Eyes eyes) const;
 	Frame check_existing_picture_asset (boost::filesystem::path asset);
 	bool existing_picture_frame_ok (dcp::File& asset_file, std::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
 	std::shared_ptr<dcp::SubtitleAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
@@ -146,6 +142,4 @@ private:
 	std::shared_ptr<dcp::AtmosAssetWriter> _atmos_asset_writer;
 
 	mutable FontMetrics _font_metrics;
-
-	static int const _info_size;
 };

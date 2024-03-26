@@ -30,6 +30,7 @@
 #include "dcpomatic_log.h"
 #include "film.h"
 #include "film_util.h"
+#include "frame_info.h"
 #include "job.h"
 #include "log.h"
 #include "ratio.h"
@@ -229,11 +230,7 @@ Writer::fake_write (Frame frame, Eyes eyes)
 
 	QueueItem qi;
 	qi.type = QueueItem::Type::FAKE;
-
-	{
-		shared_ptr<InfoFileHandle> info_file = film()->info_file_handle(_reels[reel].period(), true);
-		qi.size = _reels[reel].read_frame_info(info_file, frame_in_reel, eyes).size;
-	}
+	qi.size = J2KFrameInfo(film()->info_file_handle(_reels[reel].period(), true), frame_in_reel, eyes).size;
 
 	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
 
