@@ -182,7 +182,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		auto stream = _format_context->streams[*_video_stream];
 		auto rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
 		uint8_t* displaymatrix = av_stream_get_side_data (stream, AV_PKT_DATA_DISPLAYMATRIX, 0);
-		_rotation = 0;
 
 		if (rotate_tag && *rotate_tag->value && strcmp(rotate_tag->value, "0")) {
 			char *tail;
