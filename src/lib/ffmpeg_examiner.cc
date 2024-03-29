@@ -195,7 +195,9 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 			_rotation = - av_display_rotation_get ((int32_t*) displaymatrix);
 		}
 
-		_rotation = *_rotation - 360 * floor (*_rotation / 360 + 0.9 / 360);
+		if (_rotation) {
+			_rotation = *_rotation - 360 * floor (*_rotation / 360 + 0.9 / 360);
+		}
 	}
 
 	LOG_GENERAL("Temporal reference was %1", temporal_reference);
