@@ -295,8 +295,10 @@ FFmpegContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 					_filters.push_back(*Filter::from_id("hflip"));
 				} else if (fabs (rot - 90) < 1.0) {
 					_filters.push_back(*Filter::from_id("90clock"));
+					video->rotate_size();
 				} else if (fabs (rot - 270) < 1.0) {
 					_filters.push_back(*Filter::from_id("90anticlock"));
+					video->rotate_size();
 				}
 			}
 			if (examiner->has_alpha()) {

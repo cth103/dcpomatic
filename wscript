@@ -61,7 +61,6 @@ def options(opt):
     opt.add_option('--disable-tests',     action='store_true', default=False, help='disable building of tests')
     opt.add_option('--target-windows-64', action='store_true', default=False, help='set up to do a cross-compile for Windows 64-bit')
     opt.add_option('--target-windows-32', action='store_true', default=False, help='set up to do a cross-compile for Windows 32-bit')
-    opt.add_option('--target-macos-arm64', action='store_true', default=False, help='set up to do a cross-compile for macOS arm64')
     opt.add_option('--static-dcpomatic',  action='store_true', default=False, help='link to components of DCP-o-matic statically')
     opt.add_option('--static-boost',      action='store_true', default=False, help='link statically to Boost')
     opt.add_option('--static-wxwidgets',  action='store_true', default=False, help='link statically to wxWidgets')
@@ -117,6 +116,8 @@ def configure(conf):
     else:
         conf.env.INSTALL_PREFIX = conf.options.destdir
 
+    conf.check_cxx(cxxflags=['-msse', '-mfpmath=sse'], msg='Checking for SSE support', mandatory=False, define_name='SSE')
+
     # Common CXXFLAGS
     conf.env.append_value('CXXFLAGS', ['-D__STDC_CONSTANT_MACROS',
                                        '-D__STDC_LIMIT_MACROS',
@@ -145,8 +146,8 @@ def configure(conf):
     if conf.options.warnings_are_errors:
         conf.env.append_value('CXXFLAGS', '-Werror')
 
-    if not conf.options.target_macos_arm64:
-        conf.env.append_value('CXXFLAGS', '-msse')
+    if conf.env.SSE:
+        conf.env.append_value('CXXFLAGS', ['-msse', '-mfpmath=sse'])
 
     if conf.options.enable_asan:
         conf.env.append_value('CXXFLAGS', '-fsanitize=address')
@@ -193,7 +194,6 @@ def configure(conf):
         conf.env.append_value('CXXFLAGS', '-DWIN32_LEAN_AND_MEAN')
         conf.env.append_value('CXXFLAGS', '-DBOOST_USE_WINDOWS_H')
         conf.env.append_value('CXXFLAGS', '-DBOOST_THREAD_PROVIDES_GENERIC_SHARED_MUTEX_ON_WIN')
-        conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-Wcast-align')
         wxrc = os.popen('wx-config --rescomp').read().split()[1:]
         conf.env.append_value('WINRCFLAGS', wxrc)
@@ -230,7 +230,6 @@ def configure(conf):
 
     # Linux
     if conf.env.TARGET_LINUX:
-        conf.env.append_value('CXXFLAGS', '-mfpmath=sse')
         conf.env.append_value('CXXFLAGS', '-DLINUX_LOCALE_PREFIX="%s/share/locale"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DLINUX_SHARE_PREFIX="%s/share"' % conf.env['INSTALL_PREFIX'])
         conf.env.append_value('CXXFLAGS', '-DDCPOMATIC_LINUX')

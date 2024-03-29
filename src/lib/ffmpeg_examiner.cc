@@ -173,8 +173,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		/* This code taken from get_rotation() in ffmpeg:cmdutils.c */
 		auto stream = _format_context->streams[*_video_stream];
 		auto rotate_tag = av_dict_get (stream->metadata, "rotate", 0, 0);
-		_rotation = 0;
-
 		if (rotate_tag && *rotate_tag->value && strcmp(rotate_tag->value, "0")) {
 			char *tail;
 			_rotation = av_strtod (rotate_tag->value, &tail);
