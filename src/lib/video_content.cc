@@ -722,3 +722,12 @@ VideoContent::actual_crop () const
 	);
 }
 
+
+void
+VideoContent::rotate_size()
+{
+	if (_size) {
+		std::swap(_size->width, _size->height);
+	}
+}
+

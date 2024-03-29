@@ -220,6 +220,8 @@ public:
 	void modify_position (std::shared_ptr<const Film> film, dcpomatic::DCPTime& pos) const;
 	void modify_trim_start (dcpomatic::ContentTime& pos) const;
 
+	void rotate_size();
+
 	static std::shared_ptr<VideoContent> from_xml (Content* parent, cxml::ConstNodePtr node, int version, VideoRange video_range_hint);
 
 private:
