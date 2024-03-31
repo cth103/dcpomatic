@@ -21,8 +21,13 @@
 
 #include "lib/content.h"
 #include "lib/content_factory.h"
+#include "lib/content_text.h"
+#include "lib/dcpomatic_time.h"
 #include "lib/film.h"
+#include "lib/ffmpeg_content.h"
+#include "lib/ffmpeg_decoder.h"
 #include "lib/text_content.h"
+#include "lib/text_decoder.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
@@ -31,6 +36,9 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
+
+
+using std::dynamic_pointer_cast;
 
 
 BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
@@ -70,5 +78,68 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 	}
 
 	cl.run();
+}
+
+
+BOOST_AUTO_TEST_CASE(dvb_subtitles_replace_the_last)
+{
+	/* roh.mkv contains subtitles that come out of FFmpeg with incorrect stop times (30s
+	 * after the start, which seems to be some kind of DVB "standard" timeout).
+	 * Between actual subtitles it contains blanks that are apparently supposed to clear
+	 * the previous subtitle.  Make sure that happens.
+	 */
+	auto content = content_factory(TestPaths::private_data() / "roh.mkv");
+	BOOST_REQUIRE(!content.empty());
+	auto film = new_test_film2("dvb_subtitles_replace_the_last", { content[0] });
+
+	FFmpegDecoder decoder(film, dynamic_pointer_cast<FFmpegContent>(content[0]), false);
+	BOOST_REQUIRE(!decoder.text.empty());
+
+	struct Event {
+		std::string type;
+		dcpomatic::ContentTime time;
+
+		bool operator==(Event const& other) const {
+			return type == other.type && time == other.time;
+		}
+	};
+
+	std::vector<Event> events;
+
+	auto start = [&events](ContentBitmapText text) {
+		events.push_back({"start", text.from()});
+	};
+
+	auto stop = [&events](dcpomatic::ContentTime time) {
+		if (!events.empty() && events.back().type == "stop") {
+			/* We'll get a bad (too-late) stop time, then the correct one
+			 * when the "clearing" subtitle arrives.
+			 */
+			events.pop_back();
+		}
+		events.push_back({"stop", time});
+	};
+
+	decoder.text.front()->BitmapStart.connect(start);
+	decoder.text.front()->Stop.connect(stop);
+
+	while (!decoder.pass()) {}
+
+	using dcpomatic::ContentTime;
+
+	std::vector<Event> correct = {
+		{ "start", ContentTime(439872) },  // 4.582000s     actual subtitle #1
+		{ "stop",  ContentTime(998400) },  // 10.400000s    stop caused by incoming blank
+		{ "start", ContentTime(998400) },  // 10.400000s    blank
+		{ "stop",  ContentTime(1141248) }, // 11.888000s    stop caused by incoming subtitle #2
+		{ "start", ContentTime(1141248) }, // 11.888000s    subtitle #2
+		{ "stop",  ContentTime(1455936) }, // 15.166000s    ...
+		{ "start", ContentTime(1455936) }, // 15.166000s
+		{ "stop",  ContentTime(1626816) }, // 16.946000s
+		{ "start", ContentTime(1626816) }, // 16.946000s
+	};
+
+	BOOST_REQUIRE(events.size() > correct.size());
+	BOOST_CHECK(std::vector<Event>(events.begin(), events.begin() + correct.size()) == correct);
 }
 
