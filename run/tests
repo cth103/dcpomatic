@@ -9,56 +9,56 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $DIR/environment
 
 if [ "$1" == "--check" ]; then
-	shift 1
-	check=1
+    shift 1
+    check=1
 else
-	check=0
+    check=0
 fi
 
 if [ "$(uname)" == "Linux" ]; then 
-  rm -f build/test/dcpomatic2_openssl
-  # This must be our patched openssl or tests will fail
-  if [ ! -f build/test/dcpomatic2_openssl ]; then 
-    ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
-  fi
-  export DCPOMATIC_TEST_TOOLS_PATH=/opt/asdcplib/bin
-  if [ -f /src/backports/dcp_inspect ]; then
-    export DCPOMATIC_DCP_INSPECT=/src/backports/dcp_inspect
-  fi
-  set +e
-  python3 -m clairmeta.cli --help > /dev/null 2>&1
-  if [ "$?" == "0" ]; then
-    export DCPOMATIC_CLAIRMETA=1
-  fi
-  set -e
+    rm -f build/test/dcpomatic2_openssl
+    # This must be our patched openssl or tests will fail
+    if [ ! -f build/test/dcpomatic2_openssl ]; then
+        ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
+    fi
+    export DCPOMATIC_TEST_TOOLS_PATH=/opt/asdcplib/bin
+    if [ -f /src/backports/dcp_inspect ]; then
+        export DCPOMATIC_DCP_INSPECT=/src/backports/dcp_inspect
+    fi
+    set +e
+    python3 -m clairmeta.cli --help > /dev/null 2>&1
+    if [ "$?" == "0" ]; then
+        export DCPOMATIC_CLAIRMETA=1
+    fi
+    set -e
 fi
 
 if [ "$(uname)" == "Darwin" ]; then
-  resources=build/Resources
-  rm -rf $resources
-  mkdir -p $resources
-  cp fonts/*.ttf $resources
-  cp -r ../libdcp/tags $resources
-  cp -r ../libdcp/xsd $resources
-  cp ../libdcp/ratings $resources
-  rm -f build/test/openssl
-  ln -s ../../../openssl/apps/openssl build/test/openssl
-  # We need to find ffcmp in here
-  export PATH=$PATH:/Users/ci/workspace/bin
+    resources=build/Resources
+    rm -rf $resources
+    mkdir -p $resources
+    cp fonts/*.ttf $resources
+    cp -r ../libdcp/tags $resources
+    cp -r ../libdcp/xsd $resources
+    cp ../libdcp/ratings $resources
+    rm -f build/test/openssl
+    ln -s ../../../openssl/apps/openssl build/test/openssl
+    # We need to find ffcmp in here
+    export PATH=$PATH:/Users/ci/workspace/bin
 fi
 
 if [ "$check" == "1" ]; then
-	if [ "$DCPOMATIC_TEST_PRIVATE" == "" ]; then
-		pushd ../dcpomatic-test-private
-	else
-		pushd $DCPOMATIC_TEST_PRIVATE
-	fi
-	current=$(git rev-parse HEAD)
-	if [ "$current" != "$PRIVATE_GIT" ]; then
-		echo "Unexpected dcpomatic-test-private version"
-		exit 1
-	fi
-	popd
+    if [ "$DCPOMATIC_TEST_PRIVATE" == "" ]; then
+        pushd ../dcpomatic-test-private
+    else
+        pushd $DCPOMATIC_TEST_PRIVATE
+    fi
+    current=$(git rev-parse HEAD)
+    if [ "$current" != "$PRIVATE_GIT" ]; then
+        echo "Unexpected dcpomatic-test-private version"
+        exit 1
+    fi
+    popd
 fi
 
 if [ "$1" == "--debug" ]; then
