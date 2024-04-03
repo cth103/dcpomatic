@@ -459,6 +459,7 @@ DCPPanel::film_changed(FilmProperty p)
 	case FilmProperty::VIDEO_ENCODING:
 		set_standard();
 		setup_container();
+		setup_sensitivity();
 		break;
 	case FilmProperty::LIMIT_TO_SMPTE_BV20:
 		set_standard();
@@ -653,6 +654,8 @@ DCPPanel::set_general_sensitivity (bool s)
 void
 DCPPanel::setup_sensitivity ()
 {
+	auto const mpeg2 = _film && _film->video_encoding() == VideoEncoding::MPEG2;
+
 	_name->Enable                   (_generally_sensitive);
 	_use_isdcf_name->Enable         (_generally_sensitive);
 	_dcp_content_type->Enable       (_generally_sensitive);
@@ -669,7 +672,7 @@ DCPPanel::setup_sensitivity ()
 	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_audio_processor->Enable        (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_video_bit_rate->Enable         (_generally_sensitive && _film && !_film->references_dcp_video());
-	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video());
+	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !mpeg2);
 	_best_frame_rate->Enable (
 		_generally_sensitive &&
 		_film &&
@@ -677,8 +680,8 @@ DCPPanel::setup_sensitivity ()
 		!_film->references_dcp_video() &&
 		!_film->contains_atmos_content()
 		);
-	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video());
-	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video());
+	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video() && !mpeg2);
+	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video() && !mpeg2);
 
 	_standard->Enable (
 		_generally_sensitive &&
@@ -769,6 +772,8 @@ DCPPanel::config_changed (Config::Property p)
 		}
 	} else if (p == Config::ISDCF_NAME_PART_LENGTH) {
 		setup_dcp_name();
+	} else if (p == Config::ALLOW_ANY_CONTAINER) {
+		setup_container();
 	}
 }
 
