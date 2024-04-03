@@ -204,9 +204,9 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 {
 	add_label_to_sizer(sizer, panel, _("Territory type"), true, 0, wxALIGN_CENTER_VERTICAL);
 	_territory_type = new Choice(panel);
-	_territory_type->add(_("Specific"), wx_to_std(territory_type_to_string(TerritoryType::SPECIFIC)));
-	_territory_type->add(_("International texted"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTED)));
-	_territory_type->add(_("International textless"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTLESS)));
+	_territory_type->add_entry(_("Specific"), wx_to_std(territory_type_to_string(TerritoryType::SPECIFIC)));
+	_territory_type->add_entry(_("International texted"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTED)));
+	_territory_type->add_entry(_("International textless"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTLESS)));
 	sizer->Add(_territory_type);
 
 	_enable_release_territory = new CheckBox(panel, _("Release territory"));
@@ -330,8 +330,8 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 		sizer->Add (s, 1, wxEXPAND);
 	}
 
-	_luminance_unit->add(_("candela per m²"));
-	_luminance_unit->add(_("foot lambert"));
+	_luminance_unit->add_entry(_("candela per m²"));
+	_luminance_unit->add_entry(_("foot lambert"));
 }
 
 

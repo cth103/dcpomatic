@@ -147,8 +147,8 @@ private:
 
 		add_update_controls (table, r);
 
-		_default_add_file_location->add(_("Same place as last time"));
-		_default_add_file_location->add(_("Same place as project"));
+		_default_add_file_location->add_entry(_("Same place as last time"));
+		_default_add_file_location->add_entry(_("Same place as project"));
 		_default_add_file_location->bind(&FullGeneralPage::default_add_file_location_changed, this);
 
 		_config_file->Bind  (wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::config_file_changed,  this));

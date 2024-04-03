@@ -32,10 +32,10 @@ class Choice : public wxChoice
 public:
 	Choice(wxWindow* parent);
 
-	void add(wxString const& entry);
-	void add(wxString const& entry, wxClientData* data);
-	void add(wxString const& entry, wxString const& data);
-	void add(std::string const& entry);
+	void add_entry(wxString const& entry);
+	void add_entry(wxString const& entry, wxClientData* data);
+	void add_entry(wxString const& entry, wxString const& data);
+	void add_entry(std::string const& entry);
 	void set(int index);
 	void set_by_data(wxString const& data);
 	boost::optional<int> get() const;

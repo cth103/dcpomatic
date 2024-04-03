@@ -131,7 +131,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_reels->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::reels_clicked, this));
 
 	for (auto i: DCPContentType::all()) {
-		_dcp_content_type->add(i->pretty_name());
+		_dcp_content_type->add_entry(i->pretty_name());
 	}
 
 	add_standards();
@@ -146,12 +146,12 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 void
 DCPPanel::add_standards()
 {
-	_standard->add(_("SMPTE"), N_("smpte"));
+	_standard->add_entry(_("SMPTE"), N_("smpte"));
 	if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
-		_standard->add(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
+		_standard->add_entry(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
 	}
-	_standard->add(_("Interop"), N_("interop"));
-	_standard->add(_("MPEG2 Interop"), N_("mpeg2-interop"));
+	_standard->add_entry(_("Interop"), N_("interop"));
+	_standard->add_entry(_("MPEG2 Interop"), N_("mpeg2-interop"));
 	_sizer->Layout();
 }
 
@@ -827,14 +827,14 @@ DCPPanel::make_video_panel ()
 	}
 
 	for (auto i: Config::instance()->allowed_dcp_frame_rates()) {
-		_frame_rate_choice->add(boost::lexical_cast<string>(i));
+		_frame_rate_choice->add_entry(boost::lexical_cast<string>(i));
 	}
 
 	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate() / 1000000);
 	_frame_rate_spin->SetRange (1, 480);
 
-	_resolution->add(_("2K"));
-	_resolution->add(_("4K"));
+	_resolution->add_entry(_("2K"));
+	_resolution->add_entry(_("4K"));
 
 	add_video_panel_to_grid ();
 	setup_frame_rate_widget();
@@ -1024,9 +1024,9 @@ DCPPanel::show_audio_clicked ()
 void
 DCPPanel::add_audio_processors ()
 {
-	_audio_processor->add(_("None"), new wxStringClientData(N_("none")));
+	_audio_processor->add_entry(_("None"), new wxStringClientData(N_("none")));
 	for (auto ap: AudioProcessor::visible()) {
-		_audio_processor->add(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
+		_audio_processor->add_entry(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}
 	_audio_panel_sizer->Layout();
 }
