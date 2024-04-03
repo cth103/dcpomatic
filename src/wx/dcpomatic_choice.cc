@@ -83,6 +83,18 @@ Choice::add_entry(wxString const& entry, wxString const& data)
 
 
 void
+Choice::set_entries(wxArrayString const& entries)
+{
+	if (GetStrings() == entries) {
+		return;
+	}
+
+	Clear();
+	Set(entries);
+}
+
+
+void
 Choice::set(int index)
 {
 	SetSelection(index);
