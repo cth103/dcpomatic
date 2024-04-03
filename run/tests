@@ -17,6 +17,7 @@ fi
 
 if [ "$(uname)" == "Linux" ]; then 
     rm -f build/test/dcpomatic2_openssl
+    mkdir -p build/test
     # This must be our patched openssl or tests will fail
     if [ ! -f build/test/dcpomatic2_openssl ]; then
         ln -s ../../../openssl/apps/openssl build/test/dcpomatic2_openssl
