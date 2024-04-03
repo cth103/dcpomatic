@@ -1559,13 +1559,7 @@ private:
 
 		_allow_any_container = new CheckBox(_panel, _("Allow full-frame and non-standard container ratios"));
 		table->Add(_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		auto restart = new StaticText(_panel, variant::wx::insert_dcpomatic(_("(restart %s to see all ratios)")));
-		auto font = restart->GetFont();
-		font.SetStyle(wxFONTSTYLE_ITALIC);
-		font.SetPointSize(font.GetPointSize() - 1);
-		restart->SetFont(font);
-		table->Add(restart, 1, wxALIGN_CENTRE_VERTICAL | wxBOTTOM, DCPOMATIC_CHECKBOX_BOTTOM_PAD);
-		restart->SetFont(font);
+		table->AddSpacer(0);
 
 		checkbox(_("Allow creation of DCPs with 96kHz audio"), _allow_96khz_audio);
 		checkbox(_("Allow mapping to all audio channels"), _use_all_audio_channels);

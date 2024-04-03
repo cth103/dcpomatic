@@ -458,6 +458,7 @@ DCPPanel::film_changed(FilmProperty p)
 		break;
 	case FilmProperty::VIDEO_ENCODING:
 		set_standard();
+		setup_container();
 		break;
 	case FilmProperty::LIMIT_TO_SMPTE_BV20:
 		set_standard();
@@ -540,24 +541,28 @@ DCPPanel::film_content_changed (int property)
 void
 DCPPanel::setup_container ()
 {
-	int n = 0;
-	auto ratios = Ratio::containers ();
-	auto i = ratios.begin ();
-	while (i != ratios.end() && *i != _film->container()) {
-		++i;
-		++n;
+	auto ratios = Ratio::containers();
+	if (std::find(ratios.begin(), ratios.end(), _film->container()) == ratios.end()) {
+		ratios.push_back(_film->container());
 	}
 
-	if (i == ratios.end()) {
-		checked_set (_container, -1);
-		checked_set (_container_size, wxT(""));
-	} else {
-		checked_set (_container, n);
-		auto const size = fit_ratio_within (_film->container()->ratio(), _film->full_frame ());
-		checked_set (_container_size, wxString::Format("%dx%d", size.width, size.height));
+	wxArrayString new_ratios;
+	for (auto ratio: ratios) {
+		new_ratios.Add(std_to_wx(ratio->container_nickname()));
 	}
+
+	_container->set_entries(new_ratios);
+
+	auto iter = std::find_if(ratios.begin(), ratios.end(), [this](Ratio const* ratio) { return ratio == _film->container(); });
+	DCPOMATIC_ASSERT(iter != ratios.end());
+
+	checked_set(_container, iter - ratios.begin());
+	auto const size = fit_ratio_within(_film->container()->ratio(), _film->full_frame ());
+	checked_set(_container_size, wxString::Format("%dx%d", size.width, size.height));
 
 	setup_dcp_name ();
+
+	_video_grid->Layout();
 }
 
 
@@ -821,10 +826,6 @@ DCPPanel::make_video_panel ()
 	_resolution->Bind        (wxEVT_CHOICE,   boost::bind(&DCPPanel::resolution_changed, this));
 	_three_d->bind(&DCPPanel::three_d_changed, this);
 	_reencode_j2k->bind(&DCPPanel::reencode_j2k_changed, this);
-
-	for (auto i: Ratio::containers()) {
-		_container->add(i->container_nickname());
-	}
 
 	for (auto i: Config::instance()->allowed_dcp_frame_rates()) {
 		_frame_rate_choice->add_entry(boost::lexical_cast<string>(i));

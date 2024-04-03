@@ -97,6 +97,7 @@ public:
 		AUTO_CROP_THRESHOLD,
 		ALLOW_SMPTE_BV20,
 		ISDCF_NAME_PART_LENGTH,
+		ALLOW_ANY_CONTAINER,
 #ifdef DCPOMATIC_GROK
 		GROK,
 #endif
@@ -742,7 +743,7 @@ public:
 	}
 
 	void set_allow_any_container (bool a) {
-		maybe_set (_allow_any_container, a);
+		maybe_set(_allow_any_container, a, ALLOW_ANY_CONTAINER);
 	}
 
 	void set_allow_96hhz_audio (bool a) {
