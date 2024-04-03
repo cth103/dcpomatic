@@ -1232,6 +1232,7 @@ Film::set_video_encoding(VideoEncoding encoding)
 {
 	FilmChangeSignaller ch(this, FilmProperty::VIDEO_ENCODING);
 	_video_encoding = encoding;
+	check_settings_consistency();
 }
 
 
@@ -1659,6 +1660,22 @@ Film::check_settings_consistency ()
 			boundaries.erase(too_late, boundaries.end());
 			set_custom_reel_boundaries(boundaries);
 		}
+	}
+
+	auto const hd = Ratio::from_id("178");
+
+	if (video_encoding() == VideoEncoding::MPEG2) {
+		if (container() != hd) {
+			set_container(hd);
+			Message(_("DCP-o-matic had to set your container to 1920x1080 as it's the only one that can be used with MPEG2 encoding."));
+		}
+		if (three_d()) {
+			set_three_d(false);
+			Message(_("DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 encoding."));
+		}
+	} else if (container() == hd && !Config::instance()->allow_any_container()) {
+		set_container(Ratio::from_id("185"));
+		Message(_("DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 and that is not a standard ratio with JPEG2000 encoding."));
 	}
 }
 
