@@ -74,7 +74,7 @@ private:
 	void check_upmixers ();
 	void check_incorrect_container ();
 	void check_unusual_container ();
-	void check_high_j2k_bandwidth ();
+	void check_high_video_bit_rate();
 	void check_frame_rate ();
 	void check_4k_3d ();
 	void check_speed_up ();

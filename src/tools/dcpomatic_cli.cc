@@ -94,7 +94,7 @@ print_dump (shared_ptr<Film> film)
 {
 	cout << film->dcp_name (true) << "\n"
 	     << film->container()->container_nickname() << " at " << ((film->resolution() == Resolution::TWO_K) ? "2K" : "4K") << "\n"
-	     << (film->j2k_bandwidth() / 1000000) << "Mbit/s" << "\n"
+	     << (film->video_bit_rate() / 1000000) << "Mbit/s" << "\n"
 	     << "Duration " << (film->length().timecode(film->video_frame_rate())) << "\n"
 	     << "Output " << film->video_frame_rate() << "fps " << (film->three_d() ? "3D" : "2D") << " " << (film->audio_frame_rate() / 1000) << "kHz\n"
 	     << (film->interop() ? "Inter-Op" : "SMPTE") << " " << (film->encrypted() ? "encrypted" : "unencrypted") << "\n";

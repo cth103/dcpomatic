@@ -108,7 +108,7 @@ Config::set_defaults ()
 	_default_still_length = 10;
 	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
 	_default_dcp_audio_channels = 8;
-	_default_j2k_bandwidth = 150000000;
+	_default_video_bit_rate = 150000000;
 	_default_audio_delay = 0;
 	_default_interop = false;
 	_default_metadata.clear ();
@@ -127,7 +127,7 @@ Config::set_defaults ()
 	_notification_bcc = "";
 	_check_for_updates = false;
 	_check_for_test_updates = false;
-	_maximum_j2k_bandwidth = 250000000;
+	_maximum_video_bit_rate = 250000000;
 	_log_types = LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR | LogEntry::TYPE_DISK;
 	_analyse_ebur128 = true;
 	_automatic_audio_analysis = false;
@@ -375,7 +375,11 @@ try
 	_dcp_j2k_comment = f.optional_string_child("DCPJ2KComment").get_value_or("");
 
 	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
-	_default_j2k_bandwidth = f.optional_number_child<int>("DefaultJ2KBandwidth").get_value_or (200000000);
+	if (auto j2k = f.optional_number_child<int>("DefaultJ2KBandwidth")) {
+		_default_video_bit_rate = *j2k;
+	} else {
+		_default_video_bit_rate = f.optional_number_child<int64_t>("DefaultVideoBitRate").get_value_or(200000000);
+	}
 	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
 	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
 
@@ -450,7 +454,11 @@ try
 	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
 	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
 
-	_maximum_j2k_bandwidth = f.optional_number_child<int> ("MaximumJ2KBandwidth").get_value_or (250000000);
+	if (auto j2k = f.optional_number_child<int>("MaximumJ2KBandwidth")) {
+		_maximum_video_bit_rate = *j2k;
+	} else {
+		_maximum_video_bit_rate = f.optional_number_child<int64_t>("MaximumVideoBitRate").get_value_or(250000000);
+	}
 	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate").get_value_or (false);
 	_allow_any_container = f.optional_bool_child ("AllowAnyContainer").get_value_or (false);
 	_allow_96khz_audio = f.optional_bool_child("Allow96kHzAudio").get_value_or(false);
@@ -807,8 +815,8 @@ Config::write_config () const
 
 	/* [XML] DefaultStillLength Default length (in seconds) for still images in new films. */
 	cxml::add_text_child(root, "DefaultStillLength", raw_convert<string>(_default_still_length));
-	/* [XML] DefaultJ2KBandwidth Default bitrate (in bits per second) for JPEG2000 data in new films. */
-	cxml::add_text_child(root, "DefaultJ2KBandwidth", raw_convert<string>(_default_j2k_bandwidth));
+	/* [XML] DefaultVideoBitRate Default bitrate (in bits per second) for JPEG2000 or MPEG2 data in new films. */
+	cxml::add_text_child(root, "DefaultVideoBitRate", raw_convert<string>(_default_video_bit_rate));
 	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
 	cxml::add_text_child(root, "DefaultAudioDelay", raw_convert<string>(_default_audio_delay));
 	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */
@@ -888,8 +896,8 @@ Config::write_config () const
 	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request. */
 	cxml::add_text_child(root, "CheckForTestUpdates", _check_for_test_updates ? "1" : "0");
 
-	/* [XML] MaximumJ2KBandwidth Maximum J2K bandwidth (in bits per second) that can be specified in the GUI. */
-	cxml::add_text_child(root, "MaximumJ2KBandwidth", raw_convert<string>(_maximum_j2k_bandwidth));
+	/* [XML] MaximumVideoBitRate Maximum video bit rate (in bits per second) that can be specified in the GUI. */
+	cxml::add_text_child(root, "MaximumVideoBitRate", raw_convert<string>(_maximum_video_bit_rate));
 	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates. */
 	cxml::add_text_child(root, "AllowAnyDCPFrameRate", _allow_any_dcp_frame_rate ? "1" : "0");
 	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to DCI Flat/Scope */

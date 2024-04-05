@@ -179,11 +179,11 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK_EQUAL(cc._fourk, true);
 	BOOST_CHECK (!cc.error);
 
-	cc = run ("dcpomatic2_create --j2k-bandwidth 120 foo.mp4");
+	cc = run ("dcpomatic2_create --video-bit-rate 120 foo.mp4");
 	BOOST_REQUIRE_EQUAL (cc.content.size(), 1U);
 	BOOST_CHECK_EQUAL (cc.content[0].path, "foo.mp4");
-	BOOST_REQUIRE(cc._j2k_bandwidth);
-	BOOST_CHECK_EQUAL(*cc._j2k_bandwidth, 120000000);
+	BOOST_REQUIRE(cc._video_bit_rate);
+	BOOST_CHECK_EQUAL(*cc._video_bit_rate, 120000000);
 	BOOST_CHECK (!cc.error);
 
 	cc = run ("dcpomatic2_create --channel L fred.wav --channel R jim.wav sheila.wav");

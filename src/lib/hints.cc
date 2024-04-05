@@ -173,10 +173,10 @@ Hints::check_unusual_container ()
 
 
 void
-Hints::check_high_j2k_bandwidth ()
+Hints::check_high_video_bit_rate()
 {
-	if (film()->j2k_bandwidth() >= 245000000) {
-		hint (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the JPEG2000 bandwidth down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
+	if (film()->video_bit_rate() >= 245000000) {
+		hint (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the video bit rate down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 	}
 }
 
@@ -468,7 +468,7 @@ try
 	check_upmixers ();
 	check_incorrect_container ();
 	check_unusual_container ();
-	check_high_j2k_bandwidth ();
+	check_high_video_bit_rate();
 	check_frame_rate ();
 	check_4k_3d ();
 	check_speed_up ();

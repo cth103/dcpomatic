@@ -310,7 +310,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 				pv,
 				position,
 				_film->video_frame_rate(),
-				_film->j2k_bandwidth(),
+				_film->video_bit_rate(),
 				_film->resolution()
 				);
 		_queue.push_back (dcpv);

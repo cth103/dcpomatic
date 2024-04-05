@@ -74,15 +74,15 @@ using namespace boost::placeholders;
 /** Construct a DCP video frame.
  *  @param frame Input frame.
  *  @param index Index of the frame within the DCP.
- *  @param bw J2K bandwidth to use (see Config::j2k_bandwidth ())
+ *  @param bit_rate Video bit rate to use.
  */
 DCPVideo::DCPVideo (
-	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int bw, Resolution r
+	shared_ptr<const PlayerVideo> frame, int index, int dcp_fps, int64_t bit_rate, Resolution r
 	)
 	: _frame (frame)
 	, _index (index)
 	, _frames_per_second (dcp_fps)
-	, _j2k_bandwidth (bw)
+	, _video_bit_rate(bit_rate)
 	, _resolution (r)
 {
 
@@ -93,7 +93,7 @@ DCPVideo::DCPVideo (shared_ptr<const PlayerVideo> frame, shared_ptr<const cxml::
 {
 	_index = node->number_child<int> ("Index");
 	_frames_per_second = node->number_child<int> ("FramesPerSecond");
-	_j2k_bandwidth = node->number_child<int> ("J2KBandwidth");
+	_video_bit_rate = node->number_child<int64_t>("VideoBitRate");
 	_resolution = Resolution (node->optional_number_child<int>("Resolution").get_value_or(static_cast<int>(Resolution::TWO_K)));
 }
 
@@ -160,7 +160,7 @@ DCPVideo::encode_locally () const
 	while (true) {
 		enc = dcp::compress_j2k (
 			xyz,
-			_j2k_bandwidth,
+			_video_bit_rate,
 			_frames_per_second,
 			_frame->eyes() == Eyes::LEFT || _frame->eyes() == Eyes::RIGHT,
 			_resolution == Resolution::FOUR_K,
@@ -280,7 +280,7 @@ DCPVideo::add_metadata (xmlpp::Element* el) const
 {
 	cxml::add_text_child(el, "Index", raw_convert<string>(_index));
 	cxml::add_text_child(el, "FramesPerSecond", raw_convert<string>(_frames_per_second));
-	cxml::add_text_child(el, "J2KBandwidth", raw_convert<string>(_j2k_bandwidth));
+	cxml::add_text_child(el, "VideoBitRate", raw_convert<string>(_video_bit_rate));
 	cxml::add_text_child(el, "Resolution", raw_convert<string>(int(_resolution)));
 	_frame->add_metadata (el);
 }
@@ -298,7 +298,7 @@ bool
 DCPVideo::same (shared_ptr<const DCPVideo> other) const
 {
 	if (_frames_per_second != other->_frames_per_second ||
-	    _j2k_bandwidth != other->_j2k_bandwidth ||
+	    _video_bit_rate != other->_video_bit_rate ||
 	    _resolution != other->_resolution) {
 		return false;
 	}

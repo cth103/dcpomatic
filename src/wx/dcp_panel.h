@@ -71,7 +71,7 @@ private:
 	void copy_isdcf_name_button_clicked ();
 	void container_changed ();
 	void dcp_content_type_changed ();
-	void j2k_bandwidth_changed ();
+	void video_bit_rate_changed();
 	void frame_rate_choice_changed ();
 	void frame_rate_spin_changed ();
 	void best_frame_rate_clicked ();
@@ -129,9 +129,9 @@ private:
 	Choice* _container;
 	wxStaticText* _container_size;
 	wxButton* _copy_isdcf_name_button;
-	wxStaticText* _j2k_bandwidth_label;
+	wxStaticText* _video_bit_rate_label;
 	wxStaticText* _mbits_label;
- 	wxSpinCtrl* _j2k_bandwidth;
+ 	wxSpinCtrl* _video_bit_rate;
 	wxStaticText* _dcp_content_type_label;
 	Choice* _dcp_content_type;
 	wxStaticText* _frame_rate_label;

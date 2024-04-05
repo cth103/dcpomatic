@@ -250,8 +250,8 @@ public:
 		return _key;
 	}
 
-	int j2k_bandwidth () const {
-		return _j2k_bandwidth;
+	int video_bit_rate() const {
+		return _video_bit_rate;
 	}
 
 	/** @return The frame rate of the DCP */
@@ -401,7 +401,7 @@ public:
 	void set_container (Ratio const *, bool user_explicit = true);
 	void set_resolution (Resolution, bool user_explicit = true);
 	void set_encrypted (bool);
-	void set_j2k_bandwidth (int);
+	void set_video_bit_rate(int64_t);
 	void set_video_frame_rate (int rate, bool user_explicit = false);
 	void set_audio_channels (int);
 	void set_three_d (bool);
@@ -515,8 +515,8 @@ private:
 	 *  re-start picture MXF encodes.
 	 */
 	std::string _context_id;
-	/** bandwidth for J2K files in bits per second */
-	int _j2k_bandwidth;
+	/** bit rate for encoding video using J2K or MPEG2 in bits per second */
+	int64_t _video_bit_rate;
 	/** Frames per second to run our DCP at */
 	int _video_frame_rate;
 	/** The date that we should use in a ISDCF name */

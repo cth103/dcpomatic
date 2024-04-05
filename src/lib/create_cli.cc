@@ -133,7 +133,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	optional<string> standard_string;
 	int dcp_frame_rate_int = 0;
 	string template_name_string;
-	int j2k_bandwidth_int = 0;
+	int64_t video_bit_rate_int = 0;
 	auto next_frame_type = VideoFrameType::TWO_D;
 	optional<dcp::Channel> channel;
 	optional<float> gain;
@@ -206,7 +206,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "",   "--standard",         &claimed, &error, &standard_string, string_to_string);
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);
-		argument_option(i, argc, argv, "",   "--j2k-bandwidth",    &claimed, &error, &j2k_bandwidth_int);
+		argument_option(i, argc, argv, "",   "--video-bit-rate",   &claimed, &error, &video_bit_rate_int);
 
 		std::function<optional<dcp::Channel> (string)> convert_channel = [](string channel) -> optional<dcp::Channel>{
 			if (channel == "L") {
@@ -272,8 +272,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		dcp_frame_rate = dcp_frame_rate_int;
 	}
 
-	if (j2k_bandwidth_int) {
-		_j2k_bandwidth = j2k_bandwidth_int * 1000000;
+	if (video_bit_rate_int) {
+		_video_bit_rate = video_bit_rate_int * 1000000;
 	}
 
 	if (dcp_content_type_string) {
@@ -320,8 +320,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		_name = content[0].path.filename().string();
 	}
 
-	if (_j2k_bandwidth && (*_j2k_bandwidth < 10000000 || *_j2k_bandwidth > Config::instance()->maximum_j2k_bandwidth())) {
-		error = String::compose("%1: j2k-bandwidth must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_j2k_bandwidth() / 1000000));
+	if (_video_bit_rate && (*_video_bit_rate < 10000000 || *_video_bit_rate > Config::instance()->maximum_video_bit_rate())) {
+		error = String::compose("%1: video-bit-rate must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_video_bit_rate() / 1000000));
 		return;
 	}
 }
@@ -372,8 +372,8 @@ CreateCLI::make_film() const
 	if (_fourk) {
 		film->set_resolution(Resolution::FOUR_K);
 	}
-	if (_j2k_bandwidth) {
-		film->set_j2k_bandwidth(*_j2k_bandwidth);
+	if (_video_bit_rate) {
+		film->set_video_bit_rate(*_video_bit_rate);
 	}
 
 	int channels = 6;

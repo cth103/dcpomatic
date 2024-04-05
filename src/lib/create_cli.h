@@ -72,7 +72,7 @@ private:
 	bool _no_use_isdcf_name = false;
 	bool _twok = false;
 	bool _fourk = false;
-	boost::optional<int> _j2k_bandwidth;
+	boost::optional<int64_t> _video_bit_rate;
 
 	static std::string _help;
 };

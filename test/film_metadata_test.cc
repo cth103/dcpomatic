@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (film_metadata_test)
 	film->set_name ("fred");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("SHR"));
 	film->set_container (Ratio::from_id ("185"));
-	film->set_j2k_bandwidth (200000000);
+	film->set_video_bit_rate(200000000);
 	film->set_interop (false);
 	film->set_chain (string(""));
 	film->set_distributor (string(""));
