@@ -175,7 +175,7 @@ Hints::check_unusual_container ()
 void
 Hints::check_high_video_bit_rate()
 {
-	if (film()->video_bit_rate() >= 245000000) {
+	if (film()->video_encoding() == VideoEncoding::JPEG2000 && film()->video_bit_rate(VideoEncoding::JPEG2000) >= 245000000) {
 		hint (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the video bit rate down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 	}
 }

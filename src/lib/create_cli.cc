@@ -320,8 +320,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		_name = content[0].path.filename().string();
 	}
 
-	if (_video_bit_rate && (*_video_bit_rate < 10000000 || *_video_bit_rate > Config::instance()->maximum_video_bit_rate())) {
-		error = String::compose("%1: video-bit-rate must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_video_bit_rate() / 1000000));
+	if (_video_bit_rate && (*_video_bit_rate < 10000000 || *_video_bit_rate > Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000))) {
+		error = String::compose("%1: video-bit-rate must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000) / 1000000));
 		return;
 	}
 }
@@ -373,7 +373,7 @@ CreateCLI::make_film() const
 		film->set_resolution(Resolution::FOUR_K);
 	}
 	if (_video_bit_rate) {
-		film->set_video_bit_rate(*_video_bit_rate);
+		film->set_video_bit_rate(VideoEncoding::JPEG2000, *_video_bit_rate);
 	}
 
 	int channels = 6;

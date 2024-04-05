@@ -34,6 +34,8 @@ video_encoding_to_string(VideoEncoding encoding)
 		return "jpeg2000";
 	case VideoEncoding::MPEG2:
 		return "mpeg2";
+	case VideoEncoding::COUNT:
+		DCPOMATIC_ASSERT(false);
 	}
 
 	DCPOMATIC_ASSERT(false);

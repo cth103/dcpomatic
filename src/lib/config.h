@@ -28,9 +28,11 @@
 
 
 #include "audio_mapping.h"
+#include "enum_indexed_vector.h"
 #include "export_config.h"
 #include "rough_duration.h"
 #include "state.h"
+#include "video_encoding.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
@@ -233,8 +235,8 @@ public:
 		return _dcp_j2k_comment;
 	}
 
-	int64_t default_video_bit_rate() const {
-		return _default_video_bit_rate;
+	int64_t default_video_bit_rate(VideoEncoding encoding) const {
+		return _default_video_bit_rate[encoding];
 	}
 
 	int default_audio_delay () const {
@@ -349,8 +351,8 @@ public:
 		return _check_for_test_updates;
 	}
 
-	int64_t maximum_video_bit_rate() const {
-		return _maximum_video_bit_rate;
+	int64_t maximum_video_bit_rate(VideoEncoding encoding) const {
+		return _maximum_video_bit_rate[encoding];
 	}
 
 	int log_types () const {
@@ -811,8 +813,8 @@ public:
 		maybe_set (_dcp_j2k_comment, c);
 	}
 
-	void set_default_video_bit_rate(int64_t b) {
-		maybe_set(_default_video_bit_rate, b);
+	void set_default_video_bit_rate(VideoEncoding encoding, int64_t b) {
+		maybe_set(_default_video_bit_rate[encoding], b);
 	}
 
 	void set_default_audio_delay (int d) {
@@ -934,8 +936,8 @@ public:
 		maybe_set (_check_for_test_updates, c);
 	}
 
-	void set_maximum_video_bit_rate(int64_t b) {
-		maybe_set(_maximum_video_bit_rate, b);
+	void set_maximum_video_bit_rate(VideoEncoding encoding, int64_t b) {
+		maybe_set(_maximum_video_bit_rate[encoding], b);
 	}
 
 	void set_log_types (int t) {
@@ -1381,7 +1383,7 @@ private:
 	std::string _dcp_product_name;
 	std::string _dcp_product_version;
 	std::string _dcp_j2k_comment;
-	int64_t _default_video_bit_rate;
+	EnumIndexedVector<int64_t, VideoEncoding> _default_video_bit_rate;
 	int _default_audio_delay;
 	bool _default_interop;
 	boost::optional<dcp::LanguageTag> _default_audio_language;
@@ -1419,7 +1421,7 @@ private:
 	bool _check_for_updates;
 	bool _check_for_test_updates;
 	/** maximum allowed video bit rate in bits per second */
-	int64_t _maximum_video_bit_rate;
+	EnumIndexedVector<int64_t, VideoEncoding> _maximum_video_bit_rate;
 	int _log_types;
 	bool _analyse_ebur128;
 	bool _automatic_audio_analysis;

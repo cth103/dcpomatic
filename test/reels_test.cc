@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 	BOOST_CHECK_EQUAL (r.back().from.get(), 288000);
 	BOOST_CHECK_EQUAL (r.back().to.get(), 288000 * 2);
 
-	film->set_video_bit_rate(100000000);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	film->set_reel_type (ReelType::BY_LENGTH);
 	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
 	film->set_reel_length (31253154);
@@ -310,7 +310,7 @@ BOOST_AUTO_TEST_CASE (reels_test6)
 	auto A = make_shared<FFmpegContent>("test/data/test2.mp4");
 	auto film = new_test_film2 ("reels_test6", {A});
 
-	film->set_video_bit_rate(100000000);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	film->set_reel_type (ReelType::BY_LENGTH);
 	/* This is just over 2.5s at 100Mbit/s; should correspond to 60 frames */
 	film->set_reel_length (31253154);

@@ -78,6 +78,8 @@ DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
 	case VideoEncoding::MPEG2:
 		_encoder.reset(new MPEG2Encoder(film, _writer));
 		break;
+	case VideoEncoding::COUNT:
+		DCPOMATIC_ASSERT(false);
 	}
 
 	_player_video_connection = _player.Video.connect(bind(&DCPFilmEncoder::video, this, _1, _2));

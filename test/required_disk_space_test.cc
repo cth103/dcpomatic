@@ -45,7 +45,7 @@ void check_within_n (int64_t a, int64_t b, int64_t n)
 BOOST_AUTO_TEST_CASE (required_disk_space_test)
 {
 	auto film = new_test_film ("required_disk_space_test");
-	film->set_video_bit_rate(100000000);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	film->set_audio_channels(8);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	auto content_a = content_factory("test/data/flat_blue.png")[0];

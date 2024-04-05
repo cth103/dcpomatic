@@ -19,16 +19,24 @@
 */
 
 
+#ifndef DCPOMATIC_VIDEO_ENCODING_H
+#define DCPOMATIC_VIDEO_ENCODING_H
+
+
 #include <string>
 
 
 enum class VideoEncoding
 {
 	JPEG2000,
-	MPEG2
+	MPEG2,
+	COUNT
 };
 
 
 std::string video_encoding_to_string(VideoEncoding encoding);
 VideoEncoding video_encoding_from_string(std::string const& encoding);
+
+
+#endif
 

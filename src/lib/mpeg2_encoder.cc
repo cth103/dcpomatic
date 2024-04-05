@@ -32,7 +32,7 @@ using std::shared_ptr;
 
 MPEG2Encoder::MPEG2Encoder(shared_ptr<const Film> film, Writer& writer)
 	: VideoEncoder(film, writer)
-	, _transcoder(film->frame_size(), film->video_frame_rate(), film->video_bit_rate())
+	, _transcoder(film->frame_size(), film->video_frame_rate(), film->video_bit_rate(VideoEncoding::MPEG2))
 {
 
 }

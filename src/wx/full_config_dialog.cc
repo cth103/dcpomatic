@@ -320,10 +320,19 @@ private:
 		table->Add (_dcp_audio_channels);
 
 		{
-			add_label_to_sizer (table, _panel, _("Default JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			add_label_to_sizer(table, _panel, _("Default JPEG2000 bit rate"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			auto s = new wxBoxSizer (wxHORIZONTAL);
-			_video_bit_rate = new wxSpinCtrl(_panel);
-			s->Add(_video_bit_rate);
+			_j2k_video_bit_rate = new wxSpinCtrl(_panel);
+			s->Add(_j2k_video_bit_rate);
+			add_label_to_sizer (s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			table->Add (s, 1);
+		}
+
+		{
+			add_label_to_sizer(table, _panel, _("Default MPEG2 bit rate"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			auto s = new wxBoxSizer (wxHORIZONTAL);
+			_mpeg2_video_bit_rate = new wxSpinCtrl(_panel);
+			s->Add(_mpeg2_video_bit_rate);
 			add_label_to_sizer (s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			table->Add (s, 1);
 		}
@@ -410,8 +419,10 @@ private:
 		_dcp_content_type->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::dcp_content_type_changed, this));
 		_dcp_audio_channels->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::dcp_audio_channels_changed, this));
 
-		_video_bit_rate->SetRange(50, 250);
-		_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&DefaultsPage::video_bit_rate_changed, this));
+		_j2k_video_bit_rate->SetRange(50, 250);
+		_j2k_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&DefaultsPage::j2k_video_bit_rate_changed, this));
+		_mpeg2_video_bit_rate->SetRange(1, 50);
+		_mpeg2_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&DefaultsPage::mpeg2_video_bit_rate_changed, this));
 
 		_audio_delay->SetRange (-1000, 1000);
 		_audio_delay->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::audio_delay_changed, this));
@@ -451,8 +462,10 @@ private:
 		_kdm_directory->SetPath (std_to_wx (config->default_kdm_directory_or (wx_to_std (wxStandardPaths::Get().GetDocumentsDir())).string ()));
 		_kdm_type->set (config->default_kdm_type());
 		checked_set (_use_isdcf_name_by_default, config->use_isdcf_name_by_default());
-		checked_set(_video_bit_rate, config->default_video_bit_rate() / 1000000);
-		_video_bit_rate->SetRange(50, config->maximum_video_bit_rate() / 1000000);
+		checked_set(_j2k_video_bit_rate, config->default_video_bit_rate(VideoEncoding::JPEG2000) / 1000000);
+		_j2k_video_bit_rate->SetRange(50, config->maximum_video_bit_rate(VideoEncoding::JPEG2000) / 1000000);
+		checked_set(_mpeg2_video_bit_rate, config->default_video_bit_rate(VideoEncoding::MPEG2) / 1000000);
+		_mpeg2_video_bit_rate->SetRange(1, config->maximum_video_bit_rate(VideoEncoding::MPEG2) / 1000000);
 		checked_set (_dcp_audio_channels, locale_convert<string> (config->default_dcp_audio_channels()));
 		checked_set (_audio_delay, config->default_audio_delay ());
 		checked_set (_standard, config->default_interop() ? 1 : 0);
@@ -527,9 +540,14 @@ private:
 		config->set_default_kdm_duration (RoughDuration(duration, unit));
 	}
 
-	void video_bit_rate_changed()
+	void j2k_video_bit_rate_changed()
 	{
-		Config::instance()->set_default_video_bit_rate(_video_bit_rate->GetValue() * 1000000);
+		Config::instance()->set_default_video_bit_rate(VideoEncoding::JPEG2000, _j2k_video_bit_rate->GetValue() * 1000000);
+	}
+
+	void mpeg2_video_bit_rate_changed()
+	{
+		Config::instance()->set_default_video_bit_rate(VideoEncoding::MPEG2, _mpeg2_video_bit_rate->GetValue() * 1000000);
 	}
 
 	void audio_delay_changed ()
@@ -634,7 +652,8 @@ private:
 		}
 	}
 
-	wxSpinCtrl* _video_bit_rate;
+	wxSpinCtrl* _j2k_video_bit_rate;
+	wxSpinCtrl* _mpeg2_video_bit_rate;
 	wxSpinCtrl* _audio_delay;
 	wxSpinCtrl* _still_length;
 #ifdef DCPOMATIC_USE_OWN_PICKER
@@ -1541,10 +1560,19 @@ private:
 		_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
 		{
-			add_label_to_sizer(table, _panel, _("Maximum JPEG2000 bandwidth"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			add_label_to_sizer(table, _panel, _("Maximum JPEG2000 bit rate"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 			auto s = new wxBoxSizer(wxHORIZONTAL);
-			_maximum_video_bit_rate = new wxSpinCtrl(_panel);
-			s->Add(_maximum_video_bit_rate, 1);
+			_maximum_j2k_video_bit_rate = new wxSpinCtrl(_panel);
+			s->Add(_maximum_j2k_video_bit_rate, 1);
+			add_label_to_sizer(s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxALIGN_CENTRE_VERTICAL);
+			table->Add(s, 1);
+		}
+
+		{
+			add_label_to_sizer(table, _panel, _("Maximum MPEG2 bit rate"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
+			auto s = new wxBoxSizer(wxHORIZONTAL);
+			_maximum_mpeg2_video_bit_rate = new wxSpinCtrl(_panel);
+			s->Add(_maximum_mpeg2_video_bit_rate, 1);
 			add_label_to_sizer(s, _panel, _("Mbit/s"), false, 0, wxLEFT | wxALIGN_CENTRE_VERTICAL);
 			table->Add(s, 1);
 		}
@@ -1573,8 +1601,10 @@ private:
 			table->Add(s, 1);
 		}
 
-		_maximum_video_bit_rate->SetRange(1, 1000);
-		_maximum_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_video_bit_rate_changed, this));
+		_maximum_j2k_video_bit_rate->SetRange(1, 1000);
+		_maximum_j2k_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_j2k_video_bit_rate_changed, this));
+		_maximum_mpeg2_video_bit_rate->SetRange(1, 100);
+		_maximum_mpeg2_video_bit_rate->Bind(wxEVT_SPINCTRL, boost::bind(&NonStandardPage::maximum_mpeg2_video_bit_rate_changed, this));
 		_allow_any_dcp_frame_rate->bind(&NonStandardPage::allow_any_dcp_frame_rate_changed, this);
 		_allow_any_container->bind(&NonStandardPage::allow_any_container_changed, this);
 		_allow_96khz_audio->bind(&NonStandardPage::allow_96khz_audio_changed, this);
@@ -1588,7 +1618,8 @@ private:
 	{
 		auto config = Config::instance();
 
-		checked_set(_maximum_video_bit_rate, config->maximum_video_bit_rate() / 1000000);
+		checked_set(_maximum_j2k_video_bit_rate, config->maximum_video_bit_rate(VideoEncoding::JPEG2000) / 1000000);
+		checked_set(_maximum_mpeg2_video_bit_rate, config->maximum_video_bit_rate(VideoEncoding::MPEG2) / 1000000);
 		checked_set(_allow_any_dcp_frame_rate, config->allow_any_dcp_frame_rate());
 		checked_set(_allow_any_container, config->allow_any_container());
 		checked_set(_allow_96khz_audio, config->allow_96khz_audio());
@@ -1597,9 +1628,14 @@ private:
 		checked_set(_isdcf_name_part_length, config->isdcf_name_part_length());
 	}
 
-	void maximum_video_bit_rate_changed()
+	void maximum_j2k_video_bit_rate_changed()
 	{
-		Config::instance()->set_maximum_video_bit_rate(_maximum_video_bit_rate->GetValue() * 1000000);
+		Config::instance()->set_maximum_video_bit_rate(VideoEncoding::JPEG2000, _maximum_j2k_video_bit_rate->GetValue() * 1000000);
+	}
+
+	void maximum_mpeg2_video_bit_rate_changed()
+	{
+		Config::instance()->set_maximum_video_bit_rate(VideoEncoding::MPEG2, _maximum_mpeg2_video_bit_rate->GetValue() * 1000000);
 	}
 
 	void allow_any_dcp_frame_rate_changed()
@@ -1632,7 +1668,8 @@ private:
 		Config::instance()->set_isdcf_name_part_length(_isdcf_name_part_length->GetValue());
 	}
 
-	wxSpinCtrl* _maximum_video_bit_rate = nullptr;
+	wxSpinCtrl* _maximum_j2k_video_bit_rate = nullptr;
+	wxSpinCtrl* _maximum_mpeg2_video_bit_rate = nullptr;
 	CheckBox* _allow_any_dcp_frame_rate = nullptr;
 	CheckBox* _allow_any_container = nullptr;
 	CheckBox* _allow_96khz_audio = nullptr;

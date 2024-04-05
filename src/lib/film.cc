@@ -163,7 +163,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _resolution (Resolution::TWO_K)
 	, _encrypted (false)
 	, _context_id (dcp::make_uuid ())
-	, _video_bit_rate(Config::instance()->default_video_bit_rate())
 	, _video_frame_rate (24)
 	, _audio_channels (Config::instance()->default_dcp_audio_channels ())
 	, _three_d (false)
@@ -201,6 +200,10 @@ Film::Film (optional<boost::filesystem::path> dir)
 	}
 	if (metadata.find("studio") != metadata.end()) {
 		_studio = metadata["studio"];
+	}
+
+	for (auto encoding: {VideoEncoding::JPEG2000, VideoEncoding::MPEG2}) {
+		_video_bit_rate[encoding] = Config::instance()->default_video_bit_rate(encoding);
 	}
 
 	_playlist_change_connection = _playlist->Change.connect (bind (&Film::playlist_change, this, _1));
@@ -241,7 +244,7 @@ Film::video_identifier () const
 		+ "_" + resolution_to_string (_resolution)
 		+ "_" + _playlist->video_identifier()
 		+ "_" + raw_convert<string>(_video_frame_rate)
-		+ "_" + raw_convert<string>(video_bit_rate());
+		+ "_" + raw_convert<string>(video_bit_rate(video_encoding()));
 
 	if (encrypted ()) {
 		/* This is insecure but hey, the key is in plaintext in metadata.xml */
@@ -401,7 +404,8 @@ Film::metadata (bool with_content_paths) const
 	}
 
 	cxml::add_text_child(root, "Resolution", resolution_to_string(_resolution));
-	cxml::add_text_child(root, "VideoBitRate", raw_convert<string>(_video_bit_rate));
+	cxml::add_text_child(root, "J2KVideoBitRate", raw_convert<string>(_video_bit_rate[VideoEncoding::JPEG2000]));
+	cxml::add_text_child(root, "MPEG2VideoBitRate", raw_convert<string>(_video_bit_rate[VideoEncoding::MPEG2]));
 	cxml::add_text_child(root, "VideoFrameRate", raw_convert<string>(_video_frame_rate));
 	cxml::add_text_child(root, "AudioFrameRate", raw_convert<string>(_audio_frame_rate));
 	cxml::add_text_child(root, "ISDCFDate", boost::gregorian::to_iso_string(_isdcf_date));
@@ -575,10 +579,11 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_resolution = string_to_resolution (f.string_child ("Resolution"));
 	if (auto j2k = f.optional_number_child<int>("J2KBandwidth")) {
-		_video_bit_rate = *j2k;
+		_video_bit_rate[VideoEncoding::JPEG2000] = *j2k;
 	} else {
-		_video_bit_rate = f.number_child<int64_t>("VideoBitRate");
+		_video_bit_rate[VideoEncoding::JPEG2000] = f.number_child<int64_t>("J2KVideoBitRate");
 	}
+	_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("MPEG2VideoBitRate").get_value_or(Config::instance()->default_video_bit_rate(VideoEncoding::MPEG2));
 	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
 	_audio_frame_rate = f.optional_number_child<int>("AudioFrameRate").get_value_or(48000);
 	_encrypted = f.bool_child ("Encrypted");
@@ -1181,10 +1186,10 @@ Film::set_resolution (Resolution r, bool explicit_user)
 
 
 void
-Film::set_video_bit_rate(int64_t bit_rate)
+Film::set_video_bit_rate(VideoEncoding encoding, int64_t bit_rate)
 {
 	FilmChangeSignaller ch(this, FilmProperty::VIDEO_BIT_RATE);
-	_video_bit_rate = bit_rate;
+	_video_bit_rate[encoding] = bit_rate;
 }
 
 /** @param f New frame rate.
@@ -1802,7 +1807,7 @@ Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::Local
 uint64_t
 Film::required_disk_space () const
 {
-	return _playlist->required_disk_space (shared_from_this(), video_bit_rate(), audio_channels(), audio_frame_rate());
+	return _playlist->required_disk_space (shared_from_this(), video_bit_rate(video_encoding()), audio_channels(), audio_frame_rate());
 }
 
 /** This method checks the disk that the Film is on and tries to decide whether or not
@@ -1934,7 +1939,7 @@ Film::reels () const
 		/* Integer-divide reel length by the size of one frame to give the number of frames per reel,
 		 * making sure we don't go less than 1s long.
 		 */
-		Frame const reel_in_frames = max(_reel_length / ((video_bit_rate() / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
+		Frame const reel_in_frames = max(_reel_length / ((video_bit_rate(video_encoding()) / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
 		while (current < len) {
 			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
 			periods.emplace_back(current, end);
@@ -1978,7 +1983,9 @@ Film::use_template (string name)
 	_dcp_content_type = _template_film->_dcp_content_type;
 	_container = _template_film->_container;
 	_resolution = _template_film->_resolution;
-	_video_bit_rate = _template_film->_video_bit_rate;
+	for (auto encoding: { VideoEncoding::JPEG2000, VideoEncoding::MPEG2 }) {
+		_video_bit_rate[encoding] = _template_film->_video_bit_rate[encoding];
+	}
 	_video_frame_rate = _template_film->_video_frame_rate;
 	_encrypted = _template_film->_encrypted;
 	_audio_channels = _template_film->_audio_channels;

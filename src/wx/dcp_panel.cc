@@ -270,7 +270,7 @@ DCPPanel::video_bit_rate_changed()
 		return;
 	}
 
-	_film->set_video_bit_rate(_video_bit_rate->GetValue() * 1000000);
+	_film->set_video_bit_rate(_film->video_encoding(), _video_bit_rate->GetValue() * 1000000);
 }
 
 
@@ -397,7 +397,7 @@ DCPPanel::film_changed(FilmProperty p)
 		setup_dcp_name ();
 		break;
 	case FilmProperty::VIDEO_BIT_RATE:
-		checked_set(_video_bit_rate, _film->video_bit_rate() / 1000000);
+		checked_set(_video_bit_rate, _film->video_bit_rate(_film->video_encoding()) / 1000000);
 		break;
 	case FilmProperty::USE_ISDCF_NAME:
 	{
@@ -460,6 +460,7 @@ DCPPanel::film_changed(FilmProperty p)
 		set_standard();
 		setup_container();
 		setup_sensitivity();
+		film_changed(FilmProperty::VIDEO_BIT_RATE);
 		break;
 	case FilmProperty::LIMIT_TO_SMPTE_BV20:
 		set_standard();
@@ -754,7 +755,8 @@ DCPPanel::reencode_j2k_changed ()
 void
 DCPPanel::config_changed (Config::Property p)
 {
-	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate() / 1000000);
+	VideoEncoding const encoding = _film ? _film->video_encoding() : VideoEncoding::JPEG2000;
+	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate(encoding) / 1000000);
 	setup_frame_rate_widget ();
 
 	if (p == Config::SHOW_EXPERIMENTAL_AUDIO_PROCESSORS) {
@@ -836,7 +838,8 @@ DCPPanel::make_video_panel ()
 		_frame_rate_choice->add_entry(boost::lexical_cast<string>(i));
 	}
 
-	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate() / 1000000);
+	VideoEncoding const encoding = _film ? _film->video_encoding() : VideoEncoding::JPEG2000;
+	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate(encoding) / 1000000);
 	_frame_rate_spin->SetRange (1, 480);
 
 	_resolution->add_entry(_("2K"));

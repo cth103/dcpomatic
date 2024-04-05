@@ -91,7 +91,7 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 		LOG_GENERAL ("Content: %1", content->technical_summary());
 	}
 	LOG_GENERAL ("DCP video rate %1 fps", film->video_frame_rate());
-	LOG_GENERAL("Video bit rate %1", film->video_bit_rate());
+	LOG_GENERAL("Video bit rate %1", film->video_bit_rate(film->video_encoding()));
 
 	auto tj = make_shared<DCPTranscodeJob>(film, behaviour);
 	tj->set_encoder(make_shared<DCPFilmEncoder>(film, tj));
