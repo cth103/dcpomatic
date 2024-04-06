@@ -717,10 +717,7 @@ def build(target, options, for_package):
         target.command('./waf install')
 
 def package_windows(target):
-    identifier = ''
-    if target.version is not None:
-        identifier = '%s.' % target.version
-    identifier += '%d' % target.bits
+    identifier = '%d' % target.bits
     shutil.copyfile('build/platform/windows/installer.%s.nsi' % identifier, 'build/platform/windows/installer2.%s.nsi' % identifier)
     target.command('sed -i "s~%%resources%%~%s/platform/windows~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
     target.command('sed -i "s~%%graphics%%~%s/graphics~g" build/platform/windows/installer2.%s.nsi' % (os.getcwd(), identifier))
