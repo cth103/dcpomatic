@@ -61,7 +61,7 @@ public:
 	}
 
 	VideoRange range () const override {
-		return VideoRange::FULL;
+		return _video_range;
 	}
 
 	PixelQuanta pixel_quanta () const override {
@@ -211,6 +211,7 @@ private:
 	Frame _atmos_length = 0;
 	dcp::Fraction _atmos_edit_rate;
 	EnumIndexedVector<bool, TextType> _has_non_zero_entry_point;
+	VideoRange _video_range = VideoRange::FULL;
 
 	struct Font
 	{

@@ -164,6 +164,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				} else if (_video_size.get() != asset->size ()) {
 					throw DCPError (_("Mismatched video sizes in DCP"));
 				}
+
+				if (dynamic_pointer_cast<dcp::MPEG2PictureAsset>(asset)) {
+					_video_range = VideoRange::VIDEO;
+				}
 			}
 		}
 
