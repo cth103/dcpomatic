@@ -166,7 +166,7 @@ void
 Hints::check_unusual_container ()
 {
 	auto const film_container = film()->container()->id();
-	if (film_container != "185" && film_container != "239") {
+	if (film()->video_encoding() != VideoEncoding::MPEG2 && film_container != "185" && film_container != "239") {
 		hint (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio."));
 	}
 }
@@ -756,7 +756,7 @@ void
 Hints::check_8_or_16_audio_channels()
 {
 	auto const channels = film()->audio_channels();
-	if (channels != 8 && channels != 16) {
+	if (film()->video_encoding() != VideoEncoding::MPEG2 && channels != 8 && channels != 16) {
 		hint(String::compose(_("Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some distributors to raise QC errors when they check your DCP.  To avoid this, set the DCP audio channels to 8 or 16."), channels));
 	}
 }
