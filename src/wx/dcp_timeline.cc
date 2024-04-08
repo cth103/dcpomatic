@@ -25,6 +25,7 @@
 #include "dcp_timeline_reel_marker_view.h"
 #include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
+#include "id.h"
 #include "timecode.h"
 #include "wx_util.h"
 #include "lib/atmos_content.h"
@@ -55,7 +56,7 @@ auto constexpr content_y_pos = 112;
 auto constexpr content_type_height = 12;
 
 enum {
-	ID_add_reel_boundary,
+	ID_add_reel_boundary = DCPOMATIC_DCP_TIMELINE_MENU
 };
 
 
