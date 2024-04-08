@@ -45,6 +45,9 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
+#ifdef DCPOMATIC_OSX
+#include <wx/uilocale.h>
+#endif
 LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
@@ -409,6 +412,58 @@ checked_set(RegionSubtagWidget* widget, optional<dcp::LanguageTag::RegionSubtag>
 }
 
 
+#ifdef DCPOMATIC_OSX
+
+void
+dcpomatic_setup_i18n()
+{
+	wxLog::EnableLogging();
+
+	auto get_locale_value = [](CFLocaleKey key) {
+		CFLocaleRef cflocale = CFLocaleCopyCurrent();
+		auto value = (CFStringRef) CFLocaleGetValue(cflocale, key);
+		char buffer[64];
+		CFStringGetCString(value, buffer, sizeof(buffer), kCFStringEncodingUTF8);
+		CFRelease(cflocale);
+		return string(buffer);
+	};
+
+	auto translations = new wxTranslations();
+
+	auto config_lang = Config::instance()->language();
+	if (config_lang && !config_lang->empty()) {
+		translations->SetLanguage(std_to_wx(*config_lang));
+	} else {
+		/* We want to use the user's preferred language.  It seems that if we use the wxWidgets default we will get the
+		 * language for the locale, which may not be what we want (e.g. for a machine in Germany, configured for DE locale,
+		 * but with the preferred language set to English).
+		 *
+		 * Instead, the the language code from macOS then get the corresponding canonical language string with region,
+		 * which wxTranslations::SetLanguage will accept.
+		 */
+		auto const language_code = get_locale_value(kCFLocaleLanguageCode);
+		auto const info = wxUILocale::FindLanguageInfo(std_to_wx(language_code));
+		if (info) {
+			translations->SetLanguage(info->GetCanonicalWithRegion());
+		}
+	}
+
+#ifdef DCPOMATIC_DEBUG
+	wxFileTranslationsLoader::AddCatalogLookupPathPrefix(wxT("build/src/wx/mo"));
+	wxFileTranslationsLoader::AddCatalogLookupPathPrefix(wxT("build/src/tools/mo"));
+#endif
+
+	translations->AddStdCatalog();
+	translations->AddCatalog(wxT("libdcpomatic2-wx"));
+	translations->AddCatalog(wxT("dcpomatic2"));
+
+	wxTranslations::Set(translations);
+
+	dcpomatic_setup_gettext_i18n(config_lang.get_value_or(""));
+}
+
+#else
+
 void
 dcpomatic_setup_i18n ()
 {
@@ -457,6 +512,8 @@ dcpomatic_setup_i18n ()
 		dcpomatic_setup_gettext_i18n (wx_to_std (locale->GetCanonicalName ()));
 	}
 }
+
+#endif
 
 
 int
