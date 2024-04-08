@@ -644,6 +644,7 @@ DCPPanel::setup_sensitivity ()
 	_encrypted->Enable              (_generally_sensitive);
 	_markers->Enable                (_generally_sensitive && _film && !_film->interop());
 	_metadata->Enable               (_generally_sensitive);
+	_reels->Enable                  (_generally_sensitive && _film);
 	_frame_rate_choice->Enable      (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
 	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
 	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
