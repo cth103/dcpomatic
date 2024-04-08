@@ -40,11 +40,11 @@
 #include <dcp/locale_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/filepicker.h>
+#include <wx/progdlg.h>
+#include <wx/sizer.h>
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
-#include <wx/progdlg.h>
-#include <wx/filepicker.h>
-#include <wx/sizer.h>
 LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
