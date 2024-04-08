@@ -887,8 +887,10 @@ Player::pass ()
 	}
 
 	if (done) {
-		LOG_DEBUG_PLAYER("Done: emit video until end of film at %1", to_string(film->length()));
-		emit_video_until(film->length());
+		if (_next_video_time) {
+			LOG_DEBUG_PLAYER("Done: emit video until end of film at %1", to_string(film->length()));
+			emit_video_until(film->length());
+		}
 
 		if (_shuffler) {
 			_shuffler->flush ();
