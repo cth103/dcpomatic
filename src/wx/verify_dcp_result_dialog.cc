@@ -19,7 +19,7 @@
 */
 
 
-#include "verify_dcp_dialog.h"
+#include "verify_dcp_result_dialog.h"
 #include "wx_util.h"
 #include "lib/verify_dcp_job.h"
 #include <dcp/raw_convert.h>
@@ -39,7 +39,7 @@ using std::string;
 using std::vector;
 
 
-VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job)
+VerifyDCPResultDialog::VerifyDCPResultDialog(wxWindow* parent, shared_ptr<VerifyDCPJob> job)
 	: wxDialog (parent, wxID_ANY, _("DCP verification"), wxDefaultPosition, {600, 400})
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);

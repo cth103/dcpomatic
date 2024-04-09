@@ -32,8 +32,8 @@
 #include "wx/system_information_dialog.h"
 #include "wx/timer_display.h"
 #include "wx/update_dialog.h"
-#include "wx/verify_dcp_dialog.h"
 #include "wx/verify_dcp_progress_dialog.h"
+#include "wx/verify_dcp_result_dialog.h"
 #include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
@@ -932,7 +932,7 @@ private:
 		progress.Close();
 
 		if (completed) {
-			VerifyDCPDialog dialog(this, job);
+			VerifyDCPResultDialog dialog(this, job);
 			dialog.ShowModal();
 		}
 	}
