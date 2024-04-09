@@ -19,28 +19,23 @@
 */
 
 
-#include <dcp/warnings.h>
-LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
-LIBDCP_ENABLE_WARNINGS
 #include <memory>
 
 
 class Job;
-class VerifyDCPProgressPanel;
 
 
-class VerifyDCPProgressDialog : public wxDialog
+class VerifyDCPProgressPanel : public wxPanel
 {
 public:
-	VerifyDCPProgressDialog (wxWindow* parent, wxString title);
+	VerifyDCPProgressPanel(wxWindow* parent);
 
-	bool run (std::shared_ptr<Job> job);
+	void update(std::shared_ptr<Job> job);
 
 private:
-	void cancel ();
-
-	VerifyDCPProgressPanel* _panel;
-	bool _cancel;
+	wxStaticText* _job_name;
+	wxStaticText* _file_name;
+	wxGauge* _progress;
 };
 
