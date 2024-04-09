@@ -36,8 +36,9 @@ using namespace std;
 using namespace boost;
 
 
-DirPickerCtrl::DirPickerCtrl (wxWindow* parent)
+DirPickerCtrl::DirPickerCtrl(wxWindow* parent, bool leaf)
 	: wxPanel (parent)
+	, _leaf(leaf)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
@@ -62,7 +63,11 @@ DirPickerCtrl::SetPath (wxString p)
 	if (_path == wxStandardPaths::Get().GetDocumentsDir()) {
 		_folder->SetLabel (_("My Documents"));
 	} else {
-		_folder->SetLabel (_path);
+		if (_leaf) {
+			_folder->SetLabel(std_to_wx(boost::filesystem::path(wx_to_std(_path)).filename().string()));
+		} else {
+			_folder->SetLabel(_path);
+		}
 	}
 
 	wxCommandEvent ev (wxEVT_DIRPICKER_CHANGED, wxID_ANY);

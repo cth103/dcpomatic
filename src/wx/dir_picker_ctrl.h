@@ -33,7 +33,7 @@ LIBDCP_ENABLE_WARNINGS
 class DirPickerCtrl : public wxPanel
 {
 public:
-	explicit DirPickerCtrl (wxWindow *);
+	DirPickerCtrl(wxWindow *, bool leaf = false);
 
 	wxString GetPath () const;
 	void SetPath (wxString);
@@ -47,6 +47,7 @@ private:
 	wxButton* _browse;
 	wxString _path;
 	wxSizer* _sizer;
+	bool _leaf = false;
 };
 
 #endif
