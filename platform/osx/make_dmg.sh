@@ -7,7 +7,7 @@ SYNTAX="make_dmg.sh -e <environment> -r <builddir> -i <apple-id> -p <apple-passw
 # Don't set -e here as egrep (used a few times) returns 1 if no matches
 # were found.
 
-BUILD="main kdm server batch player playlist combiner editor disk"
+BUILD="main kdm server batch player playlist combiner editor disk verifier"
 while getopts "e:r:i:p:a:b:" o; do
 	case "${o}" in
 		e)
@@ -227,6 +227,7 @@ function copy_resources {
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_disk.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_combiner.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_editor.icns "$dest"
+    cp $prefix/src/dcpomatic/graphics/osx/dcpomatic2_verifier.icns "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/defaults*.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/kdm_email*.png "$dest"
     cp $prefix/src/dcpomatic/graphics/osx/preferences/email*.png "$dest"
@@ -590,6 +591,19 @@ if [[ "$BUILD" == *editor* ]]; then
 	rl=("$approot/MacOS/dcpomatic2_editor" "$approot/Frameworks/"*.dylib)
 	relink_relative "${rl[@]}"
 	make_dmg "$appdir" "" "DCP-o-matic Editor" "dcpomatic2_verify_cli dcpomatic2_kdm_inspect openssl dcpomatic2_editor"
+fi
+
+if [[ "$BUILD" == *verifier* ]]; then
+	# DCP-o-matic Verifier
+	setup "DCP-o-matic 2 Verifier.app"
+	copy $ROOT src/dcpomatic/build/src/tools/dcpomatic2_verifier "$approot/MacOS"
+	copy $ROOT src/openssl/apps/openssl "$approot/MacOS"
+	copy_verify
+	copy_kdm
+	cp $prefix/src/dcpomatic/build/platform/osx/dcpomatic2_verifier.Info.plist "$approot/Info.plist"
+	rl=("$approot/MacOS/dcpomatic2_verifier" "$approot/Frameworks/"*.dylib)
+	relink_relative "${rl[@]}"
+	make_dmg "$appdir" "" "DCP-o-matic Verifier" "dcpomatic2_verify_cli dcpomatic2_kdm_inspect openssl dcpomatic2_verifier"
 fi
 
 if [[ "$BUILD" == *disk* ]]; then 

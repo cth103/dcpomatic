@@ -16,6 +16,7 @@ def build(bld):
             desktop(bld, '_playlist'),
             desktop(bld, '_combiner'),
             desktop(bld, '_editor'),
+            desktop(bld, '_verifier'),
         ]
 
     if bld.env.ENABLE_DISK:

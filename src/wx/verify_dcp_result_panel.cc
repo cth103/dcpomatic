@@ -19,11 +19,14 @@
 */
 
 
+#include "dcpomatic_button.h"
+#include "file_dialog.h"
 #include "verify_dcp_result_panel.h"
 #include "wx_util.h"
 #include "lib/verify_dcp_job.h"
 #include <dcp/raw_convert.h>
 #include <dcp/verify.h>
+#include <dcp/verify_report.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/richtext/richtextctrl.h>
@@ -56,6 +59,13 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	_summary = new wxStaticText(this, wxID_ANY, wxT(""));
 	sizer->Add(_summary, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
+	auto save_sizer = new wxBoxSizer(wxHORIZONTAL);
+	_save_text_report = new Button(this, _("Save report as text..."));
+	save_sizer->Add(_save_text_report, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	_save_html_report = new Button(this, _("Save report as HTML..."));
+	save_sizer->Add(_save_html_report, 0, wxALL, DCPOMATIC_SIZER_GAP);
+	sizer->Add(save_sizer);
+
 	SetSizer(sizer);
 	sizer->Layout();
 	sizer->SetSizeHints(this);
@@ -63,13 +73,19 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	for (auto const& i: _pages) {
 		i.second->GetCaret()->Hide();
 	}
+
+	_save_text_report->bind(&VerifyDCPResultPanel::save_text_report, this);
+	_save_html_report->bind(&VerifyDCPResultPanel::save_html_report, this);
+
+	_save_text_report->Enable(false);
+	_save_html_report->Enable(false);
 }
 
 
 void
 VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 {
-	if (job->finished_ok() && job->notes().empty()) {
+	if (job->finished_ok() && job->result().notes.empty()) {
 		_summary->SetLabel(_("DCP validates OK."));
 		return;
 	}
@@ -132,7 +148,7 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		++counts[dcp::VerificationNote::Type::ERROR];
 	}
 
-	for (auto i: job->notes()) {
+	for (auto i: job->result().notes) {
 		switch (i.code()) {
 		case dcp::VerificationNote::Code::FAILED_READ:
 			add(i, _("Could not read DCP (%n)"));
@@ -448,6 +464,19 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
 			add(i, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
 			break;
+		case dcp::VerificationNote::Code::MATCHING_CPL_HASHES:
+		case dcp::VerificationNote::Code::CORRECT_PICTURE_HASH:
+		case dcp::VerificationNote::Code::VALID_PICTURE_FRAME_SIZES_IN_BYTES:
+		case dcp::VerificationNote::Code::VALID_RELEASE_TERRITORY:
+		case dcp::VerificationNote::Code::VALID_CPL_ANNOTATION_TEXT:
+		case dcp::VerificationNote::Code::MATCHING_PKL_ANNOTATION_TEXT_WITH_CPL:
+		case dcp::VerificationNote::Code::ALL_ENCRYPTED:
+		case dcp::VerificationNote::Code::NONE_ENCRYPTED:
+		case dcp::VerificationNote::Code::VALID_CONTENT_KIND:
+		case dcp::VerificationNote::Code::VALID_MAIN_PICTURE_ACTIVE_AREA:
+		case dcp::VerificationNote::Code::VALID_CONTENT_VERSION_LABEL_TEXT:
+			/* These are all "OK" messages which we don't report here */
+			break;
 		}
 	}
 
@@ -490,5 +519,39 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 	if (counts[dcp::VerificationNote::Type::WARNING] == 0) {
 		add_bullet(dcp::VerificationNote::Type::WARNING, _("No warnings found."));
 	}
+
+	_job = job;
+	_save_text_report->Enable(true);
+	_save_html_report->Enable(true);
 }
 
+
+template <class T>
+void save(wxWindow* parent, wxString filter, dcp::VerificationResult const& result)
+{
+	FileDialog dialog(parent, _("Verification report"), filter, wxFD_SAVE | wxFD_OVERWRITE_PROMPT, "SaveVerificationReport");
+	if (!dialog.show()) {
+		return;
+	}
+
+	T formatter(dialog.path());
+	dcp::verify_report(result, formatter);
+}
+
+
+void
+VerifyDCPResultPanel::save_text_report()
+{
+	if (_job) {
+		save<dcp::TextFormatter>(this, wxT("Text files (*.txt)|*.txt"), _job->result());
+	}
+}
+
+
+void
+VerifyDCPResultPanel::save_html_report()
+{
+	if (_job) {
+		save<dcp::HTMLFormatter>(this, wxT("HTML files (*.htm;*html)|*.htm;*.html"), _job->result());
+	}
+}

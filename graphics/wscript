@@ -32,7 +32,8 @@ def build(bld):
                 'dcpomatic2_playlist',
                 'dcpomatic2_disk',
                 'dcpomatic2_combiner',
-                'dcpomatic2_editor']:
+                'dcpomatic2_editor',
+                'dcpomatic2_verifier']:
                 bld.install_files('${PREFIX}/share/icons/hicolor/%dx%d/apps' % (r, r), 'linux/%d/%s.png' % (r, p))
 
     # Install stuff for POSIX systems

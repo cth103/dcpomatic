@@ -431,6 +431,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_openssl', file=f)
     print('%{_bindir}/dcpomatic2_combiner', file=f)
     print('%{_bindir}/dcpomatic2_verify_cli', file=f)
+    print('%{_bindir}/dcpomatic2_verifier', file=f)
     print('%{_bindir}/dcpomatic2_kdm_inspect', file=f)
     print('%{_bindir}/dcpomatic2_map', file=f)
     if can_build_disk(target):
@@ -439,6 +440,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_datadir}/applications/dcpomatic2.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_batch.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_editor.desktop', file=f)
+    print('%{_datadir}/applications/dcpomatic2_verifier.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_server.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_kdm.desktop', file=f)
     print('%{_datadir}/applications/dcpomatic2_player.desktop', file=f)
@@ -472,6 +474,7 @@ def make_spec(filename, version, target, options, requires=None):
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_batch.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_editor.png' % r, file=f)
+        print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_verifier.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_kdm.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_server.png' % r, file=f)
         print('%%{_datadir}/icons/hicolor/%s/apps/dcpomatic2_player.png' % r, file=f)
@@ -535,7 +538,7 @@ def dependencies(target, options):
         # Use distro-provided FFmpeg on Arch
         deps = []
 
-    deps.append(('libdcp', '56b3586247d76b2d07911018ccba63d4b05f4995', {'c++17': target.platform == 'osx'}))
+    deps.append(('libdcp', 'v1.9.5', {'c++17': target.platform == 'osx'}))
     deps.append(('libsub', 'v1.6.47'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
@@ -874,6 +877,7 @@ def package(target, version, options):
             out.append(make_appimage(target, 'DCP-o-matic Encode Server', 'dcpomatic2_server', version))
             out.append(make_appimage(target, 'DCP-o-matic Combiner', 'dcpomatic2_combiner', version))
             out.append(make_appimage(target, 'DCP-o-matic Editor', 'dcpomatic2_editor', version))
+            out.append(make_appimage(target, 'DCP-o-matic Verifier', 'dcpomatic2_verifier', version))
             return out
         else:
             if target.bits == 32:

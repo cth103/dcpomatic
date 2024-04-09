@@ -62,7 +62,15 @@ def build(bld):
 
     gui_tools = []
     if not bld.env.DISABLE_GUI:
-        gui_tools = ['dcpomatic', 'dcpomatic_batch', 'dcpomatic_server', 'dcpomatic_kdm', 'dcpomatic_player', 'dcpomatic_playlist', 'dcpomatic_combiner', 'dcpomatic_editor']
+        gui_tools = ['dcpomatic',
+                     'dcpomatic_batch',
+                     'dcpomatic_server',
+                     'dcpomatic_kdm',
+                     'dcpomatic_player',
+                     'dcpomatic_playlist',
+                     'dcpomatic_combiner',
+                     'dcpomatic_editor',
+                     'dcpomatic_verifier']
         if bld.env.ENABLE_DISK:
             gui_tools.append('dcpomatic_disk')
 

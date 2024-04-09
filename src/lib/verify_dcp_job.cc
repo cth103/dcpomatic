@@ -86,7 +86,7 @@ VerifyDCPJob::run ()
 		}
 	}
 
-	_notes = dcp::verify(
+	_result = dcp::verify(
 		_directories,
 		decrypted_kdms,
 		bind(&VerifyDCPJob::update_stage, this, _1, _2),
@@ -96,7 +96,7 @@ VerifyDCPJob::run ()
 		);
 
 	bool failed = false;
-	for (auto i: _notes) {
+	for (auto i: _result.notes) {
 		if (i.type() == dcp::VerificationNote::Type::ERROR) {
 			failed = true;
 		}

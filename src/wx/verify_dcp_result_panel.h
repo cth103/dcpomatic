@@ -25,6 +25,7 @@
 #include <memory>
 
 
+class Button;
 class VerifyDCPJob;
 class wxRichTextCtrl;
 
@@ -37,6 +38,13 @@ public:
 	void fill(std::shared_ptr<VerifyDCPJob> job);
 
 private:
+	void save_text_report();
+	void save_html_report();
+
 	wxStaticText* _summary;
 	std::map<dcp::VerificationNote::Type, wxRichTextCtrl*> _pages;
+	Button* _save_text_report;
+	Button* _save_html_report;
+
+	std::shared_ptr<VerifyDCPJob> _job;
 };

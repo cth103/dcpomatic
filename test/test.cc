@@ -965,10 +965,10 @@ void progress (float) {}
 void
 verify_dcp(boost::filesystem::path dir, vector<dcp::VerificationNote::Code> ignore)
 {
-	auto notes = dcp::verify({dir}, {}, &stage, &progress, {}, TestPaths::xsd());
+	auto result = dcp::verify({dir}, {}, &stage, &progress, {}, TestPaths::xsd());
 	bool ok = true;
-	for (auto i: notes) {
-		if (find(ignore.begin(), ignore.end(), i.code()) == ignore.end()) {
+	for (auto i: result.notes) {
+		if (i.type() != dcp::VerificationNote::Type::OK && find(ignore.begin(), ignore.end(), i.code()) == ignore.end()) {
 			std::cout << "\t" << dcp::note_to_string(i) << "\n";
 			ok = false;
 		}

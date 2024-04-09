@@ -36,8 +36,8 @@ public:
 	std::string json_name () const override;
 	void run () override;
 
-	std::vector<dcp::VerificationNote> notes () const {
-		return _notes;
+	dcp::VerificationResult const& result() const {
+		return _result;
 	}
 
 private:
@@ -45,5 +45,5 @@ private:
 
 	std::vector<boost::filesystem::path> _directories;
 	std::vector<boost::filesystem::path> _kdms;
-	std::vector<dcp::VerificationNote> _notes;
+	dcp::VerificationResult _result;
 };

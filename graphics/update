@@ -25,7 +25,7 @@ function required_font()
     fi
 }
 
-svg_apps="dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist dcpomatic2_disk dcpomatic2_combiner dcpomatic2_editor"
+svg_apps="dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist dcpomatic2_disk dcpomatic2_combiner dcpomatic2_editor dcpomatic2_verifier"
 
 
 if [ `uname -s` == "Darwin" ]; then

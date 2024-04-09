@@ -44,5 +44,4 @@ VerifyDCPResultDialog::VerifyDCPResultDialog(wxWindow* parent, shared_ptr<Verify
 	SetSizer (sizer);
 	sizer->Layout ();
 	sizer->SetSizeHints (this);
-
 }

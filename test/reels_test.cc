@@ -54,6 +54,14 @@ using std::vector;
 using namespace dcpomatic;
 
 
+static
+void
+filter_ok(std::vector<dcp::VerificationNote>& notes)
+{
+	notes.erase(std::remove_if(notes.begin(), notes.end(), [](dcp::VerificationNote const& note) { return note.type() == dcp::VerificationNote::Type::OK; }), notes.end());
+}
+
+
 /** Test Film::reels() */
 BOOST_AUTO_TEST_CASE (reels_test1)
 {
@@ -508,9 +516,10 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 	make_and_verify_dcp (film);
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
-	auto notes = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
-	dump_notes (notes);
-	BOOST_REQUIRE (notes.empty());
+	auto result = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	filter_ok(result.notes);
+	dump_notes(result.notes);
+	BOOST_REQUIRE(result.notes.empty());
 }
 
 
@@ -533,9 +542,10 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
 	make_and_verify_dcp (film);
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
-	auto const notes = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
-	dump_notes (notes);
-	BOOST_REQUIRE (notes.empty());
+	auto result = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	filter_ok(result.notes);
+	dump_notes(result.notes);
+	BOOST_REQUIRE(result.notes.empty());
 }
 
 
@@ -554,9 +564,10 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short3)
 
 	make_and_verify_dcp (film);
 
-	auto const notes = dcp::verify({}, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
-	dump_notes (notes);
-	BOOST_REQUIRE (notes.empty());
+	auto result = dcp::verify({}, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	filter_ok(result.notes);
+	dump_notes(result.notes);
+	BOOST_REQUIRE(result.notes.empty());
 }
 
 
@@ -584,9 +595,10 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 	BOOST_REQUIRE (!wait_for_jobs());
 
 	vector<boost::filesystem::path> dirs = { film->dir(film->dcp_name(false)) };
-	auto const notes = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
-	dump_notes (notes);
-	BOOST_REQUIRE (notes.empty());
+	auto result = dcp::verify(dirs, {}, boost::bind(&no_op), boost::bind(&no_op), {}, TestPaths::xsd());
+	filter_ok(result.notes);
+	dump_notes(result.notes);
+	BOOST_REQUIRE(result.notes.empty());
 }
 
 

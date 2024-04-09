@@ -1,0 +1,24 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source $DIR/environment
+binary=$build/src/tools/dcpomatic2_verifier
+
+if [[ "$(uname -m)" == arm64 ]]; then
+    env=arm64/11.0
+else
+    env=x86_64/10.10
+fi
+
+export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
+
+if [ "$1" == "--debug" ]; then
+    shift
+    if [[ "$(uname)" == Darwin ]]; then
+        /Applications/Xcode.app/Contents/Developer/usr/bin/lldb $binary $*
+    else
+        gdb --args $binary $*
+    fi
+else
+    $binary $* 2> >(grep -v Gtk-CRITICAL | grep -v Gtk-WARNING)
+fi
