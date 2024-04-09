@@ -2,21 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1066.6666"
-   height="1066.6666"
+   width="1024"
+   height="1024"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="1.1.1 (3bf5ae0, 2021-09-20)"
    sodipodi:docname="dcpomatic2_player.svg"
-   viewBox="0 0 1000 1000">
+   viewBox="0 0 960.00004 960.00004"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
     <linearGradient
@@ -103,17 +103,18 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49393196"
-     inkscape:cx="793.18353"
-     inkscape:cy="448.89208"
+     inkscape:cx="794.64386"
+     inkscape:cy="449.45462"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1280"
-     inkscape:window-height="995"
-     inkscape:window-x="1280"
+     inkscape:window-width="1920"
+     inkscape:window-height="1048"
+     inkscape:window-x="1920"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:document-rotation="0" />
+     inkscape:document-rotation="0"
+     inkscape:pagecheckerboard="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -122,7 +123,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -131,31 +131,34 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-52.362188)">
-    <image
-       sodipodi:absref="/home/c.hetherington/src/dcpomatic/graphics/src/dcpomatic.png"
-       xlink:href="dcpomatic.png"
-       y="80.386467"
-       x="10.670144"
-       width="960.00006"
-       height="960.00006"
-       preserveAspectRatio="none"
-       id="image4358" />
-    <path
-       sodipodi:type="star"
-       style="opacity:0.80699978;fill:#008000;fill-rule:evenodd;stroke:#999999;stroke-width:34.09389496;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="path3635"
-       sodipodi:sides="3"
-       sodipodi:cx="462.30658"
-       sodipodi:cy="552.36218"
-       sodipodi:r1="230.56197"
-       sodipodi:r2="115.28098"
-       sodipodi:arg1="2.0943951"
-       sodipodi:arg2="3.1415927"
-       inkscape:flatsided="false"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 347.0256,752.0347 0,-199.67252 0,-199.67252 172.92148,99.83627 172.92147,99.83625 -172.92148,99.83627 z"
-       inkscape:transform-center-x="-57.640504"
-       inkscape:transform-center-y="-2.0391502e-05" />
+    <g
+       id="g1986"
+       transform="translate(-10.670155,-28.024289)">
+      <image
+         xlink:href="dcpomatic.png"
+         y="80.386467"
+         x="10.670144"
+         width="960.00006"
+         height="960.00006"
+         preserveAspectRatio="none"
+         id="image4358" />
+      <path
+         sodipodi:type="star"
+         style="opacity:0.807;fill:#008000;fill-rule:evenodd;stroke:#999999;stroke-width:34.0939;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path3635"
+         sodipodi:sides="3"
+         sodipodi:cx="462.30658"
+         sodipodi:cy="552.36218"
+         sodipodi:r1="230.56197"
+         sodipodi:r2="115.28098"
+         sodipodi:arg1="2.0943951"
+         sodipodi:arg2="3.1415927"
+         inkscape:flatsided="false"
+         inkscape:rounded="0"
+         inkscape:randomized="0"
+         d="m 347.0256,752.0347 0,-199.67252 0,-199.67252 172.92148,99.83627 172.92147,99.83625 -172.92148,99.83627 z"
+         inkscape:transform-center-x="-57.640504"
+         inkscape:transform-center-y="-2.0391502e-05" />
+    </g>
   </g>
 </svg>
