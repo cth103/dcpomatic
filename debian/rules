@@ -38,7 +38,7 @@ override_dh_auto_install:
 	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/ru/LC_MESSAGES/
 	cp -a /usr/share/locale/ru/LC_MESSAGES/wxstd-$(CDIST_WX_VERSION).mo debian/$(CDIST_PACKAGE)/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
 	cp -a $(CDIST_DIRECTORY)/src/openssl/apps/openssl debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_openssl
-	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpverify debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_verify
+	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpverify debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_verify_cli
 	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpkdm debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_kdm_inspect
 	cp -ar $(CDIST_DIRECTORY)/share/libdcp debian/$(CDIST_PACKAGE)/usr/share
 

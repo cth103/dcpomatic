@@ -430,7 +430,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('%{_bindir}/dcpomatic2_playlist', file=f)
     print('%{_bindir}/dcpomatic2_openssl', file=f)
     print('%{_bindir}/dcpomatic2_combiner', file=f)
-    print('%{_bindir}/dcpomatic2_verify', file=f)
+    print('%{_bindir}/dcpomatic2_verify_cli', file=f)
     print('%{_bindir}/dcpomatic2_kdm_inspect', file=f)
     print('%{_bindir}/dcpomatic2_map', file=f)
     if can_build_disk(target):
@@ -506,7 +506,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/bin/cp -r %s/src/libdcp/tags %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
     print('/bin/cp -r %s/src/libdcp/xsd %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
     print('/bin/cp %s/src/libdcp/ratings %%{buildroot}/usr/share/libdcp' % target.directory, file=f)
-    print('/bin/mv %s/bin/dcpverify %%{buildroot}/usr/bin/dcpomatic2_verify' % target.directory, file=f)
+    print('/bin/mv %s/bin/dcpverify %%{buildroot}/usr/bin/dcpomatic2_verify_cli' % target.directory, file=f)
     print('/bin/mv %s/bin/dcpkdm %%{buildroot}/usr/bin/dcpomatic2_kdm_inspect' % target.directory, file=f)
     print('', file=f)
     print('%post', file=f)
@@ -812,7 +812,7 @@ def make_appimage(target, nice_name, internal_name, version, extra_binaries=None
     os.makedirs(f'{appdir}/usr/bin')
     target.command(f'cp {target.directory}/bin/{internal_name} {appdir}/usr/bin')
     target.command(f'cp {target.directory}/src/openssl/apps/openssl {appdir}/usr/bin/dcpomatic2_openssl')
-    target.command(f'cp {target.directory}/bin/dcpverify {appdir}/usr/bin/dcpomatic2_verify')
+    target.command(f'cp {target.directory}/bin/dcpverify {appdir}/usr/bin/dcpomatic2_verify_cli')
     target.command(f'cp {target.directory}/bin/dcpkdm {appdir}/usr/bin/dcpomatic2_kdm_inspect')
     if extra_binaries:
         for bin in extra_binaries:
