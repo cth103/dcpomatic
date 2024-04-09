@@ -39,34 +39,38 @@ using std::string;
 using std::vector;
 
 
-VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent, shared_ptr<VerifyDCPJob> job)
+VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	: wxPanel(parent, wxID_ANY)
 {
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 	auto notebook = new wxNotebook(this, wxID_ANY);
 	sizer->Add(notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	map<dcp::VerificationNote::Type, wxRichTextCtrl*> pages;
-	pages[dcp::VerificationNote::Type::ERROR] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage(pages[dcp::VerificationNote::Type::ERROR], _("Errors"));
-	pages[dcp::VerificationNote::Type::BV21_ERROR] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage(pages[dcp::VerificationNote::Type::BV21_ERROR], _("SMPTE Bv2.1 errors"));
-	pages[dcp::VerificationNote::Type::WARNING] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage(pages[dcp::VerificationNote::Type::WARNING], _("Warnings"));
+	_pages[dcp::VerificationNote::Type::ERROR] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
+	notebook->AddPage(_pages[dcp::VerificationNote::Type::ERROR], _("Errors"));
+	_pages[dcp::VerificationNote::Type::BV21_ERROR] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
+	notebook->AddPage(_pages[dcp::VerificationNote::Type::BV21_ERROR], _("SMPTE Bv2.1 errors"));
+	_pages[dcp::VerificationNote::Type::WARNING] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
+	notebook->AddPage(_pages[dcp::VerificationNote::Type::WARNING], _("Warnings"));
 
-	auto summary = new wxStaticText(this, wxID_ANY, wxT(""));
-	sizer->Add(summary, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
+	_summary = new wxStaticText(this, wxID_ANY, wxT(""));
+	sizer->Add(_summary, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	SetSizer(sizer);
 	sizer->Layout();
 	sizer->SetSizeHints(this);
 
-	for (auto const& i: pages) {
+	for (auto const& i: _pages) {
 		i.second->GetCaret()->Hide();
 	}
+}
 
+
+void
+VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
+{
 	if (job->finished_ok() && job->notes().empty()) {
-		summary->SetLabel(_("DCP validates OK."));
+		_summary->SetLabel(_("DCP validates OK."));
 		return;
 	}
 
@@ -75,11 +79,11 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent, shared_ptr<VerifyDC
 	counts[dcp::VerificationNote::Type::BV21_ERROR] = 0;
 	counts[dcp::VerificationNote::Type::ERROR] = 0;
 
-	auto add_bullet = [&pages](dcp::VerificationNote::Type type, wxString message) {
-		pages[type]->BeginStandardBullet(N_("standard/diamond"), 1, 50);
-		pages[type]->WriteText(message);
-		pages[type]->Newline();
-		pages[type]->EndStandardBullet();
+	auto add_bullet = [this](dcp::VerificationNote::Type type, wxString message) {
+		_pages[type]->BeginStandardBullet(N_("standard/diamond"), 1, 50);
+		_pages[type]->WriteText(message);
+		_pages[type]->Newline();
+		_pages[type]->EndStandardBullet();
 	};
 
 	auto add = [&counts, &add_bullet](dcp::VerificationNote note, wxString message) {
@@ -473,7 +477,7 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent, shared_ptr<VerifyDC
 		summary_text += wxString::Format("and %d warnings.", counts[dcp::VerificationNote::Type::WARNING]);
 	}
 
-	summary->SetLabel(summary_text);
+	_summary->SetLabel(summary_text);
 
 	if (counts[dcp::VerificationNote::Type::ERROR] == 0) {
 		add_bullet(dcp::VerificationNote::Type::ERROR, _("No errors found."));

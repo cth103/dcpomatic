@@ -19,15 +19,24 @@
 */
 
 
+#include <dcp/verify.h>
 #include <wx/wx.h>
+#include <map>
 #include <memory>
 
 
 class VerifyDCPJob;
+class wxRichTextCtrl;
 
 
 class VerifyDCPResultPanel : public wxPanel
 {
 public:
-	VerifyDCPResultPanel(wxWindow* parent, std::shared_ptr<VerifyDCPJob> job);
+	VerifyDCPResultPanel(wxWindow* parent);
+
+	void fill(std::shared_ptr<VerifyDCPJob> job);
+
+private:
+	wxStaticText* _summary;
+	std::map<dcp::VerificationNote::Type, wxRichTextCtrl*> _pages;
 };
