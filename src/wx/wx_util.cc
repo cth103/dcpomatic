@@ -45,9 +45,6 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
-#ifdef DCPOMATIC_OSX
-#include <wx/uilocale.h>
-#endif
 LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
@@ -442,7 +439,10 @@ dcpomatic_setup_i18n()
 		 * which wxTranslations::SetLanguage will accept.
 		 */
 		auto const language_code = get_locale_value(kCFLocaleLanguageCode);
-		auto const info = wxUILocale::FindLanguageInfo(std_to_wx(language_code));
+		/* Ideally this would be wxUILocale (as wxLocale is deprecated) but we want to keep this building
+		 * with the old wxWidgets we use for the older macOS builds.
+		 */
+		auto const info = wxLocale::FindLanguageInfo(std_to_wx(language_code));
 		if (info) {
 			translations->SetLanguage(info->GetCanonicalWithRegion());
 		}
