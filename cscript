@@ -589,7 +589,7 @@ def configure_options(target, options, for_package=False):
         opt += ' --enable-disk'
 
     if target.platform == 'osx' and target.arch == 'arm64':
-        opt += ' --target-macos-arm64 --wx-config=%s/wx-config' % target.bin
+        opt += ' --wx-config=%s/wx-config' % target.bin
 
     return opt
 
