@@ -444,7 +444,11 @@ dcpomatic_setup_i18n()
 		 */
 		auto const info = wxLocale::FindLanguageInfo(std_to_wx(language_code));
 		if (info) {
+#if wxCHECK_VERSION(3, 1, 6)
 			translations->SetLanguage(info->GetCanonicalWithRegion());
+#else
+			translations->SetLanguage(info->CanonicalName);
+#endif
 		}
 	}
 
