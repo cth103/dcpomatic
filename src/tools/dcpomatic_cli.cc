@@ -40,6 +40,7 @@
 #include "lib/signal_manager.h"
 #include "lib/transcode_job.h"
 #include "lib/util.h"
+#include "lib/variant.h"
 #include "lib/version.h"
 #include "lib/video_content.h"
 #include <dcp/filesystem.h>
@@ -66,7 +67,7 @@ static void
 help (string n)
 {
 	cerr << "Syntax: " << n << " [OPTION] [<FILM>]\n"
-	     << "  -v, --version                     show DCP-o-matic version\n"
+	     << variant::insert_dcpomatic("  -v, --version                     show %1 version\n")
 	     << "  -h, --help                        show this help\n"
 	     << "  -f, --flags                       show flags passed to C++ compiler on build\n"
 	     << "  -n, --no-progress                 do not print progress to stdout\n"
@@ -75,7 +76,7 @@ help (string n)
 	     << "  -j, --json <port>                 run a JSON server on the specified port\n"
 	     << "  -k, --keep-going                  keep running even when the job is complete\n"
 	     << "  -s, --servers <file>              specify servers to use in a text file\n"
-	     << "  -l, --list-servers                just display a list of encoding servers that DCP-o-matic is configured to use; don't encode\n"
+	     << variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that %1 is configured to use; don't encode\n")
 	     << "  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n"
 	     << "  -c, --config <dir>                directory containing config.xml and cinemas.xml\n"
 	     << "      --dump                        just dump a summary of the film's settings; don't encode\n"

@@ -32,6 +32,7 @@
 #include "film.h"
 #include "kdm_with_metadata.h"
 #include "screen.h"
+#include "variant.h"
 #include <dcp/certificate.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
@@ -60,9 +61,9 @@ help (std::function<void (string)> out)
 	out (String::compose("Syntax: %1 [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
 	out ("Commands:");
 	out ("create          create KDMs; default if no other command is specified");
-	out ("list-cinemas    list known cinemas from DCP-o-matic settings");
-	out ("list-dkdm-cpls  list CPLs for which DCP-o-matic has DKDMs");
-	out ("add-dkdm        add DKDM to DCP-o-matic's list");
+	out (variant::insert_dcpomatic("list-cinemas    list known cinemas from %1 settings"));
+	out (variant::insert_dcpomatic("list-dkdm-cpls  list CPLs for which %1 has DKDMs"));
+	out (variant::insert_dcpomatic("add-dkdm        add DKDM to %1's list"));
 	out ("  -h, --help                               show this help");
 	out ("  -o, --output <path>                      output file or directory");
 	out ("  -K, --filename-format <format>           filename format for KDMs");
@@ -81,15 +82,15 @@ help (std::function<void (string)> out)
 	out ("  -C, --projector-certificate <file>       file containing projector certificate");
 	out ("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
 	out ("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
-	out ("                                           (DCP-o-matic's configured private key will be used otherwise)");
+	out (variant::insert_dcpomatic("                                           (%1's configured private key will be used otherwise)"));
 	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
 	out ("");
-	out ("CPL-ID must be the ID of a CPL that is mentioned in DCP-o-matic's DKDM list.");
+	out (variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in %1's DKDM list."));
 	out ("");
 	out ("For example:");
 	out ("");
 	out ("Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.");
-	out ("(Fred's Cinema must have been set up in DCP-o-matic's KDM window)");
+	out (variant::insert_dcpomatic("(Fred's Cinema must have been set up in %1's KDM window)"));
 	out ("");
 	out (String::compose("\t%1 -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie", program_name));
 }

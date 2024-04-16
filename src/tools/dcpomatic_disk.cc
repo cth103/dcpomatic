@@ -29,6 +29,7 @@
 #include "wx/wx_util.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/copy_to_drive_job.h"
@@ -325,7 +326,7 @@ private:
 #if defined(DCPOMATIC_WINDOWS)
 			auto m = make_wx<MessageDialog>(
 				this,
-				_("DCP-o-matic Disk Writer"),
+				variant::wx::dcpomatic_disk_writer(),
 				_("Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again.")
 				);
 			m->ShowModal ();
@@ -333,8 +334,8 @@ private:
 #elif defined(DCPOMATIC_OSX)
 			auto m = make_wx<MessageDialog>(
 				this,
-				_("DCP-o-matic Disk Writer"),
-				_("Did you install the DCP-o-matic Disk Writer.pkg from the .dmg?  Please check and try again.")
+				variant::wx::dcpomatic_disk_writer(),
+				variant::wx::insert_dcpomatic(_("Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try again."))
 				);
 			m->ShowModal ();
 			return;
@@ -366,7 +367,7 @@ private:
 			if (!reply || reply->type() != DiskWriterBackEndResponse::Type::OK) {
 				auto m = make_wx<MessageDialog>(
 						this,
-						_("DCP-o-matic Disk Writer"),
+						variant::wx::dcpomatic_disk_writer(),
 						wxString::Format(
 							_("The drive %s could not be unmounted.\nClose any application that is using it, then try again. (%s)"),
 							std_to_wx(drive.description()),
@@ -454,7 +455,7 @@ public:
 			Config::FailedToLoad.connect (boost::bind (&App::config_failed_to_load, this));
 			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-			SetAppName (_("DCP-o-matic Disk Writer"));
+			SetAppName(variant::wx::dcpomatic_disk_writer());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -495,12 +496,17 @@ public:
 					return false;
 				}
 				if (!warning->confirmed()) {
-					message_dialog(nullptr, _("You did not correctly confirm that you read the warning that was just shown.  DCP-o-matic Disk Writer will close now.  Please try again."));
+					message_dialog(
+						nullptr,
+						variant::wx::insert_dcpomatic_disk_writer(
+							_("You did not correctly confirm that you read the warning that was just shown.  %s will close now.  Please try again.")
+							)
+						);
 					return false;
 				}
 			}
 
-			_frame = new DOMFrame (_("DCP-o-matic Disk Writer"));
+			_frame = new DOMFrame(variant::wx::dcpomatic_disk_writer());
 			SetTopWindow (_frame);
 
 			_frame->Show ();
@@ -514,7 +520,7 @@ public:
 		}
 		catch (exception& e)
 		{
-			error_dialog (0, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, wxString::Format(_("%s could not start"), variant::wx::dcpomatic_disk_writer()), std_to_wx(e.what()));
 			return false;
 		}
 

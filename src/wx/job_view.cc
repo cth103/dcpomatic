@@ -25,6 +25,7 @@
 #include "message_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/analyse_audio_job.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
@@ -165,7 +166,7 @@ JobView::finished ()
 
 	if (_job->enable_notify() && _notify->GetValue()) {
 		if (Config::instance()->notification(Config::MESSAGE_BOX)) {
-			wxMessageBox (std_to_wx(_job->name() + ": " + _job->status()), _("DCP-o-matic"), wxICON_INFORMATION);
+			wxMessageBox(std_to_wx(_job->name() + ": " + _job->status()), variant::wx::dcpomatic(), wxICON_INFORMATION);
 		}
 		if (Config::instance()->notification(Config::EMAIL)) {
 			string body = Config::instance()->notification_email();

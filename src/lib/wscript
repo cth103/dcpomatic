@@ -206,6 +206,7 @@ sources = """
           upmixer_b.cc
           usl.cc
           util.cc
+          variant.cc
           verify_dcp_job.cc
           video_content.cc
           video_decoder.cc

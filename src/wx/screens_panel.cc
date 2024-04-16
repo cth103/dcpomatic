@@ -25,6 +25,7 @@
 #include "screen_dialog.h"
 #include "screens_panel.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/screen.h"
@@ -261,7 +262,14 @@ ScreensPanel::add_cinema_clicked ()
 			dcp::ScopeGuard sg = [this]() { _ignore_cinemas_changed = false; };
 			Config::instance()->add_cinema(cinema);
 		} catch (FileError& e) {
-			error_dialog(GetParent(), _("Could not write cinema details to the cinemas.xml file.  Check that the location of cinemas.xml is valid in DCP-o-matic's preferences."), std_to_wx(e.what()));
+			error_dialog(
+				GetParent(),
+				variant::wx::insert_dcpomatic(
+					_("Could not write cinema details to the cinemas.xml file.  Check that the location of "
+					  "cinemas.xml is valid in %s's preferences.")
+					),
+				std_to_wx(e.what())
+				);
 			return;
 		}
 
@@ -718,7 +726,14 @@ ScreensPanel::notify_cinemas_changed()
 	try {
 		Config::instance()->changed(Config::CINEMAS);
 	} catch (FileError& e) {
-		error_dialog(GetParent(), _("Could not write cinema details to the cinemas.xml file.  Check that the location of cinemas.xml is valid in DCP-o-matic's preferences."), std_to_wx(e.what()));
+		error_dialog(
+			GetParent(),
+			variant::wx::insert_dcpomatic(
+				_("Could not write cinema details to the cinemas.xml file.  Check that the location of "
+				  "cinemas.xml is valid in %s's preferences.")
+				),
+			std_to_wx(e.what())
+			);
 		return false;
 	}
 

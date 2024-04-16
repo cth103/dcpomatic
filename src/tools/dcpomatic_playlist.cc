@@ -25,6 +25,7 @@
 #include "wx/playlist_editor_config_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/config.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
@@ -576,7 +577,7 @@ private:
 			help->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 		}
 		help->Append(wxID_EXIT, _("&Exit"));
-		help->Append(wxID_ABOUT, _("About DCP-o-matic"));
+		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_playlist_editor(_("About %s")));
 
 		m->Append(help, _("&Help"));
 #else
@@ -637,7 +638,7 @@ private:
 	try
 	{
 		wxInitAllImageHandlers ();
-		SetAppName (_("DCP-o-matic Playlist Editor"));
+		SetAppName(variant::wx::dcpomatic_playlist_editor());
 
 		if (!wxApp::OnInit()) {
 			return false;
@@ -671,7 +672,7 @@ private:
 		*/
 		Config::drop ();
 
-		_frame = new DOMFrame (_("DCP-o-matic Playlist Editor"));
+		_frame = new DOMFrame(variant::wx::dcpomatic_playlist_editor());
 		SetTopWindow (_frame);
 		_frame->Maximize ();
 		_frame->Show ();
@@ -683,7 +684,7 @@ private:
 	}
 	catch (exception& e)
 	{
-		error_dialog (0, _("DCP-o-matic could not start"), std_to_wx(e.what()));
+		error_dialog(nullptr, variant::wx::insert_dcpomatic_playlist_editor(_("%s could not start %s")), std_to_wx(e.what()));
 		return true;
 	}
 

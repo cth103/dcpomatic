@@ -25,6 +25,7 @@
 #include "playlist_controls.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/compose.hpp"
 #include "lib/constants.h"
 #include "lib/cross.h"
@@ -331,7 +332,7 @@ PlaylistControls::spl_selection_changed ()
 void
 PlaylistControls::select_playlist (int selected, int position)
 {
-	wxProgressDialog dialog (_("DCP-o-matic"), "Loading playlist and KDMs");
+	wxProgressDialog dialog(variant::wx::dcpomatic(), "Loading playlist and KDMs");
 
 	for (auto const& i: _playlists[selected].get()) {
 		dialog.Pulse ();
@@ -403,7 +404,7 @@ PlaylistControls::update_current_content ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
 
-	wxProgressDialog dialog (_("DCP-o-matic"), "Loading content");
+	wxProgressDialog dialog(variant::wx::dcpomatic(), "Loading content");
 
 	setup_sensitivity ();
 	dialog.Pulse ();

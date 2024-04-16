@@ -49,6 +49,7 @@
 #include "string_text.h"
 #include "text_decoder.h"
 #include "util.h"
+#include "variant.h"
 #include "video_content.h"
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
@@ -515,7 +516,7 @@ mo_path ()
 boost::filesystem::path
 mo_path ()
 {
-	return "DCP-o-matic 2.app/Contents/Resources";
+	return variant::dcpomatic_app() + "/Contents/Resources";
 }
 #endif
 
@@ -1018,9 +1019,9 @@ decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
 			}
 		}
 		if (!on_chain) {
-			throw KDMError (_("This KDM was not made for DCP-o-matic's decryption certificate."), e.what());
+			throw KDMError(variant::insert_dcpomatic(_("This KDM was not made for %1's decryption certificate.")), e.what());
 		} else if (kdm_subject_name != dc->leaf().subject()) {
-			throw KDMError (_("This KDM was made for DCP-o-matic but not for its leaf certificate."), e.what());
+			throw KDMError(variant::insert_dcpomatic(_("This KDM was made for %1 but not for its leaf certificate.")), e.what());
 		} else {
 			throw;
 		}

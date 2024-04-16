@@ -49,6 +49,7 @@
 #include "grok/gpu_config_panel.h"
 #endif
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content_type.h"
@@ -107,12 +108,12 @@ private:
 		int r = 0;
 		add_language_controls (table, r);
 
-		add_label_to_sizer (table, _panel, _("Number of threads DCP-o-matic should use"), true, wxGBPosition (r, 0));
+		add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic(_("Number of threads %s should use")), true, wxGBPosition(r, 0));
 		_master_encoding_threads = new wxSpinCtrl (_panel);
 		table->Add (_master_encoding_threads, wxGBPosition (r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Number of threads DCP-o-matic encode server should use"), true, wxGBPosition (r, 0));
+		add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic_encode_server(_("Number of threads %s should use")), true, wxGBPosition(r, 0));
 		_server_encoding_threads = new wxSpinCtrl (_panel);
 		table->Add (_server_encoding_threads, wxGBPosition (r, 1));
 		++r;
@@ -986,8 +987,8 @@ private:
 		Email email(
 			wx_to_std(dialog.from()),
 			{ wx_to_std(dialog.to()) },
-			wx_to_std(_("DCP-o-matic test email")),
-			wx_to_std(_("This is a test email from DCP-o-matic."))
+			wx_to_std(variant::wx::insert_dcpomatic(_("%s test email"))),
+			wx_to_std(variant::wx::insert_dcpomatic(_("This is a test email from %s.")))
 			);
 		auto config = Config::instance();
 		try {
@@ -1407,32 +1408,50 @@ private:
 
 		add_label_to_sizer (table, _panel, _("Issuer"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_issuer = new wxTextCtrl (_panel, wxID_ANY);
-		_issuer->SetToolTip (_("This will be written to the DCP's XML files as the <Issuer>.  If it is blank, a default value mentioning DCP-o-matic will be used."));
+		_issuer->SetToolTip(
+			variant::wx::insert_dcpomatic(
+				_("This will be written to the DCP's XML files as the <Issuer>.  If it is blank, a default value mentioning %s will be used.")
+				));
 		table->Add (_issuer, 1, wxALL | wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("Creator"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_creator = new wxTextCtrl (_panel, wxID_ANY);
-		_creator->SetToolTip (_("This will be written to the DCP's XML files as the <Creator>.  If it is blank, a default value mentioning DCP-o-matic will be used."));
+		_creator->SetToolTip(
+			variant::wx::insert_dcpomatic(
+				_("This will be written to the DCP's XML files as the <Creator>.  If it is blank, a default value mentioning %s will be used.")
+				));
 		table->Add (_creator, 1, wxALL | wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("Company name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_company_name = new wxTextCtrl (_panel, wxID_ANY);
-		_company_name->SetToolTip (_("This will be written to the DCP's MXF files as the 'company name'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		_company_name->SetToolTip(
+			variant::wx::insert_dcpomatic(
+				_("This will be written to the DCP's MXF files as the 'company name'.  If it is blank, a default value mentioning libdcp (an internal %s library) will be used.")
+				));
 		table->Add (_company_name, 1, wxALL | wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("Product name"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_product_name = new wxTextCtrl (_panel, wxID_ANY);
-		_product_name->SetToolTip (_("This will be written to the DCP's MXF files as the 'product name'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		_product_name->SetToolTip(
+			variant::wx::insert_dcpomatic(
+				_("This will be written to the DCP's MXF files as the 'product name'.  If it is blank, a default value mentioning libdcp (an internal %s library) will be used.")
+				));
 		table->Add (_product_name, 1, wxALL | wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("Product version"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_product_version = new wxTextCtrl (_panel, wxID_ANY);
-		_product_version->SetToolTip (_("This will be written to the DCP's MXF files as the 'product version'.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		_product_version->SetToolTip(
+			variant::wx::insert_dcpomatic(
+				_("This will be written to the DCP's MXF files as the 'product version'.  If it is blank, a default value mentioning libdcp (an internal %s library) will be used.")
+				));
 		table->Add (_product_version, 1, wxALL | wxEXPAND);
 
 		add_label_to_sizer (table, _panel, _("JPEG2000 comment"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_j2k_comment = new wxTextCtrl (_panel, wxID_ANY);
-		_j2k_comment->SetToolTip (_("This will be written to the DCP's JPEG2000 data as a comment.  If it is blank, a default value mentioning libdcp (an internal DCP-o-matic library) will be used."));
+		_j2k_comment->SetToolTip(
+			variant::wx::insert_dcpomatic(
+				_("This will be written to the DCP's JPEG2000 data as a comment.  If it is blank, a default value mentioning libdcp (an internal %s library) will be used.")
+				));
 		table->Add (_j2k_comment, 1, wxALL | wxEXPAND);
 
 		_panel->GetSizer()->Add (table, 0, wxEXPAND | wxALL, _border);
@@ -1540,7 +1559,7 @@ private:
 
 		_allow_any_container = new CheckBox(_panel, _("Allow full-frame and non-standard container ratios"));
 		table->Add(_allow_any_container, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
-		auto restart = new StaticText(_panel, _("(restart DCP-o-matic to see all ratios)"));
+		auto restart = new StaticText(_panel, variant::wx::insert_dcpomatic(_("(restart %s to see all ratios)")));
 		auto font = restart->GetFont();
 		font.SetStyle(wxFONTSTYLE_ITALIC);
 		font.SetPointSize(font.GetPointSize() - 1);
@@ -1674,7 +1693,7 @@ private:
 		_video_display_mode = new wxChoice (_panel, wxID_ANY);
 		table->Add (_video_display_mode);
 
-		auto restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to change display mode)"), false);
+		auto restart = add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic(_("(restart %s to change display mode)")), false);
 		auto font = restart->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);

@@ -21,6 +21,7 @@
 
 #include "content_view.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/config.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
@@ -86,7 +87,7 @@ ContentView::update ()
 		dir = home_directory ();
 	}
 
-	wxProgressDialog progress (_("DCP-o-matic"), _("Reading content directory"));
+	wxProgressDialog progress(variant::wx::dcpomatic(), _("Reading content directory"));
 	auto jm = JobManager::instance ();
 
 	list<shared_ptr<ExamineContentJob>> jobs;

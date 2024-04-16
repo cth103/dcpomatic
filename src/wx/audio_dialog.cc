@@ -24,6 +24,7 @@
 #include "check_box.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/analyse_audio_job.h"
 #include "lib/audio_analysis.h"
 #include "lib/audio_content.h"
@@ -166,9 +167,9 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 	_film_content_connection = film->ContentChange.connect(boost::bind(&AudioDialog::content_change, this, _1, _3));
 	DCPOMATIC_ASSERT (film->directory());
 	if (content) {
-		SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(content->path(0).string())));
+		SetTitle(wxString::Format(_("%s audio - %s"), variant::wx::dcpomatic(), std_to_wx(content->path(0).string())));
 	} else {
-		SetTitle(wxString::Format(_("DCP-o-matic audio - %s"), std_to_wx(film->directory().get().string())));
+		SetTitle(wxString::Format(_("%s audio - %s"), variant::wx::dcpomatic(), std_to_wx(film->directory().get().string())));
 	}
 
 	if (content) {

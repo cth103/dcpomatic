@@ -25,6 +25,7 @@
 #include "dcpomatic_button.h"
 #include "nag_dialog.h"
 #include "static_text.h"
+#include "wx_variant.h"
 #include "lib/constants.h"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
@@ -148,7 +149,7 @@ GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
 	++r;
 
 	auto restart = add_label_to_sizer (
-		table, _panel, _("(restart DCP-o-matic to see language changes)"), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
+		table, _panel, variant::wx::insert_dcpomatic(_("(restart %s to see language changes)")), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
 		);
 	wxFont font = restart->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
@@ -792,7 +793,7 @@ KeysPage::import_decryption_chain_and_key ()
 	if (new_chain->chain_valid() && new_chain->private_key_valid()) {
 		Config::instance()->set_decryption_chain(new_chain);
 	} else {
-		error_dialog(_panel, _("Invalid DCP-o-matic export file"));
+		error_dialog(_panel, variant::wx::insert_dcpomatic(_("Invalid %s export file")));
 	}
 }
 

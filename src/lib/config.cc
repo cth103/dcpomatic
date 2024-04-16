@@ -33,6 +33,7 @@
 #include "log.h"
 #include "ratio.h"
 #include "unzipper.h"
+#include "variant.h"
 #include "zipper.h"
 #include <dcp/certificate_chain.h>
 #include <dcp/name_format.h>
@@ -433,7 +434,7 @@ try
 	_kdm_bcc = f.optional_string_child ("KDMBCC").get_value_or ("");
 	_kdm_email = f.string_child ("KDMEmail");
 
-	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(_("DCP-o-matic notification"));
+	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(variant::insert_dcpomatic(_("%1 notification")));
 	_notification_from = f.optional_string_child("NotificationFrom").get_value_or("");
 	_notification_to = f.optional_string_child("NotificationTo").get_value_or("");
 	for (auto i: f.node_children("NotificationCC")) {
@@ -1265,20 +1266,20 @@ Config::set_kdm_email_to_default ()
 {
 	_kdm_subject = _("KDM delivery: $CPL_NAME");
 
-	_kdm_email = _(
+	_kdm_email = variant::insert_dcpomatic(_(
 		"Dear Projectionist\n\n"
 		"Please find attached KDMs for $CPL_NAME.\n\n"
 		"Cinema: $CINEMA_NAME\n"
 		"Screen(s): $SCREENS\n\n"
 		"The KDMs are valid from $START_TIME until $END_TIME.\n\n"
-		"Best regards,\nDCP-o-matic"
-		);
+		"Best regards,\n%1"
+		));
 }
 
 void
 Config::set_notification_email_to_default ()
 {
-	_notification_subject = _("DCP-o-matic notification");
+	_notification_subject = variant::insert_dcpomatic(_("%1 notification"));
 
 	_notification_email = _(
 		"$JOB_NAME: $JOB_STATUS"

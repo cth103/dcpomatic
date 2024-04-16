@@ -26,6 +26,7 @@
 #include "dcpomatic_log.h"
 #include "film.h"
 #include "ratio.h"
+#include "variant.h"
 #include <dcp/raw_convert.h>
 #include <iostream>
 #include <string>
@@ -40,8 +41,8 @@ using boost::optional;
 
 
 string CreateCLI::_help =
-	"\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n"
-	"  -v, --version                 show DCP-o-matic version\n"
+	string("\nSyntax: %1 [OPTION] <CONTENT> [OPTION] [<CONTENT> ...]\n") +
+	variant::insert_dcpomatic("  -v, --version                 show %1 version\n") +
 	"  -h, --help                    show this help\n"
 	"  -n, --name <name>             film name\n"
 	"  -t, --template <name>         template name\n"

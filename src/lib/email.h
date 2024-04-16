@@ -19,6 +19,7 @@
 */
 
 
+#include "types.h"
 #include <curl/curl.h>
 #include <boost/scoped_array.hpp>
 

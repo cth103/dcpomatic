@@ -18,8 +18,11 @@
 
 */
 
-#include "playlist_editor_config_dialog.h"
+
 #include "config_dialog.h"
+#include "playlist_editor_config_dialog.h"
+#include "wx_variant.h"
+
 
 /** @file src/playlist_editor_config_dialog.cc
  *  @brief A dialogue to edit DCP-o-matic Playlist Editor configuration.
@@ -28,7 +31,7 @@
 wxPreferencesEditor*
 create_playlist_editor_config_dialog ()
 {
-	auto e = new wxPreferencesEditor (_("DCP-o-matic Playlist Editor Preferences"));
+	auto e = new wxPreferencesEditor(variant::wx::insert_dcpomatic_playlist_editor(_("%s Preferences")));
 
 #ifdef DCPOMATIC_OSX
 	/* Width that we force some of the config panels to be on OSX so that

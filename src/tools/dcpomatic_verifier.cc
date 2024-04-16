@@ -30,6 +30,7 @@
 #include "wx/verify_dcp_progress_panel.h"
 #include "wx/verify_dcp_result_panel.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/job_manager.h"
@@ -146,7 +147,7 @@ private:
 	bool OnInit() override
 	{
 		try {
-			SetAppName(_("DCP-o-matic Verifier"));
+			SetAppName(variant::wx::dcpomatic_verifier());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -179,14 +180,14 @@ private:
 			*/
 			Config::drop();
 
-			_frame = new DOMFrame(_("DCP-o-matic Verifier"));
+			_frame = new DOMFrame(variant::wx::dcpomatic_verifier());
 			SetTopWindow(_frame);
 			_frame->SetSize({480, 640});
 			_frame->Show();
 		}
 		catch (exception& e)
 		{
-			error_dialog(nullptr, wxString::Format("DCP-o-matic Verifier could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic_verifier("%s could not start."), std_to_wx(e.what()));
 		}
 
 		return true;

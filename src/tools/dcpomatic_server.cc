@@ -22,6 +22,7 @@
 #include "wx/static_text.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/config.h"
 #ifdef DCPOMATIC_GROK
 #include "lib/grok/context.h"
@@ -154,7 +155,7 @@ class StatusDialog : public wxDialog
 public:
 	StatusDialog ()
 		: wxDialog (
-			nullptr, wxID_ANY, _("DCP-o-matic Encode Server"),
+			nullptr, wxID_ANY, variant::wx::dcpomatic_encode_server(),
 			wxDefaultPosition, wxDefaultSize,
 #ifdef DCPOMATIC_OSX
 			wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER | wxSTAY_ON_TOP
@@ -362,7 +363,7 @@ private:
 			error_dialog (nullptr, std_to_wx(e.what()));
 			wxTheApp->ExitMainLoop ();
 		} catch (...) {
-			error_dialog (nullptr, _("An unknown error has occurred with the DCP-o-matic server."));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic_encode_server(_("An unknown error has occurred with the %s.")));
 			wxTheApp->ExitMainLoop ();
 		}
 	}

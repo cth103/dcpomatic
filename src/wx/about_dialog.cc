@@ -26,6 +26,7 @@
 #include "about_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/compose.hpp"
 #include "lib/version.h"
 #include <dcp/warnings.h>
@@ -38,7 +39,7 @@ using std::vector;
 
 
 AboutDialog::AboutDialog (wxWindow* parent)
-	: wxDialog (parent, wxID_ANY, _("About DCP-o-matic"))
+	: wxDialog(parent, wxID_ANY, variant::wx::insert_dcpomatic(_("About %s")))
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 	auto sizer = new wxBoxSizer (wxVERTICAL);
@@ -53,7 +54,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	wxFont version_font (*wxNORMAL_FONT);
 	version_font.SetWeight (wxFONTWEIGHT_BOLD);
 
-	auto t = new StaticText (this, _("DCP-o-matic"));
+	auto t = new StaticText(this, variant::wx::dcpomatic());
 	t->SetFont (title_font);
 	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 16));
 

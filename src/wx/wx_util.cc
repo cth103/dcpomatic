@@ -31,6 +31,7 @@
 #include "static_text.h"
 #include "wx_ptr.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/job.h"
@@ -161,7 +162,7 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
 void
 error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
-	auto d = make_wx<wxMessageDialog>(parent, m, _("DCP-o-matic"), wxOK | wxICON_ERROR);
+	auto d = make_wx<wxMessageDialog>(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_ERROR);
 	if (e) {
 		wxString em = *e;
 		em[0] = wxToupper (em[0]);
@@ -178,7 +179,7 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 void
 message_dialog (wxWindow* parent, wxString m)
 {
-	auto d = make_wx<wxMessageDialog>(parent, m, _("DCP-o-matic"), wxOK | wxICON_INFORMATION);
+	auto d = make_wx<wxMessageDialog>(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_INFORMATION);
 	d->ShowModal ();
 }
 
@@ -187,7 +188,7 @@ message_dialog (wxWindow* parent, wxString m)
 bool
 confirm_dialog (wxWindow* parent, wxString m)
 {
-	auto d = make_wx<wxMessageDialog>(parent, m, _("DCP-o-matic"), wxYES_NO | wxICON_QUESTION);
+	auto d = make_wx<wxMessageDialog>(parent, m, variant::wx::dcpomatic(), wxYES_NO | wxICON_QUESTION);
 	return d->ShowModal() == wxID_YES;
 }
 

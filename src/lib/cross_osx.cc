@@ -19,12 +19,13 @@
 */
 
 
-#include "cross.h"
 #include "compose.hpp"
-#include "log.h"
-#include "dcpomatic_log.h"
 #include "config.h"
+#include "cross.h"
+#include "dcpomatic_log.h"
 #include "exceptions.h"
+#include "log.h"
+#include "variant.h"
 #include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <glib.h>
@@ -168,6 +169,8 @@ Waker::~Waker ()
 void
 start_tool (string executable, string app)
 {
+	boost::algorithm::replace_all(app, " ", "\\ ");
+
 	auto exe_path = directory_containing_executable();
 	exe_path = exe_path.parent_path(); // Contents
 	exe_path = exe_path.parent_path(); // DCP-o-matic 2.app
@@ -191,14 +194,14 @@ start_tool (string executable, string app)
 void
 start_batch_converter ()
 {
-	start_tool ("dcpomatic2_batch", "DCP-o-matic\\ 2\\ Batch\\ Converter.app");
+	start_tool("dcpomatic2_batch", variant::dcpomatic_batch_converter_app());
 }
 
 
 void
 start_player ()
 {
-	start_tool ("dcpomatic2_player", "DCP-o-matic\\ 2\\ Player.app");
+	start_tool("dcpomatic2_player", variant::dcpomatic_player_app());
 }
 
 

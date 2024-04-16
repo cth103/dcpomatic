@@ -23,6 +23,7 @@
 #include "config.h"
 #include "email.h"
 #include "exceptions.h"
+#include "variant.h"
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/date_time/c_local_time_adjustor.hpp>
@@ -143,9 +144,8 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 			"Content-Type: multipart/mixed; boundary=" + boundary + "\r\n";
 	}
 
-	_email += "Subject: " + encode_rfc1342(_subject) + "\r\n"
-		"User-Agent: DCP-o-matic\r\n"
-		"\r\n";
+	_email += "Subject: " + encode_rfc1342(_subject) + "\r\n" +
+		variant::insert_dcpomatic("User-Agent: %1\r\n\r\n");
 
 	if (!_attachments.empty ()) {
 		_email += "--" + boundary + "\r\n"

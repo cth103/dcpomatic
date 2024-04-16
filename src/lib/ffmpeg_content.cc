@@ -34,6 +34,7 @@
 #include "job.h"
 #include "log.h"
 #include "text_content.h"
+#include "variant.h"
 #include "video_content.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
@@ -118,7 +119,7 @@ FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>
 		if (auto filter = Filter::from_id(i->content())) {
 			_filters.push_back(*filter);
 		} else {
-			notes.push_back (String::compose (_("DCP-o-matic no longer supports the `%1' filter, so it has been turned off."), i->content()));
+			notes.push_back(String::compose(_("%1 no longer supports the `%2' filter, so it has been turned off."), variant::dcpomatic(), i->content()));
 		}
 	}
 

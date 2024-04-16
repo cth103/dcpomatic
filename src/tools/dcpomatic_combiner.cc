@@ -23,6 +23,8 @@
 #include "wx/dir_picker_ctrl.h"
 #include "wx/editable_list.h"
 #include "wx/wx_signal_manager.h"
+#include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/combine_dcp_job.h"
 #include "lib/config.h"
 #include "lib/constants.h"
@@ -175,7 +177,7 @@ private:
 
 		auto jm = JobManager::instance ();
 		jm->add (make_shared<CombineDCPJob>(_inputs, output, wx_to_std(_annotation_text->GetValue())));
-		bool const ok = display_progress(_("DCP-o-matic Combiner"), _("Combining DCPs"));
+		bool const ok = display_progress(variant::wx::dcpomatic_combiner(), _("Combining DCPs"));
 		if (!ok) {
 			return;
 		}
@@ -219,7 +221,7 @@ public:
 			Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this, _1));
 			Config::Warning.connect (boost::bind (&App::config_warning, this, _1));
 
-			SetAppName (_("DCP-o-matic Combiner"));
+			SetAppName(variant::wx::dcpomatic_combiner());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -253,7 +255,7 @@ public:
 			*/
 			Config::drop ();
 
-			_frame = new DOMFrame(_("DCP-o-matic Combiner"));
+			_frame = new DOMFrame(variant::wx::dcpomatic_combiner());
 			SetTopWindow (_frame);
 
 			_frame->Show ();
@@ -263,7 +265,7 @@ public:
 		}
 		catch (exception& e)
 		{
-			error_dialog(nullptr, wxString::Format("DCP-o-matic Combiner could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, wxString::Format(_("%s could not start (%s)"), variant::wx::dcpomatic_combiner()), std_to_wx(e.what()));
 			return false;
 		}
 

@@ -57,6 +57,7 @@
 #include "wx/video_waveform_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/analytics.h"
 #include "lib/audio_content.h"
 #include "lib/check_content_job.h"
@@ -94,6 +95,7 @@
 #include "lib/text_content.h"
 #include "lib/transcode_job.h"
 #include "lib/update_checker.h"
+#include "lib/variant.h"
 #include "lib/version.h"
 #include "lib/video_content.h"
 #include <dcp/exceptions.h>
@@ -490,8 +492,10 @@ public:
 		auto const dir = e.file().parent_path();
 		if (dcp::filesystem::exists(dir / "ASSETMAP") || dcp::filesystem::exists(dir / "ASSETMAP.xml")) {
 			error_dialog (
-				this, _("Could not open this folder as a DCP-o-matic project."),
-				_("It looks like you are trying to open a DCP.  File -> Open is for loading DCP-o-matic projects, not DCPs.  To import a DCP, create a new project with File -> New and then click the \"Add DCP...\" button.")
+				this, variant::wx::insert_dcpomatic(_("Could not open this folder as a %s project.")),
+				variant::wx::insert_dcpomatic(
+					_("It looks like you are trying to open a DCP.  File -> Open is for loading %s projects, not DCPs.  "
+					  "To import a DCP, create a new project with File -> New and then click the \"Add DCP...\" button."))
 				);
 		} else {
 			auto const p = std_to_wx(file.string ());
@@ -575,7 +579,7 @@ private:
 			if (!found_bad_chars.empty()) {
 				message += wxString::Format (_("Try removing the %s characters from your folder name."), std_to_wx(found_bad_chars).data());
 			} else {
-				message += _("Please check that you do not have Windows controlled folder access enabled for DCP-o-matic.");
+				message += variant::wx::insert_dcpomatic(_("Please check that you do not have Windows controlled folder access enabled for %s."));
 			}
 			error_dialog (this, message, std_to_wx(e.what()));
 #else
@@ -1143,10 +1147,15 @@ private:
 			body += i.first + "\n" + i.second + "\n\n";
 		}
 		if (dialog.email().find("@") == string::npos) {
-			error_dialog (this, _("You must enter a valid email address when sending translations, "
-					      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
+			error_dialog(
+				this,
+				variant::wx::insert_dcpomatic(
+					_("You must enter a valid email address when sending translations, "
+					  "otherwise the %s maintainers cannot credit you or contact you with questions.")
+					)
+				);
 		} else {
-			Email email(dialog.email(), { "carl@dcpomatic.com" }, "DCP-o-matic translations", body);
+			Email email(dialog.email(), { "carl@dcpomatic.com" }, variant::insert_dcpomatic("%1 translations"), body);
 			try {
 				email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 			} catch (NetworkError& e) {
@@ -1403,7 +1412,7 @@ private:
 		add_item (jobs_menu, _("Make &KDMs...\tCtrl-K"), ID_jobs_make_kdms, NEEDS_FILM);
 		/* [Shortcut] Ctrl+D:Make DKDMs */
 		add_item (jobs_menu, _("Make &DKDMs...\tCtrl-D"), ID_jobs_make_dkdms, NEEDS_FILM);
-		add_item (jobs_menu, _("Make DKDM for DCP-o-matic..."), ID_jobs_make_self_dkdm, NEEDS_FILM | NEEDS_ENCRYPTION);
+		add_item(jobs_menu, variant::wx::insert_dcpomatic(_("Make DKDM for %s...")), ID_jobs_make_self_dkdm, NEEDS_FILM | NEEDS_ENCRYPTION);
 		jobs_menu->AppendSeparator ();
 		/* [Shortcut] Ctrl+E:Export video file */
 		add_item (jobs_menu, _("Export video file...\tCtrl-E"), ID_jobs_export_video_file, NEEDS_FILM);
@@ -1441,7 +1450,7 @@ private:
 
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__
-		add_item (help, _("About DCP-o-matic"), wxID_ABOUT, ALWAYS);
+		add_item(help, variant::wx::insert_dcpomatic(_("About %s")), wxID_ABOUT, ALWAYS);
 #else
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif
@@ -1559,9 +1568,9 @@ private:
 			UpdateDialog dialog(this, uc->stable(), uc->test());
 			dialog.ShowModal();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
-			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
+			error_dialog(this, variant::wx::insert_dcpomatic(_("The %s download server could not be contacted.")));
 		} else {
-			error_dialog (this, _("There are no new versions of DCP-o-matic available."));
+			error_dialog(this, variant::wx::insert_dcpomatic(_("There are no new versions of %s available.")));
 		}
 
 		_update_news_requested = false;
@@ -1599,7 +1608,7 @@ private:
 
 	void set_title ()
 	{
-		auto s = wx_to_std(_("DCP-o-matic"));
+		auto s = variant::dcpomatic();
 		if (_film) {
 			if (_film->directory()) {
 				s += " - " + _film->directory()->string();
@@ -1643,7 +1652,7 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_SWITCH, "n", "new", "create new film", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "c", "content", "add content file / directory", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "d", "dcp", "add content DCP", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
-	{ wxCMD_LINE_SWITCH, "v", "version", "show DCP-o-matic version", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
+	{ wxCMD_LINE_SWITCH, "v", "version", "show version", wxCMD_LINE_VAL_NONE, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_OPTION, "", "config", "directory containing config.xml and cinemas.xml", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_PARAM, 0, 0, "film to load or create", wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
@@ -1687,7 +1696,7 @@ private:
 			setvbuf(hf_in, NULL, _IONBF, 128);
 			*stdin = *hf_in;
 
-			cout << "DCP-o-matic is starting." << "\n";
+			cout << variant::insert_dcpomatic("%1 is starting.") << "\n";
 		}
 #endif
 			wxInitAllImageHandlers ();
@@ -1697,7 +1706,7 @@ private:
 
 			_splash = maybe_show_splash ();
 
-			SetAppName (_("DCP-o-matic"));
+			SetAppName(variant::wx::dcpomatic());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -1736,7 +1745,7 @@ private:
 			*/
 			Config::Bad.connect (boost::bind(&App::config_bad, this, _1));
 
-			_frame = new DOMFrame (_("DCP-o-matic"));
+			_frame = new DOMFrame(variant::wx::dcpomatic());
 			SetTopWindow (_frame);
 			_frame->Maximize ();
 			close_splash ();
@@ -1744,7 +1753,14 @@ private:
 			if (running_32_on_64 ()) {
 				NagDialog::maybe_nag (
 					_frame, Config::NAG_32_ON_64,
-					_("You are running the 32-bit version of DCP-o-matic on a 64-bit version of Windows.  This will limit the memory available to DCP-o-matic and may cause errors.  You are strongly advised to install the 64-bit version of DCP-o-matic."),
+					wxString::Format(
+						_("You are running the 32-bit version of %s on a 64-bit version of Windows.  "
+						  "This will limit the memory available to %s and may cause errors.  You are "
+						  "strongly advised to install the 64-bit version of %s."),
+						variant::wx::dcpomatic(),
+						variant::wx::dcpomatic(),
+						variant::wx::dcpomatic()
+						),
 					false);
 			}
 
@@ -1796,7 +1812,7 @@ private:
 		catch (exception& e)
 		{
 			close_splash();
-			error_dialog (nullptr, wxString::Format ("DCP-o-matic could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic(_("%s could not start.")), std_to_wx(e.what()));
 		}
 
 		return true;
@@ -1939,9 +1955,11 @@ private:
 			}
 			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
-				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
-				  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
-				  "the certificate chain for signing DCPs and KDMs?"),
+				variant::wx::insert_dcpomatic(
+					_("The certificate chain that %s uses for signing DCPs and KDMs contains a small error\n"
+					  "which will prevent DCPs from being validated correctly on some systems.  Do you want to re-create\n"
+					  "the certificate chain for signing DCPs and KDMs?")
+					),
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_UTF8
 				);
@@ -1954,9 +1972,11 @@ private:
 			}
 			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
-				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period\n"
-				  "that is too long.  This will cause problems playing back DCPs on some systems.\n"
-				  "Do you want to re-create the certificate chain for signing DCPs and KDMs?"),
+				variant::wx::insert_dcpomatic(
+					_("The certificate chain that %s uses for signing DCPs and KDMs has a validity period\n"
+					  "that is too long.  This will cause problems playing back DCPs on some systems.\n"
+					  "Do you want to re-create the certificate chain for signing DCPs and KDMs?")
+					),
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_CHAIN_VALIDITY
 				);
@@ -1966,10 +1986,14 @@ private:
 		{
 			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
-				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs is inconsistent and\n"
-				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
-				  "the certificate chain for signing DCPs and KDMs?"),
-				_("Close DCP-o-matic")
+				wxString::Format(
+					_("The certificate chain that %s uses for signing DCPs and KDMs is inconsistent and\n"
+					  "cannot be used.  %s cannot start unless you re-create it.  Do you want to re-create\n"
+					  "the certificate chain for signing DCPs and KDMs?"),
+					variant::wx::dcpomatic(),
+					variant::wx::dcpomatic()
+					),
+				variant::wx::insert_dcpomatic(_("Close %s"))
 				);
 			if (dialog.ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
@@ -1980,11 +2004,15 @@ private:
 		{
 			RecreateChainDialog dialog(
 				_frame, _("Recreate KDM decryption chain"),
-				_("The certificate chain that DCP-o-matic uses for decrypting KDMs is inconsistent and\n"
-				  "cannot be used.  DCP-o-matic cannot start unless you re-create it.  Do you want to re-create\n"
-				  "the certificate chain for decrypting KDMs?  You may want to say \"No\" here and back up your\n"
-				  "configuration before continuing."),
-				_("Close DCP-o-matic")
+				wxString::Format(
+					_("The certificate chain that %s uses for decrypting KDMs is inconsistent and\n"
+					  "cannot be used.  %s cannot start unless you re-create it.  Do you want to re-create\n"
+					  "the certificate chain for decrypting KDMs?  You may want to say \"No\" here and back up your\n"
+					  "configuration before continuing."),
+					variant::wx::dcpomatic(),
+					variant::wx::dcpomatic()
+					),
+				variant::wx::insert_dcpomatic(_("Close %s"))
 				);
 			if (dialog.ShowModal() != wxID_OK) {
 				exit (EXIT_FAILURE);
@@ -1995,10 +2023,14 @@ private:
 		{
 			RecreateChainDialog dialog(
 				_frame, _("Recreate signing certificates"),
-				_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error\n"
-				  "which will prevent DCPs from being validated correctly on some systems.  This error was caused\n"
-				  "by a bug in DCP-o-matic which has now been fixed. Do you want to re-create the certificate chain\n"
-				  "for signing DCPs and KDMs?"),
+				wxString::Format(
+					_("The certificate chain that %s uses for signing DCPs and KDMs contains a small error\n"
+					  "which will prevent DCPs from being validated correctly on some systems.  This error was caused\n"
+					  "by a bug in %s which has now been fixed. Do you want to re-create the certificate chain\n"
+					  "for signing DCPs and KDMs?"),
+					variant::wx::dcpomatic(),
+					variant::wx::dcpomatic()
+					),
 				_("Do nothing"),
 				Config::NAG_BAD_SIGNER_DN_QUALIFIER
 				);

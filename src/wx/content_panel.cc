@@ -31,6 +31,7 @@
 #include "timing_panel.h"
 #include "video_panel.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/audio_content.h"
 #include "lib/case_insensitive_sorter.h"
 #include "lib/compose.hpp"
@@ -673,10 +674,14 @@ ContentPanel::add_dcp(boost::filesystem::path dcp)
 	} catch (ProjectFolderError &) {
 		error_dialog (
 			_parent,
-			_(
-				"This looks like a DCP-o-matic project folder, which cannot be added to a different project.  "
-				"Choose the DCP folder inside the DCP-o-matic project folder if that's what you want to import."
-			 )
+			wxString::Format(
+				_(
+					"This looks like a %s project folder, which cannot be added to a different project.  "
+					"Choose the DCP folder inside the %s project folder if that's what you want to import."
+				 ),
+				variant::wx::dcpomatic(),
+				variant::wx::dcpomatic()
+				)
 			);
 	} catch (exception& e) {
 		error_dialog(_parent, e.what());

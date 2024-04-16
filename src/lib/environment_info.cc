@@ -22,6 +22,7 @@
 #include "compose.hpp"
 #include "cross.h"
 #include "log.h"
+#include "variant.h"
 #include "version.h"
 #include <dcp/version.h>
 #include <dcp/warnings.h>
@@ -85,7 +86,7 @@ environment_info ()
 {
 	list<string> info;
 
-	info.push_back (String::compose ("DCP-o-matic %1 git %2 using %3", dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
+	info.push_back(String::compose("%1 %2 git %3 using %4", variant::dcpomatic(), dcpomatic_version, dcpomatic_git_commit, dependency_version_summary()));
 
 	{
 		char buffer[128];
@@ -94,9 +95,9 @@ environment_info ()
 	}
 
 #ifdef DCPOMATIC_DEBUG
-	info.push_back ("DCP-o-matic built in debug mode.");
+	info.push_back(variant::insert_dcpomatic("%1 built in debug mode."));
 #else
-	info.push_back ("DCP-o-matic built in optimised mode.");
+	info.push_back(variant::insert_dcpomatic("%1 built in optimised mode."));
 #endif
 #ifdef LIBDCP_DEBUG
 	info.push_back ("libdcp built in debug mode.");

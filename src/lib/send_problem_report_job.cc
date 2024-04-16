@@ -19,15 +19,16 @@
 */
 
 
-#include "send_problem_report_job.h"
 #include "compose.hpp"
-#include "film.h"
 #include "cross.h"
-#include "film.h"
-#include "log.h"
-#include "version.h"
 #include "email.h"
 #include "environment_info.h"
+#include "film.h"
+#include "film.h"
+#include "log.h"
+#include "send_problem_report_job.h"
+#include "variant.h"
+#include "version.h"
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"
@@ -108,7 +109,7 @@ SendProblemReportJob::run ()
 		body += "---<8----\n";
 	}
 
-	Email email(_from, {"carl@dcpomatic.com"}, "DCP-o-matic problem report", body);
+	Email email(_from, {"carl@dcpomatic.com"}, variant::insert_dcpomatic("%1 problem report"), body);
 	email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 
 	set_progress (1);

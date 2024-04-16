@@ -21,6 +21,7 @@
 
 #include "config.h"
 #include "release_notes.h"
+#include "variant.h"
 #include "version.h"
 
 #include "i18n.h"
@@ -46,7 +47,7 @@ find_release_notes(bool dark, optional<string> current)
 	string const colour = dark ? "white" : "black";
 	auto const span = String::compose("<span style=\"color: %1\">", colour);
 
-	const string header = String::compose("<h1>%1DCP-o-matic %2 release notes</span></h1>", span, *current);
+	const string header = String::compose("<h1>%1%2 %3 release notes</span></h1>", span, variant::dcpomatic(), *current);
 
 	if (!last) {
 		return header + span +

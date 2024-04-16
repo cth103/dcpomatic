@@ -35,6 +35,7 @@
 #include "player.h"
 #include "ratio.h"
 #include "text_content.h"
+#include "variant.h"
 #include "video_content.h"
 #include "writer.h"
 #include <dcp/cpl.h>
@@ -107,7 +108,13 @@ void
 Hints::check_few_audio_channels ()
 {
 	if (film()->audio_channels() < 6) {
-		hint (_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors.  You may want to set the DCP to have 6 channels.  It does not matter if your content has fewer channels, as DCP-o-matic will fill the extras with silence."));
+		hint(
+			variant::insert_dcpomatic(
+				_("Your DCP has fewer than 6 audio channels.  This may cause problems on some projectors.  "
+				  "You may want to set the DCP to have 6 channels.  It does not matter if your content has "
+				  "fewer channels, as %1 will fill the extras with silence.")
+				)
+		    );
 	}
 }
 
@@ -117,7 +124,12 @@ Hints::check_upmixers ()
 {
 	auto ap = film()->audio_processor();
 	if (ap && (ap->id() == "stereo-5.1-upmix-a" || ap->id() == "stereo-5.1-upmix-b")) {
-		hint (_("You are using DCP-o-matic's stereo-to-5.1 upmixer.  This is experimental and may result in poor-quality audio.  If you continue, you should listen to the resulting DCP in a cinema to make sure that it sounds good."));
+		hint(variant::insert_dcpomatic(
+				_("You are using %1's stereo-to-5.1 upmixer.  This is experimental and "
+				  "may result in poor-quality audio.  If you continue, you should listen to the "
+				  "resulting DCP in a cinema to make sure that it sounds good.")
+				)
+		    );
 	}
 }
 
@@ -718,16 +730,20 @@ Hints::check_certificates ()
 
 	switch (*bad) {
 	case Config::BAD_SIGNER_UTF8_STRINGS:
-		hint(_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs contains a small error "
-		       "which will prevent DCPs from being validated correctly on some systems.  It is advisable to "
-		       "re-create the signing certificate chain by clicking the \"Re-make certificates and key...\" "
-		       "button in the Keys page of Preferences."));
+		hint(variant::insert_dcpomatic(
+				_("The certificate chain that %1 uses for signing DCPs and KDMs contains a small error "
+				  "which will prevent DCPs from being validated correctly on some systems.  It is advisable to "
+				  "re-create the signing certificate chain by clicking the \"Re-make certificates and key...\" "
+				  "button in the Keys page of Preferences.")
+				));
 		break;
 	case Config::BAD_SIGNER_VALIDITY_TOO_LONG:
-		hint(_("The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a validity period "
-		       "that is too long.  This will cause problems playing back DCPs on some systems. "
-		       "It is advisable to re-create the signing certificate chain by clicking the "
-		       "\"Re-make certificates and key...\" button in the Keys page of Preferences."));
+		hint(variant::insert_dcpomatic(
+				_("The certificate chain that %1 uses for signing DCPs and KDMs has a validity period "
+				  "that is too long.  This will cause problems playing back DCPs on some systems. "
+				  "It is advisable to re-create the signing certificate chain by clicking the "
+				  "\"Re-make certificates and key...\" button in the Keys page of Preferences.")
+				));
 		break;
 	default:
 		/* Some bad situations can't happen here as DCP-o-matic would have refused to start until they are fixed */

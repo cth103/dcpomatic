@@ -26,6 +26,7 @@
 #include "encode_server_description.h"
 #include "encode_server_finder.h"
 #include "exceptions.h"
+#include "variant.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <boost/bind/placeholders.hpp>
@@ -188,7 +189,7 @@ try {
 			new tcp::acceptor (_listen_io_service, tcp::endpoint(tcp::v4(), is_batch_converter ? BATCH_SERVER_PRESENCE_PORT : MAIN_SERVER_PRESENCE_PORT))
 			);
 	} catch (...) {
-		boost::throw_exception (NetworkError (_("Could not listen for remote encode servers.  Perhaps another instance of DCP-o-matic is running.")));
+		boost::throw_exception(NetworkError(variant::insert_dcpomatic(_("Could not listen for remote encode servers.  Perhaps another instance of %1 is running."))));
 	}
 
 	start_accept ();

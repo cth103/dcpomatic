@@ -37,6 +37,7 @@
 #include "server_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/config.h"
 #include "lib/cross.h"
 #include "lib/dcp_content_type.h"
@@ -114,7 +115,7 @@ private:
 		table->Add (_video_display_mode, wxGBPosition(r, 1));
 		++r;
 
-		wxStaticText* restart = add_label_to_sizer (table, _panel, _("(restart DCP-o-matic to change display mode)"), false, wxGBPosition(r, 0));
+		wxStaticText* restart = add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic_player(_("(restart %s to change display mode)")), false, wxGBPosition(r, 0));
 		wxFont font = restart->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
@@ -353,7 +354,7 @@ private:
 wxPreferencesEditor*
 create_player_config_dialog ()
 {
-	auto e = new wxPreferencesEditor (_("DCP-o-matic Player Preferences"));
+	auto e = new wxPreferencesEditor(variant::wx::insert_dcpomatic_player(_("%s Preferences")));
 
 #ifdef DCPOMATIC_OSX
 	/* Width that we force some of the config panels to be on OSX so that

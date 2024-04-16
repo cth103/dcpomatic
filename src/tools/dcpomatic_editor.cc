@@ -24,10 +24,12 @@
 #include "wx/id.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/constants.h"
 #include "lib/cross.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/null_log.h"
+#include "lib/variant.h"
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
@@ -290,14 +292,14 @@ class DOMFrame : public wxFrame
 {
 public:
 	DOMFrame ()
-		: wxFrame(nullptr, -1, _("DCP-o-matic Editor"))
+		: wxFrame(nullptr, -1, variant::wx::dcpomatic_editor())
 		, _main_sizer(new wxBoxSizer(wxVERTICAL))
 	{
 		dcpomatic_log = make_shared<NullLog>();
 
 #if defined(DCPOMATIC_WINDOWS)
 		maybe_open_console();
-		std::cout << "DCP-o-matic Editor is starting." << "\n";
+		std::cout << variant::dcpomatic_editor() << " is starting." << "\n";
 #endif
 
 		auto bar = new wxMenuBar;
@@ -360,7 +362,7 @@ private:
 
 		auto help = new wxMenu;
 #ifdef __WXOSX__
-		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
+		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_editor(_("About %s")));
 #else
 		help->Append (wxID_ABOUT, _("About"));
 #endif
@@ -444,7 +446,7 @@ private:
 
 			splash = maybe_show_splash ();
 
-			SetAppName (_("DCP-o-matic Editor"));
+			SetAppName(variant::wx::dcpomatic_editor());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -495,7 +497,7 @@ private:
 			if (splash) {
 				splash->Destroy ();
 			}
-			error_dialog (0, _("DCP-o-matic Editor could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic_editor(_("%s could not start.")), std_to_wx(e.what()));
 		}
 
 		return true;

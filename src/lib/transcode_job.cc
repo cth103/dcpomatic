@@ -37,6 +37,7 @@
 #include "log.h"
 #include "transcode_job.h"
 #include "upload_job.h"
+#include "variant.h"
 #include <iomanip>
 #include <iostream>
 
@@ -110,7 +111,10 @@ TranscodeJob::run ()
 				return;
 			case ChangedBehaviour::STOP:
 				set_progress (1);
-				set_error (_("Files have changed since they were added to the project."), _("Open the project in DCP-o-matic, check the settings, then save it before trying again."));
+				set_error(
+					_("Files have changed since they were added to the project."),
+					variant::insert_dcpomatic(_("Open the project in %1, check the settings, then save it before trying again."))
+					);
 				set_state (FINISHED_ERROR);
 				return;
 			default:

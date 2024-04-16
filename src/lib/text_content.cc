@@ -19,11 +19,12 @@
 */
 
 
-#include "text_content.h"
-#include "util.h"
+#include "content.h"
 #include "exceptions.h"
 #include "font.h"
-#include "content.h"
+#include "text_content.h"
+#include "util.h"
+#include "variant.h"
 #include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
@@ -32,13 +33,13 @@
 #include "i18n.h"
 
 
+using std::cout;
+using std::dynamic_pointer_cast;
+using std::list;
+using std::make_shared;
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::cout;
-using std::list;
-using std::shared_ptr;
-using std::make_shared;
-using std::dynamic_pointer_cast;
 using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
@@ -246,9 +247,9 @@ TextContent::TextContent (Content* parent, cxml::ConstNodePtr node, int version,
 			 */
 			if (version <= 37) {
 				if (!lang->content().empty()) {
-					notes.push_back (String::compose(
+					notes.push_back(String::compose(
 						_("A subtitle or closed caption file in this project is marked with the language '%1', "
-						  "which DCP-o-matic does not recognise.  The file's language has been cleared."), lang->content()));
+						  "which %2 does not recognise.  The file's language has been cleared."), lang->content(), variant::dcpomatic()));
 				}
 			} else {
 				throw;

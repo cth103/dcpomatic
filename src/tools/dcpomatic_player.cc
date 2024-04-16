@@ -37,6 +37,7 @@
 #include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/constants.h"
@@ -64,6 +65,7 @@
 #include "lib/server.h"
 #include "lib/text_content.h"
 #include "lib/update_checker.h"
+#include "lib/variant.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/video_content.h"
 #include <dcp/cpl.h>
@@ -198,7 +200,7 @@ public:
 
 
 	DOMFrame ()
-		: wxFrame (nullptr, -1, _("DCP-o-matic Player"))
+		: wxFrame(nullptr, -1, variant::wx::dcpomatic_player())
 		, _mode (Config::instance()->player_mode())
 		/* Use a panel as the only child of the Frame so that we avoid
 		   the dark-grey background on Windows.
@@ -211,7 +213,7 @@ public:
 
 #if defined(DCPOMATIC_WINDOWS)
 		maybe_open_console ();
-		cout << "DCP-o-matic Player is starting." << "\n";
+		cout << variant::dcpomatic_player() << " is starting." << "\n";
 #endif
 
 		auto bar = new wxMenuBar;
@@ -398,7 +400,7 @@ public:
 			auto job = make_shared<ExamineContentJob>(_film, dcp);
 			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add (job);
-			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
+			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
@@ -410,10 +412,12 @@ public:
 			error_dialog (
 				this,
 				wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())),
-				_(
-					"This looks like a DCP-o-matic project folder, which cannot be loaded into the player.  "
-					"Choose the DCP folder inside the DCP-o-matic project folder if that's what you want to play."
-				 )
+				wxString::Format(
+					_("This looks like a %s project folder, which cannot be loaded into the player.  "
+					  "Choose the DCP folder inside the %s project folder if that's what you want to play."),
+					variant::wx::dcpomatic(),
+					variant::wx::dcpomatic()
+					)
 				);
 		} catch (dcp::ReadError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
@@ -609,7 +613,7 @@ private:
 
 		auto help = new wxMenu;
 #ifdef __WXOSX__
-		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
+		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_player(_("About %s")));
 #else
 		help->Append (wxID_ABOUT, _("About"));
 #endif
@@ -682,7 +686,7 @@ private:
 			DCPOMATIC_ASSERT (dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, dcp));
-			bool const ok = display_progress (_("DCP-o-matic Player"), _("Loading content"));
+			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
@@ -927,7 +931,7 @@ private:
 		DCPOMATIC_ASSERT (dcp);
 
 		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms);
-		VerifyDCPProgressDialog progress(this, _("DCP-o-matic Player"));
+		VerifyDCPProgressDialog progress(this, variant::wx::dcpomatic_player());
 		bool const completed = progress.run(job);
 		progress.Close();
 
@@ -991,9 +995,9 @@ private:
 			auto dialog = make_wx<UpdateDialog>(this, uc->stable (), uc->test ());
 			dialog->ShowModal ();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
-			error_dialog (this, _("The DCP-o-matic download server could not be contacted."));
+			error_dialog(this, variant::wx::insert_dcpomatic(_("The %s download server could not be contacted.")));
 		} else {
-			error_dialog (this, _("There are no new versions of DCP-o-matic available."));
+			error_dialog(this, variant::wx::insert_dcpomatic(_("There are no new versions of %s available.")));
 		}
 
 		_update_news_requested = false;
@@ -1205,7 +1209,7 @@ private:
 
 			splash = maybe_show_splash ();
 
-			SetAppName (_("DCP-o-matic Player"));
+			SetAppName(variant::wx::dcpomatic_player());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -1287,7 +1291,7 @@ private:
 			if (splash) {
 				splash->Destroy ();
 			}
-			error_dialog (0, _("DCP-o-matic Player could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic_player(_("%s could not start")), std_to_wx(e.what()));
 		}
 
 		return true;

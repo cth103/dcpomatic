@@ -33,6 +33,7 @@
 #include "job.h"
 #include "log.h"
 #include "util.h"
+#include "variant.h"
 #include <dcp/exceptions.h>
 #include <sub/exceptions.h>
 #include <boost/date_time/posix_time/posix_time.hpp>
@@ -137,9 +138,13 @@ Job::run_wrapper ()
 		/* 32-bit */
 		set_error (
 			_("Failed to encode the DCP."),
-			_("This error has probably occurred because you are running the 32-bit version of DCP-o-matic and "
-			  "trying to use too many encoding threads.  Please reduce the 'number of threads DCP-o-matic should "
-			  "use' in the General tab of Preferences and try again.")
+			String::compose(
+				_("This error has probably occurred because you are running the 32-bit version of %1 and "
+				  "trying to use too many encoding threads.  Please reduce the 'number of threads %2 should "
+				  "use' in the General tab of Preferences and try again."),
+				variant::dcpomatic(),
+				variant::dcpomatic()
+				)
 			);
 		done = true;
 #else
@@ -147,7 +152,12 @@ Job::run_wrapper ()
 		if (running_32_on_64()) {
 			set_error (
 				_("Failed to encode the DCP."),
-				_("This error has probably occurred because you are running the 32-bit version of DCP-o-matic.  Please re-install DCP-o-matic with the 64-bit installer and try again.")
+				String::compose(
+					_("This error has probably occurred because you are running the 32-bit version of %1.  "
+					  "Please re-install %2 with the 64-bit installer and try again."),
+					variant::dcpomatic(),
+					variant::dcpomatic()
+					)
 				);
 			done = true;
 		}
@@ -168,8 +178,8 @@ Job::run_wrapper ()
 
 		set_error (
 			String::compose (_("Could not open %1"), e.file().string()),
-			String::compose (
-				_("DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or is in an unexpected format."),
+			String::compose(_("%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an unexpected format."),
+				variant::dcpomatic(),
 				dcp::filesystem::absolute(e.file()).string(),
 				e.what()
 				)
@@ -183,8 +193,8 @@ Job::run_wrapper ()
 		if (e.code() == boost::system::errc::no_such_file_or_directory) {
 			set_error (
 				String::compose (_("Could not open %1"), e.path1().string ()),
-				String::compose (
-					_("DCP-o-matic could not open the file %1 (%2).  Perhaps it does not exist or is in an unexpected format."),
+				String::compose(_("%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an unexpected format."),
+					variant::dcpomatic(),
 					dcp::filesystem::absolute(e.path1()).string(),
 					e.what()
 					)

@@ -57,6 +57,7 @@
 #include "text_content.h"
 #include "transcode_job.h"
 #include "upload_job.h"
+#include "variant.h"
 #include "video_content.h"
 #include "version.h"
 #include <libcxml/cxml.h>
@@ -507,7 +508,13 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 {
 	if (!path) {
 		if (dcp::filesystem::exists(file("metadata")) && !dcp::filesystem::exists(file(metadata_file))) {
-			throw runtime_error (_("This film was created with an older version of DCP-o-matic, and unfortunately it cannot be loaded into this version.  You will need to create a new Film, re-add your content and set it up again.  Sorry!"));
+			throw runtime_error(
+				variant::insert_dcpomatic(
+					_("This film was created with an older version of %1, and unfortunately it cannot "
+					  "be loaded into this version.  You will need to create a new Film, re-add your "
+					  "content and set it up again.  Sorry!")
+					)
+				);
 		}
 
 		path = file (metadata_file);
@@ -522,7 +529,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_state_version = f.number_child<int> ("Version");
 	if (_state_version > current_state_version) {
-		throw runtime_error (_("This film was created with a newer version of DCP-o-matic, and it cannot be loaded into this version.  Sorry!"));
+		throw runtime_error(variant::insert_dcpomatic(_("This film was created with a newer version of %1, and it cannot be loaded into this version.  Sorry!")));
 	} else if (_state_version < current_state_version) {
 		/* This is an older version; save a copy (if we haven't already) */
 		auto const older = path->parent_path() / String::compose("metadata.%1.xml", _state_version);
@@ -1582,7 +1589,7 @@ Film::check_settings_consistency ()
 			} else if (!atmos_rate && rate != video_frame_rate()) {
 				atmos_rate = rate;
 				set_video_frame_rate (rate, false);
-				Message (_("DCP-o-matic had to change your settings so that the film's frame rate is the same as that of your Atmos content."));
+				Message(variant::insert_dcpomatic(_("%1 had to change your settings so that the film's frame rate is the same as that of your Atmos content.")));
 			}
 		}
 	}
@@ -1614,7 +1621,7 @@ Film::check_settings_consistency ()
 	}
 
 	if (change_made) {
-		Message (_("DCP-o-matic had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want."));
+		Message(variant::insert_dcpomatic(_("%1 had to change your settings for referring to DCPs as OV.  Please review those settings to make sure they are what you want.")));
 	}
 
 	if (reel_type() == ReelType::CUSTOM) {
@@ -1625,9 +1632,9 @@ Film::check_settings_consistency ()
 
 		if (too_late != boundaries.end()) {
 			if (std::distance(too_late, boundaries.end()) > 1) {
-				Message(_("DCP-o-matic had to remove some of your custom reel boundaries as they no longer lie within the film."));
+				Message(variant::insert_dcpomatic(_("%1 had to remove some of your custom reel boundaries as they no longer lie within the film.")));
 			} else {
-				Message(_("DCP-o-matic had to remove one of your custom reel boundaries as it no longer lies within the film."));
+				Message(variant::insert_dcpomatic(_("%1 had to remove one of your custom reel boundaries as it no longer lies within the film.")));
 			}
 			boundaries.erase(too_late, boundaries.end());
 			set_custom_reel_boundaries(boundaries);

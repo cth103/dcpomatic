@@ -23,6 +23,7 @@
 #include "gl_video_view.h"
 #include "system_information_dialog.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 
 
 #ifdef DCPOMATIC_OSX
@@ -48,7 +49,7 @@ SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer co
 
 	if (!gl) {
 		add (_("OpenGL version"), true);
-		add (_("unknown (OpenGL not enabled in DCP-o-matic)"), false);
+		add(variant::wx::insert_dcpomatic(_("unknown (OpenGL not enabled in %s)")), false);
 	} else {
 		auto information = gl->information();
 		auto add_string = [this, &information](GLenum name, wxString label) {
@@ -79,7 +80,7 @@ SystemInformationDialog::SystemInformationDialog(wxWindow* parent, FilmViewer co
 	: TableDialog (parent, _("System information"), 2, 1, false)
 {
 	add (_("OpenGL version"), true);
-	add (_("OpenGL renderer not supported by this DCP-o-matic version"), false);
+	add(variant::wx::insert_dcpomatic(_("OpenGL renderer not supported by this %s version")), false);
 }
 
 #endif

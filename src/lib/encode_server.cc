@@ -37,6 +37,7 @@
 #include "image.h"
 #include "log.h"
 #include "player_video.h"
+#include "variant.h"
 #include "version.h"
 #include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
@@ -246,7 +247,7 @@ EncodeServer::run ()
 {
 	LOG_GENERAL ("Server %1 (%2) starting with %3 threads", dcpomatic_version, dcpomatic_git_commit, _num_threads);
 	if (_verbose) {
-		cout << "DCP-o-matic server starting with " << _num_threads << " threads.\n";
+		cout << variant::dcpomatic_encode_server() << " starting with " << _num_threads << " threads.\n";
 	}
 
 	for (int i = 0; i < _num_threads; ++i) {

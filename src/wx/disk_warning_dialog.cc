@@ -18,9 +18,12 @@
 
 */
 
+
 #include "disk_warning_dialog.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
+
 
 DiskWarningDialog::DiskWarningDialog ()
 	: wxDialog(nullptr, wxID_ANY, _("Important notice"))
@@ -45,10 +48,10 @@ DiskWarningDialog::DiskWarningDialog ()
 	auto const confirmation = _("I am sure");
 
 	text->SetLabelMarkup(wxString::Format(
-		_("The <b>DCP-o-matic Disk Writer</b> is\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST SOFTWARE</span>\n\n"
+		_("The <b>%s</b> is\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST SOFTWARE</span>\n\n"
 	          "and may\n\n<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</span>\n\n"
 		  "If you are sure you want to continue please type\n\n<tt>%s</tt>\n\ninto the box below, then click OK."),
-		confirmation));
+		variant::wx::dcpomatic_disk_writer(), confirmation));
 }
 
 bool

@@ -37,6 +37,7 @@
 #include "wx/static_text.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/cinema.h"
 #include "lib/collator.h"
 #include "lib/compose.hpp"
@@ -52,6 +53,7 @@
 #include "lib/kdm_with_metadata.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
+#include "lib/variant.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/exceptions.h>
@@ -125,7 +127,7 @@ public:
 			setvbuf(hf_in, NULL, _IONBF, 128);
 			*stdin = *hf_in;
 
-			std::cout << "DCP-o-matic KDM creator is starting." << "\n";
+			std::cout << variant::insert_dcpomatic_kdm_creator("%1 is starting.\n");
 		}
 #endif
 
@@ -302,7 +304,7 @@ private:
 
 		wxMenu* help = new wxMenu;
 #ifdef __WXOSX__
-		help->Append (wxID_ABOUT, _("About DCP-o-matic"));
+		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_kdm_creator(_("About %s")));
 #else
 		help->Append (wxID_ABOUT, _("About"));
 #endif
@@ -460,7 +462,13 @@ private:
 			if (e.starts_too_early()) {
 				error_dialog(this, _("The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."));
 			} else {
-				error_dialog(this, _("The KDM end period is after (or close to) the end of the signing certificates' validity period.  Either use an earlier end time for this KDM or re-create your signing certificates in the DCP-o-matic preferences window."));
+				error_dialog(
+					this,
+					variant::wx::insert_dcpomatic_kdm_creator(
+						_("The KDM end period is after (or close to) the end of the signing certificates' validity period.  "
+						  "Either use an earlier end time for this KDM or re-create your signing certificates in the %s preferences window.")
+						)
+					);
 			}
 			return;
 		} catch (dcp::NotEncryptedError& e) {
@@ -841,7 +849,7 @@ private:
 
 			splash = maybe_show_splash ();
 
-			SetAppName (_("DCP-o-matic KDM Creator"));
+			SetAppName(variant::wx::dcpomatic_kdm_creator());
 
 			if (!wxApp::OnInit()) {
 				return false;
@@ -875,7 +883,7 @@ private:
 			*/
 			Config::drop ();
 
-			_frame = new DOMFrame (_("DCP-o-matic KDM Creator"));
+			_frame = new DOMFrame(variant::wx::dcpomatic_kdm_creator());
 			SetTopWindow (_frame);
 			_frame->Maximize ();
 			if (splash) {
@@ -892,7 +900,7 @@ private:
 			if (splash) {
 				splash->Destroy ();
 			}
-			error_dialog (0, _("DCP-o-matic could not start"), std_to_wx(e.what()));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic_kdm_creator(_("%s could not start")), std_to_wx(e.what()));
 		}
 
 		return true;

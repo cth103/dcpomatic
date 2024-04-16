@@ -28,6 +28,7 @@
 #include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
+#include "wx/wx_variant.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
 #include "lib/dcpomatic_socket.h"
@@ -436,7 +437,7 @@ class App : public wxApp
 	{
 		wxInitAllImageHandlers ();
 
-		SetAppName (_("DCP-o-matic Batch Converter"));
+		SetAppName(variant::wx::dcpomatic_batch_converter());
 		is_batch_converter = true;
 
 		Config::FailedToLoad.connect(boost::bind(&App::config_failed_to_load, this, _1));
@@ -472,7 +473,7 @@ class App : public wxApp
 		*/
 		Config::drop ();
 
-		_frame = new DOMFrame (_("DCP-o-matic Batch Converter"));
+		_frame = new DOMFrame(variant::wx::dcpomatic_batch_converter());
 		SetTopWindow (_frame);
 		_frame->Maximize ();
 		if (splash) {
@@ -485,7 +486,11 @@ class App : public wxApp
 			server->StartJob.connect(bind(&DOMFrame::start_job, _frame, _1));
 			new thread (boost::bind (&JobServer::run, server));
 		} catch (boost::system::system_error& e) {
-			error_dialog(_frame, _("Could not listen for new batch jobs.  Perhaps another instance of the DCP-o-matic Batch Converter is running."));
+			error_dialog(
+				_frame,
+				variant::wx::insert_dcpomatic_batch_converter(
+					_("Could not listen for new batch jobs.  Perhaps another instance of the %s is running.")
+					));
 		}
 
 		signal_manager = new wxSignalManager (this);

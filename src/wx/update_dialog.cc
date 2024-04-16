@@ -22,6 +22,7 @@
 #include "static_text.h"
 #include "update_dialog.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/hyperlink.h>
@@ -40,9 +41,9 @@ UpdateDialog::UpdateDialog (wxWindow* parent, optional<string> stable, optional<
 	wxStaticText* message;
 
 	if ((stable || test) && !(stable && test)) {
-		message = new StaticText (this, _("A new version of DCP-o-matic is available."));
+		message = new StaticText(this, variant::wx::insert_dcpomatic(_("A new version of %s is available.")));
 	} else {
-		message = new StaticText (this, _("New versions of DCP-o-matic are available."));
+		message = new StaticText(this, variant::wx::insert_dcpomatic(_("New versions of %s are available.")));
 	}
 
 	overall_sizer->Add (message, 0, wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);

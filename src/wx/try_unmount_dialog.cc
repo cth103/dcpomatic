@@ -22,6 +22,7 @@
 #include "static_text.h"
 #include "try_unmount_dialog.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -32,14 +33,17 @@ static int constexpr width = 300;
 
 
 TryUnmountDialog::TryUnmountDialog (wxWindow* parent, wxString description)
-	: wxDialog (parent, wxID_ANY, _("DCP-o-matic Disk Writer"))
+	: wxDialog(parent, wxID_ANY, variant::wx::dcpomatic_disk_writer())
 {
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 	auto text = new StaticText (this, wxEmptyString, wxDefaultPosition, wxSize(width, -1));
 	sizer->Add (text, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	text->SetLabelMarkup (
-		wxString::Format(_("The drive <b>%s</b> is mounted.\n\nIt must be unmounted before DCP-o-matic can write to it.\n\nShould DCP-o-matic try to unmount it now?"), description)
+		wxString::Format(
+			_("The drive <b>%s</b> is mounted.\n\nIt must be unmounted before %s can write to it.\n\nShould DCP-o-matic try to unmount it now?"),
+			description, variant::wx::dcpomatic()
+			)
 		);
 	text->Wrap(width);
 

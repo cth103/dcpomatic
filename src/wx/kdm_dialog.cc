@@ -29,6 +29,7 @@
 #include "screens_panel.h"
 #include "static_text.h"
 #include "wx_util.h"
+#include "wx_variant.h"
 #include "lib/cinema.h"
 #include "lib/config.h"
 #include "lib/film.h"
@@ -219,7 +220,13 @@ KDMDialog::make_clicked ()
 		if (e.starts_too_early()) {
 			error_dialog (this, _("The KDM start period is before (or close to) the start of the signing certificate's validity period.  Use a later start time for this KDM."));
 		} else {
-			error_dialog (this, _("The KDM end period is after (or close to) the end of the signing certificates' validity period.  Either use an earlier end time for this KDM or re-create your signing certificates in the DCP-o-matic preferences window."));
+			error_dialog(
+				this,
+				variant::wx::insert_dcpomatic(
+					_("The KDM end period is after (or close to) the end of the signing certificates' validity "
+					  "period.  Either use an earlier end time for this KDM or re-create your signing certificates "
+					  "in the %s preferences window."))
+				);
 		}
 		return;
 	} catch (runtime_error& e) {
