@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>dcpomatic2</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP-o-matic 2</string>
+	<string>@NAME@</string>
 	<key>CFBundleIconFile</key>
 	<string>dcpomatic2.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DCP-o-matic 2</string>
+	<string>@NAME@</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersions</key>

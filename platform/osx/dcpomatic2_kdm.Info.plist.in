@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>dcpomatic2_kdm</string>
 	<key>CFBundleGetInfoString</key>
-	<string>DCP-o-matic 2 KDM creator</string>
+	<string>@NAME@</string>
 	<key>CFBundleIconFile</key>
 	<string>dcpomatic2_kdm.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>DCP-o-matic 2 KDM Creator</string>
+	<string>@NAME@</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersions</key>

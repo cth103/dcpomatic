@@ -2,27 +2,58 @@ from __future__ import print_function
 import os
 
 
-def start_menu_shortcut(file, link, target, debug=False):
+def start_menu_shortcut_folder(variant):
+    return 'DCP-o-matic 2'
+
+def long_name(variant):
+    return 'DCP-o-matic 2'
+
+def short_name(variant):
+    return 'DCP-o-matic'
+
+def kdm_creator_name(variant):
+    return 'KDM Creator'
+
+def player_name(variant):
+    return 'Player'
+
+def verifier_name(variant):
+    return 'Verifier'
+
+def tool_name(variant, debug, tool):
+    name = f'DCP-o-matic 2 {tool}'
     if debug:
-        print(f'CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2 debug\\{link}.lnk" "$INSTDIR\\{target}"', file=file)
-    else:
-        print(f'CreateShortCut "$SMPROGRAMS\\DCP-o-matic 2\\{link}.lnk" "$INSTDIR\\{target}"', file=file)
+        name += ' debug'
+    return name
 
 
-def write_installer(bits, dcpomatic_version, debug, disk):
+
+def start_menu_shortcut(file, link, target, variant, debug=False):
+    folder = start_menu_shortcut_folder(variant)
+    if debug:
+        folder += ' debug'
+    print(f'CreateShortCut "$SMPROGRAMS\\{folder}\\{link}.lnk" "$INSTDIR\\{target}"', file=file)
+
+
+def write_installer(bits, dcpomatic_version, debug, disk, variant):
+    long_name_with_debug = long_name(variant)
+    short_name_with_debug = short_name(variant)
+    if debug:
+        long_name_with_debug += ' debug'
+        short_name_with_debug += ' debug'
 
     tools = [
+        ('kdm', kdm_creator_name(variant)),
+        ('player', player_name(variant)),
+        ('verifier', verifier_name(variant)),
         ('batch', 'Batch Converter'),
-        ('kdm', 'KDM Creator'),
         ('kdm_cli', 'KDM Creator CLI'),
-        ('player', 'Player'),
         ('cli', 'CLI'),
         ('create', 'Creator'),
         ('playlist', 'Playlist Editor'),
         ('combiner', 'Combiner'),
         ('editor', 'Editor'),
         ('map', 'Map'),
-        ('verifier', 'Verifier'),
     ]
 
     if disk:
@@ -41,19 +72,11 @@ def write_installer(bits, dcpomatic_version, debug, disk):
     if bits == 64:
         print('!include "x64.nsh"', file=f)
 
-    if debug:
-        print('Name "DCP-o-matic debug"', file=f)
-    else:
-        print('Name "DCP-o-matic"', file=f)
-
+    print(f'Name "{short_name_with_debug}"', file=f)
     print('RequestExecutionLevel admin', file=f)
     print('Unicode true', file=f)
 
-    outfile = 'DCP-o-matic '
-    if debug:
-        outfile += 'Debug '
-    outfile += '%s %d-bit Installer.exe' % (dcpomatic_version, bits)
-
+    outfile = f'{short_name_with_debug} {dcpomatic_version} {bits}-bit Installer.exe'
     print('outFile "%s"' % outfile, file=f)
 
     print("""
@@ -68,10 +91,7 @@ def write_installer(bits, dcpomatic_version, debug, disk):
     else:
         program_files = "$PROGRAMFILES"
 
-    if debug:
-        print('InstallDir "%s\\DCP-o-matic 2 debug"' % program_files, file=f)
-    else:
-        print('InstallDir "%s\\DCP-o-matic 2"' % program_files, file=f)
+    print(f'InstallDir "%s\\{long_name_with_debug}"' % program_files, file=f)
 
     print("""
 !insertmacro MUI_PAGE_WELCOME
@@ -384,18 +404,12 @@ File "%cdist_deps%/share/libdcp/ratings"
 SectionEnd
     """, file=f)
 
-    if debug:
-        print('Section "DCP-o-matic 2 debug" SEC_MASTER', file=f)
-    else:
-        print('Section "DCP-o-matic 2" SEC_MASTER', file=f)
+    print(f'Section "{long_name_with_debug}" SEC_MASTER', file=f)
 
     print('SetOutPath "$INSTDIR\\bin"', file=f)
     print("SetShellVarContext all", file=f)
 
-    if debug:
-        print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2 debug"', file=f)
-    else:
-        print('CreateDirectory "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+    print(f'CreateDirectory "$SMPROGRAMS\\{long_name_with_debug}"', file=f)
 
     print('File "%binaries%/src/tools/dcpomatic2.exe"', file=f)
     for s, l in tools:
@@ -407,33 +421,20 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"
 File "%resources%/dcpomatic2_disk_writer.exe.manifest"
     """, file=f)
 
-    if debug:
-        start_menu_shortcut(f, 'DCP-o-matic 2 debug', 'bin\\dcpomatic2_debug.bat', debug=True)
-        for s, l in tools:
-            start_menu_shortcut(f, f'DCP-o-matic 2 {l} debug', f'bin\\dcpomatic2_{s}_debug.bat', debug=True)
-        start_menu_shortcut(f, 'Uninstall DCP-o-matic 2 debug', 'Uninstall.exe', debug=True)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "DisplayName" "DCP-o-matic 2 debug (remove only)"', file=f)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
-    else:
-        start_menu_shortcut(f, 'DCP-o-matic 2', 'bin\\dcpomatic2.exe')
-        for s, l in tools:
-            start_menu_shortcut(f, f'DCP-o-matic 2 {l}', f'bin\\dcpomatic2_{s}.exe')
-        start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe')
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "DisplayName" "DCP-o-matic 2 (remove only)"', file=f)
-        print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic2" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
+    suffix = '_debug.bat' if debug else '.exe'
+    start_menu_shortcut(f, long_name_with_debug, f'bin\\dcpomatic2{suffix}', variant, debug=True)
+    for s, l in tools:
+        start_menu_shortcut(f, tool_name(variant, debug, l), f'bin\\dcpomatic2_{s}{suffix}', variant, debug=True)
+    start_menu_shortcut(f, f'Uninstall {long_name_with_debug}', 'Uninstall.exe', variant, debug=True)
+    print(f'WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{long_name_with_debug}" "DisplayName" "{long_name_with_debug} (remove only)"', file=f)
+    print(f'WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{long_name_with_debug}" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
 
     print("SectionEnd", file=f)
 
-    if debug:
-        print('Section "DCP-o-matic 2 debug desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 debug.lnk" "$INSTDIR\\bin\\dcpomatic2_debug.bat" ""', file=f)
-        for s, l in tools:
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 %s debug.lnk" "$INSTDIR\\bin\\dcpomatic2_%s_debug.bat" ""' % (l, s), file=f)
-    else:
-        print('Section "DCP-o-matic 2 desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
-        print('CreateShortCut "$DESKTOP\\DCP-o-matic 2.lnk" "$INSTDIR\\bin\\dcpomatic2.exe" ""', file=f)
-        for s, l in tools:
-            print('CreateShortCut "$DESKTOP\\DCP-o-matic 2 %s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s.exe"' % (l, s), file=f)
+    print(f'Section "{long_name_with_debug} desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
+    print(f'CreateShortCut "$DESKTOP\\{long_name_with_debug}.lnk" "$INSTDIR\\bin\\dcpomatic2{suffix}" ""', file=f)
+    for s, l in tools:
+        print(f'CreateShortCut "$DESKTOP\\{tool_name(variant, debug, l)}.lnk" "$INSTDIR\\bin\\dcpomatic2_{s}{suffix}" ""', file=f)
 
     print("SectionEnd", file=f)
 
@@ -445,8 +446,8 @@ File "%binaries%/src/tools/dcpomatic2_server_cli.exe"
 File "%binaries%/src/tools/dcpomatic2_server.exe"
     """, file=f)
 
-    start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe')
-    start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe')
+    start_menu_shortcut(f, 'DCP-o-matic 2 Encode Server', 'bin\\dcpomatic2_server.exe', variant)
+    start_menu_shortcut(f, 'Uninstall DCP-o-matic 2', 'Uninstall.exe', variant)
 
     print("""
 SectionEnd
@@ -517,5 +518,5 @@ DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\U
 
 
 def build(bld):
-    write_installer(32, bld.env.VERSION, bld.env.DEBUG, bld.env.ENABLE_DISK)
-    write_installer(64, bld.env.VERSION, bld.env.DEBUG, bld.env.ENABLE_DISK)
+    write_installer(32, bld.env.VERSION, bld.env.DEBUG, bld.env.ENABLE_DISK, bld.env.VARIANT)
+    write_installer(64, bld.env.VERSION, bld.env.DEBUG, bld.env.ENABLE_DISK, bld.env.VARIANT)

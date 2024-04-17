@@ -25,6 +25,12 @@ import os
 import copy
 import json
 
+def dmg_prefix(variant):
+    return 'DCP-o-matic'
+
+def debian_name(variant):
+    return 'dcpomatic'
+
 deb_build_depends = dict()
 
 deb_build_depends_base = ['debhelper', 'g++', 'pkg-config', 'libsndfile1-dev', 'libgtk2.0-dev', 'libx264-dev']
@@ -353,9 +359,9 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print(s[:-2], file=f)
 
-def make_control(debian_version, bits, filename, debug, gui):
+def make_control(debian_version, bits, filename, debug, gui, name):
     f = open(filename, 'w')
-    print('Source: dcpomatic', file=f)
+    print(f'Source: {name}', file=f)
     print('Section: video', file=f)
     print('Priority: extra', file=f)
     print('Maintainer: Carl Hetherington <carl@dcpomatic.com>', file=f)
@@ -364,9 +370,9 @@ def make_control(debian_version, bits, filename, debug, gui):
     print('Homepage: https://dcpomatic.com/', file=f)
     print('', file=f)
     suffix = '' if gui else '-cli'
-    print(f'Package: dcpomatic{suffix}', file=f)
+    print(f'Package: {name}{suffix}', file=f)
     if gui:
-        print('Replaces: dcpomatic-cli', file=f)
+        print(f'Replaces: {name}-cli', file=f)
     if bits == 32:
         print('Architecture: i386', file=f)
     else:
@@ -387,7 +393,7 @@ def make_control(debian_version, bits, filename, debug, gui):
 
     if debug:
         print('', file=f)
-        print(f'Package: dcpomatic{suffix}-dbg', file=f)
+        print(f'Package: {name}{suffix}-dbg', file=f)
         if bits == 32:
             print('Architecture: i386', file=f)
         else:
@@ -395,8 +401,8 @@ def make_control(debian_version, bits, filename, debug, gui):
         print('Section: debug', file=f)
         print('Priority: extra', file=f)
         packages('Depends', pkg, f)
-        print('Description: debugging symbols for dcpomatic', file=f)
-        print('  This package contains the debugging symbols for dcpomatic.', file=f)
+        print(f'Description: debugging symbols for {name}', file=f)
+        print(f'  This package contains the debugging symbols for {name}.', file=f)
         print('', file=f)
 
 def make_spec(filename, version, target, options, requires=None):
@@ -581,7 +587,7 @@ def configure_options(target, options, for_package=False):
     if not options['gui']:
         opt += ' --disable-gui'
 
-    if options['variant'] is not None:
+    if options['variant']:
         opt += ' --variant=%s' % options['variant']
 
     # Build Windows debug versions with static linking as I think gdb works better then
@@ -738,7 +744,8 @@ def package_windows(target):
     return os.path.abspath(glob.glob('build/platform/windows/*%s*.exe' % target.bits)[0])
 
 def package_debian(target, cpu, version, options):
-    make_control(target.version, target.bits, 'debian/control', target.debug, options['gui'])
+    name = debian_name(options['variant'])
+    make_control(target.version, target.bits, 'debian/control', target.debug, options['gui'], name)
     if target.version != '9' and target.version != '16.04' and options['gui']:
         with open('debian/postinst', 'w') as f:
             print('#!/bin/sh', file=f)
@@ -747,14 +754,14 @@ def package_debian(target, cpu, version, options):
     target.command('./waf dist')
     f = open('debian/files', 'w')
     suffix = '' if options['gui'] else '-cli'
-    print(f'dcpomatic{suffix}_{version}-1_{cpu}.deb video extra', file=f)
+    print(f'{name}{suffix}_{version}-1_{cpu}.deb video extra', file=f)
     shutil.rmtree('build/deb', ignore_errors=True)
 
     os.makedirs('build/deb')
     os.chdir('build/deb')
-    shutil.move('../../dcpomatic-%s.tar.bz2' % version, 'dcpomatic_%s.orig.tar.bz2' % version)
-    target.command('tar xjf dcpomatic_%s.orig.tar.bz2' % version)
-    os.chdir('dcpomatic-%s' % version)
+    shutil.move(f'../../dcpomatic-{version}.tar.bz2', f'{name}_{version}.orig.tar.bz2')
+    target.command(f'tar xjf {name}_{version}.orig.tar.bz2')
+    os.chdir(f'dcpomatic-{version}')
     target.set('EMAIL', 'carl@dcpomatic.com')
     target.command('dch -b -v %s-1 "New upstream release."' % version)
     target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
@@ -763,7 +770,7 @@ def package_debian(target, cpu, version, options):
     target.set('CDIST_DIRECTORY', target.directory)
 
     target.set('CDIST_CONFIGURE', '"' + configure_options(target, options, for_package=True) + '"')
-    target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
+    target.set('CDIST_PACKAGE', f'{name}{suffix}')
     target.set('CDIST_WX_VERSION', "3.2" if target.version in ("23.04", "23.10", "24.04") else "3.1")
     if not target.debug:
         target.set('CDIST_DEBUG_PACKAGE_FLAG', '--no-ddebs')
@@ -894,8 +901,10 @@ def package(target, version, options):
         cmd = 'bash platform/osx/make_dmg.sh -e %s -r %s -i %s -p %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password, archs)
         if 'part' in options:
             cmd += ' -b ' + options['part']
+        if options['variant']:
+            cmd += ' -v ' + options['variant']
         target.command(cmd)
-        return glob.glob('build/platform/osx/DCP-o-matic*.dmg')
+        return glob.glob('build/platform/osx/' + dmg_prefix(options['variant']) + '*.dmg')
     elif target.platform == 'docker':
         shutil.copyfile(target.deb, 'build/platform/docker')
         f = open('build/platform/docker/Dockerfile', 'w')

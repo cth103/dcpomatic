@@ -81,6 +81,7 @@ def options(opt):
     opt.add_option('--enable-asan',       action='store_true', help='build with asan')
     opt.add_option('--disable-more-warnings', action='store_true', default=False, help='disable some warnings raised by Xcode 15 with the 2.16 branch')
     opt.add_option('--c++17', action='store_true', default=False, help='build with C++17 and libxml++-4.0')
+    opt.add_option('--variant', help="build with variant")
 
 def configure(conf):
     conf.load('compiler_cxx')
@@ -115,6 +116,7 @@ def configure(conf):
         conf.env.INSTALL_PREFIX = conf.options.prefix
     else:
         conf.env.INSTALL_PREFIX = conf.options.destdir
+    conf.env.VARIANT = conf.options.variant if conf.options.variant else "dcpomatic"
 
     conf.check_cxx(cxxflags=['-msse', '-mfpmath=sse'], msg='Checking for SSE support', mandatory=False, define_name='SSE')
 
