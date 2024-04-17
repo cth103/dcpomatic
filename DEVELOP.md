@@ -118,3 +118,15 @@ The manual PDF looks nice if vector screenshots are used.  These can be taken as
 - Start `take-vector-screenshot`, click "Take screenshot" then click on the DCP-o-matic window.
 - Find a PDF in `/tmp/dcpomatic2.pdf`
 - Copy this to `doc/manual/raw-screenshots` 
+
+
+## Adding a new variant
+
+Files to edit:
+- `cscript`
+- `wscript`
+- `src/lib/variant.cc`
+- `platform/osx/make_dmg.sh`
+- `platform/windows/wscript`
+- `platform/osx/wscript`
+
