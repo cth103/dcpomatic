@@ -449,6 +449,12 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
 			add(i, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
 			break;
+		case dcp::VerificationNote::Code::INVALID_CPL_NAMESPACE:
+			add(i, _("The CPL %f has an invalid namespace %n"));
+			break;
+		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
+			add(i, _("The CPL %n has no <ContentVersion> tag"));
+			break;
 		}
 	}
 
