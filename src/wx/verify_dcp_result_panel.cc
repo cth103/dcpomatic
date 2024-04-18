@@ -464,6 +464,12 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
 			add(i, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
 			break;
+		case dcp::VerificationNote::Code::INVALID_CPL_NAMESPACE:
+			add(i, _("The CPL %id has an invalid namespace %n"));
+			break;
+		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
+			add(i, _("The CPL %id has no <ContentVersion> tag"));
+			break;
 		case dcp::VerificationNote::Code::MATCHING_CPL_HASHES:
 		case dcp::VerificationNote::Code::CORRECT_PICTURE_HASH:
 		case dcp::VerificationNote::Code::VALID_PICTURE_FRAME_SIZES_IN_BYTES:

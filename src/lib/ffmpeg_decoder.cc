@@ -667,11 +667,11 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 	*/
 	ContentTime from;
 	from = sub_period.from + _pts_offset;
+	_have_current_subtitle = true;
 	if (sub_period.to) {
 		_current_subtitle_to = *sub_period.to + _pts_offset;
 	} else {
 		_current_subtitle_to = optional<ContentTime>();
-		_have_current_subtitle = true;
 	}
 
 	ContentBitmapText bitmap_text(from);
