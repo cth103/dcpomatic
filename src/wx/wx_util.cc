@@ -37,6 +37,7 @@
 #include "lib/job.h"
 #include "lib/job_manager.h"
 #include "lib/util.h"
+#include "lib/variant.h"
 #include "lib/version.h"
 #include <dcp/locale_convert.h>
 #include <dcp/warnings.h>
@@ -603,6 +604,10 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 wxSplashScreen*
 maybe_show_splash ()
 {
+	if (!variant::show_splash()) {
+		return nullptr;
+	}
+
 	wxSplashScreen* splash = nullptr;
 
 	try {

@@ -28,6 +28,7 @@
 #include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/compose.hpp"
+#include "lib/variant.h"
 #include "lib/version.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -68,22 +69,26 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 2));
 	sizer->AddSpacer (12);
 
-	t = new StaticText (
-		this,
-		_("Free, open-source DCP creation from almost anything."),
-		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
-		);
-	t->SetFont (subtitle_font);
+	if (variant::show_tagline())
+	{
+		t = new StaticText(
+			this,
+			_("Free, open-source DCP creation from almost anything."),
+			wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
+			);
+		t->SetFont(subtitle_font);
+		sizer->Add(t, wxSizerFlags().Centre().Border(wxALL, 8));
+	}
 
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 8));
-
-	auto h = new wxHyperlinkCtrl (
-		this, wxID_ANY,
-		wxT ("dcpomatic.com"),
-		wxT ("https://dcpomatic.com")
-		);
-
-	sizer->Add (h, wxSizerFlags().Centre().Border(wxALL, 8));
+	if (variant::show_dcpomatic_website())
+	{
+		auto h = new wxHyperlinkCtrl(
+			this, wxID_ANY,
+			wxT("dcpomatic.com"),
+			wxT("https://dcpomatic.com")
+			);
+		sizer->Add(h, wxSizerFlags().Centre().Border(wxALL, 8));
+	}
 
 	t = new StaticText (
 		this,
