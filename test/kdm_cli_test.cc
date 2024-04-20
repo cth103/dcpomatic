@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_decryption_key_test)
 	output.clear();
 	error = run(bad_args, output, false);
 	BOOST_REQUIRE(error);
-	BOOST_CHECK(error->find("oaep decoding error") != string::npos);
+	BOOST_CHECK(error->find("Could not decrypt KDM") != string::npos);
 
 	vector<string> good_args = {
 		"kdm_cli",
