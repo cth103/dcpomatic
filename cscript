@@ -19,6 +19,7 @@
 #
 
 from __future__ import print_function
+import datetime
 import glob
 import shutil
 import os
@@ -762,8 +763,14 @@ def package_debian(target, cpu, version, options):
     shutil.move(f'../../dcpomatic-{version}.tar.bz2', f'{name}_{version}.orig.tar.bz2')
     target.command(f'tar xjf {name}_{version}.orig.tar.bz2')
     os.chdir(f'dcpomatic-{version}')
-    target.set('EMAIL', 'carl@dcpomatic.com')
-    target.command('dch -b -v %s-1 "New upstream release."' % version)
+
+    with open('debian/changelog', 'w') as f:
+        print(f'{name} ({version}-1) unstable; urgency=medium', file=f)
+        print('', file=f)
+        print('  * New upstream release.', file=f)
+        print('', file=f)
+        print(f" -- Carl Hetherington <carl@dcpomatic.com>  {datetime.datetime.now().astimezone().strftime('%a, %d %b %Y %H:%M:%S %z')}", file=f)
+
     target.set('CDIST_LINKFLAGS', target.get('LINKFLAGS'))
     target.set('CDIST_CXXFLAGS', target.get('CXXFLAGS'))
     target.set('CDIST_PKG_CONFIG_PATH', target.get('PKG_CONFIG_PATH'))
