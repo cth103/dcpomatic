@@ -20,15 +20,16 @@
 
 
 #include "audio_analyser.h"
-#include "signaller.h"
-#include "player_text.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "player_text.h"
+#include "signaller.h"
+#include "text_type.h"
 #include "weak_film.h"
-#include <boost/signals2.hpp>
 #include <boost/atomic.hpp>
-#include <vector>
+#include <boost/signals2.hpp>
 #include <string>
+#include <vector>
 
 
 class Film;
@@ -73,7 +74,7 @@ private:
 	void check_upmixers ();
 	void check_incorrect_container ();
 	void check_unusual_container ();
-	void check_high_j2k_bandwidth ();
+	void check_high_video_bit_rate();
 	void check_frame_rate ();
 	void check_4k_3d ();
 	void check_speed_up ();

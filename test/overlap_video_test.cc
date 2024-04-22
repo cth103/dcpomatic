@@ -30,8 +30,8 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/j2k_transcode.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_mono_picture_asset.h>
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 	BOOST_REQUIRE (reel->main_picture());
 	auto mono_picture = dynamic_pointer_cast<dcp::ReelMonoPictureAsset>(reel->main_picture());
 	BOOST_REQUIRE (mono_picture);
-	auto asset = mono_picture->mono_asset();
+	auto asset = mono_picture->mono_j2k_asset();
 	BOOST_REQUIRE (asset);
 	BOOST_CHECK_EQUAL (asset->intrinsic_duration(), fps * 5);
 	auto reader = asset->start_read ();

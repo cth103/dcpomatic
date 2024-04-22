@@ -27,7 +27,7 @@
 #include <dcp/interop_subtitle_asset.h>
 #include <dcp/filesystem.h>
 #include <dcp/font_asset.h>
-#include <dcp/mono_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -37,7 +37,7 @@
 #include <dcp/reel_subtitle_asset.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/sound_asset.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 #include <boost/optional.hpp>
 #include <getopt.h>
 #include <algorithm>

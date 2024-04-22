@@ -68,9 +68,9 @@ sources = """
           dcp_content.cc
           dcp_content_type.cc
           dcp_decoder.cc
-          dcp_encoder.cc
           dcp_examiner.cc
           dcp_digest_file.cc
+          dcp_film_encoder.cc
           dcp_subtitle.cc
           dcp_subtitle_content.cc
           dcp_subtitle_decoder.cc
@@ -89,7 +89,6 @@ sources = """
           dolby_cp750.cc
           email.cc
           empty.cc
-          encoder.cc
           encode_server.cc
           encode_server_finder.cc
           encoded_log_entry.cc
@@ -99,6 +98,7 @@ sources = """
           examine_ffmpeg_subtitles_job.cc
           exceptions.cc
           export_config.cc
+          frame_info.cc
           file_group.cc
           file_log.cc
           filter_graph.cc
@@ -107,14 +107,15 @@ sources = """
           ffmpeg_audio_stream.cc
           ffmpeg_content.cc
           ffmpeg_decoder.cc
-          ffmpeg_encoder.cc
           ffmpeg_examiner.cc
           ffmpeg_file_encoder.cc
+          ffmpeg_film_encoder.cc
           ffmpeg_image_proxy.cc
           ffmpeg_stream.cc
           ffmpeg_subtitle_stream.cc
           ffmpeg_wrapper.cc
           film.cc
+          film_encoder.cc
           film_util.cc
           filter.cc
           font.cc
@@ -153,6 +154,7 @@ sources = """
           maths_util.cc
           memory_util.cc
           mid_side_decoder.cc
+          mpeg2_encoder.cc
           named_channel.cc
           overlaps.cc
           pixel_quanta.cc
@@ -187,7 +189,7 @@ sources = """
           string_text_file_content.cc
           string_text_file_decoder.cc
           subtitle_analysis.cc
-          subtitle_encoder.cc
+          subtitle_film_encoder.cc
           territory_type.cc
           text_ring_buffers.cc
           text_type.cc
@@ -210,6 +212,8 @@ sources = """
           verify_dcp_job.cc
           video_content.cc
           video_decoder.cc
+          video_encoder.cc
+          video_encoding.cc
           video_filter_graph.cc
           video_filter_graph_set.cc
           video_frame_type.cc

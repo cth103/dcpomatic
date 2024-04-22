@@ -21,8 +21,8 @@
 #include "video_mxf_content.h"
 #include "video_mxf_examiner.h"
 #include <dcp/exceptions.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 
 using std::shared_ptr;
 using boost::optional;
@@ -30,7 +30,7 @@ using boost::optional;
 VideoMXFExaminer::VideoMXFExaminer (shared_ptr<const VideoMXFContent> content)
 {
 	try {
-		_asset.reset (new dcp::MonoPictureAsset (content->path(0)));
+		_asset = std::make_shared<dcp::MonoJ2KPictureAsset>(content->path(0));
 	} catch (dcp::MXFFileError& e) {
 		/* maybe it's stereo */
 	} catch (dcp::ReadError& e) {
@@ -38,7 +38,7 @@ VideoMXFExaminer::VideoMXFExaminer (shared_ptr<const VideoMXFContent> content)
 	}
 
 	if (!_asset) {
-		_asset.reset (new dcp::StereoPictureAsset (content->path(0)));
+		_asset = std::make_shared<dcp::StereoJ2KPictureAsset>(content->path(0));
 	}
 }
 

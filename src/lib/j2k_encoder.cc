@@ -92,9 +92,7 @@ grk_plugin::IMessengerLogger* getMessengerLogger(void)
  *  @param writer Writer that we are using.
  */
 J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
-	: _film (film)
-	, _history (200)
-	, _writer (writer)
+	: VideoEncoder(film, writer)
 {
 #ifdef DCPOMATIC_GROK
 	auto grok = Config::instance()->grok().get_value_or({});
@@ -242,28 +240,6 @@ J2KEncoder::end()
 }
 
 
-/** @return an estimate of the current number of frames we are encoding per second,
- *  if known.
- */
-optional<float>
-J2KEncoder::current_encoding_rate () const
-{
-	return _history.rate ();
-}
-
-
-/** @return Number of video frames that have been queued for encoding */
-int
-J2KEncoder::video_frames_enqueued () const
-{
-	if (!_last_player_video_time) {
-		return 0;
-	}
-
-	return _last_player_video_time->frames_floor (_film->video_frame_rate ());
-}
-
-
 /** Should be called when a frame has been encoded successfully */
 void
 J2KEncoder::frame_done ()
@@ -283,6 +259,8 @@ J2KEncoder::frame_done ()
 void
 J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
+	VideoEncoder::encode(pv, time);
+
 	_waker.nudge ();
 
 	size_t threads = 0;
@@ -332,7 +310,7 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 				pv,
 				position,
 				_film->video_frame_rate(),
-				_film->j2k_bandwidth(),
+				_film->video_bit_rate(VideoEncoding::JPEG2000),
 				_film->resolution()
 				);
 		_queue.push_back (dcpv);
@@ -344,7 +322,6 @@ J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 	}
 
 	_last_player_video[pv->eyes()] = pv;
-	_last_player_video_time = time;
 }
 
 

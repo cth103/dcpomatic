@@ -26,7 +26,7 @@
 #include <dcp/colour_conversion.h>
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
-#include <dcp/mono_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
 #include <dcp/reel.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <boost/test/unit_test.hpp>
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(remake_video_after_yub_rgb_matrix_changed)
 		BOOST_REQUIRE(!cpl->reels().empty());
 		auto reel = cpl->reels()[0];
 		BOOST_REQUIRE(reel->main_picture());
-		auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(reel->main_picture()->asset());
+		auto mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(reel->main_picture()->asset());
 		BOOST_REQUIRE(mono);
 		auto reader = mono->start_read();
 

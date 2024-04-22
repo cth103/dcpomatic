@@ -23,7 +23,7 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
-#include "lib/dcp_encoder.h"
+#include "lib/dcp_film_encoder.h"
 #include "lib/film.h"
 #include "lib/job.h"
 #include "lib/video_content.h"
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE(writer_progress_test)
 		last_sub_name = job->sub_name();
 	});
 
-	DCPEncoder encoder(film, job);
+	DCPFilmEncoder encoder(film, job);
 	encoder.go();
 }
 

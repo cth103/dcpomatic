@@ -30,6 +30,7 @@
 #include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/film.h"
+#include "lib/frame_info.h"
 #include "lib/reel_writer.h"
 #include "lib/video_content.h"
 #include "test.h"
@@ -46,9 +47,9 @@ using std::string;
 using boost::optional;
 
 
-static bool equal (dcp::FrameInfo a, ReelWriter const & writer, shared_ptr<InfoFileHandle> file, Frame frame, Eyes eyes)
+static bool equal(J2KFrameInfo a, shared_ptr<InfoFileHandle> file, Frame frame, Eyes eyes)
 {
-	auto b = writer.read_frame_info(file, frame, eyes);
+	auto b = J2KFrameInfo(file, frame, eyes);
 	return a.offset == b.offset && a.size == b.size && a.hash == b.hash;
 }
 
@@ -61,44 +62,44 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 
 	/* Write the first one */
 
-	dcp::FrameInfo info1(0, 123, "12345678901234567890123456789012");
-	writer.write_frame_info (0, Eyes::LEFT, info1);
+	J2KFrameInfo info1(0, 123, "12345678901234567890123456789012");
+	info1.write(film->info_file_handle(period, false), 0, Eyes::LEFT);
 	{
 		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
+		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
 	}
 
 	/* Write some more */
 
-	dcp::FrameInfo info2(596, 14921, "123acb789f1234ae782012n456339522");
-	writer.write_frame_info (5, Eyes::RIGHT, info2);
+	J2KFrameInfo info2(596, 14921, "123acb789f1234ae782012n456339522");
+	info2.write(film->info_file_handle(period, false), 5, Eyes::RIGHT);
 
 	{
 		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
-		BOOST_CHECK (equal(info2, writer, file, 5, Eyes::RIGHT));
+		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
+		BOOST_CHECK(equal(info2, file, 5, Eyes::RIGHT));
 	}
 
-	dcp::FrameInfo info3(12494, 99157123, "xxxxyyyyabc12356ffsfdsf456339522");
-	writer.write_frame_info (10, Eyes::LEFT, info3);
+	J2KFrameInfo info3(12494, 99157123, "xxxxyyyyabc12356ffsfdsf456339522");
+	info3.write(film->info_file_handle(period, false), 10, Eyes::LEFT);
 
 	{
 		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
-		BOOST_CHECK (equal(info2, writer, file, 5, Eyes::RIGHT));
-		BOOST_CHECK (equal(info3, writer, file, 10, Eyes::LEFT));
+		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
+		BOOST_CHECK(equal(info2, file, 5, Eyes::RIGHT));
+		BOOST_CHECK(equal(info3, file, 10, Eyes::LEFT));
 	}
 
 	/* Overwrite one */
 
-	dcp::FrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
-	writer.write_frame_info (5, Eyes::RIGHT, info4);
+	J2KFrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
+	info4.write(film->info_file_handle(period, false), 5, Eyes::RIGHT);
 
 	{
 		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK (equal(info1, writer, file, 0, Eyes::LEFT));
-		BOOST_CHECK (equal(info4, writer, file, 5, Eyes::RIGHT));
-		BOOST_CHECK (equal(info3, writer, file, 10, Eyes::LEFT));
+		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
+		BOOST_CHECK(equal(info4, file, 5, Eyes::RIGHT));
+		BOOST_CHECK(equal(info3, file, 10, Eyes::LEFT));
 	}
 }
 

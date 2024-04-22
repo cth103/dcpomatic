@@ -32,9 +32,11 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/decrypted_kdm.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_frame.h>
+#include <dcp/mono_mpeg2_picture_asset.h>
+#include <dcp/mpeg2_transcode.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_closed_caption_asset.h>
@@ -46,9 +48,9 @@
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_reader.h>
-#include <dcp/stereo_picture_asset.h>
-#include <dcp/stereo_picture_asset_reader.h>
-#include <dcp/stereo_picture_frame.h>
+#include <dcp/stereo_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset_reader.h>
+#include <dcp/stereo_j2k_picture_frame.h>
 #include <dcp/subtitle_asset.h>
 #include <iostream>
 
@@ -161,6 +163,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					_video_size = asset->size ();
 				} else if (_video_size.get() != asset->size ()) {
 					throw DCPError (_("Mismatched video sizes in DCP"));
+				}
+
+				if (dynamic_pointer_cast<dcp::MPEG2PictureAsset>(asset)) {
+					_video_range = VideoRange::VIDEO;
 				}
 			}
 		}
@@ -293,17 +299,23 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					LOG_GENERAL_NC ("Picture has no key");
 					break;
 				}
-				auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset>(pic);
-				auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset>(pic);
+				auto j2k_mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(pic);
+				auto j2k_stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(pic);
+				auto mpeg2_mono = dynamic_pointer_cast<dcp::MonoMPEG2PictureAsset>(pic);
 
-				if (mono) {
-					auto reader = mono->start_read();
+				if (j2k_mono) {
+					auto reader = j2k_mono->start_read();
 					reader->set_check_hmac (false);
 					reader->get_frame(0)->xyz_image();
-				} else {
-					auto reader = stereo->start_read();
+				} else if (j2k_stereo) {
+					auto reader = j2k_stereo->start_read();
 					reader->set_check_hmac (false);
 					reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
+				} else if (mpeg2_mono) {
+					auto reader = mpeg2_mono->start_read();
+					reader->set_check_hmac(false);
+					dcp::MPEG2Decompressor decompressor;
+					decompressor.decompress_frame(reader->get_frame(0));
 				}
 			}
 
@@ -354,7 +366,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 	_standard = selected_cpl->standard();
 	if (!selected_cpl->reels().empty()) {
 		auto first_reel = selected_cpl->reels()[0];
-		_three_d = first_reel->main_picture() && first_reel->main_picture()->asset_ref().resolved() && dynamic_pointer_cast<dcp::StereoPictureAsset>(first_reel->main_picture()->asset());
+		_three_d = first_reel->main_picture() && first_reel->main_picture()->asset_ref().resolved() && dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(first_reel->main_picture()->asset());
 	}
 	_ratings = selected_cpl->ratings();
 	for (auto version: selected_cpl->content_versions()) {

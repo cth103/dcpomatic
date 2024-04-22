@@ -28,6 +28,7 @@
 #include "digester.h"
 #include "film.h"
 #include "film_util.h"
+#include "frame_info.h"
 #include "image.h"
 #include "image_png.h"
 #include "job.h"
@@ -40,7 +41,7 @@
 #include <dcp/dcp.h>
 #include <dcp/filesystem.h>
 #include <dcp/interop_subtitle_asset.h>
-#include <dcp/mono_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
@@ -55,7 +56,7 @@
 #include <dcp/smpte_subtitle_asset.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset_writer.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 #include <dcp/subtitle_image.h>
 
 #include "i18n.h"
@@ -79,9 +80,6 @@ using dcp::ArrayData;
 using dcp::Data;
 using dcp::raw_convert;
 using namespace dcpomatic;
-
-
-int const ReelWriter::_info_size = 48;
 
 
 static dcp::MXFMetadata
@@ -148,30 +146,45 @@ ReelWriter::ReelWriter (
 			dcp::filesystem::rename(asset.string() + ".tmp", asset);
 		}
 
+		auto const rate = dcp::Fraction(film()->video_frame_rate(), 1);
 
-		if (film()->three_d()) {
-			_picture_asset.reset (new dcp::StereoPictureAsset(dcp::Fraction(film()->video_frame_rate(), 1), standard));
+		auto setup = [this](shared_ptr<dcp::PictureAsset> asset) {
+			asset->set_size(film()->frame_size());
+			asset->set_metadata(mxf_metadata());
+
+			if (film()->encrypted()) {
+				asset->set_key(film()->key());
+				asset->set_context_id(film()->context_id());
+			}
+		};
+
+		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
+			if (film()->three_d()) {
+				_j2k_picture_asset = std::make_shared<dcp::StereoJ2KPictureAsset>(rate, standard);
+			} else {
+				_j2k_picture_asset = std::make_shared<dcp::MonoJ2KPictureAsset>(rate, standard);
+			}
+			setup(_j2k_picture_asset);
+			_j2k_picture_asset->set_file(asset);
+			_j2k_picture_asset_writer = _j2k_picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW);
 		} else {
-			_picture_asset.reset (new dcp::MonoPictureAsset(dcp::Fraction(film()->video_frame_rate(), 1), standard));
+			_mpeg2_picture_asset = std::make_shared<dcp::MonoMPEG2PictureAsset>(rate);
+			setup(_mpeg2_picture_asset);
+			_mpeg2_picture_asset->set_file(asset);
+			_mpeg2_picture_asset_writer = _mpeg2_picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::Behaviour::OVERWRITE_EXISTING : dcp::Behaviour::MAKE_NEW);
 		}
 
-		_picture_asset->set_size (film()->frame_size());
-		_picture_asset->set_metadata (mxf_metadata());
-
-		if (film()->encrypted()) {
-			_picture_asset->set_key (film()->key());
-			_picture_asset->set_context_id (film()->context_id());
-		}
-
-		_picture_asset->set_file (asset);
-		_picture_asset_writer = _picture_asset->start_write(asset, _first_nonexistent_frame > 0 ? dcp::PictureAsset::Behaviour::OVERWRITE_EXISTING : dcp::PictureAsset::Behaviour::MAKE_NEW);
 	} else if (!text_only) {
 		/* We already have a complete picture asset that we can just re-use */
 		/* XXX: what about if the encryption key changes? */
-		if (film()->three_d()) {
-			_picture_asset = make_shared<dcp::StereoPictureAsset>(asset);
+		if (film()->video_encoding() == VideoEncoding::JPEG2000) {
+			if (film()->three_d()) {
+				_j2k_picture_asset = make_shared<dcp::StereoJ2KPictureAsset>(asset);
+			} else {
+				_j2k_picture_asset = make_shared<dcp::MonoJ2KPictureAsset>(asset);
+			}
 		} else {
-			_picture_asset = make_shared<dcp::MonoPictureAsset>(asset);
+			_mpeg2_picture_asset = make_shared<dcp::MonoMPEG2PictureAsset>(asset);
 		}
 	}
 
@@ -215,53 +228,6 @@ ReelWriter::ReelWriter (
 }
 
 
-/** @param frame reel-relative frame */
-void
-ReelWriter::write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const
-{
-	auto handle = film()->info_file_handle(_period, false);
-	handle->get().seek(frame_info_position(frame, eyes), SEEK_SET);
-	handle->get().checked_write(&info.offset, sizeof(info.offset));
-	handle->get().checked_write(&info.size, sizeof(info.size));
-	handle->get().checked_write(info.hash.c_str(), info.hash.size());
-}
-
-
-dcp::FrameInfo
-ReelWriter::read_frame_info (shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const
-{
-	dcp::FrameInfo frame_info;
-	info->get().seek(frame_info_position(frame, eyes), SEEK_SET);
-	info->get().checked_read(&frame_info.offset, sizeof(frame_info.offset));
-	info->get().checked_read(&frame_info.size, sizeof(frame_info.size));
-
-	char hash_buffer[33];
-	info->get().checked_read(hash_buffer, 32);
-	hash_buffer[32] = '\0';
-	frame_info.hash = hash_buffer;
-
-	return frame_info;
-}
-
-
-long
-ReelWriter::frame_info_position (Frame frame, Eyes eyes) const
-{
-	switch (eyes) {
-	case Eyes::BOTH:
-		return frame * _info_size;
-	case Eyes::LEFT:
-		return frame * _info_size * 2;
-	case Eyes::RIGHT:
-		return frame * _info_size * 2 + _info_size;
-	default:
-		DCPOMATIC_ASSERT (false);
-	}
-
-	DCPOMATIC_ASSERT (false);
-}
-
-
 Frame
 ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 {
@@ -290,8 +256,8 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 	}
 
 	/* Offset of the last dcp::FrameInfo in the info file */
-	int const n = (dcp::filesystem::file_size(info_file->get().path()) / _info_size) - 1;
-	LOG_GENERAL ("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(info_file->get().path()), _info_size);
+	int const n = (dcp::filesystem::file_size(info_file->get().path()) / J2KFrameInfo::size_on_disk()) - 1;
+	LOG_GENERAL("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(info_file->get().path()), J2KFrameInfo::size_on_disk())
 
 	Frame first_nonexistent_frame;
 	if (film()->three_d()) {
@@ -321,13 +287,13 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 void
 ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
-	if (!_picture_asset_writer) {
+	if (!_j2k_picture_asset_writer) {
 		/* We're not writing any data */
 		return;
 	}
 
-	auto fin = _picture_asset_writer->write (encoded->data(), encoded->size());
-	write_frame_info (frame, eyes, fin);
+	auto fin = J2KFrameInfo(_j2k_picture_asset_writer->write(encoded->data(), encoded->size()));
+	fin.write(film()->info_file_handle(_period, false), frame, eyes);
 	_last_written[eyes] = encoded;
 }
 
@@ -349,37 +315,50 @@ ReelWriter::write (shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metada
 
 
 void
-ReelWriter::fake_write (int size)
+ReelWriter::write(shared_ptr<dcp::MonoMPEG2PictureFrame> image)
 {
-	if (!_picture_asset_writer) {
+	_mpeg2_picture_asset_writer->write(image->data(), image->size());
+}
+
+
+void
+ReelWriter::fake_write(dcp::J2KFrameInfo const& info)
+{
+	if (!_j2k_picture_asset_writer) {
 		/* We're not writing any data */
 		return;
 	}
 
-	_picture_asset_writer->fake_write (size);
+	_j2k_picture_asset_writer->fake_write(info);
 }
 
 
 void
 ReelWriter::repeat_write (Frame frame, Eyes eyes)
 {
-	if (!_picture_asset_writer) {
+	if (!_j2k_picture_asset_writer) {
 		/* We're not writing any data */
 		return;
 	}
 
-	auto fin = _picture_asset_writer->write(_last_written[eyes]->data(), _last_written[eyes]->size());
-	write_frame_info (frame, eyes, fin);
+	auto fin = J2KFrameInfo(_j2k_picture_asset_writer->write(_last_written[eyes]->data(), _last_written[eyes]->size()));
+	fin.write(film()->info_file_handle(_period, false), frame, eyes);
 }
 
 
 void
 ReelWriter::finish (boost::filesystem::path output_dcp)
 {
-	if (_picture_asset_writer && !_picture_asset_writer->finalize ()) {
-		/* Nothing was written to the picture asset */
-		LOG_GENERAL ("Nothing was written to reel %1 of %2", _reel_index, _reel_count);
-		_picture_asset.reset ();
+	if (_j2k_picture_asset_writer && !_j2k_picture_asset_writer->finalize()) {
+		/* Nothing was written to the J2K picture asset */
+		LOG_GENERAL("Nothing was written to J2K asset for reel %1 of %2", _reel_index, _reel_count);
+		_j2k_picture_asset.reset();
+	}
+
+	if (_mpeg2_picture_asset_writer && !_mpeg2_picture_asset_writer->finalize()) {
+		/* Nothing was written to the MPEG2 picture asset */
+		LOG_GENERAL("Nothing was written to MPEG2 asset for reel %1 of %2", _reel_index, _reel_count);
+		_mpeg2_picture_asset.reset();
 	}
 
 	if (_sound_asset_writer && !_sound_asset_writer->finalize ()) {
@@ -387,12 +366,21 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 		_sound_asset.reset ();
 	}
 
+	shared_ptr<dcp::PictureAsset> picture_asset;
+	if (_j2k_picture_asset) {
+		picture_asset = _j2k_picture_asset;
+	} else if (_mpeg2_picture_asset) {
+		picture_asset = _mpeg2_picture_asset;
+	}
+
 	/* Hard-link any video asset file into the DCP */
-	if (_picture_asset) {
-		DCPOMATIC_ASSERT (_picture_asset->file());
-		boost::filesystem::path video_from = _picture_asset->file().get();
-		boost::filesystem::path video_to = output_dcp;
-		video_to /= video_asset_filename (_picture_asset, _reel_index, _reel_count, _content_summary);
+	if (picture_asset) {
+		auto const file = picture_asset->file();
+		DCPOMATIC_ASSERT(file);
+
+		auto video_from = *file;
+		auto video_to = output_dcp;
+		video_to /= video_asset_filename(picture_asset, _reel_index, _reel_count, _content_summary);
 		/* There may be an existing "to" file if we are recreating a DCP in the same place without
 		   changing any video.
 		*/
@@ -420,7 +408,7 @@ ReelWriter::finish (boost::filesystem::path output_dcp)
 			}
 		}
 
-		_picture_asset->set_file (video_to);
+		picture_asset->set_file(video_to);
 	}
 
 	/* Move the audio asset into the DCP */
@@ -544,17 +532,17 @@ ReelWriter::create_reel_picture (shared_ptr<dcp::Reel> reel, list<ReferencedReel
 {
 	shared_ptr<dcp::ReelPictureAsset> reel_asset;
 
-	if (_picture_asset) {
+	if (_j2k_picture_asset) {
 		/* We have made a picture asset of our own.  Put it into the reel */
-		auto mono = dynamic_pointer_cast<dcp::MonoPictureAsset> (_picture_asset);
-		if (mono) {
+		if (auto mono = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(_j2k_picture_asset)) {
 			reel_asset = make_shared<dcp::ReelMonoPictureAsset>(mono, 0);
 		}
 
-		auto stereo = dynamic_pointer_cast<dcp::StereoPictureAsset> (_picture_asset);
-		if (stereo) {
+		if (auto stereo = dynamic_pointer_cast<dcp::StereoJ2KPictureAsset>(_j2k_picture_asset)) {
 			reel_asset = make_shared<dcp::ReelStereoPictureAsset>(stereo, 0);
 		}
+	} else if (_mpeg2_picture_asset) {
+		reel_asset = make_shared<dcp::ReelMonoPictureAsset>(_mpeg2_picture_asset, 0);
 	} else {
 		LOG_GENERAL ("no picture asset of our own; look through %1", refs.size());
 		/* We don't have a picture asset of our own; hopefully we have one to reference */
@@ -783,8 +771,11 @@ try
 {
 	vector<shared_ptr<const dcp::Asset>> assets;
 
-	if (_picture_asset) {
-		assets.push_back(_picture_asset);
+	if (_j2k_picture_asset) {
+		assets.push_back(_j2k_picture_asset);
+	}
+	if (_mpeg2_picture_asset) {
+		assets.push_back(_mpeg2_picture_asset);
 	}
 	if (_sound_asset) {
 		assets.push_back(_sound_asset);
@@ -1012,7 +1003,7 @@ ReelWriter::existing_picture_frame_ok (dcp::File& asset_file, shared_ptr<InfoFil
 	/* Read the data from the info file; for 3D we just check the left
 	   frames until we find a good one.
 	*/
-	auto const info = read_frame_info (info_file, frame, film()->three_d() ? Eyes::LEFT : Eyes::BOTH);
+	auto const info = J2KFrameInfo(info_file, frame, film()->three_d() ? Eyes::LEFT : Eyes::BOTH);
 
 	bool ok = true;
 

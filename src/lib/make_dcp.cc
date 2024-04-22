@@ -21,7 +21,7 @@
 
 #include "config.h"
 #include "dcp_content.h"
-#include "dcp_encoder.h"
+#include "dcp_film_encoder.h"
 #include "dcp_transcode_job.h"
 #include "dcpomatic_log.h"
 #include "environment_info.h"
@@ -91,10 +91,10 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 		LOG_GENERAL ("Content: %1", content->technical_summary());
 	}
 	LOG_GENERAL ("DCP video rate %1 fps", film->video_frame_rate());
-	LOG_GENERAL ("J2K bandwidth %1", film->j2k_bandwidth());
+	LOG_GENERAL("Video bit rate %1", film->video_bit_rate(film->video_encoding()));
 
 	auto tj = make_shared<DCPTranscodeJob>(film, behaviour);
-	tj->set_encoder (make_shared<DCPEncoder>(film, tj));
+	tj->set_encoder(make_shared<DCPFilmEncoder>(film, tj));
 	JobManager::instance()->add (tj);
 
 	return tj;

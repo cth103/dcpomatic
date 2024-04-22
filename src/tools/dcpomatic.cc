@@ -76,7 +76,7 @@
 #include "lib/email.h"
 #include "lib/encode_server_finder.h"
 #include "lib/exceptions.h"
-#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_film_encoder.h"
 #include "lib/film.h"
 #include "lib/font_config.h"
 #ifdef DCPOMATIC_GROK
@@ -91,7 +91,7 @@
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/signal_manager.h"
-#include "lib/subtitle_encoder.h"
+#include "lib/subtitle_film_encoder.h"
 #include "lib/text_content.h"
 #include "lib/transcode_job.h"
 #include "lib/update_checker.h"
@@ -1029,7 +1029,7 @@ private:
 
 		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		job->set_encoder (
-			make_shared<FFmpegEncoder> (
+			make_shared<FFmpegFilmEncoder>(
 				_film, job, dialog.path(), dialog.format(), dialog.mixdown_to_stereo(), dialog.split_reels(), dialog.split_streams(), dialog.x264_crf())
 			);
 		JobManager::instance()->add (job);
@@ -1044,7 +1044,7 @@ private:
 		}
 		auto job = make_shared<TranscodeJob>(_film, TranscodeJob::ChangedBehaviour::EXAMINE_THEN_STOP);
 		job->set_encoder(
-			make_shared<SubtitleEncoder>(_film, job, dialog.path(), _film->isdcf_name(true), dialog.split_reels(), dialog.include_font())
+			make_shared<SubtitleFilmEncoder>(_film, job, dialog.path(), _film->isdcf_name(true), dialog.split_reels(), dialog.include_font())
 			);
 		JobManager::instance()->add(job);
 	}

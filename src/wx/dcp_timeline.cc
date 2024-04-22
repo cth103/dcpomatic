@@ -230,10 +230,10 @@ DCPTimeline::setup_reel_settings()
 	int r = 0;
 	add_label_to_sizer(sizer, _reel_settings, _("Reel mode"), true, wxGBPosition(r, 0));
 	_reel_type = new Choice(_reel_settings);
-	_reel_type->add(_("Single reel"));
-	_reel_type->add(_("Split by video content"));
-	_reel_type->add(_("Split by maximum reel size"));
-	_reel_type->add(_("Custom"));
+	_reel_type->add_entry(_("Single reel"));
+	_reel_type->add_entry(_("Split by video content"));
+	_reel_type->add_entry(_("Split by maximum reel size"));
+	_reel_type->add_entry(_("Custom"));
 	sizer->Add(_reel_type, wxGBPosition(r, 1));
 	++r;
 

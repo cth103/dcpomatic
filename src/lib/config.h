@@ -28,9 +28,11 @@
 
 
 #include "audio_mapping.h"
+#include "enum_indexed_vector.h"
 #include "export_config.h"
 #include "rough_duration.h"
 #include "state.h"
+#include "video_encoding.h"
 #include <dcp/name_format.h>
 #include <dcp/certificate_chain.h>
 #include <dcp/encrypted_kdm.h>
@@ -97,6 +99,7 @@ public:
 		AUTO_CROP_THRESHOLD,
 		ALLOW_SMPTE_BV20,
 		ISDCF_NAME_PART_LENGTH,
+		ALLOW_ANY_CONTAINER,
 #ifdef DCPOMATIC_GROK
 		GROK,
 #endif
@@ -232,8 +235,8 @@ public:
 		return _dcp_j2k_comment;
 	}
 
-	int default_j2k_bandwidth () const {
-		return _default_j2k_bandwidth;
+	int64_t default_video_bit_rate(VideoEncoding encoding) const {
+		return _default_video_bit_rate[encoding];
 	}
 
 	int default_audio_delay () const {
@@ -348,8 +351,8 @@ public:
 		return _check_for_test_updates;
 	}
 
-	int maximum_j2k_bandwidth () const {
-		return _maximum_j2k_bandwidth;
+	int64_t maximum_video_bit_rate(VideoEncoding encoding) const {
+		return _maximum_video_bit_rate[encoding];
 	}
 
 	int log_types () const {
@@ -742,7 +745,7 @@ public:
 	}
 
 	void set_allow_any_container (bool a) {
-		maybe_set (_allow_any_container, a);
+		maybe_set(_allow_any_container, a, ALLOW_ANY_CONTAINER);
 	}
 
 	void set_allow_96hhz_audio (bool a) {
@@ -810,8 +813,8 @@ public:
 		maybe_set (_dcp_j2k_comment, c);
 	}
 
-	void set_default_j2k_bandwidth (int b) {
-		maybe_set (_default_j2k_bandwidth, b);
+	void set_default_video_bit_rate(VideoEncoding encoding, int64_t b) {
+		maybe_set(_default_video_bit_rate[encoding], b);
 	}
 
 	void set_default_audio_delay (int d) {
@@ -933,8 +936,8 @@ public:
 		maybe_set (_check_for_test_updates, c);
 	}
 
-	void set_maximum_j2k_bandwidth (int b) {
-		maybe_set (_maximum_j2k_bandwidth, b);
+	void set_maximum_video_bit_rate(VideoEncoding encoding, int64_t b) {
+		maybe_set(_maximum_video_bit_rate[encoding], b);
 	}
 
 	void set_log_types (int t) {
@@ -1380,7 +1383,7 @@ private:
 	std::string _dcp_product_name;
 	std::string _dcp_product_version;
 	std::string _dcp_j2k_comment;
-	int _default_j2k_bandwidth;
+	EnumIndexedVector<int64_t, VideoEncoding> _default_video_bit_rate;
 	int _default_audio_delay;
 	bool _default_interop;
 	boost::optional<dcp::LanguageTag> _default_audio_language;
@@ -1417,8 +1420,8 @@ private:
 	/** true to check for updates on startup */
 	bool _check_for_updates;
 	bool _check_for_test_updates;
-	/** maximum allowed J2K bandwidth in bits per second */
-	int _maximum_j2k_bandwidth;
+	/** maximum allowed video bit rate in bits per second */
+	EnumIndexedVector<int64_t, VideoEncoding> _maximum_video_bit_rate;
 	int _log_types;
 	bool _analyse_ebur128;
 	bool _automatic_audio_analysis;

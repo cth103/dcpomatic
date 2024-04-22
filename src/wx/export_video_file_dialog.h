@@ -20,7 +20,7 @@
 
 
 #include "table_dialog.h"
-#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_file_encoder.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>

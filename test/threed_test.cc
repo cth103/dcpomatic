@@ -42,8 +42,8 @@
 #include "lib/util.h"
 #include "lib/video_content.h"
 #include "test.h"
-#include <dcp/mono_picture_asset.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -330,10 +330,10 @@ BOOST_AUTO_TEST_CASE(threed_passthrough_test, * boost::unit_test::depends_on("th
 
 	BOOST_REQUIRE_EQUAL(matches.size(), 1U);
 
-	auto stereo = dcp::StereoPictureAsset(matches[0]);
+	auto stereo = dcp::StereoJ2KPictureAsset(matches[0]);
 	auto stereo_reader = stereo.start_read();
 
-	auto mono = dcp::MonoPictureAsset(dcp_file(film, "j2c"));
+	auto mono = dcp::MonoJ2KPictureAsset(dcp_file(film, "j2c"));
 	auto mono_reader = mono.start_read();
 
 	BOOST_REQUIRE_EQUAL(stereo.intrinsic_duration(), mono.intrinsic_duration());

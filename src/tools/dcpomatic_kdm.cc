@@ -53,6 +53,7 @@
 #include "lib/kdm_with_metadata.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
+#include "lib/util.h"
 #include "lib/variant.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/decrypted_kdm.h>

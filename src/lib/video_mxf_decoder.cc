@@ -24,10 +24,10 @@
 #include "video_mxf_content.h"
 #include "j2k_image_proxy.h"
 #include "frame_interval_checker.h"
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/stereo_picture_asset.h>
-#include <dcp/stereo_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/stereo_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset_reader.h>
 #include <dcp/exceptions.h>
 
 
@@ -44,7 +44,7 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 	video = make_shared<VideoDecoder>(this, content);
 
 	try {
-		auto mono = make_shared<dcp::MonoPictureAsset>(_content->path(0));
+		auto mono = make_shared<dcp::MonoJ2KPictureAsset>(_content->path(0));
 		_mono_reader = mono->start_read ();
 		_mono_reader->set_check_hmac (false);
 		_size = mono->size ();
@@ -55,7 +55,7 @@ VideoMXFDecoder::VideoMXFDecoder (shared_ptr<const Film> film, shared_ptr<const 
 		/* maybe it's stereo */
 	}
 
-	auto stereo = make_shared<dcp::StereoPictureAsset>(_content->path(0));
+	auto stereo = make_shared<dcp::StereoJ2KPictureAsset>(_content->path(0));
 	_stereo_reader = stereo->start_read ();
 	_stereo_reader->set_check_hmac (false);
 	_size = stereo->size ();

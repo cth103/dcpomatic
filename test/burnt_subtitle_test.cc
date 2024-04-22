@@ -30,7 +30,7 @@
 #include "lib/dcp_content.h"
 #include "lib/dcp_content_type.h"
 #include "lib/film.h"
-#include "lib/ffmpeg_encoder.h"
+#include "lib/ffmpeg_film_encoder.h"
 #include "lib/log_entry.h"
 #include "lib/ratio.h"
 #include "lib/text_content.h"
@@ -39,9 +39,9 @@
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
 #include <dcp/j2k_transcode.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_mono_picture_asset.h>
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	BOOST_REQUIRE (dcp.cpls().front()->reels().front()->main_picture()->asset());
 	auto pic = dynamic_pointer_cast<dcp::ReelMonoPictureAsset> (
 		dcp.cpls().front()->reels().front()->main_picture()
-		)->mono_asset();
+		)->mono_j2k_asset();
 	BOOST_REQUIRE (pic);
 	auto frame = pic->start_read()->get_frame(12);
 	auto xyz = frame->xyz_image ();
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE(burn_empty_subtitle_test)
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	auto file = boost::filesystem::path("build") / "test" / "burnt_empty_subtitle_test.mov";
 	cl.add(file);
-	FFmpegEncoder encoder(film, job, file, ExportFormat::PRORES_4444, false, false, false, 23);
+	FFmpegFilmEncoder encoder(film, job, file, ExportFormat::PRORES_4444, false, false, false, 23);
 	encoder.go();
 
 	cl.run();

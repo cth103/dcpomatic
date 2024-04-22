@@ -34,6 +34,7 @@
 #include "exception_store.h"
 #include "j2k_encoder_thread.h"
 #include "writer.h"
+#include "video_encoder.h"
 #include <boost/optional.hpp>
 #include <boost/signals2.hpp>
 #include <boost/thread.hpp>
@@ -65,7 +66,7 @@ struct frames_not_lost_when_threads_disappear;
  *  This class keeps a queue of frames to be encoded and distributes
  *  the work around threads and encoding servers.
  */
-class J2KEncoder : public ExceptionStore
+class J2KEncoder : public VideoEncoder, public ExceptionStore
 {
 public:
 	J2KEncoder(std::shared_ptr<const Film> film, Writer& writer);
@@ -75,19 +76,16 @@ public:
 	J2KEncoder& operator= (J2KEncoder const&) = delete;
 
 	/** Called to indicate that a processing run is about to begin */
-	void begin ();
+	void begin() override;
 
 	/** Called to pass a bit of video to be encoded as the next DCP frame */
-	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
+	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time) override;
 
-	void pause();
-	void resume();
+	void pause() override;
+	void resume() override;
 
 	/** Called when a processing run has finished */
-	void end();
-
-	boost::optional<float> current_encoding_rate () const;
-	int video_frames_enqueued () const;
+	void end() override;
 
 	DCPVideo pop();
 	void retry(DCPVideo frame);
@@ -103,11 +101,6 @@ private:
 	void remake_threads(int cpu, int gpu, std::list<EncodeServerDescription> servers);
 	void terminate_threads ();
 
-	/** Film that we are encoding */
-	std::shared_ptr<const Film> _film;
-
-	EventHistory _history;
-
 	boost::mutex _threads_mutex;
 	std::vector<std::shared_ptr<J2KEncoderThread>> _threads;
 
@@ -118,11 +111,9 @@ private:
 	/** condition to manage thread wakeups when we have too much to do */
 	boost::condition _full_condition;
 
-	Writer& _writer;
 	Waker _waker;
 
 	EnumIndexedVector<std::shared_ptr<PlayerVideo>, Eyes> _last_player_video;
-	boost::optional<dcpomatic::DCPTime> _last_player_video_time;
 
 	boost::signals2::scoped_connection _server_found_connection;
 

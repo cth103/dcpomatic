@@ -26,8 +26,8 @@
 #include "film.h"
 #include "compose.hpp"
 #include <asdcp/KM_log.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/stereo_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/stereo_j2k_picture_asset.h>
 #include <dcp/exceptions.h>
 #include <libxml++/libxml++.h>
 
@@ -61,7 +61,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 	Kumu::DefaultLogSink().UnsetFilterFlag(Kumu::LOG_ALLOW_ALL);
 
 	try {
-		dcp::MonoPictureAsset mp (path);
+		dcp::MonoJ2KPictureAsset mp(path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 
@@ -71,7 +71,7 @@ VideoMXFContent::valid_mxf (boost::filesystem::path path)
 
 	try {
 		Kumu::DefaultLogSink().SetFilterFlag(0);
-		dcp::StereoPictureAsset sp (path);
+		dcp::StereoJ2KPictureAsset sp (path);
 		return true;
 	} catch (dcp::MXFFileError& e) {
 

@@ -131,7 +131,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_reels->Bind(wxEVT_BUTTON, boost::bind(&DCPPanel::reels_clicked, this));
 
 	for (auto i: DCPContentType::all()) {
-		_dcp_content_type->add(i->pretty_name());
+		_dcp_content_type->add_entry(i->pretty_name());
 	}
 
 	add_standards();
@@ -146,11 +146,12 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 void
 DCPPanel::add_standards()
 {
-	_standard->add(_("SMPTE"), N_("smpte"));
+	_standard->add_entry(_("SMPTE"), N_("smpte"));
 	if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
-		_standard->add(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
+		_standard->add_entry(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
 	}
-	_standard->add(_("Interop"), N_("interop"));
+	_standard->add_entry(_("Interop"), N_("interop"));
+	_standard->add_entry(_("MPEG2 Interop"), N_("mpeg2-interop"));
 	_sizer->Layout();
 }
 
@@ -162,7 +163,11 @@ DCPPanel::set_standard()
 	DCPOMATIC_ASSERT(!_film->limit_to_smpte_bv20() || _standard->GetCount() == 3);
 
 	if (_film->interop()) {
-		checked_set(_standard, "interop");
+		if (_film->video_encoding() == VideoEncoding::JPEG2000) {
+			checked_set(_standard, "interop");
+		} else {
+			checked_set(_standard, "mpeg2-interop");
+		}
 	} else {
 		checked_set(_standard, _film->limit_to_smpte_bv20() ? "smpte-bv20" : "smpte");
 	}
@@ -184,12 +189,18 @@ DCPPanel::standard_changed ()
 	if (*data == N_("interop")) {
 		_film->set_interop(true);
 		_film->set_limit_to_smpte_bv20(false);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == N_("smpte")) {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(false);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
 	} else if (*data == N_("smpte-bv20")) {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(true);
+		_film->set_video_encoding(VideoEncoding::JPEG2000);
+	} else if (*data == N_("mpeg2-interop")) {
+		_film->set_interop(true);
+		_film->set_video_encoding(VideoEncoding::MPEG2);
 	}
 }
 
@@ -253,13 +264,13 @@ DCPPanel::name_changed ()
 
 
 void
-DCPPanel::j2k_bandwidth_changed ()
+DCPPanel::video_bit_rate_changed()
 {
 	if (!_film) {
 		return;
 	}
 
-	_film->set_j2k_bandwidth (_j2k_bandwidth->GetValue() * 1000000);
+	_film->set_video_bit_rate(_film->video_encoding(), _video_bit_rate->GetValue() * 1000000);
 }
 
 
@@ -385,8 +396,8 @@ DCPPanel::film_changed(FilmProperty p)
 		setup_container ();
 		setup_dcp_name ();
 		break;
-	case FilmProperty::J2K_BANDWIDTH:
-		checked_set (_j2k_bandwidth, _film->j2k_bandwidth() / 1000000);
+	case FilmProperty::VIDEO_BIT_RATE:
+		checked_set(_video_bit_rate, _film->video_bit_rate(_film->video_encoding()) / 1000000);
 		break;
 	case FilmProperty::USE_ISDCF_NAME:
 	{
@@ -444,6 +455,12 @@ DCPPanel::film_changed(FilmProperty p)
 		set_standard();
 		setup_dcp_name ();
 		_markers->Enable (!_film->interop());
+		break;
+	case FilmProperty::VIDEO_ENCODING:
+		set_standard();
+		setup_container();
+		setup_sensitivity();
+		film_changed(FilmProperty::VIDEO_BIT_RATE);
 		break;
 	case FilmProperty::LIMIT_TO_SMPTE_BV20:
 		set_standard();
@@ -526,24 +543,28 @@ DCPPanel::film_content_changed (int property)
 void
 DCPPanel::setup_container ()
 {
-	int n = 0;
-	auto ratios = Ratio::containers ();
-	auto i = ratios.begin ();
-	while (i != ratios.end() && *i != _film->container()) {
-		++i;
-		++n;
+	auto ratios = Ratio::containers();
+	if (std::find(ratios.begin(), ratios.end(), _film->container()) == ratios.end()) {
+		ratios.push_back(_film->container());
 	}
 
-	if (i == ratios.end()) {
-		checked_set (_container, -1);
-		checked_set (_container_size, wxT(""));
-	} else {
-		checked_set (_container, n);
-		auto const size = fit_ratio_within (_film->container()->ratio(), _film->full_frame ());
-		checked_set (_container_size, wxString::Format("%dx%d", size.width, size.height));
+	wxArrayString new_ratios;
+	for (auto ratio: ratios) {
+		new_ratios.Add(std_to_wx(ratio->container_nickname()));
 	}
+
+	_container->set_entries(new_ratios);
+
+	auto iter = std::find_if(ratios.begin(), ratios.end(), [this](Ratio const* ratio) { return ratio == _film->container(); });
+	DCPOMATIC_ASSERT(iter != ratios.end());
+
+	checked_set(_container, iter - ratios.begin());
+	auto const size = fit_ratio_within(_film->container()->ratio(), _film->full_frame ());
+	checked_set(_container_size, wxString::Format("%dx%d", size.width, size.height));
 
 	setup_dcp_name ();
+
+	_video_grid->Layout();
 }
 
 
@@ -605,7 +626,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 	film_changed(FilmProperty::CONTAINER);
 	film_changed(FilmProperty::RESOLUTION);
 	film_changed(FilmProperty::ENCRYPTED);
-	film_changed(FilmProperty::J2K_BANDWIDTH);
+	film_changed(FilmProperty::VIDEO_BIT_RATE);
 	film_changed(FilmProperty::VIDEO_FRAME_RATE);
 	film_changed(FilmProperty::AUDIO_CHANNELS);
 	film_changed(FilmProperty::SEQUENCE);
@@ -634,6 +655,8 @@ DCPPanel::set_general_sensitivity (bool s)
 void
 DCPPanel::setup_sensitivity ()
 {
+	auto const mpeg2 = _film && _film->video_encoding() == VideoEncoding::MPEG2;
+
 	_name->Enable                   (_generally_sensitive);
 	_use_isdcf_name->Enable         (_generally_sensitive);
 	_dcp_content_type->Enable       (_generally_sensitive);
@@ -649,8 +672,8 @@ DCPPanel::setup_sensitivity ()
 	_frame_rate_spin->Enable        (_generally_sensitive && _film && !_film->references_dcp_video() && !_film->contains_atmos_content());
 	_audio_channels->Enable         (_generally_sensitive && _film && !_film->references_dcp_audio());
 	_audio_processor->Enable        (_generally_sensitive && _film && !_film->references_dcp_audio());
-	_j2k_bandwidth->Enable          (_generally_sensitive && _film && !_film->references_dcp_video());
-	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video());
+	_video_bit_rate->Enable         (_generally_sensitive && _film && !_film->references_dcp_video());
+	_container->Enable              (_generally_sensitive && _film && !_film->references_dcp_video() && !mpeg2);
 	_best_frame_rate->Enable (
 		_generally_sensitive &&
 		_film &&
@@ -658,8 +681,8 @@ DCPPanel::setup_sensitivity ()
 		!_film->references_dcp_video() &&
 		!_film->contains_atmos_content()
 		);
-	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video());
-	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video());
+	_resolution->Enable             (_generally_sensitive && _film && !_film->references_dcp_video() && !mpeg2);
+	_three_d->Enable                (_generally_sensitive && _film && !_film->references_dcp_video() && !mpeg2);
 
 	_standard->Enable (
 		_generally_sensitive &&
@@ -732,7 +755,8 @@ DCPPanel::reencode_j2k_changed ()
 void
 DCPPanel::config_changed (Config::Property p)
 {
-	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	VideoEncoding const encoding = _film ? _film->video_encoding() : VideoEncoding::JPEG2000;
+	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate(encoding) / 1000000);
 	setup_frame_rate_widget ();
 
 	if (p == Config::SHOW_EXPERIMENTAL_AUDIO_PROCESSORS) {
@@ -750,6 +774,8 @@ DCPPanel::config_changed (Config::Property p)
 		}
 	} else if (p == Config::ISDCF_NAME_PART_LENGTH) {
 		setup_dcp_name();
+	} else if (p == Config::ALLOW_ANY_CONTAINER) {
+		setup_container();
 	}
 }
 
@@ -791,8 +817,8 @@ DCPPanel::make_video_panel ()
 
 	_three_d = new CheckBox (panel, _("3D"));
 
-	_j2k_bandwidth_label = create_label (panel, _("JPEG2000 bandwidth\nfor newly-encoded data"), true);
-	_j2k_bandwidth = new SpinCtrl (panel, DCPOMATIC_SPIN_CTRL_WIDTH);
+	_video_bit_rate_label = create_label(panel, _("Video bit rate\nfor newly-encoded data"), true);
+	_video_bit_rate = new SpinCtrl(panel, DCPOMATIC_SPIN_CTRL_WIDTH);
 	_mbits_label = create_label (panel, _("Mbit/s"), false);
 
 	_reencode_j2k = new CheckBox (panel, _("Re-encode JPEG2000 data from input"));
@@ -801,26 +827,23 @@ DCPPanel::make_video_panel ()
 	_frame_rate_choice->Bind (wxEVT_CHOICE,	  boost::bind(&DCPPanel::frame_rate_choice_changed, this));
 	_frame_rate_spin->Bind   (wxEVT_SPINCTRL, boost::bind(&DCPPanel::frame_rate_spin_changed, this));
 	_best_frame_rate->Bind	 (wxEVT_BUTTON,	  boost::bind(&DCPPanel::best_frame_rate_clicked, this));
-	_j2k_bandwidth->Bind	 (wxEVT_SPINCTRL, boost::bind(&DCPPanel::j2k_bandwidth_changed, this));
+	_video_bit_rate->Bind	 (wxEVT_SPINCTRL, boost::bind(&DCPPanel::video_bit_rate_changed, this));
 	/* Also listen to wxEVT_TEXT so that typing numbers directly in is always noticed */
-	_j2k_bandwidth->Bind	 (wxEVT_TEXT,     boost::bind(&DCPPanel::j2k_bandwidth_changed, this));
+	_video_bit_rate->Bind	 (wxEVT_TEXT,     boost::bind(&DCPPanel::video_bit_rate_changed, this));
 	_resolution->Bind        (wxEVT_CHOICE,   boost::bind(&DCPPanel::resolution_changed, this));
 	_three_d->bind(&DCPPanel::three_d_changed, this);
 	_reencode_j2k->bind(&DCPPanel::reencode_j2k_changed, this);
 
-	for (auto i: Ratio::containers()) {
-		_container->add(i->container_nickname());
-	}
-
 	for (auto i: Config::instance()->allowed_dcp_frame_rates()) {
-		_frame_rate_choice->add(boost::lexical_cast<string>(i));
+		_frame_rate_choice->add_entry(boost::lexical_cast<string>(i));
 	}
 
-	_j2k_bandwidth->SetRange (1, Config::instance()->maximum_j2k_bandwidth() / 1000000);
+	VideoEncoding const encoding = _film ? _film->video_encoding() : VideoEncoding::JPEG2000;
+	_video_bit_rate->SetRange(1, Config::instance()->maximum_video_bit_rate(encoding) / 1000000);
 	_frame_rate_spin->SetRange (1, 480);
 
-	_resolution->add(_("2K"));
-	_resolution->add(_("4K"));
+	_resolution->add_entry(_("2K"));
+	_resolution->add_entry(_("4K"));
 
 	add_video_panel_to_grid ();
 	setup_frame_rate_widget();
@@ -860,9 +883,9 @@ DCPPanel::add_video_panel_to_grid ()
 	_video_grid->Add (_three_d, wxGBPosition (r, 0), wxGBSpan (1, 2));
 	++r;
 
-	add_label_to_sizer (_video_grid, _j2k_bandwidth_label, true, wxGBPosition (r, 0));
+	add_label_to_sizer(_video_grid, _video_bit_rate_label, true, wxGBPosition (r, 0));
 	auto s = new wxBoxSizer (wxHORIZONTAL);
-	s->Add (_j2k_bandwidth, 0, wxALIGN_CENTER_VERTICAL);
+	s->Add(_video_bit_rate, 0, wxALIGN_CENTER_VERTICAL);
 	add_label_to_sizer (s, _mbits_label, false, 0, wxLEFT | wxALIGN_CENTER_VERTICAL);
 	_video_grid->Add (s, wxGBPosition(r, 1), wxDefaultSpan);
 	++r;
@@ -1010,9 +1033,9 @@ DCPPanel::show_audio_clicked ()
 void
 DCPPanel::add_audio_processors ()
 {
-	_audio_processor->add(_("None"), new wxStringClientData(N_("none")));
+	_audio_processor->add_entry(_("None"), new wxStringClientData(N_("none")));
 	for (auto ap: AudioProcessor::visible()) {
-		_audio_processor->add(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
+		_audio_processor->add_entry(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}
 	_audio_panel_sizer->Layout();
 }

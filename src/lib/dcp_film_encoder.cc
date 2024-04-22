@@ -19,7 +19,7 @@
 */
 
 
-/** @file  src/dcp_encoder.cc
+/** @file  src/dcp_film_encoder.cc
  *  @brief A class which takes a Film and some Options, then uses those to encode the film into a DCP.
  *
  *  A decoder is selected according to the content type, and the encoder can be specified
@@ -29,10 +29,11 @@
 
 #include "audio_decoder.h"
 #include "compose.hpp"
-#include "dcp_encoder.h"
+#include "dcp_film_encoder.h"
 #include "film.h"
 #include "j2k_encoder.h"
 #include "job.h"
+#include "mpeg2_encoder.h"
 #include "player.h"
 #include "player_video.h"
 #include "referenced_reel_asset.h"
@@ -64,17 +65,27 @@ using namespace dcpomatic;
  *  @param film Film that we are encoding.
  *  @param job Job that this encoder is being used in.
  */
-DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
-	: Encoder (film, job)
+DCPFilmEncoder::DCPFilmEncoder(shared_ptr<const Film> film, weak_ptr<Job> job)
+	: FilmEncoder(film, job)
 	, _writer(film, job)
-	, _j2k_encoder(film, _writer)
 	, _finishing (false)
 	, _non_burnt_subtitles (false)
 {
-	_player_video_connection = _player.Video.connect(bind(&DCPEncoder::video, this, _1, _2));
-	_player_audio_connection = _player.Audio.connect(bind(&DCPEncoder::audio, this, _1, _2));
-	_player_text_connection = _player.Text.connect(bind(&DCPEncoder::text, this, _1, _2, _3, _4));
-	_player_atmos_connection = _player.Atmos.connect(bind(&DCPEncoder::atmos, this, _1, _2, _3));
+	switch (_film->video_encoding()) {
+	case VideoEncoding::JPEG2000:
+		_encoder.reset(new J2KEncoder(film, _writer));
+		break;
+	case VideoEncoding::MPEG2:
+		_encoder.reset(new MPEG2Encoder(film, _writer));
+		break;
+	case VideoEncoding::COUNT:
+		DCPOMATIC_ASSERT(false);
+	}
+
+	_player_video_connection = _player.Video.connect(bind(&DCPFilmEncoder::video, this, _1, _2));
+	_player_audio_connection = _player.Audio.connect(bind(&DCPFilmEncoder::audio, this, _1, _2));
+	_player_text_connection = _player.Text.connect(bind(&DCPFilmEncoder::text, this, _1, _2, _3, _4));
+	_player_atmos_connection = _player.Atmos.connect(bind(&DCPFilmEncoder::atmos, this, _1, _2, _3));
 
 	for (auto c: film->content ()) {
 		for (auto i: c->text) {
@@ -85,7 +96,7 @@ DCPEncoder::DCPEncoder (shared_ptr<const Film> film, weak_ptr<Job> job)
 	}
 }
 
-DCPEncoder::~DCPEncoder ()
+DCPFilmEncoder::~DCPFilmEncoder()
 {
 	/* We must stop receiving more video data before we die */
 	_player_video_connection.release ();
@@ -95,10 +106,10 @@ DCPEncoder::~DCPEncoder ()
 }
 
 void
-DCPEncoder::go ()
+DCPFilmEncoder::go()
 {
 	_writer.start();
-	_j2k_encoder.begin();
+	_encoder->begin();
 
 	{
 		auto job = _job.lock ();
@@ -117,32 +128,32 @@ DCPEncoder::go ()
 	}
 
 	_finishing = true;
-	_j2k_encoder.end();
+	_encoder->end();
 	_writer.finish(_film->dir(_film->dcp_name()));
 }
 
 
 void
-DCPEncoder::pause()
+DCPFilmEncoder::pause()
 {
-	_j2k_encoder.pause();
+	_encoder->pause();
 }
 
 
 void
-DCPEncoder::resume()
+DCPFilmEncoder::resume()
 {
-	_j2k_encoder.resume();
+	_encoder->resume();
 }
 
 void
-DCPEncoder::video (shared_ptr<PlayerVideo> data, DCPTime time)
+DCPFilmEncoder::video(shared_ptr<PlayerVideo> data, DCPTime time)
 {
-	_j2k_encoder.encode(data, time);
+	_encoder->encode(data, time);
 }
 
 void
-DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
+DCPFilmEncoder::audio(shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	_writer.write(data, time);
 
@@ -152,7 +163,7 @@ DCPEncoder::audio (shared_ptr<AudioBuffers> data, DCPTime time)
 }
 
 void
-DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
+DCPFilmEncoder::text(PlayerText data, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
 	if (type == TextType::CLOSED_CAPTION || _non_burnt_subtitles) {
 		_writer.write(data, type, track, period);
@@ -161,20 +172,20 @@ DCPEncoder::text (PlayerText data, TextType type, optional<DCPTextTrack> track, 
 
 
 void
-DCPEncoder::atmos (shared_ptr<const dcp::AtmosFrame> data, DCPTime time, AtmosMetadata metadata)
+DCPFilmEncoder::atmos(shared_ptr<const dcp::AtmosFrame> data, DCPTime time, AtmosMetadata metadata)
 {
 	_writer.write(data, time, metadata);
 }
 
 
 optional<float>
-DCPEncoder::current_rate () const
+DCPFilmEncoder::current_rate() const
 {
-	return _j2k_encoder.current_encoding_rate();
+	return _encoder->current_encoding_rate();
 }
 
 Frame
-DCPEncoder::frames_done () const
+DCPFilmEncoder::frames_done() const
 {
-	return _j2k_encoder.video_frames_enqueued();
+	return _encoder->video_frames_enqueued();
 }

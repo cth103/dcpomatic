@@ -21,7 +21,7 @@
 
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
-#include "encoder.h"
+#include "film_encoder.h"
 #include "player_text.h"
 
 
@@ -33,13 +33,13 @@ namespace dcp {
 class Film;
 
 
-/** @class SubtitleEncoder.
+/** @class SubtitleFilmEncoder.
  *  @brief An `encoder' which extracts a film's subtitles to DCP XML format.
  */
-class SubtitleEncoder : public Encoder
+class SubtitleFilmEncoder : public FilmEncoder
 {
 public:
-	SubtitleEncoder (std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string initial_name, bool split_reels, bool include_font);
+	SubtitleFilmEncoder(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, boost::filesystem::path output, std::string initial_name, bool split_reels, bool include_font);
 
 	void go () override;
 

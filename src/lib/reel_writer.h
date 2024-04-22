@@ -27,10 +27,14 @@
 #include "player_text.h"
 #include "referenced_reel_asset.h"
 #include "render_text.h"
+#include "text_type.h"
 #include "weak_film.h"
 #include <dcp/atmos_asset_writer.h>
 #include <dcp/file.h>
-#include <dcp/picture_asset_writer.h>
+#include <dcp/ffmpeg_image.h>
+#include <dcp/j2k_picture_asset_writer.h>
+#include <dcp/mono_mpeg2_picture_frame.h>
+#include <dcp/mpeg2_picture_asset_writer.h>
 
 
 class AudioBuffers;
@@ -41,17 +45,18 @@ struct write_frame_info_test;
 
 namespace dcp {
 	class AtmosAsset;
-	class MonoPictureAsset;
-	class MonoPictureAssetWriter;
-	class PictureAsset;
-	class PictureAssetWriter;
+	class MonoJ2KPictureAsset;
+	class MonoJ2KPictureAssetWriter;
+	class J2KPictureAsset;
+	class J2KPictureAssetWriter;
+	class MPEG2PictureAsset;
 	class Reel;
 	class ReelAsset;
 	class ReelPictureAsset;
 	class SoundAsset;
 	class SoundAssetWriter;
-	class StereoPictureAsset;
-	class StereoPictureAssetWriter;
+	class StereoJ2KPictureAsset;
+	class StereoJ2KPictureAssetWriter;
 	class SubtitleAsset;
 }
 
@@ -69,11 +74,12 @@ public:
 		);
 
 	void write (std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
-	void fake_write (int size);
+	void fake_write(dcp::J2KFrameInfo const& info);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (std::shared_ptr<const AudioBuffers> audio);
 	void write(PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period, FontIdMap const& fonts, std::shared_ptr<dcpomatic::Font> chosen_interop_font);
 	void write (std::shared_ptr<const dcp::AtmosFrame> atmos, AtmosMetadata metadata);
+	void write(std::shared_ptr<dcp::MonoMPEG2PictureFrame> image);
 
 	void finish (boost::filesystem::path output_dcp);
 	std::shared_ptr<dcp::Reel> create_reel (
@@ -94,14 +100,10 @@ public:
 		return _first_nonexistent_frame;
 	}
 
-	dcp::FrameInfo read_frame_info (std::shared_ptr<InfoFileHandle> info, Frame frame, Eyes eyes) const;
-
 private:
 
 	friend struct ::write_frame_info_test;
 
-	void write_frame_info (Frame frame, Eyes eyes, dcp::FrameInfo info) const;
-	long frame_info_position (Frame frame, Eyes eyes) const;
 	Frame check_existing_picture_asset (boost::filesystem::path asset);
 	bool existing_picture_frame_ok (dcp::File& asset_file, std::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
 	std::shared_ptr<dcp::SubtitleAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
@@ -134,9 +136,11 @@ private:
 
 	dcp::ArrayData _default_font;
 
-	std::shared_ptr<dcp::PictureAsset> _picture_asset;
+	std::shared_ptr<dcp::J2KPictureAsset> _j2k_picture_asset;
+	std::shared_ptr<dcp::MPEG2PictureAsset> _mpeg2_picture_asset;
 	/** picture asset writer, or 0 if we are not writing any picture because we already have one */
-	std::shared_ptr<dcp::PictureAssetWriter> _picture_asset_writer;
+	std::shared_ptr<dcp::J2KPictureAssetWriter> _j2k_picture_asset_writer;
+	std::shared_ptr<dcp::MPEG2PictureAssetWriter> _mpeg2_picture_asset_writer;
 	std::shared_ptr<dcp::SoundAsset> _sound_asset;
 	std::shared_ptr<dcp::SoundAssetWriter> _sound_asset_writer;
 	std::shared_ptr<dcp::SubtitleAsset> _subtitle_asset;
@@ -145,6 +149,4 @@ private:
 	std::shared_ptr<dcp::AtmosAssetWriter> _atmos_asset_writer;
 
 	mutable FontMetrics _font_metrics;
-
-	static int const _info_size;
 };

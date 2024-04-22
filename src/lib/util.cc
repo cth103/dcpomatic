@@ -56,6 +56,7 @@
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
 #include <dcp/locale_convert.h>
+#include <dcp/mpeg2_picture_asset.h>
 #include <dcp/picture_asset.h>
 #include <dcp/raw_convert.h>
 #include <dcp/scope_guard.h>
@@ -103,6 +104,7 @@ LIBDCP_ENABLE_WARNINGS
 
 using std::bad_alloc;
 using std::cout;
+using std::dynamic_pointer_cast;
 using std::endl;
 using std::istream;
 using std::list;
@@ -748,9 +750,10 @@ asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int r
 
 
 string
-video_asset_filename (shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, optional<string> summary)
+video_asset_filename(shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
-	return asset_filename(asset, "j2c", reel_index, reel_count, summary, ".mxf");
+	string type = dynamic_pointer_cast<dcp::MPEG2PictureAsset>(asset) ? "mpeg2" : "j2c";
+	return asset_filename(asset, type, reel_index, reel_count, summary, ".mxf");
 }
 
 

@@ -65,7 +65,7 @@ public:
 
 	dcpomatic::DCPTime length (std::shared_ptr<const Film> film) const;
 	boost::optional<dcpomatic::DCPTime> start () const;
-	int64_t required_disk_space (std::shared_ptr<const Film> film, int j2k_bandwidth, int audio_channels, int audio_frame_rate) const;
+	int64_t required_disk_space(std::shared_ptr<const Film> film, int64_t video_bit_rate, int audio_channels, int audio_frame_rate) const;
 
 	int best_video_frame_rate () const;
 	dcpomatic::DCPTime video_end (std::shared_ptr<const Film> film) const;

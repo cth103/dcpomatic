@@ -27,8 +27,10 @@
 #include "atmos_metadata.h"
 #include "decoder.h"
 #include "font_id_allocator.h"
-#include <dcp/mono_picture_asset_reader.h>
-#include <dcp/stereo_picture_asset_reader.h>
+#include <dcp/mono_j2k_picture_asset_reader.h>
+#include <dcp/stereo_j2k_picture_asset_reader.h>
+#include <dcp/mono_mpeg2_picture_asset_reader.h>
+#include <dcp/mpeg2_transcode.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/subtitle_asset.h>
 
@@ -94,14 +96,18 @@ private:
 	std::vector<std::shared_ptr<dcp::Reel>>::iterator _reel;
 	/** Offset of _reel from the start of the content in frames */
 	int64_t _offset = 0;
-	/** Reader for current mono picture asset, if applicable */
-	std::shared_ptr<dcp::MonoPictureAssetReader> _mono_reader;
-	/** Reader for current stereo picture asset, if applicable */
-	std::shared_ptr<dcp::StereoPictureAssetReader> _stereo_reader;
+	/** Reader for current J2K mono picture asset, if applicable */
+	std::shared_ptr<dcp::MonoJ2KPictureAssetReader> _j2k_mono_reader;
+	/** Reader for current J2K stereo picture asset, if applicable */
+	std::shared_ptr<dcp::StereoJ2KPictureAssetReader> _j2k_stereo_reader;
+	/** Reader for current MPEG2 mono picture asset, if applicable */
+	std::shared_ptr<dcp::MonoMPEG2PictureAssetReader> _mpeg2_mono_reader;
 	/** Reader for current sound asset, if applicable */
 	std::shared_ptr<dcp::SoundAssetReader> _sound_reader;
 	std::shared_ptr<dcp::AtmosAssetReader> _atmos_reader;
 	boost::optional<AtmosMetadata> _atmos_metadata;
+
+	std::shared_ptr<dcp::MPEG2Decompressor> _mpeg2_decompressor;
 
 	bool _decode_referenced = false;
 	boost::optional<int> _forced_reduction;

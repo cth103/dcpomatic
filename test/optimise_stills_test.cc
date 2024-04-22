@@ -22,7 +22,6 @@
 #include "lib/content.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content_type.h"
-#include "lib/dcp_encoder.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/film.h"
 #include "lib/job_manager.h"

@@ -47,8 +47,8 @@
 #include <dcp/dcp.h>
 #include <dcp/equality_options.h>
 #include <dcp/filesystem.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
@@ -122,7 +122,7 @@ setup_test_config ()
 	Config::instance()->set_server_port_base (61921);
 	Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
 	Config::instance()->set_default_audio_delay (0);
-	Config::instance()->set_default_j2k_bandwidth (100000000);
+	Config::instance()->set_default_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	Config::instance()->set_default_interop (false);
 	Config::instance()->set_default_still_length (10);
 	Config::instance()->set_default_dcp_audio_channels(8);
@@ -829,10 +829,10 @@ check_one_frame (boost::filesystem::path dcp_dir, int64_t index, boost::filesyst
 {
 	dcp::DCP dcp (dcp_dir);
 	dcp.read ();
-	auto asset = dynamic_pointer_cast<dcp::MonoPictureAsset> (dcp.cpls().front()->reels().front()->main_picture()->asset());
+	auto asset = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(dcp.cpls().front()->reels().front()->main_picture()->asset());
 	BOOST_REQUIRE (asset);
 	auto frame = asset->start_read()->get_frame(index);
-	dcp::MonoPictureFrame ref_frame(ref);
+	dcp::MonoJ2KPictureFrame ref_frame(ref);
 
 	auto image = frame->xyz_image ();
 	auto ref_image = ref_frame.xyz_image();

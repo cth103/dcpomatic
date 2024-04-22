@@ -35,7 +35,7 @@
 #undef IGNORE
 
 
-class Encoder;
+class FilmEncoder;
 
 struct frames_not_lost_when_threads_disappear;
 
@@ -65,7 +65,7 @@ public:
 		return true;
 	}
 
-	void set_encoder (std::shared_ptr<Encoder> t);
+	void set_encoder(std::shared_ptr<FilmEncoder> encoder);
 
 private:
 	friend struct ::frames_not_lost_when_threads_disappear;
@@ -75,7 +75,7 @@ private:
 
 	int remaining_time () const override;
 
-	std::shared_ptr<Encoder> _encoder;
+	std::shared_ptr<FilmEncoder> _encoder;
 	ChangedBehaviour _changed;
 };
 

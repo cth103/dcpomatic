@@ -37,6 +37,7 @@
 #include "image.h"
 #include "log.h"
 #include "player_video.h"
+#include "util.h"
 #include "variant.h"
 #include "version.h"
 #include <dcp/raw_convert.h>

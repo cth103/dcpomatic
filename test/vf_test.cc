@@ -40,8 +40,8 @@
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/picture_asset_writer.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/j2k_picture_asset_writer.h>
 #include <dcp/reel.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
@@ -492,8 +492,8 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_missing_subtitle_in_some_reels)
 	dcp::DCP ov(path / "ov");
 
 	auto make_picture = [path](string filename) {
-		auto pic = make_shared<dcp::MonoPictureAsset>(dcp::Fraction(24, 1), dcp::Standard::SMPTE);
-		auto writer = pic->start_write(path / "ov" / filename, dcp::PictureAsset::Behaviour::MAKE_NEW);
+		auto pic = make_shared<dcp::MonoJ2KPictureAsset>(dcp::Fraction(24, 1), dcp::Standard::SMPTE);
+		auto writer = pic->start_write(path / "ov" / filename, dcp::Behaviour::MAKE_NEW);
 		auto frame = dcp::ArrayData("test/data/picture.j2c");
 		for (int i = 0; i < 240; ++i) {
 			writer->write(frame);

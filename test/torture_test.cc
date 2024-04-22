@@ -35,8 +35,8 @@
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
-#include <dcp/mono_picture_asset.h>
-#include <dcp/mono_picture_frame.h>
+#include <dcp/mono_j2k_picture_asset.h>
+#include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_CASE (torture_test1)
 
 	auto reel_picture = reels.front()->main_picture();
 	BOOST_REQUIRE (reel_picture);
-	auto picture = dynamic_pointer_cast<dcp::MonoPictureAsset> (reel_picture->asset());
+	auto picture = dynamic_pointer_cast<dcp::MonoJ2KPictureAsset>(reel_picture->asset());
 	BOOST_REQUIRE (picture);
 	BOOST_CHECK_EQUAL (picture->intrinsic_duration(), 144);
 

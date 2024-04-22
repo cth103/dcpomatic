@@ -37,7 +37,7 @@
 #include "lib/text_content.h"
 #include "lib/text_decoder.h"
 #include "test.h"
-#include <dcp/mono_picture_asset.h>
+#include <dcp/mono_j2k_picture_asset.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/smpte_subtitle_asset.h>
 #include <boost/test/unit_test.hpp>
@@ -327,7 +327,7 @@ BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
-	dcp::MonoPictureAsset burnt(dcp_file(film, "j2c_"));
+	dcp::MonoJ2KPictureAsset burnt(dcp_file(film, "j2c_"));
 	auto frame = burnt.start_read()->get_frame(12)->xyz_image();
 	auto const size = frame->size();
 	int max_X = 0;

@@ -32,6 +32,7 @@
 #include "change_signaller.h"
 #include "dcp_text_track.h"
 #include "dcpomatic_time.h"
+#include "enum_indexed_vector.h"
 #include "film_property.h"
 #include "frame_rate_change.h"
 #include "named_channel.h"
@@ -41,6 +42,7 @@
 #include "transcode_job.h"
 #include "types.h"
 #include "util.h"
+#include "video_encoding.h"
 #include <dcp/encrypted_kdm.h>
 #include <dcp/file.h>
 #include <dcp/key.h>
@@ -250,8 +252,8 @@ public:
 		return _key;
 	}
 
-	int j2k_bandwidth () const {
-		return _j2k_bandwidth;
+	int video_bit_rate(VideoEncoding encoding) const {
+		return _video_bit_rate[encoding];
 	}
 
 	/** @return The frame rate of the DCP */
@@ -273,6 +275,10 @@ public:
 
 	bool interop () const {
 		return _interop;
+	}
+
+	VideoEncoding video_encoding() const {
+		return _video_encoding;
 	}
 
 	bool limit_to_smpte_bv20() const {
@@ -401,13 +407,14 @@ public:
 	void set_container (Ratio const *, bool user_explicit = true);
 	void set_resolution (Resolution, bool user_explicit = true);
 	void set_encrypted (bool);
-	void set_j2k_bandwidth (int);
+	void set_video_bit_rate(VideoEncoding encoding, int64_t);
 	void set_video_frame_rate (int rate, bool user_explicit = false);
 	void set_audio_channels (int);
 	void set_three_d (bool);
 	void set_isdcf_date_today ();
 	void set_sequence (bool);
 	void set_interop (bool);
+	void set_video_encoding(VideoEncoding encoding);
 	void set_limit_to_smpte_bv20(bool);
 	void set_audio_processor (AudioProcessor const * processor);
 	void set_reel_type (ReelType);
@@ -515,8 +522,8 @@ private:
 	 *  re-start picture MXF encodes.
 	 */
 	std::string _context_id;
-	/** bandwidth for J2K files in bits per second */
-	int _j2k_bandwidth;
+	/** bit rate for encoding video using in bits per second */
+	EnumIndexedVector<int64_t, VideoEncoding> _video_bit_rate;
 	/** Frames per second to run our DCP at */
 	int _video_frame_rate;
 	/** The date that we should use in a ISDCF name */
@@ -529,6 +536,7 @@ private:
 	bool _three_d;
 	bool _sequence;
 	bool _interop;
+	VideoEncoding _video_encoding;
 	bool _limit_to_smpte_bv20;
 	AudioProcessor const * _audio_processor;
 	ReelType _reel_type;

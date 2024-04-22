@@ -19,8 +19,8 @@
 */
 
 
-#ifndef DCPOMATIC_ENCODER_H
-#define DCPOMATIC_ENCODER_H
+#ifndef DCPOMATIC_FILM_ENCODER_H
+#define DCPOMATIC_FILM_ENCODER_H
 
 
 #include "player.h"
@@ -29,24 +29,23 @@
 
 
 class Film;
-class Encoder;
 class Player;
 class Job;
 class PlayerVideo;
 class AudioBuffers;
 
 
-/** @class Encoder
+/** @class FilmEncoder
  *  @brief Parent class for something that can encode a film into some format
  */
-class Encoder
+class FilmEncoder
 {
 public:
-	Encoder (std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
-	virtual ~Encoder () {}
+	FilmEncoder(std::shared_ptr<const Film> film, std::weak_ptr<Job> job);
+	virtual ~FilmEncoder() {}
 
-	Encoder (Encoder const&) = delete;
-	Encoder& operator= (Encoder const&) = delete;
+	FilmEncoder(FilmEncoder const&) = delete;
+	FilmEncoder& operator=(FilmEncoder const&) = delete;
 
 	virtual void go () = 0;
 

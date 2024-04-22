@@ -40,14 +40,14 @@ Choice::Choice(wxWindow* parent)
 
 
 void
-Choice::add(string const& entry)
+Choice::add_entry(string const& entry)
 {
-	add(std_to_wx(entry));
+	add_entry(std_to_wx(entry));
 }
 
 
 void
-Choice::add(wxString const& entry)
+Choice::add_entry(wxString const& entry)
 {
 	if (_needs_clearing) {
 		Clear();
@@ -59,7 +59,7 @@ Choice::add(wxString const& entry)
 
 
 void
-Choice::add(wxString const& entry, wxClientData* data)
+Choice::add_entry(wxString const& entry, wxClientData* data)
 {
 	if (_needs_clearing) {
 		Clear();
@@ -71,7 +71,7 @@ Choice::add(wxString const& entry, wxClientData* data)
 
 
 void
-Choice::add(wxString const& entry, wxString const& data)
+Choice::add_entry(wxString const& entry, wxString const& data)
 {
 	if (_needs_clearing) {
 		Clear();
@@ -79,6 +79,18 @@ Choice::add(wxString const& entry, wxString const& data)
 	}
 
 	Append(entry, new wxStringClientData(data));
+}
+
+
+void
+Choice::set_entries(wxArrayString const& entries)
+{
+	if (GetStrings() == entries) {
+		return;
+	}
+
+	Clear();
+	Set(entries);
 }
 
 
