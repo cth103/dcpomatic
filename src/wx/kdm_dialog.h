@@ -52,6 +52,7 @@ private:
 	void make_clicked ();
 	bool confirm_overwrite (boost::filesystem::path path);
 	void cpl_changed();
+	void screens_changed();
 
 	std::weak_ptr<const Film> _film;
 	ScreensPanel* _screens;

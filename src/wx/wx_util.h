@@ -31,6 +31,7 @@
 #include "wx_ptr.h"
 #include "lib/config.h"
 #include "lib/dcpomatic_time.h"
+#include <dcp/utc_offset.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/gbsizer.h>
@@ -131,17 +132,16 @@ extern double dpi_scale_factor (wxWindow* window);
 extern int search_ctrl_height ();
 extern void report_config_load_failure(wxWindow* parent, Config::LoadFailure what);
 
+
 struct Offset
 {
-	Offset (wxString n, int h, int m)
-		: name (n)
-		, hour (h)
-		, minute (m)
+	Offset(wxString name_, dcp::UTCOffset offset_)
+		: name(name_)
+		, offset(offset_)
 	{}
 
 	wxString name;
-	int hour;
-	int minute;
+	dcp::UTCOffset offset;
 };
 
 extern int get_offsets (std::vector<Offset>& offsets);

@@ -30,6 +30,9 @@ LIBDCP_ENABLE_WARNINGS
 #include <vector>
 
 
+class Choice;
+
+
 class CinemaDialog : public wxDialog
 {
 public:
@@ -38,12 +41,14 @@ public:
 		wxString,
 		std::string name = "",
 		std::vector<std::string> emails = std::vector<std::string>(),
-		std::string notes = ""
+		std::string notes = "",
+		dcp::UTCOffset = {}
 		);
 
 	std::string name () const;
 	std::string notes () const;
 	std::vector<std::string> emails () const;
+	dcp::UTCOffset utc_offset() const;
 
 private:
 	void set_emails (std::vector<std::string>);
@@ -52,4 +57,6 @@ private:
 	wxTextCtrl* _notes;
 	EditableList<std::string, EmailDialog>* _email_list;
 	std::vector<std::string> _emails;
+	Choice* _utc_offset;
+	std::vector<Offset> _offsets;
 };

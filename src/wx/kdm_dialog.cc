@@ -126,7 +126,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 
 	/* Bind */
 
-	_screens->ScreensChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
+	_screens->ScreensChanged.connect(boost::bind(&KDMDialog::screens_changed, this));
 	_timing->TimingChanged.connect (boost::bind (&KDMDialog::setup_sensitivity, this));
 	_make->Bind (wxEVT_BUTTON, boost::bind (&KDMDialog::make_clicked, this));
 	_cpl->Changed.connect(boost::bind(&KDMDialog::cpl_changed, this));
@@ -137,6 +137,14 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	SetSizer (overall_sizer);
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
+}
+
+
+void
+KDMDialog::screens_changed()
+{
+	_timing->suggest_utc_offset(_screens->best_utc_offset());
+	setup_sensitivity();
 }
 
 

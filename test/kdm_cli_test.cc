@@ -154,13 +154,13 @@ setup_test_config()
 	auto config = Config::instance();
 	auto const cert = dcp::Certificate(dcp::file_to_string("test/data/cert.pem"));
 
-	auto cinema_a = std::make_shared<Cinema>("Dean's Screens", vector<string>(), "");
+	auto cinema_a = std::make_shared<Cinema>("Dean's Screens", vector<string>(), "", dcp::UTCOffset());
 	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 1", "", cert, boost::none, std::vector<TrustedDevice>()));
 	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 2", "", cert, boost::none, std::vector<TrustedDevice>()));
 	cinema_a->add_screen(std::make_shared<dcpomatic::Screen>("Screen 3", "", cert, boost::none, std::vector<TrustedDevice>()));
 	config->add_cinema(cinema_a);
 
-	auto cinema_b = std::make_shared<Cinema>("Floyd's Celluloid", vector<string>(), "");
+	auto cinema_b = std::make_shared<Cinema>("Floyd's Celluloid", vector<string>(), "", dcp::UTCOffset());
 	cinema_b->add_screen(std::make_shared<dcpomatic::Screen>("Foo", "", cert, boost::none, std::vector<TrustedDevice>()));
 	cinema_b->add_screen(std::make_shared<dcpomatic::Screen>("Bar", "", cert, boost::none, std::vector<TrustedDevice>()));
 	config->add_cinema(cinema_b);

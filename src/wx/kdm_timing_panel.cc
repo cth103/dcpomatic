@@ -122,14 +122,10 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_warning->SetFont(font);
 
 	/* Default to UTC */
-	size_t sel = get_offsets(_offsets);
-	for (size_t i = 0; i < _offsets.size(); ++i) {
-		_utc_offset->add_entry(_offsets[i].name);
-		if (_offsets[i].hour == 0 && _offsets[i].minute == 0) {
-			sel = i;
-		}
+	auto const sel = get_offsets(_offsets);
+	for (auto const& offset: _offsets) {
+		_utc_offset->add_entry(offset.name);
 	}
-
 	_utc_offset->set(sel);
 
 	/* I said I've been to the year 3000.  Not much has changed but they live underwater.  And your In-in-in-interop DCP
@@ -142,7 +138,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	_until_date->Bind (wxEVT_DATE_CHANGED, bind (&KDMTimingPanel::changed, this));
 	_from_time->Changed.connect (bind (&KDMTimingPanel::changed, this));
 	_until_time->Changed.connect (bind (&KDMTimingPanel::changed, this));
-	_utc_offset->bind(&KDMTimingPanel::changed, this);
+	_utc_offset->bind(&KDMTimingPanel::utc_offset_changed, this);
 
 	SetSizer (overall_sizer);
 }
@@ -205,10 +201,28 @@ KDMTimingPanel::utc_offset() const
 		return {};
 	}
 
-	auto const& offset = _offsets[*sel];
-	int const minute_scale = offset.hour < 0 ? -1 : 1;
-
-	return { offset.hour, minute_scale * offset.minute };
+	return _offsets[*sel].offset;
 }
 
+
+void
+KDMTimingPanel::utc_offset_changed()
+{
+	_utc_offset_changed_once = true;
+	changed();
+}
+
+
+void
+KDMTimingPanel::suggest_utc_offset(dcp::UTCOffset offset)
+{
+	if (!_utc_offset_changed_once) {
+		for (size_t i = 0; i < _offsets.size(); ++i) {
+			if (_offsets[i].offset == offset) {
+				_utc_offset->set(i);
+				break;
+			}
+		}
+	}
+}
 

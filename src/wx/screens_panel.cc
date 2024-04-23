@@ -253,7 +253,7 @@ ScreensPanel::add_cinema_clicked ()
 	CinemaDialog dialog(GetParent(), _("Add Cinema"));
 
 	if (dialog.ShowModal() == wxID_OK) {
-		auto cinema = make_shared<Cinema>(dialog.name(), dialog.emails(), dialog.notes());
+		auto cinema = make_shared<Cinema>(dialog.name(), dialog.emails(), dialog.notes(), dialog.utc_offset());
 
 		auto cinemas = sorted_cinemas();
 
@@ -328,12 +328,13 @@ ScreensPanel::edit_cinema_clicked ()
 void
 ScreensPanel::edit_cinema(shared_ptr<Cinema> cinema)
 {
-	CinemaDialog dialog(GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes);
+	CinemaDialog dialog(GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset);
 
 	if (dialog.ShowModal() == wxID_OK) {
 		cinema->name = dialog.name();
 		cinema->emails = dialog.emails();
 		cinema->notes = dialog.notes();
+		cinema->utc_offset = dialog.utc_offset();
 		notify_cinemas_changed();
 		auto item = cinema_to_item(cinema);
 		DCPOMATIC_ASSERT(item);
@@ -776,5 +777,26 @@ ScreensPanel::setup_show_only_checked()
 
 	_overall_sizer->Layout();
 	setup_sensitivity();
+}
+
+
+dcp::UTCOffset
+ScreensPanel::best_utc_offset() const
+{
+	auto all_screens = screens();
+	if (all_screens.empty()) {
+		return {};
+	}
+
+	dcp::UTCOffset const first = all_screens[0]->cinema->utc_offset;
+
+	for (auto screen = std::next(all_screens.begin()); screen != all_screens.end(); ++screen) {
+		if ((*screen)->cinema->utc_offset != first) {
+			/* Not unique */
+			return dcp::UTCOffset();
+		}
+	}
+
+	return first;
 }
 

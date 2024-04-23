@@ -567,7 +567,7 @@ try
 			   (for lookup) and by creating a Cinema which the next Screen will be added to.
 			*/
 			cinema_name = optarg;
-			cinema = make_shared<Cinema>(optarg, vector<string>(), "");
+			cinema = make_shared<Cinema>(optarg, vector<string>(), "", dcp::UTCOffset());
 			break;
 		case 'S':
 			/* Similarly, this could be the name of a new (temporary) screen or the name of a screen

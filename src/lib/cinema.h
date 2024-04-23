@@ -23,6 +23,7 @@
  */
 
 
+#include <dcp/utc_offset.h>
 #include <libcxml/cxml.h>
 #include <memory>
 
@@ -44,10 +45,11 @@ namespace dcpomatic {
 class Cinema : public std::enable_shared_from_this<Cinema>
 {
 public:
-	Cinema(std::string const & name_, std::vector<std::string> const & e, std::string notes_)
+	Cinema(std::string const & name_, std::vector<std::string> const & e, std::string notes_, dcp::UTCOffset utc_offset_)
 		: name (name_)
 		, emails (e)
 		, notes (notes_)
+		, utc_offset(std::move(utc_offset_))
 	{}
 
 	explicit Cinema (cxml::ConstNodePtr);
@@ -62,6 +64,7 @@ public:
 	std::string name;
 	std::vector<std::string> emails;
 	std::string notes;
+	dcp::UTCOffset utc_offset;
 
 	std::vector<std::shared_ptr<dcpomatic::Screen>> screens() const {
 		return _screens;

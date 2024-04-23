@@ -237,7 +237,7 @@ public:
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
 		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
 
-		_screens->ScreensChanged.connect (boost::bind (&DOMFrame::setup_sensitivity, this));
+		_screens->ScreensChanged.connect(boost::bind(&DOMFrame::screens_changed, this));
 		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
 		_dkdm->Bind(wxEVT_TREE_SEL_CHANGED, boost::bind(&DOMFrame::dkdm_selection_changed, this));
 		_dkdm->Bind (wxEVT_TREE_BEGIN_DRAG, boost::bind (&DOMFrame::dkdm_begin_drag, this, _1));
@@ -795,6 +795,12 @@ private:
 	void dkdm_search_changed()
 	{
 		update_dkdm_view();
+	}
+
+	void screens_changed()
+	{
+		_timing->suggest_utc_offset(_screens->best_utc_offset());
+		setup_sensitivity();
 	}
 
 	wxPreferencesEditor* _config_dialog;

@@ -20,6 +20,7 @@
 
 
 #include "cinema_dialog.h"
+#include "dcpomatic_choice.h"
 #include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
 #include "lib/util.h"
@@ -36,7 +37,7 @@ using namespace boost::placeholders;
 #endif
 
 
-CinemaDialog::CinemaDialog(wxWindow* parent, wxString title, string name, vector<string> emails, string notes)
+CinemaDialog::CinemaDialog(wxWindow* parent, wxString title, string name, vector<string> emails, string notes, dcp::UTCOffset utc_offset)
 	: wxDialog (parent, wxID_ANY, title)
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
@@ -48,6 +49,11 @@ CinemaDialog::CinemaDialog(wxWindow* parent, wxString title, string name, vector
 	add_label_to_sizer (sizer, this, _("Name"), true, wxGBPosition(r, 0));
 	_name = new wxTextCtrl (this, wxID_ANY, std_to_wx(name), wxDefaultPosition, wxSize(500, -1));
 	sizer->Add (_name, wxGBPosition(r, 1));
+	++r;
+
+	add_label_to_sizer(sizer, this, _("UTC offset (time zone)"), true, wxGBPosition(r, 0));
+	_utc_offset = new Choice(this);
+	sizer->Add(_utc_offset, wxGBPosition(r, 1));
 	++r;
 
 	add_label_to_sizer (sizer, this, _("Notes"), true, wxGBPosition(r, 0));
@@ -77,6 +83,17 @@ CinemaDialog::CinemaDialog(wxWindow* parent, wxString title, string name, vector
 	if (buttons) {
 		overall_sizer->Add (buttons, wxSizerFlags().Expand().DoubleBorder());
 	}
+
+	/* Default to UTC */
+	size_t sel = get_offsets(_offsets);
+	for (size_t i = 0; i < _offsets.size(); ++i) {
+		_utc_offset->add_entry(_offsets[i].name);
+		if (_offsets[i].offset == utc_offset) {
+			sel = i;
+		}
+	}
+
+	_utc_offset->set(sel);
 
 	overall_sizer->Layout ();
 	overall_sizer->SetSizeHints (this);
@@ -110,4 +127,16 @@ string
 CinemaDialog::notes () const
 {
 	return wx_to_std (_notes->GetValue());
+}
+
+
+dcp::UTCOffset
+CinemaDialog::utc_offset() const
+{
+	auto const sel = _utc_offset->GetSelection();
+	if (sel < 0 || sel > int(_offsets.size())) {
+		return {};
+	}
+
+	return _offsets[sel].offset;
 }

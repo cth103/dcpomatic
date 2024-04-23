@@ -51,6 +51,8 @@ public:
 	std::vector<std::shared_ptr<dcpomatic::Screen>> screens () const;
 	void setup_sensitivity ();
 
+	dcp::UTCOffset best_utc_offset() const;
+
 	boost::signals2::signal<void ()> ScreensChanged;
 
 private:

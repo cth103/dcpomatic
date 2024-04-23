@@ -41,6 +41,18 @@ Cinema::Cinema (cxml::ConstNodePtr node)
 	for (auto i: node->node_children("Email")) {
 		emails.push_back (i->content ());
 	}
+
+	int hour = 0;
+
+	if (node->optional_number_child<int>("UTCOffset")) {
+		hour = node->number_child<int>("UTCOffset");
+	} else {
+		hour = node->optional_number_child<int>("UTCOffsetHour").get_value_or(0);
+	}
+
+	int minute = node->optional_number_child<int>("UTCOffsetMinute").get_value_or(0);
+
+	utc_offset= { hour, minute };
 }
 
 /* This is necessary so that we can use shared_from_this in add_screen (which cannot be done from
@@ -64,6 +76,9 @@ Cinema::as_xml (xmlpp::Element* parent) const
 	}
 
 	cxml::add_text_child(parent, "Notes", notes);
+
+	cxml::add_text_child(parent, "UTCOffsetHour", raw_convert<string>(utc_offset.hour()));
+	cxml::add_text_child(parent, "UTCOffsetMinute", raw_convert<string>(utc_offset.minute()));
 
 	for (auto i: _screens) {
 		i->as_xml(cxml::add_child(parent, "Screen"));
