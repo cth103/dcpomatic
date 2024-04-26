@@ -38,7 +38,6 @@ static char const* _dcpomatic_batch_converter = "DCP-o-matic Batch Converter";
 
 static char const* _report_problem_email = "carl@dcpomatic.com";
 
-static bool const _show_splash = true;
 static bool const _show_tagline = true;
 static bool const _show_dcpomatic_website = true;
 
@@ -137,12 +136,6 @@ std::string
 variant::dcpomatic_player_app()
 {
 	return _dcpomatic_player_app;
-}
-
-bool
-variant::show_splash()
-{
-	return _show_splash;
 }
 
 bool

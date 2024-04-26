@@ -604,10 +604,6 @@ setup_audio_channels_choice (wxChoice* choice, int minimum)
 wxSplashScreen*
 maybe_show_splash ()
 {
-	if (!variant::show_splash()) {
-		return nullptr;
-	}
-
 	wxSplashScreen* splash = nullptr;
 
 	try {
