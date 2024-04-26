@@ -617,7 +617,9 @@ private:
 #else
 		help->Append (wxID_ABOUT, _("About"));
 #endif
-		help->Append (ID_help_report_a_problem, _("Report a problem..."));
+		if (variant::show_report_a_problem()) {
+			help->Append(ID_help_report_a_problem, _("Report a problem..."));
+		}
 
 		m->Append (_file_menu, _("&File"));
 		if (!Config::instance()->player_restricted_menus()) {

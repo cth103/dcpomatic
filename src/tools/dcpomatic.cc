@@ -1454,7 +1454,9 @@ private:
 #else
 		add_item (help, _("About"), wxID_ABOUT, ALWAYS);
 #endif
-		add_item (help, _("Report a problem..."), ID_help_report_a_problem, NEEDS_FILM);
+		if (variant::show_report_a_problem()) {
+			add_item(help, _("Report a problem..."), ID_help_report_a_problem, NEEDS_FILM);
+		}
 
 		m->Append (_file_menu, _("&File"));
 		m->Append (edit, _("&Edit"));

@@ -309,7 +309,9 @@ private:
 #else
 		help->Append (wxID_ABOUT, _("About"));
 #endif
-		help->Append (ID_help_report_a_problem, _("Report a problem..."));
+		if (variant::show_report_a_problem()) {
+			help->Append(ID_help_report_a_problem, _("Report a problem..."));
+		}
 
 		m->Append (file, _("&File"));
 #ifndef __WXOSX__

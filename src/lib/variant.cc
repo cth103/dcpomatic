@@ -40,6 +40,7 @@ static char const* _report_problem_email = "carl@dcpomatic.com";
 
 static bool const _show_tagline = true;
 static bool const _show_dcpomatic_website = true;
+static bool const _show_report_a_problem = false;
 
 
 std::string
@@ -148,6 +149,12 @@ bool
 variant::show_dcpomatic_website()
 {
 	return _show_dcpomatic_website;
+}
+
+bool
+variant::show_report_a_problem()
+{
+	return _show_report_a_problem;
 }
 
 std::string
