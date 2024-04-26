@@ -47,6 +47,8 @@ wxString insert_dcpomatic_player(wxString const& s);
 wxString insert_dcpomatic_playlist_editor(wxString const& s);
 wxString insert_dcpomatic_verifier(wxString const& s);
 
+wxString report_problem_email();
+
 
 }
 }

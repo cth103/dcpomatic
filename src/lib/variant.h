@@ -44,6 +44,8 @@ std::string dcpomatic_app();
 std::string dcpomatic_batch_converter_app();
 std::string dcpomatic_player_app();
 
+std::string report_problem_email();
+
 bool show_splash();
 bool show_tagline();
 bool show_dcpomatic_website();

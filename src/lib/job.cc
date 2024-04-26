@@ -167,7 +167,7 @@ Job::run_wrapper ()
 		if (!done) {
 			set_error (
 				e.what (),
-				string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
+				String::compose(_("It is not known what caused this error.  %1"), report_problem())
 				);
 		}
 
@@ -202,7 +202,7 @@ Job::run_wrapper ()
 		} else {
 			set_error (
 				e.what (),
-				string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
+				String::compose(_("It is not known what caused this error.  %1"), report_problem())
 				);
 		}
 
@@ -262,7 +262,7 @@ Job::run_wrapper ()
 
 		set_error (
 			e.what (),
-			string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
+			String::compose(_("It is not known what caused this error.  %1"), report_problem())
 			);
 
 		set_progress (1);
@@ -272,7 +272,7 @@ Job::run_wrapper ()
 
 		set_error (
 			_("Unknown error"),
-			string (_("It is not known what caused this error.")) + "  " + REPORT_PROBLEM
+			String::compose(_("It is not known what caused this error.  %1"), report_problem())
 			);
 
 		set_progress (1);

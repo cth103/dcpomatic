@@ -831,3 +831,9 @@ report_config_load_failure(wxWindow* parent, Config::LoadFailure what)
 	}
 }
 
+
+wxString
+wx::report_problem()
+{
+	return std_to_wx(::report_problem());
+}

@@ -146,6 +146,10 @@ struct Offset
 
 extern int get_offsets (std::vector<Offset>& offsets);
 
+namespace wx {
+	extern wxString report_problem();
+}
+
 
 extern void checked_set (FilePickerCtrl* widget, boost::filesystem::path value);
 extern void checked_set (wxDirPickerCtrl* widget, boost::filesystem::path value);

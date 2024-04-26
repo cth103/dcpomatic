@@ -920,23 +920,25 @@ private:
 			throw;
 		} catch (FileError& e) {
 			error_dialog (
-				0,
+				nullptr,
 				wxString::Format (
-					_("An exception occurred: %s (%s)\n\n") + REPORT_PROBLEM,
-					std_to_wx (e.what()),
-					std_to_wx (e.file().string().c_str ())
+					_("An exception occurred: %s (%s)\n\n%s"),
+					std_to_wx(e.what()),
+					std_to_wx(e.file().string().c_str()),
+					wx::report_problem()
 					)
 				);
 		} catch (exception& e) {
 			error_dialog (
 				nullptr,
 				wxString::Format (
-					_("An exception occurred: %s.\n\n") + " " + REPORT_PROBLEM,
-					std_to_wx(e.what())
+					_("An exception occurred: %s.\n\n%s"),
+					std_to_wx(e.what()),
+					wx::report_problem()
 					)
 				);
 		} catch (...) {
-			error_dialog (0, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
+			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
 		}
 
 		/* This will terminate the program */
@@ -945,7 +947,7 @@ private:
 
 	void OnUnhandledException () override
 	{
-		error_dialog (nullptr, _("An unknown exception occurred.") + "  " + REPORT_PROBLEM);
+		error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
 	}
 
 	void idle ()

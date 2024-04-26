@@ -1178,3 +1178,10 @@ screen_names_to_string(vector<string> names)
 	return result.substr(0, result.length() - 2);
 }
 
+
+string
+report_problem()
+{
+	return String::compose(_("Please report this problem by using Help -> Report a problem or via email to %1"), variant::report_problem_email());
+}
+

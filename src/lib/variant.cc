@@ -36,6 +36,8 @@ static char const* _dcpomatic_playlist_editor = "DCP-o-matic Playlist Editor";
 static char const* _dcpomatic_combiner = "DCP-o-matic Combiner";
 static char const* _dcpomatic_batch_converter = "DCP-o-matic Batch Converter";
 
+static char const* _report_problem_email = "carl@dcpomatic.com";
+
 static bool const _show_splash = true;
 static bool const _show_tagline = true;
 static bool const _show_dcpomatic_website = true;
@@ -153,5 +155,11 @@ bool
 variant::show_dcpomatic_website()
 {
 	return _show_dcpomatic_website;
+}
+
+std::string
+variant::report_problem_email()
+{
+	return _report_problem_email;
 }
 

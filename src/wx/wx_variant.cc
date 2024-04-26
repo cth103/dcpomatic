@@ -138,3 +138,10 @@ variant::wx::insert_dcpomatic_verifier(wxString const& s)
 {
 	return wxString::Format(s, dcpomatic_verifier());
 }
+
+wxString
+variant::wx::report_problem_email()
+{
+	return std_to_wx(variant::report_problem_email());
+}
+
