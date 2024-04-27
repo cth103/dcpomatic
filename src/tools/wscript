@@ -22,6 +22,31 @@ import glob
 from waflib import Logs
 import i18n
 
+def make_rc(tool, icon):
+    filename = f'build/src/tools/{tool}.rc'
+    with open(filename, 'w') as rc:
+        if tool == 'dcpomatic_disk_writer':
+            print('#include "winuser.h"', file=rc)
+            print('1 RT_MANIFEST "dcpomatic2_disk_writer.exe.manifest"', file=rc)
+            with open("build/src/tools/dcpomatic2_disk_writer.exe.manifest", "w") as manifest:
+                print("""
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+    <assemblyIdentity version="1.0.0.0" processorArchitecture="X86" name="dcpomatic2_disk_writer" type="win32"/> 
+    <description>DCP-o-matic Disk Writer</description> 
+    <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
+	    <security>
+		    <requestedPrivileges>
+			    <requestedExecutionLevel level="requireAdministrator" uiAccess="false"/>
+		    </requestedPrivileges>
+	    </security>
+    </trustInfo>
+</assembly>""", file=manifest)
+        else:
+            print(f'id ICON "../../graphics/windows/{icon}"', file=rc)
+            print('#include "wx-3.1/wx/msw/wx.rc"', file=rc)
+    return filename
+
 def configure(conf):
     if conf.env.TARGET_WINDOWS_64 or conf.env.TARGET_WINDOWS_32:
         conf.env.append_value('CXXFLAGS', ['-mconsole'])
@@ -46,6 +71,11 @@ def build(bld):
     if bld.env.ENABLE_DISK and not bld.env.DISABLE_GUI:
         cli_tools.append('dcpomatic_disk_writer')
 
+    try:
+        os.makedirs('build/src/tools')
+    except:
+        pass
+
     for t in cli_tools:
         obj = bld(features='cxx cxxprogram')
         obj.uselib = uselib
@@ -53,7 +83,7 @@ def build(bld):
         obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
         if (bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32) and t == 'dcpomatic_disk_writer':
-            obj.source += ' ../../platform/windows/%s.rc' % t
+            obj.source += f' ../../{make_rc(t, None)}'
             # Prevent a console window opening when we start dcpomatic2_disk_writer
             obj.env.append_value('LINKFLAGS', '-Wl,-subsystem,windows')
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
@@ -90,7 +120,7 @@ def build(bld):
         obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
         obj.source = '%s.cc' % t
         if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
-            obj.source += ' ../../platform/windows/%s.rc' % t
+            obj.source += f' ../../{make_rc(t, t.replace("dcpomatic", "dcpomatic2") + ".ico")}'
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
 
     i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)

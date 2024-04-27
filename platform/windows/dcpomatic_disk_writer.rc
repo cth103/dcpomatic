@@ -1,2 +1,0 @@
-#include "winuser.h"
-1 RT_MANIFEST "dcpomatic2_disk_writer.exe.manifest"

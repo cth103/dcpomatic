@@ -418,7 +418,7 @@ SectionEnd
     if disk:
         print("""
 File "%binaries%/src/tools/dcpomatic2_disk_writer.exe"
-File "%resources%/dcpomatic2_disk_writer.exe.manifest"
+File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
     """, file=f)
 
     suffix = '_debug.bat' if debug else '.exe'
