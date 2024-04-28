@@ -273,12 +273,9 @@ void
 EncodeServer::broadcast_thread ()
 try
 {
-	auto address = boost::asio::ip::address_v4::any ();
-	boost::asio::ip::udp::endpoint listen_endpoint (address, HELLO_PORT);
+	boost::asio::ip::udp::endpoint listen_endpoint(boost::asio::ip::udp::v4(), HELLO_PORT);
 
-	_broadcast.socket = new boost::asio::ip::udp::socket (_broadcast.io_service);
-	_broadcast.socket->open (listen_endpoint.protocol ());
-	_broadcast.socket->bind (listen_endpoint);
+	_broadcast.socket = new boost::asio::ip::udp::socket(_broadcast.io_service, listen_endpoint);
 
 	_broadcast.socket->async_receive_from (
 		boost::asio::buffer (_broadcast.buffer, sizeof (_broadcast.buffer)),
