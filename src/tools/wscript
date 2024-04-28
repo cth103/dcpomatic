@@ -32,6 +32,7 @@ def description(tool, variant):
         'dcpomatic_player': 'DCP-o-matic Player',
         'dcpomatic_playlist': 'DCP-o-matic Playlist Editor',
         'dcpomatic_combiner': 'DCP-o-matic Combiner',
+        'dcpomatic_verifier': 'DCP-o-matic Verifier',
     }
     return descriptions[tool] if tool in descriptions else tool
 
