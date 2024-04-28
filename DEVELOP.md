@@ -126,7 +126,7 @@ Files to edit:
 - `cscript`
 - `wscript`
 - `src/lib/variant.cc`
+- `src/tools/wscript`
 - `platform/osx/make_dmg.sh`
 - `platform/windows/wscript`
 - `platform/osx/wscript`
-

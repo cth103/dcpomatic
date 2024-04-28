@@ -22,7 +22,21 @@ import glob
 from waflib import Logs
 import i18n
 
-def make_rc(tool, icon):
+
+def description(tool, variant):
+    descriptions = {
+        'dcpomatic': 'DCP-o-matic',
+        'dcpomatic_batch': 'DCP-o-matic Batch Converter',
+        'dcpomatic_server': 'DCP-o-matic Encode Server',
+        'dcpomatic_kdm': 'DCP-o-matic KDM Creator',
+        'dcpomatic_player': 'DCP-o-matic Player',
+        'dcpomatic_playlist': 'DCP-o-matic Playlist Editor',
+        'dcpomatic_combiner': 'DCP-o-matic Combiner',
+    }
+    return descriptions[tool] if tool in descriptions else tool
+
+
+def make_rc(tool, icon, variant):
     filename = f'build/src/tools/{tool}.rc'
     with open(filename, 'w') as rc:
         if tool == 'dcpomatic_disk_writer':
@@ -43,8 +57,35 @@ def make_rc(tool, icon):
     </trustInfo>
 </assembly>""", file=manifest)
         else:
-            print(f'id ICON "../../graphics/windows/{icon}"', file=rc)
-            print('#include "wx-3.1/wx/msw/wx.rc"', file=rc)
+            print(f"""
+id ICON "../../graphics/windows/{icon}"
+#include "wx-3.1/wx/msw/wx.rc"'
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION    0,0,0,2
+ PRODUCTVERSION 0,0,0,2
+ FILEFLAGSMASK 0x3fL
+ #ifdef _DEBUG
+ FILEFLAGS 0x1L
+ #else
+ FILEFLAGS 0x0L
+ #endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+{{
+    BLOCK "StringFileInfo"
+    {{
+        BLOCK "040904b0"
+        {{
+            VALUE "FileDescription", "{description(tool, variant)}\\0"
+        }}
+    }}
+    BLOCK "VarFileInfo"
+    {{
+        VALUE "Translation", 0x409, 1200
+    }}
+}}
+    """, file=rc)
     return filename
 
 def configure(conf):
@@ -83,7 +124,7 @@ def build(bld):
         obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
         if (bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32) and t == 'dcpomatic_disk_writer':
-            obj.source += f' ../../{make_rc(t, None)}'
+            obj.source += f' ../../{make_rc(t, None, bld.env.VARIANT)}'
             # Prevent a console window opening when we start dcpomatic2_disk_writer
             obj.env.append_value('LINKFLAGS', '-Wl,-subsystem,windows')
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
@@ -120,7 +161,7 @@ def build(bld):
         obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
         obj.source = '%s.cc' % t
         if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
-            obj.source += f' ../../{make_rc(t, t.replace("dcpomatic", "dcpomatic2") + ".ico")}'
+            obj.source += f' ../../{make_rc(t, t.replace("dcpomatic", "dcpomatic2") + ".ico", bld.env.VARIANT)}'
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
 
     i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)
