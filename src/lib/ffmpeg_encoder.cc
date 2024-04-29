@@ -102,7 +102,7 @@ FFmpegEncoder::stereo_map() const
 		map.set(dcp::Channel::CENTRE, 1, overall_gain * minus_3dB);
 		map.set(dcp::Channel::LS,     0, overall_gain);
 		break;
-	case 6:
+	default:
 		map.set(dcp::Channel::LEFT,   0, overall_gain);
 		map.set(dcp::Channel::RIGHT,  1, overall_gain);
 		map.set(dcp::Channel::CENTRE, 0, overall_gain * minus_3dB);
@@ -111,7 +111,6 @@ FFmpegEncoder::stereo_map() const
 		map.set(dcp::Channel::RS,     1, overall_gain);
 		break;
 	}
-	/* XXX: maybe we should do something better for >6 channel DCPs */
 	return map;
 }
 
