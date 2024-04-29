@@ -196,7 +196,6 @@ def configure(conf):
                                int main() { std::locale::global (boost::locale::generator().generate ("")); }\n
                                """,
                                msg='Checking for boost locale library',
-                               libpath='/usr/local/lib',
                                lib=['boost_locale%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                                uselib_store='BOOST_LOCALE')
 
@@ -249,7 +248,7 @@ def configure(conf):
                        mandatory=True,
                        msg='Checking for libicu',
                        okmsg='yes',
-                       libpath=['/usr/local/lib', '/usr/lib', '/usr/lib/x86_64-linux-gnu'],
+                       libpath=['/usr/lib', '/usr/lib/x86_64-linux-gnu'],
                        lib=['icuio', 'icui18n', 'icudata', 'icuuc'],
                        uselib_store='ICU')
 
@@ -399,7 +398,6 @@ def configure(conf):
                             int main() { struct jpeg_compress_struct compress; jpeg_create_compress (&compress); return 0; }
                             """,
                    msg='Checking for libjpeg',
-                   libpath='/usr/local/lib',
                    lib=['jpeg'],
                    uselib_store='JPEG')
 
@@ -410,7 +408,6 @@ def configure(conf):
                                 int main() { ext4_mount("ext4_fs", "/mp/", false); }\n
                                 """,
                                 msg='Checking for lwext4 library',
-                                libpath='/usr/local/lib',
                                 lib=['lwext4', 'blockdev'],
                                 uselib_store='LWEXT4')
 
@@ -549,7 +546,6 @@ def configure(conf):
 			    int main() { boost::thread t; }\n
 			    """,
                        msg='Checking for boost threading library',
-                       libpath='/usr/local/lib',
                        lib=[boost_thread, 'boost_system%s' % boost_lib_suffix],
                        uselib_store='BOOST_THREAD')
 
@@ -558,7 +554,6 @@ def configure(conf):
     			    int main() { boost::filesystem::copy_file ("a", "b"); }\n
 			    """,
                        msg='Checking for boost filesystem library',
-                       libpath='/usr/local/lib',
                        lib=['boost_filesystem%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                        uselib_store='BOOST_FILESYSTEM')
 
@@ -567,7 +562,6 @@ def configure(conf):
     			    int main() { boost::gregorian::day_clock::local_day(); }\n
 			    """,
                        msg='Checking for boost datetime library',
-                       libpath='/usr/local/lib',
                        lib=['boost_date_time%s' % boost_lib_suffix, 'boost_system%s' % boost_lib_suffix],
                        uselib_store='BOOST_DATETIME')
 
