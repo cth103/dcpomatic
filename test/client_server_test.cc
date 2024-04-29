@@ -311,6 +311,8 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 	server->stop ();
 	server_thread.join();
+
+	EncodeServerFinder::drop();
 }
 
 
