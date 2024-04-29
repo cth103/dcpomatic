@@ -60,7 +60,7 @@ def make_rc(tool, icon, variant):
         else:
             print(f"""
 id ICON "../../graphics/windows/{icon}"
-#include "wx-3.1/wx/msw/wx.rc"'
+#include "wx-3.1/wx/msw/wx.rc"
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION    0,0,0,2
  PRODUCTVERSION 0,0,0,2
