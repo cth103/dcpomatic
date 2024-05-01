@@ -795,6 +795,8 @@ def package_rpm(target, cpu, version, options):
 
     make_spec('dcpomatic2.spec', version, target, options, requires)
     cmd = 'rpmbuild --define "_topdir %s" -bb dcpomatic2.spec' % topdir
+    # On Centos 7 we build and install boost ourselves, so we must look for it in the right place
+    target.set('LINKFLAGS', '-L/usr/local/lib')
     target.command(cmd)
     rpms = []
 
