@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2023-05-15 09:32+0200\n"
+"PO-Revision-Date: 2024-05-02 15:01+0200\n"
 "Last-Translator: Tomáš Begeni <begeni@razdva.cz>\n"
 "Language-Team: \n"
 "Language: cs_CZ\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #: src/lib/video_content.cc:503
 #, c-format
@@ -352,15 +352,14 @@ msgstr ""
 "se, aby mezera mezi titulky byla alespoň 2 snímky."
 
 #: src/lib/hints.cc:685
-#, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
 "\"Content→Timed text\" or \"Content→Open subtitles\" tab."
 msgstr ""
-"Jedna část titulků nebo skrytých titulků nemá zadaný jazyk. Je vhodné "
-"nastavit jazyk pro každý část titulků nebo skrytých titulků na kartě „Obsah "
-"→ Časovat text“, „Obsah → Otevřít titulky“ nebo „Obsah → Skryté titulky“."
+"Alespoň jedna část obsahu titulků nemá specifikovaný jazyk. Je vhodné "
+"nastavit jazyk pro každou část obsahu titulků v záložce „Obsah→Časovaný "
+"text“ nebo „Obsah→Otevřít titulky“."
 
 #: src/lib/audio_content.cc:277
 msgid "Audio will be resampled from %1Hz to %2Hz"
@@ -913,9 +912,8 @@ msgid "Event"
 msgstr "Událost"
 
 #: src/lib/hints.cc:397
-#, fuzzy
 msgid "Examining audio"
-msgstr "Zkoumání titulků"
+msgstr "Zkoumání zvuku"
 
 #: src/lib/hints.cc:399
 msgid "Examining audio, subtitles and closed captions"
@@ -1062,15 +1060,14 @@ msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr "Používáte-li 25fps, měli byste změnit váš standard DCP na SMPTE."
 
 #: src/lib/hints.cc:249
-#, fuzzy
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
 "the SMPTE standard in the \"DCP\" tab."
 msgstr ""
-"Obecně je nyní vhodné dělat SMPTE DCP, pokud nemáte konkrétní důvod používat "
-"Interop. Na kartě „DCP“ se doporučuje nastavit DCP tak, aby používalo "
-"standard SMPTE."
+"Obecně je nyní vhodné vytvořit SMPTE DCP, pokud nemáte konkrétní důvod "
+"používat Interop. Je vhodné nastavit váš DCP tak, aby používal standard "
+"SMPTE v záložce „DCP“."
 
 #: src/lib/release_notes.cc:53
 msgid ""
@@ -1215,14 +1212,13 @@ msgid "No CPLs found in DCP."
 msgstr "V DCP nebyla nalezena žádná CPLs."
 
 #: src/lib/kdm_with_metadata.cc:217
-#, fuzzy
 msgid "No from address configured in the KDM Email tab of preferences"
-msgstr "Žádný KDM z adresy nakonfigurované v předvolbách"
+msgstr "Ne z adresy nakonfigurované na kartě E-mail KDM v předvolbách"
 
 #: src/lib/kdm_with_metadata.cc:213 src/lib/send_notification_email_job.cc:70
-#, fuzzy
 msgid "No outgoing mail server configured in the Email tab of preferences"
-msgstr "V konfiguraci není nastaven emailový server"
+msgstr ""
+"Na kartě E-mail v předvolbách není nakonfigurován žádný server odchozí pošty"
 
 #: src/lib/image_content.cc:131
 msgid "No valid image files were found in the folder."
@@ -1238,12 +1234,11 @@ msgstr "Žádný"
 
 #: src/lib/job.cc:607
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: src/lib/job.cc:612
-#, fuzzy
 msgid "OK (ran for %1 from %2 to %3)"
-msgstr "OK (hotovo za %1)"
+msgstr "OK (spuštěno od %1 do %2 to %3)"
 
 #: src/lib/job.cc:610
 msgid "OK (ran for %1)"
@@ -1292,7 +1287,7 @@ msgstr "Policy"
 
 #: src/lib/filter.cc:106
 msgid "Premultiply alpha channel"
-msgstr ""
+msgstr "Předem násobit alfa kanál"
 
 #: src/lib/content.cc:494
 msgid "Prepared for video frame rate"
@@ -1561,7 +1556,6 @@ msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Řetěz certifikátů pro podepisování je neplatný (%1)"
 
 #: src/lib/hints.cc:721
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs "
 "contains a small error which will prevent DCPs from being validated "
@@ -1569,14 +1563,13 @@ msgid ""
 "certificate chain by clicking the \"Re-make certificates and key...\" button "
 "in the Keys page of Preferences."
 msgstr ""
-"Řetězec certifikátů, který DCP-o-matic používá pro podepisování DCP a KDM, "
-"obsahuje malou chybu, která v některých systémech brání správnému ověření "
-"DCP.  Doporučujeme vám znovu vytvořit řetězec podpisových certifikátů "
-"kliknutím na tlačítko „Re-make certificates and key…“ (Znovu vytvořit "
-"certifikáty a klíče…) na stránce Keys (Klíče) v Předvolbách."
+"Řetězec certifikátů, který DCP-o-matic používá k podepisování DCP a KDM, "
+"obsahuje malou chybu, která zabrání správnému ověření DCP na některých "
+"systémech. Je vhodné znovu vytvořit řetězec podpisových certifikátů "
+"kliknutím na tlačítko „Znovu vytvořit certifikáty a klíč…“ na stránce Klíče "
+"v Předvolbách."
 
 #: src/lib/hints.cc:727
-#, fuzzy
 msgid ""
 "The certificate chain that DCP-o-matic uses for signing DCPs and KDMs has a "
 "validity period that is too long.  This will cause problems playing back "
@@ -1584,12 +1577,11 @@ msgid ""
 "chain by clicking the \"Re-make certificates and key...\" button in the Keys "
 "page of Preferences."
 msgstr ""
-"Řetězec certifikátů, který DCP-o-matic používá pro podepisování DCP a KDM, "
-"má příliš dlouhou dobu platnosti.  To způsobuje problémy s přehráváním DCP "
-"na některých systémech. Doporučujeme znovu vytvořit řetězec podpisových "
-"certifikátů kliknutím na tlačítko „Re-make certificates and key…“ (Znovu "
-"vytvořit certifikáty a klíč…) na stránce Keys (Klíče) v okně Preferences "
-"(Předvolby)."
+"Řetěz certifikátů, který DCP-o-matic používá k podepisování DCP a KDM, má "
+"příliš dlouhou dobu platnosti. To způsobí problémy s přehráváním DCP na "
+"některých systémech. Je vhodné znovu vytvořit řetězec podpisových "
+"certifikátů kliknutím na tlačítko „Znovu vytvořit certifikáty a klíč…“ na "
+"stránce Klíče v Předvolbách."
 
 #: src/lib/video_decoder.cc:81
 msgid ""
@@ -1626,7 +1618,6 @@ msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr "Soubor %1 byl oříznut o %2 milisekund více."
 
 #: src/lib/hints.cc:239
-#, fuzzy
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1634,11 +1625,11 @@ msgid ""
 "rate to one closer to your content, provided that your target projection "
 "systems support your chosen DCP rate."
 msgstr ""
-"Mezi rámcovou frekvencí vašeho DCP a některým z vašich obsahů je velký "
-"rozdíl. To způsobí, že se váš zvuk přehrává na mnohem nižším nebo vyšším "
-"rozstupu, než by měl. Doporučuje se, abyste nastavili frekvenci snímků DCP "
-"tak, aby se přiblížila vašemu obsahu za předpokladu, že vaše cílové "
-"projekční systémy podporují zvolenou rychlost DCP."
+"Mezi snímkovou frekvencí vašeho DCP a některého vašeho obsahu je velký "
+"rozdíl. To způsobí, že se váš zvuk bude přehrávat s mnohem nižší nebo vyšší "
+"výškou, než by měl. Je vhodné nastavit snímkovou frekvenci DCP na takovou, "
+"která je blíže vašemu obsahu, za předpokladu, že vaše cílové projekční "
+"systémy podporují vámi zvolenou rychlost DCP."
 
 #: src/lib/dcp_content.cc:675
 msgid "There is no video in this DCP"
@@ -1822,7 +1813,6 @@ msgid "Yet Another Deinterlacing Filter"
 msgstr "Ještě další deinterlacing filter"
 
 #: src/lib/hints.cc:199
-#, fuzzy
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
@@ -1910,6 +1900,9 @@ msgid ""
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
+"Váš DCP má %1 zvukových kanálů, spíše než 8 nebo 16. To může způsobit, že "
+"někteří distributoři při kontrole vašeho DCP zvýší chyby kontroly kvality. "
+"Abyste tomu zabránili, nastavte zvukové kanály DCP na 8 nebo 16."
 
 #: src/lib/hints.cc:110
 msgid ""
@@ -2142,7 +2135,6 @@ msgid "still"
 msgstr "stále"
 
 #: src/lib/dcp_content.cc:779
-#, fuzzy
 msgid "they overlap other text content; remove the other content."
 msgstr "překrývá se s jiným textovým obsahem; odeberte další obsah."
 
