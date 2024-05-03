@@ -47,7 +47,6 @@
 #include "wx/report_problem_dialog.h"
 #include "wx/save_template_dialog.h"
 #include "wx/self_dkdm_dialog.h"
-#include "wx/send_i18n_dialog.h"
 #include "wx/servers_list_dialog.h"
 #include "wx/standard_controls.h"
 #include "wx/system_information_dialog.h"
@@ -241,7 +240,6 @@ enum {
 	ID_tools_encoding_servers,
 	ID_tools_manage_templates,
 	ID_tools_check_for_updates,
-	ID_tools_send_translations,
 	ID_tools_system_information,
 	ID_tools_restore_default_preferences,
 	ID_tools_export_preferences,
@@ -353,7 +351,6 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_encoding_servers, this),  ID_tools_encoding_servers);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_manage_templates, this),  ID_tools_manage_templates);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_check_for_updates, this), ID_tools_check_for_updates);
-		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_send_translations, this), ID_tools_send_translations);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_system_information, this),ID_tools_system_information);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_restore_default_preferences, this), ID_tools_restore_default_preferences);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::tools_export_preferences, this), ID_tools_export_preferences);
@@ -1107,35 +1104,6 @@ private:
 		UpdateChecker::instance()->run();
 	}
 
-	void tools_send_translations ()
-	{
-		SendI18NDialog dialog(this);
-		if (dialog.ShowModal() != wxID_OK) {
-			return;
-		}
-
-		string body;
-		body += dialog.name() + "\n";
-		body += dialog.language() + "\n";
-		body += string(dcpomatic_version) + " " + string(dcpomatic_git_commit) + "\n";
-		body += "--\n";
-		auto translations = I18NHook::translations ();
-		for (auto i: translations) {
-			body += i.first + "\n" + i.second + "\n\n";
-		}
-		if (dialog.email().find("@") == string::npos) {
-			error_dialog (this, _("You must enter a valid email address when sending translations, "
-					      "otherwise the DCP-o-matic maintainers cannot credit you or contact you with questions."));
-		} else {
-			Email email(dialog.email(), { "carl@dcpomatic.com" }, "DCP-o-matic translations", body);
-			try {
-				email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
-			} catch (NetworkError& e) {
-				error_dialog (this, _("Could not send translations"), std_to_wx(e.what()));
-			}
-		}
-	}
-
 	void help_about ()
 	{
 		AboutDialog dialog(this);
@@ -1399,7 +1367,6 @@ private:
 		add_item (tools, _("Encoding servers..."), ID_tools_encoding_servers, 0);
 		add_item (tools, _("Manage templates..."), ID_tools_manage_templates, 0);
 		add_item (tools, _("Check for updates"), ID_tools_check_for_updates, 0);
-		add_item (tools, _("Send translations..."), ID_tools_send_translations, 0);
 		add_item (tools, _("System information..."), ID_tools_system_information, 0);
 		tools->AppendSeparator ();
 		add_item (tools, _("Restore default preferences"), ID_tools_restore_default_preferences, ALWAYS);
