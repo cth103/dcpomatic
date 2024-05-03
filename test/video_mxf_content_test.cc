@@ -50,18 +50,10 @@ static void note (dcp::NoteType, std::string)
 /** Basic test of using video MXF content */
 BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 {
-	auto film = new_test_film ("video_mxf_content_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_name ("video_mxf_content_test");
-
 	auto const ref_mxf = find_file("test/data/scaling_test_185_185", "j2c");
+	auto content = content_factory(ref_mxf);
 
-	auto content = content_factory(ref_mxf)[0];
-	auto check = dynamic_pointer_cast<VideoMXFContent> (content);
-	BOOST_REQUIRE (check);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("video_mxf_content_test", content);
 	make_and_verify_dcp (
 		film,
 		{
@@ -71,8 +63,8 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 		});
 
 	auto ref = make_shared<dcp::MonoJ2KPictureAsset>(ref_mxf);
-	boost::filesystem::directory_iterator i ("build/test/video_mxf_content_test/video");
-	auto comp = make_shared<dcp::MonoJ2KPictureAsset>(*i);
+	auto comp_mxf = find_file("build/test/video_mxf_content_test/video", ".mxf");
+	auto comp = make_shared<dcp::MonoJ2KPictureAsset>(comp_mxf);
 	dcp::EqualityOptions op;
 	BOOST_CHECK (ref->equals (comp, op, note));
 }
