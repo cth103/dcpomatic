@@ -21,7 +21,7 @@ def verifier_name(variant):
     return 'Verifier'
 
 def tool_name(variant, debug, tool):
-    name = f'DCP-o-matic 2 {tool}'
+    name = 'DCP-o-matic 2 %s' % tool
     if debug:
         name += ' debug'
     return name
@@ -32,7 +32,7 @@ def start_menu_shortcut(file, link, target, variant, debug=False):
     folder = start_menu_shortcut_folder(variant)
     if debug:
         folder += ' debug'
-    print(f'CreateShortCut "$SMPROGRAMS\\{folder}\\{link}.lnk" "$INSTDIR\\{target}"', file=file)
+    print('CreateShortCut "$SMPROGRAMS\\%s\\%s.lnk" "$INSTDIR\\%s"' % (folder, link, target), file=file)
 
 
 def write_installer(bits, dcpomatic_version, debug, disk, variant):
@@ -72,11 +72,11 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     if bits == 64:
         print('!include "x64.nsh"', file=f)
 
-    print(f'Name "{short_name_with_debug}"', file=f)
+    print('Name "%s"' % short_name_with_debug, file=f)
     print('RequestExecutionLevel admin', file=f)
     print('Unicode true', file=f)
 
-    outfile = f'{short_name_with_debug} {dcpomatic_version} {bits}-bit Installer.exe'
+    outfile = '%s %s %d-bit Installer.exe' % (short_name_with_debug, dcpomatic_version, bits)
     print('outFile "%s"' % outfile, file=f)
 
     print("""
@@ -91,7 +91,7 @@ def write_installer(bits, dcpomatic_version, debug, disk, variant):
     else:
         program_files = "$PROGRAMFILES"
 
-    print(f'InstallDir "%s\\{long_name_with_debug}"' % program_files, file=f)
+    print('InstallDir "%s\\%s"' % (program_files, long_name_with_debug), file=f)
 
     print("""
 !insertmacro MUI_PAGE_WELCOME
@@ -404,12 +404,12 @@ File "%cdist_deps%/share/libdcp/ratings"
 SectionEnd
     """, file=f)
 
-    print(f'Section "{long_name_with_debug}" SEC_MASTER', file=f)
+    print('Section "%s" SEC_MASTER' % long_name_with_debug, file=f)
 
     print('SetOutPath "$INSTDIR\\bin"', file=f)
     print("SetShellVarContext all", file=f)
 
-    print(f'CreateDirectory "$SMPROGRAMS\\{long_name_with_debug}"', file=f)
+    print('CreateDirectory "$SMPROGRAMS\\%s"' % long_name_with_debug, file=f)
 
     print('File "%binaries%/src/tools/dcpomatic2.exe"', file=f)
     for s, l in tools:
@@ -422,19 +422,19 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
     """, file=f)
 
     suffix = '_debug.bat' if debug else '.exe'
-    start_menu_shortcut(f, long_name_with_debug, f'bin\\dcpomatic2{suffix}', variant, debug=True)
+    start_menu_shortcut(f, long_name_with_debug, 'bin\\dcpomatic2%s' % suffix, variant, debug=True)
     for s, l in tools:
-        start_menu_shortcut(f, tool_name(variant, debug, l), f'bin\\dcpomatic2_{s}{suffix}', variant, debug=True)
-    start_menu_shortcut(f, f'Uninstall {long_name_with_debug}', 'Uninstall.exe', variant, debug=True)
-    print(f'WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{long_name_with_debug}" "DisplayName" "{long_name_with_debug} (remove only)"', file=f)
-    print(f'WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\{long_name_with_debug}" "UninstallString" "$INSTDIR\\Uninstall.exe"', file=f)
+        start_menu_shortcut(f, tool_name(variant, debug, l), 'bin\\dcpomatic2_%s%s' % (s, suffix), variant, debug=True)
+    start_menu_shortcut(f, 'Uninstall %s' % long_name_with_debug, 'Uninstall.exe', variant, debug=True)
+    print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
+    print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
 
     print("SectionEnd", file=f)
 
-    print(f'Section "{long_name_with_debug} desktop shortcuts" SEC_MASTER_DESKTOP', file=f)
-    print(f'CreateShortCut "$DESKTOP\\{long_name_with_debug}.lnk" "$INSTDIR\\bin\\dcpomatic2{suffix}" ""', file=f)
+    print('Section "%s desktop shortcuts" SEC_MASTER_DESKTOP' % long_name_with_debug, file=f)
+    print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2%s" ""' % (long_name_with_debug, suffix), file=f)
     for s, l in tools:
-        print(f'CreateShortCut "$DESKTOP\\{tool_name(variant, debug, l)}.lnk" "$INSTDIR\\bin\\dcpomatic2_{s}{suffix}" ""', file=f)
+        print('CreateShortCut "$DESKTOP\\%s.lnk" "$INSTDIR\\bin\\dcpomatic2_%s%s" ""' % (tool_name(variant, debug, l), s, suffix), file=f)
 
     print("SectionEnd", file=f)
 

@@ -38,7 +38,7 @@ def description(tool, variant):
 
 
 def make_rc(tool, icon, variant):
-    filename = f'build/src/tools/{tool}.rc'
+    filename = 'build/src/tools/%s.rc' % tool
     with open(filename, 'w') as rc:
         if tool == 'dcpomatic_disk_writer':
             print('#include "winuser.h"', file=rc)
@@ -58,8 +58,8 @@ def make_rc(tool, icon, variant):
     </trustInfo>
 </assembly>""", file=manifest)
         else:
-            print(f"""
-id ICON "../../graphics/windows/{icon}"
+            print("""
+id ICON "../../graphics/windows/%s"
 #include "wx-3.1/wx/msw/wx.rc"
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION    0,0,0,2
@@ -73,20 +73,20 @@ VS_VERSION_INFO VERSIONINFO
  FILEOS 0x4L
  FILETYPE 0x1L
  FILESUBTYPE 0x0L
-{{
+ {
     BLOCK "StringFileInfo"
-    {{
+    {
         BLOCK "040904b0"
-        {{
-            VALUE "FileDescription", "{description(tool, variant)}\\0"
-        }}
-    }}
+        {
+            VALUE "FileDescription", "%s\\0"
+        }
+    }
     BLOCK "VarFileInfo"
-    {{
+    {
         VALUE "Translation", 0x409, 1200
-    }}
-}}
-    """, file=rc)
+    }
+ }
+    """ % (icon, description(tool, variant)), file=rc)
     return filename
 
 def configure(conf):
@@ -125,7 +125,7 @@ def build(bld):
         obj.use    = ['libdcpomatic2']
         obj.source = '%s.cc' % t
         if (bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32) and t == 'dcpomatic_disk_writer':
-            obj.source += f' ../../{make_rc(t, None, bld.env.VARIANT)}'
+            obj.source += ' ../../%s' % (make_rc(t, None, bld.env.VARIANT))
             # Prevent a console window opening when we start dcpomatic2_disk_writer
             obj.env.append_value('LINKFLAGS', '-Wl,-subsystem,windows')
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
@@ -162,7 +162,7 @@ def build(bld):
         obj.use    = ['libdcpomatic2', 'libdcpomatic2-wx']
         obj.source = '%s.cc' % t
         if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
-            obj.source += f' ../../{make_rc(t, t.replace("dcpomatic", "dcpomatic2") + ".ico", bld.env.VARIANT)}'
+            obj.source += ' ../../%s' % make_rc(t, t.replace("dcpomatic", "dcpomatic2") + ".ico", bld.env.VARIANT)
         obj.target = t.replace('dcpomatic', 'dcpomatic2')
 
     i18n.po_to_mo(os.path.join('src', 'tools'), 'dcpomatic2', bld)
