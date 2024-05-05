@@ -745,12 +745,12 @@ def package_debian(target, cpu, version, options):
 
     os.makedirs('build/deb')
     os.chdir('build/deb')
-    shutil.move(f'../../dcpomatic-{version}.tar.bz2', f'{name}_{version}.orig.tar.bz2')
-    target.command(f'tar xjf {name}_{version}.orig.tar.bz2')
+    shutil.move(f'../../dcpomatic-{version}.tar.bz2', f'{name}_1+{version}.orig.tar.bz2')
+    target.command(f'tar xjf {name}_1+{version}.orig.tar.bz2')
     os.chdir(f'dcpomatic-{version}')
 
     with open('debian/changelog', 'w') as f:
-        print(f'{name} ({version}-1) unstable; urgency=medium', file=f)
+        print(f'{name} (1+{version}-1) unstable; urgency=medium', file=f)
         print('', file=f)
         print('  * New upstream release.', file=f)
         print('', file=f)
