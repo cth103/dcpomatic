@@ -144,6 +144,10 @@ Writer::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 {
 	boost::mutex::scoped_lock lock (_state_mutex);
 
+	if (_zombie) {
+		return;
+	}
+
 	while (_queued_full_in_memory > _maximum_frames_in_memory) {
 		/* There are too many full frames in memory; wake the main writer thread and
 		   wait until it sorts everything out */
@@ -377,6 +381,9 @@ try
 	while (true)
 	{
 		boost::mutex::scoped_lock lock (_state_mutex);
+		if (_zombie) {
+			return;
+		}
 
 		while (true) {
 
@@ -1042,3 +1049,17 @@ Writer::write_hanging_text (ReelWriter& reel)
 	}
 	_hanging_texts = new_hanging_texts;
 }
+
+
+/** Set the writer so that it has no queue and drops any pending or future requests to write images */
+void
+Writer::zombify()
+{
+	boost::mutex::scoped_lock lock(_state_mutex);
+
+	_queue.clear();
+	_queued_full_in_memory = 0;
+	_zombie = true;
+	_full_condition.notify_all();
+}
+

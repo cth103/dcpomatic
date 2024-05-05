@@ -127,6 +127,8 @@ public:
 
 	void set_encoder_threads (int threads);
 
+	void zombify();
+
 private:
 	friend struct ::writer_disambiguate_font_ids1;
 	friend struct ::writer_disambiguate_font_ids2;
@@ -229,6 +231,8 @@ private:
 	};
 
 	std::vector<HangingText> _hanging_texts;
+
+	bool _zombie = false;
 };
 
 

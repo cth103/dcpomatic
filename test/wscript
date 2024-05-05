@@ -112,6 +112,7 @@ def build(bld):
                  interrupt_encoder_test.cc
                  isdcf_name_test.cc
                  j2k_bandwidth_test.cc
+                 j2k_encoder_test.cc
                  job_manager_test.cc
                  kdm_cli_test.cc
                  kdm_naming_test.cc
