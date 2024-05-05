@@ -34,6 +34,8 @@
 #include "exception_store.h"
 #include "font_id_map.h"
 #include "player_text.h"
+#include "text_type.h"
+#include "types.h"
 #include "weak_film.h"
 #include <dcp/atmos_frame.h>
 #include <boost/thread.hpp>
