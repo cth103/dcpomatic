@@ -35,6 +35,7 @@
 #include "font_id_map.h"
 #include "player_text.h"
 #include "text_type.h"
+#include "types.h"
 #include "weak_film.h"
 #include <dcp/atmos_frame.h>
 #include <dcp/frame_info.h>
@@ -128,6 +129,8 @@ public:
 	void finish (boost::filesystem::path output_dcp);
 
 	void set_encoder_threads (int threads);
+
+	void zombify();
 
 private:
 	friend struct ::writer_disambiguate_font_ids1;
@@ -231,6 +234,8 @@ private:
 	};
 
 	std::vector<HangingText> _hanging_texts;
+
+	bool _zombie = false;
 };
 
 

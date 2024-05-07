@@ -108,6 +108,16 @@ J2KEncoder::~J2KEncoder ()
 {
 	_server_found_connection.disconnect();
 
+	/* One of our encoder threads may be waiting on Writer::write() to return, if that method
+	 * is blocked with the writer queue full waiting for _full_condition.  In that case, the
+	 * attempt to terminate the encoder threads below (in terminate_threads()) will fail because
+	 * the encoder thread waiting for ::write() will have interruption disabled.
+	 *
+	 * To work around that, make the writer into a zombie to unblock any pending write()s and
+	 * not block on any future ones.
+	 */
+	_writer.zombify();
+
 	terminate_threads();
 
 #ifdef DCPOMATIC_GROK
@@ -152,6 +162,8 @@ J2KEncoder::pause()
 		return;
 	}
 	return;
+
+	/* XXX; the same problem may occur here as in the destructor, perhaps? */
 
 	terminate_threads ();
 
