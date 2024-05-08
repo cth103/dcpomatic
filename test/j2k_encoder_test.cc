@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(j2k_encoder_deadlock_test)
 				optional<ColourConversion>(),
 				VideoRange::VIDEO,
 				weak_ptr<Content>(),
-				optional<Frame>(),
+				optional<dcpomatic::ContentTime>(),
 				false
 				),
 			{}
