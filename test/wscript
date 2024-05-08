@@ -113,7 +113,6 @@ def build(bld):
                  import_dcp_test.cc
                  interrupt_encoder_test.cc
                  isdcf_name_test.cc
-                 j2k_bandwidth_test.cc
                  j2k_encode_threading_test.cc
                  j2k_encoder_test.cc
                  job_manager_test.cc
