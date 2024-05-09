@@ -124,7 +124,6 @@ setup_test_config ()
 	Config::instance()->set_default_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	Config::instance()->set_default_interop (false);
 	Config::instance()->set_default_still_length (10);
-	Config::instance()->set_default_dcp_audio_channels(8);
 	Config::instance()->set_log_types (
 		LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING |
 		LogEntry::TYPE_ERROR | LogEntry::TYPE_DISK

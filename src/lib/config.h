@@ -770,10 +770,6 @@ public:
 		maybe_set (_default_still_length, s);
 	}
 
-	void set_default_dcp_audio_channels (int c) {
-		maybe_set (_default_dcp_audio_channels, c);
-	}
-
 	void set_dcp_issuer (std::string i) {
 		maybe_set (_dcp_issuer, i);
 	}

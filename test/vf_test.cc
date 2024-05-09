@@ -515,6 +515,7 @@ BOOST_AUTO_TEST_CASE(ov_subs_in_vf_name)
 {
 	auto subs = content_factory("test/data/short.srt")[0];
 	auto ov = new_test_film("ov_subs_in_vf_name_ov", { subs });
+	ov->set_audio_channels(8);
 	subs->only_text()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(
 		ov,
@@ -526,6 +527,7 @@ BOOST_AUTO_TEST_CASE(ov_subs_in_vf_name)
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	auto vf = new_test_film("ov_subs_in_vf_name_vf", { ov_dcp });
 	vf->set_name("foo");
+	vf->set_audio_channels(8);
 	ov_dcp->set_reference_text(TextType::OPEN_SUBTITLE, true);
 	vf->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
 

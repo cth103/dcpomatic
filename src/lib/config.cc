@@ -770,8 +770,6 @@ Config::write_config () const
 		/* [XML:opt] Language Language to use in the GUI e.g. <code>fr_FR</code>. */
 		cxml::add_text_child(root, "Language", _language.get());
 	}
-	/* [XML] DefaultDCPAudioChannels Default number of audio channels to use when creating new films. */
-	cxml::add_text_child(root, "DefaultDCPAudioChannels", raw_convert<string>(_default_dcp_audio_channels));
 	/* [XML] DCPIssuer Issuer text to write into CPL files. */
 	cxml::add_text_child(root, "DCPIssuer", _dcp_issuer);
 	/* [XML] DCPCreator Creator text to write into CPL files. */
