@@ -793,10 +793,6 @@ Config::write_config () const
 		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
 		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->to_string());
 	}
-	if (_default_territory) {
-		/* [XML] DefaultTerritory Default territory to use for new films */
-		cxml::add_text_child(root, "DefaultTerritory", _default_territory->subtag());
-	}
 	if (_default_kdm_directory) {
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
 		cxml::add_text_child(root, "DefaultKDMDirectory", _default_kdm_directory->string ());

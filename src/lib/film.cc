@@ -1989,6 +1989,8 @@ Film::use_template(optional<string> name)
 	_distributor = _template_film->_distributor;
 	_facility = _template_film->_facility;
 	_studio = _template_film->_studio;
+	_territory_type = _template_film->_territory_type;
+	_release_territory = _template_film->_release_territory;
 }
 
 pair<double, double>

@@ -806,14 +806,6 @@ public:
 		maybe_set(_default_audio_language, boost::optional<dcp::LanguageTag>());
 	}
 
-	void set_default_territory(dcp::LanguageTag::RegionSubtag tag) {
-		maybe_set(_default_territory, tag);
-	}
-
-	void unset_default_territory() {
-		maybe_set(_default_territory, boost::optional<dcp::LanguageTag::RegionSubtag>());
-	}
-
 	void set_upload_after_make_dcp (bool u) {
 		maybe_set (_upload_after_make_dcp, u);
 	}
