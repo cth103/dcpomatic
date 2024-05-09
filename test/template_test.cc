@@ -27,6 +27,9 @@
 #include <boost/test/unit_test.hpp>
 
 
+using std::string;
+
+
 /* Bug #2491 */
 BOOST_AUTO_TEST_CASE(template_wrong_channel_counts)
 {
@@ -35,7 +38,7 @@ BOOST_AUTO_TEST_CASE(template_wrong_channel_counts)
 	Config::override_path = "test/data";
 
 	auto film = new_test_film("template_wrong_channel_counts", {});
-	film->use_template("Bug");
+	film->use_template(string("Bug"));
 
 	auto mono = content_factory("test/data/C.wav").front();
 	film->examine_and_add_content(mono);

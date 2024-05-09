@@ -18,54 +18,90 @@
 
 */
 
+
+#include "dcpomatic_choice.h"
 #include "save_template_dialog.h"
 #include "wx_util.h"
 #include "lib/config.h"
+#include "lib/constants.h"
+
 
 using std::string;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
 
+
+using boost::optional;
+
+
 SaveTemplateDialog::SaveTemplateDialog (wxWindow* parent)
 	: TableDialog (parent, _("Save template"), 2, 1, true)
 {
-	add (_("Template name"), true);
-	_name = add (new wxTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (300, -1)));
-	_name->SetFocus ();
+	_default = add(new wxRadioButton(this, wxID_ANY, _("Save as default")));
+	add_spacer();
+	_existing = add(new wxRadioButton(this, wxID_ANY, _("Save over existing template")));
+	_existing_name = add(new Choice(this));
+	_new = add(new wxRadioButton(this, wxID_ANY, _("Save as new with name")));
+	_new_name = add(new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(300, -1)));
+
+	_default->SetFocus ();
 	layout ();
 
-	wxButton* ok = dynamic_cast<wxButton *> (FindWindowById (wxID_OK, this));
+	auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
 	ok->Bind (wxEVT_BUTTON, boost::bind(&SaveTemplateDialog::check, this, _1));
 
-	_name->Bind (wxEVT_TEXT, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
+	_default->Bind(wxEVT_RADIOBUTTON, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
+	_existing->Bind(wxEVT_RADIOBUTTON, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
+	_new->Bind(wxEVT_RADIOBUTTON, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
+	_existing_name->Bind(wxEVT_TEXT, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
+
+	for (auto name: Config::instance()->templates()) {
+		_existing_name->add_entry(name);
+	}
 }
 
 
 void
 SaveTemplateDialog::setup_sensitivity ()
 {
-	wxButton* ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
+	auto const have_templates = !Config::instance()->templates().empty();
+	_existing->Enable(have_templates);
+	_existing_name->Enable(have_templates && _existing->GetValue());
+	_new_name->Enable(_new->GetValue());
+
+	auto ok = dynamic_cast<wxButton *>(FindWindowById(wxID_OK, this));
 	if (ok) {
-		ok->Enable (!_name->GetValue().IsEmpty());
+		ok->Enable(_default->GetValue() || (_existing->GetValue() && have_templates) || (_new->GetValue() && !_new_name->GetValue().IsEmpty()));
 	}
 }
 
 
-string
+optional<string>
 SaveTemplateDialog::name () const
 {
-	return wx_to_std (_name->GetValue ());
+	if (_default->GetValue()) {
+		return {};
+	} else if (_existing->GetValue()) {
+		DCPOMATIC_ASSERT(_existing_name->get());
+		auto index = *_existing_name->get();
+		auto templates = Config::instance()->templates();
+		DCPOMATIC_ASSERT(index < int(templates.size()));
+		return templates[index];
+	} else {
+		return wx_to_std(_new_name->GetValue());
+	}
 }
+
 
 void
 SaveTemplateDialog::check (wxCommandEvent& ev)
 {
 	bool ok = true;
 
-	if (Config::instance()->existing_template (wx_to_std (_name->GetValue ()))) {
+	if (_new->GetValue() && Config::instance()->existing_template(wx_to_std(_new_name->GetValue()))) {
 		ok = confirm_dialog (this, _("There is already a template with this name.  Do you want to overwrite it?"));
 	}
 

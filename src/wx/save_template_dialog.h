@@ -18,18 +18,26 @@
 
 */
 
+
 #include "table_dialog.h"
+
+class Choice;
+
 
 class SaveTemplateDialog : public TableDialog
 {
 public:
 	explicit SaveTemplateDialog (wxWindow* parent);
 
-	std::string name () const;
+	boost::optional<std::string> name() const;
 
 private:
 	void setup_sensitivity ();
 	void check (wxCommandEvent& ev);
 
-	wxTextCtrl* _name;
+	wxRadioButton* _default;
+	wxRadioButton* _existing;
+	Choice* _existing_name;
+	wxRadioButton* _new;
+	wxTextCtrl* _new_name;
 };

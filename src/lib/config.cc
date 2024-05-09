@@ -1385,6 +1385,13 @@ Config::set_dkdm_recipients_file(boost::filesystem::path file)
 
 
 void
+Config::save_default_template(shared_ptr<const Film> film) const
+{
+	film->write_template(write_path("default.xml"));
+}
+
+
+void
 Config::save_template (shared_ptr<const Film> film, string name) const
 {
 	film->write_template (template_write_path(name));
@@ -1416,6 +1423,18 @@ boost::filesystem::path
 Config::template_read_path (string name) const
 {
 	return read_path("templates") / tidy_for_filename (name);
+}
+
+
+boost::filesystem::path
+Config::default_template_read_path() const
+{
+	if (!boost::filesystem::exists(read_path("default.xml"))) {
+		auto film = std::make_shared<const Film>(optional<boost::filesystem::path>());
+		save_default_template(film);
+	}
+
+	return read_path("default.xml");
 }
 
 

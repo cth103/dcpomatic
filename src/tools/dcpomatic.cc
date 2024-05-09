@@ -454,12 +454,13 @@ public:
 		}
 	}
 
+	/** Make a new film in the given path, using template_name as a template
+	 *  (or the default template if it's empty).
+	 */
 	void new_film (boost::filesystem::path path, optional<string> template_name)
 	{
 		auto film = make_shared<Film>(path);
-		if (template_name) {
-			film->use_template (template_name.get());
-		}
+		film->use_template(template_name);
 		film->set_name (path.filename().generic_string());
 		film->write_metadata ();
 		set_film (film);
@@ -626,7 +627,11 @@ private:
 		SaveTemplateDialog dialog(this);
 		if (dialog.ShowModal() == wxID_OK) {
 			try {
-				Config::instance()->save_template(_film, dialog.name());
+				if (dialog.name()) {
+					Config::instance()->save_template(_film, *dialog.name());
+				} else {
+					Config::instance()->save_default_template(_film);
+				}
 			} catch (exception& e) {
 				error_dialog(this, _("Could not save template."), std_to_wx(e.what()));
 			}

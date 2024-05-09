@@ -1268,10 +1268,13 @@ public:
 	void copy_and_link (boost::filesystem::path new_file) const;
 	bool have_write_permission () const;
 
+	void save_default_template(std::shared_ptr<const Film> film) const;
 	void save_template (std::shared_ptr<const Film> film, std::string name) const;
 	bool existing_template (std::string name) const;
+	/** @return Template names (not including the default) */
 	std::vector<std::string> templates() const;
 	boost::filesystem::path template_read_path (std::string name) const;
+	boost::filesystem::path default_template_read_path() const;
 	void rename_template (std::string old_name, std::string new_name) const;
 	void delete_template (std::string name) const;
 

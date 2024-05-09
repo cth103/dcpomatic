@@ -214,6 +214,7 @@ new_test_film(string name, vector<shared_ptr<Content>> content, Cleanup* cleanup
 	}
 
 	auto film = make_shared<Film>(p);
+	film->use_template({});
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_container (Ratio::from_id ("185"));
 	film->write_metadata ();

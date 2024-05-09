@@ -153,6 +153,14 @@ int const Film::current_state_version = 38;
 
 /** Construct a Film object in a given directory.
  *
+ *  Some initial values are taken from the Config object, and usually then overwritten
+ *  by reading in the default template.  Setting up things like _dcp_content_type in
+ *  this constructor is useful so that if people configured such things in old versions
+ *  they are used when the first default template is written by Config
+ *
+ *  At some point these config entries can be removed, and this constructor could
+ *  perhaps read the default template itself.
+ *
  *  @param dir Film directory.
  */
 
@@ -1953,10 +1961,14 @@ Film::content_summary (DCPTimePeriod period) const
 }
 
 void
-Film::use_template (string name)
+Film::use_template(optional<string> name)
 {
-	_template_film.reset (new Film (optional<boost::filesystem::path>()));
-	_template_film->read_metadata (Config::instance()->template_read_path(name));
+	_template_film = std::make_shared<Film>(optional<boost::filesystem::path>());
+	if (name) {
+		_template_film->read_metadata(Config::instance()->template_read_path(*name));
+	} else {
+		_template_film->read_metadata(Config::instance()->default_template_read_path());
+	}
 	_use_isdcf_name = _template_film->_use_isdcf_name;
 	_dcp_content_type = _template_film->_dcp_content_type;
 	_container = _template_film->_container;
