@@ -77,6 +77,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 	auto A = content_factory(TestPaths::private_data() / "dolby_aurora.vob")[0];
 	auto B = content_factory(TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov")[0];
 	auto film = new_test_film("no_use_video_test2", { A, B }, &cl);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	A->set_position (film, dcpomatic::DCPTime());
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);

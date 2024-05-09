@@ -36,6 +36,7 @@ using std::dynamic_pointer_cast;
 BOOST_AUTO_TEST_CASE (remake_with_subtitle_test)
 {
 	auto film = new_test_film("remake_with_subtitle_test");
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory(TestPaths::private_data() / "prophet_short_clip.mkv")[0]);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());

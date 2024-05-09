@@ -787,10 +787,6 @@ Config::write_config () const
 
 	/* [XML] DefaultStillLength Default length (in seconds) for still images in new films. */
 	cxml::add_text_child(root, "DefaultStillLength", raw_convert<string>(_default_still_length));
-	/* [XML] DefaultJ2KVideoBitRate Default bitrate (in bits per second) for JPEG2000 data in new films. */
-	cxml::add_text_child(root, "DefaultJ2KVideoBitRate", raw_convert<string>(_default_video_bit_rate[VideoEncoding::JPEG2000]));
-	/* [XML] DefaultMPEG2VideoBitRate Default bitrate (in bits per second) for MPEG2 data in new films. */
-	cxml::add_text_child(root, "DefaultMPEG2VideoBitRate", raw_convert<string>(_default_video_bit_rate[VideoEncoding::MPEG2]));
 	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
 	cxml::add_text_child(root, "DefaultAudioDelay", raw_convert<string>(_default_audio_delay));
 	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */

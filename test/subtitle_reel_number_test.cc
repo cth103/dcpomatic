@@ -52,6 +52,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	film->set_reel_type (ReelType::BY_LENGTH);
 	film->set_interop (true);
 	film->set_reel_length (1024 * 1024 * 512);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	dcp::DCP dcp ("build/test/subtitle_reel_number_test/" + film->dcp_name());

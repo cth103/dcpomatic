@@ -146,6 +146,7 @@ BOOST_AUTO_TEST_CASE (content_test6)
 		);
 
 	film->set_audio_channels(16);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 
 	make_and_verify_dcp (film);
 	check_dcp (TestPaths::private_data() / "v2.18.x" / "fha", film);

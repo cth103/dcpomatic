@@ -794,10 +794,6 @@ public:
 		maybe_set (_dcp_j2k_comment, c);
 	}
 
-	void set_default_video_bit_rate(VideoEncoding encoding, int64_t b) {
-		maybe_set(_default_video_bit_rate[encoding], b);
-	}
-
 	void set_default_audio_delay (int d) {
 		maybe_set (_default_audio_delay, d);
 	}

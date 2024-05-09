@@ -121,7 +121,6 @@ setup_test_config ()
 	Config::instance()->set_server_encoding_threads (1);
 	Config::instance()->set_server_port_base (61921);
 	Config::instance()->set_default_audio_delay (0);
-	Config::instance()->set_default_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	Config::instance()->set_default_interop (false);
 	Config::instance()->set_default_still_length (10);
 	Config::instance()->set_log_types (
