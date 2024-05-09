@@ -814,10 +814,6 @@ public:
 		maybe_set(_default_territory, boost::optional<dcp::LanguageTag::RegionSubtag>());
 	}
 
-	void set_default_metadata (std::map<std::string, std::string> const& metadata) {
-		maybe_set (_default_metadata, metadata);
-	}
-
 	void set_upload_after_make_dcp (bool u) {
 		maybe_set (_upload_after_make_dcp, u);
 	}

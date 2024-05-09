@@ -1985,6 +1985,10 @@ Film::use_template(optional<string> name)
 	_audio_processor = _template_film->_audio_processor;
 	_reel_type = _template_film->_reel_type;
 	_reel_length = _template_film->_reel_length;
+	_chain = _template_film->_chain;
+	_distributor = _template_film->_distributor;
+	_facility = _template_film->_facility;
+	_studio = _template_film->_studio;
 }
 
 pair<double, double>

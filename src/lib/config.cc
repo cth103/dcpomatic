@@ -797,11 +797,6 @@ Config::write_config () const
 		/* [XML] DefaultTerritory Default territory to use for new films */
 		cxml::add_text_child(root, "DefaultTerritory", _default_territory->subtag());
 	}
-	for (auto const& i: _default_metadata) {
-		auto c = cxml::add_child(root, "DefaultMetadata");
-		c->set_attribute("key", i.first);
-		c->add_child_text(i.second);
-	}
 	if (_default_kdm_directory) {
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
 		cxml::add_text_child(root, "DefaultKDMDirectory", _default_kdm_directory->string ());

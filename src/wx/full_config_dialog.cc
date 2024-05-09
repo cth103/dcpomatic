@@ -329,18 +329,6 @@ private:
 		_territory = new RegionSubtagWidget(_panel, _("Default territory to use for new DCPs"), Config::instance()->default_territory(), wxString("cmnr-Hant-"));
 		table->Add(_territory->sizer());
 
-		table->Add (_enable_metadata["facility"] = new CheckBox (_panel, _("Default facility")), 0, wxALIGN_CENTRE_VERTICAL);
-		table->Add (_metadata["facility"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
-
-		table->Add (_enable_metadata["studio"] = new CheckBox (_panel, _("Default studio")), 0, wxALIGN_CENTRE_VERTICAL);
-		table->Add (_metadata["studio"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
-
-		table->Add (_enable_metadata["chain"] = new CheckBox (_panel, _("Default chain")), 0, wxALIGN_CENTRE_VERTICAL);
-		table->Add (_metadata["chain"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
-
-		table->Add (_enable_metadata["distributor"] = new CheckBox (_panel, _("Default distributor")), 0, wxALIGN_CENTRE_VERTICAL);
-		table->Add (_metadata["distributor"] = new wxTextCtrl (_panel, wxID_ANY, wxT("")), 0, wxEXPAND);
-
 		add_label_to_sizer (table, _panel, _("Default KDM directory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 #ifdef DCPOMATIC_USE_OWN_PICKER
 		_kdm_directory = new DirPickerCtrl (_panel);
@@ -382,14 +370,6 @@ private:
 		_audio_delay->SetRange (-1000, 1000);
 		_audio_delay->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::audio_delay_changed, this));
 
-		for (auto const& i: _enable_metadata) {
-			i.second->bind(&DefaultsPage::metadata_changed, this);
-		}
-
-		for (auto const& i: _metadata) {
-			i.second->Bind (wxEVT_TEXT, boost::bind(&DefaultsPage::metadata_changed, this));
-		}
-
 		_enable_audio_language->bind(&DefaultsPage::enable_audio_language_toggled, this);
 		_audio_language->Changed.connect(boost::bind(&DefaultsPage::audio_language_changed, this));
 
@@ -412,25 +392,6 @@ private:
 		auto dt = config->default_territory();
 		checked_set(_enable_territory, static_cast<bool>(dt));
 		checked_set(_territory, dt ? dt : boost::none);
-
-		auto metadata = config->default_metadata();
-
-		for (auto const& i: metadata) {
-			_enable_metadata[i.first]->SetValue(true);
-			checked_set (_metadata[i.first], i.second);
-		}
-
-		for (auto const& i: _enable_metadata) {
-			if (metadata.find(i.first) == metadata.end()) {
-				checked_set (i.second, false);
-			}
-		}
-
-		for (auto const& i: _metadata) {
-			if (metadata.find(i.first) == metadata.end()) {
-				checked_set (i.second, wxT(""));
-			}
-		}
 
 		checked_set (_kdm_duration, config->default_kdm_duration().duration);
 		switch (config->default_kdm_duration().unit) {
@@ -507,18 +468,6 @@ private:
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
 
-	void metadata_changed ()
-	{
-		map<string, string> metadata;
-		for (auto const& i: _enable_metadata) {
-			if (i.second->GetValue()) {
-				metadata[i.first] = wx_to_std(_metadata[i.first]->GetValue());
-			}
-		}
-		Config::instance()->set_default_metadata (metadata);
-		setup_sensitivity ();
-	}
-
 	void enable_audio_language_toggled()
 	{
 		setup_sensitivity();
@@ -553,9 +502,6 @@ private:
 	{
 		_audio_language->enable(_enable_audio_language->get());
 		_territory->enable(_enable_territory->get());
-		for (auto const& i: _enable_metadata) {
-			_metadata[i.first]->Enable(i.second->GetValue());
-		}
 	}
 
 	wxSpinCtrl* _audio_delay;
@@ -575,8 +521,6 @@ private:
 	LanguageTagWidget* _audio_language;
 	CheckBox* _enable_territory;
 	RegionSubtagWidget* _territory;
-	map<string, CheckBox*> _enable_metadata;
-	map<string, wxTextCtrl*> _metadata;
 };
 
 
