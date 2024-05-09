@@ -1391,14 +1391,14 @@ Config::save_template (shared_ptr<const Film> film, string name) const
 }
 
 
-list<string>
+vector<string>
 Config::templates () const
 {
 	if (!dcp::filesystem::exists(read_path("templates"))) {
 		return {};
 	}
 
-	list<string> n;
+	vector<string> n;
 	for (auto const& i: dcp::filesystem::directory_iterator(read_path("templates"))) {
 		n.push_back (i.path().filename().string());
 	}
