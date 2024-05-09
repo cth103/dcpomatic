@@ -1326,7 +1326,7 @@ Config::add_to_history_internal (vector<boost::filesystem::path>& h, boost::file
 
 	h.insert (h.begin (), p);
 	if (h.size() > HISTORY_SIZE) {
-		h.pop_back ();
+		h.resize(HISTORY_SIZE);
 	}
 
 	changed (HISTORY);
