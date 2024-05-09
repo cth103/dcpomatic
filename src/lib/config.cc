@@ -770,12 +770,6 @@ Config::write_config () const
 		/* [XML:opt] Language Language to use in the GUI e.g. <code>fr_FR</code>. */
 		cxml::add_text_child(root, "Language", _language.get());
 	}
-	if (_default_dcp_content_type) {
-		/* [XML:opt] DefaultDCPContentType Default content type to use when creating new films (<code>FTR</code>, <code>SHR</code>,
-		   <code>TLR</code>, <code>TST</code>, <code>XSN</code>, <code>RTG</code>, <code>TSR</code>, <code>POL</code>,
-		   <code>PSA</code> or <code>ADV</code>). */
-		cxml::add_text_child(root, "DefaultDCPContentType", _default_dcp_content_type->isdcf_name());
-	}
 	/* [XML] DefaultDCPAudioChannels Default number of audio channels to use when creating new films. */
 	cxml::add_text_child(root, "DefaultDCPAudioChannels", raw_convert<string>(_default_dcp_audio_channels));
 	/* [XML] DCPIssuer Issuer text to write into CPL files. */
