@@ -1272,7 +1272,6 @@ public:
 	bool existing_template (std::string name) const;
 	std::list<std::string> templates () const;
 	boost::filesystem::path template_read_path (std::string name) const;
-	boost::filesystem::path template_write_path (std::string name) const;
 	void rename_template (std::string old_name, std::string new_name) const;
 	void delete_template (std::string name) const;
 
@@ -1318,6 +1317,7 @@ private:
 	void add_to_history_internal (std::vector<boost::filesystem::path>& h, boost::filesystem::path p);
 	void clean_history_internal (std::vector<boost::filesystem::path>& h);
 	void backup ();
+	boost::filesystem::path template_write_path(std::string name) const;
 
 	/** number of threads which a master DoM should use for J2K encoding on the local machine */
 	int _master_encoding_threads;
