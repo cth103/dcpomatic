@@ -286,20 +286,3 @@ BOOST_AUTO_TEST_CASE(create_cli_template_test)
 	film = cc.make_film();
 	BOOST_CHECK(film->interop());
 }
-
-
-BOOST_AUTO_TEST_CASE(create_cli_defaults_test)
-{
-	ConfigRestorer cr;
-
-	/* I think on balance dcpomatic2_create should not use the defaults from Config;
-	 * it seems a bit surprising that settings from a GUI tool can change the behaviour of
-	 * a CLI tool, and at some point we're probably going to remove all the default config
-	 * options from the main DoM anyway (in favour of a default template).
-	 */
-	Config::instance()->set_default_interop(true);
-	auto cc = run("dcpomatic2_create test/data/flat_red.png");
-	auto film = cc.make_film();
-	BOOST_CHECK(!film->interop());
-}
-

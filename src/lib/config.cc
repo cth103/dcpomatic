@@ -789,8 +789,6 @@ Config::write_config () const
 	cxml::add_text_child(root, "DefaultStillLength", raw_convert<string>(_default_still_length));
 	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
 	cxml::add_text_child(root, "DefaultAudioDelay", raw_convert<string>(_default_audio_delay));
-	/* [XML] DefaultInterop 1 to default new films to Interop, 0 for SMPTE. */
-	cxml::add_text_child(root, "DefaultInterop", _default_interop ? "1" : "0");
 	if (_default_audio_language) {
 		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
 		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->to_string());

@@ -798,10 +798,6 @@ public:
 		maybe_set (_default_audio_delay, d);
 	}
 
-	void set_default_interop (bool i) {
-		maybe_set (_default_interop, i);
-	}
-
 	void set_default_audio_language(dcp::LanguageTag tag) {
 		maybe_set(_default_audio_language, tag);
 	}

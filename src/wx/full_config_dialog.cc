@@ -319,10 +319,6 @@ private:
 			table->Add (s, 1);
 		}
 
-		add_label_to_sizer (table, _panel, _("Default standard"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_standard = new wxChoice (_panel, wxID_ANY);
-		table->Add (_standard);
-
 		_enable_audio_language = new CheckBox(_panel, _("Default audio language"));
 		table->Add(_enable_audio_language, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
 		_audio_language = new LanguageTagWidget(_panel, _("Default audio language to use for new DCPs"), Config::instance()->default_audio_language(), wxString("cmnr-Hant-"));
@@ -386,10 +382,6 @@ private:
 		_audio_delay->SetRange (-1000, 1000);
 		_audio_delay->Bind (wxEVT_SPINCTRL, boost::bind (&DefaultsPage::audio_delay_changed, this));
 
-		_standard->Append (_("SMPTE"));
-		_standard->Append (_("Interop"));
-		_standard->Bind (wxEVT_CHOICE, boost::bind (&DefaultsPage::standard_changed, this));
-
 		for (auto const& i: _enable_metadata) {
 			i.second->bind(&DefaultsPage::metadata_changed, this);
 		}
@@ -414,7 +406,6 @@ private:
 		_kdm_type->set (config->default_kdm_type());
 		checked_set (_use_isdcf_name_by_default, config->use_isdcf_name_by_default());
 		checked_set (_audio_delay, config->default_audio_delay ());
-		checked_set (_standard, config->default_interop() ? 1 : 0);
 		auto dal = config->default_audio_language();
 		checked_set(_enable_audio_language, static_cast<bool>(dal));
 		checked_set(_audio_language, dal ? dal : boost::none);
@@ -516,11 +507,6 @@ private:
 		Config::instance()->set_default_still_length (_still_length->GetValue ());
 	}
 
-	void standard_changed ()
-	{
-		Config::instance()->set_default_interop (_standard->GetSelection() == 1);
-	}
-
 	void metadata_changed ()
 	{
 		map<string, string> metadata;
@@ -585,7 +571,6 @@ private:
 	wxSpinCtrl* _kdm_duration;
 	wxChoice* _kdm_duration_unit;
 	CheckBox* _use_isdcf_name_by_default;
-	wxChoice* _standard;
 	CheckBox* _enable_audio_language;
 	LanguageTagWidget* _audio_language;
 	CheckBox* _enable_territory;
