@@ -19,7 +19,7 @@
 */
 
 
-/** @file  test/bandwidth_test.cc
+/** @file  test/j2k_video_bit_rate_test.cc
  *  @brief Test whether we output whatever J2K bandwidth is requested.
  *  @ingroup feature
  */
