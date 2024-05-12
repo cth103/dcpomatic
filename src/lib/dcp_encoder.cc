@@ -159,5 +159,5 @@ DCPEncoder::current_rate () const
 Frame
 DCPEncoder::frames_done () const
 {
-	return _j2k_encoder.video_frames_enqueued();
+	return _player.frames_done();
 }

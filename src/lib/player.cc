@@ -688,6 +688,39 @@ Player::set_play_referenced ()
 }
 
 
+pair<shared_ptr<Piece>, optional<DCPTime>>
+Player::earliest_piece_and_time() const
+{
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+
+	shared_ptr<Piece> earliest_content;
+	optional<DCPTime> earliest_time;
+
+	for (auto const& piece: _pieces) {
+		if (piece->done) {
+			continue;
+		}
+
+		auto const t = content_time_to_dcp(piece, max(piece->decoder->position(), piece->content->trim_start()));
+		if (t > piece->content->end(film)) {
+			piece->done = true;
+		} else {
+
+			/* Given two choices at the same time, pick the one with texts so we see it before
+			   the video.
+			*/
+			if (!earliest_time || t < *earliest_time || (t == *earliest_time && !piece->decoder->text.empty())) {
+				earliest_time = t;
+				earliest_content = piece;
+			}
+		}
+	}
+
+	return { earliest_content, earliest_time };
+}
+
+
 bool
 Player::pass ()
 {
@@ -711,26 +744,7 @@ Player::pass ()
 
 	shared_ptr<Piece> earliest_content;
 	optional<DCPTime> earliest_time;
-
-	for (auto i: _pieces) {
-		if (i->done) {
-			continue;
-		}
-
-		auto const t = content_time_to_dcp (i, max(i->decoder->position(), i->content->trim_start()));
-		if (t > i->content->end(film)) {
-			i->done = true;
-		} else {
-
-			/* Given two choices at the same time, pick the one with texts so we see it before
-			   the video.
-			*/
-			if (!earliest_time || t < *earliest_time || (t == *earliest_time && !i->decoder->text.empty())) {
-				earliest_time = t;
-				earliest_content = i;
-			}
-		}
-	}
+	std::tie(earliest_content, earliest_time) = earliest_piece_and_time();
 
 	bool done = false;
 
@@ -1644,3 +1658,16 @@ Player::set_disable_audio_processor()
 	_disable_audio_processor = true;
 }
 
+
+Frame
+Player::frames_done() const
+{
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+
+	shared_ptr<Piece> earliest_content;
+	optional<DCPTime> earliest_time;
+	std::tie(earliest_content, earliest_time) = earliest_piece_and_time();
+
+	return earliest_time.get_value_or({}).frames_round(film->video_frame_rate());
+}
