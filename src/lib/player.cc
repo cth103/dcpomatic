@@ -1671,3 +1671,17 @@ Player::frames_done() const
 
 	return earliest_time.get_value_or({}).frames_round(film->video_frame_rate());
 }
+
+
+float
+Player::progress() const
+{
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+
+	shared_ptr<Piece> earliest_content;
+	optional<DCPTime> earliest_time;
+	std::tie(earliest_content, earliest_time) = earliest_piece_and_time();
+
+	return static_cast<float>(earliest_time.get_value_or({}).get()) / film->length().get();
+}
