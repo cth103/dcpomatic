@@ -840,6 +840,8 @@ audio_channel_types (list<int> mapped, int channels)
 		case dcp::Channel::BSR:
 			++non_lfe;
 			break;
+		case dcp::Channel::LC:
+		case dcp::Channel::RC:
 		case dcp::Channel::HI:
 		case dcp::Channel::VI:
 		case dcp::Channel::MOTION_DATA:
