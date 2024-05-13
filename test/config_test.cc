@@ -532,3 +532,44 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_ignore)
 	auto cinemas = cinema_list.cinemas();
 	BOOST_CHECK(!cinemas.empty());
 }
+
+
+BOOST_AUTO_TEST_CASE(use_sqlite_if_present)
+{
+	ConfigRestorer cr;
+
+	/* Set up a config with an XML cinemas file */
+	boost::filesystem::path dir = "build/test/read_cinemas_xml_and_write_sqlite";
+	boost::filesystem::remove_all(dir);
+	boost::filesystem::create_directories(dir);
+	boost::filesystem::create_directories(dir / "2.18");
+
+	boost::filesystem::copy_file("test/data/cinemas.xml", dir / "cinemas.xml");
+	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "2.18" / "config.xml");
+	{
+		Editor editor(dir / "2.18" / "config.xml");
+		editor.replace(
+			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			boost::filesystem::canonical(dir / "cinemas.xml").string()
+			);
+	}
+
+	Config::override_path = dir;
+	Config::drop();
+
+	/* This should make a sqlite3 file containing the recipients from cinemas.xml.
+	 * But it won't write config.xml, so config.xml will still point to cinemas.xml.
+	 * This also happens in real life - but I'm not sure how (perhaps just when DoM is
+	 * loaded but doesn't save the config, and then another tool is loaded).
+	 */
+	Config::instance();
+
+	BOOST_CHECK(boost::filesystem::exists(dir / "cinemas.sqlite3"));
+
+	Config::drop();
+
+	BOOST_CHECK(Config::instance()->cinemas_file() == boost::filesystem::canonical(dir / "cinemas.sqlite3"));
+}
+
+
+
