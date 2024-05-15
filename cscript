@@ -928,7 +928,8 @@ def test(target, options, test):
         cmd = 'run/tests '
     if target.environment_prefix:
         cmd += '-e %s ' % target.environment_prefix
-    cmd += ' --check --log_level=test_suite '
+    if target.platform != 'windows':
+        cmd += ' --check --log_level=test_suite '
     if target.debug:
         cmd += '--backtrace '
     if test is not None:
