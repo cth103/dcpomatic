@@ -124,7 +124,14 @@ DCPFilmEncoder::go()
 		_writer.write(_player.get_subtitle_fonts());
 	}
 
-	while (!_player.pass()) {}
+	int passes = 0;
+	while (!_player.pass()) {
+		if ((++passes % 8) == 0) {
+			auto job = _job.lock();
+			DCPOMATIC_ASSERT(job);
+			job->set_progress(_player.progress());
+		}
+	}
 
 	for (auto i: get_referenced_reel_assets(_film, _film->playlist())) {
 		_writer.write(i);
@@ -159,10 +166,6 @@ void
 DCPFilmEncoder::audio(shared_ptr<AudioBuffers> data, DCPTime time)
 {
 	_writer.write(data, time);
-
-	auto job = _job.lock ();
-	DCPOMATIC_ASSERT (job);
-	job->set_progress (float(time.get()) / _film->length().get());
 }
 
 void
@@ -190,5 +193,5 @@ DCPFilmEncoder::current_rate() const
 Frame
 DCPFilmEncoder::frames_done() const
 {
-	return _encoder->video_frames_enqueued();
+	return _player.frames_done();
 }

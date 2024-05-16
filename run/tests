@@ -8,12 +8,52 @@ PRIVATE_GIT="881c48805e352dfe150993814757ca974282be18"
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $DIR/environment
 
-if [ "$1" == "--check" ]; then
-    shift 1
-    check=1
-else
-    check=0
-fi
+type=""
+check=0
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -e)
+        environment=$2
+        shift
+        shift
+        ;;
+        --debug)
+        type="debug"
+        shift
+        ;;
+        --backtrace)
+        type="backtrace"
+        shift
+        ;;
+        --valgrind)
+        type="valgrind"
+        shift
+        ;;
+        --callgrind)
+        type="callgrind"
+        shift
+        ;;
+        --quiet)
+        type="quiet"
+        shift
+        ;;
+        --drd)
+        type="drd"
+        shift
+        ;;
+        --helgrind)
+        type="helgrind"
+        shift
+        ;;
+        --check)
+        check=1
+        shift
+        ;;
+        *)
+        break
+        ;;
+    esac
+done
 
 if [ "$(uname)" == "Linux" ]; then 
     rm -f build/test/dcpomatic2_openssl
@@ -62,27 +102,20 @@ if [ "$check" == "1" ]; then
     popd
 fi
 
-if [ "$1" == "--debug" ]; then
-    shift;
+if [ "$type" == "debug" ]; then
     gdb --args build/test/unit-tests --catch_system_errors=no --log_level=test_suite $*
-elif [ "$1" == "--backtrace" ]; then
-    shift;
+elif [ "$type" == "backtrace" ]; then
     gdb -batch -ex "run" -ex "thread apply all bt" -return-child-result --args build/test/unit-tests --catch_system_errors=yes $*
-elif [ "$1" == "--valgrind" ]; then
-    shift;
+elif [ "$type" == "valgrind" ]; then
 #    valgrind --tool="memcheck" --vgdb=yes --vgdb-error=0 build/test/unit-tests $*
     valgrind --tool="memcheck" --suppressions=suppressions build/test/unit-tests $*
-elif [ "$1" == "--callgrind" ]; then
-    shift;
+elif [ "$type" == "callgrind" ]; then
     valgrind --tool="callgrind" build/test/unit-tests $*
-elif [ "$1" == "--quiet" ]; then
-    shift;
+elif [ "$type" == "quiet" ]; then
     build/test/unit-tests --catch_system_errors=no $*
-elif [ "$1" == "--drd" ]; then
-    shift;
+elif [ "$type" == "drd" ]; then
     valgrind --tool="drd" build/test/unit-tests $*
-elif [ "$1" == "--helgrind" ]; then
-    shift;
+elif [ "$type" == "helgrind" ]; then
     valgrind --tool="helgrind" build/test/unit-tests $*
 else
     ulimit -c unlimited

@@ -90,6 +90,8 @@ public:
 
 	bool pass ();
 	void seek (dcpomatic::DCPTime time, bool accurate);
+	Frame frames_done() const;
+	float progress() const;
 
 	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts ();
 
@@ -157,6 +159,7 @@ private:
 	std::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
 	void emit_video_until(dcpomatic::DCPTime time);
 	void insert_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time, dcpomatic::DCPTime end);
+	std::pair<std::shared_ptr<Piece>, boost::optional<dcpomatic::DCPTime>> earliest_piece_and_time() const;
 
 	void video (std::weak_ptr<Piece>, ContentVideo);
 	void audio (std::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);

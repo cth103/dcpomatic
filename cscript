@@ -533,7 +533,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
 
 def dependencies(target, options):
-    deps = [('libdcp', '9b9af8a80860210c6a29446f7a24795eeda9e7bc', {'c++17': target.platform == 'osx'})]
+    deps = [('libdcp', 'v1.9.7', {'c++17': target.platform == 'osx'})]
     deps.append(('libsub', 'v1.6.47'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
@@ -935,7 +935,11 @@ def test(target, options, test):
     if target.platform == 'windows':
         cmd = 'run\\tests '
     else:
-        cmd = 'run/tests --check --log_level=test_suite '
+        cmd = 'run/tests '
+    if target.environment_prefix:
+        cmd += '-e %s ' % target.environment_prefix
+    if target.platform != 'windows':
+        cmd += ' --check --log_level=test_suite '
     if target.debug:
         cmd += '--backtrace '
     if test is not None:

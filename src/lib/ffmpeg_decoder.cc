@@ -89,7 +89,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 		_pts_offset = {};
 	}
 
-	if (c->audio) {
+	if (c->audio && !c->audio->mapping().mapped_output_channels().empty()) {
 		audio = make_shared<AudioDecoder>(this, c->audio, fast);
 	}
 
@@ -239,7 +239,7 @@ FFmpegDecoder::pass ()
 		decode_and_process_video_packet (packet);
 	} else if (fc->subtitle_stream() && fc->subtitle_stream()->uses_index(_format_context, si) && !only_text()->ignore()) {
 		decode_and_process_subtitle_packet (packet);
-	} else {
+	} else if (audio) {
 		decode_and_process_audio_packet (packet);
 	}
 
