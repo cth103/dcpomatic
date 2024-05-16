@@ -314,7 +314,7 @@ BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 	{
 		Editor editor(dir / "2.18" / "config.xml");
 		editor.replace(
-			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			"/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 			boost::filesystem::canonical(dir / "cinemas.xml").string()
 			);
 	}
@@ -485,7 +485,7 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_zip)
 		"config.xml",
 		boost::algorithm::replace_all_copy(
 			dcp::file_to_string("test/data/2.18.config.xml"),
-			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			"/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 			"build/test/hide/it/here/cinemas.sqlite3"
 			)
 		);
@@ -509,6 +509,9 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_ignore)
 {
 	ConfigRestorer cr;
 
+	CinemaList cinema_list("build/test/hide/it/here/cinemas.sqlite3");
+	cinema_list.add_cinema(Cinema("Foo", {}, "Bar", dcp::UTCOffset()));
+
 	boost::filesystem::path const zip = "build/test/load.zip";
 	boost::system::error_code ec;
 	boost::filesystem::remove(zip, ec);
@@ -528,7 +531,6 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_ignore)
 
 	Config::instance()->load_from_zip(zip, Config::CinemasAction::IGNORE);
 
-	CinemaList cinema_list("build/test/hide/it/here/cinemas.sqlite3");
 	auto cinemas = cinema_list.cinemas();
 	BOOST_CHECK(!cinemas.empty());
 }
@@ -549,7 +551,7 @@ BOOST_AUTO_TEST_CASE(use_sqlite_if_present)
 	{
 		Editor editor(dir / "2.18" / "config.xml");
 		editor.replace(
-			"/home/realldoesnt/exist/this/path/is/nonsense.xml",
+			"/home/realldoesnt/exist/this/path/is/nonsense.sqlite3",
 			boost::filesystem::canonical(dir / "cinemas.xml").string()
 			);
 	}
