@@ -30,6 +30,7 @@
 #include "lib/butler.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/constants.h"
 #include "lib/content_factory.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
@@ -708,5 +709,23 @@ BOOST_AUTO_TEST_CASE(three_d_in_two_d_chooses_left)
 
 	BOOST_CHECK(film->length() == DCPTime::from_seconds(20));
 	while (!player->pass()) {}
+}
+
+
+BOOST_AUTO_TEST_CASE(unmapped_audio_does_not_raise_buffer_error)
+{
+	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv")[0];
+	auto film = new_test_film2("unmapped_audio_does_not_raise_buffer_error", { content });
+
+	content->audio->set_mapping(AudioMapping(6 * 2, MAX_DCP_AUDIO_CHANNELS));
+
+	Player player(film, Image::Alignment::COMPACT);
+	Butler butler(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+
+	/* Wait for the butler thread to run for a while; in the case under test it will throw an exception because
+	 * the video buffers are filled but no audio comes.
+	 */
+	dcpomatic_sleep_seconds(10);
+	butler.rethrow();
 }
 
