@@ -77,7 +77,7 @@ DCPDecoder::DCPDecoder (shared_ptr<const Film> film, shared_ptr<const DCPContent
 		if (content->video) {
 			video = make_shared<VideoDecoder>(this, content);
 		}
-		if (content->audio) {
+		if (content->audio && !content->audio->mapping().mapped_output_channels().empty()) {
 			audio = make_shared<AudioDecoder>(this, content->audio, fast);
 		}
 		for (auto i: content->text) {
