@@ -18,6 +18,8 @@
 
 */
 
+
+#include "window_metrics.h"
 #include "lib/content_text.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -25,9 +27,11 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 
+
 class Decoder;
 class FilmViewer;
 class Film;
+
 
 class TextView : public wxDialog
 {
@@ -41,10 +45,14 @@ public:
 		FilmViewer& viewer
 		);
 
+	void show();
+
 private:
 	void data_start (ContentStringText cts);
 	void data_stop (dcpomatic::ContentTime time);
 	void subtitle_selected (wxListEvent &);
+	void moved(wxMoveEvent& ev);
+	void list_sized(wxSizeEvent& ev);
 
 	wxListCtrl* _list;
 	int _subs;
@@ -53,4 +61,6 @@ private:
 	std::vector<dcpomatic::ContentTime> _start_times;
 	std::weak_ptr<Content> _content;
 	FilmViewer& _film_viewer;
+
+	static WindowMetrics _metrics;
 };

@@ -186,6 +186,7 @@ sources = """
           video_view.cc
           video_waveform_dialog.cc
           video_waveform_plot.cc
+          window_metrics.cc
           wx_signal_manager.cc
           wx_util.cc
           wx_variant.cc

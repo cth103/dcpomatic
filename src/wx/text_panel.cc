@@ -712,7 +712,7 @@ TextPanel::text_view_clicked ()
 
 	if (decoder) {
 		_text_view.reset(this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
-		_text_view->Show ();
+		_text_view->show();
 	}
 }
 

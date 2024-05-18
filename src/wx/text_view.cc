@@ -42,14 +42,17 @@ using namespace boost::placeholders;
 #endif
 
 
+WindowMetrics TextView::_metrics;
+
+
 TextView::TextView (
 	wxWindow* parent, shared_ptr<Film> film, shared_ptr<Content> content, shared_ptr<TextContent> text, shared_ptr<Decoder> decoder, FilmViewer& viewer
 	)
-	: wxDialog (parent, wxID_ANY, _("Captions"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
+	: wxDialog(parent, wxID_ANY, _("Captions"), _metrics.position, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 	, _content (content)
 	, _film_viewer (viewer)
 {
-	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL);
+	_list = new wxListCtrl(this, wxID_ANY, wxDefaultPosition, _metrics.size, wxLC_REPORT | wxLC_SINGLE_SEL);
 
 	{
 		wxListItem ip;
@@ -104,8 +107,33 @@ TextView::TextView (
 	}
 	while (!decoder->pass ()) {}
 	SetSizerAndFit (sizer);
+
+	_list->Bind(wxEVT_SIZE, boost::bind(&TextView::list_sized, this, _1));
+	Bind(wxEVT_MOVE, boost::bind(&TextView::moved, this, _1));
 }
 
+
+void
+TextView::list_sized(wxSizeEvent& ev)
+{
+	_metrics.size = ev.GetSize();
+	ev.Skip();
+}
+
+
+void
+TextView::moved(wxMoveEvent& ev)
+{
+	_metrics.position = ClientToScreen({0, 0});
+	ev.Skip();
+}
+
+
+void
+TextView::show()
+{
+	_metrics.show(this);
+}
 
 void
 TextView::data_start (ContentStringText cts)
