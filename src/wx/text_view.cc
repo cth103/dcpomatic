@@ -175,6 +175,6 @@ TextView::subtitle_selected (wxListEvent& ev)
 	DCPOMATIC_ASSERT (ev.GetIndex() < int(_start_times.size()));
 	auto lc = _content.lock ();
 	DCPOMATIC_ASSERT (lc);
-	/* Add on a frame here to work around any rounding errors and make sure land in the subtitle */
+	/* Add on a frame here to work around any rounding errors and make sure we land in the subtitle */
 	_film_viewer.seek(lc, _start_times[ev.GetIndex()] + ContentTime::from_frames(1, _frc->source), true);
 }
