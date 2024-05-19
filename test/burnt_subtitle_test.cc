@@ -68,8 +68,10 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 		{ dcp::VerificationNote::Code::MISSING_CPL_METADATA }
 		);
 
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS)
 	check_dcp("test/data/windows/burnt_subtitle_test_subrip", film);
+#elif defined(DCPOMATIC_OSX)
+	check_dcp("test/data/mac/burnt_subtitle_test_subrip", film);
 #else
 	check_dcp("test/data/burnt_subtitle_test_subrip", film);
 #endif
@@ -129,8 +131,10 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 	BOOST_CHECK_EQUAL (xyz->size().width, 1998);
 	BOOST_CHECK_EQUAL (xyz->size().height, 1080);
 
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS)
 	check_dcp("test/data/windows/burnt_subtitle_test_onto_dcp2", film2);
+#elif defined(DCPOMATIC_OSX)
+	check_dcp("test/data/mac/burnt_subtitle_test_onto_dcp2", film2);
 #else
 	check_dcp("test/data/burnt_subtitle_test_onto_dcp2", film2);
 #endif
@@ -156,8 +160,10 @@ BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
 				dcp::VerificationNote::Code::MISSING_CPL_METADATA
 			});
 
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS)
 		check_dcp(String::compose("test/data/windows/%1", name), film);
+#elif defined(DCPOMATIC_OSX)
+		check_dcp(String::compose("test/data/mac/%1", name), film);
 #else
 		check_dcp(String::compose("test/data/%1", name), film);
 #endif

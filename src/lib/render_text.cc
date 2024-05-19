@@ -72,6 +72,16 @@ create_layout(string font_name, string markup)
 	DCPOMATIC_ASSERT (c_font_map);
 	auto font_map = Glib::wrap (c_font_map);
 	auto c_context = pango_font_map_create_context (c_font_map);
+
+	cairo_font_options_t *options = cairo_font_options_create();
+	/* CAIRO_ANTIALIAS_BEST is totally broken here: see e.g.
+	 * https://gitlab.freedesktop.org/cairo/cairo/-/issues/152
+	 */
+	cairo_font_options_set_antialias(options, CAIRO_ANTIALIAS_GOOD);
+	cairo_font_options_set_hint_style(options, CAIRO_HINT_STYLE_FULL);
+	pango_cairo_context_set_font_options(c_context, options);
+	cairo_font_options_destroy(options);
+
 	DCPOMATIC_ASSERT (c_context);
 	auto context = Glib::wrap (c_context);
 	auto layout = Pango::Layout::create(context);
@@ -430,17 +440,8 @@ render_line(vector<StringText> subtitles, dcp::Size target, DCPTime time, int fr
 	}
 
 	/* The actual subtitle */
-
-	set_source_rgba (context, first.colour(), fade_factor);
-
 	context->move_to (x_offset, y_offset);
-	layout.pango->add_to_cairo_context (context);
-	context->fill ();
-
-	context->set_line_width (0.5);
-	context->move_to (x_offset, y_offset);
-	layout.pango->add_to_cairo_context (context);
-	context->stroke ();
+	layout.pango->show_in_cairo_context(context);
 
 	int const x = x_position(first.h_align(), first.h_position(), target.width, layout.size.width);
 	int const y = y_position(first.valign_standard, first.v_align(), first.v_position(), target.height, layout.baseline_to_bottom(border_width), layout.size.height);
