@@ -731,7 +731,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 	/// TRANSLATORS: this string will follow "Cannot reference this DCP: "
 	return can_reference(
 		film, [](shared_ptr<const Content> c) {
-			return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
+			return c->has_mapped_audio();
 		},
 		_("it overlaps other audio content; remove the other content."),
 		why_not

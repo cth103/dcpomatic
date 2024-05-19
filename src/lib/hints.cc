@@ -698,7 +698,7 @@ Hints::check_audio_language ()
 	auto content = film()->content();
 	auto mapped_audio =
 		std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> c) {
-			return c->audio && !c->audio->mapping().mapped_output_channels().empty();
+			return c->has_mapped_audio();
 		});
 
 	if (mapped_audio != content.end() && !film()->audio_language()) {

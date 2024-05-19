@@ -89,7 +89,7 @@ FFmpegDecoder::FFmpegDecoder (shared_ptr<const Film> film, shared_ptr<const FFmp
 		_pts_offset = {};
 	}
 
-	if (c->audio && !c->audio->mapping().mapped_output_channels().empty()) {
+	if (c->has_mapped_audio()) {
 		audio = make_shared<AudioDecoder>(this, c->audio, fast);
 	}
 

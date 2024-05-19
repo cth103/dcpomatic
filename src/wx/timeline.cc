@@ -315,7 +315,7 @@ Timeline::recreate_views ()
 			_views.push_back (make_shared<TimelineVideoContentView>(*this, i));
 		}
 
-		if (i->audio && !i->audio->mapping().mapped_output_channels().empty ()) {
+		if (i->has_mapped_audio()) {
 			_views.push_back (make_shared<TimelineAudioContentView>(*this, i));
 		}
 

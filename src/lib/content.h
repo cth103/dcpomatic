@@ -203,6 +203,8 @@ public:
 		return true;
 	}
 
+	bool has_mapped_audio() const;
+
 	/* ChangeType::PENDING and ChangeType::CANCELLED may be emitted from any thread; ChangeType::DONE always from GUI thread */
 	boost::signals2::signal<void (ChangeType, std::weak_ptr<Content>, int, bool)> Change;
 

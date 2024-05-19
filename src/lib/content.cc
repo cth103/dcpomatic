@@ -570,3 +570,11 @@ Content::changed () const
 
 	return (write_time_changed || calculate_digest() != digest());
 }
+
+
+bool
+Content::has_mapped_audio() const
+{
+	return audio && !audio->mapping().mapped_output_channels().empty();
+}
+
