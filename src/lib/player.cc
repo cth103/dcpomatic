@@ -369,7 +369,7 @@ Player::setup_pieces ()
 
 	_stream_states.clear ();
 	for (auto i: _pieces) {
-		if (i->content->audio) {
+		if (i->content->has_mapped_audio()) {
 			for (auto j: i->content->audio->streams()) {
 				_stream_states[j] = StreamState(i);
 			}
