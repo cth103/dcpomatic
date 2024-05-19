@@ -52,7 +52,7 @@ void
 RememberedAsset::as_xml(xmlpp::Element* parent) const
 {
 	cxml::add_text_child(parent, "Filename", _filename.string());
-	auto period_node = parent->add_child("Period");
+	auto period_node = cxml::add_child(parent, "Period");
 	cxml::add_text_child(period_node, "From", dcp::raw_convert<string>(_period.from.get()));
 	cxml::add_text_child(period_node, "To", dcp::raw_convert<string>(_period.to.get()));
 	cxml::add_text_child(parent, "Identifier", _identifier);
