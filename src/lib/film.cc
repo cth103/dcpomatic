@@ -2391,7 +2391,7 @@ Film::write_remembered_assets(vector<RememberedAsset> const& assets) const
 	auto root = doc->create_root_node("Assets");
 
 	for (auto asset: assets) {
-		asset.as_xml(root->add_child("Asset"));
+		asset.as_xml(cxml::add_child(root, "Asset"));
 	}
 
 	try {
