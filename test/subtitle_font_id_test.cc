@@ -41,7 +41,7 @@ using std::make_shared;
 BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
 {
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	auto film = new_test_film2("full_dcp_subtitle_font_id_test", { dcp });
+	auto film = new_test_film("full_dcp_subtitle_font_id_test", { dcp });
 
 	auto content = film->content();
 	BOOST_REQUIRE_EQUAL(content.size(), 1U);
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
 BOOST_AUTO_TEST_CASE(dcp_subtitle_font_id_test)
 {
 	auto subs = content_factory(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV" / "8b48f6ae-c74b-4b80-b994-a8236bbbad74_sub.mxf");
-	auto film = new_test_film2("dcp_subtitle_font_id_test", subs);
+	auto film = new_test_film("dcp_subtitle_font_id_test", subs);
 
 	auto content = film->content();
 	BOOST_REQUIRE_EQUAL(content.size(), 1U);
@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_CASE(dcp_subtitle_font_id_test)
 BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_interop_dcp)
 {
 	auto dcp = make_shared<DCPContent>("test/data/Iopsubs_FTR-1_F_XX-XX_MOS_2K_20220710_IOP_OV");
-	auto film = new_test_film2("make_dcp_with_subs_from_interop_dcp", { dcp });
+	auto film = new_test_film("make_dcp_with_subs_from_interop_dcp", { dcp });
 	dcp->text.front()->set_use(true);
 	make_and_verify_dcp(
 		film,
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_smpte_dcp)
 	Cleanup cl;
 
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	auto film = new_test_film2("make_dcp_with_subs_from_smpte_dcp", { dcp }, &cl);
+	auto film = new_test_film("make_dcp_with_subs_from_smpte_dcp", { dcp }, &cl);
 	dcp->text.front()->set_use(true);
 	make_and_verify_dcp(film);
 
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_smpte_dcp)
 BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_mkv)
 {
 	auto subs = content_factory(TestPaths::private_data() / "clapperboard_with_subs.mkv");
-	auto film = new_test_film2("make_dcp_with_subs_from_mkv", subs);
+	auto film = new_test_film("make_dcp_with_subs_from_mkv", subs);
 	subs[0]->text.front()->set_use(true);
 	subs[0]->text.front()->set_language(dcp::LanguageTag("en"));
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_from_mkv)
 BOOST_AUTO_TEST_CASE(make_dcp_with_subs_without_font_tag)
 {
 	auto subs = content_factory("test/data/no_font.xml");
-	auto film = new_test_film2("make_dcp_with_subs_without_font_tag", { subs });
+	auto film = new_test_film("make_dcp_with_subs_without_font_tag", { subs });
 	subs[0]->text.front()->set_use(true);
 	subs[0]->text.front()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 {
 	/* Make a DCP with some subs in */
 	auto source_subs = content_factory("test/data/short.srt");
-	auto source = new_test_film2("make_dcp_with_subs_in_dcp_without_font_tag_source", { source_subs });
+	auto source = new_test_film("make_dcp_with_subs_in_dcp_without_font_tag_source", { source_subs });
 	source->set_interop(true);
 	source_subs[0]->only_text()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(
@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 
 	/* Now make a project which imports that DCP and makes another DCP from it */
 	auto dcp_content = make_shared<DCPContent>(source->dir(source->dcp_name()));
-	auto film = new_test_film2("make_dcp_with_subs_without_font_tag", { dcp_content });
+	auto film = new_test_film("make_dcp_with_subs_without_font_tag", { dcp_content });
 	BOOST_REQUIRE(!dcp_content->text.empty());
 	dcp_content->text.front()->set_use(true);
 	make_and_verify_dcp(
@@ -203,7 +203,7 @@ BOOST_AUTO_TEST_CASE(filler_subtitle_reels_have_load_font_tags)
 	auto video1 = content_factory("test/data/flat_red.png")[0];
 	auto video2 = content_factory("test/data/flat_red.png")[0];
 
-	auto film = new_test_film2(name, { video1, video2, subs });
+	auto film = new_test_film(name, { video1, video2, subs });
 	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 
 	make_and_verify_dcp(
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE(subtitle_with_no_font_test)
 	auto video2 = content_factory("test/data/flat_red.png")[0];
 	auto subs = content_factory("test/data/short.srt")[0];
 
-	auto bad_film = new_test_film2(name_base + "_bad", { video1, video2, subs });
+	auto bad_film = new_test_film(name_base + "_bad", { video1, video2, subs });
 	bad_film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	video2->set_position(bad_film, video1->end(bad_film));
 	subs->set_position(bad_film, video1->end(bad_film));
@@ -258,7 +258,7 @@ BOOST_AUTO_TEST_CASE(subtitle_with_no_font_test)
 	BOOST_REQUIRE_EQUAL(check_subs->subtitles().size(), 1U);
 	BOOST_CHECK(!std::dynamic_pointer_cast<const dcp::SubtitleString>(check_subs->subtitles()[0])->font().has_value());
 
-	auto check_film = new_test_film2(name_base + "_check", { make_shared<DCPContent>(bad_film->dir(bad_film->dcp_name())) });
+	auto check_film = new_test_film(name_base + "_check", { make_shared<DCPContent>(bad_film->dir(bad_film->dcp_name())) });
 	make_and_verify_dcp(check_film);
 }
 
@@ -266,14 +266,14 @@ BOOST_AUTO_TEST_CASE(subtitle_with_no_font_test)
 BOOST_AUTO_TEST_CASE(load_dcp_with_empty_font_id_test)
 {
 	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "kr_vf");
-	auto film = new_test_film2("load_dcp_with_empty_font_id_test", { dcp });
+	auto film = new_test_film("load_dcp_with_empty_font_id_test", { dcp });
 }
 
 
 BOOST_AUTO_TEST_CASE(use_first_loadfont_as_default)
 {
 	auto dcp = std::make_shared<DCPContent>("test/data/use_default_font");
-	auto film = new_test_film2("use_first_loadfont_as_default", { dcp });
+	auto film = new_test_film("use_first_loadfont_as_default", { dcp });
 	dcp->only_text()->set_use(true);
 	dcp->only_text()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(
@@ -297,7 +297,7 @@ BOOST_AUTO_TEST_CASE(use_first_loadfont_as_default)
 BOOST_AUTO_TEST_CASE(no_error_with_ccap_that_mentions_no_font)
 {
 	auto dcp = make_shared<DCPContent>("test/data/ccap_only");
-	auto film = new_test_film2("no_error_with_ccap_that_mentions_no_font", { dcp });
+	auto film = new_test_film("no_error_with_ccap_that_mentions_no_font", { dcp });
 	auto player = Player(film, film->playlist());
 	while (!player.pass()) {}
 }

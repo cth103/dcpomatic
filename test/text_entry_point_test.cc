@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(test_text_entry_point)
 
 	/* Make a film and add the bad DCP, so that the examiner spots the problem */
 	auto dcp_content = make_shared<DCPContent>(path / "dcp");
-	auto film = new_test_film2("test_text_entry_point/film", { dcp_content });
+	auto film = new_test_film("test_text_entry_point/film", { dcp_content });
 	film->write_metadata();
 
 	/* Reload the film to check that the examiner's output is saved and recovered */

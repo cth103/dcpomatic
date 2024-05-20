@@ -81,7 +81,7 @@ test (boost::filesystem::path file, vector<ContentTime> times)
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
 	auto content = make_shared<FFmpegContent>(path);
-	auto film = new_test_film2("ffmpeg_decoder_seek_test_" + file.string(), { content });
+	auto film = new_test_film("ffmpeg_decoder_seek_test_" + file.string(), { content });
 	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
 	decoder->video->Data.connect (bind (&store, _1));
 

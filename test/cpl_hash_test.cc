@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 	using namespace boost::filesystem;
 
 	string const ov_name = "hash_added_to_imported_dcp_test_ov";
-	auto ov = new_test_film2(
+	auto ov = new_test_film(
 		ov_name,
 		content_factory("test/data/flat_red.png")
 		);
@@ -70,7 +70,7 @@ BOOST_AUTO_TEST_CASE (hash_added_to_imported_dcp_test)
 
 	string const vf_name = "hash_added_to_imported_dcp_test_vf";
 	auto ov_content = make_shared<DCPContent>(String::compose("build/test/%1/%2", ov_name, ov->dcp_name()));
-	auto vf = new_test_film2 (
+	auto vf = new_test_film(
 		vf_name, { ov_content }
 		);
 

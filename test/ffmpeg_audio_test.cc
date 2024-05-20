@@ -52,7 +52,7 @@ using std::string;
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 {
 	auto c = make_shared<FFmpegContent> ("test/data/staircase.mov");
-	auto film = new_test_film2("ffmpeg_audio_test", { c });
+	auto film = new_test_film("ffmpeg_audio_test", { c });
 
 	int constexpr audio_channels = 6;
 
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 /** Decode a file containing truehd so we can profile it; this is with the player set to normal */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 {
-	auto film = new_test_film2 ("ffmpeg_audio_test2");
+	auto film = new_test_film("ffmpeg_audio_test2");
 	auto content = content_factory(TestPaths::private_data() / "wayne.mkv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test2)
 /** Decode a file containing truehd so we can profile it; this is with the player set to fast */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 {
-	auto film = new_test_film2 ("ffmpeg_audio_test3");
+	auto film = new_test_film("ffmpeg_audio_test3");
 	auto content = content_factory(TestPaths::private_data() / "wayne.mkv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test3)
 /** Decode a file whose audio previously crashed DCP-o-matic (#1857) */
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test4)
 {
-	auto film = new_test_film2 ("ffmpeg_audio_test4");
+	auto film = new_test_film("ffmpeg_audio_test4");
 	auto content = content_factory(TestPaths::private_data() / "Actuellement aout 2020.wmv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs ());

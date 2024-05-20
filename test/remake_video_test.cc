@@ -41,7 +41,7 @@ using std::vector;
 BOOST_AUTO_TEST_CASE(remake_video_after_yub_rgb_matrix_changed)
 {
 	auto content = content_factory("test/data/rgb_grey_testcard.mp4")[0];
-	auto film = new_test_film2("remake_video_after_yub_rgb_matrix_changed", { content });
+	auto film = new_test_film("remake_video_after_yub_rgb_matrix_changed", { content });
 
 	auto conversion = content->video->colour_conversion();
 	BOOST_REQUIRE(static_cast<bool>(conversion));

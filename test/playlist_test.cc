@@ -39,7 +39,7 @@ setup(vector<shared_ptr<Content>>& content, vector<dcpomatic::DCPTime>& position
 		content.push_back(content_factory("test/data/flat_red.png")[0]);
 	}
 
-	auto film = new_test_film2("playlist_move_later_test", content);
+	auto film = new_test_film("playlist_move_later_test", content);
 
 	for (auto i: content) {
 		positions.push_back(i->position());

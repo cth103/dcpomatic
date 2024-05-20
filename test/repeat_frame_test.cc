@@ -43,7 +43,7 @@ using std::make_shared;
 BOOST_AUTO_TEST_CASE (repeat_frame_test)
 {
 	auto c = make_shared<FFmpegContent>("test/data/red_24.mp4");
-	auto film = new_test_film2 ("repeat_frame_test", {c});
+	auto film = new_test_film("repeat_frame_test", {c});
 	film->set_interop (false);
 	c->video->set_custom_ratio (1.85);
 

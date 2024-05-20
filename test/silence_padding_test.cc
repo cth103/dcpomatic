@@ -50,7 +50,7 @@ static void
 test_silence_padding(int channels, dcp::Standard standard)
 {
 	string const film_name = "silence_padding_test_" + lexical_cast<string> (channels);
-	auto film = new_test_film2 (
+	auto film = new_test_film(
 		film_name,
 		{
 			make_shared<FFmpegContent>("test/data/flat_red.png"),
@@ -134,7 +134,7 @@ BOOST_AUTO_TEST_CASE (silence_padding_test2)
 	Cleanup cl;
 
 	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "cars.mov");
-	auto film = new_test_film2 ("silence_padding_test2", { content }, &cl);
+	auto film = new_test_film("silence_padding_test2", { content }, &cl);
 
 	film->set_video_frame_rate (24);
 	content->set_trim_start(film, dcpomatic::ContentTime(4003));

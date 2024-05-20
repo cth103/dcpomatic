@@ -39,7 +39,7 @@
 BOOST_AUTO_TEST_CASE (check_exception_during_flush)
 {
 	auto content = content_factory(TestPaths::private_data() / "3d_thx_broadway_2010_lossless.m2ts");
-	auto film = new_test_film2 ("check_exception_during_flush", content);
+	auto film = new_test_film("check_exception_during_flush", content);
 
 	content[0]->set_trim_start(film, dcpomatic::ContentTime(2310308));
 	content[0]->set_trim_end(dcpomatic::ContentTime(116020));
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (check_exception_during_flush)
 BOOST_AUTO_TEST_CASE (check_exception_with_multiple_video_frames_per_packet)
 {
 	auto content = content_factory(TestPaths::private_data() / "chk.mkv")[0];
-	auto film = new_test_film2 ("check_exception_with_multiple_video_frames_per_packet", { content });
+	auto film = new_test_film("check_exception_with_multiple_video_frames_per_packet", { content });
 	auto player = std::make_shared<Player>(film, film->playlist());
 
 	while (!player->pass()) {}

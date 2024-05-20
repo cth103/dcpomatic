@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_serialisation_test)
 BOOST_AUTO_TEST_CASE (audio_analysis_test)
 {
 	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "betty_L.wav");
-	auto film = new_test_film2("audio_analysis_test", { c });
+	auto film = new_test_film("audio_analysis_test", { c });
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
 	JobManager::instance()->add (job);
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test)
 BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 {
 	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
-	auto film = new_test_film2("audio_analysis_negative_delay_test", { c });
+	auto film = new_test_film("audio_analysis_negative_delay_test", { c });
 	c->audio->set_delay (-250);
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_negative_delay_test)
 BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 {
 	auto c = make_shared<FFmpegContent>(TestPaths::private_data() / "3d_thx_broadway_2010_lossless.m2ts");
-	auto film = new_test_film2("audio_analysis_test2", { c });
+	auto film = new_test_film("audio_analysis_test2", { c });
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), false);
 	JobManager::instance()->add (job);
@@ -142,7 +142,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test2)
 BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 {
 	auto content = make_shared<FFmpegContent>("test/data/white.wav");
-	auto film = new_test_film2("analyse_audio_test", { content });
+	auto film = new_test_film("analyse_audio_test", { content });
 	film->set_audio_channels (12);
 
 	boost::signals2::connection connection;
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE (audio_analysis_test3)
 BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 {
 	auto content = content_factory(TestPaths::private_data() / "20 The Wedding Convoy Song.m4a")[0];
-	auto film = new_test_film2("analyse_audio_test", { content });
+	auto film = new_test_film("analyse_audio_test", { content });
 
 	auto playlist = make_shared<Playlist>();
 	playlist->add (film, content);
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_test4)
 
 BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 {
-	auto film = new_test_film2 ("analyse_audio_leqm_test");
+	auto film = new_test_film("analyse_audio_leqm_test");
 	film->set_audio_channels (2);
 	auto content = content_factory(TestPaths::private_data() / "betty_stereo_48k.wav")[0];
 	film->examine_and_add_content (content);
@@ -191,7 +191,7 @@ BOOST_AUTO_TEST_CASE (analyse_audio_leqm_test)
 BOOST_AUTO_TEST_CASE(analyse_audio_leqm_same_with_empty_channels)
 {
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	auto film = new_test_film2("analyse_audio_leqm_test2", { dcp });
+	auto film = new_test_film("analyse_audio_leqm_test2", { dcp });
 	film->set_audio_channels(8);
 
 	auto analyse = [film, dcp](int channels) {
@@ -217,7 +217,7 @@ BOOST_AUTO_TEST_CASE(analyse_audio_leqm_same_with_empty_channels)
 BOOST_AUTO_TEST_CASE(analyse_audio_with_long_silent_end)
 {
 	auto content = content_factory(TestPaths::private_data() / "2364.mkv")[0];
-	auto film = new_test_film2("analyse_audio_with_long_silent_end", { content });
+	auto film = new_test_film("analyse_audio_with_long_silent_end", { content });
 
 	auto playlist = make_shared<Playlist>();
 	playlist->add(film, content);
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_long_silent_end)
 BOOST_AUTO_TEST_CASE(analyse_audio_with_strange_channel_count)
 {
 	auto content = content_factory(TestPaths::private_data() / "mali.mkv")[0];
-	auto film = new_test_film2("analyse_audio_with_strange_channel_count", { content });
+	auto film = new_test_film("analyse_audio_with_strange_channel_count", { content });
 
 	auto playlist = make_shared<Playlist>();
 	playlist->add(film, content);
@@ -243,14 +243,14 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_strange_channel_count)
 BOOST_AUTO_TEST_CASE(analyse_audio_with_more_channels_than_film)
 {
 	auto picture = content_factory("test/data/flat_red.png");
-	auto film_16ch = new_test_film2("analyse_audio_with_more_channels_than_film_16ch", picture);
+	auto film_16ch = new_test_film("analyse_audio_with_more_channels_than_film_16ch", picture);
 	film_16ch->set_audio_channels(16);
 	make_and_verify_dcp(film_16ch);
 
 	auto pcm_16ch = find_file(film_16ch->dir(film_16ch->dcp_name()), "pcm_");
 	auto sound = content_factory(pcm_16ch)[0];
 
-	auto film_6ch = new_test_film2("analyse_audio_with_more_channels_than_film_6ch", { sound });
+	auto film_6ch = new_test_film("analyse_audio_with_more_channels_than_film_6ch", { sound });
 
 	auto playlist = make_shared<Playlist>();
 	playlist->add(film_6ch, sound);
@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE(analyse_audio_with_more_channels_than_film)
 BOOST_AUTO_TEST_CASE(analyse_audio_uses_processor_when_analysing_whole_film)
 {
 	auto sound = content_factory(TestPaths::private_data() / "betty_stereo.wav")[0];
-	auto film = new_test_film2("analyse_audio_uses_processor_when_analysing_whole_film", { sound });
+	auto film = new_test_film("analyse_audio_uses_processor_when_analysing_whole_film", { sound });
 
 	auto job = make_shared<AnalyseAudioJob>(film, film->playlist(), true);
 	JobManager::instance()->add(job);

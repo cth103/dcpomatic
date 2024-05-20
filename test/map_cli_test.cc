@@ -93,7 +93,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	vector<string> const args = {
@@ -123,7 +123,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_by_id)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	dcp::CPL cpl(find_cpl(film->dir(film->dcp_name())));
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_symlinks)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	vector<string> const args = {
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_hardlinks)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	vector<string> const args = {
@@ -220,7 +220,7 @@ BOOST_AUTO_TEST_CASE(map_simple_interop_dcp_with_subs)
 
 	auto picture = content_factory("test/data/flat_red.png").front();
 	auto subs = content_factory("test/data/15s.srt").front();
-	auto film = new_test_film2(name + "_in", { picture, subs });
+	auto film = new_test_film(name + "_in", { picture, subs });
 	film->set_interop(true);
 	subs->only_text()->set_language(dcp::LanguageTag("de"));
 	make_and_verify_dcp(film, {dcp::VerificationNote::Code::INVALID_STANDARD});
@@ -250,13 +250,13 @@ test_map_ov_vf_copy(vector<string> extra_args = {})
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto ov_content = content_factory("test/data/flat_red.png");
-	auto ov_film = new_test_film2(name + "_ov", ov_content);
+	auto ov_film = new_test_film(name + "_ov", ov_content);
 	make_and_verify_dcp(ov_film);
 
 	auto const ov_dir = ov_film->dir(ov_film->dcp_name());
 	auto vf_ov = make_shared<DCPContent>(ov_dir);
 	auto vf_sound = content_factory("test/data/sine_440.wav").front();
-	auto vf_film = new_test_film2(name + "_vf", { vf_ov, vf_sound });
+	auto vf_film = new_test_film(name + "_vf", { vf_ov, vf_sound });
 	vf_ov->set_reference_video(true);
 	make_and_verify_dcp(vf_film, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
@@ -301,7 +301,7 @@ BOOST_AUTO_TEST_CASE(map_ov_vf_copy_multiple_reference)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto ov_content = content_factory("test/data/flat_red.png");
-	auto ov_film = new_test_film2(name + "_ov", ov_content);
+	auto ov_film = new_test_film(name + "_ov", ov_content);
 	make_and_verify_dcp(ov_film);
 
 	auto const ov_dir = ov_film->dir(ov_film->dcp_name());
@@ -309,7 +309,7 @@ BOOST_AUTO_TEST_CASE(map_ov_vf_copy_multiple_reference)
 	auto vf_ov1 = make_shared<DCPContent>(ov_dir);
 	auto vf_ov2 = make_shared<DCPContent>(ov_dir);
 	auto vf_sound = content_factory("test/data/sine_440.wav").front();
-	auto vf_film = new_test_film2(name + "_vf", { vf_ov1, vf_ov2, vf_sound });
+	auto vf_film = new_test_film(name + "_vf", { vf_ov1, vf_ov2, vf_sound });
 	vf_film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	vf_ov2->set_position(vf_film, vf_ov1->end(vf_film));
 	vf_ov1->set_reference_video(true);
@@ -349,7 +349,7 @@ BOOST_AUTO_TEST_CASE(map_simple_dcp_copy_with_rename)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	vector<string> const args = {
@@ -408,7 +408,7 @@ test_two_cpls_each_with_subs(string name, bool interop)
 	for (auto i = 0; i < 2; ++i) {
 		auto picture = content_factory("test/data/flat_red.png").front();
 		auto subs = content_factory("test/data/15s.srt").front();
-		films[i] = new_test_film2(String::compose("%1_%2_in", name, i), { picture, subs });
+		films[i] = new_test_film(String::compose("%1_%2_in", name, i), { picture, subs });
 		films[i]->set_interop(interop);
 		subs->only_text()->set_language(dcp::LanguageTag("de"));
 		make_and_verify_dcp(films[i], acceptable_errors);
@@ -453,7 +453,7 @@ BOOST_AUTO_TEST_CASE(map_with_given_config)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	vector<string> const args = {
@@ -488,7 +488,7 @@ BOOST_AUTO_TEST_CASE(map_multireel_interop_ov_and_vf_adding_ccaps)
 		content_factory("test/data/flat_red.png")[0]
 	};
 
-	auto ov = new_test_film2(name + "_ov", { video[0], video[1], video[2] });
+	auto ov = new_test_film(name + "_ov", { video[0], video[1], video[2] });
 	ov->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	ov->set_interop(true);
 	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::INVALID_STANDARD });
@@ -501,7 +501,7 @@ BOOST_AUTO_TEST_CASE(map_multireel_interop_ov_and_vf_adding_ccaps)
 		content_factory("test/data/short.srt")[0]
 	};
 
-	auto vf = new_test_film2(name + "_vf", { ov_dcp, ccap[0], ccap[1], ccap[2] });
+	auto vf = new_test_film(name + "_vf", { ov_dcp, ccap[0], ccap[1], ccap[2] });
 	vf->set_interop(true);
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video(true);
@@ -548,7 +548,7 @@ BOOST_AUTO_TEST_CASE(map_uses_config_for_issuer_and_creator)
 	string const out = String::compose("build/test/%1_out", name);
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2(name + "_in", content);
+	auto film = new_test_film(name + "_in", content);
 	make_and_verify_dcp(film);
 
 	vector<string> const args = {
@@ -580,7 +580,7 @@ BOOST_AUTO_TEST_CASE(map_handles_interop_png_subs)
 {
 	string const name = "map_handles_interop_png_subs";
 	auto arrietty = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv")[0];
-	auto film = new_test_film2(name + "_input", { arrietty });
+	auto film = new_test_film(name + "_input", { arrietty });
 	film->set_interop(true);
 	arrietty->set_trim_end(dcpomatic::ContentTime::from_seconds(110));
 	arrietty->text[0]->set_use(true);

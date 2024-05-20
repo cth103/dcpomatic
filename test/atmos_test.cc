@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 (
+	auto film = new_test_film(
 		"atmos_passthrough_test",
 		content_factory(TestPaths::private_data() / "atmos_asset.mxf"),
 		&cl
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
-	auto film = new_test_film2 ("atmos_encrypted_passthrough_test", content, &cl);
+	auto film = new_test_film("atmos_encrypted_passthrough_test", content, &cl);
 
 	film->set_encrypted (true);
 	film->_key = dcp::Key ("4fac12927eb122af1c2781aa91f3a4cc");
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 
 	auto content2 = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	content2->add_kdm (kdm);
-	auto film2 = new_test_film2 ("atmos_encrypted_passthrough_test2", {content2}, &cl);
+	auto film2 = new_test_film("atmos_encrypted_passthrough_test2", {content2}, &cl);
 	make_and_verify_dcp (film2, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	BOOST_CHECK (mxf_atmos_files_same(ref, dcp_file(film2, "atmos"), true));
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (atmos_trim_test)
 
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
-	auto film = new_test_film2 ("atmos_trim_test", content, &cl);
+	auto film = new_test_film("atmos_trim_test", content, &cl);
 
 	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
 
@@ -131,14 +131,14 @@ BOOST_AUTO_TEST_CASE(atmos_replace_test)
 	};
 
 	auto atmos_0 = content_factory("test/data/atmos_0.mxf");
-	auto ov = new_test_film2("atmos_merge_test_ov", atmos_0);
+	auto ov = new_test_film("atmos_merge_test_ov", atmos_0);
 	make_and_verify_dcp(ov, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 	// atmos_0.mxf should contain all zeros for its data
 	check(ov, 0);
 
 	auto atmos_1 = content_factory("test/data/atmos_1.mxf");
 	auto ov_content = std::make_shared<DCPContent>(boost::filesystem::path("build/test/atmos_merge_test_ov") / ov->dcp_name());
-	auto vf = new_test_film2("atmos_merge_test_vf", { ov_content, atmos_1.front() });
+	auto vf = new_test_film("atmos_merge_test_vf", { ov_content, atmos_1.front() });
 	ov_content->set_reference_video(true);
 	atmos_1.front()->set_position(vf, dcpomatic::DCPTime());
 	make_and_verify_dcp(vf, { dcp::VerificationNote::Code::MISSING_CPL_METADATA, dcp::VerificationNote::Code::EXTERNAL_ASSET }, false);

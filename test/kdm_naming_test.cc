@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE (single_kdm_naming_test)
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/single_kdm_naming_test");
-	auto film = new_test_film2 ("single_kdm_naming_test");
+	auto film = new_test_film("single_kdm_naming_test");
 	film->set_name ("my_great_film");
 	film->examine_and_add_content (content_factory("test/data/flat_black.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -147,7 +147,7 @@ BOOST_AUTO_TEST_CASE(directory_kdm_naming_test)
 
 	/* Film */
 	boost::filesystem::remove_all ("build/test/directory_kdm_naming_test");
-	auto film = new_test_film2 (
+	auto film = new_test_film(
 		"directory_kdm_naming_test",
 		{ content_factory("test/data/flat_black.png")[0] }
 		);

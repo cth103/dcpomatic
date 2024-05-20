@@ -50,7 +50,7 @@ using std::make_shared;
  */
 BOOST_AUTO_TEST_CASE (no_use_video_test1)
 {
-	auto film = new_test_film2 ("no_use_video_test1");
+	auto film = new_test_film("no_use_video_test1");
 	auto A = content_factory("test/data/flat_red.png")[0];
 	auto B = content_factory("test/data/flat_green.png")[0];
 	film->examine_and_add_content (A);
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 
 	auto A = content_factory(TestPaths::private_data() / "dolby_aurora.vob")[0];
 	auto B = content_factory(TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov")[0];
-	auto film = new_test_film2("no_use_video_test2", { A, B }, &cl);
+	auto film = new_test_film("no_use_video_test2", { A, B }, &cl);
 	A->set_position (film, dcpomatic::DCPTime());
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 /** Make two DCPs and make a VF with the audio from one and the video from another */
 BOOST_AUTO_TEST_CASE (no_use_video_test3)
 {
-	auto ov_a = new_test_film2 ("no_use_video_test3_ov_a");
+	auto ov_a = new_test_film("no_use_video_test3_ov_a");
 	auto ov_a_pic = content_factory("test/data/flat_red.png")[0];
 	BOOST_REQUIRE (ov_a_pic);
 	auto ov_a_snd = content_factory("test/data/sine_16_48_220_10.wav")[0];
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (ov_a);
 
-	auto ov_b = new_test_film2("no_use_video_test3_ov_b");
+	auto ov_b = new_test_film("no_use_video_test3_ov_b");
 	auto ov_b_pic = content_factory("test/data/flat_green.png")[0];
 	BOOST_REQUIRE (ov_b_pic);
 	auto ov_b_snd = content_factory("test/data/sine_16_48_880_10.wav")[0];
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (no_use_video_test3)
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (ov_b);
 
-	auto vf = new_test_film2 ("no_use_video_test3_vf");
+	auto vf = new_test_film("no_use_video_test3_vf");
 	auto A = make_shared<DCPContent>(ov_a->dir(ov_a->dcp_name()));
 	auto B = make_shared<DCPContent>(ov_b->dir(ov_b->dcp_name()));
 	vf->examine_and_add_content (A);

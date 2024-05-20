@@ -44,7 +44,7 @@ using std::vector;
 BOOST_AUTO_TEST_CASE (test_write_odd_amount_of_silence)
 {
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2 ("test_write_odd_amount_of_silence", content);
+	auto film = new_test_film("test_write_odd_amount_of_silence", content);
 	content[0]->video->set_length(24);
 	auto writer = make_shared<Writer>(film, shared_ptr<Job>(), "foo");
 
@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE (interrupt_writer)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 ("test_interrupt_writer", {}, &cl);
+	auto film = new_test_film("test_interrupt_writer", {}, &cl);
 
 	auto content = content_factory("test/data/check_image0.png")[0];
 	film->examine_and_add_content (content);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(writer_progress_test)
 	auto picture1 = content_factory("test/data/flat_red.png")[0];
 	auto picture2 = content_factory("test/data/flat_red.png")[0];
 
-	auto film = new_test_film2("writer_progress_test", { picture1, picture2 });
+	auto film = new_test_film("writer_progress_test", { picture1, picture2 });
 	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	picture1->video->set_length(240);
 	picture2->video->set_length(240);

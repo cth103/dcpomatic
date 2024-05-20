@@ -56,7 +56,7 @@ static bool equal(J2KFrameInfo a, shared_ptr<InfoFileHandle> file, Frame frame, 
 
 BOOST_AUTO_TEST_CASE (write_frame_info_test)
 {
-	auto film = new_test_film2 ("write_frame_info_test");
+	auto film = new_test_film("write_frame_info_test");
 	dcpomatic::DCPTimePeriod const period (dcpomatic::DCPTime(0), dcpomatic::DCPTime(96000));
 	ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo");
 
@@ -112,7 +112,7 @@ BOOST_AUTO_TEST_CASE (reel_reuse_video_test)
 	/* Make a DCP */
 	auto video = content_factory("test/data/flat_red.png")[0];
 	auto audio = content_factory("test/data/white.wav")[0];
-	auto film = new_test_film2 ("reel_reuse_video_test", { video, audio });
+	auto film = new_test_film("reel_reuse_video_test", { video, audio });
 	make_and_verify_dcp (film);
 
 	/* Find main picture and sound asset IDs */

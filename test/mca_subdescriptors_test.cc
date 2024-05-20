@@ -42,7 +42,7 @@ test_descriptors(int mxf_channels, vector<dcp::Channel> active_channels, vector<
 	for (auto i = 0; i < mxf_channels; ++i) {
 		content.push_back(content_factory("test/data/C.wav").front());
 	}
-	auto film = new_test_film2("mca_subdescriptors_written_correctly", content);
+	auto film = new_test_film("mca_subdescriptors_written_correctly", content);
 	film->set_interop(false);
 	film->set_audio_channels(mxf_channels);
 

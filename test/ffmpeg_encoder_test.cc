@@ -76,7 +76,7 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 	name = String::compose("%1_test%2", name, number);
 
 	auto c = make_shared<FFmpegContent>(content);
-	auto film = new_test_film2 (name, {c}, &cl);
+	auto film = new_test_film(name, {c}, &cl);
 	film->set_name (name);
 	film->set_audio_channels (6);
 
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 	cl.add(output);
 
 	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
-	auto film = new_test_film2("ffmpeg_encoder_prores_test5", { c });
+	auto film = new_test_film("ffmpeg_encoder_prores_test5", { c });
 	film->set_audio_channels (6);
 
 	c->video->set_length (240);
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 {
 	auto s = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	auto film = new_test_film2("ffmpeg_encoder_prores_test6", { s });
+	auto film = new_test_film("ffmpeg_encoder_prores_test6", { s });
 	film->set_audio_channels (6);
 
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto s = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	auto film = new_test_film2("ffmpeg_encoder_prores_test7", { c, s });
+	auto film = new_test_film("ffmpeg_encoder_prores_test7", { c, s });
 	film->set_audio_channels (6);
 
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -194,7 +194,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test1)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 {
 	auto s = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	auto film = new_test_film2("ffmpeg_encoder_h264_test2", { s });
+	auto film = new_test_film("ffmpeg_encoder_h264_test2", { s });
 	film->set_audio_channels (6);
 
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -213,7 +213,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto s = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	auto film = new_test_film2("ffmpeg_encoder_h264_test3", { c, s });
+	auto film = new_test_film("ffmpeg_encoder_h264_test3", { c, s });
 	film->set_audio_channels (6);
 
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 /** Scope-in-flat DCP -> H264 */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 {
-	auto film = new_test_film2("ffmpeg_encoder_h264_test4", {make_shared<DCPContent>("test/data/scope_dcp")});
+	auto film = new_test_film("ffmpeg_encoder_h264_test4", {make_shared<DCPContent>("test/data/scope_dcp")});
 	BOOST_REQUIRE(!wait_for_jobs());
 
 	film->set_container(Ratio::from_id("185"));
@@ -251,7 +251,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 	auto Rs = make_shared<FFmpegContent>("test/data/Rs.wav");
 	auto Lfe = make_shared<FFmpegContent>("test/data/Lfe.wav");
 
-	auto film = new_test_film2("ffmpeg_encoder_h264_test5", { L, R, C, Ls, Rs, Lfe });
+	auto film = new_test_film("ffmpeg_encoder_h264_test5", { L, R, C, Ls, Rs, Lfe });
 	film->set_audio_channels (6);
 
 	AudioMapping map (1, MAX_DCP_AUDIO_CHANNELS);
@@ -292,12 +292,12 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 /** Test export of a VF */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 {
-	auto film = new_test_film2 ("ffmpeg_encoder_h264_test6_ov");
+	auto film = new_test_film("ffmpeg_encoder_h264_test6_ov");
 	film->examine_and_add_content (make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png"));
 	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (film);
 
-	auto film2 = new_test_film2 ("ffmpeg_encoder_h264_test6_vf");
+	auto film2 = new_test_film("ffmpeg_encoder_h264_test6_vf");
 	auto ov = make_shared<DCPContent>("build/test/ffmpeg_encoder_h264_test6_ov/" + film->dcp_name(false));
 	film2->examine_and_add_content (ov);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -323,7 +323,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_3d_dcp_to_h264)
 	cl.add(output);
 
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "xm");
-	auto film2 = new_test_film2 ("ffmpeg_encoder_3d_dcp_to_h264_export", {dcp});
+	auto film2 = new_test_film("ffmpeg_encoder_3d_dcp_to_h264_export", {dcp});
 
 	auto job = make_shared<TranscodeJob>(film2, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegFilmEncoder encoder(film2, job, output, ExportFormat::H264_AAC, true, false, false, 23);
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 {
 	auto L = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
 	auto R = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
-	auto film = new_test_film2 ("ffmpeg_encoder_h264_test7_data", {L, R});
+	auto film = new_test_film("ffmpeg_encoder_h264_test7_data", {L, R});
 	L->video->set_frame_type (VideoFrameType::THREE_D_LEFT);
 	L->set_position (film, DCPTime());
 	R->video->set_frame_type (VideoFrameType::THREE_D_RIGHT);
@@ -347,7 +347,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 	make_and_verify_dcp (film);
 
 	auto dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2 ("ffmpeg_encoder_h264_test7_export", {dcp});
+	auto film2 = new_test_film("ffmpeg_encoder_h264_test7_export", {dcp});
 
 	auto job = make_shared<TranscodeJob> (film2, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegFilmEncoder encoder(film2, job, "build/test/ffmpeg_encoder_h264_test7.mp4", ExportFormat::H264_AAC, true, false, false, 23);
@@ -358,7 +358,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test7)
 BOOST_AUTO_TEST_CASE(ffmpeg_encoder_2d_content_in_3d_project)
 {
 	auto content = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
-	auto film = new_test_film2("ffmpeg_encoder_2d_content_in_3d_project", { content });
+	auto film = new_test_film("ffmpeg_encoder_2d_content_in_3d_project", { content });
 	film->set_three_d(true);
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
@@ -370,7 +370,7 @@ BOOST_AUTO_TEST_CASE(ffmpeg_encoder_2d_content_in_3d_project)
 /** Stereo project with mixdown-to-stereo set */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 {
-	auto film = new_test_film2("ffmpeg_encoder_h264_test4");
+	auto film = new_test_film("ffmpeg_encoder_h264_test4");
 	film->examine_and_add_content(make_shared<DCPContent>("test/data/scope_dcp"));
 	BOOST_REQUIRE(!wait_for_jobs());
 	film->set_audio_channels (2);
@@ -385,7 +385,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test8)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 {
 	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
-	auto film = new_test_film2("ffmpeg_encoder_prores_test9", { c });
+	auto film = new_test_film("ffmpeg_encoder_prores_test9", { c });
 	film->set_name ("ffmpeg_encoder_prores_test9");
 	film->set_container (Ratio::from_id ("185"));
 	film->set_audio_channels (12);
@@ -406,7 +406,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test9)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_from_dcp_with_crop)
 {
 	auto dcp = make_shared<DCPContent>("test/data/import_dcp_test2");
-	auto film = new_test_film2 ("ffmpeg_encoder_prores_from_dcp_with_crop", { dcp });
+	auto film = new_test_film("ffmpeg_encoder_prores_from_dcp_with_crop", { dcp });
 	dcp->video->set_left_crop (32);
 	dcp->video->set_right_crop (32);
 	film->write_metadata ();
@@ -421,7 +421,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_from_dcp_with_crop)
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_from_dcp_with_crop)
 {
 	auto dcp = make_shared<DCPContent>("test/data/import_dcp_test2");
-	auto film = new_test_film2 ("ffmpeg_encoder_h264_from_dcp_with_crop", { dcp });
+	auto film = new_test_film("ffmpeg_encoder_h264_from_dcp_with_crop", { dcp });
 	dcp->video->set_left_crop (32);
 	dcp->video->set_right_crop (32);
 	film->write_metadata ();
@@ -437,7 +437,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_with_reels)
 {
 	auto content1 = content_factory("test/data/flat_red.png")[0];
 	auto content2 = content_factory("test/data/flat_red.png")[0];
-	auto film = new_test_film2 ("ffmpeg_encoder_h264_with_reels", { content1, content2 });
+	auto film = new_test_film("ffmpeg_encoder_h264_with_reels", { content1, content2 });
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	content1->video->set_length (240);
 	content2->video->set_length (240);
@@ -464,7 +464,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_1)
 	Cleanup cl;
 
 	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv")[0];
-	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_1", { content });
+	auto film = new_test_film("ffmpeg_encoder_prores_regression_1", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegFilmEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_1.mov", ExportFormat::PRORES_HQ, false, true, false, 23);
@@ -484,7 +484,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 	dcpomatic_log->set_types(logs | LogEntry::TYPE_DEBUG_PLAYER);
 
 	auto content = content_factory(TestPaths::private_data() / "tge_clip.mkv")[0];
-	auto film = new_test_film2 ("ffmpeg_encoder_prores_regression_2", { content });
+	auto film = new_test_film("ffmpeg_encoder_prores_regression_2", { content });
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	FFmpegFilmEncoder encoder (film, job, "build/test/ffmpeg_encoder_prores_regression_2.mov", ExportFormat::PRORES_HQ, false, true, false, 23);
@@ -500,7 +500,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_regression_2)
 BOOST_AUTO_TEST_CASE(ffmpeg_encoder_missing_frame_at_end)
 {
 	auto content = content_factory(TestPaths::private_data() / "1s1f.mov");
-	auto film = new_test_film2("ffmpeg_encoder_missing_frame_at_end", content);
+	auto film = new_test_film("ffmpeg_encoder_missing_frame_at_end", content);
 
 	boost::filesystem::path output("build/test/ffmpeg_encoder_missing_frame_at_end.mov");
 	boost::filesystem::path log("build/test/ffmpeg_encoder_missing_frame_at_end.log");

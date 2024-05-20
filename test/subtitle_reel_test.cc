@@ -43,7 +43,7 @@ using boost::optional;
 /* Check that timings are done correctly for multi-reel DCPs with PNG subs */
 BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 {
-	auto film = new_test_film2 ("subtitle_reel_test");
+	auto film = new_test_film("subtitle_reel_test");
 	film->set_interop (true);
 	auto red_a = make_shared<ImageContent>("test/data/flat_red.png");
 	auto red_b = make_shared<ImageContent>("test/data/flat_red.png");
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
  */
 BOOST_AUTO_TEST_CASE (subtitle_in_all_reels_test)
 {
-	auto film = new_test_film2 ("subtitle_in_all_reels_test");
+	auto film = new_test_film("subtitle_in_all_reels_test");
 	film->set_interop (false);
 	film->set_sequence (false);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (subtitle_in_all_reels_test)
  */
 BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 {
-	auto film = new_test_film2 ("closed_captions_in_all_reels_test");
+	auto film = new_test_film("closed_captions_in_all_reels_test");
 	film->set_interop (false);
 	film->set_sequence (false);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE (closed_captions_in_all_reels_test)
 
 BOOST_AUTO_TEST_CASE (subtitles_split_at_reel_boundaries)
 {
-	auto film = new_test_film2 ("subtitles_split_at_reel_boundaries");
+	auto film = new_test_film("subtitles_split_at_reel_boundaries");
 	film->set_interop (true);
 
 	film->set_sequence (false);

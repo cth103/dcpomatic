@@ -72,7 +72,7 @@ static
 void
 check (TextType type, string name, optional<string> expected_hint = optional<string>())
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = content_factory("test/data/" + name + ".srt")[0];
 	content->text.front()->set_type (type);
 	content->text.front()->set_language (dcp::LanguageTag("en-US"));
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE (hint_subtitle_mxf_too_big)
 {
 	string const name = "hint_subtitle_mxf_too_big";
 
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 
 	for (int i = 0; i < 4; ++i) {
 		dcp::File fake_font("build/test/hint_subtitle_mxf_too_big.ttf", "w");
@@ -218,7 +218,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 {
 	string const name = "hint_closed_caption_xml_too_big";
 
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 
 	dcp::File ccap(String::compose("build/test/%1.srt", name), "w");
 	BOOST_REQUIRE (ccap);
@@ -249,7 +249,7 @@ BOOST_AUTO_TEST_CASE (hint_closed_caption_xml_too_big)
 
 BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
 {
-	auto film = new_test_film2 ("hints_destroyed_while_running");
+	auto film = new_test_film("hints_destroyed_while_running");
 	auto content = content_factory(TestPaths::private_data() / "boon_telly.mkv")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -265,7 +265,7 @@ BOOST_AUTO_TEST_CASE (hints_destroyed_while_running)
 BOOST_AUTO_TEST_CASE (hints_audio_with_no_language)
 {
 	auto content = content_factory("test/data/sine_440.wav")[0];
-	auto film = new_test_film2 ("hints_audio_with_no_language", { content });
+	auto film = new_test_film("hints_audio_with_no_language", { content });
 	content->audio->set_gain (-6);
 
 	auto hints = get_hints (film);
@@ -284,7 +284,7 @@ BOOST_AUTO_TEST_CASE (hints_certificate_validity)
 
 	Config::instance()->set_signer_chain(make_shared<dcp::CertificateChain>(openssl_path(), 40 * 365));
 
-	auto film = new_test_film2 ("hints_certificate_validity");
+	auto film = new_test_film("hints_certificate_validity");
 	auto hints = get_hints (film);
 	BOOST_REQUIRE_EQUAL (hints.size(), 1U);
 	BOOST_CHECK_EQUAL (

@@ -57,7 +57,7 @@ using std::shared_ptr;
 BOOST_AUTO_TEST_CASE (threed_test1)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("threed_test1", { c });
+	auto film = new_test_film("threed_test1", { c });
 
 	c->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (threed_test1)
 BOOST_AUTO_TEST_CASE (threed_test2)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("threed_test2", { c });
+	auto film = new_test_film("threed_test2", { c });
 	c->video->set_frame_type (VideoFrameType::THREE_D_ALTERNATE);
 
 	film->set_three_d (true);
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE (threed_test2)
  */
 BOOST_AUTO_TEST_CASE (threed_test3)
 {
-	auto film = new_test_film2 ("threed_test3");
+	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 	/* Try to stop out-of-memory crashes on my laptop */
 	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency() / 4);
 
-	auto film = new_test_film2 ("threed_test4");
+	auto film = new_test_film("threed_test4");
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov");
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "RIGHT_TEST_DCP3D4K.mov");
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 
 BOOST_AUTO_TEST_CASE (threed_test5)
 {
-	auto film = new_test_film2 ("threed_test5");
+	auto film = new_test_film("threed_test5");
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>(TestPaths::private_data() / "boon_telly.mkv");
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE (threed_test5)
 
 BOOST_AUTO_TEST_CASE (threed_test6)
 {
-	auto film = new_test_film2 ("threed_test6");
+	auto film = new_test_film("threed_test6");
 	auto L = make_shared<FFmpegContent>("test/data/3dL.mp4");
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/3dR.mp4");
@@ -182,7 +182,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
 {
 	using boost::filesystem::path;
 
-	auto film = new_test_film2 ("threed_test7");
+	auto film = new_test_film("threed_test7");
 	path const content_path = "test/data/flat_red.png";
 	auto c = content_factory(content_path)[0];
 	film->examine_and_add_content (c);
@@ -225,7 +225,7 @@ BOOST_AUTO_TEST_CASE (threed_test7)
  */
 BOOST_AUTO_TEST_CASE (threed_test_separate_files_slightly_different_lengths)
 {
-	auto film = new_test_film2("threed_test3");
+	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE (threed_test_separate_files_slightly_different_lengths)
  */
 BOOST_AUTO_TEST_CASE (threed_test_separate_files_very_different_lengths)
 {
-	auto film = new_test_film2("threed_test3");
+	auto film = new_test_film("threed_test3");
 	auto L = make_shared<FFmpegContent>("test/data/test.mp4");
 	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/test.mp4");
@@ -264,7 +264,7 @@ BOOST_AUTO_TEST_CASE (threed_test_separate_files_very_different_lengths)
 
 BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
 {
-	auto film = new_test_film2("threed_test_butler_overfill");
+	auto film = new_test_film("threed_test_butler_overfill");
 	auto A = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
 	film->examine_and_add_content(A);
 	auto B = make_shared<FFmpegContent>(TestPaths::private_data() / "arrietty_JP-EN.mkv");
@@ -309,7 +309,7 @@ BOOST_AUTO_TEST_CASE(threed_passthrough_test, * boost::unit_test::depends_on("th
 	BOOST_REQUIRE(input_dcp);
 
 	auto content = make_shared<DCPContent>(*input_dcp);
-	auto film = new_test_film2("threed_passthrough_test", { content });
+	auto film = new_test_film("threed_passthrough_test", { content });
 	film->set_three_d(false);
 
 	make_and_verify_dcp(film);
@@ -343,7 +343,7 @@ BOOST_AUTO_TEST_CASE(threed_test_when_padding_needed)
 	auto left = content_factory("test/data/flat_red.png").front();
 	auto right = content_factory("test/data/flat_red.png").front();
 	auto sound = content_factory("test/data/sine_440.wav").front();
-	auto film = new_test_film2("threed_test_when_padding_needed", { left, right, sound });
+	auto film = new_test_film("threed_test_when_padding_needed", { left, right, sound });
 
 	left->video->set_frame_type(VideoFrameType::THREE_D_LEFT);
 	left->set_position(film, dcpomatic::DCPTime());

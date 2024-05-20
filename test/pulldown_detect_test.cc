@@ -29,7 +29,7 @@
 BOOST_AUTO_TEST_CASE (pulldown_detect_test1)
 {
 	auto content = content_factory(TestPaths::private_data() / "greatbrain.mkv");
-	auto film = new_test_film2("pulldown_detect_test1", content);
+	auto film = new_test_film("pulldown_detect_test1", content);
 
 	BOOST_REQUIRE(static_cast<bool>(content[0]->video_frame_rate()));
 	BOOST_CHECK_CLOSE(content[0]->video_frame_rate().get(), 23.976, 0.1);

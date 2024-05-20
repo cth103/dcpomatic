@@ -132,7 +132,7 @@ static string const xml = "<Content>"
 
 BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 {
-	auto film = new_test_film2("ffmpeg_time_calculation_test");
+	auto film = new_test_film("ffmpeg_time_calculation_test");
 
 	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
@@ -186,7 +186,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 /** Test Player::dcp_to_content_video */
 BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 {
-	auto film = new_test_film2("player_time_calculation_test1");
+	auto film = new_test_film("player_time_calculation_test1");
 
 	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
@@ -392,7 +392,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 /** Test Player::content_video_to_dcp */
 BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 {
-	auto film = new_test_film2("player_time_calculation_test2");
+	auto film = new_test_film("player_time_calculation_test2");
 
 	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);
@@ -568,7 +568,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 /** Test Player::dcp_to_content_audio */
 BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 {
-	auto film = new_test_film2("player_time_calculation_test3");
+	auto film = new_test_film("player_time_calculation_test3");
 
 	auto doc = make_shared<cxml::Document>();
 	doc->read_string (xml);

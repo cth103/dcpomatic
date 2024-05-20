@@ -59,7 +59,7 @@ using namespace dcpomatic;
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 {
 	auto content = content_factory("test/data/subrip2.srt")[0];
-	auto film = new_test_film2("burnt_subtitle_test_subrip", { content });
+	auto film = new_test_film("burnt_subtitle_test_subrip", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	content->text[0]->set_use(true);
 	content->text[0]->set_burn(true);
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 {
 	auto content = content_factory("test/data/dcp_sub.xml")[0];
-	auto film = new_test_film2("burnt_subtitle_test_dcp", { content });
+	auto film = new_test_film("burnt_subtitle_test_dcp", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
 	content->text[0]->set_use(true);
@@ -97,14 +97,14 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 /** Burn some subtitles into an existing DCP to check the colour conversion */
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 {
-	auto film = new_test_film2("burnt_subtitle_test_onto_dcp", { content_factory("test/data/flat_black.png")[0] });
+	auto film = new_test_film("burnt_subtitle_test_onto_dcp", { content_factory("test/data/flat_black.png")[0] });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	make_and_verify_dcp (film);
 
 	Config::instance()->set_log_types (Config::instance()->log_types() | LogEntry::TYPE_DEBUG_ENCODE);
 	auto background_dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	auto sub = content_factory("test/data/subrip2.srt")[0];
-	auto film2 = new_test_film2("burnt_subtitle_test_onto_dcp2", { background_dcp, sub });
+	auto film2 = new_test_film("burnt_subtitle_test_onto_dcp2", { background_dcp, sub });
 	film2->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film2->set_name("frobozz");
 	sub->text[0]->set_burn(true);
@@ -145,7 +145,7 @@ BOOST_AUTO_TEST_CASE(burnt_subtitle_test_position)
 	{
 		auto const name = String::compose("burnt_subtitle_test_position_%1", alignment);
 		auto subs = content_factory(String::compose("test/data/burn_%1.xml", alignment));
-		auto film = new_test_film2(name, subs);
+		auto film = new_test_film(name, subs);
 		subs[0]->text[0]->set_use(true);
 		subs[0]->text[0]->set_burn(true);
 		make_and_verify_dcp(
@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_CASE(burn_empty_subtitle_test)
 	Cleanup cl;
 
 	auto content = content_factory("test/data/empty_sub.xml")[0];
-	auto film = new_test_film2("burnt_empty_subtitle_test", { content });
+	auto film = new_test_film("burnt_empty_subtitle_test", { content });
 	content->text[0]->set_use(true);
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);

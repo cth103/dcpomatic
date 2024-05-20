@@ -44,7 +44,7 @@ using std::make_shared;
 BOOST_AUTO_TEST_CASE (ffmpeg_dcp_test)
 {
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("ffmpeg_dcp_test", { c });
+	auto film = new_test_film("ffmpeg_dcp_test", { c });
 	film->set_name("test_film2");
 	make_and_verify_dcp (film);
 }

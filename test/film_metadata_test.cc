@@ -47,7 +47,7 @@ using std::vector;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
-	auto film = new_test_film2("film_metadata_test");
+	auto film = new_test_film("film_metadata_test");
 	auto dir = test_film_dir ("film_metadata_test");
 
 	film->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 
 	auto subs = content_factory("test/data/15s.srt")[0];
 	auto caps = content_factory("test/data/15s.srt")[0];
-	auto film = new_test_film2("multiple_text_nodes_are_allowed1", { subs, caps }, &cl);
+	auto film = new_test_film("multiple_text_nodes_are_allowed1", { subs, caps }, &cl);
 	caps->only_text()->set_type(TextType::CLOSED_CAPTION);
 	make_and_verify_dcp (
 		film,
@@ -99,7 +99,7 @@ BOOST_AUTO_TEST_CASE (multiple_text_nodes_are_allowed)
 		});
 
 	auto reload = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2("multiple_text_nodes_are_allowed2", { reload });
+	auto film2 = new_test_film("multiple_text_nodes_are_allowed2", { reload });
 	film2->write_metadata ();
 
 	auto test = make_shared<Film>(boost::filesystem::path("build/test/multiple_text_nodes_are_allowed2"));
@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_CASE (metadata_video_range_guessed_for_png)
 BOOST_AUTO_TEST_CASE(effect_node_not_inserted_incorrectly)
 {
 	auto sub = content_factory("test/data/15s.srt");
-	auto film = new_test_film2("effect_node_not_inserted_incorrectly", sub);
+	auto film = new_test_film("effect_node_not_inserted_incorrectly", sub);
 	film->write_metadata();
 
 	namespace fs = boost::filesystem;

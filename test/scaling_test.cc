@@ -74,7 +74,7 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content
 BOOST_AUTO_TEST_CASE (scaling_test)
 {
 	auto imc = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
-	auto film = new_test_film2("scaling_test", { imc });
+	auto film = new_test_film("scaling_test", { imc });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
 	imc->video->set_length (1);
 
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE (scaling_test)
 BOOST_AUTO_TEST_CASE(assertion_failure_when_scaling)
 {
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2("assertion_failure_when_scaling", content);
+	auto film = new_test_film("assertion_failure_when_scaling", content);
 
 	content[0]->video->set_custom_size(dcp::Size{3996, 2180});
 	film->set_resolution(Resolution::FOUR_K);

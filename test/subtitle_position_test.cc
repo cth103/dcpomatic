@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(srt_correctly_placed_in_interop)
 {
 	string const name = "srt_in_interop_position_test";
 	auto fr = content_factory("test/data/short.srt");
-	auto film = new_test_film2(name, fr);
+	auto film = new_test_film(name, fr);
 	fr[0]->only_text()->set_language(dcp::LanguageTag("de"));
 
 	film->set_interop(true);
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(srt_correctly_placed_in_smpte)
 {
 	string const name = "srt_in_smpte_position_test";
 	auto fr = content_factory("test/data/short.srt");
-	auto film = new_test_film2(name, fr);
+	auto film = new_test_film(name, fr);
 
 	fr[0]->text[0]->set_language(dcp::LanguageTag("en"));
 	film->set_interop(false);
@@ -114,7 +114,7 @@ vpos_test(dcp::VAlign reference, float position, dcp::SubtitleStandard from, dcp
 
 	auto name = String::compose("vpos_test_%1_%2", standard, valign_to_string(reference));
 	auto in = content_factory(String::compose("test/data/%1.xml", name));
-	auto film = new_test_film2(name, in);
+	auto film = new_test_film(name, in);
 
 	film->set_interop(to == dcp::Standard::INTEROP);
 

@@ -76,7 +76,7 @@ store (ContentStringText sub)
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub.xml");
-	auto film = new_test_film2("dcp_subtitle_test", { content });
+	auto film = new_test_film("dcp_subtitle_test", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 {
 	auto content = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	auto film = new_test_film2("dcp_subtitle_within_dcp_test", { content });
+	auto film = new_test_film("dcp_subtitle_within_dcp_test", { content });
 
 	auto decoder = make_shared<DCPDecoder>(film, content, false, false, shared_ptr<DCPDecoder>());
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub2.xml");
-	auto film = new_test_film2("dcp_subtitle_test2", { content });
+	auto film = new_test_film("dcp_subtitle_test2", { content });
 
 	auto decoder = make_shared<DCPSubtitleDecoder>(film, content);
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
-	auto film = new_test_film2("dcp_subtitle_test3", { content });
+	auto film = new_test_film("dcp_subtitle_test3", { content });
 	film->set_interop (true);
 	content->only_text()->set_language(dcp::LanguageTag("de"));
 
@@ -173,7 +173,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test4)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
 	auto content2 = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
-	auto film = new_test_film2 ("dcp_subtitle_test4", {content, content2});
+	auto film = new_test_film("dcp_subtitle_test4", {content, content2});
 	film->set_interop (true);
 
 	content->only_text()->add_font(make_shared<Font>("font1"));
@@ -208,7 +208,7 @@ check_font_tags (vector<cxml::NodePtr> nodes)
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub6.xml");
-	auto film = new_test_film2 ("dcp_subtitle_test5", {content});
+	auto film = new_test_film("dcp_subtitle_test5", {content});
 	film->set_interop (true);
 	content->only_text()->set_language(dcp::LanguageTag("de"));
 
@@ -227,7 +227,7 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test5)
 BOOST_AUTO_TEST_CASE (test_font_override)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub4.xml");
-	auto film = new_test_film2("test_font_override", {content});
+	auto film = new_test_film("test_font_override", {content});
 	film->set_interop(true);
 	content->only_text()->set_language(dcp::LanguageTag("de"));
 
@@ -266,7 +266,7 @@ BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
 	source_xml.close();
 
 	auto content = make_shared<DCPSubtitleContent>("build/test/entity_from_dcp_source.xml");
-	auto film = new_test_film2("entity_from_dcp_source", { content });
+	auto film = new_test_film("entity_from_dcp_source", { content });
 	film->set_interop(false);
 	content->only_text()->set_use(true);
 	content->only_text()->set_burn(false);

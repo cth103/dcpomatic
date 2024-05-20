@@ -31,16 +31,16 @@ BOOST_AUTO_TEST_CASE(film_contains_atmos_content_test)
 	auto image = content_factory("test/data/flat_red.png")[0];
 	auto sound = content_factory("test/data/white.wav")[0];
 
-	auto film1 = new_test_film2("film_contains_atmos_content_test1", { atmos, image, sound });
+	auto film1 = new_test_film("film_contains_atmos_content_test1", { atmos, image, sound });
 	BOOST_CHECK(film1->contains_atmos_content());
 
-	auto film2 = new_test_film2("film_contains_atmos_content_test2", { sound, atmos, image });
+	auto film2 = new_test_film("film_contains_atmos_content_test2", { sound, atmos, image });
 	BOOST_CHECK(film2->contains_atmos_content());
 
-	auto film3 = new_test_film2("film_contains_atmos_content_test3", { image, sound, atmos });
+	auto film3 = new_test_film("film_contains_atmos_content_test3", { image, sound, atmos });
 	BOOST_CHECK(film3->contains_atmos_content());
 
-	auto film4 = new_test_film2("film_contains_atmos_content_test4", { image, sound });
+	auto film4 = new_test_film("film_contains_atmos_content_test4", { image, sound });
 	BOOST_CHECK(!film4->contains_atmos_content());
 }
 

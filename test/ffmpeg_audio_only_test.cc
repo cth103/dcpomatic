@@ -79,7 +79,7 @@ static shared_ptr<Film>
 test (boost::filesystem::path file)
 {
 	auto c = make_shared<FFmpegContent>(file);
-	auto film = new_test_film2("ffmpeg_audio_only_test", { c });
+	auto film = new_test_film("ffmpeg_audio_only_test", { c });
 	film->write_metadata ();
 
 	/* See if can make a DCP without any errors */

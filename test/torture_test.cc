@@ -57,7 +57,7 @@ using namespace dcpomatic;
 /** Test start/end trim and positioning of some audio content */
 BOOST_AUTO_TEST_CASE (torture_test1)
 {
-	auto film = new_test_film2 ("torture_test1");
+	auto film = new_test_film("torture_test1");
 	film->set_sequence (false);
 
 	/* Staircase at an offset of 2000 samples, trimmed both start and end, with a gain of exactly 2 (linear) */
@@ -307,7 +307,7 @@ BOOST_AUTO_TEST_CASE(multi_reel_interop_ccap_test)
 	auto ccap1 = content_factory("test/data/15s.srt").front();
 	auto pic2 = content_factory("test/data/flat_red.png").front();
 	auto ccap2 = content_factory("test/data/15s.srt").front();
-	auto film1 = new_test_film2("multi_reel_interop_ccap_test1", { pic1, ccap1, pic2, ccap2 });
+	auto film1 = new_test_film("multi_reel_interop_ccap_test1", { pic1, ccap1, pic2, ccap2 });
 	film1->set_interop(true);
 	film1->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	ccap1->text[0]->set_type(TextType::CLOSED_CAPTION);
@@ -317,7 +317,7 @@ BOOST_AUTO_TEST_CASE(multi_reel_interop_ccap_test)
 	make_and_verify_dcp(film1, { dcp::VerificationNote::Code::INVALID_STANDARD, dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING });
 
 	auto reload = make_shared<DCPContent>(film1->dir(film1->dcp_name()));
-	auto film2 = new_test_film2("multi_reel_interop_ccap_test2", { reload });
+	auto film2 = new_test_film("multi_reel_interop_ccap_test2", { reload });
 	for (auto i: reload->text) {
 		i->set_use(true);
 	}

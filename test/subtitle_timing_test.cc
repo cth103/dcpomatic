@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE (test_subtitle_timing_with_frame_rate_change)
 	auto sub = content_factory("test/data/hour.srt")[0];
 	sub->text.front()->set_language(dcp::LanguageTag("en"));
 
-	auto film = new_test_film2(name, { picture, sub }, &cl);
+	auto film = new_test_film(name, { picture, sub }, &cl);
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 10000000);
 	picture->set_video_frame_rate(film, content_frame_rate);
 	auto const dcp_frame_rate = film->video_frame_rate();
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(dvb_subtitles_replace_the_last)
 	 */
 	auto content = content_factory(TestPaths::private_data() / "roh.mkv");
 	BOOST_REQUIRE(!content.empty());
-	auto film = new_test_film2("dvb_subtitles_replace_the_last", { content[0] });
+	auto film = new_test_film("dvb_subtitles_replace_the_last", { content[0] });
 
 	FFmpegDecoder decoder(film, dynamic_pointer_cast<FFmpegContent>(content[0]), false);
 	BOOST_REQUIRE(!decoder.text.empty());

@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE (interop_file_extension_test)
 	auto video = content_factory("test/data/flat_red.png")[0];
 	auto audio = content_factory("test/data/sine_440.wav")[0];
 	auto sub = content_factory("test/data/15s.srt")[0];
-	auto film = new_test_film2("interop_file_extension_test", { video, audio, sub });
+	auto film = new_test_film("interop_file_extension_test", { video, audio, sub });
 	film->set_interop(true);
 	sub->only_text()->set_language(dcp::LanguageTag("de"));
 
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE (smpte_file_extension_test)
 	auto video = content_factory("test/data/flat_red.png")[0];
 	auto audio = content_factory("test/data/sine_440.wav")[0];
 	auto sub = content_factory("test/data/15s.srt")[0];
-	auto film = new_test_film2("smpte_file_extension_test", { video, audio, sub });
+	auto film = new_test_film("smpte_file_extension_test", { video, audio, sub });
 	film->set_interop(false);
 
 	make_and_verify_dcp(

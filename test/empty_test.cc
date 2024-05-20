@@ -55,7 +55,7 @@ has_video (shared_ptr<const Content> content)
 
 BOOST_AUTO_TEST_CASE (empty_test1)
 {
-	auto film = new_test_film2 ("empty_test1");
+	auto film = new_test_film("empty_test1");
 	film->set_sequence (false);
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (empty_test1)
 /** Some tests where the first empty period is not at time 0 */
 BOOST_AUTO_TEST_CASE (empty_test2)
 {
-	auto film = new_test_film2 ("empty_test2");
+	auto film = new_test_film("empty_test2");
 	film->set_sequence (false);
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (empty_test2)
 /** Test for when the film's playlist is not the same as the one passed into Empty */
 BOOST_AUTO_TEST_CASE (empty_test3)
 {
-	auto film = new_test_film2 ("empty_test3");
+	auto film = new_test_film("empty_test3");
 	film->set_sequence (false);
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE (empty_test3)
 
 BOOST_AUTO_TEST_CASE (empty_test_with_overlapping_content)
 {
-	auto film = new_test_film2 ("empty_test_with_overlapping_content");
+	auto film = new_test_film("empty_test_with_overlapping_content");
 	film->set_sequence (false);
 	auto contentA = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");

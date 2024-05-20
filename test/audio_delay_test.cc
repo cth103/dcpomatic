@@ -56,7 +56,7 @@ void test_audio_delay (int delay_in_ms)
 {
 	string const film_name = "audio_delay_test_" + lexical_cast<string> (delay_in_ms);
 	auto content = make_shared<FFmpegContent>("test/data/staircase.wav");
-	auto film = new_test_film2 (film_name, { content });
+	auto film = new_test_film(film_name, { content });
 
 	content->audio->set_delay (delay_in_ms);
 

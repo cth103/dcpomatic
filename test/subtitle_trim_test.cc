@@ -32,7 +32,7 @@ using std::make_shared;
 BOOST_AUTO_TEST_CASE (subtitle_trim_test1)
 {
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub5.xml");
-	auto film = new_test_film2 ("subtitle_trim_test1", {content});
+	auto film = new_test_film("subtitle_trim_test1", {content});
 
 	content->set_trim_end (dcpomatic::ContentTime::from_seconds(2));
 	film->write_metadata ();

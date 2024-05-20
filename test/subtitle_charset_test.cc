@@ -35,7 +35,7 @@ using std::dynamic_pointer_cast;
 BOOST_AUTO_TEST_CASE (subtitle_charset_test1)
 {
 	auto content = content_factory(TestPaths::private_data() / "PADDINGTON soustitresVFdef.srt");
-	auto film = new_test_film2 ("subtitle_charset_test1", content);
+	auto film = new_test_film("subtitle_charset_test1", content);
 }
 
 
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE (subtitle_charset_test1)
 BOOST_AUTO_TEST_CASE (subtitle_charset_test2)
 {
 	auto content = content_factory("test/data/osx.srt");
-	auto film = new_test_film2 ("subtitle_charset_test2", content);
+	auto film = new_test_film("subtitle_charset_test2", content);
 	auto ts = dynamic_pointer_cast<StringTextFileContent>(content[0]);
 	BOOST_REQUIRE (ts);
 	/* Make sure we got the subtitle data from the file */

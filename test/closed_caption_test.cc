@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE (closed_caption_test1)
 	Cleanup cl;
 
 	auto content = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	auto film = new_test_film2 ("closed_caption_test1", { content }, &cl);
+	auto film = new_test_film("closed_caption_test1", { content }, &cl);
 
 	content->only_text()->set_type (TextType::CLOSED_CAPTION);
 
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (closed_caption_test2)
 	auto content1 = make_shared<StringTextFileContent>("test/data/subrip.srt");
 	auto content2 = make_shared<StringTextFileContent>("test/data/subrip2.srt");
 	auto content3 = make_shared<StringTextFileContent>("test/data/subrip3.srt");
-	auto film = new_test_film2 ("closed_caption_test2", { content1, content2, content3 }, &cl);
+	auto film = new_test_film("closed_caption_test2", { content1, content2, content3 }, &cl);
 
 	content1->only_text()->set_type (TextType::CLOSED_CAPTION);
 	content1->only_text()->set_dcp_track (DCPTextTrack("First track", dcp::LanguageTag("fr-FR")));

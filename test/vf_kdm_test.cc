@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	/* Make an encrypted DCP from test.mp4 */
 
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	auto A = new_test_film2("vf_kdm_test_ov", { c });
+	auto A = new_test_film("vf_kdm_test_ov", { c });
 	A->set_interop (true);
 	A->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	A->set_encrypted (true);
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	auto d = make_shared<DCPContent>("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	d->add_kdm(A_kdm);
 
-	auto B = new_test_film2("vf_kdm_test_vf", { d });
+	auto B = new_test_film("vf_kdm_test_vf", { d });
 	B->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	B->set_interop(true);
 
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	auto e = make_shared<DCPContent>("build/test/vf_kdm_test_vf/" + B->dcp_name());
 	e->add_ov ("build/test/vf_kdm_test_ov/" + A->dcp_name());
 	e->add_kdm(B_kdm);
-	auto C = new_test_film2("vf_kdm_test_check", { e });
+	auto C = new_test_film("vf_kdm_test_check", { e });
 	C->set_interop (true);
 	C->set_audio_channels(6);
 	C->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));

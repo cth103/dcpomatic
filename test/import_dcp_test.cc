@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	ConfigRestorer cr;
 
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	auto A = new_test_film2("import_dcp_test", { c });
+	auto A = new_test_film("import_dcp_test", { c });
 	A->set_encrypted (true);
 	A->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	make_and_verify_dcp (A);
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 
 	auto d = make_shared<DCPContent>("build/test/import_dcp_test/" + A->dcp_name());
 	d->add_kdm (kdm);
-	auto B = new_test_film2("import_dcp_test2", { d });
+	auto B = new_test_film("import_dcp_test2", { d });
 	B->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	B->set_audio_channels(16);
 	make_and_verify_dcp (B);
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 
 	/* Make a DCP with some markers */
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2 ("import_dcp_markers_test", content, &cl);
+	auto film = new_test_film("import_dcp_markers_test", content, &cl);
 
 	content[0]->video->set_length (24 * 60 * 10);
 
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 
 	/* Import the DCP to a new film and check the markers */
 	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2 ("import_dcp_markers_test2", {imported}, &cl);
+	auto film2 = new_test_film("import_dcp_markers_test2", {imported}, &cl);
 	film2->write_metadata ();
 
 	/* When import_dcp_markers_test was made a LFOC marker will automatically
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_markers_test)
 BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 {
 	/* Make a DCP with some ratings and a content version */
-	auto film = new_test_film2 ("import_dcp_metadata_test");
+	auto film = new_test_film("import_dcp_metadata_test");
 	auto content = content_factory("test/data/flat_red.png")[0];
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE (import_dcp_metadata_test)
 	make_and_verify_dcp (film);
 
 	/* Import the DCP to a new film and check the metadata */
-	auto film2 = new_test_film2 ("import_dcp_metadata_test2");
+	auto film2 = new_test_film("import_dcp_metadata_test2");
 	auto imported = make_shared<DCPContent>(film->dir(film->dcp_name()));
 	film2->examine_and_add_content (imported);
 	BOOST_REQUIRE (!wait_for_jobs());

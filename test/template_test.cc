@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(template_wrong_channel_counts)
 
 	Config::override_path = "test/data";
 
-	auto film = new_test_film2("template_wrong_channel_counts", {});
+	auto film = new_test_film("template_wrong_channel_counts", {});
 	film->use_template("Bug");
 
 	auto mono = content_factory("test/data/C.wav").front();

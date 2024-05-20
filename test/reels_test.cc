@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE (reels_test1)
 {
 	auto A = make_shared<FFmpegContent>("test/data/test.mp4");
 	auto B = make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("reels_test1", { A, B });
+	auto film = new_test_film("reels_test1", { A, B });
 	BOOST_CHECK_EQUAL (A->full_length(film).get(), 288000);
 
 	film->set_reel_type (ReelType::SINGLE);
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	auto r = make_shared<ImageContent>("test/data/flat_red.png");
 	auto g = make_shared<ImageContent>("test/data/flat_green.png");
 	auto b = make_shared<ImageContent>("test/data/flat_blue.png");
-	auto film = new_test_film2("reels_test2", { r, g, b });
+	auto film = new_test_film("reels_test2", { r, g, b });
 	r->video->set_length(24);
 	g->video->set_length(24);
 	b->video->set_length(24);
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	check_dcp ("test/data/reels_test2", film->dir (film->dcp_name()));
 
 	auto c = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2 ("reels_test2b", {c});
+	auto film2 = new_test_film("reels_test2b", {c});
 	film2->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film2->set_audio_channels(16);
 
@@ -156,7 +156,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
 {
 	auto dcp = make_shared<DCPContent>("test/data/reels_test2");
 	auto sub = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	auto film = new_test_film2 ("reels_test3", {dcp, sub});
+	auto film = new_test_film("reels_test3", {dcp, sub});
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
 	auto reels = film->reels();
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE (reels_test3)
  */
 BOOST_AUTO_TEST_CASE (reels_test4)
 {
-	auto film = new_test_film2 ("reels_test4");
+	auto film = new_test_film("reels_test4");
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->set_interop (false);
 
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 {
 	auto dcp = make_shared<DCPContent>("test/data/reels_test4");
 	dcp->check_font_ids();
-	auto film = new_test_film2 ("reels_test5", {dcp});
+	auto film = new_test_film("reels_test5", {dcp});
 	film->set_sequence (false);
 
 	/* Set to 2123 but it will be rounded up to the next frame (4000) */
@@ -285,7 +285,7 @@ BOOST_AUTO_TEST_CASE (reels_test5)
 BOOST_AUTO_TEST_CASE (reels_test6)
 {
 	auto A = make_shared<FFmpegContent>("test/data/test2.mp4");
-	auto film = new_test_film2 ("reels_test6", {A});
+	auto film = new_test_film("reels_test6", {A});
 
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	film->set_reel_type (ReelType::BY_LENGTH);
@@ -311,7 +311,7 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 {
 	auto A = content_factory("test/data/flat_red.png")[0];
 	auto B = content_factory("test/data/awkward_length.wav")[0];
-	auto film = new_test_film2 ("reels_test7", { A, B });
+	auto film = new_test_film("reels_test7", { A, B });
 	film->set_video_frame_rate (24);
 	A->video->set_length (2 * 24);
 
@@ -328,7 +328,7 @@ BOOST_AUTO_TEST_CASE (reels_test7)
 BOOST_AUTO_TEST_CASE (reels_test8)
 {
 	auto A = make_shared<FFmpegContent>("test/data/test2.mp4");
-	auto film = new_test_film2 ("reels_test8", {A});
+	auto film = new_test_film("reels_test8", {A});
 
 	A->set_trim_end (ContentTime::from_seconds (1));
 	make_and_verify_dcp (film);
@@ -339,13 +339,13 @@ BOOST_AUTO_TEST_CASE (reels_test8)
 BOOST_AUTO_TEST_CASE (reels_test9)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2("reels_test9a", {A});
+	auto film = new_test_film("reels_test9a", {A});
 	A->video->set_length(5 * 24);
 	film->set_video_frame_rate(24);
 	make_and_verify_dcp (film);
 
 	auto B = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	auto film2 = new_test_film2("reels_test9b", {B, content_factory("test/data/dcp_sub4.xml")[0]});
+	auto film2 = new_test_film("reels_test9b", {B, content_factory("test/data/dcp_sub4.xml")[0]});
 	B->set_reference_video(true);
 	B->set_reference_audio(true);
 	film2->set_reel_type(ReelType::BY_VIDEO_CONTENT);
@@ -370,7 +370,7 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 	/* Make the OV */
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
 	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto ov = new_test_film2("reels_test10_ov", {A, B});
+	auto ov = new_test_film("reels_test10_ov", {A, B});
 	A->video->set_length (5 * 24);
 	B->video->set_length (5 * 24);
 
@@ -380,7 +380,7 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 
 	/* Now try to make the VF; this used to fail */
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
-	auto vf = new_test_film2("reels_test10_vf", {ov_dcp, content_factory("test/data/15s.srt")[0]});
+	auto vf = new_test_film("reels_test10_vf", {ov_dcp, content_factory("test/data/15s.srt")[0]});
 	vf->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video (true);
 	ov_dcp->set_reference_audio (true);
@@ -403,7 +403,7 @@ BOOST_AUTO_TEST_CASE (reels_test10)
 BOOST_AUTO_TEST_CASE (reels_test11)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2 ("reels_test11", {A});
+	auto film = new_test_film("reels_test11", {A});
 	film->set_video_frame_rate (24);
 	A->video->set_length (240);
 	A->set_video_frame_rate(film, 24);
@@ -429,7 +429,7 @@ BOOST_AUTO_TEST_CASE (reels_test12)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
 	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2 ("reels_test12", {A, B});
+	auto film = new_test_film("reels_test12", {A, B});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film->set_sequence (false);
@@ -482,7 +482,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short1)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
 	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2 ("reels_should_not_be_short1", {A, B});
+	auto film = new_test_film("reels_should_not_be_short1", {A, B});
 	film->set_video_frame_rate (24);
 
 	A->video->set_length (23);
@@ -507,7 +507,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
 	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2 ("reels_should_not_be_short2", {A, B});
+	auto film = new_test_film("reels_should_not_be_short2", {A, B});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
@@ -532,7 +532,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short2)
 BOOST_AUTO_TEST_CASE (reels_should_not_be_short3)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2 ("reels_should_not_be_short3", {A});
+	auto film = new_test_film("reels_should_not_be_short3", {A});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_LENGTH);
 	film->set_reel_length (1024 * 1024 * 10);
@@ -555,7 +555,7 @@ BOOST_AUTO_TEST_CASE (reels_should_not_be_short4)
 {
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
 	auto B = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film = new_test_film2 ("reels_should_not_be_short4", {A, B});
+	auto film = new_test_film("reels_should_not_be_short4", {A, B});
 	film->set_video_frame_rate (24);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
@@ -587,7 +587,7 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 {
 	/* Make a 20s DCP */
 	auto A = make_shared<FFmpegContent>("test/data/flat_red.png");
-	auto film1 = new_test_film2("repeated_dcp_into_reels1", { A });
+	auto film1 = new_test_film("repeated_dcp_into_reels1", { A });
 	auto constexpr frame_rate = 24;
 	auto constexpr length_in_seconds = 20;
 	auto constexpr total_frames = frame_rate * length_in_seconds;
@@ -609,7 +609,7 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 		 make_shared<DCPContent>(film1->dir(film1->dcp_name(false)))
 	};
 
-	auto film2 = new_test_film2("repeated_dcp_into_reels2", { original_dcp[0], original_dcp[1], original_dcp[2], original_dcp[3] });
+	auto film2 = new_test_film("repeated_dcp_into_reels2", { original_dcp[0], original_dcp[1], original_dcp[2], original_dcp[3] });
 	film2->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	film2->set_video_frame_rate(frame_rate);
 	film2->set_sequence(false);

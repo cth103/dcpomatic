@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_single_files)
 	copy_file ("test/data/flat_red.png", content_dir / "C.png");
 
 	/* Make a film with that content */
-	auto film = new_test_film2 (name + "_film", {
+	auto film = new_test_film(name + "_film", {
 		content_factory(content_dir / "A.png")[0],
 		content_factory(content_dir / "B.png")[0],
 		content_factory(content_dir / "C.png")[0]
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_multiple_files)
 	}
 
 	/* Make a film containing that DCP */
-	auto film = new_test_film2 (name + "_film", { make_shared<DCPContent>(content_dir) });
+	auto film = new_test_film(name + "_film", { make_shared<DCPContent>(content_dir) });
 	film->write_metadata ();
 
 	/* Move the DCP's content elsewhere */
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_multiple_files_one_incorrect)
 	}
 
 	/* Make a film containing that DCP */
-	auto film = new_test_film2 (name + "_film", { make_shared<DCPContent>(content_dir) });
+	auto film = new_test_film(name + "_film", { make_shared<DCPContent>(content_dir) });
 	film->write_metadata ();
 
 	/* Move the DCP's content elsewhere */

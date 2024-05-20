@@ -40,7 +40,7 @@ using std::string;
 
 BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test1)
 {
-	auto film = new_test_film2("subtitle_font_id_change_test1");
+	auto film = new_test_film("subtitle_font_id_change_test1");
 	boost::filesystem::remove(film->file("metadata.xml"));
 	boost::filesystem::copy_file("test/data/subtitle_font_id_change_test1.xml", film->file("metadata.xml"));
 	film->read_metadata();
@@ -62,7 +62,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test1)
 
 BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test2)
 {
-	auto film = new_test_film2("subtitle_font_id_change_test2");
+	auto film = new_test_film("subtitle_font_id_change_test2");
 	boost::filesystem::remove(film->file("metadata.xml"));
 	boost::filesystem::copy_file("test/data/subtitle_font_id_change_test2.xml", film->file("metadata.xml"));
 	{
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2("subtitle_font_id_change_test3", {}, &cl);
+	auto film = new_test_film("subtitle_font_id_change_test3", {}, &cl);
 	boost::filesystem::remove(film->file("metadata.xml"));
 	boost::filesystem::copy_file("test/data/subtitle_font_id_change_test3.xml", film->file("metadata.xml"));
 	{
@@ -137,7 +137,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test4)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2("subtitle_font_id_change_test4", {}, &cl);
+	auto film = new_test_film("subtitle_font_id_change_test4", {}, &cl);
 	boost::filesystem::remove(film->file("metadata.xml"));
 	boost::filesystem::copy_file("test/data/subtitle_font_id_change_test4.xml", film->file("metadata.xml"));
 

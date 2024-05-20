@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE (digest_test)
 	auto r = make_shared<ImageContent>("test/data/flat_red.png");
 	auto g = make_shared<ImageContent>("test/data/flat_green.png");
 	auto b = make_shared<ImageContent>("test/data/flat_blue.png");
-	auto film = new_test_film2("digest_test", { r, g, b });
+	auto film = new_test_film("digest_test", { r, g, b });
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 
 	BOOST_CHECK (Config::instance()->master_encoding_threads() > 1);

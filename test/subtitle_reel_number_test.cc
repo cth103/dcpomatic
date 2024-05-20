@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	Cleanup cl;
 
 	auto content = make_shared<StringTextFileContent>("test/data/subrip5.srt");
-	auto film = new_test_film2("subtitle_reel_number_test", { content }, &cl);
+	auto film = new_test_film("subtitle_reel_number_test", { content }, &cl);
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	content->only_text()->set_language(dcp::LanguageTag("de"));

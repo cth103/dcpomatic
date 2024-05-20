@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(j2k_encoder_deadlock_test)
 {
 	ConfigRestorer cr;
 
-	auto film = new_test_film2("j2k_encoder_deadlock_test");
+	auto film = new_test_film("j2k_encoder_deadlock_test");
 
 	/* Don't call ::start() on this Writer, so it can never write anything */
 	Writer writer(film, {}, {});

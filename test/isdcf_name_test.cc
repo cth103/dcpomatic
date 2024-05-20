@@ -47,7 +47,7 @@ using std::string;
 BOOST_AUTO_TEST_CASE (isdcf_name_test)
 {
 	auto audio = content_factory("test/data/sine_440.wav")[0];
-	auto film = new_test_film2("isdcf_name_test", { audio });
+	auto film = new_test_film("isdcf_name_test", { audio });
 
 	/* A basic test */
 
@@ -240,7 +240,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 {
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
-	auto film = new_test_film2("isdcf_name_with_atmos", content);
+	auto film = new_test_film("isdcf_name_with_atmos", content);
 	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
 	film->set_name("Hello");
 
@@ -251,7 +251,7 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_atmos)
 BOOST_AUTO_TEST_CASE(isdcf_name_with_ccap)
 {
 	auto content = content_factory("test/data/short.srt")[0];
-	auto film = new_test_film2("isdcf_name_with_ccap", { content });
+	auto film = new_test_film("isdcf_name_with_ccap", { content });
 	content->text[0]->set_use(true);
 	content->text[0]->set_type(TextType::CLOSED_CAPTION);
 	content->text[0]->set_dcp_track(DCPTextTrack("Foo", dcp::LanguageTag("de-DE")));

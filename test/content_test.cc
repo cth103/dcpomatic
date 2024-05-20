@@ -42,7 +42,7 @@ using namespace dcpomatic;
 BOOST_AUTO_TEST_CASE (content_test1)
 {
 	auto content = content_factory(TestPaths::private_data() / "demo_sound_bug.mkv")[0];
-	auto film = new_test_film2("content_test1", { content });
+	auto film = new_test_film("content_test1", { content });
 	film->set_audio_channels(16);
 	make_and_verify_dcp (
 		film,
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE (content_test1)
 BOOST_AUTO_TEST_CASE (content_test2)
 {
 	auto content = content_factory("test/data/red_23976.mp4")[0];
-	auto film = new_test_film2 ("content_test2", {content});
+	auto film = new_test_film("content_test2", {content});
 	content->set_trim_start(film, ContentTime::from_seconds(0.5));
 	make_and_verify_dcp (film);
 }
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE (content_test2)
 BOOST_AUTO_TEST_CASE (content_test3)
 {
 	auto content = content_factory("test/data/red_24.mp4")[0];
-	auto film = new_test_film2 ("content_test3", {content});
+	auto film = new_test_film("content_test3", {content});
 	film->set_sequence (false);
 
 	/* Trim */
@@ -111,7 +111,7 @@ BOOST_AUTO_TEST_CASE (content_test3)
 /** Content containing video will have its length rounded to the nearest video frame */
 BOOST_AUTO_TEST_CASE (content_test4)
 {
-	auto film = new_test_film2 ("content_test4");
+	auto film = new_test_film("content_test4");
 
 	auto video = content_factory("test/data/count300bd24.m2ts")[0];
 	film->examine_and_add_content (video);
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (content_test4)
 BOOST_AUTO_TEST_CASE (content_test5)
 {
 	auto audio = content_factory("test/data/sine_16_48_220_10.wav");
-	auto film = new_test_film2 ("content_test5", audio);
+	auto film = new_test_film("content_test5", audio);
 
 	audio[0]->set_trim_end(dcpomatic::ContentTime(3000));
 
@@ -139,7 +139,7 @@ BOOST_AUTO_TEST_CASE (content_test6)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 (
+	auto film = new_test_film(
 		"content_test6",
 		content_factory(TestPaths::private_data() / "fha.mkv"),
 		&cl
@@ -160,7 +160,7 @@ BOOST_AUTO_TEST_CASE (content_test7)
 	Cleanup cl;
 
 	auto content = content_factory(TestPaths::private_data() / "clapperboard.mp4");
-	auto film = new_test_film2("content_test7", content, &cl);
+	auto film = new_test_film("content_test7", content, &cl);
 	content[0]->audio->set_delay(-1000);
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
 
@@ -174,7 +174,7 @@ BOOST_AUTO_TEST_CASE(wav_with_markers_zero_channels_test)
 	Cleanup cl;
 
 	auto content = content_factory(TestPaths::private_data() / "wav_with_markers.wav");
-	auto film = new_test_film2("wav_with_markers_zero_channels_test", content, &cl);
+	auto film = new_test_film("wav_with_markers_zero_channels_test", content, &cl);
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	cl.run();

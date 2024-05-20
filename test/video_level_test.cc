@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 	write_image(grey_image(size, grey_pixel), file);
 
 	auto content = content_factory(file);
-	auto film = new_test_film2 ("ffmpeg_image_video_range_expanded", content);
+	auto film = new_test_film("ffmpeg_image_video_range_expanded", content);
 	content[0]->video->set_range (VideoRange::VIDEO);
 	auto player = make_shared<Player>(film, film->playlist());
 
@@ -310,7 +310,7 @@ static
 shared_ptr<Film>
 movie_V (string name)
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
@@ -328,7 +328,7 @@ static
 shared_ptr<Film>
 movie_VoF (string name)
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mp4")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
@@ -347,7 +347,7 @@ static
 shared_ptr<Film>
 movie_F (string name)
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
@@ -365,7 +365,7 @@ static
 shared_ptr<Film>
 movie_FoV (string name)
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<FFmpegContent>(content_factory("test/data/rgb_grey_testcard.mov")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
@@ -384,7 +384,7 @@ static
 shared_ptr<Film>
 image_F (string name)
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
@@ -402,7 +402,7 @@ static
 shared_ptr<Film>
 image_FoV (string name)
 {
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = dynamic_pointer_cast<ImageContent>(content_factory("test/data/rgb_grey_testcard.png")[0]);
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
@@ -425,7 +425,7 @@ shared_ptr<Film>
 dcp_F (string name)
 {
 	boost::filesystem::path const dcp = "test/data/RgbGreyTestcar_TST-1_F_MOS_2K_20201115_SMPTE_OV";
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	auto content = make_shared<DCPContent>(dcp);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());

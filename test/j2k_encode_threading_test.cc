@@ -43,7 +43,7 @@ using std::list;
 
 BOOST_AUTO_TEST_CASE(local_threads_created_and_destroyed)
 {
-	auto film = new_test_film2("local_threads_created_and_destroyed", {});
+	auto film = new_test_film("local_threads_created_and_destroyed", {});
 	Writer writer(film, {}, "foo");
 	J2KEncoder encoder(film, writer);
 
@@ -60,7 +60,7 @@ BOOST_AUTO_TEST_CASE(local_threads_created_and_destroyed)
 
 BOOST_AUTO_TEST_CASE(remote_threads_created_and_destroyed)
 {
-	auto film = new_test_film2("remote_threads_created_and_destroyed", {});
+	auto film = new_test_film("remote_threads_created_and_destroyed", {});
 	Writer writer(film, {}, "foo");
 	J2KEncoder encoder(film, writer);
 
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE(remote_threads_created_and_destroyed)
 BOOST_AUTO_TEST_CASE(frames_not_lost_when_threads_disappear)
 {
 	auto content = content_factory(TestPaths::private_data() / "clapperboard.mp4");
-	auto film = new_test_film2("frames_not_lost", content);
+	auto film = new_test_film("frames_not_lost", content);
 	film->write_metadata();
 	auto job = make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
 	auto encoder = dynamic_cast<J2KEncoder*>(dynamic_pointer_cast<DCPFilmEncoder>(job->_encoder)->_encoder.get());

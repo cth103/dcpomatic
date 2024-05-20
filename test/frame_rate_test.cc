@@ -45,7 +45,7 @@
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 {
 	auto content = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("best_dcp_frame_rate_test_single", { content });
+	auto film = new_test_film("best_dcp_frame_rate_test_single", { content });
 
 	/* Run some tests with a limited range of allowed rates */
 
@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 {
 	auto A = std::make_shared<FFmpegContent>("test/data/test.mp4");
 	auto B = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("best_dcp_frame_rate_test_double", { A, B });
+	auto film = new_test_film("best_dcp_frame_rate_test_double", { A, B });
 
 	/* Run some tests with a limited range of allowed rates */
 
@@ -244,7 +244,7 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
 	auto content = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	auto film = new_test_film2("audio_sampling_rate_test", { content });
+	auto film = new_test_film("audio_sampling_rate_test", { content });
 
 	std::list<int> afr = { 24, 25, 30 };
 	Config::instance()->set_allowed_dcp_frame_rates (afr);

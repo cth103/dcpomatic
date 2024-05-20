@@ -42,7 +42,7 @@ using std::make_shared;
 BOOST_AUTO_TEST_CASE (audio_processor_test)
 {
 	auto c = make_shared<FFmpegContent>("test/data/white.wav");
-	auto film = new_test_film2("audio_processor_test", { c });
+	auto film = new_test_film("audio_processor_test", { c });
 
 	film->set_audio_channels(16);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));

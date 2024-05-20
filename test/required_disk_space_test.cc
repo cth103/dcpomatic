@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (required_disk_space_test)
 {
 	auto content_a = content_factory("test/data/flat_blue.png")[0];
 	auto content_b = make_shared<DCPContent>("test/data/burnt_subtitle_test_dcp");
-	auto film = new_test_film2("required_disk_space_test", { content_a, content_b });
+	auto film = new_test_film("required_disk_space_test", { content_a, content_b });
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	film->set_audio_channels(8);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);

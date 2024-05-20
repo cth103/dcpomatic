@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	auto r = make_shared<FFmpegContent>("test/data/flat_red.png");
 	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
 	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");
-	auto film = new_test_film2("file_naming_test", { r, g, b });
+	auto film = new_test_film("file_naming_test", { r, g, b });
 	film->set_video_frame_rate (24);
 
 	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 	auto r = make_shared<FFmpegContent>("test/data/flät_red.png");
 	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
 	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");
-	auto film = new_test_film2("file_naming_test2", { r, g, b });
+	auto film = new_test_film("file_naming_test2", { r, g, b });
 
 	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
 	r->set_video_frame_rate(film, 24);
@@ -162,7 +162,7 @@ BOOST_AUTO_TEST_CASE (subtitle_file_naming)
 	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%t ostrabagalous %c"));
 
 	auto content = content_factory("test/data/15s.srt");
-	auto film = new_test_film2("subtitle_file_naming", content);
+	auto film = new_test_film("subtitle_file_naming", content);
 	film->set_interop(false);
 
 	make_and_verify_dcp (
@@ -195,7 +195,7 @@ BOOST_AUTO_TEST_CASE(remove_bad_characters_from_template)
 	Config::instance()->set_dcp_asset_filename_format(dcp::NameFormat("%c%z"));
 
 	auto content = content_factory("test/data/flat_red.png");
-	auto film = new_test_film2("remove_bad_characters_from_template", content);
+	auto film = new_test_film("remove_bad_characters_from_template", content);
 	make_and_verify_dcp(
 		film,
 		{

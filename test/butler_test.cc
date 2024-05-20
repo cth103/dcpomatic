@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 {
 	auto video = content_factory("test/data/flat_red.png")[0];
 	auto audio = content_factory("test/data/staircase.wav")[0];
-	auto film = new_test_film2("butler_test1", { video, audio });
+	auto film = new_test_film("butler_test1", { video, audio });
 	film->set_audio_channels (6);
 
 	/* This is the map of the player output (5.1) to the butler output (also 5.1) */
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE (butler_test2)
 {
 	auto content = content_factory(TestPaths::private_data() / "arrietty_JP-EN.mkv");
 	BOOST_REQUIRE (!content.empty());
-	auto film = new_test_film2 ("butler_test2", { content.front() });
+	auto film = new_test_film("butler_test2", { content.front() });
 	BOOST_REQUIRE (content.front()->audio);
 	content.front()->audio->set_delay(100);
 

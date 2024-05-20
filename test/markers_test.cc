@@ -43,7 +43,7 @@ using boost::optional;
 BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 {
 	string const name = "automatic_ffoc_lfoc_markers_test1";
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	film->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test1)
 BOOST_AUTO_TEST_CASE (automatic_ffoc_lfoc_markers_test2)
 {
 	string const name = "automatic_ffoc_lfoc_markers_test2";
-	auto film = new_test_film2 (name);
+	auto film = new_test_film(name);
 	film->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 
@@ -110,7 +110,7 @@ BOOST_AUTO_TEST_CASE(markers_correct_with_reels)
 	string const name = "markers_correct_with_reels";
 	auto content1 = content_factory("test/data/flat_red.png")[0];
 	auto content2 = content_factory("test/data/flat_red.png")[0];
-	auto film = new_test_film2(name, { content1, content2});
+	auto film = new_test_film(name, { content1, content2});
 
 	film->set_interop(false);
 	film->set_reel_type(ReelType::BY_VIDEO_CONTENT);
@@ -143,7 +143,7 @@ BOOST_AUTO_TEST_CASE(markers_correct_with_reels)
 BOOST_AUTO_TEST_CASE(no_markers_with_interop)
 {
 	string const name = "no_markers_with_interop";
-	auto film = new_test_film2(name, content_factory("test/data/flat_red.png"));
+	auto film = new_test_film(name, content_factory("test/data/flat_red.png"));
 
 	film->set_interop(true);
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_STANDARD });

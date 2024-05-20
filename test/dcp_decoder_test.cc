@@ -52,15 +52,15 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 {
 	/* Make some DCPs */
 
-	auto ov = new_test_film2 ("check_reuse_old_data_ov", content_factory("test/data/flat_red.png"));
+	auto ov = new_test_film("check_reuse_old_data_ov", content_factory("test/data/flat_red.png"));
 	make_and_verify_dcp (ov);
 
 	auto ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
-	auto vf = new_test_film2 ("check_reuse_old_data_vf", {ov_content, content_factory("test/data/L.wav")[0]});
+	auto vf = new_test_film("check_reuse_old_data_vf", {ov_content, content_factory("test/data/L.wav")[0]});
 	ov_content->set_reference_video (true);
 	make_and_verify_dcp(vf, {dcp::VerificationNote::Code::EXTERNAL_ASSET}, false);
 
-	auto encrypted = new_test_film2 ("check_reuse_old_data_decrypted");
+	auto encrypted = new_test_film("check_reuse_old_data_decrypted");
 	encrypted->examine_and_add_content (content_factory("test/data/flat_red.png")[0]);
 	BOOST_REQUIRE (!wait_for_jobs());
 	encrypted->set_encrypted (true);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	/* Add just the OV to a new project, move it around a bit and check that
 	   the _reels get reused.
 	*/
-	auto test = new_test_film2 ("check_reuse_old_data_test1");
+	auto test = new_test_film("check_reuse_old_data_test1");
 	ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
 	test->examine_and_add_content (ov_content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -96,7 +96,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	/* Add the VF to a new project, then add the OV and check that the
 	   _reels did not get reused.
 	*/
-	test = new_test_film2 ("check_reuse_old_data_test2");
+	test = new_test_film("check_reuse_old_data_test2");
 	auto vf_content = make_shared<DCPContent>(vf->dir(vf->dcp_name(false)));
 	test->examine_and_add_content (vf_content);
 	BOOST_REQUIRE (!wait_for_jobs());
@@ -114,7 +114,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	BOOST_REQUIRE (reels != decoder->reels());
 
 	/* Add a KDM to an encrypted DCP and check that the _reels did not get reused */
-	test = new_test_film2 ("check_reuse_old_data_test3");
+	test = new_test_film("check_reuse_old_data_test3");
 	auto encrypted_content = make_shared<DCPContent>(encrypted->dir(encrypted->dcp_name(false)));
 	test->examine_and_add_content (encrypted_content);
 	BOOST_REQUIRE (!wait_for_jobs());

@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (ssa_subtitle_test1)
 {
 	Cleanup cl;
 
-	auto film = new_test_film2 ("ssa_subtitle_test1", {}, &cl);
+	auto film = new_test_film("ssa_subtitle_test1", {}, &cl);
 
 	film->set_container (Ratio::from_id ("185"));
 	film->set_name ("frobozz");

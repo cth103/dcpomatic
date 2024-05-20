@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(crash_rendering_vf_interop_subs_test)
 	auto prefix = std::string("crash_rendering_vf_interop_subs_test");
 
 	auto video = content_factory("test/data/flat_red.png");
-	auto ov = new_test_film2(prefix + "_ov", video);
+	auto ov = new_test_film(prefix + "_ov", video);
 	ov->set_interop(true);
 
 	make_and_verify_dcp(
@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE(crash_rendering_vf_interop_subs_test)
 
 	auto ov_dcp = make_shared<DCPContent>(ov->dir(ov->dcp_name()));
 	auto subtitles = content_factory("test/data/short.srt");
-	auto vf = new_test_film2(prefix + "_vf", { ov_dcp, subtitles.front() });
+	auto vf = new_test_film(prefix + "_vf", { ov_dcp, subtitles.front() });
 	vf->set_interop(true);
 	vf->set_reel_type(ReelType::BY_VIDEO_CONTENT);
 	ov_dcp->set_reference_video(true);
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(crash_rendering_vf_interop_subs_test)
 
 	auto vf_dcp = make_shared<DCPContent>(vf->dir(vf->dcp_name()));
 	vf_dcp->add_ov(ov->dir(ov->dcp_name()));
-	auto test = new_test_film2(prefix + "_test", { vf_dcp });
+	auto test = new_test_film(prefix + "_test", { vf_dcp });
 	vf_dcp->text[0]->set_use(true);
 
 	auto player = make_shared<Player>(test, Image::Alignment::COMPACT);

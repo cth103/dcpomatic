@@ -69,7 +69,7 @@ write (shared_ptr<AudioBuffers> b, DCPTime)
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
 	auto content = make_shared<FFmpegContent>("test/data/white.wav");
-	auto film = new_test_film2("upmixer_a_test", { content });
+	auto film = new_test_film("upmixer_a_test", { content });
 	film->set_audio_processor (AudioProcessor::from_id("stereo-5.1-upmix-a"));
 
 	SF_INFO info;

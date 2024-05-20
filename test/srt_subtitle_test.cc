@@ -50,7 +50,7 @@ using namespace dcpomatic;
 BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 {
 	auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	auto film = new_test_film2("srt_subtitle_test", { content });
+	auto film = new_test_film("srt_subtitle_test", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
 	film->set_audio_channels(16);
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 {
 	auto content = make_shared<StringTextFileContent> ("test/data/subrip2.srt");
-	auto film = new_test_film2("srt_subtitle_test2", { content });
+	auto film = new_test_film("srt_subtitle_test2", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
 	film->set_audio_channels (6);
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 	Cleanup cl;
 
 	auto content = make_shared<StringTextFileContent>(TestPaths::private_data() / "Ankoemmling_short.srt");
-	auto film = new_test_film2 ("srt_subtitle_test3", { content }, &cl);
+	auto film = new_test_film("srt_subtitle_test3", { content }, &cl);
 
 	film->set_name ("frobozz");
 	film->set_interop (true);
@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 {
 	auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	auto film = new_test_film2("srt_subtitle_test4", { content });
+	auto film = new_test_film("srt_subtitle_test4", { content });
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
 	content->only_text()->set_use (true);
@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 /** Check the subtitle XML when there are two subtitle files in the project */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 {
-	auto film = new_test_film2("srt_subtitle_test5");
+	auto film = new_test_film("srt_subtitle_test5");
 	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	film->set_name("frobozz");
 	film->set_interop (true);
@@ -183,7 +183,7 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 BOOST_AUTO_TEST_CASE (srt_subtitle_test6)
 {
 	auto content = make_shared<StringTextFileContent>("test/data/frames.srt");
-	auto film = new_test_film2 ("srt_subtitle_test6", {content});
+	auto film = new_test_film("srt_subtitle_test6", {content});
 	film->set_interop (false);
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
@@ -215,7 +215,7 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_entity)
 	srt.close();
 
 	auto content = make_shared<StringTextFileContent>("build/test/srt_subtitle_entity.srt");
-	auto film = new_test_film2("srt_subtitle_entity", { content });
+	auto film = new_test_film("srt_subtitle_entity", { content });
 	film->set_interop(false);
 	content->only_text()->set_use(true);
 	content->only_text()->set_burn(false);
@@ -256,7 +256,7 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_control_code)
 	srt.close();
 
 	auto content = make_shared<StringTextFileContent>("build/test/srt_subtitle_control_code.srt");
-	auto film = new_test_film2("srt_subtitle_control_code", { content });
+	auto film = new_test_film("srt_subtitle_control_code", { content });
 	film->set_interop(false);
 	content->only_text()->set_use(true);
 	content->only_text()->set_burn(false);
@@ -279,7 +279,7 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_control_code)
 BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 {
 	shared_ptr<StringTextFile> content (new StringTextFile("test/data/subrip.srt"));
-	shared_ptr<Film> film = new_test_film2("subrip_render_test", { content });
+	shared_ptr<Film> film = new_test_film("subrip_render_test", { content });
 	content->examine (shared_ptr<Job> (), true);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 

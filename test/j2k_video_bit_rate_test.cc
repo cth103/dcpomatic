@@ -47,7 +47,7 @@ check (int target_bits_per_second)
 
 	string const name = "bandwidth_test_" + dcp::raw_convert<string> (target_bits_per_second);
 	auto content = make_shared<ImageContent>(TestPaths::private_data() / "prophet_frame.tiff");
-	auto film = new_test_film2(name, { content }, &cl);
+	auto film = new_test_film(name, { content }, &cl);
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, target_bits_per_second);
 	content->video->set_length (24 * duration);
 	make_and_verify_dcp (

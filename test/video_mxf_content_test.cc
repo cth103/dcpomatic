@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE (video_mxf_content_test)
 	auto const ref_mxf = find_file("test/data/scaling_test_185_185", "j2c");
 	auto content = content_factory(ref_mxf);
 
-	auto film = new_test_film2("video_mxf_content_test", content);
+	auto film = new_test_film("video_mxf_content_test", content);
 	make_and_verify_dcp (
 		film,
 		{

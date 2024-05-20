@@ -321,7 +321,7 @@ BOOST_AUTO_TEST_CASE(real_encode_with_server)
 	Cleanup cl;
 
 	auto content = content_factory(TestPaths::private_data() / "dolby_aurora.vob");
-	auto film = new_test_film2("real_encode_with_server", content, &cl);
+	auto film = new_test_film("real_encode_with_server", content, &cl);
 
 	EncodeServerFinder::instance();
 

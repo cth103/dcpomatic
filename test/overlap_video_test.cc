@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 	auto A = content_factory("test/data/flat_red.png")[0];
 	auto B = content_factory("test/data/flat_green.png")[0];
 	auto C = content_factory("test/data/flat_blue.png")[0];
-	auto film = new_test_film2("overlap_video_test1", { A, B, C });
+	auto film = new_test_film("overlap_video_test1", { A, B, C });
 	film->set_sequence (false);
 
 	auto const fps = 24;
