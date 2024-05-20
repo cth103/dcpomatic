@@ -41,15 +41,9 @@ using namespace dcpomatic;
 /** There has been garbled audio with this piece of content */
 BOOST_AUTO_TEST_CASE (content_test1)
 {
-	auto film = new_test_film ("content_test1");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_name ("content_test1");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels(16);
-
 	auto content = content_factory(TestPaths::private_data() / "demo_sound_bug.mkv")[0];
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("content_test1", { content });
+	film->set_audio_channels(16);
 	make_and_verify_dcp (
 		film,
 		{ dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE }
