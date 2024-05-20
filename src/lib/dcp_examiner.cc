@@ -167,7 +167,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 
 		if (reel->main_sound()) {
 			_has_audio = true;
-			_audio_length += reel->main_sound()->actual_duration();
+			auto const edit_rate = reel->main_sound()->edit_rate();
 
 			if (!reel->main_sound()->asset_ref().resolved()) {
 				LOG_GENERAL("Main sound %1 of reel %2 is missing", reel->main_sound()->id(), reel->id());
@@ -192,6 +192,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				}
 
 				_audio_language = try_to_parse_language (asset->language());
+				_audio_length += reel->main_sound()->actual_duration() * (asset->sampling_rate() * edit_rate.denominator / edit_rate.numerator);
 			}
 		}
 
