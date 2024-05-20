@@ -167,7 +167,11 @@ BOOST_AUTO_TEST_CASE (content_test7)
 /** WAVs with markers (I think) can end up making audio packets with no channels and no frames (#2617) */
 BOOST_AUTO_TEST_CASE(wav_with_markers_zero_channels_test)
 {
+	Cleanup cl;
+
 	auto content = content_factory(TestPaths::private_data() / "wav_with_markers.wav");
-	auto film = new_test_film2("wav_with_markers_zero_channels_test", content);
+	auto film = new_test_film2("wav_with_markers_zero_channels_test", content, &cl);
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	cl.run();
 }
