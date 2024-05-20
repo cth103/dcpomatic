@@ -58,7 +58,6 @@ private:
 
 
 extern bool wait_for_jobs ();
-extern std::shared_ptr<Film> new_test_film (std::string);
 extern std::shared_ptr<Film> new_test_film2 (std::string, std::vector<std::shared_ptr<Content>> content = {}, Cleanup* cleanup = nullptr);
 extern void check_dcp(boost::filesystem::path, boost::filesystem::path, bool sound_can_differ = false);
 extern void check_dcp (boost::filesystem::path, std::shared_ptr<const Film>);

@@ -80,10 +80,8 @@ test (boost::filesystem::path file, vector<ContentTime> times)
 	auto path = TestPaths::private_data() / file;
 	BOOST_REQUIRE (boost::filesystem::exists (path));
 
-	auto film = new_test_film ("ffmpeg_decoder_seek_test_" + file.string());
 	auto content = make_shared<FFmpegContent>(path);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("ffmpeg_decoder_seek_test_" + file.string(), { content });
 	auto decoder = make_shared<FFmpegDecoder>(film, content, false);
 	decoder->video->Data.connect (bind (&store, _1));
 

@@ -126,14 +126,9 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 	Cleanup cl;
 	cl.add(output);
 
-	auto film = new_test_film ("ffmpeg_encoder_prores_test5");
-	film->set_name ("ffmpeg_encoder_prores_test5");
 	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
-	film->set_container (Ratio::from_id ("185"));
+	auto film = new_test_film2("ffmpeg_encoder_prores_test5", { c });
 	film->set_audio_channels (6);
-
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
 
 	c->video->set_length (240);
 
@@ -149,14 +144,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 /** Subs -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 {
-	auto film = new_test_film ("ffmpeg_encoder_prores_test6");
-	film->set_name ("ffmpeg_encoder_prores_test6");
-	film->set_container (Ratio::from_id ("185"));
+	auto s = make_shared<StringTextFileContent>("test/data/subrip2.srt");
+	auto film = new_test_film2("ffmpeg_encoder_prores_test6", { s });
 	film->set_audio_channels (6);
 
-	auto s = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
 	s->only_text()->set_effect (dcp::Effect::SHADOW);
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
@@ -175,18 +166,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	Cleanup cl;
 	cl.add(output);
 
-	auto film = new_test_film ("ffmpeg_encoder_prores_test7");
-	film->set_name ("ffmpeg_encoder_prores_test7");
-	film->set_container (Ratio::from_id ("185"));
+	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
+	auto s = make_shared<StringTextFileContent>("test/data/subrip.srt");
+	auto film = new_test_film2("ffmpeg_encoder_prores_test7", { c, s });
 	film->set_audio_channels (6);
 
-	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
-	auto s = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
 	s->only_text()->set_effect (dcp::Effect::SHADOW);
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
@@ -209,14 +193,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test1)
 /** Just subtitles -> H264 */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 {
-	auto film = new_test_film ("ffmpeg_encoder_h264_test2");
-	film->set_name ("ffmpeg_encoder_h264_test2");
-	film->set_container (Ratio::from_id ("185"));
+	auto s = make_shared<StringTextFileContent>("test/data/subrip2.srt");
+	auto film = new_test_film2("ffmpeg_encoder_h264_test2", { s });
 	film->set_audio_channels (6);
 
-	auto s = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
 	s->only_text()->set_effect (dcp::Effect::SHADOW);
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
@@ -231,18 +211,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test2)
 /** Video + subs -> H264 */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test3)
 {
-	auto film = new_test_film ("ffmpeg_encoder_h264_test3");
-	film->set_name ("ffmpeg_encoder_h264_test3");
-	film->set_container (Ratio::from_id ("185"));
+	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
+	auto s = make_shared<StringTextFileContent>("test/data/subrip.srt");
+	auto film = new_test_film2("ffmpeg_encoder_h264_test3", { c, s });
 	film->set_audio_channels (6);
 
-	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
-
-	auto s = make_shared<StringTextFileContent>("test/data/subrip.srt");
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
 	s->only_text()->set_colour (dcp::Colour (255, 255, 0));
 	s->only_text()->set_effect (dcp::Effect::SHADOW);
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
@@ -271,24 +244,15 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test4)
 /** Test mixdown from 5.1 to stereo */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test5)
 {
-	auto film = new_test_film("ffmpeg_encoder_h264_test5");
-	film->set_name("ffmpeg_encoder_h264_test5");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
-
 	auto L = make_shared<FFmpegContent>("test/data/L.wav");
-	film->examine_and_add_content (L);
 	auto R = make_shared<FFmpegContent>("test/data/R.wav");
-	film->examine_and_add_content (R);
 	auto C = make_shared<FFmpegContent>("test/data/C.wav");
-	film->examine_and_add_content (C);
 	auto Ls = make_shared<FFmpegContent>("test/data/Ls.wav");
-	film->examine_and_add_content (Ls);
 	auto Rs = make_shared<FFmpegContent>("test/data/Rs.wav");
-	film->examine_and_add_content (Rs);
 	auto Lfe = make_shared<FFmpegContent>("test/data/Lfe.wav");
-	film->examine_and_add_content (Lfe);
-	BOOST_REQUIRE (!wait_for_jobs ());
+
+	auto film = new_test_film2("ffmpeg_encoder_h264_test5", { L, R, C, Ls, Rs, Lfe });
+	film->set_audio_channels (6);
 
 	AudioMapping map (1, MAX_DCP_AUDIO_CHANNELS);
 

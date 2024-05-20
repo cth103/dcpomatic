@@ -47,12 +47,12 @@ using std::vector;
 
 BOOST_AUTO_TEST_CASE (film_metadata_test)
 {
-	auto film = new_test_film ("film_metadata_test");
+	auto film = new_test_film2("film_metadata_test");
 	auto dir = test_film_dir ("film_metadata_test");
 
 	film->_isdcf_date = boost::gregorian::from_undelimited_string ("20130211");
 	BOOST_CHECK (film->container() == Ratio::from_id ("185"));
-	BOOST_CHECK (film->dcp_content_type() == nullptr);
+	BOOST_CHECK (film->dcp_content_type() == DCPContentType::from_isdcf_name("TST"));
 
 	film->set_name ("fred");
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("SHR"));

@@ -44,15 +44,11 @@ using std::make_shared;
 
 BOOST_AUTO_TEST_CASE (fourk_test)
 {
-	auto film = new_test_film ("4k_test");
-	LogSwitcher ls (film->log());
-	film->set_name ("4k_test");
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
+	auto film = new_test_film2("4k_test", { c });
+	LogSwitcher ls (film->log());
 	film->set_resolution (Resolution::FOUR_K);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
 
 	make_and_verify_dcp (
 		film,

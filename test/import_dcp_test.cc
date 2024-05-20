@@ -56,17 +56,10 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 {
 	ConfigRestorer cr;
 
-	auto A = new_test_film ("import_dcp_test");
-	A->set_container (Ratio::from_id ("185"));
-	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	A->set_name ("frobozz");
-	A->set_interop (false);
-
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	A->examine_and_add_content (c);
+	auto A = new_test_film2("import_dcp_test", { c });
 	A->set_encrypted (true);
-	BOOST_CHECK (!wait_for_jobs ());
-
+	A->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	make_and_verify_dcp (A);
 
 	dcp::DCP A_dcp ("build/test/import_dcp_test/" + A->dcp_name());
@@ -80,20 +73,11 @@ BOOST_AUTO_TEST_CASE (import_dcp_test)
 	auto const decrypted_kdm = A->make_kdm(A_dcp.cpls().front()->file().get(), dcp::LocalTime ("2030-07-21T00:00:00+00:00"), dcp::LocalTime ("2031-07-21T00:00:00+00:00"));
 	auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
-	auto B = new_test_film ("import_dcp_test2");
-	B->set_container (Ratio::from_id ("185"));
-	B->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	B->set_name ("frobozz");
-	B->set_interop (false);
-	B->set_audio_channels(16);
-
 	auto d = make_shared<DCPContent>("build/test/import_dcp_test/" + A->dcp_name());
-	B->examine_and_add_content (d);
-	BOOST_CHECK (!wait_for_jobs ());
 	d->add_kdm (kdm);
-	JobManager::instance()->add (make_shared<ExamineContentJob>(B, d));
-	BOOST_CHECK (!wait_for_jobs ());
-
+	auto B = new_test_film2("import_dcp_test2", { d });
+	B->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	B->set_audio_channels(16);
 	make_and_verify_dcp (B);
 
 	/* Should be 1s red, 1s green, 1s blue */

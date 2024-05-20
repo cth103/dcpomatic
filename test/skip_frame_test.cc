@@ -42,17 +42,8 @@ using std::make_shared;
 
 BOOST_AUTO_TEST_CASE (skip_frame_test)
 {
-	auto film = new_test_film ("skip_frame_test");
-	film->set_name ("skip_frame_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film->set_interop (false);
 	auto c = make_shared<FFmpegContent>("test/data/count300bd48.m2ts");
-	film->examine_and_add_content (c);
-
-	BOOST_REQUIRE (!wait_for_jobs());
-
-	film->write_metadata ();
+	auto film = new_test_film2("skip_frame_test", { c });
 
 	film->set_video_frame_rate (24);
 	make_and_verify_dcp (film);

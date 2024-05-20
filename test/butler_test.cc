@@ -40,17 +40,9 @@ using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (butler_test1)
 {
-	auto film = new_test_film ("butler_test1");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name("FTR"));
-	film->set_name ("butler_test1");
-	film->set_container (Ratio::from_id ("185"));
-
 	auto video = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (video);
 	auto audio = content_factory("test/data/staircase.wav")[0];
-	film->examine_and_add_content (audio);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
+	auto film = new_test_film2("butler_test1", { video, audio });
 	film->set_audio_channels (6);
 
 	/* This is the map of the player output (5.1) to the butler output (also 5.1) */

@@ -44,17 +44,12 @@ void check_within_n (int64_t a, int64_t b, int64_t n)
 
 BOOST_AUTO_TEST_CASE (required_disk_space_test)
 {
-	auto film = new_test_film ("required_disk_space_test");
+	auto content_a = content_factory("test/data/flat_blue.png")[0];
+	auto content_b = make_shared<DCPContent>("test/data/burnt_subtitle_test_dcp");
+	auto film = new_test_film2("required_disk_space_test", { content_a, content_b });
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 	film->set_audio_channels(8);
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	auto content_a = content_factory("test/data/flat_blue.png")[0];
-	BOOST_REQUIRE (content_a);
-	film->examine_and_add_content (content_a);
-	auto content_b = make_shared<DCPContent>("test/data/burnt_subtitle_test_dcp");
-	film->examine_and_add_content (content_b);
-	BOOST_REQUIRE (!wait_for_jobs());
-	film->write_metadata ();
 
 	check_within_n (
 		film->required_disk_space(),

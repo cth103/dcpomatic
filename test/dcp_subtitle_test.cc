@@ -75,14 +75,10 @@ store (ContentStringText sub)
 /** Test pass-through of a very simple DCP subtitle file */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 {
-	auto film = new_test_film ("dcp_subtitle_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->set_interop (false);
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub.xml");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("dcp_subtitle_test", { content });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_name("frobozz");
 
 	BOOST_CHECK_EQUAL (content->full_length(film).get(), DCPTime::from_seconds(2).get());
 
@@ -107,13 +103,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test)
 /** Test parsing of a subtitle within an existing DCP */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 {
-	auto film = new_test_film ("dcp_subtitle_within_dcp_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
 	auto content = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("dcp_subtitle_within_dcp_test", { content });
 
 	auto decoder = make_shared<DCPDecoder>(film, content, false, false, shared_ptr<DCPDecoder>());
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
@@ -130,13 +121,8 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_within_dcp_test)
 /** Test subtitles whose text includes things like &lt;b&gt; */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 {
-	auto film = new_test_film ("dcp_subtitle_test2");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub2.xml");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("dcp_subtitle_test2", { content });
 
 	auto decoder = make_shared<DCPSubtitleDecoder>(film, content);
 	decoder->only_text()->PlainStart.connect (bind (store, _1));
@@ -154,15 +140,10 @@ BOOST_AUTO_TEST_CASE (dcp_subtitle_test2)
 /** Test a failure case */
 BOOST_AUTO_TEST_CASE (dcp_subtitle_test3)
 {
-	auto film = new_test_film ("dcp_subtitle_test3");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->set_interop (true);
 	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub3.xml");
-	film->examine_and_add_content (content);
+	auto film = new_test_film2("dcp_subtitle_test3", { content });
+	film->set_interop (true);
 	content->only_text()->set_language(dcp::LanguageTag("de"));
-	BOOST_REQUIRE (!wait_for_jobs ());
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_STANDARD });
 

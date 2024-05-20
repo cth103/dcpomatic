@@ -61,17 +61,11 @@ BOOST_AUTO_TEST_CASE (file_naming_test)
 	ConfigRestorer cr;
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat("%c"));
 
-	auto film = new_test_film ("file_naming_test");
-	film->set_name ("file_naming_test");
-	film->set_video_frame_rate (24);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	auto r = make_shared<FFmpegContent>("test/data/flat_red.png");
-	film->examine_and_add_content (r);
 	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
-	film->examine_and_add_content (g);
 	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");
-	film->examine_and_add_content (b);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("file_naming_test", { r, g, b });
+	film->set_video_frame_rate (24);
 
 	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
 	r->set_video_frame_rate(film, 24);
@@ -115,10 +109,6 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
 
-	auto film = new_test_film ("file_naming_test2");
-	film->set_name ("file_naming_test2");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-
 #ifdef DCPOMATIC_WINDOWS
 	/* This is necessary so that the UTF8 string constant below gets converted properly */
 	std::locale::global(boost::locale::generator().generate(""));
@@ -126,12 +116,9 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 #endif
 
 	auto r = make_shared<FFmpegContent>("test/data/flät_red.png");
-	film->examine_and_add_content (r);
 	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
-	film->examine_and_add_content (g);
 	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");
-	film->examine_and_add_content (b);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("file_naming_test2", { r, g, b });
 
 	r->set_position (film, dcpomatic::DCPTime::from_seconds(0));
 	r->set_video_frame_rate(film, 24);

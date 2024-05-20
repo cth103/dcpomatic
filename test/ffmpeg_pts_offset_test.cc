@@ -41,10 +41,8 @@ using namespace dcpomatic;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_pts_offset_test)
 {
-	auto film = new_test_film ("ffmpeg_pts_offset_test");
 	auto content = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("ffmpeg_pts_offset_test", { content });
 
 	content->audio = make_shared<AudioContent>(content.get());
 	content->audio->add_stream (shared_ptr<FFmpegAudioStream> (new FFmpegAudioStream));

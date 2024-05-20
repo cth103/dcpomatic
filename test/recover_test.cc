@@ -58,16 +58,9 @@ note (dcp::NoteType t, string n)
 
 BOOST_AUTO_TEST_CASE (recover_test_2d)
 {
-	auto film = new_test_film("recover_test_2d");
-	film->set_interop (false);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_name ("recover_test");
-	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
-
 	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("recover_test_2d", { content });
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 
 	make_and_verify_dcp (
 		film,
@@ -108,18 +101,11 @@ BOOST_AUTO_TEST_CASE (recover_test_2d)
 
 BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_test_2d"))
 {
-	auto film = new_test_film ("recover_test_3d");
-	film->set_interop (false);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_name ("recover_test");
-	film->set_three_d (true);
-	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
-
 	auto content = make_shared<ImageContent>("test/data/3d_test");
 	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("recover_test_3d", { content });
+	film->set_three_d (true);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 
@@ -154,18 +140,11 @@ BOOST_AUTO_TEST_CASE (recover_test_3d, * boost::unit_test::depends_on("recover_t
 
 BOOST_AUTO_TEST_CASE (recover_test_2d_encrypted, * boost::unit_test::depends_on("recover_test_3d"))
 {
-	auto film = new_test_film ("recover_test_2d_encrypted");
-	film->set_interop (false);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_container (Ratio::from_id ("185"));
-	film->set_name ("recover_test");
+	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
+	auto film = new_test_film2("recover_test_2d_encrypted", { content });
 	film->set_encrypted (true);
 	film->_key = dcp::Key("eafcb91c9f5472edf01f3a2404c57258");
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, 100000000);
-
-	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
 
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE, dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE });
 

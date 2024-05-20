@@ -78,14 +78,9 @@ accumulate (shared_ptr<AudioBuffers> audio, DCPTime)
 /** Check that the Player correctly generates silence when used with a silent FFmpegContent */
 BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 {
-	auto film = new_test_film ("player_silence_padding_test");
-	film->set_name ("player_silence_padding_test");
 	auto c = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	film->set_container (Ratio::from_id ("185"));
+	auto film = new_test_film2("player_silence_padding_test", { c });
 	film->set_audio_channels (6);
-
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
 
 	accumulated = std::make_shared<AudioBuffers>(film->audio_channels(), 0);
 
@@ -106,18 +101,11 @@ BOOST_AUTO_TEST_CASE (player_silence_padding_test)
 /* Test insertion of black frames between separate bits of video content */
 BOOST_AUTO_TEST_CASE (player_black_fill_test)
 {
-	auto film = new_test_film ("black_fill_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_name ("black_fill_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_sequence (false);
-	film->set_interop (false);
 	auto contentA = std::make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	auto contentB = std::make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
-
-	film->examine_and_add_content (contentA);
-	film->examine_and_add_content (contentB);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("black_fill_test", { contentA, contentB });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
+	film->set_sequence (false);
 
 	contentA->video->set_length (3);
 	contentA->set_position (film, DCPTime::from_frames(2, film->video_frame_rate()));
@@ -155,16 +143,9 @@ BOOST_AUTO_TEST_CASE (player_black_fill_test)
 /** Check behaviour with an awkward playlist whose data does not end on a video frame start */
 BOOST_AUTO_TEST_CASE (player_subframe_test)
 {
-	auto film = new_test_film ("reels_test7");
-	film->set_name ("reels_test7");
-	film->set_container (Ratio::from_id("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TST"));
 	auto A = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (A);
-	BOOST_REQUIRE (!wait_for_jobs());
 	auto B = content_factory("test/data/awkward_length.wav")[0];
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("reels_test7", { A, B });
 	film->set_video_frame_rate (24);
 	A->video->set_length (3 * 24);
 
@@ -202,18 +183,10 @@ audio (shared_ptr<AudioBuffers> audio, DCPTime)
 /** Check with a video-only file that the video and audio emissions happen more-or-less together */
 BOOST_AUTO_TEST_CASE (player_interleave_test)
 {
-	auto film = new_test_film ("ffmpeg_transcoder_basic_test_subs");
-	film->set_name ("ffmpeg_transcoder_basic_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_audio_channels (6);
-
 	auto c = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs ());
-
 	auto s = std::make_shared<StringTextFileContent>("test/data/subrip.srt");
-	film->examine_and_add_content (s);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("ffmpeg_transcoder_basic_test_subs", { c, s });
+	film->set_audio_channels (6);
 
 	Player player(film, Image::Alignment::COMPACT);
 	player.Video.connect(bind(&video, _1, _2));

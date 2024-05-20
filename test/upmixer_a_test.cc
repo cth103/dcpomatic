@@ -68,15 +68,9 @@ write (shared_ptr<AudioBuffers> b, DCPTime)
 
 BOOST_AUTO_TEST_CASE (upmixer_a_test)
 {
-	auto film = new_test_film ("upmixer_a_test");
-	film->set_container (Ratio::from_id("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
-	film->set_name ("frobozz");
-	film->set_audio_processor (AudioProcessor::from_id("stereo-5.1-upmix-a"));
 	auto content = make_shared<FFmpegContent>("test/data/white.wav");
-	film->examine_and_add_content (content);
-
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("upmixer_a_test", { content });
+	film->set_audio_processor (AudioProcessor::from_id("stereo-5.1-upmix-a"));
 
 	SF_INFO info;
 	info.samplerate = 48000;

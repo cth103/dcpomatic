@@ -56,11 +56,8 @@ using std::shared_ptr;
 /** Basic sanity check of THREE_D_LEFT_RIGHT */
 BOOST_AUTO_TEST_CASE (threed_test1)
 {
-	auto film = new_test_film ("threed_test1");
-	film->set_name ("test_film1");
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("threed_test1", { c });
 
 	c->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 
@@ -76,16 +73,10 @@ BOOST_AUTO_TEST_CASE (threed_test1)
  */
 BOOST_AUTO_TEST_CASE (threed_test2)
 {
-	auto film = new_test_film ("threed_test2");
-	film->set_name ("test_film2");
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
-
+	auto film = new_test_film2("threed_test2", { c });
 	c->video->set_frame_type (VideoFrameType::THREE_D_ALTERNATE);
 
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	film->set_three_d (true);
 	make_and_verify_dcp (film);
 }

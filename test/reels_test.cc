@@ -65,13 +65,9 @@ filter_ok(std::vector<dcp::VerificationNote>& notes)
 /** Test Film::reels() */
 BOOST_AUTO_TEST_CASE (reels_test1)
 {
-	auto film = new_test_film ("reels_test1");
-	film->set_container (Ratio::from_id ("185"));
 	auto A = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (A);
 	auto B = make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("reels_test1", { A, B });
 	BOOST_CHECK_EQUAL (A->full_length(film).get(), 288000);
 
 	film->set_reel_type (ReelType::SINGLE);
@@ -111,32 +107,13 @@ BOOST_AUTO_TEST_CASE (reels_test1)
  */
 BOOST_AUTO_TEST_CASE (reels_test2)
 {
-	auto film = new_test_film ("reels_test2");
-	film->set_name ("reels_test2");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_interop (false);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-
-	{
-		auto c = make_shared<ImageContent>("test/data/flat_red.png");
-		film->examine_and_add_content (c);
-		BOOST_REQUIRE (!wait_for_jobs());
-		c->video->set_length (24);
-	}
-
-	{
-		auto c = make_shared<ImageContent>("test/data/flat_green.png");
-		film->examine_and_add_content (c);
-		BOOST_REQUIRE (!wait_for_jobs());
-		c->video->set_length (24);
-	}
-
-	{
-		auto c = make_shared<ImageContent>("test/data/flat_blue.png");
-		film->examine_and_add_content (c);
-		BOOST_REQUIRE (!wait_for_jobs());
-		c->video->set_length (24);
-	}
+	auto r = make_shared<ImageContent>("test/data/flat_red.png");
+	auto g = make_shared<ImageContent>("test/data/flat_green.png");
+	auto b = make_shared<ImageContent>("test/data/flat_blue.png");
+	auto film = new_test_film2("reels_test2", { r, g, b });
+	r->video->set_length(24);
+	g->video->set_length(24);
+	b->video->set_length(24);
 
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	BOOST_CHECK_EQUAL (film->reels().size(), 3U);
@@ -153,9 +130,9 @@ BOOST_AUTO_TEST_CASE (reels_test2)
 	film2->set_reel_type (ReelType::BY_VIDEO_CONTENT);
 	film2->set_audio_channels(16);
 
-	auto r = film2->reels ();
-	BOOST_CHECK_EQUAL (r.size(), 3U);
-	auto i = r.begin ();
+	auto reels = film2->reels ();
+	BOOST_CHECK_EQUAL(reels.size(), 3U);
+	auto i = reels.begin();
 	BOOST_CHECK_EQUAL (i->from.get(), 0);
 	BOOST_CHECK_EQUAL (i->to.get(), 96000);
 	++i;

@@ -41,11 +41,8 @@ using std::make_shared;
 /** Test the mid-side decoder for analysis and DCP-making */
 BOOST_AUTO_TEST_CASE (audio_processor_test)
 {
-	auto film = new_test_film ("audio_processor_test");
-	film->set_name ("audio_processor_test");
 	auto c = make_shared<FFmpegContent>("test/data/white.wav");
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("audio_processor_test", { c });
 
 	film->set_audio_channels(16);
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));

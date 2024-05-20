@@ -78,12 +78,8 @@ audio (std::shared_ptr<AudioBuffers> audio, int channels)
 static shared_ptr<Film>
 test (boost::filesystem::path file)
 {
-	auto film = new_test_film ("ffmpeg_audio_only_test");
-	film->set_name ("test_film");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
 	auto c = make_shared<FFmpegContent>(file);
-	film->examine_and_add_content (c);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("ffmpeg_audio_only_test", { c });
 	film->write_metadata ();
 
 	/* See if can make a DCP without any errors */

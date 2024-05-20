@@ -65,17 +65,11 @@ openssl_hash (boost::filesystem::path file)
 /** Test the digests made by the DCP writing code on a multi-reel DCP */
 BOOST_AUTO_TEST_CASE (digest_test)
 {
-	auto film = new_test_film ("digest_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TST"));
-	film->set_name ("digest_test");
 	auto r = make_shared<ImageContent>("test/data/flat_red.png");
 	auto g = make_shared<ImageContent>("test/data/flat_green.png");
 	auto b = make_shared<ImageContent>("test/data/flat_blue.png");
-	film->examine_and_add_content (r);
-	film->examine_and_add_content (g);
-	film->examine_and_add_content (b);
+	auto film = new_test_film2("digest_test", { r, g, b });
 	film->set_reel_type (ReelType::BY_VIDEO_CONTENT);
-	BOOST_REQUIRE (!wait_for_jobs());
 
 	BOOST_CHECK (Config::instance()->master_encoding_threads() > 1);
 	make_and_verify_dcp (film);

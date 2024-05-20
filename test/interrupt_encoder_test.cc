@@ -45,14 +45,8 @@ using std::make_shared;
  */
 BOOST_AUTO_TEST_CASE (interrupt_encoder_test)
 {
-	auto film = new_test_film ("interrupt_encoder_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name("FTR"));
-	film->set_container (Ratio::from_id("185"));
-	film->set_name ("interrupt_encoder_test");
-
 	auto content = make_shared<FFmpegContent>(TestPaths::private_data() / "prophet_long_clip.mkv");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("interrupt_encoder_test", { content });
 
 	make_dcp (film, TranscodeJob::ChangedBehaviour::IGNORE);
 

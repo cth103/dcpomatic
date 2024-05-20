@@ -41,8 +41,8 @@ using namespace dcpomatic;
  */
 BOOST_AUTO_TEST_CASE (ffmpeg_examiner_test)
 {
-	auto film = new_test_film ("ffmpeg_examiner_test");
 	auto content = make_shared<FFmpegContent>("test/data/count300bd24.m2ts");
+	auto film = new_test_film2("ffmpeg_examiner_test", { content });
 	auto examiner = make_shared<FFmpegExaminer>(content);
 
 	BOOST_CHECK_EQUAL (examiner->first_video().get().get(), ContentTime::from_seconds(600).get());

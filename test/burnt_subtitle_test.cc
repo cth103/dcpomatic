@@ -58,15 +58,11 @@ using namespace dcpomatic;
 /** Build a small DCP with no picture and a single subtitle overlaid onto it from a SubRip file */
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 {
-	auto film = new_test_film ("burnt_subtitle_test_subrip");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
 	auto content = content_factory("test/data/subrip2.srt")[0];
+	auto film = new_test_film2("burnt_subtitle_test_subrip", { content });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	content->text[0]->set_use(true);
 	content->text[0]->set_burn(true);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp(
 		film,
 		{ dcp::VerificationNote::Code::MISSING_CPL_METADATA }
@@ -82,14 +78,11 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_subrip)
 /** Build a small DCP with no picture and a single subtitle overlaid onto it from a DCP XML file */
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 {
-	auto film = new_test_film ("burnt_subtitle_test_dcp");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
 	auto content = content_factory("test/data/dcp_sub.xml")[0];
+	auto film = new_test_film2("burnt_subtitle_test_dcp", { content });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_name("frobozz");
 	content->text[0]->set_use(true);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp(
 		film,
 		{
@@ -104,26 +97,18 @@ BOOST_AUTO_TEST_CASE (burnt_subtitle_test_dcp)
 /** Burn some subtitles into an existing DCP to check the colour conversion */
 BOOST_AUTO_TEST_CASE (burnt_subtitle_test_onto_dcp)
 {
-	auto film = new_test_film ("burnt_subtitle_test_onto_dcp");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->examine_and_add_content(content_factory("test/data/flat_black.png")[0]);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("burnt_subtitle_test_onto_dcp", { content_factory("test/data/flat_black.png")[0] });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	make_and_verify_dcp (film);
 
 	Config::instance()->set_log_types (Config::instance()->log_types() | LogEntry::TYPE_DEBUG_ENCODE);
-	auto film2 = new_test_film ("burnt_subtitle_test_onto_dcp2");
-	film2->set_container (Ratio::from_id ("185"));
-	film2->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film2->set_name ("frobozz");
 	auto background_dcp = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	film2->examine_and_add_content (background_dcp);
 	auto sub = content_factory("test/data/subrip2.srt")[0];
+	auto film2 = new_test_film2("burnt_subtitle_test_onto_dcp2", { background_dcp, sub });
+	film2->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film2->set_name("frobozz");
 	sub->text[0]->set_burn(true);
 	sub->text[0]->set_effect(dcp::Effect::BORDER);
-	film2->examine_and_add_content (sub);
-	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (film2);
 
 	BOOST_CHECK (background_dcp->position() == DCPTime());

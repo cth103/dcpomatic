@@ -203,20 +203,6 @@ test_film_dir (string name)
 
 
 shared_ptr<Film>
-new_test_film (string name)
-{
-	auto p = test_film_dir (name);
-	if (boost::filesystem::exists (p)) {
-		boost::filesystem::remove_all (p);
-	}
-
-	auto film = make_shared<Film>(p);
-	film->write_metadata ();
-	return film;
-}
-
-
-shared_ptr<Film>
 new_test_film2 (string name, vector<shared_ptr<Content>> content, Cleanup* cleanup)
 {
 	auto p = test_film_dir (name);

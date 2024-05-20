@@ -74,14 +74,9 @@ check (string name, int check_full, int check_repeat)
 /** Make a 2D DCP out of a 2D still and check that the J2K encoding is only done once for each frame */
 BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 {
-	auto film = new_test_film ("optimise_stills_test1");
-	LogSwitcher ls (film->log());
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
 	auto content = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("optimise_stills_test1", { content });
+	LogSwitcher ls (film->log());
 	make_and_verify_dcp (film);
 
 	check ("optimise_stills_test1", 1, 10 * 24 - 1);
@@ -91,14 +86,9 @@ BOOST_AUTO_TEST_CASE (optimise_stills_test1)
 /** Make a 3D DCP out of a 3D L/R still and check that the J2K encoding is only done once for L and R */
 BOOST_AUTO_TEST_CASE (optimise_stills_test2)
 {
-	auto film = new_test_film ("optimise_stills_test2");
-	LogSwitcher ls (film->log());
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
-	film->set_name ("frobozz");
 	auto content = content_factory("test/data/flat_red.png")[0];
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("optimise_stills_test2", { content });
+	LogSwitcher ls (film->log());
 	content->video->set_frame_type (VideoFrameType::THREE_D_LEFT_RIGHT);
 	film->set_three_d (true);
 	make_and_verify_dcp (film);

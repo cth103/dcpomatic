@@ -51,12 +51,8 @@ using std::string;
 
 BOOST_AUTO_TEST_CASE (ffmpeg_audio_test)
 {
-	auto film = new_test_film ("ffmpeg_audio_test");
-	film->set_name ("ffmpeg_audio_test");
 	auto c = make_shared<FFmpegContent> ("test/data/staircase.mov");
-	film->examine_and_add_content (c);
-
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("ffmpeg_audio_test", { c });
 
 	int constexpr audio_channels = 6;
 

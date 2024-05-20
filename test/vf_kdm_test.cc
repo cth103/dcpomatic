@@ -51,16 +51,11 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 
 	/* Make an encrypted DCP from test.mp4 */
 
-	auto A = new_test_film ("vf_kdm_test_ov");
-	A->set_container (Ratio::from_id ("185"));
-	A->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	A->set_name ("frobozz");
-	A->set_interop (true);
-
 	auto c = make_shared<FFmpegContent>("test/data/test.mp4");
-	A->examine_and_add_content (c);
+	auto A = new_test_film2("vf_kdm_test_ov", { c });
+	A->set_interop (true);
+	A->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
 	A->set_encrypted (true);
-	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (A, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	dcp::DCP A_dcp ("build/test/vf_kdm_test_ov/" + A->dcp_name());
@@ -76,18 +71,15 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 
 	/* Import A into a new project, with the required KDM, and make a VF that refers to it */
 
-	auto B = new_test_film ("vf_kdm_test_vf");
-	B->set_container (Ratio::from_id("185"));
-	B->set_dcp_content_type (DCPContentType::from_isdcf_name("TLR"));
-	B->set_name ("frobozz");
-	B->set_interop (true);
-
 	auto d = make_shared<DCPContent>("build/test/vf_kdm_test_ov/" + A->dcp_name());
-	d->add_kdm (A_kdm);
+	d->add_kdm(A_kdm);
+
+	auto B = new_test_film2("vf_kdm_test_vf", { d });
+	B->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	B->set_interop(true);
+
 	d->set_reference_video (true);
-	B->examine_and_add_content (d);
 	B->set_encrypted (true);
-	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (B, {dcp::VerificationNote::Code::INVALID_STANDARD, dcp::VerificationNote::Code::EXTERNAL_ASSET});
 
 	dcp::DCP B_dcp ("build/test/vf_kdm_test_vf/" + B->dcp_name());
@@ -100,18 +92,14 @@ BOOST_AUTO_TEST_CASE (vf_kdm_test)
 	   This KDM should decrypt assets from the OV too.
 	*/
 
-	auto C = new_test_film ("vf_kdm_test_check");
-	C->set_container (Ratio::from_id ("185"));
-	C->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	C->set_name ("frobozz");
-	C->set_interop (true);
-
 	auto e = make_shared<DCPContent>("build/test/vf_kdm_test_vf/" + B->dcp_name());
-	e->add_kdm (B_kdm);
 	e->add_ov ("build/test/vf_kdm_test_ov/" + A->dcp_name());
-	C->examine_and_add_content (e);
+	e->add_kdm(B_kdm);
+	auto C = new_test_film2("vf_kdm_test_check", { e });
+	C->set_interop (true);
 	C->set_audio_channels(6);
-	BOOST_REQUIRE (!wait_for_jobs());
+	C->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+
 	make_and_verify_dcp (C, {dcp::VerificationNote::Code::INVALID_STANDARD});
 
 	/* Should be 1s red, 1s green, 1s blue */

@@ -73,15 +73,9 @@ static void scaling_test_for (shared_ptr<Film> film, shared_ptr<Content> content
 
 BOOST_AUTO_TEST_CASE (scaling_test)
 {
-	auto film = new_test_film ("scaling_test");
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name("FTR"));
-	film->set_name ("scaling_test");
 	auto imc = make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
-
-	film->examine_and_add_content (imc);
-
-	BOOST_REQUIRE (!wait_for_jobs());
-
+	auto film = new_test_film2("scaling_test", { imc });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("FTR"));
 	imc->video->set_length (1);
 
 	/* F-133: 133 image in a flat container */

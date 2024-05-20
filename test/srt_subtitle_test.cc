@@ -49,16 +49,11 @@ using namespace dcpomatic;
 /** Make a very short DCP with a single subtitle from .srt with no specified fonts */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 {
-	auto film = new_test_film ("srt_subtitle_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->set_audio_channels (6);
-	film->set_interop (false);
-	film->set_audio_channels(16);
 	auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("srt_subtitle_test", { content });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_name("frobozz");
+	film->set_audio_channels(16);
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
@@ -79,15 +74,11 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test)
 /** Same again but with a `font' specified */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test2)
 {
-	auto film = new_test_film ("srt_subtitle_test2");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->set_audio_channels (6);
-	film->set_interop (false);
 	auto content = make_shared<StringTextFileContent> ("test/data/subrip2.srt");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("srt_subtitle_test2", { content });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_name("frobozz");
+	film->set_audio_channels (6);
 
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
@@ -146,16 +137,12 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test3)
 /** Build a small DCP with no picture and a single subtitle overlaid onto it */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 {
-	auto film = new_test_film ("srt_subtitle_test4");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
-	film->set_interop (false);
 	auto content = make_shared<StringTextFileContent>("test/data/subrip2.srt");
+	auto film = new_test_film2("srt_subtitle_test4", { content });
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_name("frobozz");
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
 	make_and_verify_dcp (
 		film,
 		{
@@ -172,10 +159,9 @@ BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 /** Check the subtitle XML when there are two subtitle files in the project */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test5)
 {
-	auto film = new_test_film ("srt_subtitle_test5");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
+	auto film = new_test_film2("srt_subtitle_test5");
+	film->set_dcp_content_type(DCPContentType::from_isdcf_name("TLR"));
+	film->set_name("frobozz");
 	film->set_interop (true);
 	film->set_sequence (false);
 	film->set_audio_channels(6);
@@ -292,8 +278,8 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_control_code)
 /** Test rendering of a SubRip subtitle */
 BOOST_AUTO_TEST_CASE (srt_subtitle_test4)
 {
-	shared_ptr<Film> film = new_test_film ("subrip_render_test");
 	shared_ptr<StringTextFile> content (new StringTextFile("test/data/subrip.srt"));
+	shared_ptr<Film> film = new_test_film2("subrip_render_test", { content });
 	content->examine (shared_ptr<Job> (), true);
 	BOOST_CHECK_EQUAL (content->full_length(), DCPTime::from_seconds ((3 * 60) + 56.471));
 

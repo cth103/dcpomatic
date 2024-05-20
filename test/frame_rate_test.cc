@@ -44,11 +44,8 @@
 */
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 {
-	auto film = new_test_film("best_dcp_frame_rate_test_single");
-	/* Get any piece of content, it doesn't matter what */
 	auto content = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("best_dcp_frame_rate_test_single", { content });
 
 	/* Run some tests with a limited range of allowed rates */
 
@@ -222,20 +219,13 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_single)
 */
 BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 {
-	auto film = new_test_film("best_dcp_frame_rate_test_double");
-	/* Get any old content, it doesn't matter what */
 	auto A = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (A);
 	auto B = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("best_dcp_frame_rate_test_double", { A, B });
 
 	/* Run some tests with a limited range of allowed rates */
 
-	std::list<int> afr;
-	afr.push_back (24);
-	afr.push_back (25);
-	afr.push_back (30);
+	std::list<int> afr = { 24, 25, 30 };
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
 	A->_video_frame_rate = 30;
@@ -253,16 +243,10 @@ BOOST_AUTO_TEST_CASE (best_dcp_frame_rate_test_double)
 
 BOOST_AUTO_TEST_CASE (audio_sampling_rate_test)
 {
-	auto film = new_test_film("audio_sampling_rate_test");
-	/* Get any piece of content, it doesn't matter what */
 	auto content = std::make_shared<FFmpegContent>("test/data/test.mp4");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2("audio_sampling_rate_test", { content });
 
-	std::list<int> afr;
-	afr.push_back (24);
-	afr.push_back (25);
-	afr.push_back (30);
+	std::list<int> afr = { 24, 25, 30 };
 	Config::instance()->set_allowed_dcp_frame_rates (afr);
 
 	auto stream = std::make_shared<FFmpegAudioStream>("foo", 0, 0, 0, 0, 0);

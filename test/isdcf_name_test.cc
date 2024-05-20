@@ -46,7 +46,8 @@ using std::string;
 
 BOOST_AUTO_TEST_CASE (isdcf_name_test)
 {
-	auto film = new_test_film ("isdcf_name_test");
+	auto audio = content_factory("test/data/sine_440.wav")[0];
+	auto film = new_test_film2("isdcf_name_test", { audio });
 
 	/* A basic test */
 
@@ -54,9 +55,6 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
 	film->set_container (Ratio::from_id ("185"));
 	film->_isdcf_date = boost::gregorian::date (2014, boost::gregorian::Jul, 4);
-	auto audio = content_factory("test/data/sine_440.wav")[0];
-	film->examine_and_add_content (audio);
-	BOOST_REQUIRE (!wait_for_jobs());
 	film->set_audio_language(dcp::LanguageTag("en-US"));
 	film->set_content_versions({"1"});
 	film->set_release_territory(dcp::LanguageTag::RegionSubtag("GB"));
@@ -103,7 +101,7 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 
 	/* Test interior aspect ratio: shouldn't be shown with trailers */
 
-	shared_ptr<ImageContent> content (new ImageContent ("test/data/simple_testcard_640x480.png"));
+	auto content = std::make_shared<ImageContent>("test/data/simple_testcard_640x480.png");
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
 	content->video->set_custom_ratio (1.33);
