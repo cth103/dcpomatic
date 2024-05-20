@@ -122,6 +122,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test4)
 /** Still image -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 {
+	boost::filesystem::path const output = "build/test/ffmpeg_encoder_prores_test5.mov";
+	Cleanup cl;
+	cl.add(output);
+
 	auto film = new_test_film ("ffmpeg_encoder_prores_test5");
 	film->set_name ("ffmpeg_encoder_prores_test5");
 	auto c = make_shared<ImageContent>(TestPaths::private_data() / "bbc405.png");
@@ -135,8 +139,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test5)
 
 	film->write_metadata ();
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegFilmEncoder encoder(film, job, "build/test/ffmpeg_encoder_prores_test5.mov", ExportFormat::PRORES_HQ, false, false, false, 23);
+	FFmpegFilmEncoder encoder(film, job, output, ExportFormat::PRORES_HQ, false, false, false, 23);
 	encoder.go ();
+
+	cl.run();
 }
 
 
@@ -165,6 +171,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test6)
 /** Video + subs -> Prores */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 {
+	boost::filesystem::path const output = "build/test/ffmpeg_encoder_prores_test7.mov";
+	Cleanup cl;
+	cl.add(output);
+
 	auto film = new_test_film ("ffmpeg_encoder_prores_test7");
 	film->set_name ("ffmpeg_encoder_prores_test7");
 	film->set_container (Ratio::from_id ("185"));
@@ -182,8 +192,10 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_prores_test7)
 	s->only_text()->set_effect_colour (dcp::Colour (0, 255, 255));
 
 	auto job = make_shared<TranscodeJob>(film, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegFilmEncoder encoder(film, job, "build/test/ffmpeg_encoder_prores_test7.mov", ExportFormat::PRORES_HQ, false, false, false, 23);
+	FFmpegFilmEncoder encoder(film, job, output, ExportFormat::PRORES_HQ, false, false, false, 23);
 	encoder.go ();
+
+	cl.run();
 }
 
 
@@ -342,12 +354,18 @@ BOOST_AUTO_TEST_CASE (ffmpeg_encoder_h264_test6)
 /** Test export of a 3D DCP in a 2D project */
 BOOST_AUTO_TEST_CASE (ffmpeg_encoder_3d_dcp_to_h264)
 {
+	boost::filesystem::path const output = "build/test/ffmpeg_encoder_3d_dcp_to_h264.mp4";
+	Cleanup cl;
+	cl.add(output);
+
 	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "xm");
 	auto film2 = new_test_film2 ("ffmpeg_encoder_3d_dcp_to_h264_export", {dcp});
 
 	auto job = make_shared<TranscodeJob>(film2, TranscodeJob::ChangedBehaviour::IGNORE);
-	FFmpegFilmEncoder encoder(film2, job, "build/test/ffmpeg_encoder_3d_dcp_to_h264.mp4", ExportFormat::H264_AAC, true, false, false, 23);
+	FFmpegFilmEncoder encoder(film2, job, output, ExportFormat::H264_AAC, true, false, false, 23);
 	encoder.go ();
+
+	cl.run();
 }
 
 

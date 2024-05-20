@@ -157,10 +157,14 @@ BOOST_AUTO_TEST_CASE (content_test6)
 /** Reel length error when making the test for #1833 */
 BOOST_AUTO_TEST_CASE (content_test7)
 {
+	Cleanup cl;
+
 	auto content = content_factory(TestPaths::private_data() / "clapperboard.mp4");
-	auto film = new_test_film2 ("content_test7", content);
+	auto film = new_test_film2("content_test7", content, &cl);
 	content[0]->audio->set_delay(-1000);
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K });
+
+	cl.run();
 }
 
 
