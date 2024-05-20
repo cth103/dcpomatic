@@ -103,6 +103,8 @@ BOOST_AUTO_TEST_CASE (atmos_trim_test)
 
 	/* Just check that the encode runs; I'm not sure how to test the MXF */
 	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+
+	cl.run();
 }
 
 
