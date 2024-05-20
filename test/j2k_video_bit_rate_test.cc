@@ -41,16 +41,14 @@ using std::string;
 static void
 check (int target_bits_per_second)
 {
+	Cleanup cl;
+
 	int const duration = 10;
 
 	string const name = "bandwidth_test_" + dcp::raw_convert<string> (target_bits_per_second);
-	auto film = new_test_film (name);
-	film->set_name (name);
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("FTR"));
-	film->set_video_bit_rate(VideoEncoding::JPEG2000, target_bits_per_second);
 	auto content = make_shared<ImageContent>(TestPaths::private_data() / "prophet_frame.tiff");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs());
+	auto film = new_test_film2(name, { content }, &cl);
+	film->set_video_bit_rate(VideoEncoding::JPEG2000, target_bits_per_second);
 	content->video->set_length (24 * duration);
 	make_and_verify_dcp (
 		film,
@@ -71,6 +69,8 @@ check (int target_bits_per_second)
 	/* Check that we're within 85% to 115% of target on average */
 	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) > 0.85);
 	BOOST_CHECK ((actual_bits_per_second / target_bits_per_second) < 1.15);
+
+	cl.run();
 }
 
 
