@@ -72,13 +72,11 @@ BOOST_AUTO_TEST_CASE (no_use_video_test1)
 /** Overlay two muxed sources and disable the video on one */
 BOOST_AUTO_TEST_CASE (no_use_video_test2)
 {
-	auto film = new_test_film2 ("no_use_video_test2");
+	Cleanup cl;
+
 	auto A = content_factory(TestPaths::private_data() / "dolby_aurora.vob")[0];
 	auto B = content_factory(TestPaths::private_data() / "big_buck_bunny_trailer_480p.mov")[0];
-	film->examine_and_add_content (A);
-	film->examine_and_add_content (B);
-	BOOST_REQUIRE (!wait_for_jobs());
-
+	auto film = new_test_film2("no_use_video_test2", { A, B }, &cl);
 	A->set_position (film, dcpomatic::DCPTime());
 	B->set_position (film, dcpomatic::DCPTime());
 	A->video->set_use (false);
@@ -88,6 +86,8 @@ BOOST_AUTO_TEST_CASE (no_use_video_test2)
 	make_and_verify_dcp (film);
 
 	check_dcp (TestPaths::private_data() / "no_use_video_test2", film);
+
+	cl.run();
 }
 
 

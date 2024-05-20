@@ -389,14 +389,14 @@ BOOST_AUTO_TEST_CASE (player_trim_crash)
 /** Test a crash when the gap between the last audio and the start of a silent period is more than 1 sample */
 BOOST_AUTO_TEST_CASE (player_silence_crash)
 {
-	auto film = new_test_film2 ("player_silence_crash");
-	auto sine = content_factory("test/data/impulse_train.wav")[0];
-	film->examine_and_add_content (sine);
-	BOOST_REQUIRE (!wait_for_jobs());
+	Cleanup cl;
 
+	auto sine = content_factory("test/data/impulse_train.wav")[0];
+	auto film = new_test_film2("player_silence_crash", { sine }, &cl);
 	sine->set_video_frame_rate(film, 23.976);
-	film->write_metadata ();
 	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
+
+	cl.run();
 }
 
 
