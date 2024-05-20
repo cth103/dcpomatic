@@ -318,8 +318,10 @@ BOOST_AUTO_TEST_CASE (client_server_test_j2k)
 
 BOOST_AUTO_TEST_CASE(real_encode_with_server)
 {
+	Cleanup cl;
+
 	auto content = content_factory(TestPaths::private_data() / "dolby_aurora.vob");
-	auto film = new_test_film2("real_encode_with_server", content);
+	auto film = new_test_film2("real_encode_with_server", content, &cl);
 
 	EncodeServerFinder::instance();
 
@@ -333,5 +335,7 @@ BOOST_AUTO_TEST_CASE(real_encode_with_server)
 
 	BOOST_CHECK(server.frames_encoded() > 0);
 	EncodeServerFinder::drop();
+
+	cl.run();
 }
 
