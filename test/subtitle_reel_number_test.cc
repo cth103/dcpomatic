@@ -42,13 +42,10 @@ using std::string;
 /* Check that ReelNumber is setup correctly when making multi-reel subtitled DCPs */
 BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 {
-	auto film = new_test_film ("subtitle_reel_number_test");
-	film->set_container (Ratio::from_id ("185"));
-	film->set_dcp_content_type (DCPContentType::from_isdcf_name ("TLR"));
-	film->set_name ("frobozz");
+	Cleanup cl;
+
 	auto content = make_shared<StringTextFileContent>("test/data/subrip5.srt");
-	film->examine_and_add_content (content);
-	BOOST_REQUIRE (!wait_for_jobs ());
+	auto film = new_test_film2("subtitle_reel_number_test", { content }, &cl);
 	content->only_text()->set_use (true);
 	content->only_text()->set_burn (false);
 	content->only_text()->set_language(dcp::LanguageTag("de"));
@@ -72,4 +69,6 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 			++n;
 		}
 	}
+
+	cl.run();
 }

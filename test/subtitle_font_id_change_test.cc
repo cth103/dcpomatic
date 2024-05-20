@@ -95,7 +95,9 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test2)
 
 BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 {
-	auto film = new_test_film2("subtitle_font_id_change_test3");
+	Cleanup cl;
+
+	auto film = new_test_film2("subtitle_font_id_change_test3", {}, &cl);
 	boost::filesystem::remove(film->file("metadata.xml"));
 	boost::filesystem::copy_file("test/data/subtitle_font_id_change_test3.xml", film->file("metadata.xml"));
 	{
@@ -126,6 +128,8 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test3)
 	BOOST_CHECK_EQUAL(*font->file(), "test/data/Inconsolata-VF.ttf");
 
 	make_and_verify_dcp(film, { dcp::VerificationNote::Code::INVALID_STANDARD });
+
+	cl.run();
 }
 
 
