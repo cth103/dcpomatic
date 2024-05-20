@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ "$(uname)" == "Linux" ]; then 
-  export LD_LIBRARY_PATH=build/src/lib:/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
+  export LD_LIBRARY_PATH=build/src/lib:../../lib:/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH
   rm -f build/test/dcpomatic2_openssl
   # This must be our patched openssl or tests will fail
   if [ ! -f build/test/dcpomatic2_openssl ]; then 
