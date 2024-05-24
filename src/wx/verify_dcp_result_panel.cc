@@ -138,6 +138,9 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		if (note.other_id()) {
 			message.Replace("%other_id", std_to_wx(note.other_id().get()));
 		}
+		if (note.cpl_id()) {
+			message.Replace("%cpl", std_to_wx(note.cpl_id().get()));
+		}
 		add_bullet(note.type(), message);
 		counts[note.type()]++;
 	};
@@ -154,7 +157,7 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 			add(i, _("Could not read DCP (%n)"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
-			add(i, _("The hash (%reference_hash) of the CPL %n in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
+			add(i, _("The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE:
 			add(i, _("The picture in a reel has a frame rate of %n, which is not valid."));
@@ -275,10 +278,10 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 			add(i, _("The sound asset %f has an invalid frame rate of %n."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_ANNOTATION_TEXT:
-			add(i, _("The CPL %n has no <AnnotationText> tag."));
+			add(i, _("The CPL %cpl has no <AnnotationText> tag."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_ANNOTATION_TEXT:
-			add(i, _("The CPL %n has an <AnnotationText> which is not the same as its <ContentTitleText>."));
+			add(i, _("The CPL %cpcpl has an <AnnotationText> which is not the same as its <ContentTitleText>."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_ASSET_DURATION:
 			add(i, _("At least one asset in a reel does not have the same duration as the others."));
@@ -323,19 +326,19 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 			add(i, _("The DCP has a LFOC of %n instead of the reel duration minus one."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_METADATA:
-			add(i, _("The CPL %n has no CPL metadata tag."));
+			add(i, _("The CPL %cpl has no CPL metadata tag."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_METADATA_VERSION_NUMBER:
-			add(i, _("The CPL %n has no CPL metadata version number tag."));
+			add(i, _("The CPL %cpl has no CPL metadata version number tag."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_EXTENSION_METADATA:
-			add(i, _("The CPL %n has no CPL extension metadata tag."));
+			add(i, _("The CPL %cpl has no CPL extension metadata tag."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_EXTENSION_METADATA:
 			add(i, _("The CPL %f has an invalid CPL extension metadata tag (%n)"));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_CPL_WITH_ENCRYPTED_CONTENT:
-			add(i, _("The CPL %n has encrypted content but is not signed."));
+			add(i, _("The CPL %cpl has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_PKL_WITH_ENCRYPTED_CONTENT:
 			add(i, _("The PKL %n has encrypted content but is not signed."));
@@ -462,13 +465,13 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 			add(i, _("The asset with ID %id in the asset map actually has an id of %other_id"));
 			break;
 		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
-			add(i, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
+			add(i, _("The <LabelText> in a <ContentVersion> in CPL %cpl is empty"));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CPL_NAMESPACE:
-			add(i, _("The CPL %id has an invalid namespace %n"));
+			add(i, _("The CPL %cpl has an invalid namespace %n"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
-			add(i, _("The CPL %id has no <ContentVersion> tag"));
+			add(i, _("The CPL %cpl has no <ContentVersion> tag"));
 			break;
 		case dcp::VerificationNote::Code::MATCHING_CPL_HASHES:
 		case dcp::VerificationNote::Code::CORRECT_PICTURE_HASH:
