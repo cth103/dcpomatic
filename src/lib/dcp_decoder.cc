@@ -235,15 +235,32 @@ DCPDecoder::pass ()
 		auto sf = _sound_reader->get_frame (entry_point + frame);
 		auto from = sf->data ();
 
-		int const channels = _dcp_content->audio->stream()->channels ();
-		int const frames = sf->size() / (3 * channels);
+		int const channels = _dcp_content->audio->stream()->channels();
+		int const frames = sf->size() / (sf->bits() * channels / 8);
 		auto data = make_shared<AudioBuffers>(channels, frames);
 		auto data_data = data->data();
-		for (int i = 0; i < frames; ++i) {
-			for (int j = 0; j < channels; ++j) {
-				data_data[j][i] = static_cast<int> ((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float> (INT_MAX - 256);
-				from += 3;
+
+		switch (sf->bits()) {
+		case 24:
+		{
+			for (int i = 0; i < frames; ++i) {
+				for (int j = 0; j < channels; ++j) {
+					data_data[j][i] = static_cast<int>((from[0] << 8) | (from[1] << 16) | (from[2] << 24)) / static_cast<float> (INT_MAX - 256);
+					from += 3;
+				}
 			}
+			break;
+		}
+		case 16:
+		{
+			for (int i = 0; i < frames; ++i) {
+				for (int j = 0; j < channels; ++j) {
+					data_data[j][i] = static_cast<int>(from[0] << 16 | (from[1] << 24)) / static_cast<float> (INT_MAX - 256);
+					from += 2;
+				}
+			}
+			break;
+		}
 		}
 
 		audio->emit (film(), _dcp_content->audio->stream(), data, ContentTime::from_frames (_offset, vfr) + _next);
