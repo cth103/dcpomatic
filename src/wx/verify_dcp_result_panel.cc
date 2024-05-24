@@ -90,19 +90,18 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		return;
 	}
 
-	map<dcp::VerificationNote::Type, int> counts;
-	counts[dcp::VerificationNote::Type::WARNING] = 0;
-	counts[dcp::VerificationNote::Type::BV21_ERROR] = 0;
-	counts[dcp::VerificationNote::Type::ERROR] = 0;
-
-	auto add_bullet = [this](dcp::VerificationNote::Type type, wxString message) {
-		_pages[type]->BeginStandardBullet(N_("standard/diamond"), 1, 50);
-		_pages[type]->WriteText(message);
-		_pages[type]->Newline();
-		_pages[type]->EndStandardBullet();
+	vector<dcp::VerificationNote::Type> types = {
+		dcp::VerificationNote::Type::WARNING,
+		dcp::VerificationNote::Type::BV21_ERROR,
+		dcp::VerificationNote::Type::ERROR
 	};
 
-	auto add = [&counts, &add_bullet](dcp::VerificationNote note, wxString message) {
+	map<dcp::VerificationNote::Type, std::vector<wxString>> notes;
+	for (auto type: types) {
+		notes[type] = {};
+	}
+
+	auto add = [&notes](dcp::VerificationNote note, wxString message) {
 		if (note.reference_hash()) {
 			message.Replace("%reference_hash", std_to_wx(note.reference_hash().get()));
 		}
@@ -141,14 +140,13 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		if (note.cpl_id()) {
 			message.Replace("%cpl", std_to_wx(note.cpl_id().get()));
 		}
-		add_bullet(note.type(), message);
-		counts[note.type()]++;
+
+		notes[note.type()].push_back(message);
 	};
 
 	if (job->finished_in_error() && job->error_summary() != "") {
 		/* We have an error that did not come from dcp::verify */
-		add_bullet(dcp::VerificationNote::Type::ERROR, std_to_wx(job->error_summary()));
-		++counts[dcp::VerificationNote::Type::ERROR];
+		notes[dcp::VerificationNote::Type::ERROR].push_back(std_to_wx(job->error_summary()));
 	}
 
 	for (auto i: job->result().notes) {
@@ -491,42 +489,67 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 
 	wxString summary_text;
 
-	if (counts[dcp::VerificationNote::Type::ERROR] == 1) {
+	if (notes[dcp::VerificationNote::Type::ERROR].size() == 1) {
 		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 		summary_text = _("1 error, ");
 	} else {
 		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text = wxString::Format("%d errors, ", counts[dcp::VerificationNote::Type::ERROR]);
+		summary_text = wxString::Format("%d errors, ", static_cast<int>(notes[dcp::VerificationNote::Type::ERROR].size()));
 	}
 
-	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 1) {
+	if (notes[dcp::VerificationNote::Type::BV21_ERROR].size() == 1) {
 		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 		summary_text += _("1 Bv2.1 error, ");
 	} else {
 		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format("%d Bv2.1 errors, ", counts[dcp::VerificationNote::Type::BV21_ERROR]);
+		summary_text += wxString::Format("%d Bv2.1 errors, ", static_cast<int>(notes[dcp::VerificationNote::Type::BV21_ERROR].size()));
 	}
 
-	if (counts[dcp::VerificationNote::Type::WARNING] == 1) {
+	if (notes[dcp::VerificationNote::Type::WARNING].size() == 1) {
 		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 		summary_text += _("and 1 warning.");
 	} else {
 		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format("and %d warnings.", counts[dcp::VerificationNote::Type::WARNING]);
+		summary_text += wxString::Format("and %d warnings.", static_cast<int>(notes[dcp::VerificationNote::Type::WARNING].size()));
 	}
 
 	_summary->SetLabel(summary_text);
 
-	if (counts[dcp::VerificationNote::Type::ERROR] == 0) {
+	auto add_bullet = [this](dcp::VerificationNote::Type type, wxString message) {
+		_pages[type]->BeginStandardBullet(N_("standard/diamond"), 1, 50);
+		_pages[type]->WriteText(message);
+		_pages[type]->Newline();
+		_pages[type]->EndStandardBullet();
+	};
+
+	if (notes[dcp::VerificationNote::Type::ERROR].empty()) {
 		add_bullet(dcp::VerificationNote::Type::ERROR, _("No errors found."));
 	}
 
-	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 0) {
+	if (notes[dcp::VerificationNote::Type::BV21_ERROR].empty()) {
 		add_bullet(dcp::VerificationNote::Type::BV21_ERROR, _("No SMPTE Bv2.1 errors found."));
 	}
 
-	if (counts[dcp::VerificationNote::Type::WARNING] == 0) {
+	if (notes[dcp::VerificationNote::Type::WARNING].empty()) {
 		add_bullet(dcp::VerificationNote::Type::WARNING, _("No warnings found."));
+	}
+
+	for (auto type: types) {
+		std::sort(notes[type].begin(), notes[type].end());
+		for (auto i = notes[type].begin(); i != notes[type].end(); ++i) {
+			int extra = 0;
+			while (std::next(i) != notes[type].end() && *std::next(i) == *i) {
+				++i;
+				++extra;
+			}
+			if (extra == 1) {
+				add_bullet(type, wxString::Format(_("%s (repeated twice)."), i->SubString(0, i->Length() - 2)));
+			} else if (extra > 1) {
+				add_bullet(type, wxString::Format(_("%s (repeated %d times)."), i->SubString(0, i->Length() - 2), extra + 1));
+			} else {
+				add_bullet(type, *i);
+			}
+		}
 	}
 
 	_job = job;
