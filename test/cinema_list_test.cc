@@ -23,6 +23,7 @@
 #include "lib/cinema_list.h"
 #include "lib/config.h"
 #include "lib/screen.h"
+#include "test.h"
 #include <dcp/certificate.h>
 #include <dcp/filesystem.h>
 #include <dcp/util.h>
@@ -183,11 +184,11 @@ BOOST_AUTO_TEST_CASE(add_screen_test)
 
 BOOST_AUTO_TEST_CASE(cinemas_list_copy_from_xml_test)
 {
-	Config::override_path = "build/test/cinemas_list_copy_config";
+	ConfigRestorer cr("build/test/cinemas_list_copy_config");
+
 	dcp::filesystem::remove_all(*Config::override_path);
 	dcp::filesystem::create_directories(*Config::override_path);
 	dcp::filesystem::copy_file("test/data/cinemas2.xml", *Config::override_path / "cinemas2.xml");
-	Config::drop();
 
 	CinemaList cinema_list;
 	cinema_list.read_legacy_file(Config::instance()->read_path("cinemas2.xml"));

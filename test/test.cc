@@ -1030,8 +1030,16 @@ check_int_close (std::pair<int, int> a, std::pair<int, int> b, int d)
 }
 
 
+ConfigRestorer::ConfigRestorer(boost::filesystem::path override_path)
+{
+	Config::override_path = override_path;
+	Config::drop();
+}
+
+
 ConfigRestorer::~ConfigRestorer()
 {
+	Config::override_path = boost::none;
 	setup_test_config();
 }
 
@@ -1073,3 +1081,4 @@ Editor::replace(string a, string b)
 	boost::algorithm::replace_all(_content, a, b);
 	BOOST_REQUIRE(_content != old_content);
 }
+

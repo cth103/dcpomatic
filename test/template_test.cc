@@ -33,9 +33,7 @@ using std::string;
 /* Bug #2491 */
 BOOST_AUTO_TEST_CASE(template_wrong_channel_counts)
 {
-	ConfigRestorer cr;
-
-	Config::override_path = "test/data";
+	ConfigRestorer cr("test/data");
 
 	auto film = new_test_film("template_wrong_channel_counts", {});
 	film->use_template(string("Bug"));

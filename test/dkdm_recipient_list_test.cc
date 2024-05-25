@@ -22,17 +22,18 @@
 #include "lib/config.h"
 #include "lib/dkdm_recipient.h"
 #include "lib/dkdm_recipient_list.h"
+#include "test.h"
 #include <dcp/filesystem.h>
 #include <boost/test/unit_test.hpp>
 
 
 BOOST_AUTO_TEST_CASE(dkdm_receipient_list_copy_from_xml_test)
 {
-	Config::override_path = "build/test/dkdm_recipient_list_copy_config";
+	ConfigRestorer cr("build/test/dkdm_recipient_list_copy_config");
+
 	dcp::filesystem::remove_all(*Config::override_path);
 	dcp::filesystem::create_directories(*Config::override_path);
 	dcp::filesystem::copy_file("test/data/dkdm_recipients.xml", *Config::override_path / "dkdm_recipients.xml");
-	Config::drop();
 
 	DKDMRecipientList dkdm_recipient_list;
 	dkdm_recipient_list.read_legacy_file(Config::instance()->read_path("dkdm_recipients.xml"));

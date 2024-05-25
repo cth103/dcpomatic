@@ -96,7 +96,14 @@ private:
 class ConfigRestorer
 {
 public:
+	ConfigRestorer(boost::filesystem::path override_path);
+
+	ConfigRestorer() {}
+
 	~ConfigRestorer();
+
+private:
+	boost::optional<boost::filesystem::path> _old_path;
 };
 
 

@@ -64,10 +64,7 @@ rewrite_bad_config (string filename, string extra_line)
 
 BOOST_AUTO_TEST_CASE (config_backup_test)
 {
-	ConfigRestorer cr;
-
-	Config::override_path = "build/test/bad_config";
-	Config::drop();
+	ConfigRestorer cr("build/test/bad_config");
 	boost::filesystem::remove_all ("build/test/bad_config");
 
 	/* Write an invalid config file to config.xml */
@@ -128,13 +125,10 @@ BOOST_AUTO_TEST_CASE (config_backup_with_link_test)
 {
 	using namespace boost::filesystem;
 
-	ConfigRestorer cr;
-
 	auto base = path("build/test/bad_config");
 	auto version = base / "2.18";
 
-	Config::override_path = base;
-	Config::drop();
+	ConfigRestorer cr(base);
 
 	boost::filesystem::remove_all (base);
 
@@ -158,12 +152,10 @@ BOOST_AUTO_TEST_CASE (config_backup_with_link_test)
 
 BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 {
-	ConfigRestorer cr;
+	ConfigRestorer cr("build/test");
 
 	boost::filesystem::remove_all ("build/test/config.xml");
 	boost::filesystem::copy_file ("test/data/utf8_config.xml", "build/test/config.xml");
-	Config::override_path = "build/test";
-	Config::drop ();
 	Config::instance()->write();
 
 	check_text_file ("test/data/utf8_config.xml", "build/test/config.xml");
@@ -173,11 +165,9 @@ BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 /* 2.14 -> 2.18 */
 BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 {
-	ConfigRestorer cr;
-
 	boost::filesystem::path dir = "build/test/config_upgrade_test";
-	Config::override_path = dir;
-	Config::drop ();
+	ConfigRestorer cr(dir);
+
 	boost::filesystem::remove_all (dir);
 	boost::filesystem::create_directories (dir);
 
@@ -206,11 +196,8 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 /* 2.16 -> 2.18 */
 BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 {
-	ConfigRestorer cr;
-
 	boost::filesystem::path dir = "build/test/config_upgrade_test";
-	Config::override_path = dir;
-	Config::drop ();
+	ConfigRestorer cr(dir);
 	boost::filesystem::remove_all (dir);
 	boost::filesystem::create_directories (dir);
 
@@ -243,11 +230,8 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 
 BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 {
-	ConfigRestorer cr;
-
 	boost::filesystem::path dir = "build/test/config_keep_cinemas_if_making_new_config";
-	Config::override_path = dir;
-	Config::drop ();
+	ConfigRestorer cr(dir);
 	boost::filesystem::remove_all (dir);
 	boost::filesystem::create_directories (dir);
 
@@ -268,12 +252,9 @@ BOOST_AUTO_TEST_CASE (config_keep_cinemas_if_making_new_config)
 
 BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
 {
-	ConfigRestorer cr;
-
 	/* Make a new config */
 	boost::filesystem::path dir = "build/test/keep_config_if_cinemas_fail_to_load";
-	Config::override_path = dir;
-	Config::drop();
+	ConfigRestorer cr(dir);
 	boost::filesystem::remove_all(dir);
 	boost::filesystem::create_directories(dir);
 	Config::instance()->write();
@@ -301,8 +282,6 @@ BOOST_AUTO_TEST_CASE(keep_config_if_cinemas_fail_to_load)
 
 BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 {
-	ConfigRestorer cr;
-
 	/* Set up a config with an XML cinemas file */
 	boost::filesystem::path dir = "build/test/read_cinemas_xml_and_write_sqlite";
 	boost::filesystem::remove_all(dir);
@@ -319,8 +298,7 @@ BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 			);
 	}
 
-	Config::override_path = dir;
-	Config::drop();
+	ConfigRestorer cr(dir);
 
 	/* This should make a sqlite3 file containing the recipients from cinemas.xml */
 	Config::instance();
@@ -358,8 +336,6 @@ BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 
 BOOST_AUTO_TEST_CASE(read_dkdm_recipients_xml_and_write_sqlite)
 {
-	ConfigRestorer cr;
-
 	/* Set up a config with an XML cinemas file */
 	boost::filesystem::path dir = "build/test/read_dkdm_recipients_xml_and_write_sqlite";
 	boost::filesystem::remove_all(dir);
@@ -376,8 +352,7 @@ BOOST_AUTO_TEST_CASE(read_dkdm_recipients_xml_and_write_sqlite)
 			);
 	}
 
-	Config::override_path = dir;
-	Config::drop();
+	ConfigRestorer cr(dir);
 
 	/* This should make a sqlite3 file containing the recipients from dkdm_recipients.xml */
 	Config::instance();
@@ -413,7 +388,15 @@ BOOST_AUTO_TEST_CASE(read_dkdm_recipients_xml_and_write_sqlite)
 
 BOOST_AUTO_TEST_CASE(save_config_as_zip_test)
 {
-	ConfigRestorer cr;
+	boost::filesystem::path const dir = "build/test/save_config_as_zip_test";
+	ConfigRestorer cr(dir);
+	boost::system::error_code ec;
+	boost::filesystem::remove_all(dir, ec);
+	boost::filesystem::create_directories(dir);
+	boost::filesystem::copy_file("test/data/2.18.config.xml", dir / "config.xml");
+
+	Config::instance()->set_cinemas_file(dir / "cinemas.sqlite3");
+	Config::instance()->set_dkdm_recipients_file(dir / "dkdm_recipients.sqlite3");
 
 	CinemaList cinemas;
 	cinemas.add_cinema({"My Great Cinema", {}, "", dcp::UTCOffset()});
@@ -421,7 +404,6 @@ BOOST_AUTO_TEST_CASE(save_config_as_zip_test)
 	recipients.add_dkdm_recipient({"Carl's Classics", "Oldies but goodies", {}, {}});
 
 	boost::filesystem::path const zip = "build/test/save.zip";
-	boost::system::error_code ec;
 	boost::filesystem::remove(zip, ec);
 	save_all_config_as_zip(zip);
 	Unzipper unzipper(zip);
@@ -538,8 +520,6 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_ignore)
 
 BOOST_AUTO_TEST_CASE(use_sqlite_if_present)
 {
-	ConfigRestorer cr;
-
 	/* Set up a config with an XML cinemas file */
 	boost::filesystem::path dir = "build/test/read_cinemas_xml_and_write_sqlite";
 	boost::filesystem::remove_all(dir);
@@ -556,8 +536,7 @@ BOOST_AUTO_TEST_CASE(use_sqlite_if_present)
 			);
 	}
 
-	Config::override_path = dir;
-	Config::drop();
+	ConfigRestorer cr(dir);
 
 	/* This should make a sqlite3 file containing the recipients from cinemas.xml.
 	 * But it won't write config.xml, so config.xml will still point to cinemas.xml.

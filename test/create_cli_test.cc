@@ -224,9 +224,7 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 
 BOOST_AUTO_TEST_CASE(create_cli_template_test)
 {
-	ConfigRestorer cr;
-
-	Config::override_path = "test/data";
+	ConfigRestorer cr("test/data");
 
 	auto cc = run("dcpomatic2_create test/data/flat_red.png");
 	auto film = cc.make_film();
