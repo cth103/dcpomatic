@@ -1063,7 +1063,6 @@ private:
 			} else {
 				dcpomatic_log = make_shared<NullLog>();
 			}
-			dcpomatic_log->set_types (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR | LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 		}
 	}
 
