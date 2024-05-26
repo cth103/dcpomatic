@@ -831,13 +831,8 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 	auto video_size = _ffmpeg_content->video->size();
 	DCPOMATIC_ASSERT(video_size);
 
-	auto raw = sub::SSAReader::parse_line (
-		base,
-		text,
-		video_size->width,
-		video_size->height,
-		sub::Colour(1, 1, 1)
-		);
+	sub::SSAReader::Context context(video_size->width, video_size->height, sub::Colour(1, 1, 1));
+	auto const raw = sub::SSAReader::parse_line(base, text, context);
 
 	for (auto const& i: sub::collect<vector<sub::Subtitle>>(raw)) {
 		only_text()->emit_plain_start (from, i);
