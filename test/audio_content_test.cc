@@ -268,7 +268,7 @@ BOOST_AUTO_TEST_CASE (audio_content_fades_same_as_video)
 BOOST_AUTO_TEST_CASE(fade_out_works_with_dcp_content)
 {
 	auto dcp = std::make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
-	auto film = new_test_film2("fade_out_works_with_dcp_content", { dcp });
+	auto film = new_test_film("fade_out_works_with_dcp_content", { dcp });
 	dcp->audio->set_fade_out(dcpomatic::ContentTime::from_seconds(15));
 	make_and_verify_dcp(film);
 
