@@ -736,7 +736,7 @@ DCPContent::can_reference_audio (shared_ptr<const Film> film, string& why_not) c
 	}
 
 	auto part = [](shared_ptr<const Content> c) {
-		return static_cast<bool>(c->audio) && !c->audio->mapping().mapped_output_channels().empty();
+		return c->has_mapped_audio();
 	};
 
 	if (overlaps(film, part)) {

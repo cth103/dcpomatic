@@ -73,7 +73,7 @@ ContentTimelineAudioView::label () const
 		s += wxString::Format (_(" advanced by %dms"), -ac->delay());
 	}
 
-	list<int> mapped = ac->mapping().mapped_output_channels();
+	auto mapped = ac->mapping().mapped_output_channels();
 	if (!mapped.empty ()) {
 		s += wxString::FromUTF8(" → ");
 		for (auto i: mapped) {

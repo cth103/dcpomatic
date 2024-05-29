@@ -249,7 +249,7 @@ have_video (shared_ptr<const Content> content)
 bool
 have_audio (shared_ptr<const Content> content)
 {
-	return static_cast<bool>(content->audio) && !content->audio->mapping().mapped_output_channels().empty() && content->can_be_played();
+	return content->has_mapped_audio() && content->can_be_played();
 }
 
 
@@ -367,7 +367,7 @@ Player::setup_pieces ()
 
 	_stream_states.clear ();
 	for (auto i: _pieces) {
-		if (i->content->audio) {
+		if (i->content->has_mapped_audio()) {
 			for (auto j: i->content->audio->streams()) {
 				_stream_states[j] = StreamState(i);
 			}

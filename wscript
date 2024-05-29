@@ -36,7 +36,7 @@ from waflib import Logs, Context
 
 APPNAME = 'dcpomatic'
 libdcp_version = '1.8.100'
-libsub_version = '1.6.42'
+libsub_version = '1.6.49'
 
 this_version = subprocess.Popen(['git', 'tag', '-l', '--points-at', 'HEAD'], stdout=subprocess.PIPE).communicate()[0]
 git_head = subprocess.Popen(['git', 'rev-parse', '--short=9', 'HEAD'], stdout=subprocess.PIPE).communicate()[0]
