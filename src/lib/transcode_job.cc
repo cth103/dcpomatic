@@ -133,7 +133,7 @@ TranscodeJob::run ()
 
 		LOG_GENERAL(N_("Transcode job completed successfully: %1 fps"), dcp::locale_convert<string>(frames_per_second(), 2, true));
 
-		if (dynamic_pointer_cast<DCPFilmEncoder>(_encoder)) {
+		if (variant::count_created_dcps() && dynamic_pointer_cast<DCPFilmEncoder>(_encoder)) {
 			try {
 				Analytics::instance()->successful_dcp_encode();
 			} catch (FileError& e) {

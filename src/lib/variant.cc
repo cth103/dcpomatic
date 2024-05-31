@@ -41,6 +41,7 @@ static char const* _report_problem_email = "carl@dcpomatic.com";
 static bool const _show_tagline = true;
 static bool const _show_dcpomatic_website = true;
 static bool const _show_report_a_problem = true;
+static bool const _count_created_dcps = true;
 
 
 std::string
@@ -155,6 +156,12 @@ bool
 variant::show_report_a_problem()
 {
 	return _show_report_a_problem;
+}
+
+bool
+variant::count_created_dcps()
+{
+	return _count_created_dcps;
 }
 
 std::string
