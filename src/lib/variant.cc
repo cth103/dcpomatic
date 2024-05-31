@@ -40,7 +40,7 @@ static char const* _report_problem_email = "carl@dcpomatic.com";
 
 static bool const _show_tagline = true;
 static bool const _show_dcpomatic_website = true;
-static bool const _show_report_a_problem = false;
+static bool const _show_report_a_problem = true;
 
 
 std::string
