@@ -25,12 +25,13 @@ function required_font()
     fi
 }
 
+png_apps="dcpomatic2"
 svg_apps="dcpomatic2_kdm dcpomatic2_server dcpomatic2_batch dcpomatic2_player dcpomatic2_playlist dcpomatic2_disk dcpomatic2_combiner dcpomatic2_editor dcpomatic2_verifier"
 
 
 if [ `uname -s` == "Darwin" ]; then
     # Convert OS X icons using OS X-only iconutil
-    for p in dcpomatic2 $svg_apps; do
+    for p in $png_apps $svg_apps; do
 	iconutil --convert icns --output osx/$p.icns osx/$p.iconset
     done
 else
@@ -49,10 +50,10 @@ else
     # OS X application icons
     mkdir -p osx
     for r in 16 32 128 256 512; do
-	for p in dcpomatic2; do
+	for p in $png_apps; do
 	    mkdir -p osx/$p.iconset
-	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}.png
-	    convert src/dcpomatic.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}@2x.png
+	    convert src/$p.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}.png
+	    convert src/$p.png -resize $rx$r osx/$p.iconset/icon_${r}x${r}@2x.png
 	done
 	for p in $svg_apps; do
 	    mkdir -p osx/$p.iconset
@@ -65,7 +66,9 @@ else
     mkdir -p linux
     for r in 16 22 32 48 64 128 256 512; do
 	mkdir -p linux/$r
-	convert src/dcpomatic.png -resize $rx$r linux/$r/dcpomatic2.png
+	for p in $png_apps; do
+	    convert src/$p.png -resize $rx$r linux/$r/$p.png
+	done
 	for p in $svg_apps; do
 	    $INKSCAPE_EXPORT --export-filename=linux/$r/$p.png src/$p.svg -w $r -h $r
 	done
@@ -73,10 +76,10 @@ else
 
     # Windows application icons
     mkdir -p windows
-    for p in dcpomatic2 $svg_apps; do
+    for p in $png_apps $svg_apps; do
 	icotool -c -o windows/$p.ico linux/16/$p.png linux/32/$p.png linux/48/$p.png linux/64/$p.png linux/128/$p.png
     done
-    convert src/dcpomatic.png -resize 400x400 windows/dcpomatic.bmp
+    convert src/dcpomatic2.png -resize 400x400 windows/dcpomatic.bmp
 
     # OS X preferences icons
     mkdir -p osx/preferences
