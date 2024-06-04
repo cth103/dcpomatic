@@ -1675,8 +1675,9 @@ Film::check_settings_consistency ()
 	auto const hd = Ratio::from_id("178");
 
 	if (video_encoding() == VideoEncoding::MPEG2) {
-		if (container() != hd) {
+		if (container() != hd || resolution() == Resolution::FOUR_K) {
 			set_container(hd);
+			set_resolution(Resolution::TWO_K);
 			Message(_("DCP-o-matic had to set your container to 1920x1080 as it's the only one that can be used with MPEG2 encoding."));
 		}
 		if (three_d()) {
