@@ -76,6 +76,7 @@ help (std::function<void (string)> out)
 	out ("  -C, --certificate <file>                 file containing projector certificate");
 	out ("  -T, --trusted-device <file>              file containing a trusted device's certificate");
 	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
+	out ("      --dump-decryption-certificate        write the DCP-o-matic KDM decryption certificate to the console");
 	out ("      --list-cinemas                       list known cinemas from the DCP-o-matic settings");
 	out ("      --list-dkdm-cpls                     list CPLs for which DCP-o-matic has DKDMs");
 	out ("");
@@ -440,6 +441,17 @@ dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent, std::function<void (st
 }
 
 
+void
+dump_decryption_certificate(std::function<void (string)> out)
+{
+	vector<string> lines;
+	boost::split(lines, Config::instance()->decryption_chain()->leaf().certificate(true), boost::is_any_of("\n"));
+	for (auto const& line: lines) {
+		out(line);
+	}
+}
+
+
 optional<string>
 kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
@@ -494,10 +506,11 @@ try
 			{ "list-cinemas", no_argument, 0, 'B' },
 			{ "list-dkdm-cpls", no_argument, 0, 'D' },
 			{ "cinemas-file", required_argument, 0, 'E' },
+			{ "dump-decryption-certificate", no_argument, 0, 'G' },
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:", long_options, &option_index);
+		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:G", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -590,6 +603,9 @@ try
 		case 'E':
 			cinemas_file = optarg;
 			break;
+		case 'G':
+			dump_decryption_certificate(out);
+			return {};
 		}
 	}
 
