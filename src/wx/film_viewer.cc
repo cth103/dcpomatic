@@ -174,7 +174,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player.emplace(_film, _optimise_for_j2k ? Image::Alignment::COMPACT : Image::Alignment::PADDED);
+		_player.emplace(_film, _optimisation == Optimisation::NONE ? Image::Alignment::PADDED : Image::Alignment::COMPACT);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);
@@ -235,9 +235,9 @@ void
 FilmViewer::create_butler()
 {
 #if wxCHECK_VERSION(3, 1, 0)
-	auto const j2k_gl_optimised = dynamic_pointer_cast<GLVideoView>(_video_view) && _optimise_for_j2k;
+	auto const opengl = dynamic_pointer_cast<GLVideoView>(_video_view);
 #else
-	auto const j2k_gl_optimised = false;
+	auto const opengl = false;
 #endif
 
 	DCPOMATIC_ASSERT(_player);
@@ -249,9 +249,9 @@ FilmViewer::create_butler()
 		_audio_channels,
 		boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24),
 		VideoRange::FULL,
-		j2k_gl_optimised ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
+		(opengl && _optimisation != Optimisation::NONE) ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,
-		j2k_gl_optimised,
+		opengl && _optimisation == Optimisation::JPEG2000,
 		(Config::instance()->sound() && _audio.isStreamOpen()) ? Butler::Audio::ENABLED : Butler::Audio::DISABLED
 		);
 
@@ -874,10 +874,11 @@ FilmViewer::image_changed (shared_ptr<PlayerVideo> pv)
 
 
 void
-FilmViewer::set_optimise_for_j2k (bool o)
+FilmViewer::set_optimisation(Optimisation o)
 {
-	_optimise_for_j2k = o;
-	_video_view->set_optimise_for_j2k (o);
+	_optimisation = o;
+	_video_view->set_optimisation(o);
+	destroy_and_maybe_create_butler();
 }
 
 

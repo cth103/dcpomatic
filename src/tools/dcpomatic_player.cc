@@ -261,7 +261,6 @@ public:
 		}
 		_controls->set_film(_viewer.film());
 		_viewer.set_dcp_decode_reduction(Config::instance()->decode_reduction());
-		_viewer.set_optimise_for_j2k(true);
 		_viewer.PlaybackPermitted.connect(bind(&DOMFrame::playback_permitted, this));
 		_viewer.TooManyDropped.connect(bind(&DOMFrame::too_many_frames_dropped, this));
 		_info = new PlayerInformation (_overall_panel, _viewer);
@@ -407,6 +406,16 @@ public:
 			Config::instance()->add_to_player_history (dir);
 			if (dcp->video_frame_rate()) {
 				_film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
+			}
+			switch (dcp->video_encoding()) {
+			case VideoEncoding::JPEG2000:
+				_viewer.set_optimisation(Optimisation::JPEG2000);
+				break;
+			case VideoEncoding::MPEG2:
+				_viewer.set_optimisation(Optimisation::MPEG2);
+				break;
+			case VideoEncoding::COUNT:
+				DCPOMATIC_ASSERT(false);
 			}
 		} catch (ProjectFolderError &) {
 			error_dialog (

@@ -23,6 +23,7 @@
 #define DCPOMATIC_VIDEO_VIEW_H
 
 
+#include "optimisation.h"
 #include "lib/dcpomatic_time.h"
 #include "lib/exception_store.h"
 #include "lib/signaller.h"
@@ -131,8 +132,8 @@ public:
 		_three_d = t;
 	}
 
-	void set_optimise_for_j2k (bool o) {
-		_optimise_for_j2k = o;
+	void set_optimisation(Optimisation o) {
+		_optimisation = o;
 	}
 
 protected:
@@ -180,7 +181,7 @@ protected:
 
 	StateTimer _state_timer;
 
-	bool _optimise_for_j2k = false;
+	Optimisation _optimisation = Optimisation::NONE;
 
 private:
 	/** Mutex protecting all the state in this class */

@@ -24,6 +24,7 @@
  */
 
 
+#include "optimisation.h"
 #include "video_view.h"
 #include "lib/change_signaller.h"
 #include "lib/config.h"
@@ -101,7 +102,7 @@ public:
 	void set_outline_subtitles (boost::optional<dcpomatic::Rect<double>>);
 	void set_eyes (Eyes e);
 	void set_pad_black (bool p);
-	void set_optimise_for_j2k (bool o);
+	void set_optimisation(Optimisation o);
 	void set_crop_guess (dcpomatic::Rect<float> crop);
 	void unset_crop_guess ();
 
@@ -206,10 +207,7 @@ private:
 
 	boost::optional<int> _dcp_decode_reduction;
 
-	/** true to assume that this viewer is only being used for JPEG2000 sources
-	 *  so it can optimise accordingly.
-	 */
-	bool _optimise_for_j2k = false;
+	Optimisation _optimisation = Optimisation::NONE;
 
 	ClosedCaptionsDialog* _closed_captions_dialog = nullptr;
 

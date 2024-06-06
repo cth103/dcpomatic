@@ -194,12 +194,15 @@ static constexpr char fragment_source[] =
 "\n"
 "in vec2 TexCoord;\n"
 "\n"
-"uniform sampler2D texture_sampler;\n"
+"uniform sampler2D texture_sampler_0;\n"
+"uniform sampler2D texture_sampler_1;\n"
+"uniform sampler2D texture_sampler_2;\n"
 /* type = 0: draw outline content rectangle
  * type = 1: draw crop guess rectangle
  * type = 2: draw XYZ image
  * type = 3: draw RGB image (with sRGB/Rec709 primaries)
  * type = 4: draw RGB image (converting from Rec2020 primaries)
+ * type = 5; draw YUV image (Y in texture_sampler_0, U in texture_sampler_1, V in texture_sampler_2)
  * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
@@ -270,7 +273,7 @@ static constexpr char fragment_source[] =
 "                       FragColor = crop_guess_colour;\n"
 "                       break;\n"
 "		case 2:\n"
-"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			FragColor = texture_bicubic(texture_sampler_0, TexCoord);\n"
 "			FragColor.x = pow(FragColor.x, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.y = pow(FragColor.y, IN_GAMMA) / DCI_COEFFICIENT;\n"
 "			FragColor.z = pow(FragColor.z, IN_GAMMA) / DCI_COEFFICIENT;\n"
@@ -280,12 +283,22 @@ static constexpr char fragment_source[] =
 "			FragColor.z = pow(FragColor.z, OUT_GAMMA);\n"
 "			break;\n"
 "		case 3:\n"
-"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			FragColor = texture_bicubic(texture_sampler_0, TexCoord);\n"
 "                       break;\n"
 "		case 4:\n"
-"			FragColor = texture_bicubic(texture_sampler, TexCoord);\n"
+"			FragColor = texture_bicubic(texture_sampler_0, TexCoord);\n"
 "			FragColor = rec2020_rec709_colour_conversion * FragColor;\n"
 "			break;\n"
+"               case 5:\n"
+"                       float y = texture_bicubic(texture_sampler_0, TexCoord).x;\n"
+"                       float u = texture_bicubic(texture_sampler_1, TexCoord).x - 0.5;\n"
+"                       float v = texture_bicubic(texture_sampler_2, TexCoord).x - 0.5;\n"
+			// From https://en.wikipedia.org/wiki/YCbCr#ITU-R_BT.709_conversion
+"                       FragColor.x = y + 1.5748 * v;\n"
+"                       FragColor.y = y - 0.1873 * u - 0.4681 * v;\n"
+"                       FragColor.z = y + 1.8556 * u;\n"
+"                       FragColor.a = 1;\n"
+"                       break;\n"
 "	}\n"
 "}\n";
 
@@ -297,6 +310,7 @@ enum class FragmentType
 	XYZ_IMAGE = 2,
 	REC709_IMAGE = 3,
 	REC2020_IMAGE = 4,
+	YUV420P_IMAGE = 5,
 };
 
 
@@ -455,6 +469,18 @@ GLVideoView::setup_shaders ()
 	glDeleteShader (fragment_shader);
 
 	glUseProgram (program);
+	auto texture_0 = glGetUniformLocation(program, "texture_sampler_0");
+	check_gl_error("glGetUniformLocation");
+	glUniform1i(texture_0, 0);
+	check_gl_error("glUniform1i");
+	auto texture_1 = glGetUniformLocation(program, "texture_sampler_1");
+	check_gl_error("glGetUniformLocation");
+	glUniform1i(texture_1, 1);
+	check_gl_error("glUniform1i");
+	auto texture_2 = glGetUniformLocation(program, "texture_sampler_2");
+	check_gl_error("glGetUniformLocation");
+	glUniform1i(texture_2, 2);
+	check_gl_error("glUniform1i");
 
 	_fragment_type = glGetUniformLocation (program, "type");
 	check_gl_error ("glGetUniformLocation");
@@ -560,14 +586,18 @@ GLVideoView::draw ()
 
 	glBindVertexArray(_vao);
 	check_gl_error ("glBindVertexArray");
-	if (_optimise_for_j2k) {
+	if (_optimisation == Optimisation::MPEG2) {
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::YUV420P_IMAGE));
+	} else if (_optimisation == Optimisation::JPEG2000) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::XYZ_IMAGE));
 	} else if (_rec2020) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC2020_IMAGE));
 	} else {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
 	}
-	_video_texture->bind();
+	for (auto& texture: _video_textures) {
+		texture->bind();
+	}
 	glDrawElements (GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
 		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
@@ -595,22 +625,39 @@ GLVideoView::draw ()
 void
 GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 {
-	shared_ptr<const Image> video = _optimise_for_j2k ? pv->raw_image() : pv->image(boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+	shared_ptr<const Image> video;
+
+	switch (_optimisation) {
+	case Optimisation::JPEG2000:
+	case Optimisation::MPEG2:
+		video = pv->raw_image();
+		break;
+	case Optimisation::NONE:
+		video = pv->image(boost::bind(&PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, true);
+		break;
+	}
 
 	/* Only the player's black frames should be aligned at this stage, so this should
 	 * almost always have no work to do.
 	 */
 	video = Image::ensure_alignment (video, Image::Alignment::COMPACT);
 
-	/** If _optimise_for_j2k is true we render a XYZ image, doing the colourspace
+	/** If _optimisation is J2K we render a XYZ image, doing the colourspace
 	 *  conversion, scaling and video range conversion in the GL shader.
+	 *  Similarly for MPEG2 we do YUV -> RGB and scaling in the shader.
 	 *  Otherwise we render a RGB image without any shader-side processing.
 	 */
 
-	_video_texture->set (video);
+	if (_optimisation == Optimisation::MPEG2) {
+		for (int i = 0; i < 3; ++i) {
+			_video_textures[i]->set(video, i);
+		}
+	} else {
+		_video_textures[0]->set(video, 0);
+	}
 
 	auto const text = pv->text();
-	_have_subtitle_to_render = static_cast<bool>(text) && _optimise_for_j2k;
+	_have_subtitle_to_render = static_cast<bool>(text) && _optimisation != Optimisation::NONE;
 	if (_have_subtitle_to_render) {
 		/* opt: only do this if it's a new subtitle? */
 		DCPOMATIC_ASSERT (text->image->alignment() == Image::Alignment::COMPACT);
@@ -707,9 +754,9 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	auto const sizing_changed = _last_canvas_size.changed() || _last_inter_position.changed() || _last_inter_size.changed() || _last_out_size.changed();
 
 	if (sizing_changed) {
-		const auto video = _optimise_for_j2k ?
-			Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size)
-			: Rectangle(canvas_size, x_offset, y_offset, out_size);
+		const auto video = _optimisation == Optimisation::NONE
+			? Rectangle(canvas_size, x_offset, y_offset, out_size)
+			: Rectangle(canvas_size, inter_position.x + x_offset, inter_position.y + y_offset, inter_size);
 
 		glBufferSubData (GL_ARRAY_BUFFER, array_buffer_video_offset, video.size(), video.vertices());
 		check_gl_error ("glBufferSubData (video)");
@@ -739,14 +786,16 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 	_rec2020 = pv->colour_conversion() && pv->colour_conversion()->about_equal(dcp::ColourConversion::rec2020_to_xyz(), 1e-6);
 
 	/* opt: where should these go? */
+	for (auto i = 0; i < 3; ++i) {
+		_video_textures[i]->bind();
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		check_gl_error ("glTexParameteri");
 
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	check_gl_error ("glTexParameteri");
-
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	check_gl_error ("glTexParameterf");
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		check_gl_error ("glTexParameterf");
+	}
 }
 
 
@@ -856,8 +905,11 @@ try
 	_vsync_enabled = true;
 #endif
 
-	_video_texture.reset(new Texture(_optimise_for_j2k ? 2 : 1));
-	_subtitle_texture.reset(new Texture(1));
+	for (int i = 0; i < 3; ++i) {
+		std::unique_ptr<Texture> texture(new Texture(_optimisation == Optimisation::JPEG2000 ? 2 : 1, i));
+		_video_textures.push_back(std::move(texture));
+	}
+	_subtitle_texture.reset(new Texture(1, 4));
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
@@ -905,8 +957,9 @@ GLVideoView::request_one_shot ()
 }
 
 
-Texture::Texture (GLint unpack_alignment)
+Texture::Texture(GLint unpack_alignment, int unit)
 	: _unpack_alignment (unpack_alignment)
+	, _unit(unit)
 {
 	glGenTextures (1, &_name);
 	check_gl_error ("glGenTextures");
@@ -922,13 +975,15 @@ Texture::~Texture ()
 void
 Texture::bind ()
 {
+	glActiveTexture(GL_TEXTURE0 + _unit);
+	check_gl_error("glActiveTexture");
 	glBindTexture(GL_TEXTURE_2D, _name);
 	check_gl_error ("glBindTexture");
 }
 
 
 void
-Texture::set (shared_ptr<const Image> image)
+Texture::set(shared_ptr<const Image> image, int component)
 {
 	auto const create = !_size || image->size() != _size;
 	_size = image->size();
@@ -941,8 +996,15 @@ Texture::set (shared_ptr<const Image> image)
 	GLint internal_format;
 	GLenum format;
 	GLenum type;
+	int subsample = 1;
 
 	switch (image->pixel_format()) {
+	case AV_PIX_FMT_YUV420P:
+		internal_format = GL_R8;
+		format = GL_RED;
+		type = GL_UNSIGNED_BYTE;
+		subsample = component > 0 ? 2 : 1;
+		break;
 	case AV_PIX_FMT_BGRA:
 		internal_format = GL_RGBA8;
 		format = GL_BGRA;
@@ -970,10 +1032,10 @@ Texture::set (shared_ptr<const Image> image)
 	bind ();
 
 	if (create) {
-		glTexImage2D (GL_TEXTURE_2D, 0, internal_format, _size->width, _size->height, 0, format, type, image->data()[0]);
+		glTexImage2D (GL_TEXTURE_2D, 0, internal_format, _size->width / subsample, _size->height / subsample, 0, format, type, image->data()[component]);
 		check_gl_error ("glTexImage2D");
 	} else {
-		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width, _size->height, format, type, image->data()[0]);
+		glTexSubImage2D (GL_TEXTURE_2D, 0, 0, 0, _size->width / subsample, _size->height / subsample, format, type, image->data()[component]);
 		check_gl_error ("glTexSubImage2D");
 	}
 }
