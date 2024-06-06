@@ -32,6 +32,7 @@
 #include "enum_indexed_vector.h"
 #include "font.h"
 #include "resolution.h"
+#include "video_encoding.h"
 #include <libcxml/cxml.h>
 #include <dcp/content_kind.h>
 #include <dcp/encrypted_kdm.h>
@@ -160,6 +161,11 @@ public:
 		return _standard.get ();
 	}
 
+	VideoEncoding video_encoding() const {
+		boost::mutex::scoped_lock lm (_mutex);
+		return _video_encoding;
+	}
+
 	std::map<dcp::Marker, dcpomatic::ContentTime> markers () const {
 		return _markers;
 	}
@@ -213,6 +219,7 @@ private:
 	EnumIndexedVector<bool, TextType> _reference_text;
 
 	boost::optional<dcp::Standard> _standard;
+	VideoEncoding _video_encoding;
 	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;
 	/** ID of the CPL to use; older metadata might not specify this: in that case

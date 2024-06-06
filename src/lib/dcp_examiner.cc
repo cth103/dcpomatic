@@ -308,15 +308,18 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					auto reader = j2k_mono->start_read();
 					reader->set_check_hmac (false);
 					reader->get_frame(0)->xyz_image();
+					_video_encoding = VideoEncoding::JPEG2000;
 				} else if (j2k_stereo) {
 					auto reader = j2k_stereo->start_read();
 					reader->set_check_hmac (false);
 					reader->get_frame(0)->xyz_image(dcp::Eye::LEFT);
+					_video_encoding = VideoEncoding::JPEG2000;
 				} else if (mpeg2_mono) {
 					auto reader = mpeg2_mono->start_read();
 					reader->set_check_hmac(false);
 					dcp::MPEG2Decompressor decompressor;
 					decompressor.decompress_frame(reader->get_frame(0));
+					_video_encoding = VideoEncoding::MPEG2;
 				}
 			}
 

@@ -139,6 +139,11 @@ DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
 			DCPOMATIC_ASSERT (false);
 		}
 	}
+
+	if (auto encoding = node->optional_string_child("VideoEncoding")) {
+		_video_encoding = video_encoding_from_string(*encoding);
+	}
+
 	_three_d = node->optional_bool_child("ThreeD").get_value_or (false);
 
 	auto ck = node->optional_string_child("ContentKind");
@@ -306,6 +311,7 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		_needs_assets = examiner->needs_assets ();
 		_kdm_valid = examiner->kdm_valid ();
 		_standard = examiner->standard ();
+		_video_encoding = examiner->video_encoding();
 		_three_d = examiner->three_d ();
 		_content_kind = examiner->content_kind ();
 		_cpl = examiner->cpl ();
@@ -407,6 +413,7 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths) const
 			DCPOMATIC_ASSERT (false);
 		}
 	}
+	cxml::add_text_child(element, "VideoEncoding", video_encoding_to_string(_video_encoding));
 	cxml::add_text_child(element, "ThreeD", _three_d ? "1" : "0");
 	if (_content_kind) {
 		cxml::add_text_child(element, "ContentKind", _content_kind->name());
