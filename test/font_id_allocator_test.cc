@@ -23,6 +23,10 @@
 #include <boost/test/unit_test.hpp>
 
 
+using std::string;
+using std::vector;
+
+
 BOOST_AUTO_TEST_CASE(font_id_allocator_test_without_disambiguation)
 {
 	FontIDAllocator allocator;
@@ -70,3 +74,28 @@ BOOST_AUTO_TEST_CASE(font_id_allocator_test_with_disambiguation)
 	BOOST_CHECK(allocator.font_id(1, "asset3", "font1") == "1_font1");
 }
 
+
+/* Bug #2822: multiple reels, each with subs + closed captions, and each using the same
+ * basic font ID.
+ */
+BOOST_AUTO_TEST_CASE(font_id_allocator_test_with_disambiguation2)
+{
+	FontIDAllocator allocator;
+
+	allocator.add_font(0, "asset1", "font");
+	allocator.add_font(0, "asset2", "font");
+
+	allocator.add_font(1, "asset1", "font");
+	allocator.add_font(1, "asset2", "font");
+
+	allocator.allocate();
+	vector<string> ids = {
+		allocator.font_id(0, "asset1", "font"),
+		allocator.font_id(0, "asset2", "font"),
+		allocator.font_id(1, "asset1", "font"),
+		allocator.font_id(1, "asset2", "font")
+	};
+
+	std::sort(ids.begin(), ids.end());
+	BOOST_CHECK(std::adjacent_find(ids.begin(), ids.end()) == ids.end());
+}

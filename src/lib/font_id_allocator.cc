@@ -83,32 +83,31 @@ FontIDAllocator::add_font(int reel_index, string asset_id, string font_id)
 void
 FontIDAllocator::allocate()
 {
-	/* Last reel index that we have; i.e. the last prefix number that would be used by "old"
-	 * font IDs (i.e. ones before this FontIDAllocator was added and used)
+	/* We'll first try adding <reel>_ to the start of the font ID, but if a reel has multiple
+	 * identical font IDs we will need to use some number that is not a reel ID.  Find the
+	 * first such number (1 higher than the highest reel index)
 	 */
-	auto const last_reel = std::max_element(
+	auto next_unused = std::max_element(
 		_map.begin(),
 		_map.end(),
 		[] (std::pair<Font, int> const& a, std::pair<Font, int> const& b) {
 			return a.first.reel_index < b.first.reel_index;
-		})->first.reel_index;
+		})->first.reel_index + 1;
 
-	/* Number of times each ID has been used */
-	std::map<string, int> used_count;
+	std::set<string> used_ids;
 
 	for (auto& font: _map) {
 		auto const proposed = String::compose("%1_%2", font.first.reel_index, font.first.font_id);
-		if (used_count.find(proposed) != used_count.end()) {
+		if (used_ids.find(proposed) != used_ids.end()) {
 			/* This ID was already used; we need to disambiguate it.  Do so by using
-			 * an ID above last_reel
+			 * one of our unused prefixes.
 			 */
-			font.second = last_reel + used_count[proposed];
-			++used_count[proposed];
+			font.second = next_unused++;
 		} else {
 			/* This ID was not yet used */
-			used_count[proposed] = 1;
 			font.second = font.first.reel_index;
 		}
+		used_ids.insert(proposed);
 	}
 }
 
