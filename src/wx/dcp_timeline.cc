@@ -218,6 +218,7 @@ DCPTimeline::setup_sensitivity()
 {
 	_snap->Enable(editable());
 	_maximum_reel_size->Enable(film()->reel_type() == ReelType::BY_LENGTH);
+	_add_reel_boundary->Enable(film()->reel_type() == ReelType::CUSTOM);
 }
 
 
