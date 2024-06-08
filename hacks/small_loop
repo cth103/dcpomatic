@@ -1,0 +1,9 @@
+SIZE=1G
+
+fallocate drive.img -l $SIZE
+mkfs.ext4 drive.img
+mkdir -p small
+sudo mount -oloop drive.img small
+sudo mkdir small/dcp
+sudo chown $USER small/dcp
+
