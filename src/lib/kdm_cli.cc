@@ -63,9 +63,10 @@ help (std::function<void (string)> out)
 	out (String::compose("Syntax: %1 [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
 	out ("Commands:");
 	out ("create          create KDMs; default if no other command is specified");
-	out (variant::insert_dcpomatic("list-cinemas    list known cinemas from %1 settings"));
-	out (variant::insert_dcpomatic("list-dkdm-cpls  list CPLs for which %1 has DKDMs"));
-	out (variant::insert_dcpomatic("add-dkdm        add DKDM to %1's list"));
+	out (variant::insert_dcpomatic("list-cinemas                 list known cinemas from %1 settings"));
+	out (variant::insert_dcpomatic("list-dkdm-cpls               list CPLs for which %1 has DKDMs"));
+	out (variant::insert_dcpomatic("add-dkdm                     add DKDM to %1's list"));
+	out (variant::insert_dcpomatic("dump-decryption-certificate  write the %1 KDM decryption certificate to the console"));
 	out ("  -h, --help                               show this help");
 	out ("  -o, --output <path>                      output file or directory");
 	out ("  -K, --filename-format <format>           filename format for KDMs");
@@ -450,6 +451,17 @@ time_from_string(string time)
 }
 
 
+void
+dump_decryption_certificate(std::function<void (string)> out)
+{
+	vector<string> lines;
+	boost::split(lines, Config::instance()->decryption_chain()->leaf().certificate(true), boost::is_any_of("\n"));
+	for (auto const& line: lines) {
+		out(line);
+	}
+}
+
+
 optional<string>
 kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
@@ -595,7 +607,8 @@ try
 		"create",
 		"list-cinemas",
 		"list-dkdm-cpls",
-		"add-dkdm"
+		"add-dkdm",
+		"dump-decryption-certificate"
 	};
 
 	if (optind < argc - 1) {
@@ -637,6 +650,11 @@ try
 
 	if (command == "list-dkdm-cpls") {
 		dump_dkdm_group (Config::instance()->dkdms(), 0, out);
+		return {};
+	}
+
+	if (command == "dump-deccryption-certificate") {
+		dump_decryption_certificate(out);
 		return {};
 	}
 
