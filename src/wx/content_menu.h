@@ -58,6 +58,7 @@ private:
 	void advanced ();
 	void re_examine ();
 	void auto_crop ();
+	void copy_settings();
 	void kdm ();
 	void ov ();
 	void set_dcp_settings ();
@@ -81,6 +82,7 @@ private:
 	wxMenuItem* _advanced;
 	wxMenuItem* _re_examine;
 	wxMenuItem* _auto_crop;
+	wxMenuItem* _copy_settings;
 	wxMenuItem* _kdm;
 	wxMenuItem* _ov;
 	wxMenuItem* _choose_cpl;

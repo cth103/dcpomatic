@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2013-2021 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2013-2024 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -82,6 +82,7 @@ enum {
 	ID_advanced,
 	ID_re_examine,
 	ID_auto_crop,
+	ID_copy_settings,
 	ID_kdm,
 	ID_ov,
 	ID_choose_cpl,
@@ -102,6 +103,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_find_missing = _menu->Append (ID_find_missing, _("Find missing..."));
 	_re_examine = _menu->Append (ID_re_examine, _("Re-examine..."));
 	_auto_crop = _menu->Append (ID_auto_crop, _("Auto-crop..."));
+	_copy_settings = _menu->Append(ID_copy_settings, _("Copy settings from another project..."));
 	_properties = _menu->Append (ID_properties, _("Properties..."));
 	_advanced = _menu->Append (ID_advanced, _("Advanced settings..."));
 	_menu->AppendSeparator ();
@@ -121,6 +123,7 @@ ContentMenu::ContentMenu(wxWindow* p, FilmViewer& viewer)
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::advanced, this), ID_advanced);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::re_examine, this), ID_re_examine);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::auto_crop, this), ID_auto_crop);
+	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::copy_settings, this), ID_copy_settings);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::kdm, this), ID_kdm);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::ov, this), ID_ov);
 	_parent->Bind (wxEVT_MENU, boost::bind (&ContentMenu::set_dcp_settings, this), ID_set_dcp_settings);
@@ -157,6 +160,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 	_advanced->Enable (_content.size() == 1);
 	_re_examine->Enable (!_content.empty ());
 	_auto_crop->Enable (_content.size() == 1);
+	_copy_settings->Enable(_content.size() == 1);
 
 	if (_content.size() == 1) {
 		auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
@@ -603,3 +607,36 @@ ContentMenu::auto_crop ()
 		update_viewer (crop);
 	});
 }
+
+
+void
+ContentMenu::copy_settings()
+{
+	DCPOMATIC_ASSERT(_content.size() == 1);
+
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT (film);
+
+	DirDialog dialog(_parent, _("Film to copy settings from"), wxDD_DIR_MUST_EXIST, "CopySettingsPath", add_files_override_path(film));
+
+	if (!dialog.show()) {
+		return;
+	}
+
+	try {
+		auto copy_film = std::make_shared<Film>(dialog.path());
+		copy_film->read_metadata();
+		auto copy_content = copy_film->content();
+		auto iter = std::find_if(copy_content.begin(), copy_content.end(), [this](shared_ptr<const Content> content) {
+			return content->paths() == _content[0]->paths();
+		});
+		if (iter == copy_content.end()) {
+			error_dialog(_parent, wxString::Format(_("Could not find this content in the project \"%s\"."), std_to_wx(dialog.path().filename().string())));
+		} else {
+			_content[0]->take_settings_from(*iter);
+		}
+	} catch (std::exception& e) {
+		error_dialog(_parent, std_to_wx(e.what()));
+	}
+}
+
