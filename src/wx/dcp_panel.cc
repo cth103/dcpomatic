@@ -998,6 +998,13 @@ DCPPanel::add_audio_panel_to_grid ()
 void
 DCPPanel::copy_isdcf_name_button_clicked ()
 {
+	auto name = _film->name();
+	if (name.length() > 20 && std::count(name.begin(), name.end(), '_') > 6) {
+		/* At a guess, the existing film name is itself an ISDCF name, so chop
+		 * off the actual name part first.
+		 */
+		_film->set_name(name.substr(0, name.find("_")));
+	}
 	_film->set_name (_film->isdcf_name (true));
 	_film->set_use_isdcf_name (false);
 }
