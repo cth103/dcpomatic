@@ -407,10 +407,7 @@ DCPPanel::film_changed(FilmProperty p)
 			   in case the user has clicked 'Copy as name' then re-ticked 'Use ISDCF name' (#1513).
 			*/
 			string const name = _film->name ();
-			string::size_type const u = name.find("_");
-			if (u != string::npos) {
-				_film->set_name (name.substr(0, u));
-			}
+			_film->set_name(name.substr(0, name.find("_")));
 		}
 		setup_dcp_name ();
 		break;
