@@ -852,7 +852,7 @@ DCPContent::check_font_ids()
 	}
 
 	DCPExaminer examiner(shared_from_this(), true);
-	examiner.add_fonts(text.front());
+	examiner.add_fonts(text[0]);
 }
 
 
