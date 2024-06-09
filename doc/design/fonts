@@ -47,13 +47,24 @@ Passes subtitles through.
 
 * Writer
 
-Gets all fonts, puts them in the font ID map using the font's original ID.  This is OK because we
-don't need uniqueness in the DCP any more.
+Gets all fonts, puts them in the FontIDMap using the font's re-written ID.
 
 
 * Reel Writer
 
-Gets subtitles, uses font ID map to find the ID from the Font C++ object pointer.  Puts this ID in
+Gets subtitles, uses FontIDMap to find the ID from the Font C++ object pointer.  Puts this ID in
 the font and writes it to the asset.  Ensures the required LoadFont is added.
 
 
+
+To put this all another way, we need to:
+
+1. Make some Content-unique ID from a random font ID.  Then we can store this in the metadata.xml, and the user can change the font.
+
+2. Then do the same trick later, with the same result, so the decoder can receive the random font ID and go via the Content-unique
+ID to get the actual font TTF from the Content.
+
+In both these situations a string is the easiest thing (to go in some XML, and to go in a dcp::SubtitleString).
+
+This whole problem really is just that a single TextContent represents multiple
+DCP reels, and each reel can have a different font with the same font ID.
