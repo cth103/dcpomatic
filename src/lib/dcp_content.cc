@@ -851,6 +851,11 @@ DCPContent::check_font_ids()
 		return;
 	}
 
+	/* This might be called on a TextContent that already has the correct fonts
+	 * (e.g. if run from a build with a LastWrittenBy containing only a git hash)
+	 * so we'll get an error if we don't clear them out first.
+	 */
+	text[0]->clear_fonts();
 	DCPExaminer examiner(shared_from_this(), true);
 	examiner.add_fonts(text[0]);
 }

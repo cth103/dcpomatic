@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/check_content_job.h"
 #include "lib/content_factory.h"
 #include "lib/dcp_content.h"
 #include "lib/film.h"
@@ -300,5 +301,34 @@ BOOST_AUTO_TEST_CASE(no_error_with_ccap_that_mentions_no_font)
 	auto film = new_test_film("no_error_with_ccap_that_mentions_no_font", { dcp });
 	auto player = Player(film, film->playlist());
 	while (!player.pass()) {}
+}
+
+
+BOOST_AUTO_TEST_CASE(subtitle_font_ids_survive_project_save)
+{
+	std::string const name = "subtitle_font_ids_survive_project_save";
+
+	auto subs = content_factory("test/data/short.srt")[0];
+	auto film = new_test_film(name + "_film", { subs });
+	film->set_interop(false);
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA
+		});
+
+	auto dcp = std::make_shared<DCPContent>(film->dir(film->dcp_name()));
+	auto film2 = new_test_film(name + "_film2", { dcp });
+	film2->write_metadata();
+
+	auto film3 = std::make_shared<Film>(film2->dir("."));
+	film3->read_metadata();
+	BOOST_REQUIRE(!film3->content().empty());
+	auto check_dcp = std::dynamic_pointer_cast<DCPContent>(film3->content()[0]);
+	BOOST_REQUIRE(check_dcp);
+
+	check_dcp->check_font_ids();
 }
 
