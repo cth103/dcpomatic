@@ -224,6 +224,10 @@ private:
 	double _x_scale;
 	/** y scale factor to apply to subtitles */
 	double _y_scale;
+	/** Fonts used by this content.  They are added during content examination, then
+	 *  saved/loaded from metadata.xml.  This is so the user can change the font in
+	 *  used by a piece of content.
+	 */
 	std::list<std::shared_ptr<dcpomatic::Font>> _fonts;
 	boost::optional<dcp::Colour> _colour;
 	boost::optional<dcp::Effect> _effect;
