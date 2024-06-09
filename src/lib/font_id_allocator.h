@@ -101,7 +101,7 @@ private:
 		std::string font_id;
 	};
 
-	std::map<Font, int> _map;
+	std::map<Font, std::string> _map;
 	boost::optional<Font> _default_font;
 };
 

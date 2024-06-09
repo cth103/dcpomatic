@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(full_dcp_subtitle_font_id_test)
 
 	BOOST_REQUIRE_EQUAL(text->fonts().size(), 1U);
 	auto font = text->fonts().front();
-	BOOST_CHECK_EQUAL(font->id(), "0_theFontId");
+	BOOST_CHECK_EQUAL(font->id(), "theFontId");
 	BOOST_REQUIRE(font->data());
 	BOOST_CHECK_EQUAL(font->data()->size(), 367112);
 }
@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(dcp_subtitle_font_id_test)
 
 	BOOST_REQUIRE_EQUAL(text->fonts().size(), 1U);
 	auto font = text->fonts().front();
-	BOOST_CHECK_EQUAL(font->id(), "0_theFontId");
+	BOOST_CHECK_EQUAL(font->id(), "theFontId");
 	BOOST_REQUIRE(font->data());
 	BOOST_CHECK_EQUAL(font->data()->size(), 367112);
 }

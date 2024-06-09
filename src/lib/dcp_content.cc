@@ -851,9 +851,10 @@ DCPContent::check_font_ids()
 		return;
 	}
 
-	/* This might be called on a TextContent that already has the correct fonts
-	 * (e.g. if run from a build with a LastWrittenBy containing only a git hash)
-	 * so we'll get an error if we don't clear them out first.
+	/* This might be called on a TextContent that already has some fonts
+	 * (e.g. if run from a build with a LastWrittenBy containing only a git
+	 * hash, or from a version between 2.16.15 and 2.17.17) so we'll get an
+	 * error if we don't clear them out first.
 	 */
 	text[0]->clear_fonts();
 	DCPExaminer examiner(shared_from_this(), true);

@@ -76,37 +76,23 @@ FontIDAllocator::add_font(int reel_index, string asset_id, string font_id)
 	if (!_default_font) {
 		_default_font = font;
 	}
-	_map[font] = 0;
+	_map[font] = {};
 }
 
 
 void
 FontIDAllocator::allocate()
 {
-	/* We'll first try adding <reel>_ to the start of the font ID, but if a reel has multiple
-	 * identical font IDs we will need to use some number that is not a reel ID.  Find the
-	 * first such number (1 higher than the highest reel index)
-	 */
-	auto next_unused = std::max_element(
-		_map.begin(),
-		_map.end(),
-		[] (std::pair<Font, int> const& a, std::pair<Font, int> const& b) {
-			return a.first.reel_index < b.first.reel_index;
-		})->first.reel_index + 1;
-
 	std::set<string> used_ids;
 
 	for (auto& font: _map) {
-		auto const proposed = String::compose("%1_%2", font.first.reel_index, font.first.font_id);
-		if (used_ids.find(proposed) != used_ids.end()) {
-			/* This ID was already used; we need to disambiguate it.  Do so by using
-			 * one of our unused prefixes.
-			 */
-			font.second = next_unused++;
-		} else {
-			/* This ID was not yet used */
-			font.second = font.first.reel_index;
+		auto proposed = font.first.font_id;
+		int prefix = 0;
+		while (used_ids.find(proposed) != used_ids.end()) {
+			proposed = String::compose("%1_%2", prefix++, font.first.font_id);
+			DCPOMATIC_ASSERT(prefix < 128);
 		}
+		font.second = proposed;
 		used_ids.insert(proposed);
 	}
 }
@@ -117,7 +103,7 @@ FontIDAllocator::font_id(int reel_index, string asset_id, string font_id) const
 {
 	auto iter = _map.find(Font(reel_index, asset_id, font_id));
 	DCPOMATIC_ASSERT(iter != _map.end());
-	return String::compose("%1_%2", iter->second, font_id);
+	return iter->second;
 }
 
 

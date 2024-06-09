@@ -43,12 +43,12 @@ BOOST_AUTO_TEST_CASE(font_id_allocator_test_without_disambiguation)
 
 	allocator.allocate();
 
-	BOOST_CHECK(allocator.font_id(0, "asset1", "font") == "0_font");
-	BOOST_CHECK(allocator.font_id(0, "asset1", "font2") == "0_font2");
-	BOOST_CHECK(allocator.font_id(1, "asset2", "font") == "1_font");
-	BOOST_CHECK(allocator.font_id(1, "asset2", "font2") == "1_font2");
-	BOOST_CHECK(allocator.font_id(1, "asset3", "font3") == "1_font3");
-	BOOST_CHECK(allocator.font_id(1, "asset3", "font4") == "1_font4");
+	BOOST_CHECK_EQUAL(allocator.font_id(0, "asset1", "font"), "font");
+	BOOST_CHECK_EQUAL(allocator.font_id(0, "asset1", "font2"), "font2");
+	BOOST_CHECK_EQUAL(allocator.font_id(1, "asset2", "font"), "0_font");
+	BOOST_CHECK_EQUAL(allocator.font_id(1, "asset2", "font2"), "0_font2");
+	BOOST_CHECK_EQUAL(allocator.font_id(1, "asset3", "font3"), "font3");
+	BOOST_CHECK_EQUAL(allocator.font_id(1, "asset3", "font4"), "font4");
 }
 
 
@@ -68,10 +68,9 @@ BOOST_AUTO_TEST_CASE(font_id_allocator_test_with_disambiguation)
 
 	allocator.allocate();
 
-	BOOST_CHECK(allocator.font_id(0, "asset1", "font") == "0_font");
-	/* This should get a prefix that is higher than any reel index */
-	BOOST_CHECK(allocator.font_id(0, "asset2", "font") == "2_font");
-	BOOST_CHECK(allocator.font_id(1, "asset3", "font1") == "1_font1");
+	BOOST_CHECK(allocator.font_id(0, "asset1", "font") == "font");
+	BOOST_CHECK(allocator.font_id(0, "asset2", "font") == "0_font");
+	BOOST_CHECK(allocator.font_id(1, "asset3", "font1") == "font1");
 }
 
 

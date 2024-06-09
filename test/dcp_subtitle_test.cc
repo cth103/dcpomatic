@@ -232,7 +232,7 @@ BOOST_AUTO_TEST_CASE (test_font_override)
 	content->only_text()->set_language(dcp::LanguageTag("de"));
 
 	BOOST_REQUIRE_EQUAL(content->text.size(), 1U);
-	auto font = content->text.front()->get_font("0_theFontId");
+	auto font = content->text.front()->get_font("theFontId");
 	BOOST_REQUIRE(font);
 	font->set_file("test/data/Inconsolata-VF.ttf");
 

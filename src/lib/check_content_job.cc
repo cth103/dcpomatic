@@ -70,7 +70,7 @@ CheckContentJob::run ()
 	std::vector<shared_ptr<Content>> changed;
 	std::copy_if (content.begin(), content.end(), std::back_inserter(changed), [](shared_ptr<Content> c) { return c->changed(); });
 
-	if (_film->last_written_by_earlier_than(2, 16, 15)) {
+	if (_film->last_written_by_earlier_than(2, 17, 17)) {
 		for (auto c: content) {
 			if (auto stf = dynamic_pointer_cast<StringTextFileContent>(c)) {
 				stf->check_font_ids();
