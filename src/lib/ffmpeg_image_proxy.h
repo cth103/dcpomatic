@@ -28,7 +28,7 @@ class FFmpegImageProxy : public ImageProxy
 public:
 	explicit FFmpegImageProxy (boost::filesystem::path);
 	explicit FFmpegImageProxy (dcp::ArrayData);
-	FFmpegImageProxy (std::shared_ptr<Socket> socket);
+	explicit FFmpegImageProxy (std::shared_ptr<Socket> socket);
 
 	Result image (
 		Image::Alignment alignment,
