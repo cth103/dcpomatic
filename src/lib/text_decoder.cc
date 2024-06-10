@@ -20,6 +20,7 @@
 
 
 #include "compose.hpp"
+#include "dcpomatic_log.h"
 #include "log.h"
 #include "text_content.h"
 #include "text_decoder.h"
@@ -306,6 +307,10 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				);
 
 			auto font = content()->get_font(block.font.get_value_or(""));
+			if (!font) {
+				LOG_WARNING("Could not find font '%1' in content; falling back to default", block.font.get_value_or(""));
+				font = std::make_shared<dcpomatic::Font>(block.font.get_value_or(""), default_font_file());
+			}
 			DCPOMATIC_ASSERT(font);
 
 			auto string_text = StringText(
