@@ -445,7 +445,8 @@ void
 dump_decryption_certificate(std::function<void (string)> out)
 {
 	vector<string> lines;
-	boost::split(lines, Config::instance()->decryption_chain()->leaf().certificate(true), boost::is_any_of("\n"));
+	auto certificate = Config::instance()->decryption_chain()->leaf().certificate(true);
+	boost::split(lines, certificate, boost::is_any_of("\n"));
 	for (auto const& line: lines) {
 		out(line);
 	}
