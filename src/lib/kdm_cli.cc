@@ -36,6 +36,7 @@
 #include <dcp/decrypted_kdm.h>
 #include <dcp/encrypted_kdm.h>
 #include <dcp/filesystem.h>
+#include <boost/algorithm/string.hpp>
 #include <getopt.h>
 
 
