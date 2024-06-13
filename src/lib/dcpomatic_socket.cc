@@ -63,7 +63,7 @@ Socket::check ()
 void
 Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 {
-	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	set_deadline_from_now(_timeout);
 	boost::system::error_code ec = boost::asio::error::would_block;
 	_socket.async_connect (endpoint, boost::lambda::var(ec) = boost::lambda::_1);
 	do {
@@ -95,7 +95,7 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 void
 Socket::write (uint8_t const * data, int size)
 {
-	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	set_deadline_from_now(_timeout);
 	boost::system::error_code ec = boost::asio::error::would_block;
 
 	boost::asio::async_write (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
@@ -136,7 +136,7 @@ Socket::write (uint32_t v)
 void
 Socket::read (uint8_t* data, int size)
 {
-	_deadline.expires_from_now (boost::posix_time::seconds (_timeout));
+	set_deadline_from_now(_timeout);
 	boost::system::error_code ec = boost::asio::error::would_block;
 
 	boost::asio::async_read (_socket, boost::asio::buffer (data, size), boost::lambda::var(ec) = boost::lambda::_1);
@@ -266,3 +266,9 @@ Socket::set_send_buffer_size (int size)
 	_send_buffer_size = size;
 }
 
+
+void
+Socket::set_deadline_from_now(int seconds)
+{
+	_deadline.expires_from_now(boost::posix_time::seconds(seconds));
+}
