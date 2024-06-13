@@ -127,6 +127,7 @@ sources = """
           frame_rate_change.cc
           guess_crop.cc
           hints.cc
+          http_server.cc
           id.cc
           internet.cc
           image.cc

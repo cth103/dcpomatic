@@ -1,0 +1,5 @@
+
+def build(bld):
+    for file in ('index.html',):
+        bld.install_files('${PREFIX}/share/dcpomatic2/web', file)
+

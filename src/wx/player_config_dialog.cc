@@ -86,12 +86,18 @@ public:
 private:
 	void setup () override
 	{
-		wxGridBagSizer* table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 		int r = 0;
 		add_language_controls (table, r);
 		add_update_controls (table, r);
+
+		_enable_http_server = new CheckBox(_panel, _("Enable HTTP control interface on port"));
+		table->Add(_enable_http_server, wxGBPosition(r, 0));
+		_http_server_port = new wxSpinCtrl(_panel);
+		table->Add(_http_server_port, wxGBPosition(r, 1));
+		++r;
 
 		add_label_to_sizer (table, _panel, _("Start player as"), true, wxGBPosition(r, 0));
 		_player_mode = new wxChoice (_panel, wxID_ANY);
@@ -115,7 +121,7 @@ private:
 		table->Add (_video_display_mode, wxGBPosition(r, 1));
 		++r;
 
-		wxStaticText* restart = add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic_player(_("(restart %s to change display mode)")), false, wxGBPosition(r, 0));
+		auto restart = add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic_player(_("(restart %s to change display mode)")), false, wxGBPosition(r, 0));
 		wxFont font = restart->GetFont();
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
@@ -136,6 +142,11 @@ private:
 		_video_display_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::video_display_mode_changed, this));
 		_respect_kdm->bind(&PlayerGeneralPage::respect_kdm_changed, this);
 		_debug_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
+		_enable_http_server->bind(&PlayerGeneralPage::enable_http_server_changed, this);
+		_http_server_port->SetRange(1, 32767);
+		_http_server_port->Bind(wxEVT_SPINCTRL, boost::bind(&PlayerGeneralPage::http_server_port_changed, this));
+
+		setup_sensitivity();
 	}
 
 	void config_changed () override
@@ -170,6 +181,11 @@ private:
 		if (config->player_debug_log_file()) {
 			checked_set (_debug_log_file, *config->player_debug_log_file());
 		}
+
+		checked_set(_enable_http_server, config->enable_player_http_server());
+		checked_set(_http_server_port, config->player_http_server_port());
+
+		setup_sensitivity();
 	}
 
 private:
@@ -214,11 +230,28 @@ private:
 		}
 	}
 
+	void enable_http_server_changed()
+	{
+		Config::instance()->set_enable_player_http_server(_enable_http_server->get());
+	}
+
+	void http_server_port_changed()
+	{
+		Config::instance()->set_player_http_server_port(_http_server_port->GetValue());
+	}
+
+	void setup_sensitivity()
+	{
+		_http_server_port->Enable(_enable_http_server->get());
+	}
+
 	wxChoice* _player_mode;
 	wxChoice* _image_display;
 	wxChoice* _video_display_mode;
 	CheckBox* _respect_kdm;
 	FilePickerCtrl* _debug_log_file;
+	CheckBox* _enable_http_server;
+	wxSpinCtrl* _http_server_port;
 };
 
 

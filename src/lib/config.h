@@ -670,6 +670,14 @@ public:
 		return _isdcf_name_part_length;
 	}
 
+	bool enable_player_http_server() const {
+		return _enable_player_http_server;
+	}
+
+	int player_http_server_port() const {
+		return _player_http_server_port;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1209,6 +1217,14 @@ public:
 		maybe_set(_isdcf_name_part_length, length, ISDCF_NAME_PART_LENGTH);
 	}
 
+	void set_enable_player_http_server(bool enable) {
+		maybe_set(_enable_player_http_server, enable);
+	}
+
+	void set_player_http_server_port(int port) {
+		maybe_set(_player_http_server_port, port);
+	}
+
 
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
@@ -1447,6 +1463,8 @@ private:
 	DefaultAddFileLocation _default_add_file_location;
 	bool _allow_smpte_bv20;
 	int _isdcf_name_part_length;
+	bool _enable_player_http_server;
+	int _player_http_server_port;
 
 #ifdef DCPOMATIC_GROK
 	boost::optional<Grok> _grok;

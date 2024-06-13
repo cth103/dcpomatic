@@ -51,6 +51,7 @@
 #include "lib/file_log.h"
 #include "lib/film.h"
 #include "lib/font_config.h"
+#include "lib/http_server.h"
 #include "lib/image.h"
 #include "lib/image_jpeg.h"
 #include "lib/image_png.h"
@@ -312,12 +313,14 @@ public:
 		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
 
 		setup_internal_player_server();
+		setup_http_server();
 
 		SetDropTarget(new DCPDropTarget(this));
 	}
 
 	~DOMFrame ()
 	{
+		stop_http_server();
 		/* It's important that this is stopped before our frame starts destroying its children,
 		 * otherwise UI elements that it depends on will disappear from under it.
 		 */
@@ -537,6 +540,25 @@ public:
 	void load_stress_script (boost::filesystem::path path)
 	{
 		_stress.load_script (path);
+	}
+
+	void idle()
+	{
+		if (_http_server) {
+			struct timeval now;
+			gettimeofday(&now, 0);
+			auto time_since_last_update = (now.tv_sec + now.tv_usec / 1e6) - (_last_http_server_update.tv_sec + _last_http_server_update.tv_usec / 1e6);
+			if (time_since_last_update > 0.25) {
+				_http_server->set_playing(_viewer.playing());
+				if (auto dcp = _viewer.dcp()) {
+					_http_server->set_dcp_name(dcp->name());
+				} else {
+					_http_server->set_dcp_name("");
+				}
+				_http_server->set_position(_viewer.position());
+				_last_http_server_update = now;
+			}
+		}
 	}
 
 private:
@@ -1040,6 +1062,34 @@ private:
 		}
 
 		update_from_config (prop);
+
+		setup_http_server();
+	}
+
+	void stop_http_server()
+	{
+		if (_http_server) {
+			_http_server->stop();
+			_http_server_thread.join();
+			_http_server.reset();
+		}
+	}
+
+	void setup_http_server()
+	{
+		stop_http_server();
+
+		auto config = Config::instance();
+		try {
+			if (config->enable_player_http_server()) {
+				_http_server.reset(new HTTPServer(config->player_http_server_port()));
+				_http_server->Play.connect(boost::bind(&FilmViewer::start, &_viewer));
+				_http_server->Stop.connect(boost::bind(&FilmViewer::stop, &_viewer));
+				_http_server_thread = boost::thread(boost::bind(&HTTPServer::run, _http_server.get()));
+			}
+		} catch (std::exception& e) {
+			LOG_DEBUG_PLAYER("Failed to start player HTTP server (%1)", e.what());
+		}
 	}
 
 	void setup_internal_player_server()
@@ -1172,6 +1222,9 @@ private:
 	PlayerStressTester _stress;
 	/** KDMs that have been loaded, so that we can pass them to the verifier */
 	std::vector<boost::filesystem::path> _kdms;
+	boost::thread _http_server_thread;
+	std::unique_ptr<HTTPServer> _http_server;
+	struct timeval _last_http_server_update = { 0, 0 };
 };
 
 static const wxCmdLineEntryDesc command_line_description[] = {
@@ -1355,6 +1408,9 @@ private:
 	void idle ()
 	{
 		signal_manager->ui_idle ();
+		if (_frame) {
+			_frame->idle();
+		}
 	}
 
 	void config_failed_to_load ()

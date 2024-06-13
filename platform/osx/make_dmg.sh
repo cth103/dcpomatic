@@ -272,6 +272,7 @@ function copy_resources {
     cp $source/graphics/link*.png "$dest"
     cp $source/graphics/add*.png "$dest"
     cp $source/graphics/pause*.png "$dest"
+    cp -r $source/web "$dest"
     cp -r $prefix/share/libdcp/xsd "$dest"
     cp -r $prefix/share/libdcp/tags "$dest"
     cp -r $prefix/share/libdcp/ratings "$dest"

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<script>
+	setInterval(function() {
+		status = fetch("/api/v1/status").then(response => {
+			response.json().then(data => {
+				if (data.playing) {
+					document.getElementById('playing').innerHTML = "Playing";
+				} else {
+					document.getElementById('playing').innerHTML = "Stopped";
+				}
+				document.getElementById('dcp_name').innerHTML = data.dcp_name;
+				document.getElementById('position').innerHTML = data.position;
+			});
+		});
+	}, 250);
+	function play() {
+		fetch("/api/v1/play", { method: "POST" });
+	}
+	function stop() {
+		fetch("/api/v1/stop", { method: "POST" });
+	}
+</script>
+<style>
+button {
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  color: #24292E;
+  display: inline-block;
+  line-height: 20px;
+  padding: 6px 16px;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+button:hover {
+  background-color: #F3F4F6;
+  text-decoration: none;
+  transition-duration: 0.1s;
+}
+
+button:active {
+  background-color: #EDEFF2;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+button:focus {
+  outline: 1px transparent;
+}
+
+button:before {
+  display: none;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border: 2px solid black;
+}
+
+tr {
+    text-align: left;
+    border: 1px solid black;
+}
+
+td {
+    padding: 4px 16px;
+    text-align: left;
+    border: 1px solid black;
+}
+
+
+</style>
+	<head>
+		<title>%1</title>
+	</head>
+	<body>
+		<button name="play" value="play" onclick="play()">Play</button>
+		<button name="Stop" value="Stop" onclick="stop()">Stop</button>
+		<table>
+			<tr><td>DCP</td><td><p id="dcp_name"></td></tr>
+			<tr><td>State</td><td><p id="playing"></td></tr>
+			<tr><td>Position</td><td><p id="position"></td></tr>
+		</table>
+	</body>
+</html>

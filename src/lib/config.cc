@@ -214,6 +214,8 @@ Config::set_defaults ()
 	_last_release_notes_version = boost::none;
 	_allow_smpte_bv20 = false;
 	_isdcf_name_part_length = 14;
+	_enable_player_http_server = false;
+	_player_http_server_port = 8080;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -651,6 +653,8 @@ try
 
 	_allow_smpte_bv20 = f.optional_bool_child("AllowSMPTEBv20").get_value_or(false);
 	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
+	_enable_player_http_server = f.optional_bool_child("EnablePlayerHTTPServer").get_value_or(false);
+	_player_http_server_port = f.optional_number_child<int>("PlayerHTTPServerPort").get_value_or(8080);
 
 #ifdef DCPOMATIC_GROK
 	if (auto grok = f.optional_node_child("Grok")) {
@@ -1122,6 +1126,10 @@ Config::write_config () const
 	cxml::add_text_child(root, "AllowSMPTEBv20", _allow_smpte_bv20 ? "1" : "0");
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
 	cxml::add_text_child(root, "ISDCFNamePartLength", raw_convert<string>(_isdcf_name_part_length));
+	/* [XML] EnablePlayerHTTPServer 1 to enable a HTTP server to control the player, otherwise 0 */
+	cxml::add_text_child(root, "EnablePlayerHTTPServer", _enable_player_http_server ? "1" : "0");
+	/* [XML] PlayerHTTPServerPort Port to use for player HTTP server (if enabled) */
+	cxml::add_text_child(root, "PlayerHTTPServerPort", raw_convert<string>(_player_http_server_port));
 
 #ifdef DCPOMATIC_GROK
 	if (_grok) {
