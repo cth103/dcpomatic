@@ -272,3 +272,9 @@ Socket::set_deadline_from_now(int seconds)
 {
 	_deadline.expires_from_now(boost::posix_time::seconds(seconds));
 }
+
+void
+Socket::run()
+{
+	_io_service.run_one();
+}

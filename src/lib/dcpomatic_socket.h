@@ -53,6 +53,8 @@ public:
 	uint32_t read_uint32 ();
 
 	void set_deadline_from_now(int seconds);
+	void run();
+
 	class ReadDigestScope
 	{
 	public:
