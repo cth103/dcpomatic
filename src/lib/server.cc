@@ -41,13 +41,7 @@ Server::Server (int port, int timeout)
 
 Server::~Server ()
 {
-	{
-		boost::mutex::scoped_lock lm (_mutex);
-		_terminate = true;
-	}
-
-	_acceptor.close ();
-	stop ();
+	stop();
 }
 
 
@@ -89,5 +83,11 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 void
 Server::stop ()
 {
+	{
+		boost::mutex::scoped_lock lm (_mutex);
+		_terminate = true;
+	}
+
+	_acceptor.close ();
 	_io_service.stop ();
 }
