@@ -115,6 +115,13 @@ Socket::write (uint8_t const * data, int size)
 
 
 void
+Socket::write(std::string const& str)
+{
+	write(reinterpret_cast<uint8_t const*>(str.c_str()), str.size());
+}
+
+
+void
 Socket::write (uint32_t v)
 {
 	v = htonl (v);
