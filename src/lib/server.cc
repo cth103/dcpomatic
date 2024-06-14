@@ -75,6 +75,8 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 		return;
 	}
 
+	_socket = socket;
+
 	handle (socket);
 	start_accept ();
 }
@@ -89,5 +91,8 @@ Server::stop ()
 	}
 
 	_acceptor.close ();
+	if (auto s = _socket.lock()) {
+		s->close();
+	}
 	_io_service.stop ();
 }

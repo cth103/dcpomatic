@@ -57,6 +57,7 @@ private:
 	boost::asio::io_service _io_service;
 	boost::asio::ip::tcp::acceptor _acceptor;
 	int _timeout;
+	std::weak_ptr<Socket> _socket;
 };
 
 
