@@ -85,7 +85,12 @@ cpu_info ()
 boost::filesystem::path
 resources_path ()
 {
-	return directory_containing_executable().parent_path() / "share" / "dcpomatic2";
+	auto installed = directory_containing_executable().parent_path() / "share" / "dcpomatic2";
+	if (boost::filesystem::exists(installed)) {
+		return installed;
+	}
+
+	return directory_containing_executable().parent_path().parent_path().parent_path();
 }
 
 
