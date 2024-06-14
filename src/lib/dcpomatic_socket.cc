@@ -278,3 +278,10 @@ Socket::run()
 {
 	_io_service.run_one();
 }
+
+void
+Socket::close()
+{
+	_socket.close();
+}
+

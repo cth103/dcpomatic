@@ -54,6 +54,7 @@ public:
 
 	void set_deadline_from_now(int seconds);
 	void run();
+	void close();
 
 	class ReadDigestScope
 	{
