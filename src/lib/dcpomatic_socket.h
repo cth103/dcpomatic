@@ -56,6 +56,10 @@ public:
 	void run();
 	void close();
 
+	bool is_open() const {
+		return _socket.is_open();
+	}
+
 	class ReadDigestScope
 	{
 	public:
