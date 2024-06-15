@@ -120,13 +120,7 @@ PlayerInformation::periodic_update ()
 void
 PlayerInformation::triggered_update ()
 {
-	shared_ptr<DCPContent> dcp;
-	if (_viewer.film()) {
-		auto content = _viewer.film()->content();
-		if (content.size() == 1) {
-			dcp = dynamic_pointer_cast<DCPContent>(content.front());
-		}
-	}
+	auto dcp = _viewer.dcp();
 
 	if (!dcp) {
 		checked_set (_dcp[0], _("No DCP loaded."));

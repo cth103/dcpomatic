@@ -43,6 +43,7 @@ LIBDCP_ENABLE_WARNINGS
 
 class Butler;
 class ClosedCaptionsDialog;
+class DCPContent;
 class FFmpegPlayer;
 class Image;
 class Player;
@@ -75,6 +76,11 @@ public:
 	std::shared_ptr<Film> film () const {
 		return _film;
 	}
+
+	/** @return The DCP that we are playing back, if that's the only content in
+	 *  our Film.
+	 */
+	std::shared_ptr<DCPContent> dcp() const;
 
 	void seek (dcpomatic::DCPTime t, bool accurate);
 	void seek (std::shared_ptr<Content> content, dcpomatic::ContentTime p, bool accurate);

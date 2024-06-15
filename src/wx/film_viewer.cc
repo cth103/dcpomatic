@@ -35,6 +35,7 @@
 #include "lib/butler.h"
 #include "lib/compose.hpp"
 #include "lib/config.h"
+#include "lib/dcp_content.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/examine_content_job.h"
 #include "lib/exceptions.h"
@@ -897,6 +898,20 @@ FilmViewer::unset_crop_guess ()
 {
 	_crop_guess = boost::none;
 	_video_view->update ();
+}
+
+
+shared_ptr<DCPContent>
+FilmViewer::dcp() const
+{
+	if (_film) {
+		auto content = _film->content();
+		if (content.size() == 1) {
+			return dynamic_pointer_cast<DCPContent>(content.front());
+		}
+	}
+
+	return {};
 }
 
 
