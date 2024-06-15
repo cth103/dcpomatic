@@ -54,6 +54,7 @@
 #include "lib/image.h"
 #include "lib/image_jpeg.h"
 #include "lib/image_png.h"
+#include "lib/internal_player_server.h"
 #include "lib/internet.h"
 #include "lib/job.h"
 #include "lib/job_manager.h"
@@ -309,6 +310,8 @@ public:
 		setup_screen ();
 
 		_stress.LoadDCP.connect (boost::bind(&DOMFrame::load_dcp, this, _1));
+
+		setup_internal_player_server();
 
 		SetDropTarget(new DCPDropTarget(this));
 	}
@@ -1039,6 +1042,20 @@ private:
 		update_from_config (prop);
 	}
 
+	void setup_internal_player_server()
+	{
+		try {
+			auto server = new InternalPlayerServer();
+			server->LoadDCP.connect(boost::bind(&DOMFrame::load_dcp, this, _1));
+			new thread(boost::bind(&InternalPlayerServer::run, server));
+		} catch (std::exception& e) {
+			/* This is not the end of the world; probably a failure to bind the server socket
+			 * because there's already another player running.
+			 */
+			LOG_DEBUG_PLAYER("Failed to start internal player server (%1)", e.what());
+		}
+	}
+
 	void update_from_config (Config::Property prop)
 	{
 		for (int i = 0; i < _history_items; ++i) {
@@ -1164,34 +1181,6 @@ static const wxCmdLineEntryDesc command_line_description[] = {
 	{ wxCMD_LINE_NONE, "", "", "", wxCmdLineParamType (0), 0 }
 };
 
-class PlayServer : public Server
-{
-public:
-	explicit PlayServer (DOMFrame* frame)
-		: Server (PLAYER_PLAY_PORT)
-		, _frame (frame)
-	{}
-
-	void handle (shared_ptr<Socket> socket) override
-	{
-		try {
-			uint32_t const length = socket->read_uint32 ();
-			if (length > 65536) {
-				return;
-			}
-			scoped_array<char> buffer (new char[length]);
-			socket->read (reinterpret_cast<uint8_t*> (buffer.get()), length);
-			string s (buffer.get());
-			signal_manager->when_idle (bind (&DOMFrame::load_dcp, _frame, s));
-			socket->write (reinterpret_cast<uint8_t const *> ("OK"), 3);
-		} catch (...) {
-
-		}
-	}
-
-private:
-	DOMFrame* _frame;
-};
 
 /** @class App
  *  @brief The magic App class for wxWidgets.
@@ -1264,16 +1253,6 @@ private:
 				splash = nullptr;
 			}
 			_frame->Show ();
-
-			try {
-				auto server = new PlayServer (_frame);
-				new thread (boost::bind (&PlayServer::run, server));
-			} catch (std::exception& e) {
-				/* This is not the end of the world; probably a failure to bind the server socket
-				 * because there's already another player running.
-				 */
-				LOG_DEBUG_PLAYER ("Failed to start play server (%1)", e.what());
-			}
 
 			if (!_dcp_to_load.empty() && dcp::filesystem::is_directory(_dcp_to_load)) {
 				try {
