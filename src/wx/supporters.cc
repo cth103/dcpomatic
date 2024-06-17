@@ -1290,6 +1290,7 @@ supported_by.Add (wxT ("Laura Waddington"));
 supported_by.Add (wxT ("Matthew Wade"));
 supported_by.Add (wxT ("Nela Wagman"));
 supported_by.Add (wxT ("Stéphane Wagneur"));
+supported_by.Add (wxT ("Christine Walker"));
 supported_by.Add (wxT ("Andrew Walls"));
 supported_by.Add (wxT ("Dan Walls"));
 supported_by.Add (wxT ("Christoph Walther"));
