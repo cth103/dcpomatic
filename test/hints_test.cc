@@ -296,3 +296,16 @@ BOOST_AUTO_TEST_CASE (hints_certificate_validity)
 		);
 }
 
+
+BOOST_AUTO_TEST_CASE(hints_mpeg2)
+{
+	auto film = new_test_film("hints_certificate_validity");
+	film->set_video_encoding(VideoEncoding::MPEG2);
+	auto hints = get_hints(film);
+	BOOST_REQUIRE_EQUAL(hints.size(), 1U);
+	BOOST_CHECK_EQUAL(
+		hints[0],
+		"The vast majority of cinemas in Europe, Australasia and North America expect DCPs "
+		"encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema really wants an old-style MPEG2 DCP."
+		);
+}

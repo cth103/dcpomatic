@@ -264,6 +264,15 @@ Hints::check_interop ()
 
 
 void
+Hints::check_video_encoding()
+{
+	if (film()->video_encoding() == VideoEncoding::MPEG2) {
+		hint(_("The vast majority of cinemas in Europe, Australasia and North America expect DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema really wants an old-style MPEG2 DCP."));
+	}
+}
+
+
+void
 Hints::check_big_font_files ()
 {
 	bool big_font_files = false;
@@ -463,6 +472,7 @@ try
 
 	check_certificates ();
 	check_interop ();
+	check_video_encoding();
 	check_big_font_files ();
 	check_few_audio_channels ();
 	check_upmixers ();

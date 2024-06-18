@@ -69,6 +69,7 @@ private:
 
 	void check_certificates ();
 	void check_interop ();
+	void check_video_encoding();
 	void check_big_font_files ();
 	void check_few_audio_channels ();
 	void check_upmixers ();
