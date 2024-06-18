@@ -556,7 +556,7 @@ def configure_options(target, options, for_package=False):
     opt = ' --warnings-are-errors'
 
     if for_package or not (
-            (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '22.04']) or
+            (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '22.04', '24.04']) or
             (target.platform == 'osx') or
             (target.platform == 'windows')
         ):
