@@ -1250,7 +1250,7 @@ Player::bitmap_text_start (weak_ptr<Piece> weak_piece, weak_ptr<const TextConten
 	{
 		/* Apply content's subtitle offsets */
 		sub.rectangle.x += content->x_offset ();
-		sub.rectangle.y += content->y_offset ();
+		sub.rectangle.y -= content->y_offset ();
 
 		/* Apply a corrective translation to keep the subtitle centred after the scale that is coming up */
 		sub.rectangle.x -= sub.rectangle.width * ((content->x_scale() - 1) / 2);
