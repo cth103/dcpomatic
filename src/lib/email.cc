@@ -119,7 +119,8 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 	auto const utc_now = boost::posix_time::second_clock::universal_time ();
 	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
 	auto offset = local_now - utc_now;
-	sprintf (date_buffer + strlen(date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), int(abs(offset.hours())), int(offset.minutes()));
+	auto end = date_buffer + strlen(date_buffer);
+	snprintf(end, sizeof(date_buffer) - (end - date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), int(abs(offset.hours())), int(offset.minutes()));
 
 	_email = "Date: " + string(date_buffer) + "\r\n"
 		"To: " + address_list (_to) + "\r\n"
