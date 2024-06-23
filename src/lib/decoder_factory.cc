@@ -59,13 +59,11 @@ maybe_cast (shared_ptr<Decoder> d)
 shared_ptr<Decoder>
 decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content, bool fast, bool tolerant, shared_ptr<Decoder> old_decoder)
 {
-	auto fc = dynamic_pointer_cast<const FFmpegContent> (content);
-	if (fc) {
+	if (auto fc = dynamic_pointer_cast<const FFmpegContent>(content)) {
 		return make_shared<FFmpegDecoder>(film, fc, fast);
 	}
 
-	auto dc = dynamic_pointer_cast<const DCPContent> (content);
-	if (dc) {
+	if (auto dc = dynamic_pointer_cast<const DCPContent>(content)) {
 		try {
 			return make_shared<DCPDecoder>(film, dc, fast, tolerant, maybe_cast<DCPDecoder>(old_decoder));
 		} catch (KDMError& e) {
@@ -74,28 +72,23 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 		}
 	}
 
-	auto ic = dynamic_pointer_cast<const ImageContent> (content);
-	if (ic) {
+	if (auto ic = dynamic_pointer_cast<const ImageContent>(content)) {
 		return make_shared<ImageDecoder>(film, ic);
 	}
 
-	auto rc = dynamic_pointer_cast<const StringTextFileContent> (content);
-	if (rc) {
+	if (auto rc = dynamic_pointer_cast<const StringTextFileContent>(content)) {
 		return make_shared<StringTextFileDecoder>(film, rc);
 	}
 
-	auto dsc = dynamic_pointer_cast<const DCPSubtitleContent> (content);
-	if (dsc) {
+	if (auto dsc = dynamic_pointer_cast<const DCPSubtitleContent>(content)) {
 		return make_shared<DCPSubtitleDecoder>(film, dsc);
 	}
 
-	auto vmc = dynamic_pointer_cast<const VideoMXFContent> (content);
-	if (vmc) {
+	if (auto vmc = dynamic_pointer_cast<const VideoMXFContent>(content)) {
 		return make_shared<VideoMXFDecoder>(film, vmc);
 	}
 
-	auto amc = dynamic_pointer_cast<const AtmosMXFContent> (content);
-	if (amc) {
+	if (auto amc = dynamic_pointer_cast<const AtmosMXFContent>(content)) {
 		return make_shared<AtmosMXFDecoder>(film, amc);
 	}
 
