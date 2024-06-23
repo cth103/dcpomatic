@@ -89,18 +89,13 @@ using std::back_inserter;
 using std::copy;
 using std::cout;
 using std::dynamic_pointer_cast;
-using std::exception;
 using std::find;
 using std::list;
-using std::make_pair;
 using std::make_shared;
 using std::map;
 using std::max;
-using std::min;
 using std::pair;
 using std::runtime_error;
-using std::set;
-using std::setfill;
 using std::shared_ptr;
 using std::string;
 using std::vector;
@@ -2421,4 +2416,3 @@ Film::write_remembered_assets(vector<RememberedAsset> const& assets) const
 		LOG_ERROR("Could not write assets file %1", file(assets_file));
 	}
 }
-
