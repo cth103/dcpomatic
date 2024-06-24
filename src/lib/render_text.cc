@@ -148,7 +148,7 @@ marked_up(vector<StringText> subtitles, int target_height, float fade_factor, st
 			int dummy;
 			layout->get_pixel_size(space_width, dummy);
 			auto spacing = ((i.space_before() * i.size_in_pixels(target_height) - space_width) / 2) * pixels_to_1024ths_point;
-			out += make_span(i, " ", "letter_spacing=\"" + dcp::raw_convert<string>(spacing) + "\"");
+			out += make_span(i, " ", "letter_spacing=\"" + dcp::raw_convert<string>(std::round(spacing)) + "\"");
 		}
 
 		out += make_span(i, i.text(), {});
