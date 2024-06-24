@@ -570,7 +570,13 @@ check_dcp(boost::filesystem::path ref, boost::filesystem::path check, bool sound
 }
 
 void
-check_xml(xmlpp::Element* ref, xmlpp::Element* test, list<Glib::ustring> ignore)
+check_xml(
+	xmlpp::Element* ref,
+	xmlpp::Element* test,
+	list<Glib::ustring> ignore,
+	optional<boost::filesystem::path> ref_file,
+	optional<boost::filesystem::path> test_file
+	)
 {
 	BOOST_CHECK_EQUAL (ref->get_name (), test->get_name ());
 	BOOST_CHECK_EQUAL (ref->get_namespace_prefix (), test->get_namespace_prefix ());
@@ -581,9 +587,13 @@ check_xml(xmlpp::Element* ref, xmlpp::Element* test, list<Glib::ustring> ignore)
 
 	auto ref_children = ref->get_children ();
 	auto test_children = test->get_children ();
+	string context;
+	if (ref_file && test_file) {
+		context = String::compose(" comparing %1 and %2", ref_file->string(), test_file->string());
+	}
 	BOOST_REQUIRE_MESSAGE (
 		ref_children.size() == test_children.size(),
-		ref->get_name() << " has " << ref_children.size() << " or " << test_children.size() << " children"
+		ref->get_name() << " has " << ref_children.size() << " or " << test_children.size() << " children" << context
 		);
 
 	auto k = ref_children.begin ();
@@ -596,7 +606,7 @@ check_xml(xmlpp::Element* ref, xmlpp::Element* test, list<Glib::ustring> ignore)
 		auto test_el = dynamic_cast<xmlpp::Element*>(*l);
 		BOOST_CHECK ((ref_el && test_el) || (!ref_el && !test_el));
 		if (ref_el && test_el) {
-			check_xml (ref_el, test_el, ignore);
+			check_xml(ref_el, test_el, ignore, ref_file, test_file);
 		}
 
 		auto ref_cn = dynamic_cast<xmlpp::ContentNode*>(*k);
@@ -633,7 +643,7 @@ check_xml(boost::filesystem::path ref, boost::filesystem::path test, list<Glib::
 	auto test_parser = new xmlpp::DomParser(test.string());
 	auto test_root = test_parser->get_document()->get_root_node();
 
-	check_xml (ref_root, test_root, ignore);
+	check_xml(ref_root, test_root, ignore, ref, test);
 }
 
 bool
@@ -1077,4 +1087,3 @@ Editor::replace(string a, string b)
 	boost::algorithm::replace_all(_content, a, b);
 	BOOST_REQUIRE(_content != old_content);
 }
-
