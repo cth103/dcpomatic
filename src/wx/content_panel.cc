@@ -211,26 +211,35 @@ public:
 
 	wxString OnGetItemText(long item, long) const override
 	{
-		DCPOMATIC_ASSERT(item >= 0 && item < static_cast<long>(_items.size()));
+		if (out_of_range(item)) {
+			/* wxWidgets sometimes asks for things that are already gone */
+			return {};
+		}
 		wxClientDC dc(const_cast<wxWindow*>(static_cast<wxWindow const*>(this)));
 		return wxControl::Ellipsize(_items[item].text, dc, wxELLIPSIZE_MIDDLE, GetSize().GetWidth());
 	}
 
 	wxListItemAttr* OnGetItemAttr(long item) const override
 	{
-		DCPOMATIC_ASSERT(item >= 0 && item < static_cast<long>(_items.size()));
+		if (out_of_range(item)) {
+			return nullptr;
+		}
 		return _items[item].error ? const_cast<wxListItemAttr*>(&_red) : nullptr;
 	}
 
 	weak_ptr<Content> content_at_index(long index)
 	{
-		if (index < 0 || index >= static_cast<long>(_items.size())) {
+		if (out_of_range(index)) {
 			return {};
 		}
 		return _items[index].content;
 	}
 
 private:
+	bool out_of_range(long index) const {
+		return index < 0 || index >= static_cast<long>(_items.size());
+	}
+
 	std::vector<Item> _items;
 	wxListItemAttr _red;
 };
