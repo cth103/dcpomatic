@@ -69,6 +69,10 @@ ffmpeg_content_test (int number, boost::filesystem::path content, ExportFormat f
 		name += "prores-hq";
 		extension = "mov";
 		break;
+	case ExportFormat::PRORES_LT:
+		name += "prores-lt";
+		extension = "mov";
+		break;
 	case ExportFormat::SUBTITLES_DCP:
 		BOOST_REQUIRE (false);
 	}

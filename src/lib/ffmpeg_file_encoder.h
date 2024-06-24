@@ -48,6 +48,7 @@ enum class ExportFormat
 {
 	PRORES_4444,
 	PRORES_HQ,
+	PRORES_LT,
 	H264_AAC,
 	SUBTITLES_DCP
 };

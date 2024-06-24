@@ -22,6 +22,7 @@
 #include "check_box.h"
 #include "export_video_file_dialog.h"
 #include "file_picker_ctrl.h"
+#include "lib/ffmpeg_file_encoder.h"
 #include "wx_util.h"
 #include "lib/config.h"
 #include <dcp/warnings.h>
@@ -35,16 +36,18 @@ using std::string;
 using boost::bind;
 
 
-int constexpr FORMATS = 3;
+int constexpr FORMATS = 4;
 
 
 wxString format_names[] = {
 	_("MOV / ProRes 4444"),
 	_("MOV / ProRes HQ"),
+	_("MOV / ProRes LT"),
 	_("MP4 / H.264"),
 };
 
 wxString format_filters[] = {
+	_("MOV files (*.mov)|*.mov"),
 	_("MOV files (*.mov)|*.mov"),
 	_("MOV files (*.mov)|*.mov"),
 	_("MP4 files (*.mp4)|*.mp4"),
@@ -53,12 +56,14 @@ wxString format_filters[] = {
 wxString format_extensions[] = {
 	"mov",
 	"mov",
+	"mov",
 	"mp4",
 };
 
 ExportFormat formats[] = {
 	ExportFormat::PRORES_4444,
 	ExportFormat::PRORES_HQ,
+	ExportFormat::PRORES_LT,
 	ExportFormat::H264_AAC,
 };
 

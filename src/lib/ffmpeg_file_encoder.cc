@@ -241,6 +241,13 @@ FFmpegFileEncoder::FFmpegFileEncoder (
 		av_dict_set (&_video_options, "profile", "3", 0);
 		av_dict_set (&_video_options, "threads", "auto", 0);
 		break;
+	case ExportFormat::PRORES_LT:
+		_sample_format = AV_SAMPLE_FMT_S32;
+		_video_codec_name = "prores_ks";
+		_audio_codec_name = "pcm_s24le";
+		av_dict_set(&_video_options, "profile", "1", 0);
+		av_dict_set(&_video_options, "threads", "auto", 0);
+		break;
 	case ExportFormat::H264_AAC:
 		_sample_format = AV_SAMPLE_FMT_FLTP;
 		_video_codec_name = "libx264";
@@ -292,6 +299,7 @@ FFmpegFileEncoder::pixel_format (ExportFormat format)
 	case ExportFormat::PRORES_4444:
 		return AV_PIX_FMT_YUV444P10;
 	case ExportFormat::PRORES_HQ:
+	case ExportFormat::PRORES_LT:
 		return AV_PIX_FMT_YUV422P10;
 	case ExportFormat::H264_AAC:
 		return AV_PIX_FMT_YUV420P;
