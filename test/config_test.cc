@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE (config_write_utf8_test)
 /* 2.14 -> 2.18 */
 BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 {
-	boost::filesystem::path dir = "build/test/config_upgrade_test";
+	boost::filesystem::path dir = "build/test/config_upgrade_test1";
 	ConfigRestorer cr(dir);
 
 	boost::filesystem::remove_all (dir);
@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 /* 2.16 -> 2.18 */
 BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 {
-	boost::filesystem::path dir = "build/test/config_upgrade_test";
+	boost::filesystem::path dir = "build/test/config_upgrade_test2";
 	ConfigRestorer cr(dir);
 	boost::filesystem::remove_all (dir);
 	boost::filesystem::create_directories (dir);
