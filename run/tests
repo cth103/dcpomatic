@@ -86,7 +86,11 @@ if [ "$(uname)" == "Darwin" ]; then
     ln -s ../../../openssl/apps/openssl build/test/openssl
     # We need to find ffcmp in here
     export PATH=$PATH:$HOME/workspace/bin
-    export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$environment/$(uname -m)/11.0/lib
+    if [ -d "$environment/$(uname -m)/11.0" ]; then
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$environment/$(uname -m)/11.0/lib
+    else
+        export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:$environment/$(uname -m)/10.10/lib
+    fi
 fi
 
 if [ "$check" == "1" ]; then
