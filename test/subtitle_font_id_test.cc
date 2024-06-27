@@ -302,3 +302,17 @@ BOOST_AUTO_TEST_CASE(no_error_with_ccap_that_mentions_no_font)
 	while (!player.pass()) {}
 }
 
+
+BOOST_AUTO_TEST_CASE(cope_with_unloaded_font_id)
+{
+	/* This file has a <Font> with an ID that corresponds to no <LoadFont> */
+	auto subs = content_factory("test/data/unloaded_font.xml")[0];
+	auto film = new_test_film2("cope_with_unloaded_font_id", { subs });
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+		});
+}
+
