@@ -196,6 +196,7 @@ DolbyDoremiCertificatePanel::do_download ()
 
 	if (starts_with_digit) {
 		try_common(locations, prefix, serial);
+		wxYield();
 		try_cat862(locations, prefix, serial);
 		try_dsp100(locations, prefix, serial);
 	} else if (starting_char == 'H') {
@@ -209,6 +210,7 @@ DolbyDoremiCertificatePanel::do_download ()
 	bool ok = false;
 	auto location = locations.begin();
 	while (!ok && location != locations.end()) {
+		wxYield();
 		auto error = get_from_zip_url(location->url, location->file, true, true, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 		++location;
 		if (error) {
