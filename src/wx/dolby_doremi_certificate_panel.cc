@@ -64,77 +64,30 @@ DolbyDoremiCertificatePanel::DolbyDoremiCertificatePanel (DownloadCertificateDia
 
 
 static void
-try_dcp2000(vector<Location>& locations, string prefix, string serial)
+try_common(vector<Location>& locations, string prefix, string serial)
 {
-	locations.push_back({
-		String::compose("%1%2xxx/Dolby-DCP2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("Dolby-DCP2000-%1.cert.sha256.pem", serial)
-	});
+	auto files = ls_url(String::compose("%1%2xxx/", prefix, serial.substr(0, 3)));
 
-	locations.push_back({
-		String::compose("%1%2xxx/Dolby-DCP2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("Dolby-DCP2000-%1.cert.sha256.pem", serial)
-	});
+	auto check = [&locations, prefix, files, serial](string format, string file) {
+		auto const zip = String::compose(format, serial);
+		if (find(files.begin(), files.end(), zip) != files.end()) {
+			locations.push_back({
+				String::compose("%1%2xxx/%3", prefix, serial.substr(0, 3), zip),
+				String::compose(file, serial)
+			});
+		}
+	};
 
-	locations.push_back({
-	    	String::compose("%1%2xxx/Dolby-DCP2000-%3.certs.zip", prefix, serial.substr(0, 3), serial),
-	    	String::compose("Dolby-DCP2000-%1.cert.sha256.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("dcp2000-%1.cert.sha256.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/dcp2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("dcp2000-%1.cert.sha256.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/dcp2000-%3.certs.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("dcp2000-%1.cert.sha256.pem", serial)
-	});
-}
-
-
-static void
-try_imb(vector<Location>& locations, string prefix, string serial)
-{
-	locations.push_back({
-		String::compose("%1%2xxx/Dolby-IMB-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("Dolby-IMB-%1.cert.sha256.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/imb-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("imb-%1.cert.sha256.pem", serial)
-	});
-}
-
-
-static void
-try_ims(vector<Location>& locations, string prefix, string serial)
-{
-	locations.push_back({
-		String::compose("%1%2xxx/Dolby-IMS1000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("Dolby-IMS1000-%1.cert.sha256.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/Dolby-IMS2000-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("Dolby-IMS2000-%1.cert.sha256.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/cert_Dolby-IMS3000-%3-SMPTE.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("cert_Dolby-IMS3000-%1-SMPTE.pem", serial)
-	});
-
-	locations.push_back({
-		String::compose("%1%2xxx/ims-%3.dcicerts.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("ims-%1.cert.sha256.pem", serial)
-	});
+	check("Dolby-DCP2000-%1.dcicerts.zip", "Dolby-DCP2000-%1.cert.sha256.pem");
+	check("Dolby-DCP2000-%1.certs.zip", "Dolby-DCP2000-%1.cert.sha256.pem");
+	check("dcp2000-%1.dcicerts.zip", "dcp2000-%1.cert.sha256.pem");
+	check("dcp2000-%1.certs.zip", "dcp2000-%1.cert.sha256.pem");
+	check("Dolby-IMB-%1.dcicerts.zip", "Dolby-IMB-%1.cert.sha256.pem");
+	check("imb-%1.dcicerts.zip", "imb-%1.cert.sha256.pem");
+	check("Dolby-IMS1000-%1.dcicerts.zip", "Dolby-IMS1000-%1.cert.sha256.pem");
+	check("Dolby-IMS2000-%1.dcicerts.zip", "Dolby-IMS2000-%1.cert.sha256.pem");
+	check("cert_Dolby-IMS3000-%1-SMPTE.zip", "cert_Dolby-IMS3000-%1-SMPTE.pem");
+	check("ims-%1.dcicerts.zip", "ims-%1.cert.sha256.pem");
 }
 
 
@@ -217,16 +170,6 @@ try_cp850(vector<Location>& locations, string prefix, string serial)
 }
 
 
-static void
-try_ims3000(vector<Location>& locations, string prefix, string serial)
-{
-	locations.push_back({
-		String::compose ("%1%2xxx/cert_Dolby-IMS3000-%3-SMPTE.zip", prefix, serial.substr(0, 3), serial),
-		String::compose("cert_Dolby-IMS3000-%1-SMPTE.pem", serial)
-	});
-}
-
-
 void
 DolbyDoremiCertificatePanel::do_download ()
 {
@@ -252,12 +195,9 @@ DolbyDoremiCertificatePanel::do_download ()
 	vector<string> errors;
 
 	if (starts_with_digit) {
-		try_dcp2000(locations, prefix, serial);
-		try_imb(locations, prefix, serial);
-		try_ims(locations, prefix, serial);
+		try_common(locations, prefix, serial);
 		try_cat862(locations, prefix, serial);
 		try_dsp100(locations, prefix, serial);
-		try_ims3000(locations, prefix, serial);
 	} else if (starting_char == 'H') {
 		try_cat745(locations, prefix, serial);
 	} else if (starting_char == 'F') {
