@@ -337,7 +337,7 @@ BOOST_AUTO_TEST_CASE(cope_with_unloaded_font_id)
 {
 	/* This file has a <Font> with an ID that corresponds to no <LoadFont> */
 	auto subs = content_factory("test/data/unloaded_font.xml")[0];
-	auto film = new_test_film2("cope_with_unloaded_font_id", { subs });
+	auto film = new_test_film("cope_with_unloaded_font_id", { subs });
 
 	make_and_verify_dcp(
 		film,
