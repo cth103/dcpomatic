@@ -43,8 +43,8 @@ FilePickerCtrl::FilePickerCtrl(
 	bool open,
 	bool warn_overwrite,
 	std::string initial_path_key,
-	optional<std::string> initial_filename,
-	optional<filesystem::path> override_path
+	boost::optional<std::string> initial_filename,
+	boost::optional<boost::filesystem::path> override_path
 	)
 	: wxPanel (parent)
 	, _prompt (prompt)
@@ -72,7 +72,7 @@ FilePickerCtrl::FilePickerCtrl(
 
 
 void
-FilePickerCtrl::set_filename(optional<string> filename)
+FilePickerCtrl::set_filename(boost::optional<string> filename)
 {
 	if (filename) {
 		_file->SetLabel(std_to_wx(*filename));
@@ -83,7 +83,7 @@ FilePickerCtrl::set_filename(optional<string> filename)
 
 
 void
-FilePickerCtrl::set_path(optional<boost::filesystem::path> path)
+FilePickerCtrl::set_path(boost::optional<boost::filesystem::path> path)
 {
 	_path = path;
 
