@@ -102,7 +102,9 @@ string
 FontIDAllocator::font_id(int reel_index, string asset_id, string font_id) const
 {
 	auto iter = _map.find(Font(reel_index, asset_id, font_id));
-	DCPOMATIC_ASSERT(iter != _map.end());
+	if (iter == _map.end()) {
+		return default_font_id();
+	}
 	return iter->second;
 }
 
