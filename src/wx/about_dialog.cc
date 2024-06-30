@@ -90,161 +90,165 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		sizer->Add(h, wxSizerFlags().Centre().Border(wxALL, 8));
 	}
 
-	t = new StaticText (
-		this,
-		_("(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\nOle Laursen, Aaron Boxer"),
-		wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
-		);
+	if (variant::show_credits())
+	{
+		t = new StaticText (
+			this,
+			_("(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\nOle Laursen, Aaron Boxer"),
+			wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
+			);
 
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxLEFT | wxRIGHT, 16));
+		sizer->Add (t, wxSizerFlags().Centre().Border(wxLEFT | wxRIGHT, 16));
 
-	_notebook = new wxNotebook (this, wxID_ANY);
+		_notebook = new wxNotebook (this, wxID_ANY);
 
-	wxArrayString written_by;
-	written_by.Add (wxT ("Carl Hetherington"));
-	written_by.Add (wxT ("Terrence Meiczinger"));
-	written_by.Add (wxT ("Mart Jansink"));
-	written_by.Add (wxT ("Ole Laursen"));
-	written_by.Add (wxT ("Aaron Boxer"));
-	add_section (_("Written by"), written_by);
+		wxArrayString written_by;
+		written_by.Add (wxT ("Carl Hetherington"));
+		written_by.Add (wxT ("Terrence Meiczinger"));
+		written_by.Add (wxT ("Mart Jansink"));
+		written_by.Add (wxT ("Ole Laursen"));
+		written_by.Add (wxT ("Aaron Boxer"));
+		add_section (_("Written by"), written_by);
 
-	wxArrayString with_help_from;
-	with_help_from.Add (wxT ("David Vignoni"));
-	with_help_from.Add (wxT ("Dennis Couzin"));
-	with_help_from.Add (wxT ("Carsten Kurz"));
-	with_help_from.Add (wxT ("Gérald Maruccia"));
-	with_help_from.Add (wxT ("Julian van Mil"));
-	with_help_from.Add (wxT ("Lilian Lefranc"));
-	add_section (_("With help from"), with_help_from);
+		wxArrayString with_help_from;
+		with_help_from.Add (wxT ("David Vignoni"));
+		with_help_from.Add (wxT ("Dennis Couzin"));
+		with_help_from.Add (wxT ("Carsten Kurz"));
+		with_help_from.Add (wxT ("Gérald Maruccia"));
+		with_help_from.Add (wxT ("Julian van Mil"));
+		with_help_from.Add (wxT ("Lilian Lefranc"));
+		add_section (_("With help from"), with_help_from);
 
-	wxArrayString translated_by;
-	translated_by.Add (wxT ("Manuel AC"));
-	translated_by.Add (wxT ("Max Aeschlimann"));
-	translated_by.Add (wxT ("Gökhan Aksoy"));
-	translated_by.Add (wxT ("Thiago Andre"));
-	translated_by.Add (wxT ("Felice D'Andrea"));
-	translated_by.Add (wxT ("Németh Áron"));
-	translated_by.Add (wxT ("Grégoire Ausina"));
-	translated_by.Add (wxT ("Tomáš Begeni"));
-	translated_by.Add (wxT ("Fabio \"Zak\" Belli"));
-	translated_by.Add (wxT ("Cherif Ben Brahim"));
-	translated_by.Add (wxT ("Massimiliano Broggi"));
-	translated_by.Add (wxT ("Dan Cohen"));
-	translated_by.Add (wxT ("Akivili Collindort"));
-	translated_by.Add (wxT ("Davide Dall'AraCiao"));
-	translated_by.Add (wxT ("Uwe Dittes"));
-	translated_by.Add (wxT ("Михаил Эпштейн"));
-	translated_by.Add (wxT ("William Fanelli"));
-	translated_by.Add (wxT ("Max M. Fuhlendorf"));
-	translated_by.Add (wxT ("Tomáš Hlaváč"));
-	translated_by.Add (wxT ("Thierry Journet"));
-	translated_by.Add (wxT ("Adam Klotblixt"));
-	translated_by.Add (wxT ("Theo Kooijmans"));
-	translated_by.Add (wxT ("Carsten Kurz"));
-	translated_by.Add (wxT ("Lilian Lefranc"));
-	translated_by.Add (wxT ("Gérald Maruccia"));
-	translated_by.Add (wxT ("Mattias Mattsson"));
-	translated_by.Add (wxT ("Mike Mazur"));
-	translated_by.Add (wxT ("Rob van Nieuwkerk"));
-	translated_by.Add (wxT ("Anders Uhl Pedersen"));
-	translated_by.Add (wxT ("David Perrenoud"));
-	translated_by.Add (wxT ("Olivier Perriere"));
-	translated_by.Add (wxT ("Markus Raab"));
-	translated_by.Add (wxT ("Soleyman Rahmani"));
-	translated_by.Add (wxT ("Tiago Casal Ribeiro"));
-	translated_by.Add (wxT ("Davide Sanvito"));
-	translated_by.Add (wxT ("Marek Skrzelowski"));
-	translated_by.Add (wxT ("Danbo Song"));
-	translated_by.Add (wxT ("Martin Srebotnjak"));
-	translated_by.Add (wxT ("Michał Tomaszewski"));
-	translated_by.Add (wxT ("Igor Voytovich"));
-	translated_by.Add (wxT ("Rov (若文)"));
-	translated_by.Add (wxT ("刘汉源"));
-	translated_by.Add (wxT ("poppinzhang"));
-	add_section (_("Translated by"), translated_by);
+		wxArrayString translated_by;
+		translated_by.Add (wxT ("Manuel AC"));
+		translated_by.Add (wxT ("Max Aeschlimann"));
+		translated_by.Add (wxT ("Gökhan Aksoy"));
+		translated_by.Add (wxT ("Thiago Andre"));
+		translated_by.Add (wxT ("Felice D'Andrea"));
+		translated_by.Add (wxT ("Németh Áron"));
+		translated_by.Add (wxT ("Grégoire Ausina"));
+		translated_by.Add (wxT ("Tomáš Begeni"));
+		translated_by.Add (wxT ("Fabio \"Zak\" Belli"));
+		translated_by.Add (wxT ("Cherif Ben Brahim"));
+		translated_by.Add (wxT ("Massimiliano Broggi"));
+		translated_by.Add (wxT ("Dan Cohen"));
+		translated_by.Add (wxT ("Akivili Collindort"));
+		translated_by.Add (wxT ("Davide Dall'AraCiao"));
+		translated_by.Add (wxT ("Uwe Dittes"));
+		translated_by.Add (wxT ("Михаил Эпштейн"));
+		translated_by.Add (wxT ("William Fanelli"));
+		translated_by.Add (wxT ("Max M. Fuhlendorf"));
+		translated_by.Add (wxT ("Tomáš Hlaváč"));
+		translated_by.Add (wxT ("Thierry Journet"));
+		translated_by.Add (wxT ("Adam Klotblixt"));
+		translated_by.Add (wxT ("Theo Kooijmans"));
+		translated_by.Add (wxT ("Carsten Kurz"));
+		translated_by.Add (wxT ("Lilian Lefranc"));
+		translated_by.Add (wxT ("Gérald Maruccia"));
+		translated_by.Add (wxT ("Mattias Mattsson"));
+		translated_by.Add (wxT ("Mike Mazur"));
+		translated_by.Add (wxT ("Rob van Nieuwkerk"));
+		translated_by.Add (wxT ("Anders Uhl Pedersen"));
+		translated_by.Add (wxT ("David Perrenoud"));
+		translated_by.Add (wxT ("Olivier Perriere"));
+		translated_by.Add (wxT ("Markus Raab"));
+		translated_by.Add (wxT ("Soleyman Rahmani"));
+		translated_by.Add (wxT ("Tiago Casal Ribeiro"));
+		translated_by.Add (wxT ("Davide Sanvito"));
+		translated_by.Add (wxT ("Marek Skrzelowski"));
+		translated_by.Add (wxT ("Danbo Song"));
+		translated_by.Add (wxT ("Martin Srebotnjak"));
+		translated_by.Add (wxT ("Michał Tomaszewski"));
+		translated_by.Add (wxT ("Igor Voytovich"));
+		translated_by.Add (wxT ("Rov (若文)"));
+		translated_by.Add (wxT ("刘汉源"));
+		translated_by.Add (wxT ("poppinzhang"));
+		add_section (_("Translated by"), translated_by);
 
-	wxArrayString patrons;
-	patrons.Add ("Lightbender Post");
-	add_section (_("Patrons"), patrons);
+		wxArrayString patrons;
+		patrons.Add ("Lightbender Post");
+		add_section (_("Patrons"), patrons);
 
-	wxArrayString subscribers;
-	#include "subscribers.cc"
-	add_section (_("Subscribers"), subscribers);
+		wxArrayString subscribers;
+		#include "subscribers.cc"
+		add_section (_("Subscribers"), subscribers);
 
-	wxArrayString supported_by;
-	#include "supporters.cc"
-	add_section (_("Also supported by"), supported_by);
+		wxArrayString supported_by;
+		#include "supporters.cc"
+		add_section (_("Also supported by"), supported_by);
 
-	wxArrayString tested_by;
-	tested_by.Add (wxT ("Manuel AC"));
-	tested_by.Add (wxT ("Trever Anderson"));
-	tested_by.Add (wxT ("Mohamad W. Ali"));
-	tested_by.Add (wxT ("JP Beauviala"));
-	tested_by.Add (wxT ("Mike Blakesley"));
-	tested_by.Add (wxT ("David Booty"));
-	tested_by.Add (wxT ("Antonio Casado"));
-	tested_by.Add (wxT ("Roop Chand"));
-	tested_by.Add (wxT ("Daniel Chauvet"));
-	tested_by.Add (wxT ("Adam Colt"));
-	tested_by.Add (wxT ("John Convertino"));
-	tested_by.Add (wxT ("Daniel Courville"));
-	tested_by.Add (wxT ("Marek Dudzik"));
-	tested_by.Add (wxT ("Andreas Eli"));
-	tested_by.Add (wxT ("Leo Enticknap"));
-	tested_by.Add (wxT ("Jose Angel Velasco Fernandez"));
-	tested_by.Add (wxT ("Maurizio Giampà"));
-	tested_by.Add (wxT ("Luke Granger-Brown"));
-	tested_by.Add (wxT ("Sumit Guha"));
-	tested_by.Add (wxT ("Steve Guttag"));
-	tested_by.Add (wxT ("Patrick Haderer"));
-	tested_by.Add (wxT ("Bill Hamell"));
-	tested_by.Add (wxT ("Groet Han"));
-	tested_by.Add (wxT ("Jonathan Jensen"));
-	tested_by.Add (wxT ("Thierry Journet"));
-	tested_by.Add (wxT ("Markus Kalb"));
-	tested_by.Add (wxT ("Ada de Kamper"));
-	tested_by.Add (wxT ("Stefan Karner"));
-	tested_by.Add (wxT ("Adam Keay"));
-	tested_by.Add (wxT ("Simon Kesselman"));
-	tested_by.Add (wxT ("Pepijn Klijs"));
-	tested_by.Add (wxT ("Denzil Kriekenbeek"));
-	tested_by.Add (wxT ("Carsten Kurz"));
-	tested_by.Add (wxT ("Bill Lam"));
-	tested_by.Add (wxT ("David Lankes"));
-	tested_by.Add (wxT ("Lilian Lefranc"));
-	tested_by.Add (wxT ("Sebastian Leitner"));
-	tested_by.Add (wxT ("Olivier Lemaire"));
-	tested_by.Add (wxT ("Gavin Lewarne"));
-	tested_by.Add (wxT ("Gérald Maruccia"));
-	tested_by.Add (wxT ("George Mazarakis"));
-	tested_by.Add (wxT ("Mattias Mattsson"));
-	tested_by.Add (wxT ("Will Meadows"));
-	tested_by.Add (wxT ("Brad Miller"));
-	tested_by.Add (wxT ("Ash Mitchell"));
-	tested_by.Add (wxT ("Rob van Nieuwkerk"));
-	tested_by.Add (wxT ("Anders Nordentoft-Madsen"));
-	tested_by.Add (wxT ("Mauro Ottonello"));
-	tested_by.Add (wxT ("Peter Puchner"));
-	tested_by.Add (wxT ("Markus Raab"));
-	tested_by.Add (wxT ("Michael Reckert"));
-	tested_by.Add (wxT ("Greg Rooke"));
-	tested_by.Add (wxT ("Elad Saad"));
-	tested_by.Add (wxT ("Karim Senoucci"));
-	tested_by.Add (wxT ("Hordur Valgardsson"));
-	tested_by.Add (wxT ("Xenophon the Vampire"));
-	tested_by.Add (wxT ("Simon Vannarath"));
-	tested_by.Add (wxT ("Igor Voytovich"));
-	tested_by.Add (wxT ("Andrew Walls"));
-	tested_by.Add (wxT ("Andreas Weiss"));
-	tested_by.Add (wxT ("Paul Willmott"));
-	tested_by.Add (wxT ("Wolfgang Woehl"));
-	tested_by.Add (wxT ("Benno Zwanenburg"));
-	tested_by.Add (wxT ("Дима Агатов"));
-	add_section (_("Tested by"), tested_by);
+		wxArrayString tested_by;
+		tested_by.Add (wxT ("Manuel AC"));
+		tested_by.Add (wxT ("Trever Anderson"));
+		tested_by.Add (wxT ("Mohamad W. Ali"));
+		tested_by.Add (wxT ("JP Beauviala"));
+		tested_by.Add (wxT ("Mike Blakesley"));
+		tested_by.Add (wxT ("David Booty"));
+		tested_by.Add (wxT ("Antonio Casado"));
+		tested_by.Add (wxT ("Roop Chand"));
+		tested_by.Add (wxT ("Daniel Chauvet"));
+		tested_by.Add (wxT ("Adam Colt"));
+		tested_by.Add (wxT ("John Convertino"));
+		tested_by.Add (wxT ("Daniel Courville"));
+		tested_by.Add (wxT ("Marek Dudzik"));
+		tested_by.Add (wxT ("Andreas Eli"));
+		tested_by.Add (wxT ("Leo Enticknap"));
+		tested_by.Add (wxT ("Jose Angel Velasco Fernandez"));
+		tested_by.Add (wxT ("Maurizio Giampà"));
+		tested_by.Add (wxT ("Luke Granger-Brown"));
+		tested_by.Add (wxT ("Sumit Guha"));
+		tested_by.Add (wxT ("Steve Guttag"));
+		tested_by.Add (wxT ("Patrick Haderer"));
+		tested_by.Add (wxT ("Bill Hamell"));
+		tested_by.Add (wxT ("Groet Han"));
+		tested_by.Add (wxT ("Jonathan Jensen"));
+		tested_by.Add (wxT ("Thierry Journet"));
+		tested_by.Add (wxT ("Markus Kalb"));
+		tested_by.Add (wxT ("Ada de Kamper"));
+		tested_by.Add (wxT ("Stefan Karner"));
+		tested_by.Add (wxT ("Adam Keay"));
+		tested_by.Add (wxT ("Simon Kesselman"));
+		tested_by.Add (wxT ("Pepijn Klijs"));
+		tested_by.Add (wxT ("Denzil Kriekenbeek"));
+		tested_by.Add (wxT ("Carsten Kurz"));
+		tested_by.Add (wxT ("Bill Lam"));
+		tested_by.Add (wxT ("David Lankes"));
+		tested_by.Add (wxT ("Lilian Lefranc"));
+		tested_by.Add (wxT ("Sebastian Leitner"));
+		tested_by.Add (wxT ("Olivier Lemaire"));
+		tested_by.Add (wxT ("Gavin Lewarne"));
+		tested_by.Add (wxT ("Gérald Maruccia"));
+		tested_by.Add (wxT ("George Mazarakis"));
+		tested_by.Add (wxT ("Mattias Mattsson"));
+		tested_by.Add (wxT ("Will Meadows"));
+		tested_by.Add (wxT ("Brad Miller"));
+		tested_by.Add (wxT ("Ash Mitchell"));
+		tested_by.Add (wxT ("Rob van Nieuwkerk"));
+		tested_by.Add (wxT ("Anders Nordentoft-Madsen"));
+		tested_by.Add (wxT ("Mauro Ottonello"));
+		tested_by.Add (wxT ("Peter Puchner"));
+		tested_by.Add (wxT ("Markus Raab"));
+		tested_by.Add (wxT ("Michael Reckert"));
+		tested_by.Add (wxT ("Greg Rooke"));
+		tested_by.Add (wxT ("Elad Saad"));
+		tested_by.Add (wxT ("Karim Senoucci"));
+		tested_by.Add (wxT ("Hordur Valgardsson"));
+		tested_by.Add (wxT ("Xenophon the Vampire"));
+		tested_by.Add (wxT ("Simon Vannarath"));
+		tested_by.Add (wxT ("Igor Voytovich"));
+		tested_by.Add (wxT ("Andrew Walls"));
+		tested_by.Add (wxT ("Andreas Weiss"));
+		tested_by.Add (wxT ("Paul Willmott"));
+		tested_by.Add (wxT ("Wolfgang Woehl"));
+		tested_by.Add (wxT ("Benno Zwanenburg"));
+		tested_by.Add (wxT ("Дима Агатов"));
+		add_section (_("Tested by"), tested_by);
 
-	sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16));
-
-	overall_sizer->Add (sizer);
+		sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16));
+		overall_sizer->Add (sizer);
+	} else {
+		overall_sizer->Add(sizer, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
+	}
 
 	wxSizer* buttons = CreateButtonSizer (wxOK);
 	if (buttons) {

@@ -48,6 +48,7 @@ std::string report_problem_email();
 
 bool show_tagline();
 bool show_dcpomatic_website();
+bool show_credits();
 bool show_report_a_problem();
 bool count_created_dcps();
 

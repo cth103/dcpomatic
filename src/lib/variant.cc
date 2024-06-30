@@ -40,6 +40,7 @@ static char const* _report_problem_email = "carl@dcpomatic.com";
 
 static bool const _show_tagline = true;
 static bool const _show_dcpomatic_website = true;
+static bool const _show_credits = true;
 static bool const _show_report_a_problem = true;
 static bool const _count_created_dcps = true;
 
@@ -150,6 +151,12 @@ bool
 variant::show_dcpomatic_website()
 {
 	return _show_dcpomatic_website;
+}
+
+bool
+variant::show_credits()
+{
+	return _show_credits;
 }
 
 bool
