@@ -324,6 +324,7 @@ movie_V (string name)
 }
 
 
+/** @return Film containing video-range content set as full-range */
 static
 shared_ptr<Film>
 movie_VoF (string name)
@@ -352,6 +353,8 @@ movie_F (string name)
 	BOOST_REQUIRE (content);
 	film->examine_and_add_content (content);
 	BOOST_REQUIRE (!wait_for_jobs());
+
+	BOOST_CHECK(content->video->range() == VideoRange::FULL);
 
 	auto range = pixel_range (film, content);
 	BOOST_CHECK_EQUAL (range.first, 0);
@@ -546,8 +549,11 @@ BOOST_AUTO_TEST_CASE (movie_VoF_to_V_movie)
 BOOST_AUTO_TEST_CASE (movie_F_to_V_movie)
 {
 	auto range = V_movie_range (movie_F("movie_F_to_V_movie"));
-	BOOST_CHECK_EQUAL (range.first, 4);
-	BOOST_CHECK_EQUAL (range.second, 1019);
+	/* A full range input has been converted to video range, so that what was black at 0
+	 * is not black at 64 (with the corresponding change to white)
+	 */
+	BOOST_CHECK_EQUAL(range.first, 64);
+	BOOST_CHECK_EQUAL(range.second, 963);
 }
 
 
