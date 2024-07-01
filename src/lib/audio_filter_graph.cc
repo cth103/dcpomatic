@@ -142,9 +142,6 @@ AudioFilterGraph::process (shared_ptr<AudioBuffers> buffers)
 	_in_frame->format = AV_SAMPLE_FMT_FLTP;
 	_in_frame->sample_rate = _sample_rate;
 	_in_frame->ch_layout = _channel_layout;
-LIBDCP_DISABLE_WARNINGS
-	_in_frame->channels = process_channels;
-LIBDCP_ENABLE_WARNINGS
 
 	int r = av_buffersrc_write_frame (_buffer_src_context, _in_frame);
 
