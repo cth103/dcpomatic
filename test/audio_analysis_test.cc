@@ -283,3 +283,32 @@ BOOST_AUTO_TEST_CASE(analyse_audio_uses_processor_when_analysing_whole_film)
 	BOOST_CHECK(centre_non_zero);
 }
 
+
+BOOST_AUTO_TEST_CASE(ebur128_test)
+{
+	auto dcp = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
+	auto film = new_test_film("ebur128_test", { dcp });
+	film->set_audio_channels(8);
+
+	auto analyse = [film, dcp](int channels) {
+		film->set_audio_channels(channels);
+		auto playlist = make_shared<Playlist>();
+		playlist->add(film, dcp);
+		boost::signals2::connection c;
+		JobManager::instance()->analyse_audio(film, playlist, false, c, [](Job::Result) {});
+		BOOST_CHECK(!wait_for_jobs());
+		return AudioAnalysis(film->audio_analysis_path(playlist));
+	};
+
+	auto six = analyse(6);
+	BOOST_CHECK_CLOSE(six.true_peak()[0], 0.520668, 1);
+	BOOST_CHECK_CLOSE(six.true_peak()[1], 0.519579, 1);
+	BOOST_CHECK_CLOSE(six.true_peak()[2], 0.533980, 1);
+	BOOST_CHECK_CLOSE(six.true_peak()[3], 0.326270, 1);
+	BOOST_CHECK_CLOSE(six.true_peak()[4], 0.363581, 1);
+	BOOST_CHECK_CLOSE(six.true_peak()[5], 0.317751, 1);
+	BOOST_CHECK_CLOSE(six.overall_true_peak().get(), 0.53398, 1);
+	BOOST_CHECK_CLOSE(six.overall_true_peak().get(), 0.53398, 1);
+	BOOST_CHECK_CLOSE(six.integrated_loudness().get(), -18.1432, 1);
+	BOOST_CHECK_CLOSE(six.loudness_range().get(), 6.92, 1);
+}
