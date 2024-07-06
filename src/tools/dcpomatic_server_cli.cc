@@ -66,6 +66,9 @@ help (string n)
 int
 main (int argc, char* argv[])
 {
+	ArgFixer fixer(argc, argv);
+	auto const program_name = fixer.argv()[0];
+
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
@@ -84,7 +87,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vht:AB", long_options, &option_index);
+		int c = getopt_long(fixer.argc(), fixer.argv(), "vht:AB", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -95,7 +98,7 @@ main (int argc, char* argv[])
 			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
-			help (argv[0]);
+			help(program_name);
 			exit (EXIT_SUCCESS);
 		case 't':
 			num_threads = atoi (optarg);
@@ -124,12 +127,12 @@ main (int argc, char* argv[])
 		server.run ();
 	} catch (boost::system::system_error& e) {
 		if (e.code() == boost::system::errc::address_in_use) {
-			cerr << argv[0] << variant::insert_dcpomatic(": address already in use.  Is another %1 server instance already running?\n");
+			cerr << program_name << variant::insert_dcpomatic(": address already in use.  Is another %1 server instance already running?\n");
 			exit (EXIT_FAILURE);
 		}
-		cerr << argv[0] << ": " << e.what() << "\n";
+		cerr << program_name << ": " << e.what() << "\n";
 	} catch (std::exception& e) {
-		cerr << argv[0] << ": failed to start server; " << e.what() << "\n";
+		cerr << program_name << ": failed to start server; " << e.what() << "\n";
 	}
 	return 0;
 }

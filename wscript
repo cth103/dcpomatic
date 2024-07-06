@@ -285,6 +285,10 @@ def configure(conf):
                        lib=['icuio', 'icui18n', 'icudata', 'icuuc'],
                        uselib_store='ICU')
 
+    # For ICU version > 75 we need stdc++17
+    if conf.check_cfg(modversion='icu-i18n') >= '75':
+        conf.env.append_value('CXXFLAGS', '-std=c++17')
+
     # libsamplerate
     conf.check_cfg(package='samplerate', args='--cflags --libs', uselib_store='SAMPLERATE', mandatory=True)
 

@@ -70,10 +70,12 @@ public:
 int
 main (int argc, char* argv[])
 {
+	ArgFixer fixer(argc, argv);
+
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
-	CreateCLI cc (argc, argv);
+	CreateCLI cc(fixer.argc(), fixer.argv());
 	if (cc.error) {
 		cerr << *cc.error << "\n";
 		exit (1);

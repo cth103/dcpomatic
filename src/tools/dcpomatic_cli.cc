@@ -264,6 +264,9 @@ show_jobs_on_console (bool progress)
 int
 main (int argc, char* argv[])
 {
+	ArgFixer fixer(argc, argv);
+	auto const program_name = fixer.argv()[0];
+
 	boost::filesystem::path film_dir;
 	bool progress = true;
 	bool no_remote = false;
@@ -304,7 +307,7 @@ main (int argc, char* argv[])
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "vhfnrt:j:kAs:ldc:BC:D:E", long_options, &option_index);
+		int c = getopt_long(fixer.argc(), fixer.argv(), "vhfnrt:j:kAs:ldc:BC:D:E", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -315,7 +318,7 @@ main (int argc, char* argv[])
 			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
-			help (argv[0]);
+			help(program_name);
 			exit (EXIT_SUCCESS);
 		case 'f':
 			cout << dcpomatic_cxx_flags << "\n";
@@ -391,8 +394,8 @@ main (int argc, char* argv[])
 		exit (EXIT_SUCCESS);
 	}
 
-	if (optind >= argc) {
-		help (argv[0]);
+	if (optind >= fixer.argc()) {
+		help(program_name);
 		exit (EXIT_FAILURE);
 	}
 
@@ -411,7 +414,7 @@ main (int argc, char* argv[])
 		exit (EXIT_FAILURE);
 	}
 
-	film_dir = argv[optind];
+	film_dir = fixer.argv()[optind];
 
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
@@ -434,7 +437,7 @@ main (int argc, char* argv[])
 		film.reset (new Film (film_dir));
 		film->read_metadata ();
 	} catch (std::exception& e) {
-		cerr << argv[0] << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
+		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
 		exit (EXIT_FAILURE);
 	}
 
@@ -449,7 +452,7 @@ main (int argc, char* argv[])
 		auto paths = i->paths();
 		for (auto j: paths) {
 			if (!dcp::filesystem::exists(j)) {
-				cerr << argv[0] << ": content file " << j << " not found.\n";
+				cerr << program_name << ": content file " << j << " not found.\n";
 				exit (EXIT_FAILURE);
 			}
 		}

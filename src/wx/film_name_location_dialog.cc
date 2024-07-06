@@ -40,7 +40,7 @@ using boost::bind;
 using boost::optional;
 
 
-optional<boost::filesystem::path> FilmNameLocationDialog::_directory;
+boost::optional<boost::filesystem::path> FilmNameLocationDialog::_directory;
 
 
 FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title, bool offer_templates)
@@ -123,7 +123,7 @@ FilmNameLocationDialog::path () const
 }
 
 
-optional<string>
+boost::optional<string>
 FilmNameLocationDialog::template_name () const
 {
 	if (!_use_template->GetValue() || _template_name->GetSelection() == -1) {
