@@ -25,6 +25,7 @@
 
 
 #include "cinema.h"
+#include "cross.h"
 #include "config.h"
 #include "dkdm_wrapper.h"
 #include "email.h"
@@ -458,6 +459,8 @@ optional<string>
 kdm_cli (int argc, char* argv[], std::function<void (string)> out)
 try
 {
+	ArgFixer fixer(argc, argv);
+
 	boost::filesystem::path output = dcp::filesystem::current_path();
 	auto container_name_format = Config::instance()->kdm_container_name_format();
 	auto filename_format = Config::instance()->kdm_filename_format();
@@ -512,7 +515,7 @@ try
 			{ 0, 0, 0, 0 }
 		};
 
-		int c = getopt_long (argc, argv, "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:G", long_options, &option_index);
+		int c = getopt_long(fixer.argc(), fixer.argv(), "ho:K:Z:f:t:d:F:pae::zvc:S:C:T:BDE:G", long_options, &option_index);
 
 		if (c == -1) {
 			break;
@@ -646,7 +649,7 @@ try
 		throw KDMCLIError ("you must specify --valid-from");
 	}
 
-	if (optind >= argc) {
+	if (optind >= fixer.argc()) {
 		throw KDMCLIError ("no film, CPL ID or DKDM specified");
 	}
 
