@@ -33,10 +33,12 @@
 int
 main (int argc, char* argv[])
 {
+	ArgFixer fixer(argc, argv);
+
 	dcpomatic_setup_path_encoding ();
 	dcpomatic_setup ();
 
-	auto error = kdm_cli(argc, argv, [](std::string s) { std::cout << s << "\n"; });
+	auto error = kdm_cli(fixer.argc(), fixer.argv(), [](std::string s) { std::cout << s << "\n"; });
 	if (error) {
 		std::cerr << *error << "\n";
 		exit (EXIT_FAILURE);
