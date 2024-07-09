@@ -263,6 +263,9 @@ main (int argc, char* argv[])
 	ArgFixer fixer(argc, argv);
 	auto const program_name = fixer.argv()[0];
 
+	dcpomatic_setup_path_encoding ();
+	dcpomatic_setup ();
+
 	boost::filesystem::path film_dir;
 	bool progress = true;
 	bool no_remote = false;
@@ -412,8 +415,6 @@ main (int argc, char* argv[])
 
 	film_dir = fixer.argv()[optind];
 
-	dcpomatic_setup_path_encoding ();
-	dcpomatic_setup ();
 	signal_manager = new SignalManager ();
 
 	if (no_remote || export_format) {
