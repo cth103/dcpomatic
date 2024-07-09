@@ -167,8 +167,8 @@ DCPTimeline::DCPTimeline(wxWindow* parent, shared_ptr<Film> film)
 	_film_connection = film->Change.connect(boost::bind(&DCPTimeline::film_changed, this, _1, _2));
 
 	_menu = new wxMenu;
-	_canvas->Bind(wxEVT_MENU, boost::bind(&DCPTimeline::add_reel_boundary, this));
 	_add_reel_boundary = _menu->Append(ID_add_reel_boundary, _("Add reel boundary"));
+	_canvas->Bind(wxEVT_MENU, boost::bind(&DCPTimeline::add_reel_boundary, this), ID_add_reel_boundary);
 
 	setup_reel_settings();
 	setup_reel_boundaries();
