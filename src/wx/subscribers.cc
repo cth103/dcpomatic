@@ -15,7 +15,6 @@ subscribers.Add (wxT ("Zbigniew Kamiński"));
 subscribers.Add (wxT ("Timm Kröger"));
 subscribers.Add (wxT ("Carlos Lagido"));
 subscribers.Add (wxT ("Ross Meyer"));
-subscribers.Add (wxT ("Owen Morgan"));
 subscribers.Add (wxT ("Austrian Film Museum"));
 subscribers.Add (wxT ("LightBender Post"));
 subscribers.Add (wxT ("Irving Shapiro"));
