@@ -56,7 +56,8 @@ auto constexpr content_y_pos = 112;
 auto constexpr content_type_height = 12;
 
 enum {
-	ID_add_reel_boundary = DCPOMATIC_DCP_TIMELINE_MENU
+	ID_add_reel_boundary = DCPOMATIC_DCP_TIMELINE_MENU,
+	ID_remove_reel_boundary
 };
 
 
@@ -169,6 +170,8 @@ DCPTimeline::DCPTimeline(wxWindow* parent, shared_ptr<Film> film)
 	_menu = new wxMenu;
 	_add_reel_boundary = _menu->Append(ID_add_reel_boundary, _("Add reel boundary"));
 	_canvas->Bind(wxEVT_MENU, boost::bind(&DCPTimeline::add_reel_boundary, this), ID_add_reel_boundary);
+	_remove_reel_boundary = _menu->Append(ID_remove_reel_boundary, _("Remove reel boundary"));
+	_canvas->Bind(wxEVT_MENU, boost::bind(&DCPTimeline::remove_reel_boundary, this), ID_remove_reel_boundary);
 
 	setup_reel_settings();
 	setup_reel_boundaries();
@@ -185,6 +188,18 @@ DCPTimeline::add_reel_boundary()
 	auto boundaries = film()->custom_reel_boundaries();
 	boundaries.push_back(DCPTime::from_seconds(_right_down_position.x / _pixels_per_second.get_value_or(1)));
 	film()->set_custom_reel_boundaries(boundaries);
+}
+
+
+void
+DCPTimeline::remove_reel_boundary()
+{
+	auto boundaries = film()->custom_reel_boundaries();
+	auto boundary = position_to_reel_boundary({_right_down_position.x, _right_down_position.y});
+	if (boundary) {
+		boundaries.erase(std::remove(boundaries.begin(), boundaries.end(), boundary->time()), boundaries.end());
+		film()->set_custom_reel_boundaries(boundaries);
+	}
 }
 
 
@@ -508,6 +523,7 @@ void
 DCPTimeline::right_down(wxMouseEvent& ev)
 {
 	_right_down_position = ev.GetPosition();
+	_remove_reel_boundary->Enable(film()->reel_type() == ReelType::CUSTOM && static_cast<bool>(event_to_reel_boundary(ev)));
 	_canvas->PopupMenu(_menu, _right_down_position);
 }
 

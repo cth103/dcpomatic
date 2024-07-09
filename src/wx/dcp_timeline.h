@@ -66,6 +66,7 @@ private:
 	void setup_sensitivity();
 
 	void add_reel_boundary();
+	void remove_reel_boundary();
 	void setup_reel_settings();
 	void setup_reel_boundaries();
 	std::shared_ptr<ReelBoundary> event_to_reel_boundary(wxMouseEvent& ev) const;
@@ -115,6 +116,7 @@ private:
 
 	wxMenu* _menu;
 	wxMenuItem* _add_reel_boundary;
+	wxMenuItem* _remove_reel_boundary;
 
 	boost::signals2::scoped_connection _film_connection;
 
