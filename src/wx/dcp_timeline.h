@@ -69,6 +69,7 @@ private:
 	void setup_reel_settings();
 	void setup_reel_boundaries();
 	std::shared_ptr<ReelBoundary> event_to_reel_boundary(wxMouseEvent& ev) const;
+	std::shared_ptr<ReelBoundary> position_to_reel_boundary(Position<int> position) const;
 	void set_reel_boundary(int index, dcpomatic::DCPTime time);
 	bool editable() const;
 

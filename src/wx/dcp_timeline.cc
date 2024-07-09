@@ -462,7 +462,13 @@ DCPTimeline::setup_pixels_per_second()
 shared_ptr<ReelBoundary>
 DCPTimeline::event_to_reel_boundary(wxMouseEvent& ev) const
 {
-	Position<int> const position(ev.GetX(), ev.GetY());
+	return position_to_reel_boundary({ev.GetX(), ev.GetY()});
+}
+
+
+shared_ptr<ReelBoundary>
+DCPTimeline::position_to_reel_boundary(Position<int> position) const
+{
 	auto iter = std::find_if(_reel_boundaries.begin(), _reel_boundaries.end(), [position](shared_ptr<const ReelBoundary> boundary) {
 		return boundary->view().bbox().contains(position);
 	});
