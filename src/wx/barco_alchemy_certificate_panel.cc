@@ -62,7 +62,7 @@ BarcoAlchemyCertificatePanel::do_download ()
 	string serial = wx_to_std (_serial->GetValue());
 	trim(serial);
 	string url = String::compose (
-		"ftp://%1:%2@certificates.barco.com/%3xxx/%4/Barco-ICMP.%5_cert.pem",
+		"sftp://%1:%2@certificates.barco.com/%3xxx/%4/Barco-ICMP.%5_cert.pem",
 		Config::instance()->barco_username().get(),
 		Config::instance()->barco_password().get(),
 		serial.substr(0, 7),

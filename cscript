@@ -785,6 +785,8 @@ def package_rpm(target, cpu, version, options):
     requires = None
     if target.distro == 'mageia':
         requires = "lib64xmlsec1-devel lib64canberra-gtk0 libcap-utils"
+    if target.distro == 'fedora':
+        requires = "libcurl-full"
 
     make_spec('dcpomatic2.spec', version, target, options, requires)
     cmd = 'rpmbuild --define "_topdir %s" -bb dcpomatic2.spec' % topdir
