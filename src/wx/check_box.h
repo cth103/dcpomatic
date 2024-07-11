@@ -23,7 +23,6 @@
 #define DCPOMATIC_CHECK_BOX_H
 
 
-#include "i18n_hook.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -31,13 +30,13 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 
-class CheckBox : public wxCheckBox, public I18NHook
+class CheckBox : public wxCheckBox
 {
 public:
 	CheckBox (wxWindow* parent, wxString label);
 
-	void set_text (wxString text) override;
-	wxString get_text () const override;
+	void set_text(wxString text);
+	wxString get_text() const;
 	bool get() const;
 	void set(bool state);
 

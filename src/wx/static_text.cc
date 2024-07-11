@@ -22,7 +22,6 @@
 
 StaticText::StaticText (wxWindow* parent, wxString label, wxPoint pos, wxSize size, long style)
 	: wxStaticText (parent, wxID_ANY, label, pos, size, style)
-	, I18NHook (this, get_text())
 {
 
 }

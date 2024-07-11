@@ -22,12 +22,8 @@
 #include "check_box.h"
 
 
-using std::cout;
-
-
 CheckBox::CheckBox (wxWindow* parent, wxString label)
 	: wxCheckBox (parent, wxID_ANY, label)
-	, I18NHook (this, get_text())
 {
 
 }

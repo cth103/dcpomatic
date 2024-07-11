@@ -38,7 +38,6 @@
 #include "wx/hints_dialog.h"
 #include "wx/html_dialog.h"
 #include "wx/file_dialog.h"
-#include "wx/i18n_hook.h"
 #include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/kdm_dialog.h"

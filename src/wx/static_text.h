@@ -19,18 +19,17 @@
 */
 
 
-#include "i18n_hook.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
 
 
-class StaticText : public wxStaticText, public I18NHook
+class StaticText : public wxStaticText
 {
 public:
 	StaticText (wxWindow* parent, wxString label, wxPoint pos = wxDefaultPosition, wxSize = wxDefaultSize, long style = 0);
 
-	void set_text (wxString text) override;
-	wxString get_text () const override;
+	void set_text(wxString text);
+	wxString get_text() const;
 };

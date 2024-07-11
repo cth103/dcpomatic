@@ -23,7 +23,6 @@
 #define DCPOMATIC_BUTTON_H
 
 
-#include "i18n_hook.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/button.h>
@@ -31,13 +30,13 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/bind/bind.hpp>
 
 
-class Button : public wxButton, public I18NHook
+class Button : public wxButton
 {
 public:
 	Button (wxWindow* parent, wxString label, wxPoint pos = wxDefaultPosition, wxSize = wxDefaultSize, long style = 0);
 
-	void set_text (wxString text) override;
-	wxString get_text () const override;
+	void set_text(wxString text);
+	wxString get_text() const;
 
 	template <typename... Args>
 	void bind(Args... args) {

@@ -97,10 +97,8 @@ sources = """
           gl_video_view.cc
           hints_dialog.cc
           html_dialog.cc
-          i18n_hook.cc
           image_sequence_dialog.cc
           invalid_certificate_period_dialog.cc
-          instant_i18n_dialog.cc
           interop_metadata_dialog.cc
           job_manager_view.cc
           job_view.cc
