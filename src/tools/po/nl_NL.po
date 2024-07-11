@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 16:08+0200\n"
-"PO-Revision-Date: 2024-01-12 23:27+0100\n"
+"PO-Revision-Date: 2024-07-11 23:38+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: src/tools/dcpomatic_combiner.cc:171
 msgid "%1 already exists as a file, so you cannot use it for a DCP."
@@ -89,9 +89,8 @@ msgstr "&Open...\tCtrl-O"
 #: src/tools/dcpomatic_batch.cc:93 src/tools/dcpomatic.cc:1326
 #: src/tools/dcpomatic_kdm.cc:297 src/tools/dcpomatic_player.cc:578
 #: src/tools/dcpomatic_playlist.cc:572
-#, fuzzy
 msgid "&Preferences...\tCtrl-,"
-msgstr "&Voorkeuren...\tCtrl-P"
+msgstr "&Voorkeuren...\tCtrl-,"
 
 #: src/tools/dcpomatic_batch.cc:96 src/tools/dcpomatic.cc:1330
 #: src/tools/dcpomatic_kdm.cc:300 src/tools/dcpomatic_player.cc:581
@@ -418,13 +417,13 @@ msgstr ""
 "com."
 
 #: src/tools/dcpomatic.cc:1417
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not write to DKDM recipients file at %s.  Your changes have not been "
 "saved."
 msgstr ""
-"Kan niet naar bioscopen-bestand schrijven op %s.  Uw wijzigingen zijn niet "
-"bewaard."
+"Kan niet naar DKDM-ontvangers-bestand schrijven op %s.  Uw wijzigingen zijn "
+"niet bewaard."
 
 #: src/tools/dcpomatic_batch.cc:363 src/tools/dcpomatic.cc:1404
 #, c-format
@@ -671,9 +670,8 @@ msgid "Hints..."
 msgstr "Hints..."
 
 #: src/tools/dcpomatic.cc:1375
-#, fuzzy
 msgid "Import preferences..."
-msgstr "Exporteer voorkeuren..."
+msgstr "Importeer voorkeuren..."
 
 #: src/tools/dcpomatic_combiner.cc:101
 msgid "Input DCP"

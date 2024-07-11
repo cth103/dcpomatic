@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 16:08+0200\n"
-"PO-Revision-Date: 2024-01-12 22:12+0100\n"
+"PO-Revision-Date: 2024-07-11 23:32+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: src/lib/video_content.cc:518
 #, c-format
@@ -727,9 +727,8 @@ msgid "Could not decode image (%1)"
 msgstr "Kan beeld niet decoderen (%1)"
 
 #: src/lib/unzipper.cc:64
-#, fuzzy
 msgid "Could not find file %1 in ZIP file"
-msgstr "Kan gedownload ZIP-bestand niet openen"
+msgstr "Kan bestand %1 niet in ZIP-bestand vinden"
 
 #: src/lib/encode_server_finder.cc:191
 msgid ""
@@ -2105,6 +2104,8 @@ msgid ""
 "it has a different number of audio channels than the project; set the "
 "project to have %1 channels."
 msgstr ""
+"hij heeft een ander aantal audio-kanalen dan het project; stel het project "
+"in op %1 kanalen."
 
 #. TRANSLATORS: this string will follow "Cannot reference this DCP: "
 #: src/lib/dcp_content.cc:780

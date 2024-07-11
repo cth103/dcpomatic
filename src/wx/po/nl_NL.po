@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-07-11 16:08+0200\n"
-"PO-Revision-Date: 2024-01-12 23:05+0100\n"
+"PO-Revision-Date: 2024-07-12 00:36+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -503,9 +503,8 @@ msgid "An unknown exception occurred."
 msgstr "Er is een onbekende uitzondering opgetreden."
 
 #: src/wx/kdm_output_panel.cc:82
-#, fuzzy
 msgid "Annotation text"
-msgstr "CPL annotation text"
+msgstr "Annotation text"
 
 #: src/wx/text_panel.cc:127
 msgid "Appearance..."
@@ -927,9 +926,9 @@ msgid "Could not play content"
 msgstr "Kan content niet afspelen"
 
 #: src/wx/verify_dcp_dialog.cc:139
-#, fuzzy, c-format
+#, c-format
 msgid "Could not read DCP (%n)"
-msgstr "Kan DCP niet lezen: %s"
+msgstr "Kan DCP niet lezen (%n)"
 
 #: src/wx/gl_video_view.cc:139
 #, c-format
@@ -1097,9 +1096,8 @@ msgid "Decode resolution: %dx%d"
 msgstr "Decodeer-resolutie: %dx%d"
 
 #: src/wx/player_information.cc:205
-#, fuzzy
 msgid "Decode resolution: unknown"
-msgstr "Decodeer-resolutie: %dx%d"
+msgstr "Decodeer-resolutie: onbekend"
 
 #: src/wx/config_dialog.cc:644 src/wx/config_dialog.cc:702
 msgid "Decrypting KDMs"
@@ -1477,13 +1475,13 @@ msgid "Format"
 msgstr "Formaat"
 
 #: src/wx/verify_dcp_dialog.cc:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is close to the limit of 250Mbit/s."
 msgstr ""
-"Ten minste één frame van de video asset %f zit dicht bij de limiet van 250 "
-"Mbit/s."
+"Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
+"die dicht bij de limiet van 250 Mbit/s zit."
 
 #: src/wx/verify_dcp_dialog.cc:435
 #, c-format
@@ -2918,9 +2916,8 @@ msgid "Size: %dx%d"
 msgstr "Grootte: %dx%d"
 
 #: src/wx/player_information.cc:169
-#, fuzzy
 msgid "Size: unknown"
-msgstr "Piek: onbekend"
+msgstr "Grootte: onbekend"
 
 #: src/wx/audio_dialog.cc:141
 msgid "Smoothing"
@@ -3181,9 +3178,9 @@ msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr "De CPL %f heeft een ongeldige CPL extension metadata tag (%n)"
 
 #: src/wx/verify_dcp_dialog.cc:453
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %f has an invalid namespace %n"
-msgstr "De sound asset %f heeft een ongeldige frame rate van %n."
+msgstr "De CPL %f heeft een ongeldige namespace %n"
 
 #: src/wx/verify_dcp_dialog.cc:266
 #, c-format
@@ -3205,9 +3202,9 @@ msgid "The CPL %n has no <AnnotationText> tag."
 msgstr "De CPL %n heeft geen <AnnotationText> tag."
 
 #: src/wx/verify_dcp_dialog.cc:456
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %n has no <ContentVersion> tag"
-msgstr "De CPL %n heeft geen <AnnotationText> tag."
+msgstr "De CPL %n heeft geen <ContentVersion> tag"
 
 #: src/wx/verify_dcp_dialog.cc:317
 #, c-format
@@ -3468,34 +3465,34 @@ msgstr ""
 "van 10 MB overschrijdt."
 
 #: src/wx/verify_dcp_dialog.cc:148
-#, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr ""
-"De hash van de picture asset %f komt niet overeen met die in het PKL-"
-"bestand.  Dit betekent waarschijnlijk dat het asset-bestand beschadigd is."
+"De hash (%calculated_hash) van de picture asset %f komt niet overeen met die "
+"in het PKL-bestand (%reference_hash).  Dit betekent waarschijnlijk dat het "
+"asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:154
-#, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
 "corrupt."
 msgstr ""
-"De hash van de sound asset %f komt niet overeen met die in het PKL-bestand.  "
-"Dit betekent waarschijnlijk dat het asset-bestand beschadigd is."
+"De hash (%calculated_hash) van de sound asset %f komt niet overeen met die "
+"in het PKL-bestand (%reference_hash).  Dit betekent waarschijnlijk dat het "
+"asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:142
-#, fuzzy
 msgid ""
 "The hash (%reference_hash) of the CPL %n in the PKL does not agree with the "
 "CPL file (%calculated_hash).  This probably means that the CPL file is "
 "corrupt."
 msgstr ""
-"De hash van de CPL %n in de PKL komt niet overeen met die van het CPL-"
-"bestand.  Dit betekent waarschijnlijk dat het CPL-bestand beschadigd is."
+"De hash (%reference_hash) van de CPL %n in de PKL komt niet overeen met die "
+"van het CPL-bestand (%calculated_hash).  Dit betekent waarschijnlijk dat het "
+"CPL-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:200
 #, c-format
