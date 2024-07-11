@@ -68,7 +68,8 @@ enum {
 	ID_minus6dB,
 	ID_0dB,
 	ID_plus3dB,
-	ID_edit
+	ID_edit,
+	ID_all_off
 };
 
 
@@ -87,6 +88,8 @@ AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxStr
 	_menu->Append (ID_0dB, _("0dB (unchanged)"));
 	_menu->Append (ID_plus3dB, _("+3dB"));
 	_menu->Append (ID_edit, _("Edit..."));
+	_menu->AppendSeparator();
+	_menu->Append (ID_all_off, _("All off"));
 
 #ifndef __WXOSX__
 	SetDoubleBuffered (true);
@@ -96,11 +99,20 @@ AudioMappingView::AudioMappingView (wxWindow* parent, wxString left_label, wxStr
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(-6)), ID_minus6dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, 1), ID_0dB);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::set_gain_from_menu, this, db_to_linear(3)), ID_plus3dB);
+	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::all_off, this), ID_all_off);
 	Bind (wxEVT_MENU, boost::bind(&AudioMappingView::edit, this), ID_edit);
 	Bind (wxEVT_PAINT, boost::bind(&AudioMappingView::paint, this));
 	Bind (wxEVT_LEFT_DOWN, boost::bind(&AudioMappingView::left_down, this, _1));
 	Bind (wxEVT_RIGHT_DOWN, boost::bind(&AudioMappingView::right_down, this, _1));
 	Bind (wxEVT_MOTION, boost::bind(&AudioMappingView::motion, this, _1));
+}
+
+
+void
+AudioMappingView::all_off()
+{
+	_map.make_zero();
+	map_values_changed();
 }
 
 

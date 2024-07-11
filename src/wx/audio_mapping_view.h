@@ -97,6 +97,7 @@ private:
 
 	void set_gain_from_menu (double linear);
 	void edit ();
+	void all_off ();
 
 	AudioMapping _map;
 
