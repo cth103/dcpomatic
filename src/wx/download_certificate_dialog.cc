@@ -40,6 +40,9 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	_notebook = new wxNotebook (this, wxID_ANY);
+#ifdef DCPOMATIC_OSX
+	_notebook->SetMinSize(wxSize(640, -1));
+#endif
 	sizer->Add (_notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	_download = new Button (this, _("Download"));
