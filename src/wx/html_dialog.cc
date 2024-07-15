@@ -53,7 +53,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 	sizer->Add (h, 1, wxEXPAND | wxALL, 6);
 
 	if (gui_is_dark()) {
-		h->SetHTMLBackgroundColour(*wxBLACK);
+		h->SetHTMLBackgroundColour(wxColour(50, 50, 50));
 	}
 
 	h->Bind (wxEVT_HTML_LINK_CLICKED, boost::bind(&HTMLDialog::link_clicked, this, _1));
