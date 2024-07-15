@@ -64,6 +64,7 @@ Analytics::successful_dcp_encode ()
 				String::compose (_(
 					"<h2>You have made %1 DCPs with DCP-o-matic!</h2>"
 					"<img width=\"20%%\" src=\"memory:me.jpg\" align=\"center\">"
+					"<font size=\"+1\">"
                                         "<p>Hello. I'm Carl and I'm the "
 					"developer of DCP-o-matic. I work on it in my spare time (with the help "
 					"of a fine volunteer team of testers and translators) and I release it "
@@ -79,7 +80,8 @@ Analytics::successful_dcp_encode ()
 					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=10\">Go to Paypal to donate €10</a>"
 					"</ul>"
 
-					"<p>Thank you!"), _successful_dcp_encodes
+					"<p>Thank you!"
+					"</font>"), _successful_dcp_encodes
 					)
 				)
 			);
