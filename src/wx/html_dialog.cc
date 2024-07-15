@@ -76,6 +76,12 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 }
 
 
+HTMLDialog::~HTMLDialog()
+{
+	wxMemoryFSHandler::RemoveFile("me.jpg");
+}
+
+
 void
 HTMLDialog::link_clicked (wxHtmlLinkEvent& ev)
 {
