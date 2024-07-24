@@ -4,6 +4,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $DIR/environment
 binary=build/src/tools/dcpomatic2_player
 
+# Allow running from a tree built using cdist
+export LD_LIBRARY_PATH=$DIR/../../../lib:$DIR/../../../lib64:$LD_LIBRARY_PATH
+
 if [ "$1" == "--debug" ]; then
     shift
     gdb --args build/src/tools/dcpomatic2_player $*
