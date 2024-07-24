@@ -87,7 +87,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		pages[type]->EndStandardBullet ();
 	};
 
-	auto add = [&counts, &add_bullet](dcp::VerificationNote note, wxString message) {
+	int constexpr limit_per_type = 20;
+
+	auto substitute = [](wxString message, dcp::VerificationNote const& note) {
 		if (note.reference_hash()) {
 			message.Replace("%reference_hash", std_to_wx(note.reference_hash().get()));
 		}
@@ -123,8 +125,22 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		if (note.other_id()) {
 			message.Replace("%other_id", std_to_wx(note.other_id().get()));
 		}
-		add_bullet (note.type(), message);
-		counts[note.type()]++;
+
+		return message;
+	};
+
+	auto add = [&counts, &add_bullet, &substitute, limit_per_type](vector<dcp::VerificationNote> const& notes, wxString message, wxString more_message = {}) {
+		int N = 0;
+		for (auto const& note: notes) {
+			add_bullet(note.type(), substitute(message, note));
+			counts[note.type()]++;
+			if (++N >= limit_per_type) {
+				break;
+			}
+		}
+		if (notes.size() == limit_per_type && !more_message.IsEmpty()) {
+			add_bullet(notes[0].type(), more_message);
+		}
 	};
 
 	if (job->finished_in_error() && job->error_summary() != "") {
@@ -133,327 +149,418 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		++counts[dcp::VerificationNote::Type::ERROR];
 	}
 
-	for (auto i: job->notes()) {
-		switch (i.code()) {
+	/* Gather notes by code, discarding more than limit_per_type so we don't get overwhelmed if
+	 * every frame of a long DCP has a note.
+	 */
+	std::map<dcp::VerificationNote::Code, std::vector<dcp::VerificationNote>> notes_by_code;
+
+	for (auto const& note: job->notes()) {
+		auto type_iter = notes_by_code.find(note.code());
+		if (type_iter != notes_by_code.end()) {
+			if (type_iter->second.size() < limit_per_type) {
+				type_iter->second.push_back(note);
+			}
+		} else {
+			notes_by_code[note.code()] = { note };
+		}
+	}
+
+	for (auto const& i: notes_by_code) {
+		switch (i.first) {
 		case dcp::VerificationNote::Code::FAILED_READ:
-			add (i, _("Could not read DCP (%n)"));
+			add(i.second, _("Could not read DCP (%n)"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_HASHES:
-			add(i, _("The hash (%reference_hash) of the CPL %n in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
+			add(i.second, _("The hash (%reference_hash) of the CPL %n in the PKL does not agree with the CPL file (%calculated_hash).  This probably means that the CPL file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE:
-			add(i, _("The picture in a reel has a frame rate of %n, which is not valid."));
+			add(i.second, _("The picture in a reel has a frame rate of %n, which is not valid."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_PICTURE_HASH:
-			add(i, _("The hash (%calculated_hash) of the picture asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
+			add(i.second, _("The hash (%calculated_hash) of the picture asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_PICTURE_HASHES:
-			add(i, _("The PKL and CPL hashes disagree for picture asset %f."));
+			add(i.second, _("The PKL and CPL hashes disagree for picture asset %f."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SOUND_HASH:
-			add(i, _("The hash (%calculated_hash) of the sound asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
+			add(i.second, _("The hash (%calculated_hash) of the sound asset %f does not agree with the PKL file (%reference_hash).  This probably means that the asset file is corrupt."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_SOUND_HASHES:
-			add(i, _("The PKL and CPL hashes disagree for sound asset %f."));
+			add(i.second, _("The PKL and CPL hashes disagree for sound asset %f."));
 			break;
 		case dcp::VerificationNote::Code::EMPTY_ASSET_PATH:
-			add(i, _("An asset has an empty path in the ASSETMAP."));
+			add(i.second, _("An asset has an empty path in the ASSETMAP."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_ASSET:
-			add(i, _("The asset %f is missing."));
+			add(i.second, _("The asset %f is missing."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_STANDARD:
-			add(i, _("Parts of the DCP are written according to the Interop standard and parts according to SMPTE."));
+			add(i.second, _("Parts of the DCP are written according to the Interop standard and parts according to SMPTE."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_XML:
-			if (i.line()) {
-				add(i, _("The XML in %f is malformed on line %l (%n)."));
-			} else {
-				add(i, _("The XML in %f is malformed (%n)."));
+			for (auto const& note: i.second) {
+				if (note.line()) {
+					add({ note }, _("The XML in %f is malformed on line %l (%n)."));
+				} else {
+					add({ note }, _("The XML in %f is malformed (%n)."));
+				}
 			}
 			break;
 		case dcp::VerificationNote::Code::MISSING_ASSETMAP:
-			add(i, _("No ASSETMAP or ASSETMAP.xml file was found."));
+			add(i.second, _("No ASSETMAP or ASSETMAP.xml file was found."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_INTRINSIC_DURATION:
-			add(i, _("The asset %n has an intrinsic duration of less than 1 second, which is invalid."));
+			add(i.second, _("The asset %n has an intrinsic duration of less than 1 second, which is invalid."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_DURATION:
-			add(i, _("The asset %n has a duration of less than 1 second, which is invalid."));
+			add(i.second, _("The asset %n has a duration of less than 1 second, which is invalid."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
-			add(i, _("At least one frame of the video asset %f is over the limit of 250Mbit/s."));
+			add(
+				i.second,
+				_("Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate that is over the limit of 250Mbit/s."),
+				_("More frames (not listed) have an instantaneous bit rate that is over the limit of 250Mbit/s.")
+			);
 			break;
 		case dcp::VerificationNote::Code::NEARLY_INVALID_PICTURE_FRAME_SIZE_IN_BYTES:
-			add(i, _("Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate that is close to the limit of 250Mbit/s."));
+			add(
+				i.second,
+				_("Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate that is close to the limit of 250Mbit/s."),
+				_("More frames (not listed) have an instantaneous bit rate that is close to the limit of 250Mbit/s.")
+			);
 			break;
 		case dcp::VerificationNote::Code::EXTERNAL_ASSET:
-			add(i, _("This DCP refers to at the asset %n in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
+			add(i.second, _("This DCP refers to at the asset %n in another DCP (and perhaps others), so it is a \"version file\" (VF)"));
 			break;
 		case dcp::VerificationNote::Code::THREED_ASSET_MARKED_AS_TWOD:
-			add(i, _("The asset %f is 3D but its MXF is marked as 2D."));
+			add(i.second, _("The asset %f is 3D but its MXF is marked as 2D."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_STANDARD:
-			add(i, _("This DCP uses the Interop standard, but it should be made with SMPTE."));
+			add(i.second, _("This DCP uses the Interop standard, but it should be made with SMPTE."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_LANGUAGE:
-			add(i, _("The invalid language tag %n is used."));
+			add(i.second, _("The invalid language tag %n is used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_SIZE_IN_PIXELS:
-			add(i, _("The video asset %f uses the invalid image size %n."));
+			add(i.second, _("The video asset %f uses the invalid image size %n."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_2K:
-			add(i, _("The video asset %f uses the invalid frame rate %n."));
+			add(i.second, _("The video asset %f uses the invalid frame rate %n."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_FRAME_RATE_FOR_4K:
-			add(i, _("The video asset %f uses the frame rate %n which is invalid for 4K video."));
+			add(i.second, _("The video asset %f uses the frame rate %n which is invalid for 4K video."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_PICTURE_ASSET_RESOLUTION_FOR_3D:
-			add(i, _("The video asset %f uses the frame rate %n which is invalid for 3D video."));
+			add(i.second, _("The video asset %f uses the frame rate %n which is invalid for 3D video."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_XML_SIZE_IN_BYTES:
-			add(i, _("The XML in the closed caption asset %f takes up %n bytes which is over the 256KB limit."));
+			add(i.second, _("The XML in the closed caption asset %f takes up %n bytes which is over the 256KB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_SIZE_IN_BYTES:
-			add(i, _("The timed text asset %f takes up %n bytes which is over the 115MB limit."));
+			add(i.second, _("The timed text asset %f takes up %n bytes which is over the 115MB limit."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_TIMED_TEXT_FONT_SIZE_IN_BYTES:
-			add(i, _("The fonts in the timed text asset %f take up %n bytes which is over the 10MB limit."));
+			add(i.second, _("The fonts in the timed text asset %f take up %n bytes which is over the 10MB limit."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE:
-			add(i, _("The subtitle asset %f contains no <Language> tag."));
+			add(i.second, _("The subtitle asset %f contains no <Language> tag."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_SUBTITLE_LANGUAGES:
-			add(i, _("Not all subtitle assets specify the same <Language> tag."));
+			add(i.second, _("Not all subtitle assets specify the same <Language> tag."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE_START_TIME:
-			add(i, _("The subtitle asset %f contains no <StartTime> tag."));
+			add(i.second, _("The subtitle asset %f contains no <StartTime> tag."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_START_TIME:
-			add(i, _("The subtitle asset %f has a <StartTime> which is not zero."));
+			add(i.second, _("The subtitle asset %f has a <StartTime> which is not zero."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME:
-			add(i, _("The first subtitle or closed caption happens before 4s into the first reel."));
+			add(i.second, _("The first subtitle or closed caption happens before 4s into the first reel."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION:
-			add(i, _("At least one subtitle lasts less than 15 frames."));
+			add(i.second, _("At least one subtitle lasts less than 15 frames."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING:
-			add(i, _("At least one pair of subtitles is separated by less than 2 frames."));
+			add(i.second, _("At least one pair of subtitles is separated by less than 2 frames."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_LINE_COUNT:
-			add(i, _("There are more than 3 subtitle lines in at least one place."));
+			add(i.second, _("There are more than 3 subtitle lines in at least one place."));
 			break;
 		case dcp::VerificationNote::Code::NEARLY_INVALID_SUBTITLE_LINE_LENGTH:
-			add(i, _("There are more than 52 characters in at least one subtitle line."));
+			add(i.second, _("There are more than 52 characters in at least one subtitle line."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_LINE_LENGTH:
-			add(i, _("There are more than 79 characters in at least one subtitle line."));
+			add(i.second, _("There are more than 79 characters in at least one subtitle line."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_COUNT:
-			add(i, _("There are more than 3 closed caption lines in at least one place."));
+			add(i.second, _("There are more than 3 closed caption lines in at least one place."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CLOSED_CAPTION_LINE_LENGTH:
-			add(i, _("There are more than 32 characters in at least one closed caption line."));
+			add(i.second, _("There are more than 32 characters in at least one closed caption line."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SOUND_FRAME_RATE:
-			add(i, _("The sound asset %f has an invalid frame rate of %n."));
+			add(i.second, _("The sound asset %f has an invalid frame rate of %n."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_ANNOTATION_TEXT:
-			add(i, _("The CPL %n has no <AnnotationText> tag."));
+			add(i.second, _("The CPL %n has no <AnnotationText> tag."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CPL_ANNOTATION_TEXT:
-			add(i, _("The CPL %n has an <AnnotationText> which is not the same as its <ContentTitleText>."));
+			add(i.second, _("The CPL %n has an <AnnotationText> which is not the same as its <ContentTitleText>."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_ASSET_DURATION:
-			add(i, _("At least one asset in a reel does not have the same duration as the others."));
+			add(i.second, _("At least one asset in a reel does not have the same duration as the others."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_MAIN_SUBTITLE_FROM_SOME_REELS:
-			add(i, _("The DCP has subtitles but at least one reel has no subtitle asset."));
+			add(i.second, _("The DCP has subtitles but at least one reel has no subtitle asset."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CLOSED_CAPTION_ASSET_COUNTS:
-			add(i, _("The DCP has closed captions but not every reel has the same number of closed caption assets."));
+			add(i.second, _("The DCP has closed captions but not every reel has the same number of closed caption assets."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE_ENTRY_POINT:
-			add(i, _("The subtitle asset %n has no <EntryPoint> tag."));
+			add(i.second, _("The subtitle asset %n has no <EntryPoint> tag."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_ENTRY_POINT:
-			add(i, _("Subtitle asset %n has a non-zero <EntryPoint>."));
+			add(i.second, _("Subtitle asset %n has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CLOSED_CAPTION_ENTRY_POINT:
-			add(i, _("The closed caption asset %n has no <EntryPoint> tag."));
+			add(i.second, _("The closed caption asset %n has no <EntryPoint> tag."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ENTRY_POINT:
-			add(i, _("Closed caption asset %n has a non-zero <EntryPoint>."));
+			add(i.second, _("Closed caption asset %n has a non-zero <EntryPoint>."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_HASH:
-			add(i, _("The asset %n has no <Hash> in the CPL."));
+			add(i.second, _("The asset %n has no <Hash> in the CPL."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FFEC_IN_FEATURE:
-			add(i, _("The DCP is a feature but has no FFEC (first frame of end credits) marker."));
+			add(i.second, _("The DCP is a feature but has no FFEC (first frame of end credits) marker."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FFMC_IN_FEATURE:
-			add(i, _("The DCP is a feature but has no FFMC (first frame of moving credits) marker."));
+			add(i.second, _("The DCP is a feature but has no FFMC (first frame of moving credits) marker."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FFOC:
-			add(i, _("The DCP has no FFOC (first frame of content) marker."));
+			add(i.second, _("The DCP has no FFOC (first frame of content) marker."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LFOC:
-			add(i, _("The DCP has no LFOC (last frame of content) marker."));
+			add(i.second, _("The DCP has no LFOC (last frame of content) marker."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_FFOC:
-			add(i, _("The DCP has a FFOC of %n instead of 1."));
+			add(i.second, _("The DCP has a FFOC of %n instead of 1."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_LFOC:
-			add(i, _("The DCP has a LFOC of %n instead of the reel duration minus one."));
+			add(i.second, _("The DCP has a LFOC of %n instead of the reel duration minus one."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_METADATA:
-			add(i, _("The CPL %n has no CPL metadata tag."));
+			add(i.second, _("The CPL %n has no CPL metadata tag."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_METADATA_VERSION_NUMBER:
-			add(i, _("The CPL %n has no CPL metadata version number tag."));
+			add(i.second, _("The CPL %n has no CPL metadata version number tag."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_EXTENSION_METADATA:
-			add(i, _("The CPL %n has no CPL extension metadata tag."));
+			add(i.second, _("The CPL %n has no CPL extension metadata tag."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_EXTENSION_METADATA:
-			add(i, _("The CPL %f has an invalid CPL extension metadata tag (%n)"));
+			add(i.second, _("The CPL %f has an invalid CPL extension metadata tag (%n)"));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_CPL_WITH_ENCRYPTED_CONTENT:
-			add(i, _("The CPL %n has encrypted content but is not signed."));
+			add(i.second, _("The CPL %n has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::UNSIGNED_PKL_WITH_ENCRYPTED_CONTENT:
-			add(i, _("The PKL %n has encrypted content but is not signed."));
+			add(i.second, _("The PKL %n has encrypted content but is not signed."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_PKL_ANNOTATION_TEXT_WITH_CPL:
-			add(i, _("The PKL %n has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
+			add(i.second, _("The PKL %n has an <AnnotationText> which does not match its CPL's <ContentTitleText>."));
 			break;
 		case dcp::VerificationNote::Code::PARTIALLY_ENCRYPTED:
-			add(i, _("The DCP has encrypted content, but not all its assets are encrypted."));
+			add(i.second, _("The DCP has encrypted content, but not all its assets are encrypted."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODESTREAM:
-			add(i, _("A picture frame has an invalid JPEG2000 codestream (%n)"));
+			add(
+				i.second,
+				_("A picture frame has an invalid JPEG2000 codestream (%n)."),
+				_("More picture frames (not listed) have invalid JPEG2000 codestreams.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_2K:
-			add(i, _("A 2K JPEG2000 frame has %n guard bits instead of 1."));
+			add(
+				i.second,
+				_("A 2K JPEG2000 frame has %n guard bits instead of 1."),
+				_("More 2K JPEG2000 frames (not listed) have an invalid number of guard bits.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_GUARD_BITS_FOR_4K:
-			add(i, _("A 4K JPEG2000 frame has %n guard bits instead of 2."));
+			add(
+				i.second,
+				_("A 4K JPEG2000 frame has %n guard bits instead of 2."),
+				_("More 4K JPEG2000 frames (not listed) have an invalid number of guard bits.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_SIZE:
-			add(i, _("A JPEG2000 tile size does not match the image size."));
+			add(
+				i.second,
+				_("A JPEG2000 tile size does not match the image size."),
+				_("More JPEG2000 tile sizes (not listed) do not match the image size.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_WIDTH:
-			add(i, _("A JPEG2000 frame has a code-block width of %n instead of 32."));
+			add(
+				i.second,
+				_("A JPEG2000 frame has a code-block width of %n instead of 32."),
+				_("More JPEG2000 frames (not listed) have an invalid code-block width.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_CODE_BLOCK_HEIGHT:
-			add(i, _("A JPEG2000 frame has a code-block height of %n instead of 32."));
+			add(
+				i.second,
+				_("A JPEG2000 frame has a code-block height of %n instead of 32."),
+				_("More JPEG2000 frames (not listed) have an invalid code-block height.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_2K:
-			add(i, _("A 2K JPEG2000 frame has %n POC marker(s) instead of 0."));
+			add(
+				i.second,
+				_("A 2K JPEG2000 frame has %n POC marker(s) instead of 0."),
+				_("More 2K JPEG2000 frames (not listed) have too many POC markers.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER_COUNT_FOR_4K:
-			add(i, _("A 4K JPEG2000 frame has %n POC marker(s) instead of 1."));
+			add(
+				i.second,
+				_("A 4K JPEG2000 frame has %n POC marker(s) instead of 1."),
+				_("More 4K JPEG2000 frames (not listed) have too many POC markers.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_JPEG2000_POC_MARKER:
-			add(i, _("A JPEG2000 frame contains an invalid POC marker (%n)."));
+			add(
+				i.second,
+				_("A JPEG2000 frame contains an invalid POC marker (%n)."),
+				_("More JPEG2000 frames (not listed) contain invalid POC markers.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_POC_MARKER_LOCATION:
-			add(i, _("A JPEG2000 frame contains POC marker in an invalid location."));
+			add(
+				i.second,
+				_("A JPEG2000 frame contains a POC marker in an invalid location."),
+				_("More JPEG2000 frames (not listed) contain POC markers in invalid locations.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_2K:
-			add(i, _("A 2K JPEG2000 frame contains %n tile parts instead of 3."));
+			add(
+				i.second,
+				_("A 2K JPEG2000 frame contains %n tile parts instead of 3."),
+				_("More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PARTS_FOR_4K:
-			add(i, _("A 4K JPEG2000 frame contains %n tile parts instead of 6."));
+			add(
+				i.second,
+				_("A 4K JPEG2000 frame contains %n tile parts instead of 6."),
+				_("More JPEG2000 frames (not listed) contain the wrong number of tile parts.")
+			);
 			break;
 		case dcp::VerificationNote::Code::MISSING_JPEG200_TLM_MARKER:
-			add(i, _("A JPEG2000 frame has no TLM marker."));
+			add(
+				i.second,
+				_("A JPEG2000 frame has no TLM marker."),
+				_("More JPEG2000 frames (not listed) have no TLM marker.")
+			);
 			break;
 		case dcp::VerificationNote::Code::SUBTITLE_OVERLAPS_REEL_BOUNDARY:
-			add(i, _("A subtitle lasts longer than the reel it is in."));
+			add(i.second, _("A subtitle lasts longer than the reel it is in."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_TIMED_TEXT_RESOURCE_ID:
-			add(i, _("The Resource ID in a timed text MXF did not match the ID of the contained XML."));
+			add(i.second, _("The Resource ID in a timed text MXF did not match the ID of the contained XML."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_TIMED_TEXT_ASSET_ID:
-			add(i, _("The Asset ID in a timed text MXF is the same as the Resource ID or that of the contained XML."));
+			add(i.second, _("The Asset ID in a timed text MXF is the same as the Resource ID or that of the contained XML."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_TIMED_TEXT_DURATION:
 		{
-			vector<string> parts;
-			boost::split (parts, i.note().get(), boost::is_any_of(" "));
-			add(i, wxString::Format(_("The reel duration (%s) of some timed text is not the same as the ContainerDuration (%s) of its MXF."), std_to_wx(parts[0]), std_to_wx(parts[1])));
+			for (auto const& note: i.second) {
+				vector<string> parts;
+				boost::split(parts, note.note().get(), boost::is_any_of(" "));
+				add(
+					{ note },
+					wxString::Format(
+						_("The reel duration (%s) of some timed text is not the same as the ContainerDuration (%s) of its MXF."),
+						std_to_wx(parts[0]),
+						std_to_wx(parts[1])
+						)
+				   );
+			}
 			break;
 		}
 		case dcp::VerificationNote::Code::MISSED_CHECK_OF_ENCRYPTED:
-			add(i, _("Part of the DCP could not be checked because no KDM was available."));
+			add(i.second, _("Part of the DCP could not be checked because no KDM was available."));
 			break;
 		case dcp::VerificationNote::Code::EMPTY_TEXT:
-			add(i, _("At least one <Text> node in a subtitle or closed caption is empty."));
+			add(i.second, _("At least one <Text> node in a subtitle or closed caption is empty."));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_CLOSED_CAPTION_VALIGN:
-			add(i, _("Some closed <Text> or <Image> nodes have different vertical alignments within a <Subtitle>."));
+			add(i.second, _("Some closed <Text> or <Image> nodes have different vertical alignments within a <Subtitle>."));
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_CLOSED_CAPTION_ORDERING:
-			add(i, _("Some closed captions are not listed in the order of their vertical position."));
+			add(i.second, _("Some closed captions are not listed in the order of their vertical position."));
 			break;
 		case dcp::VerificationNote::Code::UNEXPECTED_ENTRY_POINT:
-			add(i, _("There is a <EntryPoint> tag inside a <MainMarkers>."));
+			add(i.second, _("There is a <EntryPoint> tag inside a <MainMarkers>."));
 			break;
 		case dcp::VerificationNote::Code::UNEXPECTED_DURATION:
-			add(i, _("There is a <Duration> tag inside a <MainMarkers>."));
+			add(i.second, _("There is a <Duration> tag inside a <MainMarkers>."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CONTENT_KIND:
-			add(i, _("An invalid <ContentKind> %n has been used."));
+			add(i.second, _("An invalid <ContentKind> %n has been used."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_MAIN_PICTURE_ACTIVE_AREA:
-			add(i, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));
+			add(i.second, _("The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than an asset."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_PKL:
-			add(i, _("The PKL %n has more than one asset with the same ID."));
+			add(i.second, _("The PKL %n has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::DUPLICATE_ASSET_ID_IN_ASSETMAP:
-			add(i, _("The ASSETMAP %n has more than one asset with the same ID."));
+			add(i.second, _("The ASSETMAP %n has more than one asset with the same ID."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_SUBTITLE:
-			add(i, _("The subtitle asset %n contains no subtitles."));
+			add(i.second, _("The subtitle asset %n contains no subtitles."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_SUBTITLE_ISSUE_DATE:
-			add(i, _("<IssueDate> has an invalid value %n"));
+			add(i.second, _("<IssueDate> has an invalid value %n"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_SOUND_CHANNEL_COUNTS:
-			add(i, _("Sound assets do not all have the same channel count."));
+			add(i.second, _("Sound assets do not all have the same channel count."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_MAIN_SOUND_CONFIGURATION:
-			add(i, _("<MainSoundConfiguration> describes incorrect number of channels (%n)"));
+			add(i.second, _("<MainSoundConfiguration> describes incorrect number of channels (%n)"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_FONT:
-			add(i, _("The font file for font ID \"%n\" was not found, or was not referred to in the ASSETMAP."));
+			add(i.second, _("The font file for font ID \"%n\" was not found, or was not referred to in the ASSETMAP."));
 			break;
 		case dcp::VerificationNote::Code::INVALID_JPEG2000_TILE_PART_SIZE:
-			add(i, _("Frame %frame has an image component that is too large (component %component is %size bytes in size)."));
+			add(
+				i.second,
+				_("Frame %frame has an image component that is too large (component %component is %size bytes in size)."),
+				_("More frames (not listed) have image components that are too large.")
+			);
 			break;
 		case dcp::VerificationNote::Code::INCORRECT_SUBTITLE_NAMESPACE_COUNT:
-			add(i, _("The XML in the subtitle asset %n has more than one namespace declaration."));
+			add(i.second, _("The XML in the subtitle asset %n has more than one namespace declaration."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT_FOR_FONT:
-			add(i, _("A subtitle or closed caption refers to a font with ID %id that does not have a corresponding <LoadFont> node."));
+			add(i.second, _("A subtitle or closed caption refers to a font with ID %id that does not have a corresponding <LoadFont> node."));
 			break;
 		case dcp::VerificationNote::Code::MISSING_LOAD_FONT:
-			add(i, _("The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"));
+			add(i.second, _("The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"));
 			break;
 		case dcp::VerificationNote::Code::MISMATCHED_ASSET_MAP_ID:
-			add(i, _("The asset with ID %id in the asset map actually has an id of %other_id"));
+			add(i.second, _("The asset with ID %id in the asset map actually has an id of %other_id"));
 			break;
 		case dcp::VerificationNote::Code::EMPTY_CONTENT_VERSION_LABEL_TEXT:
-			add(i, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
+			add(i.second, _("The <LabelText> in a <ContentVersion> in CPL %id is empty"));
 			break;
 		case dcp::VerificationNote::Code::INVALID_CPL_NAMESPACE:
-			add(i, _("The CPL %f has an invalid namespace %n"));
+			add(i.second, _("The CPL %f has an invalid namespace %n"));
 			break;
 		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
-			add(i, _("The CPL %n has no <ContentVersion> tag"));
+			add(i.second, _("The CPL %n has no <ContentVersion> tag"));
 			break;
 		}
 	}
