@@ -36,7 +36,7 @@ public:
 	std::string json_name () const override;
 	void run () override;
 
-	std::vector<dcp::VerificationNote> notes () const {
+	std::vector<dcp::VerificationNote> const& notes() const {
 		return _notes;
 	}
 
