@@ -964,28 +964,7 @@ SoundPage::config_changed ()
 	apis[RtAudio::LINUX_OSS]      = _("OSS");
 	apis[RtAudio::RTAUDIO_DUMMY]  = _("Dummy");
 
-	int channels = 0;
-	if (configured_so) {
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-		for (auto device_id: audio.getDeviceIds()) {
-			auto info = audio.getDeviceInfo(device_id);
-			if (info.name == *configured_so && info.outputChannels > 0) {
-				channels = info.outputChannels;
-			}
-		}
-#else
-		for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-			try {
-				auto info = audio.getDeviceInfo(i);
-				if (info.name == *configured_so && info.outputChannels > 0) {
-					channels = info.outputChannels;
-				}
-			} catch (RtAudioError&) {
-				/* Never mind */
-			}
-		}
-#endif
-	}
+	int const channels = configured_so ? AudioBackend::instance()->device_output_channels(*configured_so).get_value_or(0) : 0;
 
 	_sound_output_details->SetLabel (
 		wxString::Format(_("%d channels on %s"), channels, apis[audio.getCurrentApi()])

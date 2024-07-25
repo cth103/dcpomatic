@@ -24,6 +24,9 @@
 
 using std::string;
 using std::vector;
+using boost::optional;
+
+
 AudioBackend* AudioBackend::_instance = nullptr;
 
 
@@ -118,6 +121,33 @@ AudioBackend::default_device_name()
 		/* Never mind */
 	}
 #endif
+	return {};
+}
+
+
+optional<int>
+AudioBackend::device_output_channels(string name)
+{
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	for (auto device_id: _rtaudio.getDeviceIds()) {
+		auto info = audio.getDeviceInfo(device_id);
+		if (info.name == name) {
+			return info.outputChannels;
+		}
+	}
+#else
+	for (unsigned int i = 0; i < _rtaudio.getDeviceCount(); ++i) {
+		try {
+			auto info = _rtaudio.getDeviceInfo(i);
+			if (info.name == name) {
+				return info.outputChannels;
+			}
+		} catch (RtAudioError&) {
+			/* Never mind */
+		}
+	}
+#endif
+
 	return {};
 }
 
