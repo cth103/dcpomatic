@@ -23,6 +23,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <RtAudio.h>
 LIBDCP_ENABLE_WARNINGS
+#include <boost/optional.hpp>
 
 
 
@@ -39,6 +40,7 @@ public:
 	}
 
 	std::vector<std::string> output_device_names();
+	boost::optional<std::string> default_device_name();
 	void abort_stream_if_running();
 	boost::optional<std::string> start_stream();
 

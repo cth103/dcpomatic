@@ -106,6 +106,22 @@ AudioBackend::output_device_names()
 }
 
 
+optional<string>
+AudioBackend::default_device_name()
+{
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	return _rtaudio.getDeviceInfo(_rtaudio.getDefaultOutputDevice()).name;
+#else
+	try {
+		return _rtaudio.getDeviceInfo(_rtaudio.getDefaultOutputDevice()).name;
+	} catch (RtAudioError&) {
+		/* Never mind */
+	}
+#endif
+	return {};
+}
+
+
 void
 AudioBackend::abort_stream_if_running()
 {

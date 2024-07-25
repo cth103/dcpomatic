@@ -912,20 +912,10 @@ SoundPage::sound_changed ()
 void
 SoundPage::sound_output_changed ()
 {
-	auto& audio = AudioBackend::instance()->rtaudio();
-
 	auto const so = get_sound_output();
-	string default_device;
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-	default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-#else
-	try {
-		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-	} catch (RtAudioError&) {
-		/* Never mind */
-	}
-#endif
-	if (!so || *so == default_device) {
+	auto default_device = AudioBackend::instance()->default_device_name();
+
+	if (!so || so == default_device) {
 		Config::instance()->unset_sound_output ();
 	} else {
 		Config::instance()->set_sound_output (*so);
@@ -948,15 +938,7 @@ SoundPage::config_changed ()
 		configured_so = config->sound_output().get();
 	} else {
 		/* No configured output means we should use the default */
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-		configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-#else
-		try {
-			configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-		} catch (RtAudioError&) {
-			/* Probably no audio devices at all */
-		}
-#endif
+		configured_so = AudioBackend::instance()->default_device_name();
 	}
 
 	if (configured_so && current_so != configured_so) {
