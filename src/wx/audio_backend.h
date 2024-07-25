@@ -38,6 +38,7 @@ public:
 		return _rtaudio;
 	}
 
+	std::vector<std::string> output_device_names();
 	void abort_stream_if_running();
 	boost::optional<std::string> start_stream();
 

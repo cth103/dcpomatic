@@ -881,27 +881,9 @@ SoundPage::setup ()
 	font.SetPointSize (font.GetPointSize() - 1);
 	_sound_output_details->SetFont (font);
 
-	auto& audio = AudioBackend::instance()->rtaudio();
-
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-	for (auto device_id: audio.getDeviceIds()) {
-		auto dev = audio.getDeviceInfo(device_id);
-		if (dev.outputChannels > 0) {
-			_sound_output->Append(std_to_wx(dev.name));
-		}
+	for (auto name: AudioBackend::instance()->output_device_names()) {
+		_sound_output->Append(std_to_wx(name));
 	}
-#else
-	for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-		try {
-			auto dev = audio.getDeviceInfo (i);
-			if (dev.probed && dev.outputChannels > 0) {
-				_sound_output->Append (std_to_wx (dev.name));
-			}
-		} catch (RtAudioError&) {
-			/* Something went wrong so let's just ignore that device */
-		}
-	}
-#endif
 
 	_sound->bind(&SoundPage::sound_changed, this);
 	_sound_output->Bind (wxEVT_CHOICE,   bind(&SoundPage::sound_output_changed, this));

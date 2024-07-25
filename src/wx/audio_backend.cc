@@ -22,6 +22,8 @@
 #include "audio_backend.h"
 
 
+using std::string;
+using std::vector;
 AudioBackend* AudioBackend::_instance = nullptr;
 
 
@@ -72,6 +74,35 @@ AudioBackend::instance()
 	}
 
 	return _instance;
+}
+
+
+vector<string>
+AudioBackend::output_device_names()
+{
+	vector<string> names;
+
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	for (auto device_id: audio.getDeviceIds()) {
+		auto dev = audio.getDeviceInfo(device_id);
+		if (dev.outputChannels > 0) {
+			names.push_back(dev.name);
+		}
+	}
+#else
+	for (unsigned int i = 0; i < _rtaudio.getDeviceCount(); ++i) {
+		try {
+			auto dev = _rtaudio.getDeviceInfo(i);
+			if (dev.probed && dev.outputChannels > 0) {
+				names.push_back(dev.name);
+			}
+		} catch (RtAudioError&) {
+			/* Something went wrong so let's just ignore that device */
+		}
+	}
+#endif
+
+	return names;
 }
 
 
