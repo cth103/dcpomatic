@@ -19,6 +19,7 @@
 */
 
 
+#include "audio_backend.h"
 #include "audio_mapping_view.h"
 #include "check_box.h"
 #include "config_dialog.h"
@@ -880,7 +881,8 @@ SoundPage::setup ()
 	font.SetPointSize (font.GetPointSize() - 1);
 	_sound_output_details->SetFont (font);
 
-	RtAudio audio (DCPOMATIC_RTAUDIO_API);
+	auto& audio = AudioBackend::instance()->rtaudio();
+
 #if (RTAUDIO_VERSION_MAJOR >= 6)
 	for (auto device_id: audio.getDeviceIds()) {
 		auto dev = audio.getDeviceInfo(device_id);
@@ -928,7 +930,8 @@ SoundPage::sound_changed ()
 void
 SoundPage::sound_output_changed ()
 {
-	RtAudio audio (DCPOMATIC_RTAUDIO_API);
+	auto& audio = AudioBackend::instance()->rtaudio();
+
 	auto const so = get_sound_output();
 	string default_device;
 #if (RTAUDIO_VERSION_MAJOR >= 6)
@@ -957,11 +960,12 @@ SoundPage::config_changed ()
 	auto const current_so = get_sound_output ();
 	optional<string> configured_so;
 
+	auto& audio = AudioBackend::instance()->rtaudio();
+
 	if (config->sound_output()) {
 		configured_so = config->sound_output().get();
 	} else {
 		/* No configured output means we should use the default */
-		RtAudio audio (DCPOMATIC_RTAUDIO_API);
 #if (RTAUDIO_VERSION_MAJOR >= 6)
 		configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
 #else
@@ -984,8 +988,6 @@ SoundPage::config_changed ()
 			++i;
 		}
 	}
-
-	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 
 	map<int, wxString> apis;
 	apis[RtAudio::MACOSX_CORE]    = _("CoreAudio");

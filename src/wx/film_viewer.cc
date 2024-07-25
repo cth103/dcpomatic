@@ -24,6 +24,7 @@
  */
 
 
+#include "audio_backend.h"
 #include "closed_captions_dialog.h"
 #include "film_viewer.h"
 #include "gl_video_view.h"
@@ -86,12 +87,7 @@ rtaudio_callback (void* out, void *, unsigned int frames, double, RtAudioStreamS
 
 
 FilmViewer::FilmViewer (wxWindow* p)
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-	: _audio(DCPOMATIC_RTAUDIO_API, boost::bind(&FilmViewer::rtaudio_error_callback, this, _2))
-#else
-	: _audio (DCPOMATIC_RTAUDIO_API)
-#endif
-	, _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
+	: _closed_captions_dialog (new ClosedCaptionsDialog(p, this))
 {
 #if wxCHECK_VERSION(3, 1, 0)
 	switch (Config::instance()->video_view_type()) {
@@ -242,6 +238,8 @@ FilmViewer::create_butler()
 
 	DCPOMATIC_ASSERT(_player);
 
+	auto& audio = AudioBackend::instance()->rtaudio();
+
 	_butler = std::make_shared<Butler>(
 		_film,
 		*_player,
@@ -252,7 +250,7 @@ FilmViewer::create_butler()
 		j2k_gl_optimised ? Image::Alignment::COMPACT : Image::Alignment::PADDED,
 		true,
 		j2k_gl_optimised,
-		(Config::instance()->sound() && _audio.isStreamOpen()) ? Butler::Audio::ENABLED : Butler::Audio::DISABLED
+		(Config::instance()->sound() && audio.isStreamOpen()) ? Butler::Audio::ENABLED : Butler::Audio::DISABLED
 		);
 
 	_closed_captions_dialog->set_butler (_butler);
@@ -344,8 +342,10 @@ void
 FilmViewer::suspend ()
 {
 	++_suspended;
-	if (_audio.isStreamRunning()) {
-		_audio.abortStream();
+
+	auto& audio = AudioBackend::instance()->rtaudio();
+	if (audio.isStreamRunning()) {
+		audio.abortStream();
 	}
 }
 
@@ -353,19 +353,21 @@ FilmViewer::suspend ()
 void
 FilmViewer::start_audio_stream_if_open ()
 {
-	if (_audio.isStreamOpen()) {
-		_audio.setStreamTime (_video_view->position().seconds());
+	auto& audio = AudioBackend::instance()->rtaudio();
+
+	if (audio.isStreamOpen()) {
+		audio.setStreamTime(_video_view->position().seconds());
 #if (RTAUDIO_VERSION_MAJOR >= 6)
-		if (_audio.startStream() != RTAUDIO_NO_ERROR) {
+		if (audio.startStream() != RTAUDIO_NO_ERROR) {
 			_audio_channels = 0;
 			error_dialog(
 				_video_view->get(),
-				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(last_rtaudio_error())
+				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(audio.last_rtaudio_error())
 				);
 		}
 #else
 		try {
-			_audio.startStream ();
+			audio.startStream ();
 		} catch (RtAudioError& e) {
 			_audio_channels = 0;
 			error_dialog (
@@ -428,9 +430,11 @@ FilmViewer::start ()
 bool
 FilmViewer::stop ()
 {
-	if (_audio.isStreamRunning()) {
+	auto& audio = AudioBackend::instance()->rtaudio();
+
+	if (audio.isStreamRunning()) {
 		/* stop stream and discard any remaining queued samples */
-		_audio.abortStream ();
+		audio.abortStream();
 	}
 
 	if (!_playing) {
@@ -618,16 +622,18 @@ FilmViewer::config_changed (Config::Property p)
 		return;
 	}
 
-	if (_audio.isStreamOpen ()) {
-		_audio.closeStream ();
+	auto& audio = AudioBackend::instance()->rtaudio();
+
+	if (audio.isStreamOpen()) {
+		audio.closeStream();
 	}
 
-	if (Config::instance()->sound() && _audio.getDeviceCount() > 0) {
+	if (Config::instance()->sound() && audio.getDeviceCount() > 0) {
 		optional<unsigned int> chosen_device_id;
 #if (RTAUDIO_VERSION_MAJOR >= 6)
 		if (Config::instance()->sound_output()) {
-			for (auto device_id: _audio.getDeviceIds()) {
-				if (_audio.getDeviceInfo(device_id).name == Config::instance()->sound_output().get()) {
+			for (auto device_id: audio.getDeviceIds()) {
+				if (audio.getDeviceInfo(device_id).name == Config::instance()->sound_output().get()) {
 					chosen_device_id = device_id;
 					break;
 				}
@@ -635,26 +641,26 @@ FilmViewer::config_changed (Config::Property p)
 		}
 
 		if (!chosen_device_id) {
-			chosen_device_id = _audio.getDefaultOutputDevice();
+			chosen_device_id = audio.getDefaultOutputDevice();
 		}
-		_audio_channels = _audio.getDeviceInfo(*chosen_device_id).outputChannels;
+		_audio_channels = audio.getDeviceInfo(*chosen_device_id).outputChannels;
 		RtAudio::StreamParameters sp;
 		sp.deviceId = *chosen_device_id;
 		sp.nChannels = _audio_channels;
 		sp.firstChannel = 0;
-		if (_audio.openStream(&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this) != RTAUDIO_NO_ERROR) {
+		if (audio.openStream(&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this) != RTAUDIO_NO_ERROR) {
 			_audio_channels = 0;
 			error_dialog(
 				_video_view->get(),
-				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(last_rtaudio_error())
+				_("Could not set up audio output.  There will be no audio during the preview."), std_to_wx(audio.last_rtaudio_error())
 				);
 		}
 #else
 		unsigned int st = 0;
 		if (Config::instance()->sound_output()) {
-			while (st < _audio.getDeviceCount()) {
+			while (st < audio.getDeviceCount()) {
 				try {
-					if (_audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
+					if (audio.getDeviceInfo(st).name == Config::instance()->sound_output().get()) {
 						break;
 					}
 				} catch (RtAudioError&) {
@@ -662,28 +668,28 @@ FilmViewer::config_changed (Config::Property p)
 				}
 				++st;
 			}
-			if (st == _audio.getDeviceCount()) {
+			if (st == audio.getDeviceCount()) {
 				try {
-					st = _audio.getDefaultOutputDevice();
+					st = audio.getDefaultOutputDevice();
 				} catch (RtAudioError&) {
 					/* Something went wrong with that device so we don't want to use it anyway */
 				}
 			}
 		} else {
 			try {
-				st = _audio.getDefaultOutputDevice();
+				st = audio.getDefaultOutputDevice();
 			} catch (RtAudioError&) {
 				/* Something went wrong with that device so we don't want to use it anyway */
 			}
 		}
 
 		try {
-			_audio_channels = _audio.getDeviceInfo(st).outputChannels;
+			_audio_channels = audio.getDeviceInfo(st).outputChannels;
 			RtAudio::StreamParameters sp;
 			sp.deviceId = st;
 			sp.nChannels = _audio_channels;
 			sp.firstChannel = 0;
-			_audio.openStream (&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
+			audio.openStream(&sp, 0, RTAUDIO_FLOAT32, 48000, &_audio_block_size, &rtaudio_callback, this);
 		} catch (RtAudioError& e) {
 			_audio_channels = 0;
 			error_dialog (
@@ -704,8 +710,10 @@ FilmViewer::config_changed (Config::Property p)
 DCPTime
 FilmViewer::uncorrected_time () const
 {
-	if (_audio.isStreamRunning()) {
-		return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime());
+	auto& audio = AudioBackend::instance()->rtaudio();
+
+	if (audio.isStreamRunning()) {
+		return DCPTime::from_seconds(audio.getStreamTime());
 	}
 
 	return _video_view->position();
@@ -715,11 +723,13 @@ FilmViewer::uncorrected_time () const
 optional<DCPTime>
 FilmViewer::audio_time () const
 {
-	if (!_audio.isStreamRunning()) {
+	auto& audio = AudioBackend::instance()->rtaudio();
+
+	if (!audio.isStreamRunning()) {
 		return {};
 	}
 
-	return DCPTime::from_seconds (const_cast<RtAudio*>(&_audio)->getStreamTime ()) -
+	return DCPTime::from_seconds(audio.getStreamTime()) -
 		DCPTime::from_frames (average_latency(), _film->audio_frame_rate());
 }
 
@@ -743,13 +753,15 @@ FilmViewer::audio_callback (void* out_p, unsigned int frames)
 		/* The audio we just got was (very) late; drop it and get some more. */
 	}
 
-        boost::mutex::scoped_lock lm (_latency_history_mutex, boost::try_to_lock);
-        if (lm) {
-                _latency_history.push_back (_audio.getStreamLatency ());
-                if (_latency_history.size() > static_cast<size_t> (_latency_history_count)) {
-                        _latency_history.pop_front ();
-                }
-        }
+	auto& audio = AudioBackend::instance()->rtaudio();
+
+	boost::mutex::scoped_lock lm (_latency_history_mutex, boost::try_to_lock);
+	if (lm) {
+		_latency_history.push_back(audio.getStreamLatency());
+		if (_latency_history.size() > static_cast<size_t> (_latency_history_count)) {
+			_latency_history.pop_front ();
+		}
+	}
 
 	return 0;
 }
@@ -897,22 +909,4 @@ FilmViewer::unset_crop_guess ()
 	_crop_guess = boost::none;
 	_video_view->update ();
 }
-
-
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-void
-FilmViewer::rtaudio_error_callback(string const& error)
-{
-	boost::mutex::scoped_lock lm(_last_rtaudio_error_mutex);
-	_last_rtaudio_error = error;
-}
-
-
-string
-FilmViewer::last_rtaudio_error() const
-{
-	boost::mutex::scoped_lock lm(_last_rtaudio_error_mutex);
-	return _last_rtaudio_error;
-}
-#endif
 

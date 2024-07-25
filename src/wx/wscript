@@ -26,6 +26,7 @@ import i18n
 
 sources = """
           about_dialog.cc
+          audio_backend.cc
           audio_dialog.cc
           audio_gain_dialog.cc
           audio_mapping_view.cc
