@@ -75,3 +75,12 @@ AudioBackend::instance()
 }
 
 
+void
+AudioBackend::abort_stream_if_running()
+{
+	if (_rtaudio.isStreamRunning()) {
+		_rtaudio.abortStream();
+	}
+}
+
+

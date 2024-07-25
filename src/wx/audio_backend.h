@@ -38,6 +38,7 @@ public:
 		return _rtaudio;
 	}
 
+	void abort_stream_if_running();
 #if (RTAUDIO_VERSION_MAJOR >= 6)
 	std::string last_rtaudio_error() const;
 #endif

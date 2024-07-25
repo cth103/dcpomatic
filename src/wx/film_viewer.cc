@@ -342,11 +342,7 @@ void
 FilmViewer::suspend ()
 {
 	++_suspended;
-
-	auto& audio = AudioBackend::instance()->rtaudio();
-	if (audio.isStreamRunning()) {
-		audio.abortStream();
-	}
+	AudioBackend::instance()->abort_stream_if_running();
 }
 
 
@@ -430,12 +426,7 @@ FilmViewer::start ()
 bool
 FilmViewer::stop ()
 {
-	auto& audio = AudioBackend::instance()->rtaudio();
-
-	if (audio.isStreamRunning()) {
-		/* stop stream and discard any remaining queued samples */
-		audio.abortStream();
-	}
+	AudioBackend::instance()->abort_stream_if_running();
 
 	if (!_playing) {
 		return false;
