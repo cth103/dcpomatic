@@ -39,6 +39,8 @@ public:
 	}
 
 	void abort_stream_if_running();
+	boost::optional<std::string> start_stream();
+
 #if (RTAUDIO_VERSION_MAJOR >= 6)
 	std::string last_rtaudio_error() const;
 #endif

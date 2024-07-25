@@ -353,25 +353,14 @@ FilmViewer::start_audio_stream_if_open ()
 
 	if (audio.isStreamOpen()) {
 		audio.setStreamTime(_video_view->position().seconds());
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-		if (audio.startStream() != RTAUDIO_NO_ERROR) {
+		auto error = AudioBackend::instance()->start_stream();
+		if (error) {
 			_audio_channels = 0;
 			error_dialog(
 				_video_view->get(),
-				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(audio.last_rtaudio_error())
+				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(*error)
 				);
 		}
-#else
-		try {
-			audio.startStream ();
-		} catch (RtAudioError& e) {
-			_audio_channels = 0;
-			error_dialog (
-				_video_view->get(),
-				_("There was a problem starting audio playback.  Please try another audio output device in Preferences."), std_to_wx(e.what())
-				);
-		}
-#endif
 	}
 }
 

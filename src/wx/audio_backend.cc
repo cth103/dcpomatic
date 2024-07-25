@@ -84,3 +84,22 @@ AudioBackend::abort_stream_if_running()
 }
 
 
+optional<string>
+AudioBackend::start_stream()
+{
+#if (RTAUDIO_VERSION_MAJOR >= 6)
+	if (_rtaudio.startStream() != RTAUDIO_NO_ERROR) {
+		return last_rtaudio_error();
+	}
+#else
+	try {
+		_rtaudio.startStream();
+	} catch (RtAudioError& e) {
+		return string(e.what());
+	}
+#endif
+
+	return {};
+}
+
+
