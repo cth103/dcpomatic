@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-12 00:54+0100\n"
-"PO-Revision-Date: 2024-01-12 23:05+0100\n"
+"POT-Creation-Date: 2024-07-11 16:08+0200\n"
+"PO-Revision-Date: 2024-07-12 00:36+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -60,12 +60,12 @@ msgstr "%d DKDM weggeschreven naar %s"
 msgid "%d DKDMs written to %s"
 msgstr "%d DKDM's weggeschreven naar %s"
 
-#: src/wx/kdm_dialog.cc:221
+#: src/wx/kdm_dialog.cc:237
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM weggeschreven naar %s"
 
-#: src/wx/kdm_dialog.cc:221
+#: src/wx/kdm_dialog.cc:237
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDM's weggeschreven naar %s"
@@ -75,7 +75,7 @@ msgstr "%d KDM's weggeschreven naar %s"
 msgid "%d channels on %s"
 msgstr "%d kanalen via %s"
 
-#: src/wx/player_information.cc:204 src/wx/player_information.cc:206
+#: src/wx/player_information.cc:214 src/wx/player_information.cc:216
 #, c-format
 msgid "%s %s"
 msgstr "%s %s"
@@ -88,15 +88,15 @@ msgstr ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
 
-#: src/wx/file_picker_ctrl.cc:51 src/wx/file_picker_ctrl.cc:66
+#: src/wx/file_picker_ctrl.cc:64
 msgid "(None)"
 msgstr "(Geen)"
 
-#: src/wx/full_config_dialog.cc:1672 src/wx/player_config_dialog.cc:117
+#: src/wx/full_config_dialog.cc:1674 src/wx/player_config_dialog.cc:117
 msgid "(restart DCP-o-matic to change display mode)"
 msgstr "(herstart DCP-o-matic om weergavemodus-wijzigingen te zien)"
 
-#: src/wx/full_config_dialog.cc:1538
+#: src/wx/full_config_dialog.cc:1540
 msgid "(restart DCP-o-matic to see all ratios)"
 msgstr "(herstart DCP-o-matic om alle beeldverhoudingen te zien)"
 
@@ -121,12 +121,12 @@ msgid "0dB (unchanged)"
 msgstr "0dB (ongewijzigd)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:455
+#: src/wx/verify_dcp_dialog.cc:473
 msgid "1 Bv2.1 error, "
 msgstr "1 Bv2.1 fout, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:447
+#: src/wx/verify_dcp_dialog.cc:465
 msgid "1 error, "
 msgstr "1 fout, "
 
@@ -142,7 +142,7 @@ msgstr "2 - Stereo"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:211
+#: src/wx/video_panel.cc:217
 msgid "2D"
 msgstr "2D"
 
@@ -154,27 +154,27 @@ msgstr "2D-versie van 3D-DCP"
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:832 src/wx/video_panel.cc:212
+#: src/wx/dcp_panel.cc:832 src/wx/video_panel.cc:218
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:215
+#: src/wx/video_panel.cc:221
 msgid "3D alternate"
 msgstr "3D afwisselend"
 
-#: src/wx/video_panel.cc:216
+#: src/wx/video_panel.cc:222
 msgid "3D left only"
 msgstr "3D alleen links"
 
-#: src/wx/video_panel.cc:213
+#: src/wx/video_panel.cc:219
 msgid "3D left/right"
 msgstr "3D links/rechts"
 
-#: src/wx/video_panel.cc:217
+#: src/wx/video_panel.cc:223
 msgid "3D right only"
 msgstr "3D alleen rechts"
 
-#: src/wx/video_panel.cc:214
+#: src/wx/video_panel.cc:220
 msgid "3D top/bottom"
 msgstr "3D boven/onder"
 
@@ -202,12 +202,12 @@ msgstr "8 - 5.1/HI/VI"
 msgid "96kHz"
 msgstr "96kHz"
 
-#: src/wx/verify_dcp_dialog.cc:411
+#: src/wx/verify_dcp_dialog.cc:423
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> heeft een ongeldige waarde %n"
 
-#: src/wx/verify_dcp_dialog.cc:417
+#: src/wx/verify_dcp_dialog.cc:429
 #, c-format
 msgid "<MainSoundConfiguration> describes incorrect number of channels (%n)"
 msgstr "<MainSoundConfiguration> beschrijft een verkeerd aantal kanalen (%n)"
@@ -232,62 +232,62 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_dialog.cc:353
+#: src/wx/verify_dcp_dialog.cc:365
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 3."
 
-#: src/wx/verify_dcp_dialog.cc:341
+#: src/wx/verify_dcp_dialog.cc:353
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr "Een 2K JPEG2000-frame heeft %n POC marker(s) in plaats van 0."
 
-#: src/wx/verify_dcp_dialog.cc:326
+#: src/wx/verify_dcp_dialog.cc:338
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr "Een 2K JPEG2000-frame heeft %n guard bits in plaats van 1."
 
-#: src/wx/verify_dcp_dialog.cc:356
+#: src/wx/verify_dcp_dialog.cc:368
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "Een 4K JPEG2000-frame bevat %n tile parts in plaats van 6."
 
-#: src/wx/verify_dcp_dialog.cc:344
+#: src/wx/verify_dcp_dialog.cc:356
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr "Een 4K JPEG2000-frame heeft %n POC marker(s) in plaats van 1."
 
-#: src/wx/verify_dcp_dialog.cc:329
+#: src/wx/verify_dcp_dialog.cc:341
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "Een 4K JPEG2000-frame heeft %n guard bits in plaats van 2."
 
-#: src/wx/verify_dcp_dialog.cc:350
+#: src/wx/verify_dcp_dialog.cc:362
 msgid "A JPEG2000 frame contains POC marker in an invalid location."
 msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
 
-#: src/wx/verify_dcp_dialog.cc:347
+#: src/wx/verify_dcp_dialog.cc:359
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
 
-#: src/wx/verify_dcp_dialog.cc:338
+#: src/wx/verify_dcp_dialog.cc:350
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr ""
 "Een JPEG2000-frame heeft een code-block hoogte van %n in plaats van 32."
 
-#: src/wx/verify_dcp_dialog.cc:335
+#: src/wx/verify_dcp_dialog.cc:347
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr ""
 "Een JPEG2000-frame heeft een code-block breedte van %n in plaats van 32."
 
-#: src/wx/verify_dcp_dialog.cc:359
+#: src/wx/verify_dcp_dialog.cc:371
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "Een JPEG2000-frame heeft geen TLM marker."
 
-#: src/wx/verify_dcp_dialog.cc:332
+#: src/wx/verify_dcp_dialog.cc:344
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 
@@ -295,7 +295,7 @@ msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 msgid "A new version of DCP-o-matic is available."
 msgstr "Er is een nieuwe versie van DCP-o-matic beschikbaar."
 
-#: src/wx/verify_dcp_dialog.cc:323
+#: src/wx/verify_dcp_dialog.cc:335
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)"
 msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)"
@@ -305,11 +305,11 @@ msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)"
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "Er is een probleem opgetreden tijdens het zoeken naar hints (%s)"
 
-#: src/wx/verify_dcp_dialog.cc:362
+#: src/wx/verify_dcp_dialog.cc:374
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "Een ondertitel duurt langer dan de reel waarin hij zit."
 
-#: src/wx/verify_dcp_dialog.cc:429
+#: src/wx/verify_dcp_dialog.cc:441
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
@@ -426,7 +426,7 @@ msgid "Additional"
 msgstr "Aanvullend"
 
 #: src/wx/cinema_dialog.cc:69 src/wx/extra_kdm_email_dialog.cc:47
-#: src/wx/full_config_dialog.cc:1053 src/wx/full_config_dialog.cc:1190
+#: src/wx/full_config_dialog.cc:1055 src/wx/full_config_dialog.cc:1192
 #: src/wx/recipient_dialog.cc:90
 msgid "Address"
 msgstr "Adres"
@@ -435,8 +435,8 @@ msgstr "Adres"
 msgid "Adjust white point to"
 msgstr "Pas witpunt aan naar"
 
-#: src/wx/full_config_dialog.cc:1640 src/wx/metadata_dialog.cc:79
-#: src/wx/player_config_dialog.cc:238
+#: src/wx/full_config_dialog.cc:1642 src/wx/metadata_dialog.cc:79
+#: src/wx/player_config_dialog.cc:240
 msgid "Advanced"
 msgstr "Geavanceerd"
 
@@ -461,23 +461,23 @@ msgstr "Geavanceerd..."
 msgid "Agency"
 msgstr "Agency"
 
-#: src/wx/full_config_dialog.cc:1534
+#: src/wx/full_config_dialog.cc:1536
 msgid "Allow any DCP frame rate"
 msgstr "Sta elke DCP frame rate toe"
 
-#: src/wx/full_config_dialog.cc:1546
+#: src/wx/full_config_dialog.cc:1548
 msgid "Allow creation of DCPs with 96kHz audio"
 msgstr "Sta maken van DCP's met 96kHz audio toe"
 
-#: src/wx/full_config_dialog.cc:1536
+#: src/wx/full_config_dialog.cc:1538
 msgid "Allow full-frame and non-standard container ratios"
 msgstr "Sta full-container en niet-standaard container-beeldverhoudingen toe"
 
-#: src/wx/full_config_dialog.cc:1547
+#: src/wx/full_config_dialog.cc:1549
 msgid "Allow mapping to all audio channels"
 msgstr "Sta mapping naar alle audio-kanalen toe"
 
-#: src/wx/full_config_dialog.cc:1548
+#: src/wx/full_config_dialog.cc:1550
 msgid "Allow use of SMPTE Bv2.0"
 msgstr "Sta gebruik van SMPTE Bv2.0 toe"
 
@@ -485,28 +485,32 @@ msgstr "Sta gebruik van SMPTE Bv2.0 toe"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:169
+#: src/wx/about_dialog.cc:170
 msgid "Also supported by"
 msgstr "Ook ondersteund door"
 
-#: src/wx/verify_dcp_dialog.cc:148
+#: src/wx/verify_dcp_dialog.cc:160
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "Een asset heeft een leeg pad in de ASSETMAP."
 
-#: src/wx/verify_dcp_dialog.cc:396
+#: src/wx/verify_dcp_dialog.cc:408
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "Er is een ongeldige <ContentKind> %n gebruikt."
 
-#: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:323
+#: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:327
 msgid "An unknown exception occurred."
 msgstr "Er is een onbekende uitzondering opgetreden."
+
+#: src/wx/kdm_output_panel.cc:82
+msgid "Annotation text"
+msgstr "Annotation text"
 
 #: src/wx/text_panel.cc:127
 msgid "Appearance..."
 msgstr "Uiterlijk..."
 
-#: src/wx/job_view.cc:189
+#: src/wx/job_view.cc:192
 msgid "Are you sure you want to cancel this job?"
 msgstr "Weet u zeker dat u deze taak wilt annuleren?"
 
@@ -538,26 +542,18 @@ msgstr ""
 "Weet u zeker dat u e-mails naar de volgende adressen wilt verzenden?\n"
 "\n"
 
-#: src/wx/verify_dcp_dialog.cc:381
+#: src/wx/verify_dcp_dialog.cc:393
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr ""
 "Ten minste één <Text> node in een ondertitel of closed caption is leeg."
 
-#: src/wx/verify_dcp_dialog.cc:257
+#: src/wx/verify_dcp_dialog.cc:269
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
 "Ten minste één asset in een reel heeft niet dezelfde duration als de andere."
 
-#: src/wx/verify_dcp_dialog.cc:176
-#, c-format
-msgid ""
-"At least one frame of the video asset %f is close to the limit of 250MBit/s."
-msgstr ""
-"Ten minste één frame van de video asset %f zit dicht bij de limiet van 250 "
-"Mbit/s."
-
-#: src/wx/verify_dcp_dialog.cc:173
+#: src/wx/verify_dcp_dialog.cc:185
 #, c-format
 msgid ""
 "At least one frame of the video asset %f is over the limit of 250Mbit/s."
@@ -565,12 +561,12 @@ msgstr ""
 "Ten minste één frame van de video asset %f overschrijdt de limiet van 250 "
 "Mbit/s."
 
-#: src/wx/verify_dcp_dialog.cc:230
+#: src/wx/verify_dcp_dialog.cc:242
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr ""
 "Ten minste één paar ondertitels wordt gescheiden door minder dan 2 frames."
 
-#: src/wx/verify_dcp_dialog.cc:227
+#: src/wx/verify_dcp_dialog.cc:239
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "Ten minste één ondertitel duurt minder dan 15 frames."
 
@@ -584,7 +580,7 @@ msgstr "Atmos"
 msgid "Audio"
 msgstr "Audio"
 
-#: src/wx/player_information.cc:169
+#: src/wx/player_information.cc:175
 #, c-format
 msgid "Audio channels: %d"
 msgstr "Audio-kanalen: %d"
@@ -607,7 +603,7 @@ msgstr ""
 "Audio van %s kanaal %s wordt naar %s kanaal %s doorgestuurd met een "
 "versterking van %.1fdB."
 
-#: src/wx/full_config_dialog.cc:884
+#: src/wx/full_config_dialog.cc:886
 msgid "Auto"
 msgstr "Auto"
 
@@ -627,7 +623,7 @@ msgstr "Automatisch analyseren van content-audio"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:1068 src/wx/full_config_dialog.cc:1205
+#: src/wx/full_config_dialog.cc:1070 src/wx/full_config_dialog.cc:1207
 msgid "BCC address"
 msgstr "BCC-adres"
 
@@ -639,7 +635,7 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Blauw-chromaticiteit"
 
-#: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:158
+#: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:164
 msgid "Bottom"
 msgstr "Onder"
 
@@ -655,7 +651,7 @@ msgstr "Brand ondertitels in het beeld"
 msgid "But I have to use fader"
 msgstr "Maar ik moet deze volume-instelling gebruiken"
 
-#: src/wx/full_config_dialog.cc:1054 src/wx/full_config_dialog.cc:1191
+#: src/wx/full_config_dialog.cc:1056 src/wx/full_config_dialog.cc:1193
 msgid "CC addresses"
 msgstr "CC-adressen"
 
@@ -663,7 +659,7 @@ msgstr "CC-adressen"
 msgid "CCAP track"
 msgstr "CCAP track"
 
-#: src/wx/dkdm_dialog.cc:92 src/wx/kdm_cpl_panel.cc:44 src/wx/kdm_dialog.cc:96
+#: src/wx/dkdm_dialog.cc:92 src/wx/kdm_cpl_panel.cc:44 src/wx/kdm_dialog.cc:97
 #: src/wx/self_dkdm_dialog.cc:69
 msgid "CPL"
 msgstr "CPL"
@@ -676,7 +672,7 @@ msgstr "CPL ID"
 msgid "CPL annotation text"
 msgstr "CPL annotation text"
 
-#: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:319
+#: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:323
 msgid "CPL's content is not encrypted."
 msgstr "De inhoud van de CPL is niet versleuteld."
 
@@ -689,11 +685,11 @@ msgstr "Bereken..."
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: src/wx/audio_panel.cc:390
+#: src/wx/audio_panel.cc:391
 msgid "Cannot reference this DCP's audio."
 msgstr "Kan niet aan de audio van deze DCP refereren."
 
-#: src/wx/audio_panel.cc:392
+#: src/wx/audio_panel.cc:393
 msgid "Cannot reference this DCP's audio: "
 msgstr "Kan niet aan de audio van deze DCP refereren: "
 
@@ -705,11 +701,11 @@ msgstr "Kan niet aan de ondertitels of captions van deze DCP refereren."
 msgid "Cannot reference this DCP's subtitles or captions: "
 msgstr "Kan niet aan de ondertitels of captions van deze DCP refereren: "
 
-#: src/wx/video_panel.cc:599
+#: src/wx/video_panel.cc:605
 msgid "Cannot reference this DCP's video."
 msgstr "Kan niet aan de video van deze DCP refereren."
 
-#: src/wx/video_panel.cc:601
+#: src/wx/video_panel.cc:607
 msgid "Cannot reference this DCP's video: "
 msgstr "Kan niet aan de video van deze DCP refereren: "
 
@@ -727,7 +723,7 @@ msgstr "Certificaat-keten"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:79
 #: src/wx/christie_certificate_panel.cc:81
-#: src/wx/dolby_doremi_certificate_panel.cc:272
+#: src/wx/dolby_doremi_certificate_panel.cc:282
 #: src/wx/gdc_certificate_panel.cc:73 src/wx/qube_certificate_panel.cc:83
 msgid "Certificate downloaded"
 msgstr "Certificaat gedownload"
@@ -768,7 +764,7 @@ msgstr "Zoek naar updates bij opstarten"
 msgid "Choose CPL..."
 msgstr "Kies CPL..."
 
-#: src/wx/content_panel.cc:660
+#: src/wx/content_panel.cc:661
 msgid "Choose a DCP folder"
 msgstr "Kies een DCP-map"
 
@@ -780,7 +776,7 @@ msgstr "Kies een bestand"
 msgid "Choose a file or files"
 msgstr "Kies een of meer bestanden"
 
-#: src/wx/content_menu.cc:368 src/wx/content_panel.cc:617
+#: src/wx/content_menu.cc:368 src/wx/content_panel.cc:618
 msgid "Choose a folder"
 msgstr "Kies een map"
 
@@ -810,7 +806,7 @@ msgstr ""
 "Klik op de knop om alle geselecteerde content op dezelfde waarde in te "
 "stellen."
 
-#: src/wx/verify_dcp_dialog.cc:275
+#: src/wx/verify_dcp_dialog.cc:287
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "Closed caption asset %n heeft een <EntryPoint> dat niet nul is."
@@ -819,7 +815,7 @@ msgstr "Closed caption asset %n heeft een <EntryPoint> dat niet nul is."
 msgid "Closed captions"
 msgstr "Closed captions"
 
-#: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:187
+#: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:193
 msgid "Colour"
 msgstr "Kleur"
 
@@ -828,11 +824,11 @@ msgid "Colour conversion"
 msgstr "Kleurconversie"
 
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:201
 msgid "Colour|Custom"
 msgstr "Aangepast"
 
-#: src/wx/full_config_dialog.cc:1413
+#: src/wx/full_config_dialog.cc:1415
 msgid "Company name"
 msgstr "Bedrijfsnaam"
 
@@ -845,7 +841,7 @@ msgid "Configuration file"
 msgstr "Configuratiebestand"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1749 src/wx/player_config_dialog.cc:276
+#: src/wx/full_config_dialog.cc:1751 src/wx/player_config_dialog.cc:278
 msgid "Config|Timing"
 msgstr "Timing"
 
@@ -929,6 +925,11 @@ msgstr "Kan certificaat niet laden (%s)"
 msgid "Could not play content"
 msgstr "Kan content niet afspelen"
 
+#: src/wx/verify_dcp_dialog.cc:139
+#, c-format
+msgid "Could not read DCP (%n)"
+msgstr "Kan DCP niet lezen (%n)"
+
 #: src/wx/gl_video_view.cc:139
 #, c-format
 msgid "Could not read DCP: %s"
@@ -940,7 +941,7 @@ msgid "Could not read certificate file (%1)"
 msgstr "Kan certificaat-bestand niet lezen (%1)"
 
 #: src/wx/config_dialog.cc:407 src/wx/config_dialog.cc:594
-#: src/wx/recipient_dialog.cc:177 src/wx/recipient_dialog.cc:182
+#: src/wx/recipient_dialog.cc:174 src/wx/recipient_dialog.cc:179
 #: src/wx/screen_dialog.cc:284 src/wx/screen_dialog.cc:290
 msgid "Could not read certificate file."
 msgstr "Kan certificaat-bestand niet lezen."
@@ -968,7 +969,7 @@ msgstr ""
 "Kan geen bioscoop-details naar het bestand cinemas.xml schrijven.  "
 "Controleer of de locatie van cinemas.xml geldig is bij Voorkeuren."
 
-#: src/wx/full_config_dialog.cc:1328
+#: src/wx/full_config_dialog.cc:1330
 msgid "Cover Sheet"
 msgstr "Voorblad"
 
@@ -980,7 +981,7 @@ msgstr "Maak KDM's toch"
 msgid "Create in folder"
 msgstr "Aanmaken in map"
 
-#: src/wx/full_config_dialog.cc:1408
+#: src/wx/full_config_dialog.cc:1410
 msgid "Creator"
 msgstr "Creator"
 
@@ -1014,7 +1015,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "DCP tekst-track"
 
-#: src/wx/full_config_dialog.cc:1715
+#: src/wx/full_config_dialog.cc:1717
 msgid "DCP asset filename format"
 msgstr "DCP asset bestandsnaam-formaat"
 
@@ -1022,7 +1023,7 @@ msgstr "DCP asset bestandsnaam-formaat"
 msgid "DCP directory"
 msgstr "DCP-map"
 
-#: src/wx/full_config_dialog.cc:1696
+#: src/wx/full_config_dialog.cc:1698
 msgid "DCP metadata filename format"
 msgstr "DCP metadata bestandsnaam-formaat"
 
@@ -1034,7 +1035,7 @@ msgstr "DCP valideert OK."
 msgid "DCP verification"
 msgstr "DCP-controle"
 
-#: src/wx/about_dialog.cc:56 src/wx/content_view.cc:89 src/wx/job_view.cc:165
+#: src/wx/about_dialog.cc:56 src/wx/content_view.cc:89 src/wx/job_view.cc:168
 #: src/wx/playlist_controls.cc:334 src/wx/playlist_controls.cc:406
 #: src/wx/wx_util.cc:164 src/wx/wx_util.cc:181 src/wx/wx_util.cc:190
 msgid "DCP-o-matic"
@@ -1044,7 +1045,7 @@ msgstr "DCP-o-matic"
 msgid "DCP-o-matic Disk Writer"
 msgstr "DCP-o-matic Disk Writer"
 
-#: src/wx/player_config_dialog.cc:354
+#: src/wx/player_config_dialog.cc:356
 msgid "DCP-o-matic Player Preferences"
 msgstr "DCP-o-matic Player Voorkeuren"
 
@@ -1057,7 +1058,7 @@ msgstr "DCP-o-matic Playlist Editor Voorkeuren"
 msgid "DCP-o-matic audio - %s"
 msgstr "DCP-o-matic audio - %s"
 
-#: src/wx/full_config_dialog.cc:984
+#: src/wx/full_config_dialog.cc:986
 msgid "DCP-o-matic test email"
 msgstr "DCP-o-matic test e-mail"
 
@@ -1065,34 +1066,38 @@ msgstr "DCP-o-matic test e-mail"
 msgid "Debug log file"
 msgstr "Debug-logbestand"
 
-#: src/wx/full_config_dialog.cc:1751
+#: src/wx/full_config_dialog.cc:1753
 msgid "Debug: 3D"
 msgstr "Debug: 3D"
 
-#: src/wx/full_config_dialog.cc:1761
+#: src/wx/full_config_dialog.cc:1763
 msgid "Debug: audio analysis"
 msgstr "Debug: audio-analyse"
 
-#: src/wx/full_config_dialog.cc:1755
+#: src/wx/full_config_dialog.cc:1757
 msgid "Debug: email sending"
 msgstr "Debug: e-mail verzenden"
 
-#: src/wx/full_config_dialog.cc:1753
+#: src/wx/full_config_dialog.cc:1755
 msgid "Debug: encode"
 msgstr "Debug: encoderen"
 
-#: src/wx/full_config_dialog.cc:1759
+#: src/wx/full_config_dialog.cc:1761
 msgid "Debug: player"
 msgstr "Debug: player"
 
-#: src/wx/full_config_dialog.cc:1757 src/wx/player_config_dialog.cc:278
+#: src/wx/full_config_dialog.cc:1759 src/wx/player_config_dialog.cc:280
 msgid "Debug: video view"
 msgstr "Debug: videoweergave"
 
-#: src/wx/player_information.cc:196
+#: src/wx/player_information.cc:203
 #, c-format
 msgid "Decode resolution: %dx%d"
 msgstr "Decodeer-resolutie: %dx%d"
+
+#: src/wx/player_information.cc:205
+msgid "Decode resolution: unknown"
+msgstr "Decodeer-resolutie: onbekend"
 
 #: src/wx/config_dialog.cc:644 src/wx/config_dialog.cc:702
 msgid "Decrypting KDMs"
@@ -1102,79 +1107,79 @@ msgstr "Ontsleutelen KDM's"
 msgid "Default \"add file\" location"
 msgstr "Standaard \"voeg bestand toe\"-locatie"
 
-#: src/wx/full_config_dialog.cc:312
+#: src/wx/full_config_dialog.cc:314
 msgid "Default DCP audio channels"
 msgstr "Standaard DCP audio-kanalen"
 
-#: src/wx/full_config_dialog.cc:317
+#: src/wx/full_config_dialog.cc:319
 msgid "Default JPEG2000 bandwidth"
 msgstr "Standaard JPEG2000-bandbreedte"
 
-#: src/wx/full_config_dialog.cc:360
+#: src/wx/full_config_dialog.cc:362
 msgid "Default KDM directory"
 msgstr "Standaard KDM-map"
 
-#: src/wx/full_config_dialog.cc:372
+#: src/wx/full_config_dialog.cc:374
 msgid "Default KDM duration"
 msgstr "Standaard KDM-duur"
 
-#: src/wx/full_config_dialog.cc:368
+#: src/wx/full_config_dialog.cc:370
 msgid "Default KDM type"
 msgstr "Standaard KDM-type"
 
-#: src/wx/full_config_dialog.cc:326
+#: src/wx/full_config_dialog.cc:328
 msgid "Default audio delay"
 msgstr "Standaard audio-vertraging"
 
-#: src/wx/full_config_dialog.cc:338
+#: src/wx/full_config_dialog.cc:340
 msgid "Default audio language"
 msgstr "Standaard audio-taal"
 
-#: src/wx/full_config_dialog.cc:340
+#: src/wx/full_config_dialog.cc:342
 msgid "Default audio language to use for new DCPs"
 msgstr "Standaard audio-taal voor nieuwe DCP's"
 
-#: src/wx/full_config_dialog.cc:354
+#: src/wx/full_config_dialog.cc:356
 msgid "Default chain"
 msgstr "Standaard keten"
 
-#: src/wx/full_config_dialog.cc:308
+#: src/wx/full_config_dialog.cc:310
 msgid "Default content type"
 msgstr "Standaard content-type"
 
-#: src/wx/full_config_dialog.cc:300
+#: src/wx/full_config_dialog.cc:302
 msgid "Default directory for new films"
 msgstr "Standaard map voor nieuwe films"
 
-#: src/wx/full_config_dialog.cc:357
+#: src/wx/full_config_dialog.cc:359
 msgid "Default distributor"
 msgstr "Standaard distributeur"
 
-#: src/wx/full_config_dialog.cc:292
+#: src/wx/full_config_dialog.cc:294
 msgid "Default duration of still images"
 msgstr "Standaard duur van stilstaand beeld"
 
-#: src/wx/full_config_dialog.cc:348
+#: src/wx/full_config_dialog.cc:350
 msgid "Default facility"
 msgstr "Standaard lab"
 
-#: src/wx/full_config_dialog.cc:334
+#: src/wx/full_config_dialog.cc:336
 msgid "Default standard"
 msgstr "Standaard standaard"
 
-#: src/wx/full_config_dialog.cc:351
+#: src/wx/full_config_dialog.cc:353
 msgid "Default studio"
 msgstr "Standaard studio"
 
-#: src/wx/full_config_dialog.cc:343
+#: src/wx/full_config_dialog.cc:345
 msgid "Default territory"
 msgstr "Standaard gebied"
 
-#: src/wx/full_config_dialog.cc:345
+#: src/wx/full_config_dialog.cc:347
 msgid "Default territory to use for new DCPs"
 msgstr "Standaard gebied voor nieuwe DCP's"
 
-#: src/wx/full_config_dialog.cc:274
+#: src/wx/full_config_dialog.cc:276
 msgid "Defaults"
 msgstr "Standaard-instellingen"
 
@@ -1202,7 +1207,7 @@ msgstr "Direct Sound"
 msgid "Distributor"
 msgstr "Distributeur"
 
-#: src/wx/dolby_doremi_certificate_panel.cc:290
+#: src/wx/dolby_doremi_certificate_panel.cc:300
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
@@ -1278,7 +1283,7 @@ msgstr "Wijzig scherm"
 #: src/wx/audio_mapping_view.cc:89 src/wx/content_advanced_dialog.cc:75
 #: src/wx/dcp_panel.cc:102 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
-#: src/wx/video_panel.cc:185 src/wx/video_panel.cc:196
+#: src/wx/video_panel.cc:191 src/wx/video_panel.cc:202
 #: src/wx/editable_list.h:145
 msgid "Edit..."
 msgstr "Wijzig..."
@@ -1291,7 +1296,7 @@ msgstr "Effect"
 msgid "Effect colour"
 msgstr "Effect-kleur"
 
-#: src/wx/full_config_dialog.cc:855 src/wx/full_config_dialog.cc:1173
+#: src/wx/full_config_dialog.cc:857 src/wx/full_config_dialog.cc:1175
 msgid "Email"
 msgstr "E-mail"
 
@@ -1320,7 +1325,7 @@ msgstr "Einde"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Vul uw e-mailadres in voor het contact, niet %s"
 
-#: src/wx/full_config_dialog.cc:1746 src/wx/player_config_dialog.cc:273
+#: src/wx/full_config_dialog.cc:1748 src/wx/player_config_dialog.cc:275
 #: src/wx/verify_dcp_dialog.cc:51
 msgid "Errors"
 msgstr "Fouten"
@@ -1357,7 +1362,7 @@ msgstr "Exporteer..."
 msgid "Extra addresses for KDM delivery"
 msgstr "Extra e-mailadressen voor KDM-levering"
 
-#: src/wx/full_config_dialog.cc:774
+#: src/wx/full_config_dialog.cc:776
 msgid "FTP (for Dolby)"
 msgstr "FTP (voor Dolby)"
 
@@ -1365,7 +1370,7 @@ msgstr "FTP (voor Dolby)"
 msgid "Facility"
 msgstr "Lab"
 
-#: src/wx/audio_panel.cc:111 src/wx/video_panel.cc:169
+#: src/wx/audio_panel.cc:111 src/wx/video_panel.cc:175
 msgid "Fade in"
 msgstr "Fade in"
 
@@ -1373,7 +1378,7 @@ msgstr "Fade in"
 msgid "Fade in time"
 msgstr "Fade in tijd"
 
-#: src/wx/audio_panel.cc:114 src/wx/video_panel.cc:172
+#: src/wx/audio_panel.cc:114 src/wx/video_panel.cc:178
 msgid "Fade out"
 msgstr "Fade out"
 
@@ -1385,7 +1390,7 @@ msgstr "Fade out tijd"
 msgid "File"
 msgstr "Bestand"
 
-#: src/wx/dkdm_dialog.cc:150 src/wx/kdm_dialog.cc:154
+#: src/wx/dkdm_dialog.cc:150 src/wx/kdm_dialog.cc:170
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
@@ -1394,7 +1399,7 @@ msgstr "Bestand %s bestaat al.  Wilt u het overschrijven?"
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/wx/dkdm_output_panel.cc:63 src/wx/kdm_output_panel.cc:86
+#: src/wx/dkdm_output_panel.cc:63 src/wx/kdm_output_panel.cc:90
 msgid "Filename format"
 msgstr "Bestandsnaam-formaat"
 
@@ -1441,7 +1446,7 @@ msgstr "First frame of moving credits"
 msgid "First frame of title credits"
 msgstr "First frame of title credits"
 
-#: src/wx/kdm_output_panel.cc:82
+#: src/wx/kdm_output_panel.cc:86
 msgid "Folder / ZIP name format"
 msgstr "Map- / ZIP-naam-formaat"
 
@@ -1469,7 +1474,16 @@ msgstr "Markeer video forensisch"
 msgid "Format"
 msgstr "Formaat"
 
-#: src/wx/verify_dcp_dialog.cc:423
+#: src/wx/verify_dcp_dialog.cc:188
+#, c-format
+msgid ""
+"Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
+"that is close to the limit of 250Mbit/s."
+msgstr ""
+"Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
+"die dicht bij de limiet van 250 Mbit/s zit."
+
+#: src/wx/verify_dcp_dialog.cc:435
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1486,7 +1500,7 @@ msgstr "Frame Rate"
 msgid "Frame rate"
 msgstr "Frame rate"
 
-#: src/wx/player_information.cc:166
+#: src/wx/player_information.cc:172
 #, c-format
 msgid "Frame rate: %d"
 msgstr "Frame rate: %d"
@@ -1499,7 +1513,7 @@ msgstr "Gratis, vrije en opensource DCP-creatie van bijna alles."
 msgid "From"
 msgstr "Van"
 
-#: src/wx/full_config_dialog.cc:1048 src/wx/full_config_dialog.cc:1181
+#: src/wx/full_config_dialog.cc:1050 src/wx/full_config_dialog.cc:1183
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
 msgstr "From-adres"
@@ -1508,7 +1522,7 @@ msgstr "From-adres"
 msgid "From template"
 msgstr "Uit template"
 
-#: src/wx/video_panel.cc:200
+#: src/wx/video_panel.cc:206
 msgid "Full (JPEG, 0-255)"
 msgstr "Full (JPEG, 0-255)"
 
@@ -1538,7 +1552,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Versterking voor content-kanaal %d in DCP-kanaal %d"
 
 #: src/wx/config_dialog.cc:114 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1742 src/wx/player_config_dialog.cc:269
+#: src/wx/full_config_dialog.cc:1744 src/wx/player_config_dialog.cc:271
 msgid "General"
 msgstr "Algemeen"
 
@@ -1605,19 +1619,19 @@ msgstr "Ik wil dit afspelen met deze volume-instelling"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:757
+#: src/wx/full_config_dialog.cc:759
 msgid "IP address"
 msgstr "IP-adres"
 
-#: src/wx/full_config_dialog.cc:683
+#: src/wx/full_config_dialog.cc:685
 msgid "IP address / host name"
 msgstr "Hostnaam / IP-adres"
 
-#: src/wx/full_config_dialog.cc:1551
+#: src/wx/full_config_dialog.cc:1553
 msgid "ISDCF name part length"
 msgstr "ISDCF-naam onderdeel lengte"
 
-#: src/wx/full_config_dialog.cc:1387
+#: src/wx/full_config_dialog.cc:1389
 msgid "Identifiers"
 msgstr "Identifiers"
 
@@ -1755,7 +1769,7 @@ msgstr "Internationaal met tekst"
 msgid "International textless"
 msgstr "Internationaal tekstloos"
 
-#: src/wx/dcp_panel.cc:173 src/wx/full_config_dialog.cc:414
+#: src/wx/dcp_panel.cc:173 src/wx/full_config_dialog.cc:416
 msgid "Interop"
 msgstr "Interop"
 
@@ -1771,7 +1785,7 @@ msgstr "Ongeldige certificaten"
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Inverse 2.6 output-gammacorrectie"
 
-#: src/wx/full_config_dialog.cc:1403
+#: src/wx/full_config_dialog.cc:1405
 msgid "Issuer"
 msgstr "Issuer"
 
@@ -1783,7 +1797,7 @@ msgstr "Issuer common name"
 msgid "Issuer organization name"
 msgstr "Issuer organization name"
 
-#: src/wx/audio_panel.cc:327
+#: src/wx/audio_panel.cc:328
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1804,7 +1818,7 @@ msgstr ""
 "JPEG2000-bandbreedte\n"
 "voor nieuw-geëncodeerde data"
 
-#: src/wx/full_config_dialog.cc:1428
+#: src/wx/full_config_dialog.cc:1430
 msgid "JPEG2000 comment"
 msgstr "JPEG2000 commentaar"
 
@@ -1820,7 +1834,7 @@ msgstr "Ga naar geselecteerde content"
 msgid "KDM"
 msgstr "KDM"
 
-#: src/wx/full_config_dialog.cc:1027
+#: src/wx/full_config_dialog.cc:1029
 msgid "KDM Email"
 msgstr "KDM e-mail"
 
@@ -1833,7 +1847,7 @@ msgid "KDM type"
 msgstr "KDM-type"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/dkdm_dialog.cc:85 src/wx/kdm_dialog.cc:89
+#: src/wx/dkdm_dialog.cc:85 src/wx/kdm_dialog.cc:90
 msgid "KDM|Timing"
 msgstr "Tijdvenster"
 
@@ -1850,8 +1864,7 @@ msgstr "Sleutels"
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2fdB"
 
-#: src/wx/dcp_text_track_dialog.cc:35 src/wx/send_i18n_dialog.cc:51
-#: src/wx/text_panel.cc:175
+#: src/wx/dcp_text_track_dialog.cc:35 src/wx/text_panel.cc:175
 msgid "Language"
 msgstr "Taal"
 
@@ -1908,7 +1921,7 @@ msgid "Leaf private key does not match leaf certificate!"
 msgstr "Leaf privé-sleutel komt niet overeen met leaf-certificaat!"
 
 #: src/wx/auto_crop_dialog.cc:31 src/wx/controls.cc:88
-#: src/wx/video_panel.cc:119
+#: src/wx/video_panel.cc:123
 msgid "Left"
 msgstr "Links"
 
@@ -1916,7 +1929,7 @@ msgstr "Links"
 msgid "Length"
 msgstr "Lengte"
 
-#: src/wx/player_information.cc:182
+#: src/wx/player_information.cc:188
 msgid "Length: %1 (%2 frames)"
 msgstr "Lengte: %1 (%2 frames)"
 
@@ -1932,7 +1945,7 @@ msgstr "Laad certificaat..."
 msgid "Locations"
 msgstr "Locaties"
 
-#: src/wx/full_config_dialog.cc:1740 src/wx/player_config_dialog.cc:267
+#: src/wx/full_config_dialog.cc:1742 src/wx/player_config_dialog.cc:269
 msgid "Log"
 msgstr "Log"
 
@@ -1949,7 +1962,7 @@ msgstr "Lagere prioriteit"
 msgid "Luminance"
 msgstr "Luminantie"
 
-#: src/wx/content_panel.cc:885
+#: src/wx/content_panel.cc:886
 msgid "MISSING: "
 msgstr "ONTBREKEND: "
 
@@ -1991,7 +2004,7 @@ msgstr "Maak DKDM voor DCP-o-matic"
 msgid "Make DKDMs"
 msgstr "Maak DKDM's"
 
-#: src/wx/kdm_dialog.cc:65 src/wx/kdm_dialog.cc:117
+#: src/wx/kdm_dialog.cc:66 src/wx/kdm_dialog.cc:118
 msgid "Make KDMs"
 msgstr "Maak KDM's"
 
@@ -1999,7 +2012,7 @@ msgstr "Maak KDM's"
 msgid "Make certificate chain"
 msgstr "Maak certificaat-keten"
 
-#: src/wx/video_panel.cc:423
+#: src/wx/video_panel.cc:429
 msgid "Many"
 msgstr "Vele"
 
@@ -2027,20 +2040,20 @@ msgstr "Markers..."
 msgid "Matrix"
 msgstr "Matrix"
 
-#: src/wx/full_config_dialog.cc:1520
+#: src/wx/full_config_dialog.cc:1522
 msgid "Maximum JPEG2000 bandwidth"
 msgstr "Maximum JPEG2000-bandbreedte"
 
-#: src/wx/full_config_dialog.cc:1688
+#: src/wx/full_config_dialog.cc:1690
 msgid "Maximum number of frames to store per thread"
 msgstr "Maximum aantal frames dat per thread kan worden opgeslagen"
 
-#: src/wx/dcp_panel.cc:836 src/wx/full_config_dialog.cc:321
-#: src/wx/full_config_dialog.cc:1524
+#: src/wx/dcp_panel.cc:836 src/wx/full_config_dialog.cc:323
+#: src/wx/full_config_dialog.cc:1526
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/full_config_dialog.cc:1169
+#: src/wx/full_config_dialog.cc:1171
 msgid "Message box"
 msgstr "Berichtvenster"
 
@@ -2081,7 +2094,7 @@ msgstr "Verplaats het geselecteerde stuk content naar later in de film."
 msgid "Move to start of reel"
 msgstr "Verplaats naar begin van reel"
 
-#: src/wx/video_panel.cc:502
+#: src/wx/video_panel.cc:508
 msgid "Multiple content selected"
 msgstr "Meedere content geselecteerd"
 
@@ -2097,11 +2110,11 @@ msgstr "Mijn Documenten"
 msgid "My problem is"
 msgstr "Mijn probleem is"
 
-#: src/wx/content_panel.cc:889
+#: src/wx/content_panel.cc:890
 msgid "NEEDS KDM: "
 msgstr "HEEFT KDM NODIG: "
 
-#: src/wx/content_panel.cc:893
+#: src/wx/content_panel.cc:894
 msgid "NEEDS OV: "
 msgstr "HEEFT OV NODIG: "
 
@@ -2127,7 +2140,7 @@ msgstr "Nieuwe naam"
 msgid "New versions of DCP-o-matic are available."
 msgstr "Er zijn nieuwe versies van DCP-o-matic beschikbaar."
 
-#: src/wx/verify_dcp_dialog.cc:164
+#: src/wx/verify_dcp_dialog.cc:176
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "Er is geen ASSETMAP of ASSETMAP.xml bestand gevonden."
 
@@ -2135,7 +2148,7 @@ msgstr "Er is geen ASSETMAP of ASSETMAP.xml bestand gevonden."
 msgid "No DCP loaded."
 msgstr "Geen DCP geladen."
 
-#: src/wx/verify_dcp_dialog.cc:476
+#: src/wx/verify_dcp_dialog.cc:494
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "Geen SMPTE Bv2.1-fouten gevonden."
 
@@ -2145,29 +2158,30 @@ msgid "No audio will be passed from %s channel '%s' to %s channel '%s'."
 msgstr ""
 "Er wordt geen audio van %s kanaal '%s' doorgestuurd naar %s kanaal '%s'."
 
-#: src/wx/content_panel.cc:637
+#: src/wx/content_panel.cc:638
 msgid "No content found in this folder."
 msgstr "Geen content gevonden in deze map."
 
-#: src/wx/verify_dcp_dialog.cc:472
+#: src/wx/verify_dcp_dialog.cc:490
 msgid "No errors found."
 msgstr "Geen fouten gevonden."
 
-#: src/wx/verify_dcp_dialog.cc:480
+#: src/wx/verify_dcp_dialog.cc:498
 msgid "No warnings found."
 msgstr "Geen waarschuwingen gevonden."
 
-#: src/wx/full_config_dialog.cc:1502
+#: src/wx/full_config_dialog.cc:1504
 msgid "Non-standard"
 msgstr "Niet-standaard"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:158
 #: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1057
-#: src/wx/subtitle_appearance_dialog.cc:151 src/wx/video_panel.cc:189
+#: src/wx/file_picker_ctrl.cc:80 src/wx/subtitle_appearance_dialog.cc:151
+#: src/wx/video_panel.cc:195
 msgid "None"
 msgstr "Geen"
 
-#: src/wx/verify_dcp_dialog.cc:215
+#: src/wx/verify_dcp_dialog.cc:227
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr "Niet alle subtitle assets specificeren dezelfde <Language> tag."
 
@@ -2184,7 +2198,7 @@ msgstr "Niet geldig voor"
 msgid "Notes"
 msgstr "Aantekeningen"
 
-#: src/wx/full_config_dialog.cc:1152
+#: src/wx/full_config_dialog.cc:1154
 msgid "Notifications"
 msgstr "Notificaties"
 
@@ -2212,11 +2226,11 @@ msgstr "Uit"
 msgid "Offset"
 msgstr "Verschuiving"
 
-#: src/wx/full_config_dialog.cc:1683
+#: src/wx/full_config_dialog.cc:1685
 msgid "Only servers encode"
 msgstr "Alleen servers encoderen"
 
-#: src/wx/full_config_dialog.cc:1767 src/wx/player_config_dialog.cc:284
+#: src/wx/full_config_dialog.cc:1769 src/wx/player_config_dialog.cc:286
 msgid "Open console window"
 msgstr "Open console-venster"
 
@@ -2224,7 +2238,7 @@ msgstr "Open console-venster"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "Open de tijdlijn voor de film (Ctrl+T)."
 
-#: src/wx/full_config_dialog.cc:1774 src/wx/player_config_dialog.cc:113
+#: src/wx/full_config_dialog.cc:1776 src/wx/player_config_dialog.cc:113
 msgid "OpenGL (faster)"
 msgstr "OpenGL (sneller)"
 
@@ -2246,12 +2260,11 @@ msgstr "Organisation"
 msgid "Organisational unit"
 msgstr "Organisational unit"
 
-#: src/wx/recipient_dialog.cc:118 src/wx/screen_dialog.cc:201
-#: src/wx/screen_dialog.cc:203
+#: src/wx/screen_dialog.cc:201 src/wx/screen_dialog.cc:203
 msgid "Other trusted devices"
 msgstr "Andere trusted devices"
 
-#: src/wx/full_config_dialog.cc:872
+#: src/wx/full_config_dialog.cc:874
 msgid "Outgoing mail server"
 msgstr "Uitgaande mailserver"
 
@@ -2273,7 +2286,7 @@ msgstr ""
 "Omlijnings-breedte kan alleen bij ingebrande ondertitels ingesteld worden."
 
 #: src/wx/config_dialog.cc:870 src/wx/dkdm_dialog.cc:107
-#: src/wx/kdm_dialog.cc:111 src/wx/self_dkdm_dialog.cc:76
+#: src/wx/kdm_dialog.cc:112 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "Output"
 
@@ -2297,13 +2310,13 @@ msgstr "Overschrijf gedetecteerde video frame rate"
 msgid "Overwrite this file with current configuration"
 msgstr "Overschrijf dit bestand met huidige configuratie"
 
-#: src/wx/verify_dcp_dialog.cc:378
+#: src/wx/verify_dcp_dialog.cc:390
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
 "Een deel van de DCP kon niet worden gecontroleerd omdat er geen KDM "
 "beschikbaar was."
 
-#: src/wx/verify_dcp_dialog.cc:154
+#: src/wx/verify_dcp_dialog.cc:166
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
@@ -2311,12 +2324,12 @@ msgstr ""
 "Onderdelen van de DCP zijn geschreven volgens de Interop-standaard en "
 "onderdelen volgens SMPTE."
 
-#: src/wx/full_config_dialog.cc:753
+#: src/wx/full_config_dialog.cc:755
 msgid "Passive mode"
 msgstr "Passive mode"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/full_config_dialog.cc:769 src/wx/full_config_dialog.cc:896
+#: src/wx/full_config_dialog.cc:771 src/wx/full_config_dialog.cc:898
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -2336,7 +2349,7 @@ msgstr "Plak ondertitel- en caption-instellingen"
 msgid "Paste video settings"
 msgstr "Plak video-instellingen"
 
-#: src/wx/about_dialog.cc:161
+#: src/wx/about_dialog.cc:162
 msgid "Patrons"
 msgstr "Patronen"
 
@@ -2349,12 +2362,12 @@ msgstr "Pauzeer"
 msgid "Peak"
 msgstr "Piek"
 
-#: src/wx/audio_panel.cc:472
+#: src/wx/audio_panel.cc:473
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Piek: %.2fdB"
 
-#: src/wx/audio_panel.cc:474
+#: src/wx/audio_panel.cc:475
 msgid "Peak: unknown"
 msgstr "Piek: onbekend"
 
@@ -2362,7 +2375,7 @@ msgstr "Piek: onbekend"
 msgid "Performance"
 msgstr "Prestaties"
 
-#: src/wx/full_config_dialog.cc:885
+#: src/wx/full_config_dialog.cc:887
 msgid "Plain"
 msgstr "Plain"
 
@@ -2406,11 +2419,11 @@ msgstr "Pre-release"
 msgid "Processor"
 msgstr "Processor"
 
-#: src/wx/full_config_dialog.cc:1418
+#: src/wx/full_config_dialog.cc:1420
 msgid "Product name"
 msgstr "Productnaam"
 
-#: src/wx/full_config_dialog.cc:1423
+#: src/wx/full_config_dialog.cc:1425
 msgid "Product version"
 msgstr "Productversie"
 
@@ -2418,7 +2431,7 @@ msgstr "Productversie"
 msgid "Properties..."
 msgstr "Eigenschappen..."
 
-#: src/wx/full_config_dialog.cc:749
+#: src/wx/full_config_dialog.cc:751
 msgid "Protocol"
 msgstr "Protocol"
 
@@ -2442,7 +2455,7 @@ msgstr "RGB naar XYZ conversie"
 msgid "RMS"
 msgstr "Effectieve waarde (RMS)"
 
-#: src/wx/video_panel.cc:198
+#: src/wx/video_panel.cc:204
 msgid "Range"
 msgstr "Bereik"
 
@@ -2588,11 +2601,11 @@ msgstr "Meld een probleem"
 msgid "Reset to default"
 msgstr "Stel standaard waarden opnieuw in"
 
-#: src/wx/full_config_dialog.cc:1075 src/wx/full_config_dialog.cc:1212
+#: src/wx/full_config_dialog.cc:1077 src/wx/full_config_dialog.cc:1214
 msgid "Reset to default subject and text"
 msgstr "Stel standaard onderwerp en tekst opnieuw in"
 
-#: src/wx/full_config_dialog.cc:1344
+#: src/wx/full_config_dialog.cc:1346
 msgid "Reset to default text"
 msgstr "Stel standaard tekst opnieuw in"
 
@@ -2613,7 +2626,7 @@ msgid "Resume"
 msgstr "Hervat"
 
 #: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:89
-#: src/wx/video_panel.cc:133
+#: src/wx/video_panel.cc:139
 msgid "Right"
 msgstr "Rechts"
 
@@ -2633,11 +2646,11 @@ msgstr "Root common name"
 msgid "S-Gamut3"
 msgstr "S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:773
+#: src/wx/full_config_dialog.cc:775
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (voor AAM and Doremi)"
 
-#: src/wx/dcp_panel.cc:169 src/wx/full_config_dialog.cc:413
+#: src/wx/dcp_panel.cc:169 src/wx/full_config_dialog.cc:415
 msgid "SMPTE"
 msgstr "SMPTE"
 
@@ -2649,11 +2662,11 @@ msgstr "SMPTE (alleen Bv2.0)"
 msgid "SMPTE Bv2.1 errors"
 msgstr "SMPTE Bv2.1-fouten"
 
-#: src/wx/full_config_dialog.cc:887
+#: src/wx/full_config_dialog.cc:889
 msgid "SSL"
 msgstr "SSL"
 
-#: src/wx/full_config_dialog.cc:886
+#: src/wx/full_config_dialog.cc:888
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
@@ -2682,7 +2695,7 @@ msgstr "Bewaar template"
 msgid "Save to KDM Creator tool's list"
 msgstr "Bewaar in lijst van KDM Creator tool"
 
-#: src/wx/text_panel.cc:110 src/wx/video_panel.cc:182
+#: src/wx/text_panel.cc:110 src/wx/video_panel.cc:188
 msgid "Scale"
 msgstr "Schaling"
 
@@ -2690,11 +2703,11 @@ msgstr "Schaling"
 msgid "Screen"
 msgstr "Scherm"
 
-#: src/wx/kdm_dialog.cc:81
+#: src/wx/kdm_dialog.cc:82
 msgid "Screens"
 msgstr "Schermen"
 
-#: src/wx/full_config_dialog.cc:679
+#: src/wx/full_config_dialog.cc:681
 msgid "Search network for servers"
 msgstr "Zoek op netwerk naar servers"
 
@@ -2707,7 +2720,7 @@ msgid "Select CPL XML file"
 msgstr "Selecteer CPL XML-bestand"
 
 #: src/wx/config_dialog.cc:373 src/wx/config_dialog.cc:456
-#: src/wx/config_dialog.cc:824 src/wx/recipient_dialog.cc:190
+#: src/wx/config_dialog.cc:824 src/wx/recipient_dialog.cc:187
 #: src/wx/screen_dialog.cc:298
 msgid "Select Certificate File"
 msgstr "Selecteer certificaat-bestand"
@@ -2760,7 +2773,7 @@ msgstr "Selecteer debug-logbestand"
 msgid "Select output file"
 msgstr "Selecteer output-bestand"
 
-#: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:138
+#: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:142
 msgid "Send by email"
 msgstr "Verzend via e-mail"
 
@@ -2776,13 +2789,9 @@ msgstr "Verzend logs"
 msgid "Send test email"
 msgstr "Verzend test e-mail"
 
-#: src/wx/full_config_dialog.cc:901
+#: src/wx/full_config_dialog.cc:903
 msgid "Send test email..."
 msgstr "Verzend test e-mail..."
-
-#: src/wx/send_i18n_dialog.cc:36
-msgid "Send translations"
-msgstr "Verzend vertalingen"
 
 #: src/wx/timeline_dialog.cc:80
 msgid "Sequence"
@@ -2796,7 +2805,7 @@ msgstr "Serienummer"
 msgid "Server"
 msgstr "Server"
 
-#: src/wx/full_config_dialog.cc:666
+#: src/wx/full_config_dialog.cc:668
 msgid "Servers"
 msgstr "Servers"
 
@@ -2804,7 +2813,7 @@ msgstr "Servers"
 msgid "Set"
 msgstr "Stel in"
 
-#: src/wx/kdm_output_panel.cc:140
+#: src/wx/kdm_output_panel.cc:144
 msgid "Set additional email addresses..."
 msgstr "Stel extra e-mailadressen in..."
 
@@ -2856,7 +2865,7 @@ msgstr "Schaduw"
 msgid "Show"
 msgstr "Toon"
 
-#: src/wx/full_config_dialog.cc:1679
+#: src/wx/full_config_dialog.cc:1681
 msgid "Show experimental audio processors"
 msgstr "Toon experimentele audioprocessors"
 
@@ -2885,7 +2894,7 @@ msgstr "Gebarentaal videotaal"
 msgid "Signing DCPs and KDMs"
 msgstr "Ondertekenen van DCP's en KDM's"
 
-#: src/wx/full_config_dialog.cc:1772 src/wx/player_config_dialog.cc:112
+#: src/wx/full_config_dialog.cc:1774 src/wx/player_config_dialog.cc:112
 msgid "Simple (safer)"
 msgstr "Eenvoudig (veiliger)"
 
@@ -2901,10 +2910,14 @@ msgstr "Eenvoudige gamma, gelineariseerd voor kleine waarden"
 msgid "Single reel"
 msgstr "Single reel"
 
-#: src/wx/player_information.cc:164
+#: src/wx/player_information.cc:167
 #, c-format
 msgid "Size: %dx%d"
 msgstr "Grootte: %dx%d"
+
+#: src/wx/player_information.cc:169
+msgid "Size: unknown"
+msgstr "Grootte: onbekend"
 
 #: src/wx/audio_dialog.cc:141
 msgid "Smoothing"
@@ -2922,7 +2935,7 @@ msgstr ""
 "Sommige KDM's zouden geldigheidsduren hebben die buiten de certificaatduren "
 "van de ontvanger vallen.  Wat wilt u doen?"
 
-#: src/wx/verify_dcp_dialog.cc:384
+#: src/wx/verify_dcp_dialog.cc:396
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
@@ -2930,7 +2943,7 @@ msgstr ""
 "Sommige closed <Text> of <Image> nodes hebben verschillende verticale "
 "uitlijningen binnen een <Subtitle>."
 
-#: src/wx/verify_dcp_dialog.cc:387
+#: src/wx/verify_dcp_dialog.cc:399
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
@@ -2940,7 +2953,7 @@ msgstr ""
 msgid "Sound"
 msgstr "Audio"
 
-#: src/wx/verify_dcp_dialog.cc:414
+#: src/wx/verify_dcp_dialog.cc:426
 msgid "Sound assets do not all have the same channel count."
 msgstr "Sound assets hebben niet allemaal hetzelfde aantal kanalen."
 
@@ -2993,7 +3006,7 @@ msgstr "Stream"
 msgid "Studio"
 msgstr "Studio"
 
-#: src/wx/full_config_dialog.cc:1044 src/wx/full_config_dialog.cc:1177
+#: src/wx/full_config_dialog.cc:1046 src/wx/full_config_dialog.cc:1179
 msgid "Subject"
 msgstr "Onderwerp"
 
@@ -3005,7 +3018,7 @@ msgstr "Subject common name"
 msgid "Subject organization name"
 msgstr "Subject organization name"
 
-#: src/wx/about_dialog.cc:165
+#: src/wx/about_dialog.cc:166
 msgid "Subscribers"
 msgstr "Abonnees"
 
@@ -3013,7 +3026,7 @@ msgstr "Abonnees"
 msgid "Subtitle appearance"
 msgstr "Ondertitel-uiterlijk"
 
-#: src/wx/verify_dcp_dialog.cc:269
+#: src/wx/verify_dcp_dialog.cc:281
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "Subtitle asset %n heeft een <EntryPoint> dat niet nul is."
@@ -3030,11 +3043,11 @@ msgstr "Ondertitelbestanden (.xml)|*.xml"
 msgid "Subtitles/captions"
 msgstr "Ondertitels/captions"
 
-#: src/wx/player_information.cc:174
+#: src/wx/player_information.cc:180
 msgid "Subtitles: no"
 msgstr "Ondertitels: nee"
 
-#: src/wx/player_information.cc:172
+#: src/wx/player_information.cc:178
 msgid "Subtitles: yes"
 msgstr "Ondertitels: ja"
 
@@ -3043,11 +3056,11 @@ msgstr "Ondertitels: ja"
 msgid "System information"
 msgstr "Systeeminformatie"
 
-#: src/wx/full_config_dialog.cc:729
+#: src/wx/full_config_dialog.cc:731
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:761
+#: src/wx/full_config_dialog.cc:763
 msgid "Target path"
 msgstr "Doelpad"
 
@@ -3079,11 +3092,11 @@ msgstr "Tijdelijke versie"
 msgid "Territory type"
 msgstr "Gebied type"
 
-#: src/wx/full_config_dialog.cc:994 src/wx/full_config_dialog.cc:997
+#: src/wx/full_config_dialog.cc:996 src/wx/full_config_dialog.cc:999
 msgid "Test email sending failed."
 msgstr "Verzenden test e-mail mislukt."
 
-#: src/wx/full_config_dialog.cc:1000
+#: src/wx/full_config_dialog.cc:1002
 msgid "Test email sent."
 msgstr "Test e-mail verzonden."
 
@@ -3091,7 +3104,7 @@ msgstr "Test e-mail verzonden."
 msgid "Test version "
 msgstr "Test-versie "
 
-#: src/wx/about_dialog.cc:235
+#: src/wx/about_dialog.cc:237
 msgid "Tested by"
 msgstr "Getest door"
 
@@ -3099,12 +3112,12 @@ msgstr "Getest door"
 msgid "The 'until' time must be after the 'from' time."
 msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 
-#: src/wx/verify_dcp_dialog.cc:438
+#: src/wx/verify_dcp_dialog.cc:450
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %id is empty"
 msgstr "De <LabelText> in een <ContentVersion> in CPL %id is leeg"
 
-#: src/wx/verify_dcp_dialog.cc:399
+#: src/wx/verify_dcp_dialog.cc:411
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
@@ -3146,12 +3159,12 @@ msgstr ""
 "\n"
 "in het onderstaande vak en klik vervolgens op OK."
 
-#: src/wx/verify_dcp_dialog.cc:405
+#: src/wx/verify_dcp_dialog.cc:417
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr "De ASSETMAP %n heeft meer dan één asset met dezelfde ID."
 
-#: src/wx/verify_dcp_dialog.cc:368
+#: src/wx/verify_dcp_dialog.cc:380
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -3159,12 +3172,17 @@ msgstr ""
 "De Asset ID in een timed text MXF is hetzelfde als de Resource ID of die van "
 "de ingesloten XML."
 
-#: src/wx/verify_dcp_dialog.cc:308
+#: src/wx/verify_dcp_dialog.cc:320
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr "De CPL %f heeft een ongeldige CPL extension metadata tag (%n)"
 
-#: src/wx/verify_dcp_dialog.cc:254
+#: src/wx/verify_dcp_dialog.cc:453
+#, c-format
+msgid "The CPL %f has an invalid namespace %n"
+msgstr "De CPL %f heeft een ongeldige namespace %n"
+
+#: src/wx/verify_dcp_dialog.cc:266
 #, c-format
 msgid ""
 "The CPL %n has an <AnnotationText> which is not the same as its "
@@ -3173,44 +3191,49 @@ msgstr ""
 "De CPL %n heeft een <AnnotationText> die niet hetzelfde is als zijn "
 "<ContentTitleText>."
 
-#: src/wx/verify_dcp_dialog.cc:311
+#: src/wx/verify_dcp_dialog.cc:323
 #, c-format
 msgid "The CPL %n has encrypted content but is not signed."
 msgstr "De CPL %n heeft versleutelde content maar is niet ondertekend."
 
-#: src/wx/verify_dcp_dialog.cc:251
+#: src/wx/verify_dcp_dialog.cc:263
 #, c-format
 msgid "The CPL %n has no <AnnotationText> tag."
 msgstr "De CPL %n heeft geen <AnnotationText> tag."
 
-#: src/wx/verify_dcp_dialog.cc:305
+#: src/wx/verify_dcp_dialog.cc:456
+#, c-format
+msgid "The CPL %n has no <ContentVersion> tag"
+msgstr "De CPL %n heeft geen <ContentVersion> tag"
+
+#: src/wx/verify_dcp_dialog.cc:317
 #, c-format
 msgid "The CPL %n has no CPL extension metadata tag."
 msgstr "De CPL %n heeft geen CPL extension metadata tag."
 
-#: src/wx/verify_dcp_dialog.cc:299
+#: src/wx/verify_dcp_dialog.cc:311
 #, c-format
 msgid "The CPL %n has no CPL metadata tag."
 msgstr "De CPL %n heeft geen CPL metadata tag."
 
-#: src/wx/verify_dcp_dialog.cc:302
+#: src/wx/verify_dcp_dialog.cc:314
 #, c-format
 msgid "The CPL %n has no CPL metadata version number tag."
 msgstr "De CPL %n heeft geen CPL metadata version number tag."
 
-#: src/wx/verify_dcp_dialog.cc:293
+#: src/wx/verify_dcp_dialog.cc:305
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr "De DCP heeft een FFOC (first frame of content) van %n in plaats van 1."
 
-#: src/wx/verify_dcp_dialog.cc:296
+#: src/wx/verify_dcp_dialog.cc:308
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr ""
 "De DCP heeft een LFOC (last frame of content) van %n in plaats van de reel "
 "duration min één."
 
-#: src/wx/verify_dcp_dialog.cc:263
+#: src/wx/verify_dcp_dialog.cc:275
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
@@ -3218,39 +3241,39 @@ msgstr ""
 "De DCP heeft closed captions, maar niet elke reel heeft hetzelfde aantal "
 "closed caption assets."
 
-#: src/wx/verify_dcp_dialog.cc:320
+#: src/wx/verify_dcp_dialog.cc:332
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
 "De DCP heeft versleutelde content, maar niet al zijn assets zijn versleuteld."
 
-#: src/wx/verify_dcp_dialog.cc:287
+#: src/wx/verify_dcp_dialog.cc:299
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "De DCP heeft geen FFOC (first frame of content) marker."
 
-#: src/wx/verify_dcp_dialog.cc:290
+#: src/wx/verify_dcp_dialog.cc:302
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "De DCP heeft geen LFOC (last frame of content) marker."
 
-#: src/wx/verify_dcp_dialog.cc:260
+#: src/wx/verify_dcp_dialog.cc:272
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
 "De DCP heeft ondertitels, maar ten minste één reel heeft geen subtitle asset."
 
-#: src/wx/verify_dcp_dialog.cc:281
+#: src/wx/verify_dcp_dialog.cc:293
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
 "De DCP is een feature maar heeft geen FFEC (first frame of end credits) "
 "marker."
 
-#: src/wx/verify_dcp_dialog.cc:284
+#: src/wx/verify_dcp_dialog.cc:296
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
 "De DCP is een feature maar heeft geen FFMC (first frame of moving credits) "
 "marker."
 
-#: src/wx/dkdm_dialog.cc:173 src/wx/kdm_dialog.cc:206
+#: src/wx/dkdm_dialog.cc:173 src/wx/kdm_dialog.cc:222
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
@@ -3261,7 +3284,7 @@ msgstr ""
 "maak uw ondertekenings-certificaten opnieuw aan bij de DCP-o-matic "
 "Voorkeuren."
 
-#: src/wx/dkdm_dialog.cc:171 src/wx/kdm_dialog.cc:204
+#: src/wx/dkdm_dialog.cc:171 src/wx/kdm_dialog.cc:220
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
@@ -3269,7 +3292,7 @@ msgstr ""
 "De KDM-starttijd is voor (of nabij) het begin van de geldigheidsduur van het "
 "ondertekenings-certificaat.  Gebruik een latere starttijd voor deze KDM."
 
-#: src/wx/verify_dcp_dialog.cc:317
+#: src/wx/verify_dcp_dialog.cc:329
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
@@ -3278,27 +3301,27 @@ msgstr ""
 "De PKL %n heeft een <AnnotationText> die niet overeenkomt met de "
 "<ContentTitleText> van zijn CPL."
 
-#: src/wx/verify_dcp_dialog.cc:314
+#: src/wx/verify_dcp_dialog.cc:326
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr "De PKL %n heeft versleutelde content, maar is niet ondertekend."
 
-#: src/wx/verify_dcp_dialog.cc:402
+#: src/wx/verify_dcp_dialog.cc:414
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr "De PKL %n heeft meer dan één asset met dezelfde ID."
 
-#: src/wx/verify_dcp_dialog.cc:139
+#: src/wx/verify_dcp_dialog.cc:151
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr "De PKL-hash en CPL-hash van picture asset %f komen niet overeen."
 
-#: src/wx/verify_dcp_dialog.cc:145
+#: src/wx/verify_dcp_dialog.cc:157
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "De PKL-hash en CPL-hash van sound asset %f komen niet overeen."
 
-#: src/wx/verify_dcp_dialog.cc:365
+#: src/wx/verify_dcp_dialog.cc:377
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
@@ -3306,22 +3329,22 @@ msgstr ""
 "De Resource ID in een timed text MXF is niet hetzelfde als de ID van de "
 "ingesloten XML."
 
-#: src/wx/verify_dcp_dialog.cc:432
+#: src/wx/verify_dcp_dialog.cc:444
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
 "De SMPTE subtitle asset %id heeft <Text> nodes maar geen <LoadFont> node"
 
-#: src/wx/verify_dcp_dialog.cc:160
+#: src/wx/verify_dcp_dialog.cc:172
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr "De XML in %f is onjuist (%n)."
 
-#: src/wx/verify_dcp_dialog.cc:158
+#: src/wx/verify_dcp_dialog.cc:170
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr "De XML in %f is onjuist op regel %l (%n)."
 
-#: src/wx/verify_dcp_dialog.cc:203
+#: src/wx/verify_dcp_dialog.cc:215
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
@@ -3330,30 +3353,30 @@ msgstr ""
 "De XML in de closed caption asset %f neemt %n bytes in beslag, wat de limiet "
 "van 256 KB overschrijdt."
 
-#: src/wx/verify_dcp_dialog.cc:426
+#: src/wx/verify_dcp_dialog.cc:438
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr ""
 "De XML in de subtitle asset %n heeft meer dan één namespace declaratie."
 
-#: src/wx/verify_dcp_dialog.cc:182
+#: src/wx/verify_dcp_dialog.cc:194
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr "De asset %f is 3D, maar zijn MXF is gemarkeerd als 2D."
 
-#: src/wx/verify_dcp_dialog.cc:151
+#: src/wx/verify_dcp_dialog.cc:163
 #, c-format
 msgid "The asset %f is missing."
 msgstr "De asset %f ontbreekt."
 
-#: src/wx/verify_dcp_dialog.cc:170
+#: src/wx/verify_dcp_dialog.cc:182
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr ""
 "De asset %n heeft een duration van minder dan 1 seconde, wat ongeldig is."
 
-#: src/wx/verify_dcp_dialog.cc:167
+#: src/wx/verify_dcp_dialog.cc:179
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
@@ -3362,18 +3385,18 @@ msgstr ""
 "De asset %n heeft een intrinsic duration van minder dan 1 seconde, wat "
 "ongeldig is."
 
-#: src/wx/verify_dcp_dialog.cc:278
+#: src/wx/verify_dcp_dialog.cc:290
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr "De asset %n heeft geen <Hash> in de CPL."
 
-#: src/wx/verify_dcp_dialog.cc:435
+#: src/wx/verify_dcp_dialog.cc:447
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr ""
 "De asset met ID %id in de asset map heeft in werkelijkheid een ID %other_id"
 
-#: src/wx/verify_dcp_dialog.cc:272
+#: src/wx/verify_dcp_dialog.cc:284
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "De closed caption asset %n heeft geen <EntryPoint> tag."
@@ -3399,7 +3422,7 @@ msgstr ""
 "\n"
 "Moet DCP-o-matic hem nu proberen te ontkoppelen?"
 
-#: src/wx/wx_util.cc:744
+#: src/wx/wx_util.cc:748
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3416,14 +3439,14 @@ msgstr ""
 "Het bestand %s bestaat al.  Wilt u het als uw nieuwe configuratie gebruiken "
 "of wilt u het met uw huidige configuratie overschrijven?"
 
-#: src/wx/verify_dcp_dialog.cc:224
+#: src/wx/verify_dcp_dialog.cc:236
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
 "De eerste ondertitel of closed caption vindt plaats vóór 4 seconden in de "
 "eerste reel."
 
-#: src/wx/verify_dcp_dialog.cc:420
+#: src/wx/verify_dcp_dialog.cc:432
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
@@ -3432,7 +3455,7 @@ msgstr ""
 "Het font-bestand voor font ID \"%n\" is niet gevonden of er wordt niet aan "
 "gerefereerd in de ASSETMAP."
 
-#: src/wx/verify_dcp_dialog.cc:209
+#: src/wx/verify_dcp_dialog.cc:221
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
@@ -3441,34 +3464,37 @@ msgstr ""
 "De fonts in de timed text asset %f nemen %n bytes in beslag, wat de limiet "
 "van 10 MB overschrijdt."
 
-#: src/wx/verify_dcp_dialog.cc:130
-#, c-format
+#: src/wx/verify_dcp_dialog.cc:148
 msgid ""
-"The hash of the CPL %n in the PKL does not agree with the CPL file.  This "
-"probably means that the CPL file is corrupt."
+"The hash (%calculated_hash) of the picture asset %f does not agree with the "
+"PKL file (%reference_hash).  This probably means that the asset file is "
+"corrupt."
 msgstr ""
-"De hash van de CPL %n in de PKL komt niet overeen met die van het CPL-"
-"bestand.  Dit betekent waarschijnlijk dat het CPL-bestand beschadigd is."
+"De hash (%calculated_hash) van de picture asset %f komt niet overeen met die "
+"in het PKL-bestand (%reference_hash).  Dit betekent waarschijnlijk dat het "
+"asset-bestand beschadigd is."
 
-#: src/wx/verify_dcp_dialog.cc:136
-#, c-format
+#: src/wx/verify_dcp_dialog.cc:154
 msgid ""
-"The hash of the picture asset %f does not agree with the PKL file.  This "
-"probably means that the asset file is corrupt."
+"The hash (%calculated_hash) of the sound asset %f does not agree with the "
+"PKL file (%reference_hash).  This probably means that the asset file is "
+"corrupt."
 msgstr ""
-"De hash van de picture asset %f komt niet overeen met die in het PKL-"
-"bestand.  Dit betekent waarschijnlijk dat het asset-bestand beschadigd is."
+"De hash (%calculated_hash) van de sound asset %f komt niet overeen met die "
+"in het PKL-bestand (%reference_hash).  Dit betekent waarschijnlijk dat het "
+"asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_dialog.cc:142
-#, c-format
 msgid ""
-"The hash of the sound asset %f does not agree with the PKL file.  This "
-"probably means that the asset file is corrupt."
+"The hash (%reference_hash) of the CPL %n in the PKL does not agree with the "
+"CPL file (%calculated_hash).  This probably means that the CPL file is "
+"corrupt."
 msgstr ""
-"De hash van de sound asset %f komt niet overeen met die in het PKL-bestand.  "
-"Dit betekent waarschijnlijk dat het asset-bestand beschadigd is."
+"De hash (%reference_hash) van de CPL %n in de PKL komt niet overeen met die "
+"van het CPL-bestand (%calculated_hash).  Dit betekent waarschijnlijk dat het "
+"CPL-bestand beschadigd is."
 
-#: src/wx/verify_dcp_dialog.cc:188
+#: src/wx/verify_dcp_dialog.cc:200
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr "De ongeldige language tag %n wordt gebruikt."
@@ -3478,12 +3504,12 @@ msgstr "De ongeldige language tag %n wordt gebruikt."
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "De taal van de filmtitel (\"%s\")"
 
-#: src/wx/verify_dcp_dialog.cc:133
+#: src/wx/verify_dcp_dialog.cc:145
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "Het beeld in een reel heeft een frame rate van %n, wat niet geldig is."
 
-#: src/wx/verify_dcp_dialog.cc:374
+#: src/wx/verify_dcp_dialog.cc:386
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
@@ -3492,37 +3518,37 @@ msgstr ""
 "De reel duration (%s) van sommige timed text is niet hetzelfde als de "
 "ContainerDuration (%s) van zijn MXF."
 
-#: src/wx/verify_dcp_dialog.cc:248
+#: src/wx/verify_dcp_dialog.cc:260
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "De sound asset %f heeft een ongeldige frame rate van %n."
 
-#: src/wx/verify_dcp_dialog.cc:212
+#: src/wx/verify_dcp_dialog.cc:224
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr "De subtitle asset %f bevat geen <Language> tag."
 
-#: src/wx/verify_dcp_dialog.cc:218
+#: src/wx/verify_dcp_dialog.cc:230
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr "De subtitle asset %f bevat geen <StartTime> tag."
 
-#: src/wx/verify_dcp_dialog.cc:221
+#: src/wx/verify_dcp_dialog.cc:233
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr "De subtitle asset %f heeft een <StartTime> die niet nul is."
 
-#: src/wx/verify_dcp_dialog.cc:408
+#: src/wx/verify_dcp_dialog.cc:420
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr "De subtitle asset %n bevat geen ondertitels."
 
-#: src/wx/verify_dcp_dialog.cc:266
+#: src/wx/verify_dcp_dialog.cc:278
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr "De subtitle asset %n heeft geen <EntryPoint> tag."
 
-#: src/wx/verify_dcp_dialog.cc:206
+#: src/wx/verify_dcp_dialog.cc:218
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
@@ -3530,47 +3556,47 @@ msgstr ""
 "De timed text asset %f neemt %n bytes in beslag, wat de limiet van 115 MB "
 "overschrijdt."
 
-#: src/wx/verify_dcp_dialog.cc:200
+#: src/wx/verify_dcp_dialog.cc:212
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr ""
 "De video asset %f gebruikt de frame rate %n, wat ongeldig is voor 3D-video."
 
-#: src/wx/verify_dcp_dialog.cc:197
+#: src/wx/verify_dcp_dialog.cc:209
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr ""
 "De video asset %f gebruikt de frame rate %n, wat ongeldig is voor 4K video."
 
-#: src/wx/verify_dcp_dialog.cc:194
+#: src/wx/verify_dcp_dialog.cc:206
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "De video asset %f heeft een ongeldige frame rate van %n."
 
-#: src/wx/verify_dcp_dialog.cc:191
+#: src/wx/verify_dcp_dialog.cc:203
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr "De video asset %f gebruikt de ongeldige beeldgrootte %n."
 
-#: src/wx/verify_dcp_dialog.cc:242
+#: src/wx/verify_dcp_dialog.cc:254
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "Er zijn meer dan drie closed caption regels op ten minste één plaats."
 
-#: src/wx/verify_dcp_dialog.cc:233
+#: src/wx/verify_dcp_dialog.cc:245
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "Er zijn meer dan drie ondertitel-regels op ten minste één plaats."
 
-#: src/wx/verify_dcp_dialog.cc:245
+#: src/wx/verify_dcp_dialog.cc:257
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr "Er zitten meer dan 32 tekens in ten minste één closed caption regel."
 
-#: src/wx/verify_dcp_dialog.cc:236
+#: src/wx/verify_dcp_dialog.cc:248
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "Er zitten meer dan 52 tekens in ten minste één ondertitel-regel."
 
-#: src/wx/verify_dcp_dialog.cc:239
+#: src/wx/verify_dcp_dialog.cc:251
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "Er zitten meer dan 79 tekens in ten minste één ondertitel-regel."
 
@@ -3582,11 +3608,11 @@ msgstr "Er zijn nog geen hints: projectcontrole is bezig."
 msgid "There are no hints: everything looks good!"
 msgstr "Er zijn geen hints, alles ziet er goed uit!"
 
-#: src/wx/verify_dcp_dialog.cc:393
+#: src/wx/verify_dcp_dialog.cc:405
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "Er staat een <Duration> tag binnen een <MainMarkers>."
 
-#: src/wx/verify_dcp_dialog.cc:390
+#: src/wx/verify_dcp_dialog.cc:402
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "Er staat een <EntryPoint> tag binnen een <MainMarkers>."
 
@@ -3611,7 +3637,7 @@ msgstr ""
 msgid "This CPL contains no encrypted assets."
 msgstr "Deze CPL bevat geen versleutelde assets."
 
-#: src/wx/verify_dcp_dialog.cc:179
+#: src/wx/verify_dcp_dialog.cc:191
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
@@ -3620,7 +3646,7 @@ msgstr ""
 "Deze DCP refereert aan de asset %n in een andere DCP (en misschien andere), "
 "dus het is een \"version file\" (VF)"
 
-#: src/wx/verify_dcp_dialog.cc:185
+#: src/wx/verify_dcp_dialog.cc:197
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
 "Deze DCP gebruikt de Interop-standaard, maar moet met SMPTE worden gemaakt."
@@ -3647,7 +3673,7 @@ msgstr ""
 "Dit bestand bevat andere certificaten (of andere data) na het eerste "
 "certificaat.  Alleen het eerste certificaat wordt gebruikt."
 
-#: src/wx/full_config_dialog.cc:985
+#: src/wx/full_config_dialog.cc:987
 msgid "This is a test email from DCP-o-matic."
 msgstr "Dit is een test e-mail van DCP-o-matic."
 
@@ -3655,7 +3681,7 @@ msgstr "Dit is een test e-mail van DCP-o-matic."
 msgid "This is not a valid CPL file"
 msgstr "Dit is geen geldig CPL-bestand"
 
-#: src/wx/content_panel.cc:676
+#: src/wx/content_panel.cc:677
 msgid ""
 "This looks like a DCP-o-matic project folder, which cannot be added to a "
 "different project.  Choose the DCP folder inside the DCP-o-matic project "
@@ -3665,7 +3691,7 @@ msgstr ""
 "project kan worden toegevoegd.  Kies de DCP-map in de DCP-o-matic-projectmap "
 "als u die wilt importeren."
 
-#: src/wx/full_config_dialog.cc:1430
+#: src/wx/full_config_dialog.cc:1432
 msgid ""
 "This will be written to the DCP's JPEG2000 data as a comment.  If it is "
 "blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
@@ -3675,7 +3701,7 @@ msgstr ""
 "Als het leeg is, wordt een standaardwaarde gebruikt die libdcp vermeldt (een "
 "interne DCP-o-matic library)."
 
-#: src/wx/full_config_dialog.cc:1415
+#: src/wx/full_config_dialog.cc:1417
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
 "blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
@@ -3685,7 +3711,7 @@ msgstr ""
 "Als het leeg is, wordt een standaardwaarde gebruikt die libdcp vermeldt (een "
 "interne DCP-o-matic library)."
 
-#: src/wx/full_config_dialog.cc:1420
+#: src/wx/full_config_dialog.cc:1422
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
 "blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
@@ -3695,7 +3721,7 @@ msgstr ""
 "Als het leeg is, wordt een standaardwaarde gebruikt die libdcp vermeldt (een "
 "interne DCP-o-matic library)."
 
-#: src/wx/full_config_dialog.cc:1425
+#: src/wx/full_config_dialog.cc:1427
 msgid ""
 "This will be written to the DCP's MXF files as the 'product version'.  If it "
 "is blank, a default value mentioning libdcp (an internal DCP-o-matic "
@@ -3705,7 +3731,7 @@ msgstr ""
 "geschreven.  Als het leeg is, wordt een standaardwaarde gebruikt die libdcp "
 "vermeldt (een interne DCP-o-matic library)."
 
-#: src/wx/full_config_dialog.cc:1410
+#: src/wx/full_config_dialog.cc:1412
 msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
 "blank, a default value mentioning DCP-o-matic will be used."
@@ -3713,7 +3739,7 @@ msgstr ""
 "Dit wordt als <Creator> naar de XML-bestanden van de DCP geschreven.  Als "
 "dit leeg is, wordt een standaardwaarde gebruikt die DCP-o-matic vermeldt."
 
-#: src/wx/full_config_dialog.cc:1405
+#: src/wx/full_config_dialog.cc:1407
 msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
 "blank, a default value mentioning DCP-o-matic will be used."
@@ -3755,11 +3781,11 @@ msgstr "Timing"
 msgid "Title language"
 msgstr "Taal titel"
 
-#: src/wx/full_config_dialog.cc:1185 src/wx/send_test_email_dialog.cc:30
+#: src/wx/full_config_dialog.cc:1187 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
 msgstr "To-adres"
 
-#: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:144
+#: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:150
 msgid "Top"
 msgstr "Boven"
 
@@ -3771,7 +3797,7 @@ msgstr "Track"
 msgid "Translate"
 msgstr "Vertaal"
 
-#: src/wx/about_dialog.cc:157
+#: src/wx/about_dialog.cc:158
 msgid "Translated by"
 msgstr "Vertaald door"
 
@@ -3933,7 +3959,7 @@ msgstr "Vink alles uit"
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: src/wx/dolby_doremi_certificate_panel.cc:256
+#: src/wx/dolby_doremi_certificate_panel.cc:266
 msgid ""
 "Unrecognised serial number format (does not start with a number, H or F)"
 msgstr "Niet-herkend serienummer-formaat (begint niet met een cijfer, H of F)"
@@ -3946,7 +3972,7 @@ msgstr "Niet gespecificeerd"
 msgid "Update"
 msgstr "Update"
 
-#: src/wx/full_config_dialog.cc:742
+#: src/wx/full_config_dialog.cc:744
 msgid "Upload DCP to TMS after creation"
 msgstr "Upload DCP naar TMS nadat hij gemaakt is"
 
@@ -3954,7 +3980,7 @@ msgstr "Upload DCP naar TMS nadat hij gemaakt is"
 msgid "Use ISDCF name"
 msgstr "Gebruik ISDCF-naam"
 
-#: src/wx/full_config_dialog.cc:380
+#: src/wx/full_config_dialog.cc:382
 msgid "Use ISDCF name by default"
 msgstr "Gebruik standaard de ISDCF-naam"
 
@@ -3995,7 +4021,7 @@ msgid "Use this file as new configuration"
 msgstr "Gebruik dit bestand als nieuwe configuratie"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/full_config_dialog.cc:765 src/wx/full_config_dialog.cc:892
+#: src/wx/full_config_dialog.cc:767 src/wx/full_config_dialog.cc:894
 msgid "User name"
 msgstr "Gebruikersnaam"
 
@@ -4025,7 +4051,7 @@ msgstr "Versienummer"
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/video_panel.cc:201
+#: src/wx/video_panel.cc:207
 msgid "Video (MPEG, 16-235)"
 msgstr "Video (MPEG, 16-235)"
 
@@ -4033,7 +4059,7 @@ msgstr "Video (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Video-golfvorm"
 
-#: src/wx/full_config_dialog.cc:1668 src/wx/player_config_dialog.cc:110
+#: src/wx/full_config_dialog.cc:1670 src/wx/player_config_dialog.cc:110
 msgid "Video display mode"
 msgstr "Video weergavemodus"
 
@@ -4059,7 +4085,7 @@ msgstr "Toon..."
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1744 src/wx/player_config_dialog.cc:271
+#: src/wx/full_config_dialog.cc:1746 src/wx/player_config_dialog.cc:273
 #: src/wx/verify_dcp_dialog.cc:55
 msgid "Warnings"
 msgstr "Waarschuwingen"
@@ -4080,19 +4106,19 @@ msgstr "Witpunt"
 msgid "White point adjustment"
 msgstr "Witpunt-aanpassing"
 
-#: src/wx/about_dialog.cc:111
+#: src/wx/about_dialog.cc:112
 msgid "With help from"
 msgstr "Met hulp van"
 
-#: src/wx/kdm_output_panel.cc:133
+#: src/wx/kdm_output_panel.cc:137
 msgid "Write a ZIP file for each cinema's KDMs"
 msgstr "Schrijf een ZIP-bestand voor de KDM's van elke bioscoop"
 
-#: src/wx/kdm_output_panel.cc:131
+#: src/wx/kdm_output_panel.cc:135
 msgid "Write a folder for each cinema's KDMs"
 msgstr "Schrijf een map voor de KDM's van elke bioscoop"
 
-#: src/wx/kdm_output_panel.cc:129
+#: src/wx/kdm_output_panel.cc:133
 msgid "Write all KDMs to the same folder"
 msgstr "Schrijf alle KDM's naar dezelfde map"
 
@@ -4104,12 +4130,12 @@ msgstr "Schrijf elk audio-kanaal naar zijn eigen stream"
 msgid "Write reels into separate files"
 msgstr "Schrijf reels in afzonderlijke bestanden"
 
-#: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:110
+#: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:114
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
 msgstr "Schrijf naar"
 
-#: src/wx/about_dialog.cc:102
+#: src/wx/about_dialog.cc:103
 msgid "Written by"
 msgstr "Geschreven door"
 
@@ -4147,7 +4173,7 @@ msgstr ""
 "U kunt de naam van dit scherm niet in '%s' veranderen omdat de bioscoop al "
 "een scherm met deze naam heeft."
 
-#: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:248
+#: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:252
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -4155,24 +4181,16 @@ msgstr ""
 "U heeft een aantal bioscopen geselecteerd die geen geconfigureerd e-"
 "mailadres hebben.  Wilt u doorgaan?"
 
-#: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:238
+#: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:242
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
 "U moet een e-mailserver instellen bij Voorkeuren voordat u e-mails kunt "
 "verzenden."
 
-#: src/wx/send_i18n_dialog.cc:47
-msgid "Your email"
-msgstr "Uw e-mailadres"
-
 #: src/wx/report_problem_dialog.cc:77
 msgid "Your email address"
 msgstr "Uw e-mailadres"
-
-#: src/wx/send_i18n_dialog.cc:43
-msgid "Your name"
-msgstr "Uw naam"
 
 #: src/wx/timeline_dialog.cc:77
 msgid "Zoom"
@@ -4191,7 +4209,7 @@ msgid "Zoom out to whole film"
 msgstr "Zoom uit naar hele film"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:463
+#: src/wx/verify_dcp_dialog.cc:481
 msgid "and 1 warning."
 msgstr "en 1 waarschuwing."
 
@@ -4199,7 +4217,7 @@ msgstr "en 1 waarschuwing."
 msgid "candela per m²"
 msgstr "candela per m²"
 
-#: src/wx/kdm_output_panel.cc:97
+#: src/wx/kdm_output_panel.cc:101
 msgid "cinema"
 msgstr "bioscoop"
 
@@ -4215,11 +4233,11 @@ msgstr "componentwaarde"
 msgid "content"
 msgstr "content"
 
-#: src/wx/full_config_dialog.cc:1727
+#: src/wx/full_config_dialog.cc:1729
 msgid "content filename"
 msgstr "content bestandsnaam"
 
-#: src/wx/video_panel.cc:184
+#: src/wx/video_panel.cc:190
 msgid "custom"
 msgstr "aangepast"
 
@@ -4227,7 +4245,7 @@ msgstr "aangepast"
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/full_config_dialog.cc:388
+#: src/wx/full_config_dialog.cc:390
 msgid "days"
 msgstr "dagen"
 
@@ -4245,7 +4263,7 @@ msgstr "ingeschakeld"
 msgid "f"
 msgstr "f"
 
-#: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:96
+#: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:100
 msgid "film name"
 msgstr "filmnaam"
 
@@ -4253,7 +4271,7 @@ msgstr "filmnaam"
 msgid "foot lambert"
 msgstr "foot lambert"
 
-#: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:99
+#: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:103
 msgid "from date/time"
 msgstr "van datum/tijd"
 
@@ -4275,12 +4293,12 @@ msgstr "h"
 msgid "m"
 msgstr "m"
 
-#: src/wx/full_config_dialog.cc:390
+#: src/wx/full_config_dialog.cc:392
 msgid "months"
 msgstr "maanden"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:109 src/wx/full_config_dialog.cc:330
+#: src/wx/audio_panel.cc:109 src/wx/full_config_dialog.cc:332
 msgid "ms"
 msgstr "ms"
 
@@ -4288,7 +4306,7 @@ msgstr "ms"
 msgid "not enabled"
 msgstr "niet ingeschakeld"
 
-#: src/wx/full_config_dialog.cc:1726
+#: src/wx/full_config_dialog.cc:1728
 msgid "number of reels"
 msgstr "aantal reels"
 
@@ -4300,24 +4318,24 @@ msgstr "open ondertitels"
 msgid "output"
 msgstr "output"
 
-#: src/wx/full_config_dialog.cc:877
+#: src/wx/full_config_dialog.cc:879
 msgid "port"
 msgstr "poort"
 
-#: src/wx/full_config_dialog.cc:881
+#: src/wx/full_config_dialog.cc:883
 msgid "protocol"
 msgstr "protocol"
 
-#: src/wx/full_config_dialog.cc:1725
+#: src/wx/full_config_dialog.cc:1727
 msgid "reel number"
 msgstr "reel-nummer"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:296 src/wx/timing_panel.cc:89
+#: src/wx/full_config_dialog.cc:298 src/wx/timing_panel.cc:89
 msgid "s"
 msgstr "s"
 
-#: src/wx/kdm_output_panel.cc:98
+#: src/wx/kdm_output_panel.cc:102
 msgid "screen"
 msgstr "scherm"
 
@@ -4329,19 +4347,19 @@ msgstr "drempel"
 msgid "times"
 msgstr "keer"
 
-#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:100
+#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:104
 msgid "to date/time"
 msgstr "tot datum/tijd"
 
-#: src/wx/video_panel.cc:183
+#: src/wx/video_panel.cc:189
 msgid "to fit DCP"
 msgstr "passend in DCP"
 
-#: src/wx/full_config_dialog.cc:1705
+#: src/wx/full_config_dialog.cc:1707
 msgid "type (cpl/pkl)"
 msgstr "type (cpl/pkl)"
 
-#: src/wx/full_config_dialog.cc:1724
+#: src/wx/full_config_dialog.cc:1726
 msgid "type (j2c/pcm/sub)"
 msgstr "type (j2c/pcm/sub)"
 
@@ -4361,7 +4379,7 @@ msgstr "tot"
 msgid "vsync"
 msgstr "vsync"
 
-#: src/wx/full_config_dialog.cc:389
+#: src/wx/full_config_dialog.cc:391
 msgid "weeks"
 msgstr "weken"
 
@@ -4377,7 +4395,7 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
-#: src/wx/full_config_dialog.cc:391
+#: src/wx/full_config_dialog.cc:393
 msgid "years"
 msgstr "jaren"
 
@@ -4387,6 +4405,15 @@ msgstr "jaren"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "ja"
+
+#~ msgid "Send translations"
+#~ msgstr "Verzend vertalingen"
+
+#~ msgid "Your email"
+#~ msgstr "Uw e-mailadres"
+
+#~ msgid "Your name"
+#~ msgstr "Uw naam"
 
 #~ msgid ""
 #~ "For some of these KDMs the recipient certificate's validity period will "

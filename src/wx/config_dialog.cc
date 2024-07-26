@@ -19,6 +19,7 @@
 */
 
 
+#include "audio_backend.h"
 #include "audio_mapping_view.h"
 #include "check_box.h"
 #include "config_dialog.h"
@@ -882,26 +883,9 @@ SoundPage::setup ()
 	font.SetPointSize (font.GetPointSize() - 1);
 	_sound_output_details->SetFont (font);
 
-	RtAudio audio (DCPOMATIC_RTAUDIO_API);
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-	for (auto device_id: audio.getDeviceIds()) {
-		auto dev = audio.getDeviceInfo(device_id);
-		if (dev.outputChannels > 0) {
-			_sound_output->Append(std_to_wx(dev.name));
-		}
+	for (auto name: AudioBackend::instance()->output_device_names()) {
+		_sound_output->Append(std_to_wx(name));
 	}
-#else
-	for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-		try {
-			auto dev = audio.getDeviceInfo (i);
-			if (dev.probed && dev.outputChannels > 0) {
-				_sound_output->Append (std_to_wx (dev.name));
-			}
-		} catch (RtAudioError&) {
-			/* Something went wrong so let's just ignore that device */
-		}
-	}
-#endif
 
 	_sound->bind(&SoundPage::sound_changed, this);
 	_sound_output->Bind (wxEVT_CHOICE,   bind(&SoundPage::sound_output_changed, this));
@@ -930,19 +914,10 @@ SoundPage::sound_changed ()
 void
 SoundPage::sound_output_changed ()
 {
-	RtAudio audio (DCPOMATIC_RTAUDIO_API);
 	auto const so = get_sound_output();
-	string default_device;
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-	default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-#else
-	try {
-		default_device = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-	} catch (RtAudioError&) {
-		/* Never mind */
-	}
-#endif
-	if (!so || *so == default_device) {
+	auto default_device = AudioBackend::instance()->default_device_name();
+
+	if (!so || so == default_device) {
 		Config::instance()->unset_sound_output ();
 	} else {
 		Config::instance()->set_sound_output (*so);
@@ -959,20 +934,13 @@ SoundPage::config_changed ()
 	auto const current_so = get_sound_output ();
 	optional<string> configured_so;
 
+	auto& audio = AudioBackend::instance()->rtaudio();
+
 	if (config->sound_output()) {
 		configured_so = config->sound_output().get();
 	} else {
 		/* No configured output means we should use the default */
-		RtAudio audio (DCPOMATIC_RTAUDIO_API);
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-		configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-#else
-		try {
-			configured_so = audio.getDeviceInfo(audio.getDefaultOutputDevice()).name;
-		} catch (RtAudioError&) {
-			/* Probably no audio devices at all */
-		}
-#endif
+		configured_so = AudioBackend::instance()->default_device_name();
 	}
 
 	if (configured_so && current_so != configured_so) {
@@ -987,8 +955,6 @@ SoundPage::config_changed ()
 		}
 	}
 
-	RtAudio audio (DCPOMATIC_RTAUDIO_API);
-
 	map<int, wxString> apis;
 	apis[RtAudio::MACOSX_CORE]    = _("CoreAudio");
 	apis[RtAudio::WINDOWS_ASIO]   = _("ASIO");
@@ -1000,28 +966,7 @@ SoundPage::config_changed ()
 	apis[RtAudio::LINUX_OSS]      = _("OSS");
 	apis[RtAudio::RTAUDIO_DUMMY]  = _("Dummy");
 
-	int channels = 0;
-	if (configured_so) {
-#if (RTAUDIO_VERSION_MAJOR >= 6)
-		for (auto device_id: audio.getDeviceIds()) {
-			auto info = audio.getDeviceInfo(device_id);
-			if (info.name == *configured_so && info.outputChannels > 0) {
-				channels = info.outputChannels;
-			}
-		}
-#else
-		for (unsigned int i = 0; i < audio.getDeviceCount(); ++i) {
-			try {
-				auto info = audio.getDeviceInfo(i);
-				if (info.name == *configured_so && info.outputChannels > 0) {
-					channels = info.outputChannels;
-				}
-			} catch (RtAudioError&) {
-				/* Never mind */
-			}
-		}
-#endif
-	}
+	int const channels = configured_so ? AudioBackend::instance()->device_output_channels(*configured_so).get_value_or(0) : 0;
 
 	_sound_output_details->SetLabel (
 		wxString::Format(_("%d channels on %s"), channels, apis[audio.getCurrentApi()])

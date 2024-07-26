@@ -970,7 +970,7 @@ public:
 		}
 
 		_sound_output = boost::none;
-		changed ();
+		changed(SOUND_OUTPUT);
 	}
 
 	void set_kdm_container_name_format (dcp::NameFormat n) {

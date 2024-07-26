@@ -110,6 +110,8 @@ get_from_url (string url, bool pasv, bool skip_pasv_ip, ScopedTemporary& temp)
 	if (!pasv) {
 		curl_easy_setopt (curl, CURLOPT_FTPPORT, "-");
 	}
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
 	/* Maximum time is 20s */
 	curl_easy_setopt (curl, CURLOPT_TIMEOUT, 20);

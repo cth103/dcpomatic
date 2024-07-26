@@ -229,6 +229,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 				return dcp::Channel::HI;
 			} else if (channel == "VI") {
 				return dcp::Channel::VI;
+			} else if (channel == "SLV") {
+				return dcp::Channel::SIGN_LANGUAGE;
 			} else {
 				return {};
 			}

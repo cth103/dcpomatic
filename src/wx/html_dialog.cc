@@ -49,12 +49,15 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 		);
 
 	auto h = new wxHtmlWindow (this);
-	h->SetPage (html);
-	sizer->Add (h, 1, wxEXPAND | wxALL, 6);
 
 	if (gui_is_dark()) {
-		h->SetHTMLBackgroundColour(*wxBLACK);
+		h->SetPage(wxString::Format("<body text=\"white\">%s</body>", html));
+		h->SetHTMLBackgroundColour(wxColour(50, 50, 50));
+	} else {
+		h->SetPage(html);
 	}
+
+	sizer->Add (h, 1, wxEXPAND | wxALL, 6);
 
 	h->Bind (wxEVT_HTML_LINK_CLICKED, boost::bind(&HTMLDialog::link_clicked, this, _1));
 
@@ -73,6 +76,12 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 			sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
 		}
 	}
+}
+
+
+HTMLDialog::~HTMLDialog()
+{
+	wxMemoryFSHandler::RemoveFile("me.jpg");
 }
 
 
