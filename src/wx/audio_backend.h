@@ -24,6 +24,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <RtAudio.h>
 LIBDCP_ENABLE_WARNINGS
 #include <boost/optional.hpp>
+#include <boost/thread/mutex.hpp>
 
 
 

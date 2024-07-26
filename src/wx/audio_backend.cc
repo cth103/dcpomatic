@@ -20,11 +20,15 @@
 
 
 #include "audio_backend.h"
+#include <boost/bind/bind.hpp>
 
 
 using std::string;
 using std::vector;
 using boost::optional;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 AudioBackend* AudioBackend::_instance = nullptr;
@@ -86,8 +90,8 @@ AudioBackend::output_device_names()
 	vector<string> names;
 
 #if (RTAUDIO_VERSION_MAJOR >= 6)
-	for (auto device_id: audio.getDeviceIds()) {
-		auto dev = audio.getDeviceInfo(device_id);
+	for (auto device_id: _rtaudio.getDeviceIds()) {
+		auto dev = _rtaudio.getDeviceInfo(device_id);
 		if (dev.outputChannels > 0) {
 			names.push_back(dev.name);
 		}
@@ -130,7 +134,7 @@ AudioBackend::device_output_channels(string name)
 {
 #if (RTAUDIO_VERSION_MAJOR >= 6)
 	for (auto device_id: _rtaudio.getDeviceIds()) {
-		auto info = audio.getDeviceInfo(device_id);
+		auto info = _rtaudio.getDeviceInfo(device_id);
 		if (info.name == name) {
 			return info.outputChannels;
 		}
