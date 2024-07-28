@@ -129,7 +129,7 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		return message;
 	};
 
-	auto add = [&counts, &add_bullet, &substitute, limit_per_type](vector<dcp::VerificationNote> const& notes, wxString message, wxString more_message = {}) {
+	auto add = [&counts, &add_bullet, &substitute](vector<dcp::VerificationNote> const& notes, wxString message, wxString more_message = {}) {
 		int N = 0;
 		for (auto const& note: notes) {
 			add_bullet(note.type(), substitute(message, note));
