@@ -340,6 +340,7 @@ private:
 		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
 		checked_set (_log_error, config->log_types() & LogEntry::TYPE_ERROR);
 		checked_set (_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
+		checked_set (_log_debug_video_view, config->log_types() & LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 #ifdef DCPOMATIC_WINDOWS
 		checked_set (_win32_console, config->win32_console());
 #endif

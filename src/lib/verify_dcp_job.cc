@@ -20,16 +20,16 @@
 
 
 #include "config.h"
+#include "content.h"
 #include "cross.h"
 #include "verify_dcp_job.h"
-#include "content.h"
 
 #include "i18n.h"
 
 
+using std::shared_ptr;
 using std::string;
 using std::vector;
-using std::shared_ptr;
 using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
