@@ -25,9 +25,9 @@
 #include "player.h"
 #include "subtitle_film_encoder.h"
 #include <dcp/filesystem.h>
-#include <dcp/interop_subtitle_asset.h>
+#include <dcp/interop_text_asset.h>
 #include <dcp/raw_convert.h>
-#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/smpte_text_asset.h>
 #include <boost/filesystem.hpp>
 #include <boost/bind/bind.hpp>
 
@@ -79,7 +79,7 @@ SubtitleFilmEncoder::SubtitleFilmEncoder(shared_ptr<const Film> film, shared_ptr
 			}
 		}
 
-		_assets.push_back(make_pair(shared_ptr<dcp::SubtitleAsset>(), dcp::filesystem::change_extension(filename, extension)));
+		_assets.push_back(make_pair(shared_ptr<dcp::TextAsset>(), dcp::filesystem::change_extension(filename, extension)));
 	}
 
 	for (auto i: film->reels()) {
@@ -108,12 +108,12 @@ SubtitleFilmEncoder::go()
 		if (!i.first) {
 			/* No subtitles arrived for this asset; make an empty one so we write something to the output */
 			if (_film->interop()) {
-				auto s = make_shared<dcp::InteropSubtitleAsset>();
+				auto s = make_shared<dcp::InteropTextAsset>();
 				s->set_movie_title (_film->name());
 				s->set_reel_number (raw_convert<string>(reel + 1));
 				i.first = s;
 			} else {
-				auto s = make_shared<dcp::SMPTESubtitleAsset>();
+				auto s = make_shared<dcp::SMPTETextAsset>();
 				s->set_content_title_text (_film->name());
 				s->set_reel_number (reel + 1);
 				i.first = s;
@@ -140,10 +140,10 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 	}
 
 	if (!_assets[_reel_index].first) {
-		shared_ptr<dcp::SubtitleAsset> asset;
+		shared_ptr<dcp::TextAsset> asset;
 		auto lang = _film->subtitle_languages ();
 		if (_film->interop ()) {
-			auto s = make_shared<dcp::InteropSubtitleAsset>();
+			auto s = make_shared<dcp::InteropTextAsset>();
 			s->set_movie_title (_film->name());
 			if (lang.first) {
 				s->set_language (lang.first->to_string());
@@ -151,7 +151,7 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 			s->set_reel_number (raw_convert<string>(_reel_index + 1));
 			_assets[_reel_index].first = s;
 		} else {
-			auto s = make_shared<dcp::SMPTESubtitleAsset>();
+			auto s = make_shared<dcp::SMPTETextAsset>();
 			s->set_content_title_text (_film->name());
 			if (lang.first) {
 				s->set_language (*lang.first);
@@ -176,7 +176,7 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 		if (_film->interop() && !_include_font) {
 			i.unset_font ();
 		}
-		_assets[_reel_index].first->add (make_shared<dcp::SubtitleString>(i));
+		_assets[_reel_index].first->add(make_shared<dcp::TextString>(i));
 	}
 
 	if (_split_reels && (_reel_index < int(_reels.size()) - 1) && period.from > _reels[_reel_index].from) {

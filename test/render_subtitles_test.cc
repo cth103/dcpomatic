@@ -30,7 +30,7 @@
 #include "lib/render_text.h"
 #include "lib/string_text.h"
 #include "test.h"
-#include <dcp/subtitle_string.h>
+#include <dcp/text_string.h>
 #include <pango/pango-utils.h>
 #include <boost/test/unit_test.hpp>
 
@@ -44,7 +44,7 @@ add(std::vector<StringText>& s, std::string text, bool italic, bool bold, bool u
 {
 	s.push_back (
 		StringText (
-			dcp::SubtitleString (
+			dcp::TextString(
 				boost::optional<std::string> (),
 				italic,
 				bold,
@@ -126,7 +126,7 @@ BOOST_AUTO_TEST_CASE (marked_up_test6)
 
 BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 {
-	std::list<dcp::SubtitleString> ss = {
+	std::list<dcp::TextString> ss = {
 		{
 			{}, true, false, false, dcp::Colour(255, 255, 255), 42, 1.0,
 			dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
@@ -181,7 +181,7 @@ BOOST_AUTO_TEST_CASE(render_text_with_newline_test)
 
 BOOST_AUTO_TEST_CASE (render_text_test)
 {
-	auto dcp_string = dcp::SubtitleString(
+	auto dcp_string = dcp::TextString(
 		{}, false, false, false, dcp::Colour(255, 255, 255), 42, 1.0,
 		dcp::Time(0, 0, 0, 0, 24), dcp::Time(0, 0, 1, 0, 24),
 		0.5, dcp::HAlign::CENTER,

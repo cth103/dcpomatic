@@ -39,11 +39,10 @@
 #include <dcp/mpeg2_transcode.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_markers_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <dcp/search.h>
 #include <dcp/sound_asset.h>
 #include <dcp/sound_asset.h>
@@ -51,7 +50,7 @@
 #include <dcp/stereo_j2k_picture_asset.h>
 #include <dcp/stereo_j2k_picture_asset_reader.h>
 #include <dcp/stereo_j2k_picture_frame.h>
-#include <dcp/subtitle_asset.h>
+#include <dcp/text_asset.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -343,7 +342,7 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					LOG_GENERAL_NC ("Subtitle has no key");
 					break;
 				}
-				sub->subtitles ();
+				sub->texts();
 			}
 
 			if (i->atmos() && i->atmos()->asset_ref().resolved()) {

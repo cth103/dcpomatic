@@ -38,14 +38,14 @@ public:
 	boost::optional<dcpomatic::ContentTime> first () const;
 
 private:
-	dcpomatic::ContentTimePeriod content_time_period (std::shared_ptr<const dcp::Subtitle> s) const;
+	dcpomatic::ContentTimePeriod content_time_period(std::shared_ptr<const dcp::Text> s) const;
 	void update_position();
 
-	std::vector<std::shared_ptr<const dcp::Subtitle>> _subtitles;
-	std::vector<std::shared_ptr<const dcp::Subtitle>>::const_iterator _next;
+	std::vector<std::shared_ptr<const dcp::Text>> _subtitles;
+	std::vector<std::shared_ptr<const dcp::Text>>::const_iterator _next;
 
 	dcp::SubtitleStandard _subtitle_standard;
 
-	std::shared_ptr<dcp::SubtitleAsset> _asset;
+	std::shared_ptr<dcp::TextAsset> _asset;
 	FontIDAllocator _font_id_allocator;
 };

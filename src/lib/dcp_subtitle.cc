@@ -22,8 +22,8 @@
 #include "dcp_subtitle.h"
 #include "exceptions.h"
 #include "compose.hpp"
-#include <dcp/interop_subtitle_asset.h>
-#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/interop_text_asset.h>
+#include <dcp/smpte_text_asset.h>
 #include <memory>
 
 #include "i18n.h"
@@ -35,22 +35,22 @@ using std::string;
 using std::make_shared;
 
 
-shared_ptr<dcp::SubtitleAsset>
+shared_ptr<dcp::TextAsset>
 DCPSubtitle::load (boost::filesystem::path file) const
 {
-	shared_ptr<dcp::SubtitleAsset> sc;
+	shared_ptr<dcp::TextAsset> sc;
 	string interop_error;
 	string smpte_error;
 
 	try {
-		sc = make_shared<dcp::InteropSubtitleAsset>(file);
+		sc = make_shared<dcp::InteropTextAsset>(file);
 	} catch (exception& e) {
 		interop_error = e.what ();
 	}
 
 	if (!sc) {
 		try {
-			sc = make_shared<dcp::SMPTESubtitleAsset>(file);
+			sc = make_shared<dcp::SMPTETextAsset>(file);
 		} catch (exception& e) {
 			smpte_error = e.what();
 		}

@@ -26,7 +26,7 @@
 
 
 namespace dcp {
-	class SubtitleAsset;
+	class TextAsset;
 }
 
 
@@ -53,7 +53,7 @@ public:
 private:
 	void text (PlayerText subs, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
 
-	std::vector<std::pair<std::shared_ptr<dcp::SubtitleAsset>, boost::filesystem::path>> _assets;
+	std::vector<std::pair<std::shared_ptr<dcp::TextAsset>, boost::filesystem::path>> _assets;
 	std::vector<dcpomatic::DCPTimePeriod> _reels;
 	bool _split_reels;
 	bool _include_font;

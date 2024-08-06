@@ -128,7 +128,7 @@ TextDecoder::remove_invalid_characters_for_xml(string text)
 
 
 void
-TextDecoder::emit_plain_start(ContentTime from, vector<dcp::SubtitleString> subtitles, dcp::SubtitleStandard valign_standard)
+TextDecoder::emit_plain_start(ContentTime from, vector<dcp::TextString> subtitles, dcp::SubtitleStandard valign_standard)
 {
 	vector<StringText> string_texts;
 
@@ -274,7 +274,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 				return dcp::Colour(lrintf(c.r * 255), lrintf(c.g * 255), lrintf(c.b * 255));
 				};
 
-			auto dcp_subtitle = dcp::SubtitleString(
+			auto dcp_subtitle = dcp::TextString(
 				optional<string>(),
 				block.italic,
 				block.bold,
@@ -337,7 +337,7 @@ TextDecoder::emit_stop (ContentTime to)
 
 
 void
-TextDecoder::emit_plain(ContentTimePeriod period, vector<dcp::SubtitleString> subtitles, dcp::SubtitleStandard valign_standard)
+TextDecoder::emit_plain(ContentTimePeriod period, vector<dcp::TextString> subtitles, dcp::SubtitleStandard valign_standard)
 {
 	emit_plain_start (period.from, subtitles, valign_standard);
 	emit_stop (period.to);

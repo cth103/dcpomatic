@@ -42,8 +42,7 @@
 #include <dcp/filesystem.h>
 #include <dcp/raw_convert.h>
 #include <dcp/reel.h>
-#include <dcp/reel_closed_caption_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -372,7 +371,7 @@ Hints::check_loudness ()
 
 static
 bool
-subtitle_mxf_too_big (shared_ptr<dcp::SubtitleAsset> asset)
+subtitle_mxf_too_big(shared_ptr<dcp::TextAsset> asset)
 {
 	return asset && asset->file() && dcp::filesystem::file_size(*asset->file()) >= (MAX_TEXT_MXF_SIZE - SIZE_SLACK);
 }

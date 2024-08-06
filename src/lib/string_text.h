@@ -25,7 +25,7 @@
 
 #include "font.h"
 #include <dcp/subtitle_standard.h>
-#include <dcp/subtitle_string.h>
+#include <dcp/text_string.h>
 
 
 /** A wrapper for SubtitleString which allows us to:
@@ -36,13 +36,13 @@
  *    - include details of how v_align should be interpreted
  *
  *    - specify the font by referring to a Font object from the content we came from, rather than
- *      having to use a DCP ID like in dcp::SubtitleString.
+ *      having to use a DCP ID like in dcp::TextString.
  */
-class StringText : public dcp::SubtitleString
+class StringText : public dcp::TextString
 {
 public:
-	StringText(dcp::SubtitleString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_, dcp::SubtitleStandard valign_standard_)
-		: dcp::SubtitleString (dcp_)
+	StringText(dcp::TextString dcp_, int outline_width_, std::shared_ptr<dcpomatic::Font> font_, dcp::SubtitleStandard valign_standard_)
+		: dcp::TextString(dcp_)
 		, outline_width (outline_width_)
 		, font (font_)
 		, valign_standard (valign_standard_)

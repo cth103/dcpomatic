@@ -54,10 +54,9 @@
 #include "timer.h"
 #include "video_decoder.h"
 #include <dcp/reel.h>
-#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <algorithm>
 #include <iostream>
 #include <stdint.h>

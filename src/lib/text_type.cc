@@ -38,6 +38,10 @@ string_to_text_type(string s)
 		return TextType::UNKNOWN;
 	} else if (s == "open-subtitle") {
 		return TextType::OPEN_SUBTITLE;
+	} else if (s == "open-caption") {
+		return TextType::OPEN_CAPTION;
+	} else if (s == "closed-subtitle") {
+		return TextType::CLOSED_SUBTITLE;
 	} else if (s == "closed-caption") {
 		return TextType::CLOSED_CAPTION;
 	} else {
@@ -53,6 +57,10 @@ text_type_to_string(TextType t)
 		return "unknown";
 	case TextType::OPEN_SUBTITLE:
 		return "open-subtitle";
+	case TextType::OPEN_CAPTION:
+		return "open-caption";
+	case TextType::CLOSED_SUBTITLE:
+		return "closed-subtitle";
 	case TextType::CLOSED_CAPTION:
 		return "closed-caption";
 	default:
@@ -68,6 +76,10 @@ text_type_to_name(TextType t)
 		return _("Timed text");
 	case TextType::OPEN_SUBTITLE:
 		return _("Open subtitles");
+	case TextType::OPEN_CAPTION:
+		return _("Open captions");
+	case TextType::CLOSED_SUBTITLE:
+		return _("Closed subtitles");
 	case TextType::CLOSED_CAPTION:
 		return _("Closed captions");
 	default:

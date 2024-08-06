@@ -45,9 +45,9 @@
 #include <dcp/reel.h>
 #include <dcp/reel_mono_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/reel_smpte_subtitle_asset.h>
-#include <dcp/smpte_subtitle_asset.h>
-#include <dcp/subtitle_string.h>
+#include <dcp/reel_smpte_text_asset.h>
+#include <dcp/smpte_text_asset.h>
+#include <dcp/text_string.h>
 #include <boost/test/unit_test.hpp>
 #include <iostream>
 
@@ -454,9 +454,9 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_missing_subtitle_in_some_reels)
 	auto pic1 = make_picture("pic1.mxf");
 	auto pic2 = make_picture("pic2.mxf");
 
-	auto sub1 = make_shared<dcp::SMPTESubtitleAsset>();
+	auto sub1 = make_shared<dcp::SMPTETextAsset>();
 
-	sub1->add(std::make_shared<dcp::SubtitleString>(
+	sub1->add(std::make_shared<dcp::TextString>(
 		boost::optional<string>(), false, false, false, dcp::Colour(255, 255, 255),
 		42, 1, dcp::Time(0, 0, 5, 0, 24), dcp::Time(0, 0, 9, 0, 24),
 		0, dcp::HAlign::CENTER,
@@ -470,7 +470,7 @@ BOOST_AUTO_TEST_CASE(test_referencing_ov_with_missing_subtitle_in_some_reels)
 	sub1->write(path / "ov" / "sub.mxf");
 
 	auto reel1_pic = make_shared<dcp::ReelMonoPictureAsset>(pic1, 0);
-	auto reel1_sub = make_shared<dcp::ReelSMPTESubtitleAsset>(sub1, dcp::Fraction(24, 1), 240, 0);
+	auto reel1_sub = make_shared<dcp::ReelSMPTETextAsset>(dcp::TextType::OPEN_SUBTITLE, sub1, dcp::Fraction(24, 1), 240, 0);
 
 	auto reel2_pic = make_shared<dcp::ReelMonoPictureAsset>(pic1, 0);
 

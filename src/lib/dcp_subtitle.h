@@ -28,14 +28,14 @@
 
 
 namespace dcp {
-	class SubtitleAsset;
+	class TextAsset;
 }
 
 
 class DCPSubtitle
 {
 protected:
-	std::shared_ptr<dcp::SubtitleAsset> load (boost::filesystem::path) const;
+	std::shared_ptr<dcp::TextAsset> load(boost::filesystem::path) const;
 };
 
 

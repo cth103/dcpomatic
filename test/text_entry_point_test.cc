@@ -25,8 +25,8 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
-#include <dcp/reel_smpte_subtitle_asset.h>
-#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/reel_smpte_text_asset.h>
+#include <dcp/smpte_text_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
@@ -42,9 +42,9 @@ BOOST_AUTO_TEST_CASE(test_text_entry_point)
 
 	/* Make a "bad" DCP with a non-zero text entry point */
 	dcp::DCP bad_dcp(path / "dcp");
-	auto sub = make_shared<dcp::SMPTESubtitleAsset>();
+	auto sub = make_shared<dcp::SMPTETextAsset>();
 	sub->write(path / "dcp" / "subs.mxf");
-	auto reel_sub = make_shared<dcp::ReelSMPTESubtitleAsset>(sub, dcp::Fraction{24, 1}, 42, 6);
+	auto reel_sub = make_shared<dcp::ReelSMPTETextAsset>(dcp::TextType::OPEN_SUBTITLE, sub, dcp::Fraction{24, 1}, 42, 6);
 	auto reel = make_shared<dcp::Reel>();
 	reel->add(reel_sub);
 

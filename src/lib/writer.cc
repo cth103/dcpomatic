@@ -43,9 +43,8 @@
 #include <dcp/mono_mpeg2_picture_frame.h>
 #include <dcp/locale_convert.h>
 #include <dcp/raw_convert.h>
-#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_file_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <cerrno>
 #include <cfloat>
 #include <set>
@@ -945,19 +944,21 @@ Writer::write (ReferencedReelAsset asset)
 {
 	_reel_assets.push_back (asset);
 
-	if (dynamic_pointer_cast<dcp::ReelSubtitleAsset>(asset.asset)) {
-		_have_subtitles = true;
-	} else if (auto ccap = dynamic_pointer_cast<dcp::ReelClosedCaptionAsset>(asset.asset)) {
-		/* This feels quite fragile. We have a referenced reel and want to know if it's
-		 * part of a given closed-caption track so that we can fill if it has any
-		 * missing reels.  I guess for that purpose almost any DCPTextTrack values are
-		 * fine so long as they are consistent.
-		 */
-		DCPTextTrack track;
-		track.name = ccap->annotation_text().get_value_or("");
-		track.language = dcp::LanguageTag(ccap->language().get_value_or("en-US"));
-		if (_have_closed_captions.find(track) == _have_closed_captions.end()) {
-			_have_closed_captions.insert(track);
+	if (auto text_asset = dynamic_pointer_cast<dcp::ReelTextAsset>(asset.asset)) {
+		if (text_asset->type() == dcp::TextType::OPEN_SUBTITLE || text_asset->type() == dcp::TextType::OPEN_CAPTION) {
+			_have_subtitles = true;
+		} else {
+			/* This feels quite fragile. We have a referenced reel and want to know if it's
+			 * part of a given closed-caption track so that we can fill if it has any
+			 * missing reels.  I guess for that purpose almost any DCPTextTrack values are
+			 * fine so long as they are consistent.
+			 */
+			DCPTextTrack track;
+			track.name = text_asset->annotation_text().get_value_or("");
+			track.language = dcp::LanguageTag(text_asset->language().get_value_or("en-US"));
+			if (_have_closed_captions.find(track) == _have_closed_captions.end()) {
+				_have_closed_captions.insert(track);
+			}
 		}
 	}
 }

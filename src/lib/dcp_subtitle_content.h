@@ -42,7 +42,7 @@ public:
 	dcpomatic::DCPTime approximate_length () const override;
 
 private:
-	void add_fonts(std::shared_ptr<TextContent> content, std::shared_ptr<dcp::SubtitleAsset> subtitle_asset);
+	void add_fonts(std::shared_ptr<TextContent> content, std::shared_ptr<dcp::TextAsset> subtitle_asset);
 
 	dcpomatic::ContentTime _length;
 };

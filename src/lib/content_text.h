@@ -27,7 +27,7 @@
 #include "dcpomatic_time.h"
 #include "rect.h"
 #include "string_text.h"
-#include <dcp/subtitle_string.h>
+#include <dcp/text_string.h>
 #include <vector>
 
 

@@ -27,10 +27,9 @@
 #include "test.h"
 #include <dcp/dcp.h>
 #include <dcp/cpl.h>
+#include <dcp/interop_text_asset.h>
 #include <dcp/reel.h>
-#include <dcp/interop_subtitle_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <boost/test/unit_test.hpp>
 
 
@@ -80,19 +79,19 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_test)
 	auto i = reels.begin ();
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
-	auto A = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
+	auto A = std::dynamic_pointer_cast<dcp::InteropTextAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (A);
 	++i;
 	BOOST_REQUIRE ((*i)->main_subtitle());
 	BOOST_REQUIRE ((*i)->main_subtitle()->asset());
-	auto B = std::dynamic_pointer_cast<dcp::InteropSubtitleAsset>((*i)->main_subtitle()->asset());
+	auto B = std::dynamic_pointer_cast<dcp::InteropTextAsset>((*i)->main_subtitle()->asset());
 	BOOST_REQUIRE (B);
 
-	BOOST_REQUIRE_EQUAL (A->subtitles().size(), 1U);
-	BOOST_REQUIRE_EQUAL (B->subtitles().size(), 1U);
+	BOOST_REQUIRE_EQUAL(A->texts().size(), 1U);
+	BOOST_REQUIRE_EQUAL(B->texts().size(), 1U);
 
 	/* These times should be the same as they are should be offset from the start of the reel */
-	BOOST_CHECK (A->subtitles().front()->in() == B->subtitles().front()->in());
+	BOOST_CHECK(A->texts().front()->in() == B->texts().front()->in());
 }
 
 
@@ -231,7 +230,7 @@ BOOST_AUTO_TEST_CASE (subtitles_split_at_reel_boundaries)
 		BOOST_REQUIRE (reel_sub);
 		auto sub = reel_sub->asset();
 		BOOST_REQUIRE (sub);
-		BOOST_CHECK_EQUAL (sub->subtitles().size(), 1U);
+		BOOST_CHECK_EQUAL(sub->texts().size(), 1U);
 	}
 }
 

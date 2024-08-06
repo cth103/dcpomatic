@@ -28,8 +28,8 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
-#include <dcp/interop_subtitle_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/interop_text_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
 
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 	int n = 1;
 	for (auto i: cpl->reels()) {
 		if (i->main_subtitle()) {
-			auto ass = dynamic_pointer_cast<dcp::InteropSubtitleAsset>(i->main_subtitle()->asset());
+			auto ass = dynamic_pointer_cast<dcp::InteropTextAsset>(i->main_subtitle()->asset());
 			BOOST_REQUIRE (ass);
 			BOOST_CHECK_EQUAL (ass->reel_number(), dcp::raw_convert<string>(n));
 			++n;

@@ -36,7 +36,7 @@
 #include <dcp/atmos_asset.h>
 #include <dcp/decrypted_kdm.h>
 #include <dcp/util.h>
-#include <dcp/subtitle_image.h>
+#include <dcp/text_image.h>
 #include <boost/optional.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/date_time/gregorian/gregorian.hpp>
@@ -50,7 +50,7 @@
 namespace dcp {
 	class PictureAsset;
 	class SoundAsset;
-	class SubtitleAsset;
+	class TextAsset;
 }
 
 extern std::string program_name;
@@ -82,13 +82,13 @@ extern dcp::Size fit_ratio_within (float ratio, dcp::Size);
 extern void set_backtrace_file (boost::filesystem::path);
 extern std::string video_asset_filename (std::shared_ptr<dcp::PictureAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern std::string audio_asset_filename (std::shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
-extern std::string subtitle_asset_filename (std::shared_ptr<dcp::SubtitleAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary, std::string extension);
+extern std::string subtitle_asset_filename (std::shared_ptr<dcp::TextAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary, std::string extension);
 extern std::string atmos_asset_filename (std::shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern std::string careful_string_filter (std::string);
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
 extern std::shared_ptr<AudioBuffers> remap (std::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
 extern size_t utf8_strlen (std::string s);
-extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::SubtitleImage sub, dcp::Size size, std::shared_ptr<TextDecoder> decoder);
+extern void emit_subtitle_image (dcpomatic::ContentTimePeriod period, dcp::TextImage sub, dcp::Size size, std::shared_ptr<TextDecoder> decoder);
 extern void copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)>);
 extern dcp::Size scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta);
 extern dcp::DecryptedKDM decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm);

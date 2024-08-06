@@ -45,17 +45,16 @@
 #include <dcp/mono_mpeg2_picture_asset.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
-#include <dcp/reel_closed_caption_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <dcp/search.h>
 #include <dcp/sound_asset_reader.h>
 #include <dcp/sound_frame.h>
 #include <dcp/stereo_j2k_picture_asset.h>
 #include <dcp/stereo_j2k_picture_asset_reader.h>
 #include <dcp/stereo_j2k_picture_frame.h>
-#include <dcp/subtitle_image.h>
+#include <dcp/text_image.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -318,7 +317,7 @@ DCPDecoder::pass_texts (ContentTime next, dcp::Size size)
 
 void
 DCPDecoder::pass_texts (
-	ContentTime next, shared_ptr<dcp::SubtitleAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size
+	ContentTime next, shared_ptr<dcp::TextAsset> asset, bool reference, int64_t entry_point, shared_ptr<TextDecoder> decoder, dcp::Size size
 	)
 {
 	auto const vfr = _dcp_content->active_video_frame_rate (film());
@@ -326,16 +325,16 @@ DCPDecoder::pass_texts (
 	auto const frame = next.frames_round (vfr);
 
 	if (_decode_referenced || !reference) {
-		auto subs = asset->subtitles_during (
+		auto subs = asset->texts_during(
 			dcp::Time (entry_point + frame, vfr, vfr),
 			dcp::Time (entry_point + frame + 1, vfr, vfr),
 			true
 			);
 
-		vector<dcp::SubtitleString> strings;
+		vector<dcp::TextString> strings;
 
 		for (auto i: subs) {
-			auto is = dynamic_pointer_cast<const dcp::SubtitleString>(i);
+			auto is = dynamic_pointer_cast<const dcp::TextString>(i);
 			if (is) {
 				if (!strings.empty() && (strings.back().in() != is->in() || strings.back().out() != is->out())) {
 					auto b = strings.back();
@@ -350,7 +349,7 @@ DCPDecoder::pass_texts (
 					strings.clear ();
 				}
 
-				dcp::SubtitleString is_copy = *is;
+				auto is_copy = *is;
 				if (is_copy.font()) {
 					is_copy.set_font(_font_id_allocator.font_id(_reel - _reels.begin(), asset->id(), is_copy.font().get()));
 				} else {
@@ -363,7 +362,7 @@ DCPDecoder::pass_texts (
 			   this would need to be done both here and in DCPSubtitleDecoder.
 			*/
 
-			auto ii = dynamic_pointer_cast<const dcp::SubtitleImage>(i);
+			auto ii = dynamic_pointer_cast<const dcp::TextImage>(i);
 			if (ii) {
 				emit_subtitle_image (
 					ContentTimePeriod (

@@ -34,8 +34,6 @@
  *  - open:      on-screen
  *  - closed:    only visible by some audience members
  *
- *  At the moment DoM supports open subtitles and closed captions.
- *
  *  There is some use of the word `subtitle' in the code which may mean
  *  caption in some contexts.
  */
@@ -43,6 +41,8 @@ enum class TextType
 {
 	UNKNOWN,
 	OPEN_SUBTITLE,
+	OPEN_CAPTION,
+	CLOSED_SUBTITLE,
 	CLOSED_CAPTION,
 	COUNT
 };

@@ -24,9 +24,8 @@
 #include "dcpomatic_assert.h"
 #include "font_id_allocator.h"
 #include <dcp/reel.h>
-#include <dcp/reel_closed_caption_asset.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
+#include <dcp/text_asset.h>
 #include <set>
 #include <string>
 #include <vector>
@@ -61,7 +60,7 @@ FontIDAllocator::add_fonts_from_reels(vector<shared_ptr<dcp::Reel>> const& reels
 
 
 void
-FontIDAllocator::add_fonts_from_asset(int reel_index, shared_ptr<const dcp::SubtitleAsset> asset)
+FontIDAllocator::add_fonts_from_asset(int reel_index, shared_ptr<const dcp::TextAsset> asset)
 {
 	for (auto const& font: asset->font_data()) {
 		add_font(reel_index, asset->id(), font.first);

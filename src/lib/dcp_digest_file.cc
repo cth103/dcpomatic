@@ -24,9 +24,9 @@
 #include <dcp/mxf.h>
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
+#include <dcp/reel_smpte_text_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/reel_smpte_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
@@ -80,7 +80,7 @@ write_dcp_digest_file (
 		if (in_reel->main_sound()) {
 			add_asset(film_key, in_reel->main_sound(), in_reel->main_sound()->asset(), out_reel, "MainSound");
 		}
-		if (auto smpte_sub = dynamic_pointer_cast<dcp::ReelSMPTESubtitleAsset>(in_reel->main_subtitle())) {
+		if (auto smpte_sub = dynamic_pointer_cast<dcp::ReelSMPTETextAsset>(in_reel->main_subtitle())) {
 			add_asset(film_key, smpte_sub, smpte_sub->smpte_asset(), out_reel, "MainSubtitle");
 		}
 	}

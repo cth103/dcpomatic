@@ -41,7 +41,7 @@
 #include "compose.hpp"
 #include <libcxml/cxml.h>
 #include <dcp/filesystem.h>
-#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/smpte_text_asset.h>
 #include <boost/algorithm/string.hpp>
 
 #include "i18n.h"
@@ -178,7 +178,7 @@ content_factory (boost::filesystem::path path)
 				throw KDMAsContentError ();
 			}
 			single = make_shared<DCPSubtitleContent>(path);
-		} else if (ext == ".mxf" && dcp::SMPTESubtitleAsset::valid_mxf(path)) {
+		} else if (ext == ".mxf" && dcp::SMPTETextAsset::valid_mxf(path)) {
 			single = make_shared<DCPSubtitleContent>(path);
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf(path)) {
 			single = make_shared<VideoMXFContent>(path);

@@ -32,8 +32,8 @@
 #include "lib/string_text_file_content.h"
 #include "lib/text_content.h"
 #include "test.h"
-#include <dcp/smpte_subtitle_asset.h>
-#include <dcp/subtitle_string.h>
+#include <dcp/smpte_text_asset.h>
+#include <dcp/text_string.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/test/unit_test.hpp>
 #include <list>
@@ -229,12 +229,12 @@ BOOST_AUTO_TEST_CASE(srt_subtitle_entity)
 			dcp::VerificationNote::Code::INVALID_SUBTITLE_SPACING,
 		});
 
-	dcp::SMPTESubtitleAsset check(dcp_file(film, "sub_"));
-	auto subs = check.subtitles();
+	dcp::SMPTETextAsset check(dcp_file(film, "sub_"));
+	auto subs = check.texts();
 	BOOST_REQUIRE_EQUAL(subs.size(), 1U);
-	auto sub = std::dynamic_pointer_cast<const dcp::SubtitleString>(subs[0]);
+	auto sub = std::dynamic_pointer_cast<const dcp::TextString>(subs[0]);
 	BOOST_REQUIRE(sub);
-	/* libdcp::SubtitleAsset gets the text from the XML with get_content(), which
+	/* dcp::TextAsset gets the text from the XML with get_content(), which
 	 * resolves the 5 predefined entities & " < > ' so we shouldn't see any
 	 * entity here.
 	 */

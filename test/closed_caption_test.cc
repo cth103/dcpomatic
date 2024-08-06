@@ -26,7 +26,7 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
-#include <dcp/reel_closed_caption_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <boost/test/unit_test.hpp>
 
 

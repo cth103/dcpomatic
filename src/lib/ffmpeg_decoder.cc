@@ -45,7 +45,7 @@
 #include "util.h"
 #include "video_decoder.h"
 #include "video_filter_graph.h"
-#include <dcp/subtitle_string.h>
+#include <dcp/text_string.h>
 #include <sub/ssa_reader.h>
 #include <sub/subtitle.h>
 #include <sub/collect.h>

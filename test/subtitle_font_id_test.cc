@@ -30,8 +30,8 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/reel.h>
-#include <dcp/reel_subtitle_asset.h>
-#include <dcp/smpte_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
+#include <dcp/smpte_text_asset.h>
 #include "test.h"
 #include <boost/test/unit_test.hpp>
 
@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_without_font_tag)
 		});
 
 	auto check_file = subtitle_file(film);
-	dcp::SMPTESubtitleAsset check_asset(check_file);
+	dcp::SMPTETextAsset check_asset(check_file);
 	BOOST_CHECK_EQUAL(check_asset.load_font_nodes().size(), 1U);
 	auto check_font_data = check_asset.font_data();
 	BOOST_CHECK_EQUAL(check_font_data.size(), 1U);
@@ -188,7 +188,7 @@ BOOST_AUTO_TEST_CASE(make_dcp_with_subs_in_dcp_without_font_tag)
 		});
 
 	auto check_file = subtitle_file(film);
-	dcp::SMPTESubtitleAsset check_asset(check_file);
+	dcp::SMPTETextAsset check_asset(check_file);
 	BOOST_CHECK_EQUAL(check_asset.load_font_nodes().size(), 1U);
 	auto check_font_data = check_asset.font_data();
 	BOOST_CHECK_EQUAL(check_font_data.size(), 1U);
@@ -256,8 +256,8 @@ BOOST_AUTO_TEST_CASE(subtitle_with_no_font_test)
 	BOOST_REQUIRE(check_subs);
 
 	BOOST_CHECK_EQUAL(check_subs->font_data().size(), 1U);
-	BOOST_REQUIRE_EQUAL(check_subs->subtitles().size(), 1U);
-	BOOST_CHECK(!std::dynamic_pointer_cast<const dcp::SubtitleString>(check_subs->subtitles()[0])->font().has_value());
+	BOOST_REQUIRE_EQUAL(check_subs->texts().size(), 1U);
+	BOOST_CHECK(!std::dynamic_pointer_cast<const dcp::TextString>(check_subs->texts()[0])->font().has_value());
 
 	auto check_film = new_test_film(name_base + "_check", { make_shared<DCPContent>(bad_film->dir(bad_film->dcp_name())) });
 	make_and_verify_dcp(check_film);
@@ -289,7 +289,7 @@ BOOST_AUTO_TEST_CASE(use_first_loadfont_as_default)
 	BOOST_REQUIRE(!cpl->reels().empty());
 	auto reel = cpl->reels()[0];
 	BOOST_REQUIRE(reel->main_subtitle()->asset());
-	auto subtitle = std::dynamic_pointer_cast<dcp::SMPTESubtitleAsset>(reel->main_subtitle()->asset());
+	auto subtitle = std::dynamic_pointer_cast<dcp::SMPTETextAsset>(reel->main_subtitle()->asset());
 	BOOST_REQUIRE_EQUAL(subtitle->font_data().size(), 1U);
 	BOOST_CHECK(subtitle->font_data().begin()->second == dcp::ArrayData("test/data/Inconsolata-VF.ttf"));
 }

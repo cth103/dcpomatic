@@ -25,7 +25,7 @@
 #include "font.h"
 #include "text_content.h"
 #include "util.h"
-#include <dcp/interop_subtitle_asset.h>
+#include <dcp/interop_text_asset.h>
 #include <dcp/load_font_node.h>
 
 
@@ -45,7 +45,7 @@ DCPSubtitleDecoder::DCPSubtitleDecoder (shared_ptr<const Film> film, shared_ptr<
 	/* Load the XML or MXF file */
 	_asset = load(content->path(0));
 	_asset->fix_empty_font_ids();
-	_subtitles = _asset->subtitles();
+	_subtitles = _asset->texts();
 	_next = _subtitles.begin ();
 
 	_subtitle_standard = _asset->subtitle_standard();
@@ -91,14 +91,14 @@ DCPSubtitleDecoder::pass ()
 	   time of emitting the first.
 	*/
 
-	vector<dcp::SubtitleString> s;
-	vector<dcp::SubtitleImage> i;
+	vector<dcp::TextString> s;
+	vector<dcp::TextImage> i;
 	auto const p = content_time_period (*_next);
 
 	while (_next != _subtitles.end () && content_time_period (*_next) == p) {
-		auto ns = dynamic_pointer_cast<const dcp::SubtitleString>(*_next);
+		auto ns = dynamic_pointer_cast<const dcp::TextString>(*_next);
 		if (ns) {
-			dcp::SubtitleString ns_copy = *ns;
+			auto ns_copy = *ns;
 			if (ns_copy.font()) {
 				ns_copy.set_font(_font_id_allocator.font_id(0, _asset->id(), ns_copy.font().get()));
 			} else {
@@ -111,7 +111,7 @@ DCPSubtitleDecoder::pass ()
 			   this would need to be done both here and in DCPDecoder.
 			*/
 
-			auto ni = dynamic_pointer_cast<const dcp::SubtitleImage>(*_next);
+			auto ni = dynamic_pointer_cast<const dcp::TextImage>(*_next);
 			if (ni) {
 				emit_subtitle_image (p, *ni, film()->frame_size(), only_text());
 				++_next;
@@ -128,7 +128,7 @@ DCPSubtitleDecoder::pass ()
 
 
 ContentTimePeriod
-DCPSubtitleDecoder::content_time_period (shared_ptr<const dcp::Subtitle> s) const
+DCPSubtitleDecoder::content_time_period(shared_ptr<const dcp::Text> s) const
 {
 	return {
 		ContentTime::from_seconds(s->in().as_seconds()),

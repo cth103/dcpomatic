@@ -36,7 +36,7 @@
 #include <dcp/reel.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
-#include <dcp/reel_subtitle_asset.h>
+#include <dcp/reel_text_asset.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/cmdline.h>
