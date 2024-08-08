@@ -10,6 +10,8 @@ else
     env=x86_64/10.10
 fi
 
+# Allow running from a tree built using cdist
+export LD_LIBRARY_PATH=$DIR/../../../lib:$DIR/../../../lib64:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
 
 # export ASAN_OPTIONS=verbosity=1:malloc_context_size=20:detect_leaks=1
