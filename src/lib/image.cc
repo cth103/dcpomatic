@@ -1171,14 +1171,14 @@ Image::write_to_socket (shared_ptr<Socket> socket) const
 
 
 float
-Image::bytes_per_pixel (int c) const
+Image::bytes_per_pixel(int component) const
 {
 	auto d = av_pix_fmt_desc_get(_pixel_format);
 	if (!d) {
 		throw PixelFormatError ("bytes_per_pixel()", _pixel_format);
 	}
 
-	if (c >= planes()) {
+	if (component >= planes()) {
 		return 0;
 	}
 
@@ -1213,7 +1213,7 @@ Image::bytes_per_pixel (int c) const
 		return bpp[0] + bpp[1] + bpp[2] + bpp[3];
 	}
 
-	return bpp[c];
+	return bpp[component];
 }
 
 

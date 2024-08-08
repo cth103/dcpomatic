@@ -68,7 +68,7 @@ public:
 	int vertical_factor (int) const;
 	int horizontal_factor (int) const;
 	dcp::Size sample_size (int) const;
-	float bytes_per_pixel (int) const;
+	float bytes_per_pixel(int component) const;
 
 	std::shared_ptr<Image> convert_pixel_format (dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
 	std::shared_ptr<Image> scale (dcp::Size out_size, dcp::YUVToRGB yuv_to_rgb, AVPixelFormat out_format, Alignment alignment, bool fast) const;
