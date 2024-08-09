@@ -80,11 +80,6 @@ TextPanel::TextPanel (ContentPanel* p, TextType t)
 void
 TextPanel::create ()
 {
-	wxString refer = _("Use this DCP's subtitle as OV and make VF");
-	if (_original_type == TextType::CLOSED_CAPTION) {
-		refer = _("Use this DCP's closed caption as OV and make VF");
-	}
-
 	_use = new CheckBox (this, _("Use as"));
 	_type = new Choice(this);
 	_burn = new CheckBox (this, _("Burn subtitles into image"));
