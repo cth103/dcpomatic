@@ -89,5 +89,5 @@ QubeCertificatePanel::do_download ()
 wxString
 QubeCertificatePanel::name () const
 {
-	return _("Qube") + " " + std_to_wx(_type);
+	return wxString::Format(_("Qube %s"), std_to_wx(_type));
 }

@@ -499,7 +499,7 @@ dcpomatic_setup_i18n ()
 #endif
 
 #ifdef DCPOMATIC_LINUX
-		locale->AddCatalogLookupPathPrefix (LINUX_LOCALE_PREFIX);
+		locale->AddCatalogLookupPathPrefix(std_to_wx(LINUX_LOCALE_PREFIX));
 
 		/* We have to include the wxWidgets .mo in our distribution,
 		   so we rename it to avoid clashes with any other installation

@@ -202,7 +202,7 @@ public:
 private:
 	void appended (string s)
 	{
-		(*_text) << s << "\n";
+		(*_text) << std_to_wx(s) << char_to_wx("\n");
 	}
 
 	void removed (int n)
@@ -212,7 +212,7 @@ private:
 
 	void update_state ()
 	{
-		_fps->SetLabel (wxString::Format ("%.1f", server_log->fps()));
+		_fps->SetLabel(wxString::Format(char_to_wx("%.1f"), server_log->fps()));
 	}
 
 	wxTextCtrl* _text;

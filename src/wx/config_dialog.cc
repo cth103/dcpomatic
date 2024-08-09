@@ -448,11 +448,11 @@ CertificateChainEditor::export_certificate ()
 
 	wxString default_name;
 	if (i == 0) {
-		default_name = "root.pem";
+		default_name = char_to_wx("root.pem");
 	} else if (i == static_cast<int>(all.size() - 1)) {
-		default_name = "leaf.pem";
+		default_name = char_to_wx("leaf.pem");
 	} else {
-		default_name = "intermediate.pem";
+		default_name = char_to_wx("intermediate.pem");
 	}
 
 	auto d = make_wx<wxFileDialog>(
@@ -814,12 +814,12 @@ void
 KeysPage::export_decryption_certificate ()
 {
 	auto config = Config::instance();
-	wxString default_name = "dcpomatic";
+	wxString default_name = char_to_wx("dcpomatic");
 	if (!config->dcp_creator().empty()) {
-		default_name += "_" + std_to_wx(careful_string_filter(config->dcp_creator()));
+		default_name += char_to_wx("_") + std_to_wx(careful_string_filter(config->dcp_creator()));
 	}
 	if (!config->dcp_issuer().empty()) {
-		default_name += "_" + std_to_wx(careful_string_filter(config->dcp_issuer()));
+		default_name += char_to_wx("_") + std_to_wx(careful_string_filter(config->dcp_issuer()));
 	}
 	default_name += wxT("_kdm_decryption_cert.pem");
 
@@ -1037,17 +1037,17 @@ LocationsPage::setup ()
 	_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
 
 	add_label_to_sizer (table, _panel, _("Content directory"), true, wxGBPosition (r, 0));
-	_content_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+	_content_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
 	table->Add (_content_directory, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_sizer (table, _panel, _("Playlist directory"), true, wxGBPosition (r, 0));
-	_playlist_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+	_playlist_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
 	table->Add (_playlist_directory, wxGBPosition (r, 1));
 	++r;
 
 	add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
-	_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+	_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
 	table->Add (_kdm_directory, wxGBPosition (r, 1));
 	++r;
 

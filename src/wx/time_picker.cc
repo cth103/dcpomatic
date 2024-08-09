@@ -115,8 +115,8 @@ TimePickerText::TimePickerText (wxWindow* parent, wxDateTime time)
 
 	_minutes->MoveAfterInTabOrder (_hours);
 
-	_hours->SetValue (wxString::Format("%d", time.GetHour()));
-	_minutes->SetValue (wxString::Format("%d", time.GetMinute()));
+	_hours->SetValue(wxString::Format(char_to_wx("%d"), time.GetHour()));
+	_minutes->SetValue(wxString::Format(char_to_wx("%d"), time.GetMinute()));
 
 	_hours->Bind (wxEVT_TEXT, (bind(&TimePickerText::changed, this)));
 	_minutes->Bind (wxEVT_TEXT, (bind(&TimePickerText::changed, this)));

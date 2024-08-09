@@ -171,7 +171,7 @@ private:
 		} else if (is_regular_file(output)) {
 			error_dialog (
 				this,
-				String::compose (wx_to_std(_("%1 already exists as a file, so you cannot use it for a DCP.")), output.string())
+				wxString::Format(_("%s already exists as a file, so you cannot use it for a DCP."), std_to_wx(output.string()))
 				);
 			return;
 		}
@@ -192,7 +192,7 @@ private:
 		} else {
 			auto m = std_to_wx(last->error_summary());
 			if (!last->error_details().empty()) {
-				m += wxString::Format(" (%s)", std_to_wx(last->error_details()));
+				m += wxString::Format(char_to_wx(" (%s)"), std_to_wx(last->error_details()));
 			}
 			error_dialog (this, m);
 		}
@@ -313,7 +313,7 @@ public:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 	}
 

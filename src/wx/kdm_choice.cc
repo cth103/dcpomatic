@@ -20,15 +20,16 @@
 
 
 #include "kdm_choice.h"
+#include "wx_util.h"
 
 
 KDMChoice::KDMChoice (wxWindow* parent)
 	: wxChoice (parent, wxID_ANY)
 {
-	Append("Modified Transitional 1", reinterpret_cast<void*>(dcp::Formulation::MODIFIED_TRANSITIONAL_1));
-	Append("DCI Any", reinterpret_cast<void*>(dcp::Formulation::DCI_ANY));
-	Append("DCI Specific", reinterpret_cast<void*>(dcp::Formulation::DCI_SPECIFIC));
-	Append("Multiple Modified Transitional 1", reinterpret_cast<void*>(dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1));
+	Append(char_to_wx("Modified Transitional 1"), reinterpret_cast<void*>(dcp::Formulation::MODIFIED_TRANSITIONAL_1));
+	Append(char_to_wx("DCI Any"), reinterpret_cast<void*>(dcp::Formulation::DCI_ANY));
+	Append(char_to_wx("DCI Specific"), reinterpret_cast<void*>(dcp::Formulation::DCI_SPECIFIC));
+	Append(char_to_wx("Multiple Modified Transitional 1"), reinterpret_cast<void*>(dcp::Formulation::MULTIPLE_MODIFIED_TRANSITIONAL_1));
 }
 
 

@@ -132,7 +132,7 @@ ContentView::update ()
 	/* Add content from successful jobs and report errors */
 	for (auto i: jobs) {
 		if (i->finished_in_error()) {
-			error_dialog(this, std_to_wx(i->error_summary()) + ".\n", std_to_wx(i->error_details()));
+			error_dialog(this, std_to_wx(i->error_summary()) + char_to_wx(".\n"), std_to_wx(i->error_details()));
 		} else {
 			add (i->content());
 			_content.push_back (i->content());
@@ -151,7 +151,7 @@ ContentView::add (shared_ptr<Content> content)
 	it.SetColumn(0);
 	auto length = content->approximate_length ();
 	auto const hmsf = length.split (24);
-	it.SetText(wxString::Format("%02d:%02d:%02d", hmsf.h, hmsf.m, hmsf.s));
+	it.SetText(wxString::Format(char_to_wx("%02d:%02d:%02d"), hmsf.h, hmsf.m, hmsf.s));
 	InsertItem(it);
 
 	auto dcp = dynamic_pointer_cast<DCPContent>(content);

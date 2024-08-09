@@ -120,7 +120,7 @@ FontsDialog::setup ()
 		_fonts->SetItem(n, 0, id);
 		_fonts->SetItemData(n, i->id().empty());
 		if (i->file()) {
-			_fonts->SetItem(n, 1, i->file()->filename().string());
+			_fonts->SetItem(n, 1, std_to_wx(i->file()->filename().string()));
 		}
 		++n;
 	}
@@ -172,16 +172,16 @@ FontsDialog::set_from_file_clicked ()
         /* The wxFD_CHANGE_DIR here prevents a `could not set working directory' error 123 on Windows when using
            non-Latin filenames or paths.
         */
-        wxString default_dir = "";
+        wxString default_dir;
 #ifdef DCPOMATIC_LINUX
         if (dcp::filesystem::exists("/usr/share/fonts/truetype")) {
-                default_dir = "/usr/share/fonts/truetype";
+                default_dir = char_to_wx("/usr/share/fonts/truetype");
         } else {
-                default_dir = "/usr/share/fonts";
+                default_dir = char_to_wx("/usr/share/fonts");
         }
 #endif
 #ifdef DCPOMATIC_OSX
-        default_dir = "/System/Library/Fonts";
+        default_dir = char_to_wx("/System/Library/Fonts");
 #endif
 
 	auto d = make_wx<wxFileDialog>(this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);

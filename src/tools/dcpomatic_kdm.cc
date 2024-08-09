@@ -698,7 +698,7 @@ private:
 
 		if (!base->parent()) {
 			/* This is the root group */
-			_dkdm_id[_dkdm->AddRoot("root")] = base;
+			_dkdm_id[_dkdm->AddRoot(char_to_wx("root"))] = base;
 		} else {
 			/* Add base to the view */
 			wxTreeItemId added;
@@ -944,7 +944,7 @@ private:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 
 		/* This will terminate the program */
@@ -953,7 +953,7 @@ private:
 
 	void OnUnhandledException () override
 	{
-		error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+		error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 	}
 
 	void idle ()

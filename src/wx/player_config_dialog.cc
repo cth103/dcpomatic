@@ -133,7 +133,7 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Debug log file"), true, wxGBPosition (r, 0));
-		_debug_log_file = new FilePickerCtrl(_panel, _("Select debug log file"), "*", false, true, "DebugLogPath");
+		_debug_log_file = new FilePickerCtrl(_panel, _("Select debug log file"), char_to_wx("*"), false, true, "DebugLogPath");
 		table->Add (_debug_log_file, wxGBPosition(r, 1));
 		++r;
 

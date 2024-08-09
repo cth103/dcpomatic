@@ -22,6 +22,7 @@
 #include "full_language_tag_dialog.h"
 #include "language_subtag_panel.h"
 #include "subtag_list_ctrl.h"
+#include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
 #include <dcp/language_tag.h>
 #include <dcp/warnings.h>
@@ -55,8 +56,8 @@ FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag
 	: wxDialog (parent, wxID_ANY, _("Language Tag"), wxDefaultPosition, wxSize(-1, 500))
 {
 	_current_tag_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER);
-	_current_tag_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 200);
-	_current_tag_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 400);
+	_current_tag_list->AppendColumn({}, wxLIST_FORMAT_LEFT, 200);
+	_current_tag_list->AppendColumn({}, wxLIST_FORMAT_LEFT, 400);
 
 	auto button_sizer = new wxBoxSizer (wxVERTICAL);
 	_add_script = new wxButton(this, wxID_ANY, "Add script");
@@ -212,11 +213,11 @@ FullLanguageTagDialog::add_to_current_tag (dcp::LanguageTag::SubtagType type, op
 	wxListItem it;
 	it.SetId (_current_tag_list->GetItemCount());
 	it.SetColumn (0);
-	it.SetText (subtag_type_name(type));
+	it.SetText(std_to_wx(subtag_type_name(type)));
 	_current_tag_list->InsertItem (it);
 	it.SetColumn (1);
 	if (subtag) {
-		it.SetText (subtag->description);
+		it.SetText(std_to_wx(subtag->description));
 	} else {
 		it.SetText ("Select...");
 	}
@@ -251,8 +252,8 @@ FullLanguageTagDialog::chosen_subtag_changed (optional<dcp::LanguageTag::SubtagD
 	auto selected = _current_tag_list->GetNextItem (-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
 	if (selected >= 0) {
 		_current_tag_subtags[selected].subtag = *selection;
-		_current_tag_list->SetItem (selected, 0, subtag_type_name(_current_tag_subtags[selected].type));
-		_current_tag_list->SetItem (selected, 1, selection->description);
+		_current_tag_list->SetItem(selected, 0, std_to_wx(subtag_type_name(_current_tag_subtags[selected].type)));
+		_current_tag_list->SetItem(selected, 1, std_to_wx(selection->description));
 	}
 
 	setup_sensitivity ();

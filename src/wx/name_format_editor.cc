@@ -30,9 +30,9 @@ using std::string;
 
 NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp::NameFormat::Map titles, dcp::NameFormat::Map examples, string suffix)
 	: _panel (new wxPanel(parent))
-	, _example (new StaticText(_panel, ""))
+	, _example(new StaticText(_panel, {}))
 	, _sizer (new wxBoxSizer(wxVERTICAL))
-	, _specification (new wxTextCtrl(_panel, wxID_ANY, ""))
+	, _specification(new wxTextCtrl(_panel, wxID_ANY, {}))
 	, _name (name)
 	, _examples (examples)
 	, _suffix (suffix)
@@ -83,7 +83,7 @@ NameFormatEditor::update_example ()
 	wxString wrapped;
 	for (size_t i = 0; i < example.Length(); ++i) {
 		if (i > 0 && (i % 40) == 0) {
-			wrapped += "\n";
+			wrapped += char_to_wx("\n");
 		}
 		wrapped += example[i];
 	}

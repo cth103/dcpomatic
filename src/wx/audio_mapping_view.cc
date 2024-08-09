@@ -519,7 +519,7 @@ AudioMappingView::input_channel_name_with_group (NamedChannel const& n) const
 	}
 
 	if (group && !group->IsEmpty()) {
-		return wxString::Format ("%s/%s", group->data(), std_to_wx(n.name).data());
+		return wxString::Format(char_to_wx("%s/%s"), group->data(), std_to_wx(n.name).data());
 	}
 
 	return std_to_wx(n.name);
@@ -562,14 +562,14 @@ AudioMappingView::motion (wxMouseEvent& ev)
 					);
 			}
 
-			SetToolTip (s + " " + _("Right click to change gain."));
+			SetToolTip(s + char_to_wx(" ") + _("Right click to change gain."));
 		}
 	} else {
 		auto group = mouse_event_to_input_group_name (ev);
 		if (group) {
 			SetToolTip (std_to_wx(*group));
 		} else {
-			SetToolTip ("");
+			SetToolTip({});
 		}
 	}
 

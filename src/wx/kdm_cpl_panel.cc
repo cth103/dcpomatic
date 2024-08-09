@@ -52,13 +52,13 @@ KDMCPLPanel::KDMCPLPanel (wxWindow* parent, vector<CPLSummary> cpls)
 	/* CPL details */
 	auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	add_label_to_sizer (table, this, _("DCP directory"), true);
-	_dcp_directory = new StaticText (this, "");
+	_dcp_directory = new StaticText(this, {});
 	table->Add (_dcp_directory);
 	add_label_to_sizer (table, this, _("CPL ID"), true);
-	_cpl_id = new StaticText (this, "");
+	_cpl_id = new StaticText(this, {});
 	table->Add (_cpl_id);
 	add_label_to_sizer (table, this, _("CPL annotation text"), true);
-	_cpl_annotation_text = new StaticText (this, "");
+	_cpl_annotation_text = new StaticText(this, {});
 	table->Add (_cpl_annotation_text);
 	vertical->Add (table, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP + 2);
 
@@ -104,7 +104,7 @@ KDMCPLPanel::update_cpl_summary ()
 void
 KDMCPLPanel::cpl_browse_clicked ()
 {
-	auto d = make_wx<wxFileDialog>(this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, "*.xml");
+	auto d = make_wx<wxFileDialog>(this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, char_to_wx("*.xml"));
 	if (d->ShowModal() == wxID_CANCEL) {
 		return;
 	}

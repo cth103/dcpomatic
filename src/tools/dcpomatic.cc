@@ -575,7 +575,7 @@ private:
 				}
 			}
 			wxString message = _("Could not create folder to store film.");
-			message += "  ";
+			message += char_to_wx("  ");
 			if (!found_bad_chars.empty()) {
 				message += wxString::Format (_("Try removing the %s characters from your folder name."), std_to_wx(found_bad_chars).data());
 			} else {
@@ -1015,7 +1015,7 @@ private:
 		} catch (dcp::NotEncryptedError& e) {
 			error_dialog (this, _("CPL's content is not encrypted."));
 		} catch (exception& e) {
-			error_dialog (this, e.what ());
+			error_dialog(this, std_to_wx(e.what()));
 		} catch (...) {
 			error_dialog (this, _("An unknown exception occurred."));
 		}
@@ -1845,7 +1845,7 @@ private:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 	}
 

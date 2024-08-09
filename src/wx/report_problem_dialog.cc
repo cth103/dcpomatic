@@ -117,7 +117,7 @@ ReportProblemDialog::report ()
 		return;
 	}
 
-	if (_email->GetValue() == "carl@dcpomatic.com" || _email->GetValue() == "cth@carlh.net") {
+	if (_email->GetValue() == char_to_wx("carl@dcpomatic.com") || _email->GetValue() == char_to_wx("cth@carlh.net")) {
 		error_dialog (this, wxString::Format(_("Enter your email address for the contact, not %s"), _email->GetValue().data()));
 		return;
 	}

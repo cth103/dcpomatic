@@ -109,7 +109,7 @@ public:
 		_duration->SetRange(0, 259200);
 		_duration->SetValue(asset->duration().get_value_or(0));
 
-		intrinsic_duration->SetValue(wxString::Format("%ld", asset->intrinsic_duration()));
+		intrinsic_duration->SetValue(wxString::Format(char_to_wx("%ld"), asset->intrinsic_duration()));
 
 		_annotation_text->Bind(wxEVT_TEXT, boost::bind(&AssetPanel::annotation_text_changed, this));
 		_entry_point->Bind(wxEVT_SPINCTRL, boost::bind(&AssetPanel::entry_point_changed, this));
@@ -543,7 +543,7 @@ private:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 	}
 

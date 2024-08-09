@@ -167,7 +167,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		add_section (_("Translated by"), translated_by);
 
 		wxArrayString patrons;
-		patrons.Add ("Lightbender Post");
+		patrons.Add(char_to_wx("Lightbender Post"));
 		add_section (_("Patrons"), patrons);
 
 		wxArrayString subscribers;

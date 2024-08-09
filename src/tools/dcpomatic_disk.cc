@@ -347,7 +347,7 @@ private:
 
 		auto const& drive = _drives[_drive->GetSelection()];
 		if (drive.mounted()) {
-			auto d = make_wx<TryUnmountDialog>(this, drive.description());
+			auto d = make_wx<TryUnmountDialog>(this, std_to_wx(drive.description()));
 			int const r = d->ShowModal ();
 			if (r != wxID_OK) {
 				return;
@@ -371,7 +371,7 @@ private:
 						wxString::Format(
 							_("The drive %s could not be unmounted.\nClose any application that is using it, then try again. (%s)"),
 							std_to_wx(drive.description()),
-							reply->error_message()
+							std_to_wx(reply->error_message())
 							)
 						);
 				m->ShowModal ();
@@ -585,7 +585,7 @@ public:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 	}
 

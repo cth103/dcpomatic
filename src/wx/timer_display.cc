@@ -46,7 +46,7 @@ TimerDisplay::TimerDisplay (wxWindow* parent, StateTimer const & timer, int gets
 		return a.second.total_time > b.second.total_time;
 	});
 
-	add (wxString("get() calls"), true);
+	add(char_to_wx("get() calls"), true);
 	add (std_to_wx(dcp::locale_convert<string>(gets)), false);
 	add_spacer ();
 	add_spacer ();

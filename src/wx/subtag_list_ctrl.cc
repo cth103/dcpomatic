@@ -20,6 +20,7 @@
 
 
 #include "subtag_list_ctrl.h"
+#include "wx_util.h"
 #include "lib/dcpomatic_assert.h"
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -34,8 +35,8 @@ using boost::optional;
 SubtagListCtrl::SubtagListCtrl(wxWindow* parent)
 	: wxListCtrl(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER | wxLC_VIRTUAL)
 {
-	AppendColumn("", wxLIST_FORMAT_LEFT, 80);
-	AppendColumn("", wxLIST_FORMAT_LEFT, 400);
+	AppendColumn(char_to_wx(""), wxLIST_FORMAT_LEFT, 80);
+	AppendColumn(char_to_wx(""), wxLIST_FORMAT_LEFT, 400);
 }
 
 
@@ -102,9 +103,9 @@ wxString
 SubtagListCtrl::OnGetItemText(long item, long column) const
 {
 	if (column == 0) {
-		return _matching_subtags[item].subtag;
+		return std_to_wx(_matching_subtags[item].subtag);
 	} else {
-		return _matching_subtags[item].description;
+		return std_to_wx(_matching_subtags[item].description);
 	}
 }
 

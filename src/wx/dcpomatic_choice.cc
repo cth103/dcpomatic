@@ -34,7 +34,7 @@ Choice::Choice(wxWindow* parent)
 	 * too small on KDE.  This added empty string will be removed in the first
 	 * call to add().
 	 */
-	Append("");
+	Append(wxString{});
 	set(0);
 }
 

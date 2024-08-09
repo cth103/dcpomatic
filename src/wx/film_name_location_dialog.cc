@@ -55,7 +55,7 @@ FilmNameLocationDialog::FilmNameLocationDialog (wxWindow* parent, wxString title
 	_folder = new DirPickerCtrl (this);
 	_folder->Changed.connect (bind(&FilmNameLocationDialog::folder_changed, this));
 #else
-	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, wxDirSelectorPromptStr, wxDefaultPosition, wxSize (300, -1));
+	_folder = new wxDirPickerCtrl(this, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
 	_folder->Bind (wxEVT_DIRPICKER_CHANGED, bind(&FilmNameLocationDialog::folder_changed, this));
 #endif
 
@@ -143,10 +143,9 @@ FilmNameLocationDialog::check_path ()
 	if (boost::filesystem::is_directory(path()) && !boost::filesystem::is_empty(path())) {
 		if (!confirm_dialog (
 			    this,
-			    std_to_wx (
-				    String::compose(wx_to_std(_("The directory %1 already exists and is not empty.  "
-								  "Are you sure you want to use it?")),
-						    path().string().c_str())
+			    wxString::Format(
+				    _("The directory %s already exists and is not empty.  Are you sure you want to use it?"),
+				    std_to_wx(path().string())
 				    )
 			    )) {
 			return false;
@@ -154,7 +153,7 @@ FilmNameLocationDialog::check_path ()
 	} else if (boost::filesystem::is_regular_file(path())) {
 		error_dialog (
 			this,
-			String::compose (wx_to_std(_("%1 already exists as a file, so you cannot use it for a film.")), path().c_str())
+			wxString::Format(_("%s already exists as a file, so you cannot use it for a film."), std_to_wx(path().string()))
 			);
 		return false;
 	}

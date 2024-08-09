@@ -111,10 +111,10 @@ SubtitleAppearanceDialog::SubtitleAppearanceDialog (wxWindow* parent, shared_ptr
 		_colour_table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 		_colour_table->AddGrowableCol (1, 1);
 
-		wxStaticText* t = new StaticText (_colours_panel, "");
+		wxStaticText* t = new StaticText(_colours_panel, {});
 		t->SetLabelMarkup (_("<b>Original colour</b>"));
 		_colour_table->Add (t, 1, wxEXPAND);
-		t = new StaticText (_colours_panel, "", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
+		t = new StaticText (_colours_panel, {}, wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE_HORIZONTAL);
 		t->SetLabelMarkup (_("<b>New colour</b>"));
 		_colour_table->Add (t, 1, wxALIGN_CENTER);
 

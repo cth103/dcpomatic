@@ -470,5 +470,5 @@ AudioDialog::set_cursor (optional<DCPTime> time, optional<float> db)
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT (film);
-	_cursor->SetLabel (wxString::Format (_("Cursor: %.1fdB at %s"), *db, time->timecode(film->video_frame_rate())));
+	_cursor->SetLabel(wxString::Format(_("Cursor: %.1fdB at %s"), *db, std_to_wx(time->timecode(film->video_frame_rate()))));
 }

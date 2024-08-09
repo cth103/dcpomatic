@@ -62,9 +62,9 @@ ContentTimelineAudioView::label () const
 	DCPOMATIC_ASSERT (ac);
 
 	if (ac->gain() > 0.01) {
-		s += wxString::Format (" +%.1fdB", ac->gain());
+		s += wxString::Format(char_to_wx(" +%.1fdB"), ac->gain());
 	} else if (ac->gain() < -0.01) {
-		s += wxString::Format (" %.1fdB", ac->gain());
+		s += wxString::Format(char_to_wx(" %.1fdB"), ac->gain());
 	}
 
 	if (ac->delay() > 0) {
@@ -75,9 +75,9 @@ ContentTimelineAudioView::label () const
 
 	auto mapped = ac->mapping().mapped_output_channels();
 	if (!mapped.empty ()) {
-		s += wxString::FromUTF8(" → ");
+		s += char_to_wx(" → ");
 		for (auto i: mapped) {
-			s += std_to_wx(short_audio_channel_name(i)) + ", ";
+			s += std_to_wx(short_audio_channel_name(i)) + char_to_wx(", ");
 		}
 		s = s.Left(s.Length() - 2);
 	}

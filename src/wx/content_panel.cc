@@ -640,7 +640,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 	try {
 		content = content_factory(folder);
 	} catch (exception& e) {
-		error_dialog (_parent, e.what());
+		error_dialog(_parent, std_to_wx(e.what()));
 		return;
 	}
 
@@ -693,7 +693,7 @@ ContentPanel::add_dcp(boost::filesystem::path dcp)
 				)
 			);
 	} catch (exception& e) {
-		error_dialog(_parent, e.what());
+		error_dialog(_parent, std_to_wx(e.what()));
 	}
 }
 
@@ -963,7 +963,7 @@ ContentPanel::add_files (vector<boost::filesystem::path> paths)
 			}
 		}
 	} catch (exception& e) {
-		error_dialog (_parent, e.what());
+		error_dialog(_parent, std_to_wx(e.what()));
 	}
 }
 

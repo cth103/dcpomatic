@@ -528,7 +528,7 @@ public:
 				for (auto i: dcp::find_and_resolve_cpls(first->directories(), true)) {
 					auto j = _cpl_menu->AppendRadioItem(
 						id,
-						wxString::Format("%s (%s)", std_to_wx(i->annotation_text().get_value_or("")).data(), std_to_wx(i->id()).data())
+						wxString::Format(char_to_wx("%s (%s)"), std_to_wx(i->annotation_text().get_value_or("")).data(), std_to_wx(i->id()).data())
 						);
 					j->Check(!first->cpl() || i->id() == *first->cpl());
 					++id;
@@ -771,7 +771,7 @@ private:
 
 	void file_save_frame ()
 	{
-		wxFileDialog dialog (this, _("Save frame to file"), "", "", "PNG files (*.png)|*.png|JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+		wxFileDialog dialog (this, _("Save frame to file"), {}, {}, char_to_wx("PNG files (*.png)|*.png|JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 		if (dialog.ShowModal() == wxID_CANCEL) {
 			return;
 		}
@@ -813,7 +813,7 @@ private:
 			try {
 				load_dcp (history[n]);
 			} catch (exception& e) {
-				error_dialog (0, std_to_wx(String::compose(wx_to_std(_("Could not load DCP %1.")), history[n])), std_to_wx(e.what()));
+				error_dialog(nullptr, wxString::Format(_("Could not load DCP %s."), std_to_wx(history[n].string()))), std_to_wx(e.what());
 			}
 		}
 	}
@@ -1310,7 +1310,7 @@ private:
 				try {
 					_frame->load_dcp (_dcp_to_load);
 				} catch (exception& e) {
-					error_dialog (0, std_to_wx (String::compose (wx_to_std (_("Could not load DCP %1.")), _dcp_to_load)), std_to_wx(e.what()));
+					error_dialog(nullptr, wxString::Format(_("Could not load DCP %s"), std_to_wx(_dcp_to_load)), std_to_wx(e.what()));
 				}
 			}
 
@@ -1318,7 +1318,7 @@ private:
 				try {
 					_frame->load_stress_script (*_stress);
 				} catch (exception& e) {
-					error_dialog (0, wxString::Format("Could not load stress test file %s", std_to_wx(*_stress)));
+					error_dialog(nullptr, wxString::Format(_("Could not load stress test file %s"), std_to_wx(*_stress)));
 				}
 			}
 
@@ -1352,11 +1352,11 @@ private:
 		}
 
 		wxString config;
-		if (parser.Found("c", &config)) {
+		if (parser.Found(char_to_wx("c"), &config)) {
 			Config::override_path = wx_to_std (config);
 		}
 		wxString stress;
-		if (parser.Found("s", &stress)) {
+		if (parser.Found(char_to_wx("s"), &stress)) {
 			_stress = wx_to_std (stress);
 		}
 
@@ -1387,7 +1387,7 @@ private:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 	}
 

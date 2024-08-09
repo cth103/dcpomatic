@@ -136,7 +136,7 @@ PlayerInformation::triggered_update ()
 	checked_set(_dcp[r], std_to_wx(dcp->name()));
 	wxString tooltip;
 	for (auto directory: dcp->directories()) {
-		tooltip += std_to_wx(directory.string()) + "\n";
+		tooltip += std_to_wx(directory.string() + "\n");
 	}
 	if (!tooltip.empty()) {
 		_dcp[r]->SetToolTip(tooltip.substr(0, tooltip.length() - 1));

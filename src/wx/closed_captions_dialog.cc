@@ -164,7 +164,7 @@ ClosedCaptionsDialog::update ()
 	if (_current && _current->period.to < time) {
 		/* Current one has finished; clear out */
 		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
-			_lines[j] = "";
+			_lines[j] = wxString{};
 		}
 		Refresh ();
 		_current = optional<TextRingBuffers::Data>();
@@ -198,7 +198,7 @@ ClosedCaptionsDialog::update ()
 		auto to_show = _current->text.string;
 
 		for (int j = 0; j < MAX_CLOSED_CAPTION_LINES; ++j) {
-			_lines[j] = "";
+			_lines[j] = wxString{};
 		}
 
 		std::sort(to_show.begin(), to_show.end(), ClosedCaptionSorter());

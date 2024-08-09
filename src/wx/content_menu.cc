@@ -177,7 +177,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 					auto item = _cpl_menu->AppendRadioItem (
 						id++,
 						wxString::Format (
-							"%s (%s)",
+							char_to_wx("%s (%s)"),
 							std_to_wx(i->annotation_text().get_value_or("")).data(),
 							std_to_wx(i->id()).data()
 							)
@@ -427,7 +427,7 @@ ContentMenu::kdm ()
 		error_dialog (_parent, std_to_wx(e.summary()), std_to_wx(e.detail()));
 		return;
 	} catch (exception& e) {
-		error_dialog (_parent, e.what());
+		error_dialog(_parent, std_to_wx(e.what()));
 		return;
 	}
 

@@ -44,14 +44,14 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 
 	/* Add some resources that are used by HTML passed into this dialog */
 	wxMemoryFSHandler::AddFile(
-		"me.jpg",
+		char_to_wx("me.jpg"),
 		wxBitmap(bitmap_path("me.jpg"), wxBITMAP_TYPE_JPEG), wxBITMAP_TYPE_JPEG
 		);
 
 	auto h = new wxHtmlWindow (this);
 
 	if (gui_is_dark()) {
-		h->SetPage(wxString::Format("<body text=\"white\">%s</body>", html));
+		h->SetPage(wxString::Format(char_to_wx("<body text=\"white\">%s</body>"), html));
 		h->SetHTMLBackgroundColour(wxColour(50, 50, 50));
 	} else {
 		h->SetPage(html);
@@ -81,7 +81,7 @@ HTMLDialog::HTMLDialog (wxWindow* parent, wxString title, wxString html, bool ok
 
 HTMLDialog::~HTMLDialog()
 {
-	wxMemoryFSHandler::RemoveFile("me.jpg");
+	wxMemoryFSHandler::RemoveFile(char_to_wx("me.jpg"));
 }
 
 

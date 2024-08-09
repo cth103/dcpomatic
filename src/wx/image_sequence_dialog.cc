@@ -18,17 +18,20 @@
 
 */
 
-#include "wx_util.h"
+
 #include "image_sequence_dialog.h"
+#include "wx_util.h"
 #include <dcp/locale_convert.h>
 
+
 using dcp::locale_convert;
+
 
 ImageSequenceDialog::ImageSequenceDialog (wxWindow* parent)
 	: TableDialog (parent, _("Add image sequence"), 2, 1, true)
 {
 	add (_("Frame rate"), true);
-	_frame_rate = add (new wxTextCtrl (this, wxID_ANY, N_("24")));
+	_frame_rate = add(new wxTextCtrl(this, wxID_ANY, char_to_wx("24")));
 	layout ();
 }
 

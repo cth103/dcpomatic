@@ -146,12 +146,12 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 void
 DCPPanel::add_standards()
 {
-	_standard->add_entry(_("SMPTE"), N_("smpte"));
+	_standard->add_entry(_("SMPTE"), string{"smpte"});
 	if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
-		_standard->add_entry(_("SMPTE (Bv2.0 only)"), N_("smpte-bv20"));
+		_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
 	}
-	_standard->add_entry(_("Interop"), N_("interop"));
-	_standard->add_entry(_("MPEG2 Interop"), N_("mpeg2-interop"));
+	_standard->add_entry(_("Interop"), string{"interop"});
+	_standard->add_entry(_("MPEG2 Interop"), string{"mpeg2-interop"});
 	_sizer->Layout();
 }
 
@@ -186,19 +186,19 @@ DCPPanel::standard_changed ()
 		return;
 	}
 
-	if (*data == N_("interop")) {
+	if (*data == char_to_wx("interop")) {
 		_film->set_interop(true);
 		_film->set_limit_to_smpte_bv20(false);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
-	} else if (*data == N_("smpte")) {
+	} else if (*data == char_to_wx("smpte")) {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(false);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
-	} else if (*data == N_("smpte-bv20")) {
+	} else if (*data == char_to_wx("smpte-bv20")) {
 		_film->set_interop(false);
 		_film->set_limit_to_smpte_bv20(true);
 		_film->set_video_encoding(VideoEncoding::JPEG2000);
-	} else if (*data == N_("mpeg2-interop")) {
+	} else if (*data == char_to_wx("mpeg2-interop")) {
 		_film->set_interop(true);
 		_film->set_video_encoding(VideoEncoding::MPEG2);
 	}
@@ -259,7 +259,7 @@ DCPPanel::name_changed ()
 		return;
 	}
 
-	_film->set_name (string(_name->GetValue().mb_str()));
+	_film->set_name(wx_to_std(_name->GetValue()));
 }
 
 
@@ -557,7 +557,7 @@ DCPPanel::setup_container ()
 
 	checked_set(_container, iter - ratios.begin());
 	auto const size = fit_ratio_within(_film->container()->ratio(), _film->full_frame ());
-	checked_set(_container_size, wxString::Format("%dx%d", size.width, size.height));
+	checked_set(_container_size, wxString::Format(char_to_wx("%dx%d"), size.width, size.height));
 
 	setup_dcp_name ();
 
@@ -1037,7 +1037,7 @@ DCPPanel::show_audio_clicked ()
 void
 DCPPanel::add_audio_processors ()
 {
-	_audio_processor->add_entry(_("None"), new wxStringClientData(N_("none")));
+	_audio_processor->add_entry(_("None"), string{"none"});
 	for (auto ap: AudioProcessor::visible()) {
 		_audio_processor->add_entry(std_to_wx(ap->name()), new wxStringClientData(std_to_wx(ap->id())));
 	}

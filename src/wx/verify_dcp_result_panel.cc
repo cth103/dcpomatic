@@ -105,49 +105,49 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 
 	auto substitute = [](wxString message, dcp::VerificationNote const& note) {
 		if (note.reference_hash()) {
-			message.Replace("%reference_hash", std_to_wx(note.reference_hash().get()));
+			message.Replace(char_to_wx("%reference_hash"), std_to_wx(note.reference_hash().get()));
 		}
 		if (note.calculated_hash()) {
-			message.Replace("%calculated_hash", std_to_wx(note.calculated_hash().get()));
+			message.Replace(char_to_wx("%calculated_hash"), std_to_wx(note.calculated_hash().get()));
 		}
 		if (note.frame()) {
-			message.Replace("%frame", std_to_wx(dcp::raw_convert<string>(note.frame().get())));
+			message.Replace(char_to_wx("%frame"), std_to_wx(dcp::raw_convert<string>(note.frame().get())));
 			message.Replace(
-				"%timecode",
+				char_to_wx("%timecode"),
 				std_to_wx(
 					dcp::Time(note.frame().get(), note.frame_rate().get(), note.frame_rate().get()).as_string(dcp::Standard::SMPTE)
 					));
 		}
 		if (note.note()) {
-			message.Replace("%n", std_to_wx(note.note().get()));
+			message.Replace(char_to_wx("%n"), std_to_wx(note.note().get()));
 		}
 		if (note.file()) {
-			message.Replace("%f", std_to_wx(note.file()->filename().string()));
+			message.Replace(char_to_wx("%f"), std_to_wx(note.file()->filename().string()));
 		}
 		if (note.line()) {
-			message.Replace("%l", std_to_wx(dcp::raw_convert<string>(note.line().get())));
+			message.Replace(char_to_wx("%l"), std_to_wx(dcp::raw_convert<string>(note.line().get())));
 		}
 		if (note.component()) {
-			message.Replace("%component", std_to_wx(dcp::raw_convert<string>(note.component().get())));
+			message.Replace(char_to_wx("%component"), std_to_wx(dcp::raw_convert<string>(note.component().get())));
 		}
 		if (note.size()) {
-			message.Replace("%size", std_to_wx(dcp::raw_convert<string>(note.size().get())));
+			message.Replace(char_to_wx("%size"), std_to_wx(dcp::raw_convert<string>(note.size().get())));
 		}
 		if (note.id()) {
-			message.Replace("%id", std_to_wx(note.id().get()));
+			message.Replace(char_to_wx("%id"), std_to_wx(note.id().get()));
 		}
 		if (note.other_id()) {
-			message.Replace("%other_id", std_to_wx(note.other_id().get()));
+			message.Replace(char_to_wx("%other_id"), std_to_wx(note.other_id().get()));
 		}
 		if (note.cpl_id()) {
-			message.Replace("%cpl", std_to_wx(note.cpl_id().get()));
+			message.Replace(char_to_wx("%cpl"), std_to_wx(note.cpl_id().get()));
 		}
 
 		return message;
 	};
 
 	auto add_bullet = [this](dcp::VerificationNote::Type type, wxString message) {
-		_pages[type]->BeginStandardBullet(N_("standard/diamond"), 1, 50);
+		_pages[type]->BeginStandardBullet(char_to_wx("standard/diamond"), 1, 50);
 		_pages[type]->WriteText(message);
 		_pages[type]->Newline();
 		_pages[type]->EndStandardBullet();
@@ -606,7 +606,7 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		summary_text = _("1 error, ");
 	} else {
 		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text = wxString::Format("%d errors, ", counts[dcp::VerificationNote::Type::ERROR]);
+		summary_text = wxString::Format(_("%d errors, "), counts[dcp::VerificationNote::Type::ERROR]);
 	}
 
 	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 1) {
@@ -614,7 +614,7 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		summary_text += _("1 Bv2.1 error, ");
 	} else {
 		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format("%d Bv2.1 errors, ", counts[dcp::VerificationNote::Type::BV21_ERROR]);
+		summary_text += wxString::Format(_("%d Bv2.1 errors, "), counts[dcp::VerificationNote::Type::BV21_ERROR]);
 	}
 
 	if (counts[dcp::VerificationNote::Type::WARNING] == 1) {
@@ -622,7 +622,7 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		summary_text += _("and 1 warning.");
 	} else {
 		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format("and %d warnings.", counts[dcp::VerificationNote::Type::WARNING]);
+		summary_text += wxString::Format(_("and %d warnings."), counts[dcp::VerificationNote::Type::WARNING]);
 	}
 
 	_summary->SetLabel(summary_text);

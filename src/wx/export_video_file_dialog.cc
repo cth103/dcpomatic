@@ -54,10 +54,10 @@ wxString format_filters[] = {
 };
 
 wxString format_extensions[] = {
-	"mov",
-	"mov",
-	"mov",
-	"mp4",
+	char_to_wx("mov"),
+	char_to_wx("mov"),
+	char_to_wx("mov"),
+	char_to_wx("mp4")
 };
 
 ExportFormat formats[] = {

@@ -222,7 +222,7 @@ RecipientsPanel::selection_changed ()
 void
 RecipientsPanel::add_recipients ()
 {
-	_root = _targets->AddRoot ("Foo");
+	_root = _targets->AddRoot(char_to_wx("Foo"));
 
 	DKDMRecipientList recipients;
 	for (auto const& recipient: recipients.dkdm_recipients()) {

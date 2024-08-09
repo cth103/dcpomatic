@@ -35,7 +35,7 @@ ConfirmKDMEmailDialog::ConfirmKDMEmailDialog (wxWindow* parent, list<string> ema
 {
 	wxString message = _("Are you sure you want to send emails to the following addresses?\n\n");
 	for (auto i: emails) {
-		message += "\t" + std_to_wx (i) + "\n";
+		message += wxString::Format(char_to_wx("\t%s\n"), std_to_wx(i));
 	}
 
 	_sizer->Add (new StaticText (this, message), 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);

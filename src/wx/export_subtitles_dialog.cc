@@ -99,7 +99,7 @@ ExportSubtitlesDialog::path () const
 	if (_file->IsEnabled()) {
 		if (auto path = _file->path()) {
 			wxFileName fn(std_to_wx(path->string()));
-			fn.SetExt(_interop ? "xml" : "mxf");
+			fn.SetExt(char_to_wx(_interop ? "xml" : "mxf"));
 			return wx_to_std(fn.GetFullPath());
 		}
 	}

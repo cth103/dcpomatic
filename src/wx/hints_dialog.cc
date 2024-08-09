@@ -146,7 +146,7 @@ HintsDialog::update ()
 			_text->WriteText (_("There are no hints yet: project check in progress."));
 		}
 	} else {
-		_text->BeginStandardBullet (N_("standard/circle"), 1, 50);
+		_text->BeginStandardBullet(char_to_wx("standard/circle"), 1, 50);
 		for (auto i: _current) {
 			_text->WriteText (std_to_wx (i));
 			_text->Newline ();

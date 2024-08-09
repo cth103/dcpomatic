@@ -204,9 +204,9 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 {
 	add_label_to_sizer(sizer, panel, _("Territory type"), true, 0, wxALIGN_CENTER_VERTICAL);
 	_territory_type = new Choice(panel);
-	_territory_type->add_entry(_("Specific"), wx_to_std(territory_type_to_string(TerritoryType::SPECIFIC)));
-	_territory_type->add_entry(_("International texted"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTED)));
-	_territory_type->add_entry(_("International textless"), wx_to_std(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTLESS)));
+	_territory_type->add_entry(_("Specific"), std_to_wx(territory_type_to_string(TerritoryType::SPECIFIC)));
+	_territory_type->add_entry(_("International texted"), std_to_wx(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTED)));
+	_territory_type->add_entry(_("International textless"), std_to_wx(territory_type_to_string(TerritoryType::INTERNATIONAL_TEXTLESS)));
 	sizer->Add(_territory_type);
 
 	_enable_release_territory = new CheckBox(panel, _("Release territory"));

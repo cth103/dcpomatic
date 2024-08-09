@@ -118,12 +118,12 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Configuration file"), true, wxGBPosition (r, 0));
-		_config_file = new FilePickerCtrl(_panel, _("Select configuration file"), "*.xml", true, false, "ConfigFilePath");
+		_config_file = new FilePickerCtrl(_panel, _("Select configuration file"), char_to_wx("*.xml"), true, false, "ConfigFilePath");
 		table->Add (_config_file, wxGBPosition (r, 1));
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
-		_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), "*.xml", true, false, "CinemaDatabasePath");
+		_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), char_to_wx("*.xml"), true, false, "CinemaDatabasePath");
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		auto export_cinemas = new Button (_panel, _("Export..."));
 		table->Add (export_cinemas, wxGBPosition (r, 2));
@@ -333,7 +333,7 @@ private:
 
 		_enable_audio_language = new CheckBox(_panel, _("Default audio language"));
 		table->Add(_enable_audio_language, 1, wxEXPAND | wxALIGN_CENTRE_VERTICAL);
-		_audio_language = new LanguageTagWidget(_panel, _("Default audio language to use for new DCPs"), Config::instance()->default_audio_language(), wxString("cmnr-Hant-"));
+		_audio_language = new LanguageTagWidget(_panel, _("Default audio language to use for new DCPs"), Config::instance()->default_audio_language(), char_to_wx("cmnr-Hant-"));
 		table->Add(_audio_language->sizer());
 
 		add_label_to_sizer (table, _panel, _("Default KDM directory"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);

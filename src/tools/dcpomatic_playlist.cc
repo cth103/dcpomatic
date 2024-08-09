@@ -713,7 +713,7 @@ private:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 
 		/* This will terminate the program */
@@ -722,7 +722,7 @@ private:
 
 	void OnUnhandledException () override
 	{
-		error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+		error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 	}
 
 	void idle ()

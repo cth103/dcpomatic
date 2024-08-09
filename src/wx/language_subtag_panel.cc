@@ -20,6 +20,7 @@
 
 
 #include "language_subtag_panel.h"
+#include "wx_util.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/srchctrl.h>
@@ -58,7 +59,7 @@ void
 LanguageSubtagPanel::set(dcp::LanguageTag::SubtagType type, string search, optional<dcp::LanguageTag::SubtagData> subtag)
 {
 	_list->set(type, search, subtag);
-	_search->SetValue(wxString(search));
+	_search->SetValue(std_to_wx(search));
 }
 
 
@@ -77,11 +78,11 @@ void
 LanguageSubtagPanel::search_changed()
 {
 	auto search = _search->GetValue();
-	_list->set_search(search.ToStdString());
+	_list->set_search(wx_to_std(search));
 	if (search.Length() > 0 && _list->GetItemCount() > 0) {
 		_list->EnsureVisible (0);
 	}
-	SearchChanged(_search->GetValue().ToStdString());
+	SearchChanged(wx_to_std(_search->GetValue()));
 }
 
 

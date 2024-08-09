@@ -38,8 +38,8 @@ LanguageTagDialog::LanguageTagDialog (wxWindow* parent, dcp::LanguageTag tag)
 	: wxDialog (parent, wxID_ANY, _("Language Tag"))
 {
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxSize(600, 700), wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER);
-	_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 400);
-	_list->AppendColumn ("", wxLIST_FORMAT_LEFT, 150);
+	_list->AppendColumn({}, wxLIST_FORMAT_LEFT, 400);
+	_list->AppendColumn({}, wxLIST_FORMAT_LEFT, 150);
 	auto add = new wxButton (this, wxID_ANY, _("Add language..."));
 
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);

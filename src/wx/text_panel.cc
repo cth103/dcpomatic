@@ -166,7 +166,7 @@ TextPanel::setup_visibility ()
 			_language_label = create_label (this, _("Language"), true);
 			add_label_to_sizer (_grid, _language_label, true, wxGBPosition(_ccap_track_or_language_row, 0));
 			_language_sizer = new wxBoxSizer (wxHORIZONTAL);
-			_language = new LanguageTagWidget (this, _("Language of these subtitles"), boost::none, wxString("en-US-"));
+			_language = new LanguageTagWidget(this, _("Language of these subtitles"), boost::none, char_to_wx("en-US-"));
 			_language->Changed.connect (boost::bind(&TextPanel::language_changed, this));
 			_language_sizer->Add (_language->sizer(), 1, wxRIGHT, DCPOMATIC_SIZER_GAP);
 			_language_type = new wxChoice (this, wxID_ANY);

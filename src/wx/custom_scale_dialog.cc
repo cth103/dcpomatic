@@ -64,19 +64,19 @@ CustomScaleDialog::CustomScaleDialog (wxWindow* parent, dcp::Size initial, dcp::
 	if (custom_ratio) {
 		_ratio_to_fit->SetValue (true);
 		_size->SetValue (false);
-		_ratio->SetValue (wxString::Format("%.2f", *custom_ratio));
+		_ratio->SetValue(wxString::Format(char_to_wx("%.2f"), *custom_ratio));
 		_width->SetValue (initial.width);
 		_height->SetValue (initial.height);
 	} else if (custom_size) {
 		_ratio_to_fit->SetValue (false);
 		_size->SetValue (true);
-		_ratio->SetValue (wxString::Format("%.2f", initial.ratio()));
+		_ratio->SetValue(wxString::Format(char_to_wx("%.2f"), initial.ratio()));
 		_width->SetValue (custom_size->width);
 		_height->SetValue (custom_size->height);
 	} else {
 		_ratio_to_fit->SetValue (true);
 		_size->SetValue (false);
-		_ratio->SetValue (wxString::Format("%.2f", initial.ratio()));
+		_ratio->SetValue(wxString::Format(char_to_wx("%.2f"), initial.ratio()));
 		_width->SetValue (initial.width);
 		_height->SetValue (initial.height);
 	}
@@ -99,7 +99,7 @@ void
 CustomScaleDialog::update_size_from_ratio ()
 {
 	dcp::Size const s = fit_ratio_within (raw_convert<float>(wx_to_std(_ratio->GetValue())), _film_container);
-	_size_from_ratio->SetLabelMarkup (wxString::Format("<i>%dx%d</i>", s.width, s.height));
+	_size_from_ratio->SetLabelMarkup(wxString::Format(char_to_wx("<i>%dx%d</i>"), s.width, s.height));
 }
 
 
@@ -107,7 +107,7 @@ void
 CustomScaleDialog::update_ratio_from_size ()
 {
 	float const ratio = _height->GetValue() > 0 ? (float(_width->GetValue()) / _height->GetValue()) : 2;
-	_ratio_from_size->SetLabelMarkup (wxString::Format("<i>%.2f:1</i>", ratio));
+	_ratio_from_size->SetLabelMarkup(wxString::Format(char_to_wx("<i>%.2f:1</i>"), ratio));
 }
 
 

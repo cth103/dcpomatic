@@ -72,11 +72,11 @@ VideoWaveformDialog::VideoWaveformDialog(wxWindow* parent, weak_ptr<const Film> 
 
 	wxBoxSizer* position = new wxBoxSizer (wxHORIZONTAL);
 	add_label_to_sizer (position, this, _("Image X position"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-	_x_position = new StaticText (this, "");
+	_x_position = new StaticText(this, {});
 	_x_position->SetMinSize (wxSize (64, -1));
 	position->Add (_x_position, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	add_label_to_sizer (position, this, _("component value"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-	_value = new StaticText (this, "");
+	_value = new StaticText(this, {});
 	_value->SetMinSize (wxSize (64, -1));
 	position->Add (_value, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 	overall_sizer->Add (position, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_Y_GAP);
@@ -132,14 +132,14 @@ void
 VideoWaveformDialog::mouse_moved (int x1, int x2, int y1, int y2)
 {
 	if (x1 != x2) {
-		_x_position->SetLabel (wxString::Format ("%d-%d", x1, x2));
+		_x_position->SetLabel(wxString::Format(char_to_wx("%d-%d"), x1, x2));
 	} else {
-		_x_position->SetLabel (wxString::Format ("%d", x1));
+		_x_position->SetLabel(wxString::Format(char_to_wx("%d"), x1));
 	}
 
 	if (y1 != y2) {
-		_value->SetLabel (wxString::Format ("%d-%d", y1, y2));
+		_value->SetLabel(wxString::Format(char_to_wx("%d-%d"), y1, y2));
 	} else {
-		_value->SetLabel (wxString::Format ("%d", y1));
+		_value->SetLabel(wxString::Format(char_to_wx("%d"), y1));
 	}
 }

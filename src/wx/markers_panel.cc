@@ -246,8 +246,8 @@ MarkersPanel::mouse_right_down (wxMouseEvent& ev)
 {
 	wxMenu menu;
 	if (_over) {
-		menu.Append (ID_move_marker_to_current_position, wxString::Format(_("Move %s marker to current position"), wx_to_std(dcp::marker_to_string(*_over))));
-		menu.Append (ID_remove_marker, wxString::Format(_("Remove %s marker"), wx_to_std(dcp::marker_to_string(*_over))));
+		menu.Append (ID_move_marker_to_current_position, wxString::Format(_("Move %s marker to current position"), std_to_wx(dcp::marker_to_string(*_over))));
+		menu.Append (ID_remove_marker, wxString::Format(_("Remove %s marker"), std_to_wx(dcp::marker_to_string(*_over))));
 	}
 
 	auto add_marker = new wxMenu ();

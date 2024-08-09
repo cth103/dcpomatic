@@ -187,7 +187,7 @@ private:
 		}
 		catch (exception& e)
 		{
-			error_dialog(nullptr, variant::wx::insert_dcpomatic_verifier("%s could not start."), std_to_wx(e.what()));
+			error_dialog(nullptr, variant::wx::insert_dcpomatic_verifier(char_to_wx("%s could not start.")), std_to_wx(e.what()));
 		}
 
 		return true;
@@ -228,7 +228,7 @@ private:
 					)
 				);
 		} catch (...) {
-			error_dialog(nullptr, _("An unknown exception occurred.") + "  " + wx::report_problem());
+			error_dialog(nullptr, wxString::Format(_("An unknown exception occurred. %s"), wx::report_problem()));
 		}
 	}
 

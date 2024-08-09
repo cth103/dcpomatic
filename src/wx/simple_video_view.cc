@@ -205,7 +205,7 @@ SimpleVideoView::display_next_frame (bool non_blocking)
 	try {
 		_viewer->butler()->rethrow ();
 	} catch (DecodeError& e) {
-		error_dialog (get(), e.what());
+		error_dialog(get(), std_to_wx(e.what()));
 	}
 
 	return SUCCESS;
