@@ -106,7 +106,7 @@ SMPTEMetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 	}
 
 	vector<EditableListColumn> columns;
-	columns.push_back (EditableListColumn("Version", 350, true));
+	columns.push_back(EditableListColumn(_("Version"), 350, true));
 	_content_versions = new EditableList<string, ContentVersionDialog> (
 		panel,
 		columns,

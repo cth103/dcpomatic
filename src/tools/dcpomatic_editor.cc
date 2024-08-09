@@ -221,7 +221,7 @@ public:
 		add_label_to_sizer(sizer, this, _("Reels"), true, wxGBPosition(r, 0));
 		_reels = new EditableList<shared_ptr<dcp::Reel>, ReelEditor>(
 			this,
-			{ EditableListColumn("Name", 600, true) },
+			{ EditableListColumn(_("Name"), 600, true) },
 			[this]() { return _cpl->reels(); },
 			[this](vector<shared_ptr<dcp::Reel>> reels) {
 				_cpl->set(reels);

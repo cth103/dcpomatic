@@ -60,15 +60,15 @@ FullLanguageTagDialog::FullLanguageTagDialog (wxWindow* parent, dcp::LanguageTag
 	_current_tag_list->AppendColumn({}, wxLIST_FORMAT_LEFT, 400);
 
 	auto button_sizer = new wxBoxSizer (wxVERTICAL);
-	_add_script = new wxButton(this, wxID_ANY, "Add script");
+	_add_script = new wxButton(this, wxID_ANY, _("Add script"));
 	button_sizer->Add (_add_script, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-	_add_region = new wxButton(this, wxID_ANY, "Add region");
+	_add_region = new wxButton(this, wxID_ANY, _("Add region"));
 	button_sizer->Add (_add_region, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-	_add_variant = new wxButton(this, wxID_ANY, "Add variant");
+	_add_variant = new wxButton(this, wxID_ANY, _("Add variant"));
 	button_sizer->Add (_add_variant, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-	_add_external = new wxButton(this, wxID_ANY, "Add external");
+	_add_external = new wxButton(this, wxID_ANY, _("Add external"));
 	button_sizer->Add (_add_external, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
-	_remove = new wxButton(this, wxID_ANY, "Remove");
+	_remove = new wxButton(this, wxID_ANY, _("Remove"));
 	button_sizer->Add (_remove, 0, wxTOP | wxBOTTOM | wxEXPAND, 2);
 
 	_choose_subtag_panel = new LanguageSubtagPanel (this);
@@ -219,7 +219,7 @@ FullLanguageTagDialog::add_to_current_tag (dcp::LanguageTag::SubtagType type, op
 	if (subtag) {
 		it.SetText(std_to_wx(subtag->description));
 	} else {
-		it.SetText ("Select...");
+		it.SetText(_("Select..."));
 	}
 	_current_tag_list->SetItem (it);
 	_current_tag_list->SetItemState (_current_tag_list->GetItemCount() - 1, wxLIST_STATE_SELECTED, wxLIST_STATE_SELECTED);

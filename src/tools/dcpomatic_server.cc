@@ -238,8 +238,8 @@ public:
 	wxMenu* CreatePopupMenu () override
 	{
 		auto menu = new wxMenu;
-		menu->Append (ID_status, std_to_wx ("Status..."));
-		menu->Append (ID_quit, std_to_wx ("Quit"));
+		menu->Append(ID_status, _("Status..."));
+		menu->Append(ID_quit, _("Quit"));
 		return menu;
 	}
 
@@ -257,7 +257,7 @@ public:
 		icon.CopyFromBitmap (bitmap);
 #endif
 
-		SetIcon (icon, std_to_wx ("DCP-o-matic Encode Server"));
+		SetIcon(icon, _("DCP-o-matic Encode Server"));
 	}
 
 private:

@@ -791,7 +791,7 @@ private:
 				auto image = video->image(boost::bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, false);
 				image_as_jpeg(image, 80).write(path);
 			} else {
-				error_dialog (this, _(wxString::Format("Unrecognised file extension %s (use .jpg, .jpeg or .png)", std_to_wx(ext))));
+				error_dialog(this, wxString::Format(_("Unrecognised file extension %s (use .jpg, .jpeg or .png)"), std_to_wx(ext)));
 			}
 			done = true;
 		});

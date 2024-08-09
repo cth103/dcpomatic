@@ -215,8 +215,8 @@ MetadataDialog::setup_standard (wxPanel* panel, wxSizer* sizer)
 	sizer->Add(_release_territory->sizer(), 0, wxEXPAND);
 
 	vector<EditableListColumn> columns;
-	columns.push_back(EditableListColumn("Agency", 200, true));
-	columns.push_back(EditableListColumn("Label", 400, true));
+	columns.push_back(EditableListColumn(_("Agency"), 200, true));
+	columns.push_back(EditableListColumn(_("Label"), 400, true));
 	_ratings = new EditableList<dcp::Rating, RatingDialog> (
 		panel,
 		columns,

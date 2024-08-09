@@ -59,8 +59,8 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	, _play_button (new Button(this, _("Play")))
 	, _pause_button (new Button(this, _("Pause")))
 	, _stop_button (new Button(this, _("Stop")))
-	, _next_button (new Button(this, "Next"))
-	, _previous_button (new Button(this, "Previous"))
+	, _next_button(new Button(this, _("Next")))
+	, _previous_button(new Button(this, _("Previous")))
 {
 	_button_sizer->Add (_previous_button, 0, wxEXPAND);
 	_button_sizer->Add (_play_button, 0, wxEXPAND);
@@ -79,11 +79,11 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 
 	auto spl_header = new wxBoxSizer(wxHORIZONTAL);
 	{
-		auto m = new StaticText(this, "Playlists");
+		auto m = new StaticText(this, _("Playlists"));
 		m->SetFont (subheading_font);
 		spl_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
 	}
-	_refresh_spl_view = new Button (this, "Refresh");
+	_refresh_spl_view = new Button(this, _("Refresh"));
 	spl_header->Add (_refresh_spl_view, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
 
 	left_sizer->Add (spl_header, 0, wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
@@ -93,11 +93,11 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 
 	auto content_header = new wxBoxSizer(wxHORIZONTAL);
 	{
-		auto m = new StaticText(this, "Content");
+		auto m = new StaticText(this, _("Content"));
 		m->SetFont (subheading_font);
 		content_header->Add (m, 1, wxALIGN_CENTER_VERTICAL);
 	}
-	_refresh_content_view = new Button (this, "Refresh");
+	_refresh_content_view = new Button(this, _("Refresh"));
 	content_header->Add (_refresh_content_view, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP / 2);
 
 	left_sizer->Add (content_header, 0, wxTOP | wxLEFT | wxRIGHT | wxEXPAND, DCPOMATIC_SIZER_GAP);
@@ -316,13 +316,13 @@ PlaylistControls::spl_selection_changed ()
 	}
 
 	if (_playlists[selected].missing()) {
-		error_dialog (this, "This playlist cannot be loaded as some content is missing.");
+		error_dialog(this, _("This playlist cannot be loaded as some content is missing."));
 		deselect_playlist ();
 		return;
 	}
 
 	if (_playlists[selected].get().empty()) {
-		error_dialog (this, "This playlist is empty.");
+		error_dialog(this, _("This playlist is empty."));
 		return;
 	}
 
@@ -332,7 +332,7 @@ PlaylistControls::spl_selection_changed ()
 void
 PlaylistControls::select_playlist (int selected, int position)
 {
-	wxProgressDialog dialog(variant::wx::dcpomatic(), "Loading playlist and KDMs");
+	wxProgressDialog dialog(variant::wx::dcpomatic(), _("Loading playlist and KDMs"));
 
 	for (auto const& i: _playlists[selected].get()) {
 		dialog.Pulse ();
@@ -345,12 +345,12 @@ PlaylistControls::select_playlist (int selected, int position)
 					dcp->add_kdm (*kdm);
 					dcp->examine (_film, shared_ptr<Job>());
 				} catch (KDMError& e) {
-					error_dialog (this, "Could not load KDM.");
+					error_dialog(this, _("Could not load KDM."));
 				}
 			}
 			if (dcp->needs_kdm()) {
 				/* We didn't get a KDM for this */
-				error_dialog (this, "This playlist cannot be loaded as a KDM is missing or incorrect.");
+				error_dialog(this, _("This playlist cannot be loaded as a KDM is missing or incorrect."));
 				deselect_playlist ();
 				return;
 			}
@@ -404,7 +404,7 @@ PlaylistControls::update_current_content ()
 {
 	DCPOMATIC_ASSERT (_selected_playlist);
 
-	wxProgressDialog dialog(variant::wx::dcpomatic(), "Loading content");
+	wxProgressDialog dialog(variant::wx::dcpomatic(), _("Loading content"));
 
 	setup_sensitivity ();
 	dialog.Pulse ();
