@@ -159,3 +159,13 @@ Choice::clear()
 	Clear();
 }
 
+
+int
+Choice::size() const
+{
+	if (_needs_clearing) {
+		return 0;
+	}
+	return GetCount();
+}
+

@@ -40,6 +40,7 @@ public:
 	void set_entries(wxArrayString const& entries);
 
 	void clear();
+	int size() const;
 
 	void set(int index);
 	void set_by_data(wxString const& data);
