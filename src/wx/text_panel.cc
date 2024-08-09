@@ -23,6 +23,7 @@
 #include "content_panel.h"
 #include "dcp_text_track_dialog.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "dcpomatic_spin_ctrl.h"
 #include "film_editor.h"
 #include "film_viewer.h"
@@ -85,10 +86,7 @@ TextPanel::create ()
 	}
 
 	_use = new CheckBox (this, _("Use as"));
-	_type = new wxChoice (this, wxID_ANY);
-	_type->Append (_("open subtitles"));
-	_type->Append (_("closed captions"));
-
+	_type = new Choice(this);
 	_burn = new CheckBox (this, _("Burn subtitles into image"));
 
 	_offset_label = create_label (this, _("Offset"), true);
@@ -125,7 +123,7 @@ TextPanel::create ()
 	_line_spacing->SetRange (0, 1000);
 
 	_use->bind(&TextPanel::use_toggled, this);
-	_type->Bind                     (wxEVT_CHOICE,   boost::bind (&TextPanel::type_changed, this));
+	_type->bind(&TextPanel::type_changed, this);
 	_burn->bind(&TextPanel::burn_toggled, this);
 	_x_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::x_offset_changed, this));
 	_y_offset->Bind                 (wxEVT_SPINCTRL, boost::bind (&TextPanel::y_offset_changed, this));
@@ -149,6 +147,7 @@ TextPanel::setup_visibility ()
 {
 	switch (current_type()) {
 	case TextType::OPEN_SUBTITLE:
+	case TextType::OPEN_CAPTION:
 		if (_dcp_track_label) {
 			_dcp_track_label->Destroy ();
 			_dcp_track_label = nullptr;
@@ -181,6 +180,7 @@ TextPanel::setup_visibility ()
 			film_content_changed (TextContentProperty::LANGUAGE_IS_ADDITIONAL);
 		}
 		break;
+	case TextType::CLOSED_SUBTITLE:
 	case TextType::CLOSED_CAPTION:
 		if (_language_label) {
 			_language_label->Destroy ();
@@ -437,18 +437,9 @@ TextPanel::film_content_changed (int property)
 		clear_outline_subtitles ();
 	} else if (property == TextContentProperty::TYPE) {
 		if (text) {
-			switch (text->type()) {
-			case TextType::OPEN_SUBTITLE:
-				_type->SetSelection (0);
-				break;
-			case TextType::CLOSED_CAPTION:
-				_type->SetSelection (1);
-				break;
-			default:
-				DCPOMATIC_ASSERT (false);
-			}
+			_type->set_by_data(text_type_to_string(text->type()));
 		} else {
-			_type->SetSelection (0);
+			_type->set(0);
 		}
 		setup_sensitivity ();
 		setup_visibility ();
@@ -502,11 +493,10 @@ TextPanel::use_toggled ()
 TextType
 TextPanel::current_type () const
 {
-	switch (_type->GetSelection()) {
-	case 0:
-		return TextType::OPEN_SUBTITLE;
-	case 1:
-		return TextType::CLOSED_CAPTION;
+	if (_type->size()) {
+		if (auto type = _type->get_data()) {
+			return string_to_text_type(wx_to_std(*type));
+		}
 	}
 
 	return TextType::UNKNOWN;
@@ -574,10 +564,10 @@ TextPanel::setup_sensitivity ()
 	auto const type = current_type ();
 
 	/* Set up _type */
-	_type->Clear ();
-	_type->Append (_("open subtitles"));
+	_type->clear();
+	_type->add_entry(_("open subtitles"), text_type_to_string(TextType::OPEN_SUBTITLE));
 	if (ffmpeg_subs == 0) {
-		_type->Append (_("closed captions"));
+		_type->add_entry(_("closed captions"), text_type_to_string(TextType::CLOSED_CAPTION));
 	}
 
 	switch (type) {

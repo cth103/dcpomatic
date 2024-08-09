@@ -25,6 +25,7 @@
 
 
 class CheckBox;
+class Choice;
 class wxSpinCtrl;
 class LanguageTagWidget;
 class TextView;
@@ -75,7 +76,7 @@ private:
 
 	CheckBox* _outline_subtitles = nullptr;
 	CheckBox* _use;
-	wxChoice* _type;
+	Choice* _type;
 	CheckBox* _burn;
 	wxStaticText* _offset_label;
 	wxStaticText* _x_offset_label;
