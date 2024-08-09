@@ -83,6 +83,13 @@ Choice::add_entry(wxString const& entry, wxString const& data)
 
 
 void
+Choice::add_entry(wxString const& entry, string const& data)
+{
+	add_entry(entry, std_to_wx(data));
+}
+
+
+void
 Choice::set_entries(wxArrayString const& entries)
 {
 	if (GetStrings() == entries) {
@@ -115,6 +122,13 @@ Choice::set_by_data(wxString const& data)
 }
 
 
+void
+Choice::set_by_data(string const& data)
+{
+	set_by_data(std_to_wx(data));
+}
+
+
 optional<int>
 Choice::get() const
 {
@@ -136,5 +150,12 @@ Choice::get_data() const
 	}
 
 	return dynamic_cast<wxStringClientData*>(GetClientObject(*index))->GetData();
+}
+
+
+void
+Choice::clear()
+{
+	Clear();
 }
 
