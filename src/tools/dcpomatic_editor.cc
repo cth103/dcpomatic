@@ -342,7 +342,7 @@ public:
 
 		_notebook->DeleteAllPages();
 		for (auto cpl: _dcp->cpls()) {
-			_notebook->AddPage(new CPLPanel(_notebook, cpl), wx_to_std(cpl->annotation_text().get_value_or(cpl->id())));
+			_notebook->AddPage(new CPLPanel(_notebook, cpl), std_to_wx(cpl->annotation_text().get_value_or(cpl->id())));
 		}
 	}
 
