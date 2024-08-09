@@ -56,7 +56,7 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	_pages[dcp::VerificationNote::Type::WARNING] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
 	notebook->AddPage(_pages[dcp::VerificationNote::Type::WARNING], _("Warnings"));
 
-	_summary = new wxStaticText(this, wxID_ANY, wxT(""));
+	_summary = new wxStaticText(this, wxID_ANY, {});
 	sizer->Add(_summary, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 
 	auto save_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -662,7 +662,7 @@ void
 VerifyDCPResultPanel::save_text_report()
 {
 	if (_job) {
-		save<dcp::TextFormatter>(this, wxT("Text files (*.txt)|*.txt"), _job->result());
+		save<dcp::TextFormatter>(this, char_to_wx("Text files (*.txt)|*.txt"), _job->result());
 	}
 }
 
@@ -671,6 +671,6 @@ void
 VerifyDCPResultPanel::save_html_report()
 {
 	if (_job) {
-		save<dcp::HTMLFormatter>(this, wxT("HTML files (*.htm;*html)|*.htm;*.html"), _job->result());
+		save<dcp::HTMLFormatter>(this, char_to_wx("HTML files (*.htm;*html)|*.htm;*.html"), _job->result());
 	}
 }

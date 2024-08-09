@@ -53,7 +53,7 @@ public:
 		: TableDialog (parent, _("Trusted Device"), 3, 1, true)
 	{
 		add (_("Thumbprint"), true);
-		_thumbprint = add(new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1), wxTE_READONLY));
+		_thumbprint = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(300, -1), wxTE_READONLY));
 		_file = add (new Button(this, _("Load certificate...")));
 
 		layout ();
@@ -164,7 +164,7 @@ ScreenDialog::ScreenDialog (
 
 	auto add_certificate_detail = [&r, this](wxString name, wxStaticText** value, wxSize size = wxDefaultSize) {
 		add_label_to_sizer(_sizer, this, name, true, wxGBPosition(r, 0), wxDefaultSpan, true);
-		*value = new StaticText(this, wxT (""), wxDefaultPosition, size);
+		*value = new StaticText(this, {}, wxDefaultPosition, size);
 		_sizer->Add(*value, wxGBPosition(r, 1));
 		++r;
 	};
@@ -173,14 +173,14 @@ ScreenDialog::ScreenDialog (
 	wxFont teletype_font = _name->GetFont();
 	teletype_font.SetFamily(wxFONTFAMILY_TELETYPE);
 	dc.SetFont(teletype_font);
-        wxSize size = dc.GetTextExtent (wxT("1234567890123456789012345678"));
+        wxSize size = dc.GetTextExtent(char_to_wx("1234567890123456789012345678"));
         size.SetHeight (-1);
 
 	add_certificate_detail(_("Thumbprint"), &_recipient_thumbprint, size);
 	_recipient_thumbprint->SetFont(teletype_font);
 
 	add_label_to_sizer(_sizer, this, _("Filename"), true, wxGBPosition(r, 0), wxDefaultSpan, true);
-	_recipient_file = new wxStaticText(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(600, -1), wxST_ELLIPSIZE_MIDDLE | wxST_NO_AUTORESIZE);
+	_recipient_file = new wxStaticText(this, wxID_ANY, {}, wxDefaultPosition, wxSize(600, -1), wxST_ELLIPSIZE_MIDDLE | wxST_NO_AUTORESIZE);
 	set_recipient_file(recipient_file.get_value_or(""));
 	_sizer->Add (_recipient_file, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_Y_GAP);
 	++r;
@@ -198,7 +198,7 @@ ScreenDialog::ScreenDialog (
 		int flags = wxALIGN_CENTER_VERTICAL | wxTOP;
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
-		auto m = new StaticText (this, _("Other trusted devices") + wxT(":"));
+		auto m = new StaticText (this, _("Other trusted devices") + char_to_wx(":"));
 #else
 		auto m = new StaticText (this, _("Other trusted devices"));
 #endif

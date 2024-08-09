@@ -37,7 +37,7 @@ RegionSubtagWidget::RegionSubtagWidget(wxWindow* parent, wxString tooltip, optio
 	: _parent(parent)
 	, _sizer(new wxBoxSizer(wxHORIZONTAL))
 {
-	_region = new wxStaticText(parent, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+	_region = new wxStaticText(parent, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 	_region->SetToolTip(tooltip);
 	set(tag);
 
@@ -75,7 +75,7 @@ RegionSubtagWidget::set(optional<dcp::LanguageTag::RegionSubtag> tag)
 	if (tag) {
 		checked_set(_region, std_to_wx(tag->subtag()));
 	} else {
-		checked_set(_region, wxT(""));
+		checked_set(_region, std::string{});
 	}
 }
 

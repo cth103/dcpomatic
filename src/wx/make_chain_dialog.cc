@@ -67,7 +67,7 @@ MakeChainDialog::MakeChainDialog (
 	}
 
 	wxTextValidator validator (wxFILTER_EXCLUDE_CHAR_LIST);
-	validator.SetCharExcludes (wxT ("/"));
+	validator.SetCharExcludes(char_to_wx("/"));
 
 	if (boost::algorithm::starts_with (root_common_name, ".")) {
 		root_common_name = root_common_name.substr (1);
@@ -90,7 +90,7 @@ MakeChainDialog::MakeChainDialog (
 
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (new StaticText (this, wxT (".")), 0, wxALIGN_CENTER_VERTICAL);
+		s->Add (new StaticText (this, char_to_wx(".")), 0, wxALIGN_CENTER_VERTICAL);
 		s->Add (_root_common_name = new wxTextCtrl (
 				this, wxID_ANY, std_to_wx (root_common_name), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
 			);
@@ -101,7 +101,7 @@ MakeChainDialog::MakeChainDialog (
 
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (new StaticText (this, wxT (".")), 0, wxALIGN_CENTER_VERTICAL);
+		s->Add(new StaticText(this, char_to_wx(".")), 0, wxALIGN_CENTER_VERTICAL);
 		s->Add (_intermediate_common_name = new wxTextCtrl (
 				this, wxID_ANY, std_to_wx (intermediate_common_name), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
 			);
@@ -112,7 +112,7 @@ MakeChainDialog::MakeChainDialog (
 
 	{
 		auto s = new wxBoxSizer (wxHORIZONTAL);
-		s->Add (new StaticText (this, wxT ("CS.")), 0, wxALIGN_CENTER_VERTICAL);
+		s->Add(new StaticText(this, char_to_wx("CS.")), 0, wxALIGN_CENTER_VERTICAL);
 		s->Add (_leaf_common_name = new wxTextCtrl (
 				this, wxID_ANY, std_to_wx (leaf_common_name), wxDefaultPosition, wxDefaultSize, 0, validator), 1, wxALIGN_CENTER_VERTICAL
 			);

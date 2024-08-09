@@ -30,7 +30,7 @@ PlayheadToFrameDialog::PlayheadToFrameDialog (wxWindow* parent, DCPTime time, in
 	, _fps (fps)
 {
 	add (_("Go to"), true);
-	_frame = add (new wxTextCtrl (this, wxID_ANY, wxT ("")));
+	_frame = add(new wxTextCtrl(this, wxID_ANY, {}));
 	_frame->SetFocus ();
 	_frame->SetValue (std_to_wx(locale_convert<string>(time.frames_round(fps) + 1)));
 	_frame->SetSelection (-1, -1);

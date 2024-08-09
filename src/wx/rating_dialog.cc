@@ -126,9 +126,9 @@ StandardRatingDialogPage::StandardRatingDialogPage (wxNotebook* notebook)
 #endif
 
 	_found_systems_view = new wxListView (this, wxID_ANY, wxDefaultPosition, wxSize(600, 400), wxLC_REPORT | wxLC_SINGLE_SEL | wxLC_NO_HEADER);
-	_found_systems_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 150);
-	_found_systems_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 50);
-	_found_systems_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 400);
+	_found_systems_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 150);
+	_found_systems_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 50);
+	_found_systems_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 400);
 	_rating = new wxChoice (this, wxID_ANY);
 
 	auto sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
@@ -286,8 +286,8 @@ CustomRatingDialogPage::CustomRatingDialogPage (wxNotebook* notebook)
 {
 	auto sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 
-	_agency = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(400, -1));
-	_rating = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(400, -1));
+	_agency = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(400, -1));
+	_rating = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(400, -1));
 
 	add_label_to_sizer (sizer, this, _("Agency"), true, 0, wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	sizer->Add (_agency, 1, wxEXPAND);

@@ -167,14 +167,14 @@ public:
 		auto state_sizer = new wxFlexGridSizer (2, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 
 		add_label_to_sizer (state_sizer, this, _("Frames per second"), true);
-		_fps = new StaticText (this, wxT(""));
+		_fps = new StaticText(this, {});
 		state_sizer->Add (_fps);
 
 		auto log_sizer = new wxFlexGridSizer (1, DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
 		log_sizer->AddGrowableCol (0, 1);
 
 		wxClientDC dc (this);
-		wxSize size = dc.GetTextExtent (wxT ("This is the length of the file label it should be quite long"));
+		wxSize size = dc.GetTextExtent(char_to_wx("This is the length of the file label it should be quite long"));
 		int const height = (size.GetHeight() + 2) * log_lines;
 		SetSize (700, height + DCPOMATIC_SIZER_GAP * 2);
 

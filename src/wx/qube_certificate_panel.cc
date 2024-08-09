@@ -69,7 +69,7 @@ QubeCertificatePanel::do_download ()
 	}
 
 	if (!name) {
-		_dialog->message()->SetLabel(wxT(""));
+		_dialog->message()->SetLabel({});
 		error_dialog (this, wxString::Format(_("Could not find serial number %s"), std_to_wx(serial).data()));
 		return;
 	}
@@ -77,7 +77,7 @@ QubeCertificatePanel::do_download ()
 	auto error = get_from_url (String::compose("%1SMPTE-%2/%3", base, _type, *name), true, false, boost::bind(&DownloadCertificatePanel::load_certificate, this, _1, _2));
 
 	if (error) {
-		_dialog->message()->SetLabel(wxT(""));
+		_dialog->message()->SetLabel({});
 		error_dialog (this, std_to_wx(*error));
 	} else {
 		_dialog->message()->SetLabel (_("Certificate downloaded"));

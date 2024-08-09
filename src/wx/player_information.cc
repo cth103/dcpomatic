@@ -58,16 +58,16 @@ PlayerInformation::PlayerInformation(wxWindow* parent, FilmViewer const& viewer)
 		auto s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("DCP"), false, 0)->SetFont(title_font);
 		for (int i = 0; i < dcp_lines / 2; ++i) {
-			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
+			_dcp[i] = add_label_to_sizer(s, this, {}, false, 0);
 		}
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
 
 	{
 		auto s = new wxBoxSizer (wxVERTICAL);
-		add_label_to_sizer(s, this, wxT(" "), false, 0);
+		add_label_to_sizer(s, this, char_to_wx(" "), false, 0);
 		for (int i = dcp_lines / 2; i < dcp_lines; ++i) {
-			_dcp[i] = add_label_to_sizer(s, this, wxT(""), false, 0);
+			_dcp[i] = add_label_to_sizer(s, this, {}, false, 0);
 		}
 		_sizer->Add (s, 1, wxEXPAND | wxALL, 6);
 	}
@@ -78,9 +78,9 @@ PlayerInformation::PlayerInformation(wxWindow* parent, FilmViewer const& viewer)
 		add_label_to_sizer(s, _kdm_panel, _("KDM"), false, 0)->SetFont(title_font);
 		auto g = new wxGridBagSizer(0, DCPOMATIC_SIZER_GAP);
 		add_label_to_sizer(g, _kdm_panel, _("Valid from"), true, wxGBPosition(0, 0));
-		_kdm_from = add_label_to_sizer(g, _kdm_panel, wxT(""), false, wxGBPosition(0, 1));
+		_kdm_from = add_label_to_sizer(g, _kdm_panel, {}, false, wxGBPosition(0, 1));
 		add_label_to_sizer(g, _kdm_panel, _("Valid to"), true, wxGBPosition(1, 0));
-		_kdm_to = add_label_to_sizer(g, _kdm_panel, wxT(""), false, wxGBPosition(1, 1));
+		_kdm_to = add_label_to_sizer(g, _kdm_panel, {}, false, wxGBPosition(1, 1));
 		s->Add(g, 1, wxEXPAND | wxLEFT, DCPOMATIC_SIZER_GAP);
 		_kdm_panel->SetSizer(s);
 		_sizer->Add(_kdm_panel, 1, wxEXPAND | wxALL, 6);
@@ -89,8 +89,8 @@ PlayerInformation::PlayerInformation(wxWindow* parent, FilmViewer const& viewer)
 	{
 		auto s = new wxBoxSizer (wxVERTICAL);
 		add_label_to_sizer(s, this, _("Performance"), false, 0)->SetFont(title_font);
-		_dropped = add_label_to_sizer(s, this, wxT(""), false, 0);
-		_decode_resolution = add_label_to_sizer(s, this, wxT(""), false, 0);
+		_dropped = add_label_to_sizer(s, this, {}, false, 0);
+		_decode_resolution = add_label_to_sizer(s, this, {}, false, 0);
 		_sizer->Add (s, 2, wxEXPAND | wxALL, 6);
 	}
 
@@ -125,9 +125,9 @@ PlayerInformation::triggered_update ()
 	if (!dcp) {
 		checked_set (_dcp[0], _("No DCP loaded."));
 		for (int r = 1; r < dcp_lines; ++r) {
-			checked_set (_dcp[r], wxT(""));
+			checked_set(_dcp[r], "");
 		}
-		checked_set (_decode_resolution, wxT(""));
+		checked_set(_decode_resolution, "");
 		_kdm_panel->Hide();
 		return;
 	}

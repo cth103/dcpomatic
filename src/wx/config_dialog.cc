@@ -317,7 +317,7 @@ CertificateChainEditor::CertificateChainEditor (
 	int r = 0;
 
 	add_label_to_sizer (table, this, _("Leaf private key"), true, wxGBPosition (r, 0));
-	_private_key = new StaticText (this, wxT(""));
+	_private_key = new StaticText(this, {});
 	wxFont font = _private_key->GetFont ();
 	font.SetFamily (wxFONTFAMILY_TELETYPE);
 	_private_key->SetFont (font);
@@ -456,7 +456,7 @@ CertificateChainEditor::export_certificate ()
 	}
 
 	auto d = make_wx<wxFileDialog>(
-		this, _("Select Certificate File"), wxEmptyString, default_name, wxT ("PEM files (*.pem)|*.pem"),
+		this, _("Select Certificate File"), wxEmptyString, default_name, char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -486,7 +486,7 @@ void
 CertificateChainEditor::export_chain ()
 {
 	auto d = make_wx<wxFileDialog>(
-		this, _("Select Chain File"), wxEmptyString, wxT("certificate_chain.pem"), wxT("PEM files (*.pem)|*.pem"),
+		this, _("Select Chain File"), wxEmptyString, char_to_wx("certificate_chain.pem"), char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -610,7 +610,7 @@ CertificateChainEditor::export_private_key ()
 	}
 
 	auto d = make_wx<wxFileDialog>(
-		this, _("Select Key File"), wxEmptyString, wxT("private_key.pem"), wxT("PEM files (*.pem)|*.pem"),
+		this, _("Select Key File"), wxEmptyString, char_to_wx("private_key.pem"), char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -728,7 +728,7 @@ void
 KeysPage::export_decryption_chain_and_key ()
 {
 	auto d = make_wx<wxFileDialog>(
-		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom"),
+		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, char_to_wx("DOM files (*.dom)|*.dom"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -762,7 +762,7 @@ KeysPage::import_decryption_chain_and_key ()
 	}
 
 	auto d = make_wx<wxFileDialog>(
-		_panel, _("Select File To Import"), wxEmptyString, wxEmptyString, wxT ("DOM files (*.dom)|*.dom")
+		_panel, _("Select File To Import"), wxEmptyString, wxEmptyString, char_to_wx("DOM files (*.dom)|*.dom")
 		);
 
 	if (d->ShowModal() != wxID_OK) {
@@ -821,10 +821,10 @@ KeysPage::export_decryption_certificate ()
 	if (!config->dcp_issuer().empty()) {
 		default_name += char_to_wx("_") + std_to_wx(careful_string_filter(config->dcp_issuer()));
 	}
-	default_name += wxT("_kdm_decryption_cert.pem");
+	default_name += char_to_wx("_kdm_decryption_cert.pem");
 
 	auto d = make_wx<wxFileDialog>(
-		_panel, _("Select Certificate File"), wxEmptyString, default_name, wxT("PEM files (*.pem)|*.pem"),
+		_panel, _("Select Certificate File"), wxEmptyString, default_name, char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
@@ -864,7 +864,7 @@ SoundPage::setup ()
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
 	_sound_output = new wxChoice (_panel, wxID_ANY);
 	s->Add (_sound_output, 0);
-	_sound_output_details = new wxStaticText (_panel, wxID_ANY, wxT(""));
+	_sound_output_details = new wxStaticText(_panel, wxID_ANY, {});
 	s->Add (_sound_output_details, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_X_GAP);
 	table->Add (s, wxGBPosition(r, 1));
 	++r;

@@ -125,7 +125,7 @@ VideoPanel::create ()
 
 	auto const link_path = bitmap_path(gui_is_dark() ? "link_white.png" : "link_black.png");
 
-	_left_right_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
+	_left_right_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, wxSize(link_width, link_height));
 	_left_right_link->SetBitmap(wxBitmap(link_path, wxBITMAP_TYPE_PNG));
 
 	_right_crop_label = create_label (this, _("Right"), true);
@@ -150,7 +150,7 @@ VideoPanel::create ()
 		boost::bind (&VideoPanel::top_crop_changed, this)
 		);
 
-	_top_bottom_link = new wxToggleButton (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(link_width, link_height));
+	_top_bottom_link = new wxToggleButton(this, wxID_ANY, {}, wxDefaultPosition, wxSize(link_width, link_height));
 	_top_bottom_link->SetBitmap(wxBitmap(link_path, wxBITMAP_TYPE_PNG));
 
 	_bottom_crop_label = create_label (this, _("Bottom"), true);
@@ -171,7 +171,7 @@ VideoPanel::create ()
 	_fade_out = new Timecode<ContentTime> (this);
 
 	wxClientDC dc (this);
-	auto size = dc.GetTextExtent (wxT ("A quite long name"));
+	auto size = dc.GetTextExtent(char_to_wx("A quite long name"));
 #ifdef __WXGTK3__
 	size.SetWidth (size.GetWidth() + 64);
 #endif
@@ -198,7 +198,7 @@ VideoPanel::create ()
 	_range->Append (_("Full (JPEG, 0-255)"));
 	_range->Append (_("Video (MPEG, 16-235)"));
 
-	_description = new StaticText (this, wxT ("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
+	_description = new StaticText(this, char_to_wx("\n \n \n \n \n"), wxDefaultPosition, wxDefaultSize);
 	auto font = _description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
 	font.SetPointSize(font.GetPointSize() - 1);
@@ -481,7 +481,7 @@ VideoPanel::setup_description ()
 {
 	auto vc = _parent->selected_video ();
 	if (vc.empty ()) {
-		checked_set (_description, wxT (""));
+		checked_set(_description, wxString{});
 		return;
 	} else if (vc.size() > 1) {
 		checked_set (_description, _("Multiple content selected"));

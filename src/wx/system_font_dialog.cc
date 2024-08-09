@@ -56,7 +56,7 @@ SystemFontDialog::SystemFontDialog (wxWindow* parent)
 	sort (_fonts.begin(), _fonts.end());
 
 	_list = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_list->InsertColumn (0, wxT (""));
+	_list->InsertColumn(0, wxString{});
 	_list->SetColumnWidth (0, 512);
 	sizer->Add (_list, 0, wxALL, DCPOMATIC_SIZER_X_GAP);
 

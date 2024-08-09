@@ -94,7 +94,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	   http://trac.wxwidgets.org/ticket/12539
 	*/
 	_dcp_name = new StaticText (
-		_panel, wxT (""), wxDefaultPosition, wxDefaultSize,
+		_panel, {}, wxDefaultPosition, wxDefaultSize,
 		wxALIGN_CENTRE_HORIZONTAL | wxST_NO_AUTORESIZE | wxST_ELLIPSIZE_MIDDLE
 		);
 
@@ -104,7 +104,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_encrypted = new CheckBox (_panel, _("Encrypted"));
 
         wxClientDC dc (_panel);
-        auto size = dc.GetTextExtent (wxT ("GGGGGGGG..."));
+        auto size = dc.GetTextExtent(char_to_wx("GGGGGGGG..."));
         size.SetHeight (-1);
 
 	_standard_label = create_label (_panel, _("Standard"), true);
@@ -482,7 +482,7 @@ DCPPanel::film_changed(FilmProperty p)
 	{
 		auto al = _film->audio_language();
 		checked_set (_enable_audio_language, static_cast<bool>(al));
-		checked_set (_audio_language, al ? std_to_wx(al->to_string()) : wxT(""));
+		checked_set (_audio_language, al ? std_to_wx(al->to_string()) : wxString{});
 		setup_dcp_name ();
 		setup_sensitivity ();
 		_audio_panel_sizer->Layout();
@@ -608,7 +608,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 
 	if (!_film) {
 		/* Really should all the film_changed below but this might be enough */
-		checked_set (_dcp_name, wxT(""));
+		checked_set(_dcp_name, wxString{});
 		set_general_sensitivity (false);
 		return;
 	}
@@ -802,7 +802,7 @@ DCPPanel::make_video_panel ()
 
 	_container_label = create_label (panel, _("Container"), true);
 	_container = new Choice(panel);
-	_container_size = new StaticText (panel, wxT (""));
+	_container_size = new StaticText(panel, {});
 
 	_resolution_label = create_label (panel, _("Resolution"), true);
 	_resolution = new Choice(panel);
@@ -934,7 +934,7 @@ DCPPanel::make_audio_panel ()
 	add_audio_processors ();
 
 	_enable_audio_language = new CheckBox(panel, _("Language"));
-	_audio_language = new wxStaticText(panel, wxID_ANY, wxT(""));
+	_audio_language = new wxStaticText(panel, wxID_ANY, {});
 	_edit_audio_language = new Button(panel, _("Edit..."));
 
 	_show_audio = new Button (panel, _("Show graph of audio levels..."));

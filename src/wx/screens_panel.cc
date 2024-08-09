@@ -70,7 +70,7 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 
 	auto targets = new wxBoxSizer (wxHORIZONTAL);
 	_targets = new wxTreeListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTL_MULTIPLE | wxTL_3STATE | wxTL_NO_HEADER);
-	_targets->AppendColumn (wxT("foo"));
+	_targets->AppendColumn(char_to_wx("foo"));
 
 	targets->Add (_targets, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 

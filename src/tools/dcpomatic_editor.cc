@@ -507,7 +507,7 @@ private:
 	void OnInitCmdLine (wxCmdLineParser& parser) override
 	{
 		parser.SetDesc (command_line_description);
-		parser.SetSwitchChars (wxT ("-"));
+		parser.SetSwitchChars(char_to_wx("-"));
 	}
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser) override

@@ -81,7 +81,7 @@ class DirDialogWrapper : public wxDirDialog
 {
 public:
 	DirDialogWrapper (wxWindow* parent)
-		: wxDirDialog (parent, _("Choose a DCP folder"), wxT(""), wxDD_DIR_MUST_EXIST)
+		: wxDirDialog (parent, _("Choose a DCP folder"), {}, wxDD_DIR_MUST_EXIST)
 	{
 
 	}
@@ -530,15 +530,15 @@ public:
 	void OnInitCmdLine (wxCmdLineParser& parser) override
 	{
 		parser.SetDesc (command_line_description);
-		parser.SetSwitchChars (wxT ("-"));
+		parser.SetSwitchChars(char_to_wx("-"));
 	}
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser) override
 	{
-		_skip_alpha_check = parser.Found(wxT("sure"));
+		_skip_alpha_check = parser.Found(char_to_wx("sure"));
 
 		wxString dcp;
-		if (parser.Found(wxT("dcp"), &dcp)) {
+		if (parser.Found(char_to_wx("dcp"), &dcp)) {
 			_dcp_to_write = wx_to_std (dcp);
 		}
 

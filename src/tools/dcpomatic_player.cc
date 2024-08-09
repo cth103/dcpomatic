@@ -742,7 +742,7 @@ private:
 
 	void file_add_kdm ()
 	{
-		FileDialog dialog(this, _("Select KDM"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
+		FileDialog dialog(this, _("Select KDM"), char_to_wx("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddKDMPath");
 
 		if (dialog.show()) {
 			DCPOMATIC_ASSERT (_film);
@@ -905,7 +905,7 @@ private:
 		_viewer.set_pad_black(_mode != Config::PLAYER_MODE_WINDOW);
 
 		if (_mode == Config::PLAYER_MODE_DUAL) {
-			_dual_screen = new wxFrame (this, wxID_ANY, wxT(""));
+			_dual_screen = new wxFrame(this, wxID_ANY, {});
 			_dual_screen->SetBackgroundColour (wxColour(0, 0, 0));
 			_dual_screen->ShowFullScreen (true);
 			_viewer.panel()->Reparent(_dual_screen);
@@ -1342,7 +1342,7 @@ private:
 	void OnInitCmdLine (wxCmdLineParser& parser) override
 	{
 		parser.SetDesc (command_line_description);
-		parser.SetSwitchChars (wxT ("-"));
+		parser.SetSwitchChars(char_to_wx("-"));
 	}
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser) override

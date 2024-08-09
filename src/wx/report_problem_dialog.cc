@@ -61,12 +61,12 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	int flags = wxALIGN_TOP | wxLEFT | wxRIGHT;
 #ifdef __WXOSX__
 	flags |= wxALIGN_RIGHT;
-	t += wxT (":");
+	t += char_to_wx(":");
 #endif
 	auto m = new StaticText (this, t);
 	_table->Add (m, 1, flags, 6);
 
-	_summary = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(320, 240), wxTE_MULTILINE);
+	_summary = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(320, 240), wxTE_MULTILINE);
 	_table->Add (_summary, 1, wxEXPAND | wxALIGN_TOP);
 
 	_send_logs = new CheckBox (this, _("Send logs"));
@@ -75,7 +75,7 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 	_table->AddSpacer (0);
 
 	add_label_to_sizer (_table, this, _("Your email address"), true, 0, wxALIGN_CENTRE_VERTICAL);
-	_email = new wxTextCtrl (this, wxID_ANY, wxT (""));
+	_email = new wxTextCtrl(this, wxID_ANY, {});
 	_email->SetValue (std_to_wx (Config::instance()->kdm_from ()));
 	_table->Add (_email, 1, wxEXPAND);
 
@@ -97,7 +97,7 @@ ReportProblemDialog::ReportProblemDialog (wxWindow* parent, shared_ptr<Film> fil
 		}
 	}
 
-	auto n = new StaticText (this, wxT(""));
+	auto n = new StaticText(this, {});
 	n->SetLabelMarkup (out);
 	_table->AddSpacer (0);
 	_table->Add (n, 1, wxEXPAND);

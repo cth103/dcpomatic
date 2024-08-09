@@ -100,15 +100,15 @@ VideoWaveformPlot::paint ()
 	double label_height;
 	double label_descent;
 	double label_leading;
-	gc->GetTextExtent (wxT ("1024"), &label_width, &label_height, &label_descent, &label_leading);
+	gc->GetTextExtent(char_to_wx("1024"), &label_width, &label_height, &label_descent, &label_leading);
 
 	double extra[3];
 	double w;
-	gc->GetTextExtent (wxT ("0"), &w, &label_height, &label_descent, &label_leading);
+	gc->GetTextExtent(char_to_wx("0"), &w, &label_height, &label_descent, &label_leading);
 	extra[0] = label_width - w;
-	gc->GetTextExtent (wxT ("64"), &w, &label_height, &label_descent, &label_leading);
+	gc->GetTextExtent(char_to_wx("64"), &w, &label_height, &label_descent, &label_leading);
 	extra[1] = label_width - w;
-	gc->GetTextExtent (wxT ("512"), &w, &label_height, &label_descent, &label_leading);
+	gc->GetTextExtent(char_to_wx("512"), &w, &label_height, &label_descent, &label_leading);
 	extra[2] = label_width - w;
 
 	int label_gaps = 2;

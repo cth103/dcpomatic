@@ -58,7 +58,7 @@ FilePickerCtrl::FilePickerCtrl(
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
         wxClientDC dc (parent);
-        wxSize size = dc.GetTextExtent (wxT ("This is the length of the file label it should be quite long"));
+        wxSize size = dc.GetTextExtent(char_to_wx("This is the length of the file label it should be quite long"));
         size.SetHeight (-1);
 
 	_file = new Button (this, _("(None)"), wxDefaultPosition, size, wxBU_LEFT);

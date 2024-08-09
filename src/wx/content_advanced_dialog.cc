@@ -64,7 +64,7 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	int r = 0;
 
 	wxClientDC dc (this);
-	auto size = dc.GetTextExtent (wxT ("A quite long name"));
+	auto size = dc.GetTextExtent(char_to_wx("A quite long name"));
 #ifdef __WXGTK3__
 	size.SetWidth (size.GetWidth() + 64);
 #endif
@@ -85,7 +85,7 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	} else {
 		video_frame_rate_label = add_label_to_sizer (sizer, this, _("Video frame rate that content was prepared for"), true, wxGBPosition(r, 0));
 	}
-	_video_frame_rate = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
+	_video_frame_rate = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
 	sizer->Add (_video_frame_rate, wxGBPosition(r, 1));
 	_set_video_frame_rate = new Button (this, _("Set"));
 	_set_video_frame_rate->Enable (false);
@@ -197,7 +197,7 @@ ContentAdvancedDialog::filters_changed(vector<Filter> const& filters)
 optional<double>
 ContentAdvancedDialog::video_frame_rate() const
 {
-	if (_video_frame_rate->GetValue() == wxT("")) {
+	if (_video_frame_rate->GetValue().IsEmpty()) {
 		return {};
 	}
 
@@ -219,7 +219,7 @@ ContentAdvancedDialog::video_frame_rate_changed ()
        /* If the user clicks "set" now, with no frame rate entered, it would unset the video
 	  frame rate in the selected content.  This can't be allowed for some content types.
        */
-       if (_video_frame_rate->GetValue() == wxT("") && (dynamic_pointer_cast<DCPContent>(_content) || dynamic_pointer_cast<FFmpegContent>(_content))) {
+       if (_video_frame_rate->GetValue().IsEmpty() && (dynamic_pointer_cast<DCPContent>(_content) || dynamic_pointer_cast<FFmpegContent>(_content))) {
 	       enable = false;
        }
 

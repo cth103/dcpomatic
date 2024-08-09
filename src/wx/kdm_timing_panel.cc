@@ -45,7 +45,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 #ifdef __WXGTK3__
 	/* wxDatePickerCtrl is too small with the GTK3 backend so we need to make it bigger with some fudge factors */
 	wxClientDC dc (parent);
-	auto size = dc.GetTextExtent(wxT("99/99/9999"));
+	auto size = dc.GetTextExtent(char_to_wx("99/99/9999"));
 	size.SetWidth (size.GetWidth() * 1.75);
 	size.SetHeight (-1);
 #else
@@ -113,7 +113,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 
 	overall_sizer->Add (table, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 
-	_warning = new StaticText (this, wxT(""));
+	_warning = new StaticText(this, {});
 	overall_sizer->Add (_warning, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 	wxFont font = _warning->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
@@ -184,7 +184,7 @@ void
 KDMTimingPanel::changed () const
 {
 	if (valid ()) {
-		_warning->SetLabel (wxT (""));
+		_warning->SetLabel({});
 	} else {
 		_warning->SetLabel (_("The 'until' time must be after the 'from' time."));
 	}

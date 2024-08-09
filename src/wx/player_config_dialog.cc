@@ -287,7 +287,7 @@ private:
 		int flags = wxALIGN_TOP | wxTOP | wxLEFT;
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
-		text += wxT (":");
+		text += char_to_wx(":");
 #endif
 		wxStaticText* m = new StaticText (parent, text);
 		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);

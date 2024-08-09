@@ -375,7 +375,7 @@ public:
 			}
 			_name->SetValue (std_to_wx(_playlist->name()));
 		} else {
-			_name->SetValue (wxT(""));
+			_name->SetValue({});
 		}
 		setup_sensitivity ();
 	}

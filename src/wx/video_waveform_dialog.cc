@@ -58,9 +58,9 @@ VideoWaveformDialog::VideoWaveformDialog(wxWindow* parent, weak_ptr<const Film> 
 	wxBoxSizer* controls = new wxBoxSizer (wxHORIZONTAL);
 
 	_component = new wxChoice (this, wxID_ANY);
-	_component->Append (wxT ("X"));
-	_component->Append (wxT ("Y"));
-	_component->Append (wxT ("Z"));
+	_component->Append(char_to_wx("X"));
+	_component->Append(char_to_wx("Y"));
+	_component->Append(char_to_wx("Z"));
 	add_label_to_sizer (controls, this, _("Component"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 	controls->Add (_component, 1, wxALL, DCPOMATIC_SIZER_X_GAP);
 

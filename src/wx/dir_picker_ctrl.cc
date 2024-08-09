@@ -42,7 +42,7 @@ DirPickerCtrl::DirPickerCtrl(wxWindow* parent, bool leaf)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	_folder = new StaticText(this, wxT(""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+	_folder = new StaticText(this, {}, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 	wxFont font = _folder->GetFont ();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
 	_folder->SetFont (font);

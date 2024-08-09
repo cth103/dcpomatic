@@ -69,7 +69,7 @@ create_label (wxWindow* p, wxString t, bool)
 {
 #ifdef __WXOSX__
 	if (left) {
-		t += wxT (":");
+		t += char_to_wx(":");
 	}
 #endif
 	return new StaticText (p, t);
@@ -462,13 +462,13 @@ dcpomatic_setup_i18n()
 	}
 
 #ifdef DCPOMATIC_DEBUG
-	wxFileTranslationsLoader::AddCatalogLookupPathPrefix(wxT("build/src/wx/mo"));
-	wxFileTranslationsLoader::AddCatalogLookupPathPrefix(wxT("build/src/tools/mo"));
+	wxFileTranslationsLoader::AddCatalogLookupPathPrefix(char_to_wx("build/src/wx/mo"));
+	wxFileTranslationsLoader::AddCatalogLookupPathPrefix(char_to_wx("build/src/tools/mo"));
 #endif
 
 	translations->AddStdCatalog();
-	translations->AddCatalog(wxT("libdcpomatic2-wx"));
-	translations->AddCatalog(wxT("dcpomatic2"));
+	translations->AddCatalog(char_to_wx("libdcpomatic2-wx"));
+	translations->AddCatalog(char_to_wx("dcpomatic2"));
 
 	wxTranslations::Set(translations);
 
@@ -505,15 +505,15 @@ dcpomatic_setup_i18n ()
 		   so we rename it to avoid clashes with any other installation
 		   of wxWidgets.
 		*/
-		locale->AddCatalog (wxT ("dcpomatic2-wxstd"));
+		locale->AddCatalog(char_to_wx("dcpomatic2-wxstd"));
 
 		/* Fedora 29 (at least) installs wxstd3.mo instead of wxstd.mo */
-		locale->AddCatalog (wxT ("wxstd3"));
+		locale->AddCatalog(char_to_wx("wxstd3"));
 #endif
 
-		locale->AddCatalog(wxT("wxstd"));
-		locale->AddCatalog(wxT("libdcpomatic2-wx"));
-		locale->AddCatalog(wxT("dcpomatic2"));
+		locale->AddCatalog(char_to_wx("wxstd"));
+		locale->AddCatalog(char_to_wx("libdcpomatic2-wx"));
+		locale->AddCatalog(char_to_wx("dcpomatic2"));
 
 		if (!locale->IsOk()) {
 			delete locale;
@@ -560,7 +560,7 @@ context_translation(char const* s)
 	auto t = wxGetTranslation(wx_s);
 	if (t == wx_s) {
 		/* No translation; strip the context */
-		int c = t.Find (wxT ("|"));
+		int c = t.Find(char_to_wx("|"));
 		if (c != wxNOT_FOUND) {
 			t = t.Mid (c + 1);
 		}
@@ -581,7 +581,7 @@ time_to_timecode (DCPTime t, double fps)
 	int const s = floor (w);
 	w -= s;
 	int const f = lrint (w * fps);
-	return wxString::Format (wxT("%02d:%02d:%02d.%02d"), h, m, s, f);
+	return wxString::Format(char_to_wx("%02d:%02d:%02d.%02d"), h, m, s, f);
 }
 
 

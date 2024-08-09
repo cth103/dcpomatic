@@ -31,14 +31,14 @@ ServerDialog::ServerDialog (wxWindow* parent)
 {
         wxClientDC dc (parent);
 	/* XXX: bit of a mystery why we need such a long string here */
-        wxSize size = dc.GetTextExtent (wxT ("255.255.255.255.255.255.255.255"));
+        wxSize size = dc.GetTextExtent(char_to_wx("255.255.255.255.255.255.255.255"));
         size.SetHeight (-1);
 
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
         wxArrayString list;
 
 	add (_("Host name or IP address"), true);
-	_host = add (new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size));
+	_host = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size));
 
 	layout ();
 

@@ -117,7 +117,7 @@ public:
 		output->AddGrowableCol (1, 1);
 
 		add_label_to_sizer (output, overall_panel, _("Annotation text"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_annotation_text = new wxTextCtrl (overall_panel, wxID_ANY, wxT(""));
+		_annotation_text = new wxTextCtrl(overall_panel, wxID_ANY, {});
 		output->Add (_annotation_text, 1, wxEXPAND);
 
 		add_label_to_sizer (output, overall_panel, _("Output DCP folder"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);

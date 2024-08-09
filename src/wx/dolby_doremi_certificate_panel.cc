@@ -282,7 +282,7 @@ DolbyDoremiCertificatePanel::do_download ()
 		_dialog->message()->SetLabel (_("Certificate downloaded"));
 		_dialog->setup_sensitivity ();
 	} else {
-		_dialog->message()->SetLabel (wxT (""));
+		_dialog->message()->SetLabel({});
 
 		string s;
 		for (auto e: errors) {

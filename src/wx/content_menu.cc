@@ -369,11 +369,11 @@ ContentMenu::find_missing ()
 	boost::filesystem::path path;
 
 	if ((ic && !ic->still ()) || dc) {
-		wxDirDialog dialog(nullptr, _("Choose a folder"), wxT(""), wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(nullptr, _("Choose a folder"), {}, wxDD_DIR_MUST_EXIST);
 		r = dialog.ShowModal();
 		path = wx_to_std(dialog.GetPath());
 	} else {
-		wxFileDialog dialog(nullptr, _("Choose a file"), wxT(""), wxT(""), wxT("*.*"));
+		wxFileDialog dialog(nullptr, _("Choose a file"), {}, {}, char_to_wx("*.*"));
 		r = dialog.ShowModal();
 		path = wx_to_std(dialog.GetPath());
 	}
@@ -406,7 +406,7 @@ ContentMenu::kdm ()
 	auto dcp = dynamic_pointer_cast<DCPContent> (_content.front());
 	DCPOMATIC_ASSERT (dcp);
 
-	FileDialog dialog(_parent, _("Select KDM"), wxT("XML files|*.xml|All files|*.*"), 0, "AddKDMPath");
+	FileDialog dialog(_parent, _("Select KDM"), char_to_wx("XML files|*.xml|All files|*.*"), 0, "AddKDMPath");
 
 	if (!dialog.show()) {
 		return;

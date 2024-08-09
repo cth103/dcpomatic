@@ -54,11 +54,11 @@ using namespace dcpomatic;
 ContentView::ContentView (wxWindow* parent)
 	: wxListCtrl (parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER)
 {
-	AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
 	/* type */
-	AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
 	/* annotation text */
-	AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 580);
+	AppendColumn({}, wxLIST_FORMAT_LEFT, 580);
 }
 
 

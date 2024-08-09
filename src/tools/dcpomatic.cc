@@ -777,7 +777,7 @@ private:
 	void tools_export_preferences ()
 	{
 		FileDialog dialog(
-			this, _("Specify ZIP file"), wxT("ZIP files (*.zip)|*.zip"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT, "Preferences", string("dcpomatic_config.zip")
+			this, _("Specify ZIP file"), char_to_wx("ZIP files (*.zip)|*.zip"), wxFD_SAVE | wxFD_OVERWRITE_PROMPT, "Preferences", string("dcpomatic_config.zip")
 			);
 
 		if (dialog.ShowModal() == wxID_OK) {
@@ -797,7 +797,7 @@ private:
 
 	void tools_import_preferences()
 	{
-		FileDialog dialog(this, _("Specify ZIP file"), wxT("ZIP files (*.zip)|*.zip"), wxFD_OPEN, "Preferences");
+		FileDialog dialog(this, _("Specify ZIP file"), char_to_wx("ZIP files (*.zip)|*.zip"), wxFD_OPEN, "Preferences");
 
 		if (!dialog.show()) {
 			return;
@@ -1774,18 +1774,18 @@ private:
 	void OnInitCmdLine (wxCmdLineParser& parser) override
 	{
 		parser.SetDesc (command_line_description);
-		parser.SetSwitchChars (wxT ("-"));
+		parser.SetSwitchChars(char_to_wx("-"));
 	}
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser) override
 	{
-		if (parser.Found (wxT("version"))) {
+		if (parser.Found(char_to_wx("version"))) {
 			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		}
 
 		if (parser.GetParamCount() > 0) {
-			if (parser.Found (wxT ("new"))) {
+			if (parser.Found(char_to_wx("new"))) {
 				_film_to_create = wx_to_std (parser.GetParam (0));
 			} else {
 				_film_to_load = wx_to_std (parser.GetParam (0));
@@ -1793,17 +1793,17 @@ private:
 		}
 
 		wxString content;
-		if (parser.Found (wxT ("content"), &content)) {
+		if (parser.Found(char_to_wx("content"), &content)) {
 			_content_to_add = wx_to_std (content);
 		}
 
 		wxString dcp;
-		if (parser.Found (wxT ("dcp"), &dcp)) {
+		if (parser.Found(char_to_wx("dcp"), &dcp)) {
 			_dcp_to_add = wx_to_std (dcp);
 		}
 
 		wxString config;
-		if (parser.Found (wxT("config"), &config)) {
+		if (parser.Found(char_to_wx("config"), &config)) {
 			State::override_path = wx_to_std (config);
 		}
 

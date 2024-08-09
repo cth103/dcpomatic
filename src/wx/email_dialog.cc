@@ -32,7 +32,7 @@ EmailDialog::EmailDialog (wxWindow* parent)
 	: TableDialog (parent, _("Email address"), 2, 1, true)
 {
 	add (_("Email address"), true);
-	_email = add (new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(400, -1)));
+	_email = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(400, -1)));
 
 	layout ();
 

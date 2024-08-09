@@ -575,7 +575,7 @@ private:
 
 	void add_dkdm_clicked ()
 	{
-		FileDialog dialog(this, _("Select DKDM file"), wxT("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
+		FileDialog dialog(this, _("Select DKDM file"), char_to_wx("XML files|*.xml|All files|*.*"), wxFD_MULTIPLE, "AddDKDMPath");
 		if (!dialog.show()) {
 			return;
 		}
@@ -789,7 +789,7 @@ private:
 		}
 
 		wxFileDialog dialog(
-			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, wxT("XML files (*.xml)|*.xml"),
+			this, _("Select DKDM File"), wxEmptyString, wxEmptyString, char_to_wx("XML files (*.xml)|*.xml"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 			);
 

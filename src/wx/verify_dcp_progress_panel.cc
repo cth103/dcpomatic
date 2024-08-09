@@ -37,10 +37,10 @@ VerifyDCPProgressPanel::VerifyDCPProgressPanel(wxWindow* parent)
 {
 	auto overall_sizer = new wxBoxSizer(wxVERTICAL);
 
-	_job_name = new wxStaticText(this, wxID_ANY, wxT(""));
+	_job_name = new wxStaticText(this, wxID_ANY, {});
 	overall_sizer->Add(_job_name, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
-	_file_name = new wxStaticText(this, wxID_ANY, wxT(""));
+	_file_name = new wxStaticText(this, wxID_ANY, {});
 	wxFont file_name_font(*wxNORMAL_FONT);
 	file_name_font.SetFamily(wxFONTFAMILY_MODERN);
 	file_name_font.SetPointSize(file_name_font.GetPointSize() - 2);

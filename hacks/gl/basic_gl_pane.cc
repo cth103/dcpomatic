@@ -33,7 +33,7 @@ DrawableThing* sprite;
 bool MyApp::OnInit()
 {
     wxBoxSizer* sizer = new wxBoxSizer(wxHORIZONTAL);
-    frame = new wxFrame((wxFrame *)NULL, -1,  wxT("Hello GL World"), wxPoint(50,50), wxSize(400,200));
+    frame = new wxFrame((wxFrame *)NULL, -1, char_to_wx("Hello GL World"), wxPoint(50,50), wxSize(400,200));
 
     int args[] = {WX_GL_RGBA, WX_GL_DOUBLEBUFFER, WX_GL_DEPTH_SIZE, 16, 0};
 
@@ -72,7 +72,7 @@ void BasicGLPane::keyPressed(wxKeyEvent& event) {}
 void BasicGLPane::keyReleased(wxKeyEvent& event) {}
 
 BasicGLPane::BasicGLPane(wxFrame* parent, int* args) :
-wxGLCanvas(parent, wxID_ANY,  wxDefaultPosition, wxDefaultSize, 0, wxT("GLCanvas"),  args)
+wxGLCanvas(parent, wxID_ANY,  wxDefaultPosition, wxDefaultSize, 0, char_to_wx("GLCanvas"),  args)
 {
 }
 
@@ -150,7 +150,7 @@ void BasicGLPane::render( wxPaintEvent& evt )
 
     if(image == NULL)
     {
-        image = new Image( wxT("myfile.png") );
+        image = new Image(char_to_wx("myfile.png"));
         sprite = new DrawableThing(image);
     }
 

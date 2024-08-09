@@ -36,7 +36,7 @@ LanguageTagWidget::LanguageTagWidget (wxWindow* parent, wxString tooltip, option
 	: _parent (parent)
 	, _sizer (new wxBoxSizer(wxHORIZONTAL))
 {
-	_language = new wxStaticText (parent, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
+	_language = new wxStaticText(parent, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
 	_language->SetToolTip (tooltip);
 	set (tag);
 
@@ -80,7 +80,7 @@ LanguageTagWidget::set (optional<dcp::LanguageTag> tag)
 	if (tag) {
 		checked_set (_language, std_to_wx(tag->to_string()));
 	} else {
-		checked_set (_language, wxT(""));
+		checked_set(_language, wxString{});
 	}
 }
 

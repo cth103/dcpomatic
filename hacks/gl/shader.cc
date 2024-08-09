@@ -35,7 +35,7 @@ public:
 	bool OnInit()
 	{
 		auto sizer = new wxBoxSizer(wxHORIZONTAL);
-		_frame = new wxFrame(nullptr, wxID_ANY, wxT("Hello world"));
+		_frame = new wxFrame(nullptr, wxID_ANY, char_to_wx("Hello world"));
 		_canvas = new GLCanvas(_frame);
 		sizer->Add(_canvas->get(), 1, wxEXPAND);
 		_frame->SetSizerAndFit(sizer);

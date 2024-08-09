@@ -96,7 +96,7 @@ TimelineTimeAxisView::do_paint (wxGraphicsContext* gc, list<dcpomatic::Rect<int>
 		tc -= m * 60;
 		int const s = tc;
 
-		wxString str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
+		wxString str = wxString::Format(char_to_wx("%02d:%02d:%02d"), h, m, s);
 		wxDouble str_width;
 		wxDouble str_height;
 		wxDouble str_descent;

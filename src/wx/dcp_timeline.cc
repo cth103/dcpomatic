@@ -392,7 +392,7 @@ DCPTimeline::paint_reels(wxGraphicsContext* gc)
 		path.AddLineToPoint(to, y);
 		gc->StrokePath(path);
 
-		auto str = wxString::Format(wxT("#%d"), index + 1);
+		auto str = wxString::Format(char_to_wx("#%d"), index + 1);
 		wxDouble str_width;
 		wxDouble str_height;
 		wxDouble str_descent;

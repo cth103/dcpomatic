@@ -31,9 +31,9 @@ DCPTextTrackDialog::DCPTextTrackDialog (wxWindow* parent)
 	: TableDialog (parent, _("DCP Text Track"), 2, 1, true)
 {
 	add (_("Name"), true);
-	add (_name = new wxTextCtrl (this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(300, -1)));
+	add (_name = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxSize(300, -1)));
 	add (_("Language"), true);
-	_language = new LanguageTagWidget (this, wxT(""), boost::none);
+	_language = new LanguageTagWidget(this, {}, boost::none);
 	add (_language->sizer());
 
 	_language->Changed.connect(boost::bind(&DCPTextTrackDialog::set_sensitivity, this));

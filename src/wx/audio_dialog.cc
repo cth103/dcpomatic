@@ -87,19 +87,19 @@ AudioDialog::AudioDialog (wxWindow* parent, shared_ptr<Film> film, FilmViewer& v
 
 	auto left = new wxBoxSizer (wxVERTICAL);
 
-	_cursor = new StaticText (this, wxT("Cursor: none"));
+	_cursor = new StaticText(this, char_to_wx("Cursor: none"));
 	left->Add (_cursor, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 	_plot = new AudioPlot (this, viewer);
 	left->Add (_plot, 1, wxTOP | wxEXPAND, 12);
-	_sample_peak = new StaticText (this, wxT (""));
+	_sample_peak = new StaticText(this, {});
 	left->Add (_sample_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_true_peak = new StaticText (this, wxT (""));
+	_true_peak = new StaticText(this, {});
 	left->Add (_true_peak, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_integrated_loudness = new StaticText (this, wxT (""));
+	_integrated_loudness = new StaticText(this, {});
 	left->Add (_integrated_loudness, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_loudness_range = new StaticText (this, wxT (""));
+	_loudness_range = new StaticText(this, {});
 	left->Add (_loudness_range, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
-	_leqm = new StaticText (this, wxT(""));
+	_leqm = new StaticText(this, {});
 	left->Add (_leqm, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 	lr_sizer->Add (left, 1, wxALL | wxEXPAND, 12);

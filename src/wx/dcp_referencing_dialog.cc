@@ -126,7 +126,7 @@ DCPReferencingDialog::setup()
 		_dcp_grid->Add(new StaticText(this, std_to_wx(dcp_content->name())), wxGBPosition(row, 0));
 		column = 1;
 		for (auto const& part: all_parts) {
-			record.check_box[part] = new CheckBox(this, wxT(""));
+			record.check_box[part] = new CheckBox(this, {});
 			switch (part) {
 			case Part::VIDEO:
 				record.check_box[part]->set(dcp_content->reference_video());
@@ -149,7 +149,7 @@ DCPReferencingDialog::setup()
 		++row;
 
 		auto add_problem = [this, &row](wxString const& cannot, string why_not) {
-			auto reason = new StaticText(this, cannot + wxT(": ") + std_to_wx(why_not));
+			auto reason = new StaticText(this, cannot + char_to_wx(": ") + std_to_wx(why_not));
 			wxFont font(*wxNORMAL_FONT);
 			font.SetStyle(wxFONTSTYLE_ITALIC);
 			reason->SetFont(font);

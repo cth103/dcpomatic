@@ -65,10 +65,10 @@ TableDialog::add (wxString text, bool, int flags)
 #ifdef DCPOMATIC_OSX
 	if (label) {
 		flags |= wxALIGN_RIGHT;
-		text += wxT (":");
+		text += char_to_wx(":");
 	}
 #endif
-	auto m = new StaticText (this, wxT (""));
+	auto m = new StaticText(this, {});
 	m->SetLabelMarkup (text);
 	_table->Add (m, 0, flags, 6);
 	return m;

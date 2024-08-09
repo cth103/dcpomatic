@@ -55,7 +55,7 @@ HintsDialog::HintsDialog (wxWindow* parent, std::weak_ptr<Film> film, bool ok)
 
 	_gauge = new wxGauge (this, wxID_ANY, 100);
 	sizer->Add (_gauge, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
-	_gauge_message = new StaticText (this, wxT(""));
+	_gauge_message = new StaticText(this, {});
 	sizer->Add (_gauge_message, 0, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_text = new wxRichTextCtrl (this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize (400, 300), wxRE_READONLY);

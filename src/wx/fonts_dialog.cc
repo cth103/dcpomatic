@@ -184,7 +184,7 @@ FontsDialog::set_from_file_clicked ()
         default_dir = char_to_wx("/System/Library/Fonts");
 #endif
 
-	auto d = make_wx<wxFileDialog>(this, _("Choose a font file"), default_dir, wxT(""), wxT("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
+	auto d = make_wx<wxFileDialog>(this, _("Choose a font file"), default_dir, wxString{}, char_to_wx("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
 
 	if (d->ShowModal() != wxID_OK) {
 		return;

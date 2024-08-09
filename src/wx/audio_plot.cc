@@ -182,7 +182,7 @@ AudioPlot::paint ()
 	wxDouble db_label_descent;
 	wxDouble db_label_leading;
 	Metrics metrics;
-	gc->GetTextExtent (wxT ("-80dB"), &metrics.db_label_width, &db_label_height, &db_label_descent, &db_label_leading);
+	gc->GetTextExtent(char_to_wx("-80dB"), &metrics.db_label_width, &db_label_height, &db_label_descent, &db_label_leading);
 
 	metrics.db_label_width += 8;
 
@@ -223,7 +223,7 @@ AudioPlot::paint ()
 		tc -= m * 60;
 		int const s = tc;
 
-		auto str = wxString::Format (wxT ("%02d:%02d:%02d"), h, m, s);
+		auto str = wxString::Format(char_to_wx("%02d:%02d:%02d"), h, m, s);
 		wxDouble str_width;
 		wxDouble str_height;
 		wxDouble str_descent;

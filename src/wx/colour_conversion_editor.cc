@@ -82,26 +82,26 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 		_input_power = new wxSpinCtrlDouble (this);
 		s->Add (_input_power, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		add_label_to_sizer (s, this, _("threshold"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
-		_input_threshold = new wxTextCtrl (this, wxID_ANY, wxT (""));
+		_input_threshold = new wxTextCtrl(this, wxID_ANY, {});
 		s->Add (_input_threshold, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		add_label_to_sizer (s, this, _("A"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
-		_input_A = new wxTextCtrl (this, wxID_ANY, wxT (""));
+		_input_A = new wxTextCtrl(this, wxID_ANY, {});
 		s->Add (_input_A, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		add_label_to_sizer (s, this, _("B"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
-		_input_B = new wxTextCtrl (this, wxID_ANY, wxT (""));
+		_input_B = new wxTextCtrl(this, wxID_ANY, {});
 		s->Add (_input_B, 1, wxEXPAND | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		table->Add (s, wxGBPosition (r, 1), wxGBSpan (1, 3));
 	}
 	++r;
 
         wxClientDC dc (parent);
-        auto size = dc.GetTextExtent(wxT("-0.12345678901"));
+        auto size = dc.GetTextExtent(char_to_wx("-0.12345678901"));
         size.SetHeight (-1);
 
         wxTextValidator validator (wxFILTER_INCLUDE_CHAR_LIST);
         wxArrayString list;
 
-	wxString n (wxT("0123456789-"));
+	auto n = char_to_wx("0123456789-");
 	n.Append(wxNumberFormatter::GetDecimalSeparator());
         for (size_t i = 0; i < n.Length(); ++i) {
                 list.Add (n[i]);
@@ -138,40 +138,40 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 	++r;
 
 	add_label_to_sizer (table, this, _("Red chromaticity"), true, wxGBPosition (r, 0));
-	_red_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_red_x = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_red_x, wxGBPosition (r, 1));
-	_red_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_red_y = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_red_y, wxGBPosition (r, 2));
 	++r;
 
 	add_label_to_sizer (table, this, _("Green chromaticity"), true, wxGBPosition (r, 0));
-	_green_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_green_x = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_green_x, wxGBPosition (r, 1));
-	_green_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_green_y = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_green_y, wxGBPosition (r, 2));
 	++r;
 
 	add_label_to_sizer (table, this, _("Blue chromaticity"), true, wxGBPosition (r, 0));
-	_blue_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_blue_x = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_blue_x, wxGBPosition (r, 1));
-	_blue_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_blue_y = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_blue_y, wxGBPosition (r, 2));
 	++r;
 
 	add_label_to_sizer (table, this, _("White point"), true, wxGBPosition (r, 0));
-	_white_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_white_x = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_white_x, wxGBPosition (r, 1));
-	_white_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_white_y = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_white_y, wxGBPosition (r, 2));
 	++r;
 
-        size = dc.GetTextExtent (wxT ("0.12345678"));
+        size = dc.GetTextExtent(char_to_wx("0.12345678"));
         size.SetHeight (-1);
 
 	auto rgb_to_xyz_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			_rgb_to_xyz[i][j] = new StaticText (this, wxT (""), wxDefaultPosition, size, 0);
+			_rgb_to_xyz[i][j] = new StaticText(this, {}, wxDefaultPosition, size, 0);
 			rgb_to_xyz_sizer->Add (_rgb_to_xyz[i][j]);
 		}
 	}
@@ -179,29 +179,29 @@ ColourConversionEditor::ColourConversionEditor (wxWindow* parent, bool yuv)
 
 	/* White point adjustment */
 
-        size = dc.GetTextExtent (wxT ("-0.12345678901"));
+        size = dc.GetTextExtent(char_to_wx("-0.12345678901"));
         size.SetHeight (-1);
 
 	subhead (table, this, _("White point adjustment"), r);
 
 	_adjust_white = new CheckBox (this, _("Adjust white point to"));
 	table->Add (_adjust_white, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	_adjusted_white_x = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_adjusted_white_x = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_adjusted_white_x, wxGBPosition (r, 1));
-	_adjusted_white_y = new wxTextCtrl (this, wxID_ANY, wxT (""), wxDefaultPosition, size, 0, validator);
+	_adjusted_white_y = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, size, 0, validator);
 	table->Add (_adjusted_white_y, wxGBPosition (r, 2));
 	++r;
 
-	add_label_to_sizer (table, this, wxT (""), false, wxGBPosition (r, 0));
+	add_label_to_sizer(table, this, {}, false, wxGBPosition (r, 0));
 	++r;
 
-        size = dc.GetTextExtent (wxT ("0.12345678"));
+        size = dc.GetTextExtent(char_to_wx("0.12345678"));
         size.SetHeight (-1);
 
 	auto bradford_sizer = new wxFlexGridSizer (3, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
 	for (int i = 0; i < 3; ++i) {
 		for (int j = 0; j < 3; ++j) {
-			_bradford[i][j] = new StaticText (this, wxT (""), wxDefaultPosition, size, 0);
+			_bradford[i][j] = new StaticText(this, {}, wxDefaultPosition, size, 0);
 			bradford_sizer->Add (_bradford[i][j]);
 		}
 	}

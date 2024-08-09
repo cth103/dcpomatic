@@ -72,7 +72,7 @@ void
 AudioPanel::create ()
 {
 	_show = new Button (this, _("Show graph of audio levels..."));
-	_peak = new StaticText (this, wxT (""));
+	_peak = new StaticText(this, {});
 
 	_gain_label = create_label (this, _("Gain"), true);
 	_gain = new ContentSpinCtrlDouble<AudioContent> (
@@ -111,7 +111,7 @@ AudioPanel::create ()
 	_mapping = new AudioMappingView (this, _("Content"), _("content"), _("DCP"), _("DCP"));
 	_sizer->Add (_mapping, 1, wxEXPAND | wxALL, 6);
 
-	_description = new StaticText (this, wxT(" \n"), wxDefaultPosition, wxDefaultSize);
+	_description = new StaticText(this, char_to_wx(" \n"), wxDefaultPosition, wxDefaultSize);
 	_sizer->Add (_description, 0, wxALL, 12);
 	auto font = _description->GetFont();
 	font.SetStyle(wxFONTSTYLE_ITALIC);
@@ -316,7 +316,7 @@ AudioPanel::setup_description ()
 {
 	auto ac = _parent->selected_audio ();
 	if (ac.size () != 1) {
-		checked_set (_description, wxT (""));
+		checked_set(_description, wxString{});
 		return;
 	}
 
@@ -434,7 +434,7 @@ AudioPanel::setup_peak ()
 
 	auto peak_dB = peak ();
 	if (sel.size() != 1) {
-		_peak->SetLabel (wxT(""));
+		_peak->SetLabel({});
 	} else {
 		peak_dB = peak ();
 		if (peak_dB) {

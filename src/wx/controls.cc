@@ -70,11 +70,11 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	, _markers (new MarkersPanel(this, viewer))
 	, _slider (new wxSlider(this, wxID_ANY, 0, 0, 4096))
 	, _viewer (viewer)
-	, _rewind_button (new Button(this, wxT("|<")))
-	, _back_button (new Button(this, wxT("<")))
-	, _forward_button (new Button(this, wxT(">")))
-	, _frame_number (new StaticText(this, wxT("")))
-	, _timecode (new StaticText(this, wxT("")))
+	, _rewind_button(new Button(this, char_to_wx("|<")))
+	, _back_button(new Button(this, char_to_wx("<")))
+	, _forward_button(new Button(this, char_to_wx(">")))
+	, _frame_number(new StaticText(this, {}))
+	, _timecode(new StaticText(this, {}))
 	, _timer (this)
 {
 	_v_sizer = new wxBoxSizer (wxVERTICAL);
@@ -276,14 +276,14 @@ void
 Controls::update_position_label ()
 {
 	if (!_film) {
-		checked_set (_frame_number, wxT("0"));
-		checked_set (_timecode, wxT("0:0:0.0"));
+		checked_set(_frame_number, char_to_wx("0"));
+		checked_set(_timecode, char_to_wx("0:0:0.0"));
 		return;
 	}
 
 	double const fps = _film->video_frame_rate ();
 	/* Count frame number from 1 ... not sure if this is the best idea */
-	checked_set(_frame_number, wxString::Format (wxT("%ld"), lrint(_viewer.position().seconds() * fps) + 1));
+	checked_set(_frame_number, wxString::Format(char_to_wx("%ld"), lrint(_viewer.position().seconds() * fps) + 1));
 	checked_set(_timecode, time_to_timecode(_viewer.position(), fps));
 }
 

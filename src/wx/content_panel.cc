@@ -265,7 +265,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 		_content->DragAcceptFiles (true);
 		s->Add (_content, 1, wxEXPAND | wxTOP | wxBOTTOM, 6);
 
-		_content->InsertColumn (0, wxT(""));
+		_content->InsertColumn(0, wxString{});
 		_content->SetColumnWidth(0, 2048);
 
 		auto b = new wxBoxSizer (wxVERTICAL);
@@ -609,7 +609,7 @@ ContentPanel::add_file_clicked ()
 	FileDialog dialog(
 		_splitter,
 		_("Choose a file or files"),
-		wxT("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
+		char_to_wx("All files|*.*|Subtitle files|*.srt;*.xml|Audio files|*.wav;*.w64;*.flac;*.aif;*.aiff"),
 		wxFD_MULTIPLE | wxFD_CHANGE_DIR,
 		"AddFilesPath",
 		{},

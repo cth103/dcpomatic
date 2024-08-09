@@ -69,7 +69,7 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	_button_sizer->Add (_next_button, 0, wxEXPAND);
 
 	_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 740);
+	_spl_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 740);
 
 	auto left_sizer = new wxBoxSizer(wxVERTICAL);
 	auto e_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -104,8 +104,8 @@ PlaylistControls::PlaylistControls(wxWindow* parent, FilmViewer& viewer)
 	left_sizer->Add (_content_view, 1, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_SIZER_GAP);
 
 	_current_spl_view = new wxListCtrl (this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_REPORT | wxLC_NO_HEADER);
-	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 500);
-	_current_spl_view->AppendColumn (wxT(""), wxLIST_FORMAT_LEFT, 80);
+	_current_spl_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 500);
+	_current_spl_view->AppendColumn({}, wxLIST_FORMAT_LEFT, 80);
 	e_sizer->Add (left_sizer, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 	e_sizer->Add (_current_spl_view, 1, wxALL | wxEXPAND, DCPOMATIC_SIZER_GAP);
 

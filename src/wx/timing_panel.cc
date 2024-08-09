@@ -78,7 +78,7 @@ TimingPanel::create ()
 	wxSize size = TimecodeBase::size (this);
 
 	for (int i = 0; i < 3; ++i) {
-		_colon[i] = create_label (this, wxT(":"), false);
+		_colon[i] = create_label(this, char_to_wx(":"), false);
 	}
 
 	//// TRANSLATORS: this is an abbreviation for "hours"

@@ -48,7 +48,7 @@ DownloadCertificateDialog::DownloadCertificateDialog (wxWindow* parent)
 	_download = new Button (this, _("Download"));
 	sizer->Add (_download, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
-	_message = new StaticText (this, wxT (""));
+	_message = new StaticText(this, {});
 	sizer->Add (_message, 0, wxALL, DCPOMATIC_SIZER_GAP);
 	auto font = _message->GetFont();
 	font.SetStyle (wxFONTSTYLE_ITALIC);
