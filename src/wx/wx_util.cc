@@ -554,10 +554,11 @@ wx_get (wxSpinCtrlDouble* w)
  *  @return translation, or String if no translation is available.
  */
 wxString
-context_translation (wxString s)
+context_translation(char const* s)
 {
-	auto t = wxGetTranslation (s);
-	if (t == s) {
+	auto wx_s = char_to_wx(s);
+	auto t = wxGetTranslation(wx_s);
+	if (t == wx_s) {
 		/* No translation; strip the context */
 		int c = t.Find (wxT ("|"));
 		if (c != wxNOT_FOUND) {
@@ -619,7 +620,7 @@ maybe_show_splash ()
 			{
 				/* This wxMemoryDC must be destroyed before bitmap can be used elsewhere */
 				wxMemoryDC dc(bitmap);
-				auto const version = wxString::Format("%s (%s)", dcpomatic_version, dcpomatic_git_commit);
+				auto const version = wxString::Format(char_to_wx("%s (%s)"), std_to_wx(dcpomatic_version), std_to_wx(dcpomatic_git_commit));
 				auto screen_size = dc.GetSize();
 				auto text_size = dc.GetTextExtent(version);
 				dc.DrawText(version, (screen_size.GetWidth() - text_size.GetWidth()) / 2, 236);
