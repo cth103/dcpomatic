@@ -214,6 +214,13 @@ std_to_wx (string s)
 }
 
 
+wxString
+char_to_wx(char const* s)
+{
+	return wxString::FromUTF8(s);
+}
+
+
 string
 string_client_data (wxClientData* o)
 {

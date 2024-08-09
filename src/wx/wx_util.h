@@ -105,6 +105,10 @@ extern wxStaticText* add_label_to_sizer(wxGridBagSizer *, wxWindow *, wxString, 
 extern wxStaticText* add_label_to_sizer (wxGridBagSizer *, wxStaticText *, bool, wxGBPosition, wxGBSpan span = wxDefaultSpan);
 extern std::string wx_to_std (wxString);
 extern wxString std_to_wx (std::string);
+
+/** Convert UTF8-encoded char array to wxString */
+extern wxString char_to_wx(char const* s);
+
 extern void dcpomatic_setup_i18n ();
 extern wxString context_translation (wxString);
 extern std::string string_client_data (wxClientData* o);
