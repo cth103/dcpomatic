@@ -24,6 +24,7 @@
 
 
 #include <string>
+#include <dcp/text_type.h>
 
 
 /** Type of captions.
@@ -50,6 +51,8 @@ enum class TextType
 extern std::string text_type_to_string(TextType t);
 extern std::string text_type_to_name(TextType t);
 extern TextType string_to_text_type(std::string s);
+bool is_open(TextType type);
+bool is_open(dcp::TextType type);
 
 
 #endif

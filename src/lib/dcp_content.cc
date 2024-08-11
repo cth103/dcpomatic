@@ -295,9 +295,23 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		new_text.push_back (c);
 	}
 
+	for (int i = 0; i < examiner->text_count(TextType::OPEN_CAPTION); ++i) {
+		auto c = make_shared<TextContent>(this, TextType::OPEN_CAPTION, TextType::OPEN_CAPTION);
+		c->set_language(examiner->open_caption_language());
+		examiner->add_fonts(c);
+		new_text.push_back(c);
+	}
+
+	for (int i = 0; i < examiner->text_count(TextType::CLOSED_SUBTITLE); ++i) {
+		auto c = make_shared<TextContent>(this, TextType::CLOSED_SUBTITLE, TextType::CLOSED_SUBTITLE);
+		c->set_dcp_track(examiner->dcp_subtitle_track(i));
+		examiner->add_fonts(c);
+		new_text.push_back(c);
+	}
+
 	for (int i = 0; i < examiner->text_count(TextType::CLOSED_CAPTION); ++i) {
 		auto c = make_shared<TextContent>(this, TextType::CLOSED_CAPTION, TextType::CLOSED_CAPTION);
-		c->set_dcp_track (examiner->dcp_text_track(i));
+		c->set_dcp_track(examiner->dcp_caption_track(i));
 		examiner->add_fonts(c);
 		new_text.push_back (c);
 	}

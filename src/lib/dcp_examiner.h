@@ -104,8 +104,7 @@ public:
 		return _audio_language;
 	}
 
-	/** @param type TEXT_OPEN_SUBTITLE or TEXT_CLOSED_CAPTION.
-	 *  @return the number of "streams" of this type in the DCP.
+	/*  @return the number of "streams" of @type in the DCP.
 	 *  Reels do not affect the return value of this method: if a DCP
 	 *  has any subtitles, type=TEXT_OPEN_SUBTITLE will return 1.
 	 */
@@ -117,9 +116,18 @@ public:
 		return _open_subtitle_language;
 	}
 
-	DCPTextTrack dcp_text_track (int i) const {
-		DCPOMATIC_ASSERT (i >= 0 && i < static_cast<int>(_dcp_text_tracks.size()));
-		return _dcp_text_tracks[i];
+	boost::optional<dcp::LanguageTag> open_caption_language() const {
+		return _open_caption_language;
+	}
+
+	DCPTextTrack dcp_subtitle_track(int i) const {
+		DCPOMATIC_ASSERT (i >= 0 && i < static_cast<int>(_dcp_subtitle_tracks.size()));
+		return _dcp_subtitle_tracks[i];
+	}
+
+	DCPTextTrack dcp_caption_track(int i) const {
+		DCPOMATIC_ASSERT (i >= 0 && i < static_cast<int>(_dcp_caption_tracks.size()));
+		return _dcp_caption_tracks[i];
 	}
 
 	bool kdm_valid () const {
@@ -198,8 +206,11 @@ private:
 	/** number of different assets of each type (OCAP/CCAP) */
 	EnumIndexedVector<int, TextType> _text_count;
 	boost::optional<dcp::LanguageTag> _open_subtitle_language;
-	/** the DCPTextTracks for each of our CCAPs */
-	std::vector<DCPTextTrack> _dcp_text_tracks;
+	boost::optional<dcp::LanguageTag> _open_caption_language;
+	/** the DCPTextTracks for each of our closed subtitles */
+	std::vector<DCPTextTrack> _dcp_subtitle_tracks;
+	/** the DCPTextTracks for each of our closed captions */
+	std::vector<DCPTextTrack> _dcp_caption_tracks;
 	bool _encrypted = false;
 	bool _needs_assets = false;
 	bool _kdm_valid = false;

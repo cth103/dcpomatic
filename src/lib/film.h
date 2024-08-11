@@ -159,7 +159,7 @@ public:
 
 	std::vector<CPLSummary> cpls () const;
 
-	std::list<DCPTextTrack> closed_caption_tracks () const;
+	std::list<DCPTextTrack> closed_text_tracks() const;
 
 	uint64_t required_disk_space () const;
 	bool should_be_enough_disk_space(double& required, double& available) const;

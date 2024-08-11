@@ -2048,14 +2048,14 @@ Film::contains_atmos_content () const
 
 
 list<DCPTextTrack>
-Film::closed_caption_tracks () const
+Film::closed_text_tracks() const
 {
 	list<DCPTextTrack> tt;
 	for (auto i: content()) {
 		for (auto text: i->text) {
 			/* XXX: Empty DCPTextTrack ends up being a magic value here - the "unknown" or "not specified" track */
 			auto dtt = text->dcp_track().get_value_or(DCPTextTrack());
-			if (text->type() == TextType::CLOSED_CAPTION && find(tt.begin(), tt.end(), dtt) == tt.end()) {
+			if (!is_open(text->type()) && find(tt.begin(), tt.end(), dtt) == tt.end()) {
 				tt.push_back (dtt);
 			}
 		}

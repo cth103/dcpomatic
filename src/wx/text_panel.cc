@@ -189,7 +189,7 @@ TextPanel::setup_visibility ()
 			_language_type = nullptr;
 		}
 		if (!_dcp_track_label) {
-			_dcp_track_label = create_label (this, _("CCAP track"), true);
+			_dcp_track_label = create_label(this, _("Track"), true);
 			add_label_to_sizer (_grid, _dcp_track_label, true, wxGBPosition(_ccap_track_or_language_row, 0));
 		}
 		if (!_dcp_track) {
@@ -313,7 +313,7 @@ TextPanel::update_dcp_track_selection ()
 	}
 
 	int n = 0;
-	for (auto i: _parent->film()->closed_caption_tracks()) {
+	for (auto i: _parent->film()->closed_text_tracks()) {
 		if (!many && selected && *selected == i) {
 			_dcp_track->SetSelection (n);
 		}
@@ -332,16 +332,16 @@ TextPanel::update_dcp_tracks ()
 	DCPOMATIC_ASSERT (_dcp_track);
 
 	_dcp_track->Clear ();
-	for (auto i: _parent->film()->closed_caption_tracks()) {
+	for (auto i: _parent->film()->closed_text_tracks()) {
 		/* XXX: don't display the "magic" track which has empty name and language;
-		   this is a nasty hack (see also Film::closed_caption_tracks)
+		   this is a nasty hack (see also Film::closed_text_tracks)
 		*/
 		if (!i.name.empty() || i.language) {
 			_dcp_track->Append (std_to_wx(i.summary()));
 		}
 	}
 
-	if (_parent->film()->closed_caption_tracks().size() < 6) {
+	if (_parent->film()->closed_text_tracks().size() < 6) {
 		_dcp_track->Append (_("Add new..."));
 	}
 
@@ -361,7 +361,7 @@ TextPanel::dcp_track_changed ()
 		}
 	} else {
 		/* Find the DCPTextTrack that was selected */
-		for (auto i: _parent->film()->closed_caption_tracks()) {
+		for (auto i: _parent->film()->closed_text_tracks()) {
 			if (i.summary() == wx_to_std(_dcp_track->GetStringSelection())) {
 				track = i;
 			}
@@ -371,7 +371,7 @@ TextPanel::dcp_track_changed ()
 	if (track) {
 		for (auto i: _parent->selected_text()) {
 			auto t = i->text_of_original_type(_original_type);
-			if (t && t->type() == TextType::CLOSED_CAPTION) {
+			if (t && !is_open(t->type())) {
 				t->set_dcp_track(*track);
 			}
 		}
@@ -556,46 +556,37 @@ TextPanel::setup_sensitivity ()
 
 	auto const reference = dcp && dcp->reference_text(_original_type);
 
-	auto const type = current_type ();
+	auto type = current_type ();
 
 	/* Set up _type */
 	_type->clear();
 	_type->add_entry(_("open subtitles"), text_type_to_string(TextType::OPEN_SUBTITLE));
+	_type->add_entry(_("open captions"), text_type_to_string(TextType::OPEN_CAPTION));
 	if (ffmpeg_subs == 0) {
+		_type->add_entry(_("closed subtitles"), text_type_to_string(TextType::CLOSED_SUBTITLE));
 		_type->add_entry(_("closed captions"), text_type_to_string(TextType::CLOSED_CAPTION));
 	}
 
-	switch (type) {
-	case TextType::OPEN_SUBTITLE:
-		_type->SetSelection (0);
-		break;
-	case TextType::CLOSED_CAPTION:
-		if (_type->GetCount() > 1) {
-			_type->SetSelection (1);
-		}
-		break;
-	default:
-		break;
-	}
+	_type->set_by_data(text_type_to_string(type));
 
 	/* Set up sensitivity */
 	_use->Enable (!reference && any_subs > 0);
 	bool const use = _use->GetValue ();
 	if (_outline_subtitles) {
-		_outline_subtitles->Enable (!_loading_analysis && any_subs && use && type == TextType::OPEN_SUBTITLE);
+		_outline_subtitles->Enable(!_loading_analysis && any_subs && use && is_open(type));
 	}
 	_type->Enable (!reference && any_subs > 0 && use);
-	_burn->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
-	_x_offset->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
-	_y_offset->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
-	_x_scale->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
-	_y_scale->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
-	_line_spacing->Enable (!reference && use && type == TextType::OPEN_SUBTITLE && dcp_subs < any_subs);
+	_burn->Enable(!reference && any_subs > 0 && use && is_open(type));
+	_x_offset->Enable(!reference && any_subs > 0 && use && is_open(type));
+	_y_offset->Enable(!reference && any_subs > 0 && use && is_open(type));
+	_x_scale->Enable(!reference && any_subs > 0 && use && is_open(type));
+	_y_scale->Enable(!reference && any_subs > 0 && use && is_open(type));
+	_line_spacing->Enable (!reference && use && is_open(type) && dcp_subs < any_subs);
 	_stream->Enable (!reference && ffmpeg_subs == 1);
 	/* Ideally we would check here to see if the FFmpeg content has "string" subs (i.e. not bitmaps) */
 	_text_view_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0);
-	_fonts_dialog_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0 && type == TextType::OPEN_SUBTITLE);
-	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use && type == TextType::OPEN_SUBTITLE);
+	_fonts_dialog_button->Enable (!reference && any_subs > 0 && ffmpeg_subs == 0 && is_open(type));
+	_appearance_dialog_button->Enable (!reference && any_subs > 0 && use && is_open(type));
 }
 
 

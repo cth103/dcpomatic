@@ -95,6 +95,9 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 				if (reel->main_subtitle() && !reel->main_subtitle()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
+				if (reel->main_caption() && !reel->main_caption()->asset_ref().resolved()) {
+					++unsatisfied;
+				}
 				if (reel->atmos() && !reel->atmos()->asset_ref().resolved()) {
 					++unsatisfied;
 				}
@@ -201,54 +204,72 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			}
 		}
 
-		if (auto sub = reel->main_subtitle()) {
-			if (sub->entry_point().get_value_or(0) != 0) {
-				_has_non_zero_entry_point[TextType::OPEN_SUBTITLE] = true;
-			}
-			if (!sub->asset_ref().resolved()) {
-				LOG_GENERAL("Main subtitle %1 of reel %2 is missing", sub->id(), reel->id());
-				_needs_assets = true;
-			} else {
-				LOG_GENERAL("Main subtitle %1 of reel %2 found", sub->id(), reel->id());
+		auto read_main_text = [this, reel, reel_index, try_to_parse_language](
+			shared_ptr<dcp::ReelTextAsset> reel_asset, TextType type, string name, boost::optional<dcp::LanguageTag>& language
+			) {
 
-				_text_count[TextType::OPEN_SUBTITLE] = 1;
-				_open_subtitle_language = try_to_parse_language(sub->language());
+			if (reel_asset) {
+				if (reel_asset->entry_point().get_value_or(0) != 0) {
+					_has_non_zero_entry_point[type] = true;
+				}
+				if (!reel_asset->asset_ref().resolved()) {
+					LOG_GENERAL("Main %1 %2 of reel %3 is missing", name, reel_asset->id(), reel->id());
+					_needs_assets = true;
+				} else {
+					LOG_GENERAL("Main %1 %2 of reel %3 found", name, reel_asset->id(), reel->id());
 
-				auto asset = sub->asset();
-				for (auto const& font: asset->font_data()) {
-					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+					_text_count[type] = 1;
+					language = try_to_parse_language(reel_asset->language());
+
+					auto asset = reel_asset->asset();
+					for (auto const& font: asset->font_data()) {
+						_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+					}
 				}
 			}
-		}
 
-		_text_count[TextType::CLOSED_CAPTION] = std::max(_text_count[TextType::CLOSED_CAPTION], static_cast<int>(reel->closed_captions().size()));
-		if (_dcp_text_tracks.size() < reel->closed_captions().size()) {
-			/* We only want to add 1 DCPTextTrack to _dcp_text_tracks per closed caption.  I guess it's possible that different
-			 * reels have different numbers of tracks (though I don't think they should) so make sure that _dcp_text_tracks ends
-			 * up with the maximum.
-			 */
-			_dcp_text_tracks.clear();
-			for (auto ccap: reel->closed_captions()) {
-				_dcp_text_tracks.push_back(DCPTextTrack(ccap->annotation_text().get_value_or(""), try_to_parse_language(ccap->language())));
-			}
-		}
+		};
 
-		for (auto ccap: reel->closed_captions()) {
-			if (ccap->entry_point().get_value_or(0) != 0) {
-				_has_non_zero_entry_point[TextType::CLOSED_CAPTION] = true;
-			}
-			if (!ccap->asset_ref().resolved()) {
-				LOG_GENERAL("Closed caption %1 of reel %2 is missing", ccap->id(), reel->id());
-				_needs_assets = true;
-			} else {
-				LOG_GENERAL("Closed caption %1 of reel %2 found", ccap->id(), reel->id());
+		read_main_text(reel->main_subtitle(), TextType::OPEN_SUBTITLE, "subtitle", _open_subtitle_language);
+		read_main_text(reel->main_caption(), TextType::OPEN_CAPTION, "caption", _open_caption_language);
 
-				auto asset = ccap->asset();
-				for (auto const& font: asset->font_data()) {
-					_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+		auto read_closed_text = [this, reel, reel_index, try_to_parse_language](
+			vector<shared_ptr<dcp::ReelTextAsset>> reel_assets, TextType type, string name, vector<DCPTextTrack>& tracks
+			) {
+
+			_text_count[type] = std::max(_text_count[type], static_cast<int>(reel_assets.size()));
+
+			if (tracks.size() < reel_assets.size()) {
+				/* We only want to add 1 DCPTextTrack to tracks per closed subtitle/caption.  I guess it's possible that different
+				 * reels have different numbers of tracks (though I don't think they should) so make sure that tracks ends
+				 * up with the maximum.
+				 */
+				tracks.clear();
+				for (auto subtitle: reel_assets) {
+					tracks.push_back(DCPTextTrack(subtitle->annotation_text().get_value_or(""), try_to_parse_language(subtitle->language())));
 				}
 			}
-		}
+
+			for (auto text: reel_assets) {
+				if (text->entry_point().get_value_or(0) != 0) {
+					_has_non_zero_entry_point[type] = true;
+				}
+				if (!text->asset_ref().resolved()) {
+					LOG_GENERAL("Closed %1 %2 of reel %3 is missing", name, text->id(), reel->id());
+					_needs_assets = true;
+				} else {
+					LOG_GENERAL("Closed %1 %2 of reel %3 found", name, text->id(), reel->id());
+
+					auto asset = text->asset();
+					for (auto const& font: asset->font_data()) {
+						_fonts.push_back({reel_index, asset->id(), make_shared<dcpomatic::Font>(font.first, font.second)});
+					}
+				}
+			}
+		};
+
+		read_closed_text(reel->closed_subtitles(), TextType::CLOSED_SUBTITLE, "subtitle", _dcp_subtitle_tracks);
+		read_closed_text(reel->closed_captions(), TextType::CLOSED_CAPTION, "caption", _dcp_caption_tracks);
 
 		if (reel->main_markers ()) {
 			auto rm = reel->main_markers()->get();
@@ -270,6 +291,10 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 			_reel_lengths.push_back(reel->main_sound()->actual_duration());
 		} else if (reel->main_subtitle()) {
 			_reel_lengths.push_back(reel->main_subtitle()->actual_duration());
+		} else if (reel->main_caption()) {
+			_reel_lengths.push_back(reel->main_caption()->actual_duration());
+		} else if (!reel->closed_subtitles().empty()) {
+			_reel_lengths.push_back(reel->closed_subtitles().front()->actual_duration());
 		} else if (!reel->closed_captions().empty()) {
 			_reel_lengths.push_back(reel->closed_captions().front()->actual_duration());
 		} else if (!reel->atmos()) {
@@ -343,6 +368,17 @@ DCPExaminer::DCPExaminer (shared_ptr<const DCPContent> content, bool tolerant)
 					break;
 				}
 				sub->texts();
+			}
+
+			if (i->main_caption() && i->main_caption()->asset_ref().resolved()) {
+				auto cap = i->main_caption()->asset();
+				auto mxf_cap = dynamic_pointer_cast<dcp::MXF>(cap);
+				if (mxf_cap && mxf_cap->encrypted() && !mxf_cap->key()) {
+					_kdm_valid = false;
+					LOG_GENERAL_NC("Caption has no key");
+					break;
+				}
+				cap->texts();
 			}
 
 			if (i->atmos() && i->atmos()->asset_ref().resolved()) {

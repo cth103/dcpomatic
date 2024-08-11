@@ -102,7 +102,7 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 	*/
 	_audio_reel = _reels.begin ();
 	_subtitle_reel = _reels.begin ();
-	for (auto i: film()->closed_caption_tracks()) {
+	for (auto i: film()->closed_text_tracks()) {
 		_caption_reels[i] = _reels.begin ();
 	}
 	_atmos_reel = _reels.begin ();
@@ -945,7 +945,7 @@ Writer::write (ReferencedReelAsset asset)
 	_reel_assets.push_back (asset);
 
 	if (auto text_asset = dynamic_pointer_cast<dcp::ReelTextAsset>(asset.asset)) {
-		if (text_asset->type() == dcp::TextType::OPEN_SUBTITLE || text_asset->type() == dcp::TextType::OPEN_CAPTION) {
+		if (is_open(text_asset->type())) {
 			_have_subtitles = true;
 		} else {
 			/* This feels quite fragile. We have a referenced reel and want to know if it's

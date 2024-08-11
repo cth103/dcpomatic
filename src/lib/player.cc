@@ -919,56 +919,58 @@ Player::pass ()
 
 /** @return Open subtitles for the frame at the given time, converted to images */
 optional<PositionImage>
-Player::open_subtitles_for_frame (DCPTime time) const
+Player::open_texts_for_frame(DCPTime time) const
 {
 	auto film = _film.lock();
 	if (!film) {
 		return {};
 	}
 
-	list<PositionImage> captions;
+	list<PositionImage> texts;
 	int const vfr = film->video_frame_rate();
 
-	for (
-		auto j:
-		_active_texts[TextType::OPEN_SUBTITLE].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
-		) {
+	for (auto type: { TextType::OPEN_SUBTITLE, TextType::OPEN_CAPTION }) {
+		for (
+			auto const& text:
+			_active_texts[type].get_burnt(DCPTimePeriod(time, time + DCPTime::from_frames(1, vfr)), _always_burn_open_subtitles)
+			) {
 
-		/* Bitmap subtitles */
-		for (auto i: j.bitmap) {
-			if (!i.image || i.image->size().width == 0 || i.image->size().height == 0) {
-				continue;
+			/* Bitmap texts */
+			for (auto i: text.bitmap) {
+				if (!i.image || i.image->size().width == 0 || i.image->size().height == 0) {
+					continue;
+				}
+
+				/* i.image will already have been scaled to fit _video_container_size */
+				dcp::Size scaled_size (i.rectangle.width * _video_container_size.load().width, i.rectangle.height * _video_container_size.load().height);
+
+				texts.push_back(
+					PositionImage (
+						i.image,
+						Position<int> (
+							lrint(_video_container_size.load().width * i.rectangle.x),
+							lrint(_video_container_size.load().height * i.rectangle.y)
+							)
+						)
+					);
 			}
 
-			/* i.image will already have been scaled to fit _video_container_size */
-			dcp::Size scaled_size (i.rectangle.width * _video_container_size.load().width, i.rectangle.height * _video_container_size.load().height);
+			/* String texts (rendered to an image) */
+			if (!text.string.empty()) {
+				auto s = render_text(text.string, _video_container_size, time, vfr);
+				copy_if(s.begin(), s.end(), back_inserter(texts), [](PositionImage const& image) {
+					return image.image->size().width && image.image->size().height;
+				});
 
-			captions.push_back (
-				PositionImage (
-					i.image,
-					Position<int> (
-						lrint(_video_container_size.load().width * i.rectangle.x),
-						lrint(_video_container_size.load().height * i.rectangle.y)
-						)
-					)
-				);
-		}
-
-		/* String subtitles (rendered to an image) */
-		if (!j.string.empty()) {
-			auto s = render_text(j.string, _video_container_size, time, vfr);
-			copy_if(s.begin(), s.end(), back_inserter(captions), [](PositionImage const& image) {
-				return image.image->size().width && image.image->size().height;
-			});
-
+			}
 		}
 	}
 
-	if (captions.empty()) {
+	if (texts.empty()) {
 		return {};
 	}
 
-	return merge (captions, _subtitle_alignment);
+	return merge(texts, _subtitle_alignment);
 }
 
 
@@ -1439,9 +1441,8 @@ Player::emit_video(shared_ptr<PlayerVideo> pv, DCPTime time)
 		std::for_each(_active_texts.begin(), _active_texts.end(), [time](ActiveText& a) { a.clear_before(time); });
 	}
 
-	auto subtitles = open_subtitles_for_frame (time);
-	if (subtitles) {
-		pv->set_text (subtitles.get ());
+	if (auto texts = open_texts_for_frame(time)) {
+		pv->set_text(texts.get());
 	}
 
 	Video (pv, time);

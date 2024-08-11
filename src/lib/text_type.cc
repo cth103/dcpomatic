@@ -24,6 +24,7 @@
 #include "exceptions.h"
 #include "text_type.h"
 #include "types.h"
+#include <dcp/text_type.h>
 
 #include "i18n.h"
 
@@ -88,3 +89,15 @@ text_type_to_name(TextType t)
 }
 
 
+bool
+is_open(TextType type)
+{
+	return type == TextType::OPEN_SUBTITLE || type == TextType::OPEN_CAPTION;
+}
+
+
+bool
+is_open(dcp::TextType type)
+{
+	return type == dcp::TextType::OPEN_SUBTITLE || type == dcp::TextType::OPEN_CAPTION;
+}
