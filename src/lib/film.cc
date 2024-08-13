@@ -216,7 +216,7 @@ Film::Film (optional<boost::filesystem::path> dir)
 	_playlist_length_change_connection = _playlist->LengthChange.connect (bind(&Film::playlist_length_change, this));
 
 	if (dir) {
-		set_directory(dcp::filesystem::weakly_canonical(*dir));
+		_directory = dcp::filesystem::weakly_canonical(*dir);
 	}
 
 	if (_directory) {
@@ -1134,6 +1134,10 @@ Film::set_directory (boost::filesystem::path d)
 void
 Film::set_name (string n)
 {
+	if (_name == n) {
+		return;
+	}
+
 	FilmChangeSignaller ch(this, FilmProperty::NAME);
 	_name = n;
 }
