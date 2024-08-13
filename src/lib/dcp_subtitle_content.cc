@@ -18,18 +18,20 @@
 
 */
 
-#include "font.h"
+
 #include "dcp_subtitle_content.h"
 #include "film.h"
+#include "font.h"
 #include "font_id_allocator.h"
 #include "text_content.h"
-#include <dcp/raw_convert.h>
-#include <dcp/interop_subtitle_asset.h>
-#include <dcp/smpte_subtitle_asset.h>
 #include <dcp/interop_load_font_node.h>
+#include <dcp/interop_subtitle_asset.h>
+#include <dcp/raw_convert.h>
+#include <dcp/smpte_subtitle_asset.h>
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"
+
 
 using std::dynamic_pointer_cast;
 using std::list;
@@ -38,6 +40,7 @@ using std::shared_ptr;
 using std::string;
 using dcp::raw_convert;
 using namespace dcpomatic;
+
 
 DCPSubtitleContent::DCPSubtitleContent (boost::filesystem::path path)
 	: Content (path)
