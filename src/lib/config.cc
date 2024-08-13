@@ -216,6 +216,7 @@ Config::set_defaults ()
 	_isdcf_name_part_length = 14;
 	_enable_player_http_server = false;
 	_player_http_server_port = 8080;
+	_relative_paths = false;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -655,6 +656,7 @@ try
 	_isdcf_name_part_length = f.optional_number_child<int>("ISDCFNamePartLength").get_value_or(14);
 	_enable_player_http_server = f.optional_bool_child("EnablePlayerHTTPServer").get_value_or(false);
 	_player_http_server_port = f.optional_number_child<int>("PlayerHTTPServerPort").get_value_or(8080);
+	_relative_paths = f.optional_bool_child("RelativePaths").get_value_or(false);
 
 #ifdef DCPOMATIC_GROK
 	if (auto grok = f.optional_node_child("Grok")) {
@@ -1130,6 +1132,8 @@ Config::write_config () const
 	cxml::add_text_child(root, "EnablePlayerHTTPServer", _enable_player_http_server ? "1" : "0");
 	/* [XML] PlayerHTTPServerPort Port to use for player HTTP server (if enabled) */
 	cxml::add_text_child(root, "PlayerHTTPServerPort", raw_convert<string>(_player_http_server_port));
+	/* [XML] RelativePaths 1 to write relative paths to project metadata files, 0 to use absolute paths */
+	cxml::add_text_child(root, "RelativePaths", _relative_paths ? "1" : "0");
 
 #ifdef DCPOMATIC_GROK
 	if (_grok) {

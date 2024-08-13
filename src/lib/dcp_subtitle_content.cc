@@ -38,6 +38,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using boost::optional;
 using dcp::raw_convert;
 using namespace dcpomatic;
 
@@ -140,10 +141,10 @@ DCPSubtitleContent::technical_summary () const
 }
 
 void
-DCPSubtitleContent::as_xml(xmlpp::Element* element, bool with_paths) const
+DCPSubtitleContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	cxml::add_text_child(element, "Type", "DCPSubtitle");
-	Content::as_xml(element, with_paths);
+	Content::as_xml(element, with_paths, path_behaviour, film_directory);
 
 	if (only_text()) {
 		only_text()->as_xml(element);

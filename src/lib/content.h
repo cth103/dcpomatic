@@ -30,6 +30,7 @@
 
 #include "change_signaller.h"
 #include "dcpomatic_time.h"
+#include "path_behaviour.h"
 #include "signaller.h"
 #include "user_property.h"
 #include "text_type.h"
@@ -100,7 +101,13 @@ public:
 	 */
 	virtual std::string technical_summary () const;
 
-	virtual void as_xml(xmlpp::Element* element, bool with_paths) const;
+	virtual void as_xml(
+		xmlpp::Element* element,
+		bool with_paths,
+		PathBehaviour path_behaviour,
+		boost::optional<boost::filesystem::path> film_directory
+		) const;
+
 	virtual dcpomatic::DCPTime full_length (std::shared_ptr<const Film>) const = 0;
 	virtual dcpomatic::DCPTime approximate_length () const = 0;
 	virtual std::string identifier () const;

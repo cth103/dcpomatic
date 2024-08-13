@@ -140,14 +140,29 @@ Content::Content (vector<shared_ptr<Content>> c)
 
 
 void
-Content::as_xml(xmlpp::Element* element, bool with_paths) const
+Content::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 
 	if (with_paths) {
 		for (size_t i = 0; i < _paths.size(); ++i) {
+			auto path = _paths[i];
+			switch (path_behaviour) {
+			case PathBehaviour::MAKE_ABSOLUTE:
+				DCPOMATIC_ASSERT(film_directory);
+				if (path.is_relative()) {
+					path = boost::filesystem::canonical(path, *film_directory);
+				}
+				break;
+			case PathBehaviour::MAKE_RELATIVE:
+				DCPOMATIC_ASSERT(film_directory);
+				path = boost::filesystem::relative(path, *film_directory);
+				break;
+			case PathBehaviour::KEEP:
+				break;
+			}
 			auto p = cxml::add_child(element, "Path");
-			p->add_child_text (_paths[i].string());
+			p->add_child_text(path.string());
 			p->set_attribute ("mtime", raw_convert<string>(_last_write_times[i]));
 		}
 	}
@@ -290,7 +305,7 @@ Content::clone () const
 	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
 	xmlpp::Document doc;
 	auto node = doc.create_root_node ("Content");
-	as_xml (node, true);
+	as_xml(node, true, PathBehaviour::KEEP, {});
 
 	/* notes is unused here (we assume) */
 	list<string> notes;
@@ -355,7 +370,10 @@ Content::set_paths (vector<boost::filesystem::path> paths)
 
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		_paths = paths;
+		_paths.clear();
+		for (auto path: paths) {
+			_paths.push_back(boost::filesystem::canonical(path));
+		}
 		_last_write_times.clear ();
 		for (auto i: _paths) {
 			boost::system::error_code ec;
@@ -550,7 +568,7 @@ void
 Content::add_path (boost::filesystem::path p)
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	_paths.push_back (p);
+	_paths.push_back(boost::filesystem::canonical(p));
 	boost::system::error_code ec;
 	auto last_write = dcp::filesystem::last_write_time(p, ec);
 	_last_write_times.push_back (ec ? 0 : last_write);

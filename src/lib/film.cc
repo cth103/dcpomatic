@@ -474,7 +474,12 @@ Film::metadata (bool with_content_paths) const
 	if (_audio_language) {
 		cxml::add_text_child(root, "AudioLanguage", _audio_language->to_string());
 	}
-	_playlist->as_xml(cxml::add_child(root, "Playlist"), with_content_paths);
+	_playlist->as_xml(
+		cxml::add_child(root, "Playlist"),
+		with_content_paths,
+		Config::instance()->relative_paths() ? PathBehaviour::MAKE_RELATIVE : PathBehaviour::MAKE_ABSOLUTE,
+		directory()
+		);
 
 	return doc;
 }

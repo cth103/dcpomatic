@@ -26,6 +26,7 @@
 #include "change_signaller.h"
 #include "dcpomatic_time.h"
 #include "frame_rate_change.h"
+#include "path_behaviour.h"
 #include "types.h"
 #include <libcxml/cxml.h>
 #include <boost/signals2.hpp>
@@ -50,7 +51,7 @@ public:
 	Playlist (Playlist const&) = delete;
 	Playlist& operator= (Playlist const&) = delete;
 
-	void as_xml(xmlpp::Element*, bool with_content_paths);
+	void as_xml(xmlpp::Element*, bool with_content_paths, PathBehaviour path_behaviour, boost::optional<boost::filesystem::path> film_directory);
 	void set_from_xml (std::shared_ptr<const Film> film, cxml::ConstNodePtr node, int version, std::list<std::string>& notes);
 
 	void add (std::shared_ptr<const Film> film, std::shared_ptr<Content>);

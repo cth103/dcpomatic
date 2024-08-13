@@ -122,10 +122,10 @@ StringTextFileContent::technical_summary () const
 
 
 void
-StringTextFileContent::as_xml(xmlpp::Element* element, bool with_paths) const
+StringTextFileContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	cxml::add_text_child(element, "Type", "TextSubtitle");
-	Content::as_xml(element, with_paths);
+	Content::as_xml(element, with_paths, path_behaviour, film_directory);
 
 	if (only_text()) {
 		only_text()->as_xml(element);

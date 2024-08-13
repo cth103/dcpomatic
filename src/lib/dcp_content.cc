@@ -363,11 +363,11 @@ DCPContent::technical_summary () const
 
 
 void
-DCPContent::as_xml(xmlpp::Element* element, bool with_paths) const
+DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	cxml::add_text_child(element, "Type", "DCP");
 
-	Content::as_xml(element, with_paths);
+	Content::as_xml(element, with_paths, path_behaviour, film_directory);
 
 	if (video) {
 		video->as_xml(element);

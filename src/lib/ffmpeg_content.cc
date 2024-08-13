@@ -198,10 +198,10 @@ FFmpegContent::FFmpegContent (vector<shared_ptr<Content>> c)
 
 
 void
-FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths) const
+FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	cxml::add_text_child(element, "Type", "FFmpeg");
-	Content::as_xml(element, with_paths);
+	Content::as_xml(element, with_paths, path_behaviour, film_directory);
 
 	if (video) {
 		video->as_xml(element);

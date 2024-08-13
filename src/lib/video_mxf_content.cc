@@ -38,6 +38,7 @@ using std::list;
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
+using boost::optional;
 using namespace dcpomatic;
 
 
@@ -121,10 +122,10 @@ VideoMXFContent::identifier () const
 
 
 void
-VideoMXFContent::as_xml(xmlpp::Element* element, bool with_paths) const
+VideoMXFContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	cxml::add_text_child(element, "Type", "VideoMXF");
-	Content::as_xml(element, with_paths);
+	Content::as_xml(element, with_paths, path_behaviour, film_directory);
 	video->as_xml(element);
 }
 

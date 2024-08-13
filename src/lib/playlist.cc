@@ -282,10 +282,10 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
  *  @param with_content_paths true to include &lt;Path&gt; nodes in &lt;Content&gt; nodes, false to omit them.
  */
 void
-Playlist::as_xml(xmlpp::Element* element, bool with_content_paths)
+Playlist::as_xml(xmlpp::Element* element, bool with_content_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory)
 {
 	for (auto i: content()) {
-		i->as_xml(cxml::add_child(element, "Content"), with_content_paths);
+		i->as_xml(cxml::add_child(element, "Content"), with_content_paths, path_behaviour, film_directory);
 	}
 }
 

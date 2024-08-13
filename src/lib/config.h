@@ -678,6 +678,10 @@ public:
 		return _player_http_server_port;
 	}
 
+	bool relative_paths() const {
+		return _relative_paths;
+	}
+
 	/* SET (mostly) */
 
 	void set_master_encoding_threads (int n) {
@@ -1225,6 +1229,10 @@ public:
 		maybe_set(_player_http_server_port, port);
 	}
 
+	void set_relative_paths(bool relative) {
+		maybe_set(_relative_paths, relative);
+	}
+
 
 	void changed (Property p = OTHER);
 	boost::signals2::signal<void (Property)> Changed;
@@ -1465,6 +1473,7 @@ private:
 	int _isdcf_name_part_length;
 	bool _enable_player_http_server;
 	int _player_http_server_port;
+	bool _relative_paths;
 
 #ifdef DCPOMATIC_GROK
 	boost::optional<Grok> _grok;

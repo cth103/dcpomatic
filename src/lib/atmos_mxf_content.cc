@@ -37,6 +37,7 @@ using std::list;
 using std::make_shared;
 using std::string;
 using std::shared_ptr;
+using boost::optional;
 using namespace dcpomatic;
 
 
@@ -98,10 +99,10 @@ AtmosMXFContent::summary () const
 
 
 void
-AtmosMXFContent::as_xml(xmlpp::Element* element, bool with_paths) const
+AtmosMXFContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_behaviour, optional<boost::filesystem::path> film_directory) const
 {
 	cxml::add_text_child(element, "Type", "AtmosMXF");
-	Content::as_xml(element, with_paths);
+	Content::as_xml(element, with_paths, path_behaviour, film_directory);
 	atmos->as_xml(element);
 }
 

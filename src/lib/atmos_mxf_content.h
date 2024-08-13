@@ -39,7 +39,14 @@ public:
 
 	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job) override;
 	std::string summary () const override;
-	void as_xml(xmlpp::Element* element, bool with_path) const override;
+
+	void as_xml(
+		xmlpp::Element* element,
+		bool with_paths,
+		PathBehaviour path_behaviour,
+		boost::optional<boost::filesystem::path> film_directory
+		) const override;
+
 	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
 	dcpomatic::DCPTime approximate_length () const override;
 

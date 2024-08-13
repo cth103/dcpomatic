@@ -134,6 +134,10 @@ private:
 		table->Add(_default_add_file_location, wxGBPosition(r, 1));
 		++r;
 
+		_relative_paths = new CheckBox(_panel, _("Write relative content paths"));
+		table->Add(_relative_paths, wxGBPosition(r, 0), wxGBSpan(1, 2));
+		++r;
+
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128 = new CheckBox (_panel, _("Find integrated loudness, true peak and loudness range when analysing audio"));
 		table->Add (_analyse_ebur128, wxGBPosition (r, 0), wxGBSpan (1, 2));
@@ -159,6 +163,7 @@ private:
 		_server_encoding_threads->Bind (wxEVT_SPINCTRL, boost::bind (&FullGeneralPage::server_encoding_threads_changed, this));
 		export_cinemas->Bind (wxEVT_BUTTON, boost::bind (&FullGeneralPage::export_cinemas_file, this));
 
+		_relative_paths->bind(&FullGeneralPage::relative_paths_changed, this);
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		_analyse_ebur128->bind(&FullGeneralPage::analyse_ebur128_changed, this);
 #endif
@@ -171,6 +176,7 @@ private:
 
 		checked_set (_master_encoding_threads, config->master_encoding_threads ());
 		checked_set (_server_encoding_threads, config->server_encoding_threads ());
+		checked_set (_relative_paths, config->relative_paths());
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 		checked_set (_analyse_ebur128, config->analyse_ebur128 ());
 #endif
@@ -192,6 +198,11 @@ private:
 		if (dialog.ShowModal() == wxID_OK) {
 			dcp::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
 		}
+	}
+
+	void relative_paths_changed()
+	{
+		Config::instance()->set_relative_paths(_relative_paths->get());
 	}
 
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -260,6 +271,7 @@ private:
 	wxSpinCtrl* _server_encoding_threads;
 	FilePickerCtrl* _config_file;
 	FilePickerCtrl* _cinemas_file;
+	CheckBox* _relative_paths;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	CheckBox* _analyse_ebur128;
 #endif
