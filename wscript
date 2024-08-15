@@ -383,8 +383,10 @@ def configure(conf):
     if conf.options.static_xmlsec:
         if conf.check_cxx(lib='xmlsec1-openssl', mandatory=False):
             conf.env.STLIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
+            conf.env.LIB_XMLSEC = ['ltdl']
         else:
             conf.env.STLIB_XMLSEC = ['xmlsec1']
+            conf.env.LIB_XMLSEC = ['ltdl']
     else:
         conf.env.LIB_XMLSEC = ['xmlsec1-openssl', 'xmlsec1']
 
