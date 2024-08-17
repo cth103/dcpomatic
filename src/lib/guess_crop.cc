@@ -42,8 +42,9 @@ guess_crop (shared_ptr<const Image> image, double threshold)
 
 		switch (image->pixel_format()) {
 		case AV_PIX_FMT_RGB24:
+		case AV_PIX_FMT_RGBA:
 		{
-			uint8_t const* data = image->data()[0] + start_x * 3 + start_y * image->stride()[0];
+			uint8_t const* data = image->data()[0] + start_x * std::lround(image->bytes_per_pixel(0)) + start_y * image->stride()[0];
 			for (int p = 0; p < pixels; ++p) {
 				/* Averaging R, G and B */
 				brightest = std::max(brightest, static_cast<double>(data[0] + data[1] + data[2]) / (3 * 256));

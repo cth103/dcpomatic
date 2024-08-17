@@ -50,6 +50,12 @@ AnalyseSubtitlesJob::AnalyseSubtitlesJob (shared_ptr<const Film> film, shared_pt
 }
 
 
+AnalyseSubtitlesJob::~AnalyseSubtitlesJob()
+{
+	stop_thread();
+}
+
+
 string
 AnalyseSubtitlesJob::name () const
 {
