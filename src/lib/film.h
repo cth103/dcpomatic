@@ -86,6 +86,11 @@ class InfoFileHandle
 public:
 	InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read);
 
+	InfoFileHandle(InfoFileHandle const&) = delete;
+	InfoFileHandle& operator=(InfoFileHandle const&) = delete;
+	InfoFileHandle(InfoFileHandle&&) = delete;
+	InfoFileHandle& operator=(InfoFileHandle&&) = delete;
+
 	dcp::File& get () {
 		return _file;
 	}
