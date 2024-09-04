@@ -125,9 +125,9 @@ PlayerInformation::triggered_update ()
 	if (!dcp) {
 		checked_set (_dcp[0], _("No DCP loaded."));
 		for (int r = 1; r < dcp_lines; ++r) {
-			checked_set(_dcp[r], "");
+			checked_set(_dcp[r], wxString{});
 		}
-		checked_set(_decode_resolution, "");
+		checked_set(_decode_resolution, wxString{});
 		_kdm_panel->Hide();
 		return;
 	}
