@@ -38,7 +38,7 @@ for v in ['22.04']:
 for v in ['23.04', '23.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.11'])
-for v in ['24.04']:
+for v in ['24.04', '24.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.12'])
 for v in ['9', '10']:
@@ -211,6 +211,7 @@ def debs(boost, icu, x264):
     return output
 
 deb_depends['24.04'] = debs(boost='1.83.0', icu='74', x264='164')
+deb_depends['24.10'] = debs(boost='1.83.0', icu='74', x264='164')
 
 deb_depends['9'] = copy.deepcopy(deb_depends_base)
 deb_depends['9'].extend(['libboost-filesystem1.62.0',
@@ -758,7 +759,7 @@ def package_debian(target, cpu, version, options):
 
     target.set('CDIST_CONFIGURE', '"' + configure_options(target, options, for_package=True) + '"')
     target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
-    target.set('CDIST_WX_VERSION', "3.2" if target.version in ("23.04", "23.10", "24.04") else "3.1")
+    target.set('CDIST_WX_VERSION', "3.1" if target.version in ("16.04", "18.04", "20.04", "22.04") else "3.2")
     if not target.debug:
         target.set('CDIST_DEBUG_PACKAGE_FLAG', '--no-ddebs')
 
