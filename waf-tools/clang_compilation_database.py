@@ -14,7 +14,7 @@ Usage:
         conf.load('clang_compilation_database')
 """
 
-import sys, os, json, shlex, pipes
+import sys, os, json, shlex
 from waflib import Logs, TaskGen, Task
 
 Task.Task.keep_last_cmd = True
