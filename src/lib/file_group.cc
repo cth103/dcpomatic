@@ -84,9 +84,9 @@ FileGroup::ensure_open_path (size_t p) const
 		_current_file->close();
 	}
 
-	auto file = dcp::File(_paths[_current_path], "rb");
+	auto file = dcp::File(_paths[p], "rb");
 	if (!file) {
-		throw OpenFileError(_paths[_current_path], file.open_error(), OpenFileError::READ);
+		throw OpenFileError(_paths[p], file.open_error(), OpenFileError::READ);
 	}
 
 	_current_path = p;
