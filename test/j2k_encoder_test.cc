@@ -44,19 +44,25 @@ BOOST_AUTO_TEST_CASE(j2k_encoder_deadlock_test)
 
 	auto film = new_test_film("j2k_encoder_deadlock_test");
 
+	auto constexpr threads = 4;
+
 	/* Don't call ::start() on this Writer, so it can never write anything */
 	Writer writer(film, {}, {});
-	writer.set_encoder_threads(4);
+	writer.set_encoder_threads(threads);
 
 	/* We want to test the case where the writer queue fills, and this can't happen unless there
 	 * are enough encoding threads (each of which will end up waiting for the writer to empty,
 	 * which will never happen).
 	 */
-	Config::instance()->set_master_encoding_threads(4);
+	Config::instance()->set_master_encoding_threads(threads);
 	J2KEncoder encoder(film, writer);
 	encoder.begin();
 
-	for (int i = 0; i < 26; ++i) {
+	/* The queue will be full when we write another frame when there are already
+	 * more than (threads * frames_in_memory_multiplier [i.e. 3])
+	 * in the queue, so to fill the queue we must add threads * 3 + 2.
+	 */
+	for (int i = 0; i < (threads * 3) + 2; ++i) {
 		auto image = make_shared<Image>(AV_PIX_FMT_RGB24, dcp::Size(1998, 1080), Image::Alignment::PADDED);
 		auto image_proxy = make_shared<RawImageProxy>(image);
 		encoder.encode(

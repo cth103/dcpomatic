@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(cancel_job_test)
 	jobs[1]->cancel();
 	jobs[0]->cancel();
 
-	dcpomatic_sleep_seconds(1);
+	dcpomatic_sleep_seconds(5);
 
 	BOOST_CHECK(jobs[0]->finished_cancelled());
 	BOOST_CHECK(jobs[1]->finished_cancelled());

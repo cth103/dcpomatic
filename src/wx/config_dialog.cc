@@ -475,7 +475,7 @@ CertificateChainEditor::export_certificate ()
 	}
 	dcp::File f(path, "w");
 	if (!f) {
-		throw OpenFileError(path, errno, OpenFileError::WRITE);
+		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
 	}
 
 	string const s = j->certificate(true);
@@ -500,7 +500,7 @@ CertificateChainEditor::export_chain ()
 	}
 	dcp::File f(path, "w");
 	if (!f) {
-		throw OpenFileError(path, errno, OpenFileError::WRITE);
+		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
 	}
 
 	auto const s = _get()->chain();
@@ -621,7 +621,7 @@ CertificateChainEditor::export_private_key ()
 		}
 		dcp::File f(path, "w");
 		if (!f) {
-			throw OpenFileError (path, errno, OpenFileError::WRITE);
+			throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
 		}
 
 		auto const s = _get()->key().get ();
@@ -739,7 +739,7 @@ KeysPage::export_decryption_chain_and_key ()
 	boost::filesystem::path path(wx_to_std(d->GetPath()));
 	dcp::File f(path, "w");
 	if (!f) {
-		throw OpenFileError(path, errno, OpenFileError::WRITE);
+		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
 	}
 
 	auto const chain = Config::instance()->decryption_chain()->chain();
@@ -773,7 +773,7 @@ KeysPage::import_decryption_chain_and_key ()
 
 	dcp::File f(wx_to_std(d->GetPath()), "r");
 	if (!f) {
-		throw OpenFileError(f.path(), errno, OpenFileError::WRITE);
+		throw OpenFileError(f.path(), f.open_error(), OpenFileError::WRITE);
 	}
 
 	string current;
@@ -838,7 +838,7 @@ KeysPage::export_decryption_certificate ()
 	}
 	dcp::File f(path, "w");
 	if (!f) {
-		throw OpenFileError(path, errno, OpenFileError::WRITE);
+		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
 	}
 
 	auto const s = Config::instance()->decryption_chain()->leaf().certificate (true);

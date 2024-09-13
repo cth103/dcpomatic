@@ -84,11 +84,13 @@ FileGroup::ensure_open_path (size_t p) const
 		_current_file->close();
 	}
 
-	_current_path = p;
-	_current_file = dcp::File(_paths[_current_path], "rb");
-	if (!_current_file) {
-		throw OpenFileError (_paths[_current_path], errno, OpenFileError::READ);
+	auto file = dcp::File(_paths[p], "rb");
+	if (!file) {
+		throw OpenFileError(_paths[p], file.open_error(), OpenFileError::READ);
 	}
+
+	_current_path = p;
+	_current_file = std::move(file);
 	_current_size = dcp::filesystem::file_size(_paths[_current_path]);
 }
 

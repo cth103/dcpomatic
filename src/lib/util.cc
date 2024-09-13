@@ -566,7 +566,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	while (i < int64_t (files.size()) && to_do > 0) {
 		dcp::File f(files[i], "rb");
 		if (!f) {
-			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
+			throw OpenFileError(files[i].string(), f.open_error(), OpenFileError::READ);
 		}
 
 		auto this_time = min(to_do, dcp::filesystem::file_size(files[i]));
@@ -585,7 +585,7 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 	while (i >= 0 && to_do > 0) {
 		dcp::File f(files[i], "rb");
 		if (!f) {
-			throw OpenFileError (files[i].string(), errno, OpenFileError::READ);
+			throw OpenFileError(files[i].string(), f.open_error(), OpenFileError::READ);
 		}
 
 		auto this_time = min(to_do, dcp::filesystem::file_size(files[i]));
@@ -691,7 +691,7 @@ valid_image_file (boost::filesystem::path f)
 		ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" ||
 		ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx" ||
 		ext == ".j2c" || ext == ".j2k" || ext == ".jp2" || ext == ".exr" ||
-		ext == ".jpf" || ext == ".psd"
+		ext == ".jpf" || ext == ".psd" || ext == ".webp"
 		);
 }
 
@@ -954,11 +954,11 @@ copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::fun
 {
 	dcp::File f(from, "rb");
 	if (!f) {
-		throw OpenFileError (from, errno, OpenFileError::READ);
+		throw OpenFileError(from, f.open_error(), OpenFileError::READ);
 	}
 	dcp::File t(to, "wb");
 	if (!t) {
-		throw OpenFileError (to, errno, OpenFileError::WRITE);
+		throw OpenFileError(to, t.open_error(), OpenFileError::WRITE);
 	}
 
 	/* on the order of a second's worth of copying */

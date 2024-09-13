@@ -732,7 +732,7 @@ Writer::write_cover_sheet()
 	auto const cover = film()->file("COVER_SHEET.txt");
 	dcp::File file(cover, "w");
 	if (!file) {
-		throw OpenFileError (cover, errno, OpenFileError::WRITE);
+		throw OpenFileError(cover, file.open_error(), OpenFileError::WRITE);
 	}
 
 	auto text = Config::instance()->cover_sheet ();

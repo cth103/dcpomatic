@@ -2196,7 +2196,7 @@ InfoFileHandle::InfoFileHandle (boost::mutex& mutex, boost::filesystem::path pat
 	, _file(path, read ? "rb" : (dcp::filesystem::exists(path) ? "r+b" : "wb"))
 {
 	if (!_file) {
-		throw OpenFileError(path, errno, read ? OpenFileError::READ : (dcp::filesystem::exists(path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE));
+		throw OpenFileError(path, _file.open_error(), read ? OpenFileError::READ : (dcp::filesystem::exists(path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE));
 	}
 }
 

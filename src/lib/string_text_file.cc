@@ -57,7 +57,7 @@ StringTextFile::StringTextFile (shared_ptr<const StringTextFileContent> content)
 	if (ext == ".stl") {
 		dcp::File f(content->path(0), "rb");
 		if (!f) {
-			throw OpenFileError (f.path(), errno, OpenFileError::READ);
+			throw OpenFileError(f.path(), f.open_error(), OpenFileError::READ);
 		}
 		try {
 			reader.reset(new sub::STLBinaryReader(f.get()));
