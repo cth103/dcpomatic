@@ -76,7 +76,7 @@ public:
 	explicit Content ();
 	Content (dcpomatic::DCPTime);
 	Content (boost::filesystem::path);
-	Content (cxml::ConstNodePtr);
+	Content (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> directory);
 	Content (std::vector<std::shared_ptr<Content>>);
 	virtual ~Content () {}
 

@@ -25,7 +25,7 @@ class DCPSubtitleContent : public DCPSubtitle, public Content
 {
 public:
 	DCPSubtitleContent (boost::filesystem::path);
-	DCPSubtitleContent (cxml::ConstNodePtr, int);
+	DCPSubtitleContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
 
 	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
 	std::string summary () const override;

@@ -25,6 +25,7 @@
 #include "content_factory.h"
 #include "dcp_content.h"
 #include "digester.h"
+#include "film.h"
 #include "ffmpeg_content.h"
 #include "ffmpeg_decoder.h"
 #include "image_decoder.h"
@@ -226,7 +227,7 @@ Playlist::set_from_xml (shared_ptr<const Film> film, cxml::ConstNodePtr node, in
 	boost::mutex::scoped_lock lm (_mutex);
 
 	for (auto i: node->node_children ("Content")) {
-		auto content = content_factory (i, version, notes);
+		auto content = content_factory(i, film->directory(), version, notes);
 
 		/* See if this content should be nudged to start on a video frame */
 		auto const old_pos = content->position();

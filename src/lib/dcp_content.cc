@@ -89,8 +89,8 @@ DCPContent::DCPContent (boost::filesystem::path p)
 	set_default_colour_conversion ();
 }
 
-DCPContent::DCPContent (cxml::ConstNodePtr node, int version)
-	: Content (node)
+DCPContent::DCPContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
+	: Content(node, film_directory)
 {
 	video = VideoContent::from_xml (this, node, version, VideoRange::FULL);
 	audio = AudioContent::from_xml (this, node, version);

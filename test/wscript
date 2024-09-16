@@ -132,6 +132,7 @@ def build(bld):
                  playlist_test.cc
                  pulldown_detect_test.cc
                  ratio_test.cc
+                 relative_paths_test.cc
                  release_notes_test.cc
                  repeat_frame_test.cc
                  recover_test.cc

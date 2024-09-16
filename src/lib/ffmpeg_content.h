@@ -55,7 +55,7 @@ class FFmpegContent : public Content
 {
 public:
 	FFmpegContent (boost::filesystem::path);
-	FFmpegContent (cxml::ConstNodePtr, int version, std::list<std::string> &);
+	FFmpegContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int version, std::list<std::string> &);
 	FFmpegContent (std::vector<std::shared_ptr<Content>>);
 
 	std::shared_ptr<FFmpegContent> shared_from_this () {

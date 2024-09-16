@@ -477,7 +477,7 @@ Film::metadata (bool with_content_paths) const
 	_playlist->as_xml(
 		cxml::add_child(root, "Playlist"),
 		with_content_paths,
-		Config::instance()->relative_paths() ? PathBehaviour::MAKE_RELATIVE : PathBehaviour::MAKE_ABSOLUTE,
+		Config::instance()->relative_paths() ? PathBehaviour::MAKE_RELATIVE : PathBehaviour::KEEP_ABSOLUTE,
 		directory()
 		);
 

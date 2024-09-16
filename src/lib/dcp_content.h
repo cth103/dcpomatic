@@ -60,7 +60,7 @@ class DCPContent : public Content
 {
 public:
 	DCPContent (boost::filesystem::path p);
-	DCPContent (cxml::ConstNodePtr, int version);
+	DCPContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int version);
 
 	std::shared_ptr<DCPContent> shared_from_this () {
 		return std::dynamic_pointer_cast<DCPContent> (Content::shared_from_this ());

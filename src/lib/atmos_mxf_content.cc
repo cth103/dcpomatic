@@ -48,8 +48,8 @@ AtmosMXFContent::AtmosMXFContent (boost::filesystem::path path)
 }
 
 
-AtmosMXFContent::AtmosMXFContent (cxml::ConstNodePtr node, int)
-	: Content (node)
+AtmosMXFContent::AtmosMXFContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int)
+	: Content(node, film_directory)
 {
 	atmos = AtmosContent::from_xml (this, node);
 }

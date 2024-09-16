@@ -19,15 +19,26 @@
 */
 
 
-#ifndef DCPOMATIC_PATH_BEHAVIOUR_H
-#define DCPOMATIC_PATH_BEHAVIOUR_H
+#include "lib/content.h"
+#include "lib/content_factory.h"
+#include "lib/config.h"
+#include "lib/film.h"
+#include "test.h"
+#include <boost/test/unit_test.hpp>
 
 
-enum class PathBehaviour {
-	KEEP_ABSOLUTE,
-	MAKE_RELATIVE,
-};
+BOOST_AUTO_TEST_CASE(relative_paths_test)
+{
+	ConfigRestorer cr;
+	Config::instance()->set_relative_paths(true);
 
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	auto film = new_test_film("relative_paths_test", { picture });
+	film->write_metadata();
 
-#endif
+	auto film2 = std::make_shared<Film>(boost::filesystem::path("build/test/relative_paths_test"));
+	film2->read_metadata();
+	BOOST_REQUIRE_EQUAL(film2->content().size(), 1U);
+	BOOST_REQUIRE(film2->content()[0]->paths_valid());
+}
 

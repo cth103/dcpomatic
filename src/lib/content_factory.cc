@@ -48,7 +48,6 @@
 
 
 using std::list;
-using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using std::vector;
@@ -56,29 +55,30 @@ using std::vector;
 
 /** Create a Content object from an XML node.
  *  @param node XML description.
+ *  @param directory "Current" directory for any relative file paths mentioned in the XML.
  *  @param version XML state version.
  *  @param notes A list to which is added descriptions of any non-critial warnings / messages.
  *  @return Content object, or 0 if no content was recognised in the XML.
  */
 shared_ptr<Content>
-content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
+content_factory(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version, list<string>& notes)
 {
 	auto const type = node->string_child ("Type");
 
 	std::shared_ptr<Content> content;
 
 	if (type == "FFmpeg") {
-		content = make_shared<FFmpegContent>(node, version, notes);
+		content = std::make_shared<FFmpegContent>(node, film_directory, version, notes);
 	} else if (type == "Image") {
-		content = make_shared<ImageContent>(node, version);
+		content = std::make_shared<ImageContent>(node, film_directory, version);
 	} else if (type == "Sndfile") {
 		/* SndfileContent is now handled by the FFmpeg code rather than by
 		   separate libsndfile-based code.
 		*/
-		content = make_shared<FFmpegContent>(node, version, notes);
+		content = std::make_shared<FFmpegContent>(node, film_directory, version, notes);
 
 		content->audio->set_stream (
-			make_shared<FFmpegAudioStream>(
+			std::make_shared<FFmpegAudioStream>(
 				"Stream", 0,
 				node->number_child<int> ("AudioFrameRate"),
 				node->number_child<Frame> ("AudioLength"),
@@ -88,15 +88,15 @@ content_factory (cxml::ConstNodePtr node, int version, list<string>& notes)
 			);
 
 	} else if (type == "SubRip" || type == "TextSubtitle") {
-		content = make_shared<StringTextFileContent>(node, version, notes);
+		content = std::make_shared<StringTextFileContent>(node, film_directory, version, notes);
 	} else if (type == "DCP") {
-		content = make_shared<DCPContent>(node, version);
+		content = std::make_shared<DCPContent>(node, film_directory, version);
 	} else if (type == "DCPSubtitle") {
-		content = make_shared<DCPSubtitleContent>(node, version);
+		content = std::make_shared<DCPSubtitleContent>(node, film_directory, version);
 	} else if (type == "VideoMXF") {
-		content = make_shared<VideoMXFContent>(node, version);
+		content = std::make_shared<VideoMXFContent>(node, film_directory, version);
 	} else if (type == "AtmosMXF") {
-		content = make_shared<AtmosMXFContent>(node, version);
+		content = std::make_shared<AtmosMXFContent>(node, film_directory, version);
 	}
 
 	return content;
@@ -153,10 +153,10 @@ content_factory (boost::filesystem::path path)
 		}
 
 		if (image_files > 0 && sound_files == 0)  {
-			content.push_back (make_shared<ImageContent>(path));
+			content.push_back(std::make_shared<ImageContent>(path));
 		} else if (image_files == 0 && sound_files > 0) {
 			for (auto i: dcp::filesystem::directory_iterator(path)) {
-				content.push_back (make_shared<FFmpegContent>(i.path()));
+				content.push_back(std::make_shared<FFmpegContent>(i.path()));
 			}
 		}
 
@@ -168,26 +168,26 @@ content_factory (boost::filesystem::path path)
 		transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
 
 		if (valid_image_file (path)) {
-			single = make_shared<ImageContent>(path);
+			single = std::make_shared<ImageContent>(path);
 		} else if (ext == ".srt" || ext == ".ssa" || ext == ".ass" || ext == ".stl" || ext == ".vtt") {
-			single = make_shared<StringTextFileContent>(path);
+			single = std::make_shared<StringTextFileContent>(path);
 		} else if (ext == ".xml") {
 			cxml::Document doc;
 			doc.read_file(dcp::filesystem::fix_long_path(path));
 			if (doc.root_name() == "DCinemaSecurityMessage") {
 				throw KDMAsContentError ();
 			}
-			single = make_shared<DCPSubtitleContent>(path);
+			single = std::make_shared<DCPSubtitleContent>(path);
 		} else if (ext == ".mxf" && dcp::SMPTETextAsset::valid_mxf(path)) {
-			single = make_shared<DCPSubtitleContent>(path);
+			single = std::make_shared<DCPSubtitleContent>(path);
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf(path)) {
-			single = make_shared<VideoMXFContent>(path);
+			single = std::make_shared<VideoMXFContent>(path);
 		} else if (ext == ".mxf" && AtmosMXFContent::valid_mxf(path)) {
-			single = make_shared<AtmosMXFContent>(path);
+			single = std::make_shared<AtmosMXFContent>(path);
 		}
 
 		if (!single) {
-			single = make_shared<FFmpegContent>(path);
+			single = std::make_shared<FFmpegContent>(path);
 		}
 
 		content.push_back (single);

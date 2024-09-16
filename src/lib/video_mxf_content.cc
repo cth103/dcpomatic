@@ -49,8 +49,8 @@ VideoMXFContent::VideoMXFContent (boost::filesystem::path path)
 }
 
 
-VideoMXFContent::VideoMXFContent (cxml::ConstNodePtr node, int version)
-	: Content (node)
+VideoMXFContent::VideoMXFContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
+	: Content(node, film_directory)
 {
 	video = VideoContent::from_xml (this, node, version, VideoRange::FULL);
 }

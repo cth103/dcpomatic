@@ -27,7 +27,7 @@ class ImageContent : public Content
 {
 public:
 	ImageContent (boost::filesystem::path);
-	ImageContent (cxml::ConstNodePtr, int);
+	ImageContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
 
 	std::shared_ptr<ImageContent> shared_from_this () {
 		return std::dynamic_pointer_cast<ImageContent> (Content::shared_from_this ());

@@ -88,8 +88,8 @@ get_optional_enum (cxml::ConstNodePtr node, string name)
 }
 
 
-FFmpegContent::FFmpegContent (cxml::ConstNodePtr node, int version, list<string>& notes)
-	: Content (node)
+FFmpegContent::FFmpegContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version, list<string>& notes)
+	: Content(node, film_directory)
 {
 	_color_range = get_optional_enum<AVColorRange>(node, "ColorRange");
 

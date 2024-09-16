@@ -49,8 +49,8 @@ DCPSubtitleContent::DCPSubtitleContent (boost::filesystem::path path)
 	text.push_back (make_shared<TextContent>(this, TextType::OPEN_SUBTITLE, TextType::OPEN_SUBTITLE));
 }
 
-DCPSubtitleContent::DCPSubtitleContent (cxml::ConstNodePtr node, int version)
-	: Content (node)
+DCPSubtitleContent::DCPSubtitleContent(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version)
+	: Content (node, film_directory)
 	, _length (node->number_child<ContentTime::Type> ("Length"))
 {
 	list<string> notes;

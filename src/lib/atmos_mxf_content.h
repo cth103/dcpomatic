@@ -27,7 +27,7 @@ class AtmosMXFContent : public Content
 {
 public:
 	AtmosMXFContent (boost::filesystem::path path);
-	AtmosMXFContent (cxml::ConstNodePtr node, int version);
+	AtmosMXFContent (cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory, int version);
 
 	std::shared_ptr<AtmosMXFContent> shared_from_this () {
 		return std::dynamic_pointer_cast<AtmosMXFContent> (Content::shared_from_this());

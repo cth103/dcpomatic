@@ -28,9 +28,8 @@
 #include <vector>
 
 
-class Film;
 class Content;
 
 
-extern std::shared_ptr<Content> content_factory (cxml::ConstNodePtr, int, std::list<std::string> &);
+extern std::shared_ptr<Content> content_factory(cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int, std::list<std::string> &);
 extern std::vector<std::shared_ptr<Content>> content_factory (boost::filesystem::path);

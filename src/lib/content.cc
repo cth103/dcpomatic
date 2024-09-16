@@ -84,10 +84,14 @@ Content::Content (boost::filesystem::path p)
 }
 
 
-Content::Content (cxml::ConstNodePtr node)
+Content::Content(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path> film_directory)
 {
 	for (auto i: node->node_children("Path")) {
-		_paths.push_back (i->content());
+		if (film_directory) {
+			_paths.push_back(boost::filesystem::weakly_canonical(boost::filesystem::absolute(i->content(), *film_directory)));
+		} else {
+			_paths.push_back(i->content());
+		}
 		auto const mod = i->optional_number_attribute<time_t>("mtime");
 		if (mod) {
 			_last_write_times.push_back (*mod);
@@ -147,19 +151,9 @@ Content::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_beh
 	if (with_paths) {
 		for (size_t i = 0; i < _paths.size(); ++i) {
 			auto path = _paths[i];
-			switch (path_behaviour) {
-			case PathBehaviour::MAKE_ABSOLUTE:
-				DCPOMATIC_ASSERT(film_directory);
-				if (path.is_relative()) {
-					path = boost::filesystem::canonical(path, *film_directory);
-				}
-				break;
-			case PathBehaviour::MAKE_RELATIVE:
+			if (path_behaviour == PathBehaviour::MAKE_RELATIVE) {
 				DCPOMATIC_ASSERT(film_directory);
 				path = boost::filesystem::relative(path, *film_directory);
-				break;
-			case PathBehaviour::KEEP:
-				break;
 			}
 			auto p = cxml::add_child(element, "Path");
 			p->add_child_text(path.string());
@@ -300,16 +294,16 @@ Content::set_trim_end (ContentTime t)
 
 
 shared_ptr<Content>
-Content::clone () const
+Content::clone() const
 {
 	/* This is a bit naughty, but I can't think of a compelling reason not to do it ... */
 	xmlpp::Document doc;
 	auto node = doc.create_root_node ("Content");
-	as_xml(node, true, PathBehaviour::KEEP, {});
+	as_xml(node, true, PathBehaviour::KEEP_ABSOLUTE, {});
 
 	/* notes is unused here (we assume) */
 	list<string> notes;
-	return content_factory (make_shared<cxml::Node>(node), Film::current_state_version, notes);
+	return content_factory(make_shared<cxml::Node>(node), {}, Film::current_state_version, notes);
 }
 
 
