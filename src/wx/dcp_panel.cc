@@ -152,7 +152,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 	_reel_type->add(S_("Reel|Custom"));
 	_reel_type->SetToolTip(_("How the DCP should be split into parts internally.  If in doubt, choose 'Single reel'"));
 
-	_reel_length->SetRange (1, 64);
+	_reel_length->SetRange(1, 256);
 
 	add_standards();
 	_standard->SetToolTip(_("Which standard the DCP should use.  Interop is older and SMPTE is the modern standard.  If in doubt, choose 'SMPTE'"));
