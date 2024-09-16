@@ -64,9 +64,10 @@ AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_pt
 	}
 
 	/* Amount of error we will tolerate on audio timestamps; see comment below.
-	 * We'll use 1 24fps video frame as this seems to be roughly how ffplay does it.
+	 * ffplay seems to use 1 24fps video frame, but I was sent a file that played
+	 * fine in VLC but not here until the slack was increased to 4 frames @ 24fps.
 	 */
-	Frame const slack_frames = resampled_rate / 24;
+	Frame const slack_frames = 4 * resampled_rate / 24;
 
 	/* first_since_seek is set to true if this is the first data we have
 	   received since initialisation or seek.  We'll set the position based
