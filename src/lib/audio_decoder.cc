@@ -83,10 +83,11 @@ AudioDecoder::emit(shared_ptr<const Film> film, AudioStreamPtr stream, shared_pt
 
 	if (need_reset) {
 		LOG_GENERAL (
-			"Reset audio position: was %1, new data at %2, slack: %3 frames",
+			"Reset audio position: was %1, new data at %2, slack: %3 frames (more than threshold %4)",
 			_positions[stream],
 			time.frames_round(resampled_rate),
-			std::abs(_positions[stream] - time.frames_round(resampled_rate))
+			std::abs(_positions[stream] - time.frames_round(resampled_rate)),
+			slack_frames
 			);
 	}
 
