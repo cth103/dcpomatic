@@ -629,6 +629,7 @@ supported_by.Add (wxT ("Karn Karamad"));
 supported_by.Add (wxT ("Klaus Karger"));
 supported_by.Add (wxT ("Ikram Karimov"));
 supported_by.Add (wxT ("Toni Karsch"));
+supported_by.Add (wxT ("Karu-Karu"));
 supported_by.Add (wxT ("Cornelis Kater"));
 supported_by.Add (wxT ("Abdelrahim Kattab"));
 supported_by.Add (wxT ("Jonathan Kawchuk"));

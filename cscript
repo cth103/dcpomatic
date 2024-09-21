@@ -535,7 +535,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.9.20', {'c++17': target.platform.startswith('osx')})]
+    deps = [('libdcp', 'v1.9.21', {'c++17': target.platform.startswith('osx')})]
     deps.append(('libsub', 'v1.6.52'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
@@ -767,8 +767,16 @@ def package_debian(target, cpu, version, options):
     target.set('CDIST_DIRECTORY', target.directory)
 
     target.set('CDIST_CONFIGURE', '"' + configure_options(target, options, for_package=True) + '"')
+<<<<<<< HEAD
     target.set('CDIST_PACKAGE', f'{name}{suffix}')
     target.set('CDIST_WX_VERSION', "3.1" if target.version in ("16.04", "18.04", "20.04", "22.04") else "3.2")
+||||||| 4f850f995
+    target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
+    target.set('CDIST_WX_VERSION', "3.1" if target.version in ("16.04", "18.04", "20.04", "22.04") else "3.2")
+=======
+    target.set('CDIST_PACKAGE', f'dcpomatic{suffix}')
+    target.set('CDIST_WX_VERSION', "3.1" if target.version in ("16.04", "18.04", "20.04", "22.04", "unstable", "11", "12") else "3.2")
+>>>>>>> origin/main
     if not target.debug:
         target.set('CDIST_DEBUG_PACKAGE_FLAG', '--no-ddebs')
 
