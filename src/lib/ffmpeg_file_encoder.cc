@@ -404,7 +404,11 @@ FFmpegFileEncoder::flush ()
 
 	auto const r = av_write_trailer(_format_context);
 	if (r) {
-		throw EncodeError(N_("av_write_trailer"), N_("FFmpegFileEncoder::flush"), r);
+		if (r == -ENOSPC) {
+			throw DiskFullError(_output);
+		} else {
+			throw EncodeError(N_("av_write_trailer"), N_("FFmpegFileEncoder::flush"), r);
+		}
 	}
 }
 

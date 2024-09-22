@@ -535,4 +535,11 @@ private:
 };
 
 
+class DiskFullError : public std::runtime_error
+{
+public:
+	explicit DiskFullError(boost::filesystem::path writing);
+};
+
+
 #endif

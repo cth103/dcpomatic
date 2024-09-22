@@ -173,3 +173,10 @@ VerifyError::VerifyError (string m, int n)
 
 }
 
+
+DiskFullError::DiskFullError(boost::filesystem::path writing)
+	: std::runtime_error(String::compose(_("Disk full when writing %1"), writing.string()))
+{
+
+}
+
