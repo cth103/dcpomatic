@@ -187,7 +187,7 @@ private:
                 );
 
 		if (dialog.ShowModal() == wxID_OK) {
-			dcp::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), boost::filesystem::copy_option::overwrite_if_exists);
+			dcp::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), dcp::filesystem::CopyOptions::OVERWRITE_EXISTING);
 		}
 	}
 
