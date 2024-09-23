@@ -562,6 +562,9 @@ VerifyDCPDialog::VerifyDCPDialog (wxWindow* parent, shared_ptr<VerifyDCPJob> job
 		case dcp::VerificationNote::Code::MISSING_CPL_CONTENT_VERSION:
 			add(i.second, _("The CPL %n has no <ContentVersion> tag"));
 			break;
+		case dcp::VerificationNote::Code::INVALID_PKL_NAMESPACE:
+			add(i.second, _("The PKL %f has an invalid namespace %n"));
+			break;
 		}
 	}
 
