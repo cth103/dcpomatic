@@ -570,6 +570,7 @@ supported_by.Add (wxT ("Big Island Drive In"));
 supported_by.Add (wxT ("Dayton Movies Inc"));
 supported_by.Add (wxT ("Buttons Sound Inc"));
 supported_by.Add (wxT ("Paramount Twin Inc"));
+supported_by.Add (wxT ("A Cut Above Video Productions, Inc."));
 supported_by.Add (wxT ("Mya Studios Inc."));
 supported_by.Add (wxT ("Gold Pictures Inc."));
 supported_by.Add (wxT ("First Nations Film And Video Festival Inc."));
