@@ -1513,7 +1513,7 @@ void
 Config::copy_and_link (boost::filesystem::path new_file) const
 {
 	write ();
-	dcp::filesystem::copy_file(config_read_file(), new_file, boost::filesystem::copy_option::overwrite_if_exists);
+	dcp::filesystem::copy_file(config_read_file(), new_file, dcp::filesystem::CopyOptions::OVERWRITE_EXISTING);
 	link (new_file);
 }
 

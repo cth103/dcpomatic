@@ -596,6 +596,9 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		case dcp::VerificationNote::Code::VALID_CONTENT_VERSION_LABEL_TEXT:
 			/* These are all "OK" messages which we don't report here */
 			break;
+		case dcp::VerificationNote::Code::INVALID_PKL_NAMESPACE:
+			add(i.second, _("The PKL %f has an invalid namespace %n"));
+			break;
 		}
 	}
 
