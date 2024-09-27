@@ -3,12 +3,11 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: src/wx/custom_scale_dialog.cc:45
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-11 16:08+0200\n"
+"POT-Creation-Date: 2024-09-27 19:56+0200\n"
 "PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -28,59 +27,89 @@ msgstr " (%d napaka)"
 msgid " (%d errors)"
 msgstr " (%d napak/e)"
 
-#: src/wx/timeline_audio_content_view.cc:68
+#: src/wx/content_timeline_audio_view.cc:73
 #, c-format
 msgid " advanced by %dms"
 msgstr " predhajanje za %d ms"
 
-#: src/wx/timeline_audio_content_view.cc:66
+#: src/wx/content_timeline_audio_view.cc:71
 #, c-format
 msgid " delayed by %dms"
 msgstr " z zakasnitvijo %d ms"
 
-#: src/wx/text_panel.cc:105 src/wx/text_panel.cc:108 src/wx/text_panel.cc:113
-#: src/wx/text_panel.cc:116 src/wx/text_panel.cc:120
+#: src/wx/text_panel.cc:90 src/wx/text_panel.cc:93 src/wx/text_panel.cc:98
+#: src/wx/text_panel.cc:101 src/wx/text_panel.cc:105
 msgid "%"
 msgstr "%"
 
-#: src/wx/film_name_location_dialog.cc:156
-msgid "%1 already exists as a file, so you cannot use it for a film."
-msgstr "%1 že obstaja kot datoteka, zato je ne morete uporabiti za film."
+#. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+#: src/wx/verify_dcp_result_panel.cc:620
+#, fuzzy, c-format
+msgid "%d Bv2.1 errors, "
+msgstr "1 napaka Bv2.1, "
 
-#: src/wx/dkdm_dialog.cc:188
+#: src/wx/dkdm_dialog.cc:195
 #, c-format
 msgid "%d DKDM written to %s"
 msgstr "%d DKDM, zapisan v %s"
 
-#: src/wx/dkdm_dialog.cc:188
+#: src/wx/dkdm_dialog.cc:195
 #, c-format
 msgid "%d DKDMs written to %s"
 msgstr "%d DKDM-jev, zapisanih v %s"
 
-#: src/wx/kdm_dialog.cc:237
+#: src/wx/kdm_dialog.cc:265
 #, c-format
 msgid "%d KDM written to %s"
 msgstr "%d KDM, zapisan v %s"
 
-#: src/wx/kdm_dialog.cc:237
+#: src/wx/kdm_dialog.cc:265
 #, c-format
 msgid "%d KDMs written to %s"
 msgstr "%d KDM-jev, zapisanih v %s"
 
-#: src/wx/config_dialog.cc:1025
+#: src/wx/config_dialog.cc:972
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d kanalov na %s"
 
-#: src/wx/player_information.cc:214 src/wx/player_information.cc:216
+#. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+#: src/wx/verify_dcp_result_panel.cc:612
+#, fuzzy, c-format
+msgid "%d errors, "
+msgstr "1 napaka, "
+
+#: src/wx/player_information.cc:208 src/wx/player_information.cc:210
 #, c-format
 msgid "%s %s"
 msgstr "%s %s"
 
-#: src/wx/about_dialog.cc:89
+#: src/wx/player_config_dialog.cc:391
+#: src/wx/playlist_editor_config_dialog.cc:34
+#, c-format
+msgid "%s Preferences"
+msgstr ""
+
+#: src/wx/film_name_location_dialog.cc:156
+#, fuzzy, c-format
+msgid "%s already exists as a file, so you cannot use it for a film."
+msgstr "%1 že obstaja kot datoteka, zato je ne morete uporabiti za film."
+
+#: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
+#, fuzzy, c-format
+msgid "%s audio - %s"
+msgstr "Zvok DCP-o-matic – %s"
+
+#: src/wx/full_config_dialog.cc:837
+#, fuzzy, c-format
+msgid "%s test email"
+msgstr "Pošlji poskusno e-sporočilo"
+
+#: src/wx/about_dialog.cc:97
+#, fuzzy
 msgid ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen"
+"Ole Laursen, Aaron Boxer"
 msgstr ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 " Ole Laursen"
@@ -89,49 +118,47 @@ msgstr ""
 msgid "(None)"
 msgstr "(brez)"
 
-#: src/wx/full_config_dialog.cc:1674 src/wx/player_config_dialog.cc:117
-msgid "(restart DCP-o-matic to change display mode)"
+#: src/wx/full_config_dialog.cc:1555 src/wx/player_config_dialog.cc:124
+#, fuzzy, c-format
+msgid "(restart %s to change display mode)"
 msgstr "(ponovno zaženite DCP-o-matic, da spremenite način prikaza)"
 
-#: src/wx/full_config_dialog.cc:1540
-msgid "(restart DCP-o-matic to see all ratios)"
-msgstr "(ponovno zaženite DCP-o-matic, da vidite vsa razmerja stranic)"
-
-#: src/wx/config_dialog.cc:151
-msgid "(restart DCP-o-matic to see language changes)"
+#: src/wx/config_dialog.cc:154
+#, fuzzy, c-format
+msgid "(restart %s to see language changes)"
 msgstr "(ponovno zaženite DCP-o-matic, da vidite vse jezikovne spremembe)"
 
-#: src/wx/audio_mapping_view.cc:88
+#: src/wx/audio_mapping_view.cc:89
 msgid "+3dB"
 msgstr "+3 dB"
 
-#: src/wx/audio_mapping_view.cc:86
+#: src/wx/audio_mapping_view.cc:87
 msgid "-6dB"
 msgstr "-6 dB"
 
-#: src/wx/export_video_file_dialog.cc:87
+#: src/wx/export_video_file_dialog.cc:92
 msgid "0 is best, 51 is worst"
 msgstr "0 je najboljše, 51 je najslabše"
 
-#: src/wx/audio_mapping_view.cc:87
+#: src/wx/audio_mapping_view.cc:88
 msgid "0dB (unchanged)"
 msgstr "0 dB (nespremenjeno)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:473
+#: src/wx/verify_dcp_result_panel.cc:617
 msgid "1 Bv2.1 error, "
 msgstr "1 napaka Bv2.1, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:465
+#: src/wx/verify_dcp_result_panel.cc:609
 msgid "1 error, "
 msgstr "1 napaka, "
 
-#: src/wx/wx_util.cc:531
+#: src/wx/wx_util.cc:602
 msgid "12 - 7.1/HI/VI"
 msgstr "12 – 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:523
+#: src/wx/wx_util.cc:594
 msgid "2 - stereo"
 msgstr "2 – stereo"
 
@@ -139,7 +166,7 @@ msgstr "2 – stereo"
 msgid "255"
 msgstr "255"
 
-#: src/wx/video_panel.cc:217
+#: src/wx/video_panel.cc:212
 msgid "2D"
 msgstr "2D"
 
@@ -147,64 +174,64 @@ msgstr "2D"
 msgid "2D version of 3D DCP"
 msgstr "2D-različica 3D-DCP"
 
-#: src/wx/dcp_panel.cc:862
+#: src/wx/dcp_panel.cc:842
 msgid "2K"
 msgstr "2K"
 
-#: src/wx/dcp_panel.cc:832 src/wx/video_panel.cc:218
+#: src/wx/dcp_panel.cc:815 src/wx/video_panel.cc:213
 msgid "3D"
 msgstr "3D"
 
-#: src/wx/video_panel.cc:221
+#: src/wx/video_panel.cc:216
 msgid "3D alternate"
 msgstr "3D – izmenično"
 
-#: src/wx/video_panel.cc:222
+#: src/wx/video_panel.cc:217
 msgid "3D left only"
 msgstr "3D – samo levo"
 
-#: src/wx/video_panel.cc:219
+#: src/wx/video_panel.cc:214
 msgid "3D left/right"
 msgstr "3D – levo/desno"
 
-#: src/wx/video_panel.cc:223
+#: src/wx/video_panel.cc:218
 msgid "3D right only"
 msgstr "3D – samo desno"
 
-#: src/wx/video_panel.cc:220
+#: src/wx/video_panel.cc:215
 msgid "3D top/bottom"
 msgstr "3D – zgoraj/spodaj"
 
-#: src/wx/wx_util.cc:525
+#: src/wx/wx_util.cc:596
 msgid "4 - L/C/R/Lfe"
 msgstr "4 – L/S/D/Lfe"
 
-#: src/wx/dcp_panel.cc:966
+#: src/wx/dcp_panel.cc:954
 msgid "48kHz"
 msgstr "48 kHz"
 
-#: src/wx/dcp_panel.cc:863
+#: src/wx/dcp_panel.cc:843
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:527
+#: src/wx/wx_util.cc:598
 msgid "6 - 5.1"
 msgstr "6 – 5.1"
 
-#: src/wx/wx_util.cc:529
+#: src/wx/wx_util.cc:600
 msgid "8 - 5.1/HI/VI"
 msgstr "8 – 5.1/HI/VI"
 
-#: src/wx/dcp_panel.cc:967
+#: src/wx/dcp_panel.cc:955
 msgid "96kHz"
 msgstr "96 kHz"
 
-#: src/wx/verify_dcp_dialog.cc:423
+#: src/wx/verify_dcp_result_panel.cc:547
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> ima neveljavno vrednost %n"
 
-#: src/wx/verify_dcp_dialog.cc:429
+#: src/wx/verify_dcp_result_panel.cc:553
 #, c-format
 msgid "<MainSoundConfiguration> describes incorrect number of channels (%n)"
 msgstr "<MainSoundConfiguration> opisuje nepravilno število kanalov (%n)"
@@ -229,70 +256,72 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_dialog.cc:365
+#: src/wx/verify_dcp_result_panel.cc:470
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "Sličica 2K JPEG2000 vsebuje %n delov tlakovcev namesto 3."
 
-#: src/wx/verify_dcp_dialog.cc:353
+#: src/wx/verify_dcp_result_panel.cc:442
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr "Sličica 2K JPEG2000 ima %n oznak POC namesto 0."
 
-#: src/wx/verify_dcp_dialog.cc:338
+#: src/wx/verify_dcp_result_panel.cc:407
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr "Sličica 2K JPEG2000 ima %n varovalnih bitov namesto 1."
 
-#: src/wx/verify_dcp_dialog.cc:368
+#: src/wx/verify_dcp_result_panel.cc:477
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "Sličica 4K JPEG2000 vsebuje %n delov tlakovcev namesto 6."
 
-#: src/wx/verify_dcp_dialog.cc:356
+#: src/wx/verify_dcp_result_panel.cc:449
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr "Sličica 4K JPEG2000 ima %n oznak POC namesto 1."
 
-#: src/wx/verify_dcp_dialog.cc:341
+#: src/wx/verify_dcp_result_panel.cc:414
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "Sličica 4K JPEG2000 ima %n varovalnih bitov namesto 2."
 
-#: src/wx/verify_dcp_dialog.cc:362
-msgid "A JPEG2000 frame contains POC marker in an invalid location."
+#: src/wx/verify_dcp_result_panel.cc:463
+#, fuzzy
+msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr "Sličica JPEG2000 vsebuje oznako POC na neveljavnem mestu."
 
-#: src/wx/verify_dcp_dialog.cc:359
+#: src/wx/verify_dcp_result_panel.cc:456
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
 
-#: src/wx/verify_dcp_dialog.cc:350
+#: src/wx/verify_dcp_result_panel.cc:435
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr "Sličica JPEG2000 ima višino kodnega bloka %n namesto 32."
 
-#: src/wx/verify_dcp_dialog.cc:347
+#: src/wx/verify_dcp_result_panel.cc:428
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr "Sličica JPEG2000 ima širino kodnega bloka %n namesto 32."
 
-#: src/wx/verify_dcp_dialog.cc:371
+#: src/wx/verify_dcp_result_panel.cc:484
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "Sličica JPEG2000 nima oznake TLM."
 
-#: src/wx/verify_dcp_dialog.cc:344
+#: src/wx/verify_dcp_result_panel.cc:421
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Velikost tlakovcev JPEG2000 se ne ujema z velikostjo slike."
 
-#: src/wx/update_dialog.cc:43
-msgid "A new version of DCP-o-matic is available."
+#: src/wx/update_dialog.cc:44
+#, fuzzy, c-format
+msgid "A new version of %s is available."
 msgstr "Na voljo je nova različica programa DCP-o-matic."
 
-#: src/wx/verify_dcp_dialog.cc:335
-#, c-format
-msgid "A picture frame has an invalid JPEG2000 codestream (%n)"
+#: src/wx/verify_dcp_result_panel.cc:400
+#, fuzzy, c-format
+msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
 msgstr "Sličica ima neveljaven kodni tok JPEG2000 (%n)"
 
 #: src/wx/hints_dialog.cc:183
@@ -300,11 +329,11 @@ msgstr "Sličica ima neveljaven kodni tok JPEG2000 (%n)"
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "Med iskanjem namigov je prišlo do težave (%s)"
 
-#: src/wx/verify_dcp_dialog.cc:374
+#: src/wx/verify_dcp_result_panel.cc:489
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "Podnaslov traja dlje, kot je dolg kolut, na katerem se nahaja."
 
-#: src/wx/verify_dcp_dialog.cc:441
+#: src/wx/verify_dcp_result_panel.cc:569
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
@@ -313,27 +342,28 @@ msgstr ""
 "Podnaslov ali zaprti napis se slicuje na pisavo z ID %id, ki nima ustreznega "
 "vozlišča <LoadFont>."
 
-#: src/wx/config_dialog.cc:996
+#: src/wx/config_dialog.cc:964
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:992
+#: src/wx/config_dialog.cc:960
 msgid "ASIO"
 msgstr "ASIO"
 
-#: src/wx/about_dialog.cc:41
-msgid "About DCP-o-matic"
-msgstr "O programu DCP-o-matic"
+#: src/wx/about_dialog.cc:43
+#, c-format
+msgid "About %s"
+msgstr ""
 
-#: src/wx/screens_panel.cc:252
+#: src/wx/screens_panel.cc:265
 msgid "Add Cinema"
 msgstr "Dodaj kinodvorano"
 
-#: src/wx/screens_panel.cc:82
+#: src/wx/screens_panel.cc:83
 msgid "Add Cinema..."
 msgstr "Dodaj kinodvorano ..."
 
-#: src/wx/content_panel.cc:271
+#: src/wx/content_panel.cc:281
 msgid "Add DCP..."
 msgstr "Dodaj DCP ..."
 
@@ -341,27 +371,27 @@ msgstr "Dodaj DCP ..."
 msgid "Add DKDM folder"
 msgstr "Dodaj mapo DKDM"
 
-#: src/wx/content_menu.cc:108
+#: src/wx/content_menu.cc:110
 msgid "Add KDM..."
 msgstr "Dodaj KDM ..."
 
-#: src/wx/content_menu.cc:109
+#: src/wx/content_menu.cc:111
 msgid "Add OV..."
 msgstr "Dodaj OV ..."
 
-#: src/wx/screens_panel.cc:381
+#: src/wx/screens_panel.cc:390
 msgid "Add Screen"
 msgstr "Dodaj zaslon"
 
-#: src/wx/screens_panel.cc:88
+#: src/wx/screens_panel.cc:89
 msgid "Add Screen..."
 msgstr "Dodaj zaslon ..."
 
-#: src/wx/content_panel.cc:272
+#: src/wx/content_panel.cc:282
 msgid "Add a DCP."
 msgstr "Dodajte DCP."
 
-#: src/wx/content_panel.cc:268
+#: src/wx/content_panel.cc:278
 msgid ""
 "Add a folder of image files (which will be used as a moving image sequence) "
 "or a folder of sound files."
@@ -369,15 +399,20 @@ msgstr ""
 "Dodajte mapo slikovnih datotek (ki se bodo uporabljale kot zaporedje "
 "gibljivih slik) ali mapo zvočnih datotek."
 
-#: src/wx/content_panel.cc:263
+#: src/wx/full_language_tag_dialog.cc:69
+#, fuzzy
+msgid "Add external"
+msgstr "Dodaj zaslon"
+
+#: src/wx/content_panel.cc:273
 msgid "Add file(s)..."
 msgstr "Dodaj datoteke ..."
 
-#: src/wx/content_panel.cc:267
+#: src/wx/content_panel.cc:277
 msgid "Add folder..."
 msgstr "Dodaj mapo …"
 
-#: src/wx/image_sequence_dialog.cc:28
+#: src/wx/image_sequence_dialog.cc:31
 msgid "Add image sequence"
 msgstr "Dodaj zaporedje slik"
 
@@ -385,7 +420,7 @@ msgstr "Dodaj zaporedje slik"
 msgid "Add language..."
 msgstr "Dodaj jezik ..."
 
-#: src/wx/text_panel.cc:365
+#: src/wx/text_panel.cc:345
 msgid "Add new..."
 msgstr "Dodaj novo …"
 
@@ -397,17 +432,36 @@ msgstr "Dodajte ali premaknite oznako na trenutni položaj"
 msgid "Add recipient"
 msgstr "Dodaj prejemnika"
 
-#: src/wx/content_panel.cc:264
+#: src/wx/dcp_timeline.cc:171
+msgid "Add reel boundary"
+msgstr ""
+
+#: src/wx/full_language_tag_dialog.cc:65
+#, fuzzy
+msgid "Add region"
+msgstr "Dodaj zaslon"
+
+#: src/wx/full_language_tag_dialog.cc:63
+#, fuzzy
+msgid "Add script"
+msgstr "Dodaj prejemnika"
+
+#: src/wx/full_language_tag_dialog.cc:67
+#, fuzzy
+msgid "Add variant"
+msgstr "Dodaj prejemnika"
+
+#: src/wx/content_panel.cc:274
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr ""
 "V film dodajte datoteke videa, slik, zvoka ali podnaslovov (krmilka+A)."
 
-#: src/wx/config_dialog.cc:301 src/wx/recipients_panel.cc:69
+#: src/wx/config_dialog.cc:304 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
 msgid "Add..."
 msgstr "Dodaj ..."
 
-#: src/wx/config_dialog.cc:398
+#: src/wx/config_dialog.cc:401
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -416,13 +470,13 @@ msgstr ""
 "Dodajte potrdila, v zaporedju od izvornega materiala do vmesne kopije na "
 "list."
 
-#: src/wx/text_panel.cc:185
+#: src/wx/text_panel.cc:170
 msgid "Additional"
 msgstr "Dodatno"
 
-#: src/wx/cinema_dialog.cc:69 src/wx/extra_kdm_email_dialog.cc:47
-#: src/wx/full_config_dialog.cc:1055 src/wx/full_config_dialog.cc:1192
-#: src/wx/recipient_dialog.cc:90
+#: src/wx/cinema_dialog.cc:70 src/wx/extra_kdm_email_dialog.cc:47
+#: src/wx/full_config_dialog.cc:906 src/wx/full_config_dialog.cc:1043
+#: src/wx/recipient_dialog.cc:85
 msgid "Address"
 msgstr "Naslov"
 
@@ -430,8 +484,8 @@ msgstr "Naslov"
 msgid "Adjust white point to"
 msgstr "Prilagodi belo točko na"
 
-#: src/wx/full_config_dialog.cc:1642 src/wx/metadata_dialog.cc:79
-#: src/wx/player_config_dialog.cc:240
+#: src/wx/full_config_dialog.cc:1523 src/wx/metadata_dialog.cc:79
+#: src/wx/player_config_dialog.cc:274
 msgid "Advanced"
 msgstr "Napredno"
 
@@ -443,36 +497,41 @@ msgstr "Napredne možnosti KDM"
 msgid "Advanced content settings"
 msgstr "Dodatne nastavitve vsebine"
 
-#: src/wx/content_menu.cc:106
+#: src/wx/content_menu.cc:108
 msgid "Advanced settings..."
 msgstr "Napredne nastavitve ..."
 
-#: src/wx/config_dialog.cc:657 src/wx/config_dialog.cc:675
+#: src/wx/config_dialog.cc:660 src/wx/config_dialog.cc:678
 #: src/wx/kdm_output_panel.cc:78
 msgid "Advanced..."
 msgstr "Napredno …"
 
-#: src/wx/rating_dialog.cc:136 src/wx/rating_dialog.cc:292
+#: src/wx/metadata_dialog.cc:218 src/wx/rating_dialog.cc:136
+#: src/wx/rating_dialog.cc:292
 msgid "Agency"
 msgstr "Agencija"
 
-#: src/wx/full_config_dialog.cc:1536
+#: src/wx/audio_mapping_view.cc:92
+msgid "All off"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1414
 msgid "Allow any DCP frame rate"
 msgstr "Dovoli poljubno hitrost sličic DCP"
 
-#: src/wx/full_config_dialog.cc:1548
+#: src/wx/full_config_dialog.cc:1420
 msgid "Allow creation of DCPs with 96kHz audio"
 msgstr "Omogoči ustvarjanja DCP-jev z zvokom 96 kHz"
 
-#: src/wx/full_config_dialog.cc:1538
+#: src/wx/full_config_dialog.cc:1416
 msgid "Allow full-frame and non-standard container ratios"
 msgstr "Dovolite razmerja stranic polne sličice in ne-standardnih vsebnikov"
 
-#: src/wx/full_config_dialog.cc:1549
+#: src/wx/full_config_dialog.cc:1421
 msgid "Allow mapping to all audio channels"
 msgstr "Dovoli preslikavo na vse zvočne kanale"
 
-#: src/wx/full_config_dialog.cc:1550
+#: src/wx/full_config_dialog.cc:1422
 msgid "Allow use of SMPTE Bv2.0"
 msgstr "Dovoli uporabo SMPTE Bv2.0"
 
@@ -480,15 +539,15 @@ msgstr "Dovoli uporabo SMPTE Bv2.0"
 msgid "Alpha   0"
 msgstr "Alfa   0"
 
-#: src/wx/about_dialog.cc:170
+#: src/wx/about_dialog.cc:179
 msgid "Also supported by"
 msgstr "Podpirajo ga tudi"
 
-#: src/wx/verify_dcp_dialog.cc:160
+#: src/wx/verify_dcp_result_panel.cc:210
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "Sredstvo ima prazno pot v ASSETMAP."
 
-#: src/wx/verify_dcp_dialog.cc:408
+#: src/wx/verify_dcp_result_panel.cc:532
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "Uporabljen je bil neveljaven <ContentKind> %n."
@@ -502,30 +561,30 @@ msgstr "Prišlo je do neznane izjeme."
 msgid "Annotation text"
 msgstr "Besedilo pripombe CPL"
 
-#: src/wx/text_panel.cc:127
+#: src/wx/text_panel.cc:112
 msgid "Appearance..."
 msgstr "Videz …"
 
-#: src/wx/job_view.cc:192
+#: src/wx/job_view.cc:193
 msgid "Are you sure you want to cancel this job?"
 msgstr "Ali ste prepričani, da želite preklicati to opravilo?"
 
-#: src/wx/screens_panel.cc:349
+#: src/wx/screens_panel.cc:360
 #, c-format
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr "Ali ste prepričani, da želite odstraniti %d kinodvoran?"
 
-#: src/wx/screens_panel.cc:471
+#: src/wx/screens_panel.cc:488
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr "Ali ste prepričani, da želite odstraniti %d platen?"
 
-#: src/wx/screens_panel.cc:345
+#: src/wx/screens_panel.cc:356
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr "Ali ste prepričani, da želite odstraniti kinodvorano »%s«?"
 
-#: src/wx/screens_panel.cc:467
+#: src/wx/screens_panel.cc:484
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr "Ali ste prepričani, da želite odstraniti platno »%s«?"
@@ -538,26 +597,20 @@ msgstr ""
 "Ali ste prepričani, da želite pošiljati e-poštna sporočila na te naslove?\n"
 "\n"
 
-#: src/wx/verify_dcp_dialog.cc:393
+#: src/wx/verify_dcp_result_panel.cc:517
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr "Vsaj eno vozlišče <Text> v podnaslovu ali zaprtem napisu je prazno."
 
-#: src/wx/verify_dcp_dialog.cc:269
+#: src/wx/verify_dcp_result_panel.cc:332
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr "Vsaj eno sredstvo v kolutu nima enakega trajanja kot ostala."
 
-#: src/wx/verify_dcp_dialog.cc:185
-#, c-format
-msgid ""
-"At least one frame of the video asset %f is over the limit of 250Mbit/s."
-msgstr "Vsaj ena sličica video vsebine %f je preko meje 250 Mbit/s."
-
-#: src/wx/verify_dcp_dialog.cc:242
+#: src/wx/verify_dcp_result_panel.cc:302
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "Vsaj en par podnaslovov je ločen za manj kot 2 sličici."
 
-#: src/wx/verify_dcp_dialog.cc:239
+#: src/wx/verify_dcp_result_panel.cc:299
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "Vsaj en podnaslov traja manj kot 15 sličic."
 
@@ -565,33 +618,29 @@ msgstr "Vsaj en podnaslov traja manj kot 15 sličic."
 msgid "Atmos"
 msgstr "Atmos"
 
-#: src/wx/audio_dialog.cc:64 src/wx/audio_panel.cc:65
-#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:130
+#: src/wx/audio_dialog.cc:65 src/wx/audio_panel.cc:65
+#: src/wx/content_properties_dialog.cc:80 src/wx/dcp_panel.cc:121
 #: src/wx/timeline_labels_view.cc:42 src/wx/timeline_labels_view.cc:92
 msgid "Audio"
 msgstr "Zvok"
 
-#: src/wx/player_information.cc:175
+#: src/wx/player_information.cc:169
 #, c-format
 msgid "Audio channels: %d"
 msgstr "Zvokovni kanali: %d"
 
-#: src/wx/dcp_panel.cc:100
-msgid "Audio language"
-msgstr "Jezik zvoka"
-
-#: src/wx/audio_mapping_view.cc:535
+#: src/wx/audio_mapping_view.cc:547
 #, c-format
 msgid "Audio will be passed from %s channel %s to %s channel %s unaltered."
 msgstr "Zvok se bo prenašal iz %s kanala %s v %s kanal %s nespremenjen."
 
-#: src/wx/audio_mapping_view.cc:544
+#: src/wx/audio_mapping_view.cc:556
 #, c-format
 msgid ""
 "Audio will be passed from %s channel %s to %s channel %s with gain %.1fdB."
 msgstr "Zvok bo prenel iz %s kanala %s v %s kanal %s z ojačitvijo %.1f dB."
 
-#: src/wx/full_config_dialog.cc:886
+#: src/wx/full_config_dialog.cc:737
 msgid "Auto"
 msgstr "Samodejno"
 
@@ -599,11 +648,11 @@ msgstr "Samodejno"
 msgid "Auto crop"
 msgstr "Samodejno obreži"
 
-#: src/wx/content_menu.cc:104
+#: src/wx/content_menu.cc:105
 msgid "Auto-crop..."
 msgstr "Samodejno obreži …"
 
-#: src/wx/full_config_dialog.cc:140
+#: src/wx/full_config_dialog.cc:147
 msgid "Automatically analyse content audio"
 msgstr "Samodejno analiziraj zvok vsebine"
 
@@ -611,7 +660,7 @@ msgstr "Samodejno analiziraj zvok vsebine"
 msgid "B"
 msgstr "B"
 
-#: src/wx/full_config_dialog.cc:1070 src/wx/full_config_dialog.cc:1207
+#: src/wx/full_config_dialog.cc:921 src/wx/full_config_dialog.cc:1058
 msgid "BCC address"
 msgstr "Naslov BCC"
 
@@ -623,15 +672,15 @@ msgstr "Barco Alchemy"
 msgid "Blue chromaticity"
 msgstr "Modra kromatičnost"
 
-#: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:164
+#: src/wx/auto_crop_dialog.cc:37 src/wx/video_panel.cc:156
 msgid "Bottom"
 msgstr "Spodaj"
 
-#: src/wx/dir_picker_ctrl.cc:49 src/wx/kdm_cpl_panel.cc:47
+#: src/wx/dir_picker_ctrl.cc:50 src/wx/kdm_cpl_panel.cc:48
 msgid "Browse..."
 msgstr "Prebrskaj ..."
 
-#: src/wx/text_panel.cc:100
+#: src/wx/text_panel.cc:85
 msgid "Burn subtitles into image"
 msgstr "Zapeci podnaslove v sliko"
 
@@ -639,24 +688,20 @@ msgstr "Zapeci podnaslove v sliko"
 msgid "But I have to use fader"
 msgstr "Toda moram uporabiti drsnik"
 
-#: src/wx/full_config_dialog.cc:1056 src/wx/full_config_dialog.cc:1193
+#: src/wx/full_config_dialog.cc:907 src/wx/full_config_dialog.cc:1044
 msgid "CC addresses"
 msgstr "Naslovi CC"
 
-#: src/wx/text_panel.cc:206
-msgid "CCAP track"
-msgstr "Steza CCAP"
-
-#: src/wx/dkdm_dialog.cc:92 src/wx/kdm_cpl_panel.cc:44 src/wx/kdm_dialog.cc:97
+#: src/wx/dkdm_dialog.cc:93 src/wx/kdm_cpl_panel.cc:45 src/wx/kdm_dialog.cc:98
 #: src/wx/self_dkdm_dialog.cc:69
 msgid "CPL"
 msgstr "CPL"
 
-#: src/wx/kdm_cpl_panel.cc:56
+#: src/wx/kdm_cpl_panel.cc:57
 msgid "CPL ID"
 msgstr "CPL ID"
 
-#: src/wx/kdm_cpl_panel.cc:59
+#: src/wx/kdm_cpl_panel.cc:60
 msgid "CPL annotation text"
 msgstr "Besedilo pripombe CPL"
 
@@ -664,44 +709,45 @@ msgstr "Besedilo pripombe CPL"
 msgid "CPL's content is not encrypted."
 msgstr "Vsebina CPL ni šifrirana."
 
-#: src/wx/audio_panel.cc:96
+#: src/wx/audio_panel.cc:88
 msgid "Calculate..."
 msgstr "Izračunaj …"
 
-#: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:76
-#: src/wx/verify_dcp_progress_dialog.cc:67
+#: src/wx/invalid_certificate_period_dialog.cc:99 src/wx/job_view.cc:77
+#: src/wx/verify_dcp_progress_dialog.cc:49
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/wx/audio_panel.cc:391
-msgid "Cannot reference this DCP's audio."
+#: src/wx/dcp_referencing_dialog.cc:166
+#, fuzzy
+msgid "Cannot reference this DCP"
 msgstr "Sklicevanje na zvok tega DCP-ja ni možno."
 
-#: src/wx/audio_panel.cc:393
-msgid "Cannot reference this DCP's audio: "
-msgstr "Sklicevanje na zvok tega DCP-ja ni možno: "
+#: src/wx/dcp_referencing_dialog.cc:178
+#, fuzzy
+msgid "Cannot reference this DCP's audio"
+msgstr "Sklicevanje na zvok tega DCP-ja ni možno."
 
-#: src/wx/text_panel.cc:600
-msgid "Cannot reference this DCP's subtitles or captions."
+#: src/wx/dcp_referencing_dialog.cc:192
+#, fuzzy
+msgid "Cannot reference this DCP's closed captions"
 msgstr "Sklicevanje na podnaslove ali napise tega DCP-ja ni možno."
 
-#: src/wx/text_panel.cc:602
-msgid "Cannot reference this DCP's subtitles or captions: "
-msgstr "Sklicevanje na podnaslove ali napise tega DCP-ja ni možno: "
+#: src/wx/dcp_referencing_dialog.cc:185
+#, fuzzy
+msgid "Cannot reference this DCP's subtitles"
+msgstr "Sklicevanje na podnaslove ali napise tega DCP-ja ni možno."
 
-#: src/wx/video_panel.cc:605
-msgid "Cannot reference this DCP's video."
+#: src/wx/dcp_referencing_dialog.cc:171
+#, fuzzy
+msgid "Cannot reference this DCP's video"
 msgstr "Sklicevanje na videoposnetek tega DCP-ja ni možno."
 
-#: src/wx/video_panel.cc:607
-msgid "Cannot reference this DCP's video: "
-msgstr "Sklicevanje na videoposnetek tega DCP-ja ni možno: "
-
-#: src/wx/text_view.cc:73
+#: src/wx/text_view.cc:76
 msgid "Caption"
 msgstr "Napis"
 
-#: src/wx/text_view.cc:48
+#: src/wx/text_view.cc:51
 msgid "Captions"
 msgstr "Napisi"
 
@@ -732,39 +778,39 @@ msgstr "Veriga"
 msgid "Channel gain"
 msgstr "Ojačitev kanala"
 
-#: src/wx/audio_dialog.cc:109 src/wx/dcp_panel.cc:943
+#: src/wx/audio_dialog.cc:110 src/wx/dcp_panel.cc:923
 msgid "Channels"
 msgstr "Kanali"
 
-#: src/wx/screens_panel.cc:99
+#: src/wx/screens_panel.cc:100
 msgid "Check all"
 msgstr "Preveri vse"
 
-#: src/wx/config_dialog.cc:170
+#: src/wx/config_dialog.cc:173
 msgid "Check for testing updates on startup"
 msgstr "Preveri posodobitve preizkušanja ob zagonu"
 
-#: src/wx/config_dialog.cc:166
+#: src/wx/config_dialog.cc:169
 msgid "Check for updates on startup"
 msgstr "Preveri obstoj posodobitev ob zagonu"
 
-#: src/wx/content_menu.cc:111
+#: src/wx/content_menu.cc:113
 msgid "Choose CPL..."
 msgstr "Izberi CPL ..."
 
-#: src/wx/content_panel.cc:661
+#: src/wx/content_panel.cc:671
 msgid "Choose a DCP folder"
 msgstr "Izberite mapo DCP"
 
-#: src/wx/content_menu.cc:372
+#: src/wx/content_menu.cc:376
 msgid "Choose a file"
 msgstr "Izberite datoteko"
 
-#: src/wx/content_panel.cc:601
+#: src/wx/content_panel.cc:611
 msgid "Choose a file or files"
 msgstr "Izberite datoteko ali datoteke"
 
-#: src/wx/content_menu.cc:368 src/wx/content_panel.cc:618
+#: src/wx/content_menu.cc:372 src/wx/content_panel.cc:628
 msgid "Choose a folder"
 msgstr "Izberite mapo"
 
@@ -784,7 +830,7 @@ msgstr "Christie"
 msgid "Cinema"
 msgstr "Kino"
 
-#: src/wx/full_config_dialog.cc:122
+#: src/wx/full_config_dialog.cc:125
 msgid "Cinema and screen database file"
 msgstr "Datoteka zbirke podatkov kinodvoran in platen"
 
@@ -792,17 +838,17 @@ msgstr "Datoteka zbirke podatkov kinodvoran in platen"
 msgid "Click the button to set all selected content to the same value."
 msgstr "Kliknite gumb, da nastavite vse izbrane vsebine na isto vrednost."
 
-#: src/wx/verify_dcp_dialog.cc:287
+#: src/wx/verify_dcp_result_panel.cc:350
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
 "Sredstvo zaprtega napisa z %n ima ne-ničelno vstopno točko <EntryPoint>."
 
-#: src/wx/closed_captions_dialog.cc:49
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
 msgid "Closed captions"
 msgstr "Zaprti napisi"
 
-#: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:193
+#: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:185
 msgid "Colour"
 msgstr "Barva"
 
@@ -811,11 +857,11 @@ msgid "Colour conversion"
 msgstr "Pretvorba barv"
 
 #. TRANSLATORS: translate the word "Custom" here; do not include the "Colour|" prefix
-#: src/wx/video_panel.cc:201
+#: src/wx/video_panel.cc:193
 msgid "Colour|Custom"
 msgstr "Barva|Po meri"
 
-#: src/wx/full_config_dialog.cc:1415
+#: src/wx/full_config_dialog.cc:1272
 msgid "Company name"
 msgstr "Naziv podjetja"
 
@@ -823,12 +869,12 @@ msgstr "Naziv podjetja"
 msgid "Component"
 msgstr "Komponenta"
 
-#: src/wx/full_config_dialog.cc:117
+#: src/wx/full_config_dialog.cc:120
 msgid "Configuration file"
 msgstr "Prilagoditvena datoteka"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1751 src/wx/player_config_dialog.cc:278
+#: src/wx/full_config_dialog.cc:1632 src/wx/player_config_dialog.cc:312
 msgid "Config|Timing"
 msgstr "Prilagoditev|Časovna usklajenost"
 
@@ -836,11 +882,12 @@ msgstr "Prilagoditev|Časovna usklajenost"
 msgid "Confirm KDM email"
 msgstr "Potrdite e-sporočilo za KDM"
 
-#: src/wx/dcp_panel.cc:820
+#: src/wx/dcp_panel.cc:803
 msgid "Container"
 msgstr "Vsebnik"
 
-#: src/wx/audio_panel.cc:119 src/wx/film_editor.cc:61
+#: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
+#: src/wx/playlist_controls.cc:96
 msgid "Content"
 msgstr "Vsebina"
 
@@ -848,11 +895,11 @@ msgstr "Vsebina"
 msgid "Content Properties"
 msgstr "Lastnosti vsebine"
 
-#: src/wx/dcp_panel.cc:104
+#: src/wx/dcp_panel.cc:101
 msgid "Content Type"
 msgstr "Vrsta vsebine"
 
-#: src/wx/config_dialog.cc:1092
+#: src/wx/config_dialog.cc:1039
 msgid "Content directory"
 msgstr "Mapa vsebine"
 
@@ -869,23 +916,35 @@ msgstr "Različice vsebine"
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: src/wx/text_panel.cc:114
+#: src/wx/text_panel.cc:99
 msgid "Coord|Y"
 msgstr "Koordinate|Y"
 
-#: src/wx/dcp_panel.cc:90
+#: src/wx/dcp_panel.cc:91
 msgid "Copy as name"
 msgstr "Kopiraj kot ime"
 
-#: src/wx/config_dialog.cc:991
+#: src/wx/content_menu.cc:106
+msgid "Copy settings from another project..."
+msgstr ""
+
+#: src/wx/load_config_from_zip_dialog.cc:31
+msgid "Copy the cinemas in the ZIP file over the current list at"
+msgstr ""
+
+#: src/wx/load_config_from_zip_dialog.cc:37
+msgid "Copy the cinemas in the ZIP file to the original location at"
+msgstr ""
+
+#: src/wx/config_dialog.cc:959
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
-#: src/wx/audio_dialog.cc:303
+#: src/wx/audio_dialog.cc:304
 msgid "Could not analyse audio."
 msgstr "Ni bilo mogoče analizirati zvoka."
 
-#: src/wx/text_panel.cc:904
+#: src/wx/text_panel.cc:829
 msgid "Could not analyse subtitles."
 msgstr "Podnaslovov ni bilo mogoče analizirati."
 
@@ -894,13 +953,23 @@ msgstr "Podnaslovov ni bilo mogoče analizirati."
 msgid "Could not find serial number %s"
 msgstr "Ni bilo mogoče najti serijske številke %s"
 
-#: src/wx/config_dialog.cc:382
+#: src/wx/content_menu.cc:634
+#, fuzzy, c-format
+msgid "Could not find this content in the project \"%s\"."
+msgstr "Ni bilo mogoče najti serijske številke %s"
+
+#: src/wx/config_dialog.cc:385
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Potrdila ni bilo mogoče uvoziti (%s)"
 
-#: src/wx/content_menu.cc:415
+#: src/wx/content_menu.cc:419
 msgid "Could not load KDM"
+msgstr "KDM-ja ni bilo mogoče naložiti"
+
+#: src/wx/playlist_controls.cc:348
+#, fuzzy
+msgid "Could not load KDM."
 msgstr "KDM-ja ni bilo mogoče naložiti"
 
 #: src/wx/screen_dialog.cc:78
@@ -912,7 +981,7 @@ msgstr "Potrdila ni bilo mogoče naložiti (%s)"
 msgid "Could not play content"
 msgstr "Vsebine ni mogoče predvajati"
 
-#: src/wx/verify_dcp_dialog.cc:139
+#: src/wx/verify_dcp_result_panel.cc:189
 #, fuzzy, c-format
 msgid "Could not read DCP (%n)"
 msgstr "Ni bilo mogoče prebrati DCP: %s"
@@ -927,8 +996,8 @@ msgstr "Ni bilo mogoče prebrati DCP: %s"
 msgid "Could not read certificate file (%1)"
 msgstr "Datoteke potrdila (%1) ni bilo mogoče prebrati"
 
-#: src/wx/config_dialog.cc:407 src/wx/config_dialog.cc:594
-#: src/wx/recipient_dialog.cc:174 src/wx/recipient_dialog.cc:179
+#: src/wx/config_dialog.cc:410 src/wx/config_dialog.cc:597
+#: src/wx/recipient_dialog.cc:158 src/wx/recipient_dialog.cc:163
 #: src/wx/screen_dialog.cc:284 src/wx/screen_dialog.cc:290
 msgid "Could not read certificate file."
 msgstr "Datoteke potrdila ni mogoče prebrati."
@@ -937,25 +1006,17 @@ msgstr "Datoteke potrdila ni mogoče prebrati."
 msgid "Could not read certificates from Qube server."
 msgstr "Potrdil s strežnika Qube ni mogoče prebrati."
 
-#: src/wx/config_dialog.cc:584
+#: src/wx/config_dialog.cc:587
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Datoteke ključev ni mogoče prebrati; datoteka je predolga (%s)"
 
-#: src/wx/film_viewer.cc:649 src/wx/film_viewer.cc:691
+#: src/wx/film_viewer.cc:637 src/wx/film_viewer.cc:679
 msgid ""
 "Could not set up audio output.  There will be no audio during the preview."
 msgstr "Zvočnega izhoda ni mogoče nastaviti.  Med predogledom ne bo zvoka."
 
-#: src/wx/screens_panel.cc:264 src/wx/screens_panel.cc:725
-msgid ""
-"Could not write cinema details to the cinemas.xml file.  Check that the "
-"location of cinemas.xml is valid in DCP-o-matic's preferences."
-msgstr ""
-"Podrobnosti o kinodvorani ni bilo mogoče zapisati v datoteko cinemas.xml.  "
-"Preverite, ali je mesto cinemas.xml v nastavitvah DCP-o-matic veljavno."
-
-#: src/wx/full_config_dialog.cc:1330
+#: src/wx/full_config_dialog.cc:1181
 msgid "Cover Sheet"
 msgstr "Naslovnica"
 
@@ -963,28 +1024,28 @@ msgstr "Naslovnica"
 msgid "Create KDMs anyway"
 msgstr "Vseeno ustvari KDM-je"
 
-#: src/wx/film_name_location_dialog.cc:51
+#: src/wx/film_name_location_dialog.cc:52
 msgid "Create in folder"
 msgstr "Ustvari v mapi"
 
-#: src/wx/full_config_dialog.cc:1410
+#: src/wx/full_config_dialog.cc:1264
 msgid "Creator"
 msgstr "Ustvarjalec"
 
-#: src/wx/video_panel.cc:99
+#: src/wx/video_panel.cc:91
 msgid "Crop"
 msgstr "Obreži"
 
-#: src/wx/audio_dialog.cc:472
+#: src/wx/audio_dialog.cc:473
 #, c-format
 msgid "Cursor: %.1fdB at %s"
 msgstr "Kazalec: %.1f dB na %s"
 
-#: src/wx/audio_dialog.cc:466
+#: src/wx/audio_dialog.cc:467
 msgid "Cursor: none"
 msgstr "Kazalec: brez"
 
-#: src/wx/rating_dialog.cc:51
+#: src/wx/dcp_timeline.cc:252 src/wx/rating_dialog.cc:51
 msgid "Custom"
 msgstr "Po meri"
 
@@ -992,8 +1053,9 @@ msgstr "Po meri"
 msgid "Custom scale"
 msgstr "Merilo po meri"
 
-#: src/wx/audio_panel.cc:119 src/wx/config_dialog.cc:870
-#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
+#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:873
+#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
+#: src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -1001,172 +1063,105 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "Besedilna steza DCP"
 
-#: src/wx/full_config_dialog.cc:1717
+#: src/wx/full_config_dialog.cc:1598
 msgid "DCP asset filename format"
 msgstr "Oblika imena datoteke sredstva DCP"
 
-#: src/wx/kdm_cpl_panel.cc:53
+#: src/wx/kdm_cpl_panel.cc:54
 msgid "DCP directory"
 msgstr "Mapa DCP"
 
-#: src/wx/full_config_dialog.cc:1698
+#: src/wx/full_config_dialog.cc:1579
 msgid "DCP metadata filename format"
 msgstr "Oblika imena datoteke metapodatkov DCP"
 
-#: src/wx/verify_dcp_dialog.cc:74
+#: src/wx/verify_dcp_result_panel.cc:89
 msgid "DCP validates OK."
 msgstr "DCP je preverjeno v redu."
 
-#: src/wx/verify_dcp_dialog.cc:43
+#: src/wx/verify_dcp_result_dialog.cc:31
 msgid "DCP verification"
 msgstr "Preverjanje DCP"
 
-#: src/wx/about_dialog.cc:56 src/wx/content_view.cc:89 src/wx/job_view.cc:168
-#: src/wx/playlist_controls.cc:334 src/wx/playlist_controls.cc:406
-#: src/wx/wx_util.cc:164 src/wx/wx_util.cc:181 src/wx/wx_util.cc:190
-msgid "DCP-o-matic"
-msgstr "DCP-o-matic"
-
-#: src/wx/try_unmount_dialog.cc:35
-msgid "DCP-o-matic Disk Writer"
-msgstr "Zapisovalec diska DCP-o-matic"
-
-#: src/wx/player_config_dialog.cc:356
-msgid "DCP-o-matic Player Preferences"
-msgstr "Nastavitve predvajalnika DCP-o-matic"
-
-#: src/wx/playlist_editor_config_dialog.cc:31
-msgid "DCP-o-matic Playlist Editor Preferences"
-msgstr "Nastavitve urejevalnika seznamov predvajanja DCP-o-matic"
-
-#: src/wx/audio_dialog.cc:169 src/wx/audio_dialog.cc:171
-#, c-format
-msgid "DCP-o-matic audio - %s"
-msgstr "Zvok DCP-o-matic – %s"
-
-#: src/wx/full_config_dialog.cc:986
-msgid "DCP-o-matic test email"
-msgstr "Poskusno sporočilo DCP-o-matic"
-
-#: src/wx/player_config_dialog.cc:128
+#: src/wx/player_config_dialog.cc:135
 msgid "Debug log file"
 msgstr "Datoteka dnevnika odpravljanja napak"
 
-#: src/wx/full_config_dialog.cc:1753
+#: src/wx/full_config_dialog.cc:1634
 msgid "Debug: 3D"
 msgstr "Odpravljanje napak: 3D"
 
-#: src/wx/full_config_dialog.cc:1763
+#: src/wx/full_config_dialog.cc:1644
 msgid "Debug: audio analysis"
 msgstr "Odpravljanje napak: zvočna analiza"
 
-#: src/wx/full_config_dialog.cc:1757
+#: src/wx/full_config_dialog.cc:1638
 msgid "Debug: email sending"
 msgstr "Odpravljanje napak: pošiljanje e-pošte"
 
-#: src/wx/full_config_dialog.cc:1755
+#: src/wx/full_config_dialog.cc:1636
 msgid "Debug: encode"
 msgstr "Odpravljanje napak: kodiranje"
 
-#: src/wx/full_config_dialog.cc:1761
+#: src/wx/full_config_dialog.cc:1642
 msgid "Debug: player"
 msgstr "Odpravljanje napak: predvajalnik"
 
-#: src/wx/full_config_dialog.cc:1759 src/wx/player_config_dialog.cc:280
+#: src/wx/full_config_dialog.cc:1640 src/wx/player_config_dialog.cc:314
 msgid "Debug: video view"
 msgstr "Odpravljanje napak: pogled videoposnetka"
 
-#: src/wx/player_information.cc:203
+#: src/wx/player_information.cc:197
 #, c-format
 msgid "Decode resolution: %dx%d"
 msgstr "Ločljivost dekodiranja: %dx%d"
 
-#: src/wx/player_information.cc:205
+#: src/wx/player_information.cc:199
 #, fuzzy
 msgid "Decode resolution: unknown"
 msgstr "Ločljivost dekodiranja: %dx%d"
 
-#: src/wx/config_dialog.cc:644 src/wx/config_dialog.cc:702
+#: src/wx/config_dialog.cc:647 src/wx/config_dialog.cc:705
 msgid "Decrypting KDMs"
 msgstr "Dešifriranje KDM-jev"
 
-#: src/wx/full_config_dialog.cc:129
+#: src/wx/full_config_dialog.cc:132
 msgid "Default \"add file\" location"
 msgstr "Privzeto mesto za »dodaj datoteko«"
 
-#: src/wx/full_config_dialog.cc:314
-msgid "Default DCP audio channels"
-msgstr "Privzeti zvočni kanali DCP"
-
-#: src/wx/full_config_dialog.cc:319
-msgid "Default JPEG2000 bandwidth"
-msgstr "Privzeta pasovna širina JPEG2000"
-
-#: src/wx/full_config_dialog.cc:362
+#: src/wx/full_config_dialog.cc:339
 msgid "Default KDM directory"
 msgstr "Privzeta mapa KDM"
 
-#: src/wx/full_config_dialog.cc:374
+#: src/wx/full_config_dialog.cc:351
 msgid "Default KDM duration"
 msgstr "Privzeto trajanje KDM"
 
-#: src/wx/full_config_dialog.cc:370
+#: src/wx/full_config_dialog.cc:347
 msgid "Default KDM type"
 msgstr "Privzeta vrsta KDM"
 
-#: src/wx/full_config_dialog.cc:328
+#: src/wx/full_config_dialog.cc:326
 msgid "Default audio delay"
 msgstr "Privzeta zakasnitev zvoka"
 
-#: src/wx/full_config_dialog.cc:340
+#: src/wx/full_config_dialog.cc:334
 msgid "Default audio language"
 msgstr "Privzeti jezik zvoka"
 
-#: src/wx/full_config_dialog.cc:342
+#: src/wx/full_config_dialog.cc:336
 msgid "Default audio language to use for new DCPs"
 msgstr "Privzeti jezik zvoka, ki se uporablja za nove DCP-je"
 
-#: src/wx/full_config_dialog.cc:356
-msgid "Default chain"
-msgstr "Privzeta veriga"
-
-#: src/wx/full_config_dialog.cc:310
-msgid "Default content type"
-msgstr "Privzeta vrsta vsebine"
-
-#: src/wx/full_config_dialog.cc:302
+#: src/wx/full_config_dialog.cc:317
 msgid "Default directory for new films"
 msgstr "Privzeta mapa za nove filme"
 
-#: src/wx/full_config_dialog.cc:359
-msgid "Default distributor"
-msgstr "Privzeti distributer"
-
-#: src/wx/full_config_dialog.cc:294
+#: src/wx/full_config_dialog.cc:309
 msgid "Default duration of still images"
 msgstr "Privzeto trajanje mirujočih slik"
 
-#: src/wx/full_config_dialog.cc:350
-msgid "Default facility"
-msgstr "Privzeti obrat"
-
-#: src/wx/full_config_dialog.cc:336
-msgid "Default standard"
-msgstr "Privzeti standard"
-
-#: src/wx/full_config_dialog.cc:353
-msgid "Default studio"
-msgstr "Privzeti studio"
-
-#: src/wx/full_config_dialog.cc:345
-msgid "Default territory"
-msgstr "Privzeto ozemlje"
-
-#: src/wx/full_config_dialog.cc:347
-msgid "Default territory to use for new DCPs"
-msgstr "Privzeto ozemlje objave, ki se uporablja za nove filme"
-
-#: src/wx/full_config_dialog.cc:276
+#: src/wx/full_config_dialog.cc:291
 msgid "Defaults"
 msgstr "Privzete vrednosti"
 
@@ -1174,7 +1169,7 @@ msgstr "Privzete vrednosti"
 msgid "Define font in output and export font file"
 msgstr "Določi pisavo v izhodu in izvozi datoteko pisave"
 
-#: src/wx/audio_panel.cc:98
+#: src/wx/audio_panel.cc:90
 msgid "Delay"
 msgstr "Zakasnitev"
 
@@ -1182,17 +1177,21 @@ msgstr "Zakasnitev"
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/wx/job_view.cc:80
+#: src/wx/job_view.cc:81
 msgid "Details..."
 msgstr "Podrobnosti ..."
 
-#: src/wx/config_dialog.cc:993
+#: src/wx/config_dialog.cc:961
 msgid "Direct Sound"
 msgstr "Direct Sound"
 
 #: src/wx/smpte_metadata_dialog.cc:94
 msgid "Distributor"
 msgstr "Distributer"
+
+#: src/wx/load_config_from_zip_dialog.cc:43
+msgid "Do not use the cinemas in the ZIP file"
+msgstr ""
 
 #: src/wx/dolby_doremi_certificate_panel.cc:300
 msgid "Dolby / Doremi"
@@ -1214,7 +1213,7 @@ msgstr "Ne prikazuj več namigov"
 msgid "Don't show this message again"
 msgstr "Tega sporočila ne prikaži več"
 
-#: src/wx/download_certificate_dialog.cc:45
+#: src/wx/download_certificate_dialog.cc:48
 msgid "Download"
 msgstr "Prenesi"
 
@@ -1235,42 +1234,42 @@ msgstr "Prenos potrdila"
 msgid "Dropped frames: %d"
 msgstr "Izpuščene sličice: %d"
 
-#: src/wx/player_config_dialog.cc:103
+#: src/wx/player_config_dialog.cc:110
 msgid "Dual-screen displays"
 msgstr "Prikaz na dvojnem zaslonu/platnu"
 
-#: src/wx/config_dialog.cc:999
+#: src/wx/config_dialog.cc:967
 msgid "Dummy"
 msgstr "Preizkusno"
 
-#: src/wx/content_panel.cc:279
+#: src/wx/content_panel.cc:289
 msgid "Earlier"
 msgstr "Prej"
 
-#: src/wx/screens_panel.cc:84
+#: src/wx/screens_panel.cc:85
 msgid "Edit Cinema..."
 msgstr "Uredi kinodvorano ..."
 
-#: src/wx/screens_panel.cc:90
+#: src/wx/screens_panel.cc:91
 msgid "Edit Screen..."
 msgstr "Uredi platno ..."
 
-#: src/wx/screens_panel.cc:324
+#: src/wx/screens_panel.cc:334
 msgid "Edit cinema"
 msgstr "Uredi kinodvorano"
 
-#: src/wx/recipients_panel.cc:142
+#: src/wx/recipients_panel.cc:148
 msgid "Edit recipient"
 msgstr "Uredi prejemnika"
 
-#: src/wx/screens_panel.cc:424
+#: src/wx/screens_panel.cc:438
 msgid "Edit screen"
 msgstr "Uredi platno"
 
-#: src/wx/audio_mapping_view.cc:89 src/wx/content_advanced_dialog.cc:75
-#: src/wx/dcp_panel.cc:102 src/wx/language_tag_widget.cc:51
+#: src/wx/audio_mapping_view.cc:90 src/wx/content_advanced_dialog.cc:75
+#: src/wx/dcp_panel.cc:938 src/wx/language_tag_widget.cc:51
 #: src/wx/recipients_panel.cc:71 src/wx/region_subtag_widget.cc:52
-#: src/wx/video_panel.cc:191 src/wx/video_panel.cc:202
+#: src/wx/video_panel.cc:183 src/wx/video_panel.cc:194
 #: src/wx/editable_list.h:145
 msgid "Edit..."
 msgstr "Uredi ..."
@@ -1283,7 +1282,7 @@ msgstr "Učinek"
 msgid "Effect colour"
 msgstr "Barva učinka"
 
-#: src/wx/full_config_dialog.cc:857 src/wx/full_config_dialog.cc:1175
+#: src/wx/full_config_dialog.cc:708 src/wx/full_config_dialog.cc:1026
 msgid "Email"
 msgstr "E-pošta"
 
@@ -1291,19 +1290,23 @@ msgstr "E-pošta"
 msgid "Email address"
 msgstr "E-poštni naslov"
 
-#: src/wx/cinema_dialog.cc:63 src/wx/recipient_dialog.cc:84
+#: src/wx/cinema_dialog.cc:64 src/wx/recipient_dialog.cc:79
 msgid "Email addresses for KDM delivery"
 msgstr "E-poštni naslovi za dostavo KDM"
+
+#: src/wx/player_config_dialog.cc:96
+msgid "Enable HTTP control interface on port"
+msgstr ""
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
 msgstr "Strežniki kodiranja"
 
-#: src/wx/dcp_panel.cc:107
+#: src/wx/dcp_panel.cc:104
 msgid "Encrypted"
 msgstr "Šifrirano"
 
-#: src/wx/text_view.cc:65
+#: src/wx/text_view.cc:68
 msgid "End"
 msgstr "Konec"
 
@@ -1312,24 +1315,24 @@ msgstr "Konec"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Vnesite svoj e-poštni naslov za stik, ne %s"
 
-#: src/wx/full_config_dialog.cc:1748 src/wx/player_config_dialog.cc:275
-#: src/wx/verify_dcp_dialog.cc:51
+#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:309
+#: src/wx/verify_dcp_result_panel.cc:53
 msgid "Errors"
 msgstr "Napake"
 
-#: src/wx/config_dialog.cc:651
+#: src/wx/config_dialog.cc:654
 msgid "Export KDM decryption leaf certificate..."
 msgstr "Izvozi potrdilo lista za dešifriranje KDM ..."
 
-#: src/wx/config_dialog.cc:653
+#: src/wx/config_dialog.cc:656
 msgid "Export all KDM decryption settings..."
 msgstr "Izvozite vse nastavitve dešifriranja KDM ..."
 
-#: src/wx/config_dialog.cc:305
+#: src/wx/config_dialog.cc:308
 msgid "Export certificate..."
 msgstr "Izvozi potrdilo ..."
 
-#: src/wx/config_dialog.cc:307
+#: src/wx/config_dialog.cc:310
 msgid "Export chain..."
 msgstr "Izvozi verigo …"
 
@@ -1337,11 +1340,11 @@ msgstr "Izvozi verigo …"
 msgid "Export subtitles"
 msgstr "Izvozi podnaslove"
 
-#: src/wx/export_video_file_dialog.cc:66
+#: src/wx/export_video_file_dialog.cc:71
 msgid "Export video file"
 msgstr "Izvozi videodatoteko"
 
-#: src/wx/config_dialog.cc:324 src/wx/full_config_dialog.cc:125
+#: src/wx/config_dialog.cc:327 src/wx/full_config_dialog.cc:128
 msgid "Export..."
 msgstr "Izvozi ..."
 
@@ -1349,7 +1352,7 @@ msgstr "Izvozi ..."
 msgid "Extra addresses for KDM delivery"
 msgstr "Dodatni naslovi za dostavo KDM"
 
-#: src/wx/full_config_dialog.cc:776
+#: src/wx/full_config_dialog.cc:627
 msgid "FTP (for Dolby)"
 msgstr "FTP (za Dolby)"
 
@@ -1357,7 +1360,7 @@ msgstr "FTP (za Dolby)"
 msgid "Facility"
 msgstr "Obrat"
 
-#: src/wx/audio_panel.cc:111 src/wx/video_panel.cc:175
+#: src/wx/audio_panel.cc:103 src/wx/video_panel.cc:167
 msgid "Fade in"
 msgstr "Odtemnitev"
 
@@ -1365,7 +1368,7 @@ msgstr "Odtemnitev"
 msgid "Fade in time"
 msgstr "Čas odtemnitve"
 
-#: src/wx/audio_panel.cc:114 src/wx/video_panel.cc:178
+#: src/wx/audio_panel.cc:106 src/wx/video_panel.cc:170
 msgid "Fade out"
 msgstr "Zatemnitev"
 
@@ -1377,7 +1380,7 @@ msgstr "Čas zatemnitve"
 msgid "File"
 msgstr "Datoteka"
 
-#: src/wx/dkdm_dialog.cc:150 src/wx/kdm_dialog.cc:170
+#: src/wx/dkdm_dialog.cc:151 src/wx/kdm_dialog.cc:179
 #, c-format
 msgid "File %s already exists.  Do you want to overwrite it?"
 msgstr "Datoteka %s že obstaja. Ali jo resnično želite prepisati?"
@@ -1390,9 +1393,13 @@ msgstr "Ime datoteke"
 msgid "Filename format"
 msgstr "Oblika imena datoteke"
 
-#: src/wx/film_name_location_dialog.cc:48
+#: src/wx/film_name_location_dialog.cc:49
 msgid "Film name"
 msgstr "Ime filma"
+
+#: src/wx/content_menu.cc:620
+msgid "Film to copy settings from"
+msgstr ""
 
 #: src/wx/filter_dialog.cc:40
 msgid "Filters"
@@ -1402,14 +1409,14 @@ msgstr "Filtri"
 msgid "Final"
 msgstr "Končna"
 
-#: src/wx/full_config_dialog.cc:135
+#: src/wx/full_config_dialog.cc:142
 msgid ""
 "Find integrated loudness, true peak and loudness range when analysing audio"
 msgstr ""
 "Pri analizi zvoka poiščite integrirano glasnost, resnični vrh in razpon "
 "glasnosti"
 
-#: src/wx/content_menu.cc:102
+#: src/wx/content_menu.cc:103
 msgid "Find missing..."
 msgstr "Poišči manjkajoče ..."
 
@@ -1445,7 +1452,7 @@ msgstr "Ime mape"
 msgid "Fonts"
 msgstr "Pisave"
 
-#: src/wx/text_panel.cc:126
+#: src/wx/text_panel.cc:111
 msgid "Fonts..."
 msgstr "Pisave …"
 
@@ -1457,18 +1464,25 @@ msgstr "Forenzično označi zvok"
 msgid "Forensically mark video"
 msgstr "Forenzično označi video"
 
-#: src/wx/export_video_file_dialog.cc:71
+#: src/wx/export_video_file_dialog.cc:76
 msgid "Format"
 msgstr "Oblika"
 
-#: src/wx/verify_dcp_dialog.cc:188
+#: src/wx/verify_dcp_result_panel.cc:246
 #, fuzzy, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is close to the limit of 250Mbit/s."
 msgstr "Vsaj ena sličica video vsebine %f je blizu omejitve 250 MBit/s."
 
-#: src/wx/verify_dcp_dialog.cc:435
+#: src/wx/verify_dcp_result_panel.cc:239
+#, fuzzy, c-format
+msgid ""
+"Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
+"that is over the limit of 250Mbit/s."
+msgstr "Vsaj ena sličica video vsebine %f je blizu omejitve 250 MBit/s."
+
+#: src/wx/verify_dcp_result_panel.cc:561
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1477,37 +1491,37 @@ msgstr ""
 "Okvir %frame ima slikovno komponento, ki je prevelika (komponenta %component "
 "je velika %size bajtov)."
 
-#: src/wx/dcp_panel.cc:827
+#: src/wx/dcp_panel.cc:810
 msgid "Frame Rate"
 msgstr "Hitrost sličic"
 
-#: src/wx/image_sequence_dialog.cc:30
+#: src/wx/image_sequence_dialog.cc:33
 msgid "Frame rate"
 msgstr "Hitrost v sličicah"
 
-#: src/wx/player_information.cc:172
+#: src/wx/player_information.cc:166
 #, c-format
 msgid "Frame rate: %d"
 msgstr "Hitrost sličic: %d"
 
-#: src/wx/about_dialog.cc:72
+#: src/wx/about_dialog.cc:76
 msgid "Free, open-source DCP creation from almost anything."
 msgstr "Prosto, odprto-kodno ustvarjanje DCP iz skoraj vsega."
 
-#: src/wx/kdm_timing_panel.cc:54
+#: src/wx/kdm_timing_panel.cc:56
 msgid "From"
 msgstr "Od"
 
-#: src/wx/full_config_dialog.cc:1050 src/wx/full_config_dialog.cc:1183
+#: src/wx/full_config_dialog.cc:901 src/wx/full_config_dialog.cc:1034
 #: src/wx/send_test_email_dialog.cc:28
 msgid "From address"
 msgstr "Naslov pošiljatelja"
 
-#: src/wx/film_name_location_dialog.cc:66
+#: src/wx/film_name_location_dialog.cc:67
 msgid "From template"
 msgstr "Iz predloge"
 
-#: src/wx/video_panel.cc:206
+#: src/wx/video_panel.cc:198
 msgid "Full (JPEG, 0-255)"
 msgstr "Polno (JPEG, 0-255)"
 
@@ -1515,7 +1529,7 @@ msgstr "Polno (JPEG, 0-255)"
 msgid "Full length"
 msgstr "Polna dolžina"
 
-#: src/wx/dcp_panel.cc:118
+#: src/wx/dcp_timeline.cc:262
 msgid "GB"
 msgstr "GB"
 
@@ -1523,7 +1537,7 @@ msgstr "GB"
 msgid "GDC"
 msgstr "GDC"
 
-#: src/wx/audio_panel.cc:85
+#: src/wx/audio_panel.cc:77
 msgid "Gain"
 msgstr "Ojačitev"
 
@@ -1536,12 +1550,12 @@ msgstr "Kalkulator ojačitve"
 msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Ojačitev za vsebino kanala %d v kanalu DCP %d"
 
-#: src/wx/config_dialog.cc:114 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1744 src/wx/player_config_dialog.cc:271
+#: src/wx/config_dialog.cc:117 src/wx/content_properties_dialog.cc:74
+#: src/wx/full_config_dialog.cc:1625 src/wx/player_config_dialog.cc:305
 msgid "General"
 msgstr "Splošno"
 
-#: src/wx/recipient_dialog.cc:112 src/wx/screen_dialog.cc:157
+#: src/wx/recipient_dialog.cc:107 src/wx/screen_dialog.cc:157
 msgid "Get from file..."
 msgstr "Pridobi iz datoteke ..."
 
@@ -1582,17 +1596,9 @@ msgstr "Gostitelj"
 msgid "Host name or IP address"
 msgstr "Ime gostitelja ali naslov IP."
 
-#: src/wx/dcp_panel.cc:153
-msgid ""
-"How the DCP should be split into parts internally.  If in doubt, choose "
-"'Single reel'"
-msgstr ""
-"Kako naj bo DCP interno razdeljen po kosih.  Če niste prepričan, izberite "
-"»Enojni kolut«"
-
 #. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
 #. the warning about using the disk writer.
-#: src/wx/disk_warning_dialog.cc:45 src/wx/disk_warning_dialog.cc:57
+#: src/wx/disk_warning_dialog.cc:48 src/wx/disk_warning_dialog.cc:60
 msgid "I am sure"
 msgstr "Prepričan_a sem"
 
@@ -1604,19 +1610,19 @@ msgstr "Želim predvajanje tega z drsnikom"
 msgid "ID"
 msgstr "ID"
 
-#: src/wx/full_config_dialog.cc:759
+#: src/wx/full_config_dialog.cc:610
 msgid "IP address"
 msgstr "Naslov IP"
 
-#: src/wx/full_config_dialog.cc:685
+#: src/wx/full_config_dialog.cc:536
 msgid "IP address / host name"
 msgstr "IP-naslov / ime gostitelja"
 
-#: src/wx/full_config_dialog.cc:1553
+#: src/wx/full_config_dialog.cc:1425
 msgid "ISDCF name part length"
 msgstr "Dolžina dela imena ISDCF"
 
-#: src/wx/full_config_dialog.cc:1389
+#: src/wx/full_config_dialog.cc:1240
 msgid "Identifiers"
 msgstr "Identifikatorji"
 
@@ -1661,7 +1667,7 @@ msgstr ""
 "\n"
 "v spodnje polje in kliknite V redu."
 
-#: src/wx/config_dialog.cc:755
+#: src/wx/config_dialog.cc:758
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1673,7 +1679,7 @@ msgstr ""
 "ji, ki so vam bili poslani za ta potrdila, postali neuporabni.  Nadaljujte "
 "previdno!"
 
-#: src/wx/config_dialog.cc:805
+#: src/wx/config_dialog.cc:808
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1694,23 +1700,23 @@ msgstr ""
 msgid "Image X position"
 msgstr "Položaj slike X"
 
-#: src/wx/player_config_dialog.cc:105
+#: src/wx/player_config_dialog.cc:112
 msgid "Image on primary, controls on secondary"
 msgstr "Slika na primarnem, kontrolniki na sekundarnem"
 
-#: src/wx/player_config_dialog.cc:106
+#: src/wx/player_config_dialog.cc:113
 msgid "Image on secondary, controls on primary"
 msgstr "Slika na sekundarnem, kontrolniki na primarnem"
 
-#: src/wx/config_dialog.cc:655
+#: src/wx/config_dialog.cc:658
 msgid "Import all KDM decryption settings..."
 msgstr "Uvozi vse nastavitve dešifriranja KDM …"
 
-#: src/wx/config_dialog.cc:322
+#: src/wx/config_dialog.cc:325
 msgid "Import..."
 msgstr "Uvozi ..."
 
-#: src/wx/disk_warning_dialog.cc:26 src/wx/drive_wipe_warning_dialog.cc:28
+#: src/wx/disk_warning_dialog.cc:29 src/wx/drive_wipe_warning_dialog.cc:28
 #: src/wx/nag_dialog.cc:38
 msgid "Important notice"
 msgstr "Pomembno obvestilo"
@@ -1735,12 +1741,12 @@ msgstr "Vhodna moč"
 msgid "Input transfer function"
 msgstr "Funkcija prenosa vhoda"
 
-#: src/wx/audio_dialog.cc:430
+#: src/wx/audio_dialog.cc:431
 #, c-format
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Integrirana glasnost %.2f LUFS"
 
-#: src/wx/config_dialog.cc:524
+#: src/wx/config_dialog.cc:527
 msgid "Intermediate"
 msgstr "Vmesna kopija (intermediat)"
 
@@ -1756,12 +1762,13 @@ msgstr "Mednarodno, z besedilom"
 msgid "International textless"
 msgstr "Mednarodno, brez besedila"
 
-#: src/wx/dcp_panel.cc:173 src/wx/full_config_dialog.cc:416
+#: src/wx/dcp_panel.cc:153
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:795
-msgid "Invalid DCP-o-matic export file"
+#: src/wx/config_dialog.cc:798
+#, fuzzy, c-format
+msgid "Invalid %s export file"
 msgstr "Neveljavna izvozna datoteka DCP-o-matic"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
@@ -1772,7 +1779,7 @@ msgstr "Neveljavna potrdila"
 msgid "Inverse 2.6 gamma correction on output"
 msgstr "Inverzni popravek game 2,6 na izhodu"
 
-#: src/wx/full_config_dialog.cc:1405
+#: src/wx/full_config_dialog.cc:1256
 msgid "Issuer"
 msgstr "Izdajatelj"
 
@@ -1784,7 +1791,7 @@ msgstr "Splošno ime izdajatelja"
 msgid "Issuer organization name"
 msgstr "Ime organizacije izdajatelja"
 
-#: src/wx/audio_panel.cc:328
+#: src/wx/audio_panel.cc:307
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1792,23 +1799,15 @@ msgstr ""
 "Za to spremembo drsnika ni mogoče prilagoditi ojačitve vsebine, saj bi to "
 "povzročilo porezavo zvoka DCP-ja.  Ojačitev ni bila spremenjena."
 
-#: src/wx/config_dialog.cc:995
+#: src/wx/config_dialog.cc:963
 msgid "JACK"
 msgstr "JACK"
 
-#: src/wx/dcp_panel.cc:834
-msgid ""
-"JPEG2000 bandwidth\n"
-"for newly-encoded data"
-msgstr ""
-"Pasovna širina JPEG2000\n"
-"za novo kodirane podatke"
-
-#: src/wx/full_config_dialog.cc:1430
+#: src/wx/full_config_dialog.cc:1296
 msgid "JPEG2000 comment"
 msgstr "Komentar JPEG2000"
 
-#: src/wx/content_menu.cc:101
+#: src/wx/content_menu.cc:102
 msgid "Join"
 msgstr "Pridružite se"
 
@@ -1820,11 +1819,11 @@ msgstr "Skoči na izbrano vsebino"
 msgid "KDM"
 msgstr "KDM"
 
-#: src/wx/full_config_dialog.cc:1029
+#: src/wx/full_config_dialog.cc:880
 msgid "KDM Email"
 msgstr "E-pošta KDM"
 
-#: src/wx/config_dialog.cc:1102
+#: src/wx/config_dialog.cc:1049
 msgid "KDM directory"
 msgstr "Mapa KDM"
 
@@ -1833,28 +1832,33 @@ msgid "KDM type"
 msgstr "Vrsta KDM"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
-#: src/wx/dkdm_dialog.cc:85 src/wx/kdm_dialog.cc:90
+#: src/wx/dkdm_dialog.cc:86 src/wx/kdm_dialog.cc:91
 msgid "KDM|Timing"
 msgstr "KDM|Časovna usklajenost"
 
-#: src/wx/timeline_dialog.cc:80
+#: src/wx/content_timeline_dialog.cc:80
 msgid "Keep video and subtitles in sequence"
 msgstr "Ohranite video in podnaslove v zaporedju"
 
-#: src/wx/config_dialog.cc:632
+#: src/wx/config_dialog.cc:635
 msgid "Keys"
 msgstr "Ključi"
 
-#: src/wx/audio_dialog.cc:448
+#: src/wx/audio_dialog.cc:449
 #, c-format
 msgid "LEQ(m) %.2fdB"
 msgstr "LEQ(m) %.2f dB"
 
-#: src/wx/dcp_text_track_dialog.cc:35 src/wx/text_panel.cc:175
+#: src/wx/metadata_dialog.cc:219
+msgid "Label"
+msgstr ""
+
+#: src/wx/dcp_panel.cc:936 src/wx/dcp_text_track_dialog.cc:35
+#: src/wx/text_panel.cc:160
 msgid "Language"
 msgstr "Jezik"
 
-#: src/wx/full_language_tag_dialog.cc:55 src/wx/language_tag_dialog.cc:38
+#: src/wx/full_language_tag_dialog.cc:56 src/wx/language_tag_dialog.cc:38
 msgid "Language Tag"
 msgstr "Oznaka jezika"
 
@@ -1862,7 +1866,7 @@ msgstr "Oznaka jezika"
 msgid "Language of burnt-in subtitles in this content"
 msgstr "Jezik vžganih podnaslovov v tej vsebini"
 
-#: src/wx/text_panel.cc:178
+#: src/wx/text_panel.cc:163
 msgid "Language of these subtitles"
 msgstr "Jezik teh podnaslovov"
 
@@ -1886,11 +1890,11 @@ msgstr "Zadnja sličica gibljivih napisov"
 msgid "Last frame of title credits"
 msgstr "Zadnja sličica začetnih napisov"
 
-#: src/wx/content_panel.cc:283
+#: src/wx/content_panel.cc:293
 msgid "Later"
 msgstr "Kasneje"
 
-#: src/wx/config_dialog.cc:522
+#: src/wx/config_dialog.cc:525
 msgid "Leaf"
 msgstr "List"
 
@@ -1898,16 +1902,16 @@ msgstr "List"
 msgid "Leaf common name"
 msgstr "Skupno ime za list"
 
-#: src/wx/config_dialog.cc:316
+#: src/wx/config_dialog.cc:319
 msgid "Leaf private key"
 msgstr "Zasebni ključ lista"
 
-#: src/wx/config_dialog.cc:334
+#: src/wx/config_dialog.cc:337
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "Zasebni ključ lista se ne ujema s potrdilom o listu!"
 
 #: src/wx/auto_crop_dialog.cc:31 src/wx/controls.cc:88
-#: src/wx/video_panel.cc:123
+#: src/wx/video_panel.cc:115
 msgid "Left"
 msgstr "Levo"
 
@@ -1915,11 +1919,11 @@ msgstr "Levo"
 msgid "Length"
 msgstr "Dolžina"
 
-#: src/wx/player_information.cc:188
+#: src/wx/player_information.cc:182
 msgid "Length: %1 (%2 frames)"
 msgstr "Dolžina: %1 (%2 sličic)"
 
-#: src/wx/text_panel.cc:118
+#: src/wx/text_panel.cc:103
 msgid "Line spacing"
 msgstr "Razmik med vrsticami"
 
@@ -1927,15 +1931,30 @@ msgstr "Razmik med vrsticami"
 msgid "Load certificate..."
 msgstr "Naloži potrdilo ..."
 
-#: src/wx/config_dialog.cc:1073
+#: src/wx/load_config_from_zip_dialog.cc:29
+#, fuzzy
+msgid "Load configuration from ZIP file"
+msgstr "Prilagoditvena datoteka"
+
+#: src/wx/playlist_controls.cc:407
+#, fuzzy
+msgid "Loading content"
+msgstr "Premakni vsebino"
+
+#: src/wx/playlist_controls.cc:335
+#, fuzzy
+msgid "Loading playlist and KDMs"
+msgstr "Podpisovanje DCP-jev in KDM-jev"
+
+#: src/wx/config_dialog.cc:1020
 msgid "Locations"
 msgstr "Lokacije"
 
-#: src/wx/full_config_dialog.cc:1742 src/wx/player_config_dialog.cc:269
+#: src/wx/full_config_dialog.cc:1623 src/wx/player_config_dialog.cc:303
 msgid "Log"
 msgstr "Zapisnik"
 
-#: src/wx/audio_dialog.cc:439
+#: src/wx/audio_dialog.cc:440
 #, c-format
 msgid "Loudness range %.2f LU"
 msgstr "Razpon glasnosti %.2f LU"
@@ -1948,33 +1967,44 @@ msgstr "Nižja prednost"
 msgid "Luminance"
 msgstr "Svetilnost"
 
-#: src/wx/content_panel.cc:886
+#: src/wx/content_panel.cc:900
 msgid "MISSING: "
 msgstr "MANJKAJOČE: "
 
-#: src/wx/export_video_file_dialog.cc:42
+#: src/wx/export_video_file_dialog.cc:43
 msgid "MOV / ProRes 4444"
 msgstr "MOV / ProRes 4444"
 
-#: src/wx/export_video_file_dialog.cc:43
+#: src/wx/export_video_file_dialog.cc:44
 msgid "MOV / ProRes HQ"
 msgstr "MOV / ProRes HQ"
 
-#: src/wx/export_video_file_dialog.cc:48 src/wx/export_video_file_dialog.cc:49
+#: src/wx/export_video_file_dialog.cc:45
+#, fuzzy
+msgid "MOV / ProRes LT"
+msgstr "MOV / ProRes HQ"
+
+#: src/wx/export_video_file_dialog.cc:50 src/wx/export_video_file_dialog.cc:51
+#: src/wx/export_video_file_dialog.cc:52
 msgid "MOV files (*.mov)|*.mov"
 msgstr "Datoteke MOV (*.mov)|*.mov"
 
-#: src/wx/export_video_file_dialog.cc:44
+#: src/wx/export_video_file_dialog.cc:46
 msgid "MP4 / H.264"
 msgstr "MP4 / H.264"
 
-#: src/wx/export_video_file_dialog.cc:50
+#: src/wx/export_video_file_dialog.cc:53
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Datoteke MP4 (*.mp4)|*.mp4"
 
+#: src/wx/dcp_panel.cc:154
+#, fuzzy
+msgid "MPEG2 Interop"
+msgstr "Interop"
+
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
-#: src/wx/text_panel.cc:184
+#: src/wx/text_panel.cc:169
 msgid "Main"
 msgstr "Glavno"
 
@@ -1986,11 +2016,11 @@ msgstr "Naredi DCP"
 msgid "Make DKDM for DCP-o-matic"
 msgstr "Naredi DKDM za DCP-o-matic"
 
-#: src/wx/dkdm_dialog.cc:61 src/wx/dkdm_dialog.cc:113
+#: src/wx/dkdm_dialog.cc:62 src/wx/dkdm_dialog.cc:114
 msgid "Make DKDMs"
 msgstr "Naredi DKDM-je"
 
-#: src/wx/kdm_dialog.cc:66 src/wx/kdm_dialog.cc:118
+#: src/wx/kdm_dialog.cc:67 src/wx/kdm_dialog.cc:119
 msgid "Make KDMs"
 msgstr "Naredi KDM-je"
 
@@ -1998,11 +2028,11 @@ msgstr "Naredi KDM-je"
 msgid "Make certificate chain"
 msgstr "Naredi verigo potrdil"
 
-#: src/wx/video_panel.cc:429
+#: src/wx/video_panel.cc:417
 msgid "Many"
 msgstr "Številni"
 
-#: src/wx/config_dialog.cc:869
+#: src/wx/config_dialog.cc:872
 msgid "Mapping"
 msgstr "Preslikava"
 
@@ -2018,7 +2048,7 @@ msgstr "Označi zvočne kanale do (in vključno)"
 msgid "Markers"
 msgstr "Označevalniki"
 
-#: src/wx/dcp_panel.cc:123
+#: src/wx/dcp_panel.cc:113
 msgid "Markers..."
 msgstr "Oznake …"
 
@@ -2026,20 +2056,30 @@ msgstr "Oznake …"
 msgid "Matrix"
 msgstr "Matrika"
 
-#: src/wx/full_config_dialog.cc:1522
-msgid "Maximum JPEG2000 bandwidth"
+#: src/wx/full_config_dialog.cc:1391
+#, fuzzy
+msgid "Maximum JPEG2000 bit rate"
 msgstr "Največja pasovna širina JPEG2000"
 
-#: src/wx/full_config_dialog.cc:1690
+#: src/wx/full_config_dialog.cc:1400
+#, fuzzy
+msgid "Maximum MPEG2 bit rate"
+msgstr "Največja pasovna širina JPEG2000"
+
+#: src/wx/full_config_dialog.cc:1571
 msgid "Maximum number of frames to store per thread"
 msgstr "Največje število sličic za shranjevanje na nit"
 
-#: src/wx/dcp_panel.cc:836 src/wx/full_config_dialog.cc:323
-#: src/wx/full_config_dialog.cc:1526
+#: src/wx/dcp_timeline.cc:256
+msgid "Maximum reel size"
+msgstr ""
+
+#: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1395
+#: src/wx/full_config_dialog.cc:1404
 msgid "Mbit/s"
 msgstr "Mbit/s"
 
-#: src/wx/full_config_dialog.cc:1171
+#: src/wx/full_config_dialog.cc:1022
 msgid "Message box"
 msgstr "Okno s sporočilom"
 
@@ -2047,13 +2087,98 @@ msgstr "Okno s sporočilom"
 msgid "Metadata"
 msgstr "Metapodatki"
 
-#: src/wx/dcp_panel.cc:124
+#: src/wx/dcp_panel.cc:114
 msgid "Metadata..."
 msgstr "Metapodatki ..."
 
-#: src/wx/export_video_file_dialog.cc:75
+#: src/wx/export_video_file_dialog.cc:80
 msgid "Mix audio down to stereo"
 msgstr "Zmešaj zvok na manj kanalov v stereo"
+
+#: src/wx/verify_dcp_result_panel.cc:471
+#, fuzzy
+msgid ""
+"More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
+msgstr "Sličica 2K JPEG2000 vsebuje %n delov tlakovcev namesto 3."
+
+#: src/wx/verify_dcp_result_panel.cc:408
+msgid ""
+"More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:443
+#, fuzzy
+msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
+msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
+
+#: src/wx/verify_dcp_result_panel.cc:415
+msgid ""
+"More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:450
+#, fuzzy
+msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
+msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
+
+#: src/wx/verify_dcp_result_panel.cc:464
+#, fuzzy
+msgid ""
+"More JPEG2000 frames (not listed) contain POC markers in invalid locations."
+msgstr "Sličica JPEG2000 vsebuje oznako POC na neveljavnem mestu."
+
+#: src/wx/verify_dcp_result_panel.cc:457
+#, fuzzy
+msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
+msgstr "Sličica JPEG2000 vsebuje neveljavno oznako POC (%n)."
+
+#: src/wx/verify_dcp_result_panel.cc:478
+msgid ""
+"More JPEG2000 frames (not listed) contain the wrong number of tile parts."
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:436
+#, fuzzy
+msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
+msgstr "Sličica JPEG2000 vsebuje oznako POC na neveljavnem mestu."
+
+#: src/wx/verify_dcp_result_panel.cc:429
+#, fuzzy
+msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
+msgstr "Sličica JPEG2000 vsebuje oznako POC na neveljavnem mestu."
+
+#: src/wx/verify_dcp_result_panel.cc:485
+#, fuzzy
+msgid "More JPEG2000 frames (not listed) have no TLM marker."
+msgstr "Sličica JPEG2000 nima oznake TLM."
+
+#: src/wx/verify_dcp_result_panel.cc:422
+#, fuzzy
+msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
+msgstr "Velikost tlakovcev JPEG2000 se ne ujema z velikostjo slike."
+
+#: src/wx/verify_dcp_result_panel.cc:247
+#, fuzzy
+msgid ""
+"More frames (not listed) have an instantaneous bit rate that is close to the "
+"limit of 250Mbit/s."
+msgstr "Vsaj ena sličica video vsebine %f je blizu omejitve 250 MBit/s."
+
+#: src/wx/verify_dcp_result_panel.cc:240
+#, fuzzy
+msgid ""
+"More frames (not listed) have an instantaneous bit rate that is over the "
+"limit of 250Mbit/s."
+msgstr "Vsaj ena sličica video vsebine %f je blizu omejitve 250 MBit/s."
+
+#: src/wx/verify_dcp_result_panel.cc:562
+msgid "More frames (not listed) have image components that are too large."
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:401
+#, fuzzy
+msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
+msgstr "Sličica ima neveljaven kodni tok JPEG2000 (%n)"
 
 #: src/wx/markers_panel.cc:249
 #, c-format
@@ -2068,11 +2193,11 @@ msgstr "Premakni prilagoditev"
 msgid "Move content"
 msgstr "Premakni vsebino"
 
-#: src/wx/content_panel.cc:280
+#: src/wx/content_panel.cc:290
 msgid "Move the selected piece of content earlier in the film."
 msgstr "Premaknite izbrani del vsebine prej v filmu."
 
-#: src/wx/content_panel.cc:284
+#: src/wx/content_panel.cc:294
 msgid "Move the selected piece of content later in the film."
 msgstr "Izbrani del vsebine premaknite kasneje v filmu."
 
@@ -2080,7 +2205,7 @@ msgstr "Izbrani del vsebine premaknite kasneje v filmu."
 msgid "Move to start of reel"
 msgstr "Premakni se na začetek koluta"
 
-#: src/wx/video_panel.cc:508
+#: src/wx/video_panel.cc:487
 msgid "Multiple content selected"
 msgstr "Izbrano več vsebin"
 
@@ -2088,7 +2213,7 @@ msgstr "Izbrano več vsebin"
 msgid "Multiple values"
 msgstr "Več vrednosti"
 
-#: src/wx/dir_picker_ctrl.cc:63
+#: src/wx/dir_picker_ctrl.cc:64
 msgid "My Documents"
 msgstr "Moji dokumenti"
 
@@ -2096,25 +2221,25 @@ msgstr "Moji dokumenti"
 msgid "My problem is"
 msgstr "Moja težava je"
 
-#: src/wx/content_panel.cc:890
+#: src/wx/content_panel.cc:904
 msgid "NEEDS KDM: "
 msgstr "POTREBUJE KDM: "
 
-#: src/wx/content_panel.cc:894
+#: src/wx/content_panel.cc:908
 msgid "NEEDS OV: "
 msgstr "POTREBE OV: "
 
-#: src/wx/cinema_dialog.cc:48 src/wx/dcp_panel.cc:85
+#: src/wx/cinema_dialog.cc:49 src/wx/dcp_panel.cc:86
 #: src/wx/dcp_text_track_dialog.cc:33 src/wx/recipient_dialog.cc:69
 #: src/wx/screen_dialog.cc:142
 msgid "Name"
 msgstr "Ime"
 
-#: src/wx/player_information.cc:158
+#: src/wx/player_information.cc:152
 msgid "Needs KDM"
 msgstr "Potrebuje KDM"
 
-#: src/wx/player_information.cc:153
+#: src/wx/player_information.cc:147
 msgid "Needs OV"
 msgstr "Potrebuje OV"
 
@@ -2122,51 +2247,56 @@ msgstr "Potrebuje OV"
 msgid "New name"
 msgstr "Novo ime"
 
-#: src/wx/update_dialog.cc:45
-msgid "New versions of DCP-o-matic are available."
+#: src/wx/update_dialog.cc:46
+#, fuzzy, c-format
+msgid "New versions of %s are available."
 msgstr "Na voljo so nove različice DCP-o-matic."
 
-#: src/wx/verify_dcp_dialog.cc:176
+#: src/wx/playlist_controls.cc:62
+msgid "Next"
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:228
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "Datoteke ASSETMAP ali ASSETMAP.xml ni mogoče najti."
 
-#: src/wx/player_information.cc:132
+#: src/wx/player_information.cc:126
 msgid "No DCP loaded."
 msgstr "Noben DCP ni naložen."
 
-#: src/wx/verify_dcp_dialog.cc:494
+#: src/wx/verify_dcp_result_panel.cc:638
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "Napak SMPTE Bv2.1 ni mogoče najti."
 
-#: src/wx/audio_mapping_view.cc:527
+#: src/wx/audio_mapping_view.cc:539
 #, c-format
 msgid "No audio will be passed from %s channel '%s' to %s channel '%s'."
 msgstr "Noben zvok ne po preusmerjen s %s kanala »%s« na %s kanal »%s«."
 
-#: src/wx/content_panel.cc:638
+#: src/wx/content_panel.cc:648
 msgid "No content found in this folder."
 msgstr "V tej mapi ni najdene vsebine."
 
-#: src/wx/verify_dcp_dialog.cc:490
+#: src/wx/verify_dcp_result_panel.cc:634
 msgid "No errors found."
 msgstr "Napak ni bilo mogoče zaznati."
 
-#: src/wx/verify_dcp_dialog.cc:498
+#: src/wx/verify_dcp_result_panel.cc:642
 msgid "No warnings found."
 msgstr "Opozorila niso bila najdena."
 
-#: src/wx/full_config_dialog.cc:1504
+#: src/wx/full_config_dialog.cc:1373
 msgid "Non-standard"
 msgstr "Nestandardno"
 
 #: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:158
-#: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1057
+#: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1040
 #: src/wx/file_picker_ctrl.cc:80 src/wx/subtitle_appearance_dialog.cc:151
-#: src/wx/video_panel.cc:195
+#: src/wx/video_panel.cc:187
 msgid "None"
 msgstr "Brez"
 
-#: src/wx/verify_dcp_dialog.cc:227
+#: src/wx/verify_dcp_result_panel.cc:287
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr "Vsa podnaslovna sredstva ne določajo iste oznake <Language>."
 
@@ -2178,61 +2308,59 @@ msgstr "Ni veljaven po"
 msgid "Not valid before"
 msgstr "Ni veljaven pred"
 
-#: src/wx/cinema_dialog.cc:58 src/wx/recipient_dialog.cc:74
+#: src/wx/cinema_dialog.cc:59 src/wx/recipient_dialog.cc:74
 #: src/wx/screen_dialog.cc:147
 msgid "Notes"
 msgstr "Opombe"
 
-#: src/wx/full_config_dialog.cc:1154
+#: src/wx/full_config_dialog.cc:1005
 msgid "Notifications"
 msgstr "Obvestila"
 
-#: src/wx/job_view.cc:89
+#: src/wx/job_view.cc:90
 msgid "Notify when complete"
 msgstr "Obvesti po zaključku"
 
-#: src/wx/full_config_dialog.cc:112
-msgid "Number of threads DCP-o-matic encode server should use"
-msgstr "Število niti, ki naj jih uporablja kodirni strežnik DCP-o-matic"
-
-#: src/wx/full_config_dialog.cc:107
-msgid "Number of threads DCP-o-matic should use"
+#: src/wx/full_config_dialog.cc:110 src/wx/full_config_dialog.cc:115
+#, fuzzy, c-format
+msgid "Number of threads %s should use"
 msgstr "Število niti, ki naj jih uporablja DCP-o-matic"
 
-#: src/wx/config_dialog.cc:998
+#: src/wx/config_dialog.cc:966
 msgid "OSS"
 msgstr "OSS"
 
-#: src/wx/audio_mapping_view.cc:85
+#: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Izklopljeno"
 
-#: src/wx/text_panel.cc:102
+#: src/wx/text_panel.cc:87
 msgid "Offset"
 msgstr "Zamik"
 
-#: src/wx/full_config_dialog.cc:1685
+#: src/wx/full_config_dialog.cc:1566
 msgid "Only servers encode"
 msgstr "Samo kodiranje strežnikov"
 
-#: src/wx/full_config_dialog.cc:1769 src/wx/player_config_dialog.cc:286
+#: src/wx/full_config_dialog.cc:1650 src/wx/player_config_dialog.cc:320
 msgid "Open console window"
 msgstr "Odpri okno konzole"
 
-#: src/wx/content_panel.cc:288
+#: src/wx/content_panel.cc:298
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "Odprite časovnico filma (krmilka+T)."
 
-#: src/wx/full_config_dialog.cc:1776 src/wx/player_config_dialog.cc:113
+#: src/wx/full_config_dialog.cc:1657 src/wx/player_config_dialog.cc:120
 msgid "OpenGL (faster)"
 msgstr "OpenGL (hitreje)"
 
-#: src/wx/system_information_dialog.cc:82
-msgid "OpenGL renderer not supported by this DCP-o-matic version"
+#: src/wx/system_information_dialog.cc:83
+#, fuzzy, c-format
+msgid "OpenGL renderer not supported by this %s version"
 msgstr "Upodobljevalnika OpenGL ta različica DCP-o-matic ne podpira"
 
-#: src/wx/system_information_dialog.cc:50
-#: src/wx/system_information_dialog.cc:81
+#: src/wx/system_information_dialog.cc:51
+#: src/wx/system_information_dialog.cc:82
 msgid "OpenGL version"
 msgstr "Različica OpenGL"
 
@@ -2248,7 +2376,7 @@ msgstr "Organizacijska enota"
 msgid "Other trusted devices"
 msgstr "Druge zaupanja vredne naprave"
 
-#: src/wx/full_config_dialog.cc:874
+#: src/wx/full_config_dialog.cc:725
 msgid "Outgoing mail server"
 msgstr "Strežnik odhodne pošte"
 
@@ -2269,12 +2397,12 @@ msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
 "Širine orisa ni mogoče nastaviti, razen če so podnaslovi vžgani v sliko."
 
-#: src/wx/config_dialog.cc:870 src/wx/dkdm_dialog.cc:107
-#: src/wx/kdm_dialog.cc:112 src/wx/self_dkdm_dialog.cc:76
+#: src/wx/config_dialog.cc:873 src/wx/dkdm_dialog.cc:108
+#: src/wx/kdm_dialog.cc:113 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "Izhod"
 
-#: src/wx/export_subtitles_dialog.cc:60 src/wx/export_video_file_dialog.cc:93
+#: src/wx/export_subtitles_dialog.cc:60 src/wx/export_video_file_dialog.cc:98
 msgid "Output file"
 msgstr "Izhodna datoteka"
 
@@ -2294,11 +2422,11 @@ msgstr "Preglasi zaznano hitrost video sličic"
 msgid "Overwrite this file with current configuration"
 msgstr "Prepiši to datoteko s trenutno prilagoditvijo"
 
-#: src/wx/verify_dcp_dialog.cc:390
+#: src/wx/verify_dcp_result_panel.cc:514
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr "Dela DCP-ja ni bilo mogoče preveriti, ker KDM ni bil na voljo."
 
-#: src/wx/verify_dcp_dialog.cc:166
+#: src/wx/verify_dcp_result_panel.cc:216
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
@@ -2306,12 +2434,12 @@ msgstr ""
 "Deli DC-ja so napisani v skladu s standardom Interop in deli s standardom "
 "SMPTE."
 
-#: src/wx/full_config_dialog.cc:755
+#: src/wx/full_config_dialog.cc:606
 msgid "Passive mode"
 msgstr "Pasivni način"
 
 #: src/wx/credentials_download_certificate_panel.cc:54
-#: src/wx/full_config_dialog.cc:771 src/wx/full_config_dialog.cc:898
+#: src/wx/full_config_dialog.cc:622 src/wx/full_config_dialog.cc:749
 msgid "Password"
 msgstr "Geslo"
 
@@ -2331,25 +2459,25 @@ msgstr "Prilepi nastavitve podnaslovov in napisov"
 msgid "Paste video settings"
 msgstr "Prilepi nastavitve videa"
 
-#: src/wx/about_dialog.cc:162
+#: src/wx/about_dialog.cc:171
 msgid "Patrons"
 msgstr "Pokrovitelji"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:59
+#: src/wx/playlist_controls.cc:60
 msgid "Pause"
 msgstr "Premor"
 
-#: src/wx/audio_dialog.cc:130
+#: src/wx/audio_dialog.cc:131
 msgid "Peak"
 msgstr "Vrh"
 
-#: src/wx/audio_panel.cc:473
+#: src/wx/audio_panel.cc:441
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Vrh: %.2f dB"
 
-#: src/wx/audio_panel.cc:475
+#: src/wx/audio_panel.cc:443
 msgid "Peak: unknown"
 msgstr "Vrh: neznan"
 
@@ -2357,11 +2485,15 @@ msgstr "Vrh: neznan"
 msgid "Performance"
 msgstr "Hitrost delovanja"
 
-#: src/wx/full_config_dialog.cc:887
+#: src/wx/dcp_referencing_dialog.cc:106
+msgid "Picture"
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:738
 msgid "Plain"
 msgstr "Preprosto"
 
-#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -2369,13 +2501,18 @@ msgstr "Predvajaj"
 msgid "Play length"
 msgstr "Dolžina predvajanja"
 
-#: src/wx/config_dialog.cc:859
+#: src/wx/config_dialog.cc:862
 msgid "Play sound via"
 msgstr "Predvaj zvoka prek"
 
-#: src/wx/config_dialog.cc:1097
+#: src/wx/config_dialog.cc:1044
 msgid "Playlist directory"
 msgstr "Mapa seznama predvajanja"
+
+#: src/wx/playlist_controls.cc:82
+#, fuzzy
+msgid "Playlists"
+msgstr "Predvajaj"
 
 #: src/wx/report_problem_dialog.cc:116
 msgid ""
@@ -2397,47 +2534,52 @@ msgstr "Položaj"
 msgid "Pre-release"
 msgstr "Pred-izdaja"
 
-#: src/wx/dcp_panel.cc:952
+#: src/wx/playlist_controls.cc:63
+msgid "Previous"
+msgstr ""
+
+#: src/wx/dcp_panel.cc:932
 msgid "Processor"
 msgstr "Obdelovalec"
 
-#: src/wx/full_config_dialog.cc:1420
+#: src/wx/full_config_dialog.cc:1280
 msgid "Product name"
 msgstr "Naziv izdelka"
 
-#: src/wx/full_config_dialog.cc:1425
+#: src/wx/full_config_dialog.cc:1288
 msgid "Product version"
 msgstr "Različica izdelka"
 
-#: src/wx/content_menu.cc:105
+#: src/wx/content_menu.cc:107
 msgid "Properties..."
 msgstr "Lastnosti ..."
 
-#: src/wx/full_config_dialog.cc:751
+#: src/wx/full_config_dialog.cc:602
 msgid "Protocol"
 msgstr "Protokol"
 
-#: src/wx/config_dialog.cc:997
+#: src/wx/config_dialog.cc:965
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/wx/export_video_file_dialog.cc:83
+#: src/wx/export_video_file_dialog.cc:88
 msgid "Quality"
 msgstr "Kakovost"
 
 #: src/wx/qube_certificate_panel.cc:92
-msgid "Qube"
+#, fuzzy, c-format
+msgid "Qube %s"
 msgstr "Qube"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "RGB to XYZ conversion"
 msgstr "Pretvorba RGB v XYZ"
 
-#: src/wx/audio_dialog.cc:131
+#: src/wx/audio_dialog.cc:132
 msgid "RMS"
 msgstr "RMS"
 
-#: src/wx/video_panel.cc:204
+#: src/wx/video_panel.cc:196
 msgid "Range"
 msgstr "Obseg"
 
@@ -2450,19 +2592,19 @@ msgstr "Ocena"
 msgid "Ratings"
 msgstr "Ocene"
 
-#: src/wx/dcp_panel.cc:838
+#: src/wx/dcp_panel.cc:821
 msgid "Re-encode JPEG2000 data from input"
 msgstr "Ponovno kodiraj podatke JPEG2000 iz vhoda"
 
-#: src/wx/content_menu.cc:103
+#: src/wx/content_menu.cc:104
 msgid "Re-examine..."
 msgstr "Ponovno preuči ..."
 
-#: src/wx/config_dialog.cc:329 src/wx/config_dialog.cc:677
+#: src/wx/config_dialog.cc:332 src/wx/config_dialog.cc:680
 msgid "Re-make certificates and key..."
 msgstr "Ponovno izdelaj potrdila in ključ ..."
 
-#: src/wx/content_view.cc:89
+#: src/wx/content_view.cc:90
 msgid "Reading content directory"
 msgstr "Branje mape vsebine"
 
@@ -2482,11 +2624,11 @@ msgstr "Rec. 709"
 msgid "Recipient"
 msgstr "Prejemnik"
 
-#: src/wx/recipient_dialog.cc:107
+#: src/wx/recipient_dialog.cc:102
 msgid "Recipient certificate"
 msgstr "Potrdilo prejemnika"
 
-#: src/wx/dkdm_dialog.cc:77
+#: src/wx/dkdm_dialog.cc:78
 msgid "Recipients"
 msgstr "Prejemniki"
 
@@ -2503,18 +2645,28 @@ msgstr "Rdeča kromatičnost"
 msgid "Reel %d"
 msgstr "Kolut %d"
 
-#: src/wx/dcp_panel.cc:116
-msgid "Reel length"
-msgstr "Dolžina koluta"
+#: src/wx/dcp_timeline.cc:68
+#, c-format
+msgid "Reel %d to reel %d"
+msgstr ""
 
-#: src/wx/dcp_panel.cc:113
+#: src/wx/dcp_timeline.cc:247
+#, fuzzy
+msgid "Reel mode"
+msgstr "Kolut %d"
+
+#: src/wx/dcp_timeline_dialog.cc:50
 msgid "Reels"
 msgstr "Koluti"
 
-#. TRANSLATORS: translate the word "Custom" here; do not include the "Reel|" prefix
-#: src/wx/dcp_panel.cc:152
-msgid "Reel|Custom"
-msgstr "Kolut|Po meri"
+#: src/wx/dcp_panel.cc:115
+#, fuzzy
+msgid "Reels..."
+msgstr "Koluti"
+
+#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+msgid "Refresh"
+msgstr ""
 
 #: src/wx/region_subtag_dialog.cc:31
 msgid "Region"
@@ -2528,9 +2680,10 @@ msgstr "Ozemlje objave"
 msgid "Release territory for this DCP"
 msgstr "Ozemlje objave za ta DCP"
 
-#: src/wx/config_dialog.cc:303 src/wx/content_menu.cc:115
-#: src/wx/content_panel.cc:275 src/wx/recipients_panel.cc:73
-#: src/wx/templates_dialog.cc:61 src/wx/editable_list.h:149
+#: src/wx/config_dialog.cc:306 src/wx/content_menu.cc:117
+#: src/wx/content_panel.cc:285 src/wx/full_language_tag_dialog.cc:71
+#: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
+#: src/wx/editable_list.h:149
 msgid "Remove"
 msgstr "Odstrani"
 
@@ -2539,15 +2692,20 @@ msgstr "Odstrani"
 msgid "Remove %s marker"
 msgstr "Odstrani oznako %s"
 
-#: src/wx/screens_panel.cc:86
+#: src/wx/screens_panel.cc:87
 msgid "Remove Cinema"
 msgstr "Odstrani kinodvorano"
 
-#: src/wx/screens_panel.cc:92
+#: src/wx/screens_panel.cc:93
 msgid "Remove Screen"
 msgstr "Odstrani zaslon"
 
-#: src/wx/content_panel.cc:276
+#: src/wx/dcp_timeline.cc:173
+#, fuzzy
+msgid "Remove reel boundary"
+msgstr "Odstrani zaslon"
+
+#: src/wx/content_panel.cc:286
 msgid "Remove the selected piece of content from the film (Delete)."
 msgstr "Odstrani izbrani del vsebine iz filma (brisalka oz. Izbriši)."
 
@@ -2559,7 +2717,7 @@ msgstr "Preimenuj predlogo"
 msgid "Rename..."
 msgstr "Preimenuj …"
 
-#: src/wx/system_information_dialog.cc:65
+#: src/wx/system_information_dialog.cc:66
 msgid "Renderer"
 msgstr "Upodobljevalnik"
 
@@ -2571,7 +2729,7 @@ msgstr "Ponovi"
 msgid "Repeat Content"
 msgstr "Ponovi vsebino"
 
-#: src/wx/content_menu.cc:100
+#: src/wx/content_menu.cc:101
 msgid "Repeat..."
 msgstr "Ponovi …"
 
@@ -2579,23 +2737,23 @@ msgstr "Ponovi …"
 msgid "Report A Problem"
 msgstr "Prijavi težavo"
 
-#: src/wx/config_dialog.cc:874
+#: src/wx/config_dialog.cc:877
 msgid "Reset to default"
 msgstr "Ponastavi na privzeto"
 
-#: src/wx/full_config_dialog.cc:1077 src/wx/full_config_dialog.cc:1214
+#: src/wx/full_config_dialog.cc:928 src/wx/full_config_dialog.cc:1065
 msgid "Reset to default subject and text"
 msgstr "Ponastavi na privzeto temo in besedilo"
 
-#: src/wx/full_config_dialog.cc:1346
+#: src/wx/full_config_dialog.cc:1197
 msgid "Reset to default text"
 msgstr "Ponastavi na privzeto besedilo"
 
-#: src/wx/dcp_panel.cc:824
+#: src/wx/dcp_panel.cc:807
 msgid "Resolution"
 msgstr "Ločljivost"
 
-#: src/wx/player_config_dialog.cc:124
+#: src/wx/player_config_dialog.cc:131
 msgid "Respect KDM validity periods"
 msgstr "Spoštuj obdobja veljavnosti KDM"
 
@@ -2608,15 +2766,15 @@ msgid "Resume"
 msgstr "Nadaljuj"
 
 #: src/wx/auto_crop_dialog.cc:33 src/wx/controls.cc:89
-#: src/wx/video_panel.cc:139
+#: src/wx/video_panel.cc:131
 msgid "Right"
 msgstr "Desno"
 
-#: src/wx/audio_mapping_view.cc:553
+#: src/wx/audio_mapping_view.cc:565
 msgid "Right click to change gain."
 msgstr "Z desno tipko miške kliknite za spremembo ojačitve."
 
-#: src/wx/config_dialog.cc:520
+#: src/wx/config_dialog.cc:523
 msgid "Root"
 msgstr "Korenska mapa"
 
@@ -2628,48 +2786,70 @@ msgstr "Splošno korensko ime"
 msgid "S-Gamut3"
 msgstr "S-Gamut3"
 
-#: src/wx/full_config_dialog.cc:775
+#: src/wx/full_config_dialog.cc:626
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (za AAM in Doremi)"
 
-#: src/wx/dcp_panel.cc:169 src/wx/full_config_dialog.cc:415
+#: src/wx/dcp_panel.cc:149
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/dcp_panel.cc:171
+#: src/wx/dcp_panel.cc:151
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (samo Bv2.0)"
 
-#: src/wx/verify_dcp_dialog.cc:53
+#: src/wx/verify_dcp_result_panel.cc:55
 msgid "SMPTE Bv2.1 errors"
 msgstr "Napake SMPTE Bv2.1"
 
-#: src/wx/full_config_dialog.cc:889
+#: src/wx/full_config_dialog.cc:740
 msgid "SSL"
 msgstr "SSL"
 
-#: src/wx/full_config_dialog.cc:888
+#: src/wx/full_config_dialog.cc:739
 msgid "STARTTLS"
 msgstr "STARTTLS"
 
-#: src/wx/full_config_dialog.cc:146
+#: src/wx/full_config_dialog.cc:153
 msgid "Same place as last time"
 msgstr "Isto mesto kot zadnjikrat"
 
-#: src/wx/full_config_dialog.cc:147
+#: src/wx/full_config_dialog.cc:154
 msgid "Same place as project"
 msgstr "Isto mesto kot projekt"
 
-#: src/wx/audio_dialog.cc:396
+#: src/wx/audio_dialog.cc:397
 #, c-format
 msgid "Sample peak is %.2fdB at %s on %s"
 msgstr "Vrh vzorca je %.2f dB pri %s na %s"
 
-#: src/wx/dcp_panel.cc:948
+#: src/wx/dcp_panel.cc:928
 msgid "Sample rate"
 msgstr "Mera vzorčenja"
 
-#: src/wx/save_template_dialog.cc:31
+#: src/wx/save_template_dialog.cc:41
+#, fuzzy
+msgid "Save as default"
+msgstr "Ponastavi na privzeto"
+
+#: src/wx/save_template_dialog.cc:45
+msgid "Save as new with name"
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:43
+#, fuzzy
+msgid "Save over existing template"
+msgstr "Shrani predlogo"
+
+#: src/wx/verify_dcp_result_panel.cc:65
+msgid "Save report as HTML..."
+msgstr ""
+
+#: src/wx/verify_dcp_result_panel.cc:63
+msgid "Save report as text..."
+msgstr ""
+
+#: src/wx/save_template_dialog.cc:39
 msgid "Save template"
 msgstr "Shrani predlogo"
 
@@ -2677,7 +2857,7 @@ msgstr "Shrani predlogo"
 msgid "Save to KDM Creator tool's list"
 msgstr "Shrani na seznam orodja KDM Creator"
 
-#: src/wx/text_panel.cc:110 src/wx/video_panel.cc:188
+#: src/wx/text_panel.cc:95 src/wx/video_panel.cc:180
 msgid "Scale"
 msgstr "Umeri"
 
@@ -2685,75 +2865,80 @@ msgstr "Umeri"
 msgid "Screen"
 msgstr "Zaslon"
 
-#: src/wx/kdm_dialog.cc:82
+#: src/wx/kdm_dialog.cc:83
 msgid "Screens"
 msgstr "Platna"
 
-#: src/wx/full_config_dialog.cc:681
+#: src/wx/full_config_dialog.cc:532
 msgid "Search network for servers"
 msgstr "Poišči strežnike v omrežju"
 
-#: src/wx/timeline_dialog.cc:76
+#: src/wx/content_timeline_dialog.cc:76
 msgid "Select"
 msgstr "Izberite"
 
-#: src/wx/kdm_cpl_panel.cc:106
+#: src/wx/kdm_cpl_panel.cc:107
 msgid "Select CPL XML file"
 msgstr "Izberite datoteko CPL XML"
 
-#: src/wx/config_dialog.cc:373 src/wx/config_dialog.cc:456
-#: src/wx/config_dialog.cc:824 src/wx/recipient_dialog.cc:187
+#: src/wx/config_dialog.cc:376 src/wx/config_dialog.cc:459
+#: src/wx/config_dialog.cc:827 src/wx/recipient_dialog.cc:171
 #: src/wx/screen_dialog.cc:298
 msgid "Select Certificate File"
 msgstr "Izberite datoteko potrdila"
 
-#: src/wx/config_dialog.cc:486
+#: src/wx/config_dialog.cc:489
 msgid "Select Chain File"
 msgstr "Izberite verižno datoteko"
 
-#: src/wx/full_config_dialog.cc:185
+#: src/wx/full_config_dialog.cc:194
 msgid "Select Cinemas File"
 msgstr "Izberite datoteko kinodvoran"
 
-#: src/wx/config_dialog.cc:728
+#: src/wx/config_dialog.cc:731
 msgid "Select Export File"
 msgstr "Izberite izvozno datoteko"
 
-#: src/wx/config_dialog.cc:762
+#: src/wx/config_dialog.cc:765
 msgid "Select File To Import"
 msgstr "Izberite datoteko za uvoz"
 
-#: src/wx/content_menu.cc:405
+#: src/wx/content_menu.cc:409
 msgid "Select KDM"
 msgstr "Izberite KDM"
 
-#: src/wx/config_dialog.cc:576 src/wx/config_dialog.cc:610
+#: src/wx/config_dialog.cc:579 src/wx/config_dialog.cc:613
 msgid "Select Key File"
 msgstr "Izberite datoteko ključa"
 
-#: src/wx/content_menu.cc:459
+#: src/wx/content_menu.cc:463
 msgid "Select OV"
 msgstr "Izberite OV"
 
-#: src/wx/timeline_dialog.cc:76
+#: src/wx/content_timeline_dialog.cc:76
 msgid "Select and move content"
 msgstr "Izberite in premaknite vsebino"
 
-#: src/wx/full_config_dialog.cc:123
+#: src/wx/full_config_dialog.cc:126
 msgid "Select cinema and screen database file"
 msgstr "Izberite datoteko zbirke podatkov kinodvoran in platen"
 
-#: src/wx/full_config_dialog.cc:118
+#: src/wx/full_config_dialog.cc:121
 msgid "Select configuration file"
 msgstr "Izberite prilagoditveno datoteko"
 
-#: src/wx/player_config_dialog.cc:129
+#: src/wx/player_config_dialog.cc:136
 msgid "Select debug log file"
 msgstr "Izberite datoteko dnevnika odpravljanja napak"
 
-#: src/wx/export_subtitles_dialog.cc:61 src/wx/export_video_file_dialog.cc:99
+#: src/wx/export_subtitles_dialog.cc:61 src/wx/export_video_file_dialog.cc:104
 msgid "Select output file"
 msgstr "Izberite izhodno datoteko"
+
+#: src/wx/full_language_tag_dialog.cc:222
+#, fuzzy
+msgid "Select..."
+msgstr "Izberite"
 
 #: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:142
 msgid "Send by email"
@@ -2771,11 +2956,11 @@ msgstr "Pošlji zapisnike"
 msgid "Send test email"
 msgstr "Pošlji poskusno e-sporočilo"
 
-#: src/wx/full_config_dialog.cc:903
+#: src/wx/full_config_dialog.cc:754
 msgid "Send test email..."
 msgstr "Pošlji poskusno e-sporočilo ..."
 
-#: src/wx/timeline_dialog.cc:80
+#: src/wx/content_timeline_dialog.cc:80
 msgid "Sequence"
 msgstr "Sekvenca"
 
@@ -2787,7 +2972,7 @@ msgstr "Serijska številka"
 msgid "Server"
 msgstr "Strežnik"
 
-#: src/wx/full_config_dialog.cc:668
+#: src/wx/full_config_dialog.cc:519
 msgid "Servers"
 msgstr "Strežniki"
 
@@ -2811,15 +2996,15 @@ msgstr "Določi iz datoteke ..."
 msgid "Set from system font..."
 msgstr "Določi iz sistemske pisave ..."
 
-#: src/wx/config_dialog.cc:121
+#: src/wx/config_dialog.cc:124
 msgid "Set language"
 msgstr "Nastavitev jezika"
 
-#: src/wx/content_menu.cc:112
+#: src/wx/content_menu.cc:114
 msgid "Set project DCP settings from this DCP"
 msgstr "Nastavi DCP-nastavitve projekta iz tega DCP"
 
-#: src/wx/content_menu.cc:113
+#: src/wx/content_menu.cc:115
 msgid "Set project markers from this DCP"
 msgstr "Nastavi oznake projekta iz tega DCP"
 
@@ -2835,7 +3020,7 @@ msgstr "Nastavi velikost"
 msgid "Set to"
 msgstr "Nastavljeno na"
 
-#: src/wx/system_information_dialog.cc:67
+#: src/wx/system_information_dialog.cc:68
 msgid "Shading language version"
 msgstr "Različica jezika za senčenje"
 
@@ -2847,24 +3032,24 @@ msgstr "Senca"
 msgid "Show"
 msgstr "Pokaži"
 
-#: src/wx/full_config_dialog.cc:1681
+#: src/wx/full_config_dialog.cc:1562
 msgid "Show experimental audio processors"
 msgstr "Pokaži poskusne zvočne procesorje"
 
-#: src/wx/audio_panel.cc:82 src/wx/dcp_panel.cc:956
+#: src/wx/audio_panel.cc:74 src/wx/dcp_panel.cc:940
 msgid "Show graph of audio levels..."
 msgstr "Pokaži grafikon ravni zvoka ..."
 
-#: src/wx/screens_panel.cc:763
+#: src/wx/screens_panel.cc:739
 #, c-format
 msgid "Show only %d checked"
 msgstr "Pokaži le %d potrjenih"
 
-#: src/wx/screens_panel.cc:65 src/wx/screens_panel.cc:761
+#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:737
 msgid "Show only checked"
 msgstr "Pokaži le potrjene"
 
-#: src/wx/text_panel.cc:170
+#: src/wx/text_panel.cc:155
 msgid "Show subtitle area"
 msgstr "Pokaži področje podnaslovov"
 
@@ -2872,11 +3057,11 @@ msgstr "Pokaži področje podnaslovov"
 msgid "Sign language video language"
 msgstr "Jezik znakovnega jezika v videoposnetku"
 
-#: src/wx/config_dialog.cc:668 src/wx/config_dialog.cc:715
+#: src/wx/config_dialog.cc:671 src/wx/config_dialog.cc:718
 msgid "Signing DCPs and KDMs"
 msgstr "Podpisovanje DCP-jev in KDM-jev"
 
-#: src/wx/full_config_dialog.cc:1774 src/wx/player_config_dialog.cc:112
+#: src/wx/full_config_dialog.cc:1655 src/wx/player_config_dialog.cc:119
 msgid "Simple (safer)"
 msgstr "Preprosto (varnejše)"
 
@@ -2888,27 +3073,31 @@ msgstr "Enostavna gama"
 msgid "Simple gamma, linearised for small values"
 msgstr "Enostavna gama, linearizirana za majhne vrednosti"
 
-#: src/wx/dcp_panel.cc:149
+#: src/wx/dcp_timeline.cc:249
 msgid "Single reel"
 msgstr "Enojni kolut"
 
-#: src/wx/player_information.cc:167
+#: src/wx/player_information.cc:161
 #, c-format
 msgid "Size: %dx%d"
 msgstr "Velikost: %dx%d"
 
-#: src/wx/player_information.cc:169
+#: src/wx/player_information.cc:163
 #, fuzzy
 msgid "Size: unknown"
 msgstr "Vrh: neznan"
 
-#: src/wx/audio_dialog.cc:141
+#: src/wx/audio_dialog.cc:142
 msgid "Smoothing"
 msgstr "Glajenje"
 
-#: src/wx/timeline_dialog.cc:79
+#: src/wx/content_timeline_dialog.cc:79
 msgid "Snap"
 msgstr "Pripni"
+
+#: src/wx/dcp_timeline.cc:267
+msgid "Snap when dragging"
+msgstr ""
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
 msgid ""
@@ -2918,7 +3107,7 @@ msgstr ""
 "Nekateri KDM bi imeli obdobja veljavnosti, ki so zunaj obdobij veljavnosti "
 "prejemnikovega potrdila.  Kaj želite storiti?"
 
-#: src/wx/verify_dcp_dialog.cc:396
+#: src/wx/verify_dcp_result_panel.cc:520
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
@@ -2926,18 +3115,18 @@ msgstr ""
 "Nekatera zaprta vozlišča <Text> ali <Image> imajo različne navpične "
 "poravnave v <Subtitle>."
 
-#: src/wx/verify_dcp_dialog.cc:399
+#: src/wx/verify_dcp_result_panel.cc:523
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
 "Nekateri zaprti napisi niso navedeni v zaporedju njihovega navpičnega "
 "položaja."
 
-#: src/wx/config_dialog.cc:848
+#: src/wx/config_dialog.cc:851 src/wx/dcp_referencing_dialog.cc:106
 msgid "Sound"
 msgstr "Zvok"
 
-#: src/wx/verify_dcp_dialog.cc:426
+#: src/wx/verify_dcp_result_panel.cc:550
 msgid "Sound assets do not all have the same channel count."
 msgstr "Sredstva zvoka nimajo enakega števila kanalov."
 
@@ -2949,20 +3138,25 @@ msgstr "Zvočni procesor"
 msgid "Specific"
 msgstr "Posebno"
 
-#: src/wx/dcp_panel.cc:150
+#: src/wx/dcp_timeline.cc:251
+msgid "Split by maximum reel size"
+msgstr ""
+
+#: src/wx/dcp_timeline.cc:250
 msgid "Split by video content"
 msgstr "Razdeli po video vsebini"
 
-#: src/wx/update_dialog.cc:53
+#: src/wx/update_dialog.cc:54
+#, c-format
 msgid "Stable version %s"
 msgstr "Stabilna različica %s"
 
-#: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
+#: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
 msgid "Standard"
 msgstr "Standard"
 
-#: src/wx/text_view.cc:57
+#: src/wx/text_view.cc:60
 msgid "Start"
 msgstr "Začni"
 
@@ -2970,7 +3164,7 @@ msgstr "Začni"
 msgid "Start of reel"
 msgstr "Začetek koluta"
 
-#: src/wx/player_config_dialog.cc:95
+#: src/wx/player_config_dialog.cc:102
 msgid "Start player as"
 msgstr "Zaženi predvajalnik kot"
 
@@ -2978,11 +3172,11 @@ msgstr "Zaženi predvajalnik kot"
 msgid "Status"
 msgstr "Stanje"
 
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:61
 msgid "Stop"
 msgstr "Ustavi"
 
-#: src/wx/text_panel.cc:122
+#: src/wx/text_panel.cc:107
 msgid "Stream"
 msgstr "Tok"
 
@@ -2990,7 +3184,7 @@ msgstr "Tok"
 msgid "Studio"
 msgstr "Studio"
 
-#: src/wx/full_config_dialog.cc:1046 src/wx/full_config_dialog.cc:1179
+#: src/wx/full_config_dialog.cc:897 src/wx/full_config_dialog.cc:1030
 msgid "Subject"
 msgstr "Tema"
 
@@ -3002,7 +3196,7 @@ msgstr "Splošno ime teme"
 msgid "Subject organization name"
 msgstr "Ime organizacije teme"
 
-#: src/wx/about_dialog.cc:166
+#: src/wx/about_dialog.cc:175
 msgid "Subscribers"
 msgstr "Naročniki"
 
@@ -3010,7 +3204,7 @@ msgstr "Naročniki"
 msgid "Subtitle appearance"
 msgstr "Videz podnaslovov"
 
-#: src/wx/verify_dcp_dialog.cc:281
+#: src/wx/verify_dcp_result_panel.cc:344
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "Enota podnaslova %n ima ne-ničelno točko vstopa <EntryPoint>."
@@ -3023,38 +3217,39 @@ msgstr "Datoteke podnaslovov (.mxf)|*.mxf"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "Datoteke podnaslovov (.xml)|*.xml"
 
+#: src/wx/dcp_referencing_dialog.cc:106
+#, fuzzy
+msgid "Subtitles"
+msgstr "Podnaslovi: ne"
+
 #: src/wx/timeline_labels_view.cc:43 src/wx/timeline_labels_view.cc:80
 msgid "Subtitles/captions"
 msgstr "Podnaslovi/napisi"
 
-#: src/wx/player_information.cc:180
+#: src/wx/player_information.cc:174
 msgid "Subtitles: no"
 msgstr "Podnaslovi: ne"
 
-#: src/wx/player_information.cc:178
+#: src/wx/player_information.cc:172
 msgid "Subtitles: yes"
 msgstr "Podnaslovi: da"
 
-#: src/wx/system_information_dialog.cc:45
-#: src/wx/system_information_dialog.cc:79
+#: src/wx/system_information_dialog.cc:46
+#: src/wx/system_information_dialog.cc:80
 msgid "System information"
 msgstr "Podatki o sistemu"
 
-#: src/wx/full_config_dialog.cc:731
+#: src/wx/full_config_dialog.cc:582
 msgid "TMS"
 msgstr "TMS"
 
-#: src/wx/full_config_dialog.cc:763
+#: src/wx/full_config_dialog.cc:614
 msgid "Target path"
 msgstr "Ciljna pot"
 
 #: src/wx/templates_dialog.cc:51
 msgid "Template"
 msgstr "Predloga"
-
-#: src/wx/save_template_dialog.cc:33
-msgid "Template name"
-msgstr "Ime predloge"
 
 #: src/wx/templates_dialog.cc:143
 msgid "Template names must not be empty."
@@ -3076,41 +3271,42 @@ msgstr "Začasna različica"
 msgid "Territory type"
 msgstr "Vrsta ozemlja"
 
-#: src/wx/full_config_dialog.cc:996 src/wx/full_config_dialog.cc:999
+#: src/wx/full_config_dialog.cc:847 src/wx/full_config_dialog.cc:850
 msgid "Test email sending failed."
 msgstr "Pošiljanje poskusnega e-sporočila ni uspelo."
 
-#: src/wx/full_config_dialog.cc:1002
+#: src/wx/full_config_dialog.cc:853
 msgid "Test email sent."
 msgstr "Poskusno e-sporočilo poslano."
 
-#: src/wx/update_dialog.cc:59
+#: src/wx/update_dialog.cc:60
+#, c-format
 msgid "Test version %s"
 msgstr "Preskusna različica %s"
 
-#: src/wx/about_dialog.cc:237
+#: src/wx/about_dialog.cc:246
 msgid "Tested by"
 msgstr "Preizkuševalci"
 
-#: src/wx/kdm_timing_panel.cc:171
+#: src/wx/kdm_timing_panel.cc:189
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Čas »do« mora slediti času »od«."
 
-#: src/wx/verify_dcp_dialog.cc:450
-#, c-format
-msgid "The <LabelText> in a <ContentVersion> in CPL %id is empty"
+#: src/wx/verify_dcp_result_panel.cc:578
+#, fuzzy, c-format
+msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr "<LabelText> v <ContentVersion> v CPL %id je prazen"
 
-#: src/wx/verify_dcp_dialog.cc:411
+#: src/wx/verify_dcp_result_panel.cc:535
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr "<MainPictureActiveArea> ni večkratnik 2 ali pa je večji od sredstva."
 
-#: src/wx/disk_warning_dialog.cc:48
-#, c-format
+#: src/wx/disk_warning_dialog.cc:51
+#, fuzzy, c-format
 msgid ""
-"The <b>DCP-o-matic Disk Writer</b> is\n"
+"The <b>%s</b> is\n"
 "\n"
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST "
 "SOFTWARE</span>\n"
@@ -3142,12 +3338,12 @@ msgstr ""
 "\n"
 "v spodnje polje in kliknite V redu."
 
-#: src/wx/verify_dcp_dialog.cc:417
+#: src/wx/verify_dcp_result_panel.cc:541
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr "ASSETMAP %n ima več kot eno sredstvo z istim ID-jem."
 
-#: src/wx/verify_dcp_dialog.cc:380
+#: src/wx/verify_dcp_result_panel.cc:495
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -3155,64 +3351,64 @@ msgstr ""
 "ID sredstva v časovno opredeljenem besedilu MXF je enak ID-ju vira ali ID-ju "
 "vsebovanega XML."
 
-#: src/wx/verify_dcp_dialog.cc:320
+#: src/wx/verify_dcp_result_panel.cc:329
+#, fuzzy, c-format
+msgid ""
+"The CPL %cpl has an <AnnotationText> which is not the same as its "
+"<ContentTitleText>."
+msgstr "CPL %n ima <AnnotationText>, ki ni enak kot njegov <ContentTitleText>."
+
+#: src/wx/verify_dcp_result_panel.cc:581
+#, fuzzy, c-format
+msgid "The CPL %cpl has an invalid namespace %n"
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+
+#: src/wx/verify_dcp_result_panel.cc:386
+#, fuzzy, c-format
+msgid "The CPL %cpl has encrypted content but is not signed."
+msgstr "CPL %n ima šifrirano vsebino, vendar ni podpisan."
+
+#: src/wx/verify_dcp_result_panel.cc:326
+#, fuzzy, c-format
+msgid "The CPL %cpl has no <AnnotationText> tag."
+msgstr "CPL %n nima oznake <AnnotationText>."
+
+#: src/wx/verify_dcp_result_panel.cc:584
+#, fuzzy, c-format
+msgid "The CPL %cpl has no <ContentVersion> tag"
+msgstr "CPL %n nima oznake <AnnotationText>."
+
+#: src/wx/verify_dcp_result_panel.cc:380
+#, fuzzy, c-format
+msgid "The CPL %cpl has no CPL extension metadata tag."
+msgstr "CPL %n nima oznake metapodatkov razširitve CPL."
+
+#: src/wx/verify_dcp_result_panel.cc:374
+#, fuzzy, c-format
+msgid "The CPL %cpl has no CPL metadata tag."
+msgstr "CPL %n nima oznake metapodatkov CPL."
+
+#: src/wx/verify_dcp_result_panel.cc:377
+#, fuzzy, c-format
+msgid "The CPL %cpl has no CPL metadata version number tag."
+msgstr "CPL %n nima oznake številke različice metapodatkov CPL."
+
+#: src/wx/verify_dcp_result_panel.cc:383
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr "CPL %f ima neveljavno oznako metapodatkov CPL razširitve (%n)"
 
-#: src/wx/verify_dcp_dialog.cc:453
-#, fuzzy, c-format
-msgid "The CPL %f has an invalid namespace %n"
-msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
-
-#: src/wx/verify_dcp_dialog.cc:266
-#, c-format
-msgid ""
-"The CPL %n has an <AnnotationText> which is not the same as its "
-"<ContentTitleText>."
-msgstr "CPL %n ima <AnnotationText>, ki ni enak kot njegov <ContentTitleText>."
-
-#: src/wx/verify_dcp_dialog.cc:323
-#, c-format
-msgid "The CPL %n has encrypted content but is not signed."
-msgstr "CPL %n ima šifrirano vsebino, vendar ni podpisan."
-
-#: src/wx/verify_dcp_dialog.cc:263
-#, c-format
-msgid "The CPL %n has no <AnnotationText> tag."
-msgstr "CPL %n nima oznake <AnnotationText>."
-
-#: src/wx/verify_dcp_dialog.cc:456
-#, fuzzy, c-format
-msgid "The CPL %n has no <ContentVersion> tag"
-msgstr "CPL %n nima oznake <AnnotationText>."
-
-#: src/wx/verify_dcp_dialog.cc:317
-#, c-format
-msgid "The CPL %n has no CPL extension metadata tag."
-msgstr "CPL %n nima oznake metapodatkov razširitve CPL."
-
-#: src/wx/verify_dcp_dialog.cc:311
-#, c-format
-msgid "The CPL %n has no CPL metadata tag."
-msgstr "CPL %n nima oznake metapodatkov CPL."
-
-#: src/wx/verify_dcp_dialog.cc:314
-#, c-format
-msgid "The CPL %n has no CPL metadata version number tag."
-msgstr "CPL %n nima oznake številke različice metapodatkov CPL."
-
-#: src/wx/verify_dcp_dialog.cc:305
+#: src/wx/verify_dcp_result_panel.cc:368
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr "DCP ima FFOC %n namesto 1."
 
-#: src/wx/verify_dcp_dialog.cc:308
+#: src/wx/verify_dcp_result_panel.cc:371
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr "DCP ima LFOC %n namesto trajanja koluta manj 1."
 
-#: src/wx/verify_dcp_dialog.cc:275
+#: src/wx/verify_dcp_result_panel.cc:338
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
@@ -3220,45 +3416,46 @@ msgstr ""
 "DCP ima zaprte napise, vendar nima vsak kolut enako število sredstev zaprtih "
 "napisov."
 
-#: src/wx/verify_dcp_dialog.cc:332
+#: src/wx/verify_dcp_result_panel.cc:395
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr "DCP ima šifrirano vsebino, vendar vsa sredstva niso šifrirana."
 
-#: src/wx/verify_dcp_dialog.cc:299
+#: src/wx/verify_dcp_result_panel.cc:362
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "DCP nima oznake FFOC (prva sličica vsebine)."
 
-#: src/wx/verify_dcp_dialog.cc:302
+#: src/wx/verify_dcp_result_panel.cc:365
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "DCP nima oznake LFOC (zadnja sličica vsebine)."
 
-#: src/wx/verify_dcp_dialog.cc:272
+#: src/wx/verify_dcp_result_panel.cc:335
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr "DCP ima podnaslove, vendar vsaj en kolut nima sredstva podnaslovov."
 
-#: src/wx/verify_dcp_dialog.cc:293
+#: src/wx/verify_dcp_result_panel.cc:356
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
 "DCP je celovečerec, vendar nima oznake FFEC (prva sličica končnih napisov)."
 
-#: src/wx/verify_dcp_dialog.cc:296
+#: src/wx/verify_dcp_result_panel.cc:359
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
 "DCP je celovečerec, vendar nima oznake FFMC (prva sličica gibljivih napisov)."
 
-#: src/wx/dkdm_dialog.cc:173 src/wx/kdm_dialog.cc:222
+#: src/wx/dkdm_dialog.cc:177 src/wx/kdm_dialog.cc:247
+#, fuzzy, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
-"or re-create your signing certificates in the DCP-o-matic preferences window."
+"or re-create your signing certificates in the %s preferences window."
 msgstr ""
 "Konec obdobja KDM je čez (ali blizu) konec veljavnosti potrdil podpisa.  "
 "Uporabite zgodnejši končni čas za ta KDM ali pa znova ustvarite potrdila za "
 "podpisovanje v oknu nastavitev DCP-o-matic."
 
-#: src/wx/dkdm_dialog.cc:171 src/wx/kdm_dialog.cc:220
+#: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:242
 msgid ""
 "The KDM start period is before (or close to) the start of the signing "
 "certificate's validity period.  Use a later start time for this KDM."
@@ -3266,7 +3463,12 @@ msgstr ""
 "Začetek obdobja KDM je pred (ali blizu) začetkom veljavnosti potrdila o "
 "podpisovanju.  Uporabite kasnejši začetni čas za ta KDM."
 
-#: src/wx/verify_dcp_dialog.cc:329
+#: src/wx/verify_dcp_result_panel.cc:600
+#, fuzzy, c-format
+msgid "The PKL %f has an invalid namespace %n"
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+
+#: src/wx/verify_dcp_result_panel.cc:392
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
@@ -3274,27 +3476,27 @@ msgid ""
 msgstr ""
 "PKL %n ima <AnnotationText>, ki se ne ujema s CPL-jevim <ContentTitleText>."
 
-#: src/wx/verify_dcp_dialog.cc:326
+#: src/wx/verify_dcp_result_panel.cc:389
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr "PKL %n ima šifrirano vsebino, vendar ni podpisan."
 
-#: src/wx/verify_dcp_dialog.cc:414
+#: src/wx/verify_dcp_result_panel.cc:538
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr "PKL %n ima več kot eno sredstvo z istim ID."
 
-#: src/wx/verify_dcp_dialog.cc:151
+#: src/wx/verify_dcp_result_panel.cc:201
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr "Kontrolni vsoti PKL in CPL se ne ujemata za slikovno sredstvo %f."
 
-#: src/wx/verify_dcp_dialog.cc:157
+#: src/wx/verify_dcp_result_panel.cc:207
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "Kontrolni vsoti PKL in CPL se ne ujemata za zvokovno sredstvo %f."
 
-#: src/wx/verify_dcp_dialog.cc:377
+#: src/wx/verify_dcp_result_panel.cc:492
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
@@ -3302,23 +3504,23 @@ msgstr ""
 "ID vira v časovno opredeljenem besedilu MXF se ne ujema z ID-jem vsebovanega "
 "XML."
 
-#: src/wx/verify_dcp_dialog.cc:444
+#: src/wx/verify_dcp_result_panel.cc:572
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
 "Sredstvo podnaslovov SMPTE %id ima vozlišča <Text>, nima pa vozlišča "
 "<LoadFont> "
 
-#: src/wx/verify_dcp_dialog.cc:172
+#: src/wx/verify_dcp_result_panel.cc:223
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr "XML v %f je nepravilno oblikovan (%n)."
 
-#: src/wx/verify_dcp_dialog.cc:170
+#: src/wx/verify_dcp_result_panel.cc:221
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr "XML v %f je nepravilno oblikovan v vrstici %l (%n)."
 
-#: src/wx/verify_dcp_dialog.cc:215
+#: src/wx/verify_dcp_result_panel.cc:275
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
@@ -3326,29 +3528,29 @@ msgid ""
 msgstr ""
 "XML v sredstvu zaprtih napisov %f zavzema %n bajtov, kar je nad mejo 256 KB."
 
-#: src/wx/verify_dcp_dialog.cc:438
+#: src/wx/verify_dcp_result_panel.cc:566
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr ""
 "XML v sredstvu podnaslova %n ima več kot eno deklaracijo imenskega prostora."
 
-#: src/wx/verify_dcp_dialog.cc:194
+#: src/wx/verify_dcp_result_panel.cc:254
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr "Sredstvo %f je 3D, vendar je njegov MXF označen kot 2D."
 
-#: src/wx/verify_dcp_dialog.cc:163
+#: src/wx/verify_dcp_result_panel.cc:213
 #, c-format
 msgid "The asset %f is missing."
 msgstr "Manjka sredstvo %f."
 
-#: src/wx/verify_dcp_dialog.cc:182
+#: src/wx/verify_dcp_result_panel.cc:234
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr "Sredstvo %n ima trajanje manj kot 1 sekundo, kar je neveljavno."
 
-#: src/wx/verify_dcp_dialog.cc:179
+#: src/wx/verify_dcp_result_panel.cc:231
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
@@ -3356,34 +3558,35 @@ msgid ""
 msgstr ""
 "Sredstvo %n ima imanentno trajanje manj kot 1 sekundo, kar je neveljavno."
 
-#: src/wx/verify_dcp_dialog.cc:290
+#: src/wx/verify_dcp_result_panel.cc:353
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr "Sredstvo %n nima kontrolne vsote <Hash> v CPL."
 
-#: src/wx/verify_dcp_dialog.cc:447
+#: src/wx/verify_dcp_result_panel.cc:575
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr "Sredstvo z ID %id v mapi sredstev ima dejansko ID %other_id"
 
-#: src/wx/verify_dcp_dialog.cc:284
+#: src/wx/verify_dcp_result_panel.cc:347
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "Sredstvo zaprtega napisa %n nima oznake vstopne točke <EntryPoint>."
 
-#: src/wx/film_name_location_dialog.cc:146
+#: src/wx/film_name_location_dialog.cc:147
+#, fuzzy, c-format
 msgid ""
-"The directory %1 already exists and is not empty.  Are you sure you want to "
+"The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
 msgstr ""
 "Mapa %1 že obstaja in ni prazna.  Ali ste prepričani, da jo želite uporabiti?"
 
-#: src/wx/try_unmount_dialog.cc:42
-#, c-format
+#: src/wx/try_unmount_dialog.cc:44
+#, fuzzy, c-format
 msgid ""
 "The drive <b>%s</b> is mounted.\n"
 "\n"
-"It must be unmounted before DCP-o-matic can write to it.\n"
+"It must be unmounted before %s can write to it.\n"
 "\n"
 "Should DCP-o-matic try to unmount it now?"
 msgstr ""
@@ -3393,7 +3596,7 @@ msgstr ""
 "\n"
 "Ali naj ga DCP-o-matic zdaj poskusi odklopiti?"
 
-#: src/wx/wx_util.cc:748
+#: src/wx/wx_util.cc:819
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3410,13 +3613,13 @@ msgstr ""
 "Datoteka %s že obstaja.  Ali jo želite uporabiti kot novo prilagoditev ali "
 "jo prepisati s trenutno prilagoditvijo?"
 
-#: src/wx/verify_dcp_dialog.cc:236
+#: src/wx/verify_dcp_result_panel.cc:296
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
 "Prvi podnaslov ali zaprt napis se pojavi pred 4 sekundami na prvem kolutu."
 
-#: src/wx/verify_dcp_dialog.cc:432
+#: src/wx/verify_dcp_result_panel.cc:556
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
@@ -3425,7 +3628,7 @@ msgstr ""
 "Datoteka pisave za pisavo z ID »%n« ni mogoče najti ali pa se nanjo ne "
 "sklicuje ASSETMAP."
 
-#: src/wx/verify_dcp_dialog.cc:221
+#: src/wx/verify_dcp_result_panel.cc:281
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
@@ -3434,7 +3637,7 @@ msgstr ""
 "Pisave v sredstvu časovno opredeljenega besedila %f zaseda %n bajtov, kar "
 "presega omejitev 10 MB."
 
-#: src/wx/verify_dcp_dialog.cc:148
+#: src/wx/verify_dcp_result_panel.cc:198
 #, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
@@ -3444,7 +3647,7 @@ msgstr ""
 "Kontrolna vsota slikovnega sredstva %f se ne ujema z datoteko PKL.  To "
 "verjetno pomeni, da je datoteka sredstva poškodovana."
 
-#: src/wx/verify_dcp_dialog.cc:154
+#: src/wx/verify_dcp_result_panel.cc:204
 #, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
@@ -3454,17 +3657,17 @@ msgstr ""
 "Kontrolna vsota zvočnega sredstva %f se ne ujema z datoteko PKL.  To "
 "verjetno pomeni, da je datoteka sredstva poškodovana."
 
-#: src/wx/verify_dcp_dialog.cc:142
+#: src/wx/verify_dcp_result_panel.cc:192
 #, fuzzy
 msgid ""
-"The hash (%reference_hash) of the CPL %n in the PKL does not agree with the "
-"CPL file (%calculated_hash).  This probably means that the CPL file is "
+"The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
+"the CPL file (%calculated_hash).  This probably means that the CPL file is "
 "corrupt."
 msgstr ""
 "Kontrolna vsota CPL %n v PKL se ne ujema z datoteko CPL.  To verjetno "
 "pomeni, da je datoteka CPL poškodovana."
 
-#: src/wx/verify_dcp_dialog.cc:200
+#: src/wx/verify_dcp_result_panel.cc:260
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr "Uporabljena je neveljavna jezikovna oznaka %n."
@@ -3474,12 +3677,12 @@ msgstr "Uporabljena je neveljavna jezikovna oznaka %n."
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "Jezik, v katerem je naslov filma (»%s«)"
 
-#: src/wx/verify_dcp_dialog.cc:145
+#: src/wx/verify_dcp_result_panel.cc:195
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "Slika v kolutu ima hitrost sličic %n, ki ni veljavna."
 
-#: src/wx/verify_dcp_dialog.cc:386
+#: src/wx/verify_dcp_result_panel.cc:505
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
@@ -3488,38 +3691,52 @@ msgstr ""
 "Trajanje koluta (%s) nekega časovno opredeljenega besedila ni enako trajanju "
 "vsebnika (%s) njegovega MXF."
 
-#: src/wx/verify_dcp_dialog.cc:260
+#: src/wx/verify_dcp_result_panel.cc:323
+#, fuzzy, c-format
+msgid "The sound asset %f has an invalid bit depth of %n."
+msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
+
+#: src/wx/verify_dcp_result_panel.cc:320
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "Zvočno sredstvo %f nima veveljavne hitrosti sličic %n."
 
-#: src/wx/verify_dcp_dialog.cc:224
+#: src/wx/dcp_panel.cc:138
+#, fuzzy
+msgid ""
+"The standard that the DCP should use.  Interop is older, and SMPTE is the "
+"newer (current) standard.  If in doubt, choose 'SMPTE'"
+msgstr ""
+"Kateri standard naj uporablja DCP.  Interop je starejši, SMPTE pa je sodobni "
+"standard.  Če ste v dvomu, izberite »SMPTE«."
+
+#: src/wx/verify_dcp_result_panel.cc:284
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr "Sredstvo podnaslovov %f ne vsebuje oznake jezika <Language>."
 
-#: src/wx/verify_dcp_dialog.cc:230
+#: src/wx/verify_dcp_result_panel.cc:290
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr "Sredstvo podnaslovov %f ne vsebuje oznake časa pričetka <StartTime>."
 
-#: src/wx/verify_dcp_dialog.cc:233
+#: src/wx/verify_dcp_result_panel.cc:293
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr ""
 "Sredstvo podnaslovov %f ima ne-ničelno vrednost začetnega časa <StartTime>."
 
-#: src/wx/verify_dcp_dialog.cc:420
+#: src/wx/verify_dcp_result_panel.cc:544
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr "Sredstvo podnaslovov %n ne vsebuje podnaslovov."
 
-#: src/wx/verify_dcp_dialog.cc:278
+#: src/wx/verify_dcp_result_panel.cc:341
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr "Sredstvo podnaslovov %n nima oznake vstopne točke <EntryPoint>."
 
-#: src/wx/verify_dcp_dialog.cc:218
+#: src/wx/verify_dcp_result_panel.cc:278
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
@@ -3527,47 +3744,47 @@ msgstr ""
 "Sredstvo časovno opredeljenega besedila %f zavzema %n bajtov, kar presega "
 "omejitev 115 MB."
 
-#: src/wx/verify_dcp_dialog.cc:212
+#: src/wx/verify_dcp_result_panel.cc:272
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr ""
 "Sredstvo videa %f uporablja hitrost sličic %n, ki ni veljavna za 3D-video."
 
-#: src/wx/verify_dcp_dialog.cc:209
+#: src/wx/verify_dcp_result_panel.cc:269
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr ""
 "Sredstvo videa %f uporablja hitrost sličic %n, ki ni veljavna za 4K-video."
 
-#: src/wx/verify_dcp_dialog.cc:206
+#: src/wx/verify_dcp_result_panel.cc:266
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "Sredstvo videa %f uporablja neveljavno hitrost sličic %n."
 
-#: src/wx/verify_dcp_dialog.cc:203
+#: src/wx/verify_dcp_result_panel.cc:263
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr "Sredstvo videa %f uporablja neveljavno velikost slike %n."
 
-#: src/wx/verify_dcp_dialog.cc:254
+#: src/wx/verify_dcp_result_panel.cc:314
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "Na vsaj enem mestu so v zaprtih napisih več kot 3 vrstice."
 
-#: src/wx/verify_dcp_dialog.cc:245
+#: src/wx/verify_dcp_result_panel.cc:305
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "Na vsaj enem mestu so v podnaslovih več kot 3 vrstice."
 
-#: src/wx/verify_dcp_dialog.cc:257
+#: src/wx/verify_dcp_result_panel.cc:317
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr "V vsaj eni vrstici zaprtih napisov je več kot 32 znakov."
 
-#: src/wx/verify_dcp_dialog.cc:248
+#: src/wx/verify_dcp_result_panel.cc:308
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "V vsaj eni vrstici podnaslovov je več kot 52 znakov."
 
-#: src/wx/verify_dcp_dialog.cc:251
+#: src/wx/verify_dcp_result_panel.cc:311
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "V vsaj eni vrstici podnaslovov je več kot 79 znakov."
 
@@ -3579,24 +3796,24 @@ msgstr "Namigov še ni: preverjanje projekta je v teku."
 msgid "There are no hints: everything looks good!"
 msgstr "Ni namigov: vse je videti dobro!"
 
-#: src/wx/verify_dcp_dialog.cc:405
+#: src/wx/verify_dcp_result_panel.cc:529
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "V oznaki <MainMarkers> je oznaka <Duration>."
 
-#: src/wx/verify_dcp_dialog.cc:402
+#: src/wx/verify_dcp_result_panel.cc:526
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "V oznaki <MainMarkers> je oznaka <EntryPoint>."
 
-#: src/wx/save_template_dialog.cc:69
+#: src/wx/save_template_dialog.cc:105
 msgid ""
 "There is already a template with this name.  Do you want to overwrite it?"
 msgstr "Predloga s tem imenom že obstaja.  Ali jo želite prepisati?"
 
-#: src/wx/film_viewer.cc:183
+#: src/wx/film_viewer.cc:180
 msgid "There is not enough free memory to do that."
 msgstr "Za to dejanje ni dovolj prostega pomnilnika."
 
-#: src/wx/film_viewer.cc:363 src/wx/film_viewer.cc:373
+#: src/wx/film_viewer.cc:362
 msgid ""
 "There was a problem starting audio playback.  Please try another audio "
 "output device in Preferences."
@@ -3604,11 +3821,11 @@ msgstr ""
 "Težava je bila pri zagonu predvajanja zvoka.  Poskusite z drugo zvočno "
 "izhodno napravo v nastavitvah."
 
-#: src/wx/kdm_cpl_panel.cc:133
+#: src/wx/kdm_cpl_panel.cc:134
 msgid "This CPL contains no encrypted assets."
 msgstr "Ta CPL ne vsebuje šifriranih sredstev."
 
-#: src/wx/verify_dcp_dialog.cc:191
+#: src/wx/verify_dcp_result_panel.cc:251
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
@@ -3617,13 +3834,13 @@ msgstr ""
 "Ta DCP se sklicuje na sredstvo %n v drugem DCP-ju (in morda drugih), tako da "
 "je »različica datoteke« (VF)"
 
-#: src/wx/verify_dcp_dialog.cc:197
+#: src/wx/verify_dcp_result_panel.cc:257
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
 "Ta DCP uporablja standard Interop, vendar bi ga bilo potrebno izdelati s "
 "standardom SMPTE."
 
-#: src/wx/content_menu.cc:440
+#: src/wx/content_menu.cc:444
 msgid ""
 "This KDM was made for one of the CPLs in this DCP, but not the currently "
 "selected one.  To play the currently-selected CPL you will need a different "
@@ -3633,11 +3850,11 @@ msgstr ""
 "izbranega.  Če želite predvajati trenutno izbrani CPL, boste potrebovali "
 "drug KDM."
 
-#: src/wx/content_menu.cc:435
+#: src/wx/content_menu.cc:439
 msgid "This KDM was not made for this DCP.  You will need a different one."
 msgstr "Ta KDM ni bil narejen za ta DCP.  Potrebovali boste drugega."
 
-#: src/wx/config_dialog.cc:389
+#: src/wx/config_dialog.cc:392
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -3645,72 +3862,92 @@ msgstr ""
 "Ta datoteka vsebuje druga potrdila (ali druge podatke) po prvem potrdilu. "
 "Uporabljeno bo le prvo potrdilo."
 
-#: src/wx/full_config_dialog.cc:987
-msgid "This is a test email from DCP-o-matic."
+#: src/wx/full_config_dialog.cc:838
+#, fuzzy, c-format
+msgid "This is a test email from %s."
 msgstr "To je poskusno e-sporočilo DCP-o-matic."
 
-#: src/wx/kdm_cpl_panel.cc:152 src/wx/kdm_cpl_panel.cc:155
+#: src/wx/kdm_cpl_panel.cc:153 src/wx/kdm_cpl_panel.cc:156
 msgid "This is not a valid CPL file"
 msgstr "To ni veljavna datoteka CPL"
 
-#: src/wx/content_panel.cc:677
+#: src/wx/content_panel.cc:688
+#, fuzzy, c-format
 msgid ""
-"This looks like a DCP-o-matic project folder, which cannot be added to a "
-"different project.  Choose the DCP folder inside the DCP-o-matic project "
-"folder if that's what you want to import."
+"This looks like a %s project folder, which cannot be added to a different "
+"project.  Choose the DCP folder inside the %s project folder if that's what "
+"you want to import."
 msgstr ""
 "To je videti kot projektna mapa DCP-o-matic, ki je ni mogoče dodati drugemu "
 "projektu.  Izberite mapo DCP znotraj mape projekta DCP-o-matic, če želite to "
 "uvoziti."
 
-#: src/wx/full_config_dialog.cc:1432
+#: src/wx/playlist_controls.cc:353
+msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
+msgstr ""
+
+#: src/wx/playlist_controls.cc:319
+msgid "This playlist cannot be loaded as some content is missing."
+msgstr ""
+
+#: src/wx/playlist_controls.cc:325
+msgid "This playlist is empty."
+msgstr ""
+
+#: src/wx/full_config_dialog.cc:1300
+#, fuzzy, c-format
 msgid ""
 "This will be written to the DCP's JPEG2000 data as a comment.  If it is "
-"blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
-"will be used."
+"blank, a default value mentioning libdcp (an internal %s library) will be "
+"used."
 msgstr ""
 "To bo zapisano k podatkom DCP JPEG2000 kot komentar.  Če je prazno, se "
 "uporabi privzeta vrednost, ki omenja libdcp (notranja knjižnica DCP-o-matic)."
 
-#: src/wx/full_config_dialog.cc:1417
+#: src/wx/full_config_dialog.cc:1276
+#, fuzzy, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
-"blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
-"will be used."
+"blank, a default value mentioning libdcp (an internal %s library) will be "
+"used."
 msgstr ""
 "To bo zapisano v datoteke DCP MXF kot »ime podjetja«.  Če je prazno, se "
 "uporabi privzeta vrednost, ki omenja libdcp (notranja knjižnica DCP-o-matic)."
 
-#: src/wx/full_config_dialog.cc:1422
+#: src/wx/full_config_dialog.cc:1284
+#, fuzzy, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
-"blank, a default value mentioning libdcp (an internal DCP-o-matic library) "
-"will be used."
+"blank, a default value mentioning libdcp (an internal %s library) will be "
+"used."
 msgstr ""
 "To bo zapisano v datoteke DCP MXF kot »ime izdelka«.  Če je prazno, se "
 "uporabi privzeta vrednost, ki omenja libdcp (notranja knjižnica DCP-o-matic)."
 
-#: src/wx/full_config_dialog.cc:1427
+#: src/wx/full_config_dialog.cc:1292
+#, fuzzy, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product version'.  If it "
-"is blank, a default value mentioning libdcp (an internal DCP-o-matic "
-"library) will be used."
+"is blank, a default value mentioning libdcp (an internal %s library) will be "
+"used."
 msgstr ""
 "To bo zapisano v datoteke DCP MXF kot »različica izdelka«.  Če je prazno, se "
 "uporabi privzeta vrednost, ki omenja libdcp (notranja knjižnica DCP-o-matic)."
 
-#: src/wx/full_config_dialog.cc:1412
+#: src/wx/full_config_dialog.cc:1268
+#, fuzzy, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
-"blank, a default value mentioning DCP-o-matic will be used."
+"blank, a default value mentioning %s will be used."
 msgstr ""
 "To bo zapisano v datoteke XML DCP kot <Creator>.  Če je prazno, bo "
 "uporabljena privzeta vrednost, ki omenja DCP-o-matic."
 
-#: src/wx/full_config_dialog.cc:1407
+#: src/wx/full_config_dialog.cc:1260
+#, fuzzy, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
-"blank, a default value mentioning DCP-o-matic will be used."
+"blank, a default value mentioning %s will be used."
 msgstr ""
 "To bo zapisano v datoteke XML DCP kot <Issuer>.  Če je prazno, bo "
 "uporabljena privzeta vrednost, ki omenja DCP-o-matic."
@@ -3723,20 +3960,20 @@ msgstr "Niti:"
 msgid "Threshold"
 msgstr "Prag"
 
-#: src/wx/config_dialog.cc:287 src/wx/screen_dialog.cc:55
+#: src/wx/config_dialog.cc:290 src/wx/screen_dialog.cc:55
 #: src/wx/screen_dialog.cc:179 src/wx/screen_dialog.cc:211
 msgid "Thumbprint"
 msgstr "Prstni odtis"
 
-#: src/wx/timeline_dialog.cc:50
+#: src/wx/content_timeline_dialog.cc:50
 msgid "Timeline"
 msgstr "Časovnica"
 
-#: src/wx/content_panel.cc:287
+#: src/wx/content_panel.cc:297
 msgid "Timeline..."
 msgstr "Časovnica …"
 
-#: src/wx/content_panel.cc:298
+#: src/wx/content_panel.cc:308
 msgid "Timing"
 msgstr "Časovna usklajenost"
 
@@ -3749,23 +3986,19 @@ msgstr "Časovna usklajenost|Časovna usklajenost"
 msgid "Title language"
 msgstr "Jezik naslova"
 
-#: src/wx/full_config_dialog.cc:1187 src/wx/send_test_email_dialog.cc:30
+#: src/wx/full_config_dialog.cc:1038 src/wx/send_test_email_dialog.cc:30
 msgid "To address"
 msgstr "Na naslov"
 
-#: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:150
+#: src/wx/auto_crop_dialog.cc:35 src/wx/video_panel.cc:142
 msgid "Top"
 msgstr "Zgoraj"
 
-#: src/wx/closed_captions_dialog.cc:71
+#: src/wx/closed_captions_dialog.cc:71 src/wx/text_panel.cc:192
 msgid "Track"
 msgstr "Steza"
 
-#: src/wx/instant_i18n_dialog.cc:28
-msgid "Translate"
-msgstr "Prevedi"
-
-#: src/wx/about_dialog.cc:158
+#: src/wx/about_dialog.cc:167
 msgid "Translated by"
 msgstr "Prevajalci"
 
@@ -3785,7 +4018,7 @@ msgstr "Odreži od začetka"
 msgid "Trim up to current position"
 msgstr "Odreži do trenutnega položaja"
 
-#: src/wx/audio_dialog.cc:416
+#: src/wx/audio_dialog.cc:417
 #, c-format
 msgid "True peak is %.2fdB"
 msgstr "Pravi vrh je %.2f dB"
@@ -3798,128 +4031,128 @@ msgstr "Zaupanja vredna naprava"
 msgid "Trusted Device certificate"
 msgstr "Potrdilo zaupanja vredne naprave"
 
-#: src/wx/audio_dialog.cc:124 src/wx/config_dialog.cc:279
-#: src/wx/video_panel.cc:87
+#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:282
+#: src/wx/video_panel.cc:79
 msgid "Type"
 msgstr "Vrsta"
 
-#: src/wx/wx_util.cc:640
+#: src/wx/wx_util.cc:711
 msgid "UTC"
 msgstr "UTC/UČ"
 
-#: src/wx/cinema_dialog.cc:53 src/wx/recipient_dialog.cc:79
+#: src/wx/cinema_dialog.cc:54 src/wx/kdm_timing_panel.cc:110
 msgid "UTC offset (time zone)"
 msgstr "Odmik UTC (časovni pas)"
 
-#: src/wx/wx_util.cc:641
+#: src/wx/wx_util.cc:712
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:652
+#: src/wx/wx_util.cc:723
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:653
+#: src/wx/wx_util.cc:724
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:654
+#: src/wx/wx_util.cc:725
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/wx_util.cc:642
+#: src/wx/wx_util.cc:713
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/wx_util.cc:643
+#: src/wx/wx_util.cc:714
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/wx_util.cc:644
+#: src/wx/wx_util.cc:715
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:645
+#: src/wx/wx_util.cc:716
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:646
+#: src/wx/wx_util.cc:717
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:647
+#: src/wx/wx_util.cc:718
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:648
+#: src/wx/wx_util.cc:719
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:649
+#: src/wx/wx_util.cc:720
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:650
+#: src/wx/wx_util.cc:721
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:651
+#: src/wx/wx_util.cc:722
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/wx_util.cc:638
+#: src/wx/wx_util.cc:709
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/wx_util.cc:627
+#: src/wx/wx_util.cc:698
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/wx_util.cc:626
+#: src/wx/wx_util.cc:697
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/wx_util.cc:637
+#: src/wx/wx_util.cc:708
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/wx_util.cc:636
+#: src/wx/wx_util.cc:707
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/wx_util.cc:635
+#: src/wx/wx_util.cc:706
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/wx_util.cc:634
+#: src/wx/wx_util.cc:705
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/wx_util.cc:633
+#: src/wx/wx_util.cc:704
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/wx_util.cc:632
+#: src/wx/wx_util.cc:703
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/wx_util.cc:631
+#: src/wx/wx_util.cc:702
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/wx_util.cc:630
+#: src/wx/wx_util.cc:701
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/wx_util.cc:629
+#: src/wx/wx_util.cc:700
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/wx_util.cc:628
+#: src/wx/wx_util.cc:699
 msgid "UTC-9"
 msgstr "UTC-9"
 
-#: src/wx/screens_panel.cc:101
+#: src/wx/screens_panel.cc:102
 msgid "Uncheck all"
 msgstr "Počisti vse"
 
@@ -3937,27 +4170,27 @@ msgstr ""
 msgid "Unspecified"
 msgstr "Nedoločeno"
 
-#: src/wx/update_dialog.cc:36
+#: src/wx/update_dialog.cc:37
 msgid "Update"
 msgstr "Posodobi"
 
-#: src/wx/full_config_dialog.cc:744
+#: src/wx/full_config_dialog.cc:595
 msgid "Upload DCP to TMS after creation"
 msgstr "Prenesi DCP na TMS po izdelavi"
 
-#: src/wx/dcp_panel.cc:89
+#: src/wx/dcp_panel.cc:90
 msgid "Use ISDCF name"
 msgstr "Uporabi ime ISDCF"
 
-#: src/wx/full_config_dialog.cc:382
+#: src/wx/full_config_dialog.cc:359
 msgid "Use ISDCF name by default"
 msgstr "Privzeto uporabi ime ISDCF"
 
-#: src/wx/text_panel.cc:95
+#: src/wx/text_panel.cc:83
 msgid "Use as"
 msgstr "Uporabi kot"
 
-#: src/wx/dcp_panel.cc:830
+#: src/wx/dcp_panel.cc:813
 msgid "Use best"
 msgstr "Uporabi najboljše"
 
@@ -3965,32 +4198,16 @@ msgstr "Uporabi najboljše"
 msgid "Use preset"
 msgstr "Uporabi prednastavitev"
 
-#: src/wx/audio_panel.cc:117
+#: src/wx/audio_panel.cc:109
 msgid "Use same fades as video"
 msgstr "Uporabi enake odtemnitve/zatemnitve kot video"
-
-#: src/wx/audio_panel.cc:74
-msgid "Use this DCP's audio as OV and make VF"
-msgstr "Uporabite zvok tega DCP-ja kot OV in naredi VF"
-
-#: src/wx/text_panel.cc:84
-msgid "Use this DCP's closed caption as OV and make VF"
-msgstr "Uporabi zaprte napise DCP-ja kot OV in naredi VF"
-
-#: src/wx/text_panel.cc:82
-msgid "Use this DCP's subtitle as OV and make VF"
-msgstr "Uporabi podnaslove DCP-ja kot OV in naredi VF"
-
-#: src/wx/video_panel.cc:79
-msgid "Use this DCP's video as OV and make VF"
-msgstr "Uporabite videoposnetek DCP-ja kot OV in naredi VF"
 
 #: src/wx/config_move_dialog.cc:32
 msgid "Use this file as new configuration"
 msgstr "Uporabite to kot novo prilagoditev"
 
 #: src/wx/credentials_download_certificate_panel.cc:50
-#: src/wx/full_config_dialog.cc:767 src/wx/full_config_dialog.cc:894
+#: src/wx/full_config_dialog.cc:618 src/wx/full_config_dialog.cc:745
 msgid "User name"
 msgstr "Uporabniško ime"
 
@@ -4002,25 +4219,34 @@ msgstr "Veljaven od"
 msgid "Valid to"
 msgstr "Veljaven do"
 
-#: src/wx/system_information_dialog.cc:64
+#: src/wx/system_information_dialog.cc:65
 msgid "Vendor"
 msgstr "Prodajalec"
 
-#: src/wx/system_information_dialog.cc:66
+#: src/wx/verify_dcp_result_panel.cc:654
+#, fuzzy
+msgid "Verification report"
+msgstr "Preverjanje DCP"
+
+#: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
 msgstr "Različica"
+
+#: src/wx/dcp_referencing_dialog.cc:44
+msgid "Version file (VF) setup"
+msgstr ""
 
 #: src/wx/smpte_metadata_dialog.cc:86
 msgid "Version number"
 msgstr "Številka različice"
 
-#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:129
+#: src/wx/content_properties_dialog.cc:77 src/wx/dcp_panel.cc:120
 #: src/wx/timeline_labels_view.cc:41 src/wx/timeline_labels_view.cc:74
 #: src/wx/video_panel.cc:70
 msgid "Video"
 msgstr "Video"
 
-#: src/wx/video_panel.cc:207
+#: src/wx/video_panel.cc:199
 msgid "Video (MPEG, 16-235)"
 msgstr "Video (MPEG, 16-235)"
 
@@ -4028,7 +4254,16 @@ msgstr "Video (MPEG, 16-235)"
 msgid "Video Waveform"
 msgstr "Signalna oblika videa"
 
-#: src/wx/full_config_dialog.cc:1670 src/wx/player_config_dialog.cc:110
+#: src/wx/dcp_panel.cc:817
+#, fuzzy
+msgid ""
+"Video bit rate\n"
+"for newly-encoded data"
+msgstr ""
+"Pasovna širina JPEG2000\n"
+"za novo kodirane podatke"
+
+#: src/wx/full_config_dialog.cc:1551 src/wx/player_config_dialog.cc:117
 msgid "Video display mode"
 msgstr "Način prikaza videa"
 
@@ -4046,26 +4281,18 @@ msgstr "Hitrost video sličic, s katero je bila pripravljena vsebina"
 msgid "Video has burnt-in subtitles in the language"
 msgstr "Video ima vžgane podnaslove v jeziku"
 
-#: src/wx/text_panel.cc:125
+#: src/wx/text_panel.cc:110
 msgid "View..."
 msgstr "Pogled …"
 
-#: src/wx/config_dialog.cc:994
+#: src/wx/config_dialog.cc:962
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1746 src/wx/player_config_dialog.cc:273
-#: src/wx/verify_dcp_dialog.cc:55
+#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:307
+#: src/wx/verify_dcp_result_panel.cc:57
 msgid "Warnings"
 msgstr "Opozorila"
-
-#: src/wx/dcp_panel.cc:158
-msgid ""
-"Which standard the DCP should use.  Interop is older and SMPTE is the modern "
-"standard.  If in doubt, choose 'SMPTE'"
-msgstr ""
-"Kateri standard naj uporablja DCP.  Interop je starejši, SMPTE pa je sodobni "
-"standard.  Če ste v dvomu, izberite »SMPTE«."
 
 #: src/wx/colour_conversion_editor.cc:161
 msgid "White point"
@@ -4075,7 +4302,7 @@ msgstr "Bela točka"
 msgid "White point adjustment"
 msgstr "Prilagoditev bele točke"
 
-#: src/wx/about_dialog.cc:112
+#: src/wx/about_dialog.cc:121
 msgid "With help from"
 msgstr "Pomagali so"
 
@@ -4091,28 +4318,32 @@ msgstr "Zapiši mapo za KDM-je vsake kinodvorane"
 msgid "Write all KDMs to the same folder"
 msgstr "Zapiši vse KDM-je v isto mapo"
 
-#: src/wx/export_video_file_dialog.cc:81
+#: src/wx/export_video_file_dialog.cc:86
 msgid "Write each audio channel to its own stream"
 msgstr "Zapiši vsak zvočni kanal v lasten tok"
 
-#: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:78
+#: src/wx/export_subtitles_dialog.cc:42 src/wx/export_video_file_dialog.cc:83
 msgid "Write reels into separate files"
 msgstr "Zapiši kolute v ločene datoteke"
+
+#: src/wx/full_config_dialog.cc:137
+msgid "Write relative content paths"
+msgstr ""
 
 #: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:114
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
 msgstr "Piši v"
 
-#: src/wx/about_dialog.cc:103
+#: src/wx/about_dialog.cc:112
 msgid "Written by"
 msgstr "Avtorji"
 
-#: src/wx/text_panel.cc:103 src/wx/text_panel.cc:111
+#: src/wx/text_panel.cc:88 src/wx/text_panel.cc:96
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:106
+#: src/wx/text_panel.cc:91
 msgid "Y"
 msgstr "Y"
 
@@ -4124,7 +4355,7 @@ msgstr "Pretvorba YUV v RGB"
 msgid "YUV to RGB matrix"
 msgstr "Matrika YUV v RGB"
 
-#: src/wx/screens_panel.cc:392
+#: src/wx/screens_panel.cc:403
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
@@ -4133,7 +4364,7 @@ msgstr ""
 "Platna z imenom »%s« ne morete dodati, saj ima kinodvorana že platno s tem "
 "imenom."
 
-#: src/wx/screens_panel.cc:442
+#: src/wx/screens_panel.cc:455
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -4161,24 +4392,30 @@ msgstr ""
 msgid "Your email address"
 msgstr "Vpišite svoj e-poštni naslov"
 
-#: src/wx/timeline_dialog.cc:77
+#: src/wx/content_timeline_dialog.cc:77
 msgid "Zoom"
 msgstr "Povečaj"
 
-#: src/wx/timeline_dialog.cc:78
+#: src/wx/content_timeline_dialog.cc:78
 msgid "Zoom all"
 msgstr "Pokaži vse"
 
-#: src/wx/timeline_dialog.cc:77
+#: src/wx/content_timeline_dialog.cc:77
 msgid "Zoom in / out"
 msgstr "Približaj/oddalji"
 
-#: src/wx/timeline_dialog.cc:78
+#: src/wx/content_timeline_dialog.cc:78
 msgid "Zoom out to whole film"
 msgstr "Pomanjšaj na celoten film"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_dialog.cc:481
+#: src/wx/verify_dcp_result_panel.cc:628
+#, fuzzy, c-format
+msgid "and %d warnings."
+msgstr "in 1 opozorilo."
+
+#. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+#: src/wx/verify_dcp_result_panel.cc:625
 msgid "and 1 warning."
 msgstr "in 1 opozorilo."
 
@@ -4190,31 +4427,36 @@ msgstr "kandel na m²"
 msgid "cinema"
 msgstr "kino"
 
-#: src/wx/text_panel.cc:98 src/wx/text_panel.cc:614
+#: src/wx/text_panel.cc:567
 msgid "closed captions"
 msgstr "zaprti napisi"
+
+#: src/wx/text_panel.cc:566
+#, fuzzy
+msgid "closed subtitles"
+msgstr "odprti podnaslovi"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
 msgstr "vrednost komponente"
 
-#: src/wx/audio_panel.cc:119
+#: src/wx/audio_panel.cc:111
 msgid "content"
 msgstr "vsebina"
 
-#: src/wx/full_config_dialog.cc:1729
+#: src/wx/full_config_dialog.cc:1610
 msgid "content filename"
 msgstr "ime datoteke vsebine"
 
-#: src/wx/video_panel.cc:190
+#: src/wx/video_panel.cc:182
 msgid "custom"
 msgstr "po meri"
 
-#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:95
+#: src/wx/audio_gain_dialog.cc:37 src/wx/audio_panel.cc:87
 msgid "dB"
 msgstr "dB"
 
-#: src/wx/full_config_dialog.cc:390
+#: src/wx/full_config_dialog.cc:367
 msgid "days"
 msgstr "dni"
 
@@ -4223,7 +4465,7 @@ msgstr "dni"
 msgid "e.g. %s"
 msgstr "npr. %s"
 
-#: src/wx/system_information_dialog.cc:70
+#: src/wx/system_information_dialog.cc:71
 msgid "enabled"
 msgstr "omogočeno"
 
@@ -4244,11 +4486,11 @@ msgstr "čevelj-lambert(ov)"
 msgid "from date/time"
 msgstr "od datuma/časa"
 
-#: src/wx/player_config_dialog.cc:98
+#: src/wx/player_config_dialog.cc:105
 msgid "full screen"
 msgstr "celozaslonsko"
 
-#: src/wx/player_config_dialog.cc:99
+#: src/wx/player_config_dialog.cc:106
 msgid "full screen with separate advanced controls"
 msgstr "celozaslonsko z ločenimi naprednimi kontrolniki"
 
@@ -4262,45 +4504,50 @@ msgstr "u"
 msgid "m"
 msgstr "m"
 
-#: src/wx/full_config_dialog.cc:392
+#: src/wx/full_config_dialog.cc:369
 msgid "months"
 msgstr "mesecev"
 
 #. TRANSLATORS: this is an abbreviation for milliseconds, the unit of time
-#: src/wx/audio_panel.cc:109 src/wx/full_config_dialog.cc:332
+#: src/wx/audio_panel.cc:101 src/wx/full_config_dialog.cc:330
 msgid "ms"
 msgstr "ms"
 
-#: src/wx/system_information_dialog.cc:70
+#: src/wx/system_information_dialog.cc:71
 msgid "not enabled"
 msgstr "ni omogočeno"
 
-#: src/wx/full_config_dialog.cc:1728
+#: src/wx/full_config_dialog.cc:1609
 msgid "number of reels"
 msgstr "število kolutov"
 
-#: src/wx/text_panel.cc:97 src/wx/text_panel.cc:612
+#: src/wx/text_panel.cc:564
+#, fuzzy
+msgid "open captions"
+msgstr "Zaprti napisi"
+
+#: src/wx/text_panel.cc:563
 msgid "open subtitles"
 msgstr "odprti podnaslovi"
 
-#: src/wx/config_dialog.cc:870
+#: src/wx/config_dialog.cc:873
 msgid "output"
 msgstr "izhod"
 
-#: src/wx/full_config_dialog.cc:879
+#: src/wx/full_config_dialog.cc:730
 msgid "port"
 msgstr "vrata"
 
-#: src/wx/full_config_dialog.cc:883
+#: src/wx/full_config_dialog.cc:734
 msgid "protocol"
 msgstr "protokol"
 
-#: src/wx/full_config_dialog.cc:1727
+#: src/wx/full_config_dialog.cc:1608
 msgid "reel number"
 msgstr "število kolutov"
 
 #. TRANSLATORS: this is an abbreviation for "seconds"
-#: src/wx/full_config_dialog.cc:298 src/wx/timing_panel.cc:89
+#: src/wx/full_config_dialog.cc:313 src/wx/timing_panel.cc:89
 msgid "s"
 msgstr "s"
 
@@ -4320,39 +4567,40 @@ msgstr "krat"
 msgid "to date/time"
 msgstr "v datum/čas"
 
-#: src/wx/video_panel.cc:189
+#: src/wx/video_panel.cc:181
 msgid "to fit DCP"
 msgstr "umeri po velikosti DCP"
 
-#: src/wx/full_config_dialog.cc:1707
+#: src/wx/full_config_dialog.cc:1588
 msgid "type (cpl/pkl)"
 msgstr "vrsta (cpl/pkl)"
 
-#: src/wx/full_config_dialog.cc:1726
+#: src/wx/full_config_dialog.cc:1607
 msgid "type (j2c/pcm/sub)"
 msgstr "vrsta (j2c/pcm/sub)"
 
-#: src/wx/system_information_dialog.cc:60
+#: src/wx/system_information_dialog.cc:61
 msgid "unknown"
 msgstr "neznano"
 
-#: src/wx/system_information_dialog.cc:51
-msgid "unknown (OpenGL not enabled in DCP-o-matic)"
+#: src/wx/system_information_dialog.cc:52
+#, fuzzy, c-format
+msgid "unknown (OpenGL not enabled in %s)"
 msgstr "neznano (OpenGL ni omogočen v DCP-o-matic)"
 
-#: src/wx/kdm_timing_panel.cc:73
+#: src/wx/kdm_timing_panel.cc:75
 msgid "until"
 msgstr "do"
 
-#: src/wx/system_information_dialog.cc:69
+#: src/wx/system_information_dialog.cc:70
 msgid "vsync"
 msgstr "vsync"
 
-#: src/wx/full_config_dialog.cc:391
+#: src/wx/full_config_dialog.cc:368
 msgid "weeks"
 msgstr "tednov"
 
-#: src/wx/player_config_dialog.cc:97
+#: src/wx/player_config_dialog.cc:104
 msgid "window"
 msgstr "okno"
 
@@ -4364,7 +4612,7 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
-#: src/wx/full_config_dialog.cc:393
+#: src/wx/full_config_dialog.cc:370
 msgid "years"
 msgstr "let"
 
@@ -4374,6 +4622,119 @@ msgstr "let"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "da"
+
+#~ msgid "(restart DCP-o-matic to see all ratios)"
+#~ msgstr "(ponovno zaženite DCP-o-matic, da vidite vsa razmerja stranic)"
+
+#~ msgid "About DCP-o-matic"
+#~ msgstr "O programu DCP-o-matic"
+
+#, c-format
+#~ msgid ""
+#~ "At least one frame of the video asset %f is over the limit of 250Mbit/s."
+#~ msgstr "Vsaj ena sličica video vsebine %f je preko meje 250 Mbit/s."
+
+#~ msgid "Audio language"
+#~ msgstr "Jezik zvoka"
+
+#~ msgid "CCAP track"
+#~ msgstr "Steza CCAP"
+
+#~ msgid "Cannot reference this DCP's audio: "
+#~ msgstr "Sklicevanje na zvok tega DCP-ja ni možno: "
+
+#~ msgid "Cannot reference this DCP's subtitles or captions: "
+#~ msgstr "Sklicevanje na podnaslove ali napise tega DCP-ja ni možno: "
+
+#~ msgid "Cannot reference this DCP's video: "
+#~ msgstr "Sklicevanje na videoposnetek tega DCP-ja ni možno: "
+
+#~ msgid ""
+#~ "Could not write cinema details to the cinemas.xml file.  Check that the "
+#~ "location of cinemas.xml is valid in DCP-o-matic's preferences."
+#~ msgstr ""
+#~ "Podrobnosti o kinodvorani ni bilo mogoče zapisati v datoteko cinemas."
+#~ "xml.  Preverite, ali je mesto cinemas.xml v nastavitvah DCP-o-matic "
+#~ "veljavno."
+
+#~ msgid "DCP-o-matic"
+#~ msgstr "DCP-o-matic"
+
+#~ msgid "DCP-o-matic Disk Writer"
+#~ msgstr "Zapisovalec diska DCP-o-matic"
+
+#~ msgid "DCP-o-matic Player Preferences"
+#~ msgstr "Nastavitve predvajalnika DCP-o-matic"
+
+#~ msgid "DCP-o-matic Playlist Editor Preferences"
+#~ msgstr "Nastavitve urejevalnika seznamov predvajanja DCP-o-matic"
+
+#~ msgid "DCP-o-matic test email"
+#~ msgstr "Poskusno sporočilo DCP-o-matic"
+
+#~ msgid "Default DCP audio channels"
+#~ msgstr "Privzeti zvočni kanali DCP"
+
+#~ msgid "Default JPEG2000 bandwidth"
+#~ msgstr "Privzeta pasovna širina JPEG2000"
+
+#~ msgid "Default chain"
+#~ msgstr "Privzeta veriga"
+
+#~ msgid "Default content type"
+#~ msgstr "Privzeta vrsta vsebine"
+
+#~ msgid "Default distributor"
+#~ msgstr "Privzeti distributer"
+
+#~ msgid "Default facility"
+#~ msgstr "Privzeti obrat"
+
+#~ msgid "Default standard"
+#~ msgstr "Privzeti standard"
+
+#~ msgid "Default studio"
+#~ msgstr "Privzeti studio"
+
+#~ msgid "Default territory"
+#~ msgstr "Privzeto ozemlje"
+
+#~ msgid "Default territory to use for new DCPs"
+#~ msgstr "Privzeto ozemlje objave, ki se uporablja za nove filme"
+
+#~ msgid ""
+#~ "How the DCP should be split into parts internally.  If in doubt, choose "
+#~ "'Single reel'"
+#~ msgstr ""
+#~ "Kako naj bo DCP interno razdeljen po kosih.  Če niste prepričan, izberite "
+#~ "»Enojni kolut«"
+
+#~ msgid "Number of threads DCP-o-matic encode server should use"
+#~ msgstr "Število niti, ki naj jih uporablja kodirni strežnik DCP-o-matic"
+
+#~ msgid "Reel length"
+#~ msgstr "Dolžina koluta"
+
+#~ msgid "Reel|Custom"
+#~ msgstr "Kolut|Po meri"
+
+#~ msgid "Template name"
+#~ msgstr "Ime predloge"
+
+#~ msgid "Translate"
+#~ msgstr "Prevedi"
+
+#~ msgid "Use this DCP's audio as OV and make VF"
+#~ msgstr "Uporabite zvok tega DCP-ja kot OV in naredi VF"
+
+#~ msgid "Use this DCP's closed caption as OV and make VF"
+#~ msgstr "Uporabi zaprte napise DCP-ja kot OV in naredi VF"
+
+#~ msgid "Use this DCP's subtitle as OV and make VF"
+#~ msgstr "Uporabi podnaslove DCP-ja kot OV in naredi VF"
+
+#~ msgid "Use this DCP's video as OV and make VF"
+#~ msgstr "Uporabite videoposnetek DCP-ja kot OV in naredi VF"
 
 #~ msgid "Send translations"
 #~ msgstr "Pošlji prevode"
