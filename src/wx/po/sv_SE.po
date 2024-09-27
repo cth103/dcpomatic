@@ -2997,8 +2997,8 @@ msgid "Split by video content"
 msgstr "Dela i akter baserat på källmaterial för bild"
 
 #: src/wx/update_dialog.cc:53
-msgid "Stable version "
-msgstr "Stabil version "
+msgid "Stable version %s"
+msgstr "Stabil version %s"
 
 #: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3133,8 +3133,8 @@ msgid "Test email sent."
 msgstr "Debug: epost skickas"
 
 #: src/wx/update_dialog.cc:59
-msgid "Test version "
-msgstr "Testversion "
+msgid "Test version %s"
+msgstr "Testversion %s"
 
 #: src/wx/about_dialog.cc:237
 msgid "Tested by"
