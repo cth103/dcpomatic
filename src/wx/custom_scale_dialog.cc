@@ -42,7 +42,7 @@ CustomScaleDialog::CustomScaleDialog (wxWindow* parent, dcp::Size initial, dcp::
 	_ratio_to_fit = new wxRadioButton (this, wxID_ANY, _("Set ratio and fit to DCP container"));
 	add (_ratio_to_fit);
 	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-	_ratio = new wxTextCtrl (this, wxID_ANY, _(""), wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
+	_ratio = new wxTextCtrl (this, wxID_ANY, wxString{}, wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
 	s->Add (_ratio, 1, wxRIGHT, 4);
 	add_label_to_sizer(s, this, char_to_wx(":1"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	add (s);
