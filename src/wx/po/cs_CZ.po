@@ -2952,8 +2952,8 @@ msgid "Split by video content"
 msgstr "Rozdělení podle obsahu videa"
 
 #: src/wx/update_dialog.cc:53
-msgid "Stable version "
-msgstr "Stabilní verze "
+msgid "Stable version %s"
+msgstr "Stabilní verze %s"
 
 #: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3083,8 +3083,8 @@ msgid "Test email sent."
 msgstr "Testovací e-mail odeslán."
 
 #: src/wx/update_dialog.cc:59
-msgid "Test version "
-msgstr "Testovací verze "
+msgid "Test version %s"
+msgstr "Testovací verze %s"
 
 #: src/wx/about_dialog.cc:237
 msgid "Tested by"

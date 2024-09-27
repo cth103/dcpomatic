@@ -2950,8 +2950,8 @@ msgid "Split by video content"
 msgstr "根据视频内容进行分割"
 
 #: src/wx/update_dialog.cc:53
-msgid "Stable version "
-msgstr "稳定版 "
+msgid "Stable version %s"
+msgstr "稳定版 %s"
 
 #: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3082,8 +3082,8 @@ msgid "Test email sent."
 msgstr "测试邮件已发送。"
 
 #: src/wx/update_dialog.cc:59
-msgid "Test version "
-msgstr "测试版 "
+msgid "Test version %s"
+msgstr "测试版 %s"
 
 #: src/wx/about_dialog.cc:237
 msgid "Tested by"

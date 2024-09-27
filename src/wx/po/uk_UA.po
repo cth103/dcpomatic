@@ -3031,8 +3031,8 @@ msgid "Split by video content"
 msgstr "Розділяти по відео-контенту"
 
 #: src/wx/update_dialog.cc:53
-msgid "Stable version "
-msgstr "Стабільна версія"
+msgid "Stable version %s"
+msgstr "Стабільна версія %s"
 
 #: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3173,8 +3173,8 @@ msgid "Test email sent."
 msgstr "Відладка: відправка email"
 
 #: src/wx/update_dialog.cc:59
-msgid "Test version "
-msgstr "Тестова версія"
+msgid "Test version %s"
+msgstr "Тестова версія %s"
 
 #: src/wx/about_dialog.cc:237
 msgid "Tested by"

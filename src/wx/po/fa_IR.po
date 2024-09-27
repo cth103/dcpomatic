@@ -2945,8 +2945,8 @@ msgid "Split by video content"
 msgstr "تقسیم بر اساس محتوای ویدیو"
 
 #: src/wx/update_dialog.cc:53
-msgid "Stable version "
-msgstr "نسخه پایدار "
+msgid "Stable version %s"
+msgstr "نسخه پایدار %s"
 
 #: src/wx/dcp_panel.cc:120 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3076,8 +3076,8 @@ msgid "Test email sent."
 msgstr "ایمیل آزمایشی ارسال شد."
 
 #: src/wx/update_dialog.cc:59
-msgid "Test version "
-msgstr "نسخه آزمایشی "
+msgid "Test version %s"
+msgstr "نسخه آزمایشی %s"
 
 #: src/wx/about_dialog.cc:237
 msgid "Tested by"
