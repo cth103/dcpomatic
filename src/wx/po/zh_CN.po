@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 19:56+0200\n"
+"POT-Creation-Date: 2024-09-27 20:49+0200\n"
 "PO-Revision-Date: 2023-09-02 01:45+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -325,7 +325,7 @@ msgstr "JPEG2000帧没有TLM标记。"
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "JPEG2000图块大小与图像大小不匹配。"
 
-#: src/wx/update_dialog.cc:44
+#: src/wx/update_dialog.cc:45
 #, fuzzy, c-format
 msgid "A new version of %s is available."
 msgstr "发现新版本的DCP-o-matic可用。"
@@ -1045,6 +1045,11 @@ msgstr "创建者"
 #: src/wx/video_panel.cc:91
 msgid "Crop"
 msgstr "裁剪"
+
+#: src/wx/update_dialog.cc:68
+#, fuzzy
+msgid "Current version"
+msgstr "内容版本"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -2248,7 +2253,7 @@ msgstr "需要OV"
 msgid "New name"
 msgstr "新名称"
 
-#: src/wx/update_dialog.cc:46
+#: src/wx/update_dialog.cc:47
 #, fuzzy, c-format
 msgid "New versions of %s are available."
 msgstr "有新版本的DCP-o-matic可用。"
@@ -3145,9 +3150,9 @@ msgstr ""
 msgid "Split by video content"
 msgstr "根据视频内容进行分割"
 
-#: src/wx/update_dialog.cc:54
-#, c-format
-msgid "Stable version %s"
+#: src/wx/update_dialog.cc:55
+#, fuzzy
+msgid "Stable version"
 msgstr "稳定版 %s"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
@@ -3279,9 +3284,9 @@ msgstr "未能发送测试邮件。"
 msgid "Test email sent."
 msgstr "测试邮件已发送。"
 
-#: src/wx/update_dialog.cc:60
-#, c-format
-msgid "Test version %s"
+#: src/wx/update_dialog.cc:62
+#, fuzzy
+msgid "Test version"
 msgstr "测试版 %s"
 
 #: src/wx/about_dialog.cc:246
@@ -4118,7 +4123,7 @@ msgstr "不能被识别的序列号格式。（不要以数字，H或F开头）"
 msgid "Unspecified"
 msgstr "未指定"
 
-#: src/wx/update_dialog.cc:37
+#: src/wx/update_dialog.cc:38
 msgid "Update"
 msgstr "更新"
 

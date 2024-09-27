@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 19:56+0200\n"
+"POT-Creation-Date: 2024-09-27 20:49+0200\n"
 "PO-Revision-Date: 2018-02-25 14:45-0600\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -313,7 +313,7 @@ msgstr ""
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr ""
 
-#: src/wx/update_dialog.cc:44
+#: src/wx/update_dialog.cc:45
 #, fuzzy, c-format
 msgid "A new version of %s is available."
 msgstr "Una nueva versión de DCP-o-matic está disponible."
@@ -1059,6 +1059,11 @@ msgstr "Creador"
 #: src/wx/video_panel.cc:91
 msgid "Crop"
 msgstr "Recortar"
+
+#: src/wx/update_dialog.cc:68
+#, fuzzy
+msgid "Current version"
+msgstr "Versión del contenido"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -2275,7 +2280,7 @@ msgstr "Necesita OV"
 msgid "New name"
 msgstr "Nuevo nombre"
 
-#: src/wx/update_dialog.cc:46
+#: src/wx/update_dialog.cc:47
 #, fuzzy, c-format
 msgid "New versions of %s are available."
 msgstr "Nuevas versiones disponibles de DCP-o-matic."
@@ -3202,9 +3207,9 @@ msgstr ""
 msgid "Split by video content"
 msgstr "Dividir por contenido"
 
-#: src/wx/update_dialog.cc:54
-#, c-format
-msgid "Stable version %s"
+#: src/wx/update_dialog.cc:55
+#, fuzzy
+msgid "Stable version"
 msgstr "Versión estable %s"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
@@ -3346,9 +3351,9 @@ msgstr "Depurar: envío de correo"
 msgid "Test email sent."
 msgstr "Depurar: envío de correo"
 
-#: src/wx/update_dialog.cc:60
-#, c-format
-msgid "Test version %s"
+#: src/wx/update_dialog.cc:62
+#, fuzzy
+msgid "Test version"
 msgstr "Versión de prueba %s"
 
 #: src/wx/about_dialog.cc:246
@@ -4156,7 +4161,7 @@ msgstr ""
 msgid "Unspecified"
 msgstr ""
 
-#: src/wx/update_dialog.cc:37
+#: src/wx/update_dialog.cc:38
 msgid "Update"
 msgstr "Actualizar"
 

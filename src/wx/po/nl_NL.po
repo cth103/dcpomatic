@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 19:56+0200\n"
+"POT-Creation-Date: 2024-09-27 20:49+0200\n"
 "PO-Revision-Date: 2024-07-12 00:36+0200\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -319,7 +319,7 @@ msgstr "Een JPEG2000-frame heeft geen TLM marker."
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 
-#: src/wx/update_dialog.cc:44
+#: src/wx/update_dialog.cc:45
 #, fuzzy, c-format
 msgid "A new version of %s is available."
 msgstr "Er is een nieuwe versie van DCP-o-matic beschikbaar."
@@ -1047,6 +1047,11 @@ msgstr "Creator"
 #: src/wx/video_panel.cc:91
 msgid "Crop"
 msgstr "Snijd bij"
+
+#: src/wx/update_dialog.cc:68
+#, fuzzy
+msgid "Current version"
+msgstr "Content-versie"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -2265,7 +2270,7 @@ msgstr "Heeft OV nodig"
 msgid "New name"
 msgstr "Nieuwe naam"
 
-#: src/wx/update_dialog.cc:46
+#: src/wx/update_dialog.cc:47
 #, fuzzy, c-format
 msgid "New versions of %s are available."
 msgstr "Er zijn nieuwe versies van DCP-o-matic beschikbaar."
@@ -3166,9 +3171,9 @@ msgstr ""
 msgid "Split by video content"
 msgstr "Splits per video-content"
 
-#: src/wx/update_dialog.cc:54
-#, c-format
-msgid "Stable version %s"
+#: src/wx/update_dialog.cc:55
+#, fuzzy
+msgid "Stable version"
 msgstr "Stabiele versie %s"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
@@ -3299,9 +3304,9 @@ msgstr "Verzenden test e-mail mislukt."
 msgid "Test email sent."
 msgstr "Test e-mail verzonden."
 
-#: src/wx/update_dialog.cc:60
-#, c-format
-msgid "Test version %s"
+#: src/wx/update_dialog.cc:62
+#, fuzzy
+msgid "Test version"
 msgstr "Test-versie %s"
 
 #: src/wx/about_dialog.cc:246
@@ -4206,7 +4211,7 @@ msgstr "Niet-herkend serienummer-formaat (begint niet met een cijfer, H of F)"
 msgid "Unspecified"
 msgstr "Niet gespecificeerd"
 
-#: src/wx/update_dialog.cc:37
+#: src/wx/update_dialog.cc:38
 msgid "Update"
 msgstr "Update"
 

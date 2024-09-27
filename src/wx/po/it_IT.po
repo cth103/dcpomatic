@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 19:56+0200\n"
+"POT-Creation-Date: 2024-09-27 20:49+0200\n"
 "PO-Revision-Date: 2018-09-30 18:21+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -313,7 +313,7 @@ msgstr ""
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr ""
 
-#: src/wx/update_dialog.cc:44
+#: src/wx/update_dialog.cc:45
 #, fuzzy, c-format
 msgid "A new version of %s is available."
 msgstr "Una nuova versione di DCP-o-MATIC è disponibile."
@@ -1056,6 +1056,11 @@ msgstr "Autore"
 #: src/wx/video_panel.cc:91
 msgid "Crop"
 msgstr "Ritaglia"
+
+#: src/wx/update_dialog.cc:68
+#, fuzzy
+msgid "Current version"
+msgstr "Versione del contenuto"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -2264,7 +2269,7 @@ msgstr "Necessari OV"
 msgid "New name"
 msgstr "Nuovo nome"
 
-#: src/wx/update_dialog.cc:46
+#: src/wx/update_dialog.cc:47
 #, fuzzy, c-format
 msgid "New versions of %s are available."
 msgstr "Una nuova versione di DCP-o-MATIC è disponibile."
@@ -3185,9 +3190,9 @@ msgstr ""
 msgid "Split by video content"
 msgstr "Dividi per contenuto video"
 
-#: src/wx/update_dialog.cc:54
-#, c-format
-msgid "Stable version %s"
+#: src/wx/update_dialog.cc:55
+#, fuzzy
+msgid "Stable version"
 msgstr "Versione stabile %s"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
@@ -3329,9 +3334,9 @@ msgstr "Debug: invio email"
 msgid "Test email sent."
 msgstr "Debug: invio email"
 
-#: src/wx/update_dialog.cc:60
-#, c-format
-msgid "Test version %s"
+#: src/wx/update_dialog.cc:62
+#, fuzzy
+msgid "Test version"
 msgstr "Versione di test %s"
 
 #: src/wx/about_dialog.cc:246
@@ -4135,7 +4140,7 @@ msgstr ""
 msgid "Unspecified"
 msgstr ""
 
-#: src/wx/update_dialog.cc:37
+#: src/wx/update_dialog.cc:38
 msgid "Update"
 msgstr "Aggiorna"
 

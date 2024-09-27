@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 19:56+0200\n"
+"POT-Creation-Date: 2024-09-27 20:49+0200\n"
 "PO-Revision-Date: 2024-01-11 18:22+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -317,7 +317,7 @@ msgstr "یک فریم JPEG2000 نشانه TLM ندارد."
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "اندازه یک قطعه JPEG2000 با اندازه تصویر مطابقت ندارد."
 
-#: src/wx/update_dialog.cc:44
+#: src/wx/update_dialog.cc:45
 #, fuzzy, c-format
 msgid "A new version of %s is available."
 msgstr "یک نسخه جدید دی سی پی-او-ماتیک در دسترس است."
@@ -1034,6 +1034,11 @@ msgstr "سازنده"
 #: src/wx/video_panel.cc:91
 msgid "Crop"
 msgstr "برش"
+
+#: src/wx/update_dialog.cc:68
+#, fuzzy
+msgid "Current version"
+msgstr "نسخه محتوا"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -2241,7 +2246,7 @@ msgstr "نیاز به نسخه اصلی دارد"
 msgid "New name"
 msgstr "اسم جدید"
 
-#: src/wx/update_dialog.cc:46
+#: src/wx/update_dialog.cc:47
 #, fuzzy, c-format
 msgid "New versions of %s are available."
 msgstr "نسخه جدید دی سی پی-او-ماتیک در دسترس است."
@@ -3136,9 +3141,9 @@ msgstr ""
 msgid "Split by video content"
 msgstr "تقسیم بر اساس محتوای ویدیو"
 
-#: src/wx/update_dialog.cc:54
-#, c-format
-msgid "Stable version %s"
+#: src/wx/update_dialog.cc:55
+#, fuzzy
+msgid "Stable version"
 msgstr "نسخه پایدار %s"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
@@ -3269,9 +3274,9 @@ msgstr "خطا در ارسال ایمیل آزمایشی."
 msgid "Test email sent."
 msgstr "ایمیل آزمایشی ارسال شد."
 
-#: src/wx/update_dialog.cc:60
-#, c-format
-msgid "Test version %s"
+#: src/wx/update_dialog.cc:62
+#, fuzzy
+msgid "Test version"
 msgstr "نسخه آزمایشی %s"
 
 #: src/wx/about_dialog.cc:246
@@ -4163,7 +4168,7 @@ msgstr "فرمت شماره سریال ناشناخته (با عدد، H یا F 
 msgid "Unspecified"
 msgstr "نامشخص"
 
-#: src/wx/update_dialog.cc:37
+#: src/wx/update_dialog.cc:38
 msgid "Update"
 msgstr "به روز"
 
