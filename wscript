@@ -24,8 +24,6 @@ import os
 import shlex
 import sys
 import glob
-import distutils
-import distutils.spawn
 try:
     # python 2
     from urllib import urlencode
