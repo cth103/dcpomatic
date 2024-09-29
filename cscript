@@ -547,21 +547,27 @@ def dependencies(target, options):
     deps.append(('openssl', '54298369cacfe0ae01c5aa42ace8a463fd2e7a2e'))
     if can_build_disk(target):
         deps.append(('lwext4', 'ab082923a791b58478d1d9939d65a0583566ac1f'))
-    deps.append(('ffcmp', '29265c42838fbb647c404cf73b6fca5259cf2093'))
+    if build_tests(target):
+        deps.append(('ffcmp', '29265c42838fbb647c404cf73b6fca5259cf2093'))
 
     return deps
 
 option_defaults = { "gui": True, "variant": None }
 
-def configure_options(target, options, for_package=False):
-    opt = ' --warnings-are-errors'
 
-    if for_package or not (
+def build_tests(target):
+    # Currently we only build tests on macOS, Windows, and some Ubuntu versions
+    return (
             (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '22.04', '24.04']) or
             (target.platform == 'osx') or
             (target.platform == 'windows')
-        ):
-        # Currently we only build tests on macOS, Windows, and some Ubuntu versions
+        )
+
+
+def configure_options(target, options, for_package=False):
+    opt = ' --warnings-are-errors'
+
+    if for_package or not build_tests(target):
         opt += ' --disable-tests'
 
     if target.debug:
