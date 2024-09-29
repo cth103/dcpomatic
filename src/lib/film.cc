@@ -142,8 +142,10 @@ static constexpr char assets_file[] = "assets.xml";
  * have had Subtitle prefixes or suffixes removed.
  * 37 -> 38
  * VideoContent scale expressed just as "guess" or "custom"
+ * 38 -> 39
+ * Fade{In,Out} -> VideoFade{In,Out}
  */
-int const Film::current_state_version = 38;
+int const Film::current_state_version = 39;
 
 
 /** Construct a Film object in a given directory.

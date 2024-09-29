@@ -138,7 +138,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_time_calculation_test)
 	doc->read_string (xml);
 
 	list<string> notes;
-	auto content = std::make_shared<FFmpegContent>(doc, boost::none, film->state_version(), notes);
+	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 
 	/* 25fps content, 25fps DCP */
 	film->set_video_frame_rate (25);
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	doc->read_string (xml);
 
 	list<string> notes;
-	auto content = std::make_shared<FFmpegContent>(doc, boost::none, film->state_version(), notes);
+	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 	film->set_sequence (false);
 	film->add_content (content);
 
@@ -398,7 +398,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	doc->read_string (xml);
 
 	list<string> notes;
-	auto content = std::make_shared<FFmpegContent>(doc, boost::none, film->state_version(), notes);
+	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 	film->set_sequence (false);
 	film->add_content (content);
 
@@ -574,7 +574,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	doc->read_string (xml);
 
 	list<string> notes;
-	auto content = std::make_shared<FFmpegContent>(doc, boost::none, film->state_version(), notes);
+	auto content = std::make_shared<FFmpegContent>(doc, boost::none, 38, notes);
 	auto stream = content->audio->streams().front();
 	film->set_sequence (false);
 	film->add_content (content);
