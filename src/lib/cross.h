@@ -25,6 +25,7 @@
 #ifndef DCPOMATIC_CROSS_H
 #define DCPOMATIC_CROSS_H
 
+#include <list>
 #ifdef DCPOMATIC_OSX
 #include <IOKit/pwr_mgt/IOPMLib.h>
 #endif
