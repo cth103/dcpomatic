@@ -330,7 +330,7 @@ MetadataDialog::setup_advanced (wxPanel* panel, wxSizer* sizer)
 		sizer->Add (s, 1, wxEXPAND);
 	}
 
-	_luminance_unit->add_entry(_("candela per m²"));
+	_luminance_unit->add_entry(wxGetTranslation(wxString::FromUTF8("candela per m²")));
 	_luminance_unit->add_entry(_("foot lambert"));
 }
 
