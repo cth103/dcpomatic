@@ -101,7 +101,7 @@ public:
 	static ChangeSignalDespatcher* instance()
 	{
 		static boost::mutex _instance_mutex;
-		static boost::mutex::scoped_lock lm(_instance_mutex);
+		boost::mutex::scoped_lock lm(_instance_mutex);
 		static ChangeSignalDespatcher<T, P>* _instance;
 		if (!_instance) {
 			_instance = new ChangeSignalDespatcher<T, P>();
