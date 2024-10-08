@@ -720,7 +720,7 @@ def build(target, options, for_package):
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
     elif target.platform != 'linux' or target.detail == 'appimage' or not for_package:
-        if target.distro == 'arch':
+        if target.platform == 'linux' and target.distro == 'arch':
             # We're using a special pinned distro FFmpeg on Arch, and this is necessary to find it
             target.append_with_colon('PKG_CONFIG_PATH', '/usr/lib/ffmpeg4.4/pkgconfig')
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options, for_package)))
