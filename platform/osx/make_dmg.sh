@@ -290,6 +290,9 @@ function copy_resources {
 	mkdir "$dest/$lang"
 	cp $ENV/$ARCH1/share/locale/$lang/LC_MESSAGES/wxstd*.mo "$dest/$lang"
     done
+
+	mkdir "$dest/fa"
+	cp $source/build/src/wx/mo/fa_IR/wxstd.mo "$dest/fa/wxstd-3.2.mo"
 }
 
 # param $1 list of things that link to other things

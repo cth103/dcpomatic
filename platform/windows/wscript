@@ -344,6 +344,7 @@ SetOutPath "$INSTDIR\\locale\\fa_IR\\LC_MESSAGES"
 File "%binaries%/src/lib/mo/fa_IR/libdcpomatic2.mo"
 File "%binaries%/src/wx/mo/fa_IR/libdcpomatic2-wx.mo"
 File "%binaries%/src/tools/mo/fa_IR/dcpomatic2.mo"
+File /oname=wxstd-3.1.mo "%binaries%/src/wx/mo/fa_IR/wxstd.mo"
 
 SetOutPath "$INSTDIR"
 File "%resources%/../../fonts/LiberationSans-Regular.ttf"
