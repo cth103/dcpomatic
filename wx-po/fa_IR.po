@@ -47,13 +47,13 @@ msgstr ""
 #: ../src/msw/msgdlg.cpp:447 ../src/msw/msgdlg.cpp:751
 #: ../src/richtext/richtextstyledlg.cpp:293
 msgid "OK"
-msgstr ""
+msgstr "تایید"
 
 #: ../include/wx/msgdlg.h:281 ../src/common/stockitem.cpp:151
 #: ../src/msw/msgdlg.cpp:447 ../src/msw/progdlg.cpp:884
 #: ../src/richtext/richtextstyledlg.cpp:296
 msgid "Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: ../include/wx/msgdlg.h:282 ../src/common/stockitem.cpp:169
 #: ../src/html/helpdlg.cpp:63 ../src/html/helpfrm.cpp:108
@@ -333,7 +333,7 @@ msgstr ""
 #: ../src/common/accelcmn.cpp:68
 msgctxt "keyboard key"
 msgid "Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: ../src/common/accelcmn.cpp:69
 msgctxt "keyboard key"
@@ -3096,7 +3096,7 @@ msgstr ""
 #: ../src/common/prntbase.cpp:1634 ../src/common/stockitem.cpp:154
 #: ../src/generic/logg.cpp:513 ../src/univ/themes/win32.cpp:3753
 msgid "&Close"
-msgstr ""
+msgstr "بستن"
 
 #: ../src/common/prntbase.cpp:2060
 msgid "Could not start document preview."
@@ -3230,7 +3230,7 @@ msgstr ""
 #: ../src/generic/fontdlgg.cpp:484 ../src/generic/wizard.cpp:435
 #: ../src/osx/carbon/fontdlg.cpp:398 ../src/osx/cocoa/button.mm:157
 msgid "&Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: ../src/common/stockitem.cpp:152
 msgid "&CD-ROM"
@@ -3254,7 +3254,7 @@ msgstr ""
 #: ../src/richtext/richtextstyledlg.cpp:273
 #: ../src/richtext/richtextsymboldlg.cpp:449
 msgid "Close"
-msgstr ""
+msgstr "بستن"
 
 #: ../src/common/stockitem.cpp:155
 msgid "&Convert"
@@ -3471,7 +3471,7 @@ msgstr ""
 #: ../src/common/stockitem.cpp:184 ../src/generic/fontdlgg.cpp:470
 #: ../src/generic/fontdlgg.cpp:477 ../src/osx/carbon/fontdlg.cpp:404
 msgid "&OK"
-msgstr ""
+msgstr "تایید"
 
 #: ../src/common/stockitem.cpp:185 ../src/generic/dbgrptg.cpp:342
 msgid "&Open..."
