@@ -236,7 +236,7 @@ Email::send(string server, int port, EmailProtocol protocol, string user, string
 
 	auto const r = curl_easy_perform (curl);
 	if (r != CURLE_OK) {
-		throw NetworkError (_("Failed to send email"), string(curl_easy_strerror(r)));
+		throw NetworkError(_("Failed to send email"), String::compose("%1 sending to %2:%3", curl_easy_strerror(r), server, port));
 	}
 
 	curl_slist_free_all (recipients);
