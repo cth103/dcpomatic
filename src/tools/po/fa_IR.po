@@ -58,7 +58,7 @@ msgstr "%s قابل اجرا نیست."
 
 #: src/tools/dcpomatic_batch.cc:89
 msgid "&Add Film...\tCtrl-A"
-msgstr "&افزودن فیلم... Ctrl-A"
+msgstr "&افزودن فیلم...\tCtrl-A"
 
 #: src/tools/dcpomatic_player.cc:598
 msgid "&Add OV..."
@@ -70,7 +70,7 @@ msgstr "&بستن"
 
 #: src/tools/dcpomatic.cc:1355
 msgid "&Close\tCtrl-W"
-msgstr "&بستن ... Ctrl-W"
+msgstr "&بستن ...\tCtrl-W"
 
 #: src/tools/dcpomatic_batch.cc:111 src/tools/dcpomatic.cc:1440
 #: src/tools/dcpomatic_kdm.cc:318 src/tools/dcpomatic_player.cc:661
@@ -103,12 +103,12 @@ msgstr "&عملیات"
 
 #: src/tools/dcpomatic.cc:1386
 msgid "&Make DCP\tCtrl-M"
-msgstr "&ساخت دی سی پی ...Ctrl-M"
+msgstr "&ساخت دی سی پی ...\tCtrl-M"
 
 #: src/tools/dcpomatic.cc:1342 src/tools/dcpomatic_editor.cc:354
 #: src/tools/dcpomatic_player.cc:597
 msgid "&Open...\tCtrl-O"
-msgstr "&باز کردن... Ctrl-O"
+msgstr "&باز کردن...\tCtrl-O"
 
 #: src/tools/dcpomatic_batch.cc:97 src/tools/dcpomatic.cc:1377
 #: src/tools/dcpomatic_kdm.cc:300 src/tools/dcpomatic_player.cc:616
@@ -120,7 +120,7 @@ msgstr "&اولویتها.…\tCtrl-,"
 #: src/tools/dcpomatic_kdm.cc:303 src/tools/dcpomatic_player.cc:619
 #: src/tools/dcpomatic_playlist.cc:588
 msgid "&Preferences...\tCtrl-P"
-msgstr "&اولویتها... Ctrl-P"
+msgstr "&اولویتها...\tCtrl-P"
 
 #: src/tools/dcpomatic_batch.cc:93 src/tools/dcpomatic.cc:1364
 #: src/tools/dcpomatic_editor.cc:361 src/tools/dcpomatic_kdm.cc:296
@@ -130,11 +130,11 @@ msgstr "&خروج از برنامه"
 
 #: src/tools/dcpomatic.cc:1345 src/tools/dcpomatic_editor.cc:356
 msgid "&Save\tCtrl-S"
-msgstr "&ذخیره کردن ... Ctrl-S"
+msgstr "&ذخیره کردن ...\tCtrl-S"
 
 #: src/tools/dcpomatic_player.cc:601
 msgid "&Save frame to file...\tCtrl-S"
-msgstr "& ذخیره سازی فریم در یک فایل...Ctrl-S"
+msgstr "& ذخیره سازی فریم در یک فایل...\tCtrl-S"
 
 #: src/tools/dcpomatic.cc:1400
 msgid "&Send DCP to TMS"
@@ -330,7 +330,7 @@ msgstr "کپی دی سی پی"
 
 #: src/tools/dcpomatic.cc:1369
 msgid "Copy settings\tCtrl-C"
-msgstr "کپی تنظیمات...Ctrl-C"
+msgstr "کپی تنظیمات...\tCtrl-C"
 
 #: src/tools/dcpomatic.cc:577 src/tools/dcpomatic.cc:586
 msgid "Could not create folder to store film."
@@ -633,7 +633,7 @@ msgstr "اکسپورت زیرنویس ها..."
 
 #: src/tools/dcpomatic.cc:1397
 msgid "Export video file...\tCtrl-E"
-msgstr "اکسپورت فایل ویدیو...Ctrl-E"
+msgstr "اکسپورت فایل ویدیو...\tCtrl-E"
 
 #: src/tools/dcpomatic_kdm.cc:218
 msgid "Export..."
@@ -713,15 +713,15 @@ msgstr "بارگذاری محتوا"
 
 #: src/tools/dcpomatic.cc:1393
 msgid "Make &DKDMs...\tCtrl-D"
-msgstr "ساخت &کلیدهای توزیع...Ctrl-D"
+msgstr "ساخت &کلیدهای توزیع...\tCtrl-D"
 
 #: src/tools/dcpomatic.cc:1391
 msgid "Make &KDMs...\tCtrl-K"
-msgstr "ساخت &کلیدها...Ctrl-K"
+msgstr "ساخت &کلیدها...\tCtrl-K"
 
 #: src/tools/dcpomatic.cc:1388
 msgid "Make DCP in &batch converter\tCtrl-B"
-msgstr "ساخت دی سی پی در &مبدل دسته ای... Ctrl-B"
+msgstr "ساخت دی سی پی در &مبدل دسته ای...\tCtrl-B"
 
 #: src/tools/dcpomatic.cc:1394
 #, c-format
@@ -751,7 +751,7 @@ msgstr "لیست نمایش جدید"
 
 #: src/tools/dcpomatic.cc:1340
 msgid "New...\tCtrl-N"
-msgstr "جدید.....Ctrl-N"
+msgstr "جدید.....\tCtrl-N"
 
 #: src/tools/dcpomatic_disk.cc:93
 msgid ""
@@ -785,7 +785,7 @@ msgstr "پوشه خروجی دی سی پی"
 
 #: src/tools/dcpomatic.cc:1371
 msgid "Paste settings...\tCtrl-V"
-msgstr "چسباندن تنظیمات...Ctrl-V"
+msgstr "چسباندن تنظیمات...\tCtrl-V"
 
 #: src/tools/dcpomatic_batch.cc:179
 msgid "Pause or resume conversion"
@@ -920,7 +920,7 @@ msgstr "انتخاب کلید"
 
 #: src/tools/dcpomatic.cc:1374
 msgid "Select all\tShift-Ctrl-A"
-msgstr "انتخاب همه....Shift-Ctrl-A"
+msgstr "انتخاب همه....\tShift-Ctrl-A"
 
 #: src/tools/dcpomatic_batch.cc:335 src/tools/dcpomatic.cc:595
 msgid "Select film to open"
