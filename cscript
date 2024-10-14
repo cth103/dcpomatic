@@ -535,7 +535,7 @@ def make_spec(filename, version, target, options, requires=None):
     print('/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :', file=f)
 
 def dependencies(target, options):
-    deps = [('libdcp', 'v1.9.22', {'c++17': target.platform.startswith('osx')})]
+    deps = [('libdcp', 'v1.9.23', {'c++17': target.platform.startswith('osx')})]
     deps.append(('libsub', 'v1.6.52'))
     deps.append(('leqm-nrt', '30dcaea1373ac62fba050e02ce5b0c1085797a23'))
     deps.append(('rtaudio', 'f619b76'))
@@ -546,21 +546,27 @@ def dependencies(target, options):
     deps.append(('openssl', '54298369cacfe0ae01c5aa42ace8a463fd2e7a2e'))
     if can_build_disk(target):
         deps.append(('lwext4', 'ab082923a791b58478d1d9939d65a0583566ac1f'))
-    deps.append(('ffcmp', 'd7fabbe7bf85a7fc25963cfbeb9be83eb9edaef3'))
+    if build_tests(target):
+        deps.append(('ffcmp', 'abf0c6effd059194709c2d755a61f2d683597644'))
 
     return deps
 
 option_defaults = { "gui": True, "variant": None }
 
-def configure_options(target, options, for_package=False):
-    opt = ' --warnings-are-errors'
 
-    if for_package or not (
+def build_tests(target):
+    # Currently we only build tests on macOS, Windows, and some Ubuntu versions
+    return (
             (target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['18.04', '22.04', '24.04']) or
             (target.platform == 'osx') or
             (target.platform == 'windows')
-        ):
-        # Currently we only build tests on macOS, Windows, and some Ubuntu versions
+        )
+
+
+def configure_options(target, options, for_package=False):
+    opt = ' --warnings-are-errors'
+
+    if for_package or not build_tests(target):
         opt += ' --disable-tests'
 
     if target.debug:
@@ -568,7 +574,9 @@ def configure_options(target, options, for_package=False):
     if target.platform == 'windows':
         opt += f' --target-windows-{target.bits}'
     elif target.platform == 'linux':
-        opt += ' --static-dcpomatic --static-wxwidgets --static-ffmpeg --static-dcp --static-sub --static-cxml'
+        opt += ' --static-dcpomatic --static-wxwidgets --static-dcp --static-sub --static-cxml'
+        if target.distro != 'arch':
+            opt += ' --static-ffmpeg'
         if target.distro == 'centos':
             if target.version == '6.5':
                 opt += ' --static-boost --static-xmlpp'
@@ -716,6 +724,9 @@ def build(target, options, for_package):
             json.dump(desc, outfile)
         target.command('%s --repo=build/platform/repo build/platform/flatpak build/com.dcpomatic.DCP-o-matic.json' % target.flatpak_builder())
     elif target.platform != 'linux' or target.detail == 'appimage' or not for_package:
+        if target.platform == 'linux' and target.distro == 'arch':
+            # We're using a special pinned distro FFmpeg on Arch, and this is necessary to find it
+            target.append_with_colon('PKG_CONFIG_PATH', '/usr/lib/ffmpeg4.4/pkgconfig')
         target.command('./waf configure --prefix=%s %s' % (target.directory, configure_options(target, options, for_package)))
         target.command('./waf')
         target.command('./waf install')

@@ -105,6 +105,7 @@ DownloadCertificatePanel::download ()
 
 	/* Hack: without this the SetLabel() above has no visible effect */
 	wxMilliSleep (200);
+	wxYield();
 
 	signal_manager->when_idle (boost::bind(&DownloadCertificatePanel::do_download, this));
 }

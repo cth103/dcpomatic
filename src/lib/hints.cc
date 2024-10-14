@@ -56,7 +56,6 @@ using std::shared_ptr;
 using std::string;
 using std::weak_ptr;
 using boost::optional;
-using boost::bind;
 using namespace dcpomatic;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
@@ -87,7 +86,7 @@ Hints::Hints (weak_ptr<const Film> weak_film)
 void
 Hints::start ()
 {
-	_thread = boost::thread (bind(&Hints::thread, this));
+	_thread = boost::thread(boost::bind(&Hints::thread, this));
 }
 
 
@@ -412,11 +411,11 @@ Hints::scan_content(shared_ptr<const Film> film)
 	}
 
 	if (check_loudness_done && have_text) {
-		emit (bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
+		emit(boost::bind(boost::ref(Progress), _("Examining subtitles and closed captions")));
 	} else if (!check_loudness_done && !have_text) {
-		emit (bind(boost::ref(Progress), _("Examining audio")));
+		emit(boost::bind(boost::ref(Progress), _("Examining audio")));
 	} else {
-		emit (bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
+		emit(boost::bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
 	}
 
 	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
@@ -426,9 +425,9 @@ Hints::scan_content(shared_ptr<const Film> film)
 		player->set_ignore_audio();
 	} else {
 		/* Send auto to the analyser to check loudness */
-		player->Audio.connect(bind(&Hints::audio, this, _1, _2));
+		player->Audio.connect(boost::bind(&Hints::audio, this, _1, _2));
 	}
-	player->Text.connect(bind(&Hints::text, this, _1, _2, _3, _4));
+	player->Text.connect(boost::bind(&Hints::text, this, _1, _2, _3, _4));
 
 	struct timeval last_pulse;
 	gettimeofday(&last_pulse, 0);
@@ -443,7 +442,7 @@ Hints::scan_content(shared_ptr<const Film> film)
 			if (_stop) {
 				return;
 			}
-			emit(bind(boost::ref(Pulse)));
+			emit(boost::bind(boost::ref(Pulse)));
 			last_pulse = now;
 		}
 	}
@@ -536,7 +535,7 @@ try
 	}
 	dcp::filesystem::remove_all(dcp_dir);
 
-	emit (bind(boost::ref(Finished)));
+	emit(boost::bind(boost::ref(Finished)));
 }
 catch (boost::thread_interrupted)
 {
@@ -551,7 +550,7 @@ catch (...)
 void
 Hints::hint (string h)
 {
-	emit(bind(boost::ref(Hint), h));
+	emit(boost::bind(boost::ref(Hint), h));
 }
 
 

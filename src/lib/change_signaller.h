@@ -87,21 +87,19 @@ public:
 	{
 		boost::mutex::scoped_lock lm(_mutex);
 		auto pending = _pending;
+		_pending.clear();
+		_suspended = false;
 		lm.unlock();
 
 		for (auto signal: pending) {
 			signal.thing->signal_change(signal.type, signal.property);
 		}
-
-		lm.lock();
-		_pending.clear();
-		_suspended = false;
 	}
 
 	static ChangeSignalDespatcher* instance()
 	{
 		static boost::mutex _instance_mutex;
-		static boost::mutex::scoped_lock lm(_instance_mutex);
+		boost::mutex::scoped_lock lm(_instance_mutex);
 		static ChangeSignalDespatcher<T, P>* _instance;
 		if (!_instance) {
 			_instance = new ChangeSignalDespatcher<T, P>();
