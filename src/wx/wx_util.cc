@@ -513,7 +513,6 @@ dcpomatic_setup_i18n ()
 #endif
 
 		locale->AddCatalog(char_to_wx("wxstd"));
-		locale->AddCatalog(char_to_wx("wxstd-3.2"));
 		locale->AddCatalog(char_to_wx("libdcpomatic2-wx"));
 		locale->AddCatalog(char_to_wx("dcpomatic2"));
 
