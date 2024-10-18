@@ -19,6 +19,8 @@ override_dh_auto_configure:
 override_dh_auto_build:
 	./waf build
 
+extra_mo = debian/$(CDIST_PACKAGE)/usr/share/local/fa_IR/LC_MESSAGES/wxstd.mo
+
 override_dh_auto_install:
 	./waf install --destdir=debian/$(CDIST_PACKAGE)
 	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/de/LC_MESSAGES/
@@ -38,7 +40,7 @@ override_dh_auto_install:
 	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/ru/LC_MESSAGES/
 	cp -a /usr/share/locale/ru/LC_MESSAGES/wxstd-$(CDIST_WX_VERSION).mo debian/$(CDIST_PACKAGE)/usr/share/locale/ru/LC_MESSAGES/dcpomatic2-wxstd.mo
 	mkdir -p debian/$(CDIST_PACKAGE)/usr/share/locale/fa/LC_MESSAGES/
-	cp -a $(CDIST_DIRECTORY)/src/dcpomatic/build/deb/dcpomatic-*/build/src/wx/mo/fa_IR/wxstd.mo debian/$(CDIST_PACKAGE)/usr/share/locale/fa/LC_MESSAGES/dcpomatic2-wxstd.mo
+	@if [ -e $(extra_mo) ]; then mv $(extra_mo) debian/$(CDIST_PACKAGE)/usr/share/locale/fa/LC_MESSAGES/dcpomatic2-wxstd.mo; fi
 	cp -a $(CDIST_DIRECTORY)/src/openssl/apps/openssl debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_openssl
 	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpverify debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_verify_cli
 	cp -a $(CDIST_DIRECTORY)/src/libdcp/build/tools/dcpkdm debian/$(CDIST_PACKAGE)/usr/bin/dcpomatic2_kdm_inspect

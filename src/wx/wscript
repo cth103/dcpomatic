@@ -346,7 +346,9 @@ def build(bld):
     i18n.po_to_mo(os.path.join('src', 'wx'), 'libdcpomatic2-wx', bld)
     # Extra wxWidgets .mo file (not installed by wxWidgets apparently) that contains some
     # of our own translations
-    bld(rule='msgfmt -c ${SRC} -o ${TGT}', source=bld.path.make_node(os.path.join('..', '..', 'wx-po', 'fa_IR.po')), target=bld.path.get_bld().make_node(os.path.join('mo', 'fa_IR', 'wxstd.mo')))
+    mo = os.path.join('mo', 'fa_IR', 'wxstd.mo')
+    bld(rule='msgfmt -c ${SRC} -o ${TGT}', source=bld.path.make_node(os.path.join('..', '..', 'wx-po', 'fa_IR.po')), target=bld.path.get_bld().make_node(mo))
+    bld.install_files(os.path.join('${PREFIX}', 'share', 'locale', 'fa_IR', 'LC_MESSAGES'), mo)
 
 def pot(bld):
     i18n.pot(os.path.join('src', 'wx'), sources + " editable_list.h content_widget.h", 'libdcpomatic-wx')
