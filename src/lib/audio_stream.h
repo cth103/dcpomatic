@@ -54,6 +54,11 @@ public:
 		return _length;
 	}
 
+	void set_length(Frame length) {
+		boost::mutex::scoped_lock lm (_mutex);
+		_length = length;
+	}
+
 	int channels () const;
 	boost::optional<int> bit_depth() const;
 
