@@ -144,24 +144,25 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 		auto context = _codec_context[packet->stream_index];
 
-		if (_video_stream && packet->stream_index == _video_stream.get()) {
-			video_packet (context, temporal_reference, packet);
-		}
+		auto carry_on = false;
 
-		bool got_all_audio = true;
+		if (_video_stream && packet->stream_index == _video_stream.get()) {
+			if (video_packet(context, temporal_reference, packet)) {
+				carry_on = true;
+			}
+		}
 
 		for (size_t i = 0; i < _audio_streams.size(); ++i) {
 			if (_audio_streams[i]->uses_index(_format_context, packet->stream_index)) {
-				audio_packet (context, _audio_streams[i], packet);
-			}
-			if (!_audio_streams[i]->first_audio) {
-				got_all_audio = false;
+				if (audio_packet(context, _audio_streams[i], packet)) {
+					carry_on = true;
+				}
 			}
 		}
 
 		av_packet_free (&packet);
 
-		if (_first_video && got_all_audio && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
+		if (!carry_on) {
 			/* All done */
 			break;
 		}
@@ -261,26 +262,27 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 }
 
 
-void
+bool
 FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
 {
 	if (stream->first_audio) {
-		return;
+		return false;
 	}
 
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
-		return;
+		return false;
 	}
 
 	auto frame = audio_frame (stream);
 
 	if (avcodec_receive_frame (context, frame) < 0) {
-		return;
+		return false;
 	}
 
 	stream->first_audio = frame_time (frame, stream->stream(_format_context));
+	return true;
 }
 
 

@@ -89,7 +89,7 @@ public:
 
 private:
 	bool video_packet (AVCodecContext* context, std::string& temporal_reference, AVPacket* packet);
-	void audio_packet (AVCodecContext* context, std::shared_ptr<FFmpegAudioStream>, AVPacket* packet);
+	bool audio_packet (AVCodecContext* context, std::shared_ptr<FFmpegAudioStream>, AVPacket* packet);
 
 	std::string stream_name (AVStream* s) const;
 	std::string subtitle_stream_name (AVStream* s) const;
