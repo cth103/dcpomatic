@@ -245,10 +245,10 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 		_first_video = frame_time (_video_frame, _format_context->streams[_video_stream.get()]);
 	}
 	if (_need_video_length) {
-		_video_length = frame_time (
+		_video_length = frame_time(
 			_video_frame,
 			_format_context->streams[_video_stream.get()]
-			).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
+			).get_value_or({}).frames_round(video_frame_rate().get()) + 1;
 	}
 	if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
 		temporal_reference += (_video_frame->top_field_first ? "T" : "B");
