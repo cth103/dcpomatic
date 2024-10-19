@@ -62,9 +62,6 @@ static const int PULLDOWN_CHECK_FRAMES = 16;
 /** @param job job that the examiner is operating in, or 0 */
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)
 	: FFmpeg (c)
-	, _video_length (0)
-	, _need_video_length (false)
-	, _pulldown (false)
 {
 	/* Find audio and subtitle streams */
 

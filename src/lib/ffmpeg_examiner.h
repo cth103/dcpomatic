@@ -101,11 +101,11 @@ private:
 	/** Video length, either obtained from the header or derived by running
 	 *  through the whole file.
 	 */
-	Frame _video_length;
-	bool _need_video_length;
+	Frame _video_length = 0;
+	bool _need_video_length = false;
 
 	boost::optional<double> _rotation;
-	bool _pulldown;
+	bool _pulldown = false;
 
 	struct SubtitleStart
 	{
