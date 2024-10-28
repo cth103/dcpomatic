@@ -102,8 +102,7 @@ private:
 	 *  through the whole file.
 	 */
 	Frame _video_length = 0;
-	bool _need_video_length = false;
-	bool _need_audio_length = false;
+	bool _need_length = false;
 
 	boost::optional<double> _rotation;
 	bool _pulldown = false;

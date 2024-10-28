@@ -63,6 +63,7 @@ static const int PULLDOWN_CHECK_FRAMES = 16;
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)
 	: FFmpeg (c)
 {
+	_need_length = _format_context->duration == AV_NOPTS_VALUE;
 	/* Find audio and subtitle streams */
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
@@ -78,10 +79,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 				s->codecpar->channel_layout = av_get_default_channel_layout (s->codecpar->channels);
 			}
 
-			if (_format_context->duration == AV_NOPTS_VALUE) {
-				_need_audio_length = true;
-			}
-
 			DCPOMATIC_ASSERT (codec->name);
 
 			_audio_streams.push_back (
@@ -90,7 +87,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 					codec->name,
 					s->id,
 					s->codecpar->sample_rate,
-					_need_audio_length ? 0 : rint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
+					_need_length ? 0 : rint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
 					s->codecpar->channels,
 					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
 					)
@@ -103,13 +100,10 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 	if (has_video ()) {
 		/* See if the header has duration information in it */
-		_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
-		if (!_need_video_length) {
-			_video_length = llrint ((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
-		}
+		_video_length = _need_length ? 0 : llrint((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
 	}
 
-	if (job && _need_video_length) {
+	if (job && _need_length) {
 		job->sub (_("Finding length"));
 	}
 
@@ -233,7 +227,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
-	if (_first_video && !_need_video_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
+	if (_first_video && !_need_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 		return false;
 	}
 
@@ -260,7 +254,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 	if (!_first_video) {
 		_first_video = frame_time (_video_frame, _format_context->streams[_video_stream.get()]);
 	}
-	if (_need_video_length) {
+	if (_need_length) {
 		_video_length = frame_time(
 			_video_frame,
 			_format_context->streams[_video_stream.get()]
@@ -278,7 +272,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 bool
 FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
 {
-	if (stream->first_audio && !_need_audio_length) {
+	if (stream->first_audio && !_need_length) {
 		return false;
 	}
 
@@ -298,7 +292,7 @@ FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStr
 		stream->first_audio = frame_time(frame, stream->stream(_format_context));
 	}
 
-	if (_need_audio_length) {
+	if (_need_length) {
 		stream->set_length(frame_time(frame, stream->stream(_format_context)).get_value_or({}).frames_round(stream->frame_rate()) + frame->nb_samples);
 	}
 

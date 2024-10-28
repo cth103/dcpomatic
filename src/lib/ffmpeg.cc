@@ -326,6 +326,8 @@ FFmpeg::pts_offset (vector<shared_ptr<FFmpegAudioStream>> audio_streams, optiona
 		}
 	}
 
+	DCPOMATIC_ASSERT(po != ContentTime::min());
+
 	/* If the offset is positive we would be pushing things from a -ve PTS to be played.
 	   I don't think we ever want to do that, as it seems things at -ve PTS are not meant
 	   to be seen (use for alignment bars etc.); see mantis #418.
