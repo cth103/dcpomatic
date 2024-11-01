@@ -136,3 +136,11 @@ BOOST_AUTO_TEST_CASE (ffmpeg_audio_test4)
 	BOOST_CHECK_NO_THROW (while (!player->pass()) {});
 }
 
+
+
+BOOST_AUTO_TEST_CASE(no_audio_length_in_header)
+{
+	auto content = content_factory(TestPaths::private_data() / "10-seconds.thd");
+	auto film = new_test_film2("no_audio_length_in_header", content);
+	BOOST_CHECK(content[0]->full_length(film) == dcpomatic::DCPTime::from_seconds(10));
+}

@@ -62,10 +62,8 @@ static const int PULLDOWN_CHECK_FRAMES = 16;
 /** @param job job that the examiner is operating in, or 0 */
 FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Job> job)
 	: FFmpeg (c)
-	, _video_length (0)
-	, _need_video_length (false)
-	, _pulldown (false)
 {
+	_need_length = _format_context->duration == AV_NOPTS_VALUE;
 	/* Find audio and subtitle streams */
 
 	for (uint32_t i = 0; i < _format_context->nb_streams; ++i) {
@@ -73,7 +71,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		auto codec = _codec_context[i] ? _codec_context[i]->codec : nullptr;
 		if (s->codecpar->codec_type == AVMEDIA_TYPE_AUDIO && codec) {
 
-			DCPOMATIC_ASSERT (_format_context->duration != AV_NOPTS_VALUE);
 			DCPOMATIC_ASSERT (codec->name);
 
 			_audio_streams.push_back (
@@ -82,7 +79,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 					codec->name,
 					s->id,
 					s->codecpar->sample_rate,
-					llrint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
+					_need_length ? 0 : rint ((double(_format_context->duration) / AV_TIME_BASE) * s->codecpar->sample_rate),
 					s->codecpar->ch_layout.nb_channels,
 					s->codecpar->bits_per_raw_sample ? s->codecpar->bits_per_raw_sample : s->codecpar->bits_per_coded_sample
 					)
@@ -95,13 +92,10 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 	if (has_video ()) {
 		/* See if the header has duration information in it */
-		_need_video_length = _format_context->duration == AV_NOPTS_VALUE;
-		if (!_need_video_length) {
-			_video_length = llrint ((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
-		}
+		_video_length = _need_length ? 0 : llrint((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
 	}
 
-	if (job && _need_video_length) {
+	if (job && _need_length) {
 		job->sub (_("Finding length"));
 	}
 
@@ -109,6 +103,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 *   - the first video.
 	 *   - the first audio for each stream.
 	 *   - the top-field-first and repeat-first-frame values ("temporal_reference") for the first PULLDOWN_CHECK_FRAMES video frames.
+	 * or forever if _need_length is true.
 	 */
 
 	int64_t const len = _file_group.length ();
@@ -117,6 +112,8 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 * and a string seems a reasonably neat way to do that.
 	 */
 	string temporal_reference;
+	bool carry_on_video = false;
+	std::vector<bool> carry_on_audio(_audio_streams.size());
 	while (true) {
 		auto packet = av_packet_alloc ();
 		DCPOMATIC_ASSERT (packet);
@@ -136,26 +133,37 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 
 		auto context = _codec_context[packet->stream_index];
 
-		if (_video_stream && packet->stream_index == _video_stream.get()) {
-			video_packet (context, temporal_reference, packet);
-		}
-
-		bool got_all_audio = true;
-
+		boost::optional<size_t> audio_stream_index;
 		for (size_t i = 0; i < _audio_streams.size(); ++i) {
 			if (_audio_streams[i]->uses_index(_format_context, packet->stream_index)) {
-				audio_packet (context, _audio_streams[i], packet);
+				audio_stream_index = i;
 			}
-			if (!_audio_streams[i]->first_audio) {
-				got_all_audio = false;
+		}
+
+		bool const video = _video_stream && packet->stream_index == *_video_stream;
+
+		if (!video && !audio_stream_index) {
+			av_packet_free(&packet);
+			continue;
+		}
+
+		if (video) {
+			carry_on_video = video_packet(context, temporal_reference, packet);
+		}
+
+		if (audio_stream_index) {
+			if (audio_packet(context, _audio_streams[*audio_stream_index], packet)) {
+				carry_on_audio[*audio_stream_index] = true;
 			}
 		}
 
 		av_packet_free (&packet);
 
-		if (got_all_audio && (!_video_stream || (_first_video && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)))) {
-			/* All done */
-			break;
+		if (!carry_on_video) {
+			if (std::find(carry_on_audio.begin(), carry_on_audio.end(), true) == carry_on_audio.end()) {
+				/* All done */
+				break;
+			}
 		}
 	}
 
@@ -210,7 +218,7 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 {
 	DCPOMATIC_ASSERT (_video_stream);
 
-	if (_first_video && !_need_video_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
+	if (_first_video && !_need_length && temporal_reference.size() >= (PULLDOWN_CHECK_FRAMES * 2)) {
 		return false;
 	}
 
@@ -237,11 +245,11 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 	if (!_first_video) {
 		_first_video = frame_time (_video_frame, _format_context->streams[_video_stream.get()]);
 	}
-	if (_need_video_length) {
-		_video_length = frame_time (
+	if (_need_length) {
+		_video_length = frame_time(
 			_video_frame,
 			_format_context->streams[_video_stream.get()]
-			).get_value_or (ContentTime ()).frames_round (video_frame_rate().get ());
+			).get_value_or({}).frames_round(video_frame_rate().get()) + 1;
 	}
 	if (temporal_reference.size() < (PULLDOWN_CHECK_FRAMES * 2)) {
 		temporal_reference += ((_video_frame->flags & AV_FRAME_FLAG_TOP_FIELD_FIRST) ? "T" : "B");
@@ -252,26 +260,34 @@ FFmpegExaminer::video_packet (AVCodecContext* context, string& temporal_referenc
 }
 
 
-void
+bool
 FFmpegExaminer::audio_packet (AVCodecContext* context, shared_ptr<FFmpegAudioStream> stream, AVPacket* packet)
 {
-	if (stream->first_audio) {
-		return;
+	if (stream->first_audio && !_need_length) {
+		return false;
 	}
 
 	int r = avcodec_send_packet (context, packet);
 	if (r < 0) {
 		LOG_WARNING("avcodec_send_packet returned %1 for an audio packet", r);
-		return;
+		return false;
 	}
 
 	auto frame = audio_frame (stream);
 
 	if (avcodec_receive_frame (context, frame) < 0) {
-		return;
+		return false;
 	}
 
-	stream->first_audio = frame_time (frame, stream->stream(_format_context));
+	if (!stream->first_audio) {
+		stream->first_audio = frame_time(frame, stream->stream(_format_context));
+	}
+
+	if (_need_length) {
+		stream->set_length(frame_time(frame, stream->stream(_format_context)).get_value_or({}).frames_round(stream->frame_rate()) + frame->nb_samples);
+	}
+
+	return true;
 }
 
 
