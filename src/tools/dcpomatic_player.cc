@@ -378,12 +378,15 @@ public:
 		NagDialog::maybe_nag (
 			this,
 			Config::NAG_TOO_MANY_DROPPED_FRAMES,
-			_("The player is dropping a lot of frames, so playback may not be accurate.\n\n"
-			  "<b>This does not necessarily mean that the DCP you are playing is defective!</b>\n\n"
-			  "You may be able to improve player performance by:\n"
-			  "• choosing 'decode at half resolution' or 'decode at quarter resolution' from the View menu\n"
-			  "• using a more powerful computer.\n"
-			 )
+			wxGetTranslation(
+				wxString::FromUTF8(
+					"The player is dropping a lot of frames, so playback may not be accurate.\n\n"
+				        "<b>This does not necessarily mean that the DCP you are playing is defective!</b>\n\n"
+				        "You may be able to improve player performance by:\n"
+				        "• choosing 'decode at half resolution' or 'decode at quarter resolution' from the View menu\n"
+				        "• using a more powerful computer.\n"
+					)
+				)
 			);
 	}
 
