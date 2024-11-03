@@ -378,10 +378,10 @@ Controls::setup_sensitivity ()
 void
 Controls::timecode_clicked ()
 {
-	auto dialog = make_wx<PlayheadToTimecodeDialog>(this, _viewer.position(), _film->video_frame_rate());
+	PlayheadToTimecodeDialog dialog(this, _viewer.position(), _film->video_frame_rate());
 
-	if (dialog->ShowModal() == wxID_OK) {
-		_viewer.seek(dialog->get(), true);
+	if (dialog.ShowModal() == wxID_OK) {
+		_viewer.seek(dialog.get(), true);
 	}
 }
 
@@ -389,10 +389,10 @@ Controls::timecode_clicked ()
 void
 Controls::frame_number_clicked ()
 {
-	auto dialog = make_wx<PlayheadToFrameDialog>(this, _viewer.position(), _film->video_frame_rate());
+	PlayheadToFrameDialog dialog(this, _viewer.position(), _film->video_frame_rate());
 
-	if (dialog->ShowModal() == wxID_OK) {
-		_viewer.seek(dialog->get(), true);
+	if (dialog.ShowModal() == wxID_OK) {
+		_viewer.seek(dialog.get(), true);
 	}
 }
 
