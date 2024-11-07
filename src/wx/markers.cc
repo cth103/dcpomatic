@@ -30,6 +30,8 @@ vector<pair<wxString, dcp::Marker>>
 all_editable_markers()
 {
 	return vector<pair<wxString, dcp::Marker>>{
+		{ _("First frame of ratings band"), dcp::Marker::FFOB },
+		{ _("Last frame of ratings band"), dcp::Marker::LFOB },
 		{ _("First frame of title credits"), dcp::Marker::FFTC },
 		{ _("Last frame of title credits"), dcp::Marker::LFTC },
 		{ _("First frame of intermission"), dcp::Marker::FFOI },
