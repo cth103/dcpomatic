@@ -604,7 +604,7 @@ def configure_options(target, options, for_package=False):
         if target.arch == 'arm64':
             opt += ' --wx-config=%s/wx-config' % target.bin
 
-    if target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['22.04']:
+    if target.platform == 'linux' and target.distro == 'ubuntu' and target.version in ['22.04', '24.04']:
         opt += ' --enable-grok'
 
     return opt
