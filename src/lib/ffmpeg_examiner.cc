@@ -159,9 +159,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 
 		if (audio_stream_index) {
-			if (audio_packet(context, _audio_streams[*audio_stream_index], packet)) {
-				carry_on_audio[*audio_stream_index] = true;
-			}
+			carry_on_audio[*audio_stream_index] = audio_packet(context, _audio_streams[*audio_stream_index], packet);
 		}
 
 		av_packet_free (&packet);
