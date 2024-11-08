@@ -99,7 +99,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	}
 
 	if (has_video ()) {
-		/* See if the header has duration information in it */
 		_video_length = _need_length ? 0 : llrint((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
 	}
 
