@@ -119,8 +119,8 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 * and a string seems a reasonably neat way to do that.
 	 */
 	string temporal_reference;
-	bool carry_on_video = false;
-	std::vector<bool> carry_on_audio(_audio_streams.size());
+	bool carry_on_video = has_video();
+	std::vector<bool> carry_on_audio(_audio_streams.size(), true);
 	while (true) {
 		auto packet = av_packet_alloc ();
 		DCPOMATIC_ASSERT (packet);
