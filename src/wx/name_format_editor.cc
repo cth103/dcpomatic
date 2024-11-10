@@ -51,7 +51,7 @@ NameFormatEditor::NameFormatEditor (wxWindow* parent, dcp::NameFormat name, dcp:
 		font.SetStyle (wxFONTSTYLE_ITALIC);
 		font.SetPointSize (font.GetPointSize() - 1);
 		t->SetFont (font);
-		t->SetForegroundColour (wxColour (0, 0, 204));
+		t->SetForegroundColour(gui_is_dark() ? wxColour(157, 238, 242) : wxColour(0, 0, 204));
 	}
 	_sizer->Add (titles_sizer);
 
