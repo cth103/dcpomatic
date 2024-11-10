@@ -91,7 +91,6 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	}
 
 	if (has_video ()) {
-		/* See if the header has duration information in it */
 		_video_length = _need_length ? 0 : llrint((double (_format_context->duration) / AV_TIME_BASE) * video_frame_rate().get());
 	}
 
@@ -112,8 +111,8 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 	 * and a string seems a reasonably neat way to do that.
 	 */
 	string temporal_reference;
-	bool carry_on_video = false;
-	std::vector<bool> carry_on_audio(_audio_streams.size());
+	bool carry_on_video = has_video();
+	std::vector<bool> carry_on_audio(_audio_streams.size(), true);
 	while (true) {
 		auto packet = av_packet_alloc ();
 		DCPOMATIC_ASSERT (packet);
@@ -152,9 +151,7 @@ FFmpegExaminer::FFmpegExaminer (shared_ptr<const FFmpegContent> c, shared_ptr<Jo
 		}
 
 		if (audio_stream_index) {
-			if (audio_packet(context, _audio_streams[*audio_stream_index], packet)) {
-				carry_on_audio[*audio_stream_index] = true;
-			}
+			carry_on_audio[*audio_stream_index] = audio_packet(context, _audio_streams[*audio_stream_index], packet);
 		}
 
 		av_packet_free (&packet);
