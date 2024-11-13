@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 20:49+0200\n"
-"PO-Revision-Date: 2024-07-12 00:36+0200\n"
+"PO-Revision-Date: 2024-11-12 04:12+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -45,9 +45,9 @@ msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:620
-#, fuzzy, c-format
+#, c-format
 msgid "%d Bv2.1 errors, "
-msgstr "1 Bv2.1 fout, "
+msgstr "%d Bv2.1 fouten, "
 
 #: src/wx/dkdm_dialog.cc:195
 #, c-format
@@ -76,9 +76,9 @@ msgstr "%d kanalen via %s"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:612
-#, fuzzy, c-format
+#, c-format
 msgid "%d errors, "
-msgstr "1 fout, "
+msgstr "%d fouten, "
 
 #: src/wx/player_information.cc:208 src/wx/player_information.cc:210
 #, c-format
@@ -89,47 +89,45 @@ msgstr "%s %s"
 #: src/wx/playlist_editor_config_dialog.cc:34
 #, c-format
 msgid "%s Preferences"
-msgstr ""
+msgstr "%s Voorkeuren"
 
 #: src/wx/film_name_location_dialog.cc:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s already exists as a file, so you cannot use it for a film."
 msgstr ""
-"%1 bestaat al als bestand, daarom kunt u het niet gebruiken voor een nieuwe "
-"film."
+"%s bestaat al als bestand, daarom kunt u het niet gebruiken voor een film."
 
 #: src/wx/audio_dialog.cc:170 src/wx/audio_dialog.cc:172
-#, fuzzy, c-format
+#, c-format
 msgid "%s audio - %s"
-msgstr "DCP-o-matic audio - %s"
+msgstr "%s audio - %s"
 
 #: src/wx/full_config_dialog.cc:837
-#, fuzzy, c-format
+#, c-format
 msgid "%s test email"
-msgstr "Verzend test e-mail"
+msgstr "%s test e-mail"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
 "Ole Laursen, Aaron Boxer"
 msgstr ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
-" Ole Laursen"
+"Ole Laursen, Aaron Boxer"
 
 #: src/wx/file_picker_ctrl.cc:64
 msgid "(None)"
 msgstr "(Geen)"
 
 #: src/wx/full_config_dialog.cc:1555 src/wx/player_config_dialog.cc:124
-#, fuzzy, c-format
+#, c-format
 msgid "(restart %s to change display mode)"
-msgstr "(herstart DCP-o-matic om weergavemodus-wijzigingen te zien)"
+msgstr "(herstart %s om weergavemodus te wijzigen)"
 
 #: src/wx/config_dialog.cc:154
-#, fuzzy, c-format
+#, c-format
 msgid "(restart %s to see language changes)"
-msgstr "(herstart DCP-o-matic om taalwijzigingen te zien)"
+msgstr "(herstart %s om taalwijzigingen te zien)"
 
 #: src/wx/audio_mapping_view.cc:89
 msgid "+3dB"
@@ -290,7 +288,6 @@ msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "Een 4K JPEG2000-frame heeft %n guard bits in plaats van 2."
 
 #: src/wx/verify_dcp_result_panel.cc:463
-#, fuzzy
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
 
@@ -320,14 +317,14 @@ msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
 
 #: src/wx/update_dialog.cc:45
-#, fuzzy, c-format
+#, c-format
 msgid "A new version of %s is available."
-msgstr "Er is een nieuwe versie van DCP-o-matic beschikbaar."
+msgstr "Er is een nieuwe versie van %s beschikbaar."
 
 #: src/wx/verify_dcp_result_panel.cc:400
-#, fuzzy, c-format
+#, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
-msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)"
+msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)."
 
 #: src/wx/hints_dialog.cc:183
 #, c-format
@@ -358,7 +355,7 @@ msgstr "ASIO"
 #: src/wx/about_dialog.cc:43
 #, c-format
 msgid "About %s"
-msgstr ""
+msgstr "Over %s"
 
 #: src/wx/screens_panel.cc:265
 msgid "Add Cinema"
@@ -405,9 +402,8 @@ msgstr ""
 "gebruikt worden) of een map met audiobestanden toe."
 
 #: src/wx/full_language_tag_dialog.cc:69
-#, fuzzy
 msgid "Add external"
-msgstr "Voeg Scherm toe"
+msgstr "Voeg externe toe"
 
 #: src/wx/content_panel.cc:273
 msgid "Add file(s)..."
@@ -439,22 +435,19 @@ msgstr "Voeg ontvanger toe"
 
 #: src/wx/dcp_timeline.cc:171
 msgid "Add reel boundary"
-msgstr ""
+msgstr "Voeg reel-grens toe"
 
 #: src/wx/full_language_tag_dialog.cc:65
-#, fuzzy
 msgid "Add region"
-msgstr "Voeg Scherm toe"
+msgstr "Voeg regio toe"
 
 #: src/wx/full_language_tag_dialog.cc:63
-#, fuzzy
 msgid "Add script"
-msgstr "Voeg ontvanger toe"
+msgstr "Voeg schrift toe"
 
 #: src/wx/full_language_tag_dialog.cc:67
-#, fuzzy
 msgid "Add variant"
-msgstr "Voeg ontvanger toe"
+msgstr "Voeg variant toe"
 
 #: src/wx/content_panel.cc:274
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
@@ -518,7 +511,7 @@ msgstr "Agency"
 
 #: src/wx/audio_mapping_view.cc:92
 msgid "All off"
-msgstr ""
+msgstr "Alles uit"
 
 #: src/wx/full_config_dialog.cc:1414
 msgid "Allow any DCP frame rate"
@@ -729,29 +722,24 @@ msgid "Cancel"
 msgstr "Annuleer"
 
 #: src/wx/dcp_referencing_dialog.cc:166
-#, fuzzy
 msgid "Cannot reference this DCP"
-msgstr "Kan niet aan de audio van deze DCP refereren."
+msgstr "Kan niet aan deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:178
-#, fuzzy
 msgid "Cannot reference this DCP's audio"
-msgstr "Kan niet aan de audio van deze DCP refereren."
+msgstr "Kan niet aan de audio van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:192
-#, fuzzy
 msgid "Cannot reference this DCP's closed captions"
-msgstr "Kan niet aan de ondertitels of captions van deze DCP refereren."
+msgstr "Kan niet aan de closed captions van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:185
-#, fuzzy
 msgid "Cannot reference this DCP's subtitles"
-msgstr "Kan niet aan de ondertitels of captions van deze DCP refereren."
+msgstr "Kan niet aan de ondertitels van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:171
-#, fuzzy
 msgid "Cannot reference this DCP's video"
-msgstr "Kan niet aan de video van deze DCP refereren."
+msgstr "Kan niet aan de video van deze DCP refereren"
 
 #: src/wx/text_view.cc:76
 msgid "Caption"
@@ -937,15 +925,16 @@ msgstr "Kopieer als naam"
 
 #: src/wx/content_menu.cc:106
 msgid "Copy settings from another project..."
-msgstr ""
+msgstr "Kopieer instellingen van een ander project..."
 
 #: src/wx/load_config_from_zip_dialog.cc:31
 msgid "Copy the cinemas in the ZIP file over the current list at"
-msgstr ""
+msgstr "Kopieer de bioscopen in het ZIP-bestand over de huidige lijst op"
 
 #: src/wx/load_config_from_zip_dialog.cc:37
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr ""
+"Kopieer de bioscopen in het ZIP-bestand naar de oorspronkelijke locatie op"
 
 #: src/wx/config_dialog.cc:959
 msgid "CoreAudio"
@@ -965,9 +954,9 @@ msgid "Could not find serial number %s"
 msgstr "Kan serienummer %s niet vinden"
 
 #: src/wx/content_menu.cc:634
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find this content in the project \"%s\"."
-msgstr "Kan serienummer %s niet vinden"
+msgstr "Kan deze content niet in het project \"%s\" vinden."
 
 #: src/wx/config_dialog.cc:385
 #, c-format
@@ -979,9 +968,8 @@ msgid "Could not load KDM"
 msgstr "Kan KDM niet laden"
 
 #: src/wx/playlist_controls.cc:348
-#, fuzzy
 msgid "Could not load KDM."
-msgstr "Kan KDM niet laden"
+msgstr "Kan KDM niet laden."
 
 #: src/wx/screen_dialog.cc:78
 #, c-format
@@ -1049,9 +1037,8 @@ msgid "Crop"
 msgstr "Snijd bij"
 
 #: src/wx/update_dialog.cc:68
-#, fuzzy
 msgid "Current version"
-msgstr "Content-versie"
+msgstr "Huidige versie"
 
 #: src/wx/audio_dialog.cc:473
 #, c-format
@@ -1207,7 +1194,7 @@ msgstr "Distributeur"
 
 #: src/wx/load_config_from_zip_dialog.cc:43
 msgid "Do not use the cinemas in the ZIP file"
-msgstr ""
+msgstr "Gebruik de bioscopen in het ZIP-bestand niet"
 
 #: src/wx/dolby_doremi_certificate_panel.cc:300
 msgid "Dolby / Doremi"
@@ -1312,7 +1299,7 @@ msgstr "E-mailadressen voor KDM-levering"
 
 #: src/wx/player_config_dialog.cc:96
 msgid "Enable HTTP control interface on port"
-msgstr ""
+msgstr "Schakel HTTP-besturingsinterface in op poort"
 
 #: src/wx/servers_list_dialog.cc:35
 msgid "Encoding Servers"
@@ -1415,7 +1402,7 @@ msgstr "Filmnaam"
 
 #: src/wx/content_menu.cc:620
 msgid "Film to copy settings from"
-msgstr ""
+msgstr "Film om instellingen van te kopiëren"
 
 #: src/wx/filter_dialog.cc:40
 msgid "Filters"
@@ -1438,7 +1425,7 @@ msgstr "Zoek ontbrekende..."
 
 #: src/wx/subtitle_appearance_dialog.cc:130
 msgid "Finding the colours in these subtitles..."
-msgstr "Zoeken van de kleuren in deze ondertitels..."
+msgstr "Zoeken naar de kleuren in deze ondertitels..."
 
 #: src/wx/markers.cc:37
 msgid "First frame of end credits"
@@ -1494,13 +1481,13 @@ msgstr ""
 "die dicht bij de limiet van 250 Mbit/s zit."
 
 #: src/wx/verify_dcp_result_panel.cc:239
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
 "that is over the limit of 250Mbit/s."
 msgstr ""
 "Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
-"die dicht bij de limiet van 250 Mbit/s zit."
+"die boven de limiet van 250 Mbit/s zit."
 
 #: src/wx/verify_dcp_result_panel.cc:561
 #, c-format
@@ -1785,9 +1772,9 @@ msgid "Interop"
 msgstr "Interop"
 
 #: src/wx/config_dialog.cc:798
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid %s export file"
-msgstr "Ongeldig DCP-o-matic export-bestand"
+msgstr "Ongeldig %s export-bestand"
 
 #: src/wx/invalid_certificate_period_dialog.cc:33
 msgid "Invalid certificates"
@@ -1951,19 +1938,16 @@ msgid "Load certificate..."
 msgstr "Laad certificaat..."
 
 #: src/wx/load_config_from_zip_dialog.cc:29
-#, fuzzy
 msgid "Load configuration from ZIP file"
-msgstr "Configuratiebestand"
+msgstr "Laad configuratie vanuit ZIP-bestand"
 
 #: src/wx/playlist_controls.cc:407
-#, fuzzy
 msgid "Loading content"
-msgstr "Verplaats content"
+msgstr "Laden content"
 
 #: src/wx/playlist_controls.cc:335
-#, fuzzy
 msgid "Loading playlist and KDMs"
-msgstr "Ondertekenen van DCP's en KDM's"
+msgstr "Laden afspeellijst en KDM's"
 
 #: src/wx/config_dialog.cc:1020
 msgid "Locations"
@@ -1999,9 +1983,8 @@ msgid "MOV / ProRes HQ"
 msgstr "MOV / ProRes HQ"
 
 #: src/wx/export_video_file_dialog.cc:45
-#, fuzzy
 msgid "MOV / ProRes LT"
-msgstr "MOV / ProRes HQ"
+msgstr "MOV / ProRes LT"
 
 #: src/wx/export_video_file_dialog.cc:50 src/wx/export_video_file_dialog.cc:51
 #: src/wx/export_video_file_dialog.cc:52
@@ -2017,9 +2000,8 @@ msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "MP4-bestanden (*.mp4)|*.mp4"
 
 #: src/wx/dcp_panel.cc:154
-#, fuzzy
 msgid "MPEG2 Interop"
-msgstr "Interop"
+msgstr "MPEG2 Interop"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
@@ -2076,14 +2058,12 @@ msgid "Matrix"
 msgstr "Matrix"
 
 #: src/wx/full_config_dialog.cc:1391
-#, fuzzy
 msgid "Maximum JPEG2000 bit rate"
-msgstr "Maximum JPEG2000-bandbreedte"
+msgstr "Maximum JPEG2000 bit rate"
 
 #: src/wx/full_config_dialog.cc:1400
-#, fuzzy
 msgid "Maximum MPEG2 bit rate"
-msgstr "Maximum JPEG2000-bandbreedte"
+msgstr "Maximum MPEG2 bit rate"
 
 #: src/wx/full_config_dialog.cc:1571
 msgid "Maximum number of frames to store per thread"
@@ -2091,7 +2071,7 @@ msgstr "Maximum aantal frames dat per thread kan worden opgeslagen"
 
 #: src/wx/dcp_timeline.cc:256
 msgid "Maximum reel size"
-msgstr ""
+msgstr "Maximale reel-grootte"
 
 #: src/wx/dcp_panel.cc:819 src/wx/full_config_dialog.cc:1395
 #: src/wx/full_config_dialog.cc:1404
@@ -2115,93 +2095,90 @@ msgid "Mix audio down to stereo"
 msgstr "Mix audio down naar stereo"
 
 #: src/wx/verify_dcp_result_panel.cc:471
-#, fuzzy
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
-msgstr "Een 2K JPEG2000-frame bevat %n tile parts in plaats van 3."
+msgstr ""
+"Meer 2K JPEG2000-frames (niet vermeld) hebben een verkeerd aantal tile parts."
 
 #: src/wx/verify_dcp_result_panel.cc:408
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"Meer 2K JPEG2000-frames (niet vermeld) hebben een ongeldig aantal guard bits."
 
 #: src/wx/verify_dcp_result_panel.cc:443
-#, fuzzy
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
-msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
+msgstr "Meer 2K JPEG2000-frames (niet vermeld) hebben te veel POC markers."
 
 #: src/wx/verify_dcp_result_panel.cc:415
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
+"Meer 4K JPEG2000-frames (niet vermeld) hebben een ongeldig aantal guard bits."
 
 #: src/wx/verify_dcp_result_panel.cc:450
-#, fuzzy
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
-msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
+msgstr "Meer 4K JPEG2000-frames (niet vermeld) hebben te veel POC markers."
 
 #: src/wx/verify_dcp_result_panel.cc:464
-#, fuzzy
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
-msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
+msgstr ""
+"Meer JPEG2000-frames (niet vermeld) hebben POC markers op ongeldige locaties."
 
 #: src/wx/verify_dcp_result_panel.cc:457
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
-msgstr "Een JPEG2000-frame bevat een ongeldige POC marker (%n)."
+msgstr "Meer JPEG2000-frames (niet vermeld) hebben ongeldige POC markers."
 
 #: src/wx/verify_dcp_result_panel.cc:478
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
+"Meer JPEG2000-frames (niet vermeld) hebben een verkeerd aantal tile parts."
 
 #: src/wx/verify_dcp_result_panel.cc:436
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
-msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
+msgstr ""
+"Meer JPEG2000-frames (niet vermeld) hebben een ongeldige code-block hoogte."
 
 #: src/wx/verify_dcp_result_panel.cc:429
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
-msgstr "Een JPEG2000-frame bevat een POC marker op een ongeldige locatie."
+msgstr ""
+"Meer JPEG2000-frames (niet vermeld) hebben een ongeldige code-block breedte."
 
 #: src/wx/verify_dcp_result_panel.cc:485
-#, fuzzy
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
-msgstr "Een JPEG2000-frame heeft geen TLM marker."
+msgstr "Meer JPEG2000-frames (niet vermeld) hebben geen TLM marker."
 
 #: src/wx/verify_dcp_result_panel.cc:422
-#, fuzzy
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
-msgstr "Een JPEG2000 tile-grootte komt niet overeen met de beeldgrootte."
+msgstr ""
+"Meer JPEG2000 tile-groottes (niet vermeld) komen niet overeen met de "
+"beeldgrootte."
 
 #: src/wx/verify_dcp_result_panel.cc:247
-#, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
 msgstr ""
-"Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
-"die dicht bij de limiet van 250 Mbit/s zit."
+"Meer frames (niet vermeld) hebben een momentane bit rate die dicht bij de "
+"limiet van 250 Mbit/s zit."
 
 #: src/wx/verify_dcp_result_panel.cc:240
-#, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
 msgstr ""
-"Frame %frame (tijdcode %timecode) in asset %f heeft een momentane bit rate "
-"die dicht bij de limiet van 250 Mbit/s zit."
+"Meer frames (niet vermeld) hebben een momentane bit rate die boven de limiet "
+"van 250 Mbit/s zit."
 
 #: src/wx/verify_dcp_result_panel.cc:562
 msgid "More frames (not listed) have image components that are too large."
-msgstr ""
+msgstr "Meer frames (niet vermeld) hebben te grote beeldcomponenten."
 
 #: src/wx/verify_dcp_result_panel.cc:401
-#, fuzzy
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
-msgstr "Een picture frame heeft een ongeldige JPEG2000 codestream (%n)"
+msgstr "Meer picture frames hebben ongeldige JPEG2000 codestreams."
 
 #: src/wx/markers_panel.cc:249
 #, c-format
@@ -2271,13 +2248,13 @@ msgid "New name"
 msgstr "Nieuwe naam"
 
 #: src/wx/update_dialog.cc:47
-#, fuzzy, c-format
+#, c-format
 msgid "New versions of %s are available."
-msgstr "Er zijn nieuwe versies van DCP-o-matic beschikbaar."
+msgstr "Er zijn nieuwe versies van %s beschikbaar."
 
 #: src/wx/playlist_controls.cc:62
 msgid "Next"
-msgstr ""
+msgstr "Volgende"
 
 #: src/wx/verify_dcp_result_panel.cc:228
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
@@ -2346,9 +2323,9 @@ msgid "Notify when complete"
 msgstr "Meld wanneer klaar"
 
 #: src/wx/full_config_dialog.cc:110 src/wx/full_config_dialog.cc:115
-#, fuzzy, c-format
+#, c-format
 msgid "Number of threads %s should use"
-msgstr "Aantal threads dat DCP-o-matic moet gebruiken"
+msgstr "Aantal threads dat %s moet gebruiken"
 
 #: src/wx/config_dialog.cc:966
 msgid "OSS"
@@ -2379,10 +2356,9 @@ msgid "OpenGL (faster)"
 msgstr "OpenGL (sneller)"
 
 #: src/wx/system_information_dialog.cc:83
-#, fuzzy, c-format
+#, c-format
 msgid "OpenGL renderer not supported by this %s version"
-msgstr ""
-"OpenGL renderer wordt niet ondersteund door deze versie van DCP-o-matic"
+msgstr "OpenGL renderer wordt niet ondersteund door deze versie van %s"
 
 #: src/wx/system_information_dialog.cc:51
 #: src/wx/system_information_dialog.cc:82
@@ -2514,7 +2490,7 @@ msgstr "Prestaties"
 
 #: src/wx/dcp_referencing_dialog.cc:106
 msgid "Picture"
-msgstr ""
+msgstr "Beeld"
 
 #: src/wx/full_config_dialog.cc:738
 msgid "Plain"
@@ -2537,9 +2513,8 @@ msgid "Playlist directory"
 msgstr "Afspeellijst-map"
 
 #: src/wx/playlist_controls.cc:82
-#, fuzzy
 msgid "Playlists"
-msgstr "Speel af"
+msgstr "Afspeellijsten"
 
 #: src/wx/report_problem_dialog.cc:116
 msgid ""
@@ -2563,7 +2538,7 @@ msgstr "Pre-release"
 
 #: src/wx/playlist_controls.cc:63
 msgid "Previous"
-msgstr ""
+msgstr "Vorige"
 
 #: src/wx/dcp_panel.cc:932
 msgid "Processor"
@@ -2594,9 +2569,9 @@ msgid "Quality"
 msgstr "Kwaliteit"
 
 #: src/wx/qube_certificate_panel.cc:92
-#, fuzzy, c-format
+#, c-format
 msgid "Qube %s"
-msgstr "Qube"
+msgstr "Qube %s"
 
 #: src/wx/colour_conversion_editor.cc:133
 msgid "RGB to XYZ conversion"
@@ -2675,25 +2650,23 @@ msgstr "Reel %d"
 #: src/wx/dcp_timeline.cc:68
 #, c-format
 msgid "Reel %d to reel %d"
-msgstr ""
+msgstr "Reel %d naar reel %d"
 
 #: src/wx/dcp_timeline.cc:247
-#, fuzzy
 msgid "Reel mode"
-msgstr "Reel %d"
+msgstr "Reel mode"
 
 #: src/wx/dcp_timeline_dialog.cc:50
 msgid "Reels"
 msgstr "Reels"
 
 #: src/wx/dcp_panel.cc:115
-#, fuzzy
 msgid "Reels..."
-msgstr "Reels"
+msgstr "Reels..."
 
 #: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
 msgid "Refresh"
-msgstr ""
+msgstr "Vernieuwen"
 
 #: src/wx/region_subtag_dialog.cc:31
 msgid "Region"
@@ -2728,9 +2701,8 @@ msgid "Remove Screen"
 msgstr "Verwijder Scherm"
 
 #: src/wx/dcp_timeline.cc:173
-#, fuzzy
 msgid "Remove reel boundary"
-msgstr "Verwijder Scherm"
+msgstr "Verwijder reel-grens"
 
 #: src/wx/content_panel.cc:286
 msgid "Remove the selected piece of content from the film (Delete)."
@@ -2855,26 +2827,24 @@ msgid "Sample rate"
 msgstr "Sample rate"
 
 #: src/wx/save_template_dialog.cc:41
-#, fuzzy
 msgid "Save as default"
-msgstr "Stel standaard waarden opnieuw in"
+msgstr "Bewaar als standaard"
 
 #: src/wx/save_template_dialog.cc:45
 msgid "Save as new with name"
-msgstr ""
+msgstr "Bewaar als nieuw met naam"
 
 #: src/wx/save_template_dialog.cc:43
-#, fuzzy
 msgid "Save over existing template"
-msgstr "Bewaar template"
+msgstr "Bewaar over bestaand template"
 
 #: src/wx/verify_dcp_result_panel.cc:65
 msgid "Save report as HTML..."
-msgstr ""
+msgstr "Bewaar rapport als HTML..."
 
 #: src/wx/verify_dcp_result_panel.cc:63
 msgid "Save report as text..."
-msgstr ""
+msgstr "Bewaar rapport als tekst..."
 
 #: src/wx/save_template_dialog.cc:39
 msgid "Save template"
@@ -2963,9 +2933,8 @@ msgid "Select output file"
 msgstr "Selecteer output-bestand"
 
 #: src/wx/full_language_tag_dialog.cc:222
-#, fuzzy
 msgid "Select..."
-msgstr "Selecteer"
+msgstr "Selecteer..."
 
 #: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:142
 msgid "Send by email"
@@ -3123,7 +3092,7 @@ msgstr "Vastklikken"
 
 #: src/wx/dcp_timeline.cc:267
 msgid "Snap when dragging"
-msgstr ""
+msgstr "Vastklikken tijdens het slepen"
 
 #: src/wx/invalid_certificate_period_dialog.cc:83
 msgid ""
@@ -3165,16 +3134,15 @@ msgstr "Specifiek"
 
 #: src/wx/dcp_timeline.cc:251
 msgid "Split by maximum reel size"
-msgstr ""
+msgstr "Splits per maximale reel-grootte"
 
 #: src/wx/dcp_timeline.cc:250
 msgid "Split by video content"
 msgstr "Splits per video-content"
 
 #: src/wx/update_dialog.cc:55
-#, fuzzy
 msgid "Stable version"
-msgstr "Stabiele versie %s"
+msgstr "Stabiele versie"
 
 #: src/wx/dcp_panel.cc:110 src/wx/metadata_dialog.cc:78
 #: src/wx/rating_dialog.cc:50
@@ -3243,9 +3211,8 @@ msgid "Subtitle files (.xml)|*.xml"
 msgstr "Ondertitelbestanden (.xml)|*.xml"
 
 #: src/wx/dcp_referencing_dialog.cc:106
-#, fuzzy
 msgid "Subtitles"
-msgstr "Ondertitel"
+msgstr "Ondertitels"
 
 #: src/wx/timeline_labels_view.cc:43 src/wx/timeline_labels_view.cc:80
 msgid "Subtitles/captions"
@@ -3305,9 +3272,8 @@ msgid "Test email sent."
 msgstr "Test e-mail verzonden."
 
 #: src/wx/update_dialog.cc:62
-#, fuzzy
 msgid "Test version"
-msgstr "Test-versie %s"
+msgstr "Test-versie"
 
 #: src/wx/about_dialog.cc:246
 msgid "Tested by"
@@ -3318,9 +3284,9 @@ msgid "The 'until' time must be after the 'from' time."
 msgstr "De 'tot'-tijd moet na de 'van'-tijd zijn."
 
 #: src/wx/verify_dcp_result_panel.cc:578
-#, fuzzy, c-format
+#, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
-msgstr "De <LabelText> in een <ContentVersion> in CPL %id is leeg"
+msgstr "De <LabelText> in een <ContentVersion> in CPL %cpl is leeg"
 
 #: src/wx/verify_dcp_result_panel.cc:535
 msgid ""
@@ -3330,7 +3296,7 @@ msgstr ""
 "De <MainPictureActiveArea> is geen veelvoud van 2 of is groter dan een asset."
 
 #: src/wx/disk_warning_dialog.cc:51
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The <b>%s</b> is\n"
 "\n"
@@ -3348,7 +3314,7 @@ msgid ""
 "\n"
 "into the box below, then click OK."
 msgstr ""
-"De <b>DCP-o-matic Disk Writer</b> is\n"
+"De <b>%s</b> is\n"
 "\n"
 "<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST "
 "SOFTWARE</span>\n"
@@ -3378,48 +3344,48 @@ msgstr ""
 "de ingesloten XML."
 
 #: src/wx/verify_dcp_result_panel.cc:329
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
 "<ContentTitleText>."
 msgstr ""
-"De CPL %n heeft een <AnnotationText> die niet hetzelfde is als zijn "
+"De CPL %cpl heeft een <AnnotationText> die niet hetzelfde is als zijn "
 "<ContentTitleText>."
 
 #: src/wx/verify_dcp_result_panel.cc:581
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
-msgstr "De CPL %f heeft een ongeldige namespace %n"
+msgstr "De CPL %cpl heeft een ongeldige namespace %n"
 
 #: src/wx/verify_dcp_result_panel.cc:386
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
-msgstr "De CPL %n heeft versleutelde content maar is niet ondertekend."
+msgstr "De CPL %cpl heeft versleutelde content maar is niet ondertekend."
 
 #: src/wx/verify_dcp_result_panel.cc:326
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
-msgstr "De CPL %n heeft geen <AnnotationText> tag."
+msgstr "De CPL %cpl heeft geen <AnnotationText> tag."
 
 #: src/wx/verify_dcp_result_panel.cc:584
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
-msgstr "De CPL %n heeft geen <ContentVersion> tag"
+msgstr "De CPL %cpl heeft geen <ContentVersion> tag"
 
 #: src/wx/verify_dcp_result_panel.cc:380
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
-msgstr "De CPL %n heeft geen CPL extension metadata tag."
+msgstr "De CPL %cpl heeft geen CPL extension metadata tag."
 
 #: src/wx/verify_dcp_result_panel.cc:374
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
-msgstr "De CPL %n heeft geen CPL metadata tag."
+msgstr "De CPL %cpl heeft geen CPL metadata tag."
 
 #: src/wx/verify_dcp_result_panel.cc:377
-#, fuzzy, c-format
+#, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
-msgstr "De CPL %n heeft geen CPL metadata version number tag."
+msgstr "De CPL %cpl heeft geen CPL metadata version number tag."
 
 #: src/wx/verify_dcp_result_panel.cc:383
 #, c-format
@@ -3479,7 +3445,7 @@ msgstr ""
 "marker."
 
 #: src/wx/dkdm_dialog.cc:177 src/wx/kdm_dialog.cc:247
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The KDM end period is after (or close to) the end of the signing "
 "certificates' validity period.  Either use an earlier end time for this KDM "
@@ -3487,8 +3453,7 @@ msgid ""
 msgstr ""
 "De KDM-eindtijd is na (of nabij) het einde van de geldigheidsduur van het "
 "ondertekenings-certificaat.  Gebruik een eerdere eindtijd voor deze KDM of "
-"maak uw ondertekenings-certificaten opnieuw aan bij de DCP-o-matic "
-"Voorkeuren."
+"maak uw ondertekenings-certificaten opnieuw aan bij de %s Voorkeuren."
 
 #: src/wx/dkdm_dialog.cc:172 src/wx/kdm_dialog.cc:242
 msgid ""
@@ -3499,9 +3464,9 @@ msgstr ""
 "ondertekenings-certificaat.  Gebruik een latere starttijd voor deze KDM."
 
 #: src/wx/verify_dcp_result_panel.cc:600
-#, fuzzy, c-format
+#, c-format
 msgid "The PKL %f has an invalid namespace %n"
-msgstr "De CPL %f heeft een ongeldige namespace %n"
+msgstr "De PKL %f heeft een ongeldige namespace %n"
 
 #: src/wx/verify_dcp_result_panel.cc:392
 #, c-format
@@ -3613,14 +3578,14 @@ msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "De closed caption asset %n heeft geen <EntryPoint> tag."
 
 #: src/wx/film_name_location_dialog.cc:147
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The directory %s already exists and is not empty.  Are you sure you want to "
 "use it?"
-msgstr "De map %1 bestaat al en is niet leeg.  Wilt u deze toch gebruiken?"
+msgstr "De map %s bestaat al en is niet leeg.  Wilt u deze toch gebruiken?"
 
 #: src/wx/try_unmount_dialog.cc:44
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The drive <b>%s</b> is mounted.\n"
 "\n"
@@ -3630,7 +3595,7 @@ msgid ""
 msgstr ""
 "De schijf <b>%s</b> is gekoppeld.\n"
 "\n"
-"Hij moet ontkoppeld zijn voordat DCP-o-matic ernaar kan schrijven.\n"
+"Hij moet ontkoppeld zijn voordat %s ernaar kan schrijven.\n"
 "\n"
 "Moet DCP-o-matic hem nu proberen te ontkoppelen?"
 
@@ -3697,15 +3662,14 @@ msgstr ""
 "asset-bestand beschadigd is."
 
 #: src/wx/verify_dcp_result_panel.cc:192
-#, fuzzy
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
 "corrupt."
 msgstr ""
-"De hash (%reference_hash) van de CPL %n in de PKL komt niet overeen met die "
-"van het CPL-bestand (%calculated_hash).  Dit betekent waarschijnlijk dat het "
-"CPL-bestand beschadigd is."
+"De hash (%reference_hash) van de CPL %cpl in de PKL komt niet overeen met "
+"die van het CPL-bestand (%calculated_hash).  Dit betekent waarschijnlijk dat "
+"het CPL-bestand beschadigd is."
 
 #: src/wx/verify_dcp_result_panel.cc:260
 #, c-format
@@ -3732,9 +3696,9 @@ msgstr ""
 "ContainerDuration (%s) van zijn MXF."
 
 #: src/wx/verify_dcp_result_panel.cc:323
-#, fuzzy, c-format
+#, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
-msgstr "De sound asset %f heeft een ongeldige frame rate van %n."
+msgstr "De sound asset %f heeft een ongeldige bit depth van %n."
 
 #: src/wx/verify_dcp_result_panel.cc:320
 #, c-format
@@ -3742,13 +3706,12 @@ msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "De sound asset %f heeft een ongeldige frame rate van %n."
 
 #: src/wx/dcp_panel.cc:138
-#, fuzzy
 msgid ""
 "The standard that the DCP should use.  Interop is older, and SMPTE is the "
 "newer (current) standard.  If in doubt, choose 'SMPTE'"
 msgstr ""
 "Welke standaard de DCP moet gebruiken.  Interop is ouder en SMPTE is de "
-"moderne standaard.  Kies bij twijfel voor 'SMPTE'."
+"nieuwere (huidige) standaard.  Kies bij twijfel voor 'SMPTE'."
 
 #: src/wx/verify_dcp_result_panel.cc:284
 #, c-format
@@ -3871,7 +3834,7 @@ msgid ""
 "it is a \"version file\" (VF)"
 msgstr ""
 "Deze DCP refereert aan de asset %n in een andere DCP (en misschien andere), "
-"dus het is een \"version file\" (VF)"
+"dus het is een \"Version File\" (VF)"
 
 #: src/wx/verify_dcp_result_panel.cc:257
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
@@ -3901,39 +3864,41 @@ msgstr ""
 "certificaat.  Alleen het eerste certificaat wordt gebruikt."
 
 #: src/wx/full_config_dialog.cc:838
-#, fuzzy, c-format
+#, c-format
 msgid "This is a test email from %s."
-msgstr "Dit is een test e-mail van DCP-o-matic."
+msgstr "Dit is een test e-mail van %s."
 
 #: src/wx/kdm_cpl_panel.cc:153 src/wx/kdm_cpl_panel.cc:156
 msgid "This is not a valid CPL file"
 msgstr "Dit is geen geldig CPL-bestand"
 
 #: src/wx/content_panel.cc:688
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This looks like a %s project folder, which cannot be added to a different "
 "project.  Choose the DCP folder inside the %s project folder if that's what "
 "you want to import."
 msgstr ""
-"Dit ziet eruit als een DCP-o-matic-projectmap, die niet aan een ander "
-"project kan worden toegevoegd.  Kies de DCP-map in de DCP-o-matic-projectmap "
-"als u die wilt importeren."
+"Dit ziet eruit als een %s projectmap, die niet aan een ander project kan "
+"worden toegevoegd.  Kies de DCP-map in de %s projectmap als u die wilt "
+"importeren."
 
 #: src/wx/playlist_controls.cc:353
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
+"Deze afspeellijst kan niet worden geladen omdat er een KDM ontbreekt of "
+"onjuist is."
 
 #: src/wx/playlist_controls.cc:319
 msgid "This playlist cannot be loaded as some content is missing."
-msgstr ""
+msgstr "Deze afspeellijst kan niet worden geladen omdat er content ontbreekt."
 
 #: src/wx/playlist_controls.cc:325
 msgid "This playlist is empty."
-msgstr ""
+msgstr "Deze afspeellijst is leeg."
 
 #: src/wx/full_config_dialog.cc:1300
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's JPEG2000 data as a comment.  If it is "
 "blank, a default value mentioning libdcp (an internal %s library) will be "
@@ -3941,10 +3906,10 @@ msgid ""
 msgstr ""
 "Dit wordt als commentaar naar de JPEG2000-gegevens van de DCP geschreven.  "
 "Als het leeg is, wordt een standaardwaarde gebruikt die libdcp vermeldt (een "
-"interne DCP-o-matic library)."
+"interne %s library)."
 
 #: src/wx/full_config_dialog.cc:1276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'company name'.  If it is "
 "blank, a default value mentioning libdcp (an internal %s library) will be "
@@ -3952,10 +3917,10 @@ msgid ""
 msgstr ""
 "Dit wordt als 'company name' naar de MXF-bestanden van de DCP geschreven.  "
 "Als het leeg is, wordt een standaardwaarde gebruikt die libdcp vermeldt (een "
-"interne DCP-o-matic library)."
+"interne %s library)."
 
 #: src/wx/full_config_dialog.cc:1284
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product name'.  If it is "
 "blank, a default value mentioning libdcp (an internal %s library) will be "
@@ -3963,10 +3928,10 @@ msgid ""
 msgstr ""
 "Dit wordt als 'product name' naar de MXF-bestanden van de DCP geschreven.  "
 "Als het leeg is, wordt een standaardwaarde gebruikt die libdcp vermeldt (een "
-"interne DCP-o-matic library)."
+"interne %s library)."
 
 #: src/wx/full_config_dialog.cc:1292
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's MXF files as the 'product version'.  If it "
 "is blank, a default value mentioning libdcp (an internal %s library) will be "
@@ -3974,25 +3939,25 @@ msgid ""
 msgstr ""
 "Dit wordt als 'product version' naar de MXF-bestanden van de DCP "
 "geschreven.  Als het leeg is, wordt een standaardwaarde gebruikt die libdcp "
-"vermeldt (een interne DCP-o-matic library)."
+"vermeldt (een interne %s library)."
 
 #: src/wx/full_config_dialog.cc:1268
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Creator>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
 "Dit wordt als <Creator> naar de XML-bestanden van de DCP geschreven.  Als "
-"dit leeg is, wordt een standaardwaarde gebruikt die DCP-o-matic vermeldt."
+"dit leeg is, wordt een standaardwaarde gebruikt die %s vermeldt."
 
 #: src/wx/full_config_dialog.cc:1260
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This will be written to the DCP's XML files as the <Issuer>.  If it is "
 "blank, a default value mentioning %s will be used."
 msgstr ""
 "Dit wordt als <Issuer> naar de XML-bestanden van de DCP geschreven.  Als dit "
-"leeg is, wordt een standaardwaarde gebruikt die DCP-o-matic vermeldt."
+"leeg is, wordt een standaardwaarde gebruikt die %s vermeldt."
 
 #: src/wx/servers_list_dialog.cc:53
 msgid "Threads"
@@ -4265,9 +4230,8 @@ msgid "Vendor"
 msgstr "Vendor"
 
 #: src/wx/verify_dcp_result_panel.cc:654
-#, fuzzy
 msgid "Verification report"
-msgstr "DCP-controle"
+msgstr "Verificatierapport"
 
 #: src/wx/smpte_metadata_dialog.cc:109 src/wx/system_information_dialog.cc:67
 msgid "Version"
@@ -4275,7 +4239,7 @@ msgstr "Versie"
 
 #: src/wx/dcp_referencing_dialog.cc:44
 msgid "Version file (VF) setup"
-msgstr ""
+msgstr "Instellen Version File (VF)"
 
 #: src/wx/smpte_metadata_dialog.cc:86
 msgid "Version number"
@@ -4296,12 +4260,11 @@ msgid "Video Waveform"
 msgstr "Video-golfvorm"
 
 #: src/wx/dcp_panel.cc:817
-#, fuzzy
 msgid ""
 "Video bit rate\n"
 "for newly-encoded data"
 msgstr ""
-"JPEG2000-bandbreedte\n"
+"Video bit rate\n"
 "voor nieuw-geëncodeerde data"
 
 #: src/wx/full_config_dialog.cc:1551 src/wx/player_config_dialog.cc:117
@@ -4369,7 +4332,7 @@ msgstr "Schrijf reels in afzonderlijke bestanden"
 
 #: src/wx/full_config_dialog.cc:137
 msgid "Write relative content paths"
-msgstr ""
+msgstr "Schrijf relatieve content-paden"
 
 #: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:114
 #: src/wx/self_dkdm_dialog.cc:85
@@ -4451,9 +4414,9 @@ msgstr "Zoom uit naar hele film"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:628
-#, fuzzy, c-format
+#, c-format
 msgid "and %d warnings."
-msgstr "en 1 waarschuwing."
+msgstr "en %d waarschuwingen."
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
 #: src/wx/verify_dcp_result_panel.cc:625
@@ -4473,9 +4436,8 @@ msgid "closed captions"
 msgstr "closed captions"
 
 #: src/wx/text_panel.cc:566
-#, fuzzy
 msgid "closed subtitles"
-msgstr "open ondertitels"
+msgstr "gesloten ondertitels"
 
 #: src/wx/video_waveform_dialog.cc:78
 msgid "component value"
@@ -4563,9 +4525,8 @@ msgid "number of reels"
 msgstr "aantal reels"
 
 #: src/wx/text_panel.cc:564
-#, fuzzy
 msgid "open captions"
-msgstr "Closed captions"
+msgstr "open captions"
 
 #: src/wx/text_panel.cc:563
 msgid "open subtitles"
@@ -4625,9 +4586,9 @@ msgid "unknown"
 msgstr "onbekend"
 
 #: src/wx/system_information_dialog.cc:52
-#, fuzzy, c-format
+#, c-format
 msgid "unknown (OpenGL not enabled in %s)"
-msgstr "onbekend (OpenGL niet ingeschakeld in DCP-o-matic)"
+msgstr "onbekend (OpenGL niet ingeschakeld in %s)"
 
 #: src/wx/kdm_timing_panel.cc:75
 msgid "until"
