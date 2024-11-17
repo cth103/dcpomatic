@@ -800,7 +800,7 @@ careful_string_filter (string s)
 	for (int i = 0; i < transliterated.length(); ++i) {
 		auto replacement = replacements.find(transliterated[i]);
 		if (replacement != replacements.end()) {
-			transliterated_more += replacement->second;
+			transliterated_more += static_cast<UChar32>(replacement->second);
 		} else {
 			transliterated_more += transliterated[i];
 		}
