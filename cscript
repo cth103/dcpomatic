@@ -361,7 +361,7 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print(s[:-2], file=f)
 
-def make_control(debian_version, bits, filename, debug, gui, name):
+def make_control(debian_version, filename, debug, gui, name):
     f = open(filename, 'w')
     print(f'Source: {name}', file=f)
     print('Section: video', file=f)
@@ -375,10 +375,7 @@ def make_control(debian_version, bits, filename, debug, gui, name):
     print(f'Package: {name}{suffix}', file=f)
     if gui:
         print(f'Replaces: {name}-cli', file=f)
-    if bits == 32:
-        print('Architecture: i386', file=f)
-    else:
-        print('Architecture: amd64', file=f)
+    print('Architecture: amd64', file=f)
 
     pkg = deb_depends[debian_version]
     if gui and debian_version in deb_depends_gui:
@@ -396,10 +393,7 @@ def make_control(debian_version, bits, filename, debug, gui, name):
     if debug:
         print('', file=f)
         print(f'Package: {name}{suffix}-dbg', file=f)
-        if bits == 32:
-            print('Architecture: i386', file=f)
-        else:
-            print('Architecture: amd64', file=f)
+        print('Architecture: amd64', file=f)
         print('Section: debug', file=f)
         print('Priority: extra', file=f)
         packages('Depends', pkg, f)
@@ -748,7 +742,7 @@ def package_windows(target):
 
 def package_debian(target, cpu, version, options):
     name = debian_name(options['variant'])
-    make_control(target.version, target.bits, 'debian/control', target.debug, options['gui'], name)
+    make_control(target.version, 'debian/control', target.debug, options['gui'], name)
     if target.version != '9' and target.version != '16.04' and options['gui']:
         with open('debian/postinst', 'w') as f:
             print('#!/bin/sh', file=f)
@@ -822,7 +816,7 @@ def package_rpm(target, cpu, version, options):
     if cpu == "amd64":
         cpu = "x86_64"
     else:
-        cpu = "i686"
+        raise "Unknown CPU type %s" % cpu
 
     for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
         rpms.append(os.path.abspath(p))
@@ -900,15 +894,10 @@ def package(target, version, options):
             out.append(make_appimage(target, 'DCP-o-matic Verifier', 'dcpomatic2_verifier', version))
             return out
         else:
-            if target.bits == 32:
-                cpu = 'i386'
-            else:
-                cpu = 'amd64'
-
             if target.distro == 'debian' or target.distro == 'ubuntu':
-                return package_debian(target, cpu, version, options)
+                return package_debian(target, 'amd64', version, options)
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
-                return package_rpm(target, cpu, version, options)
+                return package_rpm(target, 'amd64', version, options)
     elif target.platform == 'osx':
         archs = '-a ' + ' -a '.join(f'{t.arch}/{t.deployment}' for t in target.sub_targets)
         cmd = 'bash platform/osx/make_dmg.sh -e %s -r %s -i %s -p %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password, archs)
