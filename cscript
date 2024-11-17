@@ -751,7 +751,8 @@ def package_debian(target, cpu, version, options):
     target.command('./waf dist')
     f = open('debian/files', 'w')
     suffix = '' if options['gui'] else '-cli'
-    print(f'{name}{suffix}_{version}-1_{cpu}.deb video extra', file=f)
+    arch = 'amd64' if cpu == 'x86' else 'aarch64' if cpu == 'arm' else None
+    print(f'{name}{suffix}_{version}-1_{arch}.deb video extra', file=f)
     shutil.rmtree('build/deb', ignore_errors=True)
 
     os.makedirs('build/deb')
@@ -813,12 +814,8 @@ def package_rpm(target, cpu, version, options):
     target.command(cmd)
     rpms = []
 
-    if cpu == "amd64":
-        cpu = "x86_64"
-    else:
-        raise "Unknown CPU type %s" % cpu
-
-    for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, cpu)):
+    arch = "x86_64" if cpu == "x86" else "aarch64" if cpu == "arm" else None
+    for p in glob.glob('%s/RPMS/%s/*.rpm' % (topdir, arch)):
         rpms.append(os.path.abspath(p))
 
     return rpms
@@ -895,9 +892,9 @@ def package(target, version, options):
             return out
         else:
             if target.distro == 'debian' or target.distro == 'ubuntu':
-                return package_debian(target, 'amd64', version, options)
+                return package_debian(target, target.cpu, version, options)
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
-                return package_rpm(target, 'amd64', version, options)
+                return package_rpm(target, target.cpu, version, options)
     elif target.platform == 'osx':
         archs = '-a ' + ' -a '.join(f'{t.arch}/{t.deployment}' for t in target.sub_targets)
         cmd = 'bash platform/osx/make_dmg.sh -e %s -r %s -i %s -p %s %s' % (target.environment_prefix, target.directory, target.apple_id, target.apple_password, archs)
