@@ -197,7 +197,7 @@ private:
 		_wrapped->Hide ();
 		_sizer->Detach (_wrapped);
 		_button->Show ();
-		_sizer->Add (_button, _position, _span);
+		_sizer->Add(_button, _position, _span, wxALIGN_CENTER_VERTICAL);
 		_sizer->Layout ();
 	}
 
