@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: DCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 20:49+0200\n"
-"PO-Revision-Date: 2023-11-23 10:09+0800\n"
+"PO-Revision-Date: 2024-11-19 08:30+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.4.1\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/tools/dcpomatic_kdm.cc:462
@@ -35,30 +35,30 @@ msgid "%d KDMs written to %s"
 msgstr "%d 导出KDMs 到 %s"
 
 #: src/tools/dcpomatic_combiner.cc:174
-#, fuzzy, c-format
+#, c-format
 msgid "%s already exists as a file, so you cannot use it for a DCP."
-msgstr "%1文件已存在，您不可以将它用于DCP。"
+msgstr "%s文件已存在，您不可以将它用于DCP。"
 
 #: src/tools/dcpomatic_disk.cc:523 src/tools/dcpomatic_kdm.cc:916
 #: src/tools/dcpomatic_player.cc:1336
 #, fuzzy, c-format
 msgid "%s could not start"
-msgstr "DCP-o-matic 无法启动"
+msgstr "%s 无法启动"
 
 #: src/tools/dcpomatic_playlist.cc:687
-#, fuzzy, c-format
+#, c-format
 msgid "%s could not start %s"
-msgstr "DCP-o-matic 无法启动"
+msgstr "%s 无法启动%s"
 
 #: src/tools/dcpomatic_combiner.cc:269
-#, fuzzy, c-format
+#, c-format
 msgid "%s could not start (%s)"
-msgstr "DCP-o-matic 无法启动"
+msgstr "%s 无法启动 (%s)"
 
 #: src/tools/dcpomatic.cc:1768 src/tools/dcpomatic_editor.cc:501
 #, fuzzy, c-format
 msgid "%s could not start."
-msgstr "DCP-o-matic 无法启动"
+msgstr "%s 无法启动"
 
 #: src/tools/dcpomatic_batch.cc:89
 msgid "&Add Film...\tCtrl-A"
@@ -251,7 +251,7 @@ msgstr ""
 #: src/tools/dcpomatic_server.cc:366
 #, fuzzy, c-format
 msgid "An unknown error has occurred with the %s."
-msgstr "DCP-o-matic 服务出现未知错误。"
+msgstr "%s 服务出现未知错误。"
 
 #: src/tools/dcpomatic.cc:1020 src/tools/dcpomatic_kdm.cc:486
 msgid "An unknown exception occurred."
@@ -356,11 +356,11 @@ msgid "Could not find player."
 msgstr "无法找到播放器。"
 
 #: src/tools/dcpomatic_batch.cc:479
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not listen for new batch jobs.  Perhaps another instance of the %s is "
 "running."
-msgstr "未能侦测到新的批量任务。 可能另一个DCP-o-matic批量转换正在运行。"
+msgstr "未能侦测到新的批量任务。 可能另一个%s批量转换正在运行。"
 
 #: src/tools/dcpomatic_editor.cc:339
 msgid "Could not load DCP"
@@ -423,7 +423,7 @@ msgstr "无法在 %s 打开工程"
 #: src/tools/dcpomatic.cc:495
 #, fuzzy, c-format
 msgid "Could not open this folder as a %s project."
-msgstr "无法将此文件夹作为DCP-o-matic项目打开。"
+msgstr "无法将此文件夹作为%s项目打开。"
 
 #: src/tools/dcpomatic_kdm.cc:628
 msgid ""
@@ -439,7 +439,7 @@ msgstr "不能读取KDM。文件可能使用了不兼容的格式，或者并非
 
 #: src/tools/dcpomatic.cc:789
 msgid "Could not remove existing preferences file"
-msgstr ""
+msgstr "无法删除现有配置文件"
 
 #: src/tools/dcpomatic.cc:620 src/tools/dcpomatic.cc:1308
 msgid "Could not save project."
@@ -489,11 +489,11 @@ msgstr "DCP"
 
 #: src/tools/dcpomatic_server.cc:260
 msgid "DCP-o-matic Encode Server"
-msgstr "DCP-o-matic 编码服务器"
+msgstr "%s 编码服务器"
 
 #: src/tools/dcpomatic_disk.cc:135
 msgid "DCPs"
-msgstr ""
+msgstr "DCPs"
 
 #: src/tools/dcpomatic_combiner.cc:191
 msgid "DCPs combined successfully."
@@ -525,16 +525,16 @@ msgid "Delete"
 msgstr "删除"
 
 #: src/tools/dcpomatic_disk.cc:338
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try "
 "again."
-msgstr "您是否安装了.dmg文件里的DCP-o-matic Disk Writer.pkg？ 请检查并重试。"
+msgstr "您是否安装了.dmg文件里的%s Disk Writer.pkg？ 请检查并重试。"
 
 #: src/tools/dcpomatic_disk.cc:188
 #, fuzzy
 msgid "Disk Writer"
-msgstr "DCP-o-matic 磁盘烧录器"
+msgstr "%s 磁盘烧录器"
 
 #: src/tools/dcpomatic.cc:1919 src/tools/dcpomatic.cc:1936
 #: src/tools/dcpomatic.cc:1990
@@ -639,7 +639,7 @@ msgstr "工程已被编辑"
 
 #: src/tools/dcpomatic_disk.cc:188
 msgid "Finding disks"
-msgstr ""
+msgstr "查找磁盘"
 
 #: src/tools/dcpomatic_kdm.cc:328
 #, c-format
@@ -682,8 +682,8 @@ msgid ""
 "projects, not DCPs.  To import a DCP, create a new project with File -> New "
 "and then click the \"Add DCP...\" button."
 msgstr ""
-"您正在尝试打开一个DCP，文件->打开是用于加载DCP-o-matic项目的，而不是DCP本"
-"身。 要导入DCP，请使用文件->新建以新建一个新项目，然后单击“添加DCP …”按钮。"
+"您正在尝试打开一个DCP，文件->打开是用于加载%s项目的，而不是DCP本身。 要导入"
+"DCP，请使用文件->新建以新建一个新项目，然后单击“添加DCP …”按钮。"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "KDM|" prefix
 #: src/tools/dcpomatic_kdm.cc:167
@@ -713,7 +713,7 @@ msgstr "批量制作DCP\tCtrl+B"
 #: src/tools/dcpomatic.cc:1394
 #, fuzzy, c-format
 msgid "Make DKDM for %s..."
-msgstr "制作DCP-o-matic的KDM..."
+msgstr "制作%s的KDM..."
 
 #: src/tools/dcpomatic.cc:1420
 msgid "Manage templates..."
@@ -785,11 +785,11 @@ msgid "Picture"
 msgstr "图片"
 
 #: src/tools/dcpomatic.cc:582
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Please check that you do not have Windows controlled folder access enabled "
 "for %s."
-msgstr "请检查您是否没有为DCP-o-matic启用Windows控制的文件夹访问权限。"
+msgstr "请检查您是否没有为%s启用Windows控制的文件夹访问权限。"
 
 #: src/tools/dcpomatic_playlist.cc:417
 msgid "Question|N"
@@ -930,7 +930,7 @@ msgstr "指定ZIP文件"
 
 #: src/tools/dcpomatic_server.cc:241
 msgid "Status..."
-msgstr ""
+msgstr "状态…"
 
 #: src/tools/dcpomatic_editor.cc:176
 msgid "Subtitle"
@@ -941,9 +941,9 @@ msgid "System information..."
 msgstr "系统信息…"
 
 #: src/tools/dcpomatic.cc:1524 src/tools/dcpomatic_player.cc:1034
-#, fuzzy, c-format
+#, c-format
 msgid "The %s download server could not be contacted."
-msgstr "连接DCP-o-matic下载服务器失败。"
+msgstr "连接%s下载服务器失败。"
 
 #: src/tools/dcpomatic.cc:826
 #, c-format
@@ -975,8 +975,8 @@ msgid ""
 "certificates' validity period.  Either use an earlier end time for this KDM "
 "or re-create your signing certificates in the %s preferences window."
 msgstr ""
-"KDM结束期限在签名证书的有效期结束之后（或接近）。请调整该KDM的结束期限，或在"
-"DCP-o-matic首选项窗口中重新创建签名证书。"
+"KDM结束期限在签名证书的有效期结束之后（或接近）。请调整该KDM的结束期限，或"
+"在%s首选项窗口中重新创建签名证书。"
 
 #: src/tools/dcpomatic_kdm.cc:470
 msgid ""
@@ -1000,8 +1000,8 @@ msgid ""
 "and back up your\n"
 "configuration before continuing."
 msgstr ""
-"DCP-o-matic用于解密KDM的证书链不一致，无法被使用。\n"
-"除非您重新创建它，否则DCP-o-matic将无法运行。\n"
+"%s用于解密KDM的证书链不一致，无法被使用。\n"
+"除非您重新创建它，否则%s将无法运行。\n"
 "您是否希望重新创建解密KDM所用的证书链？ 您可能需要先选择“否”并在继续之前\n"
 "先备份您的配置。"
 
@@ -1014,7 +1014,7 @@ msgid ""
 "you want to re-create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"DCP-o-matic用于签署DCP和KDMs的证书链错误\n"
+"%s用于签署DCP和KDMs的证书链错误\n"
 "这将使得一些系统无法准确验证DCP。\n"
 "您需要重新创建签署DCPs和KDMs的证书链吗？"
 
@@ -1029,7 +1029,7 @@ msgid ""
 "certificate chain\n"
 "for signing DCPs and KDMs?"
 msgstr ""
-"DCP-o-matic用于签署DCP和KDMs的证书链错误\n"
+"%s用于签署DCP和KDMs的证书链错误\n"
 "这将使得一些系统无法准确验证DCP。\n"
 "您需要重新创建签署DCPs和KDMs的证书链吗？"
 
@@ -1042,7 +1042,7 @@ msgid ""
 "systems.\n"
 "Do you want to re-create the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"DCP-o-matic用于签署DCP和KDMs的证书链具有时长过长的有效期，\n"
+"%s用于签署DCP和KDMs的证书链具有时长过长的有效期，\n"
 "这将导致在某些系统上回放DCP时出现问题。\n"
 "您需要重新创建签署DCPs和KDMs的证书链吗？"
 
@@ -1055,8 +1055,8 @@ msgid ""
 "create\n"
 "the certificate chain for signing DCPs and KDMs?"
 msgstr ""
-"DCP-o-matic用于签署DCP和KDMs的证书链不一致且\n"
-"不能使用。除非重新创建，否则DCP-o-matic无法运行。\n"
+"%s用于签署DCP和KDMs的证书链不一致且\n"
+"不能使用。除非重新创建，否则%s无法运行。\n"
 "您想重新创建签署DCPs和KDMs的证书链吗？"
 
 #: src/tools/dcpomatic_combiner.cc:164
@@ -1105,7 +1105,7 @@ msgstr ""
 #: src/tools/dcpomatic.cc:1526 src/tools/dcpomatic_player.cc:1036
 #, fuzzy, c-format
 msgid "There are no new versions of %s available."
-msgstr "DCP-o-matic 没有新的版本。"
+msgstr "%s 没有新的版本。"
 
 #: src/tools/dcpomatic_batch.cc:279 src/tools/dcpomatic.cc:1168
 #: src/tools/dcpomatic_disk.cc:268
@@ -1126,8 +1126,8 @@ msgid ""
 "player.  Choose the DCP folder inside the %s project folder if that's what "
 "you want to play."
 msgstr ""
-"这似乎是DCP-o-matic项目文件夹，播放器无法加载。如果要播放，请选择DCP-o-matic"
-"项目文件夹中的DCP目录。"
+"这似乎是%s项目文件夹，播放器无法加载。如果要播放，请选择%s项目文件夹中的DCP目"
+"录。"
 
 #: src/tools/dcpomatic_player.cc:645
 msgid "Timing..."
@@ -1158,11 +1158,11 @@ msgstr "卸载…"
 #: src/tools/dcpomatic_player.cc:794
 #, c-format
 msgid "Unrecognised file extension %s (use .jpg, .jpeg or .png)"
-msgstr ""
+msgstr "无法识别文件格式 %s（请使用 .jpg、.jpeg 或 .png）"
 
 #: src/tools/dcpomatic_playlist.cc:338
 msgid "Up"
-msgstr "上"
+msgstr "向上"
 
 #: src/tools/dcpomatic_player.cc:642
 msgid "Verify DCP..."
@@ -1170,7 +1170,7 @@ msgstr "验证 DCP..."
 
 #: src/tools/dcpomatic.cc:1417
 msgid "Version File (VF)..."
-msgstr ""
+msgstr "版本文件 (VF)…"
 
 #: src/tools/dcpomatic.cc:1414
 msgid "Video waveform..."
@@ -1220,14 +1220,14 @@ msgstr ""
 "span> 该文件。"
 
 #: src/tools/dcpomatic.cc:1710
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are running the 32-bit version of %s on a 64-bit version of Windows.  "
 "This will limit the memory available to %s and may cause errors.  You are "
 "strongly advised to install the 64-bit version of %s."
 msgstr ""
-"您正在Windows的64位系统中使用32位dcp-o-matic的版本。这会限制dcp-o-matic可用的"
-"内存，并且可能导致报错。强烈建议您安装64位dcp-o-matic的版本。"
+"您正在Windows的64位系统中使用32位%s的版本。这会限制%s可用的内存，并且可能导致"
+"报错。强烈建议您安装64位%s的版本。"
 
 #: src/tools/dcpomatic_disk.cc:502
 #, fuzzy, c-format
@@ -1235,8 +1235,7 @@ msgid ""
 "You did not correctly confirm that you read the warning that was just "
 "shown.  %s will close now.  Please try again."
 msgstr ""
-"您没有正确确认您已阅读了刚刚显示的警告。DCP-o-matic磁盘烧录器现在将关闭。请再"
-"试一次。"
+"您没有正确确认您已阅读了刚刚显示的警告。%s磁盘烧录器现在将关闭。请再试一次。"
 
 #: src/tools/dcpomatic_disk.cc:388
 msgid ""

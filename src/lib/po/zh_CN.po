@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 20:49+0200\n"
-"PO-Revision-Date: 2023-09-15 00:45+0800\n"
+"PO-Revision-Date: 2024-11-19 08:31+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
 "Language: zh_CN\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Poedit 3.5\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: src/lib/video_content.cc:520
@@ -130,11 +130,10 @@ msgid "%1 [video]"
 msgstr "%1 [视频]"
 
 #: src/lib/job.cc:181 src/lib/job.cc:196
-#, fuzzy
 msgid ""
 "%1 could not open the file %2 (%3).  Perhaps it does not exist or is in an "
 "unexpected format."
-msgstr "无法打开文件%1 (%2)。文件不存在或格式无法识别。"
+msgstr "%1 无法打开文件%2 (%3)。文件不存在或格式无法识别。"
 
 #: src/lib/film.cc:1659
 #, fuzzy
@@ -156,13 +155,13 @@ msgstr "DCP-o-matic必须更改您DCP的设置，使影片的帧率与 Atmos 内
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
-msgstr ""
+msgstr "%1 必须删除一个自定义卷轴边界，因为它不再位于影片内"
 
 #: src/lib/film.cc:1670
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
-msgstr ""
+msgstr "%1必须删除一些自定义卷轴边界，因为它不再位于影片中"
 
 #: src/lib/ffmpeg_content.cc:122
 #, fuzzy
@@ -933,9 +932,8 @@ msgid "Event"
 msgstr "事件"
 
 #: src/lib/hints.cc:417
-#, fuzzy
 msgid "Examining audio"
-msgstr "定位字幕中"
+msgstr "正在检查音频"
 
 #: src/lib/hints.cc:419
 msgid "Examining audio, subtitles and closed captions"
