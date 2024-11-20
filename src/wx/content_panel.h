@@ -102,6 +102,7 @@ private:
 	void item_selected ();
 	void item_deselected ();
 	void item_deselected_idle ();
+	void item_focused ();
 	void check_selection ();
 	void add_folder_clicked ();
 	void add_dcp_clicked ();

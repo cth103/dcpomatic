@@ -310,6 +310,7 @@ ContentPanel::ContentPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& vie
 
 	_content->Bind (wxEVT_LIST_ITEM_SELECTED, boost::bind (&ContentPanel::item_selected, this));
 	_content->Bind (wxEVT_LIST_ITEM_DESELECTED, boost::bind (&ContentPanel::item_deselected, this));
+	_content->Bind (wxEVT_LIST_ITEM_FOCUSED, boost::bind (&ContentPanel::item_focused, this));
 	_content->Bind (wxEVT_LIST_ITEM_RIGHT_CLICK, boost::bind (&ContentPanel::right_click, this, _1));
 	_content->Bind (wxEVT_DROP_FILES, boost::bind (&ContentPanel::files_dropped, this, _1));
 	_add_file->Bind (wxEVT_BUTTON, boost::bind (&ContentPanel::add_file_clicked, this));
@@ -456,6 +457,13 @@ ContentPanel::item_selected ()
 {
 	_ignore_deselect = true;
 	check_selection ();
+}
+
+
+void
+ContentPanel::item_focused()
+{
+	signal_manager->when_idle(boost::bind(&ContentPanel::check_selection, this));
 }
 
 
