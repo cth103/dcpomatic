@@ -361,7 +361,8 @@ def packages(name, packages, f):
         s += str(p) + ', '
     print(s[:-2], file=f)
 
-def make_control(debian_version, filename, debug, gui, name):
+def make_control(debian_version, filename, debug, gui, name, cpu):
+    architecture = "amd64" if cpu == "x86" else "arm64"
     f = open(filename, 'w')
     print(f'Source: {name}', file=f)
     print('Section: video', file=f)
@@ -375,7 +376,7 @@ def make_control(debian_version, filename, debug, gui, name):
     print(f'Package: {name}{suffix}', file=f)
     if gui:
         print(f'Replaces: {name}-cli', file=f)
-    print('Architecture: amd64', file=f)
+    print(f'Architecture: {architecture}', file=f)
 
     pkg = deb_depends[debian_version]
     if gui and debian_version in deb_depends_gui:
@@ -393,7 +394,7 @@ def make_control(debian_version, filename, debug, gui, name):
     if debug:
         print('', file=f)
         print(f'Package: {name}{suffix}-dbg', file=f)
-        print('Architecture: amd64', file=f)
+        print(f'Architecture: {architecture}', file=f)
         print('Section: debug', file=f)
         print('Priority: extra', file=f)
         packages('Depends', pkg, f)
@@ -742,7 +743,7 @@ def package_windows(target):
 
 def package_debian(target, cpu, version, options):
     name = debian_name(options['variant'])
-    make_control(target.version, 'debian/control', target.debug, options['gui'], name)
+    make_control(target.version, 'debian/control', target.debug, options['gui'], name, cpu)
     if target.version != '9' and target.version != '16.04' and options['gui']:
         with open('debian/postinst', 'w') as f:
             print('#!/bin/sh', file=f)
@@ -751,7 +752,7 @@ def package_debian(target, cpu, version, options):
     target.command('./waf dist')
     with open('debian/files', 'w') as f:
         suffix = '' if options['gui'] else '-cli'
-        arch = 'amd64' if cpu == 'x86' else 'aarch64' if cpu == 'arm' else None
+        arch = 'amd64' if cpu == 'x86' else 'arm64' if cpu == 'arm' else None
         print(f'{name}{suffix}_{version}-1_{arch}.deb video extra', file=f)
     shutil.rmtree('build/deb', ignore_errors=True)
 
