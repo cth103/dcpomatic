@@ -2,7 +2,7 @@
 %% This style is derivated from the docbook one
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{ardour}[2007/04/04 My DocBook Style]
+\ProvidesPackage{dcpomatic}[2007/04/04 My DocBook Style]
 
 %% Just use the original package and pass the options
 \RequirePackageWithOptions{docbook}
@@ -21,6 +21,9 @@
 \def\par{\endgraf\endgroup}%
 \hbox to0pt{\hskip-\hangindent\dbend\hfill}\ignorespaces}
 \def\endsidebar{\par\end{trivlist}}
+
+\renewcommand{\listoffigures}{}
+\renewcommand{\listoftables}{}
 
 
 % Futz with the title page; basically a copy of

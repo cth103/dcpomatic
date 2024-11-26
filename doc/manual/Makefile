@@ -18,9 +18,11 @@ SCREENSHOTS := file-new.pdf new-film.pdf video-select-content-file.pdf \
                prefs-notifications.pdf timeline1.pdf timed-text-tab.pdf \
                making-dcp.pdf filters.pdf video-tab.pdf audio-tab.pdf \
                audio-plot.pdf audio-map-eg1.pdf audio-map-eg2.pdf audio-map-eg3.pdf kdm.pdf \
-               kdm-creator.pdf export.pdf advanced-content.pdf disk-writer-notice.pdf disk-writer.pdf \
+               kdm-creator.pdf export.pdf advanced-content.pdf disk-writer.pdf combiner.pdf \
                markers.pdf prefs-notifications.pdf prefs-cover-sheet.pdf add-screen.pdf \
-	       advanced-player.pdf playlist-editor.pdf playlist-editor-prefs.pdf
+	       advanced-player.pdf playlist-editor.pdf playlist-editor-prefs.pdf reels.pdf \
+	       editor.pdf editor-cpl.pdf editor-reel.pdf vf-setup.pdf prefs-sound.pdf \
+	       prefs-identifiers.pdf prefs-non-standard.pdf
 
 XML := dcpomatic.xml
 
@@ -37,7 +39,7 @@ screenshots/%.pdf: raw-screenshots/%.pdf
 	cp $< $@
 
 screenshots/prefs-general.pdf: raw-screenshots/prefs-general.pdf
-	python3 pdf_crop_by.py $< $@ 0 400 0 0
+	python3 pdf_crop_by.py $< $@ 0 300 0 0
 
 screenshots/prefs-defaults.pdf: raw-screenshots/prefs-defaults.pdf
 	python3 pdf_crop_by.py $< $@ 0 400 0 0
@@ -46,13 +48,22 @@ screenshots/prefs-servers.pdf: raw-screenshots/prefs-servers.pdf
 	python3 pdf_crop_by.py $< $@ 0 700 0 0
 
 screenshots/prefs-keys.pdf: raw-screenshots/prefs-keys.pdf
-	python3 pdf_crop_by.py $< $@ 0 600 0 0
+	python3 pdf_crop_by.py $< $@ 0 400 0 0
 
 screenshots/prefs-tms.pdf: raw-screenshots/prefs-tms.pdf
-	python3 pdf_crop_by.py $< $@ 0 600 0 0
+	python3 pdf_crop_by.py $< $@ 0 450 0 0
 
 screenshots/prefs-email.pdf: raw-screenshots/prefs-email.pdf
-	python3 pdf_crop_by.py $< $@ 0 700 0 0
+	python3 pdf_crop_by.py $< $@ 0 500 0 0
+
+screenshots/prefs-identifiers.pdf: raw-screenshots/prefs-identifiers.pdf
+	python3 pdf_crop_by.py $< $@ 0 450 0 0
+
+screenshots/prefs-non-standard.pdf: raw-screenshots/prefs-non-standard.pdf
+	python3 pdf_crop_by.py $< $@ 0 450 0 0
+
+screenshots/prefs-advanced.pdf: raw-screenshots/prefs-advanced.pdf
+	python3 pdf_crop_by.py $< $@ 0 150 0 0
 
 screenshots/prefs-cover-sheet.pdf: raw-screenshots/prefs-cover-sheet.pdf
 	python3 pdf_crop_by.py $< $@ 0 600 0 0
@@ -67,10 +78,10 @@ screenshots/timing-tab.pdf: raw-screenshots/timing-tab.pdf
 	python3 pdf_crop_by.py $< $@ 0 100 1475 420
 
 screenshots/timed-text-tab.pdf: raw-screenshots/timed-text-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 50 1480 420
+	python3 pdf_crop_by.py $< $@ 0 0 1450 420
 
 screenshots/video-tab.pdf: raw-screenshots/video-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 0 1480 365
+	python3 pdf_crop_by.py $< $@ 0 0 1450 390
 
 screenshots/add-file.pdf: raw-screenshots/add-file.pdf
 	python3 pdf_crop_by.py $< $@ 0 600 1210 0
@@ -88,7 +99,7 @@ screenshots/audio-map-eg3.pdf: raw-screenshots/audio-map-eg3.pdf
 	python3 pdf_crop_by.py $< $@ 10 75 1350 630
 
 screenshots/dcp-tab.pdf: raw-screenshots/dcp-tab.pdf
-	python3 pdf_crop_by.py $< $@ 0 350 1240 30
+	python3 pdf_crop_by.py $< $@ 0 350 1415 25
 
 
 # For HTML: convert diagrams from SVG to PNG

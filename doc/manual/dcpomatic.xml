@@ -3,7 +3,7 @@
 <!ENTITY % sgml.features "IGNORE">
 <!ENTITY % xml.features "INCLUDE">
 <!ENTITY % dbcent PUBLIC "-//OASIS//ENTITIES DocBook Character Entities V4.5//EN"
-   "/usr/share/xml/docbook/schema/dtd/4.5/dbcentx.mod">
+   "/usr/share/sgml/docbook/xml-dtd-4.5/dbcentx.mod">
 %dbcent;
 <!ENTITY % extensions SYSTEM "extensions.ent">
 %extensions;
@@ -13,6 +13,7 @@
 <bookinfo>
 <title>DCP-o-matic users' manual</title>
 <author><firstname>Carl</firstname><surname>Hetherington</surname></author>
+<edition>For version 2.18.x</edition>
 </bookinfo>
 
 <chapter xmlns="http://docbook.org/ns/docbook" version="5.0" xml:lang="en">
@@ -35,6 +36,7 @@ Hello, and welcome to DCP-o-matic!
   <listitem>Play and verify DCPs (see <xref linkend="ch-player"/> and <xref linkend="ch-verifier"/>).</listitem>
   <listitem>Create KDMs for DCPs (see <xref linkend="ch-encryption"/>).</listitem>
   <listitem>Write cinema-format drives containing DCPs (see <xref linkend="ch-writer"/>).</listitem>
+  <listitem>Manipulate existing DCPs in various ways (see <xref linkend="ch-combining"/> and <xref linkend="ch-metadata"/>).</listitem>
 </itemizedlist>
 
 </section>
@@ -109,7 +111,7 @@ You may find that DCP-o-matic crashes if run the 32-bit version on a CPU with mo
 
 <para>
 DCP-o-matic versions 2.16.0 and higher will run on macOS version 10.8 (Mountain Lion) and
-higher.  DCP-o-matic is split into eight separate applications, each of
+higher.  DCP-o-matic is split into ten separate applications, each of
 which can be installed by downloading the <code>.dmg</code>,
 double-clicking to open and then dragging the icon to your
 <guilabel>Applications</guilabel> folder.
@@ -133,6 +135,10 @@ If you are using macOS 10.7 (Lion) or older you will need to install the latest 
 <para>There are <code>.deb</code> packages for Debian, Ubuntu and Mint on 
   <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
 </para>
+
+<para>For Debian there are both x86 and ARM packages, so choose the correct one
+for the CPU type you are using (most people will need x86).</para>
+
 </section>
 <!-- ============================================================== -->
 
@@ -144,6 +150,11 @@ If you are using macOS 10.7 (Lion) or older you will need to install the latest 
   <para>There are <code>.rpm</code> packages for Fedora, Centos and Mageia on
   <ulink url="https://dcpomatic.com/">https://dcpomatic.com/</ulink>
   </para>
+
+<para>For Fedora there are both x86 and ARM packages, so choose the correct one
+for the CPU type you are using (most people will need x86).  You can install the
+ARM packages on Asahi Linux on mac.</para>
+
 </section>
 <!-- ============================================================== -->
 
@@ -153,7 +164,7 @@ If you are using macOS 10.7 (Lion) or older you will need to install the latest 
 <para>
 Packages for Arch Linux are available from <ulink
 url="https://aur.archlinux.org/packages/dcpomatic/">https://aur.archlinux.org/packages/dcpomatic/</ulink>,
-thanks to Stefan Karner.
+thanks to Benjamin Radel and Markus Kalb.
 </para>
 </section>
 
@@ -234,12 +245,12 @@ In this dialogue box you can choose a name for the film.  This will be
 used to name the folder to store its data in, and also as the initial
 name for the DCP itself.  You can also choose where you want to create
 the film.  In the example from the figure, DCP-o-matic will create a
-folder called &lsquo;DCP Test&rsquo; inside my existing folder <code>DCP</code> into which it
+folder called &lsquo;DCP Test&rsquo;, inside my existing folder <code>DCP</code>, into which it
 will write its working files.
 </para>
 
 <para>
-DCPs can be very large (more than 100Gb for a feature-length DCP) so
+DCPs can be very large (more than 100GB for a feature-length DCP) so
 it's important to choose a folder on a disk with plenty of free space.
 </para>
 
@@ -251,7 +262,7 @@ it's important to choose a folder on a disk with plenty of free space.
 <title>Adding content</title>
 
 <para>
-The next step is to add the content that you want to use.  DCP-o-matic
+The next step is to add the content.  DCP-o-matic
 can make DCPs from multiple pieces of content, but in this example we
 will use a single piece.  Click the <guilabel>Add
 file(s)...</guilabel> button, as shown in <xref
@@ -286,8 +297,8 @@ case we are using the Sintel trailer that we downloaded earlier.
 <para>
 When you do this, DCP-o-matic will take a look at your file.  After a
 short while (when the progress bar at the bottom right of the window
-has finished), you can look through your content using the slider to
-the right of the window, as shown in <xref linkend="fig-examine-content"/>.
+has finished), you can look through your content using the slider
+underneath the black preview area, as shown in <xref linkend="fig-examine-content"/>.
 </para>
 
 <figure id="fig-examine-content">
@@ -315,16 +326,16 @@ the <guilabel>Play</guilabel> button to play the content back.
 
 <para>In most cases, some adjustments would be made to DCP-o-matic's
 settings once the content has been added.  For our simple test,
-however, the default values will suffice, so we can go straight onto
+however, the default values are fine, so we can go straight onto
 making the DCP.</para>
 
 <para>
 Choose <guilabel>Make DCP</guilabel> from the
 <guilabel>Jobs</guilabel> menu.  Before encoding your DCP, DCP-o-matic
-will run a series of checks on your film to look for various conditions
+will run a series of checks on your film to look for things
 that might cause problems when playing back the DCP.  If any potential
 problems are found, DCP-o-matic will show you a list of hints.
-Each hint describes the condition that was found and gives
+Each hint describes what was found and gives
 advice on how to resolve it.  If hints are found and reported, you can
 either <guilabel>Make DCP</guilabel> anyway (without adjusting any
 settings), or <guilabel>Go back</guilabel> in order to make
@@ -335,8 +346,8 @@ adjustments before encoding the DCP.
 If no hints were found (or you pressed <guilabel>Make DCP</guilabel>
 after hints were displayed), DCP-o-matic will encode your DCP.
 This may take some time (many hours in some cases).  While the job is
-in progress, DCP-o-matic will update you on how it is getting on with
-the progress bar in the bottom of its window, as shown in <xref
+in progress, DCP-o-matic will update you with
+the progress bar in the bottom of the window, as shown in <xref
 linkend="fig-making-dcp"/>.
 </para>
 
@@ -352,7 +363,8 @@ linkend="fig-making-dcp"/>.
 <para>
 When it has finished, the DCP will be written into its own folder inside the film's folder.
 You can copy this to a projector via a USB stick, hard-drive or network connection.  See <xref
-linkend="ch-files"/> for details about the files that DCP-o-matic creates.
+linkend="ch-files"/> for details about the files that DCP-o-matic creates, and <xref linkend="ch-writer"/>
+for details of a DCP-o-matic tool which can write the DCP to an external hard-drive.
 </para>
 
 <para>
@@ -605,12 +617,24 @@ To make a DCP like this:
 <itemizedlist>
 <listitem>Import your &lsquo;Content DCP&rsquo; to a DCP-o-matic project.</listitem>
 <listitem>Add whatever replacement you want in your new DCP (replacement subtitles or audio files, for example).</listitem>
-<listitem>Select the DCP in the content list</listitem>
-<listitem>Tick the <guilabel>Use's this DCP's ... as OV and make VF</guilabel> checkbox
-in the tabs for the parts of the DCP that you want to refer to in your
-new DCP.  For example, to refer to the Content DCP's video and audio you would select the <guilabel>Video</guilabel> tab, click <guilabel>Use this DCP's video as OV and make VF</guilabel> then select the <guilabel>Audio</guilabel> tab and click <guilabel>Use this DCP's audio as OV and make VF</guilabel>.</listitem>
+<listitem>Open the <guilabel>Version File Setup</guilabel> dialogue box using the <guilabel>Version File (VF)...</guilabel> option in the <guilabel>Tools</guilabel> menu.</listitem>
+
+<listitem>Tick the relevant checkboxes for the parts of your existing DCP that you want to re-use (e.g. to refer to, or re-use, the video from the existing DCP, tick
+the <guilabel>Video</guilabel> checkbox).</listitem>
 <listitem>Do <guilabel>Make DCP</guilabel> as usual and your VF DCP will be created.</listitem>
 </itemizedlist>
+
+<para>The VF setup dialog is shown below, set up to refer to both picture and sound from an existing DCP:</para>
+
+<figure id="fig-vf-setup">
+  <title>Setup for making a Version File (VF)</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/vf-setup&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
 
 </section>
 
@@ -813,19 +837,6 @@ The <guilabel>Video</guilabel> tab controls properties of the image, as shown in
   </mediaobject>
 </figure>
 
-
-<!-- ============================================================== -->
-<section>
-<title>Use this DCP's video as OV and make VF</title>
-
-<para>
-This option is only available if the selected content is an existing
-DCP.  It allows you make a VF DCP, using the video content from the
-existing DCP by referencing it (rather than copying).  See <xref
-linkend="sec-overlay"/>.
-</para>
-
-</section>
 
 <!-- ============================================================== -->
 <section>
@@ -1130,21 +1141,13 @@ shows the mapping of a 5.1 source into a 5.1 DCP.
   <title>Other controls</title>
 
 <para>
-The <guilabel>Use this DCP's audio as OV and make VF</guilabel>
-checkbox is only applicable if the selected content is an existing
-DCP.  It allows you to make a VF DCP, using the audio content from the
-existing DCP by referencing it (rather than copying).  See <xref
-linkend="sec-overlay"/>.
-</para>
-
-<para>
 <guilabel>Show graphs of audio levels</guilabel> will analyse the
 audio of the selected content and plot it on a graph.  See <xref
 linkend="sec-show-audio"/> for more details.
 </para>
 
 <para>
-<guilabel>Audio Gain</guilabel> is used to alter the volume of the
+<guilabel>Gain</guilabel> is used to alter the volume of the
 soundtrack.  The specified gain (in dB) will be applied to each sound
 channel of your content before it is written to the DCP.
 </para>
@@ -1181,6 +1184,14 @@ your sound-rack fader.
 <guilabel>Audio Delay</guilabel> is used to adjust the synchronisation
 between audio and video.  A positive delay will move the audio later
 with respect to the video, and a negative delay will move it earlier.
+</para>
+
+<para>
+<guilabel>Fade in</guilabel> and <guilabel>Fade out</guilabel> can be
+used to set fades for the audio.  If your selected content also contains
+video you can tick <guilabel>Use same fades as video</guilabel> if you
+want the audio to fade in/out with the picture.  When <guilabel>Use same fades...</guilabel>
+is ticked the fades used will be the ones set in the <guilabel>Video</guilabel> tab.
 </para>
 
 </section>
@@ -1749,13 +1760,6 @@ as it makes it easier to identify details of the content.
 </para>
 
 <para>
-If there is spoken language in your project's audio you can tick the
-<guilabel>Audio Language</guilabel> checkbox and then specify the language
-of that audio.  This information will be used for the ISDCF name, written into
-the DCP cover sheet, and added as metadata to the audio MXF files in the DCP.
-</para>
-
-<para>
 The <guilabel>Content Type</guilabel> option can be
 &lsquo;feature&rsquo;, &lsquo;trailer&rsquo; or whatever; select the
 required type from the drop-down list.  On some projection systems
@@ -1777,8 +1781,8 @@ key for you.  To specify your own key, click the
 </para>
 
 <para>
-The <guilabel>Reels</guilabel> and <guilabel>Reel length</guilabel>
-controls specify how the DCP will be split up into
+The <guilabel>Reels...</guilabel> button opens a dialogue box which
+can be used to specify how the DCP will be split up into 
 &lsquo;reels&rsquo;.  See <xref linkend="sec-reels"/>.
 </para>
 
@@ -1896,6 +1900,14 @@ This may be useful to make near-field L/R mixes more compatible with
 cinema audio systems.</listitem>
 </itemizedlist>
 
+<para>
+If there is spoken language in your project's audio you can tick the
+<guilabel>Language</guilabel> checkbox and then specify the language
+of that audio.  This information will be used for the ISDCF name, written into
+the DCP cover sheet, and added as metadata to the audio MXF files in the DCP.
+</para>
+
+
 <!-- ============================================================== -->
 <section xml:id="sec-reels">
 <title>Reels</title>
@@ -1938,19 +1950,33 @@ This is easier than attaching the picture data to the feature's existing data.
 </itemizedlist>
 
 <para>
-DCP-o-matic offers three options for setting up the reels in your DCP:
-<guilabel>single reel</guilabel>, <guilabel>split by video content</guilabel> or <guilabel>custom</guilabel>.
+To change how your DCP will be split up into reels, click the <guilabel>Reels...</guilabel>
+button in the <guilabel>DCP</guilabel> tab to open the reels dialogue:
+</para>
+
+<figure id="fig-reels">
+  <title>Editing reels</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/reels&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+The <guilabel>Reel mode</guilabel> control lets you choose different ways that the reel breaks
+are decided.  As you change the mode, the timeline below is updated to reflect the new setting.
 </para>
 
 <para>
-<guilabel>Single reel</guilabel>, as its name suggests, keeps the whole DCP as one reel.
-This is a perfectly good option if you have no particular reason to
-need reels.
+<guilabel>Single reel</guilabel> simply uses one reel for the entire DCP.  This is fine in most cases:
+select it if you are unsure.
 </para>
 
 <para>
-<guilabel>Split by video content</guilabel> puts each piece of source
-video content in its own reel, as shown in <xref linkend="fig-reels-by-video"/>.
+<guilabel>Split by video content</guilabel> puts a reel break at the start and end of each piece of video
+content.  This is useful if you want to make it easier, for example, to make VF which swaps out some credits
+or an introduction ident.  If you have a project like the one below, for example:
 </para>
 
 <figure id="fig-reels-by-video">
@@ -1959,16 +1985,23 @@ video content in its own reel, as shown in <xref linkend="fig-reels-by-video"/>.
 </figure>
 
 <para>
-Here we have three video files (<code>ident.mp4</code>,
-<code>feature.ts</code> and <code>cred.mov</code>).  With
-<guilabel>split by video content</guilabel> DCP-o-matic makes a new
-reel to hold each video file.
+you can more easily make a VF with a different ident if the ident is in its own reel.
 </para>
 
 <para>
-<guilabel>Custom</guilabel> splits reels by the size of the files that
-will make up their video content.  With <guilabel>Custom</guilabel>
-you must specify a reel length in Gb.  Then no file in the DCP will be larger than this reel length.
+<guilabel>Split by maximum reel size</guilabel> is useful if you want to limit how large the video file for
+each reel is.  With this option selected you can alter <guilabel>Maximum reel size</guilabel> as required.
+The video files for the reels in the DCP are not guaranteed to be exactly your requested size, but they
+should be close.
+</para>
+
+<para>
+<guilabel>Custom</guilabel> allows you to put your reel breaks wherever you like.  In this mode you can right-click
+on the timeline and choose <guilabel>Add reel boundary</guilabel> from the menu.  Once you have reel boundaries you
+can drag them around, or set their timecodes precisely with the controls under the timeline.  You can also remove
+a reel boundary by right-clicking it and choosing <guilabel>Remove reel boundary</guilabel>.  Ticking <guilabel>Snap when dragging</guilabel>
+means that the reel markers will snap to the reel markers of existing DCPs in your project, or the start position
+of any other content.
 </para>
 
 </section>
@@ -2040,8 +2073,7 @@ useful to use templates.
 
 <para>
 Say, for example, you often make 4K feature DCPs from video files in
-&rsquo;scope at 25fps.  You can speed up this process by following
-these steps:
+scope at 25fps.  You can speed up this process by following these steps:
 </para>
 
 <itemizedlist>
@@ -2049,6 +2081,7 @@ these steps:
   in our example, set the content to scale to DCP, the DCP resolution
   to 4K, and so on.</listitem>
   <listitem>Choose <guilabel>Save as template...</guilabel> from the <guilabel>File</guilabel> menu.</listitem>
+  <listitem>Click <guilabel>Save as new new with name</guilabel> to make a new template.</listitem>
   <listitem>Enter a name for your template.</listitem>
 </itemizedlist>
 
@@ -2091,6 +2124,17 @@ In addition, the settings (but not the filenames) of any
 content in the template are stored, as discussed above.  The status of
 the <guilabel>Keep video and subtitles in sequence</guilabel> checkbox
 from the timeline is also preserved.
+</para>
+
+<para>
+There are some other options when saving a template.  <guilabel>Save as default</guilabel>
+saves the current project as the default template applied to all new films.  If there is some
+setting you always use, you can add it to the default template to save time.
+</para>
+
+<para>
+By choosing <guilabel>Save over existing template</guilabel> you can also update a template
+you made previously.
 </para>
 
 </chapter>
@@ -2323,7 +2367,9 @@ generate KDMs for any screens that it knows about.
 To add a cinema, click <guilabel>Add Cinema...</guilabel>.  This opens
 a dialogue box into which you can enter the cinema's name, and
 optionally an email address.  This email address can be used to
-get DCP-o-matic to deliver KDMs via email.
+get DCP-o-matic to deliver KDMs via email.  You can also enter the time
+zone of the cinema, which helps to create KDMs with the correct local
+time windows.
 </para>
 
 <para>
@@ -2338,8 +2384,9 @@ Alternatively, certificates for projection systems made by some
 manufacturers can be downloaded from databases provided by the
 manufacturer.  Currently this is supported for Doremi, Dolby, Barco,
 Christie and GDC equipment (through downloading Barco, Christie or GDC
-certificates requires you to have an appropriate account set up in
-DCP-o-matic's preferences).  If you are targeting a screen with
+certificates requires you to have an appropriate account, and you need
+to enter the user name and password into the appropriate tab in
+<guilabel>Download certificate</guilabel>.  If you are targeting a screen with
 equipment by one of these manufacturers you can click
 <guilabel>Download</guilabel> then enter the serial number of the
 server in the screen and click <guilabel>Download</guilabel> again
@@ -2354,7 +2401,23 @@ destination cinema will in advance of show time to identify any
 problems.
 </para>
 
-<!-- XXX: this is a sudden introduction of CPL as a concept -->
+<para>
+Each KDM is made for a single Composition Play List (CPL).  This is the
+name for a file (part of every DCP) which lists the things that make
+up a single &lsquo;composition&rsquo;.  A CPL might, for example, list
+a video file, an audio file, and some subtitles, and give details of 
+frames rate and other metadata.  A CPL is the thing you choose to 
+play on a cinema projector, and is commonly a single film, a single
+advert, or perhaps a trailer.
+</para>
+
+<para>
+A CPL is often effectively the same as a DCP, though it is possible
+for a single DCP (&lsquo;package&rsquo;) to contain multiple CPLs.
+For example, a DCP might contain CPLs that each describe the same
+feature film but with audio tracks in different languages.
+</para>
+
 <para>
 Once you have set up all the screens that you need KDMs for, select
 the CPL that you want to create the KDM for.  You can use the
@@ -2373,7 +2436,7 @@ The differences between the three KDM types are fairly subtle.
 <guilabel>DCI Specific</guilabel> and <guilabel>DCI Any</guilabel> add
 a <code>&lt;ContentAuthenticator&gt;</code> tag to the KDM which
 allows the exhibitor to check that the DCP and KDM have come from a
-bona-fide source.  In addition, <guilabel>DCI Specific</guilabel> adds
+trusted source.  In addition, <guilabel>DCI Specific</guilabel> adds
 information on trusted devices to the KDM.  This allows the KDM
 creator to specify devices (such as sound processors) that are allowed
 to use keys delivered by the KDM.  At present it is not clear how
@@ -2503,7 +2566,7 @@ a new cinema by clicking <guilabel>Add Cinema...</guilabel>, giving it a name
 
 <para>
 Then select this new cinema and click <guilabel>Add Screen...</guilabel> to open
-the screen dialog box, as shown in <xref linkend="fig-add-screen"/>.
+the screen dialogue box, as shown in <xref linkend="fig-add-screen"/>.
 </para>
 
 <figure id="fig-add-screen">
@@ -2641,6 +2704,8 @@ The general tab is shown in <xref linkend="fig-prefs-general"/>.
   </mediaobject>
 </figure>
 
+</section>
+
 
 <!-- ============================================================== -->
 <section>
@@ -2654,7 +2719,8 @@ You will need to restart DCP-o-matic to see the new language.
 
 <para>
 The translations for DCP-o-matic have been contributed by helpful
-users.  If your language is not on the last, visit <ulink
+users, and some are incomplete.  If your language is not on the last,
+or there are missing or incorrect translations, visit <ulink
 url="https://dcpomatic.com/i18n.php">the DCP-o-matic website</ulink> to
 find out how to contribute a translation.
 </para>
@@ -2706,21 +2772,44 @@ DCP-o-matic: across a network share, for instance.
 
 <para>
 This option allows you to change the file that DCP-o-matic uses to
-store details of the cinemas and screens used to make KDMs.
+store details of the cinemas and screens used to make KDMs.  Since
+DCP-o-matic 2.18.0 this is an <code>sqlite3</code> file rather than
+<code>XML</code>
 </para>
 </section>
+
+<!-- ============================================================== -->
+<section>
+<title>Default &ldquo;add file&rdquo; location</title>
+
+<para>
+This option sets the &lsquo;starting point&rsquo; for the file picker
+when adding content to a project.  It can either be wherever you last
+looked for content, or always in the same place as the DCP-o-matic
+project folder.
+</para>
 
 
 <!-- ============================================================== -->
 <section>
-<title>Play sound via</title>
+<title>Write relative content paths</title>
 
 <para>
-The checkbox to the left of <guilabel>Play sound</guilabel> enables or
-disables DCP-o-matic's use of sound.  On some machines there will be
-multiple options in the drop-down menu to decide how the sound should
-be played.
+If this checkbox is unticked, the full filenames of content files will
+be stored in the DCP-o-matic project.  This means that if you move your
+project around, the content files will still be found.  This is useful
+if your content files are stored in their own place, unrelated to where
+you make your DCP-o-matic projects.
 </para>
+
+<para>
+Ticking this box means that content filenames will be written relative
+to the DCP-o-matic project.  This means that you can move your project
+and content files to a different place and your content will still be
+found.  This is useful if you keep DCP-o-matic projects alongside the
+content they use.
+</para>
+
 </section>
 
 <!-- ============================================================== -->
@@ -2768,6 +2857,43 @@ those that are formally &lsquo;released&rsquo;.
 
 <!-- ============================================================== -->
 <section>
+<title>Sound</title>
+
+<para>
+The sound tab is shown in <xref linkend="fig-prefs-sound"/>.
+</para>
+
+<figure id="fig-prefs-sound">
+  <title>Sound preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-sound&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<!-- ============================================================== -->
+<section>
+<title>Play sound via</title>
+
+<para>
+The checkbox to the left of <guilabel>Play sound</guilabel> enables or
+disables DCP-o-matic's use of sound.  On some machines there will be
+multiple options in the drop-down menu to decide how the sound should
+be played.
+</para>
+
+<para>
+The mapping matrix below specifies how audio from DCP channels will be
+routed to your sound hardware.  By default, DCP-o-matic will mix 5.1
+audio down to stereo if your chosen output device only has 2 channels.
+</para>
+</section>
+
+</section>
+
+<!-- ============================================================== -->
+<section>
 <title>Defaults</title>
 
 <para>
@@ -2785,7 +2911,12 @@ The defaults tab is shown in <xref linkend="fig-prefs-defaults"/>.
 
 <para>
 The options in this tab simply allow you to set up default values for
-various properties of new films.
+various things in DCP-o-matic.
+</para>
+
+<para>
+Another way to set up defaults, especially for project settings, is
+to use a default template (see <xref linkend="ch-templates"/>).
 </para>
 
 </section>
@@ -2855,6 +2986,12 @@ KDMs supplied by other people.  Use this button and <guilabel>Import
 all KDM decryption settings...</guilabel> to transfer settings between
 different copies of DCP-o-matic so that they can both use the same
 KDMs.
+</para>
+
+<para>
+The <guilabel>Re-make certificates and key...</guilabel> button under
+<guilabel>Signing DCPs and KDMs</guilabel> can be clicked to recreate
+the signing keys used by DCP-o-matic.
 </para>
 
 <para>
@@ -2939,6 +3076,11 @@ FTP.  Do let us know if you use any other type of TMS with the
 </para>
 
 <para>
+<guilabel>Passive mode</guilabel> can be ticked to enable the FTP
+<code>PASV</code> mode, if you are using FTP.
+</para>
+
+<para>
 <guilabel>TMS IP address</guilabel> should be set to the IP address of
 your TMS, <guilabel>TMS target path</guilabel> to the place that DCPs
 should be uploaded to (which will be relative to the home directory of
@@ -2977,7 +3119,11 @@ These settings are used when DCP-o-matic sends emails.
 </para>
 
 <para>
-  <guilabel>Outgoing mail server</guilabel> should be the host name of a mail (SMTP) server that DCP-o-matic can use.  You can also specify the port that DCP-o-matic should use.  <guilabel>User name</guilabel> and <guilabel>Password</guilabel> are the credentials that are required to send email through the server you have specified.
+<guilabel>Outgoing mail server</guilabel> should be the host name of a mail (SMTP) server that DCP-o-matic can use.  You can also specify the port.  <guilabel>User name</guilabel> and <guilabel>Password</guilabel> are the credentials that are required to send email through the server you have specified.
+</para>
+
+<para>
+Clicking <guilabel>Send test email... </guilabel> opens a dialogue box where you can send a test email (using the server you have configured) to make sure that the settings are correct.
 </para>
 
 </section>
@@ -3138,6 +3284,105 @@ The <guilabel>Reset to default text</guilabel> will replace the current cover sh
 
 </section>
 
+<!-- ============================================================== -->
+<section>
+<title>Identifiers</title>
+
+<para>
+The <guilabel>Identifiers</guilabel> tab is shown in <xref linkend="fig-prefs-identifiers"/>.
+</para>
+
+<figure id="fig-prefs-identifiers">
+  <title>Identifiers preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-identifiers&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+  These are a set of &lsquo;labels&rsquo; that are written to DCPs made by
+  DCP-o-matic and which identify the creator and product used. If they are left
+  blank, DCP-o-matic will use its own values which show that DCP-o-matic was
+  used.  You can use these labels to &lsquo;brand&rsquo; DCPs with your own
+  company details (though these label values are not usually very prominent on
+  the user interfaces of projection systems).
+</para>
+
+</section>
+
+
+<!-- ============================================================== -->
+<section xml:id="sec-prefs-non-standard">
+<title>Non-standard</title>
+
+<para>
+The non-standard preferences are shown in <xref linkend="fig-prefs-non-standard"/>.
+</para>
+
+<figure id="fig-prefs-non-standard">
+  <title>Non-standard preferences</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/prefs-non-standard&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+This tab contains preferences which enable DCP-o-matic to make DCPs with properties
+that are non-standard or unusual.  Think carefully before changing these preferences,
+as DCP-o-matic may then make DCPs which do not play correctly on some projection systems.
+</para>
+
+<para>
+<guilabel>Maximum JPEG2000 bandwidth</guilabel> specifies the maximum
+bit-rate of JPEG2000 that DCP-o-matic will allow you to create.  You
+are advised to leave this at 250Mbit/s in normal use for maximum DCP
+compatibility.
+</para>
+
+<para>
+<guilabel>Maximum MPEG2 bit rate</guilabel> is the equivalent for MPEG2 DCPs; I am not aware
+of a specified maximum for MPEG2 DCPs.
+</para>
+
+<para>
+<guilabel>Allow any DCP frame rate</guilabel> removes the limits on
+the DCP video frame rates that DCP-o-matic will create.  This may be
+useful for experimentation.  Again, you are strongly advised to leave
+this unticked for normal use.
+</para>
+
+<para>
+Ticking <guilabel>Allow full-frame and non-standard container ratios</guilabel> allows
+containers other than &lsquo;Flat&rsquo; (1.85:1) and &lsquo;Scope&rsquo; (2.39:1).
+</para>
+
+<para>
+Ticking <guilabel>Allow creation of DCPs with 96kHz audio</guilabel> enables 96kHz
+as an audio sampling rate option. This is theoretically supported by the DCP standards
+but rarely used in practice.
+</para>
+
+<para>
+<guilabel>Allow mapping to all audio channels</guilabel> will include in the audio
+mappings some channels which are usually silent (8, 9 and 15).
+</para>
+
+<para>
+<guilabel>Allow use of SMPTE Bv2.0</guilabel> adds an option to disable the use of
+<code>MCASubDescriptor</code> tags for audio.
+</para>
+
+<para>
+<guilabel>ISDCF name part length</guilabel> sets how long the film name can be in
+the ISDCF name.  14 is the recommended maximum, but longer names should not (in theory)
+case problems.
+</para>
+
+</section>
 
 <!-- ============================================================== -->
 <section xml:id="sec-prefs-advanced">
@@ -3158,23 +3403,24 @@ The advanced preferences are shown in <xref linkend="fig-prefs-advanced"/>.
 </figure>
 
 <para>
-<guilabel>Maximum JPEG2000 bandwidth</guilabel> specifies the maximum
-bit-rate of JPEG2000 that DCP-o-matic will allow you to create.  You
-are advised to leave this at 250Mbit/s in normal use for maximum DCP
-compatibility.
-</para>
-
-<para>
-<guilabel>Allow any DCP frame rate</guilabel> removes the limits on
-the DCP video frame rates that DCP-o-matic will create.  This may be
-useful for experimentation.  Again, you are strongly advised to leave
-this unticked for normal use.
+<guilabel>Show experimental audio processors</guilabel> adds some extra
+audio processors whose quality has not been fully checked.  If you try them
+out it's advisable to listen to the results in a cinema or good 5.1
+listening environment to check that they give you what you want.
 </para>
 
 <para>
 <guilabel>Only servers encode</guilabel> makes DCP-o-matic encode
 JPEG2000 data only on encoding servers and not on the host.  We
 suggest you leave this unticked unless you have a good reason to do otherwise.
+</para>
+
+<para>
+<guilabel>Maximum number of frames to store per thread</guilabel> sets
+how many frames will be queued up in memory when they cannot yet be written
+to disk.  Changing this value will make DCP-o-matic use more memory, but
+may make it more efficient when you have a lot of CPU cores or network
+encoding servers.
 </para>
 
 <para>
@@ -3498,19 +3744,31 @@ to the cinema which is showing your DCP.
   <title>Command-line tools</title>
 
   <para>
-    DCP-o-matic includes some tools which allow DCP creation from the
-    command line or from scripting languages.  This chapter covers the
-    use of those tools.
+    DCP-o-matic includes some tools which allow DCP creation and manipulation
+    from the command line or from scripting languages. This chapter
+    covers the use of those tools.
   </para>
 
   <para>
-    There are three command-line tools in DCP-o-matic.
-    <code>dcpomatic2_create</code> creates film directories, with the
-    associated metadata, from a list of content files.  Then
-    <code>dcpomatic2_cli</code> runs the transcode process on these
-    film directories.  Finally, <code>dcpomatic2_kdm_cli</code> can be
-    used to create KDMs.
+    There are four command-line tools in DCP-o-matic.
   </para>
+
+  <itemizedlist>
+    <listitem>
+      <code>dcpomatic2_create</code> creates film directories, with the
+      associated metadata, from a list of content files.
+    </listitem>
+    <listitem>
+      <code>dcpomatic2_cli</code> runs the transcode process on film directories.
+    </listitem>
+    <listitem>
+      <code>dcpomatic2_kdm_cli</code> can be used to create KDMs.
+    </listitem>
+    <listitem>
+      <code>dcpomatic2_map</code> can collect CPLs and assets from existing DCPs
+      and make a new DCP.
+    </listitem>
+  </itemizedlist>
 
   <para>
     Some applications will benefit from setting up the films using the
@@ -3601,6 +3859,51 @@ to the cinema which is showing your DCP.
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="dcpomatic_kdm_cli.xml"/>
 
   </section>
+
+  <section>
+    <title><code>dcpomatic2_map</code></title>
+
+    <para>
+      The syntax for <code>dcpomatic2_map</code> is:
+    </para>
+
+    <para>
+      <code>dcpomatic2_map [OPTION] &lt;cpl-file|ID&gt; [&lt;cpl-file|ID&gt; ...]</code>
+    </para>
+
+    <para>
+      Each <code>&lt;cpl-file|ID&gt;</code> is either a filename or a UUID of a CPL that you want to include
+      in the output DCP.
+    </para>
+    
+    <para>
+      <code>dcpomatic2_map</code> will search for CPLs (when given by ID) and other required assets in
+      directories that you specify with the <code>-d</code> or <code>--assets-dir</code> option.  
+    </para>
+
+    <para>
+      A new DCP will be created in the directory specified by <code>-o</code> or <code>--output</code> which
+      contains the CPLs you specify, along with the required assets and other ancillary files (<code>PKL</code>,
+      <code>AssetMap</code> etc.)
+    </para>
+
+    <para>
+      By default, all the required assets will be copied into the new DCP.  You can change this behaviour by passing
+      <code>-l</code> or <code>--hard-link</code> to hard-link the assets (on filesystems and platforms that support
+      this) or <code>-s</code> or <code>--soft-link</code> to soft-link the assets.
+    </para>
+
+    <para>
+      Passing <code>-r</code> or <code>--rename</code> will rename asset files to match DCP-o-matic's configured
+      naming scheme.
+    </para>
+
+    <para>
+      <code>--config &lt;dir&gt;</code> can be used to specify a directory containing the DCP-o-matic configuration
+      to use for the DCP naming scheme, creator/issuer metadata, signer chain and so on.
+    </para>
+  </section>
+
 </chapter>
 
 
@@ -3700,8 +4003,8 @@ sets.
 <listitem>Start a new DCP-o-matic film.</listitem>
 <listitem>Click <guilabel>Add DCP...</guilabel> and specify your existing DCP's folder.</listitem>
 <listitem>Go to the <guilabel>DCP</guilabel> tab and choose <guilabel>Split by video content</guilabel> for <guilabel>Reel type</guilabel>.</listitem>
-<listitem>Go to the <guilabel>Video</guilabel> tab and tick the <guilabel>Use this DCP's video as OV and make VF</guilabel> checkbox.</listitem>
-<listitem>Go to the <guilabel>Audio</guilabel> tab and tick the <guilabel>Use this DCP's audio as OV and make VF</guilabel> checkbox.</listitem>
+<listitem>Open the <guilabel>Version File (VF) setup</guilabel> dialogue box using the <guilabel>Version File (VF)...</guilabel> option in the <guilabel>Tools</guilabel> menu.</listitem>
+<listitem>Tick the <guilabel>Video</guilabel> and <guilabel>Audio</guilabel> checkboxes next to your existing DCP's name.</listitem>
 <listitem>Add your subtitles to the film in whatever format you have.</listitem>
 <listitem>Check the subtitle appearance in the preview; it will be
 slow to respond as it is having to decompress images from the existing
@@ -3768,7 +4071,7 @@ to play the film in.  The projectionist ingests both DCPs and then plays the VF.
 The advantage of this approach is that the VF DCPs are much smaller
 than the OV since they only have the language-specific parts.  If you
 are just changing the subtitles you can often ship the OV by normal
-transport means (e.g. a hard drive or high-speed download) and send
+transport means (e.g. a hard drive or download) and send
 the VF by email.
 </para>
 
@@ -3780,8 +4083,9 @@ The full details of OV and VF files are discussed in <xref linkend="sec-overlay"
 <listitem>Create a new DCP-o-matic project for the OV, as normal, adding video and perhaps sound.  Make the DCP.</listitem>
 <listitem>Create a new DCP-o-matic project for the VF.</listitem>
 <listitem>Use <guilabel>Add folder...</guilabel> to add your OV DCP to the project.</listitem>
-<listitem>Select the video tab and tick <guilabel>Use this DCP's video as OV and make VF</guilabel> (you may need to select <guilabel>By video content</guilabel> for <guilabel>Reel type</guilabel> in the <guilabel>DCP</guilabel> tab).</listitem>
-<listitem>Do the same in the <guilabel>Audio</guilabel> tab if your OV has audio.</listitem>
+<listitem>Open the <guilabel>Version File (VF) setup</guilabel> dialogue box using the <guilabel>Version File (VF)...</guilabel> option in the <guilabel>Tools</guilabel> menu.</listitem>
+<listitem>Tick the <guilabel>Video</guilabel> checkbox next to your existing DCP's name (you may need to select <guilabel>By video content</guilabel> for <guilabel>Reel type</guilabel> in the <guilabel>DCP</guilabel> tab).</listitem>
+<listitem>Check also the <guilabel>Audio</guilabel> checkbox if your OV has audio.</listitem>
 <listitem>Add your language-specific audio and/or subtitles and Make DCP.</listitem>
 </itemizedlist>
 
@@ -3958,7 +4262,7 @@ are changed.
   </section>
 
   <section>
-  <title>Good things</title>
+  <title>Notes which indicate that something is correct</title>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="verify_ok.xml"/>
   </section>
 
@@ -3970,7 +4274,7 @@ are changed.
 <title>Writing DCPs to disks</title>
 
 <para>
-Once you have your DCP, you need to get it to the cinema or theater who
+Once you have your DCP, you need to get it to the cinema or theatre who
 will play it. Sometimes this is possible via the internet, using a
 service such as Filemail. If that's an option: go for it! Network
 transfers avoid a lot of the difficulties that other methods have.
@@ -4055,20 +4359,7 @@ to lose.
 <title>Writing a DCP to a disk</title>
 
 <para>
-Starting up the Disk Writer will give open a confirmation window to make sure that you understand the risks involved, as shown in <xref linkend="fig-disk-writer-notice"/>.
-</para>
-
-<figure id="fig-disk-writer-notice">
-  <title>Starting the Disk Writer</title>
-  <mediaobject>
-    <imageobject>
-      <imagedata fileref="screenshots/disk-writer-notice&scs;"/>
-    </imageobject>
-  </mediaobject>
-</figure>
-
-<para>
-If you are sure you want to continue, type <code>I am sure</code> into the text box and click <guilabel>OK</guilabel>.  This will open the window shown in <xref linkend="fig-disk-writer"/>.
+Starting up the Disk Writer will open its main window:
 </para>
 
 <figure id="fig-disk-writer">
@@ -4080,22 +4371,149 @@ If you are sure you want to continue, type <code>I am sure</code> into the text 
   </mediaobject>
 </figure>
 
-<para>Next, click <guilabel>Open...</guilabel> and choose the DCP that you want to write.</para>
+<para>Next, click <guilabel>Add...</guilabel> and choose the DCP that you want to write.  You can
+write several DCPs to the same drive by clicking <guilabel>Add..</guilabel> again.</para>
 
 <para>
-Now we need to choose the drive that the DCP will be written to from the drop-down menu.
+Now we need to choose the drive that the DCPs will be written to from the drop-down menu.
 <emphasis>Whichever drive you choose will be irretrievably wiped!</emphasis>
 If the drive you want is not listed, click <guilabel>Refresh</guilabel> to search the system for drives.
 </para>
 
 <para>
-Finally, click <guilabel>Copy DCP</guilabel>.  After a confirmation window, the drive will be formatted,
-and the DCP copied and then read back to check that it was written correctly.
+Finally, click <guilabel>Copy DCPs</guilabel>.  After a confirmation window, the drive will be formatted,
+and the DCPs copied and then read back to check that they were written correctly.
 </para>
 
 </section>
 
 </chapter>
+
+
+<!-- ============================================================== -->
+<chapter xml:id="ch-combining">
+<title>Combining DCPs</title>
+
+  <para>
+    The main &lsquo;DCP-o-matic&rsquo; tool is designed to create a single DCP
+    containing a single Composition Play List (CPL): in other words, a
+    single folder containing one film, trailer or advert that can be played.
+  </para>
+
+  <para>
+    However, it is also possible to have a single DCP folder containing multiple
+    CPLs. A projectionist can then ingest (copy) a single thing onto their
+    playback server but have the choice of several different things to play.
+    This is often useful to package up different versions of a film (perhaps
+    with different subtitles or audio tracks) into a single folder.
+  </para>
+
+  <para>
+    The difference between a single folder multiple CPLs, or multiple folders
+    each containing a single CPL, is not great, but sometimes a single folder is
+    more convenient.
+  </para>
+
+  <para>
+    In an ideal world, perhaps it would be possible to create multi-CPL DCPs
+    from the main &lsquo;DCP-o-matic&rsquo; tool.  This is not yet possible
+    (mostly because I find it hard to imagine a user interface that allows it
+    without complicating the more common &lsquo;single CPL&rsquo; case).
+    Instead, there is a separate tool, the &lsquo;DCP-o-matic Combiner&rsquo;
+    that allows multiple DCPs to be combined into a single one.
+  </para>
+
+  <para>
+    Loading the DCP-o-matic Combiner shows a small window:
+  </para>
+
+<figure id="fig-combiner">
+  <title>The Combiner</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/combiner&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+  <para>
+    First, click <guilabel>Add...</guilabel> to add the DCPs that you want to join.
+    Fill in an annotation text (a title) for the combined DCP.  Finally, choose an
+    output folder, click <guilabel>Combine</guilabel> and your combined DCP will be
+    prepared.
+  </para>
+
+</chapter>
+
+
+
+<!-- ============================================================== -->
+<chapter xml:id="ch-metadata">
+<title>Editing DCP metadata</title>
+
+<para>
+  The main &lsquo;DCP-o-matic&rsquo; tool is designed to ease creation of new DCPs
+  from existing content.  Though it re-uses data where appropriate, it will almost
+  always create new assets (the large files containing picture, sound or subtitles).
+</para>
+
+<para>
+  Sometimes it is necessary to make small edits to existing DCPs (especially to
+  the metadata) or to fix DCPs that have errors.  DCP-o-matic has a tool for that:
+  the &lsquo;DCP-o-matic Editor&rsquo;.  Though it is currently quite limited in
+  what it can do, you may still find it useful.
+</para>
+
+<para>
+ Opening the &lsquo;DCP-o-matic Editor&rsquo; shows its window:
+</para>
+
+<figure id="fig-editor">
+  <title>The Editor</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/editor&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+ Load a DCP by using the <guilabel>Open...</guilabel> option from the <guilabel>File</guilabel>
+ menu.  This will display some details about the DCP:
+</para>
+
+<figure id="fig-editor-cpl">
+  <title>The Editor with a DCP loaded</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/editor-cpl&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+<para>
+You can make any changes you wish to the text fields, then re-create the DCP's XML files
+by choosing <guilabel>Save</guilabel> from the <guilabel>File</guilabel> menu.
+The DCP-o-matic Editor will fix the various checksums, as required, and re-sign the files
+using its own certificate.
+</para>
+
+<para>
+You can also make changes to the metadata of the individual reels by choosing a reel in the
+list and clicking <guilabel>Edit...</guilabel>.  Reels are shown in a window like this:
+</para>
+
+<figure id="fig-editor-reel">
+  <title>The Editor editing a reel</title>
+  <mediaobject>
+    <imageobject>
+      <imagedata fileref="screenshots/editor-reel&scs;"/>
+    </imageobject>
+  </mediaobject>
+</figure>
+
+</chapter>
+
 
 
 <!-- ============================================================== -->
