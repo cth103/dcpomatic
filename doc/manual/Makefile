@@ -118,12 +118,14 @@ verify_bv21_errors.xml:	verifier.py $(LIBDCP_DEPS)
 verify_warnings.xml:	verifier.py $(LIBDCP_DEPS)
 	python3 verifier.py $(LIBDCP) WARNING > $@
 
+verify_ok.xml:	verifier.py $(LIBDCP_DEPS)
+	python3 verifier.py $(LIBDCP) OK > $@
 
 #
 # HTML
 #
 
-html:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml verify_warnings.xml \
+html:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml verify_warnings.xml verify_ok.xml \
 	dcpomatic-html.xsl extensions-html.ent dcpomatic.css dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(subst .pdf,.png,$(addprefix html/screenshots/,$(SCREENSHOTS))) \
 	$(subst .svg,.png,$(addprefix diagrams/,$(DIAGRAMS))) \
@@ -144,7 +146,7 @@ html:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml v
 # PDF
 #
 
-pdf:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml verify_warnings.xml \
+pdf:	$(XML) config.xml shortcuts.xml verify_errors.xml verify_bv21_errors.xml verify_warnings.xml verify_ok.xml \
 	dcpomatic-pdf.xsl extensions-pdf.ent dcpomatic_create.xml dcpomatic_cli.xml dcpomatic_kdm_cli.xml \
 	$(addprefix screenshots/,$(SCREENSHOTS)) \
 	$(subst .svg,.pdf,$(addprefix diagrams/,$(DIAGRAMS)))

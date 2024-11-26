@@ -3935,6 +3935,10 @@ are changed.
   </itemizedlist>
 
   <para>
+    It will also report some &lsquo;good&rsquo; things, which have been checked and found to be in order.
+  </para>
+
+  <para>
     The following sections list what the verifier checks for in each category.
   </para>
 
@@ -3951,6 +3955,11 @@ are changed.
   <section>
   <title>Warnings</title>
   <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="verify_warnings.xml"/>
+  </section>
+
+  <section>
+  <title>Good things</title>
+  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="verify_ok.xml"/>
   </section>
 
 </chapter>
