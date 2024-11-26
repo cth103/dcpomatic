@@ -749,10 +749,10 @@ def package_debian(target, cpu, version, options):
             # Get the required capability to write to disks
             print('setcap "cap_dac_override+ep cap_sys_admin+ep" /usr/bin/dcpomatic2_disk_writer', file=f)
     target.command('./waf dist')
-    f = open('debian/files', 'w')
-    suffix = '' if options['gui'] else '-cli'
-    arch = 'amd64' if cpu == 'x86' else 'aarch64' if cpu == 'arm' else None
-    print(f'{name}{suffix}_{version}-1_{arch}.deb video extra', file=f)
+    with open('debian/files', 'w') as f:
+        suffix = '' if options['gui'] else '-cli'
+        arch = 'amd64' if cpu == 'x86' else 'aarch64' if cpu == 'arm' else None
+        print(f'{name}{suffix}_{version}-1_{arch}.deb video extra', file=f)
     shutil.rmtree('build/deb', ignore_errors=True)
 
     os.makedirs('build/deb')
