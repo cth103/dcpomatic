@@ -691,32 +691,32 @@ DCP-o-matic will automatically map a set of audio files to the correct channels 
     <tbody>
       <row>
 	<entry><code>L</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
-	<entry>film-L.wav my_movie_L_final.wav</entry>
+	<entry><code>film-L.wav</code> <code>my_movie_L_final.wav</code></entry>
 	<entry>Left</entry>
       </row>
       <row>
 	<entry><code>R</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
-	<entry>film-R.wav my_movie_R_final.wav</entry>
+	<entry><code>film-R.wav</code> <code>my_movie_R_final.wav</code></entry>
 	<entry>Right</entry>
       </row>
       <row>
 	<entry><code>C</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
-	<entry>film-C.wav my_movie_C_final.wav</entry>
+	<entry><code>film-C.wav</code> <code>my_movie_C_final.wav</code></entry>
 	<entry>Centre</entry>
       </row>
       <row>
 	<entry><code>Lfe</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
-	<entry>film-Lfe.wav my_movie_Lfe_final.wav</entry>
+	<entry><code>film-Lfe.wav</code> <code>my_movie_Lfe_final.wav</code></entry>
 	<entry>LFE (sub)</entry>
       </row>
       <row>
 	<entry><code>Ls</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
-	<entry>film-Ls.wav my_movie_Ls_final.wav</entry>
+	<entry><code>film-Ls.wav</code> <code>my_movie_Ls_final.wav</code></entry>
 	<entry>Left surround</entry>
       </row>
       <row>
 	<entry><code>Rs</code> surrounded by <code>.</code> <code>_</code> or <code>-</code></entry>
-	<entry>film-Rs.wav my_movie_Rs_final.wav</entry>
+	<entry><code>film-Rs.wav</code> <code>my_movie_Rs_final.wav</code></entry>
 	<entry>Right surround</entry>
       </row>
     </tbody>
