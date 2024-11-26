@@ -72,7 +72,6 @@ sources = """
           dcpomatic_spin_ctrl.cc
           dir_dialog.cc
           dir_picker_ctrl.cc
-          disk_warning_dialog.cc
           dkdm_dialog.cc
           dkdm_output_panel.cc
           dolby_doremi_certificate_panel.cc

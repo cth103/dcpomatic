@@ -19,7 +19,6 @@
 */
 
 
-#include "wx/disk_warning_dialog.h"
 #include "wx/drive_wipe_warning_dialog.h"
 #include "wx/editable_list.h"
 #include "wx/id.h"
@@ -490,22 +489,6 @@ public:
 			*/
 			Config::drop ();
 
-			if (!_skip_alpha_check) {
-				auto warning = make_wx<DiskWarningDialog>();
-				if (warning->ShowModal() != wxID_OK) {
-					return false;
-				}
-				if (!warning->confirmed()) {
-					message_dialog(
-						nullptr,
-						variant::wx::insert_dcpomatic_disk_writer(
-							_("You did not correctly confirm that you read the warning that was just shown.  %s will close now.  Please try again.")
-							)
-						);
-					return false;
-				}
-			}
-
 			_frame = new DOMFrame(variant::wx::dcpomatic_disk_writer());
 			SetTopWindow (_frame);
 
@@ -535,8 +518,6 @@ public:
 
 	bool OnCmdLineParsed (wxCmdLineParser& parser) override
 	{
-		_skip_alpha_check = parser.Found(char_to_wx("sure"));
-
 		wxString dcp;
 		if (parser.Found(char_to_wx("dcp"), &dcp)) {
 			_dcp_to_write = wx_to_std (dcp);
@@ -602,7 +583,6 @@ public:
 	}
 
 	DOMFrame* _frame;
-	bool _skip_alpha_check = false;
 	boost::optional<boost::filesystem::path> _dcp_to_write;
 };
 
