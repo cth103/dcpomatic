@@ -177,7 +177,22 @@ public:
 
 	~GrokContext()
 	{
-		shutdown();
+		if (!_messenger) {
+			return;
+		}
+
+		std::unique_lock<std::mutex> lk_global(launchMutex);
+
+		if (!_messenger) {
+			return;
+		}
+
+		if (_launched) {
+			_messenger->shutdown();
+		}
+
+		delete _messenger;
+		_messenger = nullptr;
 	}
 
 	bool launch(DCPVideo dcpv, int device)
@@ -256,27 +271,6 @@ public:
 	}
 
 private:
-
-	void shutdown()
-	{
-		if (!_messenger) {
-			return;
-		}
-
-		std::unique_lock<std::mutex> lk_global(launchMutex);
-
-		if (!_messenger) {
-			return;
-		}
-
-		if (_launched) {
-			_messenger->shutdown();
-		}
-
-		delete _messenger;
-		_messenger = nullptr;
-	}
-
 	void frame_done()
 	{
 		_dcpomatic_context->history.event();
