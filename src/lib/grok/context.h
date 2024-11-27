@@ -192,7 +192,6 @@ public:
 		}
 
 		delete _messenger;
-		_messenger = nullptr;
 	}
 
 	bool launch(DCPVideo dcpv, int device)
