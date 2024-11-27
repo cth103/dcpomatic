@@ -61,19 +61,31 @@ struct GrokLogger : public MessengerLogger {
 	}
 };
 
-struct FrameProxy {
-	FrameProxy(int index, Eyes eyes, DCPVideo dcpv) : index_(index), eyes_(eyes), vf(dcpv)
+
+class FrameProxy
+{
+public:
+	FrameProxy(int index, Eyes eyes, DCPVideo video)
+		: vf(video)
+		, _index(index)
+		, _eyes(eyes)
 	{}
+
 	int index() const {
-		return index_;
+		return _index;
 	}
-	Eyes eyes(void) const {
-		return eyes_;
+
+	Eyes eyes() const {
+		return _eyes;
 	}
-	int index_;
-	Eyes eyes_;
+
 	DCPVideo vf;
+
+private:
+	int _index;
+	Eyes _eyes;
 };
+
 
 struct DcpomaticContext
 {
