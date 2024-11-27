@@ -66,7 +66,11 @@ try
 			frame_guard.cancel();
 		}
 	}
-} catch (boost::thread_interrupted& e) {
-} catch (...) {
+}
+catch (boost::thread_interrupted& e)
+{
+
+}
+catch (...) {
 	store_current();
 }
