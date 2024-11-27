@@ -255,6 +255,8 @@ public:
 		return _messenger->scheduleCompress(fp, cvt);
 	}
 
+private:
+
 	void shutdown()
 	{
 		if (!_messenger) {
@@ -280,7 +282,6 @@ public:
 		_dcpomatic_context->history.event();
 	}
 
-private:
 	DcpomaticContext* _dcpomatic_context;
 	ScheduledMessenger<FrameProxy>* _messenger = nullptr;
 	bool _launched = false;
