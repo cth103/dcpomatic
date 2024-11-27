@@ -78,7 +78,7 @@ public:
 	/** Called to indicate that a processing run is about to begin */
 	void begin() override;
 
-	/** Called to pass a bit of video to be encoded as the next DCP frame */
+	/** Called to pass a video frame to be encoded as the next DCP frame */
 	void encode (std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time) override;
 
 	void pause() override;
