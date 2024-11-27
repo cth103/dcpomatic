@@ -62,31 +62,6 @@ struct GrokLogger : public MessengerLogger {
 };
 
 
-class FrameProxy
-{
-public:
-	FrameProxy(int index, Eyes eyes, DCPVideo video)
-		: vf(video)
-		, _index(index)
-		, _eyes(eyes)
-	{}
-
-	int index() const {
-		return _index;
-	}
-
-	Eyes eyes() const {
-		return _eyes;
-	}
-
-	DCPVideo vf;
-
-private:
-	int _index;
-	Eyes _eyes;
-};
-
-
 struct DcpomaticContext
 {
 	DcpomaticContext(
@@ -146,7 +121,7 @@ public:
 					auto clientFrameId = msg.nextUint();
 					msg.nextUint(); // compressed frame ID
 					auto compressedFrameLength = msg.nextUint();
-					auto processor = [this](FrameProxy srcFrame, uint8_t* compressed, uint32_t compressedFrameLength) {
+					auto processor = [this](DCPVideo srcFrame, uint8_t* compressed, uint32_t compressedFrameLength) {
 						auto compressed_data = std::make_shared<dcp::ArrayData>(compressed, compressedFrameLength);
 						_dcpomatic_context->writer.write(compressed_data, srcFrame.index(), srcFrame.eyes());
 						frame_done ();
@@ -158,13 +133,13 @@ public:
 					_messenger->processCompressed(str, processor, needsRecompression);
 
 					if (needsRecompression) {
-						auto fp = _messenger->retrieve(clientFrameId);
-						if (!fp) {
+						auto vf = _messenger->retrieve(clientFrameId);
+						if (!vf) {
 							return;
 						}
 
-						auto encoded = std::make_shared<dcp::ArrayData>(fp->vf.encode_locally());
-						_dcpomatic_context->writer.write(encoded, fp->vf.index(), fp->vf.eyes());
+						auto encoded = std::make_shared<dcp::ArrayData>(vf->encode_locally());
+						_dcpomatic_context->writer.write(encoded, vf->index(), vf->eyes());
 						frame_done ();
 					}
 				}
@@ -184,7 +159,7 @@ public:
 			std::thread::hardware_concurrency()
 			);
 
-		_messenger = new ScheduledMessenger<FrameProxy>(clientInit);
+		_messenger = new ScheduledMessenger<DCPVideo>(clientInit);
 	}
 
 	~GrokContext()
@@ -273,12 +248,11 @@ public:
 			return false;
 		}
 
-		auto fp = FrameProxy(vf.index(), vf.eyes(), vf);
-		auto cvt = [this, &fp](BufferSrc src) {
-			fp.vf.convert_to_xyz((uint16_t*)src.framePtr_);
+		auto cvt = [this, &vf](BufferSrc src) {
+			vf.convert_to_xyz((uint16_t*)src.framePtr_);
 		};
 
-		return _messenger->scheduleCompress(fp, cvt);
+		return _messenger->scheduleCompress(vf, cvt);
 	}
 
 private:
@@ -288,7 +262,7 @@ private:
 	}
 
 	DcpomaticContext* _dcpomatic_context;
-	ScheduledMessenger<FrameProxy>* _messenger = nullptr;
+	ScheduledMessenger<DCPVideo>* _messenger = nullptr;
 	bool _launched = false;
 	bool _launch_failed = false;
 };
