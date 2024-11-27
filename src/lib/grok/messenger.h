@@ -599,16 +599,16 @@ struct Messenger
 			return false;
 		}
 
-        while (true) {
-        	if (clientInitializedCondition_.wait_for(lk, std::chrono::seconds(1), [this]{ return _initialized || _shutdown; })) {
-                break;
-            }
-            auto status = async_result_.wait_for(std::chrono::milliseconds(100));
-            if (status == std::future_status::ready) {
-            	getMessengerLogger()->error("Grok exited unexpectedly during initialization");
-                return false;
-            }
-        }
+		while (true) {
+			if (clientInitializedCondition_.wait_for(lk, std::chrono::seconds(1), [this]{ return _initialized || _shutdown; })) {
+				break;
+			}
+			auto status = async_result_.wait_for(std::chrono::milliseconds(100));
+			if (status == std::future_status::ready) {
+				getMessengerLogger()->error("Grok exited unexpectedly during initialization");
+				return false;
+			}
+		}
 
 		return _initialized && !_shutdown;
 	}
