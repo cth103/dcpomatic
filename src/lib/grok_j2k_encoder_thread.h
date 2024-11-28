@@ -35,7 +35,12 @@ public:
 
 	void run() override;
 
+	int errors() const {
+		return _errors.load();
+	}
+
 private:
 	grk_plugin::GrokContext* _context;
+	std::atomic<int> _errors;
 };
 

@@ -39,6 +39,7 @@ using std::shared_ptr;
 GrokJ2KEncoderThread::GrokJ2KEncoderThread(J2KEncoder& encoder, grk_plugin::GrokContext* context)
 	: J2KEncoderThread(encoder)
 	, _context(context)
+	, _errors(0)
 {
 
 }
@@ -55,6 +56,7 @@ try
 
 		dcp::ScopeGuard frame_guard([this, &frame]() {
 			LOG_ERROR("Failed to schedule encode of %1 using grok", frame.index());
+			_errors++;
 			_encoder.retry(frame);
 		});
 
