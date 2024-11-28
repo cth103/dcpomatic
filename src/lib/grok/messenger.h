@@ -557,7 +557,7 @@ struct Messenger
 		startThreads();
 		auto fullServer = server + ":" + std::to_string(port);
 		char cmd[4096];
-		sprintf(cmd,
+		snprintf(cmd, sizeof(cmd),
 				"./grk_compress -batch_src %s,%d,%d,%d,%d,%d -out_fmt j2k -k 1 "
 				"-G %d -%s %d,%d -j %s -J %s -v",
 				GRK_MSGR_BATCH_IMAGE.c_str(), width, stride, height, samplesPerPixel, depth,
