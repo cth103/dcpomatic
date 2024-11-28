@@ -20,6 +20,7 @@
 
 
 #include "wx/about_dialog.h"
+#include "wx/dcpomatic_spin_ctrl.h"
 #include "wx/editable_list.h"
 #include "wx/id.h"
 #include "wx/wx_signal_manager.h"
@@ -85,12 +86,12 @@ public:
 		++r;
 
 		add_label_to_sizer(sizer, this, _("Entry point"), true, wxGBPosition(r, 0));
-		_entry_point = new wxSpinCtrl(this, wxID_ANY);
+		_entry_point = new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH);
 		sizer->Add(_entry_point, wxGBPosition(r, 1), wxDefaultSpan);
 		++r;
 
 		add_label_to_sizer(sizer, this, _("Duration"), true, wxGBPosition(r, 0));
-		_duration = new wxSpinCtrl(this, wxID_ANY);
+		_duration = new SpinCtrl(this, DCPOMATIC_SPIN_CTRL_WIDTH);
 		sizer->Add(_duration, wxGBPosition(r, 1), wxDefaultSpan);
 		++r;
 
