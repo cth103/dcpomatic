@@ -137,11 +137,6 @@ private:
 		_server = new wxTextCtrl(_panel, wxID_ANY);
 		table->Add(_server, 1, wxEXPAND | wxALL);
 
-		add_label_to_sizer(table, _panel, _("Port"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_port = new wxSpinCtrl(_panel, wxID_ANY);
-		_port->SetRange(0, 65535);
-		table->Add(_port);
-
 		add_label_to_sizer(table, _panel, _("License"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 		_licence = new PasswordEntry(_panel);
 		table->Add(_licence->get_panel(), 1, wxEXPAND | wxALL);
@@ -149,7 +144,6 @@ private:
 		_enable_gpu->bind(&GPUPage::enable_gpu_changed, this);
 		_binary_location->Bind(wxEVT_DIRPICKER_CHANGED, boost::bind (&GPUPage::binary_location_changed, this));
 		_server->Bind(wxEVT_TEXT, boost::bind(&GPUPage::server_changed, this));
-		_port->Bind(wxEVT_SPINCTRL, boost::bind(&GPUPage::port_changed, this));
 		_licence->Changed.connect(boost::bind(&GPUPage::licence_changed, this));
 
 		setup_sensitivity();
@@ -162,7 +156,6 @@ private:
 		_binary_location->Enable(grok.enable);
 		_gpu_list_control->Enable(grok.enable);
 		_server->Enable(grok.enable);
-		_port->Enable(grok.enable);
 		_licence->get_panel()->Enable(grok.enable);
 	}
 
@@ -175,7 +168,6 @@ private:
 		_gpu_list_control->update();
 		_gpu_list_control->set_selection(grok.selected);
 		checked_set(_server, grok.licence_server);
-		checked_set(_port, grok.licence_port);
 		checked_set(_licence, grok.licence);
 	}
 
@@ -207,7 +199,6 @@ private:
 	void port_changed()
 	{
 		auto grok = Config::instance()->grok().get_value_or({});
-		grok.licence_port = _port->GetValue();
 		Config::instance()->set_grok(grok);
 	}
 
@@ -222,6 +213,5 @@ private:
 	wxDirPickerCtrl* _binary_location = nullptr;
 	GpuList* _gpu_list_control = nullptr;
 	wxTextCtrl* _server = nullptr;
-	wxSpinCtrl* _port = nullptr;
 	PasswordEntry* _licence = nullptr;
 };

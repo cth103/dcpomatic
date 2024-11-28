@@ -542,11 +542,9 @@ struct Messenger
 		uint32_t fps,
 		uint32_t bandwidth,
 		const std::string server,
-		uint32_t port,
 		const std::string license
 		)
 	{
-
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
 		if (async_result_.valid()) {
 			return true;
@@ -555,14 +553,13 @@ struct Messenger
 			init_.unlink();
 		}
 		startThreads();
-		auto fullServer = server + ":" + std::to_string(port);
 		char cmd[4096];
 		snprintf(cmd, sizeof(cmd),
 				"./grk_compress -batch_src %s,%d,%d,%d,%d,%d -out_fmt j2k -k 1 "
 				"-G %d -%s %d,%d -j %s -J %s -v",
 				GRK_MSGR_BATCH_IMAGE.c_str(), width, stride, height, samplesPerPixel, depth,
 				device, is4K ? "cinema4K" : "cinema2K", fps, bandwidth,
-				license.c_str(), fullServer.c_str());
+				license.c_str(), server.c_str());
 
 		return launch(cmd, dir);
 	}

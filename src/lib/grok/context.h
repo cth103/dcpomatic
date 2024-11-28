@@ -229,7 +229,6 @@ public:
 					_dcpomatic_context->film->video_frame_rate(),
 					_dcpomatic_context->film->video_bit_rate(VideoEncoding::JPEG2000),
 					grok.licence_server,
-					grok.licence_port,
 					grok.licence)) {
 				_launch_failed = true;
 				return false;

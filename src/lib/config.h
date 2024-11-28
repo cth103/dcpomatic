@@ -657,7 +657,6 @@ public:
 		boost::filesystem::path binary_location;
 		int selected = 0;
 		std::string licence_server;
-		int licence_port = 5000;
 		std::string licence;
 	};
 

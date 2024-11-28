@@ -1747,7 +1747,6 @@ Config::Grok::Grok(cxml::ConstNodePtr node)
 	, binary_location(node->string_child("BinaryLocation"))
 	, selected(node->number_child<int>("Selected"))
 	, licence_server(node->string_child("LicenceServer"))
-	, licence_port(node->number_child<int>("LicencePort"))
 	, licence(node->string_child("Licence"))
 {
 
@@ -1761,7 +1760,6 @@ Config::Grok::as_xml(xmlpp::Element* node) const
 	node->add_child("Enable")->add_child_text((enable ? "1" : "0"));
 	node->add_child("Selected")->add_child_text(raw_convert<string>(selected));
 	node->add_child("LicenceServer")->add_child_text(licence_server);
-	node->add_child("LicencePort")->add_child_text(raw_convert<string>(licence_port));
 	node->add_child("Licence")->add_child_text(licence);
 }
 
