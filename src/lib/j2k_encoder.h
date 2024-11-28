@@ -120,6 +120,7 @@ private:
 #ifdef DCPOMATIC_GROK
 	grk_plugin::DcpomaticContext* _dcpomatic_context = nullptr;
 	grk_plugin::GrokContext *_context = nullptr;
+	std::atomic<bool> _give_up;
 #endif
 
 	bool _ending = false;

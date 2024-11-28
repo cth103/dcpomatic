@@ -93,6 +93,9 @@ grk_plugin::IMessengerLogger* getMessengerLogger(void)
  */
 J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 	: VideoEncoder(film, writer)
+#ifdef DCPOMATIC_GROK
+	, _give_up(false)
+#endif
 {
 #ifdef DCPOMATIC_GROK
 	auto grok = Config::instance()->grok().get_value_or({});
@@ -271,6 +274,12 @@ J2KEncoder::frame_done ()
 void
 J2KEncoder::encode (shared_ptr<PlayerVideo> pv, DCPTime time)
 {
+#ifdef DCPOMATIC_GROK
+	if (_give_up) {
+		throw EncodeError(_("GPU acceleration is enabled but the grok decoder is not working.  Please check your configuration and license, and ensure that you are connected to the internet."));
+	}
+#endif
+
 	VideoEncoder::encode(pv, time);
 
 	_waker.nudge ();
@@ -463,9 +472,23 @@ J2KEncoder::pop()
 void
 J2KEncoder::retry(DCPVideo video)
 {
-	boost::mutex::scoped_lock lock(_queue_mutex);
-	_queue.push_front(video);
-	_empty_condition.notify_all();
+#ifdef DCPOMATIC_GROK
+	{
+		boost::mutex::scoped_lock lock(_threads_mutex);
+		auto is_grok_thread_with_errors = [](shared_ptr<const J2KEncoderThread> thread) {
+			auto grok = dynamic_pointer_cast<const GrokJ2KEncoderThread>(thread);
+			return grok && grok->errors();
+		};
+
+		_give_up = std::any_of(_threads.begin(), _threads.end(), is_grok_thread_with_errors);
+	}
+#endif
+
+	{
+		boost::mutex::scoped_lock lock(_queue_mutex);
+		_queue.push_front(video);
+		_empty_condition.notify_all();
+	}
 }
 
 
