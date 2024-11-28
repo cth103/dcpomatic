@@ -217,7 +217,7 @@ public:
 			auto s = dcpv.get_size();
 			_dcpomatic_context->set_dimensions(s.width, s.height);
 			auto grok = Config::instance()->grok().get_value_or({});
-			if (!_messenger->launchGrok(
+			if (!_messenger->launch_grok(
 					_dcpomatic_context->location,
 					_dcpomatic_context->width,
 					_dcpomatic_context->width,

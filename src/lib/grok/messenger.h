@@ -530,7 +530,7 @@ struct Messenger
 		sendQueue.push(oss.str());
 	}
 
-	bool launchGrok(
+	bool launch_grok(
 		boost::filesystem::path const& dir,
 		uint32_t width,
 		uint32_t stride,
@@ -548,21 +548,23 @@ struct Messenger
 	{
 
 		std::unique_lock<std::mutex> lk(shutdownMutex_);
-		if (async_result_.valid())
+		if (async_result_.valid()) {
 			return true;
-		if(MessengerInit::firstLaunch(true))
+		}
+		if (MessengerInit::firstLaunch(true)) {
 			init_.unlink();
+		}
 		startThreads();
-		char _cmd[4096];
 		auto fullServer = server + ":" + std::to_string(port);
-		sprintf(_cmd,
+		char cmd[4096];
+		sprintf(cmd,
 				"./grk_compress -batch_src %s,%d,%d,%d,%d,%d -out_fmt j2k -k 1 "
 				"-G %d -%s %d,%d -j %s -J %s -v",
 				GRK_MSGR_BATCH_IMAGE.c_str(), width, stride, height, samplesPerPixel, depth,
 				device, is4K ? "cinema4K" : "cinema2K", fps, bandwidth,
 				license.c_str(), fullServer.c_str());
 
-		return launch(_cmd, dir);
+		return launch(cmd, dir);
 	}
 	void initClient(size_t uncompressedFrameSize, size_t compressedFrameSize, size_t numFrames)
 	{
