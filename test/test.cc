@@ -127,6 +127,9 @@ setup_test_config ()
 		LogEntry::TYPE_ERROR | LogEntry::TYPE_DISK
 		);
 	Config::instance()->set_automatic_audio_analysis (false);
+#ifdef DCPOMATIC_GROK
+	Config::instance()->set_grok(Config::Grok{});
+#endif
 	auto signer = make_shared<dcp::CertificateChain>(dcp::file_to_string("test/data/signer_chain"));
 	signer->set_key(dcp::file_to_string("test/data/signer_key"));
 	Config::instance()->set_signer_chain (signer);
