@@ -502,6 +502,7 @@ private:
 	void maybe_set_container_and_resolution ();
 	void set_dirty (bool dirty);
 	void write_ui_state() const;
+	void check_reel_boundaries_for_atmos();
 
 	/** Log to write to */
 	std::shared_ptr<Log> _log;

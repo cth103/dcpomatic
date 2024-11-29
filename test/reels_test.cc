@@ -34,10 +34,12 @@
 #include "lib/make_dcp.h"
 #include "lib/ratio.h"
 #include "lib/string_text_file_content.h"
+#include "lib/variant.h"
 #include "lib/video_content.h"
 #include "test.h"
 #include <dcp/cpl.h>
 #include <dcp/reel.h>
+#include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_picture_asset.h>
 #include <dcp/reel_sound_asset.h>
 #include <boost/test/unit_test.hpp>
@@ -647,3 +649,32 @@ BOOST_AUTO_TEST_CASE (repeated_dcp_into_reels)
 		BOOST_REQUIRE_EQUAL(cpl->reels()[i]->main_sound()->id(), sound->id());
 	}
 }
+
+
+/** Check that reel lengths are adapted to cope with Atmos content, as I don't know how to fill gaps with Atmos silence */
+BOOST_AUTO_TEST_CASE(reel_assets_same_length_with_atmos)
+{
+	auto atmos = content_factory("test/data/atmos_0.mxf")[0];
+	auto film = new_test_film("reel_assets_same_length_with_atmos", { atmos });
+
+	vector<string> messages;
+	film->Message.connect([&messages](string message) {
+		messages.push_back(message);
+	});
+
+	auto picture = content_factory("test/data/flat_red.png")[0];
+	film->examine_and_add_content(picture);
+	wait_for_jobs();
+	picture->video->set_length(480);
+
+	BOOST_REQUIRE_EQUAL(messages.size(), 1U);
+	BOOST_CHECK_EQUAL(messages[0], variant::insert_dcpomatic("%1 had to change your reel settings to accomodate the Atmos content"));
+
+	auto const reels = film->reels();
+	BOOST_CHECK_EQUAL(reels.size(), 2U);
+	BOOST_CHECK(reels[0] == dcpomatic::DCPTimePeriod({}, dcpomatic::DCPTime::from_frames(240, 24)));
+	BOOST_CHECK(reels[1] == dcpomatic::DCPTimePeriod(dcpomatic::DCPTime::from_frames(240, 24), dcpomatic::DCPTime::from_frames(480, 24)));
+
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+}
+

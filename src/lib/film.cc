@@ -1610,6 +1610,51 @@ Film::playlist_change (ChangeType type)
 	set_dirty (true);
 }
 
+
+void
+Film::check_reel_boundaries_for_atmos()
+{
+	/* Find Atmos boundaries */
+	std::set<dcpomatic::DCPTime> atmos_boundaries;
+	for (auto i: content()) {
+		if (i->atmos) {
+			atmos_boundaries.insert(i->position());
+			atmos_boundaries.insert(i->end(shared_from_this()));
+		}
+	}
+
+	/* Find reel boundaries */
+	vector<dcpomatic::DCPTime> reel_boundaries;
+	bool first = true;
+	for (auto period: reels()) {
+		if (first) {
+			reel_boundaries.push_back(period.from);
+			first = false;
+		}
+		reel_boundaries.push_back(period.to);
+	}
+
+	/* There must be a reel boundary at all the Atmos boundaries */
+	auto remake_boundaries = std::any_of(atmos_boundaries.begin(), atmos_boundaries.end(), [&reel_boundaries](dcpomatic::DCPTime time) {
+		return std::find(reel_boundaries.begin(), reel_boundaries.end(), time) == reel_boundaries.end();
+	});
+
+	if (remake_boundaries) {
+		vector<dcpomatic::DCPTime> required_boundaries;
+		std::copy_if(atmos_boundaries.begin(), atmos_boundaries.end(), std::back_inserter(required_boundaries), [this](dcpomatic::DCPTime time) {
+			return time.get() != 0 && time != length();
+		});
+		if (!required_boundaries.empty()) {
+			set_reel_type(ReelType::CUSTOM);
+			set_custom_reel_boundaries(required_boundaries);
+		} else {
+			set_reel_type(ReelType::SINGLE);
+		}
+		Message(variant::insert_dcpomatic("%1 had to change your reel settings to accomodate the Atmos content"));
+	}
+}
+
+
 /** Check for (and if necessary fix) impossible settings combinations, like
  *  video set to being referenced when it can't be.
  */
