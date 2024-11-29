@@ -1616,19 +1616,22 @@ Film::playlist_change (ChangeType type)
 void
 Film::check_settings_consistency ()
 {
-	optional<int> atmos_rate;
+	std::set<int> atmos_rates;
 	for (auto i: content()) {
-
 		if (i->atmos) {
-			int rate = lrintf (i->atmos->edit_rate().as_float());
-			if (atmos_rate && *atmos_rate != rate) {
-				Message (_("You have more than one piece of Atmos content, and they do not have the same frame rate.  You must remove some Atmos content."));
-			} else if (!atmos_rate && rate != video_frame_rate()) {
-				atmos_rate = rate;
-				set_video_frame_rate (rate, false);
-				Message(variant::insert_dcpomatic(_("%1 had to change your settings so that the film's frame rate is the same as that of your Atmos content.")));
-			}
+			atmos_rates.insert(lrintf(i->atmos->edit_rate().as_float()));
 		}
+	}
+
+	if (atmos_rates.size() > 1) {
+		Message(_("You have more than one piece of Atmos content, and they do not have the same frame rate.  You must remove some Atmos content."));
+	} else if (atmos_rates.size() == 1 && *atmos_rates.begin() != video_frame_rate()) {
+		set_video_frame_rate(*atmos_rates.begin(), false);
+		Message(variant::insert_dcpomatic(_("%1 had to change your settings so that the film's frame rate is the same as that of your Atmos content.")));
+	}
+
+	if (!atmos_rates.empty()) {
+		check_reel_boundaries_for_atmos();
 	}
 
 	bool change_made = false;
