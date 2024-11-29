@@ -1052,6 +1052,10 @@ default_font_file ()
 	if (!dcp::filesystem::exists(liberation_normal)) {
 		liberation_normal = "/usr/share/fonts/liberation-sans/LiberationSans-Regular.ttf";
 	}
+	if (!dcp::filesystem::exists(liberation_normal)) {
+		/* Fedora 41 puts it here */
+		liberation_normal = "/usr/share/fonts/liberation-sans-fonts/LiberationSans-Regular.ttf";
+	}
 
 	return liberation_normal;
 }
