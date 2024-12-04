@@ -671,7 +671,7 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 	if (sub_period.to) {
 		_current_subtitle_to = *sub_period.to + _pts_offset;
 	} else {
-		_current_subtitle_to = optional<ContentTime>();
+		_current_subtitle_to = {};
 	}
 
 	ContentBitmapText bitmap_text(from);
@@ -826,12 +826,11 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 		return;
 	}
 
-	sub::RawSubtitle base;
 	auto video_size = _ffmpeg_content->video->size();
 	DCPOMATIC_ASSERT(video_size);
 
 	sub::SSAReader::Context context(video_size->width, video_size->height, sub::Colour(1, 1, 1));
-	auto const raw = sub::SSAReader::parse_line(base, text, context);
+	auto const raw = sub::SSAReader::parse_line({}, text, context);
 
 	for (auto const& i: sub::collect<vector<sub::Subtitle>>(raw)) {
 		only_text()->emit_plain_start (from, i);
