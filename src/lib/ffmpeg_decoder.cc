@@ -816,9 +816,9 @@ FFmpegDecoder::process_ass_subtitle (string ass, ContentTime from)
 	int commas = 0;
 	string text;
 	for (size_t i = 0; i < ass.length(); ++i) {
-		if (commas < 9 && ass[i] == ',') {
+		if (commas < 8 && ass[i] == ',') {
 			++commas;
-		} else if (commas == 9) {
+		} else if (commas == 8) {
 			text += ass[i];
 		}
 	}

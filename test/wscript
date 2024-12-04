@@ -94,6 +94,7 @@ def build(bld):
                  ffmpeg_examiner_test.cc
                  ffmpeg_properties_test.cc
                  ffmpeg_pts_offset_test.cc
+                 ffmpeg_subtitles_test.cc
                  file_group_test.cc
                  file_log_test.cc
                  file_naming_test.cc
