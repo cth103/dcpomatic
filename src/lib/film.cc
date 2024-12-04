@@ -2439,18 +2439,24 @@ Film::read_ui_state()
 vector<RememberedAsset>
 Film::read_remembered_assets() const
 {
+	auto const filename = dcp::filesystem::fix_long_path(file(assets_file));
+
+	if (!boost::filesystem::exists(filename)) {
+		return {};
+	}
+
 	vector<RememberedAsset> assets;
 
 	try {
 		cxml::Document xml("Assets");
-		xml.read_file(dcp::filesystem::fix_long_path(file(assets_file)));
+		xml.read_file(filename);
 		for (auto node: xml.node_children("Asset")) {
 			assets.push_back(RememberedAsset(node));
 		}
 	} catch (std::exception& e) {
-		LOG_ERROR("Could not read assets file %1 (%2)", file(assets_file), e.what());
+		LOG_ERROR("Could not read assets file %1 (%2)", filename, e.what());
 	} catch (...) {
-		LOG_ERROR("Could not read assets file %1", file(assets_file));
+		LOG_ERROR("Could not read assets file %1", filename);
 	}
 
 	return assets;
