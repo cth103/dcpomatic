@@ -199,7 +199,7 @@ TextDecoder::emit_plain_start (ContentTime from, sub::Subtitle const & sub_subti
 					/* Align our subtitles to the bottom of the screen, because if we are making a SMPTE
 					 * DCP and the projection system uses the wrong standard to interpret vertical position,
 					 * a bottom-aligned subtitle will be less wrong than a top-aligned one.  This is because
-					 * in the top-aligned case the difference will be the distance between bbox top an
+					 * in the top-aligned case the difference will be the distance between bbox top and
 					 * baseline, but in the bottom-aligned case the difference will be between bbox bottom
 					 * and baseline (which is shorter).
 					 */
