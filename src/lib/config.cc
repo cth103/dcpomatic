@@ -73,6 +73,10 @@ boost::signals2::signal<void (Config::LoadFailure)> Config::FailedToLoad;
 boost::signals2::signal<void (string)> Config::Warning;
 boost::signals2::signal<bool (Config::BadReason)> Config::Bad;
 
+#ifdef DCPOMATIC_GROK
+auto constexpr default_grok_licence_server = "https://grokcompression.com/api/register";
+#endif
+
 
 /** Construct default configuration */
 Config::Config ()
@@ -1742,6 +1746,11 @@ Config::cinemas_file_from_zip(boost::filesystem::path zip)
 
 #ifdef DCPOMATIC_GROK
 
+Config::Grok::Grok()
+	: licence_server(default_grok_licence_server)
+{}
+
+
 Config::Grok::Grok(cxml::ConstNodePtr node)
 	: enable(node->bool_child("Enable"))
 	, binary_location(node->string_child("BinaryLocation"))
@@ -1749,7 +1758,9 @@ Config::Grok::Grok(cxml::ConstNodePtr node)
 	, licence_server(node->string_child("LicenceServer"))
 	, licence(node->string_child("Licence"))
 {
-
+	if (licence_server.empty()) {
+		licence_server = default_grok_licence_server;
+	}
 }
 
 

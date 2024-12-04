@@ -648,7 +648,7 @@ public:
 	class Grok
 	{
 	public:
-		Grok() = default;
+		Grok();
 		Grok(cxml::ConstNodePtr node);
 
 		void as_xml(xmlpp::Element* node) const;
