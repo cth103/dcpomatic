@@ -144,6 +144,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		translated_by.Add(char_to_wx("Adam Klotblixt"));
 		translated_by.Add(char_to_wx("Theo Kooijmans"));
 		translated_by.Add(char_to_wx("Carsten Kurz"));
+		translated_by.Add(char_to_wx("Roman Kuznetsov"));
 		translated_by.Add(char_to_wx("Lilian Lefranc"));
 		// Doesn't want to be credited
 		// translated_by.Add(char_to_wx("Kahn Li"));
@@ -161,6 +162,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		translated_by.Add(char_to_wx("Marek Skrzelowski"));
 		translated_by.Add(char_to_wx("Danbo Song"));
 		translated_by.Add(char_to_wx("Martin Srebotnjak"));
+		translated_by.Add(char_to_wx("Laurent Tenzer"));
 		translated_by.Add(char_to_wx("Michał Tomaszewski"));
 		translated_by.Add(char_to_wx("Igor Voytovich"));
 		translated_by.Add(char_to_wx("Rov (若文)"));
