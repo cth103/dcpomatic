@@ -243,6 +243,11 @@ FFmpegDecoder::pass ()
 		decode_and_process_audio_packet (packet);
 	}
 
+	if (_have_current_subtitle && _current_subtitle_to && position() > *_current_subtitle_to) {
+		only_text()->emit_stop(*_current_subtitle_to);
+		_have_current_subtitle = false;
+	}
+
 	av_packet_free (&packet);
 	return false;
 }
@@ -695,10 +700,6 @@ FFmpegDecoder::decode_and_process_subtitle_packet (AVPacket* packet)
 
 	if (!bitmap_text.subs.empty()) {
 		only_text()->emit_bitmap_start(bitmap_text);
-	}
-
-	if (_current_subtitle_to) {
-		only_text()->emit_stop (*_current_subtitle_to);
 	}
 
 	avsubtitle_free (&sub);
