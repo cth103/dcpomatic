@@ -106,9 +106,6 @@ BOOST_AUTO_TEST_CASE (threed_test4)
 {
 	ConfigRestorer cr;
 
-	/* Try to stop out-of-memory crashes on my laptop */
-	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency() / 4);
-
 	auto film = new_test_film("threed_test4");
 	auto L = make_shared<FFmpegContent>(TestPaths::private_data() / "LEFT_TEST_DCP3D4K.mov");
 	film->examine_and_add_content (L);
