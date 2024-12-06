@@ -84,6 +84,8 @@ public:
 		bool fast
 		) const;
 
+	std::shared_ptr<Image> crop(Crop crop) const;
+
 	void make_black ();
 	void make_transparent ();
 	void alpha_blend (std::shared_ptr<const Image> image, Position<int> pos);

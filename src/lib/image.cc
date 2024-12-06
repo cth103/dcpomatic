@@ -60,9 +60,11 @@ using std::list;
 using std::make_shared;
 using std::max;
 using std::min;
+using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
 using std::string;
+using std::vector;
 using dcp::Size;
 
 
@@ -1704,5 +1706,25 @@ Image::video_range_to_full_range ()
 	default:
 		throw PixelFormatError ("video_range_to_full_range()", _pixel_format);
 	}
+}
+
+
+shared_ptr<Image>
+Image::crop(Crop crop) const
+{
+	vector<uint8_t*> scale_in_data;
+	dcp::Size cropped_size;
+	std::tie(scale_in_data, cropped_size) = crop_source_pointers(crop);
+
+	auto out = make_shared<Image>(_pixel_format, cropped_size, _alignment);
+
+	for (int c = 0; c < planes(); ++c) {
+		auto const out_data = out->data()[c];
+		for (int y = 0; y < cropped_size.height; ++y) {
+			memcpy(out_data + y * out->stride()[c], scale_in_data[c] + y * stride()[c], cropped_size.width * bytes_per_pixel(c));
+		}
+	}
+
+	return out;
 }
 
