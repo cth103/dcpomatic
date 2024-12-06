@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE(frames_not_lost_when_threads_disappear)
 	auto encoder = dynamic_cast<J2KEncoder*>(dynamic_pointer_cast<DCPFilmEncoder>(job->_encoder)->_encoder.get());
 
 	while (JobManager::instance()->work_to_do()) {
-		encoder->remake_threads(rand() % 8, 0, {});
+		encoder->remake_threads((rand() % 7) + 1, 0, {});
 		dcpomatic_sleep_seconds(1);
 	}
 
