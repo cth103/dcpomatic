@@ -31,4 +31,5 @@ class Image;
 
 Crop guess_crop_by_brightness(std::shared_ptr<const Image> image, double threshold);
 Crop guess_crop_by_brightness(std::shared_ptr<const Film> fillm, std::shared_ptr<const Content> content, double threshold, dcpomatic::ContentTime position);
+Crop guess_crop_by_alpha(std::shared_ptr<const Image> image);
 

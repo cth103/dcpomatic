@@ -149,3 +149,29 @@ guess_crop_by_brightness(shared_ptr<const Film> film, shared_ptr<const Content> 
 	return crop;
 }
 
+
+Crop
+guess_crop_by_alpha(shared_ptr<const Image> image)
+{
+	std::function<bool (int, int, int, bool)> image_in_line = [image](int start_x, int start_y, int pixels, bool rows) {
+		switch (image->pixel_format()) {
+		case AV_PIX_FMT_RGBA:
+		{
+			int const increment = rows ? 3 : image->stride()[0];
+			uint8_t const* data = image->data()[0] + start_x * std::lround(image->bytes_per_pixel(0)) + start_y * image->stride()[0];
+			for (int p = 0; p < pixels; ++p) {
+				if (data[3]) {
+					return true;
+				}
+				data += increment;
+			}
+			return false;
+		}
+		default:
+			throw PixelFormatError("guess_crop_by_alpha()", image->pixel_format());
+		}
+	};
+
+	return guess_crop(image, image_in_line);
+}
+
