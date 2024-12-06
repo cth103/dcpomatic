@@ -117,7 +117,7 @@ boost::filesystem::path TestPaths::xsd ()
 static void
 setup_test_config ()
 {
-	Config::instance()->set_master_encoding_threads (boost::thread::hardware_concurrency() / 2);
+	Config::instance()->set_master_encoding_threads(boost::thread::hardware_concurrency());
 	Config::instance()->set_server_encoding_threads (1);
 	Config::instance()->set_server_port_base (61921);
 	Config::instance()->set_default_dcp_content_type (static_cast<DCPContentType*> (0));
