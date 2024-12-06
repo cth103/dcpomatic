@@ -32,7 +32,7 @@ using namespace dcpomatic;
 
 
 Crop
-guess_crop (shared_ptr<const Image> image, double threshold)
+guess_crop_by_brightness(shared_ptr<const Image> image, double threshold)
 {
 	auto const width = image->size().width;
 	auto const height = image->size().height;
@@ -73,7 +73,7 @@ guess_crop (shared_ptr<const Image> image, double threshold)
 			break;
 		}
 		default:
-			throw PixelFormatError("guess_crop()", image->pixel_format());
+			throw PixelFormatError("guess_crop_by_brightness()", image->pixel_format());
 		}
 
 		return brightest > threshold;
@@ -115,7 +115,7 @@ guess_crop (shared_ptr<const Image> image, double threshold)
 
 /** @param position Time within the content to get a video frame from when guessing the crop */
 Crop
-guess_crop (shared_ptr<const Film> film, shared_ptr<const Content> content, double threshold, ContentTime position)
+guess_crop_by_brightness(shared_ptr<const Film> film, shared_ptr<const Content> content, double threshold, ContentTime position)
 {
 	DCPOMATIC_ASSERT (content->video);
 
@@ -126,7 +126,7 @@ guess_crop (shared_ptr<const Film> film, shared_ptr<const Content> content, doub
 	auto crop = Crop{};
 
 	auto handle_video = [&done, &crop, threshold](ContentVideo video) {
-		crop = guess_crop(video.image->image(Image::Alignment::COMPACT).image, threshold);
+		crop = guess_crop_by_brightness(video.image->image(Image::Alignment::COMPACT).image, threshold);
 		done = true;
 	};
 

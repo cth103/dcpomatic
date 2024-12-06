@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test1)
 	auto content = content_factory(TestPaths::private_data() / "arrietty_724.tiff");
 	auto film = new_test_film("guess_crop_image_test1", content);
 
-	BOOST_CHECK (guess_crop(film, content[0], 0.1, {}) == Crop(0, 0, 11, 11));
+	BOOST_CHECK(guess_crop_by_brightness(film, content[0], 0.1, {}) == Crop(0, 0, 11, 11));
 }
 
 
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test2)
 	auto content = content_factory(TestPaths::private_data() / "prophet_frame.tiff");
 	auto film = new_test_film("guess_crop_image_test2", content);
 
-	BOOST_CHECK(guess_crop(film, content[0], 0.1, {}) == Crop(0, 0, 22, 22));
+	BOOST_CHECK(guess_crop_by_brightness(film, content[0], 0.1, {}) == Crop(0, 0, 22, 22));
 }
 
 
@@ -55,5 +55,5 @@ BOOST_AUTO_TEST_CASE (guess_crop_image_test3)
 	auto content = content_factory(TestPaths::private_data() / "pillarbox.png");
 	auto film = new_test_film("guess_crop_image_test3", content);
 
-	BOOST_CHECK(guess_crop(film, content[0], 0.1, {}) == Crop(113, 262, 0, 0));
+	BOOST_CHECK(guess_crop_by_brightness(film, content[0], 0.1, {}) == Crop(113, 262, 0, 0));
 }

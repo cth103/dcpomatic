@@ -562,7 +562,7 @@ ContentMenu::auto_crop ()
 		auto position = _viewer.position_in_content(_content.front()).get_value_or(
 			ContentTime::from_frames(_content.front()->video->length(), _content.front()->video_frame_rate().get_value_or(24))
 			);
-		return guess_crop(film, _content.front(), Config::instance()->auto_crop_threshold(), position);
+		return guess_crop_by_brightness(film, _content.front(), Config::instance()->auto_crop_threshold(), position);
 	};
 
 	/* Make an initial guess in the view and open the dialog */
