@@ -31,13 +31,50 @@ using std::shared_ptr;
 using namespace dcpomatic;
 
 
-Crop
-guess_crop_by_brightness(shared_ptr<const Image> image, double threshold)
+static Crop
+guess_crop(shared_ptr<const Image> image, std::function<bool (int, int, int, bool)> predicate)
 {
 	auto const width = image->size().width;
 	auto const height = image->size().height;
 
-	auto image_in_line = [image, threshold](int start_x, int start_y, int pixels, bool rows) {
+	auto crop = Crop{};
+
+	for (auto y = 0; y < height; ++y) {
+		if (predicate(0, y, width, true)) {
+			crop.top = y;
+			break;
+		}
+	}
+
+	for (auto y = height - 1; y >= 0; --y) {
+		if (predicate(0, y, width, true)) {
+			crop.bottom = height - 1 - y;
+			break;
+		}
+	}
+
+	for (auto x = 0; x < width; ++x) {
+		if (predicate(x, 0, height, false)) {
+			crop.left = x;
+			break;
+		}
+	}
+
+	for (auto x = width - 1; x >= 0; --x) {
+		if (predicate(x, 0, height, false)) {
+			crop.right = width - 1 - x;
+			break;
+		}
+	}
+
+	return crop;
+}
+
+
+Crop
+guess_crop_by_brightness(shared_ptr<const Image> image, double threshold)
+{
+	std::function<bool (int, int, int, bool)> image_in_line = [image, threshold](int start_x, int start_y, int pixels, bool rows) {
 		double brightest = 0;
 
 		switch (image->pixel_format()) {
@@ -79,37 +116,7 @@ guess_crop_by_brightness(shared_ptr<const Image> image, double threshold)
 		return brightest > threshold;
 	};
 
-	auto crop = Crop{};
-
-	for (auto y = 0; y < height; ++y) {
-		if (image_in_line(0, y, width, true)) {
-			crop.top = y;
-			break;
-		}
-	}
-
-	for (auto y = height - 1; y >= 0; --y) {
-		if (image_in_line(0, y, width, true)) {
-			crop.bottom = height - 1 - y;
-			break;
-		}
-	}
-
-	for (auto x = 0; x < width; ++x) {
-		if (image_in_line(x, 0, height, false)) {
-			crop.left = x;
-			break;
-		}
-	}
-
-	for (auto x = width - 1; x >= 0; --x) {
-		if (image_in_line(x, 0, height, false)) {
-			crop.right = width - 1 - x;
-			break;
-		}
-	}
-
-	return crop;
+	return guess_crop(image, image_in_line);
 }
 
 
