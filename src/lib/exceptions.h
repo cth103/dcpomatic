@@ -542,4 +542,13 @@ public:
 };
 
 
+class FCPXMLError : public std::runtime_error
+{
+public:
+	explicit FCPXMLError(std::string s)
+		: std::runtime_error(s)
+	{}
+};
+
+
 #endif

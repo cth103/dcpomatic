@@ -39,6 +39,7 @@
 #include "lib/dcp_subtitle_content.h"
 #include "lib/dcp_subtitle_decoder.h"
 #include "lib/decoder_factory.h"
+#include "lib/fcpxml_content.h"
 #include "lib/ffmpeg_content.h"
 #include "lib/ffmpeg_subtitle_stream.h"
 #include "lib/film.h"
@@ -533,6 +534,7 @@ TextPanel::setup_sensitivity ()
 		auto sc = std::dynamic_pointer_cast<const StringTextFileContent>(i);
 		auto dc = std::dynamic_pointer_cast<const DCPContent>(i);
 		auto dsc = std::dynamic_pointer_cast<const DCPSubtitleContent>(i);
+		auto fcp = std::dynamic_pointer_cast<const FCPXMLContent>(i);
 		if (fc) {
 			if (!fc->text.empty()) {
 				++ffmpeg_subs;
@@ -541,7 +543,7 @@ TextPanel::setup_sensitivity ()
 		} else if (dc || dsc) {
 			++dcp_subs;
 			++any_subs;
-		} else if (sc) {
+		} else if (sc || fcp) {
 			/* XXX: in the future there could be bitmap subs from DCPs */
 			++any_subs;
 		}

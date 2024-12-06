@@ -99,6 +99,9 @@ sources = """
           examine_ffmpeg_subtitles_job.cc
           exceptions.cc
           export_config.cc
+          fcpxml.cc
+          fcpxml_content.cc
+          fcpxml_decoder.cc
           frame_info.cc
           file_group.cc
           file_log.cc

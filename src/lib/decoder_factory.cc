@@ -25,6 +25,8 @@
 #include "dcp_decoder.h"
 #include "dcp_subtitle_content.h"
 #include "dcp_subtitle_decoder.h"
+#include "fcpxml_content.h"
+#include "fcpxml_decoder.h"
 #include "ffmpeg_content.h"
 #include "ffmpeg_decoder.h"
 #include "image_content.h"
@@ -90,6 +92,10 @@ decoder_factory (shared_ptr<const Film> film, shared_ptr<const Content> content,
 
 	if (auto amc = dynamic_pointer_cast<const AtmosMXFContent>(content)) {
 		return make_shared<AtmosMXFDecoder>(film, amc);
+	}
+
+	if (auto c = dynamic_pointer_cast<const FCPXMLContent>(content)) {
+		return make_shared<FCPXMLDecoder>(film, c);
 	}
 
 	return {};

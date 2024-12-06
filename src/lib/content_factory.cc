@@ -29,6 +29,7 @@
 #include "dcp_content.h"
 #include "dcp_subtitle_content.h"
 #include "dcpomatic_log.h"
+#include "fcpxml_content.h"
 #include "ffmpeg_audio_stream.h"
 #include "ffmpeg_content.h"
 #include "film.h"
@@ -97,6 +98,8 @@ content_factory(cxml::ConstNodePtr node, boost::optional<boost::filesystem::path
 		content = std::make_shared<VideoMXFContent>(node, film_directory, version);
 	} else if (type == "AtmosMXF") {
 		content = std::make_shared<AtmosMXFContent>(node, film_directory, version);
+	} else if (type == "FCPXML") {
+		content = std::make_shared<FCPXMLContent>(node, film_directory, version, notes);
 	}
 
 	return content;
@@ -178,6 +181,8 @@ content_factory (boost::filesystem::path path)
 				throw KDMAsContentError ();
 			}
 			single = std::make_shared<DCPSubtitleContent>(path);
+		} else if (ext == ".fcpxml") {
+			single = std::make_shared<FCPXMLContent>(path);
 		} else if (ext == ".mxf" && dcp::SMPTETextAsset::valid_mxf(path)) {
 			single = std::make_shared<DCPSubtitleContent>(path);
 		} else if (ext == ".mxf" && VideoMXFContent::valid_mxf(path)) {
