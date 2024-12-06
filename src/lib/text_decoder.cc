@@ -51,13 +51,7 @@ TextDecoder::TextDecoder (
 }
 
 
-/** Called by subclasses when an image subtitle is starting.
- *  @param from From time of the subtitle.
- *  @param image Subtitle image.
- *  @param rect Area expressed as a fraction of the video frame that this subtitle
- *  is for (e.g. a width of 0.5 means the width of the subtitle is half the width
- *  of the video frame)
- */
+/** Called by subclasses when an image subtitle is starting */
 void
 TextDecoder::emit_bitmap_start (ContentBitmapText const& bitmap)
 {
