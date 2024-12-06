@@ -160,6 +160,45 @@ round_height_for_subsampling (int p, AVPixFmtDescriptor const * desc)
 }
 
 
+pair<vector<uint8_t*>, dcp::Size>
+Image::crop_source_pointers(Crop crop) const
+{
+	auto descriptor = av_pix_fmt_desc_get(_pixel_format);
+	if (!descriptor) {
+		throw PixelFormatError("crop_source_pointers()", _pixel_format);
+	}
+
+	/* Round down so that we crop only the number of pixels that is straightforward
+	 * considering any subsampling.
+	 */
+	Crop corrected_crop(
+		round_width_for_subsampling(crop.left, descriptor),
+		round_width_for_subsampling(crop.right, descriptor),
+		round_height_for_subsampling(crop.top, descriptor),
+		round_height_for_subsampling(crop.bottom, descriptor)
+		);
+
+	/* Also check that we aren't cropping more image than there actually is */
+	if ((corrected_crop.left + corrected_crop.right) >= (size().width - 4)) {
+		corrected_crop.left = 0;
+		corrected_crop.right = size().width - 4;
+	}
+
+	if ((corrected_crop.top + corrected_crop.bottom) >= (size().height - 4)) {
+		corrected_crop.top = 0;
+		corrected_crop.bottom = size().height - 4;
+	}
+
+	std::vector<uint8_t*> pointers(planes());
+	for (int c = 0; c < planes(); ++c) {
+		int const x = lrintf(bytes_per_pixel(c) * corrected_crop.left);
+		pointers[c] = data()[c] + x + stride()[c] * (corrected_crop.top / vertical_factor(c));
+	}
+
+	return { pointers, corrected_crop.apply(size()) };
+}
+
+
 /** Crop this image, scale it to `inter_size' and then place it in a black frame of `out_size'.
  *  @param crop Amount to crop by.
  *  @param inter_size Size to scale the cropped image to.
@@ -196,34 +235,9 @@ Image::crop_scale_window (
 	auto out = make_shared<Image>(out_format, out_size, out_alignment);
 	out->make_black ();
 
-	auto in_desc = av_pix_fmt_desc_get (_pixel_format);
-	if (!in_desc) {
-		throw PixelFormatError ("crop_scale_window()", _pixel_format);
-	}
-
-	/* Round down so that we crop only the number of pixels that is straightforward
-	 * considering any subsampling.
-	 */
-	Crop corrected_crop(
-		round_width_for_subsampling(crop.left, in_desc),
-		round_width_for_subsampling(crop.right, in_desc),
-		round_height_for_subsampling(crop.top, in_desc),
-		round_height_for_subsampling(crop.bottom, in_desc)
-		);
-
-	/* Also check that we aren't cropping more image than there actually is */
-	if ((corrected_crop.left + corrected_crop.right) >= (size().width - 4)) {
-		corrected_crop.left = 0;
-		corrected_crop.right = size().width - 4;
-	}
-
-	if ((corrected_crop.top + corrected_crop.bottom) >= (size().height - 4)) {
-		corrected_crop.top = 0;
-		corrected_crop.bottom = size().height - 4;
-	}
-
-	/* Size of the image after any crop */
-	auto const cropped_size = corrected_crop.apply (size());
+	vector<uint8_t*> scale_in_data;
+	dcp::Size cropped_size;
+	std::tie(scale_in_data, cropped_size) = crop_source_pointers(crop);
 
 	/* Scale context for a scale from cropped_size to inter_size */
 	auto scale_context = sws_getContext (
@@ -260,13 +274,6 @@ Image::crop_scale_window (
 		0, 1 << 16, 1 << 16
 		);
 
-	/* Prepare input data pointers with crop */
-	uint8_t* scale_in_data[planes()];
-	for (int c = 0; c < planes(); ++c) {
-		int const x = lrintf(bytes_per_pixel(c) * corrected_crop.left);
-		scale_in_data[c] = data()[c] + x + stride()[c] * (corrected_crop.top / vertical_factor(c));
-	}
-
 	auto out_desc = av_pix_fmt_desc_get (out_format);
 	if (!out_desc) {
 		throw PixelFormatError ("crop_scale_window()", out_format);
@@ -286,7 +293,7 @@ Image::crop_scale_window (
 
 	sws_scale (
 		scale_context,
-		scale_in_data, stride(),
+		scale_in_data.data(), stride(),
 		0, cropped_size.height,
 		scale_out_data, out->stride()
 		);

@@ -111,6 +111,7 @@ private:
 	void yuv_16_black (uint16_t, bool);
 	static uint16_t swap_16 (uint16_t);
 	void video_range_to_full_range ();
+	std::pair<std::vector<uint8_t*>, dcp::Size> crop_source_pointers(Crop crop) const;
 
 	dcp::Size _size;
 	AVPixelFormat _pixel_format; ///< FFmpeg's way of describing the pixel format of this Image
