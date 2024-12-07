@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 20:49+0200\n"
-"PO-Revision-Date: 2024-12-05 16:24+0100\n"
+"PO-Revision-Date: 2024-12-07 15:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -541,12 +541,11 @@ msgstr "Clip"
 
 #: src/lib/text_type.cc:85
 msgid "Closed captions"
-msgstr "Sous-titres codés"
+msgstr "Sous-titres codés optionnels"
 
 #: src/lib/text_type.cc:83
-#, fuzzy
 msgid "Closed subtitles"
-msgstr "Sous-titres ouverts"
+msgstr "Sous-titres optionnels"
 
 #: src/lib/ffmpeg_content.cc:625
 #, fuzzy
@@ -582,14 +581,12 @@ msgid "Combine DCPs"
 msgstr "Combiner les DCPs"
 
 #: src/lib/content.cc:188
-#, fuzzy
 msgid "Computing digest"
-msgstr "Calcul en cours"
+msgstr "Calcul du rapport en cours"
 
 #: src/lib/writer.cc:534
-#, fuzzy
 msgid "Computing digests"
-msgstr "Calculs en cours"
+msgstr "Calcul des rapports en cours"
 
 #: src/lib/analytics.cc:64
 msgid "Congratulations!"
@@ -1321,13 +1318,12 @@ msgstr ""
 "Seul le dernier élément de contenu à joindre peut avoir une coupe finale."
 
 #: src/lib/text_type.cc:81
-#, fuzzy
 msgid "Open captions"
-msgstr "Sous-titres codés"
+msgstr "Sous-titres codés forcés"
 
 #: src/lib/text_type.cc:79
 msgid "Open subtitles"
-msgstr "Sous-titres ouverts"
+msgstr "Sous-titres forcés"
 
 #: src/lib/transcode_job.cc:116
 msgid ""

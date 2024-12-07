@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-09-27 20:49+0200\n"
-"PO-Revision-Date: 2024-12-05 16:57+0100\n"
+"PO-Revision-Date: 2024-12-07 15:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
 "Language: fr_FR\n"
@@ -112,7 +112,7 @@ msgstr "&Ouvrir...\tCtrl-O"
 #: src/tools/dcpomatic_kdm.cc:300 src/tools/dcpomatic_player.cc:616
 #: src/tools/dcpomatic_playlist.cc:577
 msgid "&Preferences...\tCtrl-,"
-msgstr "&Préférences...\tCtrl-"
+msgstr "&Préférences...\tCtrl-,"
 
 #: src/tools/dcpomatic_batch.cc:100 src/tools/dcpomatic.cc:1381
 #: src/tools/dcpomatic_kdm.cc:303 src/tools/dcpomatic_player.cc:619
