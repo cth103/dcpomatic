@@ -3,7 +3,7 @@
 # e.g. --run_tests=foo
 set -e
 
-PRIVATE_GIT="65c6d0cf0ec188e4d53fc8c9d61958c7921219d6"
+PRIVATE_GIT="083f563af5a4b21a91aa4ea9e2749aa4f0e1bcb2"
 
 type=""
 check=0
