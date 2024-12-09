@@ -17,6 +17,7 @@ subscribers.Add (wxT ("Carlos Lagido"));
 subscribers.Add (wxT ("Ross Meyer"));
 subscribers.Add (wxT ("Austrian Film Museum"));
 subscribers.Add (wxT ("LightBender Post"));
+subscribers.Add (wxT ("Andres Sanchez"));
 subscribers.Add (wxT ("Irving Shapiro"));
 subscribers.Add (wxT ("Jussi Siponen"));
 subscribers.Add (wxT ("Jeremy Spracklen"));
