@@ -531,7 +531,7 @@ public:
 				for (auto i: dcp::find_and_resolve_cpls(first->directories(), true)) {
 					auto j = _cpl_menu->AppendRadioItem(
 						id,
-						wxString::Format(char_to_wx("%s (%s)"), std_to_wx(i->annotation_text().get_value_or("")).data(), std_to_wx(i->id()).data())
+						wxString::Format(char_to_wx("%s (%s)"), std_to_wx(i->content_title_text()).data(), std_to_wx(i->id()).data())
 						);
 					j->Check(!first->cpl() || i->id() == *first->cpl());
 					++id;
