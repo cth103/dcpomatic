@@ -54,7 +54,7 @@ SaveTemplateDialog::SaveTemplateDialog (wxWindow* parent)
 	_default->Bind(wxEVT_RADIOBUTTON, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
 	_existing->Bind(wxEVT_RADIOBUTTON, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
 	_new->Bind(wxEVT_RADIOBUTTON, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
-	_existing_name->Bind(wxEVT_TEXT, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
+	_new_name->Bind(wxEVT_TEXT, boost::bind(&SaveTemplateDialog::setup_sensitivity, this));
 
 	setup_sensitivity ();
 
