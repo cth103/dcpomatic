@@ -401,6 +401,8 @@ FFmpegDecoder::seek (ContentTime time, bool accurate)
 {
 	Decoder::seek (time, accurate);
 
+	_flush_state = FlushState::CODECS;
+
 	/* If we are doing an `accurate' seek, we need to use pre-roll, as
 	   we don't really know what the seek will give us.
 	*/
