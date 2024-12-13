@@ -599,6 +599,8 @@ Playlist::repeat (shared_ptr<const Film> film, ContentList c, int n)
 	}
 
 	Change (ChangeType::DONE);
+
+	LengthChange();
 }
 
 
