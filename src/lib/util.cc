@@ -1134,7 +1134,7 @@ setup_grok_library_path()
 {
 	static std::string old_path;
 	if (old_path.empty()) {
-		auto const old = getenv("LD_LIRARY_PATH");
+		auto const old = getenv("LD_LIBRARY_PATH");
 		if (old) {
 			old_path = old;
 		}
