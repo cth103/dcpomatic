@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<script>
+
+var selectedPlaylistIndices = [];
+
+function selectedPlaylistId()
+{
+	var children = document.getElementById("playlists").children;
+	for (var i = 0; i < children.length; i++) {
+		if (children[i].classList.contains("selected")) {
+			return children[i].uuid;
+		}
+	}
+
+	return null;
+}
+
+function allowDrop(event)
+{
+	event.preventDefault();
+}
+
+function postPlaylist(playlistId, endpoint, payload)
+{
+	fetch("/api/v1/playlist/" + playlistId + "/" + endpoint, {
+		method: "POST",
+		body: JSON.stringify(payload),
+		headers: {
+			"Content-type": "application/json; charset=UTF-8"
+		}
+	});
+}
+
+function itemIndex(item) {
+	return Array.prototype.indexOf.call(item.parentNode.childNodes, item);
+}
+
+function newPlaylist()
+{
+	fetch("/api/v1/playlists", { method: "POST" }).then(response => { updatePlaylistList(); });
+}
+
+function removeSelectedPlaylist()
+{
+	var id = selectedPlaylistId();
+	if (id == null) {
+		return;
+	}
+
+	fetch("/api/v1/playlist/" + id, { method: "DELETE" }).then(response => { updatePlaylistList(); });
+}
+
+function renamePlaylist()
+{
+	var id = selectedPlaylistId();
+	if (id == null) {
+		return;
+	}
+
+	postPlaylist(id, "rename", { "name": document.getElementById('playlist-name').value });
+	updatePlaylistList();
+}
+
+// Return a <li> to represent a playlist entry
+function makePlaylistEntry(content)
+{
+	var li = document.createElement("li");
+	li.classList.add("playlist");
+
+	var table = document.createElement('table');
+	table.style.width = '100%';
+	var row = table.insertRow()
+	var cell = row.insertCell();
+	cell.style.width = '90%'
+	cell.appendChild(document.createTextNode(content.name));
+	cell = row.insertCell();
+	cell.style.width = '10%'
+	cell.appendChild(document.createTextNode(content.approximate_length));
+	li.appendChild(table);
+
+	li.name = name;
+	li.onclick = function() {
+		li.classList.toggle("selected");
+		selectedPlaylistIndices = [ itemIndex(li) ];
+		updatePlaylist();
+	};
+	li.ondrop = function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		var playlistElement = document.getElementById('playlist');
+		var type = event.dataTransfer.getData("type");
+
+		target = event.target.closest("li");
+
+		var afterElement = null;
+		if (event.offsetY > target.clientHeight / 2) {
+			afterElement = target;
+		} else {
+			afterElement = target.previousSibling;
+		}
+
+		var droppedEntry = null;
+
+		if (type == "insert") {
+			dropped = JSON.parse(event.dataTransfer.getData("content"));
+			droppedEntry = makePlaylistEntry(dropped);
+			var index = 0;
+			if (afterElement) {
+				index = itemIndex(afterElement) + 1;
+			}
+			postPlaylist(
+				playlistElement.getAttribute('playlist-id'),
+				"insert",
+				{ index: index, uuid: dropped.uuid },
+			);
+		} else if (type == "move") {
+			var old_index = parseInt(event.dataTransfer.getData("index"));
+			droppedEntry = playlistElement.getElementsByTagName('li')[old_index];
+			var new_index = 0;
+			if (afterElement) {
+				new_index = itemIndex(afterElement) + 1;
+			}
+			if (old_index < new_index) {
+				new_index--;
+			}
+			postPlaylist(
+				playlistElement.getAttribute('playlist-id'),
+				"move",
+				{ new_index: new_index, old_index: old_index },
+			);
+		}
+
+		if (afterElement) {
+			afterElement.insertAdjacentElement('afterend', droppedEntry);
+		} else {
+			playlistElement.getElementsByTagName('ul')[0].prepend(droppedEntry);
+		}
+	};
+	li.draggable = "true";
+	li.ondragstart = function(event) {
+		event.dataTransfer.setData("type", "move");
+		event.dataTransfer.setData("index", itemIndex(li));
+		event.dataTransfer.setData("name", li.name);
+	};
+	li.ondragover = "allowDrop(event)";
+	return li;
+}
+
+// Update the displayed playlist (in div id="playlist")
+function updatePlaylist()
+{
+	var playlistId = selectedPlaylistId();
+	if (playlistId == null) {
+		document.getElementById('playlist-name').value = "";
+		return;
+	}
+
+	fetch("/api/v1/playlist/" + playlistId).then(response => {
+		response.json().then(data => {
+			var playlistContents = document.getElementById("playlist");
+			playlistContents.ondrop = function(event) {
+				event.preventDefault();
+				content = JSON.parse(event.dataTransfer.getData("content"));
+				newLi = makePlaylistEntry(content);
+				playlistContents.getElementsByTagName('ul')[0].insertBefore(newLi, null);
+				postPlaylist(
+					playlistContents.getAttribute('playlist-id'),
+					"insert",
+					{ index: 0, uuid: content.uuid }
+				);
+			};
+			playlistContents.setAttribute("playlist-id", playlistId);
+			playlistContents.innerHTML = "";
+			var ul = document.createElement("ul");
+			ul.classList.add("playlist");
+			var list = playlistContents.appendChild(ul);
+			var index = 0;
+			data.content.forEach(content => {
+				var li = makePlaylistEntry(content);
+				list.appendChild(li);
+				if (selectedPlaylistIndices.includes(index)) {
+					li.classList.toggle("selected");
+				}
+				++index;
+			});
+
+			document.getElementById('playlist-name').value = data.name;
+		});
+	});
+}
+
+function setSelectedPlaylist(uuid)
+{
+	var children = document.getElementById("playlists").children;
+	for (var i = 0; i < children.length; i++) {
+		var child = children[i];
+		if (child.uuid == uuid) {
+			child.classList.add("selected");
+		} else {
+			child.classList.remove("selected");
+		}
+	}
+};
+
+	
+// Fetch all playlists and make the playlist list
+function updatePlaylistList()
+{
+	var selected = null;
+	var playlists = document.getElementById('playlists');
+	if (playlists) {
+		selected = selectedPlaylistId();
+		playlists.innerHTML = "";
+	}
+
+	fetch("/api/v1/playlists").then(response => {
+		response.json().then(data => {
+			data.forEach(playlist => {
+				var li = document.createElement("li");
+				li.classList.add("playlist");
+				li.appendChild(document.createTextNode(playlist.name));
+				li.uuid = playlist['uuid'];
+				li.onclick = function() {
+					selectedPlaylistIndices = [];
+					setSelectedPlaylist(playlist['uuid']);
+					updatePlaylist();
+				};
+				document.getElementById('playlists').appendChild(li);
+			});
+
+			if (selected) {
+				console.log("reselect " + selected);
+				setSelectedPlaylist(selected);
+			}
+		});
+	});
+}
+
+updatePlaylistList();
+
+// Fetch all content and make the content list
+fetch("/api/v1/content").then(response => {
+	response.json().then(data => {
+		data.forEach(content => {
+			var li = document.createElement("li");
+			li.classList.add("playlist");
+			li.appendChild(document.createTextNode(content.name));
+			li.draggable = "true";
+			li.ondragstart = function(event) {
+				event.dataTransfer.setData("type", "insert");
+				event.dataTransfer.setData("content", JSON.stringify(content));
+			};
+			document.getElementById('content').appendChild(li);
+		});
+	});
+})
+</script>
+
+<style>
+
+ul#playlists {
+	width: 400px;
+}
+
+ul.playlist {
+	padding: 2em;
+	margin: 0pt;
+}
+
+li.playlist {
+	border: 1px solid black;
+	background-color: #a7bad9;
+	padding: 3px;
+	list-style-type: none;
+	cursor: pointer;
+}
+
+li.playlist.selected {
+	background-color: #d343e0;
+	cursor: pointer;
+}
+
+div.playlist, div.content {
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+	border: 2px solid black;
+}
+
+div.content {
+	width: 95%;
+	padding: 1em;
+}
+
+ul#content {
+	padding: 0pt;
+	margin: 0pt;
+}
+
+</style>
+<head>
+<link rel="stylesheet" href="common.css">
+<title>Playlists</title>
+</head>
+
+<body>
+
+SIDEBAR
+
+<div style="width: 45%; display: inline-block; margin-right: 3em;">
+<p>Playlists: <button onclick="newPlaylist();">Add</button> <button id="remove-playlist" onclick="removeSelectedPlaylist();">Remove</button>
+<ul id="playlists">
+</ul>
+
+<p>Playlist: <input id="playlist-name" type="text" maxlength="60"></input> <button onclick="renamePlaylist();">Rename</button>
+<div id="playlist" class="playlist" ondragover="allowDrop(event)">
+</div>
+</div>
+
+<div style="float: right;">
+<p>Content:
+<div class="content">
+<ul id="content">
+</div>
+</ul>
+</div>
+
+</body>
+
+</html>
