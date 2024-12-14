@@ -1,0 +1,33 @@
+
+button {
+	border: 1px solid rgba(27, 31, 35, 0.15);
+	border-radius: 6px;
+	color: #24292E;
+	display: inline-block;
+	line-height: 20px;
+	padding: 6px 16px;
+	vertical-align: middle;
+	white-space: nowrap;
+	word-wrap: break-word;
+}
+
+button:hover {
+	background-color: #F3F4F6;
+	text-decoration: none;
+	transition-duration: 0.1s;
+}
+
+button:active {
+	background-color: #EDEFF2;
+	box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+	transition: none 0s;
+}
+
+button:focus {
+	outline: 1px transparent;
+}
+
+button:before {
+	display: none;
+}
+
