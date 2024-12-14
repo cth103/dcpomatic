@@ -94,7 +94,7 @@ private:
 		add_update_controls (table, r);
 
 		_enable_http_server = new CheckBox(_panel, _("Enable HTTP control interface on port"));
-		table->Add(_enable_http_server, wxGBPosition(r, 0));
+		table->Add(_enable_http_server, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 		_http_server_port = new wxSpinCtrl(_panel);
 		table->Add(_http_server_port, wxGBPosition(r, 1));
 		++r;
