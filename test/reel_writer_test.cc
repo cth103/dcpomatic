@@ -47,7 +47,7 @@ using std::string;
 using boost::optional;
 
 
-static bool equal(J2KFrameInfo a, shared_ptr<InfoFileHandle> file, Frame frame, Eyes eyes)
+static bool equal(J2KFrameInfo a, dcp::File& file, Frame frame, Eyes eyes)
 {
 	auto b = J2KFrameInfo(file, frame, eyes);
 	return a.offset == b.offset && a.size == b.size && a.hash == b.hash;
@@ -58,49 +58,38 @@ BOOST_AUTO_TEST_CASE (write_frame_info_test)
 {
 	auto film = new_test_film("write_frame_info_test");
 	dcpomatic::DCPTimePeriod const period (dcpomatic::DCPTime(0), dcpomatic::DCPTime(96000));
-	ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo");
-
-	/* Write the first one */
 
 	J2KFrameInfo info1(0, 123, "12345678901234567890123456789012");
-	info1.write(film->info_file_handle(period, false), 0, Eyes::LEFT);
-	{
-		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
-	}
-
-	/* Write some more */
-
 	J2KFrameInfo info2(596, 14921, "123acb789f1234ae782012n456339522");
-	info2.write(film->info_file_handle(period, false), 5, Eyes::RIGHT);
-
-	{
-		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
-		BOOST_CHECK(equal(info2, file, 5, Eyes::RIGHT));
-	}
-
 	J2KFrameInfo info3(12494, 99157123, "xxxxyyyyabc12356ffsfdsf456339522");
-	info3.write(film->info_file_handle(period, false), 10, Eyes::LEFT);
-
-	{
-		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
-		BOOST_CHECK(equal(info2, file, 5, Eyes::RIGHT));
-		BOOST_CHECK(equal(info3, file, 10, Eyes::LEFT));
-	}
-
-	/* Overwrite one */
-
 	J2KFrameInfo info4(55512494, 123599157123, "ABCDEFGyabc12356ffsfdsf4563395ZZ");
-	info4.write(film->info_file_handle(period, false), 5, Eyes::RIGHT);
 
 	{
-		auto file = film->info_file_handle(period, true);
-		BOOST_CHECK(equal(info1, file, 0, Eyes::LEFT));
-		BOOST_CHECK(equal(info4, file, 5, Eyes::RIGHT));
-		BOOST_CHECK(equal(info3, file, 10, Eyes::LEFT));
+		ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo");
+		info1.write(writer._info_file, 0, Eyes::LEFT);
+		info2.write(writer._info_file, 5, Eyes::RIGHT);
+		info3.write(writer._info_file, 10, Eyes::LEFT);
 	}
+
+	auto file1 = dcp::File(film->info_file(period), "rb");
+	BOOST_CHECK(equal(info1, file1, 0, Eyes::LEFT));
+	BOOST_CHECK(equal(info1, file1, 0, Eyes::LEFT));
+	BOOST_CHECK(equal(info2, file1, 5, Eyes::RIGHT));
+	BOOST_CHECK(equal(info1, file1, 0, Eyes::LEFT));
+	BOOST_CHECK(equal(info2, file1, 5, Eyes::RIGHT));
+	BOOST_CHECK(equal(info3, file1, 10, Eyes::LEFT));
+
+	{
+		ReelWriter writer(film, period, shared_ptr<Job>(), 0, 1, false, "foo");
+
+		/* Overwrite one */
+		info4.write(writer._info_file, 5, Eyes::RIGHT);
+	}
+
+	auto file2 = dcp::File(film->info_file(period), "rb");
+	BOOST_CHECK(equal(info1, file2, 0, Eyes::LEFT));
+	BOOST_CHECK(equal(info4, file2, 5, Eyes::RIGHT));
+	BOOST_CHECK(equal(info3, file2, 10, Eyes::LEFT));
 }
 
 

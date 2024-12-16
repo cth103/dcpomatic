@@ -92,7 +92,7 @@ Writer::Writer(weak_ptr<const Film> weak_film, weak_ptr<Job> weak_job, boost::fi
 	int reel_index = 0;
 	auto const reels = film()->reels();
 	for (auto p: reels) {
-		_reels.push_back(ReelWriter(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir));
+		_reels.emplace_back(weak_film, p, job, reel_index++, reels.size(), text_only, _output_dir);
 	}
 
 	_last_written.resize (reels.size());
@@ -237,17 +237,13 @@ Writer::fake_write (Frame frame, Eyes eyes)
 		_full_condition.wait (lock);
 	}
 
-	size_t const reel = video_reel (frame);
-	Frame const frame_in_reel = frame - _reels[reel].start ();
+	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
 
 	QueueItem qi;
 	qi.type = QueueItem::Type::FAKE;
-	qi.info = J2KFrameInfo(film()->info_file_handle(_reels[reel].period(), true), frame_in_reel, eyes);
-
-	DCPOMATIC_ASSERT((film()->three_d() && eyes != Eyes::BOTH) || (!film()->three_d() && eyes == Eyes::BOTH));
-
+	auto const reel = video_reel(frame);
 	qi.reel = reel;
-	qi.frame = frame_in_reel;
+	qi.frame = frame - _reels[reel].start();
 	qi.eyes = eyes;
 	_queue.push_back(qi);
 
@@ -416,7 +412,7 @@ try
 					if (i.type == QueueItem::Type::FULL) {
 						LOG_WARNING (N_("- type FULL, frame %1, eyes %2"), i.frame, (int) i.eyes);
 					} else {
-						LOG_WARNING (N_("- type FAKE, size %1, frame %2, eyes %3"), i.info.size, i.frame, (int) i.eyes);
+						LOG_WARNING(N_("- type FAKE, frame %1, eyes %2"), i.frame, static_cast<int>(i.eyes));
 					}
 				}
 			}
@@ -447,7 +443,7 @@ try
 				break;
 			case QueueItem::Type::FAKE:
 				LOG_DEBUG_ENCODE (N_("Writer FAKE-writes %1"), qi.frame);
-				reel.fake_write(qi.info);
+				reel.fake_write(qi.frame, qi.eyes);
 				++_fake_written;
 				break;
 			case QueueItem::Type::REPEAT:

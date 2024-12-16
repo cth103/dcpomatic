@@ -41,14 +41,14 @@ J2KFrameInfo::J2KFrameInfo(dcp::J2KFrameInfo const& info)
 }
 
 
-J2KFrameInfo::J2KFrameInfo(shared_ptr<InfoFileHandle> info_file, Frame frame, Eyes eyes)
+J2KFrameInfo::J2KFrameInfo(dcp::File& info_file, Frame frame, Eyes eyes)
 {
-	info_file->get().seek(position(frame, eyes), SEEK_SET);
-	info_file->get().checked_read(&offset, sizeof(offset));
-	info_file->get().checked_read(&size, sizeof(size));
+	info_file.seek(position(frame, eyes), SEEK_SET);
+	info_file.checked_read(&offset, sizeof(offset));
+	info_file.checked_read(&size, sizeof(size));
 
 	char hash_buffer[33];
-	info_file->get().checked_read(hash_buffer, 32);
+	info_file.checked_read(hash_buffer, 32);
 	hash_buffer[32] = '\0';
 	hash = hash_buffer;
 }
@@ -74,11 +74,11 @@ J2KFrameInfo::position(Frame frame, Eyes eyes) const
 
 /** @param frame reel-relative frame */
 void
-J2KFrameInfo::write(shared_ptr<InfoFileHandle> info_file, Frame frame, Eyes eyes) const
+J2KFrameInfo::write(dcp::File& info_file, Frame frame, Eyes eyes) const
 {
-	info_file->get().seek(position(frame, eyes), SEEK_SET);
-	info_file->get().checked_write(&offset, sizeof(offset));
-	info_file->get().checked_write(&size, sizeof(size));
-	info_file->get().checked_write(hash.c_str(), hash.size());
+	info_file.seek(position(frame, eyes), SEEK_SET);
+	info_file.checked_write(&offset, sizeof(offset));
+	info_file.checked_write(&size, sizeof(size));
+	info_file.checked_write(hash.c_str(), hash.size());
 }
 

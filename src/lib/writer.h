@@ -77,8 +77,6 @@ public:
 
 	/** encoded data for FULL */
 	std::shared_ptr<const dcp::Data> encoded;
-	/** info for FAKE */
-	dcp::J2KFrameInfo info;
 	/** reel index */
 	size_t reel = 0;
 	/** frame index within the reel */

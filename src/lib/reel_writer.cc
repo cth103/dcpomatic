@@ -115,8 +115,14 @@ ReelWriter::ReelWriter (
 	, _content_summary (film()->content_summary(period))
 	, _job (job)
 	, _text_only (text_only)
+	, _info_file(film()->info_file(period), dcp::filesystem::exists(film()->info_file(period)) ? "r+b" : "wb")
 	, _font_metrics(film()->frame_size().height)
 {
+	if (!_info_file) {
+		auto const info_file_path = film()->info_file(period);
+		throw OpenFileError(info_file_path, _info_file.open_error(), dcp::filesystem::exists(info_file_path) ? OpenFileError::READ_WRITE : OpenFileError::WRITE);
+	}
+
 	_default_font = dcp::ArrayData(default_font_file());
 
 	if (text_only) {
@@ -257,18 +263,9 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 		LOG_GENERAL ("Opened existing asset at %1", asset.string());
 	}
 
-	shared_ptr<InfoFileHandle> info_file;
-
-	try {
-		info_file = film()->info_file_handle (_period, true);
-	} catch (OpenFileError &) {
-		LOG_GENERAL_NC ("Could not open film info file");
-		return 0;
-	}
-
 	/* Offset of the last dcp::FrameInfo in the info file */
-	int const n = (dcp::filesystem::file_size(info_file->get().path()) / J2KFrameInfo::size_on_disk()) - 1;
-	LOG_GENERAL("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(info_file->get().path()), J2KFrameInfo::size_on_disk())
+	int const n = (dcp::filesystem::file_size(_info_file.path()) / J2KFrameInfo::size_on_disk()) - 1;
+	LOG_GENERAL("The last FI is %1; info file is %2, info size %3", n, dcp::filesystem::file_size(_info_file.path()), J2KFrameInfo::size_on_disk())
 
 	Frame first_nonexistent_frame;
 	if (film()->three_d()) {
@@ -278,7 +275,7 @@ ReelWriter::check_existing_picture_asset (boost::filesystem::path asset)
 		first_nonexistent_frame = n;
 	}
 
-	while (!existing_picture_frame_ok(asset_file, info_file, first_nonexistent_frame) && first_nonexistent_frame > 0) {
+	while (!existing_picture_frame_ok(asset_file, first_nonexistent_frame) && first_nonexistent_frame > 0) {
 		--first_nonexistent_frame;
 	}
 
@@ -304,7 +301,7 @@ ReelWriter::write (shared_ptr<const Data> encoded, Frame frame, Eyes eyes)
 	}
 
 	auto fin = J2KFrameInfo(_j2k_picture_asset_writer->write(encoded->data(), encoded->size()));
-	fin.write(film()->info_file_handle(_period, false), frame, eyes);
+	fin.write(_info_file, frame, eyes);
 	_last_written[eyes] = encoded;
 }
 
@@ -333,14 +330,14 @@ ReelWriter::write(shared_ptr<dcp::MonoMPEG2PictureFrame> image)
 
 
 void
-ReelWriter::fake_write(dcp::J2KFrameInfo const& info)
+ReelWriter::fake_write(Frame frame, Eyes eyes)
 {
 	if (!_j2k_picture_asset_writer) {
 		/* We're not writing any data */
 		return;
 	}
 
-	_j2k_picture_asset_writer->fake_write(info);
+	_j2k_picture_asset_writer->fake_write(J2KFrameInfo(_info_file, frame, eyes));
 }
 
 
@@ -353,7 +350,7 @@ ReelWriter::repeat_write (Frame frame, Eyes eyes)
 	}
 
 	auto fin = J2KFrameInfo(_j2k_picture_asset_writer->write(_last_written[eyes]->data(), _last_written[eyes]->size()));
-	fin.write(film()->info_file_handle(_period, false), frame, eyes);
+	fin.write(_info_file, frame, eyes);
 }
 
 
@@ -967,14 +964,14 @@ ReelWriter::write(PlayerText subs, TextType type, optional<DCPTextTrack> track, 
 
 
 bool
-ReelWriter::existing_picture_frame_ok (dcp::File& asset_file, shared_ptr<InfoFileHandle> info_file, Frame frame) const
+ReelWriter::existing_picture_frame_ok(dcp::File& asset_file, Frame frame)
 {
 	LOG_GENERAL ("Checking existing picture frame %1", frame);
 
 	/* Read the data from the info file; for 3D we just check the left
 	   frames until we find a good one.
 	*/
-	auto const info = J2KFrameInfo(info_file, frame, film()->three_d() ? Eyes::LEFT : Eyes::BOTH);
+	auto const info = J2KFrameInfo(_info_file, frame, film()->three_d() ? Eyes::LEFT : Eyes::BOTH);
 
 	bool ok = true;
 

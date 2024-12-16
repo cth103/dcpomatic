@@ -84,28 +84,6 @@ struct ov_subs_in_vf_name;
 struct recover_test_2d_encrypted;
 
 
-class InfoFileHandle
-{
-public:
-	InfoFileHandle (boost::mutex& mutex, boost::filesystem::path file, bool read);
-
-	InfoFileHandle(InfoFileHandle const&) = delete;
-	InfoFileHandle& operator=(InfoFileHandle const&) = delete;
-	InfoFileHandle(InfoFileHandle&&) = delete;
-	InfoFileHandle& operator=(InfoFileHandle&&) = delete;
-
-	dcp::File& get () {
-		return _file;
-	}
-
-private:
-	friend class Film;
-
-	boost::mutex::scoped_lock _lock;
-	dcp::File _file;
-};
-
-
 /** @class Film
  *
  *  @brief A representation of some audio, video, subtitle and closed-caption content,
@@ -122,7 +100,6 @@ public:
 	Film (Film const&) = delete;
 	Film& operator= (Film const&) = delete;
 
-	std::shared_ptr<InfoFileHandle> info_file_handle (dcpomatic::DCPTimePeriod period, bool read) const;
 	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;
 
 	boost::filesystem::path audio_analysis_path (std::shared_ptr<const Playlist>) const;
@@ -593,8 +570,6 @@ private:
 	bool _tolerant;
 
 	std::map<std::string, std::string> _ui_state;
-
-	mutable boost::mutex _info_file_mutex;
 
 	boost::signals2::scoped_connection _playlist_change_connection;
 	boost::signals2::scoped_connection _playlist_order_changed_connection;

@@ -75,7 +75,7 @@ public:
 		);
 
 	void write (std::shared_ptr<const dcp::Data> encoded, Frame frame, Eyes eyes);
-	void fake_write(dcp::J2KFrameInfo const& info);
+	void fake_write(Frame frame, Eyes eyes);
 	void repeat_write (Frame frame, Eyes eyes);
 	void write (std::shared_ptr<const AudioBuffers> audio);
 	void write(PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period, FontIdMap const& fonts, std::shared_ptr<dcpomatic::Font> chosen_interop_font);
@@ -106,7 +106,7 @@ private:
 	friend struct ::write_frame_info_test;
 
 	Frame check_existing_picture_asset (boost::filesystem::path asset);
-	bool existing_picture_frame_ok (dcp::File& asset_file, std::shared_ptr<InfoFileHandle> info_file, Frame frame) const;
+	bool existing_picture_frame_ok(dcp::File& asset_file, Frame frame);
 	std::shared_ptr<dcp::TextAsset> empty_text_asset (TextType type, boost::optional<DCPTextTrack> track, bool with_dummy) const;
 
 	std::shared_ptr<dcp::ReelPictureAsset> create_reel_picture (std::shared_ptr<dcp::Reel> reel, std::list<ReferencedReelAsset> const & refs) const;
@@ -137,6 +137,8 @@ private:
 	bool _text_only;
 
 	dcp::ArrayData _default_font;
+
+	dcp::File _info_file;
 
 	std::shared_ptr<dcp::J2KPictureAsset> _j2k_picture_asset;
 	std::shared_ptr<dcp::MPEG2PictureAsset> _mpeg2_picture_asset;
