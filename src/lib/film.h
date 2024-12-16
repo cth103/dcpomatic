@@ -479,13 +479,14 @@ public:
 	static int const current_state_version;
 
 private:
-
+	friend struct ::atmos_encrypted_passthrough_test;
+	friend struct film_metadata_test;
 	friend struct ::isdcf_name_test;
 	friend struct ::isdcf_name_with_atmos;
 	friend struct ::isdcf_name_with_ccap;
-	friend struct ::recover_test_2d_encrypted;
-	friend struct ::atmos_encrypted_passthrough_test;
 	friend struct ::ov_subs_in_vf_name;
+	friend struct paths_test;
+	friend struct ::recover_test_2d_encrypted;
 	template <class, class> friend class ChangeSignalDespatcher;
 
 	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
@@ -602,8 +603,6 @@ private:
 	std::list<boost::signals2::connection> _job_connections;
 	std::list<boost::signals2::connection> _audio_analysis_connections;
 
-	friend struct paths_test;
-	friend struct film_metadata_test;
 };
 
 
