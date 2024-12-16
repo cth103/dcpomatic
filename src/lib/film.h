@@ -459,6 +459,8 @@ public:
 	void write_remembered_assets(std::vector<RememberedAsset> const& assets) const;
 	std::string video_identifier() const;
 
+	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
+
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, FilmProperty)> Change;
 
@@ -488,8 +490,6 @@ private:
 	friend struct paths_test;
 	friend struct ::recover_test_2d_encrypted;
 	template <class, class> friend class ChangeSignalDespatcher;
-
-	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
 
 	void signal_change (ChangeType, FilmProperty);
 	void signal_change (ChangeType, int);
