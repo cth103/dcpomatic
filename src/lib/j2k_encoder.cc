@@ -475,13 +475,19 @@ J2KEncoder::retry(DCPVideo video)
 {
 #ifdef DCPOMATIC_GROK
 	{
-		boost::mutex::scoped_lock lock(_threads_mutex);
-		auto is_grok_thread_with_errors = [](shared_ptr<const J2KEncoderThread> thread) {
-			auto grok = dynamic_pointer_cast<const GrokJ2KEncoderThread>(thread);
-			return grok && grok->errors();
-		};
+		/* We might be destroying or remaking these threads, and hopefully in that case we'll come back here
+		 * to check again; we definitely don't want to block in that case waiting to be allowed to check
+		 * _threads.
+		 */
+		boost::mutex::scoped_lock lock(_threads_mutex, boost::try_to_lock);
+		if (lock) {
+			auto is_grok_thread_with_errors = [](shared_ptr<const J2KEncoderThread> thread) {
+				auto grok = dynamic_pointer_cast<const GrokJ2KEncoderThread>(thread);
+				return grok && grok->errors();
+			};
 
-		_give_up = std::any_of(_threads.begin(), _threads.end(), is_grok_thread_with_errors);
+			_give_up = std::any_of(_threads.begin(), _threads.end(), is_grok_thread_with_errors);
+		}
 	}
 #endif
 

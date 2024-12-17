@@ -67,6 +67,8 @@ try
 		if (_context->launch(frame, grok.selected) && _context->scheduleCompress(frame)) {
 			frame_guard.cancel();
 		}
+
+		boost::this_thread::interruption_point();
 	}
 }
 catch (boost::thread_interrupted& e)

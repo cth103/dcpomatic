@@ -25,6 +25,9 @@
 #include "lib/dcp_transcode_job.h"
 #include "lib/encode_server_description.h"
 #include "lib/film.h"
+#ifdef DCPOMATIC_GROK
+#include "lib/grok/context.h"
+#endif
 #include "lib/j2k_encoder.h"
 #include "lib/job_manager.h"
 #include "lib/make_dcp.h"
@@ -115,3 +118,31 @@ BOOST_AUTO_TEST_CASE(frames_not_lost_when_threads_disappear)
 	BOOST_REQUIRE_EQUAL(dcp.cpls()[0]->reels()[0]->main_picture()->intrinsic_duration(), 423U);
 }
 
+
+#ifdef DCPOMATIC_GROK
+BOOST_AUTO_TEST_CASE(transcode_stops_when_gpu_enabled_with_no_gpu)
+{
+	ConfigRestorer cr;
+
+	grk_plugin::setMessengerLogger(new grk_plugin::GrokLogger("[GROK] "));
+
+	Config::Grok grok;
+	grok.enable = true;
+	Config::instance()->set_grok(grok);
+
+	auto content = content_factory(TestPaths::private_data() / "clapperboard.mp4");
+	auto film = new_test_film("transcode_stops_when_gpu_enabled_with_no_gpu", content);
+	film->write_metadata();
+	auto job = make_dcp(film, TranscodeJob::ChangedBehaviour::IGNORE);
+
+	int slept = 0;
+	while (JobManager::instance()->work_to_do() && slept < 10) {
+		dcpomatic_sleep_seconds(1);
+		++slept;
+	}
+
+	BOOST_REQUIRE(slept < 10);
+
+	JobManager::drop();
+}
+#endif
