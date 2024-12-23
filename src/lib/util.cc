@@ -483,7 +483,11 @@ LIBDCP_ENABLE_WARNINGS
 	render_text (subs, dcp::Size(640, 480), DCPTime(), 24);
 #endif
 
+#ifdef DCPOMATIC_WINDOWS
+	putenv("OPENSSL_ENABLE_SHA1_SIGNATURES=1");
+#else
 	setenv("OPENSSL_ENABLE_SHA1_SIGNATURES", "1", 1);
+#endif
 
 	Ratio::setup_ratios ();
 	PresetColourConversion::setup_colour_conversion_presets ();
