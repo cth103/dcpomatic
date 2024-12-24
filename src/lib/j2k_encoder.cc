@@ -143,6 +143,7 @@ J2KEncoder::servers_list_changed()
 	auto const cpu = (grok_enable || config->only_servers_encode()) ? 0 : config->master_encoding_threads();
 	auto const gpu = grok_enable ? config->master_encoding_threads() : 0;
 
+	LOG_GENERAL("Thread counts from: grok=%1, only_servers=%2, master=%3", grok_enable ? "yes" : "no", config->only_servers_encode() ? "yes" : "no", config->master_encoding_threads());
 	remake_threads(cpu, gpu, EncodeServerFinder::instance()->servers());
 }
 
