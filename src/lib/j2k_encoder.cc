@@ -366,7 +366,12 @@ void
 J2KEncoder::remake_threads(int cpu, int gpu, list<EncodeServerDescription> servers)
 {
 	LOG_GENERAL("Making threads: CPU=%1, GPU=%2, Remote=%3", cpu, gpu, servers.size());
-	DCPOMATIC_ASSERT((cpu + gpu + servers.size()) > 0);
+	if ((cpu + gpu + servers.size()) == 0) {
+		/* Make at least one thread, even if all else fails.  Maybe we are configured
+		 * for "only servers encode" but no servers have been registered yet.
+		 */
+		++cpu;
+	}
 
 	boost::mutex::scoped_lock lm (_threads_mutex);
 	if (_ending) {
