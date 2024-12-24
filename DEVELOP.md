@@ -36,15 +36,10 @@ As we have no `film' folder to log to during disk writes, the logs end up:
 
 ## Branches
 
-The main dcpomatic repo has the following branches:
-
-* `main` - the main development branch; contains 2.16.x versions
-* `v2.17.x` - development branch for v2.17.x versions; `main` is merged into this branch.
-
 The `test/data` submodule has the following branches:
 
 * `v2.16.x` - branch for use with v2.16.x versions
-* `v2.18.x` - branch for use with v2.17.x versions (as will become v2.18.x)
+* `v2.18.x` - branch for use with v2.18.x versions
 
 
 ## Player stress testing
