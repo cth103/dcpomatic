@@ -109,12 +109,6 @@ BOOST_AUTO_TEST_CASE (file_naming_test2)
 
 	Config::instance()->set_dcp_asset_filename_format (dcp::NameFormat ("%c"));
 
-#ifdef DCPOMATIC_WINDOWS
-	/* This is necessary so that the UTF8 string constant below gets converted properly */
-	std::locale::global(boost::locale::generator().generate(""));
-	boost::filesystem::path::imbue(std::locale());
-#endif
-
 	auto r = make_shared<FFmpegContent>("test/data/flät_red.png");
 	auto g = make_shared<FFmpegContent>("test/data/flat_green.png");
 	auto b = make_shared<FFmpegContent>("test/data/flat_blue.png");

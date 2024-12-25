@@ -162,6 +162,7 @@ struct TestConfig
 		dcpomatic_setup ();
 		setup_test_config ();
 		capture_ffmpeg_logs();
+		dcpomatic_setup_path_encoding();
 
 		EncodeServerFinder::drop();
 
