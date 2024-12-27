@@ -248,7 +248,7 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 			}
 		}
 
-		if (reader.close()) {
+		if (reader.close() || !socket->is_open()) {
 			break;
 		}
 	}
