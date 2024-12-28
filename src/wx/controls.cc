@@ -143,7 +143,9 @@ Controls::Controls(wxWindow* parent, FilmViewer& viewer, bool editor_controls)
 	_slider->Bind           (wxEVT_SCROLL_THUMBRELEASE,  boost::bind(&Controls::slider_released, this));
 	_rewind_button->Bind    (wxEVT_LEFT_DOWN,            boost::bind(&Controls::rewind_clicked,  this, _1));
 	_back_button->Bind      (wxEVT_LEFT_DOWN,            boost::bind(&Controls::back_clicked,    this, _1));
+	_back_button->Bind      (wxEVT_LEFT_DCLICK,          boost::bind(&Controls::back_clicked,    this, _1));
 	_forward_button->Bind   (wxEVT_LEFT_DOWN,            boost::bind(&Controls::forward_clicked, this, _1));
+	_forward_button->Bind   (wxEVT_LEFT_DCLICK,          boost::bind(&Controls::forward_clicked, this, _1));
 	_frame_number->Bind     (wxEVT_LEFT_DOWN,            boost::bind(&Controls::frame_number_clicked, this));
 	_timecode->Bind         (wxEVT_LEFT_DOWN,            boost::bind(&Controls::timecode_clicked, this));
 	if (_jump_to_selected) {
