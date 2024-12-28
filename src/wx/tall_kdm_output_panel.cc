@@ -63,6 +63,9 @@ using namespace boost::placeholders;
 TallKDMOutputPanel::TallKDMOutputPanel(wxWindow* parent)
 	: KDMOutputPanel(parent)
 {
+	create_destination_widgets(this);
+	create_details_widgets(this);
+
 	auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 	table->AddGrowableCol (1);
 

@@ -66,12 +66,69 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	, _forensic_mark_audio (true)
 	, _forensic_mark_audio_up_to (12)
 {
-	_type = new KDMChoice (this);
-	_type->set(Config::instance()->default_kdm_type());
-	_advanced = new Button(this, _("Advanced..."));
-	_annotation_text = new wxTextCtrl(this, wxID_ANY);
 
-	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
+
+}
+
+
+void
+KDMOutputPanel::create_destination_widgets(wxWindow* parent)
+{
+	_write_to = new CheckBox(parent, _("Write to"));
+
+#ifdef DCPOMATIC_USE_OWN_PICKER
+	_folder = new DirPickerCtrl(parent);
+#else
+	_folder = new wxDirPickerCtrl(parent, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+#endif
+
+	auto path = Config::instance()->default_kdm_directory();
+	if (path) {
+		_folder->SetPath(std_to_wx(path->string()));
+	} else {
+		_folder->SetPath(wxStandardPaths::Get().GetDocumentsDir());
+	}
+
+	_write_flat = new wxRadioButton(parent, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+	_write_folder = new wxRadioButton(parent, wxID_ANY, _("Write a folder for each cinema's KDMs"));
+	_write_zip = new wxRadioButton(parent, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
+
+	_email = new CheckBox(parent, _("Send by email"));
+	_add_email_addresses = new wxButton(parent, wxID_ANY, _("Set additional email addresses..."));
+
+	switch (Config::instance()->last_kdm_write_type().get_value_or(Config::KDM_WRITE_FLAT)) {
+	case Config::KDM_WRITE_FLAT:
+		_write_flat->SetValue(true);
+		break;
+	case Config::KDM_WRITE_FOLDER:
+		_write_folder->SetValue(true);
+		break;
+	case Config::KDM_WRITE_ZIP:
+		_write_zip->SetValue(true);
+		break;
+	}
+
+	_write_to->SetValue(Config::instance()->write_kdms_to_disk());
+	_email->SetValue(Config::instance()->email_kdms());
+
+	_write_to->bind(&KDMOutputPanel::write_to_changed, this);
+	_email->bind(&KDMOutputPanel::email_changed, this);
+	_add_email_addresses->Bind(wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
+	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+}
+
+
+void
+KDMOutputPanel::create_details_widgets(wxWindow* parent)
+{
+	_type = new KDMChoice(parent);
+	_type->set(Config::instance()->default_kdm_type());
+	_advanced = new Button(parent, _("Advanced..."));
+	_annotation_text = new wxTextCtrl(parent, wxID_ANY);
+
+	_container_name_format = new NameFormatEditor(parent, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
 
 	dcp::NameFormat::Map titles;
 	titles['f'] = wx_to_std (_("film name"));
@@ -85,52 +142,9 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	ex['s'] = "Screen 1";
 	ex['b'] = "2012/03/15 12:30";
 	ex['e'] = "2012/03/22 02:30";
-	_filename_format = new NameFormatEditor (this, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
+	_filename_format = new NameFormatEditor(parent, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
 
-	_write_to = new CheckBox (this, _("Write to"));
-
-#ifdef DCPOMATIC_USE_OWN_PICKER
-	_folder = new DirPickerCtrl (this);
-#else
-	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
-#endif
-
-	auto path = Config::instance()->default_kdm_directory();
-	if (path) {
-		_folder->SetPath (std_to_wx (path->string ()));
-	} else {
-		_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
-	}
-
-	_write_flat = new wxRadioButton (this, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	_write_folder = new wxRadioButton (this, wxID_ANY, _("Write a folder for each cinema's KDMs"));
-	_write_zip = new wxRadioButton (this, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
-
-	_email = new CheckBox (this, _("Send by email"));
-	_add_email_addresses = new wxButton(this, wxID_ANY, _("Set additional email addresses..."));
-
-	switch (Config::instance()->last_kdm_write_type().get_value_or(Config::KDM_WRITE_FLAT)) {
-	case Config::KDM_WRITE_FLAT:
-		_write_flat->SetValue (true);
-		break;
-	case Config::KDM_WRITE_FOLDER:
-		_write_folder->SetValue (true);
-		break;
-	case Config::KDM_WRITE_ZIP:
-		_write_zip->SetValue (true);
-		break;
-	}
-
-	_write_to->SetValue (Config::instance()->write_kdms_to_disk());
-	_email->SetValue (Config::instance()->email_kdms());
-
-	_write_to->bind(&KDMOutputPanel::write_to_changed, this);
-	_email->bind(&KDMOutputPanel::email_changed, this);
-	_add_email_addresses->Bind(wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
-	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_advanced->Bind     (wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
+	_advanced->Bind(wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
 }
 
 

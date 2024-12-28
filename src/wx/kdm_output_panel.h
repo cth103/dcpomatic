@@ -75,6 +75,9 @@ public:
 	boost::signals2::signal<void ()> MethodChanged;
 
 protected:
+	void create_destination_widgets(wxWindow* parent);
+	void create_details_widgets(wxWindow* parent);
+
 	KDMChoice* _type;
 	wxTextCtrl* _annotation_text;
 	NameFormatEditor* _container_name_format;
