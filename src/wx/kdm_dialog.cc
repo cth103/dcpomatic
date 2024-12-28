@@ -24,10 +24,10 @@
 #include "invalid_certificate_period_dialog.h"
 #include "kdm_cpl_panel.h"
 #include "kdm_dialog.h"
-#include "kdm_output_panel.h"
 #include "kdm_timing_panel.h"
 #include "screens_panel.h"
 #include "static_text.h"
+#include "tall_kdm_output_panel.h"
 #include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/cinema.h"
@@ -113,7 +113,7 @@ KDMDialog::KDMDialog (wxWindow* parent, shared_ptr<const Film> film)
 	h = new StaticText (this, _("Output"));
 	h->SetFont (subheading_font);
 	right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
-	_output = new KDMOutputPanel (this);
+	_output = new TallKDMOutputPanel(this);
 	right->Add (_output, 0, wxEXPAND | wxTOP, DCPOMATIC_SIZER_GAP);
 
 	_make = new Button (this, _("Make KDMs"));

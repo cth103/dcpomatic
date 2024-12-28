@@ -28,13 +28,13 @@
 #include "wx/file_picker_ctrl.h"
 #include "wx/full_config_dialog.h"
 #include "wx/job_view_dialog.h"
-#include "wx/kdm_output_panel.h"
 #include "wx/kdm_timing_panel.h"
 #include "wx/nag_dialog.h"
 #include "wx/new_dkdm_folder_dialog.h"
 #include "wx/report_problem_dialog.h"
 #include "wx/screens_panel.h"
 #include "wx/static_text.h"
+#include "wx/tall_kdm_output_panel.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -225,7 +225,7 @@ public:
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
 		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
-		_output = new KDMOutputPanel (overall_panel);
+		_output = new TallKDMOutputPanel(overall_panel);
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		_create = new Button (overall_panel, _("Create KDMs"));

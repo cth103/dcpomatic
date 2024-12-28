@@ -70,13 +70,7 @@ public:
 
 	boost::signals2::signal<void ()> MethodChanged;
 
-private:
-	void kdm_write_type_changed ();
-	void advanced_clicked ();
-	void write_to_changed ();
-	void email_changed ();
-	void add_email_addresses_clicked ();
-
+protected:
 	KDMChoice* _type;
 	wxTextCtrl* _annotation_text;
 	NameFormatEditor* _container_name_format;
@@ -90,9 +84,18 @@ private:
 	wxRadioButton* _write_flat;
 	wxRadioButton* _write_folder;
 	wxRadioButton* _write_zip;
+	wxButton* _advanced;
 	CheckBox* _email;
-	bool _forensic_mark_video;
-	bool _forensic_mark_audio;
-	boost::optional<int> _forensic_mark_audio_up_to;
+	wxButton* _add_email_addresses;
+	bool _forensic_mark_video = true;
+	bool _forensic_mark_audio = true;
+	boost::optional<int> _forensic_mark_audio_up_to = 12;
 	std::vector<std::string> _extra_addresses;
+
+private:
+	void kdm_write_type_changed ();
+	void advanced_clicked ();
+	void write_to_changed ();
+	void email_changed ();
+	void add_email_addresses_clicked ();
 };
