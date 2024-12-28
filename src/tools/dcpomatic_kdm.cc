@@ -168,11 +168,11 @@ public:
 		h->SetFont (subheading_font);
 		right->Add (h);
 		_timing = new KDMTimingPanel (overall_panel);
-		right->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
+		right->Add (_timing, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
-		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
+		right->Add(h, 0);
 
 		_dkdm_search = new wxSearchCtrl(overall_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
 #ifndef __WXGTK3__
@@ -229,7 +229,7 @@ public:
 		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
 
 		_create = new Button (overall_panel, _("Create KDMs"));
-		right->Add (_create, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		right->Add(_create, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 
 		main_sizer->Add (horizontal, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
 		overall_panel->SetSizer (main_sizer);
