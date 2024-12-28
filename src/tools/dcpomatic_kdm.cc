@@ -33,6 +33,7 @@
 #include "wx/new_dkdm_folder_dialog.h"
 #include "wx/report_problem_dialog.h"
 #include "wx/screens_panel.h"
+#include "wx/short_kdm_output_panel.h"
 #include "wx/static_text.h"
 #include "wx/tall_kdm_output_panel.h"
 #include "wx/wx_signal_manager.h"
@@ -61,6 +62,7 @@
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/display.h>
 #include <wx/dnd.h>
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
@@ -225,8 +227,20 @@ public:
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
 		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
-		_output = new TallKDMOutputPanel(overall_panel);
-		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
+
+		int const sn = wxDisplay::GetFromWindow(this);
+		if (sn >= 0) {
+			auto const screen = wxDisplay(sn).GetClientArea();
+			if (screen.height <= 800) {
+				_output = new ShortKDMOutputPanel(overall_panel);
+			}
+		}
+
+		if (!_output) {
+			_output = new TallKDMOutputPanel(overall_panel);
+		}
+
+		right->Add (_output, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 		_create = new Button (overall_panel, _("Create KDMs"));
 		right->Add(_create, 0, wxTOP, DCPOMATIC_SIZER_GAP);
@@ -831,7 +845,7 @@ private:
 	wxButton* _remove_dkdm;
 	wxButton* _export_dkdm;
 	wxButton* _create;
-	KDMOutputPanel* _output;
+	KDMOutputPanel* _output = nullptr;
 	JobViewDialog* _job_view;
 	Collator _collator;
 };
