@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_KDM_OUTPUT_PANEL_H
+#define DCPOMATIC_KDM_OUTPUT_PANEL_H
+
+
 #include "wx_util.h"
 #include "lib/kdm_with_metadata.h"
 #include <dcp/types.h>
@@ -99,3 +103,6 @@ private:
 	void email_changed ();
 	void add_email_addresses_clicked ();
 };
+
+
+#endif
