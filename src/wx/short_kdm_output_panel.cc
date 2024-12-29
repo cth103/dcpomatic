@@ -20,6 +20,7 @@
 
 
 #include "check_box.h"
+#include "dcpomatic_choice.h"
 #include "kdm_choice.h"
 #include "name_format_editor.h"
 #include "short_kdm_output_panel.h"
@@ -68,15 +69,11 @@ ShortKDMOutputPanel::fill_destination_panel(wxPanel* panel)
 	auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, 0);
 	table->AddGrowableCol(1);
 
-	table->Add(_write_to, 1, wxEXPAND);
+	table->Add(_write_to, 1, wxEXPAND | wxLEFT);
 	table->Add(_folder, 1, wxEXPAND);
 
-	auto write_options = new wxBoxSizer(wxVERTICAL);
-	write_options->Add(_write_flat, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	write_options->Add(_write_folder, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	write_options->Add(_write_zip, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	table->AddSpacer(0);
-	table->Add(write_options);
+	add_label_to_sizer(table, panel, _("Collection"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
+	table->Add(_write_collect, 1, wxEXPAND);
 
 	table->Add(_email, 1, wxEXPAND);
 	table->Add(_add_email_addresses);

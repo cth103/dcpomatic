@@ -34,6 +34,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class CheckBox;
+class Choice;
 class DirPickerCtrl;
 class Job;
 class KDMChoice;
@@ -89,9 +90,7 @@ protected:
 #else
 	wxDirPickerCtrl* _folder;
 #endif
-	wxRadioButton* _write_flat;
-	wxRadioButton* _write_folder;
-	wxRadioButton* _write_zip;
+	Choice* _write_collect;
 	wxButton* _advanced;
 	CheckBox* _email;
 	wxButton* _add_email_addresses;

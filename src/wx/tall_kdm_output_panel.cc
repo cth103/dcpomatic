@@ -22,6 +22,7 @@
 #include "check_box.h"
 #include "confirm_kdm_email_dialog.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "extra_kdm_email_dialog.h"
 #include "kdm_advanced_dialog.h"
 #include "kdm_choice.h"
@@ -93,15 +94,11 @@ TallKDMOutputPanel::TallKDMOutputPanel(wxWindow* parent)
 	table->Add (align, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
 #endif
 	table->Add (_filename_format->panel(), 1, wxEXPAND);
-	table->Add (_write_to, 1, wxEXPAND);
+	table->Add (_write_to, 1, wxEXPAND | wxLEFT);
 	table->Add (_folder, 1, wxEXPAND);
 
-	auto write_options = new wxBoxSizer(wxVERTICAL);
-	write_options->Add (_write_flat, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	write_options->Add (_write_folder, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	write_options->Add (_write_zip, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	table->AddSpacer (0);
-	table->Add (write_options);
+	add_label_to_sizer(table, this, _("Collection"), true, 0, wxALIGN_CENTRE_VERTICAL | wxLEFT | wxRIGHT);
+	table->Add(_write_collect, 1, wxEXPAND);
 
 	table->Add (_email, 1, wxEXPAND);
 	table->Add (_add_email_addresses);

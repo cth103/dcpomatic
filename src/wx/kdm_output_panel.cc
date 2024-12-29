@@ -22,6 +22,7 @@
 #include "check_box.h"
 #include "confirm_kdm_email_dialog.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "extra_kdm_email_dialog.h"
 #include "kdm_advanced_dialog.h"
 #include "kdm_choice.h"
@@ -89,22 +90,23 @@ KDMOutputPanel::create_destination_widgets(wxWindow* parent)
 		_folder->SetPath(wxStandardPaths::Get().GetDocumentsDir());
 	}
 
-	_write_flat = new wxRadioButton(parent, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	_write_folder = new wxRadioButton(parent, wxID_ANY, _("Write a folder for each cinema's KDMs"));
-	_write_zip = new wxRadioButton(parent, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
+	_write_collect = new Choice(parent);
+	_write_collect->add_entry(_("Write all KDMs to the same folder"));
+	_write_collect->add_entry(_("Write a folder for each cinema's KDMs"));
+	_write_collect->add_entry(_("Write a ZIP file for each cinema's KDMs"));
 
 	_email = new CheckBox(parent, _("Send by email"));
 	_add_email_addresses = new wxButton(parent, wxID_ANY, _("Set additional email addresses..."));
 
 	switch (Config::instance()->last_kdm_write_type().get_value_or(Config::KDM_WRITE_FLAT)) {
 	case Config::KDM_WRITE_FLAT:
-		_write_flat->SetValue(true);
+		_write_collect->set(0);
 		break;
 	case Config::KDM_WRITE_FOLDER:
-		_write_folder->SetValue(true);
+		_write_collect->set(1);
 		break;
 	case Config::KDM_WRITE_ZIP:
-		_write_zip->SetValue(true);
+		_write_collect->set(2);
 		break;
 	}
 
@@ -114,9 +116,7 @@ KDMOutputPanel::create_destination_widgets(wxWindow* parent)
 	_write_to->bind(&KDMOutputPanel::write_to_changed, this);
 	_email->bind(&KDMOutputPanel::email_changed, this);
 	_add_email_addresses->Bind(wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
-	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
+	_write_collect->bind(&KDMOutputPanel::kdm_write_type_changed, this);
 }
 
 
@@ -176,9 +176,7 @@ KDMOutputPanel::setup_sensitivity ()
 {
 	bool const write = _write_to->GetValue ();
 	_folder->Enable (write);
-	_write_flat->Enable (write);
-	_write_folder->Enable (write);
-	_write_zip->Enable (write);
+	_write_collect->Enable(write);
 }
 
 
@@ -196,12 +194,16 @@ KDMOutputPanel::advanced_clicked ()
 void
 KDMOutputPanel::kdm_write_type_changed ()
 {
-	if (_write_flat->GetValue()) {
-		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_FLAT);
-	} else if (_write_folder->GetValue()) {
-		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_FOLDER);
-	} else if (_write_zip->GetValue()) {
-		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_ZIP);
+	switch (_write_collect->get().get_value_or(0)) {
+	case 0:
+		Config::instance()->set_last_kdm_write_type(Config::KDM_WRITE_FLAT);
+		break;
+	case 1:
+		Config::instance()->set_last_kdm_write_type(Config::KDM_WRITE_FOLDER);
+		break;
+	case 2:
+		Config::instance()->set_last_kdm_write_type(Config::KDM_WRITE_ZIP);
+		break;
 	}
 }
 
@@ -265,14 +267,16 @@ KDMOutputPanel::make (
 	try {
 
 		if (_write_to->GetValue()) {
-			if (_write_flat->GetValue()) {
+			switch (_write_collect->get().get_value_or(0)) {
+			case 0:
 				written = write_files (
 					kdms,
 					directory(),
 					_filename_format->get(),
 					confirm_overwrite
 					);
-			} else if (_write_folder->GetValue()) {
+				break;
+			case 1:
 				written = write_directories (
 					collect (kdms),
 					directory(),
@@ -280,7 +284,8 @@ KDMOutputPanel::make (
 					_filename_format->get(),
 					confirm_overwrite
 					);
-			} else if (_write_zip->GetValue()) {
+				break;
+			case 2:
 				written = write_zip_files (
 					collect (kdms),
 					directory(),
@@ -288,6 +293,7 @@ KDMOutputPanel::make (
 					_filename_format->get(),
 					confirm_overwrite
 					);
+				break;
 			}
 		}
 
