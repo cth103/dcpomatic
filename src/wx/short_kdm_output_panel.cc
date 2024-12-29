@@ -51,6 +51,11 @@ ShortKDMOutputPanel::ShortKDMOutputPanel(wxWindow* parent)
 	fill_details_panel(details);
 	notebook->AddPage(details, _("Details"));
 
+	auto name_formats = new wxPanel(notebook, wxID_ANY);
+	create_name_format_widgets(name_formats);
+	fill_name_formats_panel(name_formats);
+	notebook->AddPage(name_formats, _("Name formats"));
+
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 	sizer->Add(notebook, 1, wxEXPAND);
 	SetSizer(sizer);
@@ -98,6 +103,18 @@ ShortKDMOutputPanel::fill_details_panel(wxPanel* panel)
 	add_label_to_sizer(table, panel, _("Annotation text"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 	table->Add(_annotation_text, 1, wxEXPAND);
 
+	auto padding = new wxBoxSizer(wxVERTICAL);
+	padding->Add(table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
+	panel->SetSizer(padding);
+}
+
+
+void
+ShortKDMOutputPanel::fill_name_formats_panel(wxPanel* panel)
+{
+	auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, 0);
+	table->AddGrowableCol(1);
+
 	add_label_to_sizer(table, panel, _("Folder / ZIP name format"), true, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
 	table->Add(_container_name_format->panel(), 1, wxEXPAND);
 
@@ -116,3 +133,4 @@ ShortKDMOutputPanel::fill_details_panel(wxPanel* panel)
 	padding->Add(table, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	panel->SetSizer(padding);
 }
+

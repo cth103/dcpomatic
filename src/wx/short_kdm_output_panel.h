@@ -34,5 +34,6 @@ public:
 private:
 	void fill_destination_panel(wxPanel* panel);
 	void fill_details_panel(wxPanel* panel);
+	void fill_name_formats_panel(wxPanel* panel);
 };
 

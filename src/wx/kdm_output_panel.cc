@@ -128,6 +128,13 @@ KDMOutputPanel::create_details_widgets(wxWindow* parent)
 	_advanced = new Button(parent, _("Advanced..."));
 	_annotation_text = new wxTextCtrl(parent, wxID_ANY);
 
+	_advanced->Bind(wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
+}
+
+
+void
+KDMOutputPanel::create_name_format_widgets(wxWindow* parent)
+{
 	_container_name_format = new NameFormatEditor(parent, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
 
 	dcp::NameFormat::Map titles;
@@ -143,8 +150,6 @@ KDMOutputPanel::create_details_widgets(wxWindow* parent)
 	ex['b'] = "2012/03/15 12:30";
 	ex['e'] = "2012/03/22 02:30";
 	_filename_format = new NameFormatEditor(parent, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
-
-	_advanced->Bind(wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
 }
 
 

@@ -65,6 +65,7 @@ TallKDMOutputPanel::TallKDMOutputPanel(wxWindow* parent)
 {
 	create_destination_widgets(this);
 	create_details_widgets(this);
+	create_name_format_widgets(this);
 
 	auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
 	table->AddGrowableCol (1);
