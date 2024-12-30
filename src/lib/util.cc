@@ -783,7 +783,7 @@ atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int ree
 
 
 string
-careful_string_filter (string s)
+careful_string_filter(string s, wstring allowed)
 {
 	/* Filter out `bad' characters which `may' cause problems with some systems (either for DCP name or filename).
 	 * I don't know of a list of what really is allowed, so this is a guess.
@@ -813,7 +813,6 @@ careful_string_filter (string s)
 
 	/* Then remove anything that's not in a very limited character set */
 	wstring out;
-	wstring const allowed = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_.+";
 	for (int i = 0; i < transliterated_more.length(); ++i) {
 		wchar_t c = transliterated_more[i];
 		if (allowed.find(c) != string::npos) {

@@ -84,7 +84,7 @@ extern std::string video_asset_filename (std::shared_ptr<dcp::PictureAsset> asse
 extern std::string audio_asset_filename (std::shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
 extern std::string subtitle_asset_filename (std::shared_ptr<dcp::TextAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary, std::string extension);
 extern std::string atmos_asset_filename (std::shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, boost::optional<std::string> content_summary);
-extern std::string careful_string_filter (std::string);
+extern std::string careful_string_filter(std::string s, std::wstring allowed = L"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_.+");
 extern std::pair<int, int> audio_channel_types (std::list<int> mapped, int channels);
 extern std::shared_ptr<AudioBuffers> remap (std::shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map);
 extern size_t utf8_strlen (std::string s);
