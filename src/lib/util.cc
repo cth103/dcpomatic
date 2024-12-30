@@ -786,9 +786,8 @@ string
 careful_string_filter (string s)
 {
 	/* Filter out `bad' characters which `may' cause problems with some systems (either for DCP name or filename).
-	   There's no apparent list of what really is allowed, so this is a guess.
-	   Safety first and all that.
-	*/
+	 * I don't know of a list of what really is allowed, so this is a guess.
+	 */
 
 	/* First transliterate using libicu to try to remove accents in a "nice" way */
 	auto transliterated = icu::UnicodeString::fromUTF8(icu::StringPiece(s));
