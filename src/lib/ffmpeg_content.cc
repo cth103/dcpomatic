@@ -36,13 +36,13 @@
 #include "text_content.h"
 #include "variant.h"
 #include "video_content.h"
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libavutil/pixdesc.h>
 }
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -59,7 +59,6 @@ using std::make_shared;
 using std::shared_ptr;
 using std::dynamic_pointer_cast;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -236,23 +235,23 @@ FFmpegContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 	}
 
 	if (_first_video) {
-		cxml::add_text_child(element, "FirstVideo", raw_convert<string>(_first_video.get().get()));
+		cxml::add_text_child(element, "FirstVideo", fmt::to_string(_first_video.get().get()));
 	}
 
 	if (_color_range) {
-		cxml::add_text_child(element, "ColorRange", raw_convert<string>(static_cast<int>(*_color_range)));
+		cxml::add_text_child(element, "ColorRange", fmt::to_string(static_cast<int>(*_color_range)));
 	}
 	if (_color_primaries) {
-		cxml::add_text_child(element, "ColorPrimaries", raw_convert<string>(static_cast<int>(*_color_primaries)));
+		cxml::add_text_child(element, "ColorPrimaries", fmt::to_string(static_cast<int>(*_color_primaries)));
 	}
 	if (_color_trc) {
-		cxml::add_text_child(element, "ColorTransferCharacteristic", raw_convert<string>(static_cast<int>(*_color_trc)));
+		cxml::add_text_child(element, "ColorTransferCharacteristic", fmt::to_string(static_cast<int>(*_color_trc)));
 	}
 	if (_colorspace) {
-		cxml::add_text_child(element, "Colorspace", raw_convert<string>(static_cast<int>(*_colorspace)));
+		cxml::add_text_child(element, "Colorspace", fmt::to_string(static_cast<int>(*_colorspace)));
 	}
 	if (_bits_per_pixel) {
-		cxml::add_text_child(element, "BitsPerPixel", raw_convert<string>(*_bits_per_pixel));
+		cxml::add_text_child(element, "BitsPerPixel", fmt::to_string(*_bits_per_pixel));
 	}
 }
 

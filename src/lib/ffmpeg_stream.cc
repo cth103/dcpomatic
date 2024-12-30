@@ -18,9 +18,9 @@
 
 */
 
-#include "ffmpeg_stream.h"
+
 #include "dcpomatic_assert.h"
-#include <dcp/raw_convert.h>
+#include "ffmpeg_stream.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
@@ -28,9 +28,11 @@ extern "C" {
 #include <libavformat/avformat.h>
 }
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
+
 
 using std::string;
-using dcp::raw_convert;
+
 
 FFmpegStream::FFmpegStream (cxml::ConstNodePtr node)
 	: name (node->string_child ("Name"))
@@ -43,7 +45,7 @@ void
 FFmpegStream::as_xml(xmlpp::Element* root) const
 {
 	cxml::add_text_child(root, "Name", name);
-	cxml::add_text_child(root, "Id", raw_convert<string>(_id));
+	cxml::add_text_child(root, "Id", fmt::to_string(_id));
 }
 
 bool

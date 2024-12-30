@@ -31,7 +31,7 @@
 #include "lib/util.h"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
+#include <fmt/format.h>
 
 
 using std::function;
@@ -982,7 +982,7 @@ SoundPage::config_changed ()
 
 	vector<NamedChannel> output;
 	for (int i = 0; i < channels; ++i) {
-		output.push_back (NamedChannel(dcp::raw_convert<string>(i), i));
+		output.push_back(NamedChannel(fmt::to_string(i), i));
 	}
 	_map->set_output_channels (output);
 

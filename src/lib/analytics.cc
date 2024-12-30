@@ -24,12 +24,12 @@
 #include "exceptions.h"
 #include "variant.h"
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <libcxml/cxml.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
@@ -37,7 +37,6 @@ LIBDCP_ENABLE_WARNINGS
 
 
 using std::string;
-using dcp::raw_convert;
 using boost::algorithm::trim;
 
 
@@ -101,8 +100,8 @@ Analytics::write () const
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("Analytics");
 
-	cxml::add_text_child(root, "Version", raw_convert<string>(_current_version));
-	cxml::add_text_child(root, "SuccessfulDCPEncodes", raw_convert<string>(_successful_dcp_encodes));
+	cxml::add_text_child(root, "Version", fmt::to_string(_current_version));
+	cxml::add_text_child(root, "SuccessfulDCPEncodes", fmt::to_string(_successful_dcp_encodes));
 
 	try {
 		doc.write_to_file_formatted(write_path("analytics.xml").string());

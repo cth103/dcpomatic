@@ -28,6 +28,7 @@
 #include "ratio.h"
 #include "variant.h"
 #include <dcp/raw_convert.h>
+#include <fmt/format.h>
 #include <iostream>
 #include <string>
 
@@ -84,6 +85,25 @@ argument_option (int& n, int argc, char* argv[], string short_name, string long_
 	}
 
 	*out = dcp::raw_convert<T>(string(argv[++n]));
+	*claimed = true;
+}
+
+
+template <>
+void
+argument_option(int& n, int argc, char* argv[], string short_name, string long_name, bool* claimed, optional<string>* error, string* out)
+{
+	string const a = argv[n];
+	if (a != short_name && a != long_name) {
+		return;
+	}
+
+	if ((n + 1) >= argc) {
+		**error = String::compose("%1: option %2 requires an argument", argv[0], long_name);
+		return;
+	}
+
+	*out = string(argv[++n]);
 	*claimed = true;
 }
 

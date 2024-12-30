@@ -43,7 +43,6 @@
 #include <dcp/filesystem.h>
 #include <dcp/interop_text_asset.h>
 #include <dcp/mono_j2k_picture_asset.h>
-#include <dcp/raw_convert.h>
 #include <dcp/reel.h>
 #include <dcp/reel_atmos_asset.h>
 #include <dcp/reel_interop_text_asset.h>
@@ -57,6 +56,7 @@
 #include <dcp/sound_asset_writer.h>
 #include <dcp/stereo_j2k_picture_asset.h>
 #include <dcp/text_image.h>
+#include <fmt/format.h>
 
 #include "i18n.h"
 
@@ -77,7 +77,6 @@ using namespace boost::placeholders;
 #endif
 using dcp::ArrayData;
 using dcp::Data;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -806,7 +805,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 		} else if (track->language) {
 			s->set_language (track->language->to_string());
 		}
-		s->set_reel_number (raw_convert<string> (_reel_index + 1));
+		s->set_reel_number(fmt::to_string(_reel_index + 1));
 		asset = s;
 	} else {
 		auto s = make_shared<dcp::SMPTETextAsset>();

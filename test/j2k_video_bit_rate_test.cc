@@ -30,8 +30,8 @@
 #include "lib/film.h"
 #include "lib/image_content.h"
 #include "lib/video_content.h"
-#include <dcp/raw_convert.h>
 #include <boost/test/unit_test.hpp>
+#include <fmt/format.h>
 
 
 using std::make_shared;
@@ -45,7 +45,7 @@ check (int target_bits_per_second)
 
 	int const duration = 10;
 
-	string const name = "bandwidth_test_" + dcp::raw_convert<string> (target_bits_per_second);
+	string const name = "bandwidth_test_" + fmt::to_string(target_bits_per_second);
 	auto content = make_shared<ImageContent>(TestPaths::private_data() / "prophet_frame.tiff");
 	auto film = new_test_film(name, { content }, &cl);
 	film->set_video_bit_rate(VideoEncoding::JPEG2000, target_bits_per_second);

@@ -28,7 +28,6 @@
 #include "image.h"
 #include "memory_util.h"
 #include "video_filter_graph.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 extern "C" {
@@ -38,6 +37,7 @@ extern "C" {
 }
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -52,7 +52,6 @@ using std::shared_ptr;
 using std::string;
 using boost::optional;
 using std::dynamic_pointer_cast;
-using dcp::raw_convert;
 
 
 FFmpegImageProxy::FFmpegImageProxy (boost::filesystem::path path)
@@ -143,8 +142,8 @@ FFmpegImageProxy::image (Image::Alignment alignment, optional<dcp::Size>) const
 	/* These durations are in microseconds, and represent how far into the content file
 	   we will look for streams.
 	*/
-	av_dict_set (&options, "analyzeduration", raw_convert<string>(5 * 60 * 1000000).c_str(), 0);
-	av_dict_set (&options, "probesize", raw_convert<string>(5 * 60 * 1000000).c_str(), 0);
+	av_dict_set(&options, "analyzeduration", fmt::to_string(5 * 60 * 1000000).c_str(), 0);
+	av_dict_set(&options, "probesize", fmt::to_string(5 * 60 * 1000000).c_str(), 0);
 
 	int e = avformat_open_input (&format_context, 0, 0, &options);
 	if ((e < 0 && e == AVERROR_INVALIDDATA) || (e >= 0 && format_context->probe_score <= 25)) {

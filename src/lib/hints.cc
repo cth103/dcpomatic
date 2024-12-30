@@ -40,9 +40,9 @@
 #include "writer.h"
 #include <dcp/cpl.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/reel.h>
 #include <dcp/reel_text_asset.h>
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -346,7 +346,7 @@ Hints::check_loudness ()
 			float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
 			float const peak_dB = linear_to_db(peak) + an->gain_correction(film()->playlist());
 			if (peak_dB > -3) {
-				ch += dcp::raw_convert<string>(short_audio_channel_name(i)) + ", ";
+				ch += fmt::to_string(short_audio_channel_name(i)) + ", ";
 			}
 		}
 

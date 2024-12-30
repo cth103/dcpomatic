@@ -20,7 +20,7 @@
 
 
 #include "pixel_quanta.h"
-#include <dcp/raw_convert.h>
+#include <fmt/format.h>
 
 
 PixelQuanta::PixelQuanta (cxml::ConstNodePtr node)
@@ -34,8 +34,8 @@ PixelQuanta::PixelQuanta (cxml::ConstNodePtr node)
 void
 PixelQuanta::as_xml (xmlpp::Element* node) const
 {
-	cxml::add_text_child(node, "X", dcp::raw_convert<std::string>(x));
-	cxml::add_text_child(node, "Y", dcp::raw_convert<std::string>(y));
+	cxml::add_text_child(node, "X", fmt::to_string(x));
+	cxml::add_text_child(node, "Y", fmt::to_string(y));
 }
 
 

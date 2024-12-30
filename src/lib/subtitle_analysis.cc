@@ -23,17 +23,16 @@
 #include "exceptions.h"
 #include <libcxml/cxml.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
-using dcp::raw_convert;
 
 
 int const SubtitleAnalysis::_current_state_version = 1;
@@ -70,18 +69,18 @@ SubtitleAnalysis::write (boost::filesystem::path path) const
 	auto doc = make_shared<xmlpp::Document>();
 	xmlpp::Element* root = doc->create_root_node ("SubtitleAnalysis");
 
-	cxml::add_text_child(root, "Version", raw_convert<string>(_current_state_version));
+	cxml::add_text_child(root, "Version", fmt::to_string(_current_state_version));
 
 	if (_bounding_box) {
 		auto bounding_box = cxml::add_child(root, "BoundingBox");
-		cxml::add_text_child(bounding_box, "X", raw_convert<string>(_bounding_box->x));
-		cxml::add_text_child(bounding_box, "Y", raw_convert<string>(_bounding_box->y));
-		cxml::add_text_child(bounding_box, "Width", raw_convert<string>(_bounding_box->width));
-		cxml::add_text_child(bounding_box, "Height", raw_convert<string>(_bounding_box->height));
+		cxml::add_text_child(bounding_box, "X", fmt::to_string(_bounding_box->x));
+		cxml::add_text_child(bounding_box, "Y", fmt::to_string(_bounding_box->y));
+		cxml::add_text_child(bounding_box, "Width", fmt::to_string(_bounding_box->width));
+		cxml::add_text_child(bounding_box, "Height", fmt::to_string(_bounding_box->height));
 	}
 
-	cxml::add_text_child(root, "AnalysisXOffset", raw_convert<string>(_analysis_x_offset));
-	cxml::add_text_child(root, "AnalysisYOffset", raw_convert<string>(_analysis_y_offset));
+	cxml::add_text_child(root, "AnalysisXOffset", fmt::to_string(_analysis_x_offset));
+	cxml::add_text_child(root, "AnalysisYOffset", fmt::to_string(_analysis_y_offset));
 
 	doc->write_to_file_formatted (path.string());
 }

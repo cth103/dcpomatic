@@ -100,7 +100,6 @@
 #include "lib/video_content.h"
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/scope_guard.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -117,6 +116,7 @@ LIBDCP_ENABLE_WARNINGS
 #ifdef __WXMSW__
 #include <shellapi.h>
 #endif
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <iostream>
@@ -147,7 +147,6 @@ using boost::algorithm::find;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using dcp::raw_convert;
 
 
 class FilmChangedClosingDialog
@@ -902,7 +901,7 @@ private:
 			try {
 				boost::asio::io_service io_service;
 				boost::asio::ip::tcp::resolver resolver (io_service);
-				boost::asio::ip::tcp::resolver::query query ("127.0.0.1", raw_convert<string> (port));
+				boost::asio::ip::tcp::resolver::query query("127.0.0.1", fmt::to_string(port));
 				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 				Socket socket (5);
 				socket.connect (*endpoint_iterator);

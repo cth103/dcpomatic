@@ -27,11 +27,11 @@
 #include "player.h"
 #include "player_video.h"
 #include "video_content.h"
-#include <dcp/raw_convert.h>
 extern "C" {
 #include <libavutil/pixfmt.h>
 }
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iostream>
 
 
@@ -44,7 +44,6 @@ using std::string;
 using std::weak_ptr;
 using boost::optional;
 using dcp::Data;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -204,25 +203,25 @@ PlayerVideo::add_metadata(xmlpp::Element* element) const
 {
 	_crop.as_xml(element);
 	if (_fade) {
-		cxml::add_text_child(element, "Fade", raw_convert<string>(_fade.get()));
+		cxml::add_text_child(element, "Fade", fmt::to_string(_fade.get()));
 	}
 	_in->add_metadata(cxml::add_child(element, "In"));
-	cxml::add_text_child(element, "InterWidth", raw_convert<string>(_inter_size.width));
-	cxml::add_text_child(element, "InterHeight", raw_convert<string>(_inter_size.height));
-	cxml::add_text_child(element, "OutWidth", raw_convert<string>(_out_size.width));
-	cxml::add_text_child(element, "OutHeight", raw_convert<string>(_out_size.height));
-	cxml::add_text_child(element, "Eyes", raw_convert<string>(static_cast<int>(_eyes)));
-	cxml::add_text_child(element, "Part", raw_convert<string>(static_cast<int>(_part)));
-	cxml::add_text_child(element, "VideoRange", raw_convert<string>(static_cast<int>(_video_range)));
+	cxml::add_text_child(element, "InterWidth", fmt::to_string(_inter_size.width));
+	cxml::add_text_child(element, "InterHeight", fmt::to_string(_inter_size.height));
+	cxml::add_text_child(element, "OutWidth", fmt::to_string(_out_size.width));
+	cxml::add_text_child(element, "OutHeight", fmt::to_string(_out_size.height));
+	cxml::add_text_child(element, "Eyes", fmt::to_string(static_cast<int>(_eyes)));
+	cxml::add_text_child(element, "Part", fmt::to_string(static_cast<int>(_part)));
+	cxml::add_text_child(element, "VideoRange", fmt::to_string(static_cast<int>(_video_range)));
 	cxml::add_text_child(element, "Error", _error ? "1" : "0");
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml(element);
 	}
 	if (_text) {
-		cxml::add_text_child(element, "SubtitleWidth", raw_convert<string>(_text->image->size().width));
-		cxml::add_text_child(element, "SubtitleHeight", raw_convert<string>(_text->image->size().height));
-		cxml::add_text_child(element, "SubtitleX", raw_convert<string>(_text->position.x));
-		cxml::add_text_child(element, "SubtitleY", raw_convert<string>(_text->position.y));
+		cxml::add_text_child(element, "SubtitleWidth", fmt::to_string(_text->image->size().width));
+		cxml::add_text_child(element, "SubtitleHeight", fmt::to_string(_text->image->size().height));
+		cxml::add_text_child(element, "SubtitleX", fmt::to_string(_text->position.x));
+		cxml::add_text_child(element, "SubtitleY", fmt::to_string(_text->position.y));
 	}
 }
 

@@ -23,6 +23,7 @@
 #include "disk_writer_messages.h"
 #include "nanomsg.h"
 #include <dcp/raw_convert.h>
+#include <fmt/format.h>
 
 
 using std::string;
@@ -81,15 +82,15 @@ DiskWriterBackEndResponse::write_to_nanomsg(Nanomsg& nanomsg, int timeout) const
 			break;
 		case Type::FORMAT_PROGRESS:
 			message = String::compose("%1\n", DISK_WRITER_FORMAT_PROGRESS);
-			message += dcp::raw_convert<string>(_progress) + "\n";
+			message += fmt::to_string(_progress) + "\n";
 			break;
 		case Type::COPY_PROGRESS:
 			message = String::compose("%1\n", DISK_WRITER_COPY_PROGRESS);
-			message += dcp::raw_convert<string>(_progress) + "\n";
+			message += fmt::to_string(_progress) + "\n";
 			break;
 		case Type::VERIFY_PROGRESS:
 			message = String::compose("%1\n", DISK_WRITER_VERIFY_PROGRESS);
-			message += dcp::raw_convert<string>(_progress) + "\n";
+			message += fmt::to_string(_progress) + "\n";
 			break;
 	}
 

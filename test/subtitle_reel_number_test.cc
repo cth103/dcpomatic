@@ -30,7 +30,7 @@
 #include <dcp/reel.h>
 #include <dcp/interop_text_asset.h>
 #include <dcp/reel_text_asset.h>
-#include <dcp/raw_convert.h>
+#include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
 
 
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (subtitle_reel_number_test)
 		if (i->main_subtitle()) {
 			auto ass = dynamic_pointer_cast<dcp::InteropTextAsset>(i->main_subtitle()->asset());
 			BOOST_REQUIRE (ass);
-			BOOST_CHECK_EQUAL (ass->reel_number(), dcp::raw_convert<string>(n));
+			BOOST_CHECK_EQUAL (ass->reel_number(), fmt::to_string(n));
 			++n;
 		}
 	}

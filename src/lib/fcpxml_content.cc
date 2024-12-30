@@ -22,7 +22,7 @@
 #include "fcpxml.h"
 #include "fcpxml_content.h"
 #include "text_content.h"
-#include <dcp/raw_convert.h>
+#include <fmt/format.h>
 
 #include "i18n.h"
 
@@ -103,6 +103,6 @@ FCPXMLContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pa
 		only_text()->as_xml(element);
 	}
 
-	cxml::add_child(element, "Length", dcp::raw_convert<string>(_length.get()));
+	cxml::add_child(element, "Length", fmt::to_string(_length.get()));
 }
 

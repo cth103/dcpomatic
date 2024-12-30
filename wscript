@@ -129,7 +129,7 @@ def configure(conf):
                                        # getMessengerLogger() in the grok code triggers these warnings
                                        '-Wno-nonnull',
                                        '-Wno-error=deprecated',
-                                       # I tried and failed to ignore these with _Pragma
+                                       # I tried and failed to ignore this with _Pragma
                                        '-Wno-ignored-qualifiers',
                                        '-D_FILE_OFFSET_BITS=64',
                                        '-std=c++' + cpp_std])
@@ -165,6 +165,9 @@ def configure(conf):
             # gcc 7.5.0 on Ubuntu 18.04 and gcc 8.3.0 on Debian 10 do, but
             # I didn't manage to turn it back off again with a pragma
             conf.env.append_value('CXXFLAGS', ['-Wsuggest-override'])
+        # This comes from fmt due to (apparently) a GCC bug
+        # I also tried to turn this off with a _Pragma, but failed
+        conf.env.append_value('CXXFLAGS', ['-Wno-stringop-overflow'])
 
     if conf.options.enable_debug:
         conf.env.append_value('CXXFLAGS', ['-g', '-DDCPOMATIC_DEBUG', '-fno-omit-frame-pointer'])
@@ -389,7 +392,7 @@ def configure(conf):
         check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=True, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-dcpomatic', 'kumu-dcpomatic', 'openjp2']
-        conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c']
+        conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c', 'fmt']
     else:
         check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=False, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]

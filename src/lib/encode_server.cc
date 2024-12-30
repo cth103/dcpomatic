@@ -40,12 +40,12 @@
 #include "util.h"
 #include "variant.h"
 #include "version.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <libcxml/cxml.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/scoped_array.hpp>
 #ifdef HAVE_VALGRIND_H
@@ -72,7 +72,6 @@ using boost::scoped_array;
 using boost::optional;
 using dcp::ArrayData;
 using dcp::Size;
-using dcp::raw_convert;
 
 
 EncodeServer::EncodeServer (bool verbose, int num_threads)
@@ -300,8 +299,8 @@ EncodeServer::broadcast_received ()
 		/* Reply to the client saying what we can do */
 		xmlpp::Document doc;
 		auto root = doc.create_root_node ("ServerAvailable");
-		cxml::add_text_child(root, "Threads", raw_convert<string>(_worker_threads.size()));
-		cxml::add_text_child(root, "Version", raw_convert<string>(SERVER_LINK_VERSION));
+		cxml::add_text_child(root, "Threads", fmt::to_string(_worker_threads.size()));
+		cxml::add_text_child(root, "Version", fmt::to_string(SERVER_LINK_VERSION));
 		auto xml = doc.write_to_string ("UTF-8");
 
 		if (_verbose) {

@@ -30,6 +30,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/signals2.hpp>
 
 
@@ -79,10 +80,10 @@ public:
 	{
 		auto const hmsf = t.split (fps);
 
-		checked_set (_hours, dcp::raw_convert<std::string>(hmsf.h));
-		checked_set (_minutes, dcp::raw_convert<std::string>(hmsf.m));
-		checked_set (_seconds, dcp::raw_convert<std::string>(hmsf.s));
-		checked_set (_frames, dcp::raw_convert<std::string>(hmsf.f));
+		checked_set(_hours, fmt::to_string(hmsf.h));
+		checked_set(_minutes, fmt::to_string(hmsf.m));
+		checked_set(_seconds, fmt::to_string(hmsf.s));
+		checked_set(_frames, fmt::to_string(hmsf.f));
 
 		checked_set (_fixed, t.timecode (fps));
 	}
@@ -91,10 +92,10 @@ public:
 	{
 		auto hmsf = t.split (fps);
 
-		_hours->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.h)));
-		_minutes->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.m)));
-		_seconds->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.s)));
-		_frames->SetHint (std_to_wx(dcp::raw_convert<std::string>(hmsf.f)));
+		_hours->SetHint(std_to_wx(fmt::to_string(hmsf.h)));
+		_minutes->SetHint(std_to_wx(fmt::to_string(hmsf.m)));
+		_seconds->SetHint(std_to_wx(fmt::to_string(hmsf.s)));
+		_frames->SetHint(std_to_wx(fmt::to_string(hmsf.f)));
 	}
 
 	void set_maximum(dcpomatic::HMSF maximum)

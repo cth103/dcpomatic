@@ -27,7 +27,6 @@
 #include <dcp/j2k_transcode.h>
 #include <dcp/mono_j2k_picture_frame.h>
 #include <dcp/openjpeg_image.h>
-#include <dcp/raw_convert.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/stereo_j2k_picture_frame.h>
 #include <dcp/warnings.h>
@@ -35,6 +34,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -48,7 +48,6 @@ using std::shared_ptr;
 using std::string;
 using boost::optional;
 using dcp::ArrayData;
-using dcp::raw_convert;
 
 
 /** Construct a J2KImageProxy from a JPEG2000 file */
@@ -195,12 +194,12 @@ void
 J2KImageProxy::add_metadata(xmlpp::Element* element) const
 {
 	cxml::add_text_child(element, "Type", N_("J2K"));
-	cxml::add_text_child(element, "Width", raw_convert<string>(_size.width));
-	cxml::add_text_child(element, "Height", raw_convert<string>(_size.height));
+	cxml::add_text_child(element, "Width", fmt::to_string(_size.width));
+	cxml::add_text_child(element, "Height", fmt::to_string(_size.height));
 	if (_eye) {
-		cxml::add_text_child(element, "Eye", raw_convert<string>(static_cast<int>(_eye.get())));
+		cxml::add_text_child(element, "Eye", fmt::to_string(static_cast<int>(_eye.get())));
 	}
-	cxml::add_text_child(element, "Size", raw_convert<string>(_data->size()));
+	cxml::add_text_child(element, "Size", fmt::to_string(_data->size()));
 }
 
 

@@ -21,7 +21,7 @@
 
 #include "lib/dcpomatic_socket.h"
 #include "lib/server.h"
-#include <dcp/raw_convert.h>
+#include <fmt/format.h>
 #include <boost/test/unit_test.hpp>
 #include <boost/thread.hpp>
 #include <cstring>
@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE (socket_basic_test)
 
 	boost::asio::io_service io_service;
 	tcp::resolver resolver (io_service);
-	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
+	tcp::resolver::query query("127.0.0.1", fmt::to_string(TEST_SERVER_PORT));
 	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	auto socket = make_shared<Socket>();
@@ -149,7 +149,7 @@ BOOST_AUTO_TEST_CASE (socket_digest_test1)
 
 	boost::asio::io_service io_service;
 	tcp::resolver resolver (io_service);
-	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
+	tcp::resolver::query query("127.0.0.1", fmt::to_string(TEST_SERVER_PORT));
 	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	shared_ptr<Socket> socket(new Socket);
@@ -178,7 +178,7 @@ BOOST_AUTO_TEST_CASE (socket_digest_test2)
 
 	boost::asio::io_service io_service;
 	tcp::resolver resolver (io_service);
-	tcp::resolver::query query ("127.0.0.1", dcp::raw_convert<string>(TEST_SERVER_PORT));
+	tcp::resolver::query query("127.0.0.1", fmt::to_string(TEST_SERVER_PORT));
 	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	shared_ptr<Socket> socket(new Socket);

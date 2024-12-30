@@ -26,8 +26,8 @@
 #include "subtitle_film_encoder.h"
 #include <dcp/filesystem.h>
 #include <dcp/interop_text_asset.h>
-#include <dcp/raw_convert.h>
 #include <dcp/smpte_text_asset.h>
+#include <fmt/format.h>
 #include <boost/filesystem.hpp>
 #include <boost/bind/bind.hpp>
 
@@ -44,7 +44,6 @@ using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using dcp::raw_convert;
 
 
 /** @param output Directory, if there will be multiple output files, or a filename.
@@ -110,7 +109,7 @@ SubtitleFilmEncoder::go()
 			if (_film->interop()) {
 				auto s = make_shared<dcp::InteropTextAsset>();
 				s->set_movie_title (_film->name());
-				s->set_reel_number (raw_convert<string>(reel + 1));
+				s->set_reel_number(fmt::to_string(reel + 1));
 				i.first = s;
 			} else {
 				auto s = make_shared<dcp::SMPTETextAsset>();
@@ -148,7 +147,7 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 			if (lang.first) {
 				s->set_language (lang.first->to_string());
 			}
-			s->set_reel_number (raw_convert<string>(_reel_index + 1));
+			s->set_reel_number(fmt::to_string(_reel_index + 1));
 			_assets[_reel_index].first = s;
 		} else {
 			auto s = make_shared<dcp::SMPTETextAsset>();

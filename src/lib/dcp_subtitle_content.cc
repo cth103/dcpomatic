@@ -26,9 +26,9 @@
 #include "text_content.h"
 #include <dcp/interop_load_font_node.h>
 #include <dcp/interop_text_asset.h>
-#include <dcp/raw_convert.h>
 #include <dcp/smpte_text_asset.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 
 #include "i18n.h"
 
@@ -39,7 +39,6 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -150,5 +149,5 @@ DCPSubtitleContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehavio
 		only_text()->as_xml(element);
 	}
 
-	cxml::add_text_child(element, "Length", raw_convert<string>(_length.get()));
+	cxml::add_text_child(element, "Length", fmt::to_string(_length.get()));
 }

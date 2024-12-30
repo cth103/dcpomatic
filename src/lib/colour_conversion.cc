@@ -34,6 +34,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -157,34 +158,34 @@ ColourConversion::as_xml(xmlpp::Element* element) const
 	if (dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in)) {
 		auto tf = dynamic_pointer_cast<const dcp::GammaTransferFunction> (_in);
 		cxml::add_text_child(in_node, "Type", "Gamma");
-		cxml::add_text_child(in_node, "Gamma", raw_convert<string>(tf->gamma()));
+		cxml::add_text_child(in_node, "Gamma", fmt::to_string(tf->gamma()));
 	} else if (dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in)) {
 		auto tf = dynamic_pointer_cast<const dcp::ModifiedGammaTransferFunction> (_in);
 		cxml::add_text_child(in_node, "Type", "ModifiedGamma");
-		cxml::add_text_child(in_node, "Power", raw_convert<string>(tf->power ()));
-		cxml::add_text_child(in_node, "Threshold", raw_convert<string>(tf->threshold ()));
-		cxml::add_text_child(in_node, "A", raw_convert<string>(tf->A()));
-		cxml::add_text_child(in_node, "B", raw_convert<string>(tf->B()));
+		cxml::add_text_child(in_node, "Power", fmt::to_string(tf->power()));
+		cxml::add_text_child(in_node, "Threshold", fmt::to_string(tf->threshold()));
+		cxml::add_text_child(in_node, "A", fmt::to_string(tf->A()));
+		cxml::add_text_child(in_node, "B", fmt::to_string(tf->B()));
 	} else if (dynamic_pointer_cast<const dcp::SGamut3TransferFunction>(_in)) {
 		cxml::add_text_child(in_node, "Type", "SGamut3");
 	}
 
-	cxml::add_text_child(element, "YUVToRGB", raw_convert<string>(static_cast<int>(_yuv_to_rgb)));
-	cxml::add_text_child(element, "RedX", raw_convert<string>(_red.x));
-	cxml::add_text_child(element, "RedY", raw_convert<string>(_red.y));
-	cxml::add_text_child(element, "GreenX", raw_convert<string>(_green.x));
-	cxml::add_text_child(element, "GreenY", raw_convert<string>(_green.y));
-	cxml::add_text_child(element, "BlueX", raw_convert<string>(_blue.x));
-	cxml::add_text_child(element, "BlueY", raw_convert<string>(_blue.y));
-	cxml::add_text_child(element, "WhiteX", raw_convert<string>(_white.x));
-	cxml::add_text_child(element, "WhiteY", raw_convert<string>(_white.y));
+	cxml::add_text_child(element, "YUVToRGB", fmt::to_string(static_cast<int>(_yuv_to_rgb)));
+	cxml::add_text_child(element, "RedX", fmt::to_string(_red.x));
+	cxml::add_text_child(element, "RedY", fmt::to_string(_red.y));
+	cxml::add_text_child(element, "GreenX", fmt::to_string(_green.x));
+	cxml::add_text_child(element, "GreenY", fmt::to_string(_green.y));
+	cxml::add_text_child(element, "BlueX", fmt::to_string(_blue.x));
+	cxml::add_text_child(element, "BlueY", fmt::to_string(_blue.y));
+	cxml::add_text_child(element, "WhiteX", fmt::to_string(_white.x));
+	cxml::add_text_child(element, "WhiteY", fmt::to_string(_white.y));
 	if (_adjusted_white) {
-		cxml::add_text_child(element, "AdjustedWhiteX", raw_convert<string>(_adjusted_white.get().x));
-		cxml::add_text_child(element, "AdjustedWhiteY", raw_convert<string>(_adjusted_white.get().y));
+		cxml::add_text_child(element, "AdjustedWhiteX", fmt::to_string(_adjusted_white.get().x));
+		cxml::add_text_child(element, "AdjustedWhiteY", fmt::to_string(_adjusted_white.get().y));
 	}
 
 	if (auto gf = dynamic_pointer_cast<const dcp::GammaTransferFunction>(_out)) {
-		cxml::add_text_child(element, "OutputGamma", raw_convert<string>(gf->gamma()));
+		cxml::add_text_child(element, "OutputGamma", fmt::to_string(gf->gamma()));
 	}
 }
 

@@ -71,6 +71,7 @@
 #include <dcp/reel_file_asset.h>
 #include <dcp/util.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
@@ -249,8 +250,8 @@ Film::video_identifier () const
 	string s = container()->id()
 		+ "_" + resolution_to_string (_resolution)
 		+ "_" + _playlist->video_identifier()
-		+ "_" + raw_convert<string>(_video_frame_rate)
-		+ "_" + raw_convert<string>(video_bit_rate(video_encoding()));
+		+ "_" + fmt::to_string(_video_frame_rate)
+		+ "_" + fmt::to_string(video_bit_rate(video_encoding()));
 
 	if (encrypted ()) {
 		/* This is insecure but hey, the key is in plaintext in metadata.xml */
@@ -290,7 +291,7 @@ Film::info_file (DCPTimePeriod period) const
 {
 	boost::filesystem::path p;
 	p /= "info";
-	p /= video_identifier () + "_" + raw_convert<string> (period.from.get()) + "_" + raw_convert<string> (period.to.get());
+	p /= video_identifier () + "_" + fmt::to_string(period.from.get()) + "_" + fmt::to_string(period.to.get());
 	return file (p);
 }
 
@@ -390,7 +391,7 @@ Film::metadata (bool with_content_paths) const
 	auto doc = make_shared<xmlpp::Document>();
 	auto root = doc->create_root_node ("Metadata");
 
-	cxml::add_text_child(root, "Version", raw_convert<string>(current_state_version));
+	cxml::add_text_child(root, "Version", fmt::to_string(current_state_version));
 	auto last_write = cxml::add_child(root, "LastWrittenBy");
 	last_write->add_child_text (dcpomatic_version);
 	last_write->set_attribute("git", dcpomatic_git_commit);
@@ -406,12 +407,12 @@ Film::metadata (bool with_content_paths) const
 	}
 
 	cxml::add_text_child(root, "Resolution", resolution_to_string(_resolution));
-	cxml::add_text_child(root, "J2KVideoBitRate", raw_convert<string>(_video_bit_rate[VideoEncoding::JPEG2000]));
-	cxml::add_text_child(root, "MPEG2VideoBitRate", raw_convert<string>(_video_bit_rate[VideoEncoding::MPEG2]));
-	cxml::add_text_child(root, "VideoFrameRate", raw_convert<string>(_video_frame_rate));
-	cxml::add_text_child(root, "AudioFrameRate", raw_convert<string>(_audio_frame_rate));
+	cxml::add_text_child(root, "J2KVideoBitRate", fmt::to_string(_video_bit_rate[VideoEncoding::JPEG2000]));
+	cxml::add_text_child(root, "MPEG2VideoBitRate", fmt::to_string(_video_bit_rate[VideoEncoding::MPEG2]));
+	cxml::add_text_child(root, "VideoFrameRate", fmt::to_string(_video_frame_rate));
+	cxml::add_text_child(root, "AudioFrameRate", fmt::to_string(_audio_frame_rate));
 	cxml::add_text_child(root, "ISDCFDate", boost::gregorian::to_iso_string(_isdcf_date));
-	cxml::add_text_child(root, "AudioChannels", raw_convert<string>(_audio_channels));
+	cxml::add_text_child(root, "AudioChannels", fmt::to_string(_audio_channels));
 	cxml::add_text_child(root, "ThreeD", _three_d ? "1" : "0");
 	cxml::add_text_child(root, "Sequence", _sequence ? "1" : "0");
 	cxml::add_text_child(root, "Interop", _interop ? "1" : "0");
@@ -423,17 +424,17 @@ Film::metadata (bool with_content_paths) const
 	if (_audio_processor) {
 		cxml::add_text_child(root, "AudioProcessor", _audio_processor->id());
 	}
-	cxml::add_text_child(root, "ReelType", raw_convert<string>(static_cast<int> (_reel_type)));
-	cxml::add_text_child(root, "ReelLength", raw_convert<string>(_reel_length));
+	cxml::add_text_child(root, "ReelType", fmt::to_string(static_cast<int>(_reel_type)));
+	cxml::add_text_child(root, "ReelLength", fmt::to_string(_reel_length));
 	for (auto boundary: _custom_reel_boundaries) {
-		cxml::add_text_child(root, "CustomReelBoundary", raw_convert<string>(boundary.get()));
+		cxml::add_text_child(root, "CustomReelBoundary", fmt::to_string(boundary.get()));
 	}
 	cxml::add_text_child(root, "ReencodeJ2K", _reencode_j2k ? "1" : "0");
 	cxml::add_text_child(root, "UserExplicitVideoFrameRate", _user_explicit_video_frame_rate ? "1" : "0");
 	for (auto const& marker: _markers) {
 		auto m = cxml::add_child(root, "Marker");
 		m->set_attribute("type", dcp::marker_to_string(marker.first));
-		m->add_child_text(raw_convert<string>(marker.second.get()));
+		m->add_child_text(fmt::to_string(marker.second.get()));
 	}
 	for (auto i: _ratings) {
 		i.as_xml(cxml::add_child(root, "Rating"));
@@ -449,7 +450,7 @@ Film::metadata (bool with_content_paths) const
 	if (_sign_language_video_language) {
 		cxml::add_text_child(root, "SignLanguageVideoLanguage", _sign_language_video_language->to_string());
 	}
-	cxml::add_text_child(root, "VersionNumber", raw_convert<string>(_version_number));
+	cxml::add_text_child(root, "VersionNumber", fmt::to_string(_version_number));
 	cxml::add_text_child(root, "Status", dcp::status_to_string(_status));
 	if (_chain) {
 		cxml::add_text_child(root, "Chain", *_chain);
@@ -468,7 +469,7 @@ Film::metadata (bool with_content_paths) const
 	cxml::add_text_child(root, "RedBand", _red_band ? "1" : "0");
 	cxml::add_text_child(root, "TwoDVersionOfThreeD", _two_d_version_of_three_d ? "1" : "0");
 	if (_luminance) {
-		cxml::add_text_child(root, "LuminanceValue", raw_convert<string>(_luminance->value()));
+		cxml::add_text_child(root, "LuminanceValue", fmt::to_string(_luminance->value()));
 		cxml::add_text_child(root, "LuminanceUnit", dcp::Luminance::unit_to_string(_luminance->unit()));
 	}
 	cxml::add_text_child(root, "UserExplicitContainer", _user_explicit_container ? "1" : "0");
@@ -933,7 +934,7 @@ Film::isdcf_name (bool if_created_now) const
 				}
 			}
 		} else {
-			version = dcp::raw_convert<string>(_version_number);
+			version = fmt::to_string(_version_number);
 		}
 		isdcf_name += "-" + version;
 	}
@@ -970,7 +971,7 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	if (video_frame_rate() != 24) {
-		isdcf_name += "-" + raw_convert<string>(video_frame_rate());
+		isdcf_name += "-" + fmt::to_string(video_frame_rate());
 	}
 
 	if (container()) {
@@ -989,7 +990,7 @@ Film::isdcf_name (bool if_created_now) const
 				auto first_ratio = lrintf(scaled_size->ratio() * 100);
 				auto container_ratio = lrintf(container()->ratio() * 100);
 				if (first_ratio != container_ratio) {
-					isdcf_name += "-" + dcp::raw_convert<string>(first_ratio);
+					isdcf_name += "-" + fmt::to_string(first_ratio);
 				}
 			}
 		}

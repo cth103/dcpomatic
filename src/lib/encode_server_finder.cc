@@ -28,8 +28,8 @@
 #include "exceptions.h"
 #include "util.h"
 #include "variant.h"
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
+#include <fmt/format.h>
 #include <boost/bind/placeholders.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
@@ -49,7 +49,6 @@ using boost::scoped_array;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using dcp::raw_convert;
 
 
 EncodeServerFinder* EncodeServerFinder::_instance = 0;
@@ -137,7 +136,7 @@ try
 		for (auto const& i: Config::instance()->servers()) {
 			try {
 				boost::asio::ip::udp::resolver resolver (io_service);
-				boost::asio::ip::udp::resolver::query query (i, raw_convert<string>(HELLO_PORT));
+				boost::asio::ip::udp::resolver::query query(i, fmt::to_string(HELLO_PORT));
 				boost::asio::ip::udp::endpoint end_point (*resolver.resolve(query));
 				socket.send_to (boost::asio::buffer(data.c_str(), data.size() + 1), end_point);
 			} catch (...) {

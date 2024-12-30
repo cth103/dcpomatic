@@ -20,16 +20,15 @@
 
 
 #include "crop.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::shared_ptr;
 using std::string;
-using dcp::raw_convert;
 
 
 Crop::Crop(shared_ptr<cxml::Node> node)
@@ -44,10 +43,10 @@ Crop::Crop(shared_ptr<cxml::Node> node)
 void
 Crop::as_xml(xmlpp::Element* element) const
 {
-	cxml::add_text_child(element, "LeftCrop", raw_convert<string>(left));
-	cxml::add_text_child(element, "RightCrop", raw_convert<string>(right));
-	cxml::add_text_child(element, "TopCrop", raw_convert<string>(top));
-	cxml::add_text_child(element, "BottomCrop", raw_convert<string>(bottom));
+	cxml::add_text_child(element, "LeftCrop", fmt::to_string(left));
+	cxml::add_text_child(element, "RightCrop", fmt::to_string(right));
+	cxml::add_text_child(element, "TopCrop", fmt::to_string(top));
+	cxml::add_text_child(element, "BottomCrop", fmt::to_string(bottom));
 }
 
 

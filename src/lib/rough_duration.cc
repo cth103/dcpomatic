@@ -26,6 +26,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::string;
@@ -52,7 +53,7 @@ RoughDuration::RoughDuration (cxml::ConstNodePtr node)
 void
 RoughDuration::as_xml (xmlpp::Element* node) const
 {
-	node->add_child_text(dcp::raw_convert<string>(duration));
+	node->add_child_text(fmt::to_string(duration));
 
 	switch (unit) {
 	case Unit::DAYS:

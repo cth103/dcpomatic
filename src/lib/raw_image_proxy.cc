@@ -21,7 +21,6 @@
 
 #include "raw_image_proxy.h"
 #include "image.h"
-#include <dcp/raw_convert.h>
 #include <dcp/util.h>
 #include <dcp/warnings.h>
 #include <libcxml/cxml.h>
@@ -31,6 +30,7 @@ extern "C" {
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 #include "i18n.h"
 
@@ -42,7 +42,6 @@ using std::pair;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
-using dcp::raw_convert;
 
 
 RawImageProxy::RawImageProxy(shared_ptr<const Image> image)
@@ -76,9 +75,9 @@ void
 RawImageProxy::add_metadata(xmlpp::Element* element) const
 {
 	cxml::add_text_child(element, "Type", N_("Raw"));
-	cxml::add_text_child(element, "Width", raw_convert<string>(_image->size().width));
-	cxml::add_text_child(element, "Height", raw_convert<string>(_image->size().height));
-	cxml::add_text_child(element, "PixelFormat", raw_convert<string>(static_cast<int>(_image->pixel_format())));
+	cxml::add_text_child(element, "Width", fmt::to_string(_image->size().width));
+	cxml::add_text_child(element, "Height", fmt::to_string(_image->size().height));
+	cxml::add_text_child(element, "PixelFormat", fmt::to_string(static_cast<int>(_image->pixel_format())));
 }
 
 

@@ -26,7 +26,6 @@
 #include "image.h"
 #include "render_text.h"
 #include "util.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 #include <cairomm/cairomm.h>
 LIBDCP_DISABLE_WARNINGS
@@ -34,6 +33,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <pangommconfig.h>
 LIBDCP_ENABLE_WARNINGS
 #include <pango/pangocairo.h>
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -116,9 +116,9 @@ marked_up(vector<StringText> subtitles, int target_height, float fade_factor, st
 		if (subtitle.underline()) {
 			span += "underline=\"single\" ";
 		}
-		span += "size=\"" + dcp::raw_convert<string>(lrintf(subtitle.size_in_pixels(target_height) * pixels_to_1024ths_point)) + "\" ";
+		span += "size=\"" + fmt::to_string(lrintf(subtitle.size_in_pixels(target_height) * pixels_to_1024ths_point)) + "\" ";
 		/* Between 1-65535 inclusive, apparently... */
-		span += "alpha=\"" + dcp::raw_convert<string>(int(floor(fade_factor * 65534)) + 1) + "\" ";
+		span += "alpha=\"" + fmt::to_string(int(floor(fade_factor * 65534)) + 1) + "\" ";
 		span += "color=\"#" + subtitle.colour().to_rgb_string() + "\"";
 		if (!extra_attribute.empty()) {
 			span += " " + extra_attribute;
@@ -148,7 +148,7 @@ marked_up(vector<StringText> subtitles, int target_height, float fade_factor, st
 			int dummy;
 			layout->get_pixel_size(space_width, dummy);
 			auto spacing = ((i.space_before() * i.size_in_pixels(target_height) - space_width) / 2) * pixels_to_1024ths_point;
-			out += make_span(i, " ", "letter_spacing=\"" + dcp::raw_convert<string>(std::round(spacing)) + "\"");
+			out += make_span(i, " ", "letter_spacing=\"" + fmt::to_string(std::round(spacing)) + "\"");
 		}
 
 		out += make_span(i, i.text(), {});

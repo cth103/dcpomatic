@@ -28,9 +28,9 @@
 #include "frame_rate_change.h"
 #include "maths_util.h"
 #include "video_content.h"
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -47,7 +47,6 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -127,10 +126,10 @@ void
 AudioContent::as_xml(xmlpp::Element* element) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
-	cxml::add_text_child(element, "AudioGain", raw_convert<string>(_gain));
-	cxml::add_text_child(element, "AudioDelay", raw_convert<string>(_delay));
-	cxml::add_text_child(element, "AudioFadeIn", raw_convert<string>(_fade_in.get()));
-	cxml::add_text_child(element, "AudioFadeOut", raw_convert<string>(_fade_out.get()));
+	cxml::add_text_child(element, "AudioGain", fmt::to_string(_gain));
+	cxml::add_text_child(element, "AudioDelay", fmt::to_string(_delay));
+	cxml::add_text_child(element, "AudioFadeIn", fmt::to_string(_fade_in.get()));
+	cxml::add_text_child(element, "AudioFadeOut", fmt::to_string(_fade_out.get()));
 	cxml::add_text_child(element, "AudioUseSameFadesAsVideo", _use_same_fades_as_video ? "1" : "0");
 }
 

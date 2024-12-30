@@ -24,7 +24,7 @@
 #include "job_manager.h"
 #include "json_server.h"
 #include "transcode_job.h"
-#include <dcp/raw_convert.h>
+#include <fmt/format.h>
 #include <boost/asio.hpp>
 #include <boost/bind/bind.hpp>
 #include <boost/thread.hpp>
@@ -40,7 +40,6 @@ using std::shared_ptr;
 using std::string;
 using boost::asio::ip::tcp;
 using boost::thread;
-using dcp::raw_convert;
 
 
 #define MAX_LENGTH 512
@@ -228,7 +227,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 
 			json += "\"name\": \"" + (*i)->json_name() + "\", ";
 			if ((*i)->progress()) {
-				json += "\"progress\": " + raw_convert<string>((*i)->progress().get()) + ", ";
+				json += "\"progress\": " + fmt::to_string((*i)->progress().get()) + ", ";
 			} else {
 				json += "\"progress\": unknown, ";
 			}
@@ -245,7 +244,7 @@ JSONServer::request (string url, shared_ptr<tcp::socket> socket)
 	}
 
 	string reply = "HTTP/1.1 200 OK\r\n"
-		"Content-Length: " + raw_convert<string>(json.length()) + "\r\n"
+		"Content-Length: " + fmt::to_string(json.length()) + "\r\n"
 		"Content-Type: application/json\r\n"
 		"\r\n"
 		+ json + "\r\n";

@@ -23,11 +23,11 @@
 #include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "dcpomatic_log.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <iostream>
 
@@ -63,7 +63,7 @@ Drive::as_xml () const
 	for (auto i: _mount_points) {
 		cxml::add_text_child(root, "MountPoint", i.string());
 	}
-	cxml::add_text_child(root, "Size", dcp::raw_convert<string>(_size));
+	cxml::add_text_child(root, "Size", fmt::to_string(_size));
 	if (_vendor) {
 		cxml::add_text_child(root, "Vendor", *_vendor);
 	}

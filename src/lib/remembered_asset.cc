@@ -22,11 +22,11 @@
 #include "dcpomatic_assert.h"
 #include "remembered_asset.h"
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::string;
@@ -53,8 +53,8 @@ RememberedAsset::as_xml(xmlpp::Element* parent) const
 {
 	cxml::add_text_child(parent, "Filename", _filename.string());
 	auto period_node = cxml::add_child(parent, "Period");
-	cxml::add_text_child(period_node, "From", dcp::raw_convert<string>(_period.from.get()));
-	cxml::add_text_child(period_node, "To", dcp::raw_convert<string>(_period.to.get()));
+	cxml::add_text_child(period_node, "From", fmt::to_string(_period.from.get()));
+	cxml::add_text_child(period_node, "To", fmt::to_string(_period.to.get()));
 	cxml::add_text_child(parent, "Identifier", _identifier);
 }
 

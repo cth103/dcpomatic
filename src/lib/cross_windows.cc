@@ -31,11 +31,11 @@
 #include "util.h"
 #include <dcp/file.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <glib.h>
 extern "C" {
 #include <libavformat/avio.h>
 }
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/dll/runtime_symbol_info.hpp>
 #include <windows.h>
@@ -660,7 +660,7 @@ disk_write_finished ()
 string
 dcpomatic::get_process_id ()
 {
-	return dcp::raw_convert<string>(GetCurrentProcessId());
+	return fmt::to_string(GetCurrentProcessId());
 }
 
 

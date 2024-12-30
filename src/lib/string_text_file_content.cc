@@ -26,9 +26,9 @@
 #include "string_text_file_content.h"
 #include "text_content.h"
 #include "util.h"
-#include <dcp/raw_convert.h>
 #include <fontconfig/fontconfig.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iostream>
 
 
@@ -41,7 +41,6 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -131,7 +130,7 @@ StringTextFileContent::as_xml(xmlpp::Element* element, bool with_paths, PathBeha
 		only_text()->as_xml(element);
 	}
 
-	cxml::add_text_child(element, "Length", raw_convert<string>(_length.get()));
+	cxml::add_text_child(element, "Length", fmt::to_string(_length.get()));
 }
 
 

@@ -41,6 +41,7 @@
 #include <libcxml/cxml.h>
 #include <glib.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <boost/thread.hpp>
@@ -737,11 +738,11 @@ Config::write_config () const
 	auto root = doc.create_root_node ("Config");
 
 	/* [XML] Version The version number of the configuration file format. */
-	cxml::add_text_child(root, "Version", raw_convert<string>(_current_version));
+	cxml::add_text_child(root, "Version", fmt::to_string(_current_version));
 	/* [XML] MasterEncodingThreads Number of encoding threads to use when running as master. */
-	cxml::add_text_child(root, "MasterEncodingThreads", raw_convert<string>(_master_encoding_threads));
+	cxml::add_text_child(root, "MasterEncodingThreads", fmt::to_string(_master_encoding_threads));
 	/* [XML] ServerEncodingThreads Number of encoding threads to use when running as server. */
-	cxml::add_text_child(root, "ServerEncodingThreads", raw_convert<string>(_server_encoding_threads));
+	cxml::add_text_child(root, "ServerEncodingThreads", fmt::to_string(_server_encoding_threads));
 	if (_default_directory) {
 		/* [XML:opt] DefaultDirectory Default directory when creating a new film in the GUI. */
 		cxml::add_text_child(root, "DefaultDirectory", _default_directory->string());
@@ -750,7 +751,7 @@ Config::write_config () const
 	   <code>ServerPortBase</code> + 2 are used for querying servers.  <code>ServerPortBase</code> + 3 is used
 	   by the batch converter to listen for job requests.
 	*/
-	cxml::add_text_child(root, "ServerPortBase", raw_convert<string>(_server_port_base));
+	cxml::add_text_child(root, "ServerPortBase", fmt::to_string(_server_port_base));
 	/* [XML] UseAnyServers 1 to broadcast to look for encoding servers to use, 0 to use only those configured. */
 	cxml::add_text_child(root, "UseAnyServers", _use_any_servers ? "1" : "0");
 
@@ -766,7 +767,7 @@ Config::write_config () const
 	*/
 	cxml::add_text_child(root, "OnlyServersEncode", _only_servers_encode ? "1" : "0");
 	/* [XML] TMSProtocol Protocol to use to copy files to a TMS; 0 to use SCP, 1 for FTP. */
-	cxml::add_text_child(root, "TMSProtocol", raw_convert<string>(static_cast<int>(_tms_protocol)));
+	cxml::add_text_child(root, "TMSProtocol", fmt::to_string(static_cast<int>(_tms_protocol)));
 	/* [XML] TMSPassive True to use PASV mode with TMS FTP connections. */
 	cxml::add_text_child(root, "TMSPassive", _tms_passive ? "1" : "0");
 	/* [XML] TMSIP IP address of TMS. */
@@ -797,9 +798,9 @@ Config::write_config () const
 	cxml::add_text_child(root, "UploadAfterMakeDCP", _upload_after_make_dcp ? "1" : "0");
 
 	/* [XML] DefaultStillLength Default length (in seconds) for still images in new films. */
-	cxml::add_text_child(root, "DefaultStillLength", raw_convert<string>(_default_still_length));
+	cxml::add_text_child(root, "DefaultStillLength", fmt::to_string(_default_still_length));
 	/* [XML] DefaultAudioDelay Default delay to apply to audio (positive moves audio later) in milliseconds. */
-	cxml::add_text_child(root, "DefaultAudioDelay", raw_convert<string>(_default_audio_delay));
+	cxml::add_text_child(root, "DefaultAudioDelay", fmt::to_string(_default_audio_delay));
 	if (_default_audio_language) {
 		/* [XML] DefaultAudioLanguage Default audio language to use for new films */
 		cxml::add_text_child(root, "DefaultAudioLanguage", _default_audio_language->to_string());
@@ -812,7 +813,7 @@ Config::write_config () const
 	/* [XML] MailServer Hostname of SMTP server to use. */
 	cxml::add_text_child(root, "MailServer", _mail_server);
 	/* [XML] MailPort Port number to use on SMTP server. */
-	cxml::add_text_child(root, "MailPort", raw_convert<string>(_mail_port));
+	cxml::add_text_child(root, "MailPort", fmt::to_string(_mail_port));
 	/* [XML] MailProtocol Protocol to use on SMTP server (Auto, Plain, STARTTLS or SSL) */
 	switch (_mail_protocol) {
 	case EmailProtocol::AUTO:
@@ -867,9 +868,9 @@ Config::write_config () const
 	cxml::add_text_child(root, "CheckForTestUpdates", _check_for_test_updates ? "1" : "0");
 
 	/* [XML] MaximumJ2KVideoBitRate Maximum video bit rate (in bits per second) that can be specified in the GUI for JPEG2000 encodes. */
-	cxml::add_text_child(root, "MaximumJ2KVideoBitRate", raw_convert<string>(_maximum_video_bit_rate[VideoEncoding::JPEG2000]));
+	cxml::add_text_child(root, "MaximumJ2KVideoBitRate", fmt::to_string(_maximum_video_bit_rate[VideoEncoding::JPEG2000]));
 	/* [XML] MaximumMPEG2VideoBitRate Maximum video bit rate (in bits per second) that can be specified in the GUI for MPEG2 encodes. */
-	cxml::add_text_child(root, "MaximumMPEG2VideoBitRate", raw_convert<string>(_maximum_video_bit_rate[VideoEncoding::MPEG2]));
+	cxml::add_text_child(root, "MaximumMPEG2VideoBitRate", fmt::to_string(_maximum_video_bit_rate[VideoEncoding::MPEG2]));
 	/* [XML] AllowAnyDCPFrameRate 1 to allow users to specify any frame rate when creating DCPs, 0 to limit the GUI to standard rates. */
 	cxml::add_text_child(root, "AllowAnyDCPFrameRate", _allow_any_dcp_frame_rate ? "1" : "0");
 	/* [XML] AllowAnyContainer 1 to allow users to user any container ratio for their DCP, 0 to limit the GUI to DCI Flat/Scope */
@@ -885,7 +886,7 @@ Config::write_config () const
 	   to sending email, 128 debug information related to the video view, 256 information about disk writing, 512 debug information
 	   related to the player, 1024 debug information related to audio analyses.
 	*/
-	cxml::add_text_child(root, "LogTypes", raw_convert<string> (_log_types));
+	cxml::add_text_child(root, "LogTypes", fmt::to_string(_log_types));
 	/* [XML] AnalyseEBUR128 1 to do EBUR128 analyses when analysing audio, otherwise 0. */
 	cxml::add_text_child(root, "AnalyseEBUR128", _analyse_ebur128 ? "1" : "0");
 	/* [XML] AutomaticAudioAnalysis 1 to run audio analysis automatically when audio content is added to the film, otherwise 0. */
@@ -961,7 +962,7 @@ Config::write_config () const
 	/* [XML] Nagged 1 if a particular nag screen has been shown and should not be shown again, otherwise 0. */
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		auto e = cxml::add_child(root, "Nagged");
-		e->set_attribute("id", raw_convert<string>(i));
+		e->set_attribute("id", fmt::to_string(i));
 		e->add_child_text (_nagged[i] ? "1" : "0");
 	}
 	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0. */
@@ -1003,11 +1004,11 @@ Config::write_config () const
 	/* [XML] FramesInMemoryMultiplier value to multiply the encoding threads count by to get the maximum number of
 	   frames to be held in memory at once.
 	*/
-	cxml::add_text_child(root, "FramesInMemoryMultiplier", raw_convert<string>(_frames_in_memory_multiplier));
+	cxml::add_text_child(root, "FramesInMemoryMultiplier", fmt::to_string(_frames_in_memory_multiplier));
 
 	/* [XML] DecodeReduction power of 2 to reduce DCP images by before decoding in the player. */
 	if (_decode_reduction) {
-		cxml::add_text_child(root, "DecodeReduction", raw_convert<string>(_decode_reduction.get()));
+		cxml::add_text_child(root, "DecodeReduction", fmt::to_string(_decode_reduction.get()));
 	}
 
 	/* [XML] DefaultNotify 1 to default jobs to notify when complete, otherwise 0. */
@@ -1016,7 +1017,7 @@ Config::write_config () const
 	/* [XML] Notification 1 if a notification type is enabled, otherwise 0. */
 	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
 		auto e = cxml::add_child(root, "Notification");
-		e->set_attribute ("id", raw_convert<string>(i));
+		e->set_attribute("id", fmt::to_string(i));
 		e->add_child_text (_notification[i] ? "1" : "0");
 	}
 
@@ -1071,7 +1072,7 @@ Config::write_config () const
 	}
 
 	/* [XML] ImageDisplay Screen number to put image on in dual-screen player mode. */
-	cxml::add_text_child(root, "ImageDisplay", raw_convert<string>(_image_display));
+	cxml::add_text_child(root, "ImageDisplay", fmt::to_string(_image_display));
 	switch (_video_view_type) {
 	case VIDEO_VIEW_SIMPLE:
 		cxml::add_text_child(root, "VideoViewType", "simple");
@@ -1113,15 +1114,15 @@ Config::write_config () const
 	cxml::add_text_child(root, "WriteKDMsToDisk", _write_kdms_to_disk ? "1" : "0");
 	cxml::add_text_child(root, "EmailKDMs", _email_kdms ? "1" : "0");
 	cxml::add_text_child(root, "DefaultKDMType", dcp::formulation_to_string(_default_kdm_type));
-	cxml::add_text_child(root, "AutoCropThreshold", raw_convert<string>(_auto_crop_threshold));
+	cxml::add_text_child(root, "AutoCropThreshold", fmt::to_string(_auto_crop_threshold));
 	if (_last_release_notes_version) {
 		cxml::add_text_child(root, "LastReleaseNotesVersion", *_last_release_notes_version);
 	}
 	if (_main_divider_sash_position) {
-		cxml::add_text_child(root, "MainDividerSashPosition", raw_convert<string>(*_main_divider_sash_position));
+		cxml::add_text_child(root, "MainDividerSashPosition", fmt::to_string(*_main_divider_sash_position));
 	}
 	if (_main_content_divider_sash_position) {
-		cxml::add_text_child(root, "MainContentDividerSashPosition", raw_convert<string>(*_main_content_divider_sash_position));
+		cxml::add_text_child(root, "MainContentDividerSashPosition", fmt::to_string(*_main_content_divider_sash_position));
 	}
 
 	cxml::add_text_child(root, "DefaultAddFileLocation",
@@ -1131,11 +1132,11 @@ Config::write_config () const
 	/* [XML] AllowSMPTEBv20 1 to allow the user to choose SMPTE (Bv2.0 only) as a standard, otherwise 0 */
 	cxml::add_text_child(root, "AllowSMPTEBv20", _allow_smpte_bv20 ? "1" : "0");
 	/* [XML] ISDCFNamePartLength Maximum length of the "name" part of an ISDCF name, which should be 14 according to the standard */
-	cxml::add_text_child(root, "ISDCFNamePartLength", raw_convert<string>(_isdcf_name_part_length));
+	cxml::add_text_child(root, "ISDCFNamePartLength", fmt::to_string(_isdcf_name_part_length));
 	/* [XML] EnablePlayerHTTPServer 1 to enable a HTTP server to control the player, otherwise 0 */
 	cxml::add_text_child(root, "EnablePlayerHTTPServer", _enable_player_http_server ? "1" : "0");
 	/* [XML] PlayerHTTPServerPort Port to use for player HTTP server (if enabled) */
-	cxml::add_text_child(root, "PlayerHTTPServerPort", raw_convert<string>(_player_http_server_port));
+	cxml::add_text_child(root, "PlayerHTTPServerPort", fmt::to_string(_player_http_server_port));
 	/* [XML] RelativePaths 1 to write relative paths to project metadata files, 0 to use absolute paths */
 	cxml::add_text_child(root, "RelativePaths", _relative_paths ? "1" : "0");
 
@@ -1769,7 +1770,7 @@ Config::Grok::as_xml(xmlpp::Element* node) const
 {
 	node->add_child("BinaryLocation")->add_child_text(binary_location.string());
 	node->add_child("Enable")->add_child_text((enable ? "1" : "0"));
-	node->add_child("Selected")->add_child_text(raw_convert<string>(selected));
+	node->add_child("Selected")->add_child_text(fmt::to_string(selected));
 	node->add_child("LicenceServer")->add_child_text(licence_server);
 	node->add_child("Licence")->add_child_text(licence);
 }

@@ -20,17 +20,16 @@
 
 
 #include "ffmpeg_audio_stream.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
 #include <libcxml/cxml.h>
+#include <fmt/format.h>
 
 
 using std::string;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -55,16 +54,16 @@ void
 FFmpegAudioStream::as_xml(xmlpp::Element* root) const
 {
 	FFmpegStream::as_xml (root);
-	cxml::add_text_child(root, "FrameRate", raw_convert<string>(frame_rate()));
-	cxml::add_text_child(root, "Length", raw_convert<string>(length()));
+	cxml::add_text_child(root, "FrameRate", fmt::to_string(frame_rate()));
+	cxml::add_text_child(root, "Length", fmt::to_string(length()));
 	mapping().as_xml(cxml::add_child(root, "Mapping"));
 	if (first_audio) {
-		cxml::add_text_child(root, "FirstAudio", raw_convert<string>(first_audio.get().get()));
+		cxml::add_text_child(root, "FirstAudio", fmt::to_string(first_audio.get().get()));
 	}
 	if (codec_name) {
 		cxml::add_text_child(root, "CodecName", codec_name.get());
 	}
 	if (bit_depth()) {
-		cxml::add_text_child(root, "BitDepth", raw_convert<string>(bit_depth().get()));
+		cxml::add_text_child(root, "BitDepth", fmt::to_string(bit_depth().get()));
 	}
 }

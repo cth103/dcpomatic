@@ -20,11 +20,11 @@
 
 
 #include "atmos_content.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::make_shared;
@@ -65,7 +65,7 @@ AtmosContent::from_xml (Content* parent, cxml::ConstNodePtr node)
 void
 AtmosContent::as_xml(xmlpp::Element* element) const
 {
-	cxml::add_text_child(element, "AtmosLength", dcp::raw_convert<string>(_length));
+	cxml::add_text_child(element, "AtmosLength", fmt::to_string(_length));
 	cxml::add_text_child(element, "AtmosEditRate", _edit_rate.as_string());
 }
 

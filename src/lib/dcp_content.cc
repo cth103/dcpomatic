@@ -41,6 +41,7 @@
 #include <dcp/reel.h>
 #include <dcp/scope_guard.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iterator>
 #include <iostream>
 
@@ -388,8 +389,8 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 
 	if (audio) {
 		audio->as_xml(element);
-		cxml::add_text_child(element, "AudioFrameRate", raw_convert<string>(audio->stream()->frame_rate()));
-		cxml::add_text_child(element, "AudioLength", raw_convert<string>(audio->stream()->length()));
+		cxml::add_text_child(element, "AudioFrameRate", fmt::to_string(audio->stream()->frame_rate()));
+		cxml::add_text_child(element, "AudioLength", fmt::to_string(audio->stream()->length()));
 		audio->stream()->mapping().as_xml(cxml::add_child(element, "AudioMapping"));
 	}
 
@@ -435,13 +436,13 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 		cxml::add_text_child(element, "CPL", _cpl.get());
 	}
 	for (auto i: _reel_lengths) {
-		cxml::add_text_child(element, "ReelLength", raw_convert<string>(i));
+		cxml::add_text_child(element, "ReelLength", fmt::to_string(i));
 	}
 
 	for (auto const& i: _markers) {
 		auto marker = cxml::add_child(element, "Marker");
 		marker->set_attribute("type", dcp::marker_to_string(i.first));
-		marker->add_child_text(raw_convert<string>(i.second.get()));
+		marker->add_child_text(fmt::to_string(i.second.get()));
 	}
 
 	for (auto i: _ratings) {
@@ -454,7 +455,7 @@ DCPContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_
 	}
 
 	if (_active_audio_channels) {
-		cxml::add_text_child(element, "ActiveAudioChannels", raw_convert<string>(*_active_audio_channels));
+		cxml::add_text_child(element, "ActiveAudioChannels", fmt::to_string(*_active_audio_channels));
 	}
 
 	for (auto i = 0; i < static_cast<int>(TextType::COUNT); ++i) {

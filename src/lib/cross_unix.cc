@@ -20,13 +20,13 @@
 
 
 #include "cross.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 extern "C" {
 #include <libavformat/avio.h>
 }
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::string;
@@ -80,7 +80,7 @@ running_32_on_64 ()
 string
 dcpomatic::get_process_id ()
 {
-	return dcp::raw_convert<string>(getpid());
+	return fmt::to_string(getpid());
 }
 
 

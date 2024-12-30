@@ -20,15 +20,14 @@
 
 
 #include "audio_point.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::string;
-using dcp::raw_convert;
 
 
 AudioPoint::AudioPoint ()
@@ -72,6 +71,6 @@ AudioPoint::operator= (AudioPoint const & other)
 void
 AudioPoint::as_xml (xmlpp::Element* parent) const
 {
-	cxml::add_text_child(parent, "Peak", raw_convert<string>(_data[PEAK]));
-	cxml::add_text_child(parent, "RMS", raw_convert<string>(_data[RMS]));
+	cxml::add_text_child(parent, "Peak", fmt::to_string(_data[PEAK]));
+	cxml::add_text_child(parent, "RMS", fmt::to_string(_data[RMS]));
 }

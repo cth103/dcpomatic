@@ -78,6 +78,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
 #include <unicode/brkiter.h>
+#include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
@@ -612,7 +613,7 @@ string
 simple_digest (vector<boost::filesystem::path> paths)
 {
 	DCP_ASSERT(!paths.empty());
-	return digest_head_tail(paths, 1000000) + raw_convert<string>(dcp::filesystem::file_size(paths.front()));
+	return digest_head_tail(paths, 1000000) + fmt::to_string(dcp::filesystem::file_size(paths.front()));
 }
 
 
@@ -744,8 +745,8 @@ asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int r
 {
 	dcp::NameFormat::Map values;
 	values['t'] = type;
-	values['r'] = raw_convert<string>(reel_index + 1);
-	values['n'] = raw_convert<string>(reel_count);
+	values['r'] = fmt::to_string(reel_index + 1);
+	values['n'] = fmt::to_string(reel_count);
 	if (summary) {
 		values['c'] = summary.get();
 	}

@@ -36,9 +36,9 @@
 #include "util.h"
 #include "video_content.h"
 #include <dcp/locale_convert.h>
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <boost/thread/mutex.hpp>
 #include <iostream>
 
@@ -53,7 +53,6 @@ using std::string;
 using std::vector;
 using boost::optional;
 using dcp::locale_convert;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -157,15 +156,15 @@ Content::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour path_beh
 			}
 			auto p = cxml::add_child(element, "Path");
 			p->add_child_text(path.string());
-			p->set_attribute ("mtime", raw_convert<string>(_last_write_times[i]));
+			p->set_attribute ("mtime", fmt::to_string(_last_write_times[i]));
 		}
 	}
 	cxml::add_text_child(element, "Digest", _digest);
-	cxml::add_text_child(element, "Position", raw_convert<string>(_position.get()));
-	cxml::add_text_child(element, "TrimStart", raw_convert<string>(_trim_start.get()));
-	cxml::add_text_child(element, "TrimEnd", raw_convert<string>(_trim_end.get()));
+	cxml::add_text_child(element, "Position", fmt::to_string(_position.get()));
+	cxml::add_text_child(element, "TrimStart", fmt::to_string(_trim_start.get()));
+	cxml::add_text_child(element, "TrimEnd", fmt::to_string(_trim_end.get()));
 	if (_video_frame_rate) {
-		cxml::add_text_child(element, "VideoFrameRate", raw_convert<string>(_video_frame_rate.get()));
+		cxml::add_text_child(element, "VideoFrameRate", fmt::to_string(_video_frame_rate.get()));
 	}
 }
 

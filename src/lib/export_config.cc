@@ -21,11 +21,11 @@
 
 #include "config.h"
 #include "export_config.h"
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 
 
 using std::string;
@@ -106,7 +106,7 @@ ExportConfig::write(xmlpp::Element* element) const
 	cxml::add_text_child(element, "MixdownToStereo", _mixdown_to_stereo ? "1" : "0");
 	cxml::add_text_child(element, "SplitReels", _split_reels ? "1" : "0");
 	cxml::add_text_child(element, "SplitStreams", _split_streams ? "1" : "0");
-	cxml::add_text_child(element, "X264CRF", dcp::raw_convert<string>(_x264_crf));
+	cxml::add_text_child(element, "X264CRF", fmt::to_string(_x264_crf));
 }
 
 

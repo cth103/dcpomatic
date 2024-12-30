@@ -31,6 +31,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/regex.hpp>
 #include <iostream>
 
@@ -225,15 +226,15 @@ AudioMapping::as_xml(xmlpp::Element* element) const
 	auto const input = input_channels();
 	auto const output = output_channels();
 
-	cxml::add_text_child(element, "InputChannels", raw_convert<string>(input));
-	cxml::add_text_child(element, "OutputChannels", raw_convert<string>(output));
+	cxml::add_text_child(element, "InputChannels", fmt::to_string(input));
+	cxml::add_text_child(element, "OutputChannels", fmt::to_string(output));
 
 	for (int c = 0; c < input; ++c) {
 		for (int d = 0; d < output; ++d) {
 			auto t = cxml::add_child(element, "Gain");
-			t->set_attribute("input", raw_convert<string>(c));
-			t->set_attribute("output", raw_convert<string>(d));
-			t->add_child_text (raw_convert<string> (get (c, d)));
+			t->set_attribute("input", fmt::to_string(c));
+			t->set_attribute("output", fmt::to_string(d));
+			t->add_child_text(fmt::to_string(get(c, d)));
 		}
 	}
 }

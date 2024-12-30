@@ -25,9 +25,9 @@
 #include "text_content.h"
 #include "util.h"
 #include "variant.h"
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iostream>
 
 #include "i18n.h"
@@ -41,7 +41,6 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -365,14 +364,14 @@ TextContent::as_xml(xmlpp::Element* root) const
 
 	cxml::add_text_child(text, "Use", _use ? "1" : "0");
 	cxml::add_text_child(text, "Burn", _burn ? "1" : "0");
-	cxml::add_text_child(text, "XOffset", raw_convert<string>(_x_offset));
-	cxml::add_text_child(text, "YOffset", raw_convert<string>(_y_offset));
-	cxml::add_text_child(text, "XScale", raw_convert<string>(_x_scale));
-	cxml::add_text_child(text, "YScale", raw_convert<string>(_y_scale));
+	cxml::add_text_child(text, "XOffset", fmt::to_string(_x_offset));
+	cxml::add_text_child(text, "YOffset", fmt::to_string(_y_offset));
+	cxml::add_text_child(text, "XScale", fmt::to_string(_x_scale));
+	cxml::add_text_child(text, "YScale", fmt::to_string(_y_scale));
 	if (_colour) {
-		cxml::add_text_child(text, "Red", raw_convert<string>(_colour->r));
-		cxml::add_text_child(text, "Green", raw_convert<string>(_colour->g));
-		cxml::add_text_child(text, "Blue", raw_convert<string>(_colour->b));
+		cxml::add_text_child(text, "Red", fmt::to_string(_colour->r));
+		cxml::add_text_child(text, "Green", fmt::to_string(_colour->g));
+		cxml::add_text_child(text, "Blue", fmt::to_string(_colour->b));
 	}
 	if (_effect) {
 		switch (*_effect) {
@@ -388,18 +387,18 @@ TextContent::as_xml(xmlpp::Element* root) const
 		}
 	}
 	if (_effect_colour) {
-		cxml::add_text_child(text, "EffectRed", raw_convert<string>(_effect_colour->r));
-		cxml::add_text_child(text, "EffectGreen", raw_convert<string>(_effect_colour->g));
-		cxml::add_text_child(text, "EffectBlue", raw_convert<string>(_effect_colour->b));
+		cxml::add_text_child(text, "EffectRed", fmt::to_string(_effect_colour->r));
+		cxml::add_text_child(text, "EffectGreen", fmt::to_string(_effect_colour->g));
+		cxml::add_text_child(text, "EffectBlue", fmt::to_string(_effect_colour->b));
 	}
-	cxml::add_text_child(text, "LineSpacing", raw_convert<string>(_line_spacing));
+	cxml::add_text_child(text, "LineSpacing", fmt::to_string(_line_spacing));
 	if (_fade_in) {
-		cxml::add_text_child(text, "FadeIn", raw_convert<string>(_fade_in->get()));
+		cxml::add_text_child(text, "FadeIn", fmt::to_string(_fade_in->get()));
 	}
 	if (_fade_out) {
-		cxml::add_text_child(text, "FadeOut", raw_convert<string>(_fade_out->get()));
+		cxml::add_text_child(text, "FadeOut", fmt::to_string(_fade_out->get()));
 	}
-	cxml::add_text_child(text, "OutlineWidth", raw_convert<string>(_outline_width));
+	cxml::add_text_child(text, "OutlineWidth", fmt::to_string(_outline_width));
 
 	for (auto i: _fonts) {
 		i->as_xml(cxml::add_child(text, "Font"));
@@ -420,18 +419,18 @@ TextContent::as_xml(xmlpp::Element* root) const
 string
 TextContent::identifier () const
 {
-	auto s = raw_convert<string> (x_scale())
-		+ "_" + raw_convert<string> (y_scale())
-		+ "_" + raw_convert<string> (x_offset())
-		+ "_" + raw_convert<string> (y_offset())
-		+ "_" + raw_convert<string> (line_spacing())
-		+ "_" + raw_convert<string> (fade_in().get_value_or(ContentTime()).get())
-		+ "_" + raw_convert<string> (fade_out().get_value_or(ContentTime()).get())
-		+ "_" + raw_convert<string> (outline_width())
-		+ "_" + raw_convert<string> (colour().get_value_or(dcp::Colour(255, 255, 255)).to_argb_string())
-		+ "_" + raw_convert<string> (dcp::effect_to_string(effect().get_value_or(dcp::Effect::NONE)))
-		+ "_" + raw_convert<string> (effect_colour().get_value_or(dcp::Colour(0, 0, 0)).to_argb_string())
-		+ "_" + raw_convert<string> (_parent->video_frame_rate().get_value_or(0));
+	auto s = fmt::to_string(x_scale())
+		+ "_" + fmt::to_string(y_scale())
+		+ "_" + fmt::to_string(x_offset())
+		+ "_" + fmt::to_string(y_offset())
+		+ "_" + fmt::to_string(line_spacing())
+		+ "_" + fmt::to_string(fade_in().get_value_or(ContentTime()).get())
+		+ "_" + fmt::to_string(fade_out().get_value_or(ContentTime()).get())
+		+ "_" + fmt::to_string(outline_width())
+		+ "_" + fmt::to_string(colour().get_value_or(dcp::Colour(255, 255, 255)).to_argb_string())
+		+ "_" + fmt::to_string(dcp::effect_to_string(effect().get_value_or(dcp::Effect::NONE)))
+		+ "_" + fmt::to_string(effect_colour().get_value_or(dcp::Colour(0, 0, 0)).to_argb_string())
+		+ "_" + fmt::to_string(_parent->video_frame_rate().get_value_or(0));
 
 	/* XXX: I suppose really _fonts shouldn't be in here, since not all
 	   types of subtitle content involve fonts.

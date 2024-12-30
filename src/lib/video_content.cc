@@ -32,9 +32,9 @@
 #include "util.h"
 #include "video_content.h"
 #include "video_examiner.h"
-#include <dcp/raw_convert.h>
 #include <libcxml/cxml.h>
 #include <libxml++/libxml++.h>
+#include <fmt/format.h>
 #include <iomanip>
 #include <iostream>
 
@@ -68,7 +68,6 @@ using std::shared_ptr;
 using std::string;
 using std::vector;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 
@@ -279,29 +278,29 @@ VideoContent::as_xml(xmlpp::Element* element) const
 {
 	boost::mutex::scoped_lock lm (_mutex);
 	cxml::add_text_child(element, "Use", _use ? "1" : "0");
-	cxml::add_text_child(element, "VideoLength", raw_convert<string>(_length));
+	cxml::add_text_child(element, "VideoLength", fmt::to_string(_length));
 	if (_size) {
-		cxml::add_text_child(element, "VideoWidth", raw_convert<string>(_size->width));
-		cxml::add_text_child(element, "VideoHeight", raw_convert<string>(_size->height));
+		cxml::add_text_child(element, "VideoWidth", fmt::to_string(_size->width));
+		cxml::add_text_child(element, "VideoHeight", fmt::to_string(_size->height));
 	}
 	cxml::add_text_child(element, "VideoFrameType", video_frame_type_to_string(_frame_type));
 	if (_sample_aspect_ratio) {
-		cxml::add_text_child(element, "SampleAspectRatio", raw_convert<string> (_sample_aspect_ratio.get ()));
+		cxml::add_text_child(element, "SampleAspectRatio", fmt::to_string(_sample_aspect_ratio.get()));
 	}
 	_crop.as_xml(element);
 	if (_custom_ratio) {
-		cxml::add_text_child(element, "CustomRatio", raw_convert<string>(*_custom_ratio));
+		cxml::add_text_child(element, "CustomRatio", fmt::to_string(*_custom_ratio));
 	}
 	if (_custom_size) {
-		cxml::add_text_child(element, "CustomWidth", raw_convert<string>(_custom_size->width));
-		cxml::add_text_child(element, "CustomHeight", raw_convert<string>(_custom_size->height));
+		cxml::add_text_child(element, "CustomWidth", fmt::to_string(_custom_size->width));
+		cxml::add_text_child(element, "CustomHeight", fmt::to_string(_custom_size->height));
 	}
 	if (_colour_conversion) {
 		_colour_conversion.get().as_xml(cxml::add_child(element, "ColourConversion"));
 	}
 	cxml::add_text_child(element, "YUV", _yuv ? "1" : "0");
-	cxml::add_text_child(element, "VideoFadeIn", raw_convert<string>(_fade_in));
-	cxml::add_text_child(element, "VideoFadeOut", raw_convert<string>(_fade_out));
+	cxml::add_text_child(element, "VideoFadeIn", fmt::to_string(_fade_in));
+	cxml::add_text_child(element, "VideoFadeOut", fmt::to_string(_fade_out));
 	cxml::add_text_child(element, "Range", _range == VideoRange::FULL ? "full" : "video");
 	_pixel_quanta.as_xml(cxml::add_child(element, "PixelQuanta"));
 	if (_burnt_subtitle_language) {

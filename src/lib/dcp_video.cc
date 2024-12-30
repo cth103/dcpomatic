@@ -43,7 +43,6 @@
 #include "player_video.h"
 #include "rng.h"
 #include <libcxml/cxml.h>
-#include <dcp/raw_convert.h>
 #include <dcp/openjpeg_image.h>
 #include <dcp/rgb_xyz.h>
 #include <dcp/j2k_transcode.h>
@@ -51,6 +50,7 @@
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
 LIBDCP_ENABLE_WARNINGS
+#include <fmt/format.h>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <stdint.h>
@@ -65,7 +65,6 @@ using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using dcp::ArrayData;
-using dcp::raw_convert;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
@@ -228,7 +227,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 {
 	boost::asio::io_service io_service;
 	boost::asio::ip::tcp::resolver resolver (io_service);
-	boost::asio::ip::tcp::resolver::query query (serv.host_name(), raw_convert<string> (ENCODE_FRAME_PORT));
+	boost::asio::ip::tcp::resolver::query query(serv.host_name(), fmt::to_string(ENCODE_FRAME_PORT));
 	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 
 	auto socket = make_shared<Socket>(timeout);
@@ -239,7 +238,7 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 	/* Collect all XML metadata */
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("EncodingRequest");
-	cxml::add_text_child(root, "Version", raw_convert<string>(SERVER_LINK_VERSION));
+	cxml::add_text_child(root, "Version", fmt::to_string(SERVER_LINK_VERSION));
 	add_metadata (root);
 
 	LOG_DEBUG_ENCODE (N_("Sending frame %1 to remote"), _index);
@@ -278,10 +277,10 @@ DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 void
 DCPVideo::add_metadata (xmlpp::Element* el) const
 {
-	cxml::add_text_child(el, "Index", raw_convert<string>(_index));
-	cxml::add_text_child(el, "FramesPerSecond", raw_convert<string>(_frames_per_second));
-	cxml::add_text_child(el, "VideoBitRate", raw_convert<string>(_video_bit_rate));
-	cxml::add_text_child(el, "Resolution", raw_convert<string>(int(_resolution)));
+	cxml::add_text_child(el, "Index", fmt::to_string(_index));
+	cxml::add_text_child(el, "FramesPerSecond", fmt::to_string(_frames_per_second));
+	cxml::add_text_child(el, "VideoBitRate", fmt::to_string(_video_bit_rate));
+	cxml::add_text_child(el, "Resolution", fmt::to_string(int(_resolution)));
 	_frame->add_metadata (el);
 }
 
