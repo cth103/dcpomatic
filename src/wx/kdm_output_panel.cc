@@ -133,22 +133,28 @@ KDMOutputPanel::create_details_widgets(wxWindow* parent)
 
 
 void
-KDMOutputPanel::create_name_format_widgets(wxWindow* parent)
+KDMOutputPanel::create_name_format_widgets(wxWindow* parent, bool detailed)
 {
 	_container_name_format = new NameFormatEditor(parent, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
 
 	dcp::NameFormat::Map titles;
-	titles['f'] = wx_to_std (_("film name"));
-	titles['c'] = wx_to_std (_("cinema"));
-	titles['s'] = wx_to_std (_("screen"));
-	titles['b'] = wx_to_std (_("from date/time"));
-	titles['e'] = wx_to_std (_("to date/time"));
+	if (detailed) {
+		titles['f'] = wx_to_std (_("film name"));
+		titles['c'] = wx_to_std (_("cinema"));
+		titles['s'] = wx_to_std (_("screen"));
+		titles['b'] = wx_to_std (_("from date/time"));
+		titles['e'] = wx_to_std (_("to date/time"));
+	}
+
 	dcp::NameFormat::Map ex;
-	ex['f'] = "Bambi";
-	ex['c'] = "Lumière";
-	ex['s'] = "Screen 1";
-	ex['b'] = "2012/03/15 12:30";
-	ex['e'] = "2012/03/22 02:30";
+	if (detailed) {
+		ex['f'] = "Bambi";
+		ex['c'] = "Lumière";
+		ex['s'] = "Screen 1";
+		ex['b'] = "2012/03/15 12:30";
+		ex['e'] = "2012/03/22 02:30";
+	}
+
 	_filename_format = new NameFormatEditor(parent, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
 }
 

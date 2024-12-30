@@ -53,7 +53,7 @@ ShortKDMOutputPanel::ShortKDMOutputPanel(wxWindow* parent)
 	notebook->AddPage(details, _("Details"));
 
 	auto name_formats = new wxPanel(notebook, wxID_ANY);
-	create_name_format_widgets(name_formats);
+	create_name_format_widgets(name_formats, false);
 	fill_name_formats_panel(name_formats);
 	notebook->AddPage(name_formats, _("Name formats"));
 

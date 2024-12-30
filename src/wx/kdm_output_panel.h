@@ -78,7 +78,7 @@ public:
 protected:
 	void create_destination_widgets(wxWindow* parent);
 	void create_details_widgets(wxWindow* parent);
-	void create_name_format_widgets(wxWindow* parent);
+	void create_name_format_widgets(wxWindow* parent, bool detailed);
 
 	KDMChoice* _type;
 	wxTextCtrl* _annotation_text;
