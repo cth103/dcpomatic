@@ -212,14 +212,14 @@ public:
 		dkdm_sizer->Add(_dkdm, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		auto dkdm_buttons = new wxBoxSizer(wxVERTICAL);
 		_add_dkdm = new Button (overall_panel, _("Add..."));
-		dkdm_buttons->Add (_add_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		dkdm_buttons->Add (_add_dkdm, 0, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_add_dkdm_folder = new Button (overall_panel, _("Add folder..."));
 		dkdm_buttons->Add (_add_dkdm_folder, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_remove_dkdm = new Button (overall_panel, _("Remove"));
 		dkdm_buttons->Add (_remove_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_export_dkdm = new Button (overall_panel, _("Export..."));
 		dkdm_buttons->Add (_export_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
-		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		right->Add (dkdm_sizer, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
 		update_dkdm_view();
