@@ -22,6 +22,7 @@
 #include "check_box.h"
 #include "confirm_kdm_email_dialog.h"
 #include "dcpomatic_button.h"
+#include "dcpomatic_choice.h"
 #include "extra_kdm_email_dialog.h"
 #include "kdm_advanced_dialog.h"
 #include "kdm_choice.h"
@@ -66,108 +67,95 @@ KDMOutputPanel::KDMOutputPanel (wxWindow* parent)
 	, _forensic_mark_audio (true)
 	, _forensic_mark_audio_up_to (12)
 {
-	auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, 0);
-	table->AddGrowableCol (1);
 
-	add_label_to_sizer (table, this, _("KDM type"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
 
-	auto type = new wxBoxSizer (wxHORIZONTAL);
-	_type = new KDMChoice (this);
-	type->Add (_type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
-	_type->set(Config::instance()->default_kdm_type());
-	auto advanced = new Button (this, _("Advanced..."));
-	type->Add (advanced, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_X_GAP);
-	table->Add (type, 1, wxTOP, DCPOMATIC_CHOICE_TOP_PAD);
+}
 
-	add_label_to_sizer(table, this, _("Annotation text"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
-	_annotation_text = new wxTextCtrl(this, wxID_ANY);
-	table->Add(_annotation_text, 1, wxEXPAND);
 
-	add_label_to_sizer (table, this, _("Folder / ZIP name format"), true, 0, wxALIGN_CENTER_VERTICAL | wxLEFT | wxRIGHT);
-	_container_name_format = new NameFormatEditor (this, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
-	table->Add (_container_name_format->panel(), 1, wxEXPAND);
-
-	auto format = create_label (this, _("Filename format"), true);
-	auto align = new wxBoxSizer (wxHORIZONTAL);
-#ifdef DCPOMATIC_OSX
-	align->Add (format, 0, wxTOP, 2);
-	table->Add (align, 0, wxALIGN_RIGHT | wxRIGHT, DCPOMATIC_SIZER_GAP - 2);
-#else
-	align->Add (format, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
-	table->Add (align, 0, wxTOP | wxRIGHT | wxALIGN_TOP, DCPOMATIC_SIZER_GAP);
-#endif
-	dcp::NameFormat::Map titles;
-	titles['f'] = wx_to_std (_("film name"));
-	titles['c'] = wx_to_std (_("cinema"));
-	titles['s'] = wx_to_std (_("screen"));
-	titles['b'] = wx_to_std (_("from date/time"));
-	titles['e'] = wx_to_std (_("to date/time"));
-	dcp::NameFormat::Map ex;
-	ex['f'] = "Bambi";
-	ex['c'] = "Lumière";
-	ex['s'] = "Screen 1";
-	ex['b'] = "2012/03/15 12:30";
-	ex['e'] = "2012/03/22 02:30";
-	_filename_format = new NameFormatEditor (this, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
-	table->Add (_filename_format->panel(), 1, wxEXPAND);
-
-	_write_to = new CheckBox (this, _("Write to"));
-	table->Add (_write_to, 1, wxEXPAND);
+void
+KDMOutputPanel::create_destination_widgets(wxWindow* parent)
+{
+	_write_to = new CheckBox(parent, _("Write to"));
 
 #ifdef DCPOMATIC_USE_OWN_PICKER
-	_folder = new DirPickerCtrl (this);
+	_folder = new DirPickerCtrl(parent);
 #else
-	_folder = new wxDirPickerCtrl (this, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
+	_folder = new wxDirPickerCtrl(parent, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
 #endif
 
 	auto path = Config::instance()->default_kdm_directory();
 	if (path) {
-		_folder->SetPath (std_to_wx (path->string ()));
+		_folder->SetPath(std_to_wx(path->string()));
 	} else {
-		_folder->SetPath (wxStandardPaths::Get().GetDocumentsDir());
+		_folder->SetPath(wxStandardPaths::Get().GetDocumentsDir());
 	}
 
-	table->Add (_folder, 1, wxEXPAND);
+	_write_collect = new Choice(parent);
+	_write_collect->add_entry(_("Write all KDMs to the same folder"));
+	_write_collect->add_entry(_("Write a folder for each cinema's KDMs"));
+	_write_collect->add_entry(_("Write a ZIP file for each cinema's KDMs"));
 
-	auto write_options = new wxBoxSizer(wxVERTICAL);
-	_write_flat = new wxRadioButton (this, wxID_ANY, _("Write all KDMs to the same folder"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
-	write_options->Add (_write_flat, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_write_folder = new wxRadioButton (this, wxID_ANY, _("Write a folder for each cinema's KDMs"));
-	write_options->Add (_write_folder, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	_write_zip = new wxRadioButton (this, wxID_ANY, _("Write a ZIP file for each cinema's KDMs"));
-	write_options->Add (_write_zip, 1, wxTOP | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	table->AddSpacer (0);
-	table->Add (write_options);
-
-	_email = new CheckBox (this, _("Send by email"));
-	table->Add (_email, 1, wxEXPAND);
-	auto add_email_addresses = new wxButton(this, wxID_ANY, _("Set additional email addresses..."));
-	table->Add (add_email_addresses);
+	_email = new CheckBox(parent, _("Send by email"));
+	_add_email_addresses = new wxButton(parent, wxID_ANY, _("Set additional email addresses..."));
 
 	switch (Config::instance()->last_kdm_write_type().get_value_or(Config::KDM_WRITE_FLAT)) {
 	case Config::KDM_WRITE_FLAT:
-		_write_flat->SetValue (true);
+		_write_collect->set(0);
 		break;
 	case Config::KDM_WRITE_FOLDER:
-		_write_folder->SetValue (true);
+		_write_collect->set(1);
 		break;
 	case Config::KDM_WRITE_ZIP:
-		_write_zip->SetValue (true);
+		_write_collect->set(2);
 		break;
 	}
 
-	_write_to->SetValue (Config::instance()->write_kdms_to_disk());
-	_email->SetValue (Config::instance()->email_kdms());
+	_write_to->SetValue(Config::instance()->write_kdms_to_disk());
+	_email->SetValue(Config::instance()->email_kdms());
 
 	_write_to->bind(&KDMOutputPanel::write_to_changed, this);
 	_email->bind(&KDMOutputPanel::email_changed, this);
-	add_email_addresses->Bind (wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
-	_write_flat->Bind   (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_write_folder->Bind (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	_write_zip->Bind    (wxEVT_RADIOBUTTON, boost::bind (&KDMOutputPanel::kdm_write_type_changed, this));
-	advanced->Bind      (wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
+	_add_email_addresses->Bind(wxEVT_BUTTON, boost::bind(&KDMOutputPanel::add_email_addresses_clicked, this));
+	_write_collect->bind(&KDMOutputPanel::kdm_write_type_changed, this);
+}
 
-	SetSizer (table);
+
+void
+KDMOutputPanel::create_details_widgets(wxWindow* parent)
+{
+	_type = new KDMChoice(parent);
+	_type->set(Config::instance()->default_kdm_type());
+	_advanced = new Button(parent, _("Advanced..."));
+	_annotation_text = new wxTextCtrl(parent, wxID_ANY);
+
+	_advanced->Bind(wxEVT_BUTTON, boost::bind (&KDMOutputPanel::advanced_clicked, this));
+}
+
+
+void
+KDMOutputPanel::create_name_format_widgets(wxWindow* parent, bool detailed)
+{
+	_container_name_format = new NameFormatEditor(parent, Config::instance()->kdm_container_name_format(), dcp::NameFormat::Map(), dcp::NameFormat::Map(), "");
+
+	dcp::NameFormat::Map titles;
+	if (detailed) {
+		titles['f'] = wx_to_std (_("film name"));
+		titles['c'] = wx_to_std (_("cinema"));
+		titles['s'] = wx_to_std (_("screen"));
+		titles['b'] = wx_to_std (_("from date/time"));
+		titles['e'] = wx_to_std (_("to date/time"));
+	}
+
+	dcp::NameFormat::Map ex;
+	if (detailed) {
+		ex['f'] = "Bambi";
+		ex['c'] = "Lumière";
+		ex['s'] = "Screen 1";
+		ex['b'] = "2012/03/15 12:30";
+		ex['e'] = "2012/03/22 02:30";
+	}
+
+	_filename_format = new NameFormatEditor(parent, Config::instance()->kdm_filename_format(), titles, ex, ".xml");
 }
 
 
@@ -194,9 +182,7 @@ KDMOutputPanel::setup_sensitivity ()
 {
 	bool const write = _write_to->GetValue ();
 	_folder->Enable (write);
-	_write_flat->Enable (write);
-	_write_folder->Enable (write);
-	_write_zip->Enable (write);
+	_write_collect->Enable(write);
 }
 
 
@@ -214,12 +200,16 @@ KDMOutputPanel::advanced_clicked ()
 void
 KDMOutputPanel::kdm_write_type_changed ()
 {
-	if (_write_flat->GetValue()) {
-		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_FLAT);
-	} else if (_write_folder->GetValue()) {
-		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_FOLDER);
-	} else if (_write_zip->GetValue()) {
-		Config::instance()->set_last_kdm_write_type (Config::KDM_WRITE_ZIP);
+	switch (_write_collect->get().get_value_or(0)) {
+	case 0:
+		Config::instance()->set_last_kdm_write_type(Config::KDM_WRITE_FLAT);
+		break;
+	case 1:
+		Config::instance()->set_last_kdm_write_type(Config::KDM_WRITE_FOLDER);
+		break;
+	case 2:
+		Config::instance()->set_last_kdm_write_type(Config::KDM_WRITE_ZIP);
+		break;
 	}
 }
 
@@ -283,14 +273,16 @@ KDMOutputPanel::make (
 	try {
 
 		if (_write_to->GetValue()) {
-			if (_write_flat->GetValue()) {
+			switch (_write_collect->get().get_value_or(0)) {
+			case 0:
 				written = write_files (
 					kdms,
 					directory(),
 					_filename_format->get(),
 					confirm_overwrite
 					);
-			} else if (_write_folder->GetValue()) {
+				break;
+			case 1:
 				written = write_directories (
 					collect (kdms),
 					directory(),
@@ -298,7 +290,8 @@ KDMOutputPanel::make (
 					_filename_format->get(),
 					confirm_overwrite
 					);
-			} else if (_write_zip->GetValue()) {
+				break;
+			case 2:
 				written = write_zip_files (
 					collect (kdms),
 					directory(),
@@ -306,6 +299,7 @@ KDMOutputPanel::make (
 					_filename_format->get(),
 					confirm_overwrite
 					);
+				break;
 			}
 		}
 

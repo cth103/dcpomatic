@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_KDM_OUTPUT_PANEL_H
+#define DCPOMATIC_KDM_OUTPUT_PANEL_H
+
+
 #include "wx_util.h"
 #include "lib/kdm_with_metadata.h"
 #include <dcp/types.h>
@@ -30,6 +34,7 @@ LIBDCP_ENABLE_WARNINGS
 
 
 class CheckBox;
+class Choice;
 class DirPickerCtrl;
 class Job;
 class KDMChoice;
@@ -70,12 +75,10 @@ public:
 
 	boost::signals2::signal<void ()> MethodChanged;
 
-private:
-	void kdm_write_type_changed ();
-	void advanced_clicked ();
-	void write_to_changed ();
-	void email_changed ();
-	void add_email_addresses_clicked ();
+protected:
+	void create_destination_widgets(wxWindow* parent);
+	void create_details_widgets(wxWindow* parent);
+	void create_name_format_widgets(wxWindow* parent, bool detailed);
 
 	KDMChoice* _type;
 	wxTextCtrl* _annotation_text;
@@ -87,12 +90,22 @@ private:
 #else
 	wxDirPickerCtrl* _folder;
 #endif
-	wxRadioButton* _write_flat;
-	wxRadioButton* _write_folder;
-	wxRadioButton* _write_zip;
+	Choice* _write_collect;
+	wxButton* _advanced;
 	CheckBox* _email;
-	bool _forensic_mark_video;
-	bool _forensic_mark_audio;
-	boost::optional<int> _forensic_mark_audio_up_to;
+	wxButton* _add_email_addresses;
+	bool _forensic_mark_video = true;
+	bool _forensic_mark_audio = true;
+	boost::optional<int> _forensic_mark_audio_up_to = 12;
 	std::vector<std::string> _extra_addresses;
+
+private:
+	void kdm_write_type_changed ();
+	void advanced_clicked ();
+	void write_to_changed ();
+	void email_changed ();
+	void add_email_addresses_clicked ();
 };
+
+
+#endif

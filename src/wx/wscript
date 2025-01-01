@@ -152,6 +152,7 @@ sources = """
           send_test_email_dialog.cc
           server_dialog.cc
           servers_list_dialog.cc
+          short_kdm_output_panel.cc
           simple_video_view.cc
           smpte_metadata_dialog.cc
           standard_controls.cc
@@ -162,6 +163,7 @@ sources = """
           system_font_dialog.cc
           system_information_dialog.cc
           table_dialog.cc
+          tall_kdm_output_panel.cc
           templates_dialog.cc
           text_panel.cc
           text_view.cc

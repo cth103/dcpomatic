@@ -28,13 +28,14 @@
 #include "wx/file_picker_ctrl.h"
 #include "wx/full_config_dialog.h"
 #include "wx/job_view_dialog.h"
-#include "wx/kdm_output_panel.h"
 #include "wx/kdm_timing_panel.h"
 #include "wx/nag_dialog.h"
 #include "wx/new_dkdm_folder_dialog.h"
 #include "wx/report_problem_dialog.h"
 #include "wx/screens_panel.h"
+#include "wx/short_kdm_output_panel.h"
 #include "wx/static_text.h"
+#include "wx/tall_kdm_output_panel.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -61,6 +62,7 @@
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/display.h>
 #include <wx/dnd.h>
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
@@ -168,11 +170,11 @@ public:
 		h->SetFont (subheading_font);
 		right->Add (h);
 		_timing = new KDMTimingPanel (overall_panel);
-		right->Add (_timing, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
+		right->Add (_timing, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 		h = new StaticText (overall_panel, _("DKDM"));
 		h->SetFont (subheading_font);
-		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
+		right->Add(h, 0);
 
 		_dkdm_search = new wxSearchCtrl(overall_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200, search_ctrl_height()));
 #ifndef __WXGTK3__
@@ -210,14 +212,14 @@ public:
 		dkdm_sizer->Add(_dkdm, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 		auto dkdm_buttons = new wxBoxSizer(wxVERTICAL);
 		_add_dkdm = new Button (overall_panel, _("Add..."));
-		dkdm_buttons->Add (_add_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
+		dkdm_buttons->Add (_add_dkdm, 0, wxLEFT | wxRIGHT | wxBOTTOM | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_add_dkdm_folder = new Button (overall_panel, _("Add folder..."));
 		dkdm_buttons->Add (_add_dkdm_folder, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_remove_dkdm = new Button (overall_panel, _("Remove"));
 		dkdm_buttons->Add (_remove_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
 		_export_dkdm = new Button (overall_panel, _("Export..."));
 		dkdm_buttons->Add (_export_dkdm, 0, wxALL | wxEXPAND, DCPOMATIC_BUTTON_STACK_GAP);
-		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+		dkdm_sizer->Add (dkdm_buttons, 0, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 		right->Add (dkdm_sizer, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_SIZER_Y_GAP);
 
 		update_dkdm_view();
@@ -225,11 +227,23 @@ public:
 		h = new StaticText (overall_panel, _("Output"));
 		h->SetFont (subheading_font);
 		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
-		_output = new KDMOutputPanel (overall_panel);
-		right->Add (_output, 0, wxALL, DCPOMATIC_SIZER_Y_GAP);
+
+		int const sn = wxDisplay::GetFromWindow(this);
+		if (sn >= 0) {
+			auto const screen = wxDisplay(sn).GetClientArea();
+			if (screen.height <= 800) {
+				_output = new ShortKDMOutputPanel(overall_panel);
+			}
+		}
+
+		if (!_output) {
+			_output = new TallKDMOutputPanel(overall_panel);
+		}
+
+		right->Add (_output, 0, wxTOP, DCPOMATIC_SIZER_Y_GAP);
 
 		_create = new Button (overall_panel, _("Create KDMs"));
-		right->Add (_create, 0, wxALL, DCPOMATIC_SIZER_GAP);
+		right->Add(_create, 0, wxTOP, DCPOMATIC_SIZER_GAP);
 
 		main_sizer->Add (horizontal, 1, wxALL | wxEXPAND, DCPOMATIC_DIALOG_BORDER);
 		overall_panel->SetSizer (main_sizer);
@@ -831,7 +845,7 @@ private:
 	wxButton* _remove_dkdm;
 	wxButton* _export_dkdm;
 	wxButton* _create;
-	KDMOutputPanel* _output;
+	KDMOutputPanel* _output = nullptr;
 	JobViewDialog* _job_view;
 	Collator _collator;
 };
