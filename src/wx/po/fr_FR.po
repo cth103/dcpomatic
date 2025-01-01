@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 20:49+0200\n"
+"POT-Creation-Date: 2025-01-02 00:29+0100\n"
 "PO-Revision-Date: 2024-12-07 15:57+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -37,8 +37,8 @@ msgstr " avancé de %dms"
 msgid " delayed by %dms"
 msgstr " retardé de %dms"
 
-#: src/wx/text_panel.cc:90 src/wx/text_panel.cc:93 src/wx/text_panel.cc:98
-#: src/wx/text_panel.cc:101 src/wx/text_panel.cc:105
+#: src/wx/text_panel.cc:91 src/wx/text_panel.cc:94 src/wx/text_panel.cc:99
+#: src/wx/text_panel.cc:102 src/wx/text_panel.cc:106
 msgid "%"
 msgstr "%"
 
@@ -108,8 +108,9 @@ msgid "%s test email"
 msgstr "e-mail de test %s"
 
 #: src/wx/about_dialog.cc:97
+#, fuzzy
 msgid ""
-"(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
 "Ole Laursen, Aaron Boxer"
 msgstr ""
 "(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
@@ -155,11 +156,11 @@ msgstr "1 erreur Bv2.1, "
 msgid "1 error, "
 msgstr "1 erreur, "
 
-#: src/wx/wx_util.cc:602
+#: src/wx/wx_util.cc:603
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:594
+#: src/wx/wx_util.cc:595
 msgid "2 - stereo"
 msgstr "2 - stéréo"
 
@@ -203,7 +204,7 @@ msgstr "3D droite seulement"
 msgid "3D top/bottom"
 msgstr "3D dessus/dessous"
 
-#: src/wx/wx_util.cc:596
+#: src/wx/wx_util.cc:597
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -215,11 +216,11 @@ msgstr "48kHz"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:598
+#: src/wx/wx_util.cc:599
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:600
+#: src/wx/wx_util.cc:601
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -424,7 +425,7 @@ msgstr "Ajouter une séquence d'images"
 msgid "Add language..."
 msgstr "Ajouter une langue..."
 
-#: src/wx/text_panel.cc:345
+#: src/wx/text_panel.cc:346
 msgid "Add new..."
 msgstr "Ajouter nouveau..."
 
@@ -471,7 +472,7 @@ msgstr ""
 "ajouté. Ajoutez les certificats dans l'ordre, de la racine à l'intermédiaire "
 "puis à l'entité finale."
 
-#: src/wx/text_panel.cc:170
+#: src/wx/text_panel.cc:171
 msgid "Additional"
 msgstr "Supplémentaire"
 
@@ -503,7 +504,7 @@ msgid "Advanced settings..."
 msgstr "Paramètres avancés..."
 
 #: src/wx/config_dialog.cc:660 src/wx/config_dialog.cc:678
-#: src/wx/kdm_output_panel.cc:78
+#: src/wx/kdm_output_panel.cc:128
 msgid "Advanced..."
 msgstr "Avancé..."
 
@@ -541,7 +542,7 @@ msgstr "Activer l'utilisation de la norme SMPTE Bv2.0"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:179
+#: src/wx/about_dialog.cc:183
 msgid "Also supported by"
 msgstr "Aussi soutenu par"
 
@@ -554,15 +555,15 @@ msgstr "Une ressource a un chemin vide dans ASSETMAP."
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "Un <ContentKind> %n invalide a été utilisé."
 
-#: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:327
+#: src/wx/dkdm_output_panel.cc:192 src/wx/kdm_output_panel.cc:321
 msgid "An unknown exception occurred."
 msgstr "Une exception inconnue s'est produite."
 
-#: src/wx/kdm_output_panel.cc:82
+#: src/wx/short_kdm_output_panel.cc:100 src/wx/tall_kdm_output_panel.cc:81
 msgid "Annotation text"
 msgstr "Texte d'annotation"
 
-#: src/wx/text_panel.cc:112
+#: src/wx/text_panel.cc:113
 msgid "Appearance..."
 msgstr "Apparence..."
 
@@ -684,7 +685,7 @@ msgstr "Bas"
 msgid "Browse..."
 msgstr "Parcourir..."
 
-#: src/wx/text_panel.cc:85
+#: src/wx/text_panel.cc:86
 msgid "Burn subtitles into image"
 msgstr "Graver les sous-titres dans l'image"
 
@@ -709,7 +710,7 @@ msgstr "ID de la CPL"
 msgid "CPL annotation text"
 msgstr "Nom de la CPL"
 
-#: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:323
+#: src/wx/dkdm_output_panel.cc:188 src/wx/kdm_output_panel.cc:317
 msgid "CPL's content is not encrypted."
 msgstr "Le contenu de la CPL n'est pas crypté."
 
@@ -756,7 +757,7 @@ msgstr "Chaîne de certificat"
 
 #: src/wx/barco_alchemy_certificate_panel.cc:79
 #: src/wx/christie_certificate_panel.cc:81
-#: src/wx/dolby_doremi_certificate_panel.cc:282
+#: src/wx/dolby_doremi_certificate_panel.cc:224
 #: src/wx/gdc_certificate_panel.cc:73 src/wx/qube_certificate_panel.cc:83
 msgid "Certificate downloaded"
 msgstr "Certificat téléchargé"
@@ -797,7 +798,7 @@ msgstr "Rechercher les mises à jour au démarrage"
 msgid "Choose CPL..."
 msgstr "Choisir une CPL..."
 
-#: src/wx/content_panel.cc:671
+#: src/wx/content_panel.cc:679
 msgid "Choose a DCP folder"
 msgstr "Choisier un dossier DCP"
 
@@ -805,11 +806,11 @@ msgstr "Choisier un dossier DCP"
 msgid "Choose a file"
 msgstr "Choisir un fichier"
 
-#: src/wx/content_panel.cc:611
+#: src/wx/content_panel.cc:619
 msgid "Choose a file or files"
 msgstr "Choisir un ou plusieurs fichiers"
 
-#: src/wx/content_menu.cc:372 src/wx/content_panel.cc:628
+#: src/wx/content_menu.cc:372 src/wx/content_panel.cc:636
 msgid "Choose a folder"
 msgstr "Choisir un dossier"
 
@@ -846,6 +847,11 @@ msgstr "La ressource de sous-titres codés %n a un <EntryPoint> non nul."
 
 #: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
 msgid "Closed captions"
+msgstr "Sous-titres codés"
+
+#: src/wx/short_kdm_output_panel.cc:75 src/wx/tall_kdm_output_panel.cc:100
+#, fuzzy
+msgid "Collection"
 msgstr "Sous-titres codés"
 
 #: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:185
@@ -916,7 +922,7 @@ msgstr "Versions de contenu"
 msgid "Contrast"
 msgstr "Contraste"
 
-#: src/wx/text_panel.cc:99
+#: src/wx/text_panel.cc:100
 msgid "Coord|Y"
 msgstr "Coord|Y"
 
@@ -946,7 +952,7 @@ msgstr "CoreAudio"
 msgid "Could not analyse audio."
 msgstr "Impossible d'analyser le son."
 
-#: src/wx/text_panel.cc:829
+#: src/wx/text_panel.cc:831
 msgid "Could not analyse subtitles."
 msgstr "Impossible d'analyser les sous-titres."
 
@@ -1179,7 +1185,14 @@ msgstr "Définir la police dans la sortie et exporter le fichier de police"
 msgid "Delay"
 msgstr "Délai"
 
-#: src/wx/screen_dialog.cc:137
+#. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
+#. (a place on disk or some email addresses).
+#: src/wx/short_kdm_output_panel.cc:48
+#, fuzzy
+msgid "Destination"
+msgstr "Durée"
+
+#: src/wx/screen_dialog.cc:137 src/wx/short_kdm_output_panel.cc:53
 msgid "Details"
 msgstr "Détails"
 
@@ -1199,7 +1212,7 @@ msgstr "Distributeur"
 msgid "Do not use the cinemas in the ZIP file"
 msgstr "Ne pas utiliser les cinémas du fichier ZIP"
 
-#: src/wx/dolby_doremi_certificate_panel.cc:300
+#: src/wx/dolby_doremi_certificate_panel.cc:242
 msgid "Dolby / Doremi"
 msgstr "Dolby / Doremi"
 
@@ -1395,7 +1408,8 @@ msgstr "Le fichier %s existe déjà. Voulez-vous le remplacer ?"
 msgid "Filename"
 msgstr "Nom de fichier"
 
-#: src/wx/dkdm_output_panel.cc:63 src/wx/kdm_output_panel.cc:90
+#: src/wx/dkdm_output_panel.cc:63 src/wx/short_kdm_output_panel.cc:118
+#: src/wx/tall_kdm_output_panel.cc:87
 msgid "Filename format"
 msgstr "Format du nom de fichier"
 
@@ -1430,23 +1444,28 @@ msgstr "Rechercher l'élément manquant..."
 msgid "Finding the colours in these subtitles..."
 msgstr "Trouver les couleurs dans ces sous-titres..."
 
-#: src/wx/markers.cc:37
+#: src/wx/markers.cc:39
 msgid "First frame of end credits"
 msgstr "Première image du générique de fin"
 
-#: src/wx/markers.cc:35
+#: src/wx/markers.cc:37
 msgid "First frame of intermission"
 msgstr "Première image de l'entracte"
 
-#: src/wx/markers.cc:39
+#: src/wx/markers.cc:41
 msgid "First frame of moving credits"
 msgstr "Première image du générique en mouvement"
 
 #: src/wx/markers.cc:33
+#, fuzzy
+msgid "First frame of ratings band"
+msgstr "Première image du générique en mouvement"
+
+#: src/wx/markers.cc:35
 msgid "First frame of title credits"
 msgstr "Première image du générique de titre"
 
-#: src/wx/kdm_output_panel.cc:86
+#: src/wx/short_kdm_output_panel.cc:115 src/wx/tall_kdm_output_panel.cc:84
 msgid "Folder / ZIP name format"
 msgstr "Format du nom de dossier / nom ZIP"
 
@@ -1458,7 +1477,7 @@ msgstr "Nom de dossier"
 msgid "Fonts"
 msgstr "Polices"
 
-#: src/wx/text_panel.cc:111
+#: src/wx/text_panel.cc:112
 msgid "Fonts..."
 msgstr "Polices..."
 
@@ -1606,12 +1625,6 @@ msgstr "Hôtes"
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
-#. TRANSLATORS: the user will be asked to type this phrase into a text entry to confirm that they have read
-#. the warning about using the disk writer.
-#: src/wx/disk_warning_dialog.cc:48 src/wx/disk_warning_dialog.cc:60
-msgid "I am sure"
-msgstr "J'en suis sûr"
-
 #: src/wx/gain_calculator_dialog.cc:35
 msgid "I want to play this back at fader"
 msgstr "Je veux lire ce DCP à un niveau de fader de"
@@ -1727,8 +1740,7 @@ msgstr "Importer tous les paramètres de décryptage KDM..."
 msgid "Import..."
 msgstr "Importer..."
 
-#: src/wx/disk_warning_dialog.cc:29 src/wx/drive_wipe_warning_dialog.cc:28
-#: src/wx/nag_dialog.cc:38
+#: src/wx/drive_wipe_warning_dialog.cc:28 src/wx/nag_dialog.cc:38
 msgid "Important notice"
 msgstr "Remarque importante"
 
@@ -1839,7 +1851,7 @@ msgstr "E-mail KDM"
 msgid "KDM directory"
 msgstr "Répertoire KDM"
 
-#: src/wx/kdm_output_panel.cc:72
+#: src/wx/short_kdm_output_panel.cc:93 src/wx/tall_kdm_output_panel.cc:74
 msgid "KDM type"
 msgstr "Type de KDM"
 
@@ -1866,7 +1878,7 @@ msgid "Label"
 msgstr ""
 
 #: src/wx/dcp_panel.cc:936 src/wx/dcp_text_track_dialog.cc:35
-#: src/wx/text_panel.cc:160
+#: src/wx/text_panel.cc:161
 msgid "Language"
 msgstr "Langue"
 
@@ -1878,7 +1890,7 @@ msgstr "Tag de la langue"
 msgid "Language of burnt-in subtitles in this content"
 msgstr "Langue des sous-titres gravés dans ce contenu"
 
-#: src/wx/text_panel.cc:163
+#: src/wx/text_panel.cc:164
 msgid "Language of these subtitles"
 msgstr "Langue de ces sous-titres"
 
@@ -1886,19 +1898,24 @@ msgstr "Langue de ces sous-titres"
 msgid "Language used for any sign language video track"
 msgstr "Langue utilisée pour toute piste vidéo en langue des signes"
 
-#: src/wx/markers.cc:38
+#: src/wx/markers.cc:40
 msgid "Last frame of end credits"
 msgstr "Dernière image du générique de fin"
 
-#: src/wx/markers.cc:36
+#: src/wx/markers.cc:38
 msgid "Last frame of intermission"
 msgstr "Dernière image de l'entracte"
 
-#: src/wx/markers.cc:40
+#: src/wx/markers.cc:42
 msgid "Last frame of moving credits"
 msgstr "Dernière image du générique en mouvement"
 
 #: src/wx/markers.cc:34
+#, fuzzy
+msgid "Last frame of ratings band"
+msgstr "Dernière image du générique en mouvement"
+
+#: src/wx/markers.cc:36
 msgid "Last frame of title credits"
 msgstr "Dernière image du générique de titre"
 
@@ -1937,7 +1954,7 @@ msgstr "Durée"
 msgid "Length: %1 (%2 frames)"
 msgstr "Durée : %1 (%2 images)"
 
-#: src/wx/text_panel.cc:103
+#: src/wx/text_panel.cc:104
 msgid "Line spacing"
 msgstr "Espacement des lignes"
 
@@ -1978,7 +1995,7 @@ msgstr "Plus basse priorité"
 msgid "Luminance"
 msgstr "Luminance"
 
-#: src/wx/content_panel.cc:900
+#: src/wx/content_panel.cc:908
 msgid "MISSING: "
 msgstr "MANQUANT : "
 
@@ -2013,7 +2030,7 @@ msgstr "Interop MPEG2"
 
 #. TRANSLATORS: Main and Additional here are a choice for whether a set of subtitles is in the "main" language of the
 #. film or an "additional" language.
-#: src/wx/text_panel.cc:169
+#: src/wx/text_panel.cc:170
 msgid "Main"
 msgstr "Principal"
 
@@ -2236,11 +2253,11 @@ msgstr "Mes Documents"
 msgid "My problem is"
 msgstr "Mon problème est"
 
-#: src/wx/content_panel.cc:904
+#: src/wx/content_panel.cc:912
 msgid "NEEDS KDM: "
 msgstr "KDM NÉCESSAIRE : "
 
-#: src/wx/content_panel.cc:908
+#: src/wx/content_panel.cc:916
 msgid "NEEDS OV: "
 msgstr "OV NÉCESSAIRE : "
 
@@ -2249,6 +2266,11 @@ msgstr "OV NÉCESSAIRE : "
 #: src/wx/screen_dialog.cc:142
 msgid "Name"
 msgstr "Nom"
+
+#: src/wx/short_kdm_output_panel.cc:58
+#, fuzzy
+msgid "Name formats"
+msgstr "Format du nom de fichier"
 
 #: src/wx/player_information.cc:152
 msgid "Needs KDM"
@@ -2288,7 +2310,7 @@ msgstr "Aucune erreur SMPTE Bv2.1 trouvée."
 msgid "No audio will be passed from %s channel '%s' to %s channel '%s'."
 msgstr "Aucun signal audio ne sera transmis du %s canal '%s' au %s canal '%s'."
 
-#: src/wx/content_panel.cc:648
+#: src/wx/content_panel.cc:656
 msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce dossier."
 
@@ -2351,7 +2373,7 @@ msgstr "OSS"
 msgid "Off"
 msgstr "Éteint"
 
-#: src/wx/text_panel.cc:87
+#: src/wx/text_panel.cc:88
 msgid "Offset"
 msgstr "Décalage"
 
@@ -2478,7 +2500,7 @@ msgstr "Coller les paramètres de sous-titres"
 msgid "Paste video settings"
 msgstr "Coller les paramètres vidéo"
 
-#: src/wx/about_dialog.cc:171
+#: src/wx/about_dialog.cc:175
 msgid "Patrons"
 msgstr "Patrons"
 
@@ -2870,7 +2892,7 @@ msgstr "Enregistrer le modèle"
 msgid "Save to KDM Creator tool's list"
 msgstr "Enregistrer dans la liste de l'outil de création KDM"
 
-#: src/wx/text_panel.cc:95 src/wx/video_panel.cc:180
+#: src/wx/text_panel.cc:96 src/wx/video_panel.cc:180
 msgid "Scale"
 msgstr "Échelle"
 
@@ -2952,7 +2974,7 @@ msgstr "Sélectionner le fichier de sortie"
 msgid "Select..."
 msgstr "Selectionner..."
 
-#: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:142
+#: src/wx/dkdm_output_panel.cc:93 src/wx/kdm_output_panel.cc:98
 msgid "Send by email"
 msgstr "Envoyer par e-mail"
 
@@ -2992,7 +3014,7 @@ msgstr "Serveurs"
 msgid "Set"
 msgstr "Définir"
 
-#: src/wx/kdm_output_panel.cc:144
+#: src/wx/kdm_output_panel.cc:99
 msgid "Set additional email addresses..."
 msgstr "Définir des adresses e-mail supplémentaires..."
 
@@ -3040,7 +3062,7 @@ msgstr "Version du langage d'ombrage"
 msgid "Shadow"
 msgstr "Ombre"
 
-#: src/wx/password_entry.cc:34
+#: src/wx/password_entry.cc:36
 msgid "Show"
 msgstr "Afficher"
 
@@ -3062,7 +3084,7 @@ msgstr "Ne montrer que le %d sélectionné"
 msgid "Show only checked"
 msgstr "Ne montrer que le sélectionné"
 
-#: src/wx/text_panel.cc:155
+#: src/wx/text_panel.cc:156
 msgid "Show subtitle area"
 msgstr "Afficher la zone des sous-titres"
 
@@ -3185,7 +3207,7 @@ msgstr "Statut"
 msgid "Stop"
 msgstr "Arrêter"
 
-#: src/wx/text_panel.cc:107
+#: src/wx/text_panel.cc:108
 msgid "Stream"
 msgstr "Flux"
 
@@ -3207,7 +3229,7 @@ msgstr "Nom commun racine"
 msgid "Subject organization name"
 msgstr "Sélectionner le fichier de configuration"
 
-#: src/wx/about_dialog.cc:175
+#: src/wx/about_dialog.cc:179
 msgid "Subscribers"
 msgstr "Abonnés"
 
@@ -3293,7 +3315,7 @@ msgstr "L'email de test a été envoyé."
 msgid "Test version"
 msgstr "Version de test"
 
-#: src/wx/about_dialog.cc:246
+#: src/wx/about_dialog.cc:250
 msgid "Tested by"
 msgstr "Testé par"
 
@@ -3311,41 +3333,6 @@ msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
-
-#: src/wx/disk_warning_dialog.cc:51
-#, fuzzy, c-format
-msgid ""
-"The <b>%s</b> is\n"
-"\n"
-"<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST "
-"SOFTWARE</span>\n"
-"\n"
-"and may\n"
-"\n"
-"<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</"
-"span>\n"
-"\n"
-"If you are sure you want to continue please type\n"
-"\n"
-"<tt>%s</tt>\n"
-"\n"
-"into the box below, then click OK."
-msgstr ""
-"Le <b>graveur de disque DCP-o-matic</b> est un\n"
-"\n"
-"<span weight=\"bold\" size=\"20480\" foreground=\"red\">LOGICIEL DE TEST DE "
-"QUALITÉ BÊTA</span>\n"
-"\n"
-"et peut\n"
-"\n"
-"<span weight=\"bold\" size=\"20480\" foreground=\"red\">DÉTRUIRE DES DONNÉS !"
-"</span>\n"
-"\n"
-"Si vous êtes sûr de vouloir continuer, veuillez taper\n"
-"\n"
-"<tt>%s</tt>\n"
-"\n"
-"dans la case ci-dessous, puis cliquez sur OK."
 
 #: src/wx/verify_dcp_result_panel.cc:541
 #, c-format
@@ -3619,7 +3606,7 @@ msgstr ""
 "\n"
 "DCP-o-matic doit-il essayer de le démonter maintenant ?"
 
-#: src/wx/wx_util.cc:819
+#: src/wx/wx_util.cc:820
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3899,7 +3886,7 @@ msgstr "Ceci est un e-mail de test de %s."
 msgid "This is not a valid CPL file"
 msgstr "Ceci n'est pas un fichier CPL valide"
 
-#: src/wx/content_panel.cc:688
+#: src/wx/content_panel.cc:696
 #, c-format
 msgid ""
 "This looks like a %s project folder, which cannot be added to a different "
@@ -4029,11 +4016,11 @@ msgstr "Adresse du destinataire"
 msgid "Top"
 msgstr "Haut"
 
-#: src/wx/closed_captions_dialog.cc:71 src/wx/text_panel.cc:192
+#: src/wx/closed_captions_dialog.cc:71 src/wx/text_panel.cc:193
 msgid "Track"
 msgstr "Piste"
 
-#: src/wx/about_dialog.cc:167
+#: src/wx/about_dialog.cc:171
 msgid "Translated by"
 msgstr "Traduit par"
 
@@ -4071,7 +4058,7 @@ msgstr "Certificat du périphérique de confiance"
 msgid "Type"
 msgstr "Type"
 
-#: src/wx/wx_util.cc:711
+#: src/wx/wx_util.cc:712
 msgid "UTC"
 msgstr "UTC"
 
@@ -4079,111 +4066,111 @@ msgstr "UTC"
 msgid "UTC offset (time zone)"
 msgstr "Décalage UTC (fuseau horaire)"
 
-#: src/wx/wx_util.cc:712
+#: src/wx/wx_util.cc:713
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:723
+#: src/wx/wx_util.cc:724
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:724
+#: src/wx/wx_util.cc:725
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:725
+#: src/wx/wx_util.cc:726
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:714
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/wx_util.cc:714
+#: src/wx/wx_util.cc:715
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/wx_util.cc:715
+#: src/wx/wx_util.cc:716
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:716
+#: src/wx/wx_util.cc:717
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:718
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:718
+#: src/wx/wx_util.cc:719
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:719
+#: src/wx/wx_util.cc:720
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:720
+#: src/wx/wx_util.cc:721
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:721
+#: src/wx/wx_util.cc:722
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:722
+#: src/wx/wx_util.cc:723
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/wx_util.cc:709
+#: src/wx/wx_util.cc:710
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/wx_util.cc:698
+#: src/wx/wx_util.cc:699
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/wx_util.cc:697
+#: src/wx/wx_util.cc:698
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/wx_util.cc:708
+#: src/wx/wx_util.cc:709
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/wx_util.cc:707
+#: src/wx/wx_util.cc:708
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/wx_util.cc:706
+#: src/wx/wx_util.cc:707
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/wx_util.cc:705
+#: src/wx/wx_util.cc:706
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/wx_util.cc:704
+#: src/wx/wx_util.cc:705
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/wx_util.cc:703
+#: src/wx/wx_util.cc:704
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/wx_util.cc:702
+#: src/wx/wx_util.cc:703
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/wx_util.cc:701
+#: src/wx/wx_util.cc:702
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/wx_util.cc:700
+#: src/wx/wx_util.cc:701
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/wx_util.cc:699
+#: src/wx/wx_util.cc:700
 msgid "UTC-9"
 msgstr "UTC-9"
 
@@ -4195,7 +4182,7 @@ msgstr "Tout décocher"
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: src/wx/dolby_doremi_certificate_panel.cc:266
+#: src/wx/dolby_doremi_certificate_panel.cc:207
 msgid ""
 "Unrecognised serial number format (does not start with a number, H or F)"
 msgstr ""
@@ -4222,7 +4209,7 @@ msgstr "Utiliser le nom ISDCF"
 msgid "Use ISDCF name by default"
 msgstr "Utiliser le nom ISDCF par défaut"
 
-#: src/wx/text_panel.cc:83
+#: src/wx/text_panel.cc:84
 msgid "Use as"
 msgstr "Utiliser comme"
 
@@ -4315,7 +4302,7 @@ msgstr "Fréquence d'images vidéo pour laquelle le contenu a été préparé"
 msgid "Video has burnt-in subtitles in the language"
 msgstr "La vidéo comporte des sous-titres gravés dans la langue"
 
-#: src/wx/text_panel.cc:110
+#: src/wx/text_panel.cc:111
 msgid "View..."
 msgstr "Voir..."
 
@@ -4340,15 +4327,15 @@ msgstr "Ajustement du point blanc"
 msgid "With help from"
 msgstr "Avec l'aide de"
 
-#: src/wx/kdm_output_panel.cc:137
+#: src/wx/kdm_output_panel.cc:96
 msgid "Write a ZIP file for each cinema's KDMs"
 msgstr "Créer un fichier ZIP pour les KDMs de chaque cinéma"
 
-#: src/wx/kdm_output_panel.cc:135
+#: src/wx/kdm_output_panel.cc:95
 msgid "Write a folder for each cinema's KDMs"
 msgstr "Créer un dossier pour les KDMs de chaque cinéma"
 
-#: src/wx/kdm_output_panel.cc:133
+#: src/wx/kdm_output_panel.cc:94
 msgid "Write all KDMs to the same folder"
 msgstr "Créer tous les KDMs dans le même dossier"
 
@@ -4364,7 +4351,7 @@ msgstr "Écrire les bobines dans des fichiers séparés"
 msgid "Write relative content paths"
 msgstr "Écrire les chemins relatifs du contenu"
 
-#: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:114
+#: src/wx/dkdm_output_panel.cc:75 src/wx/kdm_output_panel.cc:78
 #: src/wx/self_dkdm_dialog.cc:85
 msgid "Write to"
 msgstr "Créer dans"
@@ -4373,11 +4360,11 @@ msgstr "Créer dans"
 msgid "Written by"
 msgstr "Développé par"
 
-#: src/wx/text_panel.cc:88 src/wx/text_panel.cc:96
+#: src/wx/text_panel.cc:89 src/wx/text_panel.cc:97
 msgid "X"
 msgstr "X"
 
-#: src/wx/text_panel.cc:91
+#: src/wx/text_panel.cc:92
 msgid "Y"
 msgstr "Y"
 
@@ -4407,7 +4394,7 @@ msgstr ""
 "Vous ne pouvez pas modifier le nom de l'écran en '%s' car le cinéma possède "
 "déjà un écran nommé ainsi."
 
-#: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:252
+#: src/wx/dkdm_output_panel.cc:136 src/wx/kdm_output_panel.cc:242
 msgid ""
 "You have selected some cinemas that have no configured email address.  Do "
 "you want to continue?"
@@ -4415,7 +4402,7 @@ msgstr ""
 "Vous avez choisi certains cinémas qui n'ont pas d'adresse e-mail connue.  "
 "Souhaitez vous poursuivre ?"
 
-#: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:242
+#: src/wx/dkdm_output_panel.cc:124 src/wx/kdm_output_panel.cc:232
 msgid ""
 "You must set up a mail server in Preferences before you can send emails."
 msgstr ""
@@ -4453,19 +4440,15 @@ msgstr "et %d avertissement."
 msgid "and 1 warning."
 msgstr "et 1 avertissement."
 
-#: src/wx/metadata_dialog.cc:333
-msgid "candela per m²"
-msgstr "candela par m²"
-
-#: src/wx/kdm_output_panel.cc:101
+#: src/wx/kdm_output_panel.cc:143
 msgid "cinema"
 msgstr "cinéma"
 
-#: src/wx/text_panel.cc:567
+#: src/wx/text_panel.cc:569
 msgid "closed captions"
 msgstr "sous-titres codés forcés"
 
-#: src/wx/text_panel.cc:566
+#: src/wx/text_panel.cc:568
 msgid "closed subtitles"
 msgstr "sous-titres codés optionnels"
 
@@ -4507,7 +4490,7 @@ msgstr "activé"
 msgid "f"
 msgstr "i"
 
-#: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:100
+#: src/wx/dkdm_output_panel.cc:65 src/wx/kdm_output_panel.cc:142
 msgid "film name"
 msgstr "nom du film"
 
@@ -4515,7 +4498,7 @@ msgstr "nom du film"
 msgid "foot lambert"
 msgstr "pied lambert"
 
-#: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:103
+#: src/wx/dkdm_output_panel.cc:66 src/wx/kdm_output_panel.cc:145
 msgid "from date/time"
 msgstr "de date/heure"
 
@@ -4554,11 +4537,11 @@ msgstr "non activé"
 msgid "number of reels"
 msgstr "nombre de bobines"
 
-#: src/wx/text_panel.cc:564
+#: src/wx/text_panel.cc:566
 msgid "open captions"
 msgstr "Sous-titres codés forcés"
 
-#: src/wx/text_panel.cc:563
+#: src/wx/text_panel.cc:565
 msgid "open subtitles"
 msgstr "sous-titres forcés"
 
@@ -4583,7 +4566,7 @@ msgstr "numéro de bobine"
 msgid "s"
 msgstr "s"
 
-#: src/wx/kdm_output_panel.cc:102
+#: src/wx/kdm_output_panel.cc:144
 msgid "screen"
 msgstr "écran"
 
@@ -4595,7 +4578,7 @@ msgstr "seuil"
 msgid "times"
 msgstr "fois"
 
-#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:104
+#: src/wx/dkdm_output_panel.cc:67 src/wx/kdm_output_panel.cc:146
 msgid "to date/time"
 msgstr "à date/heure"
 
@@ -4654,6 +4637,46 @@ msgstr "années"
 #: src/wx/drive_wipe_warning_dialog.cc:61
 msgid "yes"
 msgstr "oui"
+
+#~ msgid "I am sure"
+#~ msgstr "J'en suis sûr"
+
+#, fuzzy, c-format
+#~ msgid ""
+#~ "The <b>%s</b> is\n"
+#~ "\n"
+#~ "<span weight=\"bold\" size=\"20480\" foreground=\"red\">BETA-GRADE TEST "
+#~ "SOFTWARE</span>\n"
+#~ "\n"
+#~ "and may\n"
+#~ "\n"
+#~ "<span weight=\"bold\" size=\"20480\" foreground=\"red\">DESTROY DATA!</"
+#~ "span>\n"
+#~ "\n"
+#~ "If you are sure you want to continue please type\n"
+#~ "\n"
+#~ "<tt>%s</tt>\n"
+#~ "\n"
+#~ "into the box below, then click OK."
+#~ msgstr ""
+#~ "Le <b>graveur de disque DCP-o-matic</b> est un\n"
+#~ "\n"
+#~ "<span weight=\"bold\" size=\"20480\" foreground=\"red\">LOGICIEL DE TEST "
+#~ "DE QUALITÉ BÊTA</span>\n"
+#~ "\n"
+#~ "et peut\n"
+#~ "\n"
+#~ "<span weight=\"bold\" size=\"20480\" foreground=\"red\">DÉTRUIRE DES "
+#~ "DONNÉS !</span>\n"
+#~ "\n"
+#~ "Si vous êtes sûr de vouloir continuer, veuillez taper\n"
+#~ "\n"
+#~ "<tt>%s</tt>\n"
+#~ "\n"
+#~ "dans la case ci-dessous, puis cliquez sur OK."
+
+#~ msgid "candela per m²"
+#~ msgstr "candela par m²"
 
 #~ msgid "(restart DCP-o-matic to see all ratios)"
 #~ msgstr "(redémarrer DCP-o-matic pour voir tous les ratios)"
@@ -4866,9 +4889,6 @@ msgstr "oui"
 
 #~ msgid "Devices"
 #~ msgstr "Périphériques"
-
-#~ msgid "Duration"
-#~ msgstr "Durée"
 
 #~ msgid "KDM server URL"
 #~ msgstr "URL du server de KDM"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-09-27 20:49+0200\n"
+"POT-Creation-Date: 2025-01-02 00:29+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,39 +17,39 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/lib/video_content.cc:520
+#: src/lib/video_content.cc:522
 #, c-format
 msgid ""
 "\n"
 "Content frame rate %.4f\n"
 msgstr ""
 
-#: src/lib/video_content.cc:484
+#: src/lib/video_content.cc:486
 msgid ""
 "\n"
 "Cropped to %1x%2"
 msgstr ""
 
-#: src/lib/video_content.cc:474
+#: src/lib/video_content.cc:476
 #, c-format
 msgid ""
 "\n"
 "Display aspect ratio %.2f:1"
 msgstr ""
 
-#: src/lib/video_content.cc:508
+#: src/lib/video_content.cc:510
 msgid ""
 "\n"
 "Padded with black to fit container %1 (%2x%3)"
 msgstr ""
 
-#: src/lib/video_content.cc:498
+#: src/lib/video_content.cc:500
 msgid ""
 "\n"
 "Scaled to %1x%2"
 msgstr ""
 
-#: src/lib/video_content.cc:502 src/lib/video_content.cc:513
+#: src/lib/video_content.cc:504 src/lib/video_content.cc:515
 #, c-format
 msgid " (%.2f:1)"
 msgstr ""
@@ -60,7 +60,7 @@ msgstr ""
 msgid " on %1"
 msgstr ""
 
-#: src/lib/config.cc:1275
+#: src/lib/config.cc:1279
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -74,7 +74,7 @@ msgid ""
 "Size: $SIZE\n"
 msgstr ""
 
-#: src/lib/config.cc:1253
+#: src/lib/config.cc:1257
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr ""
 
@@ -108,25 +108,25 @@ msgid ""
 "unexpected format."
 msgstr ""
 
-#: src/lib/film.cc:1659
+#: src/lib/film.cc:1709
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
 
-#: src/lib/film.cc:1627
+#: src/lib/film.cc:1675
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
 
-#: src/lib/film.cc:1672
+#: src/lib/film.cc:1722
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
-#: src/lib/film.cc:1670
+#: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -136,7 +136,7 @@ msgstr ""
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr ""
 
-#: src/lib/config.cc:434 src/lib/config.cc:1250
+#: src/lib/config.cc:438 src/lib/config.cc:1254
 msgid "%1 notification"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgstr ""
 msgid "%1; %2/%3 frames"
 msgstr ""
 
-#: src/lib/video_content.cc:469
+#: src/lib/video_content.cc:471
 #, c-format
 msgid ", pixel aspect ratio %.2f:1"
 msgstr ""
@@ -181,11 +181,11 @@ msgstr ""
 msgid "1.90 (Full frame)"
 msgstr ""
 
-#: src/lib/util.cc:668
+#: src/lib/util.cc:674
 msgid "10"
 msgstr ""
 
-#: src/lib/util.cc:674
+#: src/lib/util.cc:680
 msgid "16"
 msgstr ""
 
@@ -201,14 +201,14 @@ msgstr ""
 msgid "3D denoiser"
 msgstr ""
 
-#: src/lib/hints.cc:221
+#: src/lib/hints.cc:220
 msgid ""
 "4K 3D is only supported by a very limited number of projectors.  Unless you "
 "know that you will play this DCP back on a capable projector, it is "
 "advisable to set the DCP to be 2K in the \"DCP→Video\" tab."
 msgstr ""
 
-#: src/lib/util.cc:667
+#: src/lib/util.cc:673
 msgid "9"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgid ""
 "donate €10</a></ul><p>Thank you!</font>"
 msgstr ""
 
-#: src/lib/hints.cc:178
+#: src/lib/hints.cc:177
 msgid ""
 "A few projectors have problems playing back very high bit-rate DCPs.  It is "
 "a good idea to drop the video bit rate down to about 200Mbit/s; this is "
@@ -258,7 +258,7 @@ msgstr ""
 msgid "Advertisement"
 msgstr ""
 
-#: src/lib/hints.cc:155
+#: src/lib/hints.cc:154
 msgid ""
 "All of your content is in Scope (2.39:1) but your DCP's container is Flat "
 "(1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  "
@@ -266,7 +266,7 @@ msgid ""
 "tab."
 msgstr ""
 
-#: src/lib/hints.cc:159
+#: src/lib/hints.cc:158
 msgid ""
 "All of your content narrower than 1.90:1 but your DCP's container is Scope "
 "(2.39:1).  This will pillar-box your content.  You may prefer to set your "
@@ -285,54 +285,54 @@ msgstr ""
 msgid "Analysing subtitles"
 msgstr ""
 
-#: src/lib/hints.cc:386
+#: src/lib/hints.cc:385
 msgid ""
 "At least one marker comes after the end of the project and will be ignored."
 msgstr ""
 
-#: src/lib/hints.cc:523
+#: src/lib/hints.cc:522
 msgid "At least one of your closed caption files is larger than "
 msgstr ""
 
-#: src/lib/hints.cc:516
+#: src/lib/hints.cc:515
 msgid "At least one of your closed caption files' XML part is larger than "
 msgstr ""
 
-#: src/lib/hints.cc:531
+#: src/lib/hints.cc:530
 msgid "At least one of your subtitle files is larger than "
 msgstr ""
 
-#: src/lib/hints.cc:495
+#: src/lib/hints.cc:494
 msgid ""
 "At least one of your subtitle lines has more than 52 characters.  It is "
 "recommended to make each line 52 characters at most in length."
 msgstr ""
 
-#: src/lib/hints.cc:497
+#: src/lib/hints.cc:496
 msgid ""
 "At least one of your subtitle lines has more than 79 characters.  You should "
 "make each line 79 characters at most in length."
 msgstr ""
 
-#: src/lib/hints.cc:663
+#: src/lib/hints.cc:662
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr ""
 
-#: src/lib/hints.cc:630
+#: src/lib/hints.cc:629
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr ""
 
-#: src/lib/hints.cc:635
+#: src/lib/hints.cc:634
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 
-#: src/lib/hints.cc:706
+#: src/lib/hints.cc:705
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -404,15 +404,15 @@ msgstr ""
 msgid "Bob Weaver Deinterlacing Filter"
 msgstr ""
 
-#: src/lib/util.cc:669
+#: src/lib/util.cc:675
 msgid "BsL"
 msgstr ""
 
-#: src/lib/util.cc:670
+#: src/lib/util.cc:676
 msgid "BsR"
 msgstr ""
 
-#: src/lib/util.cc:661
+#: src/lib/util.cc:667
 msgid "C"
 msgstr ""
 
@@ -428,11 +428,11 @@ msgstr ""
 msgid "Cannot handle pixel format %1 during %2"
 msgstr ""
 
-#: src/lib/film.cc:1768
+#: src/lib/film.cc:1818
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr ""
 
-#: src/lib/util.cc:630
+#: src/lib/util.cc:636
 msgid "Centre"
 msgstr ""
 
@@ -448,7 +448,7 @@ msgstr ""
 msgid "Checking content"
 msgstr ""
 
-#: src/lib/reel_writer.cc:248
+#: src/lib/reel_writer.cc:254
 msgid "Checking existing image data"
 msgstr ""
 
@@ -508,7 +508,7 @@ msgstr ""
 msgid "Computing digest"
 msgstr ""
 
-#: src/lib/writer.cc:534
+#: src/lib/writer.cc:530
 msgid "Computing digests"
 msgstr ""
 
@@ -545,7 +545,7 @@ msgid ""
 "Content to be joined must both be main subtitle languages or both additional."
 msgstr ""
 
-#: src/lib/video_content.cc:218
+#: src/lib/video_content.cc:220
 msgid "Content to be joined must have all its video used or not used."
 msgstr ""
 
@@ -565,27 +565,27 @@ msgstr ""
 msgid "Content to be joined must have the same audio gain."
 msgstr ""
 
-#: src/lib/video_content.cc:250
+#: src/lib/video_content.cc:252
 msgid "Content to be joined must have the same burnt subtitle language."
 msgstr ""
 
-#: src/lib/video_content.cc:242
+#: src/lib/video_content.cc:244
 msgid "Content to be joined must have the same colour conversion."
 msgstr ""
 
-#: src/lib/video_content.cc:230
+#: src/lib/video_content.cc:232
 msgid "Content to be joined must have the same crop."
 msgstr ""
 
-#: src/lib/video_content.cc:234
+#: src/lib/video_content.cc:236
 msgid "Content to be joined must have the same custom ratio setting."
 msgstr ""
 
-#: src/lib/video_content.cc:238
+#: src/lib/video_content.cc:240
 msgid "Content to be joined must have the same custom size setting."
 msgstr ""
 
-#: src/lib/video_content.cc:246
+#: src/lib/video_content.cc:248
 msgid "Content to be joined must have the same fades."
 msgstr ""
 
@@ -593,7 +593,7 @@ msgstr ""
 msgid "Content to be joined must have the same outline width."
 msgstr ""
 
-#: src/lib/video_content.cc:222
+#: src/lib/video_content.cc:224
 msgid "Content to be joined must have the same picture size."
 msgstr ""
 
@@ -625,7 +625,7 @@ msgstr ""
 msgid "Content to be joined must have the same video frame rate"
 msgstr ""
 
-#: src/lib/video_content.cc:226
+#: src/lib/video_content.cc:228
 msgid "Content to be joined must have the same video frame type."
 msgstr ""
 
@@ -645,7 +645,7 @@ msgstr ""
 msgid "Content to be joined must use the same text language."
 msgstr ""
 
-#: src/lib/video_content.cc:460
+#: src/lib/video_content.cc:462
 msgid "Content video is %1x%2"
 msgstr ""
 
@@ -695,7 +695,7 @@ msgstr ""
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr ""
 
-#: src/lib/config.cc:1153
+#: src/lib/config.cc:1157
 msgid "Could not open file for writing"
 msgstr ""
 
@@ -715,19 +715,19 @@ msgstr ""
 msgid "Could not write to remote file (%1)"
 msgstr ""
 
-#: src/lib/util.cc:640
+#: src/lib/util.cc:646
 msgid "D-BOX primary"
 msgstr ""
 
-#: src/lib/util.cc:641
+#: src/lib/util.cc:647
 msgid "D-BOX secondary"
 msgstr ""
 
-#: src/lib/util.cc:671
+#: src/lib/util.cc:677
 msgid "DBP"
 msgstr ""
 
-#: src/lib/util.cc:672
+#: src/lib/util.cc:678
 msgid "DBS"
 msgstr ""
 
@@ -756,19 +756,19 @@ msgstr ""
 msgid "DCP will use every other frame of the content.\n"
 msgstr ""
 
-#: src/lib/film.cc:1685
+#: src/lib/film.cc:1735
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
 
-#: src/lib/film.cc:1689
+#: src/lib/film.cc:1739
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
 
-#: src/lib/film.cc:1693
+#: src/lib/film.cc:1743
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -783,7 +783,7 @@ msgstr ""
 msgid "De-interlacing"
 msgstr ""
 
-#: src/lib/config.cc:1238
+#: src/lib/config.cc:1242
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -858,11 +858,11 @@ msgstr ""
 msgid "Event"
 msgstr ""
 
-#: src/lib/hints.cc:417
+#: src/lib/hints.cc:416
 msgid "Examining audio"
 msgstr ""
 
-#: src/lib/hints.cc:419
+#: src/lib/hints.cc:418
 msgid "Examining audio, subtitles and closed captions"
 msgstr ""
 
@@ -874,7 +874,7 @@ msgstr ""
 msgid "Examining subtitles"
 msgstr ""
 
-#: src/lib/hints.cc:415
+#: src/lib/hints.cc:414
 msgid "Examining subtitles and closed captions"
 msgstr ""
 
@@ -884,6 +884,10 @@ msgstr ""
 
 #: src/lib/ffmpeg_content.cc:657
 msgid "FCC"
+msgstr ""
+
+#: src/lib/fcpxml_content.cc:92
+msgid "FCP XML subtitles"
 msgstr ""
 
 #: src/lib/scp_uploader.cc:69
@@ -918,7 +922,7 @@ msgstr ""
 msgid "Film"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:105
+#: src/lib/ffmpeg_examiner.cc:98
 msgid "Finding length"
 msgstr ""
 
@@ -958,6 +962,13 @@ msgstr ""
 msgid "Full length in video frames at content rate"
 msgstr ""
 
+#: src/lib/j2k_encoder.cc:280
+msgid ""
+"GPU acceleration is enabled but the grok decoder is not working.  Please "
+"check your configuration and license, and ensure that you are connected to "
+"the internet."
+msgstr ""
+
 #: src/lib/ffmpeg_content.cc:632
 msgid "Gamma 22 (BT470M)"
 msgstr ""
@@ -970,11 +981,11 @@ msgstr ""
 msgid "Gradient debander"
 msgstr ""
 
-#: src/lib/util.cc:665
+#: src/lib/util.cc:671
 msgid "HI"
 msgstr ""
 
-#: src/lib/util.cc:634
+#: src/lib/util.cc:640
 msgid "Hearing impaired"
 msgstr ""
 
@@ -1002,11 +1013,11 @@ msgstr ""
 msgid "IEC61966-2-4"
 msgstr ""
 
-#: src/lib/hints.cc:197
+#: src/lib/hints.cc:196
 msgid "If you do use 25fps you should change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/hints.cc:260
+#: src/lib/hints.cc:259
 msgid ""
 "In general it is now advisable to make SMPTE DCPs unless you have a "
 "particular reason to use Interop.  It is advisable to set your DCP to use "
@@ -1021,7 +1032,7 @@ msgid ""
 "placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:623
+#: src/lib/hints.cc:622
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1035,7 +1046,7 @@ msgstr ""
 msgid "JEDEC P22"
 msgstr ""
 
-#: src/lib/config.cc:424 src/lib/config.cc:1235
+#: src/lib/config.cc:428 src/lib/config.cc:1239
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -1044,35 +1055,35 @@ msgid "Kernel deinterlacer"
 msgstr ""
 
 #. TRANSLATORS: L here is an abbreviation for "left", to indicate the left-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:266 src/lib/util.cc:659
+#: src/lib/ffmpeg_film_encoder.cc:266 src/lib/util.cc:665
 msgid "L"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:628
+#: src/lib/mid_side_decoder.cc:107 src/lib/util.cc:634
 msgid "Left"
 msgstr ""
 
-#: src/lib/util.cc:636
+#: src/lib/util.cc:642
 msgid "Left centre"
 msgstr ""
 
-#: src/lib/util.cc:638
+#: src/lib/util.cc:644
 msgid "Left rear surround"
 msgstr ""
 
-#: src/lib/util.cc:632
+#: src/lib/util.cc:638
 msgid "Left surround"
 msgstr ""
 
-#: src/lib/video_content.cc:533
+#: src/lib/video_content.cc:535
 msgid "Length"
 msgstr ""
 
-#: src/lib/util.cc:662
+#: src/lib/util.cc:668
 msgid "Lfe"
 msgstr ""
 
-#: src/lib/util.cc:631
+#: src/lib/util.cc:637
 msgid "Lfe (sub)"
 msgstr ""
 
@@ -1100,7 +1111,7 @@ msgstr ""
 msgid "Lost communication between main and writer processes"
 msgstr ""
 
-#: src/lib/util.cc:663
+#: src/lib/util.cc:669
 msgid "Ls"
 msgstr ""
 
@@ -1137,7 +1148,7 @@ msgstr ""
 msgid "Monday"
 msgstr ""
 
-#: src/lib/writer.cc:783
+#: src/lib/writer.cc:779
 msgid "Mono"
 msgstr ""
 
@@ -1165,7 +1176,7 @@ msgstr ""
 msgid "Noise reduction"
 msgstr ""
 
-#: src/lib/writer.cc:751 src/lib/writer.cc:758 src/lib/writer.cc:781
+#: src/lib/writer.cc:747 src/lib/writer.cc:754 src/lib/writer.cc:777
 msgid "None"
 msgstr ""
 
@@ -1219,7 +1230,7 @@ msgstr ""
 msgid "P3"
 msgstr ""
 
-#: src/lib/util.cc:1186
+#: src/lib/util.cc:1193
 msgid ""
 "Please report this problem by using Help -> Report a problem or via email to "
 "%1"
@@ -1250,7 +1261,7 @@ msgid "Public Service Announcement"
 msgstr ""
 
 #. TRANSLATORS: R here is an abbreviation for "right", to indicate the right-eye part of a 3D export
-#: src/lib/ffmpeg_film_encoder.cc:271 src/lib/util.cc:660
+#: src/lib/ffmpeg_film_encoder.cc:271 src/lib/util.cc:666
 msgid "R"
 msgstr ""
 
@@ -1278,19 +1289,19 @@ msgstr ""
 msgid "Rec. 709"
 msgstr ""
 
-#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:629
+#: src/lib/mid_side_decoder.cc:108 src/lib/util.cc:635
 msgid "Right"
 msgstr ""
 
-#: src/lib/util.cc:637
+#: src/lib/util.cc:643
 msgid "Right centre"
 msgstr ""
 
-#: src/lib/util.cc:639
+#: src/lib/util.cc:645
 msgid "Right rear surround"
 msgstr ""
 
-#: src/lib/util.cc:633
+#: src/lib/util.cc:639
 msgid "Right surround"
 msgstr ""
 
@@ -1302,7 +1313,7 @@ msgstr ""
 msgid "Rotate 90 degrees clockwise"
 msgstr ""
 
-#: src/lib/util.cc:664
+#: src/lib/util.cc:670
 msgid "Rs"
 msgstr ""
 
@@ -1327,7 +1338,7 @@ msgstr ""
 msgid "SMPTE 240M"
 msgstr ""
 
-#: src/lib/hints.cc:688
+#: src/lib/hints.cc:687
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1379,11 +1390,11 @@ msgstr ""
 msgid "Short"
 msgstr ""
 
-#: src/lib/util.cc:673
+#: src/lib/util.cc:679
 msgid "Sign"
 msgstr ""
 
-#: src/lib/video_content.cc:535
+#: src/lib/video_content.cc:537
 msgid "Size"
 msgstr ""
 
@@ -1410,13 +1421,13 @@ msgid ""
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 
-#: src/lib/hints.cc:604
+#: src/lib/hints.cc:603
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 
-#: src/lib/hints.cc:726
+#: src/lib/hints.cc:725
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1435,7 +1446,7 @@ msgstr ""
 msgid "Some of your content needs an OV"
 msgstr ""
 
-#: src/lib/writer.cc:785
+#: src/lib/writer.cc:781
 msgid "Stereo"
 msgstr ""
 
@@ -1483,7 +1494,7 @@ msgstr ""
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr ""
 
-#: src/lib/hints.cc:743
+#: src/lib/hints.cc:742
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1492,7 +1503,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:751
+#: src/lib/hints.cc:750
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1530,7 +1541,7 @@ msgstr ""
 msgid "The file %1 has been trimmed by %2 milliseconds more."
 msgstr ""
 
-#: src/lib/hints.cc:269
+#: src/lib/hints.cc:268
 msgid ""
 "The vast majority of cinemas in Europe, Australasia and North America expect "
 "DCPs encoded with JPEG2000 rather than MPEG2.  Make sure that your cinema "
@@ -1544,7 +1555,7 @@ msgid ""
 "project to make sure that they are placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:250
+#: src/lib/hints.cc:249
 msgid ""
 "There is a large difference between the frame rate of your DCP and that of "
 "some of your content.  This will cause your audio to play back at a much "
@@ -1564,11 +1575,11 @@ msgid ""
 "tab of Preferences."
 msgstr ""
 
-#: src/lib/util.cc:1027
+#: src/lib/util.cc:1031
 msgid "This KDM was made for %1 but not for its leaf certificate."
 msgstr ""
 
-#: src/lib/util.cc:1025
+#: src/lib/util.cc:1029
 msgid "This KDM was not made for %1's decryption certificate."
 msgstr ""
 
@@ -1592,13 +1603,13 @@ msgid ""
 "the content and choosing \"Add KDM\"."
 msgstr ""
 
-#: src/lib/film.cc:546
+#: src/lib/film.cc:548
 msgid ""
 "This film was created with a newer version of %1, and it cannot be loaded "
 "into this version.  Sorry!"
 msgstr ""
 
-#: src/lib/film.cc:527
+#: src/lib/film.cc:529
 msgid ""
 "This film was created with an older version of %1, and unfortunately it "
 "cannot be loaded into this version.  You will need to create a new Film, re-"
@@ -1649,7 +1660,7 @@ msgstr ""
 msgid "Unknown error"
 msgstr ""
 
-#: src/lib/ffmpeg_decoder.cc:373
+#: src/lib/ffmpeg_decoder.cc:378
 msgid "Unrecognised audio sample format (%1)"
 msgstr ""
 
@@ -1669,7 +1680,7 @@ msgstr ""
 msgid "Untitled"
 msgstr ""
 
-#: src/lib/util.cc:642 src/lib/util.cc:643
+#: src/lib/util.cc:648 src/lib/util.cc:649
 msgid "Unused"
 msgstr ""
 
@@ -1681,7 +1692,7 @@ msgstr ""
 msgid "Upmix R"
 msgstr ""
 
-#: src/lib/util.cc:666
+#: src/lib/util.cc:672
 msgid "VI"
 msgstr ""
 
@@ -1693,7 +1704,11 @@ msgstr ""
 msgid "Vertical flip"
 msgstr ""
 
-#: src/lib/util.cc:635
+#: src/lib/fcpxml.cc:69
+msgid "Video refers to missing asset %1"
+msgstr ""
+
+#: src/lib/util.cc:641
 msgid "Visually impaired"
 msgstr ""
 
@@ -1717,58 +1732,58 @@ msgstr ""
 msgid "Yet Another Deinterlacing Filter"
 msgstr ""
 
-#: src/lib/hints.cc:210
+#: src/lib/hints.cc:209
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  It is advisable to change the DCP frame rate "
 "to %2 fps."
 msgstr ""
 
-#: src/lib/hints.cc:194
+#: src/lib/hints.cc:193
 msgid ""
 "You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not "
 "supported by all projectors.  You may want to consider changing your frame "
 "rate to %2 fps."
 msgstr ""
 
-#: src/lib/hints.cc:204
+#: src/lib/hints.cc:203
 msgid ""
 "You are set up for a DCP frame rate of 30fps, which is not supported by all "
 "projectors.  Be aware that you may have compatibility problems."
 msgstr ""
 
-#: src/lib/hints.cc:127
+#: src/lib/hints.cc:126
 msgid ""
 "You are using %1's stereo-to-5.1 upmixer.  This is experimental and may "
 "result in poor-quality audio.  If you continue, you should listen to the "
 "resulting DCP in a cinema to make sure that it sounds good."
 msgstr ""
 
-#: src/lib/hints.cc:324
+#: src/lib/hints.cc:323
 msgid ""
 "You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if "
 "you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"
 msgstr ""
 
-#: src/lib/hints.cc:308
+#: src/lib/hints.cc:307
 msgid ""
 "You have %1 files that look like they are VOB files from DVD. You should "
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/film.cc:1623
+#: src/lib/film.cc:1672
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr ""
 
-#: src/lib/hints.cc:611
+#: src/lib/hints.cc:610
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
 msgstr ""
 
-#: src/lib/hints.cc:292
+#: src/lib/hints.cc:291
 msgid ""
 "You have specified a font file which is larger than 640kB.  This is very "
 "likely to cause problems on playback."
@@ -1778,14 +1793,14 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr ""
 
-#: src/lib/hints.cc:769
+#: src/lib/hints.cc:768
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
 "set the DCP audio channels to 8 or 16."
 msgstr ""
 
-#: src/lib/hints.cc:112
+#: src/lib/hints.cc:111
 msgid ""
 "Your DCP has fewer than 6 audio channels.  This may cause problems on some "
 "projectors.  You may want to set the DCP to have 6 channels.  It does not "
@@ -1793,13 +1808,13 @@ msgid ""
 "silence."
 msgstr ""
 
-#: src/lib/hints.cc:169
+#: src/lib/hints.cc:168
 msgid ""
 "Your DCP uses an unusual container ratio.  This may cause problems on some "
 "projectors.  If possible, use Flat or Scope for the DCP container ratio."
 msgstr ""
 
-#: src/lib/hints.cc:358
+#: src/lib/hints.cc:357
 msgid ""
 "Your audio level is very high (on %1).  You should reduce the gain of your "
 "audio content."
@@ -1824,7 +1839,8 @@ msgstr ""
 msgid "[still]"
 msgstr ""
 
-#: src/lib/dcp_subtitle_content.cc:134 src/lib/string_text_file_content.cc:112
+#: src/lib/dcp_subtitle_content.cc:134 src/lib/fcpxml_content.cc:85
+#: src/lib/string_text_file_content.cc:112
 msgid "[subtitles]"
 msgstr ""
 
@@ -1862,11 +1878,11 @@ msgstr ""
 msgid "could not find stream information"
 msgstr ""
 
-#: src/lib/reel_writer.cc:407
+#: src/lib/reel_writer.cc:404
 msgid "could not move atmos asset into the DCP (%1)"
 msgstr ""
 
-#: src/lib/reel_writer.cc:390
+#: src/lib/reel_writer.cc:387
 msgid "could not move audio asset into the DCP (%1)"
 msgstr ""
 
@@ -2015,10 +2031,10 @@ msgstr ""
 msgid "still"
 msgstr ""
 
-#: src/lib/ffmpeg_examiner.cc:334 src/lib/video_content.cc:375
+#: src/lib/ffmpeg_examiner.cc:347 src/lib/video_content.cc:377
 msgid "unknown"
 msgstr ""
 
-#: src/lib/video_content.cc:533
+#: src/lib/video_content.cc:535
 msgid "video frames"
 msgstr ""
