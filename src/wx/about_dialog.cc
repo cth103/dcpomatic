@@ -94,7 +94,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 	{
 		t = new StaticText (
 			this,
-			_("(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\nOle Laursen, Aaron Boxer"),
+			_("(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\nOle Laursen, Aaron Boxer"),
 			wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 			);
 
