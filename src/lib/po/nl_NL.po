@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-02 00:29+0100\n"
-"PO-Revision-Date: 2024-11-12 04:23+0100\n"
+"PO-Revision-Date: 2025-01-02 20:23+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #: src/lib/video_content.cc:522
 #, c-format
@@ -1009,9 +1009,8 @@ msgid "FCC"
 msgstr "FCC"
 
 #: src/lib/fcpxml_content.cc:92
-#, fuzzy
 msgid "FCP XML subtitles"
-msgstr "DCP XML ondertitels"
+msgstr "FCP XML ondertitels"
 
 #: src/lib/scp_uploader.cc:69
 msgid "Failed to authenticate with server (%1)"
@@ -1091,6 +1090,9 @@ msgid ""
 "check your configuration and license, and ensure that you are connected to "
 "the internet."
 msgstr ""
+"GPU-acceleratie is ingeschakeld, maar de grok-decoder werkt niet.  "
+"Controleer a.u.b. uw configuratie en licentie en zorg ervoor dat u verbonden "
+"bent met internet."
 
 #: src/lib/ffmpeg_content.cc:632
 msgid "Gamma 22 (BT470M)"
@@ -1916,7 +1918,7 @@ msgstr "Spiegel verticaal"
 
 #: src/lib/fcpxml.cc:69
 msgid "Video refers to missing asset %1"
-msgstr ""
+msgstr "Video refereert aan ontbrekende asset %1"
 
 #: src/lib/util.cc:641
 msgid "Visually impaired"

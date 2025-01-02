@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-02 00:29+0100\n"
-"PO-Revision-Date: 2024-11-12 04:12+0100\n"
+"PO-Revision-Date: 2025-01-02 20:54+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.4\n"
+"X-Generator: Poedit 3.5\n"
 
 #: src/wx/player_information.cc:112
 #, c-format
@@ -108,12 +108,11 @@ msgid "%s test email"
 msgstr "%s test e-mail"
 
 #: src/wx/about_dialog.cc:97
-#, fuzzy
 msgid ""
 "(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
 "Ole Laursen, Aaron Boxer"
 msgstr ""
-"(C) 2012-2024 Carl Hetherington, Terrence Meiczinger\n"
+"(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\n"
 "Ole Laursen, Aaron Boxer"
 
 #: src/wx/file_picker_ctrl.cc:64
@@ -849,9 +848,8 @@ msgid "Closed captions"
 msgstr "Closed captions"
 
 #: src/wx/short_kdm_output_panel.cc:75 src/wx/tall_kdm_output_panel.cc:100
-#, fuzzy
 msgid "Collection"
-msgstr "Closed captions"
+msgstr "Verzameling"
 
 #: src/wx/subtitle_appearance_dialog.cc:85 src/wx/video_panel.cc:185
 msgid "Colour"
@@ -1185,9 +1183,8 @@ msgstr "Vertraging"
 #. TRANSLATORS: Destination here refers to where some KDMs will be written or sent
 #. (a place on disk or some email addresses).
 #: src/wx/short_kdm_output_panel.cc:48
-#, fuzzy
 msgid "Destination"
-msgstr "Duur"
+msgstr "Bestemming"
 
 #: src/wx/screen_dialog.cc:137 src/wx/short_kdm_output_panel.cc:53
 msgid "Details"
@@ -1454,9 +1451,8 @@ msgid "First frame of moving credits"
 msgstr "First frame of moving credits"
 
 #: src/wx/markers.cc:33
-#, fuzzy
 msgid "First frame of ratings band"
-msgstr "First frame of moving credits"
+msgstr "First frame of ratings band"
 
 #: src/wx/markers.cc:35
 msgid "First frame of title credits"
@@ -1905,9 +1901,8 @@ msgid "Last frame of moving credits"
 msgstr "Last frame of moving credits"
 
 #: src/wx/markers.cc:34
-#, fuzzy
 msgid "Last frame of ratings band"
-msgstr "Last frame of moving credits"
+msgstr "Last frame of ratings band"
 
 #: src/wx/markers.cc:36
 msgid "Last frame of title credits"
@@ -2253,9 +2248,8 @@ msgid "Name"
 msgstr "Naam"
 
 #: src/wx/short_kdm_output_panel.cc:58
-#, fuzzy
 msgid "Name formats"
-msgstr "Bestandsnaam-formaat"
+msgstr "Naam-formaten"
 
 #: src/wx/player_information.cc:152
 msgid "Needs KDM"
