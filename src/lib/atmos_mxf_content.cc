@@ -27,7 +27,6 @@
 #include <asdcp/KM_log.h>
 #include <dcp/atmos_asset.h>
 #include <dcp/exceptions.h>
-#include <dcp/raw_convert.h>
 #include <libxml++/libxml++.h>
 
 #include "i18n.h"

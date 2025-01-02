@@ -24,14 +24,12 @@
 #include "dkdm_recipient.h"
 #include "film.h"
 #include "kdm_with_metadata.h"
-#include <dcp/raw_convert.h>
 
 
 using std::make_shared;
 using std::shared_ptr;
 using std::string;
 using std::vector;
-using dcp::raw_convert;
 
 
 KDMWithMetadataPtr

@@ -36,7 +36,6 @@
 #include "lib/player_video.h"
 #include "lib/scoped_temporary.h"
 #include <dcp/exceptions.h>
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>

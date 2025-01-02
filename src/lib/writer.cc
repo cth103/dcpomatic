@@ -42,7 +42,6 @@
 #include <dcp/cpl.h>
 #include <dcp/mono_mpeg2_picture_frame.h>
 #include <dcp/locale_convert.h>
-#include <dcp/raw_convert.h>
 #include <dcp/reel_file_asset.h>
 #include <dcp/reel_text_asset.h>
 #include <cerrno>

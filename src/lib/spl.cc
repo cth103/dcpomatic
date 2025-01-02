@@ -23,7 +23,6 @@
 #include "spl.h"
 #include <libcxml/cxml.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <libxml++/libxml++.h>
@@ -34,7 +33,6 @@ LIBDCP_ENABLE_WARNINGS
 using std::cout;
 using std::string;
 using std::shared_ptr;
-using dcp::raw_convert;
 
 
 void

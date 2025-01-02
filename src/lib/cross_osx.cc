@@ -27,7 +27,6 @@
 #include "log.h"
 #include "variant.h"
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <glib.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/regex.hpp>

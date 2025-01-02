@@ -74,7 +74,6 @@
 #include <dcp/dcp.h>
 #include <dcp/exceptions.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/scope_guard.h>
 #include <dcp/search.h>
 #include <dcp/warnings.h>
@@ -119,7 +118,6 @@ using boost::thread;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 

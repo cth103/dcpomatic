@@ -24,7 +24,6 @@
 #include <dcp/cpl.h>
 #include <dcp/dcp.h>
 #include <dcp/filesystem.h>
-#include <dcp/raw_convert.h>
 #include <dcp/reel_asset.h>
 #include <dcp/reel_file_asset.h>
 #include <dcp/warnings.h>
@@ -41,7 +40,6 @@ using std::string;
 using std::list;
 using std::shared_ptr;
 using std::vector;
-using dcp::raw_convert;
 
 
 CPLSummary::CPLSummary (boost::filesystem::path p)

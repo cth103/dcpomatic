@@ -32,7 +32,6 @@
 #include "log.h"
 #include "memory_util.h"
 #include "util.h"
-#include <dcp/raw_convert.h>
 extern "C" {
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
@@ -50,7 +49,6 @@ using std::cerr;
 using std::vector;
 using std::shared_ptr;
 using boost::optional;
-using dcp::raw_convert;
 using namespace dcpomatic;
 
 

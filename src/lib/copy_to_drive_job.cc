@@ -24,7 +24,6 @@
 #include "dcpomatic_log.h"
 #include "disk_writer_messages.h"
 #include "exceptions.h"
-#include <dcp/raw_convert.h>
 #include <nanomsg/nn.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -41,7 +40,6 @@ using std::min;
 using std::shared_ptr;
 using std::string;
 using boost::optional;
-using dcp::raw_convert;
 
 
 CopyToDriveJob::CopyToDriveJob(std::vector<boost::filesystem::path> const& dcps, Drive drive, Nanomsg& nanomsg)
