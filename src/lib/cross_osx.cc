@@ -204,6 +204,20 @@ start_player ()
 }
 
 
+struct OSXDisk
+{
+	std::string bsd_name;
+	std::string device;
+	boost::optional<std::string> vendor;
+	boost::optional<std::string> model;
+	std::vector<boost::filesystem::path> mount_points;
+	unsigned long size;
+	bool system;
+	bool writeable;
+	bool partition;
+};
+
+
 static optional<string>
 get_vendor (CFDictionaryRef& description)
 {

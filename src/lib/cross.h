@@ -129,6 +129,12 @@ public:
 
 private:
 	std::string _device;
+	/** Descriptions of how this drive is mounted.  This is interpreted differently
+	 *  on different platforms.
+	 *
+	 *  On macOS it's a list of device nodes e.g. /dev/disk8, /dev/disk8s2, /dev/disk7s5 or
+	 *  filesystem mount points (the contents are not important, just if any exist).
+	 */
 	std::vector<boost::filesystem::path> _mount_points;
 	/** size in bytes */
 	uint64_t _size;
@@ -137,20 +143,6 @@ private:
 };
 
 void disk_write_finished ();
-
-
-struct OSXDisk
-{
-	std::string bsd_name;
-	std::string device;
-	boost::optional<std::string> vendor;
-	boost::optional<std::string> model;
-	std::vector<boost::filesystem::path> mount_points;
-	unsigned long size;
-	bool system;
-	bool writeable;
-	bool partition;
-};
 
 
 class ArgFixer
