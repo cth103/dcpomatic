@@ -281,8 +281,9 @@ disk_appeared (DADiskRef disk, void* context)
 	LOG_DISK("%1 appeared", bsd_name);
 
 	OSXDisk this_disk;
+	this_disk.bsd_name = bsd_name;
 
-	this_disk.device = string("/dev/") + bsd_name;
+	this_disk.device = string("/dev/") + this_disk.bsd_name;
 	LOG_DISK("Device is %1", this_disk.device);
 
 	CFDictionaryRef description = DADiskCopyDescription (disk);
@@ -304,11 +305,11 @@ disk_appeared (DADiskRef disk, void* context)
 
 	this_disk.system = get_bool(description, kDADiskDescriptionDeviceInternalKey) && !get_bool(description, kDADiskDescriptionMediaRemovableKey);
 	this_disk.writeable = get_bool(description, kDADiskDescriptionMediaWritableKey);
-	this_disk.partition = string(bsd_name).find("s", 5) != std::string::npos;
+	this_disk.partition = string(this_disk.bsd_name).find("s", 5) != std::string::npos;
 
 	LOG_DISK(
 		"%1 %2 %3 %4 mounted at %5",
-		bsd_name,
+		this_disk.bsd_name,
 		this_disk.system ? "system" : "non-system",
 		this_disk.writeable ? "writeable" : "read-only",
 		this_disk.partition ? "partition" : "drive",

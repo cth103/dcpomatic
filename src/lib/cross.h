@@ -141,6 +141,7 @@ void disk_write_finished ();
 
 struct OSXDisk
 {
+	std::string bsd_name;
 	std::string device;
 	boost::optional<std::string> vendor;
 	boost::optional<std::string> model;
