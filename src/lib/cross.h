@@ -93,9 +93,19 @@ private:
 #endif
 };
 
+
 class Drive
 {
 public:
+#ifdef DCPOMATIC_OSX
+	Drive(std::string device, bool mounted, uint64_t size, boost::optional<std::string> vendor, boost::optional<std::string> model)
+		: _device(device)
+		, _mounted(mounted)
+		, _size(size)
+		, _vendor(vendor)
+		, _model(model)
+	{}
+#else
 	Drive (std::string device, std::vector<boost::filesystem::path> mount_points, uint64_t size, boost::optional<std::string> vendor, boost::optional<std::string> model)
 		: _device(device)
 		, _mount_points(mount_points)
@@ -103,6 +113,7 @@ public:
 		, _vendor(vendor)
 		, _model(model)
 	{}
+#endif
 
 	explicit Drive (std::string);
 
@@ -115,7 +126,11 @@ public:
 	}
 
 	bool mounted () const {
+#ifdef DCPOMATIC_OSX
+		return _mounted;
+#else
 		return !_mount_points.empty();
+#endif
 	}
 
 	std::string log_summary () const;
@@ -125,22 +140,27 @@ public:
 	 */
 	bool unmount ();
 
+#ifdef DCPOMATIC_OSX
+	void set_mounted() {
+		_mounted = true;
+	}
+#endif
+
 	static std::vector<Drive> get ();
 
 private:
 	std::string _device;
-	/** Descriptions of how this drive is mounted.  This is interpreted differently
-	 *  on different platforms.
-	 *
-	 *  On macOS it's a list of device nodes e.g. /dev/disk8, /dev/disk8s2, /dev/disk7s5 or
-	 *  filesystem mount points (the contents are not important, just if any exist).
-	 */
+#ifdef DCPOMATIC_OSX
+	bool _mounted;
+#else
 	std::vector<boost::filesystem::path> _mount_points;
+#endif
 	/** size in bytes */
 	uint64_t _size;
 	boost::optional<std::string> _vendor;
 	boost::optional<std::string> _model;
 };
+
 
 void disk_write_finished ();
 

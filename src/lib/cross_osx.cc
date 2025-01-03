@@ -210,7 +210,7 @@ struct OSXDisk
 	std::string device;
 	boost::optional<std::string> vendor;
 	boost::optional<std::string> model;
-	std::vector<boost::filesystem::path> mount_points;
+	bool mounted;
 	unsigned long size;
 	bool system;
 	bool writeable;
@@ -306,10 +306,7 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.model = get_model (description);
 	LOG_DISK("Vendor/model: %1 %2", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
 
-	auto mp = mount_point (description);
-	if (mp) {
-		this_disk.mount_points.push_back (*mp);
-	}
+	this_disk.mounted = static_cast<bool>(mount_point(description));
 
 	auto media_size_cstr = CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey);
 	if (!media_size_cstr) {
@@ -322,12 +319,12 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.partition = string(this_disk.bsd_name).find("s", 5) != std::string::npos;
 
 	LOG_DISK(
-		"%1 %2 %3 %4 mounted at %5",
+		"%1 %2 %3 %4 %5",
 		this_disk.bsd_name,
 		this_disk.system ? "system" : "non-system",
 		this_disk.writeable ? "writeable" : "read-only",
 		this_disk.partition ? "partition" : "drive",
-		mp ? mp->string() : "[nowhere]"
+		this_disk.mounted ? "mounted" : "not mounted"
 		);
 
 	CFNumberGetValue ((CFNumberRef) media_size_cstr, kCFNumberLongType, &this_disk.size);
@@ -360,10 +357,34 @@ Drive::get ()
 	DAUnregisterCallback(session, (void *) disk_appeared, &disks);
 	CFRelease(session);
 
+	/* Find all the drives (not partitions) - these OSXDisks can be either */
 	vector<Drive> drives;
 	for (auto const& disk: disks) {
 		if (!disk.system && !disk.partition && disk.writeable) {
-			drives.push_back({disk.device, disk.mount_points, disk.size, disk.vendor, disk.model});
+			LOG_DISK("Have a non-system writeable drive: %1", disk.device);
+			drives.push_back({disk.device, disk.mounted, disk.size, disk.vendor, disk.model});
+		}
+	}
+
+	/* Find mounted partitions and mark their drives mounted */
+	for (auto const& disk: disks) {
+		if (!disk.system && disk.partition && disk.mounted) {
+			LOG_DISK("Have a mounted non-system partition: %1 (%2)", disk.device, disk.bsd_name);
+			if (boost::algorithm::starts_with(disk.bsd_name, "disk")) {
+				auto const second_s = disk.bsd_name.find('s', 4);
+				if (second_s != std::string::npos) {
+					/* We have a bsd_name of the form disk...s */
+					auto const drive_device = "/dev/" + disk.bsd_name.substr(0, second_s);
+					LOG_DISK("This belongs to the drive %1", drive_device);
+					auto iter = std::find_if(drives.begin(), drives.end(), [drive_device](Drive const& drive) {
+						return drive.device() == drive_device;
+					});
+					if (iter != drives.end()) {
+						LOG_DISK("Marking %1 as mounted", drive_device);
+						iter->set_mounted();
+					}
+				}
+			}
 		}
 	}
 

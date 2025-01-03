@@ -45,9 +45,13 @@ Drive::Drive (string xml)
 	cxml::Document doc;
 	doc.read_string (xml);
 	_device = doc.string_child("Device");
+#ifdef DCPOMATIC_OSX
+	_mounted = doc.bool_child("Mounted");
+#else
 	for (auto i: doc.node_children("MountPoint")) {
 		_mount_points.push_back (i->content());
 	}
+#endif
 	_size = doc.number_child<uint64_t>("Size");
 	_vendor = doc.optional_string_child("Vendor");
 	_model = doc.optional_string_child("Model");
@@ -60,9 +64,13 @@ Drive::as_xml () const
 	xmlpp::Document doc;
 	auto root = doc.create_root_node ("Drive");
 	cxml::add_text_child(root, "Device", _device);
+#ifdef DCPOMATIC_OSX
+	cxml::add_text_child(root, "Mounted", _mounted ? "1" : "0");
+#else
 	for (auto i: _mount_points) {
 		cxml::add_text_child(root, "MountPoint", i.string());
 	}
+#endif
 	cxml::add_text_child(root, "Size", fmt::to_string(_size));
 	if (_vendor) {
 		cxml::add_text_child(root, "Vendor", *_vendor);
@@ -86,13 +94,13 @@ Drive::description () const
 		name += *_vendor;
 	}
 	if (_model) {
-		if (name.size() > 0) {
+		if (!name.empty()) {
 			name += " " + *_model;
 		} else {
 			name = *_model;
 		}
 	}
-	if (name.size() == 0) {
+	if (name.empty()) {
 		name = _("Unknown");
 	}
 
@@ -104,14 +112,23 @@ string
 Drive::log_summary () const
 {
 	string mp;
+#ifdef DCPOMATIC_OSX
+	if (_mounted) {
+		mp += "mounted ";
+	} else {
+		mp += "not mounted ";
+	}
+#else
+	mp = "mounted on ";
 	for (auto i: _mount_points) {
 		mp += i.string() + ",";
 	}
-	if (mp.empty()) {
+	if (_mount_points.empty()) {
 		mp = "[none]";
 	} else {
 		mp = mp.substr (0, mp.length() - 1);
 	}
+#endif
 
 	return String::compose(
 		"Device %1 mounted on %2 size %3 vendor %4 model %5",
