@@ -256,19 +256,17 @@ get_model (CFDictionaryRef& description)
 }
 
 
-static optional<boost::filesystem::path>
-mount_point (CFDictionaryRef& description)
+static
+bool
+is_mounted(CFDictionaryRef& description)
 {
 	auto volume_path_key = (CFURLRef) CFDictionaryGetValue (description, kDADiskDescriptionVolumePathKey);
 	if (!volume_path_key) {
-		return {};
+		return false;
 	}
 
 	char mount_path_buffer[1024];
-	if (!CFURLGetFileSystemRepresentation(volume_path_key, false, (UInt8 *) mount_path_buffer, sizeof(mount_path_buffer))) {
-		return {};
-	}
-	return boost::filesystem::path(mount_path_buffer);
+	return CFURLGetFileSystemRepresentation(volume_path_key, false, (UInt8 *) mount_path_buffer, sizeof(mount_path_buffer));
 }
 
 
@@ -306,7 +304,7 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.model = get_model (description);
 	LOG_DISK("Vendor/model: %1 %2", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
 
-	this_disk.mounted = static_cast<bool>(mount_point(description));
+	this_disk.mounted = is_mounted(description);
 
 	auto media_size_cstr = CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey);
 	if (!media_size_cstr) {
