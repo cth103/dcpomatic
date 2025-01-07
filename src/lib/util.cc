@@ -78,8 +78,10 @@ LIBDCP_ENABLE_WARNINGS
 #include <unicode/unistr.h>
 #include <unicode/translit.h>
 #include <unicode/brkiter.h>
+#include <fmt/chrono.h>
 #include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
+#include <boost/date_time/c_local_time_adjustor.hpp>
 #include <boost/range/algorithm/replace_if.hpp>
 #include <boost/thread.hpp>
 #include <boost/filesystem.hpp>
@@ -1206,4 +1208,21 @@ join_strings(vector<string> const& in, string const& separator)
 		return a + separator + b;
 	});
 }
+
+
+string
+rfc_2822_date(time_t time)
+{
+	auto const utc_now = boost::posix_time::second_clock::universal_time ();
+	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
+	auto const offset = local_now - utc_now;
+
+	auto const hours = int(abs(offset.hours()));
+
+	auto tm = localtime(&time);
+
+	/* I tried using %z in the time formatter but it gave results like "Pacific Standard Time" instead +0800 on Windows */
+	return fmt::format("{:%a, %d %b %Y %H:%M:%S} {}{:02d}{:02d}", *tm, offset.hours() >= 0 ? "+" : "-", hours, int(offset.minutes()));
+}
+
 

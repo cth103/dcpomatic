@@ -30,8 +30,11 @@
 #include "lib/exceptions.h"
 #include "test.h"
 #include <dcp/certificate_chain.h>
-#include <boost/test/unit_test.hpp>
+#include <fmt/format.h>
 #include <boost/bind/bind.hpp>
+#include <boost/date_time/c_local_time_adjustor.hpp>
+#include <boost/test/unit_test.hpp>
+
 
 
 using std::list;
@@ -164,5 +167,60 @@ BOOST_AUTO_TEST_CASE(screen_names_to_string_test)
 	BOOST_CHECK_EQUAL(screen_names_to_string({"39", "3", "10", "1", "2"}), "1, 2, 3, 10, 39");
 	BOOST_CHECK_EQUAL(screen_names_to_string({"Sheila", "Fred", "Jim"}), "Fred, Jim, Sheila");
 	BOOST_CHECK_EQUAL(screen_names_to_string({"Sheila", "Fred", "Jim", "1"}), "1, Fred, Jim, Sheila");
+}
+
+
+BOOST_AUTO_TEST_CASE(rfc_2822_date_test)
+{
+#ifdef DCPOMATIC_WINDOWS
+	auto result = setlocale(LC_TIME, "German");
+#endif
+#ifdef DCPOMATIC_OSX
+	auto result = setlocale(LC_TIME, "de_DE");
+#endif
+#ifdef DCPOMATIC_LINUX
+	auto result = setlocale(LC_TIME, "de_DE.UTF8");
+#endif
+	BOOST_REQUIRE(result);
+
+	auto const utc_now = boost::posix_time::second_clock::universal_time ();
+	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
+	auto const offset = local_now - utc_now;
+
+	auto const hours = int(abs(offset.hours()));
+	auto const tz = fmt::format("{}{:02d}{:02d}", offset.hours() >= 0 ? "+" : "-", hours, int(offset.minutes()));
+
+	int constexpr day = 24 * 60 * 60;
+
+	/* This won't pass when running in all time zones, but it's really the overall format (and in particular
+	 * the use of English for day and month names) that we want to check.
+	 */
+
+	auto check_allowing_dst = [hours, tz](int day_index, string format) {
+		auto test = rfc_2822_date(day_index * day);
+		BOOST_CHECK(
+			test == fmt::format(format, hours, tz) ||
+			test == fmt::format(format, hours + 1, tz)
+		);
+	};
+
+	check_allowing_dst(0, "Thu, 01 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(1, "Fri, 02 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(2, "Sat, 03 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(3, "Sun, 04 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(4, "Mon, 05 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(5, "Tue, 06 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(6, "Wed, 07 Jan 1970 {:02d}:00:00 {}");
+	check_allowing_dst(39, "Mon, 09 Feb 1970 {:02d}:00:00 {}");
+	check_allowing_dst(89, "Tue, 31 Mar 1970 {:02d}:00:00 {}");
+	check_allowing_dst(109, "Mon, 20 Apr 1970 {:02d}:00:00 {}");
+	check_allowing_dst(134, "Fri, 15 May 1970 {:02d}:00:00 {}");
+	check_allowing_dst(158, "Mon, 08 Jun 1970 {:02d}:00:00 {}");
+	check_allowing_dst(182, "Thu, 02 Jul 1970 {:02d}:00:00 {}");
+	check_allowing_dst(221, "Mon, 10 Aug 1970 {:02d}:00:00 {}");
+	check_allowing_dst(247, "Sat, 05 Sep 1970 {:02d}:00:00 {}");
+	check_allowing_dst(300, "Wed, 28 Oct 1970 {:02d}:00:00 {}");
+	check_allowing_dst(314, "Wed, 11 Nov 1970 {:02d}:00:00 {}");
+	check_allowing_dst(363, "Wed, 30 Dec 1970 {:02d}:00:00 {}");
 }
 
