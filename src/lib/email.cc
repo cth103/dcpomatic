@@ -23,10 +23,10 @@
 #include "config.h"
 #include "email.h"
 #include "exceptions.h"
+#include "util.h"
 #include "variant.h"
 #include <curl/curl.h>
 #include <boost/algorithm/string.hpp>
-#include <boost/date_time/c_local_time_adjustor.hpp>
 
 #include "i18n.h"
 
@@ -112,17 +112,7 @@ Email::get_data(void* ptr, size_t size, size_t nmemb)
 void
 Email::send(string server, int port, EmailProtocol protocol, string user, string password)
 {
-	char date_buffer[128];
-	time_t now = time (0);
-	strftime (date_buffer, sizeof(date_buffer), "%a, %d %b %Y %H:%M:%S ", localtime(&now));
-
-	auto const utc_now = boost::posix_time::second_clock::universal_time ();
-	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
-	auto offset = local_now - utc_now;
-	auto end = date_buffer + strlen(date_buffer);
-	snprintf(end, sizeof(date_buffer) - (end - date_buffer), "%s%02d%02d", (offset.hours() >= 0 ? "+" : "-"), int(abs(offset.hours())), int(offset.minutes()));
-
-	_email = "Date: " + string(date_buffer) + "\r\n"
+	_email = "Date: " + rfc_2822_date(time(nullptr)) + "\r\n"
 		"To: " + address_list (_to) + "\r\n"
 		"From: " + _from + "\r\n";
 
