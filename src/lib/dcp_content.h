@@ -226,7 +226,7 @@ private:
 	EnumIndexedVector<bool, TextType> _reference_text;
 
 	boost::optional<dcp::Standard> _standard;
-	VideoEncoding _video_encoding;
+	VideoEncoding _video_encoding = VideoEncoding::JPEG2000;
 	boost::optional<dcp::ContentKind> _content_kind;
 	bool _three_d;
 	/** ID of the CPL to use; older metadata might not specify this: in that case
