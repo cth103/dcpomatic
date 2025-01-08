@@ -399,11 +399,12 @@ public:
 	{
 		DCPOMATIC_ASSERT (_film);
 
-		reset_film ();
+		auto film = std::make_shared<Film>(optional<boost::filesystem::path>());
+
 		try {
 			_stress.set_suspended (true);
 			auto dcp = make_shared<DCPContent>(dir);
-			auto job = make_shared<ExamineContentJob>(_film, dcp);
+			auto job = make_shared<ExamineContentJob>(film, dcp);
 			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add (job);
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
@@ -412,7 +413,7 @@ public:
 			}
 			Config::instance()->add_to_player_history (dir);
 			if (dcp->video_frame_rate()) {
-				_film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
+				film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
 			}
 			switch (dcp->video_encoding()) {
 			case VideoEncoding::JPEG2000:
@@ -440,6 +441,8 @@ public:
 		} catch (DCPError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
+
+		reset_film(film);
 	}
 
 	void add_dcp_to_film (weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
