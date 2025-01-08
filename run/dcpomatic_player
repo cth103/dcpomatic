@@ -10,7 +10,6 @@ else
     env=x86_64/10.10
 fi
 
-echo $env
 export DYLD_LIBRARY_PATH=/Users/cah/osx-environment/$env/lib:/usr/local/lib
 
 # Allow running from a tree built using cdist
