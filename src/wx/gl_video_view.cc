@@ -197,12 +197,14 @@ static constexpr char fragment_source[] =
 "uniform sampler2D texture_sampler_0;\n"
 "uniform sampler2D texture_sampler_1;\n"
 "uniform sampler2D texture_sampler_2;\n"
+"uniform sampler2D texture_sampler_3;\n"
 /* type = 0: draw outline content rectangle
  * type = 1: draw crop guess rectangle
- * type = 2: draw XYZ image
- * type = 3: draw RGB image (with sRGB/Rec709 primaries)
- * type = 4: draw RGB image (converting from Rec2020 primaries)
- * type = 5; draw YUV image (Y in texture_sampler_0, U in texture_sampler_1, V in texture_sampler_2)
+ * type = 2: draw XYZ image from texture_sampler_0
+ * type = 3: draw RGB image (with sRGB/Rec709 primaries) from texture_sampler_0
+ * type = 4: draw RGB image (with sRGB/Rec709 primaries) from texture_sampler_3
+ * type = 5: draw RGB image (converting from Rec2020 primaries) from texture_sampler_0
+ * type = 6; draw YUV image (Y in texture_sampler_0, U in texture_sampler_1, V in texture_sampler_2)
  * See FragmentType enum below.
  */
 "uniform int type = 0;\n"
@@ -286,10 +288,13 @@ static constexpr char fragment_source[] =
 "			FragColor = texture_bicubic(texture_sampler_0, TexCoord);\n"
 "                       break;\n"
 "		case 4:\n"
+"			FragColor = texture_bicubic(texture_sampler_3, TexCoord);\n"
+"                       break;\n"
+"		case 5:\n"
 "			FragColor = texture_bicubic(texture_sampler_0, TexCoord);\n"
 "			FragColor = rec2020_rec709_colour_conversion * FragColor;\n"
 "			break;\n"
-"               case 5:\n"
+"               case 6:\n"
 "                       float y = texture_bicubic(texture_sampler_0, TexCoord).x;\n"
 "                       float u = texture_bicubic(texture_sampler_1, TexCoord).x - 0.5;\n"
 "                       float v = texture_bicubic(texture_sampler_2, TexCoord).x - 0.5;\n"
@@ -309,8 +314,9 @@ enum class FragmentType
 	CROP_GUESS = 1,
 	XYZ_IMAGE = 2,
 	REC709_IMAGE = 3,
-	REC2020_IMAGE = 4,
-	YUV420P_IMAGE = 5,
+	REC709_SUBTITLE = 4,
+	REC2020_IMAGE = 5,
+	YUV420P_IMAGE = 6,
 };
 
 
@@ -481,6 +487,10 @@ GLVideoView::setup_shaders ()
 	check_gl_error("glGetUniformLocation");
 	glUniform1i(texture_2, 2);
 	check_gl_error("glUniform1i");
+	auto texture_3 = glGetUniformLocation(program, "texture_sampler_3");
+	check_gl_error("glGetUniformLocation");
+	glUniform1i(texture_3, 3);
+	check_gl_error("glUniform1i");
 
 	_fragment_type = glGetUniformLocation (program, "type");
 	check_gl_error ("glGetUniformLocation");
@@ -600,7 +610,7 @@ GLVideoView::draw ()
 	}
 	glDrawElements (GL_TRIANGLES, indices_video_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_video_texture_offset * sizeof(int)));
 	if (_have_subtitle_to_render) {
-		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_IMAGE));
+		glUniform1i(_fragment_type, static_cast<GLint>(FragmentType::REC709_SUBTITLE));
 		_subtitle_texture->bind();
 		glDrawElements (GL_TRIANGLES, indices_subtitle_texture_number, GL_UNSIGNED_INT, reinterpret_cast<void*>(indices_subtitle_texture_offset * sizeof(int)));
 	}
@@ -663,7 +673,6 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		DCPOMATIC_ASSERT (text->image->alignment() == Image::Alignment::COMPACT);
 		_subtitle_texture->set (text->image);
 	}
-
 
 	auto const canvas_size = _canvas_size.load();
 	int const canvas_width = canvas_size.GetWidth();
@@ -796,6 +805,15 @@ GLVideoView::set_image (shared_ptr<const PlayerVideo> pv)
 		glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		check_gl_error ("glTexParameterf");
 	}
+
+	_subtitle_texture->bind();
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri (GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	check_gl_error ("glTexParameteri");
+
+	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameterf (GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	check_gl_error ("glTexParameterf");
 }
 
 
@@ -909,7 +927,7 @@ try
 		std::unique_ptr<Texture> texture(new Texture(_optimisation == Optimisation::JPEG2000 ? 2 : 1, i));
 		_video_textures.push_back(std::move(texture));
 	}
-	_subtitle_texture.reset(new Texture(1, 4));
+	_subtitle_texture.reset(new Texture(1, 3));
 
 	while (true) {
 		boost::mutex::scoped_lock lm (_playing_mutex);
