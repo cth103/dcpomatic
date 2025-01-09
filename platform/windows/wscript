@@ -197,6 +197,7 @@ File "%static_deps%/bin/libbrotlicommon.dll"
 File "%static_deps%/bin/libfribidi-0.dll"
 File "%static_deps%/bin/libsharpyuv-0.dll"
 File "%static_deps%/bin/libsqlite3-0.dll"
+File "%static_deps%/bin/libfmt.dll"
     """, file=f)
 
     if bits == 32:
