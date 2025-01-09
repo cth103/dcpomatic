@@ -522,6 +522,7 @@ supported_by.Add (wxT ("Paul Halpin"));
 supported_by.Add (wxT ("Peter Halter"));
 supported_by.Add (wxT ("Alaric Hamacher"));
 supported_by.Add (wxT ("Filmcrew Hamburg"));
+supported_by.Add (wxT ("Frédéric Hamelin"));
 supported_by.Add (wxT ("Howard Hamilton"));
 supported_by.Add (wxT ("Florian Hammann"));
 supported_by.Add (wxT ("Hassan Hamza"));

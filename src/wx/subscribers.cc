@@ -22,3 +22,4 @@ subscribers.Add (wxT ("Irving Shapiro"));
 subscribers.Add (wxT ("Jussi Siponen"));
 subscribers.Add (wxT ("Jeremy Spracklen"));
 subscribers.Add (wxT ("John B. Thomas"));
+subscribers.Add (wxT ("Videographe"));
