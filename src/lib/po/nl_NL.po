@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-02 00:29+0100\n"
-"PO-Revision-Date: 2025-01-02 20:23+0100\n"
+"PO-Revision-Date: 2025-01-08 18:14+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -1054,7 +1054,7 @@ msgstr "Frame rate"
 
 #: src/lib/job.cc:569
 msgid "Friday"
-msgstr "Vrijdag"
+msgstr "vrijdag"
 
 #: src/lib/ffmpeg_content.cc:591
 msgid "Full"
@@ -1282,7 +1282,7 @@ msgstr "Ontbrekende verplichte instelling %1"
 
 #: src/lib/job.cc:561
 msgid "Monday"
-msgstr "Maandag"
+msgstr "maandag"
 
 #: src/lib/writer.cc:779
 msgid "Mono"
@@ -1528,7 +1528,7 @@ msgstr "SSH-fout [%1] (%2)"
 
 #: src/lib/job.cc:571
 msgid "Saturday"
-msgstr "Zaterdag"
+msgstr "zaterdag"
 
 #: src/lib/image_content.cc:118
 msgid "Scanning image files"
@@ -1630,7 +1630,7 @@ msgstr "Stereo naar 5.1 up-mixer B"
 
 #: src/lib/job.cc:559
 msgid "Sunday"
-msgstr "Zondag"
+msgstr "zondag"
 
 #: src/lib/dcp_content_type.cc:60
 msgid "Teaser"
@@ -1830,7 +1830,7 @@ msgstr ""
 
 #: src/lib/job.cc:567
 msgid "Thursday"
-msgstr "Donderdag"
+msgstr "donderdag"
 
 #: src/lib/text_type.cc:77
 msgid "Timed text"
@@ -1850,7 +1850,7 @@ msgstr "Transitional"
 
 #: src/lib/job.cc:563
 msgid "Tuesday"
-msgstr "Dinsdag"
+msgstr "dinsdag"
 
 #: src/lib/usl.cc:28
 msgid "USL"
@@ -1934,7 +1934,7 @@ msgstr "Weave-filter"
 
 #: src/lib/job.cc:565
 msgid "Wednesday"
-msgstr "Woensdag"
+msgstr "woensdag"
 
 #: src/lib/ffmpeg_content.cc:661
 msgid "YCOCG"
