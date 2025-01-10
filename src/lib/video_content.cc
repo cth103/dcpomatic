@@ -435,16 +435,19 @@ VideoContent::fade(shared_ptr<const Film> film, ContentTime time) const
 
 	double const vfr = _parent->active_video_frame_rate(film);
 
-	auto const ts = _parent->trim_start();
+	auto const trim_start = _parent->trim_start();
 	auto const fade_in_time = ContentTime::from_frames(fade_in(), vfr);
-	if ((time - ts) < fade_in_time) {
-		return double(ContentTime(time - ts).get()) / fade_in_time.get();
+	/* time after the trimmed start of the content */
+	auto const time_after_start = time - trim_start;
+	if (fade_in_time.get() && time_after_start < fade_in_time) {
+		return std::max(0.0, static_cast<double>(time_after_start.get()) / fade_in_time.get());
 	}
 
 	auto const fade_out_time = ContentTime::from_frames(fade_out(), vfr);
-	auto fade_out_start = ContentTime::from_frames(length(), vfr) - _parent->trim_end() - fade_out_time;
-	if (time >= fade_out_start) {
-		return 1 - double(ContentTime(time - fade_out_start).get()) / fade_out_time.get();
+	auto const end = ContentTime::from_frames(length(), vfr) - _parent->trim_end();
+	auto const time_after_end_fade_start = time - (end - fade_out_time);
+	if (time_after_end_fade_start > ContentTime()) {
+		return std::max(0.0, 1 - static_cast<double>(time_after_end_fade_start.get()) / fade_out_time.get());
 	}
 
 	return {};
