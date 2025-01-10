@@ -410,6 +410,7 @@ VideoContent::size_after_3d_split () const
 	}
 
 	DCPOMATIC_ASSERT (false);
+	return {};
 }
 
 /** @return Video size after 3D split and crop */
