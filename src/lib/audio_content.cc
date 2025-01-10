@@ -442,6 +442,14 @@ AudioContent::fade_out () const
 }
 
 
+bool
+AudioContent::use_same_fades_as_video() const
+{
+	boost::mutex::scoped_lock lm (_mutex);
+	return _use_same_fades_as_video;
+}
+
+
 void
 AudioContent::set_fade_in (ContentTime t)
 {

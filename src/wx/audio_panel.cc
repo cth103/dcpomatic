@@ -277,6 +277,16 @@ AudioPanel::film_content_changed (int property)
 			_fade_out->clear ();
 		}
 	} else if (property == AudioContentProperty::USE_SAME_FADES_AS_VIDEO) {
+		set<bool> check;
+		for (auto i: ac) {
+			check.insert(i->audio->use_same_fades_as_video());
+		}
+
+		if (check.size() == 1) {
+			_use_same_fades_as_video->set(ac.front()->audio->use_same_fades_as_video());
+		} else {
+			_use_same_fades_as_video->set(false);
+		}
 		setup_sensitivity ();
 	}
 }

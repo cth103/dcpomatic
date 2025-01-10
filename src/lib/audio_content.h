@@ -82,6 +82,7 @@ public:
 
 	dcpomatic::ContentTime fade_in () const;
 	dcpomatic::ContentTime fade_out () const;
+	bool use_same_fades_as_video() const;
 
 	void set_fade_in (dcpomatic::ContentTime time);
 	void set_fade_out (dcpomatic::ContentTime time);
