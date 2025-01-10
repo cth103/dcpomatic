@@ -900,9 +900,15 @@ ReelWriter::write(PlayerText subs, TextType type, optional<DCPTextTrack> track, 
 
 	switch (type) {
 	case TextType::OPEN_SUBTITLE:
+	case TextType::OPEN_CAPTION:
+		/* We could create a separate MainCaption instead of merging these, but the Deluxe guidelines
+		 * suggest not to use MainCaption.
+		 */
 		asset = _subtitle_asset;
 		break;
 	case TextType::CLOSED_CAPTION:
+	case TextType::CLOSED_SUBTITLE:
+		/* Similarly it is advised by Deluxe not to use ClosedSubtitle */
 		DCPOMATIC_ASSERT (track);
 		asset = _closed_caption_assets[*track];
 		break;
@@ -916,9 +922,11 @@ ReelWriter::write(PlayerText subs, TextType type, optional<DCPTextTrack> track, 
 
 	switch (type) {
 	case TextType::OPEN_SUBTITLE:
+	case TextType::OPEN_CAPTION:
 		_subtitle_asset = asset;
 		break;
 	case TextType::CLOSED_CAPTION:
+	case TextType::CLOSED_SUBTITLE:
 		DCPOMATIC_ASSERT (track);
 		_closed_caption_assets[*track] = asset;
 		break;

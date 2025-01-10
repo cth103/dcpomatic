@@ -828,10 +828,12 @@ Writer::write (PlayerText text, TextType type, optional<DCPTextTrack> track, DCP
 
 	switch (type) {
 	case TextType::OPEN_SUBTITLE:
+	case TextType::OPEN_CAPTION:
 		reel = &_subtitle_reel;
 		_have_subtitles = true;
 		break;
 	case TextType::CLOSED_CAPTION:
+	case TextType::CLOSED_SUBTITLE:
 		DCPOMATIC_ASSERT (track);
 		DCPOMATIC_ASSERT (_caption_reels.find(*track) != _caption_reels.end());
 		reel = &_caption_reels[*track];

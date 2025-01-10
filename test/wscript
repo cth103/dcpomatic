@@ -127,6 +127,7 @@ def build(bld):
                  map_cli_test.cc
                  mca_subdescriptors_test.cc
                  no_use_video_test.cc
+                 open_caption_test.cc
                  optimise_stills_test.cc
                  overlap_video_test.cc
                  pixel_formats_test.cc
