@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2024-12-07 15:57+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -893,7 +893,7 @@ msgid "Container"
 msgstr "Conteneur"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Contenu"
 
@@ -975,7 +975,7 @@ msgstr "Impossible d'importer le certificat (%s)"
 msgid "Could not load KDM"
 msgstr "Impossible de charger le KDM"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 msgid "Could not load KDM."
 msgstr "Impossible de charger le KDM."
 
@@ -1966,11 +1966,11 @@ msgstr "Charger le certificat..."
 msgid "Load configuration from ZIP file"
 msgstr "Charger la configuration depuis le fichier ZIP"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 msgid "Loading content"
 msgstr "Chargement du contenu"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 msgid "Loading playlist and KDMs"
 msgstr "Chargement des playlists et KDM"
 
@@ -2289,7 +2289,7 @@ msgstr "Nouveau nom"
 msgid "New versions of %s are available."
 msgstr "De nouvelles versions de %s sont disponibles."
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr "Suivant"
 
@@ -2505,7 +2505,7 @@ msgid "Patrons"
 msgstr "Patrons"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "Pause"
 
@@ -2534,7 +2534,7 @@ msgstr "Image"
 msgid "Plain"
 msgstr "Simple"
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "Lire"
 
@@ -2550,7 +2550,7 @@ msgstr "Lire le son par"
 msgid "Playlist directory"
 msgstr "Répertoire de la liste de lecture"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 msgid "Playlists"
 msgstr "Liste de lecture"
 
@@ -2574,7 +2574,7 @@ msgstr "Position"
 msgid "Pre-release"
 msgstr "Pré-sortie"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr "Précédent"
 
@@ -2702,7 +2702,7 @@ msgstr "Bobines"
 msgid "Reels..."
 msgstr "Bobines..."
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr "Rafraîchir"
 
@@ -3203,7 +3203,7 @@ msgstr "Démarrer le lecteur comme"
 msgid "Status"
 msgstr "Statut"
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr "Arrêter"
 
@@ -3897,18 +3897,18 @@ msgstr ""
 "autre projet.  Choisissez le répertoire DCP à l'intérieur du dossier de "
 "projet %s si c'est ce que vous voulez importer."
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 "La liste de lecture ne peut être chargée en raison d'un KDM manquant ou "
 "incorrect."
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 "La liste de lecture ne peut être chargé en raison d'un contenu manquant."
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr "La liste de lecture est vide."
 

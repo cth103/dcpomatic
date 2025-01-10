@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2024-10-05 17:45+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -880,7 +880,7 @@ msgid "Container"
 msgstr "ظرف"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "محتوا"
 
@@ -960,7 +960,7 @@ msgstr "نمیتوان گواهی نامه را ایمپورت کرد(%s)"
 msgid "Could not load KDM"
 msgstr "کلید بارگذاری نشد"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 msgid "Could not load KDM."
 msgstr "کلید بارگذاری نشد."
 
@@ -1939,11 +1939,11 @@ msgstr "بارگذاری گواهینامه..."
 msgid "Load configuration from ZIP file"
 msgstr "بارگذاری پیکربندی از فایل فشرده زیپ"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 msgid "Loading content"
 msgstr "بارگذاری محتوا"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 msgid "Loading playlist and KDMs"
 msgstr "بارگذاری لیست نمایش و کلیدها"
 
@@ -2265,7 +2265,7 @@ msgstr "اسم جدید"
 msgid "New versions of %s are available."
 msgstr "نسخه جدید %s در دسترس است."
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr "بعد"
 
@@ -2476,7 +2476,7 @@ msgid "Patrons"
 msgstr "حامیان"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "مکث"
 
@@ -2505,7 +2505,7 @@ msgstr "تصویر"
 msgid "Plain"
 msgstr "تخت"
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "پلی"
 
@@ -2521,7 +2521,7 @@ msgstr "پلی صدا با"
 msgid "Playlist directory"
 msgstr "دایرکتوری لیست نمایش"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 msgid "Playlists"
 msgstr "لیست نمایش"
 
@@ -2544,7 +2544,7 @@ msgstr "موقعیت"
 msgid "Pre-release"
 msgstr "پیش از انتشار"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr "قبلی"
 
@@ -2672,7 +2672,7 @@ msgstr "حلقه ها"
 msgid "Reels..."
 msgstr "حلقه ها..."
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr "تازه کردن"
 
@@ -3171,7 +3171,7 @@ msgstr "شروع پلیربه شکل"
 msgid "Status"
 msgstr "وضعیت"
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr "توقف"
 
@@ -3840,15 +3840,15 @@ msgstr ""
 "کرد. اگر می خواهید پوشه دی سی پی انتخاب کنید از داخل پوشه پروژه %s آن را "
 "انتخاب کنید، اگر این همان چیزی است که میخواهید ایمپورت کنید."
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr "لیست نمایش به دلیل فقدان و یا نادرست بودن کلید قابل بارگذاری نیست."
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr "لیست نمایش به دلیل فقدان برخی از محتواها قابل بارگذاری نیست."
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr "این لیست نمایش خالی است."
 

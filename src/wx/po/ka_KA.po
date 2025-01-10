@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -864,7 +864,7 @@ msgid "Container"
 msgstr ""
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr ""
 
@@ -944,7 +944,7 @@ msgstr ""
 msgid "Could not load KDM"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 msgid "Could not load KDM."
 msgstr ""
 
@@ -1889,11 +1889,11 @@ msgstr ""
 msgid "Load configuration from ZIP file"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 msgid "Loading content"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 msgid "Loading playlist and KDMs"
 msgstr ""
 
@@ -2191,7 +2191,7 @@ msgstr ""
 msgid "New versions of %s are available."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr ""
 
@@ -2400,7 +2400,7 @@ msgid "Patrons"
 msgstr ""
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr ""
 
@@ -2429,7 +2429,7 @@ msgstr ""
 msgid "Plain"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr ""
 
@@ -2445,7 +2445,7 @@ msgstr ""
 msgid "Playlist directory"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 msgid "Playlists"
 msgstr ""
 
@@ -2467,7 +2467,7 @@ msgstr ""
 msgid "Pre-release"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr ""
 
@@ -2595,7 +2595,7 @@ msgstr ""
 msgid "Reels..."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr ""
 
@@ -3091,7 +3091,7 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr ""
 
@@ -3697,15 +3697,15 @@ msgid ""
 "you want to import."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr ""
 

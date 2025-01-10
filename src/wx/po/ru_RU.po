@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2022-02-11 22:17+0500\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -898,7 +898,7 @@ msgstr "Контейнер"
 
 # Main
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Контент"
 
@@ -978,7 +978,7 @@ msgstr "Не удалось импортировать сертификат (%s)
 msgid "Could not load KDM"
 msgstr "Не удалось загрузить KDM"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 #, fuzzy
 msgid "Could not load KDM."
 msgstr "Не удалось загрузить KDM"
@@ -1980,12 +1980,12 @@ msgstr "Загрузить сертификат…"
 msgid "Load configuration from ZIP file"
 msgstr "Конфигурационный файл"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 #, fuzzy
 msgid "Loading content"
 msgstr "Переместить контент"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 #, fuzzy
 msgid "Loading playlist and KDMs"
 msgstr "Подписывание DCP и KDM"
@@ -2304,7 +2304,7 @@ msgstr "Новое название"
 msgid "New versions of %s are available."
 msgstr "Доступны новые версии DCP-o-matic."
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr ""
 
@@ -2519,7 +2519,7 @@ msgid "Patrons"
 msgstr "Спонсоры"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "Пазуа"
 
@@ -2548,7 +2548,7 @@ msgstr ""
 msgid "Plain"
 msgstr "Простой (Plain)"
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "Вопроизведение"
 
@@ -2564,7 +2564,7 @@ msgstr "Вопроизводить звук через"
 msgid "Playlist directory"
 msgstr "Папка плейлиста"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 #, fuzzy
 msgid "Playlists"
 msgstr "Вопроизведение"
@@ -2589,7 +2589,7 @@ msgstr "Позиция"
 msgid "Pre-release"
 msgstr "Пре-релиз"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr ""
 
@@ -2723,7 +2723,7 @@ msgstr "Части фильма"
 msgid "Reels..."
 msgstr "Части фильма"
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr ""
 
@@ -3238,7 +3238,7 @@ msgstr "Запустить плеер как"
 msgid "Status"
 msgstr "Состояние"
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr "Стоп"
 
@@ -3907,15 +3907,15 @@ msgstr ""
 "другому проекту.  Выберите папку DCP внутри папки проекта DCP-o-matic, если "
 "это то, что вы хотите импортировать."
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr ""
 

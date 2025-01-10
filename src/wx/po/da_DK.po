@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2019-04-06 13:46+0200\n"
 "Last-Translator: FULL NAME &lt;EMAIL@ADDRESS&gt;\n"
 "Language-Team: LANGUAGE &lt;LL@li.org&gt;\n"
@@ -903,7 +903,7 @@ msgid "Container"
 msgstr "Container"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Indhold"
 
@@ -986,7 +986,7 @@ msgstr "Kunne ikke importere certifikat (%s)"
 msgid "Could not load KDM"
 msgstr "Kunne ikke indlæse KDM"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 #, fuzzy
 msgid "Could not load KDM."
 msgstr "Kunne ikke indlæse KDM"
@@ -1973,12 +1973,12 @@ msgstr "Indlæs certifikat..."
 msgid "Load configuration from ZIP file"
 msgstr "Konfigurationsfil"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 #, fuzzy
 msgid "Loading content"
 msgstr "Flyt indhold"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 #, fuzzy
 msgid "Loading playlist and KDMs"
 msgstr "Signere DCPer og KDMer"
@@ -2288,7 +2288,7 @@ msgstr "Nyt navn"
 msgid "New versions of %s are available."
 msgstr "Nye versioner af DCP-o-matic er tilgængelige."
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr ""
 
@@ -2506,7 +2506,7 @@ msgid "Patrons"
 msgstr ""
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "Pause"
 
@@ -2535,7 +2535,7 @@ msgstr ""
 msgid "Plain"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "Afspil"
 
@@ -2551,7 +2551,7 @@ msgstr "Afspil lyd via"
 msgid "Playlist directory"
 msgstr "Playliste-folder"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 #, fuzzy
 msgid "Playlists"
 msgstr "Afspil"
@@ -2576,7 +2576,7 @@ msgstr "Position"
 msgid "Pre-release"
 msgstr "Pre-release"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr ""
 
@@ -2712,7 +2712,7 @@ msgstr "Spoler"
 msgid "Reels..."
 msgstr "Spoler"
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr ""
 
@@ -3227,7 +3227,7 @@ msgstr "Start afspiller som"
 msgid "Status"
 msgstr ""
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr ""
 
@@ -3862,15 +3862,15 @@ msgid ""
 "you want to import."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr ""
 

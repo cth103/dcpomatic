@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2025-01-02 20:54+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -890,7 +890,7 @@ msgid "Container"
 msgstr "Container"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Content"
 
@@ -971,7 +971,7 @@ msgstr "Kan certificaat niet importeren (%s)"
 msgid "Could not load KDM"
 msgstr "Kan KDM niet laden"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 msgid "Could not load KDM."
 msgstr "Kan KDM niet laden."
 
@@ -1953,11 +1953,11 @@ msgstr "Laad certificaat..."
 msgid "Load configuration from ZIP file"
 msgstr "Laad configuratie vanuit ZIP-bestand"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 msgid "Loading content"
 msgstr "Laden content"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 msgid "Loading playlist and KDMs"
 msgstr "Laden afspeellijst en KDM's"
 
@@ -2268,7 +2268,7 @@ msgstr "Nieuwe naam"
 msgid "New versions of %s are available."
 msgstr "Er zijn nieuwe versies van %s beschikbaar."
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr "Volgende"
 
@@ -2483,7 +2483,7 @@ msgid "Patrons"
 msgstr "Patronen"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "Pauzeer"
 
@@ -2512,7 +2512,7 @@ msgstr "Beeld"
 msgid "Plain"
 msgstr "Plain"
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "Speel af"
 
@@ -2528,7 +2528,7 @@ msgstr "Speel audio af via"
 msgid "Playlist directory"
 msgstr "Afspeellijst-map"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 msgid "Playlists"
 msgstr "Afspeellijsten"
 
@@ -2552,7 +2552,7 @@ msgstr "Positie"
 msgid "Pre-release"
 msgstr "Pre-release"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr "Vorige"
 
@@ -2680,7 +2680,7 @@ msgstr "Reels"
 msgid "Reels..."
 msgstr "Reels..."
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr "Vernieuwen"
 
@@ -3181,7 +3181,7 @@ msgstr "Start player als"
 msgid "Status"
 msgstr "Status"
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr "Stop"
 
@@ -3864,17 +3864,17 @@ msgstr ""
 "worden toegevoegd.  Kies de DCP-map in de %s projectmap als u die wilt "
 "importeren."
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 "Deze afspeellijst kan niet worden geladen omdat er een KDM ontbreekt of "
 "onjuist is."
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr "Deze afspeellijst kan niet worden geladen omdat er content ontbreekt."
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr "Deze afspeellijst is leeg."
 

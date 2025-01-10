@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2024-11-19 08:26+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -886,7 +886,7 @@ msgid "Container"
 msgstr "封装格式"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "内容"
 
@@ -966,7 +966,7 @@ msgstr "无法导入证书文件 (%s)"
 msgid "Could not load KDM"
 msgstr "无法加载 KDM"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 msgid "Could not load KDM."
 msgstr "无法加载 KDM。"
 
@@ -1935,11 +1935,11 @@ msgstr "载入证书..."
 msgid "Load configuration from ZIP file"
 msgstr "从 ZIP 文件加载配置"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 msgid "Loading content"
 msgstr "加载内容"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 msgid "Loading playlist and KDMs"
 msgstr "加载播放列表和 KDMs"
 
@@ -2238,7 +2238,7 @@ msgstr "新名称"
 msgid "New versions of %s are available."
 msgstr "有新的版本%s可用。"
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr "下一步"
 
@@ -2447,7 +2447,7 @@ msgid "Patrons"
 msgstr "赞助人"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "暂停"
 
@@ -2476,7 +2476,7 @@ msgstr "描述"
 msgid "Plain"
 msgstr "简单"
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "播放"
 
@@ -2492,7 +2492,7 @@ msgstr "声音播放设备"
 msgid "Playlist directory"
 msgstr "播放列表目录"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 msgid "Playlists"
 msgstr "播放列表"
 
@@ -2514,7 +2514,7 @@ msgstr "位置"
 msgid "Pre-release"
 msgstr "预发布(点映版)"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr "上一页"
 
@@ -2642,7 +2642,7 @@ msgstr "卷"
 msgid "Reels..."
 msgstr "卷…"
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr "刷新"
 
@@ -3139,7 +3139,7 @@ msgstr "启动播放器为"
 msgid "Status"
 msgstr "状态"
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr "停止"
 
@@ -3759,15 +3759,15 @@ msgstr ""
 "这看起来像一个%s项目文件夹，无法将其添加到其他项目中。如果要导入DCP，请选择%s"
 "项目文件夹中的DCP文件夹。"
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr ""
 

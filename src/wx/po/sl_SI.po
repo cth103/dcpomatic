@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-02 00:29+0100\n"
+"POT-Creation-Date: 2025-01-10 15:43+0100\n"
 "PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -892,7 +892,7 @@ msgid "Container"
 msgstr "Vsebnik"
 
 #: src/wx/audio_panel.cc:111 src/wx/film_editor.cc:61
-#: src/wx/playlist_controls.cc:96
+#: src/wx/playlist_controls.cc:95
 msgid "Content"
 msgstr "Vsebina"
 
@@ -972,7 +972,7 @@ msgstr "Potrdila ni bilo mogoče uvoziti (%s)"
 msgid "Could not load KDM"
 msgstr "KDM-ja ni bilo mogoče naložiti"
 
-#: src/wx/playlist_controls.cc:348
+#: src/wx/playlist_controls.cc:347
 #, fuzzy
 msgid "Could not load KDM."
 msgstr "KDM-ja ni bilo mogoče naložiti"
@@ -1957,12 +1957,12 @@ msgstr "Naloži potrdilo ..."
 msgid "Load configuration from ZIP file"
 msgstr "Prilagoditvena datoteka"
 
-#: src/wx/playlist_controls.cc:407
+#: src/wx/playlist_controls.cc:406
 #, fuzzy
 msgid "Loading content"
 msgstr "Premakni vsebino"
 
-#: src/wx/playlist_controls.cc:335
+#: src/wx/playlist_controls.cc:334
 #, fuzzy
 msgid "Loading playlist and KDMs"
 msgstr "Podpisovanje DCP-jev in KDM-jev"
@@ -2278,7 +2278,7 @@ msgstr "Novo ime"
 msgid "New versions of %s are available."
 msgstr "Na voljo so nove različice DCP-o-matic."
 
-#: src/wx/playlist_controls.cc:62
+#: src/wx/playlist_controls.cc:61
 msgid "Next"
 msgstr ""
 
@@ -2490,7 +2490,7 @@ msgid "Patrons"
 msgstr "Pokrovitelji"
 
 #: src/wx/normal_job_view.cc:44 src/wx/normal_job_view.cc:62
-#: src/wx/playlist_controls.cc:60
+#: src/wx/playlist_controls.cc:59
 msgid "Pause"
 msgstr "Premor"
 
@@ -2519,7 +2519,7 @@ msgstr ""
 msgid "Plain"
 msgstr "Preprosto"
 
-#: src/wx/playlist_controls.cc:59 src/wx/standard_controls.cc:37
+#: src/wx/playlist_controls.cc:58 src/wx/standard_controls.cc:37
 msgid "Play"
 msgstr "Predvajaj"
 
@@ -2535,7 +2535,7 @@ msgstr "Predvaj zvoka prek"
 msgid "Playlist directory"
 msgstr "Mapa seznama predvajanja"
 
-#: src/wx/playlist_controls.cc:82
+#: src/wx/playlist_controls.cc:81
 #, fuzzy
 msgid "Playlists"
 msgstr "Predvajaj"
@@ -2560,7 +2560,7 @@ msgstr "Položaj"
 msgid "Pre-release"
 msgstr "Pred-izdaja"
 
-#: src/wx/playlist_controls.cc:63
+#: src/wx/playlist_controls.cc:62
 msgid "Previous"
 msgstr ""
 
@@ -2690,7 +2690,7 @@ msgstr "Koluti"
 msgid "Reels..."
 msgstr "Koluti"
 
-#: src/wx/playlist_controls.cc:86 src/wx/playlist_controls.cc:100
+#: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
 msgstr ""
 
@@ -3198,7 +3198,7 @@ msgstr "Zaženi predvajalnik kot"
 msgid "Status"
 msgstr "Stanje"
 
-#: src/wx/playlist_controls.cc:61
+#: src/wx/playlist_controls.cc:60
 msgid "Stop"
 msgstr "Ustavi"
 
@@ -3873,15 +3873,15 @@ msgstr ""
 "projektu.  Izberite mapo DCP znotraj mape projekta DCP-o-matic, če želite to "
 "uvoziti."
 
-#: src/wx/playlist_controls.cc:353
+#: src/wx/playlist_controls.cc:352
 msgid "This playlist cannot be loaded as a KDM is missing or incorrect."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:319
+#: src/wx/playlist_controls.cc:318
 msgid "This playlist cannot be loaded as some content is missing."
 msgstr ""
 
-#: src/wx/playlist_controls.cc:325
+#: src/wx/playlist_controls.cc:324
 msgid "This playlist is empty."
 msgstr ""
 
