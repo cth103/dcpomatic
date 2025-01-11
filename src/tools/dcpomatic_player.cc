@@ -405,7 +405,24 @@ public:
 			_stress.set_suspended (true);
 			auto dcp = make_shared<DCPContent>(dir);
 			auto job = make_shared<ExamineContentJob>(film, dcp);
-			_examine_job_connection = job->Finished.connect(bind(&DOMFrame::add_dcp_to_film, this, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
+
+			auto add_dcp_to_film = [this](weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
+			{
+				auto job = weak_job.lock();
+				if (!job || !job->finished_ok()) {
+					return;
+				}
+
+				auto content = weak_content.lock();
+				if (!content) {
+					return;
+				}
+
+				_film->add_content(content);
+				_stress.set_suspended(false);
+			};
+
+			_examine_job_connection = job->Finished.connect(bind<void>(add_dcp_to_film, weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add (job);
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
@@ -443,22 +460,6 @@ public:
 		}
 
 		reset_film(film);
-	}
-
-	void add_dcp_to_film (weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
-	{
-		auto job = weak_job.lock ();
-		if (!job || !job->finished_ok()) {
-			return;
-		}
-
-		auto content = weak_content.lock ();
-		if (!content) {
-			return;
-		}
-
-		_film->add_content (content);
-		_stress.set_suspended (false);
 	}
 
 	void reset_film_weak (weak_ptr<Film> weak_film)
