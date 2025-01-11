@@ -181,8 +181,8 @@ public:
 	 *  @return pair containing the main open subtitle/caption language, and additional languages
 	 */
 	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> open_text_languages(bool* burnt_in = nullptr) const;
-	/** @return all closed caption languages in the film */
-	std::vector<dcp::LanguageTag> closed_caption_languages() const;
+	/** @return all closed subtitle/caption languages in the film */
+	std::vector<dcp::LanguageTag> closed_text_languages() const;
 
 	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
 
