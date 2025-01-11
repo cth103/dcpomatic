@@ -52,7 +52,9 @@ extern std::string text_type_to_string(TextType t);
 extern std::string text_type_to_name(TextType t);
 extern TextType string_to_text_type(std::string s);
 bool is_open(TextType type);
+bool is_closed(TextType type);
 bool is_open(dcp::TextType type);
+bool is_closed(dcp::TextType type);
 
 
 #endif

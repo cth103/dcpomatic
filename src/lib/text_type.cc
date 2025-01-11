@@ -97,7 +97,21 @@ is_open(TextType type)
 
 
 bool
+is_closed(TextType type)
+{
+	return type == TextType::CLOSED_SUBTITLE || type == TextType::CLOSED_CAPTION;
+}
+
+
+bool
 is_open(dcp::TextType type)
 {
 	return type == dcp::TextType::OPEN_SUBTITLE || type == dcp::TextType::OPEN_CAPTION;
+}
+
+
+bool
+is_closed(dcp::TextType type)
+{
+	return type == dcp::TextType::CLOSED_SUBTITLE || type == dcp::TextType::CLOSED_CAPTION;
 }
