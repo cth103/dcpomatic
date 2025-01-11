@@ -78,8 +78,8 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_resolution (Resolution::FOUR_K);
 	auto text = content_factory("test/data/subrip.srt")[0];
 	BOOST_REQUIRE_EQUAL (text->text.size(), 1U);
-	text->text.front()->set_burn (true);
-	text->text.front()->set_language (dcp::LanguageTag("fr-FR"));
+	text->text[0]->set_burn(true);
+	text->text[0]->set_language(dcp::LanguageTag("fr-FR"));
 	film->examine_and_add_content (text);
 	film->set_version_number(2);
 	film->set_release_territory(dcp::LanguageTag::RegionSubtag("US"));
@@ -93,6 +93,10 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_audio_language (dcp::LanguageTag("de-DE"));
 	film->set_interop (false);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+
+	/* Should be the same if the subs are marked as open captions */
+	text->text[0]->set_type(TextType::OPEN_CAPTION);
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
 	/* Test to see that RU ratings like 6+ are stripped of their + */
 	film->set_ratings({dcp::Rating("RARS", "6+")});

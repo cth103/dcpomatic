@@ -819,7 +819,7 @@ Film::mapped_audio_channels () const
 
 
 pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>>
-Film::subtitle_languages(bool* burnt_in) const
+Film::open_text_languages(bool* burnt_in) const
 {
 	if (burnt_in) {
 		*burnt_in = true;
@@ -830,7 +830,7 @@ Film::subtitle_languages(bool* burnt_in) const
 		auto dcp = dynamic_pointer_cast<DCPContent>(i);
 		for (auto const& text: i->text) {
 			auto const use = text->use() || (dcp && dcp->reference_text(TextType::OPEN_SUBTITLE));
-			if (use && text->type() == TextType::OPEN_SUBTITLE) {
+			if (use && is_open(text->type())) {
 				if (!text->burn() && burnt_in) {
 					*burnt_in = false;
 				}
@@ -1012,7 +1012,7 @@ Film::isdcf_name (bool if_created_now) const
 	isdcf_name += "_" + to_upper (audio_language);
 
 	bool burnt_in;
-	auto sub_langs = subtitle_languages(&burnt_in);
+	auto sub_langs = open_text_languages(&burnt_in);
 	auto ccap_langs = closed_caption_languages();
 	if (sub_langs.first && sub_langs.first->language()) {
 		auto lang = entry_for_language(*sub_langs.first);

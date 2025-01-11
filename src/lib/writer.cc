@@ -695,7 +695,7 @@ Writer::finish()
 		cpl->set_main_picture_active_area({ active_area.width & ~1, active_area.height & ~1});
 	}
 
-	auto sl = film()->subtitle_languages().second;
+	auto const sl = film()->open_text_languages().second;
 	if (!sl.empty()) {
 		cpl->set_additional_subtitle_languages(sl);
 	}
@@ -746,7 +746,7 @@ Writer::write_cover_sheet()
 		boost::algorithm::replace_all (text, "$AUDIO_LANGUAGE", _("None"));
 	}
 
-	auto subtitle_languages = film()->subtitle_languages();
+	auto const subtitle_languages = film()->open_text_languages();
 	if (subtitle_languages.first) {
 		boost::algorithm::replace_all (text, "$SUBTITLE_LANGUAGE", subtitle_languages.first->description());
 	} else {

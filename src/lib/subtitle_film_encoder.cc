@@ -140,7 +140,7 @@ SubtitleFilmEncoder::text(PlayerText subs, TextType type, optional<DCPTextTrack>
 
 	if (!_assets[_reel_index].first) {
 		shared_ptr<dcp::TextAsset> asset;
-		auto lang = _film->subtitle_languages ();
+		auto const lang = _film->open_text_languages();
 		if (_film->interop ()) {
 			auto s = make_shared<dcp::InteropTextAsset>();
 			s->set_movie_title (_film->name());

@@ -623,7 +623,7 @@ ReelWriter::create_reel_text (
 
 	if (subtitle) {
 		/* We have a subtitle asset that we either made or are referencing */
-		if (auto main_language = film()->subtitle_languages().first) {
+		if (auto main_language = film()->open_text_languages().first) {
 			subtitle->set_language (*main_language);
 		}
 	}
@@ -796,7 +796,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 	shared_ptr<dcp::TextAsset> asset;
 	optional<string> font;
 
-	auto lang = film()->subtitle_languages();
+	auto lang = film()->open_text_languages();
 	if (film()->interop()) {
 		auto s = make_shared<dcp::InteropTextAsset>();
 		s->set_movie_title (film()->name());

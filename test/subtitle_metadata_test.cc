@@ -48,7 +48,7 @@ BOOST_AUTO_TEST_CASE (subtitle_metadata_test1)
 	auto film = make_shared<Film>(p);
 	film->read_metadata();
 
-	auto langs = film->subtitle_languages ();
+	auto langs = film->open_text_languages();
 	BOOST_REQUIRE (langs.first);
 	BOOST_CHECK_EQUAL (langs.first->to_string(), "de-DE");
 }
