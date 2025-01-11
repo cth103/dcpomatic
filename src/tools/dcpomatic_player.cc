@@ -722,6 +722,7 @@ private:
 
 		if (r == wxID_OK) {
 			DCPOMATIC_ASSERT(_film);
+			DCPOMATIC_ASSERT(!_film->content().empty());
 			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT(dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
