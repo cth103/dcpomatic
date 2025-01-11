@@ -819,7 +819,7 @@ Film::mapped_audio_channels () const
 
 
 pair<optional<dcp::LanguageTag>, vector<dcp::LanguageTag>>
-Film::open_text_languages(bool* burnt_in) const
+Film::open_text_languages(bool* burnt_in, bool* caption) const
 {
 	if (burnt_in) {
 		*burnt_in = true;
@@ -829,7 +829,9 @@ Film::open_text_languages(bool* burnt_in) const
 	for (auto i: content()) {
 		auto dcp = dynamic_pointer_cast<DCPContent>(i);
 		for (auto const& text: i->text) {
-			auto const use = text->use() || (dcp && dcp->reference_text(TextType::OPEN_SUBTITLE));
+			auto const use = text->use() ||
+				(dcp && (dcp->reference_text(TextType::OPEN_SUBTITLE) || dcp->reference_text(TextType::OPEN_CAPTION)));
+
 			if (use && is_open(text->type())) {
 				if (!text->burn() && burnt_in) {
 					*burnt_in = false;
@@ -839,6 +841,9 @@ Film::open_text_languages(bool* burnt_in) const
 						result.second.push_back(text->language().get());
 					} else {
 						result.first = text->language().get();
+						if (caption && text->type() == TextType::OPEN_CAPTION) {
+							*caption = true;
+						}
 					}
 				}
 			}
@@ -856,13 +861,16 @@ Film::open_text_languages(bool* burnt_in) const
 
 
 vector<dcp::LanguageTag>
-Film::closed_text_languages() const
+Film::closed_text_languages(bool* caption) const
 {
 	vector<dcp::LanguageTag> result;
 	for (auto i: content()) {
 		for (auto text: i->text) {
 			if (text->use() && is_closed(text->type()) && text->dcp_track() && text->dcp_track()->language) {
 				result.push_back(*text->dcp_track()->language);
+				if (caption && result.size() == 1 && text->type() == TextType::CLOSED_CAPTION) {
+					*caption = true;
+				}
 			}
 		}
 	}
@@ -1009,8 +1017,12 @@ Film::isdcf_name (bool if_created_now) const
 	isdcf_name += "_" + to_upper (audio_language);
 
 	bool burnt_in;
-	auto const open_langs = open_text_languages(&burnt_in);
-	auto const closed_langs = closed_text_languages();
+	bool open_caption = false;
+	auto const open_langs = open_text_languages(&burnt_in, &open_caption);
+
+	bool closed_caption = false;
+	auto const closed_langs = closed_text_languages(&closed_caption);
+
 	if (open_langs.first && open_langs.first->language()) {
 		auto lang = entry_for_language(*open_langs.first);
 		if (burnt_in) {
@@ -1020,8 +1032,14 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		isdcf_name += "-" + lang;
+		if (open_caption) {
+			isdcf_name += "-OCAP";
+		}
 	} else if (!closed_langs.empty()) {
-		isdcf_name += "-" + to_upper(entry_for_language(closed_langs[0])) + "-CCAP";
+		isdcf_name += "-" + to_upper(entry_for_language(closed_langs[0]));
+		if (closed_caption) {
+			isdcf_name += "-CCAP";
+		}
 	} else {
 		/* No subtitles */
 		isdcf_name += "-XX";

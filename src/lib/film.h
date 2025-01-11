@@ -80,6 +80,7 @@ struct atmos_encrypted_passthrough_test;
 struct isdcf_name_test;
 struct isdcf_name_with_atmos;
 struct isdcf_name_with_ccap;
+struct isdcf_name_with_closed_subtitles;
 struct ov_subs_in_vf_name;
 struct recover_test_2d_encrypted;
 
@@ -178,11 +179,16 @@ public:
 	}
 
 	/** @param burnt_in If non-null, filled with true if all open subtitles/captions are burnt in, otherwise false.
-	 *  @return pair containing the main open subtitle/caption language, and additional languages
+	 *  @param caption If non-null, filled with true if the first returned language is a caption rather than a subtitle.
+	 *  @return Pair containing the main open subtitle/caption language, and additional languages
 	 */
-	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> open_text_languages(bool* burnt_in = nullptr) const;
-	/** @return all closed subtitle/caption languages in the film */
-	std::vector<dcp::LanguageTag> closed_text_languages() const;
+	std::pair<boost::optional<dcp::LanguageTag>, std::vector<dcp::LanguageTag>> open_text_languages(
+		bool* burnt_in = nullptr, bool* caption = nullptr
+	) const;
+	/** @param caption If non-null, filled with true if the first returned language is a caption rather than a subtitle.
+	 *  @return All closed subtitle/caption languages in the film.
+	 */
+	std::vector<dcp::LanguageTag> closed_text_languages(bool* caption = nullptr) const;
 
 	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
 
@@ -463,6 +469,7 @@ private:
 	friend struct ::isdcf_name_test;
 	friend struct ::isdcf_name_with_atmos;
 	friend struct ::isdcf_name_with_ccap;
+	friend struct ::isdcf_name_with_closed_subtitles;
 	friend struct ::ov_subs_in_vf_name;
 	friend struct paths_test;
 	friend struct ::recover_test_2d_encrypted;

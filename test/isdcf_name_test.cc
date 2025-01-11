@@ -94,9 +94,10 @@ BOOST_AUTO_TEST_CASE (isdcf_name_test)
 	film->set_interop (false);
 	BOOST_CHECK_EQUAL (film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
 
-	/* Should be the same if the subs are marked as open captions */
+	/* Test the subs being marked as open captions */
 	text->text[0]->set_type(TextType::OPEN_CAPTION);
-	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "MyNiceFilmWith_TLR-2_S_DE-fr-OCAP_US-R_MOS_4K_DI_20140704_PPF_SMPTE_OV");
+	text->text[0]->set_type(TextType::OPEN_SUBTITLE);
 
 	/* Test to see that RU ratings like 6+ are stripped of their + */
 	film->set_ratings({dcp::Rating("RARS", "6+")});
@@ -265,3 +266,16 @@ BOOST_AUTO_TEST_CASE(isdcf_name_with_ccap)
 	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE-CCAP_MOS_2K_20230118_SMPTE_OV");
 }
 
+
+BOOST_AUTO_TEST_CASE(isdcf_name_with_closed_subtitles)
+{
+	auto content = content_factory("test/data/short.srt")[0];
+	auto film = new_test_film("isdcf_name_with_closed_subtitles", { content });
+	content->text[0]->set_use(true);
+	content->text[0]->set_type(TextType::CLOSED_SUBTITLE);
+	content->text[0]->set_dcp_track(DCPTextTrack("Foo", dcp::LanguageTag("de-DE")));
+	film->_isdcf_date = boost::gregorian::date(2023, boost::gregorian::Jan, 18);
+	film->set_name("Hello");
+
+	BOOST_CHECK_EQUAL(film->isdcf_name(false), "Hello_TST-1_F_XX-DE_MOS_2K_20230118_SMPTE_OV");
+}
