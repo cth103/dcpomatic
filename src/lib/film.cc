@@ -964,10 +964,7 @@ Film::isdcf_name (bool if_created_now) const
 	}
 
 	if (_luminance) {
-		auto fl = _luminance->value_in_foot_lamberts();
-		char buffer[64];
-		snprintf (buffer, sizeof(buffer), "%.1f", fl);
-		isdcf_name += String::compose("-%1fl", buffer);
+		isdcf_name += fmt::format("-{}fl", std::round(_luminance->value_in_foot_lamberts() * 10));
 	}
 
 	if (video_frame_rate() != 24) {
