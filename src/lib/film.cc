@@ -1012,10 +1012,10 @@ Film::isdcf_name (bool if_created_now) const
 	isdcf_name += "_" + to_upper (audio_language);
 
 	bool burnt_in;
-	auto sub_langs = open_text_languages(&burnt_in);
-	auto ccap_langs = closed_text_languages();
-	if (sub_langs.first && sub_langs.first->language()) {
-		auto lang = entry_for_language(*sub_langs.first);
+	auto const open_langs = open_text_languages(&burnt_in);
+	auto const closed_langs = closed_text_languages();
+	if (open_langs.first && open_langs.first->language()) {
+		auto lang = entry_for_language(*open_langs.first);
 		if (burnt_in) {
 			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
@@ -1023,8 +1023,8 @@ Film::isdcf_name (bool if_created_now) const
 		}
 
 		isdcf_name += "-" + lang;
-	} else if (!ccap_langs.empty()) {
-		isdcf_name += "-" + to_upper(entry_for_language(ccap_langs[0])) + "-CCAP";
+	} else if (!closed_langs.empty()) {
+		isdcf_name += "-" + to_upper(entry_for_language(closed_langs[0])) + "-CCAP";
 	} else {
 		/* No subtitles */
 		isdcf_name += "-XX";
