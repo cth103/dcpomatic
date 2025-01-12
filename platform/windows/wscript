@@ -432,6 +432,7 @@ File "%binaries%/src/tools/dcpomatic2_disk_writer.exe.manifest"
         start_menu_shortcut(f, tool_name(variant, debug, l), 'bin\\dcpomatic2_%s%s' % (s, suffix), variant, debug=True)
     start_menu_shortcut(f, 'Uninstall %s' % long_name_with_debug, 'Uninstall.exe', variant, debug=True)
     print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayName" "%s (remove only)"' % (long_name_with_debug, long_name_with_debug), file=f)
+    print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "DisplayVersion" "%s"' % (long_name_with_debug, dcpomatic_version), file=f)
     print('WriteRegStr HKLM "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\%s" "UninstallString" "$INSTDIR\\Uninstall.exe"' % long_name_with_debug, file=f)
 
     print("SectionEnd", file=f)
