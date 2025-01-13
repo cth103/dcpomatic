@@ -182,6 +182,37 @@ BOOST_AUTO_TEST_CASE(add_screen_test)
 }
 
 
+BOOST_AUTO_TEST_CASE(update_screen_test)
+{
+	auto const db = setup("update_screen_test");
+
+	CinemaList cinemas(db);
+	auto const cinema_id = cinemas.add_cinema({"Name", { "foo@bar.com" }, "", dcp::UTCOffset()});
+
+	auto screen = dcpomatic::Screen(
+		"Screen 1",
+		"Smells of popcorn",
+		dcp::Certificate(dcp::file_to_string("test/data/cert.pem")),
+		string("test/data/cert.pem"),
+		vector<TrustedDevice>{}
+		);
+
+	auto const screen_id = cinemas.add_screen(cinema_id, screen);
+
+	screen.name = "Screen 1 updated";
+	screen.notes = "Smells of popcorn and hope";
+	cinemas.update_screen(cinema_id, screen_id, screen);
+
+	auto check = cinemas.screens(cinema_id);
+	BOOST_REQUIRE_EQUAL(check.size(), 1U);
+	BOOST_CHECK(check[0].first == screen_id);
+	BOOST_CHECK_EQUAL(check[0].second.name, "Screen 1 updated");
+	BOOST_CHECK_EQUAL(check[0].second.notes, "Smells of popcorn and hope");
+	BOOST_CHECK(check[0].second.recipient == dcp::Certificate(dcp::file_to_string("test/data/cert.pem")));
+	BOOST_CHECK(check[0].second.recipient_file == string("test/data/cert.pem"));
+}
+
+
 BOOST_AUTO_TEST_CASE(cinemas_list_copy_from_xml_test)
 {
 	ConfigRestorer cr("build/test/cinemas_list_copy_config");

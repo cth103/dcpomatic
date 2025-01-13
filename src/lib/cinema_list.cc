@@ -421,15 +421,16 @@ CinemaList::cinema_by_name_or_email(std::string const& text) const
 
 
 void
-CinemaList::update_screen(ScreenID id, dcpomatic::Screen const& screen)
+CinemaList::update_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Screen const& screen)
 {
 	SQLiteStatement statement(_db, _screens.update("WHERE id=?"));
 
-	statement.bind_text(1, screen.name);
-	statement.bind_text(2, screen.notes);
-	statement.bind_text(3, screen.recipient->certificate(true));
-	statement.bind_text(4, screen.recipient_file.get_value_or(""));
-	statement.bind_int64(5, id.get());
+	statement.bind_int64(1, cinema_id.get());
+	statement.bind_text(2, screen.name);
+	statement.bind_text(3, screen.notes);
+	statement.bind_text(4, screen.recipient->certificate(true));
+	statement.bind_text(5, screen.recipient_file.get_value_or(""));
+	statement.bind_int64(6, screen_id.get());
 
 	statement.execute();
 }

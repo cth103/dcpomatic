@@ -99,7 +99,7 @@ public:
 	boost::optional<std::pair<CinemaID, Cinema>> cinema_by_name_or_email(std::string const& text) const;
 
 	ScreenID add_screen(CinemaID cinema_id, dcpomatic::Screen const& screen);
-	void update_screen(ScreenID id, dcpomatic::Screen const& screen);
+	void update_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Screen const& screen);
 	void remove_screen(ScreenID id);
 	boost::optional<dcpomatic::Screen> screen(ScreenID screen_id) const;
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens(CinemaID cinema_id) const;

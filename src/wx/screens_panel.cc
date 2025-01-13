@@ -465,7 +465,7 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 	screen->recipient = dialog.recipient();
 	screen->recipient_file = dialog.recipient_file();
 	screen->trusted_devices = dialog.trusted_devices();
-	cinemas.update_screen(screen_id, *screen);
+	cinemas.update_screen(cinema_id, screen_id, *screen);
 
 	auto item = screen_to_item(screen_id);
 	DCPOMATIC_ASSERT (item);
