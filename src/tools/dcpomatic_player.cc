@@ -427,7 +427,7 @@ public:
 				_stress.set_suspended(false);
 			};
 
-			_examine_job_connection = job->Finished.connect(bind<void>(add_dcp_to_film, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
+			_examine_job_connection = job->Finished.connect(boost::bind<void>(add_dcp_to_film, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add (job);
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
