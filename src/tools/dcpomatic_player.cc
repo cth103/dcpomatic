@@ -484,6 +484,7 @@ public:
 		_controls->set_film (_film);
 		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
 		_info->triggered_update ();
+		set_menu_sensitivity();
 	}
 
 	void film_changed (ChangeType type, FilmProperty property)
@@ -974,6 +975,7 @@ private:
 
 	void tools_verify ()
 	{
+		DCPOMATIC_ASSERT(!_film->content().empty());
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 
@@ -1163,11 +1165,12 @@ private:
 
 	void set_menu_sensitivity ()
 	{
-		_tools_verify->Enable (static_cast<bool>(_film));
-		_file_add_ov->Enable (static_cast<bool>(_film));
-		_file_add_kdm->Enable (static_cast<bool>(_film));
-		_file_save_frame->Enable (static_cast<bool>(_film));
-		_view_cpl->Enable (static_cast<bool>(_film));
+		auto const enable = _film && !_film->content().empty();
+		_tools_verify->Enable(enable);
+		_file_add_ov->Enable(enable);
+		_file_add_kdm->Enable(enable);
+		_file_save_frame->Enable(enable);
+		_view_cpl->Enable(enable);
 	}
 
 	void start_stop_pressed ()
