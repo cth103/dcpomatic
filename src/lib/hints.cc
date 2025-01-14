@@ -544,6 +544,7 @@ catch (boost::thread_interrupted)
 catch (...)
 {
 	store_current ();
+	emit(boost::bind(boost::ref(Finished)));
 }
 
 
