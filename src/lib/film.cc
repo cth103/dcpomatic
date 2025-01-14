@@ -46,6 +46,7 @@
 #include "ffmpeg_subtitle_stream.h"
 #include "file_log.h"
 #include "film.h"
+#include "film_util.h"
 #include "font.h"
 #include "job.h"
 #include "job_manager.h"
@@ -1108,25 +1109,7 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "-3D";
 	}
 
-	auto vf = false;
-	for (auto content: content_list) {
-		auto dcp = dynamic_pointer_cast<const DCPContent>(content);
-		if (!dcp) {
-			continue;
-		}
-
-		bool any_text = false;
-		for (int i = 0; i < static_cast<int>(TextType::COUNT); ++i) {
-			if (dcp->reference_text(static_cast<TextType>(i))) {
-				any_text = true;
-			}
-		}
-		if (dcp->reference_video() || dcp->reference_audio() || any_text) {
-			vf = true;
-		}
-	}
-
-	if (vf) {
+	if (dcpomatic::film::is_vf(shared_from_this())) {
 		isdcf_name += "_VF";
 	} else {
 		isdcf_name += "_OV";
