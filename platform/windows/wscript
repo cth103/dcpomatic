@@ -501,26 +501,20 @@ RMDir "$INSTDIR"
         for s, l in tools:
             print('Delete "$DESKTOP\\DCP-o-matic 2 %s debug.lnk"' % l, file=f)
 
-        print("""
-Delete "$SMPROGRAMS\\DCP-o-matic 2 debug\\*.*"
-RmDir  "$SMPROGRAMS\\DCP-o-matic 2 debug"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2 debug"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug"
- SectionEnd
-        """, file=f)
+        print('Delete "$SMPROGRAMS\\DCP-o-matic 2 debug\\*.*"', file=f)
+        print('RmDir  "$SMPROGRAMS\\DCP-o-matic 2 debug"', file=f)
+        print('DeleteRegKey HKLM "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug"', file=f)
+        print('SectionEnd', file=f)
     else:
         print('Delete "$DESKTOP\\DCP-o-matic 2.lnk"', file=f)
         for s, l in tools:
             print('Delete "$DESKTOP\\DCP-o-matic 2 %s.lnk"' % l, file=f)
         print('Delete "$DESKTOP\\DCP-o-matic 2 Encode Server.lnk"', file=f)
 
-        print("""
-Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"
-RmDir  "$SMPROGRAMS\\DCP-o-matic 2"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\DCP-o-matic 2"
-DeleteRegKey HKEY_LOCAL_MACHINE "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2"
- SectionEnd
-    """, file=f)
+        print('Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"', file=f)
+        print('RmDir  "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+        print('DeleteRegKey HKLM "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2"', file=f)
+        print('SectionEnd', file=f)
 
 
 def build(bld):
