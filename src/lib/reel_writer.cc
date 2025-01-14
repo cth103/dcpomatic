@@ -226,7 +226,7 @@ ReelWriter::ReelWriter (
 
 		std::vector<dcp::Channel> extra_active_channels;
 		for (auto channel: std::vector<dcp::Channel>{dcp::Channel::HI, dcp::Channel::VI, dcp::Channel::BSL, dcp::Channel::BSR}) {
-			if (channel_is_mapped(film(), channel)) {
+			if (dcpomatic::film::channel_is_mapped(film(), channel)) {
 				extra_active_channels.push_back(channel);
 			}
 		}

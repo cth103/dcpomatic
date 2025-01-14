@@ -29,7 +29,7 @@ using boost::optional;
 
 
 bool
-channel_is_mapped(shared_ptr<const Film> film, dcp::Channel channel)
+dcpomatic::film::channel_is_mapped(shared_ptr<const Film> film, dcp::Channel channel)
 {
 	auto const mapped = film->mapped_audio_channels();
 	return std::find(mapped.begin(), mapped.end(), static_cast<int>(channel)) != mapped.end();
@@ -37,7 +37,7 @@ channel_is_mapped(shared_ptr<const Film> film, dcp::Channel channel)
 
 
 optional<boost::filesystem::path>
-add_files_override_path(shared_ptr<const Film> film)
+dcpomatic::film::add_files_override_path(shared_ptr<const Film> film)
 {
 	film->directory();
 	return Config::instance()->default_add_file_location() == Config::DefaultAddFileLocation::SAME_AS_PROJECT

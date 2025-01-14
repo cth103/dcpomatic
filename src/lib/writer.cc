@@ -671,7 +671,7 @@ Writer::finish()
 	}
 
 	dcp::MCASoundField field;
-	if (channel_is_mapped(film(), dcp::Channel::BSL) || channel_is_mapped(film(), dcp::Channel::BSR)) {
+	if (dcpomatic::film::channel_is_mapped(film(), dcp::Channel::BSL) || dcpomatic::film::channel_is_mapped(film(), dcp::Channel::BSR)) {
 		field = dcp::MCASoundField::SEVEN_POINT_ONE;
 	} else {
 		field = dcp::MCASoundField::FIVE_POINT_ONE;

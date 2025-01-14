@@ -621,7 +621,7 @@ ContentPanel::add_file_clicked ()
 		wxFD_MULTIPLE | wxFD_CHANGE_DIR,
 		"AddFilesPath",
 		{},
-		add_files_override_path(_film)
+		dcpomatic::film::add_files_override_path(_film)
 		);
 
 	if (dialog.show()) {
@@ -633,7 +633,7 @@ ContentPanel::add_file_clicked ()
 void
 ContentPanel::add_folder_clicked ()
 {
-	DirDialog dialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path(_film));
+	DirDialog dialog(_splitter, _("Choose a folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", dcpomatic::film::add_files_override_path(_film));
 	if (dialog.show()) {
 		add_folder(dialog.path());
 	}
@@ -676,7 +676,7 @@ ContentPanel::add_folder(boost::filesystem::path folder)
 void
 ContentPanel::add_dcp_clicked ()
 {
-	DirDialog dialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path(_film));
+	DirDialog dialog(_splitter, _("Choose a DCP folder"), wxDD_DIR_MUST_EXIST, "AddFilesPath", dcpomatic::film::add_files_override_path(_film));
 	if (dialog.show()) {
 		add_dcp(dialog.path());
 	}

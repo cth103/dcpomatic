@@ -460,7 +460,7 @@ ContentMenu::ov ()
 
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT(film);
-	DirDialog dialog(_parent, _("Select OV"), wxDD_DIR_MUST_EXIST, "AddFilesPath", add_files_override_path(film));
+	DirDialog dialog(_parent, _("Select OV"), wxDD_DIR_MUST_EXIST, "AddFilesPath", dcpomatic::film::add_files_override_path(film));
 
 	if (dialog.show()) {
 		dcp->add_ov(dialog.path());
@@ -617,7 +617,7 @@ ContentMenu::copy_settings()
 	auto film = _film.lock();
 	DCPOMATIC_ASSERT (film);
 
-	DirDialog dialog(_parent, _("Film to copy settings from"), wxDD_DIR_MUST_EXIST, "CopySettingsPath", add_files_override_path(film));
+	DirDialog dialog(_parent, _("Film to copy settings from"), wxDD_DIR_MUST_EXIST, "CopySettingsPath", dcpomatic::film::add_files_override_path(film));
 
 	if (!dialog.show()) {
 		return;
