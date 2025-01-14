@@ -109,7 +109,8 @@ deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
                              'libcurl4',
                              'libpulse0',
                              'libxerces-c3.2',
-                             'libnanomsg5'])
+                             'libnanomsg5',
+                             'libfmt-dev'])
 
 deb_depends['22.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
@@ -128,7 +129,8 @@ deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libpulse0',
                              'libxerces-c3.2',
                              'libnanomsg5',
-                             'libdav1d5'])
+                             'libdav1d5',
+                             'libfmt8'])
 
 def debs(boost, icu, x264):
     output = copy.deepcopy(deb_depends_base)
@@ -149,7 +151,8 @@ def debs(boost, icu, x264):
                    'libxerces-c3.2',
                    'libnanomsg5',
                    'libwxgtk3.2-1',
-                   'libwxgtk-gl3.2-1'])
+                   'libwxgtk-gl3.2-1',
+                   'libfmt9'])
     return output
 
 deb_depends['24.04'] = debs(boost='1.83.0', icu='74', x264='164')
@@ -172,7 +175,8 @@ deb_depends['11'].extend(['libboost-filesystem1.74.0',
                           'libcurl4',
                           'libxerces-c3.2',
                           'libnanomsg5',
-                          'libdav1d4'])
+                          'libdav1d4',
+                          'libfmt7'])
 
 deb_depends_gui['11'] = [ 'libxcb-xfixes0',
                           'libxcb-shape0',
@@ -195,7 +199,8 @@ deb_depends['12'].extend(['libboost-filesystem1.74.0',
                           'libx264-164',
                           'libcurl4',
                           'libxerces-c3.2',
-                          'libnanomsg5'])
+                          'libnanomsg5',
+                          'libfmt9'])
 
 deb_depends_gui['12'] = [ 'libxcb-xfixes0',
                           'libxcb-shape0',
@@ -215,7 +220,8 @@ deb_depends['unstable'].extend(['libboost-filesystem1.67.0',
                                 'libx264-155',
                                 'libcurl4',
                                 'libxerces-c3.2',
-                                'libdav1d4'])
+                                'libdav1d4',
+                                'libfmt10'])
 
 def can_build_disk(target):
     # We can build dcpomatic2_disk on platforms that have Boost process and can build the lwext4
