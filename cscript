@@ -42,15 +42,9 @@ for v in ['16.04', '18.04', '20.04']:
 for v in ['22.04']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.10'])
-for v in ['23.04', '23.10']:
-    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
-    deb_build_depends[v].extend(['libssh-dev', 'python3.11'])
 for v in ['24.04', '24.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.12'])
-for v in ['9', '10']:
-    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
-    deb_build_depends[v].extend(['libssh-gcrypt-dev', 'python'])
 for v in ['11']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-gcrypt-dev', 'python3.9'])
@@ -117,25 +111,6 @@ deb_depends['20.04'].extend(['libboost-filesystem1.71.0',
                              'libxerces-c3.2',
                              'libnanomsg5'])
 
-deb_depends['21.10'] = copy.deepcopy(deb_depends_base)
-deb_depends['21.10'].extend(['libboost-filesystem1.74.0',
-                             'libboost-thread1.74.0',
-                             'libboost-regex1.74.0',
-                             'libboost-date-time1.74.0',
-                             'libcairomm-1.0-1v5',
-                             'libpangomm-1.4-1v5',
-                             'libxml++2.6-2v5',
-                             'libzip4',
-                             'libicu67',
-                             'libnettle8',
-                             'libssh-4',
-                             'libx264-160',
-                             'libcurl4',
-                             'libpulse0',
-                             'libxerces-c3.2',
-                             'libnanomsg5',
-                             'libdav1d4'])
-
 deb_depends['22.04'] = copy.deepcopy(deb_depends_base)
 deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libboost-thread1.74.0',
@@ -154,46 +129,6 @@ deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libxerces-c3.2',
                              'libnanomsg5',
                              'libdav1d5'])
-
-deb_depends['23.04'] = copy.deepcopy(deb_depends_base)
-deb_depends['23.04'].extend(['libboost-filesystem1.74.0',
-                             'libboost-thread1.74.0',
-                             'libboost-regex1.74.0',
-                             'libboost-date-time1.74.0',
-                             'libcairomm-1.0-1v5',
-                             'libpangomm-1.4-1v5',
-                             'libxml++2.6-2v5',
-                             'libzip4',
-                             'libicu72',
-                             'libnettle8',
-                             'libssh-4',
-                             'libx264-164',
-                             'libcurl4',
-                             'libpulse0',
-                             'libxerces-c3.2',
-                             'libnanomsg5',
-                             'libwxgtk3.2-1',
-                             'libwxgtk-gl3.2-1'])
-
-deb_depends['23.10'] = copy.deepcopy(deb_depends_base)
-deb_depends['23.10'].extend(['libboost-filesystem1.74.0',
-                             'libboost-thread1.74.0',
-                             'libboost-regex1.74.0',
-                             'libboost-date-time1.74.0',
-                             'libcairomm-1.0-1v5',
-                             'libpangomm-1.4-1v5',
-                             'libxml++2.6-2v5',
-                             'libzip4',
-                             'libicu72',
-                             'libnettle8',
-                             'libssh-4',
-                             'libx264-164',
-                             'libcurl4',
-                             'libpulse0',
-                             'libxerces-c3.2',
-                             'libnanomsg5',
-                             'libwxgtk3.2-1',
-                             'libwxgtk-gl3.2-1'])
 
 def debs(boost, icu, x264):
     output = copy.deepcopy(deb_depends_base)
@@ -219,53 +154,6 @@ def debs(boost, icu, x264):
 
 deb_depends['24.04'] = debs(boost='1.83.0', icu='74', x264='164')
 deb_depends['24.10'] = debs(boost='1.83.0', icu='74', x264='164')
-
-deb_depends['9'] = copy.deepcopy(deb_depends_base)
-deb_depends['9'].extend(['libboost-filesystem1.62.0',
-                         'libboost-thread1.62.0',
-                         'libboost-regex1.62.0',
-                         'libboost-date-time1.62.0',
-                         'libxml++2.6-2v5',
-                         'libgtk2.0-0',
-                         'libzip4',
-                         'libcairomm-1.0-1v5',
-                         'libpangomm-1.4-1v5',
-                         'libicu57',
-                         'libssh-4',
-                         'libssh-gcrypt-4',
-                         'libnettle6',
-                         'libx264-148',
-                         'libcurl3',
-                         'libxerces-c3.1'])
-
-deb_depends_gui['9'] = [ 'libxcb-xfixes0',
-                         'libxcb-shape0',
-                         'libasound2',
-                         'libpulse0' ]
-
-deb_depends['10'] = copy.deepcopy(deb_depends_base)
-deb_depends['10'].extend(['libboost-filesystem1.67.0',
-                          'libboost-thread1.67.0',
-                          'libboost-regex1.67.0',
-                          'libboost-date-time1.67.0',
-                          'libxml++2.6-2v5',
-                          'libgtk2.0-0',
-                          'libzip4',
-                          'libcairomm-1.0-1v5',
-                          'libpangomm-1.4-1v5',
-                          'libicu63',
-                          'libssh-4',
-                          'libssh-gcrypt-4',
-                          'libnettle6',
-                          'libx264-155',
-                          'libcurl4',
-                          'libxerces-c3.2',
-                          'libnanomsg5'])
-
-deb_depends_gui['10'] = [ 'libxcb-xfixes0',
-                          'libxcb-shape0',
-                          'libasound2',
-                          'libpulse0' ]
 
 deb_depends['11'] = copy.deepcopy(deb_depends_base)
 deb_depends['11'].extend(['libboost-filesystem1.74.0',
