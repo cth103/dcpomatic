@@ -32,13 +32,13 @@ BOOST_AUTO_TEST_CASE(basic_open_caption_test)
 	auto film = new_test_film("basic_open_caption_test", { content });
 
 	content->text[0]->set_type(TextType::OPEN_CAPTION);
+	content->text[0]->set_language(dcp::LanguageTag("de"));
 
 	make_and_verify_dcp(
 		film,
 		{
 			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
-			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
-			dcp::VerificationNote::Code::MISSING_SUBTITLE_LANGUAGE
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME
 		}
 	);
 

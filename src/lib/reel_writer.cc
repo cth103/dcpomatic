@@ -800,7 +800,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 	if (film()->interop()) {
 		auto s = make_shared<dcp::InteropTextAsset>();
 		s->set_movie_title (film()->name());
-		if (type == TextType::OPEN_SUBTITLE) {
+		if (is_open(type)) {
 			s->set_language (lang.first ? lang.first->to_string() : "Unknown");
 		} else if (track->language) {
 			s->set_language (track->language->to_string());
@@ -811,7 +811,7 @@ ReelWriter::empty_text_asset (TextType type, optional<DCPTextTrack> track, bool 
 		auto s = make_shared<dcp::SMPTETextAsset>();
 		s->set_content_title_text (film()->name());
 		s->set_metadata (mxf_metadata());
-		if (type == TextType::OPEN_SUBTITLE && lang.first) {
+		if (is_open(type) && lang.first) {
 			s->set_language (*lang.first);
 		} else if (track && track->language) {
 			s->set_language (dcp::LanguageTag(track->language->to_string()));
