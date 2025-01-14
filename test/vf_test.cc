@@ -141,6 +141,8 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	BOOST_REQUIRE (ov_c.cpls()[0]->reels()[0]->main_sound());
 	string const sound_id = ov_c.cpls()[0]->reels()[0]->main_sound()->id();
 	BOOST_REQUIRE (!ov_c.cpls()[0]->reels()[0]->main_subtitle());
+	BOOST_REQUIRE(!ov_c.pkls().empty());
+	BOOST_CHECK(!static_cast<bool>(ov_c.pkls()[0]->group_id()));
 
 	dcp::DCP vf_c (vf->dir(vf->dcp_name()));
 	vf_c.read ();
@@ -151,6 +153,8 @@ BOOST_AUTO_TEST_CASE (vf_test2)
 	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_sound());
 	BOOST_CHECK_EQUAL (vf_c.cpls()[0]->reels()[0]->main_sound()->id(), sound_id);
 	BOOST_REQUIRE (vf_c.cpls()[0]->reels()[0]->main_subtitle());
+	BOOST_REQUIRE(!vf_c.pkls().empty());
+	BOOST_CHECK(static_cast<bool>(vf_c.pkls()[0]->group_id()));
 }
 
 
