@@ -168,4 +168,6 @@ AudioFilterGraph::process (shared_ptr<AudioBuffers> buffers)
 
 		av_frame_unref (_frame);
 	}
+
+	av_frame_unref(_in_frame);
 }
