@@ -503,6 +503,10 @@ RMDir "$INSTDIR"
 
         print('Delete "$SMPROGRAMS\\DCP-o-matic 2 debug\\*.*"', file=f)
         print('RmDir  "$SMPROGRAMS\\DCP-o-matic 2 debug"', file=f)
+
+        if bits == 64:
+            print("SetRegView 64", file=f)
+
         print('DeleteRegKey HKLM "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2 debug"', file=f)
         print('SectionEnd', file=f)
     else:
@@ -513,6 +517,10 @@ RMDir "$INSTDIR"
 
         print('Delete "$SMPROGRAMS\\DCP-o-matic 2\\*.*"', file=f)
         print('RmDir  "$SMPROGRAMS\\DCP-o-matic 2"', file=f)
+
+        if bits == 64:
+            print("SetRegView 64", file=f)
+
         print('DeleteRegKey HKLM "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\DCP-o-matic 2"', file=f)
         print('SectionEnd', file=f)
 
