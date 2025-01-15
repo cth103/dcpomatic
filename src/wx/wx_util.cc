@@ -834,6 +834,10 @@ wx::report_problem()
 bool
 layout_for_short_screen(wxWindow* reference)
 {
+	if (Config::instance()->layout_for_short_screen()) {
+		return true;
+	}
+
 	auto const sn = wxDisplay::GetFromWindow(reference);
 	return sn >= 0 && wxDisplay(sn).GetClientArea().height <= 800;
 }

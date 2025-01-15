@@ -222,6 +222,7 @@ Config::set_defaults ()
 	_enable_player_http_server = false;
 	_player_http_server_port = 8080;
 	_relative_paths = false;
+	_layout_for_short_screen = false;
 
 	_allowed_dcp_frame_rates.clear ();
 	_allowed_dcp_frame_rates.push_back (24);
@@ -662,6 +663,7 @@ try
 	_enable_player_http_server = f.optional_bool_child("EnablePlayerHTTPServer").get_value_or(false);
 	_player_http_server_port = f.optional_number_child<int>("PlayerHTTPServerPort").get_value_or(8080);
 	_relative_paths = f.optional_bool_child("RelativePaths").get_value_or(false);
+	_layout_for_short_screen = f.optional_bool_child("LayoutForShortScreen").get_value_or(false);
 
 #ifdef DCPOMATIC_GROK
 	if (auto grok = f.optional_node_child("Grok")) {
@@ -1139,6 +1141,8 @@ Config::write_config () const
 	cxml::add_text_child(root, "PlayerHTTPServerPort", fmt::to_string(_player_http_server_port));
 	/* [XML] RelativePaths 1 to write relative paths to project metadata files, 0 to use absolute paths */
 	cxml::add_text_child(root, "RelativePaths", _relative_paths ? "1" : "0");
+	/* [XML] LayoutForShortScreen 1 to set up DCP-o-matic as if the screen were less than 800 pixels high */
+	cxml::add_text_child(root, "LayoutForShortScreen", _layout_for_short_screen ? "1" : "0");
 
 #ifdef DCPOMATIC_GROK
 	if (_grok) {
