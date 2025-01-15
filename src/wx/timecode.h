@@ -50,6 +50,7 @@ public:
 
 protected:
 	void changed(wxCommandEvent& ev);
+	void paste(wxClipboardTextEvent& ev);
 	void set_clicked ();
 	virtual bool valid() const = 0;
 

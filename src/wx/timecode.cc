@@ -23,6 +23,8 @@
 #include "timecode.h"
 #include "wx_util.h"
 #include "lib/util.h"
+#include <dcp/scope_guard.h>
+#include <wx/clipbrd.h>
 
 
 using std::string;
@@ -79,6 +81,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	for (auto control: _controls) {
 		control->Bind(wxEVT_TEXT, boost::bind(&TimecodeBase::changed, this, _1));
+		control->Bind(wxEVT_TEXT_PASTE, boost::bind(&TimecodeBase::paste, this, _1));
 	}
 	if (_set_button) {
 		_set_button->Bind (wxEVT_BUTTON, boost::bind (&TimecodeBase::set_clicked, this));
@@ -126,6 +129,35 @@ TimecodeBase::changed(wxCommandEvent& ev)
 		}
 	}
 }
+
+
+void
+TimecodeBase::paste(wxClipboardTextEvent& ev)
+{
+	if (!wxTheClipboard->Open()) {
+		return;
+	}
+
+	dcp::ScopeGuard sg = []() {
+		wxTheClipboard->Close();
+	};
+
+	if (wxTheClipboard->IsSupported(wxDF_TEXT) || wxTheClipboard->IsSupported(wxDF_UNICODETEXT)) {
+		wxTextDataObject clipboard;
+		wxTheClipboard->GetData(clipboard);
+		auto contents = clipboard.GetText();
+		if (contents.Length() == 8 && contents.IsNumber()) {
+			_hours->SetValue(contents.Mid(0, 2));
+			_minutes->SetValue(contents.Mid(2, 2));
+			_seconds->SetValue(contents.Mid(4, 2));
+			_frames->SetValue(contents.Mid(6, 2));
+			return;
+		}
+	}
+
+	ev.Skip();
+}
+
 
 void
 TimecodeBase::set_clicked ()
