@@ -304,9 +304,7 @@ private:
 	{
 		auto file = new wxMenu;
 
-#ifdef DCPOMATIC_OSX
-		file->Append (wxID_EXIT, _("&Exit"));
-#else
+#ifndef DCPOMATIC_OSX
 		file->Append (wxID_EXIT, _("&Quit"));
 #endif
 
@@ -327,8 +325,8 @@ private:
 			help->Append(ID_help_report_a_problem, _("Report a problem..."));
 		}
 
-		m->Append (file, _("&File"));
 #ifndef DCPOMATIC_OSX
+		m->Append (file, _("&File"));
 		m->Append (edit, _("&Edit"));
 #endif
 		m->Append (help, _("&Help"));
