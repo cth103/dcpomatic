@@ -1,3 +1,9 @@
+if [[ "$(uname -m)" == arm64 ]]; then
+    env_sub=arm64/11.0
+else
+    env_sub=x86_64/10.10
+fi
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 build=$DIR/../build
 env=$DIR/../../..
@@ -5,6 +11,6 @@ export LD_LIBRARY_PATH=$build/src/lib:$build/src/wx:$env/lib:/usr/local/lib64:/u
 if [[ $(readlink -f $DIR/..) =~ (.*build/[^/]*) ]]; then
   export LD_LIBRARY_PATH=${BASH_REMATCH[1]}/lib:$LD_LIBRARY_PATH
 fi
-export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:/Users/ci/workspace/lib
+export DYLD_LIBRARY_PATH=$build/src/lib:$build/src/wx:/Users/ci/workspace/lib:/Users/cah/osx-environment/$env_sub/lib:/usr/local/lib
 export DCPOMATIC_GRAPHICS=$DIR/../graphics
 
