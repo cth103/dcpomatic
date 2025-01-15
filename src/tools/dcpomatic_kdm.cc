@@ -71,7 +71,7 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/treectrl.h>
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
-#ifdef __WXOSX__
+#ifdef DCPOMATIC_OSX
 #include <ApplicationServices/ApplicationServices.h>
 #endif
 #include <boost/bind/bind.hpp>
@@ -304,13 +304,13 @@ private:
 	{
 		auto file = new wxMenu;
 
-#ifdef __WXOSX__
+#ifdef DCPOMATIC_OSX
 		file->Append (wxID_EXIT, _("&Exit"));
 #else
 		file->Append (wxID_EXIT, _("&Quit"));
 #endif
 
-#ifdef __WXOSX__
+#ifdef DCPOMATIC_OSX
 		file->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 #else
 		wxMenu* edit = new wxMenu;
@@ -318,7 +318,7 @@ private:
 #endif
 
 		wxMenu* help = new wxMenu;
-#ifdef __WXOSX__
+#ifdef DCPOMATIC_OSX
 		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_kdm_creator(_("About %s")));
 #else
 		help->Append (wxID_ABOUT, _("About"));
@@ -328,7 +328,7 @@ private:
 		}
 
 		m->Append (file, _("&File"));
-#ifndef __WXOSX__
+#ifndef DCPOMATIC_OSX
 		m->Append (edit, _("&Edit"));
 #endif
 		m->Append (help, _("&Help"));
