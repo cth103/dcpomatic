@@ -49,7 +49,7 @@ public:
 	static wxSize size (wxWindow* parent);
 
 protected:
-	void changed ();
+	void changed(wxCommandEvent& ev);
 	void set_clicked ();
 	virtual bool valid() const = 0;
 

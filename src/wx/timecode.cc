@@ -26,6 +26,9 @@
 
 
 using std::string;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
 
 
 TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
@@ -75,7 +78,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 	_fixed = add_label_to_sizer(_sizer, this, char_to_wx("42"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 
 	for (auto control: _controls) {
-		control->Bind(wxEVT_TEXT, boost::bind(&TimecodeBase::changed, this));
+		control->Bind(wxEVT_TEXT, boost::bind(&TimecodeBase::changed, this, _1));
 	}
 	if (_set_button) {
 		_set_button->Bind (wxEVT_BUTTON, boost::bind (&TimecodeBase::set_clicked, this));
@@ -103,10 +106,24 @@ TimecodeBase::clear ()
 }
 
 void
-TimecodeBase::changed ()
+TimecodeBase::changed(wxCommandEvent& ev)
 {
-	if (_set_button && !_ignore_changed) {
+	if (_ignore_changed) {
+		return;
+	}
+
+	if (_set_button) {
 		_set_button->Enable(valid());
+	}
+
+	auto iter = std::find(_controls.begin(), _controls.end(), ev.GetEventObject());
+	DCPOMATIC_ASSERT(iter != _controls.end());
+
+	if ((*iter)->GetValue().Length() == 2) {
+		auto next = std::next(iter);
+		if (next != _controls.end()) {
+			(*next)->SetFocus();
+		}
 	}
 }
 
