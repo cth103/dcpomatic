@@ -46,27 +46,21 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	std::vector<wxTextCtrl*> controls;
-
 	_editable = new wxPanel (this);
 	auto editable_sizer = new wxBoxSizer (wxHORIZONTAL);
-	_hours = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator);
-	controls.push_back(_hours);
-	_minutes = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator);
-	controls.push_back(_minutes);
-	_seconds = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator);
-	controls.push_back(_seconds);
-	_frames = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator);
-	controls.push_back(_frames);
+	_controls.push_back(_hours = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
+	_controls.push_back(_minutes = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
+	_controls.push_back(_seconds = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
+	_controls.push_back(_frames = new wxTextCtrl(_editable, wxID_ANY, {}, wxDefaultPosition, s, 0, validator));
 
 	if (parent->GetLayoutDirection() == wxLayout_RightToLeft) {
-		std::reverse(controls.begin(), controls.end());
+		std::reverse(_controls.begin(), _controls.end());
 	}
 
-	for (auto i = controls.begin(); i != controls.end(); ++i) {
+	for (auto i = _controls.begin(); i != _controls.end(); ++i) {
 		(*i)->SetMaxLength(2);
 		editable_sizer->Add(*i);
-		if (std::next(i) != controls.end()) {
+		if (std::next(i) != _controls.end()) {
 			add_label_to_sizer(editable_sizer, _editable, char_to_wx(":"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 		}
 	}
@@ -80,10 +74,9 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	_fixed = add_label_to_sizer(_sizer, this, char_to_wx("42"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 
-	_hours->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
-	_minutes->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
-	_seconds->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
-	_frames->Bind	  (wxEVT_TEXT,   boost::bind (&TimecodeBase::changed, this));
+	for (auto control: _controls) {
+		control->Bind(wxEVT_TEXT, boost::bind(&TimecodeBase::changed, this));
+	}
 	if (_set_button) {
 		_set_button->Bind (wxEVT_BUTTON, boost::bind (&TimecodeBase::set_clicked, this));
 		_set_button->Enable (false);
@@ -103,10 +96,9 @@ TimecodeBase::set_focus ()
 void
 TimecodeBase::clear ()
 {
-	checked_set(_hours, wxString{});
-	checked_set(_minutes, wxString{});
-	checked_set(_seconds, wxString{});
-	checked_set(_frames, wxString{});
+	for (auto control: _controls) {
+		checked_set(control, wxString{});
+	}
 	checked_set(_fixed, wxString{});
 }
 
@@ -127,17 +119,10 @@ TimecodeBase::set_clicked ()
 	}
 
 	_ignore_changed = true;
-	if (_hours->GetValue().IsEmpty()) {
-		_hours->SetValue(char_to_wx("0"));
-	}
-	if (_minutes->GetValue().IsEmpty()) {
-		_minutes->SetValue(char_to_wx("0"));
-	}
-	if (_seconds->GetValue().IsEmpty()) {
-		_seconds->SetValue(char_to_wx("0"));
-	}
-	if (_frames->GetValue().IsEmpty()) {
-		_frames->SetValue(char_to_wx("0"));
+	for (auto control: _controls) {
+		if (control->GetValue().IsEmpty()) {
+			control->SetValue(char_to_wx("0"));
+		}
 	}
 	_ignore_changed = false;
 }

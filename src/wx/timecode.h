@@ -62,6 +62,8 @@ protected:
 	wxButton* _set_button;
 	wxStaticText* _fixed;
 
+	std::vector<wxTextCtrl*> _controls;
+
 	bool _ignore_changed = false;
 };
 
