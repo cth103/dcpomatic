@@ -62,7 +62,6 @@
 #include <dcp/filesystem.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
-#include <wx/display.h>
 #include <wx/dnd.h>
 #include <wx/filepicker.h>
 #include <wx/preferences.h>
@@ -228,15 +227,9 @@ public:
 		h->SetFont (subheading_font);
 		right->Add(h, 0, wxTOP, DCPOMATIC_SUBHEADING_TOP_PAD);
 
-		int const sn = wxDisplay::GetFromWindow(this);
-		if (sn >= 0) {
-			auto const screen = wxDisplay(sn).GetClientArea();
-			if (screen.height <= 800) {
-				_output = new ShortKDMOutputPanel(overall_panel);
-			}
-		}
-
-		if (!_output) {
+		if (layout_for_short_screen(this)) {
+			_output = new ShortKDMOutputPanel(overall_panel);
+		} else {
 			_output = new TallKDMOutputPanel(overall_panel);
 		}
 

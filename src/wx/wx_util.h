@@ -125,6 +125,7 @@ extern bool gui_is_dark ();
 extern double dpi_scale_factor (wxWindow* window);
 extern int search_ctrl_height ();
 extern void report_config_load_failure(wxWindow* parent, Config::LoadFailure what);
+extern bool layout_for_short_screen(wxWindow* reference);
 
 
 struct Offset

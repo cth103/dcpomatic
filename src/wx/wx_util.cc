@@ -42,6 +42,7 @@
 #include <dcp/locale_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
+#include <wx/display.h>
 #include <wx/filepicker.h>
 #include <wx/progdlg.h>
 #include <wx/sizer.h>
@@ -828,3 +829,12 @@ wx::report_problem()
 {
 	return std_to_wx(::report_problem());
 }
+
+
+bool
+layout_for_short_screen(wxWindow* reference)
+{
+	auto const sn = wxDisplay::GetFromWindow(reference);
+	return sn >= 0 && wxDisplay(sn).GetClientArea().height <= 800;
+}
+
