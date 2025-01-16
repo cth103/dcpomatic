@@ -118,5 +118,7 @@ private:
 	bool _ignore_selection_change = false;
 	bool _ignore_check_change = false;
 
+	CinemaList _cinema_list;
+
 	Collator _collator;
 };

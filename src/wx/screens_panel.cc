@@ -201,13 +201,12 @@ ScreensPanel::matches_search(Cinema const& cinema, string search)
 optional<wxTreeListItem>
 ScreensPanel::add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListItem previous)
 {
-	CinemaList cinemas;
 	auto const search = wx_to_std(_search->GetValue());
 	if (!matches_search(cinema, search)) {
 		return {};
 	}
 
-	auto screens = cinemas.screens(cinema_id);
+	auto screens = _cinema_list.screens(cinema_id);
 
 	if (_show_only_checked->get()) {
 		auto iter = std::find_if(screens.begin(), screens.end(), [this](pair<ScreenID, dcpomatic::Screen> const& screen) {
@@ -243,8 +242,6 @@ ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id, Screen const& s
 		return {};
 	}
 
-	CinemaList cinemas;
-
 	auto id = _targets->AppendItem(*item, std_to_wx(screen.name));
 
 	_item_to_screen.emplace(make_pair(id, make_pair(cinema_id, screen_id)));
@@ -262,10 +259,9 @@ ScreensPanel::add_cinema_clicked ()
 	if (dialog.ShowModal() == wxID_OK) {
 		auto cinema = Cinema(dialog.name(), dialog.emails(), dialog.notes(), dialog.utc_offset());
 
-		CinemaList cinemas;
-		auto existing_cinemas = cinemas.cinemas();
+		auto existing_cinemas = _cinema_list.cinemas();
 
-		auto const cinema_id = cinemas.add_cinema(cinema);
+		auto const cinema_id = _cinema_list.add_cinema(cinema);
 
 		wxTreeListItem previous = wxTLI_FIRST;
 		bool found = false;
@@ -322,8 +318,7 @@ ScreensPanel::edit_cinema_clicked ()
 void
 ScreensPanel::edit_cinema(CinemaID cinema_id)
 {
-	CinemaList cinemas;
-	auto cinema = cinemas.cinema(cinema_id);
+	auto cinema = _cinema_list.cinema(cinema_id);
 	DCPOMATIC_ASSERT(cinema);
 
 	CinemaDialog dialog(GetParent(), _("Edit cinema"), cinema->name, cinema->emails, cinema->notes, cinema->utc_offset);
@@ -333,7 +328,7 @@ ScreensPanel::edit_cinema(CinemaID cinema_id)
 		cinema->name = dialog.name();
 		cinema->notes = dialog.notes();
 		cinema->utc_offset = dialog.utc_offset();
-		cinemas.update_cinema(cinema_id, *cinema);
+		_cinema_list.update_cinema(cinema_id, *cinema);
 		auto item = cinema_to_item(cinema_id);
 		DCPOMATIC_ASSERT(item);
 		_targets->SetItemText (*item, std_to_wx(dialog.name()));
@@ -344,10 +339,8 @@ ScreensPanel::edit_cinema(CinemaID cinema_id)
 void
 ScreensPanel::remove_cinema_clicked ()
 {
-	CinemaList cinemas;
-
 	if (_selected_cinemas.size() == 1) {
-		auto cinema = cinemas.cinema(_selected_cinemas[0]);
+		auto cinema = _cinema_list.cinema(_selected_cinemas[0]);
 		if (!confirm_dialog(this, wxString::Format(_("Are you sure you want to remove the cinema '%s'?"), std_to_wx(cinema->name)))) {
 			return;
 		}
@@ -360,10 +353,10 @@ ScreensPanel::remove_cinema_clicked ()
 	auto cinemas_to_remove = _selected_cinemas;
 
 	for (auto const& cinema_id: cinemas_to_remove) {
-		for (auto screen: cinemas.screens(cinema_id)) {
+		for (auto screen: _cinema_list.screens(cinema_id)) {
 			_checked_screens.erase({cinema_id, screen.first});
 		}
-		cinemas.remove_cinema(cinema_id);
+		_cinema_list.remove_cinema(cinema_id);
 		auto item = cinema_to_item(cinema_id);
 		DCPOMATIC_ASSERT(item);
 		_targets->DeleteItem(*item);
@@ -388,9 +381,7 @@ ScreensPanel::add_screen_clicked ()
 		return;
 	}
 
-	CinemaList cinemas;
-
-	for (auto screen: cinemas.screens(*cinema_id)) {
+	for (auto screen: _cinema_list.screens(*cinema_id)) {
 		if (screen.second.name == dialog.name()) {
 			error_dialog (
 				GetParent(),
@@ -403,8 +394,8 @@ ScreensPanel::add_screen_clicked ()
 		}
 	}
 
-	auto screen = Screen(dialog.name(), dialog.notes(), dialog.recipient(), dialog.recipient_file(), dialog.trusted_devices());
-	auto const screen_id = cinemas.add_screen(*cinema_id, screen);
+	auto const screen = Screen(dialog.name(), dialog.notes(), dialog.recipient(), dialog.recipient_file(), dialog.trusted_devices());
+	auto const screen_id = _cinema_list.add_screen(*cinema_id, screen);
 
 	auto const id = add_screen(*cinema_id, screen_id, screen);
 	if (id) {
@@ -425,8 +416,7 @@ ScreensPanel::edit_screen_clicked ()
 void
 ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 {
-	CinemaList cinemas;
-	auto screen = cinemas.screen(screen_id);
+	auto screen = _cinema_list.screen(screen_id);
 	DCPOMATIC_ASSERT(screen);
 
 	ScreenDialog dialog(
@@ -442,7 +432,7 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 		return;
 	}
 
-	for (auto screen: cinemas.screens(cinema_id)) {
+	for (auto screen: _cinema_list.screens(cinema_id)) {
 		if (screen.first != screen_id && screen.second.name == dialog.name()) {
 			error_dialog (
 				GetParent(),
@@ -460,7 +450,7 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 	screen->recipient = dialog.recipient();
 	screen->recipient_file = dialog.recipient_file();
 	screen->trusted_devices = dialog.trusted_devices();
-	cinemas.update_screen(cinema_id, screen_id, *screen);
+	_cinema_list.update_screen(cinema_id, screen_id, *screen);
 
 	auto item = screen_to_item(screen_id);
 	DCPOMATIC_ASSERT (item);
@@ -471,10 +461,8 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 void
 ScreensPanel::remove_screen_clicked ()
 {
-	CinemaList cinemas;
-
 	if (_selected_screens.size() == 1) {
-		auto screen = cinemas.screen(_selected_screens[0].second);
+		auto screen = _cinema_list.screen(_selected_screens[0].second);
 		DCPOMATIC_ASSERT(screen);
 		if (!confirm_dialog(this, wxString::Format(_("Are you sure you want to remove the screen '%s'?"), std_to_wx(screen->name)))) {
 			return;
@@ -487,7 +475,7 @@ ScreensPanel::remove_screen_clicked ()
 
 	for (auto screen_id: _selected_screens) {
 		_checked_screens.erase(screen_id);
-		cinemas.remove_screen(screen_id.second);
+		_cinema_list.remove_screen(screen_id.second);
 		auto item = screen_to_item(screen_id.second);
 		DCPOMATIC_ASSERT(item);
 		_targets->DeleteItem(*item);
