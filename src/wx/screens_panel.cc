@@ -199,14 +199,11 @@ ScreensPanel::matches_search(Cinema const& cinema, string search)
 
 /** Add an existing cinema to the GUI */
 optional<wxTreeListItem>
-ScreensPanel::add_cinema(CinemaID cinema_id, wxTreeListItem previous)
+ScreensPanel::add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListItem previous)
 {
 	CinemaList cinemas;
-	auto cinema = cinemas.cinema(cinema_id);
-	DCPOMATIC_ASSERT(cinema);
-
 	auto const search = wx_to_std(_search->GetValue());
-	if (!matches_search(*cinema, search)) {
+	if (!matches_search(cinema, search)) {
 		return {};
 	}
 
@@ -224,13 +221,13 @@ ScreensPanel::add_cinema(CinemaID cinema_id, wxTreeListItem previous)
 		}
 	}
 
-	auto id = _targets->InsertItem(_targets->GetRootItem(), previous, std_to_wx(cinema->name));
+	auto id = _targets->InsertItem(_targets->GetRootItem(), previous, std_to_wx(cinema.name));
 
 	_item_to_cinema.emplace(make_pair(id, cinema_id));
 	_cinema_to_item[cinema_id] = id;
 
 	for (auto screen: screens) {
-		add_screen(cinema_id, screen.first);
+		add_screen(cinema_id, screen.first, screen.second);
 	}
 
 	return id;
@@ -239,7 +236,7 @@ ScreensPanel::add_cinema(CinemaID cinema_id, wxTreeListItem previous)
 
 /** Add an existing screen to the GUI */
 optional<wxTreeListItem>
-ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id)
+ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id, Screen const& screen)
 {
 	auto item = cinema_to_item(cinema_id);
 	if (!item) {
@@ -247,10 +244,8 @@ ScreensPanel::add_screen(CinemaID cinema_id, ScreenID screen_id)
 	}
 
 	CinemaList cinemas;
-	auto screen = cinemas.screen(screen_id);
-	DCPOMATIC_ASSERT(screen);
 
-	auto id = _targets->AppendItem(*item, std_to_wx(screen->name));
+	auto id = _targets->AppendItem(*item, std_to_wx(screen.name));
 
 	_item_to_screen.emplace(make_pair(id, make_pair(cinema_id, screen_id)));
 	_screen_to_item[screen_id] = id;
@@ -289,7 +284,7 @@ ScreensPanel::add_cinema_clicked ()
 			previous = *item;
 		}
 
-		auto item = add_cinema(cinema_id, found ? previous : wxTLI_LAST);
+		auto item = add_cinema(cinema_id, cinema, found ? previous : wxTLI_LAST);
 
 		if (item) {
 			_targets->UnselectAll ();
@@ -411,7 +406,7 @@ ScreensPanel::add_screen_clicked ()
 	auto screen = Screen(dialog.name(), dialog.notes(), dialog.recipient(), dialog.recipient_file(), dialog.trusted_devices());
 	auto const screen_id = cinemas.add_screen(*cinema_id, screen);
 
-	auto id = add_screen(*cinema_id, screen_id);
+	auto const id = add_screen(*cinema_id, screen_id, screen);
 	if (id) {
 		_targets->Expand (id.get ());
 	}
@@ -549,9 +544,8 @@ ScreensPanel::selection_changed ()
 void
 ScreensPanel::add_cinemas ()
 {
-	CinemaList cinemas;
-	for (auto cinema: cinemas.cinemas()) {
-		add_cinema (cinema.first, wxTLI_LAST);
+	for (auto cinema: _cinema_list.cinemas()) {
+		add_cinema(cinema.first, cinema.second, wxTLI_LAST);
 	}
 }
 
