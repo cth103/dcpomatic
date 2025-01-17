@@ -65,11 +65,11 @@ kdm_for_screen (
 	vector<KDMCertificatePeriod>& period_checks
 	)
 {
-	if (!screen.recipient) {
+	if (!screen.recipient()) {
 		return {};
 	}
 
-	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema.name, screen.name, screen.recipient.get(), valid_from, valid_to));
+	period_checks.push_back(check_kdm_and_certificate_validity_periods(cinema.name, screen.name, screen.recipient().get(), valid_from, valid_to));
 
 	auto signer = Config::instance()->signer_chain();
 	if (!signer->valid()) {
@@ -77,7 +77,7 @@ kdm_for_screen (
 	}
 
 	auto kdm = make_kdm(valid_from, valid_to).encrypt(
-		signer, screen.recipient.get(), screen.trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
+		signer, screen.recipient().get(), screen.trusted_device_thumbprints(), formulation, disable_forensic_marking_picture, disable_forensic_marking_audio
 		);
 
 	dcp::NameFormat::Map name_values;

@@ -154,7 +154,7 @@ DKDMRecipientList::add_dkdm_recipient(DKDMRecipient const& dkdm_recipient)
 
 	add_dkdm_recipient.bind_text(1, dkdm_recipient.name);
 	add_dkdm_recipient.bind_text(2, dkdm_recipient.notes);
-	add_dkdm_recipient.bind_text(3, dkdm_recipient.recipient ? dkdm_recipient.recipient->certificate(true) : "");
+	add_dkdm_recipient.bind_text(3, dkdm_recipient.recipient() ? dkdm_recipient.recipient()->certificate(true) : "");
 	add_dkdm_recipient.bind_text(4, join_strings(dkdm_recipient.emails));
 
 	add_dkdm_recipient.execute();
@@ -170,7 +170,7 @@ DKDMRecipientList::update_dkdm_recipient(DKDMRecipientID id, DKDMRecipient const
 
 	add_dkdm_recipient.bind_text(1, dkdm_recipient.name);
 	add_dkdm_recipient.bind_text(2, dkdm_recipient.notes);
-	add_dkdm_recipient.bind_text(3, dkdm_recipient.recipient ? dkdm_recipient.recipient->certificate(true) : "");
+	add_dkdm_recipient.bind_text(3, dkdm_recipient.recipient() ? dkdm_recipient.recipient()->certificate(true) : "");
 	add_dkdm_recipient.bind_text(4, join_strings(dkdm_recipient.emails));
 	add_dkdm_recipient.bind_int64(5, id.get());
 

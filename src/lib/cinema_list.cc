@@ -309,7 +309,7 @@ CinemaList::add_screen(CinemaID cinema_id, dcpomatic::Screen const& screen)
 	add_screen.bind_int64(1, cinema_id.get());
 	add_screen.bind_text(2, screen.name);
 	add_screen.bind_text(3, screen.notes);
-	add_screen.bind_text(4, screen.recipient->certificate(true));
+	add_screen.bind_text(4, screen.recipient()->certificate(true));
 	add_screen.bind_text(5, screen.recipient_file.get_value_or(""));
 
 	add_screen.execute();
@@ -332,7 +332,7 @@ dcpomatic::Screen
 CinemaList::screen_from_result(SQLiteStatement& statement, ScreenID screen_id) const
 {
 	auto certificate_string = statement.column_text(4);
-	optional<dcp::Certificate> certificate = certificate_string.empty() ? optional<dcp::Certificate>() : dcp::Certificate(certificate_string);
+	optional<string> certificate = certificate_string.empty() ? optional<string>() : certificate_string;
 	auto recipient_file_string = statement.column_text(5);
 	optional<string> recipient_file = recipient_file_string.empty() ? optional<string>() : recipient_file_string;
 
@@ -429,7 +429,7 @@ CinemaList::update_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Scr
 	statement.bind_int64(1, cinema_id.get());
 	statement.bind_text(2, screen.name);
 	statement.bind_text(3, screen.notes);
-	statement.bind_text(4, screen.recipient->certificate(true));
+	statement.bind_text(4, screen.recipient()->certificate(true));
 	statement.bind_text(5, screen.recipient_file.get_value_or(""));
 	statement.bind_int64(6, screen_id.get());
 

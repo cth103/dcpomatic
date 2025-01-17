@@ -380,13 +380,13 @@ from_dkdm (
 	try {
 		list<KDMWithMetadataPtr> kdms;
 		for (auto const& screen_details: screens) {
-			if (!screen_details.screen.recipient) {
+			if (!screen_details.screen.recipient()) {
 				continue;
 			}
 
 			auto const kdm = kdm_from_dkdm(
 							dkdm,
-							screen_details.screen.recipient.get(),
+							screen_details.screen.recipient().get(),
 							screen_details.screen.trusted_device_thumbprints(),
 							valid_from,
 							valid_to,

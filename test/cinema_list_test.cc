@@ -177,7 +177,7 @@ BOOST_AUTO_TEST_CASE(add_screen_test)
 	BOOST_CHECK(check[0].first == screen_id);
 	BOOST_CHECK_EQUAL(check[0].second.name, "Screen 1");
 	BOOST_CHECK_EQUAL(check[0].second.notes, "Smells of popcorn");
-	BOOST_CHECK(check[0].second.recipient == dcp::Certificate(dcp::file_to_string("test/data/cert.pem")));
+	BOOST_CHECK(check[0].second.recipient() == dcp::Certificate(dcp::file_to_string("test/data/cert.pem")));
 	BOOST_CHECK(check[0].second.recipient_file == string("test/data/cert.pem"));
 }
 
@@ -208,7 +208,7 @@ BOOST_AUTO_TEST_CASE(update_screen_test)
 	BOOST_CHECK(check[0].first == screen_id);
 	BOOST_CHECK_EQUAL(check[0].second.name, "Screen 1 updated");
 	BOOST_CHECK_EQUAL(check[0].second.notes, "Smells of popcorn and hope");
-	BOOST_CHECK(check[0].second.recipient == dcp::Certificate(dcp::file_to_string("test/data/cert.pem")));
+	BOOST_CHECK(check[0].second.recipient() == dcp::Certificate(dcp::file_to_string("test/data/cert.pem")));
 	BOOST_CHECK(check[0].second.recipient_file == string("test/data/cert.pem"));
 }
 
@@ -247,11 +247,11 @@ BOOST_AUTO_TEST_CASE(cinemas_list_copy_from_xml_test)
 	BOOST_CHECK_EQUAL(screens.size(), 2U);
 	auto screen_iter = screens.begin();
 	BOOST_CHECK_EQUAL(screen_iter->second.name, "1");
-	BOOST_CHECK(screen_iter->second.recipient);
-	BOOST_CHECK_EQUAL(screen_iter->second.recipient->subject_dn_qualifier(), "CVsuuv9eYsQZSl8U4fDpvOmzZhI=");
+	BOOST_CHECK(screen_iter->second.recipient());
+	BOOST_CHECK_EQUAL(screen_iter->second.recipient()->subject_dn_qualifier(), "CVsuuv9eYsQZSl8U4fDpvOmzZhI=");
 	++screen_iter;
 	BOOST_CHECK_EQUAL(screen_iter->second.name, "2");
-	BOOST_CHECK(screen_iter->second.recipient);
-	BOOST_CHECK_EQUAL(screen_iter->second.recipient->subject_dn_qualifier(), "CVsuuv9eYsQZSl8U4fDpvOmzZhI=");
+	BOOST_CHECK(screen_iter->second.recipient());
+	BOOST_CHECK_EQUAL(screen_iter->second.recipient()->subject_dn_qualifier(), "CVsuuv9eYsQZSl8U4fDpvOmzZhI=");
 }
 

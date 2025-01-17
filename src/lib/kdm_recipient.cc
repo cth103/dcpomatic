@@ -22,14 +22,17 @@
 #include "kdm_recipient.h"
 
 
+using boost::optional;
+
+
 KDMRecipient::KDMRecipient (cxml::ConstNodePtr node)
 	: name (node->string_child("Name"))
 	, notes (node->optional_string_child("Notes").get_value_or(""))
 {
 	if (node->optional_string_child("Certificate")) {
-		recipient = dcp::Certificate (node->string_child("Certificate"));
+		_recipient = dcp::Certificate(node->string_child("Certificate"));
 	} else if (node->optional_string_child("Recipient")) {
-		recipient = dcp::Certificate (node->string_child("Recipient"));
+		_recipient = dcp::Certificate(node->string_child("Recipient"));
 	}
 
 	recipient_file = node->optional_string_child("RecipientFile");
@@ -40,13 +43,36 @@ void
 KDMRecipient::as_xml (xmlpp::Element* parent) const
 {
 	cxml::add_text_child(parent, "Name", name);
-	if (recipient) {
-		cxml::add_text_child(parent, "Recipient", recipient->certificate(true));
+	if (auto const r = recipient()) {
+		cxml::add_text_child(parent, "Recipient", r->certificate(true));
 	}
 	if (recipient_file) {
 		cxml::add_text_child(parent, "RecipientFile", *recipient_file);
 	}
 
 	cxml::add_text_child(parent, "Notes", notes);
+}
+
+
+boost::optional<dcp::Certificate>
+KDMRecipient::recipient() const
+{
+	if (_recipient) {
+		return _recipient;
+	}
+
+	if (_recipient_string) {
+		return dcp::Certificate(*_recipient_string);
+	}
+
+	return {};
+}
+
+
+void
+KDMRecipient::set_recipient(optional<dcp::Certificate> certificate)
+{
+	_recipient = certificate;
+	_recipient_string = {};
 }
 

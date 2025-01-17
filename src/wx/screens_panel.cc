@@ -415,7 +415,7 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 		GetParent(), _("Edit screen"),
 		screen->name,
 		screen->notes,
-		screen->recipient,
+		screen->recipient(),
 		screen->recipient_file,
 		screen->trusted_devices
 		);
@@ -439,7 +439,7 @@ ScreensPanel::edit_screen(CinemaID cinema_id, ScreenID screen_id)
 
 	screen->name = dialog.name();
 	screen->notes = dialog.notes();
-	screen->recipient = dialog.recipient();
+	screen->set_recipient(dialog.recipient());
 	screen->recipient_file = dialog.recipient_file();
 	screen->trusted_devices = dialog.trusted_devices();
 	_cinema_list.update_screen(cinema_id, screen_id, *screen);

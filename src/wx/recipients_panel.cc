@@ -149,14 +149,14 @@ RecipientsPanel::edit_recipient_clicked ()
 		recipient->name,
 		recipient->notes,
 		recipient->emails,
-		recipient->recipient
+		recipient->recipient()
 		);
 
 	if (dialog.ShowModal() == wxID_OK) {
 		recipient->name = dialog.name();
 		recipient->emails = dialog.emails();
 		recipient->notes = dialog.notes();
-		recipient->recipient = dialog.recipient();
+		recipient->set_recipient(dialog.recipient());
 		recipients.update_dkdm_recipient(recipient_id, *recipient);
 		_targets->SetItemText(selection.first, std_to_wx(dialog.name()));
 	}

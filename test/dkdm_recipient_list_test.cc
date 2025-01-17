@@ -45,12 +45,12 @@ BOOST_AUTO_TEST_CASE(dkdm_receipient_list_copy_from_xml_test)
 	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.emails.size(), 2U);
 	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.emails[0], "epicbob@gmail.com");
 	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.emails[1], "boblikesemlong@cinema-bob.com");
-	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.recipient->subject_dn_qualifier(), "r5/Q5f3UTm7qzoF5QzNZP6aEuvI=");
+	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.recipient()->subject_dn_qualifier(), "r5/Q5f3UTm7qzoF5QzNZP6aEuvI=");
 	++dkdm_recipient_iter;
 
 	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.name, "Sharon's Shorts");
 	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.notes, "Even if it sucks, at least it's over quickly");
-	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.recipient->subject_dn_qualifier(), "FHerM3Us/DWuqD1MnztStSlFJO0=");
+	BOOST_CHECK_EQUAL(dkdm_recipient_iter->second.recipient()->subject_dn_qualifier(), "FHerM3Us/DWuqD1MnztStSlFJO0=");
 	++dkdm_recipient_iter;
 }
 

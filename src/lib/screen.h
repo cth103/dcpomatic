@@ -64,6 +64,17 @@ public:
 		, trusted_devices (trusted_devices_)
 	{}
 
+	Screen(
+		std::string const & name_,
+		std::string const & notes_,
+		boost::optional<std::string> recipient_,
+		boost::optional<std::string> recipient_file_,
+		std::vector<TrustedDevice> trusted_devices_
+	       )
+		: KDMRecipient(name_, notes_, recipient_, recipient_file_)
+		, trusted_devices(trusted_devices_)
+	{}
+
 	std::vector<std::string> trusted_device_thumbprints () const;
 	std::vector<TrustedDevice> trusted_devices;
 };

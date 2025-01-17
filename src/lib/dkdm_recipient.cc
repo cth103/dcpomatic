@@ -41,7 +41,7 @@ kdm_for_dkdm_recipient (
 	dcp::LocalTime valid_to
 	)
 {
-	if (!recipient.recipient) {
+	if (!recipient.recipient()) {
 		return {};
 	}
 
@@ -51,7 +51,7 @@ kdm_for_dkdm_recipient (
 	}
 
 	auto const decrypted_kdm = film->make_kdm(cpl, valid_from, valid_to);
-	auto const kdm = decrypted_kdm.encrypt(signer, recipient.recipient.get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
+	auto const kdm = decrypted_kdm.encrypt(signer, recipient.recipient().get(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, true, 0);
 
 	dcp::NameFormat::Map name_values;
 	name_values['f'] = kdm.content_title_text();
