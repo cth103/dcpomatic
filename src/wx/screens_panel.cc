@@ -209,13 +209,11 @@ ScreensPanel::add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListIte
 	auto screens = _cinema_list.screens(cinema_id);
 
 	if (_show_only_checked->get()) {
-		auto iter = std::find_if(screens.begin(), screens.end(), [this](pair<ScreenID, dcpomatic::Screen> const& screen) {
-			auto iter2 = std::find_if(_checked_screens.begin(), _checked_screens.end(), [screen](pair<CinemaID, ScreenID> const& checked) {
-				return checked.second == screen.first;
-			});
-			return iter2 != _checked_screens.end();
+		auto iter = std::find_if(_checked_screens.begin(), _checked_screens.end(), [cinema_id](pair<CinemaID, ScreenID> const& checked) {
+			return checked.first == cinema_id;
 		});
-		if (iter == screens.end()) {
+
+		if (iter == _checked_screens.end()) {
 			return {};
 		}
 	}
