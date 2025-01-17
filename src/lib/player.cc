@@ -608,7 +608,7 @@ Player::dcp_to_content_time (shared_ptr<const Piece> piece, DCPTime t) const
 DCPTime
 Player::content_time_to_dcp (shared_ptr<const Piece> piece, ContentTime t) const
 {
-	return max (DCPTime(), DCPTime(t - piece->content->trim_start(), piece->frc) + piece->content->position());
+	return DCPTime(t - piece->content->trim_start(), piece->frc) + piece->content->position();
 }
 
 

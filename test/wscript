@@ -184,6 +184,7 @@ def build(bld):
                  video_mxf_content_test.cc
                  vf_kdm_test.cc
                  writer_test.cc
+                 video_trim_test.cc
                  zipper_test.cc
                  """
 
