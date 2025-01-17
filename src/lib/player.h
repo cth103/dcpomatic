@@ -88,6 +88,7 @@ public:
 	Player(Player&& other);
 	Player& operator=(Player&& other);
 
+	/** @return true when playback is finished, and there is no more data to come */
 	bool pass ();
 	void seek (dcpomatic::DCPTime time, bool accurate);
 	Frame frames_done() const;
