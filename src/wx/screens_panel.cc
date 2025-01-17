@@ -534,7 +534,7 @@ ScreensPanel::add_cinemas ()
 
 	_cinema_list.screens([this](CinemaID cinema_id, ScreenID screen_id, Screen const& screen) {
 		add_screen(cinema_id, screen_id, screen);
-	});
+	}, false);
 }
 
 

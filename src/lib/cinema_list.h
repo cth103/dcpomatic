@@ -105,12 +105,16 @@ public:
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens(CinemaID cinema_id) const;
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens_by_cinema_and_name(CinemaID id, std::string const& name) const;
 
-	void screens(std::function<void (CinemaID, ScreenID, dcpomatic::Screen const&)> callback) const;
+	/** Call a callback with every screen.
+	 *  @param with_trusted_devices true to read screen's trusted devices into the Screen, false to not bother.
+	 */
+	void screens(std::function<void (CinemaID, ScreenID, dcpomatic::Screen const&)> callback, bool with_trusted_devices) const;
 
 	boost::optional<dcp::UTCOffset> unique_utc_offset(std::set<CinemaID> const& cinemas);
 
 private:
-	dcpomatic::Screen screen_from_result(SQLiteStatement& statement, ScreenID screen_id) const;
+	/** @param with_trusted_devices true to read screen's trusted devices into the Screen, false to not bother */
+	dcpomatic::Screen screen_from_result(SQLiteStatement& statement, ScreenID screen_id, bool with_trusted_devices) const;
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens_from_result(SQLiteStatement& statement) const;
 	void setup_tables();
 	void setup(boost::filesystem::path db_file);

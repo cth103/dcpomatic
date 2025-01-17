@@ -330,25 +330,27 @@ CinemaList::add_screen(CinemaID cinema_id, dcpomatic::Screen const& screen)
 
 
 dcpomatic::Screen
-CinemaList::screen_from_result(SQLiteStatement& statement, ScreenID screen_id) const
+CinemaList::screen_from_result(SQLiteStatement& statement, ScreenID screen_id, bool with_trusted_devices) const
 {
 	auto certificate_string = statement.column_text(4);
 	optional<string> certificate = certificate_string.empty() ? optional<string>() : certificate_string;
 	auto recipient_file_string = statement.column_text(5);
 	optional<string> recipient_file = recipient_file_string.empty() ? optional<string>() : recipient_file_string;
 
-	SQLiteStatement trusted_devices_statement(_db, _trusted_devices.select("WHERE screen=?"));
-	trusted_devices_statement.bind_int64(1, screen_id.get());
 	vector<TrustedDevice> trusted_devices;
-	trusted_devices_statement.execute([&trusted_devices](SQLiteStatement& statement) {
-		DCPOMATIC_ASSERT(statement.data_count() == 1);
-		auto description = statement.column_text(1);
-		if (boost::algorithm::starts_with(description, "-----BEGIN CERTIFICATE")) {
-			trusted_devices.push_back(TrustedDevice(dcp::Certificate(description)));
-		} else {
-			trusted_devices.push_back(TrustedDevice(description));
-		}
-	});
+	if (with_trusted_devices) {
+		SQLiteStatement trusted_devices_statement(_db, _trusted_devices.select("WHERE screen=?"));
+		trusted_devices_statement.bind_int64(1, screen_id.get());
+		trusted_devices_statement.execute([&trusted_devices](SQLiteStatement& statement) {
+			DCPOMATIC_ASSERT(statement.data_count() == 3);
+			auto description = statement.column_text(2);
+			if (boost::algorithm::starts_with(description, "-----BEGIN CERTIFICATE")) {
+				trusted_devices.push_back(TrustedDevice(dcp::Certificate(description)));
+			} else {
+				trusted_devices.push_back(TrustedDevice(description));
+			}
+		});
+	}
 
 	return dcpomatic::Screen(statement.column_text(2), statement.column_text(3), certificate, recipient_file, trusted_devices);
 }
@@ -364,7 +366,7 @@ CinemaList::screen(ScreenID screen_id) const
 
 	statement.execute([this, &output, screen_id](SQLiteStatement& statement) {
 		DCPOMATIC_ASSERT(statement.data_count() == 6);
-		output = screen_from_result(statement, screen_id);
+		output = screen_from_result(statement, screen_id, true);
 	});
 
 	return output;
@@ -380,7 +382,7 @@ CinemaList::screens_from_result(SQLiteStatement& statement) const
 	statement.execute([this, &output](SQLiteStatement& statement) {
 		DCPOMATIC_ASSERT(statement.data_count() == 6);
 		ScreenID const screen_id = statement.column_int64(0);
-		output.push_back({screen_id, screen_from_result(statement, screen_id)});
+		output.push_back({screen_id, screen_from_result(statement, screen_id, true)});
 	});
 
 	return output;
@@ -483,12 +485,12 @@ CinemaList::unique_utc_offset(std::set<CinemaID> const& cinemas_to_check)
 
 
 void
-CinemaList::screens(function<void (CinemaID, ScreenID, dcpomatic::Screen const& screen)> callback) const
+CinemaList::screens(function<void (CinemaID, ScreenID, dcpomatic::Screen const& screen)> callback, bool with_trusted_devices) const
 {
 	SQLiteStatement statement(_db, _screens.select(""));
-	statement.execute([this, &callback](SQLiteStatement& statement) {
+	statement.execute([this, &callback, with_trusted_devices](SQLiteStatement& statement) {
 		auto const screen_id = statement.column_int64(0);
-		callback(statement.column_int64(1), screen_id, screen_from_result(statement, screen_id));
+		callback(statement.column_int64(1), screen_id, screen_from_result(statement, screen_id, with_trusted_devices));
 	});
 
 }
