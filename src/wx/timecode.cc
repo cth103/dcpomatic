@@ -64,7 +64,7 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	for (auto i = _controls.begin(); i != _controls.end(); ++i) {
 		(*i)->SetMaxLength(2);
-		editable_sizer->Add(*i);
+		editable_sizer->Add(*i, 1, wxALIGN_CENTER_VERTICAL);
 		if (std::next(i) != _controls.end()) {
 			add_label_to_sizer(editable_sizer, _editable, char_to_wx(":"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 		}
@@ -72,10 +72,10 @@ TimecodeBase::TimecodeBase (wxWindow* parent, bool set_button)
 
 	if (set_button) {
 		_set_button = new Button (_editable, _("Set"), wxDefaultPosition, small_button_size(parent, _("Set")));
-		editable_sizer->Add (_set_button, 0, wxLEFT | wxRIGHT, 8);
+		editable_sizer->Add(_set_button, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL, 8);
 	}
 	_editable->SetSizerAndFit (editable_sizer);
-	_sizer->Add (_editable);
+	_sizer->Add(_editable, 1, wxALIGN_CENTER_VERTICAL);
 
 	_fixed = add_label_to_sizer(_sizer, this, char_to_wx("42"), false, 0, wxLEFT | wxRIGHT | wxALIGN_CENTER_VERTICAL);
 
