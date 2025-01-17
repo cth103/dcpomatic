@@ -1366,7 +1366,7 @@ Config::set_cinemas_file (boost::filesystem::path file)
 
 	_cinemas_file = file;
 
-	changed (OTHER);
+	changed(CINEMAS_FILE);
 }
 
 
@@ -1705,6 +1705,7 @@ Config::load_from_zip(boost::filesystem::path zip_file, CinemasAction action)
 	changed(Property::AUTO_CROP_THRESHOLD);
 	changed(Property::ALLOW_SMPTE_BV20);
 	changed(Property::ISDCF_NAME_PART_LENGTH);
+	changed(Property::CINEMAS_FILE);
 	changed(Property::OTHER);
 }
 

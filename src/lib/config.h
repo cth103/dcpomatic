@@ -120,6 +120,7 @@ public:
 #ifdef DCPOMATIC_GROK
 		GROK,
 #endif
+		CINEMAS_FILE,
 		OTHER
 	};
 
