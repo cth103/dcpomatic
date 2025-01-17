@@ -242,7 +242,7 @@ public:
 		overall_panel->SetSizer (main_sizer);
 
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
-		Config::instance()->Changed.connect (boost::bind (&Config::write, Config::instance ()));
+		Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
 
 		_screens->ScreensChanged.connect(boost::bind(&DOMFrame::screens_changed, this));
 		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
@@ -265,6 +265,16 @@ public:
 	}
 
 private:
+	void config_changed(Config::Property what)
+	{
+		/* Instantly save any config changes when using a DCP-o-matic GUI */
+		Config::instance()->write();
+
+		if (what == Config::CINEMAS_FILE) {
+			_screens->update();
+		}
+	}
+
 	void file_exit ()
 	{
 		/* false here allows the close handler to veto the close request */
