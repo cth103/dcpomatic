@@ -320,6 +320,7 @@ CinemaList::add_screen(CinemaID cinema_id, dcpomatic::Screen const& screen)
 		SQLiteStatement add_device(_db, _trusted_devices.insert());
 		add_device.bind_int64(1, screen_id);
 		add_device.bind_text(2, device.as_string());
+		add_device.execute();
 	}
 
 	transaction.commit();
