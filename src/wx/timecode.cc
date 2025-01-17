@@ -152,6 +152,12 @@ TimecodeBase::paste(wxClipboardTextEvent& ev)
 			_seconds->SetValue(contents.Mid(4, 2));
 			_frames->SetValue(contents.Mid(6, 2));
 			return;
+		} else if (contents.Length() == 11 && contents[2] == ':' && contents[5] == ':' && contents[8] == ':') {
+			_hours->SetValue(contents.Mid(0, 2));
+			_minutes->SetValue(contents.Mid(3, 2));
+			_seconds->SetValue(contents.Mid(6, 2));
+			_frames->SetValue(contents.Mid(9, 2));
+			return;
 		}
 	}
 
