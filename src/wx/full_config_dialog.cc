@@ -123,7 +123,7 @@ private:
 		++r;
 
 		add_label_to_sizer (table, _panel, _("Cinema and screen database file"), true, wxGBPosition (r, 0));
-		_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), char_to_wx("*.xml"), true, false, "CinemaDatabasePath");
+		_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), char_to_wx("*.sqlite3"), true, false, "CinemaDatabasePath");
 		table->Add (_cinemas_file, wxGBPosition (r, 1));
 		auto export_cinemas = new Button (_panel, _("Export..."));
 		table->Add (export_cinemas, wxGBPosition (r, 2));
@@ -191,7 +191,7 @@ private:
 	void export_cinemas_file ()
 	{
 		wxFileDialog dialog(
-			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, char_to_wx("XML files (*.xml)|*.xml"),
+			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, char_to_wx("SQLite files (*.sqlite3)|*.sqlite3"),
 			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
                 );
 
