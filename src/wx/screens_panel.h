@@ -49,6 +49,9 @@ public:
 	explicit ScreensPanel (wxWindow* parent);
 	~ScreensPanel ();
 
+	/** Clear and re-fill the panel from the currently-configured database */
+	void update();
+
 	std::set<std::pair<CinemaID, ScreenID>> screens() const;
 	void setup_sensitivity ();
 
@@ -118,7 +121,7 @@ private:
 	bool _ignore_selection_change = false;
 	bool _ignore_check_change = false;
 
-	CinemaList _cinema_list;
+	std::unique_ptr<CinemaList> _cinema_list;
 
 	Collator _collator;
 };
