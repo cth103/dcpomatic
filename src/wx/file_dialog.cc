@@ -38,7 +38,7 @@ wxString initial_path(
 	)
 {
 	if (override_path) {
-		return std_to_wx(override_path->string());
+		return std_to_wx(override_path->parent_path().string());
 	}
 
 	return std_to_wx(Config::instance()->initial_path(initial_path_key).get_value_or(home_directory()).string());
