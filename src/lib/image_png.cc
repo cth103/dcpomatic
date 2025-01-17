@@ -85,9 +85,16 @@ png_error_fn (png_structp, char const * message)
 dcp::ArrayData
 image_as_png (shared_ptr<const Image> image)
 {
-	DCPOMATIC_ASSERT (image->bytes_per_pixel(0) == 4);
-	DCPOMATIC_ASSERT (image->planes() == 1);
-	if (image->pixel_format() != AV_PIX_FMT_RGBA) {
+	png_byte color_type;
+
+	switch (image->pixel_format()) {
+	case AV_PIX_FMT_RGBA:
+		color_type = PNG_COLOR_TYPE_RGBA;
+		break;
+	case AV_PIX_FMT_RGB24:
+		color_type = PNG_COLOR_TYPE_RGB;
+		break;
+	default:
 		return image_as_png(image->convert_pixel_format(dcp::YUVToRGB::REC709, AV_PIX_FMT_RGBA, Image::Alignment::PADDED, false));
 	}
 
@@ -110,7 +117,7 @@ image_as_png (shared_ptr<const Image> image)
 	int const width = image->size().width;
 	int const height = image->size().height;
 
-	png_set_IHDR (png_ptr, info_ptr, width, height, 8, PNG_COLOR_TYPE_RGBA, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+	png_set_IHDR(png_ptr, info_ptr, width, height, 8, color_type, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 	auto row_pointers = reinterpret_cast<png_byte **>(png_malloc(png_ptr, image->size().height * sizeof(png_byte *)));
 	auto const data = image->data()[0];
