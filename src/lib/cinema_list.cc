@@ -35,6 +35,7 @@
 #include <numeric>
 
 
+using std::function;
 using std::pair;
 using std::make_pair;
 using std::string;
@@ -463,5 +464,17 @@ CinemaList::unique_utc_offset(std::set<CinemaID> const& cinemas_to_check)
 	}
 
 	return offset;
+}
+
+
+void
+CinemaList::screens(function<void (CinemaID, ScreenID, dcpomatic::Screen const& screen)> callback) const
+{
+	SQLiteStatement statement(_db, _screens.select(""));
+	statement.execute([this, &callback](SQLiteStatement& statement) {
+		auto const screen_id = statement.column_int64(0);
+		callback(statement.column_int64(1), screen_id, screen_from_result(statement, screen_id));
+	});
+
 }
 

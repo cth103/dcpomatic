@@ -105,6 +105,8 @@ public:
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens(CinemaID cinema_id) const;
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens_by_cinema_and_name(CinemaID id, std::string const& name) const;
 
+	void screens(std::function<void (CinemaID, ScreenID, dcpomatic::Screen const&)> callback) const;
+
 	boost::optional<dcp::UTCOffset> unique_utc_offset(std::set<CinemaID> const& cinemas);
 
 private:
