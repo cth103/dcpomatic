@@ -206,8 +206,6 @@ ScreensPanel::add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListIte
 		return {};
 	}
 
-	auto screens = _cinema_list.screens(cinema_id);
-
 	if (_show_only_checked->get()) {
 		auto iter = std::find_if(_checked_screens.begin(), _checked_screens.end(), [cinema_id](pair<CinemaID, ScreenID> const& checked) {
 			return checked.first == cinema_id;
@@ -222,10 +220,6 @@ ScreensPanel::add_cinema(CinemaID cinema_id, Cinema const& cinema, wxTreeListIte
 
 	_item_to_cinema.emplace(make_pair(id, cinema_id));
 	_cinema_to_item[cinema_id] = id;
-
-	for (auto screen: screens) {
-		add_screen(cinema_id, screen.first, screen.second);
-	}
 
 	return id;
 }
@@ -530,9 +524,17 @@ ScreensPanel::selection_changed ()
 void
 ScreensPanel::add_cinemas ()
 {
-	for (auto cinema: _cinema_list.cinemas()) {
-		add_cinema(cinema.first, cinema.second, wxTLI_LAST);
+	auto previous = wxTLI_LAST;
+
+	for (auto const& cinema: _cinema_list.cinemas()) {
+		if (auto next = add_cinema(cinema.first, cinema.second, wxTLI_LAST)) {
+			previous = *next;
+		}
 	}
+
+	_cinema_list.screens([this](CinemaID cinema_id, ScreenID screen_id, Screen const& screen) {
+		add_screen(cinema_id, screen_id, screen);
+	});
 }
 
 
