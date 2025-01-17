@@ -425,6 +425,8 @@ CinemaList::cinema_by_name_or_email(std::string const& text) const
 void
 CinemaList::update_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Screen const& screen)
 {
+	SQLiteTransaction transaction(_db);
+
 	SQLiteStatement statement(_db, _screens.update("WHERE id=?"));
 
 	statement.bind_int64(1, cinema_id.get());
@@ -433,8 +435,20 @@ CinemaList::update_screen(CinemaID cinema_id, ScreenID screen_id, dcpomatic::Scr
 	statement.bind_text(4, screen.recipient()->certificate(true));
 	statement.bind_text(5, screen.recipient_file.get_value_or(""));
 	statement.bind_int64(6, screen_id.get());
-
 	statement.execute();
+
+	SQLiteStatement remove_existing(_db, "DELETE FROM trusted_devices WHERE screen=?");
+	remove_existing.bind_int64(1, screen_id.get());
+	remove_existing.execute();
+
+	for (auto device: screen.trusted_devices) {
+		SQLiteStatement add_device(_db, _trusted_devices.insert());
+		add_device.bind_int64(1, screen_id.get());
+		add_device.bind_text(2, device.as_string());
+		add_device.execute();
+	}
+
+	transaction.commit();
 }
 
 
