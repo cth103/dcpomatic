@@ -161,7 +161,6 @@ void
 DCPPanel::set_standard()
 {
 	DCPOMATIC_ASSERT(_film);
-	DCPOMATIC_ASSERT(!_film->limit_to_smpte_bv20() || _standard->GetCount() == 3);
 
 	if (_film->interop()) {
 		if (_film->video_encoding() == VideoEncoding::JPEG2000) {
