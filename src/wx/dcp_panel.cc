@@ -134,7 +134,7 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 		_dcp_content_type->add_entry(i->pretty_name());
 	}
 
-	add_standards();
+	update_standards();
 	_standard->SetToolTip(_("The standard that the DCP should use.  Interop is older, and SMPTE is the newer (current) standard.  If in doubt, choose 'SMPTE'"));
 
 	Config::instance()->Changed.connect (boost::bind(&DCPPanel::config_changed, this, _1));
@@ -144,8 +144,9 @@ DCPPanel::DCPPanel(wxNotebook* n, shared_ptr<Film> film, FilmViewer& viewer)
 
 
 void
-DCPPanel::add_standards()
+DCPPanel::update_standards()
 {
+	_standard->Clear();
 	_standard->add_entry(_("SMPTE"), string{"smpte"});
 	if (Config::instance()->allow_smpte_bv20() || (_film && _film->limit_to_smpte_bv20())) {
 		_standard->add_entry(_("SMPTE (Bv2.0 only)"), string{"smpte-bv20"});
@@ -613,8 +614,7 @@ DCPPanel::set_film (shared_ptr<Film> film)
 		return;
 	}
 
-	_standard->Clear();
-	add_standards();
+	update_standards();
 
 	film_changed(FilmProperty::NAME);
 	film_changed(FilmProperty::USE_ISDCF_NAME);
@@ -763,8 +763,7 @@ DCPPanel::config_changed (Config::Property p)
 			film_changed(FilmProperty::AUDIO_PROCESSOR);
 		}
 	} else if (p == Config::ALLOW_SMPTE_BV20) {
-		_standard->Clear();
-		add_standards();
+		update_standards();
 		if (_film) {
 			film_changed(FilmProperty::INTEROP);
 			film_changed(FilmProperty::LIMIT_TO_SMPTE_BV20);
