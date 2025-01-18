@@ -27,7 +27,7 @@
 
 BOOST_AUTO_TEST_CASE(collator_compare_works_and_ignores_case)
 {
-	Collator collator("en");
+	Collator collator;
 
 #if 0
 	// Print out available locales
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(collator_compare_works_and_ignores_case)
 
 BOOST_AUTO_TEST_CASE(collator_search_works_and_ignores_case)
 {
-	Collator collator("en");
+	Collator collator;
 
 	BOOST_CHECK(collator.find("outh", "With filthy mouths, and bad attitudes"));
 	BOOST_CHECK(collator.find("with", "With filthy mouths, and bad attitudes"));

@@ -244,7 +244,7 @@ cinemas_from_result(SQLiteStatement& statement)
 vector<pair<CinemaID, Cinema>>
 CinemaList::cinemas() const
 {
-	SQLiteStatement statement(_db, _cinemas.select("ORDER BY name ASC"));
+	SQLiteStatement statement(_db, _cinemas.select("ORDER BY name COLLATE unicode ASC"));
 	return cinemas_from_result(statement);
 }
 

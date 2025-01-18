@@ -260,8 +260,8 @@ BOOST_AUTO_TEST_CASE(kdm_cli_specify_cinemas_file)
 	BOOST_CHECK(!error);
 
 	BOOST_REQUIRE_EQUAL(output.size(), 3U);
-	BOOST_CHECK_EQUAL(output[0], "Great (julie@tinyscreen.com)");
-	BOOST_CHECK_EQUAL(output[1], "classy joint ()");
+	BOOST_CHECK_EQUAL(output[0], "classy joint ()");
+	BOOST_CHECK_EQUAL(output[1], "Great (julie@tinyscreen.com)");
 	BOOST_CHECK_EQUAL(output[2], "stinking dump (bob@odourscreen.com, alice@whiff.com)");
 }
 

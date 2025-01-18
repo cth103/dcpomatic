@@ -179,7 +179,7 @@ dkdm_recipients_from_result(SQLiteStatement& statement)
 vector<std::pair<DKDMRecipientID, DKDMRecipient>>
 DKDMRecipientList::dkdm_recipients() const
 {
-	SQLiteStatement statement(_db, _dkdm_recipients.select("ORDER BY name ASC"));
+	SQLiteStatement statement(_db, _dkdm_recipients.select("ORDER BY name COLLATE unicode ASC"));
 	return dkdm_recipients_from_result(statement);
 }
 

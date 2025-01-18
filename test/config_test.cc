@@ -309,8 +309,8 @@ BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 		/* The detailed creation of sqlite3 from XML is tested in cinema_list_test.cc */
 		auto cinemas = test.cinemas();
 		BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
-		BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
-		BOOST_CHECK_EQUAL(cinemas[1].second.name, "classy joint");
+		BOOST_CHECK_EQUAL(cinemas[0].second.name, "classy joint");
+		BOOST_CHECK_EQUAL(cinemas[1].second.name, "Great");
 		BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
 
 		/* Add another recipient to the sqlite */
@@ -326,10 +326,10 @@ BOOST_AUTO_TEST_CASE(read_cinemas_xml_and_write_sqlite)
 
 		auto cinemas = test.cinemas();
 		BOOST_REQUIRE_EQUAL(cinemas.size(), 4U);
-		BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
-		BOOST_CHECK_EQUAL(cinemas[1].second.name, "The ol' 1-seater");
-		BOOST_CHECK_EQUAL(cinemas[2].second.name, "classy joint");
-		BOOST_CHECK_EQUAL(cinemas[3].second.name, "stinking dump");
+		BOOST_CHECK_EQUAL(cinemas[0].second.name, "classy joint");
+		BOOST_CHECK_EQUAL(cinemas[1].second.name, "Great");
+		BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
+		BOOST_CHECK_EQUAL(cinemas[3].second.name, "The ol' 1-seater");
 	}
 }
 
@@ -445,8 +445,8 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_current)
 	CinemaList cinema_list(cinemas_file);
 	auto cinemas = cinema_list.cinemas();
 	BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
-	BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
-	BOOST_CHECK_EQUAL(cinemas[1].second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinemas[0].second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinemas[1].second.name, "Great");
 	BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
 }
 
@@ -480,8 +480,8 @@ BOOST_AUTO_TEST_CASE(load_config_from_zip_with_only_xml_zip)
 	CinemaList cinema_list("build/test/hide/it/here/cinemas.sqlite3");
 	auto cinemas = cinema_list.cinemas();
 	BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
-	BOOST_CHECK_EQUAL(cinemas[0].second.name, "Great");
-	BOOST_CHECK_EQUAL(cinemas[1].second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinemas[0].second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinemas[1].second.name, "Great");
 	BOOST_CHECK_EQUAL(cinemas[2].second.name, "stinking dump");
 }
 

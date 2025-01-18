@@ -27,6 +27,7 @@
 #include <unicode/utypes.h>
 #include <unicode/usearch.h>
 #include <unicode/ustring.h>
+#include <fmt/format.h>
 #include <boost/scoped_array.hpp>
 #include <cstring>
 #include <vector>
@@ -36,10 +37,14 @@ using std::string;
 using std::vector;
 
 
-Collator::Collator(char const* locale)
+Collator::Collator()
 {
 	UErrorCode status = U_ZERO_ERROR;
-	_collator = ucol_open(locale, &status);
+#ifdef DCPOMATIC_POSIX
+	_collator = ucol_open("POSIX", &status);
+#else
+	_collator = ucol_open(nullptr, &status);
+#endif
 	if (_collator) {
 		ucol_setAttribute(_collator, UCOL_NORMALIZATION_MODE, UCOL_ON, &status);
 		/* Ignore case and character encoding (and probably some other things) */
@@ -72,9 +77,12 @@ int
 Collator::compare (string const& utf8_a, string const& utf8_b) const
 {
 	if (_collator) {
-		auto utf16_a = utf8_to_utf16(utf8_a);
-		auto utf16_b = utf8_to_utf16(utf8_b);
-		return ucol_strcoll(_collator, utf16_a.data(), -1, utf16_b.data(), -1);
+		UErrorCode error = U_ZERO_ERROR;
+		auto const result = ucol_strcollUTF8(_collator, utf8_a.data(), -1, utf8_b.data(), -1, &error);
+		if (error != U_ZERO_ERROR) {
+			throw std::runtime_error(fmt::format("Failed to compare strings ({})", static_cast<int>(error)));
+		}
+		return result;
 	} else {
 		return strcoll(utf8_a.c_str(), utf8_b.c_str());
 	}

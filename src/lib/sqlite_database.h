@@ -23,6 +23,7 @@
 #define DCPOMATIC_SQLITE_DATABASE_H
 
 
+#include "collator.h"
 #include <boost/filesystem.hpp>
 
 struct sqlite3;
@@ -46,6 +47,7 @@ public:
 
 private:
 	sqlite3* _db = nullptr;
+	Collator _collator;
 };
 
 

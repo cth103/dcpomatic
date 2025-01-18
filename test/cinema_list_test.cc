@@ -227,14 +227,14 @@ BOOST_AUTO_TEST_CASE(cinemas_list_copy_from_xml_test)
 	BOOST_REQUIRE_EQUAL(cinemas.size(), 3U);
 
 	auto cinema_iter = cinemas.begin();
+	BOOST_CHECK_EQUAL(cinema_iter->second.name, "classy joint");
+	BOOST_CHECK_EQUAL(cinema_iter->second.notes, "Can't stand this place");
+	++cinema_iter;
+
 	BOOST_CHECK_EQUAL(cinema_iter->second.name, "Great");
 	BOOST_CHECK_EQUAL(cinema_iter->second.emails.size(), 1U);
 	BOOST_CHECK_EQUAL(cinema_iter->second.emails[0], "julie@tinyscreen.com");
 	BOOST_CHECK(cinema_iter->second.utc_offset == dcp::UTCOffset(1, 0));
-	++cinema_iter;
-
-	BOOST_CHECK_EQUAL(cinema_iter->second.name, "classy joint");
-	BOOST_CHECK_EQUAL(cinema_iter->second.notes, "Can't stand this place");
 	++cinema_iter;
 
 	BOOST_CHECK_EQUAL(cinema_iter->second.name, "stinking dump");
@@ -253,5 +253,24 @@ BOOST_AUTO_TEST_CASE(cinemas_list_copy_from_xml_test)
 	BOOST_CHECK_EQUAL(screen_iter->second.name, "2");
 	BOOST_CHECK(screen_iter->second.recipient());
 	BOOST_CHECK_EQUAL(screen_iter->second.recipient()->subject_dn_qualifier(), "CVsuuv9eYsQZSl8U4fDpvOmzZhI=");
+}
+
+
+BOOST_AUTO_TEST_CASE(cinemas_list_sort_test)
+{
+	auto const db = setup("cinemas_list_sort_test");
+
+	CinemaList cinemas(db);
+	cinemas.add_cinema({"Ŝpecial", { "foo@bar.com" }, "", dcp::UTCOffset()});
+	cinemas.add_cinema({"Ţest", { "foo@bar.com" }, "", dcp::UTCOffset()});
+	cinemas.add_cinema({"Name", { "foo@bar.com" }, "", dcp::UTCOffset()});
+	cinemas.add_cinema({"ÄBC", { "foo@bar.com" }, "", dcp::UTCOffset()});
+
+	auto sorted = cinemas.cinemas();
+	BOOST_REQUIRE_EQUAL(sorted.size(), 4U);
+	BOOST_CHECK_EQUAL(sorted[0].second.name, "ÄBC");
+	BOOST_CHECK_EQUAL(sorted[1].second.name, "Name");
+	BOOST_CHECK_EQUAL(sorted[2].second.name, "Ŝpecial");
+	BOOST_CHECK_EQUAL(sorted[3].second.name, "Ţest");
 }
 

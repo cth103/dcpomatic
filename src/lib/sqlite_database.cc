@@ -24,6 +24,20 @@
 #include <sqlite3.h>
 
 
+using std::string;
+
+
+static
+int collator_compare(void* context, int length_a, const void* string_a, int length_b, const void* string_b)
+{
+	auto collator = reinterpret_cast<Collator*>(context);
+	return collator->compare(
+		string(reinterpret_cast<char const*>(string_a), length_a),
+		string(reinterpret_cast<char const*>(string_b), length_b)
+	);
+}
+
+
 SQLiteDatabase::SQLiteDatabase(boost::filesystem::path path)
 {
 #ifdef DCPOMATIC_WINDOWS
@@ -36,6 +50,11 @@ SQLiteDatabase::SQLiteDatabase(boost::filesystem::path path)
 	}
 
 	sqlite3_busy_timeout(_db, 500);
+
+	rc = sqlite3_create_collation(_db, "unicode", SQLITE_UTF8, &_collator, collator_compare);
+	if (rc != SQLITE_OK) {
+		throw std::runtime_error("Could not set SQLite database collation");
+	}
 }
 
 
