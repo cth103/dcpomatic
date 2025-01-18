@@ -449,6 +449,7 @@ DCPPanel::film_changed(FilmProperty p)
 		checked_set (_reencode_j2k, _film->reencode_j2k());
 		break;
 	case FilmProperty::INTEROP:
+		update_standards();
 		set_standard();
 		setup_dcp_name ();
 		_markers->Enable (!_film->interop());
@@ -460,6 +461,7 @@ DCPPanel::film_changed(FilmProperty p)
 		film_changed(FilmProperty::VIDEO_BIT_RATE);
 		break;
 	case FilmProperty::LIMIT_TO_SMPTE_BV20:
+		update_standards();
 		set_standard();
 		break;
 	case FilmProperty::AUDIO_PROCESSOR:
