@@ -20,6 +20,7 @@
 
 
 #include "exceptions.h"
+#include "sqlite_database.h"
 #include "sqlite_statement.h"
 
 
@@ -27,13 +28,13 @@ using std::function;
 using std::string;
 
 
-SQLiteStatement::SQLiteStatement(sqlite3* db, string const& statement)
+SQLiteStatement::SQLiteStatement(SQLiteDatabase& db, string const& statement)
 	: _db(db)
 {
 #ifdef DCPOMATIC_HAVE_SQLITE3_PREPARE_V3
-	auto rc = sqlite3_prepare_v3(_db, statement.c_str(), -1, 0, &_stmt, nullptr);
+	auto rc = sqlite3_prepare_v3(_db.db(), statement.c_str(), -1, 0, &_stmt, nullptr);
 #else
-	auto rc = sqlite3_prepare_v2(_db, statement.c_str(), -1, &_stmt, nullptr);
+	auto rc = sqlite3_prepare_v2(_db.db(), statement.c_str(), -1, &_stmt, nullptr);
 #endif
 	if (rc != SQLITE_OK) {
 		throw SQLError(_db, rc, statement);
@@ -83,7 +84,7 @@ SQLiteStatement::execute(function<void(SQLiteStatement&)> row, function<void()> 
 			break;
 		case SQLITE_ERROR:
 		case SQLITE_MISUSE:
-			throw SQLError(_db, sqlite3_errmsg(_db));
+			throw SQLError(_db, sqlite3_errmsg(_db.db()));
 		}
 	}
 }

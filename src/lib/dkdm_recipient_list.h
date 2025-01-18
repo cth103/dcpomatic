@@ -24,6 +24,7 @@
 
 
 #include "id.h"
+#include "sqlite_database.h"
 #include "sqlite_table.h"
 #include <libcxml/cxml.h>
 #include <boost/filesystem.hpp>
@@ -58,13 +59,9 @@ class DKDMRecipientList
 public:
 	DKDMRecipientList();
 	DKDMRecipientList(boost::filesystem::path db_file);
-	~DKDMRecipientList();
 
 	DKDMRecipientList(DKDMRecipientList const&) = delete;
 	DKDMRecipientList& operator=(DKDMRecipientList const&) = delete;
-
-	DKDMRecipientList(DKDMRecipientList&& other);
-	DKDMRecipientList& operator=(DKDMRecipientList&& other);
 
 	void read_legacy_file(boost::filesystem::path xml_file);
 	void read_legacy_string(std::string const& xml);
@@ -78,11 +75,11 @@ public:
 	boost::optional<DKDMRecipient> dkdm_recipient(DKDMRecipientID id) const;
 
 private:
-	void setup(boost::filesystem::path db_file);
+	void setup();
 	void read_legacy_document(cxml::Document const& doc);
 
-	sqlite3* _db = nullptr;
 	SQLiteTable _dkdm_recipients;
+	mutable SQLiteDatabase _db;
 };
 
 

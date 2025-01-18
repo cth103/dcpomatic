@@ -24,6 +24,7 @@
 
 
 #include "id.h"
+#include "sqlite_database.h"
 #include "sqlite_table.h"
 #include <libcxml/cxml.h>
 #include <dcp/utc_offset.h>
@@ -77,13 +78,9 @@ class CinemaList
 public:
 	CinemaList();
 	CinemaList(boost::filesystem::path db_file);
-	~CinemaList();
 
 	CinemaList(CinemaList const&) = delete;
 	CinemaList& operator=(CinemaList const&) = delete;
-
-	CinemaList(CinemaList&& other);
-	CinemaList& operator=(CinemaList&& other);
 
 	void read_legacy_file(boost::filesystem::path xml_file);
 	void read_legacy_string(std::string const& xml);
@@ -117,13 +114,13 @@ private:
 	dcpomatic::Screen screen_from_result(SQLiteStatement& statement, ScreenID screen_id, bool with_trusted_devices) const;
 	std::vector<std::pair<ScreenID, dcpomatic::Screen>> screens_from_result(SQLiteStatement& statement) const;
 	void setup_tables();
-	void setup(boost::filesystem::path db_file);
+	void setup();
 	void read_legacy_document(cxml::Document const& doc);
 
-	sqlite3* _db = nullptr;
 	SQLiteTable _cinemas;
 	SQLiteTable _screens;
 	SQLiteTable _trusted_devices;
+	mutable SQLiteDatabase _db;
 };
 
 

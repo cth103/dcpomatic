@@ -37,25 +37,19 @@ using boost::optional;
 
 DKDMRecipientList::DKDMRecipientList()
 	: _dkdm_recipients("dkdm_recipients")
+	, _db(Config::instance()->dkdm_recipients_file())
 {
-	setup(Config::instance()->dkdm_recipients_file());
+	setup();
 }
 
 
 DKDMRecipientList::DKDMRecipientList(boost::filesystem::path db_file)
 	: _dkdm_recipients("dkdm_recipients")
+	, _db(db_file)
 {
-	setup(db_file);
+	setup();
 }
 
-
-
-DKDMRecipientList::~DKDMRecipientList()
-{
-	if (_db) {
-		sqlite3_close(_db);
-	}
-}
 
 
 void
@@ -105,45 +99,15 @@ DKDMRecipientList::read_legacy_document(cxml::Document const& doc)
 
 
 void
-DKDMRecipientList::setup(boost::filesystem::path db_file)
+DKDMRecipientList::setup()
 {
 	_dkdm_recipients.add_column("name", "TEXT");
 	_dkdm_recipients.add_column("notes", "TEXT");
 	_dkdm_recipients.add_column("recipient", "TEXT");
 	_dkdm_recipients.add_column("emails", "TEXT");
 
-#ifdef DCPOMATIC_WINDOWS
-	auto rc = sqlite3_open16(db_file.c_str(), &_db);
-#else
-	auto rc = sqlite3_open(db_file.c_str(), &_db);
-#endif
-	if (rc != SQLITE_OK) {
-		throw FileError("Could not open SQLite database", db_file);
-	}
-
-	sqlite3_busy_timeout(_db, 500);
-
 	SQLiteStatement screens(_db, _dkdm_recipients.create());
 	screens.execute();
-}
-
-
-DKDMRecipientList::DKDMRecipientList(DKDMRecipientList&& other)
-	: _dkdm_recipients(std::move(other._dkdm_recipients))
-{
-	_db = other._db;
-	other._db = nullptr;
-}
-
-
-DKDMRecipientList&
-DKDMRecipientList::operator=(DKDMRecipientList&& other)
-{
-	if (this != &other) {
-		_db = other._db;
-		other._db = nullptr;
-	}
-	return *this;
 }
 
 
@@ -159,7 +123,7 @@ DKDMRecipientList::add_dkdm_recipient(DKDMRecipient const& dkdm_recipient)
 
 	add_dkdm_recipient.execute();
 
-	return sqlite3_last_insert_rowid(_db);
+	return sqlite3_last_insert_rowid(_db.db());
 }
 
 

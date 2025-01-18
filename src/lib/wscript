@@ -192,6 +192,7 @@ sources = """
           state.cc
           spl.cc
           spl_entry.cc
+          sqlite_database.cc
           sqlite_statement.cc
           sqlite_table.cc
           sqlite_transaction.cc

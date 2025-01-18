@@ -39,6 +39,9 @@ extern "C" {
 #include <stdexcept>
 
 
+class SQLiteDatabase;
+
+
 /** @class DecodeError
  *  @brief A low-level problem with the decoder (possibly due to the nature
  *  of a source file).
@@ -484,19 +487,19 @@ public:
 class SQLError : public std::runtime_error
 {
 public:
-	SQLError(sqlite3* db, char const* s)
+	SQLError(SQLiteDatabase& db, char const* s)
 		: std::runtime_error(get_message(db, s))
 	{
 		_filename = get_filename(db);
 	}
 
-	SQLError(sqlite3* db, int rc)
+	SQLError(SQLiteDatabase& db, int rc)
 		: std::runtime_error(get_message(db, rc))
 	{
 		_filename = get_filename(db);
 	}
 
-	SQLError(sqlite3* db, int rc, std::string doing)
+	SQLError(SQLiteDatabase& db, int rc, std::string doing)
 		: std::runtime_error(get_message(db, rc, doing))
 	{
 		_filename = get_filename(db);
@@ -507,26 +510,19 @@ public:
 	}
 
 private:
-	boost::filesystem::path get_filename(sqlite3* db)
-	{
-		if (auto filename = sqlite3_db_filename(db, "main")) {
-			return filename;
-		}
+	boost::filesystem::path get_filename(SQLiteDatabase& db);
 
-		return {};
-	}
-
-	std::string get_message(sqlite3* db, char const* s)
+	std::string get_message(SQLiteDatabase& db, char const* s)
 	{
 		return String::compose("%1 (in %2)", s, get_filename(db));
 	}
 
-	std::string get_message(sqlite3* db, int rc)
+	std::string get_message(SQLiteDatabase& db, int rc)
 	{
 		return String::compose("%1 (in %2)", sqlite3_errstr(rc), get_filename(db));
 	}
 
-	std::string get_message(sqlite3* db, int rc, std::string doing)
+	std::string get_message(SQLiteDatabase& db, int rc, std::string doing)
 	{
 		return String::compose("%1 (while doing %2) (in %3)", sqlite3_errstr(rc), doing, get_filename(db));
 	}

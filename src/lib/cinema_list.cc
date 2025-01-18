@@ -47,9 +47,10 @@ CinemaList::CinemaList()
 	: _cinemas("cinemas")
 	, _screens("screens")
 	, _trusted_devices("trusted_devices")
+	, _db(Config::instance()->cinemas_file())
 {
 	setup_tables();
-	setup(Config::instance()->cinemas_file());
+	setup();
 }
 
 
@@ -57,9 +58,10 @@ CinemaList::CinemaList(boost::filesystem::path db_file)
 	: _cinemas("cinemas")
 	, _screens("screens")
 	, _trusted_devices("trusted_devices")
+	, _db(db_file)
 {
 	setup_tables();
-	setup(db_file);
+	setup();
 }
 
 
@@ -161,19 +163,8 @@ CinemaList::clear()
 
 
 void
-CinemaList::setup(boost::filesystem::path db_file)
+CinemaList::setup()
 {
-#ifdef DCPOMATIC_WINDOWS
-	auto rc = sqlite3_open16(db_file.c_str(), &_db);
-#else
-	auto rc = sqlite3_open(db_file.c_str(), &_db);
-#endif
-	if (rc != SQLITE_OK) {
-		throw FileError("Could not open SQLite database", db_file);
-	}
-
-	sqlite3_busy_timeout(_db, 500);
-
 	SQLiteStatement cinemas(_db, _cinemas.create());
 	cinemas.execute();
 
@@ -182,27 +173,6 @@ CinemaList::setup(boost::filesystem::path db_file)
 
 	SQLiteStatement devices(_db, _trusted_devices.create());
 	devices.execute();
-}
-
-
-CinemaList::CinemaList(CinemaList&& other)
-	: _db(other._db)
-	, _cinemas(std::move(other._cinemas))
-	, _screens(std::move(other._screens))
-	, _trusted_devices(std::move(other._trusted_devices))
-{
-	other._db = nullptr;
-}
-
-
-CinemaList&
-CinemaList::operator=(CinemaList&& other)
-{
-	if (this != &other) {
-		_db = other._db;
-		other._db = nullptr;
-	}
-	return *this;
 }
 
 
@@ -219,7 +189,7 @@ CinemaList::add_cinema(Cinema const& cinema)
 
 	statement.execute();
 
-	return sqlite3_last_insert_rowid(_db);
+	return sqlite3_last_insert_rowid(_db.db());
 }
 
 
@@ -245,14 +215,6 @@ CinemaList::remove_cinema(CinemaID id)
 	SQLiteStatement statement(_db, "DELETE FROM cinemas WHERE ID=?");
 	statement.bind_int64(1, id.get());
 	statement.execute();
-}
-
-
-CinemaList::~CinemaList()
-{
-	if (_db) {
-		sqlite3_close(_db);
-	}
 }
 
 
@@ -314,7 +276,7 @@ CinemaList::add_screen(CinemaID cinema_id, dcpomatic::Screen const& screen)
 
 	add_screen.execute();
 
-	auto const screen_id = sqlite3_last_insert_rowid(_db);
+	auto const screen_id = sqlite3_last_insert_rowid(_db.db());
 
 	for (auto device: screen.trusted_devices) {
 		SQLiteStatement add_device(_db, _trusted_devices.insert());

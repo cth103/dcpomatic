@@ -19,13 +19,13 @@
 */
 
 
-#include <sqlite3.h>
+class SQLiteDatabase;
 
 
 class SQLiteTransaction
 {
 public:
-	SQLiteTransaction(sqlite3* db);
+	SQLiteTransaction(SQLiteDatabase& db);
 	~SQLiteTransaction();
 
 	SQLiteTransaction(SQLiteTransaction const&) = delete;
@@ -34,7 +34,7 @@ public:
 	void commit();
 
 private:
-	sqlite3* _db;
+	SQLiteDatabase& _db;
 	bool _rollback = true;
 };
 

@@ -19,8 +19,9 @@
 */
 
 
-#include "exceptions.h"
 #include "compose.hpp"
+#include "exceptions.h"
+#include "sqlite_database.h"
 
 #include "i18n.h"
 
@@ -180,3 +181,13 @@ DiskFullError::DiskFullError(boost::filesystem::path writing)
 
 }
 
+
+boost::filesystem::path
+SQLError::get_filename(SQLiteDatabase& db)
+{
+	if (auto filename = sqlite3_db_filename(db.db(), "main")) {
+		return filename;
+	}
+
+	return {};
+}

@@ -24,10 +24,13 @@
 #include <string>
 
 
+class SQLiteDatabase;
+
+
 class SQLiteStatement
 {
 public:
-	SQLiteStatement(sqlite3* db, std::string const& statement);
+	SQLiteStatement(SQLiteDatabase& db, std::string const& statement);
 	~SQLiteStatement();
 
 	SQLiteStatement(SQLiteStatement const&) = delete;
@@ -44,7 +47,7 @@ public:
 	int data_count();
 
 private:
-	sqlite3* _db;
+	SQLiteDatabase& _db;
 	sqlite3_stmt* _stmt;
 };
 

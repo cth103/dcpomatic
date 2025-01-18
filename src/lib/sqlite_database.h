@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2025 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,32 +19,34 @@
 */
 
 
-#include "sqlite_statement.h"
-#include "sqlite_transaction.h"
+#ifndef DCPOMATIC_SQLITE_DATABASE_H
+#define DCPOMATIC_SQLITE_DATABASE_H
 
 
-SQLiteTransaction::SQLiteTransaction(SQLiteDatabase& db)
-	: _db(db)
+#include <boost/filesystem.hpp>
+
+struct sqlite3;
+
+
+class SQLiteDatabase
 {
-	SQLiteStatement statement(_db, "BEGIN TRANSACTION");
-	statement.execute();
-}
+public:
+	SQLiteDatabase(boost::filesystem::path path);
+	~SQLiteDatabase();
 
+	SQLiteDatabase(SQLiteDatabase const&) = delete;
+	SQLiteDatabase& operator=(SQLiteDatabase const&) = delete;
 
-SQLiteTransaction::~SQLiteTransaction()
-{
-	if (_rollback) {
-		SQLiteStatement rollback(_db, "ROLLBACK");
-		rollback.execute();
+	SQLiteDatabase(SQLiteDatabase&&);
+	SQLiteDatabase& operator=(SQLiteDatabase&& other);
+
+	sqlite3* db() const {
+		return _db;
 	}
-}
+
+private:
+	sqlite3* _db = nullptr;
+};
 
 
-void
-SQLiteTransaction::commit()
-{
-	SQLiteStatement commit(_db, "COMMIT");
-	commit.execute();
-	_rollback = false;
-}
-
+#endif
