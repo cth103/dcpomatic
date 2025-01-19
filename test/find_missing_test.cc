@@ -30,6 +30,7 @@
 
 
 using std::make_shared;
+using std::shared_ptr;
 using std::string;
 
 
@@ -152,5 +153,47 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_multiple_files_one_incorrect)
 	for (auto content: film->content()) {
 		BOOST_CHECK (!content->paths_valid());
 	}
+}
+
+
+BOOST_AUTO_TEST_CASE(find_missing_test_with_rename)
+{
+	using namespace boost::filesystem;
+
+	auto name = string{"find_missing_test_with_rename"};
+
+	/* Make a directory with some content */
+	auto content_dir = path("build/test") / path(name + "_content");
+	remove_all(content_dir);
+	create_directories(content_dir);
+	copy_file("test/data/flat_red.png", content_dir / "A.png");
+	copy_file("test/data/flat_red.png", content_dir / "B.png");
+	copy_file("test/data/flat_red.png", content_dir / "C.png");
+
+	/* Make a film with that content */
+	auto film = new_test_film(name + "_film", {
+		content_factory(content_dir / "A.png")[0],
+		content_factory(content_dir / "B.png")[0],
+		content_factory(content_dir / "C.png")[0]
+		});
+	film->write_metadata();
+
+	/* Rename one of the files */
+	rename(content_dir / "C.png", content_dir / "bogus.png");
+
+	/* That should make one of the content paths invalid */
+	auto content_list = film->content();
+	int const valid = std::count_if(content_list.begin(), content_list.end(), [](shared_ptr<const Content> content) {
+		return content->paths_valid();
+	});
+	BOOST_CHECK_EQUAL(valid, 2);
+
+	/* Fix the missing files and check the result */
+	dcpomatic::find_missing(content_list, content_dir / "bogus.png");
+
+	for (auto content: content_list) {
+		BOOST_CHECK(content->paths_valid());
+	}
+
 }
 
