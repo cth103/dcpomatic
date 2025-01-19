@@ -197,3 +197,26 @@ BOOST_AUTO_TEST_CASE(find_missing_test_with_rename)
 
 }
 
+
+BOOST_AUTO_TEST_CASE(test_film_saved_on_windows)
+{
+	auto film = make_shared<Film>(boost::filesystem::path("test/data/windows_film"));
+	film->read_metadata();
+	dcpomatic::find_missing(film->content(), TestPaths::private_data());
+
+	for (auto content: film->content()) {
+		BOOST_CHECK(content->paths_valid());
+	}
+}
+
+
+BOOST_AUTO_TEST_CASE(test_film_saved_on_posix)
+{
+	auto film = make_shared<Film>(boost::filesystem::path("test/data/posix_film"));
+	film->read_metadata();
+	dcpomatic::find_missing(film->content(), TestPaths::private_data());
+
+	for (auto content: film->content()) {
+		BOOST_CHECK(content->paths_valid());
+	}
+}

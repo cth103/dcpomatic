@@ -27,6 +27,7 @@
 
 using std::map;
 using std::shared_ptr;
+using std::string;
 using std::vector;
 
 
@@ -42,7 +43,19 @@ search_by_name(Replacements& replacement_paths, boost::filesystem::path director
 		if (dcp::filesystem::is_regular_file(candidate.path())) {
 			for (auto& replacement: replacement_paths) {
 				for (auto& path: replacement.second) {
-					if (!dcp::filesystem::exists(path) && path.filename() == candidate.path().filename()) {
+					/* Extract a filename as if this path were from a platform with a different
+					 * separator.
+					 */
+					string other = path.string();
+#ifdef DCPOMATIC_POSIX
+					std::replace(other.begin(), other.end(), '\\', '/');
+#else
+					std::replace(other.begin(), other.end(), '/', '\\');
+#endif
+					boost::filesystem::path other_path(other);
+					if (
+						!dcp::filesystem::exists(path) &&
+						(path.filename() == candidate.path().filename() || other_path.filename() == candidate.path().filename())) {
 						path = candidate.path();
 					}
 				}
