@@ -41,7 +41,7 @@
 FilmEncoder::FilmEncoder(std::shared_ptr<const Film> film, std::weak_ptr<Job> job)
 	: _film (film)
 	, _job (job)
-	, _player(film, Image::Alignment::PADDED)
+	, _player(film, Image::Alignment::PADDED, false)
 {
 
 }

@@ -171,7 +171,7 @@ FilmViewer::set_film (shared_ptr<Film> film)
 	}
 
 	try {
-		_player.emplace(_film, _optimisation == Optimisation::NONE ? Image::Alignment::PADDED : Image::Alignment::COMPACT);
+		_player.emplace(_film, _optimisation == Optimisation::NONE ? Image::Alignment::PADDED : Image::Alignment::COMPACT, true);
 		_player->set_fast ();
 		if (_dcp_decode_reduction) {
 			_player->set_dcp_decode_reduction (_dcp_decode_reduction);

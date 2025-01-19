@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(decoding_ssa_subs_from_mkv)
 
 	vector<string> lines;
 
-	auto player = make_shared<Player>(film, film->playlist());
+	auto player = make_shared<Player>(film, film->playlist(), false);
 	player->Text.connect([&lines](PlayerText text, TextType, optional<DCPTextTrack>, dcpomatic::DCPTimePeriod) {
 		for (auto i: text.string) {
 			lines.push_back(i.text());

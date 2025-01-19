@@ -95,7 +95,7 @@ test (boost::filesystem::path file)
 	BOOST_REQUIRE_EQUAL (info.samplerate, 48000);
 	ref_buffer.resize(info.samplerate * info.channels);
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
 	player->Audio.connect (bind (&audio, _1, info.channels));
 	while (!player->pass ()) {}

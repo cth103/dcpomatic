@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	ov_content = make_shared<DCPContent>(ov->dir(ov->dcp_name(false)));
 	test->examine_and_add_content (ov_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	auto player = make_shared<Player>(test, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 
 	auto decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	auto vf_content = make_shared<DCPContent>(vf->dir(vf->dcp_name(false)));
 	test->examine_and_add_content (vf_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	player = make_shared<Player>(test, Image::Alignment::COMPACT);
+	player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	auto encrypted_content = make_shared<DCPContent>(encrypted->dir(encrypted->dcp_name(false)));
 	test->examine_and_add_content (encrypted_content);
 	BOOST_REQUIRE (!wait_for_jobs());
-	player = make_shared<Player>(test, Image::Alignment::COMPACT);
+	player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);

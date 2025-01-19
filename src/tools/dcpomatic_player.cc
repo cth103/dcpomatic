@@ -790,7 +790,7 @@ private:
 
 		auto path = boost::filesystem::path (wx_to_std(dialog.GetPath()));
 
-		auto player = make_shared<Player>(_film, Image::Alignment::PADDED);
+		auto player = make_shared<Player>(_film, Image::Alignment::PADDED, true);
 		player->seek(_viewer.position(), true);
 
 		bool done = false;

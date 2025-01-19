@@ -69,7 +69,7 @@ BOOST_AUTO_TEST_CASE(crash_rendering_vf_interop_subs_test)
 	auto test = new_test_film(prefix + "_test", { vf_dcp });
 	vf_dcp->text[0]->set_use(true);
 
-	auto player = make_shared<Player>(test, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(test, Image::Alignment::COMPACT, false);
 	player->set_always_burn_open_subtitles();
 	while (!player->pass()) {}
 }

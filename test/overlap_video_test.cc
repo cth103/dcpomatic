@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE (overlap_video_test1)
 	B->set_position(film, dcpomatic::DCPTime::from_seconds(1));
 	C->set_position(film, dcpomatic::DCPTime::from_seconds(3));
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 	auto pieces = player->_pieces;
 	BOOST_REQUIRE_EQUAL (pieces.size(), 3U);
 	BOOST_CHECK_EQUAL(pieces[0]->content, A);

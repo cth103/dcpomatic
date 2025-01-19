@@ -87,7 +87,7 @@ AnalyseAudioJob::run ()
 {
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::run");
 
-	auto player = make_shared<Player>(_film, _playlist);
+	auto player = make_shared<Player>(_film, _playlist, false);
 	player->set_ignore_video ();
 	player->set_ignore_text ();
 	player->set_fast ();

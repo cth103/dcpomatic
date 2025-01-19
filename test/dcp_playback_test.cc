@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE (dcp_playback_test)
 	auto content = make_shared<DCPContent>(TestPaths::private_data() / "JourneyToJah_TLR-1_F_EN-DE-FR_CH_51_2K_LOK_20140225_DGL_SMPTE_OV");
 	auto film = new_test_film("dcp_playback_test", { content });
 
-	Player player(film, Image::Alignment::PADDED);
+	Player player(film, Image::Alignment::PADDED, false);
 
 	auto butler = std::make_shared<Butler>(
 		film,

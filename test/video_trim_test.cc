@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(video_trim_test)
 
 	shared_ptr<PlayerVideo> first_video;
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 	player->Video.connect([&first_video](shared_ptr<PlayerVideo> video, dcpomatic::DCPTime) {
 	      first_video = video;
 	});

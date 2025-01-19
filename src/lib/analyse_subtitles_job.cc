@@ -78,7 +78,7 @@ AnalyseSubtitlesJob::run ()
 	DCPOMATIC_ASSERT (content);
 	playlist->add (_film, content);
 
-	auto player = make_shared<Player>(_film, playlist);
+	auto player = make_shared<Player>(_film, playlist, false);
 	player->set_ignore_audio ();
 	player->set_fast ();
 	player->set_play_referenced ();

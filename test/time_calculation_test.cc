@@ -196,7 +196,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test1)
 	film->set_sequence (false);
 	film->add_content (content);
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (film, DCPTime());
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test2)
 	film->set_sequence (false);
 	film->add_content (content);
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
 	/* Position 0, no trim, content rate = DCP rate */
 	content->set_position (film, DCPTime());
@@ -579,7 +579,7 @@ BOOST_AUTO_TEST_CASE (player_time_calculation_test3)
 	film->set_sequence (false);
 	film->add_content (content);
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
 	/* Position 0, no trim, video/audio content rate = video/audio DCP rate */
 	content->set_position (film, DCPTime());

@@ -72,7 +72,7 @@ ffmpeg_decoder_sequential_test_one (boost::filesystem::path file, float fps, int
 
 	auto content = make_shared<FFmpegContent>(path);
 	auto film = new_test_film("ffmpeg_decoder_sequential_test_" + file.string(), { content });
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 
 	BOOST_REQUIRE (content->video_frame_rate());
 	BOOST_CHECK_CLOSE (content->video_frame_rate().get(), fps, 0.01);

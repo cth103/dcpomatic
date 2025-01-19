@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE (ffmpeg_image_video_range_expanded)
 	auto content = content_factory(file);
 	auto film = new_test_film("ffmpeg_image_video_range_expanded", content);
 	content[0]->video->set_range (VideoRange::VIDEO);
-	auto player = make_shared<Player>(film, film->playlist());
+	auto player = make_shared<Player>(film, film->playlist(), false);
 
 	shared_ptr<PlayerVideo> player_video;
 	player->Video.connect([&player_video](shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime) {

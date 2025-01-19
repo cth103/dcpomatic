@@ -268,7 +268,7 @@ BOOST_AUTO_TEST_CASE (threed_test_butler_overfill)
 	film->examine_and_add_content(B);
 	BOOST_REQUIRE (!wait_for_jobs());
 
-	Player player(film, Image::Alignment::COMPACT);
+	Player player(film, Image::Alignment::COMPACT, false);
 	int const audio_channels = 2;
 	auto butler = std::make_shared<Butler>(
 		film, player, AudioMapping(), audio_channels, boost::bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED

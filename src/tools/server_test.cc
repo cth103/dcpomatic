@@ -155,7 +155,7 @@ main (int argc, char* argv[])
 		film = make_shared<Film>(film_dir);
 		film->read_metadata ();
 
-		auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+		auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 		player->Video.connect (bind(&process_video, _1));
 		while (!player->pass ()) {}
 	} catch (std::exception& e) {

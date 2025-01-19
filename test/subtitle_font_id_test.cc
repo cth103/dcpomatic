@@ -299,7 +299,7 @@ BOOST_AUTO_TEST_CASE(no_error_with_ccap_that_mentions_no_font)
 {
 	auto dcp = make_shared<DCPContent>("test/data/ccap_only");
 	auto film = new_test_film("no_error_with_ccap_that_mentions_no_font", { dcp });
-	auto player = Player(film, film->playlist());
+	auto player = Player(film, film->playlist(), false);
 	while (!player.pass()) {}
 }
 

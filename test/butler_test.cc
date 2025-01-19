@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE (butler_test1)
 		map.set (i, i, 1);
 	}
 
-	Player player(film, Image::Alignment::COMPACT);
+	Player player(film, Image::Alignment::COMPACT, false);
 
 	Butler butler (
 		film,
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE (butler_test2)
 		map.set (i, i, 1);
 	}
 
-	Player player(film, Image::Alignment::COMPACT);
+	Player player(film, Image::Alignment::COMPACT, false);
 
 	Butler butler (
 		film,

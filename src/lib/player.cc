@@ -97,7 +97,7 @@ int const PlayerProperty::ALWAYS_BURN_OPEN_SUBTITLES = 709;
 int const PlayerProperty::PLAY_REFERENCED = 710;
 
 
-Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment)
+Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment, bool tolerant)
 	: _film (film)
 	, _suspended (0)
 	, _ignore_video(false)
@@ -105,7 +105,7 @@ Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment
 	, _ignore_text(false)
 	, _always_burn_open_subtitles(false)
 	, _fast(false)
-	, _tolerant (film->tolerant())
+	, _tolerant(tolerant)
 	, _play_referenced(false)
 	, _audio_merger(film->audio_frame_rate())
 	, _subtitle_alignment (subtitle_alignment)
@@ -114,7 +114,7 @@ Player::Player (shared_ptr<const Film> film, Image::Alignment subtitle_alignment
 }
 
 
-Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist_)
+Player::Player(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist_, bool tolerant)
 	: _film (film)
 	, _playlist (playlist_)
 	, _suspended (0)
@@ -123,7 +123,7 @@ Player::Player (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist
 	, _ignore_text(false)
 	, _always_burn_open_subtitles(false)
 	, _fast(false)
-	, _tolerant (film->tolerant())
+	, _tolerant(tolerant)
 	, _play_referenced(false)
 	, _audio_merger(film->audio_frame_rate())
 {

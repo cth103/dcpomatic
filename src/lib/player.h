@@ -79,8 +79,8 @@ public:
 class Player
 {
 public:
-	Player (std::shared_ptr<const Film>, Image::Alignment subtitle_alignment);
-	Player (std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist);
+	Player(std::shared_ptr<const Film>, Image::Alignment subtitle_alignment, bool tolerant);
+	Player(std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist, bool tolerant);
 
 	Player (Player const&) = delete;
 	Player& operator= (Player const&) = delete;

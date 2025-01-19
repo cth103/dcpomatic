@@ -418,7 +418,7 @@ Hints::scan_content(shared_ptr<const Film> film)
 		emit(boost::bind(boost::ref(Progress), _("Examining audio, subtitles and closed captions")));
 	}
 
-	auto player = make_shared<Player>(film, Image::Alignment::COMPACT);
+	auto player = make_shared<Player>(film, Image::Alignment::COMPACT, false);
 	player->set_ignore_video();
 	if (check_loudness_done || _disable_audio_analysis) {
 		/* We don't need to analyse audio because we already loaded a suitable analysis */
