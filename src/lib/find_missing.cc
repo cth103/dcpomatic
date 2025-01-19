@@ -35,7 +35,7 @@ typedef map<shared_ptr<const Content>, vector<boost::filesystem::path>> Replacem
 
 static
 void
-search (Replacements& replacement_paths, boost::filesystem::path directory, int depth = 0)
+search_by_name(Replacements& replacement_paths, boost::filesystem::path directory, int depth = 0)
 {
 	boost::system::error_code ec;
 	for (auto candidate: dcp::filesystem::directory_iterator(directory, ec)) {
@@ -48,7 +48,7 @@ search (Replacements& replacement_paths, boost::filesystem::path directory, int 
 				}
 			}
 		} else if (dcp::filesystem::is_directory(candidate.path()) && depth <= 2) {
-			search (replacement_paths, candidate, depth + 1);
+			search_by_name(replacement_paths, candidate, depth + 1);
 		}
 	}
 
@@ -68,7 +68,7 @@ dcpomatic::find_missing (vector<shared_ptr<Content>> content_to_fix, boost::file
 		replacement_paths[content] = content->paths();
 	}
 
-	search (replacement_paths, is_directory(clue) ? clue : clue.parent_path());
+	search_by_name(replacement_paths, is_directory(clue) ? clue : clue.parent_path());
 
 	for (auto content: content_to_fix) {
 		auto const& repl = replacement_paths[content];
