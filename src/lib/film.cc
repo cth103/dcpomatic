@@ -192,7 +192,6 @@ Film::Film (optional<boost::filesystem::path> dir)
 	, _audio_language(Config::instance()->default_audio_language())
 	, _state_version (current_state_version)
 	, _dirty (false)
-	, _tolerant (false)
 {
 	set_isdcf_date_today ();
 

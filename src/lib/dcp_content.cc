@@ -608,8 +608,8 @@ DCPContent::reels (shared_ptr<const Film> film) const
 	if (reel_lengths.empty()) {
 		/* Old metadata with no reel lengths; get them here instead */
 		try {
-			scoped_ptr<DCPExaminer> examiner (new DCPExaminer(shared_from_this(), film->tolerant()));
-			reel_lengths = examiner->reel_lengths ();
+			DCPExaminer examiner(shared_from_this(), true);
+			reel_lengths = examiner.reel_lengths();
 		} catch (...) {
 			/* Could not examine the DCP; guess reels */
 			reel_lengths.push_back (length_after_trim(film).frames_round(film->video_frame_rate()));

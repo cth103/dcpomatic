@@ -196,14 +196,6 @@ public:
 	bool references_dcp_audio () const;
 	bool contains_atmos_content () const;
 
-	void set_tolerant (bool t) {
-		_tolerant = t;
-	}
-
-	bool tolerant () const {
-		return _tolerant;
-	}
-
 	bool last_written_by_earlier_than(int major, int minor, int micro) const;
 
 	/* GET */
@@ -570,11 +562,6 @@ private:
 	mutable bool _dirty;
 	/** film being used as a template, or 0 */
 	std::shared_ptr<Film> _template_film;
-
-	/** Be tolerant of errors in content (currently applies to DCP only).
-	    Not saved as state.
-	*/
-	bool _tolerant;
 
 	std::map<std::string, std::string> _ui_state;
 
