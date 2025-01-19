@@ -27,7 +27,7 @@ public:
 	DCPSubtitleContent (boost::filesystem::path);
 	DCPSubtitleContent (cxml::ConstNodePtr, boost::optional<boost::filesystem::path> film_directory, int);
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
+	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
 	std::string summary () const override;
 	std::string technical_summary () const override;
 

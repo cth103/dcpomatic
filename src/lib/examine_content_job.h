@@ -28,7 +28,7 @@ class Content;
 class ExamineContentJob : public Job
 {
 public:
-	ExamineContentJob (std::shared_ptr<const Film>, std::shared_ptr<Content>);
+	ExamineContentJob(std::shared_ptr<const Film> film, std::shared_ptr<Content> content, bool tolerant);
 	~ExamineContentJob ();
 
 	std::string name () const override;
@@ -41,4 +41,6 @@ public:
 
 private:
 	std::shared_ptr<Content> _content;
+
+	bool _tolerant;
 };

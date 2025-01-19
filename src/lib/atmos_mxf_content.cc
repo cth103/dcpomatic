@@ -75,10 +75,10 @@ AtmosMXFContent::valid_mxf (boost::filesystem::path path)
 
 
 void
-AtmosMXFContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
+AtmosMXFContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
 	job->set_progress_unknown ();
-	Content::examine (film, job);
+	Content::examine(film, job, tolerant);
 	auto a = make_shared<dcp::AtmosAsset>(path(0));
 
 	{

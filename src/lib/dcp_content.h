@@ -73,7 +73,7 @@ public:
 	dcpomatic::DCPTime full_length (std::shared_ptr<const Film> film) const override;
 	dcpomatic::DCPTime approximate_length () const override;
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
+	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
 	std::string summary () const override;
 	std::string technical_summary () const override;
 

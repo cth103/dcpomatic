@@ -229,7 +229,7 @@ DCPContent::read_sub_directory (boost::filesystem::path p)
 
 /** @param film Film, or 0 */
 void
-DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
+DCPContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
 	bool const needed_assets = needs_assets ();
 	bool const needed_kdm = needs_kdm ();
@@ -248,9 +248,9 @@ DCPContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 	if (job) {
 		job->set_progress_unknown ();
 	}
-	Content::examine (film, job);
+	Content::examine(film, job, tolerant);
 
-	auto examiner = make_shared<DCPExaminer>(shared_from_this(), film ? film->tolerant() : true);
+	auto examiner = make_shared<DCPExaminer>(shared_from_this(), tolerant);
 
 	if (examiner->has_video()) {
 		{

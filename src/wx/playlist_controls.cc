@@ -342,7 +342,7 @@ PlaylistControls::select_playlist (int selected, int position)
 			if (kdm) {
 				try {
 					dcp->add_kdm (*kdm);
-					dcp->examine (_film, shared_ptr<Job>());
+					dcp->examine(_film, shared_ptr<Job>(), true);
 				} catch (KDMError& e) {
 					error_dialog(this, _("Could not load KDM."));
 				}

@@ -86,8 +86,10 @@ public:
 	/** Examine the content to establish digest, frame rates and any other
 	 *  useful metadata.
 	 *  @param job Job to use to report progress, or 0.
+	 *  @param tolerant true to try to carry on in the presence of problems with the content,
+	 *  false to throw exceptions in these cases.
 	 */
-	virtual void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job);
+	virtual void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, bool tolerant);
 
 	virtual void take_settings_from (std::shared_ptr<const Content> c);
 

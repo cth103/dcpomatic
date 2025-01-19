@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	reels = decoder->reels();
 
 	vf_content->add_ov (ov->dir(ov->dcp_name(false)));
-	JobManager::instance()->add (make_shared<ExamineContentJob>(test, vf_content));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(test, vf_content, false));
 	BOOST_REQUIRE (!wait_for_jobs());
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE (check_reuse_old_data_test)
 	reels = decoder->reels();
 
 	encrypted_content->add_kdm (kdm);
-	JobManager::instance()->add (make_shared<ExamineContentJob>(test, encrypted_content));
+	JobManager::instance()->add(make_shared<ExamineContentJob>(test, encrypted_content, false));
 	BOOST_REQUIRE (!wait_for_jobs());
 	decoder = std::dynamic_pointer_cast<DCPDecoder>(player->_pieces.front()->decoder);
 	BOOST_REQUIRE (decoder);

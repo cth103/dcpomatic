@@ -37,7 +37,7 @@ public:
 		return std::dynamic_pointer_cast<const AtmosMXFContent> (Content::shared_from_this());
 	}
 
-	void examine (std::shared_ptr<const Film> film, std::shared_ptr<Job> job) override;
+	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job> job, bool tolerant) override;
 	std::string summary () const override;
 
 	void as_xml(

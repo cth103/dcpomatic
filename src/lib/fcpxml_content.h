@@ -41,7 +41,7 @@ public:
 		return std::dynamic_pointer_cast<const FCPXMLContent>(Content::shared_from_this());
 	}
 
-	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>) override;
+	void examine(std::shared_ptr<const Film> film, std::shared_ptr<Job>, bool tolerant) override;
 	std::string summary() const override;
 	std::string technical_summary() const override;
 	void as_xml(xmlpp::Element*, bool with_paths, PathBehaviour path_behaviour, boost::optional<boost::filesystem::path> film_directory) const override;

@@ -34,9 +34,10 @@ using std::cout;
 using std::shared_ptr;
 
 
-ExamineContentJob::ExamineContentJob (shared_ptr<const Film> film, shared_ptr<Content> c)
-	: Job (film)
-	, _content (c)
+ExamineContentJob::ExamineContentJob(shared_ptr<const Film> film, shared_ptr<Content> content, bool tolerant)
+	: Job(film)
+	, _content(content)
+	, _tolerant(tolerant)
 {
 
 }
@@ -65,7 +66,7 @@ ExamineContentJob::json_name () const
 void
 ExamineContentJob::run ()
 {
-	_content->examine (_film, shared_from_this());
+	_content->examine(_film, shared_from_this(), _tolerant);
 	set_progress (1);
 	set_state (FINISHED_OK);
 }

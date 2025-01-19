@@ -404,7 +404,7 @@ public:
 		try {
 			_stress.set_suspended (true);
 			auto dcp = make_shared<DCPContent>(dir);
-			auto job = make_shared<ExamineContentJob>(film, dcp);
+			auto job = make_shared<ExamineContentJob>(film, dcp, true);
 
 			auto add_dcp_to_film = [this](weak_ptr<Film> weak_film, weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
 			{
@@ -579,7 +579,7 @@ private:
 		DCPOMATIC_ASSERT (_film);
 		auto dcp = dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
-		dcp->examine (_film, shared_ptr<Job>());
+		dcp->examine(_film, {}, true);
 
 		/* Examining content re-creates the TextContent objects, so we must re-enable them */
 		for (auto i: dcp->text) {
@@ -733,7 +733,7 @@ private:
 			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT(dcp);
 			dcp->add_ov (wx_to_std(c->GetPath()));
-			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, dcp));
+			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, dcp, true));
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;

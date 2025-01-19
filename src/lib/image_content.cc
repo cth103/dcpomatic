@@ -112,7 +112,7 @@ ImageContent::as_xml(xmlpp::Element* element, bool with_paths, PathBehaviour pat
 
 
 void
-ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
+ImageContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
 	if (_path_to_scan) {
 		job->sub (_("Scanning image files"));
@@ -136,7 +136,7 @@ ImageContent::examine (shared_ptr<const Film> film, shared_ptr<Job> job)
 		set_paths (paths);
 	}
 
-	Content::examine (film, job);
+	Content::examine(film, job, tolerant);
 
 	auto examiner = make_shared<ImageExaminer>(film, shared_from_this(), job);
 	video->take_from_examiner(film, examiner);

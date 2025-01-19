@@ -181,7 +181,7 @@ Content::calculate_digest () const
 
 
 void
-Content::examine (shared_ptr<const Film>, shared_ptr<Job> job)
+Content::examine(shared_ptr<const Film>, shared_ptr<Job> job, bool)
 {
 	if (job) {
 		job->sub (_("Computing digest"));

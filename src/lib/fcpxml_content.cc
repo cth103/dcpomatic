@@ -50,9 +50,9 @@ FCPXMLContent::FCPXMLContent(cxml::ConstNodePtr node, optional<boost::filesystem
 
 
 void
-FCPXMLContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job)
+FCPXMLContent::examine(shared_ptr<const Film> film, shared_ptr<Job> job, bool tolerant)
 {
-	Content::examine(film, job);
+	Content::examine(film, job, tolerant);
 
 	auto sequence = dcpomatic::fcpxml::load(path(0));
 
