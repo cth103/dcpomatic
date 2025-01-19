@@ -30,7 +30,7 @@ using std::shared_ptr;
 using std::vector;
 
 
-typedef map<shared_ptr<Content>, vector<boost::filesystem::path>> Replacements;
+typedef map<shared_ptr<const Content>, vector<boost::filesystem::path>> Replacements;
 
 
 static
