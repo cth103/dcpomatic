@@ -147,7 +147,7 @@ static boost::filesystem::path backtrace_file;
  *  is minutes and S is seconds).
  */
 string
-seconds_to_hms (int s)
+seconds_to_hms(int s)
 {
 	int m = s / 60;
 	s -= (m * 60);
@@ -155,14 +155,14 @@ seconds_to_hms (int s)
 	m -= (h * 60);
 
 	char buffer[64];
-	snprintf (buffer, sizeof(buffer), "%d:%02d:%02d", h, m, s);
+	snprintf(buffer, sizeof(buffer), "%d:%02d:%02d", h, m, s);
 	return buffer;
 }
 
 string
-time_to_hmsf (DCPTime time, Frame rate)
+time_to_hmsf(DCPTime time, Frame rate)
 {
-	Frame f = time.frames_round (rate);
+	Frame f = time.frames_round(rate);
 	int s = f / rate;
 	f -= (s * rate);
 	int m = s / 60;
@@ -171,7 +171,7 @@ time_to_hmsf (DCPTime time, Frame rate)
 	m -= h * 60;
 
 	char buffer[64];
-	snprintf (buffer, sizeof(buffer), "%d:%02d:%02d.%d", h, m, s, static_cast<int>(f));
+	snprintf(buffer, sizeof(buffer), "%d:%02d:%02d.%d", h, m, s, static_cast<int>(f));
 	return buffer;
 }
 
@@ -179,7 +179,7 @@ time_to_hmsf (DCPTime time, Frame rate)
  *  @return String containing an approximate description of s (e.g. "about 2 hours")
  */
 string
-seconds_to_approximate_hms (int s)
+seconds_to_approximate_hms(int s)
 {
 	int m = s / 60;
 	s -= (m * 60);
@@ -234,19 +234,19 @@ seconds_to_approximate_hms (int s)
 }
 
 double
-seconds (struct timeval t)
+seconds(struct timeval t)
 {
-	return t.tv_sec + (double (t.tv_usec) / 1e6);
+	return t.tv_sec + (double(t.tv_usec) / 1e6);
 }
 
 #ifdef DCPOMATIC_WINDOWS
 
 /** Resolve symbol name and source location given the path to the executable */
 int
-addr2line (void const * const addr)
+addr2line(void const * const addr)
 {
 	char addr2line_cmd[512] = { 0 };
-	sprintf (addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str());
+	sprintf(addr2line_cmd, "addr2line -f -p -e %.256s %p > %s", program_name.c_str(), addr, backtrace_file.string().c_str());
 	std::cout << addr2line_cmd << "\n";
 	return system(addr2line_cmd);
 }
@@ -267,7 +267,7 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 
 	if (info->ExceptionRecord->ExceptionCode != EXCEPTION_STACK_OVERFLOW) {
 		CONTEXT* context = info->ContextRecord;
-		SymInitialize (GetCurrentProcess (), 0, true);
+		SymInitialize(GetCurrentProcess(), 0, true);
 
 		STACKFRAME frame = { 0 };
 
@@ -286,10 +286,10 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 		frame.AddrFrame.Mode   = AddrModeFlat;
 
 		while (
-			StackWalk (
+			StackWalk(
 				IMAGE_FILE_MACHINE_I386,
-				GetCurrentProcess (),
-				GetCurrentThread (),
+				GetCurrentProcess(),
+				GetCurrentThread(),
 				&frame,
 				context,
 				0,
@@ -302,9 +302,9 @@ exception_handler(struct _EXCEPTION_POINTERS * info)
 		}
 	} else {
 #ifdef _WIN64
-		addr2line ((void *) info->ContextRecord->Rip);
+		addr2line((void *) info->ContextRecord->Rip);
 #else
-		addr2line ((void *) info->ContextRecord->Eip);
+		addr2line((void *) info->ContextRecord->Eip);
 #endif
 	}
 
@@ -314,7 +314,7 @@ LIBDCP_ENABLE_WARNINGS
 #endif
 
 void
-set_backtrace_file (boost::filesystem::path p)
+set_backtrace_file(boost::filesystem::path p)
 {
 	backtrace_file = p;
 }
@@ -325,7 +325,7 @@ set_backtrace_file (boost::filesystem::path p)
  *  cope with that.
  */
 void
-terminate ()
+terminate()
 {
 	try {
 		static bool tried_throw = false;
@@ -348,7 +348,7 @@ terminate ()
 }
 
 void
-dcpomatic_setup_path_encoding ()
+dcpomatic_setup_path_encoding()
 {
 #ifdef DCPOMATIC_WINDOWS
 	/* Dark voodoo which, I think, gets boost::filesystem::path to
@@ -363,8 +363,8 @@ dcpomatic_setup_path_encoding ()
 	   This is all Windows-only.  AFAICT Linux/OS X use UTF-8 everywhere,
 	   so things are much simpler.
 	*/
-	std::locale::global (boost::locale::generator().generate (""));
-	boost::filesystem::path::imbue (std::locale ());
+	std::locale::global(boost::locale::generator().generate(""));
+	boost::filesystem::path::imbue(std::locale());
 #endif
 }
 
@@ -372,9 +372,9 @@ dcpomatic_setup_path_encoding ()
 class LogSink : public Kumu::ILogSink
 {
 public:
-	LogSink () {}
-	LogSink (LogSink const&) = delete;
-	LogSink& operator= (LogSink const&) = delete;
+	LogSink() {}
+	LogSink(LogSink const&) = delete;
+	LogSink& operator=(LogSink const&) = delete;
 
 	void WriteEntry(const Kumu::LogEntry& entry) override {
 		Kumu::AutoMutex L(m_lock);
@@ -389,7 +389,7 @@ public:
 
 
 void
-capture_asdcp_logs ()
+capture_asdcp_logs()
 {
 	static LogSink log_sink;
 	Kumu::SetDefaultLogSink(&log_sink);
@@ -406,7 +406,7 @@ ffmpeg_log_callback(void* ptr, int level, const char* fmt, va_list vl)
 
 	char line[1024];
 	static int prefix = 0;
-	av_log_format_line(ptr, level, fmt, vl, line, sizeof (line), &prefix);
+	av_log_format_line(ptr, level, fmt, vl, line, sizeof(line), &prefix);
 	string str(line);
 	boost::algorithm::trim(str);
 	dcpomatic_log->log(String::compose("FFmpeg: %1", str), LogEntry::TYPE_GENERAL);
@@ -424,12 +424,12 @@ capture_ffmpeg_logs()
  *  Must be called from the UI thread, if there is one.
  */
 void
-dcpomatic_setup ()
+dcpomatic_setup()
 {
 #ifdef DCPOMATIC_WINDOWS
-	boost::filesystem::path p = g_get_user_config_dir ();
+	boost::filesystem::path p = g_get_user_config_dir();
 	p /= "backtrace.txt";
-	set_backtrace_file (p);
+	set_backtrace_file(p);
 	SetUnhandledExceptionFilter(exception_handler);
 #endif
 
@@ -440,8 +440,8 @@ dcpomatic_setup ()
 
 #ifdef DCPOMATIC_HAVE_AVREGISTER
 LIBDCP_DISABLE_WARNINGS
-	av_register_all ();
-	avfilter_register_all ();
+	av_register_all();
+	avfilter_register_all();
 LIBDCP_ENABLE_WARNINGS
 #endif
 
@@ -451,13 +451,13 @@ LIBDCP_ENABLE_WARNINGS
 	*/
 	auto lib = directory_containing_executable().parent_path();
 	lib /= "Frameworks";
-	setenv ("LTDL_LIBRARY_PATH", lib.c_str (), 1);
+	setenv("LTDL_LIBRARY_PATH", lib.c_str(), 1);
 #endif
 
-	set_terminate (terminate);
+	set_terminate(terminate);
 
 #ifdef DCPOMATIC_WINDOWS
-	putenv ("PANGOCAIRO_BACKEND=fontconfig");
+	putenv("PANGOCAIRO_BACKEND=fontconfig");
 	if (dcp::filesystem::exists(resources_path() / "fonts.conf")) {
 		/* The actual application after installation */
 		putenv(String::compose("FONTCONFIG_PATH=%1", resources_path().string()).c_str());
@@ -468,12 +468,12 @@ LIBDCP_ENABLE_WARNINGS
 #endif
 
 #ifdef DCPOMATIC_OSX
-	setenv ("PANGOCAIRO_BACKEND", "fontconfig", 1);
-	setenv ("FONTCONFIG_PATH", resources_path().string().c_str(), 1);
+	setenv("PANGOCAIRO_BACKEND", "fontconfig", 1);
+	setenv("FONTCONFIG_PATH", resources_path().string().c_str(), 1);
 #endif
 
-	Pango::init ();
-	dcp::init (libdcp_resources_path());
+	Pango::init();
+	dcp::init(libdcp_resources_path());
 
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
 	/* Render something to fontconfig to create its cache */
@@ -483,7 +483,7 @@ LIBDCP_ENABLE_WARNINGS
 		"Hello dolly", dcp::Effect::NONE, dcp::Colour(), dcp::Time(), dcp::Time(), 0, std::vector<dcp::Ruby>()
 		);
 	subs.push_back(StringText(ss, 0, make_shared<dcpomatic::Font>("foo"), dcp::SubtitleStandard::SMPTE_2014));
-	render_text (subs, dcp::Size(640, 480), DCPTime(), 24);
+	render_text(subs, dcp::Size(640, 480), DCPTime(), 24);
 #endif
 
 #ifdef DCPOMATIC_WINDOWS
@@ -492,30 +492,30 @@ LIBDCP_ENABLE_WARNINGS
 	setenv("OPENSSL_ENABLE_SHA1_SIGNATURES", "1", 1);
 #endif
 
-	Ratio::setup_ratios ();
-	PresetColourConversion::setup_colour_conversion_presets ();
-	DCPContentType::setup_dcp_content_types ();
-	Filter::setup_filters ();
-	CinemaSoundProcessor::setup_cinema_sound_processors ();
-	AudioProcessor::setup_audio_processors ();
+	Ratio::setup_ratios();
+	PresetColourConversion::setup_colour_conversion_presets();
+	DCPContentType::setup_dcp_content_types();
+	Filter::setup_filters();
+	CinemaSoundProcessor::setup_cinema_sound_processors();
+	AudioProcessor::setup_audio_processors();
 
-	curl_global_init (CURL_GLOBAL_ALL);
+	curl_global_init(CURL_GLOBAL_ALL);
 
-	ui_thread = boost::this_thread::get_id ();
+	ui_thread = boost::this_thread::get_id();
 
-	capture_asdcp_logs ();
+	capture_asdcp_logs();
 	capture_ffmpeg_logs();
 }
 
 #ifdef DCPOMATIC_WINDOWS
 boost::filesystem::path
-mo_path ()
+mo_path()
 {
 	wchar_t buffer[512];
-	GetModuleFileName (0, buffer, 512 * sizeof(wchar_t));
-	boost::filesystem::path p (buffer);
-	p = p.parent_path ();
-	p = p.parent_path ();
+	GetModuleFileName(0, buffer, 512 * sizeof(wchar_t));
+	boost::filesystem::path p(buffer);
+	p = p.parent_path();
+	p = p.parent_path();
 	p /= "locale";
 	return p;
 }
@@ -523,56 +523,56 @@ mo_path ()
 
 #ifdef DCPOMATIC_OSX
 boost::filesystem::path
-mo_path ()
+mo_path()
 {
 	return variant::dcpomatic_app() + "/Contents/Resources";
 }
 #endif
 
 void
-dcpomatic_setup_gettext_i18n (string lang)
+dcpomatic_setup_gettext_i18n(string lang)
 {
 #ifdef DCPOMATIC_LINUX
 	lang += ".UTF8";
 #endif
 
-	if (!lang.empty ()) {
+	if (!lang.empty()) {
 		/* Override our environment language.  Note that the caller must not
 		   free the string passed into putenv().
 		*/
-		string s = String::compose ("LANGUAGE=%1", lang);
-		putenv (strdup (s.c_str ()));
-		s = String::compose ("LANG=%1", lang);
-		putenv (strdup (s.c_str ()));
-		s = String::compose ("LC_ALL=%1", lang);
-		putenv (strdup (s.c_str ()));
+		string s = String::compose("LANGUAGE=%1", lang);
+		putenv(strdup(s.c_str()));
+		s = String::compose("LANG=%1", lang);
+		putenv(strdup(s.c_str()));
+		s = String::compose("LC_ALL=%1", lang);
+		putenv(strdup(s.c_str()));
 	}
 
-	setlocale (LC_ALL, "");
-	textdomain ("libdcpomatic2");
+	setlocale(LC_ALL, "");
+	textdomain("libdcpomatic2");
 
 #if defined(DCPOMATIC_WINDOWS) || defined(DCPOMATIC_OSX)
-	bindtextdomain ("libdcpomatic2", mo_path().string().c_str());
-	bind_textdomain_codeset ("libdcpomatic2", "UTF8");
+	bindtextdomain("libdcpomatic2", mo_path().string().c_str());
+	bind_textdomain_codeset("libdcpomatic2", "UTF8");
 #endif
 
 #ifdef DCPOMATIC_LINUX
-	bindtextdomain ("libdcpomatic2", LINUX_LOCALE_PREFIX);
+	bindtextdomain("libdcpomatic2", LINUX_LOCALE_PREFIX);
 #endif
 }
 
 /** Compute a digest of the first and last `size' bytes of a set of files. */
 string
-digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
+digest_head_tail(vector<boost::filesystem::path> files, boost::uintmax_t size)
 {
-	boost::scoped_array<char> buffer (new char[size]);
+	boost::scoped_array<char> buffer(new char[size]);
 	Digester digester;
 
 	/* Head */
 	boost::uintmax_t to_do = size;
-	char* p = buffer.get ();
+	char* p = buffer.get();
 	int i = 0;
-	while (i < int64_t (files.size()) && to_do > 0) {
+	while (i < int64_t(files.size()) && to_do > 0) {
 		dcp::File f(files[i], "rb");
 		if (!f) {
 			throw OpenFileError(files[i].string(), f.open_error(), OpenFileError::READ);
@@ -585,11 +585,11 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 
 		++i;
 	}
-	digester.add (buffer.get(), size - to_do);
+	digester.add(buffer.get(), size - to_do);
 
 	/* Tail */
 	to_do = size;
-	p = buffer.get ();
+	p = buffer.get();
 	i = files.size() - 1;
 	while (i >= 0 && to_do > 0) {
 		dcp::File f(files[i], "rb");
@@ -605,14 +605,14 @@ digest_head_tail (vector<boost::filesystem::path> files, boost::uintmax_t size)
 
 		--i;
 	}
-	digester.add (buffer.get(), size - to_do);
+	digester.add(buffer.get(), size - to_do);
 
-	return digester.get ();
+	return digester.get();
 }
 
 
 string
-simple_digest (vector<boost::filesystem::path> paths)
+simple_digest(vector<boost::filesystem::path> paths)
 {
 	DCP_ASSERT(!paths.empty());
 	return digest_head_tail(paths, 1000000) + fmt::to_string(dcp::filesystem::file_size(paths.front()));
@@ -621,15 +621,15 @@ simple_digest (vector<boost::filesystem::path> paths)
 
 /** Trip an assert if the caller is not in the UI thread */
 void
-ensure_ui_thread ()
+ensure_ui_thread()
 {
-	DCPOMATIC_ASSERT (boost::this_thread::get_id() == ui_thread);
+	DCPOMATIC_ASSERT(boost::this_thread::get_id() == ui_thread);
 }
 
 string
-audio_channel_name (int c)
+audio_channel_name(int c)
 {
-	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
+	DCPOMATIC_ASSERT(MAX_DCP_AUDIO_CHANNELS == 16);
 
 	/// TRANSLATORS: these are the names of audio channels; Lfe (sub) is the low-frequency
 	/// enhancement channel (sub-woofer).
@@ -656,9 +656,9 @@ audio_channel_name (int c)
 }
 
 string
-short_audio_channel_name (int c)
+short_audio_channel_name(int c)
 {
-	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
+	DCPOMATIC_ASSERT(MAX_DCP_AUDIO_CHANNELS == 16);
 
 	/// TRANSLATORS: these are short names of audio channels; Lfe is the low-frequency
 	/// enhancement channel (sub-woofer).  HI is the hearing-impaired audio track and
@@ -688,14 +688,14 @@ short_audio_channel_name (int c)
 
 
 bool
-valid_image_file (boost::filesystem::path f)
+valid_image_file(boost::filesystem::path f)
 {
 	if (boost::starts_with(f.filename().string(), "._")) {
 		return false;
 	}
 
 	auto ext = f.extension().string();
-	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (
 		ext == ".tif" || ext == ".tiff" || ext == ".jpg" || ext == ".jpeg" ||
 		ext == ".png" || ext == ".bmp" || ext == ".tga" || ext == ".dpx" ||
@@ -705,45 +705,45 @@ valid_image_file (boost::filesystem::path f)
 }
 
 bool
-valid_sound_file (boost::filesystem::path f)
+valid_sound_file(boost::filesystem::path f)
 {
 	if (boost::starts_with(f.filename().string(), "._")) {
 		return false;
 	}
 
 	auto ext = f.extension().string();
-	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (ext == ".wav" || ext == ".mp3" || ext == ".aif" || ext == ".aiff");
 }
 
 bool
-valid_j2k_file (boost::filesystem::path f)
+valid_j2k_file(boost::filesystem::path f)
 {
 	auto ext = f.extension().string();
-	transform (ext.begin(), ext.end(), ext.begin(), ::tolower);
+	transform(ext.begin(), ext.end(), ext.begin(), ::tolower);
 	return (ext == ".j2k" || ext == ".j2c" || ext == ".jp2");
 }
 
 string
-tidy_for_filename (string f)
+tidy_for_filename(string f)
 {
-	boost::replace_if (f, boost::is_any_of ("\\/:"), '_');
+	boost::replace_if(f, boost::is_any_of("\\/:"), '_');
 	return f;
 }
 
 dcp::Size
-fit_ratio_within (float ratio, dcp::Size full_frame)
+fit_ratio_within(float ratio, dcp::Size full_frame)
 {
-	if (ratio < full_frame.ratio ()) {
-		return dcp::Size (lrintf (full_frame.height * ratio), full_frame.height);
+	if (ratio < full_frame.ratio()) {
+		return dcp::Size(lrintf(full_frame.height * ratio), full_frame.height);
 	}
 
-	return dcp::Size (full_frame.width, lrintf (full_frame.width / ratio));
+	return dcp::Size(full_frame.width, lrintf(full_frame.width / ratio));
 }
 
 static
 string
-asset_filename (shared_ptr<dcp::Asset> asset, string type, int reel_index, int reel_count, optional<string> summary, string extension)
+asset_filename(shared_ptr<dcp::Asset> asset, string type, int reel_index, int reel_count, optional<string> summary, string extension)
 {
 	dcp::NameFormat::Map values;
 	values['t'] = type;
@@ -765,21 +765,21 @@ video_asset_filename(shared_ptr<dcp::PictureAsset> asset, int reel_index, int re
 
 
 string
-audio_asset_filename (shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, optional<string> summary)
+audio_asset_filename(shared_ptr<dcp::SoundAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
 	return asset_filename(asset, "pcm", reel_index, reel_count, summary, ".mxf");
 }
 
 
 string
-subtitle_asset_filename (shared_ptr<dcp::TextAsset> asset, int reel_index, int reel_count, optional<string> summary, string extension)
+subtitle_asset_filename(shared_ptr<dcp::TextAsset> asset, int reel_index, int reel_count, optional<string> summary, string extension)
 {
 	return asset_filename(asset, "sub", reel_index, reel_count, summary, extension);
 }
 
 
 string
-atmos_asset_filename (shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, optional<string> summary)
+atmos_asset_filename(shared_ptr<dcp::AtmosAsset> asset, int reel_index, int reel_count, optional<string> summary)
 {
 	return asset_filename(asset, "atmos", reel_index, reel_count, summary, ".mxf");
 }
@@ -831,7 +831,7 @@ careful_string_filter(string s, wstring allowed)
  *  @return First: number of non-LFE soundtrack channels (L/R/C/Ls/Rs/Lc/Rc/Bsl/Bsr), second: number of LFE channels.
  */
 pair<int, int>
-audio_channel_types (list<int> mapped, int channels)
+audio_channel_types(list<int> mapped, int channels)
 {
 	int non_lfe = 0;
 	int lfe = 0;
@@ -867,16 +867,16 @@ audio_channel_types (list<int> mapped, int channels)
 		}
 	}
 
-	return make_pair (non_lfe, lfe);
+	return make_pair(non_lfe, lfe);
 }
 
 shared_ptr<AudioBuffers>
-remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map)
+remap(shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping map)
 {
 	auto mapped = make_shared<AudioBuffers>(output_channels, input->frames());
-	mapped->make_silent ();
+	mapped->make_silent();
 
-	int to_do = min (map.input_channels(), input->channels());
+	int to_do = min(map.input_channels(), input->channels());
 
 	for (int i = 0; i < to_do; ++i) {
 		for (int j = 0; j < mapped->channels(); ++j) {
@@ -896,9 +896,9 @@ remap (shared_ptr<const AudioBuffers> input, int output_channels, AudioMapping m
 
 
 size_t
-utf8_strlen (string s)
+utf8_strlen(string s)
 {
-	size_t const len = s.length ();
+	size_t const len = s.length();
 	int N = 0;
 	for (size_t i = 0; i < len; ++i) {
 		unsigned char c = s[i];
@@ -920,7 +920,7 @@ void
 emit_subtitle_image(ContentTimePeriod period, dcp::TextImage sub, dcp::Size size, shared_ptr<TextDecoder> decoder)
 {
 	/* XXX: this is rather inefficient; decoding the image just to get its size */
-	FFmpegImageProxy proxy (sub.png_image());
+	FFmpegImageProxy proxy(sub.png_image());
 	auto image = proxy.image(Image::Alignment::PADDED).image;
 	/* set up rect with height and width */
 	dcpomatic::Rect<double> rect(0, 0, image->size().width / double(size.width), image->size().height / double(size.height));
@@ -951,13 +951,13 @@ emit_subtitle_image(ContentTimePeriod period, dcp::TextImage sub, dcp::Size size
 		break;
 	}
 
-	decoder->emit_bitmap (period, image, rect);
+	decoder->emit_bitmap(period, image, rect);
 }
 
 
 /** XXX: could use mmap? */
 void
-copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)> progress)
+copy_in_bits(boost::filesystem::path from, boost::filesystem::path to, std::function<void (float)> progress)
 {
 	dcp::File f(from, "rb");
 	if (!f) {
@@ -977,36 +977,36 @@ copy_in_bits (boost::filesystem::path from, boost::filesystem::path to, std::fun
 	boost::uintmax_t remaining = total;
 
 	while (remaining) {
-		boost::uintmax_t this_time = min (chunk, remaining);
+		boost::uintmax_t this_time = min(chunk, remaining);
 		size_t N = f.read(buffer.data(), 1, chunk);
 		if (N < this_time) {
-			throw ReadFileError (from, errno);
+			throw ReadFileError(from, errno);
 		}
 
 		N = t.write(buffer.data(), 1, this_time);
 		if (N < this_time) {
-			throw WriteFileError (to, errno);
+			throw WriteFileError(to, errno);
 		}
 
-		progress (1 - float(remaining) / total);
+		progress(1 - float(remaining) / total);
 		remaining -= this_time;
 	}
 }
 
 
 dcp::Size
-scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta)
+scale_for_display(dcp::Size s, dcp::Size display_container, dcp::Size film_container, PixelQuanta quanta)
 {
 	/* Now scale it down if the display container is smaller than the film container */
 	if (display_container != film_container) {
-		float const scale = min (
-			float (display_container.width) / film_container.width,
-			float (display_container.height) / film_container.height
+		float const scale = min(
+			float(display_container.width) / film_container.width,
+			float(display_container.height) / film_container.height
 			);
 
-		s.width = lrintf (s.width * scale);
-		s.height = lrintf (s.height * scale);
-		s = quanta.round (s);
+		s.width = lrintf(s.width * scale);
+		s.height = lrintf(s.height * scale);
+		s = quanta.round(s);
 	}
 
 	return s;
@@ -1014,10 +1014,10 @@ scale_for_display (dcp::Size s, dcp::Size display_container, dcp::Size film_cont
 
 
 dcp::DecryptedKDM
-decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
+decrypt_kdm_with_helpful_error(dcp::EncryptedKDM kdm)
 {
 	try {
-		return dcp::DecryptedKDM (kdm, Config::instance()->decryption_chain()->key().get());
+		return dcp::DecryptedKDM(kdm, Config::instance()->decryption_chain()->key().get());
 	} catch (dcp::KDMDecryptionError& e) {
 		/* Try to flesh out the error a bit */
 		auto const kdm_subject_name = kdm.recipient_x509_subject_name();
@@ -1040,7 +1040,7 @@ decrypt_kdm_with_helpful_error (dcp::EncryptedKDM kdm)
 
 
 boost::filesystem::path
-default_font_file ()
+default_font_file()
 {
 	boost::filesystem::path liberation_normal;
 	try {
@@ -1073,13 +1073,13 @@ default_font_file ()
 
 #if DCPOMATIC_DEBUG_THREADS
 void
-start_of_thread (string name)
+start_of_thread(string name)
 {
 	std::cout << "THREAD:" << name << ":" << std::hex << pthread_self() << "\n";
 }
 #else
 void
-start_of_thread (string)
+start_of_thread(string)
 {
 
 }
@@ -1213,8 +1213,8 @@ join_strings(vector<string> const& in, string const& separator)
 string
 rfc_2822_date(time_t time)
 {
-	auto const utc_now = boost::posix_time::second_clock::universal_time ();
-	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local (utc_now);
+	auto const utc_now = boost::posix_time::second_clock::universal_time();
+	auto const local_now = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(utc_now);
 	auto const offset = local_now - utc_now;
 
 	auto const hours = int(abs(offset.hours()));
