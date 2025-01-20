@@ -1648,7 +1648,7 @@ Film::check_reel_boundaries_for_atmos()
 		} else {
 			set_reel_type(ReelType::SINGLE);
 		}
-		Message(variant::insert_dcpomatic("%1 had to change your reel settings to accomodate the Atmos content"));
+		Message(variant::insert_dcpomatic("%1 had to change your reel settings to accommodate the Atmos content"));
 	}
 }
 
