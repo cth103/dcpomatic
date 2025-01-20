@@ -615,7 +615,7 @@ try
 	};
 
 	if (optind < argc - 1) {
-		/* Command with some KDM / CPL / whever specified afterwards */
+		/* Command with some KDM / CPL / whatever specified afterwards */
 		command = argv[optind++];
 	} else if (optind < argc) {
 		/* Look for a valid command, hoping that it's not the name of the KDM / CPL / whatever */
