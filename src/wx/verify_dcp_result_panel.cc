@@ -173,6 +173,7 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 	std::map<dcp::VerificationNote::Code, std::vector<dcp::VerificationNote>> notes_by_code;
 
 	for (auto const& note: job->result().notes) {
+		counts[note.type()]++;
 		auto type_iter = notes_by_code.find(note.code());
 		if (type_iter != notes_by_code.end()) {
 			if (type_iter->second.size() < limit_per_type) {
