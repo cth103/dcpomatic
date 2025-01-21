@@ -51,16 +51,16 @@ class AnalyseAudioJob : public Job
 {
 public:
 	AnalyseAudioJob(std::shared_ptr<const Film>, std::shared_ptr<const Playlist>, bool whole_film);
-	~AnalyseAudioJob ();
+	~AnalyseAudioJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
-	bool enable_notify () const override {
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
+	bool enable_notify() const override {
 		return true;
 	}
 
-	boost::filesystem::path path () const {
+	boost::filesystem::path path() const {
 		return _path;
 	}
 

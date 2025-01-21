@@ -51,48 +51,48 @@ using namespace boost::placeholders;
  *  to analyse just the single piece of content in the playlist (i.e. start from Playlist::start() and do not
  *  use processors.
  */
-AnalyseAudioJob::AnalyseAudioJob (shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film)
-	: Job (film)
+AnalyseAudioJob::AnalyseAudioJob(shared_ptr<const Film> film, shared_ptr<const Playlist> playlist, bool whole_film)
+	: Job(film)
 	, _analyser(film, playlist, whole_film, boost::bind(&Job::set_progress, this, _1, false))
-	, _playlist (playlist)
-	, _path (film->audio_analysis_path(playlist))
+	, _playlist(playlist)
+	, _path(film->audio_analysis_path(playlist))
 	, _whole_film(whole_film)
 {
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::AnalyseAudioJob");
 }
 
 
-AnalyseAudioJob::~AnalyseAudioJob ()
+AnalyseAudioJob::~AnalyseAudioJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-AnalyseAudioJob::name () const
+AnalyseAudioJob::name() const
 {
 	return _("Analysing audio");
 }
 
 
 string
-AnalyseAudioJob::json_name () const
+AnalyseAudioJob::json_name() const
 {
 	return N_("analyse_audio");
 }
 
 
 void
-AnalyseAudioJob::run ()
+AnalyseAudioJob::run()
 {
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("AnalyseAudioJob::run");
 
 	auto player = make_shared<Player>(_film, _playlist, false);
-	player->set_ignore_video ();
-	player->set_ignore_text ();
-	player->set_fast ();
-	player->set_play_referenced ();
-	player->Audio.connect (bind(&AudioAnalyser::analyse, &_analyser, _1, _2));
+	player->set_ignore_video();
+	player->set_ignore_text();
+	player->set_fast();
+	player->set_play_referenced();
+	player->Audio.connect(bind(&AudioAnalyser::analyse, &_analyser, _1, _2));
 	if (!_whole_film) {
 		player->set_disable_audio_processor();
 	}
@@ -105,17 +105,17 @@ AnalyseAudioJob::run ()
 	}
 
 	if (has_any_audio) {
-		player->seek (_analyser.start(), true);
-		while (!player->pass ()) {}
+		player->seek(_analyser.start(), true);
+		while (!player->pass()) {}
 	}
 
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("Loop complete");
 
-	_analyser.finish ();
+	_analyser.finish();
 	auto analysis = _analyser.get();
-	analysis.write (_path);
+	analysis.write(_path);
 
 	LOG_DEBUG_AUDIO_ANALYSIS_NC("Job finished");
-	set_progress (1);
-	set_state (FINISHED_OK);
+	set_progress(1);
+	set_state(FINISHED_OK);
 }
