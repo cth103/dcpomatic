@@ -34,35 +34,35 @@ using std::string;
 
 /** @param s Number of seconds to sleep for */
 void
-dcpomatic_sleep_seconds (int s)
+dcpomatic_sleep_seconds(int s)
 {
-	sleep (s);
+	sleep(s);
 }
 
 
 void
-dcpomatic_sleep_milliseconds (int ms)
+dcpomatic_sleep_milliseconds(int ms)
 {
-	usleep (ms * 1000);
+	usleep(ms * 1000);
 }
 
 
 uint64_t
-thread_id ()
+thread_id()
 {
-	return (uint64_t) pthread_self ();
+	return (uint64_t) pthread_self();
 }
 
 
 int
-avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags)
+avio_open_boost(AVIOContext** s, boost::filesystem::path file, int flags)
 {
-	return avio_open (s, file.c_str(), flags);
+	return avio_open(s, file.c_str(), flags);
 }
 
 
 boost::filesystem::path
-home_directory ()
+home_directory()
 {
 	return getenv("HOME");
 }
@@ -70,7 +70,7 @@ home_directory ()
 
 /** @return true if this process is a 32-bit one running on a 64-bit-capable OS */
 bool
-running_32_on_64 ()
+running_32_on_64()
 {
 	/* I'm assuming nobody does this on Linux/macOS */
 	return false;
@@ -78,7 +78,7 @@ running_32_on_64 ()
 
 
 string
-dcpomatic::get_process_id ()
+dcpomatic::get_process_id()
 {
 	return fmt::to_string(getpid());
 }

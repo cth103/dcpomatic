@@ -40,16 +40,16 @@ using std::vector;
 using boost::optional;
 
 
-Drive::Drive (string xml)
+Drive::Drive(string xml)
 {
 	cxml::Document doc;
-	doc.read_string (xml);
+	doc.read_string(xml);
 	_device = doc.string_child("Device");
 #ifdef DCPOMATIC_OSX
 	_mounted = doc.bool_child("Mounted");
 #else
 	for (auto i: doc.node_children("MountPoint")) {
-		_mount_points.push_back (i->content());
+		_mount_points.push_back(i->content());
 	}
 #endif
 	_size = doc.number_child<uint64_t>("Size");
@@ -59,10 +59,10 @@ Drive::Drive (string xml)
 
 
 string
-Drive::as_xml () const
+Drive::as_xml() const
 {
 	xmlpp::Document doc;
-	auto root = doc.create_root_node ("Drive");
+	auto root = doc.create_root_node("Drive");
 	cxml::add_text_child(root, "Device", _device);
 #ifdef DCPOMATIC_OSX
 	cxml::add_text_child(root, "Mounted", _mounted ? "1" : "0");
@@ -84,7 +84,7 @@ Drive::as_xml () const
 
 
 string
-Drive::description () const
+Drive::description() const
 {
 	char gb[64];
 	snprintf(gb, 64, "%.1f", _size / 1000000000.0);
@@ -109,7 +109,7 @@ Drive::description () const
 
 
 string
-Drive::log_summary () const
+Drive::log_summary() const
 {
 	string mp;
 #ifdef DCPOMATIC_OSX
@@ -126,7 +126,7 @@ Drive::log_summary () const
 	if (_mount_points.empty()) {
 		mp = "[none]";
 	} else {
-		mp = mp.substr (0, mp.length() - 1);
+		mp = mp.substr(0, mp.length() - 1);
 	}
 #endif
 

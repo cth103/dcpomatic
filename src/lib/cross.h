@@ -42,33 +42,33 @@
 class Log;
 struct AVIOContext;
 
-extern void dcpomatic_sleep_seconds (int);
-extern void dcpomatic_sleep_milliseconds (int);
-extern std::string cpu_info ();
+extern void dcpomatic_sleep_seconds(int);
+extern void dcpomatic_sleep_milliseconds(int);
+extern std::string cpu_info();
 extern void run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err = true, std::string args = {});
-extern std::list<std::pair<std::string, std::string>> mount_info ();
-extern boost::filesystem::path openssl_path ();
-extern void make_foreground_application ();
+extern std::list<std::pair<std::string, std::string>> mount_info();
+extern boost::filesystem::path openssl_path();
+extern void make_foreground_application();
 #ifdef DCPOMATIC_DISK
-extern boost::filesystem::path disk_writer_path ();
+extern boost::filesystem::path disk_writer_path();
 #endif
 #ifdef DCPOMATIC_WINDOWS
-extern void maybe_open_console ();
+extern void maybe_open_console();
 #endif
-extern boost::filesystem::path resources_path ();
-extern boost::filesystem::path libdcp_resources_path ();
-extern void start_batch_converter ();
-extern void start_player ();
-extern uint64_t thread_id ();
-extern int avio_open_boost (AVIOContext** s, boost::filesystem::path file, int flags);
-extern boost::filesystem::path home_directory ();
-extern bool running_32_on_64 ();
-extern void unprivileged ();
-extern boost::filesystem::path config_path (boost::optional<std::string> version);
-extern boost::filesystem::path directory_containing_executable ();
-extern bool show_in_file_manager (boost::filesystem::path dir, boost::filesystem::path select);
+extern boost::filesystem::path resources_path();
+extern boost::filesystem::path libdcp_resources_path();
+extern void start_batch_converter();
+extern void start_player();
+extern uint64_t thread_id();
+extern int avio_open_boost(AVIOContext** s, boost::filesystem::path file, int flags);
+extern boost::filesystem::path home_directory();
+extern bool running_32_on_64();
+extern void unprivileged();
+extern boost::filesystem::path config_path(boost::optional<std::string> version);
+extern boost::filesystem::path directory_containing_executable();
+extern bool show_in_file_manager(boost::filesystem::path dir, boost::filesystem::path select);
 namespace dcpomatic {
-	std::string get_process_id ();
+	std::string get_process_id();
 }
 
 
@@ -81,10 +81,10 @@ namespace dcpomatic {
 class Waker
 {
 public:
-	Waker ();
-	~Waker ();
+	Waker();
+	~Waker();
 
-	void nudge ();
+	void nudge();
 
 private:
 	boost::mutex _mutex;
@@ -106,7 +106,7 @@ public:
 		, _model(model)
 	{}
 #else
-	Drive (std::string device, std::vector<boost::filesystem::path> mount_points, uint64_t size, boost::optional<std::string> vendor, boost::optional<std::string> model)
+	Drive(std::string device, std::vector<boost::filesystem::path> mount_points, uint64_t size, boost::optional<std::string> vendor, boost::optional<std::string> model)
 		: _device(device)
 		, _mount_points(mount_points)
 		, _size(size)
@@ -115,17 +115,17 @@ public:
 	{}
 #endif
 
-	explicit Drive (std::string);
+	explicit Drive(std::string);
 
-	std::string as_xml () const;
+	std::string as_xml() const;
 
-	std::string description () const;
+	std::string description() const;
 
-	std::string device () const {
+	std::string device() const {
 		return _device;
 	}
 
-	bool mounted () const {
+	bool mounted() const {
 #ifdef DCPOMATIC_OSX
 		return _mounted;
 #else
@@ -133,12 +133,12 @@ public:
 #endif
 	}
 
-	std::string log_summary () const;
+	std::string log_summary() const;
 
 	/** Unmount any mounted partitions on a drive.
 	 *  @return true on success, false on failure.
 	 */
-	bool unmount ();
+	bool unmount();
 
 #ifdef DCPOMATIC_OSX
 	void set_mounted() {
@@ -146,7 +146,7 @@ public:
 	}
 #endif
 
-	static std::vector<Drive> get ();
+	static std::vector<Drive> get();
 
 private:
 	std::string _device;
@@ -162,7 +162,7 @@ private:
 };
 
 
-void disk_write_finished ();
+void disk_write_finished();
 
 
 class ArgFixer

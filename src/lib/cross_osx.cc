@@ -68,12 +68,12 @@ using std::function;
 
 /** @return A string of CPU information (model name etc.) */
 string
-cpu_info ()
+cpu_info()
 {
 	string info;
 
 	char buffer[64];
-	size_t N = sizeof (buffer);
+	size_t N = sizeof(buffer);
 	if (sysctlbyname("machdep.cpu.brand_string", buffer, &N, 0, 0) == 0) {
 		info = buffer;
 	}
@@ -83,21 +83,21 @@ cpu_info ()
 
 
 boost::filesystem::path
-directory_containing_executable ()
+directory_containing_executable()
 {
 	return dcp::filesystem::canonical(boost::dll::program_location()).parent_path();
 }
 
 
 boost::filesystem::path
-resources_path ()
+resources_path()
 {
 	return directory_containing_executable().parent_path() / "Resources";
 }
 
 
 boost::filesystem::path
-libdcp_resources_path ()
+libdcp_resources_path()
 {
 	return resources_path();
 }
@@ -106,7 +106,7 @@ libdcp_resources_path ()
 void
 run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool err, string args)
 {
-	auto path = directory_containing_executable () / "ffprobe";
+	auto path = directory_containing_executable() / "ffprobe";
 	if (!dcp::filesystem::exists(path)) {
 		/* This is a hack but we need ffprobe during tests */
 		path = "/Users/ci/workspace/bin/ffprobe";
@@ -114,21 +114,21 @@ run_ffprobe(boost::filesystem::path content, boost::filesystem::path out, bool e
 	string const redirect = err ? "2>" : ">";
 
 	auto const ffprobe = String::compose("\"%1\" %2 \"%3\" %4 \"%5\"", path, args.empty() ? " " : args, content.string(), redirect, out.string());
-	LOG_GENERAL (N_("Probing with %1"), ffprobe);
-	system (ffprobe.c_str());
+	LOG_GENERAL(N_("Probing with %1"), ffprobe);
+	system(ffprobe.c_str());
 }
 
 
 
 list<pair<string, string>>
-mount_info ()
+mount_info()
 {
 	return {};
 }
 
 
 boost::filesystem::path
-openssl_path ()
+openssl_path()
 {
 	return directory_containing_executable() / "openssl";
 }
@@ -137,7 +137,7 @@ openssl_path ()
 #ifdef DCPOMATIC_DISK
 /* Note: this isn't actually used at the moment as the disk writer is started as a service */
 boost::filesystem::path
-disk_writer_path ()
+disk_writer_path()
 {
 	return directory_containing_executable() / "dcpomatic2_disk_writer";
 }
@@ -145,28 +145,28 @@ disk_writer_path ()
 
 
 void
-Waker::nudge ()
+Waker::nudge()
 {
 
 }
 
 
-Waker::Waker ()
+Waker::Waker()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	IOPMAssertionCreateWithName (kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR ("Encoding DCP"), &_assertion_id);
+	boost::mutex::scoped_lock lm(_mutex);
+	IOPMAssertionCreateWithName(kIOPMAssertionTypeNoIdleSleep, kIOPMAssertionLevelOn, CFSTR("Encoding DCP"), &_assertion_id);
 }
 
 
-Waker::~Waker ()
+Waker::~Waker()
 {
-	boost::mutex::scoped_lock lm (_mutex);
-	IOPMAssertionRelease (_assertion_id);
+	boost::mutex::scoped_lock lm(_mutex);
+	IOPMAssertionRelease(_assertion_id);
 }
 
 
 void
-start_tool (string executable, string app)
+start_tool(string executable, string app)
 {
 	boost::algorithm::replace_all(app, " ", "\\ ");
 
@@ -179,11 +179,11 @@ start_tool (string executable, string app)
 	exe_path /= "MacOS";
 	exe_path /= executable;
 
-	pid_t pid = fork ();
+	pid_t pid = fork();
 	if (pid == 0) {
-		LOG_GENERAL ("start_tool %1 %2 with path %3", executable, app, exe_path.string());
-		int const r = system (exe_path.string().c_str());
-		exit (WEXITSTATUS (r));
+		LOG_GENERAL("start_tool %1 %2 with path %3", executable, app, exe_path.string());
+		int const r = system(exe_path.string().c_str());
+		exit(WEXITSTATUS(r));
 	} else if (pid == -1) {
 		LOG_ERROR_NC("Fork failed in start_tool");
 	}
@@ -191,14 +191,14 @@ start_tool (string executable, string app)
 
 
 void
-start_batch_converter ()
+start_batch_converter()
 {
 	start_tool("dcpomatic2_batch", variant::dcpomatic_batch_converter_app());
 }
 
 
 void
-start_player ()
+start_player()
 {
 	start_tool("dcpomatic2_player", variant::dcpomatic_player_app());
 }
@@ -219,39 +219,39 @@ struct OSXDisk
 
 
 static optional<string>
-get_vendor (CFDictionaryRef& description)
+get_vendor(CFDictionaryRef& description)
 {
-	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionDeviceVendorKey);
+	void const* str = CFDictionaryGetValue(description, kDADiskDescriptionDeviceVendorKey);
 	if (!str) {
 		return {};
 	}
 
-	auto c_str = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
+	auto c_str = CFStringGetCStringPtr((CFStringRef) str, kCFStringEncodingUTF8);
 	if (!c_str) {
 		return {};
 	}
 
-	string s (c_str);
-	boost::algorithm::trim (s);
+	string s(c_str);
+	boost::algorithm::trim(s);
 	return s;
 }
 
 
 static optional<string>
-get_model (CFDictionaryRef& description)
+get_model(CFDictionaryRef& description)
 {
-	void const* str = CFDictionaryGetValue (description, kDADiskDescriptionDeviceModelKey);
+	void const* str = CFDictionaryGetValue(description, kDADiskDescriptionDeviceModelKey);
 	if (!str) {
 		return {};
 	}
 
-	auto c_str = CFStringGetCStringPtr ((CFStringRef) str, kCFStringEncodingUTF8);
+	auto c_str = CFStringGetCStringPtr((CFStringRef) str, kCFStringEncodingUTF8);
 	if (!c_str) {
 		return {};
 	}
 
-	string s (c_str);
-	boost::algorithm::trim (s);
+	string s(c_str);
+	boost::algorithm::trim(s);
 	return s;
 }
 
@@ -260,7 +260,7 @@ static
 bool
 is_mounted(CFDictionaryRef& description)
 {
-	auto volume_path_key = (CFURLRef) CFDictionaryGetValue (description, kDADiskDescriptionVolumePathKey);
+	auto volume_path_key = (CFURLRef) CFDictionaryGetValue(description, kDADiskDescriptionVolumePathKey);
 	if (!volume_path_key) {
 		return false;
 	}
@@ -283,9 +283,9 @@ get_bool(CFDictionaryRef& description, void const* key)
 
 
 static void
-disk_appeared (DADiskRef disk, void* context)
+disk_appeared(DADiskRef disk, void* context)
 {
-	auto bsd_name = DADiskGetBSDName (disk);
+	auto bsd_name = DADiskGetBSDName(disk);
 	if (!bsd_name) {
 		LOG_DISK_NC("Disk with no BSDName appeared");
 		return;
@@ -298,15 +298,15 @@ disk_appeared (DADiskRef disk, void* context)
 	this_disk.device = string("/dev/") + this_disk.bsd_name;
 	LOG_DISK("Device is %1", this_disk.device);
 
-	CFDictionaryRef description = DADiskCopyDescription (disk);
+	CFDictionaryRef description = DADiskCopyDescription(disk);
 
-	this_disk.vendor = get_vendor (description);
-	this_disk.model = get_model (description);
+	this_disk.vendor = get_vendor(description);
+	this_disk.model = get_model(description);
 	LOG_DISK("Vendor/model: %1 %2", this_disk.vendor.get_value_or("[none]"), this_disk.model.get_value_or("[none]"));
 
 	this_disk.mounted = is_mounted(description);
 
-	auto media_size_cstr = CFDictionaryGetValue (description, kDADiskDescriptionMediaSizeKey);
+	auto media_size_cstr = CFDictionaryGetValue(description, kDADiskDescriptionMediaSizeKey);
 	if (!media_size_cstr) {
 		LOG_DISK_NC("Could not read media size");
 		return;
@@ -325,15 +325,15 @@ disk_appeared (DADiskRef disk, void* context)
 		this_disk.mounted ? "mounted" : "not mounted"
 		);
 
-	CFNumberGetValue ((CFNumberRef) media_size_cstr, kCFNumberLongType, &this_disk.size);
-	CFRelease (description);
+	CFNumberGetValue((CFNumberRef) media_size_cstr, kCFNumberLongType, &this_disk.size);
+	CFRelease(description);
 
 	reinterpret_cast<vector<OSXDisk>*>(context)->push_back(this_disk);
 }
 
 
 vector<Drive>
-Drive::get ()
+Drive::get()
 {
 	using namespace boost::algorithm;
 	vector<OSXDisk> disks;
@@ -347,10 +347,10 @@ Drive::get ()
 
 	LOG_DISK_NC("Drive::get() has session");
 
-	DARegisterDiskAppearedCallback (session, NULL, disk_appeared, &disks);
-	auto run_loop = CFRunLoopGetCurrent ();
-	DASessionScheduleWithRunLoop (session, run_loop, kCFRunLoopDefaultMode);
-	CFRunLoopStop (run_loop);
+	DARegisterDiskAppearedCallback(session, NULL, disk_appeared, &disks);
+	auto run_loop = CFRunLoopGetCurrent();
+	DASessionScheduleWithRunLoop(session, run_loop, kCFRunLoopDefaultMode);
+	CFRunLoopStop(run_loop);
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.05, 0);
 	DAUnregisterCallback(session, (void *) disk_appeared, &disks);
 	CFRelease(session);
@@ -396,10 +396,10 @@ Drive::get ()
 
 
 boost::filesystem::path
-config_path (optional<string> version)
+config_path(optional<string> version)
 {
 	boost::filesystem::path p;
-	p /= g_get_home_dir ();
+	p /= g_get_home_dir();
 	p /= "Library";
 	p /= "Preferences";
 	p /= "com.dcpomatic";
@@ -433,7 +433,7 @@ void done_callback(DADiskRef, DADissenterRef dissenter, void* context)
 
 
 bool
-Drive::unmount ()
+Drive::unmount()
 {
 	LOG_DISK_NC("Unmount operation started");
 
@@ -449,11 +449,11 @@ Drive::unmount ()
 	LOG_DISK("Requesting unmount of %1 from %2", _device, thread_id());
 	UnmountState state;
 	DADiskUnmount(disk, kDADiskUnmountOptionWhole, &done_callback, &state);
-	CFRelease (disk);
+	CFRelease(disk);
 
-	CFRunLoopRef run_loop = CFRunLoopGetCurrent ();
-	DASessionScheduleWithRunLoop (session, run_loop, kCFRunLoopDefaultMode);
-	CFRunLoopStop (run_loop);
+	CFRunLoopRef run_loop = CFRunLoopGetCurrent();
+	DASessionScheduleWithRunLoop(session, run_loop, kCFRunLoopDefaultMode);
+	CFRunLoopStop(run_loop);
 	CFRunLoopRunInMode(kCFRunLoopDefaultMode, 5, 0);
 	CFRelease(session);
 
@@ -467,27 +467,27 @@ Drive::unmount ()
 
 
 void
-disk_write_finished ()
+disk_write_finished()
 {
 
 }
 
 
 void
-make_foreground_application ()
+make_foreground_application()
 {
 	ProcessSerialNumber serial;
 LIBDCP_DISABLE_WARNINGS
-	GetCurrentProcess (&serial);
+	GetCurrentProcess(&serial);
 LIBDCP_ENABLE_WARNINGS
-	TransformProcessType (&serial, kProcessTransformToForegroundApplication);
+	TransformProcessType(&serial, kProcessTransformToForegroundApplication);
 }
 
 
 bool
-show_in_file_manager (boost::filesystem::path, boost::filesystem::path select)
+show_in_file_manager(boost::filesystem::path, boost::filesystem::path select)
 {
-	int r = system (String::compose("open -R \"%1\"", select.string()).c_str());
+	int r = system(String::compose("open -R \"%1\"", select.string()).c_str());
 	return static_cast<bool>(WEXITSTATUS(r));
 }
 
