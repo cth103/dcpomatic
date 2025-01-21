@@ -32,12 +32,12 @@
 #include <boost/scoped_ptr.hpp>
 
 
-class AudioBuffers;
 class AudioAnalysis;
-class Playlist;
-class AudioPoint;
+class AudioBuffers;
 class AudioFilterGraph;
+class AudioPoint;
 class Filter;
+class Playlist;
 
 
 /** @class AnalyseAudioJob
