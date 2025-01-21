@@ -37,46 +37,46 @@ using namespace boost::placeholders;
 
 
 VerifyDCPJob::VerifyDCPJob(vector<boost::filesystem::path> directories, vector<boost::filesystem::path> kdms)
-	, _directories (directories)
 	: Job({})
+	, _directories(directories)
 	, _kdms(kdms)
 {
 
 }
 
 
-VerifyDCPJob::~VerifyDCPJob ()
+VerifyDCPJob::~VerifyDCPJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-VerifyDCPJob::name () const
+VerifyDCPJob::name() const
 {
 	return _("Verify DCP");
 }
 
 
 string
-VerifyDCPJob::json_name () const
+VerifyDCPJob::json_name() const
 {
 	return N_("verify_dcp");
 }
 
 
 void
-VerifyDCPJob::update_stage (string s, optional<boost::filesystem::path> path)
+VerifyDCPJob::update_stage(string s, optional<boost::filesystem::path> path)
 {
 	if (path) {
 		s += ": " + path->string();
 	}
-	sub (s);
+	sub(s);
 }
 
 
 void
-VerifyDCPJob::run ()
+VerifyDCPJob::run()
 {
 	vector<dcp::DecryptedKDM> decrypted_kdms;
 	auto key = Config::instance()->decryption_chain()->key();
@@ -102,6 +102,6 @@ VerifyDCPJob::run ()
 		}
 	}
 
-	set_progress (1);
-	set_state (failed ? FINISHED_ERROR : FINISHED_OK);
+	set_progress(1);
+	set_state(failed ? FINISHED_ERROR : FINISHED_OK);
 }

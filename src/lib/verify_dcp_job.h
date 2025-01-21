@@ -30,18 +30,18 @@ class VerifyDCPJob : public Job
 {
 public:
 	VerifyDCPJob(std::vector<boost::filesystem::path> directories, std::vector<boost::filesystem::path> kdms);
-	~VerifyDCPJob ();
+	~VerifyDCPJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 
 	dcp::VerificationResult const& result() const {
 		return _result;
 	}
 
 private:
-	void update_stage (std::string s, boost::optional<boost::filesystem::path> path);
+	void update_stage(std::string s, boost::optional<boost::filesystem::path> path);
 
 	std::vector<boost::filesystem::path> _directories;
 	std::vector<boost::filesystem::path> _kdms;
