@@ -37,8 +37,8 @@ using namespace boost::placeholders;
 
 
 VerifyDCPJob::VerifyDCPJob(vector<boost::filesystem::path> directories, vector<boost::filesystem::path> kdms)
-	: Job (shared_ptr<Film>())
 	, _directories (directories)
+	: Job({})
 	, _kdms(kdms)
 {
 
