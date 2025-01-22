@@ -668,7 +668,7 @@ BOOST_AUTO_TEST_CASE(reel_assets_same_length_with_atmos)
 	picture->video->set_length(480);
 
 	BOOST_REQUIRE_EQUAL(messages.size(), 1U);
-	BOOST_CHECK_EQUAL(messages[0], variant::insert_dcpomatic("%1 had to change your reel settings to accomodate the Atmos content"));
+	BOOST_CHECK_EQUAL(messages[0], variant::insert_dcpomatic("%1 had to change your reel settings to accommodate the Atmos content"));
 
 	auto const reels = film->reels();
 	BOOST_CHECK_EQUAL(reels.size(), 2U);
