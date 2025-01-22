@@ -656,7 +656,7 @@ try
 		return {};
 	}
 
-	if (command == "dump-deccryption-certificate") {
+	if (command == "dump-decryption-certificate") {
 		dump_decryption_certificate(out);
 		return {};
 	}
