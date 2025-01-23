@@ -481,17 +481,13 @@ public:
 		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
 		_viewer.set_film(_film);
 		_controls->set_film (_film);
-		_film->Change.connect (bind(&DOMFrame::film_changed, this, _1, _2));
+		film_changed();
 		_info->triggered_update ();
 		set_menu_sensitivity();
 	}
 
-	void film_changed (ChangeType type, FilmProperty property)
+	void film_changed()
 	{
-		if (type != ChangeType::DONE || property != FilmProperty::CONTENT) {
-			return;
-		}
-
 		if (_viewer.playing()) {
 			_viewer.stop();
 		}
@@ -737,15 +733,7 @@ private:
 			if (!ok || !report_errors_from_last_job(this)) {
 				return;
 			}
-			for (auto i: dcp->text) {
-				i->set_use (true);
-			}
-			if (dcp->video && dcp->video->size()) {
-				auto const r = Ratio::nearest_from_ratio(dcp->video->size()->ratio());
-				if (r) {
-					_film->set_container(r);
-				}
-			}
+			film_changed();
 		}
 
 		_info->triggered_update ();
