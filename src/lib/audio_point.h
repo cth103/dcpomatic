@@ -40,14 +40,14 @@ public:
 		COUNT
 	};
 
-	AudioPoint ();
-	explicit AudioPoint (cxml::ConstNodePtr node);
-	AudioPoint (AudioPoint const &);
-	AudioPoint& operator= (AudioPoint const &);
+	AudioPoint();
+	explicit AudioPoint(cxml::ConstNodePtr node);
+	AudioPoint(AudioPoint const &);
+	AudioPoint& operator=(AudioPoint const &);
 
-	void as_xml (xmlpp::Element *) const;
+	void as_xml(xmlpp::Element *) const;
 
-	inline float& operator[] (int t) {
+	inline float& operator[](int t) {
 		return _data[t];
 	}
 

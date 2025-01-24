@@ -30,7 +30,7 @@ LIBDCP_ENABLE_WARNINGS
 using std::string;
 
 
-AudioPoint::AudioPoint ()
+AudioPoint::AudioPoint()
 {
 	for (int i = 0; i < COUNT; ++i) {
 		_data[i] = 0;
@@ -38,14 +38,14 @@ AudioPoint::AudioPoint ()
 }
 
 
-AudioPoint::AudioPoint (cxml::ConstNodePtr node)
+AudioPoint::AudioPoint(cxml::ConstNodePtr node)
 {
 	_data[PEAK] = node->number_child<float>("Peak");
 	_data[RMS] = node->number_child<float>("RMS");
 }
 
 
-AudioPoint::AudioPoint (AudioPoint const & other)
+AudioPoint::AudioPoint(AudioPoint const & other)
 {
 	for (int i = 0; i < COUNT; ++i) {
 		_data[i] = other._data[i];
@@ -54,7 +54,7 @@ AudioPoint::AudioPoint (AudioPoint const & other)
 
 
 AudioPoint &
-AudioPoint::operator= (AudioPoint const & other)
+AudioPoint::operator=(AudioPoint const & other)
 {
 	if (this == &other) {
 		return *this;
@@ -69,7 +69,7 @@ AudioPoint::operator= (AudioPoint const & other)
 
 
 void
-AudioPoint::as_xml (xmlpp::Element* parent) const
+AudioPoint::as_xml(xmlpp::Element* parent) const
 {
 	cxml::add_text_child(parent, "Peak", fmt::to_string(_data[PEAK]));
 	cxml::add_text_child(parent, "RMS", fmt::to_string(_data[RMS]));

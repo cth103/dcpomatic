@@ -31,9 +31,9 @@ namespace dcpomatic {
 class RNG
 {
 public:
-	RNG (int32_t seed);
+	RNG(int32_t seed);
 
-	int32_t get ();
+	int32_t get();
 
 private:
 	uint32_t _state;

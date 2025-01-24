@@ -26,14 +26,14 @@
 using namespace dcpomatic;
 
 
-RNG::RNG (int32_t seed)
-	: _state (static_cast<uint32_t>(seed))
+RNG::RNG(int32_t seed)
+	: _state(static_cast<uint32_t>(seed))
 {
 
 }
 
 
-int32_t RNG::get ()
+int32_t RNG::get()
 {
 	uint32_t const b = ((_state >> 0) ^ (_state >> 1) ^ (_state >> 2) ^ (_state >> 7));
 	_state = (_state >> 1) | (b << 23);

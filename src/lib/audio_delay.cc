@@ -30,18 +30,18 @@ using std::make_shared;
 using std::shared_ptr;
 
 
-AudioDelay::AudioDelay (int samples)
-	: _samples (samples)
+AudioDelay::AudioDelay(int samples)
+	: _samples(samples)
 {
 
 }
 
 
 shared_ptr<AudioBuffers>
-AudioDelay::run (shared_ptr<const AudioBuffers> in)
+AudioDelay::run(shared_ptr<const AudioBuffers> in)
 {
 	/* You can't call this with varying channel counts */
-	DCPOMATIC_ASSERT (!_tail || in->channels() == _tail->channels());
+	DCPOMATIC_ASSERT(!_tail || in->channels() == _tail->channels());
 
 	auto out = make_shared<AudioBuffers>(in->channels(), in->frames());
 
@@ -49,37 +49,37 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 
 		if (!_tail) {
 			/* No tail; use silence */
-			out->make_silent (0, _samples);
+			out->make_silent(0, _samples);
 		} else {
 			/* Copy tail */
-			out->copy_from (_tail.get(), _samples, 0, 0);
+			out->copy_from(_tail.get(), _samples, 0, 0);
 		}
 
 		/* Copy in to out */
-		out->copy_from (in.get(), in->frames() - _samples, 0, _samples);
+		out->copy_from(in.get(), in->frames() - _samples, 0, _samples);
 
 		/* Keep tail */
 		if (!_tail) {
 			_tail = make_shared<AudioBuffers>(in->channels(), _samples);
 		}
-		_tail->copy_from (in.get(), _samples, in->frames() - _samples, 0);
+		_tail->copy_from(in.get(), _samples, in->frames() - _samples, 0);
 
 	} else {
 
 		/* First part of the tail into the output */
 		if (_tail) {
-			out->copy_from (_tail.get(), out->frames(), 0, 0);
+			out->copy_from(_tail.get(), out->frames(), 0, 0);
 		} else {
-			out->make_silent ();
+			out->make_silent();
 			_tail = make_shared<AudioBuffers>(out->channels(), _samples);
-			_tail->make_silent ();
+			_tail->make_silent();
 		}
 
 		/* Shuffle the tail down */
-		_tail->move (_tail->frames() - out->frames(), out->frames(), 0);
+		_tail->move(_tail->frames() - out->frames(), out->frames(), 0);
 
 		/* Copy input into the tail */
-		_tail->copy_from (in.get(), in->frames(), 0, _tail->frames() - in->frames());
+		_tail->copy_from(in.get(), in->frames(), 0, _tail->frames() - in->frames());
 	}
 
 	return out;
@@ -87,7 +87,7 @@ AudioDelay::run (shared_ptr<const AudioBuffers> in)
 
 
 void
-AudioDelay::flush ()
+AudioDelay::flush()
 {
-	_tail.reset ();
+	_tail.reset();
 }

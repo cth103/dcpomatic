@@ -31,9 +31,9 @@ class AudioBuffers;
 class AudioDelay
 {
 public:
-	explicit AudioDelay (int samples);
-	std::shared_ptr<AudioBuffers> run (std::shared_ptr<const AudioBuffers> in);
-	void flush ();
+	explicit AudioDelay(int samples);
+	std::shared_ptr<AudioBuffers> run(std::shared_ptr<const AudioBuffers> in);
+	void flush();
 
 private:
 	std::shared_ptr<AudioBuffers> _tail;

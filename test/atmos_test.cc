@@ -41,7 +41,7 @@ using std::vector;
 using boost::optional;
 
 
-BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
+BOOST_AUTO_TEST_CASE(atmos_passthrough_test)
 {
 	Cleanup cl;
 
@@ -51,16 +51,16 @@ BOOST_AUTO_TEST_CASE (atmos_passthrough_test)
 		&cl
 		);
 
-	make_and_verify_dcp (film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
+	make_and_verify_dcp(film, {dcp::VerificationNote::Code::MISSING_CPL_METADATA});
 
 	auto ref = TestPaths::private_data() / "atmos_asset.mxf";
-	BOOST_REQUIRE (mxf_atmos_files_same(ref, dcp_file(film, "atmos"), true));
+	BOOST_REQUIRE(mxf_atmos_files_same(ref, dcp_file(film, "atmos"), true));
 
-	cl.run ();
+	cl.run();
 }
 
 
-BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
+BOOST_AUTO_TEST_CASE(atmos_encrypted_passthrough_test)
 {
 	Cleanup cl;
 
@@ -68,11 +68,11 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 	auto content = content_factory(TestPaths::private_data() / "atmos_asset.mxf");
 	auto film = new_test_film("atmos_encrypted_passthrough_test", content, &cl);
 
-	film->set_encrypted (true);
-	film->_key = dcp::Key ("4fac12927eb122af1c2781aa91f3a4cc");
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	film->set_encrypted(true);
+	film->_key = dcp::Key("4fac12927eb122af1c2781aa91f3a4cc");
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
-	BOOST_REQUIRE (!mxf_atmos_files_same(ref, dcp_file(film, "atmos")));
+	BOOST_REQUIRE(!mxf_atmos_files_same(ref, dcp_file(film, "atmos")));
 
 	auto signer = Config::instance()->signer_chain();
 	BOOST_REQUIRE(signer->valid());
@@ -81,17 +81,17 @@ BOOST_AUTO_TEST_CASE (atmos_encrypted_passthrough_test)
 	auto const kdm = decrypted_kdm.encrypt(signer, Config::instance()->decryption_chain()->leaf(), {}, dcp::Formulation::MODIFIED_TRANSITIONAL_1, false, {});
 
 	auto content2 = make_shared<DCPContent>(film->dir(film->dcp_name()));
-	content2->add_kdm (kdm);
+	content2->add_kdm(kdm);
 	auto film2 = new_test_film("atmos_encrypted_passthrough_test2", {content2}, &cl);
-	make_and_verify_dcp (film2, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	make_and_verify_dcp(film2, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
-	BOOST_CHECK (mxf_atmos_files_same(ref, dcp_file(film2, "atmos"), true));
+	BOOST_CHECK(mxf_atmos_files_same(ref, dcp_file(film2, "atmos"), true));
 
-	cl.run ();
+	cl.run();
 }
 
 
-BOOST_AUTO_TEST_CASE (atmos_trim_test)
+BOOST_AUTO_TEST_CASE(atmos_trim_test)
 {
 	Cleanup cl;
 
@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_CASE (atmos_trim_test)
 	content[0]->set_trim_start(film, dcpomatic::ContentTime::from_seconds(1));
 
 	/* Just check that the encode runs; I'm not sure how to test the MXF */
-	make_and_verify_dcp (film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
+	make_and_verify_dcp(film, { dcp::VerificationNote::Code::MISSING_CPL_METADATA });
 
 	cl.run();
 }
