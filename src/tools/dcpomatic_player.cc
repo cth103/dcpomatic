@@ -482,8 +482,6 @@ public:
 		_viewer.set_film(_film);
 		_controls->set_film (_film);
 		film_changed();
-		_info->triggered_update ();
-		set_menu_sensitivity();
 	}
 
 	void film_changed()
