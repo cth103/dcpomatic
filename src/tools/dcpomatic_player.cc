@@ -403,10 +403,9 @@ public:
 
 		try {
 			_stress.set_suspended (true);
-			auto dcp = make_shared<DCPContent>(dir);
-			auto job = make_shared<ExamineContentJob>(film, dcp, true);
 
-			auto add_dcp_to_film = [this](weak_ptr<Film> weak_film, weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
+			/* Handler to set things up once the DCP has been examined */
+			auto setup = [this](weak_ptr<Film> weak_film, weak_ptr<Job> weak_job, weak_ptr<Content> weak_content)
 			{
 				auto job = weak_job.lock();
 				if (!job || !job->finished_ok()) {
@@ -425,27 +424,16 @@ public:
 
 				film->add_content(content);
 				_stress.set_suspended(false);
+				reset_film(film);
 			};
 
-			_examine_job_connection = job->Finished.connect(boost::bind<void>(add_dcp_to_film, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
+			auto dcp = make_shared<DCPContent>(dir);
+			auto job = make_shared<ExamineContentJob>(film, dcp, true);
+			_examine_job_connection = job->Finished.connect(boost::bind<void>(setup, weak_ptr<Film>(film), weak_ptr<Job>(job), weak_ptr<Content>(dcp)));
 			JobManager::instance()->add (job);
 			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
-			if (!ok || !report_errors_from_last_job(this)) {
-				return;
-			}
-			Config::instance()->add_to_player_history (dir);
-			if (dcp->video_frame_rate()) {
-				film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
-			}
-			switch (dcp->video_encoding()) {
-			case VideoEncoding::JPEG2000:
-				_viewer.set_optimisation(Optimisation::JPEG2000);
-				break;
-			case VideoEncoding::MPEG2:
-				_viewer.set_optimisation(Optimisation::MPEG2);
-				break;
-			case VideoEncoding::COUNT:
-				DCPOMATIC_ASSERT(false);
+			if (ok && report_errors_from_last_job(this)) {
+				Config::instance()->add_to_player_history(dir);
 			}
 		} catch (ProjectFolderError &) {
 			error_dialog (
@@ -463,8 +451,6 @@ public:
 		} catch (DCPError& e) {
 			error_dialog (this, wxString::Format(_("Could not load a DCP from %s"), std_to_wx(dir.string())), std_to_wx(e.what()));
 		}
-
-		reset_film(film);
 	}
 
 	void reset_film_weak (weak_ptr<Film> weak_film)
@@ -478,12 +464,12 @@ public:
 	void reset_film (shared_ptr<Film> film = shared_ptr<Film>(new Film(optional<boost::filesystem::path>())))
 	{
 		_film = film;
-		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
 		_viewer.set_film(_film);
 		_controls->set_film (_film);
 		film_changed();
 	}
 
+	/* Update anything that depends on properties of the film or its contents */
 	void film_changed()
 	{
 		if (_viewer.playing()) {
@@ -492,6 +478,8 @@ public:
 
 		/* Start off as Flat */
 		_film->set_container (Ratio::from_id("185"));
+
+		_film->set_audio_channels (MAX_DCP_AUDIO_CHANNELS);
 
 		for (auto i: _film->content()) {
 			auto dcp = dynamic_pointer_cast<DCPContent>(i);
@@ -511,6 +499,21 @@ public:
 			/* Any 3D content means we use 3D mode */
 			if (i->video && i->video->frame_type() != VideoFrameType::TWO_D) {
 				_film->set_three_d (true);
+			}
+
+			if (dcp->video_frame_rate()) {
+				_film->set_video_frame_rate(dcp->video_frame_rate().get(), true);
+			}
+
+			switch (dcp->video_encoding()) {
+			case VideoEncoding::JPEG2000:
+				_viewer.set_optimisation(Optimisation::JPEG2000);
+				break;
+			case VideoEncoding::MPEG2:
+				_viewer.set_optimisation(Optimisation::MPEG2);
+				break;
+			case VideoEncoding::COUNT:
+				DCPOMATIC_ASSERT(false);
 			}
 		}
 
@@ -725,16 +728,15 @@ private:
 			DCPOMATIC_ASSERT(!_film->content().empty());
 			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT(dcp);
-			dcp->add_ov (wx_to_std(c->GetPath()));
-			JobManager::instance()->add(make_shared<ExamineContentJob>(_film, dcp, true));
-			bool const ok = display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
-			if (!ok || !report_errors_from_last_job(this)) {
-				return;
-			}
-			film_changed();
-		}
 
-		_info->triggered_update ();
+			dcp->add_ov (wx_to_std(c->GetPath()));
+			auto job = make_shared<ExamineContentJob>(_film, dcp, true);
+			_examine_job_connection = job->Finished.connect(boost::bind(&DOMFrame::film_changed, this));
+			JobManager::instance()->add(job);
+
+			display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
+			report_errors_from_last_job(this);
+		}
 	}
 
 	void file_add_kdm ()
