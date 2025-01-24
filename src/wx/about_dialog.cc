@@ -135,6 +135,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		translated_by.Add(char_to_wx("Dan Cohen"));
 		translated_by.Add(char_to_wx("Akivili Collindort"));
 		translated_by.Add(char_to_wx("Davide Dall'AraCiao"));
+		translated_by.Add(char_to_wx("Евгений Дац"));
 		translated_by.Add(char_to_wx("Uwe Dittes"));
 		translated_by.Add(char_to_wx("Михаил Эпштейн"));
 		translated_by.Add(char_to_wx("William Fanelli"));
