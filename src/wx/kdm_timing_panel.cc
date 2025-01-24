@@ -57,12 +57,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	wxDateTime from;
 	from.SetToCurrent ();
 	_from_date = new wxDatePickerCtrl (this, wxID_ANY, from, wxDefaultPosition, size);
-#ifdef DCPOMATIC_OSX
-	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
-	table->Add (_from_date, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, 4);
-#else
 	table->Add (_from_date, 0, wxALIGN_CENTER_VERTICAL);
-#endif
 
 #ifdef __WXGTK3__
 	_from_time = new TimePickerText (this, from);
@@ -92,12 +87,7 @@ KDMTimingPanel::KDMTimingPanel (wxWindow* parent)
 	}
 
 	_until_date = new wxDatePickerCtrl (this, wxID_ANY, to, wxDefaultPosition, size);
-#ifdef DCPOMATIC_OSX
-	/* Hack to tweak alignment, which I can't get right by "proper" means for some reason */
-	table->Add (_until_date, 0, wxALIGN_CENTER_VERTICAL | wxBOTTOM, 4);
-#else
 	table->Add (_until_date, 0, wxALIGN_CENTER_VERTICAL);
-#endif
 
 #ifdef __WXGTK3__
 	_until_time = new TimePickerText (this, to);
