@@ -111,7 +111,7 @@ msgstr "&Открыть...\tCtrl-O"
 #: src/tools/dcpomatic_kdm.cc:314 src/tools/dcpomatic_player.cc:620
 #: src/tools/dcpomatic_playlist.cc:577
 msgid "&Preferences...\tCtrl-,"
-msgstr "&Настройки...\tCtrl-P,"
+msgstr "&Настройки...\tCtrl-,"
 
 #: src/tools/dcpomatic_batch.cc:100 src/tools/dcpomatic.cc:1380
 #: src/tools/dcpomatic_kdm.cc:317 src/tools/dcpomatic_player.cc:623
