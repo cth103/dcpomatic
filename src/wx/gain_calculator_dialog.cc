@@ -18,6 +18,7 @@
 
 */
 
+
 #include "gain_calculator_dialog.h"
 #include "wx_util.h"
 #include "lib/cinema_sound_processor.h"
@@ -26,29 +27,30 @@
 using boost::optional;
 
 
-GainCalculatorDialog::GainCalculatorDialog (wxWindow* parent)
-	: TableDialog (parent, _("Gain Calculator"), 2, 1, true)
+GainCalculatorDialog::GainCalculatorDialog(wxWindow* parent)
+	: TableDialog(parent, _("Gain Calculator"), 2, 1, true)
 {
-	add (_("Sound processor"), true);
-	_processor = add (new wxChoice(this, wxID_ANY));
+	add(_("Sound processor"), true);
+	_processor = add(new wxChoice(this, wxID_ANY));
 
-	add (_("I want to play this back at fader"), true);
+	add(_("I want to play this back at fader"), true);
 	_wanted = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC)));
 
-	add (_("But I have to use fader"), true);
+	add(_("But I have to use fader"), true);
 	_actual = add(new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, 0, wxTextValidator(wxFILTER_NUMERIC)));
 
 	for (auto i: CinemaSoundProcessor::all()) {
-		_processor->Append (std_to_wx(i->name()));
+		_processor->Append(std_to_wx(i->name()));
 	}
 
-	_processor->SetSelection (0);
+	_processor->SetSelection(0);
 
-	layout ();
+	layout();
 }
 
+
 optional<float>
-GainCalculatorDialog::db_change () const
+GainCalculatorDialog::db_change() const
 {
 	if (_wanted->GetValue().IsEmpty() || _actual->GetValue().IsEmpty()) {
 		return {};

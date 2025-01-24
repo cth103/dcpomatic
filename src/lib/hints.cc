@@ -73,37 +73,37 @@ using namespace boost::placeholders;
  */
 
 
-Hints::Hints (weak_ptr<const Film> weak_film)
-	: WeakConstFilm (weak_film)
+Hints::Hints(weak_ptr<const Film> weak_film)
+	: WeakConstFilm(weak_film)
 	, _writer(new Writer(weak_film, weak_ptr<Job>(), film()->dir("hints") / dcpomatic::get_process_id(), true))
-	, _analyser (film(), film()->playlist(), true, [](float) {})
-	, _stop (false)
+	, _analyser(film(), film()->playlist(), true, [](float) {})
+	, _stop(false)
 {
 
 }
 
 
 void
-Hints::start ()
+Hints::start()
 {
 	_thread = boost::thread(boost::bind(&Hints::thread, this));
 }
 
 
-Hints::~Hints ()
+Hints::~Hints()
 {
 	boost::this_thread::disable_interruption dis;
 
 	try {
 		_stop = true;
-		_thread.interrupt ();
-		_thread.join ();
+		_thread.interrupt();
+		_thread.join();
 	} catch (...) {}
 }
 
 
 void
-Hints::check_few_audio_channels ()
+Hints::check_few_audio_channels()
 {
 	if (film()->audio_channels() < 6) {
 		hint(
@@ -118,7 +118,7 @@ Hints::check_few_audio_channels ()
 
 
 void
-Hints::check_upmixers ()
+Hints::check_upmixers()
 {
 	auto ap = film()->audio_processor();
 	if (ap && (ap->id() == "stereo-5.1-upmix-a" || ap->id() == "stereo-5.1-upmix-b")) {
@@ -133,7 +133,7 @@ Hints::check_upmixers ()
 
 
 void
-Hints::check_incorrect_container ()
+Hints::check_incorrect_container()
 {
 	int narrower_than_scope = 0;
 	int scope = 0;
@@ -151,21 +151,21 @@ Hints::check_incorrect_container ()
 	string const film_container = film()->container()->id();
 
 	if (scope && !narrower_than_scope && film_container == "185") {
-		hint (_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
+		hint(_("All of your content is in Scope (2.39:1) but your DCP's container is Flat (1.85:1).  This will letter-box your content inside a Flat (1.85:1) frame.  You may prefer to set your DCP's container to Scope (2.39:1) in the \"DCP\" tab."));
 	}
 
 	if (!scope && narrower_than_scope && film_container == "239") {
-		hint (_("All of your content narrower than 1.90:1 but your DCP's container is Scope (2.39:1).  This will pillar-box your content.  You may prefer to set your DCP's container to have the same ratio as your content."));
+		hint(_("All of your content narrower than 1.90:1 but your DCP's container is Scope (2.39:1).  This will pillar-box your content.  You may prefer to set your DCP's container to have the same ratio as your content."));
 	}
 }
 
 
 void
-Hints::check_unusual_container ()
+Hints::check_unusual_container()
 {
 	auto const film_container = film()->container()->id();
 	if (film()->video_encoding() != VideoEncoding::MPEG2 && film_container != "185" && film_container != "239") {
-		hint (_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio."));
+		hint(_("Your DCP uses an unusual container ratio.  This may cause problems on some projectors.  If possible, use Flat or Scope for the DCP container ratio."));
 	}
 }
 
@@ -174,15 +174,15 @@ void
 Hints::check_high_video_bit_rate()
 {
 	if (film()->video_encoding() == VideoEncoding::JPEG2000 && film()->video_bit_rate(VideoEncoding::JPEG2000) >= 245000000) {
-		hint (_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the video bit rate down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
+		hint(_("A few projectors have problems playing back very high bit-rate DCPs.  It is a good idea to drop the video bit rate down to about 200Mbit/s; this is unlikely to have any visible effect on the image."));
 	}
 }
 
 
 void
-Hints::check_frame_rate ()
+Hints::check_frame_rate()
 {
-	auto f = film ();
+	auto f = film();
 	switch (f->video_frame_rate()) {
 	case 24:
 		/* Fine */
@@ -195,35 +195,35 @@ Hints::check_frame_rate ()
 			base += "  ";
 			base += _("If you do use 25fps you should change your DCP standard to SMPTE.");
 		}
-		hint (base);
+		hint(base);
 		break;
 	}
 	case 30:
 		/* 30fps: we can't really offer any decent solutions */
-		hint (_("You are set up for a DCP frame rate of 30fps, which is not supported by all projectors.  Be aware that you may have compatibility problems."));
+		hint(_("You are set up for a DCP frame rate of 30fps, which is not supported by all projectors.  Be aware that you may have compatibility problems."));
 		break;
 	case 48:
 	case 50:
 	case 60:
 		/* You almost certainly want to go to half frame rate */
-		hint (String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  It is advisable to change the DCP frame rate to %2 fps."), f->video_frame_rate(), f->video_frame_rate() / 2));
+		hint(String::compose(_("You are set up for a DCP at a frame rate of %1 fps.  This frame rate is not supported by all projectors.  It is advisable to change the DCP frame rate to %2 fps."), f->video_frame_rate(), f->video_frame_rate() / 2));
 		break;
 	}
 }
 
 
 void
-Hints::check_4k_3d ()
+Hints::check_4k_3d()
 {
 	auto f = film();
 	if (f->resolution() == Resolution::FOUR_K && f->three_d()) {
-		hint (_("4K 3D is only supported by a very limited number of projectors.  Unless you know that you will play this DCP back on a capable projector, it is advisable to set the DCP to be 2K in the \"DCP→Video\" tab."));
+		hint(_("4K 3D is only supported by a very limited number of projectors.  Unless you know that you will play this DCP back on a capable projector, it is advisable to set the DCP to be 2K in the \"DCP→Video\" tab."));
 	}
 }
 
 
 void
-Hints::check_speed_up ()
+Hints::check_speed_up()
 {
 	optional<double> lowest_speed_up;
 	optional<double> highest_speed_up;
@@ -242,21 +242,21 @@ Hints::check_speed_up ()
 		worst_speed_up = *highest_speed_up;
 	}
 	if (lowest_speed_up) {
-		worst_speed_up = max (worst_speed_up, 1 / *lowest_speed_up);
+		worst_speed_up = max(worst_speed_up, 1 / *lowest_speed_up);
 	}
 
 	if (worst_speed_up > 25.5/24.0) {
-		hint (_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  It is advisable to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
+		hint(_("There is a large difference between the frame rate of your DCP and that of some of your content.  This will cause your audio to play back at a much lower or higher pitch than it should.  It is advisable to set your DCP frame rate to one closer to your content, provided that your target projection systems support your chosen DCP rate."));
 	}
 
 }
 
 
 void
-Hints::check_interop ()
+Hints::check_interop()
 {
 	if (film()->interop()) {
-		hint (_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  It is advisable to set your DCP to use the SMPTE standard in the \"DCP\" tab."));
+		hint(_("In general it is now advisable to make SMPTE DCPs unless you have a particular reason to use Interop.  It is advisable to set your DCP to use the SMPTE standard in the \"DCP\" tab."));
 	}
 }
 
@@ -271,14 +271,14 @@ Hints::check_video_encoding()
 
 
 void
-Hints::check_big_font_files ()
+Hints::check_big_font_files()
 {
 	bool big_font_files = false;
-	if (film()->interop ()) {
+	if (film()->interop()) {
 		for (auto i: film()->content()) {
 			for (auto j: i->text) {
 				for (auto k: j->fonts()) {
-					auto const p = k->file ();
+					auto const p = k->file();
 					if (p && dcp::filesystem::file_size(p.get()) >= (MAX_FONT_FILE_SIZE - SIZE_SLACK)) {
 						big_font_files = true;
 					}
@@ -288,13 +288,13 @@ Hints::check_big_font_files ()
 	}
 
 	if (big_font_files) {
-		hint (_("You have specified a font file which is larger than 640kB.  This is very likely to cause problems on playback."));
+		hint(_("You have specified a font file which is larger than 640kB.  This is very likely to cause problems on playback."));
 	}
 }
 
 
 void
-Hints::check_vob ()
+Hints::check_vob()
 {
 	int vob = 0;
 	for (auto i: film()->content()) {
@@ -304,13 +304,13 @@ Hints::check_vob ()
 	}
 
 	if (vob > 1) {
-		hint (String::compose (_("You have %1 files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
+		hint(String::compose(_("You have %1 files that look like they are VOB files from DVD. You should join them to ensure smooth joins between the files."), vob));
 	}
 }
 
 
 void
-Hints::check_3d_in_2d ()
+Hints::check_3d_in_2d()
 {
 	int three_d = 0;
 	for (auto i: film()->content()) {
@@ -320,14 +320,14 @@ Hints::check_3d_in_2d ()
 	}
 
 	if (three_d > 0 && !film()->three_d()) {
-		hint (_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
+		hint(_("You are using 3D content but your DCP is set to 2D.  Set the DCP to 3D if you want to play it back on a 3D system (e.g. Real-D, MasterImage etc.)"));
 	}
 }
 
 
 /** @return true if the loudness could be checked, false if it could not because no analysis was available */
 bool
-Hints::check_loudness ()
+Hints::check_loudness()
 {
 	auto path = film()->audio_analysis_path(film()->playlist());
 	if (!dcp::filesystem::exists(path)) {
@@ -339,18 +339,18 @@ Hints::check_loudness ()
 
 		string ch;
 
-		auto sample_peak = an->sample_peak ();
-		auto true_peak = an->true_peak ();
+		auto sample_peak = an->sample_peak();
+		auto true_peak = an->true_peak();
 
 		for (size_t i = 0; i < sample_peak.size(); ++i) {
-			float const peak = max (sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
+			float const peak = max(sample_peak[i].peak, true_peak.empty() ? 0 : true_peak[i]);
 			float const peak_dB = linear_to_db(peak) + an->gain_correction(film()->playlist());
 			if (peak_dB > -3) {
 				ch += fmt::to_string(short_audio_channel_name(i)) + ", ";
 			}
 		}
 
-		ch = ch.substr (0, ch.length() - 2);
+		ch = ch.substr(0, ch.length() - 2);
 
 		if (!ch.empty()) {
 			hint(String::compose(
@@ -377,12 +377,12 @@ subtitle_mxf_too_big(shared_ptr<dcp::TextAsset> asset)
 
 
 void
-Hints::check_out_of_range_markers ()
+Hints::check_out_of_range_markers()
 {
 	auto const length = film()->length();
 	for (auto const& i: film()->markers()) {
 		if (i.second >= length) {
-			hint (_("At least one marker comes after the end of the project and will be ignored."));
+			hint(_("At least one marker comes after the end of the project and will be ignored."));
 		}
 	}
 }
@@ -456,44 +456,44 @@ Hints::scan_content(shared_ptr<const Film> film)
 
 
 void
-Hints::thread ()
+Hints::thread()
 try
 {
-	start_of_thread ("Hints");
+	start_of_thread("Hints");
 
-	auto film = _film.lock ();
+	auto film = _film.lock();
 	if (!film) {
 		return;
 	}
 
-	auto content = film->content ();
+	auto content = film->content();
 
-	check_certificates ();
-	check_interop ();
+	check_certificates();
+	check_interop();
 	check_video_encoding();
-	check_big_font_files ();
-	check_few_audio_channels ();
-	check_upmixers ();
-	check_incorrect_container ();
-	check_unusual_container ();
+	check_big_font_files();
+	check_few_audio_channels();
+	check_upmixers();
+	check_incorrect_container();
+	check_unusual_container();
 	check_high_video_bit_rate();
-	check_frame_rate ();
-	check_4k_3d ();
-	check_speed_up ();
-	check_vob ();
-	check_3d_in_2d ();
-	check_ffec_and_ffmc_in_smpte_feature ();
-	check_out_of_range_markers ();
+	check_frame_rate();
+	check_4k_3d();
+	check_speed_up();
+	check_vob();
+	check_3d_in_2d();
+	check_ffec_and_ffmc_in_smpte_feature();
+	check_out_of_range_markers();
 	check_subtitle_languages();
-	check_audio_language ();
+	check_audio_language();
 	check_8_or_16_audio_channels();
 
 	scan_content(film);
 
 	if (_long_subtitle && !_very_long_subtitle) {
-		hint (_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));
+		hint(_("At least one of your subtitle lines has more than 52 characters.  It is recommended to make each line 52 characters at most in length."));
 	} else if (_very_long_subtitle) {
-		hint (_("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length."));
+		hint(_("At least one of your subtitle lines has more than 79 characters.  You should make each line 79 characters at most in length."));
 	}
 
 	bool ccap_xml_too_big = false;
@@ -505,20 +505,20 @@ try
 
 	_writer->finish();
 
-	dcp::DCP dcp (dcp_dir);
-	dcp.read ();
-	DCPOMATIC_ASSERT (dcp.cpls().size() == 1);
+	dcp::DCP dcp(dcp_dir);
+	dcp.read();
+	DCPOMATIC_ASSERT(dcp.cpls().size() == 1);
 	for (auto reel: dcp.cpls()[0]->reels()) {
 		for (auto ccap: reel->closed_captions()) {
 			if (ccap->asset() && ccap->asset()->xml_as_string().length() > static_cast<size_t>(MAX_CLOSED_CAPTION_XML_SIZE - SIZE_SLACK) && !ccap_xml_too_big) {
-				hint (_(
+				hint(_(
 						"At least one of your closed caption files' XML part is larger than " MAX_CLOSED_CAPTION_XML_SIZE_TEXT
 						".  You should divide the DCP into shorter reels."
 				       ));
 				ccap_xml_too_big = true;
 			}
 			if (subtitle_mxf_too_big(ccap->asset()) && !ccap_mxf_too_big) {
-				hint (_(
+				hint(_(
 						"At least one of your closed caption files is larger than " MAX_TEXT_MXF_SIZE_TEXT
 						" in total.  You should divide the DCP into shorter reels."
 				       ));
@@ -526,7 +526,7 @@ try
 			}
 		}
 		if (reel->main_subtitle() && subtitle_mxf_too_big(reel->main_subtitle()->asset()) && !subs_mxf_too_big) {
-			hint (_(
+			hint(_(
 					"At least one of your subtitle files is larger than " MAX_TEXT_MXF_SIZE_TEXT " in total.  "
 					"You should divide the DCP into shorter reels."
 			       ));
@@ -543,36 +543,36 @@ catch (boost::thread_interrupted)
 }
 catch (...)
 {
-	store_current ();
+	store_current();
 	emit(boost::bind(boost::ref(Finished)));
 }
 
 
 void
-Hints::hint (string h)
+Hints::hint(string h)
 {
 	emit(boost::bind(boost::ref(Hint), h));
 }
 
 
 void
-Hints::audio (shared_ptr<AudioBuffers> audio, DCPTime time)
+Hints::audio(shared_ptr<AudioBuffers> audio, DCPTime time)
 {
-	_analyser.analyse (audio, time);
+	_analyser.analyse(audio, time);
 }
 
 
 void
-Hints::text (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
+Hints::text(PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTimePeriod period)
 {
-	_writer->write (text, type, track, period);
+	_writer->write(text, type, track, period);
 
 	switch (type) {
 	case TextType::CLOSED_CAPTION:
-		closed_caption (text, period);
+		closed_caption(text, period);
 		break;
 	case TextType::OPEN_SUBTITLE:
-		open_subtitle (text, period);
+		open_subtitle(text, period);
 		break;
 	default:
 		break;
@@ -581,7 +581,7 @@ Hints::text (PlayerText text, TextType type, optional<DCPTextTrack> track, DCPTi
 
 
 void
-Hints::closed_caption (PlayerText text, DCPTimePeriod period)
+Hints::closed_caption(PlayerText text, DCPTimePeriod period)
 {
 	int lines = text.string.size();
 	for (auto i: text.string) {
@@ -589,7 +589,7 @@ Hints::closed_caption (PlayerText text, DCPTimePeriod period)
 			++lines;
 			if (!_long_ccap) {
 				_long_ccap = true;
-				hint (
+				hint(
 					String::compose(
 						"At least one of your closed caption lines has more than %1 characters.  "
 						"It is advisable to make each line %1 characters at most in length.",
@@ -601,14 +601,14 @@ Hints::closed_caption (PlayerText text, DCPTimePeriod period)
 	}
 
 	if (!_too_many_ccap_lines && lines > MAX_CLOSED_CAPTION_LINES) {
-		hint (String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), MAX_CLOSED_CAPTION_LINES));
+		hint(String::compose(_("Some of your closed captions span more than %1 lines, so they will be truncated."), MAX_CLOSED_CAPTION_LINES));
 		_too_many_ccap_lines = true;
 	}
 
 	/* XXX: maybe overlapping closed captions (i.e. different languages) are OK with Interop? */
 	if (film()->interop() && !_overlap_ccap && _last_ccap && _last_ccap->overlap(period)) {
 		_overlap_ccap = true;
-		hint (_("You have overlapping closed captions, which are not allowed in Interop DCPs.  Change your DCP standard to SMPTE."));
+		hint(_("You have overlapping closed captions, which are not allowed in Interop DCPs.  Change your DCP standard to SMPTE."));
 	}
 
 	_last_ccap = period;
@@ -616,23 +616,23 @@ Hints::closed_caption (PlayerText text, DCPTimePeriod period)
 
 
 void
-Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
+Hints::open_subtitle(PlayerText text, DCPTimePeriod period)
 {
 	if (period.from < DCPTime::from_seconds(4) && !_early_subtitle) {
 		_early_subtitle = true;
-		hint (_("It is advisable to put your first subtitle at least 4 seconds after the start of the DCP to make sure it is seen."));
+		hint(_("It is advisable to put your first subtitle at least 4 seconds after the start of the DCP to make sure it is seen."));
 	}
 
-	int const vfr = film()->video_frame_rate ();
+	int const vfr = film()->video_frame_rate();
 
 	if (period.duration().frames_round(vfr) < 15 && !_short_subtitle) {
 		_short_subtitle = true;
-		hint (_("At least one of your subtitles lasts less than 15 frames.  It is advisable to make each subtitle at least 15 frames long."));
+		hint(_("At least one of your subtitles lasts less than 15 frames.  It is advisable to make each subtitle at least 15 frames long."));
 	}
 
 	if (_last_subtitle && DCPTime(period.from - _last_subtitle->to).frames_round(vfr) < 2 && !_subtitles_too_close) {
 		_subtitles_too_close = true;
-		hint (_("At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames."));
+		hint(_("At least one of your subtitles starts less than 2 frames after the previous one.  It is advisable to make the gap between subtitles at least 2 frames."));
 	}
 
 	struct VPos
@@ -660,12 +660,12 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 
 	if (lines.size() > 3 && !_too_many_subtitle_lines) {
 		_too_many_subtitle_lines = true;
-		hint (_("At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines."));
+		hint(_("At least one of your subtitles has more than 3 lines.  It is advisable to use no more than 3 lines."));
 	}
 
 	size_t longest_line = 0;
 	for (auto const& i: text.string) {
-		longest_line = max (longest_line, i.text().length());
+		longest_line = max(longest_line, i.text().length());
 	}
 
 	if (longest_line > 52) {
@@ -681,19 +681,19 @@ Hints::open_subtitle (PlayerText text, DCPTimePeriod period)
 
 
 void
-Hints::check_ffec_and_ffmc_in_smpte_feature ()
+Hints::check_ffec_and_ffmc_in_smpte_feature()
 {
 	auto f = film();
 	if (!f->interop() && f->dcp_content_type()->libdcp_kind() == dcp::ContentKind::FEATURE && (!f->marker(dcp::Marker::FFEC) || !f->marker(dcp::Marker::FFMC))) {
-		hint (_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the \"DCP\" tab."));
+		hint(_("SMPTE DCPs with the type FTR (feature) should have markers for the first frame of end credits (FFEC) and the first frame of moving credits (FFMC).  You should add these markers using the 'Markers' button in the \"DCP\" tab."));
 	}
 }
 
 
 void
-Hints::join ()
+Hints::join()
 {
-	_thread.join ();
+	_thread.join();
 }
 
 
@@ -703,7 +703,7 @@ Hints::check_subtitle_languages()
 	for (auto i: film()->content()) {
 		for (auto j: i->text) {
 			if (j->use() && j->type() == TextType::OPEN_SUBTITLE && !j->language()) {
-				hint (_("At least one piece of subtitle content has no specified language.  "
+				hint(_("At least one piece of subtitle content has no specified language.  "
 					"It is advisable to set the language for each piece of subtitle content "
 					"in the \"Content→Timed text\" or \"Content→Open subtitles\" tab."));
 				return;
@@ -714,7 +714,7 @@ Hints::check_subtitle_languages()
 
 
 void
-Hints::check_audio_language ()
+Hints::check_audio_language()
 {
 	auto content = film()->content();
 	auto mapped_audio =
@@ -723,14 +723,14 @@ Hints::check_audio_language ()
 		});
 
 	if (mapped_audio != content.end() && !film()->audio_language()) {
-		hint (_("Some of your content has audio but you have not set the audio language.  It is advisable to set the audio language "
+		hint(_("Some of your content has audio but you have not set the audio language.  It is advisable to set the audio language "
 			"in the \"DCP\" tab unless your audio has no spoken parts."));
 	}
 }
 
 
 void
-Hints::check_certificates ()
+Hints::check_certificates()
 {
 	auto bad = Config::instance()->check_certificates();
 	if (!bad) {

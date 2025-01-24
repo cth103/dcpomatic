@@ -62,7 +62,7 @@ Filter::Filter(string id, string name, string category, string ffmpeg_string)
 
 /** @return All available filters */
 vector<Filter>
-Filter::all ()
+Filter::all()
 {
 	return _filters;
 }
@@ -72,7 +72,7 @@ Filter::all ()
  *  methods are used.
  */
 void
-Filter::setup_filters ()
+Filter::setup_filters()
 {
 	/* Note: "none" is a magic id name, so don't use it here */
 
@@ -89,22 +89,22 @@ Filter::setup_filters ()
 		}
 	};
 
-	maybe_add (N_("vflip"),       _("Vertical flip"),                    _("Orientation"),     N_("vflip"));
-	maybe_add (N_("hflip"),       _("Horizontal flip"),                  _("Orientation"),     N_("hflip"));
-	maybe_add (N_("90clock"),     _("Rotate 90 degrees clockwise"),      _("Orientation"),     N_("transpose=dir=clock"));
-	maybe_add (N_("90anticlock"), _("Rotate 90 degrees anti-clockwise"), _("Orientation"),     N_("transpose=dir=cclock"));
-	maybe_add (N_("mcdeint"),     _("Motion compensating deinterlacer"), _("De-interlacing"),  N_("mcdeint"));
-	maybe_add (N_("kerndeint"),   _("Kernel deinterlacer"),		     _("De-interlacing"),  N_("kerndeint"));
-	maybe_add (N_("yadif"),	      _("Yet Another Deinterlacing Filter"), _("De-interlacing"),  N_("yadif"));
-	maybe_add (N_("bwdif"),	      _("Bob Weaver Deinterlacing Filter"),  _("De-interlacing"),  N_("bwdif"));
-	maybe_add (N_("weave"),	      _("Weave filter"),                     _("De-interlacing"),  N_("weave"));
-	maybe_add (N_("gradfun"),     _("Gradient debander"),	             _("Misc"),	           N_("gradfun"));
-	maybe_add (N_("unsharp"),     _("Unsharp mask and Gaussian blur"),   _("Misc"),	           N_("unsharp"));
-	maybe_add (N_("denoise3d"),   _("3D denoiser"),		             _("Noise reduction"), N_("denoise3d"));
-	maybe_add (N_("hqdn3d"),      _("High quality 3D denoiser"),         _("Noise reduction"), N_("hqdn3d"));
-	maybe_add (N_("telecine"),    _("Telecine filter"),	             _("Misc"),	           N_("telecine"));
-	maybe_add (N_("ow"),	      _("Overcomplete wavelet denoiser"),    _("Noise reduction"), N_("mp=ow"));
-	maybe_add (N_("premultiply"), _("Premultiply alpha channel"),        _("Misc"),            N_("premultiply=inplace=1"));
+	maybe_add(N_("vflip"),       _("Vertical flip"),                     _("Orientation"),     N_("vflip"));
+	maybe_add(N_("hflip"),       _("Horizontal flip"),                   _("Orientation"),     N_("hflip"));
+	maybe_add(N_("90clock"),     _("Rotate 90 degrees clockwise"),       _("Orientation"),     N_("transpose=dir=clock"));
+	maybe_add(N_("90anticlock"), _("Rotate 90 degrees anti-clockwise"),  _("Orientation"),     N_("transpose=dir=cclock"));
+	maybe_add(N_("mcdeint"),     _("Motion compensating deinterlacer"),  _("De-interlacing"),  N_("mcdeint"));
+	maybe_add(N_("kerndeint"),   _("Kernel deinterlacer"),		     _("De-interlacing"),  N_("kerndeint"));
+	maybe_add(N_("yadif"),	     _("Yet Another Deinterlacing Filter"),  _("De-interlacing"),  N_("yadif"));
+	maybe_add(N_("bwdif"),	     _("Bob Weaver Deinterlacing Filter"),   _("De-interlacing"),  N_("bwdif"));
+	maybe_add(N_("weave"),	     _("Weave filter"),                      _("De-interlacing"),  N_("weave"));
+	maybe_add(N_("gradfun"),     _("Gradient debander"),	             _("Misc"),	           N_("gradfun"));
+	maybe_add(N_("unsharp"),     _("Unsharp mask and Gaussian blur"),    _("Misc"),	           N_("unsharp"));
+	maybe_add(N_("denoise3d"),   _("3D denoiser"),		             _("Noise reduction"), N_("denoise3d"));
+	maybe_add(N_("hqdn3d"),      _("High quality 3D denoiser"),          _("Noise reduction"), N_("hqdn3d"));
+	maybe_add(N_("telecine"),    _("Telecine filter"),	             _("Misc"),	           N_("telecine"));
+	maybe_add(N_("ow"),	     _("Overcomplete wavelet denoiser"),     _("Noise reduction"), N_("mp=ow"));
+	maybe_add(N_("premultiply"), _("Premultiply alpha channel"),         _("Misc"),            N_("premultiply=inplace=1"));
 }
 
 
@@ -117,7 +117,7 @@ Filter::ffmpeg_string(vector<Filter> const& filters)
 	string ff;
 
 	for (auto const& i: filters) {
-		if (!ff.empty ()) {
+		if (!ff.empty()) {
 			ff += N_(",");
 		}
 		ff += i.ffmpeg();

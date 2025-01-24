@@ -20,7 +20,6 @@
 
 
 #include "table_dialog.h"
-#include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
 LIBDCP_ENABLE_WARNINGS
@@ -30,9 +29,9 @@ LIBDCP_ENABLE_WARNINGS
 class GainCalculatorDialog : public TableDialog
 {
 public:
-	explicit GainCalculatorDialog (wxWindow* parent);
+	explicit GainCalculatorDialog(wxWindow* parent);
 
-	boost::optional<float> db_change () const;
+	boost::optional<float> db_change() const;
 
 private:
 	wxChoice* _processor;

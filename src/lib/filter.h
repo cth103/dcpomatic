@@ -28,9 +28,9 @@
 #define DCPOMATIC_FILTER_H
 
 
-#include <boost/optional.hpp>
 #include <string>
 #include <vector>
+#include <boost/optional.hpp>
 
 
 /** @class Filter
@@ -46,27 +46,27 @@ public:
 	Filter(std::string id, std::string name, std::string category, std::string ffmpeg_string);
 
 	/** @return our id */
-	std::string id () const {
+	std::string id() const {
 		return _id;
 	}
 
 	/** @return user-visible name */
-	std::string name () const {
+	std::string name() const {
 		return _name;
 	}
 
 	/** @return string for a FFmpeg filter descriptor */
-	std::string ffmpeg () const {
+	std::string ffmpeg() const {
 		return _ffmpeg;
 	}
 
-	std::string category () const {
+	std::string category() const {
 		return _category;
 	}
 
-	static std::vector<Filter> all ();
+	static std::vector<Filter> all();
 	static boost::optional<Filter> from_id(std::string d);
-	static void setup_filters ();
+	static void setup_filters();
 	static std::string ffmpeg_string(std::vector<Filter> const& filters);
 
 private:

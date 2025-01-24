@@ -39,10 +39,10 @@ class Writer;
 class Hints : public Signaller, public ExceptionStore, public WeakConstFilm
 {
 public:
-	explicit Hints (std::weak_ptr<const Film> film);
-	~Hints ();
+	explicit Hints(std::weak_ptr<const Film> film);
+	~Hints();
 
-	void start ();
+	void start();
 
 	boost::signals2::signal<void (std::string)> Hint;
 	boost::signals2::signal<void (std::string)> Progress;
@@ -50,42 +50,42 @@ public:
 	boost::signals2::signal<void (void)> Finished;
 
 	/* For tests only */
-	void join ();
-	void disable_audio_analysis () {
+	void join();
+	void disable_audio_analysis() {
 		_disable_audio_analysis = true;
 	}
 
 private:
 	friend struct hint_subtitle_too_early;
 
-	void thread ();
+	void thread();
 	void scan_content(std::shared_ptr<const Film> film);
-	void hint (std::string h);
-	void audio (std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time);
-	void text (PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
-	void closed_caption (PlayerText text, dcpomatic::DCPTimePeriod period);
-	void open_subtitle (PlayerText text, dcpomatic::DCPTimePeriod period);
+	void hint(std::string h);
+	void audio(std::shared_ptr<AudioBuffers> audio, dcpomatic::DCPTime time);
+	void text(PlayerText text, TextType type, boost::optional<DCPTextTrack> track, dcpomatic::DCPTimePeriod period);
+	void closed_caption(PlayerText text, dcpomatic::DCPTimePeriod period);
+	void open_subtitle(PlayerText text, dcpomatic::DCPTimePeriod period);
 
 
-	void check_certificates ();
-	void check_interop ();
+	void check_certificates();
+	void check_interop();
 	void check_video_encoding();
-	void check_big_font_files ();
-	void check_few_audio_channels ();
-	void check_upmixers ();
-	void check_incorrect_container ();
-	void check_unusual_container ();
+	void check_big_font_files();
+	void check_few_audio_channels();
+	void check_upmixers();
+	void check_incorrect_container();
+	void check_unusual_container();
 	void check_high_video_bit_rate();
-	void check_frame_rate ();
-	void check_4k_3d ();
-	void check_speed_up ();
-	void check_vob ();
-	void check_3d_in_2d ();
-	bool check_loudness ();
-	void check_ffec_and_ffmc_in_smpte_feature ();
-	void check_out_of_range_markers ();
+	void check_frame_rate();
+	void check_4k_3d();
+	void check_speed_up();
+	void check_vob();
+	void check_3d_in_2d();
+	bool check_loudness();
+	void check_ffec_and_ffmc_in_smpte_feature();
+	void check_out_of_range_markers();
 	void check_subtitle_languages();
-	void check_audio_language ();
+	void check_audio_language();
 	void check_8_or_16_audio_channels();
 
 	boost::thread _thread;
