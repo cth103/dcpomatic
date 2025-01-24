@@ -99,9 +99,9 @@ ScreensPanel::ScreensPanel (wxWindow* parent)
 	auto check_buttons = new wxBoxSizer (wxVERTICAL);
 
 	_check_all = new Button (this, _("Check all"));
-	check_buttons->Add (_check_all, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	check_buttons->Add(_check_all, 1, wxEXPAND | wxBOTTOM | wxTOP, DCPOMATIC_BUTTON_STACK_GAP);
 	_uncheck_all = new Button (this, _("Uncheck all"));
-	check_buttons->Add (_uncheck_all, 1, wxEXPAND | wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	check_buttons->Add(_uncheck_all, 1, wxEXPAND | wxBOTTOM | wxTOP, DCPOMATIC_BUTTON_STACK_GAP);
 
 	side_buttons->Add (check_buttons, 1, wxEXPAND | wxTOP, DCPOMATIC_BUTTON_STACK_GAP * 8);
 
