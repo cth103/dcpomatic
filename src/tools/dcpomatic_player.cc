@@ -461,7 +461,7 @@ public:
 		}
 	}
 
-	void reset_film (shared_ptr<Film> film = shared_ptr<Film>(new Film(optional<boost::filesystem::path>())))
+	void reset_film(shared_ptr<Film> film = std::make_shared<Film>(boost::none))
 	{
 		_film = film;
 		_viewer.set_film(_film);
