@@ -95,86 +95,86 @@ struct recover_test_2d_encrypted;
 class Film : public std::enable_shared_from_this<Film>, public Signaller
 {
 public:
-	explicit Film (boost::optional<boost::filesystem::path> dir);
-	~Film ();
+	explicit Film(boost::optional<boost::filesystem::path> dir);
+	~Film();
 
-	Film (Film const&) = delete;
-	Film& operator= (Film const&) = delete;
+	Film(Film const&) = delete;
+	Film& operator=(Film const&) = delete;
 
-	boost::filesystem::path j2c_path (int, Frame, Eyes, bool) const;
+	boost::filesystem::path j2c_path(int, Frame, Eyes, bool) const;
 
-	boost::filesystem::path audio_analysis_path (std::shared_ptr<const Playlist>) const;
-	boost::filesystem::path subtitle_analysis_path (std::shared_ptr<const Content>) const;
+	boost::filesystem::path audio_analysis_path(std::shared_ptr<const Playlist>) const;
+	boost::filesystem::path subtitle_analysis_path(std::shared_ptr<const Content>) const;
 	boost::filesystem::path assets_path() const;
 
-	void send_dcp_to_tms ();
+	void send_dcp_to_tms();
 
 	/** @return Logger.
 	 *  It is safe to call this from any thread.
 	 */
-	std::shared_ptr<Log> log () const {
+	std::shared_ptr<Log> log() const {
 		return _log;
 	}
 
-	boost::filesystem::path file (boost::filesystem::path f) const;
-	boost::filesystem::path dir (boost::filesystem::path d, bool create = true) const;
+	boost::filesystem::path file(boost::filesystem::path f) const;
+	boost::filesystem::path dir(boost::filesystem::path d, bool create = true) const;
 
 	void use_template(boost::optional<std::string> name);
-	std::list<std::string> read_metadata (boost::optional<boost::filesystem::path> path = boost::optional<boost::filesystem::path> ());
-	void write_metadata ();
-	void write_metadata (boost::filesystem::path path) const;
-	void write_template (boost::filesystem::path path) const;
-	std::shared_ptr<xmlpp::Document> metadata (bool with_content_paths = true) const;
+	std::list<std::string> read_metadata(boost::optional<boost::filesystem::path> path = boost::optional<boost::filesystem::path>());
+	void write_metadata();
+	void write_metadata(boost::filesystem::path path) const;
+	void write_template(boost::filesystem::path path) const;
+	std::shared_ptr<xmlpp::Document> metadata(bool with_content_paths = true) const;
 
-	void copy_from (std::shared_ptr<const Film> film);
+	void copy_from(std::shared_ptr<const Film> film);
 
-	std::string isdcf_name (bool if_created_now) const;
-	std::string dcp_name (bool if_created_now = false) const;
+	std::string isdcf_name(bool if_created_now) const;
+	std::string dcp_name(bool if_created_now = false) const;
 
 	/** @return true if our state has changed since we last saved it */
-	bool dirty () const {
+	bool dirty() const {
 		return _dirty;
 	}
 
-	dcp::Size full_frame () const;
-	dcp::Size frame_size () const;
-	dcp::Size active_area () const;
+	dcp::Size full_frame() const;
+	dcp::Size frame_size() const;
+	dcp::Size active_area() const;
 
-	std::vector<CPLSummary> cpls () const;
+	std::vector<CPLSummary> cpls() const;
 
 	std::list<DCPTextTrack> closed_text_tracks() const;
 
-	uint64_t required_disk_space () const;
+	uint64_t required_disk_space() const;
 	bool should_be_enough_disk_space(double& required, double& available) const;
 
-	bool has_sign_language_video_channel () const;
+	bool has_sign_language_video_channel() const;
 
 	/* Proxies for some Playlist methods */
 
-	ContentList content () const;
-	dcpomatic::DCPTime length () const;
-	int best_video_frame_rate () const;
-	FrameRateChange active_frame_rate_change (dcpomatic::DCPTime) const;
-	std::pair<double, double> speed_up_range (int dcp_frame_rate) const;
+	ContentList content() const;
+	dcpomatic::DCPTime length() const;
+	int best_video_frame_rate() const;
+	FrameRateChange active_frame_rate_change(dcpomatic::DCPTime) const;
+	std::pair<double, double> speed_up_range(int dcp_frame_rate) const;
 
 	dcp::DecryptedKDM make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::LocalTime until) const;
 
-	int state_version () const {
+	int state_version() const {
 		return _state_version;
 	}
 
-	std::vector<NamedChannel> audio_output_names () const;
+	std::vector<NamedChannel> audio_output_names() const;
 
-	void repeat_content (ContentList, int);
+	void repeat_content(ContentList, int);
 
-	std::shared_ptr<const Playlist> playlist () const {
+	std::shared_ptr<const Playlist> playlist() const {
 		return _playlist;
 	}
 
 	std::vector<dcpomatic::DCPTimePeriod> reels() const;
-	std::list<int> mapped_audio_channels () const;
+	std::list<int> mapped_audio_channels() const;
 
-	boost::optional<dcp::LanguageTag> audio_language () const {
+	boost::optional<dcp::LanguageTag> audio_language() const {
 		return _audio_language;
 	}
 
@@ -190,45 +190,45 @@ public:
 	 */
 	std::vector<dcp::LanguageTag> closed_text_languages(bool* caption = nullptr) const;
 
-	std::string content_summary (dcpomatic::DCPTimePeriod period) const;
+	std::string content_summary(dcpomatic::DCPTimePeriod period) const;
 
-	bool references_dcp_video () const;
-	bool references_dcp_audio () const;
-	bool contains_atmos_content () const;
+	bool references_dcp_video() const;
+	bool references_dcp_audio() const;
+	bool contains_atmos_content() const;
 
 	bool last_written_by_earlier_than(int major, int minor, int micro) const;
 
 	/* GET */
 
-	boost::optional<boost::filesystem::path> directory () const {
+	boost::optional<boost::filesystem::path> directory() const {
 		return _directory;
 	}
 
-	std::string name () const {
+	std::string name() const {
 		return _name;
 	}
 
-	bool use_isdcf_name () const {
+	bool use_isdcf_name() const {
 		return _use_isdcf_name;
 	}
 
-	DCPContentType const * dcp_content_type () const {
+	DCPContentType const * dcp_content_type() const {
 		return _dcp_content_type;
 	}
 
-	Ratio const * container () const {
+	Ratio const * container() const {
 		return _container;
 	}
 
-	Resolution resolution () const {
+	Resolution resolution() const {
 		return _resolution;
 	}
 
-	bool encrypted () const {
+	bool encrypted() const {
 		return _encrypted;
 	}
 
-	dcp::Key key () const {
+	dcp::Key key() const {
 		return _key;
 	}
 
@@ -237,23 +237,23 @@ public:
 	}
 
 	/** @return The frame rate of the DCP */
-	int video_frame_rate () const {
+	int video_frame_rate() const {
 		return _video_frame_rate;
 	}
 
-	int audio_channels () const {
+	int audio_channels() const {
 		return _audio_channels;
 	}
 
-	bool three_d () const {
+	bool three_d() const {
 		return _three_d;
 	}
 
-	bool sequence () const {
+	bool sequence() const {
 		return _sequence;
 	}
 
-	bool interop () const {
+	bool interop() const {
 		return _interop;
 	}
 
@@ -265,15 +265,15 @@ public:
 		return _limit_to_smpte_bv20;
 	}
 
-	AudioProcessor const * audio_processor () const {
+	AudioProcessor const * audio_processor() const {
 		return _audio_processor;
 	}
 
-	ReelType reel_type () const {
+	ReelType reel_type() const {
 		return _reel_type;
 	}
 
-	int64_t reel_length () const {
+	int64_t reel_length() const {
 		return _reel_length;
 	}
 
@@ -281,30 +281,30 @@ public:
 		return _custom_reel_boundaries;
 	}
 
-	std::string context_id () const {
+	std::string context_id() const {
 		return _context_id;
 	}
 
-	bool reencode_j2k () const {
+	bool reencode_j2k() const {
 		return _reencode_j2k;
 	}
 
 	typedef std::map<dcp::Marker, dcpomatic::DCPTime> Markers;
 
-	boost::optional<dcpomatic::DCPTime> marker (dcp::Marker type) const;
-	Markers markers () const {
+	boost::optional<dcpomatic::DCPTime> marker(dcp::Marker type) const;
+	Markers markers() const {
 		return _markers;
 	}
 
-	std::vector<dcp::Rating> ratings () const {
+	std::vector<dcp::Rating> ratings() const {
 		return _ratings;
 	}
 
-	std::vector<std::string> content_versions () const {
+	std::vector<std::string> content_versions() const {
 		return _content_versions;
 	}
 
-	dcp::LanguageTag name_language () const {
+	dcp::LanguageTag name_language() const {
 		return _name_language;
 	}
 
@@ -312,119 +312,119 @@ public:
 		return _territory_type;
 	}
 
-	boost::optional<dcp::LanguageTag::RegionSubtag> release_territory () const {
+	boost::optional<dcp::LanguageTag::RegionSubtag> release_territory() const {
 		return _release_territory;
 	}
 
-	boost::optional<dcp::LanguageTag> sign_language_video_language () const {
+	boost::optional<dcp::LanguageTag> sign_language_video_language() const {
 		return _sign_language_video_language;
 	}
 
-	int version_number () const {
+	int version_number() const {
 		return _version_number;
 	}
 
-	dcp::Status status () const {
+	dcp::Status status() const {
 		return _status;
 	}
 
-	boost::optional<std::string> chain () const {
+	boost::optional<std::string> chain() const {
 		return _chain;
 	}
 
-	boost::optional<std::string> distributor () const {
+	boost::optional<std::string> distributor() const {
 		return _distributor;
 	}
 
-	boost::optional<std::string> facility () const {
+	boost::optional<std::string> facility() const {
 		return _facility;
 	}
 
-	boost::optional<std::string> studio () const {
+	boost::optional<std::string> studio() const {
 		return _studio;
 	}
 
-	bool temp_version () const {
+	bool temp_version() const {
 		return _temp_version;
 	}
 
-	bool pre_release () const {
+	bool pre_release() const {
 		return _pre_release;
 	}
 
-	bool red_band () const {
+	bool red_band() const {
 		return _red_band;
 	}
 
-	bool two_d_version_of_three_d () const {
+	bool two_d_version_of_three_d() const {
 		return _two_d_version_of_three_d;
 	}
 
-	boost::optional<dcp::Luminance> luminance () const {
+	boost::optional<dcp::Luminance> luminance() const {
 		return _luminance;
 	}
 
-	boost::gregorian::date isdcf_date () const {
+	boost::gregorian::date isdcf_date() const {
 		return _isdcf_date;
 	}
 
-	int audio_frame_rate () const {
+	int audio_frame_rate() const {
 		return _audio_frame_rate;
 	}
 
 	/* SET */
 
-	void set_directory (boost::filesystem::path);
-	void set_name (std::string);
-	void set_use_isdcf_name (bool);
-	void examine_and_add_content (std::shared_ptr<Content> content, bool disable_audio_analysis = false);
-	void add_content (std::shared_ptr<Content>);
-	void remove_content (std::shared_ptr<Content>);
-	void remove_content (ContentList);
-	void move_content_earlier (std::shared_ptr<Content>);
-	void move_content_later (std::shared_ptr<Content>);
-	void set_dcp_content_type (DCPContentType const *);
-	void set_container (Ratio const *, bool user_explicit = true);
-	void set_resolution (Resolution, bool user_explicit = true);
-	void set_encrypted (bool);
+	void set_directory(boost::filesystem::path);
+	void set_name(std::string);
+	void set_use_isdcf_name(bool);
+	void examine_and_add_content(std::shared_ptr<Content> content, bool disable_audio_analysis = false);
+	void add_content(std::shared_ptr<Content>);
+	void remove_content(std::shared_ptr<Content>);
+	void remove_content(ContentList);
+	void move_content_earlier(std::shared_ptr<Content>);
+	void move_content_later(std::shared_ptr<Content>);
+	void set_dcp_content_type(DCPContentType const *);
+	void set_container(Ratio const *, bool user_explicit = true);
+	void set_resolution(Resolution, bool user_explicit = true);
+	void set_encrypted(bool);
 	void set_video_bit_rate(VideoEncoding encoding, int64_t);
-	void set_video_frame_rate (int rate, bool user_explicit = false);
-	void set_audio_channels (int);
-	void set_three_d (bool);
-	void set_isdcf_date_today ();
-	void set_sequence (bool);
-	void set_interop (bool);
+	void set_video_frame_rate(int rate, bool user_explicit = false);
+	void set_audio_channels(int);
+	void set_three_d(bool);
+	void set_isdcf_date_today();
+	void set_sequence(bool);
+	void set_interop(bool);
 	void set_video_encoding(VideoEncoding encoding);
 	void set_limit_to_smpte_bv20(bool);
-	void set_audio_processor (AudioProcessor const * processor);
-	void set_reel_type (ReelType);
-	void set_reel_length (int64_t);
+	void set_audio_processor(AudioProcessor const * processor);
+	void set_reel_type(ReelType);
+	void set_reel_length(int64_t);
 	void set_custom_reel_boundaries(std::vector<dcpomatic::DCPTime> boundaries);
-	void set_reencode_j2k (bool);
-	void set_marker (dcp::Marker type, dcpomatic::DCPTime time);
-	void unset_marker (dcp::Marker type);
-	void clear_markers ();
-	void set_ratings (std::vector<dcp::Rating> r);
-	void set_content_versions (std::vector<std::string> v);
-	void set_name_language (dcp::LanguageTag lang);
+	void set_reencode_j2k(bool);
+	void set_marker(dcp::Marker type, dcpomatic::DCPTime time);
+	void unset_marker(dcp::Marker type);
+	void clear_markers();
+	void set_ratings(std::vector<dcp::Rating> r);
+	void set_content_versions(std::vector<std::string> v);
+	void set_name_language(dcp::LanguageTag lang);
 	void set_territory_type(TerritoryType type);
-	void set_release_territory (boost::optional<dcp::LanguageTag::RegionSubtag> region = boost::none);
-	void set_sign_language_video_language (boost::optional<dcp::LanguageTag> tag);
-	void set_version_number (int v);
-	void set_status (dcp::Status s);
-	void set_chain (boost::optional<std::string> c = boost::none);
-	void set_facility (boost::optional<std::string> f = boost::none);
-	void set_studio (boost::optional<std::string> s = boost::none);
-	void set_temp_version (bool t);
-	void set_pre_release (bool p);
-	void set_red_band (bool r);
-	void set_two_d_version_of_three_d (bool t);
-	void set_distributor (boost::optional<std::string> d = boost::none);
-	void set_luminance (boost::optional<dcp::Luminance> l = boost::none);
-	void set_audio_language (boost::optional<dcp::LanguageTag> language);
-	void set_audio_frame_rate (int rate);
+	void set_release_territory(boost::optional<dcp::LanguageTag::RegionSubtag> region = boost::none);
+	void set_sign_language_video_language(boost::optional<dcp::LanguageTag> tag);
+	void set_version_number(int v);
+	void set_status(dcp::Status s);
+	void set_chain(boost::optional<std::string> c = boost::none);
+	void set_facility(boost::optional<std::string> f = boost::none);
+	void set_studio(boost::optional<std::string> s = boost::none);
+	void set_temp_version(bool t);
+	void set_pre_release(bool p);
+	void set_red_band(bool r);
+	void set_two_d_version_of_three_d(bool t);
+	void set_distributor(boost::optional<std::string> d = boost::none);
+	void set_luminance(boost::optional<dcp::Luminance> l = boost::none);
+	void set_audio_language(boost::optional<dcp::LanguageTag> language);
+	void set_audio_frame_rate(int rate);
 
-	void add_ffoc_lfoc (Markers& markers) const;
+	void add_ffoc_lfoc(Markers& markers) const;
 
 	void set_ui_state(std::string key, std::string value);
 	boost::optional<std::string> ui_state(std::string key) const;
@@ -434,7 +434,7 @@ public:
 	void write_remembered_assets(std::vector<RememberedAsset> const& assets) const;
 	std::string video_identifier() const;
 
-	boost::filesystem::path info_file (dcpomatic::DCPTimePeriod p) const;
+	boost::filesystem::path info_file(dcpomatic::DCPTimePeriod p) const;
 
 	/** Emitted when some property has of the Film is about to change or has changed */
 	mutable boost::signals2::signal<void (ChangeType, FilmProperty)> Change;
@@ -467,17 +467,17 @@ private:
 	friend struct ::recover_test_2d_encrypted;
 	template <class, class> friend class ChangeSignalDespatcher;
 
-	void signal_change (ChangeType, FilmProperty);
-	void signal_change (ChangeType, int);
-	void playlist_change (ChangeType);
-	void playlist_order_changed ();
-	void playlist_content_change (ChangeType type, std::weak_ptr<Content>, int, bool frequent);
-	void playlist_length_change ();
-	void maybe_add_content (std::weak_ptr<Job>, std::weak_ptr<Content>, bool disable_audio_analysis);
-	void audio_analysis_finished ();
-	void check_settings_consistency ();
-	void maybe_set_container_and_resolution ();
-	void set_dirty (bool dirty);
+	void signal_change(ChangeType, FilmProperty);
+	void signal_change(ChangeType, int);
+	void playlist_change(ChangeType);
+	void playlist_order_changed();
+	void playlist_content_change(ChangeType type, std::weak_ptr<Content>, int, bool frequent);
+	void playlist_length_change();
+	void maybe_add_content(std::weak_ptr<Job>, std::weak_ptr<Content>, bool disable_audio_analysis);
+	void audio_analysis_finished();
+	void check_settings_consistency();
+	void maybe_set_container_and_resolution();
+	void set_dirty(bool dirty);
 	void write_ui_state() const;
 	void check_reel_boundaries_for_atmos();
 

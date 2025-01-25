@@ -32,8 +32,8 @@ using boost::optional;
 using namespace dcpomatic;
 
 
-Font::Font (cxml::NodePtr node)
-	: _id (node->string_child("Id"))
+Font::Font(cxml::NodePtr node)
+	: _id(node->string_child("Id"))
 {
 	for (auto i: node->node_children("File")) {
 		string variant = i->optional_string_attribute("Variant").get_value_or("Normal");
@@ -73,7 +73,7 @@ Font::as_xml(xmlpp::Element* element)
 
 
 bool
-dcpomatic::operator== (Font const & a, Font const & b)
+dcpomatic::operator==(Font const & a, Font const & b)
 {
 	if (a.id() != b.id()) {
 		return false;
@@ -89,14 +89,14 @@ dcpomatic::operator== (Font const & a, Font const & b)
 
 
 bool
-dcpomatic::operator!= (Font const & a, Font const & b)
+dcpomatic::operator!=(Font const & a, Font const & b)
 {
 	return !(a == b);
 }
 
 
 optional<dcp::ArrayData>
-Font::data () const
+Font::data() const
 {
 	if (_content.data) {
 		return _content.data;

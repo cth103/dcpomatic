@@ -163,37 +163,37 @@ int const Film::current_state_version = 39;
  *  @param dir Film directory.
  */
 
-Film::Film (optional<boost::filesystem::path> dir)
-	: _playlist (new Playlist)
-	, _use_isdcf_name (Config::instance()->use_isdcf_name_by_default())
-	, _dcp_content_type (Config::instance()->default_dcp_content_type ())
+Film::Film(optional<boost::filesystem::path> dir)
+	: _playlist(new Playlist)
+	, _use_isdcf_name(Config::instance()->use_isdcf_name_by_default())
+	, _dcp_content_type(Config::instance()->default_dcp_content_type())
 	, _container(Ratio::from_id("185"))
-	, _resolution (Resolution::TWO_K)
-	, _encrypted (false)
-	, _context_id (dcp::make_uuid ())
-	, _video_frame_rate (24)
-	, _audio_channels (Config::instance()->default_dcp_audio_channels ())
-	, _three_d (false)
-	, _sequence (true)
-	, _interop (Config::instance()->default_interop ())
+	, _resolution(Resolution::TWO_K)
+	, _encrypted(false)
+	, _context_id(dcp::make_uuid())
+	, _video_frame_rate(24)
+	, _audio_channels(Config::instance()->default_dcp_audio_channels())
+	, _three_d(false)
+	, _sequence(true)
+	, _interop(Config::instance()->default_interop())
 	, _video_encoding(VideoEncoding::JPEG2000)
 	, _limit_to_smpte_bv20(false)
-	, _audio_processor (0)
-	, _reel_type (ReelType::SINGLE)
-	, _reel_length (2000000000)
-	, _reencode_j2k (false)
-	, _user_explicit_video_frame_rate (false)
-	, _user_explicit_container (false)
-	, _user_explicit_resolution (false)
-	, _name_language (dcp::LanguageTag("en-US"))
+	, _audio_processor(0)
+	, _reel_type(ReelType::SINGLE)
+	, _reel_length(2000000000)
+	, _reencode_j2k(false)
+	, _user_explicit_video_frame_rate(false)
+	, _user_explicit_container(false)
+	, _user_explicit_resolution(false)
+	, _name_language(dcp::LanguageTag("en-US"))
 	, _release_territory(Config::instance()->default_territory())
-	, _version_number (1)
-	, _status (dcp::Status::FINAL)
+	, _version_number(1)
+	, _status(dcp::Status::FINAL)
 	, _audio_language(Config::instance()->default_audio_language())
-	, _state_version (current_state_version)
-	, _dirty (false)
+	, _state_version(current_state_version)
+	, _dirty(false)
 {
-	set_isdcf_date_today ();
+	set_isdcf_date_today();
 
 	auto metadata = Config::instance()->default_metadata();
 	if (metadata.find("chain") != metadata.end()) {
@@ -213,10 +213,10 @@ Film::Film (optional<boost::filesystem::path> dir)
 		_video_bit_rate[encoding] = Config::instance()->default_video_bit_rate(encoding);
 	}
 
-	_playlist_change_connection = _playlist->Change.connect (bind (&Film::playlist_change, this, _1));
-	_playlist_order_changed_connection = _playlist->OrderChange.connect (bind (&Film::playlist_order_changed, this));
-	_playlist_content_change_connection = _playlist->ContentChange.connect (bind (&Film::playlist_content_change, this, _1, _2, _3, _4));
-	_playlist_length_change_connection = _playlist->LengthChange.connect (bind(&Film::playlist_length_change, this));
+	_playlist_change_connection = _playlist->Change.connect(bind(&Film::playlist_change, this, _1));
+	_playlist_order_changed_connection = _playlist->OrderChange.connect(bind(&Film::playlist_order_changed, this));
+	_playlist_content_change_connection = _playlist->ContentChange.connect(bind(&Film::playlist_content_change, this, _1, _2, _3, _4));
+	_playlist_length_change_connection = _playlist->LengthChange.connect(bind(&Film::playlist_length_change, this));
 
 	if (dir) {
 		_directory = dcp::filesystem::weakly_canonical(*dir);
@@ -228,32 +228,32 @@ Film::Film (optional<boost::filesystem::path> dir)
 		_log = make_shared<NullLog>();
 	}
 
-	_playlist->set_sequence (_sequence);
+	_playlist->set_sequence(_sequence);
 }
 
-Film::~Film ()
+Film::~Film()
 {
 	for (auto& i: _job_connections) {
-		i.disconnect ();
+		i.disconnect();
 	}
 
 	for (auto& i: _audio_analysis_connections) {
-		i.disconnect ();
+		i.disconnect();
 	}
 }
 
 string
-Film::video_identifier () const
+Film::video_identifier() const
 {
-	DCPOMATIC_ASSERT (container ());
+	DCPOMATIC_ASSERT(container());
 
 	string s = container()->id()
-		+ "_" + resolution_to_string (_resolution)
+		+ "_" + resolution_to_string(_resolution)
 		+ "_" + _playlist->video_identifier()
 		+ "_" + fmt::to_string(_video_frame_rate)
 		+ "_" + fmt::to_string(video_bit_rate(video_encoding()));
 
-	if (encrypted ()) {
+	if (encrypted()) {
 		/* This is insecure but hey, the key is in plaintext in metadata.xml */
 		s += "_E" + _key.hex();
 	} else {
@@ -287,19 +287,19 @@ Film::video_identifier () const
 
 /** @return The file to write video frame info to */
 boost::filesystem::path
-Film::info_file (DCPTimePeriod period) const
+Film::info_file(DCPTimePeriod period) const
 {
 	boost::filesystem::path p;
 	p /= "info";
-	p /= video_identifier () + "_" + fmt::to_string(period.from.get()) + "_" + fmt::to_string(period.to.get());
-	return file (p);
+	p /= video_identifier() + "_" + fmt::to_string(period.from.get()) + "_" + fmt::to_string(period.to.get());
+	return file(p);
 }
 
 
 boost::filesystem::path
-Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
+Film::audio_analysis_path(shared_ptr<const Playlist> playlist) const
 {
-	auto p = dir ("analysis");
+	auto p = dir("analysis");
 
 	Digester digester;
 	for (auto content: playlist->content()) {
@@ -327,13 +327,13 @@ Film::audio_analysis_path (shared_ptr<const Playlist> playlist) const
 		}
 	}
 
-	if (audio_processor ()) {
-		digester.add (audio_processor()->id ());
+	if (audio_processor()) {
+		digester.add(audio_processor()->id());
 	}
 
-	digester.add (audio_channels());
+	digester.add(audio_channels());
 
-	p /= digester.get ();
+	p /= digester.get();
 	return p;
 }
 
@@ -346,54 +346,54 @@ Film::assets_path() const
 
 
 boost::filesystem::path
-Film::subtitle_analysis_path (shared_ptr<const Content> content) const
+Film::subtitle_analysis_path(shared_ptr<const Content> content) const
 {
-	auto p = dir ("analysis");
+	auto p = dir("analysis");
 
 	Digester digester;
-	digester.add (content->digest());
+	digester.add(content->digest());
 	digester.add(_interop ? "1" : "0");
 
 	if (!content->text.empty()) {
 		auto tc = content->text.front();
-		digester.add (tc->x_scale());
-		digester.add (tc->y_scale());
+		digester.add(tc->x_scale());
+		digester.add(tc->y_scale());
 		for (auto i: tc->fonts()) {
-			digester.add (i->id());
+			digester.add(i->id());
 		}
 		if (tc->effect()) {
-			digester.add (tc->effect().get());
+			digester.add(tc->effect().get());
 		}
-		digester.add (tc->line_spacing());
-		digester.add (tc->outline_width());
+		digester.add(tc->line_spacing());
+		digester.add(tc->outline_width());
 	}
 
 	auto fc = dynamic_pointer_cast<const FFmpegContent>(content);
 	if (fc) {
-		digester.add (fc->subtitle_stream()->identifier());
+		digester.add(fc->subtitle_stream()->identifier());
 	}
 
-	p /= digester.get ();
+	p /= digester.get();
 	return p;
 }
 
 
 /** Start a job to send our DCP to the configured TMS */
 void
-Film::send_dcp_to_tms ()
+Film::send_dcp_to_tms()
 {
 	JobManager::instance()->add(make_shared<UploadJob>(shared_from_this()));
 }
 
 shared_ptr<xmlpp::Document>
-Film::metadata (bool with_content_paths) const
+Film::metadata(bool with_content_paths) const
 {
 	auto doc = make_shared<xmlpp::Document>();
-	auto root = doc->create_root_node ("Metadata");
+	auto root = doc->create_root_node("Metadata");
 
 	cxml::add_text_child(root, "Version", fmt::to_string(current_state_version));
 	auto last_write = cxml::add_child(root, "LastWrittenBy");
-	last_write->add_child_text (dcpomatic_version);
+	last_write->add_child_text(dcpomatic_version);
 	last_write->set_attribute("git", dcpomatic_git_commit);
 	cxml::add_text_child(root, "Name", _name);
 	cxml::add_text_child(root, "UseISDCFName", _use_isdcf_name ? "1" : "0");
@@ -419,7 +419,7 @@ Film::metadata (bool with_content_paths) const
 	cxml::add_text_child(root, "VideoEncoding", video_encoding_to_string(_video_encoding));
 	cxml::add_text_child(root, "LimitToSMPTEBv20", _limit_to_smpte_bv20 ? "1" : "0");
 	cxml::add_text_child(root, "Encrypted", _encrypted ? "1" : "0");
-	cxml::add_text_child(root, "Key", _key.hex ());
+	cxml::add_text_child(root, "Key", _key.hex());
 	cxml::add_text_child(root, "ContextID", _context_id);
 	if (_audio_processor) {
 		cxml::add_text_child(root, "AudioProcessor", _audio_processor->id());
@@ -488,16 +488,16 @@ Film::metadata (bool with_content_paths) const
 }
 
 void
-Film::write_metadata (boost::filesystem::path path) const
+Film::write_metadata(boost::filesystem::path path) const
 {
 	metadata()->write_to_file_formatted(path.string());
 }
 
 /** Write state to our `metadata' file */
 void
-Film::write_metadata ()
+Film::write_metadata()
 {
-	DCPOMATIC_ASSERT (directory());
+	DCPOMATIC_ASSERT(directory());
 	dcp::filesystem::create_directories(directory().get());
 	auto const filename = file(metadata_file);
 	try {
@@ -505,15 +505,15 @@ Film::write_metadata ()
 	} catch (xmlpp::exception& e) {
 		throw FileError(String::compose("Could not write metadata file (%1)", e.what()), filename);
 	}
-	set_dirty (false);
+	set_dirty(false);
 }
 
 /** Write a template from this film */
 void
-Film::write_template (boost::filesystem::path path) const
+Film::write_template(boost::filesystem::path path) const
 {
 	dcp::filesystem::create_directories(path.parent_path());
-	shared_ptr<xmlpp::Document> doc = metadata (false);
+	shared_ptr<xmlpp::Document> doc = metadata(false);
 	metadata(false)->write_to_file_formatted(path.string());
 }
 
@@ -521,7 +521,7 @@ Film::write_template (boost::filesystem::path path) const
  *  @return Notes about things that the user should know about, or empty.
  */
 list<string>
-Film::read_metadata (optional<boost::filesystem::path> path)
+Film::read_metadata(optional<boost::filesystem::path> path)
 {
 	if (!path) {
 		if (dcp::filesystem::exists(file("metadata")) && !dcp::filesystem::exists(file(metadata_file))) {
@@ -534,17 +534,17 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 				);
 		}
 
-		path = file (metadata_file);
+		path = file(metadata_file);
 	}
 
 	if (!dcp::filesystem::exists(*path)) {
 		throw FileNotFoundError(*path);
 	}
 
-	cxml::Document f ("Metadata");
+	cxml::Document f("Metadata");
 	f.read_file(dcp::filesystem::fix_long_path(path.get()));
 
-	_state_version = f.number_child<int> ("Version");
+	_state_version = f.number_child<int>("Version");
 	if (_state_version > current_state_version) {
 		throw runtime_error(variant::insert_dcpomatic(_("This film was created with a newer version of %1, and it cannot be loaded into this version.  Sorry!")));
 	} else if (_state_version < current_state_version) {
@@ -561,41 +561,41 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	_last_written_by = f.optional_string_child("LastWrittenBy");
 
-	_name = f.string_child ("Name");
+	_name = f.string_child("Name");
 	if (_state_version >= 9) {
-		_use_isdcf_name = f.bool_child ("UseISDCFName");
-		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("ISDCFDate"));
+		_use_isdcf_name = f.bool_child("UseISDCFName");
+		_isdcf_date = boost::gregorian::from_undelimited_string(f.string_child("ISDCFDate"));
 	} else {
-		_use_isdcf_name = f.bool_child ("UseDCIName");
-		_isdcf_date = boost::gregorian::from_undelimited_string (f.string_child ("DCIDate"));
+		_use_isdcf_name = f.bool_child("UseDCIName");
+		_isdcf_date = boost::gregorian::from_undelimited_string(f.string_child("DCIDate"));
 	}
 
 
 	{
 		auto c = f.optional_string_child("DCPContentType");
 		if (c) {
-			_dcp_content_type = DCPContentType::from_isdcf_name (c.get ());
+			_dcp_content_type = DCPContentType::from_isdcf_name(c.get());
 		}
 	}
 
 	{
 		auto c = f.optional_string_child("Container");
 		if (c) {
-			_container = Ratio::from_id (c.get ());
+			_container = Ratio::from_id(c.get());
 		}
 	}
 
-	_resolution = string_to_resolution (f.string_child ("Resolution"));
+	_resolution = string_to_resolution(f.string_child("Resolution"));
 	if (auto j2k = f.optional_number_child<int>("J2KBandwidth")) {
 		_video_bit_rate[VideoEncoding::JPEG2000] = *j2k;
 	} else {
 		_video_bit_rate[VideoEncoding::JPEG2000] = f.number_child<int64_t>("J2KVideoBitRate");
 	}
 	_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("MPEG2VideoBitRate").get_value_or(Config::instance()->default_video_bit_rate(VideoEncoding::MPEG2));
-	_video_frame_rate = f.number_child<int> ("VideoFrameRate");
+	_video_frame_rate = f.number_child<int>("VideoFrameRate");
 	_audio_frame_rate = f.optional_number_child<int>("AudioFrameRate").get_value_or(48000);
-	_encrypted = f.bool_child ("Encrypted");
-	_audio_channels = f.number_child<int> ("AudioChannels");
+	_encrypted = f.bool_child("Encrypted");
+	_audio_channels = f.number_child<int>("AudioChannels");
 	/* We used to allow odd numbers (and zero) channels, but it's just not worth
 	   the pain.
 	*/
@@ -611,17 +611,17 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		_sequence = f.bool_child("Sequence");
 	}
 
-	_three_d = f.bool_child ("ThreeD");
-	_interop = f.bool_child ("Interop");
+	_three_d = f.bool_child("ThreeD");
+	_interop = f.bool_child("Interop");
 	if (auto encoding = f.optional_string_child("VideoEncoding")) {
 		_video_encoding = video_encoding_from_string(*encoding);
 	}
 	_limit_to_smpte_bv20 = f.optional_bool_child("LimitToSMPTEBv20").get_value_or(false);
-	_key = dcp::Key (f.string_child ("Key"));
-	_context_id = f.optional_string_child("ContextID").get_value_or (dcp::make_uuid ());
+	_key = dcp::Key(f.string_child("Key"));
+	_context_id = f.optional_string_child("ContextID").get_value_or(dcp::make_uuid());
 
-	if (f.optional_string_child ("AudioProcessor")) {
-		_audio_processor = AudioProcessor::from_id (f.string_child ("AudioProcessor"));
+	if (f.optional_string_child("AudioProcessor")) {
+		_audio_processor = AudioProcessor::from_id(f.string_child("AudioProcessor"));
 	} else {
 		_audio_processor = 0;
 	}
@@ -633,8 +633,8 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 		}
 	}
 
-	_reel_type = static_cast<ReelType> (f.optional_number_child<int>("ReelType").get_value_or (static_cast<int>(ReelType::SINGLE)));
-	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or (2000000000);
+	_reel_type = static_cast<ReelType>(f.optional_number_child<int>("ReelType").get_value_or(static_cast<int>(ReelType::SINGLE)));
+	_reel_length = f.optional_number_child<int64_t>("ReelLength").get_value_or(2000000000);
 	for (auto boundary: f.node_children("CustomReelBoundary")) {
 		_custom_reel_boundaries.push_back(DCPTime(raw_convert<int64_t>(boundary->content())));
 	}
@@ -650,16 +650,16 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	}
 
 	for (auto i: f.node_children("Rating")) {
-		_ratings.push_back (dcp::Rating(i));
+		_ratings.push_back(dcp::Rating(i));
 	}
 
 	for (auto i: f.node_children("ContentVersion")) {
-		_content_versions.push_back (i->content());
+		_content_versions.push_back(i->content());
 	}
 
 	auto name_language = f.optional_string_child("NameLanguage");
 	if (name_language) {
-		_name_language = dcp::LanguageTag (*name_language);
+		_name_language = dcp::LanguageTag(*name_language);
 	}
 	auto territory_type = f.optional_string_child("TerritoryType");
 	if (territory_type) {
@@ -667,7 +667,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	}
 	auto release_territory = f.optional_string_child("ReleaseTerritory");
 	if (release_territory) {
-		_release_territory = dcp::LanguageTag::RegionSubtag (*release_territory);
+		_release_territory = dcp::LanguageTag::RegionSubtag(*release_territory);
 	}
 
 	auto sign_language_video_language = f.optional_string_child("SignLanguageVideoLanguage");
@@ -679,7 +679,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 
 	auto status = f.optional_string_child("Status");
 	if (status) {
-		_status = dcp::string_to_status (*status);
+		_status = dcp::string_to_status(*status);
 	}
 
 	_chain = f.optional_string_child("Chain");
@@ -694,7 +694,7 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	auto value = f.optional_number_child<float>("LuminanceValue");
 	auto unit = f.optional_string_child("LuminanceUnit");
 	if (value && unit) {
-		_luminance = dcp::Luminance (*value, dcp::Luminance::string_to_unit(*unit));
+		_luminance = dcp::Luminance(*value, dcp::Luminance::string_to_unit(*unit));
 	}
 
 	/* Disable guessing for files made in previous DCP-o-matic versions */
@@ -724,10 +724,10 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 			}
 		}
 		if (auto content_version = isdcf->optional_string_child("ContentVersion")) {
-			_content_versions.push_back (*content_version);
+			_content_versions.push_back(*content_version);
 		}
 		if (auto rating = isdcf->optional_string_child("Rating")) {
-			_ratings.push_back (dcp::Rating("", *rating));
+			_ratings.push_back(dcp::Rating("", *rating));
 		}
 		if (auto mastered_luminance = isdcf->optional_number_child<float>("MasteredLuminance")) {
 			if (*mastered_luminance > 0) {
@@ -744,14 +744,14 @@ Film::read_metadata (optional<boost::filesystem::path> path)
 	}
 
 	list<string> notes;
-	_playlist->set_from_xml (shared_from_this(), f.node_child ("Playlist"), _state_version, notes);
+	_playlist->set_from_xml(shared_from_this(), f.node_child("Playlist"), _state_version, notes);
 
 	/* Write backtraces to this film's directory, until another film is loaded */
 	if (_directory) {
-		set_backtrace_file (file ("backtrace.txt"));
+		set_backtrace_file(file("backtrace.txt"));
 	}
 
-	set_dirty (false);
+	set_dirty(false);
 	return notes;
 }
 
@@ -760,9 +760,9 @@ Film::read_metadata (optional<boost::filesystem::path> path)
  *  @param create true to create the directory (and its parents) if they do not exist.
  */
 boost::filesystem::path
-Film::dir (boost::filesystem::path d, bool create) const
+Film::dir(boost::filesystem::path d, bool create) const
 {
-	DCPOMATIC_ASSERT (_directory);
+	DCPOMATIC_ASSERT(_directory);
 
 	boost::filesystem::path p;
 	p /= _directory.get();
@@ -779,9 +779,9 @@ Film::dir (boost::filesystem::path d, bool create) const
  *  Any required parent directories will be created.
  */
 boost::filesystem::path
-Film::file (boost::filesystem::path f) const
+Film::file(boost::filesystem::path f) const
 {
-	DCPOMATIC_ASSERT (_directory);
+	DCPOMATIC_ASSERT(_directory);
 
 	boost::filesystem::path p;
 	p /= _directory.get();
@@ -793,25 +793,25 @@ Film::file (boost::filesystem::path f) const
 }
 
 list<int>
-Film::mapped_audio_channels () const
+Film::mapped_audio_channels() const
 {
 	list<int> mapped;
 
-	if (audio_processor ()) {
+	if (audio_processor()) {
 		/* Processors are mapped 1:1 to DCP outputs so we can work out mappings from there */
 		for (int i = 0; i < audio_processor()->out_channels(); ++i) {
-			mapped.push_back (i);
+			mapped.push_back(i);
 		}
 	} else {
 		for (auto i: content()) {
 			if (i->audio) {
 				auto c = i->audio->mapping().mapped_output_channels();
-				copy (c.begin(), c.end(), back_inserter(mapped));
+				copy(c.begin(), c.end(), back_inserter(mapped));
 			}
 		}
 
-		mapped.sort ();
-		mapped.unique ();
+		mapped.sort();
+		mapped.unique();
 	}
 
 	return mapped;
@@ -853,9 +853,9 @@ Film::open_text_languages(bool* burnt_in, bool* caption) const
 		}
 	}
 
-	std::sort (result.second.begin(), result.second.end());
-	auto last = std::unique (result.second.begin(), result.second.end());
-	result.second.erase (last, result.second.end());
+	std::sort(result.second.begin(), result.second.end());
+	auto last = std::unique(result.second.begin(), result.second.end());
+	result.second.erase(last, result.second.end());
 	return result;
 }
 
@@ -881,11 +881,11 @@ Film::closed_text_languages(bool* caption) const
 
 /** @return a ISDCF-compliant name for a DCP of this film */
 string
-Film::isdcf_name (bool if_created_now) const
+Film::isdcf_name(bool if_created_now) const
 {
 	string isdcf_name;
 
-	auto raw_name = name ();
+	auto raw_name = name();
 
 	auto to_upper = [](string s) {
 		transform(s.begin(), s.end(), s.begin(), ::toupper);
@@ -894,7 +894,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Split the raw name up into words */
 	vector<string> words;
-	split (words, raw_name, is_any_of (" _-"));
+	split(words, raw_name, is_any_of(" _-"));
 
 	string fixed_name;
 
@@ -903,12 +903,12 @@ Film::isdcf_name (bool if_created_now) const
 		string w = i;
 
 		/* First letter is always capitalised */
-		w[0] = toupper (w[0]);
+		w[0] = toupper(w[0]);
 
 		/* Count caps in w */
 		size_t caps = 0;
 		for (size_t j = 0; j < w.size(); ++j) {
-			if (isupper (w[j])) {
+			if (isupper(w[j])) {
 				++caps;
 			}
 		}
@@ -916,9 +916,9 @@ Film::isdcf_name (bool if_created_now) const
 		/* If w is all caps make the rest of it lower case, otherwise
 		   leave it alone.
 		*/
-		if (caps == w.size ()) {
+		if (caps == w.size()) {
 			for (size_t j = 1; j < w.size(); ++j) {
-				w[j] = tolower (w[j]);
+				w[j] = tolower(w[j]);
 			}
 		}
 
@@ -963,7 +963,7 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "-" + *_chain;
 	}
 
-	if (three_d ()) {
+	if (three_d()) {
 		isdcf_name += "-3D";
 	}
 
@@ -1014,7 +1014,7 @@ Film::isdcf_name (bool if_created_now) const
 
 	auto audio_language = _audio_language ? entry_for_language(*_audio_language) : "XX";
 
-	isdcf_name += "_" + to_upper (audio_language);
+	isdcf_name += "_" + to_upper(audio_language);
 
 	bool burnt_in;
 	bool open_caption = false;
@@ -1026,9 +1026,9 @@ Film::isdcf_name (bool if_created_now) const
 	if (open_langs.first && open_langs.first->language()) {
 		auto lang = entry_for_language(*open_langs.first);
 		if (burnt_in) {
-			transform (lang.begin(), lang.end(), lang.begin(), ::tolower);
+			transform(lang.begin(), lang.end(), lang.begin(), ::tolower);
 		} else {
-			lang = to_upper (lang);
+			lang = to_upper(lang);
 		}
 
 		isdcf_name += "-" + lang;
@@ -1051,7 +1051,7 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "_INT-TL";
 	} else if (_release_territory) {
 		auto territory = _release_territory->subtag();
-		isdcf_name += "_" + to_upper (territory);
+		isdcf_name += "_" + to_upper(territory);
 		if (!_ratings.empty()) {
 			auto label = _ratings[0].label;
 			boost::erase_all(label, "+");
@@ -1062,9 +1062,9 @@ Film::isdcf_name (bool if_created_now) const
 
 	/* Count mapped audio channels */
 
-	auto mapped = mapped_audio_channels ();
+	auto mapped = mapped_audio_channels();
 
-	auto ch = audio_channel_types (mapped, audio_channels());
+	auto ch = audio_channel_types(mapped, audio_channels());
 	if (!ch.first && !ch.second) {
 		isdcf_name += "_MOS";
 	} else if (ch.first) {
@@ -1082,16 +1082,16 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "-IAB";
 	}
 
-	isdcf_name += "_" + resolution_to_string (_resolution);
+	isdcf_name += "_" + resolution_to_string(_resolution);
 
 	if (_studio && _studio->length() >= 2) {
-		isdcf_name += "_" + to_upper (_studio->substr(0, 4));
+		isdcf_name += "_" + to_upper(_studio->substr(0, 4));
 	}
 
 	if (if_created_now) {
-		isdcf_name += "_" + boost::gregorian::to_iso_string (boost::gregorian::day_clock::local_day ());
+		isdcf_name += "_" + boost::gregorian::to_iso_string(boost::gregorian::day_clock::local_day());
 	} else {
-		isdcf_name += "_" + boost::gregorian::to_iso_string (_isdcf_date);
+		isdcf_name += "_" + boost::gregorian::to_iso_string(_isdcf_date);
 	}
 
 	if (_facility && _facility->length() >= 3) {
@@ -1104,7 +1104,7 @@ Film::isdcf_name (bool if_created_now) const
 		isdcf_name += "_SMPTE";
 	}
 
-	if (three_d ()) {
+	if (three_d()) {
 		isdcf_name += "-3D";
 	}
 
@@ -1119,25 +1119,25 @@ Film::isdcf_name (bool if_created_now) const
 
 /** @return name to give the DCP */
 string
-Film::dcp_name (bool if_created_now) const
+Film::dcp_name(bool if_created_now) const
 {
 	string unfiltered;
 	if (use_isdcf_name()) {
-		return careful_string_filter (isdcf_name (if_created_now));
+		return careful_string_filter(isdcf_name(if_created_now));
 	}
 
-	return careful_string_filter (name ());
+	return careful_string_filter(name());
 }
 
 void
-Film::set_directory (boost::filesystem::path d)
+Film::set_directory(boost::filesystem::path d)
 {
 	_directory = d;
-	set_dirty (true);
+	set_dirty(true);
 }
 
 void
-Film::set_name (string n)
+Film::set_name(string n)
 {
 	if (_name == n) {
 		return;
@@ -1148,14 +1148,14 @@ Film::set_name (string n)
 }
 
 void
-Film::set_use_isdcf_name (bool u)
+Film::set_use_isdcf_name(bool u)
 {
 	FilmChangeSignaller ch(this, FilmProperty::USE_ISDCF_NAME);
 	_use_isdcf_name = u;
 }
 
 void
-Film::set_dcp_content_type (DCPContentType const * t)
+Film::set_dcp_content_type(DCPContentType const * t)
 {
 	FilmChangeSignaller ch(this, FilmProperty::DCP_CONTENT_TYPE);
 	_dcp_content_type = t;
@@ -1167,7 +1167,7 @@ Film::set_dcp_content_type (DCPContentType const * t)
  *  DCP-o-matic is guessing the best container to use.
  */
 void
-Film::set_container (Ratio const * c, bool explicit_user)
+Film::set_container(Ratio const * c, bool explicit_user)
 {
 	FilmChangeSignaller ch(this, FilmProperty::CONTAINER);
 	_container = c;
@@ -1183,7 +1183,7 @@ Film::set_container (Ratio const * c, bool explicit_user)
  *  DCP-o-matic is guessing the best resolution to use.
  */
 void
-Film::set_resolution (Resolution r, bool explicit_user)
+Film::set_resolution(Resolution r, bool explicit_user)
 {
 	FilmChangeSignaller ch(this, FilmProperty::RESOLUTION);
 	_resolution = r;
@@ -1206,7 +1206,7 @@ Film::set_video_bit_rate(VideoEncoding encoding, int64_t bit_rate)
  *  DCP-o-matic being helpful.
  */
 void
-Film::set_video_frame_rate (int f, bool user_explicit)
+Film::set_video_frame_rate(int f, bool user_explicit)
 {
 	FilmChangeSignaller ch(this, FilmProperty::VIDEO_FRAME_RATE);
 	_video_frame_rate = f;
@@ -1216,25 +1216,25 @@ Film::set_video_frame_rate (int f, bool user_explicit)
 }
 
 void
-Film::set_audio_channels (int c)
+Film::set_audio_channels(int c)
 {
 	FilmChangeSignaller ch(this, FilmProperty::AUDIO_CHANNELS);
 	_audio_channels = c;
 }
 
 void
-Film::set_three_d (bool t)
+Film::set_three_d(bool t)
 {
 	FilmChangeSignaller ch(this, FilmProperty::THREE_D);
 	_three_d = t;
 
 	if (_three_d && _two_d_version_of_three_d) {
-		set_two_d_version_of_three_d (false);
+		set_two_d_version_of_three_d(false);
 	}
 }
 
 void
-Film::set_interop (bool i)
+Film::set_interop(bool i)
 {
 	FilmChangeSignaller ch(this, FilmProperty::INTEROP);
 	_interop = i;
@@ -1259,7 +1259,7 @@ Film::set_limit_to_smpte_bv20(bool limit)
 
 
 void
-Film::set_audio_processor (AudioProcessor const * processor)
+Film::set_audio_processor(AudioProcessor const * processor)
 {
 	FilmChangeSignaller ch1(this, FilmProperty::AUDIO_PROCESSOR);
 	FilmChangeSignaller ch2(this, FilmProperty::AUDIO_CHANNELS);
@@ -1267,7 +1267,7 @@ Film::set_audio_processor (AudioProcessor const * processor)
 }
 
 void
-Film::set_reel_type (ReelType t)
+Film::set_reel_type(ReelType t)
 {
 	FilmChangeSignaller ch(this, FilmProperty::REEL_TYPE);
 	_reel_type = t;
@@ -1275,7 +1275,7 @@ Film::set_reel_type (ReelType t)
 
 /** @param r Desired reel length in bytes */
 void
-Film::set_reel_length (int64_t r)
+Film::set_reel_length(int64_t r)
 {
 	FilmChangeSignaller ch(this, FilmProperty::REEL_LENGTH);
 	_reel_length = r;
@@ -1292,14 +1292,14 @@ Film::set_custom_reel_boundaries(vector<DCPTime> boundaries)
 
 
 void
-Film::set_reencode_j2k (bool r)
+Film::set_reencode_j2k(bool r)
 {
 	FilmChangeSignaller ch(this, FilmProperty::REENCODE_J2K);
 	_reencode_j2k = r;
 }
 
 void
-Film::signal_change (ChangeType type, int p)
+Film::signal_change(ChangeType type, int p)
 {
 	signal_change(type, static_cast<FilmProperty>(p));
 }
@@ -1308,44 +1308,44 @@ void
 Film::signal_change(ChangeType type, FilmProperty p)
 {
 	if (type == ChangeType::DONE) {
-		set_dirty (true);
+		set_dirty(true);
 
 		if (p == FilmProperty::CONTENT) {
 			if (!_user_explicit_video_frame_rate) {
-				set_video_frame_rate (best_video_frame_rate());
+				set_video_frame_rate(best_video_frame_rate());
 			}
 		}
 
-		emit (boost::bind (boost::ref (Change), type, p));
+		emit(boost::bind(boost::ref(Change), type, p));
 
 		if (p == FilmProperty::VIDEO_FRAME_RATE || p == FilmProperty::SEQUENCE) {
 			/* We want to call Playlist::maybe_sequence but this must happen after the
 			   main signal emission (since the butler will see that emission and un-suspend itself).
 			*/
-			emit (boost::bind(&Playlist::maybe_sequence, _playlist.get(), shared_from_this()));
+			emit(boost::bind(&Playlist::maybe_sequence, _playlist.get(), shared_from_this()));
 		}
 	} else {
-		Change (type, p);
+		Change(type, p);
 	}
 }
 
 void
-Film::set_isdcf_date_today ()
+Film::set_isdcf_date_today()
 {
-	_isdcf_date = boost::gregorian::day_clock::local_day ();
+	_isdcf_date = boost::gregorian::day_clock::local_day();
 }
 
 
 boost::filesystem::path
-Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
+Film::j2c_path(int reel, Frame frame, Eyes eyes, bool tmp) const
 {
 	boost::filesystem::path p;
 	p /= "j2c";
-	p /= video_identifier ();
+	p /= video_identifier();
 
 	char buffer[256];
 	snprintf(buffer, sizeof(buffer), "%08d_%08" PRId64, reel, frame);
-	string s (buffer);
+	string s(buffer);
 
 	if (eyes == Eyes::LEFT) {
 		s += ".L";
@@ -1360,7 +1360,7 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
 	}
 
 	p /= s;
-	return file (p);
+	return file(p);
 }
 
 
@@ -1368,9 +1368,9 @@ Film::j2c_path (int reel, Frame frame, Eyes eyes, bool tmp) const
  *  The list will be returned in reverse order of timestamp (i.e. most recent first).
  */
 vector<CPLSummary>
-Film::cpls () const
+Film::cpls() const
 {
-	if (!directory ()) {
+	if (!directory()) {
 		return {};
 	}
 
@@ -1399,94 +1399,94 @@ Film::cpls () const
 }
 
 void
-Film::set_encrypted (bool e)
+Film::set_encrypted(bool e)
 {
 	FilmChangeSignaller ch(this, FilmProperty::ENCRYPTED);
 	_encrypted = e;
 }
 
 ContentList
-Film::content () const
+Film::content() const
 {
-	return _playlist->content ();
+	return _playlist->content();
 }
 
 /** @param content Content to add.
  *  @param disable_audio_analysis true to never do automatic audio analysis, even if it is enabled in configuration.
  */
 void
-Film::examine_and_add_content (shared_ptr<Content> content, bool disable_audio_analysis)
+Film::examine_and_add_content(shared_ptr<Content> content, bool disable_audio_analysis)
 {
-	if (dynamic_pointer_cast<FFmpegContent> (content) && _directory) {
-		run_ffprobe (content->path(0), file("ffprobe.log"));
+	if (dynamic_pointer_cast<FFmpegContent>(content) && _directory) {
+		run_ffprobe(content->path(0), file("ffprobe.log"));
 	}
 
 	auto j = make_shared<ExamineContentJob>(shared_from_this(), content, false);
 
-	_job_connections.push_back (
-		j->Finished.connect (bind (&Film::maybe_add_content, this, weak_ptr<Job>(j), weak_ptr<Content>(content), disable_audio_analysis))
+	_job_connections.push_back(
+		j->Finished.connect(bind(&Film::maybe_add_content, this, weak_ptr<Job>(j), weak_ptr<Content>(content), disable_audio_analysis))
 		);
 
-	JobManager::instance()->add (j);
+	JobManager::instance()->add(j);
 }
 
 void
-Film::maybe_add_content (weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audio_analysis)
+Film::maybe_add_content(weak_ptr<Job> j, weak_ptr<Content> c, bool disable_audio_analysis)
 {
-	auto job = j.lock ();
-	if (!job || !job->finished_ok ()) {
+	auto job = j.lock();
+	if (!job || !job->finished_ok()) {
 		return;
 	}
 
-	auto content = c.lock ();
+	auto content = c.lock();
 	if (!content) {
 		return;
 	}
 
-	add_content (content);
+	add_content(content);
 
 	if (Config::instance()->automatic_audio_analysis() && content->audio && !disable_audio_analysis) {
 		auto playlist = make_shared<Playlist>();
-		playlist->add (shared_from_this(), content);
+		playlist->add(shared_from_this(), content);
 		boost::signals2::connection c;
-		JobManager::instance()->analyse_audio (
-			shared_from_this(), playlist, false, c, bind (&Film::audio_analysis_finished, this)
+		JobManager::instance()->analyse_audio(
+			shared_from_this(), playlist, false, c, bind(&Film::audio_analysis_finished, this)
 			);
-		_audio_analysis_connections.push_back (c);
+		_audio_analysis_connections.push_back(c);
 	}
 }
 
 void
-Film::add_content (shared_ptr<Content> c)
+Film::add_content(shared_ptr<Content> c)
 {
 	/* Add {video,subtitle} content after any existing {video,subtitle} content */
 	if (c->video) {
-		c->set_position (shared_from_this(), _playlist->video_end(shared_from_this()));
+		c->set_position(shared_from_this(), _playlist->video_end(shared_from_this()));
 	} else if (!c->text.empty()) {
-		c->set_position (shared_from_this(), _playlist->text_end(shared_from_this()));
+		c->set_position(shared_from_this(), _playlist->text_end(shared_from_this()));
 	}
 
 	if (_template_film) {
 		/* Take settings from the first piece of content of c's type in _template */
 		for (auto i: _template_film->content()) {
-			c->take_settings_from (i);
+			c->take_settings_from(i);
 		}
 	}
 
-	_playlist->add (shared_from_this(), c);
+	_playlist->add(shared_from_this(), c);
 
-	maybe_set_container_and_resolution ();
+	maybe_set_container_and_resolution();
 	if (c->atmos) {
 		if (_audio_channels < 14) {
 			set_audio_channels(14);
 		}
-		set_interop (false);
+		set_interop(false);
 	}
 }
 
 
 void
-Film::maybe_set_container_and_resolution ()
+Film::maybe_set_container_and_resolution()
 {
 	/* Get the only piece of video content, if there is only one */
 	shared_ptr<VideoContent> video;
@@ -1495,7 +1495,7 @@ Film::maybe_set_container_and_resolution ()
 			if (!video) {
 				video = content->video;
 			} else {
-				video.reset ();
+				video.reset();
 			}
 		}
 	}
@@ -1507,55 +1507,55 @@ Film::maybe_set_container_and_resolution ()
 		 */
 		if (!_user_explicit_container) {
 			if (video->size()->ratio() > 2.3) {
-				set_container (Ratio::from_id("239"), false);
+				set_container(Ratio::from_id("239"), false);
 			} else {
-				set_container (Ratio::from_id("185"), false);
+				set_container(Ratio::from_id("185"), false);
 			}
 		}
 
 		if (!_user_explicit_resolution) {
 			if (video->size_after_crop()->width > 2048 || video->size_after_crop()->height > 1080) {
-				set_resolution (Resolution::FOUR_K, false);
+				set_resolution(Resolution::FOUR_K, false);
 			} else {
-				set_resolution (Resolution::TWO_K, false);
+				set_resolution(Resolution::TWO_K, false);
 			}
 		}
 	}
 }
 
 void
-Film::remove_content (shared_ptr<Content> c)
+Film::remove_content(shared_ptr<Content> c)
 {
-	_playlist->remove (c);
-	maybe_set_container_and_resolution ();
+	_playlist->remove(c);
+	maybe_set_container_and_resolution();
 }
 
 void
-Film::move_content_earlier (shared_ptr<Content> c)
+Film::move_content_earlier(shared_ptr<Content> c)
 {
-	_playlist->move_earlier (shared_from_this(), c);
+	_playlist->move_earlier(shared_from_this(), c);
 }
 
 void
-Film::move_content_later (shared_ptr<Content> c)
+Film::move_content_later(shared_ptr<Content> c)
 {
-	_playlist->move_later (shared_from_this(), c);
+	_playlist->move_later(shared_from_this(), c);
 }
 
 /** @return length of the film from time 0 to the last thing on the playlist,
  *  with a minimum length of 1 second.
  */
 DCPTime
-Film::length () const
+Film::length() const
 {
 	return max(DCPTime::from_seconds(1), _playlist->length(shared_from_this()).ceil(video_frame_rate()));
 }
 
 int
-Film::best_video_frame_rate () const
+Film::best_video_frame_rate() const
 {
 	/* Don't default to anything above 30fps (make the user select that explicitly) */
-	auto best = _playlist->best_video_frame_rate ();
+	auto best = _playlist->best_video_frame_rate();
 	if (best > 30) {
 		best /= 2;
 	}
@@ -1563,13 +1563,13 @@ Film::best_video_frame_rate () const
 }
 
 FrameRateChange
-Film::active_frame_rate_change (DCPTime t) const
+Film::active_frame_rate_change(DCPTime t) const
 {
-	return _playlist->active_frame_rate_change (t, video_frame_rate ());
+	return _playlist->active_frame_rate_change(t, video_frame_rate());
 }
 
 void
-Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool frequent)
+Film::playlist_content_change(ChangeType type, weak_ptr<Content> c, int p, bool frequent)
 {
 	if (p == ContentProperty::VIDEO_FRAME_RATE) {
 		signal_change(type, FilmProperty::CONTENT);
@@ -1578,34 +1578,34 @@ Film::playlist_content_change (ChangeType type, weak_ptr<Content> c, int p, bool
 	}
 
 	if (type == ChangeType::DONE) {
-		emit (boost::bind (boost::ref (ContentChange), type, c, p, frequent));
+		emit(boost::bind(boost::ref(ContentChange), type, c, p, frequent));
 		if (!frequent) {
-			check_settings_consistency ();
+			check_settings_consistency();
 		}
 	} else {
-		ContentChange (type, c, p, frequent);
+		ContentChange(type, c, p, frequent);
 	}
 
-	set_dirty (true);
+	set_dirty(true);
 }
 
 void
-Film::playlist_length_change ()
+Film::playlist_length_change()
 {
-	LengthChange ();
+	LengthChange();
 }
 
 void
-Film::playlist_change (ChangeType type)
+Film::playlist_change(ChangeType type)
 {
 	signal_change(type, FilmProperty::CONTENT);
 	signal_change(type, FilmProperty::NAME);
 
 	if (type == ChangeType::DONE) {
-		check_settings_consistency ();
+		check_settings_consistency();
 	}
 
-	set_dirty (true);
+	set_dirty(true);
 }
 
 
@@ -1657,7 +1657,7 @@ Film::check_reel_boundaries_for_atmos()
  *  video set to being referenced when it can't be.
  */
 void
-Film::check_settings_consistency ()
+Film::check_settings_consistency()
 {
 	std::set<int> atmos_rates;
 	for (auto i: content()) {
@@ -1743,7 +1743,7 @@ Film::check_settings_consistency ()
 }
 
 void
-Film::playlist_order_changed ()
+Film::playlist_order_changed()
 {
 	/* XXX: missing PENDING */
 	signal_change(ChangeType::DONE, FilmProperty::CONTENT_ORDER);
@@ -1751,7 +1751,7 @@ Film::playlist_order_changed ()
 
 
 void
-Film::set_sequence (bool s)
+Film::set_sequence(bool s)
 {
 	if (s == _sequence) {
 		return;
@@ -1759,37 +1759,37 @@ Film::set_sequence (bool s)
 
 	FilmChangeSignaller cc(this, FilmProperty::SEQUENCE);
 	_sequence = s;
-	_playlist->set_sequence (s);
+	_playlist->set_sequence(s);
 }
 
 /** @return Size of the largest possible image in whatever resolution we are using */
 dcp::Size
-Film::full_frame () const
+Film::full_frame() const
 {
 	switch (_resolution) {
 	case Resolution::TWO_K:
-		return dcp::Size (2048, 1080);
+		return dcp::Size(2048, 1080);
 	case Resolution::FOUR_K:
-		return dcp::Size (4096, 2160);
+		return dcp::Size(4096, 2160);
 	}
 
-	DCPOMATIC_ASSERT (false);
-	return dcp::Size ();
+	DCPOMATIC_ASSERT(false);
+	return {};
 }
 
 /** @return Size of the frame */
 dcp::Size
-Film::frame_size () const
+Film::frame_size() const
 {
-	return fit_ratio_within (container()->ratio(), full_frame ());
+	return fit_ratio_within(container()->ratio(), full_frame());
 }
 
 
 /** @return Area of Film::frame_size() that contains picture rather than pillar/letterboxing */
 dcp::Size
-Film::active_area () const
+Film::active_area() const
 {
-	auto const frame = frame_size ();
+	auto const frame = frame_size();
 	dcp::Size active;
 
 	for (auto i: content()) {
@@ -1813,7 +1813,7 @@ dcp::DecryptedKDM
 Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::LocalTime until) const
 {
 	if (!_encrypted) {
-		throw runtime_error (_("Cannot make a KDM as this project is not encrypted."));
+		throw runtime_error(_("Cannot make a KDM as this project is not encrypted."));
 	}
 
 	auto cpl = make_shared<dcp::CPL>(cpl_file);
@@ -1821,11 +1821,11 @@ Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::Local
 	/* Find keys that have been added to imported, encrypted DCP content */
 	list<dcp::DecryptedKDMKey> imported_keys;
 	for (auto i: content()) {
-		auto d = dynamic_pointer_cast<DCPContent> (i);
+		auto d = dynamic_pointer_cast<DCPContent>(i);
 		if (d && d->kdm()) {
-			dcp::DecryptedKDM kdm (d->kdm().get(), Config::instance()->decryption_chain()->key().get());
-			auto keys = kdm.keys ();
-			copy (keys.begin(), keys.end(), back_inserter (imported_keys));
+			dcp::DecryptedKDM kdm(d->kdm().get(), Config::instance()->decryption_chain()->key().get());
+			auto keys = kdm.keys();
+			copy(keys.begin(), keys.end(), back_inserter(imported_keys));
 		}
 	}
 
@@ -1853,7 +1853,7 @@ Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::Local
 		}
 	}
 
-	return dcp::DecryptedKDM (
+	return dcp::DecryptedKDM(
 		cpl->id(), keys, from, until, cpl->content_title_text(), cpl->content_title_text(), dcp::LocalTime().as_string()
 		);
 }
@@ -1863,9 +1863,9 @@ Film::make_kdm(boost::filesystem::path cpl_file, dcp::LocalTime from, dcp::Local
  *  current settings, in bytes.
  */
 uint64_t
-Film::required_disk_space () const
+Film::required_disk_space() const
 {
-	return _playlist->required_disk_space (shared_from_this(), video_bit_rate(video_encoding()), audio_channels(), audio_frame_rate());
+	return _playlist->required_disk_space(shared_from_this(), video_bit_rate(video_encoding()), audio_channels(), audio_frame_rate());
 }
 
 /** This method checks the disk that the Film is on and tries to decide whether or not
@@ -1888,19 +1888,19 @@ Film::should_be_enough_disk_space(double& required, double& available) const
  *  this is either the DCP or a AudioProcessor.
  */
 vector<NamedChannel>
-Film::audio_output_names () const
+Film::audio_output_names() const
 {
-	if (audio_processor ()) {
-		return audio_processor()->input_names ();
+	if (audio_processor()) {
+		return audio_processor()->input_names();
 	}
 
-	DCPOMATIC_ASSERT (MAX_DCP_AUDIO_CHANNELS == 16);
+	DCPOMATIC_ASSERT(MAX_DCP_AUDIO_CHANNELS == 16);
 
 	vector<NamedChannel> n;
 
 	for (int i = 0; i < audio_channels(); ++i) {
 		if (Config::instance()->use_all_audio_channels() || (i != 8 && i != 9 && i != 15)) {
-			n.push_back (NamedChannel(short_audio_channel_name(i), i));
+			n.push_back(NamedChannel(short_audio_channel_name(i), i));
 		}
 	}
 
@@ -1908,31 +1908,31 @@ Film::audio_output_names () const
 }
 
 void
-Film::repeat_content (ContentList c, int n)
+Film::repeat_content(ContentList c, int n)
 {
-	_playlist->repeat (shared_from_this(), c, n);
+	_playlist->repeat(shared_from_this(), c, n);
 }
 
 void
-Film::remove_content (ContentList c)
+Film::remove_content(ContentList c)
 {
-	_playlist->remove (c);
+	_playlist->remove(c);
 }
 
 void
-Film::audio_analysis_finished ()
+Film::audio_analysis_finished()
 {
 	/* XXX */
 }
 
 
 vector<DCPTimePeriod>
-Film::reels () const
+Film::reels() const
 {
 	vector<DCPTimePeriod> periods;
 	auto const len = length();
 
-	switch (reel_type ()) {
+	switch (reel_type()) {
 	case ReelType::SINGLE:
 		periods.emplace_back(DCPTime(), len);
 		break;
@@ -1940,19 +1940,19 @@ Film::reels () const
 	{
 		/* Collect all reel boundaries */
 		list<DCPTime> split_points;
-		split_points.push_back (DCPTime());
-		split_points.push_back (len);
+		split_points.push_back(DCPTime());
+		split_points.push_back(len);
 		for (auto c: content()) {
 			if (c->video) {
 				for (auto t: c->reel_split_points(shared_from_this())) {
-					split_points.push_back (t);
+					split_points.push_back(t);
 				}
-				split_points.push_back (c->end(shared_from_this()));
+				split_points.push_back(c->end(shared_from_this()));
 			}
 		}
 
-		split_points.sort ();
-		split_points.unique ();
+		split_points.sort();
+		split_points.unique();
 
 		/* Make them into periods, coalescing any that are less than 1 second long */
 		optional<DCPTime> last;
@@ -1980,7 +1980,7 @@ Film::reels () const
 		 */
 		Frame const reel_in_frames = max(_reel_length / ((video_bit_rate(video_encoding()) / video_frame_rate()) / 8), static_cast<Frame>(video_frame_rate()));
 		while (current < len) {
-			DCPTime end = min (len, current + DCPTime::from_frames (reel_in_frames, video_frame_rate ()));
+			DCPTime end = min(len, current + DCPTime::from_frames(reel_in_frames, video_frame_rate()));
 			periods.emplace_back(current, end);
 			current = end;
 		}
@@ -2008,9 +2008,9 @@ Film::reels () const
  *  @return Name of the content which most contributes to the given period.
  */
 string
-Film::content_summary (DCPTimePeriod period) const
+Film::content_summary(DCPTimePeriod period) const
 {
-	return _playlist->content_summary (shared_from_this(), period);
+	return _playlist->content_summary(shared_from_this(), period);
 }
 
 void
@@ -2047,19 +2047,19 @@ Film::use_template(optional<string> name)
 }
 
 pair<double, double>
-Film::speed_up_range (int dcp_frame_rate) const
+Film::speed_up_range(int dcp_frame_rate) const
 {
-	return _playlist->speed_up_range (dcp_frame_rate);
+	return _playlist->speed_up_range(dcp_frame_rate);
 }
 
 void
-Film::copy_from (shared_ptr<const Film> film)
+Film::copy_from(shared_ptr<const Film> film)
 {
-	read_metadata (film->file (metadata_file));
+	read_metadata(film->file(metadata_file));
 }
 
 bool
-Film::references_dcp_video () const
+Film::references_dcp_video() const
 {
 	for (auto i: _playlist->content()) {
 		auto d = dynamic_pointer_cast<DCPContent>(i);
@@ -2072,7 +2072,7 @@ Film::references_dcp_video () const
 }
 
 bool
-Film::references_dcp_audio () const
+Film::references_dcp_audio() const
 {
 	for (auto i: _playlist->content()) {
 		auto d = dynamic_pointer_cast<DCPContent>(i);
@@ -2086,7 +2086,7 @@ Film::references_dcp_audio () const
 
 
 bool
-Film::contains_atmos_content () const
+Film::contains_atmos_content() const
 {
 	auto const content = _playlist->content();
 	return std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> content) {
@@ -2104,7 +2104,7 @@ Film::closed_text_tracks() const
 			/* XXX: Empty DCPTextTrack ends up being a magic value here - the "unknown" or "not specified" track */
 			auto dtt = text->dcp_track().get_value_or(DCPTextTrack());
 			if (!is_open(text->type()) && find(tt.begin(), tt.end(), dtt) == tt.end()) {
-				tt.push_back (dtt);
+				tt.push_back(dtt);
 			}
 		}
 	}
@@ -2113,7 +2113,7 @@ Film::closed_text_tracks() const
 }
 
 void
-Film::set_marker (dcp::Marker type, DCPTime time)
+Film::set_marker(dcp::Marker type, DCPTime time)
 {
 	FilmChangeSignaller ch(this, FilmProperty::MARKERS);
 	_markers[type] = time;
@@ -2121,30 +2121,30 @@ Film::set_marker (dcp::Marker type, DCPTime time)
 
 
 void
-Film::unset_marker (dcp::Marker type)
+Film::unset_marker(dcp::Marker type)
 {
 	FilmChangeSignaller ch(this, FilmProperty::MARKERS);
-	_markers.erase (type);
+	_markers.erase(type);
 }
 
 
 void
-Film::clear_markers ()
+Film::clear_markers()
 {
 	FilmChangeSignaller ch(this, FilmProperty::MARKERS);
-	_markers.clear ();
+	_markers.clear();
 }
 
 
 void
-Film::set_ratings (vector<dcp::Rating> r)
+Film::set_ratings(vector<dcp::Rating> r)
 {
 	FilmChangeSignaller ch(this, FilmProperty::RATINGS);
 	_ratings = r;
 }
 
 void
-Film::set_content_versions (vector<string> v)
+Film::set_content_versions(vector<string> v)
 {
 	FilmChangeSignaller ch(this, FilmProperty::CONTENT_VERSIONS);
 	_content_versions = v;
@@ -2152,7 +2152,7 @@ Film::set_content_versions (vector<string> v)
 
 
 void
-Film::set_name_language (dcp::LanguageTag lang)
+Film::set_name_language(dcp::LanguageTag lang)
 {
 	FilmChangeSignaller ch(this, FilmProperty::NAME_LANGUAGE);
 	_name_language = lang;
@@ -2160,7 +2160,7 @@ Film::set_name_language (dcp::LanguageTag lang)
 
 
 void
-Film::set_release_territory (optional<dcp::LanguageTag::RegionSubtag> region)
+Film::set_release_territory(optional<dcp::LanguageTag::RegionSubtag> region)
 {
 	FilmChangeSignaller ch(this, FilmProperty::RELEASE_TERRITORY);
 	_release_territory = region;
@@ -2168,7 +2168,7 @@ Film::set_release_territory (optional<dcp::LanguageTag::RegionSubtag> region)
 
 
 void
-Film::set_status (dcp::Status s)
+Film::set_status(dcp::Status s)
 {
 	FilmChangeSignaller ch(this, FilmProperty::STATUS);
 	_status = s;
@@ -2176,7 +2176,7 @@ Film::set_status (dcp::Status s)
 
 
 void
-Film::set_version_number (int v)
+Film::set_version_number(int v)
 {
 	FilmChangeSignaller ch(this, FilmProperty::VERSION_NUMBER);
 	_version_number = v;
@@ -2184,7 +2184,7 @@ Film::set_version_number (int v)
 
 
 void
-Film::set_chain (optional<string> c)
+Film::set_chain(optional<string> c)
 {
 	FilmChangeSignaller ch(this, FilmProperty::CHAIN);
 	_chain = c;
@@ -2192,7 +2192,7 @@ Film::set_chain (optional<string> c)
 
 
 void
-Film::set_distributor (optional<string> d)
+Film::set_distributor(optional<string> d)
 {
 	FilmChangeSignaller ch(this, FilmProperty::DISTRIBUTOR);
 	_distributor = d;
@@ -2200,7 +2200,7 @@ Film::set_distributor (optional<string> d)
 
 
 void
-Film::set_luminance (optional<dcp::Luminance> l)
+Film::set_luminance(optional<dcp::Luminance> l)
 {
 	FilmChangeSignaller ch(this, FilmProperty::LUMINANCE);
 	_luminance = l;
@@ -2208,7 +2208,7 @@ Film::set_luminance (optional<dcp::Luminance> l)
 
 
 void
-Film::set_facility (optional<string> f)
+Film::set_facility(optional<string> f)
 {
 	FilmChangeSignaller ch(this, FilmProperty::FACILITY);
 	_facility = f;
@@ -2216,7 +2216,7 @@ Film::set_facility (optional<string> f)
 
 
 void
-Film::set_studio (optional<string> s)
+Film::set_studio(optional<string> s)
 {
 	FilmChangeSignaller ch(this, FilmProperty::STUDIO);
 	_studio = s;
@@ -2224,9 +2224,9 @@ Film::set_studio (optional<string> s)
 
 
 optional<DCPTime>
-Film::marker (dcp::Marker type) const
+Film::marker(dcp::Marker type) const
 {
-	auto i = _markers.find (type);
+	auto i = _markers.find(type);
 	if (i == _markers.end()) {
 		return {};
 	}
@@ -2236,7 +2236,7 @@ Film::marker (dcp::Marker type) const
 
 /** Add FFOC and LFOC markers to a list if they are not already there */
 void
-Film::add_ffoc_lfoc (Markers& markers) const
+Film::add_ffoc_lfoc(Markers& markers) const
 {
 	if (markers.find(dcp::Marker::FFOC) == markers.end()) {
 		markers[dcp::Marker::FFOC] = dcpomatic::DCPTime::from_frames(1, video_frame_rate());
@@ -2249,7 +2249,7 @@ Film::add_ffoc_lfoc (Markers& markers) const
 
 
 void
-Film::set_temp_version (bool t)
+Film::set_temp_version(bool t)
 {
 	FilmChangeSignaller ch(this, FilmProperty::TEMP_VERSION);
 	_temp_version = t;
@@ -2257,7 +2257,7 @@ Film::set_temp_version (bool t)
 
 
 void
-Film::set_pre_release (bool p)
+Film::set_pre_release(bool p)
 {
 	FilmChangeSignaller ch(this, FilmProperty::PRE_RELEASE);
 	_pre_release = p;
@@ -2265,7 +2265,7 @@ Film::set_pre_release (bool p)
 
 
 void
-Film::set_red_band (bool r)
+Film::set_red_band(bool r)
 {
 	FilmChangeSignaller ch(this, FilmProperty::RED_BAND);
 	_red_band = r;
@@ -2273,7 +2273,7 @@ Film::set_red_band (bool r)
 
 
 void
-Film::set_two_d_version_of_three_d (bool t)
+Film::set_two_d_version_of_three_d(bool t)
 {
 	FilmChangeSignaller ch(this, FilmProperty::TWO_D_VERSION_OF_THREE_D);
 	_two_d_version_of_three_d = t;
@@ -2281,7 +2281,7 @@ Film::set_two_d_version_of_three_d (bool t)
 
 
 void
-Film::set_audio_language (optional<dcp::LanguageTag> language)
+Film::set_audio_language(optional<dcp::LanguageTag> language)
 {
 	FilmChangeSignaller ch(this, FilmProperty::AUDIO_LANGUAGE);
 	_audio_language = language;
@@ -2289,7 +2289,7 @@ Film::set_audio_language (optional<dcp::LanguageTag> language)
 
 
 void
-Film::set_audio_frame_rate (int rate)
+Film::set_audio_frame_rate(int rate)
 {
 	FilmChangeSignaller ch(this, FilmProperty::AUDIO_FRAME_RATE);
 	_audio_frame_rate = rate;
@@ -2297,14 +2297,14 @@ Film::set_audio_frame_rate (int rate)
 
 
 bool
-Film::has_sign_language_video_channel () const
+Film::has_sign_language_video_channel() const
 {
 	return _audio_channels >= static_cast<int>(dcp::Channel::SIGN_LANGUAGE);
 }
 
 
 void
-Film::set_sign_language_video_language (optional<dcp::LanguageTag> lang)
+Film::set_sign_language_video_language(optional<dcp::LanguageTag> lang)
 {
 	FilmChangeSignaller ch(this, FilmProperty::SIGN_LANGUAGE_VIDEO_LANGUAGE);
 	_sign_language_video_language = lang;
@@ -2312,12 +2312,12 @@ Film::set_sign_language_video_language (optional<dcp::LanguageTag> lang)
 
 
 void
-Film::set_dirty (bool dirty)
+Film::set_dirty(bool dirty)
 {
 	auto const changed = dirty != _dirty;
 	_dirty = dirty;
 	if (changed) {
-		emit (boost::bind(boost::ref(DirtyChange), _dirty));
+		emit(boost::bind(boost::ref(DirtyChange), _dirty));
 	}
 }
 

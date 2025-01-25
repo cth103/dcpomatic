@@ -37,19 +37,19 @@ namespace dcpomatic {
 class Font
 {
 public:
-	explicit Font (std::string id)
-		: _id (id) {}
+	explicit Font(std::string id)
+		: _id(id) {}
 
-	explicit Font (cxml::NodePtr node);
+	explicit Font(cxml::NodePtr node);
 
-	Font (std::string id, boost::filesystem::path file)
-		: _id (id)
+	Font(std::string id, boost::filesystem::path file)
+		: _id(id)
 	{
 		_content.file = file;
 	}
 
-	Font (std::string id, dcp::ArrayData data)
-		: _id (id)
+	Font(std::string id, dcp::ArrayData data)
+		: _id(id)
 	{
 		_content.data = data;
 	}
@@ -59,21 +59,21 @@ public:
 
 	void as_xml(xmlpp::Element* element);
 
-	std::string id () const {
+	std::string id() const {
 		return _id;
 	}
 
-	void set_id (std::string id) {
+	void set_id(std::string id) {
 		_id = id;
 	}
 
-	boost::optional<boost::filesystem::path> file () const {
+	boost::optional<boost::filesystem::path> file() const {
 		return _content.file;
 	}
 
-	void set_file (boost::filesystem::path file) {
+	void set_file(boost::filesystem::path file) {
 		_content.file = file;
-		Changed ();
+		Changed();
 	}
 
 	/** @return the data set passed to the dcp::ArrayData constructor,
@@ -103,8 +103,8 @@ private:
 };
 
 
-bool operator!= (Font const & a, Font const & b);
-bool operator== (Font const & a, Font const & b);
+bool operator!=(Font const & a, Font const & b);
+bool operator==(Font const & a, Font const & b);
 
 
 }
