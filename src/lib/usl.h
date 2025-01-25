@@ -30,5 +30,5 @@
 class USL : public CinemaSoundProcessor
 {
 public:
-	USL ();
+	USL();
 };

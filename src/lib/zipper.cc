@@ -33,28 +33,28 @@ using std::shared_ptr;
 using std::string;
 
 
-Zipper::Zipper (boost::filesystem::path file)
+Zipper::Zipper(boost::filesystem::path file)
 {
 	int error;
 	_zip = zip_open(dcp::filesystem::fix_long_path(file).string().c_str(), ZIP_CREATE | ZIP_EXCL, &error);
 	if (!_zip) {
 		if (error == ZIP_ER_EXISTS) {
-			throw FileError ("ZIP file already exists", file);
+			throw FileError("ZIP file already exists", file);
 		}
-		throw FileError ("could not create ZIP file", file);
+		throw FileError("could not create ZIP file", file);
 	}
 }
 
 
 void
-Zipper::add (string name, string content)
+Zipper::add(string name, string content)
 {
 	shared_ptr<string> copy(new string(content));
-	_store.push_back (copy);
+	_store.push_back(copy);
 
-	auto source = zip_source_buffer (_zip, copy->c_str(), copy->length(), 0);
+	auto source = zip_source_buffer(_zip, copy->c_str(), copy->length(), 0);
 	if (!source) {
-		throw runtime_error ("could not create ZIP source");
+		throw runtime_error("could not create ZIP source");
 	}
 
 #ifdef DCPOMATIC_HAVE_ZIP_FILE_ADD
@@ -68,16 +68,16 @@ Zipper::add (string name, string content)
 
 
 void
-Zipper::close ()
+Zipper::close()
 {
 	if (zip_close(_zip) == -1) {
-		throw runtime_error ("failed to close ZIP archive");
+		throw runtime_error("failed to close ZIP archive");
 	}
 	_zip = 0;
 }
 
 
-Zipper::~Zipper ()
+Zipper::~Zipper()
 {
 	if (_zip) {
 		zip_close(_zip);

@@ -23,4 +23,4 @@
 #include <string>
 
 
-extern boost::optional<std::string> kdm_cli (int argc, char* argv[], std::function<void (std::string)> out);
+extern boost::optional<std::string> kdm_cli(int argc, char* argv[], std::function<void (std::string)> out);

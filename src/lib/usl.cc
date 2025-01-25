@@ -24,8 +24,8 @@
 #include "i18n.h"
 
 
-USL::USL ()
-	: CinemaSoundProcessor ("usl", _("USL"), 5.5f, 10, 3.33333333333333333)
+USL::USL()
+	: CinemaSoundProcessor("usl", _("USL"), 5.5f, 10, 3.33333333333333333)
 {
 
 }

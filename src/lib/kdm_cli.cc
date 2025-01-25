@@ -60,84 +60,84 @@ using namespace dcpomatic;
 
 
 static void
-help (std::function<void (string)> out)
+help(std::function<void (string)> out)
 {
-	out (String::compose("Syntax: %1 [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
-	out ("Commands:");
-	out ("create          create KDMs; default if no other command is specified");
-	out (variant::insert_dcpomatic("list-cinemas                 list known cinemas from %1 settings"));
-	out (variant::insert_dcpomatic("list-dkdm-cpls               list CPLs for which %1 has DKDMs"));
-	out (variant::insert_dcpomatic("add-dkdm                     add DKDM to %1's list"));
-	out (variant::insert_dcpomatic("dump-decryption-certificate  write the %1 KDM decryption certificate to the console"));
-	out ("  -h, --help                               show this help");
-	out ("  -o, --output <path>                      output file or directory");
-	out ("  -K, --filename-format <format>           filename format for KDMs");
-	out ("  -Z, --container-name-format <format>     filename format for ZIP containers");
-	out ("  -f, --valid-from <time>                  valid from time (e.g. \"2013-09-28T01:41:51+04:00\", \"2018-01-01T12:00:30\") or \"now\"");
-	out ("  -t, --valid-to <time>                    valid to time (e.g. \"2014-09-28T01:41:51\")");
-	out ("  -d, --valid-duration <duration>          valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")");
-	out ("  -F, --formulation <formulation>          modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]");
-	out ("  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences");
-	out ("  -a, --disable-forensic-marking-audio     disable forensic marking of audio essences (optionally above a given channel, e.g 12)");
-	out ("  -e, --email                              email KDMs to cinemas");
-	out ("  -z, --zip                                ZIP each cinema's KDMs into its own file");
-	out ("  -v, --verbose                            be verbose");
-	out ("  -c, --cinema <name|email>                cinema name (when using -C) or name/email (to filter cinemas)");
-	out ("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
-	out ("  -C, --projector-certificate <file>       file containing projector certificate");
-	out ("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
-	out ("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
-	out (variant::insert_dcpomatic("                                           (%1's configured private key will be used otherwise)"));
-	out ("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
-	out ("");
-	out (variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in %1's DKDM list."));
-	out ("");
-	out ("For example:");
-	out ("");
-	out ("Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.");
-	out (variant::insert_dcpomatic("(Fred's Cinema must have been set up in %1's KDM window)"));
-	out ("");
-	out (String::compose("\t%1 -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie", program_name));
+	out(String::compose("Syntax: %1 [OPTION] [COMMAND] <FILM|CPL-ID|DKDM>", program_name));
+	out("Commands:");
+	out("create          create KDMs; default if no other command is specified");
+	out(variant::insert_dcpomatic("list-cinemas                 list known cinemas from %1 settings"));
+	out(variant::insert_dcpomatic("list-dkdm-cpls               list CPLs for which %1 has DKDMs"));
+	out(variant::insert_dcpomatic("add-dkdm                     add DKDM to %1's list"));
+	out(variant::insert_dcpomatic("dump-decryption-certificate  write the %1 KDM decryption certificate to the console"));
+	out("  -h, --help                               show this help");
+	out("  -o, --output <path>                      output file or directory");
+	out("  -K, --filename-format <format>           filename format for KDMs");
+	out("  -Z, --container-name-format <format>     filename format for ZIP containers");
+	out("  -f, --valid-from <time>                  valid from time (e.g. \"2013-09-28T01:41:51+04:00\", \"2018-01-01T12:00:30\") or \"now\"");
+	out("  -t, --valid-to <time>                    valid to time (e.g. \"2014-09-28T01:41:51\")");
+	out("  -d, --valid-duration <duration>          valid duration (e.g. \"1 day\", \"4 hours\", \"2 weeks\")");
+	out("  -F, --formulation <formulation>          modified-transitional-1, multiple-modified-transitional-1, dci-any or dci-specific [default modified-transitional-1]");
+	out("  -p, --disable-forensic-marking-picture   disable forensic marking of pictures essences");
+	out("  -a, --disable-forensic-marking-audio     disable forensic marking of audio essences (optionally above a given channel, e.g 12)");
+	out("  -e, --email                              email KDMs to cinemas");
+	out("  -z, --zip                                ZIP each cinema's KDMs into its own file");
+	out("  -v, --verbose                            be verbose");
+	out("  -c, --cinema <name|email>                cinema name (when using -C) or name/email (to filter cinemas)");
+	out("  -S, --screen <name>                      screen name (when using -C) or screen name (to filter screens when using -c)");
+	out("  -C, --projector-certificate <file>       file containing projector certificate");
+	out("  -T, --trusted-device-certificate <file>  file containing a trusted device's certificate");
+	out("      --decryption-key <file>              file containing the private key which can decrypt the given DKDM");
+	out(variant::insert_dcpomatic("                                           (%1's configured private key will be used otherwise)"));
+	out("      --cinemas-file <file>                use the given file as a list of cinemas instead of the current configuration");
+	out("");
+	out(variant::insert_dcpomatic("CPL-ID must be the ID of a CPL that is mentioned in %1's DKDM list."));
+	out("");
+	out("For example:");
+	out("");
+	out("Create KDMs for my_great_movie to play in all of Fred's Cinema's screens for the next two weeks and zip them up.");
+	out(variant::insert_dcpomatic("(Fred's Cinema must have been set up in %1's KDM window)"));
+	out("");
+	out(String::compose("\t%1 -c \"Fred's Cinema\" -f now -d \"2 weeks\" -z my_great_movie", program_name));
 }
 
 
 class KDMCLIError : public std::runtime_error
 {
 public:
-	KDMCLIError (std::string message)
-		: std::runtime_error (String::compose("%1: %2", program_name, message).c_str())
+	KDMCLIError(std::string message)
+		: std::runtime_error(String::compose("%1: %2", program_name, message).c_str())
 	{}
 };
 
 
 static boost::posix_time::time_duration
-duration_from_string (string d)
+duration_from_string(string d)
 {
 	int N;
 	char unit_buf[64] = "\0";
-	sscanf (d.c_str(), "%d %63s", &N, unit_buf);
-	string const unit (unit_buf);
+	sscanf(d.c_str(), "%d %63s", &N, unit_buf);
+	string const unit(unit_buf);
 
 	if (N == 0) {
-		throw KDMCLIError (String::compose("could not understand duration \"%1\"", d));
+		throw KDMCLIError(String::compose("could not understand duration \"%1\"", d));
 	}
 
 	if (unit == "year" || unit == "years") {
-		return boost::posix_time::time_duration (N * 24 * 365, 0, 0, 0);
+		return boost::posix_time::time_duration(N * 24 * 365, 0, 0, 0);
 	} else if (unit == "week" || unit == "weeks") {
-		return boost::posix_time::time_duration (N * 24 * 7, 0, 0, 0);
+		return boost::posix_time::time_duration(N * 24 * 7, 0, 0, 0);
 	} else if (unit == "day" || unit == "days") {
-		return boost::posix_time::time_duration (N * 24, 0, 0, 0);
+		return boost::posix_time::time_duration(N * 24, 0, 0, 0);
 	} else if (unit == "hour" || unit == "hours") {
-		return boost::posix_time::time_duration (N, 0, 0, 0);
+		return boost::posix_time::time_duration(N, 0, 0, 0);
 	}
 
-	throw KDMCLIError (String::compose("could not understand duration \"%1\"", d));
+	throw KDMCLIError(String::compose("could not understand duration \"%1\"", d));
 }
 
 
 static bool
-always_overwrite ()
+always_overwrite()
 {
 	return true;
 }
@@ -145,7 +145,7 @@ always_overwrite ()
 
 static
 void
-write_files (
+write_files(
 	list<KDMWithMetadataPtr> kdms,
 	bool zip,
 	boost::filesystem::path output,
@@ -156,25 +156,25 @@ write_files (
 	)
 {
 	if (zip) {
-		int const N = write_zip_files (
-			collect (kdms),
+		int const N = write_zip_files(
+			collect(kdms),
 			output,
 			container_name_format,
 			filename_format,
-			bind (&always_overwrite)
+			bind(&always_overwrite)
 			);
 
 		if (verbose) {
-			out (String::compose("Wrote %1 ZIP files to %2", N, output));
+			out(String::compose("Wrote %1 ZIP files to %2", N, output));
 		}
 	} else {
-		int const N = write_files (
+		int const N = write_files(
 			kdms, output, filename_format,
-			bind (&always_overwrite)
+			bind(&always_overwrite)
 			);
 
 		if (verbose) {
-			out (String::compose("Wrote %1 KDM files to %2", N, output));
+			out(String::compose("Wrote %1 KDM files to %2", N, output));
 		}
 	}
 }
@@ -197,7 +197,7 @@ public:
 
 static
 void
-from_film (
+from_film(
 	vector<ScreenDetails> const& screens,
 	boost::filesystem::path film_dir,
 	bool verbose,
@@ -217,20 +217,20 @@ from_film (
 	shared_ptr<Film> film;
 	try {
 		film = make_shared<Film>(film_dir);
-		film->read_metadata ();
+		film->read_metadata();
 		if (verbose) {
-			out (String::compose("Read film %1", film->name()));
+			out(String::compose("Read film %1", film->name()));
 		}
 	} catch (std::exception& e) {
-		throw KDMCLIError (String::compose("error reading film \"%1\" (%2)", film_dir.string(), e.what()));
+		throw KDMCLIError(String::compose("error reading film \"%1\" (%2)", film_dir.string(), e.what()));
 	}
 
 	/* XXX: allow specification of this */
-	vector<CPLSummary> cpls = film->cpls ();
-	if (cpls.empty ()) {
-		throw KDMCLIError ("no CPLs found in film");
+	vector<CPLSummary> cpls = film->cpls();
+	if (cpls.empty()) {
+		throw KDMCLIError("no CPLs found in film");
 	} else if (cpls.size() > 1) {
-		throw KDMCLIError ("more than one CPL found in film");
+		throw KDMCLIError("more than one CPL found in film");
 	}
 
 	auto cpl = cpls.front().cpl_file;
@@ -240,7 +240,7 @@ from_film (
 	try {
 		list<KDMWithMetadataPtr> kdms;
 		for (auto screen_details: screens) {
-			std::function<dcp::DecryptedKDM (dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, cpl](dcp::LocalTime begin, dcp::LocalTime end) {
+			std::function<dcp::DecryptedKDM(dcp::LocalTime, dcp::LocalTime)> make_kdm = [film, cpl](dcp::LocalTime begin, dcp::LocalTime end) {
 				return film->make_kdm(cpl, begin, end);
 			};
 			auto p = kdm_for_screen(
@@ -256,7 +256,7 @@ from_film (
 				period_checks
 				);
 			if (p) {
-				kdms.push_back (p);
+				kdms.push_back(p);
 			}
 		}
 
@@ -278,30 +278,30 @@ from_film (
 			out("For some of these KDMs the recipient certificate's validity period will not cover the whole of the KDM validity period.  This might cause problems with the KDMs.");
 		}
 
-		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
+		write_files(kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
-			send_emails ({kdms}, container_name_format, filename_format, film->dcp_name(), {});
+			send_emails({kdms}, container_name_format, filename_format, film->dcp_name(), {});
 		}
 	} catch (FileError& e) {
-		throw KDMCLIError (String::compose("%1 (%2)", e.what(), e.file().string()));
+		throw KDMCLIError(String::compose("%1 (%2)", e.what(), e.file().string()));
 	}
 }
 
 
 static
 optional<dcp::EncryptedKDM>
-sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
+sub_find_dkdm(shared_ptr<DKDMGroup> group, string cpl_id)
 {
 	for (auto i: group->children()) {
 		auto g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
-			auto dkdm = sub_find_dkdm (g, cpl_id);
+			auto dkdm = sub_find_dkdm(g, cpl_id);
 			if (dkdm) {
 				return dkdm;
 			}
 		} else {
 			auto d = dynamic_pointer_cast<DKDM>(i);
-			assert (d);
+			assert(d);
 			if (d->dkdm().cpl_id() == cpl_id) {
 				return d->dkdm();
 			}
@@ -314,15 +314,15 @@ sub_find_dkdm (shared_ptr<DKDMGroup> group, string cpl_id)
 
 static
 optional<dcp::EncryptedKDM>
-find_dkdm (string cpl_id)
+find_dkdm(string cpl_id)
 {
-	return sub_find_dkdm (Config::instance()->dkdms(), cpl_id);
+	return sub_find_dkdm(Config::instance()->dkdms(), cpl_id);
 }
 
 
 static
 dcp::EncryptedKDM
-kdm_from_dkdm (
+kdm_from_dkdm(
 	dcp::DecryptedKDM dkdm,
 	dcp::Certificate target,
 	vector<string> trusted_devices,
@@ -334,13 +334,13 @@ kdm_from_dkdm (
 	)
 {
 	/* Signer for new KDM */
-	auto signer = Config::instance()->signer_chain ();
-	if (!signer->valid ()) {
-		throw KDMCLIError ("signing certificate chain is invalid.");
+	auto signer = Config::instance()->signer_chain();
+	if (!signer->valid()) {
+		throw KDMCLIError("signing certificate chain is invalid.");
 	}
 
 	/* Make a new empty KDM and add the keys from the DKDM to it */
-	dcp::DecryptedKDM kdm (
+	dcp::DecryptedKDM kdm(
 		valid_from,
 		valid_to,
 		dkdm.annotation_text().get_value_or(""),
@@ -352,13 +352,13 @@ kdm_from_dkdm (
 		kdm.add_key(j);
 	}
 
-	return kdm.encrypt (signer, target, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
+	return kdm.encrypt(signer, target, trusted_devices, formulation, disable_forensic_marking_picture, disable_forensic_marking_audio);
 }
 
 
 static
 void
-from_dkdm (
+from_dkdm(
 	vector<ScreenDetails> const& screens,
 	dcp::DecryptedKDM dkdm,
 	bool verbose,
@@ -405,33 +405,33 @@ from_dkdm (
 
 			kdms.push_back(make_shared<KDMWithMetadata>(name_values, screen_details.cinema_id, screen_details.cinema.emails, kdm));
 		}
-		write_files (kdms, zip, output, container_name_format, filename_format, verbose, out);
+		write_files(kdms, zip, output, container_name_format, filename_format, verbose, out);
 		if (email) {
-			send_emails ({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""), {});
+			send_emails({kdms}, container_name_format, filename_format, dkdm.annotation_text().get_value_or(""), {});
 		}
 	} catch (FileError& e) {
-		throw KDMCLIError (String::compose("%1 (%2)", e.what(), e.file().string()));
+		throw KDMCLIError(String::compose("%1 (%2)", e.what(), e.file().string()));
 	}
 }
 
 
 static
 void
-dump_dkdm_group (shared_ptr<DKDMGroup> group, int indent, std::function<void (string)> out)
+dump_dkdm_group(shared_ptr<DKDMGroup> group, int indent, std::function<void (string)> out)
 {
 	auto const indent_string = string(indent, ' ');
 
 	if (indent > 0) {
-		out (indent_string + group->name());
+		out(indent_string + group->name());
 	}
 	for (auto i: group->children()) {
 		auto g = dynamic_pointer_cast<DKDMGroup>(i);
 		if (g) {
-			dump_dkdm_group (g, indent + 2, out);
+			dump_dkdm_group(g, indent + 2, out);
 		} else {
 			auto d = dynamic_pointer_cast<DKDM>(i);
 			assert(d);
-			out (indent_string + d->dkdm().cpl_id());
+			out(indent_string + d->dkdm().cpl_id());
 		}
 	}
 }
@@ -466,7 +466,7 @@ dump_decryption_certificate(std::function<void (string)> out)
 
 
 optional<string>
-kdm_cli (int argc, char* argv[], std::function<void (string)> out)
+kdm_cli(int argc, char* argv[], std::function<void (string)> out)
 try
 {
 	boost::filesystem::path output = dcp::filesystem::current_path();
@@ -532,16 +532,16 @@ try
 
 		switch (c) {
 		case 'h':
-			help (out);
+			help(out);
 			return {};
 		case 'o':
 			output = optarg;
 			break;
 		case 'K':
-			filename_format = dcp::NameFormat (optarg);
+			filename_format = dcp::NameFormat(optarg);
 			break;
 		case 'Z':
-			container_name_format = dcp::NameFormat (optarg);
+			container_name_format = dcp::NameFormat(optarg);
 			break;
 		case 'f':
 			valid_from = time_from_string(optarg);
@@ -562,7 +562,7 @@ try
 			} else if (string(optarg) == "dci-specific") {
 				formulation = dcp::Formulation::DCI_SPECIFIC;
 			} else {
-				throw KDMCLIError ("unrecognised KDM formulation " + string (optarg));
+				throw KDMCLIError("unrecognised KDM formulation " + string(optarg));
 			}
 			break;
 		case 'p':
@@ -571,9 +571,9 @@ try
 		case 'a':
 			disable_forensic_marking_audio = 0;
 			if (optarg == 0 && argv[optind] != 0 && argv[optind][0] != '-') {
-				disable_forensic_marking_audio = atoi (argv[optind++]);
+				disable_forensic_marking_audio = atoi(argv[optind++]);
 			} else if (optarg) {
-				disable_forensic_marking_audio = atoi (optarg);
+				disable_forensic_marking_audio = atoi(optarg);
 			}
 			break;
 		case 'e':
@@ -652,7 +652,7 @@ try
 	}
 
 	if (command == "list-dkdm-cpls") {
-		dump_dkdm_group (Config::instance()->dkdms(), 0, out);
+		dump_dkdm_group(Config::instance()->dkdms(), 0, out);
 		return {};
 	}
 
@@ -673,15 +673,15 @@ try
 	}
 
 	if (!duration_string && !valid_to) {
-		throw KDMCLIError ("you must specify a --valid-duration or --valid-to");
+		throw KDMCLIError("you must specify a --valid-duration or --valid-to");
 	}
 
 	if (!valid_from) {
-		throw KDMCLIError ("you must specify --valid-from");
+		throw KDMCLIError("you must specify --valid-from");
 	}
 
 	if (optind >= argc) {
-		throw KDMCLIError ("no film, CPL ID or DKDM specified");
+		throw KDMCLIError("no film, CPL ID or DKDM specified");
 	}
 
 	vector<ScreenDetails> screens;
@@ -719,7 +719,7 @@ try
 
 	string const thing = argv[optind];
 	if (dcp::filesystem::is_directory(thing) && dcp::filesystem::is_regular_file(boost::filesystem::path(thing) / "metadata.xml")) {
-		from_film (
+		from_film(
 			screens,
 			thing,
 			verbose,
@@ -737,18 +737,18 @@ try
 			);
 	} else {
 		if (dcp::filesystem::is_regular_file(thing)) {
-			dkdm = dcp::EncryptedKDM (dcp::file_to_string (thing));
+			dkdm = dcp::EncryptedKDM(dcp::file_to_string(thing));
 		} else {
-			dkdm = find_dkdm (thing);
+			dkdm = find_dkdm(thing);
 		}
 
 		if (!dkdm) {
-			throw KDMCLIError ("could not find film or CPL ID corresponding to " + thing);
+			throw KDMCLIError("could not find film or CPL ID corresponding to " + thing);
 		}
 
 		string const key = decryption_key ? dcp::file_to_string(*decryption_key) : Config::instance()->decryption_chain()->key().get();
 
-		from_dkdm (
+		from_dkdm(
 			screens,
 			dcp::DecryptedKDM(*dkdm, key),
 			verbose,

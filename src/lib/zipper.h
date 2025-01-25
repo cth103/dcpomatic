@@ -28,13 +28,13 @@ class Zipper
 {
 public:
 	explicit Zipper(boost::filesystem::path file);
-	~Zipper ();
+	~Zipper();
 
-	Zipper (Zipper const&) = delete;
-	Zipper& operator= (Zipper const&) = delete;
+	Zipper(Zipper const&) = delete;
+	Zipper& operator=(Zipper const&) = delete;
 
-	void add (std::string name, std::string content);
-	void close ();
+	void add(std::string name, std::string content);
+	void close();
 
 private:
 	struct zip* _zip;
