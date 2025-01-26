@@ -464,9 +464,14 @@ public:
 	void reset_film(shared_ptr<Film> film = std::make_shared<Film>(boost::none))
 	{
 		_film = film;
-		_viewer.set_film(_film);
-		_controls->set_film (_film);
 		film_changed();
+
+		_viewer.set_film(_film);
+		_viewer.seek(DCPTime(), true);
+		_info->triggered_update();
+		set_menu_sensitivity();
+
+		_controls->set_film (_film);
 	}
 
 	/* Update anything that depends on properties of the film or its contents */
@@ -516,11 +521,6 @@ public:
 				DCPOMATIC_ASSERT(false);
 			}
 		}
-
-		_viewer.seek(DCPTime(), true);
-		_info->triggered_update ();
-
-		set_menu_sensitivity ();
 
 		auto old = _cpl_menu->GetMenuItems();
 		for (auto const& i: old) {
@@ -731,7 +731,16 @@ private:
 
 			dcp->add_ov (wx_to_std(c->GetPath()));
 			auto job = make_shared<ExamineContentJob>(_film, dcp, true);
-			_examine_job_connection = job->Finished.connect(boost::bind(&DOMFrame::film_changed, this));
+
+			auto film_ready = [this]() {
+				film_changed();
+				_viewer.set_film(_film);
+				_viewer.seek(DCPTime(), true);
+				_info->triggered_update();
+				set_menu_sensitivity();
+			};
+
+			_examine_job_connection = job->Finished.connect(boost::bind<void>(film_ready));
 			JobManager::instance()->add(job);
 
 			display_progress(variant::wx::dcpomatic_player(), _("Loading content"));
