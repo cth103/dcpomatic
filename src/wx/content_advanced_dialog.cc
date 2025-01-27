@@ -73,10 +73,8 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 	add_label_to_sizer (sizer, this, _("Video filters"), true, wxGBPosition(r, 0));
 	_filters = new StaticText (this, _("None"), wxDefaultPosition, size);
 	_filters_button = new Button (this, _("Edit..."));
-	auto filters = new wxBoxSizer (wxHORIZONTAL);
-	filters->Add (_filters, 1, wxALL | wxALIGN_CENTER_VERTICAL, DCPOMATIC_SIZER_GAP);
-	filters->Add (_filters_button, 0, wxALL, DCPOMATIC_SIZER_GAP);
-	sizer->Add (filters, wxGBPosition(r, 1), wxGBSpan(1, 2));
+	sizer->Add(_filters, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	sizer->Add(_filters_button, wxGBPosition(r, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	wxStaticText* video_frame_rate_label;
@@ -86,10 +84,10 @@ ContentAdvancedDialog::ContentAdvancedDialog (wxWindow* parent, shared_ptr<Conte
 		video_frame_rate_label = add_label_to_sizer (sizer, this, _("Video frame rate that content was prepared for"), true, wxGBPosition(r, 0));
 	}
 	_video_frame_rate = new wxTextCtrl(this, wxID_ANY, {}, wxDefaultPosition, wxDefaultSize, 0, wxNumericPropertyValidator(wxNumericPropertyValidator::Float));
-	sizer->Add (_video_frame_rate, wxGBPosition(r, 1));
+	sizer->Add(_video_frame_rate, wxGBPosition(r, 1), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	_set_video_frame_rate = new Button (this, _("Set"));
 	_set_video_frame_rate->Enable (false);
-	sizer->Add (_set_video_frame_rate, wxGBPosition(r, 2));
+	sizer->Add(_set_video_frame_rate, wxGBPosition(r, 2), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
 	++r;
 
 	/// TRANSLATORS: next to this control is a language selector, so together they will read, for example
