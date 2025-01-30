@@ -311,15 +311,17 @@ private:
 		file->Append (wxID_EXIT, _("&Quit"));
 #endif
 
-#ifdef DCPOMATIC_OSX
-		file->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
-#else
+#ifndef DCPOMATIC_OSX
 		wxMenu* edit = new wxMenu;
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
 		wxMenu* help = new wxMenu;
 #ifdef DCPOMATIC_OSX
+		/* This will get moved to the program menu, so we just need to add it to some menu that
+		 * does get used on macOS.
+		 */
+		help->Append(wxID_PREFERENCES, _("&Preferences...\tCtrl-,"));
 		help->Append(wxID_ABOUT, variant::wx::insert_dcpomatic_kdm_creator(_("About %s")));
 #else
 		help->Append (wxID_ABOUT, _("About"));
