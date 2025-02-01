@@ -80,23 +80,23 @@ auto constexpr default_grok_licence_server = "https://grokcompression.com/api/re
 
 
 /** Construct default configuration */
-Config::Config ()
+Config::Config()
         /* DKDMs are not considered a thing to reset on set_defaults() */
-	: _dkdms (new DKDMGroup ("root"))
-	, _default_kdm_duration (1, RoughDuration::Unit::WEEKS)
+	: _dkdms(new DKDMGroup("root"))
+	, _default_kdm_duration(1, RoughDuration::Unit::WEEKS)
 	, _export(this)
 {
-	set_defaults ();
+	set_defaults();
 }
 
 void
-Config::set_defaults ()
+Config::set_defaults()
 {
-	_master_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
-	_server_encoding_threads = max (2U, boost::thread::hardware_concurrency ());
+	_master_encoding_threads = max(2U, boost::thread::hardware_concurrency());
+	_server_encoding_threads = max(2U, boost::thread::hardware_concurrency());
 	_server_port_base = 6192;
 	_use_any_servers = true;
-	_servers.clear ();
+	_servers.clear();
 	_only_servers_encode = false;
 	_tms_protocol = FileTransferProtocol::SCP;
 	_tms_passive = true;
@@ -109,15 +109,15 @@ Config::set_defaults ()
 	_allow_96khz_audio = false;
 	_use_all_audio_channels = false;
 	_show_experimental_audio_processors = false;
-	_language = optional<string> ();
+	_language = optional<string>();
 	_default_still_length = 10;
-	_default_dcp_content_type = DCPContentType::from_isdcf_name ("FTR");
+	_default_dcp_content_type = DCPContentType::from_isdcf_name("FTR");
 	_default_dcp_audio_channels = 8;
 	_default_video_bit_rate[VideoEncoding::JPEG2000] = 150000000;
 	_default_video_bit_rate[VideoEncoding::MPEG2] = 5000000;
 	_default_audio_delay = 0;
 	_default_interop = false;
-	_default_metadata.clear ();
+	_default_metadata.clear();
 	_upload_after_make_dcp = false;
 	_mail_server = "";
 	_mail_port = 25;
@@ -125,11 +125,11 @@ Config::set_defaults ()
 	_mail_user = "";
 	_mail_password = "";
 	_kdm_from = "";
-	_kdm_cc.clear ();
+	_kdm_cc.clear();
 	_kdm_bcc = "";
 	_notification_from = "";
 	_notification_to = "";
-	_notification_cc.clear ();
+	_notification_cc.clear();
 	_notification_bcc = "";
 	_check_for_updates = false;
 	_check_for_test_updates = false;
@@ -151,14 +151,14 @@ Config::set_defaults ()
 	_kdm_container_name_format = dcp::NameFormat("KDM_%f_%c");
 	_kdm_filename_format = dcp::NameFormat("KDM_%f_%c_%s");
 	_dkdm_filename_format = dcp::NameFormat("DKDM_%f_%c_%s");
-	_dcp_metadata_filename_format = dcp::NameFormat ("%t");
-	_dcp_asset_filename_format = dcp::NameFormat ("%t");
+	_dcp_metadata_filename_format = dcp::NameFormat("%t");
+	_dcp_asset_filename_format = dcp::NameFormat("%t");
 	_jump_to_selected = true;
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		_nagged[i] = false;
 	}
 	_sound = true;
-	_sound_output = optional<string> ();
+	_sound_output = optional<string>();
 	_last_kdm_write_type = KDM_WRITE_FLAT;
 	_last_dkdm_write_type = DKDM_WRITE_INTERNAL;
 	_default_add_file_location = DefaultAddFileLocation::SAME_AS_LAST_TIME;
@@ -195,7 +195,7 @@ Config::set_defaults ()
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
 	_audio_mapping = boost::none;
-	_custom_languages.clear ();
+	_custom_languages.clear();
 	_initial_paths.clear();
 	_initial_paths["AddFilesPath"] = boost::none;
 	_initial_paths["AddKDMPath"] = boost::none;
@@ -224,17 +224,17 @@ Config::set_defaults ()
 	_relative_paths = false;
 	_layout_for_short_screen = false;
 
-	_allowed_dcp_frame_rates.clear ();
-	_allowed_dcp_frame_rates.push_back (24);
-	_allowed_dcp_frame_rates.push_back (25);
-	_allowed_dcp_frame_rates.push_back (30);
-	_allowed_dcp_frame_rates.push_back (48);
-	_allowed_dcp_frame_rates.push_back (50);
-	_allowed_dcp_frame_rates.push_back (60);
+	_allowed_dcp_frame_rates.clear();
+	_allowed_dcp_frame_rates.push_back(24);
+	_allowed_dcp_frame_rates.push_back(25);
+	_allowed_dcp_frame_rates.push_back(30);
+	_allowed_dcp_frame_rates.push_back(48);
+	_allowed_dcp_frame_rates.push_back(50);
+	_allowed_dcp_frame_rates.push_back(60);
 
-	set_kdm_email_to_default ();
-	set_notification_email_to_default ();
-	set_cover_sheet_to_default ();
+	set_kdm_email_to_default();
+	set_notification_email_to_default();
+	set_cover_sheet_to_default();
 
 #ifdef DCPOMATIC_GROK
 	_grok = boost::none;
@@ -247,16 +247,16 @@ Config::set_defaults ()
 }
 
 void
-Config::restore_defaults ()
+Config::restore_defaults()
 {
-	Config::instance()->set_defaults ();
-	Config::instance()->changed ();
+	Config::instance()->set_defaults();
+	Config::instance()->changed();
 }
 
 shared_ptr<dcp::CertificateChain>
-Config::create_certificate_chain ()
+Config::create_certificate_chain()
 {
-	return make_shared<dcp::CertificateChain> (
+	return make_shared<dcp::CertificateChain>(
 		openssl_path(),
 		CERTIFICATE_VALIDITY_PERIOD,
 		"dcpomatic.com",
@@ -268,7 +268,7 @@ Config::create_certificate_chain ()
 }
 
 void
-Config::backup ()
+Config::backup()
 {
 	using namespace boost::filesystem;
 
@@ -295,26 +295,26 @@ Config::backup ()
 	/* This uses the State::write_path stuff so, e.g. for a current version 2.16 we might copy
 	 * ~/.config/dcpomatic2/2.16/config.xml to ~/.config/dcpomatic2/2.16/config.xml.1
 	 */
-	copy_adding_number (config_write_file());
+	copy_adding_number(config_write_file());
 
 	/* These do not use State::write_path, so whatever path is in the Config we will copy
 	 * adding a number.
 	 */
-	copy_adding_number (_cinemas_file);
-	copy_adding_number (_dkdm_recipients_file);
+	copy_adding_number(_cinemas_file);
+	copy_adding_number(_dkdm_recipients_file);
 }
 
 void
-Config::read ()
+Config::read()
 try
 {
-	cxml::Document f ("Config");
+	cxml::Document f("Config");
 	f.read_file(dcp::filesystem::fix_long_path(config_read_file()));
 
-	auto version = f.optional_number_child<int> ("Version");
+	auto version = f.optional_number_child<int>("Version");
 	if (version && *version < _current_version) {
 		/* Back up the old config before we re-write it in a back-incompatible way */
-		backup ();
+		backup();
 	}
 
 	if (f.optional_number_child<int>("NumLocalEncodingThreads")) {
@@ -324,68 +324,68 @@ try
 		_server_encoding_threads = f.number_child<int>("ServerEncodingThreads");
 	}
 
-	_default_directory = f.optional_string_child ("DefaultDirectory");
-	if (_default_directory && _default_directory->empty ()) {
+	_default_directory = f.optional_string_child("DefaultDirectory");
+	if (_default_directory && _default_directory->empty()) {
 		/* We used to store an empty value for this to mean "none set" */
-		_default_directory = boost::optional<boost::filesystem::path> ();
+		_default_directory = boost::optional<boost::filesystem::path>();
 	}
 
-	auto b = f.optional_number_child<int> ("ServerPort");
+	auto b = f.optional_number_child<int>("ServerPort");
 	if (!b) {
-		b = f.optional_number_child<int> ("ServerPortBase");
+		b = f.optional_number_child<int>("ServerPortBase");
 	}
-	_server_port_base = b.get ();
+	_server_port_base = b.get();
 
-	auto u = f.optional_bool_child ("UseAnyServers");
-	_use_any_servers = u.get_value_or (true);
+	auto u = f.optional_bool_child("UseAnyServers");
+	_use_any_servers = u.get_value_or(true);
 
 	for (auto i: f.node_children("Server")) {
 		if (i->node_children("HostName").size() == 1) {
-			_servers.push_back (i->string_child ("HostName"));
+			_servers.push_back(i->string_child("HostName"));
 		} else {
-			_servers.push_back (i->content ());
+			_servers.push_back(i->content());
 		}
 	}
 
-	_only_servers_encode = f.optional_bool_child ("OnlyServersEncode").get_value_or (false);
+	_only_servers_encode = f.optional_bool_child("OnlyServersEncode").get_value_or(false);
 	_tms_protocol = static_cast<FileTransferProtocol>(f.optional_number_child<int>("TMSProtocol").get_value_or(static_cast<int>(FileTransferProtocol::SCP)));
 	_tms_passive = f.optional_bool_child("TMSPassive").get_value_or(true);
-	_tms_ip = f.string_child ("TMSIP");
-	_tms_path = f.string_child ("TMSPath");
-	_tms_user = f.string_child ("TMSUser");
-	_tms_password = f.string_child ("TMSPassword");
+	_tms_ip = f.string_child("TMSIP");
+	_tms_path = f.string_child("TMSPath");
+	_tms_user = f.string_child("TMSUser");
+	_tms_password = f.string_child("TMSPassword");
 
-	_language = f.optional_string_child ("Language");
+	_language = f.optional_string_child("Language");
 
 	_default_dcp_content_type = DCPContentType::from_isdcf_name(f.optional_string_child("DefaultDCPContentType").get_value_or("FTR"));
-	_default_dcp_audio_channels = f.optional_number_child<int>("DefaultDCPAudioChannels").get_value_or (6);
+	_default_dcp_audio_channels = f.optional_number_child<int>("DefaultDCPAudioChannels").get_value_or(6);
 
-	if (f.optional_string_child ("DCPMetadataIssuer")) {
-		_dcp_issuer = f.string_child ("DCPMetadataIssuer");
-	} else if (f.optional_string_child ("DCPIssuer")) {
-		_dcp_issuer = f.string_child ("DCPIssuer");
+	if (f.optional_string_child("DCPMetadataIssuer")) {
+		_dcp_issuer = f.string_child("DCPMetadataIssuer");
+	} else if (f.optional_string_child("DCPIssuer")) {
+		_dcp_issuer = f.string_child("DCPIssuer");
 	}
 
 	auto up = f.optional_bool_child("UploadAfterMakeDCP");
 	if (!up) {
 		up = f.optional_bool_child("DefaultUploadAfterMakeDCP");
 	}
-	_upload_after_make_dcp = up.get_value_or (false);
-	_dcp_creator = f.optional_string_child ("DCPCreator").get_value_or ("");
+	_upload_after_make_dcp = up.get_value_or(false);
+	_dcp_creator = f.optional_string_child("DCPCreator").get_value_or("");
 	_dcp_company_name = f.optional_string_child("DCPCompanyName").get_value_or("");
 	_dcp_product_name = f.optional_string_child("DCPProductName").get_value_or("");
 	_dcp_product_version = f.optional_string_child("DCPProductVersion").get_value_or("");
 	_dcp_j2k_comment = f.optional_string_child("DCPJ2KComment").get_value_or("");
 
-	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or (10);
+	_default_still_length = f.optional_number_child<int>("DefaultStillLength").get_value_or(10);
 	if (auto j2k = f.optional_number_child<int>("DefaultJ2KBandwidth")) {
 		_default_video_bit_rate[VideoEncoding::JPEG2000] = *j2k;
 	} else {
 		_default_video_bit_rate[VideoEncoding::JPEG2000] = f.optional_number_child<int64_t>("DefaultJ2KVideoBitRate").get_value_or(200000000);
 	}
 	_default_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("DefaultMPEG2VideoBitRate").get_value_or(5000000);
-	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or (0);
-	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or (false);
+	_default_audio_delay = f.optional_number_child<int>("DefaultAudioDelay").get_value_or(0);
+	_default_interop = f.optional_bool_child("DefaultInterop").get_value_or(false);
 
 	try {
 		auto al = f.optional_string_child("DefaultAudioLanguage");
@@ -407,8 +407,8 @@ try
 
 	_default_kdm_directory = f.optional_string_child("DefaultKDMDirectory");
 
-	_mail_server = f.string_child ("MailServer");
-	_mail_port = f.optional_number_child<int> ("MailPort").get_value_or (25);
+	_mail_server = f.string_child("MailServer");
+	_mail_port = f.optional_number_child<int>("MailPort").get_value_or(25);
 
 	{
 		/* Make sure this matches the code in write_config */
@@ -424,25 +424,25 @@ try
 		}
 	}
 
-	_mail_user = f.optional_string_child("MailUser").get_value_or ("");
-	_mail_password = f.optional_string_child("MailPassword").get_value_or ("");
+	_mail_user = f.optional_string_child("MailUser").get_value_or("");
+	_mail_password = f.optional_string_child("MailPassword").get_value_or("");
 
-	_kdm_subject = f.optional_string_child ("KDMSubject").get_value_or (_("KDM delivery: $CPL_NAME"));
-	_kdm_from = f.string_child ("KDMFrom");
+	_kdm_subject = f.optional_string_child("KDMSubject").get_value_or(_("KDM delivery: $CPL_NAME"));
+	_kdm_from = f.string_child("KDMFrom");
 	for (auto i: f.node_children("KDMCC")) {
 		if (!i->content().empty()) {
-			_kdm_cc.push_back (i->content ());
+			_kdm_cc.push_back(i->content());
 		}
 	}
-	_kdm_bcc = f.optional_string_child ("KDMBCC").get_value_or ("");
-	_kdm_email = f.string_child ("KDMEmail");
+	_kdm_bcc = f.optional_string_child("KDMBCC").get_value_or("");
+	_kdm_email = f.string_child("KDMEmail");
 
 	_notification_subject = f.optional_string_child("NotificationSubject").get_value_or(variant::insert_dcpomatic(_("%1 notification")));
 	_notification_from = f.optional_string_child("NotificationFrom").get_value_or("");
 	_notification_to = f.optional_string_child("NotificationTo").get_value_or("");
 	for (auto i: f.node_children("NotificationCC")) {
 		if (!i->content().empty()) {
-			_notification_cc.push_back (i->content ());
+			_notification_cc.push_back(i->content());
 		}
 	}
 	_notification_bcc = f.optional_string_child("NotificationBCC").get_value_or("");
@@ -450,8 +450,8 @@ try
 		_notification_email = f.string_child("NotificationEmail");
 	}
 
-	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or (false);
-	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or (false);
+	_check_for_updates = f.optional_bool_child("CheckForUpdates").get_value_or(false);
+	_check_for_test_updates = f.optional_bool_child("CheckForTestUpdates").get_value_or(false);
 
 	if (auto j2k = f.optional_number_child<int>("MaximumJ2KBandwidth")) {
 		_maximum_video_bit_rate[VideoEncoding::JPEG2000] = *j2k;
@@ -459,51 +459,51 @@ try
 		_maximum_video_bit_rate[VideoEncoding::JPEG2000] = f.optional_number_child<int64_t>("MaximumJ2KVideoBitRate").get_value_or(250000000);
 	}
 	_maximum_video_bit_rate[VideoEncoding::MPEG2] = f.optional_number_child<int64_t>("MaximumMPEG2VideoBitRate").get_value_or(50000000);
-	_allow_any_dcp_frame_rate = f.optional_bool_child ("AllowAnyDCPFrameRate").get_value_or (false);
-	_allow_any_container = f.optional_bool_child ("AllowAnyContainer").get_value_or (false);
+	_allow_any_dcp_frame_rate = f.optional_bool_child("AllowAnyDCPFrameRate").get_value_or(false);
+	_allow_any_container = f.optional_bool_child("AllowAnyContainer").get_value_or(false);
 	_allow_96khz_audio = f.optional_bool_child("Allow96kHzAudio").get_value_or(false);
 	_use_all_audio_channels = f.optional_bool_child("UseAllAudioChannels").get_value_or(false);
-	_show_experimental_audio_processors = f.optional_bool_child ("ShowExperimentalAudioProcessors").get_value_or (false);
+	_show_experimental_audio_processors = f.optional_bool_child("ShowExperimentalAudioProcessors").get_value_or(false);
 
-	_log_types = f.optional_number_child<int> ("LogTypes").get_value_or (LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
-	_analyse_ebur128 = f.optional_bool_child("AnalyseEBUR128").get_value_or (true);
-	_automatic_audio_analysis = f.optional_bool_child ("AutomaticAudioAnalysis").get_value_or (false);
+	_log_types = f.optional_number_child<int>("LogTypes").get_value_or(LogEntry::TYPE_GENERAL | LogEntry::TYPE_WARNING | LogEntry::TYPE_ERROR);
+	_analyse_ebur128 = f.optional_bool_child("AnalyseEBUR128").get_value_or(true);
+	_automatic_audio_analysis = f.optional_bool_child("AutomaticAudioAnalysis").get_value_or(false);
 #ifdef DCPOMATIC_WINDOWS
-	_win32_console = f.optional_bool_child ("Win32Console").get_value_or (false);
+	_win32_console = f.optional_bool_child("Win32Console").get_value_or(false);
 #endif
 
 	for (auto i: f.node_children("History")) {
-		_history.push_back (i->content ());
+		_history.push_back(i->content());
 	}
 
 	for (auto i: f.node_children("PlayerHistory")) {
-		_player_history.push_back (i->content ());
+		_player_history.push_back(i->content());
 	}
 
-	auto signer = f.optional_node_child ("Signer");
+	auto signer = f.optional_node_child("Signer");
 	if (signer) {
 		auto c = make_shared<dcp::CertificateChain>();
 		/* Read the signing certificates and private key in from the config file */
-		for (auto i: signer->node_children ("Certificate")) {
-			c->add (dcp::Certificate (i->content ()));
+		for (auto i: signer->node_children("Certificate")) {
+			c->add(dcp::Certificate(i->content()));
 		}
-		c->set_key (signer->string_child ("PrivateKey"));
+		c->set_key(signer->string_child("PrivateKey"));
 		_signer_chain = c;
 	} else {
 		/* Make a new set of signing certificates and key */
-		_signer_chain = create_certificate_chain ();
+		_signer_chain = create_certificate_chain();
 	}
 
-	auto decryption = f.optional_node_child ("Decryption");
+	auto decryption = f.optional_node_child("Decryption");
 	if (decryption) {
 		auto c = make_shared<dcp::CertificateChain>();
-		for (auto i: decryption->node_children ("Certificate")) {
-			c->add (dcp::Certificate (i->content ()));
+		for (auto i: decryption->node_children("Certificate")) {
+			c->add(dcp::Certificate(i->content ()));
 		}
-		c->set_key (decryption->string_child ("PrivateKey"));
+		c->set_key(decryption->string_child("PrivateKey"));
 		_decryption_chain = c;
 	} else {
-		_decryption_chain = create_certificate_chain ();
+		_decryption_chain = create_certificate_chain();
 	}
 
 	/* These must be done before we call Bad as that might set one
@@ -516,7 +516,7 @@ try
 		}
 	}
 
-	auto bad = check_certificates ();
+	auto bad = check_certificates();
 	if (bad) {
 		auto const remake = Bad(*bad);
 		if (remake && *remake) {
@@ -525,10 +525,10 @@ try
 			case BAD_SIGNER_INCONSISTENT:
 			case BAD_SIGNER_VALIDITY_TOO_LONG:
 			case BAD_SIGNER_DN_QUALIFIER:
-				_signer_chain = create_certificate_chain ();
+				_signer_chain = create_certificate_chain();
 				break;
 			case BAD_DECRYPTION_INCONSISTENT:
-				_decryption_chain = create_certificate_chain ();
+				_decryption_chain = create_certificate_chain();
 				break;
 			}
 		}
@@ -536,26 +536,26 @@ try
 
 	if (f.optional_node_child("DKDMGroup")) {
 		/* New-style: all DKDMs in a group */
-		_dkdms = dynamic_pointer_cast<DKDMGroup> (DKDMBase::read (f.node_child("DKDMGroup")));
+		_dkdms = dynamic_pointer_cast<DKDMGroup>(DKDMBase::read(f.node_child("DKDMGroup")));
 	} else {
 		/* Old-style: one or more DKDM nodes */
 		_dkdms = make_shared<DKDMGroup>("root");
 		for (auto i: f.node_children("DKDM")) {
-			_dkdms->add (DKDMBase::read (i));
+			_dkdms->add(DKDMBase::read(i));
 		}
 	}
 	_cinemas_file = f.optional_string_child("CinemasFile").get_value_or(read_path("cinemas.sqlite3").string());
 	_dkdm_recipients_file = f.optional_string_child("DKDMRecipientsFile").get_value_or(read_path("dkdm_recipients.sqlite3").string());
-	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or (true);
-	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or (true);
-	_kdm_container_name_format = dcp::NameFormat (f.optional_string_child("KDMContainerNameFormat").get_value_or ("KDM %f %c"));
-	_kdm_filename_format = dcp::NameFormat (f.optional_string_child("KDMFilenameFormat").get_value_or ("KDM %f %c %s"));
-	_dkdm_filename_format = dcp::NameFormat (f.optional_string_child("DKDMFilenameFormat").get_value_or("DKDM %f %c %s"));
-	_dcp_metadata_filename_format = dcp::NameFormat (f.optional_string_child("DCPMetadataFilenameFormat").get_value_or ("%t"));
-	_dcp_asset_filename_format = dcp::NameFormat (f.optional_string_child("DCPAssetFilenameFormat").get_value_or ("%t"));
-	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or (true);
+	_show_hints_before_make_dcp = f.optional_bool_child("ShowHintsBeforeMakeDCP").get_value_or(true);
+	_confirm_kdm_email = f.optional_bool_child("ConfirmKDMEmail").get_value_or(true);
+	_kdm_container_name_format = dcp::NameFormat(f.optional_string_child("KDMContainerNameFormat").get_value_or("KDM %f %c"));
+	_kdm_filename_format = dcp::NameFormat(f.optional_string_child("KDMFilenameFormat").get_value_or("KDM %f %c %s"));
+	_dkdm_filename_format = dcp::NameFormat(f.optional_string_child("DKDMFilenameFormat").get_value_or("DKDM %f %c %s"));
+	_dcp_metadata_filename_format = dcp::NameFormat(f.optional_string_child("DCPMetadataFilenameFormat").get_value_or("%t"));
+	_dcp_asset_filename_format = dcp::NameFormat(f.optional_string_child("DCPAssetFilenameFormat").get_value_or("%t"));
+	_jump_to_selected = f.optional_bool_child("JumpToSelected").get_value_or(true);
 	/* The variable was renamed but not the XML tag */
-	_sound = f.optional_bool_child("PreviewSound").get_value_or (true);
+	_sound = f.optional_bool_child("PreviewSound").get_value_or(true);
 	_sound_output = f.optional_string_child("PreviewSoundOutput");
 	if (f.optional_string_child("CoverSheet")) {
 		_cover_sheet = f.optional_string_child("CoverSheet").get();
@@ -621,7 +621,7 @@ try
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
 
 	if (f.optional_node_child("AudioMapping")) {
-		_audio_mapping = AudioMapping (f.node_child("AudioMapping"), Film::current_state_version);
+		_audio_mapping = AudioMapping(f.node_child("AudioMapping"), Film::current_state_version);
 	}
 
 	for (auto i: f.node_children("CustomLanguage")) {
@@ -629,7 +629,7 @@ try
 			/* This will fail if it's called before dcp::init() as it won't recognise the
 			 * tag.  That's OK because the Config will be reloaded again later.
 			 */
-			_custom_languages.push_back (dcp::LanguageTag(i->content()));
+			_custom_languages.push_back(dcp::LanguageTag(i->content()));
 		} catch (std::runtime_error& e) {}
 	}
 
@@ -675,26 +675,26 @@ try
 }
 catch (...) {
 	if (have_existing("config.xml")) {
-		backup ();
+		backup();
 		/* We have a config file but it didn't load */
 		FailedToLoad(LoadFailure::CONFIG);
 	}
-	set_defaults ();
+	set_defaults();
 	/* Make a new set of signing certificates and key */
-	_signer_chain = create_certificate_chain ();
+	_signer_chain = create_certificate_chain();
 	/* And similar for decryption of KDMs */
-	_decryption_chain = create_certificate_chain ();
+	_decryption_chain = create_certificate_chain();
 	write_config();
 }
 
 
 /** @return Singleton instance */
 Config *
-Config::instance ()
+Config::instance()
 {
 	if (_instance == nullptr) {
 		_instance = new Config;
-		_instance->read ();
+		_instance->read();
 
 		auto cinemas_file = _instance->cinemas_file();
 		if (cinemas_file.extension() == ".xml") {
@@ -728,16 +728,16 @@ Config::instance ()
 
 /** Write our configuration to disk */
 void
-Config::write () const
+Config::write() const
 {
-	write_config ();
+	write_config();
 }
 
 void
-Config::write_config () const
+Config::write_config() const
 {
 	xmlpp::Document doc;
-	auto root = doc.create_root_node ("Config");
+	auto root = doc.create_root_node("Config");
 
 	/* [XML] Version The version number of the configuration file format. */
 	cxml::add_text_child(root, "Version", fmt::to_string(_current_version));
@@ -809,7 +809,7 @@ Config::write_config () const
 	}
 	if (_default_kdm_directory) {
 		/* [XML:opt] DefaultKDMDirectory Default directory to write KDMs to. */
-		cxml::add_text_child(root, "DefaultKDMDirectory", _default_kdm_directory->string ());
+		cxml::add_text_child(root, "DefaultKDMDirectory", _default_kdm_directory->string());
 	}
 	_default_kdm_duration.as_xml(cxml::add_child(root, "DefaultKDMDuration"));
 	/* [XML] MailServer Hostname of SMTP server to use. */
@@ -907,17 +907,17 @@ Config::write_config () const
 	   tags in order and a <code>&lt;PrivateKey&gt;</code> tag all containing PEM-encoded certificates or private keys as appropriate.
 	*/
 	auto signer = cxml::add_child(root, "Signer");
-	DCPOMATIC_ASSERT (_signer_chain);
+	DCPOMATIC_ASSERT(_signer_chain);
 	for (auto const& i: _signer_chain->unordered()) {
-		cxml::add_text_child(signer, "Certificate", i.certificate (true));
+		cxml::add_text_child(signer, "Certificate", i.certificate(true));
 	}
-	cxml::add_text_child(signer, "PrivateKey", _signer_chain->key().get ());
+	cxml::add_text_child(signer, "PrivateKey", _signer_chain->key().get());
 
 	/* [XML] Decryption Certificate chain and private key to use when decrypting KDMs */
 	auto decryption = cxml::add_child(root, "Decryption");
-	DCPOMATIC_ASSERT (_decryption_chain);
+	DCPOMATIC_ASSERT(_decryption_chain);
 	for (auto const& i: _decryption_chain->unordered()) {
-		cxml::add_text_child(decryption, "Certificate", i.certificate (true));
+		cxml::add_text_child(decryption, "Certificate", i.certificate(true));
 	}
 	cxml::add_text_child(decryption, "PrivateKey", _decryption_chain->key().get());
 
@@ -939,7 +939,7 @@ Config::write_config () const
 	   or <code>&lt;DKDM&gt;</code> tags.
 	*/
 	/* [XML] DKDM A DKDM as XML */
-	_dkdms->as_xml (root);
+	_dkdms->as_xml(root);
 
 	/* [XML] CinemasFile Filename of cinemas list file. */
 	cxml::add_text_child(root, "CinemasFile", _cinemas_file.string());
@@ -965,7 +965,7 @@ Config::write_config () const
 	for (int i = 0; i < NAG_COUNT; ++i) {
 		auto e = cxml::add_child(root, "Nagged");
 		e->set_attribute("id", fmt::to_string(i));
-		e->add_child_text (_nagged[i] ? "1" : "0");
+		e->add_child_text(_nagged[i] ? "1" : "0");
 	}
 	/* [XML] PreviewSound 1 to use sound in the GUI preview and player, otherwise 0. */
 	cxml::add_text_child(root, "PreviewSound", _sound ? "1" : "0");
@@ -1020,7 +1020,7 @@ Config::write_config () const
 	for (int i = 0; i < NOTIFICATION_COUNT; ++i) {
 		auto e = cxml::add_child(root, "Notification");
 		e->set_attribute("id", fmt::to_string(i));
-		e->add_child_text (_notification[i] ? "1" : "0");
+		e->add_child_text(_notification[i] ? "1" : "0");
 	}
 
 	if (_barco_username) {
@@ -1155,30 +1155,30 @@ Config::write_config () const
 	auto target = config_write_file();
 
 	try {
-		auto const s = doc.write_to_string_formatted ();
-		boost::filesystem::path tmp (string(target.string()).append(".tmp"));
+		auto const s = doc.write_to_string_formatted();
+		boost::filesystem::path tmp(string(target.string()).append(".tmp"));
 		dcp::File f(tmp, "w");
 		if (!f) {
-			throw FileError (_("Could not open file for writing"), tmp);
+			throw FileError(_("Could not open file for writing"), tmp);
 		}
 		f.checked_write(s.c_str(), s.bytes());
 		f.close();
 		dcp::filesystem::remove(target);
 		dcp::filesystem::rename(tmp, target);
 	} catch (xmlpp::exception& e) {
-		string s = e.what ();
-		trim (s);
-		throw FileError (s, target);
+		string s = e.what();
+		trim(s);
+		throw FileError(s, target);
 	}
 }
 
 
 template <class T>
 void
-write_file (string root_node, string node, string version, list<shared_ptr<T>> things, boost::filesystem::path file)
+write_file(string root_node, string node, string version, list<shared_ptr<T>> things, boost::filesystem::path file)
 {
 	xmlpp::Document doc;
-	auto root = doc.create_root_node (root_node);
+	auto root = doc.create_root_node(root_node);
 	cxml::add_text_child(root, "Version", version);
 
 	for (auto i: things) {
@@ -1186,31 +1186,31 @@ write_file (string root_node, string node, string version, list<shared_ptr<T>> t
 	}
 
 	try {
-		doc.write_to_file_formatted (file.string() + ".tmp");
+		doc.write_to_file_formatted(file.string() + ".tmp");
 		dcp::filesystem::remove(file);
 		dcp::filesystem::rename(file.string() + ".tmp", file);
 	} catch (xmlpp::exception& e) {
-		string s = e.what ();
-		trim (s);
-		throw FileError (s, file);
+		string s = e.what();
+		trim(s);
+		throw FileError(s, file);
 	}
 }
 
 
 boost::filesystem::path
-Config::default_directory_or (boost::filesystem::path a) const
+Config::default_directory_or(boost::filesystem::path a) const
 {
-	return directory_or (_default_directory, a);
+	return directory_or(_default_directory, a);
 }
 
 boost::filesystem::path
-Config::default_kdm_directory_or (boost::filesystem::path a) const
+Config::default_kdm_directory_or(boost::filesystem::path a) const
 {
-	return directory_or (_default_kdm_directory, a);
+	return directory_or(_default_kdm_directory, a);
 }
 
 boost::filesystem::path
-Config::directory_or (optional<boost::filesystem::path> dir, boost::filesystem::path a) const
+Config::directory_or(optional<boost::filesystem::path> dir, boost::filesystem::path a) const
 {
 	if (!dir) {
 		return a;
@@ -1226,20 +1226,20 @@ Config::directory_or (optional<boost::filesystem::path> dir, boost::filesystem::
 }
 
 void
-Config::drop ()
+Config::drop()
 {
 	delete _instance;
 	_instance = nullptr;
 }
 
 void
-Config::changed (Property what)
+Config::changed(Property what)
 {
-	Changed (what);
+	Changed(what);
 }
 
 void
-Config::set_kdm_email_to_default ()
+Config::set_kdm_email_to_default()
 {
 	_kdm_subject = _("KDM delivery: $CPL_NAME");
 
@@ -1254,7 +1254,7 @@ Config::set_kdm_email_to_default ()
 }
 
 void
-Config::set_notification_email_to_default ()
+Config::set_notification_email_to_default()
 {
 	_notification_subject = variant::insert_dcpomatic(_("%1 notification"));
 
@@ -1264,21 +1264,21 @@ Config::set_notification_email_to_default ()
 }
 
 void
-Config::reset_kdm_email ()
+Config::reset_kdm_email()
 {
-	set_kdm_email_to_default ();
-	changed ();
+	set_kdm_email_to_default();
+	changed();
 }
 
 void
-Config::reset_notification_email ()
+Config::reset_notification_email()
 {
-	set_notification_email_to_default ();
-	changed ();
+	set_notification_email_to_default();
+	changed();
 }
 
 void
-Config::set_cover_sheet_to_default ()
+Config::set_cover_sheet_to_default()
 {
 	_cover_sheet = _(
 		"$CPL_NAME\n\n"
@@ -1294,54 +1294,54 @@ Config::set_cover_sheet_to_default ()
 }
 
 void
-Config::add_to_history (boost::filesystem::path p)
+Config::add_to_history(boost::filesystem::path p)
 {
-	add_to_history_internal (_history, p);
+	add_to_history_internal(_history, p);
 }
 
 /** Remove non-existent items from the history */
 void
-Config::clean_history ()
+Config::clean_history()
 {
-	clean_history_internal (_history);
+	clean_history_internal(_history);
 }
 
 void
-Config::add_to_player_history (boost::filesystem::path p)
+Config::add_to_player_history(boost::filesystem::path p)
 {
-	add_to_history_internal (_player_history, p);
+	add_to_history_internal(_player_history, p);
 }
 
 /** Remove non-existent items from the player history */
 void
-Config::clean_player_history ()
+Config::clean_player_history()
 {
-	clean_history_internal (_player_history);
+	clean_history_internal(_player_history);
 }
 
 void
-Config::add_to_history_internal (vector<boost::filesystem::path>& h, boost::filesystem::path p)
+Config::add_to_history_internal(vector<boost::filesystem::path>& h, boost::filesystem::path p)
 {
 	/* Remove existing instances of this path in the history */
-	h.erase (remove (h.begin(), h.end(), p), h.end ());
+	h.erase(remove(h.begin(), h.end(), p), h.end());
 
-	h.insert (h.begin (), p);
+	h.insert(h.begin(), p);
 	if (h.size() > HISTORY_SIZE) {
 		h.resize(HISTORY_SIZE);
 	}
 
-	changed (HISTORY);
+	changed(HISTORY);
 }
 
 void
-Config::clean_history_internal (vector<boost::filesystem::path>& h)
+Config::clean_history_internal(vector<boost::filesystem::path>& h)
 {
 	auto old = h;
-	h.clear ();
+	h.clear();
 	for (auto i: old) {
 		try {
 			if (dcp::filesystem::is_directory(i)) {
-				h.push_back (i);
+				h.push_back(i);
 			}
 		} catch (...) {
 			/* We couldn't find out if it's a directory for some reason; just ignore it */
@@ -1351,14 +1351,14 @@ Config::clean_history_internal (vector<boost::filesystem::path>& h)
 
 
 bool
-Config::have_existing (string file)
+Config::have_existing(string file)
 {
 	return dcp::filesystem::exists(read_path(file));
 }
 
 
 void
-Config::set_cinemas_file (boost::filesystem::path file)
+Config::set_cinemas_file(boost::filesystem::path file)
 {
 	if (file == _cinemas_file) {
 		return;
@@ -1391,14 +1391,14 @@ Config::save_default_template(shared_ptr<const Film> film) const
 
 
 void
-Config::save_template (shared_ptr<const Film> film, string name) const
+Config::save_template(shared_ptr<const Film> film, string name) const
 {
-	film->write_template (template_write_path(name));
+	film->write_template(template_write_path(name));
 }
 
 
 vector<string>
-Config::templates () const
+Config::templates() const
 {
 	if (!dcp::filesystem::exists(read_path("templates"))) {
 		return {};
@@ -1406,22 +1406,22 @@ Config::templates () const
 
 	vector<string> n;
 	for (auto const& i: dcp::filesystem::directory_iterator(read_path("templates"))) {
-		n.push_back (i.path().filename().string());
+		n.push_back(i.path().filename().string());
 	}
 	return n;
 }
 
 bool
-Config::existing_template (string name) const
+Config::existing_template(string name) const
 {
 	return dcp::filesystem::exists(template_read_path(name));
 }
 
 
 boost::filesystem::path
-Config::template_read_path (string name) const
+Config::template_read_path(string name) const
 {
-	return read_path("templates") / tidy_for_filename (name);
+	return read_path("templates") / tidy_for_filename(name);
 }
 
 
@@ -1438,29 +1438,29 @@ Config::default_template_read_path() const
 
 
 boost::filesystem::path
-Config::template_write_path (string name) const
+Config::template_write_path(string name) const
 {
-	return write_path("templates") / tidy_for_filename (name);
+	return write_path("templates") / tidy_for_filename(name);
 }
 
 
 void
-Config::rename_template (string old_name, string new_name) const
+Config::rename_template(string old_name, string new_name) const
 {
 	dcp::filesystem::rename(template_read_path(old_name), template_write_path(new_name));
 }
 
 void
-Config::delete_template (string name) const
+Config::delete_template(string name) const
 {
 	dcp::filesystem::remove(template_write_path(name));
 }
 
 /** @return Path to the config.xml containing the actual settings, following a link if required */
 boost::filesystem::path
-config_file (boost::filesystem::path main)
+config_file(boost::filesystem::path main)
 {
-	cxml::Document f ("Config");
+	cxml::Document f("Config");
 	if (!dcp::filesystem::exists(main)) {
 		/* It doesn't exist, so there can't be any links; just return it */
 		return main;
@@ -1484,50 +1484,50 @@ config_file (boost::filesystem::path main)
 
 
 boost::filesystem::path
-Config::config_read_file ()
+Config::config_read_file()
 {
-	return config_file (read_path("config.xml"));
+	return config_file(read_path("config.xml"));
 }
 
 
 boost::filesystem::path
-Config::config_write_file ()
+Config::config_write_file()
 {
-	return config_file (write_path("config.xml"));
+	return config_file(write_path("config.xml"));
 }
 
 
 void
-Config::reset_cover_sheet ()
+Config::reset_cover_sheet()
 {
-	set_cover_sheet_to_default ();
-	changed ();
+	set_cover_sheet_to_default();
+	changed();
 }
 
 void
-Config::link (boost::filesystem::path new_file) const
+Config::link(boost::filesystem::path new_file) const
 {
 	xmlpp::Document doc;
 	cxml::add_text_child(doc.create_root_node("Config"), "Link", new_file.string());
 	try {
 		doc.write_to_file_formatted(write_path("config.xml").string());
 	} catch (xmlpp::exception& e) {
-		string s = e.what ();
-		trim (s);
-		throw FileError (s, write_path("config.xml"));
+		string s = e.what();
+		trim(s);
+		throw FileError(s, write_path("config.xml"));
 	}
 }
 
 void
-Config::copy_and_link (boost::filesystem::path new_file) const
+Config::copy_and_link(boost::filesystem::path new_file) const
 {
-	write ();
+	write();
 	dcp::filesystem::copy_file(config_read_file(), new_file, dcp::filesystem::CopyOptions::OVERWRITE_EXISTING);
-	link (new_file);
+	link(new_file);
 }
 
 bool
-Config::have_write_permission () const
+Config::have_write_permission() const
 {
 	dcp::File f(config_write_file(), "r+");
 	return static_cast<bool>(f);
@@ -1537,28 +1537,28 @@ Config::have_write_permission () const
  *  @return Audio mapping for this output channel count (may be a default).
  */
 AudioMapping
-Config::audio_mapping (int output_channels)
+Config::audio_mapping(int output_channels)
 {
 	if (!_audio_mapping || _audio_mapping->output_channels() != output_channels) {
 		/* Set up a default */
-		_audio_mapping = AudioMapping (MAX_DCP_AUDIO_CHANNELS, output_channels);
+		_audio_mapping = AudioMapping(MAX_DCP_AUDIO_CHANNELS, output_channels);
 		if (output_channels == 2) {
 			/* Special case for stereo output.
 			   Map so that Lt = L(-3dB) + Ls(-3dB) + C(-6dB) + Lfe(-10dB)
 			   Rt = R(-3dB) + Rs(-3dB) + C(-6dB) + Lfe(-10dB)
 			*/
-			_audio_mapping->set (dcp::Channel::LEFT,   0, 1 / sqrt(2));  // L   -> Lt
-			_audio_mapping->set (dcp::Channel::RIGHT,  1, 1 / sqrt(2));  // R   -> Rt
-			_audio_mapping->set (dcp::Channel::CENTRE, 0, 1 / 2.0);      // C   -> Lt
-			_audio_mapping->set (dcp::Channel::CENTRE, 1, 1 / 2.0);      // C   -> Rt
-			_audio_mapping->set (dcp::Channel::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
-			_audio_mapping->set (dcp::Channel::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
-			_audio_mapping->set (dcp::Channel::LS,     0, 1 / sqrt(2));  // Ls  -> Lt
-			_audio_mapping->set (dcp::Channel::RS,     1, 1 / sqrt(2));  // Rs  -> Rt
+			_audio_mapping->set(dcp::Channel::LEFT,   0, 1 / sqrt(2));  // L   -> Lt
+			_audio_mapping->set(dcp::Channel::RIGHT,  1, 1 / sqrt(2));  // R   -> Rt
+			_audio_mapping->set(dcp::Channel::CENTRE, 0, 1 / 2.0);      // C   -> Lt
+			_audio_mapping->set(dcp::Channel::CENTRE, 1, 1 / 2.0);      // C   -> Rt
+			_audio_mapping->set(dcp::Channel::LFE,    0, 1 / sqrt(10)); // Lfe -> Lt
+			_audio_mapping->set(dcp::Channel::LFE,    1, 1 / sqrt(10)); // Lfe -> Rt
+			_audio_mapping->set(dcp::Channel::LS,     0, 1 / sqrt(2));  // Ls  -> Lt
+			_audio_mapping->set(dcp::Channel::RS,     1, 1 / sqrt(2));  // Rs  -> Rt
 		} else {
 			/* 1:1 mapping */
-			for (int i = 0; i < min (MAX_DCP_AUDIO_CHANNELS, output_channels); ++i) {
-				_audio_mapping->set (i, i, 1);
+			for (int i = 0; i < min(MAX_DCP_AUDIO_CHANNELS, output_channels); ++i) {
+				_audio_mapping->set(i, i, 1);
 			}
 		}
 	}
@@ -1567,35 +1567,35 @@ Config::audio_mapping (int output_channels)
 }
 
 void
-Config::set_audio_mapping (AudioMapping m)
+Config::set_audio_mapping(AudioMapping m)
 {
 	_audio_mapping = m;
-	changed (AUDIO_MAPPING);
+	changed(AUDIO_MAPPING);
 }
 
 void
-Config::set_audio_mapping_to_default ()
+Config::set_audio_mapping_to_default()
 {
-	DCPOMATIC_ASSERT (_audio_mapping);
-	auto const ch = _audio_mapping->output_channels ();
+	DCPOMATIC_ASSERT(_audio_mapping);
+	auto const ch = _audio_mapping->output_channels();
 	_audio_mapping = boost::none;
-	_audio_mapping = audio_mapping (ch);
-	changed (AUDIO_MAPPING);
+	_audio_mapping = audio_mapping(ch);
+	changed(AUDIO_MAPPING);
 }
 
 
 void
-Config::add_custom_language (dcp::LanguageTag tag)
+Config::add_custom_language(dcp::LanguageTag tag)
 {
 	if (find(_custom_languages.begin(), _custom_languages.end(), tag) == _custom_languages.end()) {
-		_custom_languages.push_back (tag);
-		changed ();
+		_custom_languages.push_back(tag);
+		changed();
 	}
 }
 
 
 optional<Config::BadReason>
-Config::check_certificates () const
+Config::check_certificates() const
 {
 	optional<BadReason> bad;
 
@@ -1624,12 +1624,12 @@ Config::check_certificates () const
 
 
 void
-save_all_config_as_zip (boost::filesystem::path zip_file)
+save_all_config_as_zip(boost::filesystem::path zip_file)
 {
-	Zipper zipper (zip_file);
+	Zipper zipper(zip_file);
 
 	auto config = Config::instance();
-	zipper.add ("config.xml", dcp::file_to_string(config->config_read_file()));
+	zipper.add("config.xml", dcp::file_to_string(config->config_read_file()));
 	if (dcp::filesystem::exists(config->cinemas_file())) {
 		zipper.add("cinemas.sqlite3", dcp::file_to_string(config->cinemas_file()));
 	}
@@ -1637,7 +1637,7 @@ save_all_config_as_zip (boost::filesystem::path zip_file)
 		zipper.add("dkdm_recipients.sqlite3", dcp::file_to_string(config->dkdm_recipients_file()));
 	}
 
-	zipper.close ();
+	zipper.close();
 }
 
 

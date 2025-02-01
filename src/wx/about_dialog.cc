@@ -32,42 +32,42 @@
 #include "lib/version.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
-#include <wx/notebook.h>
 #include <wx/hyperlink.h>
+#include <wx/notebook.h>
 LIBDCP_ENABLE_WARNINGS
 
 using std::vector;
 
 
-AboutDialog::AboutDialog (wxWindow* parent)
+AboutDialog::AboutDialog(wxWindow* parent)
 	: wxDialog(parent, wxID_ANY, variant::wx::insert_dcpomatic(_("About %s")))
 {
-	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
-	auto sizer = new wxBoxSizer (wxVERTICAL);
+	auto overall_sizer = new wxBoxSizer(wxVERTICAL);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
 
-	wxFont title_font (*wxNORMAL_FONT);
-	title_font.SetPointSize (title_font.GetPointSize() + 12);
-	title_font.SetWeight (wxFONTWEIGHT_BOLD);
+	wxFont title_font(*wxNORMAL_FONT);
+	title_font.SetPointSize(title_font.GetPointSize() + 12);
+	title_font.SetWeight(wxFONTWEIGHT_BOLD);
 
-	wxFont subtitle_font (*wxNORMAL_FONT);
-	subtitle_font.SetPointSize (subtitle_font.GetPointSize() + 2);
+	wxFont subtitle_font(*wxNORMAL_FONT);
+	subtitle_font.SetPointSize(subtitle_font.GetPointSize() + 2);
 
-	wxFont version_font (*wxNORMAL_FONT);
-	version_font.SetWeight (wxFONTWEIGHT_BOLD);
+	wxFont version_font(*wxNORMAL_FONT);
+	version_font.SetWeight(wxFONTWEIGHT_BOLD);
 
 	auto t = new StaticText(this, variant::wx::dcpomatic());
-	t->SetFont (title_font);
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 16));
+	t->SetFont(title_font);
+	sizer->Add(t, wxSizerFlags().Centre().Border(wxALL, 16));
 
 	wxString s;
-	if (strcmp (dcpomatic_git_commit, "release") == 0) {
-		t = new StaticText (this, std_to_wx(String::compose("Version %1", dcpomatic_version)));
+	if (strcmp(dcpomatic_git_commit, "release") == 0) {
+		t = new StaticText(this, std_to_wx(String::compose("Version %1", dcpomatic_version)));
 	} else {
-		t = new StaticText (this, std_to_wx(String::compose("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
+		t = new StaticText(this, std_to_wx(String::compose("Version %1 git %2", dcpomatic_version, dcpomatic_git_commit)));
 	}
-	t->SetFont (version_font);
-	sizer->Add (t, wxSizerFlags().Centre().Border(wxALL, 2));
-	sizer->AddSpacer (12);
+	t->SetFont(version_font);
+	sizer->Add(t, wxSizerFlags().Centre().Border(wxALL, 2));
+	sizer->AddSpacer(12);
 
 	if (variant::show_tagline())
 	{
@@ -92,15 +92,15 @@ AboutDialog::AboutDialog (wxWindow* parent)
 
 	if (variant::show_credits())
 	{
-		t = new StaticText (
+		t = new StaticText(
 			this,
 			_("(C) 2012-2025 Carl Hetherington, Terrence Meiczinger\nOle Laursen, Aaron Boxer"),
 			wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER
 			);
 
-		sizer->Add (t, wxSizerFlags().Centre().Border(wxLEFT | wxRIGHT, 16));
+		sizer->Add(t, wxSizerFlags().Centre().Border(wxLEFT | wxRIGHT, 16));
 
-		_notebook = new wxNotebook (this, wxID_ANY);
+		_notebook = new wxNotebook(this, wxID_ANY);
 
 		wxArrayString written_by;
 		written_by.Add(char_to_wx("Carl Hetherington"));
@@ -109,7 +109,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		written_by.Add(char_to_wx("Ole Laursen"));
 		written_by.Add(char_to_wx("Aaron Boxer"));
 		written_by.Add(char_to_wx("Benjamin Radel"));
-		add_section (_("Written by"), written_by);
+		add_section(_("Written by"), written_by);
 
 		wxArrayString with_help_from;
 		with_help_from.Add(char_to_wx("David Vignoni"));
@@ -118,7 +118,7 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		with_help_from.Add(char_to_wx("Gérald Maruccia"));
 		with_help_from.Add(char_to_wx("Julian van Mil"));
 		with_help_from.Add(char_to_wx("Lilian Lefranc"));
-		add_section (_("With help from"), with_help_from);
+		add_section(_("With help from"), with_help_from);
 
 		wxArrayString translated_by;
 		translated_by.Add(char_to_wx("Manuel AC"));
@@ -169,19 +169,19 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		translated_by.Add(char_to_wx("Rov (若文)"));
 		translated_by.Add(char_to_wx("刘汉源"));
 		translated_by.Add(char_to_wx("poppinzhang"));
-		add_section (_("Translated by"), translated_by);
+		add_section(_("Translated by"), translated_by);
 
 		wxArrayString patrons;
 		patrons.Add(char_to_wx("Lightbender Post"));
-		add_section (_("Patrons"), patrons);
+		add_section(_("Patrons"), patrons);
 
 		wxArrayString subscribers;
 		#include "subscribers.cc"
-		add_section (_("Subscribers"), subscribers);
+		add_section(_("Subscribers"), subscribers);
 
 		wxArrayString supported_by;
 		#include "supporters.cc"
-		add_section (_("Also supported by"), supported_by);
+		add_section(_("Also supported by"), supported_by);
 
 		wxArrayString tested_by;
 		tested_by.Add(char_to_wx("Manuel AC"));
@@ -248,37 +248,38 @@ AboutDialog::AboutDialog (wxWindow* parent)
 		tested_by.Add(char_to_wx("Wolfgang Woehl"));
 		tested_by.Add(char_to_wx("Benno Zwanenburg"));
 		tested_by.Add(char_to_wx("Дима Агатов"));
-		add_section (_("Tested by"), tested_by);
+		add_section(_("Tested by"), tested_by);
 
-		sizer->Add (_notebook, wxSizerFlags().Centre().Border(wxALL, 16));
-		overall_sizer->Add (sizer);
+		sizer->Add(_notebook, wxSizerFlags().Centre().Border(wxALL, 16));
+		overall_sizer->Add(sizer);
 	} else {
 		overall_sizer->Add(sizer, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
 	}
 
-	wxSizer* buttons = CreateButtonSizer (wxOK);
+	auto buttons = CreateButtonSizer(wxOK);
 	if (buttons) {
-		overall_sizer->Add (buttons, 1, wxEXPAND | wxALL, 4);
+		overall_sizer->Add(buttons, 1, wxEXPAND | wxALL, 4);
 	}
 
-	SetSizerAndFit (overall_sizer);
+	SetSizerAndFit(overall_sizer);
 }
+
 
 /** Add a section of credits.
  *  @param name Name of section.
  *  @param credits List of names.
  */
 void
-AboutDialog::add_section (wxString name, wxArrayString credits)
+AboutDialog::add_section(wxString name, wxArrayString credits)
 {
 	static auto first = true;
 	int const N = 3;
 
-	auto panel = new wxScrolledWindow (_notebook);
-	panel->SetMaxSize (wxSize (-1, 380));
-	panel->EnableScrolling (false, true);
-	panel->SetScrollRate (0, 32);
-	auto overall_sizer = new wxBoxSizer (wxHORIZONTAL);
+	auto panel = new wxScrolledWindow(_notebook);
+	panel->SetMaxSize(wxSize(-1, 380));
+	panel->EnableScrolling(false, true);
+	panel->SetScrollRate(0, 32);
+	auto overall_sizer = new wxBoxSizer(wxHORIZONTAL);
 
 	vector<wxString> strings(N);
 	int c = 0;
@@ -297,7 +298,7 @@ AboutDialog::add_section (wxString name, wxArrayString credits)
 		overall_sizer->Add(sizer, 1, wxEXPAND | wxALL, 6);
 	}
 
-	panel->SetSizerAndFit (overall_sizer);
-	_notebook->AddPage (panel, name, first);
+	panel->SetSizerAndFit(overall_sizer);
+	_notebook->AddPage(panel, name, first);
 	first = false;
 }

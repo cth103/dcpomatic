@@ -82,36 +82,36 @@ public:
 	Player(std::shared_ptr<const Film>, Image::Alignment subtitle_alignment, bool tolerant);
 	Player(std::shared_ptr<const Film>, std::shared_ptr<const Playlist> playlist, bool tolerant);
 
-	Player (Player const&) = delete;
-	Player& operator= (Player const&) = delete;
+	Player(Player const&) = delete;
+	Player& operator=(Player const&) = delete;
 
 	Player(Player&& other);
 	Player& operator=(Player&& other);
 
 	/** @return true when playback is finished, and there is no more data to come */
-	bool pass ();
-	void seek (dcpomatic::DCPTime time, bool accurate);
+	bool pass();
+	void seek(dcpomatic::DCPTime time, bool accurate);
 	Frame frames_done() const;
 	float progress() const;
 
-	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts ();
+	std::vector<std::shared_ptr<dcpomatic::Font>> get_subtitle_fonts();
 
-	dcp::Size video_container_size () const {
+	dcp::Size video_container_size() const {
 		return _video_container_size;
 	}
 
-	void set_video_container_size (dcp::Size);
-	void set_ignore_video ();
-	void set_ignore_audio ();
-	void set_ignore_text ();
-	void set_always_burn_open_subtitles ();
-	void set_fast ();
-	void set_play_referenced ();
-	void set_dcp_decode_reduction (boost::optional<int> reduction);
+	void set_video_container_size(dcp::Size);
+	void set_ignore_video();
+	void set_ignore_audio();
+	void set_ignore_text();
+	void set_always_burn_open_subtitles();
+	void set_fast();
+	void set_play_referenced();
+	void set_dcp_decode_reduction(boost::optional<int> reduction);
 	void set_disable_audio_processor();
 
-	boost::optional<dcpomatic::DCPTime> content_time_to_dcp (std::shared_ptr<const Content> content, dcpomatic::ContentTime t) const;
-	boost::optional<dcpomatic::ContentTime> dcp_to_content_time (std::shared_ptr<const Content> content, dcpomatic::DCPTime t) const;
+	boost::optional<dcpomatic::DCPTime> content_time_to_dcp(std::shared_ptr<const Content> content, dcpomatic::ContentTime t) const;
+	boost::optional<dcpomatic::ContentTime> dcp_to_content_time(std::shared_ptr<const Content> content, dcpomatic::DCPTime t) const;
 
 	void signal_change(ChangeType type, int property);
 
@@ -145,40 +145,40 @@ private:
 	friend struct check_reuse_old_data_test;
 	friend struct overlap_video_test1;
 
-	void construct ();
+	void construct();
 	void connect();
-	void setup_pieces ();
+	void setup_pieces();
 	void film_change(ChangeType, FilmProperty);
-	void playlist_change (ChangeType);
-	void playlist_content_change (ChangeType, int, bool);
-	Frame dcp_to_content_video (std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
-	dcpomatic::DCPTime content_video_to_dcp (std::shared_ptr<const Piece> piece, Frame f) const;
-	Frame dcp_to_resampled_audio (std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
-	dcpomatic::DCPTime resampled_audio_to_dcp (std::shared_ptr<const Piece> piece, Frame f) const;
-	dcpomatic::ContentTime dcp_to_content_time (std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
-	dcpomatic::DCPTime content_time_to_dcp (std::shared_ptr<const Piece> piece, dcpomatic::ContentTime t) const;
-	std::shared_ptr<PlayerVideo> black_player_video_frame (Eyes eyes) const;
+	void playlist_change(ChangeType);
+	void playlist_content_change(ChangeType, int, bool);
+	Frame dcp_to_content_video(std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
+	dcpomatic::DCPTime content_video_to_dcp(std::shared_ptr<const Piece> piece, Frame f) const;
+	Frame dcp_to_resampled_audio(std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
+	dcpomatic::DCPTime resampled_audio_to_dcp(std::shared_ptr<const Piece> piece, Frame f) const;
+	dcpomatic::ContentTime dcp_to_content_time(std::shared_ptr<const Piece> piece, dcpomatic::DCPTime t) const;
+	dcpomatic::DCPTime content_time_to_dcp(std::shared_ptr<const Piece> piece, dcpomatic::ContentTime t) const;
+	std::shared_ptr<PlayerVideo> black_player_video_frame(Eyes eyes) const;
 	void emit_video_until(dcpomatic::DCPTime time);
 	void insert_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time, dcpomatic::DCPTime end);
 	std::pair<std::shared_ptr<Piece>, boost::optional<dcpomatic::DCPTime>> earliest_piece_and_time() const;
 
-	void video (std::weak_ptr<Piece>, ContentVideo);
-	void audio (std::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
-	void bitmap_text_start (std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, ContentBitmapText);
-	void plain_text_start (std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, ContentStringText);
-	void subtitle_stop (std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, dcpomatic::ContentTime);
-	void atmos (std::weak_ptr<Piece>, ContentAtmos);
+	void video(std::weak_ptr<Piece>, ContentVideo);
+	void audio(std::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
+	void bitmap_text_start(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, ContentBitmapText);
+	void plain_text_start(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, ContentStringText);
+	void subtitle_stop(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, dcpomatic::ContentTime);
+	void atmos(std::weak_ptr<Piece>, ContentAtmos);
 
-	dcpomatic::DCPTime one_video_frame () const;
-	void fill_audio (dcpomatic::DCPTimePeriod period);
-	std::pair<std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> discard_audio (
+	dcpomatic::DCPTime one_video_frame() const;
+	void fill_audio(dcpomatic::DCPTimePeriod period);
+	std::pair<std::shared_ptr<AudioBuffers>, dcpomatic::DCPTime> discard_audio(
 		std::shared_ptr<const AudioBuffers> audio, dcpomatic::DCPTime time, dcpomatic::DCPTime discard_to
 		) const;
 	boost::optional<PositionImage> open_texts_for_frame(dcpomatic::DCPTime time) const;
 	void emit_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 	void use_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time, dcpomatic::DCPTime end);
-	void emit_audio (std::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
-	std::shared_ptr<const Playlist> playlist () const;
+	void emit_audio(std::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
+	std::shared_ptr<const Playlist> playlist() const;
 
 	/** Mutex to protect the most of the Player state.  When it's used for the preview we have
 	    seek() and pass() called from the Butler thread and lots of other stuff called
@@ -231,7 +231,7 @@ private:
 	class StreamState
 	{
 	public:
-		StreamState () {}
+		StreamState() {}
 
 		explicit StreamState(std::shared_ptr<Piece> p)
 			: piece(p)

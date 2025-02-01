@@ -34,17 +34,17 @@ class Hints;
 class HintsDialog : public wxDialog
 {
 public:
-	HintsDialog (wxWindow* parent, std::weak_ptr<Film>, bool ok);
+	HintsDialog(wxWindow* parent, std::weak_ptr<Film>, bool ok);
 
 private:
-	void film_change (ChangeType);
-	void film_content_change (ChangeType type);
-	void shut_up (wxCommandEvent& ev);
-	void update ();
-	void hint (std::string text);
-	void pulse ();
-	void finished ();
-	void progress (std::string m);
+	void film_change(ChangeType);
+	void film_content_change(ChangeType type);
+	void shut_up(wxCommandEvent& ev);
+	void update();
+	void hint(std::string text);
+	void pulse();
+	void finished();
+	void progress(std::string m);
 
 	std::weak_ptr<Film> _film;
 	wxGauge* _gauge;

@@ -37,10 +37,10 @@ class wxNotebook;
 class AboutDialog : public wxDialog
 {
 public:
-	explicit AboutDialog (wxWindow *);
+	explicit AboutDialog(wxWindow *);
 
 private:
-	void add_section (wxString, wxArrayString);
+	void add_section(wxString, wxArrayString);
 
 	wxNotebook* _notebook; ///< notebook used to keep each list of names for the credits
 };
