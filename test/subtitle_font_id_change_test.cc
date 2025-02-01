@@ -80,6 +80,7 @@ BOOST_AUTO_TEST_CASE(subtitle_font_id_change_test2)
 	 * which obscures the point of this test.
 	 */
 	content[0]->_last_write_times[0] = boost::filesystem::last_write_time("test/data/short.srt");
+	content[0]->only_text()->set_language(dcp::LanguageTag("de"));
 
 	CheckContentJob check(film);
 	check.run();
