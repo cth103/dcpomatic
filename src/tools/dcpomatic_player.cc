@@ -729,7 +729,13 @@ private:
 			auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 			DCPOMATIC_ASSERT(dcp);
 
-			dcp->add_ov (wx_to_std(c->GetPath()));
+			try {
+				dcp->add_ov(wx_to_std(c->GetPath()));
+			} catch (DCPError& e) {
+				error_dialog(this, char_to_wx(e.what()));
+				return;
+			}
+
 			auto job = make_shared<ExamineContentJob>(_film, dcp, true);
 
 			auto film_ready = [this]() {
