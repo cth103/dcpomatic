@@ -1233,16 +1233,40 @@ Player::audio(weak_ptr<Piece> weak_piece, AudioStreamPtr stream, ContentAudio co
 }
 
 
-void
-Player::bitmap_text_start(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_content, ContentBitmapText subtitle)
+/** @return from time if this text should be stored in _active_texts, otherwise nullopt */
+boost::optional<DCPTime>
+Player::should_store(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_content, ContentTime subtitle_from) const
 {
 	if (_suspended) {
-		return;
+		return {};
 	}
 
 	auto piece = weak_piece.lock();
 	auto content = weak_content.lock();
-	if (!piece || !content) {
+	auto film = _film.lock();
+	if (!piece || !content || !film) {
+		return {};
+	}
+
+	DCPTime const from(content_time_to_dcp(piece, subtitle_from));
+	if (from > piece->content->end(film)) {
+		return {};
+	}
+
+	return from;
+}
+
+
+void
+Player::bitmap_text_start(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_content, ContentBitmapText subtitle)
+{
+	auto from = should_store(weak_piece, weak_content, subtitle.from());
+	if (!from) {
+		return;
+	}
+
+	auto content = weak_content.lock();
+	if (!content) {
 		return;
 	}
 
@@ -1274,32 +1298,24 @@ Player::bitmap_text_start(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent
 		ps.bitmap.push_back(BitmapText(image->scale(scaled_size, dcp::YUVToRGB::REC601, image->pixel_format(), Image::Alignment::PADDED, _fast), sub.rectangle));
 	}
 
-	DCPTime from(content_time_to_dcp(piece, subtitle.from()));
-	_active_texts[content->type()].add_from(weak_content, ps, from);
+	_active_texts[content->type()].add_from(weak_content, ps, *from);
 }
 
 
 void
 Player::plain_text_start(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_content, ContentStringText subtitle)
 {
-	if (_suspended) {
+	auto from = should_store(weak_piece, weak_content, subtitle.from());
+	if (!from) {
 		return;
 	}
 
-	auto piece = weak_piece.lock();
 	auto content = weak_content.lock();
-	auto film = _film.lock();
-	if (!piece || !content || !film) {
+	if (!content) {
 		return;
 	}
 
 	PlayerText ps;
-	DCPTime const from(content_time_to_dcp(piece, subtitle.from()));
-
-	if (from > piece->content->end(film)) {
-		return;
-	}
-
 	for (auto s: subtitle.subs) {
 		s.set_h_position(s.h_position() + content->x_offset());
 		s.set_v_position(s.v_position() + content->y_offset());
@@ -1320,11 +1336,11 @@ Player::plain_text_start(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent>
 			s.set_aspect_adjust(xs / ys);
 		}
 
-		s.set_in(dcp::Time(from.seconds(), 1000));
-		ps.string.push_back(s);
+		s.set_in(dcp::Time(from->seconds(), 1000));
+		ps.string.push_back (s);
 	}
 
-	_active_texts[content->type()].add_from(weak_content, ps, from);
+	_active_texts[content->type()].add_from(weak_content, ps, *from);
 }
 
 
@@ -1350,17 +1366,18 @@ Player::text_stop(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_c
 		return;
 	}
 
-	DCPTime const dcp_to = content_time_to_dcp(piece, to);
+	auto dcp_to = content_time_to_dcp(piece, to);
+	auto from = _active_texts[content->type()].add_to(weak_content, dcp_to);
+	auto subtitle_period = DCPTimePeriod(from.second, dcp_to);
 
-	if (dcp_to > piece->content->end(film)) {
+	auto overlap = piece->content->period(film).overlap(subtitle_period);
+	if (!overlap) {
 		return;
 	}
 
-	auto from = _active_texts[content->type()].add_to(weak_content, dcp_to);
-
 	bool const always = (content->type() == TextType::OPEN_SUBTITLE && _always_burn_open_subtitles);
 	if (content->use() && !always && !content->burn()) {
-		Text(from.first, content->type(), content->dcp_track().get_value_or(DCPTextTrack()), DCPTimePeriod(from.second, dcp_to));
+		Text(from.first, content->type(), content->dcp_track().get_value_or(DCPTextTrack()), *overlap);
 	}
 }
 

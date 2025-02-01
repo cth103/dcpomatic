@@ -324,3 +324,31 @@ BOOST_AUTO_TEST_CASE(entity_from_dcp_source)
 	BOOST_CHECK(max_X > 100);
 }
 
+
+BOOST_AUTO_TEST_CASE(dcp_subtitle_trim_test)
+{
+	auto content = make_shared<DCPSubtitleContent>("test/data/dcp_sub7.xml");
+	auto film = new_test_film("dcp_subtitle_trim_start_test", { content });
+	content->set_trim_start(film, dcpomatic::ContentTime::from_seconds(10.5));
+	content->set_trim_end(dcpomatic::ContentTime::from_seconds(2.5));
+	content->text[0]->set_language(dcp::LanguageTag("en"));
+
+	make_and_verify_dcp(
+		film,
+		{
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_FIRST_TEXT_TIME,
+			dcp::VerificationNote::Code::MISSING_CPL_METADATA,
+			dcp::VerificationNote::Code::INVALID_SUBTITLE_DURATION,
+		});
+
+	dcp::SMPTETextAsset asset(find_file(film->dir(film->dcp_name()), "sub_"));
+	auto texts = asset.texts();
+	BOOST_REQUIRE_EQUAL(texts.size(), 9U);
+	BOOST_CHECK(texts[0]->in() == dcp::Time(0, 0, 0, 0, 24));
+	BOOST_CHECK(texts[0]->out() == dcp::Time(0, 0, 0, 12, 24));
+	BOOST_CHECK(texts[8]->in() == dcp::Time(0, 0, 15, 12, 24));
+	BOOST_CHECK(texts[8]->out() == dcp::Time(0, 0, 16, 0, 24));
+}
+
+
+

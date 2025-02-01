@@ -177,8 +177,11 @@ private:
 	boost::optional<PositionImage> open_texts_for_frame(dcpomatic::DCPTime time) const;
 	void emit_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time);
 	void use_video(std::shared_ptr<PlayerVideo> pv, dcpomatic::DCPTime time, dcpomatic::DCPTime end);
-	void emit_audio(std::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
-	std::shared_ptr<const Playlist> playlist() const;
+	void emit_audio (std::shared_ptr<AudioBuffers> data, dcpomatic::DCPTime time);
+	std::shared_ptr<const Playlist> playlist () const;
+	boost::optional<dcpomatic::DCPTime> should_store(
+		std::weak_ptr<Piece> weak_piece, std::weak_ptr<const TextContent> weak_content, dcpomatic::ContentTime subtitle_from
+	) const;
 
 	/** Mutex to protect the most of the Player state.  When it's used for the preview we have
 	    seek() and pass() called from the Butler thread and lots of other stuff called
