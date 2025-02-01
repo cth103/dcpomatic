@@ -166,7 +166,7 @@ private:
 	void audio(std::weak_ptr<Piece>, AudioStreamPtr, ContentAudio);
 	void bitmap_text_start(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, ContentBitmapText);
 	void plain_text_start(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, ContentStringText);
-	void subtitle_stop(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, dcpomatic::ContentTime);
+	void text_stop(std::weak_ptr<Piece>, std::weak_ptr<const TextContent>, dcpomatic::ContentTime);
 	void atmos(std::weak_ptr<Piece>, ContentAtmos);
 
 	dcpomatic::DCPTime one_video_frame() const;

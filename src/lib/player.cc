@@ -353,7 +353,7 @@ Player::setup_pieces()
 				bind(&Player::plain_text_start, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
 			(*j)->Stop.connect(
-				bind(&Player::subtitle_stop, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
+				bind(&Player::text_stop, this, weak_ptr<Piece>(piece), weak_ptr<const TextContent>((*j)->content()), _1)
 				);
 
 			++j;
@@ -1329,7 +1329,7 @@ Player::plain_text_start(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent>
 
 
 void
-Player::subtitle_stop(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_content, ContentTime to)
+Player::text_stop(weak_ptr<Piece> weak_piece, weak_ptr<const TextContent> weak_content, ContentTime to)
 {
 	if (_suspended) {
 		return;
