@@ -223,33 +223,33 @@ HTTPServer::handle(shared_ptr<Socket> socket)
 		boost::system::error_code _error_code;
 	};
 
-	while (true) {
+	Reader reader;
 
-		Reader reader;
+	vector<uint8_t> buffer(2048);
+	socket->set_deadline_from_now(2);
+	socket->socket().async_read_some(
+		boost::asio::buffer(buffer.data(), buffer.size()),
+		[&reader, &buffer, socket](boost::system::error_code const& ec, std::size_t bytes_transferred) {
+			reader.read_block(ec, buffer.data(), bytes_transferred);
+		});
 
-		vector<uint8_t> buffer(2048);
-		socket->socket().async_read_some(
-			boost::asio::buffer(buffer.data(), buffer.size()),
-			[&reader, &buffer, socket](boost::system::error_code const& ec, std::size_t bytes_transferred) {
-				socket->set_deadline_from_now(1);
-				reader.read_block(ec, buffer.data(), bytes_transferred);
-			});
+	while (!reader.got_request() && !reader.close() && socket->is_open()) {
+		socket->run();
+	}
 
-		while (!reader.got_request() && !reader.close() && socket->is_open()) {
-			socket->run();
-		}
-
-		if (reader.got_request() && !reader.close()) {
-			try {
-				auto response = request(reader.get());
-				response.send(socket);
-			} catch (runtime_error& e) {
-				LOG_ERROR_NC(e.what());
-			}
-		}
-
-		if (reader.close() || !socket->is_open()) {
-			break;
+	if (reader.got_request() && !reader.close()) {
+		try {
+			auto response = request(reader.get());
+			response.send(socket);
+		} catch (runtime_error& e) {
+			LOG_ERROR_NC(e.what());
 		}
 	}
+
+	/* I think we should keep the socket open if the client requested keep-alive, but some browsers
+	 * send keep-alive then don't re-use the connection.  Since we can only accept one request at once,
+	 * this blocks until our request read (above) times out.  We probably should accept multiple
+	 * requests in parallel, but it's easier for not to use close the socket.
+	 */
+	socket->close();
 }
