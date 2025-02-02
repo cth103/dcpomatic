@@ -75,8 +75,9 @@ Server::handle_accept (shared_ptr<Socket> socket, boost::system::error_code cons
 	}
 
 	_socket = socket;
-
 	handle (socket);
+	_socket.reset();
+
 	start_accept ();
 }
 
