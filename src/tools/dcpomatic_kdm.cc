@@ -305,14 +305,10 @@ private:
 
 	void setup_menu (wxMenuBar* m)
 	{
+#ifndef DCPOMATIC_OSX
 		auto file = new wxMenu;
-
-#ifndef DCPOMATIC_OSX
 		file->Append (wxID_EXIT, _("&Quit"));
-#endif
-
-#ifndef DCPOMATIC_OSX
-		wxMenu* edit = new wxMenu;
+		auto edit = new wxMenu;
 		edit->Append (wxID_PREFERENCES, _("&Preferences...\tCtrl-P"));
 #endif
 
