@@ -857,6 +857,7 @@ supported_by.Add (wxT ("Paige Matis"));
 supported_by.Add (wxT ("Luís R. T. Matos"));
 supported_by.Add (wxT ("Damir Matoz"));
 supported_by.Add (wxT ("Emma Matthews"));
+supported_by.Add (wxT ("Sam Matthews"));
 supported_by.Add (wxT ("Mattias Mattsson"));
 supported_by.Add (wxT ("Peter Mattsson"));
 supported_by.Add (wxT ("Charles Maynes"));
