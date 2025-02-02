@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2024-12-07 15:57+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -43,7 +43,7 @@ msgid "%"
 msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:620
+#: src/wx/verify_dcp_result_panel.cc:621
 #, c-format
 msgid "%d Bv2.1 errors, "
 msgstr "%d erreur(s) Bv2.1, "
@@ -74,7 +74,7 @@ msgid "%d channels on %s"
 msgstr "%d canaux sur %s"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:612
+#: src/wx/verify_dcp_result_panel.cc:613
 #, c-format
 msgid "%d errors, "
 msgstr "%d erreur(s), "
@@ -147,20 +147,20 @@ msgid "0dB (unchanged)"
 msgstr "0dB (inchangé)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:617
+#: src/wx/verify_dcp_result_panel.cc:618
 msgid "1 Bv2.1 error, "
 msgstr "1 erreur Bv2.1, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:609
+#: src/wx/verify_dcp_result_panel.cc:610
 msgid "1 error, "
 msgstr "1 erreur, "
 
-#: src/wx/wx_util.cc:603
+#: src/wx/wx_util.cc:604
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:595
+#: src/wx/wx_util.cc:596
 msgid "2 - stereo"
 msgstr "2 - stéréo"
 
@@ -204,7 +204,7 @@ msgstr "3D droite seulement"
 msgid "3D top/bottom"
 msgstr "3D dessus/dessous"
 
-#: src/wx/wx_util.cc:597
+#: src/wx/wx_util.cc:598
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -216,11 +216,11 @@ msgstr "48kHz"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:599
+#: src/wx/wx_util.cc:600
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:601
+#: src/wx/wx_util.cc:602
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -228,14 +228,14 @@ msgstr "8 - 5.1/HI/VI"
 msgid "96kHz"
 msgstr "96kHz"
 
-#: src/wx/verify_dcp_result_panel.cc:547
+#: src/wx/verify_dcp_result_panel.cc:548
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> a une valeur %n invalide"
 
-#: src/wx/verify_dcp_result_panel.cc:553
-#, c-format
-msgid "<MainSoundConfiguration> describes incorrect number of channels (%n)"
+#: src/wx/verify_dcp_result_panel.cc:554
+#, fuzzy, c-format
+msgid "<MainSoundConfiguration> is invalid (%n)"
 msgstr "<MainSoundConfiguration> décrit un nombre incorrect de canaux (%n)"
 
 #: src/wx/subtitle_appearance_dialog.cc:118
@@ -259,61 +259,61 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:470
+#: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "Une image JPEG2000 2K contient %n parties de mosaïque au lieu de 3."
 
-#: src/wx/verify_dcp_result_panel.cc:442
+#: src/wx/verify_dcp_result_panel.cc:443
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr "Une image JPEG2000 2K a %n marqueur(s) POC au lieu de 0."
 
-#: src/wx/verify_dcp_result_panel.cc:407
+#: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr "Une image JPEG2000 2K a %n bits de garde au lieu de 1."
 
-#: src/wx/verify_dcp_result_panel.cc:477
+#: src/wx/verify_dcp_result_panel.cc:478
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "Une image JPEG2000 2K contient %n parties de mosaïque au lieu de 6."
 
-#: src/wx/verify_dcp_result_panel.cc:449
+#: src/wx/verify_dcp_result_panel.cc:450
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr "Une image JPEG2000 4K a %n marqueur(s) POC au lieu de 1."
 
-#: src/wx/verify_dcp_result_panel.cc:414
+#: src/wx/verify_dcp_result_panel.cc:415
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "Une image JPEG2000 4K a %n bits de garde au lieu de 2."
 
-#: src/wx/verify_dcp_result_panel.cc:463
+#: src/wx/verify_dcp_result_panel.cc:464
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr ""
 "Une image JPEG2000 contient un marqueur POC à un emplacement non valide."
 
-#: src/wx/verify_dcp_result_panel.cc:456
+#: src/wx/verify_dcp_result_panel.cc:457
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "Une image JPEG2000 contient un marqueur POC invalide (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:435
+#: src/wx/verify_dcp_result_panel.cc:436
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr "Une image JPEG2000 a une hauteur de bloc de code de %n au lieu de 32."
 
-#: src/wx/verify_dcp_result_panel.cc:428
+#: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr "Une image JPEG2000 a une largeur de bloc de code de %n au lieu de 32."
 
-#: src/wx/verify_dcp_result_panel.cc:484
+#: src/wx/verify_dcp_result_panel.cc:485
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "Une image JPEG2000 n'a pas de marqueur TLM."
 
-#: src/wx/verify_dcp_result_panel.cc:421
+#: src/wx/verify_dcp_result_panel.cc:422
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr ""
 "La taille d'une mosaïque JPEG2000 ne correspond pas à la taille de l'image."
@@ -323,7 +323,7 @@ msgstr ""
 msgid "A new version of %s is available."
 msgstr "Une nouvelle version de %s est disponible."
 
-#: src/wx/verify_dcp_result_panel.cc:400
+#: src/wx/verify_dcp_result_panel.cc:401
 #, fuzzy, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
 msgstr "Une image a un codestream JPEG2000 invalide (%n)"
@@ -333,12 +333,12 @@ msgstr "Une image a un codestream JPEG2000 invalide (%n)"
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "Un problème est survenu lors de la recherche de conseils (%s)"
 
-#: src/wx/verify_dcp_result_panel.cc:489
+#: src/wx/verify_dcp_result_panel.cc:490
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr ""
 "Un sous-titre dure plus longtemps que la bobine dans laquelle il se trouve."
 
-#: src/wx/verify_dcp_result_panel.cc:569
+#: src/wx/verify_dcp_result_panel.cc:570
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
@@ -360,11 +360,11 @@ msgstr "ASIO"
 msgid "About %s"
 msgstr "À propos de %s"
 
-#: src/wx/screens_panel.cc:265
+#: src/wx/screens_panel.cc:268
 msgid "Add Cinema"
 msgstr "Ajouter un cinéma"
 
-#: src/wx/screens_panel.cc:83
+#: src/wx/screens_panel.cc:84
 msgid "Add Cinema..."
 msgstr "Ajouter un cinéma..."
 
@@ -384,11 +384,11 @@ msgstr "Ajouter un KDM..."
 msgid "Add OV..."
 msgstr "Ajouter une OV..."
 
-#: src/wx/screens_panel.cc:390
+#: src/wx/screens_panel.cc:389
 msgid "Add Screen"
 msgstr "Ajouter un écran"
 
-#: src/wx/screens_panel.cc:89
+#: src/wx/screens_panel.cc:90
 msgid "Add Screen..."
 msgstr "Ajouter un écran..."
 
@@ -542,15 +542,15 @@ msgstr "Activer l'utilisation de la norme SMPTE Bv2.0"
 msgid "Alpha   0"
 msgstr "Alpha   0"
 
-#: src/wx/about_dialog.cc:183
+#: src/wx/about_dialog.cc:184
 msgid "Also supported by"
 msgstr "Aussi soutenu par"
 
-#: src/wx/verify_dcp_result_panel.cc:210
+#: src/wx/verify_dcp_result_panel.cc:211
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "Une ressource a un chemin vide dans ASSETMAP."
 
-#: src/wx/verify_dcp_result_panel.cc:532
+#: src/wx/verify_dcp_result_panel.cc:533
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "Un <ContentKind> %n invalide a été utilisé."
@@ -571,22 +571,22 @@ msgstr "Apparence..."
 msgid "Are you sure you want to cancel this job?"
 msgstr "Êtes-vous sûr de vouloir annuler cette tâche ?"
 
-#: src/wx/screens_panel.cc:360
+#: src/wx/screens_panel.cc:359
 #, c-format
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr "Êtes-vous sûr de vouloir supprimer %d cinémas ?"
 
-#: src/wx/screens_panel.cc:488
+#: src/wx/screens_panel.cc:482
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr "Êtes-vous sûr de vouloir supprimer %d écrans ?"
 
-#: src/wx/screens_panel.cc:356
+#: src/wx/screens_panel.cc:355
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr "Êtes-vous sûr de vouloir supprimer le cinéma '%s' ?"
 
-#: src/wx/screens_panel.cc:484
+#: src/wx/screens_panel.cc:478
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr "Êtes-vous sûr de vouloir supprimer l'écran '%s' ?"
@@ -599,21 +599,21 @@ msgstr ""
 "Êtes-vous sûr de vouloir envoyer des e-mails aux adresses suivantes ?\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:517
+#: src/wx/verify_dcp_result_panel.cc:518
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr "Au moins un nœud <Text> dans un sous-titre est vide."
 
-#: src/wx/verify_dcp_result_panel.cc:332
+#: src/wx/verify_dcp_result_panel.cc:333
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
 "Au moins une ressource d'une bobine n'a pas la même durée que les autres."
 
-#: src/wx/verify_dcp_result_panel.cc:302
+#: src/wx/verify_dcp_result_panel.cc:303
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "Au moins une paire de sous-titres est séparée par moins de 2 images."
 
-#: src/wx/verify_dcp_result_panel.cc:299
+#: src/wx/verify_dcp_result_panel.cc:300
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "Au moins un sous-titre dure moins de 15 images."
 
@@ -689,7 +689,7 @@ msgstr "Parcourir..."
 msgid "Burn subtitles into image"
 msgstr "Graver les sous-titres dans l'image"
 
-#: src/wx/gain_calculator_dialog.cc:38
+#: src/wx/gain_calculator_dialog.cc:39
 msgid "But I have to use fader"
 msgstr "Mais je dois utiliser le fader"
 
@@ -782,7 +782,7 @@ msgstr "Gain du canal"
 msgid "Channels"
 msgstr "Canaux"
 
-#: src/wx/screens_panel.cc:100
+#: src/wx/screens_panel.cc:101
 msgid "Check all"
 msgstr "Tout cocher"
 
@@ -840,7 +840,7 @@ msgstr ""
 "Cliquer sur ce bouton pour régler tous les contenus sélectionnés à la même "
 "valeur."
 
-#: src/wx/verify_dcp_result_panel.cc:350
+#: src/wx/verify_dcp_result_panel.cc:351
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "La ressource de sous-titres codés %n a un <EntryPoint> non nul."
@@ -880,7 +880,7 @@ msgid "Configuration file"
 msgstr "Fichier de configuration"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1632 src/wx/player_config_dialog.cc:312
+#: src/wx/full_config_dialog.cc:1636 src/wx/player_config_dialog.cc:312
 msgid "Config|Timing"
 msgstr "Configuration|Chronologie"
 
@@ -988,7 +988,7 @@ msgstr "Impossible de charger le certificat (%s)"
 msgid "Could not play content"
 msgstr "Impossible de lire le contenu"
 
-#: src/wx/verify_dcp_result_panel.cc:189
+#: src/wx/verify_dcp_result_panel.cc:190
 #, c-format
 msgid "Could not read DCP (%n)"
 msgstr "Impossible de lire le DCP (%n)"
@@ -1076,7 +1076,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "Piste texte du DCP"
 
-#: src/wx/full_config_dialog.cc:1598
+#: src/wx/full_config_dialog.cc:1602
 msgid "DCP asset filename format"
 msgstr "Format du nom de fichier des ressources du DCP"
 
@@ -1084,7 +1084,7 @@ msgstr "Format du nom de fichier des ressources du DCP"
 msgid "DCP directory"
 msgstr "Répertoire du DCP"
 
-#: src/wx/full_config_dialog.cc:1579
+#: src/wx/full_config_dialog.cc:1583
 msgid "DCP metadata filename format"
 msgstr "Format du nom de fichier des métadonnées du DCP"
 
@@ -1100,27 +1100,27 @@ msgstr "Vérification du DCP"
 msgid "Debug log file"
 msgstr "Fichier journal de débogage"
 
-#: src/wx/full_config_dialog.cc:1634
+#: src/wx/full_config_dialog.cc:1638
 msgid "Debug: 3D"
 msgstr "Débogage : 3D"
 
-#: src/wx/full_config_dialog.cc:1644
+#: src/wx/full_config_dialog.cc:1648
 msgid "Debug: audio analysis"
 msgstr "Débogage : analyse audio"
 
-#: src/wx/full_config_dialog.cc:1638
+#: src/wx/full_config_dialog.cc:1642
 msgid "Debug: email sending"
 msgstr "Débogage : envoi d'email"
 
-#: src/wx/full_config_dialog.cc:1636
+#: src/wx/full_config_dialog.cc:1640
 msgid "Debug: encode"
 msgstr "Débogage : encodage"
 
-#: src/wx/full_config_dialog.cc:1642
+#: src/wx/full_config_dialog.cc:1646
 msgid "Debug: player"
 msgstr "Débogage : lecteur"
 
-#: src/wx/full_config_dialog.cc:1640 src/wx/player_config_dialog.cc:314
+#: src/wx/full_config_dialog.cc:1644 src/wx/player_config_dialog.cc:314
 msgid "Debug: video view"
 msgstr "Débogage : vue vidéo"
 
@@ -1265,15 +1265,15 @@ msgstr "Maquette"
 msgid "Earlier"
 msgstr "Avant"
 
-#: src/wx/screens_panel.cc:85
+#: src/wx/screens_panel.cc:86
 msgid "Edit Cinema..."
 msgstr "Éditer le cinéma..."
 
-#: src/wx/screens_panel.cc:91
+#: src/wx/screens_panel.cc:92
 msgid "Edit Screen..."
 msgstr "Éditer l'écran..."
 
-#: src/wx/screens_panel.cc:334
+#: src/wx/screens_panel.cc:335
 msgid "Edit cinema"
 msgstr "Modifier le cinéma"
 
@@ -1281,7 +1281,7 @@ msgstr "Modifier le cinéma"
 msgid "Edit recipient"
 msgstr "Modifier le destinataire"
 
-#: src/wx/screens_panel.cc:438
+#: src/wx/screens_panel.cc:434
 msgid "Edit screen"
 msgstr "Modifier l'écran"
 
@@ -1334,7 +1334,7 @@ msgstr "Fin"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Entrez votre adresse e-mail pour le contact, pas %s"
 
-#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:309
+#: src/wx/full_config_dialog.cc:1633 src/wx/player_config_dialog.cc:309
 #: src/wx/verify_dcp_result_panel.cc:53
 msgid "Errors"
 msgstr "Erreurs"
@@ -1493,7 +1493,7 @@ msgstr "Marquer la vidéo de manière authentique"
 msgid "Format"
 msgstr "Format"
 
-#: src/wx/verify_dcp_result_panel.cc:246
+#: src/wx/verify_dcp_result_panel.cc:247
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1502,7 +1502,7 @@ msgstr ""
 "L'image %frame (timecode %timecode) dans la ressource %f a un débit "
 "instantané proche de la limite de 250MBit/s."
 
-#: src/wx/verify_dcp_result_panel.cc:239
+#: src/wx/verify_dcp_result_panel.cc:240
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1511,7 +1511,7 @@ msgstr ""
 "L'image %frame (timecode %timecode) dans la ressource %f a un débit "
 "instantané supérieur à la limite de 250MBit/s."
 
-#: src/wx/verify_dcp_result_panel.cc:561
+#: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1570,7 +1570,7 @@ msgstr "GDC"
 msgid "Gain"
 msgstr "Gain"
 
-#: src/wx/gain_calculator_dialog.cc:30
+#: src/wx/gain_calculator_dialog.cc:31
 msgid "Gain Calculator"
 msgstr "Calculateur de gain"
 
@@ -1580,7 +1580,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Gain pour le canal de contenu %d dans le canal du DCP %d"
 
 #: src/wx/config_dialog.cc:117 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1625 src/wx/player_config_dialog.cc:305
+#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:305
 msgid "General"
 msgstr "Général"
 
@@ -1625,7 +1625,7 @@ msgstr "Hôtes"
 msgid "Host name or IP address"
 msgstr "Nom de l'hôte ou adresse IP"
 
-#: src/wx/gain_calculator_dialog.cc:35
+#: src/wx/gain_calculator_dialog.cc:36
 msgid "I want to play this back at fader"
 msgstr "Je veux lire ce DCP à un niveau de fader de"
 
@@ -1713,7 +1713,7 @@ msgstr ""
 "DKDMs que vous avez créées.  Aussi, les KDMs qui vous ont été envoyés "
 "deviendront inutilisables.  Soyez prudent !"
 
-#: src/wx/content_advanced_dialog.cc:103
+#: src/wx/content_advanced_dialog.cc:101
 msgid ""
 "Ignore this content's video and use only audio, subtitles and closed captions"
 msgstr ""
@@ -1785,7 +1785,7 @@ msgstr "International avec texte"
 msgid "International textless"
 msgstr "International sans texte"
 
-#: src/wx/dcp_panel.cc:153
+#: src/wx/dcp_panel.cc:154
 msgid "Interop"
 msgstr "Interop"
 
@@ -1814,7 +1814,7 @@ msgstr "Nom commun de l'émetteur"
 msgid "Issuer organization name"
 msgstr "Nom de l'organisation de l'émetteur"
 
-#: src/wx/audio_panel.cc:307
+#: src/wx/audio_panel.cc:317
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1886,7 +1886,7 @@ msgstr "Langue"
 msgid "Language Tag"
 msgstr "Tag de la langue"
 
-#: src/wx/content_advanced_dialog.cc:99
+#: src/wx/content_advanced_dialog.cc:97
 msgid "Language of burnt-in subtitles in this content"
 msgstr "Langue des sous-titres gravés dans ce contenu"
 
@@ -1922,6 +1922,10 @@ msgstr "Dernière image du générique de titre"
 #: src/wx/content_panel.cc:293
 msgid "Later"
 msgstr "Après"
+
+#: src/wx/full_config_dialog.cc:1570
+msgid "Layout for short screen"
+msgstr ""
 
 #: src/wx/config_dialog.cc:525
 msgid "Leaf"
@@ -1978,7 +1982,7 @@ msgstr "Chargement des playlists et KDM"
 msgid "Locations"
 msgstr "Sites"
 
-#: src/wx/full_config_dialog.cc:1623 src/wx/player_config_dialog.cc:303
+#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:303
 msgid "Log"
 msgstr "Rapport"
 
@@ -2024,7 +2028,7 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Fichiers MP4 (*.mp4)|*.mp4"
 
-#: src/wx/dcp_panel.cc:154
+#: src/wx/dcp_panel.cc:155
 msgid "MPEG2 Interop"
 msgstr "Interop MPEG2"
 
@@ -2090,7 +2094,7 @@ msgstr "Bande passante maximale JPEG2000"
 msgid "Maximum MPEG2 bit rate"
 msgstr "Bande passante maximale JPEG2000"
 
-#: src/wx/full_config_dialog.cc:1571
+#: src/wx/full_config_dialog.cc:1575
 msgid "Maximum number of frames to store per thread"
 msgstr "Nombre maximum d'images à stocker par thread"
 
@@ -2119,73 +2123,73 @@ msgstr "Métadonnées..."
 msgid "Mix audio down to stereo"
 msgstr "Mixer l'audio en stéréo"
 
-#: src/wx/verify_dcp_result_panel.cc:471
+#: src/wx/verify_dcp_result_panel.cc:472
 #, fuzzy
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr "Une image JPEG2000 2K contient %n parties de mosaïque au lieu de 3."
 
-#: src/wx/verify_dcp_result_panel.cc:408
+#: src/wx/verify_dcp_result_panel.cc:409
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:443
+#: src/wx/verify_dcp_result_panel.cc:444
 #, fuzzy
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr "Une image JPEG2000 contient un marqueur POC invalide (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:415
+#: src/wx/verify_dcp_result_panel.cc:416
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:450
+#: src/wx/verify_dcp_result_panel.cc:451
 #, fuzzy
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr "Une image JPEG2000 contient un marqueur POC invalide (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:464
+#: src/wx/verify_dcp_result_panel.cc:465
 #, fuzzy
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
 "Une image JPEG2000 contient un marqueur POC à un emplacement non valide."
 
-#: src/wx/verify_dcp_result_panel.cc:457
+#: src/wx/verify_dcp_result_panel.cc:458
 #, fuzzy
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr "Une image JPEG2000 contient un marqueur POC invalide (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:478
+#: src/wx/verify_dcp_result_panel.cc:479
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:436
+#: src/wx/verify_dcp_result_panel.cc:437
 #, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr ""
 "Une image JPEG2000 contient un marqueur POC à un emplacement non valide."
 
-#: src/wx/verify_dcp_result_panel.cc:429
+#: src/wx/verify_dcp_result_panel.cc:430
 #, fuzzy
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 "Une image JPEG2000 contient un marqueur POC à un emplacement non valide."
 
-#: src/wx/verify_dcp_result_panel.cc:485
+#: src/wx/verify_dcp_result_panel.cc:486
 #, fuzzy
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr "Une image JPEG2000 n'a pas de marqueur TLM."
 
-#: src/wx/verify_dcp_result_panel.cc:422
+#: src/wx/verify_dcp_result_panel.cc:423
 #, fuzzy
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr ""
 "La taille d'une mosaïque JPEG2000 ne correspond pas à la taille de l'image."
 
-#: src/wx/verify_dcp_result_panel.cc:247
+#: src/wx/verify_dcp_result_panel.cc:248
 #, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
@@ -2194,7 +2198,7 @@ msgstr ""
 "Au moins une image de la ressource vidéo %f est proche de la limite de "
 "250MBit/s."
 
-#: src/wx/verify_dcp_result_panel.cc:240
+#: src/wx/verify_dcp_result_panel.cc:241
 #, fuzzy
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
@@ -2203,11 +2207,11 @@ msgstr ""
 "Au moins une image de la ressource vidéo %f est proche de la limite de "
 "250MBit/s."
 
-#: src/wx/verify_dcp_result_panel.cc:562
+#: src/wx/verify_dcp_result_panel.cc:563
 msgid "More frames (not listed) have image components that are too large."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:401
+#: src/wx/verify_dcp_result_panel.cc:402
 #, fuzzy
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr "Une image a un codestream JPEG2000 invalide (%n)"
@@ -2293,7 +2297,7 @@ msgstr "De nouvelles versions de %s sont disponibles."
 msgid "Next"
 msgstr "Suivant"
 
-#: src/wx/verify_dcp_result_panel.cc:228
+#: src/wx/verify_dcp_result_panel.cc:229
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "Aucun fichier ASSETMAP ou ASSETMAP.xml n'a été trouvé."
 
@@ -2301,7 +2305,7 @@ msgstr "Aucun fichier ASSETMAP ou ASSETMAP.xml n'a été trouvé."
 msgid "No DCP loaded."
 msgstr "Aucun DCP chargé."
 
-#: src/wx/verify_dcp_result_panel.cc:638
+#: src/wx/verify_dcp_result_panel.cc:639
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "Aucune erreur SMPTE Bv2.1 trouvée."
 
@@ -2314,11 +2318,11 @@ msgstr "Aucun signal audio ne sera transmis du %s canal '%s' au %s canal '%s'."
 msgid "No content found in this folder."
 msgstr "Aucun contenu trouvé dans ce dossier."
 
-#: src/wx/verify_dcp_result_panel.cc:634
+#: src/wx/verify_dcp_result_panel.cc:635
 msgid "No errors found."
 msgstr "Aucune erreur n'a été trouvée."
 
-#: src/wx/verify_dcp_result_panel.cc:642
+#: src/wx/verify_dcp_result_panel.cc:643
 msgid "No warnings found."
 msgstr "Aucun avertissement n'a été trouvé."
 
@@ -2326,14 +2330,14 @@ msgstr "Aucun avertissement n'a été trouvé."
 msgid "Non-standard"
 msgstr "Non-standard"
 
-#: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:158
-#: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1040
+#: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
+#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1040
 #: src/wx/file_picker_ctrl.cc:80 src/wx/subtitle_appearance_dialog.cc:151
 #: src/wx/video_panel.cc:187
 msgid "None"
 msgstr "Aucun"
 
-#: src/wx/verify_dcp_result_panel.cc:287
+#: src/wx/verify_dcp_result_panel.cc:288
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr ""
 "Toutes les ressources de sous-titres ne spécifient pas la même balise "
@@ -2381,7 +2385,7 @@ msgstr "Décalage"
 msgid "Only servers encode"
 msgstr "Seuls les serveurs encodent"
 
-#: src/wx/full_config_dialog.cc:1650 src/wx/player_config_dialog.cc:320
+#: src/wx/full_config_dialog.cc:1654 src/wx/player_config_dialog.cc:320
 msgid "Open console window"
 msgstr "Ouvrir la fenêtre de console"
 
@@ -2389,7 +2393,7 @@ msgstr "Ouvrir la fenêtre de console"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "Ouvrir la timeline pour le film (Ctrl+T)."
 
-#: src/wx/full_config_dialog.cc:1657 src/wx/player_config_dialog.cc:120
+#: src/wx/full_config_dialog.cc:1661 src/wx/player_config_dialog.cc:120
 msgid "OpenGL (faster)"
 msgstr "OpenGL (plus rapide)"
 
@@ -2454,7 +2458,7 @@ msgstr "Dossier de sortie"
 msgid "Output gamma correction"
 msgstr "Correction gamma de sortie"
 
-#: src/wx/content_advanced_dialog.cc:84
+#: src/wx/content_advanced_dialog.cc:82
 msgid "Override detected video frame rate"
 msgstr "Remplacer la fréquence d'images vidéo détectée"
 
@@ -2462,12 +2466,12 @@ msgstr "Remplacer la fréquence d'images vidéo détectée"
 msgid "Overwrite this file with current configuration"
 msgstr "Écraser ce fichier avec la nouvelle configuration"
 
-#: src/wx/verify_dcp_result_panel.cc:514
+#: src/wx/verify_dcp_result_panel.cc:515
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr ""
 "Une partie du DCP n'a pas pu être vérifiée car aucun KDM n'était disponible."
 
-#: src/wx/verify_dcp_result_panel.cc:216
+#: src/wx/verify_dcp_result_panel.cc:217
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
@@ -2500,7 +2504,7 @@ msgstr "Coller les paramètres de sous-titres"
 msgid "Paste video settings"
 msgstr "Coller les paramètres vidéo"
 
-#: src/wx/about_dialog.cc:175
+#: src/wx/about_dialog.cc:176
 msgid "Patrons"
 msgstr "Patrons"
 
@@ -2513,12 +2517,12 @@ msgstr "Pause"
 msgid "Peak"
 msgstr "Crête"
 
-#: src/wx/audio_panel.cc:441
+#: src/wx/audio_panel.cc:451
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Crête : %.2fdB"
 
-#: src/wx/audio_panel.cc:443
+#: src/wx/audio_panel.cc:453
 msgid "Peak: unknown"
 msgstr "Crête : inconnue"
 
@@ -2730,11 +2734,11 @@ msgstr "Supprimer"
 msgid "Remove %s marker"
 msgstr "Supprimer le marqueur %s"
 
-#: src/wx/screens_panel.cc:87
+#: src/wx/screens_panel.cc:88
 msgid "Remove Cinema"
 msgstr "Supprimer le cinéma"
 
-#: src/wx/screens_panel.cc:93
+#: src/wx/screens_panel.cc:94
 msgid "Remove Screen"
 msgstr "Supprimer l'écran"
 
@@ -2827,11 +2831,11 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (pour AAM et Doremi)"
 
-#: src/wx/dcp_panel.cc:149
+#: src/wx/dcp_panel.cc:150
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/dcp_panel.cc:151
+#: src/wx/dcp_panel.cc:152
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (Bv2.0 uniquement)"
 
@@ -3010,7 +3014,7 @@ msgstr "Serveur"
 msgid "Servers"
 msgstr "Serveurs"
 
-#: src/wx/content_advanced_dialog.cc:90 src/wx/timecode.cc:75
+#: src/wx/content_advanced_dialog.cc:88 src/wx/timecode.cc:74
 msgid "Set"
 msgstr "Définir"
 
@@ -3074,12 +3078,12 @@ msgstr "Afficher les processeurs audio expérimentaux"
 msgid "Show graph of audio levels..."
 msgstr "Afficher le graphique des niveaux audio..."
 
-#: src/wx/screens_panel.cc:739
+#: src/wx/screens_panel.cc:740
 #, fuzzy, c-format
 msgid "Show only %d checked"
 msgstr "Ne montrer que le %d sélectionné"
 
-#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:737
+#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
 #, fuzzy
 msgid "Show only checked"
 msgstr "Ne montrer que le sélectionné"
@@ -3096,7 +3100,7 @@ msgstr "Langue de la vidéo en langue des signes"
 msgid "Signing DCPs and KDMs"
 msgstr "Signature des DCPs et KDMs"
 
-#: src/wx/full_config_dialog.cc:1655 src/wx/player_config_dialog.cc:119
+#: src/wx/full_config_dialog.cc:1659 src/wx/player_config_dialog.cc:119
 msgid "Simple (safer)"
 msgstr "Simple (plus sûr)"
 
@@ -3139,7 +3143,7 @@ msgid ""
 "certificate validity periods.  What do you want to do?"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:520
+#: src/wx/verify_dcp_result_panel.cc:521
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
@@ -3147,7 +3151,7 @@ msgstr ""
 "Certains nœuds <Text> ou <Image> fermés ont des alignements verticaux "
 "différents au sein d'un <Subtitle>."
 
-#: src/wx/verify_dcp_result_panel.cc:523
+#: src/wx/verify_dcp_result_panel.cc:524
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
@@ -3158,11 +3162,11 @@ msgstr ""
 msgid "Sound"
 msgstr "Son"
 
-#: src/wx/verify_dcp_result_panel.cc:550
+#: src/wx/verify_dcp_result_panel.cc:551
 msgid "Sound assets do not all have the same channel count."
 msgstr ""
 
-#: src/wx/gain_calculator_dialog.cc:32
+#: src/wx/gain_calculator_dialog.cc:33
 msgid "Sound processor"
 msgstr "Processeur de son"
 
@@ -3229,7 +3233,7 @@ msgstr "Nom commun racine"
 msgid "Subject organization name"
 msgstr "Sélectionner le fichier de configuration"
 
-#: src/wx/about_dialog.cc:179
+#: src/wx/about_dialog.cc:180
 msgid "Subscribers"
 msgstr "Abonnés"
 
@@ -3237,7 +3241,7 @@ msgstr "Abonnés"
 msgid "Subtitle appearance"
 msgstr "Apparence de sous-titre"
 
-#: src/wx/verify_dcp_result_panel.cc:344
+#: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "La ressource de sous-titres %n a un <EntryPoint> non nul."
@@ -3315,31 +3319,31 @@ msgstr "L'email de test a été envoyé."
 msgid "Test version"
 msgstr "Version de test"
 
-#: src/wx/about_dialog.cc:250
+#: src/wx/about_dialog.cc:251
 msgid "Tested by"
 msgstr "Testé par"
 
-#: src/wx/kdm_timing_panel.cc:189
+#: src/wx/kdm_timing_panel.cc:179
 msgid "The 'until' time must be after the 'from' time."
 msgstr "L'heure 'jusqu'à' doit être postérieure à l'heure 'de'."
 
-#: src/wx/verify_dcp_result_panel.cc:578
+#: src/wx/verify_dcp_result_panel.cc:579
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:535
+#: src/wx/verify_dcp_result_panel.cc:536
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:541
+#: src/wx/verify_dcp_result_panel.cc:542
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:495
+#: src/wx/verify_dcp_result_panel.cc:496
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -3347,7 +3351,7 @@ msgstr ""
 "L'Asset ID dans un MXF de texte minuté est le même que le Resource ID ou que "
 "celui du XML contenu."
 
-#: src/wx/verify_dcp_result_panel.cc:329
+#: src/wx/verify_dcp_result_panel.cc:330
 #, fuzzy, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
@@ -3356,57 +3360,57 @@ msgstr ""
 "Le CPL %n a un <AnnotationText> qui n'est pas le même que son "
 "<ContentTitleText>."
 
-#: src/wx/verify_dcp_result_panel.cc:581
+#: src/wx/verify_dcp_result_panel.cc:582
 #, fuzzy, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
 msgstr "La ressource sonore %f a une fréquence d'image invalide de %n."
 
-#: src/wx/verify_dcp_result_panel.cc:386
+#: src/wx/verify_dcp_result_panel.cc:387
 #, fuzzy, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
 msgstr "Le CPL %n a un contenu crypté mais n'est pas signé."
 
-#: src/wx/verify_dcp_result_panel.cc:326
+#: src/wx/verify_dcp_result_panel.cc:327
 #, fuzzy, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr "Le CPL %n n'a pas de balise <AnnotationText>."
 
-#: src/wx/verify_dcp_result_panel.cc:584
+#: src/wx/verify_dcp_result_panel.cc:585
 #, fuzzy, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr "Le CPL %n n'a pas de balise <AnnotationText>."
 
-#: src/wx/verify_dcp_result_panel.cc:380
+#: src/wx/verify_dcp_result_panel.cc:381
 #, fuzzy, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
 msgstr "Le CPL %n n'a pas de balise de métadonnées d'extension CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:374
+#: src/wx/verify_dcp_result_panel.cc:375
 #, fuzzy, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
 msgstr "Le CPL %n n'a pas de balise de métadonnées CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:377
+#: src/wx/verify_dcp_result_panel.cc:378
 #, fuzzy, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
 msgstr "Le CPL %n n'a pas de balise de numéro de version de métadonnées CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:383
+#: src/wx/verify_dcp_result_panel.cc:384
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr "Le CPL %f a une balise de métadonnées d'extension CPL invalide (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:368
+#: src/wx/verify_dcp_result_panel.cc:369
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr "Le DCP a un FFOC de %n au lieu de 1."
 
-#: src/wx/verify_dcp_result_panel.cc:371
+#: src/wx/verify_dcp_result_panel.cc:372
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr "Le DCP a un LFOC de %n au lieu de la durée de la bobine moins un."
 
-#: src/wx/verify_dcp_result_panel.cc:338
+#: src/wx/verify_dcp_result_panel.cc:339
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
@@ -3414,32 +3418,32 @@ msgstr ""
 "Le DCP a des sous-titres codés mais chaque bobine n'a pas le même nombre de "
 "sous-titres codés."
 
-#: src/wx/verify_dcp_result_panel.cc:395
+#: src/wx/verify_dcp_result_panel.cc:396
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr ""
 "Le PDC a du contenu crypté, mais toutes ses ressources ne sont pas cryptées."
 
-#: src/wx/verify_dcp_result_panel.cc:362
+#: src/wx/verify_dcp_result_panel.cc:363
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "Le DCP n'a pas de marqueur FFOC (first frame of content)."
 
-#: src/wx/verify_dcp_result_panel.cc:365
+#: src/wx/verify_dcp_result_panel.cc:366
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "Le DCP n'a pas de marqueur LFOC (last frame of content)."
 
-#: src/wx/verify_dcp_result_panel.cc:335
+#: src/wx/verify_dcp_result_panel.cc:336
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
 "Le DCP a des sous-titres mais au moins une bobine n'a pas de sous-titre."
 
-#: src/wx/verify_dcp_result_panel.cc:356
+#: src/wx/verify_dcp_result_panel.cc:357
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr ""
 "Le DCP est un long métrage mais ne comporte pas de marqueur FFEC (première "
 "image du générique de fin)."
 
-#: src/wx/verify_dcp_result_panel.cc:359
+#: src/wx/verify_dcp_result_panel.cc:360
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr ""
@@ -3467,12 +3471,12 @@ msgstr ""
 "de validité du certificat de signature.  Utilisez une période de début "
 "ultérieure pour ce KDM."
 
-#: src/wx/verify_dcp_result_panel.cc:600
+#: src/wx/verify_dcp_result_panel.cc:601
 #, fuzzy, c-format
 msgid "The PKL %f has an invalid namespace %n"
 msgstr "La ressource sonore %f a une fréquence d'image invalide de %n."
 
-#: src/wx/verify_dcp_result_panel.cc:392
+#: src/wx/verify_dcp_result_panel.cc:393
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
@@ -3481,31 +3485,31 @@ msgstr ""
 "Le PKL %n a un <AnnotationText> qui ne correspond pas au <ContentTitleText> "
 "de son CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:389
+#: src/wx/verify_dcp_result_panel.cc:390
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr "Le PKL %n a un contenu crypté mais n'est pas signé."
 
-#: src/wx/verify_dcp_result_panel.cc:538
+#: src/wx/verify_dcp_result_panel.cc:539
 #, fuzzy, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr "Le PKL %n a un contenu crypté mais n'est pas signé."
 
-#: src/wx/verify_dcp_result_panel.cc:201
+#: src/wx/verify_dcp_result_panel.cc:202
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr ""
 "Les hashes de vérification du PKL et du CPL ne correspondent pas au fichier "
 "de données vidéo %f."
 
-#: src/wx/verify_dcp_result_panel.cc:207
+#: src/wx/verify_dcp_result_panel.cc:208
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr ""
 "Les hashes de vérification du PKL et du CPL ne correspondent pas au fichier "
 "de données audio %f."
 
-#: src/wx/verify_dcp_result_panel.cc:492
+#: src/wx/verify_dcp_result_panel.cc:493
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
@@ -3513,21 +3517,21 @@ msgstr ""
 "La Resource ID dans un MXF de texte minuté ne correspond pas à l'ID du XML "
 "contenu."
 
-#: src/wx/verify_dcp_result_panel.cc:572
+#: src/wx/verify_dcp_result_panel.cc:573
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:223
+#: src/wx/verify_dcp_result_panel.cc:224
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr "Le XML dans %f est malformé (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:221
+#: src/wx/verify_dcp_result_panel.cc:222
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr "Le XML dans %f est malformé à la ligne %l (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:275
+#: src/wx/verify_dcp_result_panel.cc:276
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
@@ -3536,29 +3540,29 @@ msgstr ""
 "Le XML de la ressource de sous-titres codés %f occupe %n octets, ce qui "
 "dépasse la limite de 256KB."
 
-#: src/wx/verify_dcp_result_panel.cc:566
+#: src/wx/verify_dcp_result_panel.cc:567
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:254
+#: src/wx/verify_dcp_result_panel.cc:255
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr "La ressource %f est en 3D mais son MXF est marqué comme étant en 2D."
 
-#: src/wx/verify_dcp_result_panel.cc:213
+#: src/wx/verify_dcp_result_panel.cc:214
 #, c-format
 msgid "The asset %f is missing."
 msgstr "La ressource %f est manquante."
 
-#: src/wx/verify_dcp_result_panel.cc:234
+#: src/wx/verify_dcp_result_panel.cc:235
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr ""
 "La ressource %n a une durée inférieure à 1 seconde, ce qui n'est pas valide."
 
-#: src/wx/verify_dcp_result_panel.cc:231
+#: src/wx/verify_dcp_result_panel.cc:232
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
@@ -3567,17 +3571,17 @@ msgstr ""
 "La ressource %n a une durée intrinsèque inférieure à 1 seconde, ce qui n'est "
 "pas valide."
 
-#: src/wx/verify_dcp_result_panel.cc:353
+#: src/wx/verify_dcp_result_panel.cc:354
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr "La ressource %n n'a pas de <Hash> dans le CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:575
+#: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:347
+#: src/wx/verify_dcp_result_panel.cc:348
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "La ressource de sous-titres codés %n n'a pas de balise <EntryPoint>."
@@ -3606,7 +3610,7 @@ msgstr ""
 "\n"
 "DCP-o-matic doit-il essayer de le démonter maintenant ?"
 
-#: src/wx/wx_util.cc:820
+#: src/wx/wx_util.cc:821
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3624,21 +3628,21 @@ msgstr ""
 "Ce fichier %s existe déjà.  Souhaitez-vous l'utiliser comme nouvelle "
 "configuration ou l'écraser avec la configuration en cours ?"
 
-#: src/wx/verify_dcp_result_panel.cc:296
+#: src/wx/verify_dcp_result_panel.cc:297
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr ""
 "Le premier sous-titre ou sous-titre codé apparaît avant les 4 premières "
 "secondes de la première bobine."
 
-#: src/wx/verify_dcp_result_panel.cc:556
+#: src/wx/verify_dcp_result_panel.cc:557
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
 "the ASSETMAP."
 msgstr ""
 
-#: src/wx/verify_dcp_result_panel.cc:281
+#: src/wx/verify_dcp_result_panel.cc:282
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
@@ -3647,7 +3651,7 @@ msgstr ""
 "Les polices de la ressource de texte minuté %f occupent %n octets, ce qui "
 "dépasse la limite de 10MB."
 
-#: src/wx/verify_dcp_result_panel.cc:198
+#: src/wx/verify_dcp_result_panel.cc:199
 #, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
@@ -3657,7 +3661,7 @@ msgstr ""
 "Les hashes de vérification du fichier vidéo %f ne correspondent pas au "
 "fichier KPL.  Cela signifie probablement que le fichier vidéo est corrompu."
 
-#: src/wx/verify_dcp_result_panel.cc:204
+#: src/wx/verify_dcp_result_panel.cc:205
 #, fuzzy
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
@@ -3667,7 +3671,7 @@ msgstr ""
 "Les hashes de vérification du fichier audio %f ne correspondent pas au "
 "fichier PKL.  Cela signifie probablement que le fichier audio est corrompu."
 
-#: src/wx/verify_dcp_result_panel.cc:192
+#: src/wx/verify_dcp_result_panel.cc:193
 #, fuzzy
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
@@ -3678,7 +3682,7 @@ msgstr ""
 "fichier CPL du DCP.  Cela signifie probablement que le fichier CPL est "
 "corrompu."
 
-#: src/wx/verify_dcp_result_panel.cc:260
+#: src/wx/verify_dcp_result_panel.cc:261
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr "La balise de langue non valide %n a été utilisée."
@@ -3688,14 +3692,14 @@ msgstr "La balise de langue non valide %n a été utilisée."
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "La langue dans laquelle le titre du film (\"%s\") est écrit"
 
-#: src/wx/verify_dcp_result_panel.cc:195
+#: src/wx/verify_dcp_result_panel.cc:196
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr ""
 "L'image dans une bobine a une fréquence d'images de %n, ce qui n'est pas "
 "valide."
 
-#: src/wx/verify_dcp_result_panel.cc:505
+#: src/wx/verify_dcp_result_panel.cc:506
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
@@ -3704,12 +3708,12 @@ msgstr ""
 "La durée de la bobine (%s) d'un texte minuté n'est pas la même que la "
 "ContainerDuration (%s) de son MXF."
 
-#: src/wx/verify_dcp_result_panel.cc:323
+#: src/wx/verify_dcp_result_panel.cc:324
 #, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
 msgstr "La ressource sonore %f a nombre de bits par échantillon %n invalide."
 
-#: src/wx/verify_dcp_result_panel.cc:320
+#: src/wx/verify_dcp_result_panel.cc:321
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "La ressource sonore %f a une fréquence d'image invalide de %n."
@@ -3722,32 +3726,32 @@ msgstr ""
 "Le standard qu'un DCP devrait utiliser.  Interop est plus ancien et SMPTE "
 "est plus récent et est le standard actuel.  Dans le doute, choisissez SMPTE."
 
-#: src/wx/verify_dcp_result_panel.cc:284
+#: src/wx/verify_dcp_result_panel.cc:285
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr "La ressource de sous-titres %f ne contient pas de balise <Language>."
 
-#: src/wx/verify_dcp_result_panel.cc:290
+#: src/wx/verify_dcp_result_panel.cc:291
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr "La ressource de sous-titres %f ne contient pas de balise <StartTime>."
 
-#: src/wx/verify_dcp_result_panel.cc:293
+#: src/wx/verify_dcp_result_panel.cc:294
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr "La ressource de sous-titres %f a un <StartTime> qui n'est pas zéro."
 
-#: src/wx/verify_dcp_result_panel.cc:544
+#: src/wx/verify_dcp_result_panel.cc:545
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr "La ressource de sous-titres %n ne contient pas de sous-titres."
 
-#: src/wx/verify_dcp_result_panel.cc:341
+#: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr "La ressource de sous-titre %n n'a pas de balise <EntryPoint>."
 
-#: src/wx/verify_dcp_result_panel.cc:278
+#: src/wx/verify_dcp_result_panel.cc:279
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
@@ -3755,7 +3759,7 @@ msgstr ""
 "La ressource texte minuté %f occupe %n octets, ce qui dépasse la limite de "
 "115MB."
 
-#: src/wx/verify_dcp_result_panel.cc:272
+#: src/wx/verify_dcp_result_panel.cc:273
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
@@ -3763,7 +3767,7 @@ msgstr ""
 "La ressource vidéo %f utilise la fréquence d'images %n qui n'est pas valide "
 "pour la vidéo 3D."
 
-#: src/wx/verify_dcp_result_panel.cc:269
+#: src/wx/verify_dcp_result_panel.cc:270
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
@@ -3771,34 +3775,34 @@ msgstr ""
 "La ressource vidéo %f utilise la fréquence d'images %n qui n'est pas valide "
 "pour la vidéo 4K."
 
-#: src/wx/verify_dcp_result_panel.cc:266
+#: src/wx/verify_dcp_result_panel.cc:267
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "La ressource vidéo %f utilise la fréquence d'images invalide %n."
 
-#: src/wx/verify_dcp_result_panel.cc:263
+#: src/wx/verify_dcp_result_panel.cc:264
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr "La ressource vidéo %f utilise la taille d'image invalide %n."
 
-#: src/wx/verify_dcp_result_panel.cc:314
+#: src/wx/verify_dcp_result_panel.cc:315
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "Il y a plus de 3 lignes de sous-titres codés à au moins un endroit."
 
-#: src/wx/verify_dcp_result_panel.cc:305
+#: src/wx/verify_dcp_result_panel.cc:306
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "Il y a plus de 3 lignes de sous-titres à au moins un endroit."
 
-#: src/wx/verify_dcp_result_panel.cc:317
+#: src/wx/verify_dcp_result_panel.cc:318
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr ""
 "Il y a plus de 32 caractères dans au moins une ligne de sous-titres codés."
 
-#: src/wx/verify_dcp_result_panel.cc:308
+#: src/wx/verify_dcp_result_panel.cc:309
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "Il y a plus de 52 caractères dans au moins une ligne de sous-titre."
 
-#: src/wx/verify_dcp_result_panel.cc:311
+#: src/wx/verify_dcp_result_panel.cc:312
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "Il y a plus de 79 caractères dans au moins une ligne de sous-titres."
 
@@ -3810,11 +3814,11 @@ msgstr "Il n'y a encore aucun conseil : vérification du projet en cours."
 msgid "There are no hints: everything looks good!"
 msgstr "Il n'y a aucun conseil : tout semble correct !"
 
-#: src/wx/verify_dcp_result_panel.cc:529
+#: src/wx/verify_dcp_result_panel.cc:530
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "Il y a une balise <Duration> à l'intérieur d'un <MainMarkers>."
 
-#: src/wx/verify_dcp_result_panel.cc:526
+#: src/wx/verify_dcp_result_panel.cc:527
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "Il y a une balise <EntryPoint> à l'intérieur d'un <MainMarkers>."
 
@@ -3839,7 +3843,7 @@ msgstr ""
 msgid "This CPL contains no encrypted assets."
 msgstr "Cette CPL ne contient aucun contenu crypté."
 
-#: src/wx/verify_dcp_result_panel.cc:251
+#: src/wx/verify_dcp_result_panel.cc:252
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
@@ -3848,7 +3852,7 @@ msgstr ""
 "Ce DCP fait référence à la ressource %n dans un autre DCP (et peut-être "
 "d'autres), il s'agit donc d'un \"fichier de version\" (VF)."
 
-#: src/wx/verify_dcp_result_panel.cc:257
+#: src/wx/verify_dcp_result_panel.cc:258
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr ""
 "Ce DCP utilise la norme Interop, mais il devrait être créé avec la norme "
@@ -4020,7 +4024,7 @@ msgstr "Haut"
 msgid "Track"
 msgstr "Piste"
 
-#: src/wx/about_dialog.cc:171
+#: src/wx/about_dialog.cc:172
 msgid "Translated by"
 msgstr "Traduit par"
 
@@ -4058,123 +4062,123 @@ msgstr "Certificat du périphérique de confiance"
 msgid "Type"
 msgstr "Type"
 
-#: src/wx/wx_util.cc:712
+#: src/wx/wx_util.cc:713
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54 src/wx/kdm_timing_panel.cc:110
+#: src/wx/cinema_dialog.cc:54 src/wx/kdm_timing_panel.cc:100
 msgid "UTC offset (time zone)"
 msgstr "Décalage UTC (fuseau horaire)"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:714
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:724
+#: src/wx/wx_util.cc:725
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:725
+#: src/wx/wx_util.cc:726
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:726
+#: src/wx/wx_util.cc:727
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/wx_util.cc:714
+#: src/wx/wx_util.cc:715
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/wx_util.cc:715
+#: src/wx/wx_util.cc:716
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/wx_util.cc:716
+#: src/wx/wx_util.cc:717
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:718
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:718
+#: src/wx/wx_util.cc:719
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:719
+#: src/wx/wx_util.cc:720
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:720
+#: src/wx/wx_util.cc:721
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:721
+#: src/wx/wx_util.cc:722
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:722
+#: src/wx/wx_util.cc:723
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:723
+#: src/wx/wx_util.cc:724
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/wx_util.cc:710
+#: src/wx/wx_util.cc:711
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/wx_util.cc:699
+#: src/wx/wx_util.cc:700
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/wx_util.cc:698
+#: src/wx/wx_util.cc:699
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/wx_util.cc:709
+#: src/wx/wx_util.cc:710
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/wx_util.cc:708
+#: src/wx/wx_util.cc:709
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/wx_util.cc:707
+#: src/wx/wx_util.cc:708
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/wx_util.cc:706
+#: src/wx/wx_util.cc:707
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/wx_util.cc:705
+#: src/wx/wx_util.cc:706
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/wx_util.cc:704
+#: src/wx/wx_util.cc:705
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/wx_util.cc:703
+#: src/wx/wx_util.cc:704
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/wx_util.cc:702
+#: src/wx/wx_util.cc:703
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/wx_util.cc:701
+#: src/wx/wx_util.cc:702
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/wx_util.cc:700
+#: src/wx/wx_util.cc:701
 msgid "UTC-9"
 msgstr "UTC-9"
 
-#: src/wx/screens_panel.cc:102
+#: src/wx/screens_panel.cc:103
 msgid "Uncheck all"
 msgstr "Tout décocher"
 
@@ -4246,7 +4250,7 @@ msgstr "Valide jusque"
 msgid "Vendor"
 msgstr "Fournisseur"
 
-#: src/wx/verify_dcp_result_panel.cc:654
+#: src/wx/verify_dcp_result_panel.cc:655
 msgid "Verification report"
 msgstr "Rapport de vérification"
 
@@ -4292,13 +4296,13 @@ msgstr "Mode d'affichage vidéo"
 msgid "Video filters"
 msgstr "Filtres vidéo"
 
-#: src/wx/content_advanced_dialog.cc:86
+#: src/wx/content_advanced_dialog.cc:84
 msgid "Video frame rate that content was prepared for"
 msgstr "Fréquence d'images vidéo pour laquelle le contenu a été préparé"
 
 #. TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. "Video has burnt-in subtitles in the language fr-FR"
-#: src/wx/content_advanced_dialog.cc:97
+#: src/wx/content_advanced_dialog.cc:95
 msgid "Video has burnt-in subtitles in the language"
 msgstr "La vidéo comporte des sous-titres gravés dans la langue"
 
@@ -4310,7 +4314,7 @@ msgstr "Voir..."
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:307
+#: src/wx/full_config_dialog.cc:1631 src/wx/player_config_dialog.cc:307
 #: src/wx/verify_dcp_result_panel.cc:57
 msgid "Warnings"
 msgstr "Avertissements"
@@ -4376,7 +4380,7 @@ msgstr "Conversion YUV vers RGB"
 msgid "YUV to RGB matrix"
 msgstr "Matrice YUV vers RGB"
 
-#: src/wx/screens_panel.cc:403
+#: src/wx/screens_panel.cc:400
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
@@ -4385,7 +4389,7 @@ msgstr ""
 "Vous ne pouvez pas ajouter un écran appelé '%s' car le cinéma possède déjà "
 "un écran appelé ainsi."
 
-#: src/wx/screens_panel.cc:455
+#: src/wx/screens_panel.cc:451
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -4430,13 +4434,13 @@ msgid "Zoom out to whole film"
 msgstr "Zoom arrière sur le film entier"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:628
+#: src/wx/verify_dcp_result_panel.cc:629
 #, c-format
 msgid "and %d warnings."
 msgstr "et %d avertissement."
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:625
+#: src/wx/verify_dcp_result_panel.cc:626
 msgid "and 1 warning."
 msgstr "et 1 avertissement."
 
@@ -4460,7 +4464,7 @@ msgstr "valeurs des composants"
 msgid "content"
 msgstr "contenu"
 
-#: src/wx/full_config_dialog.cc:1610
+#: src/wx/full_config_dialog.cc:1614
 msgid "content filename"
 msgstr "nom de fichier de contenu"
 
@@ -4533,7 +4537,7 @@ msgstr "ms"
 msgid "not enabled"
 msgstr "non activé"
 
-#: src/wx/full_config_dialog.cc:1609
+#: src/wx/full_config_dialog.cc:1613
 msgid "number of reels"
 msgstr "nombre de bobines"
 
@@ -4557,7 +4561,7 @@ msgstr "port"
 msgid "protocol"
 msgstr "protocole"
 
-#: src/wx/full_config_dialog.cc:1608
+#: src/wx/full_config_dialog.cc:1612
 msgid "reel number"
 msgstr "numéro de bobine"
 
@@ -4586,11 +4590,11 @@ msgstr "à date/heure"
 msgid "to fit DCP"
 msgstr "adapter au DCP"
 
-#: src/wx/full_config_dialog.cc:1588
+#: src/wx/full_config_dialog.cc:1592
 msgid "type (cpl/pkl)"
 msgstr "type (cpl/pkl)"
 
-#: src/wx/full_config_dialog.cc:1607
+#: src/wx/full_config_dialog.cc:1611
 msgid "type (j2c/pcm/sub)"
 msgstr "type (j2c/pcm/sub)"
 
@@ -4603,7 +4607,7 @@ msgstr "inconnu"
 msgid "unknown (OpenGL not enabled in %s)"
 msgstr "inconnu (OpenGL non activé dans %s)"
 
-#: src/wx/kdm_timing_panel.cc:75
+#: src/wx/kdm_timing_panel.cc:70
 msgid "until"
 msgstr "jusqu'à"
 

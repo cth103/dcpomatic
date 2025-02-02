@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2024-10-05 18:17+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -71,7 +71,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr "  روی %1"
 
-#: src/lib/config.cc:1280
+#: src/lib/config.cc:1284
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -95,7 +95,7 @@ msgstr ""
 "مدت: $LENGTH\n"
 "حجم: $SIZE\n"
 
-#: src/lib/config.cc:1258
+#: src/lib/config.cc:1262
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$نام_عملیات: $JOB_STATUS"
 
@@ -131,7 +131,7 @@ msgstr ""
 "%1 نمیتوان فایل %2(%3) را باز کرد. ممکن است فایل یا وجود نداشته باشد و یا "
 "فرمت مناسب نداشته باشد."
 
-#: src/lib/film.cc:1710
+#: src/lib/film.cc:1707
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
@@ -140,7 +140,7 @@ msgstr ""
 "تغییر دهد. لطفا آنها را بررسی کنید تا مطمئن شوید همان چیزی است که شما می "
 "خواهید."
 
-#: src/lib/film.cc:1676
+#: src/lib/film.cc:1673
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
@@ -148,7 +148,7 @@ msgstr ""
 "%1 مجبور شد تنظیمات شما را تغییر دهد تا نرخ فریم فیلم برابر محتوای دالبی "
 "اتمز شما شود."
 
-#: src/lib/film.cc:1723
+#: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
@@ -156,7 +156,7 @@ msgstr ""
 "%1 مجبور به حذف یکی از مرزهای تعیین شده شما برای ریل گردید به دلیل اینکه "
 "دیگر در داخل محدوده فیلم قرار نمی گرفت."
 
-#: src/lib/film.cc:1721
+#: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -168,7 +168,7 @@ msgstr ""
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr "%1 دیگر از فیلتر'2%' پشتیبانی نمیکند، بنابراین خاموش شده است."
 
-#: src/lib/config.cc:439 src/lib/config.cc:1255
+#: src/lib/config.cc:440 src/lib/config.cc:1259
 msgid "%1 notification"
 msgstr "%1 یادداشت"
 
@@ -379,7 +379,7 @@ msgstr ""
 "حداقل یکی از خطهای زیرنویس شما بیش از 79 حرف دارد. شما باید طول هر خط را "
 "حداکثر به 79 حرف تغییر دهید."
 
-#: src/lib/hints.cc:662
+#: src/lib/hints.cc:663
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -387,7 +387,7 @@ msgstr ""
 "حداقل یکی از زیرنویسهای شما بیش از 3 خط دارد. توصیه میشود بیش از سه خط "
 "استفاده نکنید."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:630
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -395,7 +395,7 @@ msgstr ""
 "حداقل یک زیرنویس وجود دارد که زمان آن کمتر از 15 فریم است. توصیه میشود زمان "
 "هر زیرنویس حداقل 15 فریم بر ثانیه باشد."
 
-#: src/lib/hints.cc:634
+#: src/lib/hints.cc:635
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -403,7 +403,7 @@ msgstr ""
 "حداقل یکی از زیرنویسهای شما کمتر از 2 فریم بعد از زیرنویس قبلی شروع میشود. "
 "توصیه میشود زمان بین دو زیرنویس حداقل 2 فریم باشد."
 
-#: src/lib/hints.cc:705
+#: src/lib/hints.cc:706
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -498,11 +498,11 @@ msgstr "لغو شد"
 msgid "Cannot contain slashes"
 msgstr "نمیتواند شامل اسلش باشد"
 
-#: src/lib/exceptions.cc:78
+#: src/lib/exceptions.cc:79
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "نمیتوان فرمت پیکسل %1 را همزمان با %2 کار کرد"
 
-#: src/lib/film.cc:1819
+#: src/lib/film.cc:1816
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "برای پروژه ای که رمزگذاری نشده است کلید ساخته نمیشود."
 
@@ -774,7 +774,7 @@ msgstr "فایل فشرده دانلود شده باز نشد"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "فایل فشرده دانلود شده باز نشد (%1:%2:%3)"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1162
 msgid "Could not open file for writing"
 msgstr "فایل برای نوشتن باز نشد"
 
@@ -835,7 +835,7 @@ msgstr "دی سی پی با  %.1f%% سرعت محتوا اجرا خواهد شد
 msgid "DCP will use every other frame of the content.\n"
 msgstr "دی سی پی از هر فریم دیگر محتوا استفاده میکند.\n"
 
-#: src/lib/film.cc:1736
+#: src/lib/film.cc:1733
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -843,7 +843,7 @@ msgstr ""
 "چهارچوب محتوای شما توسط DOMروی 1920x1080تنظیم شد زیرا تنها گزینه ای است که "
 "برای رمزگذاری MPEG2 میتواند مورد استفاده قرارگیرد."
 
-#: src/lib/film.cc:1740
+#: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -851,7 +851,7 @@ msgstr ""
 "در حال حاضرسه بعدی توسط DOM برای رمزگذاری MPEG2 پشتیبانی نمیشود به همین دلیل "
 "فیلم شما روی دو بعدی تنظیم گردید."
 
-#: src/lib/film.cc:1744
+#: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -868,7 +868,7 @@ msgstr "Datasat AP20 or AP25"
 msgid "De-interlacing"
 msgstr "ضد-اینترلیسینگ"
 
-#: src/lib/config.cc:1243
+#: src/lib/config.cc:1247
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -894,7 +894,7 @@ msgstr ""
 "با احترام,\n"
 "%1"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
 msgstr "هنگام نوشتن 1% دیسک پر شد"
 
@@ -942,7 +942,7 @@ msgstr "رمزگذاری"
 msgid "Episode"
 msgstr "قسمت"
 
-#: src/lib/exceptions.cc:85
+#: src/lib/exceptions.cc:86
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "خطا در فایل زیرنویس: % 1 دیدم در حالی که انتظار % 2 را داشتم"
 
@@ -962,7 +962,7 @@ msgstr "بررسی صدا"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "بررسی صدا، زیرنویس و فایل زیرنویس"
 
-#: src/lib/examine_content_job.cc:54
+#: src/lib/examine_content_job.cc:55
 msgid "Examining content"
 msgstr "بررسی محتوا"
 
@@ -1137,7 +1137,7 @@ msgstr ""
 "اکنون مطابق با استانداردها، جانمایی بسیار دقیقتر است، اما شما باید همه "
 "زیرنویسهای پروژه خود را برای اطمینان از جانمایی مناسب بررسی کنید."
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:623
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1153,7 +1153,7 @@ msgstr "معلوم نیست چه چیزی باعث این خطا شده است. 
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:429 src/lib/config.cc:1240
+#: src/lib/config.cc:430 src/lib/config.cc:1244
 msgid "KDM delivery: $CPL_NAME"
 msgstr "تحویل کلید: $CPL_NAME"
 
@@ -1214,7 +1214,7 @@ msgstr "لگاریتمی(محدوده 100 به 1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "لگاریتمی(محدوده 316 به 1)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:163
 msgid "Lost communication between main and writer processes"
 msgstr "قطع ارتباط بین پردازش های اصلی و رایتر"
 
@@ -1247,7 +1247,7 @@ msgstr "نرخ های فریم در دی سی پی مطابقت ندارند"
 msgid "Mismatched video sizes in DCP"
 msgstr "اندازه های ویدیو در دی سی پی مطابقت ندارند"
 
-#: src/lib/exceptions.cc:71
+#: src/lib/exceptions.cc:72
 msgid "Missing required setting %1"
 msgstr "تنظیم مورد نیاز وجود ندارد%1"
 
@@ -1255,7 +1255,7 @@ msgstr "تنظیم مورد نیاز وجود ندارد%1"
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: src/lib/writer.cc:778
+#: src/lib/writer.cc:782
 msgid "Mono"
 msgstr "مونو"
 
@@ -1283,7 +1283,7 @@ msgstr "در این پوشه فایل تصویر معتبری پیدا نشد."
 msgid "Noise reduction"
 msgstr "کاهش نویز"
 
-#: src/lib/writer.cc:746 src/lib/writer.cc:753 src/lib/writer.cc:776
+#: src/lib/writer.cc:750 src/lib/writer.cc:757 src/lib/writer.cc:780
 msgid "None"
 msgstr "هیچکدام"
 
@@ -1363,7 +1363,7 @@ msgstr "کانال آلفا پیش از ضرب"
 msgid "Prepared for video frame rate"
 msgstr "برای نرخ فریم ویدیو آماده است"
 
-#: src/lib/exceptions.cc:106
+#: src/lib/exceptions.cc:107
 msgid "Programming error at %1:%2 %3"
 msgstr "خطای برنامه نویسی در%1:%2 %3"
 
@@ -1453,7 +1453,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:687
+#: src/lib/hints.cc:688
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1546,14 +1546,14 @@ msgstr ""
 "\n"
 "این فایلها بررسی مجدد میشوند، ممکن است نیاز باشد تنظیمات آنها را کنترل کنید."
 
-#: src/lib/hints.cc:603
+#: src/lib/hints.cc:604
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 "برخی از زیرنویس‌های شما بیش از % 1 خطوط را شامل می‌شوند، بنابراین کوتاه می‌شوند."
 
-#: src/lib/hints.cc:725
+#: src/lib/hints.cc:726
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1574,7 +1574,7 @@ msgstr "بخشی از محتوای شما نیازمند کلید است"
 msgid "Some of your content needs an OV"
 msgstr "بخشی از محتوای شما نیازمند یک نسخه اصلی است(OV)"
 
-#: src/lib/writer.cc:780
+#: src/lib/writer.cc:784
 msgid "Stereo"
 msgstr "استریو"
 
@@ -1614,15 +1614,15 @@ msgstr "متن زیرنویس"
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "دی سی پی خالی است، ممکن است مدت زمان محتوا صفر باشد."
 
-#: src/lib/exceptions.cc:92
+#: src/lib/exceptions.cc:93
 msgid "The certificate chain for signing is invalid"
 msgstr "زنجیره گواهینامه نامعتبر است"
 
-#: src/lib/exceptions.cc:99
+#: src/lib/exceptions.cc:100
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "زنجیره گواهینامه نامعتبر است(%1)"
 
-#: src/lib/hints.cc:742
+#: src/lib/hints.cc:743
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1635,7 +1635,7 @@ msgstr ""
 "اجرا نشوند. توصیه میشود با مراجعه به اولویتها در زبانه کلید توسط \"ساخت مجدد "
 "گواهی نامه و کلید..\" مجدد زنجیره گواهی نامه را ایجاد کنید."
 
-#: src/lib/hints.cc:750
+#: src/lib/hints.cc:751
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1755,7 +1755,7 @@ msgstr ""
 "این مشکل ممکن است به دلیل نصب نسخه 32 بیتی 1% پیش آمده باشد. لطفا پس ازنصب "
 "نسخه 64 بیتی 2% مجدد تلاش کنید."
 
-#: src/lib/exceptions.cc:113
+#: src/lib/exceptions.cc:114
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1952,7 +1952,7 @@ msgstr ""
 "شما%1 فایل دارید که به نظر میرسد فرمت آنها وی او بی و از دی وی دی هستند. "
 "برای پرش نیافتادن بین فایلها باید آنها را به هم بچسبانید."
 
-#: src/lib/film.cc:1673
+#: src/lib/film.cc:1670
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1960,7 +1960,7 @@ msgstr ""
 "شما بیش از یک محتوای اتمز دارید که نرخ فریم مشابهی ندارند. باید برخی از آنها "
 "را حذف کنید."
 
-#: src/lib/hints.cc:610
+#: src/lib/hints.cc:611
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -1980,7 +1980,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "شما قبل از ساخت دی س پی باید به آن تعدادی محتوا اضافه کنید"
 
-#: src/lib/hints.cc:768
+#: src/lib/hints.cc:769
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -2083,23 +2083,23 @@ msgstr "دالبی اتمز قابل انتقال به داخل دی س پی ن�
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "صدا قابل انتقال به داخل دی س پی نیست(%1)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for read (%2)"
 msgstr "فایل باز نمیشود%1 برای خواندن(%2)"
 
-#: src/lib/exceptions.cc:37
+#: src/lib/exceptions.cc:38
 msgid "could not open file %1 for read/write (%2)"
 msgstr "فایل باز نمیشود%1 برای نوشتن/خواندن(%2)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for write (%2)"
 msgstr "فایل باز نمیشود%1 برای نوشتن(%2)"
 
-#: src/lib/exceptions.cc:57
+#: src/lib/exceptions.cc:58
 msgid "could not read from file %1 (%2)"
 msgstr "نمیتوان از فایل خواند%1(%2)"
 
-#: src/lib/exceptions.cc:64
+#: src/lib/exceptions.cc:65
 msgid "could not write to file %1 (%2)"
 msgstr "نمیتوان در فایل نوشت%1(%2)"
 

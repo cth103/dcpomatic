@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2024-12-07 15:17+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " le %1"
 
-#: src/lib/config.cc:1280
+#: src/lib/config.cc:1284
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "Durée: $LENGTH\n"
 "Taille: $SIZE\n"
 
-#: src/lib/config.cc:1258
+#: src/lib/config.cc:1262
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -130,7 +130,7 @@ msgstr ""
 "%1 n'a pas pu ouvrir le fichier %2 (%3).  Il n'existe peut-être pas ou est "
 "dans un format non reconnu."
 
-#: src/lib/film.cc:1710
+#: src/lib/film.cc:1707
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
@@ -139,7 +139,7 @@ msgstr ""
 "Veuillez vérifier ces paramètres pour vous assurer qu'ils correspondent à ce "
 "que vous souhaitez."
 
-#: src/lib/film.cc:1676
+#: src/lib/film.cc:1673
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
@@ -147,7 +147,7 @@ msgstr ""
 "%1 a dû modifier vos paramètres pour que la fréquence d'images du film soit "
 "la même que celle de votre contenu Atmos."
 
-#: src/lib/film.cc:1723
+#: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
@@ -155,7 +155,7 @@ msgstr ""
 "%1 a dû supprimer l'une des délimitations de bobines qui se situait en "
 "dehors du film."
 
-#: src/lib/film.cc:1721
+#: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -167,7 +167,7 @@ msgstr ""
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr "%1 ne gère plus le filtre `%2'.  Il a donc été désactivé."
 
-#: src/lib/config.cc:439 src/lib/config.cc:1255
+#: src/lib/config.cc:440 src/lib/config.cc:1259
 msgid "%1 notification"
 msgstr "Notification %1"
 
@@ -379,7 +379,7 @@ msgstr ""
 "Au moins une de vos lignes de sous-titres comporte plus de 79 caractères.  "
 "Vous devez faire en sorte que chaque ligne ait 79 caractères au maximum."
 
-#: src/lib/hints.cc:662
+#: src/lib/hints.cc:663
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -387,7 +387,7 @@ msgstr ""
 "Au moins un de vos sous-titres comporte plus de 3 lignes.  Il est conseillé "
 "de ne pas utiliser plus de 3 lignes."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:630
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -395,7 +395,7 @@ msgstr ""
 "Au moins un de vos sous-titres dure moins de 15 images.  Il est conseillé de "
 "faire en sorte que chaque sous-titre dure au moins 15 images."
 
-#: src/lib/hints.cc:634
+#: src/lib/hints.cc:635
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -404,7 +404,7 @@ msgstr ""
 "précédent.  Il est conseillé de faire en sorte que l'écart entre les sous-"
 "titres soit d'au moins 2 images."
 
-#: src/lib/hints.cc:705
+#: src/lib/hints.cc:706
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -499,11 +499,11 @@ msgstr "Annulé"
 msgid "Cannot contain slashes"
 msgstr "Slashes non autorisés"
 
-#: src/lib/exceptions.cc:78
+#: src/lib/exceptions.cc:79
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Impossible de gérer le format de pixel %1 pendant %2"
 
-#: src/lib/film.cc:1819
+#: src/lib/film.cc:1816
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Impossible de créer un KDM car ce projet n'est pas crypté."
 
@@ -784,7 +784,7 @@ msgstr "Impossible d'ouvrir le fichier ZIP téléchargé"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Impossible d'ouvrir le fichier ZIP téléchargé (%1:%2 : %3)"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1162
 msgid "Could not open file for writing"
 msgstr "Impossible d'ouvrir le fichier pour l'écriture"
 
@@ -845,7 +845,7 @@ msgstr "Le DCP sera lu à %.1f%% de la vitesse du contenu source.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "Le DCP utilisera une image sur deux du contenu.\n"
 
-#: src/lib/film.cc:1736
+#: src/lib/film.cc:1733
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
@@ -853,7 +853,7 @@ msgstr ""
 "DCP-o-matic a dû configurer le conteneur à 1920x1080, la seule résolution à "
 "pouvoir être utilisée pour l'encodage MPEG2."
 
-#: src/lib/film.cc:1740
+#: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
@@ -861,7 +861,7 @@ msgstr ""
 "DCP-o-matic a dû configurer votre film en 2D, la 3D n'étant pas encore "
 "supportée pour l'encodage MPEG2."
 
-#: src/lib/film.cc:1744
+#: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -878,7 +878,7 @@ msgstr "Datasat AP20 ou AP25"
 msgid "De-interlacing"
 msgstr "Désentrelacement"
 
-#: src/lib/config.cc:1243
+#: src/lib/config.cc:1247
 msgid ""
 "Dear Projectionist\n"
 "\n"
@@ -904,7 +904,7 @@ msgstr ""
 "Meilleures salutations,\n"
 "%1"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
 msgstr "Disque rempli lors de l'écriture de %1"
 
@@ -952,7 +952,7 @@ msgstr "Encodage"
 msgid "Episode"
 msgstr "Épisode"
 
-#: src/lib/exceptions.cc:85
+#: src/lib/exceptions.cc:86
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr ""
 "Erreur dans le fichier de sous-titres : %1 a été trouvé alors que %2 était "
@@ -974,7 +974,7 @@ msgstr "Examen de l'audio"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Examen de l'audio, des sous-titres et des sous-titres codés"
 
-#: src/lib/examine_content_job.cc:54
+#: src/lib/examine_content_job.cc:55
 msgid "Examining content"
 msgstr "Examen du contenu"
 
@@ -1151,7 +1151,7 @@ msgstr ""
 "sous-titres de votre projet pour vous assurer qu'ils sont placés là où vous "
 "le souhaitez."
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:623
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1167,7 +1167,7 @@ msgstr "La cause de cette erreur n'est pas connue. %1"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:429 src/lib/config.cc:1240
+#: src/lib/config.cc:430 src/lib/config.cc:1244
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Livraison KDM : $CPL_NAME"
 
@@ -1228,7 +1228,7 @@ msgstr "Logarithmique (plage 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarithmique (plage 316:1)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:163
 msgid "Lost communication between main and writer processes"
 msgstr ""
 "Perte de communication entre le processus principal et le processus "
@@ -1263,7 +1263,7 @@ msgstr "Fréquences d'images non concordantes dans le DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Tailles de vidéo non concordantes dans le DCP"
 
-#: src/lib/exceptions.cc:71
+#: src/lib/exceptions.cc:72
 msgid "Missing required setting %1"
 msgstr "Paramètre requis %1 manquant"
 
@@ -1271,7 +1271,7 @@ msgstr "Paramètre requis %1 manquant"
 msgid "Monday"
 msgstr "Lundi"
 
-#: src/lib/writer.cc:778
+#: src/lib/writer.cc:782
 msgid "Mono"
 msgstr "Mono"
 
@@ -1303,7 +1303,7 @@ msgstr "Aucun fichier image valide n'a été trouvé dans le dossier."
 msgid "Noise reduction"
 msgstr "Réduction de bruit"
 
-#: src/lib/writer.cc:746 src/lib/writer.cc:753 src/lib/writer.cc:776
+#: src/lib/writer.cc:750 src/lib/writer.cc:757 src/lib/writer.cc:780
 msgid "None"
 msgstr "Aucun"
 
@@ -1381,7 +1381,7 @@ msgstr "Prémultiplier le canal alpha"
 msgid "Prepared for video frame rate"
 msgstr "Préparé pour la fréquence d'images vidéo"
 
-#: src/lib/exceptions.cc:106
+#: src/lib/exceptions.cc:107
 msgid "Programming error at %1:%2 %3"
 msgstr "Erreur de programmation à %1:%2 %3"
 
@@ -1471,7 +1471,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:687
+#: src/lib/hints.cc:688
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1567,7 +1567,7 @@ msgstr ""
 "Ces fichiers seront maintenant réexaminés, vous devrez donc peut-être "
 "vérifier leurs paramètres."
 
-#: src/lib/hints.cc:603
+#: src/lib/hints.cc:604
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
@@ -1575,7 +1575,7 @@ msgstr ""
 "Certaines de vos sous-titres codés font plus de %1 lignes, ils seront donc "
 "tronqués."
 
-#: src/lib/hints.cc:725
+#: src/lib/hints.cc:726
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1597,7 +1597,7 @@ msgstr "Certains de vos contenus ont besoin d'un KDM"
 msgid "Some of your content needs an OV"
 msgstr "Une partie de votre contenu a besoin d'une OV"
 
-#: src/lib/writer.cc:780
+#: src/lib/writer.cc:784
 msgid "Stereo"
 msgstr "Stéréo"
 
@@ -1639,15 +1639,15 @@ msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 "Le DCP est vide, peut-être parce que tout le contenu a une longueur nulle."
 
-#: src/lib/exceptions.cc:92
+#: src/lib/exceptions.cc:93
 msgid "The certificate chain for signing is invalid"
 msgstr "La chaîne de certificats pour la signature n'est pas valide"
 
-#: src/lib/exceptions.cc:99
+#: src/lib/exceptions.cc:100
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "La chaîne de certificats pour la signature n'est pas valide (%1)"
 
-#: src/lib/hints.cc:742
+#: src/lib/hints.cc:743
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1661,7 +1661,7 @@ msgstr ""
 "certificats de signature en cliquant sur le bouton \"Re-créer les "
 "certificats et la clé...\" dans la page Clés des préférences."
 
-#: src/lib/hints.cc:750
+#: src/lib/hints.cc:751
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1789,7 +1789,7 @@ msgstr ""
 "32 bits de %1.  Veuillez réinstaller %2 avec le programme d'installation 64 "
 "bits et réessayer."
 
-#: src/lib/exceptions.cc:113
+#: src/lib/exceptions.cc:114
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1989,7 +1989,7 @@ msgstr ""
 "Vous avez %1 fichiers qui semblent être des fichiers VOB de DVD. Vous devez "
 "les joindre afin d'assurer une liaison fluide entre les fichiers."
 
-#: src/lib/film.cc:1673
+#: src/lib/film.cc:1670
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1997,7 +1997,7 @@ msgstr ""
 "Vous avez plus d'un morceau de contenu Atmos, et ils n'ont pas la même "
 "fréquence d'images.  Vous devez supprimer une partie du contenu Atmos."
 
-#: src/lib/hints.cc:610
+#: src/lib/hints.cc:611
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2017,7 +2017,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Vous devez ajouter du contenu au DCP avant de le créer"
 
-#: src/lib/hints.cc:768
+#: src/lib/hints.cc:769
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -2126,23 +2126,23 @@ msgstr "impossible de déplacer une ressource atmos dans le DCP (%1)"
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "impossible de déplacer une ressource audio dans le DCP (%1)."
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for read (%2)"
 msgstr "impossible d'ouvrir le fichier %1 en lecture (%2)"
 
-#: src/lib/exceptions.cc:37
+#: src/lib/exceptions.cc:38
 msgid "could not open file %1 for read/write (%2)"
 msgstr "impossible d'ouvrir le fichier %1 en lecture/écriture (%2)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for write (%2)"
 msgstr "impossible d'ouvrir le fichier %1 en écriture (%2)"
 
-#: src/lib/exceptions.cc:57
+#: src/lib/exceptions.cc:58
 msgid "could not read from file %1 (%2)"
 msgstr "impossible de lire depuis le fichier %1 (%2)"
 
-#: src/lib/exceptions.cc:64
+#: src/lib/exceptions.cc:65
 msgid "could not write to file %1 (%2)"
 msgstr "impossible d'écrire dans le fichier %1 (%2)"
 

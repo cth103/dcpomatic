@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2025-01-24 15:41+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -41,7 +41,7 @@ msgid "%"
 msgstr "%"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:620
+#: src/wx/verify_dcp_result_panel.cc:621
 #, c-format
 msgid "%d Bv2.1 errors, "
 msgstr "%d ошибок Bv2.1, "
@@ -72,7 +72,7 @@ msgid "%d channels on %s"
 msgstr "Аудиоканалы: %d на %s"
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:612
+#: src/wx/verify_dcp_result_panel.cc:613
 #, c-format
 msgid "%d errors, "
 msgstr "%d ошибок, "
@@ -143,20 +143,20 @@ msgid "0dB (unchanged)"
 msgstr "0 дБ (без изменений)"
 
 #. TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:617
+#: src/wx/verify_dcp_result_panel.cc:618
 msgid "1 Bv2.1 error, "
 msgstr "1 ошибка Bv2.1, "
 
 #. TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:609
+#: src/wx/verify_dcp_result_panel.cc:610
 msgid "1 error, "
 msgstr "1 ошибка, "
 
-#: src/wx/wx_util.cc:603
+#: src/wx/wx_util.cc:604
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:595
+#: src/wx/wx_util.cc:596
 msgid "2 - stereo"
 msgstr "2 - стерео"
 
@@ -200,7 +200,7 @@ msgstr "3D только правый"
 msgid "3D top/bottom"
 msgstr "3D верх/низ"
 
-#: src/wx/wx_util.cc:597
+#: src/wx/wx_util.cc:598
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
@@ -212,11 +212,11 @@ msgstr "48kHz"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:599
+#: src/wx/wx_util.cc:600
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:601
+#: src/wx/wx_util.cc:602
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -224,14 +224,14 @@ msgstr "8 - 5.1/HI/VI"
 msgid "96kHz"
 msgstr "96kHz"
 
-#: src/wx/verify_dcp_result_panel.cc:547
+#: src/wx/verify_dcp_result_panel.cc:548
 #, c-format
 msgid "<IssueDate> has an invalid value %n"
 msgstr "<IssueDate> имеет недопустимое значение %n"
 
-#: src/wx/verify_dcp_result_panel.cc:553
-#, c-format
-msgid "<MainSoundConfiguration> describes incorrect number of channels (%n)"
+#: src/wx/verify_dcp_result_panel.cc:554
+#, fuzzy, c-format
+msgid "<MainSoundConfiguration> is invalid (%n)"
 msgstr ""
 "<MainSoundConfiguration> описывает неправильное количество каналов (%n)"
 
@@ -255,60 +255,60 @@ msgstr ""
 msgid "A"
 msgstr "A"
 
-#: src/wx/verify_dcp_result_panel.cc:470
+#: src/wx/verify_dcp_result_panel.cc:471
 #, c-format
 msgid "A 2K JPEG2000 frame contains %n tile parts instead of 3."
 msgstr "2K JPEG2000 фрейм содержит %n части(ей) тайла вместо 3."
 
-#: src/wx/verify_dcp_result_panel.cc:442
+#: src/wx/verify_dcp_result_panel.cc:443
 #, c-format
 msgid "A 2K JPEG2000 frame has %n POC marker(s) instead of 0."
 msgstr "2K JPEG2000 фрейм содержит %n маркера(ов) POC вместо 3."
 
-#: src/wx/verify_dcp_result_panel.cc:407
+#: src/wx/verify_dcp_result_panel.cc:408
 #, c-format
 msgid "A 2K JPEG2000 frame has %n guard bits instead of 1."
 msgstr "2K JPEG2000 фрейм содержит %n защитных разряда(ов) вместо 1."
 
-#: src/wx/verify_dcp_result_panel.cc:477
+#: src/wx/verify_dcp_result_panel.cc:478
 #, c-format
 msgid "A 4K JPEG2000 frame contains %n tile parts instead of 6."
 msgstr "4K JPEG2000 фрейм содержит %n части(ей) тайла вместо 6."
 
-#: src/wx/verify_dcp_result_panel.cc:449
+#: src/wx/verify_dcp_result_panel.cc:450
 #, c-format
 msgid "A 4K JPEG2000 frame has %n POC marker(s) instead of 1."
 msgstr "4K JPEG2000 фрейм содержит %n маркера(ов) POC вместо 3."
 
-#: src/wx/verify_dcp_result_panel.cc:414
+#: src/wx/verify_dcp_result_panel.cc:415
 #, c-format
 msgid "A 4K JPEG2000 frame has %n guard bits instead of 2."
 msgstr "4K JPEG2000 фрейм содержит %n защитных разряда(ов) вместо 1."
 
-#: src/wx/verify_dcp_result_panel.cc:463
+#: src/wx/verify_dcp_result_panel.cc:464
 msgid "A JPEG2000 frame contains a POC marker in an invalid location."
 msgstr "Фрейм JPEG2000 содержит маркер POC в некорректном месте."
 
-#: src/wx/verify_dcp_result_panel.cc:456
+#: src/wx/verify_dcp_result_panel.cc:457
 #, c-format
 msgid "A JPEG2000 frame contains an invalid POC marker (%n)."
 msgstr "Фрейм JPEG2000 содержит некорректный маркер POC (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:435
+#: src/wx/verify_dcp_result_panel.cc:436
 #, c-format
 msgid "A JPEG2000 frame has a code-block height of %n instead of 32."
 msgstr "Фрейм JPEG2000 имеет высоту кода блока %n вместо 32."
 
-#: src/wx/verify_dcp_result_panel.cc:428
+#: src/wx/verify_dcp_result_panel.cc:429
 #, c-format
 msgid "A JPEG2000 frame has a code-block width of %n instead of 32."
 msgstr "Фрейм JPEG2000 имеет ширину кода блока %n вместо 32."
 
-#: src/wx/verify_dcp_result_panel.cc:484
+#: src/wx/verify_dcp_result_panel.cc:485
 msgid "A JPEG2000 frame has no TLM marker."
 msgstr "Фрейм JPEG2000 не содержит маркер TLM."
 
-#: src/wx/verify_dcp_result_panel.cc:421
+#: src/wx/verify_dcp_result_panel.cc:422
 msgid "A JPEG2000 tile size does not match the image size."
 msgstr "Размер тайла JPEG2000 не соответствует размеру изображения."
 
@@ -317,7 +317,7 @@ msgstr "Размер тайла JPEG2000 не соответствует раз�
 msgid "A new version of %s is available."
 msgstr "Доступна новая версия %s."
 
-#: src/wx/verify_dcp_result_panel.cc:400
+#: src/wx/verify_dcp_result_panel.cc:401
 #, c-format
 msgid "A picture frame has an invalid JPEG2000 codestream (%n)."
 msgstr "Кадр изображения содержит некорректный поток кода JPEG2000 (%n)"
@@ -327,11 +327,11 @@ msgstr "Кадр изображения содержит некорректны�
 msgid "A problem occurred when looking for hints (%s)"
 msgstr "Произошла ошибка при поиске подсказок (%s)"
 
-#: src/wx/verify_dcp_result_panel.cc:489
+#: src/wx/verify_dcp_result_panel.cc:490
 msgid "A subtitle lasts longer than the reel it is in."
 msgstr "Субтитр длится дольше, чем продолжительность этой части фильма."
 
-#: src/wx/verify_dcp_result_panel.cc:569
+#: src/wx/verify_dcp_result_panel.cc:570
 #, c-format
 msgid ""
 "A subtitle or closed caption refers to a font with ID %id that does not have "
@@ -353,11 +353,11 @@ msgstr "ASIO"
 msgid "About %s"
 msgstr "О %s"
 
-#: src/wx/screens_panel.cc:265
+#: src/wx/screens_panel.cc:268
 msgid "Add Cinema"
 msgstr "Добавить кинотеатр"
 
-#: src/wx/screens_panel.cc:83
+#: src/wx/screens_panel.cc:84
 msgid "Add Cinema..."
 msgstr "Добавить кинотеатр..."
 
@@ -377,11 +377,11 @@ msgstr "Добавить KDM..."
 msgid "Add OV..."
 msgstr "Добавить OV..."
 
-#: src/wx/screens_panel.cc:390
+#: src/wx/screens_panel.cc:389
 msgid "Add Screen"
 msgstr "Добавить экран"
 
-#: src/wx/screens_panel.cc:89
+#: src/wx/screens_panel.cc:90
 msgid "Add Screen..."
 msgstr "Добавить экран..."
 
@@ -531,15 +531,15 @@ msgstr "Разрешить использование SMPTE Bv2.0"
 msgid "Alpha   0"
 msgstr "Альфа  0"
 
-#: src/wx/about_dialog.cc:183
+#: src/wx/about_dialog.cc:184
 msgid "Also supported by"
 msgstr "Также поддерживали"
 
-#: src/wx/verify_dcp_result_panel.cc:210
+#: src/wx/verify_dcp_result_panel.cc:211
 msgid "An asset has an empty path in the ASSETMAP."
 msgstr "Ресурс содержит пустой путь в ASSETMAP."
 
-#: src/wx/verify_dcp_result_panel.cc:532
+#: src/wx/verify_dcp_result_panel.cc:533
 #, c-format
 msgid "An invalid <ContentKind> %n has been used."
 msgstr "Было использовано недопустимое значение <Content Kind> %n."
@@ -560,22 +560,22 @@ msgstr "Внешний вид..."
 msgid "Are you sure you want to cancel this job?"
 msgstr "Вы точно хотите отменить эту задачу?"
 
-#: src/wx/screens_panel.cc:360
+#: src/wx/screens_panel.cc:359
 #, c-format
 msgid "Are you sure you want to remove %d cinemas?"
 msgstr "Вы точно хотите удалить %d кинотеатра(ов)?"
 
-#: src/wx/screens_panel.cc:488
+#: src/wx/screens_panel.cc:482
 #, c-format
 msgid "Are you sure you want to remove %d screens?"
 msgstr "Вы точно хотите удалить %d экрана(ов)?"
 
-#: src/wx/screens_panel.cc:356
+#: src/wx/screens_panel.cc:355
 #, c-format
 msgid "Are you sure you want to remove the cinema '%s'?"
 msgstr "Вы точно хотите удалить кинотеатр '%s'?"
 
-#: src/wx/screens_panel.cc:484
+#: src/wx/screens_panel.cc:478
 #, c-format
 msgid "Are you sure you want to remove the screen '%s'?"
 msgstr "Вы точно хотите удалить экран '%s'?"
@@ -588,21 +588,21 @@ msgstr ""
 "Вы точно хотите отправить электронные письма на эти адреса?\n"
 "\n"
 
-#: src/wx/verify_dcp_result_panel.cc:517
+#: src/wx/verify_dcp_result_panel.cc:518
 msgid "At least one <Text> node in a subtitle or closed caption is empty."
 msgstr "Имеется пустой узел <Text> в субтитрах."
 
-#: src/wx/verify_dcp_result_panel.cc:332
+#: src/wx/verify_dcp_result_panel.cc:333
 msgid ""
 "At least one asset in a reel does not have the same duration as the others."
 msgstr ""
 "В части фильма имеется ресурс, длительность которого отлична от остальных."
 
-#: src/wx/verify_dcp_result_panel.cc:302
+#: src/wx/verify_dcp_result_panel.cc:303
 msgid "At least one pair of subtitles is separated by less than 2 frames."
 msgstr "Имеется пара субтитров, отделённых менее, чем двумя кадрами."
 
-#: src/wx/verify_dcp_result_panel.cc:299
+#: src/wx/verify_dcp_result_panel.cc:300
 msgid "At least one subtitle lasts less than 15 frames."
 msgstr "Имеется субтитр, длительность которого менее 15 кадров."
 
@@ -677,7 +677,7 @@ msgstr "Выбрать..."
 msgid "Burn subtitles into image"
 msgstr "Вшить субтитры в изображение"
 
-#: src/wx/gain_calculator_dialog.cc:38
+#: src/wx/gain_calculator_dialog.cc:39
 msgid "But I have to use fader"
 msgstr "Но я должен использовать микшер"
 
@@ -770,7 +770,7 @@ msgstr "Усиление канала"
 msgid "Channels"
 msgstr "Каналы"
 
-#: src/wx/screens_panel.cc:100
+#: src/wx/screens_panel.cc:101
 msgid "Check all"
 msgstr "Проверить все"
 
@@ -828,7 +828,7 @@ msgstr ""
 "Нажмите кнопку, чтобы применить одинаковые значения ко всему выделенному "
 "контенту."
 
-#: src/wx/verify_dcp_result_panel.cc:350
+#: src/wx/verify_dcp_result_panel.cc:351
 #, c-format
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "Ресурсов скрытых субтитров %n содержит ненулевой тег <EntryPoint>."
@@ -867,7 +867,7 @@ msgid "Configuration file"
 msgstr "Конфигурационный файл"
 
 #. TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-#: src/wx/full_config_dialog.cc:1632 src/wx/player_config_dialog.cc:312
+#: src/wx/full_config_dialog.cc:1636 src/wx/player_config_dialog.cc:312
 msgid "Config|Timing"
 msgstr "Тайминг"
 
@@ -974,7 +974,7 @@ msgstr "Не удалось загрузить сертификат (%s)."
 msgid "Could not play content"
 msgstr "Не удалось воспроизвести содержимое"
 
-#: src/wx/verify_dcp_result_panel.cc:189
+#: src/wx/verify_dcp_result_panel.cc:190
 #, c-format
 msgid "Could not read DCP (%n)"
 msgstr "Не удалось прочитать DCP (%n)"
@@ -1061,7 +1061,7 @@ msgstr "DCP"
 msgid "DCP Text Track"
 msgstr "Текстовая дорожка DCP"
 
-#: src/wx/full_config_dialog.cc:1598
+#: src/wx/full_config_dialog.cc:1602
 msgid "DCP asset filename format"
 msgstr "Формат именования файлов ресурса DCP"
 
@@ -1069,7 +1069,7 @@ msgstr "Формат именования файлов ресурса DCP"
 msgid "DCP directory"
 msgstr "Папка DCP"
 
-#: src/wx/full_config_dialog.cc:1579
+#: src/wx/full_config_dialog.cc:1583
 msgid "DCP metadata filename format"
 msgstr "Формат именования файлов метаданных DCP"
 
@@ -1085,27 +1085,27 @@ msgstr "Проверка DCP"
 msgid "Debug log file"
 msgstr "Отладочный лог-файл"
 
-#: src/wx/full_config_dialog.cc:1634
+#: src/wx/full_config_dialog.cc:1638
 msgid "Debug: 3D"
 msgstr "Отладка: 3D"
 
-#: src/wx/full_config_dialog.cc:1644
+#: src/wx/full_config_dialog.cc:1648
 msgid "Debug: audio analysis"
 msgstr "Отладка: анализ аудио"
 
-#: src/wx/full_config_dialog.cc:1638
+#: src/wx/full_config_dialog.cc:1642
 msgid "Debug: email sending"
 msgstr "Отладка: отправка email"
 
-#: src/wx/full_config_dialog.cc:1636
+#: src/wx/full_config_dialog.cc:1640
 msgid "Debug: encode"
 msgstr "Отладка: кодирование"
 
-#: src/wx/full_config_dialog.cc:1642
+#: src/wx/full_config_dialog.cc:1646
 msgid "Debug: player"
 msgstr "Отладка: плеер"
 
-#: src/wx/full_config_dialog.cc:1640 src/wx/player_config_dialog.cc:314
+#: src/wx/full_config_dialog.cc:1644 src/wx/player_config_dialog.cc:314
 msgid "Debug: video view"
 msgstr "Отладка: просмотр видео"
 
@@ -1250,15 +1250,15 @@ msgstr "Файл-пустышка"
 msgid "Earlier"
 msgstr "Выше"
 
-#: src/wx/screens_panel.cc:85
+#: src/wx/screens_panel.cc:86
 msgid "Edit Cinema..."
 msgstr "Изменить кинотеатр..."
 
-#: src/wx/screens_panel.cc:91
+#: src/wx/screens_panel.cc:92
 msgid "Edit Screen..."
 msgstr "Изменить экран..."
 
-#: src/wx/screens_panel.cc:334
+#: src/wx/screens_panel.cc:335
 msgid "Edit cinema"
 msgstr "Изменить кинотеатр"
 
@@ -1266,7 +1266,7 @@ msgstr "Изменить кинотеатр"
 msgid "Edit recipient"
 msgstr "Изменить получателя"
 
-#: src/wx/screens_panel.cc:438
+#: src/wx/screens_panel.cc:434
 msgid "Edit screen"
 msgstr "Изменить экран"
 
@@ -1319,7 +1319,7 @@ msgstr "Конец"
 msgid "Enter your email address for the contact, not %s"
 msgstr "Введите ваш email для связи, не %s"
 
-#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:309
+#: src/wx/full_config_dialog.cc:1633 src/wx/player_config_dialog.cc:309
 #: src/wx/verify_dcp_result_panel.cc:53
 msgid "Errors"
 msgstr "Ошибки"
@@ -1477,7 +1477,7 @@ msgstr "Добавлять метки отслеживания (FMID) в вид�
 msgid "Format"
 msgstr "Формат"
 
-#: src/wx/verify_dcp_result_panel.cc:246
+#: src/wx/verify_dcp_result_panel.cc:247
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1486,7 +1486,7 @@ msgstr ""
 "Кадр %frame (временной код %timecode) в ресурсе %f имеет мгновенный битрейт, "
 "близкий к пределу в 250 Мбит/с."
 
-#: src/wx/verify_dcp_result_panel.cc:239
+#: src/wx/verify_dcp_result_panel.cc:240
 #, c-format
 msgid ""
 "Frame %frame (timecode %timecode) in asset %f has an instantaneous bit rate "
@@ -1495,7 +1495,7 @@ msgstr ""
 "Кадр %frame (временной код %timecode) в ресурсе %f имеет мгновенный битрейт, "
 "превышающий 250 Мбит/с."
 
-#: src/wx/verify_dcp_result_panel.cc:561
+#: src/wx/verify_dcp_result_panel.cc:562
 #, c-format
 msgid ""
 "Frame %frame has an image component that is too large (component %component "
@@ -1556,7 +1556,7 @@ msgstr "GDC"
 msgid "Gain"
 msgstr "Усиление"
 
-#: src/wx/gain_calculator_dialog.cc:30
+#: src/wx/gain_calculator_dialog.cc:31
 msgid "Gain Calculator"
 msgstr "Калькулятор усиления"
 
@@ -1566,7 +1566,7 @@ msgid "Gain for content channel %d in DCP channel %d"
 msgstr "Усиление для канала %d контента в канале %d DCP"
 
 #: src/wx/config_dialog.cc:117 src/wx/content_properties_dialog.cc:74
-#: src/wx/full_config_dialog.cc:1625 src/wx/player_config_dialog.cc:305
+#: src/wx/full_config_dialog.cc:1629 src/wx/player_config_dialog.cc:305
 msgid "General"
 msgstr "Основные"
 
@@ -1611,7 +1611,7 @@ msgstr "Хост"
 msgid "Host name or IP address"
 msgstr "Имя хоста или IP-адрес"
 
-#: src/wx/gain_calculator_dialog.cc:35
+#: src/wx/gain_calculator_dialog.cc:36
 msgid "I want to play this back at fader"
 msgstr "Я хочу воспроизвести это в микшере"
 
@@ -1698,7 +1698,7 @@ msgstr ""
 "DKDM, который вы создали ранее. Также, любые KDM, отправленные вам, станут "
 "бесполезны. Действуйте с осторожностью!"
 
-#: src/wx/content_advanced_dialog.cc:103
+#: src/wx/content_advanced_dialog.cc:101
 msgid ""
 "Ignore this content's video and use only audio, subtitles and closed captions"
 msgstr ""
@@ -1769,7 +1769,7 @@ msgstr "Международные текстовые сообщения"
 msgid "International textless"
 msgstr "Международный текстовый сервис без текста"
 
-#: src/wx/dcp_panel.cc:153
+#: src/wx/dcp_panel.cc:154
 msgid "Interop"
 msgstr "Interop"
 
@@ -1798,7 +1798,7 @@ msgstr "Общее наименование эмитента"
 msgid "Issuer organization name"
 msgstr "Название организации-эмитента"
 
-#: src/wx/audio_panel.cc:307
+#: src/wx/audio_panel.cc:317
 msgid ""
 "It is not possible to adjust the content's gain for this fader change as it "
 "would cause the DCP's audio to clip.  The gain has not been changed."
@@ -1869,7 +1869,7 @@ msgstr "Язык"
 msgid "Language Tag"
 msgstr "Тег языка"
 
-#: src/wx/content_advanced_dialog.cc:99
+#: src/wx/content_advanced_dialog.cc:97
 msgid "Language of burnt-in subtitles in this content"
 msgstr "Язык вшитых субтитров в этом контенте"
 
@@ -1904,6 +1904,10 @@ msgstr "LFTC (последний кадр начальных титров)"
 #: src/wx/content_panel.cc:293
 msgid "Later"
 msgstr "Ниже"
+
+#: src/wx/full_config_dialog.cc:1570
+msgid "Layout for short screen"
+msgstr ""
 
 #: src/wx/config_dialog.cc:525
 msgid "Leaf"
@@ -1959,7 +1963,7 @@ msgstr "Загрузка списка воспроизведения и KDM"
 msgid "Locations"
 msgstr "Директории"
 
-#: src/wx/full_config_dialog.cc:1623 src/wx/player_config_dialog.cc:303
+#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:303
 msgid "Log"
 msgstr "Лог"
 
@@ -2005,7 +2009,7 @@ msgstr "MP4 / H.264"
 msgid "MP4 files (*.mp4)|*.mp4"
 msgstr "Файлы MP4 (*.mp4)|*.mp4"
 
-#: src/wx/dcp_panel.cc:154
+#: src/wx/dcp_panel.cc:155
 msgid "MPEG2 Interop"
 msgstr "MPEG2 Interop"
 
@@ -2072,7 +2076,7 @@ msgstr "Максимальный битрейт JPEG2000"
 msgid "Maximum MPEG2 bit rate"
 msgstr "Максимальный битрейт MPEG2"
 
-#: src/wx/full_config_dialog.cc:1571
+#: src/wx/full_config_dialog.cc:1575
 msgid "Maximum number of frames to store per thread"
 msgstr "Максимальное число хранимых кадров на поток"
 
@@ -2101,84 +2105,84 @@ msgstr "Метаданные..."
 msgid "Mix audio down to stereo"
 msgstr "Микшировать аудио в стерео"
 
-#: src/wx/verify_dcp_result_panel.cc:471
+#: src/wx/verify_dcp_result_panel.cc:472
 msgid ""
 "More 2K JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 "Другие кадры формата 2K JPEG2000 (не указанные в списке) содержат "
 "неправильное количество фрагментов фрагмента."
 
-#: src/wx/verify_dcp_result_panel.cc:408
+#: src/wx/verify_dcp_result_panel.cc:409
 msgid ""
 "More 2K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 "Другие кадры формата 2K JPEG2000 (не указанные в списке) содержат "
 "недопустимое количество защитных битов."
 
-#: src/wx/verify_dcp_result_panel.cc:443
+#: src/wx/verify_dcp_result_panel.cc:444
 msgid "More 2K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
 "На большем количестве кадров формата 2K JPEG2000 (не перечисленных в списке) "
 "слишком много POC-маркеров."
 
-#: src/wx/verify_dcp_result_panel.cc:415
+#: src/wx/verify_dcp_result_panel.cc:416
 msgid ""
 "More 4K JPEG2000 frames (not listed) have an invalid number of guard bits."
 msgstr ""
 "Другие кадры формата 4K JPEG2000 (не указанные в списке) содержат "
 "недопустимое количество защитных битов."
 
-#: src/wx/verify_dcp_result_panel.cc:450
+#: src/wx/verify_dcp_result_panel.cc:451
 msgid "More 4K JPEG2000 frames (not listed) have too many POC markers."
 msgstr ""
 "На других кадрах формата 4K JPEG2000 (не перечисленных в списке) слишком "
 "много POC-маркеров."
 
-#: src/wx/verify_dcp_result_panel.cc:464
+#: src/wx/verify_dcp_result_panel.cc:465
 msgid ""
 "More JPEG2000 frames (not listed) contain POC markers in invalid locations."
 msgstr ""
 "Другие кадры формата JPEG 2000 (не указанные в списке) содержат маркеры POC "
 "в недопустимых местах."
 
-#: src/wx/verify_dcp_result_panel.cc:457
+#: src/wx/verify_dcp_result_panel.cc:458
 msgid "More JPEG2000 frames (not listed) contain invalid POC markers."
 msgstr ""
 "Другие кадры JPEG2000 (не указанные в списке) содержат недопустимые маркеры "
 "POC."
 
-#: src/wx/verify_dcp_result_panel.cc:478
+#: src/wx/verify_dcp_result_panel.cc:479
 msgid ""
 "More JPEG2000 frames (not listed) contain the wrong number of tile parts."
 msgstr ""
 "Другие кадры формата JPEG 2000 (не указанные в списке) содержат неправильное "
 "количество фрагментов фрагмента."
 
-#: src/wx/verify_dcp_result_panel.cc:436
+#: src/wx/verify_dcp_result_panel.cc:437
 msgid "More JPEG2000 frames (not listed) have an invalid code-block height."
 msgstr ""
 "Для большего количества кадров формата JPEG 2000 (не перечисленных в списке) "
 "указана недопустимая высота кодового блока."
 
-#: src/wx/verify_dcp_result_panel.cc:429
+#: src/wx/verify_dcp_result_panel.cc:430
 msgid "More JPEG2000 frames (not listed) have an invalid code-block width."
 msgstr ""
 "Другие кадры формата JPEG 2000 (не указанные в списке) имеют недопустимую "
 "ширину кодового блока."
 
-#: src/wx/verify_dcp_result_panel.cc:485
+#: src/wx/verify_dcp_result_panel.cc:486
 msgid "More JPEG2000 frames (not listed) have no TLM marker."
 msgstr ""
 "На других кадрах формата JPEG 2000 (не перечисленных в списке) маркер TLM "
 "отсутствует."
 
-#: src/wx/verify_dcp_result_panel.cc:422
+#: src/wx/verify_dcp_result_panel.cc:423
 msgid "More JPEG2000 tile sizes (not listed) do not match the image size."
 msgstr ""
 "Другие размеры фрагментов JPEG2000 (не указанные в списке) не соответствуют "
 "размеру изображения."
 
-#: src/wx/verify_dcp_result_panel.cc:247
+#: src/wx/verify_dcp_result_panel.cc:248
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is close to the "
 "limit of 250Mbit/s."
@@ -2186,7 +2190,7 @@ msgstr ""
 "У большего количества кадров (не перечисленных в списке) мгновенная скорость "
 "передачи данных близка к пределу в 250 Мбит/с."
 
-#: src/wx/verify_dcp_result_panel.cc:240
+#: src/wx/verify_dcp_result_panel.cc:241
 msgid ""
 "More frames (not listed) have an instantaneous bit rate that is over the "
 "limit of 250Mbit/s."
@@ -2194,13 +2198,13 @@ msgstr ""
 "У большего количества кадров (не перечисленных в списке) мгновенная скорость "
 "передачи данных превышает 250 Мбит/с."
 
-#: src/wx/verify_dcp_result_panel.cc:562
+#: src/wx/verify_dcp_result_panel.cc:563
 msgid "More frames (not listed) have image components that are too large."
 msgstr ""
 "В других кадрах (не перечисленных в списке) компоненты изображения слишком "
 "велики."
 
-#: src/wx/verify_dcp_result_panel.cc:401
+#: src/wx/verify_dcp_result_panel.cc:402
 msgid "More picture frames (not listed) have invalid JPEG2000 codestreams."
 msgstr ""
 "Другие рамки для фотографий (не указанные в списке) содержат недопустимые "
@@ -2286,7 +2290,7 @@ msgstr "Доступны новые версии %s."
 msgid "Next"
 msgstr "Следующий"
 
-#: src/wx/verify_dcp_result_panel.cc:228
+#: src/wx/verify_dcp_result_panel.cc:229
 msgid "No ASSETMAP or ASSETMAP.xml file was found."
 msgstr "Нет ASSETMAP или не найден файл ASSETMAP.xml."
 
@@ -2294,7 +2298,7 @@ msgstr "Нет ASSETMAP или не найден файл ASSETMAP.xml."
 msgid "No DCP loaded."
 msgstr "Нет загруженных DCP."
 
-#: src/wx/verify_dcp_result_panel.cc:638
+#: src/wx/verify_dcp_result_panel.cc:639
 msgid "No SMPTE Bv2.1 errors found."
 msgstr "Не найдено ошибок SMPTE Bv2.1."
 
@@ -2307,11 +2311,11 @@ msgstr "Аудио не будет перемещено из %s канала '%s
 msgid "No content found in this folder."
 msgstr "В данной папке не обнаружен контент."
 
-#: src/wx/verify_dcp_result_panel.cc:634
+#: src/wx/verify_dcp_result_panel.cc:635
 msgid "No errors found."
 msgstr "Ошибок не обнаружено."
 
-#: src/wx/verify_dcp_result_panel.cc:642
+#: src/wx/verify_dcp_result_panel.cc:643
 msgid "No warnings found."
 msgstr "Замечаний не обнаружено."
 
@@ -2320,14 +2324,14 @@ msgid "Non-standard"
 msgstr "Нестандартный"
 
 # +
-#: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:158
-#: src/wx/content_advanced_dialog.cc:166 src/wx/dcp_panel.cc:1040
+#: src/wx/content_advanced_dialog.cc:74 src/wx/content_advanced_dialog.cc:156
+#: src/wx/content_advanced_dialog.cc:164 src/wx/dcp_panel.cc:1040
 #: src/wx/file_picker_ctrl.cc:80 src/wx/subtitle_appearance_dialog.cc:151
 #: src/wx/video_panel.cc:187
 msgid "None"
 msgstr "Нет"
 
-#: src/wx/verify_dcp_result_panel.cc:287
+#: src/wx/verify_dcp_result_panel.cc:288
 msgid "Not all subtitle assets specify the same <Language> tag."
 msgstr "Не все файлы ресурсов субтитров содержат одинаковый тег <Language>."
 
@@ -2373,7 +2377,7 @@ msgstr "Смещение"
 msgid "Only servers encode"
 msgstr "Кодирование только серверами"
 
-#: src/wx/full_config_dialog.cc:1650 src/wx/player_config_dialog.cc:320
+#: src/wx/full_config_dialog.cc:1654 src/wx/player_config_dialog.cc:320
 msgid "Open console window"
 msgstr "Открыть консольное окно"
 
@@ -2381,7 +2385,7 @@ msgstr "Открыть консольное окно"
 msgid "Open the timeline for the film (Ctrl+T)."
 msgstr "Открыть шкалу времени проекта (Ctrl+T)."
 
-#: src/wx/full_config_dialog.cc:1657 src/wx/player_config_dialog.cc:120
+#: src/wx/full_config_dialog.cc:1661 src/wx/player_config_dialog.cc:120
 msgid "OpenGL (faster)"
 msgstr "OpenGL (быстрее)"
 
@@ -2446,7 +2450,7 @@ msgstr "Папка вывода"
 msgid "Output gamma correction"
 msgstr "Коррекция гаммы на выходе"
 
-#: src/wx/content_advanced_dialog.cc:84
+#: src/wx/content_advanced_dialog.cc:82
 msgid "Override detected video frame rate"
 msgstr "Игнорировать обнаруженную частоту кадров видео"
 
@@ -2454,11 +2458,11 @@ msgstr "Игнорировать обнаруженную частоту кад�
 msgid "Overwrite this file with current configuration"
 msgstr "Перезаписать этот файл текущей конфиграцией"
 
-#: src/wx/verify_dcp_result_panel.cc:514
+#: src/wx/verify_dcp_result_panel.cc:515
 msgid "Part of the DCP could not be checked because no KDM was available."
 msgstr "Часть DCP не может быть проверена, поскольку отсутствует ключ KDM."
 
-#: src/wx/verify_dcp_result_panel.cc:216
+#: src/wx/verify_dcp_result_panel.cc:217
 msgid ""
 "Parts of the DCP are written according to the Interop standard and parts "
 "according to SMPTE."
@@ -2489,7 +2493,7 @@ msgstr "Вставить настройки субтитров"
 msgid "Paste video settings"
 msgstr "Вставить настройки видео"
 
-#: src/wx/about_dialog.cc:175
+#: src/wx/about_dialog.cc:176
 msgid "Patrons"
 msgstr "Спонсоры"
 
@@ -2502,12 +2506,12 @@ msgstr "Пазуа"
 msgid "Peak"
 msgstr "Пик"
 
-#: src/wx/audio_panel.cc:441
+#: src/wx/audio_panel.cc:451
 #, c-format
 msgid "Peak: %.2fdB"
 msgstr "Пик: %.2f дБ"
 
-#: src/wx/audio_panel.cc:443
+#: src/wx/audio_panel.cc:453
 msgid "Peak: unknown"
 msgstr "Пик: неизвестно"
 
@@ -2720,11 +2724,11 @@ msgstr "Удалить"
 msgid "Remove %s marker"
 msgstr "Удалить маркер %s"
 
-#: src/wx/screens_panel.cc:87
+#: src/wx/screens_panel.cc:88
 msgid "Remove Cinema"
 msgstr "Удалить кинотеатр"
 
-#: src/wx/screens_panel.cc:93
+#: src/wx/screens_panel.cc:94
 msgid "Remove Screen"
 msgstr "Удалить экран"
 
@@ -2818,11 +2822,11 @@ msgstr "S-Gamut3"
 msgid "SCP (for AAM and Doremi)"
 msgstr "SCP (для AAM и Doremi)"
 
-#: src/wx/dcp_panel.cc:149
+#: src/wx/dcp_panel.cc:150
 msgid "SMPTE"
 msgstr "SMPTE"
 
-#: src/wx/dcp_panel.cc:151
+#: src/wx/dcp_panel.cc:152
 msgid "SMPTE (Bv2.0 only)"
 msgstr "SMPTE (только Bv2.0)"
 
@@ -3001,7 +3005,7 @@ msgstr "Сервер"
 msgid "Servers"
 msgstr "Серверы"
 
-#: src/wx/content_advanced_dialog.cc:90 src/wx/timecode.cc:75
+#: src/wx/content_advanced_dialog.cc:88 src/wx/timecode.cc:74
 msgid "Set"
 msgstr "Задать"
 
@@ -3065,12 +3069,12 @@ msgstr "Показать экспериментальные обработчик
 msgid "Show graph of audio levels..."
 msgstr "Показать график уровней громкости..."
 
-#: src/wx/screens_panel.cc:739
+#: src/wx/screens_panel.cc:740
 #, c-format
 msgid "Show only %d checked"
 msgstr "Показывать только отмеченный %d"
 
-#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:737
+#: src/wx/screens_panel.cc:66 src/wx/screens_panel.cc:738
 msgid "Show only checked"
 msgstr "Показывать только отмеченный"
 
@@ -3086,7 +3090,7 @@ msgstr "Язык видео с языком жестов"
 msgid "Signing DCPs and KDMs"
 msgstr "Подписывание DCP и KDM"
 
-#: src/wx/full_config_dialog.cc:1655 src/wx/player_config_dialog.cc:119
+#: src/wx/full_config_dialog.cc:1659 src/wx/player_config_dialog.cc:119
 msgid "Simple (safer)"
 msgstr "Простой (безопаснее)"
 
@@ -3131,7 +3135,7 @@ msgstr ""
 "У некоторых KDM могут быть сроки действия, которые выходят за рамки сроков "
 "действия сертификата получателя.  Что вы хотите сделать?"
 
-#: src/wx/verify_dcp_result_panel.cc:520
+#: src/wx/verify_dcp_result_panel.cc:521
 msgid ""
 "Some closed <Text> or <Image> nodes have different vertical alignments "
 "within a <Subtitle>."
@@ -3139,7 +3143,7 @@ msgstr ""
 "Некоторые закрытые теги <Text> или <Image> имеют различное выравнивание по "
 "вертикали внутри <Subtitle>."
 
-#: src/wx/verify_dcp_result_panel.cc:523
+#: src/wx/verify_dcp_result_panel.cc:524
 msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
@@ -3150,11 +3154,11 @@ msgstr ""
 msgid "Sound"
 msgstr "Звук"
 
-#: src/wx/verify_dcp_result_panel.cc:550
+#: src/wx/verify_dcp_result_panel.cc:551
 msgid "Sound assets do not all have the same channel count."
 msgstr "Не все звуковые ресурсы имеют одинаковое количество каналов."
 
-#: src/wx/gain_calculator_dialog.cc:32
+#: src/wx/gain_calculator_dialog.cc:33
 msgid "Sound processor"
 msgstr "Обработчик звука"
 
@@ -3221,7 +3225,7 @@ msgstr "Общее название темы"
 msgid "Subject organization name"
 msgstr "Название организации-субъекта"
 
-#: src/wx/about_dialog.cc:179
+#: src/wx/about_dialog.cc:180
 msgid "Subscribers"
 msgstr "Финансовая помощь"
 
@@ -3229,7 +3233,7 @@ msgstr "Финансовая помощь"
 msgid "Subtitle appearance"
 msgstr "Внешний вид субтитров"
 
-#: src/wx/verify_dcp_result_panel.cc:344
+#: src/wx/verify_dcp_result_panel.cc:345
 #, c-format
 msgid "Subtitle asset %n has a non-zero <EntryPoint>."
 msgstr "Ресурс субтитров %n содержит ненулевой тег <EntryPoint>."
@@ -3307,33 +3311,33 @@ msgstr "Отправлено тестовое электронное письм�
 msgid "Test version"
 msgstr "Тестовая версия"
 
-#: src/wx/about_dialog.cc:250
+#: src/wx/about_dialog.cc:251
 msgid "Tested by"
 msgstr "Тестировщики"
 
-#: src/wx/kdm_timing_panel.cc:189
+#: src/wx/kdm_timing_panel.cc:179
 msgid "The 'until' time must be after the 'from' time."
 msgstr "Время \"до\" должно быть после времени \"от\"."
 
-#: src/wx/verify_dcp_result_panel.cc:578
+#: src/wx/verify_dcp_result_panel.cc:579
 #, c-format
 msgid "The <LabelText> in a <ContentVersion> in CPL %cpl is empty"
 msgstr "Поле <LabelText> в <ContentVersion> в CPL %cpl пустое"
 
-#: src/wx/verify_dcp_result_panel.cc:535
+#: src/wx/verify_dcp_result_panel.cc:536
 msgid ""
 "The <MainPictureActiveArea> is either not a multiple of 2, or is bigger than "
 "an asset."
 msgstr ""
 "Параметр <MainPictureActiveArea> либо не кратен 2, либо больше, чем ресурс."
 
-#: src/wx/verify_dcp_result_panel.cc:541
+#: src/wx/verify_dcp_result_panel.cc:542
 #, c-format
 msgid "The ASSETMAP %n has more than one asset with the same ID."
 msgstr ""
 "В ASSETMAP %n содержится более одного ресурса с одинаковым идентификатором."
 
-#: src/wx/verify_dcp_result_panel.cc:495
+#: src/wx/verify_dcp_result_panel.cc:496
 msgid ""
 "The Asset ID in a timed text MXF is the same as the Resource ID or that of "
 "the contained XML."
@@ -3341,7 +3345,7 @@ msgstr ""
 "ID ресурса (asset) в файле субтитров MXF совпадает с ID ресурса (resource) "
 "или такового в имеющемся XML."
 
-#: src/wx/verify_dcp_result_panel.cc:329
+#: src/wx/verify_dcp_result_panel.cc:330
 #, c-format
 msgid ""
 "The CPL %cpl has an <AnnotationText> which is not the same as its "
@@ -3350,59 +3354,59 @@ msgstr ""
 "CPL %cpl содержит тег <AnnotationText>, который не совпадает с "
 "<ContentTitleText>."
 
-#: src/wx/verify_dcp_result_panel.cc:581
+#: src/wx/verify_dcp_result_panel.cc:582
 #, c-format
 msgid "The CPL %cpl has an invalid namespace %n"
 msgstr "CPL %cpl содержит недопустимое пространство имен %n"
 
-#: src/wx/verify_dcp_result_panel.cc:386
+#: src/wx/verify_dcp_result_panel.cc:387
 #, c-format
 msgid "The CPL %cpl has encrypted content but is not signed."
 msgstr "CPL %cpl не подписан, но содержит зашифрованный контент."
 
-#: src/wx/verify_dcp_result_panel.cc:326
+#: src/wx/verify_dcp_result_panel.cc:327
 #, c-format
 msgid "The CPL %cpl has no <AnnotationText> tag."
 msgstr "CPL %cpl не содержит тег <AnnotationText>."
 
-#: src/wx/verify_dcp_result_panel.cc:584
+#: src/wx/verify_dcp_result_panel.cc:585
 #, c-format
 msgid "The CPL %cpl has no <ContentVersion> tag"
 msgstr "CPL %cpl не содержит тег <ContentVersion>"
 
-#: src/wx/verify_dcp_result_panel.cc:380
+#: src/wx/verify_dcp_result_panel.cc:381
 #, c-format
 msgid "The CPL %cpl has no CPL extension metadata tag."
 msgstr "CPL %cpl не содержит тег \"CPL extension metadata\"."
 
-#: src/wx/verify_dcp_result_panel.cc:374
+#: src/wx/verify_dcp_result_panel.cc:375
 #, c-format
 msgid "The CPL %cpl has no CPL metadata tag."
 msgstr "CPL %cpl не содержит тег метаданных CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:377
+#: src/wx/verify_dcp_result_panel.cc:378
 #, c-format
 msgid "The CPL %cpl has no CPL metadata version number tag."
 msgstr "CPL %cpl не содержит тег версии метаданных CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:383
+#: src/wx/verify_dcp_result_panel.cc:384
 #, c-format
 msgid "The CPL %f has an invalid CPL extension metadata tag (%n)"
 msgstr "CPL %f содержит некорректный тег \"CPL extension metadata\" (%n)"
 
-#: src/wx/verify_dcp_result_panel.cc:368
+#: src/wx/verify_dcp_result_panel.cc:369
 #, c-format
 msgid "The DCP has a FFOC of %n instead of 1."
 msgstr "DCP имеет маркер FFOC, равный %n вместо 1."
 
-#: src/wx/verify_dcp_result_panel.cc:371
+#: src/wx/verify_dcp_result_panel.cc:372
 #, c-format
 msgid "The DCP has a LFOC of %n instead of the reel duration minus one."
 msgstr ""
 "DCP имеет маркер LFOC, равный %n вместо \"продолжительность части фильма "
 "минус 1\"."
 
-#: src/wx/verify_dcp_result_panel.cc:338
+#: src/wx/verify_dcp_result_panel.cc:339
 msgid ""
 "The DCP has closed captions but not every reel has the same number of closed "
 "caption assets."
@@ -3410,30 +3414,30 @@ msgstr ""
 "DCP содержит скрытые субтитры, но не каждая часть фильма имеет такое же "
 "количество ресурсов субтитров."
 
-#: src/wx/verify_dcp_result_panel.cc:395
+#: src/wx/verify_dcp_result_panel.cc:396
 msgid "The DCP has encrypted content, but not all its assets are encrypted."
 msgstr "DCP содержит зашифрованный контент, но не все данные зашифрованы."
 
-#: src/wx/verify_dcp_result_panel.cc:362
+#: src/wx/verify_dcp_result_panel.cc:363
 msgid "The DCP has no FFOC (first frame of content) marker."
 msgstr "DCP не имеет маркера FFOC."
 
-#: src/wx/verify_dcp_result_panel.cc:365
+#: src/wx/verify_dcp_result_panel.cc:366
 msgid "The DCP has no LFOC (last frame of content) marker."
 msgstr "DCP не имеет маркера LFOC."
 
-#: src/wx/verify_dcp_result_panel.cc:335
+#: src/wx/verify_dcp_result_panel.cc:336
 msgid "The DCP has subtitles but at least one reel has no subtitle asset."
 msgstr ""
 "DCP содержит субтитры, но имеется часть фильма, в которой нет ресурсов "
 "субтитров."
 
-#: src/wx/verify_dcp_result_panel.cc:356
+#: src/wx/verify_dcp_result_panel.cc:357
 msgid ""
 "The DCP is a feature but has no FFEC (first frame of end credits) marker."
 msgstr "DCP помечен как FTR (Полнометражный фильм), но не имеет маркера FFEC."
 
-#: src/wx/verify_dcp_result_panel.cc:359
+#: src/wx/verify_dcp_result_panel.cc:360
 msgid ""
 "The DCP is a feature but has no FFMC (first frame of moving credits) marker."
 msgstr "DCP помечен как FTR (Полнометражный фильм), но не имеет маркера FFMC."
@@ -3457,12 +3461,12 @@ msgstr ""
 "Начало действия KDM ранее или близко к началу срока действия подписывающих "
 "сертификатов.  Используйте более поздний начальный срок этого KDM."
 
-#: src/wx/verify_dcp_result_panel.cc:600
+#: src/wx/verify_dcp_result_panel.cc:601
 #, c-format
 msgid "The PKL %f has an invalid namespace %n"
 msgstr "В файле PCL %f указано недопустимое пространство имен %n"
 
-#: src/wx/verify_dcp_result_panel.cc:392
+#: src/wx/verify_dcp_result_panel.cc:393
 #, c-format
 msgid ""
 "The PKL %n has an <AnnotationText> which does not match its CPL's "
@@ -3471,27 +3475,27 @@ msgstr ""
 "PKL %n содержит тег <AnnotationText>, который не соответствует тегу "
 "<ContentTitleText> в CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:389
+#: src/wx/verify_dcp_result_panel.cc:390
 #, c-format
 msgid "The PKL %n has encrypted content but is not signed."
 msgstr "PKL %n не подписан, но содержит зашифрованный контент."
 
-#: src/wx/verify_dcp_result_panel.cc:538
+#: src/wx/verify_dcp_result_panel.cc:539
 #, c-format
 msgid "The PKL %n has more than one asset with the same ID."
 msgstr "В PKL %n содержится более одного ресурса с одинаковым идентификатором."
 
-#: src/wx/verify_dcp_result_panel.cc:201
+#: src/wx/verify_dcp_result_panel.cc:202
 #, c-format
 msgid "The PKL and CPL hashes disagree for picture asset %f."
 msgstr "Хэши PKL и CPL не согласован с ресурсом изображений %f."
 
-#: src/wx/verify_dcp_result_panel.cc:207
+#: src/wx/verify_dcp_result_panel.cc:208
 #, c-format
 msgid "The PKL and CPL hashes disagree for sound asset %f."
 msgstr "Хэши PKL и CPL не согласован с ресурсом звука %f."
 
-#: src/wx/verify_dcp_result_panel.cc:492
+#: src/wx/verify_dcp_result_panel.cc:493
 msgid ""
 "The Resource ID in a timed text MXF did not match the ID of the contained "
 "XML."
@@ -3499,21 +3503,21 @@ msgstr ""
 "ID ресурса (resource) в файле субтитров MXF не совпадает с ID в имеющемся "
 "XML."
 
-#: src/wx/verify_dcp_result_panel.cc:572
+#: src/wx/verify_dcp_result_panel.cc:573
 #, c-format
 msgid "The SMPTE subtitle asset %id has <Text> nodes but no <LoadFont> node"
 msgstr "В ресурсе %id субтитров SMPTE есть узлы <Text>, но нет узла <LoadFont>"
 
-#: src/wx/verify_dcp_result_panel.cc:223
+#: src/wx/verify_dcp_result_panel.cc:224
 #, c-format
 msgid "The XML in %f is malformed (%n)."
 msgstr "XML в %f содержит ошибку (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:221
+#: src/wx/verify_dcp_result_panel.cc:222
 msgid "The XML in %f is malformed on line %l (%n)."
 msgstr "XML в %f содержит ошибку в строке %l (%n)."
 
-#: src/wx/verify_dcp_result_panel.cc:275
+#: src/wx/verify_dcp_result_panel.cc:276
 #, c-format
 msgid ""
 "The XML in the closed caption asset %f takes up %n bytes which is over the "
@@ -3522,28 +3526,28 @@ msgstr ""
 "XML в файле ресурсов скрытых субтитров %f занимает %n байт, что превышает "
 "лимит 256КБ."
 
-#: src/wx/verify_dcp_result_panel.cc:566
+#: src/wx/verify_dcp_result_panel.cc:567
 #, c-format
 msgid ""
 "The XML in the subtitle asset %n has more than one namespace declaration."
 msgstr "XML в субтитре %n содержит более одного объявления пространства имен."
 
-#: src/wx/verify_dcp_result_panel.cc:254
+#: src/wx/verify_dcp_result_panel.cc:255
 #, c-format
 msgid "The asset %f is 3D but its MXF is marked as 2D."
 msgstr "Ресурс %f является 3D, но его файл MXF помечен как 2D."
 
-#: src/wx/verify_dcp_result_panel.cc:213
+#: src/wx/verify_dcp_result_panel.cc:214
 #, c-format
 msgid "The asset %f is missing."
 msgstr "Ресурс %f отсутствует."
 
-#: src/wx/verify_dcp_result_panel.cc:234
+#: src/wx/verify_dcp_result_panel.cc:235
 #, c-format
 msgid "The asset %n has a duration of less than 1 second, which is invalid."
 msgstr "Продолжительность ресурса %n менее 1 секунды, что некорректно."
 
-#: src/wx/verify_dcp_result_panel.cc:231
+#: src/wx/verify_dcp_result_panel.cc:232
 #, c-format
 msgid ""
 "The asset %n has an intrinsic duration of less than 1 second, which is "
@@ -3551,19 +3555,19 @@ msgid ""
 msgstr ""
 "Собственная продолжительность ресурса %n менее 1 секунды, что некорректно."
 
-#: src/wx/verify_dcp_result_panel.cc:353
+#: src/wx/verify_dcp_result_panel.cc:354
 #, c-format
 msgid "The asset %n has no <Hash> in the CPL."
 msgstr "Ресурс %n не содержит тег <Hash> в CPL."
 
-#: src/wx/verify_dcp_result_panel.cc:575
+#: src/wx/verify_dcp_result_panel.cc:576
 #, c-format
 msgid "The asset with ID %id in the asset map actually has an id of %other_id"
 msgstr ""
 "Ресурс с идентификатором %id в карте ресурсов на самом деле имеет "
 "идентификатор %other_id"
 
-#: src/wx/verify_dcp_result_panel.cc:347
+#: src/wx/verify_dcp_result_panel.cc:348
 #, c-format
 msgid "The closed caption asset %n has no <EntryPoint> tag."
 msgstr "Ресурс скрытых субтитров %n не содержит тег <EntryPoint>."
@@ -3590,7 +3594,7 @@ msgstr ""
 "\n"
 "Позволить DCP-o-matic размонтировать его сейчас?"
 
-#: src/wx/wx_util.cc:820
+#: src/wx/wx_util.cc:821
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3608,12 +3612,12 @@ msgstr ""
 "Файл %s уже существует.  Вы хотите использовать его в качестве новой "
 "конфигурации или перезаписать его текущей конфигурацией?"
 
-#: src/wx/verify_dcp_result_panel.cc:296
+#: src/wx/verify_dcp_result_panel.cc:297
 msgid ""
 "The first subtitle or closed caption happens before 4s into the first reel."
 msgstr "Первый субтитр встретился ранее 4-х секунд в первой части фильма."
 
-#: src/wx/verify_dcp_result_panel.cc:556
+#: src/wx/verify_dcp_result_panel.cc:557
 #, c-format
 msgid ""
 "The font file for font ID \"%n\" was not found, or was not referred to in "
@@ -3622,7 +3626,7 @@ msgstr ""
 "Файл шрифта с идентификатором шрифта \"%n\" не был найден или на него не "
 "было ссылки в ASSETMAP."
 
-#: src/wx/verify_dcp_result_panel.cc:281
+#: src/wx/verify_dcp_result_panel.cc:282
 #, c-format
 msgid ""
 "The fonts in the timed text asset %f take up %n bytes which is over the 10MB "
@@ -3630,7 +3634,7 @@ msgid ""
 msgstr ""
 "Шрифты в ресурсе субтитров %f занимают %n байт, что превышает лимит в 10 МБ."
 
-#: src/wx/verify_dcp_result_panel.cc:198
+#: src/wx/verify_dcp_result_panel.cc:199
 msgid ""
 "The hash (%calculated_hash) of the picture asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
@@ -3639,7 +3643,7 @@ msgstr ""
 "Хэш (%calculated_hash) изображения %f не согласован с PKL-файлом  "
 "(%reference_hash).  Возможно это значит, что файл повреждён."
 
-#: src/wx/verify_dcp_result_panel.cc:204
+#: src/wx/verify_dcp_result_panel.cc:205
 msgid ""
 "The hash (%calculated_hash) of the sound asset %f does not agree with the "
 "PKL file (%reference_hash).  This probably means that the asset file is "
@@ -3648,7 +3652,7 @@ msgstr ""
 "Хэш (%calculated_hash) ресурса звука %f не согласован с PKL-файлом "
 "(%reference_hash).  Возможно, файл ресурса повреждён."
 
-#: src/wx/verify_dcp_result_panel.cc:192
+#: src/wx/verify_dcp_result_panel.cc:193
 msgid ""
 "The hash (%reference_hash) of the CPL %cpl in the PKL does not agree with "
 "the CPL file (%calculated_hash).  This probably means that the CPL file is "
@@ -3657,7 +3661,7 @@ msgstr ""
 "Хэш (%reference_hash) CPL %cpl в PKL несогласован с CPL-файлом "
 "(%calculated_hash).  Возможно это значит, что CPL-файл повреждён.."
 
-#: src/wx/verify_dcp_result_panel.cc:260
+#: src/wx/verify_dcp_result_panel.cc:261
 #, c-format
 msgid "The invalid language tag %n is used."
 msgstr "Используется некорректный тег языка %n."
@@ -3667,12 +3671,12 @@ msgstr "Используется некорректный тег языка %n."
 msgid "The language that the film's title (\"%s\") is in"
 msgstr "Язык в заголовке фильма (\"%s\") - "
 
-#: src/wx/verify_dcp_result_panel.cc:195
+#: src/wx/verify_dcp_result_panel.cc:196
 #, c-format
 msgid "The picture in a reel has a frame rate of %n, which is not valid."
 msgstr "Часть фильма содержит изображение с некорректной частотой кадров %n."
 
-#: src/wx/verify_dcp_result_panel.cc:505
+#: src/wx/verify_dcp_result_panel.cc:506
 #, c-format
 msgid ""
 "The reel duration (%s) of some timed text is not the same as the "
@@ -3681,12 +3685,12 @@ msgstr ""
 "Продолжительность части фильма (%s) для субтитров не совпадает с "
 "продолжительность контейнера (%s) в его MXF."
 
-#: src/wx/verify_dcp_result_panel.cc:323
+#: src/wx/verify_dcp_result_panel.cc:324
 #, c-format
 msgid "The sound asset %f has an invalid bit depth of %n."
 msgstr "Звуковой ресурс %f имеет некорректную битовую глубину %n."
 
-#: src/wx/verify_dcp_result_panel.cc:320
+#: src/wx/verify_dcp_result_panel.cc:321
 #, c-format
 msgid "The sound asset %f has an invalid frame rate of %n."
 msgstr "Звуковой ресурс %f имеет некорректную частоту кадров %n."
@@ -3700,76 +3704,76 @@ msgstr ""
 "старым, а SMPTE - более новым (текущим) стандартом.  Если вы сомневаетесь, "
 "выберите \"SMPTE\""
 
-#: src/wx/verify_dcp_result_panel.cc:284
+#: src/wx/verify_dcp_result_panel.cc:285
 #, c-format
 msgid "The subtitle asset %f contains no <Language> tag."
 msgstr "Ресурс субтитров %f не содержит тег <Language>."
 
-#: src/wx/verify_dcp_result_panel.cc:290
+#: src/wx/verify_dcp_result_panel.cc:291
 #, c-format
 msgid "The subtitle asset %f contains no <StartTime> tag."
 msgstr "Ресурс субтитров %f не содержит тег <StartTime>."
 
-#: src/wx/verify_dcp_result_panel.cc:293
+#: src/wx/verify_dcp_result_panel.cc:294
 #, c-format
 msgid "The subtitle asset %f has a <StartTime> which is not zero."
 msgstr "Ресурс субтитров %f содержит ненулевой тег <StartTime>."
 
-#: src/wx/verify_dcp_result_panel.cc:544
+#: src/wx/verify_dcp_result_panel.cc:545
 #, c-format
 msgid "The subtitle asset %n contains no subtitles."
 msgstr "Ресурс субтитров %n не содержит субтитров."
 
-#: src/wx/verify_dcp_result_panel.cc:341
+#: src/wx/verify_dcp_result_panel.cc:342
 #, c-format
 msgid "The subtitle asset %n has no <EntryPoint> tag."
 msgstr "Ресурс субтитров %n не содержит тег <EntryPoint>."
 
-#: src/wx/verify_dcp_result_panel.cc:278
+#: src/wx/verify_dcp_result_panel.cc:279
 #, c-format
 msgid ""
 "The timed text asset %f takes up %n bytes which is over the 115MB limit."
 msgstr "Ресурс субтитров %f занимает %n байт, что превышает лимит в 115 МБ."
 
-#: src/wx/verify_dcp_result_panel.cc:272
+#: src/wx/verify_dcp_result_panel.cc:273
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 3D video."
 msgstr "Видеоресурс %f имеет частоту кадров %n, что некорректно для 3D."
 
-#: src/wx/verify_dcp_result_panel.cc:269
+#: src/wx/verify_dcp_result_panel.cc:270
 #, c-format
 msgid ""
 "The video asset %f uses the frame rate %n which is invalid for 4K video."
 msgstr "Видеоресурс %f имеет частоту кадров %n, что некорректно для 4K."
 
-#: src/wx/verify_dcp_result_panel.cc:266
+#: src/wx/verify_dcp_result_panel.cc:267
 #, c-format
 msgid "The video asset %f uses the invalid frame rate %n."
 msgstr "Видеоресурс %f имеет некорректную частоту кадров %n."
 
-#: src/wx/verify_dcp_result_panel.cc:263
+#: src/wx/verify_dcp_result_panel.cc:264
 #, c-format
 msgid "The video asset %f uses the invalid image size %n."
 msgstr "Видеоресурс %f имеет некорректный размер изображения %n."
 
-#: src/wx/verify_dcp_result_panel.cc:314
+#: src/wx/verify_dcp_result_panel.cc:315
 msgid "There are more than 3 closed caption lines in at least one place."
 msgstr "Найдены скрытые субтитры из более трёх строк."
 
-#: src/wx/verify_dcp_result_panel.cc:305
+#: src/wx/verify_dcp_result_panel.cc:306
 msgid "There are more than 3 subtitle lines in at least one place."
 msgstr "Найдены субтитры из более трёх строк."
 
-#: src/wx/verify_dcp_result_panel.cc:317
+#: src/wx/verify_dcp_result_panel.cc:318
 msgid "There are more than 32 characters in at least one closed caption line."
 msgstr "Найдены скрытые субтитры со строкой из более 32 символов."
 
-#: src/wx/verify_dcp_result_panel.cc:308
+#: src/wx/verify_dcp_result_panel.cc:309
 msgid "There are more than 52 characters in at least one subtitle line."
 msgstr "Найдены скрытые субтитры со строкой из более 52 символов."
 
-#: src/wx/verify_dcp_result_panel.cc:311
+#: src/wx/verify_dcp_result_panel.cc:312
 msgid "There are more than 79 characters in at least one subtitle line."
 msgstr "Найдены скрытые субтитры со строкой из более 79 символов."
 
@@ -3781,11 +3785,11 @@ msgstr "Подсказок пока нет: проект проверяется.
 msgid "There are no hints: everything looks good!"
 msgstr "Нет подсказок: похоже всё хорошо!"
 
-#: src/wx/verify_dcp_result_panel.cc:529
+#: src/wx/verify_dcp_result_panel.cc:530
 msgid "There is a <Duration> tag inside a <MainMarkers>."
 msgstr "Внутри <MainMarkers> есть тег <Duration>."
 
-#: src/wx/verify_dcp_result_panel.cc:526
+#: src/wx/verify_dcp_result_panel.cc:527
 msgid "There is a <EntryPoint> tag inside a <MainMarkers>."
 msgstr "Внутри <MainMarkers> есть тег <EntryPoint>."
 
@@ -3810,7 +3814,7 @@ msgstr ""
 msgid "This CPL contains no encrypted assets."
 msgstr "Данный CPL не содержит зашифрованных данных."
 
-#: src/wx/verify_dcp_result_panel.cc:251
+#: src/wx/verify_dcp_result_panel.cc:252
 #, c-format
 msgid ""
 "This DCP refers to at the asset %n in another DCP (and perhaps others), so "
@@ -3819,7 +3823,7 @@ msgstr ""
 "DCP ссылается на ресурс %n в другом (других) DCP, поэтому это \"файл "
 "вариантов\" (VF)"
 
-#: src/wx/verify_dcp_result_panel.cc:257
+#: src/wx/verify_dcp_result_panel.cc:258
 msgid "This DCP uses the Interop standard, but it should be made with SMPTE."
 msgstr "DCP использует стандарт Interop, но должен быть сделан как SMPTE."
 
@@ -3989,7 +3993,7 @@ msgstr "Сверху"
 msgid "Track"
 msgstr "Дорожка"
 
-#: src/wx/about_dialog.cc:171
+#: src/wx/about_dialog.cc:172
 msgid "Translated by"
 msgstr "Перевод"
 
@@ -4027,123 +4031,123 @@ msgstr "Сертификат доверенного устройства"
 msgid "Type"
 msgstr "Тип"
 
-#: src/wx/wx_util.cc:712
+#: src/wx/wx_util.cc:713
 msgid "UTC"
 msgstr "UTC"
 
-#: src/wx/cinema_dialog.cc:54 src/wx/kdm_timing_panel.cc:110
+#: src/wx/cinema_dialog.cc:54 src/wx/kdm_timing_panel.cc:100
 msgid "UTC offset (time zone)"
 msgstr "Смещение UTC (часовой пояс)"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:714
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:724
+#: src/wx/wx_util.cc:725
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:725
+#: src/wx/wx_util.cc:726
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:726
+#: src/wx/wx_util.cc:727
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/wx_util.cc:714
+#: src/wx/wx_util.cc:715
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/wx_util.cc:715
+#: src/wx/wx_util.cc:716
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/wx_util.cc:716
+#: src/wx/wx_util.cc:717
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:718
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:718
+#: src/wx/wx_util.cc:719
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:719
+#: src/wx/wx_util.cc:720
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:720
+#: src/wx/wx_util.cc:721
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:721
+#: src/wx/wx_util.cc:722
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:722
+#: src/wx/wx_util.cc:723
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:723
+#: src/wx/wx_util.cc:724
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/wx_util.cc:710
+#: src/wx/wx_util.cc:711
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/wx_util.cc:699
+#: src/wx/wx_util.cc:700
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/wx_util.cc:698
+#: src/wx/wx_util.cc:699
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/wx_util.cc:709
+#: src/wx/wx_util.cc:710
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/wx_util.cc:708
+#: src/wx/wx_util.cc:709
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/wx_util.cc:707
+#: src/wx/wx_util.cc:708
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/wx_util.cc:706
+#: src/wx/wx_util.cc:707
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/wx_util.cc:705
+#: src/wx/wx_util.cc:706
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/wx_util.cc:704
+#: src/wx/wx_util.cc:705
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/wx_util.cc:703
+#: src/wx/wx_util.cc:704
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/wx_util.cc:702
+#: src/wx/wx_util.cc:703
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/wx_util.cc:701
+#: src/wx/wx_util.cc:702
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/wx_util.cc:700
+#: src/wx/wx_util.cc:701
 msgid "UTC-9"
 msgstr "UTC-9"
 
-#: src/wx/screens_panel.cc:102
+#: src/wx/screens_panel.cc:103
 msgid "Uncheck all"
 msgstr "Снять все галочки"
 
@@ -4214,7 +4218,7 @@ msgstr "Действителен до"
 msgid "Vendor"
 msgstr "Производитель"
 
-#: src/wx/verify_dcp_result_panel.cc:654
+#: src/wx/verify_dcp_result_panel.cc:655
 msgid "Verification report"
 msgstr "Отчет о проверке"
 
@@ -4260,13 +4264,13 @@ msgstr "Режим отображения"
 msgid "Video filters"
 msgstr "Фильтры видео"
 
-#: src/wx/content_advanced_dialog.cc:86
+#: src/wx/content_advanced_dialog.cc:84
 msgid "Video frame rate that content was prepared for"
 msgstr "Частота кадров видео, для которой был подготовлен этот контент"
 
 #. TRANSLATORS: next to this control is a language selector, so together they will read, for example
 #. "Video has burnt-in subtitles in the language fr-FR"
-#: src/wx/content_advanced_dialog.cc:97
+#: src/wx/content_advanced_dialog.cc:95
 msgid "Video has burnt-in subtitles in the language"
 msgstr "Видео содержит вшитые субтитры в языке"
 
@@ -4278,7 +4282,7 @@ msgstr "Просмотр..."
 msgid "WASAPI"
 msgstr "WASAPI"
 
-#: src/wx/full_config_dialog.cc:1627 src/wx/player_config_dialog.cc:307
+#: src/wx/full_config_dialog.cc:1631 src/wx/player_config_dialog.cc:307
 #: src/wx/verify_dcp_result_panel.cc:57
 msgid "Warnings"
 msgstr "Замечания"
@@ -4344,7 +4348,7 @@ msgstr "Преобразование YUV в RGB"
 msgid "YUV to RGB matrix"
 msgstr "Матрица YUV в RGB"
 
-#: src/wx/screens_panel.cc:403
+#: src/wx/screens_panel.cc:400
 #, c-format
 msgid ""
 "You cannot add a screen called '%s' as the cinema already has a screen with "
@@ -4353,7 +4357,7 @@ msgstr ""
 "Вы не можете добавить экран '%s', так как у данного кинотеатра уже есть "
 "экран с таким названием."
 
-#: src/wx/screens_panel.cc:455
+#: src/wx/screens_panel.cc:451
 #, c-format
 msgid ""
 "You cannot change this screen's name to '%s' as the cinema already has a "
@@ -4398,13 +4402,13 @@ msgid "Zoom out to whole film"
 msgstr "Показать весь проект"
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:628
+#: src/wx/verify_dcp_result_panel.cc:629
 #, c-format
 msgid "and %d warnings."
 msgstr "и %d замечаний."
 
 #. TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-#: src/wx/verify_dcp_result_panel.cc:625
+#: src/wx/verify_dcp_result_panel.cc:626
 msgid "and 1 warning."
 msgstr "и 1 замечание."
 
@@ -4428,7 +4432,7 @@ msgstr "значение компонента"
 msgid "content"
 msgstr "контент"
 
-#: src/wx/full_config_dialog.cc:1610
+#: src/wx/full_config_dialog.cc:1614
 msgid "content filename"
 msgstr "имя файла контента"
 
@@ -4501,7 +4505,7 @@ msgstr "мс"
 msgid "not enabled"
 msgstr "отключено"
 
-#: src/wx/full_config_dialog.cc:1609
+#: src/wx/full_config_dialog.cc:1613
 msgid "number of reels"
 msgstr "количество частей фильма"
 
@@ -4525,7 +4529,7 @@ msgstr "порт"
 msgid "protocol"
 msgstr "протокол"
 
-#: src/wx/full_config_dialog.cc:1608
+#: src/wx/full_config_dialog.cc:1612
 msgid "reel number"
 msgstr "номер части"
 
@@ -4554,11 +4558,11 @@ msgstr "до даты/времени"
 msgid "to fit DCP"
 msgstr "вписать в DCP"
 
-#: src/wx/full_config_dialog.cc:1588
+#: src/wx/full_config_dialog.cc:1592
 msgid "type (cpl/pkl)"
 msgstr "тип (cpl/pkl)"
 
-#: src/wx/full_config_dialog.cc:1607
+#: src/wx/full_config_dialog.cc:1611
 msgid "type (j2c/pcm/sub)"
 msgstr "тип (j2c/pcm/sub)"
 
@@ -4571,7 +4575,7 @@ msgstr "неизвестно"
 msgid "unknown (OpenGL not enabled in %s)"
 msgstr "неизвестно (OpenGL отключено в %s)"
 
-#: src/wx/kdm_timing_panel.cc:75
+#: src/wx/kdm_timing_panel.cc:70
 msgid "until"
 msgstr "до"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2022-05-10 16:47+0200\n"
 "Last-Translator: Michał Tomaszewski <goku1933@gmail.com>\n"
 "Language-Team: Polish <http://translations.dcpomatic.com/projects/dcpomatic/"
@@ -73,7 +73,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " w %1"
 
-#: src/lib/config.cc:1280
+#: src/lib/config.cc:1284
 #, fuzzy
 msgid ""
 "$CPL_NAME\n"
@@ -97,7 +97,7 @@ msgstr ""
 "Długość: $LENGTH\n"
 "Rozmiar: $SIZE\n"
 
-#: src/lib/config.cc:1258
+#: src/lib/config.cc:1262
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -134,7 +134,7 @@ msgstr ""
 "DCP-o-matic nie mógł otworzyć pliku %1 (%2).  Plik nie istnieje lub jest w "
 "niewspieranym formacie."
 
-#: src/lib/film.cc:1710
+#: src/lib/film.cc:1707
 #, fuzzy
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
@@ -144,7 +144,7 @@ msgstr ""
 "oznaczony jako OV.  Proszę sprawdzić, czy ustawienia są zgodne z "
 "oczekiwanymi."
 
-#: src/lib/film.cc:1676
+#: src/lib/film.cc:1673
 #, fuzzy
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
@@ -153,13 +153,13 @@ msgstr ""
 "Program DCP-o-matic musiał zmienić ustawienia Projektu, żeby liczba klatek/s "
 "Projektu była taka sama jak w pliku Atmos."
 
-#: src/lib/film.cc:1723
+#: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
-#: src/lib/film.cc:1721
+#: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -170,7 +170,7 @@ msgstr ""
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr "DCP-o-matic nie wspiera już filtru `%1', więc został on wyłączony."
 
-#: src/lib/config.cc:439 src/lib/config.cc:1255
+#: src/lib/config.cc:440 src/lib/config.cc:1259
 #, fuzzy
 msgid "%1 notification"
 msgstr "Powiadomienie email"
@@ -389,7 +389,7 @@ msgstr ""
 "W napisach znajdują się linie, które mają powyżej 79 znaków.  Żadna linia "
 "nie powinna przekraczać 79 znaków."
 
-#: src/lib/hints.cc:662
+#: src/lib/hints.cc:663
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -397,7 +397,7 @@ msgstr ""
 "W pliku znajdują się napisy, które mają ponad 3 linie.  Zaleca się użycie "
 "maksymalnie 3 linii."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:630
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -406,7 +406,7 @@ msgstr ""
 "obrazu.  Zaleca się, aby każdy napis był widoczny co najmniej przez 15 "
 "klatek obrazu."
 
-#: src/lib/hints.cc:634
+#: src/lib/hints.cc:635
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -414,7 +414,7 @@ msgstr ""
 "Niektóre napisy w pliku mają odstęp czasowy poniżej 2 klatek obrazu.  Zaleca "
 "się, aby odstęp między napisami wynosił co najmniej 2 klatki obrazu."
 
-#: src/lib/hints.cc:705
+#: src/lib/hints.cc:706
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -511,11 +511,11 @@ msgstr "Anulowane"
 msgid "Cannot contain slashes"
 msgstr "Nie może zawierać ukośników"
 
-#: src/lib/exceptions.cc:78
+#: src/lib/exceptions.cc:79
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nie można przetworzyć modelu barw %1 podczas %2"
 
-#: src/lib/film.cc:1819
+#: src/lib/film.cc:1816
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Nie mogę stworzyć KDM, ponieważ ten Projekt nie jest zaszyfrowany."
 
@@ -797,7 +797,7 @@ msgstr "Nie udało się otworzyć pobranego archiwum ZIP"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "Nie udało się otworzyć pobranego archiwum ZIP (%1:%2: %3)"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1162
 msgid "Could not open file for writing"
 msgstr "Nie udało się otworzyć pliku do zapisu"
 
@@ -858,19 +858,19 @@ msgstr "DCP będzie odtwarzany z %.1f%% prędkości.\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "DCP będzie używał co drugiej klatki materiału.\n"
 
-#: src/lib/film.cc:1736
+#: src/lib/film.cc:1733
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
 
-#: src/lib/film.cc:1740
+#: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
 
-#: src/lib/film.cc:1744
+#: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -885,7 +885,7 @@ msgstr "Datasat AP20 lub AP25"
 msgid "De-interlacing"
 msgstr "Usuwanie przeplotu"
 
-#: src/lib/config.cc:1243
+#: src/lib/config.cc:1247
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -912,7 +912,7 @@ msgstr ""
 "Z poważaniem,\n"
 "DCP-o-matic"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
 msgstr ""
 
@@ -961,7 +961,7 @@ msgstr "Kodowanie"
 msgid "Episode"
 msgstr "Odcinek"
 
-#: src/lib/exceptions.cc:85
+#: src/lib/exceptions.cc:86
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "Błąd w pliku napisów: jest %1, powinno być %2"
 
@@ -982,7 +982,7 @@ msgstr "Analizowanie napisów"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Sprawdzam audio, napisy i napisy kodowane"
 
-#: src/lib/examine_content_job.cc:54
+#: src/lib/examine_content_job.cc:55
 msgid "Examining content"
 msgstr "Analizowanie materiału"
 
@@ -1155,7 +1155,7 @@ msgid ""
 "placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:623
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1172,7 +1172,7 @@ msgstr "Wystąpił nieznany błąd."
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:429 src/lib/config.cc:1240
+#: src/lib/config.cc:430 src/lib/config.cc:1244
 msgid "KDM delivery: $CPL_NAME"
 msgstr "Wysyłanie klucza: $CPL_NAME"
 
@@ -1234,7 +1234,7 @@ msgstr "Logarytmiczny (skala 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logarytmiczny (skala 316:1)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:163
 msgid "Lost communication between main and writer processes"
 msgstr "Brak komunikacji między procesem głównym i procesem zapisu"
 
@@ -1267,7 +1267,7 @@ msgstr "Nieprawidłowe liczby kl/s w DCP"
 msgid "Mismatched video sizes in DCP"
 msgstr "Nieprawidłowe rozmiary plików obrazu w DCP"
 
-#: src/lib/exceptions.cc:71
+#: src/lib/exceptions.cc:72
 msgid "Missing required setting %1"
 msgstr "Brakuje wymaganych ustawień %1"
 
@@ -1275,7 +1275,7 @@ msgstr "Brakuje wymaganych ustawień %1"
 msgid "Monday"
 msgstr "Poniedziałek"
 
-#: src/lib/writer.cc:778
+#: src/lib/writer.cc:782
 msgid "Mono"
 msgstr "Mono"
 
@@ -1305,7 +1305,7 @@ msgstr "W folderze nie znaleziono obsługiwanych plików obrazów."
 msgid "Noise reduction"
 msgstr "Redukcja szumu"
 
-#: src/lib/writer.cc:746 src/lib/writer.cc:753 src/lib/writer.cc:776
+#: src/lib/writer.cc:750 src/lib/writer.cc:757 src/lib/writer.cc:780
 msgid "None"
 msgstr "Brak"
 
@@ -1385,7 +1385,7 @@ msgstr ""
 msgid "Prepared for video frame rate"
 msgstr "Przygotowany na liczbę kl/s"
 
-#: src/lib/exceptions.cc:106
+#: src/lib/exceptions.cc:107
 msgid "Programming error at %1:%2 %3"
 msgstr "Błąd programowania w linii %1:%2 %3"
 
@@ -1475,7 +1475,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:687
+#: src/lib/hints.cc:688
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1568,7 +1568,7 @@ msgstr ""
 "\n"
 "Pliki te zostaną ponownie zbadane, sprawdź ustawienia."
 
-#: src/lib/hints.cc:603
+#: src/lib/hints.cc:604
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
@@ -1576,7 +1576,7 @@ msgstr ""
 "Niektóre z napisów dzielą się na więcej niż %1 linii, dlatego zostaną "
 "przycięte."
 
-#: src/lib/hints.cc:725
+#: src/lib/hints.cc:726
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1599,7 +1599,7 @@ msgstr "Część twoich materiałów wymaga klucza KDM"
 msgid "Some of your content needs an OV"
 msgstr "Część twoich materiałów wymaga wersji OV paczki DCP"
 
-#: src/lib/writer.cc:780
+#: src/lib/writer.cc:784
 msgid "Stereo"
 msgstr "Stereo"
 
@@ -1642,15 +1642,15 @@ msgstr ""
 "Wyjściowa paczka DCP jest pusta, sprawdź, czy dodany materiał nie ma zerowej "
 "długości."
 
-#: src/lib/exceptions.cc:92
+#: src/lib/exceptions.cc:93
 msgid "The certificate chain for signing is invalid"
 msgstr "Certyfikat jest nieprawidłowy"
 
-#: src/lib/exceptions.cc:99
+#: src/lib/exceptions.cc:100
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "Certyfikat jest nieprawidłowy (%1)"
 
-#: src/lib/hints.cc:742
+#: src/lib/hints.cc:743
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1659,7 +1659,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:750
+#: src/lib/hints.cc:751
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1780,7 +1780,7 @@ msgstr ""
 "Obecny błąd wystąpił, ponieważ używasz 32-bitowej wersji programu DCP-o-"
 "matic.  Zainstaluj ponownie program w wersji 64-bitowej i spróbuj ponownie."
 
-#: src/lib/exceptions.cc:113
+#: src/lib/exceptions.cc:114
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1984,7 +1984,7 @@ msgstr ""
 "Używasz %1 plików, które zdają się być plikami .vob z DVD. Powinieneś je "
 "połączyć w jeden plik, by mieć pewność płynnych przejść kolejnych fragmentów."
 
-#: src/lib/film.cc:1673
+#: src/lib/film.cc:1670
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
@@ -1992,7 +1992,7 @@ msgstr ""
 "Co najmniej jeden z twoich materiałów zawiera dźwięk Atmos, a materiały mają "
 "różne wartości klatek/s.  Musisz usunąć materiał z dźwiękiem Atmos."
 
-#: src/lib/hints.cc:610
+#: src/lib/hints.cc:611
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -2012,7 +2012,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "Musisz najpierw dodać materiały zanim utworzysz DCP"
 
-#: src/lib/hints.cc:768
+#: src/lib/hints.cc:769
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -2119,23 +2119,23 @@ msgstr "nie udało się przenieść materiałów Atmos do DCP (%1)"
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "nie udało się przenieść dźwięku do DCP (%1)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for read (%2)"
 msgstr "nie udało się otworzyć pliku %1 do odczytu (%2)"
 
-#: src/lib/exceptions.cc:37
+#: src/lib/exceptions.cc:38
 msgid "could not open file %1 for read/write (%2)"
 msgstr "nie udało się otworzyć pliku %1 do zapisu/odczytu (%2)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for write (%2)"
 msgstr "nie udało się otworzyć pliku %1 do zapisu (%2)"
 
-#: src/lib/exceptions.cc:57
+#: src/lib/exceptions.cc:58
 msgid "could not read from file %1 (%2)"
 msgstr "nie udało się odczytać pliku %1 (%2)"
 
-#: src/lib/exceptions.cc:64
+#: src/lib/exceptions.cc:65
 msgid "could not write to file %1 (%2)"
 msgstr "nie udało się zapisać do pliku %1 (%2)"
 

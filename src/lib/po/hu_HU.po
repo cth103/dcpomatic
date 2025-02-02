@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2022-08-31 21:35+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -70,7 +70,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " on %1"
 
-#: src/lib/config.cc:1280
+#: src/lib/config.cc:1284
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -94,7 +94,7 @@ msgstr ""
 "Hosszúság: $LENGTH\n"
 "Méret: $SIZE\n"
 
-#: src/lib/config.cc:1258
+#: src/lib/config.cc:1262
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$JOB_NAME: $JOB_STATUS"
 
@@ -128,25 +128,25 @@ msgid ""
 "unexpected format."
 msgstr ""
 
-#: src/lib/film.cc:1710
+#: src/lib/film.cc:1707
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
 "those settings to make sure they are what you want."
 msgstr ""
 
-#: src/lib/film.cc:1676
+#: src/lib/film.cc:1673
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr ""
 
-#: src/lib/film.cc:1723
+#: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr ""
 
-#: src/lib/film.cc:1721
+#: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -156,7 +156,7 @@ msgstr ""
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr ""
 
-#: src/lib/config.cc:439 src/lib/config.cc:1255
+#: src/lib/config.cc:440 src/lib/config.cc:1259
 #, fuzzy
 msgid "%1 notification"
 msgstr "Email értesítés"
@@ -371,7 +371,7 @@ msgstr ""
 "Legalább egy felirat sor több karaktert tartalmaz, mint 79. Javasolt, hogy "
 "egy sor felirat maximum 79 karakter legyen."
 
-#: src/lib/hints.cc:662
+#: src/lib/hints.cc:663
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
@@ -379,7 +379,7 @@ msgstr ""
 "Legalább egy felirat bekezdése több, mint 3 sort tartalmaz. Javasolt, hogy "
 "ne legyen egy bekezdés 3 sornál több."
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:630
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
@@ -387,7 +387,7 @@ msgstr ""
 "Legalább egy felirat képkocka száma kisebb, mint 15. Javasolt, hogy egy "
 "felirat legalább 15 képkocka hosszú legyen."
 
-#: src/lib/hints.cc:634
+#: src/lib/hints.cc:635
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
@@ -395,7 +395,7 @@ msgstr ""
 "Legalább egy felirat kevesebb, mint 2 képkockával következik a másik után. "
 "Javasolt, hogy legalább 2 képkockányi hely legyen két felirat között."
 
-#: src/lib/hints.cc:705
+#: src/lib/hints.cc:706
 #, fuzzy
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
@@ -492,11 +492,11 @@ msgstr "Megszakítva"
 msgid "Cannot contain slashes"
 msgstr "Nem tartalmazhat / jeleket"
 
-#: src/lib/exceptions.cc:78
+#: src/lib/exceptions.cc:79
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "Nem kezelhető a %1 pixel formátum %2 közben"
 
-#: src/lib/film.cc:1819
+#: src/lib/film.cc:1816
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "Nem lehet KDM-et létrehozni, mivel ez a projekt nem titkosított."
 
@@ -776,7 +776,7 @@ msgstr ""
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr ""
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1162
 msgid "Could not open file for writing"
 msgstr ""
 
@@ -837,19 +837,19 @@ msgstr ""
 msgid "DCP will use every other frame of the content.\n"
 msgstr ""
 
-#: src/lib/film.cc:1736
+#: src/lib/film.cc:1733
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
 
-#: src/lib/film.cc:1740
+#: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
 
-#: src/lib/film.cc:1744
+#: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -864,7 +864,7 @@ msgstr "Datasat AP20 vagy AP25"
 msgid "De-interlacing"
 msgstr ""
 
-#: src/lib/config.cc:1243
+#: src/lib/config.cc:1247
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -891,7 +891,7 @@ msgstr ""
 "Üdvözlettel,\n"
 "DCP-o-matic"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
 msgstr ""
 
@@ -939,7 +939,7 @@ msgstr "Kódolás"
 msgid "Episode"
 msgstr "Episode"
 
-#: src/lib/exceptions.cc:85
+#: src/lib/exceptions.cc:86
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr ""
 
@@ -960,7 +960,7 @@ msgstr "Feliratok vizsgálata"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "Hang, feliratok és hangleíró feliratok vizsgálata"
 
-#: src/lib/examine_content_job.cc:54
+#: src/lib/examine_content_job.cc:55
 msgid "Examining content"
 msgstr "Tartalom vizsgálata"
 
@@ -1127,7 +1127,7 @@ msgid ""
 "placed where you want them."
 msgstr ""
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:623
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1141,7 +1141,7 @@ msgstr ""
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:429 src/lib/config.cc:1240
+#: src/lib/config.cc:430 src/lib/config.cc:1244
 msgid "KDM delivery: $CPL_NAME"
 msgstr ""
 
@@ -1203,7 +1203,7 @@ msgstr "Logaritmikus (100:1 intervallum)"
 msgid "Logarithmic (316:1 range)"
 msgstr "Logaritmikus (316:1 intervallum)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:163
 msgid "Lost communication between main and writer processes"
 msgstr "Elveszett a kommunikáció és a fő és az író folyamat között"
 
@@ -1236,7 +1236,7 @@ msgstr "A képkocka szám nem egyezik a DCP-ben."
 msgid "Mismatched video sizes in DCP"
 msgstr "A videó méret nem egyezik a DCP-ben"
 
-#: src/lib/exceptions.cc:71
+#: src/lib/exceptions.cc:72
 msgid "Missing required setting %1"
 msgstr "Hiányzó beállítás: %1"
 
@@ -1244,7 +1244,7 @@ msgstr "Hiányzó beállítás: %1"
 msgid "Monday"
 msgstr "Hétfő"
 
-#: src/lib/writer.cc:778
+#: src/lib/writer.cc:782
 msgid "Mono"
 msgstr "Mono"
 
@@ -1274,7 +1274,7 @@ msgstr "Nem található érvényes képfájl a mappában."
 msgid "Noise reduction"
 msgstr "Zajcsökkentés"
 
-#: src/lib/writer.cc:746 src/lib/writer.cc:753 src/lib/writer.cc:776
+#: src/lib/writer.cc:750 src/lib/writer.cc:757 src/lib/writer.cc:780
 msgid "None"
 msgstr "Semmi"
 
@@ -1354,7 +1354,7 @@ msgstr ""
 msgid "Prepared for video frame rate"
 msgstr ""
 
-#: src/lib/exceptions.cc:106
+#: src/lib/exceptions.cc:107
 msgid "Programming error at %1:%2 %3"
 msgstr "Programhiba, itt: %1:%2 %3"
 
@@ -1444,7 +1444,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:687
+#: src/lib/hints.cc:688
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1531,13 +1531,13 @@ msgid ""
 "These files will now be re-examined, so you may need to check their settings."
 msgstr ""
 
-#: src/lib/hints.cc:603
+#: src/lib/hints.cc:604
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr ""
 
-#: src/lib/hints.cc:725
+#: src/lib/hints.cc:726
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1556,7 +1556,7 @@ msgstr ""
 msgid "Some of your content needs an OV"
 msgstr ""
 
-#: src/lib/writer.cc:780
+#: src/lib/writer.cc:784
 msgid "Stereo"
 msgstr "Sztereó"
 
@@ -1597,15 +1597,15 @@ msgstr ""
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr ""
 
-#: src/lib/exceptions.cc:92
+#: src/lib/exceptions.cc:93
 msgid "The certificate chain for signing is invalid"
 msgstr ""
 
-#: src/lib/exceptions.cc:99
+#: src/lib/exceptions.cc:100
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr ""
 
-#: src/lib/hints.cc:742
+#: src/lib/hints.cc:743
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
 "small error which will prevent DCPs from being validated correctly on some "
@@ -1614,7 +1614,7 @@ msgid ""
 "Preferences."
 msgstr ""
 
-#: src/lib/hints.cc:750
+#: src/lib/hints.cc:751
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
 "period that is too long.  This will cause problems playing back DCPs on some "
@@ -1708,7 +1708,7 @@ msgid ""
 "of %1.  Please re-install %2 with the 64-bit installer and try again."
 msgstr ""
 
-#: src/lib/exceptions.cc:113
+#: src/lib/exceptions.cc:114
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1882,13 +1882,13 @@ msgid ""
 "join them to ensure smooth joins between the files."
 msgstr ""
 
-#: src/lib/film.cc:1673
+#: src/lib/film.cc:1670
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr ""
 
-#: src/lib/hints.cc:610
+#: src/lib/hints.cc:611
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -1904,7 +1904,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr ""
 
-#: src/lib/hints.cc:768
+#: src/lib/hints.cc:769
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -1997,23 +1997,23 @@ msgstr "nem sikerült az atmos anyagot DCP-be írni (%1)"
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "nem sikerült a hanganyagot DCP-be írni (%1)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for read (%2)"
 msgstr "nem sikerült a(z) %1 fájlt megnyitni olvasásra (%2)"
 
-#: src/lib/exceptions.cc:37
+#: src/lib/exceptions.cc:38
 msgid "could not open file %1 for read/write (%2)"
 msgstr "nem sikerült a(z) %1 fájlt megnyitni írásra/olvasásra (%2)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for write (%2)"
 msgstr "nem sikerült a(z) %1 fájlt megnyitni írásra (%2)"
 
-#: src/lib/exceptions.cc:57
+#: src/lib/exceptions.cc:58
 msgid "could not read from file %1 (%2)"
 msgstr "hiba a fájlból olvasás közben %1 (%2)"
 
-#: src/lib/exceptions.cc:64
+#: src/lib/exceptions.cc:65
 msgid "could not write to file %1 (%2)"
 msgstr "hiba a fájlba írás közben %1 (%2)"
 

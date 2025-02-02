@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-01-10 15:43+0100\n"
+"POT-Creation-Date: 2025-02-02 22:34+0100\n"
 "PO-Revision-Date: 2024-11-19 08:31+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -77,7 +77,7 @@ msgstr " (%.2f:1)"
 msgid " on %1"
 msgstr " 于 %1"
 
-#: src/lib/config.cc:1280
+#: src/lib/config.cc:1284
 msgid ""
 "$CPL_NAME\n"
 "\n"
@@ -101,7 +101,7 @@ msgstr ""
 "长度: $LENGTH\n"
 "大小: $SIZE\n"
 
-#: src/lib/config.cc:1258
+#: src/lib/config.cc:1262
 msgid "$JOB_NAME: $JOB_STATUS"
 msgstr "$任务名称: $JOB_STATUS"
 
@@ -135,7 +135,7 @@ msgid ""
 "unexpected format."
 msgstr "%1 无法打开文件%2 (%3)。文件不存在或格式无法识别。"
 
-#: src/lib/film.cc:1710
+#: src/lib/film.cc:1707
 #, fuzzy
 msgid ""
 "%1 had to change your settings for referring to DCPs as OV.  Please review "
@@ -144,20 +144,20 @@ msgstr ""
 "DCP-o-matic必须把您DCP的设置更改为OV。请重新检查设置确认设置内容是否为您的期"
 "望值。"
 
-#: src/lib/film.cc:1676
+#: src/lib/film.cc:1673
 #, fuzzy
 msgid ""
 "%1 had to change your settings so that the film's frame rate is the same as "
 "that of your Atmos content."
 msgstr "DCP-o-matic必须更改您DCP的设置，使影片的帧率与 Atmos 内容一致。"
 
-#: src/lib/film.cc:1723
+#: src/lib/film.cc:1720
 msgid ""
 "%1 had to remove one of your custom reel boundaries as it no longer lies "
 "within the film."
 msgstr "%1 必须删除一个自定义卷轴边界，因为它不再位于影片内"
 
-#: src/lib/film.cc:1721
+#: src/lib/film.cc:1718
 msgid ""
 "%1 had to remove some of your custom reel boundaries as they no longer lie "
 "within the film."
@@ -168,7 +168,7 @@ msgstr "%1必须删除一些自定义卷轴边界，因为它不再位于影片�
 msgid "%1 no longer supports the `%2' filter, so it has been turned off."
 msgstr "不支持的格式`%1'。"
 
-#: src/lib/config.cc:439 src/lib/config.cc:1255
+#: src/lib/config.cc:440 src/lib/config.cc:1259
 #, fuzzy
 msgid "%1 notification"
 msgstr "电子邮件提醒"
@@ -369,26 +369,26 @@ msgid ""
 "make each line 79 characters at most in length."
 msgstr "至少有一行字幕超过79个字符，  你应该让每行最多79个字符。"
 
-#: src/lib/hints.cc:662
+#: src/lib/hints.cc:663
 msgid ""
 "At least one of your subtitles has more than 3 lines.  It is advisable to "
 "use no more than 3 lines."
 msgstr "您的字幕中至少有一个超过3行，  建议使用不超过3行。"
 
-#: src/lib/hints.cc:629
+#: src/lib/hints.cc:630
 msgid ""
 "At least one of your subtitles lasts less than 15 frames.  It is advisable "
 "to make each subtitle at least 15 frames long."
 msgstr "您的字幕中至少有一个持续时间少于15帧，  建议每个字幕至少15帧长。"
 
-#: src/lib/hints.cc:634
+#: src/lib/hints.cc:635
 msgid ""
 "At least one of your subtitles starts less than 2 frames after the previous "
 "one.  It is advisable to make the gap between subtitles at least 2 frames."
 msgstr ""
 "至少有一个字幕在前一个字幕后不到2帧开始，  建议字幕之间的间隔至少为2帧。"
 
-#: src/lib/hints.cc:705
+#: src/lib/hints.cc:706
 msgid ""
 "At least one piece of subtitle content has no specified language.  It is "
 "advisable to set the language for each piece of subtitle content in the "
@@ -482,11 +482,11 @@ msgstr "取消"
 msgid "Cannot contain slashes"
 msgstr "不能包含斜杠"
 
-#: src/lib/exceptions.cc:78
+#: src/lib/exceptions.cc:79
 msgid "Cannot handle pixel format %1 during %2"
 msgstr "在 %2 不能处理图片格式 %1"
 
-#: src/lib/film.cc:1819
+#: src/lib/film.cc:1816
 msgid "Cannot make a KDM as this project is not encrypted."
 msgstr "不能生成KDM，因为项目没有被加密。"
 
@@ -756,7 +756,7 @@ msgstr "无法打开下载的zip文件"
 msgid "Could not open downloaded ZIP file (%1:%2: %3)"
 msgstr "无法打开下载的zip文件 (%1:%2: %3)"
 
-#: src/lib/config.cc:1158
+#: src/lib/config.cc:1162
 msgid "Could not open file for writing"
 msgstr "无法执行写入，目标文件无法打开"
 
@@ -817,19 +817,19 @@ msgstr "DCP队列将在速度 %.1f%% 下运行。\n"
 msgid "DCP will use every other frame of the content.\n"
 msgstr "将使用隔帧打包DCP。\n"
 
-#: src/lib/film.cc:1736
+#: src/lib/film.cc:1733
 msgid ""
 "DCP-o-matic had to set your container to 1920x1080 as it's the only one that "
 "can be used with MPEG2 encoding."
 msgstr ""
 
-#: src/lib/film.cc:1740
+#: src/lib/film.cc:1737
 msgid ""
 "DCP-o-matic had to set your film to 2D as 3D is not yet supported with MPEG2 "
 "encoding."
 msgstr ""
 
-#: src/lib/film.cc:1744
+#: src/lib/film.cc:1741
 msgid ""
 "DCP-o-matic set your container to DCI Flat as it was previously 1920x1080 "
 "and that is not a standard ratio with JPEG2000 encoding."
@@ -844,7 +844,7 @@ msgstr "数据来自AP20或AP25"
 msgid "De-interlacing"
 msgstr "去除隔行"
 
-#: src/lib/config.cc:1243
+#: src/lib/config.cc:1247
 #, fuzzy
 msgid ""
 "Dear Projectionist\n"
@@ -871,7 +871,7 @@ msgstr ""
 "祝好，\n"
 "DCP-o-matic"
 
-#: src/lib/exceptions.cc:178
+#: src/lib/exceptions.cc:179
 msgid "Disk full when writing %1"
 msgstr ""
 
@@ -919,7 +919,7 @@ msgstr "编码中"
 msgid "Episode"
 msgstr "插曲"
 
-#: src/lib/exceptions.cc:85
+#: src/lib/exceptions.cc:86
 msgid "Error in subtitle file: saw %1 while expecting %2"
 msgstr "字幕文件错误: 执行为 %1 实际要求为%2"
 
@@ -939,7 +939,7 @@ msgstr "正在检查音频"
 msgid "Examining audio, subtitles and closed captions"
 msgstr "检查音频、字幕和隐藏式字幕中"
 
-#: src/lib/examine_content_job.cc:54
+#: src/lib/examine_content_job.cc:55
 msgid "Examining content"
 msgstr "分析内容中"
 
@@ -1112,7 +1112,7 @@ msgstr ""
 "在这个版本中，字幕的定位方式发生了变化。相对于标准，定位现在应该更加正确，但"
 "您仍应该检查项目中的任何字幕，以确保它们放在您想要的位置。"
 
-#: src/lib/hints.cc:622
+#: src/lib/hints.cc:623
 msgid ""
 "It is advisable to put your first subtitle at least 4 seconds after the "
 "start of the DCP to make sure it is seen."
@@ -1127,7 +1127,7 @@ msgstr "未知原因错误。"
 msgid "JEDEC P22"
 msgstr "JEDEC P22"
 
-#: src/lib/config.cc:429 src/lib/config.cc:1240
+#: src/lib/config.cc:430 src/lib/config.cc:1244
 msgid "KDM delivery: $CPL_NAME"
 msgstr "发行KDM: $CPL_NAME"
 
@@ -1188,7 +1188,7 @@ msgstr "对数 (范围 100:1)"
 msgid "Logarithmic (316:1 range)"
 msgstr "对数 (范围 316:1)"
 
-#: src/lib/exceptions.cc:162
+#: src/lib/exceptions.cc:163
 msgid "Lost communication between main and writer processes"
 msgstr "主进程和写入进程之间的通信丢失"
 
@@ -1221,7 +1221,7 @@ msgstr "DCP中的帧率不匹配"
 msgid "Mismatched video sizes in DCP"
 msgstr "DCP中的视频分辨率不匹配"
 
-#: src/lib/exceptions.cc:71
+#: src/lib/exceptions.cc:72
 msgid "Missing required setting %1"
 msgstr "缺少必需的设置 %1"
 
@@ -1229,7 +1229,7 @@ msgstr "缺少必需的设置 %1"
 msgid "Monday"
 msgstr "星期一"
 
-#: src/lib/writer.cc:778
+#: src/lib/writer.cc:782
 msgid "Mono"
 msgstr "单声道"
 
@@ -1259,7 +1259,7 @@ msgstr "未在文件夹中发现有效的图片序列文件。"
 msgid "Noise reduction"
 msgstr "降噪"
 
-#: src/lib/writer.cc:746 src/lib/writer.cc:753 src/lib/writer.cc:776
+#: src/lib/writer.cc:750 src/lib/writer.cc:757 src/lib/writer.cc:780
 msgid "None"
 msgstr "无"
 
@@ -1335,7 +1335,7 @@ msgstr ""
 msgid "Prepared for video frame rate"
 msgstr "准备视频帧率"
 
-#: src/lib/exceptions.cc:106
+#: src/lib/exceptions.cc:107
 msgid "Programming error at %1:%2 %3"
 msgstr "程序内部错误 %1:%2 %3"
 
@@ -1425,7 +1425,7 @@ msgstr "SMPTE 2085, Y'D'zD'x"
 msgid "SMPTE 240M"
 msgstr "SMPTE 240M"
 
-#: src/lib/hints.cc:687
+#: src/lib/hints.cc:688
 msgid ""
 "SMPTE DCPs with the type FTR (feature) should have markers for the first "
 "frame of end credits (FFEC) and the first frame of moving credits (FFMC).  "
@@ -1516,13 +1516,13 @@ msgstr ""
 "\n"
 "这些文件现在将被重新检查，因此您可能需要检查它们的设置。"
 
-#: src/lib/hints.cc:603
+#: src/lib/hints.cc:604
 msgid ""
 "Some of your closed captions span more than %1 lines, so they will be "
 "truncated."
 msgstr "您的某些隐藏字幕跨度超过%1行，因此它将被截断，可能显示不完整。"
 
-#: src/lib/hints.cc:725
+#: src/lib/hints.cc:726
 msgid ""
 "Some of your content has audio but you have not set the audio language.  It "
 "is advisable to set the audio language in the \"DCP\" tab unless your audio "
@@ -1543,7 +1543,7 @@ msgstr "一些内容需要KDM密钥"
 msgid "Some of your content needs an OV"
 msgstr "一些内容需要OV"
 
-#: src/lib/writer.cc:780
+#: src/lib/writer.cc:784
 msgid "Stereo"
 msgstr "立体声"
 
@@ -1583,15 +1583,15 @@ msgstr "文本字幕"
 msgid "The DCP is empty, perhaps because all the content has zero length."
 msgstr "DCP为空，可能是因为所有内容的长度都为零。"
 
-#: src/lib/exceptions.cc:92
+#: src/lib/exceptions.cc:93
 msgid "The certificate chain for signing is invalid"
 msgstr "证书签名无效"
 
-#: src/lib/exceptions.cc:99
+#: src/lib/exceptions.cc:100
 msgid "The certificate chain for signing is invalid (%1)"
 msgstr "证书签名无效(%1)"
 
-#: src/lib/hints.cc:742
+#: src/lib/hints.cc:743
 #, fuzzy
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs contains a "
@@ -1604,7 +1604,7 @@ msgstr ""
 "正确验证。建议您通过单击“首选项”的“密钥”页面中的“重新制作证书和密钥…”按钮来重"
 "新创建签名证书链。"
 
-#: src/lib/hints.cc:750
+#: src/lib/hints.cc:751
 #, fuzzy
 msgid ""
 "The certificate chain that %1 uses for signing DCPs and KDMs has a validity "
@@ -1718,7 +1718,7 @@ msgstr ""
 "出现此错误可能是因为您正在运行32位版本的DCP-o-matic。请使用64位安装程序重新安"
 "装DCP-o-matic，然后重试。"
 
-#: src/lib/exceptions.cc:113
+#: src/lib/exceptions.cc:114
 msgid ""
 "This file is a KDM.  KDMs should be added to DCP content by right-clicking "
 "the content and choosing \"Add KDM\"."
@@ -1912,13 +1912,13 @@ msgstr ""
 "您已经添加了 %1 个VOB文件，如果他们来自一张DVD，请确保您已经导入了所有文件，"
 "否则可能无法正常播放。"
 
-#: src/lib/film.cc:1673
+#: src/lib/film.cc:1670
 msgid ""
 "You have more than one piece of Atmos content, and they do not have the same "
 "frame rate.  You must remove some Atmos content."
 msgstr "您有多个全景声内容片段，而它们的帧率不同。您必须删除一些全景声内容。"
 
-#: src/lib/hints.cc:610
+#: src/lib/hints.cc:611
 msgid ""
 "You have overlapping closed captions, which are not allowed in Interop "
 "DCPs.  Change your DCP standard to SMPTE."
@@ -1938,7 +1938,7 @@ msgstr ""
 msgid "You must add some content to the DCP before creating it"
 msgstr "在创建 DCP 之前，必须向其中添加一些内容"
 
-#: src/lib/hints.cc:768
+#: src/lib/hints.cc:769
 msgid ""
 "Your DCP has %1 audio channels, rather than 8 or 16.  This may cause some "
 "distributors to raise QC errors when they check your DCP.  To avoid this, "
@@ -2038,23 +2038,23 @@ msgstr "无法将 Atmos asset移动到 DCP (%1)"
 msgid "could not move audio asset into the DCP (%1)"
 msgstr "无法将音频asset移动到 DCP (%1)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for read (%2)"
 msgstr "读取 %1文件失败(%2)"
 
-#: src/lib/exceptions.cc:37
+#: src/lib/exceptions.cc:38
 msgid "could not open file %1 for read/write (%2)"
 msgstr "无法打开文件 %1 来读写 (%2)"
 
-#: src/lib/exceptions.cc:38
+#: src/lib/exceptions.cc:39
 msgid "could not open file %1 for write (%2)"
 msgstr "写入 %1文件失败(%2)"
 
-#: src/lib/exceptions.cc:57
+#: src/lib/exceptions.cc:58
 msgid "could not read from file %1 (%2)"
 msgstr "无法从文件 %1 中读取(%2)"
 
-#: src/lib/exceptions.cc:64
+#: src/lib/exceptions.cc:65
 msgid "could not write to file %1 (%2)"
 msgstr "不能写入文件 %1 (%2)"
 
