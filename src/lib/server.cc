@@ -22,7 +22,6 @@
 #include "server.h"
 #include "dcpomatic_socket.h"
 
-
 #include "i18n.h"
 
 
