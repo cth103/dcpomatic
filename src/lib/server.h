@@ -53,7 +53,7 @@ private:
 	virtual void handle (std::shared_ptr<Socket> socket) = 0;
 
 	void start_accept ();
-	void handle_accept (std::shared_ptr<Socket>, boost::system::error_code const &);
+	void handle_accept(std::shared_ptr<Socket> socket, boost::system::error_code const &);
 
 	dcpomatic::io_context _io_context;
 	boost::asio::ip::tcp::acceptor _acceptor;
