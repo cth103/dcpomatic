@@ -373,16 +373,16 @@ CertificateChainEditor::add_button (wxWindow* button)
 void
 CertificateChainEditor::add_certificate ()
 {
-	auto d = make_wx<wxFileDialog>(this, _("Select Certificate File"));
+	wxFileDialog dialog(this, _("Select Certificate File"));
 
-	if (d->ShowModal() == wxID_OK) {
+	if (dialog.ShowModal() == wxID_OK) {
 		try {
 			dcp::Certificate c;
 			string extra;
 			try {
-				extra = c.read_string (dcp::file_to_string (wx_to_std (d->GetPath ())));
+				extra = c.read_string(dcp::file_to_string(wx_to_std(dialog.GetPath())));
 			} catch (boost::filesystem::filesystem_error& e) {
-				error_dialog (this, _("Could not import certificate (%s)"), d->GetPath());
+				error_dialog(this, _("Could not import certificate (%s)"), dialog.GetPath());
 				return;
 			}
 
@@ -455,7 +455,7 @@ CertificateChainEditor::export_certificate ()
 		default_name = char_to_wx("intermediate.pem");
 	}
 
-	auto d = make_wx<wxFileDialog>(
+	wxFileDialog dialog(
 		this, _("Select Certificate File"), wxEmptyString, default_name, char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
@@ -465,11 +465,11 @@ CertificateChainEditor::export_certificate ()
 		++j;
 	}
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
-	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	boost::filesystem::path path(wx_to_std(dialog.GetPath()));
 	if (path.extension() != ".pem") {
 		path += ".pem";
 	}
@@ -485,16 +485,16 @@ CertificateChainEditor::export_certificate ()
 void
 CertificateChainEditor::export_chain ()
 {
-	auto d = make_wx<wxFileDialog>(
+	wxFileDialog dialog(
 		this, _("Select Chain File"), wxEmptyString, char_to_wx("certificate_chain.pem"), char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
-	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	boost::filesystem::path path(wx_to_std(dialog.GetPath()));
 	if (path.extension() != ".pem") {
 		path += ".pem";
 	}
@@ -549,10 +549,10 @@ CertificateChainEditor::remake_certificates ()
 		return;
 	}
 
-	auto d = make_wx<MakeChainDialog>(this, _get());
+	MakeChainDialog dialog(this, _get());
 
-	if (d->ShowModal () == wxID_OK) {
-		_set (d->get());
+	if (dialog.ShowModal() == wxID_OK) {
+		_set(dialog.get());
 		update_certificate_list ();
 		update_private_key ();
 	}
@@ -576,11 +576,11 @@ CertificateChainEditor::update_private_key ()
 void
 CertificateChainEditor::import_private_key ()
 {
-	auto d = make_wx<wxFileDialog>(this, _("Select Key File"));
+	wxFileDialog dialog(this, _("Select Key File"));
 
-	if (d->ShowModal() == wxID_OK) {
+	if (dialog.ShowModal() == wxID_OK) {
 		try {
-			boost::filesystem::path p (wx_to_std (d->GetPath ()));
+			boost::filesystem::path p(wx_to_std(dialog.GetPath()));
 			if (dcp::filesystem::file_size(p) > 8192) {
 				error_dialog (
 					this,
@@ -609,13 +609,13 @@ CertificateChainEditor::export_private_key ()
 		return;
 	}
 
-	auto d = make_wx<wxFileDialog>(
+	wxFileDialog dialog(
 		this, _("Select Key File"), wxEmptyString, char_to_wx("private_key.pem"), char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
-	if (d->ShowModal () == wxID_OK) {
-		boost::filesystem::path path (wx_to_std(d->GetPath()));
+	if (dialog.ShowModal() == wxID_OK) {
+		boost::filesystem::path path(wx_to_std(dialog.GetPath()));
 		if (path.extension() != ".pem") {
 			path += ".pem";
 		}
@@ -690,10 +690,10 @@ KeysPage::setup ()
 void
 KeysPage::remake_signing ()
 {
-	auto d = new MakeChainDialog (_panel, Config::instance()->signer_chain());
+	MakeChainDialog dialog(_panel, Config::instance()->signer_chain());
 
-	if (d->ShowModal () == wxID_OK) {
-		Config::instance()->set_signer_chain(d->get());
+	if (dialog.ShowModal() == wxID_OK) {
+		Config::instance()->set_signer_chain(dialog.get());
 	}
 }
 
@@ -701,42 +701,42 @@ KeysPage::remake_signing ()
 void
 KeysPage::decryption_advanced ()
 {
-	auto c = new CertificateChainEditor (
+	CertificateChainEditor editor(
 		_panel, _("Decrypting KDMs"), _border,
 		bind(&Config::set_decryption_chain, Config::instance(), _1),
 		bind(&Config::decryption_chain, Config::instance()),
 		bind(&KeysPage::nag_alter_decryption_chain, this)
 		);
 
-	c->ShowModal();
+	editor.ShowModal();
 }
 
 void
 KeysPage::signing_advanced ()
 {
-	auto c = new CertificateChainEditor (
+	CertificateChainEditor editor(
 		_panel, _("Signing DCPs and KDMs"), _border,
 		bind(&Config::set_signer_chain, Config::instance(), _1),
 		bind(&Config::signer_chain, Config::instance()),
 		bind(&do_nothing)
 		);
 
-	c->ShowModal();
+	editor.ShowModal();
 }
 
 void
 KeysPage::export_decryption_chain_and_key ()
 {
-	auto d = make_wx<wxFileDialog>(
+	wxFileDialog dialog(
 		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, char_to_wx("DOM files (*.dom)|*.dom"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
-	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	boost::filesystem::path path(wx_to_std(dialog.GetPath()));
 	dcp::File f(path, "w");
 	if (!f) {
 		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
@@ -761,17 +761,17 @@ KeysPage::import_decryption_chain_and_key ()
 		return;
 	}
 
-	auto d = make_wx<wxFileDialog>(
+	wxFileDialog dialog(
 		_panel, _("Select File To Import"), wxEmptyString, wxEmptyString, char_to_wx("DOM files (*.dom)|*.dom")
 		);
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
 	auto new_chain = make_shared<dcp::CertificateChain>();
 
-	dcp::File f(wx_to_std(d->GetPath()), "r");
+	dcp::File f(wx_to_std(dialog.GetPath()), "r");
 	if (!f) {
 		throw OpenFileError(f.path(), f.open_error(), OpenFileError::WRITE);
 	}
@@ -823,16 +823,16 @@ KeysPage::export_decryption_certificate ()
 	}
 	default_name += char_to_wx("_kdm_decryption_cert.pem");
 
-	auto d = make_wx<wxFileDialog>(
+	wxFileDialog dialog(
 		_panel, _("Select Certificate File"), wxEmptyString, default_name, char_to_wx("PEM files (*.pem)|*.pem"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 		);
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
-	boost::filesystem::path path(wx_to_std(d->GetPath()));
+	boost::filesystem::path path(wx_to_std(dialog.GetPath()));
 	if (path.extension() != ".pem") {
 		path += ".pem";
 	}
