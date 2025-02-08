@@ -373,7 +373,7 @@ CertificateChainEditor::add_button (wxWindow* button)
 void
 CertificateChainEditor::add_certificate ()
 {
-	wxFileDialog dialog(this, _("Select Certificate File"));
+	wxFileDialog dialog(this, _("Select Certificate file"), {}, {}, char_to_wx("PEM files (*.pem)|*.pem|KEY files (*.key)|*.key|All files (*.*)|*.*"));
 
 	if (dialog.ShowModal() == wxID_OK) {
 		try {
@@ -576,7 +576,7 @@ CertificateChainEditor::update_private_key ()
 void
 CertificateChainEditor::import_private_key ()
 {
-	wxFileDialog dialog(this, _("Select Key File"));
+	wxFileDialog dialog(this, _("Select Key file"), {}, {}, char_to_wx("PEM files (*.pem)|*.pem|KEY files (*.key)|*.key|All files (*.*)|*.*"));
 
 	if (dialog.ShowModal() == wxID_OK) {
 		try {
