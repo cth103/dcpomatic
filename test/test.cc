@@ -617,7 +617,10 @@ check_xml(
 		auto test_cn = dynamic_cast<xmlpp::ContentNode*>(*l);
 		BOOST_CHECK ((ref_cn && test_cn) || (!ref_cn && !test_cn));
 		if (ref_cn && test_cn) {
-			BOOST_CHECK_EQUAL (ref_cn->get_content(), test_cn->get_content ());
+			BOOST_CHECK_MESSAGE(
+				ref_cn->get_content() == test_cn->get_content(),
+				ref_cn->get_content() << " != " << test_cn->get_content() << "\n" << context
+			);
 		}
 
 		++k;
