@@ -58,6 +58,7 @@ string CreateCLI::_help =
 	"      --config <dir>            directory containing config.xml and cinemas.sqlite3\n"
 	"      --twok                    make a 2K DCP instead of choosing a resolution based on the content\n"
 	"      --fourk                   make a 4K DCP instead of choosing a resolution based on the content\n"
+	"  -a, --audio-channels <n>      specify the number of audio channels in the DCP\n"
 	"  -o, --output <dir>            output directory\n"
 	"      --twod                    make a 2D DCP\n"
 	"      --threed                  make a 3D DCP\n"
@@ -154,6 +155,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 	int dcp_frame_rate_int = 0;
 	string template_name_string;
 	int64_t video_bit_rate_int = 0;
+	optional<int> audio_channels;
 	auto next_frame_type = VideoFrameType::TWO_D;
 	optional<dcp::Channel> channel;
 	optional<float> gain;
@@ -227,6 +229,7 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);
 		argument_option(i, argc, argv, "",   "--video-bit-rate",   &claimed, &error, &video_bit_rate_int);
+		argument_option(i, argc, argv, "-a", "--audio-channels",   &claimed, &error, &audio_channels);
 
 		std::function<optional<dcp::Channel> (string)> convert_channel = [](string channel) -> optional<dcp::Channel>{
 			if (channel == "L") {
@@ -346,6 +349,34 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		error = String::compose("%1: video-bit-rate must be between 10 and %2 Mbit/s", argv[0], (Config::instance()->maximum_video_bit_rate(VideoEncoding::JPEG2000) / 1000000));
 		return;
 	}
+
+	/* See how many audio channels we would need to accommmodate the requested channel mappings */
+	int channels_for_content_specs = 0;
+	for (auto cli_content: content) {
+		if (cli_content.channel) {
+			channels_for_content_specs = std::max(channels_for_content_specs, static_cast<int>(*cli_content.channel) + 1);
+		}
+	}
+
+	/* Complain if we asked for a smaller number */
+	if (audio_channels && *audio_channels < channels_for_content_specs) {
+		error = fmt::format("{}: cannot map audio as requested with only {} channels", argv[0], *audio_channels);
+		return;
+	}
+
+	if (audio_channels && (*audio_channels % 2) != 0) {
+		error = fmt::format("{}: audio channel count must be even", argv[0]);
+		return;
+	}
+
+	if (audio_channels) {
+		_audio_channels = *audio_channels;
+	} else {
+		_audio_channels = std::max(channels_for_content_specs, 6);
+		if (_audio_channels % 2) {
+			++_audio_channels;
+		}
+	}
 }
 
 
@@ -398,17 +429,7 @@ CreateCLI::make_film() const
 		film->set_video_bit_rate(VideoEncoding::JPEG2000, *_video_bit_rate);
 	}
 
-	int channels = 6;
-	for (auto cli_content: content) {
-		if (cli_content.channel) {
-			channels = std::max(channels, static_cast<int>(*cli_content.channel) + 1);
-		}
-	}
-	if (channels % 2) {
-		++channels;
-	}
-
-	film->set_audio_channels(channels);
+	film->set_audio_channels(_audio_channels);
 
 	return film;
 }

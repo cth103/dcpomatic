@@ -73,6 +73,7 @@ private:
 	bool _twok = false;
 	bool _fourk = false;
 	boost::optional<int64_t> _video_bit_rate;
+	int _audio_channels = 0;
 
 	static std::string _help;
 };

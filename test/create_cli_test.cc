@@ -196,6 +196,8 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	BOOST_CHECK (*cc.content[1].channel == dcp::Channel::RIGHT);
 	BOOST_CHECK_EQUAL (cc.content[2].path, "sheila.wav");
 	BOOST_CHECK (!cc.content[2].channel);
+	auto film = cc.make_film();
+	BOOST_CHECK_EQUAL(film->audio_channels(), 6);
 
 	cc = run ("dcpomatic2_create --channel foo fred.wav");
 	BOOST_REQUIRE (cc.error);
@@ -219,6 +221,29 @@ BOOST_AUTO_TEST_CASE (create_cli_test)
 	cc = run("dcpomatic2_create -s SMPTE sheila.wav");
 	BOOST_CHECK(!cc.still_length);
 	BOOST_CHECK(cc.error);
+
+	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel C sheila.wav --audio-channels 2");
+	BOOST_REQUIRE(cc.error);
+	BOOST_CHECK_EQUAL(*cc.error, "dcpomatic2_create: cannot map audio as requested with only 2 channels");
+
+	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel C sheila.wav --audio-channels 3");
+	BOOST_REQUIRE(cc.error);
+	BOOST_CHECK_EQUAL(*cc.error, "dcpomatic2_create: audio channel count must be even");
+
+	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel C sheila.wav");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film();
+	BOOST_CHECK_EQUAL(film->audio_channels(), 6);
+
+	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel HI sheila.wav");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film();
+	BOOST_CHECK_EQUAL(film->audio_channels(), 8);
+
+	cc = run("dcpomatic2_create --channel L fred.wav --channel R jim.wav --channel C sheila.wav --audio-channels 16");
+	BOOST_CHECK(!cc.error);
+	film = cc.make_film();
+	BOOST_CHECK_EQUAL(film->audio_channels(), 16);
 }
 
 
