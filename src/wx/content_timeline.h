@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_CONTENT_TIMELINE_H
+#define DCPOMATIC_CONTENT_TIMELINE_H
+
+
 #include "content_menu.h"
 #include "timeline.h"
 #include "timeline_content_view.h"
@@ -147,3 +151,6 @@ private:
 	boost::signals2::scoped_connection _film_changed_connection;
 	boost::signals2::scoped_connection _film_content_change_connection;
 };
+
+
+#endif

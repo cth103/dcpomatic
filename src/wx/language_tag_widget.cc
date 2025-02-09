@@ -65,10 +65,10 @@ LanguageTagWidget::~LanguageTagWidget()
 void
 LanguageTagWidget::edit ()
 {
-	auto d = make_wx<LanguageTagDialog>(_parent, _tag.get_value_or(dcp::LanguageTag("en")));
-	if (d->ShowModal() == wxID_OK) {
-		set(d->get());
-		Changed(d->get());
+	LanguageTagDialog dialog(_parent, _tag.get_value_or(dcp::LanguageTag("en")));
+	if (dialog.ShowModal() == wxID_OK) {
+		set(dialog.get());
+		Changed(dialog.get());
 	}
 }
 

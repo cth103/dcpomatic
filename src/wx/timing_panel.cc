@@ -501,11 +501,11 @@ TimingPanel::move_to_start_of_reel_clicked ()
 		}
 	}
 
-	auto d = make_wx<MoveToDialog>(this, position, _parent->film());
+	MoveToDialog dialog(this, position, _parent->film());
 
-	if (d->ShowModal() == wxID_OK) {
+	if (dialog.ShowModal() == wxID_OK) {
 		for (auto i: _parent->selected()) {
-			i->set_position (_parent->film(), d->position());
+			i->set_position(_parent->film(), dialog.position());
 		}
 	}
 }

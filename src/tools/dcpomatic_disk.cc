@@ -262,14 +262,14 @@ private:
 			return true;
 		}
 
-		auto d = make_wx<wxMessageDialog>(
+		wxMessageDialog dialog(
 			nullptr,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
 
-		return d->ShowModal() == wxID_YES;
+		return dialog.ShowModal() == wxID_YES;
 	}
 
 
@@ -323,20 +323,20 @@ private:
 
 		if (!have_writer) {
 #if defined(DCPOMATIC_WINDOWS)
-			auto m = make_wx<MessageDialog>(
+			MessageDialog dialog(
 				this,
 				variant::wx::dcpomatic_disk_writer(),
 				_("Do you see a 'User Account Control' dialogue asking about dcpomatic2_disk_writer.exe?  If so, click 'Yes', then try again.")
 				);
-			m->ShowModal ();
+			dialog.ShowModal();
 			return;
 #elif defined(DCPOMATIC_OSX)
-			auto m = make_wx<MessageDialog>(
+			MessageDialog dialog(
 				this,
 				variant::wx::dcpomatic_disk_writer(),
 				variant::wx::insert_dcpomatic(_("Did you install the %s Disk Writer.pkg from the .dmg?  Please check and try again."))
 				);
-			m->ShowModal ();
+			dialog.ShowModal();
 			return;
 #else
 			LOG_DISK_NC ("Failed to ping writer");
@@ -346,8 +346,8 @@ private:
 
 		auto const& drive = _drives[_drive->GetSelection()];
 		if (drive.mounted()) {
-			auto d = make_wx<TryUnmountDialog>(this, std_to_wx(drive.description()));
-			int const r = d->ShowModal ();
+			TryUnmountDialog dialog(this, std_to_wx(drive.description()));
+			int const r = dialog.ShowModal();
 			if (r != wxID_OK) {
 				return;
 			}
@@ -364,7 +364,7 @@ private:
 			/* The reply may have to wait for the user to authenticate, so let's wait a while */
 			auto const reply = DiskWriterBackEndResponse::read_from_nanomsg(_nanomsg, 30000);
 			if (!reply || reply->type() != DiskWriterBackEndResponse::Type::OK) {
-				auto m = make_wx<MessageDialog>(
+				MessageDialog dialog(
 						this,
 						variant::wx::dcpomatic_disk_writer(),
 						wxString::Format(
@@ -373,17 +373,17 @@ private:
 							std_to_wx(reply->error_message())
 							)
 						);
-				m->ShowModal ();
+				dialog.ShowModal();
 				return;
 			}
 		}
 
 
-		auto d = make_wx<DriveWipeWarningDialog>(this, _drive->GetString(_drive->GetSelection()));
-		if (d->ShowModal() != wxID_OK) {
+		DriveWipeWarningDialog dialog(this, _drive->GetString(_drive->GetSelection()));
+		if (dialog.ShowModal() != wxID_OK) {
 			return;
 		}
-		if (!d->confirmed()) {
+		if (!dialog.confirmed()) {
 			message_dialog(this, _("You did not correctly confirm that you read the warning that was just shown.  Please try again."));
 			return;
 		}

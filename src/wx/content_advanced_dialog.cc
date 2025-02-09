@@ -178,9 +178,9 @@ ContentAdvancedDialog::edit_filters ()
 		return;
 	}
 
-	auto dialog = make_wx<FilterDialog>(this, _filters_list);
-	dialog->ActiveChanged.connect(bind(&ContentAdvancedDialog::filters_changed, this, _1));
-	dialog->ShowModal();
+	FilterDialog dialog(this, _filters_list);
+	dialog.ActiveChanged.connect(bind(&ContentAdvancedDialog::filters_changed, this, _1));
+	dialog.ShowModal();
 }
 
 

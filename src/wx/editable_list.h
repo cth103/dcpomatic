@@ -232,10 +232,10 @@ private:
 
 	void add_clicked ()
 	{
-		auto dialog = make_wx<S>(this);
+		S dialog(this);
 
-		if (dialog->ShowModal() == wxID_OK) {
-			auto const v = dialog->get ();
+		if (dialog.ShowModal() == wxID_OK) {
+			auto const v = dialog.get();
 			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
 			if (v) {
 				add_to_control (v.get ());
@@ -256,10 +256,10 @@ private:
 		std::vector<T> all = _get ();
 		DCPOMATIC_ASSERT (item >= 0 && item < int (all.size ()));
 
-		auto dialog = make_wx<S>(this);
-		dialog->set (all[item]);
-		if (dialog->ShowModal() == wxID_OK) {
-			auto const v = dialog->get ();
+		S dialog(this);
+		dialog.set(all[item]);
+		if (dialog.ShowModal() == wxID_OK) {
+			auto const v = dialog.get();
 			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
 			if (!v) {
 				return;

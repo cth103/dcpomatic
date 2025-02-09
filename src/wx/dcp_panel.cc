@@ -339,7 +339,7 @@ DCPPanel::resolution_changed ()
 void
 DCPPanel::markers_clicked ()
 {
-	_markers_dialog.reset(_panel, _film, _viewer);
+	_markers_dialog.emplace(_panel, _film, _viewer);
 	_markers_dialog->Show();
 }
 
@@ -348,11 +348,11 @@ void
 DCPPanel::metadata_clicked ()
 {
 	if (_film->interop()) {
-		_interop_metadata_dialog.reset(_panel, _film);
+		_interop_metadata_dialog.emplace(_panel, _film);
 		_interop_metadata_dialog->setup ();
 		_interop_metadata_dialog->Show ();
 	} else {
-		_smpte_metadata_dialog.reset(_panel, _film);
+		_smpte_metadata_dialog.emplace(_panel, _film);
 		_smpte_metadata_dialog->setup ();
 		_smpte_metadata_dialog->Show ();
 	}
@@ -362,7 +362,7 @@ DCPPanel::metadata_clicked ()
 void
 DCPPanel::reels_clicked()
 {
-	_dcp_timeline.reset(_panel, _film);
+	_dcp_timeline.emplace(_panel, _film);
 	_dcp_timeline->Show();
 }
 
@@ -1029,7 +1029,7 @@ DCPPanel::show_audio_clicked ()
 		return;
 	}
 
-	_audio_dialog.reset(_panel, _film, _viewer);
+	_audio_dialog.emplace(_panel, _film, _viewer);
 	_audio_dialog->Show();
 }
 
@@ -1062,9 +1062,9 @@ void
 DCPPanel::edit_audio_language_clicked ()
 {
        DCPOMATIC_ASSERT (_film->audio_language());
-       auto d = make_wx<LanguageTagDialog>(_panel, *_film->audio_language());
-       if (d->ShowModal() == wxID_OK) {
-	       _film->set_audio_language(d->get());
+       LanguageTagDialog dialog(_panel, *_film->audio_language());
+       if (dialog.ShowModal() == wxID_OK) {
+	       _film->set_audio_language(dialog.get());
        }
 }
 

@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_SMPTE_METADATA_DIALOG_H
+#define DCPOMATIC_SMPTE_METADATA_DIALOG_H
+
+
 #include "editable_list.h"
 #include "full_language_tag_dialog.h"
 #include "metadata_dialog.h"
@@ -66,3 +70,7 @@ private:
 	wxTextCtrl* _distributor;
 	EditableList<std::string, ContentVersionDialog>* _content_versions;
 };
+
+
+#endif
+

@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_AUDIO_DIALOG_H
+#define DCPOMATIC_AUDIO_DIALOG_H
+
+
 #include "lib/audio_analysis.h"
 #include "lib/constants.h"
 #include "lib/film_property.h"
@@ -81,3 +85,6 @@ private:
 	boost::signals2::scoped_connection _film_content_connection;
 	boost::signals2::scoped_connection _analysis_finished_connection;
 };
+
+
+#endif

@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_MARKERS_DIALOG_H
+#define DCPOMATIC_MARKERS_DIALOG_H
+
+
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -40,3 +44,6 @@ private:
 	std::list<std::shared_ptr<Marker>> _markers;
 	std::weak_ptr<Film> _film;
 };
+
+
+#endif

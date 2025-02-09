@@ -545,8 +545,8 @@ private:
 
 	void help_about ()
 	{
-		auto d = make_wx<AboutDialog>(this);
-		d->ShowModal ();
+		AboutDialog dialog(this);
+		dialog.ShowModal();
 	}
 
 	void edit_preferences ()

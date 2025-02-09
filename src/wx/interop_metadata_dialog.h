@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_INTEROP_METADATA_DIALOG_H
+#define DCPOMATIC_INTEROP_METADATA_DIALOG_H
+
+
 #include "metadata_dialog.h"
 #include <dcp/language_tag.h>
 #include <dcp/types.h>
@@ -45,3 +49,7 @@ private:
 
 	wxTextCtrl* _content_version;
 };
+
+
+#endif
+

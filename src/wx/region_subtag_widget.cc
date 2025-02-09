@@ -59,11 +59,11 @@ RegionSubtagWidget::RegionSubtagWidget(wxWindow* parent, wxString tooltip, optio
 void
 RegionSubtagWidget::edit()
 {
-	auto d = make_wx<RegionSubtagDialog>(_parent, _tag.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
+	RegionSubtagDialog dialog(_parent, _tag.get_value_or(dcp::LanguageTag::RegionSubtag("US")));
 
-	if (d->ShowModal() == wxID_OK) {
-		set(d->get());
-		Changed(d->get());
+	if (dialog.ShowModal() == wxID_OK) {
+		set(dialog.get());
+		Changed(dialog.get());
 	}
 }
 

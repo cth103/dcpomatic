@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_DCP_TIMELINE_DIALOG_H
+#define DCPOMATIC_DCP_TIMELINE_DIALOG_H
+
+
 #include "dcp_timeline.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -36,4 +40,7 @@ private:
 	std::weak_ptr<Film> _film;
 	DCPTimeline _timeline;
 };
+
+
+#endif
 

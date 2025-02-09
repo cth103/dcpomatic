@@ -88,8 +88,8 @@ DirPickerCtrl::GetPath () const
 void
 DirPickerCtrl::browse_clicked ()
 {
-	auto d = make_wx<wxDirDialog>(this);
-	if (d->ShowModal () == wxID_OK) {
-		SetPath (d->GetPath ());
+	wxDirDialog dialog(this);
+	if (dialog.ShowModal() == wxID_OK) {
+		SetPath(dialog.GetPath());
 	}
 }

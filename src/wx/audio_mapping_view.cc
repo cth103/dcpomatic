@@ -477,9 +477,9 @@ AudioMappingView::set_gain_from_menu (double linear)
 void
 AudioMappingView::edit ()
 {
-	auto dialog = make_wx<AudioGainDialog>(this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
-	if (dialog->ShowModal() == wxID_OK) {
-		_map.set (_menu_input, _menu_output, dialog->value ());
+	AudioGainDialog dialog(this, _menu_input, _menu_output, _map.get(_menu_input, _menu_output));
+	if (dialog.ShowModal() == wxID_OK) {
+		_map.set(_menu_input, _menu_output, dialog.value());
 		map_values_changed ();
 	}
 }

@@ -19,6 +19,9 @@
 */
 
 
+#ifndef DCPOMATIC_CONTENT_TIMELINE_DIALOG_H
+#define DCPOMATIC_CONTENT_TIMELINE_DIALOG_H
+
 #include "content_timeline.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -46,3 +49,7 @@ private:
 	wxToolBar* _toolbar;
 	boost::signals2::scoped_connection _film_changed_connection;
 };
+
+
+#endif
+

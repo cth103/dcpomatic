@@ -733,7 +733,7 @@ ContentPanel::timeline_clicked ()
 		return;
 	}
 
-	_timeline_dialog.reset(this, _film, _film_viewer);
+	_timeline_dialog.emplace(this, _film, _film_viewer);
 	_timeline_dialog->set_selection (selected());
 	_timeline_dialog->Show ();
 }

@@ -249,8 +249,8 @@ ContentMenu::repeat ()
 		return;
 	}
 
-	auto d = make_wx<RepeatDialog>(_parent);
-	if (d->ShowModal() != wxID_OK) {
+	RepeatDialog dialog(_parent);
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
@@ -259,7 +259,7 @@ ContentMenu::repeat ()
 		return;
 	}
 
-	film->repeat_content (_content, d->number ());
+	film->repeat_content(_content, dialog.number());
 
 	_content.clear ();
 	_views.clear ();
@@ -475,8 +475,8 @@ ContentMenu::properties ()
 {
 	auto film = _film.lock ();
 	DCPOMATIC_ASSERT (film);
-	auto d = make_wx<ContentPropertiesDialog>(_parent, film, _content.front());
-	d->ShowModal ();
+	ContentPropertiesDialog dialog(_parent, film, _content.front());
+	dialog.ShowModal();
 }
 
 
@@ -486,26 +486,26 @@ ContentMenu::advanced ()
 	DCPOMATIC_ASSERT(!_content.empty());
 
 	auto content = _content.front();
-	auto dialog = make_wx<ContentAdvancedDialog>(_parent, content);
+	ContentAdvancedDialog dialog(_parent, content);
 
-	if (dialog->ShowModal() == wxID_CANCEL) {
+	if (dialog.ShowModal() == wxID_CANCEL) {
 		return;
 	}
 
 	if (content->video) {
-		content->video->set_use(!dialog->ignore_video());
-		content->video->set_burnt_subtitle_language(dialog->burnt_subtitle_language());
+		content->video->set_use(!dialog.ignore_video());
+		content->video->set_burnt_subtitle_language(dialog.burnt_subtitle_language());
 	}
 
 	auto ffmpeg = dynamic_pointer_cast<FFmpegContent>(content);
 	if (ffmpeg) {
-		ffmpeg->set_filters(dialog->filters());
+		ffmpeg->set_filters(dialog.filters());
 	}
 
-	if (dialog->video_frame_rate()) {
+	if (dialog.video_frame_rate()) {
 		auto film = _film.lock();
 		DCPOMATIC_ASSERT(film);
-		content->set_video_frame_rate(film, *dialog->video_frame_rate());
+		content->set_video_frame_rate(film, *dialog.video_frame_rate());
 	} else {
 		content->unset_video_frame_rate();
 	}
@@ -570,7 +570,7 @@ ContentMenu::auto_crop ()
 	auto const crop = guess_crop_for_content ();
 	update_viewer (crop);
 
-	_auto_crop_dialog.reset(_parent, crop);
+	_auto_crop_dialog.emplace(_parent, crop);
 	_auto_crop_dialog->Show ();
 
 	/* Update the dialog and view when the crop threshold changes */

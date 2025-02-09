@@ -28,7 +28,6 @@
 #define DCPOMATIC_WX_UTIL_H
 
 
-#include "wx_ptr.h"
 #include "lib/config.h"
 #include "lib/dcpomatic_time.h"
 #include <dcp/utc_offset.h>

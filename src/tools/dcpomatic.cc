@@ -876,7 +876,7 @@ private:
 			return;
 		}
 
-		_kdm_dialog.reset(this, _film);
+		_kdm_dialog.emplace(this, _film);
 		_kdm_dialog->Show ();
 	}
 
@@ -886,7 +886,7 @@ private:
 			return;
 		}
 
-		_dkdm_dialog.reset(this, _film);
+		_dkdm_dialog.emplace(this, _film);
 		_dkdm_dialog->Show ();
 	}
 
@@ -1083,7 +1083,7 @@ private:
 	void view_video_waveform ()
 	{
 		if (!_video_waveform_dialog) {
-			_video_waveform_dialog.reset(this, _film, _film_viewer);
+			_video_waveform_dialog.emplace(this, _film, _film_viewer);
 		}
 
 		_video_waveform_dialog->Show ();
@@ -1130,7 +1130,7 @@ private:
 	void tools_manage_templates ()
 	{
 		if (!_templates_dialog) {
-			_templates_dialog.reset(this);
+			_templates_dialog.emplace(this);
 		}
 
 		_templates_dialog->Show ();
@@ -1578,15 +1578,15 @@ private:
 	wxPanel* _right_panel;
 	FilmViewer _film_viewer;
 	StandardControls* _controls;
-	wx_ptr<VideoWaveformDialog> _video_waveform_dialog;
+	boost::optional<VideoWaveformDialog> _video_waveform_dialog;
 	SystemInformationDialog* _system_information_dialog = nullptr;
 	DCPReferencingDialog* _dcp_referencing_dialog = nullptr;
 	HintsDialog* _hints_dialog = nullptr;
 	ServersListDialog* _servers_list_dialog = nullptr;
 	wxPreferencesEditor* _config_dialog = nullptr;
-	wx_ptr<KDMDialog> _kdm_dialog;
-	wx_ptr<DKDMDialog> _dkdm_dialog;
-	wx_ptr<TemplatesDialog> _templates_dialog;
+	boost::optional<KDMDialog> _kdm_dialog;
+	boost::optional<DKDMDialog> _dkdm_dialog;
+	boost::optional<TemplatesDialog> _templates_dialog;
 	wxMenu* _file_menu = nullptr;
 	shared_ptr<Film> _film;
 	int _history_items = 0;

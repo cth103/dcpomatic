@@ -34,7 +34,6 @@
 #include "wx/update_dialog.h"
 #include "wx/verify_dcp_progress_dialog.h"
 #include "wx/verify_dcp_result_dialog.h"
-#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -680,12 +679,12 @@ private:
 			d = std_to_wx (Config::instance()->last_player_load_directory()->string());
 		}
 
-		auto c = make_wx<wxDirDialog>(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(this, _("Select DCP to open"), d, wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 
 		int r;
 		while (true) {
-			r = c->ShowModal ();
-			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog.ShowModal();
+			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
@@ -693,7 +692,7 @@ private:
 		}
 
 		if (r == wxID_OK) {
-			boost::filesystem::path const dcp (wx_to_std (c->GetPath ()));
+			boost::filesystem::path const dcp(wx_to_std(dialog.GetPath ()));
 			load_dcp (dcp);
 			Config::instance()->set_last_player_load_directory (dcp.parent_path());
 		}
@@ -706,7 +705,7 @@ private:
 			initial_dir = std_to_wx(Config::instance()->last_player_load_directory()->string());
 		}
 
-		auto c = make_wx<wxDirDialog>(
+		wxDirDialog dialog(
 			this,
 			_("Select DCP to open as OV"),
 			initial_dir,
@@ -715,8 +714,8 @@ private:
 
 		int r;
 		while (true) {
-			r = c->ShowModal ();
-			if (r == wxID_OK && c->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog.ShowModal();
+			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
@@ -730,7 +729,7 @@ private:
 			DCPOMATIC_ASSERT(dcp);
 
 			try {
-				dcp->add_ov(wx_to_std(c->GetPath()));
+				dcp->add_ov(wx_to_std(dialog.GetPath()));
 			} catch (DCPError& e) {
 				error_dialog(this, char_to_wx(e.what()));
 				return;
@@ -1000,14 +999,14 @@ private:
 
 	void tools_timing ()
 	{
-		auto d = make_wx<TimerDisplay>(this, _viewer.state_timer(), _viewer.gets());
-		d->ShowModal ();
+		TimerDisplay dialog(this, _viewer.state_timer(), _viewer.gets());
+		dialog.ShowModal();
 	}
 
 	void tools_system_information ()
 	{
 		if (!_system_information_dialog) {
-			_system_information_dialog = new SystemInformationDialog (this, _viewer);
+			_system_information_dialog.emplace(this, _viewer);
 		}
 
 		_system_information_dialog->Show ();
@@ -1015,15 +1014,15 @@ private:
 
 	void help_about ()
 	{
-		auto d = make_wx<AboutDialog>(this);
-		d->ShowModal ();
+		AboutDialog dialog(this);
+		dialog.ShowModal();
 	}
 
 	void help_report_a_problem ()
 	{
-		auto d = make_wx<ReportProblemDialog>(this);
-		if (d->ShowModal () == wxID_OK) {
-			d->report ();
+		ReportProblemDialog dialog(this);
+		if (dialog.ShowModal() == wxID_OK) {
+			dialog.report();
 		}
 	}
 
@@ -1043,8 +1042,8 @@ private:
 		}
 
 		if (uc->state() == UpdateChecker::State::YES) {
-			auto dialog = make_wx<UpdateDialog>(this, uc->stable (), uc->test ());
-			dialog->ShowModal ();
+			UpdateDialog dialog(this, uc->stable (), uc->test ());
+			dialog.ShowModal();
 		} else if (uc->state() == UpdateChecker::State::FAILED) {
 			error_dialog(this, variant::wx::insert_dcpomatic(_("The %s download server could not be contacted.")));
 		} else {
@@ -1223,7 +1222,7 @@ private:
 	wxMenuItem* _history_separator = nullptr;
 	FilmViewer _viewer;
 	Controls* _controls;
-	SystemInformationDialog* _system_information_dialog = nullptr;
+	boost::optional<SystemInformationDialog> _system_information_dialog;
 	std::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _examine_job_connection;

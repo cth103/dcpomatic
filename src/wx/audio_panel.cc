@@ -400,7 +400,7 @@ AudioPanel::show_clicked ()
 		return;
 	}
 
-	_audio_dialog.reset(this, _parent->film(), _parent->film_viewer(), ac.front());
+	_audio_dialog.emplace(this, _parent->film(), _parent->film_viewer(), ac.front());
 	_audio_dialog->Show ();
 }
 

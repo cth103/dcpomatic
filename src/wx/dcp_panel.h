@@ -19,7 +19,11 @@
 */
 
 
-#include "wx_ptr.h"
+#include "audio_dialog.h"
+#include "dcp_timeline_dialog.h"
+#include "interop_metadata_dialog.h"
+#include "markers_dialog.h"
+#include "smpte_metadata_dialog.h"
 #include "lib/config.h"
 #include "lib/film_property.h"
 
@@ -37,15 +41,11 @@ class wxSpinCtrl;
 class wxSizer;
 class wxGridBagSizer;
 
-class AudioDialog;
 class Choice;
-class DCPTimelineDialog;
 class Film;
 class FilmViewer;
 class InteropMetadataDialog;
-class MarkersDialog;
 class Ratio;
-class SMPTEMetadataDialog;
 
 class DCPPanel
 {
@@ -158,11 +158,11 @@ private:
 	Button* _reels;
 	wxSizer* _audio_panel_sizer;
 
-	wx_ptr<AudioDialog> _audio_dialog;
-	wx_ptr<MarkersDialog> _markers_dialog;
-	wx_ptr<InteropMetadataDialog> _interop_metadata_dialog;
-	wx_ptr<SMPTEMetadataDialog> _smpte_metadata_dialog;
-	wx_ptr<DCPTimelineDialog> _dcp_timeline;
+	boost::optional<AudioDialog> _audio_dialog;
+	boost::optional<MarkersDialog> _markers_dialog;
+	boost::optional<InteropMetadataDialog> _interop_metadata_dialog;
+	boost::optional<SMPTEMetadataDialog> _smpte_metadata_dialog;
+	boost::optional<DCPTimelineDialog> _dcp_timeline;
 
 	std::shared_ptr<Film> _film;
 	FilmViewer& _viewer;

@@ -104,12 +104,12 @@ KDMCPLPanel::update_cpl_summary ()
 void
 KDMCPLPanel::cpl_browse_clicked ()
 {
-	auto d = make_wx<wxFileDialog>(this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, char_to_wx("*.xml"));
-	if (d->ShowModal() == wxID_CANCEL) {
+	wxFileDialog dialog(this, _("Select CPL XML file"), wxEmptyString, wxEmptyString, char_to_wx("*.xml"));
+	if (dialog.ShowModal() == wxID_CANCEL) {
 		return;
 	}
 
-	boost::filesystem::path cpl_file (wx_to_std (d->GetPath ()));
+	boost::filesystem::path cpl_file(wx_to_std(dialog.GetPath()));
 	boost::filesystem::path dcp_dir = cpl_file.parent_path ();
 
 	try {

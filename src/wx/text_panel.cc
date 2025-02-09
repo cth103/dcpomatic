@@ -356,9 +356,9 @@ TextPanel::dcp_track_changed ()
 	optional<DCPTextTrack> track;
 
 	if (_dcp_track->GetSelection() == int(_dcp_track->GetCount()) - 1) {
-		auto d = make_wx<DCPTextTrackDialog>(this);
-		if (d->ShowModal() == wxID_OK) {
-			track = d->get();
+		DCPTextTrackDialog dialog(this);
+		if (dialog.ShowModal() == wxID_OK) {
+			track = dialog.get();
 		}
 	} else {
 		/* Find the DCPTextTrack that was selected */
@@ -689,7 +689,7 @@ TextPanel::text_view_clicked ()
 	auto decoder = decoder_factory (_parent->film(), c.front(), false, false, shared_ptr<Decoder>());
 
 	if (decoder) {
-		_text_view.reset(this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
+		_text_view.emplace(this, _parent->film(), c.front(), c.front()->text_of_original_type(_original_type), decoder, _parent->film_viewer());
 		_text_view->show();
 	}
 }
@@ -701,8 +701,8 @@ TextPanel::fonts_dialog_clicked ()
 	auto c = _parent->selected_text ();
 	DCPOMATIC_ASSERT (c.size() == 1);
 
-	_fonts_dialog.reset(this, c.front(), c.front()->text_of_original_type(_original_type));
-	_fonts_dialog->Show ();
+	_fonts_dialog.emplace(this, c.front(), c.front()->text_of_original_type(_original_type));
+	_fonts_dialog->Show();
 }
 
 

@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_WINDOW_METRICS_H
+#define DCPOMATIC_WINDOW_METRICS_H
+
+
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/gdicmn.h>
@@ -36,4 +40,7 @@ public:
 	wxPoint position = wxDefaultPosition;
 	wxSize size = wxDefaultSize;
 };
+
+
+#endif
 

@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_TEXT_VIEW_H
+#define DCPOMATIC_TEXT_VIEW_H
+
+
 #include "window_metrics.h"
 #include "lib/content_text.h"
 #include <dcp/warnings.h>
@@ -64,3 +68,7 @@ private:
 
 	static WindowMetrics _metrics;
 };
+
+
+#endif
+

@@ -25,7 +25,6 @@
 #include "wx/id.h"
 #include "wx/job_manager_view.h"
 #include "wx/servers_list_dialog.h"
-#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -274,14 +273,14 @@ private:
 			return true;
 		}
 
-		auto d = make_wx<wxMessageDialog>(
+		wxMessageDialog dialog(
 			nullptr,
 			_("There are unfinished jobs; are you sure you want to quit?"),
 			_("Unfinished jobs"),
 			wxYES_NO | wxYES_DEFAULT | wxICON_QUESTION
 			);
 
-		return d->ShowModal() == wxID_YES;
+		return dialog.ShowModal() == wxID_YES;
 	}
 
 	void close (wxCloseEvent& ev)
@@ -326,21 +325,21 @@ private:
 
 	void help_about ()
 	{
-		auto d = make_wx<AboutDialog>(this);
-		d->ShowModal ();
+		AboutDialog dialog(this);
+		dialog.ShowModal();
 	}
 
 	void add_film ()
 	{
-		auto dialog = make_wx<wxDirDialog>(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
+		wxDirDialog dialog(this, _("Select film to open"), wxStandardPaths::Get().GetDocumentsDir(), wxDEFAULT_DIALOG_STYLE | wxDD_DIR_MUST_EXIST);
 		if (_last_parent) {
-			dialog->SetPath(std_to_wx(_last_parent.get().string()));
+			dialog.SetPath(std_to_wx(_last_parent.get().string()));
 		}
 
 		int r;
 		while (true) {
-			r = dialog->ShowModal();
-			if (r == wxID_OK && dialog->GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
+			r = dialog.ShowModal();
+			if (r == wxID_OK && dialog.GetPath() == wxStandardPaths::Get().GetDocumentsDir()) {
 				error_dialog (this, _("You did not select a folder.  Make sure that you select a folder before clicking Open."));
 			} else {
 				break;
@@ -348,10 +347,10 @@ private:
 		}
 
 		if (r == wxID_OK) {
-			start_job(wx_to_std(dialog->GetPath()));
+			start_job(wx_to_std(dialog.GetPath()));
 		}
 
-		_last_parent = boost::filesystem::path(wx_to_std(dialog->GetPath())).parent_path();
+		_last_parent = boost::filesystem::path(wx_to_std(dialog.GetPath())).parent_path();
 	}
 
 	void config_changed (Config::Property what)

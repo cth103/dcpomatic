@@ -20,6 +20,7 @@
 
 
 #include "content_menu.h"
+#include "content_timeline_dialog.h"
 #include "lib/enum_indexed_vector.h"
 #include "lib/film_property.h"
 #include "lib/text_type.h"
@@ -133,7 +134,7 @@ private:
 	EnumIndexedVector<TextPanel*, TextType> _text_panel;
 	TimingPanel* _timing_panel;
 	ContentMenu* _menu;
-	wx_ptr<ContentTimelineDialog> _timeline_dialog;
+	boost::optional<ContentTimelineDialog> _timeline_dialog;
 	wxNotebook* _parent;
 	wxWindow* _last_selected_tab = nullptr;
 

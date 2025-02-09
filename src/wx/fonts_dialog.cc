@@ -184,13 +184,13 @@ FontsDialog::set_from_file_clicked ()
         default_dir = char_to_wx("/System/Library/Fonts");
 #endif
 
-	auto d = make_wx<wxFileDialog>(this, _("Choose a font file"), default_dir, wxString{}, char_to_wx("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
+	wxFileDialog dialog(this, _("Choose a font file"), default_dir, wxString{}, char_to_wx("*.ttf;*.otf;*.ttc"), wxFD_CHANGE_DIR);
 
-	if (d->ShowModal() != wxID_OK) {
+	if (dialog.ShowModal() != wxID_OK) {
 		return;
 	}
 
-	font->set_file (wx_to_std(d->GetPath()));
+	font->set_file(wx_to_std(dialog.GetPath()));
 	setup ();
 }
 
@@ -203,9 +203,9 @@ FontsDialog::set_from_system_font_clicked()
 		return;
 	}
 
-	auto dialog = make_wx<SystemFontDialog>(this);
-	if (dialog->ShowModal() == wxID_OK) {
-		auto font_file = dialog->get_font();
+	SystemFontDialog dialog(this);
+	if (dialog.ShowModal() == wxID_OK) {
+		auto font_file = dialog.get_font();
 		if (font_file) {
 			font->set_file(*font_file);
 		}

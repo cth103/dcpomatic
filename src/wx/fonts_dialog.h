@@ -19,6 +19,10 @@
 */
 
 
+#ifndef DCPOMATIC_FONTS_DIALOG_H
+#define DCPOMATIC_FONTS_DIALOG_H
+
+
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/listctrl.h>
@@ -54,3 +58,7 @@ private:
 	wxButton* _set_from_file;
 	wxButton* _set_from_system_font = nullptr;
 };
+
+
+#endif
+

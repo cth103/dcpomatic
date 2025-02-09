@@ -29,7 +29,6 @@
 #include "password_entry.h"
 #include "region_subtag_widget.h"
 #include "static_text.h"
-#include "wx_ptr.h"
 #include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/config.h"
@@ -164,13 +163,13 @@ add_label_to_sizer (wxGridBagSizer* s, wxStaticText* t, bool, wxGBPosition pos, 
 void
 error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 {
-	auto d = make_wx<wxMessageDialog>(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_ERROR);
+	wxMessageDialog dialog(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_ERROR);
 	if (e) {
 		wxString em = *e;
 		em[0] = wxToupper (em[0]);
-		d->SetExtendedMessage (em);
+		dialog.SetExtendedMessage(em);
 	}
-	d->ShowModal ();
+	dialog.ShowModal();
 }
 
 
@@ -181,8 +180,8 @@ error_dialog (wxWindow* parent, wxString m, optional<wxString> e)
 void
 message_dialog (wxWindow* parent, wxString m)
 {
-	auto d = make_wx<wxMessageDialog>(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_INFORMATION);
-	d->ShowModal ();
+	wxMessageDialog dialog(parent, m, variant::wx::dcpomatic(), wxOK | wxICON_INFORMATION);
+	dialog.ShowModal();
 }
 
 
@@ -190,8 +189,8 @@ message_dialog (wxWindow* parent, wxString m)
 bool
 confirm_dialog (wxWindow* parent, wxString m)
 {
-	auto d = make_wx<wxMessageDialog>(parent, m, variant::wx::dcpomatic(), wxYES_NO | wxICON_QUESTION);
-	return d->ShowModal() == wxID_YES;
+	wxMessageDialog dialog(parent, m, variant::wx::dcpomatic(), wxYES_NO | wxICON_QUESTION);
+	return dialog.ShowModal() == wxID_YES;
 }
 
 
