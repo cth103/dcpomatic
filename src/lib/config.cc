@@ -700,11 +700,10 @@ Config::instance()
 		if (cinemas_file.extension() == ".xml") {
 			auto sqlite = cinemas_file;
 			sqlite.replace_extension(".sqlite3");
-			bool const had_sqlite = dcp::filesystem::exists(sqlite);
 
 			_instance->set_cinemas_file(sqlite);
 
-			if (dcp::filesystem::exists(cinemas_file) && !had_sqlite) {
+			if (dcp::filesystem::exists(cinemas_file) && !dcp::filesystem::exists(sqlite)) {
 				CinemaList cinemas;
 				cinemas.read_legacy_file(cinemas_file);
 			}
