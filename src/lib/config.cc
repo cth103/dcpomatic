@@ -714,8 +714,9 @@ Config::instance()
 			auto sqlite = dkdm_recipients_file;
 			sqlite.replace_extension(".sqlite3");
 
+			_instance->set_dkdm_recipients_file(sqlite);
+
 			if (dcp::filesystem::exists(dkdm_recipients_file) && !dcp::filesystem::exists(sqlite)) {
-				_instance->set_dkdm_recipients_file(sqlite);
 				DKDMRecipientList recipients;
 				recipients.read_legacy_file(dkdm_recipients_file);
 			}
