@@ -27,7 +27,7 @@
 class Analytics : public State, public Signaller
 {
 public:
-	Analytics ();
+	Analytics() = default;
 
 	void successful_dcp_encode ();
 

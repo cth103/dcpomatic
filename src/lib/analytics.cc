@@ -44,12 +44,6 @@ Analytics* Analytics::_instance;
 int const Analytics::_current_version = 1;
 
 
-Analytics::Analytics ()
-{
-
-}
-
-
 void
 Analytics::successful_dcp_encode ()
 {
