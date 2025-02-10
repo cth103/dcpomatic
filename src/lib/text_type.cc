@@ -19,12 +19,12 @@
 */
 
 
-#include "compose.hpp"
 #include "dcpomatic_assert.h"
 #include "exceptions.h"
 #include "text_type.h"
 #include "types.h"
 #include <dcp/text_type.h>
+#include <fmt/format.h>
 
 #include "i18n.h"
 
@@ -46,7 +46,7 @@ string_to_text_type(string s)
 	} else if (s == "closed-caption") {
 		return TextType::CLOSED_CAPTION;
 	} else {
-		throw MetadataError(String::compose("Unknown text type %1", s));
+		throw MetadataError(fmt::format("Unknown text type {}", s));
 	}
 }
 
