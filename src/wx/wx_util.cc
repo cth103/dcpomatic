@@ -47,6 +47,9 @@ LIBDCP_DISABLE_WARNINGS
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
 #include <wx/splash.h>
+#if wxCHECK_VERSION(3, 1, 6)
+#include <wx/uilocale.h>
+#endif
 LIBDCP_ENABLE_WARNINGS
 #include <boost/thread.hpp>
 
@@ -424,6 +427,10 @@ void
 dcpomatic_setup_i18n()
 {
 	wxLog::EnableLogging();
+
+#if wxCHECK_VERSION(3, 1, 6)
+	wxUILocale::UseDefault();
+#endif
 
 	auto get_locale_value = [](CFLocaleKey key) {
 		CFLocaleRef cflocale = CFLocaleCopyCurrent();
