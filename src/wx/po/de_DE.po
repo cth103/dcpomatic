@@ -1955,7 +1955,7 @@ msgstr "Bezeichner"
 #: src/wx/dcp_panel.cc:936 src/wx/dcp_text_track_dialog.cc:35
 #: src/wx/text_panel.cc:161
 msgid "Language"
-msgstr "Caption Sprache"
+msgstr "Sprache"
 
 #: src/wx/full_language_tag_dialog.cc:56 src/wx/language_tag_dialog.cc:38
 #, fuzzy
@@ -2165,9 +2165,8 @@ msgid "Markers"
 msgstr "Marker"
 
 #: src/wx/dcp_panel.cc:113
-#, fuzzy
 msgid "Markers..."
-msgstr "Eigenschaften..."
+msgstr "Marker..."
 
 #: src/wx/colour_conversion_editor.cc:137
 msgid "Matrix"
@@ -2205,9 +2204,8 @@ msgid "Metadata"
 msgstr "Metadata"
 
 #: src/wx/dcp_panel.cc:114
-#, fuzzy
 msgid "Metadata..."
-msgstr "Metadata"
+msgstr "Metadaten..."
 
 #: src/wx/export_video_file_dialog.cc:80
 msgid "Mix audio down to stereo"
@@ -2807,12 +2805,11 @@ msgstr "Akt ('Reel') %d"
 
 #: src/wx/dcp_timeline_dialog.cc:50
 msgid "Reels"
-msgstr "Aktaufteilung ('Reels')"
+msgstr "Akte"
 
 #: src/wx/dcp_panel.cc:115
-#, fuzzy
 msgid "Reels..."
-msgstr "Aktaufteilung ('Reels')"
+msgstr "Akte..."
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
