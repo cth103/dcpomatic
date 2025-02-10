@@ -20,7 +20,6 @@
 
 
 #include "analytics.h"
-#include "compose.hpp"
 #include "exceptions.h"
 #include "variant.h"
 #include <dcp/filesystem.h>
@@ -55,18 +54,18 @@ Analytics::successful_dcp_encode ()
 			boost::bind(
 				boost::ref(Message),
 				_("Congratulations!"),
-				String::compose(_(
-					"<h2>You have made %1 DCPs with %2!</h2>"
+				fmt::format(_(
+					"<h2>You have made {} DCPs with {}!</h2>"
 					"<img width=\"20%%\" src=\"memory:me.jpg\" align=\"center\">"
 					"<font size=\"+1\">"
                                         "<p>Hello. I'm Carl and I'm the "
-					"developer of %3. I work on it in my spare time (with the help "
+					"developer of {}. I work on it in my spare time (with the help "
 					"of a volunteer team of testers and translators) and I release it "
 					"as free software."
 
-					"<p>If you find %4 useful, please consider a donation to the "
+					"<p>If you find {} useful, please consider a donation to the "
 					"project. Financial support will help me to spend more "
-					"time developing %5 and making it better!"
+					"time developing {} and making it better!"
 
 					"<p><ul>"
 					"<li><a href=\"https://dcpomatic.com/donate_amount?amount=40\">Go to Paypal to donate €40</a>"
