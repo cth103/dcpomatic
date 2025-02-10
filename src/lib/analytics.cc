@@ -61,7 +61,7 @@ Analytics::successful_dcp_encode ()
 					"<font size=\"+1\">"
                                         "<p>Hello. I'm Carl and I'm the "
 					"developer of %3. I work on it in my spare time (with the help "
-					"of a fine volunteer team of testers and translators) and I release it "
+					"of a volunteer team of testers and translators) and I release it "
 					"as free software."
 
 					"<p>If you find %4 useful, please consider a donation to the "
