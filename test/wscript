@@ -46,6 +46,7 @@ def build(bld):
     obj.source = """
                  2536_regression_test.cc
                  4k_test.cc
+                 analytics_test.cc
                  atmos_test.cc
                  audio_analysis_test.cc
                  audio_buffers_test.cc
