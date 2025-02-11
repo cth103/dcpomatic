@@ -2746,9 +2746,7 @@ msgstr "Analysieren..."
 
 #: src/wx/config_dialog.cc:331 src/wx/config_dialog.cc:679
 msgid "Re-make certificates and key..."
-msgstr ""
-"Zertifikate und Schlüssel\n"
-"neu erzeugen..."
+msgstr "Zertifikate und Schlüssel neu erzeugen..."
 
 #: src/wx/content_view.cc:90
 msgid "Reading content directory"
