@@ -20,6 +20,7 @@
 
 
 #include "lib/analytics.h"
+#include "test.h"
 #include <dcp/filesystem.h>
 #include <boost/test/unit_test.hpp>
 
@@ -29,7 +30,9 @@ using std::string;
 
 BOOST_AUTO_TEST_CASE(many_successful_encodes_test)
 {
-	dcp::filesystem::remove_all(*State::override_path);
+	boost::filesystem::path const path = "build/test/many_successful_encodes_test";
+	dcp::filesystem::remove_all(path);
+	ConfigRestorer cr(path);
 
 	Analytics analytics;
 
