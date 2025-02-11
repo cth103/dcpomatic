@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 22:34+0100\n"
+"POT-Creation-Date: 2025-02-11 01:06+0100\n"
 "PO-Revision-Date: 2024-10-05 17:45+0330\n"
 "Last-Translator: Soleyman Rahmani Aghdam <Soleyman.rahmani@gmail.com>\n"
 "Language-Team: \n"
@@ -69,7 +69,7 @@ msgstr "%d کلید در %s نوشته شد"
 msgid "%d KDMs written to %s"
 msgstr "%d کلیدها در %s نوشته شدند"
 
-#: src/wx/config_dialog.cc:972
+#: src/wx/config_dialog.cc:971
 #, c-format
 msgid "%d channels on %s"
 msgstr "%d کانال ها در %s"
@@ -126,7 +126,7 @@ msgstr "(هیچکدام)"
 msgid "(restart %s to change display mode)"
 msgstr "(برای تغییر حالت صفحه نمایش %s را بسته و مجدد باز کنید)"
 
-#: src/wx/config_dialog.cc:154
+#: src/wx/config_dialog.cc:153
 #, c-format
 msgid "(restart %s to see language changes)"
 msgstr "(برای روئیت تغییر زبان%s را بسته و مجدد باز کنید)"
@@ -157,11 +157,11 @@ msgstr "یک خطای 1 Bv2.1, "
 msgid "1 error, "
 msgstr "یک خطا 1, "
 
-#: src/wx/wx_util.cc:604
+#: src/wx/wx_util.cc:610
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:596
+#: src/wx/wx_util.cc:602
 msgid "2 - stereo"
 msgstr "2- استریو"
 
@@ -205,7 +205,7 @@ msgstr "فقط راست سه بعدی"
 msgid "3D top/bottom"
 msgstr "بالا/پایین سه بعدی"
 
-#: src/wx/wx_util.cc:598
+#: src/wx/wx_util.cc:604
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - L/C/R/Lfe"
 
@@ -217,11 +217,11 @@ msgstr "48 هزار هرتز"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:600
+#: src/wx/wx_util.cc:606
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:602
+#: src/wx/wx_util.cc:608
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -343,11 +343,11 @@ msgid ""
 msgstr ""
 "یک زیرنویس به فونتی با شناسه%i اشاره دارد که یک گره متناظر <LoadFont>ندارد."
 
-#: src/wx/config_dialog.cc:964
+#: src/wx/config_dialog.cc:963
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:960
+#: src/wx/config_dialog.cc:959
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -452,12 +452,12 @@ msgstr "اضافه کردن نوع"
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr "اضافه کردن فایلهای ویدیو، عکس، صدا و زیرنویس به فیلم (Ctrl-A)."
 
-#: src/wx/config_dialog.cc:304 src/wx/recipients_panel.cc:69
+#: src/wx/config_dialog.cc:303 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
 msgid "Add..."
 msgstr "اضافه کردن..."
 
-#: src/wx/config_dialog.cc:401
+#: src/wx/config_dialog.cc:400
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -496,7 +496,7 @@ msgstr "تنظیمات پیشرفته محتوا"
 msgid "Advanced settings..."
 msgstr "تنظیمات پیشرفته..."
 
-#: src/wx/config_dialog.cc:660 src/wx/config_dialog.cc:678
+#: src/wx/config_dialog.cc:659 src/wx/config_dialog.cc:677
 #: src/wx/kdm_output_panel.cc:128
 msgid "Advanced..."
 msgstr "پیشرفته..."
@@ -775,11 +775,11 @@ msgstr "کانالها"
 msgid "Check all"
 msgstr "انتخاب همه"
 
-#: src/wx/config_dialog.cc:173
+#: src/wx/config_dialog.cc:172
 msgid "Check for testing updates on startup"
 msgstr "بررسی نسخه آزمایشی به روز شده هنگام شروع ویندوز"
 
-#: src/wx/config_dialog.cc:169
+#: src/wx/config_dialog.cc:168
 msgid "Check for updates on startup"
 msgstr "استعلام نسخه به روز شده هنگام شروع ویندوز"
 
@@ -892,7 +892,7 @@ msgstr "ویژگی های محتوا"
 msgid "Content Type"
 msgstr "نوع محتوا"
 
-#: src/wx/config_dialog.cc:1039
+#: src/wx/config_dialog.cc:1038
 msgid "Content directory"
 msgstr "دایرکتوری محتوا"
 
@@ -929,7 +929,7 @@ msgstr "کپی سینماها در فایل فشرده زیپ بر روی فهر
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr "کپی سینماها در فایل فشرده زیپ در محل اصلی در"
 
-#: src/wx/config_dialog.cc:959
+#: src/wx/config_dialog.cc:958
 msgid "CoreAudio"
 msgstr "هسته صدا"
 
@@ -951,7 +951,7 @@ msgstr "شماره سریال پیدا نشد %s"
 msgid "Could not find this content in the project \"%s\"."
 msgstr "این محتوا در پروژه \"%s\" پیدا نشد."
 
-#: src/wx/config_dialog.cc:385
+#: src/wx/config_dialog.cc:384
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "نمیتوان گواهی نامه را ایمپورت کرد(%s)"
@@ -988,7 +988,7 @@ msgstr "نمیتوان این دی سی پی را خواند: %s"
 msgid "Could not read certificate file (%1)"
 msgstr "نمیتوان این فایل گواهی نامه را خواند (%1)"
 
-#: src/wx/config_dialog.cc:410 src/wx/config_dialog.cc:597
+#: src/wx/config_dialog.cc:409 src/wx/config_dialog.cc:596
 #: src/wx/recipient_dialog.cc:158 src/wx/recipient_dialog.cc:163
 #: src/wx/screen_dialog.cc:284 src/wx/screen_dialog.cc:290
 msgid "Could not read certificate file."
@@ -998,7 +998,7 @@ msgstr "نمیتوان فایل گواهی نامه را خواند."
 msgid "Could not read certificates from Qube server."
 msgstr "نمیتوان فایل گواهی نامه را از سرور شرکت کیوب خواند."
 
-#: src/wx/config_dialog.cc:587
+#: src/wx/config_dialog.cc:586
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "نمیتوان فایل کلید را خواند; فایل خیلی طولانی است (%s)"
@@ -1049,7 +1049,7 @@ msgstr "دلخواه"
 msgid "Custom scale"
 msgstr "مقیاس دلخواه"
 
-#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:873
+#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
 #: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:59
 msgid "DCP"
@@ -1116,7 +1116,7 @@ msgstr "رزولوشن رمزگشایی: %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "رزولوشن رمزگشایی: ناشناخته"
 
-#: src/wx/config_dialog.cc:647 src/wx/config_dialog.cc:705
+#: src/wx/config_dialog.cc:646 src/wx/config_dialog.cc:704
 msgid "Decrypting KDMs"
 msgstr "کلید(ها) رمز گشایی"
 
@@ -1183,7 +1183,7 @@ msgstr "جزئیات"
 msgid "Details..."
 msgstr "جزئیات..."
 
-#: src/wx/config_dialog.cc:961
+#: src/wx/config_dialog.cc:960
 msgid "Direct Sound"
 msgstr "صدای مستقیم"
 
@@ -1240,7 +1240,7 @@ msgstr "فریم های از قلم افتاده: %d"
 msgid "Dual-screen displays"
 msgstr "نمایش دو صفحه ای"
 
-#: src/wx/config_dialog.cc:967
+#: src/wx/config_dialog.cc:966
 msgid "Dummy"
 msgstr "ساختگی"
 
@@ -1322,19 +1322,19 @@ msgstr "آدرس ایمیل خود را برای مخاطب وارد کنید، 
 msgid "Errors"
 msgstr "خطاها"
 
-#: src/wx/config_dialog.cc:654
+#: src/wx/config_dialog.cc:653
 msgid "Export KDM decryption leaf certificate..."
 msgstr "اکسپورت گواهی نامه برگ رمزگشایی کلید..."
 
-#: src/wx/config_dialog.cc:656
+#: src/wx/config_dialog.cc:655
 msgid "Export all KDM decryption settings..."
 msgstr "اکسپورت همه تنظیمات رمزگشایی کلید..."
 
-#: src/wx/config_dialog.cc:308
+#: src/wx/config_dialog.cc:307
 msgid "Export certificate..."
 msgstr "اکسپورت گواهی نامه..."
 
-#: src/wx/config_dialog.cc:310
+#: src/wx/config_dialog.cc:309
 msgid "Export chain..."
 msgstr "اکسپورت زنجیره..."
 
@@ -1346,7 +1346,7 @@ msgstr "اکسپورت زیرنویسها"
 msgid "Export video file"
 msgstr "اکسپورت فایل ویدیو"
 
-#: src/wx/config_dialog.cc:327 src/wx/full_config_dialog.cc:128
+#: src/wx/config_dialog.cc:326 src/wx/full_config_dialog.cc:128
 msgid "Export..."
 msgstr "اکسپورت..."
 
@@ -1670,7 +1670,7 @@ msgstr ""
 "\n"
 "را تایپ کرده و کلید تایید را بزنید."
 
-#: src/wx/config_dialog.cc:758
+#: src/wx/config_dialog.cc:757
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1681,7 +1681,7 @@ msgstr ""
 "ایجاد کرده اید استفاده کنید.  هم چنین هر کلیدی هم که برای گواهینامه فعلی شما "
 "ارسال شده است بی فایده خواهد شد.  با احتیاط ادامه دهید!"
 
-#: src/wx/config_dialog.cc:808
+#: src/wx/config_dialog.cc:807
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1708,11 +1708,11 @@ msgstr "تصویر روی صفحه اصلی، کنترل روی صفحه دوم"
 msgid "Image on secondary, controls on primary"
 msgstr "تصویر روی صفحه دوم، کنترل روی صفحه اصلی"
 
-#: src/wx/config_dialog.cc:658
+#: src/wx/config_dialog.cc:657
 msgid "Import all KDM decryption settings..."
 msgstr "ایمپورت تمام تنظیمات رمزگشایی کلید..."
 
-#: src/wx/config_dialog.cc:325
+#: src/wx/config_dialog.cc:324
 msgid "Import..."
 msgstr "ایمپورت کردن..."
 
@@ -1745,7 +1745,7 @@ msgstr "تابع تبدیل ورودی"
 msgid "Integrated loudness %.2f LUFS"
 msgstr "بلندی صدای یکپارچه %.2f برجسب LUFS"
 
-#: src/wx/config_dialog.cc:527
+#: src/wx/config_dialog.cc:526
 msgid "Intermediate"
 msgstr "میانه"
 
@@ -1765,7 +1765,7 @@ msgstr "بدون یادداشت بین المللی"
 msgid "Interop"
 msgstr "اینتروپ"
 
-#: src/wx/config_dialog.cc:798
+#: src/wx/config_dialog.cc:797
 #, c-format
 msgid "Invalid %s export file"
 msgstr "فایل اکسپورت نامعتبر %s"
@@ -1798,7 +1798,7 @@ msgstr ""
 "تنظیم گین محتوا برای این تغییر فیدر ممکن نیست زیرا باعث می شود صدای دی سی پی "
 "قطع شود. گین تغییر نکرده است."
 
-#: src/wx/config_dialog.cc:963
+#: src/wx/config_dialog.cc:962
 msgid "JACK"
 msgstr "JACK"
 
@@ -1822,7 +1822,7 @@ msgstr "کلید"
 msgid "KDM Email"
 msgstr "ایمیل کلید"
 
-#: src/wx/config_dialog.cc:1049
+#: src/wx/config_dialog.cc:1048
 msgid "KDM directory"
 msgstr "دایرکتوری کلید"
 
@@ -1839,7 +1839,7 @@ msgstr "زمان بندی"
 msgid "Keep video and subtitles in sequence"
 msgstr "حفظ ترتیب ویدیو و زیرنویس"
 
-#: src/wx/config_dialog.cc:635
+#: src/wx/config_dialog.cc:634
 msgid "Keys"
 msgstr "کلیدها"
 
@@ -1902,7 +1902,7 @@ msgstr "بعد"
 msgid "Layout for short screen"
 msgstr ""
 
-#: src/wx/config_dialog.cc:525
+#: src/wx/config_dialog.cc:524
 msgid "Leaf"
 msgstr "برگ"
 
@@ -1910,11 +1910,11 @@ msgstr "برگ"
 msgid "Leaf common name"
 msgstr "اسم متداول برگ"
 
-#: src/wx/config_dialog.cc:319
+#: src/wx/config_dialog.cc:318
 msgid "Leaf private key"
 msgstr "کلید خصوصی برگ"
 
-#: src/wx/config_dialog.cc:337
+#: src/wx/config_dialog.cc:336
 msgid "Leaf private key does not match leaf certificate!"
 msgstr "کلید خصوصی برگ با گواهی نامه برگ سازگار نیست!"
 
@@ -1951,7 +1951,7 @@ msgstr "بارگذاری محتوا"
 msgid "Loading playlist and KDMs"
 msgstr "بارگذاری لیست نمایش و کلیدها"
 
-#: src/wx/config_dialog.cc:1020
+#: src/wx/config_dialog.cc:1019
 msgid "Locations"
 msgstr "محل ها"
 
@@ -2035,7 +2035,7 @@ msgstr "ساخت زنجیره گواهی نامه"
 msgid "Many"
 msgstr "تعداد زیاد"
 
-#: src/wx/config_dialog.cc:872
+#: src/wx/config_dialog.cc:871
 msgid "Mapping"
 msgstr "نگاشتن"
 
@@ -2343,7 +2343,7 @@ msgstr "تمام شد خبر بده"
 msgid "Number of threads %s should use"
 msgstr "تعداد رشته های سی پی یو که %s باید استفاده کند"
 
-#: src/wx/config_dialog.cc:966
+#: src/wx/config_dialog.cc:965
 msgid "OSS"
 msgstr "OSS"
 
@@ -2413,7 +2413,7 @@ msgstr "عرض لبه بیرونی"
 msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr "عرض لبه بیرونی قابل اعمال نیست تا زیرنویس حک نشود."
 
-#: src/wx/config_dialog.cc:873 src/wx/dkdm_dialog.cc:108
+#: src/wx/config_dialog.cc:872 src/wx/dkdm_dialog.cc:108
 #: src/wx/kdm_dialog.cc:113 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "خروجی"
@@ -2517,11 +2517,11 @@ msgstr "پلی"
 msgid "Play length"
 msgstr "مدت پلی"
 
-#: src/wx/config_dialog.cc:862
+#: src/wx/config_dialog.cc:861
 msgid "Play sound via"
 msgstr "پلی صدا با"
 
-#: src/wx/config_dialog.cc:1044
+#: src/wx/config_dialog.cc:1043
 msgid "Playlist directory"
 msgstr "دایرکتوری لیست نمایش"
 
@@ -2572,7 +2572,7 @@ msgstr "ویژگی ها..."
 msgid "Protocol"
 msgstr "پروتکل"
 
-#: src/wx/config_dialog.cc:965
+#: src/wx/config_dialog.cc:964
 msgid "PulseAudio"
 msgstr "پالس صدا"
 
@@ -2614,7 +2614,7 @@ msgstr "رمزگذاری مجدد داده های JPEG2000 از ورودی"
 msgid "Re-examine..."
 msgstr "امتحان مجدد..."
 
-#: src/wx/config_dialog.cc:332 src/wx/config_dialog.cc:680
+#: src/wx/config_dialog.cc:331 src/wx/config_dialog.cc:679
 msgid "Re-make certificates and key..."
 msgstr "ساخت مجدد گواهی نامه ها و کلید..."
 
@@ -2692,7 +2692,7 @@ msgstr "قلمرو انتشار"
 msgid "Release territory for this DCP"
 msgstr "قلمرو انتشار برای این دی سی پی"
 
-#: src/wx/config_dialog.cc:306 src/wx/content_menu.cc:117
+#: src/wx/config_dialog.cc:305 src/wx/content_menu.cc:117
 #: src/wx/content_panel.cc:285 src/wx/full_language_tag_dialog.cc:71
 #: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
 #: src/wx/editable_list.h:149
@@ -2748,7 +2748,7 @@ msgstr "تکرار..."
 msgid "Report A Problem"
 msgstr "گزارش یک مشکل"
 
-#: src/wx/config_dialog.cc:877
+#: src/wx/config_dialog.cc:876
 msgid "Reset to default"
 msgstr "تنظیم مجدد به حالت پیش فرض"
 
@@ -2785,7 +2785,7 @@ msgstr "راست"
 msgid "Right click to change gain."
 msgstr "کلیک راست برای تغییر گین."
 
-#: src/wx/config_dialog.cc:523
+#: src/wx/config_dialog.cc:522
 msgid "Root"
 msgstr "ریشه"
 
@@ -2890,13 +2890,17 @@ msgstr "انتخاب"
 msgid "Select CPL XML file"
 msgstr "انتخاب فایل CPL XML"
 
-#: src/wx/config_dialog.cc:376 src/wx/config_dialog.cc:459
-#: src/wx/config_dialog.cc:827 src/wx/recipient_dialog.cc:171
-#: src/wx/screen_dialog.cc:298
+#: src/wx/config_dialog.cc:458 src/wx/config_dialog.cc:826
+#: src/wx/recipient_dialog.cc:171 src/wx/screen_dialog.cc:298
 msgid "Select Certificate File"
 msgstr "انتخاب فایل گواهینامه"
 
-#: src/wx/config_dialog.cc:489
+#: src/wx/config_dialog.cc:375
+#, fuzzy
+msgid "Select Certificate file"
+msgstr "انتخاب فایل گواهینامه"
+
+#: src/wx/config_dialog.cc:488
 msgid "Select Chain File"
 msgstr "انتخاب فایل زنجیره"
 
@@ -2904,11 +2908,11 @@ msgstr "انتخاب فایل زنجیره"
 msgid "Select Cinemas File"
 msgstr "انتخاب فایل سینماها"
 
-#: src/wx/config_dialog.cc:731
+#: src/wx/config_dialog.cc:730
 msgid "Select Export File"
 msgstr "انتخاب فایل اکسپورت"
 
-#: src/wx/config_dialog.cc:765
+#: src/wx/config_dialog.cc:764
 msgid "Select File To Import"
 msgstr "انتخاب فایل برای ایمپورت"
 
@@ -2916,8 +2920,13 @@ msgstr "انتخاب فایل برای ایمپورت"
 msgid "Select KDM"
 msgstr "انتخاب کلید"
 
-#: src/wx/config_dialog.cc:579 src/wx/config_dialog.cc:613
+#: src/wx/config_dialog.cc:612
 msgid "Select Key File"
+msgstr "انتخاب فایل کلید"
+
+#: src/wx/config_dialog.cc:578
+#, fuzzy
+msgid "Select Key file"
 msgstr "انتخاب فایل کلید"
 
 #: src/wx/content_menu.cc:463
@@ -3065,7 +3074,7 @@ msgstr "نمایش محدوده زیرنویس"
 msgid "Sign language video language"
 msgstr "زبان اشاره زبان ویدیو"
 
-#: src/wx/config_dialog.cc:671 src/wx/config_dialog.cc:718
+#: src/wx/config_dialog.cc:670 src/wx/config_dialog.cc:717
 msgid "Signing DCPs and KDMs"
 msgstr "امضا دی سی پی ها و کلیدها"
 
@@ -3126,7 +3135,7 @@ msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr "برخی از زیرنویس‌ها به ترتیب موقعیت عمودی فهرست نشده‌اند."
 
-#: src/wx/config_dialog.cc:851 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
 msgid "Sound"
 msgstr "صدا"
 
@@ -3565,7 +3574,7 @@ msgstr ""
 "\n"
 "آیا دی سی پی-او-ماتیک باید اکنون آن را جدا کند؟"
 
-#: src/wx/wx_util.cc:821
+#: src/wx/wx_util.cc:827
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3816,7 +3825,7 @@ msgid "This KDM was not made for this DCP.  You will need a different one."
 msgstr ""
 "این کلید برای این دی سی پی ساخته نشده است.  شما به یک کلید دیگر نیاز دارید."
 
-#: src/wx/config_dialog.cc:392
+#: src/wx/config_dialog.cc:391
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -3926,7 +3935,7 @@ msgstr "رشته های سی پی یو"
 msgid "Threshold"
 msgstr "آستانه"
 
-#: src/wx/config_dialog.cc:290 src/wx/screen_dialog.cc:55
+#: src/wx/config_dialog.cc:289 src/wx/screen_dialog.cc:55
 #: src/wx/screen_dialog.cc:179 src/wx/screen_dialog.cc:211
 msgid "Thumbprint"
 msgstr "اثر انگشت"
@@ -3997,12 +4006,12 @@ msgstr "دستگاه های قابل اعتماد"
 msgid "Trusted Device certificate"
 msgstr "گواهینامه دستگاه قابل اعتماد"
 
-#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:282
+#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:281
 #: src/wx/video_panel.cc:79
 msgid "Type"
 msgstr "نوع"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:719
 msgid "UTC"
 msgstr "UTC"
 
@@ -4010,111 +4019,111 @@ msgstr "UTC"
 msgid "UTC offset (time zone)"
 msgstr "UTC offset (time zone)"
 
-#: src/wx/wx_util.cc:714
+#: src/wx/wx_util.cc:720
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:725
+#: src/wx/wx_util.cc:731
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:726
+#: src/wx/wx_util.cc:732
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:727
+#: src/wx/wx_util.cc:733
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/wx_util.cc:715
+#: src/wx/wx_util.cc:721
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/wx_util.cc:716
+#: src/wx/wx_util.cc:722
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:723
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:718
+#: src/wx/wx_util.cc:724
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:719
+#: src/wx/wx_util.cc:725
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:720
+#: src/wx/wx_util.cc:726
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:721
+#: src/wx/wx_util.cc:727
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:722
+#: src/wx/wx_util.cc:728
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:723
+#: src/wx/wx_util.cc:729
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:724
+#: src/wx/wx_util.cc:730
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/wx_util.cc:711
+#: src/wx/wx_util.cc:717
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/wx_util.cc:700
+#: src/wx/wx_util.cc:706
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/wx_util.cc:699
+#: src/wx/wx_util.cc:705
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/wx_util.cc:710
+#: src/wx/wx_util.cc:716
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/wx_util.cc:709
+#: src/wx/wx_util.cc:715
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/wx_util.cc:708
+#: src/wx/wx_util.cc:714
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/wx_util.cc:707
+#: src/wx/wx_util.cc:713
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/wx_util.cc:706
+#: src/wx/wx_util.cc:712
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/wx_util.cc:705
+#: src/wx/wx_util.cc:711
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/wx_util.cc:704
+#: src/wx/wx_util.cc:710
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/wx_util.cc:703
+#: src/wx/wx_util.cc:709
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/wx_util.cc:702
+#: src/wx/wx_util.cc:708
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/wx_util.cc:701
+#: src/wx/wx_util.cc:707
 msgid "UTC-9"
 msgstr "UTC-9"
 
@@ -4248,7 +4257,7 @@ msgstr "زبان زیرنویس حک شده بر روی فیلم"
 msgid "View..."
 msgstr "دیدن..."
 
-#: src/wx/config_dialog.cc:962
+#: src/wx/config_dialog.cc:961
 msgid "WASAPI"
 msgstr "WASAPI"
 
@@ -4487,7 +4496,7 @@ msgstr "تیتراژ شروع"
 msgid "open subtitles"
 msgstr "زیرنویس شوع"
 
-#: src/wx/config_dialog.cc:873
+#: src/wx/config_dialog.cc:872
 msgid "output"
 msgstr "خروجی"
 

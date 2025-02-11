@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-02 22:34+0100\n"
+"POT-Creation-Date: 2025-02-11 01:06+0100\n"
 "PO-Revision-Date: 2025-01-24 15:41+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -66,7 +66,7 @@ msgstr "%d KDM записан в %s"
 msgid "%d KDMs written to %s"
 msgstr "%d KDM записаны в %s"
 
-#: src/wx/config_dialog.cc:972
+#: src/wx/config_dialog.cc:971
 #, c-format
 msgid "%d channels on %s"
 msgstr "Аудиоканалы: %d на %s"
@@ -121,7 +121,7 @@ msgstr "(Ничего)"
 msgid "(restart %s to change display mode)"
 msgstr "(перезапустите %s, чтобы изменить режим отображения)"
 
-#: src/wx/config_dialog.cc:154
+#: src/wx/config_dialog.cc:153
 #, c-format
 msgid "(restart %s to see language changes)"
 msgstr "(перезапустите %s для изменения языка)"
@@ -152,11 +152,11 @@ msgstr "1 ошибка Bv2.1, "
 msgid "1 error, "
 msgstr "1 ошибка, "
 
-#: src/wx/wx_util.cc:604
+#: src/wx/wx_util.cc:610
 msgid "12 - 7.1/HI/VI"
 msgstr "12 - 7.1/HI/VI"
 
-#: src/wx/wx_util.cc:596
+#: src/wx/wx_util.cc:602
 msgid "2 - stereo"
 msgstr "2 - стерео"
 
@@ -200,7 +200,7 @@ msgstr "3D только правый"
 msgid "3D top/bottom"
 msgstr "3D верх/низ"
 
-#: src/wx/wx_util.cc:598
+#: src/wx/wx_util.cc:604
 msgid "4 - L/C/R/Lfe"
 msgstr "4 - Л/Ц/П/НЧ"
 
@@ -212,11 +212,11 @@ msgstr "48kHz"
 msgid "4K"
 msgstr "4K"
 
-#: src/wx/wx_util.cc:600
+#: src/wx/wx_util.cc:606
 msgid "6 - 5.1"
 msgstr "6 - 5.1"
 
-#: src/wx/wx_util.cc:602
+#: src/wx/wx_util.cc:608
 msgid "8 - 5.1/HI/VI"
 msgstr "8 - 5.1/HI/VI"
 
@@ -340,11 +340,11 @@ msgstr ""
 "Субтитры или скрытая субтитры относятся к шрифту с идентификатором %id, "
 "который не имеет соответствующего узла <LoadFont>."
 
-#: src/wx/config_dialog.cc:964
+#: src/wx/config_dialog.cc:963
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/wx/config_dialog.cc:960
+#: src/wx/config_dialog.cc:959
 msgid "ASIO"
 msgstr "ASIO"
 
@@ -448,12 +448,12 @@ msgstr "Добавить вариант"
 msgid "Add video, image, sound or subtitle files to the film (Ctrl+A)."
 msgstr "Добавить видео, изображение, звук или субтитры в проект (Ctrl+A)."
 
-#: src/wx/config_dialog.cc:304 src/wx/recipients_panel.cc:69
+#: src/wx/config_dialog.cc:303 src/wx/recipients_panel.cc:69
 #: src/wx/editable_list.h:141
 msgid "Add..."
 msgstr "Добавить..."
 
-#: src/wx/config_dialog.cc:401
+#: src/wx/config_dialog.cc:400
 msgid ""
 "Adding this certificate would make the chain inconsistent, so it will not be "
 "added. Add certificates in order from root to intermediate to leaf."
@@ -493,7 +493,7 @@ msgstr "Дополнительные настройки контента"
 msgid "Advanced settings..."
 msgstr "Дополнительные настройки…"
 
-#: src/wx/config_dialog.cc:660 src/wx/config_dialog.cc:678
+#: src/wx/config_dialog.cc:659 src/wx/config_dialog.cc:677
 #: src/wx/kdm_output_panel.cc:128
 msgid "Advanced..."
 msgstr "Дополнительно…"
@@ -774,11 +774,11 @@ msgstr "Каналы"
 msgid "Check all"
 msgstr "Проверить все"
 
-#: src/wx/config_dialog.cc:173
+#: src/wx/config_dialog.cc:172
 msgid "Check for testing updates on startup"
 msgstr "Проверять тестовые обновления при запуске"
 
-#: src/wx/config_dialog.cc:169
+#: src/wx/config_dialog.cc:168
 msgid "Check for updates on startup"
 msgstr "Проверять обновления при запуске"
 
@@ -893,7 +893,7 @@ msgstr "Свойства контента"
 msgid "Content Type"
 msgstr "Тип контента"
 
-#: src/wx/config_dialog.cc:1039
+#: src/wx/config_dialog.cc:1038
 msgid "Content directory"
 msgstr "Папка контента"
 
@@ -930,7 +930,7 @@ msgstr "Скопировать кинотеатры из ZIP-файла пове
 msgid "Copy the cinemas in the ZIP file to the original location at"
 msgstr "Скопировать кинотеатры из ZIP-файла в исходное расположение по адресу"
 
-#: src/wx/config_dialog.cc:959
+#: src/wx/config_dialog.cc:958
 msgid "CoreAudio"
 msgstr "CoreAudio"
 
@@ -952,7 +952,7 @@ msgstr "Не удалось найти серийный номер (%s)"
 msgid "Could not find this content in the project \"%s\"."
 msgstr "Не удалось найти этот контент в проекте \"%s\"."
 
-#: src/wx/config_dialog.cc:385
+#: src/wx/config_dialog.cc:384
 #, c-format
 msgid "Could not import certificate (%s)"
 msgstr "Не удалось импортировать сертификат (%s)"
@@ -989,7 +989,7 @@ msgstr "Не удалось прочитать DCP: %s"
 msgid "Could not read certificate file (%1)"
 msgstr "Не удалось прочитать файл сертификата (%1)"
 
-#: src/wx/config_dialog.cc:410 src/wx/config_dialog.cc:597
+#: src/wx/config_dialog.cc:409 src/wx/config_dialog.cc:596
 #: src/wx/recipient_dialog.cc:158 src/wx/recipient_dialog.cc:163
 #: src/wx/screen_dialog.cc:284 src/wx/screen_dialog.cc:290
 msgid "Could not read certificate file."
@@ -999,7 +999,7 @@ msgstr "Не удалось прочитать файл сертификата."
 msgid "Could not read certificates from Qube server."
 msgstr "Не удалось прочитать сертификаты с сервера Qube."
 
-#: src/wx/config_dialog.cc:587
+#: src/wx/config_dialog.cc:586
 #, c-format
 msgid "Could not read key file; file is too long (%s)"
 msgstr "Не удалось прочитать файл ключа; файл слишком длинный (%s)"
@@ -1051,7 +1051,7 @@ msgid "Custom scale"
 msgstr "Пользовательский масштаб"
 
 # Main
-#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:873
+#: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
 #: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
 #: src/wx/player_information.cc:59
 msgid "DCP"
@@ -1118,7 +1118,7 @@ msgstr "Разрешение декодирования: %dx%d"
 msgid "Decode resolution: unknown"
 msgstr "Разрешение декодирования: неизвестно"
 
-#: src/wx/config_dialog.cc:647 src/wx/config_dialog.cc:705
+#: src/wx/config_dialog.cc:646 src/wx/config_dialog.cc:704
 msgid "Decrypting KDMs"
 msgstr "Ключи расшифровки (KDM)"
 
@@ -1184,7 +1184,7 @@ msgstr "Детали"
 msgid "Details..."
 msgstr "Детали..."
 
-#: src/wx/config_dialog.cc:961
+#: src/wx/config_dialog.cc:960
 msgid "Direct Sound"
 msgstr "Direct Sound"
 
@@ -1241,7 +1241,7 @@ msgstr "Потерянные кадры: %d"
 msgid "Dual-screen displays"
 msgstr "Двойной экран"
 
-#: src/wx/config_dialog.cc:967
+#: src/wx/config_dialog.cc:966
 msgid "Dummy"
 msgstr "Файл-пустышка"
 
@@ -1324,19 +1324,19 @@ msgstr "Введите ваш email для связи, не %s"
 msgid "Errors"
 msgstr "Ошибки"
 
-#: src/wx/config_dialog.cc:654
+#: src/wx/config_dialog.cc:653
 msgid "Export KDM decryption leaf certificate..."
 msgstr "Экспортировать конечный сертификат расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:656
+#: src/wx/config_dialog.cc:655
 msgid "Export all KDM decryption settings..."
 msgstr "Экспортировать все настройки расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:308
+#: src/wx/config_dialog.cc:307
 msgid "Export certificate..."
 msgstr "Экспортировать сертификат…"
 
-#: src/wx/config_dialog.cc:310
+#: src/wx/config_dialog.cc:309
 msgid "Export chain..."
 msgstr "Экспортировать цепочку…"
 
@@ -1348,7 +1348,7 @@ msgstr "Экспортировать субтитры"
 msgid "Export video file"
 msgstr "Экспортировать видеофайл"
 
-#: src/wx/config_dialog.cc:327 src/wx/full_config_dialog.cc:128
+#: src/wx/config_dialog.cc:326 src/wx/full_config_dialog.cc:128
 msgid "Export..."
 msgstr "Экспорт..."
 
@@ -1676,7 +1676,7 @@ msgstr ""
 "\n"
 "в поле ниже и нажмите ОК."
 
-#: src/wx/config_dialog.cc:758
+#: src/wx/config_dialog.cc:757
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created with the current certificates and key.  Also, "
@@ -1688,7 +1688,7 @@ msgstr ""
 "Также, любые KDM, отправленные вам для этих сертификатов, станут бесполезны. "
 "Действуйте с осторожностью!"
 
-#: src/wx/config_dialog.cc:808
+#: src/wx/config_dialog.cc:807
 msgid ""
 "If you continue with this operation you will no longer be able to use any "
 "DKDMs that you have created.  Also, any KDMs that have been sent to you will "
@@ -1716,11 +1716,11 @@ msgstr "Изображение на основном, управление на 
 msgid "Image on secondary, controls on primary"
 msgstr "Изображение на второстепенном, управление на основном"
 
-#: src/wx/config_dialog.cc:658
+#: src/wx/config_dialog.cc:657
 msgid "Import all KDM decryption settings..."
 msgstr "Импортировать все настройки расшифровки KDM…"
 
-#: src/wx/config_dialog.cc:325
+#: src/wx/config_dialog.cc:324
 msgid "Import..."
 msgstr "Импорт…"
 
@@ -1753,7 +1753,7 @@ msgstr "Входная функция передачи"
 msgid "Integrated loudness %.2f LUFS"
 msgstr "Интегральная громкость: %.2f LUFS"
 
-#: src/wx/config_dialog.cc:527
+#: src/wx/config_dialog.cc:526
 msgid "Intermediate"
 msgstr "Промежуточный сертификат"
 
@@ -1773,7 +1773,7 @@ msgstr "Международный текстовый сервис без тек
 msgid "Interop"
 msgstr "Interop"
 
-#: src/wx/config_dialog.cc:798
+#: src/wx/config_dialog.cc:797
 #, c-format
 msgid "Invalid %s export file"
 msgstr "Некорректный файл экспорта %s"
@@ -1806,7 +1806,7 @@ msgstr ""
 "Невозможно настроить усиление контента для смены микшера, поскольку это "
 "приведёт к обрезке аудио DCP.  Усиление не было изменено."
 
-#: src/wx/config_dialog.cc:963
+#: src/wx/config_dialog.cc:962
 msgid "JACK"
 msgstr "JACK"
 
@@ -1830,7 +1830,7 @@ msgstr "KDM"
 msgid "KDM Email"
 msgstr "Письма KDM"
 
-#: src/wx/config_dialog.cc:1049
+#: src/wx/config_dialog.cc:1048
 msgid "KDM directory"
 msgstr "Папка KDM"
 
@@ -1847,7 +1847,7 @@ msgstr "Тайминг"
 msgid "Keep video and subtitles in sequence"
 msgstr "Хранить видео и субтитры в последовательности"
 
-#: src/wx/config_dialog.cc:635
+#: src/wx/config_dialog.cc:634
 msgid "Keys"
 msgstr "Ключи"
 
@@ -1909,7 +1909,7 @@ msgstr "Ниже"
 msgid "Layout for short screen"
 msgstr ""
 
-#: src/wx/config_dialog.cc:525
+#: src/wx/config_dialog.cc:524
 msgid "Leaf"
 msgstr "Конечный сертификат"
 
@@ -1917,11 +1917,11 @@ msgstr "Конечный сертификат"
 msgid "Leaf common name"
 msgstr "Общее имя (CN) Конечного сертификата"
 
-#: src/wx/config_dialog.cc:319
+#: src/wx/config_dialog.cc:318
 msgid "Leaf private key"
 msgstr "Приватный ключ Конечного сертификата"
 
-#: src/wx/config_dialog.cc:337
+#: src/wx/config_dialog.cc:336
 msgid "Leaf private key does not match leaf certificate!"
 msgstr ""
 "Приватный ключ Конечного сертификата не соответствует конечному сертификату!"
@@ -1959,7 +1959,7 @@ msgstr "Загрузка содержимого"
 msgid "Loading playlist and KDMs"
 msgstr "Загрузка списка воспроизведения и KDM"
 
-#: src/wx/config_dialog.cc:1020
+#: src/wx/config_dialog.cc:1019
 msgid "Locations"
 msgstr "Директории"
 
@@ -2044,7 +2044,7 @@ msgstr "Создать цепочку сертификатов"
 msgid "Many"
 msgstr "Много"
 
-#: src/wx/config_dialog.cc:872
+#: src/wx/config_dialog.cc:871
 msgid "Mapping"
 msgstr "Распределение"
 
@@ -2361,7 +2361,7 @@ msgstr "Уведомить по завершении"
 msgid "Number of threads %s should use"
 msgstr "Количество потоков, которые %s должен использовать"
 
-#: src/wx/config_dialog.cc:966
+#: src/wx/config_dialog.cc:965
 msgid "OSS"
 msgstr "OSS"
 
@@ -2433,7 +2433,7 @@ msgid "Outline width cannot be set unless you are burning in subtitles."
 msgstr ""
 "Ширина контура не может быть установлена, если вы не делаете вшитые субтитры."
 
-#: src/wx/config_dialog.cc:873 src/wx/dkdm_dialog.cc:108
+#: src/wx/config_dialog.cc:872 src/wx/dkdm_dialog.cc:108
 #: src/wx/kdm_dialog.cc:113 src/wx/self_dkdm_dialog.cc:76
 msgid "Output"
 msgstr "Вывод"
@@ -2535,11 +2535,11 @@ msgstr "Вопроизведение"
 msgid "Play length"
 msgstr "Длительность воспроизведения"
 
-#: src/wx/config_dialog.cc:862
+#: src/wx/config_dialog.cc:861
 msgid "Play sound via"
 msgstr "Вопроизводить звук через"
 
-#: src/wx/config_dialog.cc:1044
+#: src/wx/config_dialog.cc:1043
 msgid "Playlist directory"
 msgstr "Папка плейлиста"
 
@@ -2591,7 +2591,7 @@ msgstr "Свойства..."
 msgid "Protocol"
 msgstr "Протокол"
 
-#: src/wx/config_dialog.cc:965
+#: src/wx/config_dialog.cc:964
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
@@ -2634,7 +2634,7 @@ msgstr "Перекодировать данные JPEG2000 из потока"
 msgid "Re-examine..."
 msgstr "Перепроверить..."
 
-#: src/wx/config_dialog.cc:332 src/wx/config_dialog.cc:680
+#: src/wx/config_dialog.cc:331 src/wx/config_dialog.cc:679
 msgid "Re-make certificates and key..."
 msgstr "Пересоздать сертификаты и ключ..."
 
@@ -2712,7 +2712,7 @@ msgstr "Регион показа"
 msgid "Release territory for this DCP"
 msgstr "Регион показа для этого DCP"
 
-#: src/wx/config_dialog.cc:306 src/wx/content_menu.cc:117
+#: src/wx/config_dialog.cc:305 src/wx/content_menu.cc:117
 #: src/wx/content_panel.cc:285 src/wx/full_language_tag_dialog.cc:71
 #: src/wx/recipients_panel.cc:73 src/wx/templates_dialog.cc:61
 #: src/wx/editable_list.h:149
@@ -2768,7 +2768,7 @@ msgstr "Повторить..."
 msgid "Report A Problem"
 msgstr "Сообщить об ошибке"
 
-#: src/wx/config_dialog.cc:877
+#: src/wx/config_dialog.cc:876
 msgid "Reset to default"
 msgstr "Сбросить по умолчанию"
 
@@ -2805,7 +2805,7 @@ msgstr "Справа"
 msgid "Right click to change gain."
 msgstr "Правый клик для изменения усиления."
 
-#: src/wx/config_dialog.cc:523
+#: src/wx/config_dialog.cc:522
 msgid "Root"
 msgstr "Корневой сертификат"
 
@@ -2911,13 +2911,17 @@ msgstr "Выбрать"
 msgid "Select CPL XML file"
 msgstr "Выберите XML-файл CPL"
 
-#: src/wx/config_dialog.cc:376 src/wx/config_dialog.cc:459
-#: src/wx/config_dialog.cc:827 src/wx/recipient_dialog.cc:171
-#: src/wx/screen_dialog.cc:298
+#: src/wx/config_dialog.cc:458 src/wx/config_dialog.cc:826
+#: src/wx/recipient_dialog.cc:171 src/wx/screen_dialog.cc:298
 msgid "Select Certificate File"
 msgstr "Выберите файл сертификата"
 
-#: src/wx/config_dialog.cc:489
+#: src/wx/config_dialog.cc:375
+#, fuzzy
+msgid "Select Certificate file"
+msgstr "Выберите файл сертификата"
+
+#: src/wx/config_dialog.cc:488
 msgid "Select Chain File"
 msgstr "Выберите файл цепочки"
 
@@ -2925,11 +2929,11 @@ msgstr "Выберите файл цепочки"
 msgid "Select Cinemas File"
 msgstr "Выберите файл кинотеатров"
 
-#: src/wx/config_dialog.cc:731
+#: src/wx/config_dialog.cc:730
 msgid "Select Export File"
 msgstr "Выберите файл экспорта"
 
-#: src/wx/config_dialog.cc:765
+#: src/wx/config_dialog.cc:764
 msgid "Select File To Import"
 msgstr "Выберите импортируемый файл"
 
@@ -2937,8 +2941,13 @@ msgstr "Выберите импортируемый файл"
 msgid "Select KDM"
 msgstr "Выберите KDM"
 
-#: src/wx/config_dialog.cc:579 src/wx/config_dialog.cc:613
+#: src/wx/config_dialog.cc:612
 msgid "Select Key File"
+msgstr "Выберите файл ключа"
+
+#: src/wx/config_dialog.cc:578
+#, fuzzy
+msgid "Select Key file"
 msgstr "Выберите файл ключа"
 
 #: src/wx/content_menu.cc:463
@@ -3086,7 +3095,7 @@ msgstr "Показать область субтитров"
 msgid "Sign language video language"
 msgstr "Язык видео с языком жестов"
 
-#: src/wx/config_dialog.cc:671 src/wx/config_dialog.cc:718
+#: src/wx/config_dialog.cc:670 src/wx/config_dialog.cc:717
 msgid "Signing DCPs and KDMs"
 msgstr "Подписывание DCP и KDM"
 
@@ -3150,7 +3159,7 @@ msgstr ""
 "Некоторые скрытые субтитры расположены в порядке, отличном от их позиции по "
 "вертикали."
 
-#: src/wx/config_dialog.cc:851 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
 msgid "Sound"
 msgstr "Звук"
 
@@ -3594,7 +3603,7 @@ msgstr ""
 "\n"
 "Позволить DCP-o-matic размонтировать его сейчас?"
 
-#: src/wx/wx_util.cc:821
+#: src/wx/wx_util.cc:827
 msgid ""
 "The existing configuration failed to load.  Default values will be used "
 "instead.  These may take a short time to create."
@@ -3840,7 +3849,7 @@ msgstr ""
 msgid "This KDM was not made for this DCP.  You will need a different one."
 msgstr "Этот KDM не подходит к этому DCP.  Вам нужно использовать другой KDM."
 
-#: src/wx/config_dialog.cc:392
+#: src/wx/config_dialog.cc:391
 msgid ""
 "This file contains other certificates (or other data) after its first "
 "certificate. Only the first certificate will be used."
@@ -3955,7 +3964,7 @@ msgstr "Потоки"
 msgid "Threshold"
 msgstr "Порог"
 
-#: src/wx/config_dialog.cc:290 src/wx/screen_dialog.cc:55
+#: src/wx/config_dialog.cc:289 src/wx/screen_dialog.cc:55
 #: src/wx/screen_dialog.cc:179 src/wx/screen_dialog.cc:211
 msgid "Thumbprint"
 msgstr "Отпечаток"
@@ -4026,12 +4035,12 @@ msgstr "Доверенные устройства"
 msgid "Trusted Device certificate"
 msgstr "Сертификат доверенного устройства"
 
-#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:282
+#: src/wx/audio_dialog.cc:125 src/wx/config_dialog.cc:281
 #: src/wx/video_panel.cc:79
 msgid "Type"
 msgstr "Тип"
 
-#: src/wx/wx_util.cc:713
+#: src/wx/wx_util.cc:719
 msgid "UTC"
 msgstr "UTC"
 
@@ -4039,111 +4048,111 @@ msgstr "UTC"
 msgid "UTC offset (time zone)"
 msgstr "Смещение UTC (часовой пояс)"
 
-#: src/wx/wx_util.cc:714
+#: src/wx/wx_util.cc:720
 msgid "UTC+1"
 msgstr "UTC+1"
 
-#: src/wx/wx_util.cc:725
+#: src/wx/wx_util.cc:731
 msgid "UTC+10"
 msgstr "UTC+10"
 
-#: src/wx/wx_util.cc:726
+#: src/wx/wx_util.cc:732
 msgid "UTC+11"
 msgstr "UTC+11"
 
-#: src/wx/wx_util.cc:727
+#: src/wx/wx_util.cc:733
 msgid "UTC+12"
 msgstr "UTC+12"
 
-#: src/wx/wx_util.cc:715
+#: src/wx/wx_util.cc:721
 msgid "UTC+2"
 msgstr "UTC+2"
 
-#: src/wx/wx_util.cc:716
+#: src/wx/wx_util.cc:722
 msgid "UTC+3"
 msgstr "UTC+3"
 
-#: src/wx/wx_util.cc:717
+#: src/wx/wx_util.cc:723
 msgid "UTC+4"
 msgstr "UTC+4"
 
-#: src/wx/wx_util.cc:718
+#: src/wx/wx_util.cc:724
 msgid "UTC+5"
 msgstr "UTC+5"
 
-#: src/wx/wx_util.cc:719
+#: src/wx/wx_util.cc:725
 msgid "UTC+5:30"
 msgstr "UTC+5:30"
 
-#: src/wx/wx_util.cc:720
+#: src/wx/wx_util.cc:726
 msgid "UTC+6"
 msgstr "UTC+6"
 
-#: src/wx/wx_util.cc:721
+#: src/wx/wx_util.cc:727
 msgid "UTC+7"
 msgstr "UTC+7"
 
-#: src/wx/wx_util.cc:722
+#: src/wx/wx_util.cc:728
 msgid "UTC+8"
 msgstr "UTC+8"
 
-#: src/wx/wx_util.cc:723
+#: src/wx/wx_util.cc:729
 msgid "UTC+9"
 msgstr "UTC+9"
 
-#: src/wx/wx_util.cc:724
+#: src/wx/wx_util.cc:730
 msgid "UTC+9:30"
 msgstr "UTC+9:30"
 
-#: src/wx/wx_util.cc:711
+#: src/wx/wx_util.cc:717
 msgid "UTC-1"
 msgstr "UTC-1"
 
-#: src/wx/wx_util.cc:700
+#: src/wx/wx_util.cc:706
 msgid "UTC-10"
 msgstr "UTC-10"
 
-#: src/wx/wx_util.cc:699
+#: src/wx/wx_util.cc:705
 msgid "UTC-11"
 msgstr "UTC-11"
 
-#: src/wx/wx_util.cc:710
+#: src/wx/wx_util.cc:716
 msgid "UTC-2"
 msgstr "UTC-2"
 
-#: src/wx/wx_util.cc:709
+#: src/wx/wx_util.cc:715
 msgid "UTC-3"
 msgstr "UTC-3"
 
-#: src/wx/wx_util.cc:708
+#: src/wx/wx_util.cc:714
 msgid "UTC-3:30"
 msgstr "UTC-3:30"
 
-#: src/wx/wx_util.cc:707
+#: src/wx/wx_util.cc:713
 msgid "UTC-4"
 msgstr "UTC-4"
 
-#: src/wx/wx_util.cc:706
+#: src/wx/wx_util.cc:712
 msgid "UTC-4:30"
 msgstr "UTC-4:30"
 
-#: src/wx/wx_util.cc:705
+#: src/wx/wx_util.cc:711
 msgid "UTC-5"
 msgstr "UTC-5"
 
-#: src/wx/wx_util.cc:704
+#: src/wx/wx_util.cc:710
 msgid "UTC-6"
 msgstr "UTC-6"
 
-#: src/wx/wx_util.cc:703
+#: src/wx/wx_util.cc:709
 msgid "UTC-7"
 msgstr "UTC-7"
 
-#: src/wx/wx_util.cc:702
+#: src/wx/wx_util.cc:708
 msgid "UTC-8"
 msgstr "UTC-8"
 
-#: src/wx/wx_util.cc:701
+#: src/wx/wx_util.cc:707
 msgid "UTC-9"
 msgstr "UTC-9"
 
@@ -4278,7 +4287,7 @@ msgstr "Видео содержит вшитые субтитры в языке"
 msgid "View..."
 msgstr "Просмотр..."
 
-#: src/wx/config_dialog.cc:962
+#: src/wx/config_dialog.cc:961
 msgid "WASAPI"
 msgstr "WASAPI"
 
@@ -4517,7 +4526,7 @@ msgstr "отрытые субтитры"
 msgid "open subtitles"
 msgstr "открытые субтитры"
 
-#: src/wx/config_dialog.cc:873
+#: src/wx/config_dialog.cc:872
 msgid "output"
 msgstr "вывод"
 
