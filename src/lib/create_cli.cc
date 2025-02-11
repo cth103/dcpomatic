@@ -217,6 +217,10 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 			return boost::optional<int>(value);
 		};
 
+		std::function<optional<int> (string s)> string_to_int = [](string s) {
+			return boost::optional<int>(dcp::raw_convert<int>(s));
+		};
+
 		argument_option(i, argc, argv, "-n", "--name",             &claimed, &error, &_name);
 		argument_option(i, argc, argv, "-t", "--template",         &claimed, &error, &template_name_string);
 		/* See comment below about --cpl */
@@ -229,7 +233,8 @@ CreateCLI::CreateCLI (int argc, char* argv[])
 		argument_option(i, argc, argv, "",   "--config",           &claimed, &error, &config_dir, string_to_path);
 		argument_option(i, argc, argv, "-o", "--output",           &claimed, &error, &output_dir, string_to_path);
 		argument_option(i, argc, argv, "",   "--video-bit-rate",   &claimed, &error, &video_bit_rate_int);
-		argument_option(i, argc, argv, "-a", "--audio-channels",   &claimed, &error, &audio_channels);
+		/* Similar to below, not using string_to_int here causes on add compile error on Ubuntu 1{6,8}.04 */
+		argument_option(i, argc, argv, "-a", "--audio-channels",   &claimed, &error, &audio_channels, string_to_int);
 
 		std::function<optional<dcp::Channel> (string)> convert_channel = [](string channel) -> optional<dcp::Channel>{
 			if (channel == "L") {
