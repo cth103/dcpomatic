@@ -35,25 +35,25 @@ class KDMWithMetadata
 {
 public:
 	KDMWithMetadata(dcp::NameFormat::Map const& name_values, ID group, std::vector<std::string> emails, dcp::EncryptedKDM kdm)
-		: _name_values (name_values)
-		, _group (group)
-		, _emails (emails)
-		, _kdm (kdm)
+		: _name_values(name_values)
+		, _group(group)
+		, _emails(emails)
+		, _kdm(kdm)
 	{}
 
-	std::string kdm_as_xml () const {
-		return _kdm.as_xml ();
+	std::string kdm_as_xml() const {
+		return _kdm.as_xml();
 	}
 
-	void kdm_as_xml (boost::filesystem::path out) const {
-		return _kdm.as_xml (out);
+	void kdm_as_xml(boost::filesystem::path out) const {
+		return _kdm.as_xml(out);
 	}
 
-	dcp::NameFormat::Map const& name_values () const {
+	dcp::NameFormat::Map const& name_values() const {
 		return _name_values;
 	}
 
-	boost::optional<std::string> get (char k) const;
+	boost::optional<std::string> get(char k) const;
 
 	ID group() const {
 		return _group;
@@ -74,19 +74,19 @@ private:
 typedef std::shared_ptr<KDMWithMetadata> KDMWithMetadataPtr;
 
 
-int write_files (
+int write_files(
 	std::list<KDMWithMetadataPtr> screen_kdms, boost::filesystem::path directory,
 	dcp::NameFormat name_format, std::function<bool (boost::filesystem::path)> confirm_overwrite
 	);
 
 
-void make_zip_file (std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format);
+void make_zip_file(std::list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format);
 
 
-std::list<std::list<KDMWithMetadataPtr>> collect (std::list<KDMWithMetadataPtr> kdms);
+std::list<std::list<KDMWithMetadataPtr>> collect(std::list<KDMWithMetadataPtr> kdms);
 
 
-int write_directories (
+int write_directories(
 		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
@@ -95,7 +95,7 @@ int write_directories (
 		);
 
 
-int write_zip_files (
+int write_zip_files(
 		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		boost::filesystem::path directory,
 		dcp::NameFormat container_name_format,
@@ -104,7 +104,7 @@ int write_zip_files (
 		);
 
 
-void send_emails (
+void send_emails(
 		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,

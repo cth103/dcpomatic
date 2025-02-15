@@ -44,7 +44,7 @@ using boost::optional;
 
 
 int
-write_files (
+write_files(
 	list<KDMWithMetadataPtr> kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat name_format,
@@ -56,7 +56,7 @@ write_files (
 	if (directory == "-") {
 		/* Write KDMs to the stdout */
 		for (auto i: kdms) {
-			cout << i->kdm_as_xml ();
+			cout << i->kdm_as_xml();
 			++written;
 		}
 
@@ -71,7 +71,7 @@ write_files (
 	for (auto i: kdms) {
 		auto out = directory / careful_string_filter(name_format.get(i->name_values(), ".xml"));
 		if (!dcp::filesystem::exists(out) || confirm_overwrite(out)) {
-			i->kdm_as_xml (out);
+			i->kdm_as_xml(out);
 			++written;
 		}
 	}
@@ -81,9 +81,9 @@ write_files (
 
 
 optional<string>
-KDMWithMetadata::get (char k) const
+KDMWithMetadata::get(char k) const
 {
-	auto i = _name_values.find (k);
+	auto i = _name_values.find(k);
 	if (i == _name_values.end()) {
 		return {};
 	}
@@ -93,16 +93,16 @@ KDMWithMetadata::get (char k) const
 
 
 void
-make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format)
+make_zip_file(list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, dcp::NameFormat name_format)
 {
-	Zipper zipper (zip_file);
+	Zipper zipper(zip_file);
 
 	for (auto i: kdms) {
 		auto const name = careful_string_filter(name_format.get(i->name_values(), ".xml"));
-		zipper.add (name, i->kdm_as_xml());
+		zipper.add(name, i->kdm_as_xml());
 	}
 
-	zipper.close ();
+	zipper.close();
 }
 
 
@@ -110,25 +110,25 @@ make_zip_file (list<KDMWithMetadataPtr> kdms, boost::filesystem::path zip_file, 
  *  each list contains the KDMs for one list.
  */
 list<list<KDMWithMetadataPtr>>
-collect (list<KDMWithMetadataPtr> kdms)
+collect(list<KDMWithMetadataPtr> kdms)
 {
 	list<list<KDMWithMetadataPtr>> grouped;
 
 	for (auto i: kdms) {
 
-		auto j = grouped.begin ();
+		auto j = grouped.begin();
 
 		while (j != grouped.end()) {
 			if (j->front()->group() == i->group()) {
-				j->push_back (i);
+				j->push_back(i);
 				break;
 			}
 			++j;
 		}
 
 		if (j == grouped.end()) {
-			grouped.push_back (list<KDMWithMetadataPtr>());
-			grouped.back().push_back (i);
+			grouped.push_back(list<KDMWithMetadataPtr>());
+			grouped.back().push_back(i);
 		}
 	}
 
@@ -138,7 +138,7 @@ collect (list<KDMWithMetadataPtr> kdms)
 
 /** Write one directory per list into another directory */
 int
-write_directories (
+write_directories(
 	list<list<KDMWithMetadataPtr>> kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
@@ -164,7 +164,7 @@ write_directories (
 
 /** Write one ZIP file per cinema into a directory */
 int
-write_zip_files (
+write_zip_files(
 	list<list<KDMWithMetadataPtr>> kdms,
 	boost::filesystem::path directory,
 	dcp::NameFormat container_name_format,
@@ -199,7 +199,7 @@ write_zip_files (
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
 void
-send_emails (
+send_emails(
 	list<list<KDMWithMetadataPtr>> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
@@ -207,7 +207,7 @@ send_emails (
 	vector<string> extra_addresses
 	)
 {
-	auto config = Config::instance ();
+	auto config = Config::instance();
 
 	if (config->mail_server().empty()) {
 		throw MissingConfigurationError(_("No outgoing mail server configured in the Email tab of preferences"));
@@ -224,7 +224,7 @@ send_emails (
 		auto zip_file = boost::filesystem::temp_directory_path() / boost::filesystem::unique_path();
 		dcp::filesystem::create_directories(zip_file);
 		zip_file /= container_name_format.get(first->name_values(), ".zip");
-		make_zip_file (kdms_for_cinema, zip_file, filename_format);
+		make_zip_file(kdms_for_cinema, zip_file, filename_format);
 
 		auto substitute_variables = [cpl_name, first](string target) {
 			boost::algorithm::replace_all(target, "$CPL_NAME", cpl_name);
@@ -260,13 +260,13 @@ send_emails (
 		}
 
 		for (auto cc: config->kdm_cc()) {
-			email.add_cc (cc);
+			email.add_cc(cc);
 		}
 		if (!config->kdm_bcc().empty()) {
-			email.add_bcc (config->kdm_bcc());
+			email.add_bcc(config->kdm_bcc());
 		}
 
-		email.add_attachment (zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
+		email.add_attachment(zip_file, container_name_format.get(first->name_values(), ".zip"), "application/zip");
 		dcp::filesystem::remove(zip_file);
 
 		auto log_details = [](Email& email) {
@@ -277,12 +277,12 @@ send_emails (
 		};
 
 		try {
-			email.send (config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+			email.send(config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
 		} catch (...) {
-			log_details (email);
+			log_details(email);
 			throw;
 		}
 
-		log_details (email);
+		log_details(email);
 	}
 }

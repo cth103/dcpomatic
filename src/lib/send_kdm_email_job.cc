@@ -35,23 +35,23 @@ using std::vector;
 using boost::optional;
 
 
-SendKDMEmailJob::SendKDMEmailJob (
+SendKDMEmailJob::SendKDMEmailJob(
 	list<KDMWithMetadataPtr> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	string cpl_name,
 	vector<string> extra_addresses
 	)
-	: Job (shared_ptr<Film>())
-	, _container_name_format (container_name_format)
-	, _filename_format (filename_format)
-	, _cpl_name (cpl_name)
-	, _extra_addresses (extra_addresses)
+	: Job({})
+	, _container_name_format(container_name_format)
+	, _filename_format(filename_format)
+	, _cpl_name(cpl_name)
+	, _extra_addresses(extra_addresses)
 {
 	for (auto i: kdms) {
 		list<KDMWithMetadataPtr> s;
-		s.push_back (i);
-		_kdms.push_back (s);
+		s.push_back(i);
+		_kdms.push_back(s);
 	}
 }
 
@@ -62,54 +62,54 @@ SendKDMEmailJob::SendKDMEmailJob (
  *  @param name_values Values to substitute into \p container_name_format and \p filename_format.
  *  @param cpl_name Name of the CPL that the KDMs are for.
  */
-SendKDMEmailJob::SendKDMEmailJob (
+SendKDMEmailJob::SendKDMEmailJob(
 	list<list<KDMWithMetadataPtr>> kdms,
 	dcp::NameFormat container_name_format,
 	dcp::NameFormat filename_format,
 	string cpl_name,
 	vector<string> extra_addresses
 	)
-	: Job (shared_ptr<Film>())
-	, _container_name_format (container_name_format)
-	, _filename_format (filename_format)
-	, _cpl_name (cpl_name)
-	, _kdms (kdms)
-	, _extra_addresses (extra_addresses)
+	: Job({})
+	, _container_name_format(container_name_format)
+	, _filename_format(filename_format)
+	, _cpl_name(cpl_name)
+	, _kdms(kdms)
+	, _extra_addresses(extra_addresses)
 {
 
 }
 
 
-SendKDMEmailJob::~SendKDMEmailJob ()
+SendKDMEmailJob::~SendKDMEmailJob()
 {
-	stop_thread ();
+	stop_thread();
 }
 
 
 string
-SendKDMEmailJob::name () const
+SendKDMEmailJob::name() const
 {
 	auto f = _kdms.front().front()->get('f');
 	if (!f || f->empty()) {
 		return _("Email KDMs");
 	}
 
-	return String::compose (_("Email KDMs for %1"), *f);
+	return String::compose(_("Email KDMs for %1"), *f);
 }
 
 
 string
-SendKDMEmailJob::json_name () const
+SendKDMEmailJob::json_name() const
 {
 	return N_("send_kdm_email");
 }
 
 
 void
-SendKDMEmailJob::run ()
+SendKDMEmailJob::run()
 {
-	set_progress_unknown ();
-	send_emails (_kdms, _container_name_format, _filename_format, _cpl_name, _extra_addresses);
-	set_progress (1);
-	set_state (FINISHED_OK);
+	set_progress_unknown();
+	send_emails(_kdms, _container_name_format, _filename_format, _cpl_name, _extra_addresses);
+	set_progress(1);
+	set_state(FINISHED_OK);
 }

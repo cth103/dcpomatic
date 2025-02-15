@@ -38,7 +38,7 @@ class Log;
 class SendKDMEmailJob : public Job
 {
 public:
-	SendKDMEmailJob (
+	SendKDMEmailJob(
 		std::list<KDMWithMetadataPtr> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -46,7 +46,7 @@ public:
 		std::vector<std::string> extra_addresses
 		);
 
-	SendKDMEmailJob (
+	SendKDMEmailJob(
 		std::list<std::list<KDMWithMetadataPtr>> kdms,
 		dcp::NameFormat container_name_format,
 		dcp::NameFormat filename_format,
@@ -54,11 +54,11 @@ public:
 		std::vector<std::string> extra_addresses
 		);
 
-	~SendKDMEmailJob ();
+	~SendKDMEmailJob();
 
-	std::string name () const override;
-	std::string json_name () const override;
-	void run () override;
+	std::string name() const override;
+	std::string json_name() const override;
+	void run() override;
 
 private:
 	dcp::NameFormat _container_name_format;
