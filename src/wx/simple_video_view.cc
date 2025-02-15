@@ -106,7 +106,7 @@ SimpleVideoView::paint ()
 		dc.SetBrush (b);
 		int const gap = (panel_size.height - out_size.height) / 2;
 		dc.DrawRectangle(0, 0, panel_size.width, gap);
-		dc.DrawRectangle(0, gap + out_size.height + 1, panel_size.width, gap + 1);
+		dc.DrawRectangle(0, gap + out_size.height, panel_size.width, gap + 1);
 	}
 
 	if (_viewer->outline_content()) {
