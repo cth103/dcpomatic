@@ -277,7 +277,7 @@ send_emails(
 		};
 
 		try {
-			email.send(config->mail_server(), config->mail_port(), config->mail_protocol(), config->mail_user(), config->mail_password());
+			email.send_with_retry(config->mail_server(), config->mail_port(), config->mail_protocol(), 5, config->mail_user(), config->mail_password());
 		} catch (...) {
 			log_details(email);
 			throw;

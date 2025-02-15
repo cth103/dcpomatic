@@ -81,6 +81,7 @@ def build(bld):
                  dcp_subtitle_test.cc
                  digest_test.cc
                  dkdm_recipient_list_test.cc
+                 email_test.cc
                  empty_caption_test.cc
                  empty_test.cc
                  encryption_test.cc
@@ -154,6 +155,7 @@ def build(bld):
                  shuffler_test.cc
                  skip_frame_test.cc
                  socket_test.cc
+                 smtp_server.cc
                  srt_subtitle_test.cc
                  ssa_subtitle_test.cc
                  stream_test.cc

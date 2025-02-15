@@ -21,6 +21,7 @@
 
 #include "compose.hpp"
 #include "config.h"
+#include "dcpomatic_log.h"
 #include "email.h"
 #include "exceptions.h"
 #include "util.h"
@@ -106,6 +107,25 @@ Email::get_data(void* ptr, size_t size, size_t nmemb)
 	memcpy (ptr, _email.substr (_offset, t).c_str(), t);
 	_offset += t;
 	return t;
+}
+
+
+void
+Email::send_with_retry(string server, int port, EmailProtocol protocol, int retries, string user, string password)
+{
+	int this_try = 0;
+	while (true) {
+		try {
+			send(server, port, protocol, user, password);
+			return;
+		} catch (NetworkError& e) {
+			LOG_ERROR("Error %1 when trying to send email on attempt %2 of 3", e.what(), this_try + 1, retries);
+			if (this_try == (retries - 1)) {
+				throw;
+			}
+		}
+		++this_try;
+	}
 }
 
 

@@ -35,6 +35,7 @@ public:
 	void add_attachment (boost::filesystem::path file, std::string name, std::string mime_type);
 
 	void send (std::string server, int port, EmailProtocol protocol, std::string user = "", std::string password = "");
+	void send_with_retry(std::string server, int port, EmailProtocol protocol, int retries, std::string user = "", std::string password = "");
 
 	std::string notes () const {
 		return _notes;
