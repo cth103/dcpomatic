@@ -133,6 +133,9 @@ enum {
 	ID_view_full_screen = DCPOMATIC_MAIN_MENU + 200,
 	ID_view_dual_screen,
 	ID_view_closed_captions,
+	ID_view_eye,
+	ID_view_eye_left,
+	ID_view_eye_right,
 	ID_view_scale_appropriate,
 	ID_view_scale_full,
 	ID_view_scale_half,
@@ -239,6 +242,8 @@ public:
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_dual_screen, this), ID_view_dual_screen);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_closed_captions, this), ID_view_closed_captions);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_cpl, this, _1), ID_view_cpl, ID_view_cpl + MAX_CPLS);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_eye_changed, this, _1), ID_view_eye_left);
+		Bind (wxEVT_MENU, boost::bind (&DOMFrame::view_eye_changed, this, _1), ID_view_eye_right);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(0)), ID_view_scale_full);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(1)), ID_view_scale_half);
 		Bind (wxEVT_MENU, boost::bind (&DOMFrame::set_decode_reduction, this, optional<int>(2)), ID_view_scale_quarter);
@@ -467,6 +472,7 @@ public:
 
 		_viewer.set_film(_film);
 		_viewer.seek(DCPTime(), true);
+		_viewer.set_eyes(_view_eye_left->IsChecked() ? Eyes::LEFT : Eyes::RIGHT);
 		_info->triggered_update();
 		set_menu_sensitivity();
 
@@ -638,6 +644,10 @@ private:
 		setup_menu ();
 		view->AppendSeparator();
 		view->Append(ID_view_closed_captions, _("Closed captions..."));
+		_view_eye_menu = new wxMenu;
+		_view_eye_left = _view_eye_menu->AppendRadioItem(ID_view_eye_left, _("Left"));
+		_view_eye_menu->AppendRadioItem(ID_view_eye_right, _("Right"));
+		_view_eye = view->Append(ID_view_eye, _("Eye"), _view_eye_menu);
 		view->AppendSeparator();
 		view->AppendRadioItem(ID_view_scale_appropriate, _("Set decode resolution to match display"))->Check(!static_cast<bool>(c));
 		view->AppendRadioItem(ID_view_scale_full, _("Decode at full resolution"))->Check(c && c.get() == 0);
@@ -875,6 +885,11 @@ private:
 		_viewer.set_coalesce_player_changes(false);
 
 		_info->triggered_update ();
+	}
+
+	void view_eye_changed(wxCommandEvent& ev)
+	{
+		_viewer.set_eyes(ev.GetId() == ID_view_eye_left ? Eyes::LEFT : Eyes::RIGHT);
 	}
 
 	void view_full_screen ()
@@ -1172,6 +1187,7 @@ private:
 		_file_add_kdm->Enable(enable);
 		_file_save_frame->Enable(enable);
 		_view_cpl->Enable(enable);
+		_view_eye->Enable(enable && _film->three_d());
 	}
 
 	void start_stop_pressed ()
@@ -1217,6 +1233,9 @@ private:
 	wxMenu* _file_menu = nullptr;
 	wxMenuItem* _view_cpl = nullptr;
 	wxMenu* _cpl_menu = nullptr;
+	wxMenuItem* _view_eye = nullptr;
+	wxMenuItem* _view_eye_left = nullptr;
+	wxMenu* _view_eye_menu = nullptr;
 	int _history_items = 0;
 	int _history_position = 0;
 	wxMenuItem* _history_separator = nullptr;
