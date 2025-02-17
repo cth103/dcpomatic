@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2025-01-24 15:41+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Russian\n"
@@ -711,23 +711,23 @@ msgstr "Просчитать..."
 msgid "Cancel"
 msgstr "Отмена"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 msgid "Cannot reference this DCP"
 msgstr "Нельзя использовать этот DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 msgid "Cannot reference this DCP's audio"
 msgstr "Нельзя использовать аудио этого DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
 msgstr "Нельзя использовать субтитры этого DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 msgid "Cannot reference this DCP's subtitles"
 msgstr "Нельзя использовать субтитры этого DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 msgid "Cannot reference this DCP's video"
 msgstr "Нельзя использовать видео этого DCP"
 
@@ -833,7 +833,7 @@ msgstr ""
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "Ресурсов скрытых субтитров %n содержит ненулевой тег <EntryPoint>."
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr "Скрытые субтитры"
 
@@ -1052,8 +1052,7 @@ msgstr "Пользовательский масштаб"
 
 # Main
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2365,6 +2364,10 @@ msgstr "Количество потоков, которые %s должен ис
 msgid "OSS"
 msgstr "OSS"
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Отключить"
@@ -2519,7 +2522,7 @@ msgstr "Пик: неизвестно"
 msgid "Performance"
 msgstr "Производительность"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr "Изображение"
 
@@ -2695,6 +2698,10 @@ msgstr "Части фильма"
 #: src/wx/dcp_panel.cc:115
 msgid "Reels..."
 msgstr "Части фильма..."
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3159,7 +3166,7 @@ msgstr ""
 "Некоторые скрытые субтитры расположены в порядке, отличном от их позиции по "
 "вертикали."
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr "Звук"
 
@@ -3255,7 +3262,7 @@ msgstr "Файлы субтитров (*.mov)|*.mov"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "Файлы субтитров (*.mov)|*.mov"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
 msgstr "Субтитры"
 

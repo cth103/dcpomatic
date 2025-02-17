@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: LIBDCPOMATIC\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2021-10-17 22:41-0400\n"
 "Last-Translator: Manuel AC <manuel.acevedo@civantos.>\n"
 "Language-Team: Manuel AC <manuel.acevedo@civantos.com>\n"
@@ -582,7 +582,7 @@ msgstr "Espacio de color"
 msgid "Combine DCPs"
 msgstr "Combinar DCPs"
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Calculando la firma resumen"
 
@@ -710,7 +710,7 @@ msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Para unir contenido debe tener la misma separación de línea de subtítulos."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Para unir contenido debe tener la misma velocidad de imagen"
 
@@ -1013,11 +1013,11 @@ msgstr "Fallo al enviar el email"
 msgid "Feature"
 msgstr "Película"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Nombre de fichero"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 #, fuzzy
 msgid "Filenames"
 msgstr "Nombre de fichero"
@@ -1034,7 +1034,7 @@ msgstr "Película"
 msgid "Finding length"
 msgstr "Buscando la duración"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Velocidad"
 
@@ -1312,12 +1312,12 @@ msgstr "OK (ejecución %1)"
 msgid "OK (ran for %1)"
 msgstr "OK (ejecución %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Solo la primera pieza a ser unida puede tener un recorte en su comienzo."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Solo la última pieza a ser unida puede tener un recorte en su final."
 
@@ -1373,7 +1373,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr ""
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Preparado para velocidad de vídeo"
 
@@ -2139,7 +2139,7 @@ msgstr "error durante async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "error durante async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "imágenes por segundo"
 

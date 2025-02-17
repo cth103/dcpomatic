@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: libdcpomatic-wx\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2024-11-19 08:26+0800\n"
 "Last-Translator: Dian Li <xslidian@gmail.com>\n"
 "Language-Team: Chinese Simplified (Rov8 branch)\n"
@@ -718,23 +718,23 @@ msgstr "计算..."
 msgid "Cancel"
 msgstr "取消"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 msgid "Cannot reference this DCP"
 msgstr "无法引用此 DCP 的音频"
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 msgid "Cannot reference this DCP's audio"
 msgstr "无法引用此 DCP 的音频"
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
 msgstr "无法引用此DCP的字幕或标题"
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 msgid "Cannot reference this DCP's subtitles"
 msgstr "无法引用此DCP的字幕或标题"
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 msgid "Cannot reference this DCP's video"
 msgstr "无法引用此DCP的视频"
 
@@ -838,7 +838,7 @@ msgstr "单击该按钮可将所有选定的内容为相同的值。"
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "隐藏式字幕资源 %n 具有非零 <EntryPoint>。"
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr "隐藏式字幕"
 
@@ -1056,8 +1056,7 @@ msgid "Custom scale"
 msgstr "自定义比例"
 
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2320,6 +2319,10 @@ msgstr "将被使用的 %s 进程数量"
 msgid "OSS"
 msgstr "开源软件"
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "关闭"
@@ -2472,7 +2475,7 @@ msgstr "最佳值: 未知"
 msgid "Performance"
 msgstr "状态"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr "描述"
 
@@ -2645,6 +2648,10 @@ msgstr "卷"
 #: src/wx/dcp_panel.cc:115
 msgid "Reels..."
 msgstr "卷…"
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3103,7 +3110,7 @@ msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr "部分隐藏式字幕未按其垂直方向位置列出。"
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr "声音"
 
@@ -3197,7 +3204,7 @@ msgstr "字幕文件 (.mxf)|*.mxf"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "字幕文件 (.xml)|*.xml"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
 msgstr "字幕"
 

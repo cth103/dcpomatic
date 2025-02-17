@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2018-08-20 20:35+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Ukrainian\n"
@@ -727,27 +727,27 @@ msgstr "Прорахувати..."
 msgid "Cancel"
 msgstr "Відміна"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 #, fuzzy
 msgid "Cannot reference this DCP"
 msgstr "Не можна посилатися на цей DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 #, fuzzy
 msgid "Cannot reference this DCP's audio"
 msgstr "Не можна посилатися на цей DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 #, fuzzy
 msgid "Cannot reference this DCP's closed captions"
 msgstr "Не можна посилатися на цей DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 #, fuzzy
 msgid "Cannot reference this DCP's subtitles"
 msgstr "Не можна посилатися на цей DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 #, fuzzy
 msgid "Cannot reference this DCP's video"
 msgstr "Не можна посилатися на цей DCP."
@@ -857,7 +857,7 @@ msgstr ""
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr ""
 
@@ -1089,8 +1089,7 @@ msgid "Custom scale"
 msgstr ""
 
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2384,6 +2383,10 @@ msgstr "Кількість потоків, які має використову�
 msgid "OSS"
 msgstr ""
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Вимкнений"
@@ -2544,7 +2547,7 @@ msgstr "Пікова гучність: невідома"
 msgid "Performance"
 msgstr "Продуктивність"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr ""
 
@@ -2730,6 +2733,10 @@ msgstr "Бобіни"
 #, fuzzy
 msgid "Reels..."
 msgstr "Бобіни"
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3207,7 +3214,7 @@ msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr ""
 
@@ -3309,7 +3316,7 @@ msgstr "MOV файли (*.mov)|*.mov"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "MOV файли (*.mov)|*.mov"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 #, fuzzy
 msgid "Subtitles"
 msgstr "Субтитр"

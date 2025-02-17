@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: DCP-o-matic translators\n"
@@ -728,27 +728,27 @@ msgstr "Vypočítať..."
 msgid "Cancel"
 msgstr "Zrušiť"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 #, fuzzy
 msgid "Cannot reference this DCP"
 msgstr "Nemožno odkazovať na toto DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 #, fuzzy
 msgid "Cannot reference this DCP's audio"
 msgstr "Nemožno odkazovať na toto DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 #, fuzzy
 msgid "Cannot reference this DCP's closed captions"
 msgstr "Nemožno odkazovať na toto DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 #, fuzzy
 msgid "Cannot reference this DCP's subtitles"
 msgstr "Nemožno odkazovať na toto DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 #, fuzzy
 msgid "Cannot reference this DCP's video"
 msgstr "Nemožno odkazovať na toto DCP."
@@ -858,7 +858,7 @@ msgstr ""
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr ""
 
@@ -1091,8 +1091,7 @@ msgid "Custom scale"
 msgstr ""
 
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2396,6 +2395,10 @@ msgstr ""
 msgid "OSS"
 msgstr ""
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Vypnuté"
@@ -2557,7 +2560,7 @@ msgstr "Maximum: neznámy"
 msgid "Performance"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr ""
 
@@ -2744,6 +2747,10 @@ msgstr "Reels"
 #, fuzzy
 msgid "Reels..."
 msgstr "Reels"
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3233,7 +3240,7 @@ msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr ""
 
@@ -3333,7 +3340,7 @@ msgstr ""
 msgid "Subtitle files (.xml)|*.xml"
 msgstr ""
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 #, fuzzy
 msgid "Subtitles"
 msgstr "Titulky"

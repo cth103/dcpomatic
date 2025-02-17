@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: IT VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2018-09-30 18:21+0200\n"
 "Last-Translator: William Fanelli <william.f@impronte.com>\n"
 "Language-Team: \n"
@@ -727,27 +727,27 @@ msgstr "Calcolare..."
 msgid "Cancel"
 msgstr "Annulla"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 #, fuzzy
 msgid "Cannot reference this DCP"
 msgstr "Impossibile fare riferimento a questo DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 #, fuzzy
 msgid "Cannot reference this DCP's audio"
 msgstr "Impossibile fare riferimento a questo DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 #, fuzzy
 msgid "Cannot reference this DCP's closed captions"
 msgstr "Impossibile fare riferimento a questo DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 #, fuzzy
 msgid "Cannot reference this DCP's subtitles"
 msgstr "Impossibile fare riferimento a questo DCP."
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 #, fuzzy
 msgid "Cannot reference this DCP's video"
 msgstr "Impossibile fare riferimento a questo DCP."
@@ -856,7 +856,7 @@ msgstr ""
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr ""
 
@@ -1086,8 +1086,7 @@ msgid "Custom scale"
 msgstr ""
 
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2377,6 +2376,10 @@ msgstr "Numero di thread che DCP-o-MATIC può utilizzare"
 msgid "OSS"
 msgstr ""
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Spento"
@@ -2539,7 +2542,7 @@ msgstr "Picco: sconosciuto"
 msgid "Performance"
 msgstr "Prestazione"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr ""
 
@@ -2722,6 +2725,10 @@ msgstr "Bobine"
 #, fuzzy
 msgid "Reels..."
 msgstr "Bobine"
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3198,7 +3205,7 @@ msgid ""
 "Some closed captions are not listed in the order of their vertical position."
 msgstr ""
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr ""
 
@@ -3300,7 +3307,7 @@ msgstr "MOV files (*.mov)|*.mov"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "MOV files (*.mov)|*.mov"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 #, fuzzy
 msgid "Subtitles"
 msgstr "Sottotitolo"

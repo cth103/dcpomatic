@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2025-01-08 18:14+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
@@ -583,7 +583,7 @@ msgstr "Kleurruimte"
 msgid "Combine DCPs"
 msgstr "Combineer DCP's"
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Berekenen samenvatting"
 
@@ -725,7 +725,7 @@ msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Samen te voegen content moet dezelfde regelafstand voor ondertitels hebben."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Samen te voegen content moet dezelfde video frame rate hebben"
 
@@ -1029,11 +1029,11 @@ msgstr "Verzenden e-mail mislukt"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filenames"
 msgstr "Bestandsnamen"
 
@@ -1049,7 +1049,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Bepalen lengte"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Frame rate"
 
@@ -1333,13 +1333,13 @@ msgstr "OK (%1 bezig, van %2 tot %3)"
 msgid "OK (ran for %1)"
 msgstr "OK (%1 bezig)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Alleen bij het eerste deel van samengevoegde content kan het begin "
 "bijgeknipt worden."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "Alleen bij het laatste deel van samengevoegde content kan het einde "
@@ -1393,7 +1393,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr "Premultiply alpha channel"
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Voorbereid voor video frame rate"
 
@@ -2170,7 +2170,7 @@ msgstr "fout tijdens async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fout tijdens async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "frames per seconde"
 

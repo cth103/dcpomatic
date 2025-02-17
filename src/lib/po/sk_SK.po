@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2016-01-06 00:23+0100\n"
 "Last-Translator: Tomáš Hlaváč\n"
 "Language-Team: \n"
@@ -538,7 +538,7 @@ msgstr "Farebný priestor"
 msgid "Combine DCPs"
 msgstr ""
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Počítam zhrnutie"
 
@@ -669,7 +669,7 @@ msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Aby sa spojil obsah, musí mať rovnakú titulkovú X mierku. "
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 #, fuzzy
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Aby sa spojil obsah, musí mať rovnaký počet obrázkov za sekundu."
@@ -993,12 +993,12 @@ msgstr "Chyba pri posielaní emailu (%1)"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 #, fuzzy
 msgid "Filename"
 msgstr "meno"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 #, fuzzy
 msgid "Filenames"
 msgstr "meno"
@@ -1016,7 +1016,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Dĺžka videa"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 #, fuzzy
 msgid "Frame rate"
 msgstr "Frame rate videa (počet obrázkov za sekundu)"
@@ -1289,11 +1289,11 @@ msgstr "OK (hotovo za %1)"
 msgid "OK (ran for %1)"
 msgstr "OK (hotovo za %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Iba prvá časť pripojeného obsahu môže byť upravená od začiatku."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Iba posledná časť pripojeného obsahu môže byť upravená od konca."
 
@@ -1343,7 +1343,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr ""
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr ""
 
@@ -2048,7 +2048,7 @@ msgstr "chyba počas  async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "chyba počas  async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "obrázky za sekundu"
 

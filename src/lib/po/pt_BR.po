@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2018-01-15 16:19-0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -554,7 +554,7 @@ msgstr "Espaço de cor"
 msgid "Combine DCPs"
 msgstr ""
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Computando processamento"
 
@@ -703,7 +703,7 @@ msgstr ""
 "O conteúdo a ser concatenado deve ter o mesmo espaçamento de linha de "
 "legenda."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "O conteúdo a ser concatenado deve ter a mesma taxa de quadros"
 
@@ -1021,11 +1021,11 @@ msgstr "Falha no envio de email (%1)"
 msgid "Feature"
 msgstr "Longa-metragem"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Nome do arquivo"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 #, fuzzy
 msgid "Filenames"
 msgstr "Nome do arquivo"
@@ -1042,7 +1042,7 @@ msgstr "Filme"
 msgid "Finding length"
 msgstr "Buscando duração"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Taxa de quadros"
 
@@ -1314,12 +1314,12 @@ msgstr "OK (executou por %1)"
 msgid "OK (ran for %1)"
 msgstr "OK (executou por %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Apenas o primeiro conteúdo a ser concatenado pode ter um corte de início."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Apenas o último conteúdo a ser concatenado pode ter um corte de fim."
 
@@ -1369,7 +1369,7 @@ msgstr "Comunicado"
 msgid "Premultiply alpha channel"
 msgstr ""
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Preparado para frame rate de vídeo"
 
@@ -2105,7 +2105,7 @@ msgstr "erro durante async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "erro durante async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "quadros por segundo"
 

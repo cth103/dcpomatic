@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2021-12-28 14:46+0100\n"
 "Last-Translator: Mattias Mattsson <vitplister@gmail.com>\n"
 "Language-Team: \n"
@@ -586,7 +586,7 @@ msgstr "Färgrymd"
 msgid "Combine DCPs"
 msgstr "Kombinera DCP:er"
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Beräknar hashsumma"
 
@@ -727,7 +727,7 @@ msgstr "Undertextspår som ska sammanfogas måste ha samma in- och uttoning."
 msgid "Content to be joined must have the same subtitle line spacing."
 msgstr "Undertextspår som ska sammanfogas måste ha samma radavstånd."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Källmaterial som ska sammanfogas måste ha samma bildhastighet"
 
@@ -1032,11 +1032,11 @@ msgstr "Misslyckades att skicka e-post"
 msgid "Feature"
 msgstr "Feature"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Filnamn"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 #, fuzzy
 msgid "Filenames"
 msgstr "Filnamn"
@@ -1053,7 +1053,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Söker längd"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Bildhastighet"
 
@@ -1332,11 +1332,11 @@ msgstr "OK (tog %1)"
 msgid "OK (ran for %1)"
 msgstr "OK (tog %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Endast det första blocket källmaterial kan trimmas från start."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Endast det sista blocket källmaterial kan trimmas från slutet."
 
@@ -1391,7 +1391,7 @@ msgstr "Policy"
 msgid "Premultiply alpha channel"
 msgstr ""
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Förberedd för videobildshastighet"
 
@@ -2157,7 +2157,7 @@ msgstr "fel vid async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "fel vid async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "bilder per sekund"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2024-02-10 16:15+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -580,7 +580,7 @@ msgstr "Barvni prostor"
 msgid "Combine DCPs"
 msgstr "Združi DCP-je"
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Računanje povzetka"
 
@@ -719,7 +719,7 @@ msgstr ""
 "Vsebina, ki jo želite združiti, mora imeti enak razmik med vrsticami "
 "podnaslovov."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Vsebina, ki jo želite združiti, mora imeti enako hitrost video sličic."
 
@@ -1022,11 +1022,11 @@ msgstr "Pošiljanje e-pošte je spodletelo"
 msgid "Feature"
 msgstr "Celovečerni film"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Ime datoteke"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filenames"
 msgstr "Imena datotek"
 
@@ -1042,7 +1042,7 @@ msgstr "Film"
 msgid "Finding length"
 msgstr "Iskanje dolžine"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Hitrost sličic"
 
@@ -1320,12 +1320,12 @@ msgstr "V redu (potekalo %1 od %2 do %3)"
 msgid "OK (ran for %1)"
 msgstr "V redu (potekalo %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Samo prvi del vsebine, ki ga želite združiti, ima lahko začetno porezavo."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "Samo zadnji del vsebine, ki ga želite združiti, ima lahko končno porezavo."
@@ -1378,7 +1378,7 @@ msgstr "Politika"
 msgid "Premultiply alpha channel"
 msgstr "Vnaprej pomnoži kanal alfa"
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Pripravljeno za hitrost video sličic"
 
@@ -2158,7 +2158,7 @@ msgstr "napaka med async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "napaka med async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "sličic na sekundo"
 

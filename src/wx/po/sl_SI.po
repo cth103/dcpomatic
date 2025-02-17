@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2024-02-10 16:17+0100\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: \n"
@@ -718,27 +718,27 @@ msgstr "Izračunaj …"
 msgid "Cancel"
 msgstr "Prekliči"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 #, fuzzy
 msgid "Cannot reference this DCP"
 msgstr "Sklicevanje na zvok tega DCP-ja ni možno."
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 #, fuzzy
 msgid "Cannot reference this DCP's audio"
 msgstr "Sklicevanje na zvok tega DCP-ja ni možno."
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 #, fuzzy
 msgid "Cannot reference this DCP's closed captions"
 msgstr "Sklicevanje na podnaslove ali napise tega DCP-ja ni možno."
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 #, fuzzy
 msgid "Cannot reference this DCP's subtitles"
 msgstr "Sklicevanje na podnaslove ali napise tega DCP-ja ni možno."
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 #, fuzzy
 msgid "Cannot reference this DCP's video"
 msgstr "Sklicevanje na videoposnetek tega DCP-ja ni možno."
@@ -844,7 +844,7 @@ msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr ""
 "Sredstvo zaprtega napisa z %n ima ne-ničelno vstopno točko <EntryPoint>."
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr "Zaprti napisi"
 
@@ -1064,8 +1064,7 @@ msgid "Custom scale"
 msgstr "Merilo po meri"
 
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2360,6 +2359,10 @@ msgstr "Število niti, ki naj jih uporablja DCP-o-matic"
 msgid "OSS"
 msgstr "OSS"
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Izklopljeno"
@@ -2515,7 +2518,7 @@ msgstr "Vrh: neznan"
 msgid "Performance"
 msgstr "Hitrost delovanja"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr ""
 
@@ -2693,6 +2696,10 @@ msgstr "Koluti"
 #, fuzzy
 msgid "Reels..."
 msgstr "Koluti"
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3161,7 +3168,7 @@ msgstr ""
 "Nekateri zaprti napisi niso navedeni v zaporedju njihovega navpičnega "
 "položaja."
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr "Zvok"
 
@@ -3256,7 +3263,7 @@ msgstr "Datoteke podnaslovov (.mxf)|*.mxf"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "Datoteke podnaslovov (.xml)|*.xml"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 #, fuzzy
 msgid "Subtitles"
 msgstr "Podnaslovi: ne"

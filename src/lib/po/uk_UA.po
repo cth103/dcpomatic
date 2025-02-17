@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2018-08-20 19:32+0300\n"
 "Last-Translator: Igor Voytovich <i.voyt@dualvfilms.com>\n"
 "Language-Team: Українська\n"
@@ -547,7 +547,7 @@ msgstr "Кольорова палітра"
 msgid "Combine DCPs"
 msgstr ""
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Перевірка цілостності"
 
@@ -685,7 +685,7 @@ msgid "Content to be joined must have the same subtitle line spacing."
 msgstr ""
 "Для приєднання контенту має бути такий самий інтервал між рядками субтитрів."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Для приєднання контенту має бути така сама частота кадрів відео"
 
@@ -1003,11 +1003,11 @@ msgstr "Помилка відправки email (%1)"
 msgid "Feature"
 msgstr "FTR (Фільм)"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Ім`я файлу"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 #, fuzzy
 msgid "Filenames"
 msgstr "Ім`я файлу"
@@ -1024,7 +1024,7 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчет длительности"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Частота кадрів"
 
@@ -1295,11 +1295,11 @@ msgstr "Готово! (виконано за %1)"
 msgid "OK (ran for %1)"
 msgstr "Готово! (виконано за %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr "Тільки перший елемент контенту може мати обрізку з початку."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr "Тільки останній елемент контенту може мати обрізку з кінця."
 
@@ -1349,7 +1349,7 @@ msgstr "POL (Стратегічний)"
 msgid "Premultiply alpha channel"
 msgstr ""
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Підготовлене для частоти кадрів відео"
 
@@ -2088,7 +2088,7 @@ msgstr "помилка під час async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "помилка під час async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "кадра(ів) в секунду"
 

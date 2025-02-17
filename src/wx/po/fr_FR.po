@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP-o-matic FRENCH\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2024-12-07 15:57+0100\n"
 "Last-Translator: Grégoire AUSINA <gregoire@gisele-productions.eu>\n"
 "Language-Team: \n"
@@ -723,23 +723,23 @@ msgstr "Calculer..."
 msgid "Cancel"
 msgstr "Annuler"
 
-#: src/wx/dcp_referencing_dialog.cc:166
+#: src/wx/dcp_referencing_dialog.cc:175
 msgid "Cannot reference this DCP"
 msgstr "Impossible de référencer ce DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:178
+#: src/wx/dcp_referencing_dialog.cc:187
 msgid "Cannot reference this DCP's audio"
 msgstr "Impossible de référencer l'audio de ce DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:192
+#: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
 msgstr "Impossible de référencer les sous-titres codés de ce DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:185
+#: src/wx/dcp_referencing_dialog.cc:194
 msgid "Cannot reference this DCP's subtitles"
 msgstr "Impossible de référencer les sous-titres de ce DCP"
 
-#: src/wx/dcp_referencing_dialog.cc:171
+#: src/wx/dcp_referencing_dialog.cc:180
 msgid "Cannot reference this DCP's video"
 msgstr "Impossible de référencer la vidéo de ce DCP"
 
@@ -845,7 +845,7 @@ msgstr ""
 msgid "Closed caption asset %n has a non-zero <EntryPoint>."
 msgstr "La ressource de sous-titres codés %n a un <EntryPoint> non nul."
 
-#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/closed_captions_dialog.cc:49 src/wx/dcp_referencing_dialog.cc:115
 msgid "Closed captions"
 msgstr "Sous-titres codés"
 
@@ -1067,8 +1067,7 @@ msgid "Custom scale"
 msgstr "Échelle personnalisée"
 
 #: src/wx/audio_panel.cc:111 src/wx/config_dialog.cc:872
-#: src/wx/dcp_referencing_dialog.cc:106 src/wx/film_editor.cc:63
-#: src/wx/player_information.cc:59
+#: src/wx/film_editor.cc:63 src/wx/player_information.cc:59
 msgid "DCP"
 msgstr "DCP"
 
@@ -2373,6 +2372,10 @@ msgstr "Nombre de threads pour %s"
 msgid "OSS"
 msgstr "OSS"
 
+#: src/wx/dcp_referencing_dialog.cc:115
+msgid "OV DCP"
+msgstr ""
+
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
 msgstr "Éteint"
@@ -2530,7 +2533,7 @@ msgstr "Crête : inconnue"
 msgid "Performance"
 msgstr "Performance"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Picture"
 msgstr "Image"
 
@@ -2705,6 +2708,10 @@ msgstr "Bobines"
 #: src/wx/dcp_panel.cc:115
 msgid "Reels..."
 msgstr "Bobines..."
+
+#: src/wx/dcp_referencing_dialog.cc:107
+msgid "Refer to"
+msgstr ""
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3167,7 +3174,7 @@ msgstr ""
 "Certains sous-titres codés ne sont pas répertoriés dans l'ordre de leur "
 "position verticale."
 
-#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
 msgstr "Son"
 
@@ -3263,7 +3270,7 @@ msgstr "Fichiers de sous-titres (.mxf)|*.mxf"
 msgid "Subtitle files (.xml)|*.xml"
 msgstr "Fichiers de sous-titres (.xml)|*.xml"
 
-#: src/wx/dcp_referencing_dialog.cc:106
+#: src/wx/dcp_referencing_dialog.cc:115
 msgid "Subtitles"
 msgstr "Sous-titres"
 

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DCP\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-12 22:36+0100\n"
+"POT-Creation-Date: 2025-02-17 02:18+0100\n"
 "PO-Revision-Date: 2025-01-24 15:43+0300\n"
 "Last-Translator: Mikhail Epshteyn <virus-2006@yandex.ru>\n"
 "Language-Team: Mikhail Epshteyn\n"
@@ -579,7 +579,7 @@ msgstr "Цветовое пространство"
 msgid "Combine DCPs"
 msgstr "Объединить DCP"
 
-#: src/lib/content.cc:187
+#: src/lib/content.cc:181
 msgid "Computing digest"
 msgstr "Проверка целостности"
 
@@ -714,7 +714,7 @@ msgstr ""
 "Весь добавляемый контент должен иметь одинаковый межстрочный интервал "
 "субтитров."
 
-#: src/lib/content.cc:130 src/lib/content.cc:134
+#: src/lib/content.cc:124 src/lib/content.cc:128
 msgid "Content to be joined must have the same video frame rate"
 msgstr "Весь добавляемый контент должен иметь одинаковую частота кадров видео"
 
@@ -1021,11 +1021,11 @@ msgstr "Ошибка отправки письма"
 msgid "Feature"
 msgstr "FTR (Полнометражный фильм)"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filename"
 msgstr "Имя файла"
 
-#: src/lib/content.cc:486
+#: src/lib/content.cc:480
 msgid "Filenames"
 msgstr "Имена файлов"
 
@@ -1041,7 +1041,7 @@ msgstr "Проект"
 msgid "Finding length"
 msgstr "Расчёт длительности"
 
-#: src/lib/content.cc:496
+#: src/lib/content.cc:490
 msgid "Frame rate"
 msgstr "Частота кадров"
 
@@ -1321,12 +1321,12 @@ msgstr "Готово! (выполнено за %1 с %2 до %3)"
 msgid "OK (ran for %1)"
 msgstr "Готово! (выполнено за %1)"
 
-#: src/lib/content.cc:119
+#: src/lib/content.cc:113
 msgid "Only the first piece of content to be joined can have a start trim."
 msgstr ""
 "Только первый элемент добавляемого контента может иметь обрезку с начала."
 
-#: src/lib/content.cc:123
+#: src/lib/content.cc:117
 msgid "Only the last piece of content to be joined can have an end trim."
 msgstr ""
 "Только последний элемент добавляемого контента может иметь обрезку с конца."
@@ -1378,7 +1378,7 @@ msgstr "POL (Стратегический трейлер)"
 msgid "Premultiply alpha channel"
 msgstr "Предварительный alpha канал"
 
-#: src/lib/content.cc:505
+#: src/lib/content.cc:499
 msgid "Prepared for video frame rate"
 msgstr "Подготовлено для частоты кадров видео"
 
@@ -2152,7 +2152,7 @@ msgstr "ошибка во время async_read (%1)"
 msgid "error during async_write (%1)"
 msgstr "ошибка во время async_write (%1)"
 
-#: src/lib/content.cc:498 src/lib/content.cc:507
+#: src/lib/content.cc:492 src/lib/content.cc:501
 msgid "frames per second"
 msgstr "кадра(ов) в секунду"
 
