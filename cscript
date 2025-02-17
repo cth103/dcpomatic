@@ -786,7 +786,7 @@ def package(target, version, options):
             out.append(make_appimage(target, 'DCP-o-matic Verifier', 'dcpomatic2_verifier', version))
             return out
         else:
-            if target.distro == 'debian' or target.distro == 'ubuntu':
+            if target.distro in ('debian', 'ubuntu'):
                 return package_debian(target, target.cpu, version, options)
             elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
                 return package_rpm(target, target.cpu, version, options)
