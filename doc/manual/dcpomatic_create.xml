@@ -4,6 +4,7 @@
 <listitem><code>-h</code>, <code>--help</code> &#8212; show this help</listitem>
 <listitem><code>-n</code>, <code>--name &lt;name&gt;</code> &#8212; film name</listitem>
 <listitem><code>-t</code>, <code>--template &lt;name&gt;</code> &#8212; template name</listitem>
+<listitem><code>--no-encrypt</code> &#8212; make an unencrypted DCP</listitem>
 <listitem><code>-e</code>, <code>--encrypt</code> &#8212; make an encrypted DCP</listitem>
 <listitem><code>-c</code>, <code>--dcp-content-type &lt;type&gt;</code> &#8212; FTR, SHR, TLR, TST, XSN, RTG, TSR, POL, PSA or ADV</listitem>
 <listitem><code>-f</code>, <code>--dcp-frame-rate &lt;rate&gt;</code> &#8212; set DCP video frame rate (otherwise guessed from content)</listitem>
@@ -11,15 +12,17 @@
 <listitem><code>-s</code>, <code>--still-length &lt;n&gt;</code> &#8212; number of seconds that still content should last</listitem>
 <listitem><code>--standard &lt;standard&gt;</code> &#8212; SMPTE or interop (default SMPTE)</listitem>
 <listitem><code>--no-use-isdcf-name</code> &#8212; do not use an ISDCF name; use the specified name unmodified</listitem>
-<listitem><code>--config &lt;dir&gt;</code> &#8212; directory containing config.xml and cinemas.xml</listitem>
+<listitem><code>--config &lt;dir&gt;</code> &#8212; directory containing config.xml and cinemas.sqlite3</listitem>
 <listitem><code>--twok</code> &#8212; make a 2K DCP instead of choosing a resolution based on the content</listitem>
 <listitem><code>--fourk</code> &#8212; make a 4K DCP instead of choosing a resolution based on the content</listitem>
+<listitem><code>-a</code>, <code>--audio-channels &lt;n&gt;</code> &#8212; specify the number of audio channels in the DCP</listitem>
 <listitem><code>-o</code>, <code>--output &lt;dir&gt;</code> &#8212; output directory</listitem>
+<listitem><code>--twod</code> &#8212; make a 2D DCP</listitem>
 <listitem><code>--threed</code> &#8212; make a 3D DCP</listitem>
 <listitem><code>--j2k-bandwidth &lt;Mbit/s&gt;</code> &#8212; J2K bandwidth in Mbit/s</listitem>
 <listitem><code>--left-eye</code> &#8212; next piece of content is for the left eye</listitem>
 <listitem><code>--right-eye</code> &#8212; next piece of content is for the right eye</listitem>
-<listitem><code>--channel &lt;channel&gt;</code> &#8212; next piece of content should be mapped to audio channel L, R, C, Lfe, Ls or Rs</listitem>
+<listitem><code>--channel &lt;channel&gt;</code> &#8212; next piece of content should be mapped to audio channel L, R, C, Lfe, Ls, Rs, BsL, BsR, HI, VI</listitem>
 <listitem><code>--gain</code> &#8212; next piece of content should have the given audio gain (in dB)</listitem>
 <listitem><code>--cpl &lt;id&gt;</code> &#8212; CPL ID to use from the next piece of content (which is a DCP)</listitem>
 <listitem><code>--kdm &lt;file&gt;</code> &#8212; KDM for next piece of content</listitem>
