@@ -30,7 +30,7 @@ def find_type(name):
     it represents an error, Bv2.1 "error", warning or "this is OK" note.
     """
     previous = ''
-    for source in ["verify_j2k.cc", "dcp.cc", "verify.cc", "cpl.cc"]:
+    for source in ["verify_j2k.cc", "dcp.cc", "verify.cc", "cpl.cc", "pkl.cc"]:
         path = libdcp / "src" / source
         with open(path) as s:
             for line in s:
