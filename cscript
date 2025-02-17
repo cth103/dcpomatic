@@ -225,7 +225,7 @@ deb_depends['unstable'].extend(['libboost-filesystem1.67.0',
 
 def can_build_disk(target):
     # We can build dcpomatic2_disk on platforms that have Boost process and can build the lwext4
-    # library.  For now, just whitelist good ones here.
+    # library.  For now, just allow-list good ones here.
     #
     # - Lots of Linux distros (including Ubuntu 16.04) don't have a new enough boost (1.64 or above)
     # - On Centos 6 we can't build lwext4 because it needs a new CMake which Centos 6's g++ is not new enough to build.
@@ -246,6 +246,8 @@ def can_build_disk(target):
         if target.distro == 'centos' and target.version != '7':
             return True
         if target.distro == 'mageia':
+            return True
+        if target.distro == 'rocky':
             return True
     return False
 
@@ -788,7 +790,7 @@ def package(target, version, options):
         else:
             if target.distro in ('debian', 'ubuntu'):
                 return package_debian(target, target.cpu, version, options)
-            elif target.distro == 'centos' or target.distro == 'fedora' or target.distro == 'mageia':
+            elif target.distro in ('centos', 'fedora', 'mageia', 'rocky'):
                 return package_rpm(target, target.cpu, version, options)
     elif target.platform == 'osx':
         archs = '-a ' + ' -a '.join(f'{t.arch}/{t.deployment}' for t in target.sub_targets)
