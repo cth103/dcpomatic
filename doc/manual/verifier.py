@@ -41,7 +41,7 @@ def find_type(name):
                             if line_with_previous.find(s) != -1:
                                 return type
                 previous = line
-    assert False
+    assert False, f"Could not find {name}"
 
 
 print('<itemizedlist>')
