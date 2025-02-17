@@ -74,6 +74,7 @@ DCPReferencingDialog::film_changed(ChangeType type, FilmProperty property)
 		property == FilmProperty::CONTAINER ||
 		property == FilmProperty::REEL_TYPE ||
 		property == FilmProperty::VIDEO_FRAME_RATE ||
+		property == FilmProperty::AUDIO_CHANNELS ||
 		property == FilmProperty::CONTENT) {
 		setup();
 	}
