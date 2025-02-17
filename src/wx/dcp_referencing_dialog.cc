@@ -103,19 +103,27 @@ DCPReferencingDialog::setup()
 	_dcps.clear();
 	_dcp_grid->Clear(true);
 
+	int row = 0;
+	auto text = new StaticText(this, _("Refer to"));
+	wxFont font(*wxNORMAL_FONT);
+	font.SetWeight(wxFONTWEIGHT_BOLD);
+	text->SetFont(font);
+	_dcp_grid->Add(text, wxGBPosition(row, 1), wxGBSpan(1, 4), wxALIGN_CENTER);
+	++row;
+
 	int column = 0;
-	for (auto const& heading: { _("DCP"), _("Picture"), _("Sound"), _("Subtitles"), _("Closed captions") }) {
-		auto text = new StaticText(this, heading);
+	for (auto const& sub_heading: { _("OV DCP"), _("Picture"), _("Sound"), _("Subtitles"), _("Closed captions") }) {
+		auto text = new StaticText(this, sub_heading);
 		wxFont font(*wxNORMAL_FONT);
 		font.SetWeight(wxFONTWEIGHT_BOLD);
 		text->SetFont(font);
-		_dcp_grid->Add(text, wxGBPosition(0, column), wxDefaultSpan, wxALL, DCPOMATIC_SIZER_GAP);
+		_dcp_grid->Add(text, wxGBPosition(row, column), wxDefaultSpan, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 		++column;
-	};
+	}
+	++row;
 
 	auto const all_parts = { Part::VIDEO, Part::AUDIO, Part::SUBTITLES, Part::CLOSED_CAPTIONS };
 
-	int row = 1;
 	for (auto& content: _film->content()) {
 		auto dcp_content = dynamic_pointer_cast<DCPContent>(content);
 		if (!dcp_content) {
