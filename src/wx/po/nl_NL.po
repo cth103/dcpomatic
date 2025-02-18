@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: DCP-o-matic\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-17 02:18+0100\n"
-"PO-Revision-Date: 2025-02-13 17:38+0100\n"
+"PO-Revision-Date: 2025-02-17 23:21+0100\n"
 "Last-Translator: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language-Team: Rob van Nieuwkerk <dcpomatic-translations@berrymount.nl>\n"
 "Language: nl_NL\n"
@@ -727,7 +727,7 @@ msgstr "Kan niet aan deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:187
 msgid "Cannot reference this DCP's audio"
-msgstr "Kan niet aan de audio van deze DCP refereren"
+msgstr "Kan niet aan het geluid van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:201
 msgid "Cannot reference this DCP's closed captions"
@@ -739,7 +739,7 @@ msgstr "Kan niet aan de ondertitels van deze DCP refereren"
 
 #: src/wx/dcp_referencing_dialog.cc:180
 msgid "Cannot reference this DCP's video"
-msgstr "Kan niet aan de video van deze DCP refereren"
+msgstr "Kan niet aan het beeld van deze DCP refereren"
 
 #: src/wx/text_view.cc:76
 msgid "Caption"
@@ -2352,7 +2352,7 @@ msgstr "OSS"
 
 #: src/wx/dcp_referencing_dialog.cc:115
 msgid "OV DCP"
-msgstr ""
+msgstr "OV DCP"
 
 #: src/wx/audio_mapping_view.cc:86
 msgid "Off"
@@ -2529,7 +2529,7 @@ msgstr "Afspeelduur"
 
 #: src/wx/config_dialog.cc:861
 msgid "Play sound via"
-msgstr "Speel audio af via"
+msgstr "Speel geluid af via"
 
 #: src/wx/config_dialog.cc:1043
 msgid "Playlist directory"
@@ -2689,7 +2689,7 @@ msgstr "Reels..."
 
 #: src/wx/dcp_referencing_dialog.cc:107
 msgid "Refer to"
-msgstr ""
+msgstr "Refereer aan"
 
 #: src/wx/playlist_controls.cc:85 src/wx/playlist_controls.cc:99
 msgid "Refresh"
@@ -3152,7 +3152,7 @@ msgstr ""
 
 #: src/wx/config_dialog.cc:850 src/wx/dcp_referencing_dialog.cc:115
 msgid "Sound"
-msgstr "Audio"
+msgstr "Geluid"
 
 #: src/wx/verify_dcp_result_panel.cc:551
 msgid "Sound assets do not all have the same channel count."
