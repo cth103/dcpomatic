@@ -40,6 +40,10 @@ public:
 		return _result;
 	}
 
+	std::vector<boost::filesystem::path> directories() const {
+		return _directories;
+	}
+
 private:
 	void update_stage(std::string s, boost::optional<boost::filesystem::path> path);
 
