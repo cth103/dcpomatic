@@ -23,9 +23,9 @@
 #include "wx_util.h"
 
 
-using std::string;
 using std::shared_ptr;
-using boost::optional;
+using std::string;
+using std::vector;
 
 
 EmailDialog::EmailDialog (wxWindow* parent)
@@ -47,8 +47,8 @@ EmailDialog::set (string address)
 }
 
 
-optional<string>
-EmailDialog::get () const
+vector<string>
+EmailDialog::get() const
 {
 	auto s = wx_to_std (_email->GetValue ());
 	if (s.empty()) {
@@ -56,5 +56,5 @@ EmailDialog::get () const
 		return {};
 	}
 
-	return s;
+	return { s };
 }

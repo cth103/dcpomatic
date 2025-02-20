@@ -74,9 +74,9 @@ public:
 		return DirDialog::show() ? wxID_OK : wxID_CANCEL;
 	}
 
-	optional<boost::filesystem::path> get () const
+	vector<boost::filesystem::path> get() const
 	{
-		return path();
+		return { path() };
 	}
 
 	void set (boost::filesystem::path)

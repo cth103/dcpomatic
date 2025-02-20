@@ -29,7 +29,7 @@ public:
 	explicit EmailDialog (wxWindow *);
 
 	void set (std::string);
-	boost::optional<std::string> get () const;
+	std::vector<std::string> get() const;
 
 private:
 	wxTextCtrl* _email;

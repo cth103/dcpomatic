@@ -92,10 +92,10 @@ RatingDialog::set (dcp::Rating rating)
 }
 
 
-optional<dcp::Rating>
+vector<dcp::Rating>
 RatingDialog::get () const
 {
-	return _active_page->get();
+	return { _active_page->get() };
 }
 
 

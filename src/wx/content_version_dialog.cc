@@ -24,6 +24,7 @@
 
 
 using std::string;
+using std::vector;
 using boost::optional;
 
 
@@ -47,8 +48,8 @@ ContentVersionDialog::set (string r)
 }
 
 
-optional<string>
+vector<string>
 ContentVersionDialog::get () const
 {
-	return wx_to_std(_version->GetValue());
+	return { wx_to_std(_version->GetValue()) };
 }

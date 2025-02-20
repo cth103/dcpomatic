@@ -18,13 +18,17 @@
 
 */
 
-#include "lib/encode_server.h"
+
 #include "server_dialog.h"
 #include "wx_util.h"
+#include "lib/encode_server.h"
 
-using std::string;
+
 using std::shared_ptr;
+using std::string;
+using std::vector;
 using boost::optional;
+
 
 ServerDialog::ServerDialog (wxWindow* parent)
 	: TableDialog (parent, _("Server"), 2, 1, true)
@@ -51,8 +55,8 @@ ServerDialog::set (string server)
 	_host->SetValue (std_to_wx (server));
 }
 
-optional<string>
+vector<string>
 ServerDialog::get () const
 {
-	return wx_to_std (_host->GetValue ());
+	return { wx_to_std(_host->GetValue()) };
 }

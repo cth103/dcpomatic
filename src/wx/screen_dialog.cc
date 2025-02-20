@@ -86,13 +86,13 @@ public:
 		setup_sensitivity();
 	}
 
-	optional<TrustedDevice> get ()
+	vector<TrustedDevice> get()
 	{
 		auto const t = wx_to_std (_thumbprint->GetValue());
 		if (_certificate && _certificate->thumbprint() == t) {
-			return TrustedDevice (*_certificate);
+			return { TrustedDevice(*_certificate) };
 		} else if (t.length() == 28) {
-			return TrustedDevice (t);
+			return { TrustedDevice(t) };
 		}
 
 		return {};

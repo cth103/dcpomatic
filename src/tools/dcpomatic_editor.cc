@@ -158,8 +158,8 @@ public:
 		SetSizerAndFit(_sizer);
 	}
 
-	optional<shared_ptr<dcp::Reel>> get() {
-		return _reel;
+	vector<shared_ptr<dcp::Reel>> get() {
+		return { _reel };
 	}
 
 	void set(shared_ptr<dcp::Reel> reel)

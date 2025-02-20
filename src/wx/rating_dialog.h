@@ -90,7 +90,7 @@ public:
 	RatingDialog (wxWindow* parent);
 
 	void set (dcp::Rating r);
-	boost::optional<dcp::Rating> get () const;
+	std::vector<dcp::Rating> get() const;
 
 private:
 	void setup_sensitivity (bool ok_valid);

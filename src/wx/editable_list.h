@@ -235,14 +235,14 @@ private:
 		S dialog(this);
 
 		if (dialog.ShowModal() == wxID_OK) {
-			auto const v = dialog.get();
-			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
-			if (v) {
-				add_to_control (v.get ());
-				auto all = _get ();
-				all.push_back (v.get ());
-				_set (all);
+			auto const values = dialog.get();
+			static_assert(std::is_same<typename std::remove_const<decltype(values)>::type, std::vector<T>>::value, "get() must return std::vector<T>");
+			auto all = _get();
+			for (auto item: values) {
+				add_to_control(item);
+				all.push_back(item);
 			}
+			_set(all);
 		}
 	}
 
@@ -259,13 +259,13 @@ private:
 		S dialog(this);
 		dialog.set(all[item]);
 		if (dialog.ShowModal() == wxID_OK) {
-			auto const v = dialog.get();
-			static_assert(std::is_same<typename std::remove_const<decltype(v)>::type, boost::optional<T>>::value, "get() must return boost::optional<T>");
-			if (!v) {
+			auto const value = dialog.get();
+			static_assert(std::is_same<typename std::remove_const<decltype(value)>::type, std::vector<T>>::value, "get() must return std::vector<T>");
+			if (value.empty()) {
 				return;
 			}
-
-			all[item] = v.get ();
+			DCPOMATIC_ASSERT(value.size() == 1);
+			all[item] = value[0];
 		}
 
 		for (size_t i = 0; i < _columns.size(); ++i) {

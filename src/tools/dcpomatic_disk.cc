@@ -85,7 +85,7 @@ public:
 
 	}
 
-	boost::optional<boost::filesystem::path> get () const
+	vector<boost::filesystem::path> get() const
 	{
 		auto const dcp = boost::filesystem::path(wx_to_std(GetPath()));
 		if (!dcp::filesystem::exists(dcp / "ASSETMAP") && !dcp::filesystem::exists(dcp / "ASSETMAP.xml")) {
@@ -93,7 +93,7 @@ public:
 			return {};
 		}
 
-		return dcp;
+		return { dcp };
 	}
 
 	void set (boost::filesystem::path)
