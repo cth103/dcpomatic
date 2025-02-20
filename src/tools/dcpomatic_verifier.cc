@@ -27,6 +27,7 @@
 #include "wx/check_box.h"
 #include "wx/dcpomatic_button.h"
 #include "wx/dir_picker_ctrl.h"
+#include "wx/editable_list.h"
 #include "wx/verify_dcp_progress_panel.h"
 #include "wx/verify_dcp_result_panel.h"
 #include "wx/wx_util.h"
@@ -46,8 +47,51 @@ LIBDCP_ENABLE_WARNINGS
 #endif
 
 
+using std::dynamic_pointer_cast;
 using std::exception;
 using std::make_shared;
+using std::shared_ptr;
+using std::vector;
+#if BOOST_VERSION >= 106100
+using namespace boost::placeholders;
+#endif
+
+
+class DirDialogWrapper : public wxDirDialog
+{
+public:
+	DirDialogWrapper(wxWindow* parent)
+		: wxDirDialog(parent, _("Choose a folder"), {}, wxDD_DIR_MUST_EXIST)
+	{
+
+	}
+
+	vector<boost::filesystem::path> get() const
+	{
+		vector<boost::filesystem::path> dcp;
+		search(dcp, boost::filesystem::path(wx_to_std(GetPath())));
+		return dcp;
+	}
+
+	void set(boost::filesystem::path)
+	{
+		/* Not used */
+	}
+
+private:
+	void search(vector<boost::filesystem::path>& dcp, boost::filesystem::path path) const
+	{
+		if (dcp::filesystem::exists(path / "ASSETMAP") || dcp::filesystem::exists(path / "ASSETMAP.xml")) {
+			dcp.push_back(path);
+		} else if (boost::filesystem::is_directory(path)) {
+			for (auto i: boost::filesystem::directory_iterator(path)) {
+				search(dcp, i.path());
+			}
+		}
+	};
+};
+
+
 
 
 class DOMFrame : public wxFrame
@@ -62,13 +106,23 @@ public:
 		auto overall_sizer = new wxBoxSizer(wxVERTICAL);
 
 		auto dcp_sizer = new wxBoxSizer(wxHORIZONTAL);
-		add_label_to_sizer(dcp_sizer, this, _("DCP"), true, 0, wxALIGN_CENTER_VERTICAL);
-		_dcp = new DirPickerCtrl(this, true);
-		dcp_sizer->Add(_dcp, 1, wxEXPAND);
+		add_label_to_sizer(dcp_sizer, this, _("DCPs"), true, 0, wxALIGN_CENTER_VERTICAL);
+
+		auto dcps = new EditableList<boost::filesystem::path, DirDialogWrapper>(
+			this,
+			{ EditableListColumn(_("DCP"), 300, true) },
+			boost::bind(&DOMFrame::dcp_paths, this),
+			boost::bind(&DOMFrame::set_dcp_paths, this, _1),
+			[](boost::filesystem::path p, int) { return p.filename().string(); },
+			EditableListTitle::INVISIBLE,
+			EditableListButton::NEW | EditableListButton::REMOVE
+			);
+
+		dcp_sizer->Add(dcps, 1, wxLEFT | wxEXPAND, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(dcp_sizer, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		auto options_sizer = new wxBoxSizer(wxVERTICAL);
-		_write_log = new CheckBox(this, _("Write log to DCP folder"));
+		_write_log = new CheckBox(this, _("Write logs to DCP folders"));
 		options_sizer->Add(_write_log, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(options_sizer, 0, wxLEFT, DCPOMATIC_DIALOG_BORDER);
 
@@ -83,7 +137,6 @@ public:
 
 		SetSizerAndFit(overall_sizer);
 
-		_dcp->Changed.connect(boost::bind(&DOMFrame::setup_sensitivity, this));
 		_verify->bind(&DOMFrame::verify_clicked, this);
 
 		setup_sensitivity();
@@ -92,35 +145,55 @@ public:
 private:
 	void setup_sensitivity()
 	{
-		_verify->Enable(!_dcp->GetPath().IsEmpty());
+		_verify->Enable(!_dcp_paths.empty());
 	}
 
 	void verify_clicked()
 	{
-		auto dcp = boost::filesystem::path(wx_to_std(_dcp->GetPath()));
-		if (dcp.empty()) {
-			return;
-		}
-
 		auto job_manager = JobManager::instance();
-		auto job = make_shared<VerifyDCPJob>(std::vector<boost::filesystem::path>{dcp}, std::vector<boost::filesystem::path>());
-		job_manager->add(job);
+		vector<shared_ptr<const VerifyDCPJob>> jobs;
+		for (auto const& dcp: _dcp_paths) {
+			auto job = make_shared<VerifyDCPJob>(std::vector<boost::filesystem::path>{dcp}, std::vector<boost::filesystem::path>());
+			job_manager->add(job);
+			jobs.push_back(job);
+		}
 
 		while (job_manager->work_to_do()) {
 			wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_UI | wxEVT_CATEGORY_USER_INPUT);
 			dcpomatic_sleep_seconds(1);
-
-			_progress_panel->update(job);
+			auto last = job_manager->last_active_job();
+			if (auto locked = last.lock()) {
+				if (auto dcp = dynamic_pointer_cast<VerifyDCPJob>(locked)) {
+					_progress_panel->update(dcp);
+				}
+			}
 		}
 
-		_result_panel->fill(job);
+		DCPOMATIC_ASSERT(_dcp_paths.size() == jobs.size());
+		_result_panel->add(jobs);
 		if (_write_log->get()) {
-			dcp::TextFormatter formatter(dcp / "REPORT.txt");
-			dcp::verify_report(job->result(), formatter);
+			for (size_t i = 0; i < _dcp_paths.size(); ++i) {
+				dcp::TextFormatter formatter(_dcp_paths[i] / "REPORT.txt");
+				dcp::verify_report({ jobs[i]->result() }, formatter);
+			}
 		}
+
+		_progress_panel->clear();
 	}
 
-	DirPickerCtrl* _dcp;
+private:
+	void set_dcp_paths (vector<boost::filesystem::path> dcps)
+	{
+		_dcp_paths = dcps;
+		setup_sensitivity();
+	}
+
+	vector<boost::filesystem::path> dcp_paths() const
+	{
+		return _dcp_paths;
+	}
+
+	std::vector<boost::filesystem::path> _dcp_paths;
 	CheckBox* _write_log;
 	Button* _verify;
 	VerifyDCPProgressPanel* _progress_panel;

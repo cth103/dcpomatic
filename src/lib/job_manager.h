@@ -65,6 +65,10 @@ public:
 		return _paused;
 	}
 
+	std::weak_ptr<Job> last_active_job() const {
+		return _last_active_job;
+	}
+
 	void analyse_audio (
 		std::shared_ptr<const Film> film,
 		std::shared_ptr<const Playlist> playlist,
@@ -105,7 +109,7 @@ private:
 	std::list<boost::signals2::connection> _connections;
 	bool _terminate = false;
 
-	boost::optional<std::string> _last_active_job;
+	std::weak_ptr<Job> _last_active_job;
 	boost::thread _scheduler;
 
 	/** true if all jobs should be paused */

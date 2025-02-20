@@ -177,8 +177,9 @@ JobManager::scheduler ()
 				} else {
 					i->resume ();
 				}
-				emit (boost::bind (boost::ref (ActiveJobsChanged), _last_active_job, i->json_name()));
-				_last_active_job = i->json_name ();
+				auto last = _last_active_job.lock();
+				emit(boost::bind(boost::ref(ActiveJobsChanged), last ? last->json_name() : std::string{}, i->json_name()));
+				_last_active_job = i;
 				have_running = true;
 			} else if (!have_running && i->running()) {
 				have_running = true;
@@ -195,8 +196,9 @@ JobManager::job_finished ()
 {
 	{
 		boost::mutex::scoped_lock lm (_mutex);
-		emit (boost::bind(boost::ref (ActiveJobsChanged), _last_active_job, optional<string>()));
-		_last_active_job = optional<string>();
+		auto job = _last_active_job.lock();
+		emit(boost::bind(boost::ref(ActiveJobsChanged), job ? job->json_name() : string{}, optional<string>()));
+		_last_active_job = {};
 	}
 
 	_schedule_condition.notify_all();

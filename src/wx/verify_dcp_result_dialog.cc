@@ -33,7 +33,7 @@ VerifyDCPResultDialog::VerifyDCPResultDialog(wxWindow* parent, shared_ptr<Verify
 	auto sizer = new wxBoxSizer (wxVERTICAL);
 
 	auto panel = new VerifyDCPResultPanel(this);
-	panel->fill(job);
+	panel->add({ job });
 	sizer->Add(panel, 1, wxEXPAND);
 
 	auto buttons = CreateStdDialogButtonSizer(0);

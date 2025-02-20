@@ -26,7 +26,7 @@ LIBDCP_ENABLE_WARNINGS
 #include <memory>
 
 
-class Job;
+class VerifyDCPJob;
 class VerifyDCPProgressPanel;
 
 
@@ -35,7 +35,7 @@ class VerifyDCPProgressDialog : public wxDialog
 public:
 	VerifyDCPProgressDialog (wxWindow* parent, wxString title);
 
-	bool run (std::shared_ptr<Job> job);
+	bool run(std::shared_ptr<VerifyDCPJob> job);
 
 private:
 	void cancel ();

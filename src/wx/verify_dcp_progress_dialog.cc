@@ -23,8 +23,8 @@
 #include "verify_dcp_progress_panel.h"
 #include "wx_util.h"
 #include "lib/cross.h"
-#include "lib/job.h"
 #include "lib/job_manager.h"
+#include "lib/verify_dcp_job.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/evtloop.h>
@@ -66,7 +66,7 @@ VerifyDCPProgressDialog::cancel ()
 
 
 bool
-VerifyDCPProgressDialog::run (shared_ptr<Job> job)
+VerifyDCPProgressDialog::run(shared_ptr<VerifyDCPJob> job)
 {
 	Show ();
 

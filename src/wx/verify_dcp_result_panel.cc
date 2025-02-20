@@ -28,8 +28,8 @@
 #include <dcp/verify_report.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
-#include <wx/richtext/richtextctrl.h>
 #include <wx/notebook.h>
+#include <wx/treectrl.h>
 LIBDCP_ENABLE_WARNINGS
 #include <fmt/format.h>
 #include <boost/algorithm/string.hpp>
@@ -44,17 +44,30 @@ using std::vector;
 
 VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	: wxPanel(parent, wxID_ANY)
+	, _types{
+		dcp::VerificationNote::Type::ERROR,
+		dcp::VerificationNote::Type::BV21_ERROR,
+		dcp::VerificationNote::Type::WARNING
+	}
 {
 	auto sizer = new wxBoxSizer(wxVERTICAL);
-	auto notebook = new wxNotebook(this, wxID_ANY);
+	auto notebook = new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 400));
 	sizer->Add(notebook, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
-	_pages[dcp::VerificationNote::Type::ERROR] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage(_pages[dcp::VerificationNote::Type::ERROR], _("Errors"));
-	_pages[dcp::VerificationNote::Type::BV21_ERROR] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage(_pages[dcp::VerificationNote::Type::BV21_ERROR], _("SMPTE Bv2.1 errors"));
-	_pages[dcp::VerificationNote::Type::WARNING] = new wxRichTextCtrl(notebook, wxID_ANY, wxEmptyString, wxDefaultPosition, {400, 300}, wxRE_READONLY);
-	notebook->AddPage(_pages[dcp::VerificationNote::Type::WARNING], _("Warnings"));
+	auto names = map<dcp::VerificationNote::Type, wxString>{
+		{ dcp::VerificationNote::Type::ERROR, _("Errors") },
+		{ dcp::VerificationNote::Type::BV21_ERROR, _("SMPTE Bv2.1 errors") },
+		{ dcp::VerificationNote::Type::WARNING, _("Warnings") }
+	};
+
+	for (auto const type: _types) {
+		auto panel = new wxPanel(notebook, wxID_ANY);
+		_pages[type] = new wxTreeCtrl(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_HIDE_ROOT | wxTR_HAS_BUTTONS | wxTR_NO_LINES);
+		auto sizer = new wxBoxSizer(wxHORIZONTAL);
+		sizer->Add(_pages[type], 1, wxEXPAND);
+		panel->SetSizer(sizer);
+		notebook->AddPage(panel, names[type]);
+	}
 
 	_summary = new wxStaticText(this, wxID_ANY, {});
 	sizer->Add(_summary, 0, wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -70,10 +83,6 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 	sizer->Layout();
 	sizer->SetSizeHints(this);
 
-	for (auto const& i: _pages) {
-		i.second->GetCaret()->Hide();
-	}
-
 	_save_text_report->bind(&VerifyDCPResultPanel::save_text_report, this);
 	_save_html_report->bind(&VerifyDCPResultPanel::save_html_report, this);
 
@@ -83,22 +92,80 @@ VerifyDCPResultPanel::VerifyDCPResultPanel(wxWindow* parent)
 
 
 void
-VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
+VerifyDCPResultPanel::add(vector<shared_ptr<const VerifyDCPJob>> jobs)
 {
-	if (job->finished_ok() && job->result().notes.empty()) {
-		_summary->SetLabel(_("DCP validates OK."));
-		return;
+	_jobs = jobs;
+
+	for (auto const type: _types) {
+		_pages[type]->DeleteAllItems();
+		_pages[type]->AddRoot(wxT(""));
 	}
 
-	vector<dcp::VerificationNote::Type> const types = {
-		dcp::VerificationNote::Type::WARNING,
-		dcp::VerificationNote::Type::BV21_ERROR,
-		dcp::VerificationNote::Type::ERROR
-	};
-
 	map<dcp::VerificationNote::Type, int> counts;
-	for (auto type: types) {
+	for (auto type: _types) {
 		counts[type] = 0;
+	}
+
+	for (auto job: jobs) {
+		auto job_counts = add(job, jobs.size() > 1);
+		for (auto const type: _types) {
+			counts[type] += job_counts[type];
+		}
+	}
+
+	wxString summary_text;
+
+	if (counts[dcp::VerificationNote::Type::ERROR] == 1) {
+		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+		summary_text = _("1 error, ");
+	} else {
+		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+		summary_text = wxString::Format(_("%d errors, "), counts[dcp::VerificationNote::Type::ERROR]);
+	}
+
+	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 1) {
+		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+		summary_text += _("1 Bv2.1 error, ");
+	} else {
+		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+		summary_text += wxString::Format(_("%d Bv2.1 errors, "), counts[dcp::VerificationNote::Type::BV21_ERROR]);
+	}
+
+	if (counts[dcp::VerificationNote::Type::WARNING] == 1) {
+		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+		summary_text += _("and 1 warning.");
+	} else {
+		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
+		summary_text += wxString::Format(_("and %d warnings."), counts[dcp::VerificationNote::Type::WARNING]);
+	}
+
+	_summary->SetLabel(summary_text);
+
+	_save_text_report->Enable(true);
+	_save_html_report->Enable(true);
+
+	for (auto type: _types) {
+		_pages[type]->ExpandAll();
+	}
+}
+
+
+map<dcp::VerificationNote::Type, int>
+VerifyDCPResultPanel::add(shared_ptr<const VerifyDCPJob> job, bool many)
+{
+	map<dcp::VerificationNote::Type, int> counts;
+	for (auto type: _types) {
+		counts[type] = 0;
+	}
+
+	map<dcp::VerificationNote::Type, wxTreeItemId> root;
+
+	for (auto type: _types) {
+		root[type] = _pages[type]->GetRootItem();
+		if (many) {
+			DCPOMATIC_ASSERT(!job->directories().empty());
+			root[type] = _pages[type]->AppendItem(root[type], std_to_wx(job->directories()[0].filename().string()));
+		}
 	}
 
 	int constexpr limit_per_type = 20;
@@ -146,25 +213,22 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		return message;
 	};
 
-	auto add_bullet = [this](dcp::VerificationNote::Type type, wxString message) {
-		_pages[type]->BeginStandardBullet(char_to_wx("standard/diamond"), 1, 50);
-		_pages[type]->WriteText(message);
-		_pages[type]->Newline();
-		_pages[type]->EndStandardBullet();
+	auto add_line = [this, &root](dcp::VerificationNote::Type type, wxString message) {
+		_pages[type]->AppendItem(root[type], message);
 	};
 
-	auto add = [&add_bullet, &substitute](vector<dcp::VerificationNote> const& notes, wxString message, wxString more_message = {}) {
+	auto add = [&add_line, &substitute](vector<dcp::VerificationNote> const& notes, wxString message, wxString more_message = {}) {
 		for (auto const& note: notes) {
-			add_bullet(note.type(), substitute(message, note));
+			add_line(note.type(), substitute(message, note));
 		}
 		if (notes.size() == limit_per_type && !more_message.IsEmpty()) {
-			add_bullet(notes[0].type(), more_message);
+			add_line(notes[0].type(), more_message);
 		}
 	};
 
 	if (job->finished_in_error() && job->error_summary() != "") {
 		/* We have an error that did not come from dcp::verify */
-		add_bullet(dcp::VerificationNote::Type::ERROR, std_to_wx(job->error_summary()));
+		add_line(dcp::VerificationNote::Type::ERROR, std_to_wx(job->error_summary()));
 	}
 
 	/* Gather notes by code, discarding more than limit_per_type so we don't get overwhelmed if
@@ -603,54 +667,24 @@ VerifyDCPResultPanel::fill(shared_ptr<VerifyDCPJob> job)
 		}
 	}
 
-	wxString summary_text;
-
-	if (counts[dcp::VerificationNote::Type::ERROR] == 1) {
-		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text = _("1 error, ");
-	} else {
-		/// TRANSLATORS: this will be used at the start of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text = wxString::Format(_("%d errors, "), counts[dcp::VerificationNote::Type::ERROR]);
-	}
-
-	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 1) {
-		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += _("1 Bv2.1 error, ");
-	} else {
-		/// TRANSLATORS: this will be used in the middle of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format(_("%d Bv2.1 errors, "), counts[dcp::VerificationNote::Type::BV21_ERROR]);
-	}
-
-	if (counts[dcp::VerificationNote::Type::WARNING] == 1) {
-		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += _("and 1 warning.");
-	} else {
-		/// TRANSLATORS: this will be used at the end of a string like "1 error, 2 Bv2.1 errors and 3 warnings."
-		summary_text += wxString::Format(_("and %d warnings."), counts[dcp::VerificationNote::Type::WARNING]);
-	}
-
-	_summary->SetLabel(summary_text);
-
 	if (counts[dcp::VerificationNote::Type::ERROR] == 0) {
-		add_bullet(dcp::VerificationNote::Type::ERROR, _("No errors found."));
+		add_line(dcp::VerificationNote::Type::ERROR, _("No errors found."));
 	}
 
 	if (counts[dcp::VerificationNote::Type::BV21_ERROR] == 0) {
-		add_bullet(dcp::VerificationNote::Type::BV21_ERROR, _("No SMPTE Bv2.1 errors found."));
+		add_line(dcp::VerificationNote::Type::BV21_ERROR, _("No SMPTE Bv2.1 errors found."));
 	}
 
 	if (counts[dcp::VerificationNote::Type::WARNING] == 0) {
-		add_bullet(dcp::VerificationNote::Type::WARNING, _("No warnings found."));
+		add_line(dcp::VerificationNote::Type::WARNING, _("No warnings found."));
 	}
 
-	_job = job;
-	_save_text_report->Enable(true);
-	_save_html_report->Enable(true);
+	return counts;
 }
 
 
 template <class T>
-void save(wxWindow* parent, wxString filter, dcp::VerificationResult const& result)
+void save(wxWindow* parent, wxString filter, vector<shared_ptr<const VerifyDCPJob>> jobs)
 {
 	FileDialog dialog(parent, _("Verification report"), filter, wxFD_SAVE | wxFD_OVERWRITE_PROMPT, "SaveVerificationReport");
 	if (!dialog.show()) {
@@ -658,23 +692,23 @@ void save(wxWindow* parent, wxString filter, dcp::VerificationResult const& resu
 	}
 
 	T formatter(dialog.path());
-	dcp::verify_report(result, formatter);
+	auto results = std::vector<dcp::VerificationResult>();
+	for (auto job: jobs) {
+		results.push_back(job->result());
+	}
+	dcp::verify_report(results, formatter);
 }
 
 
 void
 VerifyDCPResultPanel::save_text_report()
 {
-	if (_job) {
-		save<dcp::TextFormatter>(this, char_to_wx("Text files (*.txt)|*.txt"), _job->result());
-	}
+	save<dcp::TextFormatter>(this, char_to_wx("Text files (*.txt)|*.txt"), _jobs);
 }
 
 
 void
 VerifyDCPResultPanel::save_html_report()
 {
-	if (_job) {
-		save<dcp::HTMLFormatter>(this, char_to_wx("HTML files (*.htm;*html)|*.htm;*.html"), _job->result());
-	}
+	save<dcp::HTMLFormatter>(this, char_to_wx("HTML files (*.htm;*html)|*.htm;*.html"), _jobs);
 }

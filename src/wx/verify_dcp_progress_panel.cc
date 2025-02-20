@@ -19,7 +19,7 @@
 */
 
 
-#include "lib/job.h"
+#include "lib/verify_dcp_job.h"
 #include "verify_dcp_progress_panel.h"
 #include "wx_util.h"
 
@@ -36,6 +36,12 @@ VerifyDCPProgressPanel::VerifyDCPProgressPanel(wxWindow* parent)
 	: wxPanel(parent, wxID_ANY)
 {
 	auto overall_sizer = new wxBoxSizer(wxVERTICAL);
+
+	_directory_name = new wxStaticText(this, wxID_ANY, {});
+	wxFont directory_name_font(*wxNORMAL_FONT);
+	directory_name_font.SetFamily(wxFONTFAMILY_MODERN);
+	_directory_name->SetFont(directory_name_font);
+	overall_sizer->Add(_directory_name, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
 
 	_job_name = new wxStaticText(this, wxID_ANY, {});
 	overall_sizer->Add(_job_name, 0, wxEXPAND | wxTOP | wxLEFT | wxRIGHT, DCPOMATIC_SIZER_GAP);
@@ -61,8 +67,11 @@ VerifyDCPProgressPanel::VerifyDCPProgressPanel(wxWindow* parent)
 
 
 void
-VerifyDCPProgressPanel::update(shared_ptr<Job> job)
+VerifyDCPProgressPanel::update(shared_ptr<const VerifyDCPJob> job)
 {
+	DCPOMATIC_ASSERT(!job->directories().empty());
+	checked_set(_directory_name, std_to_wx(job->directories()[0].filename().string()));
+
 	auto const progress = job->progress();
 	if (progress) {
 		_progress->SetValue(*progress * 100);
@@ -83,5 +92,15 @@ VerifyDCPProgressPanel::update(shared_ptr<Job> job)
 	} else {
 		_job_name->SetLabel(std_to_wx(sub));
 	}
+}
+
+
+void
+VerifyDCPProgressPanel::clear()
+{
+	_directory_name->SetLabel(wxT(""));
+	_job_name->SetLabel(wxT(""));
+	_file_name->SetLabel(wxT(""));
+	_progress->SetValue(0);
 }
 
