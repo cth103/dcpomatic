@@ -29,7 +29,11 @@ class Content;
 class VerifyDCPJob : public Job
 {
 public:
-	VerifyDCPJob(std::vector<boost::filesystem::path> directories, std::vector<boost::filesystem::path> kdms);
+	VerifyDCPJob(
+		std::vector<boost::filesystem::path> directories,
+		std::vector<boost::filesystem::path> kdms,
+		dcp::VerificationOptions options
+	);
 	~VerifyDCPJob();
 
 	std::string name() const override;
@@ -49,5 +53,6 @@ private:
 
 	std::vector<boost::filesystem::path> _directories;
 	std::vector<boost::filesystem::path> _kdms;
+	dcp::VerificationOptions _options;
 	dcp::VerificationResult _result;
 };

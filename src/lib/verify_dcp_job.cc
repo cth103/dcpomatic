@@ -36,10 +36,15 @@ using namespace boost::placeholders;
 #endif
 
 
-VerifyDCPJob::VerifyDCPJob(vector<boost::filesystem::path> directories, vector<boost::filesystem::path> kdms)
+VerifyDCPJob::VerifyDCPJob(
+	vector<boost::filesystem::path> directories,
+	vector<boost::filesystem::path> kdms,
+	dcp::VerificationOptions options
+	)
 	: Job({})
 	, _directories(directories)
 	, _kdms(kdms)
+	, _options(options)
 {
 
 }
@@ -91,7 +96,7 @@ VerifyDCPJob::run()
 		decrypted_kdms,
 		bind(&VerifyDCPJob::update_stage, this, _1, _2),
 		bind(&VerifyDCPJob::set_progress, this, _1, false),
-		{},
+		_options,
 		libdcp_resources_path() / "xsd"
 		);
 
