@@ -174,7 +174,7 @@ private:
 
 		while (job_manager->work_to_do() && !_cancel_pending) {
 			wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_UI | wxEVT_CATEGORY_USER_INPUT);
-			dcpomatic_sleep_seconds(1);
+			dcpomatic_sleep_milliseconds(250);
 			auto last = job_manager->last_active_job();
 			if (auto locked = last.lock()) {
 				if (auto dcp = dynamic_pointer_cast<VerifyDCPJob>(locked)) {
