@@ -176,6 +176,8 @@ SimpleVideoView::timer ()
 			error_dialog(_panel, _("Could not play content"), std_to_wx(e.what()));
 		}
 	}
+
+	LOG_DEBUG_PLAYER("Latency %1", _viewer->average_latency());
 }
 
 

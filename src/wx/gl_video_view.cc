@@ -138,6 +138,8 @@ GLVideoView::check_for_butler_errors()
 	} catch (dcp::ReadError& e) {
 		error_dialog(get(), wxString::Format(_("Could not read DCP: %s"), std_to_wx(e.what())));
 	}
+
+	LOG_DEBUG_PLAYER("Latency %1", _viewer->average_latency());
 }
 
 
