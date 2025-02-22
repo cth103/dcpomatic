@@ -122,6 +122,13 @@ public:
 		overall_sizer->Add(dcp_sizer, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 
 		auto options_sizer = new wxBoxSizer(wxVERTICAL);
+		_check_picture_details = new CheckBox(this, _("Verify picture asset details"));
+		_check_picture_details->set(true);
+		_check_picture_details->SetToolTip(
+			_("Tick to check details of the picture asset, such as frame sizes and JPEG2000 bitstream validity.  "
+			  "These checks are quite time-consuming.")
+		);
+		options_sizer->Add(_check_picture_details, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 		_write_log = new CheckBox(this, _("Write logs to DCP folders"));
 		options_sizer->Add(_write_log, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(options_sizer, 0, wxLEFT, DCPOMATIC_DIALOG_BORDER);
@@ -162,10 +169,16 @@ private:
 
 	void verify_clicked()
 	{
+		dcp::VerificationOptions options;
+		options.check_picture_details = _check_picture_details->get();
 		auto job_manager = JobManager::instance();
 		vector<shared_ptr<const VerifyDCPJob>> jobs;
 		for (auto const& dcp: _dcp_paths) {
-			auto job = make_shared<VerifyDCPJob>(std::vector<boost::filesystem::path>{dcp}, std::vector<boost::filesystem::path>());
+			auto job = make_shared<VerifyDCPJob>(
+				std::vector<boost::filesystem::path>{dcp},
+				std::vector<boost::filesystem::path>(),
+				options
+			);
 			job_manager->add(job);
 			jobs.push_back(job);
 		}
@@ -216,6 +229,7 @@ private:
 	}
 
 	std::vector<boost::filesystem::path> _dcp_paths;
+	CheckBox* _check_picture_details;
 	CheckBox* _write_log;
 	Button* _cancel;
 	Button* _verify;
