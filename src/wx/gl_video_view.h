@@ -52,12 +52,12 @@ class Texture
 {
 public:
 	Texture(GLint unpack_alignment, int unit = 0);
-	~Texture ();
+	~Texture();
 
-	Texture (Texture const&) = delete;
-	Texture& operator= (Texture const&) = delete;
+	Texture(Texture const&) = delete;
+	Texture& operator=(Texture const&) = delete;
 
-	void bind ();
+	void bind();
 	void set(std::shared_ptr<const Image> image, int component = 0);
 
 private:
@@ -71,39 +71,39 @@ private:
 class GLVideoView : public VideoView
 {
 public:
-	GLVideoView (FilmViewer* viewer, wxWindow* parent);
-	~GLVideoView ();
+	GLVideoView(FilmViewer* viewer, wxWindow* parent);
+	~GLVideoView();
 
-	wxWindow* get () const override {
+	wxWindow* get() const override {
 		return _canvas;
 	}
-	void update () override;
-	void start () override;
-	void stop () override;
+	void update() override;
+	void start() override;
+	void stop() override;
 
-	NextFrameResult display_next_frame (bool) override;
+	NextFrameResult display_next_frame(bool) override;
 
-	bool vsync_enabled () const {
+	bool vsync_enabled() const {
 		return _vsync_enabled;
 	}
 
-	std::map<GLenum, std::string> information () const {
+	std::map<GLenum, std::string> information() const {
 		return _information;
 	}
 
 private:
-	void set_image (std::shared_ptr<const PlayerVideo> pv);
-	void set_image_and_draw ();
-	void draw ();
-	void thread ();
-	void thread_playing ();
-	void request_one_shot ();
-	void check_for_butler_errors ();
-	void ensure_context ();
-	void size_changed (wxSizeEvent const &);
-	void setup_shaders ();
-	void set_outline_content_colour (GLuint program);
-	void set_crop_guess_colour (GLuint program);
+	void set_image(std::shared_ptr<const PlayerVideo> pv);
+	void set_image_and_draw();
+	void draw();
+	void thread();
+	void thread_playing();
+	void request_one_shot();
+	void check_for_butler_errors();
+	void ensure_context();
+	void size_changed(wxSizeEvent const &);
+	void setup_shaders();
+	void set_outline_content_colour(GLuint program);
+	void set_crop_guess_colour(GLuint program);
 
 	wxGLCanvas* _canvas;
 	wxGLContext* _context;
@@ -112,15 +112,15 @@ private:
 	class Last
 	{
 	public:
-		void set_next (T const& next) {
+		void set_next(T const& next) {
 			_next = next;
 		}
 
-		bool changed () const {
+		bool changed() const {
 			return !_value || *_value != _next;
 		}
 
-		void update () {
+		void update() {
 			_value = _next;
 		}
 
