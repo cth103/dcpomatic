@@ -79,19 +79,19 @@ using dcp::locale_convert;
 class PlayerGeneralPage : public GeneralPage
 {
 public:
-	PlayerGeneralPage (wxSize panel_size, int border)
-		: GeneralPage (panel_size, border)
+	PlayerGeneralPage(wxSize panel_size, int border)
+		: GeneralPage(panel_size, border)
 	{}
 
 private:
-	void setup () override
+	void setup() override
 	{
-		auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+		auto table = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
 		int r = 0;
-		add_language_controls (table, r);
-		add_update_controls (table, r);
+		add_language_controls(table, r);
+		add_update_controls(table, r);
 
 		_enable_http_server = new CheckBox(_panel, _("Enable HTTP control interface on port"));
 		table->Add(_enable_http_server, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
@@ -99,49 +99,49 @@ private:
 		table->Add(_http_server_port, wxGBPosition(r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Start player as"), true, wxGBPosition(r, 0));
-		_player_mode = new wxChoice (_panel, wxID_ANY);
-		_player_mode->Append (_("window"));
-		_player_mode->Append (_("full screen"));
-		_player_mode->Append (_("full screen with separate advanced controls"));
-		table->Add (_player_mode, wxGBPosition(r, 1));
+		add_label_to_sizer(table, _panel, _("Start player as"), true, wxGBPosition(r, 0));
+		_player_mode = new wxChoice(_panel, wxID_ANY);
+		_player_mode->Append(_("window"));
+		_player_mode->Append(_("full screen"));
+		_player_mode->Append(_("full screen with separate advanced controls"));
+		table->Add(_player_mode, wxGBPosition(r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Dual-screen displays"), true, wxGBPosition(r, 0));
-		_image_display = new wxChoice (_panel, wxID_ANY);
-		_image_display->Append (_("Image on primary, controls on secondary"));
-		_image_display->Append (_("Image on secondary, controls on primary"));
-		table->Add (_image_display, wxGBPosition(r, 1));
+		add_label_to_sizer(table, _panel, _("Dual-screen displays"), true, wxGBPosition(r, 0));
+		_image_display = new wxChoice(_panel, wxID_ANY);
+		_image_display->Append(_("Image on primary, controls on secondary"));
+		_image_display->Append(_("Image on secondary, controls on primary"));
+		table->Add(_image_display, wxGBPosition(r, 1));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Video display mode"), true, wxGBPosition(r, 0));
-		_video_display_mode = new wxChoice (_panel, wxID_ANY);
-		_video_display_mode->Append (_("Simple (safer)"));
-		_video_display_mode->Append (_("OpenGL (faster)"));
-		table->Add (_video_display_mode, wxGBPosition(r, 1));
+		add_label_to_sizer(table, _panel, _("Video display mode"), true, wxGBPosition(r, 0));
+		_video_display_mode = new wxChoice(_panel, wxID_ANY);
+		_video_display_mode->Append(_("Simple(safer)"));
+		_video_display_mode->Append(_("OpenGL (faster)"));
+		table->Add(_video_display_mode, wxGBPosition(r, 1));
 		++r;
 
 		auto restart = add_label_to_sizer(table, _panel, variant::wx::insert_dcpomatic_player(_("(restart %s to change display mode)")), false, wxGBPosition(r, 0));
 		wxFont font = restart->GetFont();
-		font.SetStyle (wxFONTSTYLE_ITALIC);
-		font.SetPointSize (font.GetPointSize() - 1);
-		restart->SetFont (font);
+		font.SetStyle(wxFONTSTYLE_ITALIC);
+		font.SetPointSize(font.GetPointSize() - 1);
+		restart->SetFont(font);
 		++r;
 
-		_respect_kdm = new CheckBox (_panel, _("Respect KDM validity periods"));
-		table->Add (_respect_kdm, wxGBPosition(r, 0), wxGBSpan(1, 2));
+		_respect_kdm = new CheckBox(_panel, _("Respect KDM validity periods"));
+		table->Add(_respect_kdm, wxGBPosition(r, 0), wxGBSpan(1, 2));
 		++r;
 
-		add_label_to_sizer (table, _panel, _("Debug log file"), true, wxGBPosition (r, 0));
+		add_label_to_sizer(table, _panel, _("Debug log file"), true, wxGBPosition(r, 0));
 		_debug_log_file = new FilePickerCtrl(_panel, _("Select debug log file"), char_to_wx("*"), false, true, "DebugLogPath");
-		table->Add (_debug_log_file, wxGBPosition(r, 1));
+		table->Add(_debug_log_file, wxGBPosition(r, 1));
 		++r;
 
-		_player_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
-		_image_display->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
-		_video_display_mode->Bind (wxEVT_CHOICE, bind(&PlayerGeneralPage::video_display_mode_changed, this));
+		_player_mode->Bind(wxEVT_CHOICE, bind(&PlayerGeneralPage::player_mode_changed, this));
+		_image_display->Bind(wxEVT_CHOICE, bind(&PlayerGeneralPage::image_display_changed, this));
+		_video_display_mode->Bind(wxEVT_CHOICE, bind(&PlayerGeneralPage::video_display_mode_changed, this));
 		_respect_kdm->bind(&PlayerGeneralPage::respect_kdm_changed, this);
-		_debug_log_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
+		_debug_log_file->Bind(wxEVT_FILEPICKER_CHANGED, bind(&PlayerGeneralPage::debug_log_file_changed, this));
 		_enable_http_server->bind(&PlayerGeneralPage::enable_http_server_changed, this);
 		_http_server_port->SetRange(1, 32767);
 		_http_server_port->Bind(wxEVT_SPINCTRL, boost::bind(&PlayerGeneralPage::http_server_port_changed, this));
@@ -149,37 +149,37 @@ private:
 		setup_sensitivity();
 	}
 
-	void config_changed () override
+	void config_changed() override
 	{
-		GeneralPage::config_changed ();
+		GeneralPage::config_changed();
 
-		Config* config = Config::instance ();
+		auto config = Config::instance();
 
 		switch (config->player_mode()) {
 		case Config::PLAYER_MODE_WINDOW:
-			checked_set (_player_mode, 0);
+			checked_set(_player_mode, 0);
 			break;
 		case Config::PLAYER_MODE_FULL:
-			checked_set (_player_mode, 1);
+			checked_set(_player_mode, 1);
 			break;
 		case Config::PLAYER_MODE_DUAL:
-			checked_set (_player_mode, 2);
+			checked_set(_player_mode, 2);
 			break;
 		}
 
 		switch (config->video_view_type()) {
 		case Config::VIDEO_VIEW_SIMPLE:
-			checked_set (_video_display_mode, 0);
+			checked_set(_video_display_mode, 0);
 			break;
 		case Config::VIDEO_VIEW_OPENGL:
-			checked_set (_video_display_mode, 1);
+			checked_set(_video_display_mode, 1);
 			break;
 		}
 
-		checked_set (_image_display, config->image_display());
-		checked_set (_respect_kdm, config->respect_kdm_validity_periods());
+		checked_set(_image_display, config->image_display());
+		checked_set(_respect_kdm, config->respect_kdm_validity_periods());
 		if (config->player_debug_log_file()) {
-			checked_set (_debug_log_file, *config->player_debug_log_file());
+			checked_set(_debug_log_file, *config->player_debug_log_file());
 		}
 
 		checked_set(_enable_http_server, config->enable_player_http_server());
@@ -189,7 +189,7 @@ private:
 	}
 
 private:
-	void player_mode_changed ()
+	void player_mode_changed()
 	{
 		switch (_player_mode->GetSelection()) {
 		case 0:
@@ -204,26 +204,26 @@ private:
 		}
 	}
 
-	void image_display_changed ()
+	void image_display_changed()
 	{
 		Config::instance()->set_image_display(_image_display->GetSelection());
 	}
 
-	void video_display_mode_changed ()
+	void video_display_mode_changed()
 	{
 		if (_video_display_mode->GetSelection() == 0) {
-			Config::instance()->set_video_view_type (Config::VIDEO_VIEW_SIMPLE);
+			Config::instance()->set_video_view_type(Config::VIDEO_VIEW_SIMPLE);
 		} else {
-			Config::instance()->set_video_view_type (Config::VIDEO_VIEW_OPENGL);
+			Config::instance()->set_video_view_type(Config::VIDEO_VIEW_OPENGL);
 		}
 	}
 
-	void respect_kdm_changed ()
+	void respect_kdm_changed()
 	{
 		Config::instance()->set_respect_kdm_validity_periods(_respect_kdm->GetValue());
 	}
 
-	void debug_log_file_changed ()
+	void debug_log_file_changed()
 	{
 		if (auto path = _debug_log_file->path()) {
 			Config::instance()->set_player_debug_log_file(*path);
@@ -245,13 +245,13 @@ private:
 		_http_server_port->Enable(_enable_http_server->get());
 	}
 
-	wxChoice* _player_mode;
-	wxChoice* _image_display;
-	wxChoice* _video_display_mode;
-	CheckBox* _respect_kdm;
-	FilePickerCtrl* _debug_log_file;
-	CheckBox* _enable_http_server;
-	wxSpinCtrl* _http_server_port;
+	wxChoice* _player_mode = nullptr;
+	wxChoice* _image_display = nullptr;
+	wxChoice* _video_display_mode = nullptr;
+	CheckBox* _respect_kdm = nullptr;
+	FilePickerCtrl* _debug_log_file = nullptr;
+	CheckBox* _enable_http_server = nullptr;
+	wxSpinCtrl* _http_server_port = nullptr;
 };
 
 
@@ -261,65 +261,61 @@ private:
 class PlayerAdvancedPage : public Page
 {
 public:
-	PlayerAdvancedPage (wxSize panel_size, int border)
-		: Page (panel_size, border)
-		, _log_general (0)
-		, _log_warning (0)
-		, _log_error (0)
-		, _log_timing (0)
+	PlayerAdvancedPage(wxSize panel_size, int border)
+		: Page(panel_size, border)
 	{}
 
-	wxString GetName () const override
+	wxString GetName() const override
 	{
 		return _("Advanced");
 	}
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const override
+	wxBitmap GetLargeIcon() const override
 	{
 		return wxBitmap(icon_path("advanced"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 private:
-	void add_top_aligned_label_to_sizer (wxSizer* table, wxWindow* parent, wxString text)
+	void add_top_aligned_label_to_sizer(wxSizer* table, wxWindow* parent, wxString text)
 	{
 		int flags = wxALIGN_TOP | wxTOP | wxLEFT;
 #ifdef __WXOSX__
 		flags |= wxALIGN_RIGHT;
 		text += char_to_wx(":");
 #endif
-		wxStaticText* m = new StaticText (parent, text);
-		table->Add (m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
+		auto m = new StaticText(parent, text);
+		table->Add(m, 0, flags, DCPOMATIC_SIZER_Y_GAP);
 	}
 
-	void setup () override
+	void setup() override
 	{
-		auto table = new wxFlexGridSizer (2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol (1, 1);
-		_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+		auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+		table->AddGrowableCol(1, 1);
+		_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
 		{
-			add_top_aligned_label_to_sizer (table, _panel, _("Log"));
-			wxBoxSizer* t = new wxBoxSizer (wxVERTICAL);
-			_log_general = new CheckBox (_panel, _("General"));
-			t->Add (_log_general, 1, wxEXPAND | wxALL);
-			_log_warning = new CheckBox (_panel, _("Warnings"));
-			t->Add (_log_warning, 1, wxEXPAND | wxALL);
-			_log_error = new CheckBox (_panel, _("Errors"));
-			t->Add (_log_error, 1, wxEXPAND | wxALL);
+			add_top_aligned_label_to_sizer(table, _panel, _("Log"));
+			auto t = new wxBoxSizer(wxVERTICAL);
+			_log_general = new CheckBox(_panel, _("General"));
+			t->Add(_log_general, 1, wxEXPAND | wxALL);
+			_log_warning = new CheckBox(_panel, _("Warnings"));
+			t->Add(_log_warning, 1, wxEXPAND | wxALL);
+			_log_error = new CheckBox(_panel, _("Errors"));
+			t->Add(_log_error, 1, wxEXPAND | wxALL);
 			/// TRANSLATORS: translate the word "Timing" here; do not include the "Config|" prefix
-			_log_timing = new CheckBox (_panel, S_("Config|Timing"));
-			t->Add (_log_timing, 1, wxEXPAND | wxALL);
+			_log_timing = new CheckBox(_panel, S_("Config|Timing"));
+			t->Add(_log_timing, 1, wxEXPAND | wxALL);
 			_log_debug_video_view = new CheckBox(_panel, _("Debug: video view"));
 			t->Add(_log_debug_video_view, 1, wxEXPAND | wxALL);
-			table->Add (t, 0, wxALL, 6);
+			table->Add(t, 0, wxALL, 6);
 		}
 
 #ifdef DCPOMATIC_WINDOWS
-		_win32_console = new CheckBox (_panel, _("Open console window"));
-		table->Add (_win32_console, 1, wxEXPAND | wxALL);
-		table->AddSpacer (0);
+		_win32_console = new CheckBox(_panel, _("Open console window"));
+		table->Add(_win32_console, 1, wxEXPAND | wxALL);
+		table->AddSpacer(0);
 #endif
 
 		_log_general->bind(&PlayerAdvancedPage::log_changed, this);
@@ -332,61 +328,61 @@ private:
 #endif
 	}
 
-	void config_changed () override
+	void config_changed() override
 	{
-		auto config = Config::instance ();
+		auto config = Config::instance();
 
-		checked_set (_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
-		checked_set (_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
-		checked_set (_log_error, config->log_types() & LogEntry::TYPE_ERROR);
-		checked_set (_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
-		checked_set (_log_debug_video_view, config->log_types() & LogEntry::TYPE_DEBUG_VIDEO_VIEW);
+		checked_set(_log_general, config->log_types() & LogEntry::TYPE_GENERAL);
+		checked_set(_log_warning, config->log_types() & LogEntry::TYPE_WARNING);
+		checked_set(_log_error, config->log_types() & LogEntry::TYPE_ERROR);
+		checked_set(_log_timing, config->log_types() & LogEntry::TYPE_TIMING);
+		checked_set(_log_debug_video_view, config->log_types() & LogEntry::TYPE_DEBUG_VIDEO_VIEW);
 #ifdef DCPOMATIC_WINDOWS
-		checked_set (_win32_console, config->win32_console());
+		checked_set(_win32_console, config->win32_console());
 #endif
 	}
 
-	void log_changed ()
+	void log_changed()
 	{
 		int types = 0;
-		if (_log_general->GetValue ()) {
+		if (_log_general->GetValue()) {
 			types |= LogEntry::TYPE_GENERAL;
 		}
-		if (_log_warning->GetValue ()) {
+		if (_log_warning->GetValue()) {
 			types |= LogEntry::TYPE_WARNING;
 		}
-		if (_log_error->GetValue ())  {
+		if (_log_error->GetValue())  {
 			types |= LogEntry::TYPE_ERROR;
 		}
-		if (_log_timing->GetValue ()) {
+		if (_log_timing->GetValue()) {
 			types |= LogEntry::TYPE_TIMING;
 		}
 		if (_log_debug_video_view->GetValue()) {
 			types |= LogEntry::TYPE_DEBUG_VIDEO_VIEW;
 		}
-		Config::instance()->set_log_types (types);
+		Config::instance()->set_log_types(types);
 	}
 
 #ifdef DCPOMATIC_WINDOWS
-	void win32_console_changed ()
+	void win32_console_changed()
 	{
-		Config::instance()->set_win32_console (_win32_console->GetValue ());
+		Config::instance()->set_win32_console(_win32_console->GetValue());
 	}
 #endif
 
-	CheckBox* _log_general;
-	CheckBox* _log_warning;
-	CheckBox* _log_error;
-	CheckBox* _log_timing;
-	CheckBox* _log_debug_video_view;
+	CheckBox* _log_general = nullptr;
+	CheckBox* _log_warning = nullptr;
+	CheckBox* _log_error = nullptr;
+	CheckBox* _log_timing = nullptr;
+	CheckBox* _log_debug_video_view = nullptr;
 #ifdef DCPOMATIC_WINDOWS
-	CheckBox* _win32_console;
+	CheckBox* _win32_console = nullptr;
 #endif
 };
 
 
 wxPreferencesEditor*
-create_player_config_dialog ()
+create_player_config_dialog()
 {
 	auto e = new wxPreferencesEditor(variant::wx::insert_dcpomatic_player(_("%s Preferences")));
 
@@ -395,17 +391,17 @@ create_player_config_dialog ()
 	   the containing window doesn't shrink too much when we select those panels.
 	   This is obviously an unpleasant hack.
 	*/
-	auto ps = wxSize (520, -1);
+	auto ps = wxSize(520, -1);
 	int const border = 16;
 #else
-	auto ps = wxSize (-1, -1);
+	auto ps = wxSize(-1, -1);
 	int const border = 8;
 #endif
 
-	e->AddPage (new PlayerGeneralPage(wxSize(-1, 500), border));
-	e->AddPage (new SoundPage(ps, border));
-	e->AddPage (new LocationsPage(ps, border));
-	e->AddPage (new KeysPage(ps, border));
-	e->AddPage (new PlayerAdvancedPage(ps, border));
+	e->AddPage(new PlayerGeneralPage(wxSize(-1, 500), border));
+	e->AddPage(new SoundPage(ps, border));
+	e->AddPage(new LocationsPage(ps, border));
+	e->AddPage(new KeysPage(ps, border));
+	e->AddPage(new PlayerAdvancedPage(ps, border));
 	return e;
 }
