@@ -153,6 +153,8 @@ public:
 		return _idle_get;
 	}
 
+	Frame average_latency() const;
+
 	boost::signals2::signal<void (std::shared_ptr<PlayerVideo>)> ImageChanged;
 	boost::signals2::signal<void ()> Started;
 	boost::signals2::signal<void ()> Stopped;
@@ -181,7 +183,6 @@ private:
 	void start_audio_stream_if_open ();
 
 	dcpomatic::DCPTime uncorrected_time () const;
-	Frame average_latency () const;
 
 	bool quick_refresh ();
 
