@@ -348,3 +348,21 @@ JobManager::resume ()
 	_paused = false;
 	_schedule_condition.notify_all();
 }
+
+
+void
+JobManager::cancel_all_jobs()
+{
+	boost::mutex::scoped_lock lm(_mutex);
+	auto jobs = _jobs;
+	lm.unlock();
+
+	/* Calling Job::cancel() will result in JobManager::job_finished() being called, so we need
+	 * to do this without a lock on _mutex.  I think the worst case is that we fail to stop a
+	 * job that got started since we lm.unlock()ed.
+	 */
+	for (auto job: jobs) {
+		job->cancel();
+	}
+}
+

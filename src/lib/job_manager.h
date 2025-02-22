@@ -84,6 +84,8 @@ public:
 		std::function<void (Job::Result)> ready
 		);
 
+	void cancel_all_jobs();
+
 	boost::signals2::signal<void (std::weak_ptr<Job>)> JobAdded;
 	boost::signals2::signal<void ()> JobsReordered;
 	boost::signals2::signal<void (boost::optional<std::string>, boost::optional<std::string>)> ActiveJobsChanged;
