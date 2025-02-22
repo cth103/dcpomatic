@@ -126,8 +126,12 @@ public:
 		options_sizer->Add(_write_log, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 		overall_sizer->Add(options_sizer, 0, wxLEFT, DCPOMATIC_DIALOG_BORDER);
 
+		auto actions_sizer = new wxBoxSizer(wxHORIZONTAL);
+		_cancel = new Button(this, _("Cancel"));
+		actions_sizer->Add(_cancel, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
 		_verify = new Button(this, _("Verify"));
-		overall_sizer->Add(_verify, 0, wxEXPAND | wxLEFT | wxRIGHT, DCPOMATIC_DIALOG_BORDER);
+		actions_sizer->Add(_verify, 0, wxRIGHT, DCPOMATIC_SIZER_GAP);
+		overall_sizer->Add(actions_sizer, 1, wxLEFT | wxRIGHT | wxALIGN_CENTER, DCPOMATIC_DIALOG_BORDER);
 
 		_progress_panel = new VerifyDCPProgressPanel(this);
 		overall_sizer->Add(_progress_panel, 0, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
@@ -137,6 +141,7 @@ public:
 
 		SetSizerAndFit(overall_sizer);
 
+		_cancel->bind(&DOMFrame::cancel_clicked, this);
 		_verify->bind(&DOMFrame::verify_clicked, this);
 
 		setup_sensitivity();
@@ -145,7 +150,14 @@ public:
 private:
 	void setup_sensitivity()
 	{
-		_verify->Enable(!_dcp_paths.empty());
+		auto const work = JobManager::instance()->work_to_do();
+		_cancel->Enable(work);
+		_verify->Enable(!_dcp_paths.empty() && !work);
+	}
+
+	void cancel_clicked()
+	{
+		_cancel_pending = true;
 	}
 
 	void verify_clicked()
@@ -158,7 +170,9 @@ private:
 			jobs.push_back(job);
 		}
 
-		while (job_manager->work_to_do()) {
+		setup_sensitivity();
+
+		while (job_manager->work_to_do() && !_cancel_pending) {
 			wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_UI | wxEVT_CATEGORY_USER_INPUT);
 			dcpomatic_sleep_seconds(1);
 			auto last = job_manager->last_active_job();
@@ -167,6 +181,14 @@ private:
 					_progress_panel->update(dcp);
 				}
 			}
+		}
+
+		if (_cancel_pending) {
+			_cancel_pending = false;
+			JobManager::instance()->cancel_all_jobs();
+			_progress_panel->clear();
+			setup_sensitivity();
+			return;
 		}
 
 		DCPOMATIC_ASSERT(_dcp_paths.size() == jobs.size());
@@ -195,9 +217,11 @@ private:
 
 	std::vector<boost::filesystem::path> _dcp_paths;
 	CheckBox* _write_log;
+	Button* _cancel;
 	Button* _verify;
 	VerifyDCPProgressPanel* _progress_panel;
 	VerifyDCPResultPanel* _result_panel;
+	bool _cancel_pending = false;
 };
 
 
