@@ -32,7 +32,7 @@
 #include "wx/system_information_dialog.h"
 #include "wx/timer_display.h"
 #include "wx/update_dialog.h"
-#include "wx/verify_dcp_progress_dialog.h"
+#include "wx/verify_dcp_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -995,8 +995,8 @@ private:
 		DCPOMATIC_ASSERT (dcp);
 
 		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms, dcp::VerificationOptions{});
-		VerifyDCPProgressDialog progress(this, _("Verify DCP"), job);
-		progress.ShowModal();
+		VerifyDCPDialog dialog(this, _("Verify DCP"), job);
+		dialog.ShowModal();
 	}
 
 	void tools_check_for_updates ()

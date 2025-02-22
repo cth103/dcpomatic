@@ -21,7 +21,7 @@
 
 #include "check_box.h"
 #include "dcpomatic_button.h"
-#include "verify_dcp_progress_dialog.h"
+#include "verify_dcp_dialog.h"
 #include "verify_dcp_progress_panel.h"
 #include "verify_dcp_result_panel.h"
 #include "wx_util.h"
@@ -40,7 +40,7 @@ using std::string;
 using boost::optional;
 
 
-VerifyDCPProgressDialog::VerifyDCPProgressDialog (wxWindow* parent, wxString title, shared_ptr<VerifyDCPJob> job)
+VerifyDCPDialog::VerifyDCPDialog(wxWindow* parent, wxString title, shared_ptr<VerifyDCPJob> job)
 	: wxDialog (parent, wxID_ANY, title)
 	, _progress_panel(new VerifyDCPProgressPanel(this))
 	, _result_panel(new VerifyDCPResultPanel(this))
@@ -71,22 +71,22 @@ VerifyDCPProgressDialog::VerifyDCPProgressDialog (wxWindow* parent, wxString tit
 
 	SetSizerAndFit (overall_sizer);
 
-	_verify->bind(&VerifyDCPProgressDialog::verify_clicked, this);
-	_cancel->bind(&VerifyDCPProgressDialog::cancel_clicked, this);
+	_verify->bind(&VerifyDCPDialog::verify_clicked, this);
+	_cancel->bind(&VerifyDCPDialog::cancel_clicked, this);
 
 	_cancel->Enable(false);
 }
 
 
 void
-VerifyDCPProgressDialog::cancel_clicked()
+VerifyDCPDialog::cancel_clicked()
 {
 	_cancel_pending = true;
 }
 
 
 void
-VerifyDCPProgressDialog::verify_clicked()
+VerifyDCPDialog::verify_clicked()
 {
 	_cancel->Enable(true);
 	_verify->Enable(false);

@@ -33,10 +33,10 @@ class VerifyDCPProgressPanel;
 class VerifyDCPResultPanel;
 
 
-class VerifyDCPProgressDialog : public wxDialog
+class VerifyDCPDialog : public wxDialog
 {
 public:
-	VerifyDCPProgressDialog(wxWindow* parent, wxString title, std::shared_ptr<VerifyDCPJob> job);
+	VerifyDCPDialog(wxWindow* parent, wxString title, std::shared_ptr<VerifyDCPJob> job);
 
 private:
 	void verify_clicked();
