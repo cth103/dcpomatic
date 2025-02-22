@@ -33,7 +33,6 @@
 #include "wx/timer_display.h"
 #include "wx/update_dialog.h"
 #include "wx/verify_dcp_progress_dialog.h"
-#include "wx/verify_dcp_result_dialog.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -995,15 +994,9 @@ private:
 		auto dcp = std::dynamic_pointer_cast<DCPContent>(_film->content().front());
 		DCPOMATIC_ASSERT (dcp);
 
-		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms);
-		VerifyDCPProgressDialog progress(this, variant::wx::dcpomatic_player());
-		bool const completed = progress.run(job);
-		progress.Close();
-
-		if (completed) {
-			VerifyDCPResultDialog dialog(this, job);
-			dialog.ShowModal();
-		}
+		auto job = make_shared<VerifyDCPJob>(dcp->directories(), _kdms, dcp::VerificationOptions{});
+		VerifyDCPProgressDialog progress(this, _("Verify DCP"), job);
+		progress.ShowModal();
 	}
 
 	void tools_check_for_updates ()

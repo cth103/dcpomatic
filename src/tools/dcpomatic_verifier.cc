@@ -214,6 +214,7 @@ private:
 		}
 
 		_progress_panel->clear();
+		setup_sensitivity();
 	}
 
 private:

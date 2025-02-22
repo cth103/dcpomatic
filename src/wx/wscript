@@ -178,7 +178,6 @@ sources = """
           timing_panel.cc
           try_unmount_dialog.cc
           update_dialog.cc
-          verify_dcp_result_dialog.cc
           verify_dcp_result_panel.cc
           verify_dcp_progress_dialog.cc
           verify_dcp_progress_panel.cc

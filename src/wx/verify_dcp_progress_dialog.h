@@ -26,21 +26,29 @@ LIBDCP_ENABLE_WARNINGS
 #include <memory>
 
 
+class Button;
+class CheckBox;
 class VerifyDCPJob;
 class VerifyDCPProgressPanel;
+class VerifyDCPResultPanel;
 
 
 class VerifyDCPProgressDialog : public wxDialog
 {
 public:
-	VerifyDCPProgressDialog (wxWindow* parent, wxString title);
-
-	bool run(std::shared_ptr<VerifyDCPJob> job);
+	VerifyDCPProgressDialog(wxWindow* parent, wxString title, std::shared_ptr<VerifyDCPJob> job);
 
 private:
-	void cancel ();
+	void verify_clicked();
+	void cancel_clicked();
 
-	VerifyDCPProgressPanel* _panel;
-	bool _cancel;
+	CheckBox* _check_picture_details;
+	VerifyDCPProgressPanel* _progress_panel;
+	VerifyDCPResultPanel* _result_panel;
+	Button* _cancel;
+	Button* _verify;
+	bool _cancel_pending;
+	std::shared_ptr<VerifyDCPJob> _job;
 };
+
 

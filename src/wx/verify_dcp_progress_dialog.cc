@@ -19,8 +19,11 @@
 */
 
 
+#include "check_box.h"
+#include "dcpomatic_button.h"
 #include "verify_dcp_progress_dialog.h"
 #include "verify_dcp_progress_panel.h"
+#include "verify_dcp_result_panel.h"
 #include "wx_util.h"
 #include "lib/cross.h"
 #include "lib/job_manager.h"
@@ -32,57 +35,79 @@ LIBDCP_ENABLE_WARNINGS
 #include <string>
 
 
-using std::string;
 using std::shared_ptr;
+using std::string;
 using boost::optional;
 
 
-VerifyDCPProgressDialog::VerifyDCPProgressDialog (wxWindow* parent, wxString title)
+VerifyDCPProgressDialog::VerifyDCPProgressDialog (wxWindow* parent, wxString title, shared_ptr<VerifyDCPJob> job)
 	: wxDialog (parent, wxID_ANY, title)
-	, _panel(new VerifyDCPProgressPanel(this))
-	, _cancel (false)
+	, _progress_panel(new VerifyDCPProgressPanel(this))
+	, _result_panel(new VerifyDCPResultPanel(this))
+	, _cancel_pending(false)
+	, _job(job)
 {
 	auto overall_sizer = new wxBoxSizer (wxVERTICAL);
 
-	overall_sizer->Add(_panel, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+	auto options_sizer = new wxBoxSizer(wxVERTICAL);
+	_check_picture_details = new CheckBox(this, _("Verify picture asset details"));
+	_check_picture_details->set(true);
+	_check_picture_details->SetToolTip(
+		_("Tick to check details of the picture asset, such as frame sizes and JPEG2000 bitstream validity.  "
+		  "These checks are quite time-consuming.")
+	);
+	options_sizer->Add(_check_picture_details, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
+	overall_sizer->Add(options_sizer, 0, wxALL, DCPOMATIC_SIZER_GAP);
 
-	auto cancel = new wxButton(this, wxID_ANY, _("Cancel"));
 	auto buttons = new wxBoxSizer(wxHORIZONTAL);
-	buttons->AddStretchSpacer ();
-	buttons->Add (cancel, 0);
-	overall_sizer->Add (buttons, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+	_cancel = new Button(this, _("Cancel"));
+	buttons->Add(_cancel, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
+	_verify = new Button(this, _("Verify"));
+	buttons->Add(_verify, 0, wxLEFT, DCPOMATIC_SIZER_GAP);
+	overall_sizer->Add(buttons, 0, wxALL | wxALIGN_CENTER, DCPOMATIC_SIZER_GAP);
+
+	overall_sizer->Add(_progress_panel, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
+	overall_sizer->Add(_result_panel, 0, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
 
 	SetSizerAndFit (overall_sizer);
 
-	cancel->Bind (wxEVT_BUTTON, boost::bind(&VerifyDCPProgressDialog::cancel, this));
+	_verify->bind(&VerifyDCPProgressDialog::verify_clicked, this);
+	_cancel->bind(&VerifyDCPProgressDialog::cancel_clicked, this);
+
+	_cancel->Enable(false);
 }
 
 
 void
-VerifyDCPProgressDialog::cancel ()
+VerifyDCPProgressDialog::cancel_clicked()
 {
-	_cancel = true;
+	_cancel_pending = true;
 }
 
 
-bool
-VerifyDCPProgressDialog::run(shared_ptr<VerifyDCPJob> job)
+void
+VerifyDCPProgressDialog::verify_clicked()
 {
-	Show ();
+	_cancel->Enable(true);
+	_verify->Enable(false);
 
-	JobManager* jm = JobManager::instance ();
-	jm->add (job);
+	auto jm = JobManager::instance();
+	jm->add(_job);
 
-	while (jm->work_to_do()) {
+	while (jm->work_to_do() && !_cancel_pending) {
 		wxEventLoopBase::GetActive()->YieldFor(wxEVT_CATEGORY_UI | wxEVT_CATEGORY_USER_INPUT);
-		dcpomatic_sleep_seconds (1);
-
-		_panel->update(job);
-
-		if (_cancel) {
-			break;
-		}
+		dcpomatic_sleep_milliseconds(250);
+		_progress_panel->update(_job);
 	}
 
-	return !_cancel;
+	if (_cancel_pending) {
+		jm->cancel_all_jobs();
+		EndModal(0);
+	} else {
+		_progress_panel->clear();
+		_result_panel->add({ _job });
+		_cancel->Enable(false);
+		_verify->Enable(false);
+		_check_picture_details->Enable(false);
+	}
 }
