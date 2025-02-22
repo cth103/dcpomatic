@@ -116,7 +116,7 @@ private:
 
 		add_label_to_sizer(table, _panel, _("Video display mode"), true, wxGBPosition(r, 0));
 		_video_display_mode = new wxChoice(_panel, wxID_ANY);
-		_video_display_mode->Append(_("Simple(safer)"));
+		_video_display_mode->Append(_("Simple (safer)"));
 		_video_display_mode->Append(_("OpenGL (faster)"));
 		table->Add(_video_display_mode, wxGBPosition(r, 1));
 		++r;
