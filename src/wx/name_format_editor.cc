@@ -73,20 +73,18 @@ NameFormatEditor::changed ()
 void
 NameFormatEditor::update_example ()
 {
-	if (_examples.empty ()) {
-		return;
-	}
-
 	_name.set_specification(wx_to_std(_specification->GetValue()));
 
-	auto example = wxString::Format(_("e.g. %s"), std_to_wx(careful_string_filter(_name.get(_examples, _suffix))));
-	wxString wrapped;
-	for (size_t i = 0; i < example.Length(); ++i) {
-		if (i > 0 && (i % 40) == 0) {
-			wrapped += char_to_wx("\n");
+	if (!_examples.empty()) {
+		auto example = wxString::Format(_("e.g. %s"), std_to_wx(careful_string_filter(_name.get(_examples, _suffix))));
+		wxString wrapped;
+		for (size_t i = 0; i < example.Length(); ++i) {
+			if (i > 0 && (i % 40) == 0) {
+				wrapped += char_to_wx("\n");
+			}
+			wrapped += example[i];
 		}
-		wrapped += example[i];
-	}
 
-	_example->SetLabel (wrapped);
+		_example->SetLabel(wrapped);
+	}
 }
