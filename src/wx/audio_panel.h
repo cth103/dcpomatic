@@ -19,13 +19,14 @@
 */
 
 
-#include "audio_dialog.h"
 #include "content_sub_panel.h"
 #include "content_widget.h"
 #include "timecode.h"
+#include "wx_ptr.h"
 #include "lib/audio_mapping.h"
 
 
+class AudioDialog;
 class AudioMappingView;
 class CheckBox;
 class LanguageTagWidget;
@@ -76,7 +77,7 @@ private:
 	CheckBox* _use_same_fades_as_video;
 	AudioMappingView* _mapping;
 	wxStaticText* _description;
-	boost::optional<AudioDialog> _audio_dialog;
+	wx_ptr<AudioDialog> _audio_dialog;
 
 	boost::signals2::scoped_connection _mapping_connection;
 	boost::signals2::scoped_connection _active_jobs_connection;

@@ -570,7 +570,7 @@ ContentMenu::auto_crop ()
 	auto const crop = guess_crop_for_content ();
 	update_viewer (crop);
 
-	_auto_crop_dialog.emplace(_parent, crop);
+	_auto_crop_dialog.reset(_parent, crop);
 	_auto_crop_dialog->Show ();
 
 	/* Update the dialog and view when the crop threshold changes */

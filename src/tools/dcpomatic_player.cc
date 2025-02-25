@@ -33,6 +33,7 @@
 #include "wx/timer_display.h"
 #include "wx/update_dialog.h"
 #include "wx/verify_dcp_dialog.h"
+#include "wx/wx_ptr.h"
 #include "wx/wx_signal_manager.h"
 #include "wx/wx_util.h"
 #include "wx/wx_variant.h"
@@ -1014,7 +1015,7 @@ private:
 	void tools_system_information ()
 	{
 		if (!_system_information_dialog) {
-			_system_information_dialog.emplace(this, _viewer);
+			_system_information_dialog.reset(this, _viewer);
 		}
 
 		_system_information_dialog->Show ();
@@ -1234,7 +1235,7 @@ private:
 	wxMenuItem* _history_separator = nullptr;
 	FilmViewer _viewer;
 	Controls* _controls;
-	boost::optional<SystemInformationDialog> _system_information_dialog;
+	wx_ptr<SystemInformationDialog> _system_information_dialog;
 	std::shared_ptr<Film> _film;
 	boost::signals2::scoped_connection _config_changed_connection;
 	boost::signals2::scoped_connection _examine_job_connection;

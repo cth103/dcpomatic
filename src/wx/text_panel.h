@@ -19,19 +19,19 @@
 */
 
 
-#include "content_sub_panel.h"
-#include "fonts_dialog.h"
-#include "text_view.h"
 #include "lib/job.h"
+#include "content_sub_panel.h"
+#include "wx_ptr.h"
 
 
 class CheckBox;
 class Choice;
+class wxSpinCtrl;
 class LanguageTagWidget;
+class TextView;
+class FontsDialog;
 class SpinCtrl;
 class SubtitleAnalysis;
-class TextView;
-class wxSpinCtrl;
 
 
 class TextPanel : public ContentSubPanel
@@ -100,9 +100,9 @@ private:
 	wxStaticText* _stream_label;
 	wxChoice* _stream;
 	wxButton* _text_view_button;
-	boost::optional<TextView> _text_view;
+	wx_ptr<TextView> _text_view;
 	wxButton* _fonts_dialog_button;
-	boost::optional<FontsDialog> _fonts_dialog;
+	wx_ptr<FontsDialog> _fonts_dialog;
 	wxButton* _appearance_dialog_button;
 	TextType _original_type;
 	wxStaticText* _language_label = nullptr;

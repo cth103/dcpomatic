@@ -25,6 +25,7 @@
 
 #include "auto_crop_dialog.h"
 #include "timeline_content_view.h"
+#include "wx_ptr.h"
 #include "lib/types.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
@@ -89,7 +90,7 @@ private:
 	wxMenuItem* _set_dcp_markers;
 	wxMenuItem* _remove;
 
-	boost::optional<AutoCropDialog> _auto_crop_dialog;
+	wx_ptr<AutoCropDialog> _auto_crop_dialog;
 	boost::signals2::scoped_connection _auto_crop_config_connection;
 	boost::signals2::scoped_connection _auto_crop_viewer_connection;
 };

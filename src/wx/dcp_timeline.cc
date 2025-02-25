@@ -150,7 +150,7 @@ DCPTimeline::DCPTimeline(wxWindow* parent, shared_ptr<Film> film)
 	_reel_detail->SetSizer(_reel_detail_sizer);
 
 	auto sizer = new wxBoxSizer(wxVERTICAL);
-	sizer->Add(_reel_settings, 0);
+	sizer->Add(_reel_settings, 0, wxBOTTOM, DCPOMATIC_SIZER_GAP);
 	sizer->Add(_canvas, 0, wxEXPAND);
 	sizer->Add(_reel_detail, 1, wxEXPAND | wxALL, DCPOMATIC_DIALOG_BORDER);
 	SetSizer(sizer);
