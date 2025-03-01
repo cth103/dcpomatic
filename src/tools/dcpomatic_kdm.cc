@@ -52,6 +52,7 @@
 #include "lib/job_manager.h"
 #include "lib/kdm_util.h"
 #include "lib/kdm_with_metadata.h"
+#include "lib/null_log.h"
 #include "lib/screen.h"
 #include "lib/send_kdm_email_job.h"
 #include "lib/util.h"
@@ -243,6 +244,7 @@ public:
 
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
 		Config::instance()->Changed.connect(boost::bind(&DOMFrame::config_changed, this, _1));
+		setup_log();
 
 		_screens->ScreensChanged.connect(boost::bind(&DOMFrame::screens_changed, this));
 		_create->Bind (wxEVT_BUTTON, bind (&DOMFrame::create_kdms, this));
@@ -260,8 +262,6 @@ public:
 		_output->MethodChanged.connect(boost::bind(&DOMFrame::setup_sensitivity, this));
 
 		setup_sensitivity ();
-
-		dcpomatic_log = make_shared<FileLog>(State::write_path("kdm.log"));
 	}
 
 private:
@@ -270,8 +270,24 @@ private:
 		/* Instantly save any config changes when using a DCP-o-matic GUI */
 		Config::instance()->write();
 
-		if (what == Config::CINEMAS_FILE) {
+		switch (what) {
+		case Config::CINEMAS_FILE:
 			_screens->update();
+			break;
+		case Config::KDM_DEBUG_LOG:
+			setup_log();
+			break;
+		default:
+			break;
+		}
+	}
+
+	void setup_log()
+	{
+		if (auto p = Config::instance()->kdm_debug_log_file()) {
+			dcpomatic_log = make_shared<FileLog>(*p);
+		} else {
+			dcpomatic_log = make_shared<NullLog>();
 		}
 	}
 
