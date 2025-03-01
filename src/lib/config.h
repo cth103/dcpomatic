@@ -110,6 +110,7 @@ public:
 		PLAYER_CONTENT_DIRECTORY,
 		PLAYER_PLAYLIST_DIRECTORY,
 		PLAYER_DEBUG_LOG,
+		KDM_DEBUG_LOG,
 		HISTORY,
 		SHOW_EXPERIMENTAL_AUDIO_PROCESSORS,
 		AUDIO_MAPPING,
@@ -574,6 +575,10 @@ public:
 
 	boost::optional<boost::filesystem::path> player_debug_log_file() const {
 		return _player_debug_log_file;
+	}
+
+	boost::optional<boost::filesystem::path> kdm_debug_log_file() const {
+		return _kdm_debug_log_file;
 	}
 
 	boost::optional<boost::filesystem::path> player_content_directory() const {
@@ -1122,6 +1127,10 @@ public:
 		changed(PLAYER_DEBUG_LOG);
 	}
 
+	void set_kdm_debug_log_file(boost::filesystem::path p) {
+		maybe_set(_kdm_debug_log_file, p, KDM_DEBUG_LOG);
+	}
+
 	void set_player_content_directory(boost::filesystem::path p) {
 		maybe_set(_player_content_directory, p, PLAYER_CONTENT_DIRECTORY);
 	}
@@ -1457,6 +1466,7 @@ private:
 	bool _respect_kdm_validity_periods;
 	/** Log file containing debug information for the player */
 	boost::optional<boost::filesystem::path> _player_debug_log_file;
+	boost::optional<boost::filesystem::path> _kdm_debug_log_file;
 	/** A directory containing DCPs whose contents are presented to the user
 	    in the dual-screen player mode.  DCPs on the list can be loaded
 	    for playback.

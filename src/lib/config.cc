@@ -191,6 +191,7 @@ Config::set_defaults()
 	_video_view_type = VIDEO_VIEW_SIMPLE;
 	_respect_kdm_validity_periods = true;
 	_player_debug_log_file = boost::none;
+	_kdm_debug_log_file = boost::none;
 	_player_content_directory = boost::none;
 	_player_playlist_directory = boost::none;
 	_player_kdm_directory = boost::none;
@@ -616,6 +617,7 @@ try
 	}
 	_respect_kdm_validity_periods = f.optional_bool_child("RespectKDMValidityPeriods").get_value_or(true);
 	_player_debug_log_file = f.optional_string_child("PlayerDebugLogFile");
+	_kdm_debug_log_file = f.optional_string_child("KDMDebugLogFile");
 	_player_content_directory = f.optional_string_child("PlayerContentDirectory");
 	_player_playlist_directory = f.optional_string_child("PlayerPlaylistDirectory");
 	_player_kdm_directory = f.optional_string_child("PlayerKDMDirectory");
@@ -1088,6 +1090,10 @@ Config::write_config() const
 	if (_player_debug_log_file) {
 		/* [XML] PlayerLogFile Filename to use for player debug logs. */
 		cxml::add_text_child(root, "PlayerDebugLogFile", _player_debug_log_file->string());
+	}
+	if (_kdm_debug_log_file) {
+		/* [XML] KDMLogFile Filename to use for KDM creator debug logs. */
+		cxml::add_text_child(root, "KDMDebugLogFile", _kdm_debug_log_file->string());
 	}
 	if (_player_content_directory) {
 		/* [XML] PlayerContentDirectory Directory to use for player content in the dual-screen mode. */
