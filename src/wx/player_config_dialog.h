@@ -24,4 +24,4 @@
 
 class wxPreferencesEditor;
 
-wxPreferencesEditor* create_player_config_dialog ();
+wxPreferencesEditor* create_player_config_dialog();
