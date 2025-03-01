@@ -52,126 +52,126 @@ using namespace boost::placeholders;
 
 static
 bool
-do_nothing ()
+do_nothing()
 {
 	return false;
 }
 
-Page::Page (wxSize panel_size, int border)
-	: _border (border)
-	, _panel (0)
-	, _panel_size (panel_size)
-	, _window_exists (false)
+Page::Page(wxSize panel_size, int border)
+	: _border(border)
+	, _panel(nullptr)
+	, _panel_size(panel_size)
+	, _window_exists(false)
 {
-	_config_connection = Config::instance()->Changed.connect (bind (&Page::config_changed_wrapper, this));
+	_config_connection = Config::instance()->Changed.connect(bind(&Page::config_changed_wrapper, this));
 }
 
 
 wxWindow*
-Page::CreateWindow (wxWindow* parent)
+Page::CreateWindow(wxWindow* parent)
 {
-	return create_window (parent);
+	return create_window(parent);
 }
 
 
 wxWindow*
-Page::create_window (wxWindow* parent)
+Page::create_window(wxWindow* parent)
 {
-	_panel = new wxPanel (parent, wxID_ANY, wxDefaultPosition, _panel_size);
-	auto s = new wxBoxSizer (wxVERTICAL);
-	_panel->SetSizer (s);
+	_panel = new wxPanel(parent, wxID_ANY, wxDefaultPosition, _panel_size);
+	auto s = new wxBoxSizer(wxVERTICAL);
+	_panel->SetSizer(s);
 
-	setup ();
+	setup();
 	_window_exists = true;
-	config_changed ();
+	config_changed();
 
-	_panel->Bind (wxEVT_DESTROY, bind (&Page::window_destroyed, this));
+	_panel->Bind(wxEVT_DESTROY, bind(&Page::window_destroyed, this));
 
 	return _panel;
 }
 
 void
-Page::config_changed_wrapper ()
+Page::config_changed_wrapper()
 {
 	if (_window_exists) {
-		config_changed ();
+		config_changed();
 	}
 }
 
 void
-Page::window_destroyed ()
+Page::window_destroyed()
 {
 	_window_exists = false;
 }
 
 
-GeneralPage::GeneralPage (wxSize panel_size, int border)
-	: Page (panel_size, border)
+GeneralPage::GeneralPage(wxSize panel_size, int border)
+	: Page(panel_size, border)
 {
 
 }
 
 
 wxString
-GeneralPage::GetName () const
+GeneralPage::GetName() const
 {
 	return _("General");
 }
 
 
 void
-GeneralPage::add_language_controls (wxGridBagSizer* table, int& r)
+GeneralPage::add_language_controls(wxGridBagSizer* table, int& r)
 {
-	_set_language = new CheckBox (_panel, _("Set language"));
-	table->Add (_set_language, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	_language = new wxChoice (_panel, wxID_ANY);
+	_set_language = new CheckBox(_panel, _("Set language"));
+	table->Add(_set_language, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	_language = new wxChoice(_panel, wxID_ANY);
 	vector<pair<string, string>> languages;
-	languages.push_back (make_pair("Čeština", "cs_CZ"));
-	languages.push_back (make_pair("汉语/漢語", "zh_CN"));
-	languages.push_back (make_pair("Dansk", "da_DK"));
-	languages.push_back (make_pair("Deutsch", "de_DE"));
-	languages.push_back (make_pair("English", "en_GB"));
-	languages.push_back (make_pair("Español", "es_ES"));
-	languages.push_back (make_pair("فارسی", "fa_IR"));
-	languages.push_back (make_pair("Français", "fr_FR"));
-	languages.push_back (make_pair("Italiano", "it_IT"));
-	languages.push_back (make_pair("Nederlands", "nl_NL"));
-	languages.push_back (make_pair("Русский", "ru_RU"));
-	languages.push_back (make_pair("Polski", "pl_PL"));
-	languages.push_back (make_pair("Português europeu", "pt_PT"));
-	languages.push_back (make_pair("Português do Brasil", "pt_BR"));
-	languages.push_back (make_pair("Svenska", "sv_SE"));
-	languages.push_back (make_pair("Slovenščina", "sl_SI"));
-	languages.push_back (make_pair("Slovenský jazyk", "sk_SK"));
-	// languages.push_back (make_pair("Türkçe", "tr_TR"));
-	languages.push_back (make_pair("українська мова", "uk_UA"));
-	languages.push_back (make_pair("Magyar nyelv", "hu_HU"));
-	checked_set (_language, languages);
-	table->Add (_language, wxGBPosition (r, 1));
+	languages.push_back(make_pair("Čeština", "cs_CZ"));
+	languages.push_back(make_pair("汉语/漢語", "zh_CN"));
+	languages.push_back(make_pair("Dansk", "da_DK"));
+	languages.push_back(make_pair("Deutsch", "de_DE"));
+	languages.push_back(make_pair("English", "en_GB"));
+	languages.push_back(make_pair("Español", "es_ES"));
+	languages.push_back(make_pair("فارسی", "fa_IR"));
+	languages.push_back(make_pair("Français", "fr_FR"));
+	languages.push_back(make_pair("Italiano", "it_IT"));
+	languages.push_back(make_pair("Nederlands", "nl_NL"));
+	languages.push_back(make_pair("Русский", "ru_RU"));
+	languages.push_back(make_pair("Polski", "pl_PL"));
+	languages.push_back(make_pair("Português europeu", "pt_PT"));
+	languages.push_back(make_pair("Português do Brasil", "pt_BR"));
+	languages.push_back(make_pair("Svenska", "sv_SE"));
+	languages.push_back(make_pair("Slovenščina", "sl_SI"));
+	languages.push_back(make_pair("Slovenský jazyk", "sk_SK"));
+	// languages.push_back(make_pair("Türkçe", "tr_TR"));
+	languages.push_back(make_pair("українська мова", "uk_UA"));
+	languages.push_back(make_pair("Magyar nyelv", "hu_HU"));
+	checked_set(_language, languages);
+	table->Add(_language, wxGBPosition(r, 1));
 	++r;
 
-	auto restart = add_label_to_sizer (
-		table, _panel, variant::wx::insert_dcpomatic(_("(restart %s to see language changes)")), false, wxGBPosition (r, 0), wxGBSpan (1, 2)
+	auto restart = add_label_to_sizer(
+		table, _panel, variant::wx::insert_dcpomatic(_("(restart %s to see language changes)")), false, wxGBPosition(r, 0), wxGBSpan(1, 2)
 		);
 	wxFont font = restart->GetFont();
-	font.SetStyle (wxFONTSTYLE_ITALIC);
-	font.SetPointSize (font.GetPointSize() - 1);
-	restart->SetFont (font);
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	restart->SetFont(font);
 	++r;
 
 	_set_language->bind(&GeneralPage::set_language_changed, this);
-	_language->Bind     (wxEVT_CHOICE,   bind (&GeneralPage::language_changed,     this));
+	_language->Bind(wxEVT_CHOICE, bind(&GeneralPage::language_changed, this));
 }
 
 void
-GeneralPage::add_update_controls (wxGridBagSizer* table, int& r)
+GeneralPage::add_update_controls(wxGridBagSizer* table, int& r)
 {
-	_check_for_updates = new CheckBox (_panel, _("Check for updates on startup"));
-	table->Add (_check_for_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_check_for_updates = new CheckBox(_panel, _("Check for updates on startup"));
+	table->Add(_check_for_updates, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
-	_check_for_test_updates = new CheckBox (_panel, _("Check for testing updates on startup"));
-	table->Add (_check_for_test_updates, wxGBPosition (r, 0), wxGBSpan (1, 2));
+	_check_for_test_updates = new CheckBox(_panel, _("Check for testing updates on startup"));
+	table->Add(_check_for_test_updates, wxGBPosition(r, 0), wxGBSpan(1, 2));
 	++r;
 
 	_check_for_updates->bind(&GeneralPage::check_for_updates_changed, this);
@@ -179,11 +179,11 @@ GeneralPage::add_update_controls (wxGridBagSizer* table, int& r)
 }
 
 void
-GeneralPage::config_changed ()
+GeneralPage::config_changed()
 {
-	auto config = Config::instance ();
+	auto config = Config::instance();
 
-	checked_set (_set_language, static_cast<bool>(config->language()));
+	checked_set(_set_language, static_cast<bool>(config->language()));
 
 	/* Backwards compatibility of config file */
 
@@ -203,119 +203,119 @@ GeneralPage::config_changed ()
 	compat_map["uk"] = "uk_UA";
 
 	auto lang = config->language().get_value_or("en_GB");
-	if (compat_map.find(lang) != compat_map.end ()) {
+	if (compat_map.find(lang) != compat_map.end()) {
 		lang = compat_map[lang];
 	}
 
-	checked_set (_language, lang);
+	checked_set(_language, lang);
 
-	checked_set (_check_for_updates, config->check_for_updates ());
-	checked_set (_check_for_test_updates, config->check_for_test_updates ());
+	checked_set(_check_for_updates, config->check_for_updates());
+	checked_set(_check_for_test_updates, config->check_for_test_updates());
 
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 void
-GeneralPage::setup_sensitivity ()
+GeneralPage::setup_sensitivity()
 {
-	_language->Enable (_set_language->GetValue ());
-	_check_for_test_updates->Enable (_check_for_updates->GetValue ());
+	_language->Enable(_set_language->GetValue());
+	_check_for_test_updates->Enable(_check_for_updates->GetValue());
 }
 
 void
-GeneralPage::set_language_changed ()
+GeneralPage::set_language_changed()
 {
-	setup_sensitivity ();
-	if (_set_language->GetValue ()) {
-		language_changed ();
+	setup_sensitivity();
+	if (_set_language->GetValue()) {
+		language_changed();
 	} else {
-		Config::instance()->unset_language ();
+		Config::instance()->unset_language();
 	}
 }
 
 void
-GeneralPage::language_changed ()
+GeneralPage::language_changed()
 {
-	int const sel = _language->GetSelection ();
+	int const sel = _language->GetSelection();
 	if (sel != -1) {
-		Config::instance()->set_language (string_client_data (_language->GetClientObject (sel)));
+		Config::instance()->set_language(string_client_data(_language->GetClientObject(sel)));
 	} else {
-		Config::instance()->unset_language ();
+		Config::instance()->unset_language();
 	}
 }
 
 void
-GeneralPage::check_for_updates_changed ()
+GeneralPage::check_for_updates_changed()
 {
-	Config::instance()->set_check_for_updates (_check_for_updates->GetValue ());
+	Config::instance()->set_check_for_updates(_check_for_updates->GetValue());
 }
 
 void
-GeneralPage::check_for_test_updates_changed ()
+GeneralPage::check_for_test_updates_changed()
 {
-	Config::instance()->set_check_for_test_updates (_check_for_test_updates->GetValue ());
+	Config::instance()->set_check_for_test_updates(_check_for_test_updates->GetValue());
 }
 
 wxString
-KeysPage::GetName () const
+KeysPage::GetName() const
 {
 	return _("Keys");
 }
 
 void
-KeysPage::setup ()
+KeysPage::setup()
 {
-	wxFont subheading_font (*wxNORMAL_FONT);
-	subheading_font.SetWeight (wxFONTWEIGHT_BOLD);
+	wxFont subheading_font(*wxNORMAL_FONT);
+	subheading_font.SetWeight(wxFONTWEIGHT_BOLD);
 
 	auto sizer = _panel->GetSizer();
 
 	{
-		auto m = new StaticText (_panel, _("Decrypting KDMs"));
-		m->SetFont (subheading_font);
-		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
+		auto m = new StaticText(_panel, _("Decrypting KDMs"));
+		m->SetFont(subheading_font);
+		sizer->Add(m, 0, wxALL | wxEXPAND, _border);
 	}
 
-	auto kdm_buttons = new wxBoxSizer (wxVERTICAL);
+	auto kdm_buttons = new wxBoxSizer(wxVERTICAL);
 
-	auto export_decryption_certificate = new Button (_panel, _("Export KDM decryption leaf certificate..."));
-	kdm_buttons->Add (export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	auto export_settings = new Button (_panel, _("Export all KDM decryption settings..."));
-	kdm_buttons->Add (export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	auto import_settings = new Button (_panel, _("Import all KDM decryption settings..."));
-	kdm_buttons->Add (import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	auto decryption_advanced = new Button (_panel, _("Advanced..."));
-	kdm_buttons->Add (decryption_advanced, 0);
+	auto export_decryption_certificate = new Button(_panel, _("Export KDM decryption leaf certificate..."));
+	kdm_buttons->Add(export_decryption_certificate, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto export_settings = new Button(_panel, _("Export all KDM decryption settings..."));
+	kdm_buttons->Add(export_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto import_settings = new Button(_panel, _("Import all KDM decryption settings..."));
+	kdm_buttons->Add(import_settings, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto decryption_advanced = new Button(_panel, _("Advanced..."));
+	kdm_buttons->Add(decryption_advanced, 0);
 
-	sizer->Add (kdm_buttons, 0, wxLEFT, _border);
+	sizer->Add(kdm_buttons, 0, wxLEFT, _border);
 
-	export_decryption_certificate->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_certificate, this));
-	export_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::export_decryption_chain_and_key, this));
-	import_settings->Bind (wxEVT_BUTTON, bind (&KeysPage::import_decryption_chain_and_key, this));
-	decryption_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::decryption_advanced, this));
+	export_decryption_certificate->Bind(wxEVT_BUTTON, bind(&KeysPage::export_decryption_certificate, this));
+	export_settings->Bind(wxEVT_BUTTON, bind(&KeysPage::export_decryption_chain_and_key, this));
+	import_settings->Bind(wxEVT_BUTTON, bind(&KeysPage::import_decryption_chain_and_key, this));
+	decryption_advanced->Bind(wxEVT_BUTTON, bind(&KeysPage::decryption_advanced, this));
 
 	{
-		auto m = new StaticText (_panel, _("Signing DCPs and KDMs"));
-		m->SetFont (subheading_font);
-		sizer->Add (m, 0, wxALL | wxEXPAND, _border);
+		auto m = new StaticText(_panel, _("Signing DCPs and KDMs"));
+		m->SetFont(subheading_font);
+		sizer->Add(m, 0, wxALL | wxEXPAND, _border);
 	}
 
-	auto signing_buttons = new wxBoxSizer (wxVERTICAL);
+	auto signing_buttons = new wxBoxSizer(wxVERTICAL);
 
-	auto signing_advanced = new Button (_panel, _("Advanced..."));
-	signing_buttons->Add (signing_advanced, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
-	auto remake_signing = new Button (_panel, _("Re-make certificates and key..."));
-	signing_buttons->Add (remake_signing, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto signing_advanced = new Button(_panel, _("Advanced..."));
+	signing_buttons->Add(signing_advanced, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
+	auto remake_signing = new Button(_panel, _("Re-make certificates and key..."));
+	signing_buttons->Add(remake_signing, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-	sizer->Add (signing_buttons, 0, wxLEFT, _border);
+	sizer->Add(signing_buttons, 0, wxLEFT, _border);
 
-	signing_advanced->Bind (wxEVT_BUTTON, bind (&KeysPage::signing_advanced, this));
-	remake_signing->Bind (wxEVT_BUTTON, bind(&KeysPage::remake_signing, this));
+	signing_advanced->Bind(wxEVT_BUTTON, bind(&KeysPage::signing_advanced, this));
+	remake_signing->Bind(wxEVT_BUTTON, bind(&KeysPage::remake_signing, this));
 }
 
 
 void
-KeysPage::remake_signing ()
+KeysPage::remake_signing()
 {
 	MakeChainDialog dialog(_panel, Config::instance()->signer_chain());
 
@@ -326,7 +326,7 @@ KeysPage::remake_signing ()
 
 
 void
-KeysPage::decryption_advanced ()
+KeysPage::decryption_advanced()
 {
 	CertificateChainEditor editor(
 		_panel, _("Decrypting KDMs"), _border,
@@ -339,7 +339,7 @@ KeysPage::decryption_advanced ()
 }
 
 void
-KeysPage::signing_advanced ()
+KeysPage::signing_advanced()
 {
 	CertificateChainEditor editor(
 		_panel, _("Signing DCPs and KDMs"), _border,
@@ -352,7 +352,7 @@ KeysPage::signing_advanced ()
 }
 
 void
-KeysPage::export_decryption_chain_and_key ()
+KeysPage::export_decryption_chain_and_key()
 {
 	wxFileDialog dialog(
 		_panel, _("Select Export File"), wxEmptyString, wxEmptyString, char_to_wx("DOM files (*.dom)|*.dom"),
@@ -377,9 +377,9 @@ KeysPage::export_decryption_chain_and_key ()
 }
 
 void
-KeysPage::import_decryption_chain_and_key ()
+KeysPage::import_decryption_chain_and_key()
 {
-	if (NagDialog::maybe_nag (
+	if (NagDialog::maybe_nag(
 		    _panel,
 		    Config::NAG_IMPORT_DECRYPTION_CHAIN,
 		    _("If you continue with this operation you will no longer be able to use any DKDMs that you have created with the current certificates and key.  Also, any KDMs that have been sent to you for those certificates will become useless.  Proceed with caution!"),
@@ -413,7 +413,7 @@ KeysPage::import_decryption_chain_and_key ()
 		if (strncmp (buffer, "-----END CERTIFICATE-----", 25) == 0) {
 			new_chain->add(dcp::Certificate(current));
 			current = "";
-		} else if (strncmp (buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
+		} else if (strncmp(buffer, "-----END RSA PRIVATE KEY-----", 29) == 0) {
 			new_chain->set_key(current);
 			current = "";
 		}
@@ -427,9 +427,9 @@ KeysPage::import_decryption_chain_and_key ()
 }
 
 bool
-KeysPage::nag_alter_decryption_chain ()
+KeysPage::nag_alter_decryption_chain()
 {
-	return NagDialog::maybe_nag (
+	return NagDialog::maybe_nag(
 		_panel,
 		Config::NAG_ALTER_DECRYPTION_CHAIN,
 		_("If you continue with this operation you will no longer be able to use any DKDMs that you have created.  Also, any KDMs that have been sent to you will become useless.  Proceed with caution!"),
@@ -438,7 +438,7 @@ KeysPage::nag_alter_decryption_chain ()
 }
 
 void
-KeysPage::export_decryption_certificate ()
+KeysPage::export_decryption_certificate()
 {
 	auto config = Config::instance();
 	wxString default_name = char_to_wx("dcpomatic");
@@ -468,97 +468,97 @@ KeysPage::export_decryption_certificate ()
 		throw OpenFileError(path, f.open_error(), OpenFileError::WRITE);
 	}
 
-	auto const s = Config::instance()->decryption_chain()->leaf().certificate (true);
+	auto const s = Config::instance()->decryption_chain()->leaf().certificate(true);
 	f.checked_write(s.c_str(), s.length());
 }
 
 wxString
-SoundPage::GetName () const
+SoundPage::GetName() const
 {
 	return _("Sound");
 }
 
 void
-SoundPage::setup ()
+SoundPage::setup()
 {
-	auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+	auto table = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
 	int r = 0;
 
-	_sound = new CheckBox (_panel, _("Play sound via"));
-	table->Add (_sound, wxGBPosition (r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
-	wxBoxSizer* s = new wxBoxSizer (wxHORIZONTAL);
-	_sound_output = new wxChoice (_panel, wxID_ANY);
-	s->Add (_sound_output, 0);
+	_sound = new CheckBox(_panel, _("Play sound via"));
+	table->Add(_sound, wxGBPosition(r, 0), wxDefaultSpan, wxALIGN_CENTER_VERTICAL);
+	wxBoxSizer* s = new wxBoxSizer(wxHORIZONTAL);
+	_sound_output = new wxChoice(_panel, wxID_ANY);
+	s->Add(_sound_output, 0);
 	_sound_output_details = new wxStaticText(_panel, wxID_ANY, {});
-	s->Add (_sound_output_details, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_X_GAP);
-	table->Add (s, wxGBPosition(r, 1));
+	s->Add(_sound_output_details, 1, wxALIGN_CENTER_VERTICAL | wxLEFT, DCPOMATIC_SIZER_X_GAP);
+	table->Add(s, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (table, _panel, _("Mapping"), true, wxGBPosition(r, 0));
-	_map = new AudioMappingView (_panel, _("DCP"), _("DCP"), _("Output"), _("output"));
-	table->Add (_map, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
+	add_label_to_sizer(table, _panel, _("Mapping"), true, wxGBPosition(r, 0));
+	_map = new AudioMappingView(_panel, _("DCP"), _("DCP"), _("Output"), _("output"));
+	table->Add(_map, wxGBPosition(r, 1), wxDefaultSpan, wxEXPAND);
 	++r;
 
-	_reset_to_default = new Button (_panel, _("Reset to default"));
-	table->Add (_reset_to_default, wxGBPosition(r, 1));
+	_reset_to_default = new Button(_panel, _("Reset to default"));
+	table->Add(_reset_to_default, wxGBPosition(r, 1));
 	++r;
 
 	wxFont font = _sound_output_details->GetFont();
-	font.SetStyle (wxFONTSTYLE_ITALIC);
-	font.SetPointSize (font.GetPointSize() - 1);
-	_sound_output_details->SetFont (font);
+	font.SetStyle(wxFONTSTYLE_ITALIC);
+	font.SetPointSize(font.GetPointSize() - 1);
+	_sound_output_details->SetFont(font);
 
 	for (auto name: AudioBackend::instance()->output_device_names()) {
 		_sound_output->Append(std_to_wx(name));
 	}
 
 	_sound->bind(&SoundPage::sound_changed, this);
-	_sound_output->Bind (wxEVT_CHOICE,   bind(&SoundPage::sound_output_changed, this));
-	_map->Changed.connect (bind(&SoundPage::map_changed, this, _1));
-	_reset_to_default->Bind (wxEVT_BUTTON,   bind(&SoundPage::reset_to_default, this));
+	_sound_output->Bind(wxEVT_CHOICE, bind(&SoundPage::sound_output_changed, this));
+	_map->Changed.connect(bind(&SoundPage::map_changed, this, _1));
+	_reset_to_default->Bind(wxEVT_BUTTON, bind(&SoundPage::reset_to_default, this));
 }
 
 void
-SoundPage::reset_to_default ()
+SoundPage::reset_to_default()
 {
-	Config::instance()->set_audio_mapping_to_default ();
+	Config::instance()->set_audio_mapping_to_default();
 }
 
 void
-SoundPage::map_changed (AudioMapping m)
+SoundPage::map_changed(AudioMapping m)
 {
-	Config::instance()->set_audio_mapping (m);
+	Config::instance()->set_audio_mapping(m);
 }
 
 void
-SoundPage::sound_changed ()
+SoundPage::sound_changed()
 {
-	Config::instance()->set_sound (_sound->GetValue ());
+	Config::instance()->set_sound(_sound->GetValue());
 }
 
 void
-SoundPage::sound_output_changed ()
+SoundPage::sound_output_changed()
 {
 	auto const so = get_sound_output();
 	auto default_device = AudioBackend::instance()->default_device_name();
 
 	if (!so || so == default_device) {
-		Config::instance()->unset_sound_output ();
+		Config::instance()->unset_sound_output();
 	} else {
-		Config::instance()->set_sound_output (*so);
+		Config::instance()->set_sound_output(*so);
 	}
 }
 
 void
-SoundPage::config_changed ()
+SoundPage::config_changed()
 {
-	auto config = Config::instance ();
+	auto config = Config::instance();
 
-	checked_set (_sound, config->sound ());
+	checked_set(_sound, config->sound());
 
-	auto const current_so = get_sound_output ();
+	auto const current_so = get_sound_output();
 	optional<string> configured_so;
 
 	auto& audio = AudioBackend::instance()->rtaudio();
@@ -575,7 +575,7 @@ SoundPage::config_changed ()
 		unsigned int i = 0;
 		while (i < _sound_output->GetCount()) {
 			if (_sound_output->GetString(i) == std_to_wx(*configured_so)) {
-				_sound_output->SetSelection (i);
+				_sound_output->SetSelection(i);
 				break;
 			}
 			++i;
@@ -595,124 +595,124 @@ SoundPage::config_changed ()
 
 	int const channels = configured_so ? AudioBackend::instance()->device_output_channels(*configured_so).get_value_or(0) : 0;
 
-	_sound_output_details->SetLabel (
+	_sound_output_details->SetLabel(
 		wxString::Format(_("%d channels on %s"), channels, apis[audio.getCurrentApi()])
 		);
 
-	_map->set (Config::instance()->audio_mapping(channels));
+	_map->set(Config::instance()->audio_mapping(channels));
 
 	vector<NamedChannel> input;
 	for (int i = 0; i < MAX_DCP_AUDIO_CHANNELS; ++i) {
-		input.push_back (NamedChannel(short_audio_channel_name(i), i));
+		input.push_back(NamedChannel(short_audio_channel_name(i), i));
 	}
-	_map->set_input_channels (input);
+	_map->set_input_channels(input);
 
 	vector<NamedChannel> output;
 	for (int i = 0; i < channels; ++i) {
 		output.push_back(NamedChannel(fmt::to_string(i), i));
 	}
-	_map->set_output_channels (output);
+	_map->set_output_channels(output);
 
-	setup_sensitivity ();
+	setup_sensitivity();
 }
 
 void
-SoundPage::setup_sensitivity ()
+SoundPage::setup_sensitivity()
 {
-	_sound_output->Enable (_sound->GetValue());
+	_sound_output->Enable(_sound->GetValue());
 }
 
 /** @return Currently-selected preview sound output in the dialogue */
 optional<string>
-SoundPage::get_sound_output ()
+SoundPage::get_sound_output()
 {
-	int const sel = _sound_output->GetSelection ();
+	int const sel = _sound_output->GetSelection();
 	if (sel == wxNOT_FOUND) {
-		return optional<string> ();
+		return {};
 	}
 
-	return wx_to_std (_sound_output->GetString (sel));
+	return wx_to_std(_sound_output->GetString(sel));
 }
 
 
-LocationsPage::LocationsPage (wxSize panel_size, int border)
-	: Page (panel_size, border)
+LocationsPage::LocationsPage(wxSize panel_size, int border)
+	: Page(panel_size, border)
 {
 
 }
 
 wxString
-LocationsPage::GetName () const
+LocationsPage::GetName() const
 {
 	return _("Locations");
 }
 
 #ifdef DCPOMATIC_OSX
 wxBitmap
-LocationsPage::GetLargeIcon () const
+LocationsPage::GetLargeIcon() const
 {
 	return wxBitmap(icon_path("locations"), wxBITMAP_TYPE_PNG);
 }
 #endif
 
 void
-LocationsPage::setup ()
+LocationsPage::setup()
 {
 	int r = 0;
 
-	auto table = new wxGridBagSizer (DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-	_panel->GetSizer()->Add (table, 1, wxALL | wxEXPAND, _border);
+	auto table = new wxGridBagSizer(DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
+	_panel->GetSizer()->Add(table, 1, wxALL | wxEXPAND, _border);
 
-	add_label_to_sizer (table, _panel, _("Content directory"), true, wxGBPosition (r, 0));
-	_content_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
-	table->Add (_content_directory, wxGBPosition (r, 1));
+	add_label_to_sizer(table, _panel, _("Content directory"), true, wxGBPosition(r, 0));
+	_content_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+	table->Add(_content_directory, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (table, _panel, _("Playlist directory"), true, wxGBPosition (r, 0));
-	_playlist_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
-	table->Add (_playlist_directory, wxGBPosition (r, 1));
+	add_label_to_sizer(table, _panel, _("Playlist directory"), true, wxGBPosition(r, 0));
+	_playlist_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+	table->Add(_playlist_directory, wxGBPosition(r, 1));
 	++r;
 
-	add_label_to_sizer (table, _panel, _("KDM directory"), true, wxGBPosition (r, 0));
-	_kdm_directory = new wxDirPickerCtrl (_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize (300, -1));
-	table->Add (_kdm_directory, wxGBPosition (r, 1));
+	add_label_to_sizer(table, _panel, _("KDM directory"), true, wxGBPosition(r, 0));
+	_kdm_directory = new wxDirPickerCtrl(_panel, wxID_ANY, wxEmptyString, char_to_wx(wxDirSelectorPromptStr), wxDefaultPosition, wxSize(300, -1));
+	table->Add(_kdm_directory, wxGBPosition(r, 1));
 	++r;
 
-	_content_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::content_directory_changed, this));
-	_playlist_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::playlist_directory_changed, this));
-	_kdm_directory->Bind (wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
+	_content_directory->Bind(wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::content_directory_changed, this));
+	_playlist_directory->Bind(wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::playlist_directory_changed, this));
+	_kdm_directory->Bind(wxEVT_DIRPICKER_CHANGED, bind(&LocationsPage::kdm_directory_changed, this));
 }
 
 void
-LocationsPage::config_changed ()
+LocationsPage::config_changed()
 {
-	auto config = Config::instance ();
+	auto config = Config::instance();
 
 	if (config->player_content_directory()) {
-		checked_set (_content_directory, *config->player_content_directory());
+		checked_set(_content_directory, *config->player_content_directory());
 	}
 	if (config->player_playlist_directory()) {
-		checked_set (_playlist_directory, *config->player_playlist_directory());
+		checked_set(_playlist_directory, *config->player_playlist_directory());
 	}
 	if (config->player_kdm_directory()) {
-		checked_set (_kdm_directory, *config->player_kdm_directory());
+		checked_set(_kdm_directory, *config->player_kdm_directory());
 	}
 }
 
 void
-LocationsPage::content_directory_changed ()
+LocationsPage::content_directory_changed()
 {
 	Config::instance()->set_player_content_directory(wx_to_std(_content_directory->GetPath()));
 }
 
 void
-LocationsPage::playlist_directory_changed ()
+LocationsPage::playlist_directory_changed()
 {
 	Config::instance()->set_player_playlist_directory(wx_to_std(_playlist_directory->GetPath()));
 }
 
 void
-LocationsPage::kdm_directory_changed ()
+LocationsPage::kdm_directory_changed()
 {
 	Config::instance()->set_player_kdm_directory(wx_to_std(_kdm_directory->GetPath()));
 }

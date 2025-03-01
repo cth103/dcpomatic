@@ -54,23 +54,23 @@ class CheckBox;
 class Page : public wxPreferencesPage
 {
 public:
-	Page (wxSize panel_size, int border);
-	virtual ~Page () {}
+	Page(wxSize panel_size, int border);
+	virtual ~Page() {}
 
-	wxWindow* CreateWindow (wxWindow* parent) override;
+	wxWindow* CreateWindow(wxWindow* parent) override;
 
 protected:
-	wxWindow* create_window (wxWindow* parent);
+	wxWindow* create_window(wxWindow* parent);
 
 	int _border;
 	wxPanel* _panel;
 
 private:
-	virtual void config_changed () = 0;
-	virtual void setup () = 0;
+	virtual void config_changed() = 0;
+	virtual void setup() = 0;
 
-	void config_changed_wrapper ();
-	void window_destroyed ();
+	void config_changed_wrapper();
+	void window_destroyed();
 
 	wxSize _panel_size;
 	boost::signals2::scoped_connection _config_connection;
@@ -81,28 +81,28 @@ private:
 class GeneralPage : public Page
 {
 public:
-	GeneralPage (wxSize panel_size, int border);
+	GeneralPage(wxSize panel_size, int border);
 
-	wxString GetName () const override;
+	wxString GetName() const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const override
+	wxBitmap GetLargeIcon() const override
 	{
 		return wxBitmap(icon_path("general"), wxBITMAP_TYPE_PNG);
 	}
 #endif
 
 protected:
-	void add_language_controls (wxGridBagSizer* table, int& r);
-	void add_update_controls (wxGridBagSizer* table, int& r);
-	void config_changed () override;
+	void add_language_controls(wxGridBagSizer* table, int& r);
+	void add_update_controls(wxGridBagSizer* table, int& r);
+	void config_changed() override;
 
 private:
-	void setup_sensitivity ();
-	void set_language_changed ();
-	void language_changed ();
-	void check_for_updates_changed ();
-	void check_for_test_updates_changed ();
+	void setup_sensitivity();
+	void set_language_changed();
+	void language_changed();
+	void check_for_updates_changed();
+	void check_for_test_updates_changed();
 
 	CheckBox* _set_language;
 	wxChoice* _language;
@@ -114,14 +114,14 @@ private:
 class KeysPage : public Page
 {
 public:
-	KeysPage (wxSize panel_size, int border)
-		: Page (panel_size, border)
+	KeysPage(wxSize panel_size, int border)
+		: Page(panel_size, border)
 	{}
 
-	wxString GetName () const override;
+	wxString GetName() const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const override
+	wxBitmap GetLargeIcon() const override
 	{
 		return wxBitmap(icon_path("keys"), wxBITMAP_TYPE_PNG);
 	}
@@ -129,30 +129,30 @@ public:
 
 private:
 
-	void setup () override;
+	void setup() override;
 
-	void export_decryption_certificate ();
-	void config_changed () override {}
-	bool nag_alter_decryption_chain ();
-	void decryption_advanced ();
-	void signing_advanced ();
-	void export_decryption_chain_and_key ();
-	void import_decryption_chain_and_key ();
-	void remake_signing ();
+	void export_decryption_certificate();
+	void config_changed() override {}
+	bool nag_alter_decryption_chain();
+	void decryption_advanced();
+	void signing_advanced();
+	void export_decryption_chain_and_key();
+	void import_decryption_chain_and_key();
+	void remake_signing();
 };
 
 
 class SoundPage : public Page
 {
 public:
-	SoundPage (wxSize panel_size, int border)
-		: Page (panel_size, border)
+	SoundPage(wxSize panel_size, int border)
+		: Page(panel_size, border)
 	{}
 
 	wxString GetName() const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const override
+	wxBitmap GetLargeIcon() const override
 	{
 		return wxBitmap(icon_path("sound"), wxBITMAP_TYPE_PNG);
 	}
@@ -160,14 +160,14 @@ public:
 
 private:
 
-	void setup () override;
-	void config_changed () override;
-        boost::optional<std::string> get_sound_output ();
-	void sound_changed ();
-	void sound_output_changed ();
-	void setup_sensitivity ();
-	void map_changed (AudioMapping m);
-	void reset_to_default ();
+	void setup() override;
+	void config_changed() override;
+        boost::optional<std::string> get_sound_output();
+	void sound_changed();
+	void sound_output_changed();
+	void setup_sensitivity();
+	void map_changed(AudioMapping m);
+	void reset_to_default();
 
 	CheckBox* _sound;
 	wxChoice* _sound_output;
@@ -180,20 +180,20 @@ private:
 class LocationsPage : public Page
 {
 public:
-	LocationsPage (wxSize panel_size, int border);
+	LocationsPage(wxSize panel_size, int border);
 
-	wxString GetName () const override;
+	wxString GetName() const override;
 
 #ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon () const override;
+	wxBitmap GetLargeIcon() const override;
 #endif
 
 private:
-	void setup () override;
-	void config_changed () override;
-	void content_directory_changed ();
-	void playlist_directory_changed ();
-	void kdm_directory_changed ();
+	void setup() override;
+	void config_changed() override;
+	void content_directory_changed();
+	void playlist_directory_changed();
+	void kdm_directory_changed();
 
 	wxDirPickerCtrl* _content_directory;
 	wxDirPickerCtrl* _playlist_directory;
