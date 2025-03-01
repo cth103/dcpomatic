@@ -35,6 +35,7 @@ sources = """
           auto_crop_dialog.cc
           barco_alchemy_certificate_panel.cc
           batch_job_view.cc
+          certificate_chain_editor.cc
           check_box.cc
           christie_certificate_panel.cc
           cinema_dialog.cc

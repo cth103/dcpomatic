@@ -111,49 +111,6 @@ private:
 };
 
 
-class CertificateChainEditor : public wxDialog
-{
-public:
-	CertificateChainEditor (
-		wxWindow* parent,
-		wxString title,
-		int border,
-		std::function<void (std::shared_ptr<dcp::CertificateChain>)> set,
-		std::function<std::shared_ptr<const dcp::CertificateChain> (void)> get,
-		std::function<bool (void)> nag_alter
-		);
-
-	void add_button (wxWindow* button);
-
-private:
-	void add_certificate ();
-	void remove_certificate ();
-	void export_certificate ();
-	void update_certificate_list ();
-	void remake_certificates ();
-	void update_sensitivity ();
-	void update_private_key ();
-	void import_private_key ();
-	void export_private_key ();
-	void export_chain ();
-
-	wxListCtrl* _certificates;
-	wxButton* _add_certificate;
-	wxButton* _export_certificate;
-	wxButton* _remove_certificate;
-	wxButton* _remake_certificates;
-	wxStaticText* _private_key;
-	wxButton* _import_private_key;
-	wxButton* _export_private_key;
-	wxButton* _export_chain;
-	wxStaticText* _private_key_bad;
-	wxSizer* _sizer;
-	wxBoxSizer* _button_sizer;
-	std::function<void (std::shared_ptr<dcp::CertificateChain>)> _set;
-	std::function<std::shared_ptr<const dcp::CertificateChain> (void)> _get;
-	std::function<bool (void)> _nag_alter;
-};
-
 class KeysPage : public Page
 {
 public:
