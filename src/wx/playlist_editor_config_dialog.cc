@@ -19,14 +19,18 @@
 */
 
 
+/** @file src/playlist_editor_config_dialog.cc
+ *  @brief A dialogue to edit DCP-o-matic Playlist Editor configuration.
+ */
+
+
 #include "config_dialog.h"
 #include "playlist_editor_config_dialog.h"
 #include "wx_variant.h"
 
 
-/** @file src/playlist_editor_config_dialog.cc
- *  @brief A dialogue to edit DCP-o-matic Playlist Editor configuration.
- */
+using namespace dcpomatic;
+
 
 wxPreferencesEditor*
 create_playlist_editor_config_dialog ()
@@ -45,6 +49,6 @@ create_playlist_editor_config_dialog ()
 	int const border = 8;
 #endif
 
-	e->AddPage (new LocationsPage(ps, border));
+	e->AddPage(new preferences::LocationsPage(ps, border));
 	return e;
 }

@@ -74,9 +74,10 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 
-class PlayerGeneralPage : public GeneralPage
+class PlayerGeneralPage : public preferences::GeneralPage
 {
 public:
 	PlayerGeneralPage(wxSize panel_size, int border)
@@ -258,7 +259,7 @@ private:
 /** @class PlayerAdvancedPage
  *  @brief Advanced page of the preferences dialog for the player.
  */
-class PlayerAdvancedPage : public Page
+class PlayerAdvancedPage : public preferences::Page
 {
 public:
 	PlayerAdvancedPage(wxSize panel_size, int border)
@@ -407,9 +408,9 @@ create_player_config_dialog()
 #endif
 
 	e->AddPage(new PlayerGeneralPage(wxSize(-1, 500), border));
-	e->AddPage(new SoundPage(ps, border));
-	e->AddPage(new LocationsPage(ps, border));
-	e->AddPage(new KeysPage(ps, border));
+	e->AddPage(new preferences::SoundPage(ps, border));
+	e->AddPage(new preferences::LocationsPage(ps, border));
+	e->AddPage(new preferences::KeysPage(ps, border));
 	e->AddPage(new PlayerAdvancedPage(ps, border));
 	return e;
 }

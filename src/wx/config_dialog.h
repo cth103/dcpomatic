@@ -51,6 +51,10 @@ class AudioMappingView;
 class CheckBox;
 
 
+namespace dcpomatic {
+namespace preferences {
+
+
 class Page : public wxPreferencesPage
 {
 public:
@@ -199,5 +203,9 @@ private:
 	wxDirPickerCtrl* _playlist_directory;
 	wxDirPickerCtrl* _kdm_directory;
 };
+
+
+}
+}
 
 #endif

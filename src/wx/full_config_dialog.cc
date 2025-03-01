@@ -89,9 +89,10 @@ using boost::optional;
 using namespace boost::placeholders;
 #endif
 using dcp::locale_convert;
+using namespace dcpomatic;
 
 
-class FullGeneralPage : public GeneralPage
+class FullGeneralPage : public preferences::GeneralPage
 {
 public:
 	FullGeneralPage(wxSize panel_size, int border)
@@ -279,7 +280,7 @@ private:
 };
 
 
-class DefaultsPage : public Page
+class DefaultsPage : public preferences::Page
 {
 public:
 	DefaultsPage(wxSize panel_size, int border)
@@ -507,7 +508,7 @@ private:
 };
 
 
-class EncodingServersPage : public Page
+class EncodingServersPage : public preferences::Page
 {
 public:
 	EncodingServersPage(wxSize panel_size, int border)
@@ -570,7 +571,7 @@ private:
 };
 
 
-class TMSPage : public Page
+class TMSPage : public preferences::Page
 {
 public:
 	TMSPage(wxSize panel_size, int border)
@@ -696,7 +697,7 @@ private:
 };
 
 
-class EmailPage : public Page
+class EmailPage : public preferences::Page
 {
 public:
 	EmailPage(wxSize panel_size, int border)
@@ -862,7 +863,7 @@ private:
 };
 
 
-class KDMEmailPage : public Page
+class KDMEmailPage : public preferences::Page
 {
 public:
 
@@ -988,7 +989,7 @@ private:
 };
 
 
-class NotificationsPage : public Page
+class NotificationsPage : public preferences::Page
 {
 public:
 	NotificationsPage(wxSize panel_size, int border)
@@ -1163,7 +1164,7 @@ private:
 };
 
 
-class CoverSheetPage : public Page
+class CoverSheetPage : public preferences::Page
 {
 public:
 
@@ -1228,7 +1229,7 @@ private:
 };
 
 
-class IdentifiersPage : public Page
+class IdentifiersPage : public preferences::Page
 {
 public:
 	IdentifiersPage(wxSize panel_size, int border)
@@ -1361,7 +1362,7 @@ private:
 };
 
 
-class NonStandardPage : public Page
+class NonStandardPage : public preferences::Page
 {
 public:
 	NonStandardPage(wxSize panel_size, int border)
@@ -1511,7 +1512,7 @@ private:
 /** @class AdvancedPage
  *  @brief Advanced page of the preferences dialog.
  */
-class AdvancedPage : public Page
+class AdvancedPage : public preferences::Page
 {
 public:
 	AdvancedPage(wxSize panel_size, int border)
@@ -1836,13 +1837,13 @@ create_full_config_dialog()
 #endif
 
 	e->AddPage(new FullGeneralPage(ps, border));
-	e->AddPage(new SoundPage(ps, border));
+	e->AddPage(new preferences::SoundPage(ps, border));
 	e->AddPage(new DefaultsPage(ps, border));
 	e->AddPage(new EncodingServersPage(ps, border));
 #ifdef DCPOMATIC_GROK
 	e->AddPage(new GPUPage(ps, border));
 #endif
-	e->AddPage(new KeysPage(ps, border));
+	e->AddPage(new preferences::KeysPage(ps, border));
 	e->AddPage(new TMSPage(ps, border));
 	e->AddPage(new EmailPage(ps, border));
 	e->AddPage(new KDMEmailPage(ps, border));
