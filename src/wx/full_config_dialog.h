@@ -27,5 +27,5 @@
 class wxPreferencesEditor;
 
 
-wxPreferencesEditor* create_full_config_dialog ();
+wxPreferencesEditor* create_full_config_dialog();
 
