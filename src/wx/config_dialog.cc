@@ -24,7 +24,9 @@
 #include "certificate_chain_editor.h"
 #include "check_box.h"
 #include "config_dialog.h"
+#include "config_move_dialog.h"
 #include "dcpomatic_button.h"
+#include "file_picker_ctrl.h"
 #include "nag_dialog.h"
 #include "static_text.h"
 #include "wx_variant.h"
@@ -164,6 +166,77 @@ GeneralPage::add_language_controls(wxGridBagSizer* table, int& r)
 	_language->Bind(wxEVT_CHOICE, bind(&GeneralPage::language_changed, this));
 }
 
+
+void
+GeneralPage::add_config_file_controls(wxGridBagSizer* table, int& r)
+{
+	add_label_to_sizer(table, _panel, _("Configuration file"), true, wxGBPosition(r, 0));
+	_config_file = new FilePickerCtrl(_panel, _("Select configuration file"), char_to_wx("*.xml"), true, false, "ConfigFilePath");
+	table->Add(_config_file, wxGBPosition(r, 1));
+	++r;
+
+	add_label_to_sizer(table, _panel, _("Cinema and screen database file"), true, wxGBPosition(r, 0));
+	_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), char_to_wx("*.sqlite3"), true, false, "CinemaDatabasePath");
+	table->Add(_cinemas_file, wxGBPosition(r, 1));
+	auto export_cinemas = new Button(_panel, _("Export..."));
+	table->Add(export_cinemas, wxGBPosition(r, 2));
+	++r;
+
+	export_cinemas->Bind(wxEVT_BUTTON, boost::bind(&GeneralPage::export_cinemas_file, this));
+	_config_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind(&GeneralPage::config_file_changed,  this));
+	_cinemas_file->Bind(wxEVT_FILEPICKER_CHANGED, boost::bind(&GeneralPage::cinemas_file_changed, this));
+}
+
+
+void
+GeneralPage::config_file_changed()
+{
+	auto config = Config::instance();
+	auto const new_file = _config_file->path();
+	if (!new_file || *new_file == config->config_read_file()) {
+		return;
+	}
+	bool copy_and_link = true;
+	if (dcp::filesystem::exists(*new_file)) {
+		ConfigMoveDialog dialog(_panel, *new_file);
+		if (dialog.ShowModal() == wxID_OK) {
+			copy_and_link = false;
+		}
+	}
+
+	if (copy_and_link) {
+		config->write();
+		if (new_file != config->config_read_file()) {
+			config->copy_and_link(*new_file);
+		}
+	} else {
+		config->link(*new_file);
+	}
+}
+
+void
+GeneralPage::cinemas_file_changed()
+{
+	if (auto path = _cinemas_file->path()) {
+		Config::instance()->set_cinemas_file(*path);
+	}
+}
+
+
+void
+GeneralPage::export_cinemas_file()
+{
+	wxFileDialog dialog(
+		_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, char_to_wx("SQLite files (*.sqlite3)|*.sqlite3"),
+		wxFD_SAVE | wxFD_OVERWRITE_PROMPT
+	);
+
+	if (dialog.ShowModal() == wxID_OK) {
+		dcp::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), dcp::filesystem::CopyOptions::OVERWRITE_EXISTING);
+	}
+}
+
+
 void
 GeneralPage::add_update_controls(wxGridBagSizer* table, int& r)
 {
@@ -209,6 +282,9 @@ GeneralPage::config_changed()
 	}
 
 	checked_set(_language, lang);
+
+	checked_set(_config_file, config->config_read_file());
+	checked_set(_cinemas_file, config->cinemas_file());
 
 	checked_set(_check_for_updates, config->check_for_updates());
 	checked_set(_check_for_test_updates, config->check_for_test_updates());

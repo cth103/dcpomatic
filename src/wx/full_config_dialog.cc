@@ -120,17 +120,7 @@ private:
 		table->Add(_server_encoding_threads, wxGBPosition(r, 1));
 		++r;
 
-		add_label_to_sizer(table, _panel, _("Configuration file"), true, wxGBPosition(r, 0));
-		_config_file = new FilePickerCtrl(_panel, _("Select configuration file"), char_to_wx("*.xml"), true, false, "ConfigFilePath");
-		table->Add(_config_file, wxGBPosition(r, 1));
-		++r;
-
-		add_label_to_sizer(table, _panel, _("Cinema and screen database file"), true, wxGBPosition(r, 0));
-		_cinemas_file = new FilePickerCtrl(_panel, _("Select cinema and screen database file"), char_to_wx("*.sqlite3"), true, false, "CinemaDatabasePath");
-		table->Add(_cinemas_file, wxGBPosition(r, 1));
-		auto export_cinemas = new Button(_panel, _("Export..."));
-		table->Add(export_cinemas, wxGBPosition(r, 2));
-		++r;
+		add_config_file_controls(table, r);
 
 		add_label_to_sizer(table, _panel, _("Default \"add file\" location"), true, wxGBPosition(r, 0));
 		_default_add_file_location = new Choice(_panel);
@@ -157,14 +147,10 @@ private:
 		_default_add_file_location->add_entry(_("Same place as project"));
 		_default_add_file_location->bind(&FullGeneralPage::default_add_file_location_changed, this);
 
-		_config_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::config_file_changed,  this));
-		_cinemas_file->Bind(wxEVT_FILEPICKER_CHANGED, boost::bind(&FullGeneralPage::cinemas_file_changed, this));
-
 		_master_encoding_threads->SetRange(1, 128);
 		_master_encoding_threads->Bind(wxEVT_SPINCTRL, boost::bind(&FullGeneralPage::master_encoding_threads_changed, this));
 		_server_encoding_threads->SetRange(1, 128);
 		_server_encoding_threads->Bind(wxEVT_SPINCTRL, boost::bind(&FullGeneralPage::server_encoding_threads_changed, this));
-		export_cinemas->Bind(wxEVT_BUTTON, boost::bind(&FullGeneralPage::export_cinemas_file, this));
 
 		_relative_paths->bind(&FullGeneralPage::relative_paths_changed, this);
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
@@ -184,23 +170,9 @@ private:
 		checked_set(_analyse_ebur128, config->analyse_ebur128());
 #endif
 		checked_set(_automatic_audio_analysis, config->automatic_audio_analysis());
-		checked_set(_config_file, config->config_read_file());
-		checked_set(_cinemas_file, config->cinemas_file());
 		checked_set(_default_add_file_location, config->default_add_file_location() == Config::DefaultAddFileLocation::SAME_AS_LAST_TIME ? 0 : 1);
 
 		GeneralPage::config_changed();
-	}
-
-	void export_cinemas_file()
-	{
-		wxFileDialog dialog(
-			_panel, _("Select Cinemas File"), wxEmptyString, wxEmptyString, char_to_wx("SQLite files (*.sqlite3)|*.sqlite3"),
-			wxFD_SAVE | wxFD_OVERWRITE_PROMPT
-                );
-
-		if (dialog.ShowModal() == wxID_OK) {
-			dcp::filesystem::copy_file(Config::instance()->cinemas_file(), wx_to_std(dialog.GetPath()), dcp::filesystem::CopyOptions::OVERWRITE_EXISTING);
-		}
 	}
 
 	void relative_paths_changed()
@@ -230,38 +202,6 @@ private:
 		Config::instance()->set_server_encoding_threads(_server_encoding_threads->GetValue());
 	}
 
-	void config_file_changed()
-	{
-		auto config = Config::instance();
-		auto const new_file = _config_file->path();
-		if (!new_file || *new_file == config->config_read_file()) {
-			return;
-		}
-		bool copy_and_link = true;
-		if (dcp::filesystem::exists(*new_file)) {
-			ConfigMoveDialog dialog(_panel, *new_file);
-			if (dialog.ShowModal() == wxID_OK) {
-				copy_and_link = false;
-			}
-		}
-
-		if (copy_and_link) {
-			config->write();
-			if (new_file != config->config_read_file()) {
-				config->copy_and_link(*new_file);
-			}
-		} else {
-			config->link(*new_file);
-		}
-	}
-
-	void cinemas_file_changed()
-	{
-		if (auto path = _cinemas_file->path()) {
-			Config::instance()->set_cinemas_file(*path);
-		}
-	}
-
 	void default_add_file_location_changed()
 	{
 		Config::instance()->set_default_add_file_location(
@@ -272,8 +212,6 @@ private:
 	Choice* _default_add_file_location;
 	wxSpinCtrl* _master_encoding_threads;
 	wxSpinCtrl* _server_encoding_threads;
-	FilePickerCtrl* _config_file;
-	FilePickerCtrl* _cinemas_file;
 	CheckBox* _relative_paths;
 #ifdef DCPOMATIC_HAVE_EBUR128_PATCHED_FFMPEG
 	CheckBox* _analyse_ebur128;

@@ -98,6 +98,7 @@ public:
 
 protected:
 	void add_language_controls(wxGridBagSizer* table, int& r);
+	void add_config_file_controls(wxGridBagSizer* table, int& r);
 	void add_update_controls(wxGridBagSizer* table, int& r);
 	void config_changed() override;
 
@@ -105,11 +106,16 @@ private:
 	void setup_sensitivity();
 	void set_language_changed();
 	void language_changed();
+	void config_file_changed();
+	void cinemas_file_changed();
+	void export_cinemas_file();
 	void check_for_updates_changed();
 	void check_for_test_updates_changed();
 
 	CheckBox* _set_language;
 	wxChoice* _language;
+	FilePickerCtrl* _config_file;
+	FilePickerCtrl* _cinemas_file;
 	CheckBox* _check_for_updates;
 	CheckBox* _check_for_test_updates;
 };
