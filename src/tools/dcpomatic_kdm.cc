@@ -26,8 +26,8 @@
 #include "wx/invalid_certificate_period_dialog.h"
 #include "wx/file_dialog.h"
 #include "wx/file_picker_ctrl.h"
-#include "wx/full_config_dialog.h"
 #include "wx/job_view_dialog.h"
+#include "wx/kdm_config_dialog.h"
 #include "wx/kdm_timing_panel.h"
 #include "wx/nag_dialog.h"
 #include "wx/new_dkdm_folder_dialog.h"
@@ -284,7 +284,7 @@ private:
 	void edit_preferences ()
 	{
 		if (!_config_dialog) {
-			_config_dialog = create_full_config_dialog ();
+			_config_dialog = create_kdm_config_dialog();
 		}
 		_config_dialog->Show (this);
 	}

@@ -106,6 +106,7 @@ sources = """
           job_view.cc
           job_view_dialog.cc
           kdm_advanced_dialog.cc
+          kdm_config_dialog.cc
           kdm_cpl_panel.cc
           kdm_dialog.cc
           kdm_email_preferences_page.cc
