@@ -37,6 +37,7 @@
 #include "lib/job_manager.h"
 #include "lib/verify_dcp_job.h"
 #include "lib/util.h"
+#include <dcp/search.h>
 #include <dcp/verify_report.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/evtloop.h>
@@ -68,9 +69,7 @@ public:
 
 	vector<boost::filesystem::path> get() const
 	{
-		vector<boost::filesystem::path> dcp;
-		search(dcp, boost::filesystem::path(wx_to_std(GetPath())));
-		return dcp;
+		return dcp::find_potential_dcps(boost::filesystem::path(wx_to_std(GetPath())));
 	}
 
 	void set(boost::filesystem::path)
