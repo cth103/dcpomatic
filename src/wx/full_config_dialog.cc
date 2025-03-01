@@ -37,6 +37,7 @@
 #include "filter_dialog.h"
 #include "full_config_dialog.h"
 #include "kdm_choice.h"
+#include "kdm_email_preferences_page.h"
 #include "language_tag_widget.h"
 #include "make_chain_dialog.h"
 #include "nag_dialog.h"
@@ -695,132 +696,6 @@ private:
 	wxTextCtrl* _tms_path;
 	wxTextCtrl* _tms_user;
 	PasswordEntry* _tms_password;
-};
-
-
-class KDMEmailPage : public preferences::Page
-{
-public:
-
-	KDMEmailPage(wxSize panel_size, int border)
-#ifdef DCPOMATIC_OSX
-		/* We have to force both width and height of this one */
-		: Page(wxSize(panel_size.GetWidth(), 128), border)
-#else
-		: Page(panel_size, border)
-#endif
-	{}
-
-	wxString GetName() const override
-	{
-		return _("KDM Email");
-	}
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon() const override
-	{
-		return wxBitmap(icon_path("kdm_email"), wxBITMAP_TYPE_PNG);
-	}
-#endif
-
-private:
-	void setup() override
-	{
-		auto table = new wxFlexGridSizer(2, DCPOMATIC_SIZER_X_GAP, DCPOMATIC_SIZER_Y_GAP);
-		table->AddGrowableCol(1, 1);
-		_panel->GetSizer()->Add(table, 0, wxEXPAND | wxALL, _border);
-
-		add_label_to_sizer(table, _panel, _("Subject"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_subject = new wxTextCtrl(_panel, wxID_ANY);
-		table->Add(_subject, 1, wxEXPAND | wxALL);
-
-		add_label_to_sizer(table, _panel, _("From address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_from = new wxTextCtrl(_panel, wxID_ANY);
-		table->Add(_from, 1, wxEXPAND | wxALL);
-
-		vector<EditableListColumn> columns;
-		columns.push_back(EditableListColumn(_("Address")));
-		add_label_to_sizer(table, _panel, _("CC addresses"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_cc = new EditableList<string, EmailDialog>(
-			_panel,
-			columns,
-			bind(&Config::kdm_cc, Config::instance()),
-			bind(&Config::set_kdm_cc, Config::instance(), _1),
-			[] (string s, int) {
-				return s;
-			},
-			EditableListTitle::VISIBLE,
-			EditableListButton::NEW | EditableListButton::EDIT | EditableListButton::REMOVE
-			);
-		table->Add(_cc, 1, wxEXPAND | wxALL);
-
-		add_label_to_sizer(table, _panel, _("BCC address"), true, 0, wxLEFT | wxRIGHT | wxALIGN_CENTRE_VERTICAL);
-		_bcc = new wxTextCtrl(_panel, wxID_ANY);
-		table->Add(_bcc, 1, wxEXPAND | wxALL);
-
-		_email = new wxTextCtrl(_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(-1, 200), wxTE_MULTILINE);
-		_panel->GetSizer()->Add(_email, 0, wxEXPAND | wxALL, _border);
-
-		_reset_email = new Button(_panel, _("Reset to default subject and text"));
-		_panel->GetSizer()->Add(_reset_email, 0, wxEXPAND | wxALL, _border);
-
-		_cc->layout();
-
-		_subject->Bind(wxEVT_TEXT, boost::bind(&KDMEmailPage::kdm_subject_changed, this));
-		_from->Bind(wxEVT_TEXT, boost::bind(&KDMEmailPage::kdm_from_changed, this));
-		_bcc->Bind(wxEVT_TEXT, boost::bind(&KDMEmailPage::kdm_bcc_changed, this));
-		_email->Bind(wxEVT_TEXT, boost::bind(&KDMEmailPage::kdm_email_changed, this));
-		_reset_email->Bind(wxEVT_BUTTON, boost::bind(&KDMEmailPage::reset_email, this));
-	}
-
-	void config_changed() override
-	{
-		auto config = Config::instance();
-
-		checked_set(_subject, config->kdm_subject());
-		checked_set(_from, config->kdm_from());
-		checked_set(_bcc, config->kdm_bcc());
-		checked_set(_email, Config::instance()->kdm_email());
-	}
-
-	void kdm_subject_changed()
-	{
-		Config::instance()->set_kdm_subject(wx_to_std(_subject->GetValue()));
-	}
-
-	void kdm_from_changed()
-	{
-		Config::instance()->set_kdm_from(wx_to_std(_from->GetValue()));
-	}
-
-	void kdm_bcc_changed()
-	{
-		Config::instance()->set_kdm_bcc(wx_to_std(_bcc->GetValue()));
-	}
-
-	void kdm_email_changed()
-	{
-		if (_email->GetValue().IsEmpty()) {
-			/* Sometimes we get sent an erroneous notification that the email
-			   is empty; I don't know why.
-			*/
-			return;
-		}
-		Config::instance()->set_kdm_email(wx_to_std(_email->GetValue()));
-	}
-
-	void reset_email()
-	{
-		Config::instance()->reset_kdm_email();
-		checked_set(_email, Config::instance()->kdm_email());
-	}
-
-	wxTextCtrl* _subject;
-	wxTextCtrl* _from;
-	EditableList<string, EmailDialog>* _cc;
-	wxTextCtrl* _bcc;
-	wxTextCtrl* _email;
-	wxButton* _reset_email;
 };
 
 
@@ -1681,7 +1556,7 @@ create_full_config_dialog()
 	e->AddPage(new preferences::KeysPage(ps, border));
 	e->AddPage(new TMSPage(ps, border));
 	e->AddPage(new preferences::EmailPage(ps, border));
-	e->AddPage(new KDMEmailPage(ps, border));
+	e->AddPage(new preferences::KDMEmailPage(ps, border));
 	e->AddPage(new NotificationsPage(ps, border));
 	e->AddPage(new CoverSheetPage(ps, border));
 	e->AddPage(new IdentifiersPage(ps, border));

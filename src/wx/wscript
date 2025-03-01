@@ -108,6 +108,7 @@ sources = """
           kdm_advanced_dialog.cc
           kdm_cpl_panel.cc
           kdm_dialog.cc
+          kdm_email_preferences_page.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
           language_subtag_panel.cc
