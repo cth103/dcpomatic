@@ -305,13 +305,13 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		switch (c) {
 		case 'v':
 			out(fmt::format("dcpomatic version {} {}\n", dcpomatic_version, dcpomatic_git_commit));
-			exit(EXIT_SUCCESS);
+			return {};
 		case 'h':
 			help(out);
-			exit(EXIT_SUCCESS);
+			return {};
 		case 'f':
 			out(fmt::format("{}\n", dcpomatic_cxx_flags));
-			exit(EXIT_SUCCESS);
+			return {};
 		case 'n':
 			progress = false;
 			break;
@@ -379,12 +379,12 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	if (list_servers_) {
 		list_servers(out);
-		exit(EXIT_SUCCESS);
+		return {};
 	}
 
 	if (optind >= argc) {
 		help(out);
-		exit(EXIT_FAILURE);
+		return {};
 	}
 
 	if (export_format && !export_filename) {
@@ -425,7 +425,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	if (dump) {
 		print_dump(out, film);
-		exit(EXIT_SUCCESS);
+		return {};
 	}
 
 	dcpomatic_log = film->log();
