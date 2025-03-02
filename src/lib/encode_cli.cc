@@ -68,7 +68,8 @@ help(function <void (string)> out)
 {
 	out(fmt::format("Syntax: {} [OPTION] [COMMAND] [<FILM>]\n", program_name));
 	out("Commands:\n");
-	out("make-dcp  make DCP from the given film; default if no other command is specified\n");
+	out("make-dcp      make DCP from the given film; default if no other command is specified\n");
+	out(variant::insert_dcpomatic("list-servers  display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
 	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
 	out("  -h, --help                        show this help\n");
 	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
@@ -79,6 +80,7 @@ help(function <void (string)> out)
 	out("  -k, --keep-going                  keep running even when the job is complete\n");
 	out("  -s, --servers <file>              specify servers to use in a text file\n");
 	out(variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that %1 is configured to use; don't encode\n"));
+	out("                                      (deprecated - use the list-servers command instead)\n");
 	out("  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n");
 	out("  -c, --config <dir>                directory containing config.xml and cinemas.xml\n");
 	out("      --dump                        just dump a summary of the film's settings; don't encode\n");
@@ -363,9 +365,19 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		}
 	}
 
+	vector<string> commands = {
+		"make-dcp",
+		"list-servers"
+	};
+
 	if (optind < argc - 1) {
 		/* Command with a film specified afterwards */
 		command = argv[optind++];
+	} else if (optind < argc) {
+		/* Look for a valid command, hoping that it's not the name of a film */
+		if (std::find(commands.begin(), commands.end(), argv[optind]) != commands.end()) {
+			command = argv[optind++];
+		}
 	}
 
 	if (config) {
@@ -387,7 +399,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		Config::instance()->set_servers(servers);
 	}
 
-	if (list_servers_) {
+	if (command == "list-servers" || list_servers_) {
 		list_servers(out);
 		return {};
 	}
