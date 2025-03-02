@@ -45,6 +45,7 @@
 #include "lib/video_content.h"
 #include <dcp/filesystem.h>
 #include <dcp/version.h>
+#include <fmt/format.h>
 #include <getopt.h>
 #include <iostream>
 #include <iomanip>
@@ -53,6 +54,7 @@
 using std::cerr;
 using std::cout;
 using std::dynamic_pointer_cast;
+using std::function;
 using std::list;
 using std::pair;
 using std::runtime_error;
@@ -64,28 +66,28 @@ using boost::optional;
 
 
 static void
-help()
+help(function <void (string)> out)
 {
-	cerr << "Syntax: " << program_name << " [OPTION] [<FILM>]\n"
-	     << variant::insert_dcpomatic("  -v, --version                     show %1 version\n")
-	     << "  -h, --help                        show this help\n"
-	     << "  -f, --flags                       show flags passed to C++ compiler on build\n"
-	     << "  -n, --no-progress                 do not print progress to stdout\n"
-	     << "  -r, --no-remote                   do not use any remote servers\n"
-	     << "  -t, --threads                     specify number of local encoding threads (overriding configuration)\n"
-	     << "  -j, --json <port>                 run a JSON server on the specified port\n"
-	     << "  -k, --keep-going                  keep running even when the job is complete\n"
-	     << "  -s, --servers <file>              specify servers to use in a text file\n"
-	     << variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that %1 is configured to use; don't encode\n")
-	     << "  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n"
-	     << "  -c, --config <dir>                directory containing config.xml and cinemas.xml\n"
-	     << "      --dump                        just dump a summary of the film's settings; don't encode\n"
-	     << "      --no-check                    don't check project's content files for changes before making the DCP\n"
-	     << "      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n"
-	     << "      --export-filename <filename>  filename to export to with --export-format\n"
-	     << "      --hints                       analyze film for hints before encoding and abort if any are found\n"
-	     << "\n"
-	     << "<FILM> is the film directory.\n";
+	out(fmt::format("Syntax: {} [OPTION] [<FILM>]\n", program_name));
+	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
+	out("  -h, --help                        show this help\n");
+	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
+	out("  -n, --no-progress                 do not print progress to stdout\n");
+	out("  -r, --no-remote                   do not use any remote servers\n");
+	out("  -t, --threads                     specify number of local encoding threads (overriding configuration)\n");
+	out("  -j, --json <port>                 run a JSON server on the specified port\n");
+	out("  -k, --keep-going                  keep running even when the job is complete\n");
+	out("  -s, --servers <file>              specify servers to use in a text file\n");
+	out(variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that %1 is configured to use; don't encode\n"));
+	out("  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n");
+	out("  -c, --config <dir>                directory containing config.xml and cinemas.xml\n");
+	out("      --dump                        just dump a summary of the film's settings; don't encode\n");
+	out("      --no-check                    don't check project's content files for changes before making the DCP\n");
+	out("      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n");
+	out("      --export-filename <filename>  filename to export to with --export-format\n");
+	out("      --hints                       analyze film for hints before encoding and abort if any are found\n");
+	out("\n");
+	out("<FILM> is the film directory.\n");
 }
 
 
@@ -321,7 +323,7 @@ main (int argc, char* argv[])
 			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
-			help();
+			help([](string s) { cout << s; });
 			exit (EXIT_SUCCESS);
 		case 'f':
 			cout << dcpomatic_cxx_flags << "\n";
@@ -398,7 +400,7 @@ main (int argc, char* argv[])
 	}
 
 	if (optind >= fixer.argc()) {
-		help();
+		help([](string s) { cout << s; });
 		exit (EXIT_FAILURE);
 	}
 
