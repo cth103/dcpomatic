@@ -58,7 +58,6 @@ using std::function;
 using std::list;
 using std::pair;
 using std::runtime_error;
-using std::setw;
 using std::shared_ptr;
 using std::string;
 using std::vector;
