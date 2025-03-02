@@ -47,6 +47,7 @@
 #include "region_subtag_widget.h"
 #include "send_test_email_dialog.h"
 #include "server_dialog.h"
+#include "sound_preferences_page.h"
 #include "static_text.h"
 #ifdef DCPOMATIC_GROK
 #include "grok/gpu_config_panel.h"

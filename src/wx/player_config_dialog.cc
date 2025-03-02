@@ -37,6 +37,7 @@
 #include "nag_dialog.h"
 #include "name_format_editor.h"
 #include "server_dialog.h"
+#include "sound_preferences_page.h"
 #include "static_text.h"
 #include "wx_util.h"
 #include "wx_variant.h"

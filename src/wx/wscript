@@ -161,6 +161,7 @@ sources = """
           short_kdm_output_panel.cc
           simple_video_view.cc
           smpte_metadata_dialog.cc
+          sound_preferences_page.cc
           standard_controls.cc
           static_text.cc
           subtag_list_ctrl.cc

@@ -121,40 +121,6 @@ private:
 };
 
 
-class SoundPage : public Page
-{
-public:
-	SoundPage(wxSize panel_size, int border)
-		: Page(panel_size, border)
-	{}
-
-	wxString GetName() const override;
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon() const override
-	{
-		return wxBitmap(icon_path("sound"), wxBITMAP_TYPE_PNG);
-	}
-#endif
-
-private:
-
-	void setup() override;
-	void config_changed() override;
-        boost::optional<std::string> get_sound_output();
-	void sound_changed();
-	void sound_output_changed();
-	void setup_sensitivity();
-	void map_changed(AudioMapping m);
-	void reset_to_default();
-
-	CheckBox* _sound;
-	wxChoice* _sound_output;
-	wxStaticText* _sound_output_details;
-	AudioMappingView* _map;
-	Button* _reset_to_default;
-};
-
 }
 }
 
