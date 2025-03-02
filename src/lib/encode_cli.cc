@@ -489,9 +489,9 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	if (progress) {
 		if (export_format) {
-			out(fmt::format("\nExporting {}\n", film->name()));
+			out(fmt::format("Exporting {}\n", film->name()));
 		} else {
-			out(fmt::format("\nMaking DCP for {}\n", film->name()));
+			out(fmt::format("Making DCP for {}\n", film->name()));
 		}
 	}
 
