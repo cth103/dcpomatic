@@ -32,6 +32,7 @@
 #include "file_picker_ctrl.h"
 #include "filter_dialog.h"
 #include "make_chain_dialog.h"
+#include "keys_preferences_page.h"
 #include "nag_dialog.h"
 #include "name_format_editor.h"
 #include "server_dialog.h"

@@ -38,6 +38,7 @@
 #include "full_config_dialog.h"
 #include "kdm_choice.h"
 #include "kdm_email_preferences_page.h"
+#include "keys_preferences_page.h"
 #include "language_tag_widget.h"
 #include "make_chain_dialog.h"
 #include "nag_dialog.h"

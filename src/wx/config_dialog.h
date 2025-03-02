@@ -121,37 +121,6 @@ private:
 };
 
 
-class KeysPage : public Page
-{
-public:
-	KeysPage(wxSize panel_size, int border)
-		: Page(panel_size, border)
-	{}
-
-	wxString GetName() const override;
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon() const override
-	{
-		return wxBitmap(icon_path("keys"), wxBITMAP_TYPE_PNG);
-	}
-#endif
-
-private:
-
-	void setup() override;
-
-	void export_decryption_certificate();
-	void config_changed() override {}
-	bool nag_alter_decryption_chain();
-	void decryption_advanced();
-	void signing_advanced();
-	void export_decryption_chain_and_key();
-	void import_decryption_chain_and_key();
-	void remake_signing();
-};
-
-
 class SoundPage : public Page
 {
 public:

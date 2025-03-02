@@ -112,6 +112,7 @@ sources = """
           kdm_email_preferences_page.cc
           kdm_output_panel.cc
           kdm_timing_panel.cc
+          keys_preferences_page.cc
           language_subtag_panel.cc
           language_tag_dialog.cc
           language_tag_widget.cc
