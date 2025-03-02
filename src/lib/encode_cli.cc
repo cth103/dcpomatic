@@ -254,7 +254,7 @@ show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool 
 optional<string>
 encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()> flush)
 {
-	auto const program_name = argv[0];
+	program_name = argv[0];
 
 	boost::filesystem::path film_dir;
 	bool progress = true;
