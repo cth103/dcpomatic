@@ -55,6 +55,7 @@ using std::cout;
 using std::dynamic_pointer_cast;
 using std::function;
 using std::list;
+using std::make_shared;
 using std::pair;
 using std::runtime_error;
 using std::shared_ptr;
@@ -416,7 +417,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	shared_ptr<Film> film;
 	try {
-		film.reset(new Film(film_dir));
+		film = make_shared<Film>(film_dir);
 		film->read_metadata();
 	} catch (std::exception& e) {
 		return fmt::format("{}: error reading film `{}' ({})\n", program_name, film_dir.string(), e.what());
