@@ -197,7 +197,7 @@ list_servers(function <void (string)> out)
 
 
 bool
-show_jobs_on_console (bool progress)
+show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool progress)
 {
 	bool first = true;
 	bool error = false;
@@ -209,25 +209,25 @@ show_jobs_on_console (bool progress)
 
 		if (!first && progress) {
 			for (size_t i = 0; i < jobs.size(); ++i) {
-				cout << UP_ONE_LINE_AND_ERASE;
+				out(UP_ONE_LINE_AND_ERASE);
 			}
-			cout.flush ();
+			flush();
 		}
 
 		first = false;
 
 		for (auto i: jobs) {
 			if (progress) {
-				cout << i->name();
+				out(i->name());
 				if (!i->sub_name().empty()) {
-					cout << "; " << i->sub_name();
+					out(fmt::format("; {}", i->sub_name()));
 				}
-				cout << ": ";
+				out(": ");
 
 				if (i->progress ()) {
-					cout << i->status() << "			    \n";
+					out(fmt::format("{}			    \n", i->status()));
 				} else {
-					cout << ": Running	     \n";
+					out(": Running	     \n");
 				}
 			}
 
@@ -235,7 +235,7 @@ show_jobs_on_console (bool progress)
 				/* We won't see this error if we haven't been showing progress,
 				   so show it now.
 				*/
-				cout << i->status() << "\n";
+				out(fmt::format("{}\n", i->status()));
 			}
 
 			if (i->finished_in_error()) {
@@ -528,7 +528,7 @@ main (int argc, char* argv[])
 		}
 	}
 
-	bool const error = show_jobs_on_console (progress);
+	bool const error = show_jobs_on_console([](string s) { cout << s; }, []() { cout.flush(); }, progress);
 
 	if (keep_going) {
 		while (true) {
