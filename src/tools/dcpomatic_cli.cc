@@ -156,13 +156,13 @@ list_servers(function <void (string)> out)
 				   the number of threads it is offering.
 				*/
 				optional<int> threads;
-				auto j = servers.begin ();
-				while (j != servers.end ()) {
+				auto j = servers.begin();
+				while (j != servers.end()) {
 					if (i == j->host_name() && j->current_link_version()) {
 						threads = j->threads();
 						auto tmp = j;
 						++tmp;
-						servers.erase (j);
+						servers.erase(j);
 						j = tmp;
 					} else {
 						++j;
@@ -187,7 +187,7 @@ list_servers(function <void (string)> out)
 			}
 		}
 
-		dcpomatic_sleep_seconds (1);
+		dcpomatic_sleep_seconds(1);
 
 		for (int i = 0; i < N; ++i) {
 			out("\033[1A\033[2K");
@@ -203,7 +203,7 @@ show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool 
 	bool error = false;
 	while (true) {
 
-		dcpomatic_sleep_seconds (5);
+		dcpomatic_sleep_seconds(5);
 
 		auto jobs = JobManager::instance()->get();
 
@@ -224,7 +224,7 @@ show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool 
 				}
 				out(": ");
 
-				if (i->progress ()) {
+				if (i->progress()) {
 					out(fmt::format("{}			    \n", i->status()));
 				} else {
 					out(": Running	     \n");
@@ -253,7 +253,7 @@ show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool 
 
 
 int
-main (int argc, char* argv[])
+main(int argc, char* argv[])
 {
 	auto out = [](string s) { cout << s; };
 	auto flush = []() { cout.flush(); };
@@ -261,8 +261,8 @@ main (int argc, char* argv[])
 	ArgFixer fixer(argc, argv);
 	auto const program_name = fixer.argv()[0];
 
-	dcpomatic_setup_path_encoding ();
-	dcpomatic_setup ();
+	dcpomatic_setup_path_encoding();
+	dcpomatic_setup();
 
 	boost::filesystem::path film_dir;
 	bool progress = true;
@@ -313,13 +313,13 @@ main (int argc, char* argv[])
 		switch (c) {
 		case 'v':
 			out(fmt::format("dcpomatic version {} {}\n", dcpomatic_version, dcpomatic_git_commit));
-			exit (EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		case 'h':
 			help(out);
-			exit (EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		case 'f':
 			out(fmt::format("{}\n", dcpomatic_cxx_flags));
-			exit (EXIT_SUCCESS);
+			exit(EXIT_SUCCESS);
 		case 'n':
 			progress = false;
 			break;
@@ -327,10 +327,10 @@ main (int argc, char* argv[])
 			no_remote = true;
 			break;
 		case 't':
-			threads = atoi (optarg);
+			threads = atoi(optarg);
 			break;
 		case 'j':
-			json_port = atoi (optarg);
+			json_port = atoi(optarg);
 			break;
 		case 'k':
 			keep_going = true;
@@ -374,81 +374,81 @@ main (int argc, char* argv[])
 		dcp::File f(*servers, "r");
 		if (!f) {
 			cerr << "Could not open servers list file " << *servers << "\n";
-			exit (EXIT_FAILURE);
+			exit(EXIT_FAILURE);
 		}
 		vector<string> servers;
 		while (!f.eof()) {
 			char buffer[128];
 			if (fscanf(f.get(), "%s.127", buffer) == 1) {
-				servers.push_back (buffer);
+				servers.push_back(buffer);
 			}
 		}
-		Config::instance()->set_servers (servers);
+		Config::instance()->set_servers(servers);
 	}
 
 	if (list_servers_) {
 		list_servers(out);
-		exit (EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	}
 
 	if (optind >= fixer.argc()) {
 		help(out);
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	if (export_format && !export_filename) {
 		cerr << "Argument --export-filename is required with --export-format\n";
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	if (!export_format && export_filename) {
 		cerr << "Argument --export-format is required with --export-filename\n";
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	if (export_format && *export_format != "mp4" && *export_format != "mov") {
 		cerr << "Unrecognised export format: must be mp4 or mov\n";
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	film_dir = fixer.argv()[optind];
 
-	signal_manager = new SignalManager ();
+	signal_manager = new SignalManager();
 
 	if (no_remote || export_format) {
 		EncodeServerFinder::drop();
 	}
 
 	if (json_port) {
-		new JSONServer (json_port.get ());
+		new JSONServer(json_port.get());
 	}
 
 	if (threads) {
-		Config::instance()->set_master_encoding_threads (threads.get ());
+		Config::instance()->set_master_encoding_threads(threads.get());
 	}
 
 	shared_ptr<Film> film;
 	try {
-		film.reset (new Film (film_dir));
-		film->read_metadata ();
+		film.reset(new Film(film_dir));
+		film->read_metadata();
 	} catch (std::exception& e) {
 		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
-		exit (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	if (dump) {
 		print_dump(out, film);
-		exit (EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	}
 
-	dcpomatic_log = film->log ();
+	dcpomatic_log = film->log();
 
 	for (auto i: film->content()) {
 		auto paths = i->paths();
 		for (auto j: paths) {
 			if (!dcp::filesystem::exists(j)) {
 				cerr << program_name << ": content file " << j << " not found.\n";
-				exit (EXIT_FAILURE);
+				exit(EXIT_FAILURE);
 			}
 		}
 	}
@@ -516,15 +516,15 @@ main (int argc, char* argv[])
 
 	if (export_format) {
 		auto job = std::make_shared<TranscodeJob>(film, behaviour);
-		job->set_encoder (
+		job->set_encoder(
 			std::make_shared<FFmpegFilmEncoder>(
 				film, job, *export_filename, *export_format == "mp4" ? ExportFormat::H264_AAC : ExportFormat::PRORES_HQ, false, false, false, 23
 				)
 			);
-		JobManager::instance()->add (job);
+		JobManager::instance()->add(job);
 	} else {
 		try {
-			make_dcp (film, behaviour);
+			make_dcp(film, behaviour);
 		} catch (runtime_error& e) {
 			std::cerr << "Could not make DCP: " << e.what() << "\n";
 			exit(EXIT_FAILURE);
@@ -535,16 +535,16 @@ main (int argc, char* argv[])
 
 	if (keep_going) {
 		while (true) {
-			dcpomatic_sleep_seconds (3600);
+			dcpomatic_sleep_seconds(3600);
 		}
 	}
 
 	/* This is just to stop valgrind reporting leaks due to JobManager
 	   indirectly holding onto codecs.
 	*/
-	JobManager::drop ();
+	JobManager::drop();
 
-	EncodeServerFinder::drop ();
+	EncodeServerFinder::drop();
 
 	if (dcp_path && !error) {
 		out(fmt::format("{}\n", film->dir(film->dcp_name(false)).string()));
