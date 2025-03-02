@@ -271,6 +271,9 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	optional<boost::filesystem::path> export_filename;
 	bool hints = false;
 
+	/* This makes it possible to call getopt several times in the same executable, for tests */
+	optind = 0;
+
 	int option_index = 0;
 	while (true) {
 		static struct option long_options[] = {
