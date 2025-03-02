@@ -133,7 +133,7 @@ print_dump(function<void (string)> out, shared_ptr<Film> film)
 
 
 static void
-list_servers ()
+list_servers(function <void (string)> out)
 {
 	while (true) {
 		int N = 0;
@@ -144,16 +144,14 @@ list_servers ()
 		*/
 
 		if (servers.empty() && Config::instance()->servers().empty()) {
-			cout << "No encoding servers found or configured.\n";
+			out("No encoding servers found or configured.\n");
 			++N;
 		} else {
-			cout << std::left << setw(24) << "Host" << " Status Threads\n";
+			out(fmt::format("{:24} Status Threads\n", "Host"));
 			++N;
 
 			/* Report the state of configured servers */
 			for (auto i: Config::instance()->servers()) {
-				cout << std::left << setw(24) << i << " ";
-
 				/* See if this server is on the active list; if so, remove it and note
 				   the number of threads it is offering.
 				*/
@@ -171,9 +169,9 @@ list_servers ()
 					}
 				}
 				if (static_cast<bool>(threads)) {
-					cout << "UP     " << threads.get() << "\n";
+					out(fmt::format("{:24} UP     {}\n", i, threads.get()));
 				} else {
-					cout << "DOWN\n";
+					out(fmt::format("{:24} DOWN\n", i));
 				}
 				++N;
 			}
@@ -181,9 +179,9 @@ list_servers ()
 			/* Now report any left that have been found by broadcast */
 			for (auto const& i: servers) {
 				if (i.current_link_version()) {
-					cout << std::left << setw(24) << i.host_name() << " UP     " << i.threads() << "\n";
+					out(fmt::format("{:24} UP     {}\n", i.host_name(), i.threads()));
 				} else {
-					cout << std::left << setw(24) << i.host_name() << " bad version\n";
+					out(fmt::format("{:24} bad version\n", i.host_name()));
 				}
 				++N;
 			}
@@ -192,7 +190,7 @@ list_servers ()
 		dcpomatic_sleep_seconds (1);
 
 		for (int i = 0; i < N; ++i) {
-			cout << "\033[1A\033[2K";
+			out("\033[1A\033[2K");
 		}
 	}
 }
@@ -386,7 +384,7 @@ main (int argc, char* argv[])
 	}
 
 	if (list_servers_) {
-		list_servers ();
+		list_servers([](string s) { cout << s; });
 		exit (EXIT_SUCCESS);
 	}
 
