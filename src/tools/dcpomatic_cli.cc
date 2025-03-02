@@ -255,6 +255,9 @@ show_jobs_on_console(function<void (string)> out, function<void ()> flush, bool 
 int
 main (int argc, char* argv[])
 {
+	auto out = [](string s) { cout << s; };
+	auto flush = []() { cout.flush(); };
+
 	ArgFixer fixer(argc, argv);
 	auto const program_name = fixer.argv()[0];
 
@@ -309,13 +312,13 @@ main (int argc, char* argv[])
 
 		switch (c) {
 		case 'v':
-			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
+			out(fmt::format("dcpomatic version {} {}\n", dcpomatic_version, dcpomatic_git_commit));
 			exit (EXIT_SUCCESS);
 		case 'h':
-			help([](string s) { cout << s; });
+			help(out);
 			exit (EXIT_SUCCESS);
 		case 'f':
-			cout << dcpomatic_cxx_flags << "\n";
+			out(fmt::format("{}\n", dcpomatic_cxx_flags));
 			exit (EXIT_SUCCESS);
 		case 'n':
 			progress = false;
@@ -384,12 +387,12 @@ main (int argc, char* argv[])
 	}
 
 	if (list_servers_) {
-		list_servers([](string s) { cout << s; });
+		list_servers(out);
 		exit (EXIT_SUCCESS);
 	}
 
 	if (optind >= fixer.argc()) {
-		help([](string s) { cout << s; });
+		help(out);
 		exit (EXIT_FAILURE);
 	}
 
@@ -434,7 +437,7 @@ main (int argc, char* argv[])
 	}
 
 	if (dump) {
-		print_dump([](string s) { cout << s; }, film);
+		print_dump(out, film);
 		exit (EXIT_SUCCESS);
 	}
 
@@ -457,24 +460,24 @@ main (int argc, char* argv[])
 		bool finished = false;
 
 		Hints hint_finder(film);
-		hint_finder.Progress.connect([prefix](string progress) {
-					     std::cout << UP_ONE_LINE_AND_ERASE << prefix << ": " << progress << "\n";
-					     std::cout.flush();
-					     });
-		hint_finder.Pulse.connect([prefix, &pulse_phase]() {
-					  std::cout << UP_ONE_LINE_AND_ERASE << prefix << ": " << (pulse_phase ? "X" : "x") << "\n";
-					  std::cout.flush();
-					  pulse_phase = !pulse_phase;
-					  });
+		hint_finder.Progress.connect([prefix, &out, &flush](string progress) {
+			out(fmt::format("{}{}: {}\n", UP_ONE_LINE_AND_ERASE, prefix, progress));
+			flush();
+		});
+		hint_finder.Pulse.connect([prefix, &pulse_phase, &out, &flush]() {
+			out(fmt::format("{}{}: {}\n", UP_ONE_LINE_AND_ERASE, prefix, pulse_phase ? "X" : "x"));
+			flush();
+			pulse_phase = !pulse_phase;
+		});
 		hint_finder.Hint.connect([&hints](string hint) {
-					 hints.push_back(hint);
-					 });
+			hints.push_back(hint);
+		});
 		hint_finder.Finished.connect([&finished]() {
-					     finished = true;
-					     });
+			finished = true;
+		});
 
-		std::cout << prefix << ":\n";
-		std::cout.flush();
+		out(fmt::format("{}:\n", prefix));
+		flush();
 
 		hint_finder.start();
 		while (!finished) {
@@ -482,7 +485,7 @@ main (int argc, char* argv[])
 			dcpomatic_sleep_milliseconds(200);
 		}
 
-		std::cout << UP_ONE_LINE_AND_ERASE;
+		out(UP_ONE_LINE_AND_ERASE);
 
 		if (!hints.empty()) {
 			std::cerr << "Hints:\n\n";
@@ -503,9 +506,9 @@ main (int argc, char* argv[])
 
 	if (progress) {
 		if (export_format) {
-			cout << "\nExporting " << film->name() << "\n";
+			out(fmt::format("\nExporting {}\n", film->name()));
 		} else {
-			cout << "\nMaking DCP for " << film->name() << "\n";
+			out(fmt::format("\nMaking DCP for {}\n", film->name()));
 		}
 	}
 
@@ -528,7 +531,7 @@ main (int argc, char* argv[])
 		}
 	}
 
-	bool const error = show_jobs_on_console([](string s) { cout << s; }, []() { cout.flush(); }, progress);
+	bool const error = show_jobs_on_console(out, flush, progress);
 
 	if (keep_going) {
 		while (true) {
@@ -544,7 +547,7 @@ main (int argc, char* argv[])
 	EncodeServerFinder::drop ();
 
 	if (dcp_path && !error) {
-		cout << film->dir (film->dcp_name (false)).string() << "\n";
+		out(fmt::format("{}\n", film->dir(film->dcp_name(false)).string()));
 	}
 
 	return error ? EXIT_FAILURE : EXIT_SUCCESS;
