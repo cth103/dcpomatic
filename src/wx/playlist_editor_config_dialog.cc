@@ -25,6 +25,7 @@
 
 
 #include "config_dialog.h"
+#include "locations_preferences_page.h"
 #include "playlist_editor_config_dialog.h"
 #include "wx_variant.h"
 

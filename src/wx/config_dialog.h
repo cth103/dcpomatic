@@ -155,31 +155,6 @@ private:
 	Button* _reset_to_default;
 };
 
-
-class LocationsPage : public Page
-{
-public:
-	LocationsPage(wxSize panel_size, int border);
-
-	wxString GetName() const override;
-
-#ifdef DCPOMATIC_OSX
-	wxBitmap GetLargeIcon() const override;
-#endif
-
-private:
-	void setup() override;
-	void config_changed() override;
-	void content_directory_changed();
-	void playlist_directory_changed();
-	void kdm_directory_changed();
-
-	wxDirPickerCtrl* _content_directory;
-	wxDirPickerCtrl* _playlist_directory;
-	wxDirPickerCtrl* _kdm_directory;
-};
-
-
 }
 }
 

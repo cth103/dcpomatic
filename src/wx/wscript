@@ -117,6 +117,7 @@ sources = """
           language_tag_dialog.cc
           language_tag_widget.cc
           load_config_from_zip_dialog.cc
+          locations_preferences_page.cc
           kdm_choice.cc
           make_chain_dialog.cc
           markers.cc
