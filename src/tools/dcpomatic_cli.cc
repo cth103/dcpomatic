@@ -64,9 +64,9 @@ using boost::optional;
 
 
 static void
-help (string n)
+help()
 {
-	cerr << "Syntax: " << n << " [OPTION] [<FILM>]\n"
+	cerr << "Syntax: " << program_name << " [OPTION] [<FILM>]\n"
 	     << variant::insert_dcpomatic("  -v, --version                     show %1 version\n")
 	     << "  -h, --help                        show this help\n"
 	     << "  -f, --flags                       show flags passed to C++ compiler on build\n"
@@ -321,7 +321,7 @@ main (int argc, char* argv[])
 			cout << "dcpomatic version " << dcpomatic_version << " " << dcpomatic_git_commit << "\n";
 			exit (EXIT_SUCCESS);
 		case 'h':
-			help(program_name);
+			help();
 			exit (EXIT_SUCCESS);
 		case 'f':
 			cout << dcpomatic_cxx_flags << "\n";
@@ -398,7 +398,7 @@ main (int argc, char* argv[])
 	}
 
 	if (optind >= fixer.argc()) {
-		help(program_name);
+		help();
 		exit (EXIT_FAILURE);
 	}
 
