@@ -70,6 +70,7 @@ help(function <void (string)> out)
 	out("Commands:\n");
 	out("make-dcp      make DCP from the given film; default if no other command is specified\n");
 	out(variant::insert_dcpomatic("list-servers  display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
+	out("dump          show a summary of the film's settings\n");
 	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
 	out("  -h, --help                        show this help\n");
 	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
@@ -84,6 +85,7 @@ help(function <void (string)> out)
 	out("  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n");
 	out("  -c, --config <dir>                directory containing config.xml and cinemas.xml\n");
 	out("      --dump                        just dump a summary of the film's settings; don't encode\n");
+	out("                                      (deprecated - use the dump command instead)\n");
 	out("      --no-check                    don't check project's content files for changes before making the DCP\n");
 	out("      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n");
 	out("      --export-filename <filename>  filename to export to with --export-format\n");
@@ -367,7 +369,8 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	vector<string> commands = {
 		"make-dcp",
-		"list-servers"
+		"list-servers",
+		"dump"
 	};
 
 	if (optind < argc - 1) {
@@ -443,7 +446,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		return fmt::format("{}: error reading film `{}' ({})\n", program_name, film_dir.string(), e.what());
 	}
 
-	if (dump) {
+	if (command == "dump" || dump) {
 		print_dump(out, film);
 		return {};
 	}
