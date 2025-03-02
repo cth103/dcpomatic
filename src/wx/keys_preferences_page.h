@@ -19,7 +19,7 @@
 */
 
 
-#include "config_dialog.h"
+#include "preferences_page.h"
 
 
 namespace dcpomatic {

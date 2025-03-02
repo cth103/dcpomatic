@@ -25,7 +25,6 @@
 
 
 #include "check_box.h"
-#include "config_dialog.h"
 #include "config_move_dialog.h"
 #include "dcpomatic_button.h"
 #include "dcpomatic_choice.h"
@@ -45,6 +44,7 @@
 #include "nag_dialog.h"
 #include "name_format_editor.h"
 #include "password_entry.h"
+#include "preferences_page.h"
 #include "region_subtag_widget.h"
 #include "send_test_email_dialog.h"
 #include "server_dialog.h"

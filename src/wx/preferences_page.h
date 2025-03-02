@@ -19,36 +19,20 @@
 */
 
 
-#ifndef DCPOMATIC_CONFIG_DIALOG_H
-#define DCPOMATIC_CONFIG_DIALOG_H
+#ifndef DCPOMATIC_PREFERENCES_PAGE_H
+#define DCPOMATIC_PREFERENCES_PAGE_H
 
 
-#include "editable_list.h"
-#include "make_chain_dialog.h"
-#include "wx_util.h"
-#include "lib/config.h"
-#include "lib/cross.h"
-#include "lib/dcp_content_type.h"
-#include "lib/exceptions.h"
-#include "lib/filter.h"
-#include "lib/log.h"
-#include "lib/ratio.h"
-#include <dcp/certificate_chain.h>
-#include <dcp/exceptions.h>
-#include <dcp/locale_convert.h>
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
-#include <wx/filepicker.h>
 #include <wx/preferences.h>
-#include <wx/spinctrl.h>
-#include <wx/stdpaths.h>
-#include <RtAudio.h>
 LIBDCP_ENABLE_WARNINGS
-#include <boost/filesystem.hpp>
+#include <boost/signals2.hpp>
+
+#undef CreateWindow
 
 
-class AudioMappingView;
-class CheckBox;
+class wxPanel;
 
 
 namespace dcpomatic {

@@ -19,7 +19,15 @@
 */
 
 
-#include "config_dialog.h"
+#include "preferences_page.h"
+
+
+class wxChoice;
+class wxStaticText;
+
+class AudioMappingView;
+class Button;
+class CheckBox;
 
 
 namespace dcpomatic {

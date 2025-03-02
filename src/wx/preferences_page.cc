@@ -19,34 +19,12 @@
 */
 
 
-#include "audio_backend.h"
-#include "audio_mapping_view.h"
-#include "certificate_chain_editor.h"
-#include "check_box.h"
-#include "config_dialog.h"
-#include "config_move_dialog.h"
-#include "dcpomatic_button.h"
-#include "file_picker_ctrl.h"
-#include "nag_dialog.h"
-#include "static_text.h"
-#include "wx_variant.h"
-#include "lib/constants.h"
-#include "lib/util.h"
-#include <dcp/file.h>
-#include <dcp/filesystem.h>
-#include <fmt/format.h>
+#include "preferences_page.h"
+#include "lib/config.h"
+#include <wx/wx.h>
 
 
-using std::function;
-using std::make_pair;
-using std::make_shared;
-using std::map;
-using std::pair;
-using std::shared_ptr;
-using std::string;
-using std::vector;
 using boost::bind;
-using boost::optional;
 #if BOOST_VERSION >= 106100
 using namespace boost::placeholders;
 #endif

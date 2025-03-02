@@ -19,7 +19,10 @@
 */
 
 
-#include "config_dialog.h"
+#include "preferences_page.h"
+
+
+class wxDirPickerCtrl;
 
 
 namespace dcpomatic {

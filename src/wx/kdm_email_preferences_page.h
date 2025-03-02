@@ -19,7 +19,8 @@
 */
 
 
-#include "config_dialog.h"
+#include "editable_list.h"
+#include "preferences_page.h"
 
 
 class EmailDialog;

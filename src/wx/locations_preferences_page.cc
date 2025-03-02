@@ -20,6 +20,11 @@
 
 
 #include "locations_preferences_page.h"
+#include "wx_util.h"
+#include <wx/filepicker.h>
+#include <wx/gbsizer.h>
+#include <wx/wx.h>
+
 
 
 using boost::bind;

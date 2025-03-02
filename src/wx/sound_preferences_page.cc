@@ -22,7 +22,7 @@
 #include "audio_backend.h"
 #include "audio_mapping_view.h"
 #include "check_box.h"
-#include "config_dialog.h"
+#include "dcpomatic_button.h"
 #include "sound_preferences_page.h"
 #include "wx_util.h"
 #include "lib/constants.h"

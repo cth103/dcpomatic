@@ -20,12 +20,16 @@
 
 
 #include "check_box.h"
-#include "config_dialog.h"
 #include "config_move_dialog.h"
+#include "dcpomatic_button.h"
 #include "file_picker_ctrl.h"
 #include "general_preferences_page.h"
+#include "preferences_page.h"
+#include "wx_util.h"
 #include "wx_variant.h"
 #include <dcp/filesystem.h>
+#include <wx/filepicker.h>
+#include <wx/gbsizer.h>
 
 
 using std::make_pair;

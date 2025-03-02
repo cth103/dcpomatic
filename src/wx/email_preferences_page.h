@@ -19,7 +19,15 @@
 */
 
 
-#include "config_dialog.h"
+#include "preferences_page.h"
+
+
+class wxChoice;
+class wxSpinCtrl;
+class wxTextCtrl;
+
+class Button;
+class PasswordEntry;
 
 
 namespace dcpomatic {

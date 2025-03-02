@@ -21,9 +21,11 @@
 
 #include "certificate_chain_editor.h"
 #include "dcpomatic_button.h"
+#include "make_chain_dialog.h"
 #include "nag_dialog.h"
 #include "keys_preferences_page.h"
 #include "static_text.h"
+#include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/exceptions.h"
 #include "lib/util.h"

@@ -25,7 +25,6 @@
 
 
 #include "check_box.h"
-#include "config_dialog.h"
 #include "dir_picker_ctrl.h"
 #include "editable_list.h"
 #include "email_dialog.h"
@@ -37,6 +36,7 @@
 #include "make_chain_dialog.h"
 #include "nag_dialog.h"
 #include "name_format_editor.h"
+#include "preferences_page.h"
 #include "server_dialog.h"
 #include "sound_preferences_page.h"
 #include "static_text.h"

@@ -19,12 +19,15 @@
 */
 
 
+#include "dcpomatic_button.h"
 #include "email_preferences_page.h"
 #include "password_entry.h"
 #include "send_test_email_dialog.h"
+#include "wx_util.h"
 #include "wx_variant.h"
 #include "lib/email.h"
 #include "lib/variant.h"
+#include <wx/spinctrl.h>
 
 
 using namespace dcpomatic::preferences;

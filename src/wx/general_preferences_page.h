@@ -19,7 +19,14 @@
 */
 
 
-#include "config_dialog.h"
+#include "preferences_page.h"
+
+
+class wxChoice;
+class wxGridBagSizer;
+
+class CheckBox;
+class FilePickerCtrl;
 
 
 namespace dcpomatic {

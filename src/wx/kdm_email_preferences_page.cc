@@ -21,6 +21,7 @@
 
 #include "email_dialog.h"
 #include "kdm_email_preferences_page.h"
+#include "wx_util.h"
 
 
 using std::string;
