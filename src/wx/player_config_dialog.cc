@@ -31,6 +31,7 @@
 #include "email_dialog.h"
 #include "file_picker_ctrl.h"
 #include "filter_dialog.h"
+#include "general_preferences_page.h"
 #include "keys_preferences_page.h"
 #include "locations_preferences_page.h"
 #include "make_chain_dialog.h"

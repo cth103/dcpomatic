@@ -27,6 +27,7 @@
 #include "check_box.h"
 #include "config_dialog.h"
 #include "email_preferences_page.h"
+#include "general_preferences_page.h"
 #include "kdm_email_preferences_page.h"
 #include "keys_preferences_page.h"
 #include "file_picker_ctrl.h"

@@ -36,6 +36,7 @@
 #include "file_picker_ctrl.h"
 #include "filter_dialog.h"
 #include "full_config_dialog.h"
+#include "general_preferences_page.h"
 #include "kdm_choice.h"
 #include "kdm_email_preferences_page.h"
 #include "keys_preferences_page.h"
