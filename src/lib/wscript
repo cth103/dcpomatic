@@ -90,6 +90,7 @@ sources = """
           dolby_cp750.cc
           email.cc
           empty.cc
+          encode_cli.cc
           encode_server.cc
           encode_server_finder.cc
           encoded_log_entry.cc

@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2023 Carl Hetherington <cth@carlh.net>
+    Copyright (C) 2025 Carl Hetherington <cth@carlh.net>
 
     This file is part of DCP-o-matic.
 
@@ -19,31 +19,9 @@
 */
 
 
-/** @file  src/tools/dcpomatic_cli.cc
- *  @brief Command-line program to encode DCPs (and do some other utility bits).
- */
+#include <boost/optional.hpp>
+#include <string>
 
 
-#include "lib/cross.h"
-#include "lib/encode_cli.h"
-#include "lib/util.h"
-#include <iostream>
-
-
-int
-main(int argc, char* argv[])
-{
-	ArgFixer fixer(argc, argv);
-
-	dcpomatic_setup_path_encoding();
-	dcpomatic_setup();
-
-	auto error = encode_cli(fixer.argc(), fixer.argv(), [](std::string s) { std::cout << s; }, []() { std::cout.flush(); });
-	if (error) {
-		std::cerr << *error << "\n";
-		exit(EXIT_FAILURE);
-	}
-
-	return 0;
-}
+extern boost::optional<std::string> encode_cli(int argc, char* argv[], std::function<void (std::string)> out, std::function<void ()> flush);
 
