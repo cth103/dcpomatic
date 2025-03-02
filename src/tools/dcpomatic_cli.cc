@@ -92,50 +92,41 @@ help(function <void (string)> out)
 
 
 static void
-print_dump (shared_ptr<Film> film)
+print_dump(function<void (string)> out, shared_ptr<Film> film)
 {
-	cout << film->dcp_name (true) << "\n"
-	     << film->container()->container_nickname() << " at " << ((film->resolution() == Resolution::TWO_K) ? "2K" : "4K") << "\n"
-	     << (film->video_bit_rate(film->video_encoding()) / 1000000) << "Mbit/s" << "\n"
-	     << "Duration " << (film->length().timecode(film->video_frame_rate())) << "\n"
-	     << "Output " << film->video_frame_rate() << "fps " << (film->three_d() ? "3D" : "2D") << " " << (film->audio_frame_rate() / 1000) << "kHz\n"
-	     << (film->interop() ? "Inter-Op" : "SMPTE") << " " << (film->encrypted() ? "encrypted" : "unencrypted") << "\n";
+	out(fmt::format("{}\n", film->dcp_name(true)));
+	out(fmt::format("{} at {}\n", film->container()->container_nickname(), film->resolution() == Resolution::TWO_K ? "2K" : "4K"));
+	out(fmt::format("{}Mbit/s\n", film->video_bit_rate(film->video_encoding()) / 1000000));
+	out(fmt::format("Duration {}\n", film->length().timecode(film->video_frame_rate())));
+	out(fmt::format("Output {}fps {} {}kHz\n", film->video_frame_rate(), film->three_d() ? "3D" : "2D", film->audio_frame_rate() / 1000));
+	out(fmt::format("{} {}\n", film->interop() ? "Inter-Op" : "SMPTE", film->encrypted() ? "encrypted" : "unencrypted"));
 
 	for (auto c: film->content()) {
-		cout << "\n"
-		     << c->path(0).string() << "\n"
-		     << "\tat " << c->position().seconds ()
-		     << " length " << c->full_length(film).seconds ()
-		     << " start trim " << c->trim_start().seconds ()
-		     << " end trim " << c->trim_end().seconds () << "\n";
+		out(fmt::format("\n{}\n", c->path(0).string()));
+		out(fmt::format("\tat {} length {} start trim {} end trim {}\n", c->position().seconds(), c->full_length(film).seconds(), c->trim_start().seconds(), c->trim_end().seconds()));
 
 		if (c->video && c->video->size()) {
-			cout << "\t" << c->video->size()->width << "x" << c->video->size()->height << "\n"
-			     << "\t" << c->active_video_frame_rate(film) << "fps\n"
-			     << "\tcrop left " << c->video->requested_left_crop()
-			     << " right " << c->video->requested_right_crop()
-			     << " top " << c->video->requested_top_crop()
-			     << " bottom " << c->video->requested_bottom_crop() << "\n";
+			out(fmt::format("\t{}x{}\n", c->video->size()->width, c->video->size()->height));
+			out(fmt::format("\t{}fps\n", c->active_video_frame_rate(film)));
+			out(fmt::format("\tcrop left {} right {} top {} bottom {}\n", c->video->requested_left_crop(), c->video->requested_right_crop(), c->video->requested_top_crop(), c->video->requested_bottom_crop()));
 			if (c->video->custom_ratio()) {
-				cout << "\tscale to custom ratio " << *c->video->custom_ratio() << ":1\n";
+				out(fmt::format("\tscale to custom ratio {}:1\n", *c->video->custom_ratio()));
 			}
 			if (c->video->colour_conversion()) {
 				if (c->video->colour_conversion().get().preset()) {
-					cout << "\tcolour conversion "
-					     << PresetColourConversion::all()[c->video->colour_conversion().get().preset().get()].name
-					     << "\n";
+					out(fmt::format("\tcolour conversion {}\n", PresetColourConversion::all()[c->video->colour_conversion().get().preset().get()].name));
 				} else {
-					cout << "\tcustom colour conversion\n";
+					out("\tcustom colour conversion\n");
 				}
 			} else {
-				cout << "\tno colour conversion\n";
+				out("\tno colour conversion\n");
 			}
 
 		}
 
 		if (c->audio) {
-			cout << "\t" << c->audio->delay() << " delay\n"
-			     << "\t" << c->audio->gain() << " gain\n";
+			out(fmt::format("\t{} delay\n", c->audio->delay()));
+			out(fmt::format("\t{} gain\n", c->audio->gain()));
 		}
 	}
 }
@@ -445,7 +436,7 @@ main (int argc, char* argv[])
 	}
 
 	if (dump) {
-		print_dump (film);
+		print_dump([](string s) { cout << s; }, film);
 		exit (EXIT_SUCCESS);
 	}
 
