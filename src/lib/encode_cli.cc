@@ -66,7 +66,9 @@ using boost::optional;
 static void
 help(function <void (string)> out)
 {
-	out(fmt::format("Syntax: {} [OPTION] [<FILM>]\n", program_name));
+	out(fmt::format("Syntax: {} [OPTION] [COMMAND] [<FILM>]\n", program_name));
+	out("Commands:\n");
+	out("make-dcp  make DCP from the given film; default if no other command is specified\n");
 	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
 	out("  -h, --help                        show this help\n");
 	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
@@ -270,6 +272,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	optional<string> export_format;
 	optional<boost::filesystem::path> export_filename;
 	bool hints = false;
+	string command = "make-dcp";
 
 	/* This makes it possible to call getopt several times in the same executable, for tests */
 	optind = 0;
@@ -358,6 +361,11 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 			hints = true;
 			break;
 		}
+	}
+
+	if (optind < argc - 1) {
+		/* Command with a film specified afterwards */
+		command = argv[optind++];
 	}
 
 	if (config) {

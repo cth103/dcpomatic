@@ -86,3 +86,16 @@ BOOST_AUTO_TEST_CASE(basic_encode_cli_test)
 
 	BOOST_CHECK(find_in_order(output, { "Making DCP for", "Examining content", "OK", "Transcoding DCP", "OK" }));
 }
+
+
+BOOST_AUTO_TEST_CASE(encode_cli_with_explicit_encode_command_test)
+{
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film("basic_encode_cli_test", content);
+	film->write_metadata();
+
+	vector<string> output;
+	run({ "cli", "make-dcp", "build/test/basic_encode_cli_test" }, output);
+
+	BOOST_CHECK(find_in_order(output, { "Making DCP for", "Examining content", "OK", "Transcoding DCP", "OK" }));
+}
