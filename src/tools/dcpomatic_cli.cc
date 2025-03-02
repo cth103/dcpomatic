@@ -373,7 +373,7 @@ main(int argc, char* argv[])
 	if (servers) {
 		dcp::File f(*servers, "r");
 		if (!f) {
-			cerr << "Could not open servers list file " << *servers << "\n";
+			cerr << fmt::format("Could not open servers list file {}\n", servers->string());
 			exit(EXIT_FAILURE);
 		}
 		vector<string> servers;
@@ -432,7 +432,7 @@ main(int argc, char* argv[])
 		film.reset(new Film(film_dir));
 		film->read_metadata();
 	} catch (std::exception& e) {
-		cerr << program_name << ": error reading film `" << film_dir.string() << "' (" << e.what() << ")\n";
+		cerr << fmt::format("{}: error reading film `{}' ({})\n", program_name, film_dir.string(), e.what());
 		exit(EXIT_FAILURE);
 	}
 
@@ -447,7 +447,7 @@ main(int argc, char* argv[])
 		auto paths = i->paths();
 		for (auto j: paths) {
 			if (!dcp::filesystem::exists(j)) {
-				cerr << program_name << ": content file " << j << " not found.\n";
+				cerr << fmt::format("{}: content file {} not found.\n", program_name, j.string());
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -488,13 +488,14 @@ main(int argc, char* argv[])
 		out(UP_ONE_LINE_AND_ERASE);
 
 		if (!hints.empty()) {
-			std::cerr << "Hints:\n\n";
+			string error = "Hints:\n\n";
 			for (auto hint: hints) {
-				std::cerr << word_wrap("* " + hint, 70) << "\n";
+				error += word_wrap("* " + hint, 70) + "\n";
 			}
-			std::cerr << "*** Encoding aborted because hints were found ***\n\n";
-			std::cerr << "Modify your settings and run the command again, or run without\n";
-			std::cerr << "the `--hints' option to ignore these hints and encode anyway.\n";
+			error += "*** Encoding aborted because hints were found ***\n\n";
+			error += "Modify your settings and run the command again, or run without\n";
+			error += "the `--hints' option to ignore these hints and encode anyway.\n";
+			std::cerr << error;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -526,7 +527,7 @@ main(int argc, char* argv[])
 		try {
 			make_dcp(film, behaviour);
 		} catch (runtime_error& e) {
-			std::cerr << "Could not make DCP: " << e.what() << "\n";
+			std::cerr << fmt::format("Could not make DCP: {}\n", e.what());
 			exit(EXIT_FAILURE);
 		}
 	}
