@@ -22,28 +22,8 @@
 #pragma once
 
 
+#include "lib/grok/util.h"
 #include <wx/filepicker.h>
-
-
-static std::vector<std::string> get_gpu_names(boost::filesystem::path binary, boost::filesystem::path filename)
-{
-    // Execute the GPU listing program and redirect its output to a file
-    if (std::system((binary.string() + " > " + filename.string()).c_str()) < 0) {
-	    return {};
-    }
-
-    std::vector<std::string> gpu_names;
-    std::ifstream file(filename.c_str());
-    if (file.is_open())
-    {
-        std::string line;
-        while (std::getline(file, line))
-            gpu_names.push_back(line);
-        file.close();
-    }
-
-    return gpu_names;
-}
 
 
 class GpuList : public wxPanel
