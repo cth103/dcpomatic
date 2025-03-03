@@ -69,11 +69,12 @@ help(function <void (string)> out)
 	out(fmt::format("Syntax: {} [OPTION] [COMMAND] [<PARAMETER>]\n", program_name));
 
 	out("\nCommands:\n\n");
-	out("  make-dcp <FILM>  make DCP from the given film; default if no other command is specified\n");
-	out(variant::insert_dcpomatic("  list-servers     display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
-	out("  dump     <FILM>  show a summary of the film's settings\n");
+	out("  make-dcp <FILM>              make DCP from the given film; default if no other command is specified\n");
+	out(variant::insert_dcpomatic("  list-servers                 display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
+	out("  dump <FILM>                  show a summary of the film's settings\n");
 
-	out(variant::insert_dcpomatic("\n  -v, --version                     show %1 version\n"));
+	out("\nOptions:\n\n");
+	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
 	out("  -h, --help                        show this help\n");
 	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
 	out("  -n, --no-progress                 do not print progress to stdout\n");
@@ -92,6 +93,8 @@ help(function <void (string)> out)
 	out("      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n");
 	out("      --export-filename <filename>  filename to export to with --export-format\n");
 	out("      --hints                       analyze film for hints before encoding and abort if any are found\n");
+	out("\ne.g.\n");
+	out(fmt::format("\n  {} -t 4 make-dcp my_great_movie\n", program_name));
 	out("\n");
 }
 
