@@ -1146,7 +1146,7 @@ setup_grok_library_path()
 		}
 	}
 	auto const grok = Config::instance()->grok();
-	if (!grok || grok->binary_location.empty()) {
+	if (grok.binary_location.empty()) {
 		setenv("LD_LIRARY_PATH", old_path.c_str(), 1);
 		return;
 	}
@@ -1155,7 +1155,7 @@ setup_grok_library_path()
 	if (!new_path.empty()) {
 		new_path += ":";
 	}
-	new_path += grok->binary_location.string();
+	new_path += grok.binary_location.string();
 
 	setenv("LD_LIBRARY_PATH", new_path.c_str(), 1);
 }

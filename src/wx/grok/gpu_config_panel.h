@@ -63,7 +63,7 @@ public:
 
 	void update()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		auto lister_binary = grok.binary_location / "gpu_lister";
 		auto lister_file = grok.binary_location / "gpus.txt";
 		if (boost::filesystem::exists(lister_binary)) {
@@ -88,7 +88,7 @@ private:
 	{
 		auto selection = _combo_box->GetSelection();
 		if (selection != wxNOT_FOUND) {
-			auto grok = Config::instance()->grok().get_value_or({});
+			auto grok = Config::instance()->grok();
 			grok.selected = selection;
 			Config::instance()->set_grok(grok);
 		}
@@ -155,7 +155,7 @@ private:
 
 	void setup_sensitivity()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 
 		_binary_location->Enable(grok.enable);
 		_gpu_list_control->Enable(grok.enable);
@@ -165,7 +165,7 @@ private:
 
 	void config_changed() override
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 
 		checked_set(_enable_gpu, grok.enable);
 		_binary_location->SetPath(std_to_wx(grok.binary_location.string()));
@@ -177,7 +177,7 @@ private:
 
 	void enable_gpu_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.enable = _enable_gpu->GetValue();
 		Config::instance()->set_grok(grok);
 
@@ -186,7 +186,7 @@ private:
 
 	void binary_location_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.binary_location = wx_to_std(_binary_location->GetPath());
 		Config::instance()->set_grok(grok);
 
@@ -195,20 +195,20 @@ private:
 
 	void server_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.licence_server = wx_to_std(_server->GetValue());
 		Config::instance()->set_grok(grok);
 	}
 
 	void port_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		Config::instance()->set_grok(grok);
 	}
 
 	void licence_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.licence = _licence->get();
 		Config::instance()->set_grok(grok);
 	}
