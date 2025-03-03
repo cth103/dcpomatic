@@ -44,6 +44,7 @@
 #include "version.h"
 #include "video_content.h"
 #include <dcp/filesystem.h>
+#include <dcp/raw_convert.h>
 #include <dcp/version.h>
 #include <fmt/format.h>
 #include <getopt.h>
@@ -408,6 +409,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		out("  grok-licence           licence string for using the Grok JPEG2000 encoder\n");
 		out("  grok-enable            1 to enable the Grok encoder, 0 to disable it\n");
 		out("  grok-binary-location   directory containing Grok binaries\n");
+		out("  grok-gpu-index         index of GPU to use (from 0, see list-gpus)\n");
 		return {};
 	}
 
@@ -428,6 +430,8 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 				}
 			} else if (parameter == "grok-binary-location") {
 				grok.binary_location = value;
+			} else if (parameter == "grok-gpu-index") {
+				grok.selected = dcp::raw_convert<int>(value);
 			} else {
 				return fmt::format("Unrecognised configuration parameter `{}'", parameter);
 			}
