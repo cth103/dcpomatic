@@ -21,6 +21,10 @@
 
 #pragma once
 
+
+#include <wx/filepicker.h>
+
+
 static std::vector<std::string> get_gpu_names(boost::filesystem::path binary, boost::filesystem::path filename)
 {
     // Execute the GPU listing program and redirect its output to a file
@@ -95,7 +99,7 @@ private:
 };
 
 
-class GPUPage : public Page
+class GPUPage : public dcpomatic::preferences::Page
 {
 public:
 	GPUPage(wxSize panel_size, int border)
