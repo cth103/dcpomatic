@@ -30,6 +30,7 @@
 #include "filter.h"
 #ifdef DCPOMATIC_GROK
 #include "grok/context.h"
+#include "grok/util.h"
 #endif
 #include "hints.h"
 #include "job_manager.h"
@@ -75,6 +76,7 @@ help(function <void (string)> out)
 #ifdef DCPOMATIC_GROK
 	out("  config-params                list the parameters that can be set with `config`\n");
 	out("  config <PARAMETER> <VALUE>   set a DCP-o-matic configuration value\n");
+	out("  list-gpus                    list available GPUs\n");
 #endif
 
 	out("\nOptions:\n\n");
@@ -382,7 +384,8 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 #ifdef DCPOMATIC_GROK
 		"dump",
 		"config-params",
-		"config"
+		"config",
+		"list-gpus"
 #else
 		"dump"
 #endif
@@ -432,6 +435,12 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 			Config::instance()->write();
 		} else {
 			return fmt::format("Missing configuration parameter: use {} config <parameter> <value>", program_name);
+		}
+		return {};
+	} else if (command == "list-gpus") {
+		int N = 0;
+		for (auto gpu: get_gpu_names()) {
+			out(fmt::format("{}: {}\n", N++, gpu));
 		}
 		return {};
 	}
