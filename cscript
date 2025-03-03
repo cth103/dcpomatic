@@ -45,6 +45,9 @@ for v in ['22.04']:
 for v in ['24.04', '24.10']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-dev', 'python3.12'])
+for v in ['25.04']:
+    deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
+    deb_build_depends[v].extend(['libssh-dev', 'python3.13'])
 for v in ['11']:
     deb_build_depends[v] = copy.deepcopy(deb_build_depends_base)
     deb_build_depends[v].extend(['libssh-gcrypt-dev', 'python3.9'])
@@ -132,7 +135,7 @@ deb_depends['22.04'].extend(['libboost-filesystem1.74.0',
                              'libdav1d5',
                              'libfmt8'])
 
-def debs(boost, icu, x264):
+def debs(boost, icu, x264, zip='4', fmt='9'):
     output = copy.deepcopy(deb_depends_base)
     output.extend(['libboost-filesystem' + boost,
                    'libboost-thread' + boost,
@@ -141,7 +144,7 @@ def debs(boost, icu, x264):
                    'libcairomm-1.0-1v5',
                    'libpangomm-1.4-1v5',
                    'libxml++2.6-2v5',
-                   'libzip4',
+                   'libzip' + zip,
                    'libicu' + icu,
                    'libnettle8',
                    'libssh-4',
@@ -152,11 +155,12 @@ def debs(boost, icu, x264):
                    'libnanomsg5',
                    'libwxgtk3.2-1',
                    'libwxgtk-gl3.2-1',
-                   'libfmt9'])
+                   'libfmt' + fmt])
     return output
 
 deb_depends['24.04'] = debs(boost='1.83.0', icu='74', x264='164')
 deb_depends['24.10'] = debs(boost='1.83.0', icu='74', x264='164')
+deb_depends['25.04'] = debs(boost='1.83.0', icu='74', x264='164', zip='5', fmt='10')
 
 deb_depends['11'] = copy.deepcopy(deb_depends_base)
 deb_depends['11'].extend(['libboost-filesystem1.74.0',
