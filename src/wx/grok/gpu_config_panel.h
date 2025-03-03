@@ -43,15 +43,9 @@ public:
 
 	void update()
 	{
-		auto grok = Config::instance()->grok();
-		auto lister_binary = grok.binary_location / "gpu_lister";
-		if (boost::filesystem::exists(lister_binary)) {
-			auto gpu_names = get_gpu_names(lister_binary);
-
-			_combo_box->Clear();
-			for (auto const& name: gpu_names) {
-				_combo_box->Append(std_to_wx(name));
-			}
+		_combo_box->Clear();
+		for (auto const& name: get_gpu_names()) {
+			_combo_box->Append(std_to_wx(name));
 		}
 	}
 

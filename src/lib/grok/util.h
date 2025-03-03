@@ -24,4 +24,4 @@
 #include <vector>
 
 
-extern std::vector<std::string> get_gpu_names(boost::filesystem::path binary);
+extern std::vector<std::string> get_gpu_names();

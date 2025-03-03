@@ -20,6 +20,7 @@
 
 
 #include "util.h"
+#include "../config.h"
 #include <boost/process.hpp>
 #include <future>
 
@@ -29,9 +30,11 @@ using std::vector;
 
 
 vector<string>
-get_gpu_names(boost::filesystem::path binary)
+get_gpu_names()
 {
 	namespace bp = boost::process;
+
+	auto binary = Config::instance()->grok().binary_location / "gpu_lister";
 
 	bp::ipstream stream;
 	bp::child child(binary, bp::std_out > stream);

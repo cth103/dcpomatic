@@ -19,6 +19,7 @@
 */
 
 
+#include "lib/config.h"
 #include "lib/grok/util.h"
 #include "test.h"
 #include <boost/test/unit_test.hpp>
@@ -27,7 +28,13 @@
 #ifdef DCPOMATIC_GROK
 BOOST_AUTO_TEST_CASE(get_gpu_names_test)
 {
-	auto names = get_gpu_names("test/gpu_lister");
+	ConfigRestorer cr;
+
+	Config::Grok grok;
+	grok.binary_location = "test";
+	Config::instance()->set_grok(grok);
+
+	auto names = get_gpu_names();
 	BOOST_REQUIRE_EQUAL(names.size(), 3U);
 	BOOST_CHECK_EQUAL(names[0], "Foo bar baz");
 	BOOST_CHECK_EQUAL(names[1], "Spondoolix Mega Kompute 2000");
