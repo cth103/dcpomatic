@@ -72,6 +72,10 @@ help(function <void (string)> out)
 	out("  make-dcp <FILM>              make DCP from the given film; default if no other command is specified\n");
 	out(variant::insert_dcpomatic("  list-servers                 display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
 	out("  dump <FILM>                  show a summary of the film's settings\n");
+#ifdef DCPOMATIC_GROK
+	out("  config-params                list the parameters that can be set with `config`\n");
+	out("  config <PARAMETER> <VALUE>   set a DCP-o-matic configuration value\n");
+#endif
 
 	out("\nOptions:\n\n");
 	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
@@ -95,6 +99,7 @@ help(function <void (string)> out)
 	out("      --hints                       analyze film for hints before encoding and abort if any are found\n");
 	out("\ne.g.\n");
 	out(fmt::format("\n  {} -t 4 make-dcp my_great_movie\n", program_name));
+	out(fmt::format("\n  {} config grok-licence 12345ABCD\n", program_name));
 	out("\n");
 }
 
@@ -374,7 +379,13 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	vector<string> commands = {
 		"make-dcp",
 		"list-servers",
+#ifdef DCPOMATIC_GROK
+		"dump",
+		"config-params",
+		"config"
+#else
 		"dump"
+#endif
 	};
 
 	if (optind < argc - 1) {
@@ -386,6 +397,33 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 			command = argv[optind++];
 		}
 	}
+
+
+#ifdef DCPOMATIC_GROK
+	if (command == "config-params") {
+		out("Configurable parameters:\n\n");
+		out("  grok-licence  licence string for using the Grok JPEG2000 encoder\n");
+		return {};
+	}
+
+	if (command == "config") {
+		if (optind < argc - 1) {
+			string const parameter = argv[optind++];
+			string const value = argv[optind++];
+			auto grok = Config::instance()->grok();
+			if (parameter == "grok-licence") {
+				grok.licence = value;
+				Config::instance()->set_grok(grok);
+				Config::instance()->write();
+			} else {
+				return fmt::format("Unrecognised configuration parameter `{}'", parameter);
+			}
+		} else {
+			return fmt::format("Missing configuration parameter: use {} config <parameter> <value>", program_name);
+		}
+		return {};
+	}
+#endif
 
 	if (config) {
 		State::override_path = *config;

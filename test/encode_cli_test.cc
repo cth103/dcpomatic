@@ -47,8 +47,11 @@ run(vector<string> const& args, vector<string>& output)
 	argv[args.size()] = nullptr;
 
 	auto error = encode_cli(args.size(), argv.data(), [&output](string s) { output.push_back(s); }, []() { });
+	for (auto i: output) {
+		std::cout << "O:" << i;
+	}
 	if (error) {
-		std::cout << *error << "\n";
+		std::cout << "E:" << *error << "\n";
 	}
 
 	return error;
@@ -99,3 +102,24 @@ BOOST_AUTO_TEST_CASE(encode_cli_with_explicit_encode_command_test)
 
 	BOOST_CHECK(find_in_order(output, { "Making DCP for", "Examining content", "OK", "Transcoding DCP", "OK" }));
 }
+
+
+#ifdef DCPOMATIC_GROK
+BOOST_AUTO_TEST_CASE(encode_cli_set_grok_licence)
+{
+	boost::filesystem::path config = "build/encode_cli_set_grok_licence";
+	boost::filesystem::remove_all(config);
+	boost::filesystem::create_directories(config);
+	ConfigRestorer cr(config);
+
+	vector<string> output;
+	auto error = run({ "cli", "config", "grok-licence", "12345678ABC" }, output);
+	BOOST_CHECK(output.empty());
+	BOOST_CHECK(!error);
+
+	cxml::Document check("Config");
+	check.read_file(config / "2.18" / "config.xml");
+	BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("Licence"), "12345678ABC");
+}
+#endif
+
