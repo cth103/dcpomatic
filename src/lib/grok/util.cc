@@ -20,6 +20,8 @@
 
 
 #include "util.h"
+#include <boost/process.hpp>
+#include <future>
 
 
 using std::string;
@@ -27,24 +29,22 @@ using std::vector;
 
 
 vector<string>
-get_gpu_names(boost::filesystem::path binary, boost::filesystem::path filename)
+get_gpu_names(boost::filesystem::path binary)
 {
-    // Execute the GPU listing program and redirect its output to a file
-    if (std::system((binary.string() + " > " + filename.string()).c_str()) < 0) {
-	    return {};
-    }
+	namespace bp = boost::process;
 
-    std::vector<std::string> gpu_names;
-    std::ifstream file(filename.c_str());
-    if (file.is_open())
-    {
-        std::string line;
-        while (std::getline(file, line))
-            gpu_names.push_back(line);
-        file.close();
-    }
+	bp::ipstream stream;
+	bp::child child(binary, bp::std_out > stream);
 
-    return gpu_names;
+	string line;
+	vector<string> gpu_names;
+	while (child.running() && std::getline(stream, line) && !line.empty()) {
+		gpu_names.push_back(line);
+	}
+
+	child.wait();
+
+	return gpu_names;
 }
 
 

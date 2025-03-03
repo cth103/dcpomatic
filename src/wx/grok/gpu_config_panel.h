@@ -45,9 +45,8 @@ public:
 	{
 		auto grok = Config::instance()->grok();
 		auto lister_binary = grok.binary_location / "gpu_lister";
-		auto lister_file = grok.binary_location / "gpus.txt";
 		if (boost::filesystem::exists(lister_binary)) {
-			auto gpu_names = get_gpu_names(lister_binary, lister_file);
+			auto gpu_names = get_gpu_names(lister_binary);
 
 			_combo_box->Clear();
 			for (auto const& name: gpu_names) {
