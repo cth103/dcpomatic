@@ -402,7 +402,9 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 #ifdef DCPOMATIC_GROK
 	if (command == "config-params") {
 		out("Configurable parameters:\n\n");
-		out("  grok-licence  licence string for using the Grok JPEG2000 encoder\n");
+		out("  grok-licence           licence string for using the Grok JPEG2000 encoder\n");
+		out("  grok-enable            1 to enable the Grok encoder, 0 to disable it\n");
+		out("  grok-binary-location   directory containing Grok binaries\n");
 		return {};
 	}
 
@@ -413,11 +415,21 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 			auto grok = Config::instance()->grok();
 			if (parameter == "grok-licence") {
 				grok.licence = value;
-				Config::instance()->set_grok(grok);
-				Config::instance()->write();
+			} else if (parameter == "grok-enable") {
+				if (value == "1") {
+					grok.enable = true;
+				} else if (value == "0") {
+					grok.enable = false;
+				} else {
+					return fmt::format("Invalid value {} for grok-enable (use 1 to enable, 0 to disable)", value);
+				}
+			} else if (parameter == "grok-binary-location") {
+				grok.binary_location = value;
 			} else {
 				return fmt::format("Unrecognised configuration parameter `{}'", parameter);
 			}
+			Config::instance()->set_grok(grok);
+			Config::instance()->write();
 		} else {
 			return fmt::format("Missing configuration parameter: use {} config <parameter> <value>", program_name);
 		}

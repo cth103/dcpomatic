@@ -121,5 +121,43 @@ BOOST_AUTO_TEST_CASE(encode_cli_set_grok_licence)
 	check.read_file(config / "2.18" / "config.xml");
 	BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("Licence"), "12345678ABC");
 }
+
+
+BOOST_AUTO_TEST_CASE(encode_cli_enable_grok)
+{
+	boost::filesystem::path config = "build/encode_cli_enable_grok";
+	boost::filesystem::remove_all(config);
+	boost::filesystem::create_directories(config);
+	ConfigRestorer cr(config);
+
+	for (auto value: vector<string>{ "1", "0"}) {
+		vector<string> output;
+		auto error = run({ "cli", "config", "grok-enable", value }, output);
+		BOOST_CHECK(output.empty());
+		BOOST_CHECK(!error);
+
+		cxml::Document check("Config");
+		check.read_file(config / "2.18" / "config.xml");
+		BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("Enable"), value);
+	}
+}
+
+
+BOOST_AUTO_TEST_CASE(encode_cli_set_grok_binary_location)
+{
+	boost::filesystem::path config = "build/encode_cli_set_grok_binary_location";
+	boost::filesystem::remove_all(config);
+	boost::filesystem::create_directories(config);
+	ConfigRestorer cr(config);
+
+	vector<string> output;
+	auto error = run({ "cli", "config", "grok-binary-location", "foo/bar/baz" }, output);
+	BOOST_CHECK(output.empty());
+	BOOST_CHECK(!error);
+
+	cxml::Document check("Config");
+	check.read_file(config / "2.18" / "config.xml");
+	BOOST_CHECK_EQUAL(check.node_child("Grok")->string_child("BinaryLocation"), "foo/bar/baz");
+}
 #endif
 
