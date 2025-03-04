@@ -34,6 +34,31 @@ using std::vector;
 typedef map<shared_ptr<const Content>, vector<boost::filesystem::path>> Replacements;
 
 
+/* Turn a path into one from the "other" platform (posix -> windows or vice versa) */
+static
+boost::filesystem::path
+path_from_other_platform(boost::filesystem::path path)
+{
+	string other = path.string();
+#ifdef DCPOMATIC_POSIX
+	std::replace(other.begin(), other.end(), '\\', '/');
+#else
+	std::replace(other.begin(), other.end(), '/', '\\');
+#endif
+	return boost::filesystem::path(other);
+}
+
+
+static
+bool
+should_replace(boost::filesystem::path old_path, boost::filesystem::path new_path)
+{
+	auto const other_path = path_from_other_platform(old_path);
+	return !dcp::filesystem::exists(old_path) && (old_path.filename() == new_path.filename() || other_path.filename() == new_path.filename());
+}
+
+
+
 static
 void
 search_by_name(Replacements& replacement_paths, boost::filesystem::path directory, int depth = 0)
@@ -43,19 +68,7 @@ search_by_name(Replacements& replacement_paths, boost::filesystem::path director
 		if (dcp::filesystem::is_regular_file(candidate.path())) {
 			for (auto& replacement: replacement_paths) {
 				for (auto& path: replacement.second) {
-					/* Extract a filename as if this path were from a platform with a different
-					 * separator.
-					 */
-					string other = path.string();
-#ifdef DCPOMATIC_POSIX
-					std::replace(other.begin(), other.end(), '\\', '/');
-#else
-					std::replace(other.begin(), other.end(), '/', '\\');
-#endif
-					boost::filesystem::path other_path(other);
-					if (
-						!dcp::filesystem::exists(path) &&
-						(path.filename() == candidate.path().filename() || other_path.filename() == candidate.path().filename())) {
+					if (should_replace(path, candidate.path())) {
 						path = candidate.path();
 					}
 				}
