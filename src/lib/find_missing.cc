@@ -109,7 +109,7 @@ dcpomatic::find_missing (vector<shared_ptr<Content>> content_to_fix, boost::file
 	Replacements digest_replacement_paths;
 	for (auto content: content_to_fix) {
 		auto const& repl = name_replacement_paths[content];
-		bool const replacements_exist = std::find_if(repl.begin(), repl.end(), [](path p) { return !exists(p); }) == repl.end();
+		bool const replacements_exist = std::all_of(repl.begin(), repl.end(), [](path p) { return exists(p); });
 		if (replacements_exist && simple_digest(name_replacement_paths[content]) == content->digest()) {
 			content->set_paths (repl);
 		} else {
@@ -128,7 +128,7 @@ dcpomatic::find_missing (vector<shared_ptr<Content>> content_to_fix, boost::file
 			auto iter = digest_replacement_paths.find(content);
 			if (iter != digest_replacement_paths.end()) {
 				auto const& repl = iter->second;
-				bool const replacements_exist = std::find_if(repl.begin(), repl.end(), [](path p) { return !exists(p); }) == repl.end();
+				bool const replacements_exist = std::all_of(repl.begin(), repl.end(), [](path p) { return exists(p); });
 				if (replacements_exist) {
 					content->set_paths(repl);
 				}
