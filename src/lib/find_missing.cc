@@ -86,6 +86,27 @@ search_by_name(Replacements& replacement_paths, boost::filesystem::path director
 
 static
 void
+search_by_name(map<boost::filesystem::path, boost::filesystem::path>& replacements, boost::filesystem::path directory, int depth = 0)
+{
+	boost::system::error_code ec;
+
+	for (auto candidate: dcp::filesystem::directory_iterator(directory, ec)) {
+		if (dcp::filesystem::is_regular_file(candidate.path())) {
+			for (auto& replacement: replacements) {
+				if (should_replace(replacement.first, candidate.path())) {
+					replacement.second = candidate.path();
+				}
+			}
+		} else if (dcp::filesystem::is_directory(candidate.path()) && depth <= 2) {
+			search_by_name(replacements, candidate, depth + 1);
+		}
+	}
+}
+
+
+
+static
+void
 search_by_digest(Replacements& replacement_paths, boost::filesystem::path directory, int depth = 0)
 {
 	boost::system::error_code ec;
@@ -145,6 +166,22 @@ dcpomatic::find_missing (vector<shared_ptr<Content>> content_to_fix, boost::file
 				if (replacements_exist) {
 					content->set_paths(repl);
 				}
+			}
+		}
+	}
+
+	/* Check fonts */
+	for (auto content: content_to_fix) {
+		map<boost::filesystem::path, boost::filesystem::path> fonts;
+		for (auto i: content->font_paths()) {
+			fonts[i] = i;
+		}
+
+		search_by_name(fonts, is_directory(clue) ? clue : clue.parent_path());
+
+		for (auto const& font: fonts) {
+			if (font.first != font.second) {
+				content->replace_font_path(font.first, font.second);
 			}
 		}
 	}

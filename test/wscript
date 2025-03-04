@@ -45,6 +45,7 @@ def build(bld):
     obj.use    = 'libdcpomatic2'
     obj.source = """
                  2536_regression_test.cc
+                 2986_regression_test.cc
                  4k_test.cc
                  analytics_test.cc
                  atmos_test.cc
