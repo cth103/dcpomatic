@@ -103,6 +103,7 @@ extern void setup_grok_library_path();
 #endif
 extern std::string join_strings(std::vector<std::string> const& in, std::string const& separator = " ");
 extern std::string rfc_2822_date(time_t time);
+bool paths_exist(std::vector<boost::filesystem::path> const& paths);
 
 
 template <class T>

@@ -482,7 +482,7 @@ ContentPanel::check_selection ()
 
 	optional<DCPTime> go_to;
 	for (auto content: selected()) {
-		if (content->paths_valid()) {
+		if (paths_exist(content->paths())) {
 			auto position = content->position();
 			if (auto text_content = dynamic_pointer_cast<StringTextFileContent>(content)) {
 				/* Rather special case; if we select a text subtitle file jump to its
@@ -896,7 +896,7 @@ ContentPanel::setup ()
 	vector<ContentListCtrl::Item> items;
 
 	for (auto i: content) {
-		bool const valid = i->paths_valid ();
+		bool const valid = paths_exist(i->paths());
 
 		auto dcp = dynamic_pointer_cast<DCPContent> (i);
 		bool const needs_kdm = dcp && dcp->needs_kdm ();

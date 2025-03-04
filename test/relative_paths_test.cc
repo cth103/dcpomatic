@@ -39,6 +39,6 @@ BOOST_AUTO_TEST_CASE(relative_paths_test)
 	auto film2 = std::make_shared<Film>(boost::filesystem::path("build/test/relative_paths_test"));
 	film2->read_metadata();
 	BOOST_REQUIRE_EQUAL(film2->content().size(), 1U);
-	BOOST_REQUIRE(film2->content()[0]->paths_valid());
+	BOOST_REQUIRE(paths_exist(film2->content()[0]->paths()));
 }
 

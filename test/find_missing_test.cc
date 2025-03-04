@@ -63,14 +63,14 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_single_files)
 
 	/* That should make the content paths invalid */
 	for (auto content: film->content()) {
-		BOOST_CHECK (!content->paths_valid());
+		BOOST_CHECK(!paths_exist(content->paths()));
 	}
 
 	/* Fix the missing files and check the result */
 	dcpomatic::find_missing (film->content(), moved / "A.png");
 
 	for (auto content: film->content()) {
-		BOOST_CHECK (content->paths_valid());
+		BOOST_CHECK(paths_exist(content->paths()));
 	}
 }
 
@@ -100,14 +100,14 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_multiple_files)
 
 	/* That should make the content paths invalid */
 	for (auto content: film->content()) {
-		BOOST_CHECK (!content->paths_valid());
+		BOOST_CHECK(!paths_exist(content->paths()));
 	}
 
 	/* Fix the missing files and check the result */
 	dcpomatic::find_missing (film->content(), moved / "foo");
 
 	for (auto content: film->content()) {
-		BOOST_CHECK (content->paths_valid());
+		BOOST_CHECK(paths_exist(content->paths()));
 	}
 }
 
@@ -144,14 +144,14 @@ BOOST_AUTO_TEST_CASE (find_missing_test_with_multiple_files_one_incorrect)
 
 	/* The film's contents should be invalid */
 	for (auto content: film->content()) {
-		BOOST_CHECK (!content->paths_valid());
+		BOOST_CHECK(!paths_exist(content->paths()));
 	}
 
 	dcpomatic::find_missing (film->content(), moved / "foo");
 
 	/* And even after find_missing there should still be missing content */
 	for (auto content: film->content()) {
-		BOOST_CHECK (!content->paths_valid());
+		BOOST_CHECK(!paths_exist(content->paths()));
 	}
 }
 
@@ -184,7 +184,7 @@ BOOST_AUTO_TEST_CASE(find_missing_test_with_rename)
 	/* That should make one of the content paths invalid */
 	auto content_list = film->content();
 	int const valid = std::count_if(content_list.begin(), content_list.end(), [](shared_ptr<const Content> content) {
-		return content->paths_valid();
+		return paths_exist(content->paths());
 	});
 	BOOST_CHECK_EQUAL(valid, 2);
 
@@ -192,7 +192,7 @@ BOOST_AUTO_TEST_CASE(find_missing_test_with_rename)
 	dcpomatic::find_missing(content_list, content_dir / "bogus.png");
 
 	for (auto content: content_list) {
-		BOOST_CHECK(content->paths_valid());
+		BOOST_CHECK(paths_exist(content->paths()));
 	}
 
 }
@@ -205,7 +205,7 @@ BOOST_AUTO_TEST_CASE(test_film_saved_on_windows)
 	dcpomatic::find_missing(film->content(), TestPaths::private_data());
 
 	for (auto content: film->content()) {
-		BOOST_CHECK(content->paths_valid());
+		BOOST_CHECK(paths_exist(content->paths()));
 	}
 }
 
@@ -217,6 +217,6 @@ BOOST_AUTO_TEST_CASE(test_film_saved_on_posix)
 	dcpomatic::find_missing(film->content(), TestPaths::private_data());
 
 	for (auto content: film->content()) {
-		BOOST_CHECK(content->paths_valid());
+		BOOST_CHECK(paths_exist(content->paths()));
 	}
 }

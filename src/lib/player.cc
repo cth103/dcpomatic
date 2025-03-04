@@ -283,7 +283,7 @@ Player::setup_pieces()
 
 	for (auto content: playlist()->content()) {
 
-		if (!content->paths_valid()) {
+		if (!paths_exist(content->paths())) {
 			continue;
 		}
 

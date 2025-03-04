@@ -144,8 +144,6 @@ public:
 		return _last_write_times[i];
 	}
 
-	bool paths_valid() const;
-
 	/** @return Digest of the content's file(s).  Note: this is
 	 *  not a complete MD5-or-whatever hash, but a sort of poor
 	 *  man's version (see comments in examine()).

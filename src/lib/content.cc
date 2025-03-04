@@ -337,19 +337,6 @@ Content::identifier() const
 }
 
 
-bool
-Content::paths_valid() const
-{
-	for (auto i: _paths) {
-		if (!dcp::filesystem::exists(i)) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-
 void
 Content::set_paths(vector<boost::filesystem::path> paths)
 {

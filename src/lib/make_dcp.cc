@@ -69,7 +69,7 @@ make_dcp (shared_ptr<Film> film, TranscodeJob::ChangedBehaviour behaviour)
 	}
 
 	for (auto i: film->content()) {
-		if (!i->paths_valid()) {
+		if (!paths_exist(i->paths())) {
 			throw runtime_error (_("Some of your content is missing"));
 		}
 		auto dcp = dynamic_pointer_cast<const DCPContent>(i);
