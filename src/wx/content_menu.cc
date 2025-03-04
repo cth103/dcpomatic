@@ -155,7 +155,7 @@ ContentMenu::popup (weak_ptr<Film> film, ContentList c, TimelineContentViewList 
 
 	_join->Enable (n > 1);
 
-	_find_missing->Enable(_content.size() == 1 && !paths_exist(_content.front()->paths()));
+	_find_missing->Enable(_content.size() == 1 && (!paths_exist(_content.front()->paths()) || !paths_exist(_content.front()->font_paths())));
 	_properties->Enable (_content.size() == 1);
 	_advanced->Enable (_content.size() == 1);
 	_re_examine->Enable (!_content.empty ());

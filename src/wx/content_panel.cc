@@ -896,7 +896,7 @@ ContentPanel::setup ()
 	vector<ContentListCtrl::Item> items;
 
 	for (auto i: content) {
-		bool const valid = paths_exist(i->paths());
+		bool const valid = paths_exist(i->paths()) && paths_exist(i->font_paths());
 
 		auto dcp = dynamic_pointer_cast<DCPContent> (i);
 		bool const needs_kdm = dcp && dcp->needs_kdm ();
