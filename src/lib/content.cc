@@ -31,6 +31,7 @@
 #include "content_factory.h"
 #include "exceptions.h"
 #include "film.h"
+#include "font.h"
 #include "job.h"
 #include "text_content.h"
 #include "util.h"
@@ -568,5 +569,35 @@ bool
 Content::has_mapped_audio() const
 {
 	return audio && !audio->mapping().mapped_output_channels().empty();
+}
+
+
+vector<boost::filesystem::path>
+Content::font_paths() const
+{
+	vector<boost::filesystem::path> paths;
+
+	for (auto i: text) {
+		for (auto j: i->fonts()) {
+			if (j->file()) {
+				paths.push_back(*j->file());
+			}
+		}
+	}
+
+	return paths;
+}
+
+
+void
+Content::replace_font_path(boost::filesystem::path old_path, boost::filesystem::path new_path)
+{
+	for (auto i: text) {
+		for (auto j: i->fonts()) {
+			if (j->file() && *j->file() == old_path) {
+				j->set_file(new_path);
+			}
+		}
+	}
 }
 
