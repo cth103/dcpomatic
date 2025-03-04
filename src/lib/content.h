@@ -144,9 +144,9 @@ public:
 		return _last_write_times[i];
 	}
 
-	/** @return Digest of the content's file(s).  Note: this is
-	 *  not a complete MD5-or-whatever hash, but a sort of poor
-	 *  man's version (see comments in examine()).
+	/** @return Digest of the content's file(s).  This is a MD5 digest
+	 *  of the first million bytes, the last million bytes, and the
+	 *  size of the first file in ASCII.
 	 */
 	std::string digest() const {
 		boost::mutex::scoped_lock lm(_mutex);
