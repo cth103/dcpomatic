@@ -997,7 +997,16 @@ Player::emit_video_until(DCPTime time)
 		emit_video(to_do.first, to_do.second);
 	};
 
-	auto const age_threshold = one_video_frame() * 2;
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+
+	auto const age_threshold = [this, film](pair<shared_ptr<PlayerVideo>, dcpomatic::DCPTime> video) {
+		if (auto content = video.first->content().lock()) {
+			return one_video_frame() * (std::ceil(film->video_frame_rate() / content->video_frame_rate().get_value_or(24)) + 1);
+		} else {
+			return one_video_frame() * 2;
+		}
+	};
 
 	while (_next_video_time.get_value_or({}) < time) {
 		auto left = _last_video[Eyes::LEFT];
@@ -1010,12 +1019,12 @@ Player::emit_video_until(DCPTime time)
 			left.first &&
 			right.first &&
 			(!both.first || (left.second >= both.second && right.second >= both.second)) &&
-			(left.second - next) < age_threshold &&
-			(right.second - next) < age_threshold
+			(left.second - next) < age_threshold(left) &&
+			(right.second - next) < age_threshold(right)
 		   ) {
 			frame(left.first, next);
 			frame(right.first, next);
-		} else if (both.first && (both.second - next) < age_threshold) {
+		} else if (both.first && (both.second - next) < age_threshold(both)) {
 			frame(both.first, next);
 			LOG_DEBUG_PLAYER("Content %1 selected for DCP %2 (age %3)", to_string(both.second), to_string(next), to_string(both.second - next));
 		} else {

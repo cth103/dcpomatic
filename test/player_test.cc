@@ -731,3 +731,29 @@ BOOST_AUTO_TEST_CASE(unmapped_audio_does_not_raise_buffer_error)
 	butler.rethrow();
 }
 
+
+BOOST_AUTO_TEST_CASE(frames_are_copied_correctly_for_low_frame_rates)
+{
+	auto content = content_factory("test/data/flat_red.png");
+	auto film = new_test_film("frames_are_copied_correctly_for_low_frame_rates", content);
+
+	content[0]->set_video_frame_rate(film, 10);
+	film->set_video_frame_rate(30);
+
+	Player player(film, Image::Alignment::COMPACT, false);
+	Butler butler(film, player, AudioMapping(), 2, bind(PlayerVideo::force, AV_PIX_FMT_RGB24), VideoRange::FULL, Image::Alignment::PADDED, true, false, Butler::Audio::ENABLED);
+
+	/* Check that only red frames come out - previously there would be some black ones mixed in */
+	for (auto i = 0; i < 24; ++i) {
+		auto frame = butler.get_video(Butler::Behaviour::BLOCKING);
+		auto image = frame.first->image([](AVPixelFormat) { return AV_PIX_FMT_RGB24; }, VideoRange::FULL, false);
+		for (int y = 0; y < image->size().height; ++y) {
+			uint8_t const* p = image->data()[0] + image->stride()[0] * y;
+			for (int x = 0; x < image->size().width; ++x) {
+				BOOST_REQUIRE_EQUAL(p[0], 255);
+				BOOST_REQUIRE_EQUAL(p[1], 0);
+				BOOST_REQUIRE_EQUAL(p[2], 0);
+			}
+		}
+	}
+}
