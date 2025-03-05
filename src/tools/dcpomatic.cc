@@ -69,6 +69,7 @@
 #include "lib/cross.h"
 #include "lib/cross.h"
 #include "lib/dcp_content.h"
+#include "lib/dcp_transcode_job.h"
 #include "lib/dcpomatic_log.h"
 #include "lib/dcpomatic_socket.h"
 #include "lib/dkdm_wrapper.h"
@@ -1223,11 +1224,7 @@ private:
 	void set_menu_sensitivity ()
 	{
 		auto jobs = JobManager::instance()->get ();
-		auto i = jobs.begin();
-		while (i != jobs.end() && (*i)->json_name() != "transcode") {
-			++i;
-		}
-		bool const dcp_creation = (i != jobs.end ()) && !(*i)->finished ();
+		auto const dcp_creation = std::any_of(jobs.begin(), jobs.end(), [](shared_ptr<const Job> job) { return dynamic_pointer_cast<const DCPTranscodeJob>(job); });
 		bool const have_cpl = _film && !_film->cpls().empty ();
 		bool const have_single_selected_content = _film_editor->content_panel()->selected().size() == 1;
 		bool const have_selected_content = !_film_editor->content_panel()->selected().empty();
