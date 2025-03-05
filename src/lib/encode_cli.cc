@@ -37,7 +37,6 @@
 #include "log.h"
 #include "make_dcp.h"
 #include "ratio.h"
-#include "signal_manager.h"
 #include "transcode_job.h"
 #include "util.h"
 #include "variant.h"
@@ -400,8 +399,6 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	}
 
 	film_dir = argv[optind];
-
-	signal_manager = new SignalManager();
 
 	if (no_remote || export_format) {
 		EncodeServerFinder::drop();

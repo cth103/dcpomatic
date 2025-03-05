@@ -26,6 +26,7 @@
 
 #include "lib/cross.h"
 #include "lib/encode_cli.h"
+#include "lib/signal_manager.h"
 #include "lib/util.h"
 #include <iostream>
 
@@ -37,6 +38,8 @@ main(int argc, char* argv[])
 
 	dcpomatic_setup_path_encoding();
 	dcpomatic_setup();
+
+	signal_manager = new SignalManager();
 
 	auto error = encode_cli(fixer.argc(), fixer.argv(), [](std::string s) { std::cout << s; }, []() { std::cout.flush(); });
 	if (error) {
