@@ -2089,9 +2089,7 @@ bool
 Film::contains_atmos_content() const
 {
 	auto const content = _playlist->content();
-	return std::find_if(content.begin(), content.end(), [](shared_ptr<const Content> content) {
-		return static_cast<bool>(content->atmos);
-	}) != content.end();
+	return std::any_of(content.begin(), content.end(), [](shared_ptr<const Content> content) { return static_cast<bool>(content->atmos); });
 }
 
 
