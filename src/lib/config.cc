@@ -790,13 +790,13 @@ Config::write_config() const
 	cxml::add_text_child(root, "DCPIssuer", _dcp_issuer);
 	/* [XML] DCPCreator Creator text to write into CPL files. */
 	cxml::add_text_child(root, "DCPCreator", _dcp_creator);
-	/* [XML] Company name to write into MXF files. */
+	/* [XML] DCPCompanyName Company name to write into MXF files. */
 	cxml::add_text_child(root, "DCPCompanyName", _dcp_company_name);
-	/* [XML] Product name to write into MXF files. */
+	/* [XML] DCPProductName Product name to write into MXF files. */
 	cxml::add_text_child(root, "DCPProductName", _dcp_product_name);
-	/* [XML] Product version to write into MXF files. */
+	/* [XML] DCPProductVersion Product version to write into MXF files. */
 	cxml::add_text_child(root, "DCPProductVersion", _dcp_product_version);
-	/* [XML] Comment to write into JPEG2000 data. */
+	/* [XML] DCPJ2KComment Comment to write into JPEG2000 data. */
 	cxml::add_text_child(root, "DCPJ2KComment", _dcp_j2k_comment);
 	/* [XML] UploadAfterMakeDCP 1 to upload to a TMS after making a DCP, 0 for no upload. */
 	cxml::add_text_child(root, "UploadAfterMakeDCP", _upload_after_make_dcp ? "1" : "0");
@@ -868,7 +868,7 @@ Config::write_config() const
 
 	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new versions, 0 to check only on request. */
 	cxml::add_text_child(root, "CheckForUpdates", _check_for_updates ? "1" : "0");
-	/* [XML] CheckForUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request. */
+	/* [XML] CheckForTestUpdates 1 to check dcpomatic.com for new text versions, 0 to check only on request. */
 	cxml::add_text_child(root, "CheckForTestUpdates", _check_for_test_updates ? "1" : "0");
 
 	/* [XML] MaximumJ2KVideoBitRate Maximum video bit rate (in bits per second) that can be specified in the GUI for JPEG2000 encodes. */
@@ -930,7 +930,7 @@ Config::write_config() const
 		cxml::add_text_child(root, "History", i.string());
 	}
 
-	/* [XML] History Filename of DCP to present in the <guilabel>File</guilabel> menu of the player; there can be more than one
+	/* [XML] PlayerHistory Filename of DCP to present in the <guilabel>File</guilabel> menu of the player; there can be more than one
 	   of these tags.
 	*/
 	for (auto i: _player_history) {
@@ -953,7 +953,7 @@ Config::write_config() const
 	cxml::add_text_child(root, "ConfirmKDMEmail", _confirm_kdm_email ? "1" : "0");
 	/* [XML] KDMFilenameFormat Format for KDM filenames. */
 	cxml::add_text_child(root, "KDMFilenameFormat", _kdm_filename_format.specification());
-	/* [XML] KDMFilenameFormat Format for DKDM filenames. */
+	/* [XML] DKDMFilenameFormat Format for DKDM filenames. */
 	cxml::add_text_child(root, "DKDMFilenameFormat", _dkdm_filename_format.specification());
 	/* [XML] KDMContainerNameFormat Format for KDM containers (directories or ZIP files). */
 	cxml::add_text_child(root, "KDMContainerNameFormat", _kdm_container_name_format.specification());
