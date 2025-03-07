@@ -566,8 +566,8 @@ private:
 		_tms_password = new PasswordEntry(_panel);
 		table->Add(_tms_password->get_panel(), 1, wxEXPAND);
 
-		_tms_protocol->Append(_("SCP(for AAM and Doremi)"));
-		_tms_protocol->Append(_("FTP(for Dolby)"));
+		_tms_protocol->Append(_("SCP (for AAM and Doremi)"));
+		_tms_protocol->Append(_("FTP (for Dolby)"));
 
 		_upload->bind(&TMSPage::upload_changed, this);
 		_tms_protocol->Bind(wxEVT_CHOICE, boost::bind(&TMSPage::tms_protocol_changed, this));
