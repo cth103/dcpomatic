@@ -22,28 +22,8 @@
 #pragma once
 
 
+#include "lib/grok/util.h"
 #include <wx/filepicker.h>
-
-
-static std::vector<std::string> get_gpu_names(boost::filesystem::path binary, boost::filesystem::path filename)
-{
-    // Execute the GPU listing program and redirect its output to a file
-    if (std::system((binary.string() + " > " + filename.string()).c_str()) < 0) {
-	    return {};
-    }
-
-    std::vector<std::string> gpu_names;
-    std::ifstream file(filename.c_str());
-    if (file.is_open())
-    {
-        std::string line;
-        while (std::getline(file, line))
-            gpu_names.push_back(line);
-        file.close();
-    }
-
-    return gpu_names;
-}
 
 
 class GpuList : public wxPanel
@@ -63,16 +43,9 @@ public:
 
 	void update()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
-		auto lister_binary = grok.binary_location / "gpu_lister";
-		auto lister_file = grok.binary_location / "gpus.txt";
-		if (boost::filesystem::exists(lister_binary)) {
-			auto gpu_names = get_gpu_names(lister_binary, lister_file);
-
-			_combo_box->Clear();
-			for (auto const& name: gpu_names) {
-				_combo_box->Append(std_to_wx(name));
-			}
+		_combo_box->Clear();
+		for (auto const& name: get_gpu_names()) {
+			_combo_box->Append(std_to_wx(name));
 		}
 	}
 
@@ -88,7 +61,7 @@ private:
 	{
 		auto selection = _combo_box->GetSelection();
 		if (selection != wxNOT_FOUND) {
-			auto grok = Config::instance()->grok().get_value_or({});
+			auto grok = Config::instance()->grok();
 			grok.selected = selection;
 			Config::instance()->set_grok(grok);
 		}
@@ -155,7 +128,7 @@ private:
 
 	void setup_sensitivity()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 
 		_binary_location->Enable(grok.enable);
 		_gpu_list_control->Enable(grok.enable);
@@ -165,7 +138,7 @@ private:
 
 	void config_changed() override
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 
 		checked_set(_enable_gpu, grok.enable);
 		_binary_location->SetPath(std_to_wx(grok.binary_location.string()));
@@ -177,7 +150,7 @@ private:
 
 	void enable_gpu_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.enable = _enable_gpu->GetValue();
 		Config::instance()->set_grok(grok);
 
@@ -186,7 +159,7 @@ private:
 
 	void binary_location_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.binary_location = wx_to_std(_binary_location->GetPath());
 		Config::instance()->set_grok(grok);
 
@@ -195,20 +168,20 @@ private:
 
 	void server_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.licence_server = wx_to_std(_server->GetValue());
 		Config::instance()->set_grok(grok);
 	}
 
 	void port_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		Config::instance()->set_grok(grok);
 	}
 
 	void licence_changed()
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		grok.licence = _licence->get();
 		Config::instance()->set_grok(grok);
 	}

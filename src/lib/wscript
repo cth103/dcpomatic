@@ -267,7 +267,7 @@ def build(bld):
             obj.uselib += ' POLKIT'
 
     if bld.env.ENABLE_GROK:
-        obj.source += ' grok_j2k_encoder_thread.cc'
+        obj.source += ' grok_j2k_encoder_thread.cc grok/util.cc'
 
     if bld.env.TARGET_WINDOWS_64 or bld.env.TARGET_WINDOWS_32:
         obj.uselib += ' WINSOCK2 DBGHELP SHLWAPI MSWSOCK BOOST_LOCALE SETUPAPI OLE32 UUID'

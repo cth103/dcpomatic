@@ -85,6 +85,7 @@ def build(bld):
                  email_test.cc
                  empty_caption_test.cc
                  empty_test.cc
+                 encode_cli_test.cc
                  encryption_test.cc
                  file_extension_test.cc
                  ffmpeg_audio_only_test.cc
@@ -109,6 +110,7 @@ def build(bld):
                  font_id_allocator_test.cc
                  frame_interval_checker_test.cc
                  frame_rate_test.cc
+                 grok_util_test.cc
                  guess_crop_test.cc
                  hints_test.cc
                  image_content_fade_test.cc

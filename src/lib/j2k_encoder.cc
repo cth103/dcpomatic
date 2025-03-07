@@ -98,7 +98,7 @@ J2KEncoder::J2KEncoder(shared_ptr<const Film> film, Writer& writer)
 #endif
 {
 #ifdef DCPOMATIC_GROK
-	auto grok = Config::instance()->grok().get_value_or({});
+	auto grok = Config::instance()->grok();
 	_dcpomatic_context = new grk_plugin::DcpomaticContext(film, writer, _history, grok.binary_location);
 	if (grok.enable) {
 		_context = new grk_plugin::GrokContext(_dcpomatic_context);
@@ -135,7 +135,7 @@ J2KEncoder::servers_list_changed()
 {
 	auto config = Config::instance();
 #ifdef DCPOMATIC_GROK
-	auto const grok_enable = config->grok().get_value_or({}).enable;
+	auto const grok_enable = config->grok().enable;
 #else
 	auto const grok_enable = false;
 #endif
@@ -162,7 +162,7 @@ void
 J2KEncoder::pause()
 {
 #ifdef DCPOMATIC_GROK
-	if (!Config::instance()->grok().get_value_or({}).enable) {
+	if (!Config::instance()->grok().enable) {
 		return;
 	}
 	return;
@@ -183,7 +183,7 @@ J2KEncoder::pause()
 void J2KEncoder::resume()
 {
 #ifdef DCPOMATIC_GROK
-	if (!Config::instance()->grok().get_value_or({}).enable) {
+	if (!Config::instance()->grok().enable) {
 		return;
 	}
 
@@ -226,7 +226,7 @@ J2KEncoder::end()
 	*/
 	for (auto & i: _queue) {
 #ifdef DCPOMATIC_GROK
-		if (Config::instance()->grok().get_value_or({}).enable) {
+		if (Config::instance()->grok().enable) {
 			if (!_context->scheduleCompress(i)){
 				LOG_GENERAL (N_("[%1] J2KEncoder thread pushes frame %2 back onto queue after failure"), thread_id(), i.index());
 				// handle error

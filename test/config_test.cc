@@ -182,9 +182,11 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test1)
 
 	check_xml (dir / "config.xml", "test/data/2.14.config.xml", {});
 	check_xml (dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS)
 	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
 	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.sqlite.xml", {});
+#elif defined(DCPOMATIC_GROK)
+	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.sqlite.grok.xml", {});
 #else
 	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.sqlite.xml", {});
 #endif
@@ -215,10 +217,13 @@ BOOST_AUTO_TEST_CASE (config_upgrade_test2)
 	Config::instance()->write();
 
 	check_xml(dir / "cinemas.xml", "test/data/2.14.cinemas.xml", {});
-#ifdef DCPOMATIC_WINDOWS
+#if defined(DCPOMATIC_WINDOWS)
 	/* This file has the windows path for dkdm_recipients.xml (with backslashes) */
 	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.windows.xml", {});
 	check_xml(dir / "config.xml", "test/data/2.16.config.windows.xml", {});
+#elif defined(DCPOMATIC_GROK)
+	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.grok.xml", {});
+	check_xml(dir / "config.xml", "test/data/2.16.config.xml", {});
 #else
 	check_xml(dir / "2.18" / "config.xml", "test/data/2.18.config.xml", {});
 	check_xml(dir / "config.xml", "test/data/2.16.config.xml", {});

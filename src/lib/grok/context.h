@@ -99,7 +99,7 @@ public:
 	explicit GrokContext(DcpomaticContext* dcpomatic_context)
 		: _dcpomatic_context(dcpomatic_context)
 	{
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 		if (!grok.enable) {
 			return;
 		}
@@ -216,7 +216,7 @@ public:
 
 			auto s = dcpv.get_size();
 			_dcpomatic_context->set_dimensions(s.width, s.height);
-			auto grok = Config::instance()->grok().get_value_or({});
+			auto grok = Config::instance()->grok();
 			if (!_messenger->launch_grok(
 					_dcpomatic_context->location,
 					_dcpomatic_context->width,

@@ -62,7 +62,7 @@ try
 
 		LOG_TIMING("encoder-pop thread=%1 frame=%2 eyes=%3", thread_id(), frame.index(), static_cast<int>(frame.eyes()));
 
-		auto grok = Config::instance()->grok().get_value_or({});
+		auto grok = Config::instance()->grok();
 
 		if (_context->launch(frame, grok.selected) && _context->scheduleCompress(frame)) {
 			frame_guard.cancel();

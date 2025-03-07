@@ -30,6 +30,7 @@
 #include "filter.h"
 #ifdef DCPOMATIC_GROK
 #include "grok/context.h"
+#include "grok/util.h"
 #endif
 #include "hints.h"
 #include "job_manager.h"
@@ -43,6 +44,7 @@
 #include "version.h"
 #include "video_content.h"
 #include <dcp/filesystem.h>
+#include <dcp/raw_convert.h>
 #include <dcp/version.h>
 #include <fmt/format.h>
 #include <getopt.h>
@@ -66,7 +68,19 @@ using boost::optional;
 static void
 help(function <void (string)> out)
 {
-	out(fmt::format("Syntax: {} [OPTION] [<FILM>]\n", program_name));
+	out(fmt::format("Syntax: {} [OPTION] [COMMAND] [<PARAMETER>]\n", program_name));
+
+	out("\nCommands:\n\n");
+	out("  make-dcp <FILM>              make DCP from the given film; default if no other command is specified\n");
+	out(variant::insert_dcpomatic("  list-servers                 display a list of encoding servers that %1 can use (until Ctrl-C)\n"));
+	out("  dump <FILM>                  show a summary of the film's settings\n");
+#ifdef DCPOMATIC_GROK
+	out("  config-params                list the parameters that can be set with `config`\n");
+	out("  config <PARAMETER> <VALUE>   set a DCP-o-matic configuration value\n");
+	out("  list-gpus                    list available GPUs\n");
+#endif
+
+	out("\nOptions:\n\n");
 	out(variant::insert_dcpomatic("  -v, --version                     show %1 version\n"));
 	out("  -h, --help                        show this help\n");
 	out("  -f, --flags                       show flags passed to C++ compiler on build\n");
@@ -77,15 +91,19 @@ help(function <void (string)> out)
 	out("  -k, --keep-going                  keep running even when the job is complete\n");
 	out("  -s, --servers <file>              specify servers to use in a text file\n");
 	out(variant::insert_dcpomatic("  -l, --list-servers                just display a list of encoding servers that %1 is configured to use; don't encode\n"));
+	out("                                      (deprecated - use the list-servers command instead)\n");
 	out("  -d, --dcp-path                    echo DCP's path to stdout on successful completion (implies -n)\n");
 	out("  -c, --config <dir>                directory containing config.xml and cinemas.xml\n");
 	out("      --dump                        just dump a summary of the film's settings; don't encode\n");
+	out("                                      (deprecated - use the dump command instead)\n");
 	out("      --no-check                    don't check project's content files for changes before making the DCP\n");
 	out("      --export-format <format>      export project to a file, rather than making a DCP: specify mov or mp4\n");
 	out("      --export-filename <filename>  filename to export to with --export-format\n");
 	out("      --hints                       analyze film for hints before encoding and abort if any are found\n");
+	out("\ne.g.\n");
+	out(fmt::format("\n  {} -t 4 make-dcp my_great_movie\n", program_name));
+	out(fmt::format("\n  {} config grok-licence 12345ABCD\n", program_name));
 	out("\n");
-	out("<FILM> is the film directory.\n");
 }
 
 
@@ -270,6 +288,10 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 	optional<string> export_format;
 	optional<boost::filesystem::path> export_filename;
 	bool hints = false;
+	string command = "make-dcp";
+
+	/* This makes it possible to call getopt several times in the same executable, for tests */
+	optind = 0;
 
 	int option_index = 0;
 	while (true) {
@@ -357,6 +379,77 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		}
 	}
 
+	vector<string> commands = {
+		"make-dcp",
+		"list-servers",
+#ifdef DCPOMATIC_GROK
+		"dump",
+		"config-params",
+		"config",
+		"list-gpus"
+#else
+		"dump"
+#endif
+	};
+
+	if (optind < argc - 1) {
+		/* Command with a film specified afterwards */
+		command = argv[optind++];
+	} else if (optind < argc) {
+		/* Look for a valid command, hoping that it's not the name of a film */
+		if (std::find(commands.begin(), commands.end(), argv[optind]) != commands.end()) {
+			command = argv[optind++];
+		}
+	}
+
+
+#ifdef DCPOMATIC_GROK
+	if (command == "config-params") {
+		out("Configurable parameters:\n\n");
+		out("  grok-licence           licence string for using the Grok JPEG2000 encoder\n");
+		out("  grok-enable            1 to enable the Grok encoder, 0 to disable it\n");
+		out("  grok-binary-location   directory containing Grok binaries\n");
+		out("  grok-gpu-index         index of GPU to use (from 0, see list-gpus)\n");
+		return {};
+	}
+
+	if (command == "config") {
+		if (optind < argc - 1) {
+			string const parameter = argv[optind++];
+			string const value = argv[optind++];
+			auto grok = Config::instance()->grok();
+			if (parameter == "grok-licence") {
+				grok.licence = value;
+			} else if (parameter == "grok-enable") {
+				if (value == "1") {
+					grok.enable = true;
+				} else if (value == "0") {
+					grok.enable = false;
+				} else {
+					return fmt::format("Invalid value {} for grok-enable (use 1 to enable, 0 to disable)", value);
+				}
+			} else if (parameter == "grok-binary-location") {
+				grok.binary_location = value;
+			} else if (parameter == "grok-gpu-index") {
+				grok.selected = dcp::raw_convert<int>(value);
+			} else {
+				return fmt::format("Unrecognised configuration parameter `{}'", parameter);
+			}
+			Config::instance()->set_grok(grok);
+			Config::instance()->write();
+		} else {
+			return fmt::format("Missing configuration parameter: use {} config <parameter> <value>", program_name);
+		}
+		return {};
+	} else if (command == "list-gpus") {
+		int N = 0;
+		for (auto gpu: get_gpu_names()) {
+			out(fmt::format("{}: {}\n", N++, gpu));
+		}
+		return {};
+	}
+#endif
+
 	if (config) {
 		State::override_path = *config;
 	}
@@ -376,7 +469,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		Config::instance()->set_servers(servers);
 	}
 
-	if (list_servers_) {
+	if (command == "list-servers" || list_servers_) {
 		list_servers(out);
 		return {};
 	}
@@ -420,7 +513,7 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 		return fmt::format("{}: error reading film `{}' ({})\n", program_name, film_dir.string(), e.what());
 	}
 
-	if (dump) {
+	if (command == "dump" || dump) {
 		print_dump(out, film);
 		return {};
 	}
@@ -489,9 +582,9 @@ encode_cli(int argc, char* argv[], function<void (string)> out, function<void ()
 
 	if (progress) {
 		if (export_format) {
-			out(fmt::format("\nExporting {}\n", film->name()));
+			out(fmt::format("Exporting {}\n", film->name()));
 		} else {
-			out(fmt::format("\nMaking DCP for {}\n", film->name()));
+			out(fmt::format("Making DCP for {}\n", film->name()));
 		}
 	}
 

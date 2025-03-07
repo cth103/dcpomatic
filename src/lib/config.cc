@@ -238,7 +238,7 @@ Config::set_defaults()
 	set_cover_sheet_to_default();
 
 #ifdef DCPOMATIC_GROK
-	_grok = boost::none;
+	_grok = {};
 #endif
 
 	_main_divider_sash_position = {};
@@ -1151,9 +1151,7 @@ Config::write_config() const
 	cxml::add_text_child(root, "LayoutForShortScreen", _layout_for_short_screen ? "1" : "0");
 
 #ifdef DCPOMATIC_GROK
-	if (_grok) {
-		_grok->as_xml(cxml::add_child(root, "Grok"));
-	}
+	_grok.as_xml(cxml::add_child(root, "Grok"));
 #endif
 
 	_export.write(cxml::add_child(root, "Export"));

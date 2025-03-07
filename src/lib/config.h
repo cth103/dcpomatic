@@ -666,7 +666,7 @@ public:
 		std::string licence;
 	};
 
-	boost::optional<Grok> grok() const {
+	Grok grok() const {
 		return _grok;
 	}
 #endif
@@ -1495,7 +1495,7 @@ private:
 	bool _layout_for_short_screen;
 
 #ifdef DCPOMATIC_GROK
-	boost::optional<Grok> _grok;
+	Grok _grok;
 #endif
 
 	ExportConfig _export;
