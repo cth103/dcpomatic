@@ -109,7 +109,7 @@ SendProblemReportJob::run ()
 		body += "---<8----\n";
 	}
 
-	Email email(_from, {"carl@dcpomatic.com"}, variant::insert_dcpomatic("%1 problem report"), body);
+	Email email(_from, {"report@dcpomatic.com"}, variant::insert_dcpomatic("%1 problem report"), body);
 	email.send("main.carlh.net", 2525, EmailProtocol::STARTTLS);
 
 	set_progress (1);
