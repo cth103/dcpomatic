@@ -1262,6 +1262,7 @@ supported_by.Add (wxT ("Sergey Sushinskiy"));
 supported_by.Add (wxT ("Spring Sutter"));
 supported_by.Add (wxT ("Sven"));
 supported_by.Add (wxT ("Phil Svitek"));
+supported_by.Add (wxT ("Steven Swancoat"));
 supported_by.Add (wxT ("Marcin Świerczyński"));
 supported_by.Add (wxT ("Jürgen Swoboda"));
 supported_by.Add (wxT ("SymmetryFilms"));
