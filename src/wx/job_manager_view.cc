@@ -25,24 +25,24 @@
  */
 
 
-#include "job_manager_view.h"
 #include "batch_job_view.h"
+#include "job_manager_view.h"
 #include "normal_job_view.h"
 #include "wx_util.h"
-#include "lib/job_manager.h"
-#include "lib/job.h"
-#include "lib/util.h"
-#include "lib/exceptions.h"
 #include "lib/compose.hpp"
+#include "lib/exceptions.h"
+#include "lib/job.h"
+#include "lib/job_manager.h"
+#include "lib/util.h"
 #include <iostream>
 
 
-using std::string;
+using std::cout;
 using std::list;
 using std::map;
 using std::min;
-using std::cout;
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
 using boost::bind;
 #if BOOST_VERSION >= 106100
