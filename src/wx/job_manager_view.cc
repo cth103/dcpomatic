@@ -84,8 +84,7 @@ JobManagerView::JobManagerView(wxWindow* parent, bool batch)
 void
 JobManagerView::job_added(weak_ptr<Job> j)
 {
-	auto job = j.lock();
-	if (job) {
+	if (auto job = j.lock()) {
 		shared_ptr<JobView> v;
 		if (_batch) {
 			v = make_shared<BatchJobView>(job, this, _panel, _table);
