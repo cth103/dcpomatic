@@ -55,62 +55,62 @@ using namespace boost::placeholders;
  *
  *  Must be called in the GUI thread.
  */
-JobManagerView::JobManagerView (wxWindow* parent, bool batch)
-	: wxScrolledWindow (parent)
-	, _batch (batch)
+JobManagerView::JobManagerView(wxWindow* parent, bool batch)
+	: wxScrolledWindow(parent)
+	, _batch(batch)
 {
-	_panel = new wxPanel (this);
-	auto sizer = new wxBoxSizer (wxVERTICAL);
-	sizer->Add (_panel, 1, wxEXPAND);
-	SetSizer (sizer);
+	_panel = new wxPanel(this);
+	auto sizer = new wxBoxSizer(wxVERTICAL);
+	sizer->Add(_panel, 1, wxEXPAND);
+	SetSizer(sizer);
 
-	_table = new wxFlexGridSizer (2, 6, 6);
-	_table->AddGrowableCol (0, 1);
-	_panel->SetSizer (_table);
+	_table = new wxFlexGridSizer(2, 6, 6);
+	_table->AddGrowableCol(0, 1);
+	_panel->SetSizer(_table);
 
-	SetScrollRate (0, 32);
-	EnableScrolling (false, true);
+	SetScrollRate(0, 32);
+	EnableScrolling(false, true);
 
-	Bind (wxEVT_TIMER, boost::bind(&JobManagerView::periodic, this));
-	_timer.reset (new wxTimer (this));
-	_timer->Start (1000);
+	Bind(wxEVT_TIMER, boost::bind(&JobManagerView::periodic, this));
+	_timer.reset(new wxTimer(this));
+	_timer->Start(1000);
 
-	JobManager::instance()->JobAdded.connect (bind(&JobManagerView::job_added, this, _1));
-	JobManager::instance()->JobsReordered.connect (bind(&JobManagerView::replace, this));
+	JobManager::instance()->JobAdded.connect(bind(&JobManagerView::job_added, this, _1));
+	JobManager::instance()->JobsReordered.connect(bind(&JobManagerView::replace, this));
 }
 
 
 void
-JobManagerView::job_added (weak_ptr<Job> j)
+JobManagerView::job_added(weak_ptr<Job> j)
 {
-	auto job = j.lock ();
+	auto job = j.lock();
 	if (job) {
 		shared_ptr<JobView> v;
 		if (_batch) {
-			v.reset (new BatchJobView(job, this, _panel, _table));
+			v.reset(new BatchJobView(job, this, _panel, _table));
 		} else {
-			v.reset (new NormalJobView(job, this, _panel, _table));
+			v.reset(new NormalJobView(job, this, _panel, _table));
 		}
-		v->setup ();
-		_job_records.push_back (v);
+		v->setup();
+		_job_records.push_back(v);
 	}
 
 	FitInside();
-	job_list_changed ();
+	job_list_changed();
 }
 
 
 void
-JobManagerView::periodic ()
+JobManagerView::periodic()
 {
 	for (auto i: _job_records) {
-		i->maybe_pulse ();
+		i->maybe_pulse();
 	}
 }
 
 
 void
-JobManagerView::replace ()
+JobManagerView::replace()
 {
 	/* Make a new version of _job_records which reflects the order in JobManager's job list */
 
@@ -120,30 +120,30 @@ JobManagerView::replace ()
 		/* Find this job's JobView */
 		for (auto j: _job_records) {
 			if (j->job() == i) {
-				new_job_records.push_back (j);
+				new_job_records.push_back(j);
 				break;
 			}
 		}
 	}
 
 	for (auto i: _job_records) {
-		i->detach ();
+		i->detach();
 	}
 
 	_job_records = new_job_records;
 
 	for (auto i: _job_records) {
-		i->insert (i->insert_position ());
+		i->insert(i->insert_position());
 	}
 
-	job_list_changed ();
+	job_list_changed();
 }
 
 
 void
-JobManagerView::job_list_changed ()
+JobManagerView::job_list_changed()
 {
 	for (auto i: _job_records) {
-		i->job_list_changed ();
+		i->job_list_changed();
 	}
 }

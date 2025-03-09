@@ -42,13 +42,13 @@ class JobView;
 class JobManagerView : public wxScrolledWindow
 {
 public:
-	JobManagerView (wxWindow *, bool batch);
+	JobManagerView(wxWindow *, bool batch);
 
 private:
-	void job_added (std::weak_ptr<Job>);
-	void periodic ();
-	void replace ();
-	void job_list_changed ();
+	void job_added(std::weak_ptr<Job>);
+	void periodic();
+	void replace();
+	void job_list_changed();
 
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
