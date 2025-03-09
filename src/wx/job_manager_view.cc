@@ -39,6 +39,7 @@
 
 using std::cout;
 using std::list;
+using std::make_shared;
 using std::map;
 using std::min;
 using std::shared_ptr;
@@ -87,9 +88,9 @@ JobManagerView::job_added(weak_ptr<Job> j)
 	if (job) {
 		shared_ptr<JobView> v;
 		if (_batch) {
-			v.reset(new BatchJobView(job, this, _panel, _table));
+			v = make_shared<BatchJobView>(job, this, _panel, _table);
 		} else {
-			v.reset(new NormalJobView(job, this, _panel, _table));
+			v = make_shared<NormalJobView>(job, this, _panel, _table);
 		}
 		v->setup();
 		_job_records.push_back(v);
