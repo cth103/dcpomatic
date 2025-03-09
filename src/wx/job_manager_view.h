@@ -52,7 +52,7 @@ private:
 
 	wxPanel* _panel;
 	wxFlexGridSizer* _table;
-	std::shared_ptr<wxTimer> _timer;
+	wxTimer _timer;
 	bool _batch;
 
 	std::list<std::shared_ptr<JobView>> _job_records;

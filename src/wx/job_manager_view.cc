@@ -57,6 +57,7 @@ using namespace boost::placeholders;
  */
 JobManagerView::JobManagerView(wxWindow* parent, bool batch)
 	: wxScrolledWindow(parent)
+	, _timer(this)
 	, _batch(batch)
 {
 	_panel = new wxPanel(this);
@@ -72,8 +73,7 @@ JobManagerView::JobManagerView(wxWindow* parent, bool batch)
 	EnableScrolling(false, true);
 
 	Bind(wxEVT_TIMER, boost::bind(&JobManagerView::periodic, this));
-	_timer.reset(new wxTimer(this));
-	_timer->Start(1000);
+	_timer.Start(1000);
 
 	JobManager::instance()->JobAdded.connect(bind(&JobManagerView::job_added, this, _1));
 	JobManager::instance()->JobsReordered.connect(bind(&JobManagerView::replace, this));
