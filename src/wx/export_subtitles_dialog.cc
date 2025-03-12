@@ -35,21 +35,23 @@ using boost::bind;
 
 
 ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, int reels, bool interop)
-	: TableDialog (parent, _("Export subtitles"), 2, 1, true)
+	: wxDialog(parent, wxID_ANY, _("Export subtitles"))
 	, _interop (interop)
-	, _include_font (0)
 {
+	auto sizer = new wxGridBagSizer(DCPOMATIC_SIZER_GAP, DCPOMATIC_SIZER_GAP);
+
+	int r = 0;
 	_split_reels = new CheckBox (this, _("Write reels into separate files"));
-	add (_split_reels, false);
-	add_spacer ();
+	sizer->Add(_split_reels, wxGBPosition(r, 0), wxGBSpan(1, 2));
+	++r;
 
 	if (reels > 1) {
 		_split_reels->Enable (false);
 	}
 
 	_include_font = new CheckBox (this, _("Define font in output and export font file"));
-	add (_include_font, false);
-	add_spacer ();
+	sizer->Add(_include_font, wxGBPosition(r, 0), wxGBSpan(1, 2));
+	++r;
 
 	if (!_interop) {
 		_include_font->Enable (false);
@@ -57,20 +59,31 @@ ExportSubtitlesDialog::ExportSubtitlesDialog (wxWindow* parent, int reels, bool 
 
 	wxString const wildcard = _interop ? _("Subtitle files (.xml)|*.xml") : _("Subtitle files (.mxf)|*.mxf");
 
-	_file_label = add (_("Output file"), true);
+	_file_label = new wxStaticText(this, wxID_ANY, _("Output file"));
+	sizer->Add(_file_label, wxGBPosition(r, 0));
 	_file = new FilePickerCtrl(this, _("Select output file"), wildcard, false, true, "ExportSubtitlesPath");
-	add (_file);
+	sizer->Add(_file, wxGBPosition(r, 1));
+	++r;
 
-	_dir_label = add (_("Output folder"), true);
+	_dir_label = new wxStaticText(this, wxID_ANY, (_("Output folder")));
+	sizer->Add(_dir_label, wxGBPosition(r, 0));
 	_dir = new DirPickerCtrl (this);
-	add (_dir);
+	sizer->Add(_dir, wxGBPosition(r, 1));
 
 	_split_reels->bind(&ExportSubtitlesDialog::setup_sensitivity, this);
 	_include_font->bind(&ExportSubtitlesDialog::setup_sensitivity, this);
 	_file->Bind (wxEVT_FILEPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
 	_dir->Bind (wxEVT_DIRPICKER_CHANGED, bind(&ExportSubtitlesDialog::setup_sensitivity, this));
 
-	layout ();
+	auto overall_sizer = new wxBoxSizer(wxVERTICAL);
+	overall_sizer->Add(sizer, 1, wxALL, DCPOMATIC_DIALOG_BORDER);
+
+	auto buttons = CreateSeparatedButtonSizer(wxOK | wxCANCEL);
+	if (buttons) {
+		overall_sizer->Add(buttons, wxSizerFlags().Expand().DoubleBorder());
+	}
+
+	SetSizerAndFit(overall_sizer);
 	setup_sensitivity ();
 }
 

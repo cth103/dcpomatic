@@ -20,7 +20,6 @@
 
 
 #include "dir_picker_ctrl.h"
-#include "table_dialog.h"
 #include <dcp/warnings.h>
 LIBDCP_DISABLE_WARNINGS
 #include <wx/wx.h>
@@ -32,7 +31,7 @@ class CheckBox;
 class FilePickerCtrl;
 
 
-class ExportSubtitlesDialog : public TableDialog
+class ExportSubtitlesDialog : public wxDialog
 {
 public:
 	ExportSubtitlesDialog (wxWindow* parent, int reels, bool interop);
@@ -46,7 +45,7 @@ private:
 
 	bool _interop;
 	CheckBox* _split_reels;
-	CheckBox* _include_font;
+	CheckBox* _include_font = nullptr;
 	wxStaticText* _file_label;
 	FilePickerCtrl* _file;
 	DirPickerCtrl* _dir;
