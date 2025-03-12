@@ -42,17 +42,15 @@ DirPickerCtrl::DirPickerCtrl(wxWindow* parent, bool leaf)
 {
 	_sizer = new wxBoxSizer (wxHORIZONTAL);
 
-	_folder = new StaticText(this, {}, wxDefaultPosition, wxDefaultSize, wxST_ELLIPSIZE_END);
-	wxFont font = _folder->GetFont ();
-	font.SetStyle (wxFONTSTYLE_ITALIC);
-	_folder->SetFont (font);
-	_sizer->Add (_folder, 1, wxEXPAND | wxALL, DCPOMATIC_SIZER_GAP);
-	_browse = new Button (this, _("Browse..."));
-	_sizer->Add (_browse, 0);
+        wxClientDC dc(parent);
+        auto size = dc.GetTextExtent(char_to_wx("This is the length of the file label it should be quite long"));
+        size.SetHeight(-1);
 
+	_folder = new Button(this, _("Browse..."), wxDefaultPosition, size, wxBU_LEFT);
+	_sizer->Add(_folder, 1, wxEXPAND, 0);
 	SetSizer (_sizer);
 
-	_browse->Bind (wxEVT_BUTTON, boost::bind (&DirPickerCtrl::browse_clicked, this));
+	_folder->Bind(wxEVT_BUTTON, boost::bind(&DirPickerCtrl::browse_clicked, this));
 }
 
 void

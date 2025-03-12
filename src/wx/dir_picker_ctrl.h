@@ -30,6 +30,9 @@ LIBDCP_ENABLE_WARNINGS
 #include <boost/signals2.hpp>
 
 
+class Button;
+
+
 class DirPickerCtrl : public wxPanel
 {
 public:
@@ -43,8 +46,7 @@ public:
 private:
 	void browse_clicked ();
 
-	wxStaticText* _folder;
-	wxButton* _browse;
+	Button* _folder;
 	wxString _path;
 	wxSizer* _sizer;
 	bool _leaf = false;

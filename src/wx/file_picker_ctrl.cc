@@ -61,7 +61,7 @@ FilePickerCtrl::FilePickerCtrl(
         wxSize size = dc.GetTextExtent(char_to_wx("This is the length of the file label it should be quite long"));
         size.SetHeight (-1);
 
-	_file = new Button (this, _("(None)"), wxDefaultPosition, size, wxBU_LEFT);
+	_file = new Button(this, _("Browse..."), wxDefaultPosition, size, wxBU_LEFT);
 	_sizer->Add (_file, 1, wxEXPAND, 0);
 
 	SetSizerAndFit (_sizer);
@@ -77,7 +77,7 @@ FilePickerCtrl::set_filename(boost::optional<string> filename)
 	if (filename) {
 		_file->SetLabel(std_to_wx(*filename));
 	} else {
-		_file->SetLabel(_("None"));
+		_file->SetLabel(_("Browse..."));
 	}
 }
 
