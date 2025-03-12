@@ -109,7 +109,7 @@ KeysPage::setup()
 	auto remake_signing = new Button(_panel, _("Re-make certificates and key..."));
 	signing_buttons->Add(remake_signing, 0, wxBOTTOM, DCPOMATIC_BUTTON_STACK_GAP);
 
-	sizer->Add(signing_buttons, 0, wxLEFT, _border);
+	sizer->Add(signing_buttons, 0, wxLEFT | wxBOTTOM, _border);
 
 	signing_advanced->Bind(wxEVT_BUTTON, bind(&KeysPage::signing_advanced, this));
 	remake_signing->Bind(wxEVT_BUTTON, bind(&KeysPage::remake_signing, this));
