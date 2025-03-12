@@ -27,28 +27,27 @@ LIBDCP_DISABLE_WARNINGS
 LIBDCP_ENABLE_WARNINGS
 
 
-using std::list;
 using std::shared_ptr;
 using boost::optional;
 using namespace dcpomatic;
 
 
-MoveToDialog::MoveToDialog (wxWindow* parent, optional<DCPTime> position, shared_ptr<const Film> film)
-	: TableDialog (parent, _("Move content"), 2, 0, true)
-	, _film (film)
+MoveToDialog::MoveToDialog(wxWindow* parent, optional<DCPTime> position, shared_ptr<const Film> film)
+	: TableDialog(parent, _("Move content"), 2, 0, true)
+	, _film(film)
 {
-	add (_("Start of reel"), true);
-	_reel = new wxSpinCtrl (this, wxID_ANY);
-	_reel->SetRange (1, film->reels().size());
-	add (_reel);
+	add(_("Start of reel"), true);
+	_reel = new wxSpinCtrl(this, wxID_ANY);
+	_reel->SetRange(1, film->reels().size());
+	add(_reel);
 
-	layout ();
+	layout();
 
 	if (position) {
 		int j = 0;
 		for (auto i: film->reels()) {
 			if (i.from == position.get()) {
-				_reel->SetValue (j + 1);
+				_reel->SetValue(j + 1);
 			}
 			++j;
 		}
@@ -57,17 +56,17 @@ MoveToDialog::MoveToDialog (wxWindow* parent, optional<DCPTime> position, shared
 
 
 DCPTime
-MoveToDialog::position () const
+MoveToDialog::position() const
 {
-	auto film = _film.lock ();
-	DCPOMATIC_ASSERT (film);
-	auto reels = film->reels ();
-	auto i = reels.begin ();
+	auto film = _film.lock();
+	DCPOMATIC_ASSERT(film);
+	auto reels = film->reels();
+	auto i = reels.begin();
 	for (int j = 0; j < _reel->GetValue() - 1; ++j) {
-		DCPOMATIC_ASSERT (i != reels.end());
+		DCPOMATIC_ASSERT(i != reels.end());
 		++i;
 	}
 
-	DCPOMATIC_ASSERT (i != reels.end());
+	DCPOMATIC_ASSERT(i != reels.end());
 	return i->from;
 }
