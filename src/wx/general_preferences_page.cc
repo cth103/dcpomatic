@@ -128,7 +128,7 @@ GeneralPage::add_config_file_controls(wxGridBagSizer* table, int& r)
 	++r;
 
 	export_cinemas->Bind(wxEVT_BUTTON, boost::bind(&GeneralPage::export_cinemas_file, this));
-	_config_file->Bind (wxEVT_FILEPICKER_CHANGED, boost::bind(&GeneralPage::config_file_changed,  this));
+	_config_file->Bind(wxEVT_FILEPICKER_CHANGED, boost::bind(&GeneralPage::config_file_changed,  this));
 	_cinemas_file->Bind(wxEVT_FILEPICKER_CHANGED, boost::bind(&GeneralPage::cinemas_file_changed, this));
 }
 
