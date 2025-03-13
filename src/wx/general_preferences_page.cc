@@ -136,6 +136,10 @@ GeneralPage::add_config_file_controls(wxGridBagSizer* table, int& r)
 void
 GeneralPage::config_file_changed()
 {
+	if (!_config_file) {
+		return;
+	}
+
 	auto config = Config::instance();
 	auto const new_file = _config_file->path();
 	if (!new_file || *new_file == config->config_read_file()) {
@@ -162,6 +166,10 @@ GeneralPage::config_file_changed()
 void
 GeneralPage::cinemas_file_changed()
 {
+	if (!_cinemas_file) {
+		return;
+	}
+
 	if (auto path = _cinemas_file->path()) {
 		Config::instance()->set_cinemas_file(*path);
 	}
@@ -228,8 +236,12 @@ GeneralPage::config_changed()
 
 	checked_set(_language, lang);
 
-	checked_set(_config_file, config->config_read_file());
-	checked_set(_cinemas_file, config->cinemas_file());
+	if (_config_file) {
+		checked_set(_config_file, config->config_read_file());
+	}
+	if (_cinemas_file) {
+		checked_set(_cinemas_file, config->cinemas_file());
+	}
 
 	checked_set(_check_for_updates, config->check_for_updates());
 	checked_set(_check_for_test_updates, config->check_for_test_updates());

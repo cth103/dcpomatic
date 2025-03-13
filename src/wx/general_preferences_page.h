@@ -60,12 +60,12 @@ private:
 	void check_for_updates_changed();
 	void check_for_test_updates_changed();
 
-	CheckBox* _set_language;
-	wxChoice* _language;
-	FilePickerCtrl* _config_file;
-	FilePickerCtrl* _cinemas_file;
-	CheckBox* _check_for_updates;
-	CheckBox* _check_for_test_updates;
+	CheckBox* _set_language = nullptr;
+	wxChoice* _language = nullptr;
+	FilePickerCtrl* _config_file = nullptr;
+	FilePickerCtrl* _cinemas_file = nullptr;
+	CheckBox* _check_for_updates = nullptr;
+	CheckBox* _check_for_test_updates = nullptr;
 };
 
 
