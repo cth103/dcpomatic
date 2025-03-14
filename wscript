@@ -92,11 +92,13 @@ def configure(conf):
         conf.env.XMLPP_API = '4.0'
         conf.env.PANGOMM_API = '2.48'
         conf.env.CAIROMM_API = '1.16'
+        conf.env.GLIBMM_API = '2.68'
     else:
         cpp_std = '11'
         conf.env.XMLPP_API = '2.6'
         conf.env.PANGOMM_API = '1.4'
         conf.env.CAIROMM_API = '1.0'
+        conf.env.GLIBMM_API = '2.4'
 
     # Save conf.options that we need elsewhere in conf.env
     conf.env.DISABLE_GUI = conf.options.disable_gui
@@ -392,7 +394,7 @@ def configure(conf):
         check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=True, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
         conf.env.STLIB_DCP = ['dcp-1.0', 'asdcp-dcpomatic', 'kumu-dcpomatic', 'openjp2']
-        conf.env.LIB_DCP = ['glibmm-2.4', 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c', 'fmt']
+        conf.env.LIB_DCP = ['glibmm-' + conf.env.GLIBMM_API, 'ssl', 'crypto', 'bz2', 'xslt', 'xerces-c', 'fmt']
     else:
         check_via_pkg_config(conf, 'libdcp-1.0', 'DCP', mandatory=True, static=False, minimum_version=libdcp_version)
         conf.env.DEFINES_DCP = [f.replace('\\', '') for f in conf.env.DEFINES_DCP]
