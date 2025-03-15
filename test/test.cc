@@ -979,7 +979,7 @@ verify_dcp(boost::filesystem::path dir, vector<dcp::VerificationNote::Code> igno
 
 
 void
-#ifdef  DCPOMATIC_LINUX
+#ifdef DCPOMATIC_LINUX
 make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool dcp_inspect, bool clairmeta)
 #else
 make_and_verify_dcp(shared_ptr<Film> film, vector<dcp::VerificationNote::Code> ignore, bool, bool)
