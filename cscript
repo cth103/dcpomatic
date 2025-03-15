@@ -212,19 +212,19 @@ deb_depends_gui['12'] = [ 'libxcb-xfixes0',
                           'libpulse0' ]
 
 deb_depends['unstable'] = copy.deepcopy(deb_depends_base)
-deb_depends['unstable'].extend(['libboost-filesystem1.67.0',
-                                'libboost-thread1.67.0',
-                                'libboost-regex1.67.0',
-                                'libboost-date-time1.67.0',
+deb_depends['unstable'].extend(['libboost-filesystem1.83.0',
+                                'libboost-thread1.83.0',
+                                'libboost-regex1.83.0',
+                                'libboost-date-time1.83.0',
                                 'libxml++2.6-2v5',
                                 'libgtk2.0-0',
-                                'libzip4',
-                                'libicu63',
-                                'libnettle6',
-                                'libx264-155',
+                                'libzip5',
+                                'libicu72',
+                                'libnettle8t64',
+                                'libx264-164',
                                 'libcurl4',
                                 'libxerces-c3.2',
-                                'libdav1d4',
+                                'libdav1d7',
                                 'libfmt10'])
 
 def can_build_disk(target):
