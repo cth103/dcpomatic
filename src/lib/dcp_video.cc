@@ -225,15 +225,10 @@ DCPVideo::encode_locally () const
 ArrayData
 DCPVideo::encode_remotely (EncodeServerDescription serv, int timeout) const
 {
-	boost::asio::io_service io_service;
-	boost::asio::ip::tcp::resolver resolver (io_service);
-	boost::asio::ip::tcp::resolver::query query(serv.host_name(), fmt::to_string(ENCODE_FRAME_PORT));
-	boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
-
 	auto socket = make_shared<Socket>(timeout);
 	socket->set_send_buffer_size (512 * 1024);
 
-	socket->connect (*endpoint_iterator);
+	socket->connect(serv.host_name(), ENCODE_FRAME_PORT);
 
 	/* Collect all XML metadata */
 	xmlpp::Document doc;

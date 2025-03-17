@@ -43,7 +43,8 @@ public:
 	}
 
 	void set_send_buffer_size (int size);
-	void connect (boost::asio::ip::tcp::endpoint);
+	void connect(std::string host_name, int port);
+	void connect(boost::asio::ip::address address, int port);
 
 	void write (uint32_t n);
 	void write (uint8_t const * data, int size);
@@ -90,6 +91,7 @@ private:
 	bool check_read_digest ();
 	void start_write_digest ();
 	void finish_write_digest ();
+	void connect(boost::asio::ip::tcp::endpoint);
 
 	boost::asio::io_service _io_service;
 	boost::asio::deadline_timer _deadline;

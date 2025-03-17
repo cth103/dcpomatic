@@ -125,13 +125,8 @@ BOOST_AUTO_TEST_CASE (socket_basic_test)
 	TestServer server(false);
 	server.expect (13);
 
-	boost::asio::io_service io_service;
-	tcp::resolver resolver (io_service);
-	tcp::resolver::query query("127.0.0.1", fmt::to_string(TEST_SERVER_PORT));
-	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
-
 	auto socket = make_shared<Socket>();
-	socket->connect (*endpoint_iterator);
+	socket->connect("127.0.0.1", TEST_SERVER_PORT);
 	send (socket, "Hello world!");
 
 	server.await ();
@@ -147,13 +142,8 @@ BOOST_AUTO_TEST_CASE (socket_digest_test1)
 	TestServer server(false);
 	server.expect (13 + 16);
 
-	boost::asio::io_service io_service;
-	tcp::resolver resolver (io_service);
-	tcp::resolver::query query("127.0.0.1", fmt::to_string(TEST_SERVER_PORT));
-	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
-
 	shared_ptr<Socket> socket(new Socket);
-	socket->connect (*endpoint_iterator);
+	socket->connect("127.0.0.1", TEST_SERVER_PORT);
 	{
 		Socket::WriteDigestScope ds(socket);
 		send (socket, "Hello world!");
@@ -176,13 +166,8 @@ BOOST_AUTO_TEST_CASE (socket_digest_test2)
 	TestServer server(true);
 	server.expect (13);
 
-	boost::asio::io_service io_service;
-	tcp::resolver resolver (io_service);
-	tcp::resolver::query query("127.0.0.1", fmt::to_string(TEST_SERVER_PORT));
-	tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
-
 	shared_ptr<Socket> socket(new Socket);
-	socket->connect (*endpoint_iterator);
+	socket->connect("127.0.0.1", TEST_SERVER_PORT);
 	{
 		Socket::WriteDigestScope ds(socket);
 		send (socket, "Hello world!");

@@ -24,6 +24,7 @@
 #include "dcpomatic_log.h"
 #include "dcpomatic_socket.h"
 #include "exceptions.h"
+#include <fmt/format.h>
 #include <boost/bind/bind.hpp>
 #include <boost/lambda/lambda.hpp>
 #include <iostream>
@@ -32,6 +33,7 @@
 
 
 using std::shared_ptr;
+using std::string;
 using std::weak_ptr;
 
 
@@ -85,6 +87,22 @@ Socket::connect (boost::asio::ip::tcp::endpoint endpoint)
 		boost::asio::socket_base::send_buffer_size new_size(*_send_buffer_size);
 		_socket.set_option(new_size);
 	}
+}
+
+
+void
+Socket::connect(string host_name, int port)
+{
+	boost::asio::ip::tcp::resolver resolver(_io_service);
+	boost::asio::ip::tcp::resolver::query query(host_name, fmt::to_string(port));
+	connect(*resolver.resolve(query));
+}
+
+
+void
+Socket::connect(boost::asio::ip::address address, int port)
+{
+	connect(boost::asio::ip::tcp::endpoint(address, port));
 }
 
 

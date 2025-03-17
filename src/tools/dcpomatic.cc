@@ -900,12 +900,8 @@ private:
 		*/
 		for (int i = 0; i < 8; ++i) {
 			try {
-				boost::asio::io_service io_service;
-				boost::asio::ip::tcp::resolver resolver (io_service);
-				boost::asio::ip::tcp::resolver::query query("127.0.0.1", fmt::to_string(port));
-				boost::asio::ip::tcp::resolver::iterator endpoint_iterator = resolver.resolve (query);
 				Socket socket (5);
-				socket.connect (*endpoint_iterator);
+				socket.connect("127.0.0.1", port);
 				DCPOMATIC_ASSERT (_film->directory ());
 				socket.write (message.length() + 1);
 				socket.write ((uint8_t *) message.c_str(), message.length() + 1);
